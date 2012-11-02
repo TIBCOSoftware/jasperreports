@@ -47,6 +47,7 @@ public class MapCompiler implements ComponentCompiler
 		collector.addExpression(map.getLatitudeExpression());
 		collector.addExpression(map.getLongitudeExpression());
 		collector.addExpression(map.getZoomExpression());
+		collector.addExpression(map.getLanguageExpression());
 		collectExpressions(map.getMarkerDataset(), collector);
 	}
 

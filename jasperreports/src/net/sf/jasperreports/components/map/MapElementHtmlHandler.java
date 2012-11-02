@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 import net.sf.jasperreports.web.util.WebUtil;
 
@@ -77,6 +78,8 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 
 		String mapType = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE);
 		mapType = (mapType == null ? MapPrintElement.DEFAULT_MAP_TYPE.getName() : mapType).toUpperCase();
+		
+		String language = (String)element.getParameterValue(MapPrintElement.PARAMETER_LANGUAGE);
 
 		List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_MARKERS);
 		String markers = "[";
@@ -110,7 +113,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 					if(value instanceof String 
 						&& !(MapPrintElement.PARAMETER_LATITUDE.equals(name) || MapPrintElement.PARAMETER_LONGITUDE.equals(name)))
 					{
-						markers += "'" + value + "'";
+						markers += "'" + JRStringUtil.escapeJavaScript((String)value) + "'";
 					}
 					else 
 					{
@@ -124,6 +127,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		
 		Map<String, Object> contextMap = new HashMap<String, Object>();
 		ReportContext reportContext = context.getExporter().getReportContext();
+
 		if (reportContext != null)
 		{
 			contextMap.put("resourceMapJs", WebUtil.getInstance(context.getJasperReportsContext()).getResourcePath(MapElementHtmlHandler.RESOURCE_MAP_JS));
@@ -135,6 +139,10 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		contextMap.put("zoom", zoom);
 		contextMap.put("mapType", mapType);
 		contextMap.put("markerList", markers);
+		if(language != null)
+		{
+			contextMap.put("language", language);
+		}
 
 //		velocityContext.put("divId", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.id"));
 //		velocityContext.put("divClass", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.class"));

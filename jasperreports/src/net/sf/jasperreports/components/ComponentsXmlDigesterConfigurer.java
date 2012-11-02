@@ -234,6 +234,13 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addCallMethod(zoomExpressionPattern, "setText", 0);
 		digester.addSetNext(zoomExpressionPattern, "setZoomExpression", 
 				JRExpression.class.getName());
+		
+		String languageExpressionPattern = mapPattern + "/languageExpression";
+		digester.addFactoryCreate(languageExpressionPattern, 
+				JRExpressionFactory.class.getName());
+		digester.addCallMethod(languageExpressionPattern, "setText", 0);
+		digester.addSetNext(languageExpressionPattern, "setLanguageExpression", 
+				JRExpression.class.getName());
 
 		String componentNamespace = digester.getRuleNamespaceURI();
 		String jrNamespace = JRXmlConstants.JASPERREPORTS_NAMESPACE;

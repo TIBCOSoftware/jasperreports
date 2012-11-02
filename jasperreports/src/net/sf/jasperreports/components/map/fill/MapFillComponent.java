@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.map.fill;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.components.map.MapComponent;
@@ -54,6 +55,7 @@ public class MapFillComponent extends BaseFillComponent
 	private Float latitude;
 	private Float longitude;
 	private Integer zoom;
+	private String language;
 	private MapTypeEnum mapType;
 	private MapScaleEnum mapScale;
 	private MapImageTypeEnum imageType;
@@ -92,6 +94,18 @@ public class MapFillComponent extends BaseFillComponent
 		longitude = (Float)fillContext.evaluate(mapComponent.getLongitudeExpression(), evaluation);
 		zoom = (Integer)fillContext.evaluate(mapComponent.getZoomExpression(), evaluation);
 		zoom = zoom == null ? MapComponent.DEFAULT_ZOOM : zoom;
+		if(mapComponent.getLanguageExpression() != null)
+		{
+			language = (String)fillContext.evaluate(mapComponent.getLanguageExpression(), evaluation);
+		}
+		else
+		{
+			Locale locale = fillContext.getReportLocale();
+			if(locale != null)
+			{
+				language = locale.getLanguage();
+			}
+		}
 		mapType = mapComponent.getMapType() == null? MapTypeEnum.ROADMAP : mapComponent.getMapType();
 		mapScale = mapComponent.getMapScale();
 		imageType = mapComponent.getImageType();
@@ -157,6 +171,11 @@ public class MapFillComponent extends BaseFillComponent
 		printElement.setParameterValue(MapPrintElement.PARAMETER_LATITUDE, latitude);
 		printElement.setParameterValue(MapPrintElement.PARAMETER_LONGITUDE, longitude);
 		printElement.setParameterValue(MapPrintElement.PARAMETER_ZOOM, zoom);
+		
+		if(language != null)
+		{
+			printElement.setParameterValue(MapPrintElement.PARAMETER_LANGUAGE, language);
+		}
 		if(mapType != null)
 		{
 			printElement.setParameterValue(MapPrintElement.PARAMETER_MAP_TYPE, mapType.getName());

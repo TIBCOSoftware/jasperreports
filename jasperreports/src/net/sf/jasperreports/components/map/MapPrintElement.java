@@ -60,7 +60,7 @@ public final class MapPrintElement
 	 * The name of the parameter that provides the zoom.
 	 */
 	public static final String PARAMETER_ZOOM = "zoom";
-
+	
 	/**
 	 * The name of the parameter that provides the map type.
 	 */
@@ -80,6 +80,11 @@ public final class MapPrintElement
 	 * The name of the parameter that provides the list of marker objects for the map.
 	 */
 	public static final String PARAMETER_MARKERS = "markers";
+	
+	/**
+	 * The name of the parameter that provides the map language.
+	 */
+	public static final String PARAMETER_LANGUAGE = "language";
 	
 	/**
 	 * The cached image renderer.

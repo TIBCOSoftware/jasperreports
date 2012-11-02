@@ -13,14 +13,16 @@
 
 #if (${gotReportContext})
 	<script class='jasperreports' type='text/javascript'>
-		jasperreports.global.appendScriptElementToDOM('_mapScript', '${resourceMapJs}', 'jasperreports.map.initGoogleMaps');
+		jasperreports.global.appendScriptElementToDOM('_mapScript', '${resourceMapJs}', 'jasperreports.map.initGoogleMaps', ['${language}']);
 		var markers = ${markerList};
 		jasperreports.events.subscribeToEvent('jasperreports.map.init', 'jasperreports.map.showMap', ['${mapCanvasId}', ${latitude}, ${longitude}, ${zoom}, '${mapType}', markers]);
 	</script>
 #else
-	#if (${exporterFirstAttempt})
-	<script class='jasperreports' src='http://maps.google.com/maps/api/js?sensor=false'></script>
-	#end
+		#if(${language})
+			<script class='jasperreports' src='http://maps.google.com/maps/api/js?sensor=false&language=${language}'></script>
+		#else
+			<script class='jasperreports' src='http://maps.google.com/maps/api/js?sensor=false'></script>
+		#end
 	<script class='jasperreports' type='text/javascript'>
 		(function () {
 			var map = new google.maps.Map(document.getElementById('${mapCanvasId}'), {
@@ -30,13 +32,20 @@
 					});
 			var markers = ${markerList};
 			if(markers){
+				var j;
 				for (var i = 0; i < markers.length; i++) {
 				    var markerProps = markers[i];
 				    var markerLatLng = new google.maps.LatLng(markerProps['latitude'], markerProps['longitude']);
-				    var marker = new google.maps.Marker({
-				        position: markerLatLng,
-				        map: map
-				    });
+				    var markerOptions = {
+					        position: markerLatLng,
+					        map: map
+					    };
+				    for (j in markerProps) {
+						if (markerProps.hasOwnProperty(j) && !markerOptions.hasOwnProperty(j)) {
+								markerOptions[j] = markerProps[j];
+						}
+					}
+				    var marker = new google.maps.Marker(markerOptions);
 				}
 			}
 		}());		

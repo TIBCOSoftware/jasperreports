@@ -241,9 +241,6 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 			writer.addAttribute(MapXmlFactory.ATTRIBUTE_mapType, map.getMapType(), MapTypeEnum.ROADMAP);
 			writer.addAttribute(MapXmlFactory.ATTRIBUTE_mapScale, map.getMapScale(), MapScaleEnum.ONE);
 			writer.addAttribute(MapXmlFactory.ATTRIBUTE_imageType, map.getImageType(), MapImageTypeEnum.PNG);
-			MarkerDataset dataset = map.getMarkerDataset();
-			writeMarkerDataset(dataset, writer, reportWriter, namespace, componentElement);
-						
 		}
 
 		writer.writeExpression("latitudeExpression", 
@@ -252,7 +249,13 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 				map.getLongitudeExpression());
 		writer.writeExpression("zoomExpression", 
 				map.getZoomExpression());
-		
+		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_8_0))
+		{
+			writer.writeExpression("languageExpression", 
+					map.getLanguageExpression());
+			MarkerDataset dataset = map.getMarkerDataset();
+			writeMarkerDataset(dataset, writer, reportWriter, namespace, componentElement);
+		}
 		writer.closeElement();
 	}
 
