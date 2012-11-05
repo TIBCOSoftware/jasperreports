@@ -83,71 +83,6 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		String language = (String)element.getParameterValue(MapPrintElement.PARAMETER_LANGUAGE);
 
 		List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_MARKERS);
-		// FIXME: adjustment for empty latitude/longitude fields
-//		if(markerList!= null)
-//		{
-//			for(Map<String,Object> markerProps : markerList)
-//			{
-//				if(markerProps.get(MapPrintElement.PARAMETER_LATITUDE) == null 
-//						|| "".equals(markerProps.get(MapPrintElement.PARAMETER_LATITUDE))
-//						|| markerProps.get(MapPrintElement.PARAMETER_LATITUDE) == null 
-//						|| "".equals(markerProps.get(MapPrintElement.PARAMETER_LATITUDE)))
-//				{
-//					markerList.remove(markerProps);
-//				}
-//				
-//			}
-//		}
-		
-//		String markers = "[";
-//		
-//		if(markerList!= null && !markerList.isEmpty())
-//		{
-//			String quotedName = null;
-//			for(Map<String,Object> markerProps : markerList)
-//			{
-//				if(markerProps.get(MapPrintElement.PARAMETER_LATITUDE) != null 
-//						&& !"".equals(markerProps.get(MapPrintElement.PARAMETER_LATITUDE))
-//						&& markerProps.get(MapPrintElement.PARAMETER_LATITUDE) != null 
-//						&& !"".equals(markerProps.get(MapPrintElement.PARAMETER_LATITUDE)))
-//				{
-//					boolean firstOccurence = true;
-//					if(markers.length() == 1)
-//					{
-//						markers += "{";
-//					}
-//					else
-//					{
-//						markers += ", {";
-//					}
-//					for(String name : markerProps.keySet())
-//					{
-//						quotedName = "'" + name + "'";
-//						if(firstOccurence)
-//						{
-//							markers += quotedName +":";
-//							firstOccurence = false;
-//						}
-//						else
-//						{
-//							markers += ", " + quotedName + ":";
-//						}
-//						Object value = markerProps.get(name);
-//						if(value instanceof String 
-//							&& !(MapPrintElement.PARAMETER_LATITUDE.equals(name) || MapPrintElement.PARAMETER_LONGITUDE.equals(name)))
-//						{
-//							markers += "'" + JRStringUtil.escapeJavaScript((String)value) + "'";
-//						}
-//						else 
-//						{
-//							markers += value;
-//						}
-//					}
-//					markers += "}";
-//				}
-//			}
-//		}
-//		markers +="]";
 		
 		Map<String, Object> contextMap = new HashMap<String, Object>();
 		ReportContext reportContext = context.getExporter().getReportContext();
@@ -188,6 +123,8 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		
 		if (!(context.getExportParameters().containsKey(param))) {
 			context.getExportParameters().put(param, true);
+			
+			//FIXME: support for parametrized http://maps.google.com/maps/api/js script (see MapElementHtmlTemplate.vm)
 			contextMap.put("exporterFirstAttempt", true);
 		}
 		

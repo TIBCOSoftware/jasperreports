@@ -72,12 +72,7 @@ public class FillMarker implements Marker
 			result = new HashMap<String, Object>();
 			for(MarkerProperty property : markerProperties)
 			{
-				result.put(
-					property.getName(), 
-					property.getValueExpression() == null
-						? property.getValue()
-						: evaluator.evaluate(property.getValueExpression(), evaluation)
-					);
+				result.put(property.getName(), getEvaluatedValue(property, evaluator, evaluation));
 			}
 		}
 		return result;
@@ -96,5 +91,33 @@ public class FillMarker implements Marker
 	public List<MarkerProperty> getProperties() 
 	{
 		return parent.getProperties();
+	}
+	
+	public Object getEvaluatedValue(MarkerProperty property, JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
+	{
+		Object result = null;
+		if(property.getValueExpression() == null || "".equals(property.getValueExpression()))
+		{
+			if(Marker.PROPERTY_latitude.equals(property.getName()) || Marker.PROPERTY_longitude.equals(property.getName()))
+			{
+				if(property.getValue() == null || "".equals(property.getValue()))
+				{
+					throw new JRException("Empty marker "+ property.getName()+ " found.");
+				}
+			}
+			result = property.getValue();
+		}
+		else
+		{
+			result = evaluator.evaluate(property.getValueExpression(), evaluation);
+			if(Marker.PROPERTY_latitude.equals(property.getName()) || Marker.PROPERTY_longitude.equals(property.getName()))
+			{
+				if(result == null || "".equals(result))
+				{
+					throw new JRException("Empty marker "+ property.getName()+ " found.");
+				}
+			}
+		}
+		return result;
 	}
 }

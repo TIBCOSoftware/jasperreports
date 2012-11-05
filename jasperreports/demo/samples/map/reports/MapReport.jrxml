@@ -18,6 +18,7 @@
 		<field name="longitude" class="java.lang.String">
 			<fieldDescription><![CDATA[longitude]]></fieldDescription>
 		</field>
+		<filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
 	</subDataset>
 	<parameter name="reqLatitude" class="java.lang.Float">
 		<defaultValueExpression>Float.parseFloat((String)$P{REPORT_CONTEXT}.getParameterValue("latitude"))</defaultValueExpression>
