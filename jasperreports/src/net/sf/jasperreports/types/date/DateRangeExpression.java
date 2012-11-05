@@ -25,7 +25,7 @@ package net.sf.jasperreports.types.date;
 
 /**
  * <p>Interface for utility class which allows to deal with date range as with string expression.
- * It is separated from {@link net.sf.jasperreports.engine.rd.DateRange} in order to decouple date range by itself
+ * It is separated from {@link DateRange} in order to decouple date range by itself
  * which is necessary for query execution only and it's string representation which is necessary for
  * UI presentation of date range.<p/>
  *

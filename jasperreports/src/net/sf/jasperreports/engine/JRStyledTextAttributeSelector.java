@@ -76,17 +76,17 @@ public abstract class JRStyledTextAttributeSelector
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link AllSelector}.
+	 * @deprecated Replaced by {@link #getAllSelector(JasperReportsContext)}.
 	 */
 	public static final JRStyledTextAttributeSelector ALL = new AllSelector(DefaultJasperReportsContext.getInstance());
 
 	/**
-	 * @deprecated Replaced by {@link NoBackcolorSelector}.
+	 * @deprecated Replaced by {@link #getNoBackcolorSelector(JasperReportsContext)}.
 	 */
 	public static final JRStyledTextAttributeSelector NO_BACKCOLOR = new NoBackcolorSelector(DefaultJasperReportsContext.getInstance());
 
 	/**
-	 * @deprecated Replaced by {@link NoneSelector}.
+	 * @deprecated Replaced by {@link #getNoneSelector(JasperReportsContext)}.
 	 */
 	public static final JRStyledTextAttributeSelector NONE = new NoneSelector(DefaultJasperReportsContext.getInstance());
 	

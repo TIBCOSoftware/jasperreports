@@ -28,14 +28,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 /**
- * <p>Implementation of {@link net.sf.jasperreports.engine.rd.DateRange} for fixed, non relative date.</p>
+ * <p>Implementation of {@link DateRange} for fixed, non relative date.</p>
  *
  * @author Sergey Prilukin
  * @version $Id: FixedDate.java 24936 2012-09-19 16:40:51Z sergey.prilukin $
  */
 public class FixedDate extends AbstractDateRange 
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
 	public static final String DATE_PATTERN = "yyyy-MM-dd";
 
 	private String datePattern;

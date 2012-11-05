@@ -26,14 +26,17 @@ package net.sf.jasperreports.types.date;
 import java.sql.Timestamp;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 /**
- * <p>Implementation of {@link net.sf.jasperreports.engine.rd.DateRange} for relative range of times.</p>
+ * <p>Implementation of {@link DateRange} for relative range of times.</p>
  *
  * @author Sergey Prilukin
  * @version $Id:$
  */
 public class RelativeTimestampRange extends RelativeDateRange implements TimestampRange 
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public RelativeTimestampRange(String expression) {
 		super(expression);

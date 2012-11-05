@@ -214,7 +214,7 @@ public abstract class SQLBetweenBaseClause implements JRClauseFunction
 	 * @param sbuffer the StringBuffer that contains the generated query
 	 * @param clauseId the clause ID
 	 * @param col the name of the column, or a column names combination  
-	 * @param rightParam the name of the parameter that contains the right member value
+	 * @param rightParamHandler
 	 * @param queryContext the query context
 	 */
 	protected void handleLessClause(

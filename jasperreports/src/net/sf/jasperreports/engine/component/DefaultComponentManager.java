@@ -48,7 +48,7 @@ public class DefaultComponentManager implements ComponentManager
 	 * Sets the fill component factory implementation.
 	 * 
 	 * @param fillFactory the fill component factory 
-	 * @see #getComponentFillFactory()
+	 * @see #getComponentFillFactory(JasperReportsContext)
 	 */
 	public void setComponentFillFactory(ComponentFillFactory fillFactory)
 	{
@@ -65,7 +65,7 @@ public class DefaultComponentManager implements ComponentManager
 	 * Sets the component compiler implementation.
 	 * 
 	 * @param componentCompiler the component compiler
-	 * @see #getComponentCompiler()
+	 * @see #getComponentCompiler(JasperReportsContext)
 	 */
 	public void setComponentCompiler(ComponentCompiler componentCompiler)
 	{
@@ -81,7 +81,7 @@ public class DefaultComponentManager implements ComponentManager
 	 * Sets the component XML writer implementation.
 	 * 
 	 * @param componentXmlWriter the component XML writer
-	 * @see #getComponentXmlWriter()
+	 * @see #getComponentXmlWriter(JasperReportsContext)
 	 */
 	public void setComponentXmlWriter(ComponentXmlWriter componentXmlWriter)
 	{

@@ -80,7 +80,6 @@ public interface DataLevelBucket extends JRCloneable
 	 * </p>
 	 * 
 	 * @return the comparator expression
-	 * @see #getOrderByExpression()
 	 */
 	public JRExpression getComparatorExpression();
 
