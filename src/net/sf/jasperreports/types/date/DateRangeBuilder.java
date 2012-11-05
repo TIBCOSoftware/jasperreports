@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.types.date;
 
-import net.sf.jasperreports.types.date.DateRange;
-
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -80,7 +77,7 @@ public class DateRangeBuilder
 	 * @param datePattern date pattern which will be used to parse date
 	 * @return this instance of DateRangeBuilder
 	 *
-	 * @see {@link java.text.SimpleDateFormat}
+	 * @see java.text.SimpleDateFormat
 	 */
 	public DateRangeBuilder set(String datePattern) {
 		this.datePattern = datePattern;

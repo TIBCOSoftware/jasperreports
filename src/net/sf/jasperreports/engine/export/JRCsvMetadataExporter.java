@@ -309,7 +309,6 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 	 * </p>
 	 * @param currentRow
 	 * @param currentColumnName
-	 * @return
 	 */
 	private boolean isColumnReadOnTime(Map<String, String> currentRow, String currentColumnName)
 	{

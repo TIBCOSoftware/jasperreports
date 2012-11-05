@@ -23,10 +23,10 @@
  */
 package net.sf.jasperreports.types.date;
 
-import net.sf.jasperreports.types.date.DateRange;
-
 import java.io.Serializable;
 import java.util.TimeZone;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * <p>Basic implementation of {@link DateRange}.
@@ -37,6 +37,7 @@ import java.util.TimeZone;
  */
 public abstract class AbstractDateRange implements DateRange, Serializable 
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	protected String expression;
 	protected TimeZone timeZone;

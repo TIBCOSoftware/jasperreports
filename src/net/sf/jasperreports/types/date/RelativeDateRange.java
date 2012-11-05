@@ -32,14 +32,19 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 /**
- * <p>Implementation of {@link net.sf.jasperreports.engine.rd.DateRange} for relative range of dates.</p>
+ * <p>Implementation of {@link DateRange} for relative range of dates.</p>
  *
  * @author Sergey Prilukin
  * @version $Id: RelativeDateRange.java 25062 2012-10-02 14:41:23Z sergey.prilukin $
  */
 public class RelativeDateRange extends AbstractDateRange implements DateRangeExpression 
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+
 	public static final String DATE_RANGE_REGEXP = "^(DAY|WEEK|MONTH|QUARTER|SEMI|YEAR)([\\+|-][\\d]{1,9})?$";
 	public static final int DEFAULT_WEEK_START_DAY = Calendar.MONDAY;
 	public static final String WEEK_START_DAY_KEY = "week.start.day";

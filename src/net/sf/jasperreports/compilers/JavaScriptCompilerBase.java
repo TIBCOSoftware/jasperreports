@@ -60,7 +60,7 @@ public abstract class JavaScriptCompilerBase extends JRAbstractCompiler
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #JavaScriptCompiler(JasperReportsContext)}.
+	 * @deprecated Replaced by {@link #JavaScriptCompilerBase(JasperReportsContext)}.
 	 */
 	protected JavaScriptCompilerBase()
 	{

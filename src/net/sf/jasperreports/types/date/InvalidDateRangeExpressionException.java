@@ -23,27 +23,35 @@
  */
 package net.sf.jasperreports.types.date;
 
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRRuntimeException;
+
 /**
  * <p>Indicates that expression for date rang was invalid</p>
  *
  * @author Sergey Prilukin
  * @version $Id$
  */
-public class InvalidDateRangeExpressionException extends RuntimeException //FIXMEDATERANGE make this JRRuntimeException? 
+public class InvalidDateRangeExpressionException extends JRRuntimeException 
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private String expression;
 
-	public String getExpression() {
-		return expression;
+	public InvalidDateRangeExpressionException() 
+	{
+		this(null);
 	}
 
-	public InvalidDateRangeExpressionException() {
-		super();
-	}
-
-	public InvalidDateRangeExpressionException(String expression) {
+	public InvalidDateRangeExpressionException(String expression) 
+	{
 		super(String.format("Invalid date range expression: %s", expression));
 		this.expression = expression;
 	}
+
+	public String getExpression() 
+	{
+		return expression;
+	}
+
 }

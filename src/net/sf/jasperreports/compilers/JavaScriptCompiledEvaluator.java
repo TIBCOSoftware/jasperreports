@@ -88,7 +88,7 @@ public class JavaScriptCompiledEvaluator extends JREvaluator
 	 * Create a JavaScript expression evaluator.
 	 * @param unitName 
 	 * 
-	 * @param compileData the report compile data
+	 * @param compiledData the report compile data
 	 */
 	public JavaScriptCompiledEvaluator(String unitName, JavaScriptCompiledData compiledData)
 	{

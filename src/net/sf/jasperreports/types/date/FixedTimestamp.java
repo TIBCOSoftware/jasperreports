@@ -26,14 +26,18 @@ package net.sf.jasperreports.types.date;
 import java.sql.Timestamp;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 /**
- * <p>Implementation of {@link net.sf.jasperreports.engine.rd.DateRange} for fixed, non relative timestamp.</p>
+ * <p>Implementation of {@link DateRange} for fixed, non relative timestamp.</p>
  *
  * @author Sergey Prilukin
  * @version $Id:$
  */
 public class FixedTimestamp extends FixedDate implements TimestampRange 
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
 	public static final String TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
 	public FixedTimestamp(String expression) {
