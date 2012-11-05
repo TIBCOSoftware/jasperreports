@@ -2,8 +2,25 @@
 JasperReports Library Change Log
 ===================================
 
-JasperReports 4.8.0 (2012-1x-xx, SVN xxxx)
+JasperReports 4.8.0 (2012-11-05, SVN 5784)
 ---------------------------------------------
+- enhanced interactivity in the table component, with support for conditional formatting 
+of values in a column;
+
+- support for style providers as pluggable extensions, to control report element styling 
+depending on report data at runtime; a default style provider implementation is available, 
+allowing the use of expression based custom properties at report element level, to control 
+each style attribute, including backcolor, forecolor, font, borders style, etc;
+
+- added support for markers to the built-in map component, along with other new map level 
+settings such as type of map, image type and language (I18n support);
+
+- version support added to the JRXmlWriter utility class to allow generating source JRXML format 
+for older versions of the library, including support for versioning of custom components markup;
+
+- support for custom $X{} functions in queries, which can be plugged in as extensions;
+
+- added support for relative date ranges used as input parameters in parametrized queries;
 
 - minor bug fixes and improvements;
 
