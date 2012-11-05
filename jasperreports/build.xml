@@ -139,6 +139,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRDefaultStyleProvider.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JREllipse.class"/>
+				<include name="**/net/sf/jasperreports/engine/JREvaluation.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRException.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRExporter.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRExporterParameter.class"/>
@@ -238,6 +239,7 @@
 				<include name="**/net/sf/jasperreports/engine/fonts/FontFace.class"/>
 				<include name="**/net/sf/jasperreports/engine/fonts/FontFamily.class"/>
 				<include name="**/net/sf/jasperreports/engine/fonts/FontInfo.class"/>
+				<include name="**/net/sf/jasperreports/engine/fonts/FontUtil*.class"/>
 				<include name="**/net/sf/jasperreports/engine/fonts/SimpleFontExtensionsRegistryFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/fonts/SimpleFontExtensionHelper.class"/>
 				<include name="**/net/sf/jasperreports/engine/fonts/SimpleFontFace.class"/>
