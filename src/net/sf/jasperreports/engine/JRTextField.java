@@ -35,6 +35,10 @@ package net.sf.jasperreports.engine;
 public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHyperlink
 {
 
+	public static final String PROPERTY_FORMAT_TIMEZONE = JRPropertiesUtil.PROPERTY_PREFIX + "pattern.timezone";
+
+	public static final String FORMAT_TIMEZONE_SYSTEM = "System";
+	
 	/**
 	 * Specifies whether the text field will stretch vertically if its text does not fit in one line.
 	 * @return true if the text field will stretch vertically, false otherwise

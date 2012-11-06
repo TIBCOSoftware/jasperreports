@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.fill;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -348,7 +349,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
-	protected void evaluateTextFormat(Format format, Object value)
+	protected void evaluateTextFormat(Format format, Object value, TimeZone ownTimeZone)
 	{
 		if (value != null)
 //		if (getExpression() != null)
@@ -375,14 +376,38 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 					simpleTextFormat.setLocaleCode(JRDataUtils.getLocaleCode(filler.getLocale()));
 				}
 
-				if (!filler.hasMasterTimeZone() && value instanceof java.util.Date)
+				if (value instanceof java.util.Date)
 				{
-					simpleTextFormat.setTimeZoneId(JRDataUtils.getTimeZoneId(filler.getTimeZone()));
+					// the element's format timezone property has precedence over the report timezone
+					TimeZone formatTimeZone = ownTimeZone == null ? filler.getTimeZone() : ownTimeZone;
+					// check if the current format timezone differs from the master report timezone
+					if (!formatTimeZone.equals(filler.fillContext.getMasterTimeZone()))
+					{
+						simpleTextFormat.setTimeZoneId(JRDataUtils.getTimeZoneId(formatTimeZone));
+					}
 				}
 				
 				textFormat = simpleTextFormat;
 			}
 		}
+	}
+
+
+	protected TimeZone toFormatTimeZone(String timezoneId)
+	{
+		if (timezoneId == null || timezoneId.isEmpty())
+		{
+			return null;
+		}
+		
+		if (timezoneId.equals(FORMAT_TIMEZONE_SYSTEM))
+		{
+			// using the default JVM timezone
+			return TimeZone.getDefault();
+		}
+		
+		// note that this returns GMT if the ID is unknown, leaving that as is
+		return TimeZone.getTimeZone(timezoneId);
 	}
 
 
@@ -438,9 +463,17 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		}
 		else
 		{
-			Format format = getFormat(value);
+			TimeZone ownTimeZone = null;
+			if (value instanceof java.util.Date)
+			{
+				// read the element's format timezone property
+				String ownTimezoneId = hasProperties() ? getPropertiesMap().getProperty(PROPERTY_FORMAT_TIMEZONE) : null;
+				ownTimeZone = toFormatTimeZone(ownTimezoneId);
+			}
+			
+			Format format = getFormat(value, ownTimeZone);
 
-			evaluateTextFormat(format, value);
+			evaluateTextFormat(format, value, ownTimeZone);
 
 			if (format == null)
 			{
@@ -754,13 +787,13 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected Format getFormat(Object value)//FIXMEFORMAT optimize this with an interface
+	protected Format getFormat(Object value, TimeZone ownTimeZone)//FIXMEFORMAT optimize this with an interface
 	{
 		Format format = null;
 
 		if (value instanceof java.util.Date)
 		{
-			format = filler.getDateFormat(getPattern());
+			format = filler.getDateFormat(getPattern(), ownTimeZone);
 		}
 		else if (value instanceof java.lang.Number)
 		{
