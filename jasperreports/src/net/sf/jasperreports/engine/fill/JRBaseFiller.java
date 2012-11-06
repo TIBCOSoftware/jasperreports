@@ -1458,8 +1458,13 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	 */
 	public Format getDateFormat(String pattern)
 	{
+		return getDateFormat(pattern, null);
+	}
+	
+	protected Format getDateFormat(String pattern, TimeZone timeZone)
+	{
 		Locale lc = getLocale();
-		TimeZone tz = getTimeZone();
+		TimeZone tz = timeZone == null ? getTimeZone() : timeZone;// default to filler timezone
 		String key = pattern + "|" + JRDataUtils.getLocaleCode(lc) + "|" + JRDataUtils.getTimeZoneId(tz);
 		Format format = dateFormatCache.get(key);
 		if (format == null)
