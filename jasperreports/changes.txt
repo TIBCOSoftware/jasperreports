@@ -2,6 +2,15 @@
 JasperReports Library Change Log
 ===================================
 
+JasperReports 5.0.0 (2012-11-xx, SVN xxxx)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 4.8.0 (2012-11-05, SVN 5784)
 ---------------------------------------------
 - enhanced interactivity in the table component, with support for conditional formatting 
