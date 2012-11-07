@@ -288,7 +288,7 @@ public class JRAntUpdateTask extends JRBaseAntTask
 	{
 		RegexpPatternMapper mapper = new RegexpPatternMapper();
 		mapper.setFrom("^(.*)\\.(.*)$");
-		mapper.setTo("\\1.jrxml");
+		mapper.setTo("\\1.\\2");
 
 		SourceFileScanner scanner = new SourceFileScanner(this);
 		String[] newFiles = scanner.restrict(files, srcdir, destdir, mapper);
