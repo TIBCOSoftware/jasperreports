@@ -107,6 +107,8 @@ public class CastorUtil
 			{
 				throw new JRRuntimeException("Failed to load Castor mappings", e);
 			}
+			
+			jasperReportsContext.setValue(CASTOR_XML_CONTEXT_KEY, xmlContext);
 		}
 		return xmlContext;
 	}
