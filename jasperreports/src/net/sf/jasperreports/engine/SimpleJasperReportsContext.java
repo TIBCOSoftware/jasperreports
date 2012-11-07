@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -40,7 +41,7 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 	 */
 	private JasperReportsContext parent;
 	
-	private Map<String, Object> values = new HashMap<String, Object>();
+	private Map<String, Object> values = new ConcurrentHashMap<String, Object>(16, .75f, 1);// assume low update concurrency
 	private Map<String, String> properties;
 	private Map<Class<?>, List<?>> extensionsMap;
 
