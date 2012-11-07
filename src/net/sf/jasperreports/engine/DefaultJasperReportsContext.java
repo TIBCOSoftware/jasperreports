@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -59,7 +58,7 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 	 */
 	private static final DefaultJasperReportsContext INSTANCE = new DefaultJasperReportsContext();
 	
-	private Map<String, Object> values = new HashMap<String, Object>();
+	private Map<String, Object> values = new ConcurrentHashMap<String, Object>(16, .75f, 1);// assume low update concurrency
 
 	// FIXME remove volatile after we get rid of restoreProperties()
 	protected volatile ConcurrentHashMap<String, String> properties;
