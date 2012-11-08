@@ -90,7 +90,7 @@ public class FieldFilter implements DatasetFilter {
 
 	public boolean matches(EvaluationType evaluation) {
 		Object value;
-		if (isField) {
+		if (isField == null || Boolean.TRUE.equals(isField)) {
 			value = context.getFieldValue(field, evaluation);
 			fieldComparator.setCompareToClass(((JRFillDataset)context).getFillField(field).getValueClass());
 		} else {
