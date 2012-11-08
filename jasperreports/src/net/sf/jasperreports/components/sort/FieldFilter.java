@@ -52,6 +52,7 @@ public class FieldFilter implements DatasetFilter {
 	private DatasetFillContext context;
 	
 	private Boolean isValid;
+	private Boolean isField;
 
 	private FilterTypesEnum filterTypeEnum;
 	
@@ -88,12 +89,18 @@ public class FieldFilter implements DatasetFilter {
 	}
 
 	public boolean matches(EvaluationType evaluation) {
-		Object value = context.getFieldValue(field, evaluation);
+		Object value;
+		if (isField) {
+			value = context.getFieldValue(field, evaluation);
+			fieldComparator.setCompareToClass(((JRFillDataset)context).getFillField(field).getValueClass());
+		} else {
+			value = context.getVariableValue(field, evaluation);
+			fieldComparator.setCompareToClass(((JRFillDataset)context).getFillVariable(field).getValueClass());
+		}
 
 		fieldComparator.setValueStart(filterValueStart);
 		fieldComparator.setValueEnd(filterValueEnd);
 		fieldComparator.setCompareTo(value);
-		fieldComparator.setCompareToClass(((JRFillDataset)context).getFillField(field).getValueClass());
 		
 		
 		if (isValid == null) {
@@ -147,6 +154,14 @@ public class FieldFilter implements DatasetFilter {
 
 	public void setIsValid(Boolean isValid) {
 		this.isValid = isValid;
+	}
+
+	public Boolean getIsField() {
+		return isField;
+	}
+	
+	public void setIsField(Boolean isField) {
+		this.isField = isField;
 	}
 	
 	public String getFilterPattern() {

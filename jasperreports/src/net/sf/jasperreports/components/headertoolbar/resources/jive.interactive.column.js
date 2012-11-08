@@ -729,7 +729,8 @@ jive.interactive.column.columnFilterForm = {
             filterPattern: metadata.filterPattern,
             fieldValueStart: jive.selected.form.jo.find('input[name="fieldValueStart"]').val(),
             filterTypeOperator: jive.selected.form.jo.find('select[name="filterTypeOperator"]').val(),
-            clearFilter: jive.selected.form.jo.find('input[name="clearFilter"]:checked').val()
+            clearFilter: jive.selected.form.jo.find('input[name="clearFilter"]:checked').val(),
+            isField: metadata.isField
         };
 
         if(!jive.selected.form.jo.find('input[name="filterValueEnd"]').is(':hidden')){
