@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
@@ -256,6 +257,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("filterValueEndParamValue", filterValueEnd);
 			velocityContext.put("filterTypeOperatorParamValue", filterTypeOperatorValue);
 			velocityContext.put("filterActiveInactive", filterActiveInactive);
+			velocityContext.put("isField", SortFieldTypeEnum.FIELD.equals(SortFieldTypeEnum.getByName(sortColumnType)));
 			velocityContext.put("enableFilterEndParameter", enableFilterEndParameter);
 			
 			htmlFragment = VelocityUtil.processTemplate(SortElementHtmlHandler.SORT_ELEMENT_HTML_TEMPLATE, velocityContext);

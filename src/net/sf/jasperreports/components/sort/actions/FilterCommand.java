@@ -92,6 +92,7 @@ public class FilterCommand implements Command
 					filterForCurrentField.setFilterValueStart(filterData.getFieldValueStart());
 					filterForCurrentField.setFilterPattern(filterData.getFilterPattern());
 					filterForCurrentField.setIsValid(null);
+					filterForCurrentField.setIsField(filterData.getIsField());
 				} else {
 					addNewFilter = true;
 				}
@@ -104,6 +105,7 @@ public class FilterCommand implements Command
 						filterData.getFilterTypeOperator());
 
 				newFilterField.setFilterPattern(filterData.getFilterPattern());
+				newFilterField.setIsField(filterData.getIsField());
 				existingFilters.add(newFilterField);
 			}
 			

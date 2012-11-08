@@ -80,6 +80,7 @@ import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.MessageProvider;
@@ -367,6 +368,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				filterData.setFieldValueStart(filterValueStart);
 				filterData.setFieldValueEnd(filterValueEnd);
 				filterData.setFilterTypeOperator(filterTypeOperatorValue);
+				filterData.setIsField(SortFieldTypeEnum.FIELD.equals(SortFieldTypeEnum.getByName(columnType)));
 				
 				contextMap.put("filterData", JacksonUtil.getInstance(jrContext).getJsonString(filterData));
 				contextMap.put("filterTypeValuesMap", translatedOperators);
