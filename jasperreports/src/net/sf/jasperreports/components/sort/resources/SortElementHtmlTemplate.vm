@@ -33,6 +33,7 @@
 			                "<div class='filterDivForm'>",
 			                "	<input class='postable forClear' type='hidden' name='tableUuid' value='${tableUuid}' />",
 			                "	<input class='postable filterField' type='hidden' name='fieldName' value='${filterColumnName}' />",
+			                "	<input class='postable' type='hidden' name='isField' value='${isField}' />",
 			                "	<input class='postable' type='hidden' name='filterType' value='${filterTypeParamNameValue}' />",
 			                	#if(${filterPatternParamValue})
 			                "	<input class='postable' type='hidden' name='filterPattern' value='${filterPatternParamValue}' />",
