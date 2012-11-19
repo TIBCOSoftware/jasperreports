@@ -407,6 +407,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	{
 		return getParameterValues(
 			filler, 
+			expressionEvaluator,
 			getParametersMapExpression(), 
 			getParameters(), 
 			evaluation, 
