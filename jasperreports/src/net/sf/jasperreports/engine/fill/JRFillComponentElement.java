@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
@@ -55,6 +56,7 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 
 	private FillComponent fillComponent;
 	private boolean filling;
+	private List<JRFillDatasetRun> componentDatasetRuns;
 	
 	public JRFillComponentElement(JRBaseFiller filler, JRComponentElement element,
 			JRFillObjectFactory factory)
@@ -63,8 +65,11 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		
 		ComponentKey componentKey = element.getComponentKey();
 		ComponentManager manager = ComponentsEnvironment.getInstance(filler.getJasperReportsContext()).getManager(componentKey);
+		
+		factory.trackDatasetRuns();
 		fillComponent = manager.getComponentFillFactory(filler.getJasperReportsContext()).toFillComponent(element.getComponent(), factory);
 		fillComponent.initialize(this);
+		this.componentDatasetRuns = factory.getTrackedDatasetRuns();
 	}
 
 	public JRFillComponentElement(JRFillComponentElement element,
@@ -76,6 +81,20 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		ComponentManager manager = ComponentsEnvironment.getInstance(filler.getJasperReportsContext()).getManager(componentKey);
 		fillComponent = manager.getComponentFillFactory(filler.getJasperReportsContext()).cloneFillComponent(element.fillComponent, factory);
 		fillComponent.initialize(this);
+	}
+
+	@Override
+	protected void setBand(JRFillBand band)
+	{
+		super.setBand(band);
+		
+		if (componentDatasetRuns != null && !componentDatasetRuns.isEmpty())
+		{
+			for (JRFillDatasetRun datasetRun : componentDatasetRuns)
+			{
+				datasetRun.setBand(band);
+			}
+		}
 	}
 
 	protected void evaluate(byte evaluation) throws JRException

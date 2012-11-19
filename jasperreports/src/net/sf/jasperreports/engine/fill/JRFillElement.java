@@ -1210,7 +1210,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		
 		if (variable.getCalculationValue() == CalculationEnum.SYSTEM &&
 				evaluationTime.equals(JREvaluationTime.EVALUATION_TIME_NOW) &&
-				band.isVariableUsedInSubreportReturns(variableName))
+				band.isVariableUsedInReturns(variableName))
 		{
 			evaluationTime = JREvaluationTime.getBandEvaluationTime(band);
 		}

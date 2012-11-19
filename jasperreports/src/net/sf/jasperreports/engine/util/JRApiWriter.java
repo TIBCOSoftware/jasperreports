@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -149,6 +150,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
@@ -3016,6 +3018,23 @@ public class JRApiWriter
 		}
 	}
 
+	private void writeReturnValue(ReturnValue returnValue, String returnValueName)
+	{
+		if(returnValue != null)
+		{
+			write("DesignReturnValue " + returnValueName + " = new DesignReturnValue();\n");
+			write(returnValueName + ".setFromVariable(\"{0}\");\n", 
+					JRStringUtil.escapeJavaStringLiteral(returnValue.getFromVariable()));
+			write(returnValueName + ".setToVariable(\"{0}\");\n", 
+					JRStringUtil.escapeJavaStringLiteral(returnValue.getToVariable()));
+			write(returnValueName + ".setCalculation({0});\n", 
+					returnValue.getCalculation(), CalculationEnum.NOTHING);
+			write(returnValueName + ".setIncrementerFactoryClassName(\"{0}\");\n", 
+					JRStringUtil.escapeJavaStringLiteral(returnValue.getIncrementerFactoryClassName()));
+			flush();
+		}
+	}
+
 	/**
 	 * 
 	 */
@@ -3469,6 +3488,19 @@ public class JRApiWriter
 			writeExpression( datasetRun.getConnectionExpression(), runName, "ConnectionExpression");
 
 			writeExpression( datasetRun.getDataSourceExpression(), runName, "DataSourceExpression");
+			
+			List<ReturnValue> returnValues = datasetRun.getReturnValues();
+			if (returnValues != null && !returnValues.isEmpty())
+			{
+				for (ListIterator<ReturnValue> it = returnValues.listIterator(); it.hasNext();)
+				{
+					ReturnValue returnValue = it.next();
+					String returnValueVarName = runName + "ReturnValue" + it.previousIndex();
+					writeReturnValue(returnValue, returnValueVarName);
+					write(runName + ".addReturnValue(" + returnValueVarName + ");\n");
+				}
+			}
+			
 			write( parentName + ".setDatasetRun(" + runName + ");\n");
 			flush();
 		}

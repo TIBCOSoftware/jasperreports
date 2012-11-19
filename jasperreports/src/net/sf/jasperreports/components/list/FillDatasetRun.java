@@ -73,6 +73,9 @@ public class FillDatasetRun extends JRFillDatasetRun
 				createFillDataset(datasetRun, factory));
 		
 		this.expressionEvaluator = factory.getExpressionEvaluator();
+		
+		initReturnValues(factory);
+		factory.registerDatasetRun(this);
 	}
 
 	private static JRFillDataset createFillDataset(JRDatasetRun datasetRun,
@@ -91,6 +94,8 @@ public class FillDatasetRun extends JRFillDatasetRun
 		{
 			log.debug("Evaluating list dataset run parameters");
 		}
+		
+		saveReturnVariables();
 		
 		parameterValues = JRFillSubreport.getParameterValues(
 			filler, 

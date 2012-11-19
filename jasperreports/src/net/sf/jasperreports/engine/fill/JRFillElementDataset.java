@@ -85,6 +85,13 @@ public abstract class JRFillElementDataset implements JRElementDataset
 		datasetRun = factory.getDatasetRun(dataset.getDatasetRun());
 	}
 
+	protected void setBand(JRFillBand band)
+	{
+		if (datasetRun != null)
+		{
+			datasetRun.setBand(band);
+		}
+	}
 
 	/**
 	 *

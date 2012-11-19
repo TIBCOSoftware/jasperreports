@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -128,12 +129,15 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.analytics.dataset.FillMultiAxisData;
 import net.sf.jasperreports.engine.base.JRBaseConditionalStyle;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 
 import org.apache.commons.collections.SequencedHashMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -145,6 +149,7 @@ import org.apache.commons.collections.SequencedHashMap;
 public class JRFillObjectFactory extends JRAbstractObjectFactory
 {
 
+	private static final Log log = LogFactory.getLog(JRFillObjectFactory.class);
 
 	/**
 	 *
@@ -158,6 +163,8 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	private List<JRFillElementDataset> elementDatasets = new ArrayList<JRFillElementDataset>();
 	private Map<String,List<JRFillElementDataset>> elementDatasetMap = new HashMap<String,List<JRFillElementDataset>>();
+	
+	private LinkedList<List<JRFillDatasetRun>> trackedDatasetRunsStack = new LinkedList<List<JRFillDatasetRun>>();
 	
 	private Map<String,List<JRStyleSetter>> delayedStyleSettersByName = new HashMap<String,List<JRStyleSetter>>();
 	
@@ -1265,6 +1272,23 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 		return fillReturnValue;
 	}
+	
+	
+	protected JRFillSubreportReturnValue getReturnValue(ReturnValue returnValue)
+	{
+		JRFillSubreportReturnValue fillReturnValue = null;
+
+		if (returnValue != null)
+		{
+			fillReturnValue = (JRFillSubreportReturnValue) get(returnValue);
+			if (fillReturnValue == null)
+			{
+				fillReturnValue = new JRFillSubreportReturnValue(returnValue, this, filler);
+			}
+		}
+
+		return fillReturnValue;
+	}
 
 
 	public void visitCrosstab(JRCrosstab crosstabElement)
@@ -1345,10 +1369,45 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				elementDatasetsList = new ArrayList<JRFillElementDataset>();
 				elementDatasetMap.put(datasetName, elementDatasetsList);
 			}
+			
+			registerDatasetRun((JRFillDatasetRun) datasetRun);
 		}
 		elementDatasetsList.add(elementDataset);
 	}
 
+	public void trackDatasetRuns()
+	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("tracking dataset runs");
+		}
+
+		ArrayList<JRFillDatasetRun> trackedDatasets = new ArrayList<JRFillDatasetRun>(2);
+		trackedDatasetRunsStack.push(trackedDatasets);
+	}
+	
+	public void registerDatasetRun(JRFillDatasetRun datasetRun)
+	{
+		if (!trackedDatasetRunsStack.isEmpty())
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("added tracked dataset run " + datasetRun);
+			}
+			
+			trackedDatasetRunsStack.getFirst().add(datasetRun);
+		}
+	}
+	
+	public List<JRFillDatasetRun> getTrackedDatasetRuns()
+	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("poping tracked dataset runs");
+		}
+
+		return trackedDatasetRunsStack.pop();
+	}
 
 	public JRFillDatasetRun getDatasetRun(JRDatasetRun datasetRun)
 	{

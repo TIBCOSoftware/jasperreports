@@ -25,6 +25,7 @@ package net.sf.jasperreports.charts.fill;
 
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMultiAxisPlot;
+import net.sf.jasperreports.engine.fill.JRFillBand;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
@@ -53,6 +54,17 @@ public class JRFillMultiAxisPlot extends JRFillChartPlot implements JRMultiAxisP
 		{
 			JRChartAxis axis = iter.next();
 			this.axes.add(factory.getChartAxis(axis));
+		}
+	}
+
+	@Override
+	protected void setBand(JRFillBand band)
+	{
+		super.setBand(band);
+		
+		for (JRChartAxis axis : axes)
+		{
+			((JRFillChartAxis) axis).fillChart.setBand(band);
 		}
 	}
 

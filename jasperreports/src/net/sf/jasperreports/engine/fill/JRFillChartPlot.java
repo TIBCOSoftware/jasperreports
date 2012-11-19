@@ -71,6 +71,11 @@ public class JRFillChartPlot implements JRChartPlot
 		chart = (JRChart)factory.getVisitResult(plot.getChart());
 	}
 
+	protected void setBand(JRFillBand band)
+	{
+		//NOP
+	}
+
 
 	/**
 	 *

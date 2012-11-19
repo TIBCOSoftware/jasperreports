@@ -133,6 +133,7 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReportTemplate;
+import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSection;
@@ -1349,6 +1350,24 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		}
 
 		return baseSubreportReturnValue;
+	}
+
+
+	protected BaseReturnValue getReturnValue(ReturnValue returnValue)
+	{
+		BaseReturnValue baseReturnValue = null;
+
+		if (returnValue != null)
+		{
+			baseReturnValue = (BaseReturnValue) get(returnValue);
+			if (baseReturnValue == null)
+			{
+				baseReturnValue = new BaseReturnValue(returnValue, this);
+				put(returnValue, baseReturnValue);
+			}
+		}
+
+		return baseReturnValue;
 	}
 
 

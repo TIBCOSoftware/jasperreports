@@ -4181,6 +4181,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
      <element ref="jr:connectionExpression"/>
      <element ref="jr:dataSourceExpression"/>
     </choice>
+   <element name="returnValue" type="jr:datasetReturnValue" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
    <attribute name="subDataset" type="string" use="required">
 	<annotation>
@@ -4194,6 +4195,83 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
    </attribute>  
   </complexType>
  </element>
+ 
+ <complexType name="datasetReturnValue">
+  <attribute name="fromVariable" type="string" use="optional">
+   <annotation>
+    <documentation>Name of the source variable whose value will be returned.</documentation>
+   </annotation>
+  </attribute>
+  <attribute name="toVariable" type="string" use="optional">
+   <annotation>
+    <documentation>Name of the variable to which the value is returned. This should be a variable with<code>calculation="System"</code></documentation>
+   </annotation>
+  </attribute>
+  <attribute name="calculation" use="optional" default="Nothing">
+   <annotation>
+    <documentation>Calculation to perform on the destination variable when returning the value.</documentation>
+   </annotation>
+   <simpleType>
+    <restriction base="string">
+     <enumeration value="Nothing">
+		<annotation>
+		<documentation>No calculations are performed.</documentation>
+		</annotation>
+	 </enumeration>
+     <enumeration value="Count">
+		<annotation>
+		<documentation>Variable stores the number of the not null returned values.</documentation>
+		</annotation>
+	 </enumeration>
+     <enumeration value="DistinctCount">
+		<annotation>
+		<documentation>Variable stores the number of distinct not null returned values.</documentation>
+		</annotation>
+	 </enumeration>
+     <enumeration value="Sum">
+		<annotation>
+		<documentation>Variable stores the sum of the not null returned values. Numeric variables only.</documentation>
+		</annotation>
+	 </enumeration>
+     <enumeration value="Average">
+		<annotation>
+		<documentation>Variable stores the average of the not null returned values. Numeric variables only.</documentation>
+		</annotation>
+	 </enumeration>
+     <enumeration value="Lowest">
+		<annotation>
+		<documentation>Variable stores the lowest returned value.</documentation>
+		</annotation>
+	 </enumeration>
+     <enumeration value="Highest">
+		<annotation>
+		<documentation>Variable stores the highest returned value.</documentation>
+		</annotation>
+	 </enumeration>
+     <enumeration value="StandardDeviation">
+		<annotation>
+		<documentation>Variable stores the standard deviation of the not null values. Numeric variables only.</documentation>
+		</annotation>
+	 </enumeration>
+     <enumeration value="Variance">
+		<annotation>
+		<documentation>Variable stores the variance of the not null values. Numeric variables only.</documentation>
+		</annotation>
+	 </enumeration>
+     <enumeration value="First">
+		<annotation>
+		<documentation>Variable stores the first value encountered and ignores subsequent values.</documentation>
+		</annotation>
+	 </enumeration>
+    </restriction>
+   </simpleType>
+  </attribute>
+  <attribute name="incrementerFactoryClass" type="string" use="optional">
+   <annotation>
+    <documentation>The name of a class that implements the<code>net.sf.jasperreports.engine.fill.JRIncrementerFactory</code> interface to use when creating the incrementer instance to handle the returned value.</documentation>
+   </annotation>
+  </attribute>
+ </complexType>
 
  <element name="datasetParameter">
   <annotation>

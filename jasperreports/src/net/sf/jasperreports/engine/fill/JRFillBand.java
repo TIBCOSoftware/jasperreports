@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.fill;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -77,6 +78,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	private SplitTypeEnum splitType;
 	private int breakHeight;
 
+	private Set<FillReturnValues> returnValuesSet;
 	
 	/**
 	 *
@@ -90,6 +92,9 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		super(filler, band, factory);
 
 		parent = band;
+		
+		// we need to do this before setBand()
+		returnValuesSet = new LinkedHashSet<FillReturnValues>();
 
 		if (deepElements.length > 0)
 		{
@@ -401,26 +406,17 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	}
 
 
-	protected boolean isVariableUsedInSubreportReturns(String variableName)
+	protected boolean isVariableUsedInReturns(String variableName)
 	{
 		boolean used = false;
-		if (deepElements != null)
+		for (FillReturnValues returnValues : returnValuesSet)
 		{
-			for (int i = 0; i < deepElements.length; i++)
+			if (returnValues.usesForReturnValue(variableName))
 			{
-				JRFillElement element = deepElements[i];
-				if (element instanceof JRFillSubreport)
-				{
-					JRFillSubreport subreport = (JRFillSubreport) element;
-					if (subreport.usesForReturnValue(variableName))
-					{
-						used = true;
-						break;
-					}
-				}
+				used = true;
+				break;
 			}
 		}
-
 		return used;
 	}
 
@@ -522,6 +518,11 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
+	}
+
+	public void registerReturnValues(FillReturnValues fillReturnValues)
+	{
+		returnValuesSet.add(fillReturnValues);
 	}
 
 }

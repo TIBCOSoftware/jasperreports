@@ -1430,6 +1430,10 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 //		}
 	}
 
+	public JRFillVariable getVariable(String variableName)
+	{
+		return variablesMap.get(variableName);
+	}
 	
 	/**
 	 * Returns the value of a variable.

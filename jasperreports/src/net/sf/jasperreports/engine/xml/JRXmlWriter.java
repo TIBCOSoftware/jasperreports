@@ -154,6 +154,7 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.analytics.dataset.DataAxis;
 import net.sf.jasperreports.engine.analytics.dataset.DataAxisLevel;
 import net.sf.jasperreports.engine.analytics.dataset.DataLevelBucket;
@@ -2724,6 +2725,17 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.closeElement();
 	}
 
+	
+	protected void writeReturnValue(ReturnValue returnValue) throws IOException
+	{
+		writer.startElement(JRXmlConstants.ELEMENT_returnValue);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fromVariable, returnValue.getFromVariable());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_toVariable, returnValue.getToVariable());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_calculation, returnValue.getCalculation(), CalculationEnum.NOTHING);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, returnValue.getIncrementerFactoryClassName());
+		writer.closeElement();
+	}
+
 
 	
 	public void writeCrosstab(JRCrosstab crosstab) throws IOException
@@ -3107,6 +3119,16 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writeExpression(JRXmlConstants.ELEMENT_connectionExpression, datasetRun.getConnectionExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_dataSourceExpression, datasetRun.getDataSourceExpression(), false);
+
+		List<ReturnValue> returnValues = datasetRun.getReturnValues();
+		if (returnValues != null && !returnValues.isEmpty())
+		{
+			for (ReturnValue returnValue : returnValues)
+			{
+				writeReturnValue(returnValue);
+			}
+		}
+		
 		writer.closeElement();
 	}
 

@@ -158,6 +158,7 @@ import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JRDesignReportTemplate;
+import net.sf.jasperreports.engine.design.DesignReturnValue;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.CalculationEnum;
@@ -1196,6 +1197,15 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate(datasetParamExprPattern, JRDatasetRunParameterExpressionFactory.class.getName());
 		digester.addSetNext(datasetParamExprPattern, "setExpression", JRExpression.class.getName());
 		digester.addCallMethod(datasetParamExprPattern, "setText", 0);
+
+		String returnValuePattern = datasetRunPattern + "/" + JRXmlConstants.ELEMENT_returnValue;
+		digester.addObjectCreate(returnValuePattern, DesignReturnValue.class.getName());
+		digester.addSetProperties(returnValuePattern, 
+				new String[]{JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, JRXmlConstants.ATTRIBUTE_calculation}, 
+				new String[]{"incrementerFactoryClassName"});
+		digester.addRule(returnValuePattern, new XmlConstantPropertyRule(
+				JRXmlConstants.ATTRIBUTE_calculation, CalculationEnum.values()));
+		digester.addSetNext(returnValuePattern, "addReturnValue");
 	}
 
 
