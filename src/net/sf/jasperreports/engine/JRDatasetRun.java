@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.util.List;
+
 /**
  * Interface of an sub dataset instantiation.
  * 
@@ -77,5 +79,12 @@ public interface JRDatasetRun extends JRCloneable, JRIdentifiable, JRPropertiesH
 	 * @return the data source expression
 	 */
 	public JRExpression getDataSourceExpression();
+	
+	/**
+	 * Returns the list of values to be copied from the subdataset.
+	 *
+	 * @return the list of copied values.
+	 */
+	public List<ReturnValue> getReturnValues();
 
 }

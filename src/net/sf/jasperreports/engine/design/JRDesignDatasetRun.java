@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.base.JRBaseDatasetRun;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
@@ -61,6 +62,8 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 	
 	public static final String PROPERTY_PARAMETERS = "parameters";
 	
+	public static final String PROPERTY_RETURN_VALUES = "returnValues";
+	
 	
 	/**
 	 * Creates an empty dataset instantiation.
@@ -69,6 +72,8 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 	{
 		parametersMap = new HashMap<String, JRDatasetParameter>();
 		parametersList = new ArrayList<JRDatasetParameter>();
+		
+		returnValues = new ArrayList<ReturnValue>(2);
 	}
 	
 	
@@ -193,6 +198,49 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 	public void setUUID(UUID uuid)
 	{
 		this.uuid = uuid;
+	}
+	
+	
+	/**
+	 * Adds a return value to the subdataset run.
+	 * 
+	 * @param returnValue the return value to be added.
+	 */
+	public void addReturnValue(ReturnValue returnValue)
+	{
+		this.returnValues.add(returnValue);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_RETURN_VALUES, 
+				returnValue, returnValues.size() - 1);
+	}
+
+	
+	/**
+	 * Returns the list of values to be copied from the subdataset run into the main dataset.
+	 * 
+	 * @return list of {@link ReturnValue ReturnValue} objects
+	 */
+	public List<ReturnValue> getReturnValuesList()
+	{
+		return returnValues;
+	}
+
+	
+	/**
+	 * Removes a return value from the subdataset run.
+	 * 
+	 * @param returnValue the return value to be removed
+	 * @return <code>true</code> if the return value was found and removed 
+	 */
+	public boolean removeReturnValue(ReturnValue returnValue)
+	{
+		int idx = this.returnValues.indexOf(returnValue);
+		if (idx >= 0)
+		{
+			this.returnValues.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_RETURN_VALUES, returnValue, idx);
+			return true;
+		}
+		return false;
 	}
 
 	/**

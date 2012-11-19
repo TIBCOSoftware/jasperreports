@@ -107,6 +107,7 @@ import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
@@ -1630,6 +1631,24 @@ public class JRVerifier
 		}
 	}
 
+	protected void verifyReturnValue(ReturnValue returnValue)
+	{
+		if (returnValue.getFromVariable() == null || returnValue.getFromVariable().trim().length() == 0)
+		{
+			addBrokenRule("Return value source variable name missing.", returnValue);
+		}
+
+		if (returnValue.getToVariable() == null || returnValue.getToVariable().trim().length() == 0)
+		{
+			addBrokenRule("Return value destination variable name missing.", returnValue);
+		}
+
+		if (!jasperDesign.getVariablesMap().containsKey(returnValue.getToVariable()))
+		{
+			addBrokenRule("Return value destination variable not found.", returnValue);
+		}
+	}
+
 
 	private void verifyCrosstab(JRDesignCrosstab crosstab)
 	{
@@ -2140,6 +2159,15 @@ public class JRVerifier
 		if (connectionExpression != null && dataSourceExpression != null)
 		{
 			addBrokenRule("Dataset " + datasetName + " cannot have both connection expresion and data source expression.", datasetRun);
+		}
+
+		List<ReturnValue> returnValues = datasetRun.getReturnValues();
+		if (returnValues != null && !returnValues.isEmpty())
+		{
+			for (ReturnValue returnValue : returnValues)
+			{
+				verifyReturnValue(returnValue);
+			}
 		}
 	}
 

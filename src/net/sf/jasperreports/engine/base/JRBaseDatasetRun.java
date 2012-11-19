@@ -24,6 +24,9 @@
 package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -33,6 +36,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -52,6 +56,7 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 	protected JRExpression connectionExpression;
 	protected JRExpression dataSourceExpression;
 	protected JRPropertiesMap propertiesMap;
+	protected List<ReturnValue> returnValues;
 	
 	
 	/**
@@ -86,6 +91,17 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 			for (int i = 0; i < parameters.length; i++)
 			{
 				parameters[i] = factory.getDatasetParameter(datasetParams[i]);
+			}
+		}
+		
+		List<ReturnValue> datesetReturnValues = datasetRun.getReturnValues();
+		if (datesetReturnValues != null && !datesetReturnValues.isEmpty())
+		{
+			this.returnValues = new ArrayList<ReturnValue>(datesetReturnValues.size());
+			for (ReturnValue datasetReturnValue : datesetReturnValues)
+			{
+				BaseReturnValue returnValue = factory.getReturnValue(datasetReturnValue);
+				this.returnValues.add(returnValue);
 			}
 		}
 	}
@@ -124,6 +140,12 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 		return dataSourceExpression;
 	}
 
+	@Override
+	public List<ReturnValue> getReturnValues()
+	{
+		return returnValues == null ? null : Collections.unmodifiableList(returnValues);
+	}
+
 	/**
 	 * 
 	 */
@@ -146,6 +168,7 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 
 		clone.parameters = JRCloneUtils.cloneArray(parameters);
 		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
+		clone.returnValues = JRCloneUtils.cloneList(returnValues);
 
 		return clone;
 	}

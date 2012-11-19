@@ -317,6 +317,15 @@ public class JRFillChart extends JRFillElement implements JRChart
 		}
 	}
 
+	@Override
+	public void setBand(JRFillBand band)
+	{
+		super.setBand(band);
+		
+		dataset.setBand(band);
+		((JRFillChartPlot) plot).setBand(band);
+	}
+
 
 	/**
 	 *

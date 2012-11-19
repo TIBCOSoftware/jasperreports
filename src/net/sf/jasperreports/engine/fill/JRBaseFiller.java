@@ -583,7 +583,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	 */
 	protected JRFillVariable getVariable(String variableName)
 	{
-		return mainDataset.variablesMap.get(variableName);
+		return mainDataset.getVariable(variableName);
 	}
 
 

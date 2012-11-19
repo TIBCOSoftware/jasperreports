@@ -177,6 +177,14 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		crosstabFiller = new CrosstabFiller();
 	}
 
+	@Override
+	protected void setBand(JRFillBand band)
+	{
+		super.setBand(band);
+		
+		dataset.setBand(band);
+	}
+
 	private boolean isIgnoreWidth(JRBaseFiller filler, JRCrosstab crosstab)
 	{
 		Boolean crosstabIgnoreWidth = crosstab.getIgnoreWidth();

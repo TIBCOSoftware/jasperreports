@@ -240,6 +240,8 @@ public class HorizontalFillList extends BaseFillList
 				filling = false;
 				datasetRun.end();
 				
+				datasetRun.copyReturnValues();
+				
 				if (!hadData)
 				{
 					//if no data, set as no print

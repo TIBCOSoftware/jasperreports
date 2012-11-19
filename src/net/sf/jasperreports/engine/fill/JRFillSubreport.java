@@ -58,11 +58,9 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
-import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
 import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JRValidationFault;
 import net.sf.jasperreports.engine.design.JRVerifier;
-import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
@@ -102,8 +100,23 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	/**
 	 * Values to be copied from the subreport.
 	 */
-	private JRFillSubreportReturnValue[] returnValues;
+	private FillReturnValues returnValues;
 
+	private FillReturnValues.SourceContext returnValuesContext = new FillReturnValues.SourceContext()
+	{
+		@Override
+		public JRVariable getVariable(String name)
+		{
+			return subreportFiller.getVariable(name);
+		}
+
+		@Override
+		public Object getVariableValue(String name)
+		{
+			return subreportFiller.getVariableValue(name);
+		}
+	};
+	
 	/**
 	 *
 	 */
@@ -130,23 +143,18 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		super(filler, subreport, factory);
 
 		parameters = subreport.getParameters();
-		JRSubreportReturnValue[] subrepReturnValues = subreport.getReturnValues();
-		if (subrepReturnValues != null)
-		{
-			List<JRFillSubreportReturnValue> returnValuesList = new ArrayList<JRFillSubreportReturnValue>(subrepReturnValues.length * 2);
-			
-			returnValues = new JRFillSubreportReturnValue[subrepReturnValues.length];
-			for (int i = 0; i < subrepReturnValues.length; i++)
-			{
-				addReturnValue(subrepReturnValues[i], returnValuesList, factory);
-			}
-			
-			returnValues = new JRFillSubreportReturnValue[returnValuesList.size()];
-			returnValuesList.toArray(returnValues);
-		}
+		returnValues = new FillReturnValues(subreport.getReturnValues(), factory, filler);
 		
 		loadedEvaluators = new HashMap<JasperReport,JREvaluator>();
 		checkedReports = new HashSet<JasperReport>();
+	}
+
+	@Override
+	protected void setBand(JRFillBand band)
+	{
+		super.setBand(band);
+		
+		returnValues.setBand(band);
 	}
 
 
@@ -399,7 +407,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			
 			validateReport();
 			
-			saveReturnVariables();
+			returnValues.saveReturnVariables();
 		}
 	}
 
@@ -472,19 +480,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		
 		subreportFiller.mainDataset.setFillPosition(datasetPosition);
 		subreportFiller.mainDataset.setCacheSkipped(!cacheIncluded);
-	}
-
-
-	protected void saveReturnVariables()
-	{
-		if (returnValues != null)
-		{
-			for (int i = 0; i < returnValues.length; i++)
-			{
-				String varName = returnValues[i].getToVariable();
-				band.saveVariable(varName);
-			}
-		}
 	}
 
 	/**
@@ -793,7 +788,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 					log.debug("Fill " + filler.fillerId + ": subreport " + subreportFiller.fillerId + " finished");
 				}
 				
-				copyValues();
+				returnValues.copyValues(returnValuesContext);
 			}
 			else
 			{
@@ -915,133 +910,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 	
 
-	private JRFillSubreportReturnValue addReturnValue (
-			JRSubreportReturnValue parentReturnValue, 
-			List<JRFillSubreportReturnValue> returnValueList, 
-			JRFillObjectFactory factory
-			)
-	{
-		JRFillSubreportReturnValue returnValue = factory.getSubreportReturnValue(parentReturnValue);
-		
-		CalculationEnum calculation = returnValue.getCalculationValue();
-		switch (calculation)
-		{
-			case AVERAGE:
-			case VARIANCE:
-			{
-				JRSubreportReturnValue countVal = createHelperReturnValue(parentReturnValue, "_COUNT", CalculationEnum.COUNT);
-				addReturnValue(countVal, returnValueList, factory);
-
-				JRSubreportReturnValue sumVal = createHelperReturnValue(parentReturnValue, "_SUM", CalculationEnum.SUM);
-				addReturnValue(sumVal, returnValueList, factory);
-
-				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
-
-				break;
-			}
-			case STANDARD_DEVIATION:
-			{
-				JRSubreportReturnValue varianceVal = createHelperReturnValue(parentReturnValue, "_VARIANCE", CalculationEnum.VARIANCE);
-				addReturnValue(varianceVal, returnValueList, factory);
-				
-				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
-				break;
-			}
-			case DISTINCT_COUNT:
-			{
-				JRSubreportReturnValue countVal = createDistinctCountHelperReturnValue(parentReturnValue);
-				addReturnValue(countVal, returnValueList, factory);
-				
-				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
-				break;
-			}
-		}
-
-		returnValueList.add(returnValue);
-		return returnValue;
-
-	}
-
-	
-	protected JRSubreportReturnValue createHelperReturnValue(JRSubreportReturnValue returnValue, String nameSuffix, CalculationEnum calculation)
-	{
-		JRDesignSubreportReturnValue helper = new JRDesignSubreportReturnValue();
-		helper.setToVariable(returnValue.getToVariable() + nameSuffix);
-		helper.setSubreportVariable(returnValue.getSubreportVariable());
-		helper.setCalculation(calculation);
-		helper.setIncrementerFactoryClassName(helper.getIncrementerFactoryClassName());//FIXME shouldn't it be returnValue?
-		
-		return helper;
-	}
-	
-
-	protected JRSubreportReturnValue createDistinctCountHelperReturnValue(JRSubreportReturnValue returnValue)
-	{
-		JRDesignSubreportReturnValue helper = new JRDesignSubreportReturnValue();
-		helper.setToVariable(returnValue.getToVariable() + "_DISTINCT_COUNT");
-		helper.setSubreportVariable(returnValue.getSubreportVariable());
-		helper.setCalculation(CalculationEnum.NOTHING);
-		helper.setIncrementerFactoryClassName(helper.getIncrementerFactoryClassName());//FIXME shouldn't it be returnValue? tests required
-		
-		return helper;
-	}
-	
-
 	public JRSubreportReturnValue[] getReturnValues()
 	{
-		return this.returnValues;
-	}
-	
-	
-	public boolean usesForReturnValue(String variableName)
-	{
-		boolean used = false;
-		if (returnValues != null)
-		{
-			for (int j = 0; j < returnValues.length; j++)
-			{
-				JRSubreportReturnValue returnValue = returnValues[j];
-				if (returnValue.getToVariable().equals(variableName))
-				{
-					used = true;
-					break;
-				}
-			}
-		}
-		return used;
-	}
-
-	/**
-	 * Copies the values from the subreport to the variables of the master report.
-	 */
-	protected void copyValues()
-	{
-		if (returnValues != null && returnValues.length > 0)
-		{
-			for (int i = 0; i < returnValues.length; i++)
-			{
-				copyValue(returnValues[i]);
-			}
-		}
-	}
-
-
-	protected void copyValue(JRFillSubreportReturnValue returnValue)
-	{
-		try
-		{
-			JRFillVariable variable = filler.getVariable(returnValue.getToVariable());
-			Object value = subreportFiller.getVariableValue(returnValue.getSubreportVariable());
-			
-			Object newValue = returnValue.getIncrementer().increment(variable, value, AbstractValueProvider.getCurrentValueProvider());
-			variable.setOldValue(newValue);
-			variable.setValue(newValue);
-			variable.setIncrementedValue(newValue);
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
+		return ((JRSubreport) parent).getReturnValues();
 	}
 
 	protected void validateReport() throws JRException
@@ -1049,7 +920,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		if (!checkedReports.contains(jasperReport))
 		{
 			verifyBandHeights();
-			checkReturnValues();
+			returnValues.checkReturnValues(returnValuesContext);
 			
 			if (usingCache())
 			{
@@ -1098,48 +969,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 						+ jasperReport.getName() + "\" succeeded in the current page context "
 						+ "(height = " + pageHeight + ", top margin = " + topMargin
 						+ ", bottom margin = " + bottomMargin + ")");
-			}
-		}
-	}
-
-	/**
-	 * Verifies the list of copied values against the subreport.
-	 * 
-	 * @throws JRException
-	 */
-	private void checkReturnValues() throws JRException
-	{
-		if (returnValues != null && returnValues.length > 0)
-		{
-			for (int i = 0; i < returnValues.length; i++)
-			{
-				JRSubreportReturnValue returnValue = returnValues[i];
-				String subreportVariableName = returnValue.getSubreportVariable();
-				JRVariable subrepVariable = subreportFiller.getVariable(subreportVariableName);
-				if (subrepVariable == null)
-				{
-					throw new JRException("Subreport variable " + subreportVariableName + " not found.");
-				}
-				
-				JRVariable variable = filler.getVariable(returnValue.getToVariable());
-				if (
-					returnValue.getCalculationValue() == CalculationEnum.COUNT
-					|| returnValue.getCalculationValue() == CalculationEnum.DISTINCT_COUNT
-					)
-				{
-					if (!Number.class.isAssignableFrom(variable.getValueClass()))
-					{
-						throw new JRException("Variable " + returnValue.getToVariable() + 
-								" must have a numeric type.");
-					}
-				}
-				else if (!variable.getValueClass().isAssignableFrom(subrepVariable.getValueClass()) &&
-						!(Number.class.isAssignableFrom(variable.getValueClass()) && Number.class.isAssignableFrom(subrepVariable.getValueClass())))
-				{
-					throw new JRException("Variable " + returnValue.getToVariable() + 
-							" is not assignable from subreport variable " + 
-							subreportVariableName);
-				}
 			}
 		}
 	}

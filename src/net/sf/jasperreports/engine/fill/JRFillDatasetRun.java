@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.sql.Connection;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -38,7 +39,10 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRQuery;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptletException;
+import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
@@ -69,6 +73,8 @@ public class JRFillDatasetRun implements JRDatasetRun
 
 	protected JRExpression dataSourceExpression;
 
+	private FillReturnValues returnValues;
+	private FillReturnValues.SourceContext returnValuesContext;
 	
 	/**
 	 * Construct an instance for a dataset run.
@@ -83,6 +89,8 @@ public class JRFillDatasetRun implements JRDatasetRun
 				filler.datasetMap.get(datasetRun.getDatasetName()));
 		
 		factory.put(datasetRun, this);
+		
+		initReturnValues(factory);
 	}
 
 	protected JRFillDatasetRun(JRBaseFiller filler, JRDatasetRun datasetRun, 
@@ -98,6 +106,48 @@ public class JRFillDatasetRun implements JRDatasetRun
 		dataSourceExpression = datasetRun.getDataSourceExpression();
 	}
 
+	protected void initReturnValues(JRFillObjectFactory factory)
+	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("init return values");
+		}
+		
+		returnValues = new FillReturnValues(parentDatasetRun.getReturnValues(), factory, filler);
+		
+		returnValuesContext = new FillReturnValues.SourceContext()
+		{
+			@Override
+			public JRVariable getVariable(String name)
+			{
+				return dataset.getVariable(name);
+			}
+			
+			@Override
+			public Object getVariableValue(String name)
+			{
+				return dataset.getVariableValue(name);
+			}
+		};
+		
+		try
+		{
+			//FIXME do this at compile time
+			returnValues.checkReturnValues(returnValuesContext);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	public void setBand(JRFillBand band)
+	{
+		if (returnValues != null)
+		{
+			returnValues.setBand(band);
+		}
+	}
 	
 	/**
 	 * Instantiates and iterates the sub dataset for a chart dataset evaluation.
@@ -108,6 +158,8 @@ public class JRFillDatasetRun implements JRDatasetRun
 	 */
 	public void evaluate(JRFillElementDataset elementDataset, byte evaluation) throws JRException
 	{
+		saveReturnVariables();
+		
 		Map<String,Object> parameterValues = 
 			JRFillSubreport.getParameterValues(
 				filler, 
@@ -160,6 +212,24 @@ public class JRFillDatasetRun implements JRDatasetRun
 			dataset.closeDatasource();
 			dataset.disposeParameterContributors();
 			dataset.restoreElementDatasets();
+		}
+		
+		copyReturnValues();
+	}
+
+	protected void saveReturnVariables()
+	{
+		if (returnValues != null)
+		{
+			returnValues.saveReturnVariables();
+		}
+	}
+
+	public void copyReturnValues()
+	{
+		if (returnValues != null)
+		{
+			returnValues.copyValues(returnValuesContext);
 		}
 	}
 
@@ -293,5 +363,11 @@ public class JRFillDatasetRun implements JRDatasetRun
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
+	}
+
+	@Override
+	public List<ReturnValue> getReturnValues()
+	{
+		return parentDatasetRun.getReturnValues();
 	}
 }
