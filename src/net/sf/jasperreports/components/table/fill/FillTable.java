@@ -52,6 +52,7 @@ import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRReportCompileData;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.fill.JRFillDatasetRun;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
@@ -87,6 +88,11 @@ public class FillTable extends BaseFillComponent
 	{
 		this.table = table;
 		this.factory = factory;
+		
+		// we need to do this for return values with derived variables
+		JRFillDatasetRun fillDatasetRun = factory.getDatasetRun(table.getDatasetRun());
+		// this is needed for returned variables with evaluationTime=Auto
+		factory.registerDatasetRun(fillDatasetRun);
 	}
 
 	public void evaluate(byte evaluation) throws JRException
