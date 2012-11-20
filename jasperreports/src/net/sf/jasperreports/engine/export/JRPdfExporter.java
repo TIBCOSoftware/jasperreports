@@ -1520,6 +1520,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				Image image = getPxImage();
 				image.scaleAbsolute(availableImageWidth, availableImageHeight);
 				chunk = new Chunk(image, 0, 0);
+				pdfWriter.releaseTemplate(template);
 			}
 
 			/*
