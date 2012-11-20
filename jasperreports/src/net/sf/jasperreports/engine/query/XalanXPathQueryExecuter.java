@@ -80,8 +80,10 @@ public class XalanXPathQueryExecuter extends JRAbstractQueryExecuter
 		super(jasperReportsContext, dataset, parametersMap);
 				
 		document = (Document) getParameterValue(XalanXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT);
-		documentBuilderFactory = (DocumentBuilderFactory) getParameterValue(XalanXPathQueryExecuterFactory.PARAMETER_DOCUMENT_BUILDER_FACTORY);
-		namespacesMap = (Map<String, String>) getParameterValue(XalanXPathQueryExecuterFactory.PARAMETER_XML_NAMESPACE_MAP);
+		documentBuilderFactory = (DocumentBuilderFactory) getParameterValue(
+				XalanXPathQueryExecuterFactory.PARAMETER_DOCUMENT_BUILDER_FACTORY, true);
+		namespacesMap = (Map<String, String>) getParameterValue(
+				XalanXPathQueryExecuterFactory.PARAMETER_XML_NAMESPACE_MAP, true);
 
 		if (document == null)
 		{
