@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.data;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -347,8 +348,16 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 					result = mapper.createArrayNode();
 					for (JsonNode node: rootNode) {
 						JsonNode deeperNode = node.path(path);
-						if (!deeperNode.isMissingNode() && isValidExpression(deeperNode, attributeExpression)) {
-							((ArrayNode)result).add(deeperNode);
+						if (!deeperNode.isMissingNode()) {
+							if (deeperNode.isArray()) {
+								for(JsonNode arrayNode: deeperNode) {
+									if (isValidExpression(arrayNode, attributeExpression)) {
+										((ArrayNode)result).add(arrayNode);
+									}
+								}
+							} else if (isValidExpression(deeperNode, attributeExpression)){
+								((ArrayNode)result).add(deeperNode);
+							}
 						} 
 					}
 				}
@@ -378,7 +387,13 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 				for (JsonNode node: rootNode) {
 					JsonNode deeperNode = node.path(simplePath);
 					if (!deeperNode.isMissingNode()) {
-						((ArrayNode)result).add(deeperNode);
+						if (deeperNode.isArray()) {
+							for(JsonNode arrayNode: deeperNode) {
+								((ArrayNode)result).add(arrayNode);
+							}
+						} else {
+							((ArrayNode)result).add(deeperNode);
+						}
 					} 
 				}
 			}
@@ -395,14 +410,40 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 	 * @param attributeExpression
 	 * @throws JRException
 	 */
-	protected boolean isValidExpression(JsonNode operand, String attributeExpression) throws JRException{
+	protected boolean isValidExpression(JsonNode operand, String attributeExpression) throws JRException {
 		return JsonUtil.evaluateJsonExpression(operand, attributeExpression);
 	}
-	
-	
-	
-	public static void main(String[] args) throws Exception {
+
+
+	/**
+	 * Creates a sub data source using the current node as the base for its input stream.
+	 * 
+	 * @return the JSON sub data source
+	 * @throws JRException
+	 */
+	public JsonDataSource subDataSource() throws JRException {
+		return subDataSource(null);
 	}
+
+
+	/**
+	 * Creates a sub data source using the current node as the base for its input stream.
+	 * An additional expression specifies the select criteria that will be applied to the
+	 * JSON tree node. 
+	 * 
+	 * @param selectExpression
+	 * @return the JSON sub data source
+	 * @throws JRException
+	 */
+	public JsonDataSource subDataSource(String selectExpression) throws JRException {
+		if(currentJsonNode == null)
+		{
+			throw new JRException("No node available. Iterate or rewind the data source.");
+		}
+		
+		return new JsonDataSource(new ByteArrayInputStream(currentJsonNode.toString().getBytes()), selectExpression);
+	}
+
 
 	public void close() {
 		if (toClose) {
