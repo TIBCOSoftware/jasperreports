@@ -80,8 +80,10 @@ public class JaxenXPathQueryExecuter extends JRAbstractQueryExecuter
 		super(jasperReportsContext, dataset, parametersMap);
 				
 		document = (Document) getParameterValue(JaxenXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT);
-		documentBuilderFactory = (DocumentBuilderFactory) getParameterValue(JaxenXPathQueryExecuterFactory.PARAMETER_DOCUMENT_BUILDER_FACTORY);
-		namespacesMap = (Map<String, String>) getParameterValue(JaxenXPathQueryExecuterFactory.PARAMETER_XML_NAMESPACE_MAP);
+		documentBuilderFactory = (DocumentBuilderFactory) getParameterValue(
+				JaxenXPathQueryExecuterFactory.PARAMETER_DOCUMENT_BUILDER_FACTORY, true);
+		namespacesMap = (Map<String, String>) getParameterValue(
+				JaxenXPathQueryExecuterFactory.PARAMETER_XML_NAMESPACE_MAP, true);
 		
 		if (document == null)
 		{
