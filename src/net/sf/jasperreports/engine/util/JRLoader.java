@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.util;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -543,6 +544,33 @@ public final class JRLoader
 		return baos.toByteArray();
 	}
 
+	public static InputStream loadToMemoryInputStream(InputStream is) throws JRException
+	{
+		if (is instanceof ByteArrayInputStream)
+		{
+			return is;
+		}
+		
+		try
+		{
+			byte[] bytes = loadBytes(is);
+			return new ByteArrayInputStream(bytes);
+		}
+		finally
+		{
+			try
+			{
+				is.close();
+			}
+			catch (IOException e)
+			{
+				if (log.isWarnEnabled())
+				{
+					log.warn("Failed to close input stream " + is, e);
+				}
+			}
+		}
+	}
 
 	/**
 	 *
