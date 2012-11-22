@@ -2,6 +2,20 @@
 JasperReports Library Change Log
 ===================================
 
+JasperReports 5.0.0 (2012-11-12, SVN 5807)
+---------------------------------------------
+
+- improved report filling performance by extending the use of the simplified text measurer 
+that was previously used only for single line text elements;
+
+- improved subreport filling performance by using a thread pooling mechanism;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 4.8.0 (2012-11-05, SVN 5784)
 ---------------------------------------------
 - enhanced interactivity in the table component, with support for conditional formatting 
