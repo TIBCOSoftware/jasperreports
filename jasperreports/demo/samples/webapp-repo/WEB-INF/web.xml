@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 
 <!DOCTYPE web-app
-    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
-    "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
 	<display-name>JasperReports</display-name>
 
 
 	<context-param>
-		<description>This is a context parameter example</description>
 		<param-name>net.sf.jasperreports.web.file.repository.root</param-name>
 		<param-value>/WEB-INF/repository</param-value>
+		<description>This is a context parameter example</description>
 	</context-param>
 
 	<listener>
