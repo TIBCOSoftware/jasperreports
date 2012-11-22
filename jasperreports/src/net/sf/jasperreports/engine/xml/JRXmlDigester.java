@@ -35,6 +35,10 @@ import java.util.Map;
 
 import javax.xml.parsers.SAXParser;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.JRLoader;
+
 import org.apache.commons.digester.Digester;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -170,7 +174,16 @@ public class JRXmlDigester extends Digester
 			
 			if (is != null)
 			{
-				inputSource = new InputSource(is);
+				try
+				{
+					// load the data into the memory so that we don't leave the stream open
+					InputStream memoryStream = JRLoader.loadToMemoryInputStream(is);
+					inputSource = new InputSource(memoryStream);
+				}
+				catch (JRException e)
+				{
+					throw new JRRuntimeException("Failed to load entity " + systemId, e);
+				}
 			}
 		}
 
