@@ -391,19 +391,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected void setColumnWidth(int col, int width, boolean autoFit)
 	{
 		CellView cv = new CellView();
-		if (!autoFit)
-		{
-			cv.setSize(43 * width);
-		}
-		sheet.setColumnView(col, cv);
-	}
-
-	protected void updateColumn(int col, boolean autoFit)
-	{
-		CellView cv = new CellView();
 		if (autoFit)
 		{
 			cv.setAutosize(true);
+		}
+		else
+		{
+			cv.setSize(43 * width);
 		}
 		sheet.setColumnView(col, cv);
 	}
@@ -428,11 +422,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	
 	protected void setCell(JRExporterGridCell gridCell, int x, int y)
 	{
-	}
-
-	protected void removeColumn(int col)
-	{
-		sheet.removeColumn(col);
 	}
 
 	protected void addBlankCell(JRExporterGridCell gridCell, int colIndex, int rowIndex) throws JRException

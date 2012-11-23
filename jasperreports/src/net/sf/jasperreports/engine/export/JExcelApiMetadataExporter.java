@@ -392,26 +392,32 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 
 	protected void setColumnWidth(int col, int width, boolean autoFit)
 	{
-		if (!autoFit)
-		{
-			CellView cv = sheet.getColumnView(col);
-			if(cv == null || cv.getSize() < 43 * width)
-			{
-				cv = new CellView();
-				cv.setSize(43 * width);
-				sheet.setColumnView(col, cv);
-			}
-		}
-	}
-
-	protected void updateColumn(int col, boolean autoFit)
-	{
+//		if (autoFit)
+//		{
+//			CellView cv = new CellView();
+//			cv.setAutosize(true);
+//			sheet.setColumnView(col, cv);
+//		}
+//		else
+//		{
+//			CellView cv = sheet.getColumnView(col);
+//			if(cv == null || cv.getSize() < 43 * width)
+//			{
+//				cv = new CellView();
+//				cv.setSize(43 * width);
+//				sheet.setColumnView(col, cv);
+//			}
+//		}
+		CellView cv = new CellView();
 		if (autoFit)
 		{
-			CellView cv = new CellView();
 			cv.setAutosize(true);
-			sheet.setColumnView(col, cv);
 		}
+		else
+		{
+			cv.setSize(43 * width);
+		}
+		sheet.setColumnView(col, cv);
 	}
 
 	protected void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut, XlsRowLevelInfo levelInfo) throws JRException
@@ -449,11 +455,6 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 				throw new JRException("Too many rows in sheet " + sheet.getName() + ": " + rowIndex, e);
 			}
 		}
-	}
-
-	protected void removeColumn(int col)
-	{
-		sheet.removeColumn(col);
 	}
 
 	protected void addBlankCell(WritableCellFormat baseStyleFormat, Map<String, Object> cellValueMap, String currentColumnName) throws JRException
