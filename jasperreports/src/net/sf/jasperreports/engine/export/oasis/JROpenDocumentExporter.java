@@ -119,6 +119,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	protected int pageIndex;
 	protected int tableIndex;
 	protected boolean startPage;
+	protected boolean flexibleRowHeight;
 	
 	protected String invalidCharReplacement;
 
@@ -188,6 +189,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 					JRExporterParameter.PROPERTY_CHARACTER_ENCODING
 					);
 
+			setFlexibleRowHeight();
 			rendererToImagePathMap = new HashMap<String, String>();
 //			imageMaps = new HashMap();
 			imagesToProcess = new ArrayList<JRPrintElementIndex>();
@@ -456,7 +458,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 			//int emptyCellWidth = 0;
 			int rowHeight = gridLayout.getRowHeight(row);
 
-			tableBuilder.buildRowStyle(row, rowHeight);
+			tableBuilder.buildRowStyle(row, flexibleRowHeight ? -1 : rowHeight);
 			tableBuilder.buildRowHeader(row);
 
 			for(int col = 0; col < grid[0].length; col++)
@@ -1198,6 +1200,8 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	protected abstract ExporterNature getExporterNature(ExporterFilter filter);
 
 	protected abstract String getExporterPropertiesPrefix();
+	
+	protected abstract void setFlexibleRowHeight();
 
 }
 

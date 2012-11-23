@@ -432,5 +432,14 @@ public class JROdsExporter extends JROpenDocumentExporter
 				.getImage(new ExporterContext(null), genericPrintElement);
 	}
 
+	protected void setFlexibleRowHeight(){
+		flexibleRowHeight = 
+				getBooleanParameter(
+					JROpenDocumentExporterParameter.ODS_FLEXIBLE_ROW_HEIGHT,
+					JROpenDocumentExporterParameter.PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT,
+					false
+					);
+	}
+	
 }
 
