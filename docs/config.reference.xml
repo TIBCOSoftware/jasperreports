@@ -172,6 +172,9 @@
       <property ref="net.sf.jasperreports.export.jxl.use.temp.file"/>
       <property ref="net.sf.jasperreports.export.jxl.cell.complex.format"/>
       
+      <property ref="net.sf.jasperreports.export.ods.flexible.row.height"/>
+      <property ref="net.sf.jasperreports.export.odt.flexible.row.height"/>
+      
       <property ref="net.sf.jasperreports.export.parameters.override.report.hints"/>
       
       <property ref="net.sf.jasperreports.export.pdf.128.bit.key"/>
@@ -2190,7 +2193,7 @@ If set to <code>false</code>, the frame content will be integrated into the mast
 This property serves as default value for the <api href="net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#FLEXIBLE_ROW_HEIGHT">FLEXIBLE_ROW_HEIGHT</api> export parameter.
 If set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
     </description>
-    <api>net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
+    <api>net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#PROPERTY_FLEXIBLE_ROW_HEIGHT</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
@@ -2358,6 +2361,36 @@ If the pattern is invalid, it won't be taken into account by the Excel file view
     <default>false</default>
     <scope>Global | Report | Element</scope>
     <since>3.7.6</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.ods.flexible.row.height -->
+  
+  <configProperty name="net.sf.jasperreports.export.ods.flexible.row.height">
+    <description>
+This property serves as default value for the <api href="net/sf/jasperreports/engine/export/oasis/JROpenDocumentExporterParameter.html#ODS_FLEXIBLE_ROW_HEIGHT">ODS_FLEXIBLE_ROW_HEIGHT</api> 
+export parameter. If set to <code>false</code>, the rows in the ODS document do not increase in height automatically and the user has to enlarge them manually. Otherwise, the table rows will 
+adjust their height automatically in order to fit their content in.
+    </description>
+    <api>net/sf/jasperreports/engine/export/oasis/JROpenDocumentExporterParameter.html#PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>5.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.odt.flexible.row.height -->
+  
+  <configProperty name="net.sf.jasperreports.export.odt.flexible.row.height">
+    <description>
+This property serves as default value for the <api href="net/sf/jasperreports/engine/export/oasis/JROpenDocumentExporterParameter.html#ODT_FLEXIBLE_ROW_HEIGHT">ODT_FLEXIBLE_ROW_HEIGHT</api> 
+export parameter. If set to <code>false</code>, the table rows in the ODT document do not increase in height automatically and the user has to enlarge them manually. Otherwise, the table 
+rows will adjust their height automatically in order to fit their content in.
+    </description>
+    <api>net/sf/jasperreports/engine/export/oasis/JROpenDocumentExporterParameter.html#PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>5.0.1</since>
   </configProperty>
   
   

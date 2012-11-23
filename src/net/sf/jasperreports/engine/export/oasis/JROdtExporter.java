@@ -75,7 +75,6 @@ public class JROdtExporter extends JROpenDocumentExporter
 	
 	protected static final String ODT_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.odt.";
 
-
 	protected class ExporterContext extends BaseExporterContext implements JROdtExporterContext
 	{
 		TableBuilder tableBuilder = null;
@@ -385,6 +384,15 @@ public class JROdtExporter extends JROpenDocumentExporter
 				.getInstance(jasperReportsContext).getElementHandler(
 						genericPrintElement.getGenericType(), ODT_EXPORTER_KEY))
 				.getImage(new ExporterContext(null), genericPrintElement);
+	}
+	
+	protected void setFlexibleRowHeight(){
+		flexibleRowHeight = 
+				getBooleanParameter(
+					JROpenDocumentExporterParameter.ODT_FLEXIBLE_ROW_HEIGHT,
+					JROpenDocumentExporterParameter.PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT,
+					false
+					);
 	}
 
 }

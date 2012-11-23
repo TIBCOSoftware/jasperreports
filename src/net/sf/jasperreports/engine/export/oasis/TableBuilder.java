@@ -147,9 +147,15 @@ public class TableBuilder
 		styleWriter.write(" <style:style style:name=\"" + rowName + "\"");
 		styleWriter.write(" style:family=\"table-row\">\n");
 		styleWriter.write("   <style:table-row-properties");		
-		styleWriter.write(" style:use-optimal-row-height=\"false\""); 
-//FIXMEODT check this		styleWriter.write(" style:use-optimal-row-height=\"true\""); 
-		styleWriter.write(" style:row-height=\"" + LengthUtil.inch(rowHeight) + "in\"");
+		if(rowHeight < 0)
+		{
+			styleWriter.write(" style:use-optimal-row-height=\"true\"");
+		}
+		else
+		{
+			styleWriter.write(" style:use-optimal-row-height=\"false\"");
+			styleWriter.write(" style:row-height=\"" + LengthUtil.inch(rowHeight) + "in\"");
+		}
 		styleWriter.write("/>\n");
 		styleWriter.write(" </style:style>\n");
 	}
