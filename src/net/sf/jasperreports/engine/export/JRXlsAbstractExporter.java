@@ -983,7 +983,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						startRow = exportPage(page, xCuts, startRow);
 					}
 					
-					updateColumns(xCuts);
+					//updateColumns(xCuts);
 				}
 			}
 		}
@@ -1041,7 +1041,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				|| yCuts.isBreak(y) 
 				)
 			{
-				updateColumns(xCuts);
+				//updateColumns(xCuts);
 				
 				setRowLevels(levelInfo, null);
 				
@@ -1087,13 +1087,15 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					);
 
 				int emptyCols = 0;
-				for(int colIndex = 0; colIndex < gridRow.length; colIndex++)
+				for(int xCutIndex = 0; xCutIndex < gridRow.length; xCutIndex++)
 				{
-					emptyCols += (isRemoveEmptySpaceBetweenColumns && (!(xCuts.isCutNotEmpty(colIndex) || xCuts.isCutSpanned(colIndex))) ? 1 : 0);
+					emptyCols += (isRemoveEmptySpaceBetweenColumns && (!(xCuts.isCutNotEmpty(xCutIndex) || xCuts.isCutSpanned(xCutIndex))) ? 1 : 0);//FIXMEXLS we could do this only once
 					
-					JRExporterGridCell gridCell = gridRow[colIndex];
+					int colIndex = xCutIndex - emptyCols;
+					
+					JRExporterGridCell gridCell = gridRow[xCutIndex];
 
-					setCell(gridCell, colIndex, rowIndex);
+					//setCell(gridCell, colIndex, rowIndex);
 					
 					if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
 					{
@@ -1209,7 +1211,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					{
 						emptyCellColSpan++;
 						//emptyCellWidth += gridCell.getWidth();
-						addBlankCell(gridCell, colIndex, rowIndex);
+						if (!isRemoveEmptySpaceBetweenColumns)
+						{
+							addBlankCell(gridCell, colIndex, rowIndex);
+						}
 					}
 				}
 
@@ -1247,10 +1252,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			setAutoFilter(autoFilterEnd + ":" + autoFilterEnd);
 		}
 		
-		if (createXCuts)
-		{
-			updateColumns(xCuts);
-		}
+//		if (createXCuts)
+//		{
+//			updateColumns(xCuts);
+//		}
 		
 		setRowLevels(levelInfo, null);
 		
@@ -1337,21 +1342,26 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			? ratio 
 			: (columnWidthRatio > 0f ? columnWidthRatio : 1f);
 		
-		for(int col = 0; col < xCuts.size() - 1; col++)
+		int emptyCols = 0;
+		for(int xCutIndex = 0; xCutIndex < xCuts.size() - 1; xCutIndex++)
 		{
-			if (!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col)))
+			if (!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(xCutIndex) || xCuts.isCutSpanned(xCutIndex)))
 			{
 				Integer width = (Integer)xCutsProperties.get(PROPERTY_COLUMN_WIDTH);
 				width = 
 					width == null 
-					? (int)((xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col)) * sheetRatio) 
+					? (int)((xCuts.getCutOffset(xCutIndex + 1) - xCuts.getCutOffset(xCutIndex)) * sheetRatio) 
 					: width;  
 				
-				Map<String, Object> cutProperties = xCuts.getCut(col).getPropertiesMap();
+				Map<String, Object> cutProperties = xCuts.getCut(xCutIndex).getPropertiesMap();
 				boolean isAutoFit = cutProperties.containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN) 
 						&& (Boolean)cutProperties.get(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN);
 				
-				setColumnWidth(col, width, isAutoFit);
+				setColumnWidth(xCutIndex - emptyCols, width, isAutoFit);
+			}
+			else
+			{
+				emptyCols ++;
 			}
 		}
 	}
@@ -1367,25 +1377,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		if(isToApply)
 		{
 			setScale(sheetPageScale);
-		}
-	}
-
-	protected void updateColumns(CutsInfo xCuts)
-	{
-		for(int col = xCuts.size() - 1; col >= 0; col--)
-		{
-			Cut xCut = xCuts.getCut(col);
-			if (isRemoveEmptySpaceBetweenColumns && (!(xCut.isCutNotEmpty() || xCut.isCutSpanned())))
-			{
-				removeColumn(col);
-			}
-			Map<String, Object> cutProperties = xCuts.getCut(col).getPropertiesMap();
-			boolean isAutoFit = cutProperties.containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN) 
-					&& (Boolean)cutProperties.get(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN);
-			if (isAutoFit)
-			{
-				updateColumn(col, isAutoFit);
-			}
 		}
 	}
 
@@ -1873,10 +1864,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected abstract void setColumnWidth(int col, int width, boolean autoFit);
 	
-	protected abstract void removeColumn(int col);
-
-	protected abstract void updateColumn(int col, boolean autoFit);
-
 	protected abstract void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut, XlsRowLevelInfo levelInfo) throws JRException;
 
 	protected abstract void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex);

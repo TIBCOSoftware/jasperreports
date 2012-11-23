@@ -716,8 +716,6 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 
 	protected abstract void setColumnWidth(int col, int width, boolean autoFit);
 
-	protected abstract void removeColumn(int col);
-
 	protected void setRowHeight(int rowIndex, int lastRowHeight) throws JRException
 	{
 		setRowHeight(rowIndex, lastRowHeight, null, null);
