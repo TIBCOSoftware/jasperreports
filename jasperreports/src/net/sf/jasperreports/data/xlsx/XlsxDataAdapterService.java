@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.data.xlsx;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Map;
@@ -36,8 +34,6 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRXlsxDataSource;
 import net.sf.jasperreports.engine.query.JRXlsxQueryExecuterFactory;
-
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -79,7 +75,7 @@ public class XlsxDataAdapterService extends AbstractDataAdapterService
 				String numberPattern = xlsxDataAdapter.getNumberPattern();
 				if (xlsxDataAdapter.isQueryExecuterMode())
 				{	
-					parameters.put(JRXlsxQueryExecuterFactory.XLSX_WORKBOOK, new XSSFWorkbook(new FileInputStream(new File(xlsxDataAdapter.getFileName()))));//FIXMENOW check this
+					parameters.put(JRXlsxQueryExecuterFactory.XLSX_SOURCE, xlsxDataAdapter.getFileName());
 					if (datePattern != null && datePattern.length() > 0)
 					{
 						parameters.put( JRXlsxQueryExecuterFactory.XLSX_DATE_FORMAT, new SimpleDateFormat(datePattern) );
@@ -100,7 +96,7 @@ public class XlsxDataAdapterService extends AbstractDataAdapterService
 						parameters.put( JRXlsxQueryExecuterFactory.XLSX_COLUMN_INDEXES_ARRAY, indexes);
 					}
 				}else{				
-						JRXlsxDataSource ds = new JRXlsxDataSource(new File(xlsxDataAdapter.getFileName()));
+						JRXlsxDataSource ds = new JRXlsxDataSource(getJasperReportsContext(), xlsxDataAdapter.getFileName());
 						if (datePattern != null && datePattern.length() > 0)
 						{
 							ds.setDateFormat(new SimpleDateFormat(datePattern));
