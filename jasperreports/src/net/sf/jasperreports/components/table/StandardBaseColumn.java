@@ -194,6 +194,7 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		clone.printWhenExpression = JRCloneUtils.nullSafeClone(printWhenExpression);
 		//FIXMECLONE should we deal with propertyExpressions? check all
 		clone.eventSupport = null;
+		clone.uuid = null;
 		return clone;
 	}
 
