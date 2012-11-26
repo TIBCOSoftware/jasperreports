@@ -169,6 +169,7 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 		clone.parameters = JRCloneUtils.cloneArray(parameters);
 		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 		clone.returnValues = JRCloneUtils.cloneList(returnValues);
+		clone.uuid = null;
 
 		return clone;
 	}
