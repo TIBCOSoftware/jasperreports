@@ -124,7 +124,17 @@ public class JRPdfExporterTagHelper
 			PdfStructureTreeRoot root = pdfWriter.getStructureTreeRoot();
 			allTag = new PdfStructureElement(root, new PdfName("All"));
 			root.mapRole(new PdfName("All"), new PdfName("Sect"));
-			root.mapRole(new PdfName("Anchor"), PdfName.TEXT);
+			if(pdfWriter.getPDFXConformance() == PdfWriter.PDFA1A)
+			{
+				root.mapRole(new PdfName("Anchor"), PdfName.NONSTRUCT);
+				root.mapRole(PdfName.TEXT, PdfName.SPAN);
+				root.mapRole(PdfName.IMAGE, PdfName.FIGURE);
+			}
+			else
+			{
+				root.mapRole(new PdfName("Anchor"), PdfName.TEXT);
+			}
+			
 			String language = 
 				exporter.getStringParameter(
 						JRPdfExporterParameter.TAG_LANGUAGE,
