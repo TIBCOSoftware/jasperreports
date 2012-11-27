@@ -65,5 +65,10 @@ public interface JRXySeries extends JRCloneable
 	 * @return hyperlink specification for chart items
 	 */
 	public JRHyperlink getItemHyperlink();
+	
+	/**
+	 * 
+	 */
+	public Boolean getAutoSort();
 
 }

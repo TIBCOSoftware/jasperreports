@@ -54,6 +54,8 @@ public class JRDesignXySeries extends JRBaseXySeries implements JRChangeEventsSu
 	public static final String PROPERTY_X_VALUE_EXPRESSION = "xValueExpression";
 	
 	public static final String PROPERTY_Y_VALUE_EXPRESSION = "yValueExpression";
+	
+	public static final String PROPERTY_AUTO_SORT = "autoSort";
 
 	
 	/**
@@ -109,6 +111,17 @@ public class JRDesignXySeries extends JRBaseXySeries implements JRChangeEventsSu
 		this.itemHyperlink = itemHyperlink;
 		getEventSupport().firePropertyChange(PROPERTY_ITEM_HYPERLINK, old, this.itemHyperlink);
 	}
+
+	/**
+	 *
+	 */
+	public void setAutoSort(Boolean autoSort)
+	{
+		Object old = this.autoSort;
+		this.autoSort = autoSort;
+		getEventSupport().firePropertyChange(PROPERTY_AUTO_SORT, old, this.autoSort);
+	}
+
 
 	/**
 	 *
