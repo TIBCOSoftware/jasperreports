@@ -53,6 +53,7 @@ public class JRFillXySeries implements JRXySeries
 	private Number yValue;
 	private String label;
 	private JRPrintHyperlink itemHyperlink;
+	private Boolean autoSort;
 	
 	
 	/**
@@ -99,6 +100,15 @@ public class JRFillXySeries implements JRXySeries
 	public JRExpression getLabelExpression()
 	{
 		return parent.getLabelExpression();
+	}
+	
+	
+	/**
+	 *
+	 */
+	public Boolean getAutoSort()
+	{
+		return parent.getAutoSort();
 	}
 	
 	

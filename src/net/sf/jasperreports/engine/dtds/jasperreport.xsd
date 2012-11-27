@@ -4923,6 +4923,17 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:labelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:itemHyperlink" minOccurs="0" maxOccurs="1"/>
    </sequence>
+   <attribute name="autoSort" use="optional">
+	<annotation>
+ 	 <documentation>Auto sort values on x-axis.</documentation>
+	</annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
   </complexType>
  </element>
 

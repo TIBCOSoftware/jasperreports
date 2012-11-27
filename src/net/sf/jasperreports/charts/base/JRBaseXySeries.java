@@ -52,6 +52,7 @@ public class JRBaseXySeries implements JRXySeries, Serializable
 	protected JRExpression yValueExpression;
 	protected JRExpression labelExpression;
 	protected JRHyperlink itemHyperlink;
+	protected Boolean autoSort;
 
 	
 	/**
@@ -74,6 +75,7 @@ public class JRBaseXySeries implements JRXySeries, Serializable
 		yValueExpression = factory.getExpression(xySeries.getYValueExpression());
 		labelExpression = factory.getExpression(xySeries.getLabelExpression());
 		itemHyperlink = factory.getHyperlink(xySeries.getItemHyperlink());
+		autoSort = xySeries.getAutoSort();
 	}
 
 	
@@ -113,6 +115,11 @@ public class JRBaseXySeries implements JRXySeries, Serializable
 	public JRHyperlink getItemHyperlink()
 	{
 		return itemHyperlink;
+	}
+	
+	public Boolean getAutoSort()
+	{
+		return autoSort;
 	}
 	
 	/**

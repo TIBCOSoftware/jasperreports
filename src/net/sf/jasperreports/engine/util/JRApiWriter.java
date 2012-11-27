@@ -1649,7 +1649,10 @@ public class JRApiWriter
 		{
 			String xySeriesName = parentName + "XySeries" + index;
 			write( "JRDesignXySeries " + xySeriesName + " = new JRDesignXySeries();\n");
-	
+			if(xySeries.getAutoSort() != null)
+			{
+				write( xySeriesName + ".setAutoSort({0});\n", xySeries.getAutoSort());
+			}
 			writeExpression( xySeries.getSeriesExpression(), xySeriesName, "SeriesExpression");
 			writeExpression( xySeries.getXValueExpression(), xySeriesName, "XValueExpression");
 			writeExpression( xySeries.getYValueExpression(), xySeriesName, "YValueExpression");

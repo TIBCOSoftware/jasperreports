@@ -35,13 +35,20 @@ import org.xml.sax.Attributes;
  */
 public class JRXySeriesFactory extends JRBaseFactory
 {
+	private static final String ATTRIBUTE_autoSort = "autoSort";
 	
 	/**
 	 *
 	 */
 	public Object createObject(Attributes atts)
 	{
-		return new JRDesignXySeries();
+		JRDesignXySeries xySeries = new JRDesignXySeries();
+		String autoSort = atts.getValue( ATTRIBUTE_autoSort );
+		if( autoSort != null && autoSort.length() > 0 ){
+			xySeries.setAutoSort(Boolean.valueOf(autoSort) );
+		}
+		
+		return xySeries;
 	}
 
 }

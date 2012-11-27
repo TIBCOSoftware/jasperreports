@@ -147,7 +147,8 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 				XYSeries xySrs = seriesMap.get(seriesName);
 				if (xySrs == null)
 				{
-					xySrs =  new XYSeries(seriesName);
+					boolean autoSort = crtXySeries.getAutoSort() == null ? true : crtXySeries.getAutoSort();
+					xySrs =  new XYSeries(seriesName, autoSort);
 					seriesNames.add(seriesName);
 					seriesMap.put(seriesName, xySrs);
 				}
