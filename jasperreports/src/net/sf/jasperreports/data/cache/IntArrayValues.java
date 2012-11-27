@@ -94,7 +94,7 @@ public class IntArrayValues implements ColumnValues, Serializable
 
 		public Object get()
 		{
-			return (values[currentIndex] & 0xFFFFFFFF) * linearFactor + linearOffset;
+			return (values[currentIndex] & 0xFFFFFFFFL) * linearFactor + linearOffset;
 		}
 		
 	}
