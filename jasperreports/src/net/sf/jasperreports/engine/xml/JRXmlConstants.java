@@ -369,6 +369,11 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_seriesOrder = "seriesOrder";
 
 	/**
+	 * JRXySeries associated constants
+	 */
+	public static final String ATTRIBUTE_autoSort = "autoSort";
+
+	/**
 	 * JRConditionalStyleFactory associated constants
 	 */
 	public static final String ELEMENT_conditionalStyle = "conditionalStyle";

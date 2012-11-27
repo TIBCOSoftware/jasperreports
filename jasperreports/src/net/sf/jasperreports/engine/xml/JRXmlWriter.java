@@ -1496,7 +1496,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeXySeries(JRXySeries xySeries) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_xySeries);
-
+		if(isNewerVersionOrEqual(JRConstants.VERSION_5_0_1))
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_autoSort, xySeries.getAutoSort());
+		}
 		writeExpression(JRXmlConstants.ELEMENT_seriesExpression, xySeries.getSeriesExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_xValueExpression, xySeries.getXValueExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_yValueExpression, xySeries.getYValueExpression(), false);
