@@ -626,6 +626,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		// initializing cache because we need the cached parameter values
 		cacheInit();
 		
+		//FIXME do not call on default parameter value evaluation and when a data snapshot is used?
 		setFillParameterValues(parameterValues);
 		
 		// after we have the parameter values, init cache recording
