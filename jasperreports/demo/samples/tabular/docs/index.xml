@@ -148,10 +148,149 @@ Then the report will open in the JasperReports internal viewer.
 How to create tables in generated PDF documents using PDF tags.
     </description>
     <since>3.1.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
     <content>
-[Under Construction]
+<subtitle name="section508">Section 508 Compliance</subtitle>
+<br/>
+<br/>
+A PDF document can be structured in order to enable accessibility tools in PDF readers. Based on 
+specific hidden tags in their structure, documents can be read aloud to people with disabilities. 
+Tagged PDF files comply with the requirements of the Section 508 of the U.S. Rehabilitation Act
+(see <a href="http://www.section508.gov">http://www.section508.gov</a>).
+<br/>
+JasperReports supports Section 508 compliant PDF documents based on the PDF tags feature introduced in 
+v3.1.2. According to a set of built-in configuration properties, PDF tags required for accessibility are 
+added to the structure of generated documents.
+<br/>
+<br/>
+<subtitle name="tagged">Tagged PDF Output</subtitle>
+<br/>
+<br/>
+To enable accessibility in generated documents a set of export parameters are available in JasperReports 
+along with their related exporter hint properties:
+<ul>
+<li>Tagged Documents
+<ul>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_TAGGED">IS_TAGGED</api> - 
+Export parameter used to turn on the creation of hidden structural tags. By default the feature is turned off.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_TAGGED">net.sf.jasperreports.export.pdf.tagged</api> 
+- Exporter hint property used as default for the <code>IS_TAGGED</code> parameter above. It can be set at global or report level.<br/><br/></li>
+</ul>
+</li>
+<li>Tag Language
+<ul>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#TAG_LANGUAGE">TAG_LANGUAGE</api> - 
+Export parameter used to specify the language to be used in the language tag of the generated PDF.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_TAG_LANGUAGE">net.sf.jasperreports.export.pdf.tag.language</api> 
+- Exporter hint property used as default for the <code>TAG_LANGUAGE</code> parameter above. It can be set at global or report level.<br/><br/></li>
+</ul>
+</li>
+<li>Accessibility Tags
+<br/><br/>
+All properties in this category are set at element level and share the same set of possible values (excepting the column span and row span 
+properties, which accept numeric values only):<br/><br/>
+<ul>
+<li><code>start</code> - if this value is set, the element will be marked with a starting PDF tag corresponding to the property.</li>
+<li><code>full</code> - if this value is set, the element will be wrapped in a full PDF tag corresponding to the property.</li>
+<li><code>end</code> - if this value is set, the element will be marked with an ending PDF tag corresponding to the property.<br/><br/></li>
+</ul>
+Available properties related to PDF accessibility tags are enumerated below:<br/><br/>
+<ul>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H1">net.sf.jasperreports.export.pdf.tag.h1</api> 
+- Property used to mark a text field as a level 1 heading.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H2">net.sf.jasperreports.export.pdf.tag.h2</api> 
+- Property used to mark a text field as a level 2 heading.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H3">net.sf.jasperreports.export.pdf.tag.h3</api> 
+- Property used to mark a text field as a level 3 heading.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TABLE">net.sf.jasperreports.export.pdf.tag.table</api> 
+- Property used to indicate where the table starts and where it ends in the report template.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TH">net.sf.jasperreports.export.pdf.tag.th</api> 
+- Property used to mark heading cells in a table.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TR">net.sf.jasperreports.export.pdf.tag.tr</api> 
+- Property used to indicate where a table row starts and where it ends in the report template.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TD">net.sf.jasperreports.export.pdf.tag.td</api> 
+- Property used to mark detail cells in a table.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_COLSPAN">net.sf.jasperreports.export.pdf.tag.colspan</api> 
+- Property used to indicate the column span of a table cell. Allowed values are positive integers.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_ROWSPAN">net.sf.jasperreports.export.pdf.tag.rowspan</api> 
+- Property used to indicate the row span of a table cell. Allowed values are positive integers.</li>
+</ul>
+</li>
+</ul>
+<subtitle name="reading">Alternate Text for Images and Reading Order</subtitle>
+<br/>
+<br/>
+Accessible documents must provide also an alternate text for images and an appropriate reading order. In JasperReports the alternate text for images 
+is specified in the <code>&lt;hyperlinkTooltipExpression/&gt;</code> of the image element.
+<br/>
+The reading order is processed using the Z-order of elements as present in the report template. No additional processing is necessary here.
+<br/><br/>
+To find out more about tagged PDF output see the "Section 508 Compliance" chapter in the JasperReports Ultimate Guide.
+<br/>
+<br/>
+<subtitle name="taggedsample">Tags in Tabular Sample</subtitle>
+<br/>
+<br/>
+In the tabular sample one can notice the presence of all properties enumerated above, with their values depending on the element's 
+position within the table. Properties are listed below in the same order they are defined in the report template:
+<pre><![CDATA[
+<property name="net.sf.jasperreports.export.pdf.tagged" value="true"/>
+<property name="net.sf.jasperreports.export.pdf.tag.language" value="EN-US"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.h1" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.table" value="start"/>
+<property name="net.sf.jasperreports.export.pdf.tag.tr" value="start"/>
+<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+<property name="net.sf.jasperreports.export.pdf.tag.rowspan" value="2"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+<property name="net.sf.jasperreports.export.pdf.tag.rowspan" value="2"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+<property name="net.sf.jasperreports.export.pdf.tag.rowspan" value="2"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+<property name="net.sf.jasperreports.export.pdf.tag.colspan" value="2"/>
+<property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.tr" value="start"/>
+<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+<property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.tr" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.tr" value="start"/>
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+<property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
+<property name="net.sf.jasperreports.export.pdf.tag.table" value="end"/>]]></pre>
+The generated PDF document is Section 508 compliant and can be read aloud by dedicated reader tools.
     </content>
   </feature>
-
 
 </sample>
