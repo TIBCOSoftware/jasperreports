@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -440,6 +441,15 @@ public class JRExpressionCollector
 		return new ArrayList<JRExpression>(generatedIds.expressions());
 	}
 
+	/**
+	 * Return all the expressions collected from the report.
+	 * 
+	 * @return all the expressions collected from the report
+	 */
+	public Collection<JRExpression> getReportExpressions()
+	{
+		return Collections.unmodifiableSet(expressionIds.keySet());
+	}
 
 	/**
 	 * Returns the expressions collected for a dataset.
