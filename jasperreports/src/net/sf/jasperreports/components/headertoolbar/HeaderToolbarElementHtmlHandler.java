@@ -102,10 +102,12 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 	private static final String DEFAULT_DATE_PATTERN_BUNDLE = "net.sf.jasperreports.components.messages";
 	private static final String DEFAULT_DATE_PATTERN_KEY = "net.sf.jasperreports.components.date.pattern";
 	private static final String DEFAULT_CALENDAR_DATE_PATTERN_KEY = "net.sf.jasperreports.components.calendar.date.pattern";
+	private static final String DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY = "net.sf.jasperreports.components.calendar.date.time.pattern";
 	private static final String DATE_PATTERN_BUNDLE = DEFAULT_DATE_PATTERN_KEY + ".bundle";
 	private static final String DATE_PATTERN_KEY = DEFAULT_DATE_PATTERN_KEY + ".key";
 	private static final String CALENDAR_DATE_PATTERN_BUNDLE = DEFAULT_CALENDAR_DATE_PATTERN_KEY + ".bundle";
 	private static final String CALENDAR_DATE_PATTERN_KEY = DEFAULT_CALENDAR_DATE_PATTERN_KEY + ".key";
+	private static final String CALENDAR_DATE_TIME_PATTERN_KEY = DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY + ".key";
 	
 //	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.js";
 	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.js";
@@ -262,6 +264,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				
 				String filterPattern = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_PATTERN);
 				String calendarPattern = null;
+				String calendarTimePattern = null;
 				if (filterPattern == null) {
 					filterPattern = "";
 				}
@@ -306,6 +309,13 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 						calendarDatePatternKey = DEFAULT_CALENDAR_DATE_PATTERN_KEY;
 					}
 					calendarPattern = getBundleMessage(calendarDatePatternKey, jrContext, calendarDatePatternBundleName, locale);
+
+					String calendarDateTimePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_TIME_PATTERN_KEY);
+					if (calendarDateTimePatternKey == null)
+					{
+						calendarDateTimePatternKey = DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY;
+					}
+					calendarTimePattern = getBundleMessage(calendarDateTimePatternKey, jrContext, calendarDatePatternBundleName, locale);
 					
 					break;
 				case TEXT:
@@ -365,6 +375,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				filterData.setFilterType(filterType.getName());
 				filterData.setFilterPattern(filterPattern);
 				filterData.setCalendarPattern(calendarPattern);
+				filterData.setCalendarTimePattern(calendarTimePattern);
 				filterData.setFieldValueStart(filterValueStart);
 				filterData.setFieldValueEnd(filterValueEnd);
 				filterData.setFilterTypeOperator(filterTypeOperatorValue);
@@ -388,6 +399,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				cfData.setTableUuid(tableUUID);
 				cfData.setConditionType(filterType.getName());
 				cfData.setCalendarPattern(calendarPattern);
+				cfData.setCalendarTimePattern(calendarTimePattern);
 				cfData.setConditionPattern(filterPattern);
 				cfData.setColumnType(columnType);
 				cfData.setFieldOrVariableName(fieldOrVariableName);

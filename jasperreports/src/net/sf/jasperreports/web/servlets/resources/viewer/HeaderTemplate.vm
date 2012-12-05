@@ -8,6 +8,7 @@
 	</style>
    	<script src='${contextPath}/jquery/js/jquery-1.7.1.min.js'></script>
    	<script src='${contextPath}/jquery/js/jquery-ui-1.8.18.custom.min.js'></script>
+   	<script src='${contextPath}/jquery/js/jquery-ui-timepicker-addon.js'></script>
    	<script src='${jasperreports_global_js}'></script>
    	<script src='${jasperreports_reportViewerToolbar_js}'></script>
    	<script>
