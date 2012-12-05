@@ -353,7 +353,7 @@
 			isJson = isJson || true;
 		
 		if (typeof actionData === 'object') {
-			actionData = gm.toJsonString(actionData);
+			actionData = gm.toJsonString(actionData, true);
 		}
 		
 		if (callback === undefined) { // only when it's not supplied as function parameter
