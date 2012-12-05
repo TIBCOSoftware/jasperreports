@@ -500,7 +500,7 @@ jQuery.noConflict();
 		};
 		
 		jg.escapeString = function(str) {
-			return encodeURIComponent(str.replace(/(\n)|(\r)|(\t)|(\b)/g, '').replace(/\"/g, '\\\"'));
+			return str.replace(/\\/g,'\\\\').replace(/\"/g, '\\\"');
 		};
 		
 		jg.toJsonString = function(object, boolEscapeStrings) {
@@ -513,7 +513,7 @@ jQuery.noConflict();
 				case '[object Array]':
 					result += "[";
 					for (i = 0, ln = object.length; i < ln; i++) {
-						result += jg.toJsonString(object[i]);
+						result += jg.toJsonString(object[i], bEscapeStrings);
 						if (i < ln -1) {
 							result += ",";
 						}
@@ -525,17 +525,13 @@ jQuery.noConflict();
 					result += "{";
 					for (property in object) {
 						if (object.hasOwnProperty(property) && object[property] != null) {
-							result += "\"" + property + "\":" + jg.toJsonString(object[property]) + ",";
+							result += "\"" + property + "\":" + jg.toJsonString(object[property], bEscapeStrings) + ",";
 						}
 					}
 					if (result.indexOf(",") != -1) {
 						result = result.substring(0, result.lastIndexOf(","));
 					}
 					result += "}";
-					break;
-
-				case '[object Function]':
-					result += "\"" + jg.escapeString(object.toString()) + "\"";
 					break;
 
 				case '[object String]':

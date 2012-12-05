@@ -608,7 +608,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				JRDesignTextElement textElement = TableUtil.getColumnHeaderTextElement(column);
 				
 				if (textElement != null) {
-					colHeaderData.setHeadingName(JRStringUtil.escapeJavaScript(sortColumnLabel));
+					colHeaderData.setHeadingName(sortColumnLabel);
 					colHeaderData.setColumnIndex(columnIndex);
 					colHeaderData.setTableUuid(tableUuid);
 					HeaderToolbarElementUtils.copyTextElementStyle(colHeaderData, textElement);
@@ -637,7 +637,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				JRDesignTextField textElement = (JRDesignTextField)TableUtil.getColumnDetailTextElement(column);
 				
 				if (textElement != null) {
-					colValueData.setHeadingName(JRStringUtil.escapeJavaScript(sortColumnLabel));
+					colValueData.setHeadingName(sortColumnLabel);
 					colValueData.setColumnIndex(columnIndex);
 					colValueData.setTableUuid(tableUuid);
 					HeaderToolbarElementUtils.copyTextFieldStyle(colValueData, textElement);

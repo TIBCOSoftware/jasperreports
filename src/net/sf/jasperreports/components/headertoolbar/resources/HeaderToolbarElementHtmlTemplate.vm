@@ -162,13 +162,13 @@
 			extension: [
 			#set ($extFontSize=$fontExtensionsFontNames.size())
 			#foreach ($fontName in ${fontExtensionsFontNames})
-	        	'$JRStringUtil.escapeJavaScript($fontName)' #if($velocityCount<$extFontSize),#end
+	        	"$JRStringUtil.escapeString4JavaScript($fontName)" #if($velocityCount<$extFontSize),#end
 			#end
 			],
 			system: [
 			#set ($sysFontSize=$systemFontNames.size())
 			#foreach ($fontName in ${systemFontNames})
-				'$JRStringUtil.escapeJavaScript($fontName)' #if($velocityCount<$sysFontSize),#end
+				"$JRStringUtil.escapeString4JavaScript($fontName)" #if($velocityCount<$sysFontSize),#end
 			#end
 			]
 		}
@@ -189,7 +189,7 @@
         selector: '.columnHeader',
         proxySelector: '.column',
         columnIndex: ${columnIndex},
-        columnLabel: '$JRStringUtil.escapeJavaScript(${columnLabel})',
+        columnLabel: "$JRStringUtil.escapeString4JavaScript(${columnLabel})",
         filterData: '{"actionName":"filter"}',
         clearData: '{"actionName":"filter","filterData":{"clearFilter":true}}',
         #if (!${canSort})
@@ -205,7 +205,7 @@
                 sortDescBtn: {sortData: '{"actionName":"sort","sortData":${sortDescData}}'}
             },
             filtering: {
-                filterColumnNameLabel: '$JRStringUtil.escapeJavaScript(${filterColumnNameLabel})',
+                filterColumnNameLabel: "$JRStringUtil.escapeString4JavaScript(${filterColumnNameLabel})",
                 filterOperatorTypeValueSelector: [
                     #foreach( $entry in ${filterTypeValuesMap.entrySet()} )
                         {key: "$entry.key", val: "$entry.value"},

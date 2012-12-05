@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.web.commands.Command;
 
 /**
@@ -80,7 +81,7 @@ public class EditColumnHeaderCommand implements Command
 				if (oldText == null) {
 					oldText = ((JRDesignExpression)designTextField.getExpression()).getText();
 				}
-				((JRDesignExpression)designTextField.getExpression()).setText("\"" + headerData.getHeadingName() + "\"");
+				((JRDesignExpression)designTextField.getExpression()).setText("\"" + JRStringUtil.escapeJavaStringLiteral(headerData.getHeadingName()) + "\"");
 			} else {
 				((JRDesignExpression)designTextField.getExpression()).setText(oldText);
 			}
