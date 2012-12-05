@@ -723,13 +723,15 @@ jive.interactive.column.columnFilterForm = {
             var pickerOptions = {
                 changeMonth: true,
                 changeYear: true,
-                dateFormat: metadata.calendarPattern
+                dateFormat: metadata.calendarPattern,
+                timeFormat: metadata.calendarTimePattern,
+                showSecond: true
             }
-            it.jc.filterStart.datepicker(pickerOptions);
-            it.jc.filterEnd.datepicker(pickerOptions);
+            it.jc.filterStart.datetimepicker(pickerOptions);
+            it.jc.filterEnd.datetimepicker(pickerOptions);
         } else {
-            it.jc.filterStart.datepicker('destroy');
-            it.jc.filterEnd.datepicker('destroy');
+            it.jc.filterStart.datetimepicker('destroy');
+            it.jc.filterEnd.datetimepicker('destroy');
         }
     },
     submit:function(){
@@ -1182,6 +1184,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
     addFormatCondition: function(jo, conditionData) {
     	var conditionType =  jive.selected.ie.conditionalFormatting.conditionType.toLowerCase(),
     		calendarPattern = jive.selected.ie.conditionalFormatting.calendarPattern,
+    		calendarTimePattern = jive.selected.ie.conditionalFormatting.calendarTimePattern,
     		form = jo.closest('form'),
     		table = form.find('table:eq(1)'),
     		tr = [],
@@ -1208,10 +1211,12 @@ jive.interactive.column.columnConditionalFormattingForm = {
             var pickerOptions = {
                 changeMonth: true,
                 changeYear: true,
-                dateFormat: calendarPattern
+                dateFormat: calendarPattern,
+                timeFormat: calendarTimePattern,
+                showSecond: true
             }
-            row.find('input[name=conditionStart]').datepicker(pickerOptions);
-            row.find('input[name=conditionEnd]').datepicker(pickerOptions);
+            row.find('input[name=conditionStart]').datetimepicker(pickerOptions);
+            row.find('input[name=conditionEnd]').datetimepicker(pickerOptions);
         } else if (conditionType === 'boolean') {
         	row.find('input[name=conditionStart]').prop('disabled', true);
         	row.find('input[name=conditionStart]').closest('td').hide();
