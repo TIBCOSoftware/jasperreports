@@ -29,7 +29,7 @@ jive.interactive.column = jive.interactive.column || {
     delta: null,
 
     init: function(allColumns, tableUuid){
-        var t,c,colData,lt,i,j,it = this;
+        var tablesWithSameUuid,t,c,colData,lt,i,j,it = this;
         it.allColumns[tableUuid] = allColumns;
         /*
          * Load dynamic form data
@@ -60,7 +60,21 @@ jive.interactive.column = jive.interactive.column || {
         it.visibleColumnsMoveData[tableUuid] = [];
         it.dropColumns[tableUuid] = [];
 
-        t = jQuery('.jrtableframe[data-uuid=' + tableUuid + ']').eq(0);
+        tablesWithSameUuid = jQuery('.jrtableframe[data-uuid=' + tableUuid + ']');
+        
+        /*
+         * A table in detail band(or table in subreport in detail band) would have the same UUID for all iterations,
+         * so we would need the first table that actually has columns in it 
+         */
+        if (tablesWithSameUuid.size() == 1) {
+        	t = tablesWithSameUuid.eq(0);
+        } else if (tablesWithSameUuid.size() > 1) {
+        	for (i = 0; i < tablesWithSameUuid.size(); i++) {
+        		t = tablesWithSameUuid.eq(i);
+        		if (t.find('.columnHeader').size() > 0) break;
+        	}
+        }
+        
         t.find('.columnHeader').each(function(i){
             c = jQuery(this);
             lt = c.offset().left;
