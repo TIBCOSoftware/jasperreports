@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
 /**
@@ -61,7 +62,7 @@ public class XlsxWorkbookHelper extends BaseHelper
 	 */
 	public void exportSheet(int index, String name)
 	{
-		write("  <sheet name=\"" + name + "\" sheetId=\"" + index + "\" r:id=\"rId" + index + "\"/>\n");
+		write("  <sheet name=\"" + JRStringUtil.xmlEncode(name) + "\" sheetId=\"" + index + "\" r:id=\"rId" + index + "\"/>\n");
 	}
 	
 
