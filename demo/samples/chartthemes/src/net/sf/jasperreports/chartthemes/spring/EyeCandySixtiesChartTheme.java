@@ -722,7 +722,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		// Actually create the chart around the plot
 		JFreeChart jfreeChart =
 			new JFreeChart(
-				(String)evaluateExpression(getChart().getTitleExpression()),
+				evaluateTextExpression(getChart().getTitleExpression()),
 				null,
 				chartPlot,
 				getChart().getShowLegend() == null ? false : getChart().getShowLegend().booleanValue()
@@ -1039,7 +1039,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 
 		JFreeChart jfreeChart =
 		new JFreeChart(
-			(String)evaluateExpression(getChart().getTitleExpression()),
+			evaluateTextExpression(getChart().getTitleExpression()),
 			null,
 			dialPlot,
 			getChart().getShowLegend() == null ? false : getChart().getShowLegend().booleanValue()
