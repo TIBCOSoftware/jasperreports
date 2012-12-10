@@ -591,7 +591,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				
 				if (textElement != null) {
 					JRPropertiesMap propertiesMap = textElement.getPropertiesMap();
-					if (propertiesMap.containsProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY)) {
+					if (propertiesMap.containsProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY) && propertiesMap.getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY) != null) {
 						result = JacksonUtil.getInstance(jasperReportsContext).loadObject(propertiesMap.getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY), ConditionalFormattingData.class);
 					}
 				}
