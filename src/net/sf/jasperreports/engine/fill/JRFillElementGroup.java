@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 
 
 /**
@@ -292,6 +293,11 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitElementGroup(this);
+		
+		if (ElementsVisitorUtils.visitDeepElements(visitor))
+		{
+			ElementsVisitorUtils.visitElements(visitor, children);
+		}
 	}
 
 	

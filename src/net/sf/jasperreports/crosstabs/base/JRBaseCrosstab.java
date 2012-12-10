@@ -29,6 +29,7 @@ import java.io.ObjectInputStream;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.JRCrosstabCell;
@@ -51,6 +52,7 @@ import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
@@ -235,6 +237,11 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitCrosstab(this);
+		
+		if (ElementsVisitorUtils.visitDeepElements(visitor))
+		{
+			new CrosstabDeepVisitor(visitor).deepVisitCrosstab(this);
+		}
 	}
 
 	public int getColumnBreakOffset()

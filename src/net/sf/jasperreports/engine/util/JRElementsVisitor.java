@@ -23,21 +23,11 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-import net.sf.jasperreports.crosstabs.JRCellContents;
-import net.sf.jasperreports.crosstabs.JRCrosstab;
-import net.sf.jasperreports.crosstabs.JRCrosstabCell;
-import net.sf.jasperreports.crosstabs.JRCrosstabColumnGroup;
-import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
-import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
+import net.sf.jasperreports.engine.ElementsVisitor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChild;
-import net.sf.jasperreports.engine.JRElementGroup;
-import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRSection;
@@ -52,7 +42,7 @@ import net.sf.jasperreports.engine.JRVisitor;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRElementsVisitor extends JRDelegationVisitor
+public class JRElementsVisitor extends JRDelegationVisitor implements ElementsVisitor
 {
 
 	/**
@@ -75,6 +65,12 @@ public class JRElementsVisitor extends JRDelegationVisitor
 	public JRElementsVisitor(JRVisitor visitor)
 	{
 		super(visitor);
+	}
+
+	@Override
+	public boolean visitDeepElements()
+	{
+		return true;
 	}
 
 	/**
@@ -132,96 +128,6 @@ public class JRElementsVisitor extends JRDelegationVisitor
 
 	protected void visitElements(List<JRChild> elements)
 	{
-		if (elements != null)
-		{
-			for (Iterator<JRChild> it = elements.iterator(); it.hasNext();)
-			{
-				JRChild child = it.next();
-				child.visit(this);
-			}
-		}
-	}
-	
-	/**
-	 * Visits the element group and all its children.
-	 */
-	public void visitElementGroup(JRElementGroup elementGroup)
-	{
-		super.visitElementGroup(elementGroup);
-		visitElements(elementGroup.getChildren());
-	}
-
-	/**
-	 * Visits the frame and all its children. 
-	 */
-	public void visitFrame(JRFrame frame)
-	{
-		super.visitFrame(frame);
-		visitElements(frame.getChildren());
-	}
-
-	/**
-	 * Visits the crosstab and the elements in all its cells.
-	 */
-	public void visitCrosstab(JRCrosstab crosstab)
-	{
-		super.visitCrosstab(crosstab);
-		
-		visitCrosstabCell(crosstab.getWhenNoDataCell());
-		visitCrosstabCell(crosstab.getHeaderCell());
-		
-		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
-		for (int i = 0; i < rowGroups.length; i++)
-		{
-			JRCrosstabRowGroup rowGroup = rowGroups[i];
-			visitCrosstabCell(rowGroup.getHeader());
-			visitCrosstabCell(rowGroup.getTotalHeader());
-		}
-		
-		JRCrosstabColumnGroup[] columnGroups = crosstab.getColumnGroups();
-		for (int i = 0; i < columnGroups.length; i++)
-		{
-			JRCrosstabColumnGroup columnGroup = columnGroups[i];
-			visitCrosstabCell(columnGroup.getHeader());
-			visitCrosstabCell(columnGroup.getTotalHeader());
-		}
-		
-		if (crosstab instanceof JRDesignCrosstab)
-		{
-			List<JRCrosstabCell> cells = ((JRDesignCrosstab) crosstab).getCellsList();
-			for (Iterator<JRCrosstabCell> it = cells.iterator(); it.hasNext();)
-			{
-				JRCrosstabCell cell = it.next();
-				visitCrosstabCell(cell.getContents());
-			}
-		}
-		else
-		{
-			JRCrosstabCell[][] cells = crosstab.getCells();
-			if (cells != null)
-			{
-				Set<JRCellContents> cellContents = new HashSet<JRCellContents>();
-				for (int i = 0; i < cells.length; i++)
-				{
-					for (int j = 0; j < cells[i].length; j++)
-					{
-						JRCrosstabCell cell = cells[i][j];
-						if (cell != null && cell.getContents() != null
-								&& cellContents.add(cell.getContents()))
-						{
-							visitCrosstabCell(cell.getContents());
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	protected void visitCrosstabCell(JRCellContents cell)
-	{
-		if (cell != null)
-		{
-			visitElements(cell.getChildren());
-		}
+		ElementsVisitorUtils.visitElements(this, elements);
 	}
 }
