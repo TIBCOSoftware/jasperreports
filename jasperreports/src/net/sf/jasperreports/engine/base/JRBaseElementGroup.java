@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 
 
 /**
@@ -198,6 +199,11 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitElementGroup(this);
+		
+		if (ElementsVisitorUtils.visitDeepElements(visitor))
+		{
+			ElementsVisitorUtils.visitElements(visitor, children);
+		}
 	}
 
 

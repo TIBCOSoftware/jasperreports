@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -390,6 +391,11 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitFrame(this);
+		
+		if (ElementsVisitorUtils.visitDeepElements(visitor))
+		{
+			ElementsVisitorUtils.visitElements(visitor, getChildren());
+		}
 	}
 	
 	

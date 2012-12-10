@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
@@ -85,6 +86,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 import org.jfree.data.general.Dataset;
@@ -740,6 +742,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitCrosstab(this);
+		
+		if (ElementsVisitorUtils.visitDeepElements(visitor))
+		{
+			new CrosstabDeepVisitor(visitor).deepVisitCrosstab(this);
+		}
 	}
 
 	public int getId()
