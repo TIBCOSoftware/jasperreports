@@ -28,6 +28,7 @@ import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.component.BaseComponentContext;
 import net.sf.jasperreports.engine.component.Component;
@@ -100,6 +101,11 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitComponentElement(this);
+		
+		if (component instanceof JRVisitable)
+		{
+			((JRVisitable) component).visit(visitor);
+		}
 	}
 
 	public Component getComponent()

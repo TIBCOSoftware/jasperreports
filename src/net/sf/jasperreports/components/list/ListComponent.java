@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.list;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRDatasetRun;
+import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 
@@ -35,7 +36,7 @@ import net.sf.jasperreports.engine.type.PrintOrderEnum;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface ListComponent extends Component, JRCloneable
+public interface ListComponent extends Component, JRCloneable, JRVisitable
 {
 
 	/**

@@ -30,10 +30,12 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
+import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -204,6 +206,15 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
 			printOrderValue = PrintOrderEnum.getByValue(printOrder);
+		}
+	}
+
+	@Override
+	public void visit(JRVisitor visitor)
+	{
+		if (ElementsVisitorUtils.visitDeepElements(visitor) && contents != null)
+		{
+			ElementsVisitorUtils.visitElements(visitor, contents.getChildren());
 		}
 	}
 	

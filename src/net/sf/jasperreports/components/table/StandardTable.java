@@ -27,12 +27,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.components.table.util.ColumnElementsVisitor;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -165,6 +168,19 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 		}
 		
 		return eventSupport;
+	}
+
+	@Override
+	public void visit(JRVisitor visitor)
+	{
+		if (ElementsVisitorUtils.visitDeepElements(visitor))
+		{
+			ColumnElementsVisitor columnElementsVisitor = new ColumnElementsVisitor(visitor);
+			for (BaseColumn column : columns)
+			{
+				column.visitColumn(columnElementsVisitor);
+			}
+		}
 	}
 	
 }
