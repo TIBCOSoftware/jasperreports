@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
@@ -199,6 +200,12 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitComponentElement(this);
+
+		// visiting the fill component, not the parent component
+		if (fillComponent instanceof JRVisitable)
+		{
+			((JRVisitable) fillComponent).visit(visitor);
+		}
 	}
 
 	public JRFillCloneable createClone(JRFillCloneFactory factory)

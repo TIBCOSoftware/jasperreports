@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
@@ -79,6 +80,11 @@ public class JRBaseComponentElement extends JRBaseElement implements
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitComponentElement(this);
+		
+		if (component instanceof JRVisitable)
+		{
+			((JRVisitable) component).visit(visitor);
+		}
 	}
 
 }
