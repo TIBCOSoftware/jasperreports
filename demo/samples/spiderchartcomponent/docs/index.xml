@@ -74,10 +74,10 @@ In the <code>&lt;chartSettings&gt;</code> element one can configure the followin
 <li><code>jr:hyperlinkTooltipExpression</code></li>
 <li><code>jr:hyperlinkParameter</code></li>
 </ul>
-<b>Note:</b>In a regular JRXML file the <code>jr:</code> prefix may be omitted.
+<b>Note:</b> In a regular JRXML file the <code>jr:</code> prefix may be omitted.
 <br/>
 <br/>
-The attributes below are also available for the <code>&lt;chartSettings&gt;</code> element, with the same meaning as in usual JR charts:
+The attributes below are also available for the <code>&lt;chartSettings&gt;</code> element, with similar meanings as in usual JR charts:
 <ul>
 <li><code>isShowLegend</code></li>
 <li><code>backcolor</code></li>
@@ -87,6 +87,18 @@ The attributes below are also available for the <code>&lt;chartSettings&gt;</cod
 <li><code>customizerClass</code></li>
 <li><code>renderType</code></li>
 </ul>
+<b>Note:</b> The main difference here is that the chart customizer must be an implementation of the 
+<api href="net/sf/jasperreports/components/charts/ChartCustomizer.html">ChartCustomizer</api> interface that exposes 
+the <code>public void customize(JFreeChart chart, ChartComponent chartComponent)</code> method adapted for chart components. 
+The easiest way to implement this interface is by extending the context-aware 
+<api href="net/sf/jasperreports/components/charts/AbstractChartCustomizer.html">AbstractChartCustomizer</api> class in order to
+get access to the component element with its properties, for a completely flexible chart customization:
+<pre><![CDATA[
+  public void customize(JFreeChart chart, ChartComponent chartComponent)
+  {
+    JRElement element = chartComponent.getContext().getComponentElement();
+    //other customizations here
+  }]]></pre>
 Here is the XSD schema fragment:
 <pre><![CDATA[
 <element name="chartSettings">
