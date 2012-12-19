@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-chart-themes</artifactId>
-	<version>4.8.0-SNAPSHOT</version>
+	<version>5.0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Chart Themes</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -17,7 +17,7 @@
 	</licenses>
 	<scm>
 		<connection>scm:svn:http://jasperforge.org/svn/repos/jasperreports</connection>
-		<tag>jr-4-8-0</tag>
+		<tag>jr-5-0-2</tag>
 		<url>http://jasperforge.org/scm/viewvc.php/?root=jasperreports</url>
 	</scm>
 	<repositories>
@@ -80,7 +80,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>4.8.0-SNAPSHOT</version>
+			<version>5.0.2-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
