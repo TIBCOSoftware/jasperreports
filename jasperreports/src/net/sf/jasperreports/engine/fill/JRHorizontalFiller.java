@@ -1116,7 +1116,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		{
 			if (
 				!isSummaryNewPage
-				&& columnIndex == 0
+				//&& columnIndex == 0
 				&& summary.getBreakHeight() <= columnFooterOffsetY - offsetY
 				)
 			{
@@ -1305,7 +1305,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 	{
 		if (
 			!isSummaryNewPage
-			&& columnIndex == 0
+			//&& columnIndex == 0
 			&& summary.getBreakHeight() <= columnFooterOffsetY - offsetY
 			)
 		{
@@ -1368,7 +1368,9 @@ public class JRHorizontalFiller extends JRBaseFiller
 				//DONE
 			}
 		}
-		else if (columnIndex == 0 && offsetY <= lastPageColumnFooterOffsetY)
+		else if (
+				//columnIndex == 0 && 
+				offsetY <= lastPageColumnFooterOffsetY)
 		{
 			summary.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
@@ -1487,7 +1489,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 	{
 		if (
 			!isSummaryNewPage
-			&& columnIndex == 0
+			//&& columnIndex == 0
 			&& summary.getBreakHeight() <= lastPageColumnFooterOffsetY - offsetY
 			)
 		{
@@ -1547,7 +1549,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		}
 		else if (
 			!isSummaryNewPage
-			&& columnIndex == 0
+			//&& columnIndex == 0
 			&& summary.getBreakHeight() <= columnFooterOffsetY - offsetY
 			)
 		{
@@ -1642,7 +1644,9 @@ public class JRHorizontalFiller extends JRBaseFiller
 				//DONE
 			}
 		}
-		else if (columnIndex == 0 && offsetY <= lastPageColumnFooterOffsetY)
+		else if (
+				//columnIndex == 0 && 
+				offsetY <= lastPageColumnFooterOffsetY)
 		{
 			setLastPageFooter(true);
 
