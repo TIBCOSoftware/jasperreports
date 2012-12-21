@@ -125,4 +125,9 @@ public class JRMondrianQueryExecuter extends JRAbstractQueryExecuter
 	{
 		return false;
 	}
+
+	public Result getResult()
+	{
+		return result;
+	}
 }
