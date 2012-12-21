@@ -740,9 +740,13 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	{
 		if (section != null)
 		{
-			for (JRBand band : section.getBands())
+			JRBand[] sectionBands = section.getBands();
+			if (sectionBands != null)
 			{
-				addBand(band, bands);
+				for (JRBand band : sectionBands)
+				{
+					addBand(band, bands);
+				}
 			}
 		}
 	}
