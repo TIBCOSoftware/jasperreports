@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
@@ -54,6 +55,7 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
+import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -439,6 +441,13 @@ public class JROdsExporter extends JROpenDocumentExporter
 					JROpenDocumentExporterParameter.PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT,
 					false
 					);
+	}
+
+	@Override
+	protected JRStyledText getStyledText(JRPrintText textElement)
+	{
+		// export full text
+		return textElement.getFullStyledText(allSelector);
 	}
 	
 }
