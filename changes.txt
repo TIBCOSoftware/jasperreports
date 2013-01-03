@@ -2,8 +2,12 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 5.0.1 (2012-12-xx, SVN xxxx)
+JasperReports 5.0.1 (2013-01-03)
 ---------------------------------------------
+
+- eliminate empty collapsed columns in XLS/XLSX exporters;
+
+- XLS/XLSX data adapter improvements;
 
 - minor bug fixes and improvements;
 
