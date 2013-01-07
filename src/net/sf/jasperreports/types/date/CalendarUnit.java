@@ -28,7 +28,7 @@ import java.util.Map;
 
 /**
  * @author schubar
- * @version $Id: AbstractDateRange.java 24936 2012-09-19 16:40:51Z sergey.prilukin $
+ * @version $Id$
  */
 public enum CalendarUnit 
 {

@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRStyledText.java 5521 2012-07-30 13:25:30Z teodord $
+ * @version $Id$
  */
 public class JRStyledTextUtil
 {

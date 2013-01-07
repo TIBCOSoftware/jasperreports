@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRConstants.java 5180 2012-03-29 13:23:12Z teodord $
+ * @version $Id$
  */
 public final class WebUtil
 {

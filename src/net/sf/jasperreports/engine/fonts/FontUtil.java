@@ -49,7 +49,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRFontUtil.java 5180 2012-03-29 13:23:12Z teodord $
+ * @version $Id$
  */
 public final class FontUtil
 {

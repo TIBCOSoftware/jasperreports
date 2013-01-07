@@ -46,7 +46,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: MapFillComponent.java 5711 2012-10-05 06:28:03Z teodord $
+ * @version $Id$
  */
 public class MapFillComponent extends BaseFillComponent
 {

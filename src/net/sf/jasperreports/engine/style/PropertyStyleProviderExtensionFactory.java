@@ -33,7 +33,7 @@ import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
  * Extension factory for {@link PropertyStyleProviderFactory}.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: HeaderToolbarParameterContributorExtensionFactory.java 5050 2012-03-12 10:11:26Z teodord $
+ * @version $Id$
  */
 public class PropertyStyleProviderExtensionFactory implements ExtensionsRegistryFactory
 {

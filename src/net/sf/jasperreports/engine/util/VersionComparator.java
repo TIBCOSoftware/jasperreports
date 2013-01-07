@@ -27,7 +27,7 @@ import java.util.Comparator;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRXmlWriteHelper.java 5647 2012-09-11 15:18:24Z teodord $
+ * @version $Id$
  */
 public class VersionComparator implements Comparator<String>
 {

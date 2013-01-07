@@ -28,7 +28,7 @@ import java.util.UUID;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: ColorPropertyRule.java 4595 2011-09-08 15:55:10Z teodord $
+ * @version $Id$
  */
 public class UuidPropertyRule extends TransformedPropertyRule
 {

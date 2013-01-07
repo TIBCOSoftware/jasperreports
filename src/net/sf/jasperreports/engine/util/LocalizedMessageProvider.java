@@ -32,7 +32,7 @@ import java.util.Locale;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: MessageProvider.java 5180 2012-03-29 13:23:12Z teodord $
+ * @version $Id$
  */
 public class LocalizedMessageProvider
 {

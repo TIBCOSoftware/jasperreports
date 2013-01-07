@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.JRConstants;
  * <p>Implementation of {@link DateRange} for relative range of times.</p>
  *
  * @author Sergey Prilukin
- * @version $Id:$
+ * @version $Id$
  */
 public class RelativeTimestampRange extends RelativeDateRange implements TimestampRange 
 {

@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: MapFillFactory.java 4595 2011-09-08 15:55:10Z teodord $
+ * @version $Id$
  */
 public class MapFillFactory implements ComponentFillFactory
 {

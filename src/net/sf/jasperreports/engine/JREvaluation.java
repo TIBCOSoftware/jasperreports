@@ -28,7 +28,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRTextField.java 5180 2012-03-29 13:23:12Z teodord $
+ * @version $Id$
  */
 public interface JREvaluation
 {

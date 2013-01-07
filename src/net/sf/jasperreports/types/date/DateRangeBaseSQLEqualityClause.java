@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.query.JRSqlAbstractEqualClause;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: DateRangeBaseSQLEqualityClause.java 5671 2012-09-18 15:48:16Z lucianc $
+ * @version $Id$
  */
 public abstract class DateRangeBaseSQLEqualityClause implements JRClauseFunction
 {
