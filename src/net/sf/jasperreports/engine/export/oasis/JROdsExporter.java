@@ -33,6 +33,8 @@ package net.sf.jasperreports.engine.export.oasis;
 
 import java.awt.geom.Dimension2D;
 import java.io.IOException;
+import java.text.AttributedCharacterIterator;
+import java.util.Locale;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
@@ -448,6 +450,42 @@ public class JROdsExporter extends JROpenDocumentExporter
 	{
 		// export full text
 		return textElement.getFullStyledText(allSelector);
+	}
+
+
+	@Override
+	protected void exportTextContents(JRPrintText textElement) throws IOException
+	{
+		String href = getHyperlinkURL(textElement);
+		if (href == null)
+		{
+			exportStyledText(textElement, false);
+		}
+		else
+		{
+			JRStyledText styledText = getStyledText(textElement);
+			if (styledText != null && styledText.length() > 0)
+			{
+				String text = styledText.getText();
+				Locale locale = getTextLocale(textElement);
+				
+				int runLimit = 0;
+				AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
+				while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
+				{
+					// ODS does not like text:span inside text:a
+					// writing one text:a inside text:span for each style run
+					String runText = text.substring(iterator.getIndex(), runLimit);
+					startTextSpan(iterator.getAttributes(), runText, locale);
+					writeHyperlink(textElement, href, true);
+					writeText(runText);
+					endHyperlink(true);
+					endTextSpan();
+
+					iterator.setIndex(runLimit);
+				}
+			}
+		}
 	}
 	
 }
