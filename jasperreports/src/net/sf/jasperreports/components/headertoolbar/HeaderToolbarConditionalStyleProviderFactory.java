@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.style.StyleProviderFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: HeaderToolbarParameterContributorFactory.java 5050 2012-03-12 10:11:26Z teodord $
+ * @version $Id$
  */
 public final class HeaderToolbarConditionalStyleProviderFactory implements StyleProviderFactory
 {

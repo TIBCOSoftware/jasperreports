@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.query.JRQueryClauseContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: DateRangeSQLNotEqualClause.java 5671 2012-09-18 15:48:16Z lucianc $
+ * @version $Id$
  */
 public class DateRangeSQLNotEqualClause extends DateRangeBaseSQLEqualityClause
 {

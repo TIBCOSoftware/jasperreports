@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.query.SQLLessOrGreaterBaseClause;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: DateRangeSQLLessOrGreaterClause.java 5688 2012-10-01 14:47:00Z lucianc $
+ * @version $Id$
  */
 public class DateRangeSQLLessOrGreaterClause extends SQLLessOrGreaterBaseClause
 {

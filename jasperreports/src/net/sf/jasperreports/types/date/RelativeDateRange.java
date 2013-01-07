@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.JRConstants;
  * <p>Implementation of {@link DateRange} for relative range of dates.</p>
  *
  * @author Sergey Prilukin
- * @version $Id: RelativeDateRange.java 25062 2012-10-02 14:41:23Z sergey.prilukin $
+ * @version $Id$
  */
 public class RelativeDateRange extends AbstractDateRange implements DateRangeExpression 
 {

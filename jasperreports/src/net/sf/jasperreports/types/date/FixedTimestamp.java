@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.JRConstants;
  * <p>Implementation of {@link DateRange} for fixed, non relative timestamp.</p>
  *
  * @author Sergey Prilukin
- * @version $Id:$
+ * @version $Id$
  */
 public class FixedTimestamp extends FixedDate implements TimestampRange 
 {

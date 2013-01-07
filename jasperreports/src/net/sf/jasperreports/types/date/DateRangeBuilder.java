@@ -37,7 +37,7 @@ import java.util.TimeZone;
  * </code>
  *
  * @author Sergey Prilukin
- * @version $Id: DateRangeBuilder.java 25077 2012-10-03 11:22:55Z sergey.prilukin $
+ * @version $Id$
  */
 public class DateRangeBuilder 
 {
