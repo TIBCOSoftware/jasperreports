@@ -656,15 +656,6 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	{
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 
-		JRStyledText styledText = getStyledText(text);
-
-		int textLength = 0;
-
-		if (styledText != null)
-		{
-			textLength = styledText.length();
-		}
-
 		tempBodyWriter.write("<text:p text:style-name=\"");
 		tempBodyWriter.write(styleCache.getParagraphStyle(text));
 		tempBodyWriter.write("\">");
@@ -674,21 +665,35 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 			exportAnchor(JRStringUtil.xmlEncode(text.getAnchorName()));
 		}
 
+		exportTextContents(text);
+
+		tempBodyWriter.write("</text:p>\n");
+
+		tableBuilder.buildCellFooter();
+	}
+
+
+	protected void exportTextContents(JRPrintText text) throws IOException
+	{
 		boolean startedHyperlink = startHyperlink(text, true);
 
-		if (textLength > 0)
-		{
-			exportStyledText(styledText, getTextLocale(text), startedHyperlink);
-		}
+		exportStyledText(text, startedHyperlink);
 
 		if (startedHyperlink)
 		{
 			endHyperlink(true);
 		}
+	}
 
-		tempBodyWriter.write("</text:p>\n");
 
-		tableBuilder.buildCellFooter();
+	protected void exportStyledText(JRPrintText text, boolean startedHyperlink)
+			throws IOException
+	{
+		JRStyledText styledText = getStyledText(text);
+		if (styledText != null && styledText.length() > 0)
+		{
+			exportStyledText(styledText, getTextLocale(text), startedHyperlink);
+		}
 	}
 
 
@@ -728,11 +733,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 			boolean startedHyperlink
 			) throws IOException
 	{
-		String textSpanStyleName = styleCache.getTextSpanStyle(attributes, text, locale);
-
-		tempBodyWriter.write("<text:span");
-		tempBodyWriter.write(" text:style-name=\"" + textSpanStyleName + "\"");
-		tempBodyWriter.write(">");
+		startTextSpan(attributes, text, locale);
 
 		boolean localHyperlink = false;
 
@@ -745,17 +746,37 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 			}
 		}
 		
-		if (text != null)
-		{
-			tempBodyWriter.write(Utility.replaceNewLineWithLineBreak(JRStringUtil.xmlEncode(text, invalidCharReplacement)));//FIXMEODT try something nicer for replace
-		}
+		writeText(text);
 
 		if (localHyperlink)
 		{
 			endHyperlink(true);
 		}
 
+		endTextSpan();
+	}
+
+	protected void startTextSpan(Map<AttributedCharacterIterator.Attribute, Object> attributes,
+			String text, Locale locale) throws IOException
+	{
+		String textSpanStyleName = styleCache.getTextSpanStyle(attributes, text, locale);
+
+		tempBodyWriter.write("<text:span");
+		tempBodyWriter.write(" text:style-name=\"" + textSpanStyleName + "\"");
+		tempBodyWriter.write(">");
+	}
+
+	protected void endTextSpan() throws IOException
+	{
 		tempBodyWriter.write("</text:span>");
+	}
+
+	protected void writeText(String text) throws IOException
+	{
+		if (text != null)
+		{
+			tempBodyWriter.write(Utility.replaceNewLineWithLineBreak(JRStringUtil.xmlEncode(text, invalidCharReplacement)));//FIXMEODT try something nicer for replace
+		}
 	}
 
 	/**
@@ -1030,43 +1051,50 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 
 		if (href != null)
 		{
-			if(isText)
-			{
-				tempBodyWriter.write("<text:a xlink:href=\"");
-			}
-			else
-			{
-				tempBodyWriter.write("<draw:a xlink:type=\"simple\" xlink:href=\"");
-			}
-			tempBodyWriter.write(JRStringUtil.xmlEncode(href));
-			tempBodyWriter.write("\"");
-
-
-			String target = getHyperlinkTarget(link);//FIXMETARGET
-			if (target != null)
-			{
-				tempBodyWriter.write(" office:target-frame-name=\"");
-				tempBodyWriter.write(target);
-				tempBodyWriter.write("\"");
-				if(target.equals("_blank"))
-				{
-					tempBodyWriter.write(" xlink:show=\"new\"");
-				}
-			}
-/*
- * tooltips are unavailable for the moment
- *
-			if (link.getHyperlinkTooltip() != null)
-			{
-				tempBodyWriter.write(" xlink:title=\"");
-				tempBodyWriter.write(JRStringUtil.xmlEncode(link.getHyperlinkTooltip()));
-				tempBodyWriter.write("\"");
-			}
-*/
-			tempBodyWriter.write(">");
+			writeHyperlink(link, href, isText);
 		}
 
 		return href != null;
+	}
+
+
+	protected void writeHyperlink(JRPrintHyperlink link, String href,
+			boolean isText) throws IOException
+	{
+		if(isText)
+		{
+			tempBodyWriter.write("<text:a xlink:href=\"");
+		}
+		else
+		{
+			tempBodyWriter.write("<draw:a xlink:type=\"simple\" xlink:href=\"");
+		}
+		tempBodyWriter.write(JRStringUtil.xmlEncode(href));
+		tempBodyWriter.write("\"");
+
+
+		String target = getHyperlinkTarget(link);//FIXMETARGET
+		if (target != null)
+		{
+			tempBodyWriter.write(" office:target-frame-name=\"");
+			tempBodyWriter.write(target);
+			tempBodyWriter.write("\"");
+			if(target.equals("_blank"))
+			{
+				tempBodyWriter.write(" xlink:show=\"new\"");
+			}
+		}
+/*
+ * tooltips are unavailable for the moment
+ *
+		if (link.getHyperlinkTooltip() != null)
+		{
+			tempBodyWriter.write(" xlink:title=\"");
+			tempBodyWriter.write(JRStringUtil.xmlEncode(link.getHyperlinkTooltip()));
+			tempBodyWriter.write("\"");
+		}
+*/
+		tempBodyWriter.write(">");
 	}
 
 
