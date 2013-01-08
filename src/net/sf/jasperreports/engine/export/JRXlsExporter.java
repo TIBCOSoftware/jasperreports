@@ -968,7 +968,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			}
 			catch(Exception e)
 			{
-				color = palette.findSimilarColor(red,green, blue);
+				palette.setColorAtIndex(HSSFColor.LAVENDER.index, red, green, blue);
+				color = palette.getColor(HSSFColor.LAVENDER.index);
 			}
 		}
 		
