@@ -97,7 +97,7 @@ public class XalanNsAwareXPathExecuter extends XalanXPathExecuter {
 		if (xmlNamespaceMap != null && xmlNamespaceMap.size() > 0) {
 			if (namespaceElement == null) {
 				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-				factory.setNamespaceAware(true);   
+				factory.setNamespaceAware(true);
 				DocumentBuilder builder = null;
 				try {
 					builder = factory.newDocumentBuilder();

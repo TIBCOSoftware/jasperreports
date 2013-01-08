@@ -515,7 +515,7 @@ public class SimpleChartTheme implements ChartTheme
 	 * @param tickLabelFont the font to use for each tick mark value label
 	 * @param tickLabelColor the color of each tick mark value label
 	 * @param tickLabelMask formatting mask for the label.  If the axis is a NumberAxis then
-	 * 					    the mask should be <code>java.text.DecimalFormat</code> mask, and
+	 * 						the mask should be <code>java.text.DecimalFormat</code> mask, and
 	 * 						if it is a DateAxis then the mask should be a
 	 * 						<code>java.text.SimpleDateFormat</code> mask.
 	 * @param verticalTickLabels flag to draw tick labels at 90 degrees
@@ -549,7 +549,7 @@ public class SimpleChartTheme implements ChartTheme
 	 * @param tickLabelFont the font to use for each tick mark value label
 	 * @param tickLabelColor the color of each tick mark value label
 	 * @param tickLabelMask formatting mask for the label.  If the axis is a NumberAxis then
-	 * 					    the mask should be <code>java.text.DecimalFormat</code> mask, and
+	 * 						the mask should be <code>java.text.DecimalFormat</code> mask, and
 	 * 						if it is a DateAxis then the mask should be a
 	 * 						<code>java.text.SimpleDateFormat</code> mask.
 	 * @param verticalTickLabels flag to draw tick labels at 90 degrees

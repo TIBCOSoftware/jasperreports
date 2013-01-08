@@ -138,19 +138,19 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-        public ViewFactory getViewFactory() {
-            return new HTMLFactory() {
+		public ViewFactory getViewFactory() {
+			return new HTMLFactory() {
 
-                @Override
-                public View create(Element elem) {
-                    View view = super.create(elem);
-                    if (view instanceof ImageView) {
-                        ((ImageView) view).setLoadsSynchronously(true);
-                    }
-                    return view;
-                }
-            };
-        }
+				@Override
+				public View create(Element elem) {
+					View view = super.create(elem);
+					if (view instanceof ImageView) {
+						((ImageView) view).setLoadsSynchronously(true);
+					}
+					return view;
+				}
+			};
+		}
 	}
 
 }

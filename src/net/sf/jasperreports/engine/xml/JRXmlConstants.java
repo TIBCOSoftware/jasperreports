@@ -772,7 +772,7 @@ public final class JRXmlConstants
 	public static final String ELEMENT_bucketProperty = "bucketProperty";
 	public static final String ELEMENT_multiAxisMeasure = "multiAxisMeasure";
 	
-	   
+
 	private JRXmlConstants()
 	{
 	}

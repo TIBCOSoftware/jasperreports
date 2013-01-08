@@ -77,7 +77,7 @@ public class SimpleSQLDataSource implements DataSource {
 		return connection.getConnection();
 	}
 
-    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-        throw new SQLFeatureNotSupportedException();
-    }
+	public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+		throw new SQLFeatureNotSupportedException();
+	}
 }
