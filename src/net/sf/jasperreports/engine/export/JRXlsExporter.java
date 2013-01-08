@@ -135,6 +135,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
 	public static final String XLS_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "xls";
+	public static short MAX_COLOR_INDEX = 56;
 	
 	private static Map<Color,HSSFColor> hssfColorsCache = new ReferenceMap();
 
@@ -159,6 +160,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	 */
 	protected short whiteIndex = (new HSSFColor.WHITE()).getIndex();
 	protected short blackIndex = (new HSSFColor.BLACK()).getIndex();
+	protected short customColorIndex = 10;
 
 	protected short backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
 
@@ -283,6 +285,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		createHelper = workbook.getCreationHelper();
 		firstPageNotSet = true;
 		palette =  workbook.getCustomPalette();
+		customColorIndex = 10; /* Indexes from 0 to 9 are reserved */
 	}
 
 
@@ -968,8 +971,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			}
 			catch(Exception e)
 			{
-				palette.setColorAtIndex(HSSFColor.LAVENDER.index, red, green, blue);
-				color = palette.getColor(HSSFColor.LAVENDER.index);
+				if(customColorIndex < MAX_COLOR_INDEX)
+				{
+					palette.setColorAtIndex(customColorIndex, red, green, blue);
+					color = palette.getColor(customColorIndex++);
+				}
+				else
+				{
+					color = palette.findSimilarColor(red, green, blue);
+				}
 			}
 		}
 		
