@@ -136,6 +136,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	 */
 	public static final String XLS_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "xls";
 	public static short MAX_COLOR_INDEX = 56;
+	public static short MIN_COLOR_INDEX = 10;	/* Indexes from 0 to 9 are reserved */
 	
 	private static Map<Color,HSSFColor> hssfColorsCache = new ReferenceMap();
 
@@ -160,7 +161,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	 */
 	protected short whiteIndex = (new HSSFColor.WHITE()).getIndex();
 	protected short blackIndex = (new HSSFColor.BLACK()).getIndex();
-	protected short customColorIndex = 10;
+	protected short customColorIndex = MIN_COLOR_INDEX;
 
 	protected short backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
 
@@ -285,7 +286,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		createHelper = workbook.getCreationHelper();
 		firstPageNotSet = true;
 		palette =  workbook.getCustomPalette();
-		customColorIndex = 10; /* Indexes from 0 to 9 are reserved */
+		customColorIndex = MIN_COLOR_INDEX; 
 	}
 
 
