@@ -61,6 +61,7 @@ import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.charts.type.ScaleTypeEnum;
+import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
@@ -2125,11 +2126,6 @@ public class DefaultChartTheme implements ChartTheme
 			}
 		}
 		
-		if(!axisIntegerUnit && tickInterval == null && tickCount == null)
-		{
-			return;
-		}
-		
 		if(axis instanceof NumberAxis)
 		{
 			NumberAxis numberAxis = (NumberAxis)axis;
@@ -2137,7 +2133,7 @@ public class DefaultChartTheme implements ChartTheme
 			
 			if(axisIntegerUnit)
 			{
-				numberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+				numberAxis.setStandardTickUnits(ChartUtil.getInstance(chartContext.getJasperReportsContext()).createIntegerTickUnits());
 			}
 			else if(axisRange > 0)
 			{
@@ -2162,6 +2158,10 @@ public class DefaultChartTheme implements ChartTheme
 					{
 						numberAxis.setTickUnit(new NumberTickUnit(axisRange / tickCount.intValue()));
 					}
+				}
+				else
+				{
+					numberAxis.setStandardTickUnits(ChartUtil.getInstance(chartContext.getJasperReportsContext()).createStandardTickUnits());
 				}
 			}
 		}

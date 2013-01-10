@@ -25,6 +25,7 @@ package net.sf.jasperreports.charts.util;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,6 +48,10 @@ import net.sf.jasperreports.engine.util.JRSingletonCache;
 
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.axis.TickUnitSource;
+import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.entity.EntityCollection;
 
@@ -275,5 +280,74 @@ public final class ChartUtil
 				= getRenderer(chart, chartHyperlinkProvider, rectangle);
 			return RenderableUtil.getWrappingRenderable(deprecatedRenderer);
 		}
+	}
+	
+	public TickUnitSource createIntegerTickUnits()
+	{
+		TickUnits units = (TickUnits) NumberAxis.createIntegerTickUnits();
+		
+		// adding further values by default because 1E10 is not enough for some people
+		DecimalFormat format = new DecimalFormat("#,##0");
+		
+        units.add(new NumberTickUnit(20000000000L, format));
+        units.add(new NumberTickUnit(50000000000L, format));
+        units.add(new NumberTickUnit(100000000000L, format));
+        units.add(new NumberTickUnit(200000000000L, format));
+        units.add(new NumberTickUnit(500000000000L, format));
+        units.add(new NumberTickUnit(1000000000000L, format));
+        units.add(new NumberTickUnit(2000000000000L, format));
+        units.add(new NumberTickUnit(5000000000000L, format));
+        units.add(new NumberTickUnit(10000000000000L, format));
+        units.add(new NumberTickUnit(20000000000000L, format));
+        units.add(new NumberTickUnit(50000000000000L, format));
+        units.add(new NumberTickUnit(100000000000000L, format));
+        units.add(new NumberTickUnit(200000000000000L, format));
+        units.add(new NumberTickUnit(500000000000000L, format));
+        units.add(new NumberTickUnit(1000000000000000L, format));
+        units.add(new NumberTickUnit(2000000000000000L, format));
+        units.add(new NumberTickUnit(5000000000000000L, format));
+        units.add(new NumberTickUnit(10000000000000000L, format));
+        units.add(new NumberTickUnit(20000000000000000L, format));
+        units.add(new NumberTickUnit(50000000000000000L, format));
+        units.add(new NumberTickUnit(100000000000000000L, format));
+        units.add(new NumberTickUnit(200000000000000000L, format));
+        units.add(new NumberTickUnit(500000000000000000L, format));
+        units.add(new NumberTickUnit(1000000000000000000L, format));
+        units.add(new NumberTickUnit(2000000000000000000L, format));
+        units.add(new NumberTickUnit(5000000000000000000L, format));
+        
+        return units;
+	}
+	
+	public TickUnitSource createStandardTickUnits()
+	{
+		TickUnits units = (TickUnits) NumberAxis.createStandardTickUnits();
+		
+		// adding further values by default because 5E11 is not enough for some people
+		DecimalFormat format = new DecimalFormat("#,##0");
+		
+		units.add(new NumberTickUnit(1000000000000L, format));
+		units.add(new NumberTickUnit(2500000000000L, format));
+		units.add(new NumberTickUnit(5000000000000L, format));
+		units.add(new NumberTickUnit(10000000000000L, format));
+		units.add(new NumberTickUnit(25000000000000L, format));
+		units.add(new NumberTickUnit(50000000000000L, format));
+		units.add(new NumberTickUnit(100000000000000L, format));
+		units.add(new NumberTickUnit(250000000000000L, format));
+		units.add(new NumberTickUnit(500000000000000L, format));
+		units.add(new NumberTickUnit(1000000000000000L, format));
+		units.add(new NumberTickUnit(2500000000000000L, format));
+		units.add(new NumberTickUnit(5000000000000000L, format));
+		units.add(new NumberTickUnit(10000000000000000L, format));
+		units.add(new NumberTickUnit(25000000000000000L, format));
+		units.add(new NumberTickUnit(50000000000000000L, format));
+		units.add(new NumberTickUnit(100000000000000000L, format));
+		units.add(new NumberTickUnit(250000000000000000L, format));
+		units.add(new NumberTickUnit(500000000000000000L, format));
+		units.add(new NumberTickUnit(1000000000000000000L, format));
+		units.add(new NumberTickUnit(2500000000000000000L, format));
+		units.add(new NumberTickUnit(5000000000000000000L, format));
+        
+        return units;
 	}
 }
