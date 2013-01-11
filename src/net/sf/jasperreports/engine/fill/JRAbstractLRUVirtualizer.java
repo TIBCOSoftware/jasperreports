@@ -318,7 +318,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 
 	private final ReferenceMap pagedOut;
 
-	protected volatile JRVirtualizable lastObject;
+	protected volatile WeakReference<JRVirtualizable> lastObjectRef;
 	protected ReferenceMap lastObjectMap;
 	protected ReferenceMap lastObjectSet;
 
@@ -333,7 +333,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	{
 		this.pagedIn = new Cache(maxSize);
 		this.pagedOut = new ReferenceMap(ReferenceMap.HARD, ReferenceMap.WEAK);
-		this.lastObject = null;
+		this.lastObjectRef = null;
 
 		this.lastObjectMap = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.WEAK);
 		this.lastObjectSet = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
@@ -354,12 +354,20 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		return virtualized;
 	}
 
+	protected JRVirtualizable lastObject()
+	{
+		WeakReference<JRVirtualizable> ref = lastObjectRef;
+		JRVirtualizable object = ref == null ? null : ref.get();
+		return object;
+	}
+	
 	protected final void setLastObject(JRVirtualizable o)
 	{
-		if (o != null && lastObject != o)
+		JRVirtualizable currentLast = lastObject();
+		if (o != null && currentLast != o)
 		{
 			// lastObject is mostly an optimization, we don't care if we don't have atomic operations here
-			this.lastObject = o;
+			this.lastObjectRef = new WeakReference<JRVirtualizable>(o);
 			
 			synchronized (this)
 			{
@@ -568,7 +576,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	public void touch(JRVirtualizable o)
 	{
 		// If we just touched this object, don't touch it again.
-		if (this.lastObject != o)
+		if (lastObject() != o)
 		{
 			//FIXME lucianc this doesn't scale well with concurrency
 			// get the object from the map to update LRU order
