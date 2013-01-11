@@ -50,7 +50,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 
 	private static final Log log = LogFactory.getLog(AsyncJasperPrintAccessor.class);
 	
-	private final FillHandle fillHandle;
+	private FillHandle fillHandle;
 	private final Lock lock;
 	private final Condition pageCondition;
 	private final Map<Integer, Long> trackedPages = new HashMap<Integer, Long>();
@@ -126,7 +126,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 			return ReportPageStatus.NO_SUCH_PAGE;
 		}
 		
-		if ((done && !cancelled && error == null) || fillHandle.isPageFinal(pageIdx))
+		if (done || fillHandle.isPageFinal(pageIdx))
 		{
 			trackedPages.remove(pageIdx);
 			return ReportPageStatus.PAGE_FINAL;
@@ -217,6 +217,9 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 			
 			pageCount = jasperPrint.getPages().size();
 			done = true;
+			
+			// clear fillHandle to release filler references
+			fillHandle = null;
 			trackedPages.clear();
 			
 			pageCondition.signalAll();
@@ -244,6 +247,9 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 			// store an error as cancelled status
 			error = new JRRuntimeException("Report generation cancelled");
 			
+			// clear fillHandle to release filler references
+			fillHandle = null;
+			
 			// signal to pageStatus
 			pageCondition.signalAll();
 		}
@@ -263,6 +269,9 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 			error = t;
 			done = true;
 			pageCount = jasperPrint == null ? 0 : jasperPrint.getPages().size();
+			
+			// clear fillHandle to release filler references
+			fillHandle = null;
 			
 			// signal to pageStatus
 			pageCondition.signalAll();
