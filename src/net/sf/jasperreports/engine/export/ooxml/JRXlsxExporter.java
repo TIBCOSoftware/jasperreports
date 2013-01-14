@@ -78,6 +78,7 @@ import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
+import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
@@ -109,6 +110,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	public static final String XLSX_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "xlsx";
 
 	protected static final String XLSX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xlsx.";
+	
+	protected static final String ONE_CELL = "oneCell";
+	
+	protected static final String TWO_CELL = "twoCell";
+	
+	protected static final String ABSOLUTE = "absolute";
 
 	/**
 	 * Property used to store the location of an existing workbook template containing a macro object. 
@@ -1119,7 +1126,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 			sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 			
-			drawingHelper.write("<xdr:twoCellAnchor editAs=\"oneCell\">\n");
+			ImageAnchorTypeEnum currentAnchorType = JRPropertiesUtil.getOwnProperty(image, JRXlsAbstractExporter.PROPERTY_IMAGE_ANCHOR_TYPE) != null
+					? ImageAnchorTypeEnum.getByName(JRPropertiesUtil.getOwnProperty(image, JRXlsAbstractExporter.PROPERTY_IMAGE_ANCHOR_TYPE))
+					: (imageAnchorType != null 
+							? ImageAnchorTypeEnum.getByName(imageAnchorType)
+							: ImageAnchorTypeEnum.MOVE_NO_SIZE);
+			drawingHelper.write("<xdr:twoCellAnchor editAs=\"" + getAnchorType(currentAnchorType) + "\">\n");
 			drawingHelper.write("<xdr:from><xdr:col>" +
 				colIndex +
 				"</xdr:col><xdr:colOff>" +
@@ -1564,6 +1576,20 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected void setScale(Integer scale)
 	{
 		/* nothing to do here; it's already done in the abstract exporter */
+	}
+	
+	protected String getAnchorType(ImageAnchorTypeEnum anchorType)
+	{
+		switch (anchorType)
+		{
+			case MOVE_SIZE: 
+				return TWO_CELL;
+			case NO_MOVE_NO_SIZE:
+				return ABSOLUTE;
+			case MOVE_NO_SIZE:
+			default:
+				return ONE_CELL;
+		}
 	}
 	
 }

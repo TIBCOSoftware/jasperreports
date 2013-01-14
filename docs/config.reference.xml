@@ -242,6 +242,7 @@
       <property ref="net.sf.jasperreports.export.xls.ignore.cell.background"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.cell.border"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.graphics"/>
+      <property ref="net.sf.jasperreports.export.xls.image.anchor.type"/>
       <property ref="net.sf.jasperreports.export.xls.image.border.fix.enabled"/>
       
       <property ref="net.sf.jasperreports.export.xls.max.rows.per.sheet"/>
@@ -3023,6 +3024,25 @@ Specifies whether graphic elements should be ignored and only text elements be e
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.image.anchor.type -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.image.anchor.type">
+    <description>
+Property that specifies the image anchor type. Possible values are:
+<ul>
+<li><code>MoveSize</code> - images move and size with cells</li>
+<li><code>MoveNoSize</code> - images move but don't size with cells</li>
+<li><code>NoMoveNoSize</code> - images don't move or size with cells</li>
+</ul>
+Global settings are overriden by report level settings; report level settings are overriden by element level settings.    
+	</description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_IMAGE_ANCHOR_TYPE</api>
+    <default><code>MoveNoSize</code></default>
+    <scope>Global | Report | Element</scope>
+    <since>5.0.2</since>
   </configProperty>
   
   

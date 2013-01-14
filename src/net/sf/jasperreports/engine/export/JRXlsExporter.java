@@ -79,6 +79,7 @@ import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
+import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
@@ -1543,7 +1544,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 						//rowIndex + (isCollapseRowSpan ? 1 : gridCell.getRowSpan())
 						(short)(rowIndex + (int)bottomPos)
 						);
-				anchor.setAnchorType(2);
+				String currentAnchorType = JRPropertiesUtil.getOwnProperty(element, JRXlsAbstractExporter.PROPERTY_IMAGE_ANCHOR_TYPE) != null
+						? JRPropertiesUtil.getOwnProperty(element, JRXlsAbstractExporter.PROPERTY_IMAGE_ANCHOR_TYPE)
+						: (imageAnchorType != null 
+								? imageAnchorType
+								: ImageAnchorTypeEnum.MOVE_NO_SIZE.getName());
+				anchor.setAnchorType(ImageAnchorTypeEnum.getByName(currentAnchorType).getValue());
 				//pngEncoder.setImage(bi);
 				//int imgIndex = workbook.addPicture(pngEncoder.pngEncode(), HSSFWorkbook.PICTURE_TYPE_PNG);
 				int imgIndex = workbook.addPicture(imageData, HSSFWorkbook.PICTURE_TYPE_PNG);

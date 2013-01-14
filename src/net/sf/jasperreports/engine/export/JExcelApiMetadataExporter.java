@@ -110,6 +110,7 @@ import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
+import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
@@ -1307,6 +1308,12 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 				{
 					int colIndex = columnNamesMap.get(currentColumnName);
 					WritableImage image = new WritableImage(colIndex, rowIndex, 1, 1, imageData);
+					String currentAnchorType = JRPropertiesUtil.getOwnProperty(element, JRXlsAbstractExporter.PROPERTY_IMAGE_ANCHOR_TYPE) != null
+							? JRPropertiesUtil.getOwnProperty(element, JRXlsAbstractExporter.PROPERTY_IMAGE_ANCHOR_TYPE)
+							: (imageAnchorType != null 
+									? imageAnchorType
+									: ImageAnchorTypeEnum.MOVE_NO_SIZE.getName());
+					setAnchorType(image, ImageAnchorTypeEnum.getByName(currentAnchorType));
 					sheet.addImage(image);
 				}
 				catch (Exception ex)
@@ -2515,6 +2522,23 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 			sheetSettings.setFitWidth(0);
 			sheetSettings.setFitHeight(0);
 			sheetSettings.setFitToPages(false);
+		}
+	}
+
+	protected void setAnchorType(WritableImage image, ImageAnchorTypeEnum anchorType)
+	{
+		switch (anchorType)
+		{
+			case MOVE_SIZE: 
+				image.setImageAnchor(WritableImage.MOVE_AND_SIZE_WITH_CELLS);
+				break;
+			case NO_MOVE_NO_SIZE:
+				image.setImageAnchor(WritableImage.NO_MOVE_OR_SIZE_WITH_CELLS);
+				break;
+			case MOVE_NO_SIZE:
+			default:
+				image.setImageAnchor(WritableImage.MOVE_WITH_CELLS);
+				break;
 		}
 	}
 	

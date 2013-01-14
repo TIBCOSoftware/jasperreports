@@ -53,6 +53,7 @@ import jxl.SheetSettings;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
 import jxl.biff.DisplayFormat;
+import jxl.biff.drawing.Drawing;
 import jxl.format.Alignment;
 import jxl.format.BoldStyle;
 import jxl.format.Border;
@@ -108,6 +109,7 @@ import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
+import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
@@ -1234,6 +1236,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 						getRowRelativePosition(layout, yCutsRow, element.getHeight() - bottomOffset) - topPos,
 						imageData
 						);
+				
+				String currentAnchorType = JRPropertiesUtil.getOwnProperty(element, JRXlsAbstractExporter.PROPERTY_IMAGE_ANCHOR_TYPE) != null
+						? JRPropertiesUtil.getOwnProperty(element, JRXlsAbstractExporter.PROPERTY_IMAGE_ANCHOR_TYPE)
+						: (imageAnchorType != null 
+								? imageAnchorType
+								: ImageAnchorTypeEnum.MOVE_NO_SIZE.getName());
+				setAnchorType(image, ImageAnchorTypeEnum.getByName(currentAnchorType));
 				sheet.addImage(image);
 			}
 			catch (Exception ex)
@@ -2531,5 +2540,21 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 	
+	protected void setAnchorType(WritableImage image, ImageAnchorTypeEnum anchorType)
+	{
+		switch (anchorType)
+		{
+			case MOVE_SIZE: 
+				image.setImageAnchor(WritableImage.MOVE_AND_SIZE_WITH_CELLS);
+				break;
+			case NO_MOVE_NO_SIZE:
+				image.setImageAnchor(WritableImage.NO_MOVE_OR_SIZE_WITH_CELLS);
+				break;
+			case MOVE_NO_SIZE:
+			default:
+				image.setImageAnchor(WritableImage.MOVE_WITH_CELLS);
+				break;
+		}
+	}
 }
 
