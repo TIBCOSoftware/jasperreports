@@ -454,6 +454,28 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	public static final String PROPERTY_SHOW_GRIDLINES = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.show.gridlines";
 	
+	
+	/**
+	 * Property that specifies the image anchor type. Possible values are:
+	 * <ul>
+	 * <li><code>MoveSize</code> - images move and size with cells</li>
+	 * <li><code>MoveNoSize</code> - images move but don't size with cells</li>
+	 * <li><code>NoMoveNoSize</code> - images don't move or size with cells</li>
+	 * </ul>
+	 * Default value is <code>MoveNoSize</code>.
+	 * <br/>
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code></li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element level settings.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_IMAGE_ANCHOR_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.image.anchor.type";
+	
 
 	protected static class TextAlignHolder
 	{
@@ -564,6 +586,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected Boolean sheetShowGridlines;
 	
 	protected String invalidCharReplacement;
+	protected String imageAnchorType;
 
 	/**
 	 *
@@ -870,6 +893,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
 		}
 		documentShowGridlines = getPropertiesUtil().getBooleanProperty(jasperPrint,	PROPERTY_SHOW_GRIDLINES, true);
+		imageAnchorType = getPropertiesUtil().getProperty(PROPERTY_IMAGE_ANCHOR_TYPE, jasperPrint);
 	}
 	
 	protected abstract void setBackground();
