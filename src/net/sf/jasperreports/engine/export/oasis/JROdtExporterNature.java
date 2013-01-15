@@ -44,10 +44,4 @@ public class JROdtExporterNature extends JROpenDocumentExporterNature
 	{
 		super(filter);
 	}
-
-	protected byte getOpenDocumentNature() {
-
-		return JROpenDocumentExporterNature.ODT_NATURE;
-	}
-
 }

@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.LengthUtil;
@@ -55,7 +52,7 @@ public class GraphicStyle extends Style
 	/**
 	 *
 	 */
-	public GraphicStyle(Writer styleWriter, JRPrintGraphicElement element)
+	public GraphicStyle(WriterHelper styleWriter, JRPrintGraphicElement element)
 	{
 		super(styleWriter);
 
@@ -177,7 +174,7 @@ public class GraphicStyle extends Style
 	/**
 	 *
 	 */
-	public void write(String lineStyleName) throws IOException
+	public void write(String lineStyleName)
 	{
 		styleWriter.write(" <style:style style:name=\"" + lineStyleName + "\"");
 		styleWriter.write(" style:family=\"graphic\" style:parent-style-name=\"Graphics\">\n");

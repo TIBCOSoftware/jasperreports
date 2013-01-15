@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.export.oasis;
 
 import java.io.IOException;
-import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -46,7 +45,7 @@ public class FrameStyle extends BorderStyle
 	/**
 	 *
 	 */
-	public FrameStyle(Writer styleWriter, JRPrintElement element)
+	public FrameStyle(WriterHelper styleWriter, JRPrintElement element)
 	{
 		super(styleWriter);
 		

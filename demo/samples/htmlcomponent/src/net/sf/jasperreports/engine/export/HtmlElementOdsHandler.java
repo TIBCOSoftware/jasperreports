@@ -26,6 +26,8 @@ package net.sf.jasperreports.engine.export;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.oasis.GenericElementOdsHandler;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporterContext;
@@ -41,17 +43,22 @@ public class HtmlElementOdsHandler implements GenericElementOdsHandler
 	public void exportElement(
 		JROdsExporterContext exporterContext,
 		JRGenericPrintElement element,
-		JRExporterGridCell gridCell
+		JRExporterGridCell gridCell,
+		int colIndex,
+		int rowIndex,
+		int emptyCols,
+		int yCutsRow, 
+		JRGridLayout layout
 		)
 	{
 		try
 		{
 			JROdsExporter exporter = (JROdsExporter)exporterContext.getExporter();
-			exporter.exportImage(exporterContext.getTableBuilder(), getImage(exporterContext, element), gridCell);
+			exporter.exportImage(getImage(exporterContext, element), gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
 		}
-		catch (Exception e)
+		catch (JRException e)
 		{
-			throw new RuntimeException(e);
+			throw new JRRuntimeException(e);
 		}
 	}
 	

@@ -62,8 +62,8 @@ import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.Cut;
+import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
-import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
@@ -166,8 +166,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	private XlsxRunHelper runHelper;
 
-	protected ExporterNature nature;
-	
 	protected String sheetAutoFilter;		
 	
 	protected String macroTemplate;		
@@ -669,7 +667,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void closeWorkbook(OutputStream os) throws JRException 
+	protected void closeWorkbook(OutputStream os) throws JRException //FIXMEXLSX could throw IOException here, as other implementations do
 	{
 		closeSheet();
 		
@@ -751,7 +749,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void createSheet(String name)
+	protected void createSheet(CutsInfo xCuts, String name)
 	{
 		closeSheet();
 		
@@ -1437,12 +1435,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected ExporterNature getNature() 
-	{
-		return nature;
-	}
-
-
 	protected void openWorkbook(OutputStream os) throws JRException 
 	{
 		rendererToImagePathMap = new HashMap<String,String>();
@@ -1498,9 +1490,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex) 
-	{
-	}
+//	protected void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex) 
+//	{
+//	}
 
 
 	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) 
@@ -1518,14 +1510,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 
 	protected void setRowHeight(
-			int rowIndex, 
-			int rowHeight,
-			Cut yCut,
-			XlsRowLevelInfo levelInfo
-			) throws JRException 
-		{
-			sheetHelper.exportRow(rowHeight, yCut, levelInfo);
-		}
+		int rowIndex, 
+		int rowHeight,
+		Cut yCut,
+		XlsRowLevelInfo levelInfo
+		) throws JRException 
+	{
+		sheetHelper.exportRow(rowHeight, yCut, levelInfo);
+	}
 
 	/**
 	 *

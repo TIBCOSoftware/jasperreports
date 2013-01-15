@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.export.oasis;
 import java.awt.Color;
 import java.awt.font.TextAttribute;
 import java.io.IOException;
-import java.io.Writer;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.Collection;
 import java.util.HashMap;
@@ -56,7 +55,7 @@ public class StyleCache
 	 *
 	 */
 	private final JasperReportsContext jasperReportsContext;
-	private final Writer styleWriter;
+	private final WriterHelper styleWriter;
 	private final Map<String,String> fontMap;
 	private Set<String> fontFaces = new HashSet<String>();
 	private final String exporterKey;
@@ -81,7 +80,7 @@ public class StyleCache
 	 */
 	public StyleCache(
 		JasperReportsContext jasperReportsContext, 
-		Writer styleWriter, 
+		WriterHelper styleWriter, 
 		Map<String,String> fontMap, 
 		String exporterKey
 		)
@@ -150,7 +149,7 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public String getGraphicStyle(JRPrintGraphicElement element) throws IOException
+	public String getGraphicStyle(JRPrintGraphicElement element)
 	{
 		GraphicStyle graphicStyle  = new GraphicStyle(styleWriter, element);
 		
@@ -172,7 +171,7 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public String getCellStyle(JRExporterGridCell gridCell) throws IOException
+	public String getCellStyle(JRExporterGridCell gridCell)
 	{
 		CellStyle cellStyle  = new CellStyle(styleWriter, gridCell);
 		
@@ -201,7 +200,7 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public String getParagraphStyle(JRPrintText text) throws IOException
+	public String getParagraphStyle(JRPrintText text)
 	{
 		ParagraphStyle paragraphStyle  = new ParagraphStyle(styleWriter, text);
 		
@@ -223,7 +222,7 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public String getTextSpanStyle(Map<Attribute,Object> attributes, String text, Locale locale) throws IOException
+	public String getTextSpanStyle(Map<Attribute,Object> attributes, String text, Locale locale)
 	{
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
 		String fontFamily = fontFamilyAttr;

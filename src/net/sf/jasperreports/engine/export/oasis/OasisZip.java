@@ -38,7 +38,13 @@ import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
  */
 public abstract class OasisZip extends AbstractZip
 {
-
+	
+	/**
+	 * 
+	 */
+	public static final String MIME_TYPE_ODT = "text";
+	public static final String MIME_TYPE_ODS = "spreadsheet";
+	
 	/**
 	 * 
 	 */
@@ -50,13 +56,13 @@ public abstract class OasisZip extends AbstractZip
 	 */
 	public OasisZip() throws IOException
 	{
-		this(JROpenDocumentExporterNature.ODT_NATURE);
+		this(MIME_TYPE_ODT);
 	}
 
 	/**
 	 * 
 	 */
-	public OasisZip(byte openDocumentNature) throws IOException
+	public OasisZip(String mimeType) throws IOException
 	{
 		exportZipEntries = new ArrayList<ExportZipEntry>();
 
@@ -69,21 +75,9 @@ public abstract class OasisZip extends AbstractZip
 		stylesEntry = createEntry("styles.xml");
 		exportZipEntries.add(stylesEntry);
 		
-		String mimetype;
-		
-		switch(openDocumentNature)
-		{
-			case JROpenDocumentExporterNature.ODS_NATURE:
-				mimetype = "spreadsheet";
-				break;
-			case JROpenDocumentExporterNature.ODT_NATURE:
-			default:
-				mimetype = "text";
-		}
+		createMimeEntry(mimeType);
 
-		createMimeEntry(mimetype);
-
-		createManifestEntry(mimetype);
+		createManifestEntry(mimeType);
 	}
 	
 	/**

@@ -28,6 +28,7 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.JRGridLayout;
 
 /**
  * A generic print element ODS export handler.
@@ -48,7 +49,16 @@ public interface GenericElementOdsHandler extends GenericElementHandler
 	 * @param exporterContext the exporter context
 	 * @param element the generic element to export
 	 */
-	void exportElement(JROdsExporterContext exporterContext, JRGenericPrintElement element, JRExporterGridCell gridCell);
+	void exportElement(
+		JROdsExporterContext exporterContext, 
+		JRGenericPrintElement element, 
+		JRExporterGridCell gridCell,
+		int colIndex, 
+		int rowIndex,
+		int emptyCols,
+		int yCutsRow, 
+		JRGridLayout layout
+		);
 
 
 	/**

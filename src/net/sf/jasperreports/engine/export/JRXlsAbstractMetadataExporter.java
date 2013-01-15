@@ -697,13 +697,18 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 	{
 	}
 
-	protected void setCell(JRExporterGridCell gridCell, int x, int y)
-	{
-	}
+//	protected void setCell(JRExporterGridCell gridCell, int x, int y)
+//	{
+//	}
 	
 	protected abstract ExporterNature getNature();
 
 	protected abstract void openWorkbook(OutputStream os) throws JRException;
+
+	protected void createSheet(CutsInfo xCuts, String name)
+	{
+		createSheet(null, name);
+	}
 
 	protected abstract void createSheet(String name);
 

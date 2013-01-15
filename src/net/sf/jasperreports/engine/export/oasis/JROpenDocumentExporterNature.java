@@ -44,9 +44,6 @@ import net.sf.jasperreports.engine.export.ExporterNature;
 public abstract class JROpenDocumentExporterNature implements ExporterNature
 {
 	
-	public static final byte ODT_NATURE = 1;
-	public static final byte ODS_NATURE = 2;
-	
 	protected ExporterFilter filter;
 
 	/**
@@ -125,8 +122,6 @@ public abstract class JROpenDocumentExporterNature implements ExporterNature
 	{
 		return false;
 	}
-	
-	protected abstract byte getOpenDocumentNature();
 	
 	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
 	{

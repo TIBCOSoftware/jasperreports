@@ -60,7 +60,7 @@ public class ContentBuilder
 	
 	private Collection<String> fontFaces;
 	
-	private byte openDocumentNature;
+	private String mimeType;
 	
 	/**
 	 * 
@@ -77,7 +77,7 @@ public class ContentBuilder
 			styleEntry,
 			bodyEntry,
 			fontFaces,
-			JROpenDocumentExporterNature.ODT_NATURE
+			OasisZip.MIME_TYPE_ODT
 			);
 	}
 	
@@ -89,29 +89,19 @@ public class ContentBuilder
 		ExportZipEntry styleEntry,
 		ExportZipEntry bodyEntry,
 		Collection<String> fontFaces,
-		byte openDocumentNature
+		String mimeType
 		)
 	{
 		this.contentEntry = contentEntry;
 		this.styleEntry = styleEntry;
 		this.bodyEntry = bodyEntry;
 		this.fontFaces = fontFaces;
-		this.openDocumentNature = openDocumentNature;
+		this.mimeType = mimeType;
 	}
 	
 
 	public void build() throws IOException
 	{
-		String mimetype;
-		switch(openDocumentNature)
-		{
-			case JROpenDocumentExporterNature.ODS_NATURE:
-				mimetype = "spreadsheet";
-				break;
-			case JROpenDocumentExporterNature.ODT_NATURE:
-			default:
-				mimetype = "text";
-		}
 		Writer writer = contentEntry.getWriter();
 		
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -171,11 +161,11 @@ public class ContentBuilder
 		writer.write(" </style:style>\n");
 		writer.write(" </office:automatic-styles>\n");
 		
-		writer.write("<office:body><office:" + mimetype + ">\n");
+		writer.write("<office:body><office:" + mimeType + ">\n");
 		writer.write("<office:forms form:automatic-focus=\"false\" form:apply-design-mode=\"false\"/>\n");
 		writer.flush();
 		bodyEntry.writeData(contentEntry.getOutputStream());
-		writer.write("</office:" + mimetype + ">\n</office:body>\n");
+		writer.write("</office:" + mimeType + ">\n</office:body>\n");
 
 		writer.write("</office:document-content>\n");
 		

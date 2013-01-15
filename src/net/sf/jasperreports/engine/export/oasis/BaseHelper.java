@@ -24,36 +24,67 @@
 package net.sf.jasperreports.engine.export.oasis;
 
 import java.io.IOException;
+import java.io.Writer;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class Style
+public abstract class BaseHelper
 {
 	/**
 	 *
 	 */
-	protected WriterHelper styleWriter;
+	protected final JasperReportsContext jasperReportsContext;
+	protected final Writer writer;
 
 	/**
 	 *
 	 */
-	public Style(WriterHelper styleWriter)
+	public BaseHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
-		this.styleWriter = styleWriter;
+		this.jasperReportsContext = jasperReportsContext;
+		this.writer = writer;
+	}
+	
+	public void write(String text)
+	{
+		try
+		{
+			writer.write(text);
+		}
+		catch(IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
-	/**
-	 *
-	 */
-	public abstract String getId();
-	
-	/**
-	 *
-	 */
-	public abstract void write(String styleName) throws IOException;
-	
+	public void close()
+	{
+		try
+		{
+			writer.close();
+		}
+		catch(IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	public void flush()
+	{
+		try
+		{
+			writer.flush();
+		}
+		catch(IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
 }
 

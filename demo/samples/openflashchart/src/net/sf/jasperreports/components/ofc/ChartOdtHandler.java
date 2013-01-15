@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.components.ofc;
 
-import java.io.IOException;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -51,14 +49,7 @@ public class ChartOdtHandler extends BaseChartHandler implements GenericElementO
 		
 		JRExporterGridCell newGridCell = getGridCellReplacement(exporterContext, element, gridCell); 
 		
-		try
-		{
-			exporter.exportText(exporterContext.getTableBuilder(), (JRPrintText)newGridCell.getElement(), newGridCell);
-		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
+		exporter.exportText(exporterContext.getTableBuilder(), (JRPrintText)newGridCell.getElement(), newGridCell);
 	}
 
 	@Override
