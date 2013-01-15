@@ -152,8 +152,8 @@ public class XlsxSheetHelper extends BaseHelper
 
 	/**
 	 *
-	 */
-	public void exportFooter(int index, JasperPrint jasperPrint, boolean isIgnorePageMargins)
+	 *
+	public void exportFooter(int index, JasperPrint jasperPrint, boolean isIgnorePageMargins)//FIXMEODT no longer used?
 	{
 		exportFooter(index, jasperPrint, isIgnorePageMargins, null, null);
 	}
@@ -161,16 +161,16 @@ public class XlsxSheetHelper extends BaseHelper
 	
 	/**
 	 *
-	 */
-	public void exportFooter(int index, JasperPrint jasperPrint, boolean isIgnorePageMargins, String autoFilter)
+	 *
+	public void exportFooter(int index, JasperPrint jasperPrint, boolean isIgnorePageMargins, String autoFilter)//FIXMEODT no longer used?
 	{
 		exportFooter(index, jasperPrint, isIgnorePageMargins, autoFilter, null);
 	}
 	
 	/**
 	 *
-	 */
-	public void exportFooter(int index, JasperPrint jasperPrint, boolean isIgnorePageMargins, String autoFilter, Integer scale)
+	 *
+	public void exportFooter(int index, JasperPrint jasperPrint, boolean isIgnorePageMargins, String autoFilter, Integer scale)//FIXMEODT no longer used?
 	{
 		exportFooter(index, jasperPrint, isIgnorePageMargins, autoFilter, null, null, true);
 	}
@@ -333,7 +333,7 @@ public class XlsxSheetHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportRow(int rowHeight) 
+	public void exportRow(int rowHeight) //FIXMEODT check how this ended up being no longer used
 	{
 		if (rowIndex > 0)
 		{

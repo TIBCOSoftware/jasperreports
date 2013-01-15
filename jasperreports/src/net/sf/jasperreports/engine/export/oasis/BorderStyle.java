@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.export.LengthUtil;
@@ -55,7 +52,7 @@ public abstract class BorderStyle extends Style
 	/**
 	 *
 	 */
-	public BorderStyle(Writer styleWriter)
+	public BorderStyle(WriterHelper styleWriter)
 	{
 		super(styleWriter);
 	}
@@ -112,7 +109,7 @@ public abstract class BorderStyle extends Style
 	/**
 	 *
 	 */
-	protected void writeBorder(int side) throws IOException
+	protected void writeBorder(int side)
 	{
 		if (borderWidth[side] != null)
 		{

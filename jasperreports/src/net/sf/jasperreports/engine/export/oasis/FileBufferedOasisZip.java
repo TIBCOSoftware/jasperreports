@@ -47,9 +47,9 @@ public class FileBufferedOasisZip extends OasisZip
 	/**
 	 * 
 	 */
-	public FileBufferedOasisZip(byte nature) throws IOException
+	public FileBufferedOasisZip(String mimeType) throws IOException
 	{
-		super(nature);
+		super(mimeType);
 	}
 	
 	/**

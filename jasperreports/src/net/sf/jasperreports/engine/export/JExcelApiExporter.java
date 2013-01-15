@@ -53,7 +53,6 @@ import jxl.SheetSettings;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
 import jxl.biff.DisplayFormat;
-import jxl.biff.drawing.Drawing;
 import jxl.format.Alignment;
 import jxl.format.BoldStyle;
 import jxl.format.Border;
@@ -189,7 +188,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected Map<Colour,RGB> usedColours = new HashMap<Colour,RGB>();
 	protected String password;
 	
-	protected ExporterNature nature;
 	protected boolean useTempFile;
 	protected boolean complexFormat;
 	
@@ -361,7 +359,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void createSheet(String name)
+	protected void createSheet(CutsInfo xCuts, String name)
 	{
 		sheet = workbook.createSheet(name, Integer.MAX_VALUE);
 		setSheetSettings(sheet);
@@ -422,9 +420,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 	
-	protected void setCell(JRExporterGridCell gridCell, int x, int y)
-	{
-	}
+//	protected void setCell(JRExporterGridCell gridCell, int x, int y)
+//	{
+//	}
 
 	protected void addBlankCell(JRExporterGridCell gridCell, int colIndex, int rowIndex) throws JRException
 	{
@@ -2426,12 +2424,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 						+ element.getGenericType());
 			}
 		}
-	}
-
-
-	protected ExporterNature getNature()
-	{
-		return nature;
 	}
 
 

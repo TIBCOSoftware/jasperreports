@@ -23,14 +23,13 @@
  */
 package net.sf.jasperreports.components.ofc;
 
-import java.io.IOException;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.oasis.GenericElementOdsHandler;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporterContext;
@@ -44,7 +43,12 @@ public class ChartOdsHandler extends BaseChartHandler implements GenericElementO
 	public void exportElement(
 		JROdsExporterContext exporterContext,
 		JRGenericPrintElement element,
-		JRExporterGridCell gridCell
+		JRExporterGridCell gridCell,
+		int colIndex,
+		int rowIndex,
+		int emptyCols,
+		int yCutsRow, 
+		JRGridLayout layout
 		)
 	{
 		JROdsExporter exporter = (JROdsExporter)exporterContext.getExporter();
@@ -53,9 +57,9 @@ public class ChartOdsHandler extends BaseChartHandler implements GenericElementO
 		
 		try
 		{
-			exporter.exportText(exporterContext.getTableBuilder(), (JRPrintText)newGridCell.getElement(), newGridCell);
+			exporter.exportText((JRPrintText)newGridCell.getElement(), newGridCell, colIndex, rowIndex);
 		}
-		catch (IOException e)
+		catch (JRException e)
 		{
 			throw new JRRuntimeException(e);
 		}

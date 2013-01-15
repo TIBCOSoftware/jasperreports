@@ -129,7 +129,7 @@ import org.apache.poi.ss.util.CellReference;
 public class JRXlsExporter extends JRXlsAbstractExporter
 {
 
-	private static final Log log = LogFactory.getLog(JRXlsAbstractExporter.class);
+	private static final Log log = LogFactory.getLog(JRXlsExporter.class);
 	
 	/**
 	 * The exporter key, as used in
@@ -167,8 +167,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected short backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
 
 	protected HSSFDataFormat dataFormat;
-
-	protected ExporterNature nature;
 
 	protected HSSFPatriarch patriarch;
 	
@@ -291,7 +289,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void createSheet(String name)
+	protected void createSheet(CutsInfo xCuts, String name)
 	{
 		sheet = workbook.createSheet(name);
 		patriarch = sheet.createDrawingPatriarch();
@@ -488,15 +486,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex)
-	{
-		HSSFCell emptyCell = row.getCell(colIndex);
-		if (emptyCell == null)
-		{
-			emptyCell = row.createCell(colIndex);
-			emptyCell.setCellStyle(emptyCellStyle);
-		}
-	}
+//	protected void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex)
+//	{
+//		HSSFCell emptyCell = row.getCell(colIndex);
+//		if (emptyCell == null)
+//		{
+//			emptyCell = row.createCell(colIndex);
+//			emptyCell.setCellStyle(emptyCellStyle);
+//		}
+//	}
 
 	protected void addBlankCell(JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
@@ -1676,11 +1674,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		}
 	}
 
-
-	protected ExporterNature getNature()
-	{
-		return nature;
-	}
 
 	private final short getSuitablePaperSize(JasperPrint jasP)
 	{

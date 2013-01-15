@@ -23,37 +23,32 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
-import java.io.IOException;
+import java.io.Writer;
+
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class Style
+public class WriterHelper extends BaseHelper
 {
-	/**
-	 *
-	 */
-	protected WriterHelper styleWriter;
 
 	/**
 	 *
 	 */
-	public Style(WriterHelper styleWriter)
+	public WriterHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
-		this.styleWriter = styleWriter;
+		super(jasperReportsContext, writer);
+	}
+	
+	/**
+	 *
+	 */
+	public Writer getWriter()
+	{
+		return writer;
 	}
 
-	/**
-	 *
-	 */
-	public abstract String getId();
-	
-	/**
-	 *
-	 */
-	public abstract void write(String styleName) throws IOException;
-	
 }
-

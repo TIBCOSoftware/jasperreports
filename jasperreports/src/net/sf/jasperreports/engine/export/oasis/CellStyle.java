@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -53,7 +50,7 @@ public class CellStyle extends BorderStyle
 	/**
 	 *
 	 */
-	public CellStyle(Writer styleWriter, JRExporterGridCell gridCell)
+	public CellStyle(WriterHelper styleWriter, JRExporterGridCell gridCell)
 	{
 		super(styleWriter);
 
@@ -101,7 +98,7 @@ public class CellStyle extends BorderStyle
 	/**
 	 *
 	 */
-	public void write(String cellStyleName) throws IOException
+	public void write(String cellStyleName)
 	{
 		styleWriter.write("<style:style style:name=\"");
 		styleWriter.write(cellStyleName);

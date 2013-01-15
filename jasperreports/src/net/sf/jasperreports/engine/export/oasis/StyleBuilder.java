@@ -31,8 +31,6 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
-import java.io.IOException;
-import java.io.Writer;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JasperPrint;
@@ -50,12 +48,12 @@ public class StyleBuilder
 	 * 
 	 */
 	private List<JasperPrint> jasperPrintList;
-	private Writer writer;
+	private WriterHelper writer;
 	
 	/**
 	 * 
 	 */
-	public StyleBuilder(List<JasperPrint> jasperPrintList, Writer writer)
+	public StyleBuilder(List<JasperPrint> jasperPrintList, WriterHelper writer)
 	{
 		this.jasperPrintList = jasperPrintList;
 		this.writer = writer;
@@ -64,7 +62,7 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	public void build() throws IOException
+	public void build()
 	{
 		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
@@ -93,7 +91,7 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	private void buildBeforeAutomaticStyles(JasperPrint jasperPrint) throws IOException
+	private void buildBeforeAutomaticStyles(JasperPrint jasperPrint)
 	{
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 
@@ -139,7 +137,7 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	private void buildBetweenAutomaticAndMasterStyles() throws IOException
+	private void buildBetweenAutomaticAndMasterStyles()
 	{
 		writer.write(" </office:automatic-styles>\n");
 		writer.write(" <office:master-styles>\n");	
@@ -148,7 +146,7 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	private void buildAfterMasterStyles() throws IOException
+	private void buildAfterMasterStyles()
 	{
 		writer.write(" </office:master-styles>\n");	
 		writer.write("</office:document-styles>\n");
@@ -157,7 +155,7 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	private void buildPageLayout(int reportIndex, JasperPrint jasperPrint) throws IOException 
+	private void buildPageLayout(int reportIndex, JasperPrint jasperPrint) 
 	{
 			writer.write("<style:page-layout");
 			writer.write(" style:name=\"page_" + reportIndex + "\">\n");
@@ -187,7 +185,7 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	private void buildMasterPage(int reportIndex) throws IOException 
+	private void buildMasterPage(int reportIndex) 
 	{
 		writer.write("<style:master-page style:name=\"master_");
 		writer.write(String.valueOf(reportIndex));

@@ -499,6 +499,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	protected ExporterNature nature;
+
+	/**
+	 *
+	 */
 	protected boolean isOnePagePerSheet;
 	protected boolean isRemoveEmptySpaceBetweenRows;
 	protected boolean isRemoveEmptySpaceBetweenColumns;
@@ -649,7 +654,14 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 			if (os != null)
 			{
-				exportReportToStream(os);
+				try
+				{
+					exportReportToStream(os);
+				}
+				catch (IOException e)
+				{
+					throw new JRException("Error trying to export to output stream : " + jasperPrint.getName(), e);
+				}
 			}
 			else
 			{
@@ -898,7 +910,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	protected abstract void setBackground();
 
-	protected void exportReportToStream(OutputStream os) throws JRException
+	protected void exportReportToStream(OutputStream os) throws JRException, IOException
 	{
 		openWorkbook(os);
 		sheetNamesMap = new HashMap<String,Integer>();
@@ -951,7 +963,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						sheetFirstPageNumber = (Integer)xCuts.getPropertiesMap().get(PROPERTY_FIRST_PAGE_NUMBER);
 						sheetShowGridlines = (Boolean)xCuts.getPropertiesMap().get(PROPERTY_SHOW_GRIDLINES);
 						setScale(xCuts, false);
-						createSheet(getSheetName(xCuts, null));
+						createSheet(xCuts, getSheetName(xCuts, null));
 
 						// we need to count all sheets generated for all exported documents
 						sheetIndex++;
@@ -981,7 +993,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					setScale(xCuts, false);
 					
 					// Create the sheet before looping.
-					createSheet(getSheetName(xCuts, jasperPrint.getName()));
+					createSheet(xCuts, getSheetName(xCuts, jasperPrint.getName()));
 
 					// we need to count all sheets generated for all exported documents
 					sheetIndex++;
@@ -1072,7 +1084,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				sheetFirstPageNumber = null;
 				sheetShowGridlines = null;
 				
-				createSheet(getSheetName(xCuts, null));
+				createSheet(xCuts, getSheetName(xCuts, null));
 				
 				setScale(xCuts, true);
 				setColumnWidths(xCuts);
@@ -1113,7 +1125,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				int emptyCols = 0;
 				for(int xCutIndex = 0; xCutIndex < gridRow.length; xCutIndex++)
 				{
-					emptyCols += (isRemoveEmptySpaceBetweenColumns && (!(xCuts.isCutNotEmpty(xCutIndex) || xCuts.isCutSpanned(xCutIndex))) ? 1 : 0);//FIXMEXLS we could do this only once
+					boolean isEmptyCol = !(xCuts.isCutNotEmpty(xCutIndex) || xCuts.isCutSpanned(xCutIndex));//FIXMEXLS we could do this only once
+					emptyCols += isRemoveEmptySpaceBetweenColumns && isEmptyCol ? 1 : 0;
 					
 					int colIndex = xCutIndex - emptyCols;
 					
@@ -1235,7 +1248,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					{
 						emptyCellColSpan++;
 						//emptyCellWidth += gridCell.getWidth();
-						if (!isRemoveEmptySpaceBetweenColumns)
+						if (!isRemoveEmptySpaceBetweenColumns || !isEmptyCol)
 						{
 							addBlankCell(gridCell, colIndex, rowIndex);
 						}
@@ -1875,22 +1888,25 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	}
 	
 	
+	protected ExporterNature getNature()
+	{
+		return nature;
+	}
+
 
 	//abstract methods
-	
-	protected abstract ExporterNature getNature();
 
-	protected abstract void openWorkbook(OutputStream os) throws JRException;
+	protected abstract void openWorkbook(OutputStream os) throws JRException, IOException;
 
-	protected abstract void createSheet(String name);
+	protected abstract void createSheet(CutsInfo xCuts, String name);
 
-	protected abstract void closeWorkbook(OutputStream os) throws JRException;
+	protected abstract void closeWorkbook(OutputStream os) throws JRException, IOException;
 
 	protected abstract void setColumnWidth(int col, int width, boolean autoFit);
 	
 	protected abstract void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut, XlsRowLevelInfo levelInfo) throws JRException;
 
-	protected abstract void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex);
+//	protected abstract void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex);
 
 	protected abstract void addBlankCell(JRExporterGridCell gridCell, int colIndex, int rowIndex) throws JRException;
 

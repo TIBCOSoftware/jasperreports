@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.TabStop;
@@ -82,7 +79,7 @@ public class ParagraphStyle extends Style
 	/**
 	 *
 	 */
-	public ParagraphStyle(Writer styleWriter, JRPrintText text)
+	public ParagraphStyle(WriterHelper styleWriter, JRPrintText text)
 	{
 		super(styleWriter);
 		
@@ -282,7 +279,7 @@ public class ParagraphStyle extends Style
 	/**
 	 *
 	 */
-	public void write(String paragraphStyleName) throws IOException
+	public void write(String paragraphStyleName)
 	{
 		styleWriter.write("<style:style style:name=\"" + paragraphStyleName + "\"");
 		styleWriter.write(" style:family=\"paragraph\">\n");

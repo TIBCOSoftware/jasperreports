@@ -29,44 +29,49 @@
 
 package net.sf.jasperreports.engine.export.oasis;
 
-import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.ExporterFilter;
+import net.sf.jasperreports.engine.export.GenericElementHandler;
+import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporterNature;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class JROdsExporterNature extends JROpenDocumentExporterNature
+public class JROdsExporterNature extends JRXlsAbstractExporterNature
 {
 
-	public JROdsExporterNature(ExporterFilter filter)
-	{
-		super(filter);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporterNature#getOpenDocumentNature()
-	 */
-	protected byte getOpenDocumentNature() {
-
-		return JROpenDocumentExporterNature.ODS_NATURE;
-	}
-
 	/**
 	 * 
 	 */
-	public boolean isDeep(JRPrintFrame frame)
+	public JROdsExporterNature(
+		JasperReportsContext jasperReportsContext,
+		ExporterFilter filter, 
+		boolean isIgnoreGraphics, 
+		boolean isIgnorePageMargins
+		)
 	{
-		return true;
+		super(jasperReportsContext, filter, isIgnoreGraphics, isIgnorePageMargins);
+	}
+
+	public boolean isToExport(JRPrintElement element)
+	{
+		boolean isToExport = true;
+		if (element instanceof JRGenericPrintElement)
+		{
+			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
+			GenericElementHandler handler = GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
+					genericElement.getGenericType(), JROdsExporter.ODS_EXPORTER_KEY);
+			if (handler == null || !handler.toExport(genericElement))
+			{
+				isToExport = false;
+			}
+		}
+
+		return isToExport && super.isToExport(element);
 	}
 	
-	/**
-	 * 
-	 */
-	public boolean isSplitSharedRowSpan()
-	{
-		return false;
-	}
-
 }
