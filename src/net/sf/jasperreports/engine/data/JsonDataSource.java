@@ -203,7 +203,11 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 		String expression = jrField.getDescription();
 		if (expression == null || expression.length() == 0)
 		{
-			return null;
+			expression = jrField.getName();
+			if (expression == null || expression.length() == 0)
+			{
+				return null;
+			}
 		}
 		Object value = null;
 		
