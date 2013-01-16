@@ -116,7 +116,7 @@ jive.interactive.column = jive.interactive.column || {
         /*
          * Reset foobar
          */
-        jasperreports.events.subscribeToEvent('jive.ui.foobar', 'jive.ui.foobar.reset', [], 'jive.ui.foobar');
+        jasperreports.events.subscribeToEvent({name: 'jive.ui.foobar', callback: 'jive.ui.foobar.reset', thisContext: 'jive.ui.foobar'});
     },
     getColumnByUuid: function(columnUuid, tableUuid) {
     	var tableColumns = this.allColumns[tableUuid],
@@ -282,12 +282,15 @@ jive.interactive.column = jive.interactive.column || {
     onDragStop: function(ev,ui){
     	if(this.colToMoveToIndex != null && this.colToMoveToIndex != jive.selected.ie.columnIndex) {
     		jive.runAction({
-    			actionName: 'move',
-    			moveColumnData: {
-					tableUuid: this.uuid,
-					columnToMoveIndex: jive.selected.ie.columnIndex,
-					columnToMoveNewIndex: this.colToMoveToIndex
-    			}
+    			actionData:	{
+    				actionName: 'move',
+    				moveColumnData: {
+    					tableUuid: this.uuid,
+    					columnToMoveIndex: jive.selected.ie.columnIndex,
+    					columnToMoveNewIndex: this.colToMoveToIndex
+    				}
+    			},
+    			defaultAction: true
     		});
     	}
     },
@@ -295,18 +298,24 @@ jive.interactive.column = jive.interactive.column || {
         var w = width < 8 ? 8 : Math.floor(width);
         jive.hide();
         jive.runAction({
-            actionName: 'resize',
-            resizeColumnData: {
-                tableUuid: jive.selected.jo.parent('.jrtableframe').data('uuid'),
-                columnIndex: jive.selected.ie.columnIndex,
-                direction: 'right',
-                width: w
-            }
+        	actionData: {
+	            actionName: 'resize',
+	            resizeColumnData: {
+	                tableUuid: jive.selected.jo.parent('.jrtableframe').data('uuid'),
+	                columnIndex: jive.selected.ie.columnIndex,
+	                direction: 'right',
+	                width: w
+	            }
+        	},
+			defaultAction: true
         });
     },
     sort: function(argv){
         jive.hide();
-        jive.runAction(jive.selected.ie.headerToolbar['sort'+argv[0]+'Btn'].sortData);
+        jive.runAction({
+        	actionData: jive.selected.ie.headerToolbar['sort'+argv[0]+'Btn'].sortData,
+			defaultAction: true
+        });
     },
     filter: function(){
         jive.ui.dialog.show(jive.i18n.get('column.filter.dialog.title') + ': ' + jive.selected.ie.columnLabel, ['columnfilter']);
@@ -318,12 +327,15 @@ jive.interactive.column = jive.interactive.column || {
     	var it = this, tableUuid = jive.selected.jo.parent('.jrtableframe').data('uuid');
         jive.hide();
         jive.runAction({
-            actionName: 'hideUnhideColumns',
-            columnData: {
-                hide: args.hide,
-                columnIndexes: args.column instanceof Array ? args.column : [jive.selected.ie.columnIndex],
-                tableUuid: tableUuid
-            }
+        	actionData: {
+	            actionName: 'hideUnhideColumns',
+	            columnData: {
+	                hide: args.hide,
+	                columnIndexes: args.column instanceof Array ? args.column : [jive.selected.ie.columnIndex],
+	                tableUuid: tableUuid
+	            }
+        	},
+			defaultAction: true
         });
     },
     setDynamicProperties: function (obj) {
@@ -758,10 +770,11 @@ jive.interactive.column.columnFilterForm = {
         }
 
         jive.hide();
-        jive.runAction(actionData);
+        jive.runAction({actionData: actionData,
+			defaultAction: true});
     }
 };
-jasperreports.events.subscribeToEvent('jive.init', 'jive.ui.forms.add', [jive.interactive.column.columnFilterForm]);
+jasperreports.events.subscribeToEvent({name: 'jive.init', callback: 'jive.ui.forms.add', args: [jive.interactive.column.columnFilterForm]});
 
 jive.interactive.column.formatHeaderForm = {
 	actionDataCache: {},
@@ -845,7 +858,8 @@ jive.interactive.column.formatHeaderForm = {
     	}
     	
     	jive.hide();
-        jive.runAction(actions);
+        jive.runAction({actionData: actions,
+			defaultAction: true});
     },
     onBlur: function() {
         this.actionDataCache[this.name] = this.getActionData();
@@ -874,7 +888,7 @@ jive.interactive.column.formatHeaderForm = {
     	}
     }
 };
-jasperreports.events.subscribeToEvent('jive.init', 'jive.ui.forms.add', [jive.interactive.column.formatHeaderForm]);
+jasperreports.events.subscribeToEvent({name: 'jive.init', callback: 'jive.ui.forms.add', args: [jive.interactive.column.formatHeaderForm]});
 
 jive.interactive.column.formatCellsForm = {
 	actionDataCache: {},
@@ -1013,7 +1027,8 @@ jive.interactive.column.formatCellsForm = {
 		}
 		
 		jive.hide();
-	    jive.runAction(actions);
+	    jive.runAction({actionData: actions,
+			defaultAction: true});
 	    this.actionDataCache = {};
     },
     onBlur: function() {
@@ -1043,7 +1058,7 @@ jive.interactive.column.formatCellsForm = {
 		};
     }
 };
-jasperreports.events.subscribeToEvent('jive.init', 'jive.ui.forms.add', [jive.interactive.column.formatCellsForm]);
+jasperreports.events.subscribeToEvent({name: 'jive.init', callback: 'jive.ui.forms.add', args: [jive.interactive.column.formatCellsForm]});
 
 jive.interactive.column.columnConditionalFormattingForm = {
 	actionDataCache: {},
@@ -1179,7 +1194,8 @@ jive.interactive.column.columnConditionalFormattingForm = {
 		}
 		
 		jive.hide();
-	    jive.runAction(actions);
+	    jive.runAction({actionData: actions,
+			defaultAction: true});
     },
     addFormatCondition: function(jo, conditionData) {
     	var conditionType =  jive.selected.ie.conditionalFormatting.conditionType.toLowerCase(),
@@ -1311,6 +1327,6 @@ jive.interactive.column.columnConditionalFormattingForm = {
 		return actionData;
     }
 };
-jasperreports.events.subscribeToEvent('jive.init', 'jive.ui.forms.add', [jive.interactive.column.columnConditionalFormattingForm]);
+jasperreports.events.subscribeToEvent({name: 'jive.init', callback: 'jive.ui.forms.add', args: [jive.interactive.column.columnConditionalFormattingForm]});
 
 jasperreports.events.registerEvent('jive.interactive.column.init').trigger();

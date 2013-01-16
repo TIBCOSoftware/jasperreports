@@ -2,11 +2,11 @@
 <script class='jasperreports'>
     jasperreports.global.appendScriptElementToDOM('_jiveColumnI18n', '${jiveColumnI18n_js}');
     
-    jasperreports.events.subscribeToEvent(
-    	'jive.interactive.column.i18n.init', 
-    	jasperreports.global.appendScriptElementToDOM, 
-    	['_jiveScript', '${jasperreports_tableHeaderToolbar_js}','jive.init', [{actionBaseData: '${actionBaseData}',actionBaseUrl: '${actionBaseUrl}'}]]
-    );
+    jasperreports.events.subscribeToEvent({
+    	name: 'jive.interactive.column.i18n.init', 
+    	callback: jasperreports.global.appendScriptElementToDOM, 
+    	args: ['_jiveScript', '${jasperreports_tableHeaderToolbar_js}','jive.init', [{actionBaseData: '${actionBaseData}',actionBaseUrl: '${actionBaseUrl}'}]]
+    });
     
     jasperreports.global.appendStyleElementToDOM('_jiveCSS', '${jasperreports_tableHeaderToolbar_css}');
 </script>
@@ -151,12 +151,12 @@
     </div>
 </div>
 <script class='jasperreports'>
-	jasperreports.events.subscribeToEvent(
-    	'jive.interactive.column.i18n.init',
-    	jasperreports.global.appendScriptElementToDOM,
-    	['_jiveColumnScript', '${jiveColumnScript}']
-    );
-    jasperreports.events.subscribeToEvent('jive.interactive.column.init', 'jive.interactive.column.setDynamicProperties', [{
+	jasperreports.events.subscribeToEvent({
+    	name: 'jive.interactive.column.i18n.init',
+    	callback: jasperreports.global.appendScriptElementToDOM,
+    	args: ['_jiveColumnScript', '${jiveColumnScript}']
+    });
+    jasperreports.events.subscribeToEvent({name: 'jive.interactive.column.init', callback: 'jive.interactive.column.setDynamicProperties', args: [{
 	    fontSizes: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
 	    fonts: {
 			extension: [
@@ -172,18 +172,18 @@
 			#end
 			]
 		}
-    }]);
+    }]});
 </script>
 #end
 
 #if (${exporterFirstAttempt})
     <script class='jasperreports'>
-        jasperreports.events.subscribeToEvent('jive.interactive.column.init', 'jive.interactive.column.init', [${allColumnNames}, '${tableUUID}'], 'jive.interactive.column');
+        jasperreports.events.subscribeToEvent({name: 'jive.interactive.column.init', callback: 'jive.interactive.column.init', args: [${allColumnNames}, '${tableUUID}'], thisContext: 'jive.interactive.column'});
     </script>
 #end
 
 <script class='jasperreports'>
-    jasperreports.events.subscribeToEvent('jive.init', 'jive.initInteractiveElement',[{
+    jasperreports.events.subscribeToEvent({name: 'jive.init', callback: 'jive.initInteractiveElement', args: [{
         id: '${popupId}',
         type: 'column',
         selector: '.columnHeader',
@@ -227,5 +227,5 @@
         #end
         headingsTabContent: ${colHeaderData},
         valuesTabContent: ${colValueData}
-    }]);
+    }]});
 </script>

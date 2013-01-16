@@ -12,7 +12,12 @@
 					redos: 0
 				},
 				PARAM_ACTION: 'jr.action',
-				MODULE_TAG: 'reportviewertoolbar'
+				MODULE_TAG: 'reportviewertoolbar',
+				events: {
+					DEFAULT_ACTION: 'jasperreports.reportviewertoolbar.default.action',
+					UNDO: 'jasperreports.reportviewertoolbar.undo',
+					REDO: 'jasperreports.reportviewertoolbar.redo'
+				}
 	};
 	
 	jvt.init = function(toolbarId) {
@@ -58,13 +63,24 @@
 					}
 					
 					if (target.is('.undo')) {
-						jive.runAction({actionName: "undo"}, target, jvt.performUndo);
+						jasperreports.events.subscribeToEvent({name: jvt.events.UNDO, callback: jvt.performUndo, args: [toolbarId]});
+						jive.runAction({
+							actionData: {actionName: "undo"},
+							startPoint: target,
+							callback: 'jasperreports.events.registerTriggerReset',
+							arrCallbackArgs: [jvt.events.UNDO],
+							thisContext: 'jasperreports.events'
+						});
 						
 					} else if (target.is('.redo')) {
-						jive.runAction({actionName: "redo"}, target, jvt.performRedo);
-						
-					} else if (target.is('.save')) {
-						jive.runAction({actionName: "save"}, target, null);
+						jasperreports.events.subscribeToEvent({name: jvt.events.REDO, callback: jvt.performRedo, args: [toolbarId]});
+						jive.runAction({
+								actionData: {actionName: "redo"},
+								startPoint: target,
+								callback: 'jasperreports.events.registerTriggerReset',
+								arrCallbackArgs: [jvt.events.REDO],
+								thisContext: 'jasperreports.events'
+						});
 					}
 				}
 			});
@@ -346,29 +362,45 @@
 		jvt.setAutoRefresh(toolbarId);
 	};
 	
-	jvt.runReport = function(selectedColumn, actionData, callback, arrCallbackArgs) {
-		var	gm = global.jasperreports.global,
-			params = selectedColumn.actionBaseData,
-			arrCallbackArgs = arrCallbackArgs || [],
-			isJson = isJson || true;
+	jvt.runReport = function(options) {
+		var settings = {
+				selectedColumn: null,
+				actionData: null,
+				callback: null,
+				arrCallbackArgs: null,
+				thisContext: null,
+				defaultAction: false
+			},
+			gm = global.jasperreports.global;
 		
-		if (typeof actionData === 'object') {
-			actionData = gm.toJsonString(actionData, true);
+		jQuery.extend(settings, options);
+		
+		if (typeof settings.actionData === 'object') {
+			settings.actionData = gm.toJsonString(settings.actionData, true);
 		}
 		
-		if (callback === undefined) { // only when it's not supplied as function parameter
-    		callback = jvt.performAction;
-    	}
-		
-		params[jvt.PARAM_ACTION] = encodeURIComponent(actionData);
+		settings.selectedColumn.actionBaseData[jvt.PARAM_ACTION] = encodeURIComponent(settings.actionData);
 		
 		if (gm.isDebugEnabled()) {
-			gm.debug(jvt.MODULE_TAG + " jr.action", actionData);
+			gm.debug(jvt.MODULE_TAG + " jr.action", settings.actionData);
 		}
 		
-		arrCallbackArgs.splice(arrCallbackArgs.length, 0, selectedColumn.toolbarId);
+		if (settings.defaultAction) {
+			jasperreports.events.subscribeToEvent({name: jvt.events.DEFAULT_ACTION, callback: jvt.performAction, args: [settings.selectedColumn.toolbarId]});
+			
+			settings.callback = 'jasperreports.events.registerTriggerReset';
+			settings.arrCallbackArgs = [jvt.events.DEFAULT_ACTION];
+			settings.thisContext = 'jasperreports.events';
+		}
 		
-		var	ctx = gm.getToolbarExecutionContext(selectedColumn.self, selectedColumn.actionBaseUrl, params, callback, arrCallbackArgs, false);
+		var	ctx = gm.getToolbarExecutionContext(
+				settings.selectedColumn.self,
+				settings.selectedColumn.actionBaseUrl,
+				settings.selectedColumn.actionBaseData,
+				settings.callback,
+				settings.arrCallbackArgs,
+				settings.thisContext,
+				false);
 		
 		if (ctx) {
 			ctx.run();

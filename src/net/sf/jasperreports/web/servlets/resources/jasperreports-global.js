@@ -249,7 +249,7 @@ jQuery.noConflict();
 	 * Isolates jQuery dependent functions
 	 */
 	jg.doJqueryStuff = function () {
-		jg.ajaxLoad = function (url, elementToAppendTo, elementToExtract, requestParams, callback, arrCallbackArgs, loadMaskTarget) {
+		jg.ajaxLoad = function (url, elementToAppendTo, elementToExtract, requestParams, callback, arrCallbackArgs, thisContext, loadMaskTarget) {
 			jQuery.ajax(url, 
 					{
 						type: 'POST',
@@ -317,7 +317,7 @@ jQuery.noConflict();
 									arrCallbackArgs = [];
 								}
 								arrCallbackArgs.push(response);
-								callback.apply(null, arrCallbackArgs);
+								jg.extractCallbackFunction(callback).apply(jg.extractContext(thisContext), arrCallbackArgs);
 							}
 							
 							loadMaskTarget.loadmask && loadMaskTarget.loadmask('hide');
@@ -356,7 +356,7 @@ jQuery.noConflict();
 		
 		
 		// @Object
-		jg.AjaxExecutionContext = function(contextId, requestUrl, target, requestParams, elementToExtract, callback, arrCallbackArgs, isJSONResponse) {
+		jg.AjaxExecutionContext = function(contextId, requestUrl, target, requestParams, elementToExtract, callback, arrCallbackArgs, thisContext, isJSONResponse) {
 			// enforce new
 			if (!(this instanceof jg.AjaxExecutionContext)) {
 				return new jg.AjaxExecutionContext(contextId, requestUrl, target, requestParams, elementToExtract, callback, arrCallbackArgs, isJSONResponse);
@@ -368,6 +368,7 @@ jQuery.noConflict();
 			this.elementToExtract = elementToExtract;
 			this.callback = callback;
 			this.arrCallbackArgs = arrCallbackArgs;
+			this.thisContext = thisContext;
 			this.isJSONResponse = isJSONResponse;
 		};
 		
@@ -392,7 +393,7 @@ jQuery.noConflict();
 				if (this.isJSONResponse) {
 					jg.ajaxJson(this.requestUrl, this.requestParams, this.callback, this.arrCallbackArgs, parent);
 				} else {
-					jg.ajaxLoad(this.requestUrl, this.target, this.elementToExtract, this.requestParams, this.callback, this.arrCallbackArgs, parent);
+					jg.ajaxLoad(this.requestUrl, this.target, this.elementToExtract, this.requestParams, this.callback, this.arrCallbackArgs, this.thisContext, parent);
 				}
 			}
 		};
@@ -459,7 +460,7 @@ jQuery.noConflict();
 		};
 		
 
-		jg.getToolbarExecutionContext = function(startPoint, requestedUrl, params, callback, arrCallbackArgs, isJSONResponse) {
+		jg.getToolbarExecutionContext = function(startPoint, requestedUrl, params, callback, arrCallbackArgs, thisContext, isJSONResponse) {
 //			var executionContextElement = jQuery(startPoint).closest('div.mainReportDiv');
 			var executionContextElement = jQuery('div.mainReportDiv:first'); // this could be unpredictable when using embeded reports 
 			
@@ -472,6 +473,7 @@ jQuery.noConflict();
 					'div.result',													// elementToExtract
 					callback,														// callback
 					arrCallbackArgs,												// arrCallbackArgs
+					thisContext,													// 'this' context
 					isJSONResponse													// isJSONResponse
 				);
 			}
@@ -636,34 +638,76 @@ jQuery.noConflict();
 	
 	jasperreports.events = {	// FIXMEJIVE consider separating as module
 		_events: {},
-		Event: function () {
+		Event: function (name) {
 			if (!this instanceof jasperreports.events.Event) {
-				return new jasperreports.events.Event();
+				return new jasperreports.events.Event(name);
 			}
 			this.status = 'default';
+			this.name = name;
 			this.subscribers = [];
 		},
 		registerEvent: function (evtName) {
 			if (!this._events[evtName]) {
-				this._events[evtName] = new jasperreports.events.Event();
+				this._events[evtName] = new jasperreports.events.Event(evtName);
 			}
 			return this._events[evtName];
 		},
-		subscribeToEvent: function (evtName, strCallbackFn, arrCallbackArgs, thisContext) {
-			this.registerEvent(evtName).subscribe({
-				callback: strCallbackFn,
-				args: arrCallbackArgs,
-				ctx: thisContext
+		registerEvents: function (evtNames) {
+			var result = [];
+			jQuery.each(this._getEventNames(evtNames), function (i, evtName) {
+				result.push(jasperreports.events.registerEvent(evtName));
+			});
+			
+			return result;
+		},
+		/**
+		 * options = {name: string, callback: function/string, thisContext: object/string, keep: boolean}
+		 */
+		subscribeToEvent: function (options) {
+			this.registerEvent(options.name).subscribe({
+				callback: options.callback,
+				args: options.args,
+				ctx: options.thisContext,
+				keep: options.keep
 			});
 		},
-		triggerEvent: function (evtName) {
-			this.checkRegistered(evtName);
-			this._events[evtName].trigger();
+		/**
+		 * options = {names: string, callback: function/string, thisContext: object/string, keep: boolean}
+		 */
+		subscribeToEvents: function (options) {
+			jQuery.each(this.registerEvents(options.names), function (i, evt) {
+				evt.subscribe({
+					callback: options.callback,
+					args: options.args,
+					ctx: options.thisContext,
+					keep: options.keep
+				});
+			});
+		},
+		triggerEvents: function (evtNames) {
+			jQuery.each(this._getEventNames(evtNames), function (i, evtName) {
+				jasperreports.events.triggerEvent(evtName);
+			});
 		},
 		checkRegistered: function (evtName) {
 			if (!this._events[evtName]) {
 				throw new Error('Event not registered:' + evtName);
 			}
+		},
+		registerTriggerReset: function (evtNames, response) {
+			jQuery.each(this.registerEvents(evtNames), function (i, evt) {
+				evt.trigger(response).reset();
+			});
+		},
+		_getEventNames: function (evtNames) {
+			var result = [], tokens, i, ln;
+			if (evtNames && typeof(evtNames) === 'string') {
+				tokens = evtNames.split(',');
+				for (i = 0, ln = tokens.length; i < ln; i++) {
+					result.push(tokens[i].replace(/^\s+|\s+$/g, ''));
+				}
+			}
+			return result;
 		}
 	};
 	
@@ -681,20 +725,41 @@ jQuery.noConflict();
 			if (!this.hasFinished()) {
 				this.subscribers.push(subscriber);
 			} else {
+				if (subscriber.keep) {
+					this.subscribers.push(subscriber);
+				}
 				this.processSubscriber(subscriber);
 			}
 		},
-		trigger: function() {
-			var i, ln = this.subscribers.length;
-			for (i = 0; i < ln; i++) {
-				this.processSubscriber(this.subscribers[i]);
+		trigger: function(response) {
+			var i, subscriber;
+			for (i = 0; i < this.subscribers.length; i++) {
+				subscriber = this.subscribers[i];
+				if (subscriber.args) {
+					subscriber.args.push(response);
+				} else {
+					subscriber.args = [response];
+				}
+				i = i - this.processSubscriber(subscriber);
 			}
-			this.subscribers = [];
 			this.status = 'finished';
+			return this;
+		},
+		reset: function() {
+			this.status = 'default';
 		},
 		processSubscriber: function(subscriber) {
-			var jg = jasperreports.global;
-			jg.extractCallbackFunction(subscriber.callback).apply(jg.extractContext(subscriber.ctx), subscriber.args || []);
+			var jg = jasperreports.global, index, i, ln = this.subscribers.length;
+			jg.extractCallbackFunction(subscriber.callback).apply(jg.extractContext(subscriber.ctx), subscriber.args);
+			if (!subscriber.keep) {
+				for (i = 0; i < ln; i++) {
+					if (this.subscribers[i] === subscriber) {
+						this.subscribers.splice(i,1);
+						return 1;
+					}
+				}
+			}
+			return 0;
 		}
 	};
 
@@ -725,22 +790,36 @@ jQuery.noConflict();
             form: null // selected form defined by interactive element
         },
         viewerReady: false,
-        runAction: function (actionData, startPoint, callback, arrCallbackArgs) {
-        	var startPoint = startPoint || this.selected.jo,
-        		toolbarId = startPoint != null ? startPoint.closest('.mainReportDiv').find('.toolbarDiv').attr('id') : null,
-        		fnToString = Object.prototype.toString;
-
+        runAction: function (options) {
+        	var settings = {
+        			actionData: null,
+        			startPoint: null,
+        			callback: null,
+        			arrCallbackArgs: null,
+        			thisContext: null,
+        			defaultAction: false
+        	};
+        	
+        	jQuery.extend(settings, options);
+        	
+        	settings.startPoint = settings.startPoint || this.selected.jo;
+        	
             this.hide();
 
         	jasperreports.reportviewertoolbar.runReport({
-    				actionBaseData: jQuery.parseJSON(this.actionBaseData),
-    				actionBaseUrl: this.actionBaseUrl,
-    				toolbarId: toolbarId,
-    				self: startPoint
-    			},
-    			actionData,
-    			callback,
-    			arrCallbackArgs);
+        			selectedColumn: {
+        				actionBaseData: jQuery.parseJSON(this.actionBaseData),
+        				actionBaseUrl: this.actionBaseUrl,
+        				toolbarId: settings.startPoint ? settings.startPoint.closest('.mainReportDiv').find('.toolbarDiv').attr('id') : null,
+        				self: settings.startPoint
+        			},
+    				actionData: settings.actionData,
+    				callback: settings.callback,
+    				arrCallbackArgs: settings.arrCallbackArgs,
+    				thisContext: settings.thisContext,
+    				defaultAction: settings.defaultAction
+        	});
+    				
         },
         hide: function () {
         	// empty body; overwritten in jive.js
