@@ -304,7 +304,7 @@ public class EjbqlApp extends AbstractSampleApp
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".odt");
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".ods");
 		
 		JROdsExporter exporter = new JROdsExporter();
 		
