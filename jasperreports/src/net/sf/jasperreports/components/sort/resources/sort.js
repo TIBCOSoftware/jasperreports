@@ -83,13 +83,14 @@
 				jQuery('#' + js.filters.filterContainerId).empty();
 
 				jasperreports.reportviewertoolbar.runReport({
+					selectedColumn: {
 	    				actionBaseData: jQuery.parseJSON(actionBaseData),
 	    				actionBaseUrl: actionBaseUrl,
 	    				toolbarId: toolbarId,
 	    				self: contextStartPoint
 	    			},
-	    			actionData
-	    		);
+	    			actionData: actionData
+				});
 			});
 			
 			// show the second filter value for options containing 'between'
@@ -133,13 +134,14 @@
 				jQuery('#' + js.filters.filterContainerId).empty();
 	
 				jasperreports.reportviewertoolbar.runReport({
+					selectedColumn: {
 	    				actionBaseData: jQuery.parseJSON(actionBaseData),
 	    				actionBaseUrl: actionBaseUrl,
 	    				toolbarId: toolbarId,
 	    				self: contextStartPoint
 	    			},
-	    			actionData
-	    		);
+	    			actionData: actionData
+				});
 			});
 		} else {
 			// update existing filter with values from filtersJsonString
@@ -242,13 +244,14 @@
 						actionData = jQuery.parseJSON(self.attr('data-actionData'));
 	                
 					jasperreports.reportviewertoolbar.runReport({
+						selectedColumn: {
 		    				actionBaseData: jQuery.parseJSON(actionBaseData),
 		    				actionBaseUrl: actionBaseUrl,
 		    				toolbarId: toolbarId,
 		    				self: self
 		    			},
-		    			actionData		    			
-		    		);
+		    			actionData: actionData		    			
+					});
 	            });
 				/*
 	             * Show filter div on long touch
@@ -286,13 +289,14 @@
 						actionData = jQuery.parseJSON(self.attr('data-actionData'));
 	                
 					jasperreports.reportviewertoolbar.runReport({
+						selectedColumn: {
 		    				actionBaseData: jQuery.parseJSON(actionBaseData),
 		    				actionBaseUrl: actionBaseUrl,
 		    				toolbarId: toolbarId,
 		    				self: self
 		    			},
-		    			actionData		    			
-		    		);
+		    			actionData: actionData		    			
+					});
 	            });
 	            /**
 	             * Show filter div when right-clicking the table header

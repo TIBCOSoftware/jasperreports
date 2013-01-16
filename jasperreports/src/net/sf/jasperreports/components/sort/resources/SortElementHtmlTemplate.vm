@@ -53,7 +53,7 @@
 			                "	<input class='clearFilter' #if(!${isFiltered}) style='display:none;' #end type='button' value='Clear' />",
 			                "</div></div>"];
 			                
-		jasperreports.events.subscribeToEvent('jasperreports.sort.init', 'jasperreports.sort.createFilterDiv', [uid, arrFilterDiv, '${filtersJsonString}']);
+		jasperreports.events.subscribeToEvent({name: 'jasperreports.sort.init', callback: 'jasperreports.sort.createFilterDiv', args: [uid, arrFilterDiv, '${filtersJsonString}']});
 	} ());
 </script>
 #end
