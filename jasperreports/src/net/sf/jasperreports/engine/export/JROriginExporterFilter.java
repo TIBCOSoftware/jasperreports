@@ -193,7 +193,9 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 				String suffix = propertySuffix.getSuffix();
 				BandTypeEnum bandType = 
 					BandTypeEnum.getByName(
-						propUtil.getProperty(propertiesMap, propertySuffix.getKey())
+						propUtil.getProperty(propertiesMap, propertySuffix.getKey()) == null
+						? null
+						: propUtil.getProperty(propertiesMap, propertySuffix.getKey()).trim()
 						);
 				if (bandType != null)
 				{
