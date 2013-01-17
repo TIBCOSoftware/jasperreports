@@ -200,12 +200,12 @@ public final class JRPropertiesUtil
 	 */
 	public static boolean asBoolean(String value)
 	{
-		return Boolean.valueOf(value).booleanValue();
+		return Boolean.valueOf(value == null ? value : value.trim()).booleanValue();
 	}
 
 	public static boolean asBoolean(String value, boolean defaultValue)
 	{
-		return value == null ? defaultValue : Boolean.valueOf(value).booleanValue();
+		return value == null ? defaultValue : Boolean.valueOf(value.trim()).booleanValue();
 	}
 
 	/**
@@ -216,7 +216,7 @@ public final class JRPropertiesUtil
 	 */
 	public static int asInteger(String value)
 	{
-		return Integer.parseInt(value);
+		return Integer.parseInt(value == null ? value : value.trim());
 	}
 	
 	/**
@@ -227,7 +227,7 @@ public final class JRPropertiesUtil
 	 */
 	public static float asFloat(String value)
 	{
-		return Float.parseFloat(value);
+		return Float.parseFloat(value == null ? value : value.trim());
 	}
 	
 	/**
@@ -615,7 +615,7 @@ public final class JRPropertiesUtil
 	 */
 	public static long asLong(String value)
 	{
-		return Long.parseLong(value);
+		return Long.parseLong(value == null ? value : value.trim());
 	}
 	
 	/**
