@@ -59,13 +59,13 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_KEEP_TOGETHER = "keepTogether";
 	
-	public static final String PROPERTY_RESET_PAGE_NUMBER = "resetPageNumber";
+	public static final String PROPERTY_RESET_PAGE_NUMBER = "isResetPageNumber";
 	
-	public static final String PROPERTY_REPRINT_HEADER_ON_EACH_PAGE = "reprintHeaderOnEachPage";
+	public static final String PROPERTY_REPRINT_HEADER_ON_EACH_PAGE = "isReprintHeaderOnEachPage";
 	
-	public static final String PROPERTY_START_NEW_COLUMN = "startNewColumn";
+	public static final String PROPERTY_START_NEW_COLUMN = "isStartNewColumn";
 	
-	public static final String PROPERTY_START_NEW_PAGE = "startNewPage";
+	public static final String PROPERTY_START_NEW_PAGE = "isStartNewPage";
 
 	/**
 	 *

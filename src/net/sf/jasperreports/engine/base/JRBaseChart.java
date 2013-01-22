@@ -97,7 +97,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	
 	public static final String PROPERTY_LEGEND_POSITION = "legendPosition";
 	
-	public static final String PROPERTY_SHOW_LEGEND = "showLegend";
+	public static final String PROPERTY_SHOW_LEGEND = "isShowLegend";
 	
 	public static final String PROPERTY_SUBTITLE_COLOR = "subtitleColor";
 	

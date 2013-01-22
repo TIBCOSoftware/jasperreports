@@ -96,9 +96,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	
 	public static final String PROPERTY_PARAMETERS_MAP_EXPRESSION = "parametersMapExpression";
 	
-	public static final String PROPERTY_REPEAT_COLUMN_HEADERS = "repeatColumnHeaders";
+	public static final String PROPERTY_REPEAT_COLUMN_HEADERS = "isRepeatColumnHeaders";
 	
-	public static final String PROPERTY_REPEAT_ROW_HEADERS = "repeatRowHeaders";
+	public static final String PROPERTY_REPEAT_ROW_HEADERS = "isRepeatRowHeaders";
 	
 	public static final String PROPERTY_WHEN_NO_DATA_CELL = "whenNoDataCell";
 	

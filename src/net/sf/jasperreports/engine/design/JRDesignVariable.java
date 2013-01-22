@@ -51,7 +51,7 @@ public class JRDesignVariable extends JRBaseVariable implements JRChangeEventsSu
 	
 	public static final String PROPERTY_EXPRESSION = "expression";
 	
-	public static final String PROPERTY_INCREMENTER_FACTORY_CLASS_NAME = "incrementerFactoryClassName";
+	public static final String PROPERTY_INCREMENTER_FACTORY_CLASS_NAME = "incrementerFactoryClass";
 	
 	public static final String PROPERTY_INCREMENT_GROUP = "incrementGroup";
 	

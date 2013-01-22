@@ -48,7 +48,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_USING_CACHE = "usingCache";
+	public static final String PROPERTY_USING_CACHE = "isUsingCache";
 	
 	public static final String PROPERTY_RUN_TO_BOTTOM = "runToBottom";
 

@@ -57,7 +57,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_STRETCH_WITH_OVERFLOW = "stretchWithOverflow";
+	public static final String PROPERTY_STRETCH_WITH_OVERFLOW = "isStretchWithOverflow";
 
 	/**
 	 *

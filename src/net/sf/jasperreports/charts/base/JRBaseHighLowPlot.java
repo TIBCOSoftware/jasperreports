@@ -52,9 +52,9 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_SHOW_CLOSE_TICKS = "showCloseTicks";
+	public static final String PROPERTY_SHOW_CLOSE_TICKS = "isShowCloseTicks";
 	
-	public static final String PROPERTY_SHOW_OPEN_TICKS = "showOpenTicks";
+	public static final String PROPERTY_SHOW_OPEN_TICKS = "isShowOpenTicks";
 
 	protected JRExpression timeAxisLabelExpression;
 	protected JRFont timeAxisLabelFont;

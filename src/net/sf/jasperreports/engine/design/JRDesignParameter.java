@@ -41,7 +41,7 @@ public class JRDesignParameter extends JRBaseParameter
 	
 	public static final String PROPERTY_DEFAULT_VALUE_EXPRESSION = "defaultValueExpression";
 	
-	public static final String PROPERTY_FOR_PROMPTING = "forPrompting";
+	public static final String PROPERTY_FOR_PROMPTING = "isForPrompting";
 	
 	public static final String PROPERTY_NAME = "name";
 	
@@ -49,7 +49,7 @@ public class JRDesignParameter extends JRBaseParameter
 	
 	public static final String PROPERTY_VALUE_CLASS_NAME = "valueClassName";
 	
-	public static final String PROPERTY_NESTED_TYPE_NAME = "nestedTypeName";
+	public static final String PROPERTY_NESTED_TYPE_NAME = "nestedType";
 
 
 	/**

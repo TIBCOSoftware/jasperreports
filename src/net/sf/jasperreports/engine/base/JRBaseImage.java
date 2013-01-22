@@ -69,11 +69,11 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 * Image properties
 	 */
 
-	public static final String PROPERTY_LAZY = "lazy";
+	public static final String PROPERTY_LAZY = "isLazy";
 	
 	public static final String PROPERTY_ON_ERROR_TYPE = "onErrorType";
 	
-	public static final String PROPERTY_USING_CACHE = "usingCache";
+	public static final String PROPERTY_USING_CACHE = "isUsingCache";
 	
 	
 	/**

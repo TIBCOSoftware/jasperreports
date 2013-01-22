@@ -51,7 +51,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_SHOW_VOLUME = "showVolume";
+	public static final String PROPERTY_SHOW_VOLUME = "isShowVolume";
 
 	protected JRExpression timeAxisLabelExpression;
 	protected JRFont timeAxisLabelFont;
