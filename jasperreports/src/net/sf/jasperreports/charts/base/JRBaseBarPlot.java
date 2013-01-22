@@ -54,11 +54,11 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	public static final String PROPERTY_SHOW_LABELS = "showLabels";
+	public static final String PROPERTY_SHOW_LABELS = "isShowLabels";
 
-	public static final String PROPERTY_SHOW_TICK_LABELS = "showTickLabels";
+	public static final String PROPERTY_SHOW_TICK_LABELS = "isShowTickLabels";
 
-	public static final String PROPERTY_SHOW_TICK_MARKS = "showTickMarks";
+	public static final String PROPERTY_SHOW_TICK_MARKS = "isShowTickMarks";
 
 	protected JRExpression categoryAxisLabelExpression;
 	protected JRFont categoryAxisLabelFont;

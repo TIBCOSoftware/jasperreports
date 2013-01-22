@@ -55,15 +55,15 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_BOLD = "bold";
+	public static final String PROPERTY_BOLD = "isBold";
 	
 	public static final String PROPERTY_FONT_NAME = "fontName";
 	
 	public static final String PROPERTY_FONT_SIZE = "fontSize";
 	
-	public static final String PROPERTY_ITALIC = "italic";
+	public static final String PROPERTY_ITALIC = "isItalic";
 	
-	public static final String PROPERTY_PDF_EMBEDDED = "pdfEmbedded";
+	public static final String PROPERTY_PDF_EMBEDDED = "isPdfEmbedded";
 	
 	public static final String PROPERTY_PDF_ENCODING = "pdfEncoding";
 	
@@ -71,9 +71,9 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	
 	public static final String PROPERTY_REPORT_FONT = "reportFont";
 	
-	public static final String PROPERTY_STRIKE_THROUGH = "strikeThrough";
+	public static final String PROPERTY_STRIKE_THROUGH = "isStrikeThrough";
 	
-	public static final String PROPERTY_UNDERLINE = "underline";
+	public static final String PROPERTY_UNDERLINE = "isUnderline";
 
 	/**
 	 *

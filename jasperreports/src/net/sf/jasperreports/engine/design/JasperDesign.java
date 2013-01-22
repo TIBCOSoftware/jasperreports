@@ -102,13 +102,13 @@ public class JasperDesign extends JRBaseReport
 
 	public static final String PROPERTY_DETAIL = "detail";
 
-	public static final String PROPERTY_FLOAT_COLUMN_FOOTER = "floatColumnFooter";
+	public static final String PROPERTY_FLOAT_COLUMN_FOOTER = "isFloatColumnFooter";
 
 	public static final String PROPERTY_FONTS = "fonts";
 
 	public static final String PROPERTY_FORMAT_FACTORY_CLASS = "formatFactoryClass";
 
-	public static final String PROPERTY_IGNORE_PAGINATION = "ignorePagination";
+	public static final String PROPERTY_IGNORE_PAGINATION = "isIgnorePagination";
 
 	public static final String PROPERTY_IMPORTS = "imports";
 
@@ -144,15 +144,15 @@ public class JasperDesign extends JRBaseReport
 
 	public static final String PROPERTY_SUMMARY = "summary";
 
-	public static final String PROPERTY_SUMMARY_NEW_PAGE = "summaryNewPage";
+	public static final String PROPERTY_SUMMARY_NEW_PAGE = "isSummaryNewPage";
 
-	public static final String PROPERTY_SUMMARY_WITH_PAGE_HEADER_AND_FOOTER = "summaryWithPageHeaderAndFooter";
+	public static final String PROPERTY_SUMMARY_WITH_PAGE_HEADER_AND_FOOTER = "isSummaryWithPageHeaderAndFooter";
 
 	public static final String PROPERTY_TEMPLATES = "templates";
 
 	public static final String PROPERTY_TITLE = "title";
 
-	public static final String PROPERTY_TITLE_NEW_PAGE = "titleNewPage";
+	public static final String PROPERTY_TITLE_NEW_PAGE = "isTitleNewPage";
 
 	public static final String PROPERTY_TOP_MARGIN = "topMargin";
 	

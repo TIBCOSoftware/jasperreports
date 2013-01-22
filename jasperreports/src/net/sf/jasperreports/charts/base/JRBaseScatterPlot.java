@@ -47,9 +47,9 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_SHOW_LINES = "showLines";
+	public static final String PROPERTY_SHOW_LINES = "isShowLines";
 	
-	public static final String PROPERTY_SHOW_SHAPES = "showShapes";
+	public static final String PROPERTY_SHOW_SHAPES = "isShowShapes";
 	
 	protected JRExpression xAxisLabelExpression;
 	protected JRFont xAxisLabelFont;

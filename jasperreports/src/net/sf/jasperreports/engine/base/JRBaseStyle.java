@@ -69,9 +69,9 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_BACKCOLOR = "backcolor";
 	
-	public static final String PROPERTY_BLANK_WHEN_NULL = "blankWhenNull";
+	public static final String PROPERTY_BLANK_WHEN_NULL = "isBlankWhenNull";
 	
-	public static final String PROPERTY_BOLD = "bold";
+	public static final String PROPERTY_BOLD = "isBold";
 	
 	public static final String PROPERTY_FILL = "fill";
 	
@@ -83,7 +83,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_HORIZONTAL_ALIGNMENT = "horizontalAlignment";
 	
-	public static final String PROPERTY_ITALIC = "italic";
+	public static final String PROPERTY_ITALIC = "isItalic";
 	
 	/**
 	 * @deprecated Replaced by {@link JRBaseParagraph#PROPERTY_LINE_SPACING}
@@ -94,7 +94,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_PATTERN = "pattern";
 	
-	public static final String PROPERTY_PDF_EMBEDDED = "pdfEmbedded";
+	public static final String PROPERTY_PDF_EMBEDDED = "isPdfEmbedded";
 	
 	public static final String PROPERTY_PDF_ENCODING = "pdfEncoding";
 	
@@ -106,11 +106,11 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_SCALE_IMAGE = "scaleImage";
 	
-	public static final String PROPERTY_STRIKE_THROUGH = "strikeThrough";
+	public static final String PROPERTY_STRIKE_THROUGH = "isStrikeThrough";
 	
 	public static final String PROPERTY_MARKUP = "markup";
 	
-	public static final String PROPERTY_UNDERLINE = "underline";
+	public static final String PROPERTY_UNDERLINE = "isUnderline";
 	
 	public static final String PROPERTY_VERTICAL_ALIGNMENT = "verticalAlignment";
 

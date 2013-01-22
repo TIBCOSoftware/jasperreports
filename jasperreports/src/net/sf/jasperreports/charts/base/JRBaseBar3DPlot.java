@@ -51,7 +51,7 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_SHOW_LABELS = "showLabels";
+	public static final String PROPERTY_SHOW_LABELS = "isShowLabels";
 	
 	public static final String PROPERTY_X_OFFSET = "xOffset";
 	
