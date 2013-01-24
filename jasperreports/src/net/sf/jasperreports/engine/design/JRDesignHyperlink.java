@@ -63,7 +63,7 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	
 	public static final String PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION = "hyperlinkTooltipExpression";
 	
-	public static final String PROPERTY_LINK_TYPE = "linkType";
+	public static final String PROPERTY_LINK_TYPE = "hyperlinkType";
 	
 	public static final String PROPERTY_HYPERLINK_PARAMETERS = "hyperlinkParameters";
 	
