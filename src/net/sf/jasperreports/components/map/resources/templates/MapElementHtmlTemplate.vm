@@ -15,7 +15,7 @@
 	<script class='jasperreports' type='text/javascript'>
 		jasperreports.global.appendScriptElementToDOM('_mapScript', '${resourceMapJs}', 'jasperreports.map.initGoogleMaps', ['${language}']);
 		var markers = ${markerList};
-		jasperreports.events.subscribeToEvent('jasperreports.map.init', 'jasperreports.map.showMap', ['${mapCanvasId}', ${latitude}, ${longitude}, ${zoom}, '${mapType}', markers]);
+		jasperreports.events.subscribeToEvent({name: 'jasperreports.map.init', callback: 'jasperreports.map.showMap', args: ['${mapCanvasId}', ${latitude}, ${longitude}, ${zoom}, '${mapType}', markers]});
 	</script>
 #else
 	#if (${exporterFirstAttempt})
