@@ -18,7 +18,7 @@
 	<scm>
 		<connection>scm:svn:http://jasperforge.org/svn/repos/jasperreports</connection>
 		<tag>jr-5-0-2</tag>
-		<url>http://jasperforge.org/scm/viewvc.php/?root=jasperreports</url>
+		<url>http://code.jaspersoft.com/svn/repos/jasperreports/</url>
 	</scm>
 	<developers>
 		<developer>
