@@ -186,8 +186,8 @@
     jasperreports.events.subscribeToEvent({name: 'jive.init', callback: 'jive.initInteractiveElement', args: [{
         id: '${popupId}',
         type: 'column',
-        selector: '.columnHeader',
-        proxySelector: '.column',
+        selector: '.jrcolHeader',
+        proxySelector: '.jrcol',
         columnIndex: ${columnIndex},
         columnLabel: "$JRStringUtil.escapeString4JavaScript(${columnLabel})",
         filterData: '{"actionName":"filter"}',

@@ -71,11 +71,11 @@ jive.interactive.column = jive.interactive.column || {
         } else if (tablesWithSameUuid.size() > 1) {
         	for (i = 0; i < tablesWithSameUuid.size(); i++) {
         		t = tablesWithSameUuid.eq(i);
-        		if (t.find('.columnHeader').size() > 0) break;
+        		if (t.find('.jrcolHeader').size() > 0) break;
         	}
         }
         
-        t.find('.columnHeader').each(function(i){
+        t.find('.jrcolHeader').each(function(i){
             c = jQuery(this);
             lt = c.offset().left;
             colData = it.getColumnByUuid(c.data('popupid'), tableUuid);

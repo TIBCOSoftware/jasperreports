@@ -122,7 +122,7 @@ public class TableReport implements JRReport
 	protected static final String SUMMARY_GROUP_NAME = "__SummaryGroup";
 
 	protected static final String HTML_CLASS_COLUMN_PREFIX = "col_";
-	protected static final String HTML_CLASS_COLUMN = "column";
+	protected static final String HTML_CLASS_COLUMN = "jrcol";
 	
 	private final FillContext fillContext;
 	private final TableComponent table;
@@ -657,7 +657,7 @@ public class TableReport implements JRReport
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID, fillContext.getComponentElement().getUUID().toString());
 				addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_LABEL, getColumnHeaderLabelExpression(header));
 	
-				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "columnHeader header_" + columnName + "_" + column.hashCode() + (interactiveColumn ? " interactiveElement" : ""));
+				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrcolHeader header_" + columnName + "_" + column.hashCode() + (interactiveColumn ? " interactiveElement" : ""));
 				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_ID, popupId);
 				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN, popupColumn);
 				
@@ -669,7 +669,7 @@ public class TableReport implements JRReport
 				String columnName = String.valueOf(columnIndex);
 				String popupColumn = columnName + "_" + columnIndex;
 				
-				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "columnHeader header_" + columnName + "_" + column.hashCode());
+				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrcolHeader header_" + columnName + "_" + column.hashCode());
 				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_ID, column.getUUID().toString());
 				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN, popupColumn);
 			}
