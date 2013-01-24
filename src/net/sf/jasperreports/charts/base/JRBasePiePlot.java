@@ -44,13 +44,13 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_CIRCULAR = "circular";
+	public static final String PROPERTY_CIRCULAR = "isCircular";
 
 	public static final String PROPERTY_LABEL_FORMAT = "labelFormat";
 	public static final String PROPERTY_LEGEND_LABEL_FORMAT = "legendLabelFormat";
 	public static final String PROPERTY_ITEM_LABEL = "itemLabel";
 
-	public static final String PROPERTY_SHOW_LABELS = "showLabels";
+	public static final String PROPERTY_SHOW_LABELS = "isShowLabels";
 	/*
 	 * README
 	 * 
