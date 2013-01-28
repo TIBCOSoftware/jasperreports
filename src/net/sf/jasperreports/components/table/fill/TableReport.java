@@ -118,6 +118,9 @@ public class TableReport implements JRReport
 	private static final String PROPERTY_DOWN_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.down.arrow.char";
 	private static final String PROPERTY_FILTER_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.filter.char";
 	private static final String PROPERTY_INTERACTIVE_TABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.interactive";
+
+	public static final String PROPERTY_COLUMN_FIELD = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.field";
+	public static final String PROPERTY_COLUMN_VARIABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.variable";
 	
 	protected static final String SUMMARY_GROUP_NAME = "__SummaryGroup";
 
@@ -546,38 +549,66 @@ public class TableReport implements JRReport
 				genericElement.setStretchType(StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT);
 				
 				String name = null;
+				SortFieldTypeEnum columnType = null;
+				FilterTypesEnum filterType = null;
 				boolean interactiveColumn = columnInteractivityMapping.get(column);
 				
-				if (!TableUtil.isSortableAndFilterable(sortTextField)) {
+				if (!TableUtil.isSortableAndFilterable(sortTextField)) 
+				{
 					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.FALSE.toString());
 					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_SORT, Boolean.FALSE.toString());
-				} else {
+				} else
+				{
 					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.TRUE.toString());
 					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_SORT, Boolean.TRUE.toString());
 					
-					JRExpressionChunk sortExpression = sortTextField.getExpression().getChunks()[0];
-					
-					name = sortExpression.getText();
-					SortFieldTypeEnum columnType;
-					FilterTypesEnum filterType = null;
-					
-					switch (sortExpression.getType())
+					if (column.getPropertiesMap().containsProperty(PROPERTY_COLUMN_FIELD))
 					{
-					case JRExpressionChunk.TYPE_FIELD:
+						name = column.getPropertiesMap().getProperty(PROPERTY_COLUMN_FIELD);
 						columnType = SortFieldTypeEnum.FIELD;
 						JRField field = getField(name);
-						filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
-						break;
-						
-					case JRExpressionChunk.TYPE_VARIABLE:
+						if (field != null) 
+						{
+							filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
+						} else 
+						{
+							throw new JRRuntimeException("Could not find field '" + name + "'");
+						}
+					} else if (column.getPropertiesMap().containsProperty(PROPERTY_COLUMN_VARIABLE))
+					{
+						name = column.getPropertiesMap().getProperty(PROPERTY_COLUMN_VARIABLE);
 						columnType = SortFieldTypeEnum.VARIABLE;
 						JRVariable variable = getVariable(name);
-						filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
-						break;
+						if (variable != null)
+						{
+							filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
+						} else
+						{
+							throw new JRRuntimeException("Could not find variable '" + name + "'");
+						}
+					} else
+					{
+						JRExpressionChunk sortExpression = sortTextField.getExpression().getChunks()[0];
+						name = sortExpression.getText();
 						
-					default:
-						// never
-						throw new JRRuntimeException("Unrecognized filter expression type " + sortExpression.getType());
+						switch (sortExpression.getType())
+						{
+						case JRExpressionChunk.TYPE_FIELD:
+							columnType = SortFieldTypeEnum.FIELD;
+							JRField field = getField(name);
+							filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
+							break;
+							
+						case JRExpressionChunk.TYPE_VARIABLE:
+							columnType = SortFieldTypeEnum.VARIABLE;
+							JRVariable variable = getVariable(name);
+							filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
+							break;
+							
+						default:
+							// never
+							throw new JRRuntimeException("Unrecognized filter expression type " + sortExpression.getType());
+						}	
 					}
 					
 					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_FIELD_OR_VARIABLE_NAME, name);
