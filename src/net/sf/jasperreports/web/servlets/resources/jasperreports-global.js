@@ -750,7 +750,7 @@ jQuery.noConflict();
 		},
 		processSubscriber: function(subscriber) {
 			var jg = jasperreports.global, index, i, ln = this.subscribers.length;
-			jg.extractCallbackFunction(subscriber.callback).apply(jg.extractContext(subscriber.ctx), subscriber.args);
+			jg.extractCallbackFunction(subscriber.callback).apply(jg.extractContext(subscriber.ctx), subscriber.args || []);
 			if (!subscriber.keep) {
 				for (i = 0; i < ln; i++) {
 					if (this.subscribers[i] === subscriber) {
