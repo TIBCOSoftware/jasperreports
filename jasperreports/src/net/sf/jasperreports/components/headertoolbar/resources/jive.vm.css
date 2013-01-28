@@ -170,7 +170,7 @@ button::-moz-focus-inner {
 .pmenuitem {
     color: #666666;
     cursor: pointer;
-    font-family: Verdana;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 12px;
     height: 24px;
     line-height: 2em;
