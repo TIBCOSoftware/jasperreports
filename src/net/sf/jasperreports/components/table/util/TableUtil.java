@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * @author Veaceslav Chicu (schicu@users.sourceforge.net)
@@ -340,7 +341,17 @@ public class TableUtil
 		return null;
 	}
 
-	public static boolean isSortableAndFilterable(JRTextField textField) 
+	public static boolean isFilterable(JRTextField textField) 
+	{
+		if (textField != null)
+		{
+			return EvaluationTimeEnum.NOW.equals(textField.getEvaluationTimeValue());
+		}
+		
+		return false;
+	}
+
+	public static boolean hasSingleChunkExpression(JRTextField textField) 
 	{
 		if (textField != null)
 		{

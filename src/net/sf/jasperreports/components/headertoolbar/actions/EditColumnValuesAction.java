@@ -96,7 +96,7 @@ public class EditColumnValuesAction extends AbstractVerifiableTableAction {
 		StandardColumn col = (StandardColumn)allCols.get(colValData.getColumnIndex());
 		
 		JRTextField textField = TableUtil.getColumnDetailTextElement(col);
-		if (TableUtil.isSortableAndFilterable(textField)) {
+		if (TableUtil.hasSingleChunkExpression(textField)) {
 			JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
 			String datasetName = datasetRun.getDatasetName();
 			JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());

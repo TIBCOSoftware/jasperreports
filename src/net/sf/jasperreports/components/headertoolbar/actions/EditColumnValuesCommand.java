@@ -80,7 +80,7 @@ public class EditColumnValuesCommand implements Command
 		textElement.setBackcolor(headerData.getFontBackColor() != null ? JRColorUtil.getColor("#" + headerData.getFontBackColor(), Color.white) : null);
 		textElement.setMode(ModeEnum.getByName(headerData.getMode()));
 		
-		if (TableUtil.isSortableAndFilterable(textElement)) {
+		if (TableUtil.hasSingleChunkExpression(textElement)) {
 			textElement.setPattern(headerData.getFormatPattern());
 		}
 	}

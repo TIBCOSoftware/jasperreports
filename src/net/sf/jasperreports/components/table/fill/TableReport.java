@@ -121,6 +121,10 @@ public class TableReport implements JRReport
 
 	public static final String PROPERTY_COLUMN_FIELD = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.field";
 	public static final String PROPERTY_COLUMN_VARIABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.variable";
+
+	public static final String PROPERTY_COLUMN_SORTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.sortable";
+	public static final String PROPERTY_COLUMN_FILTERABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.filterable";
+	public static final String PROPERTY_COLUMN_CONDITIONALLY_FORMATTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.conditionally.formattable";
 	
 	protected static final String SUMMARY_GROUP_NAME = "__SummaryGroup";
 
@@ -548,82 +552,69 @@ public class TableReport implements JRReport
 				genericElement.setMode(ModeEnum.TRANSPARENT);
 				genericElement.setStretchType(StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT);
 				
-				String name = null;
+				String fieldOrVariableName = null;
 				SortFieldTypeEnum columnType = null;
 				FilterTypesEnum filterType = null;
+				String suffix = "";
 				boolean interactiveColumn = columnInteractivityMapping.get(column);
 				
-				if (!TableUtil.isSortableAndFilterable(sortTextField)) 
+				if (column.getPropertiesMap().containsProperty(PROPERTY_COLUMN_FIELD))
 				{
-					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.FALSE.toString());
-					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_SORT, Boolean.FALSE.toString());
-				} else
+					fieldOrVariableName = column.getPropertiesMap().getProperty(PROPERTY_COLUMN_FIELD);
+					columnType = SortFieldTypeEnum.FIELD;
+					JRField field = getField(fieldOrVariableName);
+					if (field != null) 
+					{
+						filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
+					} else 
+					{
+						throw new JRRuntimeException("Could not find field '" + fieldOrVariableName + "'");
+					}
+				} else if (column.getPropertiesMap().containsProperty(PROPERTY_COLUMN_VARIABLE))
 				{
-					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.TRUE.toString());
-					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_SORT, Boolean.TRUE.toString());
-					
-					if (column.getPropertiesMap().containsProperty(PROPERTY_COLUMN_FIELD))
+					fieldOrVariableName = column.getPropertiesMap().getProperty(PROPERTY_COLUMN_VARIABLE);
+					columnType = SortFieldTypeEnum.VARIABLE;
+					JRVariable variable = getVariable(fieldOrVariableName);
+					if (variable != null)
 					{
-						name = column.getPropertiesMap().getProperty(PROPERTY_COLUMN_FIELD);
-						columnType = SortFieldTypeEnum.FIELD;
-						JRField field = getField(name);
-						if (field != null) 
-						{
-							filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
-						} else 
-						{
-							throw new JRRuntimeException("Could not find field '" + name + "'");
-						}
-					} else if (column.getPropertiesMap().containsProperty(PROPERTY_COLUMN_VARIABLE))
-					{
-						name = column.getPropertiesMap().getProperty(PROPERTY_COLUMN_VARIABLE);
-						columnType = SortFieldTypeEnum.VARIABLE;
-						JRVariable variable = getVariable(name);
-						if (variable != null)
-						{
-							filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
-						} else
-						{
-							throw new JRRuntimeException("Could not find variable '" + name + "'");
-						}
+						filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
 					} else
 					{
-						JRExpressionChunk sortExpression = sortTextField.getExpression().getChunks()[0];
-						name = sortExpression.getText();
-						
-						switch (sortExpression.getType())
-						{
-						case JRExpressionChunk.TYPE_FIELD:
-							columnType = SortFieldTypeEnum.FIELD;
-							JRField field = getField(name);
-							filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
-							break;
-							
-						case JRExpressionChunk.TYPE_VARIABLE:
-							columnType = SortFieldTypeEnum.VARIABLE;
-							JRVariable variable = getVariable(name);
-							filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
-							break;
-							
-						default:
-							// never
-							throw new JRRuntimeException("Unrecognized filter expression type " + sortExpression.getType());
-						}	
+						throw new JRRuntimeException("Could not find variable '" + fieldOrVariableName + "'");
 					}
+				} else if (TableUtil.hasSingleChunkExpression(sortTextField))
+				{
+					JRExpressionChunk sortExpression = sortTextField.getExpression().getChunks()[0];
+					fieldOrVariableName = sortExpression.getText();
 					
-					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_FIELD_OR_VARIABLE_NAME, name);
-					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE, columnType.getName());
-					
-					if (filterType != null)
+					switch (sortExpression.getType())
 					{
-						genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE, filterType.getName());
-					}
-					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_PATTERN, sortTextField.getPattern());
-	
-					JasperReportsContext jasperReportsContext = fillContext.getFiller().getJasperReportsContext();
-					JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
-					String suffix = ""; 
+					case JRExpressionChunk.TYPE_FIELD:
+						columnType = SortFieldTypeEnum.FIELD;
+						JRField field = getField(fieldOrVariableName);
+						filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
+						break;
 						
+					case JRExpressionChunk.TYPE_VARIABLE:
+						columnType = SortFieldTypeEnum.VARIABLE;
+						JRVariable variable = getVariable(fieldOrVariableName);
+						filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
+						break;
+						
+					default:
+						// never
+						throw new JRRuntimeException("Unrecognized filter expression type " + sortExpression.getType());
+					}	
+				}
+				
+				boolean isSortable = propertiesUtil.getBooleanProperty(column.getPropertiesMap(), PROPERTY_COLUMN_SORTABLE, true) && fieldOrVariableName != null;
+				boolean isFilterable = propertiesUtil.getBooleanProperty(column.getPropertiesMap(), PROPERTY_COLUMN_FILTERABLE, true) && fieldOrVariableName != null && TableUtil.isFilterable(sortTextField);
+				boolean isConditionallyFormattable = propertiesUtil.getBooleanProperty(column.getPropertiesMap(), PROPERTY_COLUMN_CONDITIONALLY_FORMATTABLE, true) && fieldOrVariableName != null && TableUtil.isFilterable(sortTextField);
+				
+				if (isSortable)
+				{	// column is sortable
+					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_SORT, Boolean.TRUE.toString());
+					
 					//FIXMEJIVE consider moving in separate method
 					JRSortField[] sortFields = TableReport.this.mainDataset.getSortFields();
 					if (sortFields != null)
@@ -631,21 +622,31 @@ public class TableReport implements JRReport
 						for(JRSortField sortField : sortFields)
 						{
 							if (
-								sortField.getName().equals(name)
+								sortField.getName().equals(fieldOrVariableName)
 								&& sortField.getType() == columnType
 								)
 							{
 								suffix += 
 									"" 
 									+ (sortField.getOrderValue() == SortOrderEnum.ASCENDING 
-										? propUtil.getProperty(PROPERTY_UP_ARROW_CHAR)
+										? propertiesUtil.getProperty(PROPERTY_UP_ARROW_CHAR)
 										: (sortField.getOrderValue() == SortOrderEnum.DESCENDING 
-											? propUtil.getProperty(PROPERTY_DOWN_ARROW_CHAR)
+											? propertiesUtil.getProperty(PROPERTY_DOWN_ARROW_CHAR)
 											: ""));
 							}
 						}
 					}
-	
+					
+				} else
+				{	// column is not sortable
+					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_SORT, Boolean.FALSE.toString());
+				}
+				
+				if (isFilterable)
+				{	// column is filterable
+					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.TRUE.toString());
+					
+					JasperReportsContext jasperReportsContext = fillContext.getFiller().getJasperReportsContext();
 					String serializedFilters = TableReport.this.mainDataset.getPropertiesMap().getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
 					if (serializedFilters != null)
 					{
@@ -653,25 +654,52 @@ public class TableReport implements JRReport
 						if (existingFilters != null)
 						{
 							List<FieldFilter> fieldFilters = new ArrayList<FieldFilter>();
-							SortElementHtmlHandler.getFieldFilters(new CompositeDatasetFilter(existingFilters), fieldFilters, name);
+							SortElementHtmlHandler.getFieldFilters(new CompositeDatasetFilter(existingFilters), fieldFilters, fieldOrVariableName);
 							if (fieldFilters.size() > 0)
 							{
-								suffix += "" + propUtil.getProperty(PROPERTY_FILTER_CHAR);
+								suffix += "" + propertiesUtil.getProperty(PROPERTY_FILTER_CHAR);
 							}
 						}
 					}
-	
-					if (suffix.length() > 0)
-					{
-						HeaderLabelBuiltinExpression evaluator = HeaderLabelUtil.alterHeaderLabel(frame, " " + suffix);
-						if (evaluator != null)
-						{
-							builtinEvaluators.put(evaluator.getExpression(), evaluator);
-						}
-					}
+					
+				} else
+				{	// column is not filterable
+					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.FALSE.toString());
+					
 				}
 				
-				String columnName = name != null ? name : String.valueOf(columnIndex);
+				if (isConditionallyFormattable)
+				{	// column is conditionally formattable
+					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FORMAT_CONDITIONALLY, Boolean.TRUE.toString());
+					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_FIELD_OR_VARIABLE_NAME, fieldOrVariableName);
+				} else
+				{	// column is not conditionally formattable
+					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FORMAT_CONDITIONALLY, Boolean.FALSE.toString());
+				}
+				
+				if (suffix.length() > 0)
+				{
+					HeaderLabelBuiltinExpression evaluator = HeaderLabelUtil.alterHeaderLabel(frame, " " + suffix);
+					if (evaluator != null)
+					{
+						builtinEvaluators.put(evaluator.getExpression(), evaluator);
+					}
+				}
+
+				if (isSortable || isFilterable || isConditionallyFormattable) {
+					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE, columnType.getName());
+				}
+				
+				if (isFilterable || isConditionallyFormattable)
+				{
+					if (filterType != null)
+					{
+						genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE, filterType.getName());
+					}
+					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_PATTERN, sortTextField.getPattern());
+				}
+				
+				String columnName = fieldOrVariableName != null ? fieldOrVariableName : String.valueOf(columnIndex);
 				String popupId = column.getUUID().toString();//columnName + "_" + column.hashCode();
 				String popupColumn = columnName + "_" + columnIndex;
 				

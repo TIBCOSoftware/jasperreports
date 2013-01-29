@@ -131,7 +131,7 @@ public class HeaderToolbarElementUtils {
 		columnValueData.setFontHAlign(textField.getOwnHorizontalAlignmentValue() != null ? textField.getOwnHorizontalAlignmentValue().getName() : null);
 		columnValueData.setMode(textField.getOwnModeValue() != null ? textField.getOwnModeValue().getName() : null);
 		
-		if (TableUtil.isSortableAndFilterable(textField)) {
+		if (TableUtil.hasSingleChunkExpression(textField)) {
 			columnValueData.setFormatPattern(textField.getOwnPattern());
 		}
 	}
@@ -147,7 +147,7 @@ public class HeaderToolbarElementUtils {
 		columnValueData.setFontHAlign(textField.getHorizontalAlignmentValue().getName());
 		columnValueData.setMode(textField.getModeValue().getName());
 		
-		if (TableUtil.isSortableAndFilterable(textField)) {
+		if (TableUtil.hasSingleChunkExpression(textField)) {
 			columnValueData.setFormatPattern(textField.getPattern());
 		}
 	}
