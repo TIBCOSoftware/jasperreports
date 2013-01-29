@@ -230,6 +230,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			contextMap.put("templateAlreadyLoaded", templateAlreadyLoaded);
 			
 			Boolean canSort = Boolean.parseBoolean(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_CAN_SORT));
+			Boolean canFilter = Boolean.parseBoolean(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER));
+			Boolean canFormatConditionally = Boolean.parseBoolean(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_CAN_FORMAT_CONDITIONALLY));
 			
 			if (element.getModeValue() == ModeEnum.OPAQUE)
 			{
@@ -245,6 +247,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			contextMap.put("columnLabel", columnLabel);
 			contextMap.put("columnIndex", columnIndex);
 			contextMap.put("canSort", canSort);
+			contextMap.put("canFilter", canFilter);
+			contextMap.put("canFormatConditionally", canFormatConditionally);
 			
 			contextMap.put("fontExtensionsFontNames", getFontExtensionsFontNames(jrContext));
 			contextMap.put("systemFontNames", getSystemFontNames(jrContext));
@@ -252,40 +256,33 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			setColumnHeaderData(columnLabel, columnIndex, tableUUID, contextMap, jrContext, reportContext);
 			setColumnValueData(columnLabel, columnIndex, tableUUID, contextMap, jrContext, reportContext);
 			
-			if (canSort) {
-				String columnName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_NAME);
-				String columnType = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE);
-				
-				FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE));
-				if (filterType == null)//FIXMEJIVE
-				{
-					return null;
-				}
-				
-				String filterPattern = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_PATTERN);
-				String calendarPattern = null;
-				String calendarTimePattern = null;
-				if (filterPattern == null) {
-					filterPattern = "";
-				}
-				
-				Map<String, String> translatedOperators = null;
-				Map<String, String> valuesFormatPatternMap = new LinkedHashMap<String, String>();
-				Boolean hasPattern = true;
-				Boolean isNumeric = false;
-				String formatPatternLabel = "";
+			String columnName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_NAME);
+			String columnType = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE);
+			FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE));
+			String filterPattern = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_PATTERN);
+			String calendarPattern = null;
+			String calendarTimePattern = null;
+
+			if (filterPattern == null) {
+				filterPattern = "";
+			}
+			
+			Map<String, String> translatedOperators = null;
+			Map<String, String> valuesFormatPatternMap = new LinkedHashMap<String, String>();
+			Boolean hasPattern = true;
+			String formatPatternLabel = "";
+			if (filterType != null) { 
 				switch (filterType) {
 				case NUMERIC:
 					translatedOperators = getTranslatedOperators(jrContext, FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale);
 					valuesFormatPatternMap = numberPatternsMap;//setNumberPatterns(valuesFormatPatternMap, numberPatterns);
 					formatPatternLabel = "Number pattern:";
-					isNumeric = true;
 					break;
 				case DATE:
 					translatedOperators = getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
 					setDatePatterns(valuesFormatPatternMap, datePatterns, locale);
 					formatPatternLabel = "Date pattern:";
-
+	
 					String datePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(DATE_PATTERN_BUNDLE);
 					if (datePatternBundleName == null)
 					{
@@ -327,23 +324,9 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					hasPattern = false;
 					break;
 				}
-				
-				SortData sortAscData = new SortData(tableUUID, columnName, columnType, HeaderToolbarElement.SORT_ORDER_ASC);
-				SortData sortDescData = new SortData(tableUUID, columnName, columnType, HeaderToolbarElement.SORT_ORDER_DESC);
-				
-				String sortField = getCurrentSortField(jrContext, reportContext, tableUUID, columnName, columnType);
-				if (sortField != null) 
-				{
-					String[] sortActionData = HeaderToolbarElementUtils.extractColumnInfo(sortField);
-					
-					boolean isAscending = HeaderToolbarElement.SORT_ORDER_ASC.equals(sortActionData[2]);
-					if (isAscending) {
-						sortAscData.setSortOrder(HeaderToolbarElement.SORT_ORDER_NONE);
-					} else {
-						sortDescData.setSortOrder(HeaderToolbarElement.SORT_ORDER_NONE);
-					}
-				}
-				
+			}
+			
+			if (canFilter) {
 				// existing filters
 				String filterValueStart = "";
 				String filterValueEnd = "";
@@ -362,13 +345,11 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				}
 				
 				contextMap.put("hasPattern", hasPattern);
-				contextMap.put("isNumeric", isNumeric);
 				if (hasPattern) {
 					contextMap.put("formatPatternLabel", formatPatternLabel);
 					contextMap.put("valuesFormatPatternMap", valuesFormatPatternMap);
 				}
 				
-				// begin: the params that will generate the JSON post object for filtering
 				FilterData filterData = new FilterData();
 				filterData.setTableUuid(tableUUID);
 				filterData.setFieldName(columnName);
@@ -385,16 +366,29 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				contextMap.put("filterTypeValuesMap", translatedOperators);
 				contextMap.put("filterTypeOperatorValue", filterTypeOperatorValue);
 				contextMap.put("filterTableUuid", tableUUID);
-				
 				contextMap.put("filterColumnNameLabel", columnLabel);
-				// end
-				
-				// begin: params for sorting
+			}
+			
+			if (canSort) {
+				SortData sortAscData = new SortData(tableUUID, columnName, columnType, HeaderToolbarElement.SORT_ORDER_ASC);
+				SortData sortDescData = new SortData(tableUUID, columnName, columnType, HeaderToolbarElement.SORT_ORDER_DESC);
+				String sortField = getCurrentSortField(jrContext, reportContext, tableUUID, columnName, columnType);
+				if (sortField != null) 
+				{
+					String[] sortActionData = HeaderToolbarElementUtils.extractColumnInfo(sortField);
+					
+					boolean isAscending = HeaderToolbarElement.SORT_ORDER_ASC.equals(sortActionData[2]);
+					if (isAscending) {
+						sortAscData.setSortOrder(HeaderToolbarElement.SORT_ORDER_NONE);
+					} else {
+						sortDescData.setSortOrder(HeaderToolbarElement.SORT_ORDER_NONE);
+					}
+				}
 				contextMap.put("sortAscData", JacksonUtil.getInstance(jrContext).getJsonString(sortAscData));
 				contextMap.put("sortDescData", JacksonUtil.getInstance(jrContext).getJsonString(sortDescData));
-				// end: temp
-				
-				// begin: params for conditional formatting
+			}
+			
+			if (canFormatConditionally) {
 				ConditionalFormattingData cfData = getExistingConditionalFormattingDataForField(jrContext, reportContext, tableUUID, columnName, columnIndex);
 				cfData.setTableUuid(tableUUID);
 				cfData.setConditionType(filterType.getName());
@@ -404,7 +398,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				cfData.setColumnType(columnType);
 				cfData.setFieldOrVariableName(fieldOrVariableName);
 				contextMap.put("conditionalFormattingData", JacksonUtil.getInstance(jrContext).getJsonString(cfData));
-				// end
 			}
 			
 			htmlFragment = VelocityUtil.processTemplate(HeaderToolbarElementHtmlHandler.SORT_ELEMENT_HTML_TEMPLATE, contextMap);

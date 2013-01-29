@@ -192,40 +192,46 @@
         columnLabel: "$JRStringUtil.escapeString4JavaScript(${columnLabel})",
         filterData: '{"actionName":"filter"}',
         clearData: '{"actionName":"filter","filterData":{"clearFilter":true}}',
-        #if (!${canSort})
-        	canSort: false,
-        	canFilter: false,
-        	canFormatConditionally: false,
-        #else
-        	canSort: true,
-        	canFilter: true,
-        	canFormatConditionally: true,
-            headerToolbar: {
-                sortAscBtn: {sortData: '{"actionName":"sort","sortData":${sortAscData}}'},
-                sortDescBtn: {sortData: '{"actionName":"sort","sortData":${sortDescData}}'}
-            },
-            filtering: {
-                filterColumnNameLabel: "$JRStringUtil.escapeString4JavaScript(${filterColumnNameLabel})",
-                filterOperatorTypeValueSelector: [
-                    #foreach( $entry in ${filterTypeValuesMap.entrySet()} )
-                        {key: "$entry.key", val: "$entry.value"},
-                    #end
-                    null
-                ],
-                filterData: ${filterData}
-            },
-            conditionalFormatting: ${conditionalFormattingData},
-            #if (${hasPattern})
-                formatPatternLabel: '${formatPatternLabel}',
-                formatPatternSelector: [
-                    #foreach( $entry in ${valuesFormatPatternMap.entrySet()} )
-                        {key: "$entry.key", val: "$entry.value"},
-                    #end
-                    null
-                ],
-            #end
-        #end
-        headingsTabContent: ${colHeaderData},
-        valuesTabContent: ${colValueData}
+	#if (!${canSort})
+       	canSort: false,
+	#else
+		canSort: true,
+		headerToolbar: {
+		    sortAscBtn: {sortData: '{"actionName":"sort","sortData":${sortAscData}}'},
+		    sortDescBtn: {sortData: '{"actionName":"sort","sortData":${sortDescData}}'}
+		},
+	#end
+	#if (!${canFilter})
+       	canFilter: false,
+	#else
+    	canFilter: true,
+        filtering: {
+            filterColumnNameLabel: "$JRStringUtil.escapeString4JavaScript(${filterColumnNameLabel})",
+            filterOperatorTypeValueSelector: [
+                #foreach( $entry in ${filterTypeValuesMap.entrySet()} )
+                    {key: "$entry.key", val: "$entry.value"},
+                #end
+                null
+            ],
+            filterData: ${filterData}
+        },
+		#if (${hasPattern})
+			formatPatternLabel: '${formatPatternLabel}',
+			formatPatternSelector: [
+				#foreach( $entry in ${valuesFormatPatternMap.entrySet()} )
+					{key: "$entry.key", val: "$entry.value"},
+				#end
+				null
+			],
+		#end
+	#end
+	#if (!${canFormatConditionally})
+		canFormatConditionally: false,
+	#else
+		canFormatConditionally: true,
+	    conditionalFormatting: ${conditionalFormattingData},
+	#end
+	headingsTabContent: ${colHeaderData},
+	valuesTabContent: ${colValueData}
     }]});
 </script>
