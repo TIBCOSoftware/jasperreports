@@ -30,7 +30,7 @@
 	<classpathentry kind="lib" path="lib/mondrian-3.1.1.12687.jar"/>
 	<classpathentry kind="lib" path="lib/ant-1.7.1.jar"/>
 	<classpathentry kind="lib" path="lib/barcode4j-2.1.jar"/>
-	<classpathentry kind="lib" path="lib/xercesImpl-2.9.0.jar"/>
+	<classpathentry kind="lib" path="lib/xercesImpl-2.10.0.jar"/>
 	<classpathentry kind="lib" path="lib/spring-beans-2.5.5.jar"/>
 	<classpathentry kind="lib" path="lib/spring-core-2.5.5.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-2.1.1.jar"/>
