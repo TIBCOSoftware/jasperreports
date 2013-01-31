@@ -90,6 +90,7 @@ public class SpiderChartCompiler implements ComponentCompiler
 			collector.addExpression(chart.getSubtitleExpression());
 			collector.addExpression(chart.getAnchorNameExpression());
 			collector.addExpression(chart.getHyperlinkReferenceExpression());
+			collector.addExpression(chart.getHyperlinkWhenExpression());
 			collector.addExpression(chart.getHyperlinkAnchorExpression());
 			collector.addExpression(chart.getHyperlinkPageExpression());
 			collector.addExpression(chart.getHyperlinkTooltipExpression());

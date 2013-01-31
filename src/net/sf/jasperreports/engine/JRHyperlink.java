@@ -85,6 +85,13 @@ public interface JRHyperlink extends JRCloneable
 
 
 	/**
+	 * Returns the expression that is evaluated in order to decide if the hyperlink should be displayed. This
+	 * expression always returns a boolean value.
+	 */
+	public JRExpression getHyperlinkWhenExpression();
+
+
+	/**
 	 * Returns the expression whose value represents the anchor. It is only used when the hyperlink type is anchor.
 	 */
 	public JRExpression getHyperlinkAnchorExpression();

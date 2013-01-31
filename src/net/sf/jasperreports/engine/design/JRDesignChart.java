@@ -158,6 +158,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	protected JRExpression subtitleExpression;
 	protected JRExpression anchorNameExpression;
 	protected JRExpression hyperlinkReferenceExpression;
+	protected JRExpression hyperlinkWhenExpression;
 	protected JRExpression hyperlinkAnchorExpression;
 	protected JRExpression hyperlinkPageExpression;
 	private JRExpression hyperlinkTooltipExpression;
@@ -619,6 +620,24 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
+	public JRExpression getHyperlinkWhenExpression()
+	{
+		return hyperlinkWhenExpression;
+	}
+
+	/**
+	 *
+	 */
+	public void setHyperlinkWhenExpression(JRExpression hyperlinkWhenExpression)
+	{
+		Object old = this.hyperlinkWhenExpression;
+		this.hyperlinkWhenExpression = hyperlinkWhenExpression;
+		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_HYPERLINK_WHEN_EXPRESSION, old, this.hyperlinkWhenExpression);
+	}
+
+	/**
+	 *
+	 */
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return hyperlinkAnchorExpression;
@@ -1011,6 +1030,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		clone.subtitleExpression = JRCloneUtils.nullSafeClone(subtitleExpression);
 		clone.anchorNameExpression = JRCloneUtils.nullSafeClone(anchorNameExpression);
 		clone.hyperlinkReferenceExpression = JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
+		clone.hyperlinkWhenExpression = JRCloneUtils.nullSafeClone(hyperlinkWhenExpression);
 		clone.hyperlinkAnchorExpression = JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
 		clone.hyperlinkPageExpression = JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
 		clone.hyperlinkTooltipExpression = JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);

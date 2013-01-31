@@ -144,7 +144,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	public void setPrintWhenDetailOverflows(boolean isPrintWhenDetailOverflows);
 	
 	/**
-	 * Gets the the expression that is evaluated in order to decide if the element should be displayed. The print
+	 * Gets the expression that is evaluated in order to decide if the element should be displayed. This
 	 * expression always returns a boolean value.
 	 */
 	public JRExpression getPrintWhenExpression();

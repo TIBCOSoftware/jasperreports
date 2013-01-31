@@ -51,6 +51,7 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 	protected String linkType;
 	protected String linkTarget;
 	protected JRExpression hyperlinkReferenceExpression;
+	protected JRExpression hyperlinkWhenExpression;
 	protected JRExpression hyperlinkAnchorExpression;
 	protected JRExpression hyperlinkPageExpression;
 	protected JRExpression hyperlinkTooltipExpression;
@@ -72,6 +73,7 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 		linkType = link.getLinkType();
 		linkTarget = link.getLinkTarget();
 		hyperlinkReferenceExpression = factory.getExpression(link.getHyperlinkReferenceExpression());
+		hyperlinkWhenExpression = factory.getExpression(link.getHyperlinkWhenExpression());
 		hyperlinkAnchorExpression = factory.getExpression(link.getHyperlinkAnchorExpression());
 		hyperlinkPageExpression = factory.getExpression(link.getHyperlinkPageExpression());
 		hyperlinkTooltipExpression = factory.getExpression(link.getHyperlinkTooltipExpression());
@@ -112,6 +114,11 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 	public JRExpression getHyperlinkReferenceExpression()
 	{
 		return hyperlinkReferenceExpression;
+	}
+
+	public JRExpression getHyperlinkWhenExpression()
+	{
+		return hyperlinkWhenExpression;
 	}
 
 	public byte getHyperlinkTarget()
@@ -165,6 +172,7 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 		
 		clone.hyperlinkParameters = JRCloneUtils.cloneArray(hyperlinkParameters);
 		clone.hyperlinkReferenceExpression = JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
+		clone.hyperlinkWhenExpression = JRCloneUtils.nullSafeClone(hyperlinkWhenExpression);
 		clone.hyperlinkAnchorExpression = JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
 		clone.hyperlinkPageExpression = JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
 		clone.hyperlinkTooltipExpression = JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);

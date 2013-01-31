@@ -57,6 +57,8 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	
 	public static final String PROPERTY_HYPERLINK_REFERENCE_EXPRESSION = "hyperlinkReferenceExpression";
 	
+	public static final String PROPERTY_HYPERLINK_WHEN_EXPRESSION = "hyperlinkWhenExpression";
+	
 	public static final String PROPERTY_HYPERLINK_TARGET = "hyperlinkTarget";
 	
 	public static final String PROPERTY_LINK_TARGET = "linkTarget";
@@ -122,6 +124,17 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 		Object old = this.hyperlinkReferenceExpression;
 		this.hyperlinkReferenceExpression = hyperlinkReferenceExpression;
 		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_REFERENCE_EXPRESSION, old, this.hyperlinkReferenceExpression);
+	}
+
+
+	/**
+	 * Sets the boolean expression that will specify if the hyperlink should be displayed or not.
+	 */
+	public void setHyperlinkWhenExpression(JRExpression hyperlinkWhenExpression)
+	{
+		Object old = this.hyperlinkWhenExpression;
+		this.hyperlinkWhenExpression = hyperlinkWhenExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_WHEN_EXPRESSION, old, this.hyperlinkWhenExpression);
 	}
 
 

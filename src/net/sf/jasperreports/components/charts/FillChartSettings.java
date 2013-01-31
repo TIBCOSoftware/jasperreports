@@ -245,6 +245,14 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
+	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkWhenExpression()
+	 */
+	public JRExpression getHyperlinkWhenExpression() {
+		
+		return parent.getHyperlinkWhenExpression();
+	}
+
+	/**
 	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkTarget()
 	 */
 	public byte getHyperlinkTarget() {

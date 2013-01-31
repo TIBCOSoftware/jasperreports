@@ -703,6 +703,7 @@ public class JRExpressionCollector
 		if (hyperlink != null)
 		{
 			addExpression(hyperlink.getHyperlinkReferenceExpression());
+			addExpression(hyperlink.getHyperlinkWhenExpression());
 			addExpression(hyperlink.getHyperlinkAnchorExpression());
 			addExpression(hyperlink.getHyperlinkPageExpression());
 			addExpression(hyperlink.getHyperlinkTooltipExpression());

@@ -109,6 +109,8 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	
 	public static final String PROPERTY_HYPERLINK_REFERENCE_EXPRESSION = "hyperlinkReferenceExpression";
 	
+	public static final String PROPERTY_HYPERLINK_WHEN_EXPRESSION = "hyperlinkWhenExpression";
+	
 	public static final String PROPERTY_HYPERLINK_TARGET = "hyperlinkTarget";
 	
 	public static final String PROPERTY_LINK_TARGET = "linkTarget";
@@ -159,6 +161,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	protected JRExpression subtitleExpression;
 	protected JRExpression anchorNameExpression;
 	protected JRExpression hyperlinkReferenceExpression;
+	protected JRExpression hyperlinkWhenExpression;
 	protected JRExpression hyperlinkAnchorExpression;
 	protected JRExpression hyperlinkPageExpression;
 	protected JRExpression hyperlinkTooltipExpression;
@@ -203,6 +206,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		subtitleExpression = factory.getExpression(chart.getSubtitleExpression());
 		anchorNameExpression = factory.getExpression(chart.getAnchorNameExpression());
 		hyperlinkReferenceExpression = factory.getExpression(chart.getHyperlinkReferenceExpression());
+		hyperlinkWhenExpression = factory.getExpression(chart.getHyperlinkWhenExpression());
 		hyperlinkAnchorExpression = factory.getExpression(chart.getHyperlinkAnchorExpression());
 		hyperlinkPageExpression = factory.getExpression(chart.getHyperlinkPageExpression());
 		hyperlinkTooltipExpression = factory.getExpression(chart.getHyperlinkTooltipExpression());
@@ -440,6 +444,14 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	/**
 	 *
 	 */
+	public JRExpression getHyperlinkWhenExpression()
+	{
+		return this.hyperlinkWhenExpression;
+	}
+
+	/**
+	 *
+	 */
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return this.hyperlinkAnchorExpression;
@@ -609,6 +621,16 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 
 
 	/**
+	 * @param hyperlinkWhenExpression the hyperlinkWhenExpression to set
+	 */
+	public void setHyperlinkWhenExpression(JRExpression hyperlinkWhenExpression) {
+		Object old = this.hyperlinkWhenExpression;
+		this.hyperlinkWhenExpression = hyperlinkWhenExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_WHEN_EXPRESSION, old, this.hyperlinkWhenExpression);
+	}
+
+
+	/**
 	 * @param hyperlinkAnchorExpression the hyperlinkAnchorExpression to set
 	 */
 	public void setHyperlinkAnchorExpression(JRExpression hyperlinkAnchorExpression) {
@@ -669,6 +691,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		clone.subtitleExpression = JRCloneUtils.nullSafeClone(subtitleExpression);
 		clone.anchorNameExpression = JRCloneUtils.nullSafeClone(anchorNameExpression);
 		clone.hyperlinkReferenceExpression = JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
+		clone.hyperlinkWhenExpression = JRCloneUtils.nullSafeClone(hyperlinkWhenExpression);
 		clone.hyperlinkAnchorExpression = JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
 		clone.hyperlinkPageExpression = JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
 		clone.hyperlinkTooltipExpression = JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);

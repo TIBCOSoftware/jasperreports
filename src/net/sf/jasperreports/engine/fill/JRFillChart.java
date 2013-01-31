@@ -153,6 +153,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	protected Renderable renderer;
 	private String anchorName;
 	private String hyperlinkReference;
+	private Boolean hyperlinkWhen;
 	private String hyperlinkAnchor;
 	private Integer hyperlinkPage;
 	private String hyperlinkTooltip;
@@ -644,6 +645,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
+	public JRExpression getHyperlinkWhenExpression()
+	{
+		return ((JRChart)parent).getHyperlinkWhenExpression();
+	}
+
+	/**
+	 *
+	 */
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return ((JRChart)parent).getHyperlinkAnchorExpression();
@@ -843,6 +852,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		anchorName = (String) evaluateExpression(getAnchorNameExpression(), evaluation);
 		hyperlinkReference = (String) evaluateExpression(getHyperlinkReferenceExpression(), evaluation);
+		hyperlinkWhen = (Boolean) evaluateExpression(getHyperlinkWhenExpression(), evaluation);
 		hyperlinkAnchor = (String) evaluateExpression(getHyperlinkAnchorExpression(), evaluation);
 		hyperlinkPage = (Integer) evaluateExpression(getHyperlinkPageExpression(), evaluation);
 		hyperlinkTooltip = (String) evaluateExpression(getHyperlinkTooltipExpression(), evaluation);
@@ -986,7 +996,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 		printImage.setRenderable(getRenderable());
 		printImage.setAnchorName(getAnchorName());
-		printImage.setHyperlinkReference(getHyperlinkReference());
+		if (getHyperlinkWhenExpression() == null || hyperlinkWhen == Boolean.TRUE)
+		{
+			printImage.setHyperlinkReference(getHyperlinkReference());
+		}
+		else
+		{
+			printImage.setHyperlinkReference(null);
+		}
 		printImage.setHyperlinkAnchor(getHyperlinkAnchor());
 		printImage.setHyperlinkPage(getHyperlinkPage());
 		printImage.setHyperlinkTooltip(getHyperlinkTooltip());

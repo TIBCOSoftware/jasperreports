@@ -68,6 +68,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	private String subtitleText;
 	private String anchorName;
 	private String hyperlinkReference;
+	private Boolean hyperlinkWhen;
 	private String hyperlinkAnchor;
 	private Integer hyperlinkPage;
 	private String hyperlinkTooltip;
@@ -115,6 +116,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		subtitleText = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getSubtitleExpression(), evaluation));
 		anchorName = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getAnchorNameExpression(), evaluation));
 		hyperlinkReference = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getHyperlinkReferenceExpression(), evaluation));
+		hyperlinkWhen = (Boolean)fillContext.evaluate(getChartSettings().getHyperlinkWhenExpression(), evaluation);
 		hyperlinkAnchor = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getHyperlinkAnchorExpression(), evaluation));
 		hyperlinkPage = (Integer) fillContext.evaluate(getChartSettings().getHyperlinkPageExpression(), evaluation);
 		hyperlinkTooltip = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getHyperlinkTooltipExpression(), evaluation));
@@ -214,7 +216,14 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	{
 		printImage.setRenderable(getRenderable());
 		printImage.setAnchorName(getAnchorName());
-		printImage.setHyperlinkReference(getHyperlinkReference());
+		if (getChartSettings().getHyperlinkWhenExpression() == null || hyperlinkWhen == Boolean.TRUE)
+		{
+			printImage.setHyperlinkReference(getHyperlinkReference());
+		}
+		else
+		{
+			printImage.setHyperlinkReference(null);
+		}
 		printImage.setHyperlinkAnchor(getHyperlinkAnchor());
 		printImage.setHyperlinkPage(getHyperlinkPage());
 		printImage.setHyperlinkTooltip(getHyperlinkTooltip());

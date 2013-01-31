@@ -112,7 +112,15 @@ public final class JRFillHyperlinkHelper
 		JRBasePrintHyperlink printHyperlink = new JRBasePrintHyperlink();
 		printHyperlink.setLinkType(hyperlink.getLinkType());
 		printHyperlink.setLinkTarget(hyperlink.getLinkTarget());
-		printHyperlink.setHyperlinkReference((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkReferenceExpression(), evaluationType));
+		Boolean hyperlinkWhen = (Boolean) expressionEvaluator.evaluate(hyperlink.getHyperlinkWhenExpression(), evaluationType);
+		if (hyperlink.getHyperlinkWhenExpression() == null || hyperlinkWhen == Boolean.TRUE)
+		{
+			printHyperlink.setHyperlinkReference((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkReferenceExpression(), evaluationType));
+		}
+		else
+		{
+			printHyperlink.setHyperlinkReference(null);
+		}
 		printHyperlink.setHyperlinkAnchor((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkAnchorExpression(), evaluationType));
 		printHyperlink.setHyperlinkPage((Integer) expressionEvaluator.evaluate(hyperlink.getHyperlinkPageExpression(), evaluationType));
 		printHyperlink.setHyperlinkTooltip((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkTooltipExpression(), evaluationType));

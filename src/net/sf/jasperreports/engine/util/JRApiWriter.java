@@ -1059,6 +1059,7 @@ public class JRApiWriter
 			writeExpression( image.getExpression(), imageName, "Expression");
 			writeExpression( image.getAnchorNameExpression(), imageName, "AnchorNameExpression");
 			writeExpression( image.getHyperlinkReferenceExpression(), imageName, "HyperlinkReferenceExpression");
+			writeExpression( image.getHyperlinkWhenExpression(), imageName, "HyperlinkWhenExpression");
 			writeExpression( image.getHyperlinkAnchorExpression(), imageName, "HyperlinkAnchorExpression");
 			writeExpression( image.getHyperlinkPageExpression(), imageName, "HyperlinkPageExpression");
 			writeExpression( image.getHyperlinkTooltipExpression(), imageName, "HyperlinkTooltipExpression");
@@ -1227,6 +1228,8 @@ public class JRApiWriter
 	
 			writeExpression( textField.getHyperlinkReferenceExpression(), textFieldName, "HyperlinkReferenceExpression");
 	
+			writeExpression( textField.getHyperlinkWhenExpression(), textFieldName, "HyperlinkWhenExpression");
+			
 			writeExpression( textField.getHyperlinkAnchorExpression(), textFieldName, "HyperlinkAnchorExpression");
 	
 			writeExpression( textField.getHyperlinkPageExpression(), textFieldName, "HyperlinkPageExpression");
@@ -1376,6 +1379,7 @@ public class JRApiWriter
 	
 			writeExpression( chart.getAnchorNameExpression(), chartName, "AnchorNameExpression");
 			writeExpression( chart.getHyperlinkReferenceExpression(), chartName, "HyperlinkReferenceExpression");
+			writeExpression( chart.getHyperlinkWhenExpression(), chartName, "HyperlinkWhenExpression");//FIXMENOW can we reuse hyperlink write method?
 			writeExpression( chart.getHyperlinkAnchorExpression(), chartName, "HyperlinkAnchorExpression");
 			writeExpression( chart.getHyperlinkPageExpression(), chartName, "HyperlinkPageExpression");
 			writeExpression( chart.getHyperlinkTooltipExpression(), chartName, "HyperlinkTooltipExpression");
@@ -3584,6 +3588,8 @@ public class JRApiWriter
 
 			writer.writeExpression(JRApiConstants.ELEMENT_hyperlinkReferenceExpression, JASPERREPORTS_NAMESPACE,
 					hyperlink.getHyperlinkReferenceExpression(), false);
+			writer.writeExpression(JRApiConstants.ELEMENT_hyperlinkWhenExpression, JASPERREPORTS_NAMESPACE,
+					hyperlink.getHyperlinkWhenExpression(), false);
 			writer.writeExpression(JRApiConstants.ELEMENT_hyperlinkAnchorExpression, JASPERREPORTS_NAMESPACE,
 					hyperlink.getHyperlinkAnchorExpression(), false);
 			writer.writeExpression(JRApiConstants.ELEMENT_hyperlinkPageExpression, JASPERREPORTS_NAMESPACE,
@@ -3616,6 +3622,7 @@ public class JRApiWriter
 			}
 
 			writeExpression( hyperlink.getHyperlinkReferenceExpression(), hyperlinkName, "HyperlinkReferenceExpression");
+			writeExpression( hyperlink.getHyperlinkWhenExpression(), hyperlinkName, "HyperlinkWhenExpression");
 			writeExpression( hyperlink.getHyperlinkAnchorExpression(), hyperlinkName, "HyperlinkAnchorExpression");
 			writeExpression( hyperlink.getHyperlinkPageExpression(), hyperlinkName, "HyperlinkPageExpression");
 			writeExpression( hyperlink.getHyperlinkTooltipExpression(), hyperlinkName, "HyperlinkTooltipExpression");
