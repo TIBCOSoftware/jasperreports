@@ -163,7 +163,19 @@ jQuery.extend(jive, {
                 jive.ui[v].jo && jive.ui[v].jo.hide();
             });
         }
-    }
+    },
+    encodeHTML: function(decodedHTML) {
+    	return jQuery("<div/>").text(decodedHTML).html();
+    },
+	decodeHTML: function(encodedHTML) {
+		return jQuery("<div/>").html(encodedHTML).text();
+	},
+	escapeFontName: function(fontName) {
+		if (fontName) {
+			return fontName.replace(/"/g, "");
+		}
+		return null;
+	}
 });
 
 jive.ui.marker = {
