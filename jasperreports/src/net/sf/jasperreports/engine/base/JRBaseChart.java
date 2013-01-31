@@ -151,6 +151,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	protected JRExpression subtitleExpression;
 	protected JRExpression anchorNameExpression;
 	protected JRExpression hyperlinkReferenceExpression;
+	protected JRExpression hyperlinkWhenExpression;
 	protected JRExpression hyperlinkAnchorExpression;
 	protected JRExpression hyperlinkPageExpression;
 	private JRExpression hyperlinkTooltipExpression;
@@ -296,6 +297,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		subtitleExpression = factory.getExpression(chart.getSubtitleExpression());
 		anchorNameExpression = factory.getExpression(chart.getAnchorNameExpression());
 		hyperlinkReferenceExpression = factory.getExpression(chart.getHyperlinkReferenceExpression());
+		hyperlinkWhenExpression = factory.getExpression(chart.getHyperlinkWhenExpression());
 		hyperlinkAnchorExpression = factory.getExpression(chart.getHyperlinkAnchorExpression());
 		hyperlinkPageExpression = factory.getExpression(chart.getHyperlinkPageExpression());
 		hyperlinkTooltipExpression = factory.getExpression(chart.getHyperlinkTooltipExpression());
@@ -548,6 +550,14 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 *
 	 */
+	public JRExpression getHyperlinkWhenExpression()
+	{
+		return hyperlinkWhenExpression;
+	}
+
+	/**
+	 *
+	 */
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return hyperlinkAnchorExpression;
@@ -701,6 +711,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		clone.subtitleExpression = JRCloneUtils.nullSafeClone(subtitleExpression);
 		clone.anchorNameExpression = JRCloneUtils.nullSafeClone(anchorNameExpression);
 		clone.hyperlinkReferenceExpression = JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
+		clone.hyperlinkWhenExpression = JRCloneUtils.nullSafeClone(hyperlinkWhenExpression);
 		clone.hyperlinkAnchorExpression = JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
 		clone.hyperlinkPageExpression = JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
 		clone.hyperlinkTooltipExpression = JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);

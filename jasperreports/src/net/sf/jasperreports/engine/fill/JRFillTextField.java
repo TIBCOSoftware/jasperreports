@@ -79,6 +79,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	private String anchorName;
 	private String hyperlinkReference;
+	private Boolean hyperlinkWhen;
 	private String hyperlinkAnchor;
 	private Integer hyperlinkPage;
 	private String hyperlinkTooltip;
@@ -262,6 +263,14 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	public JRExpression getHyperlinkReferenceExpression()
 	{
 		return ((JRTextField)parent).getHyperlinkReferenceExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getHyperlinkWhenExpression()
+	{
+		return ((JRTextField)parent).getHyperlinkWhenExpression();
 	}
 
 	/**
@@ -498,6 +507,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 		anchorName = (String) evaluateExpression(getAnchorNameExpression(), evaluation);
 		hyperlinkReference = (String) evaluateExpression(getHyperlinkReferenceExpression(), evaluation);
+		hyperlinkWhen = (Boolean) evaluateExpression(getHyperlinkWhenExpression(), evaluation);
 		hyperlinkAnchor = (String) evaluateExpression(getHyperlinkAnchorExpression(), evaluation);
 		hyperlinkPage = (Integer) evaluateExpression(getHyperlinkPageExpression(), evaluation);
 		hyperlinkTooltip = (String) evaluateExpression(getHyperlinkTooltipExpression(), evaluation);
@@ -774,7 +784,14 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setTextFormat(getTextFormat());//FIXMEFORMAT why do we set this always, even when pattern is fixed.
 
 		text.setAnchorName(getAnchorName());
-		text.setHyperlinkReference(getHyperlinkReference());
+		if (getHyperlinkWhenExpression() == null || hyperlinkWhen == Boolean.TRUE)
+		{
+			text.setHyperlinkReference(getHyperlinkReference());
+		}
+		else
+		{
+			text.setHyperlinkReference(null);
+		}
 		text.setHyperlinkAnchor(getHyperlinkAnchor());
 		text.setHyperlinkPage(getHyperlinkPage());
 		text.setHyperlinkTooltip(getHyperlinkTooltip());
@@ -881,6 +898,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		collectDelayedEvaluations(getPatternExpression());
 		collectDelayedEvaluations(getAnchorNameExpression());
 		collectDelayedEvaluations(getHyperlinkReferenceExpression());
+		collectDelayedEvaluations(getHyperlinkWhenExpression());
 		collectDelayedEvaluations(getHyperlinkAnchorExpression());
 		collectDelayedEvaluations(getHyperlinkPageExpression());	
 	}

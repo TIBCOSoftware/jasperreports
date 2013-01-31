@@ -568,6 +568,7 @@ public final class JRXmlConstants
 	public static final String ELEMENT_itemHyperlink = "itemHyperlink";
 	public static final String ELEMENT_anchorNameExpression = "anchorNameExpression";
 	public static final String ELEMENT_hyperlinkReferenceExpression = "hyperlinkReferenceExpression";
+	public static final String ELEMENT_hyperlinkWhenExpression = "hyperlinkWhenExpression";
 	public static final String ELEMENT_hyperlinkAnchorExpression = "hyperlinkAnchorExpression";
 	public static final String ELEMENT_hyperlinkPageExpression = "hyperlinkPageExpression";
 

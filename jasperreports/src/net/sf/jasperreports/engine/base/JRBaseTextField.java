@@ -78,6 +78,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	protected JRExpression patternExpression;
 	protected JRExpression anchorNameExpression;
 	protected JRExpression hyperlinkReferenceExpression;
+	protected JRExpression hyperlinkWhenExpression;
 	protected JRExpression hyperlinkAnchorExpression;
 	protected JRExpression hyperlinkPageExpression;
 	private JRExpression hyperlinkTooltipExpression;
@@ -108,6 +109,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		patternExpression = factory.getExpression(textField.getPatternExpression());
 		anchorNameExpression = factory.getExpression(textField.getAnchorNameExpression());
 		hyperlinkReferenceExpression = factory.getExpression(textField.getHyperlinkReferenceExpression());
+		hyperlinkWhenExpression = factory.getExpression(textField.getHyperlinkWhenExpression());
 		hyperlinkAnchorExpression = factory.getExpression(textField.getHyperlinkAnchorExpression());
 		hyperlinkPageExpression = factory.getExpression(textField.getHyperlinkPageExpression());
 		hyperlinkTooltipExpression = factory.getExpression(textField.getHyperlinkTooltipExpression());
@@ -265,6 +267,14 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	/**
 	 *
 	 */
+	public JRExpression getHyperlinkWhenExpression()
+	{
+		return this.hyperlinkWhenExpression;
+	}
+
+	/**
+	 *
+	 */
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return this.hyperlinkAnchorExpression;
@@ -334,6 +344,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		clone.patternExpression = JRCloneUtils.nullSafeClone(patternExpression);
 		clone.anchorNameExpression = JRCloneUtils.nullSafeClone(anchorNameExpression);
 		clone.hyperlinkReferenceExpression = JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
+		clone.hyperlinkWhenExpression = JRCloneUtils.nullSafeClone(hyperlinkWhenExpression);
 		clone.hyperlinkAnchorExpression = JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
 		clone.hyperlinkPageExpression = JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
 		clone.hyperlinkTooltipExpression = JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);

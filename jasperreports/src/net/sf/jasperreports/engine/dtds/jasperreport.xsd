@@ -2188,6 +2188,7 @@
     <element ref="jr:imageExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkWhenExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
@@ -2886,6 +2887,14 @@ This can be useful when, for instance, a border has to be drawn around the image
   </complexType>
  </element>
 
+ <element name="hyperlinkWhenExpression">
+  <annotation>
+   <documentation>Used in hyperlink elements to specify whether the hyperlink is to be displayed or not.</documentation>
+  </annotation>
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
  <element name="hyperlinkAnchorExpression">
   <annotation>
    <documentation>Used in hyperlink elements to point to document anchors.</documentation>
@@ -3247,6 +3256,7 @@ This can be useful when, for instance, a border has to be drawn around the image
     <element ref="jr:patternExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkWhenExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
@@ -3630,6 +3640,7 @@ This can be useful when, for instance, a border has to be drawn around the image
     <element ref="jr:chartLegend" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkWhenExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
@@ -3966,6 +3977,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   <complexType>
    <sequence>
     <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkWhenExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
@@ -4017,6 +4029,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   <complexType>
    <sequence>
     <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkWhenExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
@@ -4506,6 +4519,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   <complexType>
    <sequence>
     <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkWhenExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>

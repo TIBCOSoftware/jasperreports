@@ -1001,6 +1001,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeExpression(JRXmlConstants.ELEMENT_imageExpression, image.getExpression(), true);
 		writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, image.getAnchorNameExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, image.getHyperlinkReferenceExpression(), false);
+		writeExpression(JRXmlConstants.ELEMENT_hyperlinkWhenExpression, image.getHyperlinkWhenExpression(), false);//FIXMENOW can we reuse method for writing hyperlink?
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, image.getHyperlinkAnchorExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkPageExpression, image.getHyperlinkPageExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkTooltipExpression, image.getHyperlinkTooltipExpression(), false);
@@ -1105,6 +1106,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		}
 		writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, textField.getAnchorNameExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, textField.getHyperlinkReferenceExpression(), false);
+		writeExpression(JRXmlConstants.ELEMENT_hyperlinkWhenExpression, textField.getHyperlinkWhenExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, textField.getHyperlinkAnchorExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkPageExpression, textField.getHyperlinkPageExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkTooltipExpression, textField.getHyperlinkTooltipExpression(), false);
@@ -1251,6 +1253,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, chart.getAnchorNameExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, chart.getHyperlinkReferenceExpression(), false);
+		writeExpression(JRXmlConstants.ELEMENT_hyperlinkWhenExpression, chart.getHyperlinkWhenExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, chart.getHyperlinkAnchorExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkPageExpression, chart.getHyperlinkPageExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkTooltipExpression, chart.getHyperlinkTooltipExpression(), false);
@@ -3195,6 +3198,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 			writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, JASPERREPORTS_NAMESPACE,
 					hyperlink.getHyperlinkReferenceExpression(), false);
+			writeExpression(JRXmlConstants.ELEMENT_hyperlinkWhenExpression, JASPERREPORTS_NAMESPACE,
+					hyperlink.getHyperlinkWhenExpression(), false);
 			writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, JASPERREPORTS_NAMESPACE,
 					hyperlink.getHyperlinkAnchorExpression(), false);
 			writeExpression(JRXmlConstants.ELEMENT_hyperlinkPageExpression, JASPERREPORTS_NAMESPACE,

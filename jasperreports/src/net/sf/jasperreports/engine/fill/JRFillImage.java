@@ -76,6 +76,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	private Integer imageX;
 	private String anchorName;
 	private String hyperlinkReference;
+	private Boolean hyperlinkWhen;
 	private String hyperlinkAnchor;
 	private Integer hyperlinkPage;
 	private String hyperlinkTooltip;
@@ -354,6 +355,14 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
+	public JRExpression getHyperlinkWhenExpression()
+	{
+		return ((JRImage)this.parent).getHyperlinkWhenExpression();
+	}
+
+	/**
+	 *
+	 */
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return ((JRImage)this.parent).getHyperlinkAnchorExpression();
@@ -569,6 +578,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		
 		this.anchorName = (String) evaluateExpression(this.getAnchorNameExpression(), evaluation);
 		this.hyperlinkReference = (String) evaluateExpression(this.getHyperlinkReferenceExpression(), evaluation);
+		this.hyperlinkWhen = (Boolean) evaluateExpression(this.getHyperlinkWhenExpression(), evaluation);
 		this.hyperlinkAnchor = (String) evaluateExpression(this.getHyperlinkAnchorExpression(), evaluation);
 		this.hyperlinkPage = (Integer) evaluateExpression(this.getHyperlinkPageExpression(), evaluation);
 		this.hyperlinkTooltip = (String) evaluateExpression(this.getHyperlinkTooltipExpression(), evaluation);
@@ -851,13 +861,20 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			printImage.setWidth(imageWidth.intValue());
 		}
 		
-		printImage.setRenderable(this.getRenderable());
-		printImage.setAnchorName(this.getAnchorName());
-		printImage.setHyperlinkReference(this.getHyperlinkReference());
-		printImage.setHyperlinkAnchor(this.getHyperlinkAnchor());
-		printImage.setHyperlinkPage(this.getHyperlinkPage());
+		printImage.setRenderable(getRenderable());
+		printImage.setAnchorName(getAnchorName());
+		if (getHyperlinkWhenExpression() == null || hyperlinkWhen == Boolean.TRUE)
+		{
+			printImage.setHyperlinkReference(getHyperlinkReference());
+		}
+		else
+		{
+			printImage.setHyperlinkReference(null);
+		}
+		printImage.setHyperlinkAnchor(getHyperlinkAnchor());
+		printImage.setHyperlinkPage(getHyperlinkPage());
 		printImage.setHyperlinkTooltip(getHyperlinkTooltip());
-		printImage.setBookmarkLevel(this.getBookmarkLevel());
+		printImage.setBookmarkLevel(getBookmarkLevel());
 		printImage.setHyperlinkParameters(hyperlinkParameters);
 		transferProperties(printImage);
 	}
@@ -916,6 +933,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		collectDelayedEvaluations(getExpression());
 		collectDelayedEvaluations(getAnchorNameExpression());
 		collectDelayedEvaluations(getHyperlinkReferenceExpression());
+		collectDelayedEvaluations(getHyperlinkWhenExpression());
 		collectDelayedEvaluations(getHyperlinkAnchorExpression());
 		collectDelayedEvaluations(getHyperlinkPageExpression());	
 	}
