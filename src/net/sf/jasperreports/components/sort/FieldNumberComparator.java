@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.sort;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Locale;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -76,8 +77,17 @@ public class FieldNumberComparator extends AbstractFieldComparator<Number> {
 			throw new JRRuntimeException(e);
 		}
 		
+		Number formattedCompareTo = compareTo;
+		if (compareTo != null) {
+			try {
+				formattedCompareTo =  FormatUtils.getFormattedNumber((NumberFormat)formatter, compareTo.toString(), compareToClass);
+			} catch (ParseException e) {
+				throw new JRRuntimeException(e);
+			}
+		}
+		
 		FilterTypeNumericOperatorsEnum numericEnum = FilterTypeNumericOperatorsEnum.getByEnumConstantName(filterTypeOperator);
-		BigDecimal dbA = compareTo != null ? new BigDecimal(compareTo.toString()) : null;
+		BigDecimal dbA = formattedCompareTo != null ? new BigDecimal(formattedCompareTo.toString()) : null;
 		BigDecimal dbStart = compareStart != null ? new BigDecimal(compareStart.toString()) : null;
 		BigDecimal dbEnd = compareEnd != null ? new BigDecimal(compareEnd.toString()) : null;
 		
