@@ -100,12 +100,15 @@ import net.sf.jasperreports.web.util.WebUtil;
  */
 public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 {
-	private static final String DEFAULT_DATE_PATTERN_BUNDLE = "net.sf.jasperreports.components.messages";
+	private static final String DEFAULT_PATTERNS_BUNDLE = "net.sf.jasperreports.components.messages";
 	private static final String DEFAULT_DATE_PATTERN_KEY = "net.sf.jasperreports.components.date.pattern";
+	private static final String DEFAULT_NUMBER_PATTERN_KEY = "net.sf.jasperreports.components.number.pattern";
 	private static final String DEFAULT_CALENDAR_DATE_PATTERN_KEY = "net.sf.jasperreports.components.calendar.date.pattern";
 	private static final String DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY = "net.sf.jasperreports.components.calendar.date.time.pattern";
 	private static final String DATE_PATTERN_BUNDLE = DEFAULT_DATE_PATTERN_KEY + ".bundle";
 	private static final String DATE_PATTERN_KEY = DEFAULT_DATE_PATTERN_KEY + ".key";
+	private static final String NUMBER_PATTERN_BUNDLE = DEFAULT_NUMBER_PATTERN_KEY + ".bundle";
+	private static final String NUMBER_PATTERN_KEY = DEFAULT_NUMBER_PATTERN_KEY + ".key";
 	private static final String CALENDAR_DATE_PATTERN_BUNDLE = DEFAULT_CALENDAR_DATE_PATTERN_KEY + ".bundle";
 	private static final String CALENDAR_DATE_PATTERN_KEY = DEFAULT_CALENDAR_DATE_PATTERN_KEY + ".key";
 	private static final String CALENDAR_DATE_TIME_PATTERN_KEY = DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY + ".key";
@@ -260,14 +263,10 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			String columnName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_NAME);
 			String columnType = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE);
 			FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE));
-			String filterPattern = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_PATTERN);
+			String filterPattern = "";
 			String calendarPattern = null;
 			String calendarTimePattern = null;
 
-			if (filterPattern == null) {
-				filterPattern = "";
-			}
-			
 			Map<String, String> translatedOperators = null;
 			Map<String, String> valuesFormatPatternMap = new LinkedHashMap<String, String>();
 			Boolean hasPattern = true;
@@ -278,6 +277,19 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					translatedOperators = getTranslatedOperators(jrContext, FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale);
 					valuesFormatPatternMap = numberPatternsMap;//setNumberPatterns(valuesFormatPatternMap, numberPatterns);
 					formatPatternLabel = "Number pattern:";
+					
+					String numberPatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(NUMBER_PATTERN_BUNDLE);
+					if (numberPatternBundleName == null)
+					{
+						numberPatternBundleName = DEFAULT_PATTERNS_BUNDLE;
+					}
+					String numberPatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(NUMBER_PATTERN_KEY);
+					if (numberPatternKey == null)
+					{
+						numberPatternKey = DEFAULT_NUMBER_PATTERN_KEY;
+					}
+					filterPattern = getBundleMessage(numberPatternKey, jrContext, numberPatternBundleName, locale);
+					
 					break;
 				case DATE:
 					translatedOperators = getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
@@ -287,7 +299,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					String datePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(DATE_PATTERN_BUNDLE);
 					if (datePatternBundleName == null)
 					{
-						datePatternBundleName = DEFAULT_DATE_PATTERN_BUNDLE;
+						datePatternBundleName = DEFAULT_PATTERNS_BUNDLE;
 					}
 					String datePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(DATE_PATTERN_KEY);
 					if (datePatternKey == null)
@@ -299,7 +311,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					String calendarDatePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_PATTERN_BUNDLE);
 					if (calendarDatePatternBundleName == null)
 					{
-						calendarDatePatternBundleName = DEFAULT_DATE_PATTERN_BUNDLE;
+						calendarDatePatternBundleName = DEFAULT_PATTERNS_BUNDLE;
 					}
 					String calendarDatePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_PATTERN_KEY);
 					if (calendarDatePatternKey == null)

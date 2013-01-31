@@ -690,13 +690,9 @@ public class TableReport implements JRReport
 					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE, columnType.getName());
 				}
 				
-				if (isFilterable || isConditionallyFormattable)
+				if (filterType != null && (isFilterable || isConditionallyFormattable))
 				{
-					if (filterType != null)
-					{
-						genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE, filterType.getName());
-					}
-					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_PATTERN, sortTextField.getPattern());
+					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE, filterType.getName());
 				}
 				
 				String columnName = fieldOrVariableName != null ? fieldOrVariableName : String.valueOf(columnIndex);
