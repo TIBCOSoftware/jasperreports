@@ -44,6 +44,7 @@ import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormatti
 import net.sf.jasperreports.components.headertoolbar.actions.EditColumnHeaderData;
 import net.sf.jasperreports.components.headertoolbar.actions.EditColumnValueData;
 import net.sf.jasperreports.components.headertoolbar.actions.FilterAction;
+import net.sf.jasperreports.components.headertoolbar.actions.FormatCondition;
 import net.sf.jasperreports.components.headertoolbar.actions.SortAction;
 import net.sf.jasperreports.components.sort.FieldFilter;
 import net.sf.jasperreports.components.sort.FilterTypeBooleanOperatorsEnum;
@@ -254,7 +255,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			contextMap.put("systemFontNames", getSystemFontNames(jrContext));
 			
 			setColumnHeaderData(columnLabel, columnIndex, tableUUID, contextMap, jrContext, reportContext);
-			setColumnValueData(columnLabel, columnIndex, tableUUID, contextMap, jrContext, reportContext);
+			setColumnValueData(columnIndex, tableUUID, contextMap, jrContext, reportContext);
 			
 			String columnName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_NAME);
 			String columnType = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE);
@@ -357,7 +358,11 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				filterData.setFilterPattern(filterPattern);
 				filterData.setCalendarPattern(calendarPattern);
 				filterData.setCalendarTimePattern(calendarTimePattern);
-				filterData.setFieldValueStart(filterValueStart);
+				if (FilterTypesEnum.TEXT.getName().equals(filterType.getName())) {
+					filterData.setFieldValueStart(JRStringUtil.htmlEncode(filterValueStart));
+				} else {
+					filterData.setFieldValueStart(filterValueStart);
+				}
 				filterData.setFieldValueEnd(filterValueEnd);
 				filterData.setFilterTypeOperator(filterTypeOperatorValue);
 				filterData.setIsField(SortFieldTypeEnum.FIELD.equals(SortFieldTypeEnum.getByName(columnType)));
@@ -586,6 +591,13 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					JRPropertiesMap propertiesMap = textElement.getPropertiesMap();
 					if (propertiesMap.containsProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY) && propertiesMap.getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY) != null) {
 						result = JacksonUtil.getInstance(jasperReportsContext).loadObject(propertiesMap.getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY), ConditionalFormattingData.class);
+						
+						// html encode the conditions for text based columns
+						if (FilterTypesEnum.TEXT.getName().equals(result.getConditionType())) {
+							for (FormatCondition fc: result.getConditions()) {
+								fc.setConditionStart(JRStringUtil.htmlEncode(fc.getConditionStart()));
+							}
+						}
 					}
 				}
 			}
@@ -613,7 +625,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				JRDesignTextElement textElement = TableUtil.getColumnHeaderTextElement(column);
 				
 				if (textElement != null) {
-					colHeaderData.setHeadingName(sortColumnLabel);
+					colHeaderData.setHeadingName(JRStringUtil.htmlEncode(sortColumnLabel));
 					colHeaderData.setColumnIndex(columnIndex);
 					colHeaderData.setTableUuid(tableUuid);
 					HeaderToolbarElementUtils.copyTextElementStyle(colHeaderData, textElement);
@@ -623,7 +635,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		contextMap.put("colHeaderData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(colHeaderData));
 	}
 
-	private void setColumnValueData(String sortColumnLabel, Integer columnIndex, String tableUuid, Map<String, Object> contextMap, JasperReportsContext jasperReportsContext, ReportContext reportContext) {
+	private void setColumnValueData(Integer columnIndex, String tableUuid, Map<String, Object> contextMap, JasperReportsContext jasperReportsContext, ReportContext reportContext) {
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
 		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
@@ -642,7 +654,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				JRDesignTextField textElement = (JRDesignTextField)TableUtil.getColumnDetailTextElement(column);
 				
 				if (textElement != null) {
-					colValueData.setHeadingName(sortColumnLabel);
 					colValueData.setColumnIndex(columnIndex);
 					colValueData.setTableUuid(tableUuid);
 					HeaderToolbarElementUtils.copyTextFieldStyle(colValueData, textElement);
@@ -699,7 +710,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				if (columnName == null || columnName.trim().length() == 0) {
 					columnName = "Column_" + tokens[0];
 				}
-				columnNames.put(tokens[0], new ColumnInfo(tokens[0], columnName, tokens[1], false, Boolean.valueOf(tokens[2])));
+				columnNames.put(tokens[0], new ColumnInfo(tokens[0], JRStringUtil.htmlEncode(columnName), tokens[1], false, Boolean.valueOf(tokens[2])));
 			}
 		}
 		return columnNames;

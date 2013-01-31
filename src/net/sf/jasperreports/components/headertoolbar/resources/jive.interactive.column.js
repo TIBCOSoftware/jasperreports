@@ -709,7 +709,11 @@ jive.interactive.column.columnFilterForm = {
         });
         it.jc.filterType.append(htm.join(''));
         it.jc.filterType.val(metadata.filterTypeOperator);
-        it.jc.filterStart.val(metadata.fieldValueStart);
+        if (filtertype === 'text') {
+        	it.jc.filterStart.val(jive.decodeHTML(metadata.fieldValueStart));
+        } else {
+        	it.jc.filterStart.val(metadata.fieldValueStart);
+        }
 
         var filterOff = metadata.filterTypeOperator == '' ? true : false;
         jQuery('input[name="clearFilter"][value="'+filterOff+'"]').prop("checked",true);
@@ -821,12 +825,14 @@ jive.interactive.column.formatHeaderForm = {
     },
     onShow:function(){
         var metadata,
-        	inputs = jive.selected.form.inputs;
+        	inputs = jive.selected.form.inputs,
+        	isFromCache = false;
         
         jive.selected.form.jo.parent().css({'overflow-y': 'hidden'});
         
         if (this.actionDataCache[this.name]) {
         	metadata = this.actionDataCache[this.name].editColumnHeaderData;
+        	isFromCache = true;
         } else {
         	metadata = jive.selected.ie.headingsTabContent;
         }
@@ -836,8 +842,13 @@ jive.interactive.column.formatHeaderForm = {
         inputs['headerFontUnderline'].set(metadata.fontUnderline);
         
         inputs['headerFontAlign'].set(metadata.fontHAlign);
-        inputs['headingName'].set(metadata.headingName);
-        inputs['headerFontName'].set(metadata.fontName);
+        if (!isFromCache) {
+        	inputs['headingName'].set(jive.decodeHTML(metadata.headingName));
+        	inputs['headerFontName'].set(jive.decodeHTML(metadata.fontName));
+        } else {
+        	inputs['headingName'].set(metadata.headingName);
+        	inputs['headerFontName'].set(metadata.fontName);
+    	}
         inputs['headerFontSize'].set(metadata.fontSize);
         inputs['headerFontColor'].set(metadata.fontColor);
         inputs['headerFontBackColor'].set(metadata.fontBackColor, metadata.mode);
@@ -875,7 +886,7 @@ jive.interactive.column.formatHeaderForm = {
                 tableUuid: jive.selected.jo.parent('.jrtableframe').data('uuid'),
                 columnIndex: jive.selected.ie.columnIndex,
                 headingName: inputs['headingName'].get(),
-                fontName: inputs['headerFontName'].get(),
+                fontName: jive.escapeFontName(inputs['headerFontName'].get()),
                 fontSize: inputs['headerFontSize'].get(),
                 fontBold: inputs['headerFontBold'].get(),
                 fontItalic: inputs['headerFontItalic'].get(),
@@ -975,12 +986,14 @@ jive.interactive.column.formatCellsForm = {
             inputs = jive.selected.form.inputs,
             htm = [],
             ie = jive.selected.ie,
-            jo = jive.selected.form.jo;
+            jo = jive.selected.form.jo
+            isFromCache = false;
         
         jive.selected.form.jo.parent().css({'overflow-y': 'hidden'});
         
         if (this.actionDataCache[this.name]) {
         	metadata = this.actionDataCache[this.name].editColumnValueData;
+        	isFromCache = true;
         } else {
         	metadata = jive.selected.ie.valuesTabContent;
         }
@@ -990,7 +1003,11 @@ jive.interactive.column.formatCellsForm = {
         inputs['cellsFontUnderline'].set(metadata.fontUnderline);
         
         inputs['cellsFontAlign'].set(metadata.fontHAlign);
-        inputs['cellsFontName'].set(metadata.fontName);
+        if (!isFromCache) {
+        	inputs['cellsFontName'].set(jive.decodeHTML(metadata.fontName));
+        } else {
+        	inputs['cellsFontName'].set(metadata.fontName);
+        }
         inputs['cellsFontSize'].set(metadata.fontSize);
         inputs['cellsFontColor'].set(metadata.fontColor);
         inputs['cellsFontBackColor'].set(metadata.fontBackColor, metadata.mode);
@@ -1000,7 +1017,11 @@ jive.interactive.column.formatCellsForm = {
                 o && htm.push('<option value="'+o.key+'">'+o.val+'</option>');
             })
             jQuery('#formatPattern').html(htm.join(''));
-            inputs['formatPattern'].set(metadata.formatPattern);
+            if (!isFromCache) {
+            	inputs['formatPattern'].set(jive.decodeHTML(metadata.formatPattern));
+            } else {
+            	inputs['formatPattern'].set(metadata.formatPattern);
+            }
             jo.find('tr:gt(1)').show();
             if (ie.formatPatternLabel.indexOf('Number') >= 0) {
                 jo.find('tr:eq(2)').children('td:last').css('visibility','visible');
@@ -1037,14 +1058,14 @@ jive.interactive.column.formatCellsForm = {
     onHide: function() {
         this.actionDataCache = {};
     },
-    getActionData: function() {
+    getActionData: function(isForCache) {
     	var inputs = jive.selected.form.inputs;
 		return {
             actionName: 'editColumnValues',
             editColumnValueData:{
                 tableUuid: jive.selected.jo.parent('.jrtableframe').data('uuid'),
                 columnIndex: jive.selected.ie.columnIndex,
-                fontName: inputs['cellsFontName'].get(),
+                fontName: jive.escapeFontName(inputs['cellsFontName'].get()),
                 fontSize: inputs['cellsFontSize'].get(),
                 fontBold: inputs['cellsFontBold'].get(),
                 fontItalic: inputs['cellsFontItalic'].get(),
@@ -1148,13 +1169,15 @@ jive.interactive.column.columnConditionalFormattingForm = {
     onShow:function(){
     	var it = this,
     		conditionType =  jive.selected.ie.conditionalFormatting.conditionType.toLowerCase(),
-    		table = jive.selected.form.jo.find('table:eq(1)');
+    		table = jive.selected.form.jo.find('table:eq(1)'),
+    		isFromCache = false;
     	
     	jive.selected.form.jo.parent().css({'overflow-y': 'auto'});
     	it.options = jive.selected.ie.filtering.filterOperatorTypeValueSelector;
     	
     	if (this.actionDataCache[this.name]) {
         	metadata = this.actionDataCache[this.name].conditionalFormattingData.conditions;
+        	isFromCache = true;
         } else {
         	metadata = jive.selected.ie.conditionalFormatting.conditions;
         }
@@ -1169,7 +1192,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
     	}
     	
     	jQuery.each(metadata, function(i,v) {
-    		it.addFormatCondition(jive.selected.form.jo, v);
+    		it.addFormatCondition(jive.selected.form.jo, v, isFromCache);
     	});
     },
     onBlur: function() {
@@ -1197,7 +1220,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
 	    jive.runAction({actionData: actions,
 			defaultAction: true});
     },
-    addFormatCondition: function(jo, conditionData) {
+    addFormatCondition: function(jo, conditionData, isFromCache) {
     	var conditionType =  jive.selected.ie.conditionalFormatting.conditionType.toLowerCase(),
     		calendarPattern = jive.selected.ie.conditionalFormatting.calendarPattern,
     		calendarTimePattern = jive.selected.ie.conditionalFormatting.calendarTimePattern,
@@ -1241,7 +1264,13 @@ jive.interactive.column.columnConditionalFormattingForm = {
         if (conditionData) {
         	row.find('select[name=conditionTypeOperator]').val(conditionData.conditionTypeOperator).trigger('change');
         	inputs[row.find('input[name=conditionEnd]').attr('id')].set(conditionData.conditionEnd);
-        	inputs[row.find('input[name=conditionStart]').attr('id')].set(conditionData.conditionStart);
+        	
+        	if (conditionType === 'text' && isFromCache) {
+        		inputs[row.find('input[name=conditionStart]').attr('id')].set(conditionData.conditionStart);
+        	} else {
+        		inputs[row.find('input[name=conditionStart]').attr('id')].set(jive.decodeHTML(conditionData.conditionStart));
+        	}
+        	
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontBold]').attr('bname')].set(conditionData.conditionFontBold);
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].set(conditionData.conditionFontItalic);
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].set(conditionData.conditionFontUnderline);
@@ -1293,7 +1322,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
     	}
     	
     },
-    getActionData: function() {
+    getActionData: function(isForCache) {
     	var metadata = jive.selected.ie.conditionalFormatting,
     		inputs = jive.selected.form.inputs,
     		actionData = {

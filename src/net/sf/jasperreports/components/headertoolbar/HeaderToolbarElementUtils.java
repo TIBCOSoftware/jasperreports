@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
 
@@ -109,7 +110,7 @@ public class HeaderToolbarElementUtils {
 	}
 
 	public static void copyTextElementStyle(EditColumnHeaderData columnHeaderData, JRDesignTextElement textElement) {
-		columnHeaderData.setFontName(textElement.getFontName());
+		columnHeaderData.setFontName(JRStringUtil.htmlEncode(textElement.getFontName()));
 		columnHeaderData.setFontSize(String.valueOf(textElement.getFontSize()));
 		columnHeaderData.setFontBold(textElement.isBold());
 		columnHeaderData.setFontItalic(textElement.isItalic());
@@ -137,7 +138,7 @@ public class HeaderToolbarElementUtils {
 	}
 
 	public static void copyTextFieldStyle(EditColumnValueData columnValueData, JRDesignTextField textField) {
-		columnValueData.setFontName(textField.getFontName());
+		columnValueData.setFontName(JRStringUtil.htmlEncode(textField.getFontName()));
 		columnValueData.setFontSize(String.valueOf(textField.getFontSize()));
 		columnValueData.setFontBold(textField.isBold());
 		columnValueData.setFontItalic(textField.isItalic());
@@ -148,7 +149,7 @@ public class HeaderToolbarElementUtils {
 		columnValueData.setMode(textField.getModeValue().getName());
 		
 		if (TableUtil.hasSingleChunkExpression(textField)) {
-			columnValueData.setFormatPattern(textField.getPattern());
+			columnValueData.setFormatPattern(JRStringUtil.htmlEncode(textField.getPattern()));
 		}
 	}
 

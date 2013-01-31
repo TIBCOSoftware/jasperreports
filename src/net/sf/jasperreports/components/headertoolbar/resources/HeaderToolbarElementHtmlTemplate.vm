@@ -189,7 +189,7 @@
         selector: '.jrcolHeader',
         proxySelector: '.jrcol',
         columnIndex: ${columnIndex},
-        columnLabel: "$JRStringUtil.escapeString4JavaScript(${columnLabel})",
+        columnLabel: "$JRStringUtil.htmlEncode(${columnLabel})",
         filterData: '{"actionName":"filter"}',
         clearData: '{"actionName":"filter","filterData":{"clearFilter":true}}',
 	#if (!${canSort})
@@ -206,7 +206,7 @@
 	#else
     	canFilter: true,
         filtering: {
-            filterColumnNameLabel: "$JRStringUtil.escapeString4JavaScript(${filterColumnNameLabel})",
+            filterColumnNameLabel: "$JRStringUtil.htmlEncode(${filterColumnNameLabel})",
             filterOperatorTypeValueSelector: [
                 #foreach( $entry in ${filterTypeValuesMap.entrySet()} )
                     {key: "$entry.key", val: "$entry.value"},
