@@ -114,18 +114,73 @@ import net.sf.jasperreports.web.util.JacksonUtil;
  */
 public class TableReport implements JRReport
 {
+	/**
+	 * Global property that specifies the character to be used on the column header when the tables's column is sorted ascending
+	 */
 	private static final String PROPERTY_UP_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.up.arrow.char"; //FIXMEJIVE move these from here
+
+	/**
+	 * Global property that specifies the character to be used on the column header when the tables's column is sorted descending
+	 */
 	private static final String PROPERTY_DOWN_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.down.arrow.char";
+
+	/**
+	 * Global property that specifies the character to be used on the column header when the tables's column has a filtered applied
+	 */
 	private static final String PROPERTY_FILTER_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.filter.char";
+
+	/**
+	 * Property that enables/disables the interactivity in the table component
+	 * 
+	 * <p>
+	 * The property can be set:
+	 * <ul>
+	 * 	<li>globally</li>
+	 * 	<li>at report level</li>
+	 * 	<li>at component level</li>
+	 * 	<li>at column level</li>
+	 * </ul>
+	 * 
+	 * <p>
+	 * The default global value of this property is <code>true</code>
+	 */
 	private static final String PROPERTY_INTERACTIVE_TABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.interactive";
 
+	/**
+	 * Column property that specifies the field to be used for sorting and/or filtering 
+	 */
 	public static final String PROPERTY_COLUMN_FIELD = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.field";
+
+	/**
+	 * Column property that specifies the variable to be used for sorting and/or filtering 
+	 */
 	public static final String PROPERTY_COLUMN_VARIABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.variable";
 
+	/**
+	 * Column property that enables/disables sorting
+	 * 
+	 * <p>
+	 * It defaults to <code>true</code>
+	 */
 	public static final String PROPERTY_COLUMN_SORTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.sortable";
+
+	/**
+	 * Column property that enables/disables filtering
+	 * 
+	 * <p>
+	 * It defaults to <code>true</code>
+	 */
 	public static final String PROPERTY_COLUMN_FILTERABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.filterable";
+
+	/**
+	 * Column property that enables/disables conditional formatting
+	 * 
+	 * <p>
+	 * It defaults to <code>true</code>
+	 */
 	public static final String PROPERTY_COLUMN_CONDITIONALLY_FORMATTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.conditionally.formattable";
-	
+
+
 	protected static final String SUMMARY_GROUP_NAME = "__SummaryGroup";
 
 	protected static final String HTML_CLASS_COLUMN_PREFIX = "col_";
