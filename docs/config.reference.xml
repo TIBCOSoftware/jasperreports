@@ -113,6 +113,21 @@
   </category>
   
   <category>
+  	<name>Table Component</name>
+  	<content>
+  		<property ref="net.sf.jasperreports.components.sort.up.arrow.char" />
+  		<property ref="net.sf.jasperreports.components.sort.down.arrow.char" />
+  		<property ref="net.sf.jasperreports.components.filter.char" />
+  		<property ref="net.sf.jasperreports.components.table.interactive" />
+  		<property ref="net.sf.jasperreports.components.table.column.field" />
+  		<property ref="net.sf.jasperreports.components.table.column.variable" />
+  		<property ref="net.sf.jasperreports.components.table.column.sortable" />
+  		<property ref="net.sf.jasperreports.components.table.column.filterable" />
+  		<property ref="net.sf.jasperreports.components.table.column.conditionally.formattable" />
+  	</content>
+  </category>
+  
+  <category>
     <name>Chart Themes</name>
     <content>
       <property ref="net.sf.jasperreports.chart.dial.value.display.visible"/>
@@ -1566,7 +1581,124 @@ Property that provides the default value for the crosstab <code>ignoreWidth</cod
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.chart.dial.value.display.visible -->
+  <!-- net.sf.jasperreports.components.sort.up.arrow.char -->
+  
+  <configProperty name="net.sf.jasperreports.components.sort.up.arrow.char">
+    <description>
+Property that specifies the character to be used on the column header when the tables's column is sorted ascending
+    </description>
+    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_UP_ARROW_CHAR</api>
+    <default>\u25B2</default>
+    <scope>Global</scope>
+    <since>4.6.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.sort.down.arrow.char -->
+  
+  <configProperty name="net.sf.jasperreports.components.sort.down.arrow.char">
+    <description>
+Property that specifies the character to be used on the column header when the tables's column is sorted descending
+    </description>
+    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_DOWN_ARROW_CHAR</api>
+    <default>\u25BC</default>
+    <scope>Global</scope>
+    <since>4.6.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.filter.char -->
+  
+  <configProperty name="net.sf.jasperreports.components.filter.char">
+    <description>
+Property that specifies the character to be used on the column header when the tables's column has a filtered applied
+    </description>
+    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_FILTER_CHAR</api>
+    <default>\u2606</default>
+    <scope>Global</scope>
+    <since>4.6.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.table.interactive -->
+  
+    <configProperty name="net.sf.jasperreports.components.table.interactive">
+    <description>
+Property that enables/disables the interactivity in the table component
+    </description>
+    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_INTERACTIVE_TABLE</api>
+    <default>true</default>
+    <scope>Global | Report | Component | Column</scope>
+    <since>4.7.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.table.column.field -->
+  
+  <configProperty name="net.sf.jasperreports.components.table.column.field">
+    <description>
+Property that specifies the field to be used for sorting and/or filtering
+    </description>
+    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_COLUMN_FIELD</api>
+    <default>N/A</default>
+    <scope>Column</scope>
+    <since>5.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.table.column.variable -->
+  
+  <configProperty name="net.sf.jasperreports.components.table.column.variable">
+    <description>
+Property that specifies the variable to be used for sorting and/or filtering
+    </description>
+    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_COLUMN_VARIABLE</api>
+    <default>N/A</default>
+    <scope>Column</scope>
+    <since>5.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.table.column.sortable -->
+  
+  <configProperty name="net.sf.jasperreports.components.table.column.sortable">
+    <description>
+Property that enables/disables sorting
+    </description>
+    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_COLUMN_SORTABLE</api>
+    <default>true</default>
+    <scope>Column</scope>
+    <since>5.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.table.column.filterable -->
+  
+  <configProperty name="net.sf.jasperreports.components.table.column.filterable">
+    <description>
+Property that enables/disables filtering
+    </description>
+    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_COLUMN_FILTERABLE</api>
+    <default>true</default>
+    <scope>Column</scope>
+    <since>5.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.table.column.conditionally.formattable -->
+  
+  <configProperty name="net.sf.jasperreports.components.table.column.conditionally.formattable">
+    <description>
+Property that enables/disables conditional formatting
+    </description>
+    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_COLUMN_CONDITIONALLY_FORMATTABLE</api>
+    <default>true</default>
+    <scope>Column</scope>
+    <since>5.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.dial.value.display.visible -->  
   
   <configProperty name="net.sf.jasperreports.chart.dial.value.display.visible">
     <description>
