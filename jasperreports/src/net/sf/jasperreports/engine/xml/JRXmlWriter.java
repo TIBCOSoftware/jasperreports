@@ -1871,11 +1871,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		Color axisLineColor
 		)  throws IOException
 	{
-		if (axisLabelFont == null && axisLabelColor == null &&
-			axisTickLabelFont == null && axisTickLabelColor == null && axisLineColor == null)
-		{
-			return;
-		}
 		writer.startElement(JRXmlConstants.ELEMENT_categoryAxisFormat, getNamespace());
 		
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_labelRotation, labelRotation);
@@ -1918,11 +1913,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		Color axisLineColor
 		)  throws IOException
 	{
-		if (axisLabelFont == null && axisLabelColor == null &&
-			axisTickLabelFont == null && axisTickLabelColor == null && axisLineColor == null)
-		{
-			return;
-		}
 		writer.startElement(axisFormatElementName, getNamespace());
 
 		writeAxisFormat(
