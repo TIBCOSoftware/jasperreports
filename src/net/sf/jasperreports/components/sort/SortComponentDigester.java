@@ -44,6 +44,8 @@ public class SortComponentDigester implements XmlDigesterConfigurer
 
 	public static void addSortComponentRules(Digester digester)
 	{
+		String componentNamespace = digester.getRuleNamespaceURI();
+		
 		String sortComponentPattern = "*/componentElement/sort";
 		digester.addObjectCreate(sortComponentPattern, SortComponent.class.getName());
 		
@@ -63,6 +65,8 @@ public class SortComponentDigester implements XmlDigesterConfigurer
 
 		digester.addFactoryCreate(sortComponentPattern + "/symbol/font", SortComponentSymbolFontFactory.class.getName());
 		digester.addSetNext(sortComponentPattern + "/symbol/font", "setSymbolFont", JRFont.class.getName());
+
+		digester.setRuleNamespaceURI(componentNamespace);
 	}
 
 }
