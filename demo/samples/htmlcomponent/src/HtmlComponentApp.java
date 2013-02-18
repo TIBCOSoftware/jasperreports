@@ -60,7 +60,7 @@ public class HtmlComponentApp extends AbstractSampleApp
 		main(new HtmlComponentApp(), args);
 	}
 	
-	
+
 	/**
 	 *
 	 */
