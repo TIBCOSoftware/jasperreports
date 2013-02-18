@@ -423,7 +423,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected void evaluate(
+	public void evaluate(
 		byte evaluation
 		) throws JRException
 	{
@@ -518,7 +518,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected boolean prepare(
+	public boolean prepare(
 		int availableHeight,
 		boolean isOverflow
 		) throws JRException
@@ -720,7 +720,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected JRPrintElement fill() throws JRException
+	public JRPrintElement fill() throws JRException
 	{
 		EvaluationTimeEnum evaluationTime = getEvaluationTimeValue();
 		

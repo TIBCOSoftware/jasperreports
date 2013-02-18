@@ -41,12 +41,21 @@ public class JRTextFieldFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	public JRDesignTextField getTextField()
+	{
+		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
+
+		return new JRDesignTextField(jasperDesign);
+	}
+
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
-		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 
-		JRDesignTextField textField = new JRDesignTextField(jasperDesign);
+		JRDesignTextField textField = getTextField();
 
 		String isStretchWithOverflow = atts.getValue(JRXmlConstants.ATTRIBUTE_isStretchWithOverflow);
 		if (isStretchWithOverflow != null && isStretchWithOverflow.length() > 0)
