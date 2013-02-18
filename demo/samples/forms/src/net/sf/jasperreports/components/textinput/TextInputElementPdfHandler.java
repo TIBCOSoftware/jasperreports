@@ -90,7 +90,7 @@ public class TextInputElementPdfHandler implements GenericElementPdfHandler
 //        }catch(Exception e){
 //        	throw new JRRuntimeException(e);
 //        }
-        //text.setFontSize(printText.getFontSize());
+        text.setFontSize(printText.getFontSize());
 //        text.setOptions(TextField.REQUIRED | TextField.MULTILINE);
 //        text.setRotation(90);
 //        text.setVisibility(TextField.VISIBLE);
