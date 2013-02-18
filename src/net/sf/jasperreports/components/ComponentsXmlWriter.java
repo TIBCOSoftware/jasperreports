@@ -121,7 +121,7 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 			BarcodeXmlWriter barcodeWriter = new BarcodeXmlWriter(
 													reportWriter, 
 													componentElement, 
-													getVersion(componentElement, reportWriter), 
+													getVersion(jasperReportsContext, componentElement, reportWriter), 
 													versionComparator);
 			barcodeWriter.writeBarcode();
 		}
@@ -129,7 +129,7 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 		{
 			SpiderChartXmlWriter spiderChartWriter = new SpiderChartXmlWriter(
 															jasperReportsContext, 
-															getVersion(componentElement, reportWriter), 
+															getVersion(jasperReportsContext, componentElement, reportWriter), 
 															versionComparator);
 			spiderChartWriter.writeToXml(componentElement, reportWriter);
 		}
@@ -137,7 +137,7 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 		{
 			SortComponentXmlWriter sortWriter = new SortComponentXmlWriter(
 														jasperReportsContext, 
-														getVersion(componentElement, reportWriter), 
+														getVersion(jasperReportsContext, componentElement, reportWriter), 
 														versionComparator);
 			sortWriter.writeToXml(componentElement, reportWriter);
 		}
@@ -495,7 +495,7 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 	}
 	
 	
-	protected String getVersion(JRComponentElement componentElement, JRXmlWriter reportWriter) 
+	public static String getVersion(JasperReportsContext jasperReportsContext, JRComponentElement componentElement, JRXmlWriter reportWriter) 
 	{
 		String version = null;
 
@@ -522,7 +522,7 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 
 	protected boolean isNewerVersionOrEqual(JRComponentElement componentElement, JRXmlWriter reportWriter, String oldVersion) //FIXMEVERSION can we pass something else then reportWriter?
 	{
-		return versionComparator.compare(getVersion(componentElement, reportWriter), oldVersion) >= 0;
+		return versionComparator.compare(getVersion(jasperReportsContext, componentElement, reportWriter), oldVersion) >= 0;
 	}
 
 	protected boolean isBarcode4jName(String name)
