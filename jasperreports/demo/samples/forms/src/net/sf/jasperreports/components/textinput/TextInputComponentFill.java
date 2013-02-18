@@ -87,6 +87,7 @@ public class TextInputComponentFill extends BaseFillComponent {
 		}
 		
 		printElement.setY(fillContext.getElementPrintY());
+		printElement.setHeight(printText.getHeight());
 
 		copy(printElement);
 		
