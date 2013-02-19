@@ -24,7 +24,6 @@
 package net.sf.jasperreports.forms.textinput;
 
 import net.sf.jasperreports.engine.JRGenericElementType;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -37,6 +36,7 @@ public interface TextInputElement
 	public static final String TEXT_INPUT_ELEMENT_NAME = "textInput";
 	public static final JRGenericElementType TEXT_INPUT_ELEMENT_TYPE = new JRGenericElementType(TextInputElementHandlerBundle.NAMESPACE, TEXT_INPUT_ELEMENT_NAME);
 
+	public static final String PARAMETER_MULTI_LINE = "multiLine";
 	public static final String PARAMETER_PRINT_TEXT_ELEMENT = "printText";
 	
 }

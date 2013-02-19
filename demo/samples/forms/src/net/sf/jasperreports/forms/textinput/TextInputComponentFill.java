@@ -129,9 +129,11 @@ public class TextInputComponentFill extends BaseFillComponent {
 		printElement.setWidth(element.getWidth());
 		printElement.setHeight(element.getHeight());
 		
+		printElement.setParameterValue(TextInputElement.PARAMETER_MULTI_LINE, textInputComponent.isMultiLine());
+
 //		copy(printElement);
 		
-		result = FillPrepareResult.PRINT_NO_STRETCH;
+		result = FillPrepareResult.printStretch(textField.getStretchHeight(), false);
 		return result;
 	}
 	

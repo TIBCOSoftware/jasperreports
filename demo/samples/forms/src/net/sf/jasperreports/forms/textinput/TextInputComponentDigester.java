@@ -47,6 +47,8 @@ public class TextInputComponentDigester implements XmlDigesterConfigurer
 //		digester.addObjectCreate(textInputComponentPattern, TextInputComponent.class.getName());
 		digester.addFactoryCreate(textInputComponentPattern, TextInputComponentFactory.class.getName());
 
+		digester.addSetProperties(textInputComponentPattern);
+		
 //		digester.addSetProperties(textInputComponentPattern,
 //			//properties to be ignored by this rule
 //			new String[]{JRXmlConstants.ATTRIBUTE_evaluationTime, StandardBarbecueComponent.PROPERTY_ROTATION}, 
