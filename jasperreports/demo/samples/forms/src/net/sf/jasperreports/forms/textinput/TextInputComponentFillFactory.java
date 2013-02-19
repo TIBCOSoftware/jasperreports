@@ -21,36 +21,33 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.textinput;
+package net.sf.jasperreports.forms.textinput;
 
-import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
-import net.sf.jasperreports.engine.component.ComponentCompiler;
-import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.component.ComponentFillFactory;
+import net.sf.jasperreports.engine.component.FillComponent;
+import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
+import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class TextInputComponentCompiler implements ComponentCompiler 
+public class TextInputComponentFillFactory implements ComponentFillFactory
 {
 
-	public void collectExpressions(Component component, JRExpressionCollector collector) 
+	public FillComponent toFillComponent(Component component,
+			JRFillObjectFactory factory)
 	{
 		TextInputComponent textInputComponent = (TextInputComponent) component;
-		collector.collect(textInputComponent.getTextField());
-	}
-	
-	public Component toCompiledComponent(Component component, JRBaseObjectFactory baseFactory) 
-	{
-		TextInputComponent textInputComponent = (TextInputComponent) component;
-		return new TextInputComponent(textInputComponent, baseFactory);
+		return new TextInputComponentFill(textInputComponent, factory);
 	}
 
-	public void verify(Component component, JRVerifier verifier) 
+	public FillComponent cloneFillComponent(FillComponent component,
+			JRFillCloneFactory factory)
 	{
-		// TODO
+		TextInputComponentFill textInputComponentFill = (TextInputComponentFill) component;
+		return new TextInputComponentFill(textInputComponentFill.getTextInputComponent(), factory);
 	}
-	
+
 }

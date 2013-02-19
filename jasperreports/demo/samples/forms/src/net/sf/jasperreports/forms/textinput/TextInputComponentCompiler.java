@@ -21,49 +21,36 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.textinput;
+package net.sf.jasperreports.forms.textinput;
 
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.component.ComponentDesignConverter;
-import net.sf.jasperreports.engine.convert.ElementIconConverter;
-import net.sf.jasperreports.engine.convert.ReportConverter;
-import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.component.ComponentCompiler;
+import net.sf.jasperreports.engine.design.JRVerifier;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class TextInputComponentDesignConverter extends ElementIconConverter implements ComponentDesignConverter
+public class TextInputComponentCompiler implements ComponentCompiler 
 {
 
-	/**
-	 *
-	 */
-	private final static TextInputComponentDesignConverter INSTANCE = new TextInputComponentDesignConverter();
+	public void collectExpressions(Component component, JRExpressionCollector collector) 
+	{
+		TextInputComponent textInputComponent = (TextInputComponent) component;
+		collector.collect(textInputComponent.getTextField());
+	}
 	
-	/**
-	 *
-	 */
-	private TextInputComponentDesignConverter()
+	public Component toCompiledComponent(Component component, JRBaseObjectFactory baseFactory) 
 	{
-		super(JRImageLoader.SUBREPORT_IMAGE_RESOURCE);//FIXMEINPUT
+		TextInputComponent textInputComponent = (TextInputComponent) component;
+		return new TextInputComponent(textInputComponent, baseFactory);
 	}
 
-	/**
-	 *
-	 */
-	public static TextInputComponentDesignConverter getInstance()
+	public void verify(Component component, JRVerifier verifier) 
 	{
-		return INSTANCE;
+		// TODO
 	}
-
-	/**
-	 *
-	 */
-	public JRPrintElement convert(ReportConverter reportConverter, JRComponentElement element)
-	{
-		return convert(reportConverter, (JRElement)element);
-	}
+	
 }

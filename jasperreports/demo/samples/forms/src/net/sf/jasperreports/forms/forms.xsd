@@ -2,8 +2,8 @@
 
 <schema
   xmlns="http://www.w3.org/2001/XMLSchema"
-  targetNamespace="http://jasperreports.sourceforge.net/textinput"
-  xmlns:hc="http://jasperreports.sourceforge.net/textinput"
+  targetNamespace="http://jasperreports.sourceforge.net/forms"
+  xmlns:fm="http://jasperreports.sourceforge.net/forms"
   xmlns:jr="http://jasperreports.sourceforge.net/jasperreports"
   elementFormDefault="qualified">
 

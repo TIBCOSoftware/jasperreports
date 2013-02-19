@@ -21,22 +21,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.textinput;
+package net.sf.jasperreports.forms.textinput;
 
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.component.ComponentXmlWriter;
-import net.sf.jasperreports.engine.component.DefaultComponentManager;
+import net.sf.jasperreports.engine.design.JRDesignTextField;
+import net.sf.jasperreports.engine.xml.JRTextFieldFactory;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class TextInputComponentManager extends DefaultComponentManager
+public class TextInputTextFieldFactory extends JRTextFieldFactory
 {
 
-	public ComponentXmlWriter getComponentXmlWriter(JasperReportsContext jasperReportsContext)
+	/**
+	 *
+	 */
+	public JRDesignTextField getTextField()
 	{
-		return new TextInputComponentXmlWriter(jasperReportsContext);
+		TextInputComponent textInputComponent = (TextInputComponent)digester.peek();
+		JRDesignTextField textField = (JRDesignTextField)textInputComponent.getTextField();
+		return textField;
 	}
 
 }

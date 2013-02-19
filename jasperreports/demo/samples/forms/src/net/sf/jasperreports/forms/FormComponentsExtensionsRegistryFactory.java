@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.textinput;
+package net.sf.jasperreports.forms;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,6 +33,11 @@ import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
 import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
+import net.sf.jasperreports.forms.textinput.TextInputComponentCompiler;
+import net.sf.jasperreports.forms.textinput.TextInputComponentDesignConverter;
+import net.sf.jasperreports.forms.textinput.TextInputComponentDigester;
+import net.sf.jasperreports.forms.textinput.TextInputComponentFillFactory;
+import net.sf.jasperreports.forms.textinput.TextInputComponentManager;
 
 /**
  * Extension registry factory that includes built-in component element
@@ -44,16 +49,16 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class TextInputComponentExtensionsRegistryFactory implements
+public class FormComponentsExtensionsRegistryFactory implements
 		ExtensionsRegistryFactory
 {
 
 	public static final String NAMESPACE = 
-		"http://jasperreports.sourceforge.net/textinput";
+		"http://jasperreports.sourceforge.net/forms";
 	public static final String XSD_LOCATION = 
-		"http://jasperreports.sourceforge.net/xsd/textinput.xsd";
+		"http://jasperreports.sourceforge.net/xsd/forms.xsd";
 	public static final String XSD_RESOURCE = 
-		"net/sf/jasperreports/components/textinput/textinput.xsd";
+		"net/sf/jasperreports/forms/forms.xsd";
 	
 	protected static final String TEXT_INPUT_COMPONENT_NAME = "textInput";
 	private static final ExtensionsRegistry REGISTRY;
