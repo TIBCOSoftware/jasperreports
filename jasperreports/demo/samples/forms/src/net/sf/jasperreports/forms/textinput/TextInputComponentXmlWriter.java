@@ -86,6 +86,8 @@ public class TextInputComponentXmlWriter implements ComponentXmlWriter
 		
 		writer.startElement("textInput", componentNamespace);
 		
+		writer.addAttribute("multiLine", textInputComponent.isMultiLine());
+
 		reportWriter.writeTextField(textInputComponent.getTextField());
 
 		writer.closeElement();

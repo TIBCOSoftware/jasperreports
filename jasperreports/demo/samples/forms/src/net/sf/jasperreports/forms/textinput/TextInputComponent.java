@@ -46,7 +46,10 @@ public class TextInputComponent implements ContextAwareComponent, Serializable, 
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	public static final String PROPERTY_MULTI_LINE = "multiLine";
+
 	private JRTextField textField;
+	private boolean multiLine;
 
 	private ComponentContext context;
 
@@ -60,6 +63,7 @@ public class TextInputComponent implements ContextAwareComponent, Serializable, 
 	public TextInputComponent(TextInputComponent component, JRBaseObjectFactory objectFactory) 
 	{
 		this.textField = (JRTextField)objectFactory.getVisitResult(component.textField);
+		this.multiLine = component.isMultiLine();
 
 		this.context = new BaseComponentContext(component.getContext(), objectFactory);
 	}
@@ -80,6 +84,24 @@ public class TextInputComponent implements ContextAwareComponent, Serializable, 
 	public JRTextField getTextField() 
 	{
 		return textField;
+	}
+
+	/**
+	 *
+	 */
+	public boolean isMultiLine() 
+	{
+		return multiLine;
+	}
+
+	/**
+	 *
+	 */
+	public void setMultiLine(boolean multiLine) 
+	{
+		boolean old = this.multiLine;
+		this.multiLine = multiLine;
+		getEventSupport().firePropertyChange(PROPERTY_MULTI_LINE, old, this.multiLine);
 	}
 
 	/**

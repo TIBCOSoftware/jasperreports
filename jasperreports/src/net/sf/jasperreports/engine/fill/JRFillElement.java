@@ -621,7 +621,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
-	protected int getStretchHeight()
+	public int getStretchHeight()
 	{
 		return stretchHeight;
 	}

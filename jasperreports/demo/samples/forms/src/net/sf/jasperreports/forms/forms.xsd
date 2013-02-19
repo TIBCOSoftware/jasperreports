@@ -16,6 +16,7 @@
 					<sequence>
 						<element ref="jr:textField" minOccurs="1" maxOccurs="1"/>
 					</sequence>
+					<attribute name="multiLine" type="boolean" use="optional" default="false"/>
 				</extension>
 			</complexContent>
 		</complexType>

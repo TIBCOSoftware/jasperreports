@@ -91,7 +91,10 @@ public class TextInputElementPdfHandler implements GenericElementPdfHandler
 //        	throw new JRRuntimeException(e);
 //        }
         text.setFontSize(printText.getFontSize());
-//        text.setOptions(TextField.REQUIRED | TextField.MULTILINE);
+        if (Boolean.TRUE.equals(element.getParameterValue(TextInputElement.PARAMETER_MULTI_LINE)))
+        {
+            text.setOptions(TextField.MULTILINE);
+        }
 //        text.setRotation(90);
 //        text.setVisibility(TextField.VISIBLE);
         
