@@ -6,18 +6,26 @@
 	<title>
 		<band height="742">
 			<componentElement>
-				<reportElement x="0" y="100" width="400" height="50" forecolor="red" backcolor="yellow" mode="Opaque"/>
-				<c:textInput xmlns:c="http://jasperreports.sourceforge.net/textinput" xsi:schemaLocation="http://jasperreports.sourceforge.net/textinput http://jasperreports.sourceforge.net/xsd/textinput.xsd">
-					<textField hyperlinkType="Reference">
-						<reportElement x="0" y="0" width="400" height="50" forecolor="green" backcolor="cyan" mode="Opaque"/>
+				<reportElement x="0" y="0" width="200" height="25" forecolor="red" backcolor="yellow" mode="Opaque"/>
+				<c:textInput xmlns:c="http://jasperreports.sourceforge.net/forms" xsi:schemaLocation="http://jasperreports.sourceforge.net/forms http://jasperreports.sourceforge.net/xsd/forms.xsd">
+					<textField hyperlinkType="Reference" isStretchWithOverflow="true">
+						<reportElement x="0" y="0" width="200" height="25" forecolor="cyan" backcolor="green" mode="Opaque"/>
 						<textElement textAlignment="Center">
-							<font size="12"/>
+							<font size="48"/>
 						</textElement>
-						<textFieldExpression class="java.lang.String"><![CDATA["This is it!"]]></textFieldExpression>
+						<textFieldExpression class="java.lang.String"><![CDATA["This \nis it!"]]></textFieldExpression>
 						<hyperlinkReferenceExpression><![CDATA["http://barbecue.sourceforge.net/"]]></hyperlinkReferenceExpression>
 					</textField>
 				</c:textInput>
 			</componentElement>
+			<textField hyperlinkType="Reference" isStretchWithOverflow="true">
+				<reportElement x="205" y="0" width="200" height="25" forecolor="cyan" backcolor="green" mode="Opaque"/>
+				<textElement textAlignment="Center">
+					<font size="48"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["This \nis it!"]]></textFieldExpression>
+				<hyperlinkReferenceExpression><![CDATA["http://barbecue.sourceforge.net/"]]></hyperlinkReferenceExpression>
+			</textField>
 		</band>
 	</title>
 </jasperReport>

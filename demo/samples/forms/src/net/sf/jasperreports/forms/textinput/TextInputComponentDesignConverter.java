@@ -21,33 +21,49 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.textinput;
+package net.sf.jasperreports.forms.textinput;
 
-import net.sf.jasperreports.engine.component.Component;
-import net.sf.jasperreports.engine.component.ComponentFillFactory;
-import net.sf.jasperreports.engine.component.FillComponent;
-import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.component.ComponentDesignConverter;
+import net.sf.jasperreports.engine.convert.ElementIconConverter;
+import net.sf.jasperreports.engine.convert.ReportConverter;
+import net.sf.jasperreports.engine.util.JRImageLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class TextInputComponentFillFactory implements ComponentFillFactory
+public class TextInputComponentDesignConverter extends ElementIconConverter implements ComponentDesignConverter
 {
 
-	public FillComponent toFillComponent(Component component,
-			JRFillObjectFactory factory)
+	/**
+	 *
+	 */
+	private final static TextInputComponentDesignConverter INSTANCE = new TextInputComponentDesignConverter();
+	
+	/**
+	 *
+	 */
+	private TextInputComponentDesignConverter()
 	{
-		TextInputComponent textInputComponent = (TextInputComponent) component;
-		return new TextInputComponentFill(textInputComponent, factory);
+		super(JRImageLoader.SUBREPORT_IMAGE_RESOURCE);//FIXMEINPUT
 	}
 
-	public FillComponent cloneFillComponent(FillComponent component,
-			JRFillCloneFactory factory)
+	/**
+	 *
+	 */
+	public static TextInputComponentDesignConverter getInstance()
 	{
-		TextInputComponentFill textInputComponentFill = (TextInputComponentFill) component;
-		return new TextInputComponentFill(textInputComponentFill.getTextInputComponent(), factory);
+		return INSTANCE;
 	}
 
+	/**
+	 *
+	 */
+	public JRPrintElement convert(ReportConverter reportConverter, JRComponentElement element)
+	{
+		return convert(reportConverter, (JRElement)element);
+	}
 }

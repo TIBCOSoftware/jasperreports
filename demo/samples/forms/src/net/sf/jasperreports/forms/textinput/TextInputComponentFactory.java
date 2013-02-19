@@ -21,22 +21,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.textinput;
+package net.sf.jasperreports.forms.textinput;
 
-import net.sf.jasperreports.engine.JRGenericElementType;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
+
+import org.xml.sax.Attributes;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface TextInputElement 
+public class TextInputComponentFactory extends JRBaseFactory
 {
-	
-	public static final String TEXT_INPUT_ELEMENT_NAME = "textInput";
-	public static final JRGenericElementType TEXT_INPUT_ELEMENT_TYPE = new JRGenericElementType(TextInputElementHandlerBundle.NAMESPACE, TEXT_INPUT_ELEMENT_NAME);
 
-	public static final String PARAMETER_PRINT_TEXT_ELEMENT = "printText";
+	/**
+	 *
+	 */
+	public Object createObject(Attributes atts)
+	{
+		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
+
+		TextInputComponent textInputComponent = new TextInputComponent(jasperDesign);
+
+		return textInputComponent;
+	}
 	
+
 }
