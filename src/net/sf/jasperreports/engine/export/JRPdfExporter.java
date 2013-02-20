@@ -71,6 +71,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -143,6 +144,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	private static final Log log = LogFactory.getLog(JRPdfExporter.class);
 	
 	public static final String PDF_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.";
+
+	public static final String PROPERTY_PDF_HYPERLINK_VISIBLE = PDF_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_HYPERLINK_VISIBLE_SUFFIX;
 
 	/**
 	 * Prefix of properties that specify font files for the PDF exporter.
@@ -1642,86 +1645,35 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (link != null)
 		{
-			switch(link.getHyperlinkTypeValue())
+			Boolean hyperlinkVisible = null;
+			if (link.getHyperlinkParameters() != null)
 			{
-				case REFERENCE :
+				List<JRPrintHyperlinkParameter> parameters = link.getHyperlinkParameters().getParameters();
+				if (parameters != null)
 				{
-					if (link.getHyperlinkReference() != null)
+					for (int i = 0; i < parameters.size(); i++)
 					{
-						switch(link.getHyperlinkTargetValue())
+						JRPrintHyperlinkParameter parameter = parameters.get(i);
+						if (PROPERTY_PDF_HYPERLINK_VISIBLE.equals(parameter.getName()))
 						{
-							case BLANK :
-							{
-								chunk.setAction(
-									PdfAction.javaScript(
-										"if (app.viewerVersion < 7)"
-											+ "{this.getURL(\"" + link.getHyperlinkReference() + "\");}"
-											+ "else {app.launchURL(\"" + link.getHyperlinkReference() + "\", true);};",
-										pdfWriter
-										)
-									);
-								break;
-							}
-							case SELF :
-							default :
-							{
-								chunk.setAnchor(link.getHyperlinkReference());
-								break;
-							}
+							hyperlinkVisible = (Boolean)parameter.getValue();
+							break;
 						}
 					}
-					break;
 				}
-				case LOCAL_ANCHOR :
+			}
+			if (hyperlinkVisible == null)
+			{
+				hyperlinkVisible = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_PDF_HYPERLINK_VISIBLE, true);
+			}
+			
+			if (hyperlinkVisible)
+			{
+				switch(link.getHyperlinkTypeValue())
 				{
-					if (link.getHyperlinkAnchor() != null)
+					case REFERENCE :
 					{
-						chunk.setLocalGoto(link.getHyperlinkAnchor());
-					}
-					break;
-				}
-				case LOCAL_PAGE :
-				{
-					if (link.getHyperlinkPage() != null)
-					{
-						chunk.setLocalGoto(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString());
-					}
-					break;
-				}
-				case REMOTE_ANCHOR :
-				{
-					if (
-						link.getHyperlinkReference() != null &&
-						link.getHyperlinkAnchor() != null
-						)
-					{
-						chunk.setRemoteGoto(
-							link.getHyperlinkReference(),
-							link.getHyperlinkAnchor()
-							);
-					}
-					break;
-				}
-				case REMOTE_PAGE :
-				{
-					if (
-						link.getHyperlinkReference() != null &&
-						link.getHyperlinkPage() != null
-						)
-					{
-						chunk.setRemoteGoto(
-							link.getHyperlinkReference(),
-							link.getHyperlinkPage().intValue()
-							);
-					}
-					break;
-				}
-				case CUSTOM :
-				{
-					if (hyperlinkProducerFactory != null)
-					{
-						String hyperlink = hyperlinkProducerFactory.produceHyperlink(link);
-						if (hyperlink != null)
+						if (link.getHyperlinkReference() != null)
 						{
 							switch(link.getHyperlinkTargetValue())
 							{
@@ -1730,8 +1682,8 @@ public class JRPdfExporter extends JRAbstractExporter
 									chunk.setAction(
 										PdfAction.javaScript(
 											"if (app.viewerVersion < 7)"
-												+ "{this.getURL(\"" + hyperlink + "\");}"
-												+ "else {app.launchURL(\"" + hyperlink + "\", true);};",
+												+ "{this.getURL(\"" + link.getHyperlinkReference() + "\");}"
+												+ "else {app.launchURL(\"" + link.getHyperlinkReference() + "\", true);};",
 											pdfWriter
 											)
 										);
@@ -1740,17 +1692,93 @@ public class JRPdfExporter extends JRAbstractExporter
 								case SELF :
 								default :
 								{
-									chunk.setAnchor(hyperlink);
+									chunk.setAnchor(link.getHyperlinkReference());
 									break;
 								}
 							}
 						}
+						break;
 					}
-				}
-				case NONE :
-				default :
-				{
-					break;
+					case LOCAL_ANCHOR :
+					{
+						if (link.getHyperlinkAnchor() != null)
+						{
+							chunk.setLocalGoto(link.getHyperlinkAnchor());
+						}
+						break;
+					}
+					case LOCAL_PAGE :
+					{
+						if (link.getHyperlinkPage() != null)
+						{
+							chunk.setLocalGoto(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString());
+						}
+						break;
+					}
+					case REMOTE_ANCHOR :
+					{
+						if (
+							link.getHyperlinkReference() != null &&
+							link.getHyperlinkAnchor() != null
+							)
+						{
+							chunk.setRemoteGoto(
+								link.getHyperlinkReference(),
+								link.getHyperlinkAnchor()
+								);
+						}
+						break;
+					}
+					case REMOTE_PAGE :
+					{
+						if (
+							link.getHyperlinkReference() != null &&
+							link.getHyperlinkPage() != null
+							)
+						{
+							chunk.setRemoteGoto(
+								link.getHyperlinkReference(),
+								link.getHyperlinkPage().intValue()
+								);
+						}
+						break;
+					}
+					case CUSTOM :
+					{
+						if (hyperlinkProducerFactory != null)
+						{
+							String hyperlink = hyperlinkProducerFactory.produceHyperlink(link);
+							if (hyperlink != null)
+							{
+								switch(link.getHyperlinkTargetValue())
+								{
+									case BLANK :
+									{
+										chunk.setAction(
+											PdfAction.javaScript(
+												"if (app.viewerVersion < 7)"
+													+ "{this.getURL(\"" + hyperlink + "\");}"
+													+ "else {app.launchURL(\"" + hyperlink + "\", true);};",
+												pdfWriter
+												)
+											);
+										break;
+									}
+									case SELF :
+									default :
+									{
+										chunk.setAnchor(hyperlink);
+										break;
+									}
+								}
+							}
+						}
+					}
+					case NONE :
+					default :
+					{
+						break;
+					}
 				}
 			}
 		}

@@ -34,6 +34,8 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 public interface JRPrintHyperlink
 {
 
+	public static final String PROPERTY_HYPERLINK_VISIBLE_SUFFIX = "hyperlink.visible";
+
 	/**
 	 * Retrieves the hyperlink type for the element.
 	 * <p>

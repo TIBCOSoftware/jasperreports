@@ -122,6 +122,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	private static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.";
 
+	public static final String PROPERTY_HTML_HYPERLINK_VISIBLE = HTML_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_HYPERLINK_VISIBLE_SUFFIX;
+
 	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
@@ -1674,67 +1676,93 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected String getHyperlinkURL(JRPrintHyperlink link)
 	{
 		String href = null;
-		JRHyperlinkProducer customHandler = getHyperlinkProducer(link);		
-		if (customHandler == null)
+		
+		Boolean hyperlinkVisible = null;
+		if (link.getHyperlinkParameters() != null)
 		{
-			switch(link.getHyperlinkTypeValue())
+			List<JRPrintHyperlinkParameter> parameters = link.getHyperlinkParameters().getParameters();
+			if (parameters != null)
 			{
-				case REFERENCE :
+				for (int i = 0; i < parameters.size(); i++)
 				{
-					if (link.getHyperlinkReference() != null)
+					JRPrintHyperlinkParameter parameter = parameters.get(i);
+					if (PROPERTY_HTML_HYPERLINK_VISIBLE.equals(parameter.getName()))
 					{
-						href = link.getHyperlinkReference();
+						hyperlinkVisible = (Boolean)parameter.getValue();
+						break;
 					}
-					break;
-				}
-				case LOCAL_ANCHOR :
-				{
-					if (link.getHyperlinkAnchor() != null)
-					{
-						href = "#" + link.getHyperlinkAnchor();
-					}
-					break;
-				}
-				case LOCAL_PAGE :
-				{
-					if (link.getHyperlinkPage() != null)
-					{
-						href = "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
-					}
-					break;
-				}
-				case REMOTE_ANCHOR :
-				{
-					if (
-						link.getHyperlinkReference() != null &&
-						link.getHyperlinkAnchor() != null
-						)
-					{
-						href = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
-					}
-					break;
-				}
-				case REMOTE_PAGE :
-				{
-					if (
-						link.getHyperlinkReference() != null &&
-						link.getHyperlinkPage() != null
-						)
-					{
-						href = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
-					}
-					break;
-				}
-				case NONE :
-				default :
-				{
-					break;
 				}
 			}
 		}
-		else
+		if (hyperlinkVisible == null)
 		{
-			href = customHandler.getHyperlink(link);
+			hyperlinkVisible = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_HTML_HYPERLINK_VISIBLE, true);
+		}
+
+		if (hyperlinkVisible)
+		{
+			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);		
+			if (customHandler == null)
+			{
+				switch(link.getHyperlinkTypeValue())
+				{
+					case REFERENCE :
+					{
+						if (link.getHyperlinkReference() != null)
+						{
+							href = link.getHyperlinkReference();
+						}
+						break;
+					}
+					case LOCAL_ANCHOR :
+					{
+						if (link.getHyperlinkAnchor() != null)
+						{
+							href = "#" + link.getHyperlinkAnchor();
+						}
+						break;
+					}
+					case LOCAL_PAGE :
+					{
+						if (link.getHyperlinkPage() != null)
+						{
+							href = "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+						}
+						break;
+					}
+					case REMOTE_ANCHOR :
+					{
+						if (
+							link.getHyperlinkReference() != null &&
+							link.getHyperlinkAnchor() != null
+							)
+						{
+							href = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
+						}
+						break;
+					}
+					case REMOTE_PAGE :
+					{
+						if (
+							link.getHyperlinkReference() != null &&
+							link.getHyperlinkPage() != null
+							)
+						{
+							href = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
+						}
+						break;
+					}
+					case NONE :
+					default :
+					{
+						break;
+					}
+				}
+			}
+			else
+			{
+				href = customHandler.getHyperlink(link);
+			}
 		}
 		
 		return href;
