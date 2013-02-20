@@ -407,18 +407,23 @@ public class JROdsExporter extends JRXlsAbstractExporter
 
 				boolean startedHyperlink = tableBuilder.startHyperlink(image,false);
 
-				String cellAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), colIndex + gridCell.getColSpan() - 1);
+				//String cellAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), colIndex + gridCell.getColSpan() - 1);
+				String cellAddress = getCellAddress(rowIndex + gridCell.getRowSpan() + 1, colIndex + gridCell.getColSpan());
 				cellAddress = cellAddress == null ? "" : "table:end-cell-address=\"" + cellAddress + "\" ";
 				
 				tempBodyWriter.write("<draw:frame text:anchor-type=\"frame\" "
 						+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" "
 						+ cellAddress
-						+ "table:end-x=\"" + LengthUtil.inchRound(image.getWidth()) + "in\" "
-						+ "table:end-y=\"" + LengthUtil.inchRound(image.getHeight()) + "in\" "
+//						+ "table:end-x=\"" + LengthUtil.inchRound(image.getWidth()) + "in\" "
+//						+ "table:end-y=\"" + LengthUtil.inchRound(image.getHeight()) + "in\" "
+						+ "table:end-x=\"0in\" "
+						+ "table:end-y=\"0in\" "
 //						+ "svg:x=\"" + LengthUtil.inch(image.getX() + leftPadding + xoffset) + "in\" "
 //						+ "svg:y=\"" + LengthUtil.inch(image.getY() + topPadding + yoffset) + "in\" "
-//						+ "svg:width=\"" + LengthUtil.inch(width) + "in\" "
-//						+ "svg:height=\"" + LengthUtil.inch(height) + "in\"" 
+						+ "svg:x=\"0in\" "
+						+ "svg:y=\"0in\" "
+						+ "svg:width=\"" + LengthUtil.inchRound(image.getWidth()) + "in\" "
+						+ "svg:height=\"" + LengthUtil.inchRound(image.getHeight()) + "in\"" 
 						+ ">"
 						);
 				tempBodyWriter.write("<draw:image ");
