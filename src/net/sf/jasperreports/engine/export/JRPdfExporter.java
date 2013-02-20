@@ -71,7 +71,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
-import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -1645,23 +1644,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (link != null)
 		{
-			Boolean hyperlinkVisible = null;
-			if (link.getHyperlinkParameters() != null)
-			{
-				List<JRPrintHyperlinkParameter> parameters = link.getHyperlinkParameters().getParameters();
-				if (parameters != null)
-				{
-					for (int i = 0; i < parameters.size(); i++)
-					{
-						JRPrintHyperlinkParameter parameter = parameters.get(i);
-						if (PROPERTY_PDF_HYPERLINK_VISIBLE.equals(parameter.getName()))
-						{
-							hyperlinkVisible = (Boolean)parameter.getValue();
-							break;
-						}
-					}
-				}
-			}
+			Boolean hyperlinkVisible = HyperlinkUtil.getHyperlinkVisible(PROPERTY_PDF_HYPERLINK_VISIBLE, link);
 			if (hyperlinkVisible == null)
 			{
 				hyperlinkVisible = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_PDF_HYPERLINK_VISIBLE, true);

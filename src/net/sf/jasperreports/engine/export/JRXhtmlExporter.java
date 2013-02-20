@@ -1462,23 +1462,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	{
 		String href = null;
 		
-		Boolean hyperlinkVisible = null;
-		if (link.getHyperlinkParameters() != null)
-		{
-			List<JRPrintHyperlinkParameter> parameters = link.getHyperlinkParameters().getParameters();
-			if (parameters != null)
-			{
-				for (int i = 0; i < parameters.size(); i++)
-				{
-					JRPrintHyperlinkParameter parameter = parameters.get(i);
-					if (PROPERTY_XHTML_HYPERLINK_VISIBLE.equals(parameter.getName()))
-					{
-						hyperlinkVisible = (Boolean)parameter.getValue();
-						break;
-					}
-				}
-			}
-		}
+		Boolean hyperlinkVisible = HyperlinkUtil.getHyperlinkVisible(PROPERTY_XHTML_HYPERLINK_VISIBLE, link);
 		if (hyperlinkVisible == null)
 		{
 			hyperlinkVisible = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_XHTML_HYPERLINK_VISIBLE, true);

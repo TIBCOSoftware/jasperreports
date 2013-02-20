@@ -105,6 +105,8 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	private static final int LINE_SPACING_FACTOR = 240; //(int)(240 * 2/3f);
 
+	public static final String PROPERTY_RTF_HYPERLINK_VISIBLE = RTF_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_HYPERLINK_VISIBLE_SUFFIX;
+
 	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
@@ -1540,69 +1542,78 @@ public class JRRtfExporter extends JRAbstractExporter
 		String local ="";
 		boolean result = false;
 		
-		JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
-		if (customHandler == null)
+		Boolean hyperlinkVisible = HyperlinkUtil.getHyperlinkVisible(PROPERTY_RTF_HYPERLINK_VISIBLE, link);
+		if (hyperlinkVisible == null)
 		{
-			switch(link.getHyperlinkTypeValue())
-			{
-			case REFERENCE :
-			{
-				if (link.getHyperlinkReference() != null)
-				{
-					hl = link.getHyperlinkReference();
-				}
-				break;
-			}
-			case LOCAL_ANCHOR :
-			{
-				if (link.getHyperlinkAnchor() != null)
-				{
-					hl = link.getHyperlinkAnchor();
-					local = "\\\\l ";
-				}
-				break;
-			}
-			case LOCAL_PAGE :
-			{
-				if (link.getHyperlinkPage() != null)
-				{
-					hl = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
-					local = "\\\\l ";
-				}
-				break;
-			}
-			case REMOTE_ANCHOR :
-			{
-				if (
-						link.getHyperlinkReference() != null &&
-						link.getHyperlinkAnchor() != null
-						)
-				{
-					hl = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
-				}
-				break;
-			}
-			case REMOTE_PAGE :
-			{
-				if (
-						link.getHyperlinkReference() != null &&
-						link.getHyperlinkPage() != null
-						)
-				{
-					hl = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
-				}
-				break;
-			}
-			case NONE :
-			default :
-			{
-				break;
-			}
-			}
+			hyperlinkVisible = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_RTF_HYPERLINK_VISIBLE, true);
 		}
-		else
+
+		if (hyperlinkVisible)
 		{
-			hl = customHandler.getHyperlink(link);
+			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
+			if (customHandler == null)
+			{
+				switch(link.getHyperlinkTypeValue())
+				{
+				case REFERENCE :
+				{
+					if (link.getHyperlinkReference() != null)
+					{
+						hl = link.getHyperlinkReference();
+					}
+					break;
+				}
+				case LOCAL_ANCHOR :
+				{
+					if (link.getHyperlinkAnchor() != null)
+					{
+						hl = link.getHyperlinkAnchor();
+						local = "\\\\l ";
+					}
+					break;
+				}
+				case LOCAL_PAGE :
+				{
+					if (link.getHyperlinkPage() != null)
+					{
+						hl = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+						local = "\\\\l ";
+					}
+					break;
+				}
+				case REMOTE_ANCHOR :
+				{
+					if (
+							link.getHyperlinkReference() != null &&
+							link.getHyperlinkAnchor() != null
+							)
+					{
+						hl = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
+					}
+					break;
+				}
+				case REMOTE_PAGE :
+				{
+					if (
+							link.getHyperlinkReference() != null &&
+							link.getHyperlinkPage() != null
+							)
+					{
+						hl = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
+					}
+					break;
+				}
+				case NONE :
+				default :
+				{
+					break;
+				}
+				}
+			}
+			else
+			{
+				hl = customHandler.getHyperlink(link);
+			}
 		}
 		
 		if (hl != null)
@@ -1619,73 +1630,82 @@ public class JRRtfExporter extends JRAbstractExporter
 		String hlfr = null;
 		String hlsrc = null;
 		
-		JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
-		if (customHandler == null)
+		Boolean hyperlinkVisible = HyperlinkUtil.getHyperlinkVisible(PROPERTY_RTF_HYPERLINK_VISIBLE, link);
+		if (hyperlinkVisible == null)
 		{
-			switch(link.getHyperlinkTypeValue())
+			hyperlinkVisible = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_RTF_HYPERLINK_VISIBLE, true);
+		}
+
+		if (hyperlinkVisible)
+		{
+			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
+			if (customHandler == null)
 			{
-				case REFERENCE :
+				switch(link.getHyperlinkTypeValue())
 				{
-					if (link.getHyperlinkReference() != null)
+					case REFERENCE :
 					{
-						hlsrc = link.getHyperlinkReference();
-						hlfr = hlsrc;
+						if (link.getHyperlinkReference() != null)
+						{
+							hlsrc = link.getHyperlinkReference();
+							hlfr = hlsrc;
+						}
+						break;
 					}
-					break;
-				}
-				case LOCAL_ANCHOR :
-				{
-					if (link.getHyperlinkAnchor() != null)
+					case LOCAL_ANCHOR :
 					{
-						hlloc = link.getHyperlinkAnchor();
-						hlfr = hlloc;
+						if (link.getHyperlinkAnchor() != null)
+						{
+							hlloc = link.getHyperlinkAnchor();
+							hlfr = hlloc;
+						}
+						break;
 					}
-					break;
-				}
-				case LOCAL_PAGE :
-				{
-					if (link.getHyperlinkPage() != null)
+					case LOCAL_PAGE :
 					{
-						hlloc = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
-						hlfr = hlloc;
+						if (link.getHyperlinkPage() != null)
+						{
+							hlloc = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+							hlfr = hlloc;
+						}
+						break;
 					}
-					break;
-				}
-				case REMOTE_ANCHOR :
-				{
-					if (
-						link.getHyperlinkReference() != null &&
-						link.getHyperlinkAnchor() != null
-						)
+					case REMOTE_ANCHOR :
 					{
-						hlsrc = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
-						hlfr = hlsrc;
+						if (
+							link.getHyperlinkReference() != null &&
+							link.getHyperlinkAnchor() != null
+							)
+						{
+							hlsrc = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
+							hlfr = hlsrc;
+						}
+						break;
 					}
-					break;
-				}
-				case REMOTE_PAGE :
-				{
-					if (
-						link.getHyperlinkReference() != null &&
-						link.getHyperlinkPage() != null
-						)
+					case REMOTE_PAGE :
 					{
-						hlsrc = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
-						hlfr = hlsrc;
+						if (
+							link.getHyperlinkReference() != null &&
+							link.getHyperlinkPage() != null
+							)
+						{
+							hlsrc = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
+							hlfr = hlsrc;
+						}
+						break;
 					}
-					break;
-				}
-				case NONE :
-				default :
-				{
-					break;
+					case NONE :
+					default :
+					{
+						break;
+					}
 				}
 			}
-		}
-		else
-		{
-			hlsrc = customHandler.getHyperlink(link);
-			hlfr = hlsrc;
+			else
+			{
+				hlsrc = customHandler.getHyperlink(link);
+				hlfr = hlsrc;
+			}
 		}
 
 		if (hlfr != null)
