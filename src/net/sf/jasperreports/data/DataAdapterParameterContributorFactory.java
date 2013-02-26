@@ -41,6 +41,12 @@ import net.sf.jasperreports.repo.RepositoryUtil;
 public final class DataAdapterParameterContributorFactory implements ParameterContributorFactory
 {
 
+	/**
+	 * A report/dataset level property that provides the location of a data adapter resource 
+	 * to be used for the dataset.
+	 */
+	public static final String PROPERTY_DATA_ADAPTER_LOCATION = JRPropertiesUtil.PROPERTY_PREFIX + "data.adapter";
+
 	private static final DataAdapterParameterContributorFactory INSTANCE = new DataAdapterParameterContributorFactory();
 	
 	private DataAdapterParameterContributorFactory()
@@ -62,7 +68,7 @@ public final class DataAdapterParameterContributorFactory implements ParameterCo
 	{
 		List<ParameterContributor> contributors = new ArrayList<ParameterContributor>();
 
-		String dataAdapterUri = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(context.getDataset(), "net.sf.jasperreports.data.adapter");
+		String dataAdapterUri = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(context.getDataset(), PROPERTY_DATA_ADAPTER_LOCATION); 
 		if (dataAdapterUri != null)
 		{
 			DataAdapter dataAdapter = RepositoryUtil.getInstance(context.getJasperReportsContext()).getResourceFromLocation(dataAdapterUri, DataAdapter.class);
