@@ -148,6 +148,7 @@
       <property ref="net.sf.jasperreports.default.pdf.encoding"/>
       <property ref="net.sf.jasperreports.default.pdf.embedded"/>
       
+      <property ref="net.sf.jasperreports.export.{format}.ignore.hyperlink"/>
       <property ref="net.sf.jasperreports.export.{format}.exclude.origin.{suffix}.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.export.{format}.exclude.origin.keep.first.{suffix}.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.export.filter.factory.{filter_element}"/>
@@ -2064,6 +2065,19 @@ Property indicating the default PDF font embedding behavior, if not specified in
     <scope>Global</scope>
     <since>1.3.0</since>
     <contextUnaware/>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.{format}.ignore.hyperlink -->
+  
+  <configProperty name="net.sf.jasperreports.export.{format}.ignore.hyperlink">
+    <description>
+Properties with this syntax are used by the exporters to determine if a certain hyperlink should be activated or not. 
+These flags can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name. 
+    </description>
+    <api>N/A</api>
+    <default>N/A</default>
+    <scope>Global | Report | Hyperlink</scope>
   </configProperty>
   
   
