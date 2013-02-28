@@ -536,7 +536,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			if (!filled)
 			{
-				throw new JRRuntimeException("Infinite loop creating new page due to column header overflow.");
+				throw new JRRuntimeException("net.sf.jasperreports.engine.fill.JRVerticalFiller.column.header.overflow.infinite.loop", (Object[]) null, getJasperReportsContext(), getLocale());
 			}
 		}
 

@@ -23,6 +23,11 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.util.Locale;
+import java.util.MissingResourceException;
+
+import net.sf.jasperreports.engine.util.MessageUtil;
+
 
 
 /**
@@ -33,6 +38,14 @@ package net.sf.jasperreports.engine;
 public class JRException extends Exception
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	public static final String ERROR_MESSAGES_BUNDLE = "jasperreports_messages";
+	
+	private Object[] args;
+	private String messageKey;
+	private String localizedMessage;
+	private boolean hasLocalizedMessage;
+
 
 	/**
 	 *
@@ -60,5 +73,75 @@ public class JRException extends Exception
 		super(message, t);
 	}
 
+
+	/**
+	 *
+	 */
+	public JRException(String messageKey, Object[] args, JasperReportsContext jasperReportsContext, Locale locale)
+	{
+		super(messageKey);
+		this.messageKey = messageKey;
+		this.args = args;
+		this.localizedMessage = resolveMessage(messageKey, args, jasperReportsContext, locale);
+	}
+
+
+	/**
+	 *
+	 */
+	public String getMessageKey()
+	{
+		return messageKey;
+	}
+
+
+	/**
+	 *
+	 */
+	public Object[] getArgs()
+	{
+		return args;
+	}
+
+
+	/**
+	 *
+	 */
+	public boolean hasLocalizedMessage()
+	{
+		return hasLocalizedMessage;
+	}
+
+
+	@Override
+	public String getMessage()
+	{
+		if (hasLocalizedMessage)
+		{
+			return localizedMessage;
+		}
+		return super.getMessage();
+	}
+
+
+	/**
+	 *
+	 */
+	protected String resolveMessage(String messageKey, Object[] args, JasperReportsContext jasperReportsContext, Locale locale)
+	{
+		if (messageKey != null)
+		{
+			try
+			{
+				hasLocalizedMessage = true;
+				return MessageUtil.getInstance(jasperReportsContext).getMessageProvider(ERROR_MESSAGES_BUNDLE).getMessage(messageKey, args, locale);
+			}
+			catch (MissingResourceException e)
+			{
+			}
+		}
+		hasLocalizedMessage = false;
+		return messageKey;
+	}
 
 }
