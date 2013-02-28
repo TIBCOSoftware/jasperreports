@@ -144,7 +144,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	
 	public static final String PDF_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.";
 
-	public static final String PROPERTY_PDF_HYPERLINK_VISIBLE = PDF_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_HYPERLINK_VISIBLE_SUFFIX;
+	public static final String PROPERTY_IGNORE_HYPERLINK = PDF_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
 	 * Prefix of properties that specify font files for the PDF exporter.
@@ -1644,13 +1644,13 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (link != null)
 		{
-			Boolean hyperlinkVisible = HyperlinkUtil.getHyperlinkVisible(PROPERTY_PDF_HYPERLINK_VISIBLE, link);
-			if (hyperlinkVisible == null)
+			Boolean ignoreHyperlink = HyperlinkUtil.getHyperlinkVisible(PROPERTY_IGNORE_HYPERLINK, link);
+			if (ignoreHyperlink == null)
 			{
-				hyperlinkVisible = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_PDF_HYPERLINK_VISIBLE, true);
+				ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
 			}
 			
-			if (hyperlinkVisible)
+			if (!ignoreHyperlink)
 			{
 				switch(link.getHyperlinkTypeValue())
 				{

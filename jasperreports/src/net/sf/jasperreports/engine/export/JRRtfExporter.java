@@ -105,7 +105,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	private static final int LINE_SPACING_FACTOR = 240; //(int)(240 * 2/3f);
 
-	public static final String PROPERTY_RTF_HYPERLINK_VISIBLE = RTF_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_HYPERLINK_VISIBLE_SUFFIX;
+	public static final String PROPERTY_IGNORE_HYPERLINK = RTF_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
 	 * The exporter key, as used in
@@ -1542,13 +1542,13 @@ public class JRRtfExporter extends JRAbstractExporter
 		String local ="";
 		boolean result = false;
 		
-		Boolean hyperlinkVisible = HyperlinkUtil.getHyperlinkVisible(PROPERTY_RTF_HYPERLINK_VISIBLE, link);
-		if (hyperlinkVisible == null)
+		Boolean ignoreHyperlink = HyperlinkUtil.getHyperlinkVisible(PROPERTY_IGNORE_HYPERLINK, link);
+		if (ignoreHyperlink == null)
 		{
-			hyperlinkVisible = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_RTF_HYPERLINK_VISIBLE, true);
+			ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
 		}
 
-		if (hyperlinkVisible)
+		if (!ignoreHyperlink)
 		{
 			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
 			if (customHandler == null)
@@ -1630,13 +1630,13 @@ public class JRRtfExporter extends JRAbstractExporter
 		String hlfr = null;
 		String hlsrc = null;
 		
-		Boolean hyperlinkVisible = HyperlinkUtil.getHyperlinkVisible(PROPERTY_RTF_HYPERLINK_VISIBLE, link);
-		if (hyperlinkVisible == null)
+		Boolean ignoreHyperlink = HyperlinkUtil.getHyperlinkVisible(PROPERTY_IGNORE_HYPERLINK, link);
+		if (ignoreHyperlink == null)
 		{
-			hyperlinkVisible = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_RTF_HYPERLINK_VISIBLE, true);
+			ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
 		}
 
-		if (hyperlinkVisible)
+		if (!ignoreHyperlink)
 		{
 			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
 			if (customHandler == null)
