@@ -122,7 +122,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	private static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.";
 
-	public static final String PROPERTY_HTML_HYPERLINK_VISIBLE = HTML_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_HYPERLINK_VISIBLE_SUFFIX;
+	public static final String PROPERTY_IGNORE_HYPERLINK = HTML_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
 	 * The exporter key, as used in
@@ -1677,13 +1677,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		String href = null;
 		
-		Boolean hyperlinkVisible = HyperlinkUtil.getHyperlinkVisible(PROPERTY_HTML_HYPERLINK_VISIBLE, link);
-		if (hyperlinkVisible == null)
+		Boolean ignoreHyperlink = HyperlinkUtil.getHyperlinkVisible(PROPERTY_IGNORE_HYPERLINK, link);
+		if (ignoreHyperlink == null)
 		{
-			hyperlinkVisible = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_HTML_HYPERLINK_VISIBLE, true);
+			ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
 		}
 
-		if (hyperlinkVisible)
+		if (!ignoreHyperlink)
 		{
 			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);		
 			if (customHandler == null)

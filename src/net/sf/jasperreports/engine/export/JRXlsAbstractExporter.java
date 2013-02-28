@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -84,12 +85,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	/**
 	 * Property that stores the formula which has to be applied to a given cell in an excel sheet.
 	 */
-	public static final String PROPERTY_CELL_FORMULA = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.formula";
+	public static final String PROPERTY_CELL_FORMULA = XLS_EXPORTER_PROPERTIES_PREFIX + "formula";
 
 	/**
 	 * Property that stores the pattern which has to be applied to a given cell in an excel sheet.
 	 */
-	public static final String PROPERTY_CELL_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.pattern";
+	public static final String PROPERTY_CELL_PATTERN = XLS_EXPORTER_PROPERTIES_PREFIX + "pattern";
 
 	/**
 	 * This property indicates whether text wrapping is allowed in a given cell.
@@ -98,7 +99,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_WRAP_TEXT = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.wrap.text";
+	public static final String PROPERTY_WRAP_TEXT = XLS_EXPORTER_PROPERTIES_PREFIX + "wrap.text";
 
 
 	/**
@@ -106,70 +107,70 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * <p>
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_FIT_WIDTH = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.fit.width";
+	public static final String PROPERTY_FIT_WIDTH = XLS_EXPORTER_PROPERTIES_PREFIX + "fit.width";
 
 	/**
 	 * This property indicates the number of pages height to fit the sheet in.
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_FIT_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.fit.height";
+	public static final String PROPERTY_FIT_HEIGHT = XLS_EXPORTER_PROPERTIES_PREFIX + "fit.height";
 
 	/**
 	 * This property indicates whether the cell is locked.
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_CELL_LOCKED = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.cell.locked";
+	public static final String PROPERTY_CELL_LOCKED = XLS_EXPORTER_PROPERTIES_PREFIX + "cell.locked";
 
 	/**
 	 * This property indicates whether the cell content is hidden.
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_CELL_HIDDEN = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.cell.hidden";
+	public static final String PROPERTY_CELL_HIDDEN = XLS_EXPORTER_PROPERTIES_PREFIX + "cell.hidden";
 
 	/**
 	 * This property stores the text content of the sheet header's left side.
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_SHEET_HEADER_LEFT = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.header.left";
+	public static final String PROPERTY_SHEET_HEADER_LEFT = XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.header.left";
 
 	/**
 	 * This property stores the text content of the sheet header's center.
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_SHEET_HEADER_CENTER = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.header.center";
+	public static final String PROPERTY_SHEET_HEADER_CENTER = XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.header.center";
 
 	/**
 	 * This property stores the text content of the sheet header's right side.
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_SHEET_HEADER_RIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.header.right";
+	public static final String PROPERTY_SHEET_HEADER_RIGHT = XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.header.right";
 
 	/**
 	 * This property stores the text content of the sheet footer's left side.
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_SHEET_FOOTER_LEFT = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.footer.left";
+	public static final String PROPERTY_SHEET_FOOTER_LEFT = XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.footer.left";
 
 	/**
 	 * This property stores the text content of the sheet footer's center.
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_SHEET_FOOTER_CENTER = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.footer.center";
+	public static final String PROPERTY_SHEET_FOOTER_CENTER = XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.footer.center";
 
 	/**
 	 * This property stores the text content of the sheet footer's right side.
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_SHEET_FOOTER_RIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.footer.right";
+	public static final String PROPERTY_SHEET_FOOTER_RIGHT = XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.footer.right";
 
 	/**
 	 * This property indicates if the sheet is left-to-right or right-to-left oriented. Possible values are:
@@ -181,21 +182,21 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * @see JRPropertiesUtil
 	 * @see RunDirectionEnum
 	 */
-	public static final String PROPERTY_SHEET_DIRECTION = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.direction";
+	public static final String PROPERTY_SHEET_DIRECTION = XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.direction";
 	
 	/**
 	 * Specifies the index of the first unlocked row in document's sheets. All rows above this will be 'frozen'. 
 	 * Allowed values are represented by positive integers in the 1..65536 range. Negative values are not considered. 
 	 * The property should be used when all sheets in the document have the same freeze row index.
 	 */
-	public static final String PROPERTY_FREEZE_ROW = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.freeze.row";
+	public static final String PROPERTY_FREEZE_ROW = XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.row";
 	
 	/**
 	 * Indicates the name of the first unlocked column in document's sheets. All columns to the left of this one will be 'frozen'. 
 	 * Allowed values are letters or letter combinations representing valid column names in Excel, such as A, B, AB, AC, etc.
 	 * The property should be used when all document sheets have the same freeze column name.
 	 */
-	public static final String PROPERTY_FREEZE_COLUMN = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.freeze.column";
+	public static final String PROPERTY_FREEZE_COLUMN = XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.column";
 	
 	/**
 	 * This property indicates the horizontal edge of the freeze pane, relative to the current cell. If set, it overrides the 
@@ -206,7 +207,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * <li><code>Bottom</code> - The current row is the last 'frozen' row in the sheet. All rows below are unlocked.</li>
 	 * </ul>
 	 */
-	public static final String PROPERTY_FREEZE_ROW_EDGE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.freeze.row.edge";
+	public static final String PROPERTY_FREEZE_ROW_EDGE = XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.row.edge";
 	
 	/**
 	 * This property indicates the vertical edge of the freeze pane, relative to the current cell. If set, it overrides the 
@@ -217,7 +218,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * <li><code>Right</code> - The current column is the last 'frozen' column in the sheet. All columns to the right are unlocked.</li>
 	 * </ul>
 	 */
-	public static final String PROPERTY_FREEZE_COLUMN_EDGE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.freeze.column.edge";
+	public static final String PROPERTY_FREEZE_COLUMN_EDGE = XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.column.edge";
 	
 	/**
 	 * Flag property that indicates whether Excel should autofit the current row height.
@@ -230,7 +231,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * @see JRPropertiesUtil
 	 * @since 4.5.1
 	 */
-	public static final String PROPERTY_AUTO_FIT_ROW = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.auto.fit.row";
+	public static final String PROPERTY_AUTO_FIT_ROW = XLS_EXPORTER_PROPERTIES_PREFIX + "auto.fit.row";
 	
 	/**
 	 * Flag property that indicates whether Excel should autofit the current column width.
@@ -243,7 +244,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * @see JRPropertiesUtil
 	 * @since 4.5.1
 	 */
-	public static final String PROPERTY_AUTO_FIT_COLUMN = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.auto.fit.column";
+	public static final String PROPERTY_AUTO_FIT_COLUMN = XLS_EXPORTER_PROPERTIES_PREFIX + "auto.fit.column";
 	
 	/**
 	 * This element-level property is used to indicate the boundaries of the autofilter data range in the current sheet. 
@@ -276,7 +277,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * 
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_AUTO_FILTER = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.auto.filter";
+	public static final String PROPERTY_AUTO_FILTER = XLS_EXPORTER_PROPERTIES_PREFIX + "auto.filter";
 	
 	/**
 	 * Element-level property used to adjust the column width to values suitable for Excel output, taking into account 
@@ -290,7 +291,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * @see #PROPERTY_COLUMN_WIDTH_RATIO
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_COLUMN_WIDTH = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.column.width";
+	public static final String PROPERTY_COLUMN_WIDTH = XLS_EXPORTER_PROPERTIES_PREFIX + "column.width";
 
 	/**
 	 * Property used to adjust all column widths in a document or sheet with the same width ratio, in order to get column width 
@@ -311,7 +312,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * @see #PROPERTY_COLUMN_WIDTH
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_COLUMN_WIDTH_RATIO = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.column.width.ratio";
+	public static final String PROPERTY_COLUMN_WIDTH_RATIO = XLS_EXPORTER_PROPERTIES_PREFIX + "column.width.ratio";
 	
 	/**
 	 * Property prefix used to indicate the current outline row level, and when necessary, the ending row of the current outline row 
@@ -334,7 +335,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * 
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_ROW_OUTLINE_LEVEL_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.row.outline.level.";
+	public static final String PROPERTY_ROW_OUTLINE_LEVEL_PREFIX = XLS_EXPORTER_PROPERTIES_PREFIX + "row.outline.level.";
 	
 	/**
 	 * Property that determines whether date values are to be translated to the timezone
@@ -354,7 +355,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * 
 	 * @since 4.5.0
 	 */
-	public static final String PROPERTY_USE_TIMEZONE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.use.timezone";
+	public static final String PROPERTY_USE_TIMEZONE = XLS_EXPORTER_PROPERTIES_PREFIX + "use.timezone";
 	
 	/**
 	 * Property used to store the location of an existing workbook template. The content of an existing workbook document 
@@ -369,7 +370,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * @see JRPropertiesUtil
 	 * @since 4.5.1
 	 */
-	public static final String PROPERTY_WORKBOOK_TEMPLATE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.workbook.template";
+	public static final String PROPERTY_WORKBOOK_TEMPLATE = XLS_EXPORTER_PROPERTIES_PREFIX + "workbook.template";
 	
 	/**
 	 * Flag property that specifies whether to keep the sheets of the existing template into generated document. Sometimes 
@@ -388,7 +389,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * @see JRPropertiesUtil
 	 * @since 4.5.1
 	 */
-	public static final String PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.workbook.template.keep.sheets";
+	public static final String PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS = XLS_EXPORTER_PROPERTIES_PREFIX + "workbook.template.keep.sheets";
 
 	
 	/**
@@ -400,7 +401,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * <li><code>Report</code></li>
 	 * </ul>
 	 */
-	public static final String PROPERTY_IGNORE_ANCHORS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.ignore.anchors";
+	public static final String PROPERTY_IGNORE_ANCHORS = XLS_EXPORTER_PROPERTIES_PREFIX + "ignore.anchors";
 	
 	/**
 	 * Property used to adjust the page content to a given percent of the normal size in the print preview pane. Allowed values are 
@@ -420,7 +421,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * @see JRXlsAbstractExporter#PROPERTY_FIT_HEIGHT
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_PAGE_SCALE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.page.scale";
+	public static final String PROPERTY_PAGE_SCALE = XLS_EXPORTER_PROPERTIES_PREFIX + "page.scale";
 	
 	/**
 	 * Property that specifies the first page number in the page setup dialog.
@@ -435,7 +436,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * 
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_FIRST_PAGE_NUMBER = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.first.page.number";
+	public static final String PROPERTY_FIRST_PAGE_NUMBER = XLS_EXPORTER_PROPERTIES_PREFIX + "first.page.number";
 	
 
 	/**
@@ -452,7 +453,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * 
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_SHOW_GRIDLINES = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.show.gridlines";
+	public static final String PROPERTY_SHOW_GRIDLINES = XLS_EXPORTER_PROPERTIES_PREFIX + "show.gridlines";
 	
 	
 	/**
@@ -474,7 +475,13 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * 
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_IMAGE_ANCHOR_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.image.anchor.type";
+	public static final String PROPERTY_IMAGE_ANCHOR_TYPE = XLS_EXPORTER_PROPERTIES_PREFIX + "image.anchor.type";
+
+	
+	/**
+	 * 
+	 */
+	public static final String PROPERTY_IGNORE_HYPERLINK = XLS_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 	
 
 	protected static class TextAlignHolder

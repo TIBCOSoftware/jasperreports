@@ -1755,113 +1755,125 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	
 	protected void setHyperlinkCell(JRPrintHyperlink hyperlink)
 	{
-		
-		String href = null;
 		Hyperlink link = null;
-		JRHyperlinkProducer customHandler = getHyperlinkProducer(hyperlink);
-		if (customHandler == null)
+
+		Boolean ignoreHyperlink = HyperlinkUtil.getHyperlinkVisible(PROPERTY_IGNORE_HYPERLINK, hyperlink);
+		if (ignoreHyperlink == null)
 		{
-			switch (hyperlink.getHyperlinkTypeValue())
+			ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
+		}
+
+		if (!ignoreHyperlink)
+		{
+			JRHyperlinkProducer customHandler = getHyperlinkProducer(hyperlink);
+			if (customHandler == null)
 			{
-				case REFERENCE:
+				switch (hyperlink.getHyperlinkTypeValue())
 				{
-					href = hyperlink.getHyperlinkReference();
-					if (href != null)
+					case REFERENCE:
 					{
-						link = createHelper.createHyperlink(Hyperlink.LINK_URL);
-						link.setAddress(href);
-					}
-					break;
-				}
-				case LOCAL_ANCHOR :
-				{
-					if(!ignoreAnchors)
-					{
-						href = hyperlink.getHyperlinkAnchor();
+						String href = hyperlink.getHyperlinkReference();
 						if (href != null)
 						{
-							link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
-							if(anchorLinks.containsKey(href))
+							link = createHelper.createHyperlink(Hyperlink.LINK_URL);
+							link.setAddress(href);
+						}
+						break;
+					}
+					case LOCAL_ANCHOR :
+					{
+						if(!ignoreAnchors)
+						{
+							String href = hyperlink.getHyperlinkAnchor();
+							if (href != null)
 							{
-								(anchorLinks.get(href)).add(link);
+								link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+								if(anchorLinks.containsKey(href))
+								{
+									(anchorLinks.get(href)).add(link);
+								}
+								else
+								{
+									List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
+									hrefList.add(link);
+									anchorLinks.put(href, hrefList);
+								}
+								
+							}
+						}
+						break;
+					}
+					case LOCAL_PAGE :
+					{
+						Integer hrefPage = hyperlink.getHyperlinkPage();
+						if (hrefPage != null)
+						{
+							link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+							if(pageLinks.containsKey(hrefPage))
+							{
+								pageLinks.get(hrefPage).add(link);
 							}
 							else
 							{
 								List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
 								hrefList.add(link);
-								anchorLinks.put(href, hrefList);
+								pageLinks.put(hrefPage, hrefList);
 							}
+						}
+						break;
+					}
+					case REMOTE_ANCHOR :
+					{
+						String href = hyperlink.getHyperlinkReference();
+						if (href != null && hyperlink.getHyperlinkAnchor() != null)
+						{
+							href = href + "#" + hyperlink.getHyperlinkAnchor();
+							link = createHelper.createHyperlink(Hyperlink.LINK_FILE);
+							link.setAddress(href);
 							
 						}
-					}
-					break;
-				}
-				case LOCAL_PAGE :
-				{
-					Integer hrefPage = hyperlink.getHyperlinkPage();
-					if (hrefPage != null)
-					{
-						link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
-						if(pageLinks.containsKey(hrefPage))
-						{
-							pageLinks.get(hrefPage).add(link);
-						}
-						else
-						{
-							List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
-							hrefList.add(link);
-							pageLinks.put(hrefPage, hrefList);
-						}
-					}
-					break;
-				}
-				case REMOTE_ANCHOR :
-				{
-					href = hyperlink.getHyperlinkReference();
-					if (href != null && hyperlink.getHyperlinkAnchor() != null)
-					{
-						href = href + "#" + hyperlink.getHyperlinkAnchor();
-						link = createHelper.createHyperlink(Hyperlink.LINK_FILE);
-						link.setAddress(href);
+						break;
 						
 					}
-					break;
-					
-				}
-				case REMOTE_PAGE :
-				{
-					href = hyperlink.getHyperlinkReference();
-					if (href != null && hyperlink.getHyperlinkPage() != null)
+					case REMOTE_PAGE :
 					{
-						href = href + "#JR_PAGE_ANCHOR_0_" + hyperlink.getHyperlinkPage().toString();
-						link = createHelper.createHyperlink(Hyperlink.LINK_FILE);
-						link.setAddress(href);
+						String href = hyperlink.getHyperlinkReference();
+						if (href != null && hyperlink.getHyperlinkPage() != null)
+						{
+							href = href + "#JR_PAGE_ANCHOR_0_" + hyperlink.getHyperlinkPage().toString();
+							link = createHelper.createHyperlink(Hyperlink.LINK_FILE);
+							link.setAddress(href);
+							
+						}
+						break;
 						
 					}
-					break;
-					
-				}
-				case NONE:
-				default:
-				{
+					case NONE:
+					default:
+					{
+					}
 				}
 			}
-			if(link != null)
+			else
 			{
-				//TODO: make tooltips functional
-//				if(hyperlink.getHyperlinkTooltip() != null)
-//				{
-//					link.setLabel(hyperlink.getHyperlinkTooltip());
-//				}
-				cell.setHyperlink(link);
+				String href = customHandler.getHyperlink(hyperlink);
+				if (href != null)
+				{
+					link = createHelper.createHyperlink(Hyperlink.LINK_URL);
+					link.setAddress(href);
+				}
 			}
-			
 		}
-//		else
-//		{
-//			//FIXME: to handle a custom hyperlink
-//			//href = customHandler.getHyperlink(hyperlink);
-//		}
+
+		if(link != null)
+		{
+			//TODO: make tooltips functional
+//			if(hyperlink.getHyperlinkTooltip() != null)
+//			{
+//				link.setLabel(hyperlink.getHyperlinkTooltip());
+//			}
+			cell.setHyperlink(link);
+		}
 	}
 
 
