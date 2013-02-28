@@ -72,6 +72,7 @@ import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
+import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
@@ -110,6 +111,11 @@ public class JRDocxExporter extends JRAbstractExporter
 	public static final String DOCX_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "docx";
 	
 	protected static final String DOCX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.";
+
+	/**
+	 * 
+	 */
+	public static final String PROPERTY_IGNORE_HYPERLINK = DOCX_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
 	 * This property is used to mark text elements as being hidden either for printing or on-screen display.
@@ -1513,67 +1519,77 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected String getHyperlinkURL(JRPrintHyperlink link)
 	{
 		String href = null;
-		JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
-		if (customHandler == null)
+
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, link);
+		if (ignoreHyperlink == null)
 		{
-			switch(link.getHyperlinkTypeValue())
+			ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
+		}
+
+		if (!ignoreHyperlink)
+		{
+			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
+			if (customHandler == null)
 			{
-				case REFERENCE :
+				switch(link.getHyperlinkTypeValue())
 				{
-					if (link.getHyperlinkReference() != null)
+					case REFERENCE :
 					{
-						href = link.getHyperlinkReference();
+						if (link.getHyperlinkReference() != null)
+						{
+							href = link.getHyperlinkReference();
+						}
+						break;
 					}
-					break;
-				}
-				case LOCAL_ANCHOR :
-				{
-					if (link.getHyperlinkAnchor() != null)
+					case LOCAL_ANCHOR :
 					{
-						href = link.getHyperlinkAnchor();
+						if (link.getHyperlinkAnchor() != null)
+						{
+							href = link.getHyperlinkAnchor();
+						}
+						break;
 					}
-					break;
-				}
-				case LOCAL_PAGE :
-				{
-					if (link.getHyperlinkPage() != null)
+					case LOCAL_PAGE :
 					{
-						href = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+						if (link.getHyperlinkPage() != null)
+						{
+							href = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+						}
+						break;
 					}
-					break;
-				}
-				case REMOTE_ANCHOR :
-				{
-					if (
-						link.getHyperlinkReference() != null &&
-						link.getHyperlinkAnchor() != null
-						)
+					case REMOTE_ANCHOR :
 					{
-						href = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
+						if (
+							link.getHyperlinkReference() != null &&
+							link.getHyperlinkAnchor() != null
+							)
+						{
+							href = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
+						}
+						break;
 					}
-					break;
-				}
-				case REMOTE_PAGE :
-				{
-					if (
-						link.getHyperlinkReference() != null &&
-						link.getHyperlinkPage() != null
-						)
+					case REMOTE_PAGE :
 					{
-						href = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+						if (
+							link.getHyperlinkReference() != null &&
+							link.getHyperlinkPage() != null
+							)
+						{
+							href = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+						}
+						break;
 					}
-					break;
-				}
-				case NONE :
-				default :
-				{
-					break;
+					case NONE :
+					default :
+					{
+						break;
+					}
 				}
 			}
-		}
-		else
-		{
-			href = customHandler.getHyperlink(link);
+			else
+			{
+				href = customHandler.getHyperlink(link);
+			}
 		}
 
 		return href;
