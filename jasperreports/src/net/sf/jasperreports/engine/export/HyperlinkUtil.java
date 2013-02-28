@@ -40,7 +40,7 @@ public final class HyperlinkUtil
 	/**
 	 *
 	 */
-	public static Boolean getHyperlinkVisible(String propName, JRPrintHyperlink link)
+	public static Boolean getIgnoreHyperlink(String propName, JRPrintHyperlink link)
 	{
 		if (link != null)
 		{
