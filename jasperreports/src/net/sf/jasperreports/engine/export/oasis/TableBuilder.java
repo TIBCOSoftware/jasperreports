@@ -43,8 +43,11 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
+import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
@@ -64,6 +67,7 @@ public class TableBuilder
 	 */
 	private final DocumentBuilder documentBuilder;
 	private String tableName;
+	private final JasperPrint jasperPrint;
 	private int reportIndex;
 	private final WriterHelper bodyWriter;
 	private final WriterHelper styleWriter;
@@ -74,6 +78,7 @@ public class TableBuilder
 
 	protected TableBuilder(
 		DocumentBuilder documentBuilder,
+		JasperPrint jasperPrint,
 		String name, 
 		WriterHelper bodyWriter,
 		WriterHelper styleWriter,
@@ -81,6 +86,7 @@ public class TableBuilder
 		) 
 	{
 		this.documentBuilder = documentBuilder;
+		this.jasperPrint = jasperPrint;
 
 		isFrame = true;
 		isPageBreak = false;
@@ -94,6 +100,7 @@ public class TableBuilder
 
 	protected TableBuilder(
 		DocumentBuilder documentBuilder,
+		JasperPrint jasperPrint,
 		int reportIndex,
 		int pageIndex,
 		WriterHelper bodyWriter,
@@ -102,6 +109,7 @@ public class TableBuilder
 		) 
 	{
 		this.documentBuilder = documentBuilder;
+		this.jasperPrint = jasperPrint;
 
 		isFrame = false;
 		isPageBreak = (reportIndex != 0 || pageIndex != 0);
@@ -503,10 +511,31 @@ public class TableBuilder
 	/**
 	 *
 	 */
+	protected String getIgnoreHyperlinkProperty()
+	{
+		return JROdtExporter.PROPERTY_IGNORE_HYPERLINK;
+	}
+
+	
+	/**
+	 *
+	 */
 	protected boolean startHyperlink(JRPrintHyperlink link, boolean isText)
 	{
-		String href = documentBuilder.getHyperlinkURL(link);
+		String href = null;
 
+		String ignLnkPropName = getIgnoreHyperlinkProperty();
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(ignLnkPropName, link);
+		if (ignoreHyperlink == null)
+		{
+			ignoreHyperlink = JRPropertiesUtil.getInstance(getJasperReportsContext()).getBooleanProperty(jasperPrint, ignLnkPropName, false);
+		}
+
+		if (!ignoreHyperlink)
+		{
+			href = documentBuilder.getHyperlinkURL(link);
+		}
+		
 		if (href != null)
 		{
 			writeHyperlink(link, href, isText);

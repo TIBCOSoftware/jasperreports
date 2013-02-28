@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
@@ -57,6 +58,7 @@ import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
+import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
@@ -149,7 +151,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 //		TableBuilder tableBuilder = frameIndex == null
 //			? new TableBuilder(reportIndex, pageIndex, tempBodyWriter, tempStyleWriter)
 //			: new TableBuilder(frameIndex.toString(), tempBodyWriter, tempStyleWriter);
-		tableBuilder = new OdsTableBuilder(documentBuilder, reportIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache);
+		tableBuilder = new OdsTableBuilder(documentBuilder, jasperPrint, reportIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache);
 
 //		tableBuilder.buildTableStyle(gridLayout.getWidth());
 		tableBuilder.buildTableStyle(xCuts.getLastCutOffset());//FIXMEODS
@@ -718,17 +720,36 @@ public class JROdsExporter extends JRXlsAbstractExporter
 	
 	protected class OdsTableBuilder extends TableBuilder
 	{
-		protected OdsTableBuilder(DocumentBuilder documentBuilder,
+		protected OdsTableBuilder(DocumentBuilder documentBuilder, JasperPrint jasperPrint,
 			int reportIndex, int pageIndex, WriterHelper bodyWriter,
 			WriterHelper styleWriter, StyleCache styleCache) 
 		{
-			super(documentBuilder, reportIndex, pageIndex, bodyWriter, styleWriter, styleCache);
+			super(documentBuilder, jasperPrint, reportIndex, pageIndex, bodyWriter, styleWriter, styleCache);
 		}
 
 		@Override
+		protected String getIgnoreHyperlinkProperty()
+		{
+			return JROdsExporter.PROPERTY_IGNORE_HYPERLINK;
+		}
+		
+		@Override
 		protected void exportTextContents(JRPrintText textElement)
 		{
-			String href = documentBuilder.getHyperlinkURL(textElement);
+			String href = null;
+			
+			String ignLnkPropName = getIgnoreHyperlinkProperty();
+			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(ignLnkPropName, textElement);
+			if (ignoreHyperlink == null)
+			{
+				ignoreHyperlink = JRPropertiesUtil.getInstance(getJasperReportsContext()).getBooleanProperty(jasperPrint, ignLnkPropName, false);
+			}
+
+			if (!ignoreHyperlink)
+			{
+				href = documentBuilder.getHyperlinkURL(textElement);
+			}
+
 			if (href == null)
 			{
 				exportStyledText(textElement, false);

@@ -99,6 +99,13 @@ public class JROdtExporter extends JRAbstractExporter
 	
 	protected static final String ODT_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.odt.";
 
+	
+	/**
+	 * 
+	 */
+	public static final String PROPERTY_IGNORE_HYPERLINK = ODT_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
+	
+
 	protected class ExporterContext extends BaseExporterContext implements JROdtExporterContext
 	{
 		TableBuilder tableBuilder = null;
@@ -443,8 +450,8 @@ public class JROdtExporter extends JRAbstractExporter
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
 
 		TableBuilder tableBuilder = frameIndex == null
-			? new TableBuilder(documentBuilder, reportIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache)
-			: new TableBuilder(documentBuilder, frameIndex.toString(), tempBodyWriter, tempStyleWriter, styleCache);
+			? new TableBuilder(documentBuilder, jasperPrint, reportIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache)
+			: new TableBuilder(documentBuilder, jasperPrint, frameIndex.toString(), tempBodyWriter, tempStyleWriter, styleCache);
 
 		
 		tableBuilder.buildTableStyle(gridLayout.getWidth());
