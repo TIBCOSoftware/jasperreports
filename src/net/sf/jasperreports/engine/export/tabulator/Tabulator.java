@@ -341,16 +341,11 @@ public class Tabulator
 
 	protected boolean isParent(FrameCell parent, FrameCell child)
 	{
-		if (child == null)
-		{
-			return false;
-		}
-		
 		boolean foundAncestor = false;
-		FrameCell ancestor = parent;
+		FrameCell ancestor = child;
 		while (ancestor != null)
 		{
-			if (ancestor.equals(child))
+			if (ancestor.equals(parent))
 			{
 				foundAncestor = true;
 				break;
