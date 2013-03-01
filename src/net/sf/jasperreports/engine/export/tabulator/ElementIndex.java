@@ -27,24 +27,15 @@ package net.sf.jasperreports.engine.export.tabulator;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class BaseElementCell implements Cell
+public class ElementIndex
 {
-	protected FrameCell parent;
-
-	protected ElementIndex parentIndex;
-	protected int elementIndex;
-
-	public BaseElementCell(FrameCell parent, ElementIndex parentIndex, int elementIndex)
+	private final ElementIndex parentIndex;
+	private final int index;
+	
+	public ElementIndex(ElementIndex parentIndex, int index)
 	{
-		this.parent = parent;
 		this.parentIndex = parentIndex;
-		this.elementIndex = elementIndex;
-	}
-
-	@Override
-	public FrameCell getParent()
-	{
-		return parent;
+		this.index = index;
 	}
 
 	public ElementIndex getParentIndex()
@@ -52,9 +43,8 @@ public abstract class BaseElementCell implements Cell
 		return parentIndex;
 	}
 
-	public int getElementIndex()
+	public int getIndex()
 	{
-		return elementIndex;
+		return index;
 	}
-
 }

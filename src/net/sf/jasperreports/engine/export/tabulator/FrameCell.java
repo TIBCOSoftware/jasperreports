@@ -30,9 +30,9 @@ package net.sf.jasperreports.engine.export.tabulator;
 public class FrameCell extends BaseElementCell
 {
 
-	public FrameCell(FrameCell parent, int elementIndex)
+	public FrameCell(FrameCell parent, ElementIndex parentIndex, int elementIndex)
 	{
-		super(parent, elementIndex);
+		super(parent, parentIndex, elementIndex);
 	}
 
 	@Override
