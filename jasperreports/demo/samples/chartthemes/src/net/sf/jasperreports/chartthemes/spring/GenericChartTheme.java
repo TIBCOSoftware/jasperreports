@@ -63,6 +63,7 @@ import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.type.MeterShapeEnum;
+import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.charts.type.ScaleTypeEnum;
 import net.sf.jasperreports.charts.type.ValueLocationEnum;
 import net.sf.jasperreports.charts.util.ChartUtil;
@@ -75,6 +76,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
@@ -645,12 +647,13 @@ public class GenericChartTheme implements ChartTheme
 		((NumberAxis)categoryPlot.getRangeAxis()).setTickMarksVisible(isShowTickMarks);
 		((NumberAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(isShowTickLabels);
 		// Handle the axis formating for the value axis
+		Comparable<?> rangeAxisMaxValue = (Comparable<?>)evaluateExpression(barPlot.getRangeAxisMaxValueExpression());
 		configureAxis(categoryPlot.getRangeAxis(), barPlot.getValueAxisLabelFont(),
 				barPlot.getValueAxisLabelColor(), barPlot.getValueAxisTickLabelFont(),
 				barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(), barPlot.getValueAxisVerticalTickLabels(),
 				barPlot.getOwnValueAxisLineColor(), true,
 				(Comparable<?>)evaluateExpression(barPlot.getRangeAxisMinValueExpression()),
-				(Comparable<?>)evaluateExpression(barPlot.getRangeAxisMaxValueExpression()));
+				rangeAxisMaxValue);
 
 
 		BarRenderer categoryRenderer = (BarRenderer)categoryPlot.getRenderer();
@@ -658,6 +661,37 @@ public class GenericChartTheme implements ChartTheme
 		categoryRenderer.setBaseItemLabelsVisible( isShowLabels );
 		if(isShowLabels)
 		{
+			if (rangeAxisMaxValue == null)
+			{
+				//in case the bars are horizontal and there was no range max value specified, 
+				//we try to make the axis a little longer for labels to fit on the plot
+				Axis axis = categoryPlot.getRangeAxis();
+				if (axis instanceof ValueAxis)
+				{
+					if(!(axis instanceof DateAxis))
+					{
+						float rangeAxisMaxRatio = 1f;
+						
+						if (barPlot.getOrientationValue() == PlotOrientationEnum.HORIZONTAL)
+						{
+							rangeAxisMaxRatio = 
+								JRPropertiesUtil.getInstance(getChartContext().getJasperReportsContext()).getFloatProperty(
+									getChart(), "net.sf.jasperreports.chart.bar.horizontal.range.max.value.ratio", 1.25f
+									);
+						}
+						else
+						{
+							rangeAxisMaxRatio = 
+								JRPropertiesUtil.getInstance(getChartContext().getJasperReportsContext()).getFloatProperty(
+									getChart(), "net.sf.jasperreports.chart.bar.vertical.range.max.value.ratio", 1.1f
+									);
+						}
+						
+						((ValueAxis)axis).setUpperBound(((ValueAxis)axis).getUpperBound() * rangeAxisMaxRatio);
+					}
+				}
+			}
+
 			JRItemLabel itemLabel = barPlot.getItemLabel();
 			Integer baseFontSize = (Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BASEFONT_SIZE);
 			JRFont font = itemLabel != null && itemLabel.getFont() != null ? itemLabel.getFont() : null;
