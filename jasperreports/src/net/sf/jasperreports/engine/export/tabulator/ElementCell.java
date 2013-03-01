@@ -33,9 +33,9 @@ public class ElementCell extends BaseElementCell
 	// TODO lucianc store a reference?
 	private SplitCell splitCell;
 	
-	public ElementCell(FrameCell parent, int elementIndex)
+	public ElementCell(FrameCell parent, ElementIndex parentIndex, int elementIndex)
 	{
-		super(parent, elementIndex);
+		super(parent, parentIndex, elementIndex);
 	}
 	
 	@Override

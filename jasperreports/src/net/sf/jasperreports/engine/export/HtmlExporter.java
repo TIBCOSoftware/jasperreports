@@ -1316,6 +1316,7 @@ public class HtmlExporter extends JRAbstractExporter
 
 		StringBuilder styleBuffer = new StringBuilder();
 		appendBackcolorStyle(tableVisitor, styleBuffer);
+		appendBorderStyle(tableVisitor.getCellBox(), styleBuffer);
 		writeStyle(styleBuffer);
 
 		finishStartCell();

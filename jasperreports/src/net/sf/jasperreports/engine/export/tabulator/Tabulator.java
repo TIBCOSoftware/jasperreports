@@ -66,10 +66,11 @@ public class Tabulator
 	public void tabulate()
 	{
 		// TODO lucianc force background as different layer
-		layoutElements(elements, mainTable, null, 0, 0);
+		layoutElements(elements, mainTable, null, null, 0, 0);
 	}
 
-	protected void layoutElements(List<? extends JRPrintElement> elementList, Table table, FrameCell parentCell,
+	protected void layoutElements(List<? extends JRPrintElement> elementList, Table table, 
+			FrameCell parentCell, ElementIndex parentIndex,
 			int xOffset, int yOffset)
 	{
 		if (log.isTraceEnabled())
@@ -92,12 +93,13 @@ public class Tabulator
 				continue;
 			}
 			
-			placeElement(table, parentCell, xOffset, yOffset, element, it.nextIndex(), true);
+			placeElement(table, parentCell, xOffset, yOffset, element, parentIndex, it.nextIndex(), true);
 		}
 	}
 	
-	protected boolean placeElement(Table table, FrameCell parentCell, int xOffset, int yOffset,
-			JRPrintElement element, int elementIndex, boolean allowOverlap)
+	protected boolean placeElement(Table table, FrameCell parentCell, 
+			int xOffset, int yOffset,
+			JRPrintElement element, ElementIndex parentIndex, int elementIndex, boolean allowOverlap)
 	{
 		DimensionRange<Column> colRange = table.columns.getRange(element.getX() + xOffset, 
 				element.getX() + element.getWidth() + xOffset);
@@ -163,7 +165,7 @@ public class Tabulator
 		
 		if (!overlap)
 		{
-			setElementCells(table, parentCell, xOffset, yOffset, element, elementIndex, 
+			setElementCells(table, parentCell, xOffset, yOffset, element, parentIndex, elementIndex, 
 					colRange, rowRange);
 			return true;
 		}
@@ -174,13 +176,13 @@ public class Tabulator
 		}
 		
 		placeOverlappedElement(table, parentCell, xOffset, yOffset, 
-				element, elementIndex, overlapColStart, overlapColEnd,
-				overlapRowStart, overlapRowEnd);
+				element, parentIndex, elementIndex, 
+				overlapColStart, overlapColEnd, overlapRowStart, overlapRowEnd);
 		return true;
 	}
 
 	protected void placeOverlappedElement(Table table, FrameCell parentCell, int xOffset, int yOffset, 
-			JRPrintElement element, int elementIndex, 
+			JRPrintElement element, ElementIndex parentIndex, int elementIndex, 
 			int overlapColStart, int overlapColEnd, int overlapRowStart, int overlapRowEnd)
 	{
 		DimensionRange<Column> overlapColRange = table.columns.getRange(overlapColStart, overlapColEnd);
@@ -201,30 +203,30 @@ public class Tabulator
 			if (lastCell != null && (layeredCell.equals(lastCell) || layeredCell.accept(spanCheck, lastCell)))
 			{
 				placed = true;
-				placeInLayeredCell(parentCell, xOffset, yOffset, element,
-						elementIndex, layeredCell, layeredColRange,
-						layeredRowRange);
+				placeInLayeredCell(xOffset, yOffset, 
+						element, parentIndex, elementIndex, 
+						layeredCell, layeredColRange, layeredRowRange);
 			}
 		}
 		
 		if (!placed)
 		{
 			createLayeredCell(table, parentCell, xOffset, yOffset, 
-					element, elementIndex, 
+					element, parentIndex, elementIndex, 
 					layeredColRange, layeredRowRange);
 		}
 	}
 
-	protected void placeInLayeredCell(FrameCell parentCell, int xOffset,
-			int yOffset, JRPrintElement element, int elementIndex,
+	protected void placeInLayeredCell(int xOffset, int yOffset, 
+			JRPrintElement element, ElementIndex parentIndex, int elementIndex,
 			LayeredCell layeredCell, DimensionRange<Column> layeredColRange,
 			DimensionRange<Row> layeredRowRange)
 	{
 		// attempt to place it on the first layer
 		Table firstLayer = layeredCell.getLayers().get(0);
-		boolean placed = placeElement(firstLayer, parentCell, 
+		boolean placed = placeElement(firstLayer, null, 
 				xOffset - layeredColRange.start, yOffset - layeredRowRange.start, 
-				element, elementIndex, false);
+				element, parentIndex, elementIndex, false);
 		if (placed)
 		{
 			if (log.isTraceEnabled())
@@ -235,14 +237,14 @@ public class Tabulator
 		else
 		{
 			// create a new layer
-			createOverlappedLayer(parentCell, xOffset, yOffset, 
-					layeredCell, element, elementIndex, 
+			createOverlappedLayer(xOffset, yOffset, layeredCell, 
+					element, parentIndex, elementIndex, 
 					layeredColRange, layeredRowRange);
 		}
 	}
 
 	protected void createLayeredCell(Table table, FrameCell parentCell, int xOffset, int yOffset, 
-			JRPrintElement element, int elementIndex,
+			JRPrintElement element, ElementIndex parentIndex, int elementIndex,
 			DimensionRange<Column> layeredColRange, DimensionRange<Row> layeredRowRange)
 	{
 		if (log.isDebugEnabled())
@@ -261,13 +263,13 @@ public class Tabulator
 		collapseSpanColumns(table, layeredColRange);
 		collapseSpanRows(table, layeredRowRange);
 		
-		createOverlappedLayer(parentCell, xOffset, yOffset, 
-				layeredCell, element, elementIndex, 
+		createOverlappedLayer(xOffset, yOffset, layeredCell, 
+				element, parentIndex, elementIndex, 
 				layeredColRange, layeredRowRange);
 	}
 
-	protected void createOverlappedLayer(FrameCell parentCell, int xOffset, int yOffset,
-			LayeredCell layeredCell, JRPrintElement element, int elementIndex,
+	protected void createOverlappedLayer(int xOffset, int yOffset, LayeredCell layeredCell, 
+			JRPrintElement element, ElementIndex parentIndex, int elementIndex,
 			DimensionRange<Column> layeredColRange, DimensionRange<Row> layeredRowRange)
 	{
 		Table overlappedLayer = new Table(this);
@@ -281,12 +283,14 @@ public class Tabulator
 				element.getX() + element.getWidth() + layerXOffset);
 		DimensionRange<Row> layerRowRange = overlappedLayer.rows.getRange(element.getY() + layerYOffset, 
 				element.getY() + element.getHeight() + layerYOffset);
-		setElementCells(overlappedLayer, parentCell, layerXOffset, layerYOffset, element, elementIndex, 
+		setElementCells(overlappedLayer, null, layerXOffset, layerYOffset, 
+				element, parentIndex, elementIndex, 
 				layerColRange, layerRowRange);
 	}
 
-	protected void setElementCells(Table table, FrameCell parentCell,
-			int xOffset, int yOffset, JRPrintElement element, int elementIndex,
+	protected void setElementCells(Table table, FrameCell parentCell, 
+			int xOffset, int yOffset, 
+			JRPrintElement element, ElementIndex parentIndex, int elementIndex,
 			DimensionRange<Column> colRange, DimensionRange<Row> rowRange)
 	{
 		DimensionRange<Column> elementColRange = table.columns.addEntries(colRange);
@@ -295,16 +299,17 @@ public class Tabulator
 		if (element instanceof JRPrintFrame)
 		{
 			JRPrintFrame frame = (JRPrintFrame) element;
-			FrameCell frameCell = new FrameCell(parentCell, elementIndex);
+			FrameCell frameCell = new FrameCell(parentCell, parentIndex, elementIndex);
 			setElementCells(elementColRange, elementRowRange, frameCell);
 			
 			// go deep in the frame
-			layoutElements(frame.getElements(), table, frameCell, 
+			ElementIndex frameIndex = new ElementIndex(parentIndex, elementIndex);
+			layoutElements(frame.getElements(), table, frameCell, frameIndex, 
 					xOffset + frame.getX(), yOffset + frame.getY());
 		}
 		else
 		{
-			ElementCell elementCell = new ElementCell(parentCell, elementIndex);
+			ElementCell elementCell = new ElementCell(parentCell, parentIndex, elementIndex);
 			setElementCells(elementColRange, elementRowRange, elementCell);
 		}
 	}
@@ -622,16 +627,20 @@ public class Tabulator
 	
 	public JRPrintElement getCellElement(BaseElementCell cell)
 	{
-		FrameCell parentCell = cell.getParent();
+		return getCellElement(cell.getParentIndex(), cell.getElementIndex());
+	}
+	
+	protected JRPrintElement getCellElement(ElementIndex parentIndex, int index)
+	{
 		JRPrintElement element;
-		if (parentCell == null)
+		if (parentIndex == null)
 		{
-			element = elements.get(cell.getElementIndex());
+			element = elements.get(index);
 		}
 		else
 		{
-			JRPrintFrame parentFrame = (JRPrintFrame) getCellElement(parentCell);
-			element = parentFrame.getElements().get(cell.getElementIndex());
+			JRPrintFrame parentFrame = (JRPrintFrame) getCellElement(parentIndex.getParentIndex(), parentIndex.getIndex());
+			element = parentFrame.getElements().get(index);
 		}
 		return element;
 	}
