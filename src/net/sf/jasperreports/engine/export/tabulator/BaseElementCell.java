@@ -47,6 +47,11 @@ public abstract class BaseElementCell implements Cell
 		return parent;
 	}
 
+	public void setParent(FrameCell parent)
+	{
+		this.parent = parent;
+	}
+
 	public ElementIndex getParentIndex()
 	{
 		return parentIndex;

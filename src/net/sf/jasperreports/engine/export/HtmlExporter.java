@@ -50,7 +50,6 @@ import java.util.SortedSet;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -79,7 +78,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
-import net.sf.jasperreports.engine.export.tabulator.BaseElementCell;
 import net.sf.jasperreports.engine.export.tabulator.Cell;
 import net.sf.jasperreports.engine.export.tabulator.CellVisitor;
 import net.sf.jasperreports.engine.export.tabulator.Column;
@@ -89,6 +87,8 @@ import net.sf.jasperreports.engine.export.tabulator.LayeredCell;
 import net.sf.jasperreports.engine.export.tabulator.Row;
 import net.sf.jasperreports.engine.export.tabulator.SplitCell;
 import net.sf.jasperreports.engine.export.tabulator.Table;
+import net.sf.jasperreports.engine.export.tabulator.TableCell;
+import net.sf.jasperreports.engine.export.tabulator.TablePosition;
 import net.sf.jasperreports.engine.export.tabulator.Tabulator;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
@@ -101,7 +101,6 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -624,7 +623,10 @@ public class HtmlExporter extends JRAbstractExporter
 			setBackcolor(Color.white);
 		}
 		
-		exportTable(tabulator, table, isWhitePageBackground);
+		CellElementVisitor elementVisitor = new CellElementVisitor();
+		TableVisitor tableVisitor = new TableVisitor(tabulator, elementVisitor);
+		
+		exportTable(tableVisitor, table, isWhitePageBackground);
 		
 		if (isWhitePageBackground)
 		{
@@ -632,7 +634,7 @@ public class HtmlExporter extends JRAbstractExporter
 		}
 	}
 
-	protected void exportTable(Tabulator tabulator, Table table, boolean whiteBackground) throws IOException
+	protected void exportTable(TableVisitor tableVisitor, Table table, boolean whiteBackground) throws IOException
 	{
 		SortedSet<Column> columns = table.getColumns().getUserEntries();
 		SortedSet<Row> rows = table.getRows().getUserEntries();
@@ -641,8 +643,6 @@ public class HtmlExporter extends JRAbstractExporter
 			// TODO lucianc empty page
 			return;
 		}
-		
-		TableVisitor tableVisitor = new TableVisitor(tabulator, table);
 		
 		int totalWidth = columns.last().getEndCoord() - columns.first().getStartCoord();
 		
@@ -687,7 +687,8 @@ public class HtmlExporter extends JRAbstractExporter
 					}
 					emptySpan = 0;
 
-					cell.accept(tableVisitor, new Pair<Column, Row>(col, row));
+					TablePosition position = new TablePosition(table, col, row);
+					cell.accept(tableVisitor, position);
 				}
 			}
 			if (emptySpan > 0)
@@ -701,13 +702,13 @@ public class HtmlExporter extends JRAbstractExporter
 		writer.write("</table>\n");
 	}
 
-	protected void writeText(JRPrintText text, TableVisitor tableVisitor)
+	protected void writeText(JRPrintText text, TableCell cell)
 			throws IOException
 	{
 		JRStyledText styledText = getStyledText(text);
 		int textLength = styledText == null ? 0 : styledText.length();
 		
-		startCell(text, tableVisitor);
+		startCell(text, cell);
 		
 		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)
 		{
@@ -744,8 +745,8 @@ public class HtmlExporter extends JRAbstractExporter
 			styleBuffer.append(";");
 		}
 
-		appendBackcolorStyle(tableVisitor, styleBuffer);
-		appendBorderStyle(tableVisitor.getCellBox(), styleBuffer);
+		appendBackcolorStyle(cell, styleBuffer);
+		appendBorderStyle(cell.getBox(), styleBuffer);
 		appendPaddingStyle(text.getLineBox(), styleBuffer);
 
 		String horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_LEFT;
@@ -839,10 +840,10 @@ public class HtmlExporter extends JRAbstractExporter
 		endCell();
 	}
 
-	protected void writeImage(JRPrintImage image, TableVisitor tableVisitor)
+	protected void writeImage(JRPrintImage image, TableCell cell)
 			throws IOException, JRException
 	{
-		startCell(image, tableVisitor);
+		startCell(image, cell);
 
 		StringBuilder styleBuffer = new StringBuilder();
 
@@ -902,9 +903,9 @@ public class HtmlExporter extends JRAbstractExporter
 			styleBuffer.append(";");
 		}
 
-		appendBackcolorStyle(tableVisitor, styleBuffer);
+		appendBackcolorStyle(cell, styleBuffer);
 		
-		boolean addedToStyle = appendBorderStyle(tableVisitor.getCellBox(), styleBuffer);
+		boolean addedToStyle = appendBorderStyle(cell.getBox(), styleBuffer);
 		if (!addedToStyle)
 		{
 			appendPen(
@@ -968,7 +969,7 @@ public class HtmlExporter extends JRAbstractExporter
 				}
 				else
 				{
-					JRPrintElementIndex imageIndex = getElementIndex(tableVisitor);
+					JRPrintElementIndex imageIndex = getElementIndex(cell);
 					imagesToProcess.add(imageIndex);
 
 					String imageName = getImageName(imageIndex);
@@ -1005,7 +1006,7 @@ public class HtmlExporter extends JRAbstractExporter
 
 				if (imageMapName == null)
 				{
-					imageMapName = "map_" + getElementIndex(tableVisitor).toString();
+					imageMapName = "map_" + getElementIndex(cell).toString();
 					imageMapAreas = ((ImageMapRenderable) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
 					
 					if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
@@ -1123,9 +1124,9 @@ public class HtmlExporter extends JRAbstractExporter
 		endCell();
 	}
 
-	protected JRPrintElementIndex getElementIndex(TableVisitor tableVisitor)
+	protected JRPrintElementIndex getElementIndex(TableCell cell)
 	{
-		String elementAddress = tableVisitor.getElementAddress();
+		String elementAddress = cell.getElementAddress();
 		JRPrintElementIndex elementIndex = new JRPrintElementIndex(reportIndex, pageIndex,
 						elementAddress);
 		return elementIndex;
@@ -1201,12 +1202,12 @@ public class HtmlExporter extends JRAbstractExporter
 		}
 	}
 
-	protected void writeRectangle(JRPrintGraphicElement element, TableVisitor tableVisitor) throws IOException
+	protected void writeRectangle(JRPrintGraphicElement element, TableCell cell) throws IOException
 	{
-		startCell(element, tableVisitor);
+		startCell(element, cell);
 
 		StringBuilder styleBuffer = new StringBuilder();
-		appendBackcolorStyle(tableVisitor, styleBuffer);
+		appendBackcolorStyle(cell, styleBuffer);
 		appendPen(
 			styleBuffer,
 			element.getLinePen(),
@@ -1219,14 +1220,14 @@ public class HtmlExporter extends JRAbstractExporter
 		endCell();
 	}
 
-	protected void writeLine(JRPrintLine line, TableVisitor tableVisitor)
+	protected void writeLine(JRPrintLine line, TableCell cell)
 			throws IOException
 	{
-		startCell(line, tableVisitor);
+		startCell(line, cell);
 
 		StringBuilder styleBuffer = new StringBuilder();
 
-		appendBackcolorStyle(tableVisitor, styleBuffer);
+		appendBackcolorStyle(cell, styleBuffer);
 		
 		String side = null;
 		float ratio = line.getWidth() / line.getHeight();
@@ -1266,7 +1267,7 @@ public class HtmlExporter extends JRAbstractExporter
 		endCell();
 	}
 	
-	protected void writeGenericElement(JRGenericPrintElement element, TableVisitor tableVisitor) throws IOException
+	protected void writeGenericElement(JRGenericPrintElement element, TableCell cell) throws IOException
 	{
 		GenericElementHtmlHandler handler = (GenericElementHtmlHandler) 
 				GenericElementHandlerEnviroment.getInstance(getJasperReportsContext()).getElementHandler(
@@ -1280,15 +1281,15 @@ public class HtmlExporter extends JRAbstractExporter
 						+ element.getGenericType());
 			}
 			
-			writeEmptyCell(tableVisitor.getCellColSpan(), tableVisitor.getCellRowSpan());
+			writeEmptyCell(cell.getColumnSpan(), cell.getRowSpan());// TODO lucianc backcolor/borders?
 		}
 		else
 		{
-			startCell(element, tableVisitor);
+			startCell(element, cell);
 
 			StringBuilder styleBuffer = new StringBuilder();
-			appendBackcolorStyle(tableVisitor, styleBuffer);
-			appendBorderStyle(tableVisitor.getCellBox(), styleBuffer);
+			appendBackcolorStyle(cell, styleBuffer);
+			appendBorderStyle(cell.getBox(), styleBuffer);
 			if (styleBuffer.length() > 0)
 			{
 				writer.write(" style=\"");
@@ -1308,15 +1309,15 @@ public class HtmlExporter extends JRAbstractExporter
 		}
 	}
 	
-	protected void writeLayers(List<Table> layers, TableVisitor tableVisitor) throws IOException
+	protected void writeLayers(List<Table> layers, TableVisitor tableVisitor, TableCell cell) throws IOException
 	{
-		int colSpan = tableVisitor.getCellColSpan();
-		int rowSpan = tableVisitor.getCellRowSpan();
+		int colSpan = cell.getColumnSpan();
+		int rowSpan = cell.getRowSpan();
 		startCell(colSpan, rowSpan);
 
 		StringBuilder styleBuffer = new StringBuilder();
-		appendBackcolorStyle(tableVisitor, styleBuffer);
-		appendBorderStyle(tableVisitor.getCellBox(), styleBuffer);
+		appendBackcolorStyle(cell, styleBuffer);
+		appendBorderStyle(cell.getBox(), styleBuffer);
 		writeStyle(styleBuffer);
 
 		finishStartCell();
@@ -1338,7 +1339,7 @@ public class HtmlExporter extends JRAbstractExporter
 			writer.write(layerStyleBuffer.toString());
 			writer.write("\">\n");
 
-			exportTable(tableVisitor.tabulator, table, false);
+			exportTable(tableVisitor, table, false);
 			writer.write("</div>\n");
 		}
 		
@@ -1347,11 +1348,9 @@ public class HtmlExporter extends JRAbstractExporter
 		endCell();
 	}
 
-	protected void startCell(JRPrintElement element, TableVisitor tableVisitor) throws IOException
+	protected void startCell(JRPrintElement element, TableCell cell) throws IOException
 	{
-		int colSpan = tableVisitor.getCellColSpan();
-		int rowSpan = tableVisitor.getCellRowSpan();
-		startCell(colSpan, rowSpan);
+		startCell(cell);
 
 		if (element != null)
 		{
@@ -1366,6 +1365,11 @@ public class HtmlExporter extends JRAbstractExporter
 				writer.write(" class=\"" + clazz +"\"");
 			}
 		}
+	}
+	
+	protected void startCell(TableCell cell) throws IOException
+	{
+		startCell(cell.getColumnSpan(), cell.getRowSpan());
 	}
 
 	protected void startCell(int colSpan, int rowSpan) throws IOException
@@ -1402,13 +1406,13 @@ public class HtmlExporter extends JRAbstractExporter
 		endCell();
 	}
 	
-	protected void writeFrameCell(TableVisitor tableVisitor) throws IOException
+	protected void writeFrameCell(TableCell cell) throws IOException
 	{
-		startCell(1, 1);
+		startCell(cell);
 		
 		StringBuilder styleBuffer = new StringBuilder();
-		appendBackcolorStyle(tableVisitor, styleBuffer);
-		appendBorderStyle(tableVisitor.getCellBox(), styleBuffer);
+		appendBackcolorStyle(cell, styleBuffer);
+		appendBorderStyle(cell.getBox(), styleBuffer);
 		writeStyle(styleBuffer);
 
 		finishStartCell();
@@ -1435,9 +1439,9 @@ public class HtmlExporter extends JRAbstractExporter
 		backcolorStack.removeFirst();
 	}
 
-	protected Color appendBackcolorStyle(TableVisitor tableVisitor, StringBuilder styleBuffer)
+	protected Color appendBackcolorStyle(TableCell cell, StringBuilder styleBuffer)
 	{
-		Color cellBackcolor = tableVisitor.getCellBackcolor();
+		Color cellBackcolor = cell.getBackcolor();
 		if (cellBackcolor != null && (backcolorStack.isEmpty() || cellBackcolor.getRGB() != backcolorStack.getFirst().getRGB()))
 		{
 			styleBuffer.append("background-color: #");
@@ -2059,189 +2063,59 @@ public class HtmlExporter extends JRAbstractExporter
 		}
 	}
 	
-	protected class TableVisitor implements CellVisitor<Pair<Column, Row>, Void, IOException>, PrintElementVisitor<Void>
+	protected class TableVisitor implements CellVisitor<TablePosition, Void, IOException>
 	{
 		private final Tabulator tabulator;
-		private final Table table;
+		private final PrintElementVisitor<TableCell> elementVisitor;
 		
-		private Row currentRow;
-		private Column currentColumn;
-		
-		private Cell currentCell;
-		private JRPrintElement currentElement;
-		private Color currentBackcolor;
-		private JRLineBox currentBox;
-
-		public TableVisitor(Tabulator tabulator, Table table)
+		public TableVisitor(Tabulator tabulator, PrintElementVisitor<TableCell> elementVisitor)
 		{
 			this.tabulator = tabulator;
-			this.table = table;
-		}
-
-		protected int getCellColSpan()
-		{
-			return tabulator.getColumnCellSpan(table, currentColumn, currentRow, currentCell);
-		}
-		
-		protected int getCellRowSpan()
-		{
-			return tabulator.getRowCellSpan(table, currentColumn, currentRow, currentCell);
+			this.elementVisitor = elementVisitor;
 		}
 		
 		@Override
-		public Void visit(ElementCell cell, Pair<Column, Row> position)
+		public Void visit(ElementCell cell, TablePosition position)
 		{
-			currentColumn = position.first();
-			currentRow = position.second();
-			currentCell = cell;
-			currentElement = tabulator.getCellElement(cell);
-			currentBackcolor = getElementBackcolor(cell);
-			
-			JRLineBox elementBox = (currentElement instanceof JRBoxContainer) ? ((JRBoxContainer) currentElement).getLineBox() : null;
-			currentBox = copyParentBox(cell, currentElement, elementBox, true, true, true, true);
-			
-			currentElement.accept(this, null);
+			TableCell tableCell = tabulator.getTableCell(position, cell);
+			JRPrintElement element = tableCell.getElement();
+			element.accept(elementVisitor, tableCell);
 			return null;
 		}
-		
-		protected Color getElementBackcolor(BaseElementCell cell)
-		{
-			if (cell == null)
-			{
-				return null;
-			}
-			
-			JRPrintElement element = tabulator.getCellElement(cell);
-			if (element.getModeValue() == ModeEnum.OPAQUE)
-			{
-				return element.getBackcolor();
-			}
-			
-			return getElementBackcolor(cell.getParent());
-		}
-		
-		protected JRLineBox copyParentBox(Cell cell, JRPrintElement element, JRLineBox baseBox, 
-				boolean keepLeft, boolean keepRight, boolean keepTop, boolean keepBottom)
-		{
-			FrameCell parentCell = cell.getParent();
-			if (parentCell == null)
-			{
-				return baseBox;
-			}
-			
-			// TODO lucianc check this in the table instead?
-			JRPrintFrame parentFrame = (JRPrintFrame) tabulator.getCellElement(parentCell);
-			keepLeft &= element.getX() == 0;
-			keepRight &= (element.getX() + element.getWidth()) == parentFrame.getWidth();
-			keepTop &= element.getY() == 0;
-			keepBottom &= (element.getY() + element.getHeight()) == parentFrame.getHeight();
-			
-			JRLineBox resultBox = baseBox;
-			if (keepLeft || keepRight || keepTop || keepBottom)
-			{
-				resultBox = copyFrameBox(parentCell, parentFrame, baseBox, 
-						keepLeft, keepRight, keepTop, keepBottom);
-			}
-			return resultBox;
-		}
-
-		protected JRLineBox copyFrameBox(FrameCell frameCell, JRPrintFrame frame, JRLineBox baseBox, 
-				boolean keepLeft, boolean keepRight, boolean keepTop, boolean keepBottom)
-		{
-			JRLineBox resultBox = JRBoxUtil.copyBordersNoPadding(frame.getLineBox(), 
-					keepLeft, keepRight, keepTop, keepBottom, baseBox);
-			// recurse
-			resultBox = copyParentBox(frameCell, frame, resultBox, keepLeft, keepRight, keepTop, keepBottom);
-			return resultBox;
-		}
 
 		@Override
-		public Void visit(SplitCell cell, Pair<Column, Row> position)
+		public Void visit(SplitCell cell, TablePosition position)
 		{
 			//NOP
 			return null;
 		}
 
 		@Override
-		public Void visit(FrameCell frameCell, Pair<Column, Row> position) throws IOException
+		public Void visit(FrameCell frameCell, TablePosition position) throws IOException
 		{
-			currentColumn = position.first();
-			currentRow = position.second();
-			currentCell = frameCell;
-			currentElement = tabulator.getCellElement(frameCell);
-			currentBackcolor = getElementBackcolor(frameCell);
-			
-			boolean[] borders = tabulator.getFrameCellBorders(table, currentColumn, currentRow, frameCell);
-			currentBox = copyFrameBox(frameCell, (JRPrintFrame) currentElement, null, borders[0], borders[1], borders[2], borders[3]);
-
-			HtmlExporter.this.writeFrameCell(this);
+			TableCell tableCell = tabulator.getTableCell(position, frameCell);
+			HtmlExporter.this.writeFrameCell(tableCell);
 			return null;
 		}
 
 		@Override
-		public Void visit(LayeredCell layeredCell, Pair<Column, Row> position)
+		public Void visit(LayeredCell layeredCell, TablePosition position)
 				throws IOException
 		{
-			currentColumn = position.first();
-			currentRow = position.second();
-			currentCell = layeredCell;
-			currentElement = null;
-			currentBackcolor = getElementBackcolor(layeredCell.getParent());
-			
-			FrameCell parentCell = layeredCell.getParent();
-			if (parentCell == null)
-			{
-				currentBox = null;
-			}
-			else
-			{
-				boolean[] borders = tabulator.getFrameCellBorders(table, currentColumn, currentRow, parentCell);
-				if (borders[0] || borders[1] || borders[2] || borders[3])
-				{
-					JRPrintFrame parentFrame = (JRPrintFrame) tabulator.getCellElement(parentCell);
-					currentBox = copyFrameBox(parentCell, parentFrame, null, borders[0], borders[1], borders[2], borders[3]);
-				}
-			}
-			
-			HtmlExporter.this.writeLayers(layeredCell.getLayers(), this);
+			TableCell tableCell = tabulator.getTableCell(position, layeredCell);
+			HtmlExporter.this.writeLayers(layeredCell.getLayers(), this, tableCell);
 			return null;
 		}
+	}
 
-		public String getElementAddress()
-		{
-			StringBuilder address = new StringBuilder();
-			writeElementAddress(address, (BaseElementCell) currentCell);
-			return address.toString();
-		}
-
-		protected void writeElementAddress(StringBuilder output,
-				BaseElementCell cell)
-		{
-			FrameCell parent = cell.getParent();
-			if (parent != null)
-			{
-				writeElementAddress(output, parent);
-				output.append('_');
-			}
-			output.append(cell.getElementIndex());
-		}
-		
-		public Color getCellBackcolor()
-		{
-			return currentBackcolor;
-		}
-		
-		public JRLineBox getCellBox()
-		{
-			return currentBox;
-		}
-
+	protected class CellElementVisitor implements PrintElementVisitor<TableCell>
+	{
 		@Override
-		public void visit(JRPrintText textElement, Void arg)
+		public void visit(JRPrintText textElement, TableCell cell)
 		{
 			try
 			{
-				writeText(textElement, this);
+				writeText(textElement, cell);
 			}
 			catch (IOException e)
 			{
@@ -2250,11 +2124,11 @@ public class HtmlExporter extends JRAbstractExporter
 		}
 
 		@Override
-		public void visit(JRPrintImage image, Void arg)
+		public void visit(JRPrintImage image, TableCell cell)
 		{
 			try
 			{
-				writeImage(image, this);
+				writeImage(image, cell);
 			}
 			catch (IOException e)
 			{
@@ -2267,11 +2141,11 @@ public class HtmlExporter extends JRAbstractExporter
 		}
 
 		@Override
-		public void visit(JRPrintRectangle rectangle, Void arg)
+		public void visit(JRPrintRectangle rectangle, TableCell cell)
 		{
 			try
 			{
-				writeRectangle(rectangle, this);
+				writeRectangle(rectangle, cell);
 			} 
 			catch (IOException e)
 			{
@@ -2280,11 +2154,11 @@ public class HtmlExporter extends JRAbstractExporter
 		}
 
 		@Override
-		public void visit(JRPrintLine line, Void arg)
+		public void visit(JRPrintLine line, TableCell cell)
 		{
 			try
 			{
-				writeLine(line, this);
+				writeLine(line, cell);
 			}
 			catch (IOException e)
 			{
@@ -2293,11 +2167,11 @@ public class HtmlExporter extends JRAbstractExporter
 		}
 
 		@Override
-		public void visit(JRPrintEllipse ellipse, Void arg)
+		public void visit(JRPrintEllipse ellipse, TableCell cell)
 		{
 			try
 			{
-				writeRectangle(ellipse, this);
+				writeRectangle(ellipse, cell);
 			} 
 			catch (IOException e)
 			{
@@ -2306,17 +2180,17 @@ public class HtmlExporter extends JRAbstractExporter
 		}
 
 		@Override
-		public void visit(JRPrintFrame frame, Void arg)
+		public void visit(JRPrintFrame frame, TableCell cell)
 		{
 			throw new JRRuntimeException("Internal error");
 		}
 
 		@Override
-		public void visit(JRGenericPrintElement printElement, Void arg)
+		public void visit(JRGenericPrintElement printElement, TableCell cell)
 		{
 			try
 			{
-				writeGenericElement(printElement, this);
+				writeGenericElement(printElement, cell);
 			} 
 			catch (IOException e)
 			{

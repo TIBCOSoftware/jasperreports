@@ -23,62 +23,36 @@
  */
 package net.sf.jasperreports.engine.export.tabulator;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class LayeredCell implements Cell
+public class TablePosition
 {
-	private FrameCell parent;
-	private final LinkedList<Table> layers;
+	private final Table table;
+	private final Column column;
+	private final Row row;
 	
-	private SplitCell splitCell;
-
-	public LayeredCell(FrameCell parent)
+	public TablePosition(Table table, Column column, Row row)
 	{
-		this.parent = parent;
-		this.layers = new LinkedList<Table>();
+		this.table = table;
+		this.column = column;
+		this.row = row;
+	}
+
+	public Table getTable()
+	{
+		return table;
+	}
+
+	public Column getColumn()
+	{
+		return column;
+	}
+
+	public Row getRow()
+	{
+		return row;
 	}
 	
-	public void addLayer(Table table)
-	{
-		this.layers.addFirst(table);
-	}
-	
-	@Override
-	public FrameCell getParent()
-	{
-		return parent;
-	}
-
-	public void setParent(FrameCell parent)
-	{
-		this.parent = parent;
-	}
-
-	@Override
-	public <T, R, E extends Exception> R accept(CellVisitor<T, R, E> visitor, T arg) throws E
-	{
-		return visitor.visit(this, arg);
-	}
-
-	@Override
-	public Cell split()
-	{
-		if (splitCell == null)
-		{
-			splitCell = new SplitCell(this);
-		}
-		
-		return splitCell;
-	}
-
-	public List<Table> getLayers()
-	{
-		return layers;
-	}
-
 }
