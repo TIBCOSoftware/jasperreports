@@ -23,15 +23,24 @@
  */
 package net.sf.jasperreports.engine.export.tabulator;
 
+import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
+import java.util.NavigableSet;
 
+import net.sf.jasperreports.engine.JRBoxContainer;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.ExporterFilter;
+import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.Pair;
 
 import org.apache.commons.logging.Log;
@@ -54,6 +63,7 @@ public class Tabulator
 	private SpanRangeCheck spanRangeCheck = new SpanRangeCheck();
 	private SpanCheck spanCheck = new SpanCheck();
 	private CollapseCheck collapseCheck = new CollapseCheck();
+	private TableCellCreator tableCellCreator = new TableCellCreator();
 
 	public Tabulator(ExporterFilter filter, List<? extends JRPrintElement> elements)
 	{
@@ -255,7 +265,7 @@ public class Tabulator
 		LayeredCell layeredCell = new LayeredCell(parentCell);
 		Table firstLayer = new Table(this);
 		layeredCell.addLayer(firstLayer);
-		copyCellsToLayerTable(table, layeredCell, firstLayer, 
+		moveCellsToLayerTable(parentCell, firstLayer, 
 				layeredColRange, layeredRowRange);
 		
 		setElementCells(layeredColRange, layeredRowRange, layeredCell);
@@ -437,31 +447,39 @@ public class Tabulator
 		return new Pair<Row, Row>(startRow, endRow);
 	}
 
-	protected void copyCellsToLayerTable(Table table, LayeredCell layeredCell, Table layerTable,
+	protected void moveCellsToLayerTable(FrameCell parentCell, Table layerTable,
 			DimensionRange<Column> colRange, DimensionRange<Row> rowRange)
 	{
-		// TODO lucianc collapse columns and rows within range
-		List<Column> layerColumns = new ArrayList<Column>(colRange.rangeSet.size());
-		for (Column column : colRange.rangeSet)
-		{
-			Column layerCol = layerTable.columns.addEntry(column.startCoord - colRange.start,
-					column.endCoord - colRange.start);
-			layerColumns.add(layerCol);
-		}
-		
+		layerTable.columns.addEntry(0, colRange.end - colRange.start);
+		layerTable.columns.addEntry(0, rowRange.end - rowRange.start);
+
+		ParentDrop parentDrop = new ParentDrop();
 		for (Row row : rowRange.rangeSet)
 		{
-			Row layerRow = layerTable.rows.addEntry(row.startCoord - rowRange.start,
-					row.endCoord - rowRange.start);
-			
-			int colIdx = 0;
 			for (Column column : colRange.rangeSet)
 			{
 				Cell cell = row.getCell(column);
-				Column layerCol = layerColumns.get(colIdx);
-				layerRow.setCell(layerCol, cell);
-				
-				++colIdx;
+				// drop parentCell from the cell's parent
+				Cell layerCell = cell == null ? null : cell.accept(parentDrop, parentCell);
+				if (layerCell != null)
+				{
+					// determine how much the original cell spans
+					Column lastColSpan = getColumnCellSpan(colRange.rangeSet, column, row, cell).second();
+					Row lastRowSpan = getRowCellSpan(rowRange.rangeSet, column, row, cell).second();
+					
+					// create ranges in the layer table
+					DimensionRange<Column> cellColRange = layerTable.columns.getRange(
+							column.startCoord - colRange.start, 
+							lastColSpan.endCoord - colRange.start);
+					DimensionRange<Row> cellRowRange = layerTable.rows.getRange(
+							row.startCoord - rowRange.start, 
+							lastRowSpan.endCoord - rowRange.start);
+					
+					// add entries for the ranges and set the cell in the layer table
+					DimensionRange<Column> cellFinalColRange = layerTable.columns.addEntries(cellColRange);
+					DimensionRange<Row> cellFinalRowRange = layerTable.rows.addEntries(cellRowRange);
+					setElementCells(cellFinalColRange, cellFinalRowRange, layerCell);
+				}
 			}
 		}
 	}
@@ -625,13 +643,14 @@ public class Tabulator
 		return mainTable;
 	}
 	
-	public JRPrintElement getCellElement(BaseElementCell cell)
+	protected JRPrintElement getCellElement(BaseElementCell cell)
 	{
 		return getCellElement(cell.getParentIndex(), cell.getElementIndex());
 	}
 	
 	protected JRPrintElement getCellElement(ElementIndex parentIndex, int index)
 	{
+		// TODO lucianc keep a cache of current element position?
 		JRPrintElement element;
 		if (parentIndex == null)
 		{
@@ -645,24 +664,6 @@ public class Tabulator
 		return element;
 	}
 	
-	public boolean[] getFrameCellBorders(Table table, Column col, Row row, FrameCell cell)
-	{
-		Column prevCol = table.columns.getEntries().lower(col);
-		boolean leftBorder = !isParent(cell, row.getCell(prevCol));
-		
-		Column nextCol = table.columns.getEntries().higher(col);
-		boolean rightBorder = !isParent(cell, row.getCell(nextCol));
-		
-		Row prevRow = table.rows.getEntries().lower(row);
-		boolean topBorder = !isParent(cell, prevRow.getCell(col));
-		
-		Row nextRow = table.rows.getEntries().higher(row);
-		boolean bottomBorder = !isParent(cell, nextRow.getCell(col));
-		
-		// TODO lucianc return in some other form
-		return new boolean[]{leftBorder, rightBorder, topBorder, bottomBorder};
-	}
-	
 	protected boolean isParent(FrameCell parent, Cell child)
 	{
 		if (child == null)
@@ -673,10 +674,17 @@ public class Tabulator
 		return child.accept(parentCheck, parent);
 	}
 
-	public int getColumnCellSpan(Table table, Column column, Row row, Cell cell)
+	protected Pair<Integer, Column> getColumnCellSpan(TablePosition position, Cell cell)
+	{
+		return getColumnCellSpan(position.getTable().columns.getEntries(), 
+				position.getColumn(), position.getRow(), cell);
+	}
+	
+	protected Pair<Integer, Column> getColumnCellSpan(NavigableSet<Column> columns, Column column, Row row, Cell cell)
 	{
 		int span = 1;
-		for (Column tailCol : table.columns.getEntries().tailSet(column, false))
+		Column lastCol = column;
+		for (Column tailCol : columns.tailSet(column, false))
 		{
 			Cell tailCell = row.getCell(tailCol);
 			if (tailCell == null || !cell.accept(spanCheck, tailCell))
@@ -684,14 +692,22 @@ public class Tabulator
 				break;
 			}
 			++span;
+			lastCol = tailCol;
 		}
-		return span;
+		return new Pair<Integer, Column>(span, lastCol);
 	}
 
-	public int getRowCellSpan(Table table, Column column, Row row, Cell cell)
+	protected Pair<Integer, Row> getRowCellSpan(TablePosition position, Cell cell)
+	{
+		return getRowCellSpan(position.getTable().rows.getEntries(), 
+				position.getColumn(), position.getRow(), cell);
+	}
+
+	protected Pair<Integer, Row> getRowCellSpan(NavigableSet<Row> rows, Column column, Row row, Cell cell)
 	{
 		int span = 1;
-		for (Row tailRow : table.rows.getEntries().tailSet(row, false))
+		Row lastRow = row;
+		for (Row tailRow : rows.tailSet(row, false))
 		{
 			Cell tailCell = tailRow.getCell(column);
 			if (tailCell == null || !cell.accept(spanCheck, tailCell))
@@ -699,8 +715,33 @@ public class Tabulator
 				break;
 			}
 			++span;
+			lastRow = tailRow;
 		}
-		return span;
+		return new Pair<Integer, Row>(span, lastRow);
+	}
+
+	protected FrameCell droppedParent(FrameCell existingParent, FrameCell parent)
+	{
+		if (existingParent == null)
+		{
+			// should not happen
+			throw new JRRuntimeException("Internal error while dropping parent");
+		}
+		
+		if (existingParent.equals(parent))
+		{
+			return null;
+		}
+		
+		FrameCell droppedGrandParent = droppedParent(existingParent.getParent(), parent);
+		FrameCell droppedParent = new FrameCell(droppedGrandParent, 
+				existingParent.getParentIndex(), existingParent.getElementIndex());
+		return droppedParent;
+	}
+	
+	public TableCell getTableCell(TablePosition position, Cell cell)
+	{
+		return cell.accept(tableCellCreator, position);
 	}
 	
 	protected class ParentCheck implements CellVisitor<FrameCell, Boolean, RuntimeException>
@@ -811,5 +852,193 @@ public class Tabulator
 		{
 			return Tabulator.this.isSplitCell(spanned, cell);
 		}
+	}
+	
+	protected class ParentDrop implements CellVisitor<FrameCell, Cell, RuntimeException>
+	{
+		private final Map<FrameCell, FrameCell> parentMapping = new HashMap<FrameCell, FrameCell>();
+
+		protected FrameCell droppedParent(FrameCell existingParent, FrameCell parent)
+		{
+			FrameCell droppedParent;
+			if (existingParent == null || parent == null)
+			{
+				droppedParent = null;
+			}
+			else if (parentMapping.containsKey(existingParent))// we can have nulls as values
+			{
+				droppedParent = parentMapping.get(existingParent);
+			}
+			else
+			{
+				droppedParent = Tabulator.this.droppedParent(existingParent, parent); 
+				parentMapping.put(existingParent, droppedParent);
+			}
+			return droppedParent;
+		}
+		
+		@Override
+		public Cell visit(ElementCell cell, FrameCell parent)
+		{
+			FrameCell droppedParent = droppedParent(cell.getParent(), parent);
+			cell.setParent(droppedParent);
+			return cell;
+		}
+
+		@Override
+		public Cell visit(SplitCell cell, FrameCell parent)
+		{
+			// we're not explicitly moving split cells
+			return null;
+		}
+
+		@Override
+		public Cell visit(FrameCell frameCell, FrameCell parent)
+		{
+			FrameCell droppedParent = droppedParent(frameCell, parent);
+			return droppedParent;
+		}
+
+		@Override
+		public Cell visit(LayeredCell layeredCell, FrameCell parent)
+		{
+			FrameCell droppedParent = droppedParent(layeredCell.getParent(), parent);
+			layeredCell.setParent(droppedParent);
+			return layeredCell;
+		}
+	}
+	
+	protected class TableCellCreator implements CellVisitor<TablePosition, TableCell, RuntimeException>
+	{
+		@Override
+		public TableCell visit(ElementCell cell, TablePosition position)
+		{
+			JRPrintElement element = getCellElement(cell);
+			int colSpan = getColumnCellSpan(position, cell).first();
+			int rowSpan = getRowCellSpan(position, cell).first();
+			Color backcolor = getElementBackcolor(cell);
+			
+			JRLineBox elementBox = (element instanceof JRBoxContainer) ? ((JRBoxContainer) element).getLineBox() : null;
+			JRLineBox box = copyParentBox(cell, element, elementBox, true, true, true, true);
+			
+			TableCell tableCell = new TableCell(position, cell, element, colSpan, rowSpan, backcolor, box);
+			return tableCell;
+		}
+
+		@Override
+		public TableCell visit(SplitCell cell, TablePosition position)
+		{
+			// NOP
+			return null;
+		}
+
+		@Override
+		public TableCell visit(FrameCell frameCell, TablePosition position)
+		{
+			JRPrintElement element = getCellElement(frameCell);
+			Color backcolor = getElementBackcolor(frameCell);
+			
+			boolean[] borders = getFrameCellBorders(position.getTable(), frameCell,
+					position.getColumn(), position.getColumn(),
+					position.getRow(), position.getRow());
+			JRLineBox box = copyFrameBox(frameCell, (JRPrintFrame) element, null, borders[0], borders[1], borders[2], borders[3]);
+			
+			return new TableCell(position, frameCell, element, 1, 1, backcolor, box);
+		}
+
+		@Override
+		public TableCell visit(LayeredCell layeredCell, TablePosition position)
+		{
+			Pair<Integer, Column> colSpanPair = getColumnCellSpan(position, layeredCell);
+			Pair<Integer, Row> rowSpanPair = getRowCellSpan(position, layeredCell);
+			Color backcolor = getElementBackcolor(layeredCell.getParent());
+			
+			JRLineBox box = null;
+			FrameCell parentCell = layeredCell.getParent();
+			if (parentCell != null)
+			{
+				boolean[] borders = getFrameCellBorders(position.getTable(), parentCell,
+						position.getColumn(), colSpanPair.second(),
+						position.getRow(), rowSpanPair.second());
+				if (borders[0] || borders[1] || borders[2] || borders[3])
+				{
+					JRPrintFrame parentFrame = (JRPrintFrame) getCellElement(parentCell);
+					box = copyFrameBox(parentCell, parentFrame, null, borders[0], borders[1], borders[2], borders[3]);
+				}
+			}
+			
+			return new TableCell(position, layeredCell, null, colSpanPair.first(), rowSpanPair.first(), backcolor, box);
+		}
+		
+		protected Color getElementBackcolor(BaseElementCell cell)
+		{
+			if (cell == null)
+			{
+				return null;
+			}
+			
+			JRPrintElement element = getCellElement(cell);
+			if (element.getModeValue() == ModeEnum.OPAQUE)
+			{
+				return element.getBackcolor();
+			}
+			
+			return getElementBackcolor(cell.getParent());
+		}
+		
+		protected JRLineBox copyParentBox(Cell cell, JRPrintElement element, JRLineBox baseBox, 
+				boolean keepLeft, boolean keepRight, boolean keepTop, boolean keepBottom)
+		{
+			FrameCell parentCell = cell.getParent();
+			if (parentCell == null)
+			{
+				return baseBox;
+			}
+			
+			// TODO lucianc check this in the table instead?
+			JRPrintFrame parentFrame = (JRPrintFrame) getCellElement(parentCell);
+			keepLeft &= element.getX() == 0;
+			keepRight &= (element.getX() + element.getWidth()) == parentFrame.getWidth();
+			keepTop &= element.getY() == 0;
+			keepBottom &= (element.getY() + element.getHeight()) == parentFrame.getHeight();
+			
+			JRLineBox resultBox = baseBox;
+			if (keepLeft || keepRight || keepTop || keepBottom)
+			{
+				resultBox = copyFrameBox(parentCell, parentFrame, baseBox, 
+						keepLeft, keepRight, keepTop, keepBottom);
+			}
+			return resultBox;
+		}
+		
+		protected boolean[] getFrameCellBorders(Table table, FrameCell cell,
+				Column firstCol, Column lastCol,
+				Row firstRow, Row lastRow)
+		{
+			Column prevCol = table.columns.getEntries().lower(firstCol);
+			boolean leftBorder = !isParent(cell, firstRow.getCell(prevCol));
+			
+			Column nextCol = table.columns.getEntries().higher(lastCol);
+			boolean rightBorder = !isParent(cell, firstRow.getCell(nextCol));
+			
+			Row prevRow = table.rows.getEntries().lower(firstRow);
+			boolean topBorder = !isParent(cell, prevRow.getCell(firstCol));
+			
+			Row nextRow = table.rows.getEntries().higher(lastRow);
+			boolean bottomBorder = !isParent(cell, nextRow.getCell(firstCol));
+			
+			return new boolean[]{leftBorder, rightBorder, topBorder, bottomBorder};
+		}
+
+		protected JRLineBox copyFrameBox(FrameCell frameCell, JRPrintFrame frame, JRLineBox baseBox, 
+				boolean keepLeft, boolean keepRight, boolean keepTop, boolean keepBottom)
+		{
+			JRLineBox resultBox = JRBoxUtil.copyBordersNoPadding(frame.getLineBox(), 
+					keepLeft, keepRight, keepTop, keepBottom, baseBox);
+			// recurse
+			resultBox = copyParentBox(frameCell, frame, resultBox, keepLeft, keepRight, keepTop, keepBottom);
+			return resultBox;
+		}
+		
 	}
 }
