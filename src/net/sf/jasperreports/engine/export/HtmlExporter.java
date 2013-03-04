@@ -807,7 +807,7 @@ public class HtmlExporter extends JRAbstractExporter
 		
 		finishStartCell();
 		
-		writer.write("<p style=\"overflow: hidden; ");
+		writer.write("<p style=\"margin: 0px; overflow: hidden; ");
 
 		writer.write("text-indent: " + text.getParagraph().getFirstLineIndent().intValue() + "px; ");
 		writer.write("\">");
