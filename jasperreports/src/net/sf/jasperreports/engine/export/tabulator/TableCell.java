@@ -109,20 +109,19 @@ public class TableCell
 	public String getElementAddress()
 	{
 		StringBuilder address = new StringBuilder();
-		writeElementAddress(address, (BaseElementCell) cell);
+		BaseElementCell elementCell = (BaseElementCell) cell;
+		writeElementAddress(address, elementCell.getParentIndex(), elementCell.getElementIndex());
 		return address.toString();
 	}
 
-	protected void writeElementAddress(StringBuilder output,
-			BaseElementCell cell)
+	protected void writeElementAddress(StringBuilder output, ElementIndex parentIndex, int elementIndex)
 	{
-		FrameCell parent = cell.getParent();
-		if (parent != null)
+		if (parentIndex != null)
 		{
-			writeElementAddress(output, parent);
+			writeElementAddress(output, parentIndex.getParentIndex(), parentIndex.getIndex());
 			output.append('_');
 		}
-		output.append(cell.getElementIndex());
+		output.append(elementIndex);
 	}
 
 }
