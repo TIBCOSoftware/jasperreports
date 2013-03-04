@@ -856,7 +856,11 @@ public class Tabulator
 		protected FrameCell droppedParent(FrameCell existingParent, FrameCell parent)
 		{
 			FrameCell droppedParent;
-			if (existingParent == null || parent == null)
+			if (parent == null)
+			{
+				droppedParent = existingParent;
+			}
+			else if (existingParent == null)
 			{
 				droppedParent = null;
 			}
