@@ -446,7 +446,7 @@ public class Tabulator
 			DimensionRange<Column> colRange, DimensionRange<Row> rowRange)
 	{
 		layerTable.columns.addEntry(0, colRange.end - colRange.start);
-		layerTable.columns.addEntry(0, rowRange.end - rowRange.start);
+		layerTable.rows.addEntry(0, rowRange.end - rowRange.start);
 
 		ParentDrop parentDrop = new ParentDrop();
 		for (Row row : rowRange.rangeSet)
