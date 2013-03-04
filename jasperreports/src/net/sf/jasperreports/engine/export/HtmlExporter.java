@@ -1322,6 +1322,8 @@ public class HtmlExporter extends JRAbstractExporter
 
 		finishStartCell();
 		
+		// layers need to always specify backcolors
+		setBackcolor(null);
 		writer.write("<div style=\"width: 100%; height: 100%;\">\n");
 		
 		for (Iterator<Table> it = layers.iterator(); it.hasNext();)
@@ -1344,6 +1346,7 @@ public class HtmlExporter extends JRAbstractExporter
 		}
 		
 		writer.write("</div>\n");
+		restoreBackcolor();
 
 		endCell();
 	}
@@ -1439,10 +1442,21 @@ public class HtmlExporter extends JRAbstractExporter
 		backcolorStack.removeFirst();
 	}
 
+	protected boolean matchesBackcolor(Color backcolor)
+	{
+		if (backcolorStack.isEmpty())
+		{
+			return false;
+		}
+		
+		Color currentBackcolor = backcolorStack.getFirst();
+		return currentBackcolor != null && backcolor.getRGB() == currentBackcolor.getRGB();
+	}
+	
 	protected Color appendBackcolorStyle(TableCell cell, StringBuilder styleBuffer)
 	{
 		Color cellBackcolor = cell.getBackcolor();
-		if (cellBackcolor != null && (backcolorStack.isEmpty() || cellBackcolor.getRGB() != backcolorStack.getFirst().getRGB()))
+		if (cellBackcolor != null && !matchesBackcolor(cellBackcolor))
 		{
 			styleBuffer.append("background-color: #");
 			styleBuffer.append(JRColorUtil.getColorHexa(cellBackcolor));
