@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.export.FlashHtmlHandler;
 import net.sf.jasperreports.engine.export.FlashPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
+import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
@@ -148,10 +149,16 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				{
 					return new SortElementHtmlHandler();
 				}
-				if (HeaderToolbarElement.ELEMENT_NAME.equals(elementName) 
-						&& JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
+				if (HeaderToolbarElement.ELEMENT_NAME.equals(elementName))
 				{
-					return new HeaderToolbarElementHtmlHandler();
+					if (JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
+					{
+						return new HeaderToolbarElementHtmlHandler();
+					} 
+					else if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
+					{
+						return new net.sf.jasperreports.components.headertoolbar.htmlv2.HeaderToolbarElementHtmlHandler();
+					}
 				}
 				return null;
 			}

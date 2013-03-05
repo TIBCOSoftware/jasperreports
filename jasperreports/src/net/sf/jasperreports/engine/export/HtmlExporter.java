@@ -626,7 +626,7 @@ public class HtmlExporter extends JRAbstractExporter
 		CellElementVisitor elementVisitor = new CellElementVisitor();
 		TableVisitor tableVisitor = new TableVisitor(tabulator, elementVisitor);
 		
-		exportTable(tableVisitor, table, isWhitePageBackground);
+		exportTable(tableVisitor, table, isWhitePageBackground, true);
 		
 		if (isWhitePageBackground)
 		{
@@ -634,7 +634,7 @@ public class HtmlExporter extends JRAbstractExporter
 		}
 	}
 
-	protected void exportTable(TableVisitor tableVisitor, Table table, boolean whiteBackground) throws IOException
+	protected void exportTable(TableVisitor tableVisitor, Table table, boolean whiteBackground, boolean isMainReportTable) throws IOException
 	{
 		SortedSet<Column> columns = table.getColumns().getUserEntries();
 		SortedSet<Row> rows = table.getRows().getUserEntries();
@@ -645,8 +645,14 @@ public class HtmlExporter extends JRAbstractExporter
 		}
 		
 		int totalWidth = columns.last().getEndCoord() - columns.first().getStartCoord();
-		
-		writer.write("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; border-collapse: collapse; width: ");
+
+		if (isMainReportTable)
+		{
+			writer.write("<table class=\"jrPage\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; border-collapse: collapse; width: ");
+		} else
+		{
+			writer.write("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; border-collapse: collapse; width: ");
+		}
 		writer.write(toSizeUnit(totalWidth));
 		writer.write(";");
 		if (whiteBackground)
@@ -1341,7 +1347,7 @@ public class HtmlExporter extends JRAbstractExporter
 			writer.write(layerStyleBuffer.toString());
 			writer.write("\">\n");
 
-			exportTable(tableVisitor, table, false);
+			exportTable(tableVisitor, table, false, false);
 			writer.write("</div>\n");
 		}
 		
