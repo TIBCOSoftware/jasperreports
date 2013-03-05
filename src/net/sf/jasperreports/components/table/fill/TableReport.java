@@ -592,21 +592,21 @@ public class TableReport implements JRReport
 		{
 			int columnIndex = TableUtil.getColumnIndex(column, table);
 			
+			Cell header = column.getColumnHeader();
+			
+			JRDesignGenericElement genericElement = new JRDesignGenericElement(header.getDefaultStyleProvider());
+
+			genericElement.setGenericType(HeaderToolbarElement.ELEMENT_TYPE);
+			genericElement.setPositionType(net.sf.jasperreports.engine.type.PositionTypeEnum.FIX_RELATIVE_TO_TOP);
+			genericElement.setX(0);
+			genericElement.setY(0);
+			genericElement.setHeight(frame.getHeight());
+			genericElement.setWidth(frame.getWidth());
+			genericElement.setMode(ModeEnum.TRANSPARENT);
+			genericElement.setStretchType(StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT);
+			
 			if (sortTextField != null)
 			{
-				Cell header = column.getColumnHeader();
-	
-				JRDesignGenericElement genericElement = new JRDesignGenericElement(header.getDefaultStyleProvider());
-	
-				genericElement.setGenericType(HeaderToolbarElement.ELEMENT_TYPE);
-				genericElement.setPositionType(net.sf.jasperreports.engine.type.PositionTypeEnum.FIX_RELATIVE_TO_TOP);
-				genericElement.setX(0);
-				genericElement.setY(0);
-				genericElement.setHeight(0);
-				genericElement.setWidth(0);
-				genericElement.setMode(ModeEnum.TRANSPARENT);
-				genericElement.setStretchType(StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT);
-				
 				String fieldOrVariableName = null;
 				SortFieldTypeEnum columnType = null;
 				FilterTypesEnum filterType = null;
@@ -752,7 +752,7 @@ public class TableReport implements JRReport
 				
 				String columnName = fieldOrVariableName != null ? fieldOrVariableName : String.valueOf(columnIndex);
 				String popupId = column.getUUID().toString();//columnName + "_" + column.hashCode();
-				String popupColumn = columnName + "_" + columnIndex;
+				String popupColumn = columnName + "_" + column.hashCode();
 				
 				if (firstColumn.compareAndSet(false, true)) {
 					// only setting on the first column to save memory
@@ -770,6 +770,11 @@ public class TableReport implements JRReport
 				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrcolHeader header_" + columnName + "_" + column.hashCode() + (interactiveColumn ? " interactiveElement" : ""));
 				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_ID, popupId);
 				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN, popupColumn);
+
+				// for html exporter
+				genericElement.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrcolHeader header_" + columnName + "_" + column.hashCode() + (interactiveColumn ? " interactiveElement" : ""));
+				genericElement.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_ID, popupId);
+				genericElement.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN, popupColumn);
 				
 				headerClasses.put(column.hashCode(), TableReport.HTML_CLASS_COLUMN + " " + TableReport.HTML_CLASS_COLUMN_PREFIX + popupColumn );
 				
@@ -777,11 +782,16 @@ public class TableReport implements JRReport
 			} else 
 			{
 				String columnName = String.valueOf(columnIndex);
-				String popupColumn = columnName + "_" + columnIndex;
+				String popupColumn = columnName + "_" + column.hashCode();
 				
 				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrcolHeader header_" + columnName + "_" + column.hashCode());
 				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_ID, column.getUUID().toString());
 				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN, popupColumn);
+
+				// for html exporter
+				genericElement.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrcolHeader header_" + columnName + "_" + column.hashCode());
+				genericElement.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_ID, column.getUUID().toString());
+				genericElement.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN, popupColumn);
 			}
 		}
 		

@@ -41,8 +41,8 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
-import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.web.JRInteractiveException;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.actions.AbstractAction;
@@ -227,7 +227,8 @@ public class ReportServlet extends AbstractServlet
 		//boolean hasPages = pageCount == null || pageCount > 0;//FIXMEJIVE we should call pageStatus here
 		boolean hasPages = jasperPrintAccessor.pageStatus(0, null).pageExists();
 		
-		JRXhtmlExporter exporter = new JRXhtmlExporter(getJasperReportsContext());
+//		JRXhtmlExporter exporter = new JRXhtmlExporter(getJasperReportsContext());
+		HtmlExporter exporter = new HtmlExporter(getJasperReportsContext());
 
 		ReportPageStatus pageStatus;
 		if (hasPages)
