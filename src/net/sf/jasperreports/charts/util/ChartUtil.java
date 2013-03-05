@@ -50,10 +50,12 @@ import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.axis.TickUnit;
 import org.jfree.chart.axis.TickUnitSource;
 import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.entity.EntityCollection;
+import org.jfree.data.Range;
 
 
 /**
@@ -68,6 +70,9 @@ public final class ChartUtil
 	@SuppressWarnings("deprecation")
 	private static final JRSingletonCache<ChartRendererFactory> CHART_RENDERER_FACTORY_CACHE = 
 			new JRSingletonCache<ChartRendererFactory>(ChartRendererFactory.class);
+	
+	protected static final double AUTO_TICK_UNIT_THRESHOLD = 1e12;
+	protected static final double AUTO_TICK_UNIT_FACTOR = 1000d;
 
 	private JasperReportsContext jasperReportsContext;
 
@@ -349,5 +354,21 @@ public final class ChartUtil
 		units.add(new NumberTickUnit(5000000000000000000L, format));
         
         return units;
+	}
+	
+	public void setAutoTickUnit(NumberAxis numberAxis)
+	{
+		if (numberAxis.isAutoTickUnitSelection())
+		{
+			Range range = numberAxis.getRange();
+			if (range.getLength() >= AUTO_TICK_UNIT_THRESHOLD)
+			{
+				// this is a workaround for a floating point error makes JFreeChart
+				// select tick units that are too small when the values are very large
+				double autoSize = range.getLength() / AUTO_TICK_UNIT_THRESHOLD;
+				TickUnit unit = numberAxis.getStandardTickUnits().getCeilingTickUnit(autoSize);
+				numberAxis.setTickUnit((NumberTickUnit) unit, false, false);
+			}
+		}
 	}
 }

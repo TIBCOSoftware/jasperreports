@@ -2681,7 +2681,9 @@ public class GenericChartTheme implements ChartTheme
 			
 			if(axisIntegerUnit)
 			{
-				numberAxis.setStandardTickUnits(ChartUtil.getInstance(getChartContext().getJasperReportsContext()).createIntegerTickUnits());
+				ChartUtil chartUtil = ChartUtil.getInstance(getChartContext().getJasperReportsContext());
+				numberAxis.setStandardTickUnits(chartUtil.createIntegerTickUnits());
+				chartUtil.setAutoTickUnit(numberAxis);
 			}
 			else if(axisRange > 0)
 			{
@@ -2729,7 +2731,9 @@ public class GenericChartTheme implements ChartTheme
 				}
 				else
 				{
-					numberAxis.setStandardTickUnits(ChartUtil.getInstance(getChartContext().getJasperReportsContext()).createStandardTickUnits());
+					ChartUtil chartUtil = ChartUtil.getInstance(getChartContext().getJasperReportsContext());
+					numberAxis.setStandardTickUnits(chartUtil.createStandardTickUnits());
+					chartUtil.setAutoTickUnit(numberAxis);
 				}
 			}
 		}
