@@ -779,6 +779,17 @@ public class JRDesignDataset extends JRBaseDataset
 
 	
 	/**
+	 * Returns the map of sort fields indexed by name and type.
+	 * 
+	 * @return {@link JRField JRField} objects indexed by name
+	 */
+	public Map<String, JRSortField> getSortFieldsMap()
+	{
+		return sortFieldsMap;
+	}
+
+	
+	/**
 	 * Adds a sort field to the dataset.
 	 * @param sortField the sort field to add
 	 * @throws JRException
