@@ -2166,7 +2166,9 @@ public class DefaultChartTheme implements ChartTheme
 			
 			if(axisIntegerUnit)
 			{
-				numberAxis.setStandardTickUnits(ChartUtil.getInstance(chartContext.getJasperReportsContext()).createIntegerTickUnits());
+				ChartUtil chartUtil = ChartUtil.getInstance(chartContext.getJasperReportsContext());
+				numberAxis.setStandardTickUnits(chartUtil.createIntegerTickUnits());
+				chartUtil.setAutoTickUnit(numberAxis);
 			}
 			else if(axisRange > 0)
 			{
@@ -2194,7 +2196,9 @@ public class DefaultChartTheme implements ChartTheme
 				}
 				else
 				{
-					numberAxis.setStandardTickUnits(ChartUtil.getInstance(chartContext.getJasperReportsContext()).createStandardTickUnits());
+					ChartUtil chartUtil = ChartUtil.getInstance(chartContext.getJasperReportsContext());
+					numberAxis.setStandardTickUnits(chartUtil.createStandardTickUnits());
+					chartUtil.setAutoTickUnit(numberAxis);
 				}
 			}
 		}

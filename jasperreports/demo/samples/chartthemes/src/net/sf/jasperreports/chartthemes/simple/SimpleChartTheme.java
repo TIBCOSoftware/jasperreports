@@ -2890,7 +2890,9 @@ public class SimpleChartTheme implements ChartTheme
 			int axisRange = (int)numberAxis.getRange().getLength();
 			if(axisIntegerUnit)
 			{
-				numberAxis.setStandardTickUnits(ChartUtil.getInstance(getChartContext().getJasperReportsContext()).createIntegerTickUnits());
+				ChartUtil chartUtil = ChartUtil.getInstance(getChartContext().getJasperReportsContext());
+				numberAxis.setStandardTickUnits(chartUtil.createIntegerTickUnits());
+				chartUtil.setAutoTickUnit(numberAxis);
 			}
 			else if(axisRange > 0)
 			{
@@ -2918,7 +2920,9 @@ public class SimpleChartTheme implements ChartTheme
 				}
 				else
 				{
-					numberAxis.setStandardTickUnits(ChartUtil.getInstance(getChartContext().getJasperReportsContext()).createStandardTickUnits());
+					ChartUtil chartUtil = ChartUtil.getInstance(getChartContext().getJasperReportsContext());
+					numberAxis.setStandardTickUnits(chartUtil.createStandardTickUnits());
+					chartUtil.setAutoTickUnit(numberAxis);
 				}
 			}
 		}
