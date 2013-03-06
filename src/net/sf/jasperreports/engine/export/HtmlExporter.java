@@ -1330,7 +1330,7 @@ public class HtmlExporter extends JRAbstractExporter
 		
 		// layers need to always specify backcolors
 		setBackcolor(null);
-		writer.write("<div style=\"width: 100%; height: 100%;\">\n");
+		writer.write("<div style=\"width: 100%; height: 100%; position: relative;\">\n");
 		
 		for (Iterator<Table> it = layers.iterator(); it.hasNext();)
 		{
