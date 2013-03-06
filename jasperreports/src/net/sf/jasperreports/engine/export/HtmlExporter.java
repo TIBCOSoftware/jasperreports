@@ -47,6 +47,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.SortedSet;
 
+import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -1372,6 +1373,21 @@ public class HtmlExporter extends JRAbstractExporter
 		if (clazz != null)
 		{
 			writer.write(" class=\"" + clazz +"\"");
+		}
+		String popupId = getCellProperty(element, cell, JRHtmlExporter.PROPERTY_HTML_POPUP_ID);
+		if (popupId != null)
+		{
+			writer.write(" data-popupId=\"" + popupId + "\"");
+		}
+		String popupColumn = getCellProperty(element, cell, JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN);
+		if (popupColumn != null)
+		{
+			writer.write(" data-popupColumn=\"" + popupColumn + "\"");
+		}
+		String tableUuid = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_TABLE_UUID);
+		if (tableUuid != null)
+		{
+			writer.write(" data-tableuuid=\"" + tableUuid + "\"");
 		}
 	}
 	

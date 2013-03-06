@@ -107,7 +107,7 @@ jQuery.extend(jive, {
             jive.selectors[o.selector] = o.type;
             jQuery('table.jrPage').on('click touchend',o.selector,function(evt){
             	// keep html links functional
-            	if(jQuery(evt.target).closest('a').size() == 0) {
+            	if(!jQuery(evt.target).parent().is('a')) {
             		var jo = jQuery(this);
             		jive.selectInteractiveElement(jo);
             		return false;
@@ -118,7 +118,7 @@ jQuery.extend(jive, {
             jive.selectors[o.proxySelector] = o.type;
             jQuery('table.jrPage').on('click touchend',o.proxySelector,function(evt){
             	// keep html links functional
-            	if(jQuery(evt.target).closest('a').size() == 0) {
+            	if(!jQuery(evt.target).parent().is('a')) {
             		var jo = jive.interactive[o.type].getInteractiveElementFromProxy(jQuery(this));
             		jive.selectInteractiveElement(jo);
             		return false;

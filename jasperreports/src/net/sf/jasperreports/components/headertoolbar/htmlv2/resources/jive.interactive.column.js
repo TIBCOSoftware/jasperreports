@@ -92,7 +92,7 @@ jive.interactive.column = jive.interactive.column || {
 //            	uuid: c.data('popupid')
 //            });
 //        });
-        jQuery("table.jrPage").find('div.jrcolHeader[data-tableuuid=' + tableUuid + ']').each(function(i){
+        jQuery("table.jrPage").find('td.jrcolHeader[data-tableuuid=' + tableUuid + ']').each(function(i){
         	c = jQuery(this);
         	lt = c.offset().left;
         	colData = it.getColumnByUuid(c.data('popupid'), tableUuid);
@@ -146,24 +146,41 @@ jive.interactive.column = jive.interactive.column || {
     	}
     	return null;
     },
-    getInteractiveElementFromProxy: function(cell){
-        var clss = cell.attr('class').split(' ');
-        return cell.parent().find('div[data-popupcolumn="' + clss[1].substring(4) + '"]');
+    getInteractiveElementFromProxy: function(cellJo){
+        var classes = cellJo.attr('class').split(' '),
+        	headerSel = 'td[data-popupcolumn="' + classes[1].substring(4) + '"]',
+        	headerJo = null;
+        
+        cellJo.parents().each(function(i, v) {
+        	headerJo = jQuery(headerSel, v);
+        	if (headerJo && headerJo.length > 0) {
+        		return false;	// break each
+        	}
+        });
+        
+        return headerJo;
     },
     getElementSize: function(){
-        var jo = jive.selected.jo;
-        var h;
-        var cid = jo.data('popupColumn') || jo.data('popupcolumn');
+        var jo = jive.selected.jo,
+        	cid = jo.data('popupColumn') || jo.data('popupcolumn'),
+        	h = null;
+        
         cid = ('' + cid).replace(/\./g,'\\.');
-//        var lastCell = jQuery('.col_' + cid + ':last', jo.closest('.jrtableframe'));
-        var lastCell = jQuery('.col_' + cid + ':last');
-        if(lastCell && lastCell.length > 0) {
-            var lastElemTop = lastCell.offset().top;
-            var lastElemHeight = lastCell.height();
-            h = lastElemTop + lastElemHeight - jo.offset().top;
-        } else {
+        
+        jo.parents().each(function(i, v) {
+        	var lastCell = jQuery('td.col_' + cid + ':last', v);
+            if(lastCell && lastCell.length > 0) {
+                var lastElemTop = lastCell.offset().top;
+                var lastElemHeight = lastCell.height();
+                h = lastElemTop + lastElemHeight - jo.offset().top;
+                return false; // break each
+            }
+        });
+        
+        if (h === null) {
         	h = jo.height();
         }
+        
         return {w:jo.width(),h:h};
     },
     onSelect: function(){

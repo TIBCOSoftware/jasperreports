@@ -1,6 +1,3 @@
-<div style="position: relative">
-	<div class="${htmlClass}" data-popupId="${htmlPopupId}" data-popupColumn="${htmlPopupColumn}" data-tableuuid="${tableUUID}" style="position: absolute; left: ${elementX}px; top: ${elementY}px; width: ${elementWidth}px; height: ${elementHeight}px"></div>
-</div>
 #if (!${templateAlreadyLoaded})
 <script class='jasperreports'>
     jasperreports.global.appendScriptElementToDOM('_jiveColumnI18n', '${jiveColumnI18n_js}');
@@ -200,8 +197,8 @@
 	#else
 		canSort: true,
 		headerToolbar: {
-		    sortAscBtn: {sortData: '{"actionName":"sort","sortData":${sortAscData}}'},
-		    sortDescBtn: {sortData: '{"actionName":"sort","sortData":${sortDescData}}'}
+		    sortAscBtn: {sortData: {"actionName":"sort","sortData":${sortAscData}}},
+		    sortDescBtn: {sortData: {"actionName":"sort","sortData":${sortDescData}}}
 		},
 	#end
 	#if (!${canFilter})
