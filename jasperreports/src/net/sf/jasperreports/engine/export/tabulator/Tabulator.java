@@ -387,7 +387,7 @@ public class Tabulator
 	protected Pair<Column, Column> getColumnSpanRange(Table table, Column col, Row row, Cell spanned)
 	{
 		Column startCol = col;
-		for (Column headCol : table.columns.getEntries().headSet(col))
+		for (Column headCol : table.columns.getEntries().headSet(col, false).descendingSet())
 		{
 			Cell headCell = row.getCell(headCol);
 			if (headCell == null || !spanned.accept(spanRangeCheck, headCell))
@@ -416,7 +416,7 @@ public class Tabulator
 	protected Pair<Row, Row> getRowSpanRange(Table table, Column col, Row row, Cell spanned)
 	{
 		Row startRow = row;
-		for (Row headRow : table.rows.getEntries().headSet(row))
+		for (Row headRow : table.rows.getEntries().headSet(row, false).descendingSet())
 		{
 			Cell headCell = headRow.getCell(col);
 			if (headCell == null || !spanned.accept(spanRangeCheck, headCell))
