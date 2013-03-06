@@ -1361,19 +1361,38 @@ public class HtmlExporter extends JRAbstractExporter
 	{
 		startCell(cell);
 
+		String id = getCellProperty(element, cell, JRHtmlExporter.PROPERTY_HTML_ID);
+		if (id != null)
+		{
+			writer.write(" id=\"" + id +"\"");
+		}
+		String clazz = getCellProperty(element, cell, JRHtmlExporter.PROPERTY_HTML_CLASS);
+		if (clazz != null)
+		{
+			writer.write(" class=\"" + clazz +"\"");
+		}
+	}
+	
+	protected String getCellProperty(JRPrintElement element, TableCell cell, String key)
+	{
+		String property = null;
 		if (element != null)
 		{
-			String id = getPropertiesUtil().getProperty(element, JRHtmlExporter.PROPERTY_HTML_ID);
-			if (id != null)
+			property = getPropertiesUtil().getProperty(element, key);
+		}
+		
+		if (property == null)
+		{
+			Tabulator tabulator = cell.getTabulator();
+			for (FrameCell parentCell = cell.getCell().getParent(); 
+					parentCell != null && property == null;
+					parentCell = parentCell.getParent())
 			{
-				writer.write(" id=\"" + id +"\"");
-			}
-			String clazz = getPropertiesUtil().getProperty(element, JRHtmlExporter.PROPERTY_HTML_CLASS);
-			if (clazz != null)
-			{
-				writer.write(" class=\"" + clazz +"\"");
+				JRPrintElement parentElement = tabulator.getCellElement(parentCell);
+				property = getPropertiesUtil().getProperty(parentElement, key);
 			}
 		}
+		return property;
 	}
 	
 	protected void startCell(TableCell cell) throws IOException
@@ -1417,7 +1436,7 @@ public class HtmlExporter extends JRAbstractExporter
 	
 	protected void writeFrameCell(TableCell cell) throws IOException
 	{
-		startCell(cell);
+		startCell(cell.getElement(), cell);
 		
 		StringBuilder styleBuffer = new StringBuilder();
 		appendBackcolorStyle(cell, styleBuffer);
