@@ -638,7 +638,7 @@ public class Tabulator
 		return mainTable;
 	}
 	
-	protected JRPrintElement getCellElement(BaseElementCell cell)
+	public JRPrintElement getCellElement(BaseElementCell cell)
 	{
 		return getCellElement(cell.getParentIndex(), cell.getElementIndex());
 	}
@@ -920,7 +920,7 @@ public class Tabulator
 			JRLineBox elementBox = (element instanceof JRBoxContainer) ? ((JRBoxContainer) element).getLineBox() : null;
 			JRLineBox box = copyParentBox(cell, element, elementBox, true, true, true, true);
 			
-			TableCell tableCell = new TableCell(position, cell, element, colSpan, rowSpan, backcolor, box);
+			TableCell tableCell = new TableCell(Tabulator.this, position, cell, element, colSpan, rowSpan, backcolor, box);
 			return tableCell;
 		}
 
@@ -942,7 +942,7 @@ public class Tabulator
 					position.getRow(), position.getRow());
 			JRLineBox box = copyFrameBox(frameCell, (JRPrintFrame) element, null, borders[0], borders[1], borders[2], borders[3]);
 			
-			return new TableCell(position, frameCell, element, 1, 1, backcolor, box);
+			return new TableCell(Tabulator.this, position, frameCell, element, 1, 1, backcolor, box);
 		}
 
 		@Override
@@ -966,7 +966,7 @@ public class Tabulator
 				}
 			}
 			
-			return new TableCell(position, layeredCell, null, colSpanPair.first(), rowSpanPair.first(), backcolor, box);
+			return new TableCell(Tabulator.this, position, layeredCell, null, colSpanPair.first(), rowSpanPair.first(), backcolor, box);
 		}
 		
 		protected Color getElementBackcolor(BaseElementCell cell)

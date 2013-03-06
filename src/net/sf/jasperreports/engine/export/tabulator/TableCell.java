@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
  */
 public class TableCell
 {
+	private final Tabulator tabulator;
 	private final TablePosition position;
 	private final Cell cell;
 	private final JRPrintElement element;
@@ -43,9 +44,11 @@ public class TableCell
 	private Color backcolor;
 	private JRLineBox box;
 	
-	public TableCell(TablePosition position, Cell cell, JRPrintElement element,
+	public TableCell(Tabulator tabulator, 
+			TablePosition position, Cell cell, JRPrintElement element,
 			int colSpan, int rowSpan, Color backcolor, JRLineBox box)
 	{
+		this.tabulator = tabulator;
 		this.position = position;
 		this.cell = cell;
 		this.element = element;
@@ -54,6 +57,16 @@ public class TableCell
 		this.rowSpan = rowSpan;
 		this.backcolor = backcolor;
 		this.box = box;
+	}
+
+	public Tabulator getTabulator()
+	{
+		return tabulator;
+	}
+
+	public Cell getCell()
+	{
+		return cell;
 	}
 
 	public TablePosition getPosition()
