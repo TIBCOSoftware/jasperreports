@@ -459,8 +459,8 @@ public class Tabulator
 				if (layerCell != null)
 				{
 					// determine how much the original cell spans
-					Column lastColSpan = getColumnCellSpan(colRange.rangeSet, column, row, cell).second();
-					Row lastRowSpan = getRowCellSpan(rowRange.rangeSet, column, row, cell).second();
+					Column lastColSpan = getColumnCellSpan(colRange.rangeSet, column, row, cell).lastEntry;
+					Row lastRowSpan = getRowCellSpan(rowRange.rangeSet, column, row, cell).lastEntry;
 					
 					// create ranges in the layer table
 					DimensionRange<Column> cellColRange = layerTable.columns.getRange(
@@ -669,13 +669,13 @@ public class Tabulator
 		return child.accept(parentCheck, parent);
 	}
 
-	protected Pair<Integer, Column> getColumnCellSpan(TablePosition position, Cell cell)
+	protected SpanInfo<Column> getColumnCellSpan(TablePosition position, Cell cell)
 	{
 		return getColumnCellSpan(position.getTable().columns.getEntries(), 
 				position.getColumn(), position.getRow(), cell);
 	}
 	
-	protected Pair<Integer, Column> getColumnCellSpan(NavigableSet<Column> columns, Column column, Row row, Cell cell)
+	protected SpanInfo<Column> getColumnCellSpan(NavigableSet<Column> columns, Column column, Row row, Cell cell)
 	{
 		int span = 1;
 		Column lastCol = column;
@@ -689,16 +689,16 @@ public class Tabulator
 			++span;
 			lastCol = tailCol;
 		}
-		return new Pair<Integer, Column>(span, lastCol);
+		return new SpanInfo<Column>(span, lastCol);
 	}
 
-	protected Pair<Integer, Row> getRowCellSpan(TablePosition position, Cell cell)
+	protected SpanInfo<Row> getRowCellSpan(TablePosition position, Cell cell)
 	{
 		return getRowCellSpan(position.getTable().rows.getEntries(), 
 				position.getColumn(), position.getRow(), cell);
 	}
 
-	protected Pair<Integer, Row> getRowCellSpan(NavigableSet<Row> rows, Column column, Row row, Cell cell)
+	protected SpanInfo<Row> getRowCellSpan(NavigableSet<Row> rows, Column column, Row row, Cell cell)
 	{
 		int span = 1;
 		Row lastRow = row;
@@ -712,7 +712,7 @@ public class Tabulator
 			++span;
 			lastRow = tailRow;
 		}
-		return new Pair<Integer, Row>(span, lastRow);
+		return new SpanInfo<Row>(span, lastRow);
 	}
 
 	protected FrameCell droppedParent(FrameCell existingParent, FrameCell parent)
@@ -913,8 +913,8 @@ public class Tabulator
 		public TableCell visit(ElementCell cell, TablePosition position)
 		{
 			JRPrintElement element = getCellElement(cell);
-			int colSpan = getColumnCellSpan(position, cell).first();
-			int rowSpan = getRowCellSpan(position, cell).first();
+			int colSpan = getColumnCellSpan(position, cell).span;
+			int rowSpan = getRowCellSpan(position, cell).span;
 			Color backcolor = getElementBackcolor(cell);
 			
 			JRLineBox elementBox = (element instanceof JRBoxContainer) ? ((JRBoxContainer) element).getLineBox() : null;
@@ -948,8 +948,8 @@ public class Tabulator
 		@Override
 		public TableCell visit(LayeredCell layeredCell, TablePosition position)
 		{
-			Pair<Integer, Column> colSpanPair = getColumnCellSpan(position, layeredCell);
-			Pair<Integer, Row> rowSpanPair = getRowCellSpan(position, layeredCell);
+			SpanInfo<Column> colSpan = getColumnCellSpan(position, layeredCell);
+			SpanInfo<Row> rowSpan = getRowCellSpan(position, layeredCell);
 			Color backcolor = getElementBackcolor(layeredCell.getParent());
 			
 			JRLineBox box = null;
@@ -957,8 +957,8 @@ public class Tabulator
 			if (parentCell != null)
 			{
 				boolean[] borders = getFrameCellBorders(position.getTable(), parentCell,
-						position.getColumn(), colSpanPair.second(),
-						position.getRow(), rowSpanPair.second());
+						position.getColumn(), colSpan.lastEntry,
+						position.getRow(), rowSpan.lastEntry);
 				if (borders[0] || borders[1] || borders[2] || borders[3])
 				{
 					JRPrintFrame parentFrame = (JRPrintFrame) getCellElement(parentCell);
@@ -966,7 +966,7 @@ public class Tabulator
 				}
 			}
 			
-			return new TableCell(Tabulator.this, position, layeredCell, null, colSpanPair.first(), rowSpanPair.first(), backcolor, box);
+			return new TableCell(Tabulator.this, position, layeredCell, null, colSpan.span, rowSpan.span, backcolor, box);
 		}
 		
 		protected Color getElementBackcolor(BaseElementCell cell)
@@ -1039,5 +1039,17 @@ public class Tabulator
 			return resultBox;
 		}
 		
+	}
+	
+	protected static class SpanInfo<T extends DimensionEntry>
+	{
+		protected final int span;
+		protected final T lastEntry;
+		
+		public SpanInfo(int span, T lastEntry)
+		{
+			this.span = span;
+			this.lastEntry = lastEntry;
+		}
 	}
 }
