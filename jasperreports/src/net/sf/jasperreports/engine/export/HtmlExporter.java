@@ -1320,9 +1320,7 @@ public class HtmlExporter extends JRAbstractExporter
 	
 	protected void writeLayers(List<Table> layers, TableVisitor tableVisitor, TableCell cell) throws IOException
 	{
-		int colSpan = cell.getColumnSpan();
-		int rowSpan = cell.getRowSpan();
-		startCell(colSpan, rowSpan);
+		startCell(cell);
 
 		StringBuilder styleBuffer = new StringBuilder();
 		appendBackcolorStyle(cell, styleBuffer);
@@ -1362,7 +1360,7 @@ public class HtmlExporter extends JRAbstractExporter
 
 	protected void startCell(JRPrintElement element, TableCell cell) throws IOException
 	{
-		startCell(cell);
+		startCell(cell.getColumnSpan(), cell.getRowSpan());
 
 		String id = getCellProperty(element, cell, JRHtmlExporter.PROPERTY_HTML_ID);
 		if (id != null)
@@ -1415,7 +1413,7 @@ public class HtmlExporter extends JRAbstractExporter
 	
 	protected void startCell(TableCell cell) throws IOException
 	{
-		startCell(cell.getColumnSpan(), cell.getRowSpan());
+		startCell(cell.getElement(), cell);
 	}
 
 	protected void startCell(int colSpan, int rowSpan) throws IOException
@@ -1454,7 +1452,7 @@ public class HtmlExporter extends JRAbstractExporter
 	
 	protected void writeFrameCell(TableCell cell) throws IOException
 	{
-		startCell(cell.getElement(), cell);
+		startCell(cell);
 		
 		StringBuilder styleBuffer = new StringBuilder();
 		appendBackcolorStyle(cell, styleBuffer);
