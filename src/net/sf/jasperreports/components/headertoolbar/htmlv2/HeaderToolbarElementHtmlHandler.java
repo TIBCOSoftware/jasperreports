@@ -76,7 +76,6 @@ import net.sf.jasperreports.engine.design.JRDesignDatasetRun;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.JREnum;
@@ -184,13 +183,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			}
 			int columnIndex = Integer.parseInt(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX));
 			
-			
-			String htmlClass = element.getPropertiesMap().getProperty(JRHtmlExporter.PROPERTY_HTML_CLASS);
-			String htmlPopupId = element.getPropertiesMap().getProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_ID);
-			String htmlPopupColumn = element.getPropertiesMap().getProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN);
-			
-			
-			
 			Map<String, Object> contextMap = new HashMap<String, Object>();
 			contextMap.put("JRStringUtil", JRStringUtil.class);
 			contextMap.put("tableUUID", tableUUID);
@@ -247,15 +239,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				contextMap.put("backgroundColor", JRColorUtil.getColorHexa(element.getBackcolor()));
 			}
 			
-			contextMap.put("elementX", element.getX());
-			contextMap.put("elementY", element.getY());
-			contextMap.put("elementWidth", element.getWidth());
-			contextMap.put("elementHeight", element.getHeight());
-			
-			contextMap.put("htmlClass", htmlClass);
-			contextMap.put("htmlPopupId", htmlPopupId);
-			contextMap.put("htmlPopupColumn", htmlPopupColumn);
-
 			contextMap.put("popupId", popupId);
 			contextMap.put("columnLabel", columnLabel);
 			contextMap.put("columnIndex", columnIndex);

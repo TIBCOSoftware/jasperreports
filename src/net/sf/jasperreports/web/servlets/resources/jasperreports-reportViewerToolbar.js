@@ -99,7 +99,8 @@
 										currentHref, 
 										params, 
 										jvt.afterReportLoadCallback, 
-										[toolbarId], 
+										[toolbarId],
+										null,
 										false);
 		if (ctx) {
 			ctx.run();
@@ -152,6 +153,7 @@
 										params, 
 										jvt.afterPageUpdateCallback, 
 										[toolbarId, page], 
+										null,
 										true);
 		if (ctx) {
 			ctx.run();
@@ -343,6 +345,7 @@
 									jQuery.parseJSON(jsonParamsObject), // params
 									jvt.afterReportLoadCallback, 		// callback
 									[toolbarId],						// calback args array
+									null,								// this context
 									false);								// is JSON
 		if (ctx) {
 			ctx.run();
