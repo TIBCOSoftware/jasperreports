@@ -644,17 +644,19 @@ public class HtmlExporter extends JRAbstractExporter
 			return;
 		}
 		
-		int totalWidth = columns.last().getEndCoord() - columns.first().getStartCoord();
 
 		if (isMainReportTable)
 		{
+			int totalWidth = columns.last().getEndCoord() - columns.first().getStartCoord();
 			writer.write("<table class=\"jrPage\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; border-collapse: collapse; width: ");
-		} else
-		{
-			writer.write("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; border-collapse: collapse; width: ");
+			writer.write(toSizeUnit(totalWidth));
+			writer.write(";");
 		}
-		writer.write(toSizeUnit(totalWidth));
-		writer.write(";");
+		else
+		{
+			writer.write("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; border-collapse: collapse; width: 100%;");
+		}
+		
 		if (whiteBackground)
 		{
 			writer.write(" background-color: white;");
@@ -1338,7 +1340,7 @@ public class HtmlExporter extends JRAbstractExporter
 			
 			StringBuilder layerStyleBuffer = new StringBuilder();
 			if (it.hasNext()) {
-				layerStyleBuffer.append("position: absolute; overflow: hidden;");
+				layerStyleBuffer.append("position: absolute; overflow: hidden; width: 100%; height: 100%;");
 			} else {
 				layerStyleBuffer.append("position: relative;");
 			}
