@@ -126,6 +126,17 @@ public class HtmlExporter extends JRAbstractExporter
 	
 	public static final String PROPERTY_IGNORE_HYPERLINK = HTML_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
+	/**
+	 * Property that provides the value for the <code>border-collapse</code> CSS property to be applied
+	 * to the table generated for the report.
+	 * 
+	 * <p>
+	 * The property can be set globally and at report level.  It defaults to <code>collapse</code>.
+	 * </p>
+	 */
+	public static final String PROPERTY_BORDER_COLLAPSE = 
+			JRPropertiesUtil.PROPERTY_PREFIX + "export.html.border.collapse";
+
 	protected static final float DEFAULT_ZOOM = 1f;
 
 	public static final String IMAGE_NAME_PREFIX = "img_";
@@ -168,6 +179,7 @@ public class HtmlExporter extends JRAbstractExporter
 	
 	protected String encoding;
 	
+	protected String borderCollapse;
 	protected boolean isWhitePageBackground;
 	protected boolean isWrapBreakWord;
 	protected boolean isIgnorePageMargins;
@@ -258,6 +270,9 @@ public class HtmlExporter extends JRAbstractExporter
 					JRHtmlExporterParameter.PROPERTY_WHITE_PAGE_BACKGROUND,
 					true
 					);
+			
+			borderCollapse = getPropertiesUtil().getProperty(
+					jasperPrint.getPropertiesMap(), PROPERTY_BORDER_COLLAPSE);
 	
 			Boolean isOutputImagesToDirParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR);
 			if (isOutputImagesToDirParameter != null)
@@ -649,13 +664,20 @@ public class HtmlExporter extends JRAbstractExporter
 		if (isMainReportTable)
 		{
 			int totalWidth = columns.last().getEndCoord() - columns.first().getStartCoord();
-			writer.write("<table class=\"jrPage\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; border-collapse: collapse; width: ");
+			writer.write("<table class=\"jrPage\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: ");
 			writer.write(toSizeUnit(totalWidth));
 			writer.write(";");
 		}
 		else
 		{
-			writer.write("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; border-collapse: collapse; width: 100%;");
+			writer.write("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: 100%;");
+		}
+		
+		if (borderCollapse != null)
+		{
+			writer.write(" border-collapse: ");
+			writer.write(borderCollapse);
+			writer.write(";");
 		}
 		
 		if (whiteBackground)
