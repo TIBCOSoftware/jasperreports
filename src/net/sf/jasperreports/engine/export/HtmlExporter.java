@@ -1911,7 +1911,7 @@ public class HtmlExporter extends JRAbstractExporter
 		return target;
 	}
 
-	protected String toSizeUnit(int size)
+	public String toSizeUnit(int size)
 	{
 		return String.valueOf(toZoom(size)) + sizeUnit;
 	}
