@@ -29,7 +29,7 @@ jive.interactive.column = jive.interactive.column || {
     delta: null,
 
     init: function(allColumns, tableUuid){
-        var tablesWithSameUuid,t,c,colData,lt,i,j,it = this;
+        var c,i,it = this, tableCols = [], colData;
         it.allColumns[tableUuid] = allColumns;
         /*
          * Load dynamic form data
@@ -53,47 +53,28 @@ jive.interactive.column = jive.interactive.column || {
             it.formatHeaderForm.elements[0][1][1].values.push([v,v]);
             it.formatCellsForm.elements[0][0][1].values.push([v,v]);
         });
+
         /*
          * Compute drop boundaries (x-axis only) for DnD visual feedback.
          */
         it.dropPoints[tableUuid] = [];
         it.visibleColumnsMoveData[tableUuid] = [];
         it.dropColumns[tableUuid] = [];
-
-//        tablesWithSameUuid = jQuery('.jrtableframe[data-uuid=' + tableUuid + ']');
         
-        /*
-         * A table in detail band(or table in subreport in detail band) would have the same UUID for all iterations,
-         * so we would need the first table that actually has columns in it 
-         */
-//        if (tablesWithSameUuid.size() == 1) {
-//        	t = tablesWithSameUuid.eq(0);
-//        } else if (tablesWithSameUuid.size() > 1) {
-//        	for (i = 0; i < tablesWithSameUuid.size(); i++) {
-//        		t = tablesWithSameUuid.eq(i);
-//        		if (t.find('.jrcolHeader').size() > 0) break;
-//        	}
-//        }
+        var firstColumnHeader = jQuery("table.jrPage").find('td.jrcolHeader[data-tableuuid=' + tableUuid + ']:first');
+        firstColumnHeader.parents('table').each(function(i, v) {
+        	tableCols = jQuery(v).find('td.jrcolHeader[data-tableuuid=' + tableUuid + ']');
+        	if (tableCols.size() > 0) {
+        		return false; //break each
+        	}
+        });
         
-//        t.find('.jrcolHeader').each(function(i){
-//            c = jQuery(this);
-//            lt = c.offset().left;
-//            colData = it.getColumnByUuid(c.data('popupid'), tableUuid);
-//            if (colData != null) {
-//            	colData.visible = true;	// enable column
-//            }
-//            it.dropColumns[tableUuid].push('col_'+c.data('popupcolumn'));
-//            it.dropPoints[tableUuid].push(lt);
-//            it.visibleColumnsMoveData[tableUuid].push({
-//            	left: lt,
-//            	right: lt + c.width(),
-//            	width: c.width(),
-//            	index: colData != null ? colData.index : null,
-//            	uuid: c.data('popupid')
-//            });
-//        });
-        jQuery("table.jrPage").find('td.jrcolHeader[data-tableuuid=' + tableUuid + ']').each(function(i){
-        	c = jQuery(this);
+    	tableCols.sort(function(col1,col2) {
+    		return jQuery(col1).data('colidx')-jQuery(col2).data('colidx');
+    	});
+    	
+        tableCols.each(function(i, v) {
+        	c = jQuery(v);
         	lt = c.offset().left;
         	colData = it.getColumnByUuid(c.data('popupid'), tableUuid);
         	if (colData != null) {
@@ -117,6 +98,7 @@ jive.interactive.column = jive.interactive.column || {
         }
         markers.push(it.dropPoints[tableUuid][i]);
         it.dropPoints[tableUuid] = markers;
+        
         /*
          * Create show column menu
          */
@@ -129,7 +111,7 @@ jive.interactive.column = jive.interactive.column || {
            	it.allColumnsNo ++;
         }
         it.count = it.dropColumns[tableUuid].length;
-        
+		
         /*
          * Reset foobar
          */
@@ -189,7 +171,7 @@ jive.interactive.column = jive.interactive.column || {
         	pmenu = jive.ui.foobar.menus.column.showColumns.jo,
         	tableUuid = jive.selected.jo.data('tableuuid'),
         	allColumns = it.allColumns[tableUuid];
-
+        
         if(it.count == 1) {
             jive.ui.foobar.menus.column.format.jo.find('li').eq(1).hide();
             jive.ui.overlay.jo.draggable('option','disabled',true);

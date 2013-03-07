@@ -1409,6 +1409,11 @@ public class HtmlExporter extends JRAbstractExporter
 		{
 			writer.write(" data-tableuuid=\"" + tableUuid + "\"");
 		}
+		String columnIndex = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_COLUMN_INDEX);
+		if (columnIndex != null)
+		{
+			writer.write(" data-colidx=\"" + columnIndex + "\"");
+		}
 	}
 	
 	protected String getCellProperty(JRPrintElement element, TableCell cell, String key)
