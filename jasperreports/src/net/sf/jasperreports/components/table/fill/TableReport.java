@@ -775,7 +775,7 @@ public class TableReport implements JRReport
 
 				headerClasses.put(column.hashCode(), TableReport.HTML_CLASS_COLUMN + " " + TableReport.HTML_CLASS_COLUMN_PREFIX + popupColumn );
 				
-				frame.addElement(genericElement);
+				frame.addElement(0, genericElement);
 			} else 
 			{
 				String columnName = String.valueOf(columnIndex);
