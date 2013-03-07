@@ -83,7 +83,7 @@ public interface JRCrosstabGroup extends JRCloneable
 	 * <p>
 	 * The size of the header cell is computed based on the following rules
 	 * (only the row header rules are listed, the ones for columns can be
-	 * deducted by simmetrical duality):
+	 * deducted by symmetrical duality):
 	 * <ul>
 	 * 	<li>the width of the header is given by {@link JRCrosstabRowGroup#getWidth() JRCrosstabRowGroup.getWidth()}</li>
 	 * 	<li>the height of the last row group header is given by the height of the base cell</li>
