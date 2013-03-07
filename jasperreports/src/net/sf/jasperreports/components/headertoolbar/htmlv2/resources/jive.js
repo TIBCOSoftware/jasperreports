@@ -240,7 +240,11 @@ jive.ui.overlay = {
         });
     },
     show: function(dim){
-        !this.jo && this.setElement('#jive_overlay');
+    	var isFirstTimeSelection = false;
+    	if (!this.jo) {
+    		this.setElement('#jive_overlay');
+    		isFirstTimeSelection = true;
+    	}
         this.jo.css({
             width: dim.w * jive.ui.scaleFactor,
             height: dim.h
@@ -249,6 +253,9 @@ jive.ui.overlay = {
             });
         this.jo.appendTo('table.jrPage').show();
         this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top',collision:'none'});
+        
+        // on first time selection the overlay need to be repositioned to be correctly aligned  
+        isFirstTimeSelection && this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top',collision:'none'});
     }
 };
 
