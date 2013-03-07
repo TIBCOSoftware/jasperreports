@@ -1290,6 +1290,7 @@ public class JRExpressionCollector
 				//order by expression is in the crosstab context
 				crosstabCollector.addExpression(bucket.getOrderByExpression());
 				addExpression(bucket.getComparatorExpression());
+				crosstabCollector.collect(columnGroup.getCrosstabHeader());
 				crosstabCollector.collect(columnGroup.getHeader());
 				crosstabCollector.collect(columnGroup.getTotalHeader());
 				crosstabCollector.popContextObject();

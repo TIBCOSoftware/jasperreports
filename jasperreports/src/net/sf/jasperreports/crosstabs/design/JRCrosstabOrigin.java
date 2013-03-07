@@ -43,6 +43,7 @@ public class JRCrosstabOrigin implements Serializable
 	public static final byte TYPE_ROW_GROUP_TOTAL_HEADER = 4;
 	public static final byte TYPE_COLUMN_GROUP_HEADER = 5;
 	public static final byte TYPE_COLUMN_GROUP_TOTAL_HEADER = 6;
+	public static final byte TYPE_COLUMN_GROUP_CROSSTAB_HEADER = 8;
 	public static final byte TYPE_DATA_CELL = 7;
 
 	private final JRDesignCrosstab crosstab;

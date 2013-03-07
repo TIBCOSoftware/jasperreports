@@ -3233,7 +3233,14 @@ public class JRApiWriter
 			write( groupName + ".setPosition({0});\n", group.getPositionValue(), CrosstabColumnPositionEnum.LEFT);
 			
 			writeBucket( group.getBucket(), groupName);
-	
+			
+			JRCellContents crosstabHeader = group.getCrosstabHeader();
+			if(crosstabHeader != null)
+			{
+				writeCellContents( crosstabHeader, groupName + "CrosstabHeaderContents");
+				write( groupName + ".setCrosstabHeader(" + groupName + "CrosstabHeaderContents);\n");
+			}
+			
 			JRCellContents header = group.getHeader();
 			if(header != null)
 			{

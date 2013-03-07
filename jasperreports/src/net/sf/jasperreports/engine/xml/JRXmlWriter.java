@@ -2887,6 +2887,14 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writeBucket(group.getBucket());
 
+		JRCellContents crosstabHeader = group.getCrosstabHeader();
+		if (crosstabHeader != null)
+		{
+			writer.startElement(JRCrosstabColumnGroupFactory.ELEMENT_crosstabHeader);
+			writeCellContents(crosstabHeader);
+			writer.closeElement();
+		}
+		
 		JRCellContents header = group.getHeader();
 		writer.startElement(JRCrosstabGroupFactory.ELEMENT_crosstabColumnHeader);
 		writeCellContents(header);

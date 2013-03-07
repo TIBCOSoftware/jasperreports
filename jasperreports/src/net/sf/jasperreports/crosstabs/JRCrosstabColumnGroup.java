@@ -58,4 +58,24 @@ public interface JRCrosstabColumnGroup extends JRCrosstabGroup
 	 * @return the position of the header contents for header stretching
 	 */
 	public CrosstabColumnPositionEnum getPositionValue();
+	
+	/**
+	 * Returns the crosstab header cell of the column group.
+	 * 
+	 * <p>
+	 * The cell will be rendered at the left of the corresponding row of column headers, 
+	 * potentially overlapping {@link JRCrosstab#getHeaderCell() the crosstab header cell}.
+	 * </p>
+	 * 
+	 * <p>
+	 * The width of the cell is the total width of row group headers, 
+	 * and the height is the height of the corresponding column header.
+	 * </p>
+	 * 
+	 * @return the crosstab header cell of the column group, or <code>null</code> if no header cell is present
+	 * 
+	 * @see JRCrosstab#getHeaderCell()
+	 * @see #getHeight()
+	 */
+	public JRCellContents getCrosstabHeader();
 }

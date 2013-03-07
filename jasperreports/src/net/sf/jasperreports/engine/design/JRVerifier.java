@@ -1755,6 +1755,8 @@ public class JRVerifier
 	private void verifyCrosstabColumnGroup(JRCrosstabColumnGroup group)
 	{
 		verifyCrosstabGroup(group);
+		
+		verifyCellContents(group.getCrosstabHeader(), group.getName() + " crosstab header");
 	}
 
 

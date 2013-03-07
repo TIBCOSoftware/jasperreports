@@ -26,6 +26,7 @@ package net.sf.jasperreports.crosstabs.fill;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabColumnGroup;
 import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
+import net.sf.jasperreports.engine.fill.JRFillCellContents;
 
 /**
  * Crosstab column group implementation used at fill time.
@@ -35,10 +36,14 @@ import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
  */
 public class JRFillCrosstabColumnGroup extends JRFillCrosstabGroup implements JRCrosstabColumnGroup
 {
+
+	protected JRFillCellContents crosstabHeader;
 	
 	public JRFillCrosstabColumnGroup(JRCrosstabColumnGroup group, JRFillCrosstabObjectFactory factory)
 	{
 		super(group, JRCellContents.TYPE_COLUMN_HEADER, factory);
+		
+		crosstabHeader = factory.getCell(group.getCrosstabHeader(), JRCellContents.TYPE_CROSSTAB_HEADER);//FIXME
 	}
 
 
@@ -51,6 +56,17 @@ public class JRFillCrosstabColumnGroup extends JRFillCrosstabGroup implements JR
 	public int getHeight()
 	{
 		return ((JRCrosstabColumnGroup) parentGroup).getHeight();
+	}
+
+	@Override
+	public JRCellContents getCrosstabHeader()
+	{
+		return crosstabHeader;
+	}
+	
+	public JRFillCellContents getFillCrosstabHeader()
+	{
+		return crosstabHeader;
 	}
 
 }
