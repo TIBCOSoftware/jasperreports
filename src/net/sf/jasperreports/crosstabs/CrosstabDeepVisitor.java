@@ -81,6 +81,7 @@ public class CrosstabDeepVisitor extends JRDelegationVisitor implements Elements
 		for (int i = 0; i < columnGroups.length; i++)
 		{
 			JRCrosstabColumnGroup columnGroup = columnGroups[i];
+			visitCrosstabCell(columnGroup.getCrosstabHeader());
 			visitCrosstabCell(columnGroup.getHeader());
 			visitCrosstabCell(columnGroup.getTotalHeader());
 		}

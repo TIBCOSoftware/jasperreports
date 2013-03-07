@@ -1158,7 +1158,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		createCellMatrix();
 		
 		int rowHeadersWidth = calculateRowHeadersSizes();
-		int colHeadersHeight = calculateColumnHeadersSizes();
+		int colHeadersHeight = calculateColumnHeadersSizes(rowHeadersWidth);
 		
 		if (headerCell != null)
 		{
@@ -1394,7 +1394,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		return widthSum;
 	}
 
-	protected int calculateColumnHeadersSizes()
+	protected int calculateColumnHeadersSizes(int rowHeadersWidth)
 	{
 		int heightSum = 0;
 		for (int i = columnGroups.size() - 1, widthSum = 0; i >= 0; --i)
@@ -1408,6 +1408,13 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				widthSum += cell.getContents().getWidth();
 			}
 
+			JRDesignCellContents crosstabHeader = (JRDesignCellContents) group.getCrosstabHeader();
+			if (crosstabHeader != null)
+			{
+				crosstabHeader.setWidth(rowHeadersWidth);
+				crosstabHeader.setHeight(group.getHeight());
+			}
+			
 			JRDesignCellContents header = (JRDesignCellContents) group.getHeader();
 			header.setHeight(group.getHeight());
 			header.setWidth(widthSum);
@@ -1632,6 +1639,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				clone.columnGroups.add(groupClone);
 				clone.columnGroupsMap.put(groupClone.getName(), Integer.valueOf(i));
 				
+				adjustCrosstabReference(clone,(JRDesignCellContents) groupClone.getCrosstabHeader());
 				adjustCrosstabReference(clone,(JRDesignCellContents) groupClone.getTotalHeader());
 				adjustCrosstabReference(clone,(JRDesignCellContents) groupClone.getHeader());
 

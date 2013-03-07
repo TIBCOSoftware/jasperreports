@@ -6306,6 +6306,7 @@ property.
   <complexType>
    <sequence>
     <element ref="jr:bucket"/>
+    <element ref="jr:crosstabHeader" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:crosstabColumnHeader" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:crosstabTotalColumnHeader" minOccurs="0" maxOccurs="1"/>
    </sequence>
@@ -6419,6 +6420,20 @@ property.
   <complexType>
    <sequence>
     <element ref="jr:cellContents" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="crosstabHeader">
+  <annotation>
+   <documentation>Per column group cell that will be rendered at the left of the corresponding row of column headers, potentially overlapping the crosstab header cell.
+     <p/>
+     The width of the cell is the total width of row group headers, and the height is the height of the corresponding column header.
+   </documentation>
+  </annotation>
+  <complexType>
+   <sequence>
+    <element ref="jr:cellContents"/>
    </sequence>
   </complexType>
  </element>

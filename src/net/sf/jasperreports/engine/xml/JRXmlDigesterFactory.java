@@ -1235,8 +1235,13 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/crosstab/rowGroup/crosstabTotalRowHeader/cellContents", JRCellContentsFactory.class.getName());
 		digester.addSetNext("*/crosstab/rowGroup/crosstabTotalRowHeader/cellContents", "setTotalHeader", JRDesignCellContents.class.getName());
 
-		digester.addFactoryCreate("*/crosstab/columnGroup", JRCrosstabColumnGroupFactory.class.getName());
-		digester.addSetNext("*/crosstab/columnGroup", "addColumnGroup", JRDesignCrosstabColumnGroup.class.getName());
+		String columnGroupPattern = "*/crosstab/columnGroup";
+		digester.addFactoryCreate(columnGroupPattern, JRCrosstabColumnGroupFactory.class.getName());
+		digester.addSetNext(columnGroupPattern, "addColumnGroup", JRDesignCrosstabColumnGroup.class.getName());
+
+		String columnGroupCrosstabHeaderPattern = columnGroupPattern + "/" + JRCrosstabColumnGroupFactory.ELEMENT_crosstabHeader;
+		digester.addFactoryCreate(columnGroupCrosstabHeaderPattern + "/cellContents", JRCellContentsFactory.class.getName());
+		digester.addSetNext(columnGroupCrosstabHeaderPattern + "/cellContents", "setCrosstabHeader", JRDesignCellContents.class.getName());
 
 		digester.addFactoryCreate("*/crosstab/columnGroup/crosstabColumnHeader/cellContents", JRCellContentsFactory.class.getName());
 		digester.addSetNext("*/crosstab/columnGroup/crosstabColumnHeader/cellContents", "setHeader", JRDesignCellContents.class.getName());

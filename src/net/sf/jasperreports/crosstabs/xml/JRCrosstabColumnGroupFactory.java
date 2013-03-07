@@ -34,6 +34,7 @@ import org.xml.sax.Attributes;
  */
 public class JRCrosstabColumnGroupFactory extends JRCrosstabGroupFactory
 {
+	public static final String ELEMENT_crosstabHeader = "crosstabHeader";
 	public static final String ATTRIBUTE_height = "height";
 	public static final String ATTRIBUTE_headerPosition = "headerPosition";
 

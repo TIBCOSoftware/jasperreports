@@ -342,13 +342,24 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		{
 			for (int i = 0; element == null && i < groups.length; i++)
 			{
-				JRCellContents header = groups[i].getHeader();
+				JRCrosstabGroup group = groups[i];
+				JRCellContents header = group.getHeader();
 				element = header.getElementByKey(key);
 				
 				if (element == null)
 				{
-					JRCellContents totalHeader = groups[i].getTotalHeader();
+					JRCellContents totalHeader = group.getTotalHeader();
 					element = totalHeader.getElementByKey(key);
+				}
+				
+				// ugly
+				if (element == null && group instanceof JRCrosstabColumnGroup)
+				{
+					JRCellContents crosstabHeader = ((JRCrosstabColumnGroup) group).getCrosstabHeader();
+					if (crosstabHeader != null)
+					{
+						element = crosstabHeader.getElementByKey(key);
+					}
 				}
 			}
 		}
