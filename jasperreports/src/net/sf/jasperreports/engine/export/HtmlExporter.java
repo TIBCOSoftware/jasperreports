@@ -186,6 +186,8 @@ public class HtmlExporter extends JRAbstractExporter
 	protected boolean accessibleHtml;// TODO lucianc
 	protected String sizeUnit;
 	protected float zoom = DEFAULT_ZOOM;
+
+	protected boolean flushOutput;
 	
 	protected Map<String,String> rendererToImagePathMap;
 	protected Map<Pair<String, Rectangle>,String> imageMaps;
@@ -348,6 +350,10 @@ public class HtmlExporter extends JRAbstractExporter
 			setFontMap();
 						
 			setHyperlinkProducerFactory();
+			
+			flushOutput = getBooleanParameter(JRHtmlExporterParameter.FLUSH_OUTPUT, 
+					JRHtmlExporterParameter.PROPERTY_FLUSH_OUTPUT, 
+					true);
 
 			//FIXMENOW check all exporter properties that are supposed to work at report level
 			
@@ -620,6 +626,11 @@ public class HtmlExporter extends JRAbstractExporter
 		else
 		{
 			writer.write(htmlFooter);
+		}
+
+		if (flushOutput)
+		{
+			writer.flush();
 		}
 	}
 	
