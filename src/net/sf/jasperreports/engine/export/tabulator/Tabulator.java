@@ -99,7 +99,16 @@ public class Tabulator
 				{
 					log.trace("element " + element.getUUID() + " skipped by filter " + element);
 				}
-				
+				continue;
+			}
+			
+			if (element.getWidth() <= 0 || element.getHeight() <= 0)
+			{
+				if (log.isTraceEnabled())
+				{
+					log.trace("element " + element.getUUID() 
+							+ " skipped, size " + element.getWidth() + ", " + element.getHeight());
+				}
 				continue;
 			}
 			
