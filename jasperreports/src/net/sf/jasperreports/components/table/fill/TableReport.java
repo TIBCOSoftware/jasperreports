@@ -602,8 +602,9 @@ public class TableReport implements JRReport
 				genericElement.setPositionType(net.sf.jasperreports.engine.type.PositionTypeEnum.FIX_RELATIVE_TO_TOP);
 				genericElement.setX(0);
 				genericElement.setY(0);
-				genericElement.setHeight(frame.getHeight());
-				genericElement.setWidth(frame.getWidth());
+				// TODO lucianc setting to 1 for now; we can't set to frame size as we might not know the padding
+				genericElement.setHeight(1);
+				genericElement.setWidth(1);
 				genericElement.setMode(ModeEnum.TRANSPARENT);
 				genericElement.setStretchType(StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT);
 				
