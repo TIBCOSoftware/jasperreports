@@ -323,8 +323,10 @@ public class Tabulator
 			
 			// go deep in the frame
 			ElementIndex frameIndex = new ElementIndex(parentIndex, elementIndex);
+			// TODO lucianc what happens to elemens that do not fit in the frame?
 			layoutElements(frame.getElements(), table, frameCell, frameIndex, 
-					xOffset + frame.getX(), yOffset + frame.getY());
+					xOffset + frame.getX() + frame.getLineBox().getLeftPadding(), 
+					yOffset + frame.getY() + frame.getLineBox().getTopPadding());
 		}
 		else
 		{
@@ -1005,9 +1007,9 @@ public class Tabulator
 			
 			// TODO lucianc check this in the table instead?
 			JRPrintFrame parentFrame = (JRPrintFrame) getCellElement(parentCell);
-			keepLeft &= element.getX() == 0;
+			keepLeft &= element.getX() == 0 && parentFrame.getLineBox().getLeftPadding() == 0;
 			keepRight &= (element.getX() + element.getWidth()) == parentFrame.getWidth();
-			keepTop &= element.getY() == 0;
+			keepTop &= element.getY() == 0 && parentFrame.getLineBox().getTopPadding() == 0;
 			keepBottom &= (element.getY() + element.getHeight()) == parentFrame.getHeight();
 			
 			JRLineBox resultBox = baseBox;
