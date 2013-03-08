@@ -309,7 +309,7 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_value, markerProperty.getValue());
 		}
-		else
+		if(markerProperty.getValueExpression() != null)
 		{
 			writeExpression(JRXmlConstants.ELEMENT_valueExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, markerProperty.getValueExpression(), false, componentElement, reportWriter);
 		}
