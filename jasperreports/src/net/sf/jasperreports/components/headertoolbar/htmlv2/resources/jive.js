@@ -127,7 +127,7 @@ jQuery.extend(jive, {
         }
     },
     selectInteractiveElement: function(jo){
-    	if (jo.is('.interactiveElement')) {
+    	if (jo && jo.is('.interactiveElement')) {
 	        jive.ui.dialog.isVisible && jive.ui.dialog.hide();
 	        jive.selected = {
 	            ie: jive.elements[jo.data('popupid')],
