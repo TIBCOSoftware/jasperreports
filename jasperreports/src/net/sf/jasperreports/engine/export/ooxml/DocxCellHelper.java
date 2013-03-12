@@ -110,7 +110,7 @@ public class DocxCellHelper extends BaseHelper
 	 */
 	public void exportProps(JRPrintElement element, JRExporterGridCell gridCell)
 	{
-		exportBackcolor(element.getModeValue(), element.getBackcolor());
+		exportBackcolor(ModeEnum.OPAQUE, gridCell.getCellBackcolor());
 		
 		borderHelper.export(gridCell.getBox());
 
@@ -139,7 +139,7 @@ public class DocxCellHelper extends BaseHelper
 	 */
 	public void exportProps(JRExporterGridCell gridCell)
 	{
-		exportBackcolor(ModeEnum.OPAQUE, gridCell.getBackcolor());//FIXMEDOCX check this
+		exportBackcolor(ModeEnum.OPAQUE, gridCell.getCellBackcolor());
 		
 		borderHelper.export(gridCell.getBox());
 	}
@@ -152,7 +152,7 @@ public class DocxCellHelper extends BaseHelper
 	{
 		if (mode == ModeEnum.OPAQUE && backcolor != null)
 		{
-			write("      <w:shd w:val=\"clear\" w:color=\"auto\"	w:fill=\"" + JRColorUtil.getColorHexa(backcolor) + "\" />\n");
+			write("      <w:shd w:val=\"clear\" w:color=\"auto\" w:fill=\"" + JRColorUtil.getColorHexa(backcolor) + "\" />\n");
 		}
 	}
 
