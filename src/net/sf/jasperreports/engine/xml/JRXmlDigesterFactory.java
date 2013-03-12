@@ -140,6 +140,7 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.analytics.data.Axis;
+import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 import net.sf.jasperreports.engine.analytics.dataset.DesignDataAxis;
 import net.sf.jasperreports.engine.analytics.dataset.DesignDataLevelBucket;
 import net.sf.jasperreports.engine.analytics.dataset.DesignDataLevelBucketProperty;
@@ -1368,7 +1369,7 @@ public final class JRXmlDigesterFactory
 		digester.addSetProperties(bucketPattern, 
 				new String[]{JRXmlConstants.ATTRIBUTE_class, JRXmlConstants.ATTRIBUTE_order}, 
 				new String[]{"valueClassName"});
-		digester.addRule(bucketPattern, new XmlConstantPropertyRule(JRXmlConstants.ATTRIBUTE_order, SortOrderEnum.values()));
+		digester.addRule(bucketPattern, new XmlConstantPropertyRule(JRXmlConstants.ATTRIBUTE_order, BucketOrder.values()));
 		digester.addSetNext(bucketPattern, "setBucket");
 		
 		addExpressionRules(digester, bucketPattern + "/" + JRCrosstabBucketFactory.ELEMENT_bucketExpression, "setExpression");

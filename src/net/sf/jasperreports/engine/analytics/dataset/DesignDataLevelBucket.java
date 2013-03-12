@@ -96,12 +96,32 @@ public class DesignDataLevelBucket extends BaseDataLevelBucket implements JRChan
 	 * 	<li>{@link SortOrderEnum#DESCENDING SortOrderEnum.DESCENDING}</li>
 	 * </ul>
 	 * @see DataLevelBucket#getOrderValue()
+	 * 
+	 * @deprecated replaced by {@link #setOrder(BucketOrder)}
 	 */
+	@Deprecated
 	public void setOrder(SortOrderEnum orderValue)
 	{
-		Object old = this.orderValue;
-		this.orderValue = orderValue;
-		getEventSupport().firePropertyChange(PROPERTY_ORDER, old, this.orderValue);
+		BucketOrder order = BucketOrder.fromSortOrderEnum(orderValue);
+		setOrder(order);
+	}
+	
+	/**
+	 * Sets the sorting type.
+	 * 
+	 * @param orderValue one of
+	 * <ul>
+	 * 	<li>{@link BucketOrder#ASCENDING BucketOrder.ASCENDING}</li>
+	 * 	<li>{@link BucketOrder#DESCENDING BucketOrder.DESCENDING}</li>
+	 * 	<li>{@link BucketOrder#NONE BucketOrder.NONE}</li>
+	 * </ul>
+	 * @see DataLevelBucket#getOrder()
+	 */
+	public void setOrder(BucketOrder order)
+	{
+		Object old = this.order;
+		this.order = order;
+		getEventSupport().firePropertyChange(PROPERTY_ORDER, old, this.order);
 	}
 	
 

@@ -244,13 +244,13 @@ public class MultiAxisDataService
 			axisLevelBucketPropertyIndexes.put(level, propertyIndexes);
 			
 			bucketDefinition = new PropertiesWrapperBucketDefintion(
-					comparator, bucket.getOrderValue(), 
+					comparator, bucket.getOrder(), 
 					CrosstabTotalPositionEnum.START);
 		}
 		else
 		{
 			bucketDefinition = new BucketDefinition(valueClass,
-					null, comparator, bucket.getOrderValue(), 
+					null, comparator, bucket.getOrder(), 
 					CrosstabTotalPositionEnum.START);
 		}
 		
@@ -765,7 +765,7 @@ public class MultiAxisDataService
 	protected static class PropertiesWrapperBucketDefintion extends BucketDefinition
 	{
 		public PropertiesWrapperBucketDefintion(Comparator<Object> comparator,
-				SortOrderEnum order, CrosstabTotalPositionEnum totalPosition)
+				BucketOrder order, CrosstabTotalPositionEnum totalPosition)
 				throws JRException
 		{
 			super(ValuePropertiesWrapper.class, null, 

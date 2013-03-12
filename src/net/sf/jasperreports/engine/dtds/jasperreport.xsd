@@ -7131,6 +7131,11 @@ property.
 		 <documentation>The buckets will be sorted in descending order by using the specified comparator or by the natural order if no comparator specified.</documentation>
 		</annotation>
 	  </enumeration>
+      <enumeration value="None">
+		<annotation>
+		 <documentation>No sorting of bucket values will be performed, the buckets will show in the order the values come from the dataset.</documentation>
+		</annotation>
+	  </enumeration>
      </restriction>
     </simpleType>
    </attribute>

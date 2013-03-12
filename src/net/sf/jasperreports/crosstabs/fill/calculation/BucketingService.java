@@ -26,6 +26,7 @@ package net.sf.jasperreports.crosstabs.fill.calculation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -242,7 +243,7 @@ public abstract class BucketingService
 		}
 		else
 		{
-			map = new BucketTreeMap(level);
+			map = new BucketMapMap(level);
 		}
 		return map;
 	}
@@ -647,16 +648,23 @@ public abstract class BucketingService
 		
 		public abstract MapEntry getTotalEntry();
 	}
-
-	protected class BucketTreeMap extends BucketMap
+	
+	protected class BucketMapMap extends BucketMap
 	{
-		TreeMap<Bucket, Object> map;
-
-		BucketTreeMap(int level)
+		Map<Bucket, Object> map;
+		
+		BucketMapMap(int level)
 		{
 			super(level);
-
-			map = new TreeMap<Bucket, Object>();
+			
+			if (allBuckets[level].isSorted())
+			{
+				this.map = new TreeMap<Bucket, Object>();
+			}
+			else
+			{
+				this.map = new LinkedHashMap<Bucket, Object>();
+			}
 		}
 		
 		void clear()
@@ -676,13 +684,13 @@ public abstract class BucketingService
 
 		MeasureValue[] insertMeasureValues(Bucket[] bucketValues)
 		{
-			BucketTreeMap levelMap = (BucketTreeMap) bucketValueMap;
+			BucketMapMap levelMap = (BucketMapMap) bucketValueMap;
 			for (int i = 0; i < bucketValues.length - 1; i++)
 			{
-				BucketTreeMap nextMap = (BucketTreeMap) levelMap.get(bucketValues[i]);
+				BucketMapMap nextMap = (BucketMapMap) levelMap.get(bucketValues[i]);
 				if (nextMap == null)
 				{
-					nextMap = new BucketTreeMap(i + 1);
+					nextMap = new BucketMapMap(i + 1);
 					levelMap.map.put(bucketValues[i], nextMap);
 				}
 

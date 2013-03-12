@@ -155,6 +155,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReturnValue;
+import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 import net.sf.jasperreports.engine.analytics.dataset.DataAxis;
 import net.sf.jasperreports.engine.analytics.dataset.DataAxisLevel;
 import net.sf.jasperreports.engine.analytics.dataset.DataLevelBucket;
@@ -3367,7 +3368,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	protected void writeDataLevelBucket(DataLevelBucket bucket) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_axisLevelBucket);
-		writer.addAttribute(JRCrosstabBucketFactory.ATTRIBUTE_order, bucket.getOrderValue(), SortOrderEnum.ASCENDING);
+		writer.addAttribute(JRCrosstabBucketFactory.ATTRIBUTE_order, bucket.getOrder(), BucketOrder.ASCENDING);
 		writer.addAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_class, bucket.getValueClassName());
 		writer.writeExpression(JRCrosstabBucketFactory.ELEMENT_bucketExpression, bucket.getExpression());
 		writer.writeExpression(JRCrosstabBucketFactory.ELEMENT_comparatorExpression, bucket.getComparatorExpression());
