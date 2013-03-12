@@ -28,6 +28,8 @@ import java.util.Comparator;
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 import org.apache.commons.collections.comparators.ComparableComparator;
@@ -79,6 +81,13 @@ public class BucketDefinition
 	
 	private boolean computeTotal;
 
+	public BucketDefinition(Class<?> valueClass,
+			JRExpression orderByExpression, Comparator<Object> comparator, SortOrderEnum order, 
+			CrosstabTotalPositionEnum totalPosition) throws JRException
+	{
+		this(valueClass, orderByExpression, comparator, BucketOrder.fromSortOrderEnum(order), 
+				totalPosition);
+	}
 	
 	/**
 	 * Creates a bucket.
@@ -91,7 +100,7 @@ public class BucketDefinition
 	 * @throws JRException
 	 */
 	public BucketDefinition(Class<?> valueClass, 
-			JRExpression orderByExpression, Comparator<Object> comparator, SortOrderEnum order, 
+			JRExpression orderByExpression, Comparator<Object> comparator, BucketOrder order, 
 			CrosstabTotalPositionEnum totalPosition) throws JRException
 	{
 		if (comparator == null && orderByExpression == null 
@@ -100,36 +109,45 @@ public class BucketDefinition
 			throw new JRException("The bucket expression values are not comparable and no comparator specified.");
 		}
 		
-		this.orderByExpression = orderByExpression;
-		if (orderByExpression == null)
+		if (order == BucketOrder.NONE)
 		{
-			// we don't have an order by expression
-			// the buckets are ordered using the bucket values
-			this.bucketValueComparator = createOrderComparator(comparator, order);
+			this.orderByExpression = null;
+			this.bucketValueComparator = null;
 			this.orderValueComparator = null;
 		}
 		else
 		{
-			// we have an order by expression
-			// we only need an internal ordering for bucket values
-			if (Comparable.class.isAssignableFrom(valueClass))
+			this.orderByExpression = orderByExpression;
+			if (orderByExpression == null)
 			{
-				// using natural order
-				this.bucketValueComparator = ComparableComparator.getInstance();
+				// we don't have an order by expression
+				// the buckets are ordered using the bucket values
+				this.bucketValueComparator = createOrderComparator(comparator, order);
+				this.orderValueComparator = null;
 			}
 			else
 			{
-				// using an arbitrary rank comparator
-				if (log.isDebugEnabled())
+				// we have an order by expression
+				// we only need an internal ordering for bucket values
+				if (Comparable.class.isAssignableFrom(valueClass))
 				{
-					log.debug("Using arbitrary rank comparator for bucket");
+					// using natural order
+					this.bucketValueComparator = ComparableComparator.getInstance();
+				}
+				else
+				{
+					// using an arbitrary rank comparator
+					if (log.isDebugEnabled())
+					{
+						log.debug("Using arbitrary rank comparator for bucket");
+					}
+					
+					this.bucketValueComparator = new ArbitraryRankComparator();
 				}
 				
-				this.bucketValueComparator = new ArbitraryRankComparator();
+				// the comparator is used for order by values
+				this.orderValueComparator = createOrderComparator(comparator, order);
 			}
-			
-			// the comparator is used for order by values
-			this.orderValueComparator = createOrderComparator(comparator, order);
 		}
 		
 		this.totalPosition = totalPosition;
@@ -137,7 +155,7 @@ public class BucketDefinition
 	}
 
 	
-	protected static Comparator<Object> createOrderComparator(Comparator<Object> comparator, SortOrderEnum order)
+	protected static Comparator<Object> createOrderComparator(Comparator<Object> comparator, BucketOrder order)
 	{
 		Comparator<Object> orderComparator;
 		switch (order)
@@ -155,7 +173,6 @@ public class BucketDefinition
 				break;
 			}
 			case ASCENDING:				
-			default:
 			{
 				if (comparator == null)
 				{
@@ -167,8 +184,16 @@ public class BucketDefinition
 				}
 				break;
 			}
+			case NONE:
+			default:
+				throw new JRRuntimeException("Unsupported order type " + order);
 		}
 		return orderComparator;
+	}
+	
+	public boolean isSorted()
+	{
+		return bucketValueComparator != null;
 	}
 	
 	/**

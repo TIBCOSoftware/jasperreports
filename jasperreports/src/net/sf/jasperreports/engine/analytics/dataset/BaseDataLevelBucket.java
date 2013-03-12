@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.analytics.dataset;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +50,11 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 	protected String valueClassRealName;
 	protected Class<?> valueClass;
 
-	protected SortOrderEnum orderValue = SortOrderEnum.ASCENDING;
+	// only used for deserialization
+	@Deprecated
+	protected SortOrderEnum orderValue = null;
+	
+	protected BucketOrder order = BucketOrder.ASCENDING;
 	protected JRExpression expression;
 	protected JRExpression comparatorExpression;
 	
@@ -64,7 +70,7 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 		factory.put(bucket, this);
 		
 		this.valueClassName = bucket.getValueClassName();
-		this.orderValue = bucket.getOrderValue();
+		this.order = bucket.getOrder();
 		this.expression = factory.getExpression(bucket.getExpression());
 		this.comparatorExpression = factory.getExpression(bucket.getComparatorExpression());
 		
@@ -81,9 +87,16 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 		return valueClassName;
 	}
 
+	@Deprecated
 	public SortOrderEnum getOrderValue()
 	{
-		return orderValue;
+		return BucketOrder.toSortOrderEnum(order);
+	}
+	
+	@Override
+	public BucketOrder getOrder()
+	{
+		return order;
 	}
 
 	public JRExpression getExpression()
@@ -150,6 +163,18 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 		clone.comparatorExpression = JRCloneUtils.nullSafeClone(comparatorExpression);
 		clone.bucketProperties = JRCloneUtils.cloneList(bucketProperties);
 		return clone;
+	}
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (orderValue != null && order == null)
+		{
+			// deserializing old version object
+			order = BucketOrder.fromSortOrderEnum(orderValue);
+			orderValue = null;
+		}
 	}
 
 }

@@ -57,9 +57,26 @@ public interface DataLevelBucket extends JRCloneable
 	 * </ul>
 	 * 
 	 * @return the bucket sorting type
+	 * 
+	 * @deprecated replaced by {@link #getOrder()}
 	 */
+	@Deprecated
 	public SortOrderEnum getOrderValue();
-	
+
+	/**
+	 * Returns the bucket sorting type.
+	 * <p>
+	 * The possible values are:
+	 * <ul>
+	 * 	<li>{@link BucketOrder#ASCENDING BucketOrder.ASCENDING}</li>
+	 * 	<li>{@link BucketOrder#DESCENDING BucketOrder.DESCENDING}</li>
+	 * 	<li>{@link BucketOrder#NONE BucketOrder.NONE}</li>
+	 * </ul>
+	 * 
+	 * @return the bucket sorting type
+	 * @see #getComparatorExpression()
+	 */
+	public BucketOrder getOrder();
 	
 	/**
 	 * Returns the grouping expression.
@@ -73,10 +90,18 @@ public interface DataLevelBucket extends JRCloneable
 	 * Returns the comparator expression.
 	 * <p>
 	 * The result of this expression is used to sort the buckets, in ascending or
-	 * descending order (given by {@link #getOrderValue() getOrderValue()}.
+	 * descending order (given by {@link #getOrder() getOrder()}.
+	 * If the order type is {@link BucketOrder#NONE}, no sorting will be performed
+	 * and the comparator expression will be ignored.
+	 * </p>
+	 * 
+	 * <p>
+	 * If no comparator expression is specified, the natural order will be used.
+	 * </p>
+	 * 
+	 * <p>
 	 * If the bucket has an order by expression, the comparator will be used to
 	 * compare values as produced by that expression.
-	 * If no comparator expression is specified, the natural order will be used.
 	 * </p>
 	 * 
 	 * @return the comparator expression
