@@ -131,13 +131,16 @@ jive.interactive.column = jive.interactive.column || {
     getInteractiveElementFromProxy: function(cellJo){
         var classes = cellJo.attr('class').split(' '),
         	headerSel = 'td[data-popupcolumn="' + classes[1].substring(4) + '"]',
-        	headerJo = null;
+        	headerJo = null,
+        	cellJoOffsetTop = cellJo.offset().top;
         
         cellJo.parents().each(function(i, v) {
         	headerJo = jQuery(headerSel, v);
-        	if (headerJo && headerJo.length > 0) {
+        	if (headerJo && headerJo.length > 0 
+        			&& headerJo.offset().top < cellJoOffsetTop) {	// the header must be above the cell 
         		return false;	// break each
         	}
+        	headerJo = null;
         });
         
         return headerJo;
