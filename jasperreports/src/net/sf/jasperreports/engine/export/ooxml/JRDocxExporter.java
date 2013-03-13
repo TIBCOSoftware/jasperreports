@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -829,8 +830,7 @@ public class JRDocxExporter extends JRAbstractExporter
 				styledText, 
 				getTextLocale(text),
 				getPropertiesUtil().getBooleanProperty(text, PROPERTY_HIDDEN_TEXT, false),
-				startedHyperlink,
-				text.getBackcolor()
+				startedHyperlink
 				);
 		}
 
@@ -849,8 +849,15 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean hiddenText, boolean startedHyperlink, Color backcolor)
+	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean hiddenText, boolean startedHyperlink)
 	{
+		Color elementBackcolor = null;
+		Map<AttributedCharacterIterator.Attribute, Object> globalAttributes = styledText.getGlobalAttributes();
+		if (globalAttributes != null)
+		{
+			elementBackcolor = (Color)styledText.getGlobalAttributes().get(TextAttribute.BACKGROUND);
+		}
+		
 		String text = styledText.getText();
 
 		int runLimit = 0;
@@ -879,7 +886,7 @@ public class JRDocxExporter extends JRAbstractExporter
 				locale,
 				hiddenText,
 				invalidCharReplacement,
-				backcolor
+				elementBackcolor
 				);
 			
 			if (localHyperlink)

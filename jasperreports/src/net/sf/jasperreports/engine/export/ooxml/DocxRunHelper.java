@@ -71,14 +71,6 @@ public class DocxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, boolean hiddenText)
-	{
-		export(style, attributes, text, locale, hiddenText, null, (Color)attributes.get(TextAttribute.BACKGROUND));
-	}
-	
-	/**
-	 *
-	 */
 	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, boolean hiddenText, String invalidCharReplacement, Color backcolor)
 	{
 		if (text != null)
@@ -117,17 +109,7 @@ public class DocxRunHelper extends BaseHelper
 	 */
 	public void exportProps(JRStyle style, Locale locale)
 	{
-		JRPrintText text = new JRBasePrintText(null);
-		text.setStyle(style);
-		Map<Attribute,Object> styledTextAttributes = new HashMap<Attribute,Object>(); 
-		FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(styledTextAttributes, text);
-		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
-		if (style.getModeValue() == null || style.getModeValue() == ModeEnum.OPAQUE)
-		{
-			styledTextAttributes.put(TextAttribute.BACKGROUND, style.getBackcolor());
-		}
-
-		exportProps(getAttributes(style.getStyle()), getAttributes(style), locale, false);
+		exportProps(getAttributes(style.getStyle()), getAttributes(style), locale, false, false);
 	}
 
 	/**
@@ -253,15 +235,6 @@ public class DocxRunHelper extends BaseHelper
 	}
 	
 	
-	/**
-	 *
-	 */
-	public void exportProps(Map<Attribute,Object> parentAttrs,  Map<Attribute,Object> attrs, Locale locale, boolean hiddenText)
-	{
-		exportProps(parentAttrs,  attrs, locale, hiddenText, false);
-	}
-
-
 	/**
 	 *
 	 */
