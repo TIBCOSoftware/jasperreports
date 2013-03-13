@@ -829,7 +829,8 @@ public class JRDocxExporter extends JRAbstractExporter
 				styledText, 
 				getTextLocale(text),
 				getPropertiesUtil().getBooleanProperty(text, PROPERTY_HIDDEN_TEXT, false),
-				startedHyperlink
+				startedHyperlink,
+				text.getBackcolor()
 				);
 		}
 
@@ -848,7 +849,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean hiddenText, boolean startedHyperlink)
+	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean hiddenText, boolean startedHyperlink, Color backcolor)
 	{
 		String text = styledText.getText();
 
@@ -877,7 +878,8 @@ public class JRDocxExporter extends JRAbstractExporter
 				text.substring(iterator.getIndex(), runLimit),
 				locale,
 				hiddenText,
-				invalidCharReplacement
+				invalidCharReplacement,
+				backcolor
 				);
 			
 			if (localHyperlink)

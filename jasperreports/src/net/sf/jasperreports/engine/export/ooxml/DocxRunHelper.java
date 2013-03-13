@@ -73,19 +73,25 @@ public class DocxRunHelper extends BaseHelper
 	 */
 	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, boolean hiddenText)
 	{
-		export(style, attributes, text, locale, hiddenText, null);
+		export(style, attributes, text, locale, hiddenText, null, (Color)attributes.get(TextAttribute.BACKGROUND));
 	}
 	
 	/**
 	 *
 	 */
-	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, boolean hiddenText, String invalidCharReplacement)
+	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, boolean hiddenText, String invalidCharReplacement, Color backcolor)
 	{
 		if (text != null)
 		{
 			write("      <w:r>\n");
-			
-			exportProps(getAttributes(style), attributes, locale, hiddenText);
+			boolean highlightText = backcolor == null || !backcolor.equals(attributes.get(TextAttribute.BACKGROUND));
+			exportProps(
+					getAttributes(style), 
+					attributes, 
+					locale, 
+					hiddenText, 
+					highlightText 
+				);
 			
 			StringTokenizer tkzer = new StringTokenizer(text, "\n", true);
 			while(tkzer.hasMoreTokens())
@@ -103,6 +109,7 @@ public class DocxRunHelper extends BaseHelper
 				}
 			}
 			write("      </w:r>\n");
+			backcolor = null;
 		}
 	}
 
@@ -118,19 +125,19 @@ public class DocxRunHelper extends BaseHelper
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
 		if (style.getModeValue() == null || style.getModeValue() == ModeEnum.OPAQUE)
 		{
-			styledTextAttributes.put(TextAttribute.BACKGROUND, style.getBackcolor());
+			styledTextAttributes.put(TextAttribute.BACKGROUND, style.getOwnBackcolor());
 		}
 
-		exportProps(getAttributes(style.getStyle()), getAttributes(style), locale, false);
+		exportProps(getAttributes(style.getStyle()), styledTextAttributes, locale, false);
 	}
 
 	/**
 	 *
 	 */
-	public void exportProps(Map<Attribute,Object> parentAttrs,  Map<Attribute,Object> attrs, Locale locale, boolean hiddenText)
+	public void exportProps(Map<Attribute,Object> parentAttrs,  Map<Attribute,Object> attrs, Locale locale, boolean hiddenText, boolean highlightText)
 	{
 		write("       <w:rPr>\n");
-
+		
 		Object value = attrs.get(TextAttribute.FAMILY);
 		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
 		
@@ -166,19 +173,21 @@ public class DocxRunHelper extends BaseHelper
 		{
 			write("        <w:color w:val=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
 		}
-
-		value = attrs.get(TextAttribute.BACKGROUND);
-		oldValue = parentAttrs.get(TextAttribute.BACKGROUND);
 		
-//		if (value != null && !value.equals(oldValue) && ColorEnum.getByColor((Color)value) != null)
-//		{
-//			//the highlight does not accept the color hexadecimal expression, but only few color names
-//			write("        <w:highlight w:val=\"" + ColorEnum.getByColor((Color)value).getName() + "\" />\n");
-//		}
+		if(highlightText)
+		{
+			value = attrs.get(TextAttribute.BACKGROUND);
 
+			if (value != null && ColorEnum.getByColor((Color)value) != null)
+			{
+				//the highlight does not accept the color hexadecimal expression, but only few color names
+				write("        <w:highlight w:val=\"" + ColorEnum.getByColor((Color)value).getName() + "\" />\n");
+			}
+		}
+		
 		value = attrs.get(TextAttribute.SIZE);
 		oldValue = parentAttrs.get(TextAttribute.SIZE);
-
+		
 		if (value != null && !value.equals(oldValue))
 		{
 			float fontSize = ((Float)value).floatValue();
@@ -188,45 +197,45 @@ public class DocxRunHelper extends BaseHelper
 		
 		value = attrs.get(TextAttribute.WEIGHT);
 		oldValue = parentAttrs.get(TextAttribute.WEIGHT);
-
+		
 		if (value != null && !value.equals(oldValue))
 		{
 			write("        <w:b w:val=\"" + value.equals(TextAttribute.WEIGHT_BOLD) + "\"/>\n");
 		}
-
+		
 		value = attrs.get(TextAttribute.POSTURE);
 		oldValue = parentAttrs.get(TextAttribute.POSTURE);
-
+		
 		if (value != null && !value.equals(oldValue))
 		{
 			write("        <w:i w:val=\"" + value.equals(TextAttribute.POSTURE_OBLIQUE) + "\"/>\n");
 		}
-
-
+		
+		
 		value = attrs.get(TextAttribute.UNDERLINE);
 		oldValue = parentAttrs.get(TextAttribute.UNDERLINE);
-
+		
 		if (
-			(value == null && oldValue != null)
-			|| (value != null && !value.equals(oldValue))
-			)
+				(value == null && oldValue != null)
+				|| (value != null && !value.equals(oldValue))
+				)
 		{
 			write("        <w:u w:val=\"" + (value == null ? "none" : "single") + "\"/>\n");
 		}
 		
 		value = attrs.get(TextAttribute.STRIKETHROUGH);
 		oldValue = parentAttrs.get(TextAttribute.STRIKETHROUGH);
-
+		
 		if (
-			(value == null && oldValue != null)
-			|| (value != null && !value.equals(oldValue))
-			)
+				(value == null && oldValue != null)
+				|| (value != null && !value.equals(oldValue))
+				)
 		{
 			write("        <w:strike w:val=\"" + (value != null) + "\"/>\n");
 		}
-
+		
 		value = attrs.get(TextAttribute.SUPERSCRIPT);
-
+		
 		if (TextAttribute.SUPERSCRIPT_SUPER.equals(value))
 		{
 			write("        <w:vertAlign w:val=\"superscript\" />\n");
@@ -240,8 +249,17 @@ public class DocxRunHelper extends BaseHelper
 		{
 			write("        <w:vanish/>\n");
 		}
-
+		
 		write("       </w:rPr>\n");
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void exportProps(Map<Attribute,Object> parentAttrs,  Map<Attribute,Object> attrs, Locale locale, boolean hiddenText)
+	{
+		exportProps(parentAttrs,  attrs, locale, hiddenText, false);
 	}
 
 
