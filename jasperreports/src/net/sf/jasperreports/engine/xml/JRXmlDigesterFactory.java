@@ -142,16 +142,17 @@ import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.analytics.data.Axis;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 import net.sf.jasperreports.engine.analytics.dataset.DesignDataAxis;
+import net.sf.jasperreports.engine.analytics.dataset.DesignDataAxisLevel;
 import net.sf.jasperreports.engine.analytics.dataset.DesignDataLevelBucket;
 import net.sf.jasperreports.engine.analytics.dataset.DesignDataLevelBucketProperty;
+import net.sf.jasperreports.engine.analytics.dataset.DesignDataMeasure;
 import net.sf.jasperreports.engine.analytics.dataset.DesignMultiAxisData;
 import net.sf.jasperreports.engine.analytics.dataset.DesignMultiAxisDataset;
-import net.sf.jasperreports.engine.analytics.dataset.DesignDataMeasure;
-import net.sf.jasperreports.engine.analytics.dataset.DesignDataAxisLevel;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.component.ComponentsXmlParser;
 import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
+import net.sf.jasperreports.engine.design.DesignReturnValue;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
@@ -159,7 +160,6 @@ import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JRDesignReportTemplate;
-import net.sf.jasperreports.engine.design.DesignReturnValue;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.CalculationEnum;
@@ -1443,7 +1443,8 @@ public final class JRXmlDigesterFactory
 		}
 	}
 	
-	protected static void setComponentsInternalEntityResources(JRXmlDigester digester)
+	public static void setComponentsInternalEntityResources(
+			JRXmlDigester digester)
 	{
 		Collection<ComponentsBundle> components = ComponentsEnvironment.getComponentBundles();
 		for (Iterator<ComponentsBundle> it = components.iterator(); it.hasNext();)
