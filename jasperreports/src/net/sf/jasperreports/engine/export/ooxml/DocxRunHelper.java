@@ -109,7 +109,6 @@ public class DocxRunHelper extends BaseHelper
 				}
 			}
 			write("      </w:r>\n");
-			backcolor = null;
 		}
 	}
 
@@ -125,10 +124,10 @@ public class DocxRunHelper extends BaseHelper
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
 		if (style.getModeValue() == null || style.getModeValue() == ModeEnum.OPAQUE)
 		{
-			styledTextAttributes.put(TextAttribute.BACKGROUND, style.getOwnBackcolor());
+			styledTextAttributes.put(TextAttribute.BACKGROUND, style.getBackcolor());
 		}
 
-		exportProps(getAttributes(style.getStyle()), styledTextAttributes, locale, false);
+		exportProps(getAttributes(style.getStyle()), getAttributes(style), locale, false);
 	}
 
 	/**
