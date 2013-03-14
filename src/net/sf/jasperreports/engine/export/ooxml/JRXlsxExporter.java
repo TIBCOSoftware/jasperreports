@@ -1410,8 +1410,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		{
 			handler.handle((StringTextValue)null);
 		}
-		
-		sheetHelper.flush();
 
 		cellHelper.exportFooter();
 	}

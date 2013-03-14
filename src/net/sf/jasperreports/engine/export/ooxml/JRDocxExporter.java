@@ -840,7 +840,6 @@ public class JRDocxExporter extends JRAbstractExporter
 		}
 
 		docHelper.write("     </w:p>\n");
-		docHelper.flush();
 
 		tableHelper.getCellHelper().exportFooter();
 	}
