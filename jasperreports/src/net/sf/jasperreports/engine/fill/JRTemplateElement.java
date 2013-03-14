@@ -284,12 +284,13 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	}
 
 	
-	public synchronized boolean hasProperties()
+	public boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 
-	public synchronized JRPropertiesMap getPropertiesMap()
+	// we don't need any locking as properties are only set at creation time
+	public JRPropertiesMap getPropertiesMap()
 	{
 		if (propertiesMap == null)
 		{
