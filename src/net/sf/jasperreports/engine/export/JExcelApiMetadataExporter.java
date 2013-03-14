@@ -423,11 +423,9 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 
 	protected void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut, XlsRowLevelInfo levelInfo) throws JRException
 	{
-		Map<String, Object> cutProperties = yCut == null ? null : yCut.getPropertiesMap();
-		
-		boolean isAutoFit = cutProperties != null 
-				&& cutProperties.containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
-				&& (Boolean)cutProperties.get(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW);
+		boolean isAutoFit = yCut != null 
+				&& yCut.hasProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
+				&& (Boolean)yCut.getProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW);
 		if (isAutoFit)
 		{
 			try
