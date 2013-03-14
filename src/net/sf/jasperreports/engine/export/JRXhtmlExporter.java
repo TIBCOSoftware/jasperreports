@@ -852,13 +852,13 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyledText styledText, Locale locale) throws IOException
+	protected void exportStyledText(JRPrintText printText, JRStyledText styledText, String tooltip) throws IOException
 	{
-		exportStyledText(styledText, null, locale, null, null);
-	}
-	
-	protected void exportStyledText(JRStyledText styledText, String tooltip, Locale locale, LineSpacingEnum lineSpacing, Float lineSpacingSize) throws IOException
-	{
+		Locale locale = getTextLocale(printText);
+		LineSpacingEnum lineSpacing = printText.getParagraph().getLineSpacing();
+		Float lineSpacingSize = printText.getParagraph().getLineSpacingSize();
+		Color backcolor = printText.getBackcolor();
+		
 		String text = styledText.getText();
 
 		int runLimit = 0;
@@ -887,7 +887,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				tooltip,
 				locale,
 				lineSpacing,
-				lineSpacingSize
+				lineSpacingSize,
+				backcolor
 				);
 
 			iterator.setIndex(runLimit);
@@ -903,18 +904,14 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledTextRun(Map<Attribute,Object> attributes, String text, Locale locale) throws IOException
-	{
-		exportStyledTextRun(attributes, text, null, locale, null, null);
-	}
-	
 	protected void exportStyledTextRun(
 		Map<Attribute,Object> attributes, 
 		String text,
 		String tooltip,
 		Locale locale,
 		LineSpacingEnum lineSpacing,
-		Float lineSpacingSize
+		Float lineSpacingSize,
+		Color backcolor
 		) throws IOException
 	{
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);//FIXMENOW reuse this font lookup code everywhere
@@ -959,7 +956,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 
 		Color runBackcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
-		if (runBackcolor != null)
+		if (runBackcolor != null && !runBackcolor.equals(backcolor))
 		{
 			writer.write("background-color: #");
 			writer.write(JRColorUtil.getColorHexa(runBackcolor));
@@ -1345,7 +1342,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		{
 			//only use text tooltip when no hyperlink present
 			String textTooltip = hyperlinkStarted ? null : text.getHyperlinkTooltip();
-			exportStyledText(styledText, textTooltip, getTextLocale(text), text.getParagraph().getLineSpacing(), text.getParagraph().getLineSpacingSize());
+			exportStyledText(text, styledText, textTooltip);
 		}
 //		else
 //		{
