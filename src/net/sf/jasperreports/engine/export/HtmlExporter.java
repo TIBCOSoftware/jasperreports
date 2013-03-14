@@ -845,15 +845,12 @@ public class HtmlExporter extends JRAbstractExporter
 			styleBuffer.append("white-space: nowrap; ");
 		}
 		
+		styleBuffer.append("text-indent: " + text.getParagraph().getFirstLineIndent().intValue() + "px; ");
+
 		writeStyle(styleBuffer);
 		
 		finishStartCell();
 		
-		writer.write("<p style=\"margin: 0px; overflow: hidden; ");
-
-		writer.write("text-indent: " + text.getParagraph().getFirstLineIndent().intValue() + "px; ");
-		writer.write("\">");
-
 		if (text.getAnchorName() != null)
 		{
 			writer.write("<a name=\"");
@@ -867,9 +864,7 @@ public class HtmlExporter extends JRAbstractExporter
 		{
 			//only use text tooltip when no hyperlink present
 			String textTooltip = hyperlinkStarted ? null : text.getHyperlinkTooltip();
-			exportStyledText(styledText, textTooltip, 
-					getTextLocale(text), text.getParagraph().getLineSpacing(), text.getParagraph().getLineSpacingSize(),
-					hyperlinkStarted);
+			exportStyledText(text, styledText, textTooltip, hyperlinkStarted);
 		}
 
 		if (hyperlinkStarted)
@@ -877,8 +872,6 @@ public class HtmlExporter extends JRAbstractExporter
 			endHyperlink();
 		}
 
-		writer.write("</p>");
-		
 		endCell();
 	}
 
@@ -1957,9 +1950,13 @@ public class HtmlExporter extends JRAbstractExporter
 		return styledText;
 	}
 	
-	protected void exportStyledText(JRStyledText styledText, String tooltip, Locale locale, 
-			LineSpacingEnum lineSpacing, Float lineSpacingSize, boolean hyperlinkStarted) throws IOException
+	protected void exportStyledText(JRPrintText printText, JRStyledText styledText, String tooltip, boolean hyperlinkStarted) throws IOException
 	{
+		Locale locale = getTextLocale(printText);
+		LineSpacingEnum lineSpacing = printText.getParagraph().getLineSpacing();
+		Float lineSpacingSize = printText.getParagraph().getLineSpacingSize();
+		Color backcolor = printText.getBackcolor();
+		
 		String text = styledText.getText();
 
 		int runLimit = 0;
@@ -1989,6 +1986,7 @@ public class HtmlExporter extends JRAbstractExporter
 				locale,
 				lineSpacing,
 				lineSpacingSize,
+				backcolor,
 				hyperlinkStarted
 				);
 
@@ -2007,7 +2005,8 @@ public class HtmlExporter extends JRAbstractExporter
 			String tooltip,
 			Locale locale,
 			LineSpacingEnum lineSpacing,
-			Float lineSpacingSize, 
+			Float lineSpacingSize,
+			Color backcolor,
 			boolean hyperlinkStarted
 			) throws IOException
 	{
@@ -2052,7 +2051,7 @@ public class HtmlExporter extends JRAbstractExporter
 		}
 
 		Color runBackcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
-		if (runBackcolor != null)
+		if (runBackcolor != null && !runBackcolor.equals(backcolor))
 		{
 			writer.write("background-color: #");
 			writer.write(JRColorUtil.getColorHexa(runBackcolor));
