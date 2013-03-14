@@ -65,6 +65,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
+import net.sf.jasperreports.engine.util.Pair;
 
 
 /**
@@ -530,6 +531,13 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected Map<String, DateFormat> dateFormatCache = new HashMap<String, DateFormat>();
 	protected Map<String, NumberFormat> numberFormatCache = new HashMap<String, NumberFormat>();
+
+	/*
+	 * cached text locale, JRDataUtils.getLocale(String) is rather slow.
+	 * helps in cases where there's a single report locale, which are most likely 9x% of all cases.
+	 * note that we're assuming single threaded exporting, otherwise we would need volatile.
+	 */
+	private Pair<String, Locale> lastTextLocale;
 
 	/**
 	 *
@@ -1109,7 +1117,21 @@ public abstract class JRAbstractExporter implements JRExporter
 		{
 			localeCode = jasperPrint.getLocaleCode();
 		}
-		return localeCode == null ? null : JRDataUtils.getLocale(localeCode);
+		
+		if (localeCode == null)
+		{
+			return null;
+		}
+		
+		Pair<String, Locale> last = lastTextLocale;
+		if (last != null && last.first().equals(localeCode))
+		{
+			return last.second();
+		}
+		
+		Locale locale = JRDataUtils.getLocale(localeCode);
+		lastTextLocale = new Pair<String, Locale>(localeCode, locale);
+		return locale;
 	}
 
 	protected TimeZone getTextTimeZone(JRPrintText text)
