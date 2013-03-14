@@ -296,26 +296,25 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	{
 		Map<String,Object> xCutsProperties = xCuts.getPropertiesMap();
 		Cut cut = xCuts.getCut(col1);
-		Map<String,Object> cutProperties = cut.getPropertiesMap();
 		
 		Boolean columnAutoFit = getColumnAutoFit(element);
 		if (columnAutoFit != null)
 		{
-			if(!cutProperties.containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN))
+			if(!cut.hasProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN))
 			{
-				cutProperties.put(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN, columnAutoFit);
+				cut.setProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN, columnAutoFit);
 			}
 			else
 			{
-				cutProperties.put(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN, (Boolean)cutProperties.get(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN) && columnAutoFit);
+				cut.setProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN, (Boolean)cut.getProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN) && columnAutoFit);
 			}
 		}
 
 		Integer columnCustomWidth = getCustomColumnWidth(element);
-		Integer cutColumnCustomWidth = (Integer)cutProperties.get(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH);
+		Integer cutColumnCustomWidth = (Integer)cut.getProperty(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH);
 		if (columnCustomWidth != null && (cutColumnCustomWidth == null || cutColumnCustomWidth < columnCustomWidth))
 		{
-			cutProperties.put(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH, columnCustomWidth);
+			cut.setProperty(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH, columnCustomWidth);
 		}
 
 		setXProperties(xCutsProperties, element);
@@ -361,18 +360,17 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	{
 		Map<String,Object> yCutsProperties = yCuts.getPropertiesMap();
 		Cut cut = yCuts.getCut(row1);
-		Map<String,Object> cutProperties = cut.getPropertiesMap();
 		
 		Boolean rowAutoFit = getRowAutoFit(element);
 		if (rowAutoFit != null)
 		{
-			if(!cutProperties.containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW))
+			if(!cut.hasProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW))
 			{
-				cutProperties.put(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW, rowAutoFit);
+				cut.setProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW, rowAutoFit);
 			}
 			else
 			{
-				cutProperties.put(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW, (Boolean)cutProperties.get(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) && rowAutoFit);
+				cut.setProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW, (Boolean)cut.getProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) && rowAutoFit);
 			}
 		}
 
@@ -388,7 +386,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 				levelMap.put(level, "end".equalsIgnoreCase(marker));
 			}
 			
-			cutProperties.put(JRXlsAbstractExporter.PROPERTY_ROW_OUTLINE_LEVEL_PREFIX, levelMap);
+			cut.setProperty(JRXlsAbstractExporter.PROPERTY_ROW_OUTLINE_LEVEL_PREFIX, levelMap);
 		}
 		
 		setYProperties(yCutsProperties, element);

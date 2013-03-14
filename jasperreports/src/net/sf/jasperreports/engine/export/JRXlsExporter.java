@@ -477,9 +477,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			row = sheet.createRow(rowIndex);
 		}
 
-		Map<String, Object> cutProperties = yCut.getPropertiesMap();
-		boolean isAutoFit = cutProperties.containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
-				&& (Boolean)cutProperties.get(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW);
+		boolean isAutoFit = yCut.hasProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
+				&& (Boolean)yCut.getProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW);
 		if (!isAutoFit)
 		{
 			row.setHeightInPoints(lastRowHeight);

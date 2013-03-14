@@ -52,7 +52,6 @@ public class Cut
 	
 	public Cut()
 	{
-		propertiesMap =  new HashMap<String, Object>();
 	}
 	
 	public int getPosition()
@@ -95,9 +94,23 @@ public class Cut
 		return ((getUsage() & Cut.USAGE_SPANNED) > 0);
 	}
 
-	public Map<String, Object> getPropertiesMap() 
+	public boolean hasProperty(String name) 
 	{
-		return propertiesMap;
+		return propertiesMap == null ? false : propertiesMap.containsKey(name);
+	}
+
+	public Object getProperty(String name) 
+	{
+		return propertiesMap == null ? null : propertiesMap.get(name);
+	}
+
+	public void setProperty(String name, Object value) 
+	{
+		if (propertiesMap == null)
+		{
+			propertiesMap = new HashMap<String, Object>();
+		}
+		propertiesMap.put(name, value);
 	}
 
 }

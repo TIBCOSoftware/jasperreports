@@ -1117,8 +1117,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				int emptyCellColSpan = 0;
 				//int emptyCellWidth = 0;
 
-				Map<String,Object> cutProperties = yCuts.getCut(y).getPropertiesMap();
-				mergeAndSetRowLevels(levelInfo, (SortedMap<String, Boolean>)cutProperties.get(PROPERTY_ROW_OUTLINE_LEVEL_PREFIX), rowIndex);
+				Cut yCut = yCuts.getCut(y);
+				mergeAndSetRowLevels(levelInfo, (SortedMap<String, Boolean>)yCut.getProperty(PROPERTY_ROW_OUTLINE_LEVEL_PREFIX), rowIndex);
 
 				setRowHeight(
 					rowIndex,
@@ -1397,9 +1397,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					? (int)((xCuts.getCutOffset(xCutIndex + 1) - xCuts.getCutOffset(xCutIndex)) * sheetRatio) 
 					: width;  
 				
-				Map<String, Object> cutProperties = xCuts.getCut(xCutIndex).getPropertiesMap();
-				boolean isAutoFit = cutProperties.containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN) 
-						&& (Boolean)cutProperties.get(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN);
+				Cut xCut = xCuts.getCut(xCutIndex);
+				boolean isAutoFit = xCut.hasProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN) 
+						&& (Boolean)xCut.getProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN);
 				
 				setColumnWidth(xCutIndex - emptyCols, width, isAutoFit);
 			}
