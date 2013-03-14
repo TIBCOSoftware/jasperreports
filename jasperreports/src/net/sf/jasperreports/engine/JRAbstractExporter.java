@@ -538,6 +538,12 @@ public abstract class JRAbstractExporter implements JRExporter
 	 * note that we're assuming single threaded exporting, otherwise we would need volatile.
 	 */
 	private Pair<String, Locale> lastTextLocale;
+	
+	/*
+	 * cache of text value class to avoid calling JRClassLoader.loadClassForRealName() each time.
+	 * note that we're assuming single threaded exporting.
+	 */
+	private Map<String, Class<?>> textValueClasses = new HashMap<String, Class<?>>();
 
 	/**
 	 *
@@ -1147,7 +1153,8 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected TextValue getTextValue(JRPrintText text, String textStr)
 	{
 		TextValue textValue;
-		if (text.getValueClassName() == null)
+		String valueClassName = text.getValueClassName();
+		if (valueClassName == null)
 		{
 			textValue = getTextValueString(text, textStr);
 		}
@@ -1155,7 +1162,13 @@ public abstract class JRAbstractExporter implements JRExporter
 		{
 			try
 			{
-				Class<?> valueClass = JRClassLoader.loadClassForRealName(text.getValueClassName());
+				Class<?> valueClass = textValueClasses.get(valueClassName);
+				if (valueClass == null)
+				{
+					valueClass = JRClassLoader.loadClassForRealName(valueClassName);
+					textValueClasses.put(valueClassName, valueClass);
+				}
+				
 				if (java.lang.Number.class.isAssignableFrom(valueClass))
 				{
 					textValue = getNumberCellValue(text, textStr);
