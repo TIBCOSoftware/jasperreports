@@ -494,7 +494,7 @@ jive.ui.dialog = {
         jive.selected.form.onShow();
         this.title.html(title);
         jive.selected.form.jo.show();
-        this.jo.show().position({of:jQuery(window), at:'center top', my:'center top', offset: '0 ' + (128 + jQuery('table.jrPage').offset().top), collision: 'none'});
+        this.jo.show().position({of:jQuery(window), at:'center center', my:'center center', collision: 'none fit'});
         this.isVisible = true;
         jive.hide(null, true);
     },
