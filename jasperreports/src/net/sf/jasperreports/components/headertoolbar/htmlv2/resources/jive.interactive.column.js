@@ -1,7 +1,7 @@
 jive.interactive.column = jive.interactive.column || {
     uuid: null,
     allColumns: {},
-    allColumnsNo: 0,
+    columnsData: {},
     count: 0,
     ids: {},
     fontSizes:null,
@@ -29,7 +29,7 @@ jive.interactive.column = jive.interactive.column || {
     delta: null,
 
     init: function(allColumns, tableUuid){
-        var c,i,it = this, tableCols = [], colData;
+        var c,i,it = this, tableCols = [], colData, prop;
         it.allColumns[tableUuid] = allColumns;
         /*
          * Load dynamic form data
@@ -62,35 +62,64 @@ jive.interactive.column = jive.interactive.column || {
         it.dropColumns[tableUuid] = [];
         
         var firstColumnHeader = jQuery("table.jrPage").find('td.jrcolHeader[data-tableuuid=' + tableUuid + ']:first');
+        var parentContainer;
         firstColumnHeader.parents('table').each(function(i, v) {
-        	tableCols = jQuery(v).find('td.jrcolHeader[data-tableuuid=' + tableUuid + ']');
-        	if (tableCols.size() > 0) {
+        	parentContainer = jQuery(v);
+        	tableCols = parentContainer.find('td.jrcolHeader[data-tableuuid=' + tableUuid + ']');
+        	if (tableCols.length > 0) {
         		return false; //break each
         	}
         });
         
+        var colsData = it.columnsData[tableUuid] = {};
+
+        for (i = 0; i < tableCols.length; i++) {
+        	var popid = jQuery(tableCols.get(i)).data('popupid');
+        	if (colsData[popid]) continue;
+
+        	var firstCol = parentContainer.find('td[data-popupid=' + popid + ']:first');
+        	var lastCol = parentContainer.find('td[data-popupid=' + popid + ']:last');
+        	
+    		colsData[popid] = {
+    				jo: jQuery(firstCol),
+    				width: lastCol.position().left - firstCol.position().left + lastCol.width(),
+    				height: lastCol.position().top - firstCol.position().top + lastCol.height(),
+    				colidx: lastCol.data('colidx')
+    		};
+        }
+        
+        tableCols = [];
+        for (prop in colsData) {	// convert object to array
+        	if (colsData.hasOwnProperty(prop)) {
+        		tableCols.push(colsData[prop]);
+        	}
+        }
     	tableCols.sort(function(col1,col2) {
-    		return jQuery(col1).data('colidx')-jQuery(col2).data('colidx');
+    		return col1.jo.data('colidx')-col2.jo.data('colidx');
     	});
     	
-        tableCols.each(function(i, v) {
-        	c = jQuery(v);
-        	lt = c.offset().left;
-        	colData = it.getColumnByUuid(c.data('popupid'), tableUuid);
-        	if (colData != null) {
-        		colData.visible = true;	// enable column
-        	}
-        	it.dropColumns[tableUuid].push('col_'+c.data('popupcolumn'));
-        	it.dropPoints[tableUuid].push(lt);
-        	it.visibleColumnsMoveData[tableUuid].push({
-        		left: lt,
-        		right: lt + c.width(),
-        		width: c.width(),
-        		index: colData != null ? colData.index : null,
-        				uuid: c.data('popupid')
-        	});
-        });
-        it.dropPoints[tableUuid].push(lt + c.width());
+    	for (i = 0; i < tableCols.length; i++) {
+    		c = tableCols[i];
+    		lt = c.jo.offset().left;
+    		colData = it.getColumnByUuid(c.jo.data('popupid'), tableUuid);
+    		if (colData != null) {
+    			colData.visible = true;	// enable column
+    		}
+    		it.dropColumns[tableUuid].push('col_'+c.jo.data('popupcolumn'));
+    		it.dropPoints[tableUuid].push(lt);
+    		it.visibleColumnsMoveData[tableUuid].push({
+    			left: lt,
+    			right: lt + c.width,
+    			width: c.width,
+    			index: colData != null ? colData.index : null,
+    			uuid: c.jo.data('popupid')
+    		});
+    		
+    		if (i == tableCols.length - 1) {
+    			it.dropPoints[tableUuid].push(lt + c.width);
+    		}
+    	}
+    	
         var markers = [];
         for(i=0;i<it.dropColumns[tableUuid].length;i++) {
             markers.push(it.dropPoints[tableUuid][i]);
@@ -108,7 +137,6 @@ jive.interactive.column = jive.interactive.column || {
             if (c.interactive) {
             	menu.actions[c.uuid] = {label: c.label, fn:'hide', arg:'{"hide":false, "columnUuid": "' + c.uuid + '"}'};
             }
-           	it.allColumnsNo ++;
         }
         it.count = it.dropColumns[tableUuid].length;
 		
@@ -116,6 +144,16 @@ jive.interactive.column = jive.interactive.column || {
          * Reset foobar
          */
         jasperreports.events.subscribeToEvent({name: 'jive.ui.foobar', callback: 'jive.ui.foobar.reset', thisContext: 'jive.ui.foobar'});
+    },
+    getJoForCurrentSelection: function(jo) {
+    	var result = null;
+    	jo.parents('table').each(function(i, v) {
+        	result = jQuery(v).find('td.jrcolHeader[data-popupid=' + jo.data('popupid') + ']:first');
+        	if (result.length > 0) {
+        		return false; //break each
+        	}
+        });
+    	return result;
     },
     getColumnByUuid: function(columnUuid, tableUuid) {
     	var tableColumns = this.allColumns[tableUuid],
@@ -130,7 +168,7 @@ jive.interactive.column = jive.interactive.column || {
     },
     getInteractiveElementFromProxy: function(cellJo){
         var classes = cellJo.attr('class').split(' '),
-        	headerSel = 'td[data-popupcolumn="' + classes[1].substring(4) + '"]',
+        	headerSel = 'td[data-popupcolumn="' + classes[1].substring(4) + '"]:first',
         	headerJo = null,
         	cellJoOffsetTop = cellJo.offset().top;
         
@@ -156,17 +194,17 @@ jive.interactive.column = jive.interactive.column || {
         	var lastCell = jQuery('td.col_' + cid + ':last', v);
             if(lastCell && lastCell.length > 0) {
                 var lastElemTop = lastCell.offset().top;
-                var lastElemHeight = lastCell.height();
+                var lastElemHeight = lastCell.outerHeight();
                 h = lastElemTop + lastElemHeight - jo.offset().top;
                 return false; // break each
             }
         });
         
         if (h === null) {
-        	h = jo.height();
+        	h = jive.selected.realHeight;
         }
         
-        return {w:jo.width(),h:h};
+        return {w:jive.selected.realWidth, h:h};
     },
     onSelect: function(){
         var it = this,
