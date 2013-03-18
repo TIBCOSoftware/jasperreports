@@ -23,44 +23,37 @@
  */
 package net.sf.jasperreports.components.map;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
-import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class StandardMarkerDataset implements Serializable, MarkerDataset, JRChangeEventsSupport
+public class StandardMarkerDataset extends JRDesignElementDataset implements MarkerDataset
 {//FIXMEMAP implement clone?
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	public static final String PROPERTY_MARKER = "marker";
-	public static final String PROPERTY_DATASET_RUN = "datasetRun";
+	public static final String PROPERTY_MARKER_LIST = "markerList";
 
 	private List<Marker> markerList = new ArrayList<Marker>();
-	private JRDatasetRun datasetRun;
-	
-	private transient JRPropertyChangeSupport eventSupport;
 	
 	public StandardMarkerDataset()
 	{
+		super();
 	}
 
 	public StandardMarkerDataset(MarkerDataset dataset, JRBaseObjectFactory factory)
 	{
+		super(dataset, factory);
 		markerList = getCompiledMarkers(dataset.getMarkers(), factory);
-		datasetRun = factory.getDatasetRun(dataset.getDatasetRun());
 	}
 
 	private static List<Marker> getCompiledMarkers(List<Marker> markers, JRBaseObjectFactory factory)
@@ -112,7 +105,7 @@ public class StandardMarkerDataset implements Serializable, MarkerDataset, JRCha
 	public void addMarker(Marker marker)
 	{
 		markerList.add(marker);
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER, marker, markerList.size() - 1);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER_LIST, marker, markerList.size() - 1);
 	}
 	
 	/**
@@ -126,7 +119,7 @@ public class StandardMarkerDataset implements Serializable, MarkerDataset, JRCha
 			markerList.add(marker);
 			index = markerList.size() - 1;
 		}
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER, markerList, index);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER_LIST, markerList, index);
 	}
 
 	/**
@@ -140,59 +133,16 @@ public class StandardMarkerDataset implements Serializable, MarkerDataset, JRCha
 			if (idx >= 0)
 			{
 				markerList.remove(idx);
-				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_MARKER, marker, idx);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_MARKER_LIST, marker, idx);
 			}
 		}
 		return marker;
 	}
 
-	@Override
-	public JRDatasetRun getDatasetRun()
-	{
-		return datasetRun;
-	}
-	
-	/**
-	 * Sets the subdataset run information that will be used to create the marker list.
-	 * 
-	 * @param datasetRun the subdataset run information
-	 * @see #getDatasetRun()
-	 */
-	public void setDatasetRun(JRDatasetRun datasetRun)
-	{
-		Object old = this.datasetRun;
-		this.datasetRun = datasetRun;
-		getEventSupport().firePropertyChange(PROPERTY_DATASET_RUN, old, this.datasetRun);
-	}
-	
-	public JRPropertyChangeSupport getEventSupport()
-	{
-		synchronized (this)
-		{
-			if (eventSupport == null)
-			{
-				eventSupport = new JRPropertyChangeSupport(this);
-			}
-		}
-		
-		return eventSupport;
-	}
-
 	public Object clone()
 	{
-		StandardMarkerDataset clone = null;
-		try
-		{
-			clone = (StandardMarkerDataset) super.clone();
-		} 
-		catch (CloneNotSupportedException e)
-		{
-			// never
-			throw new JRRuntimeException(e);
-		}
-		clone.datasetRun = JRCloneUtils.nullSafeClone(datasetRun);
+		StandardMarkerDataset clone = (StandardMarkerDataset) super.clone();
 		clone.markerList = JRCloneUtils.cloneList(markerList);
-		clone.eventSupport = null;
 		return clone;
 	}
 

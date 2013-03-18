@@ -73,6 +73,8 @@ public class MapFillComponent extends BaseFillComponent
 	{
 		this.mapComponent = map;
 		this.factory = factory;
+		this.markerDataset = new FillMarkerDataset(map.getMarkerDataset(), factory);
+		factory.registerElementDataset(this.markerDataset);
 	}
 	
 	protected MapComponent getMap()
@@ -110,10 +112,12 @@ public class MapFillComponent extends BaseFillComponent
 		mapScale = mapComponent.getMapScale();
 		imageType = mapComponent.getImageType();
 		
-		if (mapComponent.getMarkerDataset() != null)
+		if (markerDataset != null)
 		{
-			markerDataset = new FillMarkerDataset(fillContext, mapComponent.getMarkerDataset(), factory);
-			markers = markerDataset.evaluateMarkers(evaluation);
+			markerDataset.setEvaluation(evaluation);
+			markerDataset.evaluateDatasetRun(evaluation);
+
+			markers = markerDataset.getEvaluatedMarkers();
 		}
 	}
 	
