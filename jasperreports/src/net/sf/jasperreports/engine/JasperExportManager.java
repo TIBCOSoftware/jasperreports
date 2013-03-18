@@ -28,7 +28,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
@@ -456,7 +456,7 @@ public final class JasperExportManager
 		String destFileName
 		) throws JRException
 	{
-		JRHtmlExporter exporter = new JRHtmlExporter(jasperReportsContext);
+		HtmlExporter exporter = new HtmlExporter(jasperReportsContext);
 		
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFileName);
