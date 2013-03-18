@@ -2522,7 +2522,7 @@ adjust their height automatically in order to fit their content in.
     <api>net/sf/jasperreports/engine/export/oasis/JROpenDocumentExporterParameter.html#PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT</api>
     <default>false</default>
     <scope>Global | Report</scope>
-    <since>5.0.2</since>
+    <since>5.0.4</since>
   </configProperty>
   
   
@@ -2537,7 +2537,7 @@ rows will adjust their height automatically in order to fit their content in.
     <api>net/sf/jasperreports/engine/export/oasis/JROpenDocumentExporterParameter.html#PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT</api>
     <default>false</default>
     <scope>Global | Report</scope>
-    <since>5.0.2</since>
+    <since>5.0.4</since>
   </configProperty>
   
   
@@ -3188,7 +3188,7 @@ Global settings are overriden by report level settings; report level settings ar
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_IMAGE_ANCHOR_TYPE</api>
     <default><code>MoveNoSize</code></default>
     <scope>Global | Report | Element</scope>
-    <since>5.0.2</since>
+    <since>5.0.4</since>
   </configProperty>
   
   
