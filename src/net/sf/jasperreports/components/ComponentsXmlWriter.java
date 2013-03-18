@@ -261,7 +261,7 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 
 	private void writeMarkerDataset(MarkerDataset dataset, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
 	{
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_0_1)) {
+		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_0_4)) {
 			//markerDataset element mandatory
 			writer.startElement(MapXmlFactory.ELEMENT_markerDataset, namespace);
 			reportWriter.writeElementDataset(dataset);
@@ -287,11 +287,11 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 					}
 				}
 			}
-			if(!isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_0_1)) {
+			if(!isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_0_4)) {
 				writer.closeElement();
 			}
 		}
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_0_1)) {
+		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_0_4)) {
 			writer.closeElement();
 		}
 	}
