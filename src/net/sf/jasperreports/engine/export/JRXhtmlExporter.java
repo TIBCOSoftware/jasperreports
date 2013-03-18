@@ -857,6 +857,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		Locale locale = getTextLocale(printText);
 		LineSpacingEnum lineSpacing = printText.getParagraph().getLineSpacing();
 		Float lineSpacingSize = printText.getParagraph().getLineSpacingSize();
+		float lineSpacingFactor = printText.getLineSpacingFactor();
 		Color backcolor = printText.getBackcolor();
 		
 		String text = styledText.getText();
@@ -888,6 +889,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				locale,
 				lineSpacing,
 				lineSpacingSize,
+				lineSpacingFactor,
 				backcolor
 				);
 
@@ -911,6 +913,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		Locale locale,
 		LineSpacingEnum lineSpacing,
 		Float lineSpacingSize,
+		float lineSpacingFactor,
 		Color backcolor
 		) throws IOException
 	{
@@ -972,17 +975,38 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			case SINGLE:
 			default:
 			{
-				writer.write(" line-height: 1; *line-height: normal;");
+				if (lineSpacingFactor == 0)
+				{
+					writer.write(" line-height: 1; *line-height: normal;");
+				}
+				else
+				{
+					writer.write(" line-height: " + lineSpacingFactor + ";");
+				}
 				break;
 			}
 			case ONE_AND_HALF:
 			{
-				writer.write(" line-height: 1.5;");
+				if (lineSpacingFactor == 0)
+				{
+					writer.write(" line-height: 1.5;");
+				}
+				else
+				{
+					writer.write(" line-height: " + lineSpacingFactor + ";");
+				}
 				break;
 			}
 			case DOUBLE:
 			{
-				writer.write(" line-height: 2.0;");
+				if (lineSpacingFactor == 0)
+				{
+					writer.write(" line-height: 2.0;");
+				}
+				else
+				{
+					writer.write(" line-height: " + lineSpacingFactor + ";");
+				}
 				break;
 			}
 			case PROPORTIONAL:
