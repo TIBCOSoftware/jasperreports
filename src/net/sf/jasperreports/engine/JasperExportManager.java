@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * the specific exporter class should be used directly.  
  * 
  * @see net.sf.jasperreports.engine.JasperPrint
- * @see net.sf.jasperreports.engine.export.JRHtmlExporter
+ * @see net.sf.jasperreports.engine.export.HtmlExporter
  * @see net.sf.jasperreports.engine.export.JRPdfExporter
  * @see net.sf.jasperreports.engine.export.JRXmlExporter
  * @see net.sf.jasperreports.engine.export.JRXlsExporter
@@ -392,7 +392,7 @@ public final class JasperExportManager
 	 * 
 	 * @param sourceFileName source file containing the generated report
 	 * @return resulting HTML file name
-	 * @see net.sf.jasperreports.engine.export.JRHtmlExporter
+	 * @see net.sf.jasperreports.engine.export.HtmlExporter
 	 */
 	public String exportToHtmlFile(
 		String sourceFileName

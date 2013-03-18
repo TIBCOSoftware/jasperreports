@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.view.JRSaveContributor;
 
 /**
@@ -118,7 +118,7 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 					)
 			)
 		{
-			JRHtmlExporter exporter = new JRHtmlExporter(getJasperReportsContext());
+			HtmlExporter exporter = new HtmlExporter(getJasperReportsContext());
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
 			exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
 			exporter.exportReport(); 

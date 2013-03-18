@@ -58,7 +58,7 @@
 		session.setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jasperPrint);
 	}
 	
-	JRHtmlExporter exporter = new JRHtmlExporter();
+	HtmlExporter exporter = new HtmlExporter();
 	
 	int pageIndex = 0;
 	int lastPageIndex = 0;
