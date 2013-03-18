@@ -261,16 +261,12 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 
 	private void writeMarkerDataset(MarkerDataset dataset, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
 	{
+
+		writer.startElement(MapXmlFactory.ELEMENT_markerDataset, namespace);
+		reportWriter.writeElementDataset(dataset);
+		
 		if (dataset != null)
 		{
-			writer.startElement(MapXmlFactory.ELEMENT_markerDataset, namespace);
-	
-			JRDatasetRun datasetRun = dataset.getDatasetRun();
-			if (datasetRun != null)
-			{
-				reportWriter.writeDatasetRun(datasetRun);
-			}
-	
 			/*   */
 			List<Marker> markerList = dataset.getMarkers();
 			if (markerList != null && !markerList.isEmpty())
@@ -283,9 +279,8 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 					}
 				}
 			}
-	
-			writer.closeElement();
 		}
+		writer.closeElement();
 	}
 	
 	
