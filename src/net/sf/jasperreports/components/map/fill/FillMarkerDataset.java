@@ -27,12 +27,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.components.map.MapCompiler;
 import net.sf.jasperreports.components.map.Marker;
 import net.sf.jasperreports.components.map.MarkerDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.component.FillContext;
-import net.sf.jasperreports.engine.fill.JRFillDataset;
+import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.fill.JRCalculator;
+import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
+import net.sf.jasperreports.engine.fill.JRFillElementDataset;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
@@ -41,109 +45,105 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class FillMarkerDataset
+public class FillMarkerDataset extends JRFillElementDataset
 {
 
-	/**
-	 *
-	 */
-	protected List<Marker> markerList;
-	protected MarkerFillDatasetRun datasetRun;
+	protected final MarkerDataset markerDataset;
+	protected List<FillMarker> markerList;
+	protected List<Map<String,Object>> evaluatedMarkers;
 	protected JRFillExpressionEvaluator evaluator;
+	protected byte evaluation = JRExpression.EVALUATION_DEFAULT;
 	
-	/**
-	 *
-	 */
-	public FillMarkerDataset(
-		FillContext fillContext,
-		MarkerDataset markerDataset, 
-		JRFillObjectFactory factory
-		) throws JRException
+	public FillMarkerDataset(MarkerDataset markerDataset, JRFillObjectFactory factory)
 	{
-		factory.put(markerDataset, this);
-
-		if (markerDataset.getDatasetRun() == null)
-		{
-			this.evaluator = fillContext;
-		}
-		else
-		{
-			this.datasetRun = new MarkerFillDatasetRun(markerDataset.getDatasetRun(), factory);
-			this.evaluator = createDatasetExpressionEvaluator();
-		}
-
-		/*   */
+		super(markerDataset, factory);
+		this.markerDataset = markerDataset;
+		
 		List<Marker> srcMarkerList = markerDataset.getMarkers();
 		if (srcMarkerList != null && !srcMarkerList.isEmpty())
 		{
-			markerList = new ArrayList<Marker>();
+			markerList = new ArrayList<FillMarker>();
 			for(Marker marker : srcMarkerList)
 			{
 				if(marker != null)
 				{
-					markerList.add(new FillMarker(marker, factory));
+					markerList.add(new FillMarker(marker));
 				}
-			}
-		}
-	}
-	
-	/**
-	 *
-	 */
-	protected JRFillExpressionEvaluator createDatasetExpressionEvaluator()
-	{
-		return new JRFillExpressionEvaluator()
-		{
-			public Object evaluate(JRExpression expression,
-					byte evaluationType) throws JRException
-			{
-				return datasetRun.evaluateDatasetExpression(
-						expression, evaluationType);
-			}
-
-			public JRFillDataset getFillDataset()
-			{
-				return datasetRun.getDataset();
-			}
-		};
-	}
-	
-	/**
-	 *
-	 */
-	public List<Map<String,Object>> evaluateMarkers(byte evaluation) throws JRException
-	{
-		List<Map<String,Object>> markers = null;
-
-		if (markerList != null)
-		{
-			markers = new ArrayList<Map<String, Object>>();
-
-			if (datasetRun == null)
-			{
-				for(Marker marker : markerList)
-				{
-					markers.add(((FillMarker)marker).evaluateProperties(evaluator, evaluation));
-				}
-			}
-			else
-			{
-				datasetRun.evaluate(evaluation);
-
-				datasetRun.start();
-				
-				while(datasetRun.next())
-				{
-					for(Marker marker : markerList)
-					{
-						markers.add(((FillMarker)marker).evaluateProperties(evaluator, evaluation));
-					}
-				}
-
-				datasetRun.end();
 			}
 		}
 		
-		return markers;
+	}
+
+	protected void customEvaluate(JRCalculator calculator)
+			throws JRExpressionEvalException
+	{
+		try
+		{
+			if(markerList != null && ! markerList.isEmpty()) {
+				for (FillMarker marker : markerList)
+				{
+					marker.evaluate(calculator, evaluation);
+				}
+			}
+		}
+		catch (JRExpressionEvalException e)
+		{
+			throw e;
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	protected void customIncrement()
+	{
+		if(markerList != null && ! markerList.isEmpty()) {
+			for (FillMarker marker : markerList)
+			{
+				Map<String,Object> evaluatedProperties = marker.getEvaluatedProperties();
+				if (evaluatedProperties != null)
+				{
+					if(evaluatedMarkers == null) {
+						evaluatedMarkers = new ArrayList<Map<String,Object>>();
+					}
+					evaluatedMarkers.add(evaluatedProperties);
+				}
+			}
+		}
+	}
+
+	protected void customInitialize()
+	{
+		evaluatedMarkers = null;
+	}
+
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		MapCompiler.collectExpressions(markerDataset, collector);
+	}
+
+	public void increment()
+	{
+		super.increment();
+	}
+	
+	public List<Map<String,Object>> getEvaluatedMarkers()
+	{
+		return evaluatedMarkers;
+	}
+	
+	/**
+	 * @return the evaluation
+	 */
+	public byte getEvaluation() {
+		return evaluation;
+	}
+
+	/**
+	 * @param evaluation the evaluation to set
+	 */
+	public void setEvaluation(byte evaluation) {
+		this.evaluation = evaluation;
 	}
 }

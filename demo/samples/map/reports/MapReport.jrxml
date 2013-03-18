@@ -94,6 +94,7 @@
 					<c:longitudeExpression><![CDATA[$P{longitude}]]></c:longitudeExpression>
 					<c:zoomExpression><![CDATA[$P{zoom}]]></c:zoomExpression>
 					<c:languageExpression><![CDATA[new java.util.Locale("ro").getLanguage()]]></c:languageExpression>
+					<c:markerDataset/>
 				</c:map>
 			</componentElement>
 			<textField isBlankWhenNull="true" bookmarkLevel="1">
@@ -112,7 +113,9 @@
 					<c:longitudeExpression><![CDATA[-122.4075f]]></c:longitudeExpression>
 					<c:zoomExpression><![CDATA[$P{zoom} + 1]]></c:zoomExpression>
 					<c:markerDataset>
-						<datasetRun subDataset="MarkersDataset"/>
+						<dataset>
+							<datasetRun subDataset="MarkersDataset"/>
+						</dataset>
 						<c:marker>
 							<c:markerProperty name="latitude">
 								<valueExpression>$F{latitude}</valueExpression>

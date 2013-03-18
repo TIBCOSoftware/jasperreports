@@ -25,16 +25,14 @@ package net.sf.jasperreports.components.map;
 
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRCloneable;
-import net.sf.jasperreports.engine.JRDatasetRun;
+import net.sf.jasperreports.engine.JRElementDataset;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public interface MarkerDataset extends JRCloneable{
+public interface MarkerDataset extends JRElementDataset{
 
 	public List<Marker> getMarkers();
 	
-	public JRDatasetRun getDatasetRun();
 }
