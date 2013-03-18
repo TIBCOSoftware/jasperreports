@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
@@ -165,7 +165,7 @@ public class StylesApp extends AbstractSampleApp
 
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".html");
 
-		JRHtmlExporter exporter = new JRHtmlExporter();
+		HtmlExporter exporter = new HtmlExporter();
 
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());

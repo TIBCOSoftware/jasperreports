@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
@@ -144,7 +144,7 @@ public class BatchExportApp extends AbstractSampleApp
 		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
 		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
 		
-		JRHtmlExporter exporter = new JRHtmlExporter();
+		HtmlExporter exporter = new HtmlExporter();
 		
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "build/reports/BatchExportReport.html");

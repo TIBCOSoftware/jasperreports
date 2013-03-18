@@ -51,7 +51,7 @@
 			new WebappDataSource()
 			);
 				
-	JRHtmlExporter exporter = new JRHtmlExporter();
+	HtmlExporter exporter = new HtmlExporter();
 
 	session.setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jasperPrint);
 	
