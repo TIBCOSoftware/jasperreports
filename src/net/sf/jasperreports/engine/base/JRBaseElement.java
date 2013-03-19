@@ -557,7 +557,9 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 
 	public boolean hasProperties()
 	{
-		return propertiesMap != null && propertiesMap.hasProperties();
+		// checking for empty properties here instead of hasProperties because
+		// table components create elements with dynamic base properties
+		return propertiesMap != null && !propertiesMap.isEmpty();
 	}
 
 	public JRPropertiesMap getPropertiesMap()

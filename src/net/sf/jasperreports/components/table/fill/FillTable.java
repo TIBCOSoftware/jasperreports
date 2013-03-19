@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Column;
@@ -52,6 +53,7 @@ import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRReportCompileData;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.fill.JRFillContext;
 import net.sf.jasperreports.engine.fill.JRFillDatasetRun;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
@@ -72,6 +74,8 @@ public class FillTable extends BaseFillComponent
 {
 
 	private static final Log log = LogFactory.getLog(FillTable.class);
+	
+	protected static final String FILL_CACHE_KEY_TABLE_INSTANCE_COUNTER = FillTable.class.getName() + "#instanceCounter";
 	
 	private final TableComponent table;
 	private final JRFillObjectFactory factory;
@@ -109,8 +113,29 @@ public class FillTable extends BaseFillComponent
 		if (!fillColumns.isEmpty())
 		{
 			createFillSubreport();
+			setTableInstanceCounter();
 			fillSubreport.evaluateSubreport(evaluation);
 		}
+	}
+	
+	protected void setTableInstanceCounter()
+	{
+		JRFillContext fillerContext = fillContext.getFiller().getFillContext();
+		AtomicInteger counter = (AtomicInteger) fillerContext.getFillCache(FILL_CACHE_KEY_TABLE_INSTANCE_COUNTER);
+		if (counter == null)
+		{
+			// we just need a mutable integer, there's no actual concurrency here
+			counter = new AtomicInteger();
+			fillerContext.setFillCache(FILL_CACHE_KEY_TABLE_INSTANCE_COUNTER, counter);
+		}
+		
+		int instanceIndex = counter.getAndIncrement();
+		if (log.isDebugEnabled())
+		{
+			log.debug("table instance index is " + instanceIndex);
+		}
+		
+		fillSubreport.getTableReport().getBaseReport().setTableInstanceIndex(instanceIndex);
 	}
 
 	protected boolean toPrintColumn(BaseColumn column, byte evaluation) throws JRException
