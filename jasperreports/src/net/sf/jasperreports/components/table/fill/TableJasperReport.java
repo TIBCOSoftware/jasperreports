@@ -27,7 +27,6 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -41,14 +40,16 @@ public class TableJasperReport extends JasperReport
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private final JasperReport parentReport;
+	private final TableReport tableReport;
 
-	public TableJasperReport(JasperReport parentReport, JRReport report, 
+	public TableJasperReport(JasperReport parentReport, TableReport baseReport, 
 			Serializable compileData, JRBaseObjectFactory factory,
 			String compileNameSuffix)
 	{
-		super(report, parentReport.getCompilerClass(), compileData, factory, compileNameSuffix);
+		super(baseReport, parentReport.getCompilerClass(), compileData, factory, compileNameSuffix);
 		
 		this.parentReport = parentReport;
+		this.tableReport = baseReport;
 	}
 
 	@Override
@@ -56,6 +57,11 @@ public class TableJasperReport extends JasperReport
 	{
 		// the subreport created for the table inherits all properties from the containing report
 		return parentReport;
+	}
+
+	public TableReport getBaseReport()
+	{
+		return tableReport;
 	}
 
 }

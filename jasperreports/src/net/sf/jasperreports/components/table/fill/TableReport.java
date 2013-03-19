@@ -198,7 +198,8 @@ public class TableReport implements JRReport
 	private final JRDesignBand pageFooter;
 	private final JRDesignBand lastPageFooter;
 	
-	private final Map<Integer, String> headerHtmlClasses;
+	private final List<TableIndexProperties> tableIndexProperties;
+	private final Map<Integer, JRPropertiesMap> headerHtmlBaseProperties;
 	
 	private final JRPropertiesUtil propertiesUtil;
 	private boolean isInteractiveTable;
@@ -212,7 +213,8 @@ public class TableReport implements JRReport
 		Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators
 		)
 	{
-		this.headerHtmlClasses = new HashMap<Integer,String>();
+		this.tableIndexProperties = new ArrayList<TableIndexProperties>();
+		this.headerHtmlBaseProperties = new HashMap<Integer, JRPropertiesMap>();
 		
 		this.fillContext = fillContext;
 		this.table = table;
@@ -539,15 +541,15 @@ public class TableReport implements JRReport
 	
 	protected class ColumnHeaderCreator extends ReportBandCreator
 	{
-		private Map<Integer, String> headerClasses;
+		private Map<Integer, JRPropertiesMap> headerBaseProperties;
 		private final AtomicBoolean firstColumn;// we need a mutable boolean reference
 		
 		public ColumnHeaderCreator(ReportBandInfo bandInfo, FillColumn fillColumn,
 				int xOffset, int yOffset, int level, 
-				Map<Integer, String> headerClasses, AtomicBoolean firstColumn)
+				Map<Integer, JRPropertiesMap> headerBaseProperties, AtomicBoolean firstColumn)
 		{
 			super(bandInfo, fillColumn, xOffset, yOffset, level);
-			this.headerClasses = headerClasses;
+			this.headerBaseProperties = headerBaseProperties;
 			this.firstColumn = firstColumn;
 		}
 
@@ -770,11 +772,21 @@ public class TableReport implements JRReport
 	
 				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrcolHeader header_" + columnName + "_" + column.hashCode() + (interactiveColumn ? " interactiveElement" : ""));
 				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_ID, popupId);
-				frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN, popupColumn);
 				frame.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID, fillContext.getComponentElement().getUUID().toString());
 				frame.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX, String.valueOf(columnIndex));
 
-				headerClasses.put(column.hashCode(), TableReport.HTML_CLASS_COLUMN + " " + TableReport.HTML_CLASS_COLUMN_PREFIX + popupColumn );
+				String popupColumnFixedPart = popupColumn + "_";
+				TableIndexProperties popupColumnProperties = new TableIndexProperties(
+						JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN, popupColumnFixedPart);
+				tableIndexProperties.add(popupColumnProperties);
+				assert frame.getPropertiesMap().getBaseProperties() == null;
+				frame.getPropertiesMap().setBaseProperties(popupColumnProperties.getPropertiesMap());
+
+				String classFixedPart = TableReport.HTML_CLASS_COLUMN + " " + TableReport.HTML_CLASS_COLUMN_PREFIX + popupColumnFixedPart;
+				TableIndexProperties columnClassProperties = new TableIndexProperties(
+						JRHtmlExporter.PROPERTY_HTML_CLASS, classFixedPart);
+				tableIndexProperties.add(columnClassProperties);
+				headerBaseProperties.put(column.hashCode(), columnClassProperties.getPropertiesMap());
 				
 				frame.addElement(0, genericElement);
 			} else 
@@ -832,7 +844,7 @@ public class TableReport implements JRReport
 				int xOffset, int yOffset, int sublevel)
 		{
 			return new ColumnHeaderCreator(bandInfo, subcolumn, xOffset, yOffset, sublevel, 
-					headerHtmlClasses, firstColumn);
+					headerHtmlBaseProperties, firstColumn);
 		}
 	}
 
@@ -846,7 +858,7 @@ public class TableReport implements JRReport
 		for (FillColumn subcolumn : fillColumns)
 		{
 			ColumnHeaderCreator subVisitor = new ColumnHeaderCreator(
-					bandInfo, subcolumn, xOffset, 0, 0, headerHtmlClasses,
+					bandInfo, subcolumn, xOffset, 0, 0, headerHtmlBaseProperties,
 					new AtomicBoolean());
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
@@ -1280,8 +1292,10 @@ public class TableReport implements JRReport
 		frame.setStyleNameReference(cell.getStyleNameReference());
 		frame.copyBox(cell.getLineBox());
 
-		if (columnHashCode != null && headerHtmlClasses.get(columnHashCode) != null) {
-			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, headerHtmlClasses.get(columnHashCode));
+		if (columnHashCode != null && headerHtmlBaseProperties.get(columnHashCode) != null) {
+			JRPropertiesMap propertiesMap = frame.getPropertiesMap();
+			assert propertiesMap != null && propertiesMap.getBaseProperties() == null;
+			propertiesMap.setBaseProperties(headerHtmlBaseProperties.get(columnHashCode));
 		}
 		// not transferring cell properties to the frame/element for now
 		
@@ -1383,10 +1397,11 @@ public class TableReport implements JRReport
 		cellElement.setWidth(width);
 		cellElement.setStretchType(StretchTypeEnum.RELATIVE_TO_TALLEST_OBJECT);
 
-		if (columnHashCode != null && headerHtmlClasses.get(columnHashCode) != null)
+		if (columnHashCode != null && headerHtmlBaseProperties.get(columnHashCode) != null)
 		{
-			cellElement.getPropertiesMap().setProperty(
-					JRHtmlExporter.PROPERTY_HTML_CLASS, headerHtmlClasses.get(columnHashCode));
+			JRPropertiesMap propertiesMap = cellElement.getPropertiesMap();
+			assert propertiesMap != null && propertiesMap.getBaseProperties() == null;
+			propertiesMap.setBaseProperties(headerHtmlBaseProperties.get(columnHashCode));
 		}
 		
 		if (width != originalWidth)
@@ -1752,4 +1767,39 @@ public class TableReport implements JRReport
 		return mainDataset.getUUID();
 	}
 
+	public void setTableInstanceIndex(int instanceIndex)
+	{
+		for (TableIndexProperties properties : tableIndexProperties)
+		{
+			properties.setTableInstanceIndex(instanceIndex);
+		}
+	}
+
+	// creates a JRPropertiesMap instance that is used as base properties for table elements.
+	// on each table instantiation, a property in the base instance changes its value and the
+	// value propagates to the print elements created by the table.
+	protected static class TableIndexProperties
+	{
+		private final String propertyName;
+		private final String classFixedPart;
+		private JRPropertiesMap propertiesMap;
+		
+		public TableIndexProperties(String propertyName, String classFixedPart)
+		{
+			this.propertyName = propertyName;
+			this.classFixedPart = classFixedPart;
+			
+			this.propertiesMap = new JRPropertiesMap();
+		}
+
+		public JRPropertiesMap getPropertiesMap()
+		{
+			return propertiesMap;
+		}
+
+		public void setTableInstanceIndex(int instanceIndex)
+		{
+			propertiesMap.setProperty(propertyName, classFixedPart + instanceIndex);
+		}
+	}
 }

@@ -81,6 +81,8 @@ public class JRPropertiesMap implements Serializable, Cloneable
 		
 		this.base = propertiesMap.base;
 		
+		//this copies all properties from base to this instance
+		//FIXME in some cases we might want to keep the properties in base
 		String[] propertyNames = propertiesMap.getPropertyNames();
 		if (propertyNames != null && propertyNames.length > 0)
 		{
@@ -297,6 +299,11 @@ public class JRPropertiesMap implements Serializable, Cloneable
 				|| base != null && base.hasProperties();
 	}
 
+	public boolean isEmpty()
+	{
+		// only checking base for null and not whether base has any properties
+		return !hasOwnProperties() && base == null;
+	}
 
 	/**
 	 * Checks whether this object has properties of its own

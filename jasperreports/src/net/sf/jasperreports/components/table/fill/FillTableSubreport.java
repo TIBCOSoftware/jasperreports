@@ -54,11 +54,11 @@ import net.sf.jasperreports.engine.fill.JRFillSubreport;
 public class FillTableSubreport extends JRFillSubreport
 {
 
-	private final JasperReport tableReport;
+	private final TableJasperReport tableReport;
 	private final Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators;
 
 	protected FillTableSubreport(FillContext fillContext, JRSubreport subreport,
-			JRFillObjectFactory factory, JasperReport tableReport, 
+			JRFillObjectFactory factory, TableJasperReport tableReport, 
 			Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators)
 	{
 		super(fillContext.getFiller(), subreport, factory);
@@ -66,6 +66,11 @@ public class FillTableSubreport extends JRFillSubreport
 		this.fillContainerContext = fillContext.getFillContainerContext();
 		this.tableReport = tableReport;
 		this.builtinEvaluators = builtinEvaluators;
+	}
+
+	public TableJasperReport getTableReport()
+	{
+		return tableReport;
 	}
 
 	@Override
