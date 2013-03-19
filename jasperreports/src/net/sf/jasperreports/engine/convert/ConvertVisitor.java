@@ -67,9 +67,9 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 public class ConvertVisitor implements JRVisitor
 {
 	
-	private ReportConverter reportConverter;
-	private JRBasePrintFrame parentFrame;
-	private JRPrintElement printElement;
+	protected ReportConverter reportConverter;
+	protected JRBasePrintFrame parentFrame;
+	protected JRPrintElement printElement;
 	
 	/**
 	 *
@@ -221,7 +221,7 @@ public class ConvertVisitor implements JRVisitor
 	/**
 	 *
 	 */
-	private void addElement(JRBasePrintFrame frame, JRPrintElement element)
+	protected void addElement(JRBasePrintFrame frame, JRPrintElement element)
 	{
 		printElement = element;
 		if (frame != null)
@@ -233,7 +233,7 @@ public class ConvertVisitor implements JRVisitor
 	/**
 	 *
 	 */
-	private void addContour(ReportConverter reportConverter, JRBasePrintFrame frame, JRPrintElement element)
+	protected void addContour(ReportConverter reportConverter, JRBasePrintFrame frame, JRPrintElement element)
 	{
 		if (frame != null)
 		{
