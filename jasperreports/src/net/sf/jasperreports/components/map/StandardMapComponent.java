@@ -180,21 +180,23 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	
 	public Object clone()
 	{
+		StandardMapComponent clone = null;
 		try
 		{
-			StandardMapComponent clone = (StandardMapComponent) super.clone();
-			clone.latitudeExpression = JRCloneUtils.nullSafeClone(latitudeExpression);
-			clone.longitudeExpression = JRCloneUtils.nullSafeClone(longitudeExpression);
-			clone.zoomExpression = JRCloneUtils.nullSafeClone(zoomExpression);
-			clone.languageExpression = JRCloneUtils.nullSafeClone(languageExpression);
-			clone.markerDataset = (MarkerDataset) markerDataset.clone();
-			return clone;
+			clone = (StandardMapComponent) super.clone();
 		}
 		catch (CloneNotSupportedException e)
 		{
 			// never
 			throw new JRRuntimeException(e);
 		}
+		clone.latitudeExpression = JRCloneUtils.nullSafeClone(latitudeExpression);
+		clone.longitudeExpression = JRCloneUtils.nullSafeClone(longitudeExpression);
+		clone.zoomExpression = JRCloneUtils.nullSafeClone(zoomExpression);
+		clone.languageExpression = JRCloneUtils.nullSafeClone(languageExpression);
+		clone.markerDataset = JRCloneUtils.nullSafeClone(markerDataset);
+		clone.eventSupport = null;
+		return clone;
 	}
 
 	public MapTypeEnum getMapType() {

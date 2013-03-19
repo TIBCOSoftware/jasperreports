@@ -94,7 +94,6 @@
 					<c:longitudeExpression><![CDATA[$P{longitude}]]></c:longitudeExpression>
 					<c:zoomExpression><![CDATA[$P{zoom}]]></c:zoomExpression>
 					<c:languageExpression><![CDATA[new java.util.Locale("ro").getLanguage()]]></c:languageExpression>
-					<c:markerDataset/>
 				</c:map>
 			</componentElement>
 			<textField isBlankWhenNull="true" bookmarkLevel="1">

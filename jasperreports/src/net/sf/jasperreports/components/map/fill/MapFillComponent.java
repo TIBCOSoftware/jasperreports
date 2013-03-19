@@ -73,8 +73,12 @@ public class MapFillComponent extends BaseFillComponent
 	{
 		this.mapComponent = map;
 		this.factory = factory;
-		this.markerDataset = new FillMarkerDataset(map.getMarkerDataset(), factory);
-		factory.registerElementDataset(this.markerDataset);
+
+		if (map.getMarkerDataset() != null)
+		{
+			this.markerDataset = new FillMarkerDataset(map.getMarkerDataset(), factory);
+			factory.registerElementDataset(this.markerDataset);
+		}
 	}
 	
 	protected MapComponent getMap()
