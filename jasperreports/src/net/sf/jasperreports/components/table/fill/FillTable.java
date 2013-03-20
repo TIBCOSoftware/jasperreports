@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
@@ -52,7 +53,6 @@ import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRReportCompileData;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.fill.JRFillContext;
 import net.sf.jasperreports.engine.fill.JRFillDatasetRun;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
@@ -395,7 +395,7 @@ public class FillTable extends BaseFillComponent
 	public JRPrintElement fill()
 	{
 		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getFrameTemplate(), elementId);
-		printFrame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_UUID, fillContext.getComponentElement().getUUID().toString());
+		printFrame.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID, fillContext.getComponentElement().getUUID().toString());
 
 		JRLineBox lineBox = printFrame.getLineBox();
 		

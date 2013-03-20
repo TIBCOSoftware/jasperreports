@@ -1398,15 +1398,15 @@ public class HtmlExporter extends JRAbstractExporter
 		{
 			writer.write(" class=\"" + clazz +"\"");
 		}
-		String popupId = getCellProperty(element, cell, JRHtmlExporter.PROPERTY_HTML_POPUP_ID);
-		if (popupId != null)
+		String colUuid = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_COLUMN_UUID);
+		if (colUuid != null)
 		{
-			writer.write(" data-popupId=\"" + popupId + "\"");
+			writer.write(" data-coluuid=\"" + colUuid + "\"");
 		}
-		String popupColumn = getCellProperty(element, cell, JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN);
-		if (popupColumn != null)
+		String cellId = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_CELL_ID);
+		if (cellId != null)
 		{
-			writer.write(" data-popupColumn=\"" + popupColumn + "\"");
+			writer.write(" data-cellid=\"" + cellId + "\"");
 		}
 		String tableUuid = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_TABLE_UUID);
 		if (tableUuid != null)

@@ -138,21 +138,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	public static final String PROPERTY_HTML_POPUP_ID = HTML_EXPORTER_PROPERTIES_PREFIX + "popupid";
-
-	/**
-	 *
-	 */
-	public static final String PROPERTY_HTML_POPUP_COLUMN = HTML_EXPORTER_PROPERTIES_PREFIX + "popupcolumn";
-
-	/**
-	 *
-	 */
-	public static final String PROPERTY_HTML_UUID = HTML_EXPORTER_PROPERTIES_PREFIX + "uuid";
-
-	/**
-	 *
-	 */
 	public static final String PROPERTY_HTML_ID = HTML_EXPORTER_PROPERTIES_PREFIX + "id";
 
 	/**
