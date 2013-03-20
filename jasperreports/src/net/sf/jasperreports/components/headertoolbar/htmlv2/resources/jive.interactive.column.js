@@ -148,7 +148,7 @@ jive.interactive.column = jive.interactive.column || {
     getJoForCurrentSelection: function(jo) {
     	var result = null;
     	jo.parents('table').each(function(i, v) {
-        	result = jQuery(v).find('td.jrcolHeader[data-popupid=' + jo.data('popupid') + ']:first');
+        	result = jQuery(v).find('td.jrcolHeader[data-popupcolumn=' + jo.data('popupcolumn') + ']:first');
         	if (result.length > 0) {
         		return false; //break each
         	}
