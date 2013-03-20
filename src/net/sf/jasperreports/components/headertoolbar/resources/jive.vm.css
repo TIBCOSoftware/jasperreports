@@ -361,7 +361,8 @@ div.t_wrap {padding-right: 4px;}
 .jive_inputbutton.drop {background-position: -58px 0; width: 34px;}
 .jive_inputbutton.drop.unchanged {background-position: -182px 0;}
 .jive_inputbutton.drop > .jive_bIcon {
-    margin-left: 5px;
+    margin-left: 0;
+    height: 30px;
     margin-top: 1px;
     width: 28px;
 }
@@ -417,7 +418,7 @@ div.colorpick.wide {
 .jive_bIcon {
 	background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
     display: inline-block;
-    height: 20px;
+    height: 22px;
     margin: 3px;
     width: 20px;
 }
@@ -477,7 +478,7 @@ div.colorpick.wide {
     background-position:0 -94px;
 }
 .backgroundColorIcon {
-    background-position: 0 -551px;
+    background-position: 2px -551px;
 }
 .unchanged .backgroundColorIcon {
     background-position: -60px -551px;
@@ -512,23 +513,23 @@ div.colorpick.wide {
     background-position: -30px -234px;
 }
 .currencyIcon {
-    background-position:0 -279px;
+    background-position:-1px -277px;
     width: 23px;
 }
 .percentageIcon {
-    background-position:0 -326px;
+    background-position:-1px -326px;
 }
 .commaIcon {
-    background-position:0 -371px;
+    background-position:-1px -371px;
 }
 .increaseDecimalsIcon {
-    background-position:0 -417px;
+    background-position:-2px -417px;
 }
 .decreaseDecimalsIcon {
-    background-position:0 -463px;
+    background-position:-1px -463px;
 }
 .fontColorIcon {
-    background-position:0 -508px;
+    background-position:2px -508px;
 }
 .unchanged .fontColorIcon {
     background-position: -60px -508px;
