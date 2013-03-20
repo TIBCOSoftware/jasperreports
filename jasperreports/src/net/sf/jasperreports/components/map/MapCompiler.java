@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.map;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRDatasetRun;
+import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
@@ -48,9 +49,44 @@ public class MapCompiler implements ComponentCompiler
 		collector.addExpression(map.getLongitudeExpression());
 		collector.addExpression(map.getZoomExpression());
 		collector.addExpression(map.getLanguageExpression());
-		collectExpressions(map.getMarkerDataset(), collector);
+		collectExpressions(map.getMarkerData(), collector);
 	}
 
+	public static void collectExpressions(ItemData data, JRExpressionCollector collector)
+	{
+		if (data != null)
+		{
+			JRExpressionCollector datasetCollector = collector;
+
+			JRElementDataset dataset = data.getDataset();
+			JRDatasetRun datasetRun = dataset == null ? null : dataset.getDatasetRun();
+			if (datasetRun != null)
+			{
+				collector.collect(datasetRun);
+				datasetCollector = collector.getDatasetCollector(datasetRun.getDatasetName());
+			}
+
+			List<Item> items = data.getItems();
+			if (items != null && !items.isEmpty())
+			{
+				for(Item item : items)
+				{
+					List<ItemProperty> itemProperties = item.getProperties();
+					if(itemProperties != null)
+					{
+						for(ItemProperty property : itemProperties)
+						{
+							datasetCollector.addExpression(property.getValueExpression());
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #collectExpressions(ItemData, JRExpressionCollector)}.
+	 */
 	public static void collectExpressions(MarkerDataset dataset, JRExpressionCollector collector)
 	{
 		if(dataset != null)
@@ -112,44 +148,46 @@ public class MapCompiler implements ComponentCompiler
 			}
 		}
 
-		MarkerDataset dataset = map.getMarkerDataset();
-		if (dataset != null)
+		ItemData markerData = map.getMarkerData();
+		if (markerData != null)
 		{
-			verify(verifier, dataset);
+			verify(verifier, markerData);
 		}
 	}
 
-	protected void verify(JRVerifier verifier, MarkerDataset dataset)
+	protected void verify(JRVerifier verifier, ItemData itemData)
 	{
-		if(dataset.getDatasetRun() != null)
+		if (itemData.getDataset() != null)
 		{
-			verifier.verifyDatasetRun(dataset.getDatasetRun());
+			verifier.verifyElementDataset(itemData.getDataset());
 		}
 		
-		List<Marker> markers = dataset.getMarkers();
-		if (markers != null)
+		List<Item> items = itemData.getItems();
+		if (items != null)
 		{
-			for (Marker marker : markers)
+			for (Item item : items)
 			{
-				verifyMarkerProperties(verifier, marker.getProperties());
+				verifyMarker(verifier, item);
 			}
 		}
 	}
 
-	protected void verifyMarkerProperties(JRVerifier verifier, List<MarkerProperty> markerProperties)
+	protected void verifyMarker(JRVerifier verifier, Item item)
 	{
 		boolean hasLatitude = false;
 		boolean hasLongitude = false;
 		
-		if(markerProperties != null)
+		List<ItemProperty> itemProperties = item.getProperties();
+		
+		if (itemProperties != null)
 		{
-			for (MarkerProperty marker : markerProperties)
+			for (ItemProperty itemProperty : itemProperties)
 			{
-				if (Marker.PROPERTY_latitude.equals(marker.getName()))
+				if (MapComponent.PROPERTY_latitude.equals(itemProperty.getName()))
 				{
 					hasLatitude = true;
 				}
-				else if (Marker.PROPERTY_longitude.equals(marker.getName()))
+				else if (MapComponent.PROPERTY_longitude.equals(itemProperty.getName()))
 				{
 					hasLongitude = true;
 				}
@@ -158,11 +196,11 @@ public class MapCompiler implements ComponentCompiler
 		
 		if(!hasLatitude) 
 		{
-			verifier.addBrokenRule("No latitude set for marker.", markerProperties);
+			verifier.addBrokenRule("No latitude set for marker.", itemProperties);
 		}
 		if(!hasLongitude) 
 		{
-			verifier.addBrokenRule("No longitude set for marker.", markerProperties);
+			verifier.addBrokenRule("No longitude set for marker.", itemProperties);
 		}
 	}
 }

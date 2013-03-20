@@ -28,6 +28,7 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRCloneable;
 
 /**
+ * @deprecated Replaced by {@link Item}.
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */

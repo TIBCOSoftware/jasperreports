@@ -37,6 +37,10 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  */
 public interface MapComponent extends Component, JRCloneable
 {
+	public static final String PROPERTY_latitude = "latitude";
+	public static final String PROPERTY_longitude = "longitude";
+	public static final String PROPERTY_title = "title";
+
 	public static final Integer DEFAULT_ZOOM = 8;
 	
 	JRExpression getLatitudeExpression();
@@ -57,5 +61,10 @@ public interface MapComponent extends Component, JRCloneable
 	
 	MapImageTypeEnum getImageType();
 	
+	ItemData getMarkerData();
+	
+	/**
+	 * @deprecated Replaced by {@link #getMarkerData()}.
+	 */
 	MarkerDataset getMarkerDataset();
 }

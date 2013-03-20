@@ -40,6 +40,13 @@ import net.sf.jasperreports.components.barcode4j.UPCEComponent;
 import net.sf.jasperreports.components.barcode4j.USPSIntelligentMailComponent;
 import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.StandardListComponent;
+import net.sf.jasperreports.components.map.Item;
+import net.sf.jasperreports.components.map.ItemData;
+import net.sf.jasperreports.components.map.ItemDataXmlFactory;
+import net.sf.jasperreports.components.map.ItemDatasetFactory;
+import net.sf.jasperreports.components.map.ItemProperty;
+import net.sf.jasperreports.components.map.ItemPropertyXmlFactory;
+import net.sf.jasperreports.components.map.ItemXmlFactory;
 import net.sf.jasperreports.components.map.MapXmlFactory;
 import net.sf.jasperreports.components.map.Marker;
 import net.sf.jasperreports.components.map.MarkerDataset;
@@ -55,6 +62,7 @@ import net.sf.jasperreports.components.table.StandardColumnGroup;
 import net.sf.jasperreports.components.table.StandardGroupCell;
 import net.sf.jasperreports.components.table.StandardTableFactory;
 import net.sf.jasperreports.components.table.TableReportContextXmlRule;
+import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -245,12 +253,10 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		String componentNamespace = digester.getRuleNamespaceURI();
 		String jrNamespace = JRXmlConstants.JASPERREPORTS_NAMESPACE;
 
-		
 		String markerDatasetPattern = mapPattern + "/markerDataset";
 		digester.addFactoryCreate(markerDatasetPattern, MarkerDatasetXmlFactory.class.getName());
 		digester.addSetNext(markerDatasetPattern, "setMarkerDataset", MarkerDataset.class.getName());
-		
-		digester.setRuleNamespaceURI(componentNamespace);
+
 		String markerPattern = markerDatasetPattern + "/marker";
 		digester.addFactoryCreate(markerPattern, MarkerXmlFactory.class.getName());
 		digester.addSetNext(markerPattern, "addMarker", Marker.class.getName());
@@ -259,12 +265,32 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addFactoryCreate(markerPropertyPattern, MarkerPropertyXmlFactory.class.getName());
 		digester.addSetNext(markerPropertyPattern, "addMarkerProperty", MarkerProperty.class.getName());
 
+		String markerDataPattern = mapPattern + "/markerData";
+		digester.addFactoryCreate(markerDataPattern, ItemDataXmlFactory.class.getName());
+		digester.addSetNext(markerDataPattern, "setMarkerData", ItemData.class.getName());
+
+		String itemPattern = "*/item";
+		digester.addFactoryCreate(itemPattern, ItemXmlFactory.class.getName());
+		digester.addSetNext(itemPattern, "addItem", Item.class.getName());
+
+		String itemPropertyPattern = itemPattern + "/itemProperty";
+		digester.addFactoryCreate(itemPropertyPattern, ItemPropertyXmlFactory.class.getName());
+		digester.addSetNext(itemPropertyPattern, "addItemProperty", ItemProperty.class.getName());
+
 		digester.setRuleNamespaceURI(jrNamespace);
 		
 		String markerPropertyValueExpressionPattern = markerPropertyPattern + "/" + JRXmlConstants.ELEMENT_valueExpression;
 		digester.addFactoryCreate(markerPropertyValueExpressionPattern, JRExpressionFactory.class.getName());
 		digester.addCallMethod(markerPropertyValueExpressionPattern, "setText", 0);
 		digester.addSetNext(markerPropertyValueExpressionPattern, "setValueExpression", JRExpression.class.getName());
+		
+		String itemPropertyValueExpressionPattern = itemPropertyPattern + "/" + JRXmlConstants.ELEMENT_valueExpression;
+		digester.addFactoryCreate(itemPropertyValueExpressionPattern, JRExpressionFactory.class.getName());
+		digester.addCallMethod(itemPropertyValueExpressionPattern, "setText", 0);
+		digester.addSetNext(itemPropertyValueExpressionPattern, "setValueExpression", JRExpression.class.getName());
+		
+		digester.addFactoryCreate(markerDataPattern + "/dataset", ItemDatasetFactory.class.getName());
+		digester.addSetNext(markerDataPattern + "/dataset", "setDataset", JRElementDataset.class.getName());
 		
 		// leave the digester namespace in the same state
 		digester.setRuleNamespaceURI(componentNamespace);

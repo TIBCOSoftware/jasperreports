@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.map;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
@@ -56,6 +58,10 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public static final String PROPERTY_MAP_TYPE = "mapType";
 	public static final String PROPERTY_MAP_SCALE = "mapScale";
 	public static final String PROPERTY_IMAGE_TYPE = "imageType";
+	public static final String PROPERTY_MARKER_DATA = "markerData";
+	/**
+	 * @deprecated Replaced by {@link #PROPERTY_MARKER_DATA}.
+	 */
 	public static final String PROPERTY_MARKER_DATASET = "markerDataset";
 
 	private JRExpression latitudeExpression;
@@ -67,7 +73,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private MapTypeEnum mapType;
 	private MapScaleEnum mapScale;
 	private MapImageTypeEnum imageType;
-	private MarkerDataset markerDataset;
+	private ItemData markerData;
 	
 	private transient JRPropertyChangeSupport eventSupport;
 
@@ -86,9 +92,9 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		this.mapType = map.getMapType();
 		this.mapScale = map.getMapScale();
 		this.imageType = map.getImageType();
-		if(map.getMarkerDataset() != null)
+		if(map.getMarkerData() != null)
 		{
-			this.markerDataset = new StandardMarkerDataset(map.getMarkerDataset(), objectFactory);
+			this.markerData = new StandardItemData(map.getMarkerData(), objectFactory);
 		}
 	}
 	
@@ -194,7 +200,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		clone.longitudeExpression = JRCloneUtils.nullSafeClone(longitudeExpression);
 		clone.zoomExpression = JRCloneUtils.nullSafeClone(zoomExpression);
 		clone.languageExpression = JRCloneUtils.nullSafeClone(languageExpression);
-		clone.markerDataset = JRCloneUtils.nullSafeClone(markerDataset);
+		clone.markerData = JRCloneUtils.nullSafeClone(markerData);
 		clone.eventSupport = null;
 		return clone;
 	}
@@ -229,15 +235,52 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_IMAGE_TYPE, old, this.imageType);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getMarkerData()}.
+	 */
 	public MarkerDataset getMarkerDataset() {
-		return markerDataset;
+		return markerDataset; //FIXMEMAP make dummy marker dataset
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setMarkerData(ItemData)}.
+	 */
 	public void setMarkerDataset(MarkerDataset markerDataset) {
-		Object old = this.markerDataset;
-		this.markerDataset = markerDataset;
-		getEventSupport().firePropertyChange(PROPERTY_MARKER_DATASET, old, this.markerDataset);
+		setMarkerData(StandardMarkerDataset.getItemData(markerDataset));
+	}
+
+	public ItemData getMarkerData() {
+		return markerData;
+	}
+
+	public void setMarkerData(ItemData markerData) {
+		Object old = this.markerData;
+		this.markerData = markerData;
+		getEventSupport().firePropertyChange(PROPERTY_MARKER_DATA, old, this.markerData);
 		
 	}
 
+
+	/*
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
+	private MarkerDataset markerDataset;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		{
+			if (markerDataset != null)
+			{
+				markerData = StandardMarkerDataset.getItemData(markerDataset);
+			}
+			markerDataset = null;
+		}
+	}
 }

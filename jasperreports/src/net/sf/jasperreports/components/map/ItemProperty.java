@@ -23,22 +23,29 @@
  */
 package net.sf.jasperreports.components.map;
 
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-
-import org.xml.sax.Attributes;
+import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.JRExpression;
 
 /**
- * @deprecated Replaced by {@link ItemDataXmlFactory}.
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class MarkerDatasetXmlFactory extends JRBaseFactory
+public interface ItemProperty extends JRCloneable
 {
 
-	public Object createObject(Attributes attrs) throws Exception
-	{
-		StandardMarkerDataset dataset = new StandardMarkerDataset();
-		return dataset;
-	}
-
+	/**
+	 * 
+	 */
+	String getName();
+	
+	/**
+	 * 
+	 */
+	String getValue();
+	
+	/**
+	 * 
+	 */
+	JRExpression getValueExpression();
+	
 }

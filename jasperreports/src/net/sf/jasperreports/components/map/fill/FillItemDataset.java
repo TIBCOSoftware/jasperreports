@@ -23,13 +23,6 @@
  */
 package net.sf.jasperreports.components.map.fill;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import net.sf.jasperreports.components.map.MapCompiler;
-import net.sf.jasperreports.components.map.Marker;
-import net.sf.jasperreports.components.map.MarkerDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -42,36 +35,25 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class FillMarkerDataset extends JRFillElementDataset
+public class FillItemDataset extends JRFillElementDataset
 {
 
-	protected final MarkerDataset markerDataset;
-	protected List<FillMarker> markerList;
-	protected List<Map<String,Object>> evaluatedMarkers;
+	protected final FillItemData itemData;
+//	protected List<FillMarker> markerList;
+	//protected List<Map<String,Object>> evaluatedMarkers;
 	protected JRFillExpressionEvaluator evaluator;
 	protected byte evaluation = JRExpression.EVALUATION_DEFAULT;
 	
-	public FillMarkerDataset(MarkerDataset markerDataset, JRFillObjectFactory factory)
+	public FillItemDataset(FillItemData itemData, JRFillObjectFactory factory)
 	{
-		super(markerDataset, factory);
-		this.markerDataset = markerDataset;
-		
-		List<Marker> srcMarkerList = markerDataset.getMarkers();
-		if (srcMarkerList != null && !srcMarkerList.isEmpty())
-		{
-			markerList = new ArrayList<FillMarker>();
-			for(Marker marker : srcMarkerList)
-			{
-				if(marker != null)
-				{
-					markerList.add(new FillMarker(marker));
-				}
-			}
-		}
-		
+		super(itemData.getDataset(), factory);
+
+		this.itemData = itemData;
+
+		factory.registerElementDataset(this);
 	}
 
 	protected void customEvaluate(JRCalculator calculator)
@@ -79,12 +61,14 @@ public class FillMarkerDataset extends JRFillElementDataset
 	{
 		try
 		{
-			if(markerList != null && ! markerList.isEmpty()) {
-				for (FillMarker marker : markerList)
-				{
-					marker.evaluate(calculator, evaluation);
-				}
-			}
+			itemData.evaluateItems(calculator, evaluation);
+//			if(markerList != null && ! markerList.isEmpty()) 
+//			{
+//				for (FillMarker marker : markerList)
+//				{
+//					marker.evaluateProperties(calculator, evaluation);
+//				}
+//			}
 		}
 		catch (JRExpressionEvalException e)
 		{
@@ -98,29 +82,30 @@ public class FillMarkerDataset extends JRFillElementDataset
 
 	protected void customIncrement()
 	{
-		if(markerList != null && ! markerList.isEmpty()) {
-			for (FillMarker marker : markerList)
-			{
-				Map<String,Object> evaluatedProperties = marker.getEvaluatedProperties();
-				if (evaluatedProperties != null)
-				{
-					if(evaluatedMarkers == null) {
-						evaluatedMarkers = new ArrayList<Map<String,Object>>();
-					}
-					evaluatedMarkers.add(evaluatedProperties);
-				}
-			}
-		}
+//		if(markerList != null && ! markerList.isEmpty()) {
+//			for (FillMarker marker : markerList)
+//			{
+//				Map<String,Object> evaluatedProperties = marker.getEvaluatedProperties();
+//				if (evaluatedProperties != null)
+//				{
+//					if(evaluatedMarkers == null) {
+//						evaluatedMarkers = new ArrayList<Map<String,Object>>();
+//					}
+//					evaluatedMarkers.add(evaluatedProperties);
+//				}
+//			}
+//		}
+		itemData.addEvaluateItems();
 	}
 
 	protected void customInitialize()
 	{
-		evaluatedMarkers = null;
+		//evaluatedMarkers = null;
 	}
 
 	public void collectExpressions(JRExpressionCollector collector)
 	{
-		MapCompiler.collectExpressions(markerDataset, collector);
+		//MapCompiler.collectExpressions(markerDataset, collector);
 	}
 
 	public void increment()
@@ -128,10 +113,10 @@ public class FillMarkerDataset extends JRFillElementDataset
 		super.increment();
 	}
 	
-	public List<Map<String,Object>> getEvaluatedMarkers()
-	{
-		return evaluatedMarkers;
-	}
+//	public List<Map<String,Object>> getEvaluatedMarkers()
+//	{
+//		return evaluatedMarkers;
+//	}
 	
 	/**
 	 * @return the evaluation

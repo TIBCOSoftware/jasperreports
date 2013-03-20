@@ -24,38 +24,79 @@
 package net.sf.jasperreports.components.map;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
- * @deprecated Replaced by {@link StandardItem}.
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class StandardMarker implements Marker, JRChangeEventsSupport, Serializable
+public class StandardItemProperty implements ItemProperty, JRChangeEventsSupport, Serializable
 {
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	public static final String PROPERTY_MARKER_PROPERTIES = "markerProperties";
+	
+	public static final String PROPERTY_NAME = "name";
+	public static final String PROPERTY_VALUE = "value";
+	public static final String PROPERTY_VALUE_EXPRESSION = "valueExpression";
 	
 	private transient JRPropertyChangeSupport eventSupport;
 
-	private List<MarkerProperty> properties = new ArrayList<MarkerProperty>();
+	private String name;
+	private String value;
+	private JRExpression valueExpression;
 
-	public StandardMarker()
+	public StandardItemProperty()
 	{
 	}
 	
-	public StandardMarker(List<MarkerProperty> properties)
+	public StandardItemProperty(String name, String value, JRExpression valueExpression)
 	{
-		this.properties = properties;
+		this.name = name;
+		this.valueExpression = valueExpression;
+		this.value = value;
 	}
 	
+	public String getName()
+	{
+		return name;
+	}
+	
+	public void setName(String name)
+	{
+		Object old = this.name;
+		this.name = name;
+		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
+	}
+
+	public String getValue()
+	{
+		return value;
+	}
+	
+	public void setValue(String value)
+	{
+		Object old = this.value;
+		this.value = value;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE, old, this.value);
+	}
+	
+	public JRExpression getValueExpression()
+	{
+		return valueExpression;
+	}
+
+	public void setValueExpression(JRExpression valueExpression)
+	{
+		Object old = this.valueExpression;
+		this.valueExpression = valueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
+	}
+
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -73,38 +114,14 @@ public class StandardMarker implements Marker, JRChangeEventsSupport, Serializab
 	{
 		try
 		{
-			StandardMarker clone = (StandardMarker) super.clone();
-			clone.properties = JRCloneUtils.cloneList(properties);
+			StandardItemProperty clone = (StandardItemProperty) super.clone();
+			clone.valueExpression = JRCloneUtils.nullSafeClone(valueExpression);
 			return clone;
 		}
 		catch (CloneNotSupportedException e)
 		{
 			// never
 			throw new RuntimeException(e);
-		}
-	}
-
-	@Override
-	public List<MarkerProperty> getProperties() 
-	{
-		return properties;
-	}
-	
-	public void addMarkerProperty(MarkerProperty property)
-	{
-		properties.add(property);
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER_PROPERTIES, property, properties.size() - 1);
-	}
-	
-	public void removeMarkerProperty(MarkerProperty property)
-	{
-		int idx = properties.indexOf(property);
-		if (idx >= 0)
-		{
-			properties.remove(idx);
-			
-			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_MARKER_PROPERTIES, 
-					property, idx);
 		}
 	}
 }

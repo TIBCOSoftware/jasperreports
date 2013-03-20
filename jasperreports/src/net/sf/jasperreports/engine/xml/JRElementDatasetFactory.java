@@ -44,11 +44,16 @@ public class JRElementDatasetFactory extends JRBaseFactory
 	
 	public Object createObject(Attributes atts)
 	{
-		JRDesignElementDataset dataset = (JRDesignElementDataset) digester.peek();
+		JRDesignElementDataset dataset = getDataset();
 
 		setDatasetAtts(atts, dataset);
 
 		return dataset;
+	}
+
+	protected JRDesignElementDataset getDataset()
+	{
+		return (JRDesignElementDataset) digester.peek();
 	}
 
 	protected void setDatasetAtts(Attributes atts, JRDesignElementDataset dataset)

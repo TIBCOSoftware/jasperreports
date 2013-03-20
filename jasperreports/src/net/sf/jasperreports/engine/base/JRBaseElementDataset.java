@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
@@ -42,7 +43,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRBaseElementDataset implements JRElementDataset, Serializable
+public class JRBaseElementDataset implements JRElementDataset, Serializable
 {
 
 
@@ -140,6 +141,13 @@ public abstract class JRBaseElementDataset implements JRElementDataset, Serializ
 	public JRExpression getIncrementWhenExpression()
 	{
 		return incrementWhenExpression;
+	}
+
+	
+	@Override
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		// expressions are collected in JRExpressionCollector directly
 	}
 	
 
