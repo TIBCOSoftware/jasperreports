@@ -49,7 +49,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class MapFillComponent extends BaseFillComponent
+public class MapFillComponent extends BaseFillComponent implements FillContextProvider
 {
 	private final MapComponent mapComponent;
 	
@@ -86,7 +86,7 @@ public class MapFillComponent extends BaseFillComponent
 		return mapComponent;
 	}
 	
-	protected FillContext getFillContext()
+	public FillContext getFillContext()
 	{
 		return fillContext;
 	}

@@ -151,11 +151,11 @@ public class MapCompiler implements ComponentCompiler
 		ItemData markerData = map.getMarkerData();
 		if (markerData != null)
 		{
-			verify(verifier, markerData);
+			verifyMarkerData(verifier, markerData);
 		}
 	}
 
-	protected void verify(JRVerifier verifier, ItemData itemData)
+	protected void verifyMarkerData(JRVerifier verifier, ItemData itemData)
 	{
 		if (itemData.getDataset() != null)
 		{
