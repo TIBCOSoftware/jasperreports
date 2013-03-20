@@ -130,7 +130,7 @@ jQuery.extend(jive, {
     	if (jo.is('.interactiveElement')) {
 	        jive.ui.dialog.isVisible && jive.ui.dialog.hide();
 	        jive.selected = {
-	            ie: jive.elements[jo.data('popupid')],
+	            ie: jive.elements[jo.data('coluuid')],
 	            jo: jo
 	        };
 	        var dim = jive.interactive[jive.selected.ie.type].getElementSize();

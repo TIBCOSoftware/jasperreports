@@ -178,7 +178,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		ReportContext reportContext = context.getExporter().getReportContext();
 		if (reportContext != null && tableUUID != null)//FIXMEJIVE
 		{
-			String popupId = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_POPUP_ID);
+			String columnUuid = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_UUID);
 			String fieldOrVariableName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_FIELD_OR_VARIABLE_NAME);
 			String columnLabel = (String)element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);
 			if (columnLabel == null) {
@@ -247,7 +247,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			contextMap.put("elementWidth", element.getWidth());
 			contextMap.put("elementHeight", element.getHeight());
 
-			contextMap.put("popupId", popupId);
+			contextMap.put("columnUuid", columnUuid);
 			contextMap.put("columnLabel", columnLabel);
 			contextMap.put("columnIndex", columnIndex);
 			contextMap.put("canSort", canSort);

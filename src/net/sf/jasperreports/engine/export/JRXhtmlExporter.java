@@ -54,6 +54,7 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -2399,15 +2400,15 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		{
 			writer.write(" class=\"" + clazz + "\"");
 		}
-		String popupId = getPropertiesUtil().getProperty(element, JRHtmlExporter.PROPERTY_HTML_POPUP_ID);
-		if (popupId != null)
+		String columnUuid = getPropertiesUtil().getProperty(element, HeaderToolbarElement.PROPERTY_COLUMN_UUID);
+		if (columnUuid != null)
 		{
-			writer.write(" data-popupId=\"" + popupId + "\"");
+			writer.write(" data-coluuid=\"" + columnUuid + "\"");
 		}
-		String popupColumn = getPropertiesUtil().getProperty(element, JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN);
-		if (popupColumn != null)
+		String cellId = getPropertiesUtil().getProperty(element, HeaderToolbarElement.PROPERTY_CELL_ID);
+		if (cellId != null)
 		{
-			writer.write(" data-popupColumn=\"" + popupColumn + "\"");
+			writer.write(" data-cellid=\"" + cellId + "\"");
 		}
 	}
 	
@@ -2480,9 +2481,9 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			writer.write("\"");
 		}
 		
-		if (frame.getPropertiesMap() != null && frame.getPropertiesMap().containsProperty(JRHtmlExporter.PROPERTY_HTML_UUID)) {
+		if (frame.getPropertiesMap() != null && frame.getPropertiesMap().containsProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID)) {
 			writer.write(" data-uuid=\"");
-			writer.write(frame.getPropertiesMap().getProperty(JRHtmlExporter.PROPERTY_HTML_UUID));
+			writer.write(frame.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID));
 			writer.write("\"");
 			writer.write(" class=\"jrtableframe\"");
 		}

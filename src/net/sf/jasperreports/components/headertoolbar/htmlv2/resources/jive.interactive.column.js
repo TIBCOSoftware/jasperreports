@@ -74,13 +74,19 @@ jive.interactive.column = jive.interactive.column || {
         var colsData = it.columnsData[tableUuid] = {};
 
         for (i = 0; i < tableCols.length; i++) {
-        	var popid = jQuery(tableCols.get(i)).data('popupid');
-        	if (colsData[popid]) continue;
-
-        	var firstCol = parentContainer.find('td[data-popupid=' + popid + ']:first');
-        	var lastCol = parentContainer.find('td[data-popupid=' + popid + ']:last');
+        	var colUuid = jQuery(tableCols.get(i)).data('coluuid'),
+        		cols, firstCol, lastCol;
+        	if (colsData[colUuid]) continue;
         	
-    		colsData[popid] = {
+        	cols = parentContainer.find('td.jrcolHeader[data-coluuid=' + colUuid + ']');
+        	firstCol = cols.eq(0);
+        	if (cols.size() > 0) {
+        		lastCol = cols.eq(cols.size()-1);
+        	} else {
+        		lastCol = firstCol;
+        	}
+        	
+    		colsData[colUuid] = {
     				jo: jQuery(firstCol),
     				width: lastCol.position().left - firstCol.position().left + lastCol.width(),
     				height: lastCol.position().top - firstCol.position().top + lastCol.height(),
@@ -101,18 +107,18 @@ jive.interactive.column = jive.interactive.column || {
     	for (i = 0; i < tableCols.length; i++) {
     		c = tableCols[i];
     		lt = c.jo.offset().left;
-    		colData = it.getColumnByUuid(c.jo.data('popupid'), tableUuid);
+    		colData = it.getColumnByUuid(c.jo.data('coluuid'), tableUuid);
     		if (colData != null) {
     			colData.visible = true;	// enable column
     		}
-    		it.dropColumns[tableUuid].push('col_'+c.jo.data('popupcolumn'));
+    		it.dropColumns[tableUuid].push('cel_'+c.jo.data('cellid'));
     		it.dropPoints[tableUuid].push(lt);
     		it.visibleColumnsMoveData[tableUuid].push({
     			left: lt,
     			right: lt + c.width,
     			width: c.width,
     			index: colData != null ? colData.index : null,
-    			uuid: c.jo.data('popupid')
+    			uuid: c.jo.data('coluuid')
     		});
     		
     		if (i == tableCols.length - 1) {
@@ -148,7 +154,7 @@ jive.interactive.column = jive.interactive.column || {
     getJoForCurrentSelection: function(jo) {
     	var result = null;
     	jo.parents('table').each(function(i, v) {
-        	result = jQuery(v).find('td.jrcolHeader[data-popupcolumn=' + jo.data('popupcolumn') + ']:first');
+        	result = jQuery(v).find('td.jrcolHeader[data-cellid=' + jo.data('cellid') + ']:first');
         	if (result.length > 0) {
         		return false; //break each
         	}
@@ -168,7 +174,7 @@ jive.interactive.column = jive.interactive.column || {
     },
     getInteractiveElementFromProxy: function(cellJo){
         var classes = cellJo.attr('class').split(' '),
-        	headerSel = 'td[data-popupcolumn="' + classes[1].substring(4) + '"]:first',
+        	headerSel = 'td[data-cellid="' + classes[1].substring(4) + '"]:first',
         	headerJo = null,
         	cellJoOffsetTop = cellJo.offset().top;
         
@@ -185,13 +191,13 @@ jive.interactive.column = jive.interactive.column || {
     },
     getElementSize: function(){
         var jo = jive.selected.jo,
-        	cid = jo.data('popupColumn') || jo.data('popupcolumn'),
+        	cid = jo.data('cellid'),
         	h = null;
         
         cid = ('' + cid).replace(/\./g,'\\.');
         
         jo.parents().each(function(i, v) {
-        	var lastCell = jQuery('td.col_' + cid + ':last', v);
+        	var lastCell = jQuery('td.cel_' + cid + ':last', v);
             if(lastCell && lastCell.length > 0) {
                 var lastElemTop = lastCell.offset().top;
                 var lastElemHeight = lastCell.outerHeight();
@@ -260,13 +266,13 @@ jive.interactive.column = jive.interactive.column || {
         this.currentColMoveData = null; 
         
         for (i = 0; i < this.currentColumnsMoveData.length; i++) {
-        	if (this.currentColumnsMoveData[i].uuid === jive.selected.jo.data('popupid')) {
+        	if (this.currentColumnsMoveData[i].uuid === jive.selected.jo.data('coluuid')) {
         		this.currentColMoveData = this.currentColumnsMoveData[i];
         		break;
         	}
         }
         
-        var c = 'col_'+ jive.selected.jo.data('popupcolumn');
+        var c = 'cel_'+ jive.selected.jo.data('cellid');
         var ci = jQuery.inArray(c,this.dropColumns[this.uuid]) * 2;
         this.ldi = ci == 0 ? 0 : ci - 1;
         this.rdi =  ci + 3 == this.dropPoints[this.uuid].length ? ci + 2 : ci + 3;
