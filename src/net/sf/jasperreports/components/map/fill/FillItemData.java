@@ -48,14 +48,14 @@ public class FillItemData
 	protected ItemData itemData;
 	protected List<FillItem> itemsList;
 	protected FillItemDataset fillItemDataset;
-	protected MapFillComponent fillComponent;
+	protected FillContextProvider fillContextProvider;
 	private List<Map<String,Object>> evaluatedItems = null;
 	
 	/**
 	 *
 	 */
 	public FillItemData(
-			MapFillComponent fillComponent,
+		FillContextProvider fillContextProvider,
 		ItemData itemData, 
 		JRFillObjectFactory factory
 		)// throws JRException
@@ -63,7 +63,7 @@ public class FillItemData
 		factory.put(itemData, this);
 		
 		this.itemData = itemData;
-		this.fillComponent = fillComponent;
+		this.fillContextProvider = fillContextProvider;
 
 		if (itemData.getDataset() != null)
 		{
@@ -122,7 +122,7 @@ public class FillItemData
 		{
 			if (getDataset() == null)
 			{
-				evaluateItems(fillComponent.getFillContext(), evaluation);
+				evaluateItems(fillContextProvider.getFillContext(), evaluation);
 			}
 			
 			addEvaluateItems();
