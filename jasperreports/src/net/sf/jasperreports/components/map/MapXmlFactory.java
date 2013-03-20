@@ -46,7 +46,7 @@ public class MapXmlFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_mapScale = "mapScale";
 	public static final String ATTRIBUTE_imageType = "imageType";
 	public static final String ELEMENT_item = "item";
-	public static final String ELEMENT_markerData = "makerData";
+	public static final String ELEMENT_markerData = "markerData";
 	public static final String ELEMENT_itemProperty = "itemProperty";
 	/**
 	 * @deprecated Replaced by {@link #ELEMENT_item}.
