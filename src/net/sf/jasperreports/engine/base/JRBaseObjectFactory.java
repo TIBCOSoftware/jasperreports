@@ -113,6 +113,7 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRExpression;
@@ -133,7 +134,6 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReportTemplate;
-import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSection;
@@ -147,20 +147,21 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.analytics.dataset.BaseDataAxis;
+import net.sf.jasperreports.engine.analytics.dataset.BaseDataAxisLevel;
 import net.sf.jasperreports.engine.analytics.dataset.BaseDataLevelBucket;
 import net.sf.jasperreports.engine.analytics.dataset.BaseDataLevelBucketProperty;
+import net.sf.jasperreports.engine.analytics.dataset.BaseDataMeasure;
 import net.sf.jasperreports.engine.analytics.dataset.BaseMultiAxisData;
 import net.sf.jasperreports.engine.analytics.dataset.BaseMultiAxisDataset;
-import net.sf.jasperreports.engine.analytics.dataset.BaseDataMeasure;
-import net.sf.jasperreports.engine.analytics.dataset.BaseDataAxisLevel;
 import net.sf.jasperreports.engine.analytics.dataset.DataAxis;
+import net.sf.jasperreports.engine.analytics.dataset.DataAxisLevel;
 import net.sf.jasperreports.engine.analytics.dataset.DataLevelBucket;
 import net.sf.jasperreports.engine.analytics.dataset.DataLevelBucketProperty;
+import net.sf.jasperreports.engine.analytics.dataset.DataMeasure;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisDataset;
-import net.sf.jasperreports.engine.analytics.dataset.DataMeasure;
-import net.sf.jasperreports.engine.analytics.dataset.DataAxisLevel;
 
 
 /**
@@ -1737,6 +1738,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		return baseData;
 	}
 
+
 	public MultiAxisDataset getMultiAxisDataset(MultiAxisDataset dataset)
 	{
 		MultiAxisDataset baseDataset = null;
@@ -1746,6 +1748,21 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseDataset == null)
 			{
 				baseDataset = new BaseMultiAxisDataset(dataset, this);
+			}
+		}
+		return baseDataset;
+	}
+
+	
+	public JRElementDataset getElementDataset(JRElementDataset dataset)
+	{
+		JRElementDataset baseDataset = null;
+		if (dataset != null)
+		{
+			baseDataset = (JRElementDataset) get(dataset);
+			if (baseDataset == null)
+			{
+				baseDataset = new JRBaseElementDataset(dataset, this);
 			}
 		}
 		return baseDataset;

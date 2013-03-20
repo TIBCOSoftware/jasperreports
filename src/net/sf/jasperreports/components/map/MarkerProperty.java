@@ -23,20 +23,12 @@
  */
 package net.sf.jasperreports.components.map;
 
-import net.sf.jasperreports.engine.JRCloneable;
-import net.sf.jasperreports.engine.JRExpression;
 
 /**
+ * @deprecated Replaced by {@link ItemProperty}.
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public interface MarkerProperty extends JRCloneable
+public interface MarkerProperty extends ItemProperty
 {
-
-	String getName();
-	
-	String getValue();
-	
-	JRExpression getValueExpression();
-	
 }

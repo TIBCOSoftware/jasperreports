@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
+ * @deprecated Replaced by {@link StandardItemProperty}.
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */

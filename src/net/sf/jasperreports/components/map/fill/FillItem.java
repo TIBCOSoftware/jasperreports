@@ -27,56 +27,57 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.components.map.Marker;
-import net.sf.jasperreports.components.map.MarkerProperty;
+import net.sf.jasperreports.components.map.Item;
+import net.sf.jasperreports.components.map.ItemProperty;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 
 /**
- * @deprecated Replaced by {@link FillItem}.
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class FillMarker implements Marker
+public abstract class FillItem implements Item
 {
 
 	/**
 	 *
 	 */
-	protected Marker parent;
+	protected Item item;
+	protected Map<String, Object> evaluatedProperties;
 	
 	/**
 	 *
 	 */
-	public FillMarker(
-		Marker marker, 
+	public FillItem(
+		Item item, 
 		JRFillObjectFactory factory
 		)
 	{
-		factory.put(marker, this);
+		factory.put(item, this);
 
-		parent = marker;
+		this.item = item;
 	}
 	
 	
 	/**
 	 *
 	 */
-	public Map<String, Object> evaluateProperties(JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
+	public void evaluateProperties(JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
 	{
-		List<MarkerProperty> markerProperties = getProperties();
+		List<ItemProperty> itemProperties = getProperties();
 		Map<String, Object> result = null;
-		if(markerProperties != null && !markerProperties.isEmpty())
+		if(itemProperties != null && !itemProperties.isEmpty())
 		{
 			result = new HashMap<String, Object>();
-			for(MarkerProperty property : markerProperties)
+			for(ItemProperty property : itemProperties)
 			{
 				result.put(property.getName(), getEvaluatedValue(property, evaluator, evaluation));
 			}
 		}
-		return result;
+		
+		evaluatedProperties = result;
 	}
 
 
@@ -89,36 +90,32 @@ public class FillMarker implements Marker
 	}
 
 	@Override
-	public List<MarkerProperty> getProperties() 
+	public List<ItemProperty> getProperties() 
 	{
-		return parent.getProperties();
+		return item.getProperties();
 	}
 	
-	public Object getEvaluatedValue(MarkerProperty property, JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
+	public Map<String, Object> getEvaluatedProperties() 
+	{
+		return evaluatedProperties;
+	}
+
+	public Object getEvaluatedValue(ItemProperty property, JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
 	{
 		Object result = null;
 		if(property.getValueExpression() == null || "".equals(property.getValueExpression()))
 		{
-			if(Marker.PROPERTY_latitude.equals(property.getName()) || Marker.PROPERTY_longitude.equals(property.getName()))
-			{
-				if(property.getValue() == null || "".equals(property.getValue()))
-				{
-					throw new JRException("Empty marker "+ property.getName()+ " found.");
-				}
-			}
 			result = property.getValue();
 		}
 		else
 		{
 			result = evaluator.evaluate(property.getValueExpression(), evaluation);
-			if(Marker.PROPERTY_latitude.equals(property.getName()) || Marker.PROPERTY_longitude.equals(property.getName()))
-			{
-				if(result == null || "".equals(result))
-				{
-					throw new JRException("Empty marker "+ property.getName()+ " found.");
-				}
-			}
 		}
+
+		verifyValue(property, result);
+		
 		return result;
 	}
+
+	public abstract void verifyValue(ItemProperty property, Object value) throws JRException;
 }

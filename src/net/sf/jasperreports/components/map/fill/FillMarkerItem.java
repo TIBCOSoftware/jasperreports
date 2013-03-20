@@ -21,24 +21,42 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map;
+package net.sf.jasperreports.components.map.fill;
 
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.components.map.Item;
+import net.sf.jasperreports.components.map.ItemProperty;
+import net.sf.jasperreports.components.map.MapComponent;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
-import org.xml.sax.Attributes;
 
 /**
- * @deprecated Replaced by {@link ItemDataXmlFactory}.
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class MarkerDatasetXmlFactory extends JRBaseFactory
+public class FillMarkerItem extends FillItem
 {
-
-	public Object createObject(Attributes attrs) throws Exception
+	
+	/**
+	 *
+	 */
+	public FillMarkerItem(
+		Item item, 
+		JRFillObjectFactory factory
+		)
 	{
-		StandardMarkerDataset dataset = new StandardMarkerDataset();
-		return dataset;
+		super(item, factory);
+	}
+
+	public void verifyValue(ItemProperty property, Object value) throws JRException
+	{
+		if(MapComponent.PROPERTY_latitude.equals(property.getName()) || MapComponent.PROPERTY_longitude.equals(property.getName()))
+		{
+			if(value == null || "".equals(value))
+			{
+				throw new JRException("Empty item "+ property.getName()+ " found.");
+			}
+		}
 	}
 
 }

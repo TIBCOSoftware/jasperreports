@@ -24,21 +24,35 @@
 package net.sf.jasperreports.components.map;
 
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.xml.sax.Attributes;
 
+
 /**
- * @deprecated Replaced by {@link ItemDataXmlFactory}.
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class MarkerDatasetXmlFactory extends JRBaseFactory
+public class ItemPropertyXmlFactory extends JRBaseFactory
 {
 
-	public Object createObject(Attributes attrs) throws Exception
+	/**
+	 *
+	 */
+	public Object createObject(Attributes atts)
 	{
-		StandardMarkerDataset dataset = new StandardMarkerDataset();
-		return dataset;
+		StandardItemProperty itemProperty = new StandardItemProperty();
+		
+		String name = atts.getValue(JRXmlConstants.ATTRIBUTE_name);
+		if(name != null)
+		{
+			itemProperty.setName(name);
+		}
+		String value = atts.getValue(JRXmlConstants.ATTRIBUTE_value);
+		if(value != null)
+		{
+			itemProperty.setValue(value);
+		}
+		return itemProperty;
 	}
-
 }

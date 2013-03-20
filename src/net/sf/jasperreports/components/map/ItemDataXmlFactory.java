@@ -28,16 +28,15 @@ import net.sf.jasperreports.engine.xml.JRBaseFactory;
 import org.xml.sax.Attributes;
 
 /**
- * @deprecated Replaced by {@link ItemDataXmlFactory}.
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class MarkerDatasetXmlFactory extends JRBaseFactory
+public class ItemDataXmlFactory extends JRBaseFactory
 {
 
 	public Object createObject(Attributes attrs) throws Exception
 	{
-		StandardMarkerDataset dataset = new StandardMarkerDataset();
+		StandardItemData dataset = new StandardItemData();
 		return dataset;
 	}
 

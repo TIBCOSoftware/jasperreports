@@ -33,25 +33,24 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
- * @deprecated Replaced by {@link StandardItem}.
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class StandardMarker implements Marker, JRChangeEventsSupport, Serializable
+public class StandardItem implements Item, JRChangeEventsSupport, Serializable
 {
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	public static final String PROPERTY_MARKER_PROPERTIES = "markerProperties";
+	public static final String PROPERTY_ITEM_PROPERTIES = "itemProperties";
 	
 	private transient JRPropertyChangeSupport eventSupport;
 
-	private List<MarkerProperty> properties = new ArrayList<MarkerProperty>();
+	private List<ItemProperty> properties = new ArrayList<ItemProperty>();
 
-	public StandardMarker()
+	public StandardItem()
 	{
 	}
 	
-	public StandardMarker(List<MarkerProperty> properties)
+	public StandardItem(List<ItemProperty> properties)
 	{
 		this.properties = properties;
 	}
@@ -71,39 +70,40 @@ public class StandardMarker implements Marker, JRChangeEventsSupport, Serializab
 
 	public Object clone()
 	{
+		StandardItem clone = null;
 		try
 		{
-			StandardMarker clone = (StandardMarker) super.clone();
-			clone.properties = JRCloneUtils.cloneList(properties);
-			return clone;
+			clone = (StandardItem) super.clone();
 		}
 		catch (CloneNotSupportedException e)
 		{
 			// never
 			throw new RuntimeException(e);
 		}
+		clone.properties = JRCloneUtils.cloneList(properties);
+		return clone;
 	}
 
 	@Override
-	public List<MarkerProperty> getProperties() 
+	public List<ItemProperty> getProperties() 
 	{
 		return properties;
 	}
 	
-	public void addMarkerProperty(MarkerProperty property)
+	public void addItemProperty(ItemProperty property)
 	{
 		properties.add(property);
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER_PROPERTIES, property, properties.size() - 1);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_ITEM_PROPERTIES, property, properties.size() - 1);
 	}
 	
-	public void removeMarkerProperty(MarkerProperty property)
+	public void removeItemProperty(ItemProperty property)
 	{
 		int idx = properties.indexOf(property);
 		if (idx >= 0)
 		{
 			properties.remove(idx);
 			
-			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_MARKER_PROPERTIES, 
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_ITEM_PROPERTIES, 
 					property, idx);
 		}
 	}

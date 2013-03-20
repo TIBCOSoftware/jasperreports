@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
+import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericElement;
@@ -59,7 +60,7 @@ public class MapFillComponent extends BaseFillComponent
 	private MapTypeEnum mapType;
 	private MapScaleEnum mapScale;
 	private MapImageTypeEnum imageType;
-	private FillMarkerDataset markerDataset;
+	private FillItemData markerData;
 	private List<Map<String,Object>> markers;
 	
 	JRFillObjectFactory factory;
@@ -73,17 +74,21 @@ public class MapFillComponent extends BaseFillComponent
 	{
 		this.mapComponent = map;
 		this.factory = factory;
-
-		if (map.getMarkerDataset() != null)
+		
+		if (mapComponent.getMarkerData() != null)
 		{
-			this.markerDataset = new FillMarkerDataset(map.getMarkerDataset(), factory);
-			factory.registerElementDataset(this.markerDataset);
+			markerData = new FillItemData(this, mapComponent.getMarkerData(), factory);
 		}
 	}
 	
 	protected MapComponent getMap()
 	{
 		return mapComponent;
+	}
+	
+	protected FillContext getFillContext()
+	{
+		return fillContext;
 	}
 	
 	public void evaluate(byte evaluation) throws JRException
@@ -116,12 +121,9 @@ public class MapFillComponent extends BaseFillComponent
 		mapScale = mapComponent.getMapScale();
 		imageType = mapComponent.getImageType();
 		
-		if (markerDataset != null)
+		if (mapComponent.getMarkerData() != null)
 		{
-			markerDataset.setEvaluation(evaluation);
-			markerDataset.evaluateDatasetRun(evaluation);
-
-			markers = markerDataset.getEvaluatedMarkers();
+			markers = markerData.getEvaluateItems(evaluation);
 		}
 	}
 	
