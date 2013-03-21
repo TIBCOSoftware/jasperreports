@@ -385,7 +385,22 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 <xsl:template match="xsd:attribute">
   <tr>
     <td colspan="2"></td>
-	<td colspan="3"><br/><span class="attribute"><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="concat(../../@name,'_', @name)"/></xsl:attribute><xsl:attribute name="href">#<xsl:value-of select="concat(../../@name,'_', @name)"/></xsl:attribute><xsl:attribute name="class">attribute</xsl:attribute><xsl:value-of select="@name"/></xsl:element></span></td>
+	<td colspan="3"><br/><span class="attribute"><xsl:element name="a">
+	<xsl:choose>
+	  <xsl:when test="../../../../@name">
+	  	<xsl:attribute name="name"><xsl:value-of select="concat(../../../../@name,'_', @name)"/>
+	  	</xsl:attribute><xsl:attribute name="href">#<xsl:value-of select="concat(../../../../@name,'_', @name)"/></xsl:attribute>
+	  </xsl:when>
+	  <xsl:when test="../../../@name">
+	  	<xsl:attribute name="name"><xsl:value-of select="concat(../../../@name,'_', @name)"/></xsl:attribute>
+	  	<xsl:attribute name="href">#<xsl:value-of select="concat(../../../@name,'_', @name)"/></xsl:attribute>
+	  </xsl:when>
+	  <xsl:otherwise>
+	  	<xsl:attribute name="name"><xsl:value-of select="concat(../../@name,'_', @name)"/></xsl:attribute>
+	  	<xsl:attribute name="href">#<xsl:value-of select="concat(../../@name,'_', @name)"/></xsl:attribute>
+	  </xsl:otherwise>
+    </xsl:choose>
+	<xsl:attribute name="class">attribute</xsl:attribute><xsl:value-of select="@name"/></xsl:element></span></td>
   </tr>
   <tr>
     <td colspan="3"></td>
