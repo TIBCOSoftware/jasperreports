@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.components;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import net.sf.jasperreports.components.barbecue.BarbecueCompiler;
 import net.sf.jasperreports.components.barbecue.BarbecueDesignConverter;
@@ -78,16 +81,16 @@ public class ComponentsExtensionsRegistryFactory implements
 	public static final String XSD_RESOURCE = 
 		"net/sf/jasperreports/components/components.xsd";
 	
-	protected static final String LIST_COMPONENT_NAME = "list";
-	protected static final String TABLE_COMPONENT_NAME = "table";
-	protected static final String BARBECUE_COMPONENT_NAME = "barbecue";
-	protected static final String[] BARCODE4J_COMPONENT_NAMES = 
-		new String[]{"Codabar", "Code128", "EAN128", "DataMatrix", "Code39", "Interleaved2Of5",
-		"UPCA", "UPCE", "EAN13", "EAN8", "USPSIntelligentMail", "RoyalMailCustomer", 
-		"POSTNET", "PDF417"};
-	protected static final String SPIDERCHART_COMPONENT_NAME = "spiderChart";
-	protected static final String MAP_COMPONENT_NAME = "map";
-	protected static final String SORT_COMPONENT_NAME = "sort";
+	public static final String LIST_COMPONENT_NAME = "list";
+	public static final String TABLE_COMPONENT_NAME = "table";
+	public static final String BARBECUE_COMPONENT_NAME = "barbecue";
+	public static final List<String> BARCODE4J_COMPONENT_NAMES = Collections.unmodifiableList(Arrays.asList(
+			"Codabar", "Code128", "EAN128", "DataMatrix", "Code39", "Interleaved2Of5",
+			"UPCA", "UPCE", "EAN13", "EAN8", "USPSIntelligentMail", "RoyalMailCustomer", 
+			"POSTNET", "PDF417"));
+	public static final String SPIDERCHART_COMPONENT_NAME = "spiderChart";
+	public static final String MAP_COMPONENT_NAME = "map";
+	public static final String SORT_COMPONENT_NAME = "sort";
 	
 	private static final ExtensionsRegistry REGISTRY;
 	
@@ -130,9 +133,9 @@ public class ComponentsExtensionsRegistryFactory implements
 		barcode4jManager.setComponentCompiler(new BarcodeCompiler());
 		//barcode4jManager.setComponentXmlWriter(xmlHandler);
 		barcode4jManager.setComponentFillFactory(new BarcodeFillFactory());
-		for (int i = 0; i < BARCODE4J_COMPONENT_NAMES.length; i++)
+		for (String name : BARCODE4J_COMPONENT_NAMES)
 		{
-			componentManagers.put(BARCODE4J_COMPONENT_NAMES[i], barcode4jManager);
+			componentManagers.put(name, barcode4jManager);
 		}
 		
 		ComponentsManager spiderChartManager = new ComponentsManager();
