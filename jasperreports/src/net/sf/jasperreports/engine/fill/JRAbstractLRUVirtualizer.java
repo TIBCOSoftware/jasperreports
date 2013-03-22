@@ -29,24 +29,20 @@ package net.sf.jasperreports.engine.fill;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamClass;
 import java.io.OutputStream;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.JRVirtualizer;
+import net.sf.jasperreports.engine.util.VirtualizationSerializer;
 
 import org.apache.commons.collections.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -224,96 +220,8 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 	}
 
-	protected static final int CLASSLOADER_IDX_NOT_SET = -1;
-
-	protected static boolean isAncestorClassLoader(ClassLoader loader)
-	{
-		for (
-				ClassLoader ancestor = JRAbstractLRUVirtualizer.class.getClassLoader();
-				ancestor != null;
-				ancestor = ancestor.getParent())
-		{
-			if (ancestor.equals(loader))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected final Map<ClassLoader,Integer> classLoadersIndexes = new HashMap<ClassLoader,Integer>();
-	protected final List<ClassLoader> classLoadersList = new ArrayList<ClassLoader>();
-
-	protected class ClassLoaderAnnotationObjectOutputStream extends VirtualizationObjectOutputStream
-	{
-		public ClassLoaderAnnotationObjectOutputStream(OutputStream out, 
-				JRVirtualizationContext virtualizationContext) throws IOException
-		{
-			super(out, virtualizationContext);
-		}
-
-		protected void annotateClass(Class<?> clazz) throws IOException
-		{
-			super.annotateClass(clazz);
-
-			ClassLoader classLoader = clazz.getClassLoader();
-			int loaderIdx;
-			if (clazz.isPrimitive()
-					|| classLoader == null
-					|| isAncestorClassLoader(classLoader))
-			{
-				loaderIdx = CLASSLOADER_IDX_NOT_SET;
-			}
-			else
-			{
-				Integer idx = classLoadersIndexes.get(classLoader);
-				if (idx == null)
-				{
-					idx = Integer.valueOf(classLoadersList.size());
-					classLoadersIndexes.put(classLoader, idx);
-					classLoadersList.add(classLoader);
-				}
-				loaderIdx = idx.intValue();
-			}
-
-			writeShort(loaderIdx);
-		}
-	}
-
-	protected class ClassLoaderAnnotationObjectInputStream extends VirtualizationObjectInputStream
-	{
-		public ClassLoaderAnnotationObjectInputStream(InputStream in, 
-				JRVirtualizationContext virtualizationContext) throws IOException
-		{
-			super(in, virtualizationContext);
-		}
-
-		protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException
-		{
-			Class<?> clazz;
-			try
-			{
-				clazz = super.resolveClass(desc);
-				readShort();
-			}
-			catch (ClassNotFoundException e)
-			{
-				int loaderIdx = readShort();
-				if (loaderIdx == CLASSLOADER_IDX_NOT_SET)
-				{
-					throw e;
-				}
-
-				ClassLoader loader = classLoadersList.get(loaderIdx);
-				clazz = Class.forName(desc.getName(), false, loader);
-			}
-
-			return clazz;
-		}
-
-
-	}
-
+	private final VirtualizationSerializer serializer = new VirtualizationSerializer();
+	
 	private final Cache pagedIn;
 
 	private final ReferenceMap pagedOut;
@@ -708,9 +616,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	{
 		try
 		{
-			ObjectOutputStream oos = new ClassLoaderAnnotationObjectOutputStream(out, o.getContext());
-			oos.writeObject(o.getVirtualData());
-			oos.flush();
+			serializer.writeData(o, out);
 		}
 		catch (IOException e)
 		{
@@ -733,8 +639,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	{
 		try
 		{
-			ObjectInputStream ois = new ClassLoaderAnnotationObjectInputStream(in, o.getContext());
-			o.setVirtualData(ois.readObject());
+			serializer.readData(o, in);
 		}
 		catch (IOException e)
 		{
