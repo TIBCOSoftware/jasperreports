@@ -79,6 +79,7 @@
       <property ref="net.sf.jasperreports.image.encoder"/>
       <property ref="net.sf.jasperreports.image.reader"/>
       <property ref="net.sf.jasperreports.markup.processor.factory.{markup}"/>
+      <property ref="net.sf.jasperreports.page.break.no.pagination"/>
       <property ref="net.sf.jasperreports.print.keep.full.text"/>
       <property ref="net.sf.jasperreports.text.truncate.at.char"/>
       <property ref="net.sf.jasperreports.text.truncate.suffix"/>
@@ -4152,6 +4153,26 @@ Specifies the file repository root location.
     <default>N/A</default>
     <scope>Global</scope>
     <since>4.1.1</since>
+    <contextUnaware/>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.page.break.no.pagination -->
+  
+  <configProperty name="net.sf.jasperreports.page.break.no.pagination">
+    <description>
+Determines how page breaks are to be handled in reports that are not paginated.
+<br/>
+Possible values are:
+<ul>
+  <li><code>ignore</code> - page breaks are ignored in non paginated reports.</li>
+  <li><code>apply</code> - page breaks are honoured in non paginated reports.</li>
+</ul>
+    </description>
+    <api>net/sf/jasperreports/engine/JRBreak.html#PROPERTY_PAGE_BREAK_NO_PAGINATION</api>
+    <default>ignore</default>
+    <scope>Global | Report | Element</scope>
+    <since>5.0.4</since>
     <contextUnaware/>
   </configProperty>
   
