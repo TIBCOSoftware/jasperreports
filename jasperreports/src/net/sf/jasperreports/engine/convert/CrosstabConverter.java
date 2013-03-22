@@ -294,6 +294,8 @@ public final class CrosstabConverter extends FrameConverter
 				}
 			}
 			
+			// TODO lucianc column crosstab header cells
+
 			JRCellContents header = group.getHeader();
 			if (header.getWidth() != 0 && header.getHeight() != 0) {
 				boolean firstOnRow = x == 0 && crosstab.getHeaderCell() == null;
