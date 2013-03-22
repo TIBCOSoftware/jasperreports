@@ -147,12 +147,12 @@ public class TableReport implements JRReport
 	private static final String PROPERTY_INTERACTIVE_TABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.interactive";
 
 	/**
-	 * Column property that specifies the field to be used for sorting and/or filtering 
+	 * Column property that specifies the field to be used for sorting, filtering and conditional formatting 
 	 */
 	public static final String PROPERTY_COLUMN_FIELD = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.field";
 
 	/**
-	 * Column property that specifies the variable to be used for sorting and/or filtering 
+	 * Column property that specifies the variable to be used for sorting, filtering and conditional formatting 
 	 */
 	public static final String PROPERTY_COLUMN_VARIABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.variable";
 
