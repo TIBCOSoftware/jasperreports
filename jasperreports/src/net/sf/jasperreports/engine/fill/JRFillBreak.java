@@ -23,15 +23,15 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -211,18 +211,19 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 		
 		if (isToPrint)
 		{
-			if (filler.getFillContext().isIgnorePagination())
-			{
-				// unpaginated report, break elements have no effect
-				if (log.isTraceEnabled())
-				{
-					log.trace("unpaginated report, " + getTypeValue() + " break not triggered");
-				}
-			}
-			else if (getTypeValue() == BreakTypeEnum.COLUMN)
+			boolean paginationIgnored = filler.getFillContext().isIgnorePagination();
+			if (getTypeValue() == BreakTypeEnum.COLUMN)
 			{
 				//column break
-				if (!filler.isFirstColumnBand || band.firstYElement != null)
+				if (paginationIgnored)
+				{
+					// unpaginated report, column breaks not honoured
+					if (log.isTraceEnabled())
+					{
+						log.trace("unpaginated report, column break not triggered");
+					}
+				}
+				else if (!filler.isFirstColumnBand || band.firstYElement != null)
 				{
 					setStretchHeight(availableHeight - getRelativeY());
 				}
@@ -232,8 +233,22 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 				//page break
 				if (!band.isPageBreakInhibited())
 				{
-					setStretchHeight(availableHeight - getRelativeY());
-					filler.columnIndex = filler.columnCount - 1;
+					boolean apply = true;
+					if (paginationIgnored)
+					{
+						String propValue = filler.getPropertiesUtil().getProperty(this, PROPERTY_PAGE_BREAK_NO_PAGINATION);
+						apply = propValue != null && propValue.equals(PAGE_BREAK_NO_PAGINATION_APPLY);
+						if (log.isTraceEnabled())
+						{
+							log.trace("unpaginated report, page break appied " + apply);
+						}
+					}
+					
+					if (apply)
+					{
+						setStretchHeight(availableHeight - getRelativeY());
+						filler.columnIndex = filler.columnCount - 1;
+					}
 				}
 			}
 		}

@@ -34,6 +34,35 @@ import net.sf.jasperreports.engine.type.BreakTypeEnum;
 public interface JRBreak extends JRElement
 {
 
+	/**
+	 * Property that determines how page breaks are to be handled in reports that are not paginated.
+	 * 
+	 * <p>
+	 * The property value can be one of
+	 * <ul>
+	 * <li>{@link #PAGE_BREAK_NO_PAGINATION_IGNORE}</li>
+	 * <li>{@link #PAGE_BREAK_NO_PAGINATION_APPLY}</li>
+	 * </ul>
+	 * </p>
+	 * 
+	 * <p>
+	 * The property can be set globally, at report level or at element level.
+	 * The default behaviour is to ignore page breaks in non paginated reports.
+	 * </p>
+	 */
+	String PROPERTY_PAGE_BREAK_NO_PAGINATION = JRPropertiesUtil.PROPERTY_PREFIX + "page.break.no.pagination";
+	
+	/**
+	 * Value for {@link #PROPERTY_PAGE_BREAK_NO_PAGINATION} that results in page breaks 
+	 * being ignored in non paginated reports.
+	 */
+	String PAGE_BREAK_NO_PAGINATION_IGNORE = "ignore";
+	
+	/**
+	 * Value for {@link #PROPERTY_PAGE_BREAK_NO_PAGINATION} that results in page breaks 
+	 * being honoured in non paginated reports.
+	 */
+	String PAGE_BREAK_NO_PAGINATION_APPLY = "apply";
 
 	/**
 	 * Gets the break type.
