@@ -248,7 +248,7 @@ Below is a list of valid <code>itemProperty</code> names:
 <li><code>longitude</code> - required; floating-point value</li>
 <li><code>title</code> - string value</li>
 <li><code>icon</code> - string value (representing the icon url)</li>
-<li><code>shadow</code> - string value</li>
+<li><code>shadow</code> - string value (representing the shadow icon url)</li>
 <li><code>cursor</code> - string value</li>
 <li><code>zIndex</code> - integer value</li>
 <li><code>clickable</code> - boolean value</li>
