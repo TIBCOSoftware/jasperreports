@@ -48,7 +48,10 @@ in the <a href="../../components.schema.reference.html">components.xsd</a> schem
           <element name="languageExpression" minOccurs="0" maxOccurs="1">
             <complexType mixed="true"/>
           </element>
-          <element ref="c:markerDataset" minOccurs="0" maxOccurs="1"/>            
+          <choice minOccurs="0" maxOccurs="1">
+            <element ref="c:markerDataset"/>            
+            <element ref="c:markerData"/>            
+          </choice>
         </sequence>
         <attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
         <attribute name="evaluationGroup" type="string" use="optional"/>
@@ -88,6 +91,38 @@ in the <a href="../../components.schema.reference.html">components.xsd</a> schem
   </complexType>
 </element>
 
+<complexType name="ItemData" abstract="true">
+  <sequence>
+    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+    <element ref="c:item" minOccurs="0" maxOccurs="unbounded"/>
+  </sequence>
+</complexType>
+
+<complexType name="ItemProperty">
+  <sequence>
+    <element ref="jr:valueExpression" minOccurs="0" maxOccurs="1"/>
+  </sequence>
+  <attribute name="name" type="string" use="required" />
+  <attribute name="value" type="string" use="optional" />
+</complexType>
+
+<element name="item">
+  <complexType>
+    <sequence>
+      <element name="itemProperty" type="c:ItemProperty" minOccurs="0" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+</element>
+
+<element name="markerData">
+  <complexType>
+    <complexContent>
+      <extension base="c:ItemData">
+      </extension>
+    </complexContent>
+  </complexType>
+</element>
+
 <element name="markerDataset">
   <annotation>
     <documentation>Creates a dataset with one or more marker objects</documentation>
@@ -100,18 +135,10 @@ in the <a href="../../components.schema.reference.html">components.xsd</a> schem
   </complexType>
 </element>
 
-<complexType name="MarkerProperty">
-  <sequence>
-    <element ref="jr:valueExpression" minOccurs="0" maxOccurs="1"/>
-  </sequence>
-  <attribute name="name" type="string" use="required" />
-  <attribute name="value" type="string" use="optional" />
-</complexType>
-
 <element name="marker">
   <complexType>
     <sequence>
-      <element name="markerProperty" type="c:MarkerProperty" minOccurs="0" maxOccurs="unbounded" />
+      <element name="markerProperty" type="c:ItemProperty" minOccurs="0" maxOccurs="unbounded" />
     </sequence>
   </complexType>
 </element>]]></pre>
@@ -175,10 +202,14 @@ such as control names, copyright notices and other various labels. Supported lan
 <a href="https://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&amp;gid=1" target="_blank">here</a>.
 <br/>
 <br/>
-<b>The Marker Dataset</b>    
+<b>The Marker Dataset</b>   
 <br/>
 <br/>
-The <code>&lt;c:markerDataset/&gt;</code> element is used to generate the list of marker elements to be displayed on the map. It can collect  
+<b>Warning:</b> The <code><b>&lt;c:markerDataset/&gt;</b></code> element is now <b>deprecated</b>, as replaced by the <a href="#markerData"><b>&lt;c:markerData/&gt;</b></a> element below:
+<!--
+<br/>
+<br/>
+The <code>&lt;c:markerDataset/&gt;</code> element still can be used to generate the list of marker elements to be displayed on the map. It can collect  
 its data either from a subdataset, or from a hardcoded list of marker elements as shown in the component schema. 
 <br/>
 The marker element contains a list of specific properties that can be set either by value or by valueExpression. With few exceptions, property names must 
@@ -188,10 +219,45 @@ The exceptions are the <code>latitude</code> and <code>longitude</code> property
 of these two properties is missing or is empty, an exception will be thrown.
 <br/>
 <br/>
+<b>Note:</b> To avoid such exceptions when using a subdataset, use a <code>&lt;filterExpression&gt;</code> to skip markers with empty latitude/longitude 
+properties. An example can be found in the map component sample.
+-->
+<br/>
+<br/>
+<subtitle name="markerData">The Marker Data Element</subtitle>
+<br/>
+<br/>
+The <code>&lt;c:markerData/&gt;</code> element is used to generate the list of marker elements to be displayed on the map. It can collect  
+its data either from a subdataset, or from a hardcoded list of marker item elements as shown in the map component schema. 
+<br/>
+The marker item element contains a list of specific item properties that can be set either by <code>value</code> or by <code>valueExpression</code>. If both are set, the 
+<code>valueExpression</code> takes precedence over the <code>value</code> attribute. With few exceptions, property names must 
+match the names of supported marker options available <a href="https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions" target="_blank">here</a>. 
+<br/>
+The main exception is the <code>position</code> option, currently undefined in JR. It is actually replaced by the <code>latitude</code> and <code>longitude</code> property 
+names, both required. They are used to compute the marker position on the map. If at least one of these two properties is missing or is empty, an exception will be thrown. 
+<br/>
+<br/>
 <b>Warning:</b> To avoid such exceptions when using a subdataset, use a <code>&lt;filterExpression&gt;</code> to skip markers with empty latitude/longitude 
 properties. An example can be found in the map component sample.
 <br/>
 <br/>
+Below is a list of valid <code>itemProperty</code> names:
+<ul>
+<li><code>latitude</code> - required; floating-point value</li>
+<li><code>longitude</code> - required; floating-point value</li>
+<li><code>title</code> - string value</li>
+<li><code>icon</code> - string value (representing the icon url)</li>
+<li><code>shadow</code> - string value</li>
+<li><code>cursor</code> - string value</li>
+<li><code>zIndex</code> - integer value</li>
+<li><code>clickable</code> - boolean value</li>
+<li><code>draggable</code> - boolean value</li>
+<li><code>flat</code> - boolean value</li>
+<li><code>optimized</code> - boolean value</li>
+<li><code>raiseOnDrag</code> - boolean value</li>
+<li><code>visible</code> - boolean value</li>
+</ul>
 <b>Map Component Example</b>    
 <br/>
 <br/>
@@ -218,20 +284,22 @@ The JRXML sample contains two <code>map</code> components that illustrate how va
     <c:latitudeExpression><![CDATA[37.788056f]] ></c:latitudeExpression>
     <c:longitudeExpression><![CDATA[-122.4075f]] ></c:longitudeExpression>
     <c:zoomExpression><![CDATA[$P{zoom} + 1]] ></c:zoomExpression>
-    <c:markerDataset>
-      <datasetRun subDataset="MarkersDataset"/>
-      <c:marker>
-        <c:markerProperty name="latitude">
+    <c:markerData>
+      <dataset>
+        <datasetRun subDataset="MarkersDataset"/>
+      </dataset>
+      <c:item>
+        <c:itemProperty name="latitude">
           <valueExpression>$F{latitude}</valueExpression>
-        </c:markerProperty>
-        <c:markerProperty name="longitude">
+        </c:itemProperty>
+        <c:itemProperty name="longitude">
           <valueExpression>$F{longitude}</valueExpression>
-        </c:markerProperty>
-        <c:markerProperty name="title">
+        </c:itemProperty>
+        <c:itemProperty name="title">
           <valueExpression>$F{address}</valueExpression>
-        </c:markerProperty>
-      </c:marker>
-    </c:markerDataset>
+        </c:itemProperty>
+      </c:item>
+    </c:markerData>
   </c:map>
 </componentElement>]]></pre>
 The first map is centered on Bucharest, Romania. It provides settings for all map expressions, but comes with no markers, because the <code>&lt;c:markerDataset/&gt;</code> element 
