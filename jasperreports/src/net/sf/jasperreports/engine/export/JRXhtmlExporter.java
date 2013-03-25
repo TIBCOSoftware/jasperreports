@@ -2390,26 +2390,42 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 */
 	private void appendId(JRPrintElement element) throws IOException
 	{
+		String dataAttr = getDataAttributes(element);
+		if (dataAttr != null)
+		{
+			writer.write(dataAttr);
+		}
+	}
+	
+		
+	/**
+	 *
+	 */
+	public String getDataAttributes(JRPrintElement element)
+	{
+		StringBuffer sbuffer = new StringBuffer();
 		String id = getPropertiesUtil().getProperty(element, JRHtmlExporter.PROPERTY_HTML_ID);
 		if (id != null)
 		{
-			writer.write(" id=\"" + id + "\"");
+			sbuffer.append(" id=\"" + id + "\"");
 		}
 		String clazz = getPropertiesUtil().getProperty(element, JRHtmlExporter.PROPERTY_HTML_CLASS);
 		if (clazz != null)
 		{
-			writer.write(" class=\"" + clazz + "\"");
+			sbuffer.append(" class=\"" + clazz + "\"");
 		}
-		String columnUuid = getPropertiesUtil().getProperty(element, HeaderToolbarElement.PROPERTY_COLUMN_UUID);
+		String columnUuid = getPropertiesUtil().getProperty(element, HeaderToolbarElement.PROPERTY_COLUMN_UUID);//FIXMEJIVE register properties like this in a pluggable way; extensions?
 		if (columnUuid != null)
 		{
-			writer.write(" data-coluuid=\"" + columnUuid + "\"");
+			sbuffer.append(" data-coluuid=\"" + columnUuid + "\"");
 		}
 		String cellId = getPropertiesUtil().getProperty(element, HeaderToolbarElement.PROPERTY_CELL_ID);
 		if (cellId != null)
 		{
-			writer.write(" data-cellid=\"" + cellId + "\"");
+			sbuffer.append(" data-cellid=\"" + cellId + "\"");
 		}
+		
+		return sbuffer.length() > 0 ? sbuffer.toString() : null;
 	}
 	
 		

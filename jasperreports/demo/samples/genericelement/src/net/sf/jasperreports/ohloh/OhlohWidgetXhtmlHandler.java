@@ -23,13 +23,8 @@
  */
 package net.sf.jasperreports.ohloh;
 
-import java.io.IOException;
-
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -48,7 +43,11 @@ public class OhlohWidgetXhtmlHandler extends OhlohWidgetHtmlHandler
 		StringBuffer script = new StringBuffer(128);
 		
 		script.append("<div");
-		appendId(context, element, script);
+		String dataAttr = ((JRXhtmlExporter)context.getExporter()).getDataAttributes(element);
+		if (dataAttr != null)
+		{
+			script.append(dataAttr);
+		}
 		
 		StringBuffer styleBuffer = new StringBuffer();
 		appendPositionStyle(context, element.getX(), element.getY(), styleBuffer);
@@ -67,34 +66,6 @@ public class OhlohWidgetXhtmlHandler extends OhlohWidgetHtmlHandler
 		script.append("</div>\n");
 		
 		return script.toString();
-	}
-	
-	/**
-	 *
-	 */
-	protected void appendId(JRHtmlExporterContext context, JRPrintElement element, StringBuffer script)
-	{
-		JRPropertiesUtil propertiesUtil = ((JRXhtmlExporter)context.getExporter()).getPropertiesUtil();
-		String id = propertiesUtil.getProperty(element, JRHtmlExporter.PROPERTY_HTML_ID);
-		if (id != null)
-		{
-			script.append(" id=\"" + id + "\"");
-		}
-		String clazz = propertiesUtil.getProperty(element, JRHtmlExporter.PROPERTY_HTML_CLASS);
-		if (clazz != null)
-		{
-			script.append(" class=\"" + clazz + "\"");
-		}
-		String popupId = propertiesUtil.getProperty(element, JRHtmlExporter.PROPERTY_HTML_POPUP_ID);
-		if (popupId != null)
-		{
-			script.append(" data-popupId=\"" + popupId + "\"");
-		}
-		String popupColumn = propertiesUtil.getProperty(element, JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN);
-		if (popupColumn != null)
-		{
-			script.append(" data-popupColumn=\"" + popupColumn + "\"");
-		}
 	}
 	
 	protected void appendPositionStyle(JRHtmlExporterContext context, int x, int y, StringBuffer styleBuffer)
