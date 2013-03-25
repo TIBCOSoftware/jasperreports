@@ -60,7 +60,7 @@ public class JRSwapFile
 	 */
 	public static final String PROPERTY_DELETE_ON_EXIT = JRFileVirtualizer.PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT;
 
-	private final File swapFile;
+	protected final File swapFile;
 	protected final RandomAccessFile file;
 	private final int blockSize;
 	private final int minGrowCount;
@@ -119,7 +119,12 @@ public class JRSwapFile
 			throw new JRRuntimeException(e);
 		}
 	}
-
+	
+	@Override
+	public String toString()
+	{
+		return "JRSwapFile " + swapFile.getAbsolutePath();
+	}
 
 	/**
 	 * Allocates an area in the swap file and writes data in it.
