@@ -74,19 +74,22 @@ public class MapElementImageProvider
 		List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_MARKERS);
 		if(markerList != null && !markerList.isEmpty())
 		{
+			String currentMarkers = "";
 			for(Map<String,Object> map : markerList)
 			{
-				if(markers.length() == 0)
+				if(!map.isEmpty())
 				{
-					markers +="&markers=";
+					currentMarkers = "&markers=";
+					String icon = (String)map.get(MapPrintElement.PARAMETER_MARKER_ICON);
+					if(icon != null)
+					{
+						currentMarkers +="icon:" + icon + "%7C";
+					}
+					currentMarkers +=map.get(MapPrintElement.PARAMETER_LATITUDE);
+					currentMarkers +=",";
+					currentMarkers +=map.get(MapPrintElement.PARAMETER_LONGITUDE);
+					markers += currentMarkers;
 				}
-				else
-				{
-					markers +="%7C";
-				}
-				markers +=map.get(MapPrintElement.PARAMETER_LATITUDE);
-				markers +=",";
-				markers +=map.get(MapPrintElement.PARAMETER_LONGITUDE);
 			}
 		}
 
