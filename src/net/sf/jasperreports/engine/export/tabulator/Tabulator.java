@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.util.Bounds;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.Pair;
 
@@ -132,10 +133,7 @@ public class Tabulator
 		}
 		
 		boolean overlap = false;
-		int overlapColStart = colRange.start;
-		int overlapColEnd = colRange.end;
-		int overlapRowStart = rowRange.start;
-		int overlapRowEnd = rowRange.end;
+		Bounds overlapBounds = new Bounds(colRange.start, colRange.end, rowRange.start, rowRange.end);
 		for (Row row : rowRange.rangeSet)
 		{
 			for (Column col : colRange.rangeSet)
@@ -162,22 +160,8 @@ public class Tabulator
 								+ ", row span range " + rowSpanRange.first().startCoord + " to " + rowSpanRange.second().startCoord);
 					}
 					
-					if (overlapColStart > colSpanRange.first().startCoord)
-					{
-						overlapColStart = colSpanRange.first().startCoord;
-					}
-					if (overlapColEnd < colSpanRange.second().startCoord)
-					{
-						overlapColEnd = colSpanRange.second().startCoord;
-					}
-					if (overlapRowStart > rowSpanRange.first().startCoord)
-					{
-						overlapRowStart = rowSpanRange.first().startCoord;
-					}
-					if (overlapRowEnd < rowSpanRange.second().startCoord)
-					{
-						overlapRowEnd = rowSpanRange.second().startCoord;
-					}
+					overlapBounds.grow(colSpanRange.first().startCoord, colSpanRange.second().startCoord, 
+							rowSpanRange.first().startCoord, rowSpanRange.second().startCoord);
 				}
 			}
 		}
@@ -196,16 +180,16 @@ public class Tabulator
 		
 		placeOverlappedElement(table, parentCell, xOffset, yOffset, 
 				element, parentIndex, elementIndex, 
-				overlapColStart, overlapColEnd, overlapRowStart, overlapRowEnd);
+				overlapBounds);
 		return true;
 	}
 
 	protected void placeOverlappedElement(Table table, FrameCell parentCell, int xOffset, int yOffset, 
 			JRPrintElement element, ElementIndex parentIndex, int elementIndex, 
-			int overlapColStart, int overlapColEnd, int overlapRowStart, int overlapRowEnd)
+			Bounds overlapBounds)
 	{
-		DimensionRange<Column> overlapColRange = table.columns.getRange(overlapColStart, overlapColEnd);
-		DimensionRange<Row> overlapRowRange = table.rows.getRange(overlapRowStart, overlapRowEnd);
+		DimensionRange<Column> overlapColRange = table.columns.getRange(overlapBounds.getStartX(), overlapBounds.getEndX());
+		DimensionRange<Row> overlapRowRange = table.rows.getRange(overlapBounds.getStartY(), overlapBounds.getEndY());
 		DimensionRange<Column> layeredColRange = table.columns.addEntries(overlapColRange);
 		DimensionRange<Row> layeredRowRange = table.rows.addEntries(overlapRowRange);
 		
