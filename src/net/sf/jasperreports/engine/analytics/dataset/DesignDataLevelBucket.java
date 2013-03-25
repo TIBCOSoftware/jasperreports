@@ -109,7 +109,7 @@ public class DesignDataLevelBucket extends BaseDataLevelBucket implements JRChan
 	/**
 	 * Sets the sorting type.
 	 * 
-	 * @param orderValue one of
+	 * @param order one of
 	 * <ul>
 	 * 	<li>{@link BucketOrder#ASCENDING BucketOrder.ASCENDING}</li>
 	 * 	<li>{@link BucketOrder#DESCENDING BucketOrder.DESCENDING}</li>
