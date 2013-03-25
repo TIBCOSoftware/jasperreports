@@ -32,13 +32,16 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.NavigableSet;
+import java.util.SortedSet;
 
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.ExporterFilter;
+import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.Bounds;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
@@ -147,6 +150,26 @@ public class Tabulator
 		
 		boolean overlap = false;
 		Bounds overlapBounds = new Bounds(colRange.start, colRange.end, rowRange.start, rowRange.end);
+		
+		JROrigin elementOrigin = element.getOrigin();
+		if (parentCell == null // top level element
+				&& elementOrigin != null && elementOrigin.getReportName() == null
+				// master background element
+				// TODO lucianc do something for subreport background bands as well
+				&& elementOrigin.getBandTypeValue() == BandTypeEnum.BACKGROUND)
+		{
+			// create a layer as big as the table for the master background band
+			SortedSet<Column> userColumns = table.columns.getUserEntries();
+			SortedSet<Row> userRows = table.rows.getUserEntries();
+			// check if we have something in the table
+			if (!userColumns.isEmpty() && !userRows.isEmpty())
+			{
+				overlapBounds.grow(userColumns.first().startCoord, userColumns.last().endCoord,
+						userRows.first().startCoord, userRows.last().endCoord);
+				// TODO lucianc avoid the following cell overlap checks
+			}
+		}
+		
 		for (Row row : rowRange.rangeSet)
 		{
 			for (Column col : colRange.rangeSet)
