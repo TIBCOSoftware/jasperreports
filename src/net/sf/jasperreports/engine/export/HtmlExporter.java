@@ -1388,36 +1388,49 @@ public class HtmlExporter extends JRAbstractExporter
 	{
 		startCell(cell.getColumnSpan(), cell.getRowSpan());
 
+		String dataAttr = getDataAttributes(element, cell);
+		if (dataAttr != null)
+		{
+			writer.write(dataAttr);
+		}
+	}
+	
+	public String getDataAttributes(JRPrintElement element, TableCell cell)
+	{
+		StringBuffer sbuffer = new StringBuffer();
+		
 		String id = getCellProperty(element, cell, JRHtmlExporter.PROPERTY_HTML_ID);
 		if (id != null)
 		{
-			writer.write(" id=\"" + id +"\"");
+			sbuffer.append(" id=\"" + id +"\"");
 		}
 		String clazz = getCellProperty(element, cell, JRHtmlExporter.PROPERTY_HTML_CLASS);
 		if (clazz != null)
 		{
-			writer.write(" class=\"" + clazz +"\"");
+			sbuffer.append(" class=\"" + clazz +"\"");
 		}
-		String colUuid = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_COLUMN_UUID);
+		String colUuid = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_COLUMN_UUID);//FIXMEJIVE register properties like this in a pluggable way; extensions?
 		if (colUuid != null)
 		{
-			writer.write(" data-coluuid=\"" + colUuid + "\"");
+			sbuffer.append(" data-coluuid=\"" + colUuid + "\"");
 		}
 		String cellId = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_CELL_ID);
 		if (cellId != null)
 		{
-			writer.write(" data-cellid=\"" + cellId + "\"");
+			sbuffer.append(" data-cellid=\"" + cellId + "\"");
 		}
 		String tableUuid = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_TABLE_UUID);
 		if (tableUuid != null)
 		{
-			writer.write(" data-tableuuid=\"" + tableUuid + "\"");
+			sbuffer.append(" data-tableuuid=\"" + tableUuid + "\"");
 		}
 		String columnIndex = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_COLUMN_INDEX);
 		if (columnIndex != null)
 		{
-			writer.write(" data-colidx=\"" + columnIndex + "\"");
+			sbuffer.append(" data-colidx=\"" + columnIndex + "\"");
 		}
+		
+		return sbuffer.length() > 0 ? sbuffer.toString() : null;
 	}
 	
 	protected String getCellProperty(JRPrintElement element, TableCell cell, String key)
