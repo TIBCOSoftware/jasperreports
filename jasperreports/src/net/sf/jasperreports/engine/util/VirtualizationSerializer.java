@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.fill.JRAbstractLRUVirtualizer;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
@@ -137,15 +138,25 @@ public class VirtualizationSerializer
 	
 	public final void writeData(JRVirtualizable o, OutputStream out) throws IOException
 	{
+		@SuppressWarnings("resource")
 		ObjectOutputStream oos = new ClassLoaderAnnotationObjectOutputStream(out, o.getContext());
 		oos.writeObject(o.getVirtualData());
 		oos.flush();
 	}
 	
-	public final void readData(JRVirtualizable o, InputStream in) throws ClassNotFoundException, IOException
+	public final void readData(JRVirtualizable o, InputStream in) throws IOException
 	{
+		@SuppressWarnings("resource")
 		ObjectInputStream ois = new ClassLoaderAnnotationObjectInputStream(in, o.getContext());
-		o.setVirtualData(ois.readObject());
+		try
+		{
+			o.setVirtualData(ois.readObject());
+		}
+		catch (ClassNotFoundException e)
+		{
+			// should not happen
+			throw new JRRuntimeException("Error deserializing virtualized object", e);
+		}
 	}
 
 }

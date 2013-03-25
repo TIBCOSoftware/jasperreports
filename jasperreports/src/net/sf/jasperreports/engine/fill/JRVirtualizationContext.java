@@ -70,6 +70,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	
 	private static final ReferenceMap contexts = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.WEAK);
 
+	private transient JRVirtualizationContext parentContext;
 	private transient JRVirtualizer virtualizer;
 	private transient JasperReportsContext jasperReportsContext;
 	
@@ -104,6 +105,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 
 	protected JRVirtualizationContext(JRVirtualizationContext parentContext)
 	{
+		this.parentContext = parentContext;
 		this.virtualizer = parentContext.virtualizer;
 		this.jasperReportsContext = parentContext.jasperReportsContext;
 
@@ -558,5 +560,15 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	public boolean isDisposed()
 	{
 		return disposed;
+	}
+	
+	public JRVirtualizationContext getMasterContext()
+	{
+		JRVirtualizationContext context = this;
+		while (context.parentContext != null)
+		{
+			context = context.parentContext;
+		}
+		return context;
 	}
 }

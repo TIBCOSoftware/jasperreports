@@ -220,7 +220,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 	}
 
-	private final VirtualizationSerializer serializer = new VirtualizationSerializer();
+	protected final VirtualizationSerializer serializer = new VirtualizationSerializer();
 	
 	private final Cache pagedIn;
 
@@ -397,8 +397,10 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 							log.debug("evicting " + uid);
 						}
 						
-						//FIXME lucianc if the context is disposed, this is not needed
-						virtualizeData(o);
+						if (!o.getContext().isDisposed())
+						{
+							virtualizeData(o);
+						}
 					}
 					else
 					{
@@ -435,7 +437,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		//try to remove virtual data
 		try
 		{
-			dispose(o.getUID());
+			dispose(o);
 		}
 		catch (Exception e)
 		{
@@ -646,11 +648,6 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			log.error("Error devirtualizing object", e);
 			throw new JRRuntimeException(e);
 		}
-		catch (ClassNotFoundException e)
-		{
-			log.error("Error devirtualizing object", e);
-			throw new JRRuntimeException(e);
-		}
 	}
 
 	protected synchronized void reset()
@@ -709,7 +706,11 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	 */
 	protected abstract void pageIn(JRVirtualizable o) throws IOException;
 
-
+	protected void dispose(JRVirtualizable o)
+	{
+		dispose(o.getUID());
+	}
+	
 	/**
 	 * Removes the external data associated with a virtualizable object.
 	 *

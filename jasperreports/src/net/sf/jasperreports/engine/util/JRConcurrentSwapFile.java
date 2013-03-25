@@ -58,6 +58,12 @@ public class JRConcurrentSwapFile extends JRSwapFile
 
 		fileChannel = file.getChannel();
 	}
+	
+	@Override
+	public String toString()
+	{
+		return "JRConcurrentSwapFile " + swapFile.getAbsolutePath();
+	}
 
 	protected void write(byte[] data, int dataSize, int dataOffset, long fileOffset) throws IOException
 	{
