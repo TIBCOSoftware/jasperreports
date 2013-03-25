@@ -77,12 +77,12 @@ public class Tabulator
 	public void tabulate()
 	{
 		// TODO lucianc force background as different layer
-		layoutElements(elements, mainTable, null, null, 0, 0);
+		layoutElements(elements, mainTable, null, null, 0, 0, null);
 	}
 
 	protected void layoutElements(List<? extends JRPrintElement> elementList, Table table, 
 			FrameCell parentCell, ElementIndex parentIndex,
-			int xOffset, int yOffset)
+			int xOffset, int yOffset, Bounds elementBounds)
 	{
 		if (log.isTraceEnabled())
 		{
@@ -105,10 +105,23 @@ public class Tabulator
 			
 			if (element.getWidth() <= 0 || element.getHeight() <= 0)
 			{
-				if (log.isTraceEnabled())
+				if (log.isDebugEnabled())
 				{
-					log.trace("element " + element.getUUID() 
+					log.debug("element " + element.getUUID() 
 							+ " skipped, size " + element.getWidth() + ", " + element.getHeight());
+				}
+				continue;
+			}
+			
+			if (elementBounds != null && !elementBounds.contains(element.getX(), element.getX() + element.getWidth(), 
+					element.getY(), element.getY() + element.getHeight()))
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("element " + element.getUUID() 
+							+ " at [" + element.getX() + "," + (element.getX() + element.getWidth())
+							+ "),[" + element.getY() + "," + (element.getY() + element.getHeight())
+							+ ") does not fit inside bounds " + elementBounds);
 				}
 				continue;
 			}
@@ -307,10 +320,12 @@ public class Tabulator
 			
 			// go deep in the frame
 			ElementIndex frameIndex = new ElementIndex(parentIndex, elementIndex);
-			// TODO lucianc what happens to elemens that do not fit in the frame?
+			JRLineBox box = frame.getLineBox();
 			layoutElements(frame.getElements(), table, frameCell, frameIndex, 
-					xOffset + frame.getX() + frame.getLineBox().getLeftPadding(), 
-					yOffset + frame.getY() + frame.getLineBox().getTopPadding());
+					xOffset + frame.getX() + box.getLeftPadding(), 
+					yOffset + frame.getY() + box.getTopPadding(),
+					new Bounds(0, frame.getWidth()  - box.getLeftPadding() - box.getRightPadding(),
+							0, frame.getHeight() - box.getTopPadding() - box.getBottomPadding()));
 		}
 		else
 		{
@@ -992,9 +1007,9 @@ public class Tabulator
 			// TODO lucianc check this in the table instead?
 			JRPrintFrame parentFrame = (JRPrintFrame) getCellElement(parentCell);
 			keepLeft &= element.getX() == 0 && parentFrame.getLineBox().getLeftPadding() == 0;
-			keepRight &= (element.getX() + element.getWidth()) == parentFrame.getWidth();
+			keepRight &= (element.getX() + element.getWidth() + parentFrame.getLineBox().getLeftPadding()) == parentFrame.getWidth();
 			keepTop &= element.getY() == 0 && parentFrame.getLineBox().getTopPadding() == 0;
-			keepBottom &= (element.getY() + element.getHeight()) == parentFrame.getHeight();
+			keepBottom &= (element.getY() + element.getHeight() + parentFrame.getLineBox().getTopPadding()) == parentFrame.getHeight();
 			
 			JRLineBox resultBox = baseBox;
 			if (keepLeft || keepRight || keepTop || keepBottom)

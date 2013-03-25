@@ -41,6 +41,13 @@ public class Bounds
 		this.startY = startY;
 		this.endY = endY;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return "[" + startX + "," + endX
+				+ "),[" + startY + "," + endY + ")";
+	}
 
 	public int getStartX()
 	{
@@ -100,5 +107,11 @@ public class Bounds
 		{
 			this.endY = endY;
 		}
+	}
+	
+	public boolean contains(int startX, int endX, int startY, int endY)
+	{
+		return this.startX <= startX && this.endX >= endX
+				&& this.startY <= startY && this.endY >= endY;
 	}
 }
