@@ -111,32 +111,32 @@
 					<c:latitudeExpression><![CDATA[37.788056f]]></c:latitudeExpression>
 					<c:longitudeExpression><![CDATA[-122.4075f]]></c:longitudeExpression>
 					<c:zoomExpression><![CDATA[$P{zoom} + 1]]></c:zoomExpression>
-					<c:markerDataset>
+					<c:markerData>
 						<dataset>
 							<datasetRun subDataset="MarkersDataset"/>
 						</dataset>
-						<c:marker>
-							<c:markerProperty name="latitude">
+						<c:item>
+							<c:itemProperty name="latitude">
 								<valueExpression>$F{latitude}</valueExpression>
-							</c:markerProperty>
-							<c:markerProperty name="longitude">
+							</c:itemProperty>
+							<c:itemProperty name="longitude">
 								<valueExpression>$F{longitude}</valueExpression>
-							</c:markerProperty>
-							<c:markerProperty name="title">
+							</c:itemProperty>
+							<c:itemProperty name="title">
 								<valueExpression>$F{address}</valueExpression>
-							</c:markerProperty>
-						</c:marker>
+							</c:itemProperty>
+						</c:item>
 						<!--
-						<c:marker>
-							<c:markerProperty name="latitude">
+						<c:item>
+							<c:itemProperty name="latitude">
 								<valueExpression><![CDATA[37.788056f]]></valueExpression>
-							</c:markerProperty>
-							<c:markerProperty name="longitude">
+							</c:itemProperty>
+							<c:itemProperty name="longitude">
 								<valueExpression><![CDATA[-122.4075f]]></valueExpression>
-							</c:markerProperty>
-						</c:marker>
+							</c:itemProperty>
+						</c:item>
 						-->
-					</c:markerDataset>
+					</c:markerData>
 				</c:map>
 			</componentElement>
 		</band>
