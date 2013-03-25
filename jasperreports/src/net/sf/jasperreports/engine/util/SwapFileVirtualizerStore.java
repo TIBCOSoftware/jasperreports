@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
+import net.sf.jasperreports.engine.fill.JRSwapFileVirtualizer;
 import net.sf.jasperreports.engine.fill.VirtualizerStore;
 
 public class SwapFileVirtualizerStore implements VirtualizerStore
@@ -132,7 +133,7 @@ public class SwapFileVirtualizerStore implements VirtualizerStore
 
 	/**
 	 * Disposes the swap file used if this virtualizer owns it.
-	 * @see #JRSwapFileVirtualizer(int, JRSwapFile, boolean)
+	 * @see JRSwapFileVirtualizer#JRSwapFileVirtualizer(int, JRSwapFile, boolean)
 	 */
 	@Override
 	public void dispose()

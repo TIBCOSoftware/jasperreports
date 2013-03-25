@@ -33,9 +33,18 @@ import net.sf.jasperreports.engine.JRCloneable;
  * @version $Id$
  */
 public interface Marker extends JRCloneable {
-	public static final String PROPERTY_latitude = "latitude";
-	public static final String PROPERTY_longitude = "longitude";
-	public static final String PROPERTY_title = "title";
+	/**
+	 * @deprecated Replaced by {@link MapComponent#PROPERTY_latitude}.
+	 */
+	public static final String PROPERTY_latitude = MapComponent.PROPERTY_latitude;
+	/**
+	 * @deprecated Replaced by {@link MapComponent#PROPERTY_longitude}.
+	 */
+	public static final String PROPERTY_longitude = MapComponent.PROPERTY_longitude;
+	/**
+	 * @deprecated Replaced by {@link MapComponent#PROPERTY_title}.
+	 */
+	public static final String PROPERTY_title = MapComponent.PROPERTY_title;
 	
 	public List<MarkerProperty> getProperties();
 }

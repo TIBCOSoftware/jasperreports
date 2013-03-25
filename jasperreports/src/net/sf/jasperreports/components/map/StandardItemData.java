@@ -156,7 +156,7 @@ public class StandardItemData implements Serializable, ItemData, JRChangeEventsS
 	 * Sets the dataset information that will be used to create the item list.
 	 * 
 	 * @param dataset the dataset information
-	 * @see #getDatasetRun()
+	 * @see #getDataset()
 	 */
 	public void setDataset(JRElementDataset dataset)
 	{
