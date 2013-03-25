@@ -1043,6 +1043,7 @@ public class Tabulator
 		protected JRLineBox copyFrameBox(FrameCell frameCell, JRPrintFrame frame, JRLineBox baseBox, 
 				boolean keepLeft, boolean keepRight, boolean keepTop, boolean keepBottom)
 		{
+			// TODO lucianc cache
 			JRLineBox resultBox = JRBoxUtil.copyBordersNoPadding(frame.getLineBox(), 
 					keepLeft, keepRight, keepTop, keepBottom, baseBox);
 			// recurse
