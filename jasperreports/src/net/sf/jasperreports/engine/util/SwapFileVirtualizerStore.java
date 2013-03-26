@@ -7,13 +7,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
-import net.sf.jasperreports.engine.fill.JRSwapFileVirtualizer;
 import net.sf.jasperreports.engine.fill.VirtualizerStore;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class SwapFileVirtualizerStore implements VirtualizerStore
 {
@@ -133,7 +132,7 @@ public class SwapFileVirtualizerStore implements VirtualizerStore
 
 	/**
 	 * Disposes the swap file used if this virtualizer owns it.
-	 * @see JRSwapFileVirtualizer#JRSwapFileVirtualizer(int, JRSwapFile, boolean)
+	 * @see #SwapFileVirtualizerStore(JRSwapFile, boolean)
 	 */
 	@Override
 	public void dispose()
