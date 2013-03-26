@@ -207,14 +207,23 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 */
 	public JRXmlDataSource(JasperReportsContext jasperReportsContext, InputStream in) throws JRException 
 	{
-		this(jasperReportsContext, in, ".");
+		this(jasperReportsContext, in, false);
+	}
+
+	public JRXmlDataSource(JasperReportsContext jasperReportsContext, InputStream in, boolean isNamespaceAware) throws JRException 
+	{
+		this(jasperReportsContext, in, ".", isNamespaceAware);
 	}
 
 	/**
 	 * @see #JRXmlDataSource(JasperReportsContext, InputStream)
 	 */
 	public JRXmlDataSource(InputStream in) throws JRException {
-		this(DefaultJasperReportsContext.getInstance(), in);
+		this(in, false);
+	}
+
+	public JRXmlDataSource(InputStream in, boolean isNamespaceAware) throws JRException {
+		this(DefaultJasperReportsContext.getInstance(), in, isNamespaceAware);
 	}
 
 	/**
@@ -229,7 +238,17 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 		String selectExpression
 		) throws JRException 
 	{
-		this(jasperReportsContext, JRXmlUtils.parse(new InputSource(in)), selectExpression);
+		this(jasperReportsContext, in, selectExpression, false);
+	}
+
+	public JRXmlDataSource(
+			JasperReportsContext jasperReportsContext,
+			InputStream in, 
+			String selectExpression,
+			boolean isNamespaceAware
+			) throws JRException 
+	{
+		this(jasperReportsContext, JRXmlUtils.parse(new InputSource(in), isNamespaceAware), selectExpression);
 		
 		this.inputStream = in;
 		this.closeInputStream = false;
@@ -240,7 +259,12 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 */
 	public JRXmlDataSource(InputStream in, String selectExpression)
 			throws JRException {
-		this(DefaultJasperReportsContext.getInstance(), in, selectExpression);
+		this(in, selectExpression, false);
+	}
+
+	public JRXmlDataSource(InputStream in, String selectExpression, boolean isNamespaceAware)
+			throws JRException {
+		this(DefaultJasperReportsContext.getInstance(), in, selectExpression, isNamespaceAware);
 	}
 
 	/**
@@ -251,14 +275,22 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * @see JRXmlDataSource#JRXmlDataSource(Document) 
 	 */
 	public JRXmlDataSource(JasperReportsContext jasperReportsContext, String uri) throws JRException {
-		this(jasperReportsContext, uri, ".");
+		this(jasperReportsContext, uri, false);
+	}
+
+	public JRXmlDataSource(JasperReportsContext jasperReportsContext, String uri, boolean isNamespaceAware) throws JRException {
+		this(jasperReportsContext, uri, ".", isNamespaceAware);
 	}
 
 	/**
 	 * @see #JRXmlDataSource(JasperReportsContext, String)
 	 */
 	public JRXmlDataSource(String uri) throws JRException {
-		this(DefaultJasperReportsContext.getInstance(), uri);
+		this(uri, false);
+	}
+
+	public JRXmlDataSource(String uri, boolean isNamespaceAware) throws JRException {
+		this(DefaultJasperReportsContext.getInstance(), uri, isNamespaceAware);
 	}
 
 	/**
@@ -273,10 +305,21 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 		String selectExpression
 		) throws JRException 
 	{
+		this(jasperReportsContext, uri, selectExpression, false);
+	}
+
+	public JRXmlDataSource(
+			JasperReportsContext jasperReportsContext, 
+			String uri, 
+			String selectExpression,
+			boolean isNamespaceAware
+			) throws JRException 
+	{
 		this(
 			jasperReportsContext, 
 			RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(uri), 
-			selectExpression
+			selectExpression,
+			isNamespaceAware
 			);
 		this.closeInputStream = true;
 	}
@@ -286,7 +329,12 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 */
 	public JRXmlDataSource(String uri, String selectExpression)
 			throws JRException {
-		this(DefaultJasperReportsContext.getInstance(), uri, selectExpression);
+		this(uri, selectExpression, false);
+	}
+
+	public JRXmlDataSource(String uri, String selectExpression, boolean isNamespaceAware)
+			throws JRException {
+		this(DefaultJasperReportsContext.getInstance(), uri, selectExpression, isNamespaceAware);
 	}
 
 	/**
@@ -296,14 +344,22 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * @see JRXmlDataSource#JRXmlDataSource(Document) 
 	 */
 	public JRXmlDataSource(JasperReportsContext jasperReportsContext, File file) throws JRException {
-		this(jasperReportsContext, file, ".");
+		this(jasperReportsContext, file, false);
+	}
+
+	public JRXmlDataSource(JasperReportsContext jasperReportsContext, File file, boolean isNamespaceAware) throws JRException {
+		this(jasperReportsContext, file, ".", isNamespaceAware);
 	}
 
 	/**
 	 * @see #JRXmlDataSource(JasperReportsContext, File)
 	 */
 	public JRXmlDataSource(File file) throws JRException {
-		this(DefaultJasperReportsContext.getInstance(), file);
+		this(file, false);
+	}
+
+	public JRXmlDataSource(File file, boolean isNamespaceAware) throws JRException {
+		this(DefaultJasperReportsContext.getInstance(), file, isNamespaceAware);
 	}
 
 	/**
@@ -314,7 +370,12 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 */
 	public JRXmlDataSource(JasperReportsContext jasperReportsContext, File file, String selectExpression)
 			throws JRException {
-		this(jasperReportsContext, JRXmlUtils.parse(file), selectExpression);
+		this(jasperReportsContext, file, selectExpression, false);
+	}
+
+	public JRXmlDataSource(JasperReportsContext jasperReportsContext, File file, String selectExpression, boolean isNamespaceAware)
+			throws JRException {
+		this(jasperReportsContext, JRXmlUtils.parse(file, isNamespaceAware), selectExpression);
 	}
 
 	/**
@@ -322,7 +383,12 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 */
 	public JRXmlDataSource(File file, String selectExpression)
 			throws JRException {
-		this(DefaultJasperReportsContext.getInstance(), file, selectExpression);
+		this(file, selectExpression, false);
+	}
+
+	public JRXmlDataSource(File file, String selectExpression, boolean isNamespaceAware)
+			throws JRException {
+		this(DefaultJasperReportsContext.getInstance(), file, selectExpression, isNamespaceAware);
 	}
 	
 	// -----------------------------------------------------------------
