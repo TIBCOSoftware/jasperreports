@@ -99,6 +99,7 @@ public class TextMeasurer implements JRTextMeasurer
 		protected float firstLineLeading;
 		protected boolean isLeftToRight = true;
 		protected String textSuffix;
+		protected boolean isMeasured = true;
 		
 		protected int lastOffset;
 		protected ArrayList<Integer> lineBreakOffsets;
@@ -125,7 +126,7 @@ public class TextMeasurer implements JRTextMeasurer
 		
 		public float getLineSpacingFactor()
 		{
-			if (lines > 0 && fontSizeSum > 0)
+			if (isMeasured && lines > 0 && fontSizeSum > 0)
 			{
 				return textHeight / fontSizeSum;
 			}
@@ -134,7 +135,11 @@ public class TextMeasurer implements JRTextMeasurer
 		
 		public float getLeadingOffset()
 		{
-			return firstLineLeading - firstLineMaxFontSize * getLineSpacingFactor();
+			if (isMeasured && lines > 0 && fontSizeSum > 0)
+			{
+				return firstLineLeading - firstLineMaxFontSize * getLineSpacingFactor();
+			}
+			return 0;
 		}
 
 		public String getTextSuffix()
@@ -768,7 +773,8 @@ public class TextMeasurer implements JRTextMeasurer
 			measuredState.lines++;
 
 			if (
-				(tabIndexes == null || tabIndexes.size() == 0)
+				measuredState.isMeasured
+				&& (tabIndexes == null || tabIndexes.size() == 0)
 				&& !hasParagraphIndents() 
 				)
 			{
@@ -780,6 +786,10 @@ public class TextMeasurer implements JRTextMeasurer
 					measuredState.firstLineLeading = measuredState.textHeight;
 					measuredState.firstLineMaxFontSize = measuredState.fontSizeSum;
 				}
+			}
+			else
+			{
+				measuredState.isMeasured = false;
 			}
 			
 			// here is the Y offset where we would draw the line
