@@ -16,6 +16,9 @@
 		<field name="useConnection" type="boolean">
 			<bind-xml name="useConnection" node="element"/>
 		</field>
+		<field name="namespaceAware" type="boolean">
+			<bind-xml name="namespaceAware" node="element"/>
+		</field>
 		<field name="datePattern" type="string">
 			<bind-xml name="datePattern" node="element"/>
 		</field>

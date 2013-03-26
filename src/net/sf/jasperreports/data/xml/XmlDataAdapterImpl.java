@@ -42,6 +42,7 @@ public class XmlDataAdapterImpl extends AbstractDataAdapter implements XmlDataAd
 	private String datePattern = null;
 	private String numberPattern = null;
 	private TimeZone timeZone = null;
+	private boolean namespaceAware = false;
 
 	public String getFileName() {
 		return fileName;
@@ -97,5 +98,13 @@ public class XmlDataAdapterImpl extends AbstractDataAdapter implements XmlDataAd
 	
 	public void setUseConnection(boolean useConnection) {
 		this.useConnection = useConnection;
+	}
+
+	public boolean isNamespaceAware() {
+		return namespaceAware;
+	}
+
+	public void setNamespaceAware(boolean namespaceAware) {
+		this.namespaceAware = namespaceAware;
 	}
 }

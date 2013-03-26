@@ -62,4 +62,6 @@ public interface XmlDataAdapter extends DataAdapter
 	public boolean isUseConnection();//FIXME consider renaming to isQueryExecuterMode
 	
 	public void setUseConnection(boolean useConnection);
+	
+	public boolean isNamespaceAware();
 }

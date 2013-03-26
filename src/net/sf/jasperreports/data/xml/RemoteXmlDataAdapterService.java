@@ -97,7 +97,7 @@ public class RemoteXmlDataAdapterService extends XmlDataAdapterService
 					InputStream dataStream = RepositoryUtil.getInstance(getJasperReportsContext()).getInputStreamFromLocation(remoteXmlDataAdapter.getFileName());
 					try
 					{
-						Document document = JRXmlUtils.parse(dataStream);
+						Document document = JRXmlUtils.parse(dataStream, remoteXmlDataAdapter.isNamespaceAware());
 						parameters.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
 					}
 					finally

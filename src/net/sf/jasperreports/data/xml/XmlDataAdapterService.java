@@ -97,7 +97,7 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 					InputStream dataStream = RepositoryUtil.getInstance(getJasperReportsContext()).getInputStreamFromLocation(xmlDataAdapter.getFileName());
 					try
 					{
-						Document document = JRXmlUtils.parse(dataStream);	// FIXME add ability to control whether the parsing should be namespace aware or not
+						Document document = JRXmlUtils.parse(dataStream, xmlDataAdapter.isNamespaceAware());
 						parameters.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
 					}
 					finally
@@ -136,7 +136,7 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 			}
 			else
 			{
-				JRXmlDataSource ds = new JRXmlDataSource(getJasperReportsContext(), xmlDataAdapter.getFileName(), xmlDataAdapter.getSelectExpression()); 
+				JRXmlDataSource ds = new JRXmlDataSource(getJasperReportsContext(), xmlDataAdapter.getFileName(), xmlDataAdapter.getSelectExpression(), xmlDataAdapter.isNamespaceAware()); 
 
 				Locale locale = xmlDataAdapter.getLocale();
 				if (locale != null) {
