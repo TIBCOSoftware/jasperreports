@@ -2,11 +2,35 @@
 JasperReports Library Change Log
 ===================================
 
-JasperReports 5.0.4 (2013-0x-xx)
+JasperReports 5.0.4 (2013-03-26)
 ---------------------------------------------
 
-- minor bug fixes and improvements;
+- new HTML exporter implementation added, which uses HTML tables to render the report content, 
+but still supports overlapping elements by arranging them in separate layers. 
+This new exporter implemented in the net.sf.jasperreports.engine.export.HtmlExporter class also 
+supports report interactivity and is now the preferred way to export to HTML, being used by 
+the JasperExportManager class and all other convenience and utility classes in the JasperReports 
+library and its provided samples;
 
+- the ODS exporter refactored so that it behaves more like the XLS exporters and thus supports 
+a significant number of XLS export configuration properties and parameters;
+
+- new <hyperlinkWhenExpression> introduced for hyperlink definitions, complemented with export time 
+configuration properties to control the appearance of hyperlinks depending on the export format;
+
+- new cells available in crosstab structure, to allow defining headers for column groups in 
+the top left corner of the crosstab, where the unstructured crosstab header cell is normally rendered;
+ these new cells overlap the former crosstab header cell, if present, but allow for their content 
+ to stretch in accordance with column group header cell stretching;
+
+- new shared virtualizer implementation added to allow the use of a separate swap file per report; 
+
+- added support for localization in the exceptions raised by the JasperReports library;
+
+- added configuration properties for controlling the interactive features of the table component 
+such as column sorting, filtering and formatting;
+
+- minor bug fixes and improvements;
 
 
 
