@@ -163,8 +163,10 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			
 			velocityContext.put("resourceSortJs", webUtil.getResourcePath(webResourcesBasePath, SortElementHtmlHandler.RESOURCE_SORT_JS));
 			velocityContext.put("jasperreports_tableHeaderToolbar_css", webUtil.getResourcePath(webResourcesBasePath, SortElementHtmlHandler.RESOURCE_HEADERTOOLBAR_CSS, true));
-			velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
-			velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
+			if (context.getExporter() instanceof JRXhtmlExporter) {
+				velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
+				velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
+			}
 			velocityContext.put("elementWidth", element.getWidth());
 			velocityContext.put("elementHeight", element.getHeight());
 			velocityContext.put("sortLinkClass", sortDatasetName);
