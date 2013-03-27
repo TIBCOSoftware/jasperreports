@@ -144,8 +144,8 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 						return MapElementOdsHandler.getInstance();
 					}
 				}
-				if (SortElement.SORT_ELEMENT_NAME.equals(elementName) 
-						&& JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
+				if (SortElement.SORT_ELEMENT_NAME.equals(elementName)
+						&& (JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey) || HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey)))
 				{
 					return new SortElementHtmlHandler();
 				}

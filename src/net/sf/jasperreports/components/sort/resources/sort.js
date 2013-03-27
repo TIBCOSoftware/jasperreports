@@ -89,7 +89,8 @@
 	    				toolbarId: toolbarId,
 	    				self: contextStartPoint
 	    			},
-	    			actionData: actionData
+	    			actionData: actionData,
+	    			defaultAction: true
 				});
 			});
 			
@@ -140,7 +141,8 @@
 	    				toolbarId: toolbarId,
 	    				self: contextStartPoint
 	    			},
-	    			actionData: actionData
+	    			actionData: actionData,
+	    			defaultAction: true
 				});
 			});
 		} else {
@@ -250,7 +252,8 @@
 		    				toolbarId: toolbarId,
 		    				self: self
 		    			},
-		    			actionData: actionData		    			
+		    			actionData: actionData,
+		    			defaultAction: true
 					});
 	            });
 				/*
@@ -295,7 +298,8 @@
 		    				toolbarId: toolbarId,
 		    				self: self
 		    			},
-		    			actionData: actionData		    			
+		    			actionData: actionData,
+		    			defaultAction: true
 					});
 	            });
 	            /**

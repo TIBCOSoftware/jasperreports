@@ -5,20 +5,16 @@
 	jive.actionBaseData = '${actionBaseData}';
 	jive.actionBaseUrl = '${actionBaseUrl}';
 </script>
-
 <div class='sortlink ${sortLinkClass}'
 	data-resizecolumn='column_${filterColumnName}'
 	data-actionData='${actionData}'
 	#if (${isFilterable})
 		data-filterid='${filterDivId}'
 	#end
-	style="cursor: pointer; display: table; position: absolute; left: ${elementX}; top: ${elementY};
-		width: ${elementWidth}px; height: ${elementHeight}px; text-align: ${sortHandlerHAlign}; text-decoration: none;
-		#if(${backgroundColor}) 
-			##background-color: \#${backgroundColor};
-		#end
-">
-	<div style='display: table-cell; vertical-align: ${sortHandlerVAlign}'>
+	style="cursor: pointer; display: table; position: absolute; 
+	#if(${elementX})left: ${elementX}; top: ${elementY}; #end
+		width: ${elementWidth}px; height: ${elementHeight}px; text-decoration: none;">
+	<div style='display: table-cell; vertical-align: ${sortHandlerVAlign}; text-align: ${sortHandlerHAlign};'>
 			#if (${isSorted})<input type='button' class='sortSymbolImage ${sortSymbolResource}' />#end 
 			#if (${isFiltered})<input type='button' class='filterSymbolImage filterSymbol_${filterActiveInactive} ${filterSymbolImageResource}' /> #end
 	</div>
