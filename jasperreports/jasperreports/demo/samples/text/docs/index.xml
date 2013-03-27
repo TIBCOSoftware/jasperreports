@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>text</name>
+  <title>Text Export Sample</title>
+  <description>Shows how the pure text exporter could be used to export reports to simple text files.</description>
+
+  <mainFeature ref="textexport"/>
+  
+  <!-- textexport -->
+  
+  <feature name="textexport" title="Exporting to Pure Text Format">
+    <description>
+How to export reports to plain text files.
+    </description>
+    <since>1.0.1</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<subtitle name="overview">Plain Text Export - Overview</subtitle>
+<br/>
+<br/>
+One could imagine situations which require the text information from a JasperReport document to be saved separately as pure text document. 
+In this case graphics, images, styles and pixel perfectness are not conserved. Text elements are converted into simple texts to be written 
+in documents with predefined page widths and heights, measured in characters.
+<br/>
+The <api href="net/sf/jasperreports/engine/export/JRTextExporter.html" target="_blank">JRTextExporter</api> implementation is intended to 
+serve to this purpose. Users can specify the desired page width and height (in characters), then the engine will try to best 
+fit text elements into the corresponding text page. Taking into account that positions and sizes are measured in pixels in a JasperReports 
+template, and page dimensions in a text document are set in number of characters, some precautions must be taken when creating reports for 
+text export:
+<ul>
+<li>Report sizes and text page sizes should be divisible (for example, specify a template width of 1,000 pixels and a page width of 100 characters, 
+resulting in a character width of 10 pixels).</li>
+<li>Text element sizes should also follow the preceding rule (for example, if the character height is 10 pixels and a particular text element is 
+expected to span two rows, then the text element should be 20 pixels tall).</li>
+<li>For best results, text elements should be aligned in a grid-like fashion.</li>
+<li>Text elements having their height smaller than the character height will be not exported.</li>
+<li>Text elements having their width smaller than a minimum required width will be truncated. For a text element that contains a sequence 
+of 20 characters, if the character width is 10 and the element width is 80, then only the first eight characters will be displayed. The 
+minimum required width for the text element would be 200.</li>
+</ul>
+<subtitle name="parameters">Plain Text Export - Parameters And Properties</subtitle>
+<br/>
+<br/>
+The basic idea when exporting to plain text output is to find the appropriate pixel/character ratio and convert sizes in the report in order to 
+generate enough space for the exported text. 
+<br/>
+The following parameters and properties are very helpful to accomplish such a task:
+<ul>
+<li><api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#CHARACTER_WIDTH" target="_blank">CHARACTER_WIDTH</api> or 
+<api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_CHARACTER_WIDTH" target="_blank">PROPERTY_CHARACTER_WIDTH</api>, representing the pixel/character horizontal ratio</li>
+<li><api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#CHARACTER_HEIGHT" target="_blank">CHARACTER_HEIGHT</api> or 
+<api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_CHARACTER_HEIGHT" target="_blank">PROPERTY_CHARACTER_HEIGHT</api>, representing the pixel/character vertical ratio</li>
+<li><api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PAGE_WIDTH" target="_blank">PAGE_WIDTH</api> or 
+<api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_PAGE_WIDTH" target="_blank">PROPERTY_PAGE_WIDTH</api>, representing the page width (in characters)</li>
+<li><api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PAGE_HEIGHT" target="_blank">PAGE_HEIGHT</api> or 
+<api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_PAGE_HEIGHT" target="_blank">PROPERTY_PAGE_HEIGHT</api>, representing the page height (in characters)</li>
+</ul>
+Other useful parameters are:
+<ul>
+<li><api href="net/sf/jasperreports/engine/JRExporterParameter.html#CHARACTER_ENCODING" target="_blank">CHARACTER_ENCODING</api> or 
+<api href="net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_CHARACTER_ENCODING" target="_blank">PROPERTY_CHARACTER_ENCODING</api>, representing the character encoding for the 
+text document.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#BETWEEN_PAGES_TEXT" target="_blank">BETWEEN_PAGES_TEXT</api>, parameter that stores the text that will be inserted 
+between pages of the generated report, as page separator.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#LINE_SEPARATOR" target="_blank">LINE_SEPARATOR</api>, parameter that stores the line separator sequence.</li>
+</ul>
+<subtitle name="sample">The Text Export Sample</subtitle>
+<br/>
+<br/>
+The <code>demo/samples/text/reports/TextReport.jrxml</code> template contains an example of report design prepared for the plain text export.
+<br/>
+One has to pay attention to the following properties defined in the report:
+<pre><![CDATA[
+<property name="net.sf.jasperreports.export.text.character.width" value="7.238"/>
+<property name="net.sf.jasperreports.export.text.character.height" value="13.948"/>]]></pre>
+They assume that characters are 7.238px wide and 13.948px high. Having a page width of 798px and a page height of 1000px, it follows that pages in the generated text document will count 
+110 characters per line and 71 lines per page.
+<br/>
+Also notice that element sizes are set enough large to make room for all their content to be represented in the plain text output.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/text</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/text/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+
+
+    </content>
+  </feature>
+
+</sample>

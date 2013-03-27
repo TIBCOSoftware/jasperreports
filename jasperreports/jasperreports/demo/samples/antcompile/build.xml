@@ -1,0 +1,85 @@
+<project name="antcompile" default="test" basedir=".">
+
+	<description>Shows how multiple JRXML files can be compiled in batch mode using ANT.</description>
+
+	<path id="classpath">
+		<pathelement location="../../../build/classes"/>
+		<fileset dir="../../../lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	
+	<path id="runClasspath">
+		<path refid="classpath"/>
+		<pathelement location="../../fonts"/>
+		<pathelement location="./build/classes"/>
+	</path>
+
+	<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+		<classpath refid="classpath"/>
+	</taskdef>
+
+	<target name="javac" description="Compiles the Java source files used in the report designs.">
+		<mkdir dir="./build/classes"/> 
+		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false"/>
+	</target> 
+
+	<target name="compile1" description="Compiles report designs specified using the &quot;srcdir&quot; in the &lt;jrc&gt; tag."> 
+		<mkdir dir="./build/reports"/> 
+		<jrc 
+				srcdir="./reports"
+				destdir="./build/reports"
+				tempdir="./build/reports"
+				keepjava="true"
+				xmlvalidation="true">
+			<classpath refid="runClasspath"/>
+			<include name="**/*.jrxml"/>
+		</jrc>
+	</target> 
+
+	<target name="compile2" description="Compiles report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag.">
+		<mkdir dir="./build/reports"/> 
+		<jrc 
+				destdir="./build/reports"
+				tempdir="./build/reports"
+				keepjava="true"
+				xmlvalidation="true">
+			<src>
+				<fileset dir="./reports">
+					<include name="**/*.jrxml"/>
+				</fileset>
+			</src>
+			<classpath refid="runClasspath"/>
+		</jrc> 
+	</target> 
+
+	<target name="decompile" description="Decompiles report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag.">
+		<taskdef name="jrdc" classname="net.sf.jasperreports.ant.JRAntDecompileTask"> 
+			<classpath refid="classpath"/>
+		</taskdef>
+		<jrdc destdir="./build/reports">
+			<src>
+				<fileset dir="./build/reports">
+					<include name="**/*.jasper"/>
+				</fileset>
+			</src>
+			<classpath refid="runClasspath"/>
+		</jrdc> 
+	</target> 
+
+	<target name="clean" description="Deletes all the generated files.">
+		<delete dir="./build" />
+	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Ant Compile Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="compile1" />
+		<antcall target="compile2" />
+		<antcall target="decompile" />
+	</target>
+
+</project>

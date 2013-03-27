@@ -1,0 +1,55 @@
+<div 
+#if(${xhtml})
+	style='position: absolute; left: ${elementX}; top: ${elementY}; width: ${elementWidth}px; height: ${elementHeight}px;
+#else
+	style='width: ${elementWidth}px; height: ${elementHeight}px;
+#end
+	#if(${backgroundColor}) 
+		background-color: \#${backgroundColor};
+	#end
+'>
+	<div id='${mapCanvasId}' style='width: 100%; height: 100%; overflow: auto'></div>
+</div>
+
+#if (${gotReportContext})
+	<script class='jasperreports' type='text/javascript'>
+		jasperreports.global.appendScriptElementToDOM('_mapScript', '${resourceMapJs}', 'jasperreports.map.initGoogleMaps', ['${language}']);
+		var markers = ${markerList};
+		jasperreports.events.subscribeToEvent({name: 'jasperreports.map.init', callback: 'jasperreports.map.showMap', args: ['${mapCanvasId}', ${latitude}, ${longitude}, ${zoom}, '${mapType}', markers]});
+	</script>
+#else
+	#if (${exporterFirstAttempt})
+		#if(${language})
+			<script class='jasperreports' src='http://maps.google.com/maps/api/js?sensor=false&language=${language}'></script>
+		#else
+			<script class='jasperreports' src='http://maps.google.com/maps/api/js?sensor=false'></script>
+		#end
+	#end
+	<script class='jasperreports' type='text/javascript'>
+		(function () {
+			var map = new google.maps.Map(document.getElementById('${mapCanvasId}'), {
+						zoom: ${zoom},
+						center: new google.maps.LatLng(${latitude}, ${longitude}), 
+						mapTypeId: google.maps.MapTypeId.${mapType}
+					});
+			var markers = ${markerList};
+			if(markers){
+				var j;
+				for (var i = 0; i < markers.length; i++) {
+				    var markerProps = markers[i];
+				    var markerLatLng = new google.maps.LatLng(markerProps['latitude'], markerProps['longitude']);
+				    var markerOptions = {
+					        position: markerLatLng,
+					        map: map
+					    };
+				    for (j in markerProps) {
+						if (markerProps.hasOwnProperty(j) && !markerOptions.hasOwnProperty(j)) {
+								markerOptions[j] = markerProps[j];
+						}
+					}
+				    var marker = new google.maps.Marker(markerOptions);
+				}
+			}
+		}());		
+	</script>
+#end

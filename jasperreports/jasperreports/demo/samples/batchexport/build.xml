@@ -1,0 +1,156 @@
+<project name="batchexport" default="test" basedir=".">
+
+	<description>Shows how multiple reports could be concatenated during export.</description>
+
+	<property name="sample.dir" value="batchexport"/>
+	<property name="sample.base.name" value="BatchExport" />
+	<property name="sample.app.name" value="${sample.base.name}App" />
+	<property name="sample.report.name" value="${sample.base.name}Report" />
+	
+	<path id="classpath">
+		<pathelement location="./build/classes"/>
+		<pathelement location="../../fonts"/>
+		<pathelement location="../../../build/classes"/>
+		<fileset dir="../../../lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="javac" description="Compiles the java source files of the test application.">
+		<ant dir="../" target="javac"/>
+	</target>
+
+	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+		<ant dir="../" target="compile"/>
+	</target>
+
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+		<ant dir="../" target="fill"/>
+	</target>
+
+	<target name="view1" description="Launches the report viewer to preview the first report stored in the .jrprint file.">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
+			<arg value="./build/reports/Report1.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="view2" description="Launches the report viewer to preview the second report stored in the .jrprint file.">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
+			<arg value="./build/reports/Report2.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="view3" description="Launches the report viewer to preview the third report stored in the .jrprint file.">
+		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
+			<arg value="./build/reports/Report3.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
+		<ant dir="../" target="pdf"/>
+	</target>
+
+	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="html"/>
+	</target>
+
+	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
+		<ant dir="../" target="rtf"/>
+	</target>
+	
+	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
+		<ant dir="../" target="xls"/>
+	</target>
+
+	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
+		<ant dir="../" target="jxl"/>
+	</target>
+
+	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
+		<ant dir="../" target="csv"/>
+	</target>
+
+	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
+		<ant dir="../" target="odt"/>
+	</target>
+
+	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file.">
+		<ant dir="../" target="ods"/>
+	</target>
+
+	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="docx"/>
+	</target>
+
+	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xlsx"/>
+	</target>
+
+	<target name="pptx" description="Generates a PPTX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="pptx"/>
+	</target>
+
+	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xhtml"/>
+	</target>
+
+	<target name="viewDesignXml1" description="Launches the design viewer to preview the first XML report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="./reports/Report1.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesignXml2" description="Launches the design viewer to preview the second XML report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="./reports/Report2.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesignXml3" description="Launches the design viewer to preview the third XML report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="./reports/Report3.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign1" description="Launches the design viewer to preview the first compiled report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="./reports/Report1.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign2" description="Launches the design viewer to preview the second compiled report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="./reports/Report2.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign3" description="Launches the design viewer to preview the third compiled report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="./reports/Report3.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<ant dir="../" target="clean-sample"/>
+	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Batch Export Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="compile" />
+		<ant dir="../" target="test"/>
+	</target>
+
+</project>

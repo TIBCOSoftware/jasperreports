@@ -1,0 +1,12 @@
+<html>
+<head>
+<title>JasperReports - Web Application Sample</title>
+<link rel="stylesheet" type="text/css" href="../stylesheet.css" title="Style"></link>
+</head>
+<body bgcolor="white">
+<span class="bnew">JasperReports encountered this error :</span>
+<pre>
+${stackTrace}
+</pre>
+</body>
+</html>

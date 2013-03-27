@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://jasperreports.sourceforge.net/htmlcomponent"
+  xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent"
+  xmlns:jr="http://jasperreports.sourceforge.net/jasperreports"
+  elementFormDefault="qualified">
+
+	<import namespace="http://jasperreports.sourceforge.net/jasperreports"/>
+
+	<element name="html" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="jr:componentType">
+					<sequence>
+						<element name="htmlContentExpression">
+							<complexType mixed="true"/>
+						</element>
+					</sequence>
+					
+					<attribute name="scaleType" use="optional">
+						<annotation>
+							<documentation>Image displaying type.</documentation>
+						</annotation>
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="Clip">
+									<annotation>
+										<documentation>Only the portion of the image that fits the specified object width and height will be printed. Image is not stretched.</documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="FillFrame">
+									<annotation>
+										<documentation>Image will be stretched to adapt to the specified object width and height.</documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="RetainShape">
+									<annotation>
+										<documentation>Image will adapt to the specified object width or height keeping its original shape.</documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="RealHeight">
+									<annotation>
+										<documentation>A scale image type that instructs the engine to stretch the image height to fit the actual height of the image.</documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="RealSize">
+									<annotation>
+										<documentation>A scale image type that stretches the images height in the same way as <code>RealHeight</code>, and in addition it changes the image width to the actual with of the image.
+												This can be useful when, for instance, a border has to be drawn around the image, respecting its actual size.
+										</documentation>
+									</annotation>
+								</enumeration>
+							</restriction>
+					    </simpleType>
+					</attribute>
+					
+					<attribute name="horizontalAlign" use="optional">
+						<annotation>
+							<documentation>Horizontal image alignment.</documentation>
+						</annotation>
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="Left">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="Center">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="Right">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+							</restriction>
+						</simpleType>
+					</attribute>
+					
+					<attribute name="verticalAlign" use="optional">
+						<annotation>
+							<documentation>Vertical image alignment.</documentation>
+						</annotation>
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="Top">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="Middle">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="Bottom">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+							</restriction>
+						</simpleType>
+					</attribute>					
+					<attribute name="clipOnOverflow" type="boolean" use="optional" default="true"/>
+					<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+					<attribute name="evaluationGroup" type="string" use="optional"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+</schema>

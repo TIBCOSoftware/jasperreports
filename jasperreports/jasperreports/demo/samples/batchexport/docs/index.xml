@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>batchexport</name>
+  <title>Batch Export Sample</title>
+  <description>Shows how multiple reports could be concatenated during export.</description>
+
+  <mainFeature ref="batchexport"/>
+  
+  <!-- batchexport -->
+  
+  <feature name="batchexport" title="Exporting Multiple Reports into a Single Output File (Batch Export)">
+    <description>
+Several reports can be exported together to form a single resulting document.
+    </description>
+    <since>0.6.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b>Exporter Input</b>
+<br/>
+<br/>
+The input data for an exporter comes in the form of one or more JasperPrint 
+documents that must be exported to some other document format. These JasperPrint 
+objects may be already in memory, come from the network through an input stream, or 
+reside in files on disk. 
+<br/>
+An exporter should be able to handle such a wide range of document sources. In fact, all 
+the exporter implementations that are shipped inside the library already do this. They all 
+extend the <code>net.sf.jasperreports.engine.JRAbstractExporter</code> class, which 
+holds all the logic for dealing with the source documents that need to be exported inside 
+its defined <code>setInput()</code> method. 
+<br/>
+<br/>
+<b>Batch Mode Export</b>
+<br/>
+<br/>
+The first thing an exporter needs to know is whether it is acting on a single 
+JasperPrint document or a list with several such generated documents. Exporting 
+multiple JasperPrint objects to a single resulting document is called batch mode 
+exporting.
+<br/>
+Not all exporters can work in batch mode, but those that do first look into the supplied 
+parameter values to see whether a <code>java.util.List</code> of JasperPrint object has been 
+supplied to them using the <api href="net/sf/jasperreports/engine/JRExporterParameter.html#JASPER_PRINT_LIST">JASPER_PRINT_LIST</api> exporter parameter. If so, the exporter 
+loops through this list of documents and produces a single document from them.
+<br/> 
+If the exporters act on a single document, then they check whether a value is supplied to 
+the <api href="net/sf/jasperreports/engine/JRExporterParameter.html#JASPER_PRINT">JASPER_PRINT</api> parameter, representing a single in-memory JasperPrint document 
+that must be exported. If no value is found for this parameter, then the input for the 
+exporter is a single JasperPrint document to be loaded from an input stream, an URL, 
+a file object, or a file name. The exporter checks the following exporter parameters in 
+this exact order, stopping at the first that has a non-null value: <api href="net/sf/jasperreports/engine/JRExporterParameter.html#INPUT_STREAM">INPUT_STREAM</api>, 
+<api href="net/sf/jasperreports/engine/JRExporterParameter.html#INPUT_URL">INPUT_URL</api>, <api href="net/sf/jasperreports/engine/JRExporterParameter.html#INPUT_FILE">INPUT_FILE</api>, 
+and <api href="net/sf/jasperreports/engine/JRExporterParameter.html#INPUT_FILE_NAME">INPUT_FILE_NAME</api>. If it does not find any of these 
+parameters being set, then the exporter throws an exception telling that no 
+input source was set for the export process.
+<br/>
+<br/>
+<b>Batch Mode Bookmarks</b>
+<br/>
+<br/>
+When several JasperPrint documents must be concatenated in the same PDF file by 
+batch export, you can introduce PDF bookmarks in the resulting PDF document to mark 
+the beginning of each individual document that was part of the initial document list. 
+<br/>
+These bookmarks have the same name as the original JasperPrint document as 
+specified by the <code>jasperPrint.getName()</code> property. However, users can turn on and off 
+the creation of those bookmarks by setting the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_CREATING_BATCH_MODE_BOOKMARKS">IS_CREATING_BATCH_MODE_BOOKMARKS</api> 
+exporter parameter to Boolean.TRUE or Boolean.FALSE. The exporter does not create 
+such bookmarks by default. 
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/batchexport</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/batchexport/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

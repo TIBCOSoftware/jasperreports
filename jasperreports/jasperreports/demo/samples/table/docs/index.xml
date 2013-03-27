@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>table</name>
+  <title>Table Sample</title>
+  <description>Illustrates the usage of the table component element.</description>
+
+  <mainFeature ref="table"/>
+  
+  <!-- table -->
+  
+  <feature name="table" title="Using the Built-in Table Component">
+    <description>
+How to render tabular data using the built-in table component and a subdataset.
+    </description>
+    <since>3.7.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <otherSample ref="tabular"/>
+    <otherSample ref="list"/>
+    <content>
+<subtitle name="overview">The Built-in Table Component - Overview</subtitle>
+<br/>
+<br/>
+Tables represent one of the most popular layout for data reporting, especially when numeric data are involved. Tables are 
+necessary when data has to be organized in distinct rows and columns in order to be displayed. One could consider tables as 
+groups of distinct columns sharing the same number of rows, populated with significant data. Such kind of simple tabular layout 
+could be designed using either report elements along with their border to form a table-like structure (as shown in the 
+<a href="../tabular/index.html">Tabular Sample</a>), or a built-in list component with elements organized on a row in the list content 
+(see the <a href="../list/index.html">Built-in List Component Sample</a>).
+<br/>
+But what if the table deals with a very complex structure, where table headers are present side by side with column headers, or column 
+group footers are mixed together with single column footers, or particular cells span over multiple rows and/or columns? In this case tabular and 
+list layouts require more and more elaborated work in order to put all this information together. A dedicated tool is needed instead.
+<br/>
+And here comes the JR built-in table component to demonstrate its utility.
+<br/>
+<br/>
+<subtitle name="schema">The Table Component Schema</subtitle>
+<br/>
+<br/>
+Below is the main piece of the table component schema:
+<pre><![CDATA[
+<element name="table" substitutionGroup="jr:component">
+  <complexType>
+    <complexContent>
+      <extension base="jr:componentType">
+        <sequence>
+          <element ref="jr:datasetRun" minOccurs="1" maxOccurs="1" />
+          <choice minOccurs="1" maxOccurs="unbounded">
+            <element ref="c:columnGroup"/>
+            <element ref="c:column"/>
+          </choice>
+       </sequence>
+       <attribute name="whenNoDataType" use="optional" default="Blank">
+          <annotation>
+            <documentation>
+              Allows users to customize the behavior of the table when there are now rows in the data source.
+            </documentation>
+          </annotation>
+          <simpleType>
+            <restriction base="string">
+              <enumeration value="Blank">
+                <annotation>
+                  <documentation>The table output will be blank.</documentation>
+                </annotation>
+              </enumeration>
+              <enumeration value="AllSectionsNoDetail">
+                <annotation>
+                  <documentation>All the table sections except the detail section will get printed.</documentation>
+                </annotation>
+              </enumeration>
+            </restriction>
+          </simpleType>
+        </attribute>
+      </extension>
+    </complexContent>
+  </complexType>
+</element>]]></pre>
+As described in the schema, the table component is based on a very simple structure of column groups and/or single columns populated with data. 
+In addition, columns and/or column groups may contain:
+<ul>
+<li>table headers</li>
+<li>group headers</li>
+<li>column headers</li>
+<li>table footers</li>
+<li>group footers</li>
+<li>column footers</li>
+</ul>
+A column group may include single columns as well as nested column groups, therefore we have the possibility to generate very complex structures 
+based on just two elementary pieces: <code>c:column</code> and <code>c:columnGroup</code>.
+<br/>
+Now let's see in the table schema how columns and column groups should be declared:
+<pre><![CDATA[
+<complexType name="BaseColumn">
+  <sequence>
+    <element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
+    <element name="tableHeader" type="c:TableCell" minOccurs="0"/>
+    <element name="tableFooter" type="c:TableCell" minOccurs="0"/>
+    <element name="groupHeader" type="c:TableGroupCell" minOccurs="0" maxOccurs="unbounded"/>
+    <element name="groupFooter" type="c:TableGroupCell" minOccurs="0" maxOccurs="unbounded"/>
+    <element name="columnHeader" type="c:TableCell" minOccurs="0"/>
+    <element name="columnFooter" type="c:TableCell" minOccurs="0"/>
+  </sequence>
+  <attribute name="width" use="required" type="unsignedInt"/>
+</complexType>
+
+<element name="columnGroup">
+  <complexType>
+    <complexContent>
+      <extension base="c:BaseColumn">
+        <sequence>
+          <choice minOccurs="1" maxOccurs="unbounded">
+            <element ref="c:columnGroup"/>
+            <element ref="c:column"/>
+          </choice>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+</element>
+
+<element name="column">
+  <complexType>
+    <complexContent>
+      <extension base="c:BaseColumn">
+        <sequence>
+          <element name="detailCell" type="c:TableCell"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+</element>]]></pre>
+So, column and column groups are extensions of a <code>c:BaseColumn</code> element characterized by a series of headers and footers and 
+a <code>jr:printWhenExpression</code>. To be well defined, a <code>BaseColumn</code> requires the <code>width</code> attribute to be set. 
+By default the column width will be inherited by all table cells in the column.
+<br/>
+As already discussed, a column group is a recursive structure consisting in a group of columns and/or nested column groups that act 
+together like a single column, sharing the same footers and headers.
+<br/>
+Single columns provide their specific element: a <code>detailCell</code> to be populated with data and printed out for each iteration through 
+the datasource, similar to elements defined in a report detail section.
+<br/>
+Detail cells are based on the <code>c:TableCell</code> element:
+<pre><![CDATA[
+<complexType name="TableCell">
+  <sequence>
+    <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
+    <choice minOccurs="0" maxOccurs="unbounded">
+      <element ref="jr:break" />
+      <element ref="jr:line" />
+      <element ref="jr:rectangle" />
+      <element ref="jr:ellipse" />
+      <element ref="jr:image" />
+      <element ref="jr:staticText" />
+      <element ref="jr:textField" />
+      <element ref="jr:subreport" />
+      <element ref="jr:pieChart" />
+      <element ref="jr:pie3DChart" />
+      <element ref="jr:barChart" />
+      <element ref="jr:bar3DChart" />
+      <element ref="jr:xyBarChart" />
+      <element ref="jr:stackedBarChart" />
+      <element ref="jr:stackedBar3DChart" />
+      <element ref="jr:lineChart" />
+      <element ref="jr:xyLineChart" />
+      <element ref="jr:areaChart" />
+      <element ref="jr:xyAreaChart" />
+      <element ref="jr:scatterChart" />
+      <element ref="jr:bubbleChart" />
+      <element ref="jr:timeSeriesChart" />
+      <element ref="jr:highLowChart" />
+      <element ref="jr:candlestickChart" />
+      <element ref="jr:meterChart" />
+      <element ref="jr:thermometerChart" />
+      <element ref="jr:multiAxisChart" />
+      <element ref="jr:stackedAreaChart" />
+      <element ref="jr:ganttChart" />
+      <element ref="jr:elementGroup" />
+      <element ref="jr:crosstab" />
+      <element ref="jr:frame" />
+      <element ref="jr:componentElement" />
+      <element ref="jr:genericElement" />
+    </choice>
+  </sequence>
+  <attribute name="style" use="optional" type="string"/>
+  <attribute name="height" use="required" type="unsignedInt"/>
+  <attribute name="rowSpan" use="optional" type="unsignedInt"/>
+</complexType>
+
+<complexType name="TableGroupCell">
+  <sequence>
+    <element name="cell" type="c:TableCell"/>
+  </sequence>
+  <attribute name="groupName" use="required" type="string"/>
+</complexType>]]></pre>
+Any <code>TableCell</code> may contain any number of report elements fitting within its bounds. It may have its own border, 
+style and row span. But in order to be well defined, the <code>height</code> attribute is mandatory in a <code>TableCell</code>.
+<br/>
+<br/>
+Finally, to make a table component fully functional, a <code>datasetRun</code> declaration is required within the <code>table</code> element.
+<br/>
+<br/>
+<subtitle name="sample">The Table Component Sample</subtitle>
+<br/>
+<br/>
+Now let's see a table component in action. The table defined in the <code>TableReport.jrxml</code> is similar to that one defined in the 
+<a href="../tabular/index.html">Tabular Sample</a>: it contains three independent columns with column headers and footers, plus a column 
+group with 2 columns sharing a common header, but owning also individual column headers and footers. Below is the related code:
+<pre><![CDATA[
+<componentElement>
+<reportElement x="0" y="50" width="555" height="100" style="Table" />
+  <c:table
+    xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+  <datasetRun subDataset="TableData">
+    <dataSourceExpression>$P{TableDataSource}</dataSourceExpression>
+  </datasetRun>
+  <c:column width="100">
+    <c:columnHeader rowSpan="2" height="30" style="TableHeader">
+      <box leftPadding="10">
+        <pen lineColor="black" />
+        <bottomPen lineWidth="0.5" />
+      </box>
+      <staticText>
+        <reportElement x="0" y="0" width="90" height="30">
+        </reportElement>
+        <textElement verticalAlignment="Middle">
+          <font size="12" isBold="true" />
+        </textElement>
+        <text><![CDATA[Header 1]] ></text>
+      </staticText>
+    </c:columnHeader>
+    <c:columnFooter height="15" style="TableFooter">
+      <box leftPadding="10">
+        <pen lineColor="black" />
+      </box>
+      <staticText>
+        <reportElement x="0" y="0" width="90" height="15">
+        </reportElement>
+        <textElement verticalAlignment="Middle">
+          <font size="12" isBold="true" />
+        </textElement>
+        <text><![CDATA[Total 1]] ></text>
+      </staticText>
+    </c:columnFooter>
+    <c:detailCell height="15">
+      <box leftPadding="10">
+        <bottomPen lineWidth="0.5" />
+      </box>
+      <textField isStretchWithOverflow="true">
+        <reportElement x="0" y="0" width="90" height="15">
+        </reportElement>
+        <textFieldExpression><![CDATA[$V{Column1}]] ></textFieldExpression>
+      </textField>
+    </c:detailCell>
+  </c:column>
+  <c:column width="100">
+    <c:columnHeader rowSpan="2" height="30" style="TableHeader">
+      <box leftPadding="10">
+        <pen lineColor="black" />
+        <leftPen lineWidth="0.5" />
+        <bottomPen lineWidth="0.5" />
+      </box>
+      <staticText>
+        <reportElement x="0" y="0" width="90" height="30">
+        </reportElement>
+        <textElement verticalAlignment="Middle">
+          <font size="12" isBold="true" />
+        </textElement>
+        <text><![CDATA[Header 2]] ></text>
+      </staticText>
+    </c:columnHeader>
+    <c:columnFooter height="15" style="TableFooter">
+      <box leftPadding="10">
+        <pen lineColor="black" />
+        <leftPen lineWidth="0.5" />
+      </box>
+      <staticText>
+        <reportElement x="0" y="0" width="90" height="15">
+        </reportElement>
+        <textElement verticalAlignment="Middle">
+          <font size="12" isBold="true" />
+        </textElement>
+        <text><![CDATA[Total 2]] ></text>
+      </staticText>
+    </c:columnFooter>
+    <c:detailCell height="15">
+      <box leftPadding="10">
+        <leftPen lineWidth="0.5" />
+        <bottomPen lineWidth="0.5" />
+      </box>
+      <textField>
+        <reportElement x="0" y="0" width="90" height="15">
+        </reportElement>
+        <textFieldExpression><![CDATA[$V{Column2}]] ></textFieldExpression>
+      </textField>
+    </c:detailCell>
+  </c:column>
+  <c:column width="100">
+    <c:columnHeader rowSpan="2" height="30" style="TableHeader">
+      <box leftPadding="10">
+        <pen lineColor="black" />
+        <leftPen lineWidth="0.5" />
+        <bottomPen lineWidth="0.5" />
+      </box>
+      <staticText>
+        <reportElement x="0" y="0" width="90" height="30">
+        </reportElement>
+        <textElement verticalAlignment="Middle">
+          <font size="12" isBold="true" />
+        </textElement>
+        <text><![CDATA[Header 3]] ></text>
+      </staticText>
+    </c:columnHeader>
+    <c:columnFooter height="15" style="TableFooter">
+      <box leftPadding="10">
+        <pen lineColor="black" />
+        <leftPen lineWidth="0.5" />
+      </box>
+      <staticText>
+        <reportElement x="0" y="0" width="90" height="15">
+        </reportElement>
+        <textElement verticalAlignment="Middle">
+          <font size="12" isBold="true" />
+        </textElement>
+        <text><![CDATA[Total 3]] ></text>
+      </staticText>
+    </c:columnFooter>
+    <c:detailCell height="15">
+      <box leftPadding="10">
+        <leftPen lineWidth="0.5" />
+        <bottomPen lineWidth="0.5" />
+      </box>
+      <textField>
+        <reportElement x="0" y="0" width="90" height="15">
+        </reportElement>
+        <textFieldExpression><![CDATA[$V{Column3}]] ></textFieldExpression>
+      </textField>
+    </c:detailCell>
+  </c:column>
+  <c:columnGroup width="255">
+    <c:columnHeader height="15" style="TableHeader">
+      <box>
+        <pen lineWidth="0.5" lineColor="black" />
+      </box>
+      <staticText>
+        <reportElement x="0" y="0" width="255" height="15">
+        </reportElement>
+        <textElement textAlignment="Center">
+          <font size="12" isBold="true" />
+        </textElement>
+        <text><![CDATA[Header 4]] ></text>
+      </staticText>
+    </c:columnHeader>
+    <c:column width="155">
+      <c:columnHeader height="15" style="TableHeader">
+        <box leftPadding="10">
+          <pen lineColor="black" />
+          <topPen lineWidth="0.5" />
+          <leftPen lineWidth="0.5" />
+          <bottomPen lineWidth="0.5" />
+        </box>
+        <staticText>
+          <reportElement x="0" y="0" width="145" height="15">
+          </reportElement>
+          <textElement>
+            <font isBold="true" />
+          </textElement>
+          <text><![CDATA[Header 4.1]] ></text>
+        </staticText>
+      </c:columnHeader>
+      <c:columnFooter height="15" style="TableFooter">
+        <box leftPadding="10">
+          <pen lineColor="black" />
+          <leftPen lineWidth="0.5" />
+        </box>
+        <staticText>
+          <reportElement x="0" y="0" width="145" height="15">
+          </reportElement>
+          <textElement>
+            <font size="12" isBold="true" />
+          </textElement>
+          <text><![CDATA[Total 4.1]] ></text>
+        </staticText>
+      </c:columnFooter>
+      <c:detailCell height="15">
+        <box leftPadding="10">
+          <leftPen lineWidth="0.5" />
+          <bottomPen lineWidth="0.5" />
+        </box>
+        <textField>
+          <reportElement x="0" y="0" width="145" height="15">
+          </reportElement>
+          <textFieldExpression><![CDATA[$V{Column4}]] ></textFieldExpression>
+        </textField>
+      </c:detailCell>
+    </c:column>
+    <c:column width="100">
+      <c:columnHeader height="15" style="TableHeader">
+        <box rightPadding="10">
+          <pen lineColor="black" />
+          <topPen lineWidth="0.5" />
+          <leftPen lineWidth="0.5" />
+          <bottomPen lineWidth="0.5" />
+        </box>
+        <staticText>
+          <reportElement x="0" y="0" width="90" height="15">
+          </reportElement>
+          <textElement textAlignment="Right">
+            <font isBold="true" />
+          </textElement>
+          <text><![CDATA[Header 4.2]] ></text>
+        </staticText>
+      </c:columnHeader>
+      <c:columnFooter height="15" style="TableFooter">
+        <box rightPadding="10">
+          <pen lineColor="black" />
+          <leftPen lineWidth="0.5" />
+        </box>
+        <staticText>
+          <reportElement x="0" y="0" width="90" height="15">
+          </reportElement>
+          <textElement textAlignment="Right">
+            <font size="12" isBold="true" />
+          </textElement>
+          <text><![CDATA[Total 4.2]] ></text>
+        </staticText>
+      </c:columnFooter>
+      <c:detailCell height="15">
+        <box>
+          <leftPen lineWidth="0.5" />
+          <bottomPen lineWidth="0.5" />
+        </box>
+        <textField>
+          <reportElement x="0" y="0" width="100" height="15">
+          </reportElement>
+          <textElement textAlignment="Right" />
+          <textFieldExpression><![CDATA[$V{Column5}]] ></textFieldExpression>
+        </textField>
+      </c:detailCell>
+    </c:column>
+  </c:columnGroup>
+  </c:table>
+</componentElement>]]></pre>
+Notice that each column declaration contains a <code>columnHeader</code>, <code>columnFooter</code> and a <code>detailCell</code>. 
+The <code>columnGroup</code> includes a <code>columnHeader</code> declaration and two separate columns. The group <code>columnHeader</code> 
+will be shared by all columns in the group, inheriting the width of the column group. Individual column headers will be printed on a separate row, 
+under the common group header. To keep the table rows consistency, the <code>rowSpan="2"</code> setting was required in the header declarations for 
+the first three individual columns in the table.
+<br/> 
+There is no <code>columnFooter</code> declared at column group level in this example.
+<br/>
+It should also be noticed how <code>box</code> elements and <code>style</code> attributes were used to configure borders and styles for different table cells.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/table</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/table/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

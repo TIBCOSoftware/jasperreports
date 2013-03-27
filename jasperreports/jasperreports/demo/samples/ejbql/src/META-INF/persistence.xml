@@ -1,0 +1,21 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
+	<persistence-unit name="pu1">
+		<!-- Provider class name is required in Java SE -->
+		<provider>oracle.toplink.essentials.ejb.cmp3.EntityManagerFactoryProvider</provider>
+		<!-- All persistence classes must be listed -->
+		<class>Person</class>
+		<class>Movie</class>
+		<class>Cast</class>
+		<class>Varia</class>		
+		<properties>
+			<!-- Provider-specific connection properties -->
+			<property name="toplink.jdbc.driver" value="org.hsqldb.jdbcDriver"/>
+			<property name="toplink.jdbc.url" value="jdbc:hsqldb:file:build/db"/>
+			<property name="toplink.jdbc.user" value="sa"/>
+			<property name="toplink.jdbc.password" value=""/>
+			<!-- Provider-specific settings -->
+			<property name="toplink.logging.level" value="DEBUG"/>
+			<property name="toplink.platform.class.name" value="oracle.toplink.essentials.platform.database.HSQLPlatform"/>
+		</properties>    
+	</persistence-unit>
+</persistence>

@@ -1,0 +1,153 @@
+<project name="xmldatasource" default="test" basedir=".">
+
+	<description>Shows how the built-in XPath-based data source could be used for reporting out of XML data.</description>
+
+	<property name="sample.dir" value="jsondatasource"/>
+	<property name="sample.base.name" value="JsonDataSource" />
+	<property name="sample.app.name" value="${sample.base.name}App" />
+	<property name="sample.report.name" value="CustomersReport" />
+	
+	<path id="classpath">
+		<pathelement location="./build/classes"/>
+		<pathelement location="../../fonts"/>
+		<pathelement location="../../../build/classes"/>
+		<fileset dir="../../../lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="javac" description="Compiles the java source files of the test application.">
+		<ant dir="../" target="javac"/>
+	</target>
+
+	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+		<ant dir="../" target="compile"/>
+	</target>
+
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+		<ant dir="../" target="fill"/>
+	</target>
+
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+		<ant dir="../" target="view"/>
+	</target>
+
+	<target name="viewXml" description="Launches the report viewer to preview the generated report stored in an XML file.">
+		<ant dir="../" target="viewXml"/>
+	</target>
+
+	<target name="print" description="Sends the report in the .jrprint file to the printer.">
+		<ant dir="../" target="print"/>
+	</target>
+
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
+		<ant dir="../" target="pdf"/>
+	</target>
+
+	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xml"/>
+	</target>
+
+	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xmlEmbed"/>
+	</target>
+
+	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="html"/>
+	</target>
+
+	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
+		<ant dir="../" target="rtf"/>
+	</target>
+	
+	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
+		<ant dir="../" target="xls"/>
+	</target>
+
+	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
+		<ant dir="../" target="jxl"/>
+	</target>
+
+	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
+		<ant dir="../" target="csv"/>
+	</target>
+
+	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
+		<ant dir="../" target="odt"/>
+	</target>
+
+	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file.">
+		<ant dir="../" target="ods"/>
+	</target>
+
+	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="docx"/>
+	</target>
+
+	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xlsx"/>
+	</target>
+
+	<target name="pptx" description="Generates a PPTX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="pptx"/>
+	</target>
+		
+	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xhtml"/>
+	</target>
+
+	<target name="viewDesignXml1" description="Launches the design viewer to preview the master XML report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="reports/CustomersReport.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesignXml2" description="Launches the design viewer to preview the subreport XML report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="reports/OrdersReport.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign1" description="Launches the design viewer to preview the master compiled report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="build/reports/CustomersReport.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign2" description="Launches the design viewer to preview the subreport compiled report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="build/reports/OrdersReport.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="decompile" description="Decompiles a .jasper file into a .jrxml file.">
+		<ant dir="../" target="decompile"/>
+	</target>
+
+	<target name="writeApi" description="Generates a .java version of the report by converting the .jrxml file.">
+		<ant dir="../" target="writeApi"/>
+	</target>
+
+	<target name="writeApiXml" description="Generates a .jrxml version of the report by executing the API version of the report design.">
+		<ant dir="../" target="writeApiXml"/>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<ant dir="../" target="clean-sample"/>
+	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" JSON Data Source Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="compile" />
+		<ant dir="../" target="test"/>
+	</target>
+
+</project>

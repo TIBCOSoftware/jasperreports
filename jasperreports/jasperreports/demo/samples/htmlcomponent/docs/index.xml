@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>genericelement</name>
+  <title>Generic Element Sample</title>
+  <description>Shows how generic elements embedded in reports can be managed at export time by custom handlers.</description>
+
+  <mainFeature ref="genericelements"/>
+  
+  <!-- genericelements -->
+  
+  <feature name="genericelements" title="Generic Elements">
+    <description>
+How to implement and use generic elements to embed custom content into reports.
+    </description>
+    <since>3.1.0</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

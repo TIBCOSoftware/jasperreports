@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<jasperReport
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="ProductReport" columnCount="2" pageWidth="325" pageHeight="842" columnWidth="160" columnSpacing="5" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" whenNoDataType="NoDataSection">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="City" class="java.lang.String">
+	</parameter>
+	<queryString><![CDATA[SELECT Product.ID AS ID, Product.Name AS Name, 
+		Positions.Quantity AS Quantity, Positions.Price AS Price
+		FROM Positions, Product, Document, Address
+		WHERE Positions.DocumentID = Document.ID AND
+		Document.AddressID = Address.ID AND
+		Positions.ProductID = Product.ID AND
+		Address.City = $P{City}
+		ORDER BY Product.ID]]></queryString>
+	<field name="Id" class="java.lang.Integer">
+	</field>
+	<field name="Name" class="java.lang.String">
+	</field>
+	<field name="Quantity" class="java.lang.Float">
+	</field>
+	<field name="Price" class="java.lang.Float">
+	</field>
+	<variable name="QuantityProductSum" class="java.lang.Float" resetType="Group" resetGroup="ProductGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{Quantity}]]></variableExpression>
+	</variable>
+	<variable name="PriceProductSum" class="java.lang.Float" resetType="Group" resetGroup="ProductGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{Price}]]></variableExpression>
+	</variable>
+	<variable name="QuantitySum" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{Quantity}]]></variableExpression>
+	</variable>
+	<variable name="PriceSum" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{Price}]]></variableExpression>
+	</variable>
+	<variable name="ProductCount" class="java.lang.Integer" resetType="Group" resetGroup="ProductGroup" calculation="System">
+		<initialValueExpression><![CDATA[($V{ProductCount} != null)?(Integer.valueOf($V{ProductCount}.intValue() + 1)):(Integer.valueOf(1))]]></initialValueExpression>
+	</variable>
+	<group name="ProductGroup">
+		<groupExpression><![CDATA[$F{Id}]]></groupExpression>
+		<groupHeader>
+		<band height="14">
+			<textField>
+				<reportElement x="0" y="2" width="15" height="10"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{Id}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="20" y="2" width="80" height="10"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="ProductGroup" pattern="#0">
+				<reportElement positionType="Float" x="105" y="2" width="20" height="10"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$V{QuantityProductSum}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="ProductGroup" pattern="#0.00">
+				<reportElement positionType="Float" x="130" y="2" width="30" height="10"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$V{PriceProductSum}]]></textFieldExpression>
+			</textField>
+		</band>
+		</groupHeader>
+		<groupFooter>
+		<band>
+		</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="14">
+			<staticText>
+				<reportElement x="0" y="2" width="60" height="10" style="Sans_Italic"/>
+				<text><![CDATA[Title]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="2" width="325" height="10" style="Sans_Bold"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Products ordered by people in " + $P{City}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="14">
+			<staticText>
+				<reportElement x="0" y="2" width="325" height="10" forecolor="#808000" style="Sans_Italic"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<text><![CDATA[Page Header]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="14">
+			<frame>
+				<reportElement x="0" y="2" width="160" height="10" forecolor="#ffff99" backcolor="#ffff99"/>
+				<box>
+					<pen lineWidth="1"/>
+				</box>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="20" height="10" backcolor="#ffff99" style="Sans_Bold"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[ID]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="20" y="0" width="85" height="10" backcolor="#ffff99" style="Sans_Bold"/>
+					<text><![CDATA[Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="105" y="0" width="20" height="10" backcolor="#ffff99" style="Sans_Bold"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Qty]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="125" y="0" width="35" height="10" backcolor="#ffff99" style="Sans_Bold"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Price]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="14">
+			<line>
+				<reportElement x="0" y="1" width="160" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="2" width="60" height="10" style="Sans_Italic"/>
+				<text><![CDATA[Column Footer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="2" width="30" height="10" style="Sans_Bold"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Total :]]></text>
+			</staticText>
+			<textField pattern="#0">
+				<reportElement x="105" y="2" width="20" height="10" style="Sans_Bold"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$V{QuantitySum}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#0.00">
+				<reportElement x="130" y="2" width="30" height="10" style="Sans_Bold"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$V{PriceSum}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="14">
+			<frame>
+				<reportElement mode="Transparent" x="0" y="2" width="325" height="10" forecolor="#808000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="60" height="10" forecolor="#808000" style="Sans_Italic"/>
+					<text><![CDATA[Page Footer]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="150" y="0" width="100" height="10" forecolor="#808000" style="Sans_Italic"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.String"><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of "]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement x="250" y="0" width="50" height="10" forecolor="#808000" style="Sans_Italic"/>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="14">
+			<frame>
+				<reportElement x="0" y="2" width="325" height="10" forecolor="#808000" backcolor="#808000"/>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="230" height="10" backcolor="#808000" style="Sans_Italic"/>
+					<text><![CDATA[Summary]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="230" y="0" width="55" height="10" backcolor="#808000" style="Sans_Bold"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Count :]]></text>
+				</staticText>
+				<textField pattern="#0">
+					<reportElement mode="Opaque" x="285" y="0" width="40" height="10" backcolor="#808000" style="Sans_Bold"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{ProductCount}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</summary>
+	<noData>
+		<band height="14">
+			<textField>
+				<reportElement x="0" y="2" width="325" height="10" style="Sans_Bold" forecolor="#993300"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["No Orders From " + $P{City}]]></textFieldExpression>
+			</textField>
+		</band>
+	</noData>
+</jasperReport>

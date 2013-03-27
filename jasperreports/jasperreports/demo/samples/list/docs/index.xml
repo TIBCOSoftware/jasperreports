@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>list</name>
+  <title>List Component Sample</title>
+  <description>Illustrates the usage of the list component element.</description>
+
+  <mainFeature ref="list"/>
+  
+  <!-- list -->
+  
+  <feature name="list" title="Using the Built-in List Component">
+    <description>
+How to render simple listings using the built-in list component and a subdataset.
+    </description>
+    <since>3.5.1</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <otherSample ref="table"/>
+    <content>
+<subtitle name="overview">The Built-in List Component - Overview</subtitle>
+<br/>
+<br/>
+The most common way to process data from datasources/queries different from the report's datasource/query is to use subreports. 
+But working with subreports always requires to create and compile separate report templates, one per each subreport, even for 
+the most simple situation that can be imagined. 
+<br/>
+For instance, let's consider a subreport containing a single textfield, ready to be used in a detail band. In this case we need a 
+separate report template containing this only textfield to be created and then maintained along with the master report, in order to 
+generate a column of data at fill time. This particular layout is easily recognized as a list of data. So, why not use a dedicated 
+list component instead, which combines the advantages of subreports with a specific mechanism to avoid separate report templates creation 
+and maintenance?
+<br/>
+This is the main purpose of the built-in list component. It also provides support for complex content, so that users may define more than 
+single textfields as list content elements, as shown in the following section.
+<br/>
+<br/>
+<subtitle name="schema">The List Component Schema</subtitle>
+<br/>
+<br/>
+According to the components schema, a list needs only two elements in order to become functional: a dataset run and a list content.
+<ul>
+<li><code>jr:datasetRun</code> - the dataset run used to store information about list datasource/connection/subdataset and various useful 
+parameters. The <code>jr:</code> namespace prefix may be omitted in the JRXML template.</li>
+<li><code>c:listContents</code> - this element stores the layout information for list entries. The layout will be repeated for each row 
+in the dataset. Any JR element may be part of a list content.</li>
+</ul>
+<pre><![CDATA[
+<element name="list" substitutionGroup="jr:component">
+  <complexType>
+    <complexContent>
+      <extension base="jr:componentType">
+        <sequence>
+          <element ref="jr:datasetRun" minOccurs="1" maxOccurs="1" />
+          <element ref="c:listContents" />
+        </sequence>
+        <attribute name="printOrder" use="optional" default="Vertical">
+          <simpleType>
+            <restriction base="string">
+              <enumeration value="Vertical" />
+              <enumeration value="Horizontal" />
+            </restriction>
+          </simpleType>
+        </attribute>
+        <attribute name="ignoreWidth" type="boolean" use="optional"/>
+      </extension>
+    </complexContent>
+  </complexType>
+</element>
+
+<element name="listContents">
+  <complexType>
+    <sequence>
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element ref="jr:break" />
+        <element ref="jr:line" />
+        <element ref="jr:rectangle" />
+        <element ref="jr:ellipse" />
+        <element ref="jr:image" />
+        <element ref="jr:staticText" />
+        <element ref="jr:textField" />
+        <element ref="jr:subreport" />
+        <element ref="jr:pieChart" />
+        <element ref="jr:pie3DChart" />
+        <element ref="jr:barChart" />
+        <element ref="jr:bar3DChart" />
+        <element ref="jr:xyBarChart" />
+        <element ref="jr:stackedBarChart" />
+        <element ref="jr:stackedBar3DChart" />
+        <element ref="jr:lineChart" />
+        <element ref="jr:xyLineChart" />
+        <element ref="jr:areaChart" />
+        <element ref="jr:xyAreaChart" />
+        <element ref="jr:scatterChart" />
+        <element ref="jr:bubbleChart" />
+        <element ref="jr:timeSeriesChart" />
+        <element ref="jr:highLowChart" />
+        <element ref="jr:candlestickChart" />
+        <element ref="jr:meterChart" />
+        <element ref="jr:thermometerChart" />
+        <element ref="jr:multiAxisChart" />
+        <element ref="jr:stackedAreaChart" />
+        <element ref="jr:ganttChart" />
+        <element ref="jr:elementGroup" />
+        <element ref="jr:crosstab" />
+        <element ref="jr:frame" />
+        <element ref="jr:componentElement" />
+        <element ref="jr:genericElement" />
+      </choice>
+    </sequence>
+    <attribute name="height" use="required" type="unsignedInt"/>
+    <attribute name="width" use="optional" type="unsignedInt"/>
+  </complexType>
+</element>]]></pre>
+One can see that the list content may contain any of the report elements defined in the JasperReports schema.
+<br/>
+The <code>printOrder</code> attribute in the list component specifies how to render the list elements: in a vertical sequence or in a horizontal one. 
+The default value is <code>Vertical</code>.
+<br/>
+The <code>ignoreWidth</code> flag is used when the print order is <code>Horizontal</code> to indicate the list behavior when the width set for the list 
+component is reached. Unless the flag is set to <code>true</code>, the list list will break by default when the critical width is reached. By default the 
+flag is unset.
+<br/>
+The <code>listContents</code> element can be customized with 2 attributes:
+<ul>
+<li><code>height</code> - specifies the height of each list entry and is mandatory.</li>
+<li><code>width</code> - specifies  the width of each list entry and is optional.</li>
+</ul>
+<subtitle name="sample">The List Component Sample</subtitle>
+<br/>
+<br/>
+This sample shows how to use the built-in list component for both <code>Vertical</code> and <code>Horizontal</code> printing order.
+In the <code>ListReport.jrxml</code> sample is configured a <code>Vertical</code> list component as follows:
+<pre><![CDATA[
+<componentElement>
+  <reportElement x="0" y="25" width="250" height="20"/>
+  <c:list 
+    xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+    <datasetRun subDataset="Addresses">
+      <datasetParameter name="City">
+        <datasetParameterExpression><![CDATA[$F{City}]] ></datasetParameterExpression>
+      </datasetParameter>
+    </datasetRun>
+    <c:listContents height="14">
+      <frame>
+        <reportElement x="0" y="0" width="250" height="14" style="ListRow"/>
+        <textField>
+          <reportElement x="0" y="2" width="15" height="10" style="Sans_Small"/>
+          <textElement textAlignment="Right"/>
+          <textFieldExpression class="java.lang.Integer"><![CDATA[$F{Id}]] ></textFieldExpression>
+        </textField>
+        <textField isStretchWithOverflow="true">
+          <reportElement positionType="Float" x="20" y="2" width="110" height="10" style="Sans_Small"/>
+          <textElement/>
+          <textFieldExpression class="java.lang.String"><![CDATA[$F{FirstName} + " " + $F{LastName}]] ></textFieldExpression>
+        </textField>
+        <textField isStretchWithOverflow="true">
+          <reportElement positionType="Float" x="135" y="2" width="105" height="10" style="Sans_Small"/>
+          <textElement/>
+          <textFieldExpression class="java.lang.String"><![CDATA[$F{Street}]] ></textFieldExpression>
+        </textField>
+      </frame>
+    </c:listContents>
+  </c:list>
+</componentElement>]]></pre>
+A list containing the ID, name and address is generated for each city in the datasource and list entries are printed in the default <code>Vertical</code> order.
+<br/>
+For the horizontally printed list, let's take a look to the <code>HorizontalListReport.jrxml</code> sample:
+<pre><![CDATA[
+<componentElement>
+  <reportElement x="0" y="25" width="515" height="40"/>
+  <c:list xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Horizontal">
+    <datasetRun subDataset="Addresses">
+      <datasetParameter name="City">
+        <datasetParameterExpression><![CDATA[$F{City}]] ></datasetParameterExpression>
+      </datasetParameter>
+    </datasetRun>
+    <c:listContents height="40" width="128">
+      <frame>
+        <reportElement x="4" y="0" width="120" height="38" style="ListCell" stretchType="RelativeToBandHeight"/>
+        <box>
+          <topPen lineWidth=".5"/>
+          <bottomPen lineWidth=".5"/>
+        </box>
+        <textField>
+          <reportElement x="0" y="2" width="100" height="12" style="Sans_SmallBold"/>
+          <textElement/>
+          <textFieldExpression><![CDATA["#" + $V{REPORT_COUNT} + " - " + $F{Id}]] ></textFieldExpression>
+        </textField>
+        <textField isStretchWithOverflow="true">
+          <reportElement positionType="Float" x="10" y="14" width="110" height="12" style="Sans_Small"/>
+          <textElement/>
+          <textFieldExpression class="java.lang.String"><![CDATA[$F{FirstName} + " " + $F{LastName}]] ></textFieldExpression>
+        </textField>
+        <textField isStretchWithOverflow="true">
+          <reportElement positionType="Float" x="10" y="26" width="110" height="12" style="Sans_Small"/>
+          <textElement/>
+          <textFieldExpression class="java.lang.String"><![CDATA[$F{Street} + ", " + $F{City}]] ></textFieldExpression>
+        </textField>
+      </frame>
+    </c:listContents>
+  </c:list>
+</componentElement>]]></pre>
+Here each list entry is printed one after another horizontally, for each city in the datasource.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/list</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/list/build/reports</code> directory. 
+<br/>
+Then the generated ListReport will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

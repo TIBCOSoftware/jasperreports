@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fontFamilies>
+
+	<fontFamily name="Gentium">
+		<normal>gentium/GenR102.TTF</normal>
+		<italic>gentium/GenI102.TTF</italic>
+		<pdfEncoding>Identity-H</pdfEncoding>
+		<pdfEmbedded>true</pdfEmbedded>
+		<exportFonts>
+			<export key="net.sf.jasperreports.html">Gentium, 'Times New Roman', Times, serif</export>
+			<export key="net.sf.jasperreports.xhtml">Gentium, 'Times New Roman', Times, serif</export>
+		</exportFonts>
+	</fontFamily>
+
+</fontFamilies>

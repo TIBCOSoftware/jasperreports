@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jasperReport
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd
+				http://jasperreports.sourceforge.net/jasperreports/jcharts http://jasperreports.sourceforge.net/dtds/charts.xsd"
+		name="AxisChart">
+	
+	<variable name="Value" class="java.lang.Double">
+		<variableExpression>
+			new Double(Math.pow($V{REPORT_COUNT}.doubleValue(), 4 - Math.log($V{REPORT_COUNT}.doubleValue())))
+		</variableExpression>
+	</variable>
+	
+	<title>
+		<band height="370">
+			<line>
+				<reportElement x="0" y="0" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement x="0" y="3" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="10" width="515" height="30"/>
+				<textElement>
+					<font size="22"/>
+				</textElement>
+				<text><![CDATA[jCharts 0.7.5 - Sample Axis Chart Component Report]]></text>
+			</staticText>
+			<textField hyperlinkType="Reference">
+				<reportElement x="0" y="40" width="515" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["http://jcharts.sourceforge.net"]]></textFieldExpression>
+				<hyperlinkReferenceExpression><![CDATA["http://jcharts.sourceforge.net"]]></hyperlinkReferenceExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="60" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement x="0" y="63" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<componentElement>
+				<reportElement x="0" y="70" width="500" height="300"/>
+				<jc:axisChart xmlns:jc="http://jasperreports.sourceforge.net/jasperreports/jcharts"
+						evaluationTime="Report" areaColor="cyan">
+					<jc:axisDataset>
+						<dataset/>
+						<jc:labelExpression>$V{REPORT_COUNT}.toString()</jc:labelExpression>
+						<jc:valueExpression>$V{Value}</jc:valueExpression>
+					</jc:axisDataset>
+					<jc:legendLabelExpression>"Data"</jc:legendLabelExpression>
+				</jc:axisChart>
+			</componentElement>
+		</band>
+	</title>
+
+</jasperReport>

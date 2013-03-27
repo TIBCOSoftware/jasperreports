@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>pdfencrypt</name>
+  <title>PDF Encrypt Sample</title>
+  <description>Shows how reports could be encrypted when exported to PDF.</description>
+
+  <mainFeature ref="pdfencrypt"/>
+  
+  <!-- pdfencrypt -->
+  
+  <feature name="pdfencrypt" title="Encrypted PDF">
+    <description>
+How to produce encrypted PDF reports.
+    </description>
+    <since>0.5.1</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b>PDF Encryption</b>    
+<br/>
+<br/>
+There are situations when documents are supposed to be accessed by authorized users only. 
+<br/>
+Using the file encryption represents a method of protecting a document from unauthorized access. 
+There are two categories of document users: the document owner (which provides full document access 
+granted by default) and regular document users (with limited access permissions. User permissions 
+and document restrictions can be set by the document owner only.
+<br/>
+To distinguish between these user categories, the document is allowed to store within up to two 
+passwords: an owner password and a user password. The application decides whether to encrypt a document 
+based on the presence of any of these passwords or access restrictions. If they are set, 
+the document will be encrypted, making all its content unreadable to unauthorized users. 
+<br/>
+<br/>
+User permissions and all other information required to validate the passwords will be stored in 
+the document's encryption dictionary. 
+<br/>
+<br/>
+When a user attempts to open an encrypted document protected with a password, a dialog will open 
+prompting for the appropriate password. If the password matches, then all user permissions are activated 
+and the document can be open, decrypted, and displayed in a readable form on the screen. 
+<br/>
+If no password is set, when open the document no password is requested and full access is granted by default. 
+<br/>
+Opening the document with the owner password enables the full access to the document, including the possibility 
+to change passwords and access permissions. 
+<br/>
+Opening the document with the user password enables some additional operations to be performed, with respect 
+to the user access permissions stored in the encryption dictionary. 
+<br/>
+<br/>
+<b>Encrypted PDF in JasperReports</b>    
+<br/>
+<br/>
+When exporting to the PDF format the engine has to know five additional things about the generated document 
+and uses five dedicated exporter parameters for this:
+<ul>
+<li>Is the document encrypted? A flag parameter called 
+<api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_ENCRYPTED">IS_ENCRYPTED</api> 
+answers to this question. If set to <code>Boolean.TRUE</code>, this instructs the exporter to
+encrypt the resulting PDF document. By default PDF files are not encrypted.<br/>One can use the related 
+<code>net.sf.jasperreports.export.pdf.encrypted</code> hint property for the same purpose.</li> 
+<li>Which key to use for the encrypted document? By default the PDF exporter uses a 40-bit key for encryption, 
+but if needed, it can use a 128-bit one. Setting the 
+<api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_128_BIT_KEY">IS_128_BIT_KEY</api> 
+flag to <code>true</code> will instruct the engine to use a 128-bit key. <br/>One can use the related 
+<code>net.sf.jasperreports.export.pdf.128.bit.key</code> 
+hint property for the same purpose.</li>
+<li>The user password. This can be set using the 
+<api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#USER_PASSWORD">USER_PASSWORD</api> 
+or the related <code>net.sf.jasperreports.export.pdf.user.password</code> 
+hint property.</li>
+<li>The owner password. This can be set using the 
+<api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#OWNER_PASSWORD">OWNER_PASSWORD</api> 
+or the related <code>net.sf.jasperreports.export.pdf.owner.password</code> 
+hint property.</li>
+<li>User permissions. They can be set in the 
+<api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PERMISSIONS">PERMISSIONS</api> export parameter. 
+This exporter parameter accepts <code>java.lang.Integer</code> values 
+representing the PDF permissions for the generated document. The open permissions for 
+the document can be <code>AllowPrinting</code>, <code>AllowModifyContents</code>, <code>AllowCopy</code>, 
+<code>AllowModifyAnnotations</code>, <code>AllowFillIn</code>, <code>AllowScreenReaders</code>, <code>AllowAssembly</code>, 
+and <code>AllowDegradedPrinting</code> (these are all in the <code>PdfWriter</code> class of the iText 
+library). Permissions can be combined by applying bitwise <code>OR</code> to them.</li>
+</ul>
+<b>Encrypted PDF Example</b>    
+<br/>
+<br/>
+This sample makes use of the above export parameters in order to generate an encrypted document. Taking a look at the 
+<code>pdf()</code> method in the <code>src/PdfEncryptApp.java</code> file, one can see how to set them all:
+<pre><![CDATA[
+  exporter.setParameter(JRPdfExporterParameter.IS_ENCRYPTED, Boolean.TRUE);
+  exporter.setParameter(JRPdfExporterParameter.IS_128_BIT_KEY, Boolean.TRUE);
+  exporter.setParameter(JRPdfExporterParameter.USER_PASSWORD, "jasper");
+  exporter.setParameter(JRPdfExporterParameter.OWNER_PASSWORD, "reports");
+  exporter.setParameter(
+    JRPdfExporterParameter.PERMISSIONS, 
+    new Integer(PdfWriter.ALLOW_COPY | PdfWriter.ALLOW_PRINTING)
+    );]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/pdfencrypt</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/pdfencrypt/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JRMDbReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
+	<property name="net.sf.jasperreports.ejbql.query.hint.fetchSize" value="50"/>
+	<property name="net.sf.jasperreports.ejbql.query.page.size" value="100"/>
+	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="ReportTitle" class="java.lang.String"/>
+	<parameter name="DateFrom" class="java.sql.Date"/>
+	<parameter name="DateTo" class="java.sql.Date"/>
+	<parameter name="OrderClause" class="java.lang.String"/>
+	<queryString language="ejbql">
+		<![CDATA[SELECT   m
+			FROM     Movie m
+			WHERE    m.releaseDate BETWEEN $P{DateFrom} AND $P{DateTo}
+			ORDER BY $P!{OrderClause}]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="director.name" class="java.lang.String"/>
+	<field name="title" class="java.lang.String"/>
+	<field name="genre" class="java.lang.String"/>
+	<field name="releaseDate" class="java.sql.Date"/>
+	<field name="cast" class="java.util.Collection"/>
+	<variable name="GenreCount" class="java.lang.Integer" incrementType="Group" incrementGroup="GenreGroup" calculation="Count">
+		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+	</variable>
+	<group name="GenreGroup" minHeightToStartNewPage="60">
+		<groupExpression><![CDATA[$F{genre}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField evaluationTime="Group" evaluationGroup="GenreGroup" bookmarkLevel="1">
+					<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="515" height="15" backcolor="#C0C0C0"/>
+					<box leftPadding="5">
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[String.valueOf($V{GenreCount}) + ". " + String.valueOf($F{genre})]]></textFieldExpression>
+					<anchorNameExpression><![CDATA[String.valueOf($F{genre})]]></anchorNameExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<staticText>
+					<reportElement style="Sans_Bold" x="300" y="1" width="160" height="15"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Movies in this genre :]]></text>
+				</staticText>
+				<textField>
+					<reportElement style="Sans_Bold" x="460" y="1" width="30" height="15"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{GenreGroup_COUNT}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="70">
+			<line>
+				<reportElement x="0" y="0" width="515" height="1"/>
+			</line>
+			<textField isBlankWhenNull="true" bookmarkLevel="1">
+				<reportElement style="Sans_Normal" x="0" y="10" width="515" height="30"/>
+				<textElement textAlignment="Center">
+					<font size="22"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ReportTitle}]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20">
+			<staticText>
+				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="260" height="15" forecolor="#FFFFFF" backcolor="#333333"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement/>
+				<text><![CDATA[Title]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Sans_Bold" mode="Opaque" x="260" y="5" width="155" height="15" forecolor="#FFFFFF" backcolor="#333333"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement/>
+				<text><![CDATA[Director]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Sans_Bold" mode="Opaque" x="415" y="5" width="100" height="15" forecolor="#FFFFFF" backcolor="#333333"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement/>
+				<text><![CDATA[Release Date]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="45">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="5" width="260" height="15"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{title}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="260" y="5" width="155" height="15"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{director.name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy">
+				<reportElement positionType="Float" x="415" y="5" width="100" height="15"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{releaseDate}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement positionType="Float" x="15" y="25" width="245" height="20" isRemoveLineWhenBlank="true" backcolor="#99CCFF"/>
+				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{cast})]]></dataSourceExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["JRMDbCastSubreport.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="270" y="25" width="245" height="20" isRemoveLineWhenBlank="true" backcolor="#99CCFF"/>
+				<subreportParameter name="MovieId">
+					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="JPA_ENTITY_MANAGER">
+					<subreportParameterExpression><![CDATA[$P{JPA_ENTITY_MANAGER}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression class="java.lang.String"><![CDATA["JRMDbVariaSubreport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="40">
+			<line>
+				<reportElement x="0" y="10" width="515" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="200" y="20" width="80" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="280" y="20" width="75" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="60">
+			<textField bookmarkLevel="1">
+				<reportElement x="0" y="10" width="515" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["There were " +
+					String.valueOf($V{REPORT_COUNT}) +
+					" movies displayed on this report."]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Summary"]]></anchorNameExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="30" width="515" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="200" y="40" width="80" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="280" y="40" width="75" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>

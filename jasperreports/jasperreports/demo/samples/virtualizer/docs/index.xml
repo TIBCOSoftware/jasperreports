@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>virtualizer</name>
+  <title>Virtualizer Sample</title>
+  <description>Shows how very large reports could be generated using a report virtualizer to optimize memory consumption.</description>
+
+  <mainFeature ref="virtualizer"/>
+  
+  <!-- virtualizer -->
+  
+  <feature name="virtualizer" title="Generating Very Large Documents Using Report Virtualizers">
+    <description>
+How to generate very large documents using report virtualizers that optimize memory consumption.
+    </description>
+    <since>1.0.0</since>
+    <documentedBy>
+      <author>
+    	<name>Luke Shannon</name>
+    	<email>lshannon@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+    <b>What is Virtualization?</b>
+	<br/>
+	A JasperReport goes through 3 stages in its life cycle:
+	<ol>
+		<li>Compilation</li>
+		<li>Filling</li>
+		<li>Exporting</li>
+	</ol>
+	In each stage objects are generated in memory. During the filling stages especially many objects <br/>
+	can be generated as data is processed through the report logic populating multiple pages <br/>
+	and the elements within.<br/>
+	In a situation such as this, there is always the risk of an Out of Memory error before the Filling<br/>
+	of the report has concluded.<br/>
+	Virtualization is a feature that allows for some of the objects that would be stored in memory during <br/>
+	the filling stage to be stored on the file system instead.<br/>
+	The virtualizer is a simple interface <api href="net/sf/jasperreports/engine/JRVirtualizer.html">JRVirtualizer</api><br/>
+	There are currently three implementations of this interface:
+	<ol>
+		<li><api href="net/sf/jasperreports/engine/fill/JRFileVirtualizer.html">JRFileVirtualizer</api></li>
+		<li><api href="net/sf/jasperreports/engine/fill/JRSwapFileVirtualizer.html">JRSwapFileVirtualizer</api></li>
+		<li><api href="net/sf/jasperreports/engine/fill/JRGzipVirtualizer.html">JRGzipVirtualizer</api></li>
+	</ol>
+	Each of this will be discussed in greater detail in the proceeding sections of this document.
+	<br/>
+<br/>
+    <b>Running the Sample</b>
+    <br/>
+    <i>Prerequisites</i><br/>
+    Ant is required. By running 'ant --version' you will be able to check if ant is set up on your system (at least version 1.5 is required):<br />
+    <pre>
+    <![CDATA[
+    C:\>ant -version Apache Ant version 1.8.0 compiled on February 1 2010
+	]]>
+	</pre>
+	You can obtain ant from http://ant.apache.org/, instructions for installation can be found there as well.
+	<br/>
+	<br/>
+    <i>Starting the Data Source</i>
+    <br/>
+    In a command prompt/terminal window browse to the demo/hsqldb folder of the JasperReports source and run the command 'ant runServer'.
+    <br/>
+    Leave window/terminal running (see below for sample output).
+    <br/>
+    <pre>
+    <![CDATA[
+    C:\js-workspace\jasperreports\demo\hsqldb>ant runServer
+	Buildfile: C:\js-workspace\jasperreports\demo\hsqldb\build.xml
+
+	runServer:
+     [java] [Server@83cc67]: [Thread[main,5,main]]: checkRunning(false) entered
+     [java] [Server@83cc67]: [Thread[main,5,main]]: checkRunning(false) exited
+     [java] [Server@83cc67]: Startup sequence initiated from main() method
+     [java] [Server@83cc67]: Loaded properties from [C:\js-workspace\jasperreports\demo\hsqldb\server.properties]
+     [java] [Server@83cc67]: Initiating startup sequence...
+     [java] [Server@83cc67]: Server socket opened successfully in 19 ms.
+     [java] [Server@83cc67]: Database [index=0, id=0, db=file:test, alias=] opened sucessfully in 1104 ms.
+     [java] [Server@83cc67]: Startup sequence completed in 1125 ms.
+     [java] [Server@83cc67]: 2010-03-10 11:32:30.423 HSQLDB server 1.8.0 is online
+     [java] [Server@83cc67]: To close normally, connect and execute SHUTDOWN SQL
+     [java] [Server@83cc67]: From command line, use [Ctrl]+[C] to abort abruptly
+    ]]>
+	</pre>
+    <i>Generating the Report</i>
+    <br/>
+    Open up a separate command prompt/terminal window and browse to the root directory of the sample.
+    <br/>
+    By running 'ant -p' you will be presented with a list of options available. Of interest in this list is all the exporters available for testing.
+    <br/>
+    Each export type will generate a output type in the build/report folder.
+    <br/>
+    By running the command 'ant' the following actions will be performed:
+    <br/>
+    <ul>
+    <li>All java code will be compiled to produce class files.</li>
+    <li>JRXML fills will be compiled by JasperReports to produce a .jasperfile (this is a serialized version of a JasperReports object).</li>
+    <li>The report will be filled with data and the resulting object, JasperPrint, will be serialized to the file system as a .jrprint.</li>
+    <li>All the exporters the sample is configured to test will run.</li>
+    </ul>
+    <br/>
+    You can now run 'ant view' to see a version of the report in the JasperViewer (an applet contained in the JasperReports package which can be used to view a .jrprint object).
+    <br/>
+    Each of the these task can be ran separately as well:
+    <br/>
+    <ul>
+    	<li>ant clean - removes all generated files.</li>
+    	<li>ant javac - compiles all java code, this should be done before running further tasks.</li>
+    	<li>ant compile - compiles the JRXML generating a .jasper file.</li>
+    	<li>ant fill - fills the report with data, some reports use the empty data source, others use the HSQL DB and other an inline data source. A .jrprint object is generated in this step.</li>
+    	<li>ant view - opens the report in the JasperViewer</li>
+    	<li>ant pdf - generates a PDF (other exporters are available run 'ant -p' for a full list)</li>
+    </ul>
+    <b>Note:</b> All generated files can be found in build/reports.
+    <br/>
+    You now have a working version of the report you can review.
+    <br/>
+	<br/>
+	<b>Configuring Virtualization</b><br/>
+	Virtualization is not configured in the JRXML. The details around the implementation of the virtualizer can be seen in the sample Java application that is used <br/>
+	to run the report: VirtualizerApp.java.<br/>
+	In the fillReport() method we can see where the virtualizer is instantiated:<br/>
+	<pre>
+	<![CDATA[
+// creating the virtualizer
+JRFileVirtualizer virtualizer = new JRFileVirtualizer(2, "tmp");
+	]]>
+	</pre>
+	The JRFileVirtualizer is created with a maxSize of 2 and "tmp" as the name of the directory to store data.<br/>
+	This means once 2 pages of the filled report have been created in memory, the virtualizer will begin to store <br/>
+	the data required during the filling in the "tmp" directory.<br/>
+	A single instance of this object can be shared over multiple reports. However, this does mean that the max page<br/>
+	number will be respected for all reports that are generated simultaneously.<br/>
+	In the fillReport(JRFileVirtualizer virtualizer) method we can see how the virtualizer is configured for <br/>
+	use during the filling process:<br/>
+	<pre>
+	<![CDATA[
+//Preparing parameters
+Map parameters = new HashMap();
+parameters.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
+	]]>
+	</pre>
+	The virtualizer must be configured as a parameter passed in during filling.<br/>
+	<br/>
+	<br/>
+	<b>Types of Virtualizers</b>
+	<br/>
+	<br/>
+	<api href="net/sf/jasperreports/engine/fill/JRFileVirtualizer.html">JRFileVirtualizer</api><br/>
+	As described above the JRFileVirtualizer works with temporary files on disk. It has a built in mechanism <br/>
+	for cleaning up these temp files after they are no longer needed. However when the clean up of these files <br/>
+	occurs may vary (it depends on when the virtualizer reference is garbaged collected by the JVM).<br/>
+	To control when virtualization occurs there is a cleanup() method available that can be called to remove the <br/>
+	files immediatly.<br/>
+	<br/>
+	<api href="net/sf/jasperreports/engine/fill/JRSwapFileVirtualizer.html">JRSwapFileVirtualizer</api><br/>
+	Similar to the JRFileVirtualizer except that rather than creating a file per virtualized page, as the <br/>
+	JRFileVirtualizer does, it shares a single swap file among all report filling processes configured <br/>
+	to use the virtualizer.<br/>
+	A <api href="net/sf/jasperreports/engine/util/JRSwapFile.html">JRSwapFile</api> has to be instantiated and passed into the JRSwapFileVirtualizer.<br/>
+	When creating the <api href="net/sf/jasperreports/engine/util/JRSwapFile.html">JRSwapFile</api> the targer directory, size of the file and rate at<br/>
+	which the file can grow should its current size become insufficient, are all specified.<br/>
+	<br/>
+	<api href="net/sf/jasperreports/engine/fill/JRGzipVirtualizer.html">JRGzipVirtualizer</api><br/>
+	Using this virtualizer the results in the pages created in memory during filling to be compressed <br/>
+	using the GZIP algorithm. Thus greatly reducing the amount of memory required.
+	<br/>
+	<br/>
+	<b>When to use Virtualization</b><br/>
+	Virtualization will result in slowed performance for larger reports (the JRGzipVirtualizer doesn't write to the<br/>
+	to the file system so its effect on report filling time will be less than the other virtualizers).<br/>
+	However, using virtualization might mean the difference between waiting a longer time to get a report<br/>
+	or getting a out of memory error and no report.<br/>
+	Setting the maxPages in memory is key. Setting the value too low will result in virtualization occuring when it is not necessary.<br/>
+	Setting it too high could result in an out of memory exception occuring before virtualization has a chance to start. Picking the<br/>
+	correct value for a given system will require some trial and error.
+	<br/>
+	<br/>
+	<b>Further Resources:</b>
+    <br/>
+    JasperReports Ultimate Guide (available from the JasperSoft eShop)<br/>
+    iReport Ultimate Guide (available from the JasperSoft eShop)<br/>
+    </content>
+  </feature>
+
+</sample>

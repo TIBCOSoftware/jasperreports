@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>spiderchartcomponent</name>
+  <title>JFreeChart Spider Chart Component Sample</title>
+  <description>Shows how the built-in spider chart component can be included in reports.</description>
+
+  <mainFeature ref="spiderchartcomponent"/>
+  
+  <!-- spiderchartcomponent -->
+  
+  <feature name="spiderchartcomponent" title="Using the Built-in Spider Chart Component">
+    <description>
+How to configure the built-in spider chart component rendered by the <a href="http://www.jfree.org/jfreechart/">JFreeChart</a> library.
+    </description>
+    <since>3.7.4</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="jfreechart"/>
+    <content>
+<subtitle name="overview">The Built-in Spider Chart Component - Overview</subtitle>
+<br/>
+<br/>
+Spider charts (also known as radar charts) are very useful when multivariate data sets have to be represented. Such data sets are usually displayed as 
+overlapping spider webs anchored in a multiple radial axis system. 
+<br/>
+The JR built-in spider chart was developed as component element in order to illustrate how to implement custom components based on the 
+<a href="http://www.jfree.org/jfreechart/">JFreeChart</a> charting engine. The component in this case should output a 
+<a href="http://www.jfree.org/jfreechart/api/javadoc/org/jfree/chart/JFreeChart.html">JFreeChart</a> 
+object, collecting its data from an usual <a href="http://www.jfree.org/jfreechart/api/javadoc/org/jfree/data/category/CategoryDataset.html">CategoryDataset</a>, 
+but rendering it as a spider web based on the <a href="http://www.jfree.org/jfreechart/api/javadoc/org/jfree/chart/plot/SpiderWebPlot.html">SpiderWebPlot</a> API.
+<br/>
+According to the component's schema, the content of a spider chart component is structured in 3 complementary elements, each one prefixed with the <code>c:</code> namespace prefix:
+<ul>
+<li><code>c:chartSettings</code> - stores general settings for the generated chart object such as title, subtitles and chart legend. Plot settings are not included.</li>
+<li><code>c:spiderDataset</code> - stores appropriate settings for the category dataset</li>
+<li><code>c:spiderPlot</code> - stores settings available for the spider web plot</li>
+</ul>
+As any other component element, the spider chart provides the <code>evaluationTime</code> and <code>evaluationGroup</code> attributes:
+<pre><![CDATA[
+<element name="spiderChart" substitutionGroup="jr:component">
+  <complexType>
+    <complexContent>
+	  <extension base="jr:componentType">
+		<sequence>
+		  <element ref="c:chartSettings" />
+		  <element ref="c:spiderDataset" />
+		  <element ref="c:spiderPlot" />
+		</sequence>
+		<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+		<attribute name="evaluationGroup" type="string" use="optional"/>
+	  </extension>
+    </complexContent>
+  </complexType>
+</element>]]></pre>
+<subtitle name="chartSettings">Chart Settings In The Spider Chart Component</subtitle>
+<br/>
+<br/>
+In the <code>&lt;chartSettings&gt;</code> element one can configure the following structure similar to the 
+<code>&lt;chart&gt;</code> element in usual JR charts:
+<ul>
+<li><code>jr:chartTitle</code></li>
+<li><code>jr:chartSubtitle</code></li>
+<li><code>jr:chartLegend</code></li>
+<li><code>jr:anchorNameExpression</code></li>
+<li><code>jr:hyperlinkReferenceExpression</code></li>
+<li><code>jr:hyperlinkAnchorExpression</code></li>
+<li><code>jr:hyperlinkPageExpression</code></li>
+<li><code>jr:hyperlinkTooltipExpression</code></li>
+<li><code>jr:hyperlinkParameter</code></li>
+</ul>
+<b>Note:</b> In a regular JRXML file the <code>jr:</code> prefix may be omitted.
+<br/>
+<br/>
+The attributes below are also available for the <code>&lt;chartSettings&gt;</code> element, with similar meanings as in usual JR charts:
+<ul>
+<li><code>isShowLegend</code></li>
+<li><code>backcolor</code></li>
+<li><code>hyperlinkType</code></li>
+<li><code>hyperlinkTarget</code></li>
+<li><code>bookmarkLevel</code></li>
+<li><code>customizerClass</code></li>
+<li><code>renderType</code></li>
+</ul>
+<b>Note:</b> The main difference here is that the chart customizer must be an implementation of the 
+<api href="net/sf/jasperreports/components/charts/ChartCustomizer.html">ChartCustomizer</api> interface that exposes 
+the <code>public void customize(JFreeChart chart, ChartComponent chartComponent)</code> method adapted for chart components. 
+The easiest way to implement this interface is by extending the context-aware 
+<api href="net/sf/jasperreports/components/charts/AbstractChartCustomizer.html">AbstractChartCustomizer</api> class in order to
+get access to the component element with its properties, for a completely flexible chart customization:
+<pre><![CDATA[
+  public void customize(JFreeChart chart, ChartComponent chartComponent)
+  {
+    JRElement element = chartComponent.getContext().getComponentElement();
+    //other customizations here
+  }]]></pre>
+Here is the XSD schema fragment:
+<pre><![CDATA[
+<element name="chartSettings">
+ <complexType>
+  <sequence>
+   <element ref="jr:chartTitle" minOccurs="0" maxOccurs="1"/>
+   <element ref="jr:chartSubtitle" minOccurs="0" maxOccurs="1"/>
+   <element ref="jr:chartLegend" minOccurs="0" maxOccurs="1"/>
+   <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
+   <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+   <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
+   <element ref="jr:hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
+   <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
+   <element ref="jr:hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
+  </sequence>
+  <attribute name="isShowLegend" use="optional">
+   <simpleType>
+    <restriction base="string">
+     <enumeration value="true"/>
+     <enumeration value="false"/>
+    </restriction>
+   </simpleType>
+  </attribute>
+  <attribute name="backcolor" type="string" use="optional">
+   <annotation>
+	<documentation>Background color of the chart</documentation>
+   </annotation>
+  </attribute>
+  <attribute name="hyperlinkType" type="string" use="optional"/>
+  <attribute name="hyperlinkTarget" type="string" use="optional"/>
+  <attribute name="bookmarkLevel" type="NMTOKEN" use="optional" default="0"/>
+  <attribute name="customizerClass" type="string" use="optional"/>
+  <attribute name="renderType" type="string" use="optional"/>
+ </complexType>
+</element>]]></pre>
+<subtitle name="spiderDataset">The Spider Dataset</subtitle>
+<br/>
+<br/>
+The spider dataset is a <api href="net/sf/jasperreports/engine/JRElementDataset.html">JRElementDataset</api> based on 
+category series. It contains the same structure as the <code>&lt;categoryDataset&gt;</code> element in usual JR charts:
+<ul>
+<li><code>jr:dataset</code></li>
+<li><code>jr:categorySeries</code></li>
+</ul> 
+Again, the <code>jr:</code> prefix may be omitted in a regular JRXML file.
+<br/>
+<br/>
+<subtitle name="spiderPlot">The Spider Web Plot</subtitle>
+<br/>
+<br/>
+The spider plot element displays available data in the form of a "spider web", depending on specific settings. Multiple series can be plotted on 
+the same (category) axis. Neither tick marks and tick labels nor negative values on axis are supported for the moment.
+<br/>
+The following attributes can be used to configure a spider plot:
+<ul>
+<li><code>rotation</code> - Specifies the mode the radar axis are drawn. Possible values are <code>Clockwise</code> and <code>Anticlockwise</code>.</li>
+<li><code>tableOrder</code> - Specifies whether the data series are stored in rows or in columns. Possible values are <code>Row</code> and <code>Column</code>.</li>
+<li><code>isWebFilled</code> - Specifies if the web polygons are filled or not. Possible values are <code>true</code> and <code>false</code>.</li>
+<li><code>startAngle</code> - Specifies the starting angle (in degrees) for the spider chart axis. The default value is 90 deg.</li>
+<li><code>headPercent</code> - Specifies the head radius percent.</li>
+<li><code>interiorGap</code> - Specifies the interior gap percent.</li>
+<li><code>axisLineColor</code> - Specifies the color to use when drawing the line showing the axis.</li>
+<li><code>axisLineWidth</code> - Specifies the axis line width.</li>
+<li><code>labelGap</code> - Specifies the axis label gap percent.</li>
+<li><code>labelColor</code> - Specifies the label foreground color.</li>
+<li><code>backcolor</code> - Specifies the background color of the plot.</li>
+<li><code>backgroundAlpha</code> - Specifies the Alpha (transparency) parameter for the plot background.</li>
+<li><code>foregroundAlpha</code> - Specifies the Alpha (transparency) parameter for the plot foreground.</li>
+</ul>
+One can also define the <code>labelFont</code> element for the spider plot, and a <code>maxValueExpression</code> representing the maximum value any category axis can take.
+<br/>
+<br/>
+<subtitle name="spiderChartSample">The Spider Chart Sample</subtitle>
+<br/>
+<br/>
+Here is the piece of code used to configure the spider chart in the JRXML sample:
+<pre><![CDATA[
+<componentElement>
+  <reportElement x="50" y="90" width="400" height="400" mode="Opaque"/>
+  <c:spiderChart xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" evaluationTime="Now">
+    <c:chartSettings isShowLegend="true" backcolor="green" customizerClass="SpiderChartCustomizer">
+      <chartTitle position="Top">
+        <font isItalic="true" size="12"/>
+        <titleExpression><![CDATA["Spider Chart"]] ></titleExpression>
+      </chartTitle>
+      <chartSubtitle color="blue">
+        <font isBold="true" size="6"/>
+        <subtitleExpression><![CDATA["Chart Displaying Spider Web Contours"]] ></subtitleExpression>
+      </chartSubtitle>
+      <chartLegend backgroundColor="#eeffee">
+        <font size="6"/>
+      </chartLegend>
+      <hyperlinkTooltipExpression><![CDATA["Spider Chart"]] ></hyperlinkTooltipExpression>
+    </c:chartSettings>
+    <c:spiderDataset>
+      <dataset incrementType="Group" incrementGroup="category"/>
+      <categorySeries>
+        <seriesExpression><![CDATA[$F{series}]] ></seriesExpression>
+        <categoryExpression><![CDATA[$F{category}]] ></categoryExpression>
+        <valueExpression><![CDATA[$F{value}]] ></valueExpression>
+        <itemHyperlink hyperlinkType="Reference" hyperlinkTarget="Blank">
+          <hyperlinkReferenceExpression>
+            <![CDATA["http://www.jfree.org/jfreechart/api/javadoc/org/jfree/chart/plot/SpiderWebPlot.html"]] >
+          </hyperlinkReferenceExpression>
+        </itemHyperlink>
+      </categorySeries>
+    </c:spiderDataset>
+    <c:spiderPlot 
+      rotation="Anticlockwise" 
+      startAngle="39" 
+      interiorGap="0.2" 
+      labelGap="0.05" 
+      headPercent="0.01" 
+      axisLineColor="#ff0000" 
+      backcolor="yellow" 
+      axisLineWidth="2.0" 
+      tableOrder="Row">
+      <labelFont>
+        <font isBold="true" isItalic="true" size="6"/>
+      </labelFont>
+      <c:maxValueExpression><![CDATA[Double.valueOf(10)]] ></c:maxValueExpression>
+    </c:spiderPlot>
+  </c:spiderChart>
+</componentElement>]]></pre>
+The resulting spider chart will have a green background, an italicized title and a blue subtitle, a legend with its own 
+background color and font size, and a plot with rotation anticlockwise, start angle = 39deg, red axis, yellow backcolor and 
+italicized bold labels on axis. See also how the interior gaps and axis line widths were set.
+<br/>
+Note also that the plot outline in the spider chart is customized via the SpiderChartCustomizer class.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/spiderchartcomponent</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/spiderchartcomponent/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+</sample>

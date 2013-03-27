@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+	<class name="net.sf.jasperreports.data.xmla.XmlaDataAdapterImpl">
+		<map-to xml="xmlaDataAdapter"/>
+		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.data.ClassNameFieldHandler">
+			<bind-xml name="class" node="attribute"/>
+		</field>
+		<field name="name" type="string">
+			<bind-xml name="name" node="element"/>
+		</field>
+		
+		<field name="xmlaUrl" type="string">
+			<bind-xml name="xmlaUrl" node="element"/>
+		</field>
+		
+		<field name="datasource" type="string">
+			<bind-xml name="datasource" node="element"/>
+		</field>
+		<field name="catalog" type="string">
+			<bind-xml name="catalog" node="element"/>
+		</field>
+		<field name="cube" type="string">
+			<bind-xml name="cube" node="element"/>
+		</field>
+		
+		
+		
+		<field name="username" type="string">
+			<bind-xml name="username" node="element"/>
+		</field>
+		<field name="password" type="string">
+			<bind-xml name="password" node="element"/>
+		</field>
+		<field name="savePassword" type="boolean">
+			<bind-xml name="savePassword" node="element"/>
+		</field>
+		
+	</class>
+</mapping>

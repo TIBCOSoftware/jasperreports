@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://jasperreports.sourceforge.net/openflashchart"
+  xmlns:ofc="http://jasperreports.sourceforge.net/openflashchart"
+  xmlns:jr="http://jasperreports.sourceforge.net/jasperreports"
+  elementFormDefault="qualified">
+
+	<import namespace="http://jasperreports.sourceforge.net/jasperreports"/>
+
+	<element name="pieChart" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="jr:componentType">
+					<sequence>
+						<element ref="ofc:pieDataset"/>
+						<element name="titleExpression">
+							<complexType mixed="true"/>
+						</element>
+					</sequence>
+					<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+					<attribute name="evaluationGroup" type="string" use="optional"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="pieDataset">
+		<complexType>
+			<sequence>
+				<element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+				<element name="keyExpression">
+					<complexType mixed="true"/>
+				</element>
+				<element name="valueExpression">
+					<complexType mixed="true"/>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="barChart" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="jr:componentType">
+					<sequence>
+						<element ref="ofc:barDataset"/>
+						<element name="titleExpression">
+							<complexType mixed="true"/>
+						</element>
+					</sequence>
+					<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+					<attribute name="evaluationGroup" type="string" use="optional"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="barDataset">
+		<complexType>
+			<sequence>
+				<element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+				<element name="barSeries" minOccurs="1" maxOccurs="unbounded">
+					<complexType>
+						<sequence>
+							<element name="seriesExpression">
+								<complexType mixed="true"/>
+							</element>
+							<element name="categoryExpression">
+								<complexType mixed="true"/>
+							</element>
+							<element name="valueExpression">
+								<complexType mixed="true"/>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+
+</schema>

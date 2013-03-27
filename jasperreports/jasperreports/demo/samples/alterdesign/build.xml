@@ -1,0 +1,56 @@
+<project name="alterdesign" default="test" basedir=".">
+
+	<description>Shows how compiled report templates can be modified on-the-fly without requiring recompilation.</description>
+
+	<property name="sample.dir" value="alterdesign"/>
+	<property name="sample.base.name" value="AlterDesign" />
+	<property name="sample.app.name" value="${sample.base.name}App" />
+	<property name="sample.report.name" value="${sample.base.name}Report" />
+	
+	<target name="javac" description="Compiles the java source files of the test application.">
+		<ant dir="../" target="javac"/>
+	</target>
+		
+	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+		<ant dir="../" target="compile"/>
+	</target>
+		
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+		<ant dir="../" target="fill"/>
+	</target>
+		
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+		<ant dir="../" target="view"/>
+	</target>
+
+	<target name="print" description="Sends the report in the .jrprint file to the printer.">
+		<ant dir="../" target="print"/>
+	</target>
+
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
+		<ant dir="../" target="pdf"/>
+	</target>
+
+	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design.">
+		<ant dir="../" target="viewDesignXml"/>
+	</target>
+
+	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
+		<ant dir="../" target="viewDesign"/>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<ant dir="../" target="clean-sample"/>
+	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Alter Design Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="compile" />
+		<ant dir="../" target="test"/>
+	</target>
+
+</project>

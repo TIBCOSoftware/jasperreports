@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="componentsBundle" class="net.sf.jasperreports.engine.component.DefaultComponentsBundle">
+		<property name="xmlParser">
+			<ref local="xmlParser"/>
+		</property>
+		<property name="componentManagers">
+			<map>
+				<entry key="html">
+					<ref local="htmlComponentManager"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="xmlParser" class="net.sf.jasperreports.engine.component.DefaultComponentXmlParser">
+		<property name="namespace">
+			<value>http://jasperreports.sourceforge.net/htmlcomponent</value>
+		</property>
+		<property name="publicSchemaLocation">
+			<value>http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd</value>
+		</property>
+		<property name="internalSchemaResource">
+			<value>net/sf/jasperreports/components/html/htmlcomponent.xsd</value>
+		</property>
+		<property name="digesterConfigurer">
+			<bean class="net.sf.jasperreports.components.html.HtmlComponentDigester"/>
+		</property>
+	</bean>
+
+	<bean id="htmlComponentManager" class="net.sf.jasperreports.engine.component.DefaultComponentManager">
+		<property name="componentCompiler">
+			<bean class="net.sf.jasperreports.components.html.HtmlComponentCompiler"/>
+		</property>
+		<property name="componentXmlWriter">
+			<bean class="net.sf.jasperreports.components.html.HtmlComponentXmlWriter"/>
+		</property>
+		<property name="componentFillFactory">
+			<bean class="net.sf.jasperreports.components.html.HtmlComponentFillFactory"/>
+		</property>
+	</bean>
+
+	<!-- bean id="htmlComponentsExportHandlerBundle" 
+			class="net.sf.jasperreports.engine.export.DefaultElementHandlerBundle">
+		<property name="namespace" value="http://jasperreports.sourceforge.net/htmlcomponent"/>
+		<property name="elementHandlers">
+			<map>
+				<entry key="html">
+					<map>
+						<entry key="net.sf.jasperreports.html">
+							<bean class="net.sf.jasperreports.engine.export.HtmlElementHtmlHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.pdf">
+							<bean class="net.sf.jasperreports.engine.export.HtmlElementPdfHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.xls">
+							<bean class="net.sf.jasperreports.engine.export.HtmlElementXlsHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.jxl">
+							<bean class="net.sf.jasperreports.engine.export.HtmlElementJExcelHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.xhtml">
+							<bean class="net.sf.jasperreports.engine.export.HtmlElementHtmlHandler"/>
+						</entry>
+					</map>
+				</entry>
+			</map>
+		</property>
+	</bean-->
+
+</beans>

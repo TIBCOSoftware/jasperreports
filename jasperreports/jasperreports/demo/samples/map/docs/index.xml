@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>map</name>
+  <title>Map Component Sample</title>
+  <description>Illustrates the usage of the map component element.</description>
+
+  <mainFeature ref="map"/>
+  
+  <!-- map -->
+  
+  <feature name="map" title="Using the Built-in Map Component">
+    <description>
+How to render maps using the built-in map component.
+    </description>
+    <since>4.1.1</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b>Map Component Overview</b>    
+<br/>
+<br/>
+The JR built-in <code>map</code> component is based on the public 
+<a href="http://code.google.com/apis/maps/documentation/javascript/reference.html">Google Maps APIs</a>. 
+It exposes some of the main characteristics necessary to generate the most common maps, but feature upgrades 
+for this component are planned for future development. The current <code>map</code> component description is found 
+in the <a href="../../components.schema.reference.html">components.xsd</a> schema:
+<pre><![CDATA[
+<element name="map" substitutionGroup="jr:component">
+  <complexType>
+    <complexContent>
+      <extension base="jr:componentType">
+        <sequence>
+          <element name="latitudeExpression">
+            <complexType mixed="true"/>
+          </element>
+          <element name="longitudeExpression">
+            <complexType mixed="true"/>
+          </element>
+          <element name="zoomExpression" minOccurs="0" maxOccurs="1">
+            <complexType mixed="true"/>
+          </element>
+          <element name="languageExpression" minOccurs="0" maxOccurs="1">
+            <complexType mixed="true"/>
+          </element>
+          <choice minOccurs="0" maxOccurs="1">
+            <element ref="c:markerDataset"/>            
+            <element ref="c:markerData"/>            
+          </choice>
+        </sequence>
+        <attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+        <attribute name="evaluationGroup" type="string" use="optional"/>
+        <attribute name="mapType" use="optional" default="roadmap">
+          <simpleType>
+            <restriction base="string">
+              <enumeration value="roadmap"/>
+              <enumeration value="satellite"/>
+              <enumeration value="terrain"/>
+              <enumeration value="hybrid"/>
+            </restriction>
+          </simpleType>
+        </attribute>
+        <attribute name="mapScale" use="optional" default="1">
+          <simpleType>
+            <restriction base="unsignedInt">
+              <enumeration value="1"/>
+              <enumeration value="2"/>
+              <enumeration value="4"/>
+            </restriction>
+          </simpleType>
+        </attribute>
+        <attribute name="imageType" use="optional" default="png">
+          <simpleType>
+            <restriction base="string">
+              <enumeration value="png"/>
+              <enumeration value="png8"/>
+              <enumeration value="png32"/>
+              <enumeration value="gif"/>
+              <enumeration value="jpg"/>
+              <enumeration value="jpg-baseline"/>
+            </restriction>
+          </simpleType>
+        </attribute>
+      </extension>
+    </complexContent>
+  </complexType>
+</element>
+
+<complexType name="ItemData" abstract="true">
+  <sequence>
+    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+    <element ref="c:item" minOccurs="0" maxOccurs="unbounded"/>
+  </sequence>
+</complexType>
+
+<complexType name="ItemProperty">
+  <sequence>
+    <element ref="jr:valueExpression" minOccurs="0" maxOccurs="1"/>
+  </sequence>
+  <attribute name="name" type="string" use="required" />
+  <attribute name="value" type="string" use="optional" />
+</complexType>
+
+<element name="item">
+  <complexType>
+    <sequence>
+      <element name="itemProperty" type="c:ItemProperty" minOccurs="0" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+</element>
+
+<element name="markerData">
+  <complexType>
+    <complexContent>
+      <extension base="c:ItemData">
+      </extension>
+    </complexContent>
+  </complexType>
+</element>
+
+<element name="markerDataset">
+  <annotation>
+    <documentation>Creates a dataset with one or more marker objects</documentation>
+  </annotation>
+  <complexType>
+    <sequence>
+      <element ref="jr:datasetRun" minOccurs="0" maxOccurs="1"/>
+      <element ref="c:marker" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+</element>
+
+<element name="marker">
+  <complexType>
+    <sequence>
+      <element name="markerProperty" type="c:ItemProperty" minOccurs="0" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+</element>]]></pre>
+<b>Map Attributes</b>
+<br/>    
+<br/> 
+One can customize the map component using the following attributes:
+<ul>
+<li><code>mapType</code> - indicates the map type. Possible values are:
+<ul>
+<li><code>roadmap</code> (default)</li>
+<li><code>satellite</code></li>
+<li><code>terrain</code></li>
+<li><code>hybrid</code><br/><br/></li>
+</ul>
+</li>
+<li><code>mapScale</code> - represents the <code>scale</code> value used to return higher-resolution map images when 
+working with high resolution screens available on mobile devices.  Possible values are:
+<ul>
+<li><code>1</code> (default)</li>
+<li><code>2</code></li>
+<li><code>4</code> (for Business customers only)<br/><br/></li>
+</ul>
+</li>
+<li><code>imageType</code> - represents the image format of the map. Possible values are:
+<ul>
+<li><code>png</code> (default)</li>
+<li><code>png8</code></li>
+<li><code>png32</code></li>
+<li><code>gif</code></li>
+<li><code>jpg</code></li>
+<li><code>jpg-baseline</code></li>
+</ul>
+</li>
+</ul>   
+<b>The Latitude Expression</b>    
+<br/>
+<br/>
+The <code>&lt;c:latitudeExpression/&gt;</code> represents the latitude coordinate of the main area, necessary to locate it on the Earth surface. 
+Allowed values are floating point numbers representing degrees from -90&#176; to 90&#176;. The default value is 0.
+<br/>
+<br/>
+<b>The Longitude Expression</b>    
+<br/>
+<br/>
+The <code>&lt;c:longitudeExpression/&gt;</code> represents the longitude coordinate of the main area, necessary to locate it on the Earth surface. 
+Allowed values are floating point numbers representing degrees from -180&#176; to 180&#176;. The default value is 0.
+<br/>
+<br/>
+<b>The Zoom Expression</b>    
+<br/>
+<br/>
+The <code>&lt;c:zoomExpression/&gt;</code> represents the initial map zoom level. The expression allows integer values and defaults to 0. 
+<br/>
+<br/>
+<b>The Language Expression</b>    
+<br/>
+<br/>
+The <code>&lt;c:languageExpression/&gt;</code> represents the language code used to localize the textual information displayed on the map, 
+such as control names, copyright notices and other various labels. Supported languages can be found 
+<a href="https://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&amp;gid=1" target="_blank">here</a>.
+<br/>
+<br/>
+<b>The Marker Dataset</b>   
+<br/>
+<br/>
+<b>Warning:</b> The <code><b>&lt;c:markerDataset/&gt;</b></code> element is now <b>deprecated</b>, as replaced by the <a href="#markerData"><b>&lt;c:markerData/&gt;</b></a> element below:
+<!--
+<br/>
+<br/>
+The <code>&lt;c:markerDataset/&gt;</code> element still can be used to generate the list of marker elements to be displayed on the map. It can collect  
+its data either from a subdataset, or from a hardcoded list of marker elements as shown in the component schema. 
+<br/>
+The marker element contains a list of specific properties that can be set either by value or by valueExpression. With few exceptions, property names must 
+match the names of supported marker options available <a href="https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions" target="_blank">here</a>. 
+<br/>
+The exceptions are the <code>latitude</code> and <code>longitude</code> property names, both required in order to compute the marker position on the map. If at least one 
+of these two properties is missing or is empty, an exception will be thrown.
+<br/>
+<br/>
+<b>Note:</b> To avoid such exceptions when using a subdataset, use a <code>&lt;filterExpression&gt;</code> to skip markers with empty latitude/longitude 
+properties. An example can be found in the map component sample.
+-->
+<br/>
+<br/>
+<subtitle name="markerData">The Marker Data Element</subtitle>
+<br/>
+<br/>
+The <code>&lt;c:markerData/&gt;</code> element is used to generate the list of marker elements to be displayed on the map. It can collect  
+its data either from a subdataset, or from a hardcoded list of marker item elements as shown in the map component schema. 
+<br/>
+The marker item element contains a list of specific item properties that can be set either by <code>value</code> or by <code>valueExpression</code>. If both are set, the 
+<code>valueExpression</code> takes precedence over the <code>value</code> attribute. With few exceptions, property names must 
+match the names of supported marker options available <a href="https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions" target="_blank">here</a>. 
+<br/>
+The main exception is the <code>position</code> option, currently undefined in JR. It is actually replaced by the <code>latitude</code> and <code>longitude</code> property 
+names, both required. They are used to compute the marker position on the map. If at least one of these two properties is missing or is empty, an exception will be thrown. 
+<br/>
+<br/>
+<b>Warning:</b> To avoid such exceptions when using a subdataset, use a <code>&lt;filterExpression&gt;</code> to skip markers with empty latitude/longitude 
+properties. An example can be found in the map component sample.
+<br/>
+<br/>
+Below is a list of valid <code>itemProperty</code> names:
+<ul>
+<li><code>latitude</code> - required; floating-point value</li>
+<li><code>longitude</code> - required; floating-point value</li>
+<li><code>title</code> - string value</li>
+<li><code>icon</code> - string value (representing the icon url)</li>
+<li><code>shadow</code> - string value (representing the shadow icon url)</li>
+<li><code>cursor</code> - string value</li>
+<li><code>zIndex</code> - integer value</li>
+<li><code>clickable</code> - boolean value</li>
+<li><code>draggable</code> - boolean value</li>
+<li><code>flat</code> - boolean value</li>
+<li><code>optimized</code> - boolean value</li>
+<li><code>raiseOnDrag</code> - boolean value</li>
+<li><code>visible</code> - boolean value</li>
+</ul>
+<b>Map Component Example</b>    
+<br/>
+<br/>
+The JRXML sample contains two <code>map</code> components that illustrate how various settings can be applied in order to get the desired map rendering:
+<pre><![CDATA[
+<componentElement>
+  <reportElement x="0" y="20" width="515" height="326" />
+  <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" evaluationTime="Report">
+    <c:latitudeExpression><![CDATA[$P{latitude}]] ></c:latitudeExpression>
+    <c:longitudeExpression><![CDATA[$P{longitude}]] ></c:longitudeExpression>
+    <c:zoomExpression><![CDATA[$P{zoom}]] ></c:zoomExpression>
+    <c:languageExpression><![CDATA[new java.util.Locale("ro").getLanguage()]] ></c:languageExpression>
+  </c:map>
+</componentElement>
+
+...
+
+<componentElement>
+  <reportElement x="0" y="366" width="515" height="326"/>
+  <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
+    mapType="satellite" mapScale="1" imageType="jpg">
+    <c:latitudeExpression><![CDATA[37.788056f]] ></c:latitudeExpression>
+    <c:longitudeExpression><![CDATA[-122.4075f]] ></c:longitudeExpression>
+    <c:zoomExpression><![CDATA[$P{zoom} + 1]] ></c:zoomExpression>
+    <c:markerData>
+      <dataset>
+        <datasetRun subDataset="MarkersDataset"/>
+      </dataset>
+      <c:item>
+        <c:itemProperty name="latitude">
+          <valueExpression>$F{latitude}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="longitude">
+          <valueExpression>$F{longitude}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="title">
+          <valueExpression>$F{address}</valueExpression>
+        </c:itemProperty>
+      </c:item>
+    </c:markerData>
+  </c:map>
+</componentElement>]]></pre>
+The first map is centered on Bucharest, Romania. It provides settings for all map expressions, but comes with no markers, because the <code>&lt;c:markerDataset/&gt;</code> element 
+is missing.
+<br/>
+The second map is centered on San Francisco, CA. One can notice several customizations here, including the map type, map scale and image type. A set of markers are also present 
+on the map, based on the datasource prepared by the CSV data adapter in <code>MarkersDataset</code> subdataset. Data with invalid latitude/longitude values are skipped due to the 
+<code>&lt;filterExpression/&gt;</code> in the subdataset.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/map</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/map/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

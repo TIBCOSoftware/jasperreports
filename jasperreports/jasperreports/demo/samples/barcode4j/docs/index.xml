@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>barcode4j</name>
+  <title>Barcode4J Sample</title>
+  <description>Shows how barcodes could be included in reports using the Barcode4J component.</description>
+
+  <mainFeature ref="barcodes"/>
+  <mainFeature ref="barcode4j"/>
+  
+  <!-- barcodes -->
+  
+  <feature name="barcodes" title="Barcodes">
+    <description>
+Shows how to render barcodes in a report, using the barcode components that are shipped with the JasperReports library.
+    </description>
+    <since>3.5.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="barbecue"/>
+    <content>
+<b>Barcode Overview</b>    
+<br/>
+<br/>
+A barcode denotes an encoded graphical representation of data which can be read/decoded using dedicated scanning devices such as 
+barcode scanners. Due to its exceptional ability to completely characterize a given product, the barcode technology became one of 
+the most common product registering technologies. It consists in computing a graphical "fingerprint" for a given object based on 
+a unique digit/character sequence mapped to the object. Once generated, the barcode uniquely identifies the product. When scanned, 
+the barcode allows retrieving the original data it was built on, in order to be visualized or printed out.
+<br/>
+<br/>
+<b>Barcode Symbologies</b>    
+<br/>
+<br/>
+The whole "fingerprint" graphics is computed from elementary fingerprints of single digits/characters in the sequence. There are 
+several ways to map individual characters or digits to a graphical representation. These mappings are specified in the so-called 
+barcode symbologies. Some very common symbology categories are:
+<ul>
+<li>linear vs. 2D
+<ul>
+<li>linear - represent data by varying the widths and spacings of parallel lines. Are optimized for laser scanners.</li>
+<li>2D - use rectangles, dots, hexagons and other 2D geometric patterns to represent data. Are optimized for image-based scanners.</li>
+</ul>
+</li>
+<li>continuous vs. discrete
+<ul>
+<li>continuous - one character ends with a space and the next begins with the next bar, etc.</li>
+<li>discrete - any character begins and ends with bars; the space between consecutive characters is ignored</li>
+</ul>
+</li>
+<li>two-width vs. many-width
+<ul>
+<li>two-width - bars and spaces are either wide or narrow. The exact width of a bar/space has no meaning by itself.</li>
+<li>many-width - bars and spaces may have only predefined width values, multiple of a basic width called "module". Usually a 
+bar/space width can count up to 4 modules.</li>
+</ul>
+</li>
+</ul>
+Some of linear symbologies are highly standardized, some others are niche-oriented, most of them presenting mixed features. Below are 
+few examples:
+<ul>
+<li><code>Universal Product Code (UPC)</code> - International Standard ISO/IEC 15420. There are 5 versions of the UPC symbology designed for future 
+industry requirements: <code>UPC A, B, C, D, E</code>.</li>
+<li><code>Codabar</code> - Outdated format used in libraries, blood banks and on air waybills. Not standardized.</li>
+<li><code>Code 25 – Interleaved 2 of 5</code> - Used in wholesales and libraries. International standard ISO/IEC 16390</li>
+<li><code>Code 39</code> - International standard ISO/IEC 16388</li>
+<li><code>Code 128</code> – International Standard ISO/IEC 15417</li>
+<li><code>EAN-8</code> - International Standard ISO/IEC 15420</li>
+<li><code>EAN-13</code> - International Standard ISO/IEC 15420</li>
+<li><code>JAN</code> - Available for Japan, compatible with EAN-13 (ISO/IEC 15420)</li>
+<li>etc.</li>
+</ul>
+Some of the 2D symbologies are enumerated below:
+<ul>
+<li><code>Aztec Code</code> - International Standard ISO/IEC 24778</li>
+<li><code>Codablock</code> - Not standardized.</li>
+<li><code>Code 16K</code> - Based on linear <code>Code 128</code>.</li>
+<li><code>Data Matrix</code> - Used throughout the United States. Standard ISO/IEC 16022:2000(E)</li>
+<li><code>EZcode</code> - Designed for decoding by cameraphones.</li>
+<li><code>PDF417</code> - Standard ISO/IEC 15438:2001(E)</li>
+<li>etc.</li>
+</ul>
+    </content>
+  </feature>
+
+  <!-- barcode4j -->
+  
+  <feature name="barcode4j" title="Barcodes (Barcode4J Custom Component)">
+    <description>
+Shows how to render barcodes in a report, using the barcode component based on the <a href="http://barcode4j.sourceforge.net/">Barcode4J</a> library.
+    </description>
+    <since>3.5.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b>The Barcode4J Library</b>    
+<br/>
+<br/>
+Today barcodes are present almost everywhere: in wholesales as well as in retails, on the bills, in airports, libraries, banks, hospitals, hotels, theaters, 
+amusement parks, on the internet, and the list could continue... Due to this ubiquity, there is an increasing need of barcode components in the reporting area. 
+Powerful reporting engines should now provide support for as many as possible barcode symbologies. To cover a large category of customer needs, JR comes with 2 
+built-in barcode components, and in addition, it also makes room for other complementary implementations. This sample illustrates how to use the built-in 
+component based on the open source Barcode4J library.
+<br/>
+The Barcode4J library supports the following symbologies:
+<ul>
+<li>linear:
+<ul>
+<li><code>Code 25 – Interleaved 2 of 5</code></li>
+<li><code>Codabar</code></li>
+<li><code>ITF-14</code></li>
+<li><code>Code 39</code> - International standard ISO/IEC 16388</li>
+<li><code>Code 128</code> – International Standard ISO/IEC 15417</li>
+<li><code>EAN-128, GS1-128 (based on Code 128)</code></li>
+<li><code>EAN-13 and EAN-8 (with supplementals)</code></li>
+<li><code>UPC-A and UPC-E (with supplementals)</code></li>
+<li><code>POSTNET</code></li>
+<li><code>Royal Mail Customer Barcode (Four State)</code></li>
+<li><code>USPS Intelligent Mail (4-State Customer Barcode)</code></li>
+</ul>
+</li>
+<li>2D:
+<ul>
+<li><code>DataMatrix</code></li>
+<li><code>PDF 417</code></li>
+</ul>
+</li>
+</ul>
+It also provides support for multiple output formats:
+<ul>
+<li><code>SVG</code></li>
+<li><code>EPS</code></li>
+<li>Bitmap images (such as <code>PNG</code> or <code>JPEG</code>)</li>
+<li><code>Java2D</code></li>
+<li><code>Text</code> - for testing and debugging only</li>
+</ul>
+<b>The Barcode4J Component</b>
+<br/>
+<br/>
+Each of supported symbologies enumerated above is characterized by a specific structure of elements and attributes described 
+in the <a href="../../components.schema.reference.html">components.xsd</a> 
+schema. All of them are based on the same 
+<a href="../../components.schema.reference.html#Barcode4j">Barcode4j</a> 
+parent element, and differences are given by their specific extracontent:
+<ul>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#Codabar">Codabar</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#Code39">Code39</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#Code128">Code128</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#EAN8">EAN8</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#EAN13">EAN13</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#EAN128">EAN128</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#DataMatrix">DataMatrix</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#Interleaved2Of5">Interleaved2Of5</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#PDF417">PDF417</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#POSTNET">POSTNET</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#RoyalMailCustomer">RoyalMailCustomer</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#UPCA">UPCA</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#UPCE">UPCE</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#USPSIntelligentMail">USPSIntelligentMail</a></li>
+</ul>
+The basic <a href="../../components.schema.reference.html#Barcode4j">Barcode4j</a> structure 
+is characterized by the following series of elements:
+<ul>
+<li><code>codeExpression</code></li>
+<li><code>patternExpression</code></li>
+</ul> 
+and contains the following attributes:
+<ul>
+<li><code>evaluationTime</code> - the <code>evaluationTime</code> attribute of any JR report element</li>
+<li><code>evaluationGroup</code> - the <code>evaluationGroup</code> attribute of any JR report element</li>
+<li><code>orientation</code> - specifies the rotation (in degrees) of the generated barcode image. Allowed values are: 0, 90, 180, 270. 
+The default value is 0.</li>
+<li><code>moduleWidth</code> - specifies the narrow module width (in points). This will be converted in mm at runtime.</li>
+<li><code>textPosition</code> - specifies the text presence and its position relative to the bar. Allowed values are: 
+<code>none</code>, <code>bottom</code>, <code>top</code>.</li>
+<li><code>quietZone</code> - specifies the width of the quiet zone left and right of the barcode in points. This will be 
+converted in mm at runtime.</li>
+<li><code>verticalQuietZone</code> - specifies the height of the vertical quiet zone above and below the barcode in points. 
+This will be converted in mm at runtime.</li>
+</ul> 
+Another attribute available for almost all <code>Barcode4j</code> elements is the <code>checksumMode</code>. Allowed values are 
+<code>auto</code>, <code>ignore</code>, <code>add</code> and <code>check</code>.
+<br/>
+<br/>
+<b>Barcode4J Samples</b>
+<br/>
+<br/>
+Some examples of howto use the available <code>Barcode4j</code> components are given in the JRXML sample:
+<pre><![CDATA[
+<componentElement>
+  <reportElement style="Barcode" x="130" y="100" width="200" height="30"/>
+  <c:Code128 xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd" 
+    moduleWidth="1.0">
+    <c:codeExpression><![CDATA["0123456789"]] ></c:codeExpression>
+  </c:Code128>
+</componentElement>
+...
+<componentElement>
+  <reportElement style="Barcode" x="130" y="135" width="200" height="30"/>
+  <c:Codabar xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.2" 
+    textPosition="none" wideFactor="4.0">
+    <c:codeExpression><![CDATA["01234567890"]] ></c:codeExpression>
+  </c:Codabar>
+</componentElement>
+...
+<componentElement>
+  <reportElement style="Barcode" x="130" y="170" width="70" height="40"/>
+  <c:DataMatrix xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd" 
+    moduleWidth="4.0">
+    <c:codeExpression><![CDATA["JasperReports"]] ></c:codeExpression>
+  </c:DataMatrix>
+</componentElement>
+...
+<componentElement>
+  <reportElement style="Barcode" x="130" y="215" width="250" height="30"/>
+  <c:EAN128 xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd" 
+    moduleWidth="1.4" checksumMode="check">
+    <c:codeExpression><![CDATA["0101234567890128"]] ></c:codeExpression>
+  </c:EAN128>
+</componentElement>
+...
+<componentElement>
+  <reportElement style="Barcode" x="130" y="250" width="400" height="30"/>
+  <c:Code39 xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd">
+    <c:codeExpression><![CDATA["0123456789"]] ></c:codeExpression>
+  </c:Code39>
+</componentElement>
+...
+<componentElement>
+  <reportElement style="Barcode" x="130" y="285" width="400" height="30"/>
+  <c:USPSIntelligentMail xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd" 
+    ascenderHeight="8.0" trackHeight="10.0">
+    <c:codeExpression><![CDATA["00040123456200800001987654321"]] ></c:codeExpression>
+  </c:USPSIntelligentMail>
+</componentElement>
+...
+<componentElement>
+  <reportElement style="Barcode" x="130" y="320" width="400" height="30"/>
+  <c:RoyalMailCustomer xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd" 
+    ascenderHeight="8.0" intercharGapWidth="2.5" trackHeight="10.0">
+    <c:codeExpression><![CDATA["0123456789"]] ></c:codeExpression>
+  </c:RoyalMailCustomer>
+</componentElement>
+...
+<componentElement>
+  <reportElement style="Barcode" x="130" y="355" width="400" height="30"/>
+  <c:Interleaved2Of5 xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd">
+    <c:codeExpression><![CDATA["0123456789"]] ></c:codeExpression>
+  </c:Interleaved2Of5>
+</componentElement>
+...
+<componentElement>
+  <reportElement style="Barcode" x="130" y="390" width="400" height="30"/>
+  <c:UPCA xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd">
+    <c:codeExpression><![CDATA["01234567890"]] ></c:codeExpression>
+  </c:UPCA>
+</componentElement>
+...
+<componentElement>
+  <reportElement style="Barcode" x="130" y="425" width="400" height="30"/>
+  <c:UPCE xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd">
+    <c:codeExpression><![CDATA["01234133"]] ></c:codeExpression>
+  </c:UPCE>
+</componentElement>
+....
+<componentElement>
+  <reportElement style="Barcode" x="130" y="460" width="400" height="30"/>
+  <c:EAN13 xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd">
+    <c:codeExpression><![CDATA["012345678901"]] ></c:codeExpression>
+  </c:EAN13>
+</componentElement>
+...
+<componentElement>
+  <reportElement style="Barcode" x="130" y="495" width="400" height="30"/>
+  <c:EAN8 xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd">
+    <c:codeExpression><![CDATA["01234565"]] ></c:codeExpression>
+  </c:EAN8>
+</componentElement>
+...
+<componentElement>
+  <reportElement style="Barcode" x="130" y="530" width="400" height="20"/>
+  <c:POSTNET xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd" 
+    shortBarHeight="10.0" checksumMode="add">
+    <c:codeExpression><![CDATA["01234"]] ></c:codeExpression>
+  </c:POSTNET>
+</componentElement>
+...
+<componentElement>
+  <reportElement style="Barcode" x="130" y="555" width="400" height="30"/>
+  <c:PDF417 xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd" 
+    moduleWidth="4.0">
+    <c:codeExpression><![CDATA["JasperReports"]] ></c:codeExpression>
+  </c:PDF417>
+</componentElement>]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/barcode4j</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/barcode4j/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+</sample>

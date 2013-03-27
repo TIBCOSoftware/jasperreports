@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>hyperlink</name>
+  <title>Hyperlink Sample</title>
+  <description>Shows how hyperlinks and anchors could be used in report templates.</description>
+
+  <mainFeature ref="hyperlinks"/>
+  <mainFeature ref="xmlwriter"/>
+  <mainFeature ref="watermark"/>
+  
+  <!-- hyperlinks -->
+  
+  <feature name="hyperlinks" title="Hyperlinks">
+    <description>
+How to use hyperlinks and anchors for text elements and image elements.
+    </description>
+    <since>0.3.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+    <b>Hyperlinks, Anchors and Bookmarks</b>
+    <br/>
+    <br/>
+JasperReports allows you to create drill-down reports, which introduce tables of contents 
+in your documents or redirect viewers to external documents using special report elements called hyperlinks.
+<br/>
+When the user clicks a hyperlink, he or she is redirected to a local destination within the 
+current document or to an external resource. Hyperlinks are not the only actors in this 
+viewer-redirecting scenario. You also need a way to specify the possible hyperlink 
+destinations in a document. These local destinations are called anchors. 
+<br/>
+There are no special report elements that introduce hyperlinks or anchors in a report 
+template, but rather special settings that make a usual report element a hyperlink and/or an anchor.
+<br/>
+In JasperReports, only text field, image, and chart elements can be hyperlinks or anchors. 
+This is because all these types of elements offer special settings that allow you to specify 
+the hyperlink reference to which the hyperlink will point to or the name of the local 
+anchor. Note that a particular text field or image can be both anchor and hyperlink at the 
+same time.
+<br/>
+There are five standard types of hyperlinks supported by JasperReports by default. These 
+are described in the following subsections.
+<br/>
+<br/>
+<b>Hyperlink Type</b>
+<br/>
+<br/>
+The type of the hyperlink is stored in an attribute named <code>hyperlinkType</code>. This attribute can hold any text value, but by default, the engine recognizes 
+the following standard hyperlink types:
+<ul>
+<li><code>None</code> - the text field or the image does not represent a hyperlink. This is considered the default behavior.</li>
+<li><code>Reference</code> - the current hyperlink points to an external resource.</li>
+<li><code>LocalAnchor</code> - the current hyperlink points to a local anchor.</li>
+<li><code>LocalPage</code> - the current hyperlink points to a one-based page index within the current document.</li>
+<li><code>RemoteAnchor</code> - the current hyperlink points to an anchor within an external document.</li>
+<li><code>RemotePage</code> - the current hyperlink points to a one-based page index within an external document.</li>
+</ul>
+<br/>
+<b>Hyperlink Expressions</b>
+<br/>
+<br/>
+Depending on the standard hyperlink type specified, one or two of the following 
+expressions are evaluated and used to build the reference to which the hyperlink element 
+will point: 
+<br/>
+<br/>
+  <code>&lt;hyperlinkReferenceExpression&gt;</code>
+  <br/>
+  <code>&lt;hyperlinkAnchorExpression&gt;</code>
+  <br/>
+  <code>&lt;hyperlinkPageExpression&gt;</code>
+<br/>
+<br/>
+Note that the first two should always return <code>java.lang.String</code> and the third should return <code>java.lang.Integer</code> values. 
+A remote anchor requires both <code>&lt;hyperlinkReferenceExpression&gt;</code> and <code>&lt;hyperlinkAnchorExpression&gt;</code> to be present. 
+A remote page requires both <code>&lt;hyperlinkReferenceExpression&gt;</code> and <code>&lt;hyperlinkPageExpression&gt;</code> to be present. 
+<br/>
+<br/>
+<b>Hyperlink Target</b>
+<br/>
+<br/>
+All hyperlink elements, like text fields, images, and charts, also expose an attribute 
+called <code>hyperlinkTarget</code>. Its purpose is to help customize the behavior of the specified 
+link when it is clicked in the viewer.
+<br/>
+Currently, there are only four possible values for this attribute:
+<ul>
+<li><code>Self</code> - the document to which the hyperlink points will be opened in the current viewer window. This is the default behavior.</li>
+<li><code>Blank</code> - the document to which the hyperlink points will be opened in a new viewer window.</li>
+<li><code>Parent</code> - the document to which the hyperlink points will be opened in the parent frame.</li>
+<li><code>Top</code> - the document to which the hyperlink points will be opened in the top frame.</li>
+</ul>
+<ul>
+<li>Custom target/Parameter name/Frame name: When the target value is not one of 
+the above-mentioned standard predefined target values, the target is either a custom 
+target that has to be processed by a registered target producer, or it is the name of a hyperlink parameter that 
+gives the actual target value, or, if neither of the above apply, it is the name of the 
+frame in which the document will be opened (<code>hyperlinkTarget="custom_target"</code>).</li>
+</ul>
+<b>Custom Hyperlink Target</b>
+<br/>
+<br/>
+Sometimes, the hyperlink target is not known at report design time and has to be 
+specified dynamically at runtime, depending on the environment where the report runs. 
+In such cases, the value of the hyperlink target must be calculated based on some runtime 
+parameters or values. Targets defined at runtime are called custom hyperlink targets, as 
+opposed to the standard hyperlink targets.
+<br/>
+Custom hyperlink targets are generated by hyperlink target producers, which are classes
+that implement the <api href="net/sf/jasperreports/engine/export/JRHyperlinkTargetProducer.html">JRHyperlinkTargetProducer</api> 
+interface. Hyperlink target producers can be added to the JasperReports engine in a 
+transparent way, by registering instances of the 
+<api href="net/sf/jasperreports/engine/export/JRHyperlinkTargetProducerFactory.html">JRHyperlinkTargetProducerFactory</api> 
+class as extensions.
+<br/>
+When the JasperReports engine encounters a custom target value specified in the target 
+attribute of a hyperlink, it first interrogates all registered hyperlink target producer 
+factories to obtain a target producer for this custom hyperlink. If no target producer is 
+found, the engine looks for any hyperlink parameter having the same name as the 
+specified custom target. If one is found, the engine takes its value as the true target to 
+use. If no parameter is found, the custom target value is considered a frame name into 
+which the hyperlink document must be opened.
+<br/>
+<br/>
+<b>Hyperlink ToolTips</b>
+<br/>
+<br/>
+The hyperlink element can have a ToolTip, which is controlled by the 
+&lt;hyperlinkTooltipExpression&gt; tag. The type of the expression should be 
+<code>java.lang.String</code>. The ToolTip expression will be evaluated along with the hyperlink 
+and the result will be saved in the generated document. 
+<br/>
+The built-in JasperReports viewer and the HTML exporter will honor the hyperlink 
+ToolTip and display it while the user views the report. 
+<br/>
+<br/>
+<b>Custom Hyperlinks</b>
+<br/>
+<br/>
+In addition to the standard hyperlink types, users can define hyperlinks having custom 
+types. A custom-typed hyperlink can have arbitrary parameters and is meant to be 
+processed by a hyperlink handler registered while exporting the report. 
+<br/>
+When a hyperlink is declared as having a type other than the built-in types, the hyperlink 
+is considered of custom type and the user is expected to provide handlers to process the 
+hyperlink when the report is exported.
+<br/> 
+Arbitrary hyperlink parameters can be added to a custom hyperlink using the 
+&lt;hyperlinkParameter&gt; tag. These parameters are made available to the custom 
+hyperlink handler so that it can generate a final hyperlink depending on the parameter 
+values.
+<br/>
+Hyperlink parameter expressions are evaluated along with the hyperlink, and the results 
+are kept in the generated hyperlink object as parameter values.
+<br/>
+When exporting the report to other formats such as HTML or PDF, the user can set a 
+factory of hyperlink handlers using the <api href="net/sf/jasperreports/engine/JRExporterParameter.html#HYPERLINK_PRODUCER_FACTORY">HYPERLINK_PRODUCER_FACTORY</api> export 
+parameter. A factory is an implementation of 
+<api href="net/sf/jasperreports/engine/export/JRHyperlinkProducerFactory.html">JRHyperlinkProducerFactory</api>, which is 
+responsible for creating a hyperlink handler for a custom hyperlink type. This hyperlink 
+handler created by the factory is a 
+<api href="net/sf/jasperreports/engine/export/JRHyperlinkProducer.html">JRHyperlinkProducer</api> instance, and it is 
+used for generating a hyperlink reference in the export document by assembling 
+hyperlink parameters and other information supplied at export time.
+<br/>
+To handle custom hyperlinks in the built-in Swing viewer, you need to register a 
+hyperlink listener by calling addHyperlinkListener(listener) on the 
+net.sf.jasperreports.view.JRViewer component. The listener is an 
+implementation of the <api href="net/sf/jasperreports/view/JRHyperlinkListener.html">JRHyperlinkListener</api> 
+interface. When a report hyperlink gets clicked, the listener queries the hyperlink type 
+and performs the desired actions.
+<br/>
+<br/>
+<b>Anchors</b>
+<br/>
+<br/>
+If present in a text field or image element declaration, the <code>&lt;anchorNameExpression&gt;</code> 
+tag transforms that particular text field or image into a local anchor of the resulting 
+document, to which hyperlinks can point. The anchor will bear the name returned after 
+evaluation of the anchor name expression, which should always return 
+<code>java.lang.String</code> values.
+<br/>
+<br/>
+<b>Bookmarks</b>
+<br/>
+<br/>
+Some of the document formats, such as PDF, have built-in support for tables of contents 
+and bookmarks. To allow you to make use of this, JasperReports lets you transform 
+anchors into document bookmarks. To be used as bookmarks, anchors should have an 
+indentation level set. To do this, set a positive integer value for the <code>bookmarkLevel</code> 
+attribute available for all hyperlink elements in JasperReports.
+<br/>
+<br/>
+<b>Creating a Local Anchor Example</b>
+<pre><![CDATA[
+<textField>
+  <reportElement x="5" y="5" width="450" height="20"/>
+  <textElement>
+    <font size="14" isBold="true"/>
+  </textElement>
+  <textFieldExpression class="java.lang.String">"This is the TITLE section"</textFieldExpression>
+  <anchorNameExpression>"title"</anchorNameExpression>
+</textField>
+]]></pre>
+The <code>&lt;anchorNameExpression&gt;</code> tag was used here in order to associate a local anchor, named <code>title</code>, with this text field.
+<br/>
+<br/>
+<b>Creating a Local Anchor Hyperlink Example</b>
+<pre><![CDATA[
+<textField hyperlinkType="LocalAnchor">
+  <reportElement x="5" y="35" width="300" height="15" forecolor="#FF0000"/>
+  <textFieldExpression class="java.lang.String">"  >> Click here to go to the title section."</textFieldExpression>
+  <hyperlinkAnchorExpression>"title"</hyperlinkAnchorExpression>
+</textField>
+]]></pre>
+The hyperlink created using the <code>&lt;hyperlinkAnchorExpression&gt;</code> tag points to the local anchor created above.
+<br/>
+<br/>
+<b>Creating a Local Page Hyperlink Example</b>
+<pre><![CDATA[
+<textField hyperlinkType="LocalPage">
+  <reportElement x="5" y="65" width="300" height="15" forecolor="#008000"/>
+  <textFieldExpression class="java.lang.String">"  >> Click here to go to the second page."</textFieldExpression>
+  <hyperlinkPageExpression>Integer.valueOf(2)</hyperlinkPageExpression>
+</textField>
+]]></pre>
+The hyperlink created using the <code>&lt;hyperlinkPageExpression&gt;</code> tag points to the second page of the current document.
+<br/>
+<br/>
+<b>Creating a Reference Hyperlink Example</b>
+<pre><![CDATA[
+<textField hyperlinkType="Reference">
+  <reportElement x="5" y="95" width="300" height="15"/>
+  <textFieldExpression class="java.lang.String">"  >> Click here to go to www.google.com"</textFieldExpression>
+  <hyperlinkReferenceExpression>"http://www.google.com"</hyperlinkReferenceExpression>
+</textField>
+]]></pre>
+The hyperlink created using the <code>&lt;hyperlinkReferenceExpression&gt;</code> tag points to the www.google.com site.
+<br/>
+<br/>
+<b>Creating a Remote Anchor Hyperlink Example</b>
+<pre><![CDATA[
+<textField hyperlinkType="RemoteAnchor">
+  <reportElement x="5" y="125" width="350" height="15"/>
+  <textFieldExpression class="java.lang.String">"  >> Click here to go to another PDF file (in fact, we use the same file)."</textFieldExpression>
+  <hyperlinkReferenceExpression>"./HyperlinkReport.pdf"</hyperlinkReferenceExpression>
+  <hyperlinkAnchorExpression>"title"</hyperlinkAnchorExpression>
+</textField>
+]]></pre>
+The hyperlink created using the <code>&lt;hyperlinkReferenceExpression&gt;</code> and <code>&lt;hyperlinkAnchorExpression&gt;</code> tags points to an anchor named <code>title</code> found in the HyperlinkReport.pdf document, saved in the current directory.
+<br/>
+<br/>
+<b>Creating a Remote Page Hyperlink Example</b>
+<pre><![CDATA[
+<textField hyperlinkType="RemoteAnchor">
+  <reportElement x="5" y="125" width="350" height="15"/>
+  <textFieldExpression class="java.lang.String">"  >> Click here to go to another PDF file (in fact, we use the same file)."</textFieldExpression>
+  <hyperlinkReferenceExpression>"./HyperlinkReport.pdf"</hyperlinkReferenceExpression>
+  <hyperlinkPageExpression>Integer.valueOf(2)</hyperlinkPageExpression>
+</textField>
+]]></pre>
+The hyperlink created using the <code>&lt;hyperlinkReferenceExpression&gt;</code> and <code>&lt;hyperlinkPageExpression&gt;</code> tags points to the second page of the HyperlinkReport.pdf document, saved in the current directory.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/hyperlink</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/hyperlink/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+
+    </content>
+  </feature>
+
+  
+  <!-- xmlwriter -->
+  
+  <feature name="xmlwriter" title="Generating the JRXML Source File for an In-Memory Report Report Template Object">
+    <description>
+How to generate the JRXML representation of an in-memory report template object.
+    </description>
+    <since>0.3.2</since>
+  	<otherSample ref="noxmldesign"/>
+  	<otherSample ref="antcompile"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+  
+  <!-- watermark -->
+  
+  <feature name="watermark" title="Creating Watermarks and Page Backgrounds">
+    <description>
+How to generate a watermark image in a document.
+    </description>
+    <since>0.4.6</since>
+    <content>
+<b>The Background Section</b>
+<br/>
+<br/>
+Digital watermarking is a very useful feature having a wide range of applications related to copyright protection, source tracking, etc. It consists in embedding a specific information into a digital signal, so that it's quite difficult to be removed. The signal may be any kind of document, picture, audio, pictures or video, for example. When the signal gets copied, this additional information is copied too. 
+<br/>
+A simple way to add watermark info to a given document is to embed an image into document's pages' background. If elements present on the page are set with a certain transparency percent, then the background image becomes visible under page elements, and it's difficult to be removed when the document gets copied.
+<br/>
+In order to handle page backgrounds, there is a special section in JasperReports that is rendered on all pages and its content cannot overflow to the next page. This is the background section. Normal report sections are rendered one after the other, but the 
+background section does not interfere with the other report sections and can be used to 
+achieve watermark effects or to create the same background for all pages. Elements placed on this section are evaluated at page initialization time and are displayed in the back. All other page elements are displayed on top of the background elements.
+<br/>
+<br/>
+<b>Using the Background Section Example</b>
+<br/>
+<br/>
+Below is an example of how to embed an image into document's page background. The image is loaded from the jr.watermark.gif file placed 
+in the current directory.
+<br/>
+<pre><![CDATA[
+<background>
+  <band height="742">
+    <image scaleImage="Clip" vAlign="Bottom">
+      <reportElement x="0" y="0" width="150" height="742"/>
+      <imageExpression class="java.lang.String">"jr.watermark.gif"</imageExpression>
+    </image>
+  </band>
+</background>
+]]></pre>
+
+    </content>
+  </feature>
+
+</sample>

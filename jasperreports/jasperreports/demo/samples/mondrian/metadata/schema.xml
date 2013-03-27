@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<Schema name="Sales">
+  <Cube name="Sales">
+    <Table name="POSITIONS"/>
+    <Dimension name="Product" foreignKey="PRODUCTID">
+      <Hierarchy hasAll="true" allMemberName="All Products" primaryKey="ID">
+        <Table name="PRODUCT"/>
+        <Level name="Product" column="ID" nameColumn="NAME" uniqueMembers="true"/>
+      </Hierarchy>
+    </Dimension>
+    <Dimension name="Address" foreignKey="DOCUMENTID">
+      <Hierarchy hasAll="true" allMemberName="All Addresses" primaryKey="ID" primaryKeyTable="DOCUMENT">
+        <Join leftKey="ADDRESSID" rightKey="ID">
+          <Table name="DOCUMENT"/>
+          <Table name="ADDRESS"/>
+        </Join>
+        <Level name="City" table="ADDRESS" column="CITY" uniqueMembers="true"/>
+        <Level name="Person" table="ADDRESS" column="ID" uniqueMembers="true">
+			<NameExpression>
+	          <SQL>"FIRSTNAME" || ' ' || "LASTNAME"</SQL>				
+			</NameExpression>
+	        <Property name="Person Address" column="STREET"/>
+		</Level>
+      </Hierarchy>
+    </Dimension>
+    <Measure name="Quantity" column="QUANTITY"
+        aggregator="sum" formatString="#,###"/>
+    <Measure name="Unit Price" column="PRICE"
+        aggregator="avg" formatString="$#,###.00"/>
+  </Cube>
+</Schema>

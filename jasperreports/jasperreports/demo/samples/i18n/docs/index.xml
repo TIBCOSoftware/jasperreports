@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>i18n</name>
+  <title>I18n Sample</title>
+  <description>Shows how a report could be rendered in different languages.</description>
+
+  <mainFeature ref="i18n"/>
+  
+  <!-- i18n -->
+  
+  <feature name="i18n" title="Internationalized Report Templates">
+    <description>
+How to generate reports in different languages using internationalization support.
+    </description>
+    <since>0.6.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+    <b>Internationalization Overview</b>
+    <br/>
+    <br/>
+This sample illustrates the best way to configure a report that need to be run in different places in the world. 
+<br/>
+French customers would prefer to see their data reported in French, 
+Chinese customers would like to see the same data translated into Chinese, and Greek customers would think that reporting the same data in 
+Greek would be the best approach.
+<br/>
+In such cases, writing the same report for each different language implies a lot of redundant work, which is not recommended. Only pieces of text 
+differing from language to language should be written separately, and loaded into text elements at runtime, depending on locale settings. This is 
+the purpose of the report internationalization.
+<br/>
+<br/>
+Internationalized reports once written, can run everywhere. Paragraphs that need to be translated from a language to another 
+are stored in localized resource bundle files, loaded into <code>java.util.ResourceBundle</code> instances. 
+JasperReports lets you associate a <code>java.util.ResourceBundle</code> with the report 
+template, either at design time (by using the <code>resourceBundle</code> attribute) or at 
+runtime (by providing a value for the built-in <api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_RESOURCE_BUNDLE">REPORT_RESOURCE_BUNDLE</api> parameter). 
+If the report needs to be generated in a locale that is different from the current one, 
+the built-in <api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_LOCALE">REPORT_LOCALE</api> parameter can be used to specify the runtime locale when filling the 
+report. 
+<br/>
+To facilitate the report internationalization, a special syntax is available inside report 
+expressions to reference <code>java.lang.String</code> resources placed inside a 
+<code>java.util.ResourceBundle</code> object associated with the report. The <code>$R{}</code> syntax is for 
+wrapping resource bundle keys to retrieve the value for that key. 
+<br/>
+For formatting messages in different languages based on the report locale, a built-in 
+method inside the report’s <api href="net/sf/jasperreports/engine/fill/JRCalculator.html">JRCalculator</api> 
+offers functionality similar to the <code>java.text.MessageFormat</code> class. This method, 
+<code>msg()</code>, has three convenient signatures that allow you to use up to three message 
+parameters in the messages. 
+<br/>
+Also provided is the built-in <code>str()</code> method (the equivalent of the <code>$R{}</code> syntax inside the 
+report expressions), which gives access to the resource bundle content based on the 
+report locale. 
+<br/>
+For date and time formatting, the built-in <api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_TIME_ZONE">REPORT_TIME_ZONE</api> parameter can be used to 
+ensure proper time transformations. 
+<br/>
+In the generated output, the library keeps information about the text run direction so that 
+documents generated in languages that have right-to-left writing (like Arabic and 
+Hebrew) can be rendered properly. 
+<br/>
+If an application relies on the built-in Swing viewer to display generated reports, then it 
+also must be internationalized by adapting the button ToolTips or other texts displayed. 
+This is very easy to do since the viewer relies on a predefined resource bundle to extract 
+locale-specific information. The base name for this resource bundle is 
+<code>net.sf.jasperreports.view.viewer</code>. 
+<br/>
+<br/>
+    <b>Internationalization Example</b>
+    <br/>
+    <br/>
+Let's take a look into the <code>/src</code> folder of this sample. There are several <code>.properties</code> files containing 
+localized messages corresponding to the same keys. For example, in the <code>i18n.properties</code> file (which is the default resource bundles file), 
+we'll find a line having the key <code>text.message</code>, and the associated message <code>The program picked up {0} as a random number.</code>:
+<br/>
+<br/>
+<code>text.message=The program picked up {0} as a random number.</code>
+<br/>
+<br/>
+In the localized <code>i18n_pt_PT.properties</code> file, the same line will read:
+<br/>
+<br/>
+<code>text.message=O programa escolheu acima {0} como um número aleatório.</code>
+<br/>
+<br/>
+Images can be also localized. There are several <code>.gif</code> files in the <code>/src</code> folder, containing images of national flags. 
+When a report locale is set, the corresponding national flag image will be loaded and inserted into the generated report. 
+The engine reads the localized <code>.gif</code> name using the <code>image.flag</code> key present in the resource bundle files.
+<br/>
+Now, in the <code>reports/I18nReport.jrxml</code> template, the root name of the default resource bundle is specified using the 
+<code>resourceBundle</code> attribute in the <code>&lt;jasperReport /&gt;</code> element:
+<br/>
+<code>resourceBundle="i18n"</code>
+<br/>
+In order to set localized texts or images in their placeholders, either the <code>$R{}</code> syntax or the related 
+<code>msg()</code> or <code>str()</code> methods should be used.
+<br/>
+<br/>
+For images (the <code>$R{}</code> syntax):
+<br/>
+<br/>
+<code>
+&#160;&#160;&lt;image scaleImage="Clip"&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;reportElement positionType="Float" x="20" y="20" width="100" height="50"/&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;imageExpression class="java.lang.String"&gt;&lt;![CDATA[$R{image.flag}]]&gt;&lt;/imageExpression&gt;
+<br/>
+&#160;&#160;&lt;/image&gt;
+</code>
+<br/>
+<br/>
+For texts (the <code>$R{}</code> syntax):
+<br/>
+<br/>
+<code>
+&#160;&#160;&lt;textField isStretchWithOverflow="true" isBlankWhenNull="true"&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;reportElement positionType="Float" x="20" y="100" width="530" height="20"/&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;textElement textAlignment="Justified"&gt;
+<br/>
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;font size="14"/&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;/textElement&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.String"&gt;&lt;![CDATA[$R{text.paragraph1}]]&gt;&lt;/textFieldExpression&gt;
+<br/>
+&#160;&#160;&lt;/textField&gt;
+</code>
+<br/>
+<br/>
+or (the <code>msg()</code> method):
+<br/>
+<br/>
+<code>
+&#160;&#160;&lt;textField isStretchWithOverflow="true" isBlankWhenNull="true"&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;reportElement positionType="Float" x="20" y="210" width="530" height="20" forecolor="#FF0000"/&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;textElement&gt;
+<br/>
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;font size="14"/&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;/textElement&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.String"&gt;&lt;![CDATA[msg($R{text.message}, $P{number})]]&gt;&lt;/textFieldExpression&gt;
+<br/>
+&#160;&#160;&lt;/textField&gt;
+</code>
+<br/>
+<br/>
+When you run the sample in order to visualize it from within the built-in Swing viewer 
+(by typing the <code>ant clean javac compile fill view</code> command in a command line), you will be asked for the report locale twice. 
+That's because your first choice is used at fill time in order to generate the localized report, and the second choice is used for 
+customizing the viewer itself.
+<br/>
+For example, if you choose first the fr_FR - français (France) from the drop-down list, and then pt_PT - português (Portugal), your report will be written in French, 
+but all controls in the viewer (buttons, text boxes, drop-down lists) will have Portuguese tooltips.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/i18n</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/i18n/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

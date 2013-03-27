@@ -1,0 +1,36 @@
+.hidden {
+	display: none;	
+}
+
+.globalError {
+	font-family: sans, arial;
+	font-size: 10px;
+	color: red;
+}
+
+.dashboardDiv {
+	position: relative;
+	z-index: 2; 
+	width: 200px; 
+	text-align: left;
+	background-color: #ADD8E6;
+}
+
+.db_cbbutton {
+	cursor: pointer;
+	display: block;	
+}
+
+/************************ <TOOLBAR> ****************************/
+.enabledViewerButton {
+	cursor: pointer;
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+
+.disabledViewerButton {
+	cursor: default;
+	filter: alpha(opacity=30);
+	opacity: 0.3;
+}
+/************************ </TOOLBAR> ***************************/

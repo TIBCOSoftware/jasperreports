@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>javascript</name>
+  <title>JavaScript Sample</title>
+  <description>Shows how the JavaScript language could be used inside report templates.</description>
+
+  <mainFeature ref="javascript"/>
+  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  
+  <!-- javascript -->
+  
+  <feature name="javascript" title="Using the JavaScript Language for Report Expressions (JavaScript Report Compiler)">
+    <description>
+How to use JavaScript to write report expressions.
+    </description>
+    <since>3.1.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="antcompile"/>
+  	<otherSample ref="beanshell"/>
+  	<otherSample ref="groovy"/>
+  	<otherSample ref="java1.5"/>
+    <content>
+<b>JavaScript Scripting Example</b>
+<br/>
+<br/>
+The main purpose of this sample is to show how the JavaScript compiler implementation works. Useful information 
+about the default JavaScript compiler implementation can be found <a href="../groovy/index.html#jsCompiler">here</a>.
+<br/>
+This sample contains report expressions written using JavaScript. The 
+<api href="net/sf/jasperreports/compilers/JavaScriptCompiler.html">JavaScriptCompiler</api> default implementation 
+creates the JavaScript-related expression evaluator during the report compilation and prepares the <code>JasperReport</code> 
+object for the filling process. 
+<br/>
+<br/>
+In order to use JavaScript, the report <code>language</code> attribute is declared below: 
+<br/>
+<br/>
+<code>language="javascript"</code>
+<br/>
+<br/>
+In the report template are 
+presented some JavaScript expressions which cannot be evaluated using Java, and one could notice some advantages 
+that JavaScript scripting comes with.
+<br/>
+Having two numbers, 3 and 5, the report will output first their values as real numbers, and then their calculated sum. The two numbers 
+are declared as follows:
+<br/>
+<br/>
+<code>
+&#160;&#160;&lt;parameter name="A" class="java.lang.Double"&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;&lt;![CDATA[3]]&gt;&lt;/defaultValueExpression&gt;
+<br/>
+&#160;&#160;&lt;/parameter&gt;
+<br/>
+&#160;&#160;&lt;parameter name="B" class="java.lang.Double"&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;defaultValueExpression>&lt;![CDATA[5]]&gt;&lt;/defaultValueExpression&gt;
+<br/>
+&#160;&#160;&lt;/parameter&gt;
+</code>
+<br/>
+<br/>
+Both A and B values are declared of <code>java.lang.Double</code> type. But their values are let as primitive <code>int</code> types, because 
+JavaScript is able to allocate types at runtime. All type conversions are performed dynamically, according to the type declarations above. 
+The JavaScript scripting above uses a very simplified syntax. Taking into account the backward compatibility with JDK 1.4.x or earlier, 
+equivalent Java expressions would be:
+<br/> 
+<br/> 
+<code>&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;&lt;![CDATA[Double.valueOf(3.0)]]&gt;&lt;/defaultValueExpression&gt;</code>
+<br/>
+<code>&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;&lt;![CDATA[Double.valueOf(5.0)]]&gt;&lt;/defaultValueExpression&gt;</code>
+<br/>
+<br/>
+The next two expressions in the report template read values from parameters declared above and store them in two text fields. 
+These expressions can be evaluated using either JavaScript or Java:
+<br/>
+<br/>
+<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[$P{A}]]&gt;&lt;/textFieldExpression&gt;</code>
+<br/>
+<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[$P{B}]]&gt;&lt;/textFieldExpression&gt;</code>
+<br/>
+<br/>
+Next, the A + B sum is calculated within a JavaScript expression:
+<br/>
+<br/>
+<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[$P{A} + $P{B}]]&gt;&lt;/textFieldExpression&gt;</code>
+<br/>
+<br/>
+Object instantiation and type conversion are transparent processes here, the user only 
+has to write a simple addition operation between the two report 
+parameters (however, the specific parameter syntax still has to be respected). 
+<br/>
+The equivalent Java expression would be:
+<br/>
+<br/>
+<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[new Double($P{A}.doubleValue() + $P{B}.doubleValue())]]&gt;&lt;/textFieldExpression&gt;</code>
+<br/>
+<br/>
+with a lot more complicated syntax.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/javascript</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/javascript/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

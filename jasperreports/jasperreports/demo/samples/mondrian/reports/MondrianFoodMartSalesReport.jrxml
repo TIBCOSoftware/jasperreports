@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+
+<jasperReport 
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="MondrianFoodMartSalesReport" pageWidth="595" pageHeight="842" columnWidth="515" columnSpacing="0" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<queryString language="mdx">
+		<![CDATA[select NON EMPTY {[Measures].[Unit Sales], [Measures].[Customer Count]} ON COLUMNS,
+  NON EMPTY Crossjoin({[Store].[All Stores], [Store].[All Stores].[USA].[CA], [Store].[All Stores].[USA].[OR], [Store].[All Stores].[USA].[WA]}, Crossjoin({[Time].[1997], [Time].[1997].[Q1], [Time].[1997].[Q2], [Time].[1997].[Q3], [Time].[1997].[Q4]}, {[Customers].[All Customers], [Customers].[All Customers].[USA].[CA], [Customers].[All Customers].[USA].[OR], [Customers].[All Customers].[USA].[WA]})) ON ROWS
+from [Sales] ]]>
+	</queryString>
+	<!--
+		select {[Measures].[Unit Sales],[Measures].[Customer Count]} ON COLUMNS,
+		                 Crossjoin([Store].[All Stores].[USA].Children, Crossjoin([Time].[1997].Children, [Customers].[All Customers].[USA].Children)) ON ROWS
+                         from [Sales] 
+                         -->
+                         
+	<field name="StoreState" class="java.lang.String">
+		<fieldDescription><![CDATA[Rows[Store][Store State]]]></fieldDescription>
+	</field>
+	<field name="Quarter" class="java.lang.String">
+		<fieldDescription><![CDATA[Rows[Time][Quarter]]]></fieldDescription>
+	</field>
+	<field name="CustomerState" class="java.lang.String">
+		<fieldDescription><![CDATA[Rows[Customers][State Province]]]></fieldDescription>
+	</field>
+	<field name="UnitSales" class="java.lang.Number">
+		<fieldDescription><![CDATA[Data(0,?)]]></fieldDescription>
+	</field>
+	<field name="CustomerCount" class="java.lang.Number">
+		<fieldDescription><![CDATA[Data(1,?)]]></fieldDescription>
+	</field>
+	<field name="StoreStateUnitSales" class="java.lang.Number">
+		<fieldDescription><![CDATA[Data(Rows[Store][Store State],Rows[Time][Year],Rows[Customers][(All)])(0,?)]]></fieldDescription>
+	</field>
+	<field name="StoreStateCustCount" class="java.lang.Number">
+		<fieldDescription><![CDATA[Data(Rows[Store][Store State],Rows[Time][Year],Rows[Customers][(All)])(1,?)]]></fieldDescription>
+	</field>
+	<field name="TotalStoreStateUnitSales" class="java.lang.Number">
+		<fieldDescription><![CDATA[Data(Rows[Store][(All)],Rows[Time][Year],Rows[Customers][(All)])(0,?)]]></fieldDescription>
+	</field>
+	<field name="TotalStoreStateCustCount" class="java.lang.Number">
+		<fieldDescription><![CDATA[Data(Rows[Store][(All)],Rows[Time][Year],Rows[Customers][(All)])(1,?)]]></fieldDescription>
+	</field>
+	<group name="StoreState">
+		<groupExpression>$F{StoreState}</groupExpression>
+		<groupHeader>
+			<band height="16">
+				<textField evaluationTime="Group" evaluationGroup="StoreState">
+					<reportElement x="10" y="0" width="150" height="15" style="Sans_Bold"/>
+					<textFieldExpression>"Store " + $F{StoreState}</textFieldExpression>
+				</textField>
+				<textField pattern="$#,##0.00" evaluationTime="Group" evaluationGroup="StoreState">
+					<reportElement x="180" y="0" width="100" height="15" style="Sans_Bold"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Number">$F{StoreStateUnitSales}</textFieldExpression>
+				</textField>
+				<textField pattern="#,###" evaluationTime="Group" evaluationGroup="StoreState">
+					<reportElement x="300" y="0" width="100" height="15" style="Sans_Bold"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Number">$F{StoreStateCustCount}</textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Time">
+		<groupExpression>$F{Quarter}</groupExpression>
+		<groupHeader>
+			<band height="16">
+				<textField evaluationTime="Group" evaluationGroup="Time">
+					<reportElement x="10" y="0" width="150" height="15" style="Sans_Bold"/>
+					<textFieldExpression>$F{Quarter}</textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<pageHeader>
+		<band height="16">
+			<frame>
+				<reportElement x="0" y="0" width="515" height="15" mode="Opaque" backcolor="#E0E0E0"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="20" y="0" width="150" height="15"/>
+					<textElement verticalAlignment="Middle"/>
+					<text>Store State</text>
+				</staticText>
+				<staticText>
+					<reportElement x="180" y="0" width="100" height="15"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text>Unit Sales ($)</text>
+				</staticText>
+				<staticText>
+					<reportElement x="300" y="0" width="100" height="15"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text># Customers</text>
+				</staticText>
+			</frame>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="16">
+			<textField>
+				<reportElement x="20" y="0" width="150" height="15"/>
+				<textFieldExpression>"Customers from " + $F{CustomerState}</textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00">
+				<reportElement x="180" y="0" width="100" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Number">$F{UnitSales}</textFieldExpression>
+			</textField>
+			<textField pattern="#,###">
+				<reportElement x="300" y="0" width="100" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Number">$F{CustomerCount}</textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="16">
+			<frame>
+				<reportElement x="0" y="0" width="515" height="15" mode="Opaque" backcolor="#E0E0E0"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textField>
+					<reportElement x="10" y="0" width="150" height="15" style="Sans_Bold"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression>"Totals"</textFieldExpression>
+				</textField>
+				<textField pattern="$#,##0.00">
+					<reportElement x="180" y="0" width="100" height="15" style="Sans_Bold"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.lang.Number">$F{TotalStoreStateUnitSales}</textFieldExpression>
+				</textField>
+				<textField pattern="#,###">
+					<reportElement x="300" y="0" width="100" height="15" style="Sans_Bold"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.lang.Number">$F{TotalStoreStateCustCount}</textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</summary>
+</jasperReport>

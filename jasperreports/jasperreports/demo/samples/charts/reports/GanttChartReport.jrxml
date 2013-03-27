@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GanttChartReport" pageWidth="595" pageHeight="842" columnWidth="270" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Serif_Normal" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Serif_Bold" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<queryString>
+		<![CDATA[SELECT * FROM Tasks ORDER BY Task, Subtask]]>
+	</queryString>
+	<field name="Series" class="java.lang.String"/>
+	<field name="Task" class="java.lang.String"/>
+	<field name="Subtask" class="java.lang.String"/>
+	<field name="StartTimestamp" class="java.sql.Timestamp"/>
+	<field name="EndTimestamp" class="java.sql.Timestamp"/>
+	<field name="Percent" class="java.lang.Double"/>
+	<group name="TaskGroup">
+		<groupExpression><![CDATA[$F{Task}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<line>
+					<reportElement x="137" y="1" width="270" height="1"/>
+				</line>
+				<rectangle>
+					<reportElement x="137" y="5" width="270" height="11" forecolor="#C0C0C0" backcolor="#C0C0C0"/>
+				</rectangle>
+				<textField>
+					<reportElement style="Sans_Bold" x="147" y="5" width="62" height="11"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Task}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<line>
+					<reportElement positionType="Float" x="210" y="0" width="197" height="1" forecolor="#808080"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<rectangle>
+					<reportElement x="137" y="5" width="270" height="11" forecolor="#E0E0E0" backcolor="#E0E0E0"/>
+				</rectangle>
+				<staticText>
+					<reportElement style="Sans_Bold" mode="Opaque" x="337" y="5" width="45" height="11" backcolor="#E0E0E0"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Stages :]]></text>
+				</staticText>
+				<textField>
+					<reportElement style="Sans_Bold" mode="Opaque" x="382" y="5" width="20" height="11" backcolor="#E0E0E0"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{TaskGroup_COUNT}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="290">
+			<elementGroup/>
+			<staticText>
+				<reportElement style="Serif_Bold" x="0" y="0" width="555" height="35"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="22"/>
+				</textElement>
+				<text><![CDATA[Gantt Chart Report]]></text>
+			</staticText>
+			<ganttChart>
+				<chart isShowLegend="true" evaluationTime="Report">
+					<reportElement positionType="Float" x="0" y="75" width="555" height="175"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<ganttDataset>
+					<ganttSeries>
+						<seriesExpression><![CDATA[$F{Series}]]></seriesExpression>
+						<taskExpression><![CDATA[$F{Task}]]></taskExpression>
+						<subtaskExpression><![CDATA[$F{Subtask}]]></subtaskExpression>
+						<startDateExpression><![CDATA[$F{StartTimestamp}]]></startDateExpression>
+						<endDateExpression><![CDATA[$F{EndTimestamp}]]></endDateExpression>
+						<percentExpression><![CDATA[$F{Percent}]]></percentExpression>
+					</ganttSeries>
+				</ganttDataset>
+				<barPlot isShowLabels="true">
+					<plot/>
+					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
+					<categoryAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</valueAxisFormat>
+				</barPlot>
+			</ganttChart>
+			<rectangle>
+				<reportElement x="137" y="277" width="270" height="11" forecolor="#000000" backcolor="#000000"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="Sans_Bold" mode="Opaque" x="210" y="277" width="72" height="11" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement/>
+				<text><![CDATA[Subtask]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Sans_Bold" mode="Opaque" x="282" y="277" width="62" height="11" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement/>
+				<text><![CDATA[Start Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Sans_Bold" mode="Opaque" x="345" y="277" width="62" height="11" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement/>
+				<text><![CDATA[End Date]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="13">
+			<line>
+				<reportElement positionType="Float" x="210" y="0" width="197" height="1" forecolor="#808080"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="210" y="1" width="72" height="11"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Subtask}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="282" y="1" width="62" height="11"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{StartTimestamp}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="345" y="1" width="62" height="11"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{EndTimestamp}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

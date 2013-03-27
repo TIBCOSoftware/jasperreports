@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>xmldatasource</name>
+  <title>XML Data Source Sample</title>
+  <description>Shows how the built-in XPath-based data source could be used for reporting out of XML data.</description>
+
+  <mainFeature ref="xmldatasource"/>
+  <mainFeature ref="xpathqueryexecuter"/>
+  <secondaryFeature name="queryexecuters" sample="hibernate" title="Query Executers"/>
+  <secondaryFeature name="datasources" sample="datasource" title="Data Sources"/>
+  <secondaryFeature name="subreports" sample="subreport" title="Subreports"/>
+  
+  <!-- xmldatasource -->
+  
+  <feature name="xmldatasource" title="XML Data Source">
+    <description>
+How to fill a report using data from an XML file.
+    </description>
+    <since>0.6.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b><a name="xmlds">XML</a> Data Sources</b>
+<br/>
+<br/>
+XML documents can be used as report data sources based on appropriate 
+<api href="net/sf/jasperreports/engine/JRDataSource.html">JRDataSource</api> 
+implementations. JasperReports features a built-in XML data source implementation 
+(<api href="net/sf/jasperreports/engine/data/JRXmlDataSource.html">JRXmlDataSource</api>) that relies on DOM 
+and uses XPath expressions to select data from the XML document. 
+<br/>
+To instantiate an XML data source, the following inputs are required: 
+<ul>
+<li>An XML document. The parsed document, its location, or its source is provided as an argument to the data source constructor.</li>
+<li>An XPath expression to select the node set that corresponds to the data source record list. The 
+expression is passed to the data source as a constructor argument. The default XPath expression selects 
+the document node itself. The XPath expression is executed when the
+data source is instantiated; each item in the resulting node set will generate a
+record in the data source.</li>
+<li>An XPath expression to select the field value for every field in the data set, 
+when iterating through records. The field’s XPath expression is provided by the field description 
+(<code>&lt;fieldDescription&gt;</code> element in JRXML).</li>
+</ul>
+One interesting particularity of XML data sources is that they can be used to 
+create sub–data sources to be used for subreports or subdatasets, using different 
+XPath expressions to select the appropriate nodes. There are two ways to accomplish this:
+<ul>
+<li>A sub–data source can be created for a new document that uses the current node as 
+a root node.</li>
+<li>The same document can be reused for a new sub–data source, which would specify 
+a different XPath expression for the main node set.</li>
+</ul> 
+XML data sources are created by interpreting XPath expressions and selecting nodes and 
+values from the XML document based on these expressions. Processing XPath expressions 
+relies on a generic service interface called <api href="net/sf/jasperreports/engine/util/JRXPathExecuter.html">JRXPathExecuter</api>. 
+The XPath executer implementation used by XML data sources can be configured with a 
+JasperReports property named <code>net.sf.jasperreports.xpath.executer.factory</code>. 
+This property gives the name of an XPath executer factory class, which has to implement 
+the <api href="net/sf/jasperreports/engine/util/xml/JRXPathExecuterFactory.html">JRXPathExecuterFactory</api>.
+<br/>
+The XML data source provides localization support for both number and date/time 
+values rendered as text in the wrapped XML document. In order to get the appropriate 
+localization one have to set the following information in the <code>JRXmlDataSource</code> object:
+<ul>
+<li>the Number pattern - see the <code>setNumberPattern(java.lang.String)</code> method;</li>
+<li>the Date pattern - see the <code>setDatePattern(java.lang.String)</code> method;</li>
+<li>the Locale property - see the <code>setLocale(java.util.Locale)</code> method;</li>
+<li>the time zone - see the <code>setTimeZone(java.util.TimeZone)</code> method.</li>
+</ul>
+Patterns should be non-localized and in accordance with the 
+<code>java.text.DecimalFormat</code> and <code>java.text.SimpleDateFormat</code> pattern syntax. If 
+specific patterns are not supplied, the defaults for these two format classes apply.
+<br/>
+<br/>
+Before running the sample, please consult the next section regarding the XPath query executer.
+    </content>
+  </feature>
+
+  <!-- xpathqueryexecuter -->
+  
+  <feature name="xpathqueryexecuter" title="XPath Query Executer">
+    <description>
+How to fill reports using embedded XPath queries.
+    </description>
+    <since>1.2.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="csvdatasource"/>
+  	<otherSample ref="ejbql"/>
+  	<otherSample ref="hibernate"/>
+  	<otherSample ref="mondrian"/>
+    <content>
+    <b>The XPath Query Executer</b>
+<br/>
+<br/>
+XPath (the <b>X</b>ML <b>Path</b> language) is an expression language with specific syntax 
+used to navigate through nodes in an XML document and retrieve their information, 
+based on a tree representation of XML documents. When using XML data sources, one 
+can specify an XPath expression that produces the list of nodes/records as the report query:
+<br/>
+<br/>
+<code>&#160;&#160;&lt;queryString language="xPath"&gt;&lt;![CDATA[/Northwind/Orders[CustomerID='ALFKI']]]&gt;&lt;/queryString&gt;</code>
+<br/>
+<br/>
+This query returns a list containing only <code>Orders</code> elements with <code>CustomerID</code> set to <code>ALFKI</code>.  
+<br/>
+<br/>
+In the case of the XPath language the query executer factory (see the 
+<api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html">JRXPathQueryExecuterFactory</api> class) registers a parameter named 
+<api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#PARAMETER_XML_DATA_DOCUMENT">XML_DATA_DOCUMENT</api> 
+of type <code>org.w3c.dom.Document</code>. The XPath query executer (see the 
+<api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuter.html">JRXPathQueryExecuter</api> class) runs the XPath query against this document
+ and stores the result in an in-memory 
+<api href="net/sf/jasperreports/engine/data/JRXmlDataSource.html">JRXmlDataSource</api> object. For more 
+information about XML data sources please consult the <a href="#xmlds">XML Data Sources</a> above section.
+<br/>
+<br/>
+Being an expression language itself, XPath supports parameters. Parameters will be processed and replaced 
+by their <code>java.lang.String</code> values. When creating the JRXmlDataSource instance, the query executer 
+also provides the four additional parameters containing localization settings required by the data source: 
+<ul>
+<li><api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#XML_LOCALE">XML_LOCALE</api></li>
+<li><api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#XML_NUMBER_PATTERN">XML_NUMBER_PATTERN</api></li>
+<li><api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#XML_DATE_PATTERN">XML_DATE_PATTERN</api></li>
+<li><api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#XML_TIME_ZONE">XML_TIME_ZONE</api></li>
+</ul>
+In the next section you can see how these additional parameters are set in the <a href="#fill">fill()</a> method of the <code>/src/XmlDataSourceApp.java</code> class.
+<br/>
+<br/>
+For more information about the XPath syntax and queries, one can consult the official documentation: 
+<a href="http://www.w3.org/TR/xpath20">http://www.w3.org/TR/xpath20</a>.
+<br/>
+<br/>
+<b>XML Data Source Example</b>
+<br/>
+<br/>
+In our example data records are stored as node elements in the <code>data/northwind.xml</code> file.
+<br/> 
+The <code>&lt;Northwind/&gt;</code> root element contains two children types: <code>&lt;Customers/&gt;</code> and <code>&lt;Orders/&gt;</code>. 
+Below is an example of a <code>&lt;Customers/&gt;</code> entity, completely characterized by the following elements: 
+<pre><![CDATA[
+  <Customers>
+    <CustomerID>ALFKI</CustomerID>
+    <CompanyName>Alfreds Futterkiste</CompanyName>
+    <ContactName>Maria Anders</ContactName>
+    <ContactTitle>Sales Representative</ContactTitle>
+    <Address>Obere Str. 57</Address>
+    <City>Berlin</City>
+    <PostalCode>12209</PostalCode>
+    <Country>Germany</Country>
+    <Phone>030-0074321</Phone>
+    <Fax>030-0076545</Fax>
+  </Customers>
+]]></pre>
+And below is an example of an <code>&lt;Orders/&gt;</code> entity: 
+<pre><![CDATA[
+  <Orders>
+    <OrderID>10643</OrderID>
+    <CustomerID>ALFKI</CustomerID>
+    <EmployeeID>6</EmployeeID>
+    <OrderDate>1997-08-25</OrderDate>
+    <RequiredDate>1997-09-22</RequiredDate>
+    <ShippedDate>1997-09-02</ShippedDate>
+    <ShipVia>1</ShipVia>
+    <Freight>29.46</Freight>
+    <ShipName>Alfreds Futterkiste</ShipName>
+    <ShipAddress>Obere Str. 57</ShipAddress>
+    <ShipCity>Berlin</ShipCity>
+    <ShipPostalCode>12209</ShipPostalCode>
+    <ShipCountry>Germany</ShipCountry>
+  </Orders>
+]]></pre>
+One can see that an <code>&lt;Orders&gt;</code> element has a <code>&lt;CustomerID&gt;</code> property which 
+points to the <code>&lt;CustomerID&gt;</code> element in the <code>&lt;Customers&gt;</code> node, just like 
+a foreign key in a relational database. One can identify a one-to-many relationship between <code>&lt;Customers&gt;</code> 
+and <code>&lt;Orders&gt;</code>.
+<br/>
+In order to navigate through elements in the <code>Northwind.xml</code> document, an XPath query executer implementation should 
+be specified using the <code>net.sf.jasperreports.xpath.executer.factory</code> property. In our case it is set in the 
+<code>src/jasperreports.properties</code> file:
+<br/>
+<br/>
+<code>net.sf.jasperreports.xpath.executer.factory=net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory</code>
+<br/>
+<br/>
+Two <code>JRXmlDataSource</code> objects are necessary to store the two element types. 
+One of them will be populated with <code>Customers</code> records. In this case 
+record field names are given by the property names in the <code>&lt;Customers/&gt;</code> node: 
+<ul>
+<li><code>CustomerID</code></li>
+<li><code>CompanyName</code></li>
+<li><code>ContactName</code></li>
+<li><code>Sales Representative</code></li>
+<li><code>ContactTitle</code></li>
+<li><code>Address</code></li>
+<li><code>City</code></li>
+<li><code>PostalCode</code></li>
+<li><code>Country</code></li>
+<li><code>Phone</code></li>
+<li><code>Fax</code></li>
+</ul>
+The other <code>JRXmlDataSource</code> object will be populated with <code>Orders</code> records. 
+For this record type, field names are: 
+<ul>
+<li><code>OrderID</code></li>
+<li><code>CustomerID</code></li>
+<li><code>EmployeeID</code></li>
+<li><code>OrderDate</code></li>
+<li><code>RequiredDate</code></li>
+<li><code>ShippedDate</code></li>
+<li><code>ShipVia</code></li>
+<li><code>Freight</code></li>
+<li><code>ShipName</code></li>
+<li><code>ShipAddress</code></li>
+<li><code>ShipCity</code></li>
+<li><code>ShipPostalCode</code></li>
+<li><code>ShipCountry</code></li>
+</ul>
+As we'll see later, not all fields above are required by the generated report.
+<br/>
+<br/>
+There are two JRXML files in the <code>reports</code> directory. The <code>CustomersReport.jrxml</code> 
+is the main report template. The <code>OrdersReport.jrxml</code> is used for generate subreports for the main report. 
+The main report iterates through available customers in the XML data source, and prints for each of them 
+the Customer ID, the  Company Name and the own list of ship orders. The orders list exposes only the 
+Order ID,  Order Date, Ship City and Freight fields. For each customer 
+are calculated the orders count and the total freight.
+<br/>
+In the <code>CustomersReport.jrxml</code> template the query language and XPath query expression are declared in 
+the <code>&lt;queryString/&gt;</code> expression:
+<br/>
+<br/>
+&#160;&#160;&lt;queryString language="xPath"&gt;&lt;![CDATA[/Northwind/Customers]]&gt;&lt;/queryString&gt;
+<br/>
+<br/>
+The fields required for each <code>Customer</code> in the main report are:
+<pre><![CDATA[
+  <field name="CustomerID" class="java.lang.String">
+    <fieldDescription>CustomerID</fieldDescription>
+  </field>
+  <field name="CompanyName" class="java.lang.String">
+    <fieldDescription>CompanyName</fieldDescription>
+  </field>
+]]></pre>
+The <code>OrdersReport</code> subreport is called when the orders list has to be completed for each customers:
+<pre><![CDATA[
+  <subreport>
+    <reportElement isPrintRepeatedValues="false" x="5" y="25" width="507" height="20" isRemoveLineWhenBlank="true" backcolor="#ffcc99"/>
+    <subreportParameter name="XML_DATA_DOCUMENT">
+      <subreportParameterExpression>$P{XML_DATA_DOCUMENT}</subreportParameterExpression>
+    </subreportParameter>
+    <subreportParameter name="XML_DATE_PATTERN">
+      <subreportParameterExpression>$P{XML_DATE_PATTERN}</subreportParameterExpression>
+    </subreportParameter>
+    <subreportParameter name="XML_NUMBER_PATTERN">
+      <subreportParameterExpression>$P{XML_NUMBER_PATTERN}</subreportParameterExpression>
+    </subreportParameter>
+    <subreportParameter name="XML_LOCALE">
+      <subreportParameterExpression>$P{XML_LOCALE}</subreportParameterExpression>
+    </subreportParameter>
+    <subreportParameter name="XML_TIME_ZONE">
+      <subreportParameterExpression>$P{XML_TIME_ZONE}</subreportParameterExpression>
+    </subreportParameter>
+    <subreportParameter name="CustomerID">
+      <subreportParameterExpression>$F{CustomerID}</subreportParameterExpression>
+    </subreportParameter>
+    <subreportExpression class="java.lang.String">"OrdersReport.jasper"</subreportExpression>
+  </subreport>
+]]></pre>
+The Number pattern, Date pattern, Locale and time zone parameters above are necessary for data formatting. 
+The <code>CustomerID</code> parameter is required in order to filter data in the subreport.
+<br/>
+<br/>
+The <code>&lt;queryString/&gt;</code> expression in the <code>reports/OrdersReport.jrxml</code> template is:
+<br/>
+<br/>
+&#160;&#160;&lt;queryString language="xPath"&gt;&lt;![CDATA[/Northwind/Orders[CustomerID='$P{CustomerID}']]]&gt;&lt;/queryString&gt;
+<br/>
+<br/>
+Only <code>Orders</code> with the given <code>CustomerID</code> are taken into account.
+<br/>
+The only fields required from an <code>Orders</code> record are:
+<pre><![CDATA[
+  <field name="Id" class="java.lang.String">
+	<fieldDescription>OrderID</fieldDescription>
+  </field>
+  <field name="OrderDate" class="java.util.Date">
+	<fieldDescription>OrderDate</fieldDescription>
+  </field>
+  <field name="ShipCity" class="java.lang.String">
+	<fieldDescription>ShipCity</fieldDescription>
+  </field>
+  <field name="Freight" class="java.lang.Float">
+	<fieldDescription>Freight</fieldDescription>
+  </field>
+]]></pre>
+<a name="fill">In</a> the <code>src/XmlDataSourceApp.java</code> all necessary information is prepared to be sent at fill time: 
+the parsed <code>Northwind</code> document, data formatting parameters and the <code>CustomersReport</code> compiled report:
+<pre><![CDATA[
+  public void fill() throws JRException
+  {
+    long start = System.currentTimeMillis();
+    Map params = new HashMap();
+    Document document = JRXmlUtils.parse(JRLoader.getLocationInputStream("data/northwind.xml"));
+    params.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
+    params.put(JRXPathQueryExecuterFactory.XML_DATE_PATTERN, "yyyy-MM-dd");
+    params.put(JRXPathQueryExecuterFactory.XML_NUMBER_PATTERN, "#,##0.##");
+    params.put(JRXPathQueryExecuterFactory.XML_LOCALE, Locale.ENGLISH);
+    params.put(JRParameter.REPORT_LOCALE, Locale.US);
+
+    JasperFillManager.fillReportToFile("build/reports/CustomersReport.jasper", params);
+    System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+  }
+]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/xmldatasource</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/xmldatasource/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+
+</content>
+  </feature>
+
+</sample>

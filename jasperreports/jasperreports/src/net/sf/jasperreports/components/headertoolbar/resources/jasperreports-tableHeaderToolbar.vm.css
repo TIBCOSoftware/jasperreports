@@ -1,0 +1,398 @@
+/************************ <FILTER DIV> ***************************/
+.filterdiv {
+	text-align: center; 
+	background-color: #FFFFFF;
+	/*-moz-box-shadow: 0 0 5px 5px #888;
+	-webkit-box-shadow: 0 0 5px 5px#888;
+	box-shadow: 0 0 5px 5px #888;
+	-moz-border-radius: 5px;
+	border-radius: 5px;*/
+	border: 1px solid black;
+	text-align: left;
+}
+
+.hidefilter {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/delete_edit.gif');
+	border: 0;
+	cursor: pointer;
+	height: 16px;
+	margin: 0;
+	position: absolute; 
+	padding: 0;
+	right: 2px; 
+	top: 2px; 
+	vertical-align: top;
+	width: 16px;
+}
+
+.filterOperatorTypeValueSelector {
+	display: inline;
+	width: 140px;
+}
+
+.filterColumnNameLabel {
+	color: gray;
+	display: inline;
+	font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+.filterDivForm {
+	padding: 16px;
+	/*width: 300px;*/
+}
+
+.filterDivFormExpanded {
+	width: 380px;
+}
+
+.filterDivFormExpandedForClear {
+	width: 435px;
+}
+
+.hoverbtn {
+	border: 0;
+	height: 14px;
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+	width: 15px;
+}
+
+.formatDialogBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/format.png');
+	background-color: transparent;
+	border: 0;
+	height: 14px;
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+	width: 23px;
+}
+
+.sortAscBtnDefault {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/sort_asc.png');
+}
+
+.sortAscBtnDefault:hover {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/sort_asc_over.png');
+}
+
+.sortAscBtnDefaultHover, .sortAscBtnEnabled, .sortAscBtnEnabledHover{
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/sort_asc_over.png');
+}
+
+.sortDescBtnDefault {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/sort_desc.png');
+}
+
+.sortDescBtnDefault:hover {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/sort_desc_over.png');
+}
+
+.sortDescBtnDefaultHover, .sortDescBtnEnabled, .sortDescBtnEnabledHover{
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/sort_desc_over.png');
+}
+
+.filterBtnDisabled, .filterBtnDefault {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/filter.png');
+}
+
+.filterBtnDefaultHover, .filterBtnEnabled, .filterBtnEnabledHover {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/filter_over.png');
+}
+
+.filterBtnWrong, .filterBtnWrongHover {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/filter_wrong.png');
+}
+
+.columnHeader {
+	cursor: pointer;
+}
+
+.filterValue {
+	width: 80px;
+}
+
+.sortlink {
+	background-image: url('${path}net/sf/jasperreports/engine/images/pixel.GIF');
+}
+
+.filterSymbol_Inactive {
+	display: none;
+}
+
+.sortSymbolImage, .filterSymbolImage {
+	border: 0px;
+	height: 14px;
+	margin: 0px 1px;
+	padding: 0px;
+	width: 15px;
+}
+
+/************************ </FILTER DIV> ***************************/
+
+/********************** <COLUMN SELECTION> ************************/
+.popupdiv {
+	display: none; 
+	height: 20px;
+	position: absolute; 
+	width: 100px; 
+}
+
+.headerToolbar {
+	background-color: rgb(117, 174, 207); 
+	background-color: rgba(117, 174, 207, 0.6);
+	background-image: url('${path}net/sf/jasperreports/engine/images/pixel.GIF');
+	height: 17px; 
+	padding: 3px 5px 0px 5px;
+	position:absolute; 
+	text-align: left;
+	top: -20px; 
+	width: 83px;
+	
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px; 
+}
+
+.headerToolbarMaskDefaultStyle {
+	background-color: rgb(117, 174, 207); 
+	background-color: rgba(117, 174, 207, 0.6);
+}
+
+.headerToolbarMaskDroppable {
+	background-color: rgb(0, 10, 80); 
+	background-color: rgba(0, 10, 80, 0.3);
+}
+/********************** </COLUMN SELECTION> ***********************/
+
+/********************** <FORMAT DIALOG> ***********************/
+.formatDialog {
+	border: 1px solid black;
+	color: grey;
+	display: none;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	height: 566px;
+	width: 395px;
+	
+	border-radius: 5px;
+}
+
+.formatHeaderUL {
+	background-color: lightgrey;
+	border-bottom: 1px solid grey;
+	height: 20px;
+	list-style-type: none;
+	margin: 0px;
+	padding: 5px 10px;
+	
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.formatTitle {
+	font-weight: bold;
+}
+
+.formatTab {
+	border: 1px solid grey;
+	border-bottom: none;
+	background-color: lightgray;
+	display: inline-block;
+	height: 13px;
+	margin: 0;
+	padding: 2px 4px 4px 4px;
+	cursor: pointer;
+	position: relative;
+	text-align: center;
+	top: 5px;
+	width: 100px;
+	
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.formatTabSelected {
+	background-color: white;
+	border-bottom: none;
+	font-weight: bold;
+	cursor: default;
+	position: relative;
+	top: 0px;
+	height: 19px;
+}
+
+.formatLI {
+	display: inline;
+}
+
+.tabHeadingsLi {
+	padding-left: 45px;
+}
+
+.formatTabBody {
+	background-color: white;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	display: none;
+}
+
+.selectedTabBody {
+	display: block;
+}
+
+.formatTabBody label {
+	display: inline-block;
+	font-size: 11px;
+	width: 85px;
+}
+
+.headingsTabContent {
+	height: 515px;
+	padding: 10px 15px;
+	width: 365px;
+}
+
+.valuesTabContent {
+	height: 515px;
+	padding: 10px 15px;
+	width: 365px;
+}
+
+.fPattern {
+	left: 84px;
+	position: relative;
+	width: 220px;
+}
+
+.fontNameSelector, .fontSizeSelector {
+	background-color: #FFFFFF;
+	left: 84px;
+	position: relative;
+	width: 155px;
+}
+
+.formatPatternSelector {
+	background-color: #FFFFFF;
+	left: 84px;
+	position: relative;
+	width: 220px;
+}
+
+.numberFormatBtn, .styleButtons button, .alignmentButtons button {
+	border: 0;
+	height: 26px;
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+	width: 26px;
+}
+
+.numberFormatButtons, .styleButtons, .alignmentButtons {
+	left: 84px;
+	position: relative;
+}
+
+.numberFormatButtons .jrtoggled, .styleButtons .jrtoggled, .alignmentButtons .jrtoggled {
+	border: 1px solid transparent;
+}
+
+.currencyBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/format/currency.png');
+	width: 34px;
+}
+
+.percentageBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/format/percentage.png');
+}
+
+.commaSeparatorBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/format/thousands_sep.png');
+}
+
+.increaseDecimalsBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/format/add_dec.png');
+}
+
+.decreaseDecimalsBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/format/remove_dec.png');
+}
+
+.fontBoldBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/style/bold.png');
+}
+
+.fontItalicBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/style/italic.png');
+}
+
+.fontUnderlineBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/style/underline.png');
+}
+
+.alignLeftBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/style/align_left.png');
+}
+
+.alignCenterBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/style/align_center.png');
+}
+
+.alignRightBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/style/align_right.png');
+}
+
+/********************** </FORMAT DIALOG> ***********************/
+
+/**************************** <MENU> ***************************/
+.jrMenuLst {
+	background-color: #FFFFFF;
+	border: 1px solid #999999;
+	cursor: pointer;
+	display: none;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	width: 120px;
+}
+
+.jrMenuLstItm {
+	color: #666666;
+	padding: 3px;
+	position: relative;
+} 
+
+.jrMenuText {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	padding: 3px;
+}
+
+.jrMenuDisabled {
+	background-color: #FFFFFF;
+	color: lightgrey;
+}
+
+.jrMenuEnabled:hover {
+	background-color: #3FB8FA;
+	color: #FFFFFF;
+}
+
+.jrMenuDisabled:hover {
+	cursor: default;
+}
+
+.jrMenuLstItm > .jrMenuLst {
+	display: none;
+	left: 120px;
+	position: absolute;
+	top: 0;
+}
+
+.jrMenuEnabled:hover > .jrMenuLst {
+	display: block;
+}
+/**************************** </MENU> ***************************/

@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>openflashchart</name>
+  <title>Open Flash Chart Component Sample</title>
+  <description>Shows how Open Flash Chart objects could be included in HTML and PDF reports using a specially designed component.</description>
+
+  <mainFeature ref="openflashchart"/>
+  
+  <!-- openflashchart -->
+  
+  <feature name="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)">
+    <description>
+How to implement a custom component to wrap charts rendered by the <a href="http://teethgrinder.co.uk/open-flash-chart/">Open Flash Chart</a> library. 
+    </description>
+    <since>3.1.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<subtitle name="overview">The Open Flash Chart Component - Overview</subtitle>
+<br/>
+<br/>
+This sample illustrates how the pie and bar charts produced with the <a href="http://teethgrinder.co.uk/open-flash-chart/">Open Flash Chart</a> library can be implemented 
+and used as JasperReports components.
+<br/>
+Charts based on the <a href="http://teethgrinder.co.uk/open-flash-chart/">Open Flash Chart</a> library are converted into single embeddable Flash objects and provide interesting dynamic 
+visual effects that could make them represent the best candidate to display various statistics, especially on interactive web sites. 
+<br/>
+The generated Flash objects are reading their data and configuration parameters in the JSON format. Data can be either read from existing text files, or dynamically passed through JavaScript.
+<br/>
+An apparent inconvenient is that there are no built-in elements in the basic JasperReports library to handle Flash objects. But the very flexible JasperReports engine can easily integrate 
+such kind of objects, if they come with their own rendering mechanism to be plugged in at report filling time. In other words, if they are embedded into a JasperReports component.
+<br/>
+Here we have an example.
+<br/>
+<br/>
+<subtitle name="schema">The Open Flash Chart Component - Schema</subtitle>
+<br/>
+<br/>
+The schema definition for the pie and bar chart components can be found in the <code>src/net/sf/jasperreports/components/ofc/openflashchart.xsd</code>:
+<pre><![CDATA[
+<element name="pieChart" substitutionGroup="jr:component">
+  <complexType>
+    <complexContent>
+      <extension base="jr:componentType">
+        <sequence>
+          <element ref="ofc:pieDataset"/>
+          <element name="titleExpression">
+            <complexType mixed="true"/>
+          </element>
+        </sequence>
+        <attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+        <attribute name="evaluationGroup" type="string" use="optional"/>
+      </extension>
+    </complexContent>
+  </complexType>
+</element>
+
+<element name="pieDataset">
+  <complexType>
+    <sequence>
+      <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+      <element name="keyExpression">
+        <complexType mixed="true"/>
+      </element>
+      <element name="valueExpression">
+        <complexType mixed="true"/>
+      </element>
+    </sequence>
+  </complexType>
+</element>
+
+<element name="barChart" substitutionGroup="jr:component">
+  <complexType>
+    <complexContent>
+      <extension base="jr:componentType">
+        <sequence>
+          <element ref="ofc:barDataset"/>
+          <element name="titleExpression">
+            <complexType mixed="true"/>
+          </element>
+        </sequence>
+        <attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+        <attribute name="evaluationGroup" type="string" use="optional"/>
+      </extension>
+    </complexContent>
+  </complexType>
+</element>
+
+<element name="barDataset">
+  <complexType>
+    <sequence>
+      <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+      <element name="barSeries" minOccurs="1" maxOccurs="unbounded">
+        <complexType>
+          <sequence>
+            <element name="seriesExpression">
+              <complexType mixed="true"/>
+            </element>
+            <element name="categoryExpression">
+              <complexType mixed="true"/>
+            </element>
+            <element name="valueExpression">
+              <complexType mixed="true"/>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+    </sequence>
+  </complexType>
+</element>]]></pre>
+According to the schema, the pie chart component resides on a pie dataset and a title expression, along with the <code>evaluationTime</code> and 
+<code>evaluationGroup</code> attributes. In a similar mode the bar chart is completely characterized by the bar dataset, the title expression 
+and attributes <code>evaluationTime</code> and <code>evaluationGroup</code>.
+<br/>
+Slices in the pie dataset are configured using the <code>keyExpression</code> and <code>valueExpression</code>.
+<br/>
+Series in the bar dataset are each one characterized by a <code>seriesExpression</code>, a <code>categoryExpression</code> and a <code>valueExpression</code>.
+<br/>
+<br/>
+<subtitle name="embedding">Embedding The Open Flash Chart Component</subtitle>
+<br/>
+<br/>
+The <code>src/jasperreports_extension.properties</code> file contains the following entries:
+<ul>
+<li><code>net.sf.jasperreports.extension.registry.factory.fcharts=net.sf.jasperreports.extensions.SpringExtensionsRegistryFactory</code></li>
+<li><code>net.sf.jasperreports.extension.fcharts.spring.beans.resource=net/sf/jasperreports/components/ofc/chart_beans.xml</code></li>
+</ul>
+Hence the Open Flash Chart components will be registered as Spring-based extension, in accordance with beans in the <code>net/sf/jasperreports/components/ofc/chart_beans.xml</code>:
+<pre><![CDATA[
+<bean id="componentsBundle" class="net.sf.jasperreports.engine.component.DefaultComponentsBundle">
+  <property name="xmlParser">
+    <ref local="xmlParser"/>
+  </property>
+  <property name="componentManagers">
+    <map>
+      <entry key="pieChart">
+        <ref local="pieChartManager"/>
+      </entry>
+      <entry key="barChart">
+        <ref local="barChartManager"/>
+      </entry>
+    </map>
+  </property>
+</bean>
+
+<bean id="xmlParser" class="net.sf.jasperreports.engine.component.DefaultComponentXmlParser">
+  <property name="namespace">
+    <value>http://jasperreports.sourceforge.net/openflashchart</value>
+  </property>
+  <property name="publicSchemaLocation">
+    <value>http://jasperreports.sourceforge.net/xsd/openflashchart.xsd</value>
+  </property>
+  <property name="internalSchemaResource">
+    <value>net/sf/jasperreports/components/ofc/openflashchart.xsd</value>
+  </property>
+  <property name="digesterConfigurer">
+    <bean class="net.sf.jasperreports.components.ofc.ChartsDigester"/>
+  </property>
+</bean>
+
+<bean id="pieChartManager" class="net.sf.jasperreports.engine.component.DefaultComponentManager">
+  <property name="componentCompiler">
+    <bean class="net.sf.jasperreports.components.ofc.PieChartCompiler"/>
+  </property>
+  <property name="componentXmlWriter">
+    <bean class="net.sf.jasperreports.components.ofc.PieChartXmlWriter"/>
+  </property>
+  <property name="componentFillFactory">
+    <bean class="net.sf.jasperreports.components.ofc.PieChartFillFactory"/>
+  </property>
+</bean>
+
+<bean id="barChartManager" class="net.sf.jasperreports.engine.component.DefaultComponentManager">
+  <property name="componentCompiler">
+    <bean class="net.sf.jasperreports.components.ofc.BarChartCompiler"/>
+  </property>
+  <property name="componentXmlWriter">
+    <bean class="net.sf.jasperreports.components.ofc.BarChartXmlWriter"/>
+  </property>
+  <property name="componentFillFactory">
+    <bean class="net.sf.jasperreports.components.ofc.BarChartFillFactory"/>
+  </property>
+</bean>
+
+<bean id="chartsExportHandlerBundle" 
+    class="net.sf.jasperreports.engine.export.DefaultElementHandlerBundle">
+  <property name="namespace" value="http://jasperreports.sourceforge.net/openflashchart"/>
+  <property name="elementHandlers">
+    <map>
+      <entry key="chart">
+        <map>
+          <entry key="net.sf.jasperreports.html">
+            <bean class="net.sf.jasperreports.components.ofc.ChartHtmlHandler"/>
+          </entry>
+          <entry key="net.sf.jasperreports.pdf">
+            <bean class="net.sf.jasperreports.components.ofc.ChartNoPdfHandler"/>
+          </entry>
+          <entry key="net.sf.jasperreports.xls">
+            <bean class="net.sf.jasperreports.components.ofc.ChartXlsHandler"/>
+          </entry>
+          <entry key="net.sf.jasperreports.jxl">
+            <bean class="net.sf.jasperreports.components.ofc.ChartJExcelApiHandler"/>
+          </entry>
+          <entry key="net.sf.jasperreports.rtf">
+            <bean class="net.sf.jasperreports.components.ofc.ChartRtfHandler"/>
+          </entry>
+          <entry key="net.sf.jasperreports.xhtml">
+            <bean class="net.sf.jasperreports.components.ofc.ChartXhtmlHandler"/>
+          </entry>
+          <entry key="net.sf.jasperreports.odt">
+            <bean class="net.sf.jasperreports.components.ofc.ChartOdtHandler"/>
+          </entry>
+          <entry key="net.sf.jasperreports.ods">
+            <bean class="net.sf.jasperreports.components.ofc.ChartOdsHandler"/>
+          </entry>
+          <entry key="net.sf.jasperreports.docx">
+            <bean class="net.sf.jasperreports.components.ofc.ChartDocxHandler"/>
+          </entry>
+          <entry key="net.sf.jasperreports.xlsx">
+            <bean class="net.sf.jasperreports.components.ofc.ChartXlsxHandler"/>
+          </entry>
+          <entry key="net.sf.jasperreports.pptx">
+            <bean class="net.sf.jasperreports.components.ofc.ChartPptxHandler"/>
+          </entry>
+          <entry key="net.sf.jasperreports.xml4swf">
+            <bean class="net.sf.jasperreports.components.ofc.ChartXml4SwfHandler"/>
+          </entry>
+        </map>
+      </entry>
+    </map>
+  </property>
+</bean>]]></pre>
+One can notice the <code>Chart*Handler</code> classes in the <code>chartsExportHandlerBundle</code>, used to handle the output for 
+different export formats. Excepting the HTML/XHTML and PDF that provide support for Flash objects, all other output format handlers 
+extend the <code>net.sf.jasperreports.components.ofc.BaseChartHandler</code> class, ensuring that the generated element will display 
+the replacement text <code>'[Open Flash Chart Component]'</code> instead.
+<br/>
+All necessary APIs to implement these components are found in the  <code>src/net/sf/jasperreports/components/ofc</code> directory:
+<ul>
+<li><code>BarChartCompiler.java</code> - the compiler class for the bar chart component</li>
+<li><code>BarChartComponent.java</code> - the bar chart component class</li>
+<li><code>BarChartFillFactory.java</code> - the fill factory class for the bar chart component</li>
+<li><code>BarChartXmlFactory.java</code> - the XML factory class for the bar chart component</li>
+<li><code>BarChartXmlWriter.java</code> - the XML writer class for the bar chart component</li>
+<li><code>BarDataset.java</code> - the embedded bar dataset class</li>
+<li><code>BarSeries.java</code> - the bar series class</li>
+<li><code>BaseChartHandler.java</code> - the basic chart handler class that produces either a simple text replacement or a cell containing a text 
+replacement, to be used in output formats that not support Flash</li>
+<li><code>ChartDataGenerator.java</code> - class that generates data for pie and bar charts in JSON format</li>
+<li><code>ChartDocxHandler.java</code> - handler class for the DOCX output format. Produces text replacement for the Flash object.</li>
+<li><code>ChartHtmlHandler.java</code> - handler class for the HTML output format. Embeds the Flash object into the HTML page.</li>
+<li><code>ChartJExcelApiHandler.java</code> - handler class for the Excel 2003 output format, using the JExcelApiExporter (based on the JExcelApi library). 
+Produces text replacement for the Flash object.</li>
+<li><code>ChartNoPdfHandler.java</code> - handler class for the PDF output format that produces text replacement for the Flash object</li>
+<li><code>ChartOdsHandler.java</code> - handler class for the ODS output format. Produces text replacement for the Flash object.</li>
+<li><code>ChartOdtHandler.java</code> - handler class for the ODT output format. Produces text replacement for the Flash object.</li>
+<li><code>ChartPdfHandler.java</code> - handler class for the PDF output format that embeds the Flash object into the PDF document</li>
+<li><code>ChartPptxHandler.java</code> - handler class for the PPTX output format. Produces text replacement for the Flash object.</li>
+<li><code>ChartRtfHandler.java</code> - handler class for the RTF output format. Produces text replacement for the Flash object.</li>
+<li><code>ChartsDigester.java</code> - the digester class for the chart component</li>
+<li><code>ChartXhtmlHandler.java</code> - handler class for the XHTML output format. Embeds the Flash object into the generated HTML page.</li>
+<li><code>ChartXlsHandler.java</code> - handler class for the Excel 2003 output format, using the JRXlsExporter (based on the Apache POI library). 
+Produces text replacement for the Flash object.</li>
+<li><code>ChartXlsxHandler.java</code> - handler class for the Excel 2010 (XLSX) output format. Produces text replacement for the Flash object.</li>
+<li><code>ChartXml4SwfHandler.java</code> - handler class to be used when exporting the document to the Flash viewer.</li>
+<li><code>CompiledBarDataset.java</code> - class for compiled bar dataset</li>
+<li><code>CompiledPieDataset.java</code> - class for compiled pie dataset</li>
+<li><code>DefaultBarSeries.java</code> - class that configure the series structure in a bar dataset</li>
+<li><code>DesignBarDataset.java</code> - design class for the bar dataset</li>
+<li><code>DesignPieDataset.java</code> - design class for the pie dataset</li>
+<li><code>FillBarChart.java</code> - the fill bar chart class</li>
+<li><code>FillBarDataset.java</code> - the fill bar dataset class</li>
+<li><code>FillBarSeries.java</code> - the fill bar series class</li>
+<li><code>FillPieChart.java</code> - the fill pie chart class</li>
+<li><code>FillPieDataset.java</code> - the fill pie dataset class</li>
+<li><code>PieChartCompiler.java</code> - the compiler class for the pie chart component</li>
+<li><code>PieChartComponent.java</code> - the pie chart component class</li>
+<li><code>PieChartFillFactory.java</code> - the fill factory class for the pie chart component</li>
+<li><code>PieChartXmlFactory.java</code> - the XML factory class for the pie chart component</li>
+<li><code>PieChartXmlWriter.java</code> - the XML writer for the pie chart component</li>
+<li><code>PieDataset.java</code> - class for the pie dataset</li>
+</ul>
+<subtitle name="sample">The JCharts Component - Sample</subtitle>
+<br/>
+<br/>
+The <code>OpenFlashChartReport.jrxml</code> template in the <code>demo/samples/openflashchart</code> directory contains both the pie chart 
+and the bar chart components in the summary section:
+<pre><![CDATA[
+<componentElement>
+  <reportElement x="0" y="0" width="555" height="350"/>
+  <ofc:pieChart xmlns:ofc="http://jasperreports.sourceforge.net/openflashchart"
+      xsi:schemaLocation="http://jasperreports.sourceforge.net/openflashchart http://jasperreports.sourceforge.net/xsd/openflashchart.xsd"
+      evaluationTime="Report">
+    <ofc:pieDataset>
+      <dataset incrementType="Group" incrementGroup="Country"/>
+      <ofc:keyExpression>$F{ShipCountry}</ofc:keyExpression>
+      <ofc:valueExpression>$V{CountryFreight}</ofc:valueExpression>
+    </ofc:pieDataset>
+    <ofc:titleExpression>"Pie Chart"</ofc:titleExpression>
+  </ofc:pieChart>
+</componentElement>
+<componentElement>
+  <reportElement x="0" y="400" width="555" height="350"/>
+  <ofc:barChart xmlns:ofc="http://jasperreports.sourceforge.net/openflashchart"
+      xsi:schemaLocation="http://jasperreports.sourceforge.net/openflashchart http://jasperreports.sourceforge.net/xsd/openflashchart.xsd"
+      evaluationTime="Report">
+    <ofc:barDataset>
+      <dataset incrementType="Group" incrementGroup="Year"/>
+      <ofc:barSeries>
+        <ofc:seriesExpression>$F{ShipCountry}</ofc:seriesExpression>
+        <ofc:categoryExpression>$V{OrderYear}</ofc:categoryExpression>
+        <ofc:valueExpression>$V{CountryYearFreight}</ofc:valueExpression>
+      </ofc:barSeries>
+    </ofc:barDataset>
+    <ofc:titleExpression>"Bar Chart"</ofc:titleExpression>
+  </ofc:barChart>
+</componentElement>]]></pre>
+One can see the very simple configuration requirements for both Open Flash Charts prefixed with the <code>ofc:</code> namespace prefix. They 
+only need to know the chart data source and some adequate expressions for series in the dataset, all the remaining TODO stuff being automatized 
+by the Open Flash Chart and JasperReports libraries working together. 
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/openflashchart</code> within the JasperReports source project and run the <code>&gt; ant 
+test</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/openflashchart/build/reports</code> directory. 
+<br/>
+You will notice that all generated documents excepting <code>OpenFlashChartReport.html</code> and <code>OpenFlashChartReport.x.html</code> are displaying two text elements labeled 
+<code>'[Open Flash Chart Component]'</code>. Also, when opening the HTML and XHTML pages, they are apparently empty. That's because of security restrictions that prevent Flash objects 
+to communicate with the HTML pages wherein they are embedded.
+<br/>
+Such a problem could be avoided using a HTTP server. This exactly happens when the <code>&gt; ant viewHtml</code> command is run in the terminal. A NanoHTTPD server is started and 
+the served web page may now access the trusted SWF file. Both pie and bar charts can be observed in the browser, for both HTML and XHTML output formats. 
+    </content>
+  </feature>
+
+</sample>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>alterdesign</name>
+  <title>Alter Design Sample</title>
+  <description>Shows how compiled report templates can be modified on-the-fly without requiring recompilation.</description>
+
+  <mainFeature ref="alterdesign"/>
+  
+  <!-- alterdesign -->
+  
+  <feature name="alterdesign" title="Altering Compiled Report Templates">
+    <description>
+Altering a compiled report template means making modifications on the report template prior to sending it for 
+filling with data and without the need to revalidate or recompile it.
+    </description>
+    <since>0.4.5</since>
+    <documentedBy>
+      <author>
+    	<name>Teodor Danciu</name>
+    	<email>teodord@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+Not all runtime information can be passed to a report as a report fill-time parameter. 
+For instance, the background color of a rectangle element, cannot be provided at runtime as a parameter value.
+<br/>
+While there is certainly a way to make a rectangle element change its background color depending 
+on some runtime condition, it can be done so only by using a conditional style and thus switch to one of 
+the predefined colors that are associated with the conditions in that conditional style. 
+For more information about the use of conditional report styles, see the <sample>jasper</sample> sample.
+<br/> 
+The background color cannot be completely dynamic, as the color code cannot be provided as a report 
+parameter or report field value. The background color property of the rectangle is not backed by an expression.
+<br/>
+<br/>
+In order to be able to set any runtime color code as the rectangle's background color, the report template 
+has to be created at runtime, or at least modified (altered) at runtime, using the JasperReports API. 
+Creating report templates using the API is demonstrated in the <sample>noxmldesign</sample> sample.
+<br/>
+<br/>
+Note that only compiled report template objects (<api href="net/sf/jasperreports/engine/JasperReport.html">JasperReport</api> 
+objects) can be filled with data. If the report template is in the form of a source <api href="net/sf/jasperreports/engine/JasperDesign.html">JasperDesign</api> 
+object or in the form of a JRXML file, they need to be compiled into a <code>JasperReport</code> object or a <code>*.jasper</code> 
+file before being filled. This is explained in the <sample>antcompile</sample> sample.
+<br/>
+<br/>
+On an existing compiled report template object (<code>JasperReport</code> object), only certain 
+modifications/alterations are allowed using the API. This is because some modifications, 
+such as modifying an expression or a variable name, might require compiling/validating 
+the report template again. Only modifications that do not require the report template to be revalidated 
+or recompiled, are allowed on a compiled report template object. Changing the background color 
+of a rectangle element is one of the operations allowed. For a complete reference to all modifications 
+allowed, please consult the <a href="../../api/index.html">Javadoc</a> and look for setter methods. 
+For properties in the object model for which you only find getter methods, it means modifying the value 
+for that property is not allowed on a compiled report object model, and you should be working with 
+the report design object model instead (<code>JasperDesign</code> objects).
+<br/>
+<br/>
+If you open the <code>reports/AlterDesignReport.jrxml</code> source file in the current sample, you'll notice 
+it has 3 rectangle elements in its detail section.
+<br/>
+<br/>
+<pre><![CDATA[
+<rectangle>
+  <reportElement key="first.rectangle" x="0" y="100" width="555" height="90"/>
+  <graphicElement>
+    <pen lineWidth="4"/>
+  </graphicElement>
+</rectangle>
+<rectangle>
+  <reportElement key="second.rectangle" x="0" y="200" width="555" height="90"/>
+  <graphicElement>
+    <pen lineWidth="4"/>
+  </graphicElement>
+</rectangle>
+<rectangle>
+  <reportElement key="third.rectangle" x="0" y="300" width="555" height="90"/>
+  <graphicElement>
+    <pen lineWidth="4"/>
+  </graphicElement>
+</rectangle>
+]]>
+</pre>
+Notice the <code>key</code> attribute in each rectangle <elem>reportElement</elem> tag. This attribute represents an user defined 
+value that will help us locate the rectangle element inside the reports section later on.
+<br/>
+<br/>
+Open the <code>src/AlterDesignApp.java</code> source file in the current sample and go to the <code>if</code> block corresponding 
+to the <code>TASK_FILL</code>, starting at line 75.
+<br/>
+Notice how the compiled report template is first loaded from the <code>*.jasper</code> file.
+<br/>
+<br/>
+<pre><![CDATA[
+File sourceFile = new File(fileName);
+JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+]]>
+</pre>
+Then for each of the three rectangles found in the title section of the report template, we change the forecolor and 
+the backcolor using runtime random color codes. Each rectangle is looked up for inside the parent section using its unique 
+user defined key value, as specified in the JRXML.
+<br/>
+<br/>
+<pre><![CDATA[
+JRRectangle rectangle = (JRRectangle)jasperReport.getTitle().getElementByKey("first.rectangle");
+rectangle.setForecolor(new Color((int)(16000000 * Math.random())));
+rectangle.setBackcolor(new Color((int)(16000000 * Math.random())));
+
+rectangle = (JRRectangle)jasperReport.getTitle().getElementByKey("second.rectangle");
+rectangle.setForecolor(new Color((int)(16000000 * Math.random())));
+rectangle.setBackcolor(new Color((int)(16000000 * Math.random())));
+
+rectangle = (JRRectangle)jasperReport.getTitle().getElementByKey("third.rectangle");
+rectangle.setForecolor(new Color((int)(16000000 * Math.random())));
+rectangle.setBackcolor(new Color((int)(16000000 * Math.random())));
+]]>
+</pre>
+In addition to changing rectangle colors, we also change the font size and the font style to the first report style, 
+as defined in the JRXML.
+<br/>
+<br/>
+<pre><![CDATA[
+JRStyle style = jasperReport.getStyles()[0];
+style.setFontSize(16);
+style.setItalic(true);
+]]>
+</pre>
+The in-memory report template is then passed to the report filling process, the result being a document which will have 
+the rectangle colors and style properties as specified above, different from the static values they had in the original 
+report template loaded from the file.
+<br/>
+<br/>
+<pre><![CDATA[
+JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, (JRDataSource)null);
+]]>
+</pre>
+To test this sample, open a command prompt and go to the /demo/samples/alterdesign folder of the JR project source tree. 
+Type the following command:
+<br/>
+<br/>
+<pre><![CDATA[
+>ant clean javac compile fill view
+]]>
+</pre>
+Every time you run this command, you should be seeing the same result, but with different random colors for the 3 rectangles.
+	</content>
+  </feature>
+
+</sample>

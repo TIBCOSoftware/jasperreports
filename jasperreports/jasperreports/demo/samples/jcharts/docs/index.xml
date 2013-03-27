@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>jcharts</name>
+  <title>jCharts Sample</title>
+  <description>Shows how third-party charting APIs could be used for rendering charts as images.</description>
+
+  <mainFeature ref="jcharts"/>
+  
+  <!-- jcharts -->
+  
+  <feature name="jcharts" title="Rendering Images Using Third Party APIs (jCharts Library)">
+    <description>
+How to render images using the <a href="http://jcharts.sourceforge.net/">jCharts</a> library.
+    </description>
+    <since>0.6.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="scriptlets"/>
+  	<otherSample ref="jfreechart"/>
+    <content>
+<subtitle name="overview">The JCharts Sample</subtitle>
+<br/>
+<br/>
+This sample illustrates an interesting example of report scriptlets working in collaboration with third-party APIs, in order to output 
+a chart image generated with the jCharts library.
+<br/>
+First let's see the <code>JChartsReport.jrxml</code> template in the <code>samples/jcharts/reports</code> directory. It provides a 
+<code>scriptletClass="JChartsScriptlet"</code> attribute, and a parametrized image element:
+<pre><![CDATA[
+<image scaleImage="Clip" hAlign="Center">
+  <reportElement x="0" y="70" width="515" height="350"/>
+  <graphicElement/>
+  <imageExpression class="java.awt.Image"><![CDATA[$V{ChartImage}]] ></imageExpression>
+</image>]]></pre>
+The <code>java.awt.Image</code> object is stored in the <code>ChartImage</code> report variable:
+<pre><![CDATA[
+<variable name="ChartImage" class="java.awt.Image" calculation="System"/>]]></pre>
+To see how the <code>ChartImage</code> variable was "calculated", let's dig a little into the <code>JChartsScriptlet.java</code> file in the 
+<code>src</code> directory:
+<pre><![CDATA[
+public void afterReportInit() throws JRScriptletException 
+{
+  try 
+  {
+    AreaChartProperties areaChartProperties = new AreaChartProperties();
+
+    double[][] data = {{10, 15, 30, 53}, {6, 30, 10, 21}, {20, 25, 20, 8}};
+    Paint[] paints = {new Color( 0, 255, 0, 100 ), new Color( 255, 0, 0, 100 ), new Color( 0, 0, 255, 100 )};
+    String[] legendLabels = {"Games", "Events", "Players" };
+    AxisChartDataSet axisChartDataSet = new AxisChartDataSet(data, legendLabels, paints, ChartType.AREA, areaChartProperties);
+
+    String[] axisLabels = {"January", "March", "May", "June"};
+    DataSeries dataSeries = new DataSeries(axisLabels, "Months", "People", "Popular Events");
+    dataSeries.addIAxisPlotDataSet(axisChartDataSet);
+
+    ChartProperties chartProperties = new ChartProperties();
+    AxisProperties axisProperties = new AxisProperties();
+    axisProperties.setYAxisRoundValuesToNearest(0);
+    LegendProperties legendProperties = new LegendProperties();
+
+    AxisChart axisChart = new AxisChart(dataSeries, chartProperties, axisProperties, legendProperties, 500, 350);
+
+    BufferedImage bufferedImage = new BufferedImage(500, 350, BufferedImage.TYPE_INT_RGB);
+
+    axisChart.setGraphics2D(bufferedImage.createGraphics());
+    axisChart.render();
+
+    super.setVariableValue("ChartImage", bufferedImage);
+  }
+  catch(ChartDataException chartDataException) 
+  {
+    throw new JRScriptletException(chartDataException);
+  }
+}]]></pre>
+Here an area chart is created after the report initialization, using APIs in the jCharts library. The chart is rendered as <code>java.awt.Image</code> and 
+stored in the <code>ChartImage</code> variable. From now on, the chart image is ready to be used by the report filler when needed. 
+<br/>
+And that's all the story here. With only a report scriptlet and a third-party library, one could embed interesting, complex, spectacular objects in a given report.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/jcharts</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/jcharts/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

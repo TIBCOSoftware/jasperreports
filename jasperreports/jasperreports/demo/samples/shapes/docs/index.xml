@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>shapes</name>
+  <title>Shapes Sample</title>
+  <description>Shows how various graphic elements could be used inside report templates.</description>
+
+  <mainFeature ref="shapes"/>
+  
+  <!-- shapes -->
+  
+  <feature name="shapes" title="Lines, Rectangles, Ellipses (Shapes)">
+    <description>
+How to use shape elements such as rectangles, ellipses and lines.
+    </description>
+    <since>0.1.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+    <b>Common graphic elements</b>
+    <br/>
+    <br/>
+Shapes are predefined geometric objects, very useful when drawing diagrams, flowcharts and other schematic representations. 
+There are a lot of shapes: lines, rectangles, arrows, callouts, stars, etc. All of them can be obtained from a set of line shapes, taking into account that a line shape can be either straight or curved.
+<br/>
+JasperReports provides support for lines, rectangles and ellipses. All shape objects in JasperReports are graphic report elements which implement both <api href="net/sf/jasperreports/engine/JRCommonElement.html">JRCommonElement</api> and <api href="net/sf/jasperreports/engine/JRGraphicElement.html">JRGraphicElement</api> interfaces. 
+<br/>
+By default any common element is characterized by its width, height, unique key identifier, visualization mode, foreground and background colors. Methods exposed by the <api href="net/sf/jasperreports/engine/JRCommonElement.html">JRCommonElement</api> are:
+<ul>
+<li><code>public int getWidth();</code></li>
+<li><code>public int getHeight();</code></li>
+<li><code>public String getKey();</code></li>
+<li><code>public ModeEnum getModeValue();</code></li>
+<li><code>public ModeEnum getOwnModeValue();</code></li>
+<li><code>public void setMode(ModeEnum mode);</code></li>
+<li><code>public Color getForecolor();</code></li>
+<li><code>public Color getOwnForecolor();</code></li>
+<li><code>public void setForecolor(Color forecolor);</code></li>
+<li><code>public Color getBackcolor();</code></li>
+<li><code>public Color getOwnBackcolor();</code></li>
+<li><code>public void setBackcolor(Color backcolor);</code></li>
+</ul>
+
+<br/>
+The <api href="net/sf/jasperreports/engine/JRGraphicElement.html">JRGraphicElement</api> interface extends the <api href="net/sf/jasperreports/engine/JRCommonGraphicElement.html">JRCommonGraphicElement</api>. By default any common graphic element (or shape) should have a contour line and a fill type (ie solid, no fill, etc). 
+<br/>
+Methods which should be implemented from the <code>JRCommonGraphicElement</code> interface are:
+<ul>
+<li><code>public JRPen getLinePen();</code></li>
+<li><code>public FillEnum getFillValue();</code></li>
+<li><code>public FillEnum getOwnFillValue();</code></li>
+<li><code>public void setFill(FillEnum fillEnum);</code></li>
+</ul>
+<b>The line shape</b>
+<br/>
+<br/>
+Derived from common graphic elements, a line is an one-dimensional shape which is supposed to have a given direction. Any line element should implement the <api href="net/sf/jasperreports/engine/JRLine.html">JRLine</api> interface which exposes the following methods:
+<ul>
+<li><code>public LineDirectionEnum getDirectionValue();</code></li>
+<li><code>public void setDirection(LineDirectionEnum lineDirectionEnum);</code></li>
+</ul>
+Possible line directions are: top-down or bottom-up. The default direction is top-down.
+<br/>
+In the .jrxml file a line element is represented as follows:
+<pre><![CDATA[
+  <line direction="BottomUp">
+    <reportElement x="0" y="150" width="200" height="40" forecolor="#ff00"/>
+    <graphicElement>
+      <pen lineWidth="4"/>
+    </graphicElement>
+  </line>
+]]></pre>
+The graphicElement's fill attribute is not specified because at the moment only the solid fill type is taken into account and, it is considered as default value.
+<br/>
+<br/>
+<b>The rectangle shape</b>
+<br/>
+<br/>
+A rectangle is a bi-dimensional shape having either rounded corners or no-rounded ones. The radius element, if set, indicates how the rectangle's corners should be rounded. By default corners are not rounded in a rectangle.
+<br/>
+Any rectangle shape implements the <api href="net/sf/jasperreports/engine/JRRectangle.html">JRRectangle</api> interface, which extends the <api href="net/sf/jasperreports/engine/JRCommonRectangle.html">JRCommonRectangle</api>.
+The <api href="net/sf/jasperreports/engine/JRCommonRectangle.html">JRCommonRectangle</api> exposes the following methods:
+<ul>
+<li><code>public int getRadius();</code></li>
+<li><code>public Integer getOwnRadius();</code></li>
+<li><code>public void setRadius(int radius);</code></li>
+<li><code>public void setRadius(Integer radius);</code></li>
+</ul>
+In the .jrxml file a rectangle element is represented as follows:
+<pre><![CDATA[
+  <rectangle radius="15">
+    <reportElement x="0" y="350" width="200" height="40" backcolor="#ffff00"/>
+    <graphicElement>
+      <pen lineWidth="2"/>
+    </graphicElement>
+  </rectangle>
+]]></pre>
+If corners are not rounded, then the <code>radius</code> attribute is not necessary.
+<br/>
+<br/>
+<b>The ellipse shape</b>
+<br/>
+<br/>
+An ellipse is a closed bi-dimensional curved shape characterized by 2 semiaxis: the semimajor and the semiminor axis. When the semimajor axis equals the semiminor axis, the ellipse becomes a circle.
+<br/>
+Any ellipse shape implements the <api href="net/sf/jasperreports/engine/JREllipse.html">JREllipse</api> interface, which extends the <api href="net/sf/jasperreports/engine/JRGraphicElement.html">JRGraphicElement</api>.
+<br/>
+No supplementary methods are needed, because both ellipse's semiaxis can be determined from the common element's <code>width</code> and <code>height</code> attributes.
+<br/>
+In the .jrxml file an ellipse element is represented as follows:
+<pre><![CDATA[
+  <ellipse>
+    <reportElement x="0" y="600" width="200" height="40" forecolor="#ff0000" backcolor="#ffff99"/>
+    <graphicElement>
+      <pen lineWidth="2"/>
+    </graphicElement>
+  </ellipse>
+]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/shapes</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/shapes/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

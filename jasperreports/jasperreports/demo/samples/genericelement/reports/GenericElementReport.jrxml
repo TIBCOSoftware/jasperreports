@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport 
+	xmlns="http://jasperreports.sourceforge.net/jasperreports" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
+	name="GenericElementReport" 
+	pageWidth="842" 
+	pageHeight="595" 
+	columnWidth="820" 
+	leftMargin="11" 
+	rightMargin="11" 
+	topMargin="50" 
+	bottomMargin="50" 
+	orientation="Landscape">
+	<style name="widget1" hAlign="Right"/>
+	<parameter name="JRProjectID" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[Integer.valueOf(287)]]></defaultValueExpression>
+	</parameter>
+	<title>
+		<band height="495">
+			<textField hyperlinkType="Reference" hyperlinkTarget="Blank">
+				<reportElement x="0" y="0" width="820" height="70"/>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["JasperReports project information courtesy of http://ohloh.net"]]></textFieldExpression>
+				<hyperlinkReferenceExpression><![CDATA["http://ohloh.net/projects/jasperreports"]]></hyperlinkReferenceExpression>
+			</textField>
+			<genericElement>
+				<reportElement x="0" y="100" width="400" height="200" style="widget1"/>
+				<genericElementType namespace="http://jasperreports.sourceforge.net/jasperreports/ohloh" name="languages"/>
+				<genericElementParameter name="ProjectID">
+					<valueExpression class="java.lang.Integer"><![CDATA[$P{JRProjectID}]]></valueExpression>
+				</genericElementParameter>
+			</genericElement>
+			<genericElement>
+				<reportElement x="420" y="100" width="400" height="200"/>
+				<genericElementType namespace="http://jasperreports.sourceforge.net/jasperreports/ohloh" name="stats"/>
+				<genericElementParameter name="ProjectID">
+					<valueExpression class="java.lang.Integer"><![CDATA[$P{JRProjectID}]]></valueExpression>
+				</genericElementParameter>
+			</genericElement>
+		</band>
+	</title>
+</jasperReport>

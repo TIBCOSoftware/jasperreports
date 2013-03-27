@@ -1,0 +1,101 @@
+<project name="noreport" default="test" basedir=".">
+
+	<description>Shows how final documents can be created without using the reporting engine, but only the API directly.</description>
+
+	<property name="sample.dir" value="noreport"/>
+	<property name="sample.base.name" value="NoReport" />
+	<property name="sample.app.name" value="${sample.base.name}App" />
+	<property name="sample.report.name" value="${sample.base.name}" />
+	
+	<target name="javac" description="Compiles the java source files of the test application.">
+		<ant dir="../" target="javac"/>
+	</target>
+
+	<target name="fill" description="Creates the .jrprint file using the JR API.">
+		<mkdir dir="build/reports"/> 
+		<ant dir="../" target="fill"/>
+	</target>
+
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+		<ant dir="../" target="view"/>
+	</target>
+
+	<target name="viewXml" description="Launches the report viewer to preview the generated report stored in an XML file.">
+		<ant dir="../" target="viewXml"/>
+	</target>
+
+	<target name="print" description="Sends the report in the .jrprint file to the printer.">
+		<ant dir="../" target="print"/>
+	</target>
+
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
+		<ant dir="../" target="pdf"/>
+	</target>
+
+	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xml"/>
+	</target>
+
+	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xmlEmbed"/>
+	</target>
+
+	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="html"/>
+	</target>
+
+	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
+		<ant dir="../" target="rtf"/>
+	</target>
+
+	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
+		<ant dir="../" target="xls"/>
+	</target>
+
+	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
+		<ant dir="../" target="jxl"/>
+	</target>
+
+	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
+		<ant dir="../" target="csv"/>
+	</target>
+
+	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
+		<ant dir="../" target="odt"/>
+	</target>
+
+	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file.">
+		<ant dir="../" target="ods"/>
+	</target>
+
+	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="docx"/>
+	</target>
+
+	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xlsx"/>
+	</target>
+
+	<target name="pptx" description="Generates a PPTX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="pptx"/>
+	</target>
+		
+	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xhtml"/>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<ant dir="../" target="clean-sample"/>
+	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" No Report Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="fill" />
+		<ant dir="../" target="test"/>
+	</target>
+
+</project>

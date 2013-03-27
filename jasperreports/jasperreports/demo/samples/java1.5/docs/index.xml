@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>java1.5</name>
+  <title>Java 1.5 Sample</title>
+  <description>Shows how Java 1.5 could be used inside report templates.</description>
+
+  <mainFeature ref="java1.5"/>
+  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  
+  <!-- java1.5 -->
+  
+  <feature name="java1.5" title="Using Java 1.5 Syntax in Report Expressions (Java 1.5 Report Compiler)">
+    <description>
+How to use Java 1.5 language specific features inside report expressions.
+    </description>
+    <since>1.1.1</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="antcompile"/>
+  	<otherSample ref="beanshell"/>
+  	<otherSample ref="groovy"/>
+  	<otherSample ref="javascript"/>
+    <content>
+<b>Java 1.5 Scripting Example</b>
+<br/>
+<br/>
+The main purpose of this sample is to show how the Java 1.5 compiler implementation works. Useful information 
+about various Java compiler implementations can be found <a href="../groovy/index.html#javaCompilers">here</a>.
+<br/>
+This sample contains report expressions written using Java 1.5. The 
+<api href="net/sf/jasperreports/engine/design/JRJdtCompiler.html">JRJdtCompiler</api> default implementation is Java 1.5-compatible and   
+is strongly recommended to use it when handling Java 1.5-related expressions. 
+<br/>
+<br/>
+In order to use Java 1.5, the report <code>language</code> attribute can be either not set (because Java represents the default scripting language), 
+or declared as follows: 
+<br/>
+<br/>
+<code>language="java"</code>
+<br/>
+<br/>
+In the sample's report template the <code>language</code> attribute is not set.
+<br/>
+Next, one have to instruct the JDT compiler to observe Java 1.5 
+code compatibility. In the /src/jasperreports.properties file the following properties are set:
+<ul>
+<li><code>org.eclipse.jdt.core.compiler.source=1.5</code></li>
+<li><code>org.eclipse.jdt.core.compiler.compliance=1.5</code></li>
+<li><code>org.eclipse.jdt.core.compiler.codegen.TargetPlatform=1.5</code></li>
+</ul>
+In the report template are included specific Java 1.5 expressions not compatible with Java 1.4 or earlier, requiring transparent 
+autoboxing and unboxing, or enumerated types. An equivalent Java 1.4-compatible expression is also included, for comparison.
+<br/>
+Having two integer numbers, 3 and 5, the report will output first their values, and then their calculated sum. The two numbers 
+are declared as follows:
+<br/>
+<br/>
+<code>
+&#160;&#160;&lt;parameter name="A" class="java.lang.Integer"&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;&lt;![CDATA[3]]&gt;&lt;/defaultValueExpression&gt;
+<br/>
+&#160;&#160;&lt;/parameter&gt;
+<br/>
+&#160;&#160;&lt;parameter name="B" class="java.lang.Integer"&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;defaultValueExpression>&lt;![CDATA[5]]&gt;&lt;/defaultValueExpression&gt;
+<br/>
+&#160;&#160;&lt;/parameter&gt;
+</code>
+<br/>
+<br/>
+Both A and B values are declared of <code>java.lang.Integer</code> type. But their values are let as primitive <code>int</code> types, because 
+Java 1.5 performs both autoboxing and unboxing mechanisms. When needed, primitive types are automatically converted into their wrapper class. 
+The Java 1.5 syntax becomes a lot simplified. Equivalent Java 1.4 expressions would be:
+<br/> 
+<br/> 
+<code>&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;&lt;![CDATA[Integer.valueOf(3)]]&gt;&lt;/defaultValueExpression&gt;</code>
+<br/>
+<code>&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;&lt;![CDATA[Integer.valueOf(5)]]&gt;&lt;/defaultValueExpression&gt;</code>
+<br/>
+<br/>
+The next two expressions in the report template read values from parameters declared above and store them in two text fields. 
+These expressions can be evaluated using either Java 1.5 or Java 1.4:
+<br/>
+<br/>
+<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"&gt;&lt;![CDATA[$P{A}]]&gt;&lt;/textFieldExpression&gt;</code>
+<br/>
+<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"&gt;&lt;![CDATA[$P{B}]]&gt;&lt;/textFieldExpression&gt;</code>
+<br/>
+<br/>
+Next, the A + B sum is calculated using a Java 1.4 expression:
+<br/>
+<br/>
+<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"&gt;&lt;![CDATA[Integer.valueOf($P{A}.intValue() + $P{B}.intValue())]]&gt;&lt;/textFieldExpression&gt;</code>
+<br/>
+<br/>
+A and B being <code>Integer</code>, their <code>intValue()</code> method is called in order to calculate the sum. 
+After that, because the sum should be 
+stored itself in an <code>Integer</code> value, an Integer object is made available for this purpose. The Java expression looks 
+rather complicate and one has to take care to instantiate objects with their proper types in order to avoid class 
+cast exceptions. 
+<br/>
+<br/>
+Now, the same A + B sum is calculated using a Java 1.5 expression:
+<br/>
+<br/>
+<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"&gt;&lt;![CDATA[$P{A} + $P{B}]]&gt;&lt;/textFieldExpression&gt;</code>
+<br/>
+<br/>
+Object creation, autoboxing, unboxing and type conversion are transparent processes here, the user only 
+has to write a simple addition operation between the two report 
+parameters (however, the specific parameter syntax still has to be respected). 
+<br/>
+<br/>
+Finally, depending on the <code>greeting</code> parameter's value, a greeting formula is shown. This parameter is an enumerated <code>Greeting</code> type 
+(another specific Java 1.5 feature):
+<br/>
+<br/>
+<code>&#160;&#160;&lt;parameter name="greeting" class="Greeting"&gt;</code>
+<br/>
+<br/>
+The <code>Greeting</code> type is defined in the /src/Greeting.java file:
+<br/>
+<br/>
+&#160;&#160;<code>public enum Greeting { bye, day }</code>
+<br/>
+<br/>
+When the parameter's value is <code>Greeting.bye</code>, the output message will be 'Bye!'; 
+when the parameter's value is <code>Greeting.day</code>, the message will be 'Have a nice day!':
+<pre><![CDATA[
+  <staticText>
+	<reportElement x="0" y="450" width="480" height="35">
+      <printWhenExpression>$P{greeting} == Greeting.bye</printWhenExpression>
+	</reportElement>
+	<textElement textAlignment="Center">
+      <font size="24"/>
+	</textElement>
+	<text>Bye!</text>
+  </staticText>
+  <staticText>
+	<reportElement x="0" y="450" width="480" height="35">
+      <printWhenExpression>$P{greeting} == Greeting.day</printWhenExpression>
+	</reportElement>
+	<textElement textAlignment="Center">
+      <font size="24"/>
+	</textElement>
+	<text>Have a nice day!</text>
+  </staticText>]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/java1.5</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/java1.5/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<remoteXmlDataAdapter class="net.sf.jasperreports.data.xml.RemoteXmlDataAdapterImpl">
+	<name>northwind</name>
+	<fileName>/data/northwind.xml</fileName>
+	<useConnection>true</useConnection>
+	<datePattern>yyyy-MM-dd</datePattern>
+	<numberPattern>#,##0.##</numberPattern>
+	<locale xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="java:java.lang.String">en</locale>
+</remoteXmlDataAdapter>

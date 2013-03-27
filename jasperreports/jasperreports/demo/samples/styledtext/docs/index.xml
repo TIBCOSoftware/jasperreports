@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>styledtext</name>
+  <title>Styled Text Sample</title>
+  <description>Shows how the styled-text feature works in static and dynamic text elements.</description>
+
+  <mainFeature ref="styledtext"/>
+  <secondaryFeature name="markup" sample="markup" title="Creating Styled Text Using a Markup Language"/>
+  
+  <!-- styledtext -->
+  
+  <feature name="styledtext" title="Styled Text">
+    <description>
+How to format text using a styled text tags as markup language.
+    </description>
+    <since>2.0.5</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b>Styled Text</b>
+<br/>
+<br/>
+The text content in text elements can be formatted using 
+some particular style attributes such as foreground color, background color, 
+font name, font size, font weight, etc. Document styles also contain text formatting attributes (<code>forecolor</code>, 
+<code>backcolor</code>, etc) and can be used to customize the text appearance inside the report element. All these style 
+attributes affect the entire text content in the report element.
+<br/>
+But there are situations when one needs to apply a style only to some parts of the text paragraph. Users may want to 
+highlight only few words within the text, with no affecting the rest of the paragraph. 
+<br/>
+The solution formerly used was to set the <code>isStyledText</code> attribute of the text element. It is now a deprecated 
+solution and is replaced by the use of the <code>markup="styled"</code> setting.
+<br/>
+If <code>isStyledText="true"</code> is set the engine gets notified that the text element contains a structured XML fragment 
+with JasperReports proprietary processing rules. 
+<br/> 
+<br/> 
+<b>Styled Text Markup Tags</b>
+<br/> 
+<br/> 
+The JasperReports proprietary markup language is called styled text and is an XML 
+based format in which the style of any portion of text inside a text element can be 
+changed by embedding that portion inside a &lt;style&gt; tag or other simple HTML tag 
+from the following list: 
+<ul>
+<li><code>&lt;b&gt;</code></li>
+<li><code>&lt;u&gt;</code></li>
+<li><code>&lt;i&gt;</code></li>
+<li><code>&lt;font&gt;</code></li>
+<li><code>&lt;sup&gt;</code></li>
+<li><code>&lt;sub&gt;</code></li>
+<li><code>&lt;li&gt;</code></li>
+<li><code>&lt;br&gt;</code></li>
+</ul>
+The <code>&lt;style&gt;</code> tag has various attributes for altering the color, font, or other style 
+properties of the text. From the standard HTML <code>&lt;font&gt;</code> tag, only the fontFace, color, 
+and size attributes are recognized by the JasperReports engine. Each individual
+style property is inherited from the overall text element or from the parent <code>&lt;style&gt;</code> tag
+when nested <code>&lt;style&gt;</code> tags are used.
+<br/> 
+<br/> 
+<b>The Styled Text Sample</b>
+<br/> 
+<br/> 
+This sample contains various styled text paragraphs, illustrating the use of the styled text tags enumerated above.
+<br/>
+The first paragraph is obtained by processing the following fragment:
+<pre><![CDATA[
+	This is a <style isBold="true" isItalic="true" isUnderline="true">static text</style> 
+	element containing styled text. <style backcolor="yellow" isBold="true" isItalic="true">Styled text</style> 
+	elements are introduced by setting the <style forecolor="blue" isItalic="true">markup</style> attribute 
+	available for the <style isBold="true" forecolor="magenta">textElement</style> tag to 
+	<style forecolor="red" isItalic="true">styled</style> and by formatting the text content using nested 
+	<style isBold="true" forecolor="green">style</style> tags and simple HTML tags.	]]></pre>
+The next one is obtained by processing the following fragment:
+<pre><![CDATA[
+	This text field element contains styled text displaying the text-only version of the 
+	<style size=\"12\" isBold=\"true\" forecolor=\"black\">^<style forecolor=\"#808080\">Jasper</style>
+	<style forecolor=\"#990000\">Reports</style></style> logo and some <font size=\"10\"><sup>superscript</sup></font> 
+	text and <font size=\"10\"><sub>subscript</sub></font> text.]]></pre>
+Then the text in the left column is obtained by processing the following fragment:
+<pre><![CDATA[
+	Here is the list with the attributes supported by the <style isBold="true">style</style> 
+	tag used to format the text content inside a styled text element:
+	
+	fontName
+	<style size="32">size</style>
+	<style isBold="true">isBold</style>
+	<style isItalic="true">isItalic</style>
+	<style isUnderline="true">isUnderline</style>
+	<style isStrikeThrough="true">isStrikeThrough</style>
+	pdfFontName
+	pdfEncoding
+	isPdfEmbedded
+	<style forecolor="red">forecolor</style>
+	<style backcolor="blue" forecolor="white" isBold="true">backcolor</style>]]></pre>
+The text in the column to the right is obtained by processing the following fragment:
+<pre><![CDATA[
+	Here is the list with the supported HTML tags :
+	
+	<font size="12">&lt;font size=&quot;12&quot;&gt;</font>
+	<font color="red">&lt;font color=&quot;red&quot;&gt;</font>
+	<font face="DejaVu Serif">&lt;font face=&quot;DejaVu Serif&quot;&gt;</font>
+	<b>bold &lt;b&gt;</b> <i>italic &lt;i&gt;</i> <u>underlined &lt;u&gt;</u>
+	an empty line follows (&lt;br/&gt;):
+	<br/>
+	<sup>&lt;sup&gt;</sup> and <sub>&lt;sub&gt;</sub>
+	<br/>
+	A bulleted list:
+	<li>item 1 &lt;li&gt;</li>]]></pre>
+The next paragraph is obtained by processing the following fragment:
+<pre><![CDATA[
+	ampersand &amp; less &lt; greater &gt; quote &quot; apostrophe &apos;]]></pre>
+<pre><![CDATA[
+	ampersand &amp; less &lt; greater &gt; quote &quot; apostrophe &apos;]]></pre>
+And the last fragment is obtained by processing the following:
+<pre><![CDATA[
+	<style size=\"16\">1</style>\n<style size=\"24\">2</style>\n<style size=\"32\">3</style>\n
+	<style size=\"24\">2</style>\n<style size=\"16\">1</style>\n]]></pre>
+For more information about the recommended text formatting solution, please take a look at the <a href="../markup/index.html">Markup Sample</a>.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/styledtext</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/styledtext/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+</content>
+  </feature>
+
+</sample>

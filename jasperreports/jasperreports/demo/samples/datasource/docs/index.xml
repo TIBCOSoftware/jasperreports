@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>datasource</name>
+  <title>Data Source Sample</title>
+  <description>Shows how custom or JavaBean-based data source implementations could be used to fill reports.</description>
+
+  <mainFeature ref="datasources"/>
+  <mainFeature ref="customdatasource"/>
+  <mainFeature ref="javabeandatasources"/>
+  <mainFeature ref="tablemodeldatasource"/>
+  
+  <!-- datasources -->
+  
+  <feature name="datasources" title="Data Sources">
+    <description>
+How to fill reports using data source objects.
+    </description>
+    <since>0.1.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="csvdatasource"/>
+  	<otherSample ref="xlsdatasource"/>
+  	<otherSample ref="xmldatasource"/>
+    <content>
+<b>Data Sources</b>
+<br/>
+<br/>
+Data sources are structured data containers used when filling generated reports. Compiled 
+<api href="net/sf/jasperreports/engine/JasperReport.html">JasperReport</api> objects 
+are now prepared to encapsulate their dynamic part of data within the generated report template.
+<br/>
+The filling process relies on expression evaluations, variable calculations 
+and successive iterations through the records of the 
+supplied data source object. Every report section is filled step-by-step. 
+<br/>
+Usually, data are loaded into data source objects. The engine expects to receive either a 
+<api href="net/sf/jasperreports/engine/JRDataSource.html">JRDataSource</api> 
+object as the data source of the 
+report that it has to fill, or a <code>java.sql.Connection</code> when the report data is found in 
+a relational database. 
+<br/>
+The <code>JRDataSource</code> interface is very simple. Only two methods should implemented here: 
+<br/>
+<br/>
+<dl>
+ <dt><code>public boolean next() throws JRException;</code></dt>
+  <dd>- called on the data source object by the reporting engine when iterating through the data at report-filling time</dd>
+ <dt><code>public Object getFieldValue(JRField jrField) throws JRException;</code></dt>
+  <dd>- provides the value for each report field in the current data source record</dd>
+</dl>
+It is important to notice that the only way to retrieve data from the data source is by 
+using the report fields. As a structured object, a data source object is more like a table with columns and rows 
+containing data in the table cells. The rows of this table are the records through which the 
+reporting engine iterates when filling the report and each column should be mapped to a 
+report field, so that we can make use of the data source content in the report expressions. 
+There are several default implementations of the <code>JRDataSource</code> interface, depending on the way the records 
+in the data source are acquired.
+<br/>
+<br/>
+<b>Rewindable Data Sources</b>
+<br/>
+<br/>
+The <api href="net/sf/jasperreports/engine/JRRewindableDataSource.html">JRRewindableDataSource</api> is an extension of 
+the <code>JRDataSource</code> interface, to which it adds 
+the possibility of moving the record pointer back before the first virtual record. It adds 
+only one method, called <code>moveFirst()</code>, to the interface.
+<br/> 
+Rewindable data sources are useful when working with subreports 
+placed inside a band that is not allowed to split due to the <code>isSplitAllowed="false"</code> 
+setting and there is not enough space on the current page for the subreport to be rendered. 
+<br/> 
+All built-in data source implementations listed below are rewindable except for the 
+<code>JRResultSetDataSource</code>, which does not support 
+moving the record pointer back. This is a problem only if this data source is used to 
+manually wrap a <code>java.sql.ResultSet</code> before passing it to the subreport. It is not a 
+problem if the SQL query resides in the subreport template because the engine will reexecute 
+it when restarting the subreport on the next page. 
+<br/>
+<br/>
+<b><a name="dsImplementations">Data</a> Source Implementations</b>
+<dl>
+ <dt><b>JDBC</b> data sources: the <api href="net/sf/jasperreports/engine/JRResultSetDataSource.html">JRResultSetDataSource</api> class</dt>
+  <dd>- Wraps a <code>java.sql.ResultSet</code> object. Represents the most commonly used data source 
+  implementations when report data are extracted from a relational database. 
+  If a <code>java.sql.Connection</code> is passed to the engine instead, it executes first the related query 
+  and stores the returned <code>java.sql.ResultSet</code> object in a <code>JRResultSetDataSource</code> instance.</dd>
+ <dt><b>JavaBean</b> data sources: <api href="net/sf/jasperreports/engine/data/JRBeanArrayDataSource.html">JRBeanArrayDataSource</api> and 
+ <api href="net/sf/jasperreports/engine/data/JRBeanCollectionDataSource.html">JRBeanCollectionDataSource</api></dt>
+  <dd>- Represent implementations that can wrap collections or arrays of JavaBean objects. Each object inside the array or the collection will be 
+seen as one record in this type of data source. 
+The mapping between a particular JavaBean property and the corresponding report field 
+is made by naming conventions. The name of the report field must be the same as the 
+name of the JavaBean property as specified by the JavaBeans specifications.</dd>
+ <dt><b>Map-based</b> data sources: <api href="net/sf/jasperreports/engine/data/JRMapArrayDataSource.html">JRMapArrayDataSource</api> and 
+ <api href="net/sf/jasperreports/engine/data/JRMapCollectionDataSource.html">JRMapCollectionDataSource</api></dt>
+  <dd>- These implementations are useful if the parent application already stores the reporting 
+data available in-memory as <code>java.util.Map</code> objects. Each <code>Map</code> object in the wrapped array or 
+collection is considered a virtual record in the data source, and the value of each report 
+field is extracted from the map using the report field name as the key</dd>
+ <dt><b>TableModel</b> data sources: the <api href="net/sf/jasperreports/engine/data/JRTableModelDataSource.html">JRTableModelDataSource</api> class</dt>
+  <dd>- Wraps a <code>javax.swing.table.TableModel</code> object. Columns in the wrapped <code>TableModel</code> object can be accessed either by their names or by their 0-based indexes.</dd>
+ <dt><b>XML</b> data sources: the <api href="net/sf/jasperreports/engine/data/JRXmlDataSource.html">JRXmlDataSource</api> class</dt>
+  <dd>- A data source implementation based on DOM, which uses XPath expressions to select data from the XML document. 
+Records in the XML data source are represented by node elements selected through the XPath expression. Field values 
+are retrieved from each record using the XPath expression provided by the field description 
+(<code>&lt;fieldDescription&gt;</code> element in JRXML).</dd>
+ <dt><b>CSV</b> data sources: the <api href="net/sf/jasperreports/engine/data/JRCsvDataSource.html">JRCsvDataSource</api> class</dt>
+  <dd>- Represents an implementation for data sources which retrieve their data from structured text files, usually CSVs. 
+Field values are retrieved using their column index.</dd>
+ <dt><b>XLS</b> data sources: the <api href="net/sf/jasperreports/engine/data/JRXlsDataSource.html">JRXlsDataSource</api> class</dt>
+  <dd>- Represents an implementation for data sources which retrieve their data from Excel documents (workbooks). 
+Report-field mapping for this data source implementation is also based on the field column index.</dd>
+ <dt><b>Empty</b> data sources: the <api href="net/sf/jasperreports/engine/data/JREmptyDataSource.html">JREmptyDataSource</api> class</dt>
+  <dd>- Simulates a data source with a given number of virtual empty records inside. It is 
+is used by the UI tools to offer basic report preview functionality, or in special report templates, or for testing and debugging purposes.</dd>
+</dl>
+<b>Data Source Providers</b>
+<br/>
+<br/>
+When creating a report template using GUI tools, a special tool for customizing the report's data source is needed. 
+The JasperReports library comes with the <api href="net/sf/jasperreports/engine/data/JRDataSourceProvider.html">JRDataSourceProvider</api> 
+interface that allows to create and dispose of data source objects. This is the standard way to plug custom data sources into 
+a design tool. 
+<br/>
+A custom implementation of this interface should implement the following methods that allow creating and 
+disposing of data source objects and also methods for listing the available report fields 
+inside the data source if possible:
+<ul>
+<li><code>public boolean supportsGetFieldsOperation();</code></li>
+<li><code>public JRField[] getFields(JasperReport report) throws JRException, UnsupportedOperationException;</code></li>
+<li><code>public JRDataSource create(JasperReport report) throws JRException;</code></li>
+<li><code>public void dispose(JRDataSource dataSource) throws JRException;</code></li>
+</ul>
+    </content>
+  </feature>
+
+  <!-- customdatasource -->
+  
+  <feature name="customdatasource" title="Custom Data Source">
+    <description>
+How to implement a custom data source from scratch.
+    </description>
+    <since>0.1.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b>Custom Data Sources</b>
+<br/>
+<br/>
+The <code>datasource</code> sample shows how to implement some of the data sources enumerated in the 
+<a href="#dsImplementations" target="_blank">Data Source Implementations</a> section. 
+Using the same report template, it could be filled with data provided by any of these data sources, depending on the 
+<code>fill</code> argument used with the <code>ant</code> command:
+<ul>
+<li>if the argument is <code>fill1</code> then data will be extracted from the <code>CustomDataSource</code> object.</li>
+<li>if the argument is <code>fill2</code> then data will be extracted from the <code>CustomTableModel</code> object.</li>
+<li>if the argument is <code>fill3</code> then data will be extracted from the <code>CustomBeanFactory</code> object as JavaBean array.</li>
+<li>if the argument is <code>fill4</code> then data will be extracted from the <code>CustomBeanFactory</code> object as JavaBean Collection.</li>
+</ul>
+When the argument is <code>fill1</code> the data source is created from scratch. It contains an array of Object arrays, representing records of data, 
+and a record index:
+<pre><![CDATA[
+ private Object[][] data =
+  {
+   {"Berne", new Integer(22), "Bill Ott", "250 - 20th Ave."},
+   {"Berne", new Integer(9), "James Schneider", "277 Seventh Av."},
+   {"Boston", new Integer(32), "Michael Ott", "339 College Av."},
+   {"Boston", new Integer(23), "Julia Heiniger", "358 College Av."},
+   {"Chicago", new Integer(39), "Mary Karsen", "202 College Av."},
+   {"Chicago", new Integer(35), "George Karsen", "412 College Av."},
+   {"Chicago", new Integer(11), "Julia White", "412 Upland Pl."},
+   {"Dallas", new Integer(47), "Janet Fuller", "445 Upland Pl."},
+   {"Dallas", new Integer(43), "Susanne Smith", "2 Upland Pl."},
+   {"Dallas", new Integer(40), "Susanne Miller", "440 - 20th Ave."},
+   {"Dallas", new Integer(36), "John Steel", "276 Upland Pl."},
+   {"Dallas", new Integer(37), "Michael Clancy", "19 Seventh Av."},
+   {"Dallas", new Integer(19), "Susanne Heiniger", "86 - 20th Ave."},
+   {"Dallas", new Integer(10), "Anne Fuller", "135 Upland Pl."},
+   {"Dallas", new Integer(4), "Sylvia Ringer", "365 College Av."},
+   {"Dallas", new Integer(0), "Laura Steel", "429 Seventh Av."},
+   {"Lyon", new Integer(38), "Andrew Heiniger", "347 College Av."},
+   {"Lyon", new Integer(28), "Susanne White", "74 - 20th Ave."},
+   {"Lyon", new Integer(17), "Laura Ott", "443 Seventh Av."},
+   {"Lyon", new Integer(2), "Anne Miller", "20 Upland Pl."},
+   {"New York", new Integer(46), "Andrew May", "172 Seventh Av."},
+   {"New York", new Integer(44), "Sylvia Ott", "361 College Av."},
+   {"New York", new Integer(41), "Bill King", "546 College Av."},
+   {"Oslo", new Integer(45), "Janet May", "396 Seventh Av."},
+   {"Oslo", new Integer(42), "Robert Ott", "503 Seventh Av."},
+   {"Paris", new Integer(25), "Sylvia Steel", "269 College Av."},
+   {"Paris", new Integer(18), "Sylvia Fuller", "158 - 20th Ave."},
+   {"Paris", new Integer(5), "Laura Miller", "294 Seventh Av."},
+   {"San Francisco", new Integer(48), "Robert White", "549 Seventh Av."},
+   {"San Francisco", new Integer(7), "James Peterson", "231 Upland Pl."}
+  };
+  
+  private int index = -1;
+]]></pre>
+The <code>next()</code> and <code>getFieldValue(JRField)</code> are implemented in order to make possible iteration 
+through data records and field values retrieving for a given record. Field names are assumed to be: <code>the_city</code>, 
+<code>id</code>, <code>name</code> and <code>street</code>, in this order (see the /src/CustomDataSource.java source file). 
+<pre><![CDATA[
+ public boolean next() throws JRException
+ {
+  index++;
+  return (index < data.length);
+ }
+
+ public Object getFieldValue(JRField field) throws JRException
+ {
+  Object value = null;
+  String fieldName = field.getName();
+
+  if ("the_city".equals(fieldName))
+  {
+   value = data[index][0];
+  }
+  else if ("id".equals(fieldName))
+  {
+   value = data[index][1];
+  }
+  else if ("name".equals(fieldName))
+  {
+   value = data[index][2];
+  }
+  else if ("street".equals(fieldName))
+  {
+   value = data[index][3];
+  }
+
+  return value;
+ }
+]]></pre>
+At fill time a <code>CustomDataSource</code> object is passed as argument to the <code>fillReportToFile()</code> method 
+in the <api href="net/sf/jasperreports/engine/JasperFillManager.html">JasperFillManager</api> class (see the the /src/DataSourceApp.java file):
+Let's take a look at related methods in the /src/DataSourceApp.java file:
+<pre><![CDATA[
+ public void fill1() throws JRException
+ {
+  long start = System.currentTimeMillis();
+  //Preparing parameters
+  Map parameters = new HashMap();
+  parameters.put("ReportTitle", "Address Report");
+  parameters.put("DataFile", "CustomDataSource.java");
+
+  JasperFillManager.fillReportToFile("build/reports/DataSourceReport.jasper", 
+    parameters, new CustomDataSource());
+  System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+ }
+]]></pre>
+In order to figure out more on custom data sources behavior, just test this sample by running from the command line the <code>ant clean javac compile fill1 view</code> command. 
+It will generate the sample report in the /build/reports directory, filling it with data extracted from the <code>CustomDataSource</code> object.
+    </content>
+  </feature>
+
+  <!-- javabeandatasources -->
+  
+  <feature name="javabeandatasources" title="JavaBean Data Sources">
+    <description>
+How to fill reports with collections or arrays of JavaBean objects.
+    </description>
+    <since>0.1.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b><a name="javaBeanDS">JavaBean Data Sources</a></b>
+<br/>
+<br/>
+There are two data source implementations that can wrap collections or 
+arrays of JavaBean objects. Both implementations rely on Java reflection to retrieve 
+report field data from the JavaBean objects wrapped inside the data sources. These data 
+sources can be used to generate reports using data already available in-memory in the 
+form of EJBs, Hibernate, JDO objects, or even POJOs. 
+<br/>
+The <api href="net/sf/jasperreports/engine/data/JRBeanArrayDataSource.html">JRBeanArrayDataSource</api> is for 
+wrapping an array of JavaBean objects to use for filling a report with data, and the 
+<api href="net/sf/jasperreports/engine/data/JRBeanCollectionDataSource.html">JRBeanCollectionDataSource</api> is for 
+wrapping a collection of JavaBeans. Each object inside the array or the collection will be 
+seen as one record in this type of data source. 
+<br/>
+The mapping between a particular JavaBean property and the corresponding report field 
+is made by naming conventions. The name of the report field must be the same as the 
+name of the JavaBean property as specified by the JavaBeans specifications. 
+For instance, to retrieve the value of a report field named <code>address</code>, the 
+program will try to call through reflection a method called getAddress() 
+on the current JavaBean object. 
+<br/>
+Nested JavaBeans properties can be also accessed in a JavaBean data source.  
+For example, if the current JavaBean object inside the data source is of type <code>Product</code> and 
+contains nested supplier information accessible by calling the <code>getSupplier()</code> method, 
+which returns a <code>Supplier</code> object. In this case, 
+to access the <code>address</code> property inside the <code>Supplier</code> object, a report field 
+named <code>supplier.address</code> is required. 
+<br/>
+For backward-compatibility reasons, the current 
+implementations still look into the field’s description first, to locate the the JavaBean property. If there is no 
+description, then the report field name is used instead. If this 
+default behavior is not desirable, especially if the field description is already used for 
+other purposes, you can use special data source constructors that receive a flag called 
+<code>isUseFieldDescription</code> to suppress this behavior. 
+<br/>
+A special field mapping can be used to access the current JavaBean object itself. Thus, 
+when a field uses <code>_THIS</code> as description or name, the data source will return the current 
+JavaBean object as field value.  
+<br/>
+<br/>
+<b>JavaBean Data Sources Example</b>
+<br/>
+<br/>
+In our concrete example a factory class is used to provide JavaBean data sources either as JavaBean arrays or as JavaBean collections. 
+The JavaBean is defined in the /src/CustomBean.java file. It contains 4 accessible properties, and a supplementary <code>getMe()</code> 
+method which returns a reference to the object itself:
+<pre><![CDATA[
+public class CustomBean
+{
+ private String city;
+ private Integer id;
+ private String name;
+ private String street;
+
+ public CustomBean(
+  String pcity,
+  Integer pid,
+  String pname,
+  String pstreet
+  )
+ {
+  city = pcity;
+  id = pid;
+  name = pname;
+  street = pstreet;
+ }
+
+ public CustomBean getMe()
+ {
+  return this;
+ }
+
+ public String getCity()
+ {
+  return city;
+ }
+
+ public Integer getId()
+ {
+  return id;
+ }
+
+ public String getName()
+ {
+  return name;
+ }
+
+ public String getStreet()
+ {
+  return street;
+ }
+}
+]]></pre>
+Note that one of the CustomBean properties is named <code>city</code>. In the report template there is no corresponding field 
+named <code>city</code>. A field named <code>the_city</code> exists instead. In this case, the field mapping is done through the 
+&lt;fieldDescription/&gt; as described in the <a href="#javaBeanDS">JavaBean Data Sources</a> section. The CustomBean object is reffered 
+to as <code>me</code>, with the associated getter <code>getMe()</code> method:
+<br/>
+<br/>
+<code>
+&#160;&#160;&lt;field name="the_city" class="java.lang.String"&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;fieldDescription&gt;&lt;![CDATA[me.city]]&gt;&lt;/fieldDescription&gt;
+<br/>
+&#160;&#160;&lt;/field&gt;
+</code>
+<br/>
+<br/>
+The factory class is defined in the /src/CustomBeanFactory.java file. It contains an array of <code>CustomBean</code> objects and two getter methods:
+<pre><![CDATA[
+public class CustomBeanFactory
+{
+ private static CustomBean[] data =
+  {
+   new CustomBean("Berne", new Integer(9), "James Schneider", "277 Seventh Av."),
+   new CustomBean("Berne", new Integer(22), "Bill Ott", "250 - 20th Ave."),
+   new CustomBean("Boston", new Integer(23), "Julia Heiniger", "358 College Av."),
+   new CustomBean("Boston", new Integer(32), "Michael Ott", "339 College Av."),
+   new CustomBean("Chicago", new Integer(39), "Mary Karsen", "202 College Av."),
+   new CustomBean("Chicago", new Integer(35), "George Karsen", "412 College Av."),
+   new CustomBean("Chicago", new Integer(11), "Julia White", "412 Upland Pl."),
+   new CustomBean("Dallas", new Integer(47), "Janet Fuller", "445 Upland Pl."),
+   new CustomBean("Dallas", new Integer(43), "Susanne Smith", "2 Upland Pl."),
+   new CustomBean("Dallas", new Integer(40), "Susanne Miller", "440 - 20th Ave."),
+   new CustomBean("Dallas", new Integer(36), "John Steel", "276 Upland Pl."),
+   new CustomBean("Dallas", new Integer(37), "Michael Clancy", "19 Seventh Av."),
+   new CustomBean("Dallas", new Integer(19), "Susanne Heiniger", "86 - 20th Ave."),
+   new CustomBean("Dallas", new Integer(10), "Anne Fuller", "135 Upland Pl."),
+   new CustomBean("Dallas", new Integer(4), "Sylvia Ringer", "365 College Av."),
+   new CustomBean("Dallas", new Integer(0), "Laura Steel", "429 Seventh Av."),
+   new CustomBean("Lyon", new Integer(38), "Andrew Heiniger", "347 College Av."),
+   new CustomBean("Lyon", new Integer(28), "Susanne White", "74 - 20th Ave."),
+   new CustomBean("Lyon", new Integer(17), "Laura Ott", "443 Seventh Av."),
+   new CustomBean("Lyon", new Integer(2), "Anne Miller", "20 Upland Pl."),
+   new CustomBean("New York", new Integer(46), "Andrew May", "172 Seventh Av."),
+   new CustomBean("New York", new Integer(44), "Sylvia Ott", "361 College Av."),
+   new CustomBean("New York", new Integer(41), "Bill King", "546 College Av."),
+   new CustomBean("Oslo", new Integer(45), "Janet May", "396 Seventh Av."),
+   new CustomBean("Oslo", new Integer(42), "Robert Ott", "503 Seventh Av."),
+   new CustomBean("Paris", new Integer(25), "Sylvia Steel", "269 College Av."),
+   new CustomBean("Paris", new Integer(18), "Sylvia Fuller", "158 - 20th Ave."),
+   new CustomBean("Paris", new Integer(5), "Laura Miller", "294 Seventh Av."),
+   new CustomBean("San Francisco", new Integer(48), "Robert White", "549 Seventh Av."),
+   new CustomBean("San Francisco", new Integer(7), "James Peterson", "231 Upland Pl.")
+  };  
+		
+ public static Object[] getBeanArray()
+ {
+  return data;
+ }
+
+ public static Collection getBeanCollection()
+ {
+  return Arrays.asList(data);
+ }
+}
+]]></pre>
+Using the same report template, it could be filled with data provided either as CustomBean array or as CustomBean Collection, depending on the 
+<code>fill</code> argument used with the <code>ant</code> command:
+<ul>
+<li>if the argument is <code>fill3</code> then data will be extracted as JavaBean array, using the <code>getBeanArray()</code> method. 
+At fill time, a <code>JRBeanArrayDataSource</code> object is passed as argument to the <code>fillReportToFile()</code> method 
+in the <api href="net/sf/jasperreports/engine/JasperFillManager.html">JasperFillManager</api> class.</li>
+<li>if the argument is <code>fill4</code> then data will be extracted as JavaBean Collection (<code>java.util.List</code>), using the <code>getBeanCollection()</code> method. 
+At fill time, a <code>JRBeanCollectionDataSource</code> object is passed as argument to the <code>fillReportToFile()</code> method 
+in the <api href="net/sf/jasperreports/engine/JasperFillManager.html">JasperFillManager</api> class.</li>
+</ul>
+Let's take a look at related report filling methods in the /src/DataSourceApp.java file:
+<pre><![CDATA[
+ public void fill3() throws JRException
+ {
+  long start = System.currentTimeMillis();
+  //Preparing parameters
+  Map parameters = new HashMap();
+  parameters.put("ReportTitle", "Address Report");
+  parameters.put("DataFile", "CustomBeanFactory.java - Bean Array");
+
+  JasperFillManager.fillReportToFile("build/reports/DataSourceReport.jasper", 
+    parameters, new JRBeanArrayDataSource(CustomBeanFactory.getBeanArray()));
+  System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+ }
+
+ public void fill4() throws JRException
+ {
+  long start = System.currentTimeMillis();
+  //Preparing parameters
+  Map parameters = new HashMap();
+  parameters.put("ReportTitle", "Address Report");
+  parameters.put("DataFile", "CustomBeanFactory.java - Bean Collection");
+
+  JasperFillManager.fillReportToFile("build/reports/DataSourceReport.jasper", 
+    parameters, new JRBeanCollectionDataSource(CustomBeanFactory.getBeanCollection()));
+  System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+ }
+]]></pre>
+In order to figure out more on JavaBean data sources behavior, just test this sample by running from the command line the <code>ant clean javac compile fill3 view</code> command and then 
+<code>ant clean javac compile fill4 view</code>. 
+It will generate the sample report filling it with data extracted from a <code>JRBeanArrayDataSource</code> data source, 
+and then the same report will be generated with data extracted from a <code>JRBeanCollectionDataSource</code> data source.
+    </content>
+  </feature>
+
+  <!-- tablemodeldatasource -->
+  
+  <feature name="tablemodeldatasource" title="TableModel Data Source">
+    <description>
+How to wrap a custom TableModel implementation into a report data source. 
+    </description>
+    <since>0.3.3</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b><a name="tableModelDS">TableModel Data Sources</a></b>
+<br/>
+<br/>
+In some Swing-based desktop client applications, the reporting data might already be 
+available in the form of a <code>javax.swing.table.TableModel</code> implementation used for 
+rendering <code>javax.swing.JTable</code> components on various forms. JasperReports can 
+generate reports using this kind of data if a given <code>TableModel</code> object is wrapped in a 
+<api href="net/sf/jasperreports/engine/data/JRTableModelDataSource.html">JRTableModelDataSource</api> instance before 
+being passed as the data source for the report-filling process. 
+<br/>
+There are two ways to use this type of data source. Normally, to retrieve data from it, 
+one must declare a report field for each column in the 
+<code>TableModel</code> object bearing the same name as the column it 
+maps. Sometimes it is not possible or desirable to use the column name, however, 
+because the report field name and columns could still be bound to report fields using 
+their zero-based index instead of their names. 
+<br/>
+For instance, if is known that a particular column is the third column in the table model 
+object (index=2), then one could name the corresponding field "COLUMN_2" and use the 
+column data without problems. 
+<br/>
+An example of <code>TableModel</code> data source implementation is provided in the following section.
+<br/>
+<br/>
+<b>TableModel Data Source Example</b>
+<br/>
+<br/>
+In our example the <code>TableModel</code> data source is implemented in the /src/CustomTableModel.java file. 
+It contains an array of column names and an array of Object arrays, representing records of data in the data source. 
+Column names are identical to their related field names in the report template: <code>the_city</code>, 
+<code>id</code>, <code>name</code> and <code>street</code>. Methods required by the <code>javax.swing.table.AbstractTableModel</code> 
+parent class are also implemented.
+<pre><![CDATA[
+ public class CustomTableModel extends AbstractTableModel
+ {
+  private String[] columnNames = {"the_city", "id", "name", "street"};
+
+  private Object[][] data =
+  {
+   {"Berne", new Integer(22), "Bill Ott", "250 - 20th Ave."},
+   {"Berne", new Integer(9), "James Schneider", "277 Seventh Av."},
+   {"Boston", new Integer(32), "Michael Ott", "339 College Av."},
+   {"Boston", new Integer(23), "Julia Heiniger", "358 College Av."},
+   {"Chicago", new Integer(39), "Mary Karsen", "202 College Av."},
+   {"Chicago", new Integer(35), "George Karsen", "412 College Av."},
+   {"Chicago", new Integer(11), "Julia White", "412 Upland Pl."},
+   {"Dallas", new Integer(47), "Janet Fuller", "445 Upland Pl."},
+   {"Dallas", new Integer(43), "Susanne Smith", "2 Upland Pl."},
+   {"Dallas", new Integer(40), "Susanne Miller", "440 - 20th Ave."},
+   {"Dallas", new Integer(36), "John Steel", "276 Upland Pl."},
+   {"Dallas", new Integer(37), "Michael Clancy", "19 Seventh Av."},
+   {"Dallas", new Integer(19), "Susanne Heiniger", "86 - 20th Ave."},
+   {"Dallas", new Integer(10), "Anne Fuller", "135 Upland Pl."},
+   {"Dallas", new Integer(4), "Sylvia Ringer", "365 College Av."},
+   {"Dallas", new Integer(0), "Laura Steel", "429 Seventh Av."},
+   {"Lyon", new Integer(38), "Andrew Heiniger", "347 College Av."},
+   {"Lyon", new Integer(28), "Susanne White", "74 - 20th Ave."},
+   {"Lyon", new Integer(17), "Laura Ott", "443 Seventh Av."},
+   {"Lyon", new Integer(2), "Anne Miller", "20 Upland Pl."},
+   {"New York", new Integer(46), "Andrew May", "172 Seventh Av."},
+   {"New York", new Integer(44), "Sylvia Ott", "361 College Av."},
+   {"New York", new Integer(41), "Bill King", "546 College Av."},
+   {"Oslo", new Integer(45), "Janet May", "396 Seventh Av."},
+   {"Oslo", new Integer(42), "Robert Ott", "503 Seventh Av."},
+   {"Paris", new Integer(25), "Sylvia Steel", "269 College Av."},
+   {"Paris", new Integer(18), "Sylvia Fuller", "158 - 20th Ave."},
+   {"Paris", new Integer(5), "Laura Miller", "294 Seventh Av."},
+   {"San Francisco", new Integer(48), "Robert White", "549 Seventh Av."},
+   {"San Francisco", new Integer(7), "James Peterson", "231 Upland Pl."}
+  };
+
+  public CustomTableModel()
+  {
+  }
+
+  public int getColumnCount()
+  {
+   return this.columnNames.length;
+  }
+
+  public String getColumnName(int columnIndex)
+  {
+   return this.columnNames[columnIndex];
+  }
+
+  public int getRowCount()
+  {
+   return this.data.length;
+  }
+
+  public Object getValueAt(int rowIndex, int columnIndex)
+  {
+   return this.data[rowIndex][columnIndex];
+  }
+ }
+]]></pre>
+When the <code>ant</code> command is used with the <code>fill2</code> argument, at fill time a 
+<code>JRTableModelDataSource</code> object is passed as argument to the <code>fillReportToFile()</code> method 
+in the <api href="net/sf/jasperreports/engine/JasperFillManager.html">JasperFillManager</api> class (see the /src/DataSourceApp.java file):
+<pre><![CDATA[
+ public void fill2() throws JRException
+ {
+  long start = System.currentTimeMillis();
+  //Preparing parameters
+  Map parameters = new HashMap();
+  parameters.put("ReportTitle", "Address Report");
+  parameters.put("DataFile", "CustomTableModel.java");
+
+  JasperFillManager.fillReportToFile("build/reports/DataSourceReport.jasper", 
+    parameters, new JRTableModelDataSource(new CustomTableModel()));
+  System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+ }
+]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/datasource</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/datasource/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

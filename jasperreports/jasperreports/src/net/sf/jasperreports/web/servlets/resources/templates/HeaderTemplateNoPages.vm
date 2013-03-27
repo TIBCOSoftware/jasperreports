@@ -1,0 +1,3 @@
+<div class='response'>
+<div id='reportStatus' data-currentPage='${currentPage}' #if(${totalPages}) data-totalpages='${totalPages}' #end #if(${pageTimestamp}) data-pagetimestamp='${pageTimestamp}' #end></div>
+<div class='result'>

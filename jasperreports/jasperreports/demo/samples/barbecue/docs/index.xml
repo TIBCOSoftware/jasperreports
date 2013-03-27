@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>barbecue</name>
+  <title>Barbecue Sample</title>
+  <description>Shows how barcodes could be included in reports using the Barbecue component.</description>
+
+  <mainFeature ref="barbecue"/>
+  <secondaryFeature name="barcodes" sample="barcode4j" title="Barcodes"/>
+  
+  <!-- barbecue -->
+  
+  <feature name="barbecue" title="Barcodes (Barbecue Custom Component)">
+    <description>
+Shows how to render barcodes in a report, using the barcode component based on the <a href="http://barbecue.sourceforge.net">Barbecue</a> library.
+    </description>
+    <since>3.5.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b>The Barbecue Library</b>
+<br/>
+<br/>
+As shown in the <a href="../barcode4j/index.html#barcodes" target="_blank">Barcodes</a> section, the use of barcodes became universal. Depending on particular needs, 
+there are several barcode specifications, called symbologies. This sample illustrates how to use the built-in component based on the open source 
+<a href="http://barbecue.sourceforge.net" target="_blank">Barbecue</a> library. 
+<br/>
+<br/>
+The <code>Barbecue</code> library supports the following barcode formats:
+<ul>
+<li><code>2 of 7 (Codabar)</code></li>
+<li><code>3 of 9 (Code 39)</code></li>
+<li><code>Bookland</code></li>
+<li><code>Codabar</code></li>
+<li><code>Code 128</code></li>
+<li><code>Code 128A</code></li>
+<li><code>Code 128B</code></li>
+<li><code>Code 128C</code></li>
+<li><code>Code 39</code></li>
+<li><code>Code 39 (Extended)</code></li>
+<li><code>EAN 128</code></li>
+<li><code>EAN 13</code></li>
+<li><code>Global Trade Item Number</code></li>
+<li><code>Interleave 2 of 5</code></li>
+<li><code>Monarch</code></li>
+<li><code>NW7</code></li>
+<li><code>PDF417</code></li>
+<li><code>PostNet</code></li>
+<li><code>Random Weight UPCA</code></li>
+<li><code>SCC-14 Shipping Code</code></li>
+<li><code>Shipment Identification Number</code></li>
+<li><code>SSCC-18</code></li>
+<li><code>Standard 2 of 5</code></li>
+<li><code>UCC 128</code></li>
+<li><code>UPCA</code></li>
+<li><code>USD-3</code></li>
+<li><code>USD-4</code></li>
+<li><code>USPS</code></li>
+</ul>
+It also provides support for multiple output formats:
+<ul>
+<li><code>PNG</code></li>
+<li><code>GIF</code></li>
+<li><code>JPEG</code></li>
+</ul>
+<b>The Barbecue Component</b>
+<br/>
+<br/>
+According to the <a href="../../components.schema.reference.html#barbecue" target="_blank">barbecue</a> element in the 
+<a href="../../components.schema.reference.html">components.xsd</a> schema, to completely determine a barcode, the following 
+pieces are needed:
+<br/>
+<br/>
+Elements:
+<ul>
+<li><code>codeExpression</code> - representing the alphanumeric character sequence for the barcode</li>
+<li><code>applicationIdentifierExpression</code> - useful when the 
+<a href="http://barbecue.sourceforge.net/apidocs/net/sourceforge/barbecue/linear/ean/UCCEAN128Barcode.html" target="_blank">UCCEAN128Barcode</a>
+class is involved, to distinguis between various barcode providers.</li>
+<li><code></code></li>
+<li><code></code></li>
+<li><code></code></li>
+<li><code></code></li>
+</ul>
+Attributes:
+<ul>
+<li><code>type</code> - determines the symbology used to generate the barcode. Allowed values are:
+<ul>
+<li><code>2of7</code></li>
+<li><code>3of9</code></li>
+<li><code>Bookland</code></li>
+<li><code>Codabar</code></li>
+<li><code>Code128</code></li>
+<li><code>Code128A</code></li>
+<li><code>Code128B</code></li>
+<li><code>Code128C</code></li>
+<li><code>Code39</code></li>
+<li><code>Code39 (Extended)</code></li>
+<li><code>EAN128</code></li>
+<li><code>EAN13</code></li>
+<li><code>GlobalTradeItemNumber</code></li>
+<li><code>Int2of5</code></li>
+<li><code>Monarch</code></li>
+<li><code>NW7</code></li>
+<li><code>PDF417</code></li>
+<li><code>PostNet</code></li>
+<li><code>RandomWeightUPCA</code></li>
+<li><code>SCC14ShippingCode</code></li>
+<li><code>ShipmentIdentificationNumber</code></li>
+<li><code>SSCC18</code></li>
+<li><code>Std2of5</code></li>
+<li><code>UCC128</code></li>
+<li><code>UPCA</code></li>
+<li><code>USD3</code></li>
+<li><code>USD4</code></li>
+<li><code>USPS</code></li>
+</ul>
+</li>
+<li><code>drawText</code> - specifies whether the text information should be visible in the generated barcode</li>
+<li><code>checksumRequired</code> - specifies whether the checksum is required for the barcode</li>
+<li><code>barWidth</code> - represents the width (in pixels) of the thinnest bar in the barcode</li>
+<li><code>barHeight</code> - represents the height (in pixels) for the bars in the barcode</li>
+<li><code>evaluationTime</code> - represents the report element evaluation time</li>
+<li><code>evaluationGroup</code> - represents the report element evaluation group name</li>
+<li><code>rotation</code> - represents the type of orientation for the barcode object.Allowed values are:
+<ul>
+<li><code>None</code></li>
+<li><code>Left</code></li>
+<li><code>Right</code></li>
+<li><code>UpsideDown</code></li>
+</ul>
+</li>
+</ul>
+<b>The Barbecue Sample</b>
+<br/>
+<br/>
+The sample shows how can be used the <code>barbecue</code> component to compute various barcodes:
+<pre><![CDATA[
+<parameter name="Code" class="java.lang.String">
+  <defaultValueExpression><![CDATA["01234567890"]] ></defaultValueExpression>
+</parameter>
+...
+<componentElement>
+  <reportElement x="0" y="100" width="400" height="50"/>
+  <c:barbecue xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd" 
+    type="Code128" 
+    drawText="true" 
+    checksumRequired="false">
+    <c:codeExpression><![CDATA["JasperReports"]] ></c:codeExpression>
+  </c:barbecue>
+</componentElement>
+<componentElement>
+  <reportElement x="0" y="160" width="400" height="50"/>
+  <c:barbecue xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd" 
+    type="Codabar" 
+    drawText="true" 
+    checksumRequired="false">
+    <c:codeExpression><![CDATA[$P{Code}]] ></c:codeExpression>
+  </c:barbecue>
+</componentElement>
+<componentElement>
+  <reportElement x="0" y="220" width="400" height="50"/>
+  <c:barbecue xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd" 
+    type="Int2of5" 
+    drawText="true" 
+    checksumRequired="true" 
+    barWidth="3" 
+    barHeight="20">
+    <c:codeExpression><![CDATA[$P{Code}]] ></c:codeExpression>
+  </c:barbecue>
+</componentElement>
+<componentElement>
+  <reportElement x="0" y="280" width="400" height="50"/>
+  <c:barbecue xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
+    http://jasperreports.sourceforge.net/xsd/components.xsd" 
+    type="Std2of5" 
+    drawText="false" 
+    checksumRequired="false">
+    <c:codeExpression><![CDATA[$P{Code}]] ></c:codeExpression>
+  </c:barbecue>
+</componentElement>
+...]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/barbecue</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/barbecue/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+
+    </content>
+  </feature>
+
+</sample>

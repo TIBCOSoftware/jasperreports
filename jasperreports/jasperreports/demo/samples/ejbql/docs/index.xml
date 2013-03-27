@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>ejbql</name>
+  <title>EJBQL Sample</title>
+  <description>Shows how EJBQL could be used in reports.</description>
+
+  <mainFeature ref="ejbql"/>
+  <secondaryFeature name="queryexecuters" sample="hibernate" title="Query Executers"/>
+  
+  <!-- ejbql -->
+  
+  <feature name="ejbql" title="EJBQL Query Executer">
+    <description>
+How to fill reports using embedded EJBQL queries.
+    </description>
+    <since>1.2.3</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="csvdatasource"/>
+  	<otherSample ref="hibernate"/>
+  	<otherSample ref="mondrian"/>
+  	<otherSample ref="xmldatasource"/>
+    <content>
+<subtitle name="overview">The EJB QL/JPA Query Executer</subtitle>
+<br/> 
+<br/>
+The EJB QL report query executer adds support for reporting on EJB 3.0 persistent entities data. For an EJB QL query in a report, the query 
+executer will use the EJB 3.0 Java Persistence API to execute the query against an entity manager provided at runtime, and use the query 
+result as a data source for the report. 
+<br/>
+The built-in <api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">EJB QL query executer</api> is registered by default for 
+queries having <code>EJBQL</code> or <code>ejbql</code> set as their language. This mapping can be changed by using the related JasperReports 
+properties (see properties in the category  
+<a href="../../config.reference.html#net.sf.jasperreports.query.executer.factory.{language}" target="_blank">
+net.sf.jasperreports.query.executer.factory.{language}
+</a>).
+<br/>
+Two built-in parameters are involved in the query execution:
+<ul>
+<li><api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuterFactory.html#PARAMETER_JPA_ENTITY_MANAGER">PARAMETER_JPA_ENTITY_MANAGER</api> - that 
+specifies the entity manager to be used for executing the query, depending on the particular EJB/JPA environment and implementation</li>
+<li><api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuterFactory.html#JPA_QUERY_HINTS_MAP">JPA_QUERY_HINTS_MAP</api> - that contains a map with 
+hint values mapped on hint names, to be used when running the query. Hints can also be specified statically by using report properties. The query executer 
+treats any report property in the category <code>net.sf.jasperreports.ejbql.query.hint.{hintName}</code> as a hint by interpreting the property suffix as 
+the hint name and the property value as the hint value.</li>
+</ul>
+An example of query hint property is the following:
+<pre><![CDATA[
+<property name="net.sf.jasperreports.ejbql.query.hint.cacheType" value="Shared"/>]]></pre>
+A separate report property can be used to paginate the query result in order to control the amount of Java heap space used by the query executer while 
+filling the report. The property can be set in the following manner: 
+<pre><![CDATA[
+<property name="net.sf.jasperreports.ejbql.query.page.size" value="500"/>]]></pre>
+meaning that the query result will be fetched in chunks containing 500 rows each. The pagination is achieved via the <code>javax.persistence.Query.setMaxResults()</code> 
+and <code>setFirstResult()</code> methods. Obviously, using pagination could result in performance loss. Therefore enabling it is primarily recommended when the query 
+results are very large.
+<br/>
+The result of the query execution is sent to a data source implementation, which iterates over it and extracts report field values. Fields are mapped to specific values 
+in the query result by specifying the mapping as field description or field name. The JPA data source can handle two types of query results: 
+<ul>
+<li>Queries returning a single entity/bean per row - in this case field mappings are interpreted as bean property names.</li>
+<li>Queries returning object tuples as rows - fields are mapped using one of the following forms:
+<ul>
+<li><code>COLUMN_&lt;index&gt;</code> - the field is mapped to a value specified by its position in the resulting tuple. The positions start from 1.</li>
+<li><code>COLUMN_&lt;index&gt;.&lt;property&gt;</code> - the field is mapped to a property of a value specified by its position in the resulting tuple.</li>
+</ul>
+</li>
+</ul>
+<subtitle name="sample">The EJB QL/JPA Query Executer Sample</subtitle>
+<br/> 
+<br/>
+The movie database sample in the <code>demo/samples/ejbql</code> directory is structured as follows:
+<ul>
+<li>the <code>data</code> directory contains the SQL script that creates and populates the following tables in the built-in HSQL database:
+<ul>
+<li><code>PERSON</code> - stores people IDs and names</li>
+<li><code>MOVIE</code> - stores movie ID, director, title, genre and release date informations</li>
+<li><code>MOVIE_CAST</code> - stores ID, movie ID, actor ID, character and role importance</li>
+<li><code>MOVIE_VARIA</code> - stores ID, movie ID, type, description, importance</li>
+</ul>
+</li>
+<li>the <code>docs</code> directory contains the xml file used to generate this documentation</li>
+<li>the <code>lib</code> directory contains 3-rd party jars with necessary persistence APIs</li>
+<li>the <code>reports</code> directory contains, as usual, report templates (1 master and 2 subreports)</li>
+<li>the <code>src</code> directory contains
+<ul>
+<li>a <code>META-INF</code> subdirectory with the <code>persistence.xml</code> persistence configuration file:
+<pre><![CDATA[
+<persistence-unit name="pu1">
+  <!-- Provider class name is required in Java SE -->
+  <provider>oracle.toplink.essentials.ejb.cmp3.EntityManagerFactoryProvider</provider>
+  <!-- All persistence classes must be listed -->
+  <class>Person</class>
+  <class>Movie</class>
+  <class>Cast</class>
+  <class>Varia</class>    
+  <properties>
+    <!-- Provider-specific connection properties -->
+    <property name="toplink.jdbc.driver" value="org.hsqldb.jdbcDriver"/>
+    <property name="toplink.jdbc.url" value="jdbc:hsqldb:file:build/db"/>
+    <property name="toplink.jdbc.user" value="sa"/>
+    <property name="toplink.jdbc.password" value=""/>
+    <!-- Provider-specific settings -->
+    <property name="toplink.logging.level" value="DEBUG"/>
+    <property name="toplink.platform.class.name" value="oracle.toplink.essentials.platform.database.HSQLPlatform"/>
+  </properties>    
+</persistence-unit>]]></pre></li>
+<li>the annotated entity classes mapped on the tables in the database: <code>Person</code>, <code>Movie</code>, <code>Cast</code> and <code>Varia</code>. 
+Corresponding tables are specified in the @Table annotation:
+<pre><![CDATA[
+@Entity
+@Table(name="movie_cast")
+public class Cast {
+...
+}]]></pre></li>
+<li>the <code>EjbqlApp.java</code> file that hosts the <code>main</code> method.</li>
+</ul>
+</li>
+</ul>
+The <code>reports/JRMDbReport.jrxml</code> master report is structured to present movies in the database along with their additional informations, such as 
+casting, awards, quotes, etc. Casts are managed separately in the <code>reports/JRMDbCastSubreport.jrxml</code> template, and the rest of additional 
+information is provided by the <code>reports/JRMDbVariaSubreport.jrxml</code>
+<br/>
+Looking into the <code>reports/JRMDbReport.jrxml</code>, one could notice the specific hint properties, the EJB QL query syntax, report fields declarations 
+and how the subreports were set:
+<pre><![CDATA[
+...
+<property name="net.sf.jasperreports.ejbql.query.hint.fetchSize" value="50"/>
+<property name="net.sf.jasperreports.ejbql.query.page.size" value="100"/>
+<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+...
+<queryString language="ejbql">
+  <![CDATA[SELECT   m
+    FROM     Movie m
+    WHERE    m.releaseDate BETWEEN $P{DateFrom} AND $P{DateTo}
+    ORDER BY $P!{OrderClause}]] >
+</queryString>
+<field name="id" class="java.lang.Integer"/>
+<field name="director.name" class="java.lang.String"/>
+<field name="title" class="java.lang.String"/>
+<field name="genre" class="java.lang.String"/>
+<field name="releaseDate" class="java.sql.Date"/>
+<field name="cast" class="java.util.Collection"/>
+...
+<detail>
+  <band height="45">
+    ...
+    <subreport>
+      <reportElement positionType="Float" x="15" y="25" width="245" height="20" isRemoveLineWhenBlank="true" backcolor="#99CCFF"/>
+      <dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{cast})]] ></dataSourceExpression>
+      <subreportExpression class="java.lang.String"><![CDATA["JRMDbCastSubreport.jasper"]] ></subreportExpression>
+    </subreport>
+    <subreport>
+      <reportElement positionType="Float" x="270" y="25" width="245" height="20" isRemoveLineWhenBlank="true" backcolor="#99CCFF"/>
+      <subreportParameter name="MovieId">
+        <subreportParameterExpression><![CDATA[$F{id}]] ></subreportParameterExpression>
+      </subreportParameter>
+      <subreportParameter name="JPA_ENTITY_MANAGER">
+        <subreportParameterExpression><![CDATA[$P{JPA_ENTITY_MANAGER}]] ></subreportParameterExpression>
+      </subreportParameter>
+      <subreportExpression class="java.lang.String"><![CDATA["JRMDbVariaSubreport.jasper"]] ></subreportExpression>
+    </subreport>
+  </band>
+</detail>
+...]]></pre>
+The Movie entities provide an <code>id</code>, a <code>director</code> (who is a <code>Person</code> entity), a <code>title</code>, 
+a <code>genre</code>, <code>releaseDate</code> and a collection of <code>cast</code> entities. Notice the report field 
+<code>director.name</code> that refers to the <code>name property in the <code>director</code> entity.</code>
+<br/>
+The casts collection in the <code>cast</code> field is passed as a <code>JRBeanCollectionDataSource</code> to the casting subreport.
+<br/>
+The <code>Varia</code> subreport has no expression for data source/connection, but takes the built-in <code>JPA_ENTITY_MANAGER</code> parameter 
+into consideration, and the movie ID, in order to identify the <code>Varia</code> entities related to the movie.
+<br/>
+The <code>reports/JRMDbCastSubreport.jrxml</code> provides no query, because the data source comes already prepared here. There are two fields 
+declared in the report:
+<pre><![CDATA[
+<field name="actor.name" class="java.lang.String"/>
+<field name="character" class="java.lang.String"/>]]></pre>
+Again, the <code>actor.name</code> field references the <code>name</code> property in the <code>actor</code> entity of type <code>Person</code>.
+<br/>
+In the <code>reports/JRMDbVariaSubreport.jrxml</code> one could notice the presence of an EJB QL query and field descriptions based on column positions:
+<pre><![CDATA[
+...
+<parameter name="MovieId" class="java.lang.Integer"/>
+<queryString language="ejbql">
+  <![CDATA[SELECT   v.type, v.description
+    FROM     Varia v
+    WHERE    v.movie.id = $P{MovieId}
+    ORDER BY v.importance]] >
+</queryString>
+<field name="type" class="java.lang.String">
+  <fieldDescription><![CDATA[COLUMN_1]] ></fieldDescription>
+</field>
+<field name="description" class="java.lang.String">
+  <fieldDescription><![CDATA[COLUMN_2]] ></fieldDescription>
+</field>
+...
+]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/ejbql</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/ejbql/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+
+    </content>
+  </feature>
+
+</sample>

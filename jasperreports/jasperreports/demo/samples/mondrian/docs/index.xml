@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>mondrian</name>
+  <title>Mondrian Sample</title>
+  <description>Shows how MDX queries could be used to generate a report.</description>
+
+  <mainFeature ref="mondrian"/>
+  <secondaryFeature name="queryexecuters" sample="hibernate" title="Query Executers"/>
+  
+  <!-- mondrian -->
+  
+  <feature name="mondrian" title="Mondrian (MDX) Query Executer">
+    <description>
+How to fill reports using embedded MDX queries.
+    </description>
+    <since>1.2.3</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="csvdatasource"/>
+  	<otherSample ref="ejbql"/>
+  	<otherSample ref="hibernate"/>
+  	<otherSample ref="xmldatasource"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl">
+	<name>jndi</name>
+	<driver>org.hsqldb.jdbcDriver</driver>
+	<username>sa</username>
+	<password></password>
+	<savePassword>true</savePassword>
+	<url>jdbc:hsqldb:hsql://localhost</url>
+	<database></database>
+	<serverAddress></serverAddress>
+	<classpathPaths>organization_1/jars/hsqldb-1.8.0-10.jar</classpathPaths>
+</jdbcDataAdapter>

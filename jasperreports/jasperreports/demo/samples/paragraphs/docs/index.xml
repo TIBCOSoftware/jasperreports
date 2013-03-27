@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>paragraphs</name>
+  <title>Paragraph Sample</title>
+  <description>Shows how to work with paragraphs.</description>
+
+  <mainFeature ref="paragraphs"/>
+  
+  <!-- paragraphs -->
+  
+  <feature name="paragraphs" title="Paragraphs">
+    <description>
+How to format texts using paragraph properties.
+    </description>
+    <since>4.0.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.org</email>
+      </author>
+    </documentedBy>
+    <content>
+    </content>
+  </feature>
+
+</sample>

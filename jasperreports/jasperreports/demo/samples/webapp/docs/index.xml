@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>webapp</name>
+  <title>Webapp Sample</title>
+  <description>Shows how reporting functionality could be added to a Web application.</description>
+
+  <mainFeature ref="webapp"/>
+  
+  <!-- webapp -->
+  
+  <feature name="webapp" title="Deploying Reports in Web Applications">
+    <description>
+How to add reporting functionality to a Web application.
+    </description>
+    <since>0.4.4</since>
+    <documentedBy>
+      <author>
+    	<name>Luke Shannon</name>
+    	<email>lshannon@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+    Once a report is created the next challenge is to make this available to your report users. This sample <br/>
+	reviews embedding a JasperReports template into a Java Application.<br/>
+	The technology used are simple Servlets and JSP.<br/>
+	This sample also demonstrates:
+	<ul>
+		<li>Configuring and using several of the JasperReports exporters</li>
+		<li>Viewing a report in Flash</li>
+		<li>Viewing a report in an Applet</li>
+		<li>Creating and using an XML Datasource</li>
+	</ul>
+	<br/>
+	<br/>
+	<b>Setting Up The Sample</b>
+	<i>Prerequisites</i><br/>
+    Ant is required. By running 'ant --version' you will be able to check if ant is set up on your system (at least version 1.5 is required):<br />
+    <pre>
+    <![CDATA[
+    C:\>ant -version Apache Ant version 1.8.0 compiled on February 1 2010
+	]]>
+	</pre>
+	You can obtain ant from http://ant.apache.org/, instructions for installation can be found there as well.
+	<br/>
+	Also before generating this sample you will need to run the jar ant command in the build file at the <br/>
+	in the root of the project. This will generate JasperReports jar files in the dist directory of the root <br/>
+	level. These jars are using in the web app sample, the sample will not function without them.
+	<br/>
+	 <i>Generating the Application</i>
+    <br/>
+    Open up a separate command prompt/terminal window and browse to the root directory of the sample.
+    <br/>
+    By running 'ant -p' you will be presented with a list of options available. Of interest in this list is all the exporters available for testing.
+    <br/>
+    By running the command 'war' the following actions will be performed:
+    <br/>
+    <ul>
+    <li>All the dependancies will be copied to the WEB-INF\lib directory</li>
+	<li>All required Java classes will be compiled</li>
+	<li>The dependancies, class files and any other files will be packaged into a war file</li>
+    </ul>
+	The war file will be generated in the root level of the project. This file can be deployed in a Java application server such as Tomcat (simply place<br/>
+	the file in the webapps folder and restart the server).
+    <br/>
+    You now have a working version of the app you can review.
+    <br/>
+    <br/>
+	<b>Folder Structure and Resources</b>
+	<br/>
+	<b>Compiling the JRXML</b>
+	<br/>
+	<b>Filling the Report</b>
+	<br/>
+	<b>Exporting the Report</b>
+	<br/>
+	<b>Applet Viewer</b>
+	<br/>
+	<b>Flash Viewer</b>
+	<br/>
+	<b>Further Resources:</b>
+    <br/>
+    JasperReports Ultimate Guide (available from the JasperSoft eShop)<br/>
+    iReport Ultimate Guide (available from the JasperSoft eShop)<br/>
+    </content>
+  </feature>
+
+</sample>

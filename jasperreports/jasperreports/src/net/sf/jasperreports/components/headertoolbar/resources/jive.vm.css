@@ -1,0 +1,626 @@
+button::-moz-focus-inner {
+    padding: 0 !important;
+    border: 0 none !important;
+}
+
+#jive_overlay {
+    position:absolute;
+    z-index:9;
+    border-top:solid 1px #AEB2B7;
+    border-left:solid 1px #AEB2B7;
+    border-bottom:solid 1px #AEB2B7;
+}
+#jive_overlay > div {
+    position:absolute;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    background:#c0c0c0;
+    opacity:0.3;
+    filter: alpha(opacity=30);
+}
+#jive_marker{
+    position:absolute;
+    width:10px;
+    cursor: e-resize;
+    border-left:dotted 1px #555;
+    z-index:10;
+}
+#jive_marker_icon{
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/dragMarker.png);
+    width:18px;
+    height:16px;
+    position:relative;
+    top:-16px;
+    left:-10px;
+}
+#jive_foobar {
+    position:absolute;
+    border:solid 1px #ccc;
+    border-bottom:none;
+    padding:0;
+    height:20px;
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/foobar.bg.png) repeat-x #fff;
+    background-position:0 1px;
+    z-index:11;
+}
+
+.jive_foobar_button {
+    margin:0;
+    height:20px;
+    padding:0;
+    border:none;
+    overflow:visible;
+    background:transparent;
+}
+
+.jive_foobar_button.over {
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_column_formatting_sprite.png);
+}
+.jive_foobar_button.pressed {
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_column_formatting_sprite.png);
+    background-position:0 -51px;
+}
+
+.jive_foobar_button .wrap {}
+
+.jive_foobar_button .icon {
+    display:inline-block;
+    width:24px;
+    height:16px;
+    .display:inline;
+    zoom:1;
+    cursor:pointer;
+}
+
+.jive_dialog {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    box-shadow: 0 0 4px 4px rgba(51, 51, 51, 0.5);
+    font-family: Verdana;
+    font-size: 11px;
+    position: absolute;
+    z-index: 2;
+}
+.jive_dialog > div.msshadow  {
+    position:absolute;
+    top:-10px;
+    left:-10px;
+    right:10px;
+    bottom:10px;
+    background:#fff;
+}
+
+.jive_dialog .dialogHeader {
+    position:relative;
+    color: #0872A4;
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/column.header.png) repeat-x #e8e8e8;
+    .border-top:solid 1px #e8e8e8;
+}
+
+.jive_dialog h2 {
+    text-align: left;
+    margin:0 0 0 10px;
+    padding:0 4px;
+    font-size:11px;
+    line-height:28px;
+}
+
+.jive_dialog div.dialogBody {
+	max-height: 480px;
+    *max-height:460px; /* IE7 */
+    overflow-y: auto;
+    overflow-x:hidden;
+    padding: 3px;
+    position: relative;
+}
+
+.jive_dialog div.dialogFooter {
+    position:relative;
+    padding:8px;
+    height:auto;
+    text-align: left;
+    border-top:solid 1px #d3d5d6;
+    overflow:hidden;
+.overflow:visible;
+    }
+
+.jive_dialog button {
+    display:block;
+    float:left;
+    margin-top:0 !important;
+    margin-right: 5px;
+    margin-bottom:0 !important;
+    cursor: pointer;
+    border: 0;
+    padding:0 15px 0 0;
+    min-height: 28px;
+    text-align: center;
+}
+
+.jive_dialog button > .wrap {
+    line-height: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    padding-left: 15px;
+    font-size: 11px;
+}
+
+#jive_dropdown {
+    position:absolute;
+    z-index:3;
+}
+
+.pmenu {
+    position:absolute;
+    background:#fff;
+    z-index:10000;
+    border:solid 1px #ccc;
+    text-align:left;
+    list-style-type:none;
+    min-width:130px;
+    display:none;
+    padding:0;
+    margin:0;
+    font-family: arial;
+}
+
+.pmenuitem {
+    color: #666666;
+    cursor: pointer;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    height: 24px;
+    line-height: 2em;
+    padding: 0 12px;
+}
+
+.pmenuitem.hover {background:#fc870e; color:#fff;}
+
+#jive_dialog button.action {
+    /* from(e7e7e7), to(c1c1c1) */
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.png) repeat-x;
+    color: #666;
+}
+
+#jive_dialog button.action.over {
+    /* from(e4e0e0), to(5a5a5b) */
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.over.png) repeat-x;
+}
+
+#jive_dialog button.action.pressed {
+    /* from(e4e0e0), to(5a5a5b) */
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.pressed.png) repeat-x;
+}
+
+#jive_dialog button.action.primary {
+    /* from(3fb8fa), to(2881bb) */
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.png) repeat-x !important;
+    color: #fff;
+}
+
+#jive_dialog button.action.primary.over {
+    /* from(#faac1f), to(#f9771d) */
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.over.png) repeat-x !important;
+}
+
+#jive_dialog button.action.primary.pressed {
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.pressed.png) repeat-x !important;
+}
+
+#jive_dialog div.dialogFooter button.disabled {
+    background: #e7e7e7 !important;
+    color:#aaa !important;
+}
+
+.tabContainer {
+    position:absolute;
+    right:22px;
+    top:3px;
+    z-index:2;
+    width:auto;
+}
+
+.tab {
+    display:inline-block;
+    *display:inline;
+    zoom:1;
+    position:relative;
+    height:19px;
+    border-style: solid;
+    border-width:1px;
+}
+
+/* multisheet tabs */
+.tab.multisheet,
+.tab.dialog {
+    min-width:100px;
+    cursor:pointer;
+    white-space:nowrap;
+    top:1px;
+    border-color:#c5c5c5;
+    border-bottom:transparent;
+    background-color: #efefef;
+    *margin-right:4px;
+    *top:3px;
+    margin: 0 2px;
+}
+
+.tab.multisheet span,
+.tab.dialog span	{
+    display: block;
+    height: 100%;
+    line-height: 19px;
+    min-width: 100px;
+    padding: 0 8px;
+    text-align: center;
+    width: auto;
+}
+
+.tab.multisheet.active,
+.tab.dialog.active {
+    height:22px;
+    top:1px;
+    border:1px solid #c5c5c5;
+    border-top:1px solid #c5c5c5;
+    border-bottom:transparent;
+}
+
+.tab.multisheet.active span,
+.tab.dialog.active span {
+    line-height:23px;
+    font-weight:bold;
+    border:1px solid #f8f8f8;
+    border-right:1px solid #ededed;
+    border-bottom:1px solid #ededed;
+    background: #ededed; /*fallback for non-CSS3 browsers*/
+}
+
+.tab.dialog.active span {
+    background:#fff;
+    border-bottom:1px solid #ffffff;
+}
+
+.jive_form table {
+    margin-bottom:2px;
+}
+
+.jive_form td {
+    background:#fff;
+    padding:0;
+    margin:0;
+    vertical-align: top;
+}
+
+.jive_form td.jive_textLabel {
+    text-align: center;
+    vertical-align: middle;
+}
+
+div.thick.wrapper {position:relative;padding:10px 10px;z-index:1;overflow:hidden;}
+div.wrapper {
+	overflow: hidden;
+    padding: 4px 10px 6px 10px;
+    position: relative;
+    z-index: 1;
+}
+div.wrapper.label {
+	padding:8px 10px 0px 10px;
+	margin-bottom:0px;
+}
+div.t_wrap {padding-right: 4px;}
+.jive_form input,
+.jive_form select {
+    font-size: 11px;
+    position:relative;
+    width:100%;
+    margin:0;
+    padding:0;
+    border-style: solid;
+    border-width: 1px;
+    border-top-color: #848484;
+    border-right-color: #c1c1c1;
+    border-bottom-color: #e1e1e1;
+    border-left-color: #c1c1c1;
+}
+
+.jive_form input{height:21px;line-height:21px;}
+.jive_form select{/*height:24px;line-height:24px;*/margin:4px 0;}
+
+.jive_form input[type="radio"]{width:auto;height:auto;float:left;position:relative;display:block;border:none;}
+
+.jive_form select.showList {height:auto; !important; display: inherit;}
+.jive_form select.wFreeText {margin-top:8px; !important}
+
+.jive_form .colorbar {height:24px;border:solid 1px #ccc;}
+
+.jive_inputLabel {float:left;position:relative;margin-left:8px;}
+
+.jive_inputbutton {
+    -moz-user-select: none;
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/dialog_button_capsule_sprite.png) repeat scroll 0 0 transparent;
+    cursor: pointer;
+    float: left;
+    height: 26px;
+    margin-left: 0px;
+    margin-right: 4px;
+    position: relative;
+    width: 26px;
+}
+
+.jive_inputbutton.plain {
+	background:none;
+}
+
+.jive_inputbutton.over {background-position:-50px -45px;}
+.jive_inputbutton.pressed {background-position:-50px -103px;}
+.jive_inputbutton.selected {background-position: 0 -50px;}
+.jive_inputbutton.unchanged {background-position: -124px 0px;}
+.jive_inputbutton.drop {background-position: -58px 0; width: 34px;}
+.jive_inputbutton.drop.unchanged {background-position: -182px 0;}
+.jive_inputbutton.drop > .jive_bIcon {
+    margin-left: 0;
+    height: 30px;
+    margin-top: 1px;
+    width: 28px;
+}
+.selected .boldIcon {
+    background-position: -30px -3px;
+}
+
+.selected .italicIcon {
+    background-position: -30px -49px;
+}
+
+.selected .underlineIcon {
+    background-position: -30px -94px;
+}
+
+.unchanged .boldIcon {
+	background-position: -60px -3px;
+}
+
+.unchanged .italicIcon {
+    background-position: -60px -49px;
+}
+
+.unchanged .underlineIcon {
+    background-position: -60px -94px;
+}
+
+.jive_inputbutton > div.colorpick {
+    cursor: pointer;
+    position: absolute;
+    top: 18px;
+    height:4px;
+}
+div.colorpick.normal {
+    width:16px;
+    margin-left:6px;
+}
+div.colorpick.wide {
+    width: 18px;
+    margin-left:5px;
+}
+
+.jive_listTextInputTouch {display:block;}
+
+.jive_freeTextButton {
+    float:right;
+    position:relative;
+    background:transparent;
+    z-index:2;
+    cursor:pointer;
+}
+
+.jive_bIcon {
+	background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
+    display: inline-block;
+    height: 22px;
+    margin: 3px;
+    width: 20px;
+}
+
+.jive_freeTextButton .jive_bIcon {
+    width:16px;
+    height:16px;
+    margin:6px;
+}
+
+.sortDescIcon {
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/iv_format_button_sprite.png);
+    background-position:3px -94px;
+    top:2px;
+    left:3px;
+}
+.sortAscIcon {
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/iv_format_button_sprite.png);
+    background-position:3px -63px;
+}
+.filterIcon {
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/iv_format_button_sprite.png);
+    background-position:4px -31px;
+}
+.formatIcon {
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/iv_format_button_sprite.png);
+    background-position:2px 2px;
+}
+.jive_foobar_button.over .sortDescIcon{
+    background-position:-73px -94px;
+}
+.jive_foobar_button.over .sortAscIcon{
+    background-position:-73px -63px;
+}
+.jive_foobar_button.over .filterIcon{
+    background-position:-72px -31px;
+}
+.jive_foobar_button.over .formatIcon{
+    background-position:-74px 2px;
+}
+.jive_foobar_button.disabled .sortDescIcon{
+    background-position:-35px -94px;
+}
+.jive_foobar_button.disabled .sortAscIcon{
+    background-position:-35px -63px;
+}
+.jive_foobar_button.disabled .filterIcon{
+    background-position:-34px -31px;
+}
+.boldIcon {
+    background-position:0 -3px;
+}
+.italicIcon {
+    background-position:0 -49px;
+}
+.underlineIcon {
+    background-position:0 -94px;
+}
+.backgroundColorIcon {
+    background-position: 2px -551px;
+}
+.unchanged .backgroundColorIcon {
+    background-position: -60px -551px;
+}
+.moveUpIcon {
+    background-position: 0 -598px;
+}
+
+.moveDownIcon {
+    background-position: 0 -640px;
+}
+
+.deleteIcon {
+    background-position: 0 -680px;
+}
+.leftIcon {
+    background-position:-2px -142px;
+}
+.selected .leftIcon {
+    background-position: -32px -142px;
+}
+.centerIcon {
+    background-position: -1px -188px;
+}
+.selected .centerIcon {
+    background-position: -31px -188px;
+}
+.rightIcon {
+    background-position: 0 -234px;
+}
+.selected .rightIcon {
+    background-position: -30px -234px;
+}
+.currencyIcon {
+    background-position:-1px -277px;
+    width: 23px;
+}
+.percentageIcon {
+    background-position:-1px -326px;
+}
+.commaIcon {
+    background-position:-1px -371px;
+}
+.increaseDecimalsIcon {
+    background-position:-2px -417px;
+}
+.decreaseDecimalsIcon {
+    background-position:-1px -463px;
+}
+.fontColorIcon {
+    background-position:2px -508px;
+}
+.unchanged .fontColorIcon {
+    background-position: -60px -508px;
+}
+
+#jive_colorpicker {z-index:10000;}
+#jive_colorpicker td {background:#fff;border:solid 1px #fff;padding:0;}
+#jive_colorpicker td.selected {background:#eee;border:solid 1px #eee;}
+#jive_colorpicker .pick {width:16px;height:16px;margin:4px;cursor:pointer;}
+#jive_colorpicker table {border-collapse: collapse;}
+#jive_colorpicker tr.transparent_pick div.pick{border: 1px solid black; width: 240px;}
+#jive_colorpicker tr.reset_pick div.pick{border: 1px solid black; width: 240px;}
+.interactiveElement{cursor:pointer;}
+
+div.ui-datepicker {font-size: 11px;}
+
+/* CONDITION LIST */
+.conditionList {
+	border-collapse: separate;
+	border:1px solid #c0c0c0;
+	border-spacing: 0;
+	color:#666666;
+}
+
+.conditionList tr {
+	height:26px;
+}
+
+.conditionList th {
+	background-color: #D4DEE9; /* fallback/image non-cover color */
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E1E9F3), to(#D4DEE9)); /* Safari 4+, Chrome 1-9 */
+	background-image: -webkit-linear-gradient(top, #E1E9F3, #D4DEE9); /* Safari 5.1+, Mobile Safari, Chrome 10+ */
+	background-image: -moz-linear-gradient(top, #E1E9F3, #D4DEE9); /* Firefox 3.6+ */
+	background-image: -ms-linear-gradient(top, #E1E9F3, #D4DEE9); /* IE 10+ */
+	background-image: -o-linear-gradient(top, #E1E9F3, #D4DEE9);	/* Opera 11.10+ */
+	vertical-align:middle;
+	padding:0 6px;
+	font-weight:normal;
+	border-top:none;
+	border-right:1px solid #c0c0c0;
+	border-bottom:1px solid #c0c0c0;
+	*border-bottom:2px solid #c0c0c0;
+	border-left:1px solid #ffffff;
+}
+
+.conditionList td {
+	position:relative;
+	vertical-align:middle;
+	padding:4px 2px;
+	*padding:2px;
+	border-top:1px solid #ffffff;
+	border-right:1px solid #e3e9ef;
+	border-bottom:1px solid #ececec;
+	border-left:1px solid #ffffff;
+	*border-right:1px solid #ffffff;
+	*border-left:1px solid #e3e9ef;
+}
+
+.conditionList tr.add td{
+	background-color:#f6f6f6;
+}
+
+.conditionList tr.add td .jive_inputbutton {
+	height: auto;
+}
+
+.conditionList .last {
+	border-right:none;
+}
+
+.conditionList td.condition_between_start {
+	border-right: none;
+}
+
+.conditionList td.condition_between_end {
+	border-left: none;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	div.wrapper.label { /* CRHOME/SAFARI STYLES */
+		margin-top:2px;
+		margin-bottom:0px;
+	}
+}
+
+#jive_form_columnConditionalFormatting {
+	width:700px;
+	display: block;
+    margin: 0 20px 20px 20px;
+}
+
+#jive_form_columnConditionalFormatting .jive_textLabel>div.wrapper.label {
+	padding:8px 10px 2px 0;
+}

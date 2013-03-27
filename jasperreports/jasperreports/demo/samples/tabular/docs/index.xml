@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>tabular</name>
+  <title>Tabular Sample</title>
+  <description>Shows how a table structure could be created using simple text elements and their border.</description>
+
+  <mainFeature ref="tabular"/>
+  <mainFeature ref="taggedpdf"/>
+  
+  <!-- table -->
+  
+  <feature name="tabular" title="Creating Table-like Structures">
+    <description>
+How to create tables using text elements and their border.
+    </description>
+    <since>0.6.3</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <otherSample ref="table"/>
+    <otherSample ref="list"/>
+    <content>
+<subtitle name="overview">Table-like Structures - Overview</subtitle>
+<br/>
+<br/>
+Whenever data has to be organized in distinct rows and columns, a table structure should be created, or at least emulated, in order to 
+display these data. Before the built-in <a href="../table/index.html">table component</a> being included in the JasperReports library, 
+the most common way to represent tabular data was to create table-like structures based on particular styles and layout configuration 
+of the report elements. For instance, if elements in a detail band are configured to share the same y-coordinate and the same height, they 
+will result as perfectly aligned in a row at runtime. This row layout is then repeated for each iteration through the datasource, leading to 
+a table-like structure organized in rows and columns.
+<br/>
+To obtain excellent results with table-like structures, it's recommended to carefully set the related layout attributes and styles, 
+in order to get elements perfectly aligned, horizontally and vertically. Styles and <code>box</code> elements may also be used to 
+individualize cell borders, backgrounds, forecolors, cell paddings, alternative row colors, etc.
+<br/>
+Attributes that should be carefully handled are:
+<ul>
+<li><code>x</code></li>
+<li><code>y</code></li>
+<li><code>width</code></li>
+<li><code>height</code></li>
+<li><code>style</code></li>
+</ul>
+<subtitle name="sample">The Tabular Sample</subtitle>
+<br/>
+<br/>
+The <code>TabularReport.jrxml</code> in the sample shows how to create a table using the page header section to generate the table header,
+the detail section to generate the table rows, and the column footer section to generate column footers. If the JRXML file is open with a 
+report design viewer (such as iReport or JasperStudio), one can see the elements being perfectly aligned, both horizontally and vertically.
+<br/>
+Let's take a closer look at how the last three elements in the page header section were configured:
+<pre><![CDATA[
+<pageHeader>
+  <band height="30">
+    ...
+    <staticText>
+      <reportElement mode="Opaque" x="300" y="0" width="255" height="15" backcolor="gray">
+        <property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+        <property name="net.sf.jasperreports.export.pdf.tag.colspan" value="2"/>
+        <property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
+      </reportElement>
+      <box>
+        <pen lineWidth="0.5" lineColor="black"/>
+        <topPen lineWidth="1" lineColor="red"/>
+        <rightPen lineWidth="1" lineColor="red"/>
+      </box>
+      <textElement textAlignment="Center">
+        <font size="12" isBold="true"/>
+      </textElement>
+      <text><![CDATA[Header 4]] ></text>
+    </staticText>
+    <staticText>
+      <reportElement mode="Opaque" x="300" y="15" width="155" height="15" backcolor="gray">
+        <property name="net.sf.jasperreports.export.pdf.tag.tr" value="start"/>
+        <property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+      </reportElement>
+      <box leftPadding="10">
+        <pen lineColor="black"/>
+        <topPen lineWidth="0.5"/>
+        <leftPen lineWidth="0.5"/>
+        <bottomPen lineWidth="0.5"/>
+      </box>
+      <textElement>
+        <font isBold="true"/>
+      </textElement>
+      <text><![CDATA[Header 4.1]] ></text>
+    </staticText>
+    <staticText>
+      <reportElement mode="Opaque" x="455" y="15" width="100" height="15" backcolor="gray">
+        <property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+        <property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
+      </reportElement>
+      <box rightPadding="10">
+        <pen lineColor="black"/>
+        <topPen lineWidth="0.5"/>
+        <leftPen lineWidth="0.5"/>
+        <bottomPen lineWidth="0.5"/>
+        <rightPen lineWidth="1" lineColor="red"/>
+      </box>
+      <textElement textAlignment="Right">
+        <font isBold="true"/>
+      </textElement>
+      <text><![CDATA[Header 4.2]] ></text>
+    </staticText>
+  </band>
+</pageHeader>]]></pre>
+Notice that the <code>Header 4</code> element is only 15 pixels high, while the band height is 30. It means that there is left 
+some unused space below this static text. It starts from <code>y=0, x=300</code> and is 255 pixels wide.
+<br/>
+The next element labeled <code>Header 4.1</code> starts from <code>y=15</code> and is 15 pixels high. Vertically, it fits perfectly 
+in the unused space below the <code>Header 4</code> element. But its width=155 pixels is not enough to fill the entire available horizontal 
+space. So, we still have unused space in this layout design.
+<br/>
+This space will be completely covered by the last element labeled <code>Header 4.2</code>. It starts from <code>y=15, x=455</code>, is 15 
+pixels high and 100 pixels wide, therefore it fits perfectly in the available space.
+<br/>
+This way was emulated a table header with nested column headers. With a little bit more accurate design, one could emulate column group 
+headers and other header structures with increased complexity.
+<br/>
+It should also be noticed how the <code>box</code> elements were designed, piece by piece, to configure borders for table and header cells. The 
+background color for all header cells is set to <code>grey</code>.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/table</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/table/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+
+  <!-- taggedpdf -->
+  
+  <feature name="taggedpdf" title="Using PDF tags to create tables in generated PDF documents">
+    <description>
+How to create tables in generated PDF documents using PDF tags.
+    </description>
+    <since>3.1.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<subtitle name="section508">Section 508 Compliance</subtitle>
+<br/>
+<br/>
+A PDF document can be structured in order to enable accessibility tools in PDF readers. Based on 
+specific hidden tags in their structure, documents can be read aloud to people with disabilities. 
+Tagged PDF files comply with the requirements of the Section 508 of the U.S. Rehabilitation Act
+(see <a href="http://www.section508.gov">http://www.section508.gov</a>).
+<br/>
+JasperReports supports Section 508 compliant PDF documents based on the PDF tags feature introduced in 
+v3.1.2. According to a set of built-in configuration properties, PDF tags required for accessibility are 
+added to the structure of generated documents.
+<br/>
+<br/>
+<subtitle name="tagged">Tagged PDF Output</subtitle>
+<br/>
+<br/>
+To enable accessibility in generated documents a set of export parameters are available in JasperReports 
+along with their related exporter hint properties:
+<ul>
+<li>Tagged Documents
+<ul>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_TAGGED">IS_TAGGED</api> - 
+Export parameter used to turn on the creation of hidden structural tags. By default the feature is turned off.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_TAGGED">net.sf.jasperreports.export.pdf.tagged</api> 
+- Exporter hint property used as default for the <code>IS_TAGGED</code> parameter above. It can be set at global or report level.<br/><br/></li>
+</ul>
+</li>
+<li>Tag Language
+<ul>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#TAG_LANGUAGE">TAG_LANGUAGE</api> - 
+Export parameter used to specify the language to be used in the language tag of the generated PDF.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_TAG_LANGUAGE">net.sf.jasperreports.export.pdf.tag.language</api> 
+- Exporter hint property used as default for the <code>TAG_LANGUAGE</code> parameter above. It can be set at global or report level.<br/><br/></li>
+</ul>
+</li>
+<li>Accessibility Tags
+<br/><br/>
+All properties in this category are set at element level and share the same set of possible values (excepting the column span and row span 
+properties, which accept numeric values only):<br/><br/>
+<ul>
+<li><code>start</code> - if this value is set, the element will be marked with a starting PDF tag corresponding to the property.</li>
+<li><code>full</code> - if this value is set, the element will be wrapped in a full PDF tag corresponding to the property.</li>
+<li><code>end</code> - if this value is set, the element will be marked with an ending PDF tag corresponding to the property.<br/><br/></li>
+</ul>
+Available properties related to PDF accessibility tags are enumerated below:<br/><br/>
+<ul>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H1">net.sf.jasperreports.export.pdf.tag.h1</api> 
+- Property used to mark a text field as a level 1 heading.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H2">net.sf.jasperreports.export.pdf.tag.h2</api> 
+- Property used to mark a text field as a level 2 heading.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H3">net.sf.jasperreports.export.pdf.tag.h3</api> 
+- Property used to mark a text field as a level 3 heading.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TABLE">net.sf.jasperreports.export.pdf.tag.table</api> 
+- Property used to indicate where the table starts and where it ends in the report template.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TH">net.sf.jasperreports.export.pdf.tag.th</api> 
+- Property used to mark heading cells in a table.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TR">net.sf.jasperreports.export.pdf.tag.tr</api> 
+- Property used to indicate where a table row starts and where it ends in the report template.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TD">net.sf.jasperreports.export.pdf.tag.td</api> 
+- Property used to mark detail cells in a table.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_COLSPAN">net.sf.jasperreports.export.pdf.tag.colspan</api> 
+- Property used to indicate the column span of a table cell. Allowed values are positive integers.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_ROWSPAN">net.sf.jasperreports.export.pdf.tag.rowspan</api> 
+- Property used to indicate the row span of a table cell. Allowed values are positive integers.</li>
+</ul>
+</li>
+</ul>
+<subtitle name="reading">Alternate Text for Images and Reading Order</subtitle>
+<br/>
+<br/>
+Accessible documents must provide also an alternate text for images and an appropriate reading order. In JasperReports the alternate text for images 
+is specified in the <code>&lt;hyperlinkTooltipExpression/&gt;</code> of the image element.
+<br/>
+The reading order is processed using the Z-order of elements as present in the report template. No additional processing is necessary here.
+<br/><br/>
+To find out more about tagged PDF output see the "Section 508 Compliance" chapter in the JasperReports Ultimate Guide.
+<br/>
+<br/>
+<subtitle name="taggedsample">Tags in Tabular Sample</subtitle>
+<br/>
+<br/>
+In the tabular sample one can notice the presence of all properties enumerated above, with their values depending on the element's 
+position within the table. Properties are listed below in the same order they are defined in the report template:
+<pre><![CDATA[
+<property name="net.sf.jasperreports.export.pdf.tagged" value="true"/>
+<property name="net.sf.jasperreports.export.pdf.tag.language" value="EN-US"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.h1" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.table" value="start"/>
+<property name="net.sf.jasperreports.export.pdf.tag.tr" value="start"/>
+<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+<property name="net.sf.jasperreports.export.pdf.tag.rowspan" value="2"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+<property name="net.sf.jasperreports.export.pdf.tag.rowspan" value="2"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+<property name="net.sf.jasperreports.export.pdf.tag.rowspan" value="2"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+<property name="net.sf.jasperreports.export.pdf.tag.colspan" value="2"/>
+<property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.tr" value="start"/>
+<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+<property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.tr" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.tr" value="start"/>
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+...
+<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+<property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
+<property name="net.sf.jasperreports.export.pdf.tag.table" value="end"/>]]></pre>
+The generated PDF document is Section 508 compliant and can be read aloud by dedicated reader tools.
+    </content>
+  </feature>
+
+</sample>

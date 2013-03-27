@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DocumentsReport" pageWidth="500" pageHeight="842" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="10" isBold="true"/>
+	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="10" isItalic="true"/>
+	<field name="id" class="java.lang.Long"/>
+	<field name="total" class="java.lang.Double"/>
+	<title>
+		<band height="1">
+			<line>
+				<reportElement x="0" y="0" width="195" height="1" forecolor="#808080"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="15">
+			<staticText>
+				<reportElement style="Sans_Bold" x="10" y="1" width="55" height="13"/>
+				<textElement/>
+				<text><![CDATA[Documents]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Sans_Bold" x="65" y="1" width="15" height="13"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Sans_Bold" x="85" y="1" width="100" height="13"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="14">
+			<textField>
+				<reportElement x="10" y="0" width="70" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#.00">
+				<reportElement positionType="Float" x="85" y="0" width="100" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="1">
+			<line>
+				<reportElement x="0" y="0" width="195" height="1" forecolor="#808080"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

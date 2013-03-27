@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://jasperreports.sourceforge.net/forms"
+  xmlns:fm="http://jasperreports.sourceforge.net/forms"
+  xmlns:jr="http://jasperreports.sourceforge.net/jasperreports"
+  elementFormDefault="qualified">
+
+	<import namespace="http://jasperreports.sourceforge.net/jasperreports"/>
+
+	<element name="textInput" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="jr:componentType">
+					<sequence>
+						<element ref="jr:textField" minOccurs="1" maxOccurs="1"/>
+					</sequence>
+					<attribute name="multiLine" type="boolean" use="optional" default="false"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+</schema>

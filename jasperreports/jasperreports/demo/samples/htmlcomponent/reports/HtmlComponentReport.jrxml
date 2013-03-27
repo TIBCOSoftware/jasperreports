@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HtmlComponentReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
+	<parameter name="JRProjectID" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[Integer.valueOf(287)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="htmlList" class="java.lang.String">
+		<defaultValueExpression><![CDATA["<ul><li>item1</li><li>item2</li><li>item3</li><li>item4</li></ul>"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="htmlTable" class="java.lang.String">
+		<defaultValueExpression><![CDATA["<table border='1px' width='100%' height='100%' " +
+												"style='font-family:Comic Sans; font-size:10px; color:black; background-color:#E5DD6F;'>" + 
+											"<tr>" + 
+												"<td>td11</td>" + 
+												"<td>td12</td>" + 
+												"<td>td13</td>" + 
+											"</tr>" + 
+											"<tr>" + 
+												"<td>td21</td>" + 
+												"<td>td22</td>" + 
+												"<td>td23</td>" + 
+											"</tr>" + 
+											"<tr>" + 
+												"<td>td31</td>" + 
+												"<td>td32</td>" + 
+												"<td>td33</td>" + 
+											"</tr>" + 
+											"<tr>" + 
+												"<td colspan='3'>" + $P{htmlList} + "</td>" + 
+											"</tr>" + 
+										"</table>"]]></defaultValueExpression>
+	</parameter>
+	<title>
+		<band height="742">
+			<textField hyperlinkType="Reference" hyperlinkTarget="Blank">
+				<reportElement x="0" y="30" width="515" height="30"/>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["HTML  Element  Report"]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="0" y="100" width="230" height="110" backcolor="#ADD8E6"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="FillFrame" horizontalAlign="Left" verticalAlign="Top">
+					<hc:htmlContentExpression><![CDATA[$P{htmlTable}]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+			<genericElement>
+				<reportElement x="0" y="230" width="230" height="120" backcolor="#ADD8E6"/>
+				<genericElementType namespace="http://jasperreports.sourceforge.net/jasperreports/html" name="htmlelement"/>
+				<genericElementParameter name="htmlContent">
+					<valueExpression class="java.lang.String"><![CDATA[$P{htmlTable}]]></valueExpression>
+				</genericElementParameter>
+				<genericElementParameter name="scaleType">
+					<valueExpression class="java.lang.String"><![CDATA["RetainShape"]]></valueExpression>
+				</genericElementParameter>
+				<genericElementParameter name="horizontalAlign">
+					<valueExpression class="java.lang.String"><![CDATA["Right"]]></valueExpression>
+				</genericElementParameter>
+			</genericElement>
+			<genericElement>
+				<reportElement x="0" y="370" width="190" height="140" backcolor="#ADD8E6"/>
+				<genericElementType namespace="http://jasperreports.sourceforge.net/jasperreports/html" name="htmlelement"/>
+				<genericElementParameter name="htmlContent">
+					<valueExpression class="java.lang.String"><![CDATA[$P{htmlTable}]]></valueExpression>
+				</genericElementParameter>
+				<genericElementParameter name="scaleType">
+					<valueExpression class="java.lang.String"><![CDATA["RealHeight"]]></valueExpression>
+				</genericElementParameter>
+				<genericElementParameter name="horizontalAlign">
+					<valueExpression class="java.lang.String"><![CDATA["Center"]]></valueExpression>
+				</genericElementParameter>
+			</genericElement>
+			<genericElement>
+				<reportElement x="0" y="530" width="230" height="110" backcolor="#ADD8E6"/>
+				<genericElementType namespace="http://jasperreports.sourceforge.net/jasperreports/html" name="htmlelement"/>
+				<genericElementParameter name="htmlContent">
+					<valueExpression class="java.lang.String"><![CDATA[$P{htmlTable}]]></valueExpression>
+				</genericElementParameter>
+				<genericElementParameter name="scaleType">
+					<valueExpression class="java.lang.String"><![CDATA["RealSize"]]></valueExpression>
+				</genericElementParameter>
+			</genericElement>
+			<genericElement>
+				<reportElement x="-1" y="661" width="231" height="81" backcolor="#ADD8E6"/>
+				<genericElementType namespace="http://jasperreports.sourceforge.net/jasperreports/html" name="htmlelement"/>
+				<genericElementParameter name="htmlContent">
+					<valueExpression class="java.lang.String"><![CDATA[$P{htmlTable}]]></valueExpression>
+				</genericElementParameter>
+				<genericElementParameter name="scaleType">
+					<valueExpression class="java.lang.String"><![CDATA["Clip"]]></valueExpression>
+				</genericElementParameter>
+				<genericElementParameter name="verticalAlign">
+					<valueExpression class="java.lang.String"><![CDATA["Bottom"]]></valueExpression>
+				</genericElementParameter>
+				<genericElementParameter name="horizontalAlign">
+					<valueExpression class="java.lang.String"><![CDATA["Left"]]></valueExpression>
+				</genericElementParameter>
+			</genericElement>
+			<staticText>
+				<reportElement mode="Opaque" x="240" y="100" width="201" height="31" forecolor="#000000"/>
+				<box>
+					<pen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[scaleType=FillFrame]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="240" y="230" width="201" height="60" forecolor="#000000"/>
+				<box>
+					<pen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[scaleType=RetainShape
+horizontalAlign=Right
+htmlWidth=200
+htmlHeight=134]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="240" y="370" width="201" height="31" forecolor="#000000"/>
+				<box>
+					<pen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[scaleType=RealHeight
+horizontalAlign=Center]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="240" y="530" width="201" height="31" forecolor="#000000"/>
+				<box>
+					<pen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[scaleType=RealSize]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="239" y="661" width="201" height="49" forecolor="#000000"/>
+				<box>
+					<pen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[scaleType=Clip
+verticalAlign=Bottom
+horizontalAlign=Left]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-1" y="220" width="442" height="1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="360" width="442" height="1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="520" width="442" height="1"/>
+			</line>
+			<line>
+				<reportElement x="-1" y="650" width="442" height="1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="90" width="442" height="1"/>
+			</line>
+		</band>
+	</title>
+</jasperReport>

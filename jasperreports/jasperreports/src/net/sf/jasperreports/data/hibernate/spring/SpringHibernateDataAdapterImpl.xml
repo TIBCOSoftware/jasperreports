@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+	<class name="net.sf.jasperreports.data.hibernate.spring.SpringHibernateDataAdapterImpl">
+		<map-to xml="hibernateDataAdapter"/>
+		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.data.ClassNameFieldHandler">
+			<bind-xml name="class" node="attribute"/>
+		</field>
+		<field name="name" type="string">
+			<bind-xml name="name" node="element"/>
+		</field>
+		<field name="springConfig" type="string">
+			<bind-xml name="springConfig" node="element"/>
+		</field>
+		<field name="beanId" type="string">
+			<bind-xml name="beanId" node="element"/>
+		</field>
+	</class>
+</mapping>

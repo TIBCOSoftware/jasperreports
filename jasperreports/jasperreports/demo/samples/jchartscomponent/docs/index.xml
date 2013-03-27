@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>jchartscomponent</name>
+  <title>jCharts Component Sample</title>
+  <description>Shows how jCharts components can be included in reports.</description>
+
+  <mainFeature ref="jchartscomponent"/>
+  
+  <!-- jchartscomponent -->
+  
+  <feature name="jchartscomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (jCharts Library)">
+    <description>
+How to implement a custom component to wrap charts rendered by the <a href="http://jcharts.sourceforge.net/">jCharts</a> library.
+    </description>
+    <since>3.1.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="openflashchart"/>
+    <content>
+<subtitle name="overview">The JCharts Component - Overview</subtitle>
+<br/>
+<br/>
+This sample contains an axis chart component implementation based on the <a href="http://jcharts.sourceforge.net/">jCharts</a> library, that illustrates how charts 
+generated with 3-rd party APIs can be embedded in reports generated with the JasperReports library. To make such an integration possible, the chart component provides 
+its specific XSD schema in the <code>src/jcharts/charts.xsd</code> file.
+<br/>
+On the API side, the chart component is represented by the jcharts.AxisChartComponent class, which exposes the members declared in schema. When the report is filled, 
+a <api href="net/sf/jasperreports/engine/JRImageRenderer.html">JRImageRenderer</api> instance is created in order to generate a chart image to be included into the report. 
+The image representation of the chart was preferred instead of the chart itself because AxisChart objects fail on serialization.
+<br/>
+<br/>
+<subtitle name="schema">The JCharts Component - Schema</subtitle>
+<br/>
+<br/>
+Here is the JRXML schema for the axis chart component:
+<pre><![CDATA[
+<element name="axisChart" substitutionGroup="jr:component">
+  <complexType>
+    <complexContent>
+      <extension base="jr:componentType">
+        <sequence>
+          <element ref="jc:axisDataset"/>
+          <element name="legendLabelExpression">
+            <complexType mixed="true"/>
+          </element>
+        </sequence>
+        <attribute name="areaColor" type="string" use="required"/>
+        <attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+        <attribute name="evaluationGroup" type="string" use="optional"/>
+      </extension>
+    </complexContent>
+  </complexType>
+</element>
+
+<element name="axisDataset">
+  <complexType>
+    <sequence>
+      <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+      <element name="labelExpression">
+        <complexType mixed="true"/>
+      </element>
+      <element name="valueExpression">
+        <complexType mixed="true"/>
+      </element>
+    </sequence>
+  </complexType>
+</element>]]></pre>
+A well defined axis chart configuration contains:
+<ul>
+<li>an <code>axisDataset</code> - the area chart dataset characterized by the <code>dataset</code>, <code>labelExpression</code> and <code>valueExpression</code>.</li>
+<li>a <code>legendLabelExpression</code> - the expression used to set labels in the chart legend.</li>
+</ul>
+and provide the following attributes:
+<ul>
+<li><code>areaColor</code> - the color of the area. Allowed values are either the color hexadecimal RGB notation, or color names preset in the 
+<api href="net/sf/jasperreports/engine/type/ColorEnum.html">ColorEnum</api>.</li>
+<li><code>evaluationTime</code> and <code>evaluationTime</code> with the same meaning as for built-in report elements.</li>
+</ul>
+<subtitle name="embedding">Embedding The JCharts Component</subtitle>
+<br/>
+<br/>
+The <code>src/jasperreports_extension.properties</code> file contains the following entries:
+<ul>
+<li><code>net.sf.jasperreports.extension.registry.factory.charts=net.sf.jasperreports.extensions.SpringExtensionsRegistryFactory</code></li>
+<li><code>net.sf.jasperreports.extension.charts.spring.beans.resource=jcharts/chart_beans.xml</code></li>
+</ul>
+Hence this component will be registered as Spring-based extension, in accordance with beans in the <code>src/jcharts/chart_beans.xml</code>:
+<pre><![CDATA[
+<bean id="componentsBundle" class="net.sf.jasperreports.engine.component.DefaultComponentsBundle">
+  <property name="xmlParser">
+    <ref local="xmlParser"/>
+  </property>
+  <property name="componentManagers">
+    <map>
+      <entry key="axisChart">
+        <ref local="axisChartManager"/>
+      </entry>
+    </map>
+  </property>
+</bean>
+
+<bean id="xmlParser" class="net.sf.jasperreports.engine.component.DefaultComponentXmlParser">
+  <property name="namespace">
+    <value>http://jasperreports.sourceforge.net/jasperreports/jcharts</value>
+  </property>
+  <property name="publicSchemaLocation">
+    <value>http://jasperreports.sourceforge.net/dtds/charts.xsd</value>
+  </property>
+  <property name="internalSchemaResource">
+    <value>jcharts/charts.xsd</value>
+  </property>
+  <property name="digesterConfigurer">
+    <bean class="jcharts.ChartsDigester"/>
+  </property>
+</bean>
+
+<bean id="axisChartManager" class="net.sf.jasperreports.engine.component.DefaultComponentManager">
+  <property name="componentCompiler">
+    <bean class="jcharts.AxisChartCompiler"/>
+  </property>
+  <property name="componentXmlWriter">
+    <bean class="jcharts.AxisChartXmlWriter"/>
+  </property>
+  <property name="componentFillFactory">
+    <bean class="jcharts.AxisChartFillFactory"/>
+  </property>
+</bean>]]></pre>
+The <code>src/jcharts</code> directory contains all necessary implementation APIs for this component:
+<ul>
+<li><code>AxisChartCompiler.java</code> - the compiler class for the axis chart component</li>
+<li><code>AxisChartComponent.java</code> - the axis chart component</li>
+<li><code>AxisChartFillFactory.java</code> - the fill factory class for the component</li>
+<li><code>AxisChartXmlFactory.java</code> - the XML factory class for the component</li>
+<li><code>AxisChartXmlWriter.java</code>- the component XML writer</li>
+<li><code>AxisDataset.java</code> - the axis dataset element</li>
+<li><code>AxisDatasetXmlFactory.java</code> - the XML factory class for the axis dataset</li>
+<li><code>ChartsDigester.java</code> - the specific Digester class for the axis chart component</li>
+<li><code>CompiledAxisDataset.java</code> - the compiled axis dataset class</li>
+<li><code>DesignAxisDataset.java</code> - the design axis dataset object</li>
+<li><code>FillAxisChart.java</code> - the fill object related to the axis chart</li>
+<li><code>FillAxisDataset.java</code> - the fill object related to the axis dataset</li>
+</ul>
+<subtitle name="sample">The JCharts Component - Sample</subtitle>
+<br/>
+<br/>
+An example of how to use the axis chart component is illustrated in the <code>reports/AxisChart.jrxml</code> template:
+<pre><![CDATA[
+<variable name="Value" class="java.lang.Double">
+  <variableExpression>
+    new Double(Math.pow($V{REPORT_COUNT}.doubleValue(), 4 - Math.log($V{REPORT_COUNT}.doubleValue())))
+  </variableExpression>
+</variable>
+
+...
+
+<componentElement>
+  <reportElement x="0" y="70" width="500" height="300"/>
+  <jc:axisChart xmlns:jc="http://jasperreports.sourceforge.net/jasperreports/jcharts"
+      evaluationTime="Report" areaColor="cyan">
+    <jc:axisDataset>
+      <dataset/>
+      <jc:labelExpression>$V{REPORT_COUNT}.toString()</jc:labelExpression>
+      <jc:valueExpression>$V{Value}</jc:valueExpression>
+    </jc:axisDataset>
+    <jc:legendLabelExpression>"Data"</jc:legendLabelExpression>
+  </jc:axisChart>
+</componentElement>]]></pre>
+The report is filled using an empty data source with 12 records, as shown in <code>src/JChartsApp.java</code>:
+<pre><![CDATA[
+public void fill() throws JRException
+{
+  long start = System.currentTimeMillis();
+  JasperFillManager.fillReportToFile("build/reports/AxisChart.jasper", null, new JREmptyDataSource(12));
+  System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+}]]></pre>
+The output in this case will be an area chart with 12 integer values on the x-axis. The related y-values are calculated in the <code>$V{Value}</code> 
+variable expression. The output area color is cyan and the legend will be labeled <code>"Data"</code>.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/jchartscomponent</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/jchartscomponent/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+
+    </content>
+  </feature>
+
+</sample>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+	<class name="net.sf.jasperreports.data.hibernate.HibernateDataAdapterImpl">
+		<map-to xml="hibernateDataAdapter"/>
+		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.data.ClassNameFieldHandler">
+			<bind-xml name="class" node="attribute"/>
+		</field>
+		<field name="name" type="string">
+			<bind-xml name="name" node="element"/>
+		</field>
+		<field name="xMLFileName" type="string">
+			<bind-xml name="xMLFileName" node="element"/>
+		</field>
+		<field name="propertiesFileName" type="string">
+			<bind-xml name="propertiesFileName" node="element"/>
+		</field>
+		<field name="useAnnotation" type="boolean">
+			<bind-xml name="useAnnotation" node="element"/>
+		</field>
+	</class>
+</mapping>

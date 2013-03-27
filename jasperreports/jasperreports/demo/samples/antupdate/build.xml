@@ -1,0 +1,95 @@
+<project name="antupdate" default="test" basedir=".">
+
+	<description>Shows how multiple JRXML files can be updated in batch mode using the ANT build tool.</description>
+
+	<path id="classpath">
+		<pathelement location="../../../build/classes"/>
+		<fileset dir="../../../lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	
+	<path id="runClasspath">
+		<path refid="classpath"/>
+		<pathelement location="../../fonts"/>
+		<pathelement location="./build/classes"/>
+	</path>
+
+	<taskdef name="jru" classname="net.sf.jasperreports.ant.JRAntUpdateTask"> 
+		<classpath refid="classpath"/>
+	</taskdef>
+
+	<target name="update1" description="Updates report designs specified using the &quot;srcdir&quot; in the &lt;jru&gt; tag."> 
+		<mkdir dir="./build/reports"/> 
+		<jru 
+				srcdir="./reports"
+				destdir="./build/reports">
+			<classpath refid="runClasspath"/>
+			<include name="**/*.jrxml"/>
+			<!--
+			<updater>net.sf.jasperreports.engine.util.LegacyBorderOffsetUpdater</updater>
+			-->
+		</jru>
+	</target> 
+
+	<target name="update2" description="Updates report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag.">
+		<mkdir dir="./build/reports"/> 
+		<jru destdir="./build/reports">
+			<src>
+				<fileset dir="./reports">
+					<include name="**/*.jrxml"/>
+				</fileset>
+			</src>
+			<classpath refid="runClasspath"/>
+		</jru> 
+	</target> 
+
+	<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+		<classpath refid="classpath"/>
+	</taskdef>
+
+	<target name="javac" description="Compiles the Java source files used in the report designs.">
+		<mkdir dir="./build/classes"/> 
+		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false"/>
+	</target> 
+
+	<target name="compile" depends="javac" description="Compiles the initial report designs."> 
+		<mkdir dir="./build/reports"/> 
+		<delete dir="./build">
+			<include name="**/*.jasper"/>
+		</delete>
+		<jrc 
+				srcdir="./reports"
+				destdir="./build/reports">
+			<classpath refid="runClasspath"/>
+			<include name="**/*.jrxml"/>
+		</jrc>
+	</target> 
+
+	<target name="compileUpdated" depends="javac" description="Compiles the updated report designs."> 
+		<mkdir dir="./build/reports"/> 
+		<delete dir="./build">
+			<include name="**/*.jasper"/>
+		</delete>
+		<jrc 
+				srcdir="./build/reports"
+				destdir="./build/reports">
+			<classpath refid="runClasspath"/>
+			<include name="**/*.jrxml"/>
+		</jrc>
+	</target> 
+
+	<target name="clean" description="Deletes all the generated files.">
+		<delete dir="./build" />
+	</target>
+
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Ant Update Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="update1" />
+		<antcall target="update2" />
+	</target>
+
+</project>

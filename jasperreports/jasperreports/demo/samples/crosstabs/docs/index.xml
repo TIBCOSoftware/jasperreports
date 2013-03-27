@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>crosstabs</name>
+  <title>Crosstabs Sample</title>
+  <description>Crosstab and subdataset sample.</description>
+
+  <mainFeature ref="crosstabs"/>
+  <mainFeature ref="datasets"/>
+  
+  <!-- crosstabs -->
+  
+  <feature name="crosstabs" title="Crosstabs">
+    <description>
+How to use the built-in crosstab element to display aggregated data.
+    </description>
+    <since>1.1.0</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+    <content>
+<subtitle name="overview">Crosstabs Overview</subtitle>
+<br/>
+<br/>
+Crosstabs are very helpful tools used to aggregate data into 2-dimensional grids. Like other data 
+aggregating elements (charts, for instance), they are organized as regular report elements, but 
+with a complex structure and granularity. 
+<br/> 
+Crosstabs can be used with any level of data (nominal, ordinal, interval, or ratio), 
+and usually display the summarized data, contained in report variables, in the form of a dynamic table. 
+Variables are used to display aggregate data such as sums, counts, average values.
+<br/>
+Crosstabs are also interesting due to their flexible layout capabilities. When a crosstab 
+does not fit on a page, then either a column or row break occurs, and the crosstab splits into several 
+pieces. Depending on the remaining available space, the crosstab could continue on the same page, or 
+it could overflow onto a new page. 
+<br/>
+<br/>
+A crosstab element is characterized by the following attributes:
+<ul>
+<li><code>isRepeatColumnHeaders</code> - indicates whether the column headers should be placed 
+in front of columns each time a row break occurs. The default value is <code>true</code>.</li>
+<li><code>isRepeatRowHeaders</code> - indicates whether the row headers should be placed 
+in front of rows each time a column break occurs. The default value is <code>true</code>.</li>
+<li><code>columnBreakOffset</code> - when a column break occurs, indicates the amount of vertical 
+space, measured in pixels, before the subsequent crosstab piece to be placed below the previous 
+one on the same page. The default value is <code>10</code>.</li>
+<li><code>runDirection</code> - indicates whether the crosstab data should be filled from left 
+to right (<code>LTR</code>) or from right to left (<code>RTL</code>). The default value is 
+<code>LTR</code>.</li>
+<li><code>ignoreWidth</code> - indicates whether the crosstab will stretch beyond the initial 
+crosstab width limit and dont't generate column breaks, or will stop rendering columns within the 
+crosstab width limit and continue with the remaining columns only after all rows have started 
+rendering. The default value is <code>false</code>.</li>
+</ul>
+Crosstabs are also able to represent standalone data, not contained in variables. Any number of 
+dynamic values can be passed from the enclosing report to the crosstab as crosstab parameters. A 
+crosstab parameter is characterized by its <code>name</code> and <code>class</code> attributes and 
+by the <code>&lt;parameterValueExpression&gt;</code> tag.
+<br/>
+One can declare crosstab parameters either one by one in the crosstab element, or grouping them in 
+a parameters map referenced by the <code>&lt;parametersMapExpression&gt;</code> tag.
+<br/>
+<br/>
+<subtitle name="crosstab_datasets">Crosstab Datasets</subtitle>
+<br/>
+<br/>
+Like charts, crosstabs can handle by themselves collections of data. They can access data either in the 
+report main dataset, or they can handle their own subdataset. All subdataset information required by the 
+crosstab element is contained in the <code>&lt;crosstabDataset&gt;</code> child element. To faster 
+perform calculations on data it is recommended that data come already sorted within dataset, according 
+to the row and column groups. If this is not the case, then the crosstab internal engine should be 
+instructed to sort data during the aggregation process. One can do this using the <code>isDataPreSorted</code> 
+dataset attribute. If no <code>&lt;crosstabDataset&gt;</code> is declared, then the crosstab is using the 
+main dataset. More on datasets can be found further in the <a href="#datasets">datasets</a> section.
+<br/>
+<br/>
+<subtitle name="data_grouping">Data Grouping in Crosstab</subtitle>
+<br/>
+<br/>
+The crosstab calculation engine aggregates data by iterating through the associated dataset records. 
+In order to aggregate data, one need to group them first. In a crosstab rows and columns are based on 
+specific group items, called <code>buckets</code>. A bucket definition should contain:
+<ul>
+<li><code>bucketExpression</code> - the expression to be evaluated in order to obtain data group items</li>
+<li><code>comparatorExpression</code> - needed in the case the natural ordering of the values is not the best choice</li>
+<li><code>orderByExpression</code> - indicates the value used to sort data</li>
+</ul>
+<subtitle name="row_groups">Row Groups</subtitle>
+<br/>
+<br/>
+Any number of row groups can be declared within a crosstab. The first row group will enclose the second one, 
+the second one will enclose the third one, and so on. A row group is characterized by the following attributes:
+<ul>
+<li><code>name</code> - the name identifying the row group; this attribute is required.</li>
+<li><code>width</code> - the width in pixels of the row group header</li>
+<li><code>totalPosition</code> - specifies the position of the row containing total values relative to the row group. Possible values are: 
+<code>Start</code>, <code>End</code>, <code>None</code>. The default value is <code>None</code>.</li>
+<li><code>headerPosition</code> - specifies the position of the row header content when multiple enclosing row groups are declared. 
+Possible values are: <code>Top</code>, <code>Middle</code>, <code>Bottom</code>, <code>Stretch</code>. The default value is <code>Top</code>.</li>
+</ul>
+and contains the following elements:
+<ul>
+<li><code>&lt;bucket&gt;</code></li>
+<li><code>&lt;crosstabRowHeader&gt;</code></li>
+<li><code>&lt;crosstabTotalRowHeader&gt;</code></li>
+</ul>
+<subtitle name="column_groups">Column Groups</subtitle>
+<br/>
+<br/>
+Any number of column groups can be declared within a crosstab. Like row groups, outer column groups are enclosing inner column groups, 
+in the same order as they were declared. A column group is characterized by the following attributes:
+<ul>
+<li><code>name</code> - the name identifying the column group; this attribute is required.</li>
+<li><code>height</code> - the height in pixels of the column group header</li>
+<li><code>totalPosition</code> - specifies the position of the column containing total values relative to the column group. Possible values are: 
+<code>Start</code>, <code>End</code>, <code>None</code>. The default value is <code>None</code>.</li>
+<li><code>headerPosition</code> - specifies the position of the column header content when multiple enclosing column groups are declared. 
+Possible values are: <code>Left</code>, <code>Center</code>, <code>Right</code>, <code>Stretch</code>. The default value is <code>Left</code>.</li>
+</ul>
+and contains the following elements:
+<ul>
+<li><code>&lt;bucket&gt;</code></li>
+<li><code>&lt;crosstabColumnHeader&gt;</code></li>
+<li><code>&lt;crosstabTotalColumnHeader&gt;</code></li>
+</ul>
+<subtitle name="measures">Measures</subtitle>
+<br/>
+<br/>
+A measure is a result of aggregate data calculation. Its value is typically displayed in the crosstab cells. A crosstab measure behaves just like a 
+report variable and is completely characterized by:
+<ul>
+<li><code>name</code> - the name identifying the measure.</li>
+<li><code>class</code> - specifies the measure object type.</li>
+<li><code>calculation</code> - like for report variables, specifies one of the supported types of calculations, except <code>System</code>. 
+The default value is <code>Nothing</code>.</li>
+<li><code>incrementerFactoryClass</code> - the name of the incrementer factory class</li>
+<li><code>percentageOf</code> - indicates if the calculation should be performed as percentage of some other total value (usually the crosstab grand total).</li>
+<li><code>percentageCalculatorClass</code> - the name of a custom percentage calculator class.</li>
+</ul>
+<subtitle name="builtin_variables">Built-in Crosstab Variables. Alternate Row/Column Colors</subtitle>
+<br/>
+<br/>
+<ol>
+<li>The current value of a measure calculation is stored in a variable having the same name as the measure.</li>
+<li><code>&lt;Measure&gt;_&lt;Column Group&gt;_ALL</code> - yields the total for all the entries in the column group from the same row.</li>
+<li><code>&lt;Measure&gt;_&lt;Row Group&gt;_ALL</code> - yields the total for all the entries in the row group from the same column.</li>
+<li><code>&lt;Measure&gt;_&lt;Row Group&gt;_&lt;Column Group&gt;_ALL</code> - yields the combined total corresponding to all 
+the entries in both row and column groups</li>
+<li><code>ROW_COUNT</code> - variable that counts the rows in a row group</li>
+<li><code>COLUMN_COUNT</code> - variable that counts the columns in a column group</li>
+</ol>
+<b>Note:</b> Based on the <code>ROW_COUNT</code> and <code>COLUMN_COUNT</code> one can generate alternate colors for rows or columns 
+in a crosstab, using <a href="../jasper/index.html#conditionalstyles">conditional styles</a>:
+<pre><![CDATA[
+<style name="RowStyle" isDefault="false" mode="Opaque">
+  <conditionalStyle>
+    <conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue() % 2 == 0)]] ></conditionExpression>
+    <style backcolor="#E0E0E0"/>
+  </conditionalStyle>
+</style>]]></pre>
+or:
+<pre><![CDATA[
+<style name="ColumnStyle" isDefault="false" mode="Opaque">
+  <conditionalStyle>
+    <conditionExpression><![CDATA[new Boolean($V{COLUMN_COUNT}.intValue() % 2 == 0)]] ></conditionExpression>
+    <style backcolor="#E0E0E0"/>
+  </conditionalStyle>
+</style>]]></pre>
+<subtitle name="cells">Crosstab Cells</subtitle>
+<br/>
+<br/>
+A crosstab cell is a rectangular report element that can contain any kind of other report element, except subreports, 
+charts, and crosstabs. Usually, crosstab cells can be either detail cells (when its both row/column correspond to a bucket value), 
+or total cells (when at least the row or column corresponds to a group total value).
+<br/>
+Depending on their position within the crosstab, or on their special meaning, crosstab cell types are described below:
+<ul>
+<li><code>&lt;crosstabHeaderCell&gt;</code> - this is the topmost left crosstab cell, where row headers and column headers meet.</li>
+<li><code>&lt;crosstabCell&gt;</code> - these are the regular detail cells, with no <code>rowTotalGroup</code> or <code>columnTotalGroup</code> 
+attribute declarations within their body. For these cells the <code>width</code> and <code>height</code> attributes are mandatory.</li>
+<li><code>&lt;crosstabCell&gt;</code> - if at least the <code>rowTotalGroup</code> or <code>columnTotalGroup</code> declaration is present, 
+this cell becomes a total cell. With a <code>rowTotalGroup</code> attribute, it will display a column total for that row group. With a 
+<code>columnTotalGroup</code> attribute, it will display a row total for that column group. </li>
+<li><code>&lt;whenNoDataCell&gt;</code> - if present, it specifies the content to be rendered instead, when the crosstab dataset has no data</li>
+</ul>
+<subtitle name="crosstab_sample">Crosstab JRXML Samples</subtitle>
+<br/>
+<br/>
+This sample contains 4 JRXML files illustrating various crosstab properties and usability.
+<ol start="1">
+<li><subtitle name="orders_report">OrdersReport</subtitle>
+<br/>
+<br/>
+This report template shows how to use the most common crosstab features in order to represent aggregate data related to a set of shipment orders.
+<ul>
+<li>The crosstab is placed in the report summary.</li>
+<li>It works with the report main dataset.</li>
+<li>It uses <a href="../jasper/index.html#conditionalstyles">conditional styles</a> based on the <code>ROW_COUNT</code> variable.</li>
+<li>Because data are not presorted, the engine performs internally data sorting, taking into account the <code>&lt;orderByExpression&gt;</code> criteria.</li>
+<li>It contains a single row group, bucketing the country names, and a single column group bucketing freight values.</li>
+<li>Detail cells contain multiple textfields with complementary information.</li>
+<li>Row and column headers are placed in the start position, and total rows and columns are placed on the last position in the crosstab.</li>
+<li>The crosstab do not split.</li>
+</ul>
+</li>
+</ol>
+<ol start="2">
+<li><subtitle name="late_orders_report">LateOrdersReport</subtitle>
+<br/>
+<br/>
+The report uses settings already present in the <code>OrdersReport</code> template, but due to not enough available space on the page, the crosstab splits 
+with a row break and continues on the next page. One can see that column headers are not repeated on the next page, because the <code>isRepeatColumnHeaders</code> 
+is set to <code>false</code>.
+</li>
+</ol>
+<ol start="3">
+<li><subtitle name="products_report">ProductsReport</subtitle>
+<br/>
+<br/>
+<ul>
+<li>The crosstab is placed in the report detail section.</li>
+<li>It works with the <code>Customer_Quantity</code> subdataset.</li>
+<li>It uses settings already present in the <code>OrdersReport</code> template.</li>
+<li>A <code>&lt;whenNoDataCell&gt;</code> crosstab cell is declared within. If no records present in the dataset, the <code>No data</code> is printed instead.</li>
+</ul>
+</li>
+</ol>
+<ol start="4">
+<li><subtitle name="shipments_report">ShipmentsReport</subtitle>
+<br/>
+<br/>
+This is the most complex report sample.
+<br/>
+<br/>
+<ul>
+<li>The crosstab is placed in the report detail section.</li>
+<li>It works with the <code>Country_Orders</code> subdataset.</li>
+<li>It uses settings already present in the above report templates.</li>
+<li>Depending on the available space the crosstab splits into multiple fragments, either by inserting column breaks, or row breaks.</li>
+<li>Row headers are repeating when columns break. Column headers are not repeating.</li>
+<li>The <code>&lt;crosstabHeaderCell&gt;</code> is present within the crosstab.</li>
+<li>Multiple row groups and column groups are declared. One can see how outer row headers are enclosing inner headers, and outer header 
+columns are enclosing the inner headers. Also is shown the outer header cells content's behavior, relative to the available space in the header cell.</li>
+<li>Percentage calculations are performed in total cells.</li>
+</ul>
+</li>
+</ol>
+<subtitle name="crosstab_running">Running the Sample</subtitle>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/crosstabs</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types for the four sample reports and save them in the <code>demo/samples/crosstabs/build/reports</code> directory. 
+<br/>
+Then the ShipmentsReport will open in the JasperReports internal viewer.
+
+    </content>
+  </feature>
+
+  <!-- datasets -->
+  
+  <feature name="datasets" title="Datasets">
+    <description>
+How to make use of subdatasets for chart elements and crosstab elements.
+    </description>
+    <since>1.1.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="charts"/>
+    <content>
+<subtitle name="datasets_overview">Report Datasets</subtitle>
+<br/>
+<br/>
+A dataset is an entity that intermediates data source and subreport characteristics. 
+Datasets allow the engine to iterate through some virtual records, just as data sources do, 
+but they also enable calculations and data grouping during this iteration using variables 
+and groups. A dataset declaration, containing parameters, fields, variables, and 
+groups, is similar to subreport declarations, but datasets are not related to any visual content. 
+There are no sections or layout information at the dataset level. 
+<br/>
+<br/>
+The report data source, along with the parameters, fields, variables, and groups declared 
+at the report level, represent a special dataset declaration, implicitely used in every 
+report template, the so-called main dataset. 
+<br/>
+One can consider the main dataset responsible for iterating through the report data source 
+records, calculating variables, filtering out records, and estimating group breaks during the 
+report-filling process. 
+<br/>
+<br/>
+<subtitle name="subdatasets">Subdatasets and Dataset Runs</subtitle>
+<br/>
+<br/>
+User-defined datasets are declared as <code>&lt;subDataset/&gt;</code> elements. To completely 
+characterize a <a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/schema.reference.html#subDataset">subdataset</a> 
+one needs to set:
+<ol>
+<li>Subdataset attributes:
+<ul>
+<li><code>name</code></li>
+<li><code>scriptletClass</code></li>
+<li><code>resourceBundle</code></li>
+<li><code>whenResourceMissingType</code></li>
+</ul>
+</li>
+<li>Subdataset elements:
+<ul>
+<li><code>&lt;property/&gt;</code></li>
+<li><code>&lt;scriptlet/&gt;</code></li>
+<li><code>&lt;parameter/&gt;</code></li>
+<li><code>&lt;queryString/&gt;</code></li>
+<li><code>&lt;field/&gt;</code></li>
+<li><code>&lt;sortField/&gt;</code></li>
+<li><code>&lt;variable/&gt;</code></li>
+<li><code>&lt;filterExpression/&gt;</code></li>
+<li><code>&lt;group/&gt;</code></li>
+</ul>
+</li>
+</ol> 
+Subdatasets are useful only in conjunction with some other complex elements, such as charts and 
+crosstabs, that need to iterate through data not belonging to the main report data source itself, 
+to retrieve specific data for the chart or perform data bucketing for the crosstab. Just simply 
+declaring a dataset at the report level does not have any effect. The dataset has to be further 
+referenced by a chart or crosstab element, in order to be used. 
+<br/>
+<br/>
+Anytime a dataset is referenced by another report element, a 
+<a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/schema.reference.html#datasetRun">dataset run</a> 
+is instantiated. A dataset run supplies additional information about either the appropriate data source to be iterated, or the 
+database connection string. It comes also with its own parameters and/or parameters map. Dataset runs are similar to 
+<a href="../subreport/index.html#subreports">subreports</a> in the way parameters and the data source/connection are passed in: 
+<pre><![CDATA[
+ <element name="datasetRun">
+  <annotation>
+   <documentation>Subdataset instantiation information for a chart/crosstab dataset.</documentation>
+  </annotation>
+  <complexType>
+   <sequence>
+    <element ref="jr:parametersMapExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:datasetParameter" minOccurs="0" maxOccurs="unbounded"/>
+    <choice minOccurs="0" maxOccurs="1">
+     <element ref="jr:connectionExpression"/>
+     <element ref="jr:dataSourceExpression"/>
+    </choice>
+   </sequence>
+   <attribute name="subDataset" type="string" use="required">
+	<annotation>
+ 	 <documentation>The name of the <elem>subdataset</elem> to instantiate.</documentation>
+	</annotation>
+   </attribute>
+  </complexType>
+ </element>]]></pre>
+The <code>subDataset</code> attribute is mandatory and contains the name of the subdataset to be used during the 
+chart or crosstab filling process. If no dataset run is specified for a chart or crosstab, the main dataset of 
+the report is used by default.
+    </content>
+  </feature>
+
+</sample>

@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+	<display-name>JasperReports</display-name>
+
+
+	<context-param>
+		<param-name>net.sf.jasperreports.web.file.repository.root</param-name>
+		<param-value>/WEB-INF/repository</param-value>
+		<description>This is a context parameter example</description>
+	</context-param>
+
+	<listener>
+		<listener-class>net.sf.jasperreports.web.listeners.JasperReportsContextListener</listener-class>
+	</listener>	
+
+	<servlet>
+		<servlet-name>DefaultViewerServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ViewerServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>CustomViewerServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ViewerServlet</servlet-class>
+		<init-param>
+			<param-name>net.sf.jasperreports.web.servlets.viewer.header.template</param-name>
+			<param-value>viewer/CustomHeaderTemplate.vm</param-value>
+		</init-param>
+		<init-param>
+			<param-name>net.sf.jasperreports.web.servlets.viewer.body.template</param-name>
+			<param-value>viewer/CustomBodyTemplate.vm</param-value>
+		</init-param>
+		<init-param>
+			<param-name>net.sf.jasperreports.web.servlets.viewer.footer.template</param-name>
+			<param-value>viewer/CustomFooterTemplate.vm</param-value>
+		</init-param>
+	</servlet>
+	<servlet>
+		<servlet-name>ReportServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ReportServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ResourceServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ResourceServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ImageServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ImageServlet</servlet-class>
+	</servlet>
+	
+
+	<servlet-mapping>
+		<servlet-name>DefaultViewerServlet</servlet-name>
+		<url-pattern>/servlets/viewer</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CustomViewerServlet</servlet-name>
+		<url-pattern>/servlets/myviewer</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ReportServlet</servlet-name>
+		<url-pattern>/servlets/report</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ResourceServlet</servlet-name>
+		<url-pattern>/servlets/resource</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ImageServlet</servlet-name>
+		<url-pattern>/servlets/image</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+	<login-config>
+		<auth-method>BASIC</auth-method>
+	</login-config>
+</web-app>

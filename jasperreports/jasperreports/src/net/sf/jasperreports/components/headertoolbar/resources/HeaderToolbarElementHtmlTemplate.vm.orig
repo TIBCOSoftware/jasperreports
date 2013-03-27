@@ -1,0 +1,223 @@
+#if (!${templateAlreadyLoaded})
+<script class='jasperreports'>
+	jasperreports.global.appendScriptElementToDOM('_headertoolbarScript', '${jasperreports_tableHeaderToolbar_js}', 'jasperreports.tableheadertoolbar.init');
+	jasperreports.global.appendStyleElementToDOM('_headertoolbarStyle', '${jasperreports_tableHeaderToolbar_css}');
+</script>
+<div class='popupdiv' id='popupdiv_template' data-actionBaseData='${actionBaseData}' data-actionBaseUrl='${actionBaseUrl}' style='display: none;'>
+	<div class='headerToolbar'>
+		<button type='button' class='hoverbtn formatDialogBtn' data-hover='' />
+		<button type='button' class='hoverbtn sortAscBtn' data-hover='' data-sortData='' /> 
+		<button type='button' class='hoverbtn sortDescBtn' data-hover='' data-sortData='' />
+		<button type='button' class='hoverbtn filterBtn' data-hover='' />
+	</div>
+	<div class='headerToolbarMask headerToolbarMaskDefaultStyle' data-columnIndex=''>
+	</div>
+	<div class='filterdiv' style='display: none;' data-filterData='{"actionName":"filter"}' data-clearData='{"actionName":"filter","filterData":{"clearFilter":true}}'>
+        <button type='button' class='hidefilter'/>
+        <div class='filterDivForm'>
+        	<input class='postable forClear' type='hidden' name='tableUuid' value='' />
+        	<input class='postable forClear' type='hidden' name='fieldName' value='' />
+        	<input class='postable' type='hidden' name='filterType' value='' />
+        	<input class='postable' type='hidden' name='filterPattern' value='' />
+        	<label class='filterColumnNameLabel'></label>
+        	<br/>
+			<select class='postable filterOperatorTypeValueSelector' name='filterTypeOperator'></select>
+        	<input class='postable filterValue initable' type='text' name='fieldValueStart' value='' />
+        	<input class='postable filterValue initable hidden' disabled type='text' name='fieldValueEnd' value='' />
+        	<input class='submitFilterBtn' type='button' value='Filter' />
+        	<input class='clearFilterBtn' style='display:none;' type='button' value='Clear' />
+        </div>
+	</div>
+	<ul class="jrMenuLst jrMenu">
+		<li class="jrMenuLstItm jrMenuEnabled format"><span class="jrMenuText">Formatting</span></li>
+		<li class="jrMenuLstItm jrMenuEnabled hide"><span class="jrMenuText">Hide Column</span></li>
+		<li class="jrMenuLstItm jrMenuEnabled unhide"><span class="jrMenuText">Show Columns</span>
+	</ul>
+	<div class="formatDialog">
+		<ul class="formatHeaderUL">
+			<li class="formatLI"><span class="formatTitle">Format Column</span></li>
+			<li class="formatLI tabHeadingsLi"><div class="formatTab tabHeadings formatTabSelected" data-tabBody='headingsTabContent'>Headings</div></li>
+			<li class="formatLI"><div class="formatTab" data-tabBody='valuesTabContent'>Values</div></li>
+		</ul>
+		<div class="formatTabBody headingsTabContent selectedTabBody">
+			<input class="postable" name="tableUuid" type="hidden" />
+			<input class="postable" name="columnIndex" type="hidden" />
+			<label>Name:</label><input class="postable" name="headingName" type="text" />
+			<br/>
+			<label>Font:</label>
+			<input class="customInput" data-forselector='fontName' name="fName" type="text"/>
+			<select class='postable customSel fontNameSelector' data-forinput='fName' name='fontName' size='3' data-postvalue=''>
+				<optgroup label='Extension Fonts'>
+				#foreach ($fontName in ${fontExtensionsFontNames})
+					<option value='$fontName'>$fontName</option>
+				#end
+				</optgroup>
+				<optgroup label='System Fonts'>
+				#foreach ($fontName in ${systemFontNames})
+					<option value='$fontName'>$fontName</option>
+				#end
+				</optgroup>
+			</select>
+			<br/>
+			<label>Size:</label>
+			<input class="customInput" data-forselector='fontSize' name="fSize" type="text"/>
+			<select class='postable customSel fontSizeSelector' data-forinput='fSize' name='fontSize' size='3' data-postvalue=''>
+				<option value='2'>2</option>
+				<option value='4'>4</option>
+				<option value='6'>6</option>
+				<option value='8'>8</option>
+				<option value='10'>10</option>
+				<option value='12'>12</option>
+				<option value='14'>14</option>
+				<option value='16'>16</option>
+			</select>
+			<br/>
+			<label>Style:</label>
+			<div class="styleButtons">
+				<button type='button' class='postable jrToggleBtn initable fontBoldBtn' name="fontBold" />
+				<button type='button' class='postable jrToggleBtn initable fontItalicBtn' name="fontItalic" />
+				<button type='button' class='postable jrToggleBtn initable fontUnderlineBtn' name="fontUnderline" />
+			</div>
+			<br/>
+			<label>Color:</label><input class="postable" name="fontColor" type="text" />
+			<br/>
+			<label>Alignment:</label>
+			<div class="alignmentButtons">
+				<input class="postable initable" name="fontHAlign" type="hidden" />
+				<button type='button' class='jrToggleBtn alignLeftBtn' value='Left'/>
+				<button type='button' class='jrToggleBtn alignCenterBtn' value='Center'/>
+				<button type='button' class='jrToggleBtn alignRightBtn' value='Right'/>
+			</div>
+			<br/>
+			<input class="buttonOK" type="button" value="Ok" />
+			<input class="buttonCancel" type="button" value="Cancel" />
+		</div>
+		<div class="formatTabBody valuesTabContent">
+			<input class="postable" name="tableUuid" type="hidden" />
+			<input class="postable" name="columnIndex" type="hidden" />
+			<label>Font:</label>
+			<input class="customInput" data-forselector='fontName' name="fName" type="text"/>
+			<select class='postable customSel fontNameSelector' data-forinput='fName' name='fontName' size='3' data-postvalue=''>
+				<optgroup label='Extension Fonts'>
+				#foreach ($fontName in ${fontExtensionsFontNames})
+					<option value='$fontName'>$fontName</option>
+				#end
+				</optgroup>
+				<optgroup label='System Fonts'>
+				#foreach ($fontName in ${systemFontNames})
+					<option value='$fontName'>$fontName</option>
+				#end
+				</optgroup>
+			</select>
+			<br/>
+			<label>Size:</label>
+			<input class="customInput" data-forselector='fontSize' name="fSize" type="text"/>
+			<select class='postable customSel fontSizeSelector' data-forinput='fSize' name='fontSize' size='3' data-postvalue=''>
+				<option value='2'>2</option>
+				<option value='4'>4</option>
+				<option value='6'>6</option>
+				<option value='8'>8</option>
+				<option value='10'>10</option>
+				<option value='12'>12</option>
+				<option value='14'>14</option>
+				<option value='16'>16</option>
+			</select>
+			<br/>
+			<label>Style:</label>
+			<div class="styleButtons">
+				<button type='button' class='postable jrToggleBtn initable fontBoldBtn' name="fontBold" />
+				<button type='button' class='postable jrToggleBtn initable fontItalicBtn' name="fontItalic" />
+				<button type='button' class='postable jrToggleBtn initable fontUnderlineBtn' name="fontUnderline" />
+			</div>
+			<br/>
+			<label>Color:</label><input class="postable" name="fontColor" type="text" />
+			<br/>
+			<label>Alignment:</label>
+			<div class="alignmentButtons">
+				<input class="postable initable" name="fontHAlign" type="hidden" />
+				<button type='button' class='jrToggleBtn alignLeftBtn' value='Left'/>
+				<button type='button' class='jrToggleBtn alignCenterBtn' value='Center'/>
+				<button type='button' class='jrToggleBtn alignRightBtn' value='Right'/>
+			</div>
+			<br/>
+			<label class="formatPatternLabel"></label>
+			<div class="formatting">
+				<input class="customInput fPattern" data-forselector='formatPattern' name="fPattern" type="text"/>
+				<select class='postable formatPatternSelector customSel' data-forinput='fPattern' name='formatPattern' size='3' data-postvalue=''></select>
+				<br/>
+				<div class="numberFormatButtons">
+					<button type='button' class='numberFormatBtn jrToggleBtn currencyBtn' title='Set currency symbol' />
+					<button type='button' class='numberFormatBtn jrToggleBtn percentageBtn' title='Set percentage symbol'/>
+					<button type='button' class='numberFormatBtn jrToggleBtn commaSeparatorBtn' title='Add comma as thousands separator'/>
+					<button type='button' class='numberFormatBtn increaseDecimalsBtn' title='Increase decimal places'/>
+					<button type='button' class='numberFormatBtn decreaseDecimalsBtn' title='Decrease decimal places'/>
+				</div>
+				<br/>
+			</div>
+			<input class="buttonOK" type="button" value="Ok" />
+			<input class="buttonCancel" type="button" value="Cancel" />
+		</div>
+	</div>
+</div>
+<script class='jasperreports'>
+(function() {
+	var gm = jasperreports.global;		
+	gm.subscribeToEvent(gm.events.HEADERTOOLBAR_INIT.name, 'jasperreports.tableheadertoolbar.initTemplate', ['popupdiv_template']);
+} ());
+</script>
+#end
+<script class='jasperreports'>
+(function() {
+	var gm = jasperreports.global,
+		templateJsonData = {
+		#if (!${canSort})
+			headerToolbar: {
+				sortAscBtn: {'@class': 'hidden'},
+				sortDescBtn: {'@class': 'hidden'},
+				filterBtn: {'@class': 'hidden'}
+			},
+			fPattern: {'@class': 'hidden'},
+			formatPatternLabel: {'@class': 'hidden'},
+			formatPatternSelector: {'@class': 'hidden', 'attr-disabled': 'disabled'},
+			numberFormatButtons: {'@class': 'hidden'},			
+		#else
+			headerToolbar: {
+				sortAscBtn: {'data-hover': '${sortAscHover}', '@class': '${sortAscActive}', 'data-sortData': '{"actionName":"sort","sortData":${sortAscData}}'},
+				sortDescBtn: {'data-hover': '${sortDescHover}', '@class': '${sortDescActive}', 'data-sortData': '{"actionName":"sort","sortData":${sortDescData}}'},
+				filterBtn: {'data-hover': '${filterHover}',	'@class': '${filterActive}'	}
+			},
+			filterdiv: {
+				filterColumnNameLabel: '${filterColumnNameLabel}',
+				filterOperatorTypeValueSelector: [
+				#foreach( $entry in ${filterTypeValuesMap.entrySet()} )
+					{key: "$entry.key", val: "$entry.value"},
+				#end],
+				filterDivForm: ${filterData}
+			},
+			#if (${hasPattern})
+				formatPatternLabel: '${formatPatternLabel}',
+				formatPatternSelector: [
+					#foreach( $entry in ${valuesFormatPatternMap.entrySet()} )
+						{key: "$entry.key", val: "$entry.value"},
+					#end],
+				#if (!${isNumeric})
+					numberFormatButtons: {'@class': 'hidden'},
+				#end
+			#else
+				fPattern: {'@class': 'hidden'},
+				formatPatternLabel: {'@class': 'hidden'},
+				formatPatternSelector: {'@class': 'hidden', 'attr-disabled': 'disabled'},
+				numberFormatButtons: {'@class': 'hidden'},
+			#end
+		#end
+			headerToolbarMask: {'data-columnIndex': ${columnIndex}},
+			headingsTabContent: ${colHeaderData},
+			valuesTabContent: ${colValueData}
+		};
+#if (${exporterFirstAttempt})
+	gm.subscribeToEvent(gm.events.HEADERTOOLBAR_INIT.name, 'jasperreports.tableheadertoolbar.setAllColumns', [${allColumnNames}, '${tableUUID}']);
+#end
+	gm.subscribeToEvent(gm.events.HEADERTOOLBAR_INIT.name, 'jasperreports.tableheadertoolbar.addTemplateData', ['popupdiv_template', '${popupId}', templateJsonData]);
+	gm.subscribeToEvent(gm.events.HEADERTOOLBAR_INIT.name, 'jasperreports.tableheadertoolbar.addVisibleColumn', [${columnIndex}, '${columnLabel}', '${tableUUID}']);
+} ());
+</script>

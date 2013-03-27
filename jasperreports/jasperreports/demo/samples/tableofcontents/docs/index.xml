@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>tableofcontents</name>
+  <title>Table of Contents Sample</title>
+  <description>Shows how table-of-contents structures could be created for the generated reports.</description>
+
+  <mainFeature ref="tableofcontents"/>
+  <mainFeature ref="fileresolver"/>
+  
+  <!-- tableofcontents -->
+  
+  <feature name="tableofcontents" title="Creating Table-Of-Contents Structures">
+    <description>
+How to create a table of contents with hyperlinks at the beginning of a document.
+    </description>
+    <since>0.4.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<subtitle name="overview">Table Of Contents - Overview</subtitle>
+<br/>
+<br/>
+A table of content becomes very necessary when complex documents with huge number of pages are generated. But, being almost impossible to 
+determine the total number of pages, or the current content of generated pages at report design time, there is no built-in report element in 
+JasperReports to handle the table of contents.
+<br/>
+The document structure unveils itself step by step at report filling time. Therefore this is the proper moment for building a table of content. 
+Once a print element is generated, its place within document is completely determined, so from now on we are able to find and reference 
+that element. If the element is starting a new section, we can add a new entry in the table of contents, pointing here. 
+<br/>
+The table of content cannot be finalized before the report is completely filled, so it can be very easily placed on the last page of the document 
+in the <code>summary</code> section. But how about documents that require to start with a table of contents? With JasperReports this document 
+layout can be also realized, as shown in this sample. 
+<br/>
+<br/>
+<subtitle name="overview">Table Of Contents Sample</subtitle>
+<br/>
+<br/>
+There are various ways to build tables of contents, depending on everyone's free imagination. The way imagined here is the following:
+<ul>
+<li>The table of content structure was configured in a subreport. See the <code>reports/HeadingsReport.jrxml</code> file for layout details. It is based on 
+local anchor hyperlinks with different levels of indentation, depending on the heading type. Notice the presence of the invisible element labeled 
+<code>"HIDDEN TEXT TO MARK THE BEGINNING OF THE TABLE OF CONTENTS"</code> in the title section. It will be used to identify the first page of the 
+table of contents in the generated document.<br/> <br/></li>
+<li>A <code>HeadingBean</code> class (see the <code>src/HeadingBean.java</code> file) was created in order to store the meaningful information of individual 
+entries in the table of contents. A <code>HeadingBean</code> object exposes the following bean properties:
+<ul>
+<li><code>headingType</code> - an integer that indicates the heading type of the entry.</li>
+<li><code>headingText</code> - the text to be written in the table of contents for this entry.</li>
+<li><code>reference</code> - the hyperlink reference associated with the entry.</li>
+<li><code>pageIndex</code> - the page index to be associated with this entry in the table of contents.</li>
+</ul>
+During the report filling a <api href="net/sf/jasperreports/engine/data/JRBeanCollectionDataSource.html" target="_blank">JRBeanCollectionDataSource</api> 
+will be populated with <code>HeadingBean</code> object. The mechanism used to populate it is an inventive combination between report scriptlets and 
+<code>printWhenExpression</code>s, as we'll see in a while. The bean collection will be passed as data source parameter to the <code>HeadingsReport</code> 
+subreport placed in the summary section. At that moment the collection data source will be entirely complete and ready to be used.<br/> <br/></li>
+<li>Every time the <code>addHeading(String )</code> method in the <code>HeadingsScriptlet</code> class is called, a new member is added to the bean collection 
+data source described above. So, we have to ensure that the method is called any time a heading element is met in the document. This is done using an interesting 
+condition in <code>printWhenExpression</code>s in the master report (see the <code>reports/TableOfContentsReport.jrxml</code> file):
+<pre><![CDATA[
+<group name="FirstLetterGroup" minHeightToStartNewPage="60">
+  ...
+  <groupHeader>
+  <band height="25">
+    <line>
+      <reportElement x="0" y="0" width="1" height="1">
+        <printWhenExpression>
+          <![CDATA[((HeadingsScriptlet)$P{REPORT_SCRIPTLET}).addHeading("FirstLetterGroup")]] ></printWhenExpression>
+      </reportElement>
+      <graphicElement/>
+    </line>
+    ...
+    <textField>
+      <reportElement mode="Opaque" x="190" y="10" width="325" height="15" backcolor="#c0c0c0" style="Sans_Bold"/>
+      <textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetter}]] ></textFieldExpression>
+      <anchorNameExpression><![CDATA["FirstLetterGroup_" + $V{FirstLetter}]] ></anchorNameExpression>
+    </textField>
+  </band>
+  </groupHeader>
+</group>
+<group name="ShipCountryGroup" minHeightToStartNewPage="60">
+  ...
+  <groupHeader>
+  <band height="20">
+    <line>
+      <reportElement x="0" y="0" width="1" height="1">
+        <printWhenExpression>
+          <![CDATA[((HeadingsScriptlet)$P{REPORT_SCRIPTLET}).addHeading("ShipCountryGroup")]] >
+        </printWhenExpression>
+      </reportElement>
+      <graphicElement/>
+    </line>
+    ...
+    <textField>
+      <reportElement x="0" y="4" width="515" height="15" style="Sans_Bold"/>
+      <textFieldExpression class="java.lang.String">
+        <![CDATA["  " + String.valueOf($V{ShipCountryNumber}) + ". " + String.valueOf($F{ShipCountry})]] >
+      </textFieldExpression>
+      <anchorNameExpression><![CDATA["ShipCountryGroup_" + $V{ShipCountryNumber}]] ></anchorNameExpression>
+    </textField>
+  </band>
+  </groupHeader>
+  ...
+</group>]]></pre>
+One can see a similar construction present in both group headers of the report: a <code>line</code> with a <code>printWhenExpression</code> 
+and a textfield with an <code>anchorNameExpression</code>. The <code>addHeading(...)</code> method called in the <code>printWhenExpression</code> 
+populates the data source and always returns <code>false</code>. That means the <code>line</code> element never gets printed, being used only for 
+calling the scriptlet method.
+<br/>
+But the related textfield will be printed and will be marked with the same anchor name as that one built in the <code>reference</code> field of 
+the corresponding <code>HeadingBean</code> object. In the final document, clicking on any entry in the table of contents will send to the bookmarked 
+element in the document.<br/> <br/></li>
+<li>If the document would require a table of contents placed at the end, all the work would stop here. There would be nothing else to do. But in this 
+sample is assumed that the table of contents is needed at the beginning of the document, hence an additional step is required. After filling the 
+<code>JasperPrint</code> object, one can iterate through its pages and elements. We have to identify the pages containing the table of contents, to cut 
+and move them at the beginning of the document. That's what the <code>moveTableOfContents(JasperPrint)</code> method in the <code>src/TableOfContentsApp.java</code> 
+is doing. The method is called at fill time after the JasperPrint object was generated.</li>
+</ul>
+The final result of the mechanism described above can be observed when running the sample.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/tableofcontents</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/tableofcontents/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+
+    </content>
+  </feature>
+
+  <!-- fileresolver -->
+  
+  <feature name="fileresolver" title="File Resolver">
+    <description>
+Shows how to use file resolver implementations in order to locate file resources referenced from within reports using relative paths.
+    </description>
+    <since>2.0.5</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<subtitle name="toc_overview">File Resolver - Overview</subtitle>
+<br/>
+<br/>
+By default, the JR engine interprets resource locations as file system paths that can be either 
+absolute or relative to the current user directory (given by the Java <code>user.dir</code> system 
+property). If the path constructed this way resolves to an existing file, the report resource 
+will be loaded from this file.
+<br/>
+The default behavior can be changed by using the 
+<api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_FILE_RESOLVER" target="_blank">REPORT_FILE_RESOLVER</api> 
+parameter at fill time to pass a file resolver object. This object needs to be an instance of a class that implements the 
+<api href="net/sf/jasperreports/engine/util/FileResolver.html" target="_blank">FileResolver</api> interface. The interface 
+contains a single method which is responsible for resolving a resource location to an abstract file path (represented by 
+a <code>java.io.File</code> object).
+<br/>
+When a file resolver is set via the report parameter, the engine will use it to interpret 
+resource locations as file paths. If a file resolver returns a non-null file path for a 
+resource location, the file located at the returned path will be used to load the resource. 
+<br/>
+JasperReports ships with the built-in 
+<api href="net/sf/jasperreports/engine/util/SimpleFileResolver.html" target="_blank">SimpleFileResolver</api> implementation 
+that interprets resource locations as paths relative to one or several file system folders. To create such a file resolver, 
+the user has to specify one or more resources folders. When the resolver is asked to resolve a resource location, it interprets 
+the locations as a path relative to each of the resource folders, and returns the first path that corresponds to an existing file.
+<br/>
+The <api href="net/sf/jasperreports/engine/util/SimpleFileResolver.html" target="_blank">SimpleFileResolver</api> is called in this 
+sample at fill time to resolve paths to compiled reports saved with the <code>.jasper</code> extension. See the example in the 
+<code>src/TableOfContentsApp.java</code>:
+<pre><![CDATA[
+public void fill() throws JRException
+{
+  long start = System.currentTimeMillis();
+  //Preparing parameters
+  Map parameters = new HashMap();
+  parameters.put("ReportTitle", "Orders Report");
+
+  SimpleFileResolver fileResolver =
+    new SimpleFileResolver(
+      Arrays.asList(new File[]{new File("build/reports")})
+      );
+  fileResolver.setResolveAbsolutePath(true);
+  
+  parameters.put(JRParameter.REPORT_FILE_RESOLVER, fileResolver);
+  
+  JasperReport jasperReport = (JasperReport)JRLoader.loadObject("build/reports/TableOfContentsReport.jasper");
+
+  JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, getDemoHsqldbConnection());
+  
+  jasperPrint = moveTableOfContents(jasperPrint);
+
+  JRSaver.saveObject(jasperPrint, "build/reports/TableOfContentsReport.jrprint");
+
+  System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+}]]></pre>
+<b>Note: As shown in the API javadoc, the </b><api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_FILE_RESOLVER" target="_blank">REPORT_FILE_RESOLVER</api><b> 
+parameter is now deprecated. It is highly recommended to switch to the </b>
+<api href="net/sf/jasperreports/engine/JasperReportsContext.html" target="_blank">JasperReportsContext</api><b> approach wherever is possible.</b>
+    </content>
+  </feature>
+
+</sample>

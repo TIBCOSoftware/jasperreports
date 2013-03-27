@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>nopagebreak</name>
+  <title>No Page Break Sample</title>
+  <description>Shows how reports can be designed and exported in a way that hides the existence of page breaks.</description>
+
+  <mainFeature ref="nopagebreak"/>
+  
+  <!-- nopagebreak -->
+  
+  <feature name="nopagebreak" title="Suppress Pagination">
+    <description>
+How to suppress pagination in generated documents.
+    </description>
+    <since>1.0.1</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b>The <code>isIgnorePagination</code> Flag</b>
+<br/>
+<br/>
+Usually JasperReports generates page-oriented document layouts: each document is a collection of 
+pages having the same width, height, and page orientation. However, if needed, multiple documents with particular  
+page settings can be concatenated to produce a single document output with different page layouts, using 
+the <a href="../batchexport/index.html">batch export</a> facility.
+<br/>
+<br/>
+In the case where no batch export is implied, all document pages share the same page settings, and they are 
+by default separated by page breaks. At export time each exporter has its own way to handle the page break 
+element in order to make visible the page separation.
+<br/>
+But there are situations, especially for web-oriented applications, where pagination is irrelevant and 
+it causes the document to be displayed improperly. For instance, when exporting documents to HTML format, 
+one might prefer to display it as a continuous scrollable page rather than a succession of pages separated 
+by visible empty spaces. Or, when exporting to Excel in a single sheet document, a layout without visible 
+page breaks would be preferred.
+<br/>
+<br/>
+This is why the engine needs to be instructed how to handle page breaks in various situations. A possibility 
+would be to completely ignore the pagination, with no respect to the output document format. Responsible for 
+this kind of approach is the <code>isIgnorePagination</code> flag property. It can be found among the 
+<code>&lt;jasperReport/&gt;</code> element attributes:
+<br/>
+<br/>
+<code> 
+ &lt;jasperReport ... isIgnorePagination="true" ...&gt;
+<br/>
+ ...
+<br/>
+ &lt;/jasperReport&gt;
+</code> 
+<br/>
+<br/>
+When <code>isIgnorePagination</code> is set to <code>true</code>, the report-filling engine will 
+generate the document on a single, very long page. Running the generated report to any output format, 
+a single page document will be visualized.
+<br/>
+While this is the desired behavior for some document types, such as HTML, XML or XLS, it's quite uncomfortably 
+for documents with page-oriented layout (like PDF, DOCX, etc) to be displayed as single very long pages, without the 
+possibility to navigate between pages. 
+<br/>
+<br/>
+By default, <code>isIgnorePagination</code> is set to <code>false</code>. For various purposes this flag can be 
+overriden at report filling time using the optional built-in 
+<api href="net/sf/jasperreports/engine/JRParameter.html#IS_IGNORE_PAGINATION">IS_IGNORE_PAGINATION</api> parameter. 
+<br/>
+<br/>
+<b>Handling Page Breaks at Export Time</b>
+<br/>
+<br/>
+When <code>isIgnorePagination</code> is <code>true</code> the report will be generated in a single page. 
+And this layout will be irreversible. The resulting page can no more be fragmented back into multiple sections 
+at runtime.
+<br/>
+<br/>
+Therefore, using a <code>isIgnorePagination="true"</code> attribute works properly if the report will be definitely 
+printed out in flow-oriented document layouts. In the case of multiple output document layout, the best choice is 
+to let the pagination being handled at export time, each exporter providing its own handling mode.
+<br/>
+In order to accomplish this, one have to let the <code>isIgnorePagination</code> with its default value 
+(ie <code>false</code>). At fill time the document will be generated as multiple pages document. Then, at export time, 
+the exporter could decide whether to print out the document as multipage, or to concatenate all pages into a single one, 
+by suppressing all empty space between pages.
+<br/>
+<br/>
+<b>Handling Page Breaks with HTML Exporter</b>
+<br/>
+<br/>
+When a multipage document gets exported into HTML format there are three possibilities to configure its layout:
+<ul>
+<li>The document will be printed out page by page; only a single document page can be visualized at a time; one can navigate between pages using a navigation bar script.</li>
+<li>All document pages will be printed out in a sequence where page breaks appear as noticeable amount of empty space on the vertical axis. Sometimes this is not a very 
+user-friendly webpage and removing the extra blank space between pages is required. In such a case a lot of help comes from the 
+<code>net.sf.jasperreports.export.html.remove.emtpy.space.between.rows</code> hint property (or the associated 
+<api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS">IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api> export parameter). 
+If this property is <code>true</code>, then all empty rows in the generated HTML table will be collapsed, leading to a completely flow-oriented layout. 
+By default, the exporter preserves all the whitespace for pixel-perfect page layouts.</li> 
+<li>All document pages will be printed out in a sequence where page breaks appear as a custom HTML separator. One can replace the default blank space between pages with 
+a customized separator element (a horizontal line, for example). The HTML code fragment for the custom separator can be set using the 
+<api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#BETWEEN_PAGES_HTML">BETWEEN_PAGES_HTML</api> export parameter.</li>
+</ul>
+<b>Handling Page Breaks with XLS Exporters</b>
+<br/>
+<br/>
+JasperReports provides several dedicated exporters to export documents in Excel formats. All of them generate Excel-compatible documents organized as workbooks which store inside 
+one or more separated sheets. Because Excel documents are collections of sheets, one can consider that usually an Excel sheet is equivalent to a document page, 
+and each XLS exporter should be able to translate a page content into an equivalent sheet content.
+<br/>
+<br/>
+Like in HTML, there are multiple possibilities to handle sheet breaks when exporting to Excel format:
+<ul>
+<li>The document will be printed as one page per sheet; each page will be printed out on a separate sheet in the workbook. This setting can be done using the 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_ONE_PAGE_PER_SHEET">PROPERTY_ONE_PAGE_PER_SHEET</api> exporter 
+hint property (or the equivalent 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#IS_ONE_PAGE_PER_SHEET">IS_ONE_PAGE_PER_SHEET</api> export parameter). If this 
+property is <code>true</code> then one page per sheet will be printed out. By default this property is set to <code>false</code>.
+</li>
+<li>When <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_ONE_PAGE_PER_SHEET">PROPERTY_ONE_PAGE_PER_SHEET</api> is not set, 
+all document pages will be printed out into a single sheet. Page breaks appear as supplementary empty rows between pages. Like in HTML, the 
+<code>net.sf.jasperreports.export.html.remove.emtpy.space.between.rows</code> hint property (or the associated 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS">IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api> export parameter) 
+becomes very useful. 
+<br/>
+If this property is <code>true</code>, then all empty rows in the generated sheet will be collapsed, leading to a completely flow-oriented layout. 
+However, by default the property is <code>false</code>. The exporter preserves by default all the whitespace for pixel-perfect layouts.</li> 
+<li>Another specific sheet-related feature (therefore available only for XLS exporters) is that any sheet can be broken into multiple sheet children, 
+all of them having the same maximum number of rows. For instance, if a generated sheet contains 1234 rows, it can be broken into 3 sheets with maximum 600 rows. 
+The first 2 sheets contain 600 rows each, and the third contains the remaining 34 rows. In this case, even the fill-time 
+<code>isIgnorePagination</code> flag is <code>true</code>, it is still possible at export time to get multiple sheets starting with a single one, by limiting the 
+maximum number of rows per sheet. This can be done using the 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_MAXIMUM_ROWS_PER_SHEET">PROPERTY_MAXIMUM_ROWS_PER_SHEET</api> 
+(or the associated 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#MAXIMUM_ROWS_PER_SHEET">MAXIMUM_ROWS_PER_SHEET</api> export parameter).</li>
+</ul>
+<br/>
+<br/>
+<b>Suppress Pagination Examples</b>
+<br/>
+<br/>
+This sample works with the default value for the <code>isIgnorePagination</code> flag, which means that the document will be generated into separate pages. 
+Then, when the document gets exported, some exporters are instructed to suppress the pagination in specific ways.
+<br/>
+<br/>
+In the NoPageBreakApp.java one can see how the export parameters responsible for page breaks handling are set.
+<br/>
+<br/>
+For the HTML exporter (see the <code>html()</code> method):
+<pre><![CDATA[
+  exporter.setParameter(JRHtmlExporterParameter.BETWEEN_PAGES_HTML, "");
+  exporter.setParameter(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);]]></pre>
+And for XLS and XLSX exporters (see <code>xls()</code> and <code>xlsx()</code> methods)
+<pre><![CDATA[
+  exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+  exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);]]></pre>
+For comparison, the <code>IS_ONE_PAGE_PER_SHEET</code> parameter was set to <code>true</code> for the JExcelApi exporter (see the <code>jxl()</code> method):
+<pre><![CDATA[
+  exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+  exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/charts</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/charts/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+	</content>
+  </feature>
+
+</sample>

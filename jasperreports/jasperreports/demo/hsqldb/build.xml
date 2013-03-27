@@ -1,0 +1,23 @@
+<project name="HSQLDB" default="runServer" basedir=".">
+
+	<description>Helps starting up the HSQLDB demo database.</description>
+
+	<path id="hsql-classpath">
+		<fileset dir="../../lib">
+			<include name="**/hsqldb*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="runServer" description="Launches the HSQLDB database server.">
+		<java classname="org.hsqldb.Server" fork="true">
+			<classpath refid="hsql-classpath"/>
+		</java>
+	</target>
+
+	<target name="runManager" description="Launches the HSQLDB manager.">
+		<java classname="org.hsqldb.util.DatabaseManager" fork="true">
+			<classpath refid="hsql-classpath"/>
+		</java>
+	</target>
+  
+</project>
