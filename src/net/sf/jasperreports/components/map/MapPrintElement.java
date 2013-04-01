@@ -97,6 +97,11 @@ public final class MapPrintElement
 	public static final String PARAMETER_MARKER_ICON = "icon";
 	
 	/**
+	 * The name of the parameter that provides the marker icon url.
+	 */
+	public static final String PARAMETER_MARKER_ICON_URL = "icon.url";
+	
+	/**
 	 *
 	 */
 	public static final Float DEFAULT_LATITUDE = 0f;

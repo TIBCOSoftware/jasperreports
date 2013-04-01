@@ -80,8 +80,10 @@ public class MapElementImageProvider
 				if(!map.isEmpty())
 				{
 					currentMarkers = "&markers=";
-					String icon = (String)map.get(MapPrintElement.PARAMETER_MARKER_ICON);
-					if(icon != null)
+					String icon = map.get(MapPrintElement.PARAMETER_MARKER_ICON_URL) != null 
+							? (String)map.get(MapPrintElement.PARAMETER_MARKER_ICON_URL) 
+							: (String)map.get(MapPrintElement.PARAMETER_MARKER_ICON);
+					if(icon != null && icon.length() > 0)
 					{
 						currentMarkers +="icon:" + icon + "%7C";
 					}
