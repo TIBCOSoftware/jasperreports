@@ -314,7 +314,10 @@ public class Tabulator
 		Table overlappedLayer = new Table(this);
 		layeredCell.addLayer(overlappedLayer);
 		overlappedLayer.columns.addEntry(0);
+		//adding the final range entry so that narrower layers do not stretch to 100% in HTML
+		overlappedLayer.columns.addEntry(layeredColRange.end - layeredColRange.start);
 		overlappedLayer.rows.addEntry(0);
+		//not adding final range entry for rows for now, not needed at the moment
 		
 		int layerXOffset = xOffset - layeredColRange.start;
 		int layerYOffset = yOffset - layeredRowRange.start;
