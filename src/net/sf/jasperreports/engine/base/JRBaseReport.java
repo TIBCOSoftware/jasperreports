@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.OrientationEnum;
@@ -139,7 +140,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JasperDesign#JasperDesign()}.
 	 */
 	public JRBaseReport()
 	{
