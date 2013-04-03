@@ -81,23 +81,7 @@
 				    var marker = new gg.Marker(markerOptions);
 				    if(markerOptions['url']) {
 						google.maps.event.addListener(marker, 'click', function() {
-							switch(markerOptions['target']) {
-								case '_self': 
-									window.self.location.href = markerOptions['url'];
-									break;
-								case '_parent': 
-									window.parent.location.href = markerOptions['url'];
-									break;
-								case '_top': 
-									window.top.location.href = markerOptions['url'];
-									break;
-								default:
-									if(frames[markerOptions['target']]) {
-										frames[markerOptions['target']].location.href = markerOptions['url'];
-									} else {
-										window.location.href = markerOptions['url'];
-									}
-							}
+							window.open(markerOptions['url'], markerOptions['target']);
 						});	
 					}				        
 				}
