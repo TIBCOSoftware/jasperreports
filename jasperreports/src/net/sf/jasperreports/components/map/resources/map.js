@@ -43,115 +43,12 @@
 					        position: markerLatLng,
 					        map: map
 					    };
-				    
 				    if(markerProps['icon.url'] && markerProps['icon.url'].length > 0) {
-				    	var width, height, originX, originY, anchorX, anchorY;
-				    	var iconSize;
-				    	var iconOrigin, iconAnchor;
-				    	var iconUrl = markerProps['icon.url'];
-				    	
-				    	if(markerProps['icon.width']) {
-				    		width = new Number(markerProps['icon.width']);
-				    		height = 0;
-				    	}
-				    	if(markerProps['icon.height']) {
-				    		height = new Number(markerProps['icon.height']);
-				    		if(!width) {
-				    			width = 0;
-				    		}
-				    	}
-				    	if(markerProps['icon.origin.x']) {
-				    		originX = new Number(markerProps['icon.origin.x']);
-				    		originY = 0;
-				    	}
-				    	if(markerProps['icon.origin.y']) {
-				    		originY = new Number(markerProps['icon.origin.y']);
-				    		if(!originX) {
-				    			originX = 0;
-				    		}
-				    	}
-				    	if(markerProps['icon.anchor.x']) {
-				    		anchorX = new Number(markerProps['icon.anchor.x']);
-				    		anchorY = 0;
-				    	}
-				    	if(markerProps['icon.anchor.y']) {
-				    		anchorY = new Number(markerProps['icon.anchor.y']);
-				    		if(!anchorX) {
-				    			anchorX = 0;
-				    		}
-				    	}
-				    	if(width || height) {
-				    		iconSize = new google.maps.Size(width,height);
-				    	}
-				    	if(originX || originY) {
-				    		iconOrigin = new google.maps.Point(originX,originY);
-				    	}
-				    	if(anchorX || anchorY) {
-				    		iconAnchor = new google.maps.Point(anchorX,anchorY);
-				    	}
-				    	var customIcon = {
-				    			url: iconUrl,
-				    			size: iconSize,
-				    			origin: iconOrigin,
-				    			anchor: iconAnchor
-				    	};
-				    	markerOptions['icon'] = customIcon;
+				    	configureImage('icon', markerProps, markerOptions);
 				    }
-				    
 				    if(markerProps['shadow.url'] && markerProps['shadow.url'].length > 0) {
-				    	var width, height, originX, originY, anchorX, anchorY;
-				    	var shadowSize;
-				    	var shadowOrigin, shadowAnchor;
-				    	var shadowUrl = markerProps['shadow.url'];
-				    	
-				    	if(markerProps['shadow.width']) {
-				    		width = new Number(markerProps['shadow.width']);
-				    		height = 0;
-				    	}
-				    	if(markerProps['shadow.height']) {
-				    		height = new Number(markerProps['shadow.height']);
-				    		if(!width) {
-				    			width = 0;
-				    		}
-				    	}
-				    	if(markerProps['shadow.origin.x']) {
-				    		originX = new Number(markerProps['shadow.origin.x']);
-				    		originY = 0;
-				    	}
-				    	if(markerProps['shadow.origin.y']) {
-				    		originY = new Number(markerProps['shadow.origin.y']);
-				    		if(!originX) {
-				    			originX = 0;
-				    		}
-				    	}
-				    	if(markerProps['shadow.anchor.x']) {
-				    		anchorX = new Number(markerProps['shadow.anchor.x']);
-				    		anchorY = 0;
-				    	}
-				    	if(markerProps['shadow.anchor.y']) {
-				    		anchorY = new Number(markerProps['shadow.anchor.y']);
-				    		if(!anchorX) {
-				    			anchorX = 0;
-				    		}
-				    	}
-			    		if(width || height) {
-			    			shadowSize = new google.maps.Size(width,height);
-			    		}
-			    		if(originX || originY) {
-			    			shadowOrigin = new google.maps.Point(originX,originY);
-			    		}
-			    		if(anchorX || anchorY) {
-			    			shadowAnchor = new google.maps.Point(anchorX,anchorY);
-			    		}
-			    		var customShadow = {
-				    		url: shadowUrl,
-				    		size: shadowSize,
-				    		origin: shadowOrigin,
-				    		anchor: shadowAnchor
-				    	};
-				    	markerOptions['shadow'] = customShadow;
+				    	configureImage('shadow', markerProps, markerOptions);
 				    }
-				    
 				    for (j in markerProps) {
 						if (
 							j.indexOf("icon.") < 0 
@@ -163,8 +60,79 @@
 						}
 					}
 				    var marker = new gg.Marker(markerOptions);
+				    if(markerOptions['url']) {
+						google.maps.event.addListener(marker, 'click', function() {
+							switch(markerOptions['target']) {
+								case '_self': 
+									window.self.location.href = markerOptions['url'];
+									break;
+								case '_parent': 
+									window.parent.location.href = markerOptions['url'];
+									break;
+								case '_top': 
+									window.top.location.href = markerOptions['url'];
+									break;
+								default:
+									if(frames[markerOptions['target']]) {
+										frames[markerOptions['target']].location.href = markerOptions['url'];
+									} else {
+										window.location.href = markerOptions['url'];
+									}
+							}
+						});	
+					}				        
 				}
 			}
 		},
+		configureImage: function (parentKey, parentProps, parentOptions) {
+			var width, height, originX, originY, anchorX, anchorY;
+			var imageSize;
+			var imageOrigin, imageAnchor;
+			var imageUrl = parentProps[parentKey + '.url'];
+			
+			if(parentProps[parentKey + '.width']) {
+				width = new Number(parentProps[parentKey + '.width']);
+			}
+			if(parentProps[parentKey + '.height']) {
+				height = new Number(parentProps[parentKey + '.height']);
+				if(width) {
+					imageSize = new google.maps.Size(width,height);
+				}
+			}
+			if(parentProps[parentKey + '.origin.x']) {
+				originX = new Number(parentProps[parentKey + '.origin.x']);
+				originY = 0;
+			}
+			if(parentProps[parentKey + '.origin.y']) {
+				originY = new Number(parentProps[parentKey + '.origin.y']);
+				if(!originX) {
+					originX = 0;
+				}
+			}
+			if(parentProps[parentKey + '.anchor.x']) {
+				anchorX = new Number(parentProps[parentKey + '.anchor.x']);
+				anchorY = 0;
+			}
+			if(parentProps[parentKey + '.anchor.y']) {
+				anchorY = new Number(parentProps[parentKey + '.anchor.y']);
+				if(!anchorX) {
+					anchorX = 0;
+				}
+			}
+			if(originX || originY) {
+				imageOrigin = new google.maps.Point(originX,originY);
+			}
+			if(anchorX || anchorY) {
+				imageAnchor = new google.maps.Point(anchorX,anchorY);
+			}
+			
+			parentOptions[parentKey] = {
+				url: imageUrl,
+				size: imageSize,
+				origin: imageOrigin,
+				anchor: imageAnchor
+			};
+		}			
 	};
 } (this));
+
