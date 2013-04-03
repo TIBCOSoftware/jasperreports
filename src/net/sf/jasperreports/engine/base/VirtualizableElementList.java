@@ -609,13 +609,14 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		}
 	}
 
-
-	protected void finalize() throws Throwable //NOSONAR
+	// not implementing finalize because it can slow down GC to the point it can no longer handle the rate of newly created objects.
+	// we're relying on the virtualizer to keep track of garbage collected objects via weak references.
+/*	protected void finalize() throws Throwable //NOSONAR
 	{
 		dispose();
 		super.finalize();
 	}
-
+*/
 	public void dispose()
 	{
 		lockContext();
