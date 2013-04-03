@@ -26,6 +26,25 @@
 					zoom: zoom
 			};
 		},
+		configureImage: function (parentKey, parentProps, parentOptions) {
+			var width, height, originX, originY, anchorX, anchorY, pp = parentProps, pk = parentKey;
+			
+			width = pp[pk + '.width'] ? parseInt(pp[pk + '.width']) : null;
+			height = pp[pk + '.height'] ? parseInt(pp[pk + '.height']) : null;
+			
+			originX = pp[pk + '.origin.x'] ? parseInt(pp[pk + '.origin.x']) : 0;
+			originY = pp[pk + '.origin.y'] ? parseInt(pp[pk + '.origin.y']) : 0;
+
+			anchorX = pp[pk + '.anchor.x'] ? parseInt(pp[pk + '.anchor.x']) : 0;
+			anchorY = pp[pk + '.anchor.y'] ? parseInt(pp[pk + '.anchor.y']) : 0;
+			
+			parentOptions[pk] = {
+				url: pp[pk + '.url'],
+				size: width && height ? new google.maps.Size(width, height) : null,
+				origin: new google.maps.Point(originX,originY),
+				anchor: new google.maps.Point(anchorX,anchorY)
+			};
+		},
 		showMap: function(canvasId, latitude, longitude, zoom, mapType, markers) {
 			var gg = google.maps,
 				myOptions = {
@@ -44,10 +63,10 @@
 					        map: map
 					    };
 				    if(markerProps['icon.url'] && markerProps['icon.url'].length > 0) {
-				    	configureImage('icon', markerProps, markerOptions);
+				    	this.configureImage('icon', markerProps, markerOptions);
 				    }
 				    if(markerProps['shadow.url'] && markerProps['shadow.url'].length > 0) {
-				    	configureImage('shadow', markerProps, markerOptions);
+				    	this.configureImage('shadow', markerProps, markerOptions);
 				    }
 				    for (j in markerProps) {
 						if (
@@ -83,56 +102,7 @@
 					}				        
 				}
 			}
-		},
-		configureImage: function (parentKey, parentProps, parentOptions) {
-			var width, height, originX, originY, anchorX, anchorY;
-			var imageSize;
-			var imageOrigin, imageAnchor;
-			var imageUrl = parentProps[parentKey + '.url'];
-			
-			if(parentProps[parentKey + '.width']) {
-				width = new Number(parentProps[parentKey + '.width']);
-			}
-			if(parentProps[parentKey + '.height']) {
-				height = new Number(parentProps[parentKey + '.height']);
-				if(width) {
-					imageSize = new google.maps.Size(width,height);
-				}
-			}
-			if(parentProps[parentKey + '.origin.x']) {
-				originX = new Number(parentProps[parentKey + '.origin.x']);
-				originY = 0;
-			}
-			if(parentProps[parentKey + '.origin.y']) {
-				originY = new Number(parentProps[parentKey + '.origin.y']);
-				if(!originX) {
-					originX = 0;
-				}
-			}
-			if(parentProps[parentKey + '.anchor.x']) {
-				anchorX = new Number(parentProps[parentKey + '.anchor.x']);
-				anchorY = 0;
-			}
-			if(parentProps[parentKey + '.anchor.y']) {
-				anchorY = new Number(parentProps[parentKey + '.anchor.y']);
-				if(!anchorX) {
-					anchorX = 0;
-				}
-			}
-			if(originX || originY) {
-				imageOrigin = new google.maps.Point(originX,originY);
-			}
-			if(anchorX || anchorY) {
-				imageAnchor = new google.maps.Point(anchorX,anchorY);
-			}
-			
-			parentOptions[parentKey] = {
-				url: imageUrl,
-				size: imageSize,
-				origin: imageOrigin,
-				anchor: imageAnchor
-			};
-		}			
+		}
 	};
 } (this));
 
