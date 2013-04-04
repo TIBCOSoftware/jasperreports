@@ -69,7 +69,7 @@
 		<field name="showTitle" type="java.lang.Boolean">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="positionValue" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler">
+		<field name="position" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler" get-method="getPositionValue" set-method="setPosition">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="foregroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
@@ -97,7 +97,7 @@
 		<field name="showLegend" type="java.lang.Boolean">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="positionValue" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler">
+		<field name="position" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler" get-method="getPositionValue" set-method="setPosition">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="foregroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
