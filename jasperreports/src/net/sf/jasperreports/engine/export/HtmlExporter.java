@@ -94,6 +94,7 @@ import net.sf.jasperreports.engine.export.tabulator.Tabulator;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
@@ -102,6 +103,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -880,62 +882,33 @@ public class HtmlExporter extends JRAbstractExporter
 	{
 		startCell(image, cell);
 
+		int imageWidth = image.getWidth() - image.getLineBox().getLeftPadding() - image.getLineBox().getRightPadding();
+		if (imageWidth < 0)
+		{
+			imageWidth = 0;
+		}
+	
+		int imageHeight = image.getHeight() - image.getLineBox().getTopPadding() - image.getLineBox().getBottomPadding();
+		if (imageHeight < 0)
+		{
+			imageHeight = 0;
+		}
+
 		StringBuilder styleBuffer = new StringBuilder();
-
-		String horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_LEFT;
-
-		switch (image.getHorizontalAlignmentValue())
+		ScaleImageEnum scaleImage = image.getScaleImageValue();
+		if (scaleImage != ScaleImageEnum.CLIP)
 		{
-			case RIGHT :
-			{
-				horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_RIGHT;
-				break;
-			}
-			case CENTER :
-			{
-				horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_CENTER;
-				break;
-			}
-			case LEFT :
-			default :
-			{
-				horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_LEFT;
-			}
+			// clipped images are absolutely positioned within a div
+			setImageHorizontalAlignmentStyle(image, styleBuffer);
+			setImageVerticalAlignmentStyle(image, styleBuffer);
 		}
-
-		if (!horizontalAlignment.equals(JRHtmlExporter.CSS_TEXT_ALIGN_LEFT))
+		else if (imageHeight > 0)
 		{
-			styleBuffer.append("text-align: ");
-			styleBuffer.append(horizontalAlignment);
-			styleBuffer.append(";");
-		}
-
-		String verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_TOP;
-
-		switch (image.getVerticalAlignmentValue())
-		{
-			case BOTTOM :
-			{
-				verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_BOTTOM;
-				break;
-			}
-			case MIDDLE :
-			{
-				verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_MIDDLE;
-				break;
-			}
-			case TOP :
-			default :
-			{
-				verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_TOP;
-			}
-		}
-
-		if (!verticalAlignment.equals(JRHtmlExporter.HTML_VERTICAL_ALIGN_TOP))
-		{
-			styleBuffer.append(" vertical-align: ");
-			styleBuffer.append(verticalAlignment);
-			styleBuffer.append(";");
+			// some browsers need td height so that height: 100% works on the div used for clipped images.
+			// we're using the height without paddings because that's closest to the HTML size model.
+			styleBuffer.append("height: ");
+			styleBuffer.append(toSizeUnit(imageHeight));
+			styleBuffer.append("; ");
 		}
 
 		appendBackcolorStyle(cell, styleBuffer);
@@ -973,6 +946,13 @@ public class HtmlExporter extends JRAbstractExporter
 
 		if(renderer != null)
 		{
+			boolean startedDiv = false;
+			if (scaleImage == ScaleImageEnum.CLIP)
+			{
+				writer.write("<div style=\"width: 100%; height: 100%; position: relative; overflow: hidden;\">\n");
+				startedDiv = true;
+			}
+			
 			boolean hyperlinkStarted;
 			if (imageMapRenderer)
 			{
@@ -989,8 +969,6 @@ public class HtmlExporter extends JRAbstractExporter
 			String imagePath = null;
 			String imageMapName = null;
 			List<JRPrintImageAreaHyperlink> imageMapAreas = null;
-
-			ScaleImageEnum scaleImage = image.getScaleImageValue();
 			
 			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
 			{
@@ -1058,18 +1036,6 @@ public class HtmlExporter extends JRAbstractExporter
 			}
 			writer.write("\"");
 		
-			int imageWidth = image.getWidth() - image.getLineBox().getLeftPadding().intValue() - image.getLineBox().getRightPadding().intValue();
-			if (imageWidth < 0)
-			{
-				imageWidth = 0;
-			}
-		
-			int imageHeight = image.getHeight() - image.getLineBox().getTopPadding().intValue() - image.getLineBox().getBottomPadding().intValue();
-			if (imageHeight < 0)
-			{
-				imageHeight = 0;
-			}
-		
 			switch (scaleImage)
 			{
 				case FILL_FRAME :
@@ -1082,30 +1048,49 @@ public class HtmlExporter extends JRAbstractExporter
 		
 					break;
 				}
-				case CLIP : //FIXMEIMAGE image clip could be achieved by cutting the image and preserving the image type
+				case CLIP :
+				{
+					int positionLeft;
+					int positionTop;
+					
+					HorizontalAlignEnum horizontalAlign = image.getHorizontalAlignmentValue();
+					VerticalAlignEnum verticalAlign = image.getVerticalAlignmentValue();
+					if (horizontalAlign == HorizontalAlignEnum.LEFT && verticalAlign == VerticalAlignEnum.TOP)
+					{
+						// no need to compute anything
+						positionLeft = 0;
+						positionTop = 0;
+					}
+					else
+					{
+						double[] normalSize = getImageNormalSize(image, originalRenderer, imageWidth, imageHeight);
+						// these calculations assume that the image td does not stretch due to other cells.
+						// when that happens, the image will not be properly aligned.
+						float xAlignFactor = horizontalAlign == HorizontalAlignEnum.RIGHT ? 1f
+								: (horizontalAlign == HorizontalAlignEnum.CENTER ? 0.5f : 0f);
+						float yAlignFactor = verticalAlign == VerticalAlignEnum.BOTTOM ? 1f
+								: (verticalAlign == VerticalAlignEnum.MIDDLE ? 0.5f : 0f);
+						positionLeft = (int) (xAlignFactor * (imageWidth - normalSize[0]));
+						positionTop = (int) (yAlignFactor * (imageHeight - normalSize[1]));
+					}
+					
+					writer.write(" style=\"position: absolute; left:");
+					writer.write(toSizeUnit(positionLeft));
+					writer.write("; top: ");
+					writer.write(toSizeUnit(positionTop));
+					// not setting width, height and clip as it doesn't seem needed plus it fixes clip for lazy images
+					writer.write(";\"");
+
+					break;
+				}
 				case RETAIN_SHAPE :
 				default :
 				{
-					double normalWidth = imageWidth;
-					double normalHeight = imageHeight;
-		
-					if (!image.isLazy())
-					{
-						// Image load might fail. 
-						Renderable tmpRenderer = 
-							RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
-						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(jasperReportsContext);
-						// If renderer was replaced, ignore image dimension.
-						if (tmpRenderer == renderer && dimension != null)
-						{
-							normalWidth = dimension.getWidth();
-							normalHeight = dimension.getHeight();
-						}
-					}
 		
 					if (imageHeight > 0)
 					{
-						double ratio = normalWidth / normalHeight;
+						double[] normalSize = getImageNormalSize(image, originalRenderer, imageWidth, imageHeight);
+						double ratio = normalSize[0] / normalSize[1];
 		
 						if( ratio > (double)imageWidth / (double)imageHeight )
 						{
@@ -1149,6 +1134,11 @@ public class HtmlExporter extends JRAbstractExporter
 				endHyperlink();
 			}
 			
+			if (startedDiv)
+			{
+				writer.write("</div>");
+			}
+			
 			if (imageMapAreas != null)
 			{
 				writer.write("\n");
@@ -1159,6 +1149,88 @@ public class HtmlExporter extends JRAbstractExporter
 		endCell();
 	}
 
+	protected void setImageHorizontalAlignmentStyle(JRPrintImage image, StringBuilder styleBuffer)
+	{
+		String horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_LEFT;
+		switch (image.getHorizontalAlignmentValue())
+		{
+			case RIGHT :
+			{
+				horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_RIGHT;
+				break;
+			}
+			case CENTER :
+			{
+				horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_CENTER;
+				break;
+			}
+			case LEFT :
+			default :
+			{
+				horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_LEFT;
+			}
+		}
+
+		if (!horizontalAlignment.equals(JRHtmlExporter.CSS_TEXT_ALIGN_LEFT))
+		{
+			styleBuffer.append("text-align: ");
+			styleBuffer.append(horizontalAlignment);
+			styleBuffer.append(";");
+		}
+	}
+
+	protected void setImageVerticalAlignmentStyle(JRPrintImage image, StringBuilder styleBuffer)
+	{
+		String verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_TOP;
+		switch (image.getVerticalAlignmentValue())
+		{
+			case BOTTOM :
+			{
+				verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_BOTTOM;
+				break;
+			}
+			case MIDDLE :
+			{
+				verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_MIDDLE;
+				break;
+			}
+			case TOP :
+			default :
+			{
+				verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_TOP;
+			}
+		}
+
+		if (!verticalAlignment.equals(JRHtmlExporter.HTML_VERTICAL_ALIGN_TOP))
+		{
+			styleBuffer.append(" vertical-align: ");
+			styleBuffer.append(verticalAlignment);
+			styleBuffer.append(";");
+		}
+	}
+
+	protected double[] getImageNormalSize(JRPrintImage image, Renderable renderer, int imageWidth, int imageHeight) throws JRException
+	{
+		double normalWidth = imageWidth;
+		double normalHeight = imageHeight;
+
+		if (!image.isLazy())
+		{
+			// Image load might fail. 
+			Renderable tmpRenderer = RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(
+					renderer, image.getOnErrorTypeValue());
+			Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(jasperReportsContext);
+			// If renderer was replaced, ignore image dimension.
+			if (tmpRenderer == renderer && dimension != null)
+			{
+				normalWidth = dimension.getWidth();
+				normalHeight = dimension.getHeight();
+			}
+		}
+		
+		return new double[]{normalWidth, normalHeight};
+	}
+	
 	protected JRPrintElementIndex getElementIndex(TableCell cell)
 	{
 		String elementAddress = cell.getElementAddress();
@@ -1365,10 +1437,11 @@ public class HtmlExporter extends JRAbstractExporter
 			
 			StringBuilder layerStyleBuffer = new StringBuilder();
 			if (it.hasNext()) {
-				layerStyleBuffer.append("position: absolute; overflow: hidden; width: 100%; height: 100%;");
+				layerStyleBuffer.append("position: absolute; overflow: hidden; ");
 			} else {
-				layerStyleBuffer.append("position: relative;");
+				layerStyleBuffer.append("position: relative; ");
 			}
+			layerStyleBuffer.append("width: 100%; height: 100%; ");
 
 			writer.write("<div style=\"");
 			writer.write(layerStyleBuffer.toString());
