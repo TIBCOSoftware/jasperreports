@@ -2207,7 +2207,7 @@ public class SimpleChartTheme implements ChartTheme
 	protected void setChartBackgroundImage(JFreeChart jfreeChart)
 	{
 		ChartSettings chartSettings = getChartSettings();
-		Image backgroundImage = chartSettings.getBackgroundImage() == null ? null : chartSettings.getBackgroundImage().getImage();
+		Image backgroundImage = chartSettings.getBackgroundImage() == null ? null : chartSettings.getBackgroundImage().getImage(getChartContext().getJasperReportsContext());
 		if(backgroundImage != null)
 		{
 			jfreeChart.setBackgroundImage(backgroundImage);
@@ -2416,7 +2416,7 @@ public class SimpleChartTheme implements ChartTheme
 		if(foregroundAlpha != null)
 			plot.setForegroundAlpha(foregroundAlpha.floatValue());
 		
-		Image backgroundImage = plotSettings.getBackgroundImage() == null ? null : plotSettings.getBackgroundImage().getImage();
+		Image backgroundImage = plotSettings.getBackgroundImage() == null ? null : plotSettings.getBackgroundImage().getImage(getChartContext().getJasperReportsContext());
 		if(backgroundImage != null)
 		{
 			plot.setBackgroundImage(backgroundImage);

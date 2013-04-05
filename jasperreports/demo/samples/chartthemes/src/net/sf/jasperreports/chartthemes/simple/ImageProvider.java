@@ -26,6 +26,8 @@ package net.sf.jasperreports.chartthemes.simple;
 import java.awt.Image;
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -37,6 +39,6 @@ public interface ImageProvider extends Serializable
 	/**
 	 *
 	 */
-	public Image getImage();
+	public Image getImage(JasperReportsContext jasperReportsContext);
 
 }
