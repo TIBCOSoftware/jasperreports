@@ -25,10 +25,10 @@ package net.sf.jasperreports.chartthemes.simple;
 
 import java.awt.Image;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
@@ -70,13 +70,13 @@ public class FileImageProvider implements ImageProvider
 	/**
 	 *
 	 */
-	public Image getImage()
+	public Image getImage(JasperReportsContext jasperReportsContext)
 	{
 		try
 		{
 			return
-				JRImageLoader.getInstance(DefaultJasperReportsContext.getInstance()).loadAwtImageFromBytes(
-					RepositoryUtil.getInstance(DefaultJasperReportsContext.getInstance()).getBytesFromLocation(file)//FIXMECONTEXT
+				JRImageLoader.getInstance(jasperReportsContext).loadAwtImageFromBytes(
+					RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(file)
 					);
 		}
 		catch (JRException e)
