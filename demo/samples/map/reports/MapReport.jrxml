@@ -125,6 +125,30 @@
 							<c:itemProperty name="title">
 								<valueExpression>$F{address}</valueExpression>
 							</c:itemProperty>
+							<c:itemProperty name="size">
+								<valueExpression>"mid"</valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="color">
+								<valueExpression>$V{REPORT_COUNT} == 4 ? "green" :($V{REPORT_COUNT} == 2 ? "yellow" : "red")</valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="url">
+								<valueExpression>$V{REPORT_COUNT} == 4 ? "http://en.wikipedia.org/wiki/Union_Square,_San_Francisco" :($V{REPORT_COUNT} == 2 ? "http://en.wikipedia.org/wiki/Oakland_Bay_Bridge" : null)</valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="target">
+								<valueExpression>"_blank"</valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="infowindow.content">
+								<valueExpression>$V{REPORT_COUNT} % 2 == 1 ?  : null</valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="icon.url">
+								<valueExpression>$V{REPORT_COUNT} % 2 == 1 ? "http://jasperreports.sourceforge.net/jasperreports.png" : null</valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="icon.width">
+								<valueExpression>20</valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="icon.height">
+								<valueExpression>20</valueExpression>
+							</c:itemProperty>
 						</c:item>
 						<!--
 						<c:item>

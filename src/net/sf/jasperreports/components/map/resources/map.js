@@ -1,6 +1,8 @@
 /**
  * Defines 'map' module in jasperreports namespace
  */
+var infowindow;
+
 (function(global) {
 	if (typeof global.jasperreports.map !== 'undefined') {
 		return;
@@ -45,12 +47,27 @@
 				anchor: new google.maps.Point(anchorX,anchorY)
 			};
 		},
+		createInfo : function (parentProps) {
+			var pp = parentProps;
+			if(pp['infowindow.content'] && pp['infowindow.content'].length > 0) {
+				var gg= google.maps,
+			    po = {
+					content: pp['infowindow.content']	
+				};
+				if (pp['infowindow.pixelOffset']) po['pixelOffset'] = pp['infowindow.pixelOffset'];
+				if (pp['infowindow.latitude'] && pp['infowindow.longitude']) po['position'] = new gg.LatLng(pp['infowindow.latitude'], pp['infowindow.longitude']);
+				if (pp['infowindow.maxWidth']) po['maxWidth'] = pp['infowindow.maxWidth'];
+				return new gg.InfoWindow(po);	
+			}
+			return null;
+		},
 		showMap: function(canvasId, latitude, longitude, zoom, mapType, markers) {
 			var gg = google.maps,
 				myOptions = {
 					zoom: zoom,
 					center: new gg.LatLng(latitude, longitude), 
-					mapTypeId: gg.MapTypeId[mapType]
+					mapTypeId: gg.MapTypeId[mapType],
+					autocloseinfo: true
 				},
 				map = new gg.Map(document.getElementById(canvasId), myOptions);
 			if(markers){
@@ -62,28 +79,20 @@
 					        position: markerLatLng,
 					        map: map
 					    };
-				    if(markerProps['icon.url'] && markerProps['icon.url'].length > 0) {
-				    	this.configureImage('icon', markerProps, markerOptions);
-				    }
-				    if(markerProps['shadow.url'] && markerProps['shadow.url'].length > 0) {
-				    	this.configureImage('shadow', markerProps, markerOptions);
-				    }
+				    if(markerProps['icon.url'] && markerProps['icon.url'].length > 0) this.configureImage('icon', markerProps, markerOptions);
+				    if(markerProps['shadow.url'] && markerProps['shadow.url'].length > 0) this.configureImage('shadow', markerProps, markerOptions);
 				    for (j in markerProps) {
-						if (
-							j.indexOf("icon.") < 0 
-							&& j.indexOf("shadow.") < 0
-							&& markerProps.hasOwnProperty(j) 
-							&& !markerOptions.hasOwnProperty(j)
-							) {
-								markerOptions[j] = markerProps[j];
-						}
+						if (j.indexOf(".") < 0 && markerProps.hasOwnProperty(j) && !markerOptions.hasOwnProperty(j)) markerOptions[j] = markerProps[j];
 					}
-				    var marker = new gg.Marker(markerOptions);
-				    if(markerOptions['url']) {
-						google.maps.event.addListener(marker, 'click', function() {
-							window.open(markerOptions['url'], markerOptions['target']);
-						});	
-					}				        
+				    var marker = new google.maps.Marker(markerOptions);
+				    marker['info'] = this.createInfo(markerProps);
+					google.maps.event.addListener(marker, 'click', function() {
+						if(map.autocloseinfo && infowindow) infowindow.close();
+						if(this['info']) {
+							infowindow = this['info'];
+							this['info'].open(map, this);
+						} else if (this['url'] && this['url'].length > 0) window.open(this['url'], this['target']);
+					});	
 				}
 			}
 		}

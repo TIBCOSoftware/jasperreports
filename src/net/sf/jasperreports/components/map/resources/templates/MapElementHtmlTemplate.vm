@@ -27,6 +27,7 @@
 		<script class='jasperreports' type='text/javascript'>
 			if (typeof jasperreports === 'undefined') jasperreports = {};
 			if (typeof jasperreports.map === 'undefined') {
+			var infowindow;
 				jasperreports.map = {
 					configureImage: function (parentKey, parentProps, parentOptions) {
 						var width, height, originX, originY, anchorX, anchorY, pp = parentProps, pk = parentKey;
@@ -47,6 +48,20 @@
 							anchor: new google.maps.Point(anchorX,anchorY)
 						};
 					},
+					createInfo : function (parentProps) {
+						var pp = parentProps;
+						if(pp['infowindow.content'] && pp['infowindow.content'].length > 0) {
+							var gg= google.maps,
+						    po = {
+								content: pp['infowindow.content']	
+							};
+							if (pp['infowindow.pixelOffset']) po['pixelOffset'] = pp['infowindow.pixelOffset'];
+							if (pp['infowindow.latitude'] && pp['infowindow.longitude']) po['position'] = new gg.LatLng(pp['infowindow.latitude'], pp['infowindow.longitude']);
+							if (pp['infowindow.maxWidth']) po['maxWidth'] = pp['infowindow.maxWidth'];
+							return new gg.InfoWindow(po);	
+						}
+						return null;
+					},
 					placeMarkers: function (markers, map) {
 						if(markers){
 							var j;
@@ -57,23 +72,20 @@
 								        position: markerLatLng,
 								        map: map
 								    };
-							    if(markerProps['icon.url'] && markerProps['icon.url'].length > 0) {
-							    	this.configureImage('icon', markerProps, markerOptions);
-							    }
-							    if(markerProps['shadow.url'] && markerProps['shadow.url'].length > 0) {
-							    	this.configureImage('shadow', markerProps, markerOptions);
-							    }
+							    if(markerProps['icon.url'] && markerProps['icon.url'].length > 0) this.configureImage('icon', markerProps, markerOptions);
+							    if(markerProps['shadow.url'] && markerProps['shadow.url'].length > 0) this.configureImage('shadow', markerProps, markerOptions);
 							    for (j in markerProps) {
-									if (j.indexOf("icon.") < 0 && j.indexOf("shadow.") < 0 && markerProps.hasOwnProperty(j) && !markerOptions.hasOwnProperty(j)) {
-										markerOptions[j] = markerProps[j];
-									}
+									if (j.indexOf(".") < 0 && markerProps.hasOwnProperty(j) && !markerOptions.hasOwnProperty(j)) markerOptions[j] = markerProps[j];
 								}
 							    var marker = new google.maps.Marker(markerOptions);
-							    if(markerOptions['url']) {
-									google.maps.event.addListener(marker, 'click', function() {
-										window.open(markerOptions['url'], markerOptions['target']);
-									});	
-								}				        
+							    marker['info'] = this.createInfo(markerProps);
+								google.maps.event.addListener(marker, 'click', function() {
+									if(map.autocloseinfo && infowindow) infowindow.close();
+									if(this['info']) {
+										infowindow = this['info'];
+										this['info'].open(map, this);
+									} else if (this['url'] && this['url'].length > 0) window.open(this['url'], this['target']);
+								});	
 							}
 						}
 					}
@@ -86,7 +98,8 @@
 			var map = new google.maps.Map(document.getElementById('${mapCanvasId}'), {
 						zoom: ${zoom},
 						center: new google.maps.LatLng(${latitude}, ${longitude}), 
-						mapTypeId: google.maps.MapTypeId.${mapType}
+						mapTypeId: google.maps.MapTypeId.${mapType},
+						autocloseinfo: true
 					});
 			var markers = ${markerList};
 			jasperreports.map.placeMarkers(markers, map);
