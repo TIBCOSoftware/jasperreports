@@ -102,6 +102,16 @@ public final class MapPrintElement
 	public static final String PARAMETER_MARKER_ICON_URL = "icon.url";
 	
 	/**
+	 * The name of the parameter that provides the marker size.
+	 */
+	public static final String PARAMETER_MARKER_SIZE = "size";
+	
+	/**
+	 * The name of the parameter that provides the marker color.
+	 */
+	public static final String PARAMETER_MARKER_COLOR = "color";
+	
+	/**
 	 *
 	 */
 	public static final Float DEFAULT_LATITUDE = 0f;

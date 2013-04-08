@@ -80,6 +80,10 @@ public class MapElementImageProvider
 				if(!map.isEmpty())
 				{
 					currentMarkers = "&markers=";
+					String size = (String)map.get(MapPrintElement.PARAMETER_MARKER_SIZE);
+					currentMarkers += size != null ? "size:" + size + "%7C" : "";
+					String color = (String)map.get(MapPrintElement.PARAMETER_MARKER_COLOR);
+					currentMarkers += color != null ? "color:" + color + "%7C" : "";
 					String icon = map.get(MapPrintElement.PARAMETER_MARKER_ICON_URL) != null 
 							? (String)map.get(MapPrintElement.PARAMETER_MARKER_ICON_URL) 
 							: (String)map.get(MapPrintElement.PARAMETER_MARKER_ICON);
@@ -108,10 +112,10 @@ public class MapElementImageProvider
 			+ zoom
 			+ (mapType == null ? "" : "&maptype=" + mapType)
 			+ (mapFormat == null ? "" : "&format=" + mapFormat)
-			+ (mapScale == null ? "" : "&scale=" + mapScale)
-			+ markers 
-			+ "&sensor=false"
-			+ (language == null ? "" : "&language=" + language);
+			+ (mapScale == null ? "" : "&scale=" + mapScale);
+		String otherParams = "&sensor=false" + (language == null ? "" : "&language=" + language);
+		//a static map url is limited to 2048 characters
+		imageLocation += (imageLocation.length() + markers.length() + otherParams.length() < 2048) ? markers + otherParams : otherParams;
 
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
 		
