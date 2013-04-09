@@ -138,7 +138,7 @@
 								<valueExpression>"_blank"</valueExpression>
 							</c:itemProperty>
 							<c:itemProperty name="infowindow.content">
-								<valueExpression>$V{REPORT_COUNT} % 2 == 1 ?  : null</valueExpression>
+								<valueExpression>$V{REPORT_COUNT} % 2 == 1 ? "&lt;p style='text-align:right;'&gt;&lt;img src='http://jasperreports.sourceforge.net/jasperreports.png'/&gt;&lt;/p&gt;&lt;p style='text-align:left;'&gt;current latitude: &lt;b&gt;"+$F{latitude}+"&lt;/b&gt;&lt;br/&gt;current longitude: &lt;b&gt;"+$F{longitude}+"&lt;/b&gt;&lt;/p&gt;" : null</valueExpression>
 							</c:itemProperty>
 							<c:itemProperty name="icon.url">
 								<valueExpression>$V{REPORT_COUNT} % 2 == 1 ? "http://jasperreports.sourceforge.net/jasperreports.png" : null</valueExpression>
