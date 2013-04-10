@@ -9,4 +9,11 @@
 	<columnNames>address</columnNames>
 	<columnNames>latitude</columnNames>
 	<columnNames>longitude</columnNames>
+	<columnNames>size</columnNames>
+	<columnNames>color</columnNames>
+	<columnNames>url</columnNames>
+	<columnNames>icon</columnNames>
+	<columnNames>iconurl</columnNames>
+	<columnNames>iconwidth</columnNames>
+	<columnNames>iconheight</columnNames>
 </csvDataAdapter>

@@ -4,15 +4,15 @@
 	xmlns="http://jasperreports.sourceforge.net/jasperreports" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
-	name="MapReport" 
-	pageWidth="595" 
-	pageHeight="842" 
+	name="MapReport1" 
+	pageWidth="515" 
+	pageHeight="692" 
 	whenNoDataType="AllSectionsNoDetail" 
 	columnWidth="515" 
-	leftMargin="40" 
-	rightMargin="40" 
-	topMargin="20" 
-	bottomMargin="20" 
+	leftMargin="0" 
+	rightMargin="0" 
+	topMargin="0" 
+	bottomMargin="0" 
 	isSummaryWithPageHeaderAndFooter="false">
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
@@ -35,53 +35,25 @@
 	<parameter name="zoom" class="java.lang.Integer">
 		<defaultValueExpression>$P{reqZoom} == null ? Integer.valueOf(11) : $P{reqZoom}</defaultValueExpression>
 	</parameter>
-	<title>
-		<band height="70">
-			<line>
-				<reportElement x="0" y="0" width="515" height="1"/>
-			</line>
+	<summary>
+		<band height="692">
 			<textField isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement style="Sans_Normal" x="0" y="10" width="515" height="30"/>
-				<textElement textAlignment="Center">
-					<font size="22"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Map Report"]]></textFieldExpression>
-				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement style="Sans_Normal" x="0" y="40" width="515" height="20"/>
-				<textElement textAlignment="Center">
+				<reportElement style="Sans_Bold" x="0" y="0" width="515" height="100"/>
+				<textElement>
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Google Map"]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["Bucharest - Road Map"]]></textFieldExpression>
 			</textField>
+			<componentElement>
+				<reportElement x="0" y="100" width="515" height="326"/>
+				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+					xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" evaluationTime="Report">
+					<c:latitudeExpression><![CDATA[$P{latitude}]]></c:latitudeExpression>
+					<c:longitudeExpression><![CDATA[$P{longitude}]]></c:longitudeExpression>
+					<c:zoomExpression><![CDATA[$P{zoom}]]></c:zoomExpression>
+					<c:languageExpression><![CDATA[new java.util.Locale("ro").getLanguage()]]></c:languageExpression>
+				</c:map>
+			</componentElement>
 		</band>
-	</title>
-	<detail>
-		<band height="692">
-			<subreport runToBottom="true">
-				<reportElement x="0" y="0" width="515" height="692" />
-				<parametersMapExpression>$P{REPORT_PARAMETERS_MAP}</parametersMapExpression>
-				<dataSourceExpression>new JREmptyDataSource()</dataSourceExpression>
-				<subreportExpression>"MapReport"+$V{REPORT_COUNT}+".jasper"</subreportExpression>
-			</subreport>
-		</band>
-	</detail>
-	<pageFooter>
-		<band height="40">
-			<line>
-				<reportElement x="0" y="10" width="515" height="1"/>
-			</line>
-			<textField>
-				<reportElement x="200" y="20" width="80" height="15"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="280" y="20" width="75" height="15"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
-			</textField>
-		</band>
-	</pageFooter>
+	</summary>
 </jasperReport>
