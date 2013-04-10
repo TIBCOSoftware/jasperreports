@@ -77,7 +77,7 @@ public class MapElementImageProvider
 			String currentMarkers = "";
 			for(Map<String,Object> map : markerList)
 			{
-				if(!map.isEmpty())
+				if(map != null && !map.isEmpty())
 				{
 					currentMarkers = "&markers=";
 					String size = (String)map.get(MapPrintElement.PARAMETER_MARKER_SIZE);
