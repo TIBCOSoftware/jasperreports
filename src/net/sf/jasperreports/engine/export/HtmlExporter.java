@@ -101,6 +101,7 @@ import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
@@ -552,9 +553,7 @@ public class HtmlExporter extends JRAbstractExporter
 	{
 		if (htmlHeader == null)
 		{
-			// no doctype because of bug 1430880
-//			writer.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n");
-//			writer.write("<html xmlns=\"http://www.w3.org/1999/xhtml\">\n");
+			writer.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n");
 			writer.write("<html>\n");
 			writer.write("<head>\n");
 			writer.write("  <title></title>\n");
@@ -782,19 +781,11 @@ public class HtmlExporter extends JRAbstractExporter
 			}
 		}
 
-		if (!verticalAlignment.equals(JRHtmlExporter.HTML_VERTICAL_ALIGN_TOP))
-		{
-			styleBuffer.append(" vertical-align: ");
-			styleBuffer.append(verticalAlignment);
-			styleBuffer.append(";");
-		}
-
 		appendBackcolorStyle(cell, styleBuffer);
 		appendBorderStyle(cell.getBox(), styleBuffer);
 		appendPaddingStyle(text.getLineBox(), styleBuffer);
 
 		String horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_LEFT;
-
 		if (textLength > 0)
 		{
 			switch (text.getHorizontalAlignmentValue())
@@ -820,18 +811,6 @@ public class HtmlExporter extends JRAbstractExporter
 					horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_LEFT;
 				}
 			}
-
-			if (
-				(text.getRunDirectionValue() == RunDirectionEnum.LTR
-				 && !horizontalAlignment.equals(JRHtmlExporter.CSS_TEXT_ALIGN_LEFT))
-				|| (text.getRunDirectionValue() == RunDirectionEnum.RTL
-					&& !horizontalAlignment.equals(JRHtmlExporter.CSS_TEXT_ALIGN_RIGHT))
-				)
-			{
-				styleBuffer.append("text-align: ");
-				styleBuffer.append(horizontalAlignment);
-				styleBuffer.append(";");
-			}
 		}
 
 		if (isWrapBreakWord)
@@ -849,6 +828,30 @@ public class HtmlExporter extends JRAbstractExporter
 		
 		styleBuffer.append("text-indent: " + text.getParagraph().getFirstLineIndent().intValue() + "px; ");
 
+		String rotationValue = null;
+		StringBuilder spanStyleBuffer = new StringBuilder();
+		StringBuilder divStyleBuffer = new StringBuilder();
+		if (text.getRotationValue() == RotationEnum.NONE)
+		{
+			if (!verticalAlignment.equals(JRHtmlExporter.HTML_VERTICAL_ALIGN_TOP))
+			{
+				styleBuffer.append(" vertical-align: ");
+				styleBuffer.append(verticalAlignment);
+				styleBuffer.append(";");
+			}
+
+			//writing text align every time even when it's left
+			//because IE8 with transitional defaults to center 
+			styleBuffer.append("text-align: ");
+			styleBuffer.append(horizontalAlignment);
+			styleBuffer.append(";");
+		}
+		else
+		{
+			rotationValue = setRotationStyles(text, horizontalAlignment, 
+					spanStyleBuffer, divStyleBuffer);
+		}
+		
 		writeStyle(styleBuffer);
 		
 		finishStartCell();
@@ -860,6 +863,21 @@ public class HtmlExporter extends JRAbstractExporter
 			writer.write("\"/>");
 		}
 
+		if (rotationValue != null)
+		{
+			writer.write("<div style=\"position: relative; overflow: hidden; ");
+			writer.write(divStyleBuffer.toString());
+			writer.write("\">\n");
+			writer.write("<span class=\"rotated\" data-rotation=\"");
+			writer.write(rotationValue);
+			writer.write("\" style=\"position: absolute; display: table; ");
+			writer.write(spanStyleBuffer.toString());
+			writer.write("\">");
+			writer.write("<span style=\"display: table-cell; vertical-align:"); //display:table-cell conflicts with overflow: hidden;
+			writer.write(verticalAlignment);
+			writer.write(";\">");
+		}
+		
 		boolean hyperlinkStarted = startHyperlink(text);
 
 		if (textLength > 0)
@@ -873,8 +891,94 @@ public class HtmlExporter extends JRAbstractExporter
 		{
 			endHyperlink();
 		}
+		
+		if (rotationValue != null)
+		{
+			writer.write("</span></span></div>");
+		}
 
 		endCell();
+	}
+
+	protected String setRotationStyles(JRPrintText text, String horizontalAlignment, 
+			StringBuilder spanStyleBuffer, StringBuilder divStyleBuffer)
+	{
+		String rotationValue;
+		int textWidth = text.getWidth() - text.getLineBox().getLeftPadding() - text.getLineBox().getRightPadding();
+		int textHeight = text.getHeight() - text.getLineBox().getTopPadding() - text.getLineBox().getBottomPadding();
+		int rotatedWidth;
+		int rotatedHeight;
+		
+		int rotationIE;
+		int rotationAngle;
+		int translateX;
+		int translateY;
+		switch (text.getRotationValue())
+		{
+			case LEFT : 
+			{
+				translateX = - (textHeight - textWidth) / 2;
+				translateY = (textHeight - textWidth) / 2;
+				rotatedWidth = textHeight;
+				rotatedHeight = textWidth;
+				rotationIE = 3;
+				rotationAngle = -90;
+				rotationValue = "left";
+				break;
+			}
+			case RIGHT : 
+			{
+				translateX = - (textHeight - textWidth) / 2;
+				translateY = (textHeight - textWidth) / 2;
+				rotatedWidth = textHeight;
+				rotatedHeight = textWidth;
+				rotationIE = 1;
+				rotationAngle = 90;
+				rotationValue = "right";
+				break;
+			}
+			case UPSIDE_DOWN : 
+			{
+				translateX = 0;
+				translateY = 0;
+				rotatedWidth = textWidth;
+				rotatedHeight = textHeight;
+				rotationIE = 2;
+				rotationAngle = 180;
+				rotationValue = "upsideDown";
+				break;
+			}
+			case NONE :
+			default :
+			{
+				throw new JRRuntimeException("Unexpected rotation value " + text.getRotationValue());
+			}
+		}
+
+		appendSizeStyle(textWidth, textHeight, divStyleBuffer);
+		appendSizeStyle(rotatedWidth, rotatedHeight, spanStyleBuffer);
+
+		spanStyleBuffer.append("text-align: ");
+		spanStyleBuffer.append(horizontalAlignment);
+		spanStyleBuffer.append(";");
+		
+		spanStyleBuffer.append("-webkit-transform: translate(" + translateX + "px," + translateY + "px) ");
+		spanStyleBuffer.append("rotate(" + rotationAngle + "deg); ");
+		spanStyleBuffer.append("-moz-transform: translate(" + translateX + "px," + translateY + "px) ");
+		spanStyleBuffer.append("rotate(" + rotationAngle + "deg); ");
+		spanStyleBuffer.append("filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=" + rotationIE + "); ");
+		return rotationValue;
+	}
+
+	protected void appendSizeStyle(int width, int height, StringBuilder styleBuffer)
+	{
+		styleBuffer.append("width:");
+		styleBuffer.append(toSizeUnit(width));
+		styleBuffer.append(";");
+
+		styleBuffer.append("height:");
+		styleBuffer.append(toSizeUnit(height));
+		styleBuffer.append(";");
 	}
 
 	protected void writeImage(JRPrintImage image, TableCell cell)
