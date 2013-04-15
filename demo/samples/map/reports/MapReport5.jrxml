@@ -66,7 +66,7 @@
 				<textElement>
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["San Francisco - Road Map with Custom Icons and Info Windows"]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["San Francisco - Hybrid Map with Custom Icons and Info Windows"]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true" isStretchWithOverflow="true">
 				<reportElement x="0" y="50" width="515" height="100"/>
@@ -77,11 +77,10 @@
 				<reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
 				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
 					xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
-					mapScale="1" imageType="jpg">
+					mapScale="1" imageType="jpg" mapType="hybrid">
 					<c:latitudeExpression><![CDATA[37.800056f]]></c:latitudeExpression>
 					<c:longitudeExpression><![CDATA[-122.4075f]]></c:longitudeExpression>
 					<c:zoomExpression><![CDATA[$P{zoom} + 1]]></c:zoomExpression>
-					<c:languageExpression><![CDATA[Locale.US.getLanguage()]]></c:languageExpression>
 					<c:markerData>
 						<dataset>
 							<datasetRun subDataset="MarkersDataset"/>
