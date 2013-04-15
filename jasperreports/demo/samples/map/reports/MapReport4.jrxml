@@ -92,6 +92,12 @@
 							<c:itemProperty name="longitude">
 								<valueExpression>$F{longitude}</valueExpression>
 							</c:itemProperty>
+							<c:itemProperty name="color">
+								<valueExpression>$F{color}</valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="size">
+								<valueExpression>$F{size}</valueExpression>
+							</c:itemProperty>
 							<c:itemProperty name="url">
 								<valueExpression>$F{url}</valueExpression>
 							</c:itemProperty>
