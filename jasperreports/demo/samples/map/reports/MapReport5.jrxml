@@ -16,7 +16,6 @@
 	isSummaryWithPageHeaderAndFooter="false">
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 	<subDataset name="MarkersDataset">
 		<property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.xml"/>
 		<queryString language="csv">
@@ -63,14 +62,19 @@
 	<summary>
 		<band height="692">
 			<textField isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement style="Sans_Bold" x="0" y="0" width="515" height="100"/>
+				<reportElement style="Sans_Bold" x="0" y="0" width="515" height="50"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["San Francisco - Road Map with Custom Icons and Info Windows"]]></textFieldExpression>
 			</textField>
+			<textField isBlankWhenNull="true" isStretchWithOverflow="true">
+				<reportElement x="0" y="50" width="515" height="100"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["A road map sample. Five markers with custom icons are placed on the map. Marker tooltips are enabled. Clicking on a marker icon will open an info window with related information.\nIf present, the info window takes precedence over the marker hyperlink."]]></textFieldExpression>
+			</textField>
 			<componentElement>
-				<reportElement x="0" y="100" width="515" height="326"/>
+				<reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
 				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
 					xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
 					mapScale="1" imageType="jpg">
