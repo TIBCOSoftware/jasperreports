@@ -16,7 +16,6 @@
 	isSummaryWithPageHeaderAndFooter="false">
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 	<parameter name="reqLatitude" class="java.lang.Float">
 		<defaultValueExpression>Float.parseFloat((String)$P{REPORT_CONTEXT}.getParameterValue("latitude"))</defaultValueExpression>
 	</parameter>
@@ -38,14 +37,19 @@
 	<summary>
 		<band height="692">
 			<textField isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement style="Sans_Bold" x="0" y="0" width="515" height="100"/>
+				<reportElement style="Sans_Bold" x="0" y="0" width="515" height="50"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["Bucharest - Road Map"]]></textFieldExpression>
 			</textField>
+			<textField isBlankWhenNull="true" isStretchWithOverflow="true">
+				<reportElement x="0" y="50" width="515" height="100"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["A road map sample that contains only basic information. There are no available tooltips, markers and info windows."]]></textFieldExpression>
+			</textField>
 			<componentElement>
-				<reportElement x="0" y="100" width="515" height="326"/>
+				<reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
 				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
 					xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" evaluationTime="Report">
 					<c:latitudeExpression><![CDATA[$P{latitude}]]></c:latitudeExpression>
