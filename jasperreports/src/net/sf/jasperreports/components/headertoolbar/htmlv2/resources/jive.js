@@ -1,5 +1,10 @@
 jQuery.extend(jive, {
-    init:function(settings){
+	
+	/* IE8 does not allow placing div elements inside table, so we must count on the
+	fact that there is at least one div above the page table to place our stuff in */
+	reportContainer: jQuery('table.jrPage').closest('div'), 
+    
+	init:function(settings){
         var jiveInitEvent = jasperreports.events.registerEvent('jive.init');
 
         jQuery.extend(jive,settings);
@@ -205,7 +210,7 @@ jive.ui.marker = {
         this.jo.css({
             height: dim.h+'px'
         });
-        this.jo.appendTo('table.jrPage').show();
+        this.jo.appendTo(jive.reportContainer).show();
         this.jo.position({of:jive.ui.overlay.jo, my: 'left top', at:'right top',collision:'none'});
 
         var de = this.jo.get(0);
@@ -254,7 +259,7 @@ jive.ui.overlay = {
         }).draggable('option','helper', function(event) {
                 return jQuery('div.jive_drag_label').clone().appendTo('#jive_components').html(jive.i18n.get('column.move.helper')).show();
             });
-        this.jo.appendTo('table.jrPage').show();
+        this.jo.appendTo(jive.reportContainer).show();
         this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top',collision:'none'});
         
         // on first time selection the overlay need to be repositioned to be correctly aligned  
@@ -325,7 +330,7 @@ jive.ui.foobar = {
         !this.jo && this.setElement('#jive_foobar');
         this.render(jive.interactive[jive.selected.ie.type].actions);
         this.jo.find('button').removeClass('over pressed');
-        this.jo.appendTo('table.jrPage').show();
+        this.jo.appendTo(jive.reportContainer).show();
         var top = this.jo.outerHeight() - 1;
         this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top', offset:'0 -' + top});
     },
