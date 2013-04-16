@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>container</name>
+  <title>Container Sample</title>
+  <description>FIXME</description>
+
+  <mainFeature ref="container"/>
+  <secondaryFeature name="FIXME" sample="FIXME" title="FIXME"/>
+  
+  <!-- FIXME -->
+  
+  <feature name="container" title="FIXME">
+    <description>
+FIXME
+    </description>
+    <since>5.1.1</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+FIXME
+    </content>
+  </feature>
+
+</sample>
