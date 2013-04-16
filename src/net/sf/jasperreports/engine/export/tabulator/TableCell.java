@@ -27,6 +27,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.export.PrintElementIndex;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -121,20 +122,8 @@ public class TableCell
 
 	public String getElementAddress()
 	{
-		StringBuilder address = new StringBuilder();
 		BaseElementCell elementCell = (BaseElementCell) cell;
-		writeElementAddress(address, elementCell.getParentIndex(), elementCell.getElementIndex());
-		return address.toString();
-	}
-
-	protected void writeElementAddress(StringBuilder output, ElementIndex parentIndex, int elementIndex)
-	{
-		if (parentIndex != null)
-		{
-			writeElementAddress(output, parentIndex.getParentIndex(), parentIndex.getIndex());
-			output.append('_');
-		}
-		output.append(elementIndex);
+		return PrintElementIndex.asAddress(elementCell.getParentIndex(), elementCell.getElementIndex());
 	}
 
 }

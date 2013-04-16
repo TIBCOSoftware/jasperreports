@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.export.tabulator;
 
+import net.sf.jasperreports.engine.export.PrintElementIndex;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -33,7 +35,7 @@ public class ElementCell extends BaseElementCell
 	// TODO lucianc store a reference?
 	private SplitCell splitCell;
 	
-	public ElementCell(FrameCell parent, ElementIndex parentIndex, int elementIndex)
+	public ElementCell(FrameCell parent, PrintElementIndex parentIndex, int elementIndex)
 	{
 		super(parent, parentIndex, elementIndex);
 	}

@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.export.tabulator;
 
+import net.sf.jasperreports.engine.export.PrintElementIndex;
+
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
@@ -30,7 +32,7 @@ package net.sf.jasperreports.engine.export.tabulator;
 public class FrameCell extends BaseElementCell
 {
 
-	public FrameCell(FrameCell parent, ElementIndex parentIndex, int elementIndex)
+	public FrameCell(FrameCell parent, PrintElementIndex parentIndex, int elementIndex)
 	{
 		super(parent, parentIndex, elementIndex);
 	}
