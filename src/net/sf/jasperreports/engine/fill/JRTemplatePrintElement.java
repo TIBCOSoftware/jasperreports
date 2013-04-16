@@ -326,6 +326,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 		return getForecolor();
 	}
 
+	//FIXME lucianc optimize by making unsynchronized 
 	public synchronized boolean hasProperties()
 	{
 		return properties != null && properties.hasProperties()

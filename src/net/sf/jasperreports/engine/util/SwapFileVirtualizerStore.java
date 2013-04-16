@@ -108,6 +108,7 @@ public class SwapFileVirtualizerStore implements VirtualizerStore
 		if (handle == null)
 		{
 			// should not happen
+			//FIXME lucianc happened once, look into it
 			log.error("No swap handle found for " + o.getUID() + " in " + this);
 			throw new JRRuntimeException("Unable to read virtualized data");
 		}
