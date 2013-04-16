@@ -59,7 +59,7 @@ public class JRGridLayout
 	private int height;
 	private int offsetX;
 	private int offsetY;
-	private final String address;
+	private final PrintElementIndex parentElementIndex;
 
 	private CutsInfo xCuts;
 	private CutsInfo yCuts;
@@ -130,14 +130,14 @@ public class JRGridLayout
 		this.width = width;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
-		this.address = null;
+		this.parentElementIndex = null;
 		this.xCuts = xCuts;
 
 		boxesCache = new HashMap<BoxKey,JRLineBox>();
 
 		virtualFrameIndex = elements.size();
 
-		layoutGrid(createWrappers(null, elements, address));
+		layoutGrid(createWrappers(null, elements, parentElementIndex));
 
 		if (nature.isSplitSharedRowSpan())
 		{
@@ -162,7 +162,7 @@ public class JRGridLayout
 		int height,
 		int offsetX,
 		int offsetY,
-		String address
+		PrintElementIndex parentElementIndex
 		)
 	{
 		this.nature = nature;
@@ -170,7 +170,7 @@ public class JRGridLayout
 		this.width = width;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
-		this.address = address;
+		this.parentElementIndex = parentElementIndex;
 
 		//this constructor is called only in nested grids:
 		this.isNested = true;
@@ -202,11 +202,11 @@ public class JRGridLayout
 		frame.setWidth(xCuts.getCutOffset(col2) - xCuts.getCutOffset(col1));
 		frame.setHeight(yCuts.getCutOffset(row2) - yCuts.getCutOffset(row1));
 
-		String virtualAddress = (address == null ? "" : address + "_") + getNextVirtualFrameIndex();
+		int virtualIndex = getNextVirtualFrameIndex();
 
 		JRExporterGridCell gridCell =
 			new ElementGridCell(
-				new ElementWrapper(null, frame, virtualAddress),
+				new ElementWrapper(null, frame, parentElementIndex, virtualIndex),
 				frame.getWidth(),
 				frame.getHeight(),
 				col2 - col1,
@@ -229,6 +229,7 @@ public class JRGridLayout
 			}
 		}
 
+		PrintElementIndex virtualParentIndex = new PrintElementIndex(parentElementIndex, virtualIndex);
 		gridCell.setLayout(
 			new JRGridLayout(
 				nature,
@@ -237,7 +238,7 @@ public class JRGridLayout
 				frame.getHeight(),
 				offsetX -xCuts.getCutOffset(col1),
 				offsetY -yCuts.getCutOffset(row1),
-				virtualAddress
+				virtualParentIndex
 				)
 			);
 
@@ -547,6 +548,7 @@ public class JRGridLayout
 		{
 			if (frame != null)//FIXMEODT if deep, does this make sense?
 			{
+				PrintElementIndex frameIndex = new PrintElementIndex(wrapper.getParentIndex(), wrapper.getElementIndex());
 				gridCell.setLayout(
 					new JRGridLayout(
 						nature,
@@ -555,7 +557,7 @@ public class JRGridLayout
 						frame.getHeight(),
 						0, //offsetX
 						0, //offsetY
-						wrapper.getAddress()
+						frameIndex
 						)
 					);
 			}
@@ -913,7 +915,8 @@ public class JRGridLayout
 	/**
 	 *
 	 */
-	private static ElementWrapper[] createWrappers(ElementWrapper parentWrapper, List<JRPrintElement> elementsList, String parentAddress)
+	private static ElementWrapper[] createWrappers(ElementWrapper parentWrapper, List<JRPrintElement> elementsList, 
+			PrintElementIndex parentIndex)
 	{
 		ElementWrapper[] wrappers = new ElementWrapper[elementsList.size()];
 
@@ -921,18 +924,18 @@ public class JRGridLayout
 		{
 			JRPrintElement element = elementsList.get(elementIndex);
 
-			String address = (parentAddress == null ? "" : parentAddress + "_") + elementIndex;
-
 			ElementWrapper wrapper = 
 				new ElementWrapper(
 					parentWrapper,
 					element,
-					address
+					parentIndex,
+					elementIndex
 					);
 			
 			if (element instanceof JRPrintFrame)
 			{
-				wrapper.setWrappers(createWrappers(wrapper, ((JRPrintFrame)element).getElements(), address));
+				PrintElementIndex frameIndex = new PrintElementIndex(parentIndex, elementIndex);
+				wrapper.setWrappers(createWrappers(wrapper, ((JRPrintFrame)element).getElements(), frameIndex));
 			}
 
 			wrappers[elementIndex] = wrapper;
