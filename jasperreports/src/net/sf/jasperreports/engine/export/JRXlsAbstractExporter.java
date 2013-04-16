@@ -1720,7 +1720,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	protected String getFormula(JRPrintText text)
 	{
-		String formula = text.getPropertiesMap().getProperty(JRXlsAbstractExporter.PROPERTY_CELL_FORMULA);
+		String formula = JRPropertiesUtil.getOwnProperty(text, JRXlsAbstractExporter.PROPERTY_CELL_FORMULA);
 		if( formula != null)
 		{
 			formula = formula.trim();
@@ -1787,7 +1787,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	protected String getConvertedPattern(JRPrintText text, String pattern)
 	{
-		String convertedPattern = text.getPropertiesMap().getProperty(PROPERTY_CELL_PATTERN);
+		String convertedPattern = JRPropertiesUtil.getOwnProperty(text, PROPERTY_CELL_PATTERN);
 		if (convertedPattern == null)
 		{
 			if (formatPatternsMap != null && formatPatternsMap.containsKey(pattern))
