@@ -882,6 +882,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	 */
 	protected JRPrintElement fill()
 	{
+		//FIXME lucianc create a frame instead to avoid HTML layers
 		JRPrintRectangle printRectangle = new JRTemplatePrintRectangle(getJRTemplateRectangle(), elementId);
 
 		printRectangle.setUUID(getUUID());
