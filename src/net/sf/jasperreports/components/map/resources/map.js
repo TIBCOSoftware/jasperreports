@@ -2,6 +2,7 @@
  * Defines 'map' module in jasperreports namespace
  */
 var infowindow;
+var colors =  {'black':'000000', 'brown':'A52A2A', 'green':'00FF00', 'purple':'800080', 'yellow':'FFFF00', 'blue':'0000FF', 'gray':'808080', 'orange':'FFA500', 'red':'FF0000', 'white':'FFFFFF'};
 
 (function(global) {
 	if (typeof global.jasperreports.map !== 'undefined') {
@@ -80,6 +81,8 @@ var infowindow;
 					        map: map
 					    };
 				    if(markerProps['icon.url'] && markerProps['icon.url'].length > 0) this.configureImage('icon', markerProps, markerOptions);
+				    else if (markerProps['icon'] && markerProps['icon'].length > 0) markerOptions['icon'] = markerProps['icon'];
+				    else if (markerProps['color'] && markerProps['color'].length > 0) markerOptions['icon'] = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2%7C' + (colors[markerProps['color']] ? colors[markerProps['color']] : markerProps['color']);
 				    if(markerProps['shadow.url'] && markerProps['shadow.url'].length > 0) this.configureImage('shadow', markerProps, markerOptions);
 				    for (j in markerProps) {
 						if (j.indexOf(".") < 0 && markerProps.hasOwnProperty(j) && !markerOptions.hasOwnProperty(j)) markerOptions[j] = markerProps[j];
