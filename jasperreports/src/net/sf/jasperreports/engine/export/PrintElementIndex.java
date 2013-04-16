@@ -21,24 +21,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export.tabulator;
+package net.sf.jasperreports.engine.export;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ElementIndex
+public class PrintElementIndex
 {
-	private final ElementIndex parentIndex;
+	private final PrintElementIndex parentIndex;
 	private final int index;
 	
-	public ElementIndex(ElementIndex parentIndex, int index)
+	public PrintElementIndex(PrintElementIndex parentIndex, int index)
 	{
 		this.parentIndex = parentIndex;
 		this.index = index;
 	}
 
-	public ElementIndex getParentIndex()
+	public PrintElementIndex getParentIndex()
 	{
 		return parentIndex;
 	}
@@ -46,5 +46,22 @@ public class ElementIndex
 	public int getIndex()
 	{
 		return index;
+	}
+	
+	public static String asAddress(PrintElementIndex parentIndex, int elementIndex)
+	{
+		StringBuilder address = new StringBuilder();
+		writeElementAddress(address, parentIndex, elementIndex);
+		return address.toString();
+	}
+
+	protected static void writeElementAddress(StringBuilder output, PrintElementIndex parentIndex, int elementIndex)
+	{
+		if (parentIndex != null)
+		{
+			writeElementAddress(output, parentIndex.getParentIndex(), parentIndex.getIndex());
+			output.append('_');
+		}
+		output.append(elementIndex);
 	}
 }

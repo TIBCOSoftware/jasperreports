@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.export.PrintElementIndex;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -84,7 +85,7 @@ public class Tabulator
 	}
 
 	protected void layoutElements(List<? extends JRPrintElement> elementList, Table table, 
-			FrameCell parentCell, ElementIndex parentIndex,
+			FrameCell parentCell, PrintElementIndex parentIndex,
 			int xOffset, int yOffset, Bounds elementBounds)
 	{
 		if (log.isTraceEnabled())
@@ -135,7 +136,7 @@ public class Tabulator
 	
 	protected boolean placeElement(Table table, FrameCell parentCell, 
 			int xOffset, int yOffset,
-			JRPrintElement element, ElementIndex parentIndex, int elementIndex, boolean allowOverlap)
+			JRPrintElement element, PrintElementIndex parentIndex, int elementIndex, boolean allowOverlap)
 	{
 		DimensionRange<Column> colRange = table.columns.getRange(element.getX() + xOffset, 
 				element.getX() + element.getWidth() + xOffset);
@@ -221,7 +222,7 @@ public class Tabulator
 	}
 
 	protected void placeOverlappedElement(Table table, FrameCell parentCell, int xOffset, int yOffset, 
-			JRPrintElement element, ElementIndex parentIndex, int elementIndex, 
+			JRPrintElement element, PrintElementIndex parentIndex, int elementIndex, 
 			Bounds overlapBounds)
 	{
 		DimensionRange<Column> overlapColRange = table.columns.getRange(overlapBounds.getStartX(), overlapBounds.getEndX());
@@ -257,7 +258,7 @@ public class Tabulator
 	}
 
 	protected void placeInLayeredCell(int xOffset, int yOffset, 
-			JRPrintElement element, ElementIndex parentIndex, int elementIndex,
+			JRPrintElement element, PrintElementIndex parentIndex, int elementIndex,
 			LayeredCell layeredCell, DimensionRange<Column> layeredColRange,
 			DimensionRange<Row> layeredRowRange)
 	{
@@ -283,7 +284,7 @@ public class Tabulator
 	}
 
 	protected void createLayeredCell(Table table, FrameCell parentCell, int xOffset, int yOffset, 
-			JRPrintElement element, ElementIndex parentIndex, int elementIndex,
+			JRPrintElement element, PrintElementIndex parentIndex, int elementIndex,
 			DimensionRange<Column> layeredColRange, DimensionRange<Row> layeredRowRange)
 	{
 		if (log.isDebugEnabled())
@@ -308,7 +309,7 @@ public class Tabulator
 	}
 
 	protected void createOverlappedLayer(int xOffset, int yOffset, LayeredCell layeredCell, 
-			JRPrintElement element, ElementIndex parentIndex, int elementIndex,
+			JRPrintElement element, PrintElementIndex parentIndex, int elementIndex,
 			DimensionRange<Column> layeredColRange, DimensionRange<Row> layeredRowRange)
 	{
 		Table overlappedLayer = new Table(this);
@@ -332,7 +333,7 @@ public class Tabulator
 
 	protected void setElementCells(Table table, FrameCell parentCell, 
 			int xOffset, int yOffset, 
-			JRPrintElement element, ElementIndex parentIndex, int elementIndex,
+			JRPrintElement element, PrintElementIndex parentIndex, int elementIndex,
 			DimensionRange<Column> colRange, DimensionRange<Row> rowRange)
 	{
 		DimensionRange<Column> elementColRange = table.columns.addEntries(colRange);
@@ -345,7 +346,7 @@ public class Tabulator
 			setElementCells(elementColRange, elementRowRange, frameCell);
 			
 			// go deep in the frame
-			ElementIndex frameIndex = new ElementIndex(parentIndex, elementIndex);
+			PrintElementIndex frameIndex = new PrintElementIndex(parentIndex, elementIndex);
 			JRLineBox box = frame.getLineBox();
 			layoutElements(frame.getElements(), table, frameCell, frameIndex, 
 					xOffset + frame.getX() + box.getLeftPadding(), 
@@ -679,7 +680,7 @@ public class Tabulator
 		return getCellElement(cell.getParentIndex(), cell.getElementIndex());
 	}
 	
-	protected JRPrintElement getCellElement(ElementIndex parentIndex, int index)
+	protected JRPrintElement getCellElement(PrintElementIndex parentIndex, int index)
 	{
 		// TODO lucianc keep a cache of current element position?
 		JRPrintElement element;
