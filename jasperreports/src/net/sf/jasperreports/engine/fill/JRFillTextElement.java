@@ -966,11 +966,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				//rewrite as styled text
 				String styledText = filler.getStyledTextParser().write(
 						fullStyledText);
-				printText.setText(styledText);
+				setPrintText(printText, styledText);
 			}
 			else
 			{
-				printText.setText(fullText);
+				setPrintText(printText, fullText);
 			}
 			
 			if (endIndex < fullText.length())
@@ -989,13 +989,20 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			}
 			else
 			{
+				// relying on substring to return the same String object when whole substring
 				printedText = fullText.substring(startIndex, endIndex);
 			}
-			printText.setText(printedText);
+			
+			setPrintText(printText, printedText);
 		}
 		
 		printText.setTextTruncateSuffix(getTextTruncateSuffix());
 		printText.setLineBreakOffsets(getLineBreakOffsets());
+	}
+	
+	protected void setPrintText(JRPrintText printText, String text)
+	{
+		printText.setText(text);
 	}
 
 	protected String getTextTruncateSuffix()

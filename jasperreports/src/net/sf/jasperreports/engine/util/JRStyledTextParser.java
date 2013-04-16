@@ -267,6 +267,7 @@ public class JRStyledTextParser implements ErrorHandler
 		if (styledText == null)
 		{
 			styledText = new JRStyledText(locale);
+			//FIXME use the original String object instead of creating a StringBuffer and a String copy, see JRFillTextField.setPrintText
 			styledText.append(text);
 			styledText.setGlobalAttributes(parentAttributes);
 		}
