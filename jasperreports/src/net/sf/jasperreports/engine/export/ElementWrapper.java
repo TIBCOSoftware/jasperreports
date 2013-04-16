@@ -37,20 +37,25 @@ import net.sf.jasperreports.engine.JRPrintElement;
  */
 public class ElementWrapper
 {
+	protected static final int ELEMENT_INDEX_NONE = Integer.MIN_VALUE;
+	
 	private JRPrintElement element;
-	private String address;
+	private PrintElementIndex parentIndex;
+	private int elementIndex;
 	private ElementWrapper[] wrappers;
 	private ElementWrapper parent;
 	
 	public ElementWrapper(
 		ElementWrapper parent,
 		JRPrintElement element, 
-		String address
+		PrintElementIndex parentIndex,
+		int elementIndex
 		)
 	{
 		this.parent = parent;
 		this.element = element;
-		this.address = address;
+		this.parentIndex = parentIndex;
+		this.elementIndex = elementIndex;
 	}
 	
 	public ElementWrapper getParent()
@@ -62,10 +67,25 @@ public class ElementWrapper
 	{
 		return element;
 	}
+
+	public PrintElementIndex getParentIndex()
+	{
+		return parentIndex;
+	}
+
+	public int getElementIndex()
+	{
+		return elementIndex;
+	}
 	
 	public String getAddress()
 	{
-		return address;
+		if (elementIndex == ELEMENT_INDEX_NONE)
+		{
+			return null;
+		}
+
+		return PrintElementIndex.asAddress(parentIndex, elementIndex);
 	}
 	
 	public ElementWrapper[] getWrappers()

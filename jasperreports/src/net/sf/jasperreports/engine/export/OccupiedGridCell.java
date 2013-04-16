@@ -47,7 +47,7 @@ public class OccupiedGridCell extends JRExporterGridCell
 	public OccupiedGridCell(JRExporterGridCell occupier)
 	{
 		super(
-			new ElementWrapper(null, new JRBasePrintElement(null), null), //FIXMEDOCX optimize memory with static fields
+			new ElementWrapper(null, new JRBasePrintElement(null), null, ElementWrapper.ELEMENT_INDEX_NONE), //FIXMEDOCX optimize memory with static fields
 			0, 0, 1, 1
 			);
 		
