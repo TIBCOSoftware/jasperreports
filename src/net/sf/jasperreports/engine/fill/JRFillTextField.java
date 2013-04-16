@@ -799,7 +799,24 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setHyperlinkParameters(hyperlinkParameters);
 		transferProperties(text);
 	}
-	
+
+	@Override
+	protected void setPrintText(JRPrintText printText, String text)
+	{
+		// JRStyledText.getText() returns a copy of the original text, resulting in 
+		// two distinct but identical String objects being kept in JRPrintText.
+		// checking if the text is identical to the one set via setValue.
+		// note that we're assuming that this methods is called after printText.setValue().
+		// we can get rid of this when we'll change JRStyledText not to create String copies when not necessary.
+		Object printValue = printText.getValue();
+		String textObj = text;
+		if (text != null && printValue != null && printValue instanceof String
+				&& text.equals(printValue))
+		{
+			textObj = (String) printValue;
+		}
+		super.setPrintText(printText, textObj);
+	}
 	
 	/**
 	 *
