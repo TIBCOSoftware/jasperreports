@@ -254,27 +254,34 @@ Below is a list of valid <code>itemProperty</code> names:
 <li><code>_parent</code> - the URL is loaded into the parent frame</li>
 <li><code>_self</code> - the URL replaces the current page</li>
 <li><code>_top</code> - the URL replaces any framesets that may be loaded</li>
-<li>a valid name of a window/frame</li>
+<li>a valid window/frame name</li>
 </ul>
 </li>
 <li><code>icon</code> - string value (representing the icon URL). See also <a href="#customIcons">Custom Icons</a></li>
 <li><code>shadow</code> - string value (representing the shadow icon URL). See also <a href="#customIcons">Custom Icons</a></li>
-<li><code>color</code> - string value representing the color for the default pin icons. This property is considered when none of  
-<code>icon</code> or <code>icon.url</code> properties are set. Allowed values are:
+<li><code>color</code> - string value representing the color for the default pin icons. This property is taken into account when none of  
+<code>icon</code> or <code>icon.url</code> properties are set. Its value may represent:
 <ul>
-<li><code>black</code> or the equivalent color hex code string: <code>000000</code> (with no # prefix)</li>
-<li><code>brown</code> or the equivalent color hex code string: <code>A52A2A</code> (with no # prefix)</li>
-<li><code>green</code> or the equivalent color hex code string: <code>00FF00</code> (with no # prefix)</li>
-<li><code>purple</code> or the equivalent color hex code string: <code>800080</code> (with no # prefix)</li>
-<li><code>yellow</code> or the equivalent color hex code string: <code>FFFF00</code> (with no # prefix)</li>
-<li><code>blue</code> or the equivalent color hex code string: <code>0000FF</code> (with no # prefix)</li>
-<li><code>gray</code> or the equivalent color hex code string: <code>808080</code> (with no # prefix)</li>
-<li><code>orange</code> or the equivalent color hex code string: <code>FFA500</code> (with no # prefix)</li>
-<li><code>red</code> or the equivalent color hex code string: <code>FF0000</code> (with no # prefix)</li>
-<li><code>white</code> or the equivalent color hex code string: <code>FFFFFF</code> (with no # prefix)</li>
-<li>any string representing a valid color hex code (with no # prefix)</li>
+<li>one of the predefined color names in the following list (see also <api href="net/sf/jasperreports/engine/type/ColorEnum.html">ColorEnum</api>):
+<ul>
+<li><code>black</code></li>
+<li><code>blue</code></li>
+<li><code>cyan</code></li>
+<li><code>darkGray</code></li>
+<li><code>gray</code></li>
+<li><code>green</code></li>
+<li><code>lightGray</code></li>
+<li><code>magenta</code></li>
+<li><code>orange</code></li>
+<li><code>pink</code></li>
+<li><code>red</code></li>
+<li><code>yellow</code></li>
+<li><code>white</code></li>
 </ul>
-See also the color property in <a href="#googleStaticMaps">Google Static Maps</a>.
+</li>
+<li>a valid color hex code (prefixed by #). For instance: #0000FF.</li>
+<li>the color RGB value.</li>
+</ul>
 </li>
 <li><code>cursor</code> - string value</li>
 <li><code>zIndex</code> - integer value</li>
@@ -295,9 +302,9 @@ the image is loaded as it is and is placed in built-in positions on the map, usi
 more detailed configurations, in order to get a better map appearance. In this case one can build custom icons, with the following properties:
 <br/>
 <br/>
-For the marker icon:
+For marker icons:
 <ul>
-<li><code>icon.url</code> - string value (representing the icon URL). If set, it takes precedence over the <code>icon</code> property.</li>
+<li><code>icon.url</code> - string value (representing the custom icon URL). If set, it takes precedence over the <code>icon</code> property.</li>
 <li><code>icon.width</code> - integer value representing the icon width, in pixels. To be considered, <code>icon.height</code> must be also set.</li>
 <li><code>icon.height</code> - integer value representing the icon height, in pixels. To be considered, <code>icon.width</code> must be also set.</li>
 <li><code>icon.origin.x</code> - integer value representing the horizontal position of the image within a sprite, if any, in pixels. Default value is <code>0</code>.</li>
@@ -307,9 +314,9 @@ Default value is <code>0</code>.</li>
 <li><code>icon.anchor.y</code> - integer value representing the vertical position to anchor an image with respect to the location of the marker on the map. 
 Default value is <code>0</code>.</li>
 </ul>
-For the shadow icon:
+For shadow icons:
 <ul>
-<li><code>shadow.url</code> - string value (representing the shadow icon URL). If set, it takes precedence over the <code>shadow</code> property.</li>
+<li><code>shadow.url</code> - string value (representing the custom shadow icon URL). If set, it takes precedence over the <code>shadow</code> property.</li>
 <li><code>shadow.width</code> - integer value representing the shadow icon width, in pixels. To be considered, <code>shadow.height</code> must be also set.</li>
 <li><code>shadow.height</code> - integer value representing the shadow icon height, in pixels. To be considered, <code>shadow.width</code> must be also set.</li>
 <li><code>shadow.origin.x</code> - integer value representing the horizontal position of the shadow image within a sprite, if any, in pixels. Default value is <code>0</code>.</li>
@@ -351,27 +358,14 @@ In these conditions, not all item properties defined for markers are considered 
 <li><code>longitude</code></li>
 <li><code>icon</code> - the icon URL has to be accessible for the Google Static Map service</li>
 <li><code>icon.url</code> - the icon URL has to be accessible for the Google Static Map service</li>
-<li><code>color</code> - Static maps are looking for the named colors enumerated below. If an equivalent hex code is passed, it will be converted 
-into its corresponding named color. If no related name is available, the default color is <code>red</code>. 
-<ul>
-<li><code>red</code> (default)</li>
-<li><code>black</code></li>
-<li><code>brown</code></li>
-<li><code>green</code></li>
-<li><code>purple</code></li>
-<li><code>yellow</code></li>
-<li><code>blue</code></li>
-<li><code>gray</code></li>
-<li><code>orange</code></li>
-<li><code>white</code></li>
-</ul>
-</li>
+<li><code>color</code></li>
 <li><code>size</code> - predefined string value. Specifies the marker size (for the built-in markers only). Allowed values are:
 <ul>
 <li><code>mid</code></li>
 <li><code>tiny</code></li>
 <li><code>small</code></li>
 </ul>
+If no size is set, the default icon is loaded with its normal size
 </li>
 </ul>
 <b>Map Component Example</b>    
