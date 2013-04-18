@@ -57,17 +57,29 @@ public abstract class JRExporterGridCell
 	{
 	}
 
-	public abstract int getWidth();
+	public abstract GridCellSize getSize();
 
-	public abstract void setWidth(int width);
+	public abstract void setSize(GridCellSize size);
+	
+	public int getWidth()
+	{
+		return getSize().getWidth();
+	}
 
-	public abstract int getHeight();
+	public int getHeight()
+	{
+		return getSize().getHeight();
+	}
 
-	public abstract int getColSpan();
+	public int getColSpan()
+	{
+		return getSize().getColSpan();
+	}
 
-	public abstract void setColSpan(int colSpan);
-
-	public abstract int getRowSpan();
+	public int getRowSpan()
+	{
+		return getSize().getRowSpan();
+	}
 
 
 	public Color getBackcolor()//FIXMENOW who uses this and why?

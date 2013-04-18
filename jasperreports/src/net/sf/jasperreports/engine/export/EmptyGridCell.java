@@ -34,57 +34,26 @@ import net.sf.jasperreports.engine.JRPrintElement;
 public class EmptyGridCell extends JRExporterGridCell
 {
 	
-	private int width;
-	private int height;
-	private int colSpan;
-	private int rowSpan;
-
+	private GridCellSize size;
 
 	/**
 	 *
 	 */
-	public EmptyGridCell(
-		int width, 
-		int height,
-		int colSpan, 
-		int rowSpan
-		)
+	public EmptyGridCell(GridCellSize size)
 	{
-		// TODO lucianc store these in separate cached objects since they usually repeat
-		this.width = width;
-		this.height = height;
-		this.colSpan = colSpan;
-		this.rowSpan = rowSpan;
+		this.size = size;
 	}
 
-	public int getWidth()
+	@Override
+	public GridCellSize getSize()
 	{
-		return width;
+		return size;
 	}
 
-	public void setWidth(int width)
+	@Override
+	public void setSize(GridCellSize size)
 	{
-		this.width = width;
-	}
-
-	public int getHeight()
-	{
-		return height;
-	}
-
-	public int getColSpan()
-	{
-		return colSpan;
-	}
-
-	public void setColSpan(int colSpan)
-	{
-		this.colSpan = colSpan;
-	}
-
-	public int getRowSpan()
-	{
-		return rowSpan;
+		this.size = size;
 	}
 
 	public byte getType()
