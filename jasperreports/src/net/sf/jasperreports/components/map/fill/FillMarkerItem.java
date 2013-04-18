@@ -27,7 +27,10 @@ import net.sf.jasperreports.components.map.Item;
 import net.sf.jasperreports.components.map.ItemProperty;
 import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.type.ColorEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
@@ -36,7 +39,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  */
 public class FillMarkerItem extends FillItem
 {
-	
+	public static final String PROPERTY_COLOR = "color";
 	/**
 	 *
 	 */
@@ -46,6 +49,15 @@ public class FillMarkerItem extends FillItem
 		)
 	{
 		super(item, factory);
+	}
+
+	@Override
+	public Object getEvaluatedValue(ItemProperty property, JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
+	{
+		Object result = super.getEvaluatedValue(property, evaluator, evaluation);
+		return PROPERTY_COLOR.equals(property.getName()) 
+				? JRColorUtil.getColorHexa(JRColorUtil.getColor((String)result, ColorEnum.RED.getColor()))
+				: result;
 	}
 
 	public void verifyValue(ItemProperty property, Object value) throws JRException
