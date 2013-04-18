@@ -35,6 +35,11 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class ElementGridCell extends JRExporterGridCell
 {
+	
+	private int width;
+	private int height;
+	private int colSpan;
+	private int rowSpan;
 
 	// TODO lucianc do not keep a reference to the container here but require exporters to use the cell with the container
 	private JRGridLayout container;
@@ -55,16 +60,47 @@ public class ElementGridCell extends JRExporterGridCell
 		int rowSpan
 		)
 	{
-		super(
-			width, 
-			height,
-			colSpan, 
-			rowSpan
-			);
+		// TODO lucianc store these in separate cached objects since they usually repeat
+		this.width = width;
+		this.height = height;
+		this.colSpan = colSpan;
+		this.rowSpan = rowSpan;
 		
 		this.container = container;
 		this.parentIndex = parentIndex;
 		this.elementIndex = elementIndex;
+	}
+
+	public int getWidth()
+	{
+		return width;
+	}
+
+	public void setWidth(int width)
+	{
+		// should not happen
+		throw new UnsupportedOperationException("Cannot set width on an element cell");
+	}
+
+	public int getHeight()
+	{
+		return height;
+	}
+
+	public int getColSpan()
+	{
+		return colSpan;
+	}
+
+	public void setColSpan(int colSpan)
+	{
+		// should not happen
+		throw new UnsupportedOperationException("Cannot set column span on an element cell");
+	}
+
+	public int getRowSpan()
+	{
+		return rowSpan;
 	}
 
 	@Override

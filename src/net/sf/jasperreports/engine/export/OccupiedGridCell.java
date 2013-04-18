@@ -45,12 +45,43 @@ public class OccupiedGridCell extends JRExporterGridCell
 	 */
 	public OccupiedGridCell(JRExporterGridCell occupier)
 	{
-		// TODO lucianc do not store if constant
-		super(0, 0, 1, 1);
+		// TODO lucianc do not store box/backcolor
+		super();
 		
 		this.occupier = occupier;
 	}
 
+	public int getWidth()
+	{
+		return 0;
+	}
+
+	public void setWidth(int width)
+	{
+		// should not happen
+		throw new UnsupportedOperationException("Cannot set width on an occupied cell");
+	}
+
+	public int getHeight()
+	{
+		return 0;
+	}
+
+	public int getColSpan()
+	{
+		return 1;
+	}
+
+	public void setColSpan(int colSpan)
+	{
+		// should not happen
+		throw new UnsupportedOperationException("Cannot set column span on an occupied cell");
+	}
+
+	public int getRowSpan()
+	{
+		return 1;
+	}
 
 	public JRExporterGridCell getOccupier()
 	{
