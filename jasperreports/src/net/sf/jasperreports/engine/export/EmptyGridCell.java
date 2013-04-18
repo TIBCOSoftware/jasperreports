@@ -33,6 +33,11 @@ import net.sf.jasperreports.engine.JRPrintElement;
  */
 public class EmptyGridCell extends JRExporterGridCell
 {
+	
+	private int width;
+	private int height;
+	private int colSpan;
+	private int rowSpan;
 
 
 	/**
@@ -45,14 +50,42 @@ public class EmptyGridCell extends JRExporterGridCell
 		int rowSpan
 		)
 	{
-		super(
-			width, 
-			height,
-			colSpan, 
-			rowSpan
-			);
+		// TODO lucianc store these in separate cached objects since they usually repeat
+		this.width = width;
+		this.height = height;
+		this.colSpan = colSpan;
+		this.rowSpan = rowSpan;
 	}
 
+	public int getWidth()
+	{
+		return width;
+	}
+
+	public void setWidth(int width)
+	{
+		this.width = width;
+	}
+
+	public int getHeight()
+	{
+		return height;
+	}
+
+	public int getColSpan()
+	{
+		return colSpan;
+	}
+
+	public void setColSpan(int colSpan)
+	{
+		this.colSpan = colSpan;
+	}
+
+	public int getRowSpan()
+	{
+		return rowSpan;
+	}
 
 	public byte getType()
 	{

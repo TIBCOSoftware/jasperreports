@@ -48,64 +48,26 @@ public abstract class JRExporterGridCell
 	private Color backcolor;
 	private Color forecolor;
 	private JRLineBox box;
-	
-	private int width;
-	private int height;
-	private int colSpan;
-	private int rowSpan;
 
 
 	/**
 	 *
 	 */
-	public JRExporterGridCell(
-		int width, 
-		int height,
-		int colSpan, 
-		int rowSpan
-		)
+	public JRExporterGridCell()
 	{
-		// TODO lucianc store these in separate cached objects since they usually repeat
-		this.width = width;
-		this.height = height;
-		this.colSpan = colSpan;
-		this.rowSpan = rowSpan;
 	}
 
-	public int getWidth()
-	{
-		return width;
-	}
+	public abstract int getWidth();
 
+	public abstract void setWidth(int width);
 
-	public void setWidth(int width)
-	{
-		this.width = width;
-	}
+	public abstract int getHeight();
 
+	public abstract int getColSpan();
 
-	public int getHeight()
-	{
-		return height;
-	}
+	public abstract void setColSpan(int colSpan);
 
-
-	public int getColSpan()
-	{
-		return colSpan;
-	}
-
-
-	public void setColSpan(int colSpan)
-	{
-		this.colSpan = colSpan;
-	}
-
-
-	public int getRowSpan()
-	{
-		return rowSpan;
-	}
+	public abstract int getRowSpan();
 
 
 	public Color getBackcolor()//FIXMENOW who uses this and why?
