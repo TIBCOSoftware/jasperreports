@@ -69,14 +69,6 @@ public abstract class JROpenDocumentExporterNature implements ExporterNature
 	{
 		return false;
 	}
-	
-	/**
-	 * 
-	 */
-	public boolean isSplitSharedRowSpan()
-	{
-		return true;
-	}
 
 	/**
 	 * 
