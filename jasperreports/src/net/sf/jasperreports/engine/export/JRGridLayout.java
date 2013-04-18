@@ -447,38 +447,18 @@ public class JRGridLayout
 		yCuts.addUsage(row1, Cut.USAGE_NOT_EMPTY);
 		xCuts.addUsage(col1, Cut.USAGE_NOT_EMPTY);
 
-		JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
-
 		int rowSpan = nature.isSpanCells() ? row2 - row1 : 1;
 		int colSpan = nature.isSpanCells() ? col2 - col1 : 1;
 
-		JRExporterGridCell gridCell;
-		if (col2 - col1 != 0 && row2 - row1 != 0 && frame != null)
-		{
-			gridCell =
-					new FrameGridCell(
-						this,
-						parentIndex,
-						elementIndex,
-						element.getWidth(),
-						element.getHeight(),
-						colSpan,
-						rowSpan
-						);
-		}
-		else
-		{
-			gridCell =
-					new ElementGridCell(
-						this,
-						parentIndex,
-						elementIndex,
-						element.getWidth(),
-						element.getHeight(),
-						colSpan,
-						rowSpan
-						);
-		}
+		JRExporterGridCell gridCell = new ElementGridCell(
+				this,
+				parentIndex,
+				elementIndex,
+				element.getWidth(),
+				element.getHeight(),
+				colSpan,
+				rowSpan
+				);
 
 		nature.setXProperties(xCuts, element, row1, col1, row2, col2);
 		nature.setYProperties(yCuts, element, row1, col1, row2, col2);
@@ -503,23 +483,6 @@ public class JRGridLayout
 
 		if (col2 - col1 != 0 && row2 - row1 != 0)
 		{
-			if (frame != null)//FIXMEODT if deep, does this make sense?
-			{
-				PrintElementIndex frameIndex = new PrintElementIndex(parentIndex, elementIndex);
-				// TODO lucianc do not create the layout here, create it on getLayout
-				((FrameGridCell) gridCell).setLayout(
-					new JRGridLayout(
-						this,
-						frame.getElements(),
-						frame.getWidth(),
-						frame.getHeight(),
-						0, //offsetX
-						0, //offsetY
-						frameIndex
-						)
-					);
-			}
-
 			gridCell.setBox((element instanceof JRBoxContainer)?((JRBoxContainer)element).getLineBox():null);
 
 			if (nature.isBreakBeforeRow(element))

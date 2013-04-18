@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 	
 	
@@ -129,6 +131,28 @@ public class ElementGridCell extends JRExporterGridCell
 	public String getElementAddress()
 	{
 		return PrintElementIndex.asAddress(parentIndex, elementIndex);
+	}
+
+	public JRGridLayout getLayout()
+	{
+		JRPrintElement element = getElement();
+		if (!(element instanceof JRPrintFrame))
+		{
+			// should not happen
+			throw new JRRuntimeException("Element at address " + getElementAddress() + " is not a frame");
+		}
+		
+		JRPrintFrame frame = (JRPrintFrame) element;
+		PrintElementIndex frameIndex = new PrintElementIndex(getParentIndex(), getElementIndex());
+		return new JRGridLayout(
+				container, 
+				frame.getElements(),
+				frame.getWidth(), 
+				frame.getHeight(),
+				0, //offsetX
+				0, //offsetY
+				frameIndex
+		);
 	}
 
 }

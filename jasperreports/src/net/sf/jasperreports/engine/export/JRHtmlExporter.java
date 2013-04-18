@@ -2441,7 +2441,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		try
 		{
-			exportGrid(((FrameGridCell) gridCell).getLayout(), false);
+			exportGrid(((ElementGridCell) gridCell).getLayout(), false);
 		}
 		finally
 		{

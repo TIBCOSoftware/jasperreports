@@ -62,8 +62,8 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.export.CutsInfo;
+import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ExporterNature;
-import net.sf.jasperreports.engine.export.FrameGridCell;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
@@ -658,7 +658,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 		try
 		{
-			JRGridLayout layout = ((FrameGridCell) gridCell).getLayout();
+			JRGridLayout layout = ((ElementGridCell) gridCell).getLayout();
 			JRPrintElementIndex frameIndex =
 				new JRPrintElementIndex(
 						reportIndex,
