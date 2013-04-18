@@ -26,7 +26,6 @@ package net.sf.jasperreports.components.map;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.components.map.type.ColorEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -82,9 +81,9 @@ public class MapElementImageProvider
 				{
 					currentMarkers = "&markers=";
 					String size = (String)map.get(MapPrintElement.PARAMETER_MARKER_SIZE);
-					currentMarkers += size != null ? "size:" + size + "%7C" : "";
-					String color = getColorName((String)map.get(MapPrintElement.PARAMETER_MARKER_COLOR));
-					currentMarkers += color != null ? "color:" + color + "%7C" : "";
+					currentMarkers += size != null && size.length() > 0 ? "size:" + size + "%7C" : "";
+					String color = (String)map.get(MapPrintElement.PARAMETER_MARKER_COLOR);
+					currentMarkers += color != null && color.length() > 0 ? "color:0x" + color + "%7C" : "";
 					String icon = map.get(MapPrintElement.PARAMETER_MARKER_ICON_URL) != null 
 							? (String)map.get(MapPrintElement.PARAMETER_MARKER_ICON_URL) 
 							: (String)map.get(MapPrintElement.PARAMETER_MARKER_ICON);
@@ -150,14 +149,4 @@ public class MapElementImageProvider
 		return printImage;
 	}
 	
-	public static String getColorName(String color)
-	{
-		return color != null && color.length() > 0 
-				? (ColorEnum.getByHexColor(color) != null 
-						? ColorEnum.getByHexColor(color).getName()
-						: (ColorEnum.getByName(color) != null
-								? ColorEnum.getByName(color).getName()
-								: ColorEnum.RED.getName())) 
-				: null;
-	}
 }

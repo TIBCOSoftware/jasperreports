@@ -21,9 +21,6 @@
 		<queryString language="csv">
 			<![CDATA[]]>
 		</queryString>
-		<field name="address" class="java.lang.String">
-			<fieldDescription><![CDATA[street address]]></fieldDescription>
-		</field>
 		<field name="latitude" class="java.lang.String">
 			<fieldDescription><![CDATA[latitude]]></fieldDescription>
 		</field>
@@ -38,18 +35,6 @@
 		</field>
 		<field name="url" class="java.lang.String">
 			<fieldDescription><![CDATA[url]]></fieldDescription>
-		</field>
-		<field name="icon" class="java.lang.String">
-			<fieldDescription><![CDATA[icon]]></fieldDescription>
-		</field>
-		<field name="iconurl" class="java.lang.String">
-			<fieldDescription><![CDATA[iconurl]]></fieldDescription>
-		</field>
-		<field name="iconwidth" class="java.lang.Integer">
-			<fieldDescription><![CDATA[iconwidth]]></fieldDescription>
-		</field>
-		<field name="iconheight" class="java.lang.Integer">
-			<fieldDescription><![CDATA[iconheight]]></fieldDescription>
 		</field>
 		<filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
 	</subDataset>
@@ -71,7 +56,7 @@
 			<textField isBlankWhenNull="true" isStretchWithOverflow="true">
 				<reportElement x="0" y="50" width="515" height="100"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA["A satellite map sample. Five markers with default icons are placed on the map. Marker tooltips are disabled. Clicking on a marker icon will open a new browser window/tab with related information."]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["A satellite map sample. Five markers with default icons and custom colors are placed on the map. Marker tooltips are disabled. Clicking on a marker icon will open a new browser window/tab with related information."]]></textFieldExpression>
 			</textField>
 			<componentElement>
 				<reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
