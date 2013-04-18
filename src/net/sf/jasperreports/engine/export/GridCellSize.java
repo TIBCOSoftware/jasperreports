@@ -23,85 +23,67 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRPrintElement;
-
-	
-	
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class OccupiedGridCell extends JRExporterGridCell
+public class GridCellSize
 {
-
-	private static final GridCellSize SIZE = new GridCellSize(0, 0, 1, 1);
-
-	/**
-	 *
-	 */
-	private JRExporterGridCell occupier;
-
-	/**
-	 *
-	 */
-	public OccupiedGridCell(JRExporterGridCell occupier)
+	private final int width;
+	private final int height;
+	private final int colSpan;
+	private final int rowSpan;
+	
+	public GridCellSize(int width, int height, int colSpan, int rowSpan)
 	{
-		// TODO lucianc do not store box/backcolor
-		super();
+		this.width = width;
+		this.height = height;
+		this.colSpan = colSpan;
+		this.rowSpan = rowSpan;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return (17 * width) ^ (19 * height) ^ (37 * colSpan) ^ (67 * rowSpan);
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if (!(o instanceof GridCellSize))
+		{
+			return false;
+		}
 		
-		this.occupier = occupier;
+		GridCellSize s = (GridCellSize) o;
+		return width == s.width && height == s.height
+				&& colSpan == s.colSpan && rowSpan == s.rowSpan;
 	}
-
+	
 	@Override
-	public GridCellSize getSize()
+	public String toString()
 	{
-		return SIZE;
+		return "{" + width + ", " + height + ", " + colSpan + ", " + rowSpan + "}";
 	}
 
-	@Override
-	public void setSize(GridCellSize size)
+	public int getWidth()
 	{
-		throw new UnsupportedOperationException("Cannot set the size of an occupied cell");
+		return width;
 	}
 
-	public JRExporterGridCell getOccupier()
+	public int getHeight()
 	{
-		return occupier;
+		return height;
 	}
 
-	public byte getType()
+	public int getColSpan()
 	{
-		return TYPE_OCCUPIED_CELL;
+		return colSpan;
 	}
 
-	@Override
-	public boolean isEmpty()
+	public int getRowSpan()
 	{
-		return false;
+		return rowSpan;
 	}
-
-	@Override
-	public boolean isOccupied()
-	{
-		return true;
-	}
-
-	@Override
-	public JRPrintElement getElement()
-	{
-		return null;
-	}
-
-	@Override
-	public String getElementAddress()
-	{
-		return null;
-	}
-
-	@Override
-	public String getProperty(String propName)
-	{
-		return occupier.getProperty(propName);
-	}
-
 }

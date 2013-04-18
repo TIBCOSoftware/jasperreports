@@ -36,6 +36,9 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -52,8 +55,12 @@ import net.sf.jasperreports.engine.util.JRBoxUtil;
  */
 public class JRGridLayout
 {
+	private static final Log log = LogFactory.getLog(JRGridLayout.class);
+	
 	private final ExporterNature nature;
 	private final List<JRPrintElement> elementList;
+	
+	private final Map<GridCellSize, GridCellSize> cellSizes;
 
 	private int width;
 	private int height;
@@ -123,6 +130,8 @@ public class JRGridLayout
 	{
 		this.nature = nature;
 		this.elementList = elements;
+		// TODO lucianc cache these across report pages?
+		this.cellSizes = new HashMap<GridCellSize, GridCellSize>();
 		this.height = height;
 		this.width = width;
 		this.offsetX = offsetX;
@@ -156,6 +165,7 @@ public class JRGridLayout
 	{
 		this.nature = parent.nature;
 		this.elementList = parent.elementList;
+		this.cellSizes = parent.cellSizes;
 		this.height = height;
 		this.width = width;
 		this.offsetX = offsetX;
@@ -249,12 +259,12 @@ public class JRGridLayout
 			{
 				// TODO lucianc cache instances
 				grid[row][col] =
-					new EmptyGridCell(
+					new EmptyGridCell(cellSize(
 						xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col),
 						yCuts.getCutOffset(row + 1) - yCuts.getCutOffset(row),
 						1,
 						1
-						);
+						));
 			}
 		}
 
@@ -264,6 +274,23 @@ public class JRGridLayout
 
 		width = xCuts.getTotalLength();
 		height = yCuts.getTotalLength();
+	}
+	
+	protected GridCellSize cellSize(int width, int height, int colSpan, int rowSpan)
+	{
+		GridCellSize key = new GridCellSize(width, height, colSpan, rowSpan);
+		GridCellSize size = cellSizes.get(key);
+		if (size == null)
+		{
+			size = key;
+			cellSizes.put(key, size);
+			
+			if (log.isTraceEnabled())
+			{
+				log.trace(this + " added cell size " + size);
+			}
+		}
+		return size;
 	}
 
 	protected void createCuts(List<JRPrintElement> elements, int elementOffsetX, int elementOffsetY, boolean createXCuts)
@@ -398,8 +425,9 @@ public class JRGridLayout
 					if (startSpan != -1 && col - startSpan > 1)
 					{
 						JRExporterGridCell spanCell = grid[row][startSpan];
-						spanCell.setColSpan(col - startSpan);
-						spanCell.setWidth(spanWidth);
+						GridCellSize newSize = cellSize(spanWidth, spanCell.getHeight(), 
+								col - startSpan, spanCell.getRowSpan());
+						spanCell.setSize(newSize);
 						//TODO set OCCUPIED_CELL?
 					}
 					startSpan = -1;
@@ -409,8 +437,9 @@ public class JRGridLayout
 			if (startSpan != -1 && col - startSpan > 1)
 			{
 				JRExporterGridCell spanCell = grid[row][startSpan];
-				spanCell.setColSpan(col - startSpan);
-				spanCell.setWidth(spanWidth);
+				GridCellSize newSize = cellSize(spanWidth, spanCell.getHeight(), 
+						col - startSpan, spanCell.getRowSpan());
+				spanCell.setSize(newSize);
 			}
 		}
 	}
@@ -454,11 +483,12 @@ public class JRGridLayout
 				this,
 				parentIndex,
 				elementIndex,
-				element.getWidth(),
-				element.getHeight(),
-				colSpan,
-				rowSpan
-				);
+				cellSize(
+						element.getWidth(),
+						element.getHeight(),
+						colSpan,
+						rowSpan
+				));
 
 		nature.setXProperties(xCuts, element, row1, col1, row2, col2);
 		nature.setYProperties(yCuts, element, row1, col1, row2, col2);
