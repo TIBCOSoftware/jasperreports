@@ -74,14 +74,6 @@ public class JRCsvExporterNature extends AbstractExporterNature
 	{
 		return true;
 	}
-	
-	/**
-	 * 
-	 */
-	public boolean isSplitSharedRowSpan()
-	{
-		return false;
-	}
 
 	/**
 	 * 

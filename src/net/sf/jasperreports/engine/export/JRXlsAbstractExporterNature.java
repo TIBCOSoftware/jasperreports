@@ -111,14 +111,6 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	{
 		return true;
 	}
-	
-	/**
-	 * 
-	 */
-	public boolean isSplitSharedRowSpan()
-	{
-		return false;
-	}
 
 	/**
 	 * 

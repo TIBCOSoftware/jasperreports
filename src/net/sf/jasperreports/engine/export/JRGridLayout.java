@@ -30,7 +30,6 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -41,7 +40,6 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 
@@ -66,8 +64,6 @@ public class JRGridLayout
 	private JRExporterGridCell[][] grid;
 
 	private Map<BoxKey,JRLineBox> boxesCache;
-
-	private int virtualFrameIndex;
 
 	private boolean hasTopMargin = true;
 	private boolean hasBottomMargin = true;
@@ -135,14 +131,7 @@ public class JRGridLayout
 
 		boxesCache = new HashMap<BoxKey,JRLineBox>();
 
-		virtualFrameIndex = elements.size();
-
 		layoutGrid(createWrappers(null, elements, parentElementIndex));
-
-		if (nature.isSplitSharedRowSpan())
-		{
-			splitSharedRowSpanIntoNestedGrids();
-		}
 	}
 
 	/**
@@ -178,71 +167,6 @@ public class JRGridLayout
 		boxesCache = new HashMap<BoxKey,JRLineBox>();
 		
 		layoutGrid(wrappers);
-
-		if (nature.isSplitSharedRowSpan())
-		{
-			splitSharedRowSpanIntoNestedGrids();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private void createNestedGrid(
-		int row1,
-		int col1,
-		int row2,
-		int col2
-		)
-	{
-		JRBasePrintFrame frame = new JRBasePrintFrame(null);
-		List<ElementWrapper> wrappers = new ArrayList<ElementWrapper>();
-
-		frame.setWidth(xCuts.getCutOffset(col2) - xCuts.getCutOffset(col1));
-		frame.setHeight(yCuts.getCutOffset(row2) - yCuts.getCutOffset(row1));
-
-		int virtualIndex = getNextVirtualFrameIndex();
-
-		JRExporterGridCell gridCell =
-			new ElementGridCell(
-				new ElementWrapper(null, frame, parentElementIndex, virtualIndex),
-				frame.getWidth(),
-				frame.getHeight(),
-				col2 - col1,
-				row2 - row1
-				);
-
-		OccupiedGridCell occupiedGridCell = new OccupiedGridCell(gridCell);
-		for(int row = row1; row < row2; row++)
-		{
-			for(int col = col1; col < col2; col++)
-			{
-				JRExporterGridCell gCell = grid[row][col];
-				grid[row][col] = occupiedGridCell;
-				ElementWrapper wrapper = gCell.getWrapper();
-				if (gCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)
-				{
-					wrappers.add(wrapper);
-					frame.addElement(wrapper.getElement());//FIXMEODT do we need this?
-				}
-			}
-		}
-
-		PrintElementIndex virtualParentIndex = new PrintElementIndex(parentElementIndex, virtualIndex);
-		gridCell.setLayout(
-			new JRGridLayout(
-				nature,
-				wrappers.toArray(new ElementWrapper[wrappers.size()]),
-				frame.getWidth(),
-				frame.getHeight(),
-				offsetX -xCuts.getCutOffset(col1),
-				offsetY -yCuts.getCutOffset(row1),
-				virtualParentIndex
-				)
-			);
-
-		grid[row1][col1] = gridCell;
 	}
 
 
@@ -623,97 +547,6 @@ public class JRGridLayout
 		}
 	}
 
-	private void splitSharedRowSpanIntoNestedGrids()
-	{
-		for(int row = 0; row < grid.length;)
-		{
-			int rowSpan = getSharedRowSpan(row);
-			//negative row span means it is not shared row span
-			if (rowSpan > 0)
-			{
-				splitSharedColSpanIntoNestedGrids(row, row + rowSpan);
-			}
-			row += Math.abs(rowSpan);
-		}
-	}
-
-	private void splitSharedColSpanIntoNestedGrids(int row1, int row2)
-	{
-		for(int col = 0; col < grid[row1].length;)
-		{
-			int colSpan = getSharedColSpan(row1, row2, col);
-			//negative col span means it is not shared col span
-			if (colSpan > 0)
-			{
-				if (
-					!(row1 == 0
-					&& row2 == grid.length
-					&& col == 0
-					&& colSpan == grid[0].length)
-					)
-				{
-					this.createNestedGrid(
-						row1,
-						col,
-						row2,
-						col + colSpan
-						);
-				}
-			}
-			col += Math.abs(colSpan);
-		}
-	}
-
-	private int getSharedRowSpan(int row1)
-	{
-		int rowSpan = 1;
-		int sharedSpanCount = 0;
-
-		for(int row = 0; row < rowSpan; row++)
-		{
-			for(int col = 0; col < grid[0].length; col++)
-			{
-				JRExporterGridCell gridCell = grid[row1 + row][col];
-				if (row + gridCell.getRowSpan() > rowSpan)
-				{
-					sharedSpanCount++;
-					rowSpan = row + gridCell.getRowSpan();
-				}
-			}
-		}
-
-		// we have "shared row span" only if at least two merged cells share at least one row;
-		// negative row span is used to skip row span that is not shared
-		return sharedSpanCount > 1 ? rowSpan : -rowSpan;
-	}
-
-	private int getSharedColSpan(int row1, int row2, int col1)
-	{
-		int colSpan = 1;
-		boolean isSharedSpan = false;
-
-		for(int col = 0; col < colSpan; col++)
-		{
-			for(int row = row1; row < row2; row++)
-			{
-				JRExporterGridCell gridCell = grid[row][col1 + col];
-				if (col + gridCell.getColSpan() > colSpan)
-				{
-					isSharedSpan = true;
-					colSpan = col + gridCell.getColSpan();
-				}
-				else if (gridCell.getRowSpan() > 1)
-				{
-					isSharedSpan = true;
-				}
-			}
-		}
-
-		// we have "shared col span" only if at least two merged cells share at least one col;
-		// negative col span is used to skip col span that is not shared
-		return isSharedSpan ? colSpan : -colSpan;
-	}
-
 	/**
 	 * Returns the constructed element grid.
 	 *
@@ -901,14 +734,6 @@ public class JRGridLayout
 				nature.setXProperties(xCuts.getPropertiesMap(), element);
 			}
 		}
-	}
-
-	/**
-	 *
-	 */
-	protected int getNextVirtualFrameIndex()
-	{
-		return virtualFrameIndex++;
 	}
 
 

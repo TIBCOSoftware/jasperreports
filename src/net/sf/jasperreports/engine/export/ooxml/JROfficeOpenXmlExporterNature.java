@@ -64,14 +64,6 @@ public abstract class JROfficeOpenXmlExporterNature extends AbstractExporterNatu
 	{
 		return (filter == null || filter.isToExport(element));
 	}
-	
-	/**
-	 * 
-	 */
-	public boolean isSplitSharedRowSpan()
-	{
-		return false;
-	}
 
 	/**
 	 * 

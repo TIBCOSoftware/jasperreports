@@ -107,14 +107,6 @@ public class JRHtmlExporterNature extends AbstractExporterNature
 		}
 		return deep;
 	}
-	
-	/**
-	 * 
-	 */
-	public boolean isSplitSharedRowSpan()
-	{
-		return false;
-	}
 
 	/**
 	 * 

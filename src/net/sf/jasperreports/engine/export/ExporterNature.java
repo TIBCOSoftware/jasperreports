@@ -46,8 +46,6 @@ public interface ExporterNature extends ExporterFilter
 	 */
 	public abstract boolean isDeep(JRPrintFrame frame);
 
-	public abstract boolean isSplitSharedRowSpan();
-
 	/**
 	 * Specifies whether the exporter handles cells span
 	 */
