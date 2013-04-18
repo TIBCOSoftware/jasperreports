@@ -33,6 +33,7 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRBoxContainer;
@@ -52,19 +53,18 @@ import net.sf.jasperreports.engine.util.JRBoxUtil;
 public class JRGridLayout
 {
 	private final ExporterNature nature;
+	private final List<JRPrintElement> elementList;
 
 	private int width;
 	private int height;
 	private int offsetX;
 	private int offsetY;
-	private final PrintElementIndex parentElementIndex;
 
 	private CutsInfo xCuts;
 	private CutsInfo yCuts;
 	private JRExporterGridCell[][] grid;
 
 	private Map<BoxKey,JRLineBox> boxesCache;
-
 	private boolean hasTopMargin = true;
 	private boolean hasBottomMargin = true;
 	private boolean hasLeftMargin = true;
@@ -122,16 +122,16 @@ public class JRGridLayout
 		)
 	{
 		this.nature = nature;
+		this.elementList = elements;
 		this.height = height;
 		this.width = width;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
-		this.parentElementIndex = null;
 		this.xCuts = xCuts;
 
 		boxesCache = new HashMap<BoxKey,JRLineBox>();
 
-		layoutGrid(createWrappers(null, elements, parentElementIndex));
+		layoutGrid(null, elements);
 	}
 
 	/**
@@ -145,8 +145,8 @@ public class JRGridLayout
 	 * @param address element address
 	 */
 	protected JRGridLayout(
-		ExporterNature nature,
-		ElementWrapper[] wrappers,
+		JRGridLayout parent,
+		List<JRPrintElement> elements,
 		int width,
 		int height,
 		int offsetX,
@@ -154,26 +154,42 @@ public class JRGridLayout
 		PrintElementIndex parentElementIndex
 		)
 	{
-		this.nature = nature;
+		this.nature = parent.nature;
+		this.elementList = parent.elementList;
 		this.height = height;
 		this.width = width;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
-		this.parentElementIndex = parentElementIndex;
 
 		//this constructor is called only in nested grids:
 		this.isNested = true;
 
 		boxesCache = new HashMap<BoxKey,JRLineBox>();
 		
-		layoutGrid(wrappers);
+		layoutGrid(parentElementIndex, elements);
 	}
-
+	
+	public JRPrintElement getElement(PrintElementIndex parentIndex, int index)
+	{
+		// TODO lucianc keep a cache of current element position?
+		JRPrintElement element;
+		if (parentIndex == null)
+		{
+			element = elementList.get(index);
+		}
+		else
+		{
+			JRPrintFrame parentFrame = (JRPrintFrame) getElement(parentIndex.getParentIndex(), parentIndex.getIndex());
+			element = parentFrame.getElements().get(index);
+		}
+		return element;
+	}
 
 	/**
 	 * Constructs the element grid.
+	 * @param parentElementIndex 
 	 */
-	protected void layoutGrid(ElementWrapper[] wrappers)
+	protected void layoutGrid(PrintElementIndex parentElementIndex, List<JRPrintElement> elements)
 	{
 
 		boolean createXCuts = (xCuts == null);
@@ -183,7 +199,8 @@ public class JRGridLayout
 
 		if(!isNested && nature.isIgnorePageMargins()) //FIXMEXLS left and right margins are not ignored when all pages on a single sheet
 		{
-			setMargins(wrappers);
+			// TODO lucianc this is an extra virtualization iteration
+			setMargins(elements);
 
 			if(createXCuts)
 			{
@@ -207,7 +224,7 @@ public class JRGridLayout
 			}
 		}
 
-		createCuts(wrappers, offsetX, offsetY, createXCuts);
+		createCuts(elements, offsetX, offsetY, createXCuts);
 
 		// add a cut at the width if it's a nested grid, or if the right margin
 		// is not to be removed and no element goes beyond the width
@@ -230,6 +247,7 @@ public class JRGridLayout
 		{
 			for(int col = 0; col < colCount; col++)
 			{
+				// TODO lucianc cache instances
 				grid[row][col] =
 					new EmptyGridCell(
 						xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col),
@@ -240,7 +258,7 @@ public class JRGridLayout
 			}
 		}
 
-		setGridElements(wrappers,
+		setGridElements(parentElementIndex, elements, 
 				offsetX, offsetY,
 				0, 0, rowCount, colCount);
 
@@ -248,13 +266,11 @@ public class JRGridLayout
 		height = yCuts.getTotalLength();
 	}
 
-	protected void createCuts(ElementWrapper[] wrappers, int elementOffsetX, int elementOffsetY, boolean createXCuts)
+	protected void createCuts(List<JRPrintElement> elements, int elementOffsetX, int elementOffsetY, boolean createXCuts)
 	{
-		for(int elementIndex = 0; elementIndex < wrappers.length; elementIndex++)
+		for (Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 		{
-			ElementWrapper wrapper = wrappers[elementIndex];
-			JRPrintElement element = wrapper.getElement();
-
+			JRPrintElement element = it.next();
 			if (nature.isToExport(element))
 			{
 				if (createXCuts)
@@ -270,7 +286,7 @@ public class JRGridLayout
 				if (frame != null && nature.isDeep(frame))
 				{
 					createCuts(
-						wrapper.getWrappers(),
+						frame.getElements(),
 						element.getX() + elementOffsetX + frame.getLineBox().getLeftPadding().intValue(),
 						element.getY() + elementOffsetY + frame.getLineBox().getTopPadding().intValue(),
 						createXCuts
@@ -280,13 +296,11 @@ public class JRGridLayout
 		}
 	}
 
-	protected void setMargins(ElementWrapper[] wrappers)
+	protected void setMargins(List<JRPrintElement> elements)
 	{
-		for(int elementIndex = 0; elementIndex < wrappers.length; elementIndex++)
+		for (Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 		{
-			ElementWrapper wrapper = wrappers[elementIndex];
-			JRPrintElement element = wrapper.getElement();
-
+			JRPrintElement element = it.next();
 			if (nature.isToExport(element))
 			{
 				if(hasLeftMargin && element.getX() <= 0)
@@ -308,21 +322,20 @@ public class JRGridLayout
 				{
 					hasBottomMargin = false;
 				}
-
 			}
 		}
 	}
 
 
-	protected void setGridElements(ElementWrapper[] wrappers,
+	protected void setGridElements(PrintElementIndex parentIndex, List<JRPrintElement> elements, 
 			int elementOffsetX, int elementOffsetY,
 			int startRow, int startCol, int endRow, int endCol)
 	{
-		for(int elementIndex = wrappers.length - 1; elementIndex >= 0; elementIndex--)
+		for (ListIterator<JRPrintElement> it = elements.listIterator(elements.size()); it.hasPrevious();)
 		{
-			ElementWrapper wrapper = wrappers[elementIndex];
-			JRPrintElement element = wrapper.getElement();
-
+			JRPrintElement element = it.previous();
+			int elementIndex = it.nextIndex();
+			
 			if (nature.isToExport(element))
 			{
 				int x = element.getX() + elementOffsetX;
@@ -338,8 +351,9 @@ public class JRGridLayout
 					JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame)element : null;
 					if (frame != null && nature.isDeep(frame))
 					{
+						PrintElementIndex frameIndex = new PrintElementIndex(parentIndex, elementIndex);
 						setGridElements(
-							wrapper.getWrappers(),
+							frameIndex, frame.getElements(),
 							x + frame.getLineBox().getLeftPadding().intValue(),
 							y + frame.getLineBox().getTopPadding().intValue(),
 							row1, col1, row2, col2
@@ -349,7 +363,7 @@ public class JRGridLayout
 					}
 					else
 					{
-						setGridElement(wrapper, row1, col1, row2, col2);
+						setGridElement(element, parentIndex, elementIndex, row1, col1, row2, col2);
 					}
 				}
 			}
@@ -421,31 +435,50 @@ public class JRGridLayout
 		}
 		else
 		{
-			isOverlap = grid[row1][col1].getWrapper() != null;
+			isOverlap = grid[row1][col1].isOccupied();
 		}
 		return isOverlap;
 	}
 
 
-	protected void setGridElement(ElementWrapper wrapper, int row1, int col1, int row2, int col2)
+	protected void setGridElement(JRPrintElement element, PrintElementIndex parentIndex, int elementIndex,
+			int row1, int col1, int row2, int col2)
 	{
 		yCuts.addUsage(row1, Cut.USAGE_NOT_EMPTY);
 		xCuts.addUsage(col1, Cut.USAGE_NOT_EMPTY);
 
-		JRPrintElement element = wrapper.getElement();
 		JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
 
 		int rowSpan = nature.isSpanCells() ? row2 - row1 : 1;
 		int colSpan = nature.isSpanCells() ? col2 - col1 : 1;
 
-		JRExporterGridCell gridCell =
-			new ElementGridCell(
-				wrapper,
-				element.getWidth(),
-				element.getHeight(),
-				colSpan,
-				rowSpan
-				);
+		JRExporterGridCell gridCell;
+		if (col2 - col1 != 0 && row2 - row1 != 0 && frame != null)
+		{
+			gridCell =
+					new FrameGridCell(
+						this,
+						parentIndex,
+						elementIndex,
+						element.getWidth(),
+						element.getHeight(),
+						colSpan,
+						rowSpan
+						);
+		}
+		else
+		{
+			gridCell =
+					new ElementGridCell(
+						this,
+						parentIndex,
+						elementIndex,
+						element.getWidth(),
+						element.getHeight(),
+						colSpan,
+						rowSpan
+						);
+		}
 
 		nature.setXProperties(xCuts, element, row1, col1, row2, col2);
 		nature.setYProperties(yCuts, element, row1, col1, row2, col2);
@@ -472,11 +505,12 @@ public class JRGridLayout
 		{
 			if (frame != null)//FIXMEODT if deep, does this make sense?
 			{
-				PrintElementIndex frameIndex = new PrintElementIndex(wrapper.getParentIndex(), wrapper.getElementIndex());
-				gridCell.setLayout(
+				PrintElementIndex frameIndex = new PrintElementIndex(parentIndex, elementIndex);
+				// TODO lucianc do not create the layout here, create it on getLayout
+				((FrameGridCell) gridCell).setLayout(
 					new JRGridLayout(
-						nature,
-						wrapper.getWrappers(),
+						this,
+						frame.getElements(),
 						frame.getWidth(),
 						frame.getHeight(),
 						0, //offsetX
@@ -734,39 +768,6 @@ public class JRGridLayout
 				nature.setXProperties(xCuts.getPropertiesMap(), element);
 			}
 		}
-	}
-
-
-	/**
-	 *
-	 */
-	private static ElementWrapper[] createWrappers(ElementWrapper parentWrapper, List<JRPrintElement> elementsList, 
-			PrintElementIndex parentIndex)
-	{
-		ElementWrapper[] wrappers = new ElementWrapper[elementsList.size()];
-
-		for (int elementIndex = 0; elementIndex < elementsList.size(); elementIndex++)
-		{
-			JRPrintElement element = elementsList.get(elementIndex);
-
-			ElementWrapper wrapper = 
-				new ElementWrapper(
-					parentWrapper,
-					element,
-					parentIndex,
-					elementIndex
-					);
-			
-			if (element instanceof JRPrintFrame)
-			{
-				PrintElementIndex frameIndex = new PrintElementIndex(parentIndex, elementIndex);
-				wrapper.setWrappers(createWrappers(wrapper, ((JRPrintFrame)element).getElements(), frameIndex));
-			}
-
-			wrappers[elementIndex] = wrapper;
-		}
-
-		return wrappers;
 	}
 	
 	

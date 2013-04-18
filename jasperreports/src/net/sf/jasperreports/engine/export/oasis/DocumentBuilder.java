@@ -245,7 +245,7 @@ public abstract class DocumentBuilder
 			new JRPrintElementIndex(
 					getReportIndex(),
 					getPageIndex(),
-					gridCell.getWrapper().getAddress()
+					gridCell.getElementAddress()
 					);
 		return imageIndex;
 	}

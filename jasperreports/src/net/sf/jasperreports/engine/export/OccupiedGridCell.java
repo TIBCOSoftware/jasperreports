@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.base.JRBasePrintElement;
+import net.sf.jasperreports.engine.JRPrintElement;
 
 	
 	
@@ -40,16 +40,13 @@ public class OccupiedGridCell extends JRExporterGridCell
 	 */
 	private JRExporterGridCell occupier;
 
-
 	/**
 	 *
 	 */
 	public OccupiedGridCell(JRExporterGridCell occupier)
 	{
-		super(
-			new ElementWrapper(null, new JRBasePrintElement(null), null, ElementWrapper.ELEMENT_INDEX_NONE), //FIXMEDOCX optimize memory with static fields
-			0, 0, 1, 1
-			);
+		// TODO lucianc do not store if constant
+		super(0, 0, 1, 1);
 		
 		this.occupier = occupier;
 	}
@@ -64,6 +61,36 @@ public class OccupiedGridCell extends JRExporterGridCell
 	public byte getType()
 	{
 		return TYPE_OCCUPIED_CELL;
+	}
+
+	@Override
+	public boolean isEmpty()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isOccupied()
+	{
+		return true;
+	}
+
+	@Override
+	public JRPrintElement getElement()
+	{
+		return null;
+	}
+
+	@Override
+	public String getElementAddress()
+	{
+		return null;
+	}
+
+	@Override
+	public String getProperty(String propName)
+	{
+		return occupier.getProperty(propName);
 	}
 
 }

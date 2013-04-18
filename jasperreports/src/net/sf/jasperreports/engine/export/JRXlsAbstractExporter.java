@@ -1152,7 +1152,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 						addOccupiedCell((OccupiedGridCell)gridCell, colIndex, rowIndex);
 					}
-					else if(gridCell.getWrapper() != null)
+					else if(gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)
 					{
 						if (emptyCellColSpan > 0)
 						{
@@ -1165,7 +1165,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							//emptyCellWidth = 0;
 						}
 
-						JRPrintElement element = gridCell.getWrapper().getElement();
+						JRPrintElement element = gridCell.getElement();
 						
 						String rowFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_ROW_EDGE);
 						
