@@ -44,10 +44,6 @@ public abstract class JRExporterGridCell
 	public static final byte TYPE_ELEMENT_CELL = 3; 
 
 
-	/**
-	 *
-	 */
-	private ElementWrapper wrapper; 
 	
 	private Color backcolor;
 	private Color forecolor;
@@ -58,39 +54,23 @@ public abstract class JRExporterGridCell
 	private int colSpan;
 	private int rowSpan;
 
-	private JRGridLayout layout;
-
 
 	/**
 	 *
 	 */
 	public JRExporterGridCell(
-		ElementWrapper wrapper, 
 		int width, 
 		int height,
 		int colSpan, 
 		int rowSpan
 		)
 	{
-		this.wrapper = wrapper;
+		// TODO lucianc store these in separate cached objects since they usually repeat
 		this.width = width;
 		this.height = height;
 		this.colSpan = colSpan;
 		this.rowSpan = rowSpan;
 	}
-
-
-	public ElementWrapper getWrapper()
-	{
-		return wrapper;
-	}
-	
-	
-	public JRPrintElement getElement()
-	{
-		return wrapper == null ? null : wrapper.getElement();
-	}
-
 
 	public int getWidth()
 	{
@@ -125,18 +105,6 @@ public abstract class JRExporterGridCell
 	public int getRowSpan()
 	{
 		return rowSpan;
-	}
-
-
-	public JRGridLayout getLayout()
-	{
-		return layout;
-	}
-
-
-	public void setLayout(JRGridLayout layout)
-	{
-		this.layout = layout;
 	}
 
 
@@ -197,9 +165,16 @@ public abstract class JRExporterGridCell
 	
 	public boolean isEmpty()
 	{
-		return wrapper == null && backcolor == null && box == null;
+		return backcolor == null && box == null;
 	}
 
 	public abstract byte getType();
+	
+	public abstract JRPrintElement getElement();
+	
+	public abstract String getElementAddress();
+	
+	public abstract boolean isOccupied();
 
+	public abstract String getProperty(String propName);
 }

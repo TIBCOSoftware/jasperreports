@@ -891,14 +891,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 				for(int x = 0; x < gridRow.length; x++)
 				{
 					JRExporterGridCell gridCell = gridRow[x];
-					if(gridCell.getWrapper() == null)
+					if(gridCell.getType() == JRExporterGridCell.TYPE_EMPTY_CELL)
 					{
 						writeEmptyCell(gridCell, rowHeight);						
 					}
 					else
 					{
 						
-						JRPrintElement element = gridCell.getWrapper().getElement();
+						JRPrintElement element = gridCell.getElement();
 						
 						String thTag = null;
 
@@ -969,7 +969,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	private boolean hasEmptyCell(JRExporterGridCell[] gridRow)
 	{
-		if (gridRow[0].getWrapper() == null) // quick exit
+		if (gridRow[0].getType() == JRExporterGridCell.TYPE_EMPTY_CELL) // quick exit
 		{
 			return true;
 		}
@@ -977,7 +977,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		boolean hasEmptyCell = false;
 		for(int x = 1; x < gridRow.length; x++)
 		{
-			if (gridRow[x].getWrapper() == null)
+			if (gridRow[x].getType() == JRExporterGridCell.TYPE_EMPTY_CELL)
 			{
 				hasEmptyCell = true;
 				break;
@@ -1085,21 +1085,18 @@ public class JRHtmlExporter extends JRAbstractExporter
 		{
 			writer.write(" rowspan=\"" + gridCell.getRowSpan() + "\"");
 		}
-		if (gridCell.getWrapper() != null)
+		JRPrintElement element = gridCell.getElement();
+		if (element != null)
 		{
-			JRPrintElement element = gridCell.getWrapper().getElement();
-			if (element != null)
+			String id = getPropertiesUtil().getProperty(element, PROPERTY_HTML_ID);
+			if (id != null)
 			{
-				String id = getPropertiesUtil().getProperty(element, PROPERTY_HTML_ID);
-				if (id != null)
-				{
-					writer.write(" id=\"" + id +"\"");
-				}
-				String clazz = getPropertiesUtil().getProperty(element, PROPERTY_HTML_CLASS);
-				if (clazz != null)
-				{
-					writer.write(" class=\"" + clazz +"\"");
-				}
+				writer.write(" id=\"" + id +"\"");
+			}
+			String clazz = getPropertiesUtil().getProperty(element, PROPERTY_HTML_CLASS);
+			if (clazz != null)
+			{
+				writer.write(" class=\"" + clazz +"\"");
 			}
 		}
 	}
@@ -1127,25 +1124,14 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 			else
 			{
-				ElementWrapper wrapper = gridCell.getWrapper();
-
-				OccupiedGridCell occupiedCell = gridCell instanceof OccupiedGridCell ? (OccupiedGridCell)gridCell : null;
-				if (occupiedCell != null)
+				String cellContentsType = gridCell.getProperty(JRCellContents.PROPERTY_TYPE);
+				if (
+					JRCellContents.TYPE_CROSSTAB_HEADER.equals(cellContentsType)
+					|| JRCellContents.TYPE_COLUMN_HEADER.equals(cellContentsType)
+					|| JRCellContents.TYPE_ROW_HEADER.equals(cellContentsType)
+					)
 				{
-					wrapper = occupiedCell.getOccupier().getWrapper();
-				}
-				
-				if (wrapper != null)
-				{
-					String cellContentsType = wrapper.getProperty(JRCellContents.PROPERTY_TYPE);
-					if (
-						JRCellContents.TYPE_CROSSTAB_HEADER.equals(cellContentsType)
-						|| JRCellContents.TYPE_COLUMN_HEADER.equals(cellContentsType)
-						|| JRCellContents.TYPE_ROW_HEADER.equals(cellContentsType)
-						)
-					{
-						return "th";
-					}
+					return "th";
 				}
 			}
 		}
@@ -2201,7 +2187,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			new JRPrintElementIndex(
 					reportIndex,
 					pageIndex,
-					gridCell.getWrapper().getAddress()
+					gridCell.getElementAddress()
 					);
 		return imageIndex;
 	}
@@ -2455,7 +2441,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		try
 		{
-			exportGrid(gridCell.getLayout(), false);
+			exportGrid(((FrameGridCell) gridCell).getLayout(), false);
 		}
 		finally
 		{

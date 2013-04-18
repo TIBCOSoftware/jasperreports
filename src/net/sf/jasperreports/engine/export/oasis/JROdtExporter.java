@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ExporterNature;
+import net.sf.jasperreports.engine.export.FrameGridCell;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
@@ -467,7 +468,6 @@ public class JROdtExporter extends JRAbstractExporter
 			tableBuilder.buildColumnFooter();
 		}
 
-		JRPrintElement element = null;
 		for(int row = 0; row < grid.length; row++)
 		{
 			int emptyCellColSpan = 0;
@@ -496,7 +496,7 @@ public class JROdtExporter extends JRAbstractExporter
 //					exportOccupiedCells(elementGridCell);
 //					col += elementGridCell.getColSpan() - 1;
 				}
-				else if(gridCell.getWrapper() != null)
+				else if(gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)
 				{
 					if (emptyCellColSpan > 0)
 					{
@@ -505,7 +505,7 @@ public class JROdtExporter extends JRAbstractExporter
 						//emptyCellWidth = 0;
 					}
 
-					element = gridCell.getWrapper().getElement();
+					JRPrintElement element = gridCell.getElement();
 
 					if (element instanceof JRPrintLine)
 					{
@@ -658,12 +658,12 @@ public class JROdtExporter extends JRAbstractExporter
 
 		try
 		{
-			JRGridLayout layout = gridCell.getLayout();
+			JRGridLayout layout = ((FrameGridCell) gridCell).getLayout();
 			JRPrintElementIndex frameIndex =
 				new JRPrintElementIndex(
 						reportIndex,
 						pageIndex,
-						gridCell.getWrapper().getAddress()
+						gridCell.getElementAddress()
 						);
 			exportGrid(layout, frameIndex);
 		}

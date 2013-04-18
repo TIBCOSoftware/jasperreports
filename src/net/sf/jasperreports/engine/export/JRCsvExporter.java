@@ -87,7 +87,6 @@ public class JRCsvExporter extends JRAbstractCsvExporter
 
 		StringBuffer rowbuffer = null;
 		
-		JRPrintElement element = null;
 		String text = null;
 		boolean isFirstColumn = true;
 		for(int y = 0; y < grid.length; y++)
@@ -99,10 +98,9 @@ public class JRCsvExporter extends JRAbstractCsvExporter
 				isFirstColumn = true;
 				for(int x = 0; x < grid[y].length; x++)
 				{
-					if(grid[y][x].getWrapper() != null)
+					JRPrintElement element = grid[y][x].getElement();
+					if(element != null)
 					{
-						element = grid[y][x].getWrapper().getElement();
-	
 						if (element instanceof JRPrintText)
 						{
 							JRStyledText styledText = getStyledText((JRPrintText)element);

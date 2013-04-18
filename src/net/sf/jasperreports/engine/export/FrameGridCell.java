@@ -23,64 +23,30 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRPrintElement;
-
-	
-	
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class EmptyGridCell extends JRExporterGridCell
+public class FrameGridCell extends ElementGridCell
 {
 
+	private JRGridLayout layout;
 
-	/**
-	 *
-	 */
-	public EmptyGridCell(
-		int width, 
-		int height,
-		int colSpan, 
-		int rowSpan
-		)
+	public FrameGridCell(JRGridLayout container, 
+			PrintElementIndex parentIndex, int elementIndex,
+			int width, int height, int colSpan, int rowSpan)
 	{
-		super(
-			width, 
-			height,
-			colSpan, 
-			rowSpan
-			);
+		super(container, parentIndex, elementIndex, width, height, colSpan, rowSpan);
 	}
 
-
-	public byte getType()
+	public JRGridLayout getLayout()
 	{
-		return TYPE_EMPTY_CELL;
+		return layout;
 	}
 
-	@Override
-	public boolean isOccupied()
+	public void setLayout(JRGridLayout layout)
 	{
-		return false;
-	}
-
-	@Override
-	public JRPrintElement getElement()
-	{
-		return null;
-	}
-
-	@Override
-	public String getElementAddress()
-	{
-		return null;
-	}
-
-	@Override
-	public String getProperty(String propName)
-	{
-		return null;
+		this.layout = layout;
 	}
 
 }

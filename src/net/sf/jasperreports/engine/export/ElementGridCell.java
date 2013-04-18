@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import net.sf.jasperreports.engine.JRPrintElement;
+
 	
 	
 /**
@@ -32,12 +34,19 @@ package net.sf.jasperreports.engine.export;
 public class ElementGridCell extends JRExporterGridCell
 {
 
+	// TODO lucianc do not keep a reference to the container here but require exporters to use the cell with the container
+	private JRGridLayout container;
+
+	private PrintElementIndex parentIndex;
+	private int elementIndex;
 
 	/**
 	 *
 	 */
 	public ElementGridCell(
-		ElementWrapper wrapper, 
+		JRGridLayout container,
+		PrintElementIndex parentIndex,
+		int elementIndex,
 		int width, 
 		int height,
 		int colSpan, 
@@ -45,18 +54,81 @@ public class ElementGridCell extends JRExporterGridCell
 		)
 	{
 		super(
-			wrapper, 
 			width, 
 			height,
 			colSpan, 
 			rowSpan
 			);
+		
+		this.container = container;
+		this.parentIndex = parentIndex;
+		this.elementIndex = elementIndex;
 	}
 
-
+	@Override
 	public byte getType()
 	{
 		return TYPE_ELEMENT_CELL;
+	}
+
+	@Override
+	public boolean isEmpty()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isOccupied()
+	{
+		return true;
+	}
+	
+	@Override
+	public JRPrintElement getElement()
+	{
+		return container.getElement(parentIndex, elementIndex);
+	}
+	
+	public String getProperty(String propName)
+	{
+		JRPrintElement element = getElement();
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(propName))
+		{
+			return element.getPropertiesMap().getProperty(propName);
+		}
+
+		PrintElementIndex ancestorIndex = parentIndex;
+		while (ancestorIndex != null)
+		{
+			JRPrintElement ancestor = container.getElement(
+					ancestorIndex.getParentIndex(), ancestorIndex.getIndex());
+			if (ancestor.hasProperties()
+					&& ancestor.getPropertiesMap().containsProperty(propName))
+			{
+				return ancestor.getPropertiesMap().getProperty(propName);
+			}
+			
+			ancestorIndex = ancestorIndex.getParentIndex();
+		}
+			
+		return null;
+	}
+
+	public PrintElementIndex getParentIndex()
+	{
+		return parentIndex;
+	}
+
+	public int getElementIndex()
+	{
+		return elementIndex;
+	}
+
+	@Override
+	public String getElementAddress()
+	{
+		return PrintElementIndex.asAddress(parentIndex, elementIndex);
 	}
 
 }
