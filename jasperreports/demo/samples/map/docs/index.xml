@@ -247,8 +247,42 @@ Below is a list of valid <code>itemProperty</code> names:
 <li><code>latitude</code> - required; floating-point value</li>
 <li><code>longitude</code> - required; floating-point value</li>
 <li><code>title</code> - string value</li>
-<li><code>icon</code> - string value (representing the icon url)</li>
-<li><code>shadow</code> - string value (representing the shadow icon url)</li>
+<li><code>url</code> - string value. Link to a page or document that will be open when the marker is clicked on. See also <a href="#infoWindows">Info Windows</a></li>
+<li><code>target</code> - string value. The target window/frame to load the marker URL. Allowed values are:
+<ul>
+<li><code>_blank</code> - the URL is loaded into a new window</li>
+<li><code>_parent</code> - the URL is loaded into the parent frame</li>
+<li><code>_self</code> - the URL replaces the current page</li>
+<li><code>_top</code> - the URL replaces any framesets that may be loaded</li>
+<li>a valid window/frame name</li>
+</ul>
+</li>
+<li><code>icon</code> - string value (representing the icon URL). See also <a href="#customIcons">Custom Icons</a></li>
+<li><code>shadow</code> - string value (representing the shadow icon URL). See also <a href="#customIcons">Custom Icons</a></li>
+<li><code>color</code> - string value representing the color for the default pin icons. This property is taken into account when none of  
+<code>icon</code> or <code>icon.url</code> properties are set. Its value may represent:
+<ul>
+<li>one of the predefined color names in the following list (see also <api href="net/sf/jasperreports/engine/type/ColorEnum.html">ColorEnum</api>):
+<ul>
+<li><code>black</code></li>
+<li><code>blue</code></li>
+<li><code>cyan</code></li>
+<li><code>darkGray</code></li>
+<li><code>gray</code></li>
+<li><code>green</code></li>
+<li><code>lightGray</code></li>
+<li><code>magenta</code></li>
+<li><code>orange</code></li>
+<li><code>pink</code></li>
+<li><code>red</code></li>
+<li><code>yellow</code></li>
+<li><code>white</code></li>
+</ul>
+</li>
+<li>a valid color hex code (prefixed by #). For instance: #0000FF.</li>
+<li>the color RGB value.</li>
+</ul>
+</li>
 <li><code>cursor</code> - string value</li>
 <li><code>zIndex</code> - integer value</li>
 <li><code>clickable</code> - boolean value</li>
@@ -257,14 +291,98 @@ Below is a list of valid <code>itemProperty</code> names:
 <li><code>optimized</code> - boolean value</li>
 <li><code>raiseOnDrag</code> - boolean value</li>
 <li><code>visible</code> - boolean value</li>
+<li><code>size</code> - predefined string value. This property is considered for static maps only. See the 
+<a href="#googleStaticMaps">Google Static Maps</a> section.</li>
+</ul>
+<subtitle name="customIcons">Custom Icons</subtitle>
+<br/>
+<br/>
+Both <code>icon</code> and <code>shadow</code> properties indicate an image location, without any additional information. In this case 
+the image is loaded as it is and is placed in built-in positions on the map, using Google Maps defaults. But sometimes, marker icons need 
+more detailed configurations, in order to get a better map appearance. In this case one can build custom icons, with the following properties:
+<br/>
+<br/>
+For marker icons:
+<ul>
+<li><code>icon.url</code> - string value (representing the custom icon URL). If set, it takes precedence over the <code>icon</code> property.</li>
+<li><code>icon.width</code> - integer value representing the icon width, in pixels. To be considered, <code>icon.height</code> must be also set.</li>
+<li><code>icon.height</code> - integer value representing the icon height, in pixels. To be considered, <code>icon.width</code> must be also set.</li>
+<li><code>icon.origin.x</code> - integer value representing the horizontal position of the image within a sprite, if any, in pixels. Default value is <code>0</code>.</li>
+<li><code>icon.origin.y</code> - integer value representing the vertical position of the image within a sprite, if any, in pixels. Default value is <code>0</code>.</li>
+<li><code>icon.anchor.x</code> - integer value representing the horizontal position to anchor an image with respect to the location of the marker on the map. 
+Default value is <code>0</code>.</li>
+<li><code>icon.anchor.y</code> - integer value representing the vertical position to anchor an image with respect to the location of the marker on the map. 
+Default value is <code>0</code>.</li>
+</ul>
+For shadow icons:
+<ul>
+<li><code>shadow.url</code> - string value (representing the custom shadow icon URL). If set, it takes precedence over the <code>shadow</code> property.</li>
+<li><code>shadow.width</code> - integer value representing the shadow icon width, in pixels. To be considered, <code>shadow.height</code> must be also set.</li>
+<li><code>shadow.height</code> - integer value representing the shadow icon height, in pixels. To be considered, <code>shadow.width</code> must be also set.</li>
+<li><code>shadow.origin.x</code> - integer value representing the horizontal position of the shadow image within a sprite, if any, in pixels. Default value is <code>0</code>.</li>
+<li><code>shadow.origin.y</code> - integer value representing the vertical position of the shadow image within a sprite, if any, in pixels. Default value is <code>0</code>.</li>
+<li><code>shadow.anchor.x</code> - integer value representing the horizontal position to anchor a shadow image with respect to the location of the marker on the map. 
+Default value is <code>0</code>.</li>
+<li><code>shadow.anchor.y</code> - integer value representing the vertical position to anchor a shadow image with respect to the location of the marker on the map. 
+Default value is <code>0</code>.</li>
+</ul>
+<subtitle name="infoWindows">Info Windows</subtitle>
+<br/>
+<br/>
+When a marker icon is clicked on the map, additional information can be displayed either in a separate window/frame or in an info window floating above the map. 
+The text content in an info window is processed as HTML, therefore the HTML notation should be used for special characters 
+(see reserved characters <a href="http://www.w3schools.com/tags/ref_entities.asp">here</a>.) 
+<br/>
+If both <code>url</code> and info window settings are present in a marker definition, the info window takes precedence over the marker URL. Clicking on the marker 
+icon will open the info window.
+<br/>
+To configure an info window, the following item properties are available:
+<ul>
+<li><code>infowindow.content</code> - string value. Represents the content to be displayed in an info window, processed as HTML fragment. Is mandatory for info windows. 
+Empty contents are not processed.</li>
+<li><code>infowindow.latitude</code> - floating-point value. Represents the latitude used to determine the info window position on the map. Neglected for info windows attached to markers.</li>
+<li><code>infowindow.longitude</code> - floating-point value. Represents the longitude used to determine the info window position on the map. Neglected for info windows attached to markers.</li>
+<li><code>infowindow.pixelOffset</code> - integer value. Represents the offset (in pixels) from the tip of the info window to the location on which the info window is anchored.</li>
+<li><code>infowindow.maxWidth</code> - integer value. Specifies the maximum width in pixels of the info window</li>
+</ul>
+<subtitle name="googleStaticMaps">Google Static Maps</subtitle>
+<br/>
+<br/>
+Exporters that don't allow JavaScript or dynamic page loading may use the Google Static Map service 
+that creates and returns a map image depending on a given set of HTTP request parameters. The map image 
+does not support user interactivity, but can be used to substitute a dynamic map for read-only purposes.
+<br/>
+In these conditions, not all item properties defined for markers are considered in static maps. The available properties in this case are:
+<ul>
+<li><code>latitude</code></li>
+<li><code>longitude</code></li>
+<li><code>icon</code> - the icon URL has to be accessible for the Google Static Map service</li>
+<li><code>icon.url</code> - the icon URL has to be accessible for the Google Static Map service</li>
+<li><code>color</code></li>
+<li><code>size</code> - predefined string value. Specifies the marker size (for the built-in markers only). Allowed values are:
+<ul>
+<li><code>mid</code></li>
+<li><code>tiny</code></li>
+<li><code>small</code></li>
+</ul>
+If no size is set, the default icon is loaded with its normal size
+</li>
 </ul>
 <b>Map Component Example</b>    
 <br/>
 <br/>
-The JRXML sample contains two <code>map</code> components that illustrate how various settings can be applied in order to get the desired map rendering:
+The JRXML sample contains five <code>map</code> components that illustrate how various settings can be applied in order to get the desired map 
+rendering. Each map is loaded from a subreport and collect its data from the CSV datasource located in the <code>data</code> subfolder.
+<br/>
+<br/>
+<subtitle name="map1">Map #1: Simple Road Map</subtitle>
+<br/>
+<br/>
+The first map is loaded from the <code>reports/MapReport1.jrxml</code> template, and illustrates a road map with minimal settings. There are no 
+markers and no additional information on the map:
 <pre><![CDATA[
 <componentElement>
-  <reportElement x="0" y="20" width="515" height="326" />
+  <reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
   <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
     xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" evaluationTime="Report">
     <c:latitudeExpression><![CDATA[$P{latitude}]] ></c:latitudeExpression>
@@ -272,16 +390,39 @@ The JRXML sample contains two <code>map</code> components that illustrate how va
     <c:zoomExpression><![CDATA[$P{zoom}]] ></c:zoomExpression>
     <c:languageExpression><![CDATA[new java.util.Locale("ro").getLanguage()]] ></c:languageExpression>
   </c:map>
-</componentElement>
-
-...
-
+</componentElement>]]></pre>
+<subtitle name="map2">Map #2: Satellite Map with Default Marker Icons</subtitle>
+<br/>
+<br/>
+The second map is loaded from the <code>reports/MapReport2.jrxml</code> template. One can notice the <code>mapType="satellite" mapScale="1" imageType="jpg"</code> 
+attribute settings. The satellite map also contains a set of 5 markers with default icons and tooltips enabled. All marker settings are grouped in the 
+<code>&lt;c:markerData/&gt;</code> section which collects its data from the <code>MarkersDataset</code> subdataset. Data with invalid latitude/longitude values are 
+skipped due to the <code>&lt;filterExpression/&gt;</code> in the subdataset:
+<pre><![CDATA[
+<subDataset name="MarkersDataset">
+  <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.xml"/>
+  <queryString language="csv">
+    <![CDATA[]] >
+  </queryString>
+  <field name="address" class="java.lang.String">
+    <fieldDescription><![CDATA[street address]] ></fieldDescription>
+  </field>
+  <field name="latitude" class="java.lang.String">
+    <fieldDescription><![CDATA[latitude]] ></fieldDescription>
+  </field>
+  <field name="longitude" class="java.lang.String">
+    <fieldDescription><![CDATA[longitude]] ></fieldDescription>
+  </field>
+  <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
+</subDataset>]]></pre>
+The map component configuration is the following:
+<pre><![CDATA[
 <componentElement>
-  <reportElement x="0" y="366" width="515" height="326"/>
+  <reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
   <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
     xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
     mapType="satellite" mapScale="1" imageType="jpg">
-    <c:latitudeExpression><![CDATA[37.788056f]] ></c:latitudeExpression>
+    <c:latitudeExpression><![CDATA[37.800056f]] ></c:latitudeExpression>
     <c:longitudeExpression><![CDATA[-122.4075f]] ></c:longitudeExpression>
     <c:zoomExpression><![CDATA[$P{zoom} + 1]] ></c:zoomExpression>
     <c:markerData>
@@ -302,14 +443,216 @@ The JRXML sample contains two <code>map</code> components that illustrate how va
     </c:markerData>
   </c:map>
 </componentElement>]]></pre>
-The first map is centered on Bucharest, Romania. It provides settings for all map expressions, but comes with no markers, because the <code>&lt;c:markerDataset/&gt;</code> element 
-is missing.
-<br/>
-The second map is centered on San Francisco, CA. One can notice several customizations here, including the map type, map scale and image type. A set of markers are also present 
-on the map, based on the datasource prepared by the CSV data adapter in <code>MarkersDataset</code> subdataset. Data with invalid latitude/longitude values are skipped due to the 
-<code>&lt;filterExpression/&gt;</code> in the subdataset.
+<subtitle name="map3">Map #3: Terrain Map with Custom Marker Icons</subtitle>
 <br/>
 <br/>
+The 3rd map is a terrain sample loaded from the <code>reports/MapReport3.jrxml</code> template. It comes with the same set of markers as 
+<a href="#map2">Map #2</a>, but this time marker icons are loaded from custom URLs, with the specified width and height. Below is the map 
+component configuration (and the subdataset):
+<pre><![CDATA[
+<subDataset name="MarkersDataset">
+  <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.xml"/>
+  <queryString language="csv">
+    <![CDATA[]] >
+  </queryString>
+  <field name="address" class="java.lang.String">
+    <fieldDescription><![CDATA[street address]] ></fieldDescription>
+  </field>
+  <field name="latitude" class="java.lang.String">
+    <fieldDescription><![CDATA[latitude]] ></fieldDescription>
+  </field>
+  <field name="longitude" class="java.lang.String">
+    <fieldDescription><![CDATA[longitude]] ></fieldDescription>
+  </field>
+  <field name="iconurl" class="java.lang.String">
+    <fieldDescription><![CDATA[iconurl]] ></fieldDescription>
+  </field>
+  <field name="iconwidth" class="java.lang.Integer">
+    <fieldDescription><![CDATA[iconwidth]] ></fieldDescription>
+  </field>
+  <field name="iconheight" class="java.lang.Integer">
+   <fieldDescription><![CDATA[iconheight]] ></fieldDescription>
+  </field>
+  <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
+</subDataset>
+...
+<componentElement>
+  <reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
+  <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
+    mapType="terrain" mapScale="1" imageType="jpg">
+    <c:latitudeExpression><![CDATA[37.800056f]] ></c:latitudeExpression>
+    <c:longitudeExpression><![CDATA[-122.4075f]] ></c:longitudeExpression>
+    <c:zoomExpression><![CDATA[$P{zoom} + 1]] ></c:zoomExpression>
+    <c:markerData>
+      <dataset>
+        <datasetRun subDataset="MarkersDataset"/>
+      </dataset>
+      <c:item>
+        <c:itemProperty name="latitude">
+          <valueExpression>$F{latitude}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="longitude">
+          <valueExpression>$F{longitude}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="title">
+          <valueExpression>$F{address}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="icon.url">
+          <valueExpression>$F{iconurl}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="icon.width">
+          <valueExpression>$F{iconwidth}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="icon.height">
+          <valueExpression>$F{iconheight}</valueExpression>
+        </c:itemProperty>
+      </c:item>
+    </c:markerData>
+  </c:map>
+</componentElement>]]></pre>
+<subtitle name="map4">Map #4: Satellite Map with Marker Hyperlinks</subtitle>
+<br/>
+<br/>
+In the 4th sample loaded from the <code>reports/MapReport4.jrxml</code> template the same set of markers with default icons are placed on a 
+satellite map. This time marker icons display custom colors, and in static maps only, custom sizes. Marker tooltips are disabled, but markers 
+provide hyperlinks. Clicking on a marker icon will open a new browser window/tab with related information. See the configuration below:
+<pre><![CDATA[
+<subDataset name="MarkersDataset">
+  <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.xml"/>
+  <queryString language="csv">
+    <![CDATA[]] >
+  </queryString>
+  <field name="latitude" class="java.lang.String">
+    <fieldDescription><![CDATA[latitude]] ></fieldDescription>
+  </field>
+  <field name="longitude" class="java.lang.String">
+    <fieldDescription><![CDATA[longitude]] ></fieldDescription>
+  </field>
+  <field name="size" class="java.lang.String">
+    <fieldDescription><![CDATA[size]] ></fieldDescription>
+  </field>
+  <field name="color" class="java.lang.String">
+    <fieldDescription><![CDATA[color]] ></fieldDescription>
+  </field>
+  <field name="url" class="java.lang.String">
+    <fieldDescription><![CDATA[url]] ></fieldDescription>
+  </field>
+  <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
+</subDataset>
+...
+<componentElement>
+  <reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
+  <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
+    mapType="satellite" mapScale="1" imageType="jpg">
+    <c:latitudeExpression><![CDATA[37.800056f]] ></c:latitudeExpression>
+    <c:longitudeExpression><![CDATA[-122.4075f]] ></c:longitudeExpression>
+    <c:zoomExpression><![CDATA[$P{zoom} + 1]] ></c:zoomExpression>
+    <c:markerData>
+      <dataset>
+        <datasetRun subDataset="MarkersDataset"/>
+      </dataset>
+      <c:item>
+        <c:itemProperty name="latitude">
+          <valueExpression>$F{latitude}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="longitude">
+          <valueExpression>$F{longitude}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="color">
+          <valueExpression>$F{color}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="size">
+          <valueExpression>$F{size}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="url">
+          <valueExpression>$F{url}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="target">
+          <valueExpression>"_blank"</valueExpression>
+        </c:itemProperty>
+      </c:item>
+    </c:markerData>
+  </c:map>
+</componentElement>]]></pre>
+<subtitle name="map5">Map #5: Hybrid Map with Custom Icons and Info Windows</subtitle>
+<br/>
+<br/>
+The last sample is loaded from <code>reports/MapReport5.jrxml</code> template. Markers provide custom icons and tooltips. Clicking on 
+a marker icon will open an info window with related information about the marker position. The value of the <code>infowindow.content</code> 
+property is a HTML fragment with escaped open and end tags.
+<pre><![CDATA[
+<subDataset name="MarkersDataset">
+  <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.xml"/>
+  <queryString language="csv">
+    <![CDATA[]] >
+  </queryString>
+  <field name="address" class="java.lang.String">
+    <fieldDescription><![CDATA[street address]] ></fieldDescription>
+  </field>
+  <field name="latitude" class="java.lang.String">
+    <fieldDescription><![CDATA[latitude]] ></fieldDescription>
+  </field>
+  <field name="longitude" class="java.lang.String">
+    <fieldDescription><![CDATA[longitude]] ></fieldDescription>
+  </field>
+  <field name="iconurl" class="java.lang.String">
+    <fieldDescription><![CDATA[iconurl]] ></fieldDescription>
+  </field>
+  <field name="iconwidth" class="java.lang.Integer">
+    <fieldDescription><![CDATA[iconwidth]] ></fieldDescription>
+  </field>
+  <field name="iconheight" class="java.lang.Integer">
+   <fieldDescription><![CDATA[iconheight]] ></fieldDescription>
+  </field>
+  <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
+</subDataset>
+...
+<componentElement>
+  <reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
+  <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
+    mapScale="1" imageType="jpg" mapType="hybrid">
+    <c:latitudeExpression><![CDATA[37.800056f]] ></c:latitudeExpression>
+    <c:longitudeExpression><![CDATA[-122.4075f]] ></c:longitudeExpression>
+    <c:zoomExpression><![CDATA[$P{zoom} + 1]] ></c:zoomExpression>
+    <c:markerData>
+      <dataset>
+        <datasetRun subDataset="MarkersDataset"/>
+      </dataset>
+      <c:item>
+        <c:itemProperty name="latitude">
+          <valueExpression>$F{latitude}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="longitude">
+          <valueExpression>$F{longitude}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="title">
+          <valueExpression>$F{address}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="icon.url">
+          <valueExpression>$F{iconurl}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="icon.width">
+          <valueExpression>$F{iconwidth}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="icon.height">
+          <valueExpression>$F{iconheight}</valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="infowindow.content">
+          <valueExpression>"&lt;p style='text-align:right;'&gt;&lt;img 
+            src='http://jasperreports.sourceforge.net/jasperreports.png'/&gt;&lt;/p&gt;&lt;p 
+            style='text-align:left;'&gt;
+            current latitude: &lt;b&gt;"+$F{latitude}+"&lt;/b&gt;&lt;br/&gt;current longitude: 
+            &lt;b&gt;"+$F{longitude}+"&lt;/b&gt;&lt;/p&gt;"
+          </valueExpression>
+        </c:itemProperty>
+      </c:item>
+    </c:markerData>
+  </c:map>
+</componentElement>
+]]></pre>
 <b>Running the Sample</b>
 <br/>
 <br/>
