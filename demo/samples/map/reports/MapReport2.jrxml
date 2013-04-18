@@ -30,27 +30,6 @@
 		<field name="longitude" class="java.lang.String">
 			<fieldDescription><![CDATA[longitude]]></fieldDescription>
 		</field>
-		<field name="size" class="java.lang.String">
-			<fieldDescription><![CDATA[size]]></fieldDescription>
-		</field>
-		<field name="color" class="java.lang.String">
-			<fieldDescription><![CDATA[color]]></fieldDescription>
-		</field>
-		<field name="url" class="java.lang.String">
-			<fieldDescription><![CDATA[url]]></fieldDescription>
-		</field>
-		<field name="icon" class="java.lang.String">
-			<fieldDescription><![CDATA[icon]]></fieldDescription>
-		</field>
-		<field name="iconurl" class="java.lang.String">
-			<fieldDescription><![CDATA[iconurl]]></fieldDescription>
-		</field>
-		<field name="iconwidth" class="java.lang.Integer">
-			<fieldDescription><![CDATA[iconwidth]]></fieldDescription>
-		</field>
-		<field name="iconheight" class="java.lang.Integer">
-			<fieldDescription><![CDATA[iconheight]]></fieldDescription>
-		</field>
 		<filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
 	</subDataset>
 	<parameter name="reqZoom" class="java.lang.Integer">
