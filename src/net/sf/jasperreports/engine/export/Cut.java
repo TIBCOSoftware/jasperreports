@@ -45,23 +45,13 @@ public class Cut
 	public static final int USAGE_SPANNED = 2;
 	public static final int USAGE_BREAK = 4;
 	
-	private int position;
+	//FIXME byte?
 	private int usage;
 	
 	private Map<String, Object> propertiesMap;
 	
 	public Cut()
 	{
-	}
-	
-	public int getPosition()
-	{
-		return position;
-	}
-	
-	public void setPosition(int position)
-	{
-		this.position = position;
 	}
 	
 	public int getUsage()
