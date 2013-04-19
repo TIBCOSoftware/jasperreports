@@ -47,7 +47,6 @@ public abstract class JRExporterGridCell
 	
 	private GridCellStyle style;
 
-
 	/**
 	 *
 	 */
@@ -55,9 +54,12 @@ public abstract class JRExporterGridCell
 	{
 	}
 
-	public abstract GridCellSize getSize();
+	protected JRExporterGridCell(GridCellStyle style)
+	{
+		this.style = style;
+	}
 
-	public abstract void setSize(GridCellSize size);
+	public abstract GridCellSize getSize();
 	
 	public int getWidth()
 	{
@@ -129,20 +131,12 @@ public abstract class JRExporterGridCell
 		}
 		return color;
 	}
-	
-	
-	public boolean isEmpty()
-	{
-		return getBackcolor() == null && getBox() == null;
-	}
 
 	public abstract byte getType();
 	
 	public abstract JRPrintElement getElement();
 	
 	public abstract String getElementAddress();
-	
-	public abstract boolean isOccupied();
 
 	public abstract String getProperty(String propName);
 }
