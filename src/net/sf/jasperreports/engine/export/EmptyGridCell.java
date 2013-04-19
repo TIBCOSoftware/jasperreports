@@ -34,13 +34,14 @@ import net.sf.jasperreports.engine.JRPrintElement;
 public class EmptyGridCell extends JRExporterGridCell
 {
 	
-	private GridCellSize size;
+	private final GridCellSize size;
 
 	/**
 	 *
 	 */
-	public EmptyGridCell(GridCellSize size)
+	public EmptyGridCell(GridCellSize size, GridCellStyle style)
 	{
+		super(style);
 		this.size = size;
 	}
 
@@ -50,21 +51,9 @@ public class EmptyGridCell extends JRExporterGridCell
 		return size;
 	}
 
-	@Override
-	public void setSize(GridCellSize size)
-	{
-		this.size = size;
-	}
-
 	public byte getType()
 	{
 		return TYPE_EMPTY_CELL;
-	}
-
-	@Override
-	public boolean isOccupied()
-	{
-		return false;
 	}
 
 	@Override
@@ -83,6 +72,11 @@ public class EmptyGridCell extends JRExporterGridCell
 	public String getProperty(String propName)
 	{
 		return null;
+	}
+	
+	public boolean isEmpty()
+	{
+		return getBackcolor() == null && getBox() == null;
 	}
 
 }

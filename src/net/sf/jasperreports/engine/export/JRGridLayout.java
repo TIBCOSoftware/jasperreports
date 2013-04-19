@@ -36,9 +36,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -46,6 +43,10 @@ import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
+import net.sf.jasperreports.engine.util.Pair;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Utility class used by grid exporters to create a grid for page layout.
@@ -62,6 +63,7 @@ public class JRGridLayout
 	
 	private final Map<GridCellSize, GridCellSize> cellSizes;
 	private final Map<GridCellStyle, GridCellStyle> cellStyles;
+	private final Map<Pair<GridCellSize, GridCellStyle>, EmptyGridCell> emptyCells;
 
 	private int width;
 	private int height;
@@ -131,9 +133,12 @@ public class JRGridLayout
 	{
 		this.nature = nature;
 		this.elementList = elements;
+		
 		// TODO lucianc cache these across report pages?
 		this.cellSizes = new HashMap<GridCellSize, GridCellSize>();
 		this.cellStyles = new HashMap<GridCellStyle, GridCellStyle>();
+		this.emptyCells = new HashMap<Pair<GridCellSize,GridCellStyle>, EmptyGridCell>();
+		
 		this.height = height;
 		this.width = width;
 		this.offsetX = offsetX;
@@ -167,8 +172,11 @@ public class JRGridLayout
 	{
 		this.nature = parent.nature;
 		this.elementList = parent.elementList;
+		
 		this.cellSizes = parent.cellSizes;
 		this.cellStyles = parent.cellStyles;
+		this.emptyCells = parent.emptyCells;
+		
 		this.height = height;
 		this.width = width;
 		this.offsetX = offsetX;
@@ -260,14 +268,13 @@ public class JRGridLayout
 		{
 			for(int col = 0; col < colCount; col++)
 			{
-				// TODO lucianc cache instances
-				grid[row][col] =
-					new EmptyGridCell(cellSize(
-						xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col),
-						yCuts.getCutOffset(row + 1) - yCuts.getCutOffset(row),
-						1,
-						1
-						));
+				GridCellSize size = cellSize(
+					xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col),
+					yCuts.getCutOffset(row + 1) - yCuts.getCutOffset(row),
+					1,
+					1
+					);
+				grid[row][col] = emptyCell(size, null);
 			}
 		}
 
@@ -405,6 +412,23 @@ public class JRGridLayout
 		}
 	}
 
+	protected EmptyGridCell emptyCell(GridCellSize size, GridCellStyle style)
+	{
+		Pair<GridCellSize, GridCellStyle> key = new Pair<GridCellSize, GridCellStyle>(size, style);
+		EmptyGridCell cell = emptyCells.get(key);
+		if (cell == null)
+		{
+			cell = new EmptyGridCell(size, style);
+			emptyCells.put(key, cell);
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug(this + " created empty cell for " + size + " and " + style);
+			}
+		}
+		return cell;
+	}
+	
 	protected void horizontallyMergeEmptyCells(int startRow, int startCol, int endRow, int endCol)
 	{
 		for (int row = startRow; row < endRow; ++row)
@@ -415,7 +439,7 @@ public class JRGridLayout
 			for (; col < endCol; ++col)
 			{
 				JRExporterGridCell cell = grid[row][col];
-				if (cell.isEmpty())
+				if (isEmpty(cell))
 				{
 					if (startSpan == -1)
 					{
@@ -427,11 +451,7 @@ public class JRGridLayout
 				{
 					if (startSpan != -1 && col - startSpan > 1)
 					{
-						JRExporterGridCell spanCell = grid[row][startSpan];
-						GridCellSize newSize = cellSize(spanWidth, spanCell.getHeight(), 
-								col - startSpan, spanCell.getRowSpan());
-						spanCell.setSize(newSize);
-						//TODO set OCCUPIED_CELL?
+						spanEmptyCell(row, startSpan, spanWidth, col - startSpan);
 					}
 					startSpan = -1;
 					spanWidth = 0;
@@ -439,12 +459,23 @@ public class JRGridLayout
 			}
 			if (startSpan != -1 && col - startSpan > 1)
 			{
-				JRExporterGridCell spanCell = grid[row][startSpan];
-				GridCellSize newSize = cellSize(spanWidth, spanCell.getHeight(), 
-						col - startSpan, spanCell.getRowSpan());
-				spanCell.setSize(newSize);
+				spanEmptyCell(row, startSpan, spanWidth, col - startSpan);
 			}
 		}
+	}
+
+	protected void spanEmptyCell(int row, int col, int spanWidth, int colSpan)
+	{
+		EmptyGridCell spanCell = (EmptyGridCell) grid[row][col];
+		GridCellSize newSize = cellSize(spanWidth, spanCell.getHeight(), 
+				colSpan, spanCell.getRowSpan());
+		grid[row][col] = emptyCell(newSize, spanCell.getStyle());
+		//TODO set OCCUPIED_CELL?
+	}
+	
+	protected boolean isEmpty(JRExporterGridCell cell)
+	{
+		return cell.getType() == JRExporterGridCell.TYPE_EMPTY_CELL && ((EmptyGridCell) cell).isEmpty();
 	}
 
 	protected boolean isOverlap(int row1, int col1, int row2, int col2)
@@ -457,7 +488,7 @@ public class JRGridLayout
 			{
 				for (int col = col1; col < col2; col++)
 				{
-					if (!grid[row][col].isEmpty())
+					if (!isEmpty(grid[row][col]))
 					{
 						isOverlap = true;
 						break is_overlap_out;
@@ -467,7 +498,7 @@ public class JRGridLayout
 		}
 		else
 		{
-			isOverlap = grid[row1][col1].isOccupied();
+			isOverlap = !isEmpty(grid[row1][col1]);
 		}
 		return isOverlap;
 	}
@@ -606,10 +637,23 @@ public class JRGridLayout
 				if (modifiedStyle)
 				{
 					GridCellStyle newStyle = cellStyle(cellBackcolor, cellForecolor, cellBox);
-					cell.setStyle(newStyle);
+					grid[row][col] = changeStyle(cell, newStyle);
 				}
 			}
 		}
+	}
+	
+	protected JRExporterGridCell changeStyle(JRExporterGridCell cell, GridCellStyle newStyle)
+	{
+		if (cell.getType() == JRExporterGridCell.TYPE_EMPTY_CELL)
+		{
+			// empty cells are shared so they should not be modified
+			return emptyCell(cell.getSize(), newStyle);
+		}
+		
+		// other types of cells can be modified
+		cell.setStyle(newStyle);
+		return cell;
 	}
 
 	/**

@@ -69,27 +69,9 @@ public class ElementGridCell extends JRExporterGridCell
 	}
 
 	@Override
-	public void setSize(GridCellSize size)
-	{
-		throw new UnsupportedOperationException("Cannot set the size of an element cell");
-	}
-
-	@Override
 	public byte getType()
 	{
 		return TYPE_ELEMENT_CELL;
-	}
-
-	@Override
-	public boolean isEmpty()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isOccupied()
-	{
-		return true;
 	}
 	
 	@Override

@@ -46,7 +46,7 @@ public class OccupiedGridCell extends JRExporterGridCell
 	 */
 	public OccupiedGridCell(JRExporterGridCell occupier)
 	{
-		// TODO lucianc do not store box/backcolor
+		//FIXME do we need GridCellStyle for occupied cells?
 		super();
 		
 		this.occupier = occupier;
@@ -58,12 +58,6 @@ public class OccupiedGridCell extends JRExporterGridCell
 		return SIZE;
 	}
 
-	@Override
-	public void setSize(GridCellSize size)
-	{
-		throw new UnsupportedOperationException("Cannot set the size of an occupied cell");
-	}
-
 	public JRExporterGridCell getOccupier()
 	{
 		return occupier;
@@ -72,18 +66,6 @@ public class OccupiedGridCell extends JRExporterGridCell
 	public byte getType()
 	{
 		return TYPE_OCCUPIED_CELL;
-	}
-
-	@Override
-	public boolean isEmpty()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isOccupied()
-	{
-		return true;
 	}
 
 	@Override
