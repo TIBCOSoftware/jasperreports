@@ -73,6 +73,8 @@ import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
+import net.sf.jasperreports.engine.export.Grid;
+import net.sf.jasperreports.engine.export.GridRow;
 import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
@@ -511,17 +513,18 @@ public class JRDocxExporter extends JRAbstractExporter
 	{
 		
 		CutsInfo xCuts = gridLayout.getXCuts();
-		JRExporterGridCell[][] grid = gridLayout.getGrid();
+		Grid grid = gridLayout.getGrid();
 		DocxTableHelper tableHelper = null;
 
-		if (grid.length > 0 && grid[0].length > 63)
+		int rowCount = grid.getRowCount();
+		if (rowCount > 0 && grid.getColumnCount() > 63)
 		{
 			throw new JRException("The DOCX format does not support more than 63 columns in a table.");
 		}
 		
 		// an empty page is encountered; 
 		// if it's the first one in a series of consecutive empty pages, emptyPageState == false, otherwise emptyPageState == true
-		if(grid.length == 0 && (pageIndex < endPageIndex || !emptyPageState))
+		if(rowCount == 0 && (pageIndex < endPageIndex || !emptyPageState))
 		{
 			tableHelper = 
 					new DocxTableHelper(
@@ -557,16 +560,18 @@ public class JRDocxExporter extends JRAbstractExporter
 
 		tableHelper.exportHeader();
 
-		for(int row = 0; row < grid.length; row++)
+		for(int row = 0; row < rowCount; row++)
 		{
 			int emptyCellColSpan = 0;
 			//int emptyCellWidth = 0;
 
 			boolean allowRowResize = false;
 			int maxBottomPadding = 0; //for some strange reason, the bottom margin affects the row height; subtracting it here
-			for(int col = 0; col < grid[0].length; col++)
+			GridRow gridRow = grid.getRow(row);
+			int rowSize = gridRow.size();
+			for(int col = 0; col < rowSize; col++)
 			{
-				JRExporterGridCell gridCell = grid[row][col];
+				JRExporterGridCell gridCell = gridRow.get(col);
 				JRLineBox box = gridCell.getBox();
 				if (
 					box != null 
@@ -593,9 +598,9 @@ public class JRDocxExporter extends JRAbstractExporter
 				allowRowResize
 				);
 
-			for(int col = 0; col < grid[0].length; col++)
+			for(int col = 0; col < rowSize; col++)
 			{
-				JRExporterGridCell gridCell = grid[row][col];
+				JRExporterGridCell gridCell = gridRow.get(col);
 				if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
 				{
 					if (emptyCellColSpan > 0)

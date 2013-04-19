@@ -840,7 +840,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected void exportGrid(JRGridLayout gridLayout, boolean whitePageBackground) throws IOException, JRException
 	{
 		CutsInfo xCuts = gridLayout.getXCuts();
-		JRExporterGridCell[][] grid = gridLayout.getGrid();
+		Grid grid = gridLayout.getGrid();
 
 		String tableStyle = "width: " + toSizeUnit(gridLayout.getWidth()) + "; border-collapse: collapse";
 		String additionalTableStyle = emptyCellStringProvider.getReportTableStyle();
@@ -871,11 +871,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 		writer.write("</tr>\n");
 		
 		thDepth = 0;
-		for(int y = 0; y < grid.length; y++)
+		int rowCount = grid.getRowCount();
+		for(int y = 0; y < rowCount; y++)
 		{
 			if (gridLayout.getYCuts().isCutSpanned(y) || !isRemoveEmptySpace)
 			{
-				JRExporterGridCell[] gridRow = grid[y];
+				GridRow gridRow = grid.getRow(y);
 				
 				int rowHeight = JRGridLayout.getRowHeight(gridRow);
 				
@@ -888,9 +889,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 				}
 				writer.write(">\n");
 
-				for(int x = 0; x < gridRow.length; x++)
+				int rowSize = gridRow.size();
+				for(int x = 0; x < rowSize; x++)
 				{
-					JRExporterGridCell gridCell = gridRow[x];
+					JRExporterGridCell gridCell = gridRow.get(x);
 					if(gridCell.getType() == JRExporterGridCell.TYPE_EMPTY_CELL)
 					{
 						writeEmptyCell(gridCell, rowHeight);						
@@ -967,17 +969,18 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 
 
-	private boolean hasEmptyCell(JRExporterGridCell[] gridRow)
+	private boolean hasEmptyCell(GridRow gridRow)
 	{
-		if (gridRow[0].getType() == JRExporterGridCell.TYPE_EMPTY_CELL) // quick exit
+		if (gridRow.get(0).getType() == JRExporterGridCell.TYPE_EMPTY_CELL) // quick exit
 		{
 			return true;
 		}
 		
 		boolean hasEmptyCell = false;
-		for(int x = 1; x < gridRow.length; x++)
+		int rowSize = gridRow.size();
+		for(int x = 1; x < rowSize; x++)
 		{
-			if (gridRow[x].getType() == JRExporterGridCell.TYPE_EMPTY_CELL)
+			if (gridRow.get(x).getType() == JRExporterGridCell.TYPE_EMPTY_CELL)
 			{
 				hasEmptyCell = true;
 				break;

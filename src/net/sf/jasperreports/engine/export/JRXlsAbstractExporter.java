@@ -1051,7 +1051,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				xCuts
 				);
 
-		JRExporterGridCell grid[][] = layout.getGrid();
+		Grid grid = layout.getGrid();
 
 		boolean createXCuts = (xCuts == null); 
 		
@@ -1074,7 +1074,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 		int skippedRows = 0;
 		int rowIndex = startRow;
-		for(int y = 0; y < grid.length; y++)
+		int rowCount = grid.getRowCount();
+		for(int y = 0; y < rowCount; y++)
 		{
 			rowIndex = y - skippedRows + startRow;
 
@@ -1112,7 +1113,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				&& !isCollapseRowSpan)
 				)
 			{
-				JRExporterGridCell[] gridRow = grid[y];
+				GridRow gridRow = grid.getRow(y);
 
 				int emptyCellColSpan = 0;
 				//int emptyCellWidth = 0;
@@ -1130,14 +1131,15 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					);
 
 				int emptyCols = 0;
-				for(int xCutIndex = 0; xCutIndex < gridRow.length; xCutIndex++)
+				int rowSize = gridRow.size();
+				for(int xCutIndex = 0; xCutIndex < rowSize; xCutIndex++)
 				{
 					boolean isEmptyCol = !(xCuts.isCutNotEmpty(xCutIndex) || xCuts.isCutSpanned(xCutIndex));//FIXMEXLS we could do this only once
 					emptyCols += isRemoveEmptySpaceBetweenColumns && isEmptyCol ? 1 : 0;
 					
 					int colIndex = xCutIndex - emptyCols;
 					
-					JRExporterGridCell gridCell = gridRow[xCutIndex];
+					JRExporterGridCell gridCell = gridRow.get(xCutIndex);
 
 					//setCell(gridCell, colIndex, rowIndex);
 					
