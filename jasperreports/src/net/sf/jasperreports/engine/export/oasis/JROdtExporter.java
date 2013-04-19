@@ -65,6 +65,8 @@ import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
+import net.sf.jasperreports.engine.export.Grid;
+import net.sf.jasperreports.engine.export.GridRow;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
@@ -448,7 +450,7 @@ public class JROdtExporter extends JRAbstractExporter
 	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex) throws IOException, JRException
 	{
 		CutsInfo xCuts = gridLayout.getXCuts();
-		JRExporterGridCell[][] grid = gridLayout.getGrid();
+		Grid grid = gridLayout.getGrid();
 
 		TableBuilder tableBuilder = frameIndex == null
 			? new TableBuilder(documentBuilder, jasperPrint, reportIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache)
@@ -468,7 +470,8 @@ public class JROdtExporter extends JRAbstractExporter
 			tableBuilder.buildColumnFooter();
 		}
 
-		for(int row = 0; row < grid.length; row++)
+		int rowCount = grid.getRowCount();
+		for(int row = 0; row < rowCount; row++)
 		{
 			int emptyCellColSpan = 0;
 			//int emptyCellWidth = 0;
@@ -477,9 +480,11 @@ public class JROdtExporter extends JRAbstractExporter
 			tableBuilder.buildRowStyle(row, flexibleRowHeight ? -1 : rowHeight);
 			tableBuilder.buildRowHeader(row);
 
-			for(int col = 0; col < grid[0].length; col++)
+			GridRow gridRow = grid.getRow(row);
+			int rowSize = gridRow.size();
+			for(int col = 0; col < rowSize; col++)
 			{
-				JRExporterGridCell gridCell = grid[row][col];
+				JRExporterGridCell gridCell = gridRow.get(col);
 				if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
 				{
 					if (emptyCellColSpan > 0)

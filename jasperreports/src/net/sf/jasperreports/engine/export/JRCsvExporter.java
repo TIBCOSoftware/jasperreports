@@ -80,7 +80,7 @@ public class JRCsvExporter extends JRAbstractCsvExporter
 				null //address
 				);
 		
-		JRExporterGridCell[][] grid = layout.getGrid();
+		Grid grid = layout.getGrid();
 
 		CutsInfo xCuts = layout.getXCuts();
 		CutsInfo yCuts = layout.getYCuts();
@@ -89,16 +89,19 @@ public class JRCsvExporter extends JRAbstractCsvExporter
 		
 		String text = null;
 		boolean isFirstColumn = true;
-		for(int y = 0; y < grid.length; y++)
+		int rowCount = grid.getRowCount();
+		for(int y = 0; y < rowCount; y++)
 		{
 			rowbuffer = new StringBuffer();
 
 			if (yCuts.isCutNotEmpty(y))
 			{
 				isFirstColumn = true;
-				for(int x = 0; x < grid[y].length; x++)
+				GridRow row = grid.getRow(y);
+				int rowSize = row.size();
+				for(int x = 0; x < rowSize; x++)
 				{
-					JRPrintElement element = grid[y][x].getElement();
+					JRPrintElement element = row.get(x).getElement();
 					if(element != null)
 					{
 						if (element instanceof JRPrintText)

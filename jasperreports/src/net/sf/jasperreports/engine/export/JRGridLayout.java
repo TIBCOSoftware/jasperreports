@@ -72,7 +72,7 @@ public class JRGridLayout
 
 	private CutsInfo xCuts;
 	private CutsInfo yCuts;
-	private JRExporterGridCell[][] grid;
+	private Grid grid;
 
 	private Map<BoxKey,JRLineBox> boxesCache;
 	private boolean hasTopMargin = true;
@@ -262,7 +262,7 @@ public class JRGridLayout
 		int colCount = Math.max(xCuts.size() - 1, 0);
 		int rowCount = Math.max(yCuts.size() - 1, 0);
 
-		grid = new JRExporterGridCell[rowCount][colCount];
+		grid = new Grid(rowCount, colCount);
 
 		for(int row = 0; row < rowCount; row++)
 		{
@@ -274,7 +274,7 @@ public class JRGridLayout
 					1,
 					1
 					);
-				grid[row][col] = emptyCell(size, null);
+				grid.set(row, col, emptyCell(size, null));
 			}
 		}
 
@@ -438,7 +438,7 @@ public class JRGridLayout
 			int col = startCol;
 			for (; col < endCol; ++col)
 			{
-				JRExporterGridCell cell = grid[row][col];
+				JRExporterGridCell cell = grid.get(row, col);
 				if (isEmpty(cell))
 				{
 					if (startSpan == -1)
@@ -466,10 +466,10 @@ public class JRGridLayout
 
 	protected void spanEmptyCell(int row, int col, int spanWidth, int colSpan)
 	{
-		EmptyGridCell spanCell = (EmptyGridCell) grid[row][col];
+		EmptyGridCell spanCell = (EmptyGridCell) grid.get(row, col);
 		GridCellSize newSize = cellSize(spanWidth, spanCell.getHeight(), 
 				colSpan, spanCell.getRowSpan());
-		grid[row][col] = emptyCell(newSize, spanCell.getStyle());
+		grid.set(row, col, emptyCell(newSize, spanCell.getStyle()));
 		//TODO set OCCUPIED_CELL?
 	}
 	
@@ -488,7 +488,7 @@ public class JRGridLayout
 			{
 				for (int col = col1; col < col2; col++)
 				{
-					if (!isEmpty(grid[row][col]))
+					if (!isEmpty(grid.get(row, col)))
 					{
 						isOverlap = true;
 						break is_overlap_out;
@@ -498,7 +498,7 @@ public class JRGridLayout
 		}
 		else
 		{
-			isOverlap = !isEmpty(grid[row1][col1]);
+			isOverlap = !isEmpty(grid.get(row1, col1));
 		}
 		return isOverlap;
 	}
@@ -534,7 +534,7 @@ public class JRGridLayout
 			{
 				for (int col = col1; col < col2; col++)
 				{
-					grid[row][col] = occupiedGridCell;
+					grid.set(row, col, occupiedGridCell);
 				}
 				yCuts.addUsage(row, Cut.USAGE_SPANNED);
 			}
@@ -559,7 +559,7 @@ public class JRGridLayout
 				yCuts.addUsage(row1 + rowSpan,  Cut.USAGE_BREAK);
 			}
 
-			grid[row1][col1] = gridCell;
+			grid.set(row1, col1, gridCell);
 		}
 	}
 	
@@ -594,7 +594,7 @@ public class JRGridLayout
 		{
 			for (int col = col1; col < col2; col++)
 			{
-				JRExporterGridCell cell = grid[row][col];
+				JRExporterGridCell cell = grid.get(row, col);
 
 				boolean modifiedStyle = false;
 				Color cellBackcolor = cell.getBackcolor();
@@ -637,7 +637,7 @@ public class JRGridLayout
 				if (modifiedStyle)
 				{
 					GridCellStyle newStyle = cellStyle(cellBackcolor, cellForecolor, cellBox);
-					grid[row][col] = changeStyle(cell, newStyle);
+					grid.set(row, col, changeStyle(cell, newStyle));
 				}
 			}
 		}
@@ -661,7 +661,7 @@ public class JRGridLayout
 	 *
 	 * @return the constructed element grid
 	 */
-	public JRExporterGridCell[][] getGrid()
+	public Grid getGrid()
 	{
 		return grid;
 	}
@@ -714,11 +714,12 @@ public class JRGridLayout
 
 	public int getMaxRowHeight(int rowIndex)
 	{
-		JRExporterGridCell[] row = grid[rowIndex];
-		int maxRowHeight = row[0].getHeight();
-		for (int col = 0; col < row.length; col++)
+		GridRow row = grid.getRow(rowIndex);
+		int maxRowHeight = row.get(0).getHeight();
+		int rowSize = row.size();
+		for (int col = 0; col < rowSize; col++)
 		{
-			JRExporterGridCell cell = row[col];
+			JRExporterGridCell cell = row.get(col);
 
 			if (cell.getType() != JRExporterGridCell.TYPE_OCCUPIED_CELL)
 			{
@@ -732,22 +733,23 @@ public class JRGridLayout
 	}
 
 
-	public static int getRowHeight(JRExporterGridCell[] row)//FIXMEODT are we still using this?
+	public static int getRowHeight(GridRow row)//FIXMEODT are we still using this?
 	{
-		if (row[0].getRowSpan() == 1 && row[0].getType() != JRExporterGridCell.TYPE_OCCUPIED_CELL) //quick exit
+		JRExporterGridCell firstCell = row.get(0);
+		if (firstCell.getRowSpan() == 1 && firstCell.getType() != JRExporterGridCell.TYPE_OCCUPIED_CELL) //quick exit
 		{
-			return row[0].getHeight();
+			return firstCell.getHeight();
 		}
 
 		int rowHeight = 0;
 		int minSpanIdx = 0;
 
-		int colCount = row.length;
+		int colCount = row.size();
 
 		int col;
 		for (col = 0; col < colCount; col++)
 		{
-			JRExporterGridCell cell = row[col];
+			JRExporterGridCell cell = row.get(col);
 
 			if (cell.getType() != JRExporterGridCell.TYPE_OCCUPIED_CELL)
 			{
@@ -757,7 +759,7 @@ public class JRGridLayout
 					break;
 				}
 
-				if (cell.getRowSpan() < row[minSpanIdx].getRowSpan())
+				if (cell.getRowSpan() < row.get(minSpanIdx).getRowSpan())
 				{
 					minSpanIdx = col;
 				}
@@ -766,7 +768,7 @@ public class JRGridLayout
 
 		if (col >= colCount) //no cell with rowSpan = 1 was found, getting the height of the cell with min rowSpan
 		{
-			rowHeight = row[minSpanIdx].getHeight();
+			rowHeight = row.get(minSpanIdx).getHeight();
 		}
 
 		return rowHeight;
