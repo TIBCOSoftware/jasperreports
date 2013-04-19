@@ -45,9 +45,7 @@ public abstract class JRExporterGridCell
 
 
 	
-	private Color backcolor;
-	private Color forecolor;
-	private JRLineBox box;
+	private GridCellStyle style;
 
 
 	/**
@@ -81,16 +79,19 @@ public abstract class JRExporterGridCell
 		return getSize().getRowSpan();
 	}
 
+	public GridCellStyle getStyle()
+	{
+		return style;
+	}
+
+	public void setStyle(GridCellStyle style)
+	{
+		this.style = style;
+	}
 
 	public Color getBackcolor()//FIXMENOW who uses this and why?
 	{
-		return backcolor;
-	}
-
-
-	public void setBackcolor(Color backcolor)
-	{
-		this.backcolor = backcolor;
+		return style == null ? null : style.getBackcolor();
 	}
 
 
@@ -99,27 +100,20 @@ public abstract class JRExporterGridCell
 	 */
 	public JRLineBox getBox()
 	{
-		return box;
+		return style == null ? null : style.getBox();
 	}
-
 
 	public void setBox(JRLineBox box)
 	{
-		this.box = box;
+		// should not happen
+		throw new UnsupportedOperationException("Cannot set the box on a cell of type " + getType());
 	}
 
 
 	public Color getForecolor()
 	{
-		return forecolor;
+		return style == null ? null : style.getForecolor();
 	}
-
-
-	public void setForecolor(Color forecolor)
-	{
-		this.forecolor = forecolor;
-	}
-
 
 	public Color getCellBackcolor()
 	{
@@ -131,7 +125,7 @@ public abstract class JRExporterGridCell
 		}
 		else
 		{
-			color = backcolor;
+			color = getBackcolor();
 		}
 		return color;
 	}
@@ -139,7 +133,7 @@ public abstract class JRExporterGridCell
 	
 	public boolean isEmpty()
 	{
-		return backcolor == null && box == null;
+		return getBackcolor() == null && getBox() == null;
 	}
 
 	public abstract byte getType();
