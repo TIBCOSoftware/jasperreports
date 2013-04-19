@@ -61,6 +61,7 @@ public class JRGridLayout
 	private final List<JRPrintElement> elementList;
 	
 	private final Map<GridCellSize, GridCellSize> cellSizes;
+	private final Map<GridCellStyle, GridCellStyle> cellStyles;
 
 	private int width;
 	private int height;
@@ -132,6 +133,7 @@ public class JRGridLayout
 		this.elementList = elements;
 		// TODO lucianc cache these across report pages?
 		this.cellSizes = new HashMap<GridCellSize, GridCellSize>();
+		this.cellStyles = new HashMap<GridCellStyle, GridCellStyle>();
 		this.height = height;
 		this.width = width;
 		this.offsetX = offsetX;
@@ -166,6 +168,7 @@ public class JRGridLayout
 		this.nature = parent.nature;
 		this.elementList = parent.elementList;
 		this.cellSizes = parent.cellSizes;
+		this.cellStyles = parent.cellStyles;
 		this.height = height;
 		this.width = width;
 		this.offsetX = offsetX;
@@ -513,7 +516,8 @@ public class JRGridLayout
 
 		if (col2 - col1 != 0 && row2 - row1 != 0)
 		{
-			gridCell.setBox((element instanceof JRBoxContainer)?((JRBoxContainer)element).getLineBox():null);
+			JRLineBox box = (element instanceof JRBoxContainer)?((JRBoxContainer)element).getLineBox():null;
+			gridCell.setStyle(cellStyle(null, null, box));
 
 			if (nature.isBreakBeforeRow(element))
 			{
@@ -527,6 +531,28 @@ public class JRGridLayout
 			grid[row1][col1] = gridCell;
 		}
 	}
+	
+	protected GridCellStyle cellStyle(Color backcolor, Color forecolor, JRLineBox box)
+	{
+		if (backcolor == null && forecolor == null && box == null)
+		{
+			return null;
+		}
+
+		GridCellStyle key = new GridCellStyle(backcolor, forecolor, box);
+		GridCellStyle style = cellStyles.get(key);
+		if (style == null)
+		{
+			style = key;
+			cellStyles.put(key, style);
+			
+			if (log.isTraceEnabled())
+			{
+				log.trace(this + " added cell style " + style);
+			}
+		}
+		return style;
+	}
 
 
 	protected void setFrameCellsStyle(JRPrintFrame frame, int row1, int col1, int row2, int col2)
@@ -539,17 +565,22 @@ public class JRGridLayout
 			{
 				JRExporterGridCell cell = grid[row][col];
 
-				if (cell.getBackcolor() == null)
+				boolean modifiedStyle = false;
+				Color cellBackcolor = cell.getBackcolor();
+				if (cellBackcolor == null)
 				{
 					if (frame.getModeValue() == ModeEnum.OPAQUE)
 					{
-						cell.setBackcolor(backcolor);
+						cellBackcolor = backcolor;
+						modifiedStyle = true;
 					}
 				}
 
-				if (cell.getForecolor() == null)
+				Color cellForecolor = cell.getForecolor();
+				if (cellForecolor == null)
 				{
-					cell.setForecolor(frame.getForecolor());
+					cellForecolor = frame.getForecolor();
+					modifiedStyle = true;
 				}
 
 				boolean keepLeft = col == col1;
@@ -557,9 +588,9 @@ public class JRGridLayout
 				boolean keepTop = row == row1;
 				boolean keepBottom = row == row2 - cell.getRowSpan();
 
+				JRLineBox cellBox = cell.getBox();
 				if (keepLeft || keepRight || keepTop || keepBottom)
 				{
-					JRLineBox cellBox = cell.getBox();
 					BoxKey key = new BoxKey(frame.getLineBox(), cellBox, keepLeft, keepRight, keepTop, keepBottom);
 					JRLineBox modBox = boxesCache.get(key);
 					if (modBox == null)
@@ -568,7 +599,14 @@ public class JRGridLayout
 						boxesCache.put(key, modBox);
 					}
 
-					cell.setBox(modBox);
+					cellBox = modBox;
+					modifiedStyle = true;
+				}
+				
+				if (modifiedStyle)
+				{
+					GridCellStyle newStyle = cellStyle(cellBackcolor, cellForecolor, cellBox);
+					cell.setStyle(newStyle);
 				}
 			}
 		}

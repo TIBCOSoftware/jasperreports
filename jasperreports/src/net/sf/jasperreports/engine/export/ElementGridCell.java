@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -159,6 +160,13 @@ public class ElementGridCell extends JRExporterGridCell
 				0, //offsetY
 				frameIndex
 		);
+	}
+
+	@Override
+	public void setBox(JRLineBox box)
+	{
+		GridCellStyle newStyle = container.cellStyle(getBackcolor(), getForecolor(), box);
+		setStyle(newStyle);
 	}
 
 }
