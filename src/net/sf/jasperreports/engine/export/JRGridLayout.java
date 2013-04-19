@@ -225,23 +225,19 @@ public class JRGridLayout
 
 			if(createXCuts)
 			{
-				List<Integer> xCutsList = xCuts.getCutOffsets();
-
 				if(hasLeftMargin)
 				{
-					xCutsList.remove(Integer.valueOf(0));
+					xCuts.removeCutOffset(0);
 				}
 			}
 
-			List<Integer> yCutsList = yCuts.getCutOffsets();
-
 			if(hasTopMargin)
 			{
-				yCutsList.remove(Integer.valueOf(0));
+				yCuts.removeCutOffset(0);
 			}
 			if(hasBottomMargin)
 			{
-				yCutsList.remove(Integer.valueOf(height));
+				yCuts.removeCutOffset(height);
 			}
 		}
 

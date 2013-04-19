@@ -29,11 +29,10 @@
 
 package net.sf.jasperreports.engine.export;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import net.sf.jasperreports.engine.util.SortedIntList;
 
 /**
  * Utility class used by grid exporters to create a grid for page layout.
@@ -47,7 +46,7 @@ public class CutsInfo
 //	public static final int USAGE_SPANNED = 2;
 //	public static final int USAGE_BREAK = 4;
 	
-	private final List<Integer> cutOffsets = new ArrayList<Integer>();
+	private final SortedIntList cutOffsets = new SortedIntList();
 //	private int[] cutUsage;
 	private Cut[] cuts;
 	
@@ -65,11 +64,6 @@ public class CutsInfo
 		addCutOffset(lastCutOffset);
 	}
 	
-	public List<Integer> getCutOffsets()
-	{
-		return cutOffsets;
-	}
-	
 	public int size()
 	{
 		return cutOffsets.size();
@@ -85,7 +79,7 @@ public class CutsInfo
 	
 	public int getCutOffset(int index)
 	{
-		return cutOffsets.get(index).intValue();
+		return cutOffsets.get(index);
 	}
 	
 	public Cut getCut(int index)
@@ -107,29 +101,19 @@ public class CutsInfo
 		cut.setUsage(tmpUsage);
 	}
 	
-	public boolean addCutOffset(Integer cutOffset)
+	public boolean addCutOffset(int cutOffset)
 	{
-		int idx = Collections.binarySearch(cutOffsets, cutOffset);
-		
-		if (idx >= 0)
-		{
-			return false;
-		}
-		
-		cutOffsets.add(-idx - 1, cutOffset);
-		return true;
+		return cutOffsets.add(cutOffset);
+	}
+
+	public boolean removeCutOffset(int cutOffset)
+	{
+		return cutOffsets.remove(cutOffset);
 	}
 	
 	public int indexOfCutOffset(Integer cutOffset)
 	{
-		int idx = Collections.binarySearch(cutOffsets, cutOffset);
-		
-		if (idx < 0)
-		{
-			idx = -1;
-		}
-		
-		return idx;
+		return cutOffsets.indexOf(cutOffset);
 	}
 
 	/**
