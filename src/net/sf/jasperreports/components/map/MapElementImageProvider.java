@@ -26,7 +26,6 @@ package net.sf.jasperreports.components.map;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.components.map.type.ColorEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
