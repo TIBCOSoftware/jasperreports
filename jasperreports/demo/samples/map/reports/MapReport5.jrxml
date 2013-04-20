@@ -93,7 +93,7 @@
 								<valueExpression>$F{iconheight}</valueExpression>
 							</c:itemProperty>
 							<c:itemProperty name="infowindow.content">
-								<valueExpression>"&lt;p style='text-align:right;'&gt;&lt;img src='http://jasperreports.sourceforge.net/jasperreports.png'/&gt;&lt;/p&gt;&lt;p style='text-align:left;'&gt;current latitude: &lt;b&gt;"+$F{latitude}+"&lt;/b&gt;&lt;br/&gt;current longitude: &lt;b&gt;"+$F{longitude}+"&lt;/b&gt;&lt;/p&gt;"</valueExpression>
+								<valueExpression>"&lt;p style='text-align:right;'&gt;&lt;img src='http://jasperreports.sourceforge.net/jasperreports.png'/&gt;&lt;/p&gt;&lt;p style='text-align:left;'&gt;&lt;b&gt;"+$F{address}+"&lt;/b&gt;&lt;/p&gt;"</valueExpression>
 							</c:itemProperty>
 						</c:item>
 					</c:markerData>
