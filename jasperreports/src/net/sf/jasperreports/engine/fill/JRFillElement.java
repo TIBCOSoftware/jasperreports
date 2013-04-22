@@ -938,7 +938,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		
 		resolveElement(element, evaluation);
 		
-		if (updateTemplate || providerStyle != null)
+		if (updateTemplate || providerStyle != null
+				|| delayedEvaluationUpdatesTemplate())
 		{
 			// get/create an element template that corresponds to the
 			// current style
@@ -950,6 +951,11 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		// reset the current style
 		this.currentStyle = null;
 		//this.providerStyle = null;
+	}
+
+	protected boolean delayedEvaluationUpdatesTemplate()
+	{
+		return false;
 	}
 
 
