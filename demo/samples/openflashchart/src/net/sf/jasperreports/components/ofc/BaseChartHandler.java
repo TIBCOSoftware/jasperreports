@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.export.ElementGridCell;
-import net.sf.jasperreports.engine.export.ElementWrapper;
+import net.sf.jasperreports.engine.export.ElementReplacementGridCell;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.JRExporterContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
@@ -82,15 +82,7 @@ public class BaseChartHandler implements GenericElementHandler
 	{
 		JRPrintText text = getTextElementReplacement(exporterContext, element);
 
-		JRExporterGridCell newGridCell = 
-			new ElementGridCell(
-				new ElementWrapper(null, text, null), 
-				gridCell.getWidth(), 
-				gridCell.getHeight(),
-				gridCell.getColSpan(),
-				gridCell.getRowSpan()
-				);
-		
+		JRExporterGridCell newGridCell = new ElementReplacementGridCell((ElementGridCell) gridCell, text);
 		newGridCell.setBox(text.getLineBox());
 		
 		return newGridCell;
