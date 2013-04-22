@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.util.ObjectUtils;
 
@@ -52,7 +51,7 @@ public class GridCellStyle
 	{
 		return (backcolor == null ? 0 : (17 * backcolor.hashCode())) 
 				^ (forecolor == null ? 0 : (37 * forecolor.hashCode())) 
-				^ (box == null ? 0 : (67 * ((Deduplicable) box).getHashCode()));
+				^ (box == null ? 0 : (67 * box.hashCode()));
 	}
 
 	@Override
@@ -66,7 +65,8 @@ public class GridCellStyle
 		GridCellStyle style = (GridCellStyle) obj;
 		return ObjectUtils.equals(backcolor, style.backcolor)
 				&& ObjectUtils.equals(forecolor, style.forecolor)
-				&& ObjectUtils.identical(box, style.box);
+				// not using identical() for box because it doesn't compare getDefaultLineColor()
+				&& ObjectUtils.equals(box, style.box);
 	}
 
 	@Override
