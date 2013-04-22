@@ -151,4 +151,9 @@ public class ElementGridCell extends JRExporterGridCell
 		setStyle(newStyle);
 	}
 
+	protected JRGridLayout getContainer()
+	{
+		return container;
+	}
+
 }
