@@ -183,6 +183,18 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		markup = textElement.getOwnMarkup();
 	}
 
+	public void setTextFormat(TextFormat textFormat)
+	{
+		if (textFormat != null)
+		{
+			setValueClassName(textFormat.getValueClassName());
+			setPattern(textFormat.getPattern());
+			setFormatFactoryClass(textFormat.getFormatFactoryClass());
+			setLocaleCode(textFormat.getLocaleCode());
+			setTimeZoneId(textFormat.getTimeZoneId());
+		}
+	}
+
 	/**
 	 * Copies box attributes.
 	 * 

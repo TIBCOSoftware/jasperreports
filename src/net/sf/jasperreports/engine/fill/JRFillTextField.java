@@ -26,7 +26,12 @@ package net.sf.jasperreports.engine.fill;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -36,6 +41,7 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -44,6 +50,7 @@ import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.Pair;
 
 
 /**
@@ -52,8 +59,11 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  */
 public class JRFillTextField extends JRFillTextElement implements JRTextField
 {
+	
+	protected static final Log log = LogFactory.getLog(JRFillTextField.class);
 
-
+	protected final Map<Pair<JRStyle, TextFormat>, JRTemplateElement> textTemplates;
+	
 	/**
 	 *
 	 */
@@ -96,6 +106,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		super(filler, textField, factory);
 		
+		this.textTemplates = new HashMap<Pair<JRStyle,TextFormat>, JRTemplateElement>();
 		evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
 	}
 
@@ -104,6 +115,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		super(textField, factory);
 
+		this.textTemplates = textField.textTemplates;
 		this.evaluationGroup = textField.evaluationGroup;
 	}
 
@@ -354,6 +366,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				filler.getJasperPrint().getDefaultStyleProvider(), 
 				this
 				);
+		template.setTextFormat(textFormat);
 		return template;
 	}
 
@@ -398,6 +411,25 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				
 				textFormat = simpleTextFormat;
 			}
+		}
+	}
+
+	@Override
+	protected JRTemplateElement getTemplate(JRStyle style)
+	{
+		Pair<JRStyle, TextFormat> key = new Pair<JRStyle, TextFormat>(style, textFormat);
+		return textTemplates.get(key);
+	}
+
+	@Override
+	protected void registerTemplate(JRStyle style, JRTemplateElement template)
+	{
+		Pair<JRStyle, TextFormat> key = new Pair<JRStyle, TextFormat>(style, textFormat);
+		textTemplates.put(key, template);
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("created " + template + " for " + key);
 		}
 	}
 
@@ -780,8 +812,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setValue(getValue());
 		
 		setPrintText(text);
-		
-		text.setTextFormat(getTextFormat());//FIXMEFORMAT why do we set this always, even when pattern is fixed.
 
 		text.setAnchorName(getAnchorName());
 		if (getHyperlinkWhenExpression() == null || hyperlinkWhen == Boolean.TRUE)

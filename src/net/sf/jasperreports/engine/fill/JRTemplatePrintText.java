@@ -79,7 +79,11 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private float leadingOffset;
 	private RunDirectionEnum runDirectionValue;
 	private float textHeight;
+	
+	// we're no longer setting this at fill time, all format attributes are in the template.
+	// keeping the field for old serialized JasperPrints.
 	private TextFormat textFormat;
+	
 	private String anchorName;
 	private String hyperlinkReference;
 	private String hyperlinkAnchor;
