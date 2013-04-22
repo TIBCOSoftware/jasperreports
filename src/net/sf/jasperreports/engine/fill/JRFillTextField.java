@@ -433,6 +433,16 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		}
 	}
 
+	@Override
+	protected boolean delayedEvaluationUpdatesTemplate()
+	{
+		// since the text format is evaluated during the delayed evaluation, 
+		// we need to always attempt to update the template.
+		// we could test whether the value is String, but there might be some exotic
+		// cases in which the same text field is used for both Strings and numbers.
+		return true;
+	}
+
 
 	protected TimeZone toFormatTimeZone(String timezoneId)
 	{
