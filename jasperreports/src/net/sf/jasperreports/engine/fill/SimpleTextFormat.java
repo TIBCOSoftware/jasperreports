@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.fill;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 
 /**
@@ -47,7 +48,44 @@ public class SimpleTextFormat implements TextFormat, Serializable
 	private String formatFactoryClass;
 	private String localeCode;
 	private String timeZoneId;
-	
+
+	@Override
+	public int hashCode()
+	{
+		int hash = 13;
+		hash = 67 * hash + (valueClassName == null ? 0 : valueClassName.hashCode());
+		hash = 67 * hash + (pattern == null ? 0 : pattern.hashCode());
+		hash = 67 * hash + (formatFactoryClass == null ? 0 : formatFactoryClass.hashCode());
+		hash = 67 * hash + (localeCode == null ? 0 : localeCode.hashCode());
+		hash = 67 * hash + (timeZoneId == null ? 0 : timeZoneId.hashCode());
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (!(obj instanceof SimpleTextFormat))
+		{
+			return false;
+		}
+		
+		SimpleTextFormat f = (SimpleTextFormat) obj;
+		return ObjectUtils.equals(valueClassName, f.valueClassName)
+				&& ObjectUtils.equals(pattern, f.pattern)
+				&& ObjectUtils.equals(formatFactoryClass, f.formatFactoryClass)
+				&& ObjectUtils.equals(localeCode, f.localeCode)
+				&& ObjectUtils.equals(timeZoneId, f.timeZoneId);
+	}
+
+	@Override
+	public String toString()
+	{
+		return "{" + valueClassName + ", "
+				+ pattern + ","
+				+ formatFactoryClass + ","
+				+ localeCode + ","
+				+ timeZoneId + "}";
+	}
 	
 	/**
 	 *
