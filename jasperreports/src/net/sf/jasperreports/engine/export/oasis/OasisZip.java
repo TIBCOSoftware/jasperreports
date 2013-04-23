@@ -28,7 +28,6 @@ import java.io.Writer;
 import java.util.ArrayList;
 
 import net.sf.jasperreports.engine.export.zip.AbstractZip;
-import net.sf.jasperreports.engine.export.zip.EmptyZipEntry;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 
 
