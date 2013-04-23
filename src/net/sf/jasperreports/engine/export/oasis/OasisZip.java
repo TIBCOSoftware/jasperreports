@@ -44,6 +44,7 @@ public abstract class OasisZip extends AbstractZip
 	 */
 	public static final String MIME_TYPE_ODT = "text";
 	public static final String MIME_TYPE_ODS = "spreadsheet";
+	public static final String PROLOG = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 	
 	/**
 	 * 
@@ -70,7 +71,7 @@ public abstract class OasisZip extends AbstractZip
 		exportZipEntries.add(contentEntry);
 		
 		createMetaEntry();
-		exportZipEntries.add(new EmptyZipEntry("settings.xml"));
+		createSettingsEntry();
 
 		stylesEntry = createEntry("styles.xml");
 		exportZipEntries.add(stylesEntry);
@@ -135,7 +136,7 @@ public abstract class OasisZip extends AbstractZip
 		try
 		{
 			manifestWriter = manifestEntry.getWriter();
-			manifestWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+			manifestWriter.write(PROLOG);
 			manifestWriter.write("<!DOCTYPE manifest:manifest PUBLIC \"-//OpenOffice.org//DTD Manifest 1.0//EN\" \"Manifest.dtd\">\n");
 			manifestWriter.write("<manifest:manifest xmlns:manifest=\"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0\">\n");
 			manifestWriter.write("  <manifest:file-entry manifest:media-type=\"application/vnd.oasis.opendocument." + mimetype + "\" manifest:full-path=\"/\"/>\n");
@@ -176,7 +177,7 @@ public abstract class OasisZip extends AbstractZip
 		try
 		{
 			metaWriter = metaEntry.getWriter();
-			metaWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+			metaWriter.write(PROLOG);
 			metaWriter.flush();
 			exportZipEntries.add(metaEntry);
 		}
@@ -187,6 +188,40 @@ public abstract class OasisZip extends AbstractZip
 				try
 				{
 					metaWriter.close();
+				}
+				catch (IOException e)
+				{
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	private void createSettingsEntry() throws IOException
+	{
+		ExportZipEntry settingsEntry = createEntry("settings.xml");
+		Writer settingsWriter = null;
+		try
+		{
+			settingsWriter = settingsEntry.getWriter();
+			settingsWriter.write(PROLOG);
+			settingsWriter.write("<office:document-settings \n");
+			settingsWriter.write("xmlns:office=\"urn:oasis:names:tc:opendocument:xmlns:office:1.0\" \n");
+			settingsWriter.write("xmlns:xlink=\"http://www.w3.org/1999/xlink\" \n");
+			settingsWriter.write("xmlns:config=\"urn:oasis:names:tc:opendocument:xmlns:config:1.0\" \n");
+			settingsWriter.write("xmlns:ooo=\"http://openoffice.org/2004/office\"/>\n");
+			settingsWriter.flush();
+			exportZipEntries.add(settingsEntry);
+		}
+		finally
+		{
+			if (settingsWriter != null)
+			{
+				try
+				{
+					settingsWriter.close();
 				}
 				catch (IOException e)
 				{
