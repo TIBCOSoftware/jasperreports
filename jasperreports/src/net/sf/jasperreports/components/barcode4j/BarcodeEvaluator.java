@@ -29,6 +29,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
+import org.krysalis.barcode4j.impl.code128.EAN128Bean;
+
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -93,6 +95,11 @@ public class BarcodeEvaluator extends AbstractBarcodeEvaluator
 	protected void evaluateEANCode128(EAN128Component ean128)
 	{
 		evaluateBaseBarcode(ean128);
+		String template = JRStringUtil.getString(evaluateExpression(ean128.getTemplateExpression()));
+		if (template != null) 
+		{
+			((EAN128Bean)barcode).setTemplate(template);
+		}
 	}
 
 	protected void evaluateCode39(Code39Component code39)

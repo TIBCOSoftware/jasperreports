@@ -60,6 +60,12 @@ public class CompiledBarcodeFactory extends UniformBarcodeVisitor
 		JRExpression compiledPatternExpression = baseFactory.getExpression(
 				barcode.getPatternExpression());
 		compiledComponent.setPatternExpression(compiledPatternExpression);
+		if(barcode instanceof EAN128Component)
+		{
+			JRExpression compiledTemplateExpression = baseFactory.getExpression(
+					((EAN128Component)barcode).getTemplateExpression());
+			((EAN128Component)compiledComponent).setTemplateExpression(compiledTemplateExpression);
+		}
 	}
 
 	protected void visitBarcode(BarcodeComponent barcode)
