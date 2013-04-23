@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 
 import org.krysalis.barcode4j.ChecksumMode;
+import org.krysalis.barcode4j.impl.code128.EAN128Bean;
 
 /**
  * 
@@ -115,6 +116,12 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 	protected void evaluateEANCode128(EAN128Component ean128)
 	{
 		evaluateBaseBarcode(ean128, "0101234567890128");
+		String template = evaluateStringExpression(
+				ean128.getTemplateExpression(), null);
+		if (template != null) 
+		{
+			((EAN128Bean)barcode).setTemplate(template);
+		}
 	}
 
 	protected void evaluateCode39(Code39Component code39)

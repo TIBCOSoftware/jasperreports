@@ -160,6 +160,8 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		addBaseBarcode4jRules(digester, 
 				"*/componentElement/EAN128", 
 				EAN128Component.class);
+		addTemplateRules(digester, 
+				"*/componentElement/EAN128");
 		addBaseBarcode4jRules(digester, 
 				"*/componentElement/DataMatrix", 
 				DataMatrixComponent.class);
@@ -214,6 +216,17 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 				JRExpressionFactory.StringExpressionFactory.class.getName());
 		digester.addCallMethod(patternExpressionPattern, "setText", 0);
 		digester.addSetNext(patternExpressionPattern, "setPatternExpression", 
+				JRExpression.class.getName());
+	}
+	
+	@SuppressWarnings("deprecation")
+	protected void addTemplateRules(Digester digester, String barcodePattern)
+	{
+		String templateExpressionPattern = barcodePattern + "/templateExpression";
+		digester.addFactoryCreate(templateExpressionPattern, 
+				JRExpressionFactory.StringExpressionFactory.class.getName());
+		digester.addCallMethod(templateExpressionPattern, "setText", 0);
+		digester.addSetNext(templateExpressionPattern, "setTemplateExpression", 
 				JRExpression.class.getName());
 	}
 
