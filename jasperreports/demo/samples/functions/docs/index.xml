@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>functions</name>
+  <title>Functions Sample</title>
+  <description>Shows how the functions could be used inside report template expressions.</description>
+
+  <mainFeature ref="functions"/>
+  
+  <!-- functions -->
+  
+  <feature name="functions" title="Expression Functions">
+    <description>
+FIXME
+    </description>
+    <since>5.1.1</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="FIXME"/>
+    <content>
+FIXME
+    </content>
+  </feature>
+
+</sample>
