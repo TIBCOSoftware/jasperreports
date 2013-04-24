@@ -152,16 +152,6 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			this.className = className;
 		}
 
-		public void setSourceCode(String sourceCode) 
-		{
-			this.srcCode = sourceCode;
-		}
-
-		public String getSourceCode() 
-		{
-			return srcCode;
-		}
-
 		public char[] getFileName() 
 		{
 			return className.toCharArray();
@@ -199,21 +189,17 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		final IProblemFactory problemFactory = 
 			new DefaultProblemFactory(Locale.getDefault());
 
-		final CompilationUnit[] compilationUnits = new CompilationUnit[units.length];
-		for (int i = 0; i < compilationUnits.length; i++)
-		{
-			compilationUnits[i] = new CompilationUnit(units[i].getSourceCode(), units[i].getName());
-		}
-
 		final CompilerRequestor requestor = new CompilerRequestor(units);
 
 		final Compiler compiler = new Compiler(env, policy, settings, requestor, problemFactory);
 
-		compiler.compile(compilationUnits);
+		compiler.compile(requestor.processCompilationUnits());
 
 		if (requestor.hasMissingImports())
 		{
-			requestor.updateCompilationUnits(compilationUnits);
+			final CompilationUnit[] compilationUnits = requestor.processCompilationUnits();
+
+			requestor.reset();
 
 			compiler.compile(compilationUnits);
 		}
@@ -568,12 +554,15 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	class CompilerRequestor implements ICompilerRequestor
 	{
 		private final JRCompilationUnit[] units;
-		private final Map<Integer, Set<String>> missingImports = new HashMap<Integer, Set<String>>();
-		private final StringBuffer problemBuffer = new StringBuffer();
+		private Map<Integer, Set<String>> missingImports = new HashMap<Integer, Set<String>>();
+		private StringBuffer problemBuffer = new StringBuffer();
+		private String[] modifiedUnitsSourceCode;
 		
 		public CompilerRequestor(final JRCompilationUnit[] units)
 		{
 			this.units = units;
+			
+			reset();
 		}
 			
 		public void acceptResult(CompilationResult result) 
@@ -589,18 +578,18 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				}
 			}
 			
-			boolean hasFunctionProblems = false;
+			//boolean hasFunctionProblems = false;
 			
 			if (result.hasErrors()) 
 			{
-				String sourceCode = units[classIdx].getSourceCode();
+				String sourceCode = modifiedUnitsSourceCode[classIdx];
 				
 				IProblem[] problems = JRJdtCompiler.getJavaCompilationErrors(result);
 				for (int i = 0; i < problems.length; i++) 
 				{
 					IProblem problem = problems[i];
 
-					boolean isFunctionProblem = false;
+					//boolean isFunctionProblem = false;
 					
 					if (IProblem.UndefinedMethod == problem.getID())
 					{
@@ -618,7 +607,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 							Class<?> clazz = FunctionsUtil.getInstance(jasperReportsContext).getClass4Function(methodName);
 							if (clazz != null)
 							{
-								isFunctionProblem = true;
+								//isFunctionProblem = true;
 								Set<String> imports = missingImports.get(classIdx);
 								if (imports == null)
 								{
@@ -626,14 +615,14 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 									missingImports.put(classIdx, imports);
 								}
 								imports.add(clazz.getName());
-								break;
+								//break;
 							}
 						}
 					}
 					
-					hasFunctionProblems |= isFunctionProblem;
+					//hasFunctionProblems |= isFunctionProblem;
 					
-					if (!isFunctionProblem) 
+					//if (!isFunctionProblem) 
 					{
 						problemBuffer.append(i + 1);
 						problemBuffer.append(". ");
@@ -685,7 +674,8 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				problemBuffer.append(" errors\n");
 			}
 			
-			if (!hasFunctionProblems && problemBuffer.length() == 0) 
+			if (problemBuffer.length() == 0) 
+			//if (!hasFunctionProblems && problemBuffer.length() == 0) 
 			{
 				ClassFile[] resultClassFiles = result.getClassFiles();
 				for (int i = 0; i < resultClassFiles.length; i++) 
@@ -719,21 +709,45 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		/**
 		 * 
 		 */
-		public void updateCompilationUnits(CompilationUnit[] compilationUnits)
+		public CompilationUnit[] processCompilationUnits()
 		{
-			for (Integer i : missingImports.keySet())
+			final CompilationUnit[] compilationUnits = new CompilationUnit[units.length];
+			
+			modifiedUnitsSourceCode = new String[units.length];
+			
+			for (int i = 0; i < compilationUnits.length; i++)
 			{
 				String sourceCode = units[i].getSourceCode();
-				int firstImportIndex = sourceCode.indexOf("\nimport ");
-				StringBuffer sbuffer = new StringBuffer();
-				sbuffer.append(sourceCode.substring(0,  firstImportIndex));
-				for (String importClass : missingImports.get(i))
+				
+				if (missingImports.containsKey(i))
 				{
-					sbuffer.append("import static " + importClass + ".*;\n");
+					int firstImportIndex = sourceCode.indexOf("\nimport ");
+					StringBuffer sbuffer = new StringBuffer();
+					sbuffer.append(sourceCode.substring(0,  firstImportIndex));
+					for (String importClass : missingImports.get(i))
+					{
+						sbuffer.append("import static " + importClass + ".*;\n");
+					}
+					sbuffer.append(sourceCode.substring(firstImportIndex));
+
+					sourceCode = sbuffer.toString();
 				}
-				sbuffer.append(sourceCode.substring(firstImportIndex));
-				compilationUnits[i].setSourceCode(sbuffer.toString());
+				
+				modifiedUnitsSourceCode[i] = sourceCode;
+				
+				compilationUnits[i] = new CompilationUnit(sourceCode, units[i].getName());
 			}
+			
+			return compilationUnits;
+		}
+
+		/**
+		 * 
+		 */
+		public void reset()
+		{
+			missingImports = new HashMap<Integer, Set<String>>();
+			problemBuffer = new StringBuffer();
 		}
 	}
 }
