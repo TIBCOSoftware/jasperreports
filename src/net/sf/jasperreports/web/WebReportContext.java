@@ -53,6 +53,8 @@ public class WebReportContext implements ReportContext
 	public static final String REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR = "net.sf.jasperreports.web.jasper_print.accessor";
 	//public static final String REPORT_CONTEXT_PARAMETER_JASPER_REPORT = "net.sf.jasperreports.web.jasper_report";
 	
+	public static final String APPLICATION_CONTEXT_PATH = "net.sf.jasperreports.web.app.context.path";
+	
 	/**
 	 *
 	 */
@@ -91,7 +93,7 @@ public class WebReportContext implements ReportContext
 		if (webReportContext != null)
 		{
 			//webReportContext.setRequest(request);
-			webReportContext.setParameterValue("net.sf.jasperreports.web.app.context.path", request.getContextPath());
+			webReportContext.setParameterValue(APPLICATION_CONTEXT_PATH, request.getContextPath());
 			webReportContext.setParameterValue(JRParameter.REPORT_CONTEXT, webReportContext);
 		}
 		
