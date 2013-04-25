@@ -1510,10 +1510,18 @@ public class HtmlExporter extends JRAbstractExporter
 
 			finishStartCell();
 			
+			if (handler instanceof GenericElementWithResourcesHtmlHandler) {
+				((GenericElementWithResourcesHtmlHandler)handler).prepareForExport(exporterContext, isOutputImagesToDir, imagesDir, imagesURI);
+			}
+			
 			String htmlFragment = handler.getHtmlFragment(exporterContext, element);
 			if (htmlFragment != null)
 			{
 				writer.write(htmlFragment);
+			}
+			
+			if (handler instanceof GenericElementWithResourcesHtmlHandler) {
+				((GenericElementWithResourcesHtmlHandler)handler).exportResources();
 			}
 
 			endCell();
