@@ -64,7 +64,7 @@ public class VelocityUtil
 	}
 	
 	public static String processTemplate(String templateName, VelocityContext vContext) {
-		Template template = getVelocityEngine().getTemplate(templateName);
+		Template template = getVelocityEngine().getTemplate(templateName, "UTF-8");
 
 		StringWriter writer = new StringWriter(128);
 		template.merge(vContext, writer);
