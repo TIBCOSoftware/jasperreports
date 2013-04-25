@@ -1,0 +1,2 @@
+<link rel="stylesheet" href="${pictonic_css}">
+<div class="${pictonicCssClass}" #if(${pictonicFontSize})style="font-size: ${pictonicFontSize}px;"#end/>
