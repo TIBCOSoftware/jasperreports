@@ -11,13 +11,10 @@
 				<textFieldExpression><![CDATA["JasperReports pictonic generic element"]]></textFieldExpression>
 			</textField>
 			<genericElement>
-				<reportElement uuid="9b7132a3-4b76-42cb-904d-55b17b841bb2" x="0" y="100" width="400" height="200"/>
+				<reportElement uuid="9b7132a3-4b76-42cb-904d-55b17b841bb2" x="0" y="100" width="20" height="20"/>
 				<genericElementType namespace="http://jasperreports.sourceforge.net/jasperreports/pictonic" name="pictonic"/>
-				<genericElementParameter name="css.class">
-					<valueExpression><![CDATA["icon-sort-filter05"]]></valueExpression>
-				</genericElementParameter>
-				<genericElementParameter name="font.size">
-					<valueExpression><![CDATA["18"]]></valueExpression>
+				<genericElementParameter name="iconTextElement">
+					<valueExpression><![CDATA[PictonicElementApp.getIconPrintText()]]></valueExpression>
 				</genericElementParameter>
 			</genericElement>
 		</band>

@@ -22,14 +22,17 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.awt.Color;
 import java.io.File;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -131,5 +134,12 @@ public class PictonicElementApp extends AbstractSampleApp
 		System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
-	
+	public static JRPrintText getIconPrintText() throws JRException{
+		JRBasePrintText bpt = new JRBasePrintText(null);
+		bpt.setText("\uE003");
+		bpt.setFontSize(18);
+		bpt.setForecolor(Color.RED);
+		bpt.setBackcolor(Color.YELLOW);
+		return bpt;
+	}
 }

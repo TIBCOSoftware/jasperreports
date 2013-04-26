@@ -31,7 +31,6 @@ package net.sf.jasperreports.pictonic;
  */
 public interface PictonicElement {
 	
-	public static final String PARAM_CSS_CLASS = "css.class";
-	public static final String PARAM_FONT_SIZE = "font.size";
+	public static final String PARAM_ICON_TEXT_ELEMENT = "iconTextElement";
 	
 }
