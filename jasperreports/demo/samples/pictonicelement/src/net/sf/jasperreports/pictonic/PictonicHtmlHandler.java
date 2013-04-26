@@ -29,10 +29,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.GenericElementWithResourcesHtmlHandler;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.pictonic.render.ResourceHandler;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.VelocityUtil;
@@ -81,9 +83,15 @@ public class PictonicHtmlHandler implements GenericElementWithResourcesHtmlHandl
 
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
-		contextMap.put("pictonicCssClass", element.getParameterValue(PictonicElement.PARAM_CSS_CLASS));
-		contextMap.put("pictonicFontSize", element.getParameterValue(PictonicElement.PARAM_FONT_SIZE));
-		return VelocityUtil.processTemplate(PictonicHtmlHandler.PICTONIC_ELEMENT_HTML_TEMPLATE, contextMap);
+		JRPrintText iconText = (JRPrintText)element.getParameterValue(PictonicElement.PARAM_ICON_TEXT_ELEMENT);
+		if (iconText != null) {
+			contextMap.put("pictonicFontSize", iconText.getFontSize());
+			contextMap.put("pictonicText", iconText.getText());
+			contextMap.put("pictonicFontColor", JRColorUtil.getColorHexa(iconText.getForecolor()));
+			contextMap.put("pictonicBackgroundColor", JRColorUtil.getColorHexa(iconText.getBackcolor()));
+			return VelocityUtil.processTemplate(PictonicHtmlHandler.PICTONIC_ELEMENT_HTML_TEMPLATE, contextMap);
+		}
+		return null;
 	}
 
 	@Override
