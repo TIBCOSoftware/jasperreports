@@ -95,6 +95,7 @@ public class TextMeasurer implements JRTextMeasurer
 		protected int fontSizeSum;
 		protected int firstLineMaxFontSize;
 		protected int paragraphStartLine;
+		protected float textWidth;
 		protected float textHeight;
 		protected float firstLineLeading;
 		protected boolean isLeftToRight = true;
@@ -117,6 +118,11 @@ public class TextMeasurer implements JRTextMeasurer
 		public int getTextOffset()
 		{
 			return textOffset;
+		}
+		
+		public float getTextWidth()
+		{
+			return textWidth;
 		}
 		
 		public float getTextHeight()
@@ -769,6 +775,7 @@ public class TextMeasurer implements JRTextMeasurer
 			prevMeasuredState = measuredState.cloneState();
 			
 			measuredState.isLeftToRight = isLeftToRight;//run direction is per layout; but this is the best we can do for now
+			measuredState.textWidth = Math.max(measuredState.textWidth, crtSegment == null ? 0 : crtSegment.rightX);
 			measuredState.textHeight = newTextHeight;
 			measuredState.lines++;
 

@@ -38,6 +38,7 @@ import net.sf.jasperreports.components.barcode4j.RoyalMailCustomerComponent;
 import net.sf.jasperreports.components.barcode4j.UPCAComponent;
 import net.sf.jasperreports.components.barcode4j.UPCEComponent;
 import net.sf.jasperreports.components.barcode4j.USPSIntelligentMailComponent;
+import net.sf.jasperreports.components.iconlabel.IconLabelComponentDigester;
 import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.StandardListComponent;
 import net.sf.jasperreports.components.map.Item;
@@ -95,6 +96,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		SpiderChartDigester.addSpiderChartRules(digester);
 		addMapRules(digester);
 		SortComponentDigester.addSortComponentRules(digester);
+		IconLabelComponentDigester.addIconLabelComponentRules(digester);
 	}
 
 	protected void addListRules(Digester digester)

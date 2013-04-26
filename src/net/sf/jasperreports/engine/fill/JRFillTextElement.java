@@ -79,6 +79,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private JRTextMeasurer textMeasurer;
 	private float lineSpacingFactor;
 	private float leadingOffset;
+	private float textWidth;
 	private float textHeight;
 	private int elementStretchHeightDelta;
 	private int textStart;
@@ -371,6 +372,22 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	public float getTextWidth()
+	{
+		return textWidth;
+	}
+		
+	/**
+	 *
+	 */
+	protected void setTextWidth(float textWidth)
+	{
+		this.textWidth = textWidth;
+	}
+
+	/**
+	 *
+	 */
 	protected float getTextHeight()
 	{
 		return textHeight;
@@ -546,6 +563,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			);
 		
 		isLeftToRight = measuredText.isLeftToRight();
+		setTextWidth(measuredText.getTextWidth());
 		setTextHeight(measuredText.getTextHeight());
 		
 		elementStretchHeightDelta = 0;
