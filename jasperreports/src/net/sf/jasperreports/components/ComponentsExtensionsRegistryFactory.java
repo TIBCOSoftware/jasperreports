@@ -34,6 +34,10 @@ import net.sf.jasperreports.components.barbecue.BarbecueFillFactory;
 import net.sf.jasperreports.components.barcode4j.BarcodeCompiler;
 import net.sf.jasperreports.components.barcode4j.BarcodeDesignConverter;
 import net.sf.jasperreports.components.barcode4j.BarcodeFillFactory;
+import net.sf.jasperreports.components.iconlabel.IconLabelComponentCompiler;
+import net.sf.jasperreports.components.iconlabel.IconLabelComponentDesignConverter;
+import net.sf.jasperreports.components.iconlabel.IconLabelComponentFillFactory;
+import net.sf.jasperreports.components.iconlabel.IconLabelComponentManager;
 import net.sf.jasperreports.components.list.FillListFactory;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListComponentCompiler;
@@ -91,6 +95,7 @@ public class ComponentsExtensionsRegistryFactory implements
 	public static final String SPIDERCHART_COMPONENT_NAME = "spiderChart";
 	public static final String MAP_COMPONENT_NAME = "map";
 	public static final String SORT_COMPONENT_NAME = "sort";
+	public static final String ICONLABEL_COMPONENT_NAME = "iconLabel";
 	
 	private static final ExtensionsRegistry REGISTRY;
 	
@@ -159,6 +164,12 @@ public class ComponentsExtensionsRegistryFactory implements
 		sortManager.setComponentFillFactory(new SortComponentFillFactory());
 		componentManagers.put(SORT_COMPONENT_NAME, sortManager);
 		
+		IconLabelComponentManager iconLabelManager = new IconLabelComponentManager();
+		iconLabelManager.setDesignConverter(IconLabelComponentDesignConverter.getInstance());
+		iconLabelManager.setComponentCompiler(new IconLabelComponentCompiler());
+		iconLabelManager.setComponentFillFactory(new IconLabelComponentFillFactory());
+		componentManagers.put(ICONLABEL_COMPONENT_NAME, iconLabelManager);
+
 		bundle.setComponentManagers(componentManagers);
 		
 		REGISTRY = new SingletonExtensionRegistry<ComponentsBundle>(ComponentsBundle.class, bundle);

@@ -910,7 +910,7 @@
 	  </complexType>
 	</element>
 
-	 <element name="spiderDataset">
+	<element name="spiderDataset">
 	  <annotation>
 	   <documentation>Creates a dataset with one or more series and values associated with categories</documentation>
 	  </annotation>
@@ -920,7 +920,131 @@
 	    <element ref="jr:categorySeries" minOccurs="0" maxOccurs="unbounded"/>
 	   </sequence>
 	  </complexType>
-	 </element>
+	</element>
 	
+	<element name="iconLabel" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="jr:componentType">
+					<sequence>
+						<element ref="c:label" minOccurs="1" maxOccurs="1"/>
+						<element ref="c:icon" minOccurs="1" maxOccurs="1"/>
+					</sequence>
+					<attribute name="iconPosition" use="optional">
+						<annotation>
+							<documentation>Icon position.</documentation>
+						</annotation>
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="Start">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="End">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+							</restriction>
+						</simpleType>
+					</attribute>					
+					<attribute name="labelFill" use="optional">
+						<annotation>
+							<documentation>Text fill policy.</documentation>
+						</annotation>
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="None">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="Horizontal">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="Vertical">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="Both">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+							</restriction>
+						</simpleType>
+					</attribute>					
+					<attribute name="horizontalAlign" use="optional">
+						<annotation>
+							<documentation>Horizontal alignment.</documentation>
+						</annotation>
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="Left">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="Center">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="Right">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="verticalAlign" use="optional">
+						<annotation>
+							<documentation>Vertical alignment.</documentation>
+						</annotation>
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="Top">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="Middle">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="Bottom">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+							</restriction>
+						</simpleType>
+					</attribute>					
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="label">
+		<complexType>
+			<sequence>
+				<element ref="jr:textField" minOccurs="1" maxOccurs="1"/>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="icon">
+		<complexType>
+			<sequence>
+				<element ref="jr:textField" minOccurs="1" maxOccurs="1"/>
+			</sequence>
+		</complexType>
+	</element>
 
 </schema>

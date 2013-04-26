@@ -214,6 +214,14 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 	}
 
 	/**
+	 * @return the textDrawer
+	 */
+	public TextDrawer getTextDrawer()
+	{
+		return this.textDrawer;
+	}
+
+	/**
 	 * @return the imageDrawer
 	 */
 	public ImageDrawer getImageDrawer()

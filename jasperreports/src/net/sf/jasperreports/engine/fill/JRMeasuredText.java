@@ -50,6 +50,13 @@ public interface JRMeasuredText
 	float getLineSpacingFactor();
 
 	/**
+	 * Returns the text's measure width.
+	 * 
+	 * @return the text's measure width
+	 */
+	float getTextWidth();
+
+	/**
 	 * Returns the text's measure height.
 	 * 
 	 * @return the text's measure height
