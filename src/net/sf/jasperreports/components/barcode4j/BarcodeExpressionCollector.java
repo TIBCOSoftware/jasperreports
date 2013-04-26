@@ -44,9 +44,6 @@ public class BarcodeExpressionCollector extends UniformBarcodeVisitor
 	{
 		collector.addExpression(barcode.getCodeExpression());
 		collector.addExpression(barcode.getPatternExpression());
-		if(barcode instanceof EAN128Component){
-			collector.addExpression(((EAN128Component)barcode).getTemplateExpression());
-		}
 	}
 
 	protected void visitBarcode(BarcodeComponent barcode)
@@ -54,4 +51,12 @@ public class BarcodeExpressionCollector extends UniformBarcodeVisitor
 		collectBarcode(barcode);
 	}
 
+	@Override
+	public void visitEANCode128(EAN128Component ean128) 
+	{
+		super.visitEANCode128(ean128);
+
+		collector.addExpression(ean128.getTemplateExpression());
+	}
+	
 }

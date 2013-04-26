@@ -235,11 +235,11 @@
 		<complexType>
 			<complexContent>
 				<extension base="c:Barcode4JCode128">
-				<sequence>
-					<element name="templateExpression" minOccurs="0" maxOccurs="1">
-						<complexType mixed="true"/>
-					</element>
-				</sequence>
+					<sequence>
+						<element name="templateExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+					</sequence>
 					<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
 				</extension>
 			</complexContent>
