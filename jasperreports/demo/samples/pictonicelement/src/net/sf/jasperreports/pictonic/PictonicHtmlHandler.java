@@ -84,7 +84,7 @@ public class PictonicHtmlHandler implements GenericElementWithResourcesHtmlHandl
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
 		JRPrintText iconText = (JRPrintText)element.getParameterValue(PictonicElement.PARAM_ICON_TEXT_ELEMENT);
-		if (iconText != null) {
+		if (iconText != null) {	// FIXME create style based on a StringBuffer
 			contextMap.put("pictonicFontSize", iconText.getFontSize());
 			contextMap.put("pictonicText", iconText.getText());
 			contextMap.put("pictonicFontColor", JRColorUtil.getColorHexa(iconText.getForecolor()));
