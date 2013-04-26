@@ -88,11 +88,4 @@ public class EAN128Component extends Code128Component
 		clone.templateExpression = JRCloneUtils.nullSafeClone(templateExpression);
 		return clone;
 	}
-	
-	@Override
-	protected BarcodeComponent cloneObject()
-	{
-		EAN128Component clone = (EAN128Component)super.cloneObject();
-		return clone;
-	}
 }

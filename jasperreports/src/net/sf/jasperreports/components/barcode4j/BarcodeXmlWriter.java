@@ -160,8 +160,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 			startBarcode(ean128);
 			xmlWriteHelper.addAttribute("checksumMode", ean128.getChecksumMode());
 			writeBaseContents(ean128);
-			//FIXME: (sanda) use the 5.1.1 version in JRConstants instead
-			if(versionComparator.compare(version, "5.1.1") >= 0 )
+			if(isNewerVersionOrEqual(version, JRConstants.VERSION_5_1_1))
 			{
 				writeExpression("templateExpression", ean128.getTemplateExpression(), false);
 			}
@@ -361,6 +360,9 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 			xmlWriteHelper.writeExpression(name, expression, writeClass);
 		}
 	}
-	
 
+	protected boolean isNewerVersionOrEqual(String currentVersion, String oldVersion) 
+	{
+		return versionComparator.compare(currentVersion, oldVersion) >= 0;
+	}
 }
