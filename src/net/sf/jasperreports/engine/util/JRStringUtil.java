@@ -506,14 +506,17 @@ public final class JRStringUtil
 		
 		if (text != null)
 		{
-			tabIndexes = new ArrayList<Integer>();
-			
-			for (int i = 0; i < text.length(); i++)
+			int index = text.indexOf('\t');
+			// returning null if no tabs
+			if (index >= 0)
 			{
-				if (text.charAt(i) == '\t') 
+				tabIndexes = new ArrayList<Integer>();
+				do
 				{
-					tabIndexes.add(Integer.valueOf(i));
+					tabIndexes.add(index);
+					index = text.indexOf('\t', index + 1);
 				}
+				while (index >= 0);
 			}
 		}
 		
