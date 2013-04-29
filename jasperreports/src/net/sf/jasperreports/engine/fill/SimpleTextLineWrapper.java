@@ -105,6 +105,9 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		simpleLayoutBlocks.add(Character.UnicodeBlock.GREEK_EXTENDED);
 	}
 	
+	// storing per instance to avoid too many calls (and to allow runtime level changes)
+	private final boolean logTrace = log.isTraceEnabled();
+	
 	private TextMeasureContext context;
 	private boolean measureSimpleTexts;
 	private boolean measureExact;
@@ -275,7 +278,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 			// we first need the general font info
 			FontInfo generalFontInfo = getGeneralFontInfo(textAttributes);
 			
-			if (log.isTraceEnabled())
+			if (logTrace)
 			{
 				log.trace("creating element font info for " + fontKey
 						+ (elementFontKey == null ? "" : (" and element " + elementFontKey.first())));
@@ -338,7 +341,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 			// computing the leading a single time, assuming that it doesn't change with text
 			//FIXME verify if computing leading for each line is needed
 			float leading = determineLeading(font);
-			if (log.isTraceEnabled())
+			if (logTrace)
 			{
 				log.trace("font " + font + " has complex layout " + complexLayout
 						+ ", leading " + leading);
@@ -413,7 +416,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		paragraphLeftToRight = isLeftToRight(textChars);
 		paragraphMeasureExact = isParagraphMeasureExact(textChars);
 		
-		if (log.isTraceEnabled())
+		if (logTrace)
 		{
 			log.trace("paragraph start at " + start
 					+ ", truncate at char " + truncateAtChar
@@ -502,7 +505,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	@Override
 	public TextLine nextLine(float width, int endLimit, boolean requireWord)
 	{
-		if (log.isTraceEnabled())
+		if (logTrace)
 		{
 			log.trace("simple line measurement at " + (paragraphOffset + paragraphPosition)
 					+ " to " + (paragraphOffset + endLimit)
@@ -560,7 +563,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 				breakIterator, context.getFontRenderContext());
 		int breakIndex = breakMeasurer.nextOffset(width, endLimit - paragraphPosition, requireWord) 
 				+ paragraphPosition;
-		if (log.isTraceEnabled())
+		if (logTrace)
 		{
 			log.trace("exact line break index measured at " + (paragraphOffset + breakIndex));
 		}
@@ -729,7 +732,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		// adding the measurement to the font info statistics
 		fontInfo.recordMeasurement(bounds.getWidth() / (endIndex - paragraphPosition));
 		
-		if (log.isTraceEnabled())
+		if (logTrace)
 		{
 			log.trace("measured to index " + (endIndex + paragraphOffset) + " at width " + bounds.getWidth());
 		}
@@ -785,7 +788,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	public TextLineWrapper lastLineWrapper(String lineText, int start, int textLength, 
 			boolean truncateAtChar)
 	{
-		if (log.isTraceEnabled())
+		if (logTrace)
 		{
 			log.trace("last line wrapper at " + start + ", textLength " + textLength);
 		}
