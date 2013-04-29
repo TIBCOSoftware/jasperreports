@@ -31,6 +31,7 @@ import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementHtmlHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElement;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementGraphics2DHandler;
+import net.sf.jasperreports.components.iconlabel.IconLabelElementHtmlHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementPdfHandler;
 import net.sf.jasperreports.components.map.MapElementDocxHandler;
 import net.sf.jasperreports.components.map.MapElementGraphics2DHandler;
@@ -172,6 +173,10 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 					else if (JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
 					{
 						return new IconLabelElementGraphics2DHandler();
+					}		
+					else if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
+					{
+						return IconLabelElementHtmlHandler.getInstance();
 					}		
 				}
 				return null;

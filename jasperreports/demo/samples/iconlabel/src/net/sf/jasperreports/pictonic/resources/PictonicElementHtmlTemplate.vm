@@ -1,0 +1,2 @@
+<link rel="stylesheet" href="${pictonic_css}">
+<div class="icon-text" #if(${pictonicFontSize})style="font-size: ${pictonicFontSize}px; color: #${pictonicFontColor}; background-color: #${pictonicBackgroundColor}"#end>#if(${pictonicText})${pictonicText}#end</div>
