@@ -67,7 +67,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFillElement implements JRElement, JRFillCloneable, JRStyleSetter
+public abstract class JRFillElement implements JRElement, JRFillCloneable, JRStyleSetter, DynamicPropertiesHolder
 {
 
 
@@ -1583,5 +1583,37 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	public JRBaseFiller getFiller()
 	{
 		return filler;
+	}
+
+
+	@Override
+	public boolean hasDynamicProperties()
+	{
+		JRPropertyExpression[] propExprs = getPropertyExpressions();
+		return propExprs != null && propExprs.length > 0;
+	}
+
+	@Override
+	public boolean hasDynamicProperty(String name)
+	{
+		JRPropertyExpression[] propExprs = getPropertyExpressions();
+		if (propExprs != null && propExprs.length > 0)
+		{
+			// not called very often for now so doing linear search in array
+			for (int i = 0; i < propExprs.length; i++)
+			{
+				if (propExprs[i].getName().equals(name))
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public JRPropertiesMap getDynamicProperties()
+	{
+		return dynamicProperties;
 	}
 }
