@@ -66,6 +66,7 @@ public class TextMeasurer implements JRTextMeasurer
 	protected JasperReportsContext jasperReportsContext;
 	protected JRCommonText textElement;
 	private JRPropertiesHolder propertiesHolder;
+	private DynamicPropertiesHolder dynamicPropertiesHolder;
 	
 	private SimpleTextLineWrapper simpleLineWrapper;
 	private ComplexTextLineWrapper complextLineWrapper;
@@ -81,7 +82,13 @@ public class TextMeasurer implements JRTextMeasurer
 	private float formatWidth;
 	protected int maxHeight;
 	private boolean canOverflow;
+	
+	private boolean hasDynamicIgnoreMissingFontProp;
+	private boolean defaultIgnoreMissingFont;
 	private boolean ignoreMissingFont;
+	
+	private boolean hasDynamicSaveLineBreakOffsetsProp;
+	private boolean defaultSaveLineBreakOffsets;
 	
 	protected TextMeasuredState measuredState;
 	protected TextMeasuredState prevMeasuredState;
@@ -257,6 +264,24 @@ public class TextMeasurer implements JRTextMeasurer
 					);
 		}
 		
+		if (textElement instanceof DynamicPropertiesHolder)
+		{
+			this.dynamicPropertiesHolder = (DynamicPropertiesHolder) textElement;
+			
+			// we can check this from the beginning
+			this.hasDynamicIgnoreMissingFontProp = this.dynamicPropertiesHolder.hasDynamicProperty(
+					JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT);
+			this.hasDynamicSaveLineBreakOffsetsProp = this.dynamicPropertiesHolder.hasDynamicProperty(
+					JRTextElement.PROPERTY_SAVE_LINE_BREAKS);
+		}
+
+		// read static property values
+		JRPropertiesUtil propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+		defaultIgnoreMissingFont = propertiesUtil.getBooleanProperty(propertiesHolder, 
+				JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false);
+		defaultSaveLineBreakOffsets = propertiesUtil.getBooleanProperty(propertiesHolder, 
+				JRTextElement.PROPERTY_SAVE_LINE_BREAKS, false);
+		
 		Context measureContext = new Context();
 		simpleLineWrapper = new SimpleTextLineWrapper();
 		simpleLineWrapper.init(measureContext);
@@ -339,11 +364,28 @@ public class TextMeasurer implements JRTextMeasurer
 		maxHeight = maxHeight < 0 ? 0 : maxHeight;
 		this.canOverflow = canOverflow;
 		
-		ignoreMissingFont = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(propertiesHolder, 
-				JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false);
+		// refresh properties if required
+		ignoreMissingFont = defaultIgnoreMissingFont;
+		if (hasDynamicIgnoreMissingFontProp)
+		{
+			String dynamicIgnoreMissingFontProp = dynamicPropertiesHolder.getDynamicProperties().getProperty(
+					JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT);
+			if (dynamicIgnoreMissingFontProp != null)
+			{
+				ignoreMissingFont = JRPropertiesUtil.asBoolean(dynamicIgnoreMissingFontProp);
+			}
+		}
 		
-		boolean saveLineBreakOffsets = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(propertiesHolder, 
-				JRTextElement.PROPERTY_SAVE_LINE_BREAKS, false);
+		boolean saveLineBreakOffsets = defaultSaveLineBreakOffsets;
+		if (hasDynamicSaveLineBreakOffsetsProp)
+		{
+			String dynamicSaveLineBreakOffsetsProp = dynamicPropertiesHolder.getDynamicProperties().getProperty(
+					JRTextElement.PROPERTY_SAVE_LINE_BREAKS);
+			if (dynamicSaveLineBreakOffsetsProp != null)
+			{
+				saveLineBreakOffsets = JRPropertiesUtil.asBoolean(dynamicSaveLineBreakOffsetsProp);
+			}
+		}
 		
 		measuredState = new TextMeasuredState(saveLineBreakOffsets);
 		measuredState.lastOffset = remainingTextStart;
@@ -588,12 +630,14 @@ public class TextMeasurer implements JRTextMeasurer
 
 	protected boolean isToTruncateAtChar()
 	{
+		//FIXME do not read each time
 		return JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(propertiesHolder, 
 				JRTextElement.PROPERTY_TRUNCATE_AT_CHAR, false);
 	}
 
 	protected String getTruncateSuffix()
 	{
+		//FIXME do not read each time
 		String truncateSuffx = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(propertiesHolder,
 				JRTextElement.PROPERTY_TRUNCATE_SUFFIX);
 		if (truncateSuffx != null)
