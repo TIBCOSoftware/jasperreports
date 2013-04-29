@@ -57,7 +57,7 @@ public class IconLabelElementGraphics2DHandler implements GenericElementGraphics
 	{
 		try
 		{
-			JRPrintText labelPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_PRINT_TEXT_ELEMENT);
+			JRPrintText labelPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_LABEL_TEXT_ELEMENT);
 			if (labelPrintText == null) //FIXMEINPUT deal with xml serialization
 			{
 				return;
@@ -90,7 +90,8 @@ public class IconLabelElementGraphics2DHandler implements GenericElementGraphics
 				offset.getY() + element.getY()
 				);
 
-			JRPrintText iconPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_PRINT_TEXT_ELEMENT + ".icon");
+			JRGenericPrintElement iconGenericElement = (JRGenericPrintElement)element.getParameterValue(IconLabelElement.PARAMETER_ICON_GENERIC_ELEMENT);
+			JRPrintText iconPrintText = (JRPrintText)iconGenericElement.getParameterValue("iconTextElement");//FIXMEICONLABEL use constant
 			if (iconPrintText != null) //FIXMEINPUT deal with xml serialization
 			{
 				//sortIconText.setX(element.getX() + sortIconText.getX());//FIXMESORT

@@ -25,10 +25,12 @@ package net.sf.jasperreports.components.iconlabel;
 
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.base.JRBaseGenericPrintElement;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
@@ -189,34 +191,16 @@ public class IconLabelComponentFill extends BaseFillComponent {
 
 	protected void copy(JRGenericPrintElement printElement)
 	{
-		printElement.setParameterValue(IconLabelElement.PARAMETER_PRINT_TEXT_ELEMENT, labelPrintText);//FIXMEINPUT
-		printElement.setParameterValue(IconLabelElement.PARAMETER_PRINT_TEXT_ELEMENT + ".icon", iconPrintText);//FIXMEINPUT
+		printElement.setParameterValue(IconLabelElement.PARAMETER_LABEL_TEXT_ELEMENT, labelPrintText);
+
+		JRBaseGenericPrintElement iconGenericElement = new JRBaseGenericPrintElement(labelPrintText.getDefaultStyleProvider());
+		iconGenericElement.setGenericType(new JRGenericElementType("http://jasperreports.sourceforge.net/jasperreports/pictonic", "pictonic"));//FIXMEICONLABEL use constant
+		iconGenericElement.setX(iconPrintText.getX());
+		iconGenericElement.setY(iconPrintText.getY());
+		iconGenericElement.setWidth(iconPrintText.getWidth());
+		iconGenericElement.setHeight(iconPrintText.getHeight());
+		iconGenericElement.setParameterValue("iconTextElement", iconPrintText);//FIXMEICONLABEL use constant
 		
-//		printElement.setParameterValue(SortElement.PARAMETER_SORT_COLUMN_NAME, sortComponent.getSortFieldName());
-//		printElement.setParameterValue(SortElement.PARAMETER_SORT_COLUMN_TYPE, sortComponent.getSortFieldType().getName());
-//		printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_COLOR, sortComponent.getHandlerColor());
-//		printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_FONT, sortComponent.getSymbolFont());
-//		
-//		if (sortComponent.getSymbolFont() != null ) {
-//			printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_FONT_SIZE, String.valueOf(sortComponent.getSymbolFont().getFontSize()));
-//		} 
-//		if (sortComponent.getHandlerHorizontalAlign() != null) 
-//		{
-//			printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN, sortComponent.getHandlerHorizontalAlign().getName());
-//		}
-//		if (sortComponent.getHandlerVerticalAlign() != null) 
-//		{
-//			printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN, sortComponent.getHandlerVerticalAlign().getName());
-//		}
-//		
-//		FilterTypesEnum filterType = getFilterType();
-//		if (filterType != null)
-//		{
-//			printElement.getPropertiesMap().setProperty(SortElement.PROPERTY_FILTER_TYPE, filterType.getName());
-//		}
-//		
-//		String datasetName = JRAbstractCompiler.getUnitName(
-//				fillContext.getFiller().getJasperReport(), fillContext.getFillDataset());
-//		printElement.getPropertiesMap().setProperty(SortElement.PROPERTY_DATASET_RUN, datasetName);
+		printElement.setParameterValue(IconLabelElement.PARAMETER_ICON_GENERIC_ELEMENT, iconGenericElement);
 	}
 }

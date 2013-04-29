@@ -49,7 +49,7 @@ public class IconLabelElementPdfHandler implements GenericElementPdfHandler
 		PdfWriter writer = exporterContext.getPdfWriter();
 		JasperPrint jasperPrint = exporterContext.getExportedReport();
 		
-		JRPrintText labelPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_PRINT_TEXT_ELEMENT);
+		JRPrintText labelPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_LABEL_TEXT_ELEMENT);
 		if (labelPrintText == null) //FIXMEINPUT deal with xml serialization
 		{
 			return;
@@ -67,7 +67,8 @@ public class IconLabelElementPdfHandler implements GenericElementPdfHandler
         	throw new JRRuntimeException(e);
         }
 
-		JRPrintText iconPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_PRINT_TEXT_ELEMENT + ".icon");
+		JRGenericPrintElement iconGenericElement = (JRGenericPrintElement)element.getParameterValue(IconLabelElement.PARAMETER_ICON_GENERIC_ELEMENT);
+		JRPrintText iconPrintText = (JRPrintText)iconGenericElement.getParameterValue("iconTextElement");//FIXMEICONLABEL use constant
 		if (iconPrintText != null) //FIXMEINPUT deal with xml serialization
 		{
 			iconPrintText.setX(element.getX() + iconPrintText.getX());//FIXMESORT
