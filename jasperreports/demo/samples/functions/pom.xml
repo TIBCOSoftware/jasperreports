@@ -59,7 +59,7 @@
 						</manifestEntries>
 						<manifestSections>
 							<manifestSection>
-								<name>net/sf/jasperreports/engine/</name>
+								<name>net/sf/jasperreports/functions/</name>
 								<manifestEntries>
 									<Specification-Title>JasperReports Library Functions</Specification-Title>
 									<Specification-Version>${pom.version}</Specification-Version>
