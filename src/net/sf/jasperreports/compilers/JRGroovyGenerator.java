@@ -215,9 +215,13 @@ public class JRGroovyGenerator
 		sb.append(" */\n");
 		sb.append("class ");
 		sb.append(sourceTask.getUnitName());
-		sb.append(" extends JREvaluator\n");
+		sb.append(" extends net.sf.jasperreports.compilers.GroovyEvaluator\n");
 		sb.append("{\n"); 
 		sb.append("\n");
+		sb.append(
+				"    def methodMissing(String name, args) {\n" +
+				"        return functionCall(name, args);\n" +
+				"    }\n");
 		sb.append("\n");
 		sb.append("    /**\n");
 		sb.append("     *\n");

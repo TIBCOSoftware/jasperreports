@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.design.JRValidationFault;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.fill.JREvaluator;
+import net.sf.jasperreports.engine.fill.JasperReportsContextAware;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
@@ -261,8 +262,9 @@ public final class JasperCompileManager
 	public JREvaluator getEvaluator(JasperReport jasperReport, JRDataset dataset) throws JRException
 	{
 		JRCompiler compiler = getCompiler(jasperReport);
-		
-		return compiler.loadEvaluator(jasperReport, dataset);
+		JREvaluator evaluator = compiler.loadEvaluator(jasperReport, dataset);
+		initialize(evaluator);
+		return evaluator;
 	}
 
 
@@ -272,8 +274,9 @@ public final class JasperCompileManager
 	public JREvaluator getEvaluator(JasperReport jasperReport, JRCrosstab crosstab) throws JRException
 	{
 		JRCompiler compiler = getCompiler(jasperReport);
-		
-		return compiler.loadEvaluator(jasperReport, crosstab);
+		JREvaluator evaluator = compiler.loadEvaluator(jasperReport, crosstab);
+		initialize(evaluator);
+		return evaluator;
 	}
 
 
@@ -283,6 +286,14 @@ public final class JasperCompileManager
 	public JREvaluator getEvaluator(JasperReport jasperReport) throws JRException
 	{
 		return getEvaluator(jasperReport, jasperReport.getMainDataset());
+	}
+
+	protected void initialize(JREvaluator evaluator)
+	{
+		if (evaluator instanceof JasperReportsContextAware)
+		{
+			((JasperReportsContextAware) evaluator).setJasperReportsContext(jasperReportsContext);
+		}
 	}
 
 	
