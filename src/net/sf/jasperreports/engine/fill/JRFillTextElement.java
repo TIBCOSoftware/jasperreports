@@ -95,6 +95,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private final boolean consumeSpaceOnOverflow;
 	protected JRLineBox lineBox;
 	protected JRParagraph paragraph;
+	
+	private boolean defaultKeepFullText;
+	private boolean dynamicKeepFullText;
 
 	/**
 	 *
@@ -113,6 +116,10 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		// not supporting property expressions for this
 		this.consumeSpaceOnOverflow = JRPropertiesUtil.getInstance(filler.getJasperReportsContext()).getBooleanProperty(
 				textElement, PROPERTY_CONSUME_SPACE_ON_OVERFLOW, true);
+		
+		this.defaultKeepFullText = filler.getPropertiesUtil().getBooleanProperty(textElement, 
+				JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, false);
+		this.dynamicKeepFullText = hasDynamicProperty(JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT);
 	}
 	
 
@@ -123,6 +130,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		initLineBox = textElement.getLineBox().clone(this);
 		initParagraph = textElement.getParagraph().clone(this);
 		this.consumeSpaceOnOverflow = textElement.consumeSpaceOnOverflow;
+		
+		this.defaultKeepFullText = textElement.defaultKeepFullText;
+		this.dynamicKeepFullText = textElement.dynamicKeepFullText;
 	}
 
 
@@ -969,8 +979,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		JRStyledText fullStyledText = getStyledText();
 		String fullText = fullStyledText.getText();
 		
-		boolean keepAllText = !canOverflow() 
-				&& filler.getPropertiesUtil().getBooleanProperty(this, JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, false);
+		boolean keepAllText = !canOverflow() && keepFullText();
 		if (keepAllText)
 		{
 			//assert getTextStart() == 0
@@ -1016,6 +1025,21 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 		printText.setTextTruncateSuffix(getTextTruncateSuffix());
 		printText.setLineBreakOffsets(getLineBreakOffsets());
+	}
+	
+	protected boolean keepFullText()
+	{
+		boolean keepFullText = defaultKeepFullText;
+		if (dynamicKeepFullText)
+		{
+			String keepFullTextProp = getDynamicProperties().getProperty(
+					JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT);
+			if (keepFullTextProp != null)
+			{
+				keepFullText = JRPropertiesUtil.asBoolean(keepFullTextProp);
+			}
+		}
+		return keepFullText;
 	}
 	
 	protected void setPrintText(JRPrintText printText, String text)
