@@ -57,8 +57,8 @@ public class DefaultWebResourceHandler implements WebResourceHandler {
 	}
 
 	public String getResourceType(String resourceKey) {
-		if (resourceKey != null && resourceKey.indexOf(".") != -1) {
-			return resourceKey.substring(resourceKey.indexOf(".") + 1);
+		if (resourceKey != null && resourceKey.lastIndexOf(".") != -1) {
+			return resourceKey.substring(resourceKey.lastIndexOf(".") + 1);
 		}
 		return null;
 	}
