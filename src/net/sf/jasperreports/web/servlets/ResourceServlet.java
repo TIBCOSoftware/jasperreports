@@ -77,6 +77,7 @@ public class ResourceServlet extends AbstractServlet
 			for (ContentTypeMapping contentTypeMapping : contentTypeMappings) {
 				if (resourceType.equals(contentTypeMapping.getFileType())) {
 					response.setContentType(contentTypeMapping.getContentType());
+					break;
 				}
 			}
 		}
