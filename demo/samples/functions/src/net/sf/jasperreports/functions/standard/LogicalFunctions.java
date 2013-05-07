@@ -35,19 +35,17 @@ import net.sf.jasperreports.functions.annotations.FunctionParameters;
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
  * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
  */
+@FunctionCategories({LogicalCategory.class})
 public final class LogicalFunctions 
 {
-	/**
-	 * Category for logical operations functions 
-	 */
-	public static final String LOGICAL = "LOGICAL";
 	
 	// ===================== AND function ===================== //
-	@Function(name="AND",description="Returns true if all arguments are considered true, false otherwise. " +
-			"Argument must be a logical result or a direct boolean value.")
-	@FunctionCategories({LOGICAL})
+	/**
+	 * Returns true if all arguments are considered true, false otherwise. Argument must be a logical result or a direct boolean value.
+	 */
+	@Function("AND")
 	@FunctionParameters({
-		@FunctionParameter(name="Argument",description="A boolean expression or value.")})
+		@FunctionParameter("arguments")})
 	public static Boolean AND(Boolean ... arguments){
 		if(arguments.length==0) return null;
 		boolean result=true;
@@ -59,23 +57,21 @@ public final class LogicalFunctions
 		return result;
 	}
 
+	/*
 	// ===================== FALSE function ===================== //
 	@Function(name="FALSE",description="Returns the logical value FALSE.")
-	@FunctionCategories({LOGICAL})
 	public static Boolean FALSE(){
 		return Boolean.FALSE;
 	}
 	
 	// ===================== TRUE function ===================== //
 	@Function(name="TRUE",description="Returns the logical value TRUE.")
-	@FunctionCategories({LOGICAL})
 	public static Boolean TRUE(){
 		return Boolean.TRUE;
 	}
 	
 	// ===================== NOT function ===================== //
 	@Function(name="NOT",description="Returns the negation of the specified boolean expression.")
-	@FunctionCategories({LOGICAL})
 	@FunctionParameters({
 		@FunctionParameter(name="Argument",description="A boolean expression or value.")})
 	public static Boolean NOT(Boolean boolValue){
@@ -90,7 +86,6 @@ public final class LogicalFunctions
 	// ===================== OR function ===================== //
 	@Function(name="OR",description="Returns true if any of the arguments is considered true, false otherwise. " +
 			"Argument must be a logical result or a direct boolean value.")
-	@FunctionCategories({LOGICAL})
 	@FunctionParameters({
 		@FunctionParameter(name="Argument",description="A boolean expression or value.")})
 	public static Boolean OR(Boolean ... arguments){
@@ -106,7 +101,6 @@ public final class LogicalFunctions
 	
 	// ===================== IF function ===================== //
 	@Function(name="IF",description="Returns one of two values, depending on a test condition.")
-	@FunctionCategories({LOGICAL})
 	@FunctionParameters({
 		@FunctionParameter(name="Test condition",description="An expression returning a boolean value."),
 		@FunctionParameter(name="Value 1 (true)",description="The value returned when the test is true."),
@@ -118,7 +112,6 @@ public final class LogicalFunctions
 	
 	// ===================== EQUALS function ===================== //
 	@Function(name="EQUALS",description="Checks if the two specified objects are equals.")
-	@FunctionCategories({LOGICAL})
 	@FunctionParameters({
 		@FunctionParameter(name="Object 1",description="The first element to be compared."),
 		@FunctionParameter(name="Object 2",description="The second element to be compared.")})
@@ -131,4 +124,5 @@ public final class LogicalFunctions
 		}
 		return true;	// both null
 	}	
+	*/
 }

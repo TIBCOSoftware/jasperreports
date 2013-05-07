@@ -36,8 +36,8 @@ import java.lang.annotation.Target;
  * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 public @interface FunctionCategories 
 {
-	String[] value();
+	Class<?>[] value();
 }

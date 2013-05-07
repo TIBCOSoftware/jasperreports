@@ -38,6 +38,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface FunctionParameter 
 {
-	String name();
-	String description();
+	String value();
 }

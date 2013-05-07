@@ -21,22 +21,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.functions.annotations;
+package net.sf.jasperreports.functions.standard;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import net.sf.jasperreports.functions.annotations.FunctionCategory;
+
 
 /**
- * Annotation used to mark a method as function usable inside an expression editor. 
+ * This class should maintain all function methods that belongs to the category {@link #DATE_TIME}.
  * 
- * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Function 
+@FunctionCategory(
+	//"LOGICAL" // if not specified, the value is the name of the category class
+	)
+public final class LogicalCategory 
 {
-	String value();
 }

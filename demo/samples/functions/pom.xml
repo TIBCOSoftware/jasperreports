@@ -32,7 +32,7 @@
 			<resource>
 				<directory>src</directory>
 				<includes>
-					<include>**/jasperreports_extension.properties</include>
+					<include>**/*.properties</include>
 					<include>**/*.xml</include>
 				</includes>
 			</resource>

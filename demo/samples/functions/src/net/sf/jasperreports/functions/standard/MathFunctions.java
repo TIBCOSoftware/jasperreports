@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.functions.standard;
 
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.functions.annotations.Function;
 import net.sf.jasperreports.functions.annotations.FunctionCategories;
 import net.sf.jasperreports.functions.annotations.FunctionParameter;
@@ -36,18 +35,17 @@ import net.sf.jasperreports.functions.annotations.FunctionParameters;
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
  * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
  */
+@FunctionCategories({MathCategory.class})
 public final class MathFunctions 
 {
-	/** 
-	 * Category for mathematical operations functions 
-	 */
-	public static final String MATH = "MATH"; 
 	
 	// ===================== ABS function ===================== //
-	@Function(name="ABS",description="Returns the absolute value of a number.")
+	/**
+	 * Returns the absolute value of a number.
+	 */
+	@Function("ABS")
 	@FunctionParameters({
-			@FunctionParameter(name="Number",description="The number to check.")})
-	@FunctionCategories({MATH})
+			@FunctionParameter("number")})
 	public static Number ABS(Number number){
 		if(number==null) {
 			return null;
@@ -72,11 +70,11 @@ public final class MathFunctions
 		}
 	}
 	
+	/*
 	// ===================== FACT function ===================== //
 	@Function(name="FACT",description="Returns the factorial of a number")
 	@FunctionParameters({
 			@FunctionParameter(name="Integer number",description="The argument.")})
-	@FunctionCategories({MATH})
 	public static Long FACT(Integer number){
 		if(number==null) {
 			return null;
@@ -98,7 +96,6 @@ public final class MathFunctions
 			"If a non-integer number is specified, any digits after the decimal point are ignored.")
 	@FunctionParameters({
 			@FunctionParameter(name="Number",description="The number to check.")})
-	@FunctionCategories({MATH})
 	public static Boolean ISEVEN(Number number){
 		if(number==null) {
 			return null;
@@ -113,7 +110,6 @@ public final class MathFunctions
 			"If a non-integer number is specified, any digits after the decimal point are ignored.")
 	@FunctionParameters({
 			@FunctionParameter(name="Number",description="The number to check.")})
-	@FunctionCategories({MATH})
 	public static Boolean ISODD(Number number){
 		if(number==null) {
 			return null;
@@ -127,7 +123,6 @@ public final class MathFunctions
 	@Function(name="PRODUCT",description="Returns the product of a list of numbers")
 	@FunctionParameters({
 			@FunctionParameter(name="Number",description="Argument")})
-	@FunctionCategories({MATH})
 	public static Number PRODUCT(Number ...numbers){
 		if(numbers.length==0) return null;		
 		double result=1;
@@ -139,14 +134,12 @@ public final class MathFunctions
 
 	// ===================== RAND function ===================== //
 	@Function(name="RAND",description="Returns a random number between 0.0 and 1.0.")
-	@FunctionCategories({MATH})
 	public static Double RAND(){
 		return Math.random();
 	}
 	
 	// ===================== RAND function ===================== //
 	@Function(name="RANDBETWEEN",description="Returns an Integer random number between bottom and top range (both inclusive).")
-	@FunctionCategories({MATH})
 	@FunctionParameters({
 		@FunctionParameter(name="Bottom range",description="Integer number for the bottom range"),
 		@FunctionParameter(name="Top range",description="Integer number for the top range")})
@@ -160,7 +153,6 @@ public final class MathFunctions
 	@Function(name="SIGN",description="Returns the sign of a number.")
 	@FunctionParameters({
 			@FunctionParameter(name="Number",description="The number to check.")})
-	@FunctionCategories({MATH})
 	public static Integer SIGN(Number number){
 		if(number==null) {
 			return null;
@@ -174,7 +166,6 @@ public final class MathFunctions
 	@Function(name="SQRT",description="Returns the positive square root of a number. The number must be positive")
 	@FunctionParameters({
 			@FunctionParameter(name="Positive number",description="Argument.")})
-	@FunctionCategories({MATH})
 	public static Number SQRT(Number number){
 		if(number==null) {
 			return null;
@@ -188,7 +179,6 @@ public final class MathFunctions
 	@Function(name="SUM",description="Returns the sum of a list of numbers")
 	@FunctionParameters({
 			@FunctionParameter(name="Number",description="Addendum")})
-	@FunctionCategories({MATH})
 	public static Number SUM(Number ...numbers){
 		if(numbers.length==0) return null;		
 		double result=0;
@@ -202,7 +192,6 @@ public final class MathFunctions
 	@Function(name="MIN",description="Returns the minimum of a list of numeric values.")
 	@FunctionParameters({
 		@FunctionParameter(name="Number",description="Number to compare")})
-	@FunctionCategories({MATH})
 	public static Number MIN(Number ...numbers){
 		if(numbers.length==0) throw new IllegalArgumentException("No numbers have been specified");
 		if(!isNumberListValid(numbers)) throw new IllegalArgumentException("No null element are allowed");
@@ -219,7 +208,6 @@ public final class MathFunctions
 	@Function(name="MAX",description="Returns the maximum of a list of numeric values.")
 	@FunctionParameters({
 		@FunctionParameter(name="Number",description="Number to compare")})
-	@FunctionCategories({MATH})
 	public static Number MAX(Number ...numbers){
 		if(numbers.length==0) throw new IllegalArgumentException("No numbers have been specified");
 		if(!isNumberListValid(numbers)) throw new IllegalArgumentException("No null element are allowed");
@@ -238,7 +226,6 @@ public final class MathFunctions
 			"than or equal to the argument and is equal to a mathematical integer")
 	@FunctionParameters({
 		@FunctionParameter(name="Number",description="Value")})
-	@FunctionCategories({MATH})
 	public static Double FLOOR(Number number){
 		if(number == null) throw new IllegalArgumentException("The value number can not be null");
 		return Math.floor(number.doubleValue());
@@ -250,7 +237,6 @@ public final class MathFunctions
 			"than or equal to the argument and is equal to a mathematical integer")
 	@FunctionParameters({
 		@FunctionParameter(name="Number",description="Value")})
-	@FunctionCategories({MATH})
 	public static Double CEIL(Number number){
 		if(number == null) throw new IllegalArgumentException("The value number can not be null");
 		return Math.ceil(number.doubleValue());

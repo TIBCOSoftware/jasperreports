@@ -33,18 +33,6 @@ import net.sf.jasperreports.functions.annotations.Function;
 import net.sf.jasperreports.functions.annotations.FunctionCategories;
 import net.sf.jasperreports.functions.annotations.FunctionParameter;
 import net.sf.jasperreports.functions.annotations.FunctionParameters;
-import net.sf.jasperreports.types.date.DateRange;
-import net.sf.jasperreports.types.date.DateRangeBuilder;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
-import org.joda.time.Days;
-import org.joda.time.LocalTime;
-import org.joda.time.Months;
-import org.joda.time.Weeks;
-import org.joda.time.Years;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 
 /**
@@ -53,41 +41,43 @@ import org.joda.time.format.DateTimeFormatter;
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
  * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
  */
+@FunctionCategories({DateTimeCategory.class})
 public final class DateTimeFunctions 
 {
-	/**
-	 * Category for date and time manipulation functions 
-	 */
-	public static final String DATE_TIME = "DATE_TIME";
 	
 	// ===================== TODAY function ===================== //
-	@Function(name="TODAY",description="Returns the current date as date object.")
-	@FunctionCategories({DATE_TIME})
+	/**
+	 * Returns the current date as date object.
+	 */
+	@Function("TODAY")
 	public static Date TODAY(){
 		return new Date();
 	}
 	
 	// ===================== NOW function ===================== //
-	@Function(name="NOW",description="Returns the current instant as date object.")
-	@FunctionCategories({DATE_TIME})
+	/**
+	 * Returns the current instant as date object.
+	 */
+	@Function("NOW")
 	public static Date NOW(){
 		return new Date();
 	}
 	
 	// ===================== YEAR function ===================== //
-	@Function(name="YEAR",description="Returns the year of a given date. " +
-			"Date object can be a String, long value (millis) or Date instance itself.")
-	@FunctionCategories({DATE_TIME})
+	/**
+	 * Returns the year of a given date. Date object can be a String, long value (milliseconds) or Date instance itself.
+	 */
+	@Function("YEAR")
 	@FunctionParameters({
-		@FunctionParameter(name="Date object",description="The object representing the date.")})
+		@FunctionParameter("dateObject")})
 	public static Integer YEAR(Object dateObject){
 		return getCalendarFieldFromDate(dateObject,Calendar.YEAR);
 	}
 	
+	/*
 	// ===================== MONTH function ===================== //
 	@Function(name="MONTH",description="Returns the month of a given date. " +
 			"Date object can be a String, long value (millis) or Date instance itself.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Date object",description="The object representing the date.")})
 	public static Integer MONTH(Object dateObject){
@@ -97,7 +87,6 @@ public final class DateTimeFunctions
 	// ===================== DAY function ===================== //
 	@Function(name="DAY",description="Returns the day of a given date. " +
 			"Date object can be a String, long value (millis) or Date instance itself.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Date object",description="The object representing the date.")})
 	public static Integer DAY(Object dateObject){
@@ -107,7 +96,6 @@ public final class DateTimeFunctions
 	// ===================== WEEKDAY function ===================== //
 	@Function(name="WEEKDAY",description="Returns the day of the week for a given date. " +
 			"Date object can be a String, long value (millis) or Date instance itself.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Date object",description="The object representing the date."),
 		@FunctionParameter(name="Sunday is first day",description="Boolean flag to decide if Sunday should be considered as first day." +
@@ -139,7 +127,6 @@ public final class DateTimeFunctions
 	// ===================== HOUR function ===================== //
 	@Function(name="HOUR",description="Returns the hour (0-23) of the day for a given date. " +
 			"Date object can be a String, long value (millis) or Date instance itself.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Date object",description="The object representing the date.")})
 	public static Integer HOUR(Object dateObject){
@@ -149,7 +136,6 @@ public final class DateTimeFunctions
 	// ===================== MINUTE function ===================== //
 	@Function(name="MINUTE",description="Returns the minute (0-59) of the hour for a given date. " +
 			"Date object can be a String, long value (millis) or Date instance itself.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Date object",description="The object representing the date.")})
 	public static Integer MINUTE(Object dateObject){
@@ -159,7 +145,6 @@ public final class DateTimeFunctions
 	// ===================== SECOND function ===================== //
 	@Function(name="SECOND",description="Returns the second (0-59) of the minute for a given date. " +
 			"Date object can be a String, long value (millis) or Date instance itself.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Date object",description="The object representing the date.")})
 	public static Integer SECOND(Object dateObject){
@@ -168,7 +153,6 @@ public final class DateTimeFunctions
 	
 	// ===================== DATE function ===================== //
 	@Function(name="DATE",description="Creates a date object using the specified information on day, month and year.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Year",description="The year of the new date."),
 		@FunctionParameter(name="Month",description="The month of the new date."),
@@ -181,7 +165,6 @@ public final class DateTimeFunctions
 	
 	// ===================== DATEVALUE function ===================== //
 	@Function(name="DATEVALUE",description="Gives the corresponding numeric value (long milliseconds) for a specified date object.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Date object",description="The object representing the date.")})
 	public static Long DATEVALUE(Object dateObject){
@@ -192,7 +175,6 @@ public final class DateTimeFunctions
 	// ===================== TIME function ===================== //
 	@Function(name="TIME",description="Returns a text string representing a time value (hours, seconds and minutes). " +
 			"If no specific pattern is specified a default formatter is used.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Hours",description="The hours for the new time value."),
 		@FunctionParameter(name="Minutes",description="The minutes for the new time value."),
@@ -223,7 +205,6 @@ public final class DateTimeFunctions
 	
 	// ===================== EDATE function ===================== //
 	@Function(name="EDATE",description="Returns a date a number of months away.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Date object",description="The object representing the date."),
 		@FunctionParameter(name="Months",description="The number of months after the given date.")})
@@ -242,7 +223,6 @@ public final class DateTimeFunctions
 	// ===================== WORKDAY function ===================== //
 	@Function(name="WORKDAY",description="Returns a date a number of workdays away. " +
 			"Saturday and Sundays are not considered working days.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Date object",description="The object representing the date."),
 		@FunctionParameter(name="Working days",description="The number of days after the given date.")})
@@ -270,7 +250,6 @@ public final class DateTimeFunctions
 	// ===================== NETWORKDAYS function ===================== //
 	@Function(name="NETWORKDAYS",description="Returns the number of working days between two dates (inclusive)." +
 			"Saturday and Sundays are not considered working days.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Start date",description="The initial date."),
 		@FunctionParameter(name="End date",description="The end date.")})
@@ -304,7 +283,6 @@ public final class DateTimeFunctions
 	
 	// ===================== DAYS function ===================== //
 	@Function(name="DAYS",description="Returns the number of days between two dates.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Start date",description="The initial date."),
 		@FunctionParameter(name="End date",description="The end date.")})
@@ -323,7 +301,6 @@ public final class DateTimeFunctions
 	
 	// ===================== DAYSINMONTH function ===================== //
 	@Function(name="DAYSINMONTH",description="Returns the number of days in a month.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Selected date",description="The date to check.")})
 	public static Integer DAYSINMONTH(Object dateObj){
@@ -339,7 +316,6 @@ public final class DateTimeFunctions
 	
 	// ===================== DAYSINYEAR function ===================== //
 	@Function(name="DAYSINYEAR",description="Returns the number of days in a year.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Selected date",description="The date to check.")})
 	public static Integer DAYSINYEAR(Object dateObj){
@@ -355,7 +331,6 @@ public final class DateTimeFunctions
 	
 	// ===================== WEEKS function ===================== //
 	@Function(name="WEEKS",description="Returns the number of weeks between two dates.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Start date",description="The initial date."),
 		@FunctionParameter(name="End date",description="The end date.")})
@@ -374,7 +349,6 @@ public final class DateTimeFunctions
 	
 	// ===================== WEEKSINYEAR function ===================== //
 	@Function(name="WEEKSINYEAR",description="Returns the number of weeks in a year.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Selected date",description="The date to check.")})
 	public static Integer WEEKSINYEAR(Object dateObj){
@@ -390,7 +364,6 @@ public final class DateTimeFunctions
 	
 	// ===================== WEEKNUM function ===================== //
 	@Function(name="WEEKNUM",description="Returns the week number of a given date.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Selected date",description="The date to check.")})
 	public static Integer WEEKNUM(Object dateObj){
@@ -406,7 +379,6 @@ public final class DateTimeFunctions
 	
 	// ===================== MONTHS function ===================== //
 	@Function(name="MONTHS",description="Returns the number of months between two dates.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Start date",description="The initial date."),
 		@FunctionParameter(name="End date",description="The end date.")})
@@ -425,7 +397,6 @@ public final class DateTimeFunctions
 	
 	// ===================== YEARS function ===================== //
 	@Function(name="YEARS",description="Returns the number of years between two dates.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Start date",description="The initial date."),
 		@FunctionParameter(name="End date",description="The end date.")})
@@ -444,7 +415,6 @@ public final class DateTimeFunctions
 	
 	// ===================== ISLEAPYEAR function ===================== //
 	@Function(name="ISLEAPYEAR",description="Checks if the given date occurs in a leap year.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Selected date",description="The date to check.")})
 	public static Boolean ISLEAPYEAR(Object dateObj){
@@ -460,7 +430,6 @@ public final class DateTimeFunctions
 	
 	// ===================== FORMAT function ===================== //
 	@Function(name="DATEFORMAT",description="Format the specified date object using the chosen format pattern")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Selected date",description="The date to format."),
 		@FunctionParameter(name="Format pattern",description="Format pattern to apply when printing the date.")})
@@ -478,7 +447,6 @@ public final class DateTimeFunctions
 	// ===================== DATERANGE function ===================== //
 	@Function(name="DATERANGE",description="Allows to create a JasperReports DateRange instance " +
 			"starting from either a String expression or a Date instance.")
-	@FunctionCategories({DATE_TIME})
 	@FunctionParameters({
 		@FunctionParameter(name="Date Range Details",description="The date range information.")})
 	public static DateRange DATERANGE(Object dateExprObj){
