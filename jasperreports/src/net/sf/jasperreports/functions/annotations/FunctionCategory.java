@@ -29,14 +29,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation used to mark a method as function usable inside an expression editor. 
+ * Annotations used to describe a category associated to a function.
  * 
- * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Function 
+@Target(ElementType.TYPE)
+public @interface FunctionCategory 
 {
-	String value();
+	String value() default "";
 }
