@@ -140,7 +140,7 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 			cloneAxes = new ArrayList<JRChartAxis>(axes.size());
 			for (JRChartAxis axis : axes)
 			{
-				JRChartAxis axisClone = axis == null ? null : axis.clone(parentChart);
+				JRChartAxis axisClone = axis == null ? null : axis.clone(axis.getChart());
 				cloneAxes.add(axisClone);
 			}
 		}
