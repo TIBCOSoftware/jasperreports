@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.functions.FunctionsUtil;
 
 import org.apache.commons.logging.Log;
@@ -195,7 +196,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 		compiler.compile(requestor.processCompilationUnits());
 
-		if (requestor.hasMissingImports())
+		if (requestor.hasMissingMethods())
 		{
 			final CompilationUnit[] compilationUnits = requestor.processCompilationUnits();
 
@@ -554,7 +555,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	class CompilerRequestor implements ICompilerRequestor
 	{
 		private final JRCompilationUnit[] units;
-		private Map<Integer, Set<String>> missingImports = new HashMap<Integer, Set<String>>();
+		private Map<Integer, Set<Method>> missingMethods = new HashMap<Integer, Set<Method>>();
 		private StringBuffer problemBuffer = new StringBuffer();
 		private String[] modifiedUnitsSourceCode;
 		
@@ -604,17 +605,17 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 									problem.getSourceEnd() + 1
 									);
 							
-							Class<?> clazz = FunctionsUtil.getInstance(jasperReportsContext).getClass4Function(methodName);
-							if (clazz != null)
+							Method method = FunctionsUtil.getInstance(jasperReportsContext).getMethod4Function(methodName);
+							if (method != null)
 							{
 								//isFunctionProblem = true;
-								Set<String> imports = missingImports.get(classIdx);
-								if (imports == null)
+								Set<Method> methods = missingMethods.get(classIdx);
+								if (methods == null)
 								{
-									imports = new HashSet<String>();
-									missingImports.put(classIdx, imports);
+									methods = new HashSet<Method>();
+									missingMethods.put(classIdx, methods);
 								}
-								imports.add(clazz.getName());
+								methods.add(method);
 								//break;
 							}
 						}
@@ -688,9 +689,9 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		/**
 		 * 
 		 */
-		public boolean hasMissingImports()
+		public boolean hasMissingMethods()
 		{
-			return missingImports.size() > 0;
+			return missingMethods.size() > 0;
 		}
 
 		/**
@@ -719,14 +720,14 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			{
 				String sourceCode = units[i].getSourceCode();
 				
-				if (missingImports.containsKey(i))
+				if (missingMethods.containsKey(i))
 				{
 					int firstImportIndex = sourceCode.indexOf("\nimport ");
 					StringBuffer sbuffer = new StringBuffer();
 					sbuffer.append(sourceCode.substring(0,  firstImportIndex));
-					for (String importClass : missingImports.get(i))
+					for (Method method : missingMethods.get(i))
 					{
-						sbuffer.append("import static " + importClass + ".*;\n");
+						sbuffer.append("\nimport static " + method.getDeclaringClass().getName() + "." + method.getName() + ";");
 					}
 					sbuffer.append(sourceCode.substring(firstImportIndex));
 
@@ -734,6 +735,19 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				}
 				
 				modifiedUnitsSourceCode[i] = sourceCode;
+				
+				File sourceFile = units[i].getSourceFile();
+				if (sourceFile != null)
+				{
+					try
+					{
+						JRSaver.saveClassSource(sourceCode, sourceFile);
+					}
+					catch (JRException e)
+					{
+						throw new JRRuntimeException(e);
+					}
+				}
 				
 				compilationUnits[i] = new CompilationUnit(sourceCode, units[i].getName());
 			}
@@ -746,7 +760,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		 */
 		public void reset()
 		{
-			missingImports = new HashMap<Integer, Set<String>>();
+			missingMethods = new HashMap<Integer, Set<Method>>();
 			problemBuffer = new StringBuffer();
 		}
 	}
