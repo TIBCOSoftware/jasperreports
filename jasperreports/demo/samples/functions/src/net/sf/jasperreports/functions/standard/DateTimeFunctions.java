@@ -29,6 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import net.sf.jasperreports.functions.AbstractFunctionSupport;
 import net.sf.jasperreports.functions.annotations.Function;
 import net.sf.jasperreports.functions.annotations.FunctionCategories;
 import net.sf.jasperreports.functions.annotations.FunctionParameter;
@@ -42,7 +43,7 @@ import net.sf.jasperreports.functions.annotations.FunctionParameters;
  * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
  */
 @FunctionCategories({DateTimeCategory.class})
-public final class DateTimeFunctions 
+public final class DateTimeFunctions extends AbstractFunctionSupport
 {
 	
 	// ===================== TODAY function ===================== //
@@ -164,16 +165,21 @@ public final class DateTimeFunctions
 		DateTime dt=new DateTime(year,month,dayOfMonth,0,0,0);
 		return dt.toDate();
 	}
+	*/
 	
 	// ===================== DATEVALUE function ===================== //
-	@Function(name="DATEVALUE",description="Gives the corresponding numeric value (long milliseconds) for a specified date object.")
+	/**
+	 * Gives the corresponding numeric value (long milliseconds) for a specified date object.
+	 */
+	@Function("DATEVALUE")
 	@FunctionParameters({
-		@FunctionParameter(name="Date object",description="The object representing the date.")})
+		@FunctionParameter("dateObject")})
 	public static Long DATEVALUE(Object dateObject){
 		Date convertedDate = convertDateObject(dateObject);
 		return (convertedDate!=null) ? convertedDate.getTime() : null; 
 	}
 	
+	/*
 	// ===================== TIME function ===================== //
 	@Function(name="TIME",description="Returns a text string representing a time value (hours, seconds and minutes). " +
 			"If no specific pattern is specified a default formatter is used.")
