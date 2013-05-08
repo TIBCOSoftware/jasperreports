@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.functions.standard;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.functions.annotations.Function;
 import net.sf.jasperreports.functions.annotations.FunctionCategories;
 import net.sf.jasperreports.functions.annotations.FunctionParameter;
@@ -70,11 +71,13 @@ public final class MathFunctions
 		}
 	}
 	
-	/*
 	// ===================== FACT function ===================== //
-	@Function(name="FACT",description="Returns the factorial of a number")
+	/**
+	 * Returns the factorial of a number.
+	 */
+	@Function("FACT")
 	@FunctionParameters({
-			@FunctionParameter(name="Integer number",description="The argument.")})
+			@FunctionParameter("number")})
 	public static Long FACT(Integer number){
 		if(number==null) {
 			return null;
@@ -92,10 +95,12 @@ public final class MathFunctions
 	}
 	
 	// ===================== ISEVEN function ===================== //
-	@Function(name="ISEVEN",description="Checks if a number is even. " +
-			"If a non-integer number is specified, any digits after the decimal point are ignored.")
+	/**
+	 * Checks if a number is even. If a non-integer number is specified, any digits after the decimal point are ignored.
+	 */
+	@Function("ISEVEN")
 	@FunctionParameters({
-			@FunctionParameter(name="Number",description="The number to check.")})
+		@FunctionParameter("number")})
 	public static Boolean ISEVEN(Number number){
 		if(number==null) {
 			return null;
@@ -106,10 +111,12 @@ public final class MathFunctions
 	}
 
 	// ===================== ISODD function ===================== //
-	@Function(name="ISODD",description="Checks if a number is odd. " +
-			"If a non-integer number is specified, any digits after the decimal point are ignored.")
+	/**
+	 * Checks if a number is odd. If a non-integer number is specified, any digits after the decimal point are ignored.
+	 */
+	@Function("ISODD")
 	@FunctionParameters({
-			@FunctionParameter(name="Number",description="The number to check.")})
+		@FunctionParameter("number")})
 	public static Boolean ISODD(Number number){
 		if(number==null) {
 			return null;
@@ -120,9 +127,12 @@ public final class MathFunctions
 	}
 	
 	// ===================== PRODUCT function ===================== //
-	@Function(name="PRODUCT",description="Returns the product of a list of numbers")
+	/**
+	 * Returns the product of a list of numbers.
+	 */
+	@Function("PRODUCT")
 	@FunctionParameters({
-			@FunctionParameter(name="Number",description="Argument")})
+			@FunctionParameter("numbers")})
 	public static Number PRODUCT(Number ...numbers){
 		if(numbers.length==0) return null;		
 		double result=1;
@@ -133,16 +143,22 @@ public final class MathFunctions
 	}
 
 	// ===================== RAND function ===================== //
-	@Function(name="RAND",description="Returns a random number between 0.0 and 1.0.")
+	/**
+	 * Returns a random number between 0.0 and 1.0.
+	 */
+	@Function("RAND")
 	public static Double RAND(){
 		return Math.random();
 	}
 	
 	// ===================== RAND function ===================== //
-	@Function(name="RANDBETWEEN",description="Returns an Integer random number between bottom and top range (both inclusive).")
+	/**
+	 * Returns an Integer random number between bottom and top range (both inclusive).
+	 */
+	@Function("RANDBETWEEN")
 	@FunctionParameters({
-		@FunctionParameter(name="Bottom range",description="Integer number for the bottom range"),
-		@FunctionParameter(name="Top range",description="Integer number for the top range")})
+		@FunctionParameter("bottomRange"),
+		@FunctionParameter("topRange")})
 	public static Integer RANDBETWEEN(Integer bottomRange, Integer topRange){
 		int min=bottomRange.intValue();
 		int max=topRange.intValue();
@@ -150,9 +166,12 @@ public final class MathFunctions
 	}	
 	
 	// ===================== SIGN function ===================== //
-	@Function(name="SIGN",description="Returns the sign of a number.")
+	/**
+	 * Returns the sign of a number.
+	 */
+	@Function("SIGN")
 	@FunctionParameters({
-			@FunctionParameter(name="Number",description="The number to check.")})
+		@FunctionParameter("number")})
 	public static Integer SIGN(Number number){
 		if(number==null) {
 			return null;
@@ -163,9 +182,12 @@ public final class MathFunctions
 	}
 	
 	// ===================== SQRT function ===================== //
-	@Function(name="SQRT",description="Returns the positive square root of a number. The number must be positive")
+	/**
+	 * Returns the positive square root of a number. The number must be positive.
+	 */
+	@Function("SQRT")
 	@FunctionParameters({
-			@FunctionParameter(name="Positive number",description="Argument.")})
+			@FunctionParameter("number")})
 	public static Number SQRT(Number number){
 		if(number==null) {
 			return null;
@@ -176,9 +198,12 @@ public final class MathFunctions
 	}
 	
 	// ===================== SUM function ===================== //
-	@Function(name="SUM",description="Returns the sum of a list of numbers")
+	/**
+	 * Returns the sum of a list of numbers.
+	 */
+	@Function("SUM")
 	@FunctionParameters({
-			@FunctionParameter(name="Number",description="Addendum")})
+			@FunctionParameter("numbers")})
 	public static Number SUM(Number ...numbers){
 		if(numbers.length==0) return null;		
 		double result=0;
@@ -189,9 +214,12 @@ public final class MathFunctions
 	}
 	
 	// ===================== MIN function ===================== //
-	@Function(name="MIN",description="Returns the minimum of a list of numeric values.")
+	/**
+	 * Returns the minimum of a list of numeric values.
+	 */
+	@Function("MIN")
 	@FunctionParameters({
-		@FunctionParameter(name="Number",description="Number to compare")})
+		@FunctionParameter("numbers")})
 	public static Number MIN(Number ...numbers){
 		if(numbers.length==0) throw new IllegalArgumentException("No numbers have been specified");
 		if(!isNumberListValid(numbers)) throw new IllegalArgumentException("No null element are allowed");
@@ -205,9 +233,12 @@ public final class MathFunctions
 	}	
 	
 	// ===================== MAX function ===================== //
-	@Function(name="MAX",description="Returns the maximum of a list of numeric values.")
+	/**
+	 * Returns the maximum of a list of numeric values.
+	 */
+	@Function("MAX")
 	@FunctionParameters({
-		@FunctionParameter(name="Number",description="Number to compare")})
+		@FunctionParameter("numbers")})
 	public static Number MAX(Number ...numbers){
 		if(numbers.length==0) throw new IllegalArgumentException("No numbers have been specified");
 		if(!isNumberListValid(numbers)) throw new IllegalArgumentException("No null element are allowed");
@@ -221,22 +252,24 @@ public final class MathFunctions
 	}
 	
 	// ===================== FLOOR function ===================== //
-	@Function(name="FLOOR",description="" +
-			"Returns the largest (closest to positive infinity) double value that is less " +
-			"than or equal to the argument and is equal to a mathematical integer")
+	/**
+	 * Returns the largest (closest to positive infinity) double value that is less than or equal to the argument and is equal to a mathematical integer.
+	 */
+	@Function("FLOOR")
 	@FunctionParameters({
-		@FunctionParameter(name="Number",description="Value")})
+		@FunctionParameter("number")})
 	public static Double FLOOR(Number number){
 		if(number == null) throw new IllegalArgumentException("The value number can not be null");
 		return Math.floor(number.doubleValue());
 	}
 
 	// ===================== CEIL function ===================== //
-	@Function(name="CEIL",description="" +
-			"Returns the smallest (closest to negative infinity) double value that is greater " +
-			"than or equal to the argument and is equal to a mathematical integer")
+	/**
+	 * Returns the smallest (closest to negative infinity) double value that is greater than or equal to the argument and is equal to a mathematical integer
+	 */
+	@Function("CEIL")
 	@FunctionParameters({
-		@FunctionParameter(name="Number",description="Value")})
+		@FunctionParameter("number")})
 	public static Double CEIL(Number number){
 		if(number == null) throw new IllegalArgumentException("The value number can not be null");
 		return Math.ceil(number.doubleValue());
