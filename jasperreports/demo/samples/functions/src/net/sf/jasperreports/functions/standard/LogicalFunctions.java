@@ -57,19 +57,25 @@ public final class LogicalFunctions
 		return result;
 	}
 
-	/*
 	// ===================== FALSE function ===================== //
-	@Function(name="FALSE",description="Returns the logical value FALSE.")
+	/**
+	 * Returns the logical value FALSE.
+	 */
+	@Function("FALSE")
 	public static Boolean FALSE(){
 		return Boolean.FALSE;
 	}
 	
 	// ===================== TRUE function ===================== //
-	@Function(name="TRUE",description="Returns the logical value TRUE.")
+	/**
+	 * Returns the logical value TRUE.
+	 */
+	@Function("TRUE")
 	public static Boolean TRUE(){
 		return Boolean.TRUE;
 	}
 	
+	/*
 	// ===================== NOT function ===================== //
 	@Function(name="NOT",description="Returns the negation of the specified boolean expression.")
 	@FunctionParameters({
