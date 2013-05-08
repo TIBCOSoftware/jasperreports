@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -34,6 +35,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.functions.FunctionSupport;
 
 /**
  * Base class for the dynamically generated expression evaluator classes.
@@ -59,6 +61,11 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	private JRFillParameter locale;
 	
 	/**
+	 * The function objects.
+	 */
+	private Map<String, FunctionSupport> functions;
+	
+	/**
 	 * Default constructor.
 	 */
 	protected JREvaluator()
@@ -82,16 +89,42 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 			WhenResourceMissingTypeEnum resourceMissingType
 			) throws JRException
 	{
-		this.whenResourceMissingType = resourceMissingType;
-		this.resourceBundle = parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
-		this.locale = parametersMap.get(JRParameter.REPORT_LOCALE);
+		whenResourceMissingType = resourceMissingType;
+		resourceBundle = parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
+		locale = parametersMap.get(JRParameter.REPORT_LOCALE);
+		functions = new HashMap<String, FunctionSupport>();
 		customizedInit(parametersMap, fieldsMap, variablesMap);
 	}
 
 	
-	
-	
-	
+	/**
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	protected <T extends FunctionSupport> T getFunctionSupport(Class<T> clazz)
+	{
+		String classId = clazz.getName();
+		if (!functions.containsKey(classId))
+		{
+			try
+			{
+				FunctionSupport functionSupport = clazz.newInstance();
+				functionSupport.init(null);//FIXMEFUNCT
+				functions.put(classId, functionSupport);
+			}
+			catch (IllegalAccessException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			catch (InstantiationException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			
+		}
+		return (T)functions.get(classId);
+	}
+
 	/**
 	 * Constructs a message using a pattern with one parameter.
 	 * 
