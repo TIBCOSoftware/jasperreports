@@ -74,16 +74,18 @@ public final class DateTimeFunctions
 		return getCalendarFieldFromDate(dateObject,Calendar.YEAR);
 	}
 	
-	/*
 	// ===================== MONTH function ===================== //
-	@Function(name="MONTH",description="Returns the month of a given date. " +
-			"Date object can be a String, long value (millis) or Date instance itself.")
+	/**
+	 * Returns the month of a given date. Date object can be a String, long value (milliseconds) or Date instance itself.
+	 */
+	@Function("MONTH")
 	@FunctionParameters({
-		@FunctionParameter(name="Date object",description="The object representing the date.")})
+		@FunctionParameter("dateObject")})
 	public static Integer MONTH(Object dateObject){
 		return getCalendarFieldFromDate(dateObject,Calendar.MONTH)+1;	// January is 0
 	}
 	
+	/*
 	// ===================== DAY function ===================== //
 	@Function(name="DAY",description="Returns the day of a given date. " +
 			"Date object can be a String, long value (millis) or Date instance itself.")
