@@ -44,8 +44,7 @@ simplified a lot applications deployment, but the expression evaluation process 
 generating a noticeable loss in performance.
 <br/>
 The later addition of the JDT-based report compiler made the whole process both faster and
-simpler to deploy, as it does not require files on disk and its performance is comparable
-to the Jikes-based compiler performance. Therefore, the <api href="net/sf/jasperreports/compilers/JRBshCompiler.html">JRBshCompiler</api> 
+simpler to deploy, as it does not require files on disk. Therefore, the <api href="net/sf/jasperreports/compilers/JRBshCompiler.html">JRBshCompiler</api> 
 implementation is shipped with the JasperReports library for historical reasons only. 
 <br/>
 <br/>
