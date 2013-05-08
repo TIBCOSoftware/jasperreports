@@ -69,7 +69,7 @@ public class FunctionsUtil
 	
 	/**
 	 * 
-	 */
+	 *
 	public Class<?> getClass4Function(String functionName)
 	{
 		List<FunctionsBundle> bundles = jasperReportsContext.getExtensions(FunctionsBundle.class);
@@ -84,6 +84,31 @@ public class FunctionsUtil
 					if (functionName.equals(method.getName()))
 					{
 						return clazz;
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+
+	/**
+	 * 
+	 */
+	public Method getMethod4Function(String functionName)
+	{
+		List<FunctionsBundle> bundles = jasperReportsContext.getExtensions(FunctionsBundle.class);
+		for (FunctionsBundle bundle : bundles)
+		{
+			List<Class<?>> classes = bundle.getFunctionClasses();
+			for (Class<?> clazz : classes)
+			{
+				Method[] methods = clazz.getMethods();
+				for (Method method : methods)
+				{
+					if (functionName.equals(method.getName()))
+					{
+						return method;
 					}
 				}
 			}

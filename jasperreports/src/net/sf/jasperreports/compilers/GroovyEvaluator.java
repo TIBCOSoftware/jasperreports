@@ -75,7 +75,8 @@ public abstract class GroovyEvaluator extends JREvaluator implements JasperRepor
 			return functionMethod.doMethodInvoke(null, args);
 		}
 		
-		Class<?> functionClass = functionsUtil.getClass4Function(methodName);
+		Method m4f = functionsUtil.getMethod4Function(methodName);
+		Class<?> functionClass = m4f == null ? null : m4f.getDeclaringClass();
 		if (functionClass == null)
 		{
 			throw new JRRuntimeException("Function " + methodName + " not found");
