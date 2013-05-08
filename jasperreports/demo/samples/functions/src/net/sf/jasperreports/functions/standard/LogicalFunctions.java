@@ -75,11 +75,13 @@ public final class LogicalFunctions
 		return Boolean.TRUE;
 	}
 	
-	/*
 	// ===================== NOT function ===================== //
-	@Function(name="NOT",description="Returns the negation of the specified boolean expression.")
+	/**
+	 * Returns the negation of the specified boolean expression.
+	 */
+	@Function("NOT")
 	@FunctionParameters({
-		@FunctionParameter(name="Argument",description="A boolean expression or value.")})
+		@FunctionParameter("boolValue")})
 	public static Boolean NOT(Boolean boolValue){
 		if (boolValue==null){
 			return null;
@@ -90,10 +92,12 @@ public final class LogicalFunctions
 	}
 	
 	// ===================== OR function ===================== //
-	@Function(name="OR",description="Returns true if any of the arguments is considered true, false otherwise. " +
-			"Argument must be a logical result or a direct boolean value.")
+	/**
+	 * Returns true if any of the arguments is considered true, false otherwise. Argument must be a logical result or a direct boolean value.
+	 */
+	@Function("OR")
 	@FunctionParameters({
-		@FunctionParameter(name="Argument",description="A boolean expression or value.")})
+		@FunctionParameter("arguments")})
 	public static Boolean OR(Boolean ... arguments){
 		if(arguments.length==0) return null;
 		boolean result=false;
@@ -106,21 +110,27 @@ public final class LogicalFunctions
 	}
 	
 	// ===================== IF function ===================== //
-	@Function(name="IF",description="Returns one of two values, depending on a test condition.")
+	/**
+	 * Returns one of two values, depending on a test condition.
+	 */
+	@Function("IF")
 	@FunctionParameters({
-		@FunctionParameter(name="Test condition",description="An expression returning a boolean value."),
-		@FunctionParameter(name="Value 1 (true)",description="The value returned when the test is true."),
-		@FunctionParameter(name="Value 2 (false)",description="The value returned when the test is false.")})
+		@FunctionParameter("test"),
+		@FunctionParameter("value1"),
+		@FunctionParameter("value2")})
 	public static Object IF(Boolean test, Object value1, Object value2){
 		if(test==null) return null;
 		return test ? value1 : value2; 
 	}
 	
 	// ===================== EQUALS function ===================== //
-	@Function(name="EQUALS",description="Checks if the two specified objects are equals.")
+	/**
+	 * Checks if the two specified objects are equal.
+	 */
+	@Function("EQUALS")
 	@FunctionParameters({
-		@FunctionParameter(name="Object 1",description="The first element to be compared."),
-		@FunctionParameter(name="Object 2",description="The second element to be compared.")})
+		@FunctionParameter("obj1"),
+		@FunctionParameter("obj2")})
 	public static Boolean EQUALS(Object obj1, Object obj2){
 		if(obj1!=null){
 			return obj1.equals(obj2);
@@ -130,5 +140,4 @@ public final class LogicalFunctions
 		}
 		return true;	// both null
 	}	
-	*/
 }
