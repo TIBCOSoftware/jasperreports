@@ -89,9 +89,7 @@ to compile the class that is generated on the fly:
 <ul>
 <li><api href="net/sf/jasperreports/engine/design/JRJdtCompiler.html">JRJdtCompiler</api></li>
 <li><api href="net/sf/jasperreports/engine/design/JRJdk13Compiler.html">JRJdk13Compiler</api></li>
-<li><api href="net/sf/jasperreports/engine/design/JRJdk12Compiler.html">JRJdk12Compiler</api></li>
 <li><api href="net/sf/jasperreports/engine/design/JRJavacCompiler.html">JRJavacCompiler</api></li>
-<li><api href="net/sf/jasperreports/engine/design/JRJikesCompiler.html">JRJikesCompiler</api></li>
 </ul>
 The report-compilation process is based on the <api href="net/sf/jasperreports/engine/JasperCompileManager.html">JasperCompileManager</api> facade class. 
 This class has various public static methods for compiling report templates that come 
