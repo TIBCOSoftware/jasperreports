@@ -43,7 +43,7 @@ import net.sf.jasperreports.functions.annotations.FunctionParameters;
  * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
  */
 @FunctionCategories({DateTimeCategory.class})
-public final class DateTimeFunctions extends AbstractFunctionSupport
+public final class DateTimeFunctions
 {
 	
 	// ===================== TODAY function ===================== //
