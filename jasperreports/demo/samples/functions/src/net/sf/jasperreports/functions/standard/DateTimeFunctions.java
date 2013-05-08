@@ -29,6 +29,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import net.sf.jasperreports.functions.AbstractFunctionSupport;
+import net.sf.jasperreports.functions.annotations.Function;
+import net.sf.jasperreports.functions.annotations.FunctionCategories;
+import net.sf.jasperreports.functions.annotations.FunctionParameter;
+import net.sf.jasperreports.functions.annotations.FunctionParameters;
+import net.sf.jasperreports.types.date.DateRange;
+import net.sf.jasperreports.types.date.DateRangeBuilder;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
@@ -39,14 +47,6 @@ import org.joda.time.Years;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import net.sf.jasperreports.functions.annotations.Function;
-import net.sf.jasperreports.functions.annotations.FunctionCategories;
-import net.sf.jasperreports.functions.annotations.FunctionParameter;
-import net.sf.jasperreports.functions.annotations.FunctionParameters;
-import net.sf.jasperreports.functions.standard.DateTimeCategory;
-import net.sf.jasperreports.types.date.DateRange;
-import net.sf.jasperreports.types.date.DateRangeBuilder;
-
 
 /**
  * This class should maintain all function methods that belongs to the category {@link #DATE_TIME}.
@@ -55,7 +55,7 @@ import net.sf.jasperreports.types.date.DateRangeBuilder;
  * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
  */
 @FunctionCategories({DateTimeCategory.class})
-public final class DateTimeFunctions
+public final class DateTimeFunctions extends AbstractFunctionSupport
 {
 	
 	// ===================== TODAY function ===================== //
@@ -63,7 +63,7 @@ public final class DateTimeFunctions
 	 * Returns the current date as date object.
 	 */
 	@Function("TODAY")
-	public static Date TODAY(){
+	public Date TODAY(){
 		return new Date();
 	}
 	
@@ -72,7 +72,7 @@ public final class DateTimeFunctions
 	 * Returns the current instant as date object.
 	 */
 	@Function("NOW")
-	public static Date NOW(){
+	public Date NOW(){
 		return new Date();
 	}
 	
@@ -83,7 +83,7 @@ public final class DateTimeFunctions
 	@Function("YEAR")
 	@FunctionParameters({
 		@FunctionParameter("dateObject")})
-	public static Integer YEAR(Object dateObject){
+	public Integer YEAR(Object dateObject){
 		return getCalendarFieldFromDate(dateObject,Calendar.YEAR);
 	}
 	
@@ -94,7 +94,7 @@ public final class DateTimeFunctions
 	@Function("MONTH")
 	@FunctionParameters({
 		@FunctionParameter("dateObject")})
-	public static Integer MONTH(Object dateObject){
+	public Integer MONTH(Object dateObject){
 		return getCalendarFieldFromDate(dateObject,Calendar.MONTH)+1;	// January is 0
 	}
 	
@@ -106,7 +106,7 @@ public final class DateTimeFunctions
 	@Function("DAY")
 	@FunctionParameters({
 		@FunctionParameter("dateObject")})
-	public static Integer DAY(Object dateObject){
+	public Integer DAY(Object dateObject){
 		return getCalendarFieldFromDate(dateObject,Calendar.DAY_OF_MONTH);
 	}
 	
@@ -118,11 +118,11 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("dateObject"),
 		@FunctionParameter("isSundayFirstDay")})
-	public static Integer WEEKDAY(Object dateObject){
+	public Integer WEEKDAY(Object dateObject){
 		return WEEKDAY(dateObject, false);
 	}
 	
-	public static Integer WEEKDAY(Object dateObject, Boolean isSundayFirstDay){
+	public Integer WEEKDAY(Object dateObject, Boolean isSundayFirstDay){
 		Integer dayOfWeek = getCalendarFieldFromDate(dateObject,Calendar.DAY_OF_WEEK);
 		if(dayOfWeek==null) return null;
 		if(isSundayFirstDay){
@@ -149,7 +149,7 @@ public final class DateTimeFunctions
 	@Function("HOUR")
 	@FunctionParameters({
 		@FunctionParameter("dateObject")})
-	public static Integer HOUR(Object dateObject){
+	public Integer HOUR(Object dateObject){
 		return getCalendarFieldFromDate(dateObject,Calendar.HOUR_OF_DAY);
 	}	
 
@@ -160,7 +160,7 @@ public final class DateTimeFunctions
 	@Function("MINUTE")
 	@FunctionParameters({
 		@FunctionParameter("dateObject")})
-	public static Integer MINUTE(Object dateObject){
+	public Integer MINUTE(Object dateObject){
 		return getCalendarFieldFromDate(dateObject,Calendar.MINUTE);
 	}
 	
@@ -171,7 +171,7 @@ public final class DateTimeFunctions
 	@Function("SECOND")
 	@FunctionParameters({
 		@FunctionParameter("dateObject")})
-	public static Integer SECOND(Object dateObject){
+	public Integer SECOND(Object dateObject){
 		return getCalendarFieldFromDate(dateObject,Calendar.SECOND);
 	}
 	
@@ -184,7 +184,7 @@ public final class DateTimeFunctions
 		@FunctionParameter("year"),
 		@FunctionParameter("month"),
 		@FunctionParameter("dayOfMonth")})
-	public static Date DATE(Integer year, Integer month, Integer dayOfMonth){
+	public Date DATE(Integer year, Integer month, Integer dayOfMonth){
 		if(year==null || month==null || dayOfMonth==null) return null;
 		DateTime dt=new DateTime(year,month,dayOfMonth,0,0,0);
 		return dt.toDate();
@@ -197,7 +197,7 @@ public final class DateTimeFunctions
 	@Function("DATEVALUE")
 	@FunctionParameters({
 		@FunctionParameter("dateObject")})
-	public static Long DATEVALUE(Object dateObject){
+	public Long DATEVALUE(Object dateObject){
 		Date convertedDate = convertDateObject(dateObject);
 		return (convertedDate!=null) ? convertedDate.getTime() : null; 
 	}
@@ -212,11 +212,11 @@ public final class DateTimeFunctions
 		@FunctionParameter("minutes"),
 		@FunctionParameter("seconds"),
 		@FunctionParameter("timePattern")})
-	public static String TIME(Integer hours, Integer minutes, Integer seconds){
+	public String TIME(Integer hours, Integer minutes, Integer seconds){
 		return TIME(hours, minutes, seconds, null);
 	}
 	
-	public static String TIME(Integer hours, Integer minutes, Integer seconds, String timePattern){
+	public String TIME(Integer hours, Integer minutes, Integer seconds, String timePattern){
 		if(hours==null || minutes==null || seconds==null) return null;
 		LocalTime lt=new LocalTime(hours,minutes,seconds);
 		if(timePattern==null) {
@@ -243,7 +243,7 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("dateObject"),
 		@FunctionParameter("months")})
-	public static Date EDATE(Object dateObject, Integer months){
+	public Date EDATE(Object dateObject, Integer months){
 		Date convertedDate = convertDateObject(dateObject);
 		if(convertedDate==null){
 			return null;
@@ -263,7 +263,7 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("dateObject"),
 		@FunctionParameter("workdays")})
-	public static Date WORKDAY(Object dateObject, Integer workdays){
+	public Date WORKDAY(Object dateObject, Integer workdays){
 		Date convertedDate = convertDateObject(dateObject);
 		if(convertedDate==null){
 			return null;
@@ -292,7 +292,7 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("startDate"),
 		@FunctionParameter("endDate")})
-	public static Integer NETWORKDAYS(Object startDate, Object endDate){
+	public Integer NETWORKDAYS(Object startDate, Object endDate){
 		Date startDateObj = convertDateObject(startDate);
 		Date endDateObj = convertDateObject(endDate);
 		if(startDateObj==null || endDateObj==null){
@@ -328,7 +328,7 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("startDate"),
 		@FunctionParameter("endDate")})
-	public static Integer DAYS(Object startDate, Object endDate){
+	public Integer DAYS(Object startDate, Object endDate){
 		Date startDateObj = convertDateObject(startDate);
 		Date endDateObj = convertDateObject(endDate);
 		if(startDateObj==null || endDateObj==null){
@@ -348,7 +348,7 @@ public final class DateTimeFunctions
 	@Function("DAYSINMONTH")
 	@FunctionParameters({
 		@FunctionParameter("dateObj")})
-	public static Integer DAYSINMONTH(Object dateObj){
+	public Integer DAYSINMONTH(Object dateObj){
 		Date date = convertDateObject(dateObj);
 		if(date==null){
 			return null;
@@ -366,7 +366,7 @@ public final class DateTimeFunctions
 	@Function("DAYSINYEAR")
 	@FunctionParameters({
 		@FunctionParameter("dateObj")})
-	public static Integer DAYSINYEAR(Object dateObj){
+	public Integer DAYSINYEAR(Object dateObj){
 		Date date = convertDateObject(dateObj);
 		if(date==null){
 			return null;
@@ -385,7 +385,7 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("startDate"),
 		@FunctionParameter("endDate")})
-	public static Integer WEEKS(Object startDate, Object endDate){
+	public Integer WEEKS(Object startDate, Object endDate){
 		Date startDateObj = convertDateObject(startDate);
 		Date endDateObj = convertDateObject(endDate);
 		if(startDateObj==null || endDateObj==null){
@@ -405,7 +405,7 @@ public final class DateTimeFunctions
 	@Function("WEEKSINYEAR")
 	@FunctionParameters({
 		@FunctionParameter("dateObj")})
-	public static Integer WEEKSINYEAR(Object dateObj){
+	public Integer WEEKSINYEAR(Object dateObj){
 		Date date = convertDateObject(dateObj);
 		if(date==null){
 			return null;
@@ -423,7 +423,7 @@ public final class DateTimeFunctions
 	@Function("WEEKNUM")
 	@FunctionParameters({
 		@FunctionParameter("dateObj")})
-	public static Integer WEEKNUM(Object dateObj){
+	public Integer WEEKNUM(Object dateObj){
 		Date date = convertDateObject(dateObj);
 		if(date==null){
 			return null;
@@ -442,7 +442,7 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("startDate"),
 		@FunctionParameter("endDate")})
-	public static Integer MONTHS(Object startDate, Object endDate){
+	public Integer MONTHS(Object startDate, Object endDate){
 		Date startDateObj = convertDateObject(startDate);
 		Date endDateObj = convertDateObject(endDate);
 		if(startDateObj==null || endDateObj==null){
@@ -463,7 +463,7 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("startDate"),
 		@FunctionParameter("endDate")})
-	public static Integer YEARS(Object startDate, Object endDate){
+	public Integer YEARS(Object startDate, Object endDate){
 		Date startDateObj = convertDateObject(startDate);
 		Date endDateObj = convertDateObject(endDate);
 		if(startDateObj==null || endDateObj==null){
@@ -483,7 +483,7 @@ public final class DateTimeFunctions
 	@Function("ISLEAPYEAR")
 	@FunctionParameters({
 		@FunctionParameter("dateObj")})
-	public static Boolean ISLEAPYEAR(Object dateObj){
+	public Boolean ISLEAPYEAR(Object dateObj){
 		Date date = convertDateObject(dateObj);
 		if(date==null){
 			return null;
@@ -502,7 +502,7 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("dateObj"),
 		@FunctionParameter("formatPattern")})
-	public static String DATEFORMAT(Date dateObj, String formatPattern){
+	public String DATEFORMAT(Date dateObj, String formatPattern){
 		if(dateObj==null){
 			return null;
 		}
@@ -520,7 +520,7 @@ public final class DateTimeFunctions
 	@Function("DATERANGE")
 	@FunctionParameters({
 		@FunctionParameter("dateExprObj")})
-	public static DateRange DATERANGE(Object dateExprObj){
+	public DateRange DATERANGE(Object dateExprObj){
 		DateRangeBuilder dateRangeBuilder = null;
 		if(dateExprObj instanceof String){
 			dateRangeBuilder = new DateRangeBuilder((String)dateExprObj);
@@ -542,7 +542,7 @@ public final class DateTimeFunctions
 	 * Supported types are for now String, Long values (time millis) and Date subtypes
 	 * like for example java.sql.Date.
 	 */
-	private static Date convertDateObject(Object dateObject){
+	private Date convertDateObject(Object dateObject){
 		if(dateObject==null){
 			return null;
 		}
@@ -568,7 +568,7 @@ public final class DateTimeFunctions
 	 * Tries to recover a specific detail (given by Calendar field type) 
 	 * from an input date object.
 	 */
-	private static Integer getCalendarFieldFromDate(Object dateObject,int field){
+	private Integer getCalendarFieldFromDate(Object dateObject,int field){
 		Date convertedDate = convertDateObject(dateObject);
 		if(convertedDate==null) {
 			return null;

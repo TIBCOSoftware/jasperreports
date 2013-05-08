@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -48,6 +49,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
+import net.sf.jasperreports.functions.FunctionSupport;
 import net.sf.jasperreports.functions.FunctionsUtil;
 
 import org.apache.commons.logging.Log;
@@ -194,16 +196,13 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 		final Compiler compiler = new Compiler(env, policy, settings, requestor, problemFactory);
 
-		compiler.compile(requestor.processCompilationUnits());
-
-		if (requestor.hasMissingMethods())
+		do
 		{
-			final CompilationUnit[] compilationUnits = requestor.processCompilationUnits();
-
-			requestor.reset();
+			CompilationUnit[] compilationUnits = requestor.processCompilationUnits();
 
 			compiler.compile(compilationUnits);
 		}
+		while (requestor.hasMissingMethods());
 		
 		return requestor.getProblems();  
 	}
@@ -714,24 +713,66 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		{
 			final CompilationUnit[] compilationUnits = new CompilationUnit[units.length];
 			
-			modifiedUnitsSourceCode = new String[units.length];
+			if (modifiedUnitsSourceCode == null)
+			{
+				modifiedUnitsSourceCode = new String[units.length];
+			}
 			
 			for (int i = 0; i < compilationUnits.length; i++)
 			{
-				String sourceCode = units[i].getSourceCode();
+				String sourceCode = modifiedUnitsSourceCode[i] == null ? units[i].getSourceCode() : modifiedUnitsSourceCode[i];
 				
 				if (missingMethods.containsKey(i))
 				{
 					int firstImportIndex = sourceCode.indexOf("\nimport ");
-					StringBuffer sbuffer = new StringBuffer();
-					sbuffer.append(sourceCode.substring(0,  firstImportIndex));
+					int lastBracketIndex = sourceCode.lastIndexOf("}");
+					StringBuffer importBuffer = new StringBuffer();
+					StringBuffer methodBuffer = new StringBuffer();
+
 					for (Method method : missingMethods.get(i))
 					{
-						sbuffer.append("\nimport static " + method.getDeclaringClass().getName() + "." + method.getName() + ";");
-					}
-					sbuffer.append(sourceCode.substring(firstImportIndex));
+						if (FunctionSupport.class.isAssignableFrom(method.getDeclaringClass()))
+						{
+							Class<?>[] paramTypes = method.getParameterTypes();
+							StringBuffer methodSignature = new StringBuffer();
+							StringBuffer methodCall = new StringBuffer();
 
-					sourceCode = sbuffer.toString();
+							for (int j = 0; j < paramTypes.length; j++)
+							{
+								if (j > 0)
+								{
+									methodCall.append(", ");
+									methodSignature.append(", ");
+								}
+								methodCall.append("arg" + j);
+								methodSignature.append(paramTypes[j].getName());
+								methodSignature.append(" arg" + j);
+							}
+
+							methodBuffer.append("    /**\n");
+							methodBuffer.append("     *\n"); 
+							methodBuffer.append("     */\n");
+							methodBuffer.append("    public " + method.getReturnType().getName() + " " + method.getName() + "(" + methodSignature.toString() + ")" + "\n");
+							methodBuffer.append("    {\n");
+							methodBuffer.append("        return getFunctionSupport(" + method.getDeclaringClass().getName() + ".class)." + method.getName() + "(" + methodCall + ");\n");
+							methodBuffer.append("    }\n");
+							methodBuffer.append("\n");
+							methodBuffer.append("\n");
+						}
+						else if (Modifier.isStatic(method.getModifiers()))
+						{
+							importBuffer.append("\nimport static " + method.getDeclaringClass().getName() + "." + method.getName() + ";");
+						}
+					}
+
+					StringBuffer buffer = new StringBuffer();
+					buffer.append(sourceCode.substring(0,  firstImportIndex));
+					buffer.append(importBuffer);
+					buffer.append(sourceCode.substring(firstImportIndex, lastBracketIndex));
+					buffer.append(methodBuffer);
+					buffer.append(sourceCode.substring(lastBracketIndex));
+
+					sourceCode = buffer.toString();
 				}
 				
 				modifiedUnitsSourceCode[i] = sourceCode;
@@ -751,6 +792,8 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				
 				compilationUnits[i] = new CompilationUnit(sourceCode, units[i].getName());
 			}
+			
+			reset();
 			
 			return compilationUnits;
 		}
