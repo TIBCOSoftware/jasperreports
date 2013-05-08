@@ -23,7 +23,7 @@
 				<textElement textAlignment="Center">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["This sample uses functions... FIXME " + FALSE() + TODAY()]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["This sample uses functions... FIXME " + FALSE() + "; current year: " + YEAR(TODAY())]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="280" y="150" width="200" height="35"/>
