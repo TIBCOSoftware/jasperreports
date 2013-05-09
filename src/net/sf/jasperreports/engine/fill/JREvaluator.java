@@ -66,6 +66,11 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	private Map<String, FunctionSupport> functions;
 	
 	/**
+	 *
+	 */
+	private FillFunctionContext functionContext;
+
+	/**
 	 * Default constructor.
 	 */
 	protected JREvaluator()
@@ -92,7 +97,10 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 		whenResourceMissingType = resourceMissingType;
 		resourceBundle = parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
 		locale = parametersMap.get(JRParameter.REPORT_LOCALE);
+		
 		functions = new HashMap<String, FunctionSupport>();
+		functionContext = new FillFunctionContext(parametersMap);
+		
 		customizedInit(parametersMap, fieldsMap, variablesMap);
 	}
 
@@ -109,7 +117,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 			try
 			{
 				FunctionSupport functionSupport = clazz.newInstance();
-				functionSupport.init(null);//FIXMEFUNCT
+				functionSupport.init(functionContext);
 				functions.put(classId, functionSupport);
 			}
 			catch (IllegalAccessException e)
