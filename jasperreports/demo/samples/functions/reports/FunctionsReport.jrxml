@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FunctionsReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="30" bottomMargin="30" uuid="eae24cf2-cede-49ad-a3bf-a10ccd914c7d">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="107"/>
 	<parameter name="A" class="java.lang.Double">
 		<defaultValueExpression><![CDATA[3d]]></defaultValueExpression>
 	</parameter>
@@ -26,10 +26,10 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["This sample uses functions... FIXME " + FALSE() + "; current year: " + YEAR(TODAY())]]></textFieldExpression>
+				<textFieldExpression><![CDATA["This sample illustrates some of the built-in functions"]]></textFieldExpression>
 			</textField>
 			<frame>
-				<reportElement uuid="034c6d3e-ff9b-49b3-9dff-6ea0302322dd" x="20" y="61" width="475" height="200"/>
+				<reportElement uuid="034c6d3e-ff9b-49b3-9dff-6ea0302322dd" x="20" y="60" width="475" height="190"/>
 				<box>
 					<pen lineWidth="0.5" lineColor="#006699"/>
 					<topPen lineWidth="0.5" lineColor="#006699"/>
@@ -38,35 +38,214 @@
 					<rightPen lineWidth="0.5" lineColor="#006699"/>
 				</box>
 				<staticText>
-					<reportElement uuid="cc705599-17fc-4997-98cd-40942edb8881" x="0" y="0" width="475" height="20"/>
+					<reportElement uuid="cc705599-17fc-4997-98cd-40942edb8881" mode="Opaque" x="0" y="0" width="475" height="30" backcolor="#CCCCCC"/>
+					<box leftPadding="10">
+						<topPen lineWidth="0.5" lineColor="#006699"/>
+						<leftPen lineWidth="0.5" lineColor="#006699"/>
+						<bottomPen lineWidth="0.5" lineColor="#006699"/>
+						<rightPen lineWidth="0.5" lineColor="#006699"/>
+					</box>
 					<textElement verticalAlignment="Middle">
 						<font size="12" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Date/Time Functions]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Opaque" x="0" y="30" width="150" height="20" backcolor="#CCCC46"/>
-					<textElement>
+					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Transparent" x="0" y="30" width="210" height="20" backcolor="#CCCC46"/>
+					<box leftPadding="10"/>
+					<textElement verticalAlignment="Middle">
 						<font isBold="true"/>
 					</textElement>
-					<text><![CDATA[Current date (MM/dd/yyyy):]]></text>
+					<text><![CDATA[Current date:]]></text>
 				</staticText>
 				<textField>
-					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Opaque" x="150" y="30" width="325" height="20" backcolor="#CCCC46"/>
-					<textElement/>
-					<textFieldExpression><![CDATA[DATEFORMAT(TODAY(), "MM/dd/yyyy")]]></textFieldExpression>
+					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Transparent" x="210" y="30" width="265" height="20" backcolor="#CCCC46"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[DATEFORMAT(NOW(), "EEE, MMMM d, yyyy")]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Transparent" x="0" y="50" width="150" height="20" backcolor="#CCCC46"/>
-					<textElement>
+					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Opaque" x="0" y="50" width="210" height="20" backcolor="#CCCC46"/>
+					<box leftPadding="10"/>
+					<textElement verticalAlignment="Middle">
 						<font isBold="true"/>
 					</textElement>
 					<text><![CDATA[Current year:]]></text>
 				</staticText>
 				<textField>
-					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Transparent" x="150" y="50" width="325" height="20" backcolor="#CCCC46"/>
-					<textElement/>
+					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Opaque" x="210" y="50" width="265" height="20" backcolor="#CCCC46"/>
+					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[YEAR(TODAY())]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Transparent" x="0" y="70" width="210" height="20" backcolor="#CCCC46"/>
+					<box leftPadding="10"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Four months later:]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Transparent" x="210" y="70" width="265" height="20" backcolor="#CCCC46"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[DATEFORMAT(EDATE(TODAY(),4), "MM-dd-yyyy")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Opaque" x="0" y="90" width="210" height="20" backcolor="#CCCC46"/>
+					<box leftPadding="10"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Five years ago:]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Opaque" x="210" y="90" width="265" height="20" backcolor="#CCCC46"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[DATEFORMAT(EDATE(TODAY(),-60), "MMM d, yyyy")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Transparent" x="0" y="110" width="210" height="20" backcolor="#CCCC46"/>
+					<box leftPadding="10"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Current week number:]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Transparent" x="210" y="110" width="265" height="20" backcolor="#CCCC46"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[WEEKNUM(TODAY())]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Opaque" x="0" y="130" width="210" height="20" backcolor="#CCCC46"/>
+					<box leftPadding="10"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Next working day:]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Opaque" x="210" y="130" width="265" height="20" backcolor="#CCCC46"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[DATEFORMAT(WORKDAY(TODAY(),1), "EEEE, MM-dd-yy")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Transparent" x="0" y="150" width="210" height="20" backcolor="#CCCC46"/>
+					<box leftPadding="10"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Years since 2000:]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Transparent" x="210" y="150" width="265" height="20" backcolor="#CCCC46"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[YEARS(DATE(2000,1,1), NOW())]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Opaque" x="0" y="170" width="210" height="20" backcolor="#CCCC46"/>
+					<box leftPadding="10"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Current time:]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Opaque" x="210" y="170" width="265" height="20" backcolor="#CCCC46"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[DATEFORMAT(TODAY(), "hh:mm:ss a")]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement uuid="034c6d3e-ff9b-49b3-9dff-6ea0302322dd" x="20" y="265" width="475" height="130"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#006699"/>
+					<topPen lineWidth="0.5" lineColor="#006699"/>
+					<leftPen lineWidth="0.5" lineColor="#006699"/>
+					<bottomPen lineWidth="0.5" lineColor="#006699"/>
+					<rightPen lineWidth="0.5" lineColor="#006699"/>
+				</box>
+				<staticText>
+					<reportElement uuid="cc705599-17fc-4997-98cd-40942edb8881" mode="Opaque" x="0" y="0" width="475" height="30" backcolor="#CCCCCC"/>
+					<box leftPadding="10">
+						<topPen lineWidth="0.5" lineColor="#006699"/>
+						<leftPen lineWidth="0.5" lineColor="#006699"/>
+						<bottomPen lineWidth="0.5" lineColor="#006699"/>
+						<rightPen lineWidth="0.5" lineColor="#006699"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Logical Functions]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Transparent" x="0" y="30" width="210" height="20" backcolor="#CCCC46"/>
+					<box leftPadding="10"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[3 < 5]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Transparent" x="210" y="30" width="265" height="20" backcolor="#CCCC46"/>
+					<box rightPadding="0"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[TRUE()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Opaque" x="0" y="50" width="210" height="20" backcolor="#CCCC46"/>
+					<box leftPadding="10"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[3 > 7]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Opaque" x="210" y="50" width="265" height="20" backcolor="#CCCC46"/>
+					<box rightPadding="0"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[FALSE()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Transparent" x="0" y="70" width="210" height="20" backcolor="#CCCC46"/>
+					<box leftPadding="10"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[3 < 5 AND 3 > 7]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Transparent" x="210" y="70" width="265" height="20" backcolor="#CCCC46"/>
+					<box rightPadding="0"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[AND(3 < 5, 3 > 7)]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Opaque" x="0" y="90" width="210" height="20" backcolor="#CCCC46"/>
+					<box leftPadding="10"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[3 < 5 OR 3 > 7]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Opaque" x="210" y="90" width="265" height="20" backcolor="#CCCC46"/>
+					<box rightPadding="0"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[OR(3 < 5, 3 > 7)]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Transparent" x="0" y="110" width="210" height="20" backcolor="#CCCC46"/>
+					<box leftPadding="10"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Current month is before July:]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Transparent" x="210" y="110" width="265" height="20" backcolor="#CCCC46"/>
+					<box rightPadding="0"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[IF(MONTH(TODAY())< 7,"YES","NO")]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
