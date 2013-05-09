@@ -23,6 +23,12 @@
  */
 package net.sf.jasperreports.functions.standard;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.functions.annotations.Function;
 import net.sf.jasperreports.functions.annotations.FunctionCategories;
 import net.sf.jasperreports.functions.annotations.FunctionParameter;
@@ -67,11 +73,13 @@ public final class TextFunctions
 		return spacePaddedStr.replace(' ', '0');
 	}
 
-	/*
 	// ===================== CHAR function ===================== //
-	@Function(name="CHAR",description="Returns a single text character, given a character code.")
+	/**
+	 * Returns a single text character, given a character code.
+	 */
+	@Function("CHAR")
 	@FunctionParameters({
-			@FunctionParameter(name="Char code",description="The character code, in the range 1-255.")})
+			@FunctionParameter("number")})
 	public static String CHAR(Integer number){
 		if(number==null || (number <1 || number>255)){
 			// The number must be an integer number between 1 and 255
@@ -81,9 +89,12 @@ public final class TextFunctions
 	}
 	
 	// ===================== CLEAN function ===================== //
-	@Function(name="CLEAN",description="Returns a new text string without non-printable characters.")
+	/**
+	 * Returns a new text string without non-printable characters.
+	 */
+	@Function("CLEAN")
 	@FunctionParameters({
-			@FunctionParameter(name="Text",description="The text to be cleaned.")})
+			@FunctionParameter("text")})
 	public static String CLEAN(String text){
 		if(text==null){
 			return null;
@@ -93,9 +104,12 @@ public final class TextFunctions
 	}
 
 	// ===================== CODE function ===================== //
-	@Function(name="CODE",description="Returns the numeric code (0-255) for the first character in a string.")
+	/**
+	 * Returns the numeric code (0-255) for the first character in a string.
+	 */
+	@Function("CODE")
 	@FunctionParameters({
-			@FunctionParameter(name="Text",description="The string containing the character to convert.")})
+			@FunctionParameter("textString")})
 	public static Integer CODE(String textString){
 		if(textString==null) return null;
 		int firstCharAsNum = textString.charAt(0);
@@ -106,9 +120,12 @@ public final class TextFunctions
 	}
 	
 	// ===================== CONCATENATE function ===================== //
-	@Function(name="CONCATENATE",description="Combines a list of strings into a single one.")
+	/**
+	 * Combines a list of strings into a single one.
+	 */
+	@Function("CONCATENATE")
 	@FunctionParameters({
-			@FunctionParameter(name="Text",description="The string containing the character to convert.")})
+			@FunctionParameter("strings")})
 	public static String CONCATENATE(String ...strings){
 		if(strings.length==0) return null;
 		StringBuffer sb=new StringBuffer();
@@ -118,11 +135,14 @@ public final class TextFunctions
 		return sb.toString();
 	}
 	
-	// ===================== CONCATENATE function ===================== //
-	@Function(name="EXACT",description="Returns TRUE if the two text specified are exactly the same (case sensitive compare).")
+	// ===================== EXACT function ===================== //
+	/**
+	 * Returns TRUE if the two text specified are exactly the same (case sensitive compare).
+	 */
+	@Function("EXACT")
 	@FunctionParameters({
-			@FunctionParameter(name="Text 1",description="The first text to compare."),
-			@FunctionParameter(name="Text 2",description="The second text to compare.")})
+			@FunctionParameter("text1"),
+			@FunctionParameter("text2")})
 	public static Boolean EXACT(String text1, String text2){
 		if(text1!=null){
 			return text1.equals(text2);
@@ -136,20 +156,26 @@ public final class TextFunctions
 	}
 
 	// ===================== DOUBLE_VALUE function ===================== //
-	@Function(name="DOUBLE_VALUE", description="Returns a Double number representing the given text string.")
+	/**
+	 * Returns a Double number representing the given text string.
+	 */
+	@Function("DOUBLE_VALUE")
 	@FunctionParameters({
-			@FunctionParameter(name="Number (as text)",description="The input text string representing a number.")})
+			@FunctionParameter("textNumber")})
 	public static Double DOUBLE_VALUE(String textNumber){
 		if(textNumber==null) return null;
 		return Double.parseDouble(textNumber);
 	}	
 	
 	// ===================== FIND function ===================== //
-	@Function(name="FIND",description="Returns the character position of a string inside another text. If the text is not found then -1 is returned.")
+	/**
+	 * Returns the character position of a string inside another text. If the text is not found then -1 is returned.
+	 */
+	@Function("FIND")
 	@FunctionParameters({
-			@FunctionParameter(name="Find text",description="The text to look into."),
-			@FunctionParameter(name="Text to search",description="The text string to search."),
-			@FunctionParameter(name="Start position",description="The position from which the search should start.")})
+			@FunctionParameter("findText"),
+			@FunctionParameter("searchText"),
+			@FunctionParameter("startPosition")})
 	public static Integer FIND(String findText, String searchText){
 		return FIND(findText, searchText, 0);
 	}
@@ -161,11 +187,14 @@ public final class TextFunctions
 	}
 	
 	// ===================== FIXED function ===================== //
-	@Function(name="FIXED", description="Returns the text representing number with the specified decimal places.")
+	/**
+	 * Returns the text representing number with the specified decimal places.
+	 */
+	@Function("FIXED")
 	@FunctionParameters({
-			@FunctionParameter(name="Number",description="The number to print out."),
-			@FunctionParameter(name="Decimals",description="The number of decimal places."),
-			@FunctionParameter(name="Omit separators",description="The flag to specify if the thousands separators shoud be included or not.")})
+			@FunctionParameter("number"),
+			@FunctionParameter("decimals"),
+			@FunctionParameter("omitSeparators")})
 	public static String FIXED(Number number, Integer decimals){
 		return FIXED(number, decimals,false);
 	}
@@ -189,28 +218,38 @@ public final class TextFunctions
 	}
 	
 	// ===================== FLOAT_VALUE function ===================== //
-	@Function(name="FLOAT_VALUE", description="Returns a Float number representing the given text string.")
+	/**
+	 * Returns a Float number representing the given text string.
+	 */
+	@Function("FLOAT_VALUE")
 	@FunctionParameters({
-			@FunctionParameter(name="Number (as text)",description="The input text string representing a number.")})
+			@FunctionParameter("textNumber")})
 	public static Float FLOAT_VALUE(String textNumber){
 		if(textNumber==null) return null;
 		return Float.parseFloat(textNumber);
 	}
 	
 	// ===================== INTEGER_VALUE function ===================== //
-	@Function(name="INTEGER_VALUE", description="Returns an Integer number representing the given text string.")
+	/**
+	 * Returns an Integer number representing the given text string.
+	 */
+	@Function("INTEGER_VALUE")
 	@FunctionParameters({
-			@FunctionParameter(name="Number (as text)",description="The input text string representing a number.")})
+		@FunctionParameter("textNumber")})
 	public static Integer INTEGER_VALUE(String textNumber){
 		if(textNumber==null) return null;
 		return Integer.parseInt(textNumber);
 	}
+
 	
 	// ===================== LEFT function ===================== //
-	@Function(name="LEFT", description="Returns the specified number of characters (1 by default) from the left side of the input text.")
+	/**
+	 * Returns the specified number of characters (1 by default) from the left side of the input text.
+	 */
+	@Function("LEFT")
 	@FunctionParameters({
-			@FunctionParameter(name="Text",description="The input text."),
-			@FunctionParameter(name="Characters num",description="The number of characters. Default (not specified) is 1.")})
+			@FunctionParameter("text"),
+			@FunctionParameter("charactersNum")})
 	public static String LEFT(String text){
 		return LEFT(text,1);
 	}
@@ -221,56 +260,78 @@ public final class TextFunctions
 	}
 	
 	// ===================== LEN function ===================== //
-	@Function(name="LEN", description="Returns the length of the specified text string.")
+	/**
+	 * Returns the length of the specified text string.
+	 */
+	@Function("LEN")
 	@FunctionParameters({
-			@FunctionParameter(name="Text",description="The input text string.")})
+			@FunctionParameter("text")})
 	public static Integer LEN(String text){
 		if(text==null) return null;
 		return text.length();
 	}
 
 	// ===================== LONG_VALUE function ===================== //
-	@Function(name="LONG_VALUE", description="Returns a Long number representing the given text string.")
+	/**
+	 * Returns a Long number representing the given text string.
+	 */
+	@Function("LONG_VALUE")
 	@FunctionParameters({
-			@FunctionParameter(name="Number (as text)",description="The input text string representing a number.")})
+		@FunctionParameter("textNumber")})
 	public static Long LONG_VALUE(String textNumber){
 		if(textNumber==null) return null;
 		return Long.parseLong(textNumber);
 	}
 
 	// ===================== LOWER function ===================== //
-	@Function(name="LOWER", description="Performs the lower case conversion of the specified text string.")
+	/**
+	 * Performs the lower case conversion of the specified text string.
+	 */
+	@Function("LOWER")
 	@FunctionParameters({
-			@FunctionParameter(name="Text",description="The input text string.")})
+		@FunctionParameter("text")})
 	public static String LOWER(String text){
 		if(text==null) return null;
 		return text.toLowerCase();
 	}
 
 	// ===================== LTRIM function ===================== //
-	@Function(name="LTRIM", description="Clear a string, removing leading whitespaces.")
+	/**
+	 * Clear a string, removing leading whitespaces.
+	 */
+	@Function("LTRIM")
 	@FunctionParameters({
-			@FunctionParameter(name="Text",description="The text string to be trimmed.")})
+		@FunctionParameter("text")})
 	public static String LTRIM(String text){
 		if(text==null) return null;
 		return text.replaceAll("^\\s+", "");
 	}
 		
 	// ===================== MID function ===================== //
-	@Function(name="MID", description="Returns the text from the middle of a text string.")
+	/**
+	 * Returns the text from the middle of a text string.
+	 */
+	@Function("MID")
 	@FunctionParameters({
-			@FunctionParameter(name="Text",description="The input text."),
-			@FunctionParameter(name="Start",description="The initial position to extract the text."),
-			@FunctionParameter(name="Characters num",description="The number of characters.")})
+			@FunctionParameter("text"),
+			@FunctionParameter("startPosition"),
+			@FunctionParameter("charactersNum")})
+	public static String MID(String text, Integer startPosition) {
+		return text == null || startPosition == null ? null : text.substring(startPosition-1, text.length()-startPosition+1);
+	}
+
 	public static String MID(String text, Integer startPosition, Integer charactersNum){
 		if(text==null || startPosition==null || charactersNum==null) return null;
 		return text.substring(startPosition-1,startPosition-1+charactersNum);
 	}
 	
 	// ===================== PROPER function ===================== //
-	@Function(name="PROPER", description="Capitalizes each words of the specified text. The remaining parts of words are in lowercase.")
+	/**
+	 * Capitalizes each words of the specified text. The remaining parts of words are in lowercase.
+	 */
+	@Function("PROPER")
 	@FunctionParameters({
-			@FunctionParameter(name="Text",description="The input text.")})
+		@FunctionParameter("text")})
 	public static String PROPER(String text){
 		if(text==null) return null;
 		String lowerCaseString=LOWER(text);
@@ -298,13 +359,15 @@ public final class TextFunctions
 	}
 	
 	// ===================== REPLACE function ===================== //
-	@Function(name="REPLACE", description="Replaces parts of a text string with a different one. " +
-			"Starting from a specified position, removes a certain number of characters and then insert the new text.")
+	/**
+	 * Replaces parts of a text string with a different one. Starting from a specified position, removes a certain number of characters and then insert the new text.
+	 */
+	@Function("REPLACE")
 	@FunctionParameters({
-			@FunctionParameter(name="Original Text",description="The input text to modify."),
-			@FunctionParameter(name="Start position",description="The number of characters. Default (not specified) is 1."),
-			@FunctionParameter(name="Characters num",description="The number of characters to remove."),
-			@FunctionParameter(name="New Text",description="The text that will replace the old one.")})
+			@FunctionParameter("originalText"),
+			@FunctionParameter("startPosition"),
+			@FunctionParameter("charsNum"),
+			@FunctionParameter("newText")})
 	public static String REPLACE(String originalText, Integer startPosition, Integer charsNum, String newText){
 		if(originalText==null || startPosition==null || charsNum==null || newText==null) return null;		
 		StringBuffer output=new StringBuffer();
@@ -315,10 +378,13 @@ public final class TextFunctions
 	}
 	
 	// ===================== REPT function ===================== //
-	@Function(name="REPT", description="Replicates an input text string for a specified number of times.")
+	/**
+	 * Replicates an input text string for a specified number of times.
+	 */
+	@Function("REPT")
 	@FunctionParameters({
-			@FunctionParameter(name="Original Text",description="The input text to replicate."),
-			@FunctionParameter(name="Number of copies",description="The desiderata number of copies.")})
+			@FunctionParameter("originalText"),
+			@FunctionParameter("numberOfTimes")})
 	public static String REPT(String originalText, Integer numberOfTimes){
 		if(originalText==null || numberOfTimes==null) return null;
 		StringBuffer output=new StringBuffer();
@@ -329,10 +395,13 @@ public final class TextFunctions
 	}
 	
 	// ===================== RIGHT function ===================== //
-	@Function(name="RIGHT", description="Returns the specified number of characters (1 by default) from the right side of the input text.")
+	/**
+	 * Returns the specified number of characters (1 by default) from the right side of the input text.
+	 */
+	@Function("RIGHT")
 	@FunctionParameters({
-			@FunctionParameter(name="Text",description="The input text."),
-			@FunctionParameter(name="Characters num",description="The number of characters. Default (not specified) is 1.")})
+			@FunctionParameter("text"),
+			@FunctionParameter("charactersNum")})
 	public static String RIGHT(String text){
 		return RIGHT(text,1);
 	}
@@ -344,37 +413,45 @@ public final class TextFunctions
 	}
 	
 	// ===================== RTRIM function ===================== //
-	@Function(name="RTRIM", description="Clear a string, removing trailing whitespaces.")
+	/**
+	 * Clear a string, removing trailing whitespaces.
+	 */
+	@Function("RTRIM")
 	@FunctionParameters({
-			@FunctionParameter(name="Text",description="The text string to be trimmed.")})
+			@FunctionParameter("text")})
 	public static String RTRIM(String text){
 		if(text==null) return null;
 		return text.replaceAll("\\s+$", "");
 	}	
 	
 	// ===================== SEARCH function ===================== //
-	@Function(name="SEARCH", description="Returns the position of a string of text in another string. Search is not case-sensitive")
+	/**
+	 * Returns the position of a string of text in another string. Search is not case-sensitive.
+	 */
+	@Function("SEARCH")
 	@FunctionParameters({
-			@FunctionParameter(name="Find Text",description="The text to find."),
-			@FunctionParameter(name="Text to search",description="The text to search."),
-			@FunctionParameter(name="Start position",description="The initial position.")})
+			@FunctionParameter("findText"),
+			@FunctionParameter("textToSearch"),
+			@FunctionParameter("startPosition")})
 	public static Integer SEARCH(String findText, String textToSearch){
 		return SEARCH(findText, textToSearch,1);
 	}	
 	
 	public static Integer SEARCH(String findText, String textToSearch, Integer startPosition){
 		if(findText==null || textToSearch==null || startPosition==null) return null;
-		return textToSearch.indexOf(findText, startPosition-1);
+		return textToSearch.toLowerCase().indexOf(findText.toLowerCase(), startPosition-1);
 	}
 	
 	// ===================== SUBSTITUTE function ===================== //
-	@Function(name="SUBSTITUTE", description="Substitutes new text for old text in a text string. " +
-			"When no occurrence is specified all occurrences are replaced.")
+	/**
+	 * Substitutes new text for old text in a text string. When no occurrence is specified all occurrences are replaced.
+	 */
+	@Function("SUBSTITUTE")
 	@FunctionParameters({
-			@FunctionParameter(name="Original text",description="The text to be modified."),
-			@FunctionParameter(name="Old text",description="The old text to be replaced."),
-			@FunctionParameter(name="New text",description="The new text that will replace the old one."),
-			@FunctionParameter(name="Occurrence",description="The occurrence of 'old text' to be replaced."),})
+			@FunctionParameter("originalText"),
+			@FunctionParameter("oldText"),
+			@FunctionParameter("newText"),
+			@FunctionParameter("occurrenceNum")})
 	public static String SUBSTITUTE(String originalText, String oldText, String newText){
 		return SUBSTITUTE(originalText, oldText, newText, null);
 	}	
@@ -407,9 +484,12 @@ public final class TextFunctions
 	}
 	
 	// ===================== T function ===================== //
-	@Function(name="T", description="Returns the text string if the value is a string, otherwise an empty string is returned.")
+	/**
+	 * Returns the text string if the value is a string, otherwise an empty string is returned.
+	 */
+	@Function("T")
 	@FunctionParameters({
-			@FunctionParameter(name="Generic value",description="The object value to be tested.")})
+			@FunctionParameter("value")})
 	public static String T(Object value){
 		if(value instanceof String) {
 			return (String)value;
@@ -420,10 +500,13 @@ public final class TextFunctions
 	}	
 	
 	// ===================== TEXT function ===================== //
-	@Function(name="TEXT", description="Converts a number into a text string according to a specified format.")
+	/**
+	 * Converts a number into a text string according to a specified format.
+	 */
+	@Function("TEXT")
 	@FunctionParameters({
-			@FunctionParameter(name="Number",description="The number to be formatted."),
-			@FunctionParameter(name="Format",description="The format pattern.")})
+			@FunctionParameter("number"),
+			@FunctionParameter("numberFormat")})
 	public static String TEXT(Number number, String numberFormat){
 		if(number==null || numberFormat==null) return null;
 		NumberFormat nformat=new DecimalFormat(numberFormat);
@@ -431,18 +514,24 @@ public final class TextFunctions
 	}	
 	
 	// ===================== TRIM function ===================== //
-	@Function(name="TRIM", description="Clear a string,removing leading and trailing whitespaces.")
+	/**
+	 * Clear a string,removing leading and trailing whitespaces.
+	 */
+	@Function("TRIM")
 	@FunctionParameters({
-			@FunctionParameter(name="Text",description="The text string to be trimmed.")})
+			@FunctionParameter("text")})
 	public static String TRIM(String text){
 		if(text==null) return null;
 		return text.trim(); 
 	}	
 		
 	// ===================== UPPER function ===================== //
-	@Function(name="UPPER", description="Performs the upper case conversion of the specified text string.")
+	/**
+	 * Performs the upper case conversion of the specified text string.
+	 */
+	@Function("UPPER")
 	@FunctionParameters({
-			@FunctionParameter(name="Text",description="The input text string.")})
+		@FunctionParameter("text")})
 	public static String UPPER(String text){
 		if(text==null) return null;
 		return text.toUpperCase();
@@ -452,5 +541,4 @@ public final class TextFunctions
 	private static boolean isDelimiter(char c){
 		return Character.isWhitespace(c) || Character.isSpaceChar(c);
 	}
-	*/
 }
