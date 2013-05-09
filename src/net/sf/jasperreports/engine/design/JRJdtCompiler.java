@@ -587,13 +587,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 							Method method = FunctionsUtil.getInstance(jasperReportsContext).getMethod4Function(methodName);
 							if (method != null)
 							{
-								Set<Method> methods = unitResults[classIdx].missingMethods;
-								if (methods == null)
-								{
-									methods = new HashSet<Method>();
-									unitResults[classIdx].missingMethods = methods;
-								}
-								methods.add(method);
+								unitResults[classIdx].addMissingMethod(method);
 								//continue;
 							}
 						}
@@ -700,7 +694,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		{
 			for (CompilationUnitResult unitResult : unitResults)
 			{
-				if (unitResult.missingMethods.size() > 0)
+				if (unitResult.hasMissingMethods())
 				{
 					return true;
 				}
@@ -717,9 +711,10 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			
 			for (int i = 0; i < compilationUnits.length; i++)
 			{
-				if (unitResults[i].missingMethods != null)
+				if (unitResults[i].hasMissingMethods())
 				{
-					units[i] = compiler.recreateCompileUnit(units[i], unitResults[i].missingMethods);
+					units[i] = compiler.recreateCompileUnit(units[i], unitResults[i].getMissingMethods());
+					unitResults[i].resolveMissingMethods();
 				}
 				
 				compilationUnits[i] = new CompilationUnit(units[i].getSourceCode(), units[i].getName());
@@ -741,8 +736,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				{
 					unitResults[i] = new CompilationUnitResult();
 				}
-				unitResults[i].missingMethods = new HashSet<Method>();
-				unitResults[i].problems = null;
+				unitResults[i].reset();
 			}
 		}
 
@@ -810,17 +804,31 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	 */
 	public static class CompilationUnitResult
 	{
-		private Set<Method> missingMethods = new HashSet<Method>();
+		private Set<Method> resolvedMethods;
+		private Set<Method> missingMethods;
 		private IProblem[] problems;
+		
+		public boolean hasMissingMethods()
+		{
+			return missingMethods != null && missingMethods.size() > 0;
+		}
 		
 		public Set<Method> getMissingMethods()
 		{
 			return missingMethods;
 		}
 		
-		public void setMissingMethods(Set<Method> missingMethods)
+		public void addMissingMethod(Method missingMethod)
 		{
-			this.missingMethods = missingMethods;
+			if (resolvedMethods == null || !resolvedMethods.contains(missingMethod))
+			{
+				if (missingMethods == null)
+				{
+					missingMethods = new HashSet<Method>();
+				}
+				
+				missingMethods.add(missingMethod);
+			}
 		}
 		
 		public IProblem[] getProblems()
@@ -831,6 +839,24 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		public void setProblems(IProblem[] problems)
 		{
 			this.problems = problems;
+		}
+
+		public void resolveMissingMethods()
+		{
+			if (missingMethods != null && missingMethods.size() > 0)
+			{
+				if (resolvedMethods == null)
+				{
+					resolvedMethods = new HashSet<Method>();
+				}
+				resolvedMethods.addAll(missingMethods);
+			}
+		}
+
+		public void reset()
+		{
+			missingMethods = null;
+			problems = null;
 		}
 	}
 }
