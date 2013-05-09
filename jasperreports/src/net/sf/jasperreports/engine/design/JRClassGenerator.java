@@ -29,6 +29,8 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,6 +50,7 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.util.JRStringUtil;
+import net.sf.jasperreports.functions.FunctionSupport;
 
 
 /**
@@ -119,6 +122,16 @@ public class JRClassGenerator
 		JRClassGenerator generator = new JRClassGenerator(sourceTask);
 		return generator.generateClass();
 	}
+
+	
+	/**
+	 *
+	 */
+	public static JRCompilationSourceCode modifySource(JRSourceCompileTask sourceTask, Set<Method> missingMethods, String sourceCode)
+	{
+		JRClassGenerator generator = new JRClassGenerator(sourceTask);
+		return generator.modifySource(missingMethods, sourceCode);
+	}
 	
 
 	protected JRCompilationSourceCode generateClass() throws JRException
@@ -154,8 +167,8 @@ public class JRClassGenerator
 		sb.append("}\n");
 
 		String code = sb.toString();
-		JRExpression[] lineExpressions = parseSourceLines(code);
-		return new JRDefaultCompilationSourceCode(code, lineExpressions);
+		
+		return parseSourceLines(code);
 	}
 
 
@@ -658,7 +671,7 @@ public class JRClassGenerator
 		sb.append(SOURCE_EXPRESSION_ID_END);
 	}
 	
-	protected JRExpression[] parseSourceLines(String sourceCode)
+	protected JRDefaultCompilationSourceCode parseSourceLines(String sourceCode)
 	{
 		List<JRExpression> expressions = new ArrayList<JRExpression>();
 		int start = 0;
@@ -676,7 +689,10 @@ public class JRClassGenerator
 			start = end + 1;
 			end = sourceCode.indexOf('\n', start);
 		}
-		return expressions.toArray(new JRExpression[expressions.size()]);
+		
+		JRExpression[] lineExpressions = expressions.toArray(new JRExpression[expressions.size()]);
+
+		return new JRDefaultCompilationSourceCode(sourceCode, lineExpressions);
 	}
 
 
@@ -703,5 +719,65 @@ public class JRClassGenerator
 		}
 		return expression;
 	}
+	
+
+	/**
+	 * 
+	 */
+	protected JRCompilationSourceCode modifySource(Set<Method> missingMethods, String sourceCode)
+	{
+		int firstImportIndex = sourceCode.indexOf("\nimport ");
+		int lastBracketIndex = sourceCode.lastIndexOf("}");
+		StringBuffer importBuffer = new StringBuffer();
+		StringBuffer methodBuffer = new StringBuffer();
+
+		for (Method method : missingMethods)
+		{
+			if (FunctionSupport.class.isAssignableFrom(method.getDeclaringClass()))
+			{
+				Class<?>[] paramTypes = method.getParameterTypes();
+				StringBuffer methodSignature = new StringBuffer();
+				StringBuffer methodCall = new StringBuffer();
+
+				for (int j = 0; j < paramTypes.length; j++)
+				{
+					if (j > 0)
+					{
+						methodCall.append(", ");
+						methodSignature.append(", ");
+					}
+					methodCall.append("arg" + j);
+					methodSignature.append(paramTypes[j].getName());
+					methodSignature.append(" arg" + j);
+				}
+
+				methodBuffer.append("    /**\n");
+				methodBuffer.append("     *\n"); 
+				methodBuffer.append("     */\n");
+				methodBuffer.append("    public " + method.getReturnType().getName() + " " + method.getName() + "(" + methodSignature.toString() + ")" + "\n");
+				methodBuffer.append("    {\n");
+				methodBuffer.append("        return getFunctionSupport(" + method.getDeclaringClass().getName() + ".class)." + method.getName() + "(" + methodCall + ");\n");
+				methodBuffer.append("    }\n");
+				methodBuffer.append("\n");
+				methodBuffer.append("\n");
+			}
+			else if (Modifier.isStatic(method.getModifiers()))
+			{
+				importBuffer.append("\nimport static " + method.getDeclaringClass().getName() + "." + method.getName() + ";");
+			}
+		}
+
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(sourceCode.substring(0,  firstImportIndex));
+		buffer.append(importBuffer);
+		buffer.append(sourceCode.substring(firstImportIndex, lastBracketIndex));
+		buffer.append(methodBuffer);
+		buffer.append(sourceCode.substring(lastBracketIndex));
+
+		sourceCode = buffer.toString();
+		
+		return parseSourceLines(sourceCode);
+	}
+
 	
 }

@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -48,8 +47,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRSaver;
-import net.sf.jasperreports.functions.FunctionSupport;
 import net.sf.jasperreports.functions.FunctionsUtil;
 
 import org.apache.commons.logging.Log;
@@ -142,39 +139,6 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	{
 		this(DefaultJasperReportsContext.getInstance());
 	}	
-	
-
-	class CompilationUnit implements ICompilationUnit 
-	{
-		protected String srcCode;
-		protected String className;
-
-		public CompilationUnit(String srcCode, String className) 
-		{
-			this.srcCode = srcCode;
-			this.className = className;
-		}
-
-		public char[] getFileName() 
-		{
-			return className.toCharArray();
-		}
-
-		public char[] getContents() 
-		{
-			return srcCode.toCharArray();
-		}
-
-		public char[] getMainTypeName() 
-		{
-			return className.toCharArray();
-		}
-
-		public char[][] getPackageName() 
-		{
-			return new char[0][0];
-		}
-	}
 
 	
 	/**
@@ -192,7 +156,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		final IProblemFactory problemFactory = 
 			new DefaultProblemFactory(Locale.getDefault());
 
-		final CompilerRequestor requestor = new CompilerRequestor(units);
+		final CompilerRequestor requestor = getCompilerRequestor(units);
 
 		final Compiler compiler = new Compiler(env, policy, settings, requestor, problemFactory);
 
@@ -204,9 +168,14 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		}
 		while (requestor.hasMissingMethods());
 		
-		return requestor.getProblems();  
+		requestor.processProblems();
+
+		return requestor.getFormattedProblems();
 	}
 
+	/**
+	 * 
+	 */
 	protected INameEnvironment getNameEnvironment(final JRCompilationUnit[] units)
 	{
 		final INameEnvironment env = new INameEnvironment() 
@@ -407,6 +376,14 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		return env;
 	}
 
+	/**
+	 *
+	 */
+	protected CompilerRequestor getCompilerRequestor(final JRCompilationUnit[] units)
+	{
+		return new CompilerRequestor(jasperReportsContext, this, units);
+	}
+
 	protected Map<String,String> getJdtSettings()
 	{
 		final Map<String,String> settings = new HashMap<String,String>();
@@ -514,11 +491,28 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	}
 
 	
+	protected JRCompilationUnit recreateCompileUnit(JRCompilationUnit compilationUnit, Set<Method> missingMethods)
+	{		
+		String unitName = compilationUnit.getName();
+		
+		JRSourceCompileTask sourceTask = compilationUnit.getCompileTask();
+		JRCompilationSourceCode sourceCode = JRClassGenerator.modifySource(sourceTask, missingMethods, compilationUnit.getSourceCode());
+		
+		File sourceFile = compilationUnit.getSourceFile();
+		File saveSourceDir = sourceFile == null ? null : sourceFile.getParentFile();
+		sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
+
+		return new JRCompilationUnit(unitName, sourceCode, sourceFile, 
+				compilationUnit.getExpressions(), sourceTask);
+	}
+
+	
 	protected JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException
 	{
 		return JRClassGenerator.generateClass(sourceTask);
 	}
 
+	
 	protected String getSourceFileName(String unitName)
 	{
 		return unitName + ".java";
@@ -530,37 +524,23 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		return JRJavacCompiler.class.getName();
 	}
 
-	protected static IProblem[] getJavaCompilationErrors(CompilationResult result) {
-		try {
-			Method getErrorsMethod = result.getClass().getMethod("getErrors", (Class[])null);
-			return (IProblem[]) getErrorsMethod.invoke(result, (Object[])null);
-		} catch (SecurityException e) {
-			throw new JRRuntimeException("Error resolving JDT methods", e);
-		} catch (NoSuchMethodException e) {
-			throw new JRRuntimeException("Error resolving JDT methods", e);
-		} catch (IllegalArgumentException e) {
-			throw new JRRuntimeException("Error invoking JDT methods", e);
-		} catch (IllegalAccessException e) {
-			throw new JRRuntimeException("Error invoking JDT methods", e);
-		} catch (InvocationTargetException e) {
-			throw new JRRuntimeException("Error invoking JDT methods", e);
-		}
-	}
-
 
 	/**
 	 * 
 	 */
-	class CompilerRequestor implements ICompilerRequestor
+	public static class CompilerRequestor implements ICompilerRequestor
 	{
-		private final JRCompilationUnit[] units;
-		private Map<Integer, Set<Method>> missingMethods = new HashMap<Integer, Set<Method>>();
-		private StringBuffer problemBuffer = new StringBuffer();
-		private String[] modifiedUnitsSourceCode;
+		private final JasperReportsContext jasperReportsContext;
+		protected final JRJdtCompiler compiler;
+		protected final JRCompilationUnit[] units;
+		protected final CompilationUnitResult[] unitResults;
 		
-		public CompilerRequestor(final JRCompilationUnit[] units)
+		public CompilerRequestor(final JasperReportsContext jasperReportsContext, final JRJdtCompiler compiler, final JRCompilationUnit[] units)
 		{
+			this.jasperReportsContext = jasperReportsContext;
+			this.compiler = compiler;
 			this.units = units;
+			this.unitResults = new CompilationUnitResult[units.length];
 			
 			reset();
 		}
@@ -578,19 +558,19 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				}
 			}
 			
-			//boolean hasFunctionProblems = false;
-			
 			if (result.hasErrors()) 
 			{
-				String sourceCode = modifiedUnitsSourceCode[classIdx];
+				//IProblem[] problems = result.getErrors();
+				IProblem[] problems = getJavaCompilationErrors(result);
 				
-				IProblem[] problems = JRJdtCompiler.getJavaCompilationErrors(result);
+				unitResults[classIdx].problems = problems;
+
+				String sourceCode = units[classIdx].getSourceCode();
+				
 				for (int i = 0; i < problems.length; i++) 
 				{
 					IProblem problem = problems[i];
 
-					//boolean isFunctionProblem = false;
-					
 					if (IProblem.UndefinedMethod == problem.getID())
 					{
 						if (
@@ -607,27 +587,62 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 							Method method = FunctionsUtil.getInstance(jasperReportsContext).getMethod4Function(methodName);
 							if (method != null)
 							{
-								//isFunctionProblem = true;
-								Set<Method> methods = missingMethods.get(classIdx);
+								Set<Method> methods = unitResults[classIdx].missingMethods;
 								if (methods == null)
 								{
 									methods = new HashSet<Method>();
-									missingMethods.put(classIdx, methods);
+									unitResults[classIdx].missingMethods = methods;
 								}
 								methods.add(method);
-								//break;
+								//continue;
 							}
 						}
 					}
-					
-					//hasFunctionProblems |= isFunctionProblem;
-					
-					//if (!isFunctionProblem) 
+				}
+			}
+			else
+			{
+				ClassFile[] resultClassFiles = result.getClassFiles();
+				for (int i = 0; i < resultClassFiles.length; i++) 
+				{
+					units[classIdx].setCompileData(resultClassFiles[i].getBytes());
+				}
+			}
+		}
+
+		
+		/**
+		 * 
+		 */
+		public void processProblems() 
+		{
+			//nothing to do here
+		}
+
+		
+		/**
+		 * 
+		 */
+		public String getFormattedProblems() 
+		{
+			StringBuffer problemBuffer = new StringBuffer();
+			
+			for (int u = 0; u < units.length; u++) 
+			{
+				String sourceCode = units[u].getSourceCode();
+				
+				IProblem[] problems = unitResults[u].problems;
+				
+				if (problems != null && problems.length > 0)
+				{
+					for (int i = 0; i < problems.length; i++) 
 					{
+						IProblem problem = problems[i];
+			
 						problemBuffer.append(i + 1);
 						problemBuffer.append(". ");
 						problemBuffer.append(problem.getMessage());
-
+			
 						if (
 							problem.getSourceStart() >= 0
 							&& problem.getSourceEnd() >= 0
@@ -665,24 +680,17 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 								}
 								problemBuffer.append(">");
 							}
+			
+							problemBuffer.append("\n");
 						}
-
-						problemBuffer.append("\n");
 					}
+					
+					problemBuffer.append(problems.length);
+					problemBuffer.append(" errors\n");
 				}
-				problemBuffer.append(problems.length);
-				problemBuffer.append(" errors\n");
 			}
 			
-			if (problemBuffer.length() == 0) 
-			//if (!hasFunctionProblems && problemBuffer.length() == 0) 
-			{
-				ClassFile[] resultClassFiles = result.getClassFiles();
-				for (int i = 0; i < resultClassFiles.length; i++) 
-				{
-					units[classIdx].setCompileData(resultClassFiles[i].getBytes());
-				}
-			}
+			return problemBuffer.length() > 0 ? problemBuffer.toString() : null;
 		}
 
 		/**
@@ -690,20 +698,14 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		 */
 		public boolean hasMissingMethods()
 		{
-			return missingMethods.size() > 0;
-		}
-
-		/**
-		 * 
-		 */
-		public String getProblems()
-		{
-			if (problemBuffer.length() > 0) 
+			for (CompilationUnitResult unitResult : unitResults)
 			{
-				return problemBuffer.toString();
+				if (unitResult.missingMethods.size() > 0)
+				{
+					return true;
+				}
 			}
-			
-			return null;
+			return false;
 		}
 
 		/**
@@ -713,84 +715,14 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		{
 			final CompilationUnit[] compilationUnits = new CompilationUnit[units.length];
 			
-			if (modifiedUnitsSourceCode == null)
-			{
-				modifiedUnitsSourceCode = new String[units.length];
-			}
-			
 			for (int i = 0; i < compilationUnits.length; i++)
 			{
-				String sourceCode = modifiedUnitsSourceCode[i] == null ? units[i].getSourceCode() : modifiedUnitsSourceCode[i];
-				
-				if (missingMethods.containsKey(i))
+				if (unitResults[i].missingMethods != null)
 				{
-					int firstImportIndex = sourceCode.indexOf("\nimport ");
-					int lastBracketIndex = sourceCode.lastIndexOf("}");
-					StringBuffer importBuffer = new StringBuffer();
-					StringBuffer methodBuffer = new StringBuffer();
-
-					for (Method method : missingMethods.get(i))
-					{
-						if (FunctionSupport.class.isAssignableFrom(method.getDeclaringClass()))
-						{
-							Class<?>[] paramTypes = method.getParameterTypes();
-							StringBuffer methodSignature = new StringBuffer();
-							StringBuffer methodCall = new StringBuffer();
-
-							for (int j = 0; j < paramTypes.length; j++)
-							{
-								if (j > 0)
-								{
-									methodCall.append(", ");
-									methodSignature.append(", ");
-								}
-								methodCall.append("arg" + j);
-								methodSignature.append(paramTypes[j].getName());
-								methodSignature.append(" arg" + j);
-							}
-
-							methodBuffer.append("    /**\n");
-							methodBuffer.append("     *\n"); 
-							methodBuffer.append("     */\n");
-							methodBuffer.append("    public " + method.getReturnType().getName() + " " + method.getName() + "(" + methodSignature.toString() + ")" + "\n");
-							methodBuffer.append("    {\n");
-							methodBuffer.append("        return getFunctionSupport(" + method.getDeclaringClass().getName() + ".class)." + method.getName() + "(" + methodCall + ");\n");
-							methodBuffer.append("    }\n");
-							methodBuffer.append("\n");
-							methodBuffer.append("\n");
-						}
-						else if (Modifier.isStatic(method.getModifiers()))
-						{
-							importBuffer.append("\nimport static " + method.getDeclaringClass().getName() + "." + method.getName() + ";");
-						}
-					}
-
-					StringBuffer buffer = new StringBuffer();
-					buffer.append(sourceCode.substring(0,  firstImportIndex));
-					buffer.append(importBuffer);
-					buffer.append(sourceCode.substring(firstImportIndex, lastBracketIndex));
-					buffer.append(methodBuffer);
-					buffer.append(sourceCode.substring(lastBracketIndex));
-
-					sourceCode = buffer.toString();
+					units[i] = compiler.recreateCompileUnit(units[i], unitResults[i].missingMethods);
 				}
 				
-				modifiedUnitsSourceCode[i] = sourceCode;
-				
-				File sourceFile = units[i].getSourceFile();
-				if (sourceFile != null)
-				{
-					try
-					{
-						JRSaver.saveClassSource(sourceCode, sourceFile);
-					}
-					catch (JRException e)
-					{
-						throw new JRRuntimeException(e);
-					}
-				}
-				
-				compilationUnits[i] = new CompilationUnit(sourceCode, units[i].getName());
+				compilationUnits[i] = new CompilationUnit(units[i].getSourceCode(), units[i].getName());
 			}
 			
 			reset();
@@ -801,10 +733,104 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		/**
 		 * 
 		 */
-		public void reset()
+		protected void reset()
 		{
-			missingMethods = new HashMap<Integer, Set<Method>>();
-			problemBuffer = new StringBuffer();
+			for (int i = 0; i < unitResults.length; i++)
+			{
+				if (unitResults[i] == null)
+				{
+					unitResults[i] = new CompilationUnitResult();
+				}
+				unitResults[i].missingMethods = new HashSet<Method>();
+				unitResults[i].problems = null;
+			}
+		}
+
+		/**
+		 * 
+		 */
+		protected IProblem[] getJavaCompilationErrors(CompilationResult result) 
+		{
+			try {
+				Method getErrorsMethod = result.getClass().getMethod("getErrors", (Class[])null);
+				return (IProblem[]) getErrorsMethod.invoke(result, (Object[])null);
+			} catch (SecurityException e) {
+				throw new JRRuntimeException("Error resolving JDT methods", e);
+			} catch (NoSuchMethodException e) {
+				throw new JRRuntimeException("Error resolving JDT methods", e);
+			} catch (IllegalArgumentException e) {
+				throw new JRRuntimeException("Error invoking JDT methods", e);
+			} catch (IllegalAccessException e) {
+				throw new JRRuntimeException("Error invoking JDT methods", e);
+			} catch (InvocationTargetException e) {
+				throw new JRRuntimeException("Error invoking JDT methods", e);
+			}
+		}
+	}
+
+	
+	/**
+	 *
+	 */
+	public static class CompilationUnit implements ICompilationUnit 
+	{
+		protected String srcCode;
+		protected String className;
+
+		public CompilationUnit(String srcCode, String className) 
+		{
+			this.srcCode = srcCode;
+			this.className = className;
+		}
+
+		public char[] getFileName() 
+		{
+			return className.toCharArray();
+		}
+
+		public char[] getContents() 
+		{
+			return srcCode.toCharArray();
+		}
+
+		public char[] getMainTypeName() 
+		{
+			return className.toCharArray();
+		}
+
+		public char[][] getPackageName() 
+		{
+			return new char[0][0];
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	public static class CompilationUnitResult
+	{
+		private Set<Method> missingMethods = new HashSet<Method>();
+		private IProblem[] problems;
+		
+		public Set<Method> getMissingMethods()
+		{
+			return missingMethods;
+		}
+		
+		public void setMissingMethods(Set<Method> missingMethods)
+		{
+			this.missingMethods = missingMethods;
+		}
+		
+		public IProblem[] getProblems()
+		{
+			return problems;
+		}
+		
+		public void setProblems(IProblem[] problems)
+		{
+			this.problems = problems;
 		}
 	}
 }
