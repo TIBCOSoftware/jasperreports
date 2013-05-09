@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FunctionsReport" language="java" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FunctionsReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="30" bottomMargin="30" uuid="eae24cf2-cede-49ad-a3bf-a10ccd914c7d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="A" class="java.lang.Double">
 		<defaultValueExpression><![CDATA[3d]]></defaultValueExpression>
 	</parameter>
@@ -7,80 +10,65 @@
 		<defaultValueExpression><![CDATA[5d]]></defaultValueExpression>
 	</parameter>
 	<title>
-		<band height="742">
+		<band height="782">
 			<line>
-				<reportElement x="0" y="0" width="515" height="1"/>
+				<reportElement uuid="e6d8f336-6db7-48b2-af71-ea13aeef6a76" x="0" y="0" width="515" height="1"/>
 			</line>
 			<staticText>
-				<reportElement x="0" y="10" width="515" height="30"/>
-				<textElement textAlignment="Center">
+				<reportElement uuid="b32f50bb-6370-4241-b0d0-d8461c679674" x="20" y="0" width="475" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="22"/>
 				</textElement>
 				<text><![CDATA[Functions Sample]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="50" width="515" height="50"/>
-				<textElement textAlignment="Center">
+				<reportElement uuid="e81c4a31-8a9c-4214-864e-af08adaad185" x="20" y="30" width="475" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["This sample uses functions... FIXME " + FALSE() + "; current year: " + YEAR(TODAY())]]></textFieldExpression>
+				<textFieldExpression><![CDATA["This sample uses functions... FIXME " + FALSE() + "; current year: " + YEAR(TODAY())]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="280" y="150" width="200" height="35"/>
-				<textElement>
-					<font size="24"/>
-				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$P{A}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" x="0" y="150" width="259" height="35"/>
-				<textElement textAlignment="Right">
-					<font size="24"/>
-				</textElement>
-				<text><![CDATA[A =]]></text>
-			</staticText>
-			<staticText>
-				<reportElement positionType="Float" x="0" y="190" width="259" height="35"/>
-				<textElement textAlignment="Right">
-					<font size="24"/>
-				</textElement>
-				<text><![CDATA[B =]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="280" y="190" width="200" height="35"/>
-				<textElement>
-					<font size="24"/>
-				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$P{B}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" x="0" y="230" width="259" height="35"/>
-				<textElement textAlignment="Right">
-					<font size="24"/>
-				</textElement>
-				<text><![CDATA[Java   A + B =]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="280" y="230" width="200" height="35" forecolor="#FF0000"/>
-				<textElement>
-					<font size="24"/>
-				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($P{A}.doubleValue() + $P{B}.doubleValue())]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" x="0" y="270" width="259" height="35"/>
-				<textElement textAlignment="Right">
-					<font size="24"/>
-				</textElement>
-				<text><![CDATA[Groovy   A + B =]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="280" y="270" width="200" height="35" forecolor="#008000"/>
-				<textElement>
-					<font size="24"/>
-				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$P{A} + $P{B}]]></textFieldExpression>
-			</textField>
+			<frame>
+				<reportElement uuid="034c6d3e-ff9b-49b3-9dff-6ea0302322dd" x="20" y="61" width="475" height="200"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#006699"/>
+					<topPen lineWidth="0.5" lineColor="#006699"/>
+					<leftPen lineWidth="0.5" lineColor="#006699"/>
+					<bottomPen lineWidth="0.5" lineColor="#006699"/>
+					<rightPen lineWidth="0.5" lineColor="#006699"/>
+				</box>
+				<staticText>
+					<reportElement uuid="cc705599-17fc-4997-98cd-40942edb8881" x="0" y="0" width="475" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Date/Time Functions]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Opaque" x="0" y="30" width="150" height="20" backcolor="#CCCC46"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Current date (MM/dd/yyyy):]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Opaque" x="150" y="30" width="325" height="20" backcolor="#CCCC46"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[DATEFORMAT(TODAY(), "MM/dd/yyyy")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="483c3a23-60d6-493b-8501-e1a7d0d923de" mode="Transparent" x="0" y="50" width="150" height="20" backcolor="#CCCC46"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Current year:]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="627fefa5-57ea-4cf4-8ebf-7ed2c1226d9b" mode="Transparent" x="150" y="50" width="325" height="20" backcolor="#CCCC46"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[YEAR(TODAY())]]></textFieldExpression>
+				</textField>
+			</frame>
 		</band>
 	</title>
 </jasperReport>
