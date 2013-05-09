@@ -30,20 +30,21 @@ import groovy.lang.MetaMethod;
 import groovy.lang.MissingMethodException;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.fill.JasperReportsContextAware;
+import net.sf.jasperreports.functions.FunctionSupport;
 import net.sf.jasperreports.functions.FunctionsUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.groovy.runtime.DefaultGroovyMethods;
-import org.codehaus.groovy.runtime.MetaClassHelper;
+import org.codehaus.groovy.runtime.MethodClosure;
+import org.codehaus.groovy.runtime.metaclass.ClosureMetaMethod;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -55,7 +56,8 @@ public abstract class GroovyEvaluator extends JREvaluator implements JasperRepor
 	private static final Log log = LogFactory.getLog(GroovyEvaluator.class);
 	
 	private FunctionsUtil functionsUtil;
-	private Map<GroovyFunctionKey, MetaMethod> functionClasses = new HashMap<GroovyFunctionKey, MetaMethod>();
+	
+	private List<ClosureMetaMethod> functionMethods = new ArrayList<ClosureMetaMethod>();
 	
 	@Override
 	public void setJasperReportsContext(JasperReportsContext context)
@@ -65,75 +67,112 @@ public abstract class GroovyEvaluator extends JREvaluator implements JasperRepor
 
 	protected Object functionCall(String methodName, Object[] args)
 	{
-		Class<?>[] argTypes = MetaClassHelper.castArgumentsToClassArray(args);
-		GroovyFunctionKey functionKey = new GroovyFunctionKey(methodName, argTypes);
-		
-		MetaMethod functionMethod = functionClasses.get(functionKey);
-		if (functionMethod != null)
-		{
-			// found cached method
-			return functionMethod.doMethodInvoke(null, args);
-		}
-		
-		Method m4f = functionsUtil.getMethod4Function(methodName);
-		Class<?> functionClass = m4f == null ? null : m4f.getDeclaringClass();
-		if (functionClass == null)
+		Method functionMethod = functionsUtil.getMethod4Function(methodName);
+		if (functionMethod == null)
 		{
 			throw new JRRuntimeException("Function " + methodName + " not found");
 		}
+
+		// we're relying on this, if we'll ever resolve functions to methods 
+		// that have different names we need to adapt the code
+		assert functionMethod.getName().equals(methodName);
 		
+		Class<?> functionClass = functionMethod.getDeclaringClass();
 		MetaClass functionMetaClass = DefaultGroovyMethods.getMetaClass(functionClass);
-		// searching for a method that applies to the arguments
-		functionMethod = functionMetaClass.getStaticMetaMethod(methodName, args);
-		if (functionMethod == null)
+		
+		MethodClosure functionMethodClosure = null;
+		if (FunctionSupport.class.isAssignableFrom(functionClass))
 		{
+			// search for an instance method that applies to the arguments
+			MetaMethod metaMethod = functionMetaClass.getMetaMethod(methodName, args);
+			if (metaMethod != null && metaMethod.isPublic())
+			{
+				@SuppressWarnings("unchecked")
+				FunctionSupport functionObject = getFunctionSupport((Class<? extends FunctionSupport>) functionClass);
+				functionMethodClosure = new MethodClosure(functionObject, methodName);
+				
+				if (log.isDebugEnabled())
+				{
+					log.debug("found public instance method " + metaMethod + " in class " + functionClass);
+				}
+			}
+		}
+		
+		if (functionMethodClosure == null)
+		{
+			// searching for a static method that applies to the arguments
+			MetaMethod metaMethod = functionMetaClass.getStaticMetaMethod(methodName, args);
+			if (metaMethod != null && metaMethod.isPublic())
+			{
+				// creating a static method closure
+				functionMethodClosure = new MethodClosure(functionClass, methodName);
+				
+				if (log.isDebugEnabled())
+				{
+					log.debug("found public static method " + metaMethod + " in class " + functionClass);
+				}
+			}
+		}
+
+		if (functionMethodClosure == null)
+		{
+			// we didn't find a public instance/static method that applies to the arguments
 			throw new MissingMethodException(methodName, functionMetaClass.getTheClass(), args);
 		}
 		
-		if (!functionMethod.isPublic())
-		{
-			throw new JRRuntimeException("Method " + functionClass + "." + methodName + " should be public");
-		}
+		// adding the function methods for the name to the list of registered methods.
+		// we need to add all the methods with the same name in the beginning because once we add one method 
+		// methodMissing might no longer be called.
+		// we need to reregister all methods on each new method since we create ExpandoMetaClass from scratch.
+		addFunctionClosureMethods(functionMethodClosure, methodName);
 		
-		// check if the method is overloaded
-		int overloadCount = 0;
-		for (Method method : functionClass.getMethods())
-		{
-			int modifiers = method.getModifiers();
-			if (Modifier.isStatic(modifiers) && Modifier.isPublic(modifiers) && method.getName().equals(methodName))
-			{
-				++overloadCount;
-			}
-		}
-		
-		if (overloadCount > 1)
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug("caching method " + functionMethod + " for key " + functionKey);
-			}
-			
-			// there are overloaded methods, we can't add the method into MetaClass as it would confuse methodMissing.
-			// caching for subsequent use
-			functionClasses.put(functionKey, functionMethod);
-		}
-		else
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug("registering metadata method " + functionMethod + ", current key " + functionKey);
-			}
-			
-			// adding the method to the evaluator MetaClass so that it doesn't go again into methodMissing
-			ExpandoMetaClass extendedMetaClass = new ExpandoMetaClass(getClass(), false);
-			extendedMetaClass.registerInstanceMethod(functionMethod);
-			extendedMetaClass.initialize();
-			
-			DefaultGroovyMethods.setMetaClass((GroovyObject) this, extendedMetaClass);
-		}
+		// adding the methods to the evaluator MetaClass so that it doesn't go again into methodMissing
+		ExpandoMetaClass extendedMetaClass = new ExpandoMetaClass(getClass(), false);
+		registerMethods(extendedMetaClass);
+		extendedMetaClass.initialize();
+		DefaultGroovyMethods.setMetaClass((GroovyObject) this, extendedMetaClass);
 		
 		// returning what we have to return
-		return functionMethod.doMethodInvoke(null, args);
+		return functionMethodClosure.call(args);
+	}
+	
+	protected void addFunctionClosureMethods(MethodClosure methodClosure, String functionName)
+	{
+		// calling registerInstanceMethod(String, Closure) would register all methods, but we only want public methods
+		List<MetaMethod> closureMethods = ClosureMetaMethod.createMethodList(functionName, getClass(), methodClosure);
+		for (MetaMethod metaMethod : closureMethods)
+		{
+			if (!(metaMethod instanceof ClosureMetaMethod))
+			{
+				// should not happen
+				log.warn("Got unexpected closure method " + metaMethod + " of type " + metaMethod.getClass().getName());
+				continue;
+			}
+			
+			ClosureMetaMethod closureMethod = (ClosureMetaMethod) metaMethod;
+			if (!closureMethod.getDoCall().isPublic())
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("method " + closureMethod.getDoCall() + " is not public, not registering");
+				}
+				continue;
+			}
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("creating closure method for " + closureMethod.getDoCall());
+			}
+			
+			functionMethods.add(closureMethod);
+		}
 	}
 
+	protected void registerMethods(ExpandoMetaClass extendedMetaClass)
+	{
+		for (ClosureMetaMethod closureMethod : functionMethods)
+		{
+			extendedMetaClass.registerInstanceMethod(closureMethod);
+		}
+	}
 }
