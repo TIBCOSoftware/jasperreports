@@ -299,7 +299,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	}
 
 
-	private File getSourceFile(File saveSourceDir, String unitName, JRCompilationSourceCode sourceCode) throws JRException
+	protected File getSourceFile(File saveSourceDir, String unitName, JRCompilationSourceCode sourceCode)
 	{
 		File sourceFile = null;
 		if (saveSourceDir != null && sourceCode != null && sourceCode.getCode() != null)
@@ -307,7 +307,14 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			String fileName = getSourceFileName(unitName);
 			sourceFile = new File(saveSourceDir,  fileName);
 
-			JRSaver.saveClassSource(sourceCode.getCode(), sourceFile);
+			try
+			{
+				JRSaver.saveClassSource(sourceCode.getCode(), sourceFile);
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
 		}
 		return sourceFile;
 	}
