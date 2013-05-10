@@ -128,17 +128,22 @@ public class JRBshCompiler extends JRAbstractCompiler
 		}
 
 		ClassLoader oldContextClassLoader = Thread.currentThread().getContextClassLoader();
-		Thread.currentThread().setContextClassLoader(classLoader);
-
-		for (int i = 0; i < units.length; i++)
+		try
 		{
-			String script = units[i].getSourceCode();
-			
-			JRBshEvaluator bshEvaluator = new JRBshEvaluator(script);
-			bshEvaluator.verify(units[i].getExpressions());
-		}
+			Thread.currentThread().setContextClassLoader(classLoader);
 
-		Thread.currentThread().setContextClassLoader(oldContextClassLoader);
+			for (int i = 0; i < units.length; i++)
+			{
+				String script = units[i].getSourceCode();
+				
+				JRBshEvaluator bshEvaluator = new JRBshEvaluator(script);
+				bshEvaluator.verify(units[i].getExpressions());
+			}
+		}
+		finally
+		{
+			Thread.currentThread().setContextClassLoader(oldContextClassLoader);
+		}
 	}
 
 
