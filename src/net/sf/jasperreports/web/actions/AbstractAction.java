@@ -137,7 +137,6 @@ public abstract class AbstractAction implements Action {
 		
 		public void addAndThrow(String messageKey) throws ActionException {
 			addAndThrow(messageKey, (Object[])null);
-			throwAll();
 		}
 		
 		public boolean isEmpty() {
