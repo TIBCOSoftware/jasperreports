@@ -336,9 +336,10 @@ public final class TextFunctions
 		if(text==null) return null;
 		String lowerCaseString=LOWER(text);
 		StringBuffer result=new StringBuffer();
+		result.append(Character.toTitleCase(lowerCaseString.charAt(0)));
 		boolean capitalizeNext=false;
 		
-		for (int i=0; i<lowerCaseString.length(); i++){
+		for (int i=1; i<lowerCaseString.length(); i++){
 			char c = lowerCaseString.charAt(i);
 			if(!isDelimiter(c)){
 				if(capitalizeNext){
@@ -460,7 +461,7 @@ public final class TextFunctions
 		if(originalText==null || oldText==null || newText==null) return null;
 		if(occurrenceNum==null){
 			// Replace all occurrences
-			return oldText.replaceAll(Pattern.quote(oldText), Matcher.quoteReplacement(newText));
+			return originalText.replaceAll(Pattern.quote(oldText), Matcher.quoteReplacement(newText));
 		}
 		else{
 			int startIdx=0;
