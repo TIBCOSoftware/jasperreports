@@ -277,7 +277,7 @@ public final class DateTimeFunctions
 					// Decrement remaining days only when it is not Saturday or Sunday
 					remainingDays--;
 				}
-				cursorDT=cursorDT.plusDays(1);
+				cursorDT= dayOfWeek==DateTimeConstants.FRIDAY?cursorDT.plusDays(3):cursorDT.plusDays(1);
 			}
 			return cursorDT.toDate();
 		}
