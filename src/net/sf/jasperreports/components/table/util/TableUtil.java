@@ -44,9 +44,9 @@ import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
-import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
@@ -65,11 +65,11 @@ public class TableUtil
 	
 	private TableComponent table;
 	private Map<Cell, Rectangle> boundsMap = new HashMap<Cell, Rectangle>();
-	private JasperDesign jasperDesign;
+	private JRReport report;
 
-	public TableUtil(TableComponent table, JasperDesign jasperDesign) {
+	public TableUtil(TableComponent table, JRReport report) {
 		this.table = table;
-		this.jasperDesign = jasperDesign;
+		this.report = report;
 		init(table);
 	}
 
@@ -246,16 +246,25 @@ public class TableUtil
 	}
 
 	public List<?> getGroupList() {
-		return getGroupList(table, jasperDesign);
+		return getGroupList(table, report);
 	}
 
-	public static List<?> getGroupList(TableComponent table, JasperDesign jd) {
+	public static List<?> getGroupList(TableComponent table, JRReport report) {
 		List<?> groupsList = null;
 		JRDatasetRun datasetRun = table.getDatasetRun();
 		if (datasetRun != null) {
 			String dataSetName = datasetRun.getDatasetName();
-			JRDataset ds = jd.getDatasetMap().get(dataSetName);
-			groupsList = (ds != null ? Arrays.asList(ds.getGroups()) : null);
+			if (report.getDatasets() != null && dataSetName != null)
+			{
+				for (JRDataset ds : report.getDatasets())
+				{
+					if (dataSetName.equals(ds.getName()))
+					{
+						groupsList = (ds != null ? Arrays.asList(ds.getGroups()) : null);
+						break;
+					}
+				}
+			}
 		}
 		return groupsList;
 	}
