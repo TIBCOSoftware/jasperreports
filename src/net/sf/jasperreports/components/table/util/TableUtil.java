@@ -249,18 +249,22 @@ public class TableUtil
 		return getGroupList(table, report);
 	}
 
-	public static List<?> getGroupList(TableComponent table, JRReport report) {
+	public static List<?> getGroupList(TableComponent table, JRReport report) 
+	{
 		List<?> groupsList = null;
 		JRDatasetRun datasetRun = table.getDatasetRun();
-		if (datasetRun != null) {
+		if (datasetRun != null) 
+		{
 			String dataSetName = datasetRun.getDatasetName();
-			if (report.getDatasets() != null && dataSetName != null)
+			JRDataset[] datasets = report.getDatasets();
+			if (datasets != null && dataSetName != null)
 			{
-				for (JRDataset ds : report.getDatasets())
+				for (JRDataset ds : datasets)
 				{
-					if (dataSetName.equals(ds.getName()))
+					JRGroup[] groups = ds.getGroups();
+					if (dataSetName.equals(ds.getName()) && groups != null)
 					{
-						groupsList = (ds != null ? Arrays.asList(ds.getGroups()) : null);
+						groupsList = Arrays.asList(groups);
 						break;
 					}
 				}
