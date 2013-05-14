@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.component.ComponentDesignConverter;
 import net.sf.jasperreports.engine.convert.ConvertVisitor;
 import net.sf.jasperreports.engine.convert.ReportConverter;
-import net.sf.jasperreports.engine.design.JasperDesign;
 
 /**
  * Table preview converter.
@@ -61,8 +60,8 @@ public class TableDesignConverter implements ComponentDesignConverter
 		
 		TableUtil tableManager = 
 			new TableUtil(
-				(StandardTable)table, 
-				(JasperDesign)reportConverter.getReport()
+				table, 
+				reportConverter.getReport()
 				);
 		
 		Map<Cell, Rectangle> cellBounds = tableManager.getCellBounds();
