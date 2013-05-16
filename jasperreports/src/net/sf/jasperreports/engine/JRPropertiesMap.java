@@ -140,6 +140,20 @@ public class JRPropertiesMap implements Serializable, Cloneable
 		}
 		return names;
 	}
+	
+	public String[] getOwnPropertyNames()
+	{
+		String[] names;
+		if (hasOwnProperties())
+		{
+			names = propertiesList.toArray(new String[propertiesList.size()]);
+		}
+		else
+		{
+			names = new String[0];
+		}
+		return names;
+	}
 
 	
 	protected void collectPropertyNames(Collection<String> names)

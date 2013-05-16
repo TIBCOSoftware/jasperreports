@@ -43,7 +43,11 @@ public class JRTemplatePrintRectangle extends JRTemplatePrintGraphicElement impl
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
+	
+	public JRTemplatePrintRectangle()
+	{
+	}
+	
 	/**
 	 * Creates a print rectangle element.
 	 * 

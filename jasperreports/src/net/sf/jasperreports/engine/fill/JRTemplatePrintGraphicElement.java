@@ -47,8 +47,12 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-
+	
+	public JRTemplatePrintGraphicElement()
+	{
+		
+	}
+	
 	/**
 	 *
 	 * @deprecated provide a source Id via {@link #JRTemplatePrintGraphicElement(JRTemplateGraphicElement, int)}

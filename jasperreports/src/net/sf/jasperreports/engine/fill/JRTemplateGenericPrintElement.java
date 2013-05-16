@@ -23,14 +23,18 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.PrintElementVisitor;
+import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
+import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
 
 /**
  * Implementation of {@link JRGenericPrintElement} that uses
@@ -48,6 +52,11 @@ public class JRTemplateGenericPrintElement extends JRTemplatePrintElement
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private Map<String,Object> parameters;
+	
+	public JRTemplateGenericPrintElement()
+	{
+		
+	}
 	
 	/**
 	 * Creates a generic print element.
@@ -123,6 +132,34 @@ public class JRTemplateGenericPrintElement extends JRTemplatePrintElement
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);
+	}
+
+	@Override
+	public void writeVirtualized(VirtualizationOutput out) throws IOException
+	{
+		super.writeVirtualized(out);
+		
+		out.writeIntCompressed(parameters.size());
+		for (Entry<String, Object> entry : parameters.entrySet())
+		{
+			out.writeJRObject(entry.getKey());
+			out.writeJRObject(entry.getValue());
+		}
+	}
+
+	@Override
+	public void readVirtualized(VirtualizationInput in) throws IOException
+	{
+		super.readVirtualized(in);
+		
+		int paramsCount = in.readIntCompressed();
+		parameters = new LinkedHashMap<String,Object>(paramsCount * 4 / 3, 0.75f);
+		for (int i = 0; i < paramsCount; i++)
+		{
+			String key = (String) in.readJRObject();
+			Object value = in.readJRObject();
+			parameters.put(key, value);
+		}
 	}
 
 }

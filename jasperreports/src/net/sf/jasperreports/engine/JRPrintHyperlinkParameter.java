@@ -23,7 +23,12 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.io.IOException;
 import java.io.Serializable;
+
+import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
+import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
+import net.sf.jasperreports.engine.virtualization.VirtualizationSerializable;
 
 
 /**
@@ -32,7 +37,7 @@ import java.io.Serializable;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPrintHyperlinkParameter implements Serializable
+public class JRPrintHyperlinkParameter implements Serializable, VirtualizationSerializable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
@@ -132,6 +137,24 @@ public class JRPrintHyperlinkParameter implements Serializable
 	public void setValue(final Object value)
 	{
 		this.value = value;
+	}
+
+
+	@Override
+	public void writeVirtualized(VirtualizationOutput out) throws IOException
+	{
+		out.writeJRObject(name);
+		out.writeJRObject(valueClass);
+		out.writeJRObject(value);
+	}
+
+
+	@Override
+	public void readVirtualized(VirtualizationInput in) throws IOException
+	{
+		name = (String) in.readJRObject();
+		valueClass = (String) in.readJRObject();
+		value = in.readJRObject();
 	}
 	
 }

@@ -23,9 +23,12 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.io.IOException;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
+import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
 
 
 /**
@@ -40,6 +43,10 @@ public class JRRecordedValuesPrintImage extends JRTemplatePrintImage implements 
 
 	private JRRecordedValues recordedValues;
 
+	public JRRecordedValuesPrintImage()
+	{
+	}
+	
 	/**
 	 * 
 	 * @param image
@@ -73,5 +80,21 @@ public class JRRecordedValuesPrintImage extends JRTemplatePrintImage implements 
 	public void initRecordedValues(Set<JREvaluationTime> evaluationTimes)
 	{
 		recordedValues = new JRRecordedValues(evaluationTimes);
+	}
+
+	@Override
+	public void writeVirtualized(VirtualizationOutput out) throws IOException
+	{
+		super.writeVirtualized(out);
+		
+		out.writeJRObject(recordedValues);
+	}
+
+	@Override
+	public void readVirtualized(VirtualizationInput in) throws IOException
+	{
+		super.readVirtualized(in);
+		
+		recordedValues = (JRRecordedValues) in.readJRObject();
 	}
 }

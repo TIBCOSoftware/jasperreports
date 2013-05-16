@@ -86,6 +86,11 @@ public final class JREvaluationTime implements Serializable
 		return new JREvaluationTime(EvaluationTimeEnum.BAND, null, band);
 	}
 	
+	public static JREvaluationTime getBandEvaluationTime(int bandId)
+	{
+		return new JREvaluationTime(EvaluationTimeEnum.BAND, null, bandId);
+	}
+	
 	
 	/**
 	 * Returns the evaluation time corresponding to an evaluation time type.
@@ -134,9 +139,14 @@ public final class JREvaluationTime implements Serializable
 	
 	private JREvaluationTime(EvaluationTimeEnum type, String groupName, JRFillBand band)
 	{
+		this(type, groupName, band == null ? 0 : band.getId());
+	}
+	
+	private JREvaluationTime(EvaluationTimeEnum type, String groupName, int bandId)
+	{
 		this.type = type;
 		this.groupName = groupName;
-		this.bandId = band == null ? 0 : band.getId();
+		this.bandId = bandId;
 		
 		this.hash = computeHash();
 	}
@@ -192,6 +202,20 @@ public final class JREvaluationTime implements Serializable
 				+ ", band: " + bandId
 				+ "}";
 	}
-	
+
+	public EvaluationTimeEnum getType()
+	{
+		return type;
+	}
+
+	public String getGroupName()
+	{
+		return groupName;
+	}
+
+	public int getBandId()
+	{
+		return bandId;
+	}
 	
 }

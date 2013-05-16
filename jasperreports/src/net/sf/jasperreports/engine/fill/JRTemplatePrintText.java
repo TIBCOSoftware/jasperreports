@@ -47,6 +47,8 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
+import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
+import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
 
 
 /**
@@ -65,6 +67,14 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	private static final int SERIALIZATION_FLAG_ANCHOR = 1;
+	private static final int SERIALIZATION_FLAG_HYPERLINK = 1 << 1;
+	private static final int SERIALIZATION_FLAG_RTL = 1 << 2;
+	private static final int SERIALIZATION_FLAG_TRUNCATION = 1 << 3;
+	private static final int SERIALIZATION_FLAG_LINE_BREAK_OFFSETS = 1 << 4;
+	private static final int SERIALIZATION_FLAG_ZERO_LINE_BREAK_OFFSETS = 1 << 5;
+	private static final int SERIALIZATION_FLAG_HAS_VALUE = 1 << 6;
 
 	/**
 	 *
@@ -96,6 +106,11 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 * @see JRAnchor#getBookmarkLevel()
 	 */
 	protected int bookmarkLevel = JRAnchor.NO_BOOKMARK;
+	
+	public JRTemplatePrintText()
+	{
+		
+	}
 	
 	/**
 	 * Creates a print text element.
@@ -913,6 +928,160 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);
+	}
+	
+	@Override
+	public void writeVirtualized(VirtualizationOutput out) throws IOException
+	{
+		super.writeVirtualized(out);
+		
+		int flags = 0;
+		boolean hasAnchor = anchorName != null || bookmarkLevel != JRAnchor.NO_BOOKMARK;
+		boolean hasHyperlink = hyperlinkReference != null || hyperlinkAnchor != null
+				|| hyperlinkPage != null || hyperlinkTooltip != null || hyperlinkParameters != null;
+		boolean hasTrunc = textTruncateIndex != null || textTruncateSuffix != null;
+		boolean hasLineBreakOffsets = lineBreakOffsets != null;
+		boolean zeroLineBreakOffsets = lineBreakOffsets != null && lineBreakOffsets.length == 0;
+		boolean hasValue = !(text == null ? value == null : (value instanceof String && text.equals(value)));
+		
+		if (hasAnchor)
+		{
+			flags |= SERIALIZATION_FLAG_ANCHOR;
+		}
+		if (hasHyperlink)
+		{
+			flags |= SERIALIZATION_FLAG_HYPERLINK;
+		}
+		if (hasTrunc)
+		{
+			flags |= SERIALIZATION_FLAG_TRUNCATION;
+		}
+		if (hasLineBreakOffsets)
+		{
+			flags |= SERIALIZATION_FLAG_LINE_BREAK_OFFSETS;
+		}
+		if (zeroLineBreakOffsets)
+		{
+			flags |= SERIALIZATION_FLAG_ZERO_LINE_BREAK_OFFSETS;
+		}
+		if (hasValue)
+		{
+			flags |= SERIALIZATION_FLAG_HAS_VALUE;
+		}
+		if (runDirectionValue == RunDirectionEnum.RTL)
+		{
+			flags |= SERIALIZATION_FLAG_RTL;
+		}
+		
+		out.writeByte(flags);
+		
+		out.writeJRObject(text);
+		if (hasValue)
+		{
+			out.writeJRObject(value);
+		}
+		
+		out.writeFloat(lineSpacingFactor);
+		out.writeFloat(leadingOffset);
+		out.writeFloat(textHeight);
+
+		if (hasTrunc)
+		{
+			out.writeJRObject(textTruncateIndex);
+			out.writeJRObject(textTruncateSuffix);
+		}
+		
+		if (hasLineBreakOffsets && !zeroLineBreakOffsets)
+		{
+			out.writeIntCompressed(lineBreakOffsets.length);
+			for (short offset : lineBreakOffsets)
+			{
+				out.writeIntCompressed(offset);
+			}
+		}
+		
+		if (hasAnchor)
+		{
+			out.writeJRObject(anchorName);
+			out.writeIntCompressed(bookmarkLevel);
+		}
+
+		if (hasHyperlink)
+		{
+			out.writeJRObject(hyperlinkReference);
+			out.writeJRObject(hyperlinkAnchor);
+			out.writeJRObject(hyperlinkPage);
+			out.writeJRObject(hyperlinkTooltip);
+			out.writeJRObject(hyperlinkParameters);
+		}
+	}
+
+	@Override
+	public void readVirtualized(VirtualizationInput in) throws IOException
+	{
+		super.readVirtualized(in);
+		
+		int flags = in.readUnsignedByte();
+		text = (String) in.readJRObject();
+		
+		if ((flags & SERIALIZATION_FLAG_HAS_VALUE) != 0)
+		{
+			value = in.readJRObject();
+		}
+		else
+		{
+			value = text;
+		}
+		
+		lineSpacingFactor = in.readFloat();
+		leadingOffset = in.readFloat();
+		textHeight = in.readFloat();
+		
+		if ((flags & SERIALIZATION_FLAG_TRUNCATION) != 0)
+		{
+			textTruncateIndex = (Integer) in.readJRObject();
+			textTruncateSuffix = (String) in.readJRObject();
+		}
+		
+		if ((flags & SERIALIZATION_FLAG_LINE_BREAK_OFFSETS) != 0)
+		{
+			if ((flags & SERIALIZATION_FLAG_ZERO_LINE_BREAK_OFFSETS) != 0)
+			{
+				lineBreakOffsets = JRPrintText.ZERO_LINE_BREAK_OFFSETS;
+			}
+			else
+			{
+				int offsetCount = in.readIntCompressed();
+				lineBreakOffsets = new short[offsetCount];
+				for (int i = 0; i < offsetCount; i++)
+				{
+					lineBreakOffsets[i] = (short) in.readIntCompressed();
+				}
+			}
+		}
+		
+		if ((flags & SERIALIZATION_FLAG_ANCHOR) != 0)
+		{
+			anchorName = (String) in.readJRObject();
+			bookmarkLevel = in.readIntCompressed();
+		}
+		else
+		{
+			bookmarkLevel = JRAnchor.NO_BOOKMARK;
+		}
+
+		if ((flags & SERIALIZATION_FLAG_HYPERLINK) != 0)
+		{
+			hyperlinkReference = (String) in.readJRObject();
+			hyperlinkAnchor = (String) in.readJRObject();
+			hyperlinkPage = (Integer) in.readJRObject();
+			hyperlinkTooltip = (String) in.readJRObject();
+			hyperlinkParameters = (JRPrintHyperlinkParameters) in.readJRObject();
+		}
+		
+		runDirectionValue = (flags & SERIALIZATION_FLAG_RTL) != 0 ? RunDirectionEnum.RTL : RunDirectionEnum.LTR;
+		
+		PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	}
 	
 }
