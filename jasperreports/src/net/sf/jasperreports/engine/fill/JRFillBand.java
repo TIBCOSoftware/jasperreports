@@ -444,6 +444,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 
 	protected int getId()
 	{
+		//FIXME this is not necessarily unique
 		return System.identityHashCode(this);
 	}
 
