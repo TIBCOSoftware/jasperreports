@@ -819,6 +819,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setTextHeight(getTextHeight());
 		//FIXME rotation and run direction?
 
+		//FIXME do we need to do this when the value is String?
 		text.setValue(getValue());
 		
 		setPrintText(text);
