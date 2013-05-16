@@ -46,7 +46,11 @@ public class JRTemplatePrintLine extends JRTemplatePrintGraphicElement implement
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-
+	public JRTemplatePrintLine()
+	{
+		
+	}
+	
 	/**
 	 * Creates a print line element.
 	 * 

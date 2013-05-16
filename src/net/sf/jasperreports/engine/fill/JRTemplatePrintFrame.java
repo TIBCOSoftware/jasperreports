@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +35,8 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementContainer;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.PrintElementVisitor;
+import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
+import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.JRPrintFrame JRPrintFrame} that uses
@@ -48,7 +51,12 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private List<JRPrintElement> elements;
-
+	
+	public JRTemplatePrintFrame()
+	{
+		
+	}
+	
 	/**
 	 * Creates a print frame element.
 	 * 
@@ -109,5 +117,32 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);
+	}
+
+	@Override
+	public void writeVirtualized(VirtualizationOutput out) throws IOException
+	{
+		super.writeVirtualized(out);
+		
+		out.writeIntCompressed(elements.size());
+		for (JRPrintElement element : elements)
+		{
+			// TODO lucianc we only need this when VirtualElementsData has evaluations 
+			out.writeJRObject(element, true, false);
+		}
+	}
+
+	@Override
+	public void readVirtualized(VirtualizationInput in) throws IOException
+	{
+		super.readVirtualized(in);
+		
+		int size = in.readIntCompressed();
+		elements = new ArrayList<JRPrintElement>(size);
+		for (int i = 0; i < size; i++)
+		{
+			JRPrintElement element = (JRPrintElement) in.readJRObject();
+			elements.add(element);
+		}
 	}
 }

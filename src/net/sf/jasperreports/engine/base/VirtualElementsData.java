@@ -23,15 +23,21 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.fill.JREvaluationTime;
 import net.sf.jasperreports.engine.util.Pair;
+import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
+import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
+import net.sf.jasperreports.engine.virtualization.VirtualizationSerializable;
 
 /**
  * Virtual data type used by report pages to virtualize elements.
@@ -39,12 +45,16 @@ import net.sf.jasperreports.engine.util.Pair;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class VirtualElementsData implements Serializable
+public class VirtualElementsData implements Serializable, VirtualizationSerializable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private Map<Pair<Integer, JREvaluationTime>, Map<JRPrintElement, Integer>> elementEvaluations;
 	private List<JRPrintElement> elements;
+	
+	public VirtualElementsData()
+	{
+	}
 	
 	public VirtualElementsData(List<JRPrintElement> elements)
 	{
@@ -70,5 +80,104 @@ public class VirtualElementsData implements Serializable
 	public List<JRPrintElement> getElements()
 	{
 		return elements;
+	}
+
+	@Override
+	public void writeVirtualized(VirtualizationOutput out) throws IOException
+	{
+		boolean hasEvaluations = elementEvaluations != null && !elementEvaluations.isEmpty();
+		
+		if (hasEvaluations)
+		{
+			out.writeIntCompressed(elementEvaluations.size());
+			for (Entry<Pair<Integer, JREvaluationTime>, Map<JRPrintElement, Integer>> entry : elementEvaluations.entrySet())
+			{
+				Pair<Integer, JREvaluationTime> key = entry.getKey();
+				out.writeIntCompressed(key.first());
+				out.writeJRObject(key.second());
+				
+				Map<JRPrintElement, Integer> evaluations = entry.getValue();
+				if (evaluations == null || evaluations.isEmpty())
+				{
+					out.writeIntCompressed(0);
+				}
+				else
+				{
+					out.writeIntCompressed(evaluations.size());
+					for (Entry<JRPrintElement, Integer> evaluationEntry : evaluations.entrySet())
+					{
+						JRPrintElement element = evaluationEntry.getKey();
+						// print elements do not track references by default, forcing
+						out.writeJRObject(element, true, true);
+						out.writeIntCompressed(evaluationEntry.getValue());
+					}
+				}
+			}
+		}
+		else
+		{
+			out.writeIntCompressed(0);
+		}
+		
+		out.writeIntCompressed(elements.size());
+		for (JRPrintElement element : elements)
+		{
+			if (hasEvaluations)
+			{
+				// looking up references to elements written as part of elementEvaluations
+				//FIXME find a solution that doesn't require reference lookup
+				out.writeJRObject(element, true, false);
+			}
+			else
+			{
+				out.writeJRObject(element);
+			}
+		}
+	}
+
+	@Override
+	public void readVirtualized(VirtualizationInput in) throws IOException
+	{
+		int evaluationsCount = in.readIntCompressed();
+		boolean hasEvaluations = evaluationsCount > 0;
+		if (hasEvaluations)
+		{
+			elementEvaluations = new HashMap<Pair<Integer, JREvaluationTime>, Map<JRPrintElement,Integer>>(
+					evaluationsCount * 4 / 3 + 1, .75f);
+			
+			for (int i = 0; i < evaluationsCount; i++)
+			{
+				int fillerId = in.readIntCompressed();
+				JREvaluationTime evalTime = (JREvaluationTime) in.readJRObject();
+				
+				int count = in.readIntCompressed();
+				Map<JRPrintElement, Integer> evaluations;
+				if (count == 0)
+				{
+					evaluations = null;
+				}
+				else
+				{
+					evaluations = new HashMap<JRPrintElement, Integer>(count * 4 / 3 + 1, .75f);
+					for (int j = 0; j < count; j++)
+					{
+						// these elements are references in the elements list, storing references
+						JRPrintElement element = (JRPrintElement) in.readJRObject(true);
+						int value = in.readIntCompressed();
+						evaluations.put(element, value);
+					}
+				}
+				
+				elementEvaluations.put(new Pair<Integer, JREvaluationTime>(fillerId, evalTime), evaluations);
+			}
+		}
+		
+		int size = in.readIntCompressed();
+		elements = new ArrayList<JRPrintElement>(size);
+		for (int i = 0; i < size; i++)
+		{
+			JRPrintElement element = (JRPrintElement) in.readJRObject();
+			elements.add(element);
+		}
 	}
 }

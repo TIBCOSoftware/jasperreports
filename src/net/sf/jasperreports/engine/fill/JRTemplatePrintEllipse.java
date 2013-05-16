@@ -44,6 +44,10 @@ public class JRTemplatePrintEllipse extends JRTemplatePrintGraphicElement implem
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public JRTemplatePrintEllipse()
+	{
+	}
+	
 	/**
 	 * Creates a print ellipse element.
 	 * 
@@ -70,6 +74,5 @@ public class JRTemplatePrintEllipse extends JRTemplatePrintGraphicElement implem
 	{
 		visitor.visit(this, arg);
 	}
-
 
 }

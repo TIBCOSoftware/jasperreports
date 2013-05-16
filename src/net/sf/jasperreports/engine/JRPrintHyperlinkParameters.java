@@ -23,9 +23,14 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
+import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
+import net.sf.jasperreports.engine.virtualization.VirtualizationSerializable;
 
 
 /**
@@ -34,7 +39,7 @@ import java.util.List;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPrintHyperlinkParameters implements Serializable
+public class JRPrintHyperlinkParameters implements Serializable, VirtualizationSerializable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
@@ -69,5 +74,28 @@ public class JRPrintHyperlinkParameters implements Serializable
 	public void addParameter(JRPrintHyperlinkParameter parameter)
 	{
 		parameters.add(parameter);
+	}
+
+	@Override
+	public void writeVirtualized(VirtualizationOutput out) throws IOException
+	{
+		//FIXME optimize
+		out.writeIntCompressed(parameters.size());
+		for (JRPrintHyperlinkParameter parameter : parameters)
+		{
+			out.writeJRObject(parameter);
+		}
+	}
+
+	@Override
+	public void readVirtualized(VirtualizationInput in) throws IOException
+	{
+		int size = in.readIntCompressed();
+		parameters = new ArrayList<JRPrintHyperlinkParameter>(size);
+		for (int i = 0; i < size; i++)
+		{
+			JRPrintHyperlinkParameter param = (JRPrintHyperlinkParameter) in.readJRObject();
+			parameters.add(param);
+		}
 	}
 }

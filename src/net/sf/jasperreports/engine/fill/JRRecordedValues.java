@@ -61,6 +61,19 @@ public class JRRecordedValues implements Serializable
 		this.evaluationTimes = new HashSet<JREvaluationTime>(evaluationTimes);
 	}
 
+	public JRRecordedValues(Set<JREvaluationTime> evaluationTimes,
+			Map<String,Object> recordedFieldValues,
+			Map<String,Object> recordedVariableValues)
+	{
+		this.evaluationTimes = evaluationTimes;
+		this.recordedFieldValues = recordedFieldValues;
+		this.recordedVariableValues = recordedVariableValues;
+	}
+
+	public Set<JREvaluationTime> getEvaluationTimes()
+	{
+		return evaluationTimes;
+	}
 	
 	/**
 	 * Marks an evaluation time as done.
@@ -147,4 +160,5 @@ public class JRRecordedValues implements Serializable
 	{
 		return recordedFieldValues;
 	}
+
 }

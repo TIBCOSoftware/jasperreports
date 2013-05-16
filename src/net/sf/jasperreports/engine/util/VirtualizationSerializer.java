@@ -25,8 +25,6 @@ package net.sf.jasperreports.engine.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.ObjectStreamClass;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -34,12 +32,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.fill.JRAbstractLRUVirtualizer;
-import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
-import net.sf.jasperreports.engine.fill.VirtualizationObjectInputStream;
-import net.sf.jasperreports.engine.fill.VirtualizationObjectOutputStream;
+import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
+import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -67,96 +63,76 @@ public class VirtualizationSerializer
 
 	protected final Map<ClassLoader,Integer> classLoadersIndexes = new HashMap<ClassLoader,Integer>();
 	protected final List<ClassLoader> classLoadersList = new ArrayList<ClassLoader>();
-
-	protected class ClassLoaderAnnotationObjectOutputStream extends VirtualizationObjectOutputStream
+	
+	protected final Map<Class<?>, Integer> classIndexes = new HashMap<Class<?>, Integer>();
+	protected final List<Class<?>> classes = new ArrayList<Class<?>>();
+	
+	public int getClassloaderIdx(Class<?> clazz)
 	{
-		public ClassLoaderAnnotationObjectOutputStream(OutputStream out, 
-				JRVirtualizationContext virtualizationContext) throws IOException
+		ClassLoader classLoader = clazz.getClassLoader();
+		int loaderIdx;
+		if (clazz.isPrimitive()
+				|| classLoader == null
+				|| isAncestorClassLoader(classLoader))
 		{
-			super(out, virtualizationContext);
+			loaderIdx = CLASSLOADER_IDX_NOT_SET;
 		}
-
-		protected void annotateClass(Class<?> clazz) throws IOException
+		else
 		{
-			super.annotateClass(clazz);
-
-			ClassLoader classLoader = clazz.getClassLoader();
-			int loaderIdx;
-			if (clazz.isPrimitive()
-					|| classLoader == null
-					|| isAncestorClassLoader(classLoader))
+			Integer idx = classLoadersIndexes.get(classLoader);
+			if (idx == null)
 			{
-				loaderIdx = CLASSLOADER_IDX_NOT_SET;
+				idx = Integer.valueOf(classLoadersList.size());
+				classLoadersIndexes.put(classLoader, idx);
+				classLoadersList.add(classLoader);
 			}
-			else
-			{
-				Integer idx = classLoadersIndexes.get(classLoader);
-				if (idx == null)
-				{
-					idx = Integer.valueOf(classLoadersList.size());
-					classLoadersIndexes.put(classLoader, idx);
-					classLoadersList.add(classLoader);
-				}
-				loaderIdx = idx.intValue();
-			}
-
-			writeShort(loaderIdx);
+			loaderIdx = idx.intValue();
 		}
+		return loaderIdx;
 	}
-
-	protected class ClassLoaderAnnotationObjectInputStream extends VirtualizationObjectInputStream
+	
+	public Class<?> resolveClass(ObjectStreamClass desc, int loaderIdx) throws ClassNotFoundException
 	{
-		public ClassLoaderAnnotationObjectInputStream(InputStream in, 
-				JRVirtualizationContext virtualizationContext) throws IOException
+		if (loaderIdx == CLASSLOADER_IDX_NOT_SET)
 		{
-			super(in, virtualizationContext);
+			return null;
 		}
 
-		protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException
+		ClassLoader loader = classLoadersList.get(loaderIdx);
+		Class<?> clazz = Class.forName(desc.getName(), false, loader);
+		return clazz;
+	}
+	
+	public int getClassDescriptorIdx(Class<?> clazz)
+	{
+		Integer classIdx = classIndexes.get(clazz);
+		if (classIdx == null)
 		{
-			Class<?> clazz;
-			try
-			{
-				clazz = super.resolveClass(desc);
-				readShort();
-			}
-			catch (ClassNotFoundException e)
-			{
-				int loaderIdx = readShort();
-				if (loaderIdx == CLASSLOADER_IDX_NOT_SET)
-				{
-					throw e;
-				}
-
-				ClassLoader loader = classLoadersList.get(loaderIdx);
-				clazz = Class.forName(desc.getName(), false, loader);
-			}
-
-			return clazz;
+			classIdx = classIndexes.size();
+			classIndexes.put(clazz, classIdx);
+			classes.add(clazz);
 		}
+		return classIdx;
+	}
+	
+	public Class<?> getClassForDescriptorIdx(int descriptorIdx)
+	{
+		return classes.get(descriptorIdx);
 	}
 	
 	public final void writeData(JRVirtualizable o, OutputStream out) throws IOException
 	{
-		@SuppressWarnings("resource")
-		ObjectOutputStream oos = new ClassLoaderAnnotationObjectOutputStream(out, o.getContext());
-		oos.writeObject(o.getVirtualData());
+		VirtualizationOutput oos = new VirtualizationOutput(out, this, o.getContext());
+		Object virtualData = o.getVirtualData();
+		oos.writeJRObject(virtualData);
 		oos.flush();
 	}
 	
 	public final void readData(JRVirtualizable o, InputStream in) throws IOException
 	{
 		@SuppressWarnings("resource")
-		ObjectInputStream ois = new ClassLoaderAnnotationObjectInputStream(in, o.getContext());
-		try
-		{
-			o.setVirtualData(ois.readObject());
-		}
-		catch (ClassNotFoundException e)
-		{
-			// should not happen
-			throw new JRRuntimeException("Error deserializing virtualized object", e);
-		}
+		VirtualizationInput ois = new VirtualizationInput(in, this, o.getContext());
+		o.setVirtualData(ois.readJRObject());
 	}
 
 }

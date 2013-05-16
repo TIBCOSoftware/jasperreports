@@ -23,9 +23,12 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.io.IOException;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
+import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
 
 /**
  * Print text implementation that supports recorded values.
@@ -33,12 +36,18 @@ import net.sf.jasperreports.engine.JRConstants;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
+//FIXME these objects reach JasperPrints, find another way to store recorded values
 public class JRRecordedValuesPrintText extends JRTemplatePrintText implements JRRecordedValuesPrintElement
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private JRRecordedValues recordedValues;
 
+	public JRRecordedValuesPrintText()
+	{
+		super();
+	}
+	
 	/**
 	 * 
 	 * @param text
@@ -72,5 +81,21 @@ public class JRRecordedValuesPrintText extends JRTemplatePrintText implements JR
 	public void initRecordedValues(Set<JREvaluationTime> evaluationTimes)
 	{
 		recordedValues = new JRRecordedValues(evaluationTimes);
+	}
+
+	@Override
+	public void writeVirtualized(VirtualizationOutput out) throws IOException
+	{
+		super.writeVirtualized(out);
+		
+		out.writeJRObject(recordedValues);
+	}
+
+	@Override
+	public void readVirtualized(VirtualizationInput in) throws IOException
+	{
+		super.readVirtualized(in);
+		
+		recordedValues = (JRRecordedValues) in.readJRObject();
 	}
 }
