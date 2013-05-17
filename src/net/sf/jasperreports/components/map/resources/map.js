@@ -1,12 +1,12 @@
 /**
  * Defines 'map' module in jasperreports namespace
  */
-var infowindow;
 
 (function(global) {
 	if (typeof global.jasperreports.map !== 'undefined') {
 		return;
 	}
+	var infowindow;
 	global.jasperreports.map = {
 		data: {},
 		initGoogleMaps: function(language) {
