@@ -151,6 +151,12 @@ public abstract class JavaScriptCompilerBase extends JRAbstractCompiler
 		
 		public String getScript()
 		{
+			if (script.length() == 0)
+			{
+				// empty expression, should evaluate to null
+				return "null";
+			}
+			
 			return script.toString();
 		}
 		
