@@ -29,6 +29,7 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Locale;
 
+import net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.web.actions.ActionException;
@@ -84,26 +85,49 @@ public class ConditionalFormattingAction extends AbstractVerifiableTableAction {
 			for (int i = 0, ln = conditions.size(); i < ln; i ++) {
 				condition = conditions.get(i);
 				if (conditionType == FilterTypesEnum.DATE) {
-					if (condition.getConditionStart() == null || condition.getConditionStart().length() == 0) {
-						errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.empty.date", i+1);
-						continue;
-					}
+					FilterTypeDateOperatorsEnum dateEnum = FilterTypeDateOperatorsEnum.getByEnumConstantName(condition.getConditionTypeOperator());
+					boolean containsBetween = FilterTypeDateOperatorsEnum.IS_BETWEEN.equals(dateEnum) || FilterTypeDateOperatorsEnum.IS_NOT_BETWEEN.equals(dateEnum);
+
 					try {
 						DateFormat df = formatFactory.createDateFormat(cfd.getConditionPattern(), locale, null);
 						df.setLenient(false);
-						df.parse(condition.getConditionStart());
-						if (condition.getConditionEnd() != null && condition.getConditionEnd().length() > 0) {
-							try {
-								df.parse(condition.getConditionEnd());
-							} catch (ParseException e) {
-								errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.invalid.date", i+1, condition.getConditionEnd());
+					
+						if (containsBetween) {
+							if (condition.getConditionStart() == null || condition.getConditionStart().length() == 0) {
+								errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.empty.start.date", i+1);
+							} else {
+								try {
+									df.parse(condition.getConditionStart());
+								} catch (ParseException e) {
+									errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.invalid.start.date", i+1, condition.getConditionStart());
+								}
+							}
+
+							if (condition.getConditionEnd() != null && condition.getConditionEnd().length() > 0) {
+								try {
+									df.parse(condition.getConditionEnd());
+								} catch (ParseException e) {
+									errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.invalid.end.date", i+1, condition.getConditionEnd());
+								}
+							} else {
+								errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.empty.end.date", i+1);
+							}
+							
+						} else {
+							if (condition.getConditionStart() == null || condition.getConditionStart().length() == 0) {
+								errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.empty.date", i+1);
+							} else {
+								try {
+									df.parse(condition.getConditionStart());
+								} catch (ParseException e) {
+									errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.invalid.date", i+1, condition.getConditionStart());
+								}
 							}
 						}
-					} catch (ParseException e) {
-						errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.invalid.date", i+1, condition.getConditionStart());
-					} catch (IllegalArgumentException e){
+					} catch (IllegalArgumentException e) {
 						errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.invalid.pattern", i+1);
 					}
+					
 				} else if (conditionType == FilterTypesEnum.NUMERIC) {
 					if (condition.getConditionStart() == null || condition.getConditionStart().trim().length() == 0) {
 						errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.empty.number", i+1);
