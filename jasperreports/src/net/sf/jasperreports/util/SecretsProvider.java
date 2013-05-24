@@ -31,14 +31,19 @@ package net.sf.jasperreports.util;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: MessageProviderFactory.java 5878 2013-01-07 20:23:13Z teodord $
+ * @version $Id: MessageProvider.java 5878 2013-01-07 20:23:13Z teodord $
  */
-public interface SecretsStorageFactory
+public interface SecretsProvider
 {
 
 	/**
 	 *
 	 */
-	public SecretsStorage getSecretsStorage(String category);
+	public String getSecret(String key);
+
+	/**
+	 *
+	 */
+	public boolean hasSecret(String key);
 
 }
