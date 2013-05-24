@@ -31,10 +31,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import net.sf.jasperreports.components.headertoolbar.HeaderLabelUtil;
-import net.sf.jasperreports.components.headertoolbar.HeaderLabelUtil.HeaderLabelBuiltinExpression;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
+import net.sf.jasperreports.components.iconlabel.ContainerFillEnum;
+import net.sf.jasperreports.components.iconlabel.IconLabelComponent;
+import net.sf.jasperreports.components.iconlabel.IconPositionEnum;
 import net.sf.jasperreports.components.sort.FieldFilter;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.sort.SortElementHtmlHandler;
@@ -77,8 +78,11 @@ import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.base.JRBaseTextElement;
+import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.design.JRDesignBand;
+import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
@@ -86,6 +90,8 @@ import net.sf.jasperreports.engine.design.JRDesignGenericElement;
 import net.sf.jasperreports.engine.design.JRDesignGenericElementParameter;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignSection;
+import net.sf.jasperreports.engine.design.JRDesignTextElement;
+import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
@@ -93,6 +99,7 @@ import net.sf.jasperreports.engine.fill.JRFillField;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
@@ -101,6 +108,7 @@ import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.StyleUtil;
@@ -737,11 +745,17 @@ public class TableReport implements JRReport
 				
 				if (suffix.length() > 0)
 				{
-					HeaderLabelBuiltinExpression evaluator = HeaderLabelUtil.alterHeaderLabel(frame, " " + suffix);
-					if (evaluator != null)
-					{
-						builtinEvaluators.put(evaluator.getExpression(), evaluator);
+					IconLabelComponent iconLabelComponent = addIconLabelComponent(column, frame);
+					
+					if (iconLabelComponent != null) {
+						((JRDesignTextField)iconLabelComponent.getIconTextField()).setExpression(createBuiltinExpression(new ConstantBuiltinExpression(suffix)));
 					}
+					
+//					HeaderLabelBuiltinExpression evaluator = HeaderLabelUtil.alterHeaderLabel(frame, " " + suffix);
+//					if (evaluator != null)
+//					{
+//						builtinEvaluators.put(evaluator.getExpression(), evaluator);
+//					}
 				}
 
 				if (isSortable || isFilterable || isConditionallyFormattable) {
@@ -800,6 +814,72 @@ public class TableReport implements JRReport
 				frame.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID, fillContext.getComponentElement().getUUID().toString());
 				frame.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX, String.valueOf(columnIndex));
 			}
+		}
+		
+		protected IconLabelComponent addIconLabelComponent(Column column, JRDesignFrame frame)
+		{
+			JRBaseTextElement headerTextElement = (JRBaseTextElement)frame.getChildren().get(0);
+			if (headerTextElement != null) {
+				Cell header = column.getColumnHeader();
+				
+				JRDesignComponentElement designComponent = new JRDesignComponentElement(header.getDefaultStyleProvider());
+				designComponent.setComponentKey(new ComponentKey("http://jasperreports.sourceforge.net/jasperreports/components", null, "iconLabel"));
+				designComponent.setX(headerTextElement.getX());
+				designComponent.setY(headerTextElement.getY());
+				designComponent.setHeight(headerTextElement.getHeight());
+				designComponent.setWidth(headerTextElement.getWidth());
+				designComponent.setMode(headerTextElement.getModeValue());
+				designComponent.setForecolor(headerTextElement.getForecolor());
+				designComponent.setBackcolor(headerTextElement.getBackcolor());
+				
+				IconLabelComponent iconLabelComponent = new IconLabelComponent(header.getDefaultStyleProvider());
+				iconLabelComponent.setHorizontalAlign(HorizontalAlignEnum.LEFT);
+				iconLabelComponent.setVerticalAlign(VerticalAlignEnum.MIDDLE);
+				iconLabelComponent.setIconPosition(IconPositionEnum.END);
+				iconLabelComponent.setTextFill(ContainerFillEnum.NONE);
+				
+				JRDesignTextField labelTextField = new JRDesignTextField();
+				labelTextField.setStretchWithOverflow(true);
+				labelTextField.setX(0);
+				labelTextField.setY(0);
+				labelTextField.setWidth(1);
+				labelTextField.setHeight(headerTextElement.getHeight());
+				labelTextField.setMode(headerTextElement.getModeValue());
+				labelTextField.setFontSize(headerTextElement.getFontSize());
+				labelTextField.setFontName(headerTextElement.getFontName());
+				labelTextField.setForecolor(headerTextElement.getForecolor());
+				labelTextField.setBackcolor(headerTextElement.getBackcolor());
+				
+				if (headerTextElement instanceof JRTextField) {
+					labelTextField.setExpression(((JRTextField) headerTextElement).getExpression());
+				} else if (headerTextElement instanceof JRStaticText) {
+					labelTextField.setExpression(createBuiltinExpression(new ConstantBuiltinExpression(((JRStaticText)headerTextElement).getText())));
+				}
+
+				iconLabelComponent.setLabelTextField(labelTextField);
+				
+				JRDesignTextField iconTextField = new JRDesignTextField();
+				iconTextField.setStretchWithOverflow(true);
+				iconTextField.setX(0);
+				iconTextField.setY(0);
+				iconTextField.setWidth(1);
+				iconTextField.setHeight(1);
+//				iconTextField.setHeight(headerTextElement.getHeight());
+				iconTextField.setMode(headerTextElement.getModeValue());
+				iconTextField.setFontSize(headerTextElement.getFontSize()-1);
+				iconTextField.setForecolor(headerTextElement.getForecolor());
+				iconTextField.setBackcolor(headerTextElement.getBackcolor());
+				
+				iconLabelComponent.setIconTextField(iconTextField);
+				
+				designComponent.setComponent(iconLabelComponent);
+				
+				frame.getChildren().remove(0);
+				frame.getChildren().add(designComponent);
+				
+				return iconLabelComponent;
+			}
+			return null;
 		}
 		
 		protected void addElementParameter(JRDesignGenericElement element, String name, Object value)
