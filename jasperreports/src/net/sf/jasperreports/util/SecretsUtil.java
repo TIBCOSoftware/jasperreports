@@ -64,15 +64,15 @@ public final class SecretsUtil
 	 */
 	public String getSecret(String category, String key)
 	{
-		List<SecretsStorageFactory> factories = jasperReportsContext.getExtensions(SecretsStorageFactory.class);
-		for (SecretsStorageFactory factory : factories)
+		List<SecretsProviderFactory> factories = jasperReportsContext.getExtensions(SecretsProviderFactory.class);
+		for (SecretsProviderFactory factory : factories)
 		{
-			SecretsStorage storage = factory.getSecretsStorage(category);
-			if (storage != null && storage.hasSecret(key))
+			SecretsProvider provider = factory.getSecretsProvider(category);
+			if (provider != null && provider.hasSecret(key))
 			{
-				return storage.getSecret(key);
+				return provider.getSecret(key);
 			}
 		}
-		throw new JRRuntimeException("Secret value for '" + key + "' key not found in any '" + category + "' category storage.");
+		throw new JRRuntimeException("No secret found for '" + key + "' key in '" + category + "' category.");
 	}
 }
