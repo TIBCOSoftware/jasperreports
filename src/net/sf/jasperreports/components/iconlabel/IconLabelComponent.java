@@ -100,6 +100,14 @@ public class IconLabelComponent implements ContextAwareComponent, Serializable, 
 	{
 		return labelTextField;
 	}
+
+	/**
+	 *
+	 */
+	public void setLabelTextField(JRTextField labelTextField) 
+	{
+		this.labelTextField = labelTextField;
+	}
 	
 	/**
 	 *
@@ -107,6 +115,14 @@ public class IconLabelComponent implements ContextAwareComponent, Serializable, 
 	public JRTextField getIconTextField() 
 	{
 		return iconTextField;
+	}
+
+	/**
+	 *
+	 */
+	public void setIconTextField(JRTextField iconTextField) 
+	{
+		this.iconTextField = iconTextField;
 	}
 	
 	/**
