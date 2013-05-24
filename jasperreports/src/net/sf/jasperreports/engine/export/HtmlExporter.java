@@ -180,6 +180,10 @@ public class HtmlExporter extends JRAbstractExporter
 	protected boolean isOutputImagesToDir;
 	protected String imagesURI;
 	
+	protected File resourcesDir;
+	protected boolean isOutputResourcesToDir;
+	protected String resourcesURI;
+	
 	protected String encoding;
 	
 	protected String borderCollapse;
@@ -257,6 +261,16 @@ public class HtmlExporter extends JRAbstractExporter
 					imagesDir = new File(dir);
 				}
 			}
+
+			resourcesDir = (File)parameters.get(JRHtmlExporterParameter.RESOURCES_DIR);
+			if (resourcesDir == null)
+			{
+				String dir = (String)parameters.get(JRHtmlExporterParameter.RESOURCES_DIR_NAME);
+				if (dir != null)
+				{
+					resourcesDir = new File(dir);
+				}
+			}
 	
 			boolean isRemoveEmptySpace = 
 					getBooleanParameter(
@@ -291,6 +305,18 @@ public class HtmlExporter extends JRAbstractExporter
 				imagesURI = uri;
 			}
 	
+			Boolean isOutputResourcesToDirParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_OUTPUT_RESOURCES_TO_DIR);
+			if (isOutputResourcesToDirParameter != null)
+			{
+				isOutputResourcesToDir = isOutputResourcesToDirParameter.booleanValue();
+			}
+			
+			String resUri = (String)parameters.get(JRHtmlExporterParameter.RESOURCES_URI);
+			if (resUri != null)
+			{
+				resourcesURI = resUri;
+			}
+			
 			encoding = 
 				getStringParameterOrDefault(
 					JRExporterParameter.CHARACTER_ENCODING, 
@@ -446,7 +472,7 @@ public class HtmlExporter extends JRAbstractExporter
 						{
 							imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
 						}
-	
+
 						if (isOutputImagesToDirParameter == null)
 						{
 							isOutputImagesToDir = true;
@@ -457,6 +483,21 @@ public class HtmlExporter extends JRAbstractExporter
 							imagesURI = imagesDir.getName() + "/";
 						}
 	
+						if (resourcesDir == null)
+						{
+							resourcesDir = new File(destFile.getParent(), destFile.getName() + "_files");
+						}
+						
+						if (isOutputResourcesToDirParameter == null)
+						{
+							isOutputResourcesToDir = true;
+						}
+	
+						if (resourcesURI == null)
+						{
+							resourcesURI = resourcesDir.getName() + "/";
+						}
+						
 						try
 						{
 							exportReportToWriter();
@@ -1523,20 +1564,12 @@ public class HtmlExporter extends JRAbstractExporter
 
 			finishStartCell();
 			
-			if (handler instanceof GenericElementWithResourcesHtmlHandler) {
-				((GenericElementWithResourcesHtmlHandler)handler).prepareForExport(exporterContext, isOutputImagesToDir, imagesDir, imagesURI);
-			}
-			
 			String htmlFragment = handler.getHtmlFragment(exporterContext, element);
 			if (htmlFragment != null)
 			{
 				writer.write(htmlFragment);
 			}
 			
-			if (handler instanceof GenericElementWithResourcesHtmlHandler) {
-				((GenericElementWithResourcesHtmlHandler)handler).exportResources();
-			}
-
 			endCell();
 		}
 	}
@@ -2537,6 +2570,18 @@ public class HtmlExporter extends JRAbstractExporter
 		{
 			return HtmlExporter.this.getHyperlinkURL(link);
 		}
+	}
+
+	public File getResourcesDir() {
+		return resourcesDir;
+	}
+
+	public boolean isOutputResourcesToDir() {
+		return isOutputResourcesToDir;
+	}
+
+	public String getResourcesURI() {
+		return resourcesURI;
 	}
 
 }
