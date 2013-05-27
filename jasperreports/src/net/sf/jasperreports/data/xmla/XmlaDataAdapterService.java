@@ -73,7 +73,7 @@ public class XmlaDataAdapterService extends AbstractDataAdapterService {
 			String password = hbmDA.getPassword();
 			SecretsUtil secretService = SecretsUtil.getInstance(getJasperReportsContext());
 			if (secretService != null)
-				password = secretService.getSecret("", password);
+				password = secretService.getSecret(SECRET_CATEGORY, password);
 			if (password != null && !password.isEmpty())
 				parameters.put(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_PASSWORD, password);
 		}
