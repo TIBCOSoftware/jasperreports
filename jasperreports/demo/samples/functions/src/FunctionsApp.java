@@ -126,8 +126,8 @@ public class FunctionsApp extends AbstractSampleApp
 					FunctionCategoryBean categoryBean = null;
 					FunctionCategories categories = clazz.getAnnotation(FunctionCategories.class);
 					if(categories != null) {
-						for(int i = 0; i < (categories.value()).length; i++) {
-							categoryKey = (categories.value()[i]).getName();
+						for(Class<?> category : categories.value()) {
+							categoryKey = category.getName();
 							categoryBean = getFunctionCategory(
 													clazz, 
 													categoryKey, 
