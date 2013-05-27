@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.util.SecretsUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,75 +45,74 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterService 
-{
+public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterService {
 	private static final Log log = LogFactory.getLog(JdbcDataAdapterService.class);
-	
-	private Connection connection = null; 
 
-//	/**
-//	 * This classloader is used to load JDBC drivers available in the set of
-//	 * paths provided by classpathPaths.
-//	 */
-//	private ClassLoader classLoader = null;
-//
-//	/**
-//	 * Same as getDriversClassLoader(false)
-//	 * 
-//	 * @return
-//	 */
-//	public ClassLoader getClassLoader() {
-//		return getClassLoader(false);
-//	}
-//
-//	/**
-//	 * Return the classloader, an URLClassLoader made up with all the paths
-//	 * defined to look for Drivers (mainly jars).
-//	 * 
-//	 * @param reload
-//	 *            - if true, it forces a classloader rebuilt with the set of
-//	 *            paths in classpathPaths.
-//	 * @return
-//	 */
-//	public ClassLoader getClassLoader(boolean reload) {
-//		if (classLoader == null || reload) {
-//			List<String> paths = ((JdbcDataAdapter) getDataAdapter())
-//					.getClasspathPaths();
-//			List<URL> urls = new ArrayList<URL>();
-//			for (String p : paths) {
-//				FileResolver fileResolver = JRResourcesUtil
-//						.getFileResolver(null);
-//				File f = fileResolver.resolveFile(p);
-//
-//				if (f != null && f.exists()) {
-//					try {
-//						urls.add(f.toURI().toURL());
-//					} catch (MalformedURLException e) {
-//						// e.printStackTrace();
-//						// We don't care if the entry cannot be found.
-//					}
-//				}
-//			}
-//
-//			classLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
-//		}
-//
-//		return classLoader;
-//	}
+	private Connection connection = null;
+
+	// /**
+	// * This classloader is used to load JDBC drivers available in the set of
+	// * paths provided by classpathPaths.
+	// */
+	// private ClassLoader classLoader = null;
+	//
+	// /**
+	// * Same as getDriversClassLoader(false)
+	// *
+	// * @return
+	// */
+	// public ClassLoader getClassLoader() {
+	// return getClassLoader(false);
+	// }
+	//
+	// /**
+	// * Return the classloader, an URLClassLoader made up with all the paths
+	// * defined to look for Drivers (mainly jars).
+	// *
+	// * @param reload
+	// * - if true, it forces a classloader rebuilt with the set of
+	// * paths in classpathPaths.
+	// * @return
+	// */
+	// public ClassLoader getClassLoader(boolean reload) {
+	// if (classLoader == null || reload) {
+	// List<String> paths = ((JdbcDataAdapter) getDataAdapter())
+	// .getClasspathPaths();
+	// List<URL> urls = new ArrayList<URL>();
+	// for (String p : paths) {
+	// FileResolver fileResolver = JRResourcesUtil
+	// .getFileResolver(null);
+	// File f = fileResolver.resolveFile(p);
+	//
+	// if (f != null && f.exists()) {
+	// try {
+	// urls.add(f.toURI().toURL());
+	// } catch (MalformedURLException e) {
+	// // e.printStackTrace();
+	// // We don't care if the entry cannot be found.
+	// }
+	// }
+	// }
+	//
+	// classLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
+	// }
+	//
+	// return classLoader;
+	// }
 
 	/**
 	 * 
 	 */
-	public JdbcDataAdapterService(JasperReportsContext jasperReportsContext, JdbcDataAdapter jdbcDataAdapter) 
-	{
+	public JdbcDataAdapterService(JasperReportsContext jasperReportsContext, JdbcDataAdapter jdbcDataAdapter) {
 		super(jasperReportsContext, jdbcDataAdapter);
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #JdbcDataAdapterService(JasperReportsContext, JdbcDataAdapter)}.
+	 * @deprecated Replaced by
+	 *             {@link #JdbcDataAdapterService(JasperReportsContext, JdbcDataAdapter)}
+	 *             .
 	 */
-	public JdbcDataAdapterService(JdbcDataAdapter jdbcDataAdapter) 
-	{
+	public JdbcDataAdapterService(JdbcDataAdapter jdbcDataAdapter) {
 		this(DefaultJasperReportsContext.getInstance(), jdbcDataAdapter);
 	}
 
@@ -121,8 +121,7 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 	}
 
 	@Override
-	public void contributeParameters(Map<String, Object> parameters) throws JRException 
-	{
+	public void contributeParameters(Map<String, Object> parameters) throws JRException {
 		try {
 			connection = getConnection();
 		} catch (SQLException e) {
@@ -130,79 +129,63 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 		}
 		parameters.put(JRParameter.REPORT_CONNECTION, connection);
 	}
-	
-	public Connection getConnection() throws SQLException{
+
+	public Connection getConnection() throws SQLException {
 		JdbcDataAdapter jdbcDataAdapter = getJdbcDataAdapter();
-		if (jdbcDataAdapter != null) 
-		{
+		if (jdbcDataAdapter != null) {
 			ClassLoader oldThreadClassLoader = Thread.currentThread().getContextClassLoader();
 
-			try 
-			{
+			try {
 				Thread.currentThread().setContextClassLoader(getClassLoader(oldThreadClassLoader));
-				
+
 				Class<?> clazz = JRClassLoader.loadClassForRealName(jdbcDataAdapter.getDriver());
 				Driver driver = (Driver) clazz.newInstance();
-				
-//				Driver driver = (Driver) (Class.forName(
-//						jdbcDataAdapter.getDriver(), true, getClassLoader()))
-//						.newInstance();
 
-				
-				Properties	connectProps = new Properties();
+				// Driver driver = (Driver) (Class.forName(
+				// jdbcDataAdapter.getDriver(), true, getClassLoader()))
+				// .newInstance();
+
+				Properties connectProps = new Properties();
 				Map<String, String> map = jdbcDataAdapter.getProperties();
-				if(map != null)
-					for(String key: map.keySet())
+				if (map != null)
+					for (String key : map.keySet())
 						connectProps.setProperty(key, map.get(key));
-				
 
 				String password = jdbcDataAdapter.getPassword();
-				if (!jdbcDataAdapter.isSavePassword()) {
-					password = getPassword();
-				}
+				SecretsUtil secretService = SecretsUtil.getInstance(getJasperReportsContext());
+				if (secretService != null)
+					password = secretService.getSecret("", password);
 
 				connectProps.setProperty("user", jdbcDataAdapter.getUsername());
 				connectProps.setProperty("password", password);
-				
+
 				connection = driver.connect(jdbcDataAdapter.getUrl(), connectProps);
-				if(connection == null)
-					throw new SQLException("No suitable driver found for "+ jdbcDataAdapter.getUrl());
-			}
-			catch (ClassNotFoundException ex){
+				if (connection == null)
+					throw new SQLException("No suitable driver found for " + jdbcDataAdapter.getUrl());
+			} catch (ClassNotFoundException ex) {
 				throw new JRRuntimeException(ex);
 			} catch (InstantiationException e) {
 				throw new JRRuntimeException(e);
 			} catch (IllegalAccessException e) {
 				throw new JRRuntimeException(e);
-			} catch (JRException e) {
-				throw new JRRuntimeException(e);
-			}
-			finally
-			{
+			} finally {
 				Thread.currentThread().setContextClassLoader(oldThreadClassLoader);
 			}
 			return connection;
 		}
 		return null;
 	}
-	 
 
 	public String getPassword() throws JRException {
-		throw new JRException(
-				"This service implementation needs the password to be saved in the data adapter.");
+		throw new JRException("This service implementation needs the password to be saved in the data adapter.");
 	}
 
 	@Override
-	public void dispose() 
-	{
-		if (connection != null) 
-		{
-			try 
-			{
+	public void dispose() {
+		if (connection != null) {
+			try {
 				connection.close();
-			}
-			catch (Exception ex) 
-			{
+			} catch (Exception ex) {
 				if (log.isErrorEnabled())
 					log.error("Error while closing the connection.", ex);
 			}

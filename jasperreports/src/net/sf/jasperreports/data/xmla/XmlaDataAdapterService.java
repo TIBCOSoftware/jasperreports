@@ -30,27 +30,27 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuterFactory;
+import net.sf.jasperreports.util.SecretsUtil;
 
 /**
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)
  * @version $Id$
  */
-public class XmlaDataAdapterService extends AbstractDataAdapterService 
-{
+public class XmlaDataAdapterService extends AbstractDataAdapterService {
 
 	/**
 	 * 
 	 */
-	public XmlaDataAdapterService(JasperReportsContext jasperReportsContext, XmlaDataAdapter jsonDataAdapter) 
-	{
+	public XmlaDataAdapterService(JasperReportsContext jasperReportsContext, XmlaDataAdapter jsonDataAdapter) {
 		super(jasperReportsContext, jsonDataAdapter);
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #XmlaDataAdapterService(JasperReportsContext, XmlaDataAdapter)}.
+	 * @deprecated Replaced by
+	 *             {@link #XmlaDataAdapterService(JasperReportsContext, XmlaDataAdapter)}
+	 *             .
 	 */
-	public XmlaDataAdapterService(XmlaDataAdapter jsonDataAdapter) 
-	{
+	public XmlaDataAdapterService(XmlaDataAdapter jsonDataAdapter) {
 		this(DefaultJasperReportsContext.getInstance(), jsonDataAdapter);
 	}
 
@@ -59,28 +59,23 @@ public class XmlaDataAdapterService extends AbstractDataAdapterService
 	}
 
 	@Override
-	public void contributeParameters(Map<String, Object> parameters)
-			throws JRException {
+	public void contributeParameters(Map<String, Object> parameters) throws JRException {
 		XmlaDataAdapter hbmDA = getHibernateDataAdapter();
 		if (hbmDA != null) {
-			parameters.put(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_URL,
-					hbmDA.getXmlaUrl());
-			parameters.put(
-					JRXmlaQueryExecuterFactory.PARAMETER_XMLA_DATASOURCE,
-					hbmDA.getDatasource());
-			parameters.put(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_CATALOG,
-					hbmDA.getCatalog());
+			parameters.put(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_URL, hbmDA.getXmlaUrl());
+			parameters.put(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_DATASOURCE, hbmDA.getDatasource());
+			parameters.put(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_CATALOG, hbmDA.getCatalog());
 
 			String username = hbmDA.getUsername();
 			if (username != null && !username.isEmpty())
-				parameters.put(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_USER,
-						username);
+				parameters.put(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_USER, username);
 
-			String pass = hbmDA.getPassword();
-			if (pass != null && !pass.isEmpty())
-				parameters.put(
-						JRXmlaQueryExecuterFactory.PARAMETER_XMLA_PASSWORD,
-						pass);
+			String password = hbmDA.getPassword();
+			SecretsUtil secretService = SecretsUtil.getInstance(getJasperReportsContext());
+			if (secretService != null)
+				password = secretService.getSecret("", password);
+			if (password != null && !password.isEmpty())
+				parameters.put(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_PASSWORD, password);
 		}
 	}
 
