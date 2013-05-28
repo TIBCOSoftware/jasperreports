@@ -74,6 +74,11 @@
 					<include>**/*.vm</include>
 					<include>**/*.js</include>
 					<include>**/*.css</include>
+					<include>**/*.ttf</include>
+					<include>**/*.woff</include>
+					<include>**/*.eot</include>
+					<include>**/*.svg</include>
+					<include>**/*.svgz</include>
 				</includes>
 			</resource>
 		</resources>
