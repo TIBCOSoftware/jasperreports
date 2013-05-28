@@ -154,7 +154,7 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 				String password = jdbcDataAdapter.getPassword();
 				SecretsUtil secretService = SecretsUtil.getInstance(getJasperReportsContext());
 				if (secretService != null)
-					password = secretService.getSecret(SECRET_CATEGORY, password);
+					password = secretService.getSecret(SECRETS_CATEGORY, password);
 
 				connectProps.setProperty("user", jdbcDataAdapter.getUsername());
 				connectProps.setProperty("password", password);
