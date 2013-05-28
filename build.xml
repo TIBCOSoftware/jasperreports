@@ -31,6 +31,11 @@
 				<include name="**/*.vm"/>
 				<include name="**/*.js"/>
 				<include name="**/*.css"/>
+				<include name="**/*.ttf"/>
+				<include name="**/*.woff"/>
+				<include name="**/*.eot"/>
+				<include name="**/*.svg"/>
+				<include name="**/*.svgz"/>
 			</fileset>
 		</copy>
 	</target>
