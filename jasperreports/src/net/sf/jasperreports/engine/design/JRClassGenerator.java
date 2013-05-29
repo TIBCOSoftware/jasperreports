@@ -733,37 +733,23 @@ public class JRClassGenerator
 
 		for (Method method : missingMethods)
 		{
-			if (FunctionSupport.class.isAssignableFrom(method.getDeclaringClass()))
+			Class<?> methodClass = method.getDeclaringClass();
+			if (FunctionSupport.class.isAssignableFrom(methodClass))
 			{
-				Class<?>[] paramTypes = method.getParameterTypes();
-				StringBuffer methodSignature = new StringBuffer();
-				StringBuffer methodCall = new StringBuffer();
-
-				for (int j = 0; j < paramTypes.length; j++)
+				// we need to add all methods with the same name because otherwise 
+				// calls with different signatures will be listed as errors.
+				for (Method classMethod : methodClass.getMethods())
 				{
-					if (j > 0)
+					if (classMethod.getName().equals(method.getName()) 
+							&& Modifier.isPublic(classMethod.getModifiers()))
 					{
-						methodCall.append(", ");
-						methodSignature.append(", ");
+						addMethod(methodBuffer, classMethod);
 					}
-					methodCall.append("arg" + j);
-					methodSignature.append(paramTypes[j].getName());
-					methodSignature.append(" arg" + j);
 				}
-
-				methodBuffer.append("    /**\n");
-				methodBuffer.append("     *\n"); 
-				methodBuffer.append("     */\n");
-				methodBuffer.append("    public " + method.getReturnType().getName() + " " + method.getName() + "(" + methodSignature.toString() + ")" + "\n");
-				methodBuffer.append("    {\n");
-				methodBuffer.append("        return getFunctionSupport(" + method.getDeclaringClass().getName() + ".class)." + method.getName() + "(" + methodCall + ");\n");
-				methodBuffer.append("    }\n");
-				methodBuffer.append("\n");
-				methodBuffer.append("\n");
 			}
 			else if (Modifier.isStatic(method.getModifiers()))
 			{
-				importBuffer.append("\nimport static " + method.getDeclaringClass().getName() + "." + method.getName() + ";");
+				importBuffer.append("\nimport static " + methodClass.getName() + "." + method.getName() + ";");
 			}
 		}
 
@@ -777,6 +763,36 @@ public class JRClassGenerator
 		sourceCode = buffer.toString();
 		
 		return parseSourceLines(sourceCode);
+	}
+
+
+	protected void addMethod(StringBuffer methodBuffer, Method method)
+	{
+		Class<?>[] paramTypes = method.getParameterTypes();
+		StringBuffer methodSignature = new StringBuffer();
+		StringBuffer methodCall = new StringBuffer();
+
+		for (int j = 0; j < paramTypes.length; j++)
+		{
+			if (j > 0)
+			{
+				methodCall.append(", ");
+				methodSignature.append(", ");
+			}
+			methodCall.append("arg" + j);
+			methodSignature.append(paramTypes[j].getName());
+			methodSignature.append(" arg" + j);
+		}
+
+		methodBuffer.append("    /**\n");
+		methodBuffer.append("     *\n"); 
+		methodBuffer.append("     */\n");
+		methodBuffer.append("    public " + method.getReturnType().getName() + " " + method.getName() + "(" + methodSignature.toString() + ")" + "\n");
+		methodBuffer.append("    {\n");
+		methodBuffer.append("        return getFunctionSupport(" + method.getDeclaringClass().getName() + ".class)." + method.getName() + "(" + methodCall + ");\n");
+		methodBuffer.append("    }\n");
+		methodBuffer.append("\n");
+		methodBuffer.append("\n");
 	}
 
 	
