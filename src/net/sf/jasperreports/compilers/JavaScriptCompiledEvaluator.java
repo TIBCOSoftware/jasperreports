@@ -27,10 +27,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.fill.JRFillField;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
+import net.sf.jasperreports.engine.fill.JasperReportsContextAware;
+import net.sf.jasperreports.functions.FunctionsUtil;
 
 import org.apache.commons.collections.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -45,7 +48,7 @@ import org.mozilla.javascript.Script;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JavaScriptCompiledEvaluator extends JREvaluator
+public class JavaScriptCompiledEvaluator extends JREvaluator implements JasperReportsContextAware
 {
 
 	private static final Log log = LogFactory.getLog(JavaScriptCompiledEvaluator.class);
@@ -78,6 +81,7 @@ public class JavaScriptCompiledEvaluator extends JREvaluator
 	
 	private final String unitName;
 	private final JavaScriptCompiledData compiledData;
+	private FunctionsUtil functionsUtil;
 	private Context context;
 	private JavaScriptEvaluatorScope evaluatorScope;
 	
@@ -95,6 +99,12 @@ public class JavaScriptCompiledEvaluator extends JREvaluator
 		this.unitName = unitName;
 		this.compiledData = compiledData;
 	}
+	
+	@Override
+	public void setJasperReportsContext(JasperReportsContext context)
+	{
+		this.functionsUtil = FunctionsUtil.getInstance(context);
+	}
 
 	protected void customizedInit(
 			Map<String, JRFillParameter> parametersMap, 
@@ -105,7 +115,7 @@ public class JavaScriptCompiledEvaluator extends JREvaluator
 		context = ContextFactory.getGlobal().enterContext();//TODO exit context
 		context.getWrapFactory().setJavaPrimitiveWrap(false);
 		
-		evaluatorScope = new JavaScriptEvaluatorScope(context, this);
+		evaluatorScope = new JavaScriptEvaluatorScope(context, this, functionsUtil);
 		evaluatorScope.init(parametersMap, fieldsMap, variablesMap);
 	}
 	

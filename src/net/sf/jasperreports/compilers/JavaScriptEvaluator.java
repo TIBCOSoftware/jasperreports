@@ -34,7 +34,9 @@ import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.fill.JRFillField;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
+import net.sf.jasperreports.engine.fill.JasperReportsContextAware;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.functions.FunctionsUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,7 +51,7 @@ import org.mozilla.javascript.Script;
  * @version $Id$
  * @see JavaScriptCompiler
  */
-public class JavaScriptEvaluator extends JREvaluator
+public class JavaScriptEvaluator extends JREvaluator implements JasperReportsContextAware
 {
 	
 	/**
@@ -64,6 +66,7 @@ public class JavaScriptEvaluator extends JREvaluator
 	
 	private final JasperReportsContext jrContext;
 	private final JavaScriptCompileData compileData;
+	private FunctionsUtil functionsUtil;
 	private Context context;
 	private JavaScriptEvaluatorScope evaluatorScope;
 	private Map<String, Class<?>> loadedTypes = new HashMap<String, Class<?>>();
@@ -78,6 +81,12 @@ public class JavaScriptEvaluator extends JREvaluator
 	{
 		this.jrContext = jrContext;
 		this.compileData = compileData;
+	}
+	
+	@Override
+	public void setJasperReportsContext(JasperReportsContext context)
+	{
+		this.functionsUtil = FunctionsUtil.getInstance(context);
 	}
 
 	protected void customizedInit(
@@ -97,7 +106,7 @@ public class JavaScriptEvaluator extends JREvaluator
 		
 		context.getWrapFactory().setJavaPrimitiveWrap(false);
 		
-		evaluatorScope = new JavaScriptEvaluatorScope(context, this);
+		evaluatorScope = new JavaScriptEvaluatorScope(context, this, functionsUtil);
 		evaluatorScope.init(parametersMap, fieldsMap, variablesMap);
 	}
 	
