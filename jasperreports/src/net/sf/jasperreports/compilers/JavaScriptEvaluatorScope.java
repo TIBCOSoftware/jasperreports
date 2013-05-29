@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.fill.JRFillField;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
+import net.sf.jasperreports.functions.FunctionsUtil;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EvaluatorException;
@@ -139,10 +140,16 @@ public class JavaScriptEvaluatorScope
 	private Context context;
 	private ScriptableObject scope;
 
-	public JavaScriptEvaluatorScope(Context context, JREvaluator evaluator)
+	public JavaScriptEvaluatorScope(Context context, JREvaluator evaluator, FunctionsUtil functionsUtil)
 	{
 		this.context = context;
+		
+		JavaScriptFunctionsObject functionsObject = new JavaScriptFunctionsObject(context, functionsUtil, evaluator);
 		this.scope = context.initStandardObjects();
+		// is this OK?  the original prototype set by initStandardObjects is lost, and functionsObject has no prototype.
+		// seems to be fine for now, if not we could try setting the Object prototype to functionsObject.
+		this.scope.setPrototype(functionsObject);
+		
 		this.scope.put(EVALUATOR_VAR, this.scope, evaluator);
 	}
 	

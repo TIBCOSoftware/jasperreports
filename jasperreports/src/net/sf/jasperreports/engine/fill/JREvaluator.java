@@ -109,7 +109,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	protected <T extends FunctionSupport> T getFunctionSupport(Class<T> clazz)
+	public <T extends FunctionSupport> T getFunctionSupport(Class<T> clazz)
 	{
 		String classId = clazz.getName();
 		if (!functions.containsKey(classId))
