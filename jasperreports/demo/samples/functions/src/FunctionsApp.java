@@ -71,7 +71,6 @@ public class FunctionsApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		JRDataSource datasource = createDataSource(DefaultJasperReportsContext.getInstance(), Locale.US);
-
 		JasperFillManager.fillReportToFile("build/reports/FunctionsReport.jasper", null, datasource);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
