@@ -710,6 +710,23 @@ public final class JRPropertiesUtil
 
 		transfer(source, destination, tranferPropertiesPrefix);
 	}
+	
+	public void transferProperties(JRPropertiesMap source,
+			JRPropertiesHolder destination, List<String> propertyNames)
+	{
+		if (source == null || !source.hasProperties()
+				|| propertyNames == null || propertyNames.isEmpty())
+		{
+			return;
+		}
+		
+		JRPropertiesMap destinationProperties = destination.getPropertiesMap();
+		for (String property : propertyNames)
+		{
+			String value = source.getProperty(property);
+			destinationProperties.setProperty(property, value);
+		}
+	}
 
 	protected void transfer(JRPropertiesMap source,
 			JRPropertiesHolder destination, String tranferPropertiesPrefix)

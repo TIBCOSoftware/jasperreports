@@ -75,6 +75,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 *
 	 */
 	protected JRElement parent;
+	protected List<String> dynamicTransferProperties;
 	protected JRStyle providerStyle;
 	protected Map<JRStyle,JRTemplateElement> templates = new HashMap<JRStyle,JRTemplateElement>();
 	protected List<StyleProvider> styleProviders;
@@ -179,13 +180,14 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		
 		staticProperties = element.hasProperties() ? element.getPropertiesMap().cloneProperties() : null;
 		mergedProperties = staticProperties;
+		dynamicTransferProperties = findDynamicTransferProperties();
 		
 		factory.registerDelayedStyleSetter(this, parent);
 		
 		initStyleProviders();
 	}
 
-	
+
 	protected JRFillElement(JRFillElement element, JRFillCloneFactory factory)
 	{
 		factory.put(element, this);
@@ -215,8 +217,35 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		
 		staticProperties = element.staticProperties == null ? null : element.staticProperties.cloneProperties();
 		mergedProperties = staticProperties;
+		this.dynamicTransferProperties = element.dynamicTransferProperties;
 		
 		styleProviders = element.styleProviders;
+	}
+	
+	private List<String> findDynamicTransferProperties()
+	{
+		JRPropertyExpression[] propertyExpressions = parent.getPropertyExpressions();
+		if (propertyExpressions == null || propertyExpressions.length == 0)
+		{
+			return null;
+		}
+		
+		
+		List<String> prefixes = filler.getPrintTransferPropertyPrefixes();
+		List<String> transferProperties = new ArrayList<String>(propertyExpressions.length);
+		for (JRPropertyExpression propertyExpression : propertyExpressions)
+		{
+			String propertyName = propertyExpression.getName();
+			for (String prefix : prefixes)
+			{
+				if (propertyName.startsWith(prefix))
+				{
+					transferProperties.add(propertyName);
+					break;
+				}
+			}
+		}
+		return transferProperties;
 	}
 
 
@@ -1524,7 +1553,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected void transferProperties(JRPrintElement element)
 	{
 		filler.getPropertiesUtil().transferProperties(dynamicProperties, element, 
-				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
+				dynamicTransferProperties);
 	}
 	
 	protected JRPropertiesMap getEvaluatedProperties()
