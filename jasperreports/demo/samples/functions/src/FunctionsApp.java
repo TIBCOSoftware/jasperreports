@@ -22,11 +22,19 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
+import java.util.Collection;
+import java.util.Locale;
+
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
+import net.sf.jasperreports.functions.annotations.FunctionCategoryBean;
+import net.sf.jasperreports.functions.annotations.FunctionsInfo;
 
 
 /**
@@ -62,7 +70,8 @@ public class FunctionsApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperFillManager.fillReportToFile("build/reports/FunctionsReport.jasper", null, new JREmptyDataSource());
+		JRDataSource datasource = createDataSource(DefaultJasperReportsContext.getInstance(), Locale.US);
+		JasperFillManager.fillReportToFile("build/reports/FunctionsReport.jasper", null, datasource);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -75,6 +84,20 @@ public class FunctionsApp extends AbstractSampleApp
 		long start = System.currentTimeMillis();
 		JasperExportManager.exportReportToPdfFile("build/reports/FunctionsReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public JRDataSource createDataSource(
+		JasperReportsContext jasperReportsContext, 
+		Locale locale 
+		) 
+	{
+		FunctionsInfo functionsInfo = FunctionsInfo.getInstance(jasperReportsContext, locale);
+		Collection<FunctionCategoryBean> categories = functionsInfo.getCategories(); 
+		return new JRBeanCollectionDataSource(categories);
 	}
 
 
