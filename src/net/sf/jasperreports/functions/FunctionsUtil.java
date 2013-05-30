@@ -35,10 +35,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  */
 public class FunctionsUtil
 {
-	public static final String DEFAULT_MESSAGES_BUNDLE = "net.sf.jasperreports.functions.standard.jasperreports_messages";
-	public static final String NAME = "name";
-	public static final String DESCRIPTION = "description";
-	
+
 	/**
 	 * 
 	 */

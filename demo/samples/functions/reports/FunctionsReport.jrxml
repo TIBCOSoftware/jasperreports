@@ -21,6 +21,7 @@
 	<field name="name" class="java.lang.String"/>
 	<field name="description" class="java.lang.String"/>
 	<field name="functions" class="java.util.Collection"/>
+	<sortField name="name"/>
 	<group name="categoryGroup" isStartNewPage="true" isReprintHeaderOnEachPage="true">
 		<groupExpression><![CDATA[$F{name}]]></groupExpression>
 		<groupHeader>
