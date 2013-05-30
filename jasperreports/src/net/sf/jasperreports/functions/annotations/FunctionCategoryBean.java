@@ -21,24 +21,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.functions.beans;
+package net.sf.jasperreports.functions.annotations;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: FunctionCategoryBean.java 6184 2013-05-27 10:24:51Z shertage $
  */
-public class FunctionCategoryBean implements Comparable<FunctionCategoryBean>, Serializable {
-
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+public class FunctionCategoryBean 
+{
 	/**
 	 * 
 	 */
-	private List<FunctionBean> functions;
+	private List<FunctionBean> functions = new ArrayList<FunctionBean>();
 	private String id;
 	private String name;
 	private String description;
@@ -47,14 +44,14 @@ public class FunctionCategoryBean implements Comparable<FunctionCategoryBean>, S
 	 * 
 	 */
 	public FunctionCategoryBean(
-			String id,	
-			String name,	
-			String description,	
-			List<FunctionBean> functions) {
+		String id,	
+		String name,	
+		String description	
+		) 
+	{
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.functions = functions;
 	}
 
 	public String getId() {
@@ -85,12 +82,7 @@ public class FunctionCategoryBean implements Comparable<FunctionCategoryBean>, S
 		return functions;
 	}
 
-	public void setFunctions(List<FunctionBean> functions) {
-		this.functions = functions;
-	}
-	
-	@Override
-	public int compareTo(FunctionCategoryBean bean) {
-		return this.name.compareTo(bean.name);
+	public void addFunction(FunctionBean function) {
+		functions.add(function);
 	}
 }

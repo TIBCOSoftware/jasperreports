@@ -21,43 +21,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.functions.beans;
+package net.sf.jasperreports.functions.annotations;
 
-import java.io.Serializable;
-import java.util.List;
 
-import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: FunctionParameterBean.java 6184 2013-05-27 10:24:51Z shertage $
  */
-public class FunctionBean implements Comparable<FunctionBean>, Serializable {
-	
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+public class FunctionParameterBean
+{
 	/**
 	 * 
 	 */
 	private String id;
 	private String name;
 	private String description;
-	private List<FunctionParameterBean> parameters;
-	private Class<?> returnType;
 	
 	/**
 	 * 
 	 */
-	public FunctionBean(
-			String id,	
-			String name,	
-			String description,	
-			List<FunctionParameterBean> parameters,
-			Class<?> returnType) {
+	public FunctionParameterBean(
+		String id, 
+		String name, 
+		String description
+		) 
+	{
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.parameters = parameters;
-		this.returnType = returnType;
 	}
 
 	public String getId() {
@@ -67,7 +59,7 @@ public class FunctionBean implements Comparable<FunctionBean>, Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
@@ -82,24 +74,5 @@ public class FunctionBean implements Comparable<FunctionBean>, Serializable {
 	
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public List<FunctionParameterBean> getParameters() {
-		return parameters;
-	}
-
-	public void setParameters(List<FunctionParameterBean> parameters) {
-		this.parameters = parameters;
-	}
-	public Class<?> getReturnType() {
-		return returnType;
-	}
-	public void setReturnType(Class<?> returnType) {
-		this.returnType = returnType;
-	}
-	
-	@Override
-	public int compareTo(FunctionBean bean) {
-		return this.name.compareTo(bean.name);
 	}
 }

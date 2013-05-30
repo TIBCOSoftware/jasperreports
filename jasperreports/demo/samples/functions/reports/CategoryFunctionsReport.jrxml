@@ -25,6 +25,7 @@
 	<field name="description" class="java.lang.String"/>
 	<field name="parameters" class="java.util.Collection"/>
 	<field name="returnType" class="java.lang.Class"/>
+	<sortField name="name"/>
 	<pageHeader>
 		<band height="20">
 			<staticText>

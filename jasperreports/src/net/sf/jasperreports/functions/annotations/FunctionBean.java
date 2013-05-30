@@ -21,37 +21,40 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.functions.beans;
+package net.sf.jasperreports.functions.annotations;
 
-import java.io.Serializable;
-
-import net.sf.jasperreports.engine.JRConstants;
-
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: FunctionBean.java 6184 2013-05-27 10:24:51Z shertage $
  */
-public class FunctionParameterBean implements Comparable<FunctionParameterBean>, Serializable {
-	
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+public class FunctionBean
+{
 	/**
 	 * 
 	 */
 	private String id;
 	private String name;
 	private String description;
+	private List<FunctionParameterBean> parameters = new ArrayList<FunctionParameterBean>();
+	private Class<?> returnType;
 	
 	/**
 	 * 
 	 */
-	public FunctionParameterBean(
-			String id, 
-			String name, 
-			String description) {
+	public FunctionBean(
+		String id,	
+		String name,	
+		String description,	
+		Class<?> returnType
+		) 
+	{
 		this.id = id;
 		this.name = name;
 		this.description = description;
+		this.returnType = returnType;
 	}
 
 	public String getId() {
@@ -61,7 +64,7 @@ public class FunctionParameterBean implements Comparable<FunctionParameterBean>,
 	public void setId(String id) {
 		this.id = id;
 	}
-
+	
 	public String getName() {
 		return this.name;
 	}
@@ -78,9 +81,18 @@ public class FunctionParameterBean implements Comparable<FunctionParameterBean>,
 		this.description = description;
 	}
 
-	@Override
-	public int compareTo(FunctionParameterBean bean) {
-		return this.name.compareTo(bean.name);
+	public List<FunctionParameterBean> getParameters() {
+		return parameters;
 	}
-	
+
+	public void addParameter(FunctionParameterBean parameter) {
+		parameters.add(parameter);
+	}
+
+	public Class<?> getReturnType() {
+		return returnType;
+	}
+	public void setReturnType(Class<?> returnType) {
+		this.returnType = returnType;
+	}
 }
