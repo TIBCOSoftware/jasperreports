@@ -80,7 +80,7 @@ public class FieldNumberComparator extends AbstractFieldComparator<Number> {
 		Number formattedCompareTo = compareTo;
 		if (compareTo != null) {
 			try {
-				formattedCompareTo =  FormatUtils.getFormattedNumber((NumberFormat)formatter, compareTo.toString(), compareToClass);
+				formattedCompareTo =  FormatUtils.getFormattedNumber((NumberFormat)formatter, formatter.format(compareTo), compareToClass);
 			} catch (ParseException e) {
 				throw new JRRuntimeException(e);
 			}
