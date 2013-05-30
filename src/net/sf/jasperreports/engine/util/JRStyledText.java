@@ -30,6 +30,7 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.text.AttributedString;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -79,7 +80,7 @@ public class JRStyledText implements Cloneable
 	private StringBuilder sbuffer;
 	private String text;
 	
-	private List<Run> runs = new ArrayList<Run>();
+	private List<Run> runs = Collections.emptyList();
 	private AttributedString attributedString;
 	private AttributedString awtAttributedString;
 	private Map<Attribute,Object> globalAttributes;
@@ -107,7 +108,8 @@ public class JRStyledText implements Cloneable
 	{
 		this.locale = locale;
 		this.text = text;
-		setGlobalAttributes(globalAttributes);
+		this.globalAttributes = globalAttributes;
+		this.runs = Collections.singletonList(new Run(globalAttributes, 0, text.length()));
 	}
 	
 	private void ensureBuffer()
@@ -145,7 +147,23 @@ public class JRStyledText implements Cloneable
 	 */
 	public void addRun(Run run)
 	{
-		runs.add(run);
+		int currentSize = runs.size();
+		if (currentSize == 0)
+		{
+			runs = Collections.singletonList(run);
+		}
+		else
+		{
+			if (currentSize == 1 && !(runs instanceof ArrayList))
+			{
+				List<Run> newRuns = new ArrayList<Run>();
+				newRuns.add(runs.get(0));
+				runs = newRuns;
+			}
+
+			runs.add(run);
+		}
+
 		attributedString = null;
 		awtAttributedString = null;
 	}
@@ -398,12 +416,24 @@ public class JRStyledText implements Cloneable
 			JRStyledText clone = (JRStyledText) super.clone();
 			clone.globalAttributes = cloneAttributesMap(globalAttributes);
 			
-			clone.runs = new ArrayList<Run>(runs.size());
-			for (Iterator<Run> it = runs.iterator(); it.hasNext();)
+			int runsCount = runs.size();
+			if (runsCount == 0)
 			{
-				Run run = it.next();
-				Run runClone = run.cloneRun();
-				clone.runs.add(runClone);
+				clone.runs = Collections.emptyList();
+			}
+			else if (runsCount == 1)
+			{
+				clone.runs = Collections.singletonList(runs.get(0).cloneRun());
+			}
+			else
+			{
+				clone.runs = new ArrayList<Run>(runsCount);
+				for (Iterator<Run> it = runs.iterator(); it.hasNext();)
+				{
+					Run run = it.next();
+					Run runClone = run.cloneRun();
+					clone.runs.add(runClone);
+				}
 			}
 			
 			return clone;
