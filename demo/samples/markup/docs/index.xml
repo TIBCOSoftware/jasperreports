@@ -79,7 +79,7 @@ The first one is formatted using the <code>markup="styled"</code> value:
 			elements are introduced by setting the <style forecolor="blue" isItalic="true">markup</style> attribute 
 			available for the <style isBold="true" forecolor="magenta">textElement</style> tag to 
 			<style forecolor="red" isItalic="true">styled</style> and by formatting the text content using nested 
-			<style isBold="true" forecolor="green">style</style> tags and simple HTML tags.&#93;&#93;>
+			<style isBold="true" forecolor="green">style</style> tags and simple HTML tags.]] >
 		</text>
 	</staticText>
 	]]></pre>
