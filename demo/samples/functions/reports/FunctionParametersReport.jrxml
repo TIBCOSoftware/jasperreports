@@ -14,7 +14,7 @@
 	bottomMargin="5" 
 	uuid="26849818-1cc4-4d57-afed-6dfd2ffa9529">
 	<style name="rowStyle" fontName="Monospaced" fontSize="8" isBold="true" isDefault="true"/>
-	<field name="id" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
 	<field name="description" class="java.lang.String"/>
 	<detail>
 		<band height="20">
@@ -22,7 +22,7 @@
 				<reportElement uuid="07d614d9-1698-464f-baf5-402952cadec6" stretchType="RelativeToBandHeight" x="0" y="0" width="210" height="20"/>
 				<box leftPadding="5"/>
 				<textElement verticalAlignment="Top"/>
-				<textFieldExpression><![CDATA[$F{id} == null ? "\u2022  There are no parameters" : "\u2022  " + $F{id} + " - " + $F{description}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{name} == null ? "\u2022  There are no parameters" : "\u2022  " + $F{name} + " - " + $F{description}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
