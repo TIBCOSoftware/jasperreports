@@ -258,6 +258,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	 */
 	private JasperReportsContext jasperReportsContext;
 	private JRPropertiesUtil propertiesUtil;
+	private List<String> printTransferPropertyPrefixes;
 
 	/**
 	 * The report.
@@ -336,10 +337,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		if (parentFiller == null)
 		{
 			fillContext = new JRFillContext(this);
+			printTransferPropertyPrefixes = readPrintTransferPropertyPrefixes();
 		}
 		else
 		{
 			fillContext = parentFiller.fillContext;
+			printTransferPropertyPrefixes = parentFiller.printTransferPropertyPrefixes;
 		}
 		
 		this.fillerId = fillContext.generatedFillerId();
@@ -531,7 +534,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		initBands();
 	}
 
-
 	/**
 	 * Returns the report parameters indexed by name.
 	 *
@@ -694,6 +696,27 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	public JRPropertiesUtil getPropertiesUtil()
 	{
 		return propertiesUtil;
+	}
+
+	private List<String> readPrintTransferPropertyPrefixes()
+	{
+		List<JRPropertiesUtil.PropertySuffix> transferProperties = propertiesUtil.getProperties(
+				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
+		List<String> prefixes = new ArrayList<String>(transferProperties.size());
+		for (JRPropertiesUtil.PropertySuffix property : transferProperties)
+		{
+			String transferPrefix = property.getValue();
+			if (transferPrefix != null && transferPrefix.length() > 0)
+			{
+				prefixes.add(transferPrefix);
+			}
+		}
+		return prefixes;
+	}
+
+	protected List<String> getPrintTransferPropertyPrefixes()
+	{
+		return printTransferPropertyPrefixes;
 	}
 
 	/**
