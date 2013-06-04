@@ -844,11 +844,9 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	@Override
 	protected void setPrintText(JRPrintText printText, String text)
 	{
-		// JRStyledText.getText() returns a copy of the original text, resulting in 
-		// two distinct but identical String objects being kept in JRPrintText.
 		// checking if the text is identical to the one set via setValue.
-		// note that we're assuming that this methods is called after printText.setValue().
-		// we can get rid of this when we'll change JRStyledText not to create String copies when not necessary.
+		// note that we're assuming that this method is called after printText.setValue().
+		// JRStyledText no longer creates String copies for simple texts, but keeping this to cover other cases.
 		Object printValue = printText.getValue();
 		String textObj = text;
 		if (text != null && printValue != null && printValue instanceof String
