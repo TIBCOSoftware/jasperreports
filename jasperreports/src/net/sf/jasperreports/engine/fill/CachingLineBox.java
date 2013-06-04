@@ -88,7 +88,8 @@ public class CachingLineBox implements JRLineBox
 
 	public JRLineBox clone(JRBoxContainer boxContainer)
 	{
-		throw new UnsupportedOperationException();
+		// cloning the base line box
+		return base.clone(boxContainer);
 	}
 
 	public JRBoxPen getPen()
