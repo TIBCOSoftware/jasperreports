@@ -2186,6 +2186,7 @@ public class HtmlExporter extends JRAbstractExporter
 			{
 				//insert new lines at the line break positions saved at fill time
 				//cloning the text first
+				//FIXME do we need this?  styled text instances are no longer shared
 				styledText = styledText.cloneText();
 				styledText.insert("\n", lineBreakOffsets);
 			}
