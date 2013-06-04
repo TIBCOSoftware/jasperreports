@@ -981,6 +981,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 			out.writeJRObject(value);
 		}
 		
+		//FIXME these usually repeat, keep in memory?
 		out.writeFloat(lineSpacingFactor);
 		out.writeFloat(leadingOffset);
 		out.writeFloat(textHeight);
