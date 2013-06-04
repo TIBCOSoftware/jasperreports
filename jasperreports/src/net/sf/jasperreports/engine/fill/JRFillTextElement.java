@@ -95,6 +95,10 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private final boolean consumeSpaceOnOverflow;
 	protected JRLineBox lineBox;
 	protected JRParagraph paragraph;
+
+	private JRStyle currentFillStyle;
+	private FillStyleObjects fillStyleObjects;
+	private Map<JRStyle, FillStyleObjects> fillStyleObjectsMap;
 	
 	private boolean defaultKeepFullText;
 	private boolean dynamicKeepFullText;
@@ -120,6 +124,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		this.defaultKeepFullText = filler.getPropertiesUtil().getBooleanProperty(textElement, 
 				JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, false);
 		this.dynamicKeepFullText = hasDynamicProperty(JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT);
+		
+		this.fillStyleObjectsMap = new HashMap<JRStyle, JRFillTextElement.FillStyleObjects>();
 	}
 	
 
@@ -133,6 +139,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 		this.defaultKeepFullText = textElement.defaultKeepFullText;
 		this.dynamicKeepFullText = textElement.dynamicKeepFullText;
+		this.fillStyleObjectsMap = textElement.fillStyleObjectsMap;
 	}
 
 
@@ -159,15 +166,47 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		super.evaluateStyle(evaluation);
 
-		lineBox = null;
-		paragraph = null;
-		
-		if (providerStyle != null)
+		if (providerStyle == null)
+		{
+			lineBox = null;
+			paragraph = null;
+			
+			setFillStyleObjects();
+		}
+		else
 		{
 			lineBox = initLineBox.clone(this);
 			paragraph = initParagraph.clone(this);
 			JRStyleResolver.appendBox(lineBox, providerStyle.getLineBox());
 			JRStyleResolver.appendParagraph(paragraph, providerStyle.getParagraph());
+			
+			fillStyleObjects = null;
+		}
+	}
+
+	private void setFillStyleObjects()
+	{
+		JRStyle evaluatedStyle = getStyle();
+		// quick check for fast exit (avoid map lookup) when the style has not changed
+		//FIXME keep two previous styles to catch common alternating row styles?
+		if (fillStyleObjects != null && currentFillStyle == evaluatedStyle)
+		{
+			return;
+		}
+		
+		// update current style
+		currentFillStyle = evaluatedStyle;
+		
+		// search cached per style
+		fillStyleObjects = fillStyleObjectsMap.get(evaluatedStyle);
+		if (fillStyleObjects == null)
+		{
+			// create fill style objects
+			CachingLineBox cachedLineBox = new CachingLineBox(initLineBox);
+			CachingParagraph cachedParagraph = new CachingParagraph(initParagraph);
+			fillStyleObjects = new FillStyleObjects(cachedLineBox, cachedParagraph);
+			
+			fillStyleObjectsMap.put(evaluatedStyle, fillStyleObjects);
 		}
 	}
 
@@ -291,12 +330,24 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		throw new UnsupportedOperationException();
 	}
 
+	protected JRLineBox getPrintLineBox()
+	{
+		return lineBox == null ? initLineBox : lineBox;
+	}
+	
 	/**
 	 *
 	 */
 	public JRLineBox getLineBox()
 	{
-		return lineBox == null ? initLineBox : lineBox;
+		return lineBox == null 
+				? (fillStyleObjects == null ? initLineBox : fillStyleObjects.lineBox) 
+				: lineBox;
+	}
+
+	protected JRParagraph getPrintParagraph()
+	{
+		return paragraph == null ? initParagraph : paragraph;
 	}
 
 	/**
@@ -304,7 +355,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public JRParagraph getParagraph()
 	{
-		return paragraph == null ? initParagraph : paragraph;
+		return paragraph == null 
+				? (fillStyleObjects == null ? initParagraph : fillStyleObjects.paragraph) 
+				: paragraph;
 	}
 
 	/**
@@ -1057,4 +1110,15 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		this.textTruncateSuffix = textTruncateSuffix;
 	}
 
+	private static class FillStyleObjects
+	{
+		private final JRLineBox lineBox;
+		private final JRParagraph paragraph;
+		
+		public FillStyleObjects(JRLineBox lineBox, JRParagraph paragraph)
+		{
+			this.lineBox = lineBox;
+			this.paragraph = paragraph;
+		}
+	}
 }
