@@ -81,7 +81,8 @@ public class CachingParagraph implements JRParagraph
 	@Override
 	public JRParagraph clone(JRParagraphContainer paragraphContainer)
 	{
-		throw new UnsupportedOperationException();
+		// cloning the base paragraph
+		return base.clone(paragraphContainer);
 	}
 
 	
