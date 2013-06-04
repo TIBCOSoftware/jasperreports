@@ -37,6 +37,7 @@ public class FunctionParameterBean
 	private String id;
 	private String name;
 	private String description;
+	private String type;
 	
 	/**
 	 * 
@@ -44,12 +45,13 @@ public class FunctionParameterBean
 	public FunctionParameterBean(
 		String id, 
 		String name, 
-		String description
-		) 
-	{
+		String description,
+		String type
+		) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
+		this.type = type;
 	}
 
 	public String getId() {
@@ -75,4 +77,13 @@ public class FunctionParameterBean
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 }
