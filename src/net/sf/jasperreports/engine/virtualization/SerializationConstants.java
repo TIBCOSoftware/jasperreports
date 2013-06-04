@@ -36,7 +36,7 @@ public interface SerializationConstants
 	int OBJECT_REF_MASK = 0x80;
 	
 	int OBJECT_TYPE_OFFSET = 0x10;
-	int OBJECT_TYPE_COUNT = 0x3F - 0x10;
+	int OBJECT_TYPE_COUNT = 0x3F - 0x10 + 1;
 	
 	int OBJECT_TYPE_STRING = 0x10;
 	int OBJECT_TYPE_UUID = 0x11;
