@@ -163,9 +163,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	protected void setTextElement(JRTextElement textElement)
 	{
 		super.setElement(textElement);
-
-		copyLineBox(textElement.getLineBox());
-		copyParagraph(textElement.getParagraph());
 		
 		fontName = textElement.getOwnFontName();
 		isBold = textElement.isOwnBold();

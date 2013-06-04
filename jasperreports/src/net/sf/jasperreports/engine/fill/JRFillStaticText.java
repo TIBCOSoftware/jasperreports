@@ -90,11 +90,14 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 
 	protected JRTemplateElement createElementTemplate()
 	{
-		return new JRTemplateText(
+		JRTemplateText template = new JRTemplateText(
 				getElementOrigin(), 
 				filler.getJasperPrint().getDefaultStyleProvider(), 
 				this
 				);
+		template.copyParagraph(getPrintParagraph());
+		template.copyLineBox(getPrintLineBox());
+		return template;
 	}
 
 

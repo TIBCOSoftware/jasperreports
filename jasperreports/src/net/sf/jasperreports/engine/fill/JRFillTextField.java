@@ -366,6 +366,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				filler.getJasperPrint().getDefaultStyleProvider(), 
 				this
 				);
+		template.copyParagraph(getPrintParagraph());
+		template.copyLineBox(getPrintLineBox());
 		template.setTextFormat(textFormat);
 		return template;
 	}
