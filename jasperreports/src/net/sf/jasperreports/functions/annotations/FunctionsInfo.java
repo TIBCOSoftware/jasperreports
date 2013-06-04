@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.functions.FunctionsBundle;
+import net.sf.jasperreports.functions.FunctionsRegistryFactory;
 import net.sf.jasperreports.functions.FunctionsUtil;
 
 /**
@@ -50,6 +51,9 @@ public class FunctionsInfo
 	public static final String DEFAULT_MESSAGES_BUNDLE = "jasperreports_messages";
 	public static final String PROPERTY_SUFFIX_NAME = "name";
 	public static final String PROPERTY_SUFFIX_DESCRIPTION = "description";
+	public static final String PROPERTY_SUFFIX_TYPE = "type";
+	public static final String PROPERTY_PARAMETER_REQUIRED = FunctionsRegistryFactory.FUNCTIONS_CLASSES_PROPERTY_PREFIX +"parameter.required";
+	public static final String PROPERTY_PARAMETER_OPTIONAL = FunctionsRegistryFactory.FUNCTIONS_CLASSES_PROPERTY_PREFIX +"parameter.optional";
 
 	/**
 	 * 
@@ -122,7 +126,7 @@ public class FunctionsInfo
 		{
 			for (Method method : methods) 
 			{
-				addFunction(method, provider, defaultCategories);
+				addFunction(method, provider, defaultCategories, getRequiredParamsCount(method, methods));
 			}
 		}
 	}
@@ -148,37 +152,36 @@ public class FunctionsInfo
 	/**
 	 * 
 	 */
-	protected void addFunction(Method functionMethod, MessageProvider provider, Set<String> categoryIds)
+	protected void addFunction(Method functionMethod, MessageProvider provider, Set<String> categoryIds, int requiredParams)
 	{
 		Function function = functionMethod.getAnnotation(Function.class);
 		if(function != null) 
 		{
 			String functionId = functionMethod.getDeclaringClass().getName() + "." + function.value();
-
-			String name = getName(functionId, provider);
-			String description = getDescription(functionId, provider);
 			
 			FunctionBean functionBean = 
 				new FunctionBean(
 					functionId,
-					name,
-					description,
+					getName(functionId, provider),
+					getDescription(functionId, provider),
 					functionMethod.getReturnType()
 					);
 
 			FunctionParameters functionParameters = functionMethod.getAnnotation(FunctionParameters.class);
+			int params = 0;
 			if (functionParameters != null && functionParameters.value().length > 0) 
 			{
 				for(FunctionParameter functionParameter : functionParameters.value()) 
 				{
-					addFunctionParameter(functionBean, functionParameter, provider);
+					addFunctionParameter(functionBean, functionParameter, provider, params < requiredParams);
+					++params;
 				}
 			} 
 
 			FunctionParameter functionParameter = functionMethod.getAnnotation(FunctionParameter.class);
 			if(functionParameter != null) 
 			{
-				addFunctionParameter(functionBean, functionParameter, provider);
+				addFunctionParameter(functionBean, functionParameter, provider, params < requiredParams);
 			}
 
 			FunctionCategories functionCategories = functionMethod.getAnnotation(FunctionCategories.class);
@@ -199,18 +202,16 @@ public class FunctionsInfo
 	/**
 	 * 
 	 */
-	protected void addFunctionParameter(FunctionBean functionBean, FunctionParameter functionParameter, MessageProvider provider)
+	protected void addFunctionParameter(FunctionBean functionBean, FunctionParameter functionParameter, MessageProvider provider, boolean isRequired)
 	{
 		String parameterId = functionBean.getId() + "." + functionParameter.value();
-
-		String name = getName(parameterId, provider);
-		String description = getDescription(parameterId, provider);
 		
 		FunctionParameterBean functionParameterBean = 
 			new FunctionParameterBean(
 				parameterId,
-				name,
-				description
+				getName(parameterId, provider),
+				getDescription(parameterId, provider),
+				getType(provider, isRequired)
 				);
 		
 		functionBean.addParameter(functionParameterBean);
@@ -230,10 +231,10 @@ public class FunctionsInfo
 			categoryId = category.value();
 		}
 		
-		String categoryName = getName(categoryId, provider);
-		String categoryDescription = getDescription(categoryId, provider);
-
-		FunctionCategoryBean categoryBean = new FunctionCategoryBean(categoryId, categoryName, categoryDescription);
+		FunctionCategoryBean categoryBean = new FunctionCategoryBean(
+				categoryId, 
+				getName(categoryId, provider), 
+				getDescription(categoryId, provider));
 		
 		categories.put(categoryId, categoryBean);
 		
@@ -278,5 +279,28 @@ public class FunctionsInfo
 	{
 		return provider.getMessage(key + "." + PROPERTY_SUFFIX_DESCRIPTION, null, locale);
 	}
-
+	
+	/**
+	 * 
+	 */
+	private String getType(MessageProvider provider, boolean isRequired) 
+	{
+		return isRequired 
+			? provider.getMessage(PROPERTY_PARAMETER_REQUIRED, null, locale) 
+			: provider.getMessage(PROPERTY_PARAMETER_OPTIONAL, null, locale);
+	}
+	
+	private int getRequiredParamsCount(Method method, Method[] methods) {
+		//FIXME: how about varargs? some methods consider at least one mandatory, some others don't
+		
+		int requiredParams = method.getParameterTypes().length;
+		String name = method.getName();
+		for(Method m : methods) {
+			if(name.equals(m.getName())) {
+				int params = method.getParameterTypes().length;
+				requiredParams = Math.min(requiredParams, params);
+			}
+		}
+		return requiredParams;
+	}
 }
