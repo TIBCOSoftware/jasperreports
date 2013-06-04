@@ -676,8 +676,8 @@ public class TextMeasurer implements JRTextMeasurer
 			// the current segment limit is either the next tab character or the paragraph end 
 			int tabIndexOrEndIndex = (tabIndexes == null || currentTabHolder[0] >= tabIndexes.size() ? lineWrapper.paragraphEnd() : tabIndexes.get(currentTabHolder[0]) + 1);
 			
-			float startX = (lineWrapper.paragraphPosition() == 0 ? textElement.getParagraph().getFirstLineIndent() : 0) + leftPadding;
-			float endX = width - textElement.getParagraph().getRightIndent() - rightPadding;
+			float startX = (lineWrapper.paragraphPosition() == 0 ? jrParagraph.getFirstLineIndent() : 0) + leftPadding;
+			float endX = width - jrParagraph.getRightIndent() - rightPadding;
 			endX = endX < startX ? startX : endX;
 			//formatWidth = endX - startX;
 			//formatWidth = endX;
@@ -698,7 +698,7 @@ public class TextMeasurer implements JRTextMeasurer
 			}
 
 			//float availableWidth = formatWidth - ParagraphUtil.getSegmentOffset(nextTabStopHolder[0], rightX); // nextTabStop can be null here; and that's OK
-			float availableWidth = endX - textElement.getParagraph().getLeftIndent() - ParagraphUtil.getSegmentOffset(nextTabStopHolder[0], rightX); // nextTabStop can be null here; and that's OK
+			float availableWidth = endX - jrParagraph.getLeftIndent() - ParagraphUtil.getSegmentOffset(nextTabStopHolder[0], rightX); // nextTabStop can be null here; and that's OK
 			
 			// creating a text layout object for each tab segment 
 			TextLine textLine = 
