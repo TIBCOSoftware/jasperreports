@@ -28,6 +28,9 @@ import net.sf.jasperreports.functions.annotations.FunctionCategories;
 import net.sf.jasperreports.functions.annotations.FunctionParameter;
 import net.sf.jasperreports.functions.annotations.FunctionParameters;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /**
  * This class should maintain all functions that allows logic decisions, and belong to the category {@link #LOGICAL}.
@@ -39,6 +42,8 @@ import net.sf.jasperreports.functions.annotations.FunctionParameters;
 public final class LogicalFunctions 
 {
 	
+	private static final Log log = LogFactory.getLog(LogicalFunctions.class);
+	
 	// ===================== AND function ===================== //
 	/**
 	 * Returns true if all arguments are considered true, false otherwise. Argument must be a logical result or a direct boolean value.
@@ -47,7 +52,12 @@ public final class LogicalFunctions
 	@FunctionParameters({
 		@FunctionParameter("arguments")})
 	public static Boolean AND(Boolean ... arguments){
-		if(arguments.length==0) return null;
+		if(arguments.length==0) {
+			if(log.isDebugEnabled()){
+				log.debug("No arguments were specified.");
+			}
+			return null;
+		}
 		boolean result=true;
 		for(Boolean arg : arguments){
 			result=result && arg;
@@ -84,6 +94,9 @@ public final class LogicalFunctions
 		@FunctionParameter("boolValue")})
 	public static Boolean NOT(Boolean boolValue){
 		if (boolValue==null){
+			if(log.isDebugEnabled()){
+				log.debug("Argument can not be null.");
+			}
 			return null;
 		}
 		else{
@@ -99,7 +112,12 @@ public final class LogicalFunctions
 	@FunctionParameters({
 		@FunctionParameter("arguments")})
 	public static Boolean OR(Boolean ... arguments){
-		if(arguments.length==0) return null;
+		if(arguments.length==0) {
+			if(log.isDebugEnabled()){
+				log.debug("No arguments were specified.");
+			}
+			return null;
+		}
 		boolean result=false;
 		for(Boolean arg : arguments){
 			result=result || arg;
@@ -119,7 +137,12 @@ public final class LogicalFunctions
 		@FunctionParameter("value1"),
 		@FunctionParameter("value2")})
 	public static Object IF(Boolean test, Object value1, Object value2){
-		if(test==null) return null;
+		if(test==null) {
+			if(log.isDebugEnabled()){
+				log.debug("Test condition can not be null.");
+			}
+			return null;
+		}
 		return test ? value1 : value2; 
 	}
 	
