@@ -126,7 +126,7 @@ public class FunctionsInfo
 		{
 			for (Method method : methods) 
 			{
-				addFunction(method, provider, defaultCategories, getRequiredParamsCount(method, methods));
+				addFunction(method, provider, defaultCategories, getBoundaryMethods(method, methods));
 			}
 		}
 	}
@@ -152,7 +152,7 @@ public class FunctionsInfo
 	/**
 	 * 
 	 */
-	protected void addFunction(Method functionMethod, MessageProvider provider, Set<String> categoryIds, int requiredParams)
+	protected void addFunction(Method functionMethod, MessageProvider provider, Set<String> categoryIds, Method[] boundaryMethods)
 	{
 		Function function = functionMethod.getAnnotation(Function.class);
 		if(function != null) 
@@ -168,12 +168,15 @@ public class FunctionsInfo
 					);
 
 			FunctionParameters functionParameters = functionMethod.getAnnotation(FunctionParameters.class);
-			int params = 0;
+			Class<?>[] minParameters = boundaryMethods[0].getParameterTypes();
+			Class<?>[] maxParameters = boundaryMethods[1].getParameterTypes();
+			
+			int params = 0, requiredParams = minParameters.length;
 			if (functionParameters != null && functionParameters.value().length > 0) 
 			{
 				for(FunctionParameter functionParameter : functionParameters.value()) 
 				{
-					addFunctionParameter(functionBean, functionParameter, provider, params < requiredParams);
+					addFunctionParameter(functionBean, functionParameter, provider, params < requiredParams, maxParameters[params]);
 					++params;
 				}
 			} 
@@ -181,7 +184,7 @@ public class FunctionsInfo
 			FunctionParameter functionParameter = functionMethod.getAnnotation(FunctionParameter.class);
 			if(functionParameter != null) 
 			{
-				addFunctionParameter(functionBean, functionParameter, provider, params < requiredParams);
+				addFunctionParameter(functionBean, functionParameter, provider, params < requiredParams, maxParameters[params]);
 			}
 
 			FunctionCategories functionCategories = functionMethod.getAnnotation(FunctionCategories.class);
@@ -202,7 +205,7 @@ public class FunctionsInfo
 	/**
 	 * 
 	 */
-	protected void addFunctionParameter(FunctionBean functionBean, FunctionParameter functionParameter, MessageProvider provider, boolean isRequired)
+	protected void addFunctionParameter(FunctionBean functionBean, FunctionParameter functionParameter, MessageProvider provider, boolean isRequired, Class<?> parameterClass)
 	{
 		String parameterId = functionBean.getId() + "." + functionParameter.value();
 		
@@ -211,7 +214,9 @@ public class FunctionsInfo
 				parameterId,
 				getName(parameterId, provider),
 				getDescription(parameterId, provider),
-				getType(provider, isRequired)
+				getType(provider, isRequired),
+				isRequired,
+				parameterClass
 				);
 		
 		functionBean.addParameter(functionParameterBean);
@@ -290,17 +295,27 @@ public class FunctionsInfo
 			: provider.getMessage(PROPERTY_PARAMETER_OPTIONAL, null, locale);
 	}
 	
-	private int getRequiredParamsCount(Method method, Method[] methods) {
-		//FIXME: how about varargs? some methods consider at least one mandatory, some others don't
-		
-		int requiredParams = method.getParameterTypes().length;
+	/**
+	 * Returns an array of 2 overloaded methods: the first one provides the minimum number of arguments 
+	 * and the second one provides the maximum number of arguments
+	 */
+	private Method[] getBoundaryMethods(Method method, Method[] methods) {
+		Method minMethod = method, maxMethod = method;
+		int minParams = method.getParameterTypes().length;
+		int maxParams = method.getParameterTypes().length;
 		String name = method.getName();
 		for(Method m : methods) {
 			if(name.equals(m.getName())) {
-				int params = method.getParameterTypes().length;
-				requiredParams = Math.min(requiredParams, params);
+				int params = m.getParameterTypes().length;
+				if(params < minParams) {
+					minParams = params;
+					minMethod = m;
+				} else if(params > maxParams){
+					maxParams = params;
+					maxMethod = m;
+				}
 			}
 		}
-		return requiredParams;
+		return new Method[] {minMethod, maxMethod};
 	}
 }
