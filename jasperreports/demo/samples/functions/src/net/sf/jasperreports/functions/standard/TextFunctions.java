@@ -34,6 +34,9 @@ import net.sf.jasperreports.functions.annotations.FunctionCategories;
 import net.sf.jasperreports.functions.annotations.FunctionParameter;
 import net.sf.jasperreports.functions.annotations.FunctionParameters;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * This class should maintain all function methods that belongs to the category {@link #TEXT}.
  * 
@@ -43,7 +46,7 @@ import net.sf.jasperreports.functions.annotations.FunctionParameters;
 @FunctionCategories({TextCategory.class})
 public final class TextFunctions 
 {
-	
+	private static final Log log = LogFactory.getLog(TextFunctions.class);	
 	private static final int BASE_MIN_RADIX=2;
 	private static final int BASE_MAX_RADIX=36;
 
@@ -60,17 +63,36 @@ public final class TextFunctions
 		// java.lang.Character.MIN_RADIX and java.lang.Character.MAX_RADIX are already 2 and 36 respectively
 		// However we should check the parameter specified because the method we rely on uses 10 radix
 		// as fallback when a smaller/greater radix is specified.
-		if(number==null || radix==null || radix>BASE_MAX_RADIX || radix<BASE_MIN_RADIX){
-			// The radix parameter must be an integer number between 2 and 36
+		if(number==null){
+			if(log.isDebugEnabled()){
+				log.debug("The number can not be null.");
+			}
+			return null;
+		}
+		if(radix==null || radix>BASE_MAX_RADIX || radix<BASE_MIN_RADIX) {
+			if(log.isDebugEnabled()) {
+				log.debug("The radix parameter must be an integer number between 2 and 36.");
+			}
 			return null;
 		}
 		return Integer.toString(number, radix);
 	}
 
 	public static String BASE(Integer number, Integer radix, Integer minlength){
-		if (number==null || radix==null || minlength==null) return null;
-		String spacePaddedStr = String.format("%"+minlength+"s",BASE(number, radix));
-		return spacePaddedStr.replace(' ', '0');
+		String base = BASE(number, radix);
+		if(base!=null) {
+			if(minlength == null){
+				if(log.isDebugEnabled()) {
+					log.debug("The minimum length can not be null.");
+				}
+				return null;
+			}
+			String spacePaddedStr = String.format("%"+minlength+"s",base);
+			return spacePaddedStr.replace(' ', '0');
+		}
+		else {
+			return null;
+		}
 	}
 
 	// ===================== CHAR function ===================== //
@@ -82,7 +104,9 @@ public final class TextFunctions
 			@FunctionParameter("number")})
 	public static String CHAR(Integer number){
 		if(number==null || (number <1 || number>255)){
-			// The number must be an integer number between 1 and 255
+			if(log.isDebugEnabled()) {
+				log.debug("The number must be an integer number between 1 and 255.");
+			}
 			return null;
 		}
 		return Character.toString((char)number.intValue());
@@ -97,6 +121,7 @@ public final class TextFunctions
 			@FunctionParameter("text")})
 	public static String CLEAN(String text){
 		if(text==null){
+			logNullTextString();
 			return null;
 		}
 		String cleanedString = text.replaceAll("\\p{Cntrl}", "");
@@ -111,7 +136,10 @@ public final class TextFunctions
 	@FunctionParameters({
 			@FunctionParameter("textString")})
 	public static Integer CODE(String textString){
-		if(textString==null) return null;
+		if(textString==null){
+			logNullTextString();
+			return null;
+		}
 		int firstCharAsNum = textString.charAt(0);
 		if(firstCharAsNum<0 || firstCharAsNum>255){
 			throw new JRRuntimeException("The first character of the text can not be converted to a valid numeric ASCII code.");
@@ -127,7 +155,12 @@ public final class TextFunctions
 	@FunctionParameters({
 			@FunctionParameter("strings")})
 	public static String CONCATENATE(String ...strings){
-		if(strings.length==0) return null;
+		if(strings.length==0) {
+			if(log.isDebugEnabled()) {
+				log.debug("No arguments were specified.");
+			}
+			return null;
+		}
 		StringBuffer sb=new StringBuffer();
 		for (int i=0;i<strings.length;i++){
 			sb.append(strings[i]);
@@ -151,6 +184,9 @@ public final class TextFunctions
 			return text2.equals(text1);
 		}
 		else {
+			if(log.isDebugEnabled()){
+				log.debug("The texts to be compared are both null.");
+			}
 			return null;
 		}
 	}
@@ -163,7 +199,10 @@ public final class TextFunctions
 	@FunctionParameters({
 			@FunctionParameter("textNumber")})
 	public static Double DOUBLE_VALUE(String textNumber){
-		if(textNumber==null) return null;
+		if(textNumber==null) {
+			logNullTextString();
+			return null;
+		}
 		return Double.parseDouble(textNumber);
 	}	
 	
@@ -181,11 +220,14 @@ public final class TextFunctions
 	}
 	
 	public static Integer FIND(String findText, String searchText, Integer startPosition){
-		if(findText==null || searchText==null) return null;
+		if(findText==null || searchText==null || startPosition == null) {
+			logHavingNullArguments();
+			return null;
+		}
 		int position = findText.indexOf(searchText, startPosition);
 		return position;
 	}
-	
+
 	// ===================== FIXED function ===================== //
 	/**
 	 * Returns the text representing number with the specified decimal places.
@@ -200,7 +242,10 @@ public final class TextFunctions
 	}
 
 	public static String FIXED(Number number, Integer decimals, Boolean omitSeparators){
-		if(number==null || decimals==null || omitSeparators==null) return null;
+		if(number==null || decimals==null || omitSeparators==null) {
+			logHavingNullArguments();
+			return null;
+		}
 		// Pattern samples:
 		// 123456.789	###,###.###	123,456.789
 		// 123456.789	###.##	123456.79
@@ -225,7 +270,10 @@ public final class TextFunctions
 	@FunctionParameters({
 			@FunctionParameter("textNumber")})
 	public static Float FLOAT_VALUE(String textNumber){
-		if(textNumber==null) return null;
+		if(textNumber==null) {
+			logNullTextString();
+			return null;
+		}
 		return Float.parseFloat(textNumber);
 	}
 	
@@ -237,7 +285,10 @@ public final class TextFunctions
 	@FunctionParameters({
 		@FunctionParameter("textNumber")})
 	public static Integer INTEGER_VALUE(String textNumber){
-		if(textNumber==null) return null;
+		if(textNumber==null) {
+			logNullTextString();
+			return null;
+		}
 		return Integer.parseInt(textNumber);
 	}
 
@@ -255,7 +306,10 @@ public final class TextFunctions
 	}
 	
 	public static String LEFT(String text, Integer charactersNum){
-		if(text==null || charactersNum==null) return null;
+		if(text==null || charactersNum==null) {
+			logHavingNullArguments();
+			return null;
+		}
 		return text.substring(0,charactersNum);
 	}
 	
@@ -267,7 +321,10 @@ public final class TextFunctions
 	@FunctionParameters({
 			@FunctionParameter("text")})
 	public static Integer LEN(String text){
-		if(text==null) return null;
+		if(text==null) {
+			logNullTextString();
+			return null;
+		}
 		return text.length();
 	}
 
@@ -279,7 +336,10 @@ public final class TextFunctions
 	@FunctionParameters({
 		@FunctionParameter("textNumber")})
 	public static Long LONG_VALUE(String textNumber){
-		if(textNumber==null) return null;
+		if(textNumber==null) {
+			logNullTextString();
+			return null;
+		}
 		return Long.parseLong(textNumber);
 	}
 
@@ -291,7 +351,10 @@ public final class TextFunctions
 	@FunctionParameters({
 		@FunctionParameter("text")})
 	public static String LOWER(String text){
-		if(text==null) return null;
+		if(text==null) {
+			logNullTextString();
+			return null;
+		}
 		return text.toLowerCase();
 	}
 
@@ -303,7 +366,10 @@ public final class TextFunctions
 	@FunctionParameters({
 		@FunctionParameter("text")})
 	public static String LTRIM(String text){
-		if(text==null) return null;
+		if(text==null) {
+			logNullTextString();
+			return null;
+		}
 		return text.replaceAll("^\\s+", "");
 	}
 		
@@ -317,12 +383,23 @@ public final class TextFunctions
 			@FunctionParameter("startPosition"),
 			@FunctionParameter("charactersNum")})
 	public static String MID(String text, Integer startPosition) {
-		return text == null || startPosition == null ? null : text.substring(startPosition-1, text.length()-startPosition+1);
+		if(text == null || startPosition == null) {
+			logHavingNullArguments();
+			return null;
+		}
+		else {
+			return text.substring(startPosition-1, text.length()-startPosition+1);
+		}
 	}
 
 	public static String MID(String text, Integer startPosition, Integer charactersNum){
-		if(text==null || startPosition==null || charactersNum==null) return null;
-		return text.substring(startPosition-1,startPosition-1+charactersNum);
+		if(text==null || startPosition==null || charactersNum==null) {
+			logHavingNullArguments();
+			return null;
+		}
+		else {
+			return text.substring(startPosition-1,startPosition-1+charactersNum);
+		}
 	}
 	
 	// ===================== PROPER function ===================== //
@@ -333,30 +410,35 @@ public final class TextFunctions
 	@FunctionParameters({
 		@FunctionParameter("text")})
 	public static String PROPER(String text){
-		if(text==null) return null;
-		String lowerCaseString=LOWER(text);
-		StringBuffer result=new StringBuffer();
-		result.append(Character.toTitleCase(lowerCaseString.charAt(0)));
-		boolean capitalizeNext=false;
-		
-		for (int i=1; i<lowerCaseString.length(); i++){
-			char c = lowerCaseString.charAt(i);
-			if(!isDelimiter(c)){
-				if(capitalizeNext){
-					result.append(Character.toTitleCase(c));
+		if(text==null) {
+			logNullTextString();
+			return null;
+		}
+		else {
+			String lowerCaseString=LOWER(text);
+			StringBuffer result=new StringBuffer();
+			result.append(Character.toTitleCase(lowerCaseString.charAt(0)));
+			boolean capitalizeNext=false;
+			
+			for (int i=1; i<lowerCaseString.length(); i++){
+				char c = lowerCaseString.charAt(i);
+				if(!isDelimiter(c)){
+					if(capitalizeNext){
+						result.append(Character.toTitleCase(c));
+					}
+					else{
+						result.append(c);
+					}
+					capitalizeNext=false;
 				}
 				else{
 					result.append(c);
+					capitalizeNext=true;
 				}
-				capitalizeNext=false;
 			}
-			else{
-				result.append(c);
-				capitalizeNext=true;
-			}
+			
+			return result.toString();
 		}
-		
-		return result.toString();
 	}
 	
 	// ===================== REPLACE function ===================== //
@@ -370,12 +452,17 @@ public final class TextFunctions
 			@FunctionParameter("charsNum"),
 			@FunctionParameter("newText")})
 	public static String REPLACE(String originalText, Integer startPosition, Integer charsNum, String newText){
-		if(originalText==null || startPosition==null || charsNum==null || newText==null) return null;		
-		StringBuffer output=new StringBuffer();
-		output.append(originalText.substring(0, startPosition-1));
-		output.append(newText);
-		output.append(originalText.substring(startPosition+charsNum-1, originalText.length()));
-		return output.toString();
+		if(originalText==null || startPosition==null || charsNum==null || newText==null) {
+			logHavingNullArguments();
+			return null;		
+		}
+		else {
+			StringBuffer output=new StringBuffer();
+			output.append(originalText.substring(0, startPosition-1));
+			output.append(newText);
+			output.append(originalText.substring(startPosition+charsNum-1, originalText.length()));
+			return output.toString();
+		}
 	}
 	
 	// ===================== REPT function ===================== //
@@ -387,12 +474,17 @@ public final class TextFunctions
 			@FunctionParameter("originalText"),
 			@FunctionParameter("numberOfTimes")})
 	public static String REPT(String originalText, Integer numberOfTimes){
-		if(originalText==null || numberOfTimes==null) return null;
-		StringBuffer output=new StringBuffer();
-		for(int i=0;i<numberOfTimes;i++){
-			output.append(originalText);
+		if(originalText==null || numberOfTimes==null) {
+			logHavingNullArguments();
+			return null;
 		}
-		return output.toString();
+		else{
+			StringBuffer output=new StringBuffer();
+			for(int i=0;i<numberOfTimes;i++){
+				output.append(originalText);
+			}
+			return output.toString();
+		}
 	}
 	
 	// ===================== RIGHT function ===================== //
@@ -408,9 +500,14 @@ public final class TextFunctions
 	}
 	
 	public static String RIGHT(String text, Integer charactersNum){
-		if(text==null || charactersNum==null) return null;
-		int length = text.length();
-		return text.substring(length-charactersNum,length);
+		if(text==null || charactersNum==null) {
+			logHavingNullArguments();
+			return null;
+		}
+		else{
+			int length = text.length();
+			return text.substring(length-charactersNum,length);
+		}
 	}
 	
 	// ===================== RTRIM function ===================== //
@@ -421,8 +518,13 @@ public final class TextFunctions
 	@FunctionParameters({
 			@FunctionParameter("text")})
 	public static String RTRIM(String text){
-		if(text==null) return null;
-		return text.replaceAll("\\s+$", "");
+		if(text==null) {
+			logNullTextString();
+			return null;
+		}
+		else{
+			return text.replaceAll("\\s+$", "");
+		}
 	}	
 	
 	// ===================== SEARCH function ===================== //
@@ -439,8 +541,13 @@ public final class TextFunctions
 	}	
 	
 	public static Integer SEARCH(String findText, String textToSearch, Integer startPosition){
-		if(findText==null || textToSearch==null || startPosition==null) return null;
-		return textToSearch.toLowerCase().indexOf(findText.toLowerCase(), startPosition-1);
+		if(findText==null || textToSearch==null || startPosition==null) {
+			logHavingNullArguments();
+			return null;
+		}
+		else {
+			return textToSearch.toLowerCase().indexOf(findText.toLowerCase(), startPosition-1);			
+		}
 	}
 	
 	// ===================== SUBSTITUTE function ===================== //
@@ -458,8 +565,11 @@ public final class TextFunctions
 	}	
 	
 	public static String SUBSTITUTE(String originalText, String oldText, String newText, Integer occurrenceNum){
-		if(originalText==null || oldText==null || newText==null) return null;
-		if(occurrenceNum==null){
+		if(originalText==null || oldText==null || newText==null) {
+			logHavingNullArguments();
+			return null;
+		}
+		else if(occurrenceNum==null){
 			// Replace all occurrences
 			return originalText.replaceAll(Pattern.quote(oldText), Matcher.quoteReplacement(newText));
 		}
@@ -509,9 +619,14 @@ public final class TextFunctions
 			@FunctionParameter("number"),
 			@FunctionParameter("numberFormat")})
 	public static String TEXT(Number number, String numberFormat){
-		if(number==null || numberFormat==null) return null;
-		NumberFormat nformat=new DecimalFormat(numberFormat);
-		return nformat.format(number);
+		if(number==null || numberFormat==null) {
+			logNullTextString();
+			return null;
+		}
+		else {
+			NumberFormat nformat=new DecimalFormat(numberFormat);
+			return nformat.format(number);			
+		}
 	}	
 	
 	// ===================== TRIM function ===================== //
@@ -522,8 +637,13 @@ public final class TextFunctions
 	@FunctionParameters({
 			@FunctionParameter("text")})
 	public static String TRIM(String text){
-		if(text==null) return null;
-		return text.trim(); 
+		if(text==null) {
+			logNullTextString();
+			return null;
+		}
+		else {
+			return text.trim();
+		}
 	}	
 		
 	// ===================== UPPER function ===================== //
@@ -534,12 +654,29 @@ public final class TextFunctions
 	@FunctionParameters({
 		@FunctionParameter("text")})
 	public static String UPPER(String text){
-		if(text==null) return null;
-		return text.toUpperCase();
+		if(text==null) {
+			logNullTextString();
+			return null;
+		}
+		else {
+			return text.toUpperCase();
+		}
 	}
 	
 	// Internal private methods
 	private static boolean isDelimiter(char c){
 		return Character.isWhitespace(c) || Character.isSpaceChar(c);
+	}
+	
+	private static void logNullTextString() {
+		if(log.isDebugEnabled()) {
+			log.debug("The text string can not be null.");
+		}
+	}
+	
+	private static void logHavingNullArguments() {
+		if(log.isDebugEnabled()){
+			log.debug("None of the arguments can be null.");
+		}
 	}
 }
