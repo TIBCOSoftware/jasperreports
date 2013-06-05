@@ -16,13 +16,15 @@
 	<style name="rowStyle" fontName="Monospaced" fontSize="8" isBold="true" isDefault="true"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="description" class="java.lang.String"/>
+	<field name="type" class="java.lang.String"/>
+	<field name="parameterClass" class="java.lang.Class"/>
 	<detail>
 		<band height="20">
 			<textField isStretchWithOverflow="true">
 				<reportElement uuid="07d614d9-1698-464f-baf5-402952cadec6" stretchType="RelativeToBandHeight" x="0" y="0" width="210" height="20"/>
 				<box leftPadding="5"/>
 				<textElement verticalAlignment="Top"/>
-				<textFieldExpression><![CDATA[$F{name} == null ? "\u2022  There are no parameters" : "\u2022  " + $F{name} + " - " + $F{description}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{name} == null ? "\u2022  This function has no parameters." : "\u2022  " + $F{name} + " - " + $F{description} + "\nClass: " + $F{parameterClass}.getName() + "\n" + $F{type} + "."]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -32,7 +34,7 @@
 				<reportElement uuid="b5038fb6-3f6d-4608-84cf-fe14aa42520c" x="0" y="0" width="210" height="20"/>
 				<box leftPadding="5"/>
 				<textElement/>
-				<textFieldExpression><![CDATA["\u2022  This function has no parameters"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["\u2022  This function has no parameters."]]></textFieldExpression>
 			</textField>
 		</band>
 	</noData>
