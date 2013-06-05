@@ -23,11 +23,13 @@
  */
 package net.sf.jasperreports.functions.standard;
 
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.functions.annotations.Function;
 import net.sf.jasperreports.functions.annotations.FunctionCategories;
 import net.sf.jasperreports.functions.annotations.FunctionParameter;
 import net.sf.jasperreports.functions.annotations.FunctionParameters;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -39,6 +41,7 @@ import net.sf.jasperreports.functions.annotations.FunctionParameters;
 @FunctionCategories({MathCategory.class})
 public final class MathFunctions 
 {
+	private static final Log log = LogFactory.getLog(MathFunctions.class);
 	
 	// ===================== ABS function ===================== //
 	/**
@@ -49,6 +52,7 @@ public final class MathFunctions
 			@FunctionParameter("number")})
 	public static Number ABS(Number number){
 		if(number==null) {
+			logNullArgument();
 			return null;
 		}
 		else{
@@ -80,10 +84,14 @@ public final class MathFunctions
 			@FunctionParameter("number")})
 	public static Long FACT(Integer number){
 		if(number==null) {
+			logNullArgument();
 			return null;
 		}
 		if(number<0){
-			throw new JRRuntimeException("Unable to calculate the factorial number of a negative number.");
+			if(log.isDebugEnabled()) {
+				log.debug("Unable to calculate the factorial number of a negative number.");
+			}
+			return null;
 		}
 		else{
 	       Long result = 1l;
@@ -103,6 +111,7 @@ public final class MathFunctions
 		@FunctionParameter("number")})
 	public static Boolean ISEVEN(Number number){
 		if(number==null) {
+			logNullArgument();
 			return null;
 		}
 		else{
@@ -119,6 +128,7 @@ public final class MathFunctions
 		@FunctionParameter("number")})
 	public static Boolean ISODD(Number number){
 		if(number==null) {
+			logNullArgument();
 			return null;
 		}
 		else{
@@ -134,7 +144,14 @@ public final class MathFunctions
 	@FunctionParameters({
 			@FunctionParameter("numbers")})
 	public static Number PRODUCT(Number ...numbers){
-		if(numbers.length==0) return null;		
+		if(numbers.length==0) {
+			logEmptyArgumentsList();
+			return null;
+		}
+		if(!isNumberListValid(numbers)) {
+			logArgumentsWithNullElements();
+			return null;
+		}
 		double result=1;
 		for (int i=0;i<numbers.length;i++){
 			result*=numbers[i].doubleValue();
@@ -174,6 +191,7 @@ public final class MathFunctions
 		@FunctionParameter("number")})
 	public static Integer SIGN(Number number){
 		if(number==null) {
+			logNullArgument();
 			return null;
 		}
 		else{
@@ -190,6 +208,7 @@ public final class MathFunctions
 			@FunctionParameter("number")})
 	public static Number SQRT(Number number){
 		if(number==null) {
+			logNullArgument();
 			return null;
 		}
 		else{
@@ -205,7 +224,14 @@ public final class MathFunctions
 	@FunctionParameters({
 			@FunctionParameter("numbers")})
 	public static Number SUM(Number ...numbers){
-		if(numbers.length==0) return null;		
+		if(numbers.length==0) {
+			logEmptyArgumentsList();
+			return null;
+		}
+		if(!isNumberListValid(numbers)) {
+			logArgumentsWithNullElements();
+			return null;
+		}
 		double result=0;
 		for (int i=0;i<numbers.length;i++){
 			result+=numbers[i].doubleValue();
@@ -221,8 +247,14 @@ public final class MathFunctions
 	@FunctionParameters({
 		@FunctionParameter("numbers")})
 	public static Number MIN(Number ...numbers){
-		if(numbers.length==0) throw new IllegalArgumentException("No numbers have been specified");
-		if(!isNumberListValid(numbers)) throw new IllegalArgumentException("No null element are allowed");
+		if(numbers.length==0) {
+			logEmptyArgumentsList();
+			return null;
+		}
+		if(!isNumberListValid(numbers)) {
+			logArgumentsWithNullElements();
+			return null;
+		}
 		double min= numbers[0].doubleValue();
 		for (int i=1;i<numbers.length;i++){
 			if(numbers[i].doubleValue()<min){
@@ -240,8 +272,14 @@ public final class MathFunctions
 	@FunctionParameters({
 		@FunctionParameter("numbers")})
 	public static Number MAX(Number ...numbers){
-		if(numbers.length==0) throw new IllegalArgumentException("No numbers have been specified");
-		if(!isNumberListValid(numbers)) throw new IllegalArgumentException("No null element are allowed");
+		if(numbers.length==0) {
+			logEmptyArgumentsList();
+			return null;
+		}
+		if(!isNumberListValid(numbers)) {
+			logArgumentsWithNullElements();
+			return null;
+		}
 		double max= numbers[0].doubleValue();
 		for (int i=1;i<numbers.length;i++){
 			if(numbers[i].doubleValue()>max){
@@ -259,7 +297,10 @@ public final class MathFunctions
 	@FunctionParameters({
 		@FunctionParameter("number")})
 	public static Double FLOOR(Number number){
-		if(number == null) throw new IllegalArgumentException("The value number can not be null");
+		if(number == null) {
+			logNullArgument();
+			return null;
+		}
 		return Math.floor(number.doubleValue());
 	}
 
@@ -271,7 +312,10 @@ public final class MathFunctions
 	@FunctionParameters({
 		@FunctionParameter("number")})
 	public static Double CEIL(Number number){
-		if(number == null) throw new IllegalArgumentException("The value number can not be null");
+		if(number == null) {
+			logNullArgument();
+			return null;
+		}
 		return Math.ceil(number.doubleValue());
 	}
 	
@@ -308,6 +352,25 @@ public final class MathFunctions
 		}
 		return true;
 	}
+
+	/* Utility methods for logging common messages */
 	
+	private static void logNullArgument() {
+		if(log.isDebugEnabled()) {
+			log.debug("The argument can not be null.");
+		}
+	}
+
+	private static void logEmptyArgumentsList() {
+		if(log.isDebugEnabled()) {
+			log.debug("No arguments were specified.");
+		}
+	}
+	
+	private static void logArgumentsWithNullElements() {
+		if(log.isDebugEnabled()) {
+			log.debug("No null element is allowed among arguments");
+		}
+	}
 	
 }
