@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuterFactory;
+import net.sf.jasperreports.util.SecretsUtil;
 
 /**
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)
@@ -76,11 +77,12 @@ public class XmlaDataAdapterService extends AbstractDataAdapterService
 				parameters.put(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_USER,
 						username);
 
-			String pass = hbmDA.getPassword();
-			if (pass != null && !pass.isEmpty())
-				parameters.put(
-						JRXmlaQueryExecuterFactory.PARAMETER_XMLA_PASSWORD,
-						pass);
+			String password = hbmDA.getPassword();
+			SecretsUtil secretService = SecretsUtil.getInstance(getJasperReportsContext());
+			if (secretService != null)
+				password = secretService.getSecret(SECRETS_CATEGORY, password);
+			if (password != null && !password.isEmpty())
+				parameters.put(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_PASSWORD, password);
 		}
 	}
 
