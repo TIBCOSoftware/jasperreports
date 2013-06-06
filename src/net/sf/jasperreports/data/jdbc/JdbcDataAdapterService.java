@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.util.SecretsUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -157,9 +158,9 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 				
 
 				String password = jdbcDataAdapter.getPassword();
-				if (!jdbcDataAdapter.isSavePassword()) {
-					password = getPassword();
-				}
+				SecretsUtil secretService = SecretsUtil.getInstance(getJasperReportsContext());
+				if (secretService != null)
+					password = secretService.getSecret(SECRETS_CATEGORY, password);
 
 				connectProps.setProperty("user", jdbcDataAdapter.getUsername());
 				connectProps.setProperty("password", password);
@@ -174,11 +175,7 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 				throw new JRRuntimeException(e);
 			} catch (IllegalAccessException e) {
 				throw new JRRuntimeException(e);
-			} catch (JRException e) {
-				throw new JRRuntimeException(e);
-			}
-			finally
-			{
+			} finally {
 				Thread.currentThread().setContextClassLoader(oldThreadClassLoader);
 			}
 			return connection;
