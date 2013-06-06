@@ -135,7 +135,7 @@
 		</repository>
 		<snapshotRepository>
 			<id>jr-snapshots</id>
-			<name>JasperReports CE snapshots</name>
+			<name>JasperReports CE Snapshots</name>
 			<url>http://jaspersoft.artifactoryonline.com/jaspersoft/jr-ce-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
