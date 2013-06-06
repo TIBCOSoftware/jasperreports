@@ -191,7 +191,7 @@ Another attribute available for almost all <code>Barcode4j</code> elements is th
 <code>auto</code>, <code>ignore</code>, <code>add</code> and <code>check</code>.
 <br/>
 <br/>
-Starting with JasperReports 5.1.1 a <code>templateExpression</code> is available for the 
+Starting with JasperReports 5.1.2 a <code>templateExpression</code> is available for the 
 <a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#EAN128">EAN128</a>
 component, in order to allow custom configuration for the human readable part of the barcode. The format of the <code>templateExpression</code> 
 must conform to rules specified in the <a href="http://barcode4j.sourceforge.net/2.1/symbol-ean-128.html">official documentation</a>:
