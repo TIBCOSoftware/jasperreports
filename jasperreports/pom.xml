@@ -128,6 +128,11 @@
 			<name>Nexus Release Repository</name>
 			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
+		<snapshotRepository>
+			<id>jr-snapshots</id>
+			<name>JasperReports CE snapshots</name>
+			<url>http://jaspersoft.artifactoryonline.com/jaspersoft/jr-ce-snapshots</url>
+		</snapshotRepository>
 	</distributionManagement>
 	<dependencies>
 		<dependency>
