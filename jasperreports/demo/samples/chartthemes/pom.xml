@@ -78,9 +78,9 @@
 	</build>
 	<distributionManagement>
 		<snapshotRepository>
-			<id>jr-ce-snapshots</id>
-			<name>Internal JasperReports CE snapshots</name>
-			<url>http://mvnrepo.jaspersoft.com:8081/artifactory/jr-ce-snapshots</url>
+			<id>jr-snapshots</id>
+			<name>JasperReports CE Snapshots</name>
+			<url>http://jaspersoft.artifactoryonline.com/jaspersoft/jr-ce-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 	<dependencies>
