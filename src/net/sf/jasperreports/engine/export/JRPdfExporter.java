@@ -99,6 +99,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRPdfaIccProfileNotFoundException;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
+import net.sf.jasperreports.engine.util.NullOutputStream;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
@@ -2681,32 +2682,6 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 
 		exportBox(frame.getLineBox(), frame);
-	}
-
-
-	/**
-	 * Output stream implementation that discards all the data.
-	 */
-	public static class NullOutputStream extends OutputStream
-	{
-		public NullOutputStream()
-		{
-		}
-
-		public void write(int b)
-		{
-			// discard the data
-		}
-
-		public void write(byte[] b, int off, int len)
-		{
-			// discard the data
-		}
-
-		public void write(byte[] b)
-		{
-			// discard the data
-		}
 	}
 
 
