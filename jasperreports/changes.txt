@@ -12,6 +12,10 @@ would be needed in the report template;
 
 - custom serialization for virtualizers, to improve performance of large reports;
 
+- print text element optimizations to lower memory consumption and speed up processing;
+
+- refactored grid layout algorithms for grid-based exporters, to lower memory consumption;
+
 - caching of dynamic style properties and of transferable element level properties 
 for improved report filling performance;
 

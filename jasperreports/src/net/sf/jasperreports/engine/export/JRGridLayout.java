@@ -153,12 +153,10 @@ public class JRGridLayout
 	/**
 	 * Constructor.
 	 *
-	 * @param wrappers the element wrappers that should arranged in a grid
 	 * @param width the width available for the grid
 	 * @param height the height available for the grid
 	 * @param offsetX horizontal element position offset
 	 * @param offsetY vertical element position offset
-	 * @param address element address
 	 */
 	protected JRGridLayout(
 		JRGridLayout parent,
