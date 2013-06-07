@@ -464,6 +464,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 		
 		if (hasCachedTemplate)
 		{
+			//FIXME write an index instead of a String
 			out.writeJRObject(templateId);
 		}
 		else
