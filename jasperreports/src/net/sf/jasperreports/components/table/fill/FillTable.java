@@ -296,13 +296,14 @@ public class FillTable extends BaseFillComponent
 	protected FillTableSubreport createFillTableSubreport() throws JRException
 	{
 		JasperReport parentReport = fillContext.getFiller().getJasperReport();
+		JasperReport containingReport = containingReport(parentReport);
 		JRDataset reportSubdataset = JRReportUtils.findSubdataset(table.getDatasetRun(), 
-				parentReport);
+				containingReport);
 		
 		Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators = 
 			new HashMap<JRExpression, BuiltinExpressionEvaluator>();
 		
-		String tableReportName = JRAbstractCompiler.getUnitName(parentReport, reportSubdataset);
+		String tableReportName = JRAbstractCompiler.getUnitName(containingReport, reportSubdataset);
 		
 		// clone the table subdataset in order to have a different instance for other
 		// elements that might be using it.
@@ -321,7 +322,7 @@ public class FillTable extends BaseFillComponent
 		}
 		
 		JRReportCompileData tableReportCompileData = createTableReportCompileData(
-				parentReport, reportSubdataset);
+				containingReport, reportSubdataset);
 		
 		TableJasperReport compiledTableReport = new TableJasperReport(parentReport, tableReport, 
 				tableReportCompileData, 
@@ -332,6 +333,16 @@ public class FillTable extends BaseFillComponent
 		return new FillTableSubreport(
 				fillContext, subreport, factory, compiledTableReport,
 				builtinEvaluators);
+	}
+
+	protected JasperReport containingReport(JasperReport parentReport)
+	{
+		JasperReport containingReport = parentReport;
+		while (containingReport instanceof TableJasperReport)
+		{
+			containingReport = ((TableJasperReport) containingReport).getParentReport();
+		}
+		return containingReport;
 	}
 	
 	protected JRReportCompileData createTableReportCompileData(
