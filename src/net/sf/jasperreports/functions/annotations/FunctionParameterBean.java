@@ -37,8 +37,7 @@ public class FunctionParameterBean
 	private String id;
 	private String name;
 	private String description;
-	private String type;
-	private Class<?> parameterClass;
+	private Class<?> type;
 	private Boolean required;
 	
 	/**
@@ -48,16 +47,14 @@ public class FunctionParameterBean
 		String id, 
 		String name, 
 		String description,
-		String type,
-		Boolean required,
-		Class<?> parameterClass
+		Class<?> type,
+		Boolean required
 		) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.type = type;
 		this.required = required;
-		this.parameterClass = parameterClass;
 	}
 
 	public String getId() {
@@ -84,11 +81,11 @@ public class FunctionParameterBean
 		this.description = description;
 	}
 
-	public String getType() {
+	public Class<?> getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(Class<?> type) {
 		this.type = type;
 	}
 
@@ -99,13 +96,4 @@ public class FunctionParameterBean
 	public void setRequired(Boolean required) {
 		this.required = required;
 	}
-
-	public Class<?> getParameterClass() {
-		return parameterClass;
-	}
-
-	public void setParameterClass(Class<?> parameterClass) {
-		this.parameterClass = parameterClass;
-	}
-
 }

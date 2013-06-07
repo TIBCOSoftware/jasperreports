@@ -176,7 +176,7 @@ public class FunctionsInfo
 			{
 				for(FunctionParameter functionParameter : functionParameters.value()) 
 				{
-					addFunctionParameter(functionBean, functionParameter, provider, params < requiredParams, maxParameters[params]);
+					addFunctionParameter(functionBean, functionParameter, provider, maxParameters[params], params < requiredParams);
 					++params;
 				}
 			} 
@@ -184,7 +184,7 @@ public class FunctionsInfo
 			FunctionParameter functionParameter = functionMethod.getAnnotation(FunctionParameter.class);
 			if(functionParameter != null) 
 			{
-				addFunctionParameter(functionBean, functionParameter, provider, params < requiredParams, maxParameters[params]);
+				addFunctionParameter(functionBean, functionParameter, provider, maxParameters[params], params < requiredParams);
 			}
 
 			FunctionCategories functionCategories = functionMethod.getAnnotation(FunctionCategories.class);
@@ -205,7 +205,7 @@ public class FunctionsInfo
 	/**
 	 * 
 	 */
-	protected void addFunctionParameter(FunctionBean functionBean, FunctionParameter functionParameter, MessageProvider provider, boolean isRequired, Class<?> parameterClass)
+	protected void addFunctionParameter(FunctionBean functionBean, FunctionParameter functionParameter, MessageProvider provider, Class<?> type, boolean isRequired)
 	{
 		String parameterId = functionBean.getId() + "." + functionParameter.value();
 		
@@ -214,9 +214,8 @@ public class FunctionsInfo
 				parameterId,
 				getName(parameterId, provider),
 				getDescription(parameterId, provider),
-				getType(provider, isRequired),
-				isRequired,
-				parameterClass
+				type,
+				isRequired
 				);
 		
 		functionBean.addParameter(functionParameterBean);
@@ -283,16 +282,6 @@ public class FunctionsInfo
 	private String getDescription(String key, MessageProvider provider) 
 	{
 		return provider.getMessage(key + "." + PROPERTY_SUFFIX_DESCRIPTION, null, locale);
-	}
-	
-	/**
-	 * 
-	 */
-	private String getType(MessageProvider provider, boolean isRequired) 
-	{
-		return isRequired 
-			? provider.getMessage(PROPERTY_PARAMETER_REQUIRED, null, locale) 
-			: provider.getMessage(PROPERTY_PARAMETER_OPTIONAL, null, locale);
 	}
 	
 	/**
