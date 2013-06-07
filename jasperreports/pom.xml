@@ -82,6 +82,18 @@
 				</includes>
 			</resource>
 		</resources>
+		<testResources>
+			<testResource>
+				<directory>tests</directory>
+				<includes>
+					<include>**/*.jrxml</include>
+					<include>**/*.xml</include>
+					<include>**/*.csv</include>
+					<include>**/*.png</include>
+					<include>**/*.jpg</include>
+				</includes>
+			</testResource>
+		</testResources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -457,6 +469,12 @@
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>6.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
