@@ -2,18 +2,37 @@
 JasperReports Library Change Log
 ===================================
 
-JasperReports 5.1.2 (2013-06-xx)
+JasperReports 5.1.2 (2013-06-07)
 ---------------------------------------------
+
+- support for custom functions in report expressions; 
+this includes support for expression functions in the JDT, Groovy and Javascript 
+report compilers and excludes the JDK-based report compilers, for which static imports 
+would be needed in the report template;
+
+- custom serialization for virtualizers, to improve performance of large reports;
+
+- caching of dynamic style properties and of transferable element level properties 
+for improved report filling performance;
+
+- secrets storage extension point added to allow pluging custom mechanisms for storing 
+passwords for data adapters and other secret information;
 
 - minor bug fixes and improvements;
 
 
 
 
-JasperReports 5.1.0 (2013-04-xx)
+
+JasperReports 5.1.0 (2013-04-29)
 ---------------------------------------------
 
+- enhanced support for markers in Google map component, including hyperlinks and info window;
+
+- completing features in new layered HTML exporter;
+
 - minor bug fixes and improvements;
+
 
 
 
@@ -51,6 +70,7 @@ such as column sorting, filtering and formatting;
 
 
 
+
 JasperReports 5.0.1 (2013-01-03)
 ---------------------------------------------
 
@@ -80,6 +100,7 @@ that was previously used only for single line text elements;
 
 JasperReports 4.8.0 (2012-11-05, SVN 5784)
 ---------------------------------------------
+
 - enhanced interactivity in the table component, with support for conditional formatting 
 of values in a column;
 
