@@ -285,6 +285,9 @@
 				<include name="**/net/sf/jasperreports/engine/util/ThreadLocalStack.class"/>
 				<!-- FIXME not all type enums are needed -->
 				<include name="**/net/sf/jasperreports/engine/type/*.class"/>
+				<include name="**/net/sf/jasperreports/engine/virtualization/VirtualizationSerializable.class"/>
+				<include name="**/net/sf/jasperreports/engine/virtualization/VirtualizationOutput.class"/>
+				<include name="**/net/sf/jasperreports/engine/virtualization/VirtualizationInput.class"/>
 				<include name="**/net/sf/jasperreports/engine/xml/JRXmlConstants.class"/>
 				<include name="**/net/sf/jasperreports/extensions/DefaultExtensionsRegistry.class"/>
 				<include name="**/net/sf/jasperreports/extensions/ExtensionsEnvironment.class"/>
