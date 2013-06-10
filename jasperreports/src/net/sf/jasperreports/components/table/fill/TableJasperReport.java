@@ -52,6 +52,11 @@ public class TableJasperReport extends JasperReport
 		this.tableReport = baseReport;
 	}
 
+	public JasperReport getParentReport()
+	{
+		return parentReport;
+	}
+
 	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
