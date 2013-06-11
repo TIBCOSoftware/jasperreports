@@ -280,7 +280,7 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 			JRElementDataset dataset = itemData.getDataset();
 			if (dataset != null)
 			{
-				reportWriter.writeElementDataset(dataset);
+				reportWriter.writeElementDataset(dataset, false);
 			}
 	
 			/*   */
