@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializable
+public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializable, CrosstabBaseCloneable
 {
 	/**
 	 * 
@@ -131,6 +131,14 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 		clone.header = JRCloneUtils.nullSafeClone(header);
 		clone.totalHeader = JRCloneUtils.nullSafeClone(totalHeader);
 		clone.variable = JRCloneUtils.nullSafeClone(variable);
+		return clone;
+	}
+
+	@Override
+	public JRCrosstabGroup clone(CrosstabBaseCloneFactory cloneFactory)
+	{
+		JRBaseCrosstabGroup clone = (JRBaseCrosstabGroup) clone();
+		clone.variable = cloneFactory.clone(variable);
 		return clone;
 	}
 

@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
@@ -407,7 +408,36 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	 */
 	public Object clone() 
 	{
-		throw new UnsupportedOperationException();//FIXMECLONE: implement this
+		CrosstabBaseCloneFactory factory = new CrosstabBaseCloneFactory();
+		
+		JRBaseCrosstab clone = (JRBaseCrosstab) super.clone();
+		clone.parameters = JRCloneUtils.cloneArray(parameters);
+		
+		if (variables != null)
+		{
+			clone.variables = new JRVariable[variables.length];
+			for (int i = 0; i < variables.length; i++)
+			{
+				clone.variables[i] = factory.clone(variables[i]);
+			}
+		}
+
+		clone.parametersMapExpression = JRCloneUtils.nullSafeClone(parametersMapExpression);
+		clone.dataset = JRCloneUtils.nullSafeClone(dataset);
+		clone.rowGroups = factory.cloneCrosstabObjects(rowGroups);
+		clone.columnGroups = factory.cloneCrosstabObjects(columnGroups);
+		clone.measures = factory.cloneCrosstabObjects(measures);
+		
+		clone.cells = new JRCrosstabCell[cells.length][];
+		for (int i = 0; i < cells.length; i++)
+		{
+			clone.cells[i] = JRCloneUtils.cloneArray(cells[i]);
+		}
+		
+		clone.whenNoDataCell = JRCloneUtils.nullSafeClone(whenNoDataCell);
+		clone.headerCell = JRCloneUtils.nullSafeClone(headerCell);
+		clone.lineBox = lineBox.clone(clone);
+		return clone;
 	}
 
 	public Boolean getIgnoreWidth()

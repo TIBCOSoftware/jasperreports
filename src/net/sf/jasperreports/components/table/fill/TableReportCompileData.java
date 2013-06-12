@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.components.table.fill;
 
+import java.io.Serializable;
+import java.util.Map;
+
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
@@ -67,4 +70,15 @@ public class TableReportCompileData extends JRReportCompileData
 		return super.getUnitName(originialReport, crosstab);
 	}
 
+	public void copyCrosstabCompileData(JRReportCompileData compileData)
+	{
+		Map<Integer, Serializable> crosstabCompileData = compileData.getCrosstabsCompileData();
+		if (crosstabCompileData != null)
+		{
+			for (Map.Entry<Integer, Serializable> entry : crosstabCompileData.entrySet())
+			{
+				setCrosstabCompileData(entry.getKey(), entry.getValue());
+			}
+		}
+	}
 }
