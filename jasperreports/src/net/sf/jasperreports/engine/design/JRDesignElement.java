@@ -277,5 +277,14 @@ public abstract class JRDesignElement extends JRBaseElement
 		}
 		return props;
 	}
+
+
+	@Override
+	public Object clone()
+	{
+		JRDesignElement clone = (JRDesignElement) super.clone();
+		clone.uuid = null;
+		return clone;
+	}
 	
 }
