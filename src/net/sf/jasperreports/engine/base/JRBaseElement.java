@@ -530,7 +530,6 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		clone.printWhenExpression = JRCloneUtils.nullSafeClone(printWhenExpression);
 		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 		clone.eventSupport = null;
-		clone.uuid = null;
 		
 		return clone;
 	}
