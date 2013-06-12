@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.table.fill;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
@@ -81,5 +82,11 @@ public class TableReportBaseObjectFactory extends JRBaseObjectFactory
 		
 		return super.getGroup(origGroup);
 	}
-	
+
+	@Override
+	protected int resolveCrosstabId(JRCrosstab crosstab)
+	{
+		// crosstab Ids are already assigned
+		return crosstab.getId();
+	}
 }

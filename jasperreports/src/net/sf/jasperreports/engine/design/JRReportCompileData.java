@@ -181,4 +181,9 @@ public class JRReportCompileData implements Serializable
 	{
 		return JRAbstractCompiler.getUnitName(jasperReport, crosstab);
 	}
+
+	public Map<Integer, Serializable> getCrosstabsCompileData()
+	{
+		return crosstabCompileData;
+	}
 }

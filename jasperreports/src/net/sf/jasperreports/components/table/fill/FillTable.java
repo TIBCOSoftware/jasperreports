@@ -360,7 +360,7 @@ public class FillTable extends BaseFillComponent
 		Serializable datasetCompileData = reportCompileData.getDatasetCompileData(
 				reportSubdataset);
 		
-		JRReportCompileData tableReportCompileData = new TableReportCompileData(
+		TableReportCompileData tableReportCompileData = new TableReportCompileData(
 				parentReport);
 		tableReportCompileData.setMainDatasetCompileData(datasetCompileData);
 		
@@ -373,6 +373,7 @@ public class FillTable extends BaseFillComponent
 				tableReportCompileData.setDatasetCompileData(dataset, compileData);
 			}
 		}
+		tableReportCompileData.copyCrosstabCompileData(reportCompileData);
 		return tableReportCompileData;
 	}
 	

@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
+public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, CrosstabBaseCloneable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
@@ -240,6 +240,14 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 		}
 		clone.expression = JRCloneUtils.nullSafeClone(expression);
 		clone.variable = JRCloneUtils.nullSafeClone(variable);
+		return clone;
+	}
+
+	@Override
+	public Object clone(CrosstabBaseCloneFactory cloneFactory)
+	{
+		JRBaseCrosstabMeasure clone = (JRBaseCrosstabMeasure) clone();
+		clone.variable = cloneFactory.clone(variable);
 		return clone;
 	}
 

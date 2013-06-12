@@ -206,7 +206,7 @@ public class JRExpressionCollector
 	}
 	private GeneratedIds generatedIds = new GeneratedIds();
 
-	private Map<JRCrosstab,Integer> crosstabIds = new HashMap<JRCrosstab,Integer>();
+	private Map<JRCrosstab,Integer> crosstabIds;
 
 	/**
 	 * Collectors for sub datasets indexed by dataset name.
@@ -242,12 +242,14 @@ public class JRExpressionCollector
 			crosstabCollectors = new HashMap<JRCrosstab,JRExpressionCollector>();
 			contextStack = new LinkedList<Object>();
 			expressionContextMap = new HashMap<JRExpression, Object>();
+			crosstabIds = new HashMap<JRCrosstab,Integer>();
 		}
 		else
 		{
 			expressionIds = this.parent.expressionIds;
 			contextStack = this.parent.contextStack;
 			expressionContextMap = this.parent.expressionContextMap;
+			crosstabIds = parent.crosstabIds;
 		}
 
 		collectedStyles = new HashSet<JRStyle>();
