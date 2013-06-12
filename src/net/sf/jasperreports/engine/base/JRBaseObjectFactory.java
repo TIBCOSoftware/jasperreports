@@ -1484,17 +1484,23 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			baseCrosstab = (JRBaseCrosstab) get(crosstab);
 			if (baseCrosstab == null)
 			{
-				Integer id = expressionCollector.getCrosstabId(crosstab);
-				if (id == null)
-				{
-					throw new JRRuntimeException("Crosstab ID not found.");
-				}
-
-				baseCrosstab = new JRBaseCrosstab(crosstab, this, id.intValue());
+				int crosstabId = resolveCrosstabId(crosstab);
+				baseCrosstab = new JRBaseCrosstab(crosstab, this, crosstabId);
 			}
 		}
 
 		setVisitResult(baseCrosstab);
+	}
+
+
+	protected int resolveCrosstabId(JRCrosstab crosstab)
+	{
+		Integer id = expressionCollector.getCrosstabId(crosstab);
+		if (id == null)
+		{
+			throw new JRRuntimeException("Crosstab ID not found.");
+		}
+		return id;
 	}
 
 
