@@ -24,7 +24,7 @@
       <feature name="crosstabs" sample="crosstabs" title="Crosstabs"/>
       <feature name="fonts" sample="fonts" title="Fonts"/>
       <feature name="fontextensions" sample="fonts" title="Font Extensions"/>
-      <feature name="functions" sample="functions" title="Custom Functions in JasperReports"/>
+      <feature name="functions" sample="functions" title="Custom Functions in Report Expressions"/>
       <feature name="genericelements" sample="genericelement" title="Generic Elements"/>
       <feature name="horizontal" sample="horizontal" title="Creating Horizontally-Filled, Multi-Column Reports"/>
       <feature name="hyperlinks" sample="hyperlink" title="Hyperlinks"/>

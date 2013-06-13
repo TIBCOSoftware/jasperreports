@@ -439,7 +439,7 @@
 		</xslt>
 	</target>
 	
-	<target name="sampleref" description="Generates the Sample Reference.">
+	<target name="sampleref" depends="compile" description="Generates the Sample Reference.">
 		<xslt basedir="docs" in="docs/sample.reference.xml" destdir="dist/docs" style="docs/sample.reference.xsl" out="./dist/docs/sample.reference.html">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
@@ -476,6 +476,8 @@
 				<include name="**/*.png"/>
 			</fileset>
 		</copy>
+		<ant dir="./demo/samples/functions" target="test"/>
+		<copy todir="./dist/docs/sample.reference/functions" file="./demo/samples/functions/build/reports/FunctionsReport.pdf"/>
 	</target>
 	
 	<target name="docs" depends="preparedocs, javadoc, schemaref, componentschemaref, configref, sampleref" description="Generates all documentation."/>
