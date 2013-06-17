@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="IconLabelReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" language="java" whenNoDataType="AllSectionsNoDetail">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="IconLabelReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="a3b9c95c-0607-4ff6-b71b-2379e004d5f3">
 	<style name="Main" isDefault="true" fontName="DejaVu Sans"/>
-	<style name="Label" style="Main" fontSize="12" forecolor="black" backcolor="white" mode="Transparent">
+	<style name="Label" style="Main" mode="Transparent" forecolor="#000000" backcolor="#FFFFFF" fontSize="12">
 		<box>
-			<pen lineWidth="1"/>
+			<pen lineWidth="1.0"/>
 		</box>
 	</style>
 	<group name="Dummy">
-	<groupHeader>
-		<band height="50">
-			<componentElement>
-				<reportElement x="0" y="0" width="200" height="20" forecolor="black" backcolor="gray" mode="Opaque"/>
-				<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"
-						iconPosition="End" labelFill="None" horizontalAlign="Left" verticalAlign="Middle">
-					<c:label>					
-					<textField hyperlinkType="Reference" isStretchWithOverflow="true">
-						<reportElement x="0" y="0" width="1" height="1" forecolor="cyan" backcolor="green" mode="Transparent"/>
-						<textElement textAlignment="Center">
-							<font size="12"/>
-						</textElement>
-						<textFieldExpression><![CDATA["Shipping\nDate\nis\nToday!"]]></textFieldExpression>
-						<hyperlinkReferenceExpression><![CDATA["http://barbecue.sourceforge.net/"]]></hyperlinkReferenceExpression>
-					</textField>
-					</c:label>					
-					<c:icon>					
-					<textField hyperlinkType="Reference" isStretchWithOverflow="true">
-						<reportElement x="0" y="0" width="1" height="1" forecolor="red" backcolor="yellow" mode="Transparent"/>
-						<textElement verticalAlignment="Top" textAlignment="Center">
-							<font fontName="Pictonic" size="12"/>
-						</textElement>
-						<textFieldExpression><![CDATA["\uE001\n\uE004"]]></textFieldExpression>
-					</textField>
-					</c:icon>					
-				</c:iconLabel>
-			</componentElement>
-			<textField hyperlinkType="Reference" isStretchWithOverflow="true">
-				<reportElement x="250" y="0" width="250" height="25" style="Label"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["iconPosition=\"Right\"\niconVerticalAlign=\"Top\"\ntextFill=\"None\"\nhorizontalAlign=\"Left\"\nverticalAlign=\"Middle\""]]></textFieldExpression>
-			</textField>
-		</band>
-	</groupHeader>
+		<groupHeader>
+			<band height="50">
+				<componentElement>
+					<reportElement mode="Opaque" x="0" y="0" width="200" height="20" forecolor="#000000" backcolor="#808080" uuid="16a0602c-ddd3-44de-9200-db3dde87ca0c"/>
+					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" horizontalAlign="Left" verticalAlign="Middle">
+						<c:label>
+							<textField isStretchWithOverflow="true" hyperlinkType="Reference">
+								<reportElement mode="Transparent" x="0" y="0" width="1" height="1" forecolor="#00FFFF" backcolor="#00FF00" uuid="9584a345-3ccb-4633-8176-66feed042734"/>
+								<textElement textAlignment="Center">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA["Shipping\nDate\nis\nToday!"]]></textFieldExpression>
+								<hyperlinkReferenceExpression><![CDATA["http://barbecue.sourceforge.net/"]]></hyperlinkReferenceExpression>
+							</textField>
+						</c:label>
+						<c:icon>
+							<textField isStretchWithOverflow="true" hyperlinkType="Reference">
+								<reportElement mode="Transparent" x="0" y="0" width="1" height="1" forecolor="#FF0000" backcolor="#FFFF00" uuid="d1577c3d-aa46-4063-80be-66910b03311b"/>
+								<textElement textAlignment="Center" verticalAlignment="Top">
+									<font fontName="Pictonic" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA["\uE001\n\uE004"]]></textFieldExpression>
+							</textField>
+						</c:icon>
+					</c:iconLabel>
+				</componentElement>
+				<textField isStretchWithOverflow="true" hyperlinkType="Reference">
+					<reportElement style="Label" x="250" y="0" width="250" height="25" uuid="fa2516c1-58cc-40f6-9a6d-bc64dfbca06d"/>
+					<textElement/>
+					<textFieldExpression><![CDATA["iconPosition=\"Right\"\niconVerticalAlign=\"Top\"\ntextFill=\"None\"\nhorizontalAlign=\"Left\"\nverticalAlign=\"Middle\""]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
 	</group>
 </jasperReport>

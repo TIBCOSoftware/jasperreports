@@ -1,62 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<jasperReport
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xmlns="http://jasperreports.sourceforge.net/jasperreports"
-		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd
-				http://jasperreports.sourceforge.net/jasperreports/jcharts http://jasperreports.sourceforge.net/dtds/charts.xsd"
-		name="AxisChart">
-	
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AxisChart" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="a672a9d1-025f-43e7-8b43-800176de42bf">
 	<variable name="Value" class="java.lang.Double">
-		<variableExpression>
-			new Double(Math.pow($V{REPORT_COUNT}.doubleValue(), 4 - Math.log($V{REPORT_COUNT}.doubleValue())))
-		</variableExpression>
+		<variableExpression><![CDATA[new Double(Math.pow($V{REPORT_COUNT}.doubleValue(), 4 - Math.log($V{REPORT_COUNT}.doubleValue())))]]></variableExpression>
 	</variable>
-	
 	<title>
 		<band height="370">
 			<line>
-				<reportElement x="0" y="0" width="515" height="1"/>
-				<graphicElement/>
+				<reportElement x="0" y="0" width="515" height="1" uuid="431b57f6-48bd-4a3e-94de-5eda4917f3ec"/>
 			</line>
 			<line>
-				<reportElement x="0" y="3" width="515" height="1"/>
-				<graphicElement/>
+				<reportElement x="0" y="3" width="515" height="1" uuid="0297663c-f551-4848-8637-48c33f997f57"/>
 			</line>
 			<staticText>
-				<reportElement x="0" y="10" width="515" height="30"/>
+				<reportElement x="0" y="10" width="515" height="30" uuid="c2ab84e8-bb44-48b9-9909-07c5bf9beb07"/>
 				<textElement>
 					<font size="22"/>
 				</textElement>
 				<text><![CDATA[jCharts 0.7.5 - Sample Axis Chart Component Report]]></text>
 			</staticText>
 			<textField hyperlinkType="Reference">
-				<reportElement x="0" y="40" width="515" height="20"/>
+				<reportElement x="0" y="40" width="515" height="20" uuid="d375553d-0e4d-4ee4-8a3c-67a865327f4f"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA["http://jcharts.sourceforge.net"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["http://jcharts.sourceforge.net"]]></textFieldExpression>
 				<hyperlinkReferenceExpression><![CDATA["http://jcharts.sourceforge.net"]]></hyperlinkReferenceExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="60" width="515" height="1"/>
-				<graphicElement/>
+				<reportElement x="0" y="60" width="515" height="1" uuid="5a7d83fc-aa72-4375-956b-ad12197927ac"/>
 			</line>
 			<line>
-				<reportElement x="0" y="63" width="515" height="1"/>
-				<graphicElement/>
+				<reportElement x="0" y="63" width="515" height="1" uuid="f3881688-6985-482b-9794-43755ff935e9"/>
 			</line>
 			<componentElement>
-				<reportElement x="0" y="70" width="500" height="300"/>
-				<jc:axisChart xmlns:jc="http://jasperreports.sourceforge.net/jasperreports/jcharts"
-						evaluationTime="Report" areaColor="cyan">
+				<reportElement x="0" y="70" width="500" height="300" uuid="d60723de-a9ab-4d33-84a8-8ac759234088"/>
+				<jc:axisChart xmlns:jc="http://jasperreports.sourceforge.net/jasperreports/jcharts" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/jcharts http://jasperreports.sourceforge.net/dtds/charts.xsd" evaluationTime="Report" areaColor="#00FFFF">
 					<jc:axisDataset>
-						<dataset/>
-						<jc:labelExpression>$V{REPORT_COUNT}.toString()</jc:labelExpression>
-						<jc:valueExpression>$V{Value}</jc:valueExpression>
+						<jc:labelExpression><![CDATA[$V{REPORT_COUNT}.toString()]]></jc:labelExpression>
+						<jc:valueExpression><![CDATA[$V{Value}]]></jc:valueExpression>
 					</jc:axisDataset>
-					<jc:legendLabelExpression>"Data"</jc:legendLabelExpression>
+					<jc:legendLabelExpression><![CDATA["Data"]]></jc:legendLabelExpression>
 				</jc:axisChart>
 			</componentElement>
 		</band>
 	</title>
-
 </jasperReport>

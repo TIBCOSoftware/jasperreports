@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LateOrdersReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LateOrdersReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b95d8996-97c3-4d30-ab13-8a8345bf8a24">
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Title" isDefault="false" style="Sans_Bold" fontSize="12"/>
-	<style name="ColumnHeader" isDefault="false" style="Sans_Bold" forecolor="#FFFFFF"/>
-	<style name="CellStyle" isDefault="false" mode="Opaque">
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Title" style="Sans_Bold" fontSize="12"/>
+	<style name="ColumnHeader" style="Sans_Bold" forecolor="#FFFFFF"/>
+	<style name="CellStyle" mode="Opaque">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
 			<style backcolor="#E0E0E0"/>
 		</conditionalStyle>
 	</style>
-	<style name="Detail" isDefault="false">
+	<style name="Detail">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}.intValue() % 2 == 0 ? Boolean.TRUE : Boolean.FALSE]]></conditionExpression>
 			<style mode="Opaque" backcolor="#E0E0E0"/>
@@ -39,7 +39,7 @@
 	<title>
 		<band height="40">
 			<staticText>
-				<reportElement style="Title" x="0" y="0" width="555" height="20"/>
+				<reportElement style="Title" x="0" y="0" width="555" height="20" uuid="9e2f3dcb-8fc2-4123-944c-0c36d2a75770"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Shipped Orders]]></text>
 			</staticText>
@@ -48,39 +48,39 @@
 	<pageHeader>
 		<band height="15">
 			<frame>
-				<reportElement mode="Opaque" x="0" y="0" width="555" height="15" backcolor="#000000"/>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="15" backcolor="#000000" uuid="523a8a78-f099-4d2b-a3e5-1e03c272eab1"/>
 				<staticText>
-					<reportElement style="ColumnHeader" x="5" y="0" width="55" height="15"/>
+					<reportElement style="ColumnHeader" x="5" y="0" width="55" height="15" uuid="a1c54469-3c72-49cb-a023-a46d2a6cfa36"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
 					<text><![CDATA[Order ID]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="ColumnHeader" x="65" y="0" width="100" height="15"/>
+					<reportElement style="ColumnHeader" x="65" y="0" width="100" height="15" uuid="878015da-7efd-4b41-ae6d-1b6162a79519"/>
 					<textElement verticalAlignment="Middle"/>
 					<text><![CDATA[Country]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="ColumnHeader" x="170" y="0" width="60" height="15"/>
+					<reportElement style="ColumnHeader" x="170" y="0" width="60" height="15" uuid="d3dbceec-a4d5-4aa1-af26-c24145fecefe"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
 					<text><![CDATA[Freight]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="ColumnHeader" x="235" y="0" width="80" height="15"/>
+					<reportElement style="ColumnHeader" x="235" y="0" width="80" height="15" uuid="e40c5ae1-42d1-4a23-a18d-031ed7f945e7"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[Order date]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="ColumnHeader" x="320" y="0" width="80" height="15"/>
+					<reportElement style="ColumnHeader" x="320" y="0" width="80" height="15" uuid="38b115af-21a4-4b8d-a40f-6463253f9ce6"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[Required date]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="ColumnHeader" x="405" y="0" width="80" height="15"/>
+					<reportElement style="ColumnHeader" x="405" y="0" width="80" height="15" uuid="c9e868ea-d986-493e-bafb-e3a925d65504"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<text><![CDATA[Shipped date]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="ColumnHeader" x="490" y="0" width="60" height="15"/>
+					<reportElement style="ColumnHeader" x="490" y="0" width="60" height="15" uuid="363216c1-0eb0-4825-a2b5-3737c2f1ce72"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
 					<text><![CDATA[Late (hrs)]]></text>
 				</staticText>
@@ -90,41 +90,41 @@
 	<detail>
 		<band height="15">
 			<frame>
-				<reportElement style="Detail" x="0" y="0" width="555" height="15"/>
+				<reportElement style="Detail" x="0" y="0" width="555" height="15" uuid="bdb0ab67-41b8-4e2f-ba40-0ce4f89cfa17"/>
 				<textField>
-					<reportElement x="5" y="0" width="55" height="15"/>
+					<reportElement x="5" y="0" width="55" height="15" uuid="870def8d-eabf-4c70-a994-8214099a9605"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{OrderId}.toString()]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{OrderId}.toString()]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="65" y="0" width="100" height="15"/>
+					<reportElement x="65" y="0" width="100" height="15" uuid="8bed42e8-aa6a-4ccb-8ab8-3c910cdd3a29"/>
 					<textElement verticalAlignment="Middle"/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipCountry}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{ShipCountry}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,###.00">
-					<reportElement x="170" y="0" width="60" height="15"/>
+					<reportElement x="170" y="0" width="60" height="15" uuid="4845648b-af75-4fdb-b7af-0c80e6a715d3"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
-					<textFieldExpression class="java.lang.Float"><![CDATA[$F{Freight}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Freight}]]></textFieldExpression>
 				</textField>
 				<textField pattern="medium,hide">
-					<reportElement x="235" y="0" width="80" height="15"/>
+					<reportElement x="235" y="0" width="80" height="15" uuid="2f16e56e-55bd-4247-bde7-0d5c84a4c30d"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression class="java.util.Date"><![CDATA[$F{OrderDate}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
 				</textField>
 				<textField pattern="medium,hide">
-					<reportElement x="320" y="0" width="80" height="15"/>
+					<reportElement x="320" y="0" width="80" height="15" uuid="dc6c3a54-44de-481e-980c-093bfe0849a2"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression class="java.util.Date"><![CDATA[$F{RequiredDate}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{RequiredDate}]]></textFieldExpression>
 				</textField>
 				<textField pattern="medium,hide">
-					<reportElement x="405" y="0" width="80" height="15"/>
+					<reportElement x="405" y="0" width="80" height="15" uuid="7bb0e8be-7602-4e39-9773-586967229268"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression class="java.util.Date"><![CDATA[$F{ShippedDate}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{ShippedDate}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="490" y="0" width="60" height="15"/>
+					<reportElement x="490" y="0" width="60" height="15" uuid="967da15b-01eb-4e85-9bdf-8ae84b711a59"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$V{DeliveryDelay}.toString()]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{DeliveryDelay}.toString()]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
@@ -132,20 +132,20 @@
 	<summary>
 		<band height="100">
 			<staticText>
-				<reportElement style="Title" x="0" y="20" width="555" height="20"/>
+				<reportElement style="Title" x="0" y="20" width="555" height="20" uuid="851074bb-014f-41c6-960a-e6fe7992c21e"/>
 				<textElement/>
 				<text><![CDATA[Late deliveries summary (count and total delay) by country and freight range]]></text>
 			</staticText>
 			<crosstab isRepeatColumnHeaders="false">
-				<reportElement x="0" y="40" width="555" height="60"/>
+				<reportElement x="0" y="40" width="555" height="60" uuid="8a029eb2-4d27-420d-bce4-54e0672e71c6"/>
 				<crosstabDataset>
 					<dataset>
 						<incrementWhenExpression><![CDATA[$V{DeliveryDelay} == null ? Boolean.FALSE : Boolean.TRUE]]></incrementWhenExpression>
 					</dataset>
 				</crosstabDataset>
 				<rowGroup name="CountryRow" width="80" totalPosition="End">
-					<bucket>
-						<bucketExpression class="java.lang.String"><![CDATA[$F{ShipCountry}]]></bucketExpression>
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{ShipCountry}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents style="CellStyle">
@@ -153,9 +153,9 @@
 								<pen lineWidth="1.0" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement style="Sans_Bold" x="5" y="0" width="75" height="20"/>
+								<reportElement style="Sans_Bold" x="5" y="0" width="75" height="20" uuid="a0a693b5-7245-4e91-9888-d0fe76d8ac2d"/>
 								<textElement verticalAlignment="Middle"/>
-								<textFieldExpression class="java.lang.String"><![CDATA[$V{CountryRow}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{CountryRow}]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabRowHeader>
@@ -165,7 +165,7 @@
 								<pen lineWidth="1.0" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement style="Sans_Bold" x="5" y="0" width="75" height="20"/>
+								<reportElement style="Sans_Bold" x="5" y="0" width="75" height="20" uuid="19976811-f3b5-4117-a84b-ace5aa55ffb4"/>
 								<textElement verticalAlignment="Middle">
 									<font size="12"/>
 								</textElement>
@@ -175,8 +175,8 @@
 					</crosstabTotalRowHeader>
 				</rowGroup>
 				<columnGroup name="FreightColumn" height="20" totalPosition="End">
-					<bucket>
-						<bucketExpression class="java.lang.Integer"><![CDATA[Integer.valueOf($F{Freight}.intValue()/100)]]></bucketExpression>
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[Integer.valueOf($F{Freight}.intValue()/100)]]></bucketExpression>
 					</bucket>
 					<crosstabColumnHeader>
 						<cellContents>
@@ -184,9 +184,9 @@
 								<pen lineWidth="1.0" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement style="Sans_Bold" x="0" y="0" width="60" height="20"/>
+								<reportElement style="Sans_Bold" x="0" y="0" width="60" height="20" uuid="5c3cbc80-217a-4f1a-99a0-0359c7b373e4"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression class="java.lang.String"><![CDATA[String.valueOf($V{FreightColumn}.intValue() * 100) + "-" + String.valueOf(($V{FreightColumn}.intValue() + 1) * 100)]]></textFieldExpression>
+								<textFieldExpression><![CDATA[String.valueOf($V{FreightColumn}.intValue() * 100) + "-" + String.valueOf(($V{FreightColumn}.intValue() + 1) * 100)]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabColumnHeader>
@@ -196,7 +196,7 @@
 								<pen lineWidth="1.0" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement style="Sans_Bold" x="0" y="0" width="60" height="20"/>
+								<reportElement style="Sans_Bold" x="0" y="0" width="60" height="20" uuid="f4321ea1-82c7-43e8-b375-f85ccc071eb5"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="12"/>
 								</textElement>
@@ -217,14 +217,14 @@
 							<pen lineWidth="1.0" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement x="0" y="0" width="60" height="10"/>
+							<reportElement x="0" y="0" width="60" height="10" uuid="5a51bf0d-2ef5-44a1-8759-e35bc94cb4f3"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{OrderCount}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$V{OrderCount}]]></textFieldExpression>
 						</textField>
 						<textField isBlankWhenNull="true">
-							<reportElement x="0" y="10" width="60" height="10"/>
+							<reportElement x="0" y="10" width="60" height="10" uuid="e78f18f4-be18-48c6-8779-bd54e5f4a704"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{Delay}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$V{Delay}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
@@ -234,14 +234,14 @@
 							<pen lineWidth="1.0" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement style="Sans_Bold" x="0" y="0" width="60" height="10"/>
+							<reportElement style="Sans_Bold" x="0" y="0" width="60" height="10" uuid="27460a67-61ae-4372-b263-5bf54551b0be"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{OrderCount}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$V{OrderCount}]]></textFieldExpression>
 						</textField>
 						<textField isBlankWhenNull="true">
-							<reportElement style="Sans_Bold" x="0" y="10" width="60" height="10"/>
+							<reportElement style="Sans_Bold" x="0" y="10" width="60" height="10" uuid="5997d6ae-ab07-4b73-b948-8e723907c6a8"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{Delay}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$V{Delay}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
@@ -251,14 +251,14 @@
 							<pen lineWidth="1.0" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement style="Sans_Bold" x="0" y="0" width="60" height="10"/>
+							<reportElement style="Sans_Bold" x="0" y="0" width="60" height="10" uuid="cbbd158c-2883-4c67-ac17-79071fa107a7"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{OrderCount}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$V{OrderCount}]]></textFieldExpression>
 						</textField>
 						<textField isBlankWhenNull="true">
-							<reportElement style="Sans_Bold" x="0" y="10" width="60" height="10"/>
+							<reportElement style="Sans_Bold" x="0" y="10" width="60" height="10" uuid="7f7c42f0-3d47-4f9c-96fd-cf76b7d118aa"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{Delay}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$V{Delay}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
@@ -268,14 +268,14 @@
 							<pen lineWidth="1.0" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement style="Sans_Bold" x="0" y="0" width="60" height="10"/>
+							<reportElement style="Sans_Bold" x="0" y="0" width="60" height="10" uuid="8d8d120b-55db-46cb-bcb5-b2caaed58c65"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{OrderCount}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$V{OrderCount}]]></textFieldExpression>
 						</textField>
 						<textField isBlankWhenNull="true">
-							<reportElement style="Sans_Bold" x="0" y="10" width="60" height="10"/>
+							<reportElement style="Sans_Bold" x="0" y="10" width="60" height="10" uuid="6a104267-9fb1-4f00-8373-5e3cee56d9ed"/>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
-							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{Delay}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$V{Delay}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>

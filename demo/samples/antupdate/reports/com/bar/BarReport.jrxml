@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
-
-<jasperReport name="BarReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BarReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="2618ac8e-3c02-44ec-992d-867ede3dca36">
 	<style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 	<title>
-		<band height="782">
+		<band height="782" splitType="Stretch">
 			<printWhenExpression><![CDATA[com.bar.SomeBarClass.isToPrint()]]></printWhenExpression>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="555" height="90" backcolor="#dddddd" style="Arial_Normal"/>
-				<box border="Thin"/>
+				<reportElement style="Arial_Normal" mode="Opaque" x="0" y="0" width="555" height="90" backcolor="#DDDDDD" uuid="fe1c5ace-03fb-4fb5-b81d-5f8d704d9b16"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Bar Report]]></text>
 			</staticText>

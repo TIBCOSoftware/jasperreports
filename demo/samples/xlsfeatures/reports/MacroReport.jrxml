@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MacroReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="0" bottomMargin="5">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MacroReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="0" bottomMargin="5" uuid="cde631ab-364a-4f1a-956a-636d167e36ee">
 	<property name="net.sf.jasperreports.csv.column.names" value="city, id, name, address, state"/>
 	<property name="net.sf.jasperreports.csv.source" value="data/CsvDataSource.txt"/>
 	<property name="net.sf.jasperreports.export.xls.workbook.template.keep.sheets" value="true"/>
@@ -15,7 +15,9 @@
 	<parameter name="net.sf.jasperreports.csv.record.delimiter" class="java.lang.String">
 		<defaultValueExpression><![CDATA["\r\n"]]></defaultValueExpression>
 	</parameter>
-	<queryString language="csv"/>
+	<queryString language="csv">
+		<![CDATA[]]>
+	</queryString>
 	<field name="id" class="java.lang.Integer">
 		<fieldDescription><![CDATA[id]]></fieldDescription>
 	</field>
@@ -33,72 +35,72 @@
 	</field>
 	<sortField name="city"/>
 	<sortField name="name"/>
-	<group name="cityGroup" >
+	<group name="cityGroup">
 		<groupExpression><![CDATA[$F{city}]]></groupExpression>
 		<groupHeader>
 			<band height="15">
-			<textField>
-				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#c0c0c0" style="Sans_Bold"/>
-				<box>
-					<pen lineWidth="0.5" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
-			</textField>
+				<textField>
+					<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#C0C0C0" uuid="b5377ad0-fed3-4d39-adb4-2528df947a1b"/>
+					<box>
+						<pen lineWidth="0.5" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="20">
-			<textField>
-				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#e0e0e0" style="Sans_Bold"/>
-				<box>
-					<pen lineWidth="0.5" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Right">
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{city} + " ID count: " + $V{cityGroup_COUNT}]]></textFieldExpression>
-			</textField>
+				<textField>
+					<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#E0E0E0" uuid="5b8fe4ff-7026-476b-a484-156d6f929c60"/>
+					<box>
+						<pen lineWidth="0.5" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{city} + " ID count: " + $V{cityGroup_COUNT}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupFooter>
 	</group>
-	<group name="initialNameGroup" >
+	<group name="initialNameGroup">
 		<groupExpression><![CDATA[$F{name}.substring(0,1)]]></groupExpression>
 		<groupHeader>
 			<band height="10">
-			<textField>
-				<reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#a0a0a0" style="Sans_Bold"/>
-				<box>
-					<pen lineWidth="0.5" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Names starting with letter " + $F{name}.substring(0,1)+":"]]></textFieldExpression>
-			</textField>
+				<textField>
+					<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#A0A0A0" uuid="70d022a7-d42b-4b7d-83f2-cb6a4e138d36"/>
+					<box>
+						<pen lineWidth="0.5" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Names starting with letter " + $F{name}.substring(0,1)+":"]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="10">
-			<textField>
-				<reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#b0b0b0" style="Sans_Bold"/>
-				<box>
-					<pen lineWidth="0.5" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Right">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{name}.substring(0,1)+ "-names ID count: " + $V{initialNameGroup_COUNT}]]></textFieldExpression>
-			</textField>
+				<textField>
+					<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#B0B0B0" uuid="212b1f8d-e74c-48fc-911c-c6fb170e82b2"/>
+					<box>
+						<pen lineWidth="0.5" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{name}.substring(0,1)+ "-names ID count: " + $V{initialNameGroup_COUNT}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupFooter>
 	</group>
 	<pageHeader>
 		<band height="80">
 			<textField>
-				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="515" height="30" forecolor="#000000"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="515" height="30" forecolor="#000000" uuid="f840f354-fd60-45e7-a6ef-6009d1885094"/>
 				<box>
 					<topPen lineWidth="0.5" lineColor="#000000"/>
 					<leftPen lineWidth="0.5" lineColor="#000000"/>
@@ -110,7 +112,7 @@
 				<textFieldExpression><![CDATA[$P{ReportTitle}]]></textFieldExpression>
 			</textField>
 			<textField pattern="EEE, MMM d, yyyy">
-				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="30" width="515" height="30" forecolor="#000000">
+				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="30" width="515" height="30" forecolor="#000000" uuid="fa8c6eb9-dfb3-4c81-b627-3fce99fb0a1f">
 					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, mmm d, yyyy"/>
 				</reportElement>
 				<box>
@@ -124,7 +126,7 @@
 				<textFieldExpression><![CDATA[$P{ReportDate}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="60" width="104" height="20" forecolor="#FFFFFF" backcolor="#656565"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="60" width="104" height="20" forecolor="#FFFFFF" backcolor="#656565" uuid="4b93dff8-f02e-402a-b39d-834d1248e9d8"/>
 				<box>
 					<leftPen lineWidth="0.5" lineColor="#000000"/>
 					<bottomPen lineWidth="0.5" lineColor="#000000"/>
@@ -133,7 +135,7 @@
 				<text><![CDATA[State]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="104" y="60" width="55" height="20" forecolor="#FFFFFF" backcolor="#656565"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="104" y="60" width="55" height="20" forecolor="#FFFFFF" backcolor="#656565" uuid="66cb26cc-e62f-4380-953e-9e67837fc636"/>
 				<box>
 					<leftPen lineWidth="0.5" lineColor="#000000"/>
 					<bottomPen lineWidth="0.5" lineColor="#000000"/>
@@ -142,7 +144,7 @@
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="159" y="60" width="157" height="20" forecolor="#FFFFFF" backcolor="#656565"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="159" y="60" width="157" height="20" forecolor="#FFFFFF" backcolor="#656565" uuid="c993f358-13db-4471-8d35-e102d4f4947c"/>
 				<box>
 					<leftPen lineWidth="0.5" lineColor="#000000"/>
 					<bottomPen lineWidth="0.5" lineColor="#000000"/>
@@ -151,9 +153,7 @@
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="316" y="60" width="199" height="20" forecolor="#FFFFFF" backcolor="#656565">
-					
-				</reportElement>
+				<reportElement style="Sans_Bold" mode="Opaque" x="316" y="60" width="199" height="20" forecolor="#FFFFFF" backcolor="#656565" uuid="f7953de8-852d-4ed7-a73d-b8e85b762e27"/>
 				<box>
 					<leftPen lineWidth="0.5" lineColor="#000000"/>
 					<bottomPen lineWidth="0.5" lineColor="#000000"/>
@@ -167,42 +167,42 @@
 	<detail>
 		<band height="15">
 			<textField>
-				<reportElement x="0" y="0" width="104" height="15"/>
+				<reportElement x="0" y="0" width="104" height="15" uuid="99c8dbd8-424f-42f8-8eb0-625106eee9d4"/>
 				<box leftPadding="10" rightPadding="10">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 				</box>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{state}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{state}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="104" y="0" width="55" height="15"/>
+				<reportElement x="104" y="0" width="55" height="15" uuid="baeea137-f214-4e0f-b4db-08870ec0a580"/>
 				<box leftPadding="10" rightPadding="10">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{id}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="159" y="0" width="157" height="15"/>
+				<reportElement positionType="Float" x="159" y="0" width="157" height="15" uuid="d469e1f8-8b8a-4b90-9aaa-9fb678d10f05"/>
 				<box leftPadding="10" rightPadding="10">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 				</box>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="316" y="0" width="199" height="15"/>
+				<reportElement positionType="Float" x="316" y="0" width="199" height="15" uuid="3109233a-45dd-46e8-9010-d72ad4c6fc44"/>
 				<box leftPadding="10" rightPadding="10">
 					<pen lineWidth="0.5"/>
 				</box>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{address}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubDatasetChartReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
-	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Serif_Bold" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<subDataset name="Country_Orders">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubDatasetChartReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="c83ff4c3-c99d-4fbb-b1a9-54dda8194309">
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Serif_Bold" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<subDataset name="Country_Orders" uuid="d89be355-eac7-43cd-971d-21b8bf0bb71e">
 		<parameter name="Country" class="java.lang.String"/>
 		<queryString>
 			<![CDATA[SELECT OrderDate, Freight
@@ -33,7 +33,7 @@
 	<title>
 		<band height="50">
 			<staticText>
-				<reportElement style="Serif_Bold" x="0" y="0" width="555" height="35"/>
+				<reportElement style="Serif_Bold" x="0" y="0" width="555" height="35" uuid="2ef572a2-c639-4d80-96f9-869448710d1c"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 				</box>
@@ -47,25 +47,25 @@
 	<detail>
 		<band height="230">
 			<line>
-				<reportElement x="0" y="19" width="550" height="1"/>
+				<reportElement x="0" y="19" width="550" height="1" uuid="5eeb2941-484c-4094-9173-bc977ac66b96"/>
 			</line>
 			<textField>
-				<reportElement style="Sans_Bold" x="10" y="2" width="150" height="16"/>
+				<reportElement style="Sans_Bold" x="10" y="2" width="150" height="16" uuid="09e10730-c506-4504-a1ec-cbdbd9204181"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipCountry}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ShipCountry}]]></textFieldExpression>
 			</textField>
 			<timeSeriesChart>
 				<chart>
-					<reportElement positionType="Float" x="0" y="25" width="550" height="190"/>
+					<reportElement positionType="Float" x="0" y="25" width="550" height="190" uuid="9a1592b0-dd52-406f-bb98-497f4e57d094"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<timeSeriesDataset timePeriod="Month">
 					<dataset incrementType="Group" incrementGroup="MonthGroup">
-						<datasetRun subDataset="Country_Orders">
+						<datasetRun subDataset="Country_Orders" uuid="c8f3b123-7be5-4ea0-9002-5fc495821df5">
 							<datasetParameter name="Country">
 								<datasetParameterExpression><![CDATA[$F{ShipCountry}]]></datasetParameterExpression>
 							</datasetParameter>
@@ -87,16 +87,10 @@
 				<timeSeriesPlot isShowLines="true" isShowShapes="true">
 					<plot/>
 					<timeAxisFormat>
-						<axisFormat>
-							<labelFont/>
-							<tickLabelFont/>
-						</axisFormat>
+						<axisFormat/>
 					</timeAxisFormat>
 					<valueAxisFormat>
-						<axisFormat>
-							<labelFont/>
-							<tickLabelFont/>
-						</axisFormat>
+						<axisFormat/>
 					</valueAxisFormat>
 				</timeSeriesPlot>
 			</timeSeriesChart>
@@ -105,28 +99,28 @@
 	<pageFooter>
 		<band height="30">
 			<rectangle>
-				<reportElement mode="Transparent" x="0" y="5" width="555" height="25"/>
+				<reportElement mode="Transparent" x="0" y="5" width="555" height="25" uuid="ad8db66d-ee25-4884-a2f1-f215fc298d4c"/>
 			</rectangle>
 			<textField>
-				<reportElement x="200" y="10" width="75" height="20"/>
+				<reportElement x="200" y="10" width="75" height="20" uuid="e55b478e-b140-443e-b25d-4a8407242c38"/>
 				<textElement textAlignment="Right">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="275" y="10" width="5" height="20"/>
+				<reportElement x="275" y="10" width="5" height="20" uuid="868e1029-fed8-4b03-b2cd-37d77891b8b3"/>
 				<textElement textAlignment="Center">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[/]]></text>
 			</staticText>
 			<textField evaluationTime="Report">
-				<reportElement x="280" y="10" width="75" height="20"/>
+				<reportElement x="280" y="10" width="75" height="20" uuid="7e5b4f35-7cfb-474e-a2e9-823af9d0dbb6"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

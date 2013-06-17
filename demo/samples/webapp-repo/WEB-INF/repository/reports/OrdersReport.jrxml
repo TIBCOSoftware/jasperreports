@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version last-->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OrdersReport" pageWidth="515" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OrdersReport" pageWidth="515" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d0170d53-41b9-43b7-96c9-9d4d371e69fc">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
-	<subDataset name="TableDataset">
+	<subDataset name="TableDataset" uuid="4717909e-1879-467d-a8ba-4a92ba4ca6ec">
 		<parameter name="CustomerID" class="java.lang.String"/>
 		<queryString language="xPath">
 			<![CDATA[/Northwind/Orders[CustomerID='$P{CustomerID}']]]>
@@ -36,21 +35,21 @@
 		</field>
 		<variable name="TotalFreight" class="java.lang.Float" calculation="Sum">
 			<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
-			<initialValueExpression>new Float(0)</initialValueExpression>
+			<initialValueExpression><![CDATA[new Float(0)]]></initialValueExpression>
 		</variable>
 	</subDataset>
-						<parameter name="XML_DATA_DOCUMENT" class="java.lang.Object"/>
-						<parameter name="XML_DATE_PATTERN" class="java.lang.Object"/>
-						<parameter name="XML_NUMBER_PATTERN" class="java.lang.Object"/>
-						<parameter name="XML_LOCALE" class="java.lang.Object"/>
-						<parameter name="XML_TIME_ZONE" class="java.lang.Object"/>
+	<parameter name="XML_DATA_DOCUMENT" class="java.lang.Object"/>
+	<parameter name="XML_DATE_PATTERN" class="java.lang.Object"/>
+	<parameter name="XML_NUMBER_PATTERN" class="java.lang.Object"/>
+	<parameter name="XML_LOCALE" class="java.lang.Object"/>
+	<parameter name="XML_TIME_ZONE" class="java.lang.Object"/>
 	<parameter name="CustomerID" class="java.lang.String"/>
 	<title>
 		<band height="45">
 			<componentElement>
-				<reportElement x="0" y="0" width="500" height="40"/>
+				<reportElement x="0" y="0" width="500" height="40" uuid="223a2575-3994-4ea9-8641-bdd9feab8648"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
-					<datasetRun subDataset="TableDataset">
+					<datasetRun subDataset="TableDataset" uuid="32d7d06d-9119-4b92-82e8-90412f75a846">
 						<datasetParameter name="XML_DATA_DOCUMENT">
 							<datasetParameterExpression><![CDATA[$P{XML_DATA_DOCUMENT}]]></datasetParameterExpression>
 						</datasetParameter>
@@ -70,111 +69,111 @@
 							<datasetParameterExpression><![CDATA[$P{CustomerID}]]></datasetParameterExpression>
 						</datasetParameter>
 					</datasetRun>
-					<jr:column width="55">
+					<jr:column width="55" uuid="93e6e11e-4052-4599-893b-285e0378bddc">
 						<jr:tableFooter height="10">
 							<textField>
-								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="51" height="10" backcolor="#33CCCC"/>
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="51" height="10" backcolor="#33CCCC" uuid="3eba6a86-8642-4ffa-b72b-979e652f5b91"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA["Total: " + $V{REPORT_COUNT}]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
 						<jr:columnHeader height="14">
 							<staticText>
-								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="48" height="10" backcolor="#CCFFFF"/>
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="48" height="10" backcolor="#CCFFFF" uuid="7c5f4af9-0cbb-4829-a3f5-124af8203cc6"/>
 								<textElement textAlignment="Right"/>
 								<text><![CDATA[ID]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="14">
 							<textField>
-								<reportElement x="0" y="0" width="51" height="10"/>
+								<reportElement x="0" y="0" width="51" height="10" uuid="2a00277f-f61b-4bea-a5c4-a94c506a8c02"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$F{Id}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70">
+					<jr:column width="70" uuid="3eabc8c9-0c22-4e1b-a868-22f109cb0166">
 						<jr:columnHeader height="14">
 							<staticText>
-								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="67" height="10" backcolor="#CCFFFF"/>
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="67" height="10" backcolor="#CCFFFF" uuid="75c6ad53-d0df-4929-98ae-a5b9d5e2393a"/>
 								<textElement textAlignment="Center"/>
 								<text><![CDATA[Order Date]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="14">
 							<textField isStretchWithOverflow="true" pattern="yyyy, MMM dd">
-								<reportElement positionType="Float" x="0" y="2" width="67" height="10"/>
+								<reportElement positionType="Float" x="0" y="2" width="67" height="10" uuid="0717de69-3b48-44f9-a3b2-c6ad286b41f4"/>
 								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70">
+					<jr:column width="70" uuid="03cd65c7-4f2f-4853-a6ac-a0deb652de79">
 						<jr:columnHeader height="14">
 							<staticText>
-								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="67" height="10" backcolor="#CCFFFF"/>
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="67" height="10" backcolor="#CCFFFF" uuid="09854eb3-b1f4-4f65-8c63-08b086c46b15"/>
 								<textElement textAlignment="Center"/>
 								<text><![CDATA[Ship Date]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="14">
 							<textField isStretchWithOverflow="true" pattern="yyyy, MMM dd" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="2" width="67" height="10"/>
+								<reportElement positionType="Float" x="0" y="2" width="67" height="10" uuid="4cda031d-45e8-42a0-85f6-14ad94419f77"/>
 								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[$F{ShippedDate}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="55">
+					<jr:column width="55" uuid="b4094ef0-b4cb-4eff-a903-aafc18f1d97b">
 						<jr:tableFooter height="10">
 							<textField pattern="#,##0.00">
-								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="52" height="10" backcolor="#33CCCC"/>
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="52" height="10" backcolor="#33CCCC" uuid="37c9e4e8-8179-4bbf-acf0-74f1a90258db"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$V{TotalFreight}]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
 						<jr:columnHeader height="14">
 							<staticText>
-								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="52" height="10" backcolor="#CCFFFF"/>
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="52" height="10" backcolor="#CCFFFF" uuid="da5ed1b3-d3a8-44ab-88de-368430a73ae5"/>
 								<textElement textAlignment="Right"/>
 								<text><![CDATA[Freight]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="14">
 							<textField isStretchWithOverflow="true" pattern="#,##0.00">
-								<reportElement positionType="Float" x="0" y="2" width="52" height="10"/>
+								<reportElement positionType="Float" x="0" y="2" width="52" height="10" uuid="4a1f849f-252f-4921-9f2d-aa09d3d45155"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$F{Freight}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="105">
+					<jr:column width="105" uuid="9a4fc8f5-cb50-4280-9b12-777491b91261">
 						<jr:columnHeader height="14">
 							<staticText>
-								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="10" backcolor="#CCFFFF"/>
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="10" backcolor="#CCFFFF" uuid="8284347b-a6db-4fa1-976d-b1372a1670e1"/>
 								<textElement/>
 								<text><![CDATA[Ship to]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="14">
 							<textField isStretchWithOverflow="true">
-								<reportElement positionType="Float" x="0" y="2" width="100" height="10"/>
+								<reportElement positionType="Float" x="0" y="2" width="100" height="10" uuid="efbfff7a-1b82-494e-af57-d8169de6ba06"/>
 								<textElement/>
 								<textFieldExpression><![CDATA[$F{ShipName}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="150">
+					<jr:column width="150" uuid="e9f3fe6e-d858-4237-9188-7da820106040">
 						<jr:columnHeader height="14">
 							<staticText>
-								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="140" height="10" backcolor="#CCFFFF"/>
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="140" height="10" backcolor="#CCFFFF" uuid="5d2640ce-4cc1-41d5-a3d7-704e0c6a6510"/>
 								<textElement/>
 								<text><![CDATA[Address]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="14">
 							<textField isStretchWithOverflow="true">
-								<reportElement positionType="Float" x="0" y="2" width="145" height="10"/>
+								<reportElement positionType="Float" x="0" y="2" width="145" height="10" uuid="fbb70953-0504-4c47-b29c-c7ddf12c7e4f"/>
 								<textElement/>
 								<textFieldExpression><![CDATA[$F{ShipAddress} + "\n" + $F{ShipCity} + ", " + $F{ShipCountry}]]></textFieldExpression>
 							</textField>

@@ -1,70 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MapReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" isSummaryWithPageHeaderAndFooter="true">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MapReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" isSummaryWithPageHeaderAndFooter="true" uuid="b06f625a-ef36-4517-b8fd-6c0fbd34a91f">
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 	<parameter name="reqLatitude" class="java.lang.Float">
-		<defaultValueExpression>Float.parseFloat((String)$P{REPORT_CONTEXT}.getParameterValue("latitude"))</defaultValueExpression>
+		<defaultValueExpression><![CDATA[Float.parseFloat((String)$P{REPORT_CONTEXT}.getParameterValue("latitude"))]]></defaultValueExpression>
 	</parameter>
 	<parameter name="reqLongitude" class="java.lang.Float">
-		<defaultValueExpression>Float.parseFloat((String)$P{REPORT_CONTEXT}.getParameterValue("longitude"))</defaultValueExpression>
+		<defaultValueExpression><![CDATA[Float.parseFloat((String)$P{REPORT_CONTEXT}.getParameterValue("longitude"))]]></defaultValueExpression>
 	</parameter>
 	<parameter name="reqZoom" class="java.lang.Integer">
-		<defaultValueExpression>Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))</defaultValueExpression>
+		<defaultValueExpression><![CDATA[Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
 	</parameter>
 	<parameter name="latitude" class="java.lang.Float">
-		<defaultValueExpression>$P{reqLatitude} == null ? Float.valueOf(44.435f) : $P{reqLatitude}</defaultValueExpression>
+		<defaultValueExpression><![CDATA[$P{reqLatitude} == null ? Float.valueOf(44.435f) : $P{reqLatitude}]]></defaultValueExpression>
 	</parameter>
 	<parameter name="longitude" class="java.lang.Float">
-		<defaultValueExpression>$P{reqLongitude} == null ? Float.valueOf(26.096f) : $P{reqLongitude}</defaultValueExpression>
+		<defaultValueExpression><![CDATA[$P{reqLongitude} == null ? Float.valueOf(26.096f) : $P{reqLongitude}]]></defaultValueExpression>
 	</parameter>
 	<parameter name="zoom" class="java.lang.Integer">
-		<defaultValueExpression>$P{reqZoom} == null ? Integer.valueOf(12) : $P{reqZoom}</defaultValueExpression>
+		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? Integer.valueOf(12) : $P{reqZoom}]]></defaultValueExpression>
 	</parameter>
 	<title>
 		<band height="70">
 			<line>
-				<reportElement x="0" y="0" width="515" height="1"/>
+				<reportElement x="0" y="0" width="515" height="1" uuid="da0eedcb-b075-4f44-8b63-402c778cc937"/>
 			</line>
 			<textField isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement style="Sans_Normal" x="0" y="10" width="515" height="30"/>
+				<reportElement style="Sans_Normal" x="0" y="10" width="515" height="30" uuid="ca87d9f0-cbb2-426f-b067-46237d4e8f5d"/>
 				<textElement textAlignment="Center">
 					<font size="22"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Map Report"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Map Report"]]></textFieldExpression>
 				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="Sans_Normal" x="0" y="40" width="515" height="20"/>
+				<reportElement style="Sans_Normal" x="0" y="40" width="515" height="20" uuid="a0e05500-c869-49b2-8168-eaa83b37dbaa"/>
 				<textElement textAlignment="Center">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Google Map"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Google Map"]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<pageFooter>
 		<band height="40">
 			<line>
-				<reportElement x="0" y="10" width="515" height="1"/>
+				<reportElement x="0" y="10" width="515" height="1" uuid="95aa60cb-786a-408f-b21f-1061ac2becda"/>
 			</line>
 			<textField>
-				<reportElement x="200" y="20" width="80" height="15"/>
+				<reportElement x="200" y="20" width="80" height="15" uuid="f1f14d60-c0ec-4e44-95ac-5137f40913bc"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="280" y="20" width="75" height="15"/>
+				<reportElement x="280" y="20" width="75" height="15" uuid="74471fa1-d810-4516-9891-f4d1d617bc01"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
 	<summary>
 		<band height="377">
 			<componentElement>
-				<reportElement x="0" y="0" width="515" height="377"/>
+				<reportElement x="0" y="0" width="515" height="377" uuid="c699a3e6-bac3-4d78-a038-a1d40f75bbac"/>
 				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<c:latitudeExpression><![CDATA[$P{latitude}]]></c:latitudeExpression>
 					<c:longitudeExpression><![CDATA[$P{longitude}]]></c:longitudeExpression>

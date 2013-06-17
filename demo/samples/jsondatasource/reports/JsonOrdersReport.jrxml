@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
-<jasperReport
-		xmlns="http://jasperreports.sourceforge.net/jasperreports"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-		name="JsonOrdersReport" pageWidth="500" pageHeight="842" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JsonOrdersReport" pageWidth="500" pageHeight="842" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="5a62986f-c97c-4e2f-b4ed-d9f38960dab4">
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 	<parameter name="CustomerID" class="java.lang.String"/>
-	<queryString language="json"><![CDATA[Northwind.Orders(CustomerID == $P{CustomerID})]]></queryString>
+	<queryString language="json">
+		<![CDATA[Northwind.Orders(CustomerID == $P{CustomerID})]]>
+	</queryString>
 	<field name="Id" class="java.lang.String">
 		<fieldDescription><![CDATA[OrderID]]></fieldDescription>
 	</field>
@@ -29,23 +25,24 @@
 	<pageHeader>
 		<band height="14">
 			<frame>
-				<reportElement x="0" y="2" width="356" height="10" forecolor="#ccffff" backcolor="#ccffff" mode="Opaque"/>
+				<reportElement mode="Opaque" x="0" y="2" width="356" height="10" forecolor="#CCFFFF" backcolor="#CCFFFF" uuid="e9af134f-31eb-48be-bd9b-292188f2554f"/>
 				<staticText>
-					<reportElement mode="Opaque" x="0" y="0" width="48" height="10" backcolor="#ccffff" style="Sans_Bold"/>
+					<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="48" height="10" backcolor="#CCFFFF" uuid="62e5e770-7b05-4ecd-a254-ab0c7f643a37"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[ID]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="54" y="0" width="87" height="10" backcolor="#ccffff" style="Sans_Bold"/>
+					<reportElement style="Sans_Bold" mode="Opaque" x="54" y="0" width="87" height="10" backcolor="#CCFFFF" uuid="c472f825-47f4-4e16-a782-cc4b02572cb0"/>
 					<textElement textAlignment="Center"/>
 					<text><![CDATA[Order Date]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="146" y="0" width="108" height="10" backcolor="#ccffff" style="Sans_Bold"/>
+					<reportElement style="Sans_Bold" mode="Opaque" x="146" y="0" width="108" height="10" backcolor="#CCFFFF" uuid="89b5edba-1606-4f5d-89cb-144042c1fcdd"/>
+					<textElement/>
 					<text><![CDATA[Ship City]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="259" y="0" width="92" height="10" backcolor="#ccffff" style="Sans_Bold"/>
+					<reportElement style="Sans_Bold" mode="Opaque" x="259" y="0" width="92" height="10" backcolor="#CCFFFF" uuid="e7c6fbe3-ecb2-4c65-83d6-7c813448cec6"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Freight]]></text>
 				</staticText>
@@ -55,45 +52,45 @@
 	<detail>
 		<band height="14">
 			<textField>
-				<reportElement x="0" y="2" width="51" height="10"/>
+				<reportElement x="0" y="2" width="51" height="10" uuid="ec54687d-3c95-4647-9db5-fa71a6e81009"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{Id}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Id}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="yyyy, MMM dd">
-				<reportElement positionType="Float" x="54" y="2" width="87" height="10"/>
+				<reportElement positionType="Float" x="54" y="2" width="87" height="10" uuid="a112ba7b-c321-467c-91ec-ffb513c23338"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.util.Date"><![CDATA[$F{OrderDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="146" y="2" width="108" height="10"/>
+				<reportElement positionType="Float" x="146" y="2" width="108" height="10" uuid="6a61edb3-239e-4791-a046-a6459343ac07"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipCity}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ShipCity}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="¤ #,##0.00">
-				<reportElement positionType="Float" x="259" y="2" width="92" height="10"/>
+				<reportElement positionType="Float" x="259" y="2" width="92" height="10" uuid="61a8a117-6a43-46a7-9b96-10c5beb578ab"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Float"><![CDATA[$F{Freight}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Freight}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<summary>
 		<band height="14">
 			<frame>
-				<reportElement x="0" y="2" width="356" height="10" forecolor="#33cccc" backcolor="#33cccc" mode="Opaque"/>
+				<reportElement mode="Opaque" x="0" y="2" width="356" height="10" forecolor="#33CCCC" backcolor="#33CCCC" uuid="084cfbb4-f390-4302-8bf5-2e65b34829b8"/>
 				<staticText>
-					<reportElement mode="Opaque" x="160" y="0" width="67" height="10" backcolor="#33cccc" style="Sans_Bold"/>
+					<reportElement style="Sans_Bold" mode="Opaque" x="160" y="0" width="67" height="10" backcolor="#33CCCC" uuid="06753d49-aed5-46c8-be06-b107f81d7c2f"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Total :]]></text>
 				</staticText>
 				<textField>
-					<reportElement mode="Opaque" x="259" y="0" width="92" height="10" backcolor="#33cccc" style="Sans_Bold"/>
+					<reportElement style="Sans_Bold" mode="Opaque" x="259" y="0" width="92" height="10" backcolor="#33CCCC" uuid="a713b487-68a2-4391-a231-9bf9aa740090"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression class="java.lang.Float"><![CDATA[$V{TotalFreight}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{TotalFreight}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement mode="Opaque" x="227" y="0" width="27" height="10" backcolor="#33cccc" style="Sans_Bold"/>
+					<reportElement style="Sans_Bold" mode="Opaque" x="227" y="0" width="27" height="10" backcolor="#33CCCC" uuid="d8edf4da-1e47-45ec-bbf3-f63b3bf0b93b"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
