@@ -2,6 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FirstJasper" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="daad8dd6-b026-4521-bc4b-330f4fe6d706">
 	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/virtualization/repo/ordersData.xml"/>
 	<property name="net.sf.jasperreports.csv.encoding" value="UTF-8"/>
+	<property name="net.sf.jasperreports.csv.date.pattern" value="yyyy-MM-dd mm:HH:ss.S"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
@@ -17,15 +18,15 @@
 		<defaultValueExpression><![CDATA["The First Jasper Report Ever"]]></defaultValueExpression>
 	</parameter>
 	<queryString language="csv"></queryString>
-	<field name="ShippedDate" class="java.sql.Timestamp"/>
+	<field name="ShippedDate" class="java.util.Date"/>
 	<field name="ShipCountry" class="java.lang.String"/>
-	<field name="RequiredDate" class="java.sql.Timestamp"/>
+	<field name="RequiredDate" class="java.util.Date"/>
 	<field name="CustomerID" class="java.lang.String"/>
 	<field name="OrderID" class="java.lang.Integer"/>
 	<field name="ShipName" class="java.lang.String"/>
 	<field name="ShipVia" class="java.lang.Integer"/>
 	<field name="ShipPostalCode" class="java.lang.String"/>
-	<field name="OrderDate" class="java.sql.Timestamp"/>
+	<field name="OrderDate" class="java.util.Date"/>
 	<field name="ShipCity" class="java.lang.String"/>
 	<field name="ShipAddress" class="java.lang.String"/>
 	<field name="EmployeeID" class="java.lang.Integer"/>
@@ -50,7 +51,7 @@
 	<variable name="FreightSumReport" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
 	</variable>
-	<variable name="DateHighestCountryGroup" class="java.sql.Timestamp" resetType="Group" resetGroup="CountryGroup" calculation="Highest">
+	<variable name="DateHighestCountryGroup" class="java.util.Date" resetType="Group" resetGroup="CountryGroup" calculation="Highest">
 		<variableExpression><![CDATA[$F{OrderDate}]]></variableExpression>
 	</variable>
 	<variable name="RegionCountCountryGroup" class="java.lang.Integer" resetType="Group" resetGroup="CountryGroup" calculation="Count">

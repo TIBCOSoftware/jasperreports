@@ -6,5 +6,4 @@
 	<queryExecuterMode>true</queryExecuterMode>
 	<recordDelimiter>&#10;</recordDelimiter>
 	<fieldDelimiter>,</fieldDelimiter>
-	<datePattern>yyyy-MM-dd mm:HH:ss.S</datePattern>
 </csvDataAdapter>
