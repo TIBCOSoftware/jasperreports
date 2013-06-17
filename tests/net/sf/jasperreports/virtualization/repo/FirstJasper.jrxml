@@ -31,6 +31,7 @@
 	<field name="EmployeeID" class="java.lang.Integer"/>
 	<field name="ShipRegion" class="java.lang.String"/>
 	<field name="Freight" class="java.lang.Double"/>
+	<sortField name="ShipCountry"/>
 	<variable name="FirstLetter" class="java.lang.String" resetType="None">
 		<variableExpression><![CDATA[$F{ShipCountry}.substring(0, 1).toUpperCase()]]></variableExpression>
 	</variable>
