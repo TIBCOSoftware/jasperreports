@@ -99,7 +99,7 @@ public class DataSourceApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "Address Report");
 		parameters.put("DataFile", "CustomDataSource.java");
 
@@ -115,7 +115,7 @@ public class DataSourceApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "Address Report");
 		parameters.put("DataFile", "CustomTableModel.java");
 
@@ -131,7 +131,7 @@ public class DataSourceApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "Address Report");
 		parameters.put("DataFile", "CustomBeanFactory.java - Bean Array");
 
@@ -147,7 +147,7 @@ public class DataSourceApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "Address Report");
 		parameters.put("DataFile", "CustomBeanFactory.java - Bean Collection");
 

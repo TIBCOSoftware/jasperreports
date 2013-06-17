@@ -84,7 +84,7 @@ public class CustomBeanFactory
 	/**
 	 *
 	 */
-	public static Collection getBeanCollection()
+	public static Collection<CustomBean> getBeanCollection()
 	{
 		return Arrays.asList(data);
 	}

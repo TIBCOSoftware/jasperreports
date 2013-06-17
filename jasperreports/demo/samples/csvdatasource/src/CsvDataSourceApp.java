@@ -98,10 +98,10 @@ public class CsvDataSourceApp extends AbstractSampleApp
 
 		// data source filling
 		{
-			Map parameters = new HashMap();
+			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("ReportTitle", "Address Report");
 			parameters.put("DataFile", "CsvDataSource.txt - CSV data source");
-			Set states = new HashSet();
+			Set<String> states = new HashSet<String>();
 			states.add("Active");
 			states.add("Trial");
 			parameters.put("IncludedStates", states);
@@ -120,10 +120,10 @@ public class CsvDataSourceApp extends AbstractSampleApp
 		// query executer filling
 		{
 			start = System.currentTimeMillis();
-			Map parameters = new HashMap();
+			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("ReportTitle", "Address Report");
 			parameters.put("DataFile", "CsvDataSource.txt - CSV query executer");
-			Set states = new HashSet();
+			Set<String> states = new HashSet<String>();
 			states.add("Active");
 			states.add("Trial");
 			parameters.put("IncludedStates", states);

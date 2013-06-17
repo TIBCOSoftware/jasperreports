@@ -26,7 +26,6 @@ package net.sf.jasperreports.forms.textinput;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

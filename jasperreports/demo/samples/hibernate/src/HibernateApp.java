@@ -101,7 +101,7 @@ public class HibernateApp extends AbstractSampleApp
 		Session session = createSession();
 		Transaction transaction = session.beginTransaction();
 
-		Map params = getParameters(session);
+		Map<String, Object> params = getParameters(session);
 		
 		File[] files = 
 			new File[]{
@@ -475,12 +475,12 @@ public class HibernateApp extends AbstractSampleApp
 	}
 	
 	
-	private static Map getParameters(Session session)
+	private static Map<String, Object> getParameters(Session session)
 	{
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(JRHibernateQueryExecuterFactory.PARAMETER_HIBERNATE_SESSION, session);
 		parameters.put("ReportTitle", "Address Report");
-		List cityFilter = new ArrayList(3);
+		List<String> cityFilter = new ArrayList<String>(3);
 		cityFilter.add("Boston");
 		cityFilter.add("Chicago");
 		cityFilter.add("Oslo");
