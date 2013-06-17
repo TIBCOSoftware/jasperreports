@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport 
-	xmlns="http://jasperreports.sourceforge.net/jasperreports" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
-	name="CategoryFunctionsReport" 
-	pageWidth="575" 
-	pageHeight="842" 
-	columnWidth="575" 
-	leftMargin="0" 
-	rightMargin="0" 
-	topMargin="0" 
-	bottomMargin="0" 
-	uuid="4345eb8d-f6f6-445e-85c9-65c6f22772a2">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CategoryFunctionsReport" pageWidth="575" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4345eb8d-f6f6-445e-85c9-65c6f22772a2">
 	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<style name="Sans_Bold" mode="Opaque" backcolor="#CCCCCC" vAlign="Middle" fontName="DejaVu Sans" fontSize="10" isBold="true"/>
 	<style name="rowStyle" backcolor="#EEEEAA" fontName="Monospaced" fontSize="8" isBold="true"/>
@@ -29,7 +17,7 @@
 	<pageHeader>
 		<band height="20">
 			<staticText>
-				<reportElement uuid="7297fe1d-c7b4-4cd9-8fc5-073290ca4c52" style="Sans_Bold" x="0" y="0" width="90" height="20"/>
+				<reportElement style="Sans_Bold" x="0" y="0" width="90" height="20" uuid="7297fe1d-c7b4-4cd9-8fc5-073290ca4c52"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.5" lineColor="#006699"/>
 					<bottomPen lineWidth="0.5" lineColor="#006699"/>
@@ -38,7 +26,7 @@
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="8a42fd71-dcd9-4b5f-b6ae-21f060830143" style="Sans_Bold" x="90" y="0" width="275" height="20"/>
+				<reportElement style="Sans_Bold" x="90" y="0" width="275" height="20" uuid="8a42fd71-dcd9-4b5f-b6ae-21f060830143"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.5" lineColor="#006699"/>
 					<bottomPen lineWidth="0.5" lineColor="#006699"/>
@@ -47,7 +35,7 @@
 				<text><![CDATA[Description]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="a77c1da2-9159-4ab9-a9fc-9a1c692fd7d4" style="Sans_Bold" x="365" y="0" width="210" height="20"/>
+				<reportElement style="Sans_Bold" x="365" y="0" width="210" height="20" uuid="a77c1da2-9159-4ab9-a9fc-9a1c692fd7d4"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.5" lineColor="#006699"/>
 					<bottomPen lineWidth="0.5" lineColor="#006699"/>
@@ -60,21 +48,21 @@
 	<detail>
 		<band height="20">
 			<frame>
-				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="575" height="20" isPrintWhenDetailOverflows="true"/>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="575" height="20" isPrintWhenDetailOverflows="true" uuid="aab3dfbb-5036-48f8-84e6-589b337ed596"/>
 				<textField isStretchWithOverflow="true">
-					<reportElement uuid="00b307ea-b6dd-4f5d-9783-ba8cdbd96963" stretchType="RelativeToBandHeight" x="0" y="0" width="90" height="20"/>
-					<box leftPadding="5" topPadding="5" bottomPadding="5"/>
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="90" height="20" uuid="00b307ea-b6dd-4f5d-9783-ba8cdbd96963"/>
+					<box topPadding="5" leftPadding="5" bottomPadding="5"/>
 					<textElement verticalAlignment="Top"/>
 					<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement uuid="a2267074-e990-4ad5-b9cb-909d1bc512df" stretchType="RelativeToBandHeight" x="90" y="0" width="275" height="20"/>
-					<box leftPadding="5" rightPadding="5" topPadding="5" bottomPadding="5"/>
+					<reportElement stretchType="RelativeToBandHeight" x="90" y="0" width="275" height="20" uuid="a2267074-e990-4ad5-b9cb-909d1bc512df"/>
+					<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5"/>
 					<textElement verticalAlignment="Top"/>
 					<textFieldExpression><![CDATA[$F{description} + "\nReturn type: " + ($F{returnType} == null ? "there is no type" : $F{returnType}.getName())]]></textFieldExpression>
 				</textField>
 				<subreport>
-					<reportElement uuid="11cc84d9-2972-4ea5-9f4e-7e7aa1061164" stretchType="RelativeToBandHeight" x="365" y="0" width="210" height="20"/>
+					<reportElement stretchType="RelativeToBandHeight" x="365" y="0" width="210" height="20" uuid="11cc84d9-2972-4ea5-9f4e-7e7aa1061164"/>
 					<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{parameters})]]></dataSourceExpression>
 					<subreportExpression><![CDATA["FunctionParametersReport.jasper"]]></subreportExpression>
 				</subreport>

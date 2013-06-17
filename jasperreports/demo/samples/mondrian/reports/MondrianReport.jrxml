@@ -1,12 +1,7 @@
-<?xml version="1.0"?>
-
-<jasperReport
-		xmlns="http://jasperreports.sourceforge.net/jasperreports"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-		name="MondrianReport" pageWidth="595" pageHeight="842" columnWidth="515" columnSpacing="0" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MondrianReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="72a6dd2d-74fc-4f56-bc0a-d3ee5239681c">
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<queryString language="mdx">
 		<![CDATA[select
 				{[Measures].[Quantity], [Measures].[Unit Price]} ON columns,
@@ -44,62 +39,63 @@
 		<fieldDescription><![CDATA[FormattedData(Rows[Address][(All)])([Measures].[Unit Price],?)]]></fieldDescription>
 	</field>
 	<group name="City">
-		<groupExpression>$F{City}</groupExpression>
+		<groupExpression><![CDATA[$F{City}]]></groupExpression>
 		<groupHeader>
 			<band height="16">
 				<textField evaluationTime="Group" evaluationGroup="City">
-					<reportElement x="10" y="0" width="150" height="15" style="Sans_Bold"/>
-					<textFieldExpression>$F{City}</textFieldExpression>
+					<reportElement style="Sans_Bold" x="10" y="0" width="150" height="15" uuid="dca598fd-175a-40e9-b1c0-c74238f2639a"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{City}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="16">
-			<frame>
-				<reportElement x="0" y="0" width="515" height="15" mode="Opaque" backcolor="#E0E0E0"/>
-				<box>
-					<pen lineWidth="0.5"/>
-				</box>
-				<textField evaluationTime="Group" evaluationGroup="City">
-					<reportElement x="10" y="0" width="150" height="15" style="Sans_Bold"/>
-					<textElement verticalAlignment="Middle"/>
-					<textFieldExpression>"City Totals: " + $F{City}</textFieldExpression>
-				</textField>
-				<textField pattern="#,###" evaluationTime="Group" evaluationGroup="City">
-					<reportElement x="180" y="0" width="100" height="15" style="Sans_Bold"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle"/>
-					<textFieldExpression class="java.lang.Number">$F{CityQuantity}</textFieldExpression>
-				</textField>
-				<textField pattern="$#,##0.00" evaluationTime="Group" evaluationGroup="City">
-					<reportElement x="300" y="0" width="100" height="15" style="Sans_Bold"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle"/>
-					<textFieldExpression class="java.lang.Number">$F{CityUnitPrice}</textFieldExpression>
-				</textField>
-			</frame>
+				<frame>
+					<reportElement mode="Opaque" x="0" y="0" width="515" height="15" backcolor="#E0E0E0" uuid="08529bed-ceb9-4445-b7a6-2d47c1e45531"/>
+					<box>
+						<pen lineWidth="0.5"/>
+					</box>
+					<textField evaluationTime="Group" evaluationGroup="City">
+						<reportElement style="Sans_Bold" x="10" y="0" width="150" height="15" uuid="e80b4d0c-9417-421b-bd68-8bdd81821c0d"/>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression><![CDATA["City Totals: " + $F{City}]]></textFieldExpression>
+					</textField>
+					<textField evaluationTime="Group" evaluationGroup="City" pattern="#,###">
+						<reportElement style="Sans_Bold" x="180" y="0" width="100" height="15" uuid="5c961bad-74c4-4236-b33a-55024b44e8f6"/>
+						<textElement textAlignment="Right" verticalAlignment="Middle"/>
+						<textFieldExpression><![CDATA[$F{CityQuantity}]]></textFieldExpression>
+					</textField>
+					<textField evaluationTime="Group" evaluationGroup="City" pattern="$#,##0.00">
+						<reportElement style="Sans_Bold" x="300" y="0" width="100" height="15" uuid="c94a3e50-29f1-47c8-90a4-d64ed63c00e1"/>
+						<textElement textAlignment="Right" verticalAlignment="Middle"/>
+						<textFieldExpression><![CDATA[$F{CityUnitPrice}]]></textFieldExpression>
+					</textField>
+				</frame>
 			</band>
 		</groupFooter>
 	</group>
 	<pageHeader>
 		<band height="16">
 			<frame>
-				<reportElement x="0" y="0" width="515" height="15" mode="Opaque" backcolor="#E0E0E0"/>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" backcolor="#E0E0E0" uuid="8fed2c2d-fab9-4e86-a5c0-8b310ea46f45"/>
 				<box>
 					<pen lineWidth="0.5"/>
 				</box>
 				<staticText>
-					<reportElement x="20" y="0" width="150" height="15"/>
+					<reportElement x="20" y="0" width="150" height="15" uuid="13d397e4-dab4-4458-abcb-affcacbc057b"/>
 					<textElement verticalAlignment="Middle"/>
-					<text>Address</text>
+					<text><![CDATA[Address]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="180" y="0" width="100" height="15"/>
+					<reportElement x="180" y="0" width="100" height="15" uuid="92f978c3-fbb2-4a07-a0b8-66518ab9cd1e"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
-					<text>Quantity</text>
+					<text><![CDATA[Quantity]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="300" y="0" width="100" height="15"/>
+					<reportElement x="300" y="0" width="100" height="15" uuid="c83a0d8b-c17c-45e0-88df-0362489fb473"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
-					<text>Average price</text>
+					<text><![CDATA[Average price]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -107,46 +103,48 @@
 	<detail>
 		<band height="32">
 			<textField>
-				<reportElement x="20" y="0" width="150" height="15"/>
-				<textFieldExpression>$F{Name} + ", " + $F{Street}</textFieldExpression>
+				<reportElement x="20" y="0" width="150" height="15" uuid="2ec9efff-8352-473f-af0d-db2362bf389d"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Name} + ", " + $F{Street}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,###">
-				<reportElement x="180" y="0" width="100" height="15"/>
+				<reportElement x="180" y="0" width="100" height="15" uuid="6ad3b651-e14f-4989-b8cd-fdcdded22757"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Number">$F{Quantity}</textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Quantity}]]></textFieldExpression>
 			</textField>
 			<textField pattern="$#,##0.00">
-				<reportElement x="300" y="0" width="100" height="15"/>
+				<reportElement x="300" y="0" width="100" height="15" uuid="38c50244-9f7b-4f66-b699-0a7d312d9914"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Number">$F{UnitPrice}</textFieldExpression>
+				<textFieldExpression><![CDATA[$F{UnitPrice}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="40" y="17" width="250" height="15"/>
-				<textFieldExpression>$F{AddressMember}.toString()</textFieldExpression>
+				<reportElement x="40" y="17" width="250" height="15" uuid="2ac1908c-f60a-4f67-a62f-dfd61cef3794"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{AddressMember}.toString()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<summary>
 		<band height="16">
 			<frame>
-				<reportElement x="0" y="0" width="515" height="15" mode="Opaque" backcolor="#E0E0E0"/>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" backcolor="#E0E0E0" uuid="f66feef0-9c74-40c1-831d-29b2c9c6f267"/>
 				<box>
 					<pen lineWidth="0.5"/>
 				</box>
 				<textField>
-					<reportElement x="10" y="0" width="165" height="15" style="Sans_Bold"/>
+					<reportElement style="Sans_Bold" x="10" y="0" width="165" height="15" uuid="67364fa9-1715-41da-99d3-daa9453aea9a"/>
 					<textElement verticalAlignment="Middle"/>
-					<textFieldExpression>"Grand Totals (formatted text from query result)"</textFieldExpression>
+					<textFieldExpression><![CDATA["Grand Totals (formatted text from query result)"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="180" y="0" width="100" height="15" style="Sans_Bold"/>
+					<reportElement style="Sans_Bold" x="180" y="0" width="100" height="15" uuid="1e7af650-36bc-40d6-9e0f-1b5eb930432a"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
-					<textFieldExpression>$F{TotalQuantity}</textFieldExpression>
+					<textFieldExpression><![CDATA[$F{TotalQuantity}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="300" y="0" width="100" height="15" style="Sans_Bold"/>
+					<reportElement style="Sans_Bold" x="300" y="0" width="100" height="15" uuid="2f71798c-de57-4acc-baa4-7cc41f83effd"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
-					<textFieldExpression>$F{TotalUnitPrice}</textFieldExpression>
+					<textFieldExpression><![CDATA[$F{TotalUnitPrice}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

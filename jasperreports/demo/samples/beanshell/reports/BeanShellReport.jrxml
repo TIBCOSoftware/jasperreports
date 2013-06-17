@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BeanShellReport" language="bsh" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BeanShellReport" language="bsh" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="fbe18c0b-79a3-419a-a78d-b35dd2d803f2">
 	<parameter name="A" class="java.lang.Double">
 		<defaultValueExpression><![CDATA[new Double(3)]]></defaultValueExpression>
 	</parameter>
@@ -9,64 +9,64 @@
 	<title>
 		<band height="742">
 			<line>
-				<reportElement x="0" y="0" width="515" height="1"/>
+				<reportElement x="0" y="0" width="515" height="1" uuid="08bb3090-84ab-4bfb-8339-7c86d090a50c"/>
 			</line>
 			<staticText>
-				<reportElement x="0" y="10" width="515" height="30"/>
+				<reportElement x="0" y="10" width="515" height="30" uuid="297d10f2-22db-4d0a-8897-ef12b5acdc63"/>
 				<textElement textAlignment="Center">
 					<font size="22"/>
 				</textElement>
 				<text><![CDATA[BeanShell Sample]]></text>
 			</staticText>
 			<textField hyperlinkType="Reference" hyperlinkTarget="Blank">
-				<reportElement x="0" y="50" width="515" height="50"/>
+				<reportElement x="0" y="50" width="515" height="50" uuid="975c7f58-0623-46a3-aa2f-c52244837551"/>
 				<textElement textAlignment="Center">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["This sample uses BeanShell Version 2.0 beta 2\n" + "http://beanshell.org/"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["This sample uses BeanShell Version 2.0 beta 2\n" + "http://beanshell.org/"]]></textFieldExpression>
 				<hyperlinkReferenceExpression><![CDATA["http://beanshell.org/"]]></hyperlinkReferenceExpression>
 			</textField>
 			<textField>
-				<reportElement x="280" y="150" width="200" height="35"/>
+				<reportElement x="280" y="150" width="200" height="35" uuid="d33e521c-44f0-4c5d-b170-348467540ba2"/>
 				<textElement>
 					<font size="24"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$P{A}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{A}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="150" width="259" height="35"/>
+				<reportElement positionType="Float" x="0" y="150" width="259" height="35" uuid="44937904-6eb1-4cee-ac8f-605cdc5b3204"/>
 				<textElement textAlignment="Right">
 					<font size="24"/>
 				</textElement>
 				<text><![CDATA[A =]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="190" width="259" height="35"/>
+				<reportElement positionType="Float" x="0" y="190" width="259" height="35" uuid="83330656-0408-498c-b1ad-d93a33a7d59d"/>
 				<textElement textAlignment="Right">
 					<font size="24"/>
 				</textElement>
 				<text><![CDATA[B =]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="280" y="190" width="200" height="35"/>
+				<reportElement x="280" y="190" width="200" height="35" uuid="55294890-da42-4881-acca-864ee08d1d23"/>
 				<textElement>
 					<font size="24"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$P{B}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{B}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="230" width="259" height="35"/>
+				<reportElement positionType="Float" x="0" y="230" width="259" height="35" uuid="980d98cf-b31b-419b-8328-11599db42721"/>
 				<textElement textAlignment="Right">
 					<font size="24"/>
 				</textElement>
 				<text><![CDATA[A + B =]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="280" y="230" width="200" height="35"/>
+				<reportElement x="280" y="230" width="200" height="35" uuid="6a3906f9-0ed7-4a0f-8985-e90527818f74"/>
 				<textElement>
 					<font size="24"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($P{A}.doubleValue() + $P{B}.doubleValue())]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new Double($P{A}.doubleValue() + $P{B}.doubleValue())]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

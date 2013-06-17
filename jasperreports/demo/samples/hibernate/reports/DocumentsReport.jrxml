@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DocumentsReport" pageWidth="500" pageHeight="842" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DocumentsReport" pageWidth="500" pageHeight="842" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="68cf12a7-46cc-4853-8a87-47af86af0d76">
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
-	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="10" isBold="true"/>
-	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="10" isItalic="true"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="10" isBold="true"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="10" isItalic="true"/>
 	<field name="id" class="java.lang.Long"/>
 	<field name="total" class="java.lang.Double"/>
 	<sortField name="id"/>
 	<title>
 		<band height="1">
 			<line>
-				<reportElement x="0" y="0" width="195" height="1" forecolor="#808080"/>
+				<reportElement x="0" y="0" width="195" height="1" forecolor="#808080" uuid="88470eb6-88b0-44ed-b36c-7c07b5f56d20"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
@@ -19,17 +19,17 @@
 	<pageHeader>
 		<band height="15">
 			<staticText>
-				<reportElement style="Sans_Bold" x="10" y="1" width="55" height="13"/>
+				<reportElement style="Sans_Bold" x="10" y="1" width="55" height="13" uuid="ce203b34-c00c-41e3-b0c6-96683ae2f1ee"/>
 				<textElement/>
 				<text><![CDATA[Documents]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" x="65" y="1" width="15" height="13"/>
+				<reportElement style="Sans_Bold" x="65" y="1" width="15" height="13" uuid="241da0cd-93eb-475e-8686-f88d83e39bed"/>
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" x="85" y="1" width="100" height="13"/>
+				<reportElement style="Sans_Bold" x="85" y="1" width="100" height="13" uuid="11b92cee-fe37-4efa-a43f-c8bdbdee5f1f"/>
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[Total]]></text>
 			</staticText>
@@ -38,21 +38,21 @@
 	<detail>
 		<band height="14">
 			<textField>
-				<reportElement x="10" y="0" width="70" height="13"/>
+				<reportElement x="10" y="0" width="70" height="13" uuid="792cdf3f-ee77-4c8f-9cd0-e564be275f7f"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Long"><![CDATA[$F{id}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#.00">
-				<reportElement positionType="Float" x="85" y="0" width="100" height="13"/>
+				<reportElement positionType="Float" x="85" y="0" width="100" height="13" uuid="20947926-3f89-4cb4-890a-09e53495ceb9"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$F{total}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<summary>
 		<band height="1">
 			<line>
-				<reportElement x="0" y="0" width="195" height="1" forecolor="#808080"/>
+				<reportElement x="0" y="0" width="195" height="1" forecolor="#808080" uuid="aff4f30b-5e50-4d20-bddc-6b92b9c504cb"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>

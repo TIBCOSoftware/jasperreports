@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GanttChartReport" pageWidth="595" pageHeight="842" columnWidth="270" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GanttChartReport" pageWidth="595" pageHeight="842" columnWidth="270" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="1356e37a-0b17-4fdb-9a11-b0113534603f">
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Serif_Normal" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Serif_Bold" isDefault="false" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Serif_Normal" fontName="DejaVu Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Serif_Bold" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<queryString>
 		<![CDATA[SELECT * FROM Tasks ORDER BY Task, Subtask]]>
 	</queryString>
@@ -19,38 +19,38 @@
 		<groupHeader>
 			<band height="20">
 				<line>
-					<reportElement x="137" y="1" width="270" height="1"/>
+					<reportElement x="137" y="1" width="270" height="1" uuid="ee1b629c-ce69-4630-baa1-800a83b70a5b"/>
 				</line>
 				<rectangle>
-					<reportElement x="137" y="5" width="270" height="11" forecolor="#C0C0C0" backcolor="#C0C0C0"/>
+					<reportElement x="137" y="5" width="270" height="11" forecolor="#C0C0C0" backcolor="#C0C0C0" uuid="330288a2-5840-4ea6-8304-214e8bc61d5b"/>
 				</rectangle>
 				<textField>
-					<reportElement style="Sans_Bold" x="147" y="5" width="62" height="11"/>
+					<reportElement style="Sans_Bold" x="147" y="5" width="62" height="11" uuid="7d1b15e0-f52c-489e-aa41-d34b66f31490"/>
 					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Task}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Task}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="20">
 				<line>
-					<reportElement positionType="Float" x="210" y="0" width="197" height="1" forecolor="#808080"/>
+					<reportElement positionType="Float" x="210" y="0" width="197" height="1" forecolor="#808080" uuid="9c13c133-c62e-4381-8bd4-009f9c91068f"/>
 					<graphicElement>
 						<pen lineWidth="0.5"/>
 					</graphicElement>
 				</line>
 				<rectangle>
-					<reportElement x="137" y="5" width="270" height="11" forecolor="#E0E0E0" backcolor="#E0E0E0"/>
+					<reportElement x="137" y="5" width="270" height="11" forecolor="#E0E0E0" backcolor="#E0E0E0" uuid="4e303fc0-d100-49ea-9c7b-a3de0585fa63"/>
 				</rectangle>
 				<staticText>
-					<reportElement style="Sans_Bold" mode="Opaque" x="337" y="5" width="45" height="11" backcolor="#E0E0E0"/>
+					<reportElement style="Sans_Bold" mode="Opaque" x="337" y="5" width="45" height="11" backcolor="#E0E0E0" uuid="820c2013-cf41-405a-bd9e-c8c77b80adce"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Stages :]]></text>
 				</staticText>
 				<textField>
-					<reportElement style="Sans_Bold" mode="Opaque" x="382" y="5" width="20" height="11" backcolor="#E0E0E0"/>
+					<reportElement style="Sans_Bold" mode="Opaque" x="382" y="5" width="20" height="11" backcolor="#E0E0E0" uuid="27489723-ee47-447f-ae23-93b25d5afbe4"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{TaskGroup_COUNT}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{TaskGroup_COUNT}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -59,7 +59,7 @@
 		<band height="290">
 			<elementGroup/>
 			<staticText>
-				<reportElement style="Serif_Bold" x="0" y="0" width="555" height="35"/>
+				<reportElement style="Serif_Bold" x="0" y="0" width="555" height="35" uuid="76d02467-e787-40a6-b34c-572bef0a1c67"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 				</box>
@@ -70,7 +70,7 @@
 			</staticText>
 			<ganttChart>
 				<chart isShowLegend="true" evaluationTime="Report">
-					<reportElement positionType="Float" x="0" y="75" width="555" height="175"/>
+					<reportElement positionType="Float" x="0" y="75" width="555" height="175" uuid="30057389-8122-4554-898e-ab792809b6b3"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
@@ -89,34 +89,28 @@
 					<plot/>
 					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
 					<categoryAxisFormat>
-						<axisFormat>
-							<labelFont/>
-							<tickLabelFont/>
-						</axisFormat>
+						<axisFormat/>
 					</categoryAxisFormat>
 					<valueAxisFormat>
-						<axisFormat>
-							<labelFont/>
-							<tickLabelFont/>
-						</axisFormat>
+						<axisFormat/>
 					</valueAxisFormat>
 				</barPlot>
 			</ganttChart>
 			<rectangle>
-				<reportElement x="137" y="277" width="270" height="11" forecolor="#000000" backcolor="#000000"/>
+				<reportElement x="137" y="277" width="270" height="11" forecolor="#000000" backcolor="#000000" uuid="ef927543-df07-4546-8e09-cc150ba80a24"/>
 			</rectangle>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="210" y="277" width="72" height="11" forecolor="#FFFFFF" backcolor="#000000"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="210" y="277" width="72" height="11" forecolor="#FFFFFF" backcolor="#000000" uuid="f0aab1e9-149d-406a-a696-5a52e6cc70ad"/>
 				<textElement/>
 				<text><![CDATA[Subtask]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="282" y="277" width="62" height="11" forecolor="#FFFFFF" backcolor="#000000"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="282" y="277" width="62" height="11" forecolor="#FFFFFF" backcolor="#000000" uuid="a2527e49-4676-4a05-a135-5e6d5bd6c869"/>
 				<textElement/>
 				<text><![CDATA[Start Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="345" y="277" width="62" height="11" forecolor="#FFFFFF" backcolor="#000000"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="345" y="277" width="62" height="11" forecolor="#FFFFFF" backcolor="#000000" uuid="2c82dab1-efdd-46e3-be62-5b3796c82525"/>
 				<textElement/>
 				<text><![CDATA[End Date]]></text>
 			</staticText>
@@ -125,25 +119,25 @@
 	<detail>
 		<band height="13">
 			<line>
-				<reportElement positionType="Float" x="210" y="0" width="197" height="1" forecolor="#808080"/>
+				<reportElement positionType="Float" x="210" y="0" width="197" height="1" forecolor="#808080" uuid="ce8cdc80-5f2e-42e1-bd4a-96f91212b12b"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</line>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="210" y="1" width="72" height="11"/>
+				<reportElement positionType="Float" x="210" y="1" width="72" height="11" uuid="251c2148-23de-433f-aabe-feaa72a67548"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{Subtask}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Subtask}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="282" y="1" width="62" height="11"/>
+				<reportElement x="282" y="1" width="62" height="11" uuid="7a063956-b5f2-4617-8bd9-84afe6a35534"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{StartTimestamp}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{StartTimestamp}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="345" y="1" width="62" height="11"/>
+				<reportElement x="345" y="1" width="62" height="11" uuid="3e59f02c-55b4-4888-9624-8803b5ff4817"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{EndTimestamp}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{EndTimestamp}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

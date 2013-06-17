@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report2" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report2" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="b37861d5-ceb4-4454-a37a-bfbb6330b15b">
 	<pageHeader>
 		<band height="40">
 			<textField>
-				<reportElement positionType="Float" mode="Opaque" x="5" y="5" width="792" height="30" forecolor="#FF9900" backcolor="#FFFF99"/>
+				<reportElement positionType="Float" mode="Opaque" x="5" y="5" width="792" height="30" forecolor="#FF9900" backcolor="#FFFF99" uuid="af1ddbd5-85ec-4ebf-95ff-8a98a5872603"/>
 				<textElement textAlignment="Center">
 					<font size="22" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Report Two (page " + $V{PAGE_NUMBER} + ")"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Report Two (page " + $V{PAGE_NUMBER} + ")"]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<detail>
 		<band height="455">
 			<rectangle>
-				<reportElement positionType="Float" x="5" y="5" width="792" height="445"/>
+				<reportElement positionType="Float" x="5" y="5" width="792" height="445" uuid="b0d7496b-d31a-4660-bc0d-da6dc52cf06f"/>
 			</rectangle>
 		</band>
 	</detail>
 	<pageFooter>
 		<band height="40">
 			<textField>
-				<reportElement positionType="Float" mode="Opaque" x="5" y="5" width="420" height="30" forecolor="#993300"/>
+				<reportElement positionType="Float" mode="Opaque" x="5" y="5" width="420" height="30" forecolor="#993300" uuid="51efdfd7-7629-4155-bfc3-2b69e12b7648"/>
 				<textElement textAlignment="Right">
 					<font size="22" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Page " + $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement positionType="Float" mode="Opaque" x="430" y="5" width="370" height="30" forecolor="#993300"/>
+				<reportElement positionType="Float" mode="Opaque" x="430" y="5" width="370" height="30" forecolor="#993300" uuid="a5f7b2b4-2e38-41c5-a056-7869aff10be2"/>
 				<textElement>
 					<font size="22" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
-<jasperReport
-		xmlns="http://jasperreports.sourceforge.net/jasperreports"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-		name="JsonCustomersReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JsonCustomersReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="bbe115b5-a5a0-4b39-9b73-7092dc59ab6d">
 	<property name="net.sf.jasperreports.json.source" value="data/northwind.json"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
-	<queryString language="json"><![CDATA[Northwind.Customers]]></queryString>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<queryString language="json">
+		<![CDATA[Northwind.Customers]]>
+	</queryString>
 	<field name="CustomerID" class="java.lang.String">
 		<fieldDescription><![CDATA[CustomerID]]></fieldDescription>
 	</field>
@@ -20,11 +16,10 @@
 	<title>
 		<band height="50">
 			<line>
-				<reportElement x="0" y="0" width="515" height="1"/>
-				<graphicElement/>
+				<reportElement x="0" y="0" width="515" height="1" uuid="fc148b4e-50df-4a12-aa14-8505a4cfa6e1"/>
 			</line>
 			<staticText>
-				<reportElement x="0" y="10" width="515" height="30" style="Sans_Normal"/>
+				<reportElement style="Sans_Normal" x="0" y="10" width="515" height="30" uuid="5bf7651c-cd6b-4eaf-b65a-1413d60faab0"/>
 				<textElement textAlignment="Center">
 					<font size="22"/>
 				</textElement>
@@ -35,7 +30,8 @@
 	<pageHeader>
 		<band height="21">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="5" width="515" height="15" forecolor="#ffffff" backcolor="#333333" style="Sans_Bold"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="515" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="da0f1cad-f552-424b-bf19-b41cabbfa4ac"/>
+				<textElement/>
 				<text><![CDATA[Customer Order List]]></text>
 			</staticText>
 		</band>
@@ -43,57 +39,58 @@
 	<detail>
 		<band height="50">
 			<textField>
-				<reportElement x="5" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" style="Sans_Bold"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{CustomerID}]]></textFieldExpression>
+				<reportElement style="Sans_Bold" x="5" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="0aaeed6e-7ba1-4ab9-be59-d6ca702995fc"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CustomerID}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement isPrintRepeatedValues="false" x="404" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" style="Sans_Bold"/>
+				<reportElement style="Sans_Bold" isPrintRepeatedValues="false" x="404" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="68e08f51-8c24-4c85-95f3-616e40c8ddab"/>
+				<textElement/>
 				<text><![CDATA[(continued)]]></text>
 			</staticText>
 			<line>
-				<reportElement x="0" y="20" width="515" height="1" isPrintWhenDetailOverflows="true"/>
-				<graphicElement/>
+				<reportElement x="0" y="20" width="515" height="1" isPrintWhenDetailOverflows="true" uuid="6d76c22c-329f-4e77-a886-8580d3cb6bc1"/>
 			</line>
 			<subreport>
-				<reportElement isPrintRepeatedValues="false" x="5" y="25" width="507" height="20" isRemoveLineWhenBlank="true" backcolor="#ffcc99"/>
+				<reportElement isPrintRepeatedValues="false" x="5" y="25" width="507" height="20" isRemoveLineWhenBlank="true" backcolor="#FFCC99" uuid="122eb7b3-e2bf-49eb-859d-4c29bfd6882e"/>
 				<subreportParameter name="net.sf.jasperreports.json.date.pattern">
-					<subreportParameterExpression>$P{net.sf.jasperreports.json.date.pattern}</subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$P{net.sf.jasperreports.json.date.pattern}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="net.sf.jasperreports.json.number.pattern">
-					<subreportParameterExpression>$P{net.sf.jasperreports.json.number.pattern}</subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$P{net.sf.jasperreports.json.number.pattern}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="JSON_LOCALE">
-					<subreportParameterExpression>$P{JSON_LOCALE}</subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$P{JSON_LOCALE}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="CustomerID">
-					<subreportParameterExpression>$F{CustomerID}</subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$F{CustomerID}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="net.sf.jasperreports.json.source">
 					<subreportParameterExpression><![CDATA["data/northwind.json"]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportExpression class="java.lang.String"><![CDATA["JsonOrdersReport.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["JsonOrdersReport.jasper"]]></subreportExpression>
 			</subreport>
 			<textField>
-				<reportElement x="109" y="5" width="291" height="15" isPrintWhenDetailOverflows="true" style="Sans_Bold"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{CompanyName}]]></textFieldExpression>
+				<reportElement style="Sans_Bold" x="109" y="5" width="291" height="15" isPrintWhenDetailOverflows="true" uuid="9a4a0a5d-4b75-4d2b-a647-aa495101df48"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CompanyName}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<pageFooter>
 		<band height="40">
 			<line>
-				<reportElement x="0" y="10" width="515" height="1"/>
-				<graphicElement/>
+				<reportElement x="0" y="10" width="515" height="1" uuid="1371178a-a590-4616-affe-a4e1a24bcc84"/>
 			</line>
 			<textField>
-				<reportElement x="200" y="20" width="80" height="15"/>
+				<reportElement x="200" y="20" width="80" height="15" uuid="3eb302d8-0855-4f82-a666-3c9628dce372"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="280" y="20" width="75" height="15"/>
+				<reportElement x="280" y="20" width="75" height="15" uuid="86f46fca-dbcb-4a60-b2f7-f8da6a4224f7"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

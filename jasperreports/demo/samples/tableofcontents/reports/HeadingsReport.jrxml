@@ -1,46 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
-<jasperReport
-		xmlns="http://jasperreports.sourceforge.net/jasperreports"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-		name="HeadingsReport" pageWidth="515" pageHeight="842" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HeadingsReport" pageWidth="515" pageHeight="842" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="47d0342f-7687-4167-8741-854ed01cfed5">
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
-	<parameter name="ReportTitle" class="java.lang.String">
-	</parameter>
-	<field name="headingType" class="java.lang.Integer">
-	</field>
-	<field name="headingText" class="java.lang.String">
-	</field>
-	<field name="reference" class="java.lang.String">
-	</field>
-	<field name="pageIndex" class="java.lang.Integer">
-	</field>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="ReportTitle" class="java.lang.String"/>
+	<field name="headingType" class="java.lang.Integer"/>
+	<field name="headingText" class="java.lang.String"/>
+	<field name="reference" class="java.lang.String"/>
+	<field name="pageIndex" class="java.lang.Integer"/>
 	<title>
 		<band height="320">
 			<line>
-				<reportElement x="0" y="0" width="515" height="1"/>
-				<graphicElement/>
+				<reportElement x="0" y="0" width="515" height="1" uuid="300c799d-e09f-44f7-8be8-5422c73f87a7"/>
 			</line>
 			<staticText>
-				<reportElement x="0" y="1" width="200" height="8" forecolor="#ffffff"/>
+				<reportElement x="0" y="1" width="200" height="8" forecolor="#FFFFFF" uuid="1244f04a-44b8-49b6-a7d7-71acd45c9e48"/>
 				<textElement textAlignment="Justified">
 					<font size="5"/>
 				</textElement>
 				<text><![CDATA[HIDDEN TEXT TO MARK THE BEGINNING OF THE TABLE OF CONTENTS]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="10" width="515" height="30" style="Sans_Normal"/>
+				<reportElement style="Sans_Normal" x="0" y="10" width="515" height="30" uuid="00a87b84-1ab0-4558-9780-c6bf32fb8889"/>
 				<textElement textAlignment="Center">
 					<font size="22"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{ReportTitle}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{ReportTitle}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="40" width="515" height="270" isRemoveLineWhenBlank="true"/>
+				<reportElement positionType="Float" x="0" y="40" width="515" height="270" isRemoveLineWhenBlank="true" uuid="b8d09c84-640c-4033-9e32-272a25d00715"/>
 				<textElement textAlignment="Justified"/>
 				<text><![CDATA[Here is a simple example that shows how to create a table of contents for your report.
 There are various ways to build tables of contents. Just let free your imagination and be creative, because JasperReports is very flexible and won't let you down. Most of the time you will end up using scriptlets and subreports, like we have in this sample.
@@ -54,7 +42,7 @@ This operation has apparently only one inconvenience. The final document does no
 	<pageHeader>
 		<band height="40">
 			<staticText>
-				<reportElement positionType="Float" x="0" y="10" width="515" height="20" isRemoveLineWhenBlank="true" style="Sans_Normal"/>
+				<reportElement style="Sans_Normal" positionType="Float" x="0" y="10" width="515" height="20" isRemoveLineWhenBlank="true" uuid="2d14bb6a-c6a1-448e-83df-d3ea629a9d32"/>
 				<textElement textAlignment="Center">
 					<font size="16"/>
 				</textElement>
@@ -65,49 +53,50 @@ This operation has apparently only one inconvenience. The final document does no
 	<detail>
 		<band height="32">
 			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
-				<reportElement positionType="Float" x="45" y="0" width="100" height="15" isRemoveLineWhenBlank="true" style="Sans_Bold">
+				<reportElement style="Sans_Bold" positionType="Float" x="45" y="0" width="100" height="15" isRemoveLineWhenBlank="true" uuid="db8b68c6-4430-4199-8967-3ab5c077cb56">
 					<printWhenExpression><![CDATA[new Boolean($F{headingType}.intValue() == 1)]]></printWhenExpression>
 				</reportElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{headingText}]]></textFieldExpression>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{headingText}]]></textFieldExpression>
 				<hyperlinkAnchorExpression><![CDATA[$F{reference}]]></hyperlinkAnchorExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="145" y="0" width="290" height="15" isRemoveLineWhenBlank="true" style="Sans_Bold">
+				<reportElement style="Sans_Bold" positionType="Float" x="145" y="0" width="290" height="15" isRemoveLineWhenBlank="true" uuid="c1b5050c-266f-4e13-a402-a15b50548116">
 					<printWhenExpression><![CDATA[new Boolean($F{headingType}.intValue() == 1)]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[___________________________________]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
-				<reportElement positionType="Float" x="435" y="0" width="30" height="15" isRemoveLineWhenBlank="true" style="Sans_Bold">
+				<reportElement style="Sans_Bold" positionType="Float" x="435" y="0" width="30" height="15" isRemoveLineWhenBlank="true" uuid="012b7361-f06b-4539-b299-5a3f0bcbb7b5">
 					<printWhenExpression><![CDATA[new Boolean($F{headingType}.intValue() == 1)]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{pageIndex}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{pageIndex}]]></textFieldExpression>
 				<hyperlinkAnchorExpression><![CDATA[$F{reference}]]></hyperlinkAnchorExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
-				<reportElement positionType="Float" x="75" y="16" width="100" height="15" isRemoveLineWhenBlank="true">
+				<reportElement positionType="Float" x="75" y="16" width="100" height="15" isRemoveLineWhenBlank="true" uuid="effe6dfe-dbc8-4451-bf44-a96565a20564">
 					<printWhenExpression><![CDATA[new Boolean($F{headingType}.intValue() == 2)]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{headingText}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{headingText}]]></textFieldExpression>
 				<hyperlinkAnchorExpression><![CDATA[$F{reference}]]></hyperlinkAnchorExpression>
 				<hyperlinkTooltipExpression><![CDATA["View orders from " + $F{headingText}]]></hyperlinkTooltipExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="175" y="16" width="260" height="15" isRemoveLineWhenBlank="true">
+				<reportElement positionType="Float" x="175" y="16" width="260" height="15" isRemoveLineWhenBlank="true" uuid="c6cf49ba-d7d0-42fa-9b2c-36ba110e91f4">
 					<printWhenExpression><![CDATA[new Boolean($F{headingType}.intValue() == 2)]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
-				<reportElement positionType="Float" x="435" y="16" width="30" height="15" isRemoveLineWhenBlank="true">
+				<reportElement positionType="Float" x="435" y="16" width="30" height="15" isRemoveLineWhenBlank="true" uuid="3c835858-cc27-41b1-b820-94b8d9ec0acf">
 					<printWhenExpression><![CDATA[new Boolean($F{headingType}.intValue() == 2)]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{pageIndex}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{pageIndex}]]></textFieldExpression>
 				<hyperlinkAnchorExpression><![CDATA[$F{reference}]]></hyperlinkAnchorExpression>
 			</textField>
 		</band>
