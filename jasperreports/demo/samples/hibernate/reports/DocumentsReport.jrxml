@@ -5,6 +5,7 @@
 	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="10" isItalic="true"/>
 	<field name="id" class="java.lang.Long"/>
 	<field name="total" class="java.lang.Double"/>
+	<sortField name="id"/>
 	<title>
 		<band height="1">
 			<line>
