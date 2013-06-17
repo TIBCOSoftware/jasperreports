@@ -66,6 +66,7 @@ public class CustomJava2DRenderer  extends Java2DRenderer{
 	 * Whether we've completed rendering; image will only be rendered once.
 	 */
 	private int width;
+	@SuppressWarnings("rawtypes")
 	private Map renderingHints;
 
 
@@ -92,7 +93,7 @@ public class CustomJava2DRenderer  extends Java2DRenderer{
 	 *
 	 * @param hints values to override in default rendering hints for Graphics2D we are rendering to
 	 */
-	public void setRenderingHints(Map hints) {
+	public void setRenderingHints(@SuppressWarnings("rawtypes") Map hints) {
 		renderingHints = hints;
 		super.setRenderingHints(hints);
 	}

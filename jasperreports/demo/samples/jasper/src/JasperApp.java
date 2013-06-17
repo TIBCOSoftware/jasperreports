@@ -121,7 +121,7 @@ public class JasperApp extends AbstractSampleApp
 			e.printStackTrace();
 		}
 		
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "The First Jasper Report Ever");
 		parameters.put("MaxOrderID", new Integer(10500));
 		parameters.put("SummaryImage", image);
@@ -263,7 +263,7 @@ public class JasperApp extends AbstractSampleApp
 		
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls");
 		
-		Map dateFormats = new HashMap();
+		Map<String, Object> dateFormats = new HashMap<String, Object>();
 		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
 
 		JRXlsExporter exporter = new JRXlsExporter();
@@ -292,7 +292,7 @@ public class JasperApp extends AbstractSampleApp
 
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
 
-		Map dateFormats = new HashMap();
+		Map<String, Object> dateFormats = new HashMap<String, Object>();
 		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
 
 		JExcelApiExporter exporter = new JExcelApiExporter();
@@ -321,7 +321,7 @@ public class JasperApp extends AbstractSampleApp
 
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.metadata.xls");
 
-		Map dateFormats = new HashMap();
+		Map<String, Object> dateFormats = new HashMap<String, Object>();
 		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
 
 		JExcelApiMetadataExporter exporter = new JExcelApiMetadataExporter();
@@ -465,7 +465,7 @@ public class JasperApp extends AbstractSampleApp
 
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xlsx");
 
-		Map dateFormats = new HashMap();
+		Map<String, Object> dateFormats = new HashMap<String, Object>();
 		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
 
 		JRXlsxExporter exporter = new JRXlsxExporter();
@@ -546,7 +546,7 @@ public class JasperApp extends AbstractSampleApp
 			e.printStackTrace();
 		}
 		
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "The First Jasper Report Ever");
 		parameters.put("MaxOrderID", new Integer(10500));
 		parameters.put("SummaryImage", image);

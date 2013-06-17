@@ -39,11 +39,12 @@ public class HtmlElementExtensionsRegistryFactory implements ExtensionsRegistryF
 	private static final ExtensionsRegistry defaultExtensionsRegistry = 
 		new ExtensionsRegistry()
 		{
-			public List getExtensions(Class extensionType) 
+			@SuppressWarnings("unchecked")
+			public <T> List<T> getExtensions(Class<T> extensionType) 
 			{
 				if (GenericElementHandlerBundle.class.equals(extensionType))
 				{
-					return Collections.singletonList(HtmlElementHandlerBundle.getInstance());
+					return Collections.singletonList((T)HtmlElementHandlerBundle.getInstance());
 				}
 				return null;
 			}
