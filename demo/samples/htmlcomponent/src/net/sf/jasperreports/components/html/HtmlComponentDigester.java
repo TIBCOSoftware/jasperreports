@@ -46,6 +46,7 @@ public class HtmlComponentDigester implements XmlDigesterConfigurer
 		setHtmlComponentRules(digester);
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void setHtmlComponentRules(Digester digester)
 	{
 		String htmlComponentPattern = "*/componentElement/html";

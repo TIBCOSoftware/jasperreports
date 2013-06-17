@@ -98,7 +98,7 @@ public class I18nApp extends AbstractSampleApp
 		if (locale != null)
 		{
 //					Object[] aw = new Object[] {new Double(1000000.45), "$", "Ferrari", new Integer(20),new Integer(88)};
-			Map parameters = new HashMap();
+			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("number", new Double(1234567 + Math.random()));
 //					parameters.put("array", aw);
 			parameters.put(JRParameter.REPORT_LOCALE, locale);
@@ -114,7 +114,7 @@ public class I18nApp extends AbstractSampleApp
 	public void fillDefault() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("number", new Double(1234567 + Math.random()));
 		JasperFillManager.fillReportToFile("build/reports/I18nReport.jasper", parameters, new JREmptyDataSource());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));

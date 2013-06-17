@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.util;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.util.JRSingletonCache;
 
 /**
  * Helper class used to instantiate {@link HtmlPrintElement}.
@@ -47,7 +46,7 @@ public final class HtmlPrintElementUtils
 	 */
 	public static final String PROPERTY_HTML_PRINTELEMENT_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "html.printelement.factory";
 	
-	private static final JRSingletonCache cache = new JRSingletonCache(HtmlPrintElementFactory.class);
+	private static final JRSingletonCache<HtmlPrintElementFactory> cache = new JRSingletonCache<HtmlPrintElementFactory>(HtmlPrintElementFactory.class);
 	
 	
 	/**
@@ -65,7 +64,7 @@ public final class HtmlPrintElementUtils
 			factoryClassName = DefaultHtmlPrintElementFactory.class.getName();
 		}
 		
-		return (HtmlPrintElementFactory) cache.getCachedInstance(factoryClassName);
+		return cache.getCachedInstance(factoryClassName);
 	}
 	
 	
