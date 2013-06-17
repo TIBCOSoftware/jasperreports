@@ -24,6 +24,8 @@
 
 import javax.swing.table.AbstractTableModel;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -31,7 +33,10 @@ import javax.swing.table.AbstractTableModel;
  */
 public class CustomTableModel extends AbstractTableModel
 {
-
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 *

@@ -99,12 +99,12 @@ public class EjbqlApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		// create entity manager factory for connection with database
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1", new HashMap());
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1", new HashMap<Object, Object>());
 		EntityManager em = emf.createEntityManager();
 
 		try
 		{
-			Map parameters = getParameters(em);
+			Map<String, Object> parameters = getParameters(em);
 			
 			JasperFillManager.fillReportToFile("build/reports/JRMDbReport.jasper", parameters);
 
@@ -414,8 +414,8 @@ public class EjbqlApp extends AbstractSampleApp
 	/**
 	 * 
 	 */
-	private static Map getParameters(EntityManager em) {
-		Map parameters = new HashMap();
+	private static Map<String, Object> getParameters(EntityManager em) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(JRJpaQueryExecuterFactory.PARAMETER_JPA_ENTITY_MANAGER, em);
 		parameters.put("ReportTitle", "JRMDb - The JasperReports Movie Database");
 		Calendar calendar = Calendar.getInstance();

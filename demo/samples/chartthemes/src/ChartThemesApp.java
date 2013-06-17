@@ -122,7 +122,7 @@ public class ChartThemesApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		
 		putDataSources(parameters);
 		
@@ -216,7 +216,7 @@ public class ChartThemesApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		File sourceFile = new File("build/reports/AllChartsReport.jrprint");
-		Map dateFormats = new HashMap();
+		Map<String, Object> dateFormats = new HashMap<String, Object>();
 		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls");
@@ -359,7 +359,7 @@ public class ChartThemesApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		File sourceFile = new File("build/reports/AllChartsReport.jrprint");
-		Map dateFormats = new HashMap();
+		Map<String, Object> dateFormats = new HashMap<String, Object>();
 		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xlsx");
@@ -427,7 +427,7 @@ public class ChartThemesApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public static final void putDataSources(Map parameters) throws JRException
+	public static final void putDataSources(Map<String, Object> parameters) throws JRException
 	{
 		try
 		{

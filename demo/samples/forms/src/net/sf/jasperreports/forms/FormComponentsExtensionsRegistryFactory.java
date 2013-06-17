@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
 import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
@@ -76,7 +77,7 @@ public class FormComponentsExtensionsRegistryFactory implements
 		parser.setDigesterConfigurer(textInputDigester);
 		bundle.setXmlParser(parser);
 		
-		HashMap componentManagers = new HashMap();
+		HashMap<String, ComponentManager> componentManagers = new HashMap<String, ComponentManager>();
 		
 		TextInputComponentManager textInputManager = new TextInputComponentManager();
 		textInputManager.setDesignConverter(TextInputComponentDesignConverter.getInstance());
@@ -88,11 +89,12 @@ public class FormComponentsExtensionsRegistryFactory implements
 		
 		REGISTRY = new ExtensionsRegistry()
 		{
-			public List getExtensions(Class extensionType)
+			@SuppressWarnings("unchecked")
+			public <T> List<T> getExtensions(Class<T> extensionType) 
 			{
 				if (ComponentsBundle.class.equals(extensionType))
 				{
-					return Collections.singletonList(bundle);
+					return Collections.singletonList((T)bundle);
 				}
 				
 				return null;

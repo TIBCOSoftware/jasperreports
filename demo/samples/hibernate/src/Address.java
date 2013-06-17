@@ -39,7 +39,7 @@ public class Address
 
 	String city;
 
-	Set documents;
+	Set<Document> documents;
 
 	public String getCity()
 	{
@@ -91,12 +91,12 @@ public class Address
 		this.street = street;
 	}
 
-	public Set getDocuments()
+	public Set<Document> getDocuments()
 	{
 		return documents;
 	}
 
-	public void setDocuments(Set documents)
+	public void setDocuments(Set<Document> documents)
 	{
 		this.documents = documents;
 	}

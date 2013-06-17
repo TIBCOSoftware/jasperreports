@@ -112,7 +112,7 @@ public class HorizontalApp extends AbstractSampleApp
 			e.printStackTrace();
 		}
 		
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "The Horizontal Report");
 		parameters.put("MaxOrderID", new Integer(10500));
 		parameters.put("SummaryImage", image);
