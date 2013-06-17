@@ -26,11 +26,14 @@ package net.sf.jasperreports.virtualization;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.data.DataAdapterParameterContributorFactory;
 import net.sf.jasperreports.engine.JRException;
@@ -64,7 +67,7 @@ public class ReportTest
 
 	private static final Log log = LogFactory.getLog(ReportTest.class);
 	
-	private final String DIGEST = "8b180e057e604ed42a88a8b26ff577b411b9925b";
+	private final String DIGEST = "8cb42694fd0bbdbbfaf406d254e80e3d761119e6";
 	
 	private JasperReport report;
 	private JasperFillManager fillManager;
@@ -96,6 +99,8 @@ public class ReportTest
 	public void baseReport() throws JRException, NoSuchAlgorithmException, IOException
 	{
 		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put(JRParameter.REPORT_LOCALE, Locale.US);
+		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
 		JasperPrint print = fillManager.fill(report, params);
 		assert !print.getPages().isEmpty();
 		
@@ -107,10 +112,14 @@ public class ReportTest
 	@Test
 	public void virtualizedReport() throws JRException, NoSuchAlgorithmException, IOException
 	{
-		HashMap<String, Object> virtParams = new HashMap<String, Object>();
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put(JRParameter.REPORT_LOCALE, Locale.US);
+		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
+		
 		JRGzipVirtualizer virtualizer = new JRGzipVirtualizer(3);
-		virtParams.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
-		JasperPrint print = fillManager.fill(report, virtParams);
+		params.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
+		
+		JasperPrint print = fillManager.fill(report, params);
 		virtualizer.setReadOnly(true);
 		assert !print.getPages().isEmpty();
 		
@@ -124,12 +133,7 @@ public class ReportTest
 	{
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
 		DigestOutputStream out = new DigestOutputStream(new NullOutputStream(), digest);
-		JRXmlExporter exporter = new JRXmlExporter();
-		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, out);
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
-		exporter.setParameter(JRXmlExporterParameter.IS_EMBEDDING_IMAGES, true);
-		exporter.exportReport();
-		out.close();
+		xmlExport(print, out);
 		
 		byte[] digestBytes = digest.digest();
 		StringBuilder digestString = new StringBuilder(digestBytes.length * 2);
@@ -138,5 +142,15 @@ public class ReportTest
 			digestString.append(String.format("%02x", b));
 		}
 		return digestString.toString();
+	}
+
+	protected void xmlExport(JasperPrint print, OutputStream out) throws JRException, IOException
+	{
+		JRXmlExporter exporter = new JRXmlExporter();
+		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, out);
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
+		exporter.setParameter(JRXmlExporterParameter.IS_EMBEDDING_IMAGES, true);
+		exporter.exportReport();
+		out.close();
 	}
 }
