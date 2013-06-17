@@ -10,7 +10,7 @@
   
   <!-- functions -->
   
-  <feature name="functions" title="Custom Functions in JasperReports">
+  <feature name="functions" title="Custom Functions in Report Expressions">
     <description>
 How to use JasperReports built-in functions inside expressions
     </description>
@@ -22,7 +22,7 @@ How to use JasperReports built-in functions inside expressions
       </author>
     </documentedBy>
     <content>
-<subtitle name="overview">Functions in JasperReports</subtitle>    
+<subtitle name="overview">Expressions in JasperReports</subtitle>    
 <br/>
 <br/>
 For most common situations JasperReports expressions represent the perfect tool for acquiring and processing dynamic data. But in 
@@ -65,7 +65,7 @@ Notice that since void methods are useless in an expression, properly implemente
 <br/>
 <br/>
 Custom function classes are characterized by specific class and method-level annotations. Annotations metadata collected at runtime are used to facilitate 
-the function call mechanism in complex i18n environments.
+the function call mechanism, even in complex i18n environments.
 <ul>
 <li><b>Class-level annotations:</b>
 <ul>
@@ -93,12 +93,15 @@ in the above <api href="net/sf/jasperreports/functions/annotations/FunctionParam
 </ul>
 </li>
 </ul>
-<subtitle name="builtin">Built-in JasperReports Functions</subtitle>
+<subtitle name="builtinFunctions">Built-in JasperReports Functions</subtitle>
 <br/>
 <br/>
-It's time to see a step-by-step example of adding custom functions to JasperReports library. The built-in JR functions were created this way and are all available 
+Built-in JasperReports functions are documented <a href="./FunctionsReport.pdf" target="_blank">here</a>.
+<br/>
+<br/>
+Next, let's see a step-by-step example of adding custom functions to JasperReports library. The built-in JR functions were created this way and are all available 
 in the <code>net.sf.jasperreports.functions.standard</code> package (under the <code>/src</code> directory in the present sample). Following are the necessary steps 
-to make them ready-to-use:
+to make functions ready-to-use:
 <ol>
 <li>Depending on your specific criteria, create one or many category classes. Or you can use the existing built-in classes in the <code>net.sf.jasperreports.functions.standard</code> 
 package: <code>DateTimeCategory</code>, <code>LogicalCategory</code>, <code>MathCategory</code>, <code>TextCategory</code>.</li>
@@ -106,7 +109,7 @@ package: <code>DateTimeCategory</code>, <code>LogicalCategory</code>, <code>Math
 may be placed together in the same file, since we have the possibility to declare categories at method-level. There are 4 function classes in the 
 <code>net.sf.jasperreports.functions.standard</code> package: <code>DateTimeFunctions</code>, <code>LogicalFunctions</code>, <code>MathFunctions</code>, <code>TextFunctions</code></li>
 <li>Create a properties file to store i18n labels for categories, functions and parameters: names, descriptions, other useful informations. Each category, function or parameter 
-require a name and a description in the properties file. Keys are formed according to following rules:
+require a name and a description entry in the properties file. Entry keys are formed according to following rules:
 <ul>
 <li>Category name key: the category class name (including package) + <code>.name</code> suffix. For instance: 
 <code>net.sf.jasperreports.functions.standard.DateTimeCategory.name</code></li>
@@ -243,7 +246,7 @@ Public methods (excepting the overloaded ones) expose a <code>@Function</code> a
 of parameters. An example is given by the <code>WEEKDAY</code> overloaded method.
 <br/>
 Also notice how parameters are annotated where they are present: the <code>@FunctionParameters</code> annotation contains an array of <code>@FunctionParameter</code> 
-that store the parameter identifier.
+that stores the parameter identifier.
 <br/>
 <br/>
 <subtitle name="i18n">I18n and Localization</subtitle>
@@ -275,7 +278,7 @@ net.sf.jasperreports.functions.standard.DateTimeFunctions.DATE.name             
 net.sf.jasperreports.functions.standard.DateTimeFunctions.DATE.year.description                = L''anno della data
 net.sf.jasperreports.functions.standard.DateTimeFunctions.DATE.year.name                       = Anno
 </pre>
-Running the sample by default, all texts will result in English. Changing the <code>REPORT_LOCALE</code> to Italian will translate the output texts into Italian.
+Running the sample by default, all output texts will result in English. Changing the <code>REPORT_LOCALE</code> to Italian will translate the output texts into Italian.
 <br/>
 <br/>
 <subtitle name="extensions">jasperreports_extension.properties</subtitle>

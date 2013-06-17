@@ -2,7 +2,7 @@
 
 	<description>Helps build the JasperReports distribution files.</description>
 
-	<property name="version" value="5.2.0"/>
+	<property name="version" value="5.2.1"/>
 
 	<target name="compile" description="Compiles the java source files of the library.">
 		<mkdir dir="./build/classes"/> 
@@ -31,6 +31,11 @@
 				<include name="**/*.vm"/>
 				<include name="**/*.js"/>
 				<include name="**/*.css"/>
+				<include name="**/*.ttf"/>
+				<include name="**/*.woff"/>
+				<include name="**/*.eot"/>
+				<include name="**/*.svg"/>
+				<include name="**/*.svgz"/>
 			</fileset>
 		</copy>
 	</target>
@@ -381,7 +386,7 @@
 	</target>
 
 	<property name="sf.net" value="false"/>
-	<property name="svn" value="jr-5-2-0"/>
+	<property name="svn" value="jr-5-2-1"/>
 
 	<target name="preparedocs" description="Prepares Documentation Folder.">
 		<mkdir dir="./dist/docs"/> 
@@ -434,7 +439,7 @@
 		</xslt>
 	</target>
 	
-	<target name="sampleref" description="Generates the Sample Reference.">
+	<target name="sampleref" depends="compile" description="Generates the Sample Reference.">
 		<xslt basedir="docs" in="docs/sample.reference.xml" destdir="dist/docs" style="docs/sample.reference.xsl" out="./dist/docs/sample.reference.html">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
@@ -471,6 +476,8 @@
 				<include name="**/*.png"/>
 			</fileset>
 		</copy>
+		<ant dir="./demo/samples/functions" target="test"/>
+		<copy todir="./dist/docs/sample.reference/functions" file="./demo/samples/functions/build/reports/FunctionsReport.pdf"/>
 	</target>
 	
 	<target name="docs" depends="preparedocs, javadoc, schemaref, componentschemaref, configref, sampleref" description="Generates all documentation."/>
