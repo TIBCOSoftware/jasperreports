@@ -41,7 +41,8 @@ public class HeadingsScriptlet extends JRDefaultScriptlet
 	 */
 	public Boolean addHeading(String groupName) throws JRScriptletException
 	{
-		Collection headings = (Collection)this.getVariableValue("HeadingsCollection");
+		@SuppressWarnings("unchecked")
+		Collection<HeadingBean> headings = (Collection<HeadingBean>)this.getVariableValue("HeadingsCollection");
 
 		Integer type = null;
 		String text = null;

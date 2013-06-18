@@ -27,6 +27,7 @@ import java.net.URL;
 
 import javax.swing.JOptionPane;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -38,7 +39,10 @@ import net.sf.jasperreports.engine.util.JRLoader;
  */
 public class PrinterApplet extends javax.swing.JApplet
 {
-
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 *
@@ -126,7 +130,7 @@ public class PrinterApplet extends javax.swing.JApplet
 				if (jasperPrint != null)
 				{
 					ViewerFrame viewerFrame = new ViewerFrame(this.getAppletContext(), jasperPrint);
-					viewerFrame.show();
+					viewerFrame.setVisible(true);
 				}
 				else
 				{

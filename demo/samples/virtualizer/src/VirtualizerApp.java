@@ -172,7 +172,7 @@ public class VirtualizerApp extends AbstractSampleApp
 		JRDataSource dataSource = new JREmptyDataSource(1000);
 		
 		// Preparing parameters
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
 
 		// filling the report

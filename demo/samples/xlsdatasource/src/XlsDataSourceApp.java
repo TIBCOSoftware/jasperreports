@@ -97,10 +97,10 @@ public class XlsDataSourceApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "Address Report");
 		parameters.put("DataFile", "XlsDataSource.data.xls - XLS data source");
-		Set states = new HashSet();
+		Set<String> states = new HashSet<String>();
 		states.add("Active");
 		states.add("Trial");
 		parameters.put("IncludedStates", states);

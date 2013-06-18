@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -49,8 +50,12 @@ import datasource.WebappDataSource;
  */
 public class FillServlet extends HttpServlet
 {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-
+	
 	/**
 	 *
 	 */
@@ -71,7 +76,7 @@ public class FillServlet extends HttpServlet
 			if (!reportFile.exists())
 				throw new JRRuntimeException("File WebappReport.jasper not found. The report design must be compiled first.");
 
-			Map parameters = new HashMap();
+			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("ReportTitle", "Address Report");
 			parameters.put("BaseDir", reportFile.getParentFile());
 						

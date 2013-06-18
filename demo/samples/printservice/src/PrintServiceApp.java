@@ -175,7 +175,7 @@ public class PrintServiceApp extends AbstractSampleApp
 		image.setWidth(165);
 		image.setHeight(40);
 		image.setScaleImage(ScaleImageEnum.CLIP);
-		image.setRenderer(
+		image.setRenderable(
 			JRImageRenderer.getInstance(
 				JRLoader.loadBytesFromResource("jasperreports.png")
 				)

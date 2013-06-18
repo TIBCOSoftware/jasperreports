@@ -35,14 +35,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
+import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.j2ee.servlets.ImageServlet;
 import datasource.WebappDataSource;
@@ -54,8 +55,12 @@ import datasource.WebappDataSource;
  */
 public class XhtmlServlet extends HttpServlet
 {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-
+	
 	/**
 	 *
 	 */
@@ -75,9 +80,9 @@ public class XhtmlServlet extends HttpServlet
 			if (!reportFile.exists())
 				throw new JRRuntimeException("File WebappReport.jasper not found. The report design must be compiled first.");
 
-			JasperReport jasperReport = (JasperReport)JRLoader.loadObject(reportFile.getPath());
+			JasperReport jasperReport = (JasperReport)JRLoader.loadObjectFromFile(reportFile.getPath());
 		
-			Map parameters = new HashMap();
+			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("ReportTitle", "Address Report");
 			parameters.put("BaseDir", reportFile.getParentFile());
 						

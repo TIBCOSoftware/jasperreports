@@ -115,21 +115,6 @@ public class AxisChartCompiler implements ComponentCompiler
 		{
 			verifier.addBrokenRule("No legend label expression for axis chart", chart);
 		}
-		else
-		{
-			String valueClass = legendLabelExpression.getValueClassName();
-			if (valueClass == null)
-			{
-				verifier.addBrokenRule("No value class for axis chart legend label expression", 
-						legendLabelExpression);
-			}
-			else if (!"java.lang.String".equals(valueClass))
-			{
-				verifier.addBrokenRule("Class " + valueClass 
-						+ " not supported for axis chart legend label expression. Use java.lang.String instead.",
-						legendLabelExpression);
-			}
-		}
 	}
 
 	protected void verify(JRVerifier verifier, AxisDataset dataset)
@@ -141,41 +126,11 @@ public class AxisChartCompiler implements ComponentCompiler
 		{
 			verifier.addBrokenRule("No label expression for axis chart dataset", dataset);
 		}
-		else
-		{
-			String valueClass = labelExpression.getValueClassName();
-			if (valueClass == null)
-			{
-				verifier.addBrokenRule("No value class for axis chart dataset label expression", 
-						labelExpression);
-			}
-			else if (!"java.lang.String".equals(valueClass))
-			{
-				verifier.addBrokenRule("Class " + valueClass 
-						+ " not supported for axis chart dataset label expression. Use java.lang.String instead.",
-						labelExpression);
-			}
-		}
 		
 		JRExpression valueExpression = dataset.getValueExpression();
 		if (valueExpression == null)
 		{
 			verifier.addBrokenRule("No value expression for axis chart dataset", dataset);
-		}
-		else
-		{
-			String valueClass = valueExpression.getValueClassName();
-			if (valueClass == null)
-			{
-				verifier.addBrokenRule("No value class for axis chart dataset value expression", 
-						valueExpression);
-			}
-			else if (!"java.lang.Double".equals(valueClass))
-			{
-				verifier.addBrokenRule("Class " + valueClass 
-						+ " not supported for axis chart dataset value expression. Use java.lang.Double instead.",
-						valueExpression);
-			}
 		}
 	}
 

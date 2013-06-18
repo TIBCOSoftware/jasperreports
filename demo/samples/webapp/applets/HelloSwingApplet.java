@@ -1,6 +1,11 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
 
+import javax.swing.BorderFactory;
+import javax.swing.JApplet;
+import javax.swing.JLabel;
+
+@SuppressWarnings("serial")
 public class HelloSwingApplet extends JApplet 
 {
 	

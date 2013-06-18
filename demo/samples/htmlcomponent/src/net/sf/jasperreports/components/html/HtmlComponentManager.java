@@ -21,33 +21,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JRViewer;
+package net.sf.jasperreports.components.html;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.component.ComponentXmlWriter;
+import net.sf.jasperreports.engine.component.DefaultComponentManager;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: TextInputComponentManager.java 5921 2013-02-19 10:23:06Z teodord $
  */
-public class JRViewerSimple extends JRViewer
+public class HtmlComponentManager extends DefaultComponentManager
 {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	/**
-	 *
-	 */
-	public JRViewerSimple(JasperPrint jrPrint) throws JRException
+	public ComponentXmlWriter getComponentXmlWriter(JasperReportsContext jasperReportsContext)
 	{
-		super(jrPrint);
-		
-		tlbToolBar.remove(btnSave);
-		tlbToolBar.remove(btnReload);
+		return new HtmlComponentXmlWriter(jasperReportsContext);
 	}
-
 
 }

@@ -30,11 +30,11 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
@@ -43,7 +43,9 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 import org.jCharts.Chart;
 import org.jCharts.axisChart.AxisChart;
@@ -92,7 +94,7 @@ public class FillAxisChart extends BaseFillComponent implements JRFillCloneable
 
 	protected void evaluateChart(byte evaluation) throws JRException
 	{
-		legendLabel = (String) fillContext.evaluate(chart.getLegendLabelExpression(), evaluation);
+		legendLabel = JRStringUtil.getString(fillContext.evaluate(chart.getLegendLabelExpression(), evaluation));
 		
 		dataset.evaluateDatasetRun(evaluation);
 	}
@@ -143,14 +145,14 @@ public class FillAxisChart extends BaseFillComponent implements JRFillCloneable
 	{
 		dataset.finishDataset();
 		
-		List labelsList = dataset.getLabels();
-		String[] labels = (String[]) labelsList.toArray(new String[labelsList.size()]);
+		List<String> labelsList = dataset.getLabels();
+		String[] labels = labelsList.toArray(new String[labelsList.size()]);
 		
-		List valuesList = dataset.getValues();
+		List<Double> valuesList = dataset.getValues();
 		double[][] values = {new double[valuesList.size()]};
 		for (int i = 0; i < values[0].length; i++)
 		{
-			values[0][i] = ((Double) valuesList.get(i)).doubleValue();
+			values[0][i] = valuesList.get(i).doubleValue();
 		}
 		
 		String[] legendLabels = {legendLabel};
@@ -174,9 +176,8 @@ public class FillAxisChart extends BaseFillComponent implements JRFillCloneable
 			
 			//creating an chart image because AxisChart objects fail on serialization
 			BufferedImage img = getChartImage(axisChart);
-			JRRenderable renderer = JRImageRenderer.getInstance(img, JRRenderable.IMAGE_TYPE_PNG, 
-					OnErrorTypeEnum.ERROR);
-			image.setRenderer(renderer);
+			Renderable renderable = RenderableUtil.getInstance(fillContext.getFiller().getJasperReportsContext()).getRenderable(img, ImageTypeEnum.PNG, OnErrorTypeEnum.ERROR);
+			image.setRenderable(renderable);
 		}
 		catch (ChartDataException e)
 		{

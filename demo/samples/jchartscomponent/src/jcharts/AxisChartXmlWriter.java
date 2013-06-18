@@ -25,10 +25,12 @@ package jcharts;
 
 import java.io.IOException;
 
+import net.sf.jasperreports.components.AbstractComponentXmlWriter;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
-import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
@@ -40,9 +42,25 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class AxisChartXmlWriter implements ComponentXmlWriter
+public class AxisChartXmlWriter extends AbstractComponentXmlWriter
 {
-
+	
+	/**
+	 * @deprecated Replaced by {@link AxisChartXmlWriter#AxisChartXmlWriter(JasperReportsContext)}. 
+	 */
+	public AxisChartXmlWriter()
+	{
+		super(DefaultJasperReportsContext.getInstance());
+	}
+	
+	/**
+	 * 
+	 */
+	public AxisChartXmlWriter(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+	}
+	
 	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter)
 	{
 		return true;
@@ -56,8 +74,9 @@ public class AxisChartXmlWriter implements ComponentXmlWriter
 		ComponentKey componentKey = componentElement.getComponentKey();
 		
 		String namespaceURI = componentKey.getNamespace();
-		String schemaLocation = ComponentsEnvironment
-			.getComponentsBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
+		String schemaLocation = 
+			ComponentsEnvironment.getInstance(jasperReportsContext)
+				.getBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
 		XmlNamespace namespace = new XmlNamespace(namespaceURI, componentKey.getNamespacePrefix(),
 				schemaLocation);
 		
@@ -77,12 +96,12 @@ public class AxisChartXmlWriter implements ComponentXmlWriter
 		
 		reportWriter.writeElementDataset(dataset);
 		
-		writer.writeExpression("labelExpression", dataset.getLabelExpression(), false);
-		writer.writeExpression("valueExpression", dataset.getValueExpression(), false);
+		writeExpression("labelExpression", dataset.getLabelExpression(), false, componentElement, reportWriter);
+		writeExpression("valueExpression", dataset.getValueExpression(), false, componentElement, reportWriter);
 		
 		writer.closeElement();//axisDataset
 		
-		writer.writeExpression("legendLabelExpression", chart.getLegendLabelExpression(), false);
+		writeExpression("legendLabelExpression", chart.getLegendLabelExpression(), false, componentElement, reportWriter);
 		
 		writer.closeElement();//axisChart
 	}

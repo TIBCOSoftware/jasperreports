@@ -25,14 +25,13 @@ package net.sf.jasperreports.components.sort;
 
 import java.io.IOException;
 
+import net.sf.jasperreports.components.AbstractComponentXmlWriter;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
-import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
@@ -44,14 +43,10 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class SortComponentXmlWriter implements ComponentXmlWriter 
+public class SortComponentXmlWriter extends AbstractComponentXmlWriter 
 {
 	// used for versioning backward compatibility only
 	public static final String PROPERTY_HANDLER_FONT_SIZE = "handlerFontSize";
-	
-	private JasperReportsContext jasperReportsContext;
-	private final String version;
-	private final VersionComparator versionComparator;
 	
 	/**
 	 * @deprecated Replaced by {@link #SortComponentXmlWriter(JasperReportsContext)}.
@@ -70,43 +65,49 @@ public class SortComponentXmlWriter implements ComponentXmlWriter
 	}
 	
 	
+	/**
+	 * @deprecated Replaced by {@link #SortComponentXmlWriter(JasperReportsContext)}.
+	 */
 	public SortComponentXmlWriter(JasperReportsContext jasperReportsContext, String version, VersionComparator versionComparator)
 	{
-		this.jasperReportsContext = jasperReportsContext;
-		this.version = version;
-		this.versionComparator = versionComparator;
+		super(jasperReportsContext);
 	}
 
 
 	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter) 
 	{
-		return isNewerVersionOrEqual(version, JRConstants.VERSION_4_1_1);
+		return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_1);
 	}
 	
 	
 	public void writeToXml(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException 
 	{
 		Component component = componentElement.getComponent();
-		if (component instanceof SortComponent) {
-			SortComponent sortComponent = (SortComponent) component;
-			ComponentKey componentKey = componentElement.getComponentKey();
-			writeSortComponent(sortComponent, componentKey, reportWriter);
+		if (component instanceof SortComponent) 
+		{
+			writeSortComponent(componentElement, reportWriter);
 		}
 	}
 	
-	protected void writeSortComponent(SortComponent sortComponent, ComponentKey componentKey,
-			JRXmlWriter reportWriter) throws IOException {
-		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+	protected void writeSortComponent(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException 
+	{
+		Component component = componentElement.getComponent();
 		
+		SortComponent sortComponent = (SortComponent) component;
+		ComponentKey componentKey = componentElement.getComponentKey();
+
 		String namespaceURI = componentKey.getNamespace();
 		String schemaLocation = 
-			ComponentsEnvironment.getInstance(jasperReportsContext).getBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
+			ComponentsEnvironment.getInstance(jasperReportsContext)
+				.getBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
 		XmlNamespace componentNamespace = new XmlNamespace(namespaceURI, componentKey.getNamespacePrefix(),
 				schemaLocation);
 		
+		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+
 		writer.startElement("sort", componentNamespace);
 		
-		if(isOlderVersionThan(version, JRConstants.VERSION_4_1_3))
+		if(isOlderVersionThan(componentElement, reportWriter, JRConstants.VERSION_4_1_3))
 		{
 			writer.addAttribute(SortComponent.PROPERTY_COLUMN_NAME, sortComponent.getSortFieldName());
 			writer.addAttribute(SortComponent.PROPERTY_COLUMN_TYPE, sortComponent.getSortFieldType());
@@ -120,7 +121,7 @@ public class SortComponentXmlWriter implements ComponentXmlWriter
 		}
 		writer.addAttribute(SortComponent.PROPERTY_EVALUATION_GROUP, sortComponent.getEvaluationGroup());
 		
-		if(isNewerVersionOrEqual(version, JRConstants.VERSION_4_1_3))
+		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_3))
 		{
 			// write symbol settings
 			writer.startElement("symbol");
@@ -138,28 +139,4 @@ public class SortComponentXmlWriter implements ComponentXmlWriter
 
 		writer.closeElement();
 	}
-	
-	protected boolean isNewerVersionOrEqual(String currentVersion, String oldVersion) 
-	{
-		return versionComparator.compare(currentVersion, oldVersion) >= 0;
-	}
-	
-	protected boolean isOlderVersionThan(String currentVersion, String version) 
-	{
-		return versionComparator.compare(currentVersion, version) < 0;
-	}
-
-	@SuppressWarnings("deprecation")
-	protected void writeExpression(String name, XmlNamespace namespace, JRExpression expression, boolean writeClass, JRXmlWriteHelper writer)  throws IOException
-	{
-		if(isNewerVersionOrEqual(version, JRConstants.VERSION_4_1_1))
-		{
-			writer.writeExpression(name, namespace, expression);
-		}
-		else
-		{
-			writer.writeExpression(name, namespace, expression, writeClass);
-		}
-	}
-	
 }

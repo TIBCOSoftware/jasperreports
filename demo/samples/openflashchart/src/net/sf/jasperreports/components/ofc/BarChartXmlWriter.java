@@ -26,10 +26,12 @@ package net.sf.jasperreports.components.ofc;
 import java.io.IOException;
 import java.util.List;
 
+import net.sf.jasperreports.components.AbstractComponentXmlWriter;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
-import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
@@ -40,8 +42,20 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class BarChartXmlWriter implements ComponentXmlWriter
+public class BarChartXmlWriter extends AbstractComponentXmlWriter
 {
+	/**
+	 * @deprecated Replaced by {@link BarChartXmlWriter#BarChartXmlWriter(JasperReportsContext)}.
+	 */
+	public BarChartXmlWriter()
+	{
+		super(DefaultJasperReportsContext.getInstance());
+	}
+	
+	public BarChartXmlWriter(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+	}
 	
 	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter)
 	{
@@ -56,8 +70,9 @@ public class BarChartXmlWriter implements ComponentXmlWriter
 		ComponentKey componentKey = componentElement.getComponentKey();
 		
 		String namespaceURI = componentKey.getNamespace();
-		String schemaLocation = ComponentsEnvironment
-			.getComponentsBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
+		String schemaLocation = 
+			ComponentsEnvironment.getInstance(jasperReportsContext)
+				.getBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
 		XmlNamespace namespace = new XmlNamespace(namespaceURI, componentKey.getNamespacePrefix(),
 				schemaLocation);
 		

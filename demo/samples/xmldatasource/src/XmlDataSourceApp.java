@@ -98,7 +98,7 @@ public class XmlDataSourceApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		Map params = new HashMap();
+		Map<String, Object> params = new HashMap<String, Object>();
 		Document document = JRXmlUtils.parse(JRLoader.getLocationInputStream("data/northwind.xml"));
 		params.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
 		params.put(JRXPathQueryExecuterFactory.XML_DATE_PATTERN, "yyyy-MM-dd");

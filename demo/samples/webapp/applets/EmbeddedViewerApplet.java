@@ -28,6 +28,7 @@ import java.net.URL;
 
 import javax.swing.JOptionPane;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.JRLoader;
 
@@ -38,7 +39,10 @@ import net.sf.jasperreports.engine.util.JRLoader;
  */
 public class EmbeddedViewerApplet extends javax.swing.JApplet
 {
-
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 *

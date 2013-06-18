@@ -25,10 +25,12 @@ package net.sf.jasperreports.components.ofc;
 
 import java.io.IOException;
 
+import net.sf.jasperreports.components.AbstractComponentXmlWriter;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
-import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
@@ -39,8 +41,20 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class PieChartXmlWriter implements ComponentXmlWriter
+public class PieChartXmlWriter extends AbstractComponentXmlWriter
 {
+	/**
+	 * @deprecated Replaced by {@link PieChartXmlWriter#PieChartXmlWriter(JasperReportsContext)}.
+	 */
+	public PieChartXmlWriter()
+	{
+		super(DefaultJasperReportsContext.getInstance());
+	}
+
+	public PieChartXmlWriter(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+	}
 
 	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter)
 	{
@@ -55,8 +69,9 @@ public class PieChartXmlWriter implements ComponentXmlWriter
 		ComponentKey componentKey = componentElement.getComponentKey();
 		
 		String namespaceURI = componentKey.getNamespace();
-		String schemaLocation = ComponentsEnvironment
-			.getComponentsBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
+		String schemaLocation = 
+			ComponentsEnvironment.getInstance(jasperReportsContext)
+				.getBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
 		XmlNamespace namespace = new XmlNamespace(namespaceURI, componentKey.getNamespacePrefix(),
 				schemaLocation);
 		

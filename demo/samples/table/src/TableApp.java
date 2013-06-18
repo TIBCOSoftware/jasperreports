@@ -93,7 +93,7 @@ public class TableApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		Map params = new HashMap();
+		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("TableDataSource", new JREmptyDataSource(50));
 		JasperFillManager.fillReportToFile("build/reports/TableReport.jasper", params);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));

@@ -18,8 +18,11 @@
 
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<mkdir dir="./build/classes"/> 
-		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false" target="1.6" source="1.6">
+		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6"
+				encoding="ISO-8859-1" includeantruntime="false">
 			<classpath refid="classpath"/>
+	        <compilerarg value="-Xlint:unchecked"/>
+	        <compilerarg value="-Xlint:-options"/>
 		</javac>
 		<copy todir="./build/classes">
 			<fileset dir="./src">

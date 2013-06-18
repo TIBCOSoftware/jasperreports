@@ -30,7 +30,6 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
-import net.sf.jasperreports.engine.component.DefaultComponentManager;
 import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
 import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
@@ -75,10 +74,10 @@ public class HtmlComponentExtensionsRegistryFactory implements
 		
 		HashMap<String, ComponentManager> componentManagers = new HashMap<String, ComponentManager>();
 		
-		DefaultComponentManager htmlManager = new DefaultComponentManager();
+		HtmlComponentManager htmlManager = new HtmlComponentManager();
 		htmlManager.setDesignConverter(new HtmlComponentDesignConverter());
 		htmlManager.setComponentCompiler(new HtmlComponentCompiler());
-		htmlManager.setComponentXmlWriter(new HtmlComponentXmlWriter());
+		//htmlManager.setComponentXmlWriter(new HtmlComponentXmlWriter());
 		htmlManager.setComponentFillFactory(new HtmlComponentFillFactory());
 		componentManagers.put(HTML_COMPONENT_NAME, htmlManager);
 		

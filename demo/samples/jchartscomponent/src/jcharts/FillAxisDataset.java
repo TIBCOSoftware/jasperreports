@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillElementDataset;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 /**
  * 
@@ -45,8 +46,8 @@ public class FillAxisDataset extends JRFillElementDataset
 	private String label;
 	private Double value;
 	
-	private List labels;
-	private List values;
+	private List<String> labels;
+	private List<Double> values;
 	
 	public FillAxisDataset(AxisDataset dataset,	JRFillObjectFactory factory)
 	{
@@ -58,7 +59,7 @@ public class FillAxisDataset extends JRFillElementDataset
 	protected void customEvaluate(JRCalculator calculator)
 			throws JRExpressionEvalException
 	{
-		label = (String) calculator.evaluate(dataset.getLabelExpression());
+		label = JRStringUtil.getString(calculator.evaluate(dataset.getLabelExpression()));
 		value = (Double) calculator.evaluate(dataset.getValueExpression());
 	}
 
@@ -70,8 +71,8 @@ public class FillAxisDataset extends JRFillElementDataset
 
 	protected void customInitialize()
 	{
-		labels = new ArrayList();
-		values = new ArrayList();
+		labels = new ArrayList<String>();
+		values = new ArrayList<Double>();
 	}
 
 	public void collectExpressions(JRExpressionCollector collector)
@@ -79,12 +80,12 @@ public class FillAxisDataset extends JRFillElementDataset
 		AxisChartCompiler.collectExpressions(dataset, collector);
 	}
 
-	public List getLabels()
+	public List<String> getLabels()
 	{
 		return labels;
 	}
 
-	public List getValues()
+	public List<Double> getValues()
 	{
 		return values;
 	}

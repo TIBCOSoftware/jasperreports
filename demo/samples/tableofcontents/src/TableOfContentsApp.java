@@ -104,7 +104,7 @@ public class TableOfContentsApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "Orders Report");
 
 		SimpleFileResolver fileResolver =
@@ -116,7 +116,7 @@ public class TableOfContentsApp extends AbstractSampleApp
 		parameters.put(JRParameter.REPORT_FILE_RESOLVER, fileResolver);
 		
 		
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject("build/reports/TableOfContentsReport.jasper");
+		JasperReport jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/TableOfContentsReport.jasper");
 
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, getDemoHsqldbConnection());
 		
@@ -424,19 +424,19 @@ public class TableOfContentsApp extends AbstractSampleApp
 	{
 		if (jasperPrint != null)
 		{
-			List pages = jasperPrint.getPages();
+			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
 				String key = "HIDDEN TEXT TO MARK THE BEGINNING OF THE TABLE OF CONTENTS";
 				JRPrintPage page = null;
-				Collection elements = null;
-				Iterator it = null;
+				Collection<JRPrintElement> elements = null;
+				Iterator<JRPrintElement> it = null;
 				JRPrintElement element = null;
 				int i = pages.size() - 1;
 				boolean isFound = false;
 				while(i >= 0 && !isFound)
 				{
-					page = (JRPrintPage)pages.get(i);
+					page = pages.get(i);
 					elements = page.getElements();
 
 					if (elements != null && elements.size() > 0)
@@ -445,7 +445,7 @@ public class TableOfContentsApp extends AbstractSampleApp
 						
 						while(it.hasNext() && !isFound)
 						{
-							element = (JRPrintElement)it.next();
+							element = it.next();
 							
 							if (element instanceof JRPrintText)
 							{
