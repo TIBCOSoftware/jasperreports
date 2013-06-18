@@ -29,6 +29,8 @@ import java.util.Map;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -41,6 +43,30 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 public final class JRFiller
 {
 
+	/**
+	 * The default locale used to fill reports.
+	 * 
+	 * <p>
+	 * The property is overridden by the value of the {@link JRParameter#REPORT_LOCALE} parameter.
+	 * By default, the system/JVM locale is used.
+	 * </p>
+	 * 
+	 * @see JRParameter#REPORT_LOCALE
+	 */
+	public static final String PROPERTY_DEFAULT_LOCALE = JRPropertiesUtil.PROPERTY_PREFIX + "default.locale";
+	
+
+	/**
+	 * The default time zone used to fill reports.
+	 * 
+	 * <p>
+	 * The property is overridden by the value of the {@link JRParameter#REPORT_TIME_ZONE} parameter.
+	 * By default, the system/JVM time zone is used.
+	 * </p>
+	 * 
+	 * @see JRParameter#REPORT_TIME_ZONE
+	 */
+	public static final String PROPERTY_DEFAULT_TIMEZONE = JRPropertiesUtil.PROPERTY_PREFIX + "default.timezone";
 
 	/**
 	 *
