@@ -26,7 +26,6 @@
 				</rectangle>
 				<textField>
 					<reportElement style="Sans_Bold" x="147" y="5" width="62" height="11" uuid="7d1b15e0-f52c-489e-aa41-d34b66f31490"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$F{Task}]]></textFieldExpression>
 				</textField>
 			</band>
@@ -101,17 +100,14 @@
 			</rectangle>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="210" y="277" width="72" height="11" forecolor="#FFFFFF" backcolor="#000000" uuid="f0aab1e9-149d-406a-a696-5a52e6cc70ad"/>
-				<textElement/>
 				<text><![CDATA[Subtask]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="282" y="277" width="62" height="11" forecolor="#FFFFFF" backcolor="#000000" uuid="a2527e49-4676-4a05-a135-5e6d5bd6c869"/>
-				<textElement/>
 				<text><![CDATA[Start Date]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="345" y="277" width="62" height="11" forecolor="#FFFFFF" backcolor="#000000" uuid="2c82dab1-efdd-46e3-be62-5b3796c82525"/>
-				<textElement/>
 				<text><![CDATA[End Date]]></text>
 			</staticText>
 		</band>

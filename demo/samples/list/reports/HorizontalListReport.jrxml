@@ -39,7 +39,6 @@
 		<band height="21">
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="515" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="9d616507-cc82-40ad-8ede-6baf184bfa0c"/>
-				<textElement/>
 				<text><![CDATA[Addresses List]]></text>
 			</staticText>
 		</band>
@@ -48,12 +47,10 @@
 		<band height="65">
 			<textField>
 				<reportElement style="Sans_Bold" x="5" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="32f64269-615d-43d9-8620-6bcf827677c5"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{City}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="Sans_Bold" isPrintRepeatedValues="false" x="110" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="7c8c124d-9697-4ac4-a314-966f9b7f7fb9"/>
-				<textElement/>
 				<text><![CDATA[(continued)]]></text>
 			</staticText>
 			<componentElement>
@@ -73,17 +70,14 @@
 							</box>
 							<textField>
 								<reportElement style="Sans_SmallBold" x="0" y="2" width="100" height="12" uuid="740300c0-184f-499d-a651-06c95fef90f8"/>
-								<textElement/>
 								<textFieldExpression><![CDATA["#" + $V{REPORT_COUNT} + " - " + $F{Id}]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Sans_Small" positionType="Float" x="10" y="14" width="110" height="12" uuid="0d94253a-1fec-4390-b671-8462daca989b"/>
-								<textElement/>
 								<textFieldExpression><![CDATA[$F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Sans_Small" positionType="Float" x="10" y="26" width="110" height="12" uuid="e0023244-af6c-43e5-9425-689b0f897b17"/>
-								<textElement/>
 								<textFieldExpression><![CDATA[$F{Street} + ", " + $F{City}]]></textFieldExpression>
 							</textField>
 						</frame>
@@ -104,7 +98,6 @@
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="280" y="20" width="75" height="15" uuid="f23fbd16-abdc-4eb9-abab-789e9efbb5b9"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>

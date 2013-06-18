@@ -35,7 +35,6 @@
 		<band height="21">
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="515" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="98ca45a5-349f-4f06-ac2b-7a1e1e5d2930"/>
-				<textElement/>
 				<text><![CDATA[City List]]></text>
 			</staticText>
 		</band>
@@ -44,17 +43,14 @@
 		<band height="50">
 			<textField>
 				<reportElement style="Sans_Bold" x="5" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="2c343d22-1686-4fe6-be91-a83597306aeb"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{City}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Band">
 				<reportElement style="Sans_Bold" x="110" y="5" width="200" height="15" uuid="21652d16-0d77-498a-afb5-f73dc2380e83"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$V{CityAddressCount} + " addresses"]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="Sans_Bold" isPrintRepeatedValues="false" x="110" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="943303c7-3f0b-402a-b8bd-59266af2ea4f"/>
-				<textElement/>
 				<text><![CDATA[(continued)]]></text>
 			</staticText>
 			<line>
@@ -92,7 +88,6 @@
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="280" y="20" width="75" height="15" uuid="6877348f-c11e-44dd-a5c2-53f20d83c321"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>

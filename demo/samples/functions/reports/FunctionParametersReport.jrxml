@@ -20,7 +20,6 @@
 			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="0" width="210" height="20" uuid="b5038fb6-3f6d-4608-84cf-fe14aa42520c"/>
 				<box leftPadding="5"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["\u2022  This function has no parameters."]]></textFieldExpression>
 			</textField>
 		</band>

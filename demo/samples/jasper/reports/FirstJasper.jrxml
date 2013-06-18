@@ -71,12 +71,10 @@
 				</staticText>
 				<textField>
 					<reportElement style="Sans_Bold" mode="Opaque" x="130" y="14" width="70" height="11" forecolor="#FF0000" backcolor="#FFDDDD" uuid="d8af4528-f8d7-42e4-9680-f9f287eaf172"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$V{FirstLetter}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="FirstLetterGroup">
 					<reportElement style="Sans_Bold" mode="Opaque" x="240" y="14" width="30" height="11" forecolor="#FF0000" backcolor="#FFDDDD" uuid="fd625f56-0d25-438d-8768-a2bd3f3151a4"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[new Integer($V{PAGE_NUMBER}.intValue() - $V{FirstLetterStartPageNumber}.intValue() + 1)]]></textFieldExpression>
 				</textField>
 				<textField>
@@ -138,7 +136,6 @@
 						<property name="net.sf.jasperreports.export.xls.column.name" value="ShipCountry"/>
 						<property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
 					</reportElement>
-					<textElement/>
 					<textFieldExpression><![CDATA[$F{ShipCountry}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="CountryGroup">
@@ -259,7 +256,6 @@
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="185" y="0" width="50" height="11" forecolor="#FFFFFF" backcolor="#333333" uuid="209c7938-9050-4f63-ae7b-5d181ae574cb"/>
-				<textElement/>
 				<text><![CDATA[Date]]></text>
 			</staticText>
 			<staticText>
@@ -291,7 +287,6 @@
 					<propertyExpression name="net.sf.jasperreports.export.csv.data"><![CDATA[$F{ShipCity}]]></propertyExpression>
 					<propertyExpression name="net.sf.jasperreports.export.xls.data"><![CDATA[$F{ShipCity}]]></propertyExpression>
 				</reportElement>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{ShipName} + ", " + $F{ShipCity}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
@@ -299,7 +294,6 @@
 					<property name="net.sf.jasperreports.export.csv.column.name" value="ShipRegion"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="ShipRegion"/>
 				</reportElement>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{ShipRegion}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
@@ -307,7 +301,6 @@
 					<property name="net.sf.jasperreports.export.csv.column.name" value="OrderDate"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="OrderDate"/>
 				</reportElement>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
 			</textField>
 			<textField pattern="0.00">

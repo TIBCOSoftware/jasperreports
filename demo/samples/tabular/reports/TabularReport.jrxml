@@ -138,7 +138,6 @@
 						<leftPen lineWidth="1.0" lineColor="#FF0000"/>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement/>
 					<textFieldExpression><![CDATA["multi\nline text"]]></textFieldExpression>
 				</textField>
 				<textField>
@@ -149,7 +148,6 @@
 						<leftPen lineWidth="0.5"/>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement/>
 					<textFieldExpression><![CDATA["text two"]]></textFieldExpression>
 				</textField>
 				<textField>
@@ -160,7 +158,6 @@
 						<leftPen lineWidth="0.5"/>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement/>
 					<textFieldExpression><![CDATA["text three"]]></textFieldExpression>
 				</textField>
 				<textField>
@@ -171,7 +168,6 @@
 						<leftPen lineWidth="0.5"/>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement/>
 					<textFieldExpression><![CDATA["text four"]]></textFieldExpression>
 				</textField>
 				<textField>

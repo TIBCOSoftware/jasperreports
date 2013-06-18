@@ -65,7 +65,6 @@
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="280" y="10" width="75" height="15" uuid="a60c893d-9fe2-4aa6-b149-b7fc2c388d98"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>

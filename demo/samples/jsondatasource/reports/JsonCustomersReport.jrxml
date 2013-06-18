@@ -31,7 +31,6 @@
 		<band height="21">
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="515" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="da0f1cad-f552-424b-bf19-b41cabbfa4ac"/>
-				<textElement/>
 				<text><![CDATA[Customer Order List]]></text>
 			</staticText>
 		</band>
@@ -40,12 +39,10 @@
 		<band height="50">
 			<textField>
 				<reportElement style="Sans_Bold" x="5" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="0aaeed6e-7ba1-4ab9-be59-d6ca702995fc"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{CustomerID}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="Sans_Bold" isPrintRepeatedValues="false" x="404" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="68e08f51-8c24-4c85-95f3-616e40c8ddab"/>
-				<textElement/>
 				<text><![CDATA[(continued)]]></text>
 			</staticText>
 			<line>
@@ -72,7 +69,6 @@
 			</subreport>
 			<textField>
 				<reportElement style="Sans_Bold" x="109" y="5" width="291" height="15" isPrintWhenDetailOverflows="true" uuid="9a4a0a5d-4b75-4d2b-a647-aa495101df48"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{CompanyName}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -89,7 +85,6 @@
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="280" y="20" width="75" height="15" uuid="86f46fca-dbcb-4a60-b2f7-f8da6a4224f7"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>

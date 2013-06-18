@@ -80,7 +80,6 @@
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="403" y="20" width="75" height="15" uuid="05253242-68cf-4f79-a534-c5963d6ca087"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>
@@ -99,7 +98,6 @@
 									<box leftPadding="10">
 										<bottomPen lineWidth="1.0"/>
 									</box>
-									<textElement/>
 									<textFieldExpression><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{city})]]></textFieldExpression>
 									<anchorNameExpression><![CDATA[String.valueOf($F{city})]]></anchorNameExpression>
 									<hyperlinkParameter name="jr.uri">
@@ -171,7 +169,6 @@
 							<jr:columnHeader height="60" rowSpan="3">
 								<staticText>
 									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="60" forecolor="#FFFFFF" backcolor="#333333" uuid="d0166dbc-e721-445a-b5e6-cc21e31ac15f"/>
-									<textElement/>
 									<text><![CDATA[Name]]></text>
 								</staticText>
 							</jr:columnHeader>
@@ -182,7 +179,6 @@
 										<leftPen lineWidth="0.5"/>
 										<bottomPen lineWidth="0.5"/>
 									</box>
-									<textElement/>
 									<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
@@ -191,7 +187,6 @@
 							<jr:columnHeader height="60" rowSpan="3">
 								<textField>
 									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="60" forecolor="#FFFFFF" backcolor="#333333" uuid="451659b3-f3fe-417b-ba37-a318fa9fe127"/>
-									<textElement/>
 									<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
@@ -202,7 +197,6 @@
 										<leftPen lineWidth="0.5"/>
 										<bottomPen lineWidth="0.5"/>
 									</box>
-									<textElement/>
 									<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
@@ -211,7 +205,6 @@
 							<jr:columnHeader height="60" rowSpan="3">
 								<textField>
 									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="60" forecolor="#FFFFFF" backcolor="#333333" uuid="845fc09d-5ab6-4077-b2cb-b615bf45f66b"/>
-									<textElement/>
 									<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
@@ -223,7 +216,6 @@
 										<bottomPen lineWidth="0.5"/>
 										<rightPen lineWidth="0.5"/>
 									</box>
-									<textElement/>
 									<textFieldExpression><![CDATA[$F{moveInDate}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
@@ -232,7 +224,6 @@
 							<jr:columnHeader height="20">
 								<textField>
 									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="1814faf9-cd73-4ace-ba2e-38a0f0dbaa24"/>
-									<textElement/>
 									<textFieldExpression><![CDATA["Position"]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
@@ -240,7 +231,6 @@
 								<jr:columnHeader height="40" rowSpan="2">
 									<textField>
 										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" forecolor="#FFFFFF" backcolor="#333333" uuid="44f92121-9ef3-4b12-9e9e-73b9b92a0876"/>
-										<textElement/>
 										<textFieldExpression><![CDATA["Lat"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
@@ -261,7 +251,6 @@
 								<jr:columnHeader height="40" rowSpan="2">
 									<textField>
 										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" forecolor="#FFFFFF" backcolor="#333333" uuid="f7aa9645-573d-40b8-8c38-e210af912712"/>
-										<textElement/>
 										<textFieldExpression><![CDATA["Long"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
@@ -283,7 +272,6 @@
 							<jr:columnHeader height="20">
 								<textField>
 									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="375" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="c471322f-b03c-40f3-a714-f7846377eda5"/>
-									<textElement/>
 									<textFieldExpression><![CDATA["Repeated Columns Group"]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
@@ -312,7 +300,6 @@
 								<jr:columnHeader height="40" rowSpan="2">
 									<staticText>
 										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="40" forecolor="#FFFFFF" backcolor="#333333" uuid="2f01f4f9-b543-45be-bd80-6a0f17b46565"/>
-										<textElement/>
 										<text><![CDATA[Name]]></text>
 									</staticText>
 								</jr:columnHeader>
@@ -323,7 +310,6 @@
 											<leftPen lineWidth="0.5"/>
 											<bottomPen lineWidth="0.5"/>
 										</box>
-										<textElement/>
 										<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 									</textField>
 								</jr:detailCell>
@@ -332,7 +318,6 @@
 								<jr:columnHeader height="40" rowSpan="2">
 									<textField>
 										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="40" forecolor="#FFFFFF" backcolor="#333333" uuid="62d91369-cdbb-4b94-be2b-1cfebb71a9ad"/>
-										<textElement/>
 										<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
@@ -343,7 +328,6 @@
 											<leftPen lineWidth="0.5"/>
 											<bottomPen lineWidth="0.5"/>
 										</box>
-										<textElement/>
 										<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 									</textField>
 								</jr:detailCell>
@@ -352,7 +336,6 @@
 								<jr:columnHeader height="40" rowSpan="2">
 									<textField>
 										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="40" forecolor="#FFFFFF" backcolor="#333333" uuid="0231eb95-3549-4fba-8782-7e7e3d9b50f9"/>
-										<textElement/>
 										<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
@@ -364,7 +347,6 @@
 											<bottomPen lineWidth="0.5"/>
 											<rightPen lineWidth="0.5"/>
 										</box>
-										<textElement/>
 										<textFieldExpression><![CDATA[$F{moveInDate}]]></textFieldExpression>
 									</textField>
 								</jr:detailCell>
@@ -373,7 +355,6 @@
 								<jr:columnHeader height="20">
 									<textField>
 										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="6cff43f4-4656-490c-8897-bf815e93f374"/>
-										<textElement/>
 										<textFieldExpression><![CDATA["Position"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
@@ -381,7 +362,6 @@
 									<jr:columnHeader height="20">
 										<textField>
 											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="550e1a5e-2c71-40d9-a57d-23b87f71be5d"/>
-											<textElement/>
 											<textFieldExpression><![CDATA["Lat"]]></textFieldExpression>
 										</textField>
 									</jr:columnHeader>
@@ -402,7 +382,6 @@
 									<jr:columnHeader height="20">
 										<textField>
 											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="0ba28b54-a06c-4e85-958e-5730f01e76de"/>
-											<textElement/>
 											<textFieldExpression><![CDATA["Long"]]></textFieldExpression>
 										</textField>
 									</jr:columnHeader>

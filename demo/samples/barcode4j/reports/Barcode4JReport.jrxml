@@ -30,7 +30,6 @@
 			</textField>
 			<staticText>
 				<reportElement style="Barcode" x="0" y="100" width="100" height="30" uuid="e3c8aa4c-a571-4288-b6ab-9eca96752649"/>
-				<textElement/>
 				<text><![CDATA[Code 128]]></text>
 			</staticText>
 			<componentElement>
@@ -41,7 +40,6 @@
 			</componentElement>
 			<staticText>
 				<reportElement style="Barcode" x="0" y="135" width="100" height="30" uuid="038aa527-7c7f-48b5-9547-7ba91470754c"/>
-				<textElement/>
 				<text><![CDATA[Codabar]]></text>
 			</staticText>
 			<componentElement>
@@ -52,7 +50,6 @@
 			</componentElement>
 			<staticText>
 				<reportElement style="Barcode" x="0" y="170" width="100" height="40" uuid="e819db15-0b87-47b8-8474-cbe17cc7a37a"/>
-				<textElement/>
 				<text><![CDATA[DataMatrix]]></text>
 			</staticText>
 			<componentElement>
@@ -63,7 +60,6 @@
 			</componentElement>
 			<staticText>
 				<reportElement style="Barcode" x="0" y="215" width="100" height="30" uuid="079dc326-5af1-4979-927c-3d9d75bfe21b"/>
-				<textElement/>
 				<text><![CDATA[EAN-128]]></text>
 			</staticText>
 			<componentElement>
@@ -74,7 +70,6 @@
 			</componentElement>
 			<staticText>
 				<reportElement style="Barcode" x="0" y="250" width="100" height="30" uuid="63b7698e-e4a1-4fff-9ea0-a9772dd5b2c4"/>
-				<textElement/>
 				<text><![CDATA[Code39]]></text>
 			</staticText>
 			<componentElement>
@@ -85,7 +80,6 @@
 			</componentElement>
 			<staticText>
 				<reportElement style="Barcode" x="0" y="285" width="100" height="30" uuid="8ca7d2e2-c66f-4c25-ab3d-2fb15453b8b0"/>
-				<textElement/>
 				<text><![CDATA[USPS Intelligent Mail]]></text>
 			</staticText>
 			<componentElement>
@@ -96,7 +90,6 @@
 			</componentElement>
 			<staticText>
 				<reportElement style="Barcode" x="0" y="320" width="100" height="30" uuid="df0b440d-9a4f-49ea-aa1d-c860c2ad3911"/>
-				<textElement/>
 				<text><![CDATA[Royal Mail Customer]]></text>
 			</staticText>
 			<componentElement>
@@ -107,7 +100,6 @@
 			</componentElement>
 			<staticText>
 				<reportElement style="Barcode" x="0" y="355" width="100" height="30" uuid="dc520315-36de-4535-9d40-2dc5b96e07bc"/>
-				<textElement/>
 				<text><![CDATA[Interleaved 2 of 5]]></text>
 			</staticText>
 			<componentElement>
@@ -118,7 +110,6 @@
 			</componentElement>
 			<staticText>
 				<reportElement style="Barcode" x="0" y="390" width="100" height="30" uuid="ddcf57ba-86e5-4b2c-8293-89cc3c044890"/>
-				<textElement/>
 				<text><![CDATA[UPC-A]]></text>
 			</staticText>
 			<componentElement>
@@ -129,7 +120,6 @@
 			</componentElement>
 			<staticText>
 				<reportElement style="Barcode" x="0" y="425" width="100" height="30" uuid="1ee2c6c4-54d0-4bae-af20-03970939c63c"/>
-				<textElement/>
 				<text><![CDATA[UPC-E]]></text>
 			</staticText>
 			<componentElement>
@@ -140,7 +130,6 @@
 			</componentElement>
 			<staticText>
 				<reportElement style="Barcode" x="0" y="460" width="100" height="30" uuid="2cb2f39b-a468-4d35-9047-2066f52aec84"/>
-				<textElement/>
 				<text><![CDATA[EAN-13]]></text>
 			</staticText>
 			<componentElement>
@@ -151,7 +140,6 @@
 			</componentElement>
 			<staticText>
 				<reportElement style="Barcode" x="0" y="495" width="100" height="30" uuid="9399924d-03f6-4825-adfd-0a51cca77964"/>
-				<textElement/>
 				<text><![CDATA[EAN-8]]></text>
 			</staticText>
 			<componentElement>
@@ -162,7 +150,6 @@
 			</componentElement>
 			<staticText>
 				<reportElement style="Barcode" x="0" y="530" width="100" height="20" uuid="6ffb2cc2-63fd-4754-b8c3-48828cca8ab1"/>
-				<textElement/>
 				<text><![CDATA[POSTNET]]></text>
 			</staticText>
 			<componentElement>
@@ -173,7 +160,6 @@
 			</componentElement>
 			<staticText>
 				<reportElement style="Barcode" x="0" y="555" width="100" height="30" uuid="c1127dd1-6cde-483c-8b1c-927b5fd285a3"/>
-				<textElement/>
 				<text><![CDATA[PDF417]]></text>
 			</staticText>
 			<componentElement>

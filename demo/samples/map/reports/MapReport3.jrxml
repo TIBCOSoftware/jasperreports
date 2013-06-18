@@ -44,7 +44,6 @@
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="0" y="50" width="515" height="100" uuid="33c8fdd6-a31b-45b1-bbb3-fc3f31819821"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["A terrain map sample. Five markers with custom icons are placed on the map. Marker tooltips are enabled."]]></textFieldExpression>
 			</textField>
 			<componentElement>

@@ -78,7 +78,6 @@
 							</box>
 							<textField isStretchWithOverflow="true">
 								<reportElement x="0" y="0" width="90" height="15" uuid="c6a3b183-a488-4535-9187-6c4250a443b6"/>
-								<textElement/>
 								<textFieldExpression><![CDATA[$V{Column1}]]></textFieldExpression>
 							</textField>
 						</c:detailCell>
@@ -118,7 +117,6 @@
 							</box>
 							<textField>
 								<reportElement x="0" y="0" width="90" height="15" uuid="ff6cedd6-b2c5-4546-ae1b-6d57423f1f92"/>
-								<textElement/>
 								<textFieldExpression><![CDATA[$V{Column2}]]></textFieldExpression>
 							</textField>
 						</c:detailCell>
@@ -158,7 +156,6 @@
 							</box>
 							<textField>
 								<reportElement x="0" y="0" width="90" height="15" uuid="329d33c4-e976-4aa2-8022-40e957727eb7"/>
-								<textElement/>
 								<textFieldExpression><![CDATA[$V{Column3}]]></textFieldExpression>
 							</textField>
 						</c:detailCell>
@@ -212,7 +209,6 @@
 								</box>
 								<textField>
 									<reportElement x="0" y="0" width="145" height="15" uuid="a777c29e-db77-4564-a35a-64b990469e57"/>
-									<textElement/>
 									<textFieldExpression><![CDATA[$V{Column4}]]></textFieldExpression>
 								</textField>
 							</c:detailCell>

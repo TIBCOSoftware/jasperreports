@@ -41,7 +41,6 @@
 					<reportElement mode="Opaque" x="0" y="0" width="375" height="21" backcolor="#E0E0E0" uuid="a143642b-fbed-4962-bfbf-c9d9ecc24879"/>
 					<textField isStretchWithOverflow="true">
 						<reportElement x="5" y="3" width="160" height="15" uuid="fdadafcd-6622-4d05-89f8-31eeb46e68f9"/>
-						<textElement/>
 						<textFieldExpression><![CDATA[$F{firstName} + " " + $F{lastName} + " (ID: " + $F{id} + ")"]]></textFieldExpression>
 					</textField>
 					<textField isStretchWithOverflow="true">
@@ -62,7 +61,6 @@
 				</line>
 				<staticText>
 					<reportElement style="Sans_Normal_Small" x="20" y="2" width="70" height="15" uuid="d248a006-9289-4a01-909d-81608bbdd09b"/>
-					<textElement/>
 					<text><![CDATA[Total]]></text>
 				</staticText>
 				<textField>
@@ -97,7 +95,6 @@
 		<band height="13">
 			<staticText>
 				<reportElement style="Sans_Normal_Small" isPrintRepeatedValues="false" x="20" y="0" width="70" height="12" isPrintInFirstWholeBand="true" printWhenGroupChanges="AddressGroup" uuid="8d08fcca-f5d3-4c5b-baa0-e5ab70628047"/>
-				<textElement/>
 				<text><![CDATA[Document ID]]></text>
 			</staticText>
 			<textField>
@@ -107,7 +104,6 @@
 			</textField>
 			<staticText>
 				<reportElement style="Sans_Normal_Small" isPrintRepeatedValues="false" x="180" y="0" width="70" height="12" isPrintInFirstWholeBand="true" printWhenGroupChanges="AddressGroup" uuid="c5e1138c-175d-44cf-81ea-aa736ce885f2"/>
-				<textElement/>
 				<text><![CDATA[Document Total]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" pattern="#.00">

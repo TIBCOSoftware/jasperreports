@@ -65,7 +65,6 @@
 					</staticText>
 					<textField>
 						<reportElement style="Sans_Bold" x="130" y="0" width="45" height="11" forecolor="#FF0000" uuid="6c1309f9-b8d9-4966-907d-91bfb358440c"/>
-						<textElement/>
 						<textFieldExpression><![CDATA[$V{FirstLetter}]]></textFieldExpression>
 					</textField>
 				</frame>
@@ -108,7 +107,6 @@
 				</line>
 				<textField>
 					<reportElement style="Sans_Bold" x="10" y="12" width="90" height="11" uuid="dca9a371-68ea-4fe5-9ae6-8146ed26ebf1"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$F{ShipCountry}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="CountryGroup" pattern="EEE, MMM d, yyyy">
@@ -209,7 +207,6 @@
 		<band height="11">
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="175" height="11" forecolor="#FFFFFF" backcolor="#333333" uuid="a01b4581-cdd1-49d2-bbb9-01c2561486e9"/>
-				<textElement/>
 				<text><![CDATA[Orders]]></text>
 			</staticText>
 		</band>
@@ -223,71 +220,58 @@
 				</box>
 				<staticText>
 					<reportElement style="Sans_Bold" x="2" y="2" width="38" height="11" uuid="92e0741a-c70d-4ccc-aee3-c25bec417960"/>
-					<textElement/>
 					<text><![CDATA[Order]]></text>
 				</staticText>
 				<textField>
 					<reportElement x="40" y="2" width="130" height="11" uuid="ce080d24-26ae-4994-90e5-9d74bf6bc7e9">
 						<printWhenExpression><![CDATA[new Boolean($F{OrderID}.intValue() % 10 != 0)]]></printWhenExpression>
 					</reportElement>
-					<textElement/>
 					<textFieldExpression><![CDATA[$F{OrderID}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement style="Sans_Bold" x="40" y="2" width="130" height="11" forecolor="#FF0000" uuid="c188af55-295e-46aa-bf9d-805df6e82a62">
 						<printWhenExpression><![CDATA[new Boolean($F{OrderID}.intValue() % 10 == 0)]]></printWhenExpression>
 					</reportElement>
-					<textElement/>
 					<textFieldExpression><![CDATA[$F{OrderID}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement style="Sans_Bold" x="2" y="14" width="38" height="11" uuid="28c920cb-15f7-4c0e-b44f-8c5d956745a5"/>
-					<textElement/>
 					<text><![CDATA[Name]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
 					<reportElement positionType="Float" x="40" y="14" width="130" height="11" uuid="a4afba7a-dc7e-43ab-8ae0-71bd9df2300d"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$F{ShipName}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement style="Sans_Bold" x="2" y="26" width="38" height="11" uuid="3d7eccc0-0488-4c44-b120-98c303b9099a"/>
-					<textElement/>
 					<text><![CDATA[City]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
 					<reportElement positionType="Float" x="40" y="26" width="130" height="11" uuid="cb963f56-0550-415c-a998-81feec78558c"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$F{ShipCity}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement style="Sans_Bold" x="2" y="38" width="38" height="11" uuid="744088a0-ded5-4c2b-bc90-31627739b47c"/>
-					<textElement/>
 					<text><![CDATA[Region]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement x="40" y="38" width="130" height="11" uuid="6a2f6c96-3ee4-43a7-8d8d-756928cc759f"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$F{ShipRegion}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement style="Sans_Bold" x="2" y="50" width="38" height="11" uuid="95a57a1d-01ba-4d30-b9f1-6fcbc1cc7827"/>
-					<textElement/>
 					<text><![CDATA[Date]]></text>
 				</staticText>
 				<textField pattern="dd/MM/yyyy">
 					<reportElement x="40" y="50" width="130" height="11" uuid="346278cd-5430-460e-8eac-109a957f944d"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement style="Sans_Bold" x="2" y="62" width="38" height="11" uuid="ffabda09-76b8-4d1f-b5fc-ca9fe7633560"/>
-					<textElement/>
 					<text><![CDATA[Freight]]></text>
 				</staticText>
 				<textField pattern="0.00">
 					<reportElement x="40" y="62" width="130" height="11" uuid="c600dc81-ad4f-4ee7-9d6a-c5020e1025f5"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$F{Freight}]]></textFieldExpression>
 				</textField>
 			</frame>

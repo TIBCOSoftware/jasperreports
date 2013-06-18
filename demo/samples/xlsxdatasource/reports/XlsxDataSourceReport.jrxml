@@ -36,7 +36,6 @@
 					<box leftPadding="10">
 						<bottomPen lineWidth="1.0"/>
 					</box>
-					<textElement/>
 					<textFieldExpression><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{city})]]></textFieldExpression>
 					<anchorNameExpression><![CDATA[String.valueOf($F{city})]]></anchorNameExpression>
 				</textField>
@@ -88,12 +87,10 @@
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="50" y="5" width="200" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="91087044-e2e8-4a4d-bfee-842551406b2d"/>
-				<textElement/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="250" y="5" width="265" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="7c2d98e7-369a-46d2-83ae-76b2b1c2357d"/>
-				<textElement/>
 				<text><![CDATA[Street]]></text>
 			</staticText>
 		</band>
@@ -116,7 +113,6 @@
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 				</box>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
@@ -126,7 +122,6 @@
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -143,7 +138,6 @@
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="280" y="20" width="75" height="15" uuid="422062c5-1112-4b71-9bcc-560dc4c89523"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>
@@ -168,7 +162,6 @@
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="280" y="40" width="75" height="15" uuid="ab52d417-e461-40e1-a120-71dd361c910e"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>

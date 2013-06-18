@@ -13,7 +13,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="0" width="390" height="40" uuid="179327af-ed80-4c0d-b9aa-6c13573a4445"/>
-				<textElement/>
 				<text><![CDATA[<image scaleImage="Clip" onErrorType="Icon" isLazy="true"><reportElement x="0" y="0" width="150" height="40"/><imageExpression class="java.lang.String">"http://jasperreports.sourceforge.net/jasperreports.png"</imageExpression></image>]]></text>
 			</staticText>
 			<image>
@@ -25,7 +24,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="50" width="390" height="40" uuid="21567e7d-4dd9-4596-8f72-63da43aa7d6b"/>
-				<textElement/>
 				<text><![CDATA[<image scaleImage="RetainShape"><reportElement x="0" y="50" width="150" height="40"/><box><pen lineWidth="0.5"/></box><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
 			</staticText>
 			<image scaleImage="Clip">
@@ -37,7 +35,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="100" width="390" height="40" uuid="1b133e56-6ec5-489c-9da4-28f6078c270b"/>
-				<textElement/>
 				<text><![CDATA[<image scaleImage="Clip"><reportElement x="0" y="100" width="150" height="40" mode="Opaque" backcolor="yellow"/><box padding="5"/><pen lineWidth="0.5"/></box><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
 			</staticText>
 			<image scaleImage="FillFrame">
@@ -49,7 +46,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="150" width="390" height="40" uuid="57a169d9-2314-4afc-9dab-d3ecb851efc2"/>
-				<textElement/>
 				<text><![CDATA[<image scaleImage="FillFrame" isUsingCache="true"><reportElement x="0" y="150" width="150" height="40"/><box><pen lineWidth="0.5"/></box><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
 			</staticText>
 			<image hAlign="Center" isUsingCache="false">
@@ -61,7 +57,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="200" width="390" height="40" uuid="b41615c6-a56b-41ef-a3f6-5198aea62d4f"/>
-				<textElement/>
 				<text><![CDATA[<image scaleImage="RetainShape" hAlign="Center" isUsingCache="false"><reportElement x="0" y="200" width="150" height="40"/><box><pen lineWidth="0.5"/></box><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
 			</staticText>
 			<rectangle>
@@ -76,7 +71,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="250" width="390" height="40" uuid="79a9d2a0-b8e1-4ce5-972e-82e086305f9b"/>
-				<textElement/>
 				<text><![CDATA[<image scaleImage="RetainShape"><reportElement x="5" y="255" width="70" height="30"/><graphicElement/><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
 			</staticText>
 			<rectangle>
@@ -91,7 +85,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="300" width="390" height="40" uuid="917fa4b2-8048-47bb-9f41-a363353b1834"/>
-				<textElement/>
 				<text><![CDATA[<image scaleImage="Clip"><reportElement x="5" y="305" width="70" height="30"/><graphicElement/><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
 			</staticText>
 			<rectangle>
@@ -106,7 +99,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="350" width="390" height="40" uuid="8edbf0b7-1945-4cda-8303-82bc7f72dd3e"/>
-				<textElement/>
 				<text><![CDATA[<image scaleImage="RetainShape"><reportElement x="5" y="355" width="30" height="30" mode="Opaque" backcolor="#DDFFDD"/><graphicElement/><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
 			</staticText>
 			<rectangle>
@@ -121,7 +113,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="400" width="390" height="40" uuid="cc9b514d-8188-4f3d-84d9-bec63154c57c"/>
-				<textElement/>
 				<text><![CDATA[<image scaleImage="Clip" hAlign="Center" vAlign="Middle"><reportElement x="5" y="405" width="120" height="30" mode="Opaque" backcolor="#DDFFDD"/><graphicElement/><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
 			</staticText>
 			<image scaleImage="Clip">
@@ -133,7 +124,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="450" width="390" height="40" uuid="fbf0a2ec-119c-4a1f-83d6-16d812fb15cc"/>
-				<textElement/>
 				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="455" width="50" height="30" forecolor="red"/><box><pen lineWidth="0.5"/></box><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
 			</staticText>
 			<image scaleImage="Clip">
@@ -145,7 +135,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="500" width="390" height="40" uuid="81bca3d9-73d8-4797-af09-0b4b7db98151"/>
-				<textElement/>
 				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="505" width="50" height="30" forecolor="red"/><box><pen lineWidth="1" lineStyle="Dashed"/></box><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
 			</staticText>
 			<image scaleImage="Clip">
@@ -157,7 +146,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="550" width="390" height="40" uuid="a749578d-33f3-4351-9ed7-d86524232f7f"/>
-				<textElement/>
 				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="555" width="50" height="30" forecolor="red"/><box><pen lineWidth="1"/></box><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
 			</staticText>
 			<image scaleImage="Clip">
@@ -169,7 +157,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="600" width="390" height="40" uuid="8ae2fc3e-5f58-4509-b486-a6ddda6e28d8"/>
-				<textElement/>
 				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="605" width="50" height="30" forecolor="red"/><box><pen lineWidth="2"/></box><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
 			</staticText>
 			<image scaleImage="Clip" hAlign="Right">
@@ -181,7 +168,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="650" width="390" height="40" uuid="b2e42f72-f89d-4b0a-bb84-7cdfb83212d3"/>
-				<textElement/>
 				<text><![CDATA[<image scaleImage="Clip" hAlign="Right" vAlign="Top"><reportElement x="50" y="655" width="50" height="30" forecolor="red"/><box><pen lineWidth="4"/></box><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
 			</staticText>
 			<image>
@@ -193,7 +179,6 @@
 			</image>
 			<staticText>
 				<reportElement x="160" y="700" width="390" height="40" uuid="0079308d-c7a6-4023-8b33-9f39f1b95ccc"/>
-				<textElement/>
 				<text><![CDATA[<image><reportElement x="50" y="705" width="6" height="6" forecolor="green"/><box><pen lineWidth="4"/></box><imageExpression>"1redpixel.gif"</imageExpression></image>]]></text>
 			</staticText>
 		</band>
@@ -208,7 +193,6 @@
 				</image>
 				<staticText>
 					<reportElement x="160" y="0" width="390" height="40" uuid="b604617a-eda1-4c05-89bb-6cc7c15bcede"/>
-					<textElement/>
 					<text><![CDATA[<image scaleImage="RealHeight"><reportElement x="0" y="0" width="150" height="40" style="imageBox"/><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
 				</staticText>
 			</frame>
@@ -220,7 +204,6 @@
 				</image>
 				<staticText>
 					<reportElement x="160" y="0" width="390" height="40" uuid="d62deec3-7a20-4ec0-8495-a369b90bb4dc"/>
-					<textElement/>
 					<text><![CDATA[<image scaleImage="RealSize"><reportElement x="0" y="0" width="150" height="40" style="imageBox"/><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
 				</staticText>
 			</frame>
@@ -232,7 +215,6 @@
 				</image>
 				<staticText>
 					<reportElement x="160" y="0" width="390" height="40" uuid="2049d46e-a967-474b-b9f0-3dd19c564fa5"/>
-					<textElement/>
 					<text><![CDATA[<image scaleImage="RealHeight"><reportElement x="0" y="0" width="100" height="40" style="imageBox"/><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
 				</staticText>
 			</frame>

@@ -31,7 +31,6 @@
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="0" y="50" width="515" height="100" uuid="822360d4-e5af-4105-ad1f-3112ae9f4aee"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["A road map sample that contains only basic information. There are no available tooltips, markers and info windows."]]></textFieldExpression>
 			</textField>
 			<componentElement>

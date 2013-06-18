@@ -18,7 +18,6 @@
 			</staticText>
 			<textField hyperlinkType="Reference">
 				<reportElement x="0" y="40" width="515" height="20" uuid="bfb8c5e9-3535-4ef9-a5c3-5f91708a1ddb"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["http://jcharts.sourceforge.net"]]></textFieldExpression>
 				<hyperlinkReferenceExpression><![CDATA["http://jcharts.sourceforge.net"]]></hyperlinkReferenceExpression>
 			</textField>

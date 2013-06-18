@@ -83,12 +83,10 @@
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="55" y="5" width="205" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="00bca530-cad8-48df-be82-30371fc49684"/>
-				<textElement/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="260" y="5" width="255" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="e5643d5d-98a2-4969-9f00-a512b4906c5e"/>
-				<textElement/>
 				<text><![CDATA[Street]]></text>
 			</staticText>
 		</band>
@@ -102,12 +100,10 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="55" y="4" width="200" height="15" uuid="b40c4545-77bb-4e3d-933f-dd99e6e412c5"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="260" y="4" width="255" height="15" uuid="c16dbc25-0b76-4008-bf63-32753ecac356"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{Street}]]></textFieldExpression>
 			</textField>
 			<line>

@@ -26,7 +26,6 @@
 			</textField>
 			<staticText>
 				<reportElement x="210" y="50" width="340" height="60" uuid="5b997b20-895a-48e1-8168-95b5d9c8a08e"/>
-				<textElement/>
 				<text><![CDATA[<textField><reportElement x="0" y="50" width="200" height="60"/><textElement><font fontName="DejaVu Sans" size="14"/></textElement><textFieldExpression>$P{GreekText} + "     " + $P{CyrillicText}</textFieldExpression></textField>]]></text>
 			</staticText>
 			<textField>
@@ -38,7 +37,6 @@
 			</textField>
 			<staticText>
 				<reportElement x="210" y="120" width="340" height="60" uuid="f79a88d7-317a-4b56-8620-ad764fb7b351"/>
-				<textElement/>
 				<text><![CDATA[<textField><reportElement x="0" y="120" width="200" height="60"/><textElement><font fontName="DejaVu Sans" size="14" isBold="true"/></textElement><textFieldExpression>$P{GreekText} + "     " + $P{CyrillicText}</textFieldExpression></textField>]]></text>
 			</staticText>
 			<textField>
@@ -50,7 +48,6 @@
 			</textField>
 			<staticText>
 				<reportElement x="210" y="190" width="340" height="60" uuid="6108da4f-0028-4efd-ac55-de4087cc2be3"/>
-				<textElement/>
 				<text><![CDATA[<textField><reportElement x="0" y="190" width="200" height="60"/><textElement><font fontName="DejaVu Sans" size="14" isItalic="true" isUnderline="true"/></textElement><textFieldExpression>$P{GreekText} + "     " + $P{CyrillicText}</textFieldExpression></textField>]]></text>
 			</staticText>
 			<textField>
@@ -62,7 +59,6 @@
 			</textField>
 			<staticText>
 				<reportElement x="210" y="260" width="340" height="60" uuid="130152ef-acbc-40ea-9a08-e5323f290a70"/>
-				<textElement/>
 				<text><![CDATA[<textField><reportElement x="0" y="260" width="200" height="60"/><textElement><font fontName="DejaVu Sans" size="14" isBold="true" isItalic="true" isUnderline="true"/></textElement><textFieldExpression>$P{GreekText} + "     " + $P{CyrillicText}</textFieldExpression></textField>]]></text>
 			</staticText>
 			<textField>
@@ -74,7 +70,6 @@
 			</textField>
 			<staticText>
 				<reportElement x="210" y="330" width="340" height="60" uuid="715129e7-70b3-4d15-a2c9-13cc7d558eb2"/>
-				<textElement/>
 				<text><![CDATA[<textField><reportElement x="0" y="330" width="200" height="60"/><textElement><font fontName="AR PL KaitiM GB" size="22"/></textElement><textFieldExpression class="java.lang.String">$P{ChineseText}</textFieldExpression></textField>]]></text>
 			</staticText>
 			<textField>
@@ -86,7 +81,6 @@
 			</textField>
 			<staticText>
 				<reportElement x="210" y="400" width="340" height="60" uuid="aefb7517-bf11-4ffd-af93-c5e1cca545c3"/>
-				<textElement/>
 				<text><![CDATA[<textField><reportElement x="0" y="400" width="200" height="60"/><textElement><font fontName="AR PL KaitiM GB" size="22" isBold="true" isItalic="true" isUnderline="true"/></textElement><textFieldExpression class="java.lang.String">$P{ChineseText}</textFieldExpression></textField>]]></text>
 			</staticText>
 			<textField>
