@@ -15,8 +15,8 @@
 				</fileset>
 			</classpath>
 			<src path="./src"/>
-	        <compilerarg value="-Xlint:unchecked"/>
-	        <compilerarg value="-Xlint:-options"/>
+			<compilerarg value="-Xlint:unchecked"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		
 		<copy todir="./build/classes">
