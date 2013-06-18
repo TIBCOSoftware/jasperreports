@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csvDataAdapter class="net.sf.jasperreports.data.csv.CsvDataAdapterImpl">
+	<name>csv</name>
+	<fileName>/data/MapCsvDataSource.csv</fileName>
+	<recordDelimiter>&#13;&#10;</recordDelimiter>
+	<useFirstRowAsHeader>false</useFirstRowAsHeader>
+	<queryExecuterMode>true</queryExecuterMode>
+	<datePattern>yyyy-MM-dd HH:mm:ss</datePattern>
+	<columnNames>address</columnNames>
+	<columnNames>latitude</columnNames>
+	<columnNames>longitude</columnNames>
+	<columnNames>size</columnNames>
+	<columnNames>color</columnNames>
+	<columnNames>url</columnNames>
+	<columnNames>icon</columnNames>
+	<columnNames>iconurl</columnNames>
+	<columnNames>iconwidth</columnNames>
+	<columnNames>iconheight</columnNames>
+</csvDataAdapter>
