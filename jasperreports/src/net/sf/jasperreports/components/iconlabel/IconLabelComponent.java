@@ -190,7 +190,7 @@ public class IconLabelComponent implements ContextAwareComponent, Serializable, 
 	/**
 	 *
 	 */
-	public void setTextFill(ContainerFillEnum labelFill) 
+	public void setLabelFill(ContainerFillEnum labelFill) 
 	{
 		ContainerFillEnum old = this.labelFill;
 		this.labelFill = labelFill;

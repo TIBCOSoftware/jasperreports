@@ -836,7 +836,7 @@ public class TableReport implements JRReport
 				iconLabelComponent.setHorizontalAlign(HorizontalAlignEnum.LEFT);
 				iconLabelComponent.setVerticalAlign(VerticalAlignEnum.MIDDLE);
 				iconLabelComponent.setIconPosition(IconPositionEnum.END);
-				iconLabelComponent.setTextFill(ContainerFillEnum.NONE);
+				iconLabelComponent.setLabelFill(ContainerFillEnum.NONE);
 				
 				JRDesignTextField labelTextField = new JRDesignTextField();
 				labelTextField.setStretchWithOverflow(true);
