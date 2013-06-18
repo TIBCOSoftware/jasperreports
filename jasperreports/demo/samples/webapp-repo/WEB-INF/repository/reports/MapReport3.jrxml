@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MapReport3" pageWidth="515" pageHeight="692" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="214b97f6-774e-4306-9b75-17aa13c9da20">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<subDataset name="MarkersDataset" uuid="5e673a55-11e8-4dfd-b416-ddeb7960fb37">
+		<property name="net.sf.jasperreports.data.adapter" value="/data/MapCsvDataAdapter.xml"/>
+		<queryString language="csv">
+			<![CDATA[]]>
+		</queryString>
+		<field name="address" class="java.lang.String">
+			<fieldDescription><![CDATA[street address]]></fieldDescription>
+		</field>
+		<field name="latitude" class="java.lang.String">
+			<fieldDescription><![CDATA[latitude]]></fieldDescription>
+		</field>
+		<field name="longitude" class="java.lang.String">
+			<fieldDescription><![CDATA[longitude]]></fieldDescription>
+		</field>
+		<field name="iconurl" class="java.lang.String">
+			<fieldDescription><![CDATA[iconurl]]></fieldDescription>
+		</field>
+		<field name="iconwidth" class="java.lang.Integer">
+			<fieldDescription><![CDATA[iconwidth]]></fieldDescription>
+		</field>
+		<field name="iconheight" class="java.lang.Integer">
+			<fieldDescription><![CDATA[iconheight]]></fieldDescription>
+		</field>
+		<filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
+	</subDataset>
+	<parameter name="reqZoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[$P{REPORT_CONTEXT}.getParameterValue("zoom") == null ? null : Integer.valueOf((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? Integer.valueOf(11) : $P{reqZoom}]]></defaultValueExpression>
+	</parameter>
+	<summary>
+		<band height="692">
+			<textField isBlankWhenNull="true" bookmarkLevel="1">
+				<reportElement style="Sans_Bold" x="0" y="0" width="515" height="50" uuid="99ffce33-ba26-477f-a7bb-dead427aac0d"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["San Francisco - Terrain Map with Custom Marker Icons"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="50" width="515" height="100" uuid="33c8fdd6-a31b-45b1-bbb3-fc3f31819821"/>
+				<textFieldExpression><![CDATA["A terrain map sample. Five markers with custom icons are placed on the map. Marker tooltips are enabled."]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement positionType="Float" x="0" y="150" width="515" height="326" uuid="25c7dffb-88e1-4ce0-a12f-708a922a5063"/>
+				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" mapType="terrain" imageType="jpg">
+					<c:latitudeExpression><![CDATA[37.800056f]]></c:latitudeExpression>
+					<c:longitudeExpression><![CDATA[-122.4075f]]></c:longitudeExpression>
+					<c:zoomExpression><![CDATA[$P{zoom} + 1]]></c:zoomExpression>
+					<c:markerData>
+						<dataset>
+							<datasetRun subDataset="MarkersDataset" uuid="9fad80a1-f61f-4a49-943b-bf790886a931"/>
+						</dataset>
+						<c:item>
+							<c:itemProperty name="latitude">
+								<valueExpression><![CDATA[$F{latitude}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="longitude">
+								<valueExpression><![CDATA[$F{longitude}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="title">
+								<valueExpression><![CDATA[$F{address}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="icon.url">
+								<valueExpression><![CDATA[$F{iconurl}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="icon.width">
+								<valueExpression><![CDATA[$F{iconwidth}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="icon.height">
+								<valueExpression><![CDATA[$F{iconheight}]]></valueExpression>
+							</c:itemProperty>
+						</c:item>
+					</c:markerData>
+				</c:map>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>
