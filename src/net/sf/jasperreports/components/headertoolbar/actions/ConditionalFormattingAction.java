@@ -84,7 +84,7 @@ public class ConditionalFormattingAction extends AbstractVerifiableTableAction {
 			
 			for (int i = 0, ln = conditions.size(); i < ln; i ++) {
 				condition = conditions.get(i);
-				if (conditionType == FilterTypesEnum.DATE) {
+				if (FilterTypesEnum.DATE.equals(conditionType) || FilterTypesEnum.TIME.equals(conditionType)) {
 					FilterTypeDateOperatorsEnum dateEnum = FilterTypeDateOperatorsEnum.getByEnumConstantName(condition.getConditionTypeOperator());
 					boolean containsBetween = FilterTypeDateOperatorsEnum.IS_BETWEEN.equals(dateEnum) || FilterTypeDateOperatorsEnum.IS_NOT_BETWEEN.equals(dateEnum);
 

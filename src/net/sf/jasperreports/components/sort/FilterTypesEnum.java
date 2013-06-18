@@ -40,7 +40,9 @@ public enum FilterTypesEnum implements JREnum
 
 	DATE((byte)3, "Date"),
 	
-	BOOLEAN((byte)4, "Boolean");
+	BOOLEAN((byte)4, "Boolean"),
+	
+	TIME((byte)5, "Time");
 
 	/**
 	 *

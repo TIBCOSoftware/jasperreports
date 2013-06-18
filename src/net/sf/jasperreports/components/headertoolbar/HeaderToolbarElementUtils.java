@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.headertoolbar;
 
+import java.sql.Time;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,6 +86,10 @@ public class HeaderToolbarElementUtils {
 		else if (String.class.isAssignableFrom(clazz))
 		{
 			result = FilterTypesEnum.TEXT;
+		}
+		else if (Time.class.isAssignableFrom(clazz))
+		{
+			result = FilterTypesEnum.TIME;
 		}
 		else if (Date.class.isAssignableFrom(clazz))
 		{

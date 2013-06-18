@@ -743,11 +743,25 @@ jive.interactive.column.columnFilterForm = {
                 timeFormat: metadata.calendarTimePattern,
                 showSecond: true
             }
+            it.jc.filterStart.timepicker('destroy');
+            it.jc.filterEnd.timepicker('destroy');
             it.jc.filterStart.datetimepicker(pickerOptions);
             it.jc.filterEnd.datetimepicker(pickerOptions);
-        } else {
+        } else if (filtertype === 'time') {
+			var timePickerOptions = {
+	            timeFormat: metadata.calendarTimePattern,
+	            showSecond:true,
+	            constrainInput:false
+            }
             it.jc.filterStart.datetimepicker('destroy');
             it.jc.filterEnd.datetimepicker('destroy');
+            it.jc.filterStart.timepicker(timePickerOptions);
+            it.jc.filterEnd.timepicker(timePickerOptions);
+        } else {
+            it.jc.filterStart.datetimepicker('destroy');
+            it.jc.filterStart.timepicker('destroy');
+            it.jc.filterEnd.datetimepicker('destroy');
+            it.jc.filterEnd.timepicker('destroy');
         }
     },
     submit:function(){
@@ -1256,6 +1270,14 @@ jive.interactive.column.columnConditionalFormattingForm = {
             }
             row.find('input[name=conditionStart]').datetimepicker(pickerOptions);
             row.find('input[name=conditionEnd]').datetimepicker(pickerOptions);
+        } else if (conditionType === 'time') {
+			var timePickerOptions = {
+	            timeFormat: calendarTimePattern,
+	            showSecond:true,
+	            constrainInput:false
+            }
+            row.find('input[name=conditionStart]').timepicker(timePickerOptions);
+            row.find('input[name=conditionEnd]').timepicker(timePickerOptions);
         } else if (conditionType === 'boolean') {
         	row.find('input[name=conditionStart]').prop('disabled', true);
         	row.find('input[name=conditionStart]').closest('td').hide();

@@ -102,11 +102,14 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 {
 	private static final String DEFAULT_PATTERNS_BUNDLE = "net.sf.jasperreports.components.messages";
 	private static final String DEFAULT_DATE_PATTERN_KEY = "net.sf.jasperreports.components.date.pattern";
+	private static final String DEFAULT_TIME_PATTERN_KEY = "net.sf.jasperreports.components.time.pattern";
 	private static final String DEFAULT_NUMBER_PATTERN_KEY = "net.sf.jasperreports.components.number.pattern";
 	private static final String DEFAULT_CALENDAR_DATE_PATTERN_KEY = "net.sf.jasperreports.components.calendar.date.pattern";
 	private static final String DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY = "net.sf.jasperreports.components.calendar.date.time.pattern";
 	private static final String DATE_PATTERN_BUNDLE = DEFAULT_DATE_PATTERN_KEY + ".bundle";
 	private static final String DATE_PATTERN_KEY = DEFAULT_DATE_PATTERN_KEY + ".key";
+	private static final String TIME_PATTERN_BUNDLE = DEFAULT_TIME_PATTERN_KEY + ".bundle";
+	private static final String TIME_PATTERN_KEY = DEFAULT_TIME_PATTERN_KEY + ".key";
 	private static final String NUMBER_PATTERN_BUNDLE = DEFAULT_NUMBER_PATTERN_KEY + ".bundle";
 	private static final String NUMBER_PATTERN_KEY = DEFAULT_NUMBER_PATTERN_KEY + ".key";
 	private static final String CALENDAR_DATE_PATTERN_BUNDLE = DEFAULT_CALENDAR_DATE_PATTERN_KEY + ".bundle";
@@ -124,6 +127,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 	private static final String PARAM_GENERATED_TEMPLATE_PREFIX = "net.sf.jasperreports.headertoolbar.";
 	
 	private static final List<String> datePatterns = new ArrayList<String>(); 
+	private static final List<String> timePatterns = new ArrayList<String>(); 
 	private static final Map<String, String> numberPatternsMap = new LinkedHashMap<String, String>(); 
 	
 	static {
@@ -149,6 +153,11 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		datePatterns.add("yyyy.MMMMM.dd GGG hh:mm aaa");
 		datePatterns.add("EEE. d MMM yyyy HH:mm:ss Z");
 		datePatterns.add("yyMMddHHmmssZ");
+		
+		timePatterns.add("hh:mm aaa");
+		timePatterns.add("hh:mm:ss aaa");
+		timePatterns.add("HH:mm");
+		timePatterns.add("HH:mm:ss");
 
 		numberPatternsMap.put("###0;-###0", "-1234");
 		numberPatternsMap.put("###0;###0-", "1234-");
@@ -318,7 +327,30 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 						calendarDateTimePatternKey = DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY;
 					}
 					calendarTimePattern = getBundleMessage(calendarDateTimePatternKey, jrContext, calendarDatePatternBundleName, locale);
+					break;
+				case TIME:
+					translatedOperators = getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
+					setDatePatterns(valuesFormatPatternMap, timePatterns, locale);
+	
+					String timePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(TIME_PATTERN_BUNDLE);
+					if (timePatternBundleName == null)
+					{
+						timePatternBundleName = DEFAULT_PATTERNS_BUNDLE;
+					}
 					
+					String timePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(TIME_PATTERN_KEY);
+					if (timePatternKey == null)
+					{
+						timePatternKey = DEFAULT_TIME_PATTERN_KEY;
+					}
+					filterPattern = getBundleMessage(timePatternKey, jrContext, timePatternBundleName, locale);
+					
+					String calendarTimePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_TIME_PATTERN_KEY);
+					if (calendarTimePatternKey == null)
+					{
+						calendarTimePatternKey = DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY;
+					}
+					calendarTimePattern = getBundleMessage(calendarTimePatternKey, jrContext, timePatternBundleName, locale);
 					break;
 				case TEXT:
 					translatedOperators = getTranslatedOperators(jrContext, FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale);
