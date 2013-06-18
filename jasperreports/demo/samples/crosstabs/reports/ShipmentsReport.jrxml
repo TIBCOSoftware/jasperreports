@@ -69,7 +69,6 @@
 							</box>
 							<textField>
 								<reportElement x="5" y="5" width="40" height="26" uuid="2b574bb6-b7c0-4cbd-918b-d56b101147a0"/>
-								<textElement/>
 								<textFieldExpression><![CDATA[$V{Region} == null ? "No region" : $V{Region}]]></textFieldExpression>
 							</textField>
 						</cellContents>
@@ -145,7 +144,6 @@
 							</box>
 							<staticText>
 								<reportElement x="5" y="5" width="35" height="15" uuid="837e75c7-0cc4-433d-84b2-2e75e91675dd"/>
-								<textElement/>
 								<text><![CDATA[Total]]></text>
 							</staticText>
 						</cellContents>

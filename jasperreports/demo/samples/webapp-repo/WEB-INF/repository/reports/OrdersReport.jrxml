@@ -151,14 +151,12 @@
 						<jr:columnHeader height="14">
 							<staticText>
 								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="10" backcolor="#CCFFFF" uuid="8284347b-a6db-4fa1-976d-b1372a1670e1"/>
-								<textElement/>
 								<text><![CDATA[Ship to]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="14">
 							<textField isStretchWithOverflow="true">
 								<reportElement positionType="Float" x="0" y="2" width="100" height="10" uuid="efbfff7a-1b82-494e-af57-d8169de6ba06"/>
-								<textElement/>
 								<textFieldExpression><![CDATA[$F{ShipName}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -167,14 +165,12 @@
 						<jr:columnHeader height="14">
 							<staticText>
 								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="140" height="10" backcolor="#CCFFFF" uuid="5d2640ce-4cc1-41d5-a3d7-704e0c6a6510"/>
-								<textElement/>
 								<text><![CDATA[Address]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="14">
 							<textField isStretchWithOverflow="true">
 								<reportElement positionType="Float" x="0" y="2" width="145" height="10" uuid="fbb70953-0504-4c47-b29c-c7ddf12c7e4f"/>
-								<textElement/>
 								<textFieldExpression><![CDATA[$F{ShipAddress} + "\n" + $F{ShipCity} + ", " + $F{ShipCountry}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>

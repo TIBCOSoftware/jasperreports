@@ -30,7 +30,6 @@
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="280" y="20" width="75" height="15" uuid="783b06b4-3dcf-4f13-9521-bf3bd42f3bc6"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>
@@ -86,7 +85,6 @@
 						<jr:columnHeader height="20">
 							<staticText>
 								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="515" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="21077f46-e842-44a3-9855-9b01d9f577cc"/>
-								<textElement/>
 								<text><![CDATA[Customer Order List]]></text>
 							</staticText>
 						</jr:columnHeader>
@@ -94,14 +92,12 @@
 							<jr:columnHeader height="20">
 								<staticText>
 									<reportElement style="Sans_Bold" mode="Opaque" x="5" y="5" width="100" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="c20e5ae3-9d0f-4525-87d6-94d203d6729f"/>
-									<textElement/>
 									<text><![CDATA[ID]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell height="20">
 								<textField>
 									<reportElement style="Sans_Bold" x="5" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="f213e199-5b33-4da6-8aa3-01ecef2b6416"/>
-									<textElement/>
 									<textFieldExpression><![CDATA[$F{CustomerID}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
@@ -110,14 +106,12 @@
 							<jr:columnHeader height="20">
 								<staticText>
 									<reportElement style="Sans_Bold" mode="Opaque" x="4" y="5" width="291" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="b9373408-45dc-419f-883c-37048f825c1b"/>
-									<textElement/>
 									<text><![CDATA[Name]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell height="20">
 								<textField>
 									<reportElement style="Sans_Bold" x="4" y="5" width="291" height="15" isPrintWhenDetailOverflows="true" uuid="e68380b5-7eac-40d9-a527-7d1f8e083de7"/>
-									<textElement/>
 									<textFieldExpression><![CDATA[$F{CompanyName}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>

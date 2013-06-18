@@ -44,12 +44,10 @@
 				</line>
 				<staticText>
 					<reportElement style="Sans_Italic" mode="Opaque" x="0" y="10" width="190" height="15" backcolor="#C0C0C0" uuid="10db0c86-d839-40a0-a455-242b68f0375b"/>
-					<textElement/>
 					<text><![CDATA[Countries Starting With Letter :]]></text>
 				</staticText>
 				<textField>
 					<reportElement style="Sans_Bold" mode="Opaque" x="190" y="10" width="325" height="15" backcolor="#C0C0C0" uuid="f4a94c0c-fd87-4fa8-a56c-68f8f0345a65"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$V{FirstLetter}]]></textFieldExpression>
 					<anchorNameExpression><![CDATA["FirstLetterGroup_" + $V{FirstLetter}]]></anchorNameExpression>
 				</textField>
@@ -70,7 +68,6 @@
 				</line>
 				<textField>
 					<reportElement style="Sans_Bold" x="0" y="4" width="515" height="15" uuid="30ec046e-3560-4e5b-b03c-4f7b4c5851a5"/>
-					<textElement/>
 					<textFieldExpression><![CDATA["  " + String.valueOf($V{ShipCountryNumber}) + ". " + String.valueOf($F{ShipCountry})]]></textFieldExpression>
 					<anchorNameExpression><![CDATA["ShipCountryGroup_" + $V{ShipCountryNumber}]]></anchorNameExpression>
 				</textField>
@@ -103,12 +100,10 @@
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="55" y="5" width="205" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="f0aae3e2-5322-46f8-8c53-53fee797aff5"/>
-				<textElement/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="260" y="5" width="255" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="2572e98c-ab85-4e18-a7c8-1b3428bad005"/>
-				<textElement/>
 				<text><![CDATA[City]]></text>
 			</staticText>
 		</band>
@@ -122,12 +117,10 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="55" y="5" width="200" height="15" uuid="ebe211dc-902e-4f32-a3f8-2a3611bc9940"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{ShipName}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="260" y="5" width="255" height="15" uuid="adf42c82-cc91-4e66-a1a1-db62a0161bd6"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{ShipCity}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -144,7 +137,6 @@
 			</textField>
 			<textField evaluationTime="Group" evaluationGroup="SummaryDummyGroup">
 				<reportElement x="280" y="20" width="75" height="15" uuid="5cbc63c5-32d9-4169-b7c2-0298b82b539c"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>

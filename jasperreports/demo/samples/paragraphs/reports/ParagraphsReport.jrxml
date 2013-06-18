@@ -43,7 +43,6 @@
 			</rectangle>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" mode="Opaque" x="0" y="5" width="255" height="40" backcolor="#FFFF88" uuid="fb563d1a-92c8-4617-b1f7-c73147ffa468"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["Text field element using default tab stop width of 40 pixels. The following names are tab stop aligned to the left, while the overall text alignment is also left:\n\tpig\tchicken\tsheep\thorse\tgoat\n\tlion\tgiraffe\thippopotamus\tleopard\telephant\thyena\n\tparis\tlondon\trome\tamsterdam\toslo"]]></textFieldExpression>
 			</textField>
 			<rectangle>
@@ -307,7 +306,6 @@
 			</rectangle>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" mode="Opaque" x="0" y="155" width="150" height="40" backcolor="#FF88FF" uuid="4fb99ad9-8068-4413-bf69-def69f62d831"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["A\n\tB\t\tB2\tB3 thisisalongwordnotfittinginoneline\n\t\tC\tC2\nD\tD2\tD3"]]></textFieldExpression>
 			</textField>
 			<rectangle>
@@ -353,7 +351,6 @@
 			</rectangle>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" mode="Opaque" x="0" y="205" width="150" height="40" backcolor="#FF88FF" uuid="67a8b72e-1578-4b1f-9729-2da88e5174fc"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["A\n\tB\t\tB2\tB3_thisisalongwordnotfittinginoneline\n\t\tC\tC2\nD\tD2\tD3"]]></textFieldExpression>
 			</textField>
 			<rectangle>

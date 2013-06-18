@@ -41,7 +41,6 @@
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="0" y="50" width="515" height="100" uuid="43281568-dbae-4e43-a5b2-80f1116e425e"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["A satellite map sample. Five markers with default icons and custom colors are placed on the map. Marker tooltips are disabled. Clicking on a marker icon will open a new browser window/tab with related information."]]></textFieldExpression>
 			</textField>
 			<componentElement>

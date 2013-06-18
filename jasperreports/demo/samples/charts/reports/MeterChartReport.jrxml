@@ -64,7 +64,6 @@
 				</staticText>
 				<textField>
 					<reportElement style="Sans_Bold" mode="Opaque" x="130" y="14" width="140" height="11" forecolor="#FF0000" backcolor="#FFDDDD" uuid="1c5d24e9-4fa0-4dc3-a5be-ff7a7add6811"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$V{FirstLetter}]]></textFieldExpression>
 				</textField>
 				<meterChart>
@@ -146,7 +145,6 @@
 				</line>
 				<textField>
 					<reportElement style="Sans_Bold" x="10" y="2" width="150" height="11" uuid="d9dadf33-0831-48fa-877c-5dc7df86bd41"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$F{ShipCountry}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="CountryGroup" pattern="EEE, MMM d, yyyy">
@@ -216,7 +214,6 @@
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="185" y="0" width="50" height="11" forecolor="#FFFFFF" backcolor="#333333" uuid="4972a294-3040-4d47-bb0c-e9c35d0cdfa2"/>
-				<textElement/>
 				<text><![CDATA[Date]]></text>
 			</staticText>
 			<staticText>
@@ -235,17 +232,14 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="40" y="0" width="110" height="11" uuid="66271c80-d379-4409-ab67-fbe5c26d6517"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{ShipName} + ", " + $F{ShipCity}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="155" y="0" width="25" height="11" uuid="756a98c9-9b43-410f-b1a1-de67f7c7541b"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{ShipRegion}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="185" y="0" width="50" height="11" uuid="51ce4eb7-b461-4218-91b9-87b8b374680a"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
 			</textField>
 			<textField pattern="0.00">

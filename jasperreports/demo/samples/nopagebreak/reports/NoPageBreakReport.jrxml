@@ -35,12 +35,10 @@
 				</rectangle>
 				<staticText>
 					<reportElement style="Sans_Italic" mode="Opaque" x="0" y="10" width="190" height="15" backcolor="#C0C0C0" uuid="1b245b32-8929-4c1e-8d83-156680d5457e"/>
-					<textElement/>
 					<text><![CDATA[Countries Starting With Letter :]]></text>
 				</staticText>
 				<textField>
 					<reportElement style="Sans_Bold" mode="Opaque" x="190" y="10" width="325" height="15" backcolor="#C0C0C0" uuid="fe1765ac-5674-4d54-8bb4-edfffddc428b"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$V{FirstLetter}]]></textFieldExpression>
 					<anchorNameExpression><![CDATA["FirstLetterGroup_" + $V{FirstLetter}]]></anchorNameExpression>
 				</textField>
@@ -62,7 +60,6 @@
 				</line>
 				<textField>
 					<reportElement style="Sans_Bold" x="0" y="4" width="515" height="15" uuid="6c179862-1c67-4072-b44a-f6abc23b6952"/>
-					<textElement/>
 					<textFieldExpression><![CDATA["  " + String.valueOf($V{ShipCountryNumber}) + ". " + String.valueOf($F{ShipCountry})]]></textFieldExpression>
 					<anchorNameExpression><![CDATA["ShipCountryGroup_" + $V{ShipCountryNumber}]]></anchorNameExpression>
 				</textField>
@@ -120,12 +117,10 @@
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="55" y="50" width="205" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="e6798f4a-d6b9-461e-8ec7-fb4278b5bfd6"/>
-				<textElement/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="260" y="50" width="255" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="5093da7c-622f-4b97-8965-da9b3edfd792"/>
-				<textElement/>
 				<text><![CDATA[City]]></text>
 			</staticText>
 		</band>
@@ -145,12 +140,10 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="55" y="5" width="200" height="15" uuid="162a1369-80f1-4a94-9e0b-910a37df995a"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{ShipName}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="260" y="5" width="255" height="15" uuid="7d815d02-8ea8-4cc0-9614-12d0450cc121"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{ShipCity}]]></textFieldExpression>
 			</textField>
 		</band>

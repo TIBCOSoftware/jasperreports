@@ -44,7 +44,6 @@
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="0" y="50" width="515" height="100" uuid="6b0f535d-2879-404c-8b74-1cefc3610115"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["A road map sample. Five markers with custom icons are placed on the map. Marker tooltips are enabled. Clicking on a marker icon will open an info window with related information.\nIf present, the info window takes precedence over the marker hyperlink."]]></textFieldExpression>
 			</textField>
 			<componentElement>

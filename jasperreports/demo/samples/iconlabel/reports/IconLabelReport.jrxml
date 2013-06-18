@@ -35,7 +35,6 @@
 				</componentElement>
 				<textField isStretchWithOverflow="true" hyperlinkType="Reference">
 					<reportElement style="Label" x="250" y="0" width="250" height="25" uuid="fa2516c1-58cc-40f6-9a6d-bc64dfbca06d"/>
-					<textElement/>
 					<textFieldExpression><![CDATA["iconPosition=\"Right\"\niconVerticalAlign=\"Top\"\ntextFill=\"None\"\nhorizontalAlign=\"Left\"\nverticalAlign=\"Middle\""]]></textFieldExpression>
 				</textField>
 			</band>

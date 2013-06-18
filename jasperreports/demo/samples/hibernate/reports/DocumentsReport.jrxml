@@ -20,7 +20,6 @@
 		<band height="15">
 			<staticText>
 				<reportElement style="Sans_Bold" x="10" y="1" width="55" height="13" uuid="ce203b34-c00c-41e3-b0c6-96683ae2f1ee"/>
-				<textElement/>
 				<text><![CDATA[Documents]]></text>
 			</staticText>
 			<staticText>

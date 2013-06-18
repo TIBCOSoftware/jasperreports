@@ -40,7 +40,6 @@ from [Sales]]]>
 			<band height="16">
 				<textField evaluationTime="Group" evaluationGroup="StoreState">
 					<reportElement style="Sans_Bold" x="10" y="0" width="150" height="15" uuid="48a8dbb4-b117-4529-ac83-47cb49ea71b2"/>
-					<textElement/>
 					<textFieldExpression><![CDATA["Store " + $F{StoreState}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="StoreState" pattern="$#,##0.00">
@@ -62,7 +61,6 @@ from [Sales]]]>
 			<band height="16">
 				<textField evaluationTime="Group" evaluationGroup="Time">
 					<reportElement style="Sans_Bold" x="10" y="0" width="150" height="15" uuid="d1d20411-96a4-432b-ba2e-43a75b30cb96"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$F{Quarter}]]></textFieldExpression>
 				</textField>
 			</band>
@@ -97,7 +95,6 @@ from [Sales]]]>
 		<band height="16">
 			<textField>
 				<reportElement x="20" y="0" width="150" height="15" uuid="ed3b7330-7d98-4497-8025-adbdd2d8e497"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["Customers from " + $F{CustomerState}]]></textFieldExpression>
 			</textField>
 			<textField pattern="$#,##0.00">

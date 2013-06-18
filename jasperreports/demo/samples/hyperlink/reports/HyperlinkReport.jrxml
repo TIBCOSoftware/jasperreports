@@ -25,7 +25,6 @@
 				</textField>
 				<textField hyperlinkType="LocalAnchor">
 					<reportElement x="5" y="35" width="300" height="15" forecolor="#0000FF" uuid="e8bddac5-3ad7-49b3-80ff-698cf84de7c6"/>
-					<textElement/>
 					<textFieldExpression><![CDATA["  >> Click here to go to the summary section."]]></textFieldExpression>
 					<hyperlinkAnchorExpression><![CDATA["summary"]]></hyperlinkAnchorExpression>
 					<hyperlinkTooltipExpression><![CDATA["Skip to the summary section"]]></hyperlinkTooltipExpression>
@@ -34,13 +33,11 @@
 					<reportElement x="5" y="65" width="300" height="15" forecolor="#008000" uuid="218ee333-139f-4d52-a444-4ea23f6265f7">
 						<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA["First Page"]]></propertyExpression>
 					</reportElement>
-					<textElement/>
 					<textFieldExpression><![CDATA["  >> Click here to go to the second page."]]></textFieldExpression>
 					<hyperlinkPageExpression><![CDATA[Integer.valueOf(2)]]></hyperlinkPageExpression>
 				</textField>
 				<textField hyperlinkType="Reference" hyperlinkTarget="Blank">
 					<reportElement x="5" y="95" width="200" height="15" uuid="773ef7f6-735d-47f7-8b16-d8136c5da1d3"/>
-					<textElement/>
 					<textFieldExpression><![CDATA["  >> Click here to go to www.google.com"]]></textFieldExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://www.google.com"]]></hyperlinkReferenceExpression>
 				</textField>
@@ -52,7 +49,6 @@
 				</image>
 				<textField hyperlinkType="RemoteAnchor">
 					<reportElement x="5" y="125" width="350" height="15" uuid="a6fae2b6-f702-43e7-b0ad-896b1e1cf00f"/>
-					<textElement/>
 					<textFieldExpression><![CDATA["  >> Click here to go to another PDF file (in fact, we use the same file)."]]></textFieldExpression>
 					<hyperlinkReferenceExpression><![CDATA["./HyperlinkReport.pdf"]]></hyperlinkReferenceExpression>
 					<hyperlinkAnchorExpression><![CDATA["title"]]></hyperlinkAnchorExpression>
@@ -77,19 +73,16 @@
 				</textField>
 				<textField hyperlinkType="LocalAnchor">
 					<reportElement x="5" y="35" width="300" height="15" forecolor="#FF0000" uuid="ee65f99d-1daa-4f69-825a-33e9a74a1552"/>
-					<textElement/>
 					<textFieldExpression><![CDATA["  >> Click here to go to the title section."]]></textFieldExpression>
 					<hyperlinkAnchorExpression><![CDATA["title"]]></hyperlinkAnchorExpression>
 				</textField>
 				<textField hyperlinkType="LocalAnchor">
 					<reportElement x="5" y="65" width="300" height="15" forecolor="#0000FF" uuid="7e334d20-accb-4aa7-b46c-803437440171"/>
-					<textElement/>
 					<textFieldExpression><![CDATA["  >> Click here to go to the summary section."]]></textFieldExpression>
 					<hyperlinkAnchorExpression><![CDATA["summary"]]></hyperlinkAnchorExpression>
 				</textField>
 				<textField hyperlinkType="LocalAnchor">
 					<reportElement x="5" y="95" width="300" height="15" forecolor="#FFCC00" uuid="013dd321-4255-4bbc-9e0e-8a38e9c4fe58"/>
-					<textElement/>
 					<textFieldExpression><![CDATA["  >> Click here to go to the footer of this page."]]></textFieldExpression>
 					<hyperlinkAnchorExpression><![CDATA["pageFooter_" + String.valueOf($V{PAGE_NUMBER})]]></hyperlinkAnchorExpression>
 				</textField>
@@ -116,19 +109,16 @@
 				</textField>
 				<textField hyperlinkType="LocalAnchor">
 					<reportElement x="5" y="35" width="300" height="15" forecolor="#FF0000" uuid="34a84843-79a0-4ec9-91ab-a447197646ed"/>
-					<textElement/>
 					<textFieldExpression><![CDATA["  >> Click here to go to the title section."]]></textFieldExpression>
 					<hyperlinkAnchorExpression><![CDATA["title"]]></hyperlinkAnchorExpression>
 				</textField>
 				<textField hyperlinkType="LocalAnchor">
 					<reportElement x="5" y="65" width="300" height="15" forecolor="#0000FF" uuid="6cae9978-0fc8-4026-a6ab-e936ff082060"/>
-					<textElement/>
 					<textFieldExpression><![CDATA["  >> Click here to go to the summary section."]]></textFieldExpression>
 					<hyperlinkAnchorExpression><![CDATA["summary"]]></hyperlinkAnchorExpression>
 				</textField>
 				<textField hyperlinkType="LocalAnchor">
 					<reportElement x="5" y="95" width="300" height="15" forecolor="#008000" uuid="507d95ba-97ae-454d-a63e-fcb161ebf14c"/>
-					<textElement/>
 					<textFieldExpression><![CDATA["  >> Click here to go to the header of this page."]]></textFieldExpression>
 					<hyperlinkAnchorExpression><![CDATA["pageHeader_" + String.valueOf($V{PAGE_NUMBER})]]></hyperlinkAnchorExpression>
 				</textField>
@@ -154,19 +144,16 @@
 					<reportElement x="5" y="35" width="300" height="15" forecolor="#FF0000" uuid="9902acc3-e821-4e4d-9c94-03b442681010">
 						<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA["Third Page"]]></propertyExpression>
 					</reportElement>
-					<textElement/>
 					<textFieldExpression><![CDATA["  >> Click here to go to the title section."]]></textFieldExpression>
 					<hyperlinkAnchorExpression><![CDATA["title"]]></hyperlinkAnchorExpression>
 				</textField>
 				<textField hyperlinkType="LocalPage">
 					<reportElement x="5" y="65" width="300" height="15" forecolor="#008000" uuid="06bddced-f753-4135-a18b-9cc2caae3db3"/>
-					<textElement/>
 					<textFieldExpression><![CDATA["  >> Click here to go to the second page."]]></textFieldExpression>
 					<hyperlinkPageExpression><![CDATA[Integer.valueOf(2)]]></hyperlinkPageExpression>
 				</textField>
 				<textField hyperlinkType="Reference">
 					<reportElement x="5" y="95" width="300" height="15" uuid="8d6e4b25-61c5-4888-a2dd-66fc0d2d16ed"/>
-					<textElement/>
 					<textFieldExpression><![CDATA["  >> Click here to go to www.google.com"]]></textFieldExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://www.google.com"]]></hyperlinkReferenceExpression>
 				</textField>

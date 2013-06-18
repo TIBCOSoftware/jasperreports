@@ -22,7 +22,6 @@
 					<topPen lineWidth="0.5" lineColor="#006699"/>
 					<bottomPen lineWidth="0.5" lineColor="#006699"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
@@ -31,7 +30,6 @@
 					<topPen lineWidth="0.5" lineColor="#006699"/>
 					<bottomPen lineWidth="0.5" lineColor="#006699"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[Description]]></text>
 			</staticText>
 			<staticText>
@@ -40,7 +38,6 @@
 					<topPen lineWidth="0.5" lineColor="#006699"/>
 					<bottomPen lineWidth="0.5" lineColor="#006699"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[Parameters]]></text>
 			</staticText>
 		</band>

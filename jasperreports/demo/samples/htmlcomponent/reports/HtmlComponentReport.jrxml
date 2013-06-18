@@ -101,7 +101,6 @@
 				<box>
 					<pen lineWidth="0.0" lineColor="#000000"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[scaleType=FillFrame]]></text>
 			</staticText>
 			<staticText>
@@ -109,7 +108,6 @@
 				<box>
 					<pen lineWidth="0.0" lineColor="#000000"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[scaleType=RetainShape
 horizontalAlign=Right
 htmlWidth=200
@@ -120,7 +118,6 @@ htmlHeight=134]]></text>
 				<box>
 					<pen lineWidth="0.0" lineColor="#000000"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[scaleType=RealHeight
 horizontalAlign=Center]]></text>
 			</staticText>
@@ -129,7 +126,6 @@ horizontalAlign=Center]]></text>
 				<box>
 					<pen lineWidth="0.0" lineColor="#000000"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[scaleType=RealSize]]></text>
 			</staticText>
 			<staticText>
@@ -137,7 +133,6 @@ horizontalAlign=Center]]></text>
 				<box>
 					<pen lineWidth="0.0" lineColor="#000000"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[scaleType=Clip
 verticalAlign=Bottom
 horizontalAlign=Left]]></text>

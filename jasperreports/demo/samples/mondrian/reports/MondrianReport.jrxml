@@ -44,7 +44,6 @@
 			<band height="16">
 				<textField evaluationTime="Group" evaluationGroup="City">
 					<reportElement style="Sans_Bold" x="10" y="0" width="150" height="15" uuid="dca598fd-175a-40e9-b1c0-c74238f2639a"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$F{City}]]></textFieldExpression>
 				</textField>
 			</band>
@@ -104,7 +103,6 @@
 		<band height="32">
 			<textField>
 				<reportElement x="20" y="0" width="150" height="15" uuid="2ec9efff-8352-473f-af0d-db2362bf389d"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{Name} + ", " + $F{Street}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,###">
@@ -119,7 +117,6 @@
 			</textField>
 			<textField>
 				<reportElement x="40" y="17" width="250" height="15" uuid="2ac1908c-f60a-4f67-a62f-dfd61cef3794"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{AddressMember}.toString()]]></textFieldExpression>
 			</textField>
 		</band>

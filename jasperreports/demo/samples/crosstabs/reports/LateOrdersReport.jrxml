@@ -133,7 +133,6 @@
 		<band height="100">
 			<staticText>
 				<reportElement style="Title" x="0" y="20" width="555" height="20" uuid="851074bb-014f-41c6-960a-e6fe7992c21e"/>
-				<textElement/>
 				<text><![CDATA[Late deliveries summary (count and total delay) by country and freight range]]></text>
 			</staticText>
 			<crosstab isRepeatColumnHeaders="false">

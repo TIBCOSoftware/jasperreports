@@ -31,7 +31,6 @@
 					<box>
 						<bottomPen lineWidth="1.0" lineColor="#000000"/>
 					</box>
-					<textElement/>
 					<textFieldExpression><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{City})]]></textFieldExpression>
 				</textField>
 			</band>
@@ -77,12 +76,10 @@
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="55" y="5" width="205" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="960fc4b8-6291-4c85-801b-3177fe1cd294"/>
-				<textElement/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="260" y="5" width="255" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="3e3ab97f-04c1-44e6-89b5-b0403eeb5876"/>
-				<textElement/>
 				<text><![CDATA[Street]]></text>
 			</staticText>
 		</band>
@@ -98,12 +95,10 @@
 				</textField>
 				<textField isStretchWithOverflow="true">
 					<reportElement positionType="Float" x="55" y="0" width="205" height="15" uuid="ded05c08-97ce-41cc-b435-61d3a37d152d"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[" " + $F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
 					<reportElement positionType="Float" x="260" y="0" width="255" height="15" uuid="aa97c863-28ec-4bbc-b5c2-6ca60f10a498"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$F{Street}]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -121,7 +116,6 @@
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="280" y="20" width="75" height="15" uuid="12aeaf02-d250-4202-aa43-ba607db4a3c8"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>

@@ -56,7 +56,6 @@ This operation has apparently only one inconvenience. The final document does no
 				<reportElement style="Sans_Bold" positionType="Float" x="45" y="0" width="100" height="15" isRemoveLineWhenBlank="true" uuid="db8b68c6-4430-4199-8967-3ab5c077cb56">
 					<printWhenExpression><![CDATA[new Boolean($F{headingType}.intValue() == 1)]]></printWhenExpression>
 				</reportElement>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{headingText}]]></textFieldExpression>
 				<hyperlinkAnchorExpression><![CDATA[$F{reference}]]></hyperlinkAnchorExpression>
 			</textField>
@@ -79,7 +78,6 @@ This operation has apparently only one inconvenience. The final document does no
 				<reportElement positionType="Float" x="75" y="16" width="100" height="15" isRemoveLineWhenBlank="true" uuid="effe6dfe-dbc8-4451-bf44-a96565a20564">
 					<printWhenExpression><![CDATA[new Boolean($F{headingType}.intValue() == 2)]]></printWhenExpression>
 				</reportElement>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{headingText}]]></textFieldExpression>
 				<hyperlinkAnchorExpression><![CDATA[$F{reference}]]></hyperlinkAnchorExpression>
 				<hyperlinkTooltipExpression><![CDATA["View orders from " + $F{headingText}]]></hyperlinkTooltipExpression>

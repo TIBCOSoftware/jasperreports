@@ -38,7 +38,6 @@
 				</staticText>
 				<staticText>
 					<reportElement style="Sans_Bold" mode="Opaque" x="146" y="0" width="108" height="10" backcolor="#CCFFFF" uuid="4c98dac9-95fc-4da9-8b96-09f556997c91"/>
-					<textElement/>
 					<text><![CDATA[Ship City]]></text>
 				</staticText>
 				<staticText>
@@ -63,7 +62,6 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="146" y="2" width="108" height="10" uuid="c8ea91e7-4bc6-4059-99e6-ad296e4dcf26"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{ShipCity}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="¤ #,##0.00">

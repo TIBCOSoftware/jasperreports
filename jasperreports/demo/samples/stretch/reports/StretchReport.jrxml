@@ -264,7 +264,6 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 			</line>
 			<staticText>
 				<reportElement positionType="Float" isPrintRepeatedValues="false" x="145" y="9" width="130" height="47" isRemoveLineWhenBlank="true" forecolor="#C0C0C0" uuid="52a37800-31b0-422f-979e-def8f522f4f2"/>
-				<textElement/>
 				<text><![CDATA[Space remover. This static text never prints, but it is used to eliminate the remaining space till the bottom of the band.]]></text>
 			</staticText>
 		</band>

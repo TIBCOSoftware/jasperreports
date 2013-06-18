@@ -42,7 +42,6 @@
 		<band height="21">
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="515" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="019469d0-ec4b-4e96-806f-33557f89168d"/>
-				<textElement/>
 				<text><![CDATA[Addresses List]]></text>
 			</staticText>
 		</band>
@@ -51,12 +50,10 @@
 		<band height="50">
 			<textField>
 				<reportElement style="Sans_Bold" x="5" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="ef0654b5-f925-42ed-a611-bc5b3db61c43"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{City}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="Sans_Bold" isPrintRepeatedValues="false" x="110" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="5f533e26-72bd-4d78-a369-392b29b4d83f"/>
-				<textElement/>
 				<text><![CDATA[(continued)]]></text>
 			</staticText>
 			<componentElement>
@@ -77,12 +74,10 @@
 							</textField>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Sans_Small" positionType="Float" x="20" y="2" width="110" height="10" uuid="2cf85417-758d-4c99-b552-64eca8a5dfef"/>
-								<textElement/>
 								<textFieldExpression><![CDATA[$F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Sans_Small" positionType="Float" x="135" y="2" width="105" height="10" uuid="d1e4232f-52d4-40ee-9e9f-2e65682d9cd4"/>
-								<textElement/>
 								<textFieldExpression><![CDATA[$F{Street}]]></textFieldExpression>
 							</textField>
 						</frame>
@@ -103,7 +98,6 @@
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="280" y="20" width="75" height="15" uuid="6d8c8882-f6f4-4691-9b60-9768c961c615"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>

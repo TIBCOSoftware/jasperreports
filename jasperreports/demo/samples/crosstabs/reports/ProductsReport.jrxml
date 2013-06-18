@@ -56,7 +56,6 @@
 							</box>
 							<textField>
 								<reportElement style="Sans_Bold" x="5" y="0" width="75" height="10" uuid="7f161b84-95ad-4ce4-b619-dfdabb44899e"/>
-								<textElement/>
 								<textFieldExpression><![CDATA[$V{NameGroup}]]></textFieldExpression>
 							</textField>
 						</cellContents>
@@ -68,7 +67,6 @@
 							</box>
 							<staticText>
 								<reportElement style="Sans_Bold" x="5" y="0" width="75" height="10" uuid="1b7969ef-07d2-4909-9945-db020433cd78"/>
-								<textElement/>
 								<text><![CDATA[TOTAL]]></text>
 							</staticText>
 						</cellContents>
@@ -158,7 +156,6 @@
 					<cellContents>
 						<staticText>
 							<reportElement x="0" y="0" width="250" height="25" uuid="61451112-f95c-4f0b-b3ff-c4ab16ece21a"/>
-							<textElement/>
 							<text><![CDATA[No data]]></text>
 						</staticText>
 					</cellContents>

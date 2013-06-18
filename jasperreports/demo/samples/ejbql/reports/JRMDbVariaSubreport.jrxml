@@ -20,7 +20,6 @@
 		<band height="14">
 			<staticText>
 				<reportElement style="Sans_Italic" x="0" y="2" width="240" height="10" uuid="eb271100-cfb0-45f7-8f6c-27a1709d7bd1"/>
-				<textElement/>
 				<text><![CDATA[Varia]]></text>
 			</staticText>
 		</band>
@@ -32,12 +31,10 @@
 			</rectangle>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="2" width="70" height="10" backcolor="#CCFFFF" uuid="5e4dde06-3e08-4e56-865e-c04675a676c8"/>
-				<textElement/>
 				<text><![CDATA[Type]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="75" y="2" width="170" height="10" backcolor="#CCFFFF" uuid="69ddbaec-b2e3-4d83-8176-53f423bdebbb"/>
-				<textElement/>
 				<text><![CDATA[Description]]></text>
 			</staticText>
 		</band>
@@ -46,12 +43,10 @@
 		<band height="14">
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="0" y="2" width="70" height="10" uuid="4f71d00b-b602-45f3-a611-b536ff1fb200"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="75" y="2" width="170" height="10" uuid="0c3eb459-b24c-4a36-8519-83c770097bd6"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
 			</textField>
 		</band>

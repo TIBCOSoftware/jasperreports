@@ -8,7 +8,6 @@
 		<band height="782">
 			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="0" width="555" height="25" uuid="75dc6b08-96e0-45b9-a771-9e884cc4aafb"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["Regular (default): font size = 12, centered, border"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
@@ -20,42 +19,34 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Right Aligned" positionType="Float" x="0" y="60" width="555" height="25" uuid="e35e4360-5387-4e05-a931-097091258215"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["Right Aligned: font size = 12, right aligned, border"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Emphasis" positionType="Float" x="0" y="90" width="555" height="25" uuid="ba12716b-8e1e-4379-8ec1-a3ff34d99e20"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["Emphasis: font size = 10, italic, centered, border"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Special Emphasis" positionType="Float" x="0" y="120" width="555" height="25" uuid="f370465b-2cfd-41c5-b48a-e4c3b0afe86f"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["Special Emphasis: font size = 12, red, italic, centered, border"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="More Emphasis" positionType="Float" x="0" y="150" width="555" height="25" uuid="c864bf3d-2357-46c1-a22d-611159c6be51"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["More Emphasis: font size = 14, black on orange, italic, centered, border"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Strong" positionType="Float" x="0" y="180" width="555" height="25" uuid="34e8a2ef-6903-425d-809e-1d395fc9b683"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["Strong: font size = 14, underlined, centered, border"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Very Strong" positionType="Float" x="0" y="210" width="555" height="25" uuid="3f80426c-2b53-49c4-9556-c2ae6cd8d564"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["Very Strong: font size = 12, black on light gray, bold, centered, border"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Very Strong" positionType="Float" x="0" y="240" width="555" height="25" backcolor="#FFC800" uuid="7cbc0ad3-1d9c-4f0e-a4c7-2e1055be690a"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["Very Strong (modified): font size = 12, black on orange, bold, centered, border"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Serif" positionType="Float" x="0" y="270" width="555" height="25" uuid="af97e5bb-2d6a-4fae-bc17-bad21101a3a1"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["Serif: font face = DejaVu Serif, font size = 12, centered, border"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
@@ -65,7 +56,6 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Serif Note" positionType="Float" x="0" y="330" width="555" height="25" uuid="6dc9246d-95be-4d9c-abb8-9dbdcc6dcea8"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["Serif Note: font face = DejaVu Serif, font size = 10, orange on dark gray, centered, border"]]></textFieldExpression>
 			</textField>
 		</band>

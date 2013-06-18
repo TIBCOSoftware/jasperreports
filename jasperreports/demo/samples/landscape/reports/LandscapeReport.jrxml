@@ -4,22 +4,18 @@
 		<band height="595">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="50" height="50" backcolor="#333333" uuid="91025f3a-509c-469e-a140-4950cd4ade51"/>
-				<textElement/>
 				<text><![CDATA[.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="545" width="50" height="50" backcolor="#333333" uuid="d1b53e6b-a011-4a19-89d7-e03503be6315"/>
-				<textElement/>
 				<text><![CDATA[.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="792" y="0" width="50" height="50" backcolor="#333333" uuid="6456cd93-9b07-45c3-b45b-a556f4095ec6"/>
-				<textElement/>
 				<text><![CDATA[.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="792" y="545" width="50" height="50" backcolor="#333333" uuid="089a133b-280e-4598-8878-9c8d4f524959"/>
-				<textElement/>
 				<text><![CDATA[.]]></text>
 			</staticText>
 			<rectangle>

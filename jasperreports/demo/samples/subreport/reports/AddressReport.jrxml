@@ -15,7 +15,6 @@
 		<band height="14">
 			<staticText>
 				<reportElement style="Sans_Italic" x="0" y="2" width="20" height="10" uuid="b56fb9bf-a24c-4056-87cb-ecf212a9c185"/>
-				<textElement/>
 				<text><![CDATA[Title]]></text>
 			</staticText>
 			<textField>
@@ -32,7 +31,6 @@
 				<box>
 					<pen lineWidth="0.5"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[Page Header]]></text>
 			</staticText>
 		</band>
@@ -51,12 +49,10 @@
 				</staticText>
 				<staticText>
 					<reportElement style="Sans_Bold" mode="Opaque" x="20" y="0" width="85" height="10" backcolor="#CCFFFF" uuid="ea677945-58fb-4595-a5bf-2b3784ae4f0e"/>
-					<textElement/>
 					<text><![CDATA[Name]]></text>
 				</staticText>
 				<staticText>
 					<reportElement style="Sans_Bold" mode="Opaque" x="105" y="0" width="70" height="10" backcolor="#CCFFFF" uuid="c7049ff9-37dd-433f-958e-9626defb0b01"/>
-					<textElement/>
 					<text><![CDATA[Street]]></text>
 				</staticText>
 			</frame>
@@ -71,12 +67,10 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="20" y="2" width="80" height="10" uuid="1c766997-5272-480b-935f-cf519342a2a1"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="105" y="2" width="70" height="10" uuid="919d119f-31d8-4631-b19c-555f21ef3e5e"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{Street}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -88,7 +82,6 @@
 				<box>
 					<pen lineWidth="0.5"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[Column Footer]]></text>
 			</staticText>
 		</band>
@@ -102,7 +95,6 @@
 				</box>
 				<staticText>
 					<reportElement style="Sans_Italic" x="0" y="0" width="60" height="10" forecolor="#008080" uuid="e9999197-47bc-449b-af9b-1f2b51c8bac2"/>
-					<textElement/>
 					<text><![CDATA[Page Footer]]></text>
 				</staticText>
 				<textField>
@@ -112,7 +104,6 @@
 				</textField>
 				<textField evaluationTime="Report">
 					<reportElement style="Sans_Italic" x="150" y="0" width="20" height="10" forecolor="#008080" uuid="5bb37ee2-0fbf-4eb2-8189-95bda9e7bffc"/>
-					<textElement/>
 					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -124,7 +115,6 @@
 				<reportElement x="0" y="2" width="175" height="10" forecolor="#33CCCC" backcolor="#33CCCC" uuid="b2faa409-e76b-4b6f-aa4e-64fb0ebdf8a4"/>
 				<staticText>
 					<reportElement style="Sans_Italic" mode="Opaque" x="0" y="0" width="100" height="10" backcolor="#33CCCC" uuid="b06b319f-0f43-4efe-a0a5-2144ebb43cf5"/>
-					<textElement/>
 					<text><![CDATA[Summary]]></text>
 				</staticText>
 				<staticText>

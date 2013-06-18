@@ -35,7 +35,6 @@
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="0" y="50" width="515" height="100" uuid="0823119a-3904-4438-93be-ad33282c05cf"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["A satellite map sample. Five markers with default icons are placed on the map. Marker tooltips are enabled."]]></textFieldExpression>
 			</textField>
 			<componentElement>
