@@ -7,11 +7,11 @@
 		<fileset dir="../../../lib">
 			<include name="**/*.jar"/>
 		</fileset>
+		<pathelement location="../../fonts"/>
 	</path>
 	
 	<path id="runClasspath">
 		<path refid="classpath"/>
-		<pathelement location="../../fonts"/>
 		<pathelement location="./build/classes"/>
 	</path>
 
