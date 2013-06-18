@@ -36,6 +36,8 @@ import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
@@ -60,6 +62,11 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	private MapTypeEnum mapType;
 	private MapScaleEnum mapScale;
 	private MapImageTypeEnum imageType;
+	private String clientId;
+	private String signature;
+	private String key;
+	private String version;
+
 	private FillItemData markerData;
 	private List<Map<String,Object>> markers;
 	
@@ -120,6 +127,12 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		mapType = mapComponent.getMapType() == null? MapTypeEnum.ROADMAP : mapComponent.getMapType();
 		mapScale = mapComponent.getMapScale();
 		imageType = mapComponent.getImageType();
+		JRPropertiesHolder propertiesHolder = fillContext.getComponentElement().getParentProperties();
+		JRPropertiesUtil util = JRPropertiesUtil.getInstance(fillContext.getFiller().getJasperReportsContext());
+		clientId = util.getProperty(propertiesHolder, MapComponent.PROPERTY_CLIENT_ID);
+		signature = util.getProperty(propertiesHolder, MapComponent.PROPERTY_SIGNATURE);
+		key = util.getProperty(propertiesHolder, MapComponent.PROPERTY_KEY);
+		version = util.getProperty(propertiesHolder, MapComponent.PROPERTY_VERSION);
 		
 		if (mapComponent.getMarkerData() != null)
 		{
@@ -148,7 +161,6 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 				fillContext.getDefaultStyleProvider(),
 				MapPrintElement.MAP_ELEMENT_TYPE);
 		template = deduplicate(template);
-		
 		JRTemplateGenericPrintElement printElement = new JRTemplateGenericPrintElement(template, elementId);
 		printElement.setUUID(element.getUUID());
 		printElement.setX(element.getX());
@@ -181,10 +193,21 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		printElement.setParameterValue(MapPrintElement.PARAMETER_LATITUDE, latitude);
 		printElement.setParameterValue(MapPrintElement.PARAMETER_LONGITUDE, longitude);
 		printElement.setParameterValue(MapPrintElement.PARAMETER_ZOOM, zoom);
-		
+		String reqParams = "";
 		if(language != null)
 		{
-			printElement.setParameterValue(MapPrintElement.PARAMETER_LANGUAGE, language);
+			reqParams += "&language=" + language;
+		}
+		if(clientId != null && signature != null) {
+			reqParams += "&client=" + clientId + "&signature=" + signature;
+		} else if(key != null) {
+			reqParams += "&key=" + key;
+		}
+		if(version != null) {
+			reqParams += "&v=" + version;
+		}
+		if(reqParams.length() > 0) {
+			printElement.setParameterValue(MapPrintElement.PARAMETER_REQ_PARAMS, reqParams);
 		}
 		if(mapType != null)
 		{

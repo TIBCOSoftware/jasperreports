@@ -79,8 +79,6 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 
 		String mapType = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE);
 		mapType = (mapType == null ? MapPrintElement.DEFAULT_MAP_TYPE.getName() : mapType).toUpperCase();
-		
-		String language = (String)element.getParameterValue(MapPrintElement.PARAMETER_LANGUAGE);
 
 		List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_MARKERS);
 		
@@ -100,9 +98,10 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 //		contextMap.put("markerList", markers);
 		String markers = markerList == null || markerList.isEmpty() ? "[]" : JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(markerList);
 		contextMap.put("markerList", markers);
-		if(language != null)
+		String reqParams = (String)element.getParameterValue(MapPrintElement.PARAMETER_REQ_PARAMS);
+		if(reqParams != null)
 		{
-			contextMap.put("language", language);
+			contextMap.put(MapPrintElement.PARAMETER_REQ_PARAMS, reqParams);
 		}
 
 //		velocityContext.put("divId", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.id"));

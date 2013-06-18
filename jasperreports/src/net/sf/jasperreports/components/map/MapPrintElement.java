@@ -112,6 +112,11 @@ public final class MapPrintElement
 	public static final String PARAMETER_MARKER_COLOR = "color";
 	
 	/**
+	 * The name of the parameter that provides the Google API map request parameters.
+	 */
+	public static final String PARAMETER_REQ_PARAMS = "reqParams";
+	
+	/**
 	 *
 	 */
 	public static final Float DEFAULT_LATITUDE = 0f;
