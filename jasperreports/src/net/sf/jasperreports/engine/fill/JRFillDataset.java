@@ -79,6 +79,7 @@ import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.DigestUtils;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.MD5Digest;
@@ -595,7 +596,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		locale = (Locale) parameterValues.get(JRParameter.REPORT_LOCALE);
 		if (locale == null)
 		{
-			locale = Locale.getDefault();
+			locale = defaultLocale();
 			parameterValues.put(JRParameter.REPORT_LOCALE, locale);
 		}
 		
@@ -612,7 +613,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		timeZone = (TimeZone) parameterValues.get(JRParameter.REPORT_TIME_ZONE);
 		if (timeZone == null)
 		{
-			timeZone = TimeZone.getDefault();
+			timeZone = defaultTimeZone();
 			parameterValues.put(JRParameter.REPORT_TIME_ZONE, timeZone);
 		}
 		
@@ -637,6 +638,22 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		{
 			filter.init(this);
 		}
+	}
+
+	protected Locale defaultLocale()
+	{
+		String localeCode = filler.getPropertiesUtil().getProperty(this, JRFiller.PROPERTY_DEFAULT_LOCALE);
+		Locale locale = (localeCode == null || localeCode.isEmpty()) ? Locale.getDefault()
+				: JRDataUtils.getLocale(localeCode);
+		return locale;
+	}
+
+	protected TimeZone defaultTimeZone()
+	{
+		String timezoneId = filler.getPropertiesUtil().getProperty(this, JRFiller.PROPERTY_DEFAULT_TIMEZONE);
+		TimeZone timezone = (timezoneId == null || timezoneId.isEmpty()) ? TimeZone.getDefault()
+				: JRDataUtils.getTimeZone(timezoneId);
+		return timezone;
 	}
 	
 	

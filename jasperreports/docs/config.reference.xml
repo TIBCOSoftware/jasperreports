@@ -89,6 +89,8 @@
       <property ref="net.sf.jasperreports.subreport.runner.factory"/>
       <property ref="net.sf.jasperreports.virtualizer.files.delete.on.exit"/>
       <property ref="net.sf.jasperreports.virtual.page.element.size"/>
+      <property ref="net.sf.jasperreports.default.locale"/>
+      <property ref="net.sf.jasperreports.default.timezone"/>
     </content>
   </category>
   
@@ -4174,6 +4176,32 @@ Possible values are:
     <scope>Global | Report | Element</scope>
     <since>5.0.4</since>
     <contextUnaware/>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.default.locale -->
+  
+  <configProperty name="net.sf.jasperreports.default.locale">
+    <description>
+The default locale used to fill reports.  The property is overridden by the <code>REPORT_LOCALE</code> parameter value.
+    </description>
+    <api>net/sf/jasperreports/engine/fill/JRFiller.html#PROPERTY_DEFAULT_LOCALE</api>
+    <default>system locale</default>
+    <scope>Global | Report</scope>
+    <since>5.2.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.default.timezone -->
+  
+  <configProperty name="net.sf.jasperreports.default.timezone">
+    <description>
+The default time zone used to fill reports.  The property is overridden by the <code>REPORT_TIME_ZONE</code> parameter value.
+    </description>
+    <api>net/sf/jasperreports/engine/fill/JRFiller.html#PROPERTY_DEFAULT_TIMEZONE</api>
+    <default>system time zone</default>
+    <scope>Global | Report</scope>
+    <since>5.2.0</since>
   </configProperty>
   
   
