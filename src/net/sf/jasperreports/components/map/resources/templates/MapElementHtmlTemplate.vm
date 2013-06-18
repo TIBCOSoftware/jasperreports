@@ -13,14 +13,14 @@
 
 #if (${gotReportContext})
 	<script class='jasperreports' type='text/javascript'>
-		jasperreports.global.appendScriptElementToDOM('_mapScript', '${resourceMapJs}', 'jasperreports.map.initGoogleMaps', ['${language}']);
+		jasperreports.global.appendScriptElementToDOM('_mapScript', '${resourceMapJs}', 'jasperreports.map.initGoogleMaps', ['${reqParams}']);
 		var markers = ${markerList};
 		jasperreports.events.subscribeToEvent({name: 'jasperreports.map.init', callback: 'jasperreports.map.showMap', args: ['${mapCanvasId}', ${latitude}, ${longitude}, ${zoom}, '${mapType}', markers]});
 	</script>
 #else
 	#if (${exporterFirstAttempt})
-		#if(${language})
-			<script class='jasperreports' src='http://maps.google.com/maps/api/js?sensor=false&language=${language}'></script>
+		#if(${reqParams})
+			<script class='jasperreports' src='http://maps.google.com/maps/api/js?sensor=false${reqParams}'></script>
 		#else
 			<script class='jasperreports' src='http://maps.google.com/maps/api/js?sensor=false'></script>
 		#end

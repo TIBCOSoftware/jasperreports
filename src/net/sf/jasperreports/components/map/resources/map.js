@@ -9,10 +9,10 @@
 	var infowindow;
 	global.jasperreports.map = {
 		data: {},
-		initGoogleMaps: function(language) {
+		initGoogleMaps: function(rp) {
 			if (!global.google) {
-				if(language) {
-					jasperreports.global.loadScript('_googleApi', 'http://maps.google.com/maps/api/js?sensor=false&callback=jasperreports.map.init&language='+language);
+				if(rp) {
+					jasperreports.global.loadScript('_googleApi', 'http://maps.google.com/maps/api/js?sensor=false&callback=jasperreports.map.init'+rp);
 				} else {
 					jasperreports.global.loadScript('_googleApi', 'http://maps.google.com/maps/api/js?sensor=false&callback=jasperreports.map.init');
 				}

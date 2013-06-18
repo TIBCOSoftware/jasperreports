@@ -28,6 +28,7 @@ import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
@@ -37,6 +38,12 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  */
 public interface MapComponent extends Component, JRCloneable
 {
+	public static final String PROPERTY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "components.map.";
+	public static final String PROPERTY_KEY = PROPERTY_PREFIX + "key";
+	public static final String PROPERTY_CLIENT_ID = PROPERTY_PREFIX + "client.id";
+	public static final String PROPERTY_SIGNATURE = PROPERTY_PREFIX + "signature";
+	public static final String PROPERTY_VERSION = PROPERTY_PREFIX + "version";
+
 	public static final String PROPERTY_latitude = "latitude";
 	public static final String PROPERTY_longitude = "longitude";
 	public static final String PROPERTY_title = "title";
