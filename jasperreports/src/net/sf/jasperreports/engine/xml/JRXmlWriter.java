@@ -1048,7 +1048,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeFont(textElement);
 		writeParagraph(textElement.getParagraph());
 
-		writer.closeElement();
+		writer.closeElement(true);
 	}
 
 
