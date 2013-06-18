@@ -23,8 +23,8 @@
 		<mkdir dir="./build/classes"/> 
 		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6"
 				encoding="ISO-8859-1" includeantruntime="false">
-	        <compilerarg value="-Xlint:unchecked"/>
-	        <compilerarg value="-Xlint:-options"/>
+			<compilerarg value="-Xlint:unchecked"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
 	</target> 
 

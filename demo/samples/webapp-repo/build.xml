@@ -45,8 +45,8 @@
 		<javac srcdir="./WEB-INF/classes/" destdir="./WEB-INF/classes/" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6"
 				encoding="ISO-8859-1" includeantruntime="false">
 			<classpath refid="classpath"/>
-	        <compilerarg value="-Xlint:unchecked"/>
-	        <compilerarg value="-Xlint:-options"/>
+			<compilerarg value="-Xlint:unchecked"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
 	</target>
 
@@ -111,31 +111,31 @@
 	<target name="isTomcatRunning">
 		<echo message="Checking Tomcat Status" />
 		<condition property="tomcat.running">
-	     	<socket server="${tomcat.host}" port="${tomcat.port}" /> 
-	    </condition>
+		 	<socket server="${tomcat.host}" port="${tomcat.port}" /> 
+		</condition>
 	</target>
 	
 	<target name="startTomcat" depends="isTomcatRunning" unless="tomcat.running">
 		<echo message="Starting Tomcat" />
-	    <java jar="${tomcat.home}/bin/bootstrap.jar" fork="true" spawn="true">
-	        <jvmarg value="-Djava.util.logging.config.file=${tomcat.home}/conf/logging.properties" />
-	        <jvmarg value="-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager" />
-	        <jvmarg value="-Xmx512m" />
-	        <jvmarg value="-XX:MaxPermSize=256m" />
-	        <jvmarg value="-Djava.endorsed.dirs=${tomcat.home}/endorsed" />
-	        <jvmarg value="-Dcatalina.base=${tomcat.home}" />
-	        <jvmarg value="-Dcatalina.home=${tomcat.home}" />
-	        <jvmarg value="-Djava.io.tmpdir=${tomcat.home}/temp" />
-	        <jvmarg value="-Dlog4j.debug" />
-	    </java>
+		<java jar="${tomcat.home}/bin/bootstrap.jar" fork="true" spawn="true">
+			<jvmarg value="-Djava.util.logging.config.file=${tomcat.home}/conf/logging.properties" />
+			<jvmarg value="-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager" />
+			<jvmarg value="-Xmx512m" />
+			<jvmarg value="-XX:MaxPermSize=256m" />
+			<jvmarg value="-Djava.endorsed.dirs=${tomcat.home}/endorsed" />
+			<jvmarg value="-Dcatalina.base=${tomcat.home}" />
+			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
+			<jvmarg value="-Djava.io.tmpdir=${tomcat.home}/temp" />
+			<jvmarg value="-Dlog4j.debug" />
+		</java>
 	</target>
 
 	<target name="stopTomcat" depends="isTomcatRunning" if="tomcat.running">
 		<echo message="Stopping Tomcat" />
-	    <java jar="${tomcat.home}/bin/bootstrap.jar" fork="true" >
-	        <jvmarg value="-Dcatalina.home=${tomcat.home}" />
-	        <arg line="stop"/>
-	    </java>
+		<java jar="${tomcat.home}/bin/bootstrap.jar" fork="true" >
+			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
+			<arg line="stop"/>
+		</java>
 	</target>
 
 	<target name="jrJar">

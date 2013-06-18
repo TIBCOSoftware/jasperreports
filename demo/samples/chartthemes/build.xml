@@ -21,8 +21,8 @@
 		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6"
 				encoding="ISO-8859-1" includeantruntime="false">
 			<classpath refid="classpath"/>
-	        <compilerarg value="-Xlint:unchecked"/>
-	        <compilerarg value="-Xlint:-options"/>
+			<compilerarg value="-Xlint:unchecked"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<copy todir="./build/classes">
 			<fileset dir="./src">
@@ -30,8 +30,8 @@
 				<include name="**/*.xml"/>
 				<include name="**/*.jrctx"/>
 				<include name="**/*.png"/>
-			    <exclude name="**/pom.xml"/>
-			    <exclude name="**/build.xml"/>
+				<exclude name="**/pom.xml"/>
+				<exclude name="**/build.xml"/>
 			</fileset>
 		</copy>
 		<copy todir="./build/classes">

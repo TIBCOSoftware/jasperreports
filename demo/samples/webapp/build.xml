@@ -49,8 +49,8 @@
 					<include name="**/*.jar"/>
 				</fileset>
 			</classpath>
-	        <compilerarg value="-Xlint:unchecked"/>
-	        <compilerarg value="-Xlint:-options"/>
+			<compilerarg value="-Xlint:unchecked"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<javac srcdir="./applets/" destdir="./applets/" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6"
 				encoding="ISO-8859-1" includeantruntime="false">
@@ -61,8 +61,8 @@
 					<include name="**/*.jar"/>
 				</fileset>
 			</classpath>
-	        <compilerarg value="-Xlint:unchecked"/>
-	        <compilerarg value="-Xlint:-options"/>
+			<compilerarg value="-Xlint:unchecked"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
 	</target>
 
