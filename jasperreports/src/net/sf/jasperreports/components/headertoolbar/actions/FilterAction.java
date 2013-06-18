@@ -101,7 +101,7 @@ public class FilterAction extends AbstractVerifiableTableAction {
 			locale = Locale.getDefault();
 		}
 		
-		if (filterType == FilterTypesEnum.DATE) {
+		if (FilterTypesEnum.DATE.equals(filterType) || FilterTypesEnum.TIME.equals(filterType)) {
 			FilterTypeDateOperatorsEnum dateEnum = FilterTypeDateOperatorsEnum.getByEnumConstantName(fd.getFilterTypeOperator());
 			boolean containsBetween = FilterTypeDateOperatorsEnum.IS_BETWEEN.equals(dateEnum) || FilterTypeDateOperatorsEnum.IS_NOT_BETWEEN.equals(dateEnum);
 

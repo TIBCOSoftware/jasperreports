@@ -36,6 +36,7 @@ public class FieldComparatorFactory {
 	
 	public static AbstractFieldComparator<?> createFieldComparator(FilterTypesEnum filterTypeEnum, String filterPattern, Locale locale, TimeZone timeZone){
 		switch (filterTypeEnum) {
+			case TIME:
 			case DATE:
 				return new FieldDateComparator(filterPattern, locale, timeZone);
 			case NUMERIC:
