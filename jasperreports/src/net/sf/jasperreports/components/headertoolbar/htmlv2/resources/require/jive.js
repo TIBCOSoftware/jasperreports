@@ -461,7 +461,7 @@ define(["jquery", "jqueryui", "jquerytimepicker", "jasperreports", "reportviewer
 	        it.tabs = jQuery('#jive_dialog div.tabContainer');
 	
 	        if(typeof isIE === 'function') {
-	            isIE() && (navigator.appVersion.indexOf('MSIE 10.0;') > 0) && it.jo.prepend('<div class="msshadow" />');
+	            isIE() && (navigator.appVersion.indexOf('MSIE 10.0;') < 0) && it.jo.prepend('<div class="msshadow" />');
 	        }
 	        /*
 	         * Set behaviors for form elements
