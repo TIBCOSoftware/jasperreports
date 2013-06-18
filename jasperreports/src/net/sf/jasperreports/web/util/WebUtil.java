@@ -55,7 +55,7 @@ public final class WebUtil
 	public static final String PROPERTY_REPORT_INTERACTION_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "web.report.interaction.path";
 	public static final String PROPERTY_REPORT_RESOURCES_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "web.report.resources.path";
 
-	public static final String RESOURCE_JR_GLOBAL_JS = "net/sf/jasperreports/web/servlets/resources/jasperreports-global.js";
+	public static final String RESOURCE_JR_GLOBAL_JS = "net/sf/jasperreports/web/servlets/resources/require/jasperreports-global.js";
 	public static final String RESOURCE_JR_GLOBAL_CSS = "net/sf/jasperreports/web/servlets/resources/jasperreports-global.css";
 	
 

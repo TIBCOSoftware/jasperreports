@@ -6,13 +6,24 @@
 	<style type="text/css">
 		a {text-decoration: none}
 	</style>
-   	<script src='${contextPath}/jquery/js/jquery-1.7.1.min.js'></script>
-   	<script src='${contextPath}/jquery/js/jquery-ui-1.8.18.custom.min.js'></script>
-   	<script src='${contextPath}/jquery/js/jquery-ui-timepicker-addon.js'></script>
-   	<script src='${jasperreports_global_js}'></script>
-   	<script src='${jasperreports_reportViewerToolbar_js}'></script>
+   	<script src='${contextPath}/javascript/require.js'></script>
    	<script>
-   		jasperreports.global.APPLICATION_CONTEXT_PATH = '${contextPath}';
+   		requirejs.config({
+   			baseUrl: "${contextPath}",
+   			paths: {
+   				jquery: "jquery/js/jquery-1.7.1.min",
+   				jqueryui: "jquery/js/jquery-ui-1.8.18.custom.min",
+   				jquerytimepicker: "jquery/js/jquery-ui-timepicker-addon",
+   				
+   				jasperreports: "${jasperreports_global_js}",
+   				reportviewertoolbar: "${jasperreports_reportViewerToolbar_js}"
+   			}	
+   		});
+   		
+   		require(['jasperreports'], function(jasperreports) {
+	   		jasperreports.global.APPLICATION_CONTEXT_PATH = "${contextPath}";
+   		});
+   		
    	</script>
    	<link type='text/css' rel='stylesheet' href='${contextPath}/jquery/theme/jquery.ui.all.css'></link> 
    	<link type='text/css' rel='stylesheet' href='${jasperreports_global_css}'></link>
@@ -40,7 +51,9 @@
     </table>
 </div>
 <script type='text/javascript'>
-  jasperreports.reportviewertoolbar.init('${toolbarId}');
+  require(["reportviewertoolbar"], function(reportviewertoolbar) {
+  	reportviewertoolbar.init('${toolbarId}');
+  });
 </script>
   </td>
 </tr>

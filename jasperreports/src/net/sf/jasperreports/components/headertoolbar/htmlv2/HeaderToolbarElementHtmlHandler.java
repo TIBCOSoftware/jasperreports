@@ -21,7 +21,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.headertoolbar.htmlv2;import java.awt.GraphicsEnvironment;
+package net.sf.jasperreports.components.headertoolbar.htmlv2;
+import java.awt.GraphicsEnvironment;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -116,11 +117,11 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 	private static final String CALENDAR_DATE_PATTERN_KEY = DEFAULT_CALENDAR_DATE_PATTERN_KEY + ".key";
 	private static final String CALENDAR_DATE_TIME_PATTERN_KEY = DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY + ".key";
 	
-	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/htmlv2/resources/jive.js";
-	private static final String RESOURCE_JIVE_COLUMN_JS = "net/sf/jasperreports/components/headertoolbar/htmlv2/resources/jive.interactive.column.js";
+	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/htmlv2/resources/require/jive.js";
+	private static final String RESOURCE_JIVE_COLUMN_JS = "net/sf/jasperreports/components/headertoolbar/htmlv2/resources/require/jive.interactive.column.js";
 
 	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jive.vm.css";
-	private static final String RESOURCE_JIVE_COLUMN_I18N_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.interactive.column.i18n.vm.js";
+	private static final String RESOURCE_JIVE_COLUMN_I18N_JS = "net/sf/jasperreports/components/headertoolbar/htmlv2/resources/require/jive.i18n.vm.js";
 
 	private static final String HEADER_TOOLBAR_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/headertoolbar/htmlv2/resources/HeaderToolbarElementHtmlTemplate.vm";
 	
@@ -184,6 +185,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		ReportContext reportContext = context.getExporter().getReportContext();
 		if (reportContext != null && tableUUID != null)//FIXMEJIVE
 		{
+			String appContext = (String)reportContext.getParameterValue(WebReportContext.APPLICATION_CONTEXT_PATH);
 			String columnUuid = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_UUID);
 			String fieldOrVariableName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_FIELD_OR_VARIABLE_NAME);
 			String columnLabel = (String)element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);
@@ -213,10 +215,10 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				
 				contextMap.put("actionBaseUrl", getActionBaseUrl(context));
 				contextMap.put("actionBaseData", getActionBaseJsonData(context));
-				contextMap.put("jasperreports_tableHeaderToolbar_js", webUtil.getResourcePath(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_JS));
+				contextMap.put("jasperreports_tableHeaderToolbar_js", appContext + webUtil.getResourcePath(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_JS));
 				contextMap.put("jasperreports_tableHeaderToolbar_css", webUtil.getResourcePath(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_CSS, true));
-				contextMap.put("jiveColumnScript", webUtil.getResourcePath(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_JIVE_COLUMN_JS));
-				contextMap.put("jiveColumnI18n_js",
+				contextMap.put("jiveColumnScript", appContext + webUtil.getResourcePath(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_JIVE_COLUMN_JS));
+				contextMap.put("jiveColumnI18n_js", appContext + 
 								webUtil.getResourcePath(
 										webResourcesBasePath,
 										HeaderToolbarElementHtmlHandler.RESOURCE_JIVE_COLUMN_I18N_JS,
