@@ -11,7 +11,7 @@
 			<band height="50">
 				<componentElement>
 					<reportElement mode="Opaque" x="0" y="0" width="200" height="20" forecolor="#000000" backcolor="#808080" uuid="16a0602c-ddd3-44de-9200-db3dde87ca0c"/>
-					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" horizontalAlign="Left" verticalAlign="Middle">
+					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="None" horizontalAlign="Left" verticalAlign="Middle">
 						<c:label>
 							<textField isStretchWithOverflow="true" hyperlinkType="Reference">
 								<reportElement mode="Transparent" x="0" y="0" width="1" height="1" forecolor="#00FFFF" backcolor="#00FF00" uuid="9584a345-3ccb-4633-8176-66feed042734"/>
