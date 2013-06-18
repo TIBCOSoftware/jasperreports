@@ -72,6 +72,7 @@
 					<include name="**/*.jar"/>
 				</fileset>
 				<pathelement location="./build/classes"/>
+				<pathelement location="./demo/fonts"/>
 			</classpath>
 		</taskdef>
 
