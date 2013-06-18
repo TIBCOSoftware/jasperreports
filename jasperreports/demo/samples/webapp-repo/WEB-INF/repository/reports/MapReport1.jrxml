@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MapReport1" pageWidth="515" pageHeight="692" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="283e72fb-9eda-4a83-908e-73ff611932b4">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="reqLatitude" class="java.lang.Float">
+		<defaultValueExpression><![CDATA[$P{REPORT_CONTEXT}.getParameterValue("latitude") == null ? null : Float.valueOf((String)$P{REPORT_CONTEXT}.getParameterValue("latitude"))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reqLongitude" class="java.lang.Float">
+		<defaultValueExpression><![CDATA[$P{REPORT_CONTEXT}.getParameterValue("longitude") == null ? null : Float.valueOf((String)$P{REPORT_CONTEXT}.getParameterValue("longitude"))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reqZoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[$P{REPORT_CONTEXT}.getParameterValue("zoom") == null ? null : Integer.valueOf((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="latitude" class="java.lang.Float">
+		<defaultValueExpression><![CDATA[$P{reqLatitude} == null ? Float.valueOf(44.435f) : $P{reqLatitude}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="longitude" class="java.lang.Float">
+		<defaultValueExpression><![CDATA[$P{reqLongitude} == null ? Float.valueOf(26.096f) : $P{reqLongitude}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? Integer.valueOf(11) : $P{reqZoom}]]></defaultValueExpression>
+	</parameter>
+	<summary>
+		<band height="692">
+			<textField isBlankWhenNull="true" bookmarkLevel="1">
+				<reportElement style="Sans_Bold" x="0" y="0" width="515" height="50" uuid="e21201eb-8650-47b4-8d57-724711bffee9"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bucharest - Road Map"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="50" width="515" height="100" uuid="822360d4-e5af-4105-ad1f-3112ae9f4aee"/>
+				<textFieldExpression><![CDATA["A road map sample that contains only basic information. There are no available tooltips, markers and info windows."]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement positionType="Float" x="0" y="150" width="515" height="326" uuid="7aab9b20-071d-47c0-93df-705cada95c60"/>
+				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" evaluationTime="Report">
+					<c:latitudeExpression><![CDATA[$P{latitude}]]></c:latitudeExpression>
+					<c:longitudeExpression><![CDATA[$P{longitude}]]></c:longitudeExpression>
+					<c:zoomExpression><![CDATA[$P{zoom}]]></c:zoomExpression>
+					<c:languageExpression><![CDATA[new java.util.Locale("ro").getLanguage()]]></c:languageExpression>
+				</c:map>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>
