@@ -24,6 +24,7 @@
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JRViewer;
@@ -35,7 +36,10 @@ import net.sf.jasperreports.view.JRViewer;
  */
 public class JRViewerPlus extends JRViewer
 {
-
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 *

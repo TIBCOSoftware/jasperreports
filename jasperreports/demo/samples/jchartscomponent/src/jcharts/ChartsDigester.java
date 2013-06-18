@@ -37,6 +37,7 @@ import org.apache.commons.digester.Digester;
 public class ChartsDigester implements XmlDigesterConfigurer
 {
 
+	@SuppressWarnings("deprecation")
 	public void configureDigester(Digester digester)
 	{
 		String axisChartPattern = "*/componentElement/axisChart";

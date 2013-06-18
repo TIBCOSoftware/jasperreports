@@ -146,7 +146,11 @@ Now let's update these report templates. There are some specific Ant targets dec
 
 <target name="javac" description="Compiles the Java source files used in the report designs.">
   <mkdir dir="./build/classes"/> 
-  <javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false"/>
+  <javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="true"
+      encoding="ISO-8859-1" includeantruntime="false">
+      <compilerarg value="-Xlint:unchecked"/>
+      <compilerarg value="-Xlint:-options"/>
+  </javac>
 </target> 
 
 <target name="compile" depends="javac" description="Compiles the initial report designs."> 

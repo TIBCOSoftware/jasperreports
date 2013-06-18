@@ -97,10 +97,10 @@ public class XlsxDataSourceApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "Address Report");
 		parameters.put("DataFile", "MultisheetXlsxDataSource.data.xlsx - XLSX data source");
-		Set states = new HashSet();
+		Set<String> states = new HashSet<String>();
 		states.add("Active");
 		states.add("Trial");
 		parameters.put("IncludedStates", states);

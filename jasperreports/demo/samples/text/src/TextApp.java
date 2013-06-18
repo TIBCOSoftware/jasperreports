@@ -73,7 +73,7 @@ public class TextApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "Address Report");
 		parameters.put("FilterClause", "'Boston', 'Chicago', 'Oslo'");
 		parameters.put("OrderClause", "City");

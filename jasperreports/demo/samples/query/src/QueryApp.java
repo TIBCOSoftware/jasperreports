@@ -127,10 +127,10 @@ public class QueryApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "Address Report");
 		
-		List excludedCities = new ArrayList();
+		List<String> excludedCities = new ArrayList<String>();
 		excludedCities.add("Boston");
 		excludedCities.add("Chicago");
 		excludedCities.add("Oslo");

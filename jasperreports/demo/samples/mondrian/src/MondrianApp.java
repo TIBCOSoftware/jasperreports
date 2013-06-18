@@ -115,7 +115,7 @@ public class MondrianApp extends AbstractSampleApp
 			conn = getConnection(connProps);
 			if (conn != null)
 			{
-				Map parameters = new HashMap();
+				Map<String, Object> parameters = new HashMap<String, Object>();
 				parameters.put(JRMondrianQueryExecuterFactory.PARAMETER_MONDRIAN_CONNECTION, conn);
 				
 				JasperFillManager.fillReportToFile(fileName, parameters);
@@ -627,6 +627,7 @@ public class MondrianApp extends AbstractSampleApp
 			this.catalogUri = catalogUri;
 		}
 
+		@SuppressWarnings("unused")
 		public String getDataSourceName()
 		{
 			return dataSourceName;

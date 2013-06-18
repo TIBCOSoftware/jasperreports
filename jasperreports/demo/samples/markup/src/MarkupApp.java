@@ -104,7 +104,7 @@ public class MarkupApp extends AbstractSampleApp
 			String rtfText = FileUtils.readFully(new FileReader(new File("reports/rtf.txt")));
 			String htmlText = FileUtils.readFully(new FileReader(new File("reports/html.txt")));
 			
-			Map parameters = new HashMap();
+			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("RtfText", rtfText);
 			parameters.put("HtmlText", htmlText);
 			

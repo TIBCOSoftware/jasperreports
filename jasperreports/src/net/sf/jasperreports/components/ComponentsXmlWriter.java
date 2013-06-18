@@ -58,19 +58,13 @@ import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElementDataset;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
-import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
-import net.sf.jasperreports.engine.util.VersionComparator;
 import net.sf.jasperreports.engine.util.XmlNamespace;
-import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
@@ -81,28 +75,14 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * @version $Id$
  * @see ComponentsExtensionsRegistryFactory
  */
-public class ComponentsXmlWriter implements ComponentXmlWriter
+public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 {
-	/**
-	 * 
-	 */
-	public static final String PROPERTY_COMPONENTS_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "components.";
-
-	/**
-	 * 
-	 */
-	public static final String PROPERTY_COMPONENTS_VERSION_SUFFIX = ".version";
-
-	private final JasperReportsContext jasperReportsContext;
-	private final VersionComparator versionComparator;
-	
 	/**
 	 * 
 	 */
 	public ComponentsXmlWriter(JasperReportsContext jasperReportsContext)
 	{
-		this.jasperReportsContext = jasperReportsContext;
-		this.versionComparator = new VersionComparator();
+		super(jasperReportsContext);
 	}
 
 	public void writeToXml(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException
@@ -139,10 +119,7 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 		}
 		else if (component instanceof SortComponent)
 		{
-			SortComponentXmlWriter sortWriter = new SortComponentXmlWriter(
-														jasperReportsContext, 
-														getVersion(jasperReportsContext, componentElement, reportWriter), 
-														versionComparator);
+			SortComponentXmlWriter sortWriter = new SortComponentXmlWriter(jasperReportsContext);
 			sortWriter.writeToXml(componentElement, reportWriter);
 		}
 		else if (component instanceof MapComponent)
@@ -563,36 +540,6 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 	}
 	
 	
-	public static String getVersion(JasperReportsContext jasperReportsContext, JRComponentElement componentElement, JRXmlWriter reportWriter) 
-	{
-		String version = null;
-
-		ComponentKey componentKey = componentElement.getComponentKey();
-		String versionProperty = PROPERTY_COMPONENTS_PREFIX + componentKey.getName() + PROPERTY_COMPONENTS_VERSION_SUFFIX;
-		
-		if (componentElement.getPropertiesMap().containsProperty(versionProperty))
-		{
-			version = componentElement.getPropertiesMap().getProperty(versionProperty);
-		}
-		else
-		{
-			JRReport report = reportWriter.getReport();
-			version = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(report, versionProperty);
-			
-			if (version == null)
-			{
-				version = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(report, JRXmlBaseWriter.PROPERTY_REPORT_VERSION);
-			}
-		}
-		
-		return version;
-	}
-
-	protected boolean isNewerVersionOrEqual(JRComponentElement componentElement, JRXmlWriter reportWriter, String oldVersion) //FIXMEVERSION can we pass something else then reportWriter?
-	{
-		return versionComparator.compare(getVersion(jasperReportsContext, componentElement, reportWriter), oldVersion) >= 0;
-	}
-
 	protected boolean isBarcode4jName(String name)
 	{
 		for (String barcode4jName : ComponentsExtensionsRegistryFactory.BARCODE4J_COMPONENT_NAMES)
@@ -602,33 +549,5 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 			}
 		}
 		return false;
-	}
-	
-	@SuppressWarnings("deprecation")
-	protected void writeExpression(String name, JRExpression expression, boolean writeClass, JRComponentElement componentElement, JRXmlWriter reportWriter)  throws IOException
-	{
-		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_1))
-		{
-			writer.writeExpression(name, expression);
-		}
-		else
-		{
-			writer.writeExpression(name, expression, writeClass);
-		}
-	}
-	
-	@SuppressWarnings("deprecation")
-	protected void writeExpression(String name, XmlNamespace namespace, JRExpression expression, boolean writeClass, JRComponentElement componentElement, JRXmlWriter reportWriter)  throws IOException
-	{
-		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_1))
-		{
-			writer.writeExpression(name, namespace, expression);
-		}
-		else
-		{
-			writer.writeExpression(name, namespace, expression, writeClass);
-		}
 	}
 }

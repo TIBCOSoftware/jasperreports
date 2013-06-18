@@ -80,7 +80,8 @@ public class TextInputComponentXmlWriter implements ComponentXmlWriter
 		
 		String namespaceURI = componentKey.getNamespace();
 		String schemaLocation = 
-			ComponentsEnvironment.getInstance(jasperReportsContext).getBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
+			ComponentsEnvironment.getInstance(jasperReportsContext)
+				.getBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
 		XmlNamespace componentNamespace = new XmlNamespace(namespaceURI, componentKey.getNamespacePrefix(),
 				schemaLocation);
 		

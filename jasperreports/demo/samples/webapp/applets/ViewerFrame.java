@@ -28,6 +28,7 @@ import java.net.URL;
 
 import javax.swing.JOptionPane;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -40,7 +41,10 @@ import net.sf.jasperreports.view.JRHyperlinkListener;
  */
 public class ViewerFrame extends javax.swing.JFrame implements JRHyperlinkListener
 {
-
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 *

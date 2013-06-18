@@ -127,7 +127,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "Address Report");
 		parameters.put("OrderByClause", "ORDER BY City");
 
@@ -535,10 +535,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		group.setName("CityGroup");
 		variable.setResetGroup(group);
 		variable.setCalculation(CalculationEnum.SYSTEM);
-		JRDesignExpression expression = new JRDesignExpression();
-		expression.setValueClass(java.lang.Integer.class);
-		expression.setText("($V{CityNumber} != null)?(new Integer($V{CityNumber}.intValue() + 1)):(new Integer(1))");
-		variable.setInitialValueExpression(expression);
+		variable.setInitialValueExpression(new JRDesignExpression("($V{CityNumber} != null)?(new Integer($V{CityNumber}.intValue() + 1)):(new Integer(1))"));
 		jasperDesign.addVariable(variable);
 
 		variable = new JRDesignVariable();
@@ -550,10 +547,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 
 		//Groups
 		group.setMinHeightToStartNewPage(60);
-		expression = new JRDesignExpression();
-		expression.setValueClass(java.lang.String.class);
-		expression.setText("$F{City}");
-		group.setExpression(expression);
+		group.setExpression(new JRDesignExpression("$F{City}"));
 
 		JRDesignBand band = new JRDesignBand();
 		band.setHeight(20);
@@ -566,10 +560,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		textField.setMode(ModeEnum.OPAQUE);
 		textField.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
 		textField.setStyle(boldStyle);
-		expression = new JRDesignExpression();
-		expression.setValueClass(java.lang.String.class);
-		expression.setText("\"  \" + String.valueOf($V{CityNumber}) + \". \" + String.valueOf($F{City})");
-		textField.setExpression(expression);
+		textField.setExpression(new JRDesignExpression("\"  \" + String.valueOf($V{CityNumber}) + \". \" + String.valueOf($F{City})"));
 		band.addElement(textField);
 		JRDesignLine line = new JRDesignLine();
 		line.setX(0);
@@ -603,10 +594,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		textField.setHeight(15);
 		textField.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
 		textField.setStyle(boldStyle);
-		expression = new JRDesignExpression();
-		expression.setValueClass(java.lang.Integer.class);
-		expression.setText("$V{CityGroup_COUNT}");
-		textField.setExpression(expression);
+		textField.setExpression(new JRDesignExpression("$V{CityGroup_COUNT}"));
 		band.addElement(textField);
 		((JRDesignSection)group.getGroupFooterSection()).addBand(band);
 
@@ -630,10 +618,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		textField.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
 		textField.setStyle(normalStyle);
 		textField.setFontSize(22);
-		expression = new JRDesignExpression();
-		expression.setValueClass(java.lang.String.class);
-		expression.setText("$P{ReportTitle}");
-		textField.setExpression(expression);
+		textField.setExpression(new JRDesignExpression("$P{ReportTitle}"));
 		band.addElement(textField);
 		jasperDesign.setTitle(band);
 		
@@ -699,10 +684,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		textField.setHeight(15);
 		textField.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
 		textField.setStyle(normalStyle);
-		expression = new JRDesignExpression();
-		expression.setValueClass(java.lang.Integer.class);
-		expression.setText("$F{Id}");
-		textField.setExpression(expression);
+		textField.setExpression(new JRDesignExpression("$F{Id}"));
 		band.addElement(textField);
 		textField = new JRDesignTextField();
 		textField.setStretchWithOverflow(true);
@@ -712,10 +694,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		textField.setHeight(15);
 		textField.setPositionType(PositionTypeEnum.FLOAT);
 		textField.setStyle(normalStyle);
-		expression = new JRDesignExpression();
-		expression.setValueClass(java.lang.String.class);
-		expression.setText("$F{FirstName} + \" \" + $F{LastName}");
-		textField.setExpression(expression);
+		textField.setExpression(new JRDesignExpression("$F{FirstName} + \" \" + $F{LastName}"));
 		band.addElement(textField);
 		textField = new JRDesignTextField();
 		textField.setStretchWithOverflow(true);
@@ -725,10 +704,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		textField.setHeight(15);
 		textField.setPositionType(PositionTypeEnum.FLOAT);
 		textField.setStyle(normalStyle);
-		expression = new JRDesignExpression();
-		expression.setValueClass(java.lang.String.class);
-		expression.setText("$F{Street}");
-		textField.setExpression(expression);
+		textField.setExpression(new JRDesignExpression("$F{Street}"));
 		band.addElement(textField);
 		line = new JRDesignLine();
 		line.setX(0);

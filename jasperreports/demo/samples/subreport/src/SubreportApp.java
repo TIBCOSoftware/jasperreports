@@ -96,7 +96,7 @@ public class SubreportApp extends AbstractSampleApp
 		JasperReport subreport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ProductReport.jasper");
 
 		//Preparing parameters
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ProductsSubreport", subreport);
 		
 		JasperFillManager.fillReportToFile("build/reports/MasterReport.jasper", parameters, getDemoHsqldbConnection());

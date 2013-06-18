@@ -95,7 +95,7 @@ public class JsonDataSourceApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		Map params = new HashMap();
+		Map<String, Object> params = new HashMap<String, Object>();
 		params.put(JsonQueryExecuterFactory.JSON_DATE_PATTERN, "yyyy-MM-dd");
 		params.put(JsonQueryExecuterFactory.JSON_NUMBER_PATTERN, "#,##0.##");
 		params.put(JsonQueryExecuterFactory.JSON_LOCALE, Locale.ENGLISH);
