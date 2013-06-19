@@ -13,9 +13,21 @@
 
 #if (${gotReportContext})
 	<script class='jasperreports' type='text/javascript'>
-		jasperreports.global.appendScriptElementToDOM('_mapScript', '${resourceMapJs}', 'jasperreports.map.initGoogleMaps', ['${reqParams}']);
-		var markers = ${markerList};
-		jasperreports.events.subscribeToEvent({name: 'jasperreports.map.init', callback: 'jasperreports.map.showMap', args: ['${mapCanvasId}', ${latitude}, ${longitude}, ${zoom}, '${mapType}', markers]});
+		requirejs.config({
+			paths: {
+				jasperreportsmap: "${resourceMapJs}" 
+			}
+		});
+		
+		require(["jasperreportsmap", "jasperreports"], function(jasperreportsmap, jasperreports) {
+			jasperreportsmap.initGoogleMaps('${reqParams}');
+			jasperreports.events.subscribeToEvent({
+				name: 'jasperreports.map.init',
+				callback: function() {
+					require("jasperreportsmap").showMap('${mapCanvasId}', ${latitude}, ${longitude}, ${zoom}, '${mapType}', ${markerList});
+				}
+			});
+		});
 	</script>
 #else
 	#if (${exporterFirstAttempt})

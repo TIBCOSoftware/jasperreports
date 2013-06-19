@@ -127,7 +127,8 @@ define(["jquery"], function(jQuery) {
 			try {
 				eval(scriptString);
 			} catch(ex) {
-				console.log("scriptString: " + scriptString);
+				console && console.log("error: " + ex);
+				console && console.log("scriptString: " + scriptString);
 			}
 			if (gotCallback) {
 				callbackFn();

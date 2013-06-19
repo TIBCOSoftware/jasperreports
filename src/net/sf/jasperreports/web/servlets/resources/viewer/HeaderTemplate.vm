@@ -16,8 +16,12 @@
    				jquerytimepicker: "jquery/js/jquery-ui-timepicker-addon",
    				
    				jasperreports: "${jasperreports_global_js}",
-   				reportviewertoolbar: "${jasperreports_reportViewerToolbar_js}"
-   			}	
+   				reportviewertoolbar: "${jasperreports_reportViewerToolbar_js}",
+   				jive: "${jive_js}",
+   				jivei18n: "${jiveI18n_js}",
+   				
+   				async: "javascript/async"
+   			}
    		});
    		
    		require(['jasperreports'], function(jasperreports) {
