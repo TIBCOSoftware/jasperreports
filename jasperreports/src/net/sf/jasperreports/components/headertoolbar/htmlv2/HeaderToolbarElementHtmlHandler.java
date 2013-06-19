@@ -117,11 +117,9 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 	private static final String CALENDAR_DATE_PATTERN_KEY = DEFAULT_CALENDAR_DATE_PATTERN_KEY + ".key";
 	private static final String CALENDAR_DATE_TIME_PATTERN_KEY = DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY + ".key";
 	
-	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/htmlv2/resources/require/jive.js";
 	private static final String RESOURCE_JIVE_COLUMN_JS = "net/sf/jasperreports/components/headertoolbar/htmlv2/resources/require/jive.interactive.column.js";
 
 	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jive.vm.css";
-	private static final String RESOURCE_JIVE_COLUMN_I18N_JS = "net/sf/jasperreports/components/headertoolbar/htmlv2/resources/require/jive.i18n.vm.js";
 
 	private static final String HEADER_TOOLBAR_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/headertoolbar/htmlv2/resources/HeaderToolbarElementHtmlTemplate.vm";
 	
@@ -215,15 +213,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				
 				contextMap.put("actionBaseUrl", getActionBaseUrl(context));
 				contextMap.put("actionBaseData", getActionBaseJsonData(context));
-				contextMap.put("jasperreports_tableHeaderToolbar_js", appContext + webUtil.getResourcePath(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_JS));
 				contextMap.put("jasperreports_tableHeaderToolbar_css", webUtil.getResourcePath(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_CSS, true));
 				contextMap.put("jiveColumnScript", appContext + webUtil.getResourcePath(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_JIVE_COLUMN_JS));
-				contextMap.put("jiveColumnI18n_js", appContext + 
-								webUtil.getResourcePath(
-										webResourcesBasePath,
-										HeaderToolbarElementHtmlHandler.RESOURCE_JIVE_COLUMN_I18N_JS,
-										"net.sf.jasperreports.components.headertoolbar.messages",
-										locale));
 				contextMap.put("msgProvider", MessageUtil.getInstance(jrContext).getLocalizedMessageProvider("net.sf.jasperreports.components.headertoolbar.messages", locale));
 			}
 			

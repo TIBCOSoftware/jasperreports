@@ -2,9 +2,7 @@
 <script class='jasperreports'>
 	requirejs.config({
 		paths: {
-   			jive: "${jasperreports_tableHeaderToolbar_js}",
    			jiveinteractivecolumn: "${jiveColumnScript}",
-   			jivei18n: "${jiveColumnI18n_js}"
 		}
 	});
 	

@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -34,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.JacksonUtil;
@@ -216,11 +218,27 @@ public class ViewerServlet extends AbstractServlet
 		Map<String, Object> contextMap = new HashMap<String, Object>();
 		WebUtil webUtil = WebUtil.getInstance(getJasperReportsContext());
 		String webResourcesBasePath = webUtil.getResourcesBasePath();
+		String appContextPath = (String)webReportContext.getParameterValue(WebReportContext.APPLICATION_CONTEXT_PATH);
+		Locale locale = (Locale) webReportContext.getParameterValue(JRParameter.REPORT_LOCALE);
+		
+		if (locale == null) {
+			locale = Locale.getDefault();
+		}
+		
 		contextMap.put("contextPath", request.getContextPath());
 		contextMap.put("resourcesPath", request.getContextPath() + webResourcesBasePath);
 		contextMap.put("jasperreports_global_js", request.getContextPath() + webUtil.getResourcePath(webResourcesBasePath, WebUtil.RESOURCE_JR_GLOBAL_JS));
 		contextMap.put("jasperreports_reportViewerToolbar_js", request.getContextPath() + webUtil.getResourcePath(webResourcesBasePath, getToolbarJavascript()));
 		contextMap.put("jasperreports_global_css", request.getContextPath() + webUtil.getResourcePath(webResourcesBasePath, WebUtil.RESOURCE_JR_GLOBAL_CSS));
+		
+		contextMap.put("jive_js", appContextPath + webUtil.getResourcePath(webResourcesBasePath, WebUtil.RESOURCE_JIVE_JS));
+		contextMap.put("jiveI18n_js", appContextPath + 
+				webUtil.getResourcePath(
+						webResourcesBasePath,
+						WebUtil.RESOURCE_JIVE_I18N_JS,
+						"net.sf.jasperreports.components.headertoolbar.messages",
+						locale));
+		
 		contextMap.put("toolbarId", toolbarId);
 		contextMap.put("currentUrl", getCurrentUrl(request, webReportContext));
 

@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 import net.sf.jasperreports.web.util.WebUtil;
@@ -49,7 +50,8 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 {
 	private static final MapElementHtmlHandler INSTANCE = new MapElementHtmlHandler();
 	
-	private static final String RESOURCE_MAP_JS = "net/sf/jasperreports/components/map/resources/map.js";
+//	private static final String RESOURCE_MAP_JS = "net/sf/jasperreports/components/map/resources/map.js";
+	private static final String RESOURCE_MAP_JS = "net/sf/jasperreports/components/map/resources/require/jasperreports-map.js";
 	private static final String MAP_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/map/resources/templates/MapElementHtmlTemplate.vm";
 	
 	private static class CustomJRExporterParameter extends JRExporterParameter{
@@ -87,7 +89,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 
 		if (reportContext != null)
 		{
-			contextMap.put("resourceMapJs", WebUtil.getInstance(context.getJasperReportsContext()).getResourcePath(MapElementHtmlHandler.RESOURCE_MAP_JS));
+			contextMap.put("resourceMapJs", reportContext.getParameterValue(WebReportContext.APPLICATION_CONTEXT_PATH) + WebUtil.getInstance(context.getJasperReportsContext()).getResourcePath(MapElementHtmlHandler.RESOURCE_MAP_JS));
 		}
 		contextMap.put("mapCanvasId", "map_canvas_" + element.hashCode());
 		contextMap.put("gotReportContext", reportContext != null);
@@ -95,7 +97,6 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		contextMap.put("longitude", longitude);
 		contextMap.put("zoom", zoom);
 		contextMap.put("mapType", mapType);
-//		contextMap.put("markerList", markers);
 		String markers = markerList == null || markerList.isEmpty() ? "[]" : JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(markerList);
 		contextMap.put("markerList", markers);
 		String reqParams = (String)element.getParameterValue(MapPrintElement.PARAMETER_REQ_PARAMS);

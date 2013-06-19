@@ -57,7 +57,8 @@ public final class WebUtil
 
 	public static final String RESOURCE_JR_GLOBAL_JS = "net/sf/jasperreports/web/servlets/resources/require/jasperreports-global.js";
 	public static final String RESOURCE_JR_GLOBAL_CSS = "net/sf/jasperreports/web/servlets/resources/jasperreports-global.css";
-	
+	public static final String RESOURCE_JIVE_JS = "net/sf/jasperreports/web/servlets/resources/require/jive.js";
+	public static final String RESOURCE_JIVE_I18N_JS = "net/sf/jasperreports/web/servlets/resources/require/jive.i18n.vm.js";
 
 	private JasperReportsContext jasperReportsContext;
 	
