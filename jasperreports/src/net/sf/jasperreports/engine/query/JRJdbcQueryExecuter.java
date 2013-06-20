@@ -68,8 +68,8 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 
 	public static final String CANONICAL_LANGUAGE = "SQL";
 	
-	protected static final String CLAUSE_ID_IN = "IN";
-	protected static final String CLAUSE_ID_NOTIN = "NOTIN";
+	public static final String CLAUSE_ID_IN = "IN";
+	public static final String CLAUSE_ID_NOTIN = "NOTIN";
 	
 	public static final String CLAUSE_ID_EQUAL = "EQUAL";
 	public static final String CLAUSE_ID_NOTEQUAL = "NOTEQUAL";
