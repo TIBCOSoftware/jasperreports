@@ -61,10 +61,6 @@ define(["jquery", "jqueryui", "jasperreports", "require"], function(jQuery, jUI,
 							jive.runAction({
 								actionData: {actionName: "undo"},
 								startPoint: target,
-								/*callback: 'jasperreports.events.registerTriggerReset',
-							arrCallbackArgs: [jvt.events.UNDO],
-							thisContext: 'jasperreports.events'
-								 */
 								callback: function() {
 									require(["jasperreports", "reportviewertoolbar"], function(jasperreports, reportviewertoolbar) {
 										jasperreports.events.registerTriggerReset(reportviewertoolbar.events.UNDO);
@@ -79,10 +75,6 @@ define(["jquery", "jqueryui", "jasperreports", "require"], function(jQuery, jUI,
 							jive.runAction({
 									actionData: {actionName: "redo"},
 									startPoint: target,
-									/*callback: 'jasperreports.events.registerTriggerReset',
-									arrCallbackArgs: [jvt.events.REDO],
-									thisContext: 'jasperreports.events'
-									*/
 									callback: function() {
 										require(["jasperreports", "reportviewertoolbar"], function(jasperreports, reportviewertoolbar) {
 											jasperreports.events.registerTriggerReset(reportviewertoolbar.events.REDO);
@@ -299,16 +291,18 @@ define(["jquery", "jqueryui", "jasperreports", "require"], function(jQuery, jUI,
 		var undoRedoCounters = jvt.undoRedoCounters;
 		
 		undoRedoCounters.redos ++;
-		jvt.updateToolbarRedoButton(toolbarId, true); // enable redo
+//		jvt.updateToolbarRedoButton(toolbarId, true); // enable redo
 		
 		undoRedoCounters.undos --;
 		if (undoRedoCounters.undos <= 0) {
-			jvt.updateToolbarUndoButton(toolbarId, false); // disable undo
+//			jvt.updateToolbarUndoButton(toolbarId, false); // disable undo
 			undoRedoCounters.undos = 0;
 		}
 		
-		jvt.disableToolbarPaginationButtons(toolbarId);
+//		jvt.disableToolbarPaginationButtons(toolbarId);
 		jvt.afterReportLoadCallback(toolbarId, response);
+		
+		jQuery.trigger('...undo.performed');
 	};
 	
 	jvt.performRedo = function (toolbarId, response) {
@@ -402,9 +396,6 @@ define(["jquery", "jqueryui", "jasperreports", "require"], function(jQuery, jUI,
 		if (settings.defaultAction) {
 			jasperreports.events.subscribeToEvent({
 				name: jvt.events.DEFAULT_ACTION, 
-				/*callback: jvt.performAction, 
-				args: [settings.selectedColumn.toolbarId]
-				*/
 				callback: function() {
 					require(["reportviewertoolbar"], function(reportviewertoolbar) {
 						reportviewertoolbar.performAction(settings.selectedColumn.toolbarId);
@@ -412,10 +403,6 @@ define(["jquery", "jqueryui", "jasperreports", "require"], function(jQuery, jUI,
 				}
 			});
 			
-			/*settings.callback = 'jasperreports.events.registerTriggerReset';
-			settings.arrCallbackArgs = [jvt.events.DEFAULT_ACTION];
-			settings.thisContext = 'jasperreports.events';
-			*/
 			settings.callback = function() {
 				require(["jasperreports", "reportviewertoolbar"], function(jasperreports, reportviewertoolbar) {
 					jasperreports.events.registerTriggerReset(reportviewertoolbar.events.DEFAULT_ACTION);

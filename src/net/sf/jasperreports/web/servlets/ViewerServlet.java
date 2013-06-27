@@ -267,6 +267,7 @@ public class ViewerServlet extends AbstractServlet
 		contextMap.put("reportUrl", request.getContextPath() + reportUrl);
 		contextMap.put("jsonParamsObject", JacksonUtil.getInstance(getJasperReportsContext()).getEscapedJsonString(paramsMap));
 		contextMap.put("toolbarId", toolbarId);
+		contextMap.put("ctxId", webReportContext.getId());
 		
 		return VelocityUtil.processTemplate(getBodyTemplate(), contextMap);
 	}
