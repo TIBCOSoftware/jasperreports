@@ -1,5 +1,13 @@
 <script class='jasperreports'>
-	require(["reportviewertoolbar"], function(reportviewertoolbar) {
+/*	require(["reportviewertoolbar"], function(reportviewertoolbar) {
 		reportviewertoolbar.loadReport('${reportUrl}', '${jsonParamsObject}', '${toolbarId}');
 	});
+*/
+
+	require(['jasperreports-viewer'], function(Viewer){
+        Viewer.load({
+        	reporturl: '${reportUrl}',
+        	serializedParams: '${jsonParamsObject}'
+        });
+    });
 </script>

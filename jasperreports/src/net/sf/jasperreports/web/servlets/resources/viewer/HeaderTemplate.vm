@@ -11,12 +11,10 @@
    		requirejs.config({
    			baseUrl: "${contextPath}",
    			paths: {
-   				jquery: "jquery/js/jquery-1.7.1.min",
-   				jqueryui: "jquery/js/jquery-ui-1.8.18.custom.min",
-   				jquerytimepicker: "jquery/js/jquery-ui-timepicker-addon",
+   				"jasperreports-viewer": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/jasperreports-viewer.js",
+   				"jasperreports-loader": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/jasperreports-loader.js",
+   				"jasperreports-report": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/jasperreports-report.js",
    				
-   				jasperreports: "${jasperreports_global_js}",
-   				reportviewertoolbar: "${jasperreports_reportViewerToolbar_js}",
    				jive: "${jive_js}",
    				jivei18n: "${jiveI18n_js}",
    				
@@ -24,9 +22,9 @@
    			}
    		});
    		
-   		require(['jasperreports'], function(jasperreports) {
+   		/*require(['jasperreports'], function(jasperreports) {
 	   		jasperreports.global.APPLICATION_CONTEXT_PATH = "${contextPath}";
-   		});
+   		});*/
    		
    	</script>
    	<link type='text/css' rel='stylesheet' href='${contextPath}/jquery/theme/jquery.ui.all.css'></link> 
@@ -54,11 +52,11 @@
       </tr>
     </table>
 </div>
-<script type='text/javascript'>
+<!--script type='text/javascript'>
   require(["reportviewertoolbar"], function(reportviewertoolbar) {
   	reportviewertoolbar.init('${toolbarId}');
   });
-</script>
+</script-->
   </td>
 </tr>
 <tr>
