@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JasperReports Viewer Prototype</title>
+    <script type="text/javascript" src="javascript/require.js"></script>
+</head>
+<body>
+    <div id="viewport" style="position:absolute;top:0;right:0;bottom:0;left:0;"></div>
+
+    <script>
+        var reportUrl = '/jasperreports/servlets/report?jr.report=/reports/TableReport.jasper';
+
+        require.config({
+            paths: {}
+        });
+
+        require(['javascript/JRLoader'], function(JRLoader){
+            JRLoader.open(reportUrl);
+        });
+    </script>
+</body>
+</html>
