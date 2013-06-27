@@ -117,24 +117,27 @@
 	
 	<target name="startTomcat" depends="isTomcatRunning" unless="tomcat.running">
 		<echo message="Starting Tomcat" />
-		<java jar="${tomcat.home}/bin/bootstrap.jar" fork="true" spawn="true">
-			<jvmarg value="-Djava.util.logging.config.file=${tomcat.home}/conf/logging.properties" />
-			<jvmarg value="-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager" />
-			<jvmarg value="-Xmx512m" />
-			<jvmarg value="-XX:MaxPermSize=256m" />
-			<jvmarg value="-Djava.endorsed.dirs=${tomcat.home}/endorsed" />
-			<jvmarg value="-Dcatalina.base=${tomcat.home}" />
-			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
-			<jvmarg value="-Djava.io.tmpdir=${tomcat.home}/temp" />
-			<jvmarg value="-Dlog4j.debug" />
-		</java>
+	    <java classname="org.apache.catalina.startup.Bootstrap" fork="true" spawn="true">
+	    	<classpath path="${tomcat.home}/bin/bootstrap.jar:${tomcat.home}/bin/tomcat-juli.jar" />
+	        <jvmarg value="-Djava.util.logging.config.file=${tomcat.home}/conf/logging.properties" />
+	        <jvmarg value="-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager" />
+	        <jvmarg value="-Xmx512m" />
+	        <jvmarg value="-XX:MaxPermSize=256m" />
+	        <jvmarg value="-Djava.endorsed.dirs=${tomcat.home}/endorsed" />
+	        <jvmarg value="-Dcatalina.base=${tomcat.home}" />
+	        <jvmarg value="-Dcatalina.home=${tomcat.home}" />
+	        <jvmarg value="-Djava.io.tmpdir=${tomcat.home}/temp" />
+	        <jvmarg value="-Dlog4j.debug" />
+	    	<arg line="start" />
+	    </java>
 	</target>
 
 	<target name="stopTomcat" depends="isTomcatRunning" if="tomcat.running">
 		<echo message="Stopping Tomcat" />
-		<java jar="${tomcat.home}/bin/bootstrap.jar" fork="true" >
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="true" spawn="true">
+			<classpath path="${tomcat.home}/bin/bootstrap.jar:${tomcat.home}/bin/tomcat-juli.jar" />
 			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
-			<arg line="stop"/>
+	        <arg line="stop"/>
 		</java>
 	</target>
 
@@ -142,7 +145,7 @@
 		<ant antfile="${jasperreports.ant.file}" target="jar" inheritall="false"/>
 	</target>
 
-	<target name="jrClean" description="Performs jasperreports clean and jar">
+	<target name="jrCleanJar" description="Performs jasperreports clean and jar">
 		<ant antfile="${jasperreports.ant.file}" target="clean" inheritall="false"/>
 		<ant antfile="${jasperreports.ant.file}" target="jar" inheritall="false"/>
 	</target>
@@ -152,7 +155,7 @@
 	</target>
 	
 	<target name="cleanTomcat">
-		<delete includeemptydirs="true">
+		<delete includeemptydirs="true" verbose="true">
 			<fileset dir="${tomcat.home}/temp">
 				<include name="**/*" />
 			</fileset>
@@ -166,6 +169,13 @@
 		</delete>
 	</target>
 	
+	<target name="copyFilesToTomcat" depends="clean, compile">
+		<mkdir dir="${tomcat.home}/webapps/${projectname}"/>
+		<copy todir="${tomcat.home}/webapps/${projectname}">
+			<fileset dir="."/>
+		</copy>
+	</target>
+	
 	<target name="deploy">
 		<antcall target="stopTomcat" />
 		<antcall target="jrJar" />
@@ -174,11 +184,29 @@
 		<antcall target="startTomcat" inheritall="false" />
 	</target>
 
+	<target name="deploy_files">
+		<antcall target="stopTomcat" />
+		<antcall target="jrJar" />
+		<antcall target="cleanTomcat" />
+		<antcall target="copyFilesToTomcat" />
+		<antcall target="startTomcat" inheritall="false" />
+	</target>
+
 	<target name="deploy_nostart">
 		<antcall target="stopTomcat" />
 		<antcall target="jrJar" />
 		<antcall target="cleanTomcat" />
-		<antcall target="copyWarToTomcat" />
+		<antcall target="copyFilesToTomcat" />
+	</target>
+	
+	<target name="deploy_js">
+		<copy todir="${tomcat.home}/webapps/${projectname}/WEB-INF/classes">
+			<fileset dir="../../../src">
+				<include name="**/*.js"/>
+				<include name="**/*.css"/>
+				<include name="**/*.vm"/>
+			</fileset>
+		</copy>
 	</target>
 
 </project>
