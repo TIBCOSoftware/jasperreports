@@ -159,7 +159,7 @@
 			<fileset dir="${tomcat.home}/temp">
 				<include name="**/*" />
 			</fileset>
-			<fileset dir="${tomcat.home}/work/Catalina">
+			<fileset dir="${tomcat.home}/work/Catalina/localhost/${projectname}">
 				<include name="**/*" />
 			</fileset>
 			<fileset dir="${tomcat.home}/webapps">
