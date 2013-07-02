@@ -41,13 +41,23 @@ public class ResourceBundleMessageProvider implements MessageProvider
 {
 	private final String baseName;
 	private final HashMap<Locale, ResourceBundle> bundles = new HashMap<Locale, ResourceBundle>();
+	private final ClassLoader classLoader;
 	
 	/**
 	 *
 	 */
 	public ResourceBundleMessageProvider(String baseName)
 	{
+		this(baseName, null);
+	}
+
+	/**
+	 *
+	 */
+	public ResourceBundleMessageProvider(String baseName, ClassLoader classLoader)
+	{
 		this.baseName = baseName;
+		this.classLoader = classLoader;
 	}
 
 	/**
@@ -69,7 +79,7 @@ public class ResourceBundleMessageProvider implements MessageProvider
 		ResourceBundle bundle = bundles.get(locale);
 		if (bundle == null)
 		{
-			bundle = JRResourcesUtil.loadResourceBundle(baseName, locale);
+			bundle = JRResourcesUtil.loadResourceBundle(baseName, locale, classLoader);
 			bundles.put(locale, bundle);
 		}
 		
