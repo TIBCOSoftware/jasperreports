@@ -8,16 +8,16 @@
 	</style>
    	<script src='${contextPath}/javascript/require.js'></script>
    	<script>
-   		requirejs.config({
+        var jsPath = '/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require';
+
+        requirejs.config({
    			baseUrl: "${contextPath}",
    			paths: {
-   				"jasperreports-viewer": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/jasperreports-viewer.js",
-   				"jasperreports-loader": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/jasperreports-loader.js",
-   				"jasperreports-report": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/jasperreports-report.js",
-   				
-   				jive: "${jive_js}",
-   				jivei18n: "${jiveI18n_js}",
-   				
+                "validator": jsPath + '/validator.js',
+   				"jasperreports-viewer": jsPath + '/jasperreports-viewer.js',
+   				"jasperreports-loader": jsPath + '/jasperreports-loader.js',
+   				"jasperreports-report": jsPath + '/jasperreports-report.js',
+   				"jive.column": jsPath + '/jive.column.js',
    				async: "javascript/async"
    			}
    		});

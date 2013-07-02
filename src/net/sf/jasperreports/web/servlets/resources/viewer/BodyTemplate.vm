@@ -3,8 +3,12 @@
 		reportviewertoolbar.loadReport('${reportUrl}', '${jsonParamsObject}', '${toolbarId}');
 	});
 */
+    var reportViewer;
+    var myReportInstance;
 
 	require(['jasperreports-viewer'], function(Viewer){
+        reportViewer = Viewer;
+
         Viewer.load({
         	reporturl: '${reportUrl}',
         	serializedParams: '${jsonParamsObject}'

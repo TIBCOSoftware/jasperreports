@@ -21,24 +21,28 @@ define(["jquery/amd/jquery-1.7.1"], function($) {
 			}
 		};
 		
-		this.ajaxLoad = function (config) {
+		this.ajaxLoad = function(config) {
+            var dfd = new $.Deferred();
 			$.ajax(config.url, {
 				type: 'POST',
 				data: config.options,
 				success: function(data, textStatus, jqXHR) {
-					console.log(data);
+                    dfd.resolve(data);
 				}
 			});
+            return dfd.promise();
 		};
 		
-		this.runAction = function(report, options) {
-			$.ajax(report.config.url, {
+		this.runAction = function(url, options) {
+            var dfd = new $.Deferred();
+			$.ajax(url, {
 				type: 'POST',
 				data: options,
 				success: function(data, textStatus, jqXHR) {
-					console.log(data);
+                    dfd.resolve(data);
 				}
 			});
+            return dfd.promise();
 		};	
 	};
 	
