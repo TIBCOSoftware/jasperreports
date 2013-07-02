@@ -36,12 +36,30 @@ package net.sf.jasperreports.engine.util;
 public class ResourceBundleMessageProviderFactory implements MessageProviderFactory
 {
 
+	private final ClassLoader classLoader;
+
+	/**
+	 *
+	 */
+	public ResourceBundleMessageProviderFactory()
+	{
+		this(null);
+	}
+
+	/**
+	 *
+	 */
+	public ResourceBundleMessageProviderFactory(ClassLoader classLoader)
+	{
+		this.classLoader = classLoader;
+	}
+
 	/**
 	 *
 	 */
 	public MessageProvider getMessageProvider(String name)
 	{
-		return new ResourceBundleMessageProvider(name);
+		return new ResourceBundleMessageProvider(name, classLoader);
 	}
 
 }
