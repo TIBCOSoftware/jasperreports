@@ -69,7 +69,7 @@ public class ResourceBundleMessageProvider implements MessageProvider
 		ResourceBundle bundle = bundles.get(locale);
 		if (bundle == null)
 		{
-			bundle = ResourceBundle.getBundle(baseName, locale);
+			bundle = JRResourcesUtil.loadResourceBundle(baseName, locale);
 			bundles.put(locale, bundle);
 		}
 		
