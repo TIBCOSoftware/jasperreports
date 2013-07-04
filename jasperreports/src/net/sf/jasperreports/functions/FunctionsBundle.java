@@ -108,5 +108,21 @@ public class FunctionsBundle
 		this.functionClasses = functionClasses;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof FunctionsBundle && functionClasses!=null) {
+			return functionClasses.equals(
+					((FunctionsBundle) obj).getFunctionClasses());
+		}
+		return super.equals(obj);
+	}
+
+	@Override
+	public int hashCode() {
+		if (functionClasses != null) {
+			return functionClasses.hashCode();
+		}
+		return super.hashCode();
+	}	
 	
 }
