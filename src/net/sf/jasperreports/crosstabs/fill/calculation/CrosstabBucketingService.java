@@ -75,7 +75,6 @@ public class CrosstabBucketingService extends BucketingService
 		collectedHeaders[DIMENSION_ROW] = createHeadersList(DIMENSION_ROW, bucketValueMap, 0, false);
 		
 		BucketMap columnTotalsMap = null;
-		BucketListMap collectedCols;
 		if (allBuckets[0].computeTotal())
 		{
 			columnTotalsMap = bucketValueMap;
@@ -83,14 +82,9 @@ public class CrosstabBucketingService extends BucketingService
 			{
 				columnTotalsMap = (BucketMap) columnTotalsMap.getTotalEntry().getValue();
 			}
-			collectedCols = (BucketListMap) columnTotalsMap;
 		}
-		else
-		{
-			collectedCols = createCollectBucketMap(rowBucketCount);
-			collectCols(collectedCols, bucketValueMap);
-		}
-		collectedHeaders[DIMENSION_COLUMN] = createHeadersList(DIMENSION_COLUMN, collectedCols, 0, false);
+		
+		collectedHeaders[DIMENSION_COLUMN] = createHeadersList(DIMENSION_COLUMN, columnBucketMap, 0, false);
 		
 		int rowBuckets = collectedHeaders[BucketingService.DIMENSION_ROW].span;
 		int colBuckets = collectedHeaders[BucketingService.DIMENSION_COLUMN].span;
@@ -103,36 +97,6 @@ public class CrosstabBucketingService extends BucketingService
 		
 		cells = new CrosstabCell[rowBuckets][colBuckets];
 		fillCells(collectedHeaders, bucketValueMap, 0, new int[]{0, 0}, new ArrayList<Bucket>(), new ArrayList<BucketMap>());
-	}
-
-
-	protected void collectCols(BucketListMap collectedCols, BucketMap bucketMap) throws JRException
-	{
-		if (allBuckets[bucketMap.level].computeTotal())
-		{
-			BucketMap map = bucketMap;
-			for (int i = bucketMap.level; i < rowBucketCount; ++i)
-			{
-				map = (BucketMap) map.getTotalEntry().getValue();
-			}
-			collectedCols.collectVals(map, false);
-			
-			return;
-		}
-		
-		for (Iterator<Map.Entry<Bucket, Object>> it = bucketMap.entryIterator(); it.hasNext();)
-		{
-			Map.Entry<Bucket, Object> entry = it.next();
-			BucketMap nextMap = (BucketMap) entry.getValue();
-			if (bucketMap.level == rowBucketCount - 1)
-			{
-				collectedCols.collectVals(nextMap, false);
-			}
-			else
-			{
-				collectCols(collectedCols, nextMap);
-			}
-		}
 	}
 
 	protected HeaderCell[][] createHeaders(byte dimension, CollectedList[] headersLists, BucketMap totalsMap)
