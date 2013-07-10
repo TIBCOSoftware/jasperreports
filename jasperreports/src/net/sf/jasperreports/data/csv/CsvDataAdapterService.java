@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.data.csv;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Map;
@@ -73,7 +71,7 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 		{
 			String datePattern = csvDataAdapter.getDatePattern();
 			String numberPattern = csvDataAdapter.getNumberPattern();
-			if (csvDataAdapter.isQueryExecuterMode())//FIXME check this
+			if (csvDataAdapter.isQueryExecuterMode())
 			{	
 				parameters.put(JRCsvQueryExecuterFactory.CSV_SOURCE, csvDataAdapter.getFileName());
 				if (datePattern != null && datePattern.length() > 0)
@@ -93,29 +91,25 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 					parameters.put( JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES_ARRAY, getColumnNames(csvDataAdapter));
 				}
 			}else{
-				try {
-					JRCsvDataSource ds = new JRCsvDataSource( new File( csvDataAdapter.getFileName()));								
-					if (datePattern != null && datePattern.length() > 0)
-					{
-						ds.setDateFormat( new SimpleDateFormat(datePattern) );
-					}
-					if (numberPattern != null && numberPattern.length() > 0)
-					{
-						ds.setNumberFormat( new DecimalFormat(numberPattern) );
-					}
-					ds.setFieldDelimiter( csvDataAdapter.getFieldDelimiter().charAt(0) );
-					ds.setRecordDelimiter( csvDataAdapter.getRecordDelimiter() );				
-					ds.setUseFirstRowAsHeader( csvDataAdapter.isUseFirstRowAsHeader() );
-					
-					if (!csvDataAdapter.isUseFirstRowAsHeader())
-					{ 
-						ds.setColumnNames( getColumnNames(csvDataAdapter) );
-					}
-					
-					parameters.put(JRParameter.REPORT_DATA_SOURCE, ds);
-				} catch (FileNotFoundException e) {
-					throw new JRException(e);
+				JRCsvDataSource ds = new JRCsvDataSource(getJasperReportsContext(), csvDataAdapter.getFileName());								
+				if (datePattern != null && datePattern.length() > 0)
+				{
+					ds.setDateFormat( new SimpleDateFormat(datePattern) );
 				}
+				if (numberPattern != null && numberPattern.length() > 0)
+				{
+					ds.setNumberFormat( new DecimalFormat(numberPattern) );
+				}
+				ds.setFieldDelimiter( csvDataAdapter.getFieldDelimiter().charAt(0) );
+				ds.setRecordDelimiter( csvDataAdapter.getRecordDelimiter() );				
+				ds.setUseFirstRowAsHeader( csvDataAdapter.isUseFirstRowAsHeader() );
+				
+				if (!csvDataAdapter.isUseFirstRowAsHeader())
+				{ 
+					ds.setColumnNames( getColumnNames(csvDataAdapter) );
+				}
+				
+				parameters.put(JRParameter.REPORT_DATA_SOURCE, ds);
 			}
 		}
 	}
