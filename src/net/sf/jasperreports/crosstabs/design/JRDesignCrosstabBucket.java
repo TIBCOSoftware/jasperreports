@@ -26,6 +26,7 @@ package net.sf.jasperreports.crosstabs.design;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabBucket;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
@@ -117,12 +118,32 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket implements JRCh
 	 * 	<li>{@link SortOrderEnum#DESCENDING SortOrderEnum.DESCENDING}</li>
 	 * </ul>
 	 * @see net.sf.jasperreports.crosstabs.JRCrosstabBucket#getOrderValue()
+	 * 
+	 * @deprecated replaced by {@link #setOrder(BucketOrder)}
 	 */
+	@Deprecated
 	public void setOrder(SortOrderEnum orderValue)
 	{
-		Object old = this.orderValue;
-		this.orderValue = orderValue;
-		getEventSupport().firePropertyChange(PROPERTY_ORDER, old, this.orderValue);
+		BucketOrder order = BucketOrder.fromSortOrderEnum(orderValue);
+		setOrder(order);
+	}
+	
+	/**
+	 * Sets the sorting type.
+	 * 
+	 * @param orderValue one of
+	 * <ul>
+	 * 	<li>{@link BucketOrder#ASCENDING BucketOrder.ASCENDING}</li>
+	 * 	<li>{@link BucketOrder#DESCENDING BucketOrder.DESCENDING}</li>
+	 * 	<li>{@link BucketOrder#NONE BucketOrder.NONE}</li>
+	 * </ul>
+	 * @see net.sf.jasperreports.crosstabs.JRCrosstabBucket#getOrder()
+	 */
+	public void setOrder(BucketOrder bucketOrder)
+	{
+		Object old = this.bucketOrder;
+		this.bucketOrder = bucketOrder;
+		getEventSupport().firePropertyChange(PROPERTY_ORDER, old, this.bucketOrder);
 	}
 	
 

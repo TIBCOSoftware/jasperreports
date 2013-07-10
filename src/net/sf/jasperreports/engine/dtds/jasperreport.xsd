@@ -6469,6 +6469,11 @@ property.
 		 <documentation>The buckets will be sorted in descending order by using the specified comparator or by the natural order if no comparator specified.</documentation>
 		</annotation>
 	  </enumeration>
+      <enumeration value="None">
+		<annotation>
+		 <documentation>The buckets will preserve the order in which the data is fed to the crosstab.</documentation>
+		</annotation>
+	  </enumeration>
      </restriction>
     </simpleType>
    </attribute>

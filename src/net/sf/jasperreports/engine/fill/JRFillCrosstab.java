@@ -435,7 +435,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 
 		return new BucketDefinition(bucket.getValueClass(),
-				bucket.getOrderByExpression(), comparator, bucket.getOrderValue(), 
+				bucket.getOrderByExpression(), comparator, bucket.getOrder(), 
 				group.getTotalPositionValue());
 	}
 
