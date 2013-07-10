@@ -226,23 +226,37 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 			}
 			else if (Number.class.isAssignableFrom(valueClass))
 			{
-				if (numberFormat != null)
+				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC)
 				{
-					return FormatUtils.getFormattedNumber(numberFormat, String.valueOf(cell.getNumericCellValue()), valueClass);
+					return convertNumber(cell.getNumericCellValue(), valueClass);
 				}
-				else 
+				else
 				{
-					return convertStringValue(String.valueOf(cell.getNumericCellValue()), valueClass);
+					if (numberFormat != null)
+					{
+						return FormatUtils.getFormattedNumber(numberFormat, cell.getStringCellValue(), valueClass);
+					}
+					else 
+					{
+						return convertStringValue(cell.getStringCellValue(), valueClass);
+					}
 				}
 			}
 			else if (Date.class.isAssignableFrom(valueClass)){
-				if (dateFormat != null)
+				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC)
 				{
-					return FormatUtils.getFormattedDate(dateFormat, String.valueOf(cell.getDateCellValue()), valueClass);
-				} 
+					return cell.getDateCellValue();
+				}
 				else
 				{
-					return convertStringValue(String.valueOf(cell.getDateCellValue()), valueClass);
+					if (dateFormat != null)
+					{
+						return FormatUtils.getFormattedDate(dateFormat, cell.getStringCellValue(), valueClass);
+					} 
+					else
+					{
+						return convertStringValue(cell.getStringCellValue(), valueClass);
+					}
 				}
 			}
 			else
