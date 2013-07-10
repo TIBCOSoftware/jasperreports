@@ -2915,7 +2915,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	protected void writeBucket(JRCrosstabBucket bucket) throws IOException
 	{
 		writer.startElement(JRCrosstabBucketFactory.ELEMENT_bucket);
-		writer.addAttribute(JRCrosstabBucketFactory.ATTRIBUTE_order, bucket.getOrderValue(), SortOrderEnum.ASCENDING);
+		writer.addAttribute(JRCrosstabBucketFactory.ATTRIBUTE_order, bucket.getOrder(), BucketOrder.ASCENDING);
 		if(isNewerVersionOrEqual(JRConstants.VERSION_4_1_1))
 		{
 			writer.addAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_class, bucket.getValueClassName());

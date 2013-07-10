@@ -24,7 +24,8 @@
 package net.sf.jasperreports.crosstabs.xml;
 
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabBucket;
-import net.sf.jasperreports.engine.type.SortOrderEnum;
+import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
+import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 import org.xml.sax.Attributes;
@@ -49,7 +50,7 @@ public class JRCrosstabBucketFactory extends JRBaseFactory
 		
 		bucket.setValueClassName(attributes.getValue(ATTRIBUTE_class));
 
-		SortOrderEnum order = SortOrderEnum.getByName(attributes.getValue(ATTRIBUTE_order));
+		BucketOrder order = EnumUtil.getEnumByName(BucketOrder.values(), attributes.getValue(ATTRIBUTE_order));
 		if (order != null)
 		{
 			bucket.setOrder(order);
