@@ -27,10 +27,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
@@ -79,9 +79,11 @@ public abstract class BucketingService
 	protected final boolean sorted;
 
 	protected final BucketMap bucketValueMap;
+	protected final BucketMap columnBucketMap;
 	protected long dataCount;
 	protected boolean processed;
 
+	protected final MeasureValue[] zeroMeasureValues;
 	protected final MeasureValue[] zeroUserMeasureValues;
 
 	private final int bucketMeasureLimit;
@@ -144,7 +146,9 @@ public abstract class BucketingService
 		checkTotals();
 		
 		bucketValueMap = createBucketMap(0);
+		columnBucketMap = new BucketMapMap(rowBucketCount);
 		
+		zeroMeasureValues = initMeasureValues();
 		zeroUserMeasureValues = initUserMeasureValues();
 		
 		bucketMeasureLimit = JRPropertiesUtil.getInstance(serviceContext.getJasperReportsContext()).getIntegerProperty(PROPERTY_BUCKET_MEASURE_LIMIT, 0);
@@ -229,6 +233,7 @@ public abstract class BucketingService
 	public void clear()
 	{
 		bucketValueMap.clear();
+		columnBucketMap.clear();
 		processed = false;
 		dataCount = 0;
 		runningBucketMeasureCount = 0;
@@ -239,7 +244,7 @@ public abstract class BucketingService
 		BucketMap map;
 		if (sorted)
 		{
-			map = new BucketListMap(level, false);
+			map = new BucketListMap(level);
 		}
 		else
 		{
@@ -248,9 +253,11 @@ public abstract class BucketingService
 		return map;
 	}
 	
-	protected BucketListMap createCollectBucketMap(int level)
+	protected BucketListMap createRowTotalsBucketMap()
 	{
-		return new BucketListMap(level, true);
+		BucketListMap totalsBucketMap = new BucketListMap(rowBucketCount);
+		totalsBucketMap.copyEntries(columnBucketMap);
+		return totalsBucketMap;
 	}
 
 	protected void addMeasure(
@@ -308,13 +315,15 @@ public abstract class BucketingService
 		
 		Bucket[] bucketVals = getBucketValues(bucketValues);
 
-		MeasureValue[] values = bucketValueMap.insertMeasureValues(bucketVals);
-
+		MeasureValue[] values = bucketValueMap.insertMeasureValues(bucketVals, true, 0);
 		for (int i = 0; i < measures.length; ++i)
 		{
 			Object measureValue = measureValues[measureIndexes[i]];
 			values[i].addValue(measureValue);
 		}
+		
+		// collect column bucket values
+		columnBucketMap.insertMeasureValues(bucketVals, false, rowBucketCount);
 	}
 	
 	protected void bucketMeasuresCreated()
@@ -403,6 +412,9 @@ public abstract class BucketingService
 			{
 				if (allBuckets[rowBucketCount - 1].computeTotal() || allBuckets[allBuckets.length - 1].computeTotal())
 				{
+					//FIXME doing this just to insert total entries, we don't actually need to sum anything
+					computeTotals(columnBucketMap);
+					
 					computeTotals(bucketValueMap);
 				}
 			}
@@ -548,7 +560,7 @@ public abstract class BucketingService
 
 	protected void computeRowTotals(BucketMap bucketMap) throws JRException
 	{
-		BucketListMap totals = createCollectBucketMap(rowBucketCount);
+		BucketListMap totals = createRowTotalsBucketMap();
 		
 		for (Iterator<Map.Entry<Bucket, Object>> it = bucketMap.entryIterator(); it.hasNext();)
 		{
@@ -559,7 +571,7 @@ public abstract class BucketingService
 				entry = ((BucketMap) entry.getValue()).getTotalEntry();
 			}
 			
-			totals.collectVals((BucketMap) entry.getValue(), true);			
+			totals.sumValues((BucketMap) entry.getValue());
 		}
 		
 		BucketMap totalBucketMap = bucketMap;
@@ -635,8 +647,8 @@ public abstract class BucketingService
 		public abstract Iterator<Map.Entry<Bucket, Object>> entryIterator();
 
 		public abstract Object get(Bucket key);
-
-		abstract MeasureValue[] insertMeasureValues(Bucket[] bucketValues);
+		
+		abstract MeasureValue[] insertMeasureValues(Bucket[] bucketValues, boolean createValues, int offset);
 
 /*		abstract void fillKeys(Collection collectedKeys);*/
 
@@ -657,7 +669,7 @@ public abstract class BucketingService
 		{
 			super(level);
 			
-			if (allBuckets[level].isSorted())
+			if (!sorted && allBuckets[level].isSorted())
 			{
 				this.map = new TreeMap<Bucket, Object>();
 			}
@@ -682,10 +694,10 @@ public abstract class BucketingService
 			return map.get(key);
 		}
 
-		MeasureValue[] insertMeasureValues(Bucket[] bucketValues)
+		MeasureValue[] insertMeasureValues(Bucket[] bucketValues, boolean createValues, int offset)
 		{
-			BucketMapMap levelMap = (BucketMapMap) bucketValueMap;
-			for (int i = 0; i < bucketValues.length - 1; i++)
+			BucketMapMap levelMap = this;
+			for (int i = offset; i < bucketValues.length - 1; i++)
 			{
 				BucketMapMap nextMap = (BucketMapMap) levelMap.get(bucketValues[i]);
 				if (nextMap == null)
@@ -700,10 +712,17 @@ public abstract class BucketingService
 			MeasureValue[] values = (MeasureValue[]) levelMap.get(bucketValues[bucketValues.length - 1]);
 			if (values == null)
 			{
-				values = initMeasureValues();
-				levelMap.map.put(bucketValues[bucketValues.length - 1], values);
+				if (createValues)
+				{
+					values = initMeasureValues();
+					bucketMeasuresCreated();
+				}
+				else
+				{
+					values = zeroMeasureValues;
+				}
 				
-				bucketMeasuresCreated();
+				levelMap.map.put(bucketValues[bucketValues.length - 1], values);
 			}
 
 			return values;
@@ -744,19 +763,11 @@ public abstract class BucketingService
 		// TODO implement this in a single structure
 		Map<Bucket, Object> entryMap;
 
-		BucketListMap(int level, boolean linked)
+		BucketListMap(int level)
 		{
 			super(level);
 
-			if (linked)
-			{
-				entries = new LinkedList<Map.Entry<Bucket, Object>>();
-			}
-			else
-			{
-				entries = new ArrayList<Map.Entry<Bucket, Object>>();
-			}
-			
+			entries = new ArrayList<Map.Entry<Bucket, Object>>();
 			entryMap = new HashMap<Bucket, Object>();
 		}
 
@@ -782,9 +793,9 @@ public abstract class BucketingService
 			return entryMap.get(key);
 		}
 
-		MeasureValue[] insertMeasureValues(Bucket[] bucketValues)
+		MeasureValue[] insertMeasureValues(Bucket[] bucketValues, boolean createValues, int offset)
 		{
-			int i = 0;
+			int i = offset;
 			Object levelObj = this;
 			BucketListMap map = null;
 			while (i < allBuckets.length)
@@ -813,17 +824,24 @@ public abstract class BucketingService
 
 			while (i < allBuckets.length - 1)
 			{
-				BucketListMap nextMap = new BucketListMap(i + 1, false);
+				BucketListMap nextMap = new BucketListMap(i + 1);
 				map.add(bucketValues[i], nextMap);
 				map = nextMap;
 				++i;
 			}
 
-			MeasureValue[] values = initMeasureValues();
-			map.add(bucketValues[i], values);
+			MeasureValue[] values;
+			if (createValues)
+			{
+				values = initMeasureValues();
+				bucketMeasuresCreated();
+			}
+			else
+			{
+				values = zeroMeasureValues;
+			}
 			
-			bucketMeasuresCreated();
-
+			map.add(bucketValues[i], values);
 			return values;
 		}
 
@@ -856,73 +874,57 @@ public abstract class BucketingService
 		}
 
 		
-		void collectVals(BucketMap map, boolean sum) throws JRException
+		void sumValues(BucketMap map) throws JRException
 		{
 			ListIterator<Map.Entry<Bucket, Object>> totalIt = entries.listIterator();
-			MapEntry totalItEntry = totalIt.hasNext() ? (MapEntry) totalIt.next() : null;
 			
-			Iterator<Map.Entry<Bucket, Object>> it = map.entryIterator();
-			Map.Entry<Bucket, Object> entry = it.hasNext() ? it.next() : null;
-			while(entry != null)
+			for (Iterator<Map.Entry<Bucket, Object>> it = map.entryIterator(); it.hasNext();)
 			{
-				Bucket key = entry.getKey();
+				Map.Entry<Bucket, Object> entry = it.next();
 				
-				int compare = totalItEntry == null ? -1 : key.compareTo(totalItEntry.key);
-				if (compare <= 0)
+				// find the total entry that matches the map entry.
+				// the total map is should contain all collected entries, and in the same order as the detail map,
+				// therefore we can assert that we are able to look sequentially in the total map until we find the entry. 
+				Entry<Bucket, Object> totalEntry = totalIt.next();
+				while (!totalEntry.getKey().equals(entry.getKey()))
 				{
-					Object addVal = null;
-					
-					if (last)
-					{
-						if (sum)
-						{
-							MeasureValue[] totalVals = compare == 0 ? (MeasureValue[]) totalItEntry.value : null;
-
-							if (totalVals == null)
-							{
-								totalVals = initMeasureValues();
-								addVal = totalVals;
-							}
-
-							sumVals(totalVals, (MeasureValue[]) entry.getValue());
-						}
-					}
-					else
-					{
-						BucketListMap nextTotals = compare == 0 ? (BucketListMap) totalItEntry.value : null;
-						
-						if (nextTotals == null)
-						{
-							nextTotals = createCollectBucketMap(level + 1);
-							addVal = nextTotals;
-						}
-						
-						nextTotals.collectVals((BucketMap) entry.getValue(), sum);
-					}
-					
-					if (compare < 0)
-					{
-						if (totalItEntry != null)
-						{
-							totalIt.previous();
-						}
-						
-						totalIt.add(new MapEntry(key, addVal));
-						entryMap.put(key, addVal);
-						
-						if (totalItEntry != null)
-						{
-							totalIt.next();
-						}
-					}
-					
-					entry = it.hasNext() ? it.next() : null;
+					totalEntry = totalIt.next();
 				}
 				
-				if (compare >= 0)
+				if (last)
 				{
-					totalItEntry = totalIt.hasNext() ? (MapEntry) totalIt.next() : null;
+					// last level, sum the values
+					sumVals((MeasureValue[]) totalEntry.getValue(), (MeasureValue[]) entry.getValue());
 				}
+				else
+				{
+					// go to the next level
+					((BucketListMap) totalEntry.getValue()).sumValues((BucketMap) entry.getValue());
+				}
+			}
+		}
+
+		void copyEntries(BucketMap bucketMap)
+		{
+			for (Iterator<Entry<Bucket, Object>> bucketIterator = bucketMap.entryIterator(); bucketIterator.hasNext();)
+			{
+				Entry<Bucket, Object> bucketEntry = bucketIterator.next();
+				Bucket bucketKey = bucketEntry.getKey();
+				
+				Object copyBucketValue;
+				if (bucketMap.last)
+				{
+					copyBucketValue = initMeasureValues();
+				}
+				else
+				{
+					BucketMap bucketSubMap = (BucketMap) bucketEntry.getValue();
+					BucketListMap copyBucketSubMap = new BucketListMap(level + 1);
+					copyBucketSubMap.copyEntries(bucketSubMap);
+					copyBucketValue = copyBucketSubMap;
+				}
+				
+				add(bucketKey, copyBucketValue);
 			}
 		}
 		
