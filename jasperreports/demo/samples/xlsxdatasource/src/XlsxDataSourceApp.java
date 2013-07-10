@@ -408,8 +408,8 @@ public class XlsxDataSourceApp extends AbstractSampleApp
 		
 		try
 		{
-			String[] columnNames = new String[]{"city", "id", "name", "address", "state"};
-			int[] columnIndexes = new int[]{0, 2, 3, 4, 5};
+			String[] columnNames = new String[]{"city", "id", "name", "address", "state", "date"};
+			int[] columnIndexes = new int[]{0, 2, 3, 4, 5, 6};
 			ds = new JRXlsxDataSource(JRLoader.getLocationInputStream("data/MultisheetXlsxDataSource.data.xlsx"));
 //			ds.setUseFirstRowAsHeader(true);
 			ds.setColumnNames(columnNames, columnIndexes);
