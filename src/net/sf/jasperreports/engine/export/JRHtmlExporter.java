@@ -1549,8 +1549,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 		if (textLength > 0)
 		{
 			//only use text tooltip when no hyperlink present
-			String textTooltip = hyperlinkStarted ? null : text.getHyperlinkTooltip();
-			exportStyledText(text, styledText, textTooltip);
+//			String textTooltip = hyperlinkStarted ? null : text.getHyperlinkTooltip();
+			exportStyledText(text, styledText, text.getHyperlinkTooltip());
 		}
 		else
 		{
