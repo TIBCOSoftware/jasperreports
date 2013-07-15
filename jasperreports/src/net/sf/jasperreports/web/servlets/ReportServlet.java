@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.HtmlExporter;
@@ -52,7 +51,6 @@ import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
 import net.sf.jasperreports.web.util.VelocityUtil;
 import net.sf.jasperreports.web.util.WebUtil;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -74,11 +72,8 @@ public class ReportServlet extends AbstractServlet
 	private static final String TEMPLATE_HEADER_NOPAGES = "net/sf/jasperreports/web/servlets/resources/templates/HeaderTemplateNoPages.vm";
 	private static final String TEMPLATE_FOOTER_NOPAGES = "net/sf/jasperreports/web/servlets/resources/templates/FooterTemplateNoPages.vm";
 	
-	private static final String REQUEST_PARAMETER_IGNORE_PAGINATION = "jr.ignrpg";
-	private static final String REQUEST_PARAMETER_ACTION = "jr.action";
-	private static final String REQUEST_PARAMETER_PAGE = "jr.page";
-	private static final String REQUEST_PARAMETER_PAGE_TIMESTAMP = "jr.pagetimestamp";
-	private static final String REQUEST_PARAMETER_PAGE_UPDATE = "jr.pageUpdate";
+	private static final String REQUEST_PARAMETER_IGNORE_PAGINATION = "jr_ignrpg";
+	private static final String REQUEST_PARAMETER_ACTION = "jr_action";
 
 	
 
@@ -107,7 +102,7 @@ public class ReportServlet extends AbstractServlet
 
 		try
 		{
-			if (request.getParameterMap().containsKey(REQUEST_PARAMETER_PAGE_UPDATE))
+			if (request.getParameterMap().containsKey(WebUtil.REQUEST_PARAMETER_PAGE_UPDATE))
 			{
 				//FIXME move this to a different servlet
 				pageUpdate(request, response, webReportContext);
@@ -137,7 +132,17 @@ public class ReportServlet extends AbstractServlet
 		catch (Exception e)
 		{
 			log.error("Error on report execution", e);
+
+			response.setContentType("application/json; charset=UTF-8");
+			response.setStatus(404);
 			
+			out.println("{");
+			out.println("\"msg\": \"JasperReports encountered an error!\"");
+			out.println("}");
+			
+			
+			
+			/*
 			out.println("<html>");//FIXMEJIVE do we need to render this? or should this be done by the viewer?
 			out.println("<head>");
 			out.println("<title>JasperReports - Web Application Sample</title>");
@@ -151,6 +156,7 @@ public class ReportServlet extends AbstractServlet
 			out.println("</pre>");
 			out.println("</body>");
 			out.println("</html>");
+			*/
 		}
 		
 	}
@@ -170,16 +176,13 @@ public class ReportServlet extends AbstractServlet
 				WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR
 			);
 
-		JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(getJasperReportsContext());
-		String runReportParamName = propUtil.getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_RUN_REPORT);
-		String runReport = request.getParameter(runReportParamName);
+		String runReport = request.getParameter(WebUtil.REQUEST_PARAMETER_RUN_REPORT);
 		if (jasperPrintAccessor == null || Boolean.valueOf(runReport))
 		{
-			String reportUriParamName = propUtil.getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_REPORT_URI);
-			String reportUri = request.getParameter(reportUriParamName);
+			String reportUri = request.getParameter(WebUtil.REQUEST_PARAMETER_REPORT_URI);
 			if (reportUri != null)
 			{
-				webReportContext.setParameterValue(reportUriParamName, reportUri);
+				webReportContext.setParameterValue(WebUtil.REQUEST_PARAMETER_REPORT_URI, reportUri);
 			}
 			
 			Boolean isIgnorePagination = Boolean.valueOf(request.getParameter(REQUEST_PARAMETER_IGNORE_PAGINATION));
@@ -188,11 +191,10 @@ public class ReportServlet extends AbstractServlet
 				webReportContext.setParameterValue(JRParameter.IS_IGNORE_PAGINATION, isIgnorePagination);
 			}		
 			
-			String asyncParamName = propUtil.getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_ASYNC_REPORT);
-			String async = request.getParameter(asyncParamName);
+			String async = request.getParameter(WebUtil.REQUEST_PARAMETER_ASYNC_REPORT);
 			if (async != null)
 			{
-				webReportContext.setParameterValue(asyncParamName, Boolean.valueOf(async));
+				webReportContext.setParameterValue(WebUtil.REQUEST_PARAMETER_ASYNC_REPORT, Boolean.valueOf(async));
 			}
 
 			Action action = getAction(webReportContext, WebUtil.decodeUrl(request.getParameter(REQUEST_PARAMETER_ACTION)));
@@ -233,9 +235,9 @@ public class ReportServlet extends AbstractServlet
 		ReportPageStatus pageStatus;
 		if (hasPages)
 		{
-			String reportPage = request.getParameter(REQUEST_PARAMETER_PAGE);
+			String reportPage = request.getParameter(WebUtil.REQUEST_PARAMETER_PAGE);
 			int pageIdx = reportPage == null ? 0 : Integer.parseInt(reportPage);
-			String pageTimestamp = request.getParameter(REQUEST_PARAMETER_PAGE_TIMESTAMP);
+			String pageTimestamp = request.getParameter(WebUtil.REQUEST_PARAMETER_PAGE_TIMESTAMP);
 			Long timestamp = pageTimestamp == null ? null : Long.valueOf(pageTimestamp);
 			
 			pageStatus = jasperPrintAccessor.pageStatus(pageIdx, timestamp);
@@ -283,7 +285,7 @@ public class ReportServlet extends AbstractServlet
 				WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR);
 		contextMap.put("totalPages", jasperPrintAccessor.getReportStatus().getTotalPageCount());
 
-		String reportPage = request.getParameter(REQUEST_PARAMETER_PAGE);
+		String reportPage = request.getParameter(WebUtil.REQUEST_PARAMETER_PAGE);
 		contextMap.put("currentPage", (reportPage != null ? reportPage : "0"));
 		
 		if (!pageStatus.isPageFinal())
@@ -357,9 +359,9 @@ public class ReportServlet extends AbstractServlet
 			throw new JRRuntimeException("Did not find the report on the session.");
 		}
 		
-		String pageIdxParam = request.getParameter(REQUEST_PARAMETER_PAGE);
+		String pageIdxParam = request.getParameter(WebUtil.REQUEST_PARAMETER_PAGE);
 		Integer pageIndex = pageIdxParam == null ? null : Integer.valueOf(pageIdxParam);
-		String pageTimestampParam = request.getParameter(REQUEST_PARAMETER_PAGE_TIMESTAMP);
+		String pageTimestampParam = request.getParameter(WebUtil.REQUEST_PARAMETER_PAGE_TIMESTAMP);
 		Long pageTimestamp = pageTimestampParam == null ? null : Long.valueOf(pageTimestampParam);
 		
 		if (log.isDebugEnabled())

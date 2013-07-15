@@ -42,6 +42,30 @@
 		<servlet-name>ReportServlet</servlet-name>
 		<servlet-class>net.sf.jasperreports.web.servlets.ReportServlet</servlet-class>
 	</servlet>
+	
+	<!--  begin: report execution servlets -->
+	<servlet>
+		<servlet-name>ReportContextCreatorServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ReportContextCreatorServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ReportOutputServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ReportOutputServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ReportPageStatusServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ReportPageStatusServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ReportActionServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ReportActionServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ReportJiveComponentsServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ReportJiveComponentsServlet</servlet-class>
+	</servlet>
+	<!-- end: report execution servlets -->
+	
 	<servlet>
 		<servlet-name>ResourceServlet</servlet-name>
 		<servlet-class>net.sf.jasperreports.web.servlets.ResourceServlet</servlet-class>
@@ -51,7 +75,6 @@
 		<servlet-class>net.sf.jasperreports.web.servlets.ImageServlet</servlet-class>
 	</servlet>
 	
-
 	<servlet-mapping>
 		<servlet-name>DefaultViewerServlet</servlet-name>
 		<url-pattern>/servlets/viewer</url-pattern>
@@ -64,6 +87,30 @@
 		<servlet-name>ReportServlet</servlet-name>
 		<url-pattern>/servlets/report</url-pattern>
 	</servlet-mapping>
+	
+	<!--  begin: report execution servlets mappings -->
+	<servlet-mapping>
+		<servlet-name>ReportContextCreatorServlet</servlet-name>
+		<url-pattern>/servlets/reportcontext</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ReportOutputServlet</servlet-name>
+		<url-pattern>/servlets/reportoutput</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ReportPageStatusServlet</servlet-name>
+		<url-pattern>/servlets/reportpagestatus</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ReportActionServlet</servlet-name>
+		<url-pattern>/servlets/reportaction</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ReportJiveComponentsServlet</servlet-name>
+		<url-pattern>/servlets/reportcomponents</url-pattern>
+	</servlet-mapping>
+	<!-- end: report execution servlets mappings -->	
+	
 	<servlet-mapping>
 		<servlet-name>ResourceServlet</servlet-name>
 		<url-pattern>/servlets/resource</url-pattern>

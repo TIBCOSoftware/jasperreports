@@ -177,9 +177,8 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			
 			velocityContext.put("isFilterable", filterType != null);
 			velocityContext.put("filterDivId", "filter_" + sortDatasetName + "_" + sortColumnName);
-			String reportUriParamName = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_REPORT_URI);
-			velocityContext.put("filterReportUriParamName", reportUriParamName);
-			velocityContext.put("filterReportUriParamValue", reportContext.getParameterValue(reportUriParamName));
+			velocityContext.put("filterReportUriParamName", WebUtil.REQUEST_PARAMETER_REPORT_URI);
+			velocityContext.put("filterReportUriParamValue", reportContext.getParameterValue(WebUtil.REQUEST_PARAMETER_REPORT_URI));
 			velocityContext.put("filterColumnName", sortColumnName);
 			velocityContext.put("filterTableNameValue", sortDatasetName);
 			velocityContext.put("filterTypeParamNameValue", filterType.getName());
@@ -351,8 +350,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		ReportContext reportContext = context.getExporter().getReportContext();
 		Map<String, Object> actionParams = new HashMap<String, Object>();
 		actionParams.put(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, reportContext.getId());
-		String runReportParamName = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_RUN_REPORT);
-		actionParams.put(runReportParamName, true);
+		actionParams.put(WebUtil.REQUEST_PARAMETER_RUN_REPORT, true);
 		
 		return JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(actionParams);
 	}

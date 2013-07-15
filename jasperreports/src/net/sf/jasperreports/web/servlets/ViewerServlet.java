@@ -23,27 +23,23 @@
  */
 package net.sf.jasperreports.web.servlets;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.web.WebReportContext;
-import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 import net.sf.jasperreports.web.util.WebUtil;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 
 /**
@@ -248,26 +244,33 @@ public class ViewerServlet extends AbstractServlet
 	protected String getBody(HttpServletRequest request, WebReportContext webReportContext, String toolbarId) {
 		Map<String, Object> contextMap = new HashMap<String, Object>();
 		
-		@SuppressWarnings("unchecked")
-		Enumeration<String> paramsEnum = request.getParameterNames();
+//		@SuppressWarnings("unchecked")
+//		Enumeration<String> paramsEnum = request.getParameterNames();
+//		
+//		Map<String, String> paramsMap = new HashMap<String, String>();
+//		
+//		while(paramsEnum.hasMoreElements()) {
+//			String param = paramsEnum.nextElement();
+//			paramsMap.put(param, request.getParameter(param));
+//		}
+//		paramsMap.put(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, String.valueOf(webReportContext.getId()));
+		String reportBaseUrl = WebUtil.getInstance(getJasperReportsContext()).getReportInteractionPath();
+
+//		contextMap.put("jsonParamsObject", JacksonUtil.getInstance(getJasperReportsContext()).getEscapedJsonString(paramsMap));
+//		contextMap.put("toolbarId", toolbarId);
 		
-		Map<String, String> paramsMap = new HashMap<String, String>();
+		contextMap.put("baseUrl", request.getContextPath() + reportBaseUrl);
 		
-		while(paramsEnum.hasMoreElements()) {
-			String param = paramsEnum.nextElement();
-			paramsMap.put(param, request.getParameter(param));
-		}
-		paramsMap.put(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, String.valueOf(webReportContext.getId()));
-//		paramsMap.put(ReportServlet.REQUEST_PARAMETER_TOOLBAR_ID, toolbarId);
+		String reportUri = request.getParameter(WebUtil.REQUEST_PARAMETER_REPORT_URI);
 		
-		//contextMap.put("reportUrl", request.getContextPath() + request.getServletPath());
-		//contextMap.put("reportUrl", request.getContextPath() + ReportServlet.DEFAULT_PATH);
-		String reportUrl = WebUtil.getInstance(getJasperReportsContext()).getReportInteractionPath();
-		//contextMap.put("contextPath", request.getContextPath());
-		contextMap.put("reportUrl", request.getContextPath() + reportUrl);
-		contextMap.put("jsonParamsObject", JacksonUtil.getInstance(getJasperReportsContext()).getEscapedJsonString(paramsMap));
-		contextMap.put("toolbarId", toolbarId);
-		contextMap.put("ctxId", webReportContext.getId());
+		contextMap.put("reportUri", reportUri);
+		contextMap.put("contextId", webReportContext.getId());
+		
+		contextMap.put("async", Boolean.valueOf(request.getParameter(WebUtil.REQUEST_PARAMETER_ASYNC_REPORT)));
+		
+		String reportPage = request.getParameter(WebUtil.REQUEST_PARAMETER_PAGE);
+		int pageIdx = reportPage == null ? 0 : Integer.parseInt(reportPage);
+		contextMap.put("page", pageIdx);
 		
 		return VelocityUtil.processTemplate(getBodyTemplate(), contextMap);
 	}
