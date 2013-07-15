@@ -1,0 +1,55 @@
+#if (${exporterFirstAttempt})
+"${tableUUID}": {
+	"id": "${tableUUID}",
+	"type": "table",
+	"module": "jive.table",
+	"allColumnsData": ${allColumnNames} 
+}, 
+#end
+"${columnUuid}": {
+    "id": "${columnUuid}",
+    "type": "column",
+    "parentId": "${tableUUID}",
+    "tableId": "${tableUUID}",
+    "selector": ".jrcolHeader",
+    "proxySelector": ".jrcel",
+    "columnIndex": ${columnIndex},
+    "columnLabel": "$JRStringUtil.htmlEncode(${columnLabel})",
+    "filterData": {"actionName": "filter"},
+    "clearData": {"actionName": "filter", "filterData": {"clearFilter": true}},
+    "canSort": ${canSort},
+    #if (${canSort})
+    "headerToolbar": {
+    	"sortAscBtn": {"sortData": {"actionName":"sort","sortData":${sortAscData}}},
+        "sortDescBtn": {"sortData": {"actionName":"sort","sortData":${sortDescData}}}
+    },
+    #end
+    "canFilter": ${canFilter},
+    #if (${canFilter})
+    "filtering": {
+        "filterColumnNameLabel": "$JRStringUtil.htmlEncode(${filterColumnNameLabel})",
+        "filterOperatorTypeValueSelector": [
+            #foreach( $entry in ${filterTypeValuesMap.entrySet()} )
+                {"key": "$entry.key", "val": "$entry.value"},
+            #end
+            null
+        ],
+        "filterData": ${filterData}
+    },
+    #end
+    #if (${hasPattern})
+        "formatPatternLabel": "${formatPatternLabel}",
+        "formatPatternSelector": [
+            #foreach( $entry in ${valuesFormatPatternMap.entrySet()} )
+                {"key": "$entry.key", "val": "$entry.value"},
+            #end
+            null
+        ],
+    #end
+    "canFormatConditionally": ${canFormatConditionally},
+    #if (${canFormatConditionally})
+    "conditionalFormatting": ${conditionalFormattingData},
+    #end
+    "headingsTabContent": ${colHeaderData},
+    "valuesTabContent": ${colValueData}
+}

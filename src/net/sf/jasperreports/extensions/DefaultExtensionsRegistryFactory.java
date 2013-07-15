@@ -29,6 +29,7 @@ import java.util.List;
 import net.sf.jasperreports.charts.ChartThemeBundle;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementHtmlHandler;
+import net.sf.jasperreports.components.headertoolbar.json.HeaderToolbarElementJsonHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElement;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementGraphics2DHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementHtmlHandler;
@@ -60,6 +61,7 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JsonExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -155,13 +157,17 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				}
 				if (HeaderToolbarElement.ELEMENT_NAME.equals(elementName))
 				{
-					if (JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
+//					if (JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
+//					{
+//						return new HeaderToolbarElementHtmlHandler();
+//					} 
+//					else if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
+//					{
+//						return new net.sf.jasperreports.components.headertoolbar.htmlv2.HeaderToolbarElementHtmlHandler();
+//					}
+					if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
 					{
-						return new HeaderToolbarElementHtmlHandler();
-					} 
-					else if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
-					{
-						return new net.sf.jasperreports.components.headertoolbar.htmlv2.HeaderToolbarElementHtmlHandler();
+						return new HeaderToolbarElementJsonHandler();
 					}
 				}
 				if (IconLabelElement.ELEMENT_NAME.equals(elementName))
