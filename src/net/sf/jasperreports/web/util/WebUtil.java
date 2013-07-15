@@ -42,9 +42,12 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
  */
 public final class WebUtil
 {
-	public static final String PROPERTY_REQUEST_PARAMETER_REPORT_URI = JRPropertiesUtil.PROPERTY_PREFIX + "web.request.parameter.report.uri";
-	public static final String PROPERTY_REQUEST_PARAMETER_RUN_REPORT = JRPropertiesUtil.PROPERTY_PREFIX + "web.request.parameter.run.report";
-	public static final String PROPERTY_REQUEST_PARAMETER_ASYNC_REPORT = JRPropertiesUtil.PROPERTY_PREFIX + "web.request.parameter.async.report";
+    public static final String REQUEST_PARAMETER_REPORT_URI = "jr_report_uri";
+    public static final String REQUEST_PARAMETER_ASYNC_REPORT = "jr_async";
+    public static final String REQUEST_PARAMETER_PAGE = "jr_page";
+    public static final String REQUEST_PARAMETER_PAGE_TIMESTAMP = "jr_page_timestamp";
+	public static final String REQUEST_PARAMETER_PAGE_UPDATE = "jr_page_update";
+	public static final String REQUEST_PARAMETER_RUN_REPORT = "jr_run";
 
 	public static final String PROPERTY_REQUEST_PARAMETER_RESOURCE_URI = JRPropertiesUtil.PROPERTY_PREFIX + "web.request.parameter.resource.uri";
 	public static final String PROPERTY_REQUEST_PARAMETER_RESOURCE_LOCALE = JRPropertiesUtil.PROPERTY_PREFIX + "web.request.parameter.resource.locale";
@@ -57,8 +60,8 @@ public final class WebUtil
 
 	public static final String RESOURCE_JR_GLOBAL_JS = "net/sf/jasperreports/web/servlets/resources/require/jasperreports-global.js";
 	public static final String RESOURCE_JR_GLOBAL_CSS = "net/sf/jasperreports/web/servlets/resources/jasperreports-global.css";
-	public static final String RESOURCE_JIVE_JS = "net/sf/jasperreports/web/servlets/resources/require/jive.js";
-	public static final String RESOURCE_JIVE_I18N_JS = "net/sf/jasperreports/web/servlets/resources/require/jive.i18n.vm.js";
+	public static final String RESOURCE_JIVE_JS = "net/sf/jasperreports/web/servlets/resources/require/jive/jive.js";
+	public static final String RESOURCE_JIVE_I18N_JS = "net/sf/jasperreports/web/servlets/resources/require/jive/jive.i18n.vm.js";
 
 	private JasperReportsContext jasperReportsContext;
 	

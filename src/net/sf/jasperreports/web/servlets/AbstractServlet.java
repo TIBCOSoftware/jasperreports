@@ -24,6 +24,7 @@
 package net.sf.jasperreports.web.servlets;
 
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -38,7 +39,13 @@ public class AbstractServlet extends HttpServlet
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private static JasperReportsContext jasperReportsContext;
-	
+
+	protected static final String JSON_CONTENT_TYPE = "application/json; charset=UTF-8";
+	protected static final String HTML_CONTENT_TYPE = "text/html; charset=UTF-8";
+
+	protected static final String JSON_ACCEPT_HEADER = "application/json";
+	protected static final String HTML_ACCEPT_HEADER = "text/html";
+
 
 	/**
 	 *
@@ -56,4 +63,14 @@ public class AbstractServlet extends HttpServlet
 		jasperReportsContext = jrctx;
 	}
 
+	protected void setNoExpire(HttpServletResponse response) {
+		// Set to expire far in the past.
+		response.setHeader("Expires", "Sat, 6 May 1995 12:00:00 GMT");
+		// Set standard HTTP/1.1 no-cache headers.
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+		// Set IE extended HTTP/1.1 no-cache headers (use addHeader).
+		response.addHeader("Cache-Control", "post-check=0, pre-check=0");
+		// Set standard HTTP/1.0 no-cache header.
+		response.setHeader("Pragma", "no-cache");
+	}
 }

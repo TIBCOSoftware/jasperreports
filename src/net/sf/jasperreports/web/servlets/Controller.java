@@ -26,7 +26,6 @@ package net.sf.jasperreports.web.servlets;
 import net.sf.jasperreports.data.cache.ColumnDataCacheHandler;
 import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -77,9 +76,7 @@ public class Controller
 		Action action
 		) throws JRException, JRInteractiveException
 	{
-		JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
-		String reportUriParamName = propUtil.getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_REPORT_URI);
-		String reportUri = (String)webReportContext.getParameterValue(reportUriParamName);
+		String reportUri = (String)webReportContext.getParameterValue(WebUtil.REQUEST_PARAMETER_REPORT_URI);
 		int initialStackSize = 0;
 		CommandStack commandStack = (CommandStack)webReportContext.getParameterValue(AbstractAction.PARAM_COMMAND_STACK);
 		if (commandStack != null) {
@@ -108,13 +105,12 @@ public class Controller
 			throw new JRException("Report not found at : " + reportUri);
 		}
 		
-		String asyncParamName = propUtil.getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_ASYNC_REPORT);
-		Boolean async = (Boolean)webReportContext.getParameterValue(asyncParamName);
+		Boolean async = (Boolean)webReportContext.getParameterValue(WebUtil.REQUEST_PARAMETER_ASYNC_REPORT);
 		if (async == null)
 		{
 			async = Boolean.FALSE;
 		}
-		webReportContext.setParameterValue(asyncParamName, async);
+		webReportContext.setParameterValue(WebUtil.REQUEST_PARAMETER_ASYNC_REPORT, async);
 		
 		try {
 			runReport(webReportContext, jasperReport, async.booleanValue());

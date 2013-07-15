@@ -464,8 +464,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		ReportContext reportContext = context.getExporter().getReportContext();
 		Map<String, Object> actionParams = new HashMap<String, Object>();
 		actionParams.put(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, reportContext.getId());
-		String runReportParamName = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_RUN_REPORT);
-		actionParams.put(runReportParamName, true);
+		actionParams.put(WebUtil.REQUEST_PARAMETER_RUN_REPORT, true);
 		
 //		return JacksonUtil.getInstance(context.getJasperReportsContext()).getEscapedJsonString(actionParams);
 		return JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(actionParams);

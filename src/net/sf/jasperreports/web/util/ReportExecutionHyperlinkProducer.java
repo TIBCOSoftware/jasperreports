@@ -82,8 +82,7 @@ public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 	{
 		String appContext = request.getContextPath();
 		String servletPath = getPath();
-		String reportUriParamName = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_REPORT_URI);
-		String reportUri = request.getParameter(reportUriParamName);
+		String reportUri = request.getParameter(WebUtil.REQUEST_PARAMETER_REPORT_URI);
 //		String reportAction = null;//request.getParameter(FillServlet.REPORT_ACTION);
 //		String reportActionData = null;//request.getParameter(FillServlet.REPORT_ACTION_DATA);
 		
@@ -122,7 +121,7 @@ public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 		
 		return 
 			appContext + (servletPath != null ? servletPath : "")
-				+ "?" + reportUriParamName + "=" + reportUri 
+				+ "?" + WebUtil.REQUEST_PARAMETER_REPORT_URI + "=" + reportUri
 //				+ (reportAction == null ? "" : "&" + FillServlet.REPORT_ACTION + "=" + reportAction) 
 //				+ (reportActionData == null ? "" : "&" + FillServlet.REPORT_ACTION_DATA + "=" + reportActionData)
 				+ allParams.toString();
