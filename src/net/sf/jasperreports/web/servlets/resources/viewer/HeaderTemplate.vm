@@ -8,16 +8,27 @@
 	</style>
    	<script src='${contextPath}/javascript/require.js'></script>
    	<script>
-        var jsPath = '/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require';
-
-        requirejs.config({
+   		requirejs.config({
    			baseUrl: "${contextPath}",
    			paths: {
-                "validator": jsPath + '/validator.js',
-   				"jasperreports-viewer": jsPath + '/jasperreports-viewer.js',
-   				"jasperreports-loader": jsPath + '/jasperreports-loader.js',
-   				"jasperreports-report": jsPath + '/jasperreports-report.js',
-   				"jive.column": jsPath + '/jive.column.js',
+   				"jasperreports-report": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/report/jasperreports-report.js",
+   				"jasperreports-status-checker": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/report/jasperreports-status-checker.js",
+   				"jasperreports-component-registrar": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/report/jasperreports-component-registrar.js",
+   				"jasperreports-url-manager": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/util/jasperreports-url-manager.js",
+   				"jasperreports-loader": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/util/jasperreports-loader.js",
+   				"jasperreports-viewer": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/viewer/jasperreports-viewer.js",
+
+   				jquery: "jquery/amd/jquery-1.10.1",
+   				jqueryui: "jquery/amd/jqueryui-1.8.18",
+   				jquerytimepicker: "jquery/amd/jquery-ui-timepicker-addon",
+   				
+   				jive: "${jive_js}",
+   				jivei18n: "${jiveI18n_js}",
+
+                "jive.column": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/jive/jive.column.js",
+                "jive.table": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/jive/jive.table.js",
+                "validator": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/validator.js",
+
    				async: "javascript/async"
    			}
    		});
@@ -62,4 +73,3 @@
 <tr>
   <td width="50%">&nbsp;</td>
   <td align="center">
-<div class='result' style='display: table-cell'>

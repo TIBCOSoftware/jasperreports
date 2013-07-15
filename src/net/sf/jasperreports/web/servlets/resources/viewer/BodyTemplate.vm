@@ -1,17 +1,16 @@
+<div class='jrcontainer' style='display: table-cell'></div>
 <script class='jasperreports'>
-/*	require(["reportviewertoolbar"], function(reportviewertoolbar) {
-		reportviewertoolbar.loadReport('${reportUrl}', '${jsonParamsObject}', '${toolbarId}');
-	});
-*/
-    var reportViewer;
-    var myReportInstance;
-
-	require(['jasperreports-viewer'], function(Viewer){
-        reportViewer = Viewer;
-
-        Viewer.load({
-        	reporturl: '${reportUrl}',
-        	serializedParams: '${jsonParamsObject}'
+    var report = null;
+    
+    require(["jasperreports-viewer"], function(Viewer) {
+        var viewer = new Viewer({
+            at: "jrcontainer",
+            reporturi: "${reportUri}",
+            async: ${async},
+            page: "${page}"
         });
+
+        report = viewer.loadReport();
     });
+    
 </script>
