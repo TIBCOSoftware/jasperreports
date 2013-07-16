@@ -1,16 +1,17 @@
 <div class='jrcontainer' style='display: table-cell'></div>
 <script class='jasperreports'>
-    var report = null;
+    var reportPromise = null,
+        viewer = null;
     
     require(["jasperreports-viewer"], function(Viewer) {
-        var viewer = new Viewer({
+        viewer = new Viewer({
             at: "jrcontainer",
             reporturi: "${reportUri}",
             async: ${async},
             page: "${page}"
         });
 
-        report = viewer.loadReport();
+        reportPromise = viewer.loadReport();
     });
     
 </script>
