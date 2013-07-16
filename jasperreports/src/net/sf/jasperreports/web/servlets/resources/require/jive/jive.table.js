@@ -12,7 +12,7 @@ define(["jive.column", "jquery"], function(Column, $) {
         $.extend(this.config, o);
 
         this.parent = null;
-        this.columns = {};
+        this.column = {};
         this.loader = null;
 	};
 
@@ -21,10 +21,20 @@ define(["jive.column", "jquery"], function(Column, $) {
             var column = new Column(partConfig);
             column.parent = this;
             column.loader = this.loader;
-            this.columns[partConfig.columnIndex] = column;
+            this.column[partConfig.columnIndex] = column;
         },
         getId: function() {
             return this.config.id;
+        },
+
+        // internal functions
+        /**
+         *
+         * @param evt {object} The event object: {type, name, data}
+         */
+        _notify: function(evt) {
+            // bubble the event
+            this.parent._notify(evt);
         }
 	};
 	

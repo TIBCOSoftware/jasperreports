@@ -3,18 +3,32 @@ define(["validator", "jquery"], function(Validator, $){
         this.config = config;
         this.parent = null;
         this.loader = null;
+
+        this.events = {
+            ACTION_PERFORMED: "action"
+        };
     };
 
     Column.prototype = {
         sort: function(parms) {
             Validator.check(parms.order).notNull();
-            var payload = {
+            var it = this,
+                payload = {
                 action: this.config.headerToolbar['sort' + parms.order + 'Btn'].sortData
             };
-            return this.loader.runAction(payload);
+            return this.loader.runAction(payload).then(function(jsonData) {
+                it._notify({
+                    name: it.events.ACTION_PERFORMED,
+                    type: "sort",
+                    data: jsonData
+                });
+
+                return it;
+            });
         },
         move: function(parms) {
-            var payload = {
+            var it = this,
+                payload = {
                 action: [{
                     actionName: 'move',
                     moveColumnData: {
@@ -24,10 +38,19 @@ define(["validator", "jquery"], function(Validator, $){
                     }
                 }]
             };
-            return this.loader.runAction(payload);
+            return this.loader.runAction(payload).then(function(jsonData) {
+                it._notify({
+                    name: it.events.ACTION_PERFORMED,
+                    type: "move",
+                    data: jsonData
+                });
+
+                return it;
+            });
         },
         format: function(parms) {
-            return this.loader.runAction(payload);
+        	throw new Error("not implemented");
+            //return this.loader.runAction(payload);
         },
         filter: function(parms) {
             Validator.check(parms.fieldValueStart).notNull();
@@ -36,17 +59,27 @@ define(["validator", "jquery"], function(Validator, $){
 
             $.extend(this.config.filtering.filterData, parms);
 
-            var payload = {
+            var it = this,
+                payload = {
                 action: [{
                     actionName: 'filter',
                     filterData: this.config.filtering.filterData
                 }]
             };
 
-            return this.loader.runAction(payload);
+            return this.loader.runAction(payload).then(function(jsonData) {
+                it._notify({
+                    name: it.events.ACTION_PERFORMED,
+                    type: "filter",
+                    data: jsonData
+                });
+
+                return it;
+            });
         },
         hide: function() {
-            var payload = {
+            var it = this,
+                payload = {
                 action: {
                     actionName: 'hideUnhideColumns',
                     columnData: {
@@ -56,10 +89,19 @@ define(["validator", "jquery"], function(Validator, $){
                     }
                 }
             };
-            return this.loader.runAction(payload);
+            return this.loader.runAction(payload).then(function(jsonData) {
+                it._notify({
+                    name: it.events.ACTION_PERFORMED,
+                    type: "hide",
+                    data: jsonData
+                });
+
+                return it;
+            });
         },
         unhide: function() {
-            var payload = {
+            var it = this,
+                payload = {
                 action: {
                     actionName: 'hideUnhideColumns',
                     columnData: {
@@ -69,10 +111,19 @@ define(["validator", "jquery"], function(Validator, $){
                     }
                 }
             };
-            return this.loader.runAction(payload);
+            return this.loader.runAction(payload).then(function(jsonData) {
+                it._notify({
+                    name: it.events.ACTION_PERFORMED,
+                    type: "unhide",
+                    data: jsonData
+                });
+
+                return it;
+            });
         },
         resize: function(parms) {
-            var payload = {
+            var it = this,
+                payload = {
                 action: {
                     actionName: 'resize',
                     resizeColumnData: {
@@ -83,7 +134,21 @@ define(["validator", "jquery"], function(Validator, $){
                     }
                 }
             };
-            return this.loader.runAction(payload);
+            return this.loader.runAction(payload).then(function(jsonData) {
+                it._notify({
+                    name: it.events.ACTION_PERFORMED,
+                    type: "resize",
+                    data: jsonData
+                });
+
+                return it;
+            });
+        },
+
+        // internal functions
+        _notify: function(evt) {
+            // bubble the event
+            this.parent._notify(evt);
         }
     }
 
