@@ -113,10 +113,9 @@ define(["jquery"], function(jQuery) {
 					break;
 				}
 			} else {
-				var gm = jasperreports.global,
-				settings = {
-						bgimage : gm.APPLICATION_CONTEXT_PATH + '/images/loadmask.png',
-						loadinggif: gm.APPLICATION_CONTEXT_PATH + '/images/loading4.gif',
+				var settings = {
+						bgimage : jr.APPLICATION_CONTEXT_PATH + '/images/loadmask.png',
+						loadinggif: jr.APPLICATION_CONTEXT_PATH + '/images/loading4.gif',
 						opacity: 0.3
 				};
 				
@@ -266,7 +265,7 @@ define(["jquery"], function(jQuery) {
 			this.status = 'default';
 		},
 		processSubscriber: function(subscriber) {
-			var jr = jasperreports.global, index, i, ln = this.subscribers.length;
+			var i, ln = this.subscribers.length;
 			jr.extractCallbackFunction(subscriber.callback).apply(jr.extractContext(subscriber.ctx), subscriber.args || []);
 			if (!subscriber.keep) {
 				for (i = 0; i < ln; i++) {

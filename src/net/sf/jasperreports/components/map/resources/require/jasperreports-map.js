@@ -1,4 +1,4 @@
-define(["jasperreports"], function(jasperreports) {
+define(["jasperreports-utils"], function(jasperreports) {
 	return {
 		infowindow: {},
 		data: {},
