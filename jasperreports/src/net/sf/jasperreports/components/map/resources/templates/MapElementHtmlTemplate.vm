@@ -15,16 +15,16 @@
 	<script class='jasperreports' type='text/javascript'>
 		requirejs.config({
 			paths: {
-				jasperreportsmap: "${resourceMapJs}" 
+				"jasperreports-map": "${resourceMapJs}"
 			}
 		});
 		
-		require(["jasperreportsmap", "jasperreports"], function(jasperreportsmap, jasperreports) {
+		require(["jasperreports-map", "jasperreports-utils"], function(jasperreportsmap, jasperreports) {
 			jasperreportsmap.initGoogleMaps('${reqParams}');
 			jasperreports.events.subscribeToEvent({
 				name: 'jasperreports.map.init',
 				callback: function() {
-					require("jasperreportsmap").showMap('${mapCanvasId}', ${latitude}, ${longitude}, ${zoom}, '${mapType}', ${markerList});
+					require("jasperreports-map").showMap('${mapCanvasId}', ${latitude}, ${longitude}, ${zoom}, '${mapType}', ${markerList});
 				}
 			});
 		});

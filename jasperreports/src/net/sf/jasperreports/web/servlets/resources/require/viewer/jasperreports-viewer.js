@@ -94,6 +94,19 @@ define(["jasperreports-report", "jquery"], function(Report, $) {
             }).on("pageModified", function() {
                 this.refreshPage(this.currentpage);
             });
+
+            // temporary bind existing toolbar ui
+            var toolbar = $("#toolbar");
+            $(".pageNext, .pagePrevious").removeClass("disabledViewerButton");
+
+            toolbar.on("click", function(evt) {
+                var target = $(evt.target);
+                if (target.is('.pageNext')) {
+                    report.gotoPage(parseInt(report.currentpage) + 1);
+                } else if (target.is('.pagePrevious')) {
+                    report.gotoPage(parseInt(report.currentpage) - 1);
+                }
+            });
         }
     };
 

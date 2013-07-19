@@ -18,6 +18,7 @@
    				"jasperreports-event-manager": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/util/jasperreports-event-manager.js",
    				"jasperreports-loader": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/util/jasperreports-loader.js",
    				"jasperreports-viewer": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/viewer/jasperreports-viewer.js",
+   				"jasperreports-utils": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/util/jasperreports-utils.js",
 
    				jquery: "jquery/amd/jquery-1.10.1",
    				jqueryui: "jquery/amd/jqueryui-1.8.18",
