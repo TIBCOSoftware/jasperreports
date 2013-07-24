@@ -29,7 +29,7 @@ The JR built-in <code>map</code> component is based on the public
 <a href="http://code.google.com/apis/maps/documentation/javascript/reference.html">Google Maps APIs</a> licensed 
 under the <a href="http://creativecommons.org/licenses/by/3.0">Creative Commons Attribution 3.0 License</a>. Prior to 
 start using this component, please read the <a href="https://developers.google.com/readme/policies">Google site policies</a> 
-page and create your application's pages that use a map component in accordance with these terms and conditions.
+page. Ensure that pages using a map component in your application are in accordance with these terms and conditions.
 <br/>
 The map component in JasperReports exposes some of the main characteristics necessary to generate the most common Google maps, but feature upgrades 
 for this component are planned for future development. The current <code>map</code> component description is found 
