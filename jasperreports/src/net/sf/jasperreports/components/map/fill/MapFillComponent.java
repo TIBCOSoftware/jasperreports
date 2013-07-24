@@ -198,8 +198,11 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		{
 			reqParams += "&language=" + language;
 		}
-		if(clientId != null && signature != null) {
-			reqParams += "&client=" + clientId + "&signature=" + signature;
+		if(clientId != null) {
+			reqParams += "&client=" + clientId;
+			if(signature != null) {
+				reqParams += "&signature=" + signature;
+			}
 		} else if(key != null) {
 			reqParams += "&key=" + key;
 		}
