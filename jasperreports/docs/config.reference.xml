@@ -116,6 +116,16 @@
   </category>
   
   <category>
+  	<name>Map Component</name>
+  	<content>
+  		<property ref="net.sf.jasperreports.components.map.key" />
+  		<property ref="net.sf.jasperreports.components.map.version" />
+  		<property ref="net.sf.jasperreports.components.map.client.id" />
+  		<property ref="net.sf.jasperreports.components.map.signature" />
+  	</content>
+  </category>
+  
+  <category>
   	<name>Table Component</name>
   	<content>
   		<property ref="net.sf.jasperreports.components.sort.up.arrow.char" />
@@ -1582,6 +1592,75 @@ Property that provides the default value for the crosstab <code>ignoreWidth</cod
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.5.3</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.map.key -->
+  
+  <configProperty name="net.sf.jasperreports.components.map.key">
+    <description>
+Property that specifies the Google Maps API key. Using an API key enables additional features: 
+<ul>
+<li>better Maps APIs usage monitoring in your application</li>
+<li>purchasing additional quota if the usage limits are exceeded</li>
+<li>allows Google contact you about your application, if necessary</li>
+</ul>
+<b>Note: </b>The API key <b>must not</b> be included in Google Maps API for Business requests. Business customers should send their 
+<a href="#net.sf.jasperreports.components.map.client.id">client ID</a> instead.
+   	</description>
+    <api>net/sf/jasperreports/components/map/MapComponent.html#PROPERTY_KEY</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.3</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.map.version -->
+  
+  <configProperty name="net.sf.jasperreports.components.map.version">
+    <description>
+Property that indicates which version of the Google Maps API to be loaded. The version property may be set as:
+<ul>
+<li>experimental version - specified by including the <code>.exp</code> suffix: <code>&lt;property name="net.sf.jasperreports.components.map.version" value="3.exp"&gt;</code></li>
+<li>release version - specified either with the release major number (<code>&lt;property name="net.sf.jasperreports.components.map.version" value="3"&gt;</code>) or with the release version number (<code>&lt;property name="net.sf.jasperreports.components.map.version" value="3.12"&gt;</code>)</li>
+<li>numbered version - specified with the version number (<code>&lt;property name="net.sf.jasperreports.components.map.version" value="3.11"&gt;</code>)</li>
+</ul>
+If not specified, the experimental version is loaded by default.
+    </description>
+    <api>net/sf/jasperreports/components/map/MapComponent.html#PROPERTY_VERSION</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.3</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.map.client.id -->
+  
+  <configProperty name="net.sf.jasperreports.components.map.client.id">
+    <description>
+Property that specifies the client ID for Google Maps API for Business. If set, it takes precedence over the <a href="#net.sf.jasperreports.components.map.key">API key</a> property.  
+<br/>
+Usually works along with the <a href="#net.sf.jasperreports.components.map.signature">signature</a> property for signed URLs.
+    </description>
+    <api>net/sf/jasperreports/components/map/MapComponent.html#PROPERTY_CLIENT_ID</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.3</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.map.signature -->
+  
+  <configProperty name="net.sf.jasperreports.components.map.signature">
+    <description>
+Property that specifies the client signature for signed request URLs. For complete information see the official <b>Authentication and Authorization</b> documentation for 
+<a href="https://developers.google.com/maps/documentation/business/image/auth">Maps Image APIs</a> and 
+<a href="https://developers.google.com/maps/documentation/business/webservices/auth">Web Services APIs</a>. 
+    </description>
+    <api>net/sf/jasperreports/components/map/MapComponent.html#PROPERTY_SIGNATURE</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.3</since>
   </configProperty>
   
   
