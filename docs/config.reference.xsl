@@ -43,6 +43,7 @@
 	font-size: 12px;
 	font-weight: bold;
 	font-style: italic;
+	padding-right:8px;
 }
 
 .description {
