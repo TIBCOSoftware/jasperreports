@@ -107,9 +107,14 @@ public final class MapPrintElement
 	public static final String PARAMETER_MARKER_SIZE = "size";
 	
 	/**
-	 * The name of the parameter that provides the marker color.
+	 * The name of the parameter that provides the color for default markers.
 	 */
 	public static final String PARAMETER_MARKER_COLOR = "color";
+	
+	/**
+	 * The name of the parameter that provides the label for default markers.
+	 */
+	public static final String PARAMETER_MARKER_LABEL = "label";
 	
 	/**
 	 * The name of the parameter that provides the Google API map request parameters.
