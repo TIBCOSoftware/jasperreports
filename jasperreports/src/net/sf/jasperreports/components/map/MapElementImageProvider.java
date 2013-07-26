@@ -89,6 +89,8 @@ public class MapElementImageProvider
 					currentMarkers += size != null && size.length() > 0 ? "size:" + size + "%7C" : "";
 					String color = (String)map.get(MapPrintElement.PARAMETER_MARKER_COLOR);
 					currentMarkers += color != null && color.length() > 0 ? "color:0x" + color + "%7C" : "";
+					String label = (String)map.get(MapPrintElement.PARAMETER_MARKER_LABEL);
+					currentMarkers += label != null && label.length() > 0 ? "label:" + label.charAt(0) + "%7C" : "";
 					String icon = map.get(MapPrintElement.PARAMETER_MARKER_ICON_URL) != null 
 							? (String)map.get(MapPrintElement.PARAMETER_MARKER_ICON_URL) 
 							: (String)map.get(MapPrintElement.PARAMETER_MARKER_ICON);
@@ -136,7 +138,7 @@ public class MapElementImageProvider
 		printImage.setLazy(false);
 		
 		//FIXMEMAP there are no scale image, alignment and onError attributes defined for the map element
-		printImage.setScaleImage(ScaleImageEnum.CLIP);
+		printImage.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
 		printImage.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
 		printImage.setVerticalAlignment(VerticalAlignEnum.TOP);
 		
