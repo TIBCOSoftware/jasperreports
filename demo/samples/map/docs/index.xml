@@ -287,6 +287,11 @@ Below is a list of valid <code>itemProperty</code> names:
 <li>the color RGB value.</li>
 </ul>
 </li>
+<li><code>label</code> - string value representing the label for the default pin icons. This property is taken into account when none of  
+<code>icon</code> or <code>icon.url</code> properties are set.
+<br/>
+<b>Note:</b> Unlike interactive maps, Google static maps require single character labels. If multiple character labels are set, the JR engine will process the 
+entire label for dynamic maps and only the first character in the label for static maps.</li>
 <li><code>cursor</code> - string value</li>
 <li><code>zIndex</code> - integer value</li>
 <li><code>clickable</code> - boolean value</li>
@@ -354,7 +359,7 @@ Empty contents are not processed.</li>
 <br/>
 Exporters that don't allow JavaScript or dynamic page loading may use the Google Static Map service 
 that creates and returns a map image depending on a given set of HTTP request parameters. The map image 
-does not support user interactivity, but can be used to substitute a dynamic map for read-only purposes.
+does not support user interactivity, but can be used to substitute with some inherent limitations a dynamic map, for read-only purposes.
 <br/>
 In these conditions, not all item properties defined for markers are considered in static maps. The available properties in this case are:
 <ul>
@@ -363,6 +368,7 @@ In these conditions, not all item properties defined for markers are considered 
 <li><code>icon</code> - the icon URL has to be accessible for the Google Static Map service</li>
 <li><code>icon.url</code> - the icon URL has to be accessible for the Google Static Map service</li>
 <li><code>color</code></li>
+<li><code>label</code></li>
 <li><code>size</code> - predefined string value. Specifies the marker size (for the built-in markers only). Allowed values are:
 <ul>
 <li><code>mid</code></li>
