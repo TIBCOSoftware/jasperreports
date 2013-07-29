@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
+import net.sf.jasperreports.engine.export.JsonExporter;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
@@ -42,6 +43,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -64,7 +66,7 @@ public class ReportOutputServlet extends AbstractServlet
 	private static final String TEMPLATE_HEADER_NOPAGES = "net/sf/jasperreports/web/servlets/resources/templates/HeaderTemplateNoPages.vm";
 	private static final String TEMPLATE_FOOTER_NOPAGES = "net/sf/jasperreports/web/servlets/resources/templates/FooterTemplateNoPages.vm";
 
-	
+
 	/**
 	 *
 	 */
@@ -157,10 +159,12 @@ public class ReportOutputServlet extends AbstractServlet
 		
 		// set report status on response header
 		LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
+        boolean isComponentMetadataEmbedded = WebUtil.getInstance(getJasperReportsContext()).isComponentMetadataEmbedded();
 		result.put("reportStatus", reportStatus.getStatus().toString().toLowerCase());
 		result.put("totalPages", reportStatus.getTotalPageCount());
 		result.put("partialPageCount", reportStatus.getCurrentPageCount());
 		result.put("pageFinal", pageStatus.isPageFinal());
+		result.put("isComponentMetadataEmbedded", isComponentMetadataEmbedded);
 		if (!pageStatus.isPageFinal()) {
 			result.put("pageTimestamp", String.valueOf(pageStatus.getTimestamp()));
 		}
@@ -173,7 +177,7 @@ public class ReportOutputServlet extends AbstractServlet
 		
 		exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, getHeader(request, webReportContext, hasPages, pageStatus));
 		exporter.setParameter(JRHtmlExporterParameter.BETWEEN_PAGES_HTML, getBetweenPages(request, webReportContext));
-		exporter.setParameter(JRHtmlExporterParameter.HTML_FOOTER, getFooter(request, webReportContext, hasPages, pageStatus));
+		exporter.setParameter(JRHtmlExporterParameter.HTML_FOOTER, getFooter(request, webReportContext, hasPages, pageStatus, isComponentMetadataEmbedded));
 		
 		exporter.setParameter(
 			JRHtmlExporterParameter.HYPERLINK_PRODUCER_FACTORY, 
@@ -182,6 +186,19 @@ public class ReportOutputServlet extends AbstractServlet
 		
 		exporter.exportReport();
 
+        // embed component JSON metadata into report's HTML output
+        if (isComponentMetadataEmbedded) {
+            JsonExporter jsonExporter = new JsonExporter(getJasperReportsContext());
+            StringWriter sw = new StringWriter();
+
+            jsonExporter.setReportContext(webReportContext);
+            jsonExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrintAccessor.getJasperPrint());
+            jsonExporter.setParameter(JRExporterParameter.OUTPUT_WRITER, sw);
+            jsonExporter.exportReport();
+
+            String serializedJson = sw.getBuffer().toString();
+            writer.write("<span id=\"reportComponents\" style=\"display:none\">" + serializedJson.replaceAll("\\s","") + "</span></div>");
+        }
 	}
 
 
@@ -215,9 +232,10 @@ public class ReportOutputServlet extends AbstractServlet
 	 * 
 	 */
 	protected String getFooter(HttpServletRequest request, WebReportContext webReportContext, boolean hasPages, 
-			ReportPageStatus pageStatus) 
+			ReportPageStatus pageStatus, boolean isComponentMetadataEmbedded)
 	{
 		Map<String, Object> contextMap = new HashMap<String, Object>();
+        contextMap.put("isComponentMetadataEmbedded", isComponentMetadataEmbedded);
 		if (hasPages) {
 			return VelocityUtil.processTemplate(TEMPLATE_FOOTER, contextMap);
 		} else 

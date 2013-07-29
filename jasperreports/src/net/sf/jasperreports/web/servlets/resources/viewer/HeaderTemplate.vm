@@ -7,40 +7,8 @@
 		a {text-decoration: none}
 	</style>
    	<script src='${contextPath}/javascript/require.js'></script>
-   	<script>
-   		requirejs.config({
-   			baseUrl: "${contextPath}",
-   			paths: {
-   				"jasperreports-report": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/report/jasperreports-report.js",
-   				"jasperreports-status-checker": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/report/jasperreports-status-checker.js",
-   				"jasperreports-component-registrar": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/report/jasperreports-component-registrar.js",
-   				"jasperreports-url-manager": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/util/jasperreports-url-manager.js",
-   				"jasperreports-event-manager": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/util/jasperreports-event-manager.js",
-   				"jasperreports-loader": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/util/jasperreports-loader.js",
-   				"jasperreports-viewer": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/viewer/jasperreports-viewer.js",
-   				"jasperreports-utils": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/util/jasperreports-utils.js",
-
-   				jquery: "jquery/amd/jquery-1.10.1",
-   				jqueryui: "jquery/amd/jqueryui-1.8.18",
-   				jquerytimepicker: "jquery/amd/jquery-ui-timepicker-addon",
-   				
-   				jive: "${jive_js}",
-   				jivei18n: "${jiveI18n_js}",
-
-                "jive.column": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/jive/jive.column.js",
-                "jive.table": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/jive/jive.table.js",
-                "validator": "/jasperreports/servlets/resource?jr.resource=net/sf/jasperreports/web/servlets/resources/require/validator.js",
-
-   				async: "javascript/async"
-   			}
-   		});
-   		
-   		/*require(['jasperreports'], function(jasperreports) {
-	   		jasperreports.global.APPLICATION_CONTEXT_PATH = "${contextPath}";
-   		});*/
-   		
-   	</script>
-   	<link type='text/css' rel='stylesheet' href='${contextPath}/jquery/theme/jquery.ui.all.css'></link> 
+   	<script src='${contextPath}/servlets/requirejsconfig'></script>
+   	<link type='text/css' rel='stylesheet' href='${contextPath}/jquery/theme/jquery.ui.all.css'></link>
    	<link type='text/css' rel='stylesheet' href='${jasperreports_global_css}'></link>
 </head>
 <body text="#000000" link="#000000" alink="#000000" vlink="#000000" bgcolor="#999999">
