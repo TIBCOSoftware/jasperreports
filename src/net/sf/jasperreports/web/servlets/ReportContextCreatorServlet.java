@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.web.JRInteractiveException;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.WebUtil;
@@ -100,7 +101,8 @@ public class ReportContextCreatorServlet extends AbstractServlet
 					log.error("Error on report execution", e);
 					
 					response.setStatus(404);
-					out.println("{\"msg\": \"JasperReports encountered an error on context creation!\"}");
+					out.println("{\"msg\": \"JasperReports encountered an error on context creation!\",");
+					out.println("\"devmsg\": \"" + JRStringUtil.escapeJavaStringLiteral(e.getMessage()) + "\"}");
 					return;
 				}
 			}

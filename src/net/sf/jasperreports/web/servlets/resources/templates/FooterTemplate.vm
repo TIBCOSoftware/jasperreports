@@ -1,4 +1,6 @@
 </td><td width="50%">&nbsp;</td></tr>
 </table>
 </div> ## result div
+#if(!${isComponentMetadataEmbedded})
 </div> ## response div
+#end

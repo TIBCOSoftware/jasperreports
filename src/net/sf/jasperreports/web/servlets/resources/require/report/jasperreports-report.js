@@ -1,4 +1,4 @@
-define(["require", "jasperreports-loader", "jasperreports-status-checker", "jasperreports-component-registrar", "jasperreports-event-manager", "jquery"], function(require, Loader, StatusChecker, ComponentRegistrar, EventManager, $) {
+define(["require", "jasperreports-loader", "jasperreports-status-checker", "jasperreports-component-registrar", "jasperreports-event-manager", "jquery"], function (require, Loader, StatusChecker, ComponentRegistrar, EventManager, $) {
 	var Report = function(o) {
 
 		this.config = {
@@ -43,8 +43,14 @@ define(["require", "jasperreports-loader", "jasperreports-status-checker", "jasp
                 .then(function(htmlData, textStatus, jqXHR) {
                     it.status = $.parseJSON(jqXHR.getResponseHeader("jasperreports-report-status"));
                     it.html = htmlData;
-                    return it.loader.getComponentsForPage(page);
-                }).then(function(componentsObject, textStatus, jqXHR) {
+                    it.eventManager.triggerEvent(it.events.REPORT_HTML_READY);
+
+                    if (it.status.isComponentMetadataEmbedded) {
+                        return $.parseJSON($(htmlData).find("#reportComponents").text());
+                    } else {
+                        return it.loader.getComponentsForPage(page);
+                    }
+                }).then(function(componentsObject) {
                     it.components = {};
                     return it.componentRegistrar.registerComponents(componentsObject, it);
                 }).then(function() {
@@ -53,7 +59,6 @@ define(["require", "jasperreports-loader", "jasperreports-status-checker", "jasp
                             it.eventManager.triggerEvent(it.events.PAGE_MODIFIED);
                         });
                     }
-                    it.eventManager.triggerEvent(it.events.REPORT_HTML_READY);
                     it.currentpage = page;
                     return it;
                 });
