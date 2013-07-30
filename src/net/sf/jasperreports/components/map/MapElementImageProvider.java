@@ -120,7 +120,7 @@ public class MapElementImageProvider
 			+ (mapType == null ? "" : "&maptype=" + mapType)
 			+ (mapFormat == null ? "" : "&format=" + mapFormat)
 			+ (mapScale == null ? "" : "&scale=" + mapScale);
-		String params = "&sensor=false" + reqParams;
+		String params = "&sensor=false" + (reqParams == null ? "" : reqParams);
 
 		//a static map url is limited to 2048 characters
 		imageLocation += (imageLocation.length() + markers.length() + params.length() < MAX_URL_LENGTH) ? markers + params : params;
