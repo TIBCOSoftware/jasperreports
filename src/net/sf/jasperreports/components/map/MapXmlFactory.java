@@ -27,6 +27,7 @@ import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
@@ -45,6 +46,7 @@ public class MapXmlFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_mapType = "mapType";
 	public static final String ATTRIBUTE_mapScale = "mapScale";
 	public static final String ATTRIBUTE_imageType = "imageType";
+	public static final String ATTRIBUTE_onErrorType = "onErrorType";
 	public static final String ELEMENT_item = "item";
 	public static final String ELEMENT_markerData = "markerData";
 	public static final String ELEMENT_itemProperty = "itemProperty";
@@ -94,6 +96,11 @@ public class MapXmlFactory extends JRBaseFactory
 		if(imageType != null)
 		{
 			map.setImageType(imageType);
+		}
+		OnErrorTypeEnum onErrorType = OnErrorTypeEnum.getByName(atts.getValue(ATTRIBUTE_onErrorType));
+		if(onErrorType != null)
+		{
+			map.setOnErrorType(onErrorType);
 		}
 
 		return map;

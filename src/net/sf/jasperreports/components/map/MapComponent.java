@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -69,6 +70,8 @@ public interface MapComponent extends Component, JRCloneable
 	MapImageTypeEnum getImageType();
 	
 	ItemData getMarkerData();
+	
+	OnErrorTypeEnum getOnErrorType();
 	
 	/**
 	 * @deprecated Replaced by {@link #getMarkerData()}.

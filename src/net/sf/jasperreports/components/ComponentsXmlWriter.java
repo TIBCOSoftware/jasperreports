@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
@@ -222,7 +223,12 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			writer.addAttribute(MapXmlFactory.ATTRIBUTE_mapType, map.getMapType(), MapTypeEnum.ROADMAP);
 			writer.addAttribute(MapXmlFactory.ATTRIBUTE_mapScale, map.getMapScale(), MapScaleEnum.ONE);
 			writer.addAttribute(MapXmlFactory.ATTRIBUTE_imageType, map.getImageType(), MapImageTypeEnum.PNG);
+			if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_2_1))
+			{
+				writer.addAttribute(MapXmlFactory.ATTRIBUTE_onErrorType, map.getOnErrorType(), OnErrorTypeEnum.ERROR);
+			}
 		}
+		
 
 		writer.writeExpression("latitudeExpression", 
 			map.getLatitudeExpression());

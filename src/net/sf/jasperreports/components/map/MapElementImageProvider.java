@@ -144,11 +144,18 @@ public class MapElementImageProvider
 		
 		Renderable cacheRenderer = (Renderable)element.getParameterValue(MapPrintElement.PARAMETER_CACHE_RENDERER);
 
+		OnErrorTypeEnum onErrorType = element.getParameterValue(MapPrintElement.PARAMETER_ON_ERROR_TYPE) == null 
+				? MapPrintElement.DEFAULT_ON_ERROR_TYPE  
+				: OnErrorTypeEnum.getByName((String)element.getParameterValue(MapPrintElement.PARAMETER_ON_ERROR_TYPE));
+		printImage.setOnErrorType(onErrorType);
+		
 		if(cacheRenderer == null)
 		{
-			cacheRenderer = RenderableUtil.getInstance(jasperReportsContext).getRenderable(imageLocation, OnErrorTypeEnum.ERROR, false);
-			cacheRenderer.getImageData(jasperReportsContext);
-			element.setParameterValue(MapPrintElement.PARAMETER_CACHE_RENDERER, cacheRenderer);
+			cacheRenderer = RenderableUtil.getInstance(jasperReportsContext).getRenderable(imageLocation, onErrorType, false);
+			if(cacheRenderer != null){
+				cacheRenderer.getImageData(jasperReportsContext);
+				element.setParameterValue(MapPrintElement.PARAMETER_CACHE_RENDERER, cacheRenderer);
+			}
 		}
 
 		printImage.setRenderable(cacheRenderer);

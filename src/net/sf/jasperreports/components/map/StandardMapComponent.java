@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -59,6 +60,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public static final String PROPERTY_MAP_SCALE = "mapScale";
 	public static final String PROPERTY_IMAGE_TYPE = "imageType";
 	public static final String PROPERTY_MARKER_DATA = "markerData";
+	public static final String PROPERTY_ON_ERROR_TYPE = "onErrorType";
 	/**
 	 * @deprecated Replaced by {@link #PROPERTY_MARKER_DATA}.
 	 */
@@ -74,6 +76,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private MapScaleEnum mapScale;
 	private MapImageTypeEnum imageType;
 	private ItemData markerData;
+	private OnErrorTypeEnum onErrorType;
 	
 	private transient JRPropertyChangeSupport eventSupport;
 
@@ -96,6 +99,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		{
 			this.markerData = new StandardItemData(map.getMarkerData(), objectFactory);
 		}
+		this.onErrorType = map.getOnErrorType();
 	}
 	
 	public JRExpression getLatitudeExpression()
@@ -235,6 +239,28 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_IMAGE_TYPE, old, this.imageType);
 	}
 
+	public ItemData getMarkerData() {
+		return markerData;
+	}
+
+	public void setMarkerData(ItemData markerData) {
+		Object old = this.markerData;
+		this.markerData = markerData;
+		getEventSupport().firePropertyChange(PROPERTY_MARKER_DATA, old, this.markerData);
+	}
+
+
+	public OnErrorTypeEnum getOnErrorType() {
+		return onErrorType;
+	}
+
+	public void setOnErrorType(OnErrorTypeEnum onErrorType) {
+		Object old = this.onErrorType;
+		this.onErrorType = onErrorType;
+		getEventSupport().firePropertyChange(PROPERTY_ON_ERROR_TYPE, old, this.onErrorType);
+	}
+
+
 	/**
 	 * @deprecated Replaced by {@link #getMarkerData()}.
 	 */
@@ -248,18 +274,6 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public void setMarkerDataset(MarkerDataset markerDataset) {
 		setMarkerData(StandardMarkerDataset.getItemData(markerDataset));
 	}
-
-	public ItemData getMarkerData() {
-		return markerData;
-	}
-
-	public void setMarkerData(ItemData markerData) {
-		Object old = this.markerData;
-		this.markerData = markerData;
-		getEventSupport().firePropertyChange(PROPERTY_MARKER_DATA, old, this.markerData);
-		
-	}
-
 
 	/*
 	 * These fields are only for serialization backward compatibility.
