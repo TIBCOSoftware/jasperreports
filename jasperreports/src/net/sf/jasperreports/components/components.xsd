@@ -474,6 +474,15 @@
 							</restriction>
 						</simpleType>
 					</attribute>
+				   <attribute name="onErrorType" use="optional" default="Error">
+				    <simpleType>
+				     <restriction base="string">
+				      <enumeration value="Error"/>
+				      <enumeration value="Blank"/>
+				      <enumeration value="Icon"/>
+				     </restriction>
+				    </simpleType>
+				   </attribute>
 				</extension>
 			</complexContent>
 		</complexType>

@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericElement;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 
 /**
  * 
@@ -62,6 +63,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	private MapTypeEnum mapType;
 	private MapScaleEnum mapScale;
 	private MapImageTypeEnum imageType;
+	private OnErrorTypeEnum onErrorType;
 	private String clientId;
 	private String signature;
 	private String key;
@@ -138,6 +140,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		{
 			markers = markerData.getEvaluateItems(evaluation);
 		}
+		onErrorType = mapComponent.getOnErrorType();
 	}
 	
 	protected boolean isEvaluateNow()
@@ -223,6 +226,10 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		if(imageType != null)
 		{
 			printElement.setParameterValue(MapPrintElement.PARAMETER_IMAGE_TYPE, imageType.getName());
+		}
+		if(onErrorType != null)
+		{
+			printElement.setParameterValue(MapPrintElement.PARAMETER_ON_ERROR_TYPE, onErrorType.getName());
 		}
 		if(markers != null && !markers.isEmpty())
 		{

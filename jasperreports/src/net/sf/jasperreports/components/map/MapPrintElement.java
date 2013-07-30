@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.map;
 
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.JRGenericElementType;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
@@ -65,6 +66,11 @@ public final class MapPrintElement
 	 * The name of the parameter that provides the map type.
 	 */
 	public static final String PARAMETER_MAP_TYPE = "mapType";
+	
+	/**
+	 * The name of the parameter that provides the onErrorType attribute.
+	 */
+	public static final String PARAMETER_ON_ERROR_TYPE = "onErrorType";
 	
 	/**
 	 * The name of the parameter that provides the map scale.
@@ -128,6 +134,7 @@ public final class MapPrintElement
 	public static final Float DEFAULT_LONGITUDE = 0f;
 	public static final Integer DEFAULT_ZOOM = 0;
 	public static final MapTypeEnum DEFAULT_MAP_TYPE = MapTypeEnum.ROADMAP;
+	public static final OnErrorTypeEnum DEFAULT_ON_ERROR_TYPE = OnErrorTypeEnum.ERROR;
 	
 //	/**
 //	 * Creates a map element by copying all base element attributes
