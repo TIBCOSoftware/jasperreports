@@ -25,12 +25,6 @@ How to render maps using the built-in map component.
 <b>Map Component Overview</b>    
 <br/>
 <br/>
-The JR built-in <code>map</code> component is based on the public 
-<a href="http://code.google.com/apis/maps/documentation/javascript/reference.html">Google Maps APIs</a> licensed 
-under the <a href="http://creativecommons.org/licenses/by/3.0">Creative Commons Attribution 3.0 License</a>. Prior to 
-start using this component, please read the <a href="https://developers.google.com/readme/policies">Google site policies</a> 
-page. Ensure that pages using a map component in your application are in accordance with these terms and conditions.
-<br/>
 The map component in JasperReports exposes some of the main characteristics necessary to generate the most common Google maps, but feature upgrades 
 for this component are planned for future development. The current <code>map</code> component description is found 
 in the <a href="../../components.schema.reference.html">components.xsd</a> schema:
@@ -146,6 +140,16 @@ in the <a href="../../components.schema.reference.html">components.xsd</a> schem
     </sequence>
   </complexType>
 </element>]]></pre>
+<b>Important note:
+<br/>
+<br/>
+The JR built-in <code>map</code> component is based on the public 
+<a href="http://code.google.com/apis/maps/documentation/javascript/reference.html">Google Maps APIs</a> licensed 
+under the <a href="http://creativecommons.org/licenses/by/3.0">Creative Commons Attribution 3.0 License</a>. Prior to 
+start using this component, please read the <a href="https://developers.google.com/readme/policies">Google site policies</a> 
+page. Ensure that pages using a map component in your application are in accordance with these terms and conditions.</b>
+<br/>
+<br/>
 <b>Map Attributes</b>
 <br/>    
 <br/> 
@@ -175,6 +179,13 @@ working with high resolution screens available on mobile devices.  Possible valu
 <li><code>gif</code></li>
 <li><code>jpg</code></li>
 <li><code>jpg-baseline</code></li>
+</ul>
+</li>
+<li><code>onErrorType</code> - Applies to static maps only. This attribute specifies the behavior of the engine when the image is not available. Possible values are:
+<ul>
+<li><code>Error</code> - An exception is raised when loading the map image. This is the default behavior.</li>
+<li><code>Blank</code> - The exception is ignored and the map image displays as blank.</li>
+<li><code>Icon</code> - The exception is ignored and an image replacement icon is displayed.</li>
 </ul>
 </li>
 </ul>   
@@ -394,7 +405,7 @@ markers and no additional information on the map:
 <componentElement>
   <reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
   <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
-    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" evaluationTime="Report">
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" evaluationTime="Report" onErrorType="Icon">
     <c:latitudeExpression><![CDATA[$P{latitude}]] ></c:latitudeExpression>
     <c:longitudeExpression><![CDATA[$P{longitude}]] ></c:longitudeExpression>
     <c:zoomExpression><![CDATA[$P{zoom}]] ></c:zoomExpression>
@@ -431,7 +442,7 @@ The map component configuration is the following:
   <reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
   <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
     xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
-    mapType="satellite" mapScale="1" imageType="jpg">
+    mapType="satellite" mapScale="1" imageType="jpg" onErrorType="Blank">
     <c:latitudeExpression><![CDATA[37.800056f]] ></c:latitudeExpression>
     <c:longitudeExpression><![CDATA[-122.4075f]] ></c:longitudeExpression>
     <c:zoomExpression><![CDATA[$P{zoom} + 1]] ></c:zoomExpression>
@@ -490,7 +501,7 @@ component configuration (and the subdataset):
   <reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
   <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
     xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
-    mapType="terrain" mapScale="1" imageType="jpg">
+    mapType="terrain" mapScale="1" imageType="jpg" onErrorType="Icon">
     <c:latitudeExpression><![CDATA[37.800056f]] ></c:latitudeExpression>
     <c:longitudeExpression><![CDATA[-122.4075f]] ></c:longitudeExpression>
     <c:zoomExpression><![CDATA[$P{zoom} + 1]] ></c:zoomExpression>
@@ -555,7 +566,7 @@ provide hyperlinks. Clicking on a marker icon will open a new browser window/tab
   <reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
   <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
     xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
-    mapType="satellite" mapScale="1" imageType="jpg">
+    mapType="satellite" mapScale="1" imageType="jpg" onErrorType="Icon">
     <c:latitudeExpression><![CDATA[37.800056f]] ></c:latitudeExpression>
     <c:longitudeExpression><![CDATA[-122.4075f]] ></c:longitudeExpression>
     <c:zoomExpression><![CDATA[$P{zoom} + 1]] ></c:zoomExpression>
@@ -623,7 +634,7 @@ property is a HTML fragment with escaped open and end tags.
   <reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
   <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
     xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
-    mapScale="1" imageType="jpg" mapType="hybrid">
+    mapScale="1" imageType="jpg" mapType="hybrid" onErrorType="Icon">
     <c:latitudeExpression><![CDATA[37.800056f]] ></c:latitudeExpression>
     <c:longitudeExpression><![CDATA[-122.4075f]] ></c:longitudeExpression>
     <c:zoomExpression><![CDATA[$P{zoom} + 1]] ></c:zoomExpression>
