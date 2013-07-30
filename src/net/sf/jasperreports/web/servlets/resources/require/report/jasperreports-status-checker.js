@@ -38,7 +38,7 @@ define(["jquery"], function($) {
             var it = this;
             return it.loader.getStatusForPage(page, pageTimestamp)
                 .then(function(jsonData, textStatus, jqHXR) {
-                    it._timedCheckPageModified(jsonData.pageModified, page, pageTimestamp, deferredObject);
+                    it._timedCheckPageModified(jsonData.result.pageModified, page, pageTimestamp, deferredObject);
                 });
         }
 	};

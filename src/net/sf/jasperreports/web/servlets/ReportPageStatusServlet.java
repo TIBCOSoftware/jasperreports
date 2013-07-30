@@ -25,7 +25,9 @@ package net.sf.jasperreports.web.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -112,21 +114,24 @@ public class ReportPageStatusServlet extends AbstractServlet
 					+ ", pageTimestamp: " + pageTimestamp);
 		}
 		
-		LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
-		putReportStatusResult(response, jasperPrintAccessor, result);
+		Map<String, Object> reportStatus = new LinkedHashMap<String, Object>();
+		putReportStatusResult(response, jasperPrintAccessor, reportStatus);
 		
 		if (pageIndex != null && pageTimestamp != null)
 		{
 			ReportPageStatus pageStatus = jasperPrintAccessor.pageStatus(pageIndex, pageTimestamp);
 			boolean modified = pageStatus.hasModified();
-			result.put("pageModified", modified);
-			result.put("pageFinal", pageStatus.isPageFinal());
+			reportStatus.put("pageModified", modified);
+			reportStatus.put("pageFinal", pageStatus.isPageFinal());
 			
 			if (log.isDebugEnabled())
 			{
 				log.debug("page " + pageIndex + " modified " + modified);
 			}
 		}
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("result", reportStatus);
 		
 		String resultString = JacksonUtil.getInstance(getJasperReportsContext()).getJsonString(result);
 		PrintWriter out = response.getWriter();
@@ -135,7 +140,7 @@ public class ReportPageStatusServlet extends AbstractServlet
 	}
 
 	protected void putReportStatusResult(HttpServletResponse response,
-			JasperPrintAccessor printAccessor, LinkedHashMap<String, Object> result) throws JRException
+			JasperPrintAccessor printAccessor, Map<String, Object> result) throws JRException
 	{
 		ReportExecutionStatus reportStatus = printAccessor.getReportStatus();
 		result.put("partialPageCount", reportStatus.getCurrentPageCount());

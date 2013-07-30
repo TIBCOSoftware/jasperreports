@@ -19,7 +19,7 @@ define(["jasperreports-url-manager", "jquery"], function(UrlManager, $) {
             });
         },
 
-        getHtmlForPage: function(page) {
+        getHtmlForPage: function(page, boolNavigate) {
             var it = this;
             return it.getContextId().then(function(ctxid) {
                 return it._ajaxLoad({
