@@ -137,7 +137,7 @@ public class MapElementImageProvider
 		printImage.setForecolor(element.getForecolor());
 		printImage.setLazy(false);
 		
-		//FIXMEMAP there are no scale image, alignment and onError attributes defined for the map element
+		//FIXMEMAP there are no scale image and alignment attributes defined for the map element
 		printImage.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
 		printImage.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
 		printImage.setVerticalAlignment(VerticalAlignEnum.TOP);
