@@ -1,4 +1,6 @@
-define(["require", "jasperreports-loader", "jasperreports-status-checker", "jasperreports-component-registrar", "jasperreports-event-manager", "jquery"], function (require, Loader, StatusChecker, ComponentRegistrar, EventManager, $) {
+define(["require", "jasperreports-loader", "jasperreports-status-checker",
+    "jasperreports-component-registrar", "jasperreports-event-manager", "jasperreports-report-processor",
+    "jquery"], function (require, Loader, StatusChecker, ComponentRegistrar, EventManager, Processor, $) {
 	var Report = function(o) {
 
 		this.config = {
@@ -36,13 +38,16 @@ define(["require", "jasperreports-loader", "jasperreports-status-checker", "jasp
         init: function() {
             return this.refreshPage(this.currentpage);
         },
-        refreshPage: function(page) {
+        refreshPage: function(page, boolNavigate) {
             var it = this;
 
-            return it.loader.getHtmlForPage(page)
+            return it.loader.getHtmlForPage(page, boolNavigate)
                 .then(function(htmlData, textStatus, jqXHR) {
                     it.status = $.parseJSON(jqXHR.getResponseHeader("jasperreports-report-status"));
                     it.html = htmlData;
+
+                    Processor.processReport(it);
+
                     it.eventManager.triggerEvent(it.events.REPORT_HTML_READY);
 
                     if (it.status.isComponentMetadataEmbedded) {
@@ -65,7 +70,7 @@ define(["require", "jasperreports-loader", "jasperreports-status-checker", "jasp
         },
         gotoPage: function(page) {
             this.statusChecker.cancelCheckPageModified();
-            return this.refreshPage(page);
+            return this.refreshPage(page, true);
         },
         undo: function() {
             var it = this;
