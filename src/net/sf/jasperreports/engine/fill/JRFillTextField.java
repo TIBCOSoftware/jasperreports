@@ -378,7 +378,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		if (value != null)
 //		if (getExpression() != null)
 		{
-			if (!(value instanceof String))
+			if (value instanceof String)
+			{
+				textFormat = null;
+			}
+			else
 			{
 				SimpleTextFormat simpleTextFormat = new SimpleTextFormat();
 				
