@@ -1653,7 +1653,7 @@ Usually works along with the <a href="#net.sf.jasperreports.components.map.signa
   
   <configProperty name="net.sf.jasperreports.components.map.signature">
     <description>
-Property that specifies the client signature for signed request URLs. For complete information see the official <b>Authentication and Authorization</b> documentation for 
+Property that specifies the encrypted client signature for signed request URLs. For complete information see the official <b>Authentication and Authorization</b> documentation for 
 <a href="https://developers.google.com/maps/documentation/business/image/auth">Maps Image APIs</a> and 
 <a href="https://developers.google.com/maps/documentation/business/webservices/auth">Web Services APIs</a>. 
     </description>
