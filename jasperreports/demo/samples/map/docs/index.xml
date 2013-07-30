@@ -301,8 +301,9 @@ Below is a list of valid <code>itemProperty</code> names:
 <li><code>label</code> - string value representing the label for the default pin icons. This property is taken into account when none of  
 <code>icon</code> or <code>icon.url</code> properties are set.
 <br/>
-<b>Note:</b> Unlike interactive maps, Google static maps require single character labels. If multiple character labels are set, the JR engine will process the 
-entire label for dynamic maps and only the first character in the label for static maps.</li>
+<b>Note:</b> Unlike interactive maps, Google static maps require single uppercase alphanumeric character labels. If multiple character 
+labels are set, the JR engine will process the entire label for dynamic maps and only the first character in the label for static maps. 
+Labels are displayed only for default and mid sized markers, small and tiny markers provide no capability to display labels.</li>
 <li><code>cursor</code> - string value</li>
 <li><code>zIndex</code> - integer value</li>
 <li><code>clickable</code> - boolean value</li>
