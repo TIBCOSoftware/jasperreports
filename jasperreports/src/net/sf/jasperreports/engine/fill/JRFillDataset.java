@@ -106,6 +106,8 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	 */
 	private JasperReportsContext jasperReportsContext;
 	
+	private JRPropertiesUtil propertiesUtil;
+	
 	/**
 	 * The template dataset.
 	 */
@@ -264,6 +266,8 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		factory.put(dataset, this);
 		
 		this.filler = filler;
+		this.propertiesUtil = filler == null ? JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()) 
+				: filler.getPropertiesUtil();
 		this.parent = dataset;
 		this.isMain = dataset.isMainDataset();
 		
@@ -642,7 +646,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 	protected Locale defaultLocale()
 	{
-		String localeCode = filler.getPropertiesUtil().getProperty(this, JRFiller.PROPERTY_DEFAULT_LOCALE);
+		String localeCode = propertiesUtil.getProperty(this, JRFiller.PROPERTY_DEFAULT_LOCALE);
 		Locale locale = (localeCode == null || localeCode.isEmpty()) ? Locale.getDefault()
 				: JRDataUtils.getLocale(localeCode);
 		return locale;
@@ -650,7 +654,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 	protected TimeZone defaultTimeZone()
 	{
-		String timezoneId = filler.getPropertiesUtil().getProperty(this, JRFiller.PROPERTY_DEFAULT_TIMEZONE);
+		String timezoneId = propertiesUtil.getProperty(this, JRFiller.PROPERTY_DEFAULT_TIMEZONE);
 		TimeZone timezone = (timezoneId == null || timezoneId.isEmpty()) ? TimeZone.getDefault()
 				: JRDataUtils.getTimeZone(timezoneId);
 		return timezone;
@@ -1018,6 +1022,10 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	public void setJasperReportsContext(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
+		if (jasperReportsContext != null)
+		{
+			this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+		}
 	}
 	
 	protected JasperReportsContext getJasperReportsContext()
