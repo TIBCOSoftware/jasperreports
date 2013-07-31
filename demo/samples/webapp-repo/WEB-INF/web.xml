@@ -64,6 +64,10 @@
 		<servlet-name>ReportJiveComponentsServlet</servlet-name>
 		<servlet-class>net.sf.jasperreports.web.servlets.ReportJiveComponentsServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>RequirejsConfigServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.RequirejsConfigServlet</servlet-class>
+	</servlet>
 	<!-- end: report execution servlets -->
 	
 	<servlet>
@@ -109,7 +113,11 @@
 		<servlet-name>ReportJiveComponentsServlet</servlet-name>
 		<url-pattern>/servlets/reportcomponents</url-pattern>
 	</servlet-mapping>
-	<!-- end: report execution servlets mappings -->	
+	<servlet-mapping>
+		<servlet-name>RequirejsConfigServlet</servlet-name>
+		<url-pattern>/servlets/requirejsconfig</url-pattern>
+	</servlet-mapping>
+	<!-- end: report execution servlets mappings -->
 	
 	<servlet-mapping>
 		<servlet-name>ResourceServlet</servlet-name>
