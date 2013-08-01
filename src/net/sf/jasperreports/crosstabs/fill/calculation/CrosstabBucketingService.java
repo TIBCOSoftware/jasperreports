@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+import net.sf.jasperreports.crosstabs.fill.BucketOrderer;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
@@ -41,7 +42,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class CrosstabBucketingService extends BucketingService
+public class CrosstabBucketingService extends BucketingService implements BucketingData
 {
 	
 	protected HeaderCell[][] colHeaders;
@@ -115,8 +116,10 @@ public class CrosstabBucketingService extends BucketingService
 	{
 		BucketDefinition bucketDefinition = allBuckets[bucketMap.level];
 		CrosstabTotalPositionEnum totalPosition = bucketDefinition.getTotalPosition();
+		
+		BucketOrderer bucketOrderer = bucketDefinition.getOrderer();
 		CollectedList headers;
-		if (bucketDefinition.hasOrderValues())
+		if (bucketOrderer != null)
 		{
 			headers = new OrderedCollectedList(bucketDefinition);
 		}
@@ -147,9 +150,9 @@ public class CrosstabBucketingService extends BucketingService
 					nextHeaders.span = 1;
 				}
 				nextHeaders.key = bucketValue;
-				if (bucketDefinition.hasOrderValues())
+				if (bucketOrderer != null)
 				{
-					Object orderValue = evaluateOrderValue(bucketMap, bucketValue);
+					Object orderValue = bucketOrderer.getOrderValue(this, bucketMap, bucketValue);
 					nextHeaders.orderValue = orderValue;
 				}
 				headers.add(nextHeaders);
@@ -163,9 +166,9 @@ public class CrosstabBucketingService extends BucketingService
 
 		return headers;
 	}
+
 	
-	
-	protected Object evaluateOrderValue(BucketMap bucketMap, Bucket bucket) throws JRException
+	public MeasureValue[] getMeasureTotals(BucketMap bucketMap, Bucket bucket)
 	{
 		Object bucketValue = bucketMap.get(bucket);
 		for (int idx = bucketMap.level + 1; idx < rowBucketCount + colBucketCount; ++idx)
@@ -175,9 +178,7 @@ public class CrosstabBucketingService extends BucketingService
 		MeasureValue[] totals = (MeasureValue[]) bucketValue;
 		
 		MeasureValue[] userTotals = getUserMeasureValues(totals);
-		return serviceContext.evaluateMeasuresExpression(
-				allBuckets[bucketMap.level].getOrderByExpression(), 
-				userTotals);
+		return userTotals;
 	}
 
 	
@@ -564,12 +565,12 @@ public class CrosstabBucketingService extends BucketingService
 	
 	protected static class CollectedListComparator implements Comparator<CollectedList>
 	{
-		final BucketDefinition bucketDefinition;
+		final BucketOrderer bucketOrderer;
 		final boolean totalFirst;
 		
 		CollectedListComparator(BucketDefinition bucketDefinition)
 		{
-			this.bucketDefinition = bucketDefinition;
+			this.bucketOrderer = bucketDefinition.getOrderer();
 			this.totalFirst = bucketDefinition.getTotalPosition() 
 					== CrosstabTotalPositionEnum.START;
 		}
@@ -599,7 +600,7 @@ public class CrosstabBucketingService extends BucketingService
 			else
 			{
 				// first compare the order values
-				order = bucketDefinition.compareOrderValues(
+				order = bucketOrderer.compareOrderValues(
 						l1.orderValue, l2.orderValue);
 				
 				if (order == 0)
@@ -611,6 +612,12 @@ public class CrosstabBucketingService extends BucketingService
 			
 			return order;
 		}		
+	}
+
+	@Override
+	public BucketingServiceContext getServiceContext()
+	{
+		return serviceContext;
 	}
 
 }

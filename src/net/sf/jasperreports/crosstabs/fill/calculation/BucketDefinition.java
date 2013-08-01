@@ -25,12 +25,11 @@ package net.sf.jasperreports.crosstabs.fill.calculation;
 
 import java.util.Comparator;
 
+import net.sf.jasperreports.crosstabs.fill.BucketOrderer;
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
-import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 import org.apache.commons.collections.comparators.ComparableComparator;
 import org.apache.commons.collections.comparators.ReverseComparator;
@@ -75,78 +74,60 @@ public class BucketDefinition
 	
 	protected final Comparator<Object> bucketValueComparator;
 
-	protected final JRExpression orderByExpression;
-	protected final Comparator<Object> orderValueComparator;
+	protected final BucketOrderer orderer;
 	private final CrosstabTotalPositionEnum totalPosition;
 	
 	private boolean computeTotal;
-
-	public BucketDefinition(Class<?> valueClass,
-			JRExpression orderByExpression, Comparator<Object> comparator, SortOrderEnum order, 
-			CrosstabTotalPositionEnum totalPosition) throws JRException
-	{
-		this(valueClass, orderByExpression, comparator, BucketOrder.fromSortOrderEnum(order), 
-				totalPosition);
-	}
 	
 	/**
 	 * Creates a bucket.
 	 * 
 	 * @param valueClass the class of the bucket values
-	 * @param orderByExpression expression that provides order by values
+	 * @param orderer bucket entries orderer
 	 * @param comparator the comparator to use for bucket sorting
-	 * @param order the order type, {@link SortOrderEnum#ASCENDING} or {@link SortOrderEnum#DESCENDING} descending
+	 * @param order the order type, {@link BucketOrder#ASCENDING}, {@link BucketOrder#DESCENDING} or {@link BucketOrder#NONE}
 	 * @param totalPosition the position of the total bucket
 	 * @throws JRException
 	 */
 	public BucketDefinition(Class<?> valueClass, 
-			JRExpression orderByExpression, Comparator<Object> comparator, BucketOrder order, 
+			BucketOrderer orderer, Comparator<Object> comparator, BucketOrder order, 
 			CrosstabTotalPositionEnum totalPosition) throws JRException
 	{
-		if (comparator == null && orderByExpression == null 
-				&& !Comparable.class.isAssignableFrom(valueClass))
+		this.orderer = orderer;
+		if (orderer == null)
 		{
-			throw new JRException("The bucket expression values are not comparable and no comparator specified.");
-		}
-		
-		if (order == BucketOrder.NONE)
-		{
-			this.orderByExpression = null;
-			this.bucketValueComparator = null;
-			this.orderValueComparator = null;
-		}
-		else
-		{
-			this.orderByExpression = orderByExpression;
-			if (orderByExpression == null)
+			// we don't have a bucket orderer
+			if (order == BucketOrder.NONE)
 			{
-				// we don't have an order by expression
-				// the buckets are ordered using the bucket values
-				this.bucketValueComparator = createOrderComparator(comparator, order);
-				this.orderValueComparator = null;
+				// no ordering, values are inserted in the order in which they come
+				this.bucketValueComparator = null;
 			}
 			else
 			{
-				// we have an order by expression
-				// we only need an internal ordering for bucket values
-				if (Comparable.class.isAssignableFrom(valueClass))
+				// the buckets are ordered using the bucket values
+				// if there's no comparator, we're assuming that the values are Comparable
+				this.bucketValueComparator = createOrderComparator(comparator, order);
+			}
+		}
+		else
+		{
+			// we have an order by expression
+			// we only need an internal ordering for bucket values
+			if (Comparable.class.isAssignableFrom(valueClass))
+			{
+				// using natural order
+				this.bucketValueComparator = ComparableComparator.getInstance();
+			}
+			else
+			{
+				// using an arbitrary rank comparator
+				// TODO lucianc couldn't we just set here bucketValueComparator to null?
+				if (log.isDebugEnabled())
 				{
-					// using natural order
-					this.bucketValueComparator = ComparableComparator.getInstance();
-				}
-				else
-				{
-					// using an arbitrary rank comparator
-					if (log.isDebugEnabled())
-					{
-						log.debug("Using arbitrary rank comparator for bucket");
-					}
-					
-					this.bucketValueComparator = new ArbitraryRankComparator();
+					log.debug("Using arbitrary rank comparator for bucket");
 				}
 				
-				// the comparator is used for order by values
-				this.orderValueComparator = createOrderComparator(comparator, order);
+				this.bucketValueComparator = new ArbitraryRankComparator();
 			}
 		}
 		
@@ -155,7 +136,7 @@ public class BucketDefinition
 	}
 
 	
-	protected static Comparator<Object> createOrderComparator(Comparator<Object> comparator, BucketOrder order)
+	public static Comparator<Object> createOrderComparator(Comparator<Object> comparator, BucketOrder order)
 	{
 		Comparator<Object> orderComparator;
 		switch (order)
@@ -227,25 +208,14 @@ public class BucketDefinition
 	{
 		return totalPosition;
 	}
+	
+	
+	public BucketOrderer getOrderer()
+	{
+		return orderer;
+	}
 
-	
-	public JRExpression getOrderByExpression()
-	{
-		return orderByExpression;
-	}
-	
-	
-	public boolean hasOrderValues()
-	{
-		return orderByExpression != null;
-	}
-	
-	
-	public int compareOrderValues(Object v1, Object v2)
-	{
-		return orderValueComparator.compare(v1, v2);
-	}
-	
+
 	/**
 	 * Creates a {@link Bucket BucketValue} object for a given value.
 	 * 

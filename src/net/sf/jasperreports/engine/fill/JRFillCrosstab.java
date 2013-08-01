@@ -48,6 +48,8 @@ import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
+import net.sf.jasperreports.crosstabs.fill.BucketExpressionOrderer;
+import net.sf.jasperreports.crosstabs.fill.BucketOrderer;
 import net.sf.jasperreports.crosstabs.fill.JRCrosstabExpressionEvaluator;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabCell;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabColumnGroup;
@@ -84,6 +86,7 @@ import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
@@ -433,9 +436,18 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		{
 			comparator = (Comparator<Object>) evaluateExpression(comparatorExpression, evaluation);
 		}
+		
+		BucketOrderer orderer = null;
+		JRExpression orderByExpression = bucket.getOrderByExpression();
+		if (orderByExpression != null && bucket.getOrder() != BucketOrder.NONE)
+		{
+			// when we have an order by expression, the comparator is applied to order values
+			Comparator<Object> orderValueComparator = BucketDefinition.createOrderComparator(comparator, bucket.getOrder());
+			orderer = new BucketExpressionOrderer(orderByExpression, orderValueComparator);
+		}
 
 		return new BucketDefinition(bucket.getValueClass(),
-				bucket.getOrderByExpression(), comparator, bucket.getOrder(), 
+				orderer, comparator, bucket.getOrder(), 
 				group.getTotalPositionValue());
 	}
 
