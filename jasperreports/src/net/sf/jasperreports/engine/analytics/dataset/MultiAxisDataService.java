@@ -64,7 +64,6 @@ import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRIncrementerFactoryCache;
-import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.SingleValue;
 import net.sf.jasperreports.engine.util.ValuePropertiesWrapper;
 import net.sf.jasperreports.engine.util.ValuePropertiesWrapperComparator;
@@ -200,7 +199,7 @@ public class MultiAxisDataService
 	protected BucketDefinition createRootBucket() throws JRException
 	{
 		return new BucketDefinition(SingleValue.class,
-				null, null, SortOrderEnum.ASCENDING, 
+				null, null, BucketOrder.ASCENDING, 
 				CrosstabTotalPositionEnum.START);
 	}
 
