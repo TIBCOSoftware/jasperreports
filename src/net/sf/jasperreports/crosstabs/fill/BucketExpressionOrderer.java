@@ -42,6 +42,8 @@ public class BucketExpressionOrderer implements BucketOrderer
 	private final JRExpression orderByExpression;
 	private final Comparator<Object> orderValueComparator;
 	
+	private BucketingData bucketingData;
+	
 	public BucketExpressionOrderer(JRExpression orderByExpression, Comparator<Object> orderValueComparator)
 	{
 		this.orderByExpression = orderByExpression;
@@ -49,8 +51,13 @@ public class BucketExpressionOrderer implements BucketOrderer
 	}
 
 	@Override
-	public Object getOrderValue(BucketingData bucketingData, BucketMap bucketMap, Bucket bucketValue) 
-			throws JRException
+	public void init(BucketingData bucketingData)
+	{
+		this.bucketingData = bucketingData;
+	}
+
+	@Override
+	public Object getOrderValue(BucketMap bucketMap, Bucket bucketValue) throws JRException
 	{
 		MeasureValue[] bucketTotals = bucketingData.getMeasureTotals(bucketMap, bucketValue);
 		BucketingServiceContext serviceContext = bucketingData.getServiceContext();

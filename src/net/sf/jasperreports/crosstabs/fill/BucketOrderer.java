@@ -35,7 +35,9 @@ import net.sf.jasperreports.engine.JRException;
 public interface BucketOrderer
 {
 
-	Object getOrderValue(BucketingData bucketingData, BucketMap bucketMap, Bucket bucketValue) 
+	void init(BucketingData bucketingData);
+
+	Object getOrderValue(BucketMap bucketMap, Bucket bucketValue) 
 			throws JRException;
 
 	int compareOrderValues(Object orderValue, Object orderValue2);

@@ -122,6 +122,7 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 		if (bucketOrderer != null)
 		{
 			headers = new OrderedCollectedList(bucketDefinition);
+			bucketOrderer.init(this);
 		}
 		else
 		{
@@ -152,7 +153,7 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 				nextHeaders.key = bucketValue;
 				if (bucketOrderer != null)
 				{
-					Object orderValue = bucketOrderer.getOrderValue(this, bucketMap, bucketValue);
+					Object orderValue = bucketOrderer.getOrderValue(bucketMap, bucketValue);
 					nextHeaders.orderValue = orderValue;
 				}
 				headers.add(nextHeaders);
@@ -618,6 +619,71 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 	public BucketingServiceContext getServiceContext()
 	{
 		return serviceContext;
+	}
+
+	@Override
+	public Bucket getColumnTotalBucket(int columnGroupIndex)
+	{
+		if (columnGroupIndex < 0 || columnGroupIndex >= colBucketCount)
+		{
+			// TODO lucianc 
+			throw new IndexOutOfBoundsException();
+		}
+		
+		return allBuckets[rowBucketCount + columnGroupIndex].VALUE_TOTAL;
+	}
+
+	@Override
+	public Bucket getColumnBucket(int columnGroupIndex, Object value)
+	{
+		if (columnGroupIndex < 0 || columnGroupIndex >= colBucketCount)
+		{
+			// TODO lucianc 
+			throw new IndexOutOfBoundsException();
+		}
+		
+		BucketDefinition bucket = allBuckets[rowBucketCount + columnGroupIndex];
+		return value == null ? bucket.VALUE_NULL : bucket.create(value);
+	}
+
+	@Override
+	public MeasureValue[] getMeasureValues(BucketMap bucketMap, Bucket bucket, 
+			List<Bucket> columnValues)
+	{
+		Object bucketValue = bucketMap.get(bucket);
+		// advance to row totals
+		for (int idx = bucketMap.level + 1; idx < rowBucketCount; ++idx)
+		{
+			bucketValue = ((BucketMap) bucketValue).getTotalEntry().getValue();
+		}
+		
+		// advance to column values
+		Iterator<Bucket> colValuesIt = columnValues.iterator();
+		for (int idx = 0; idx < colBucketCount && bucketValue != null; ++idx)
+		{
+			if (colValuesIt.hasNext())
+			{
+				Bucket columnBucket = colValuesIt.next();
+				bucketValue = ((BucketMap) bucketValue).get(columnBucket);
+			}
+			else
+			{
+				// if we don't have a value for the column group, use the total
+				bucketValue = ((BucketMap) bucketValue).getTotalEntry().getValue();
+			}
+		}
+		
+		MeasureValue[] measureValues;
+		if (bucketValue == null)
+		{
+			// the column values were not present for the row, using zero values
+			measureValues = zeroUserMeasureValues;
+		}
+		else
+		{
+			measureValues = getUserMeasureValues((MeasureValue[]) bucketValue);
+		}
+		return measureValues;
 	}
 
 }

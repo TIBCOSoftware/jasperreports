@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.crosstabs.fill.calculation;
 
+import java.util.List;
+
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketingService.BucketMap;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
@@ -35,7 +37,14 @@ public interface BucketingData
 {
 
 	BucketingServiceContext getServiceContext();
+
+	Bucket getColumnTotalBucket(int columnGroupIndex);
+
+	Bucket getColumnBucket(int columnGroupIndex, Object value);
 	
 	MeasureValue[] getMeasureTotals(BucketMap bucketMap, Bucket bucket);
+
+	MeasureValue[] getMeasureValues(BucketMap bucketMap, Bucket bucketValue,
+			List<Bucket> columnValues);
 	
 }
