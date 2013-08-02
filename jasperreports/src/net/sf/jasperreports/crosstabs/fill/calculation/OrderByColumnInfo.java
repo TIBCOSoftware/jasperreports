@@ -21,20 +21,51 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.crosstabs.fill;
+package net.sf.jasperreports.crosstabs.fill.calculation;
 
-import net.sf.jasperreports.crosstabs.JRCrosstab;
-import net.sf.jasperreports.crosstabs.JRCrosstabGroup;
-import net.sf.jasperreports.engine.JasperReportsContext;
+import java.util.List;
+
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface BucketOrdererProvider
+public class OrderByColumnInfo
 {
 
-	BucketOrderer createOrderer(JasperReportsContext jasperReportsContext, 
-			JRCrosstab crosstab, JRCrosstabGroup group);
+	private SortOrderEnum order;
+	private int measureIndex;
+	private List<ColumnValueInfo> columnValues;
+
+	public SortOrderEnum getOrder()
+	{
+		return order;
+	}
+
+	public void setOrder(SortOrderEnum order)
+	{
+		this.order = order;
+	}
+
+	public List<ColumnValueInfo> getColumnValues()
+	{
+		return columnValues;
+	}
+
+	public void setColumnValues(List<ColumnValueInfo> columnValues)
+	{
+		this.columnValues = columnValues;
+	}
+
+	public int getMeasureIndex()
+	{
+		return measureIndex;
+	}
+
+	public void setMeasureIndex(int measureIndex)
+	{
+		this.measureIndex = measureIndex;
+	}
 	
 }

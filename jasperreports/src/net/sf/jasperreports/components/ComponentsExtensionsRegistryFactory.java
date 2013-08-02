@@ -54,6 +54,8 @@ import net.sf.jasperreports.components.spiderchart.SpiderChartFillFactory;
 import net.sf.jasperreports.components.table.FillTableFactory;
 import net.sf.jasperreports.components.table.TableCompiler;
 import net.sf.jasperreports.components.table.TableDesignConverter;
+import net.sf.jasperreports.crosstabs.fill.BucketOrdererProvider;
+import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnProvider;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
@@ -61,7 +63,7 @@ import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
 import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
+import net.sf.jasperreports.extensions.ListExtensionsRegistry;
 
 /**
  * Extension registry factory that includes built-in component element
@@ -172,7 +174,11 @@ public class ComponentsExtensionsRegistryFactory implements
 
 		bundle.setComponentManagers(componentManagers);
 		
-		REGISTRY = new SingletonExtensionRegistry<ComponentsBundle>(ComponentsBundle.class, bundle);
+		ListExtensionsRegistry registry = new ListExtensionsRegistry();
+		registry.add(ComponentsBundle.class, bundle);
+		registry.add(BucketOrdererProvider.class, new OrderByColumnProvider());
+		
+		REGISTRY = registry;
 	}
 	
 	public ExtensionsRegistry createRegistry(String registryId,

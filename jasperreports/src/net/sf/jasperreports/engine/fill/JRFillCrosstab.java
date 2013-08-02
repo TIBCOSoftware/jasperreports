@@ -35,6 +35,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -50,6 +53,7 @@ import net.sf.jasperreports.crosstabs.base.JRBaseCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.fill.BucketExpressionOrderer;
 import net.sf.jasperreports.crosstabs.fill.BucketOrderer;
+import net.sf.jasperreports.crosstabs.fill.BucketOrdererProvider;
 import net.sf.jasperreports.crosstabs.fill.JRCrosstabExpressionEvaluator;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabCell;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabColumnGroup;
@@ -92,8 +96,6 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
-import org.jfree.data.general.Dataset;
-
 /**
  * Fill-time implementation of a {@link net.sf.jasperreports.crosstabs.JRCrosstab crosstab}.
  * 
@@ -102,6 +104,8 @@ import org.jfree.data.general.Dataset;
  */
 public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROriginProvider, BucketingServiceContext
 {
+	private final static Log log = LogFactory.getLog(JRFillCrosstab.class); 
+	
 	final protected JRCrosstab parentCrosstab;
 
 	protected JRFillCrosstabDataset dataset;
@@ -437,18 +441,47 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			comparator = (Comparator<Object>) evaluateExpression(comparatorExpression, evaluation);
 		}
 		
-		BucketOrderer orderer = null;
-		JRExpression orderByExpression = bucket.getOrderByExpression();
-		if (orderByExpression != null && bucket.getOrder() != BucketOrder.NONE)
-		{
-			// when we have an order by expression, the comparator is applied to order values
-			Comparator<Object> orderValueComparator = BucketDefinition.createOrderComparator(comparator, bucket.getOrder());
-			orderer = new BucketExpressionOrderer(orderByExpression, orderValueComparator);
-		}
-
+		BucketOrderer orderer = createOrderer(group, comparator);
 		return new BucketDefinition(bucket.getValueClass(),
 				orderer, comparator, bucket.getOrder(), 
 				group.getTotalPositionValue());
+	}
+
+	protected BucketOrderer createOrderer(JRCrosstabGroup group, Comparator<Object> bucketComparator)
+	{
+		BucketOrderer orderer = null;
+		JasperReportsContext jasperReportsContext = filler.getJasperReportsContext();
+		List<BucketOrdererProvider> ordererProviders = jasperReportsContext.getExtensions(BucketOrdererProvider.class);
+		for (BucketOrdererProvider ordererProvider : ordererProviders)
+		{
+			orderer = ordererProvider.createOrderer(jasperReportsContext, parentCrosstab, group);
+			if (orderer != null)
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("created provider orderer " + orderer + " for group " + group.getName());
+				}
+			}
+		}
+		
+		if (orderer == null)
+		{
+			JRCrosstabBucket bucket = group.getBucket();
+			JRExpression orderByExpression = bucket.getOrderByExpression();
+			if (orderByExpression != null && bucket.getOrder() != BucketOrder.NONE)
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("using order by expression to order group " + group.getName());
+				}
+				
+				// when we have an order by expression, the comparator is applied to order values
+				Comparator<Object> orderValueComparator = BucketDefinition.createOrderComparator(bucketComparator, bucket.getOrder());
+				orderer = new BucketExpressionOrderer(orderByExpression, orderValueComparator);
+			}
+		}
+		
+		return orderer;
 	}
 
 	private MeasureDefinition createServiceMeasure(JRFillCrosstabMeasure measure)
@@ -839,11 +872,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			{
 				throw new JRRuntimeException("Error incrementing crosstab dataset", e);
 			}
-		}
-
-		protected Dataset getCustomDataset()
-		{
-			return null;
 		}
 
 		public void collectExpressions(JRExpressionCollector collector)

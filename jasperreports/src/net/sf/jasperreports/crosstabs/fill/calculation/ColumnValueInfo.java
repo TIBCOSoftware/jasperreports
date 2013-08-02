@@ -21,20 +21,47 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.crosstabs.fill;
-
-import net.sf.jasperreports.crosstabs.JRCrosstab;
-import net.sf.jasperreports.crosstabs.JRCrosstabGroup;
-import net.sf.jasperreports.engine.JasperReportsContext;
+package net.sf.jasperreports.crosstabs.fill.calculation;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface BucketOrdererProvider
+public class ColumnValueInfo
 {
-
-	BucketOrderer createOrderer(JasperReportsContext jasperReportsContext, 
-			JRCrosstab crosstab, JRCrosstabGroup group);
 	
+	private boolean total;
+	private String valueType;
+	private String value;
+
+	public boolean isTotal()
+	{
+		return total;
+	}
+
+	public void setTotal(boolean total)
+	{
+		this.total = total;
+	}
+
+	public String getValueType()
+	{
+		return valueType;
+	}
+
+	public void setValueType(String valueType)
+	{
+		this.valueType = valueType;
+	}
+
+	public String getValue()
+	{
+		return value;
+	}
+
+	public void setValue(String value)
+	{
+		this.value = value;
+	}
+
 }
