@@ -1,5 +1,5 @@
-define(["jive.column", "jquery"], function(Column, $) {
-	var Table = function(o) {
+define(["jive.column", "jquery-1.10.1"], function(Column, $) {
+    var Table = function(o) {
 
         this.config = {
             id: null,
@@ -12,16 +12,18 @@ define(["jive.column", "jquery"], function(Column, $) {
         $.extend(this.config, o);
 
         this.parent = null;
-        this.column = {};
+        this.columns = [];
+        this.columnMap = {}
         this.loader = null;
-	};
+    };
 
-	Table.prototype = {
+    Table.prototype = {
         registerPart: function(partConfig) {
             var column = new Column(partConfig);
             column.parent = this;
             column.loader = this.loader;
-            this.column[partConfig.columnIndex] = column;
+            this.columns[partConfig.columnIndex] = column;
+            this.columnMap[partConfig.id] = column;
         },
         getId: function() {
             return this.config.id;
@@ -36,7 +38,7 @@ define(["jive.column", "jquery"], function(Column, $) {
             // bubble the event
             this.parent._notify(evt);
         }
-	};
-	
-	return Table;
+    };
+
+    return Table;
 });
