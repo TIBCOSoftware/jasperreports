@@ -1,4 +1,4 @@
-define(["jqueryui-1.8.18", "jive"], function($, jive) {
+define(["jqueryui", "jive"], function($, jive) {
     var EventManager = null;
 
     jive.interactive.column = {

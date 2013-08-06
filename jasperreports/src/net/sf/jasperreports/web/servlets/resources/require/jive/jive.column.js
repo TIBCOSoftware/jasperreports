@@ -1,4 +1,4 @@
-define(["validator", "jquery-1.10.1"], function(Validator, $){
+define(["validator", "jquery"], function(Validator, $){
     var Column = function(config) {
         this.config = config;
         this.parent = null;

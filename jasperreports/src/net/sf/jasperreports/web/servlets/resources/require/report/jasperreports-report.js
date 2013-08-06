@@ -1,19 +1,18 @@
 define(["jasperreports-loader", "jasperreports-status-checker",
     "jasperreports-component-registrar", "jasperreports-event-manager", "jasperreports-report-processor",
-    "jquery-1.10.1"], function (Loader, StatusChecker, ComponentRegistrar, EventManager, Processor, $) {
+    "jquery"], function (Loader, StatusChecker, ComponentRegistrar, EventManager, Processor, $) {
+	var Report = function(o) {
 
-    var Report = function(o) {
-
-        this.config = {
-            reporturi: null,
-            async: true,
-            page: 0
-        };
-        $.extend(this.config, o);
+		this.config = {
+				reporturi: null,
+				async: true,
+				page: 0
+		};
+		$.extend(this.config, o);
 
         // report state members
         this.currentpage = this.config.page;
-        this.html = null;
+		this.html = null;
         this.status = null;
         this.components = null;
 
@@ -31,68 +30,12 @@ define(["jasperreports-loader", "jasperreports-status-checker",
             UNDO_ALL_PERFORMED: "undoall",
             REDO_PERFORMED: "redo",
             PAGE_MODIFIED: "pageModified",
-            REPORT_HTML_READY: "reportHtmlReady"
+            REPORT_HTML_READY: "reportHtmlReady",
+            COMPONENTS_REGISTERED: "componentsRegistered"
         };
-    };
+	};
 
-    var api = {
-        gotoPage: function(page) {
-            this.statusChecker.cancelCheckPageModified();
-            return this.refreshPage(page, true);
-        },
-        undo: function() {
-            var it = this;
-            return this.loader.runAction({action: {actionName: "undo"}})
-                .then(function(jsonData) {
-                    it._notify({
-                        name: it.events.UNDO_PERFORMED,
-                        type: "undo",
-                        data: jsonData
-                    });
-
-                    return it;
-                });
-        },
-        redo: function() {
-            var it = this;
-            return this.loader.runAction({action: {actionName: "redo"}})
-                .then(function(jsonData) {
-                    it._notify({
-                        name: it.events.REDO_PERFORMED,
-                        type: "redo",
-                        data: jsonData
-                    });
-
-                    return it;
-                });
-        },
-        undoAll: function() {
-            var it = this;
-            return this.loader.runAction({action: {actionName: "undoAll"}})
-                .then(function(jsonData) {
-                    it._notify({
-                        name: it.events.UNDO_ALL_PERFORMED,
-                        type: "undoall",
-                        data: jsonData
-                    });
-
-                    return it;
-                });
-        }
-    };
-
-    $.extend(Report.prototype, api);
-
-    var privateMethods = {
-        _notify: function(evt) {
-            console.log("report notified of event: " + evt.name + "; type: " + evt.type);
-            this.eventManager.triggerEvent(evt.name);
-        }
-    }
-
-    $.extend(Report.prototype, privateMethods);
-
-    $.extend(Report.prototype, {
+	Report.prototype = {
         init: function() {
             return this.refreshPage(this.currentpage);
         },
@@ -117,8 +60,8 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                     it.components = {};
                     return it.componentRegistrar.registerComponents(componentsObject, it);
                 }).then(function() {
-                    it.eventManager.triggerEvent('componentsRegistered');
-
+                	it.eventManager.triggerEvent(it.events.COMPONENTS_REGISTERED);
+                	
                     if (it.status.pageTimestamp) {
                         it.statusChecker.checkPageModified(page, it.status.pageTimestamp).then(function() {
                             it.eventManager.triggerEvent(it.events.PAGE_MODIFIED);
@@ -128,6 +71,50 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                     return it;
                 });
         },
+        gotoPage: function(page) {
+            this.statusChecker.cancelCheckPageModified();
+            return this.refreshPage(page, true);
+        },
+        undo: function() {
+            var it = this;
+            return this.loader.runAction({action: {actionName: "undo"}})
+                .then(function(jsonData) {
+                it._notify({
+                    name: it.events.UNDO_PERFORMED,
+                    type: "undo",
+                    data: jsonData
+                });
+
+                return it;
+            });
+        },
+        redo: function() {
+            var it = this;
+            return this.loader.runAction({action: {actionName: "redo"}})
+                .then(function(jsonData) {
+                it._notify({
+                    name: it.events.REDO_PERFORMED,
+                    type: "redo",
+                    data: jsonData
+                });
+
+                return it;
+            });
+        },
+        undoAll: function() {
+            var it = this;
+            return this.loader.runAction({action: {actionName: "undoAll"}})
+                .then(function(jsonData) {
+                    it._notify({
+                        name: it.events.UNDO_ALL_PERFORMED,
+                        type: "undoall",
+                        data: jsonData
+                    });
+
+                    return it;
+                });
+        },
+
         on: function(evtName, callback) {
             this.eventManager.subscribeToEvent({
                 name: evtName,
@@ -137,8 +124,20 @@ define(["jasperreports-loader", "jasperreports-status-checker",
             });
 
             return this;
-        }
-    });
+        },
 
-    return Report;
+
+        // internal functions
+        /**
+         *
+         * @param evt The event object: {name, type, data}
+         * @private
+         */
+        _notify: function(evt) {
+            console.log("report notified of event: " + evt.name + "; type: " + evt.type);
+            this.eventManager.triggerEvent(evt.name);
+        }
+	};
+	
+	return Report;
 });

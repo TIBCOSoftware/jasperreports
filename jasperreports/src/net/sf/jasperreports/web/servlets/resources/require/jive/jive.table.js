@@ -1,4 +1,4 @@
-define(["jive.column", "jquery-1.10.1"], function(Column, $) {
+define(["jive.column", "jquery"], function(Column, $) {
     var Table = function(o) {
 
         this.config = {
