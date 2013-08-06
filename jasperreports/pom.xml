@@ -79,6 +79,7 @@
 					<include>**/*.eot</include>
 					<include>**/*.svg</include>
 					<include>**/*.svgz</include>
+					<include>**/*.tmpl</include>
 				</includes>
 			</resource>
 		</resources>
