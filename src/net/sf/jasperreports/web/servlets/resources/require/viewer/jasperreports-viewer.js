@@ -93,6 +93,24 @@ define(["jasperreports-report", "jquery"], function(Report, $) {
                 this.gotoPage(0);
             }).on("pageModified", function() {
                 this.refreshPage(this.currentpage);
+            }).on("componentsRegistered", function() {
+            	var components = it.reportInstance.components;
+                var modules = [];
+
+                /*
+                    Load and initialize jive modules
+                 */
+                if(components.table && components.table.length && components.table[0].columns && components.table[0].columns.length) {
+                    modules.push('jive.interactive.column');
+                }
+
+                if(modules.length) {
+                    require(modules, function() {
+                        $.each(arguments, function(i, thisModule) {
+                            thisModule.init(it.reportInstance);
+                        });
+                    });
+                }
             });
 
             // temporary bind existing toolbar ui

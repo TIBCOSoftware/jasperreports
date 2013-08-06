@@ -6,9 +6,9 @@
 	<style type="text/css">
 		a {text-decoration: none}
 	</style>
-   	<script src='${contextPath}/javascript/require.js'></script>
+   	<script src='${contextPath}/scripts/require/require.js'></script>
    	<script src='${contextPath}/servlets/requirejsconfig'></script>
-   	<link type='text/css' rel='stylesheet' href='${contextPath}/jquery/theme/jquery.ui.all.css'></link>
+   	<link type='text/css' rel='stylesheet' href='${contextPath}/scripts/jquery/themes/base/jquery.ui.all.css'></link>
    	<link type='text/css' rel='stylesheet' href='${jasperreports_global_css}'></link>
 </head>
 <body text="#000000" link="#000000" alink="#000000" vlink="#000000" bgcolor="#999999">

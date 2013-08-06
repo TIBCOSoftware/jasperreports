@@ -1,4 +1,4 @@
-define(['jqueryui-1.8.18', 'jasperreports-event-manager', 'text!jive.templates.tmpl', 'text!jive.vm.css'], function($, EventManager, templates, css) {
+define(['jquerytimepicker', 'jasperreports-event-manager', 'text!jive.templates.tmpl', 'text!jive.vm.css'], function($, EventManager, templates, css) {
     var jive = {
         name: 'jive',
         active: false,
@@ -1078,7 +1078,7 @@ define(['jqueryui-1.8.18', 'jasperreports-event-manager', 'text!jive.templates.t
                  Setup CSS
                  */
                 var stylesheet = $('<style id="jive-stylesheets" />');
-                css = css.replace(/\$\{path\}/g, report.config.contextPath + '/reportresource?resource=');
+                css = css.replace(/\$\{path\}/g, '/jasperreports/servlets/resource?jr.resource='); //FIXMEJIVE remove the hardcoding
                 stylesheet.html(css).appendTo('head');
 
                 /*
