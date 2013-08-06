@@ -90,7 +90,7 @@ public class MapElementImageProvider
 					String color = (String)map.get(MapPrintElement.PARAMETER_MARKER_COLOR);
 					currentMarkers += color != null && color.length() > 0 ? "color:0x" + color + "%7C" : "";
 					String label = (String)map.get(MapPrintElement.PARAMETER_MARKER_LABEL);
-					currentMarkers += label != null && label.length() > 0 ? "label:" + label.charAt(0) + "%7C" : "";
+					currentMarkers += label != null && label.length() > 0 ? "label:" + Character.toUpperCase(label.charAt(0)) + "%7C" : "";
 					String icon = map.get(MapPrintElement.PARAMETER_MARKER_ICON_URL) != null 
 							? (String)map.get(MapPrintElement.PARAMETER_MARKER_ICON_URL) 
 							: (String)map.get(MapPrintElement.PARAMETER_MARKER_ICON);
