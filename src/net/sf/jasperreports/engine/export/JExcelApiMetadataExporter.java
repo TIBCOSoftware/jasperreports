@@ -362,10 +362,10 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		}
 	}
 
-	protected void createSheet(String name)
+	protected void createSheet(SheetInfo sheetInfo)
 	{
-		sheet = workbook.createSheet(name, Integer.MAX_VALUE);
-		setSheetSettings(sheet);
+		sheet = workbook.createSheet(sheetInfo.sheetName, Integer.MAX_VALUE);
+		setSheetSettings(sheetInfo, sheet);
 	}
 
 	protected void closeWorkbook(OutputStream os) throws JRException
@@ -1997,7 +1997,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		return BorderLineStyle.NONE;
 	}
 
-	private final void setSheetSettings(WritableSheet sheet)
+	private final void setSheetSettings(SheetInfo sheetInfo, WritableSheet sheet)
 	{
 		rowIndex = 0;
 		PageOrientation po;
@@ -2094,9 +2094,9 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 			sheets.getFooter().getRight().append(sheetFooterRight);
 		}
 		
-		if(sheetFirstPageNumber != null && sheetFirstPageNumber > 0)
+		if(sheetInfo.sheetFirstPageNumber != null && sheetInfo.sheetFirstPageNumber > 0)
 		{
-			sheets.setPageStart(sheetFirstPageNumber);
+			sheets.setPageStart(sheetInfo.sheetFirstPageNumber);
 			firstPageNotSet = false;
 		}
 		else if(documentFirstPageNumber != null && documentFirstPageNumber > 0 && firstPageNotSet)
@@ -2110,8 +2110,8 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 			sheets.getFooter().getCentre().appendPageNumber();
 		}
 		
-		boolean showGridlines = sheetShowGridlines != null 
-				? sheetShowGridlines
+		boolean showGridlines = sheetInfo.sheetShowGridlines != null 
+				? sheetInfo.sheetShowGridlines
 				: (documentShowGridlines != null 
 					? documentShowGridlines
 					: true);

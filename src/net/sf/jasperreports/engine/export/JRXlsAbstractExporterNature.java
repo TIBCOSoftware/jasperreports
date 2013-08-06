@@ -317,36 +317,11 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	
 	public void setXProperties(Map<String,Object> xCutsProperties, JRPrintElement element)
 	{
-		
 		Float widthRatio = getColumnWidthRatio(element);
 		Float xCutsWidthRatio = (Float)xCutsProperties.get(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO);
 		if(widthRatio != null && (xCutsWidthRatio == null || xCutsWidthRatio < widthRatio))
 		{
 			xCutsProperties.put(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO, widthRatio);
-		}
-
-		String sheetName = getSheetName(element);
-		if(sheetName != null)
-		{
-			xCutsProperties.put(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME, sheetName);
-		}
-
-		Integer pageScale = getPageScale(element);
-		if(pageScale != null && pageScale > 9 && pageScale < 401)
-		{
-			xCutsProperties.put(JRXlsAbstractExporter.PROPERTY_PAGE_SCALE, pageScale);
-		}
-		
-		Integer firstPageNumber = getFirstPageNumber(element);
-		if(firstPageNumber != null)
-		{
-			xCutsProperties.put(JRXlsAbstractExporter.PROPERTY_FIRST_PAGE_NUMBER, firstPageNumber);
-		}
-		
-		Boolean showGridlines = getShowGridlines(element);
-		if(showGridlines != null)
-		{
-			xCutsProperties.put(JRXlsAbstractExporter.PROPERTY_SHOW_GRIDLINES, showGridlines);
 		}
 	}
 	
@@ -383,6 +358,30 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 			cut.setProperty(JRXlsAbstractExporter.PROPERTY_ROW_OUTLINE_LEVEL_PREFIX, levelMap);
 		}
 		
+		String sheetName = getSheetName(element);
+		if(sheetName != null)
+		{
+			cut.setProperty(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME, sheetName);
+		}
+
+		Integer pageScale = getPageScale(element);
+		if(pageScale != null && pageScale > 9 && pageScale < 401)
+		{
+			cut.setProperty(JRXlsAbstractExporter.PROPERTY_PAGE_SCALE, pageScale);
+		}
+		
+		Integer firstPageNumber = getFirstPageNumber(element);
+		if(firstPageNumber != null)
+		{
+			cut.setProperty(JRXlsAbstractExporter.PROPERTY_FIRST_PAGE_NUMBER, firstPageNumber);
+		}
+		
+		Boolean showGridlines = getShowGridlines(element);
+		if(showGridlines != null)
+		{
+			cut.setProperty(JRXlsAbstractExporter.PROPERTY_SHOW_GRIDLINES, showGridlines);
+		}
+
 		setYProperties(yCutsProperties, element);
 	}
 	

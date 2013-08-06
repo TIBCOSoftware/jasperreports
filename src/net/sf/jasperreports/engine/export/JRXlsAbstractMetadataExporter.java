@@ -190,7 +190,9 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 
 						JRPrintPage page = pages.get(pageIndex);
 
-						createSheet(getSheetName(null));
+						SheetInfo sheetInfo = new SheetInfo();
+						sheetInfo.sheetName = getSheetName(null);
+						createSheet(sheetInfo);
 
 						// we need to count all sheets generated for all exported documents
 						sheetIndex++;
@@ -207,7 +209,9 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 				else
 				{
 					// Create the sheet before looping.
-					createSheet(getSheetName(jasperPrint.getName()));
+					SheetInfo sheetInfo = new SheetInfo();
+					sheetInfo.sheetName = getSheetName(jasperPrint.getName());
+					createSheet(sheetInfo);
 
 					// we need to count all sheets generated for all exported documents
 					sheetIndex++;
@@ -705,12 +709,12 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 
 	protected abstract void openWorkbook(OutputStream os) throws JRException;
 
-	protected void createSheet(CutsInfo xCuts, String name)
+	protected void createSheet(CutsInfo xCuts, SheetInfo sheetInfo)
 	{
-		createSheet(null, name);
+		createSheet(sheetInfo);
 	}
 
-	protected abstract void createSheet(String name);
+	protected abstract void createSheet(SheetInfo sheetInfo);
 
 	protected abstract void closeWorkbook(OutputStream os) throws JRException;
 

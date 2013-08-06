@@ -760,15 +760,15 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void createSheet(CutsInfo xCuts, String name)
+	protected void createSheet(CutsInfo xCuts, SheetInfo sheetInfo)
 	{
 		closeSheet();
 		
 		currentSheetJasperPrint = jasperPrint;
-		currentSheetPageScale = sheetPageScale;
-		currentSheetFirstPageNumber = sheetFirstPageNumber;
+		currentSheetPageScale = sheetInfo.sheetPageScale;
+		currentSheetFirstPageNumber = sheetInfo.sheetFirstPageNumber;
 		
-		wbHelper.exportSheet(sheetIndex + 1, name);
+		wbHelper.exportSheet(sheetIndex + 1, sheetInfo.sheetName);
 		ctHelper.exportSheet(sheetIndex + 1);
 		relsHelper.exportSheet(sheetIndex + 1);
 
@@ -798,12 +798,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		
 		runHelper = new XlsxRunHelper(jasperReportsContext, sheetWriter, fontMap, null);//FIXMEXLSX check this null
 		
-		boolean showGridlines = sheetShowGridlines != null 
-				? sheetShowGridlines
+		boolean showGridlines = sheetInfo.sheetShowGridlines != null 
+				? sheetInfo.sheetShowGridlines
 				: (documentShowGridlines != null 
 					? documentShowGridlines
 					: true);
-		sheetHelper.exportHeader(showGridlines, (sheetPageScale == null ? 0 : sheetPageScale), gridRowFreezeIndex, gridColumnFreezeIndex, jasperPrint);
+		sheetHelper.exportHeader(showGridlines, (sheetInfo.sheetPageScale == null ? 0 : sheetInfo.sheetPageScale), gridRowFreezeIndex, gridColumnFreezeIndex, jasperPrint);
 		sheetRelsHelper.exportHeader(sheetIndex + 1);
 		drawingHelper.exportHeader();
 		drawingRelsHelper.exportHeader();
