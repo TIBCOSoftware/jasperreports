@@ -24,12 +24,9 @@ define(["jquery"], function($) {
         _timedCheckPageModified: function(booleanDone, pageNo, pageTimestamp, deferredObject) {
             var it = this;
             if (!booleanDone) {
-                it.timeoutId = setTimeout(
-                    (function(page, timestamp, deferred) {
-                        return function() {
-                            it._getPageModifiedStatus(page, timestamp, deferred);
-                        };
-                    }(pageNo, pageTimestamp, deferredObject)), 3000);
+            	it.timeoutId = setTimeout(function() {
+        			it._getPageModifiedStatus(pageNo, pageTimestamp, deferredObject);
+        		}, 3000);
             } else {
                 deferredObject.resolve();
             }
