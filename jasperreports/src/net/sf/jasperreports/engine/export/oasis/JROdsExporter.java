@@ -139,7 +139,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 	}
 
 	@Override
-	protected void createSheet(CutsInfo xCuts, String name)
+	protected void createSheet(CutsInfo xCuts, SheetInfo sheetInfo)
 	{
 		closeSheet();
 		

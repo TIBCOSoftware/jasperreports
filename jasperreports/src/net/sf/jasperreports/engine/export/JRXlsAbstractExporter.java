@@ -585,9 +585,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected Float columnWidthRatio;
 	protected Integer documentPageScale;
-	protected Integer sheetPageScale;		
 	protected Integer documentFirstPageNumber;		
-	protected Integer sheetFirstPageNumber;		
 	protected boolean firstPageNotSet;
 	
 	protected Boolean keepTemplateSheets;
@@ -595,10 +593,17 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	protected boolean ignoreAnchors;
 	protected Boolean documentShowGridlines;
-	protected Boolean sheetShowGridlines;
 	
 	protected String invalidCharReplacement;
 	protected String imageAnchorType;
+	
+	protected static class SheetInfo
+	{
+		public String sheetName;
+		public Integer sheetFirstPageNumber;		
+		public Integer sheetPageScale;		
+		public Boolean sheetShowGridlines;
+	}
 
 	/**
 	 *
@@ -960,27 +965,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 						JRPrintPage page = pages.get(pageIndex);
 						
-
-						CutsInfo xCuts = 
-								JRGridLayout.calculateXCuts(
-									getNature(), pages, pageIndex, pageIndex,
-									jasperPrint.getPageWidth(), globalOffsetX
-									);
-
-						sheetFirstPageNumber = (Integer)xCuts.getPropertiesMap().get(PROPERTY_FIRST_PAGE_NUMBER);
-						sheetShowGridlines = (Boolean)xCuts.getPropertiesMap().get(PROPERTY_SHOW_GRIDLINES);
-						setScale(xCuts, false);
-						createSheet(xCuts, getSheetName(xCuts, null));
-
-						// we need to count all sheets generated for all exported documents
-						sheetIndex++;
-						sheetNamesIndex++;
-						resetAutoFilters();
-
-						setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
-
 						/*   */
-						exportPage(page, /*xCuts*/null, /*startRow*/0);
+						exportPage(page, /*xCuts*/null, /*startRow*/0, /*defaultSheetName*/null);
 					}
 				}
 				else
@@ -994,20 +980,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							getNature(), pages, startPageIndex, endPageIndex,
 							jasperPrint.getPageWidth(), globalOffsetX
 							);
-					
-					sheetFirstPageNumber = (Integer)xCuts.getPropertiesMap().get(PROPERTY_FIRST_PAGE_NUMBER);
-					sheetShowGridlines = (Boolean)xCuts.getPropertiesMap().get(PROPERTY_SHOW_GRIDLINES);
-					setScale(xCuts, false);
-					
-					// Create the sheet before looping.
-					createSheet(xCuts, getSheetName(xCuts, jasperPrint.getName()));
-
-					// we need to count all sheets generated for all exported documents
-					sheetIndex++;
-					sheetNamesIndex++;
-					resetAutoFilters();
-
-					setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
 					
 					//clear the filter's internal cache that might have built up
 					if (filter instanceof ResetableExporterFilter)
@@ -1023,7 +995,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							throw new JRException("Current thread interrupted.");
 						}
 						JRPrintPage page = pages.get(pageIndex);
-						startRow = exportPage(page, xCuts, startRow);
+						startRow = exportPage(page, xCuts, startRow, jasperPrint.getName());
 					}
 					
 					//updateColumns(xCuts);
@@ -1038,7 +1010,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 *
 	 * @return the number of rows added.
 	 */
-	protected int exportPage(JRPrintPage page, CutsInfo xCuts, int startRow) throws JRException
+	protected int exportPage(JRPrintPage page, CutsInfo xCuts, int startRow, String defaultSheetName) throws JRException
 	{
 		JRGridLayout layout =
 			new JRGridLayout(
@@ -1058,18 +1030,15 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		if (createXCuts) 
 		{
 			xCuts = layout.getXCuts();
-			setColumnWidths(xCuts);
-		}
-		
-		if (startRow == 0)
-		{
-			setColumnWidths(xCuts);
 		}
 
-		setScale(xCuts, true);
-		
 		CutsInfo yCuts = layout.getYCuts();
 		
+		if (createXCuts || startRow == 0)
+		{
+			exportSheet(xCuts, yCuts, 0, startRow, defaultSheetName);
+		}
+
 		XlsRowLevelInfo levelInfo = new XlsRowLevelInfo(); 
 
 		int skippedRows = 0;
@@ -1089,22 +1058,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				
 				setRowLevels(levelInfo, null);
 				
-				sheetFirstPageNumber = null;
-				sheetShowGridlines = null;
+				exportSheet(xCuts, yCuts, y, startRow, defaultSheetName);
 				
-				createSheet(xCuts, getSheetName(xCuts, null));
-				
-				setScale(xCuts, true);
-				setColumnWidths(xCuts);
 				startRow = 0;
 				rowIndex = 0;
 				skippedRows = y;
-				sheetIndex++;
-				sheetNamesIndex++;
-				resetAutoFilters();
-				
-				setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
-
 			}
 			
 			if (
@@ -1313,7 +1271,87 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		// Return the number of rows added
 		return rowIndex;
 	}
+	
 
+	protected SheetInfo getSheetProps(CutsInfo yCuts, int startCutIndex, int startRow)
+	{
+		SheetInfo sheetInfo = new SheetInfo();
+		
+		int skippedRows = 0;
+		int rowIndex = startRow;
+		int rowCount = yCuts.size() - 1;
+		for(int y = startCutIndex; y < rowCount; y++)
+		{
+			rowIndex = y - skippedRows + startRow;
+
+			if(
+				y > startCutIndex &&
+				((maxRowsPerSheet > 0 && rowIndex >= maxRowsPerSheet)
+				|| yCuts.isBreak(y)) 
+				)
+			{
+				break;
+			}
+			
+			if (
+				yCuts.isCutNotEmpty(y)
+				|| ((!isRemoveEmptySpaceBetweenRows || yCuts.isCutSpanned(y))
+				&& !isCollapseRowSpan)
+				)
+			{
+				Cut yCut = yCuts.getCut(y);
+
+				String sheetName = (String)yCut.getProperty(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME);
+				if (sheetName != null)
+				{
+					sheetInfo.sheetName = sheetName;
+				}
+
+				Integer firstPageNumber = (Integer)yCut.getProperty(PROPERTY_FIRST_PAGE_NUMBER);
+				if (firstPageNumber != null)
+				{
+					sheetInfo.sheetFirstPageNumber = firstPageNumber;
+				}
+				Boolean showGridlines = (Boolean)yCut.getProperty(PROPERTY_SHOW_GRIDLINES);
+				if (showGridlines != null)
+				{
+					sheetInfo.sheetShowGridlines = showGridlines;
+				}
+
+				Integer pageScale = (Integer)yCut.getProperty(PROPERTY_PAGE_SCALE);
+				sheetInfo.sheetPageScale = (isValidScale(pageScale))
+								? pageScale 
+								: documentPageScale;
+				++rowIndex;
+			}
+			else
+			{
+				skippedRows++;
+			}
+		}
+		
+		return sheetInfo;
+	}
+	
+
+	protected void exportSheet(CutsInfo xCuts, CutsInfo yCuts, int startCutIndex, int startRow, String defaultSheetName)
+	{
+		SheetInfo sheetInfo = getSheetProps(yCuts, startCutIndex, startRow);
+		
+		sheetInfo.sheetName = getSheetName(sheetInfo.sheetName, defaultSheetName);
+		
+		createSheet(xCuts, sheetInfo);
+		setScale(sheetInfo.sheetPageScale);
+
+		// we need to count all sheets generated for all exported documents
+		sheetIndex++;
+		sheetNamesIndex++;
+		resetAutoFilters();
+
+		setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+		setColumnWidths(xCuts);
+	}
+	
 
 	protected void mergeAndSetRowLevels(XlsRowLevelInfo levelInfo, SortedMap<String, Boolean> rowLevelMap, int rowIndex)
 	{
@@ -1412,20 +1450,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		}
 	}
 	
-	protected void setScale(CutsInfo xCuts, boolean isToApply)
-	{
-		Map<String, Object> xCutsProperties = xCuts.getPropertiesMap();
-		Integer scale = (Integer)xCutsProperties.get(PROPERTY_PAGE_SCALE);
-
-		sheetPageScale = (isValidScale(scale))
-						? scale 
-						: documentPageScale;
-		if(isToApply)
-		{
-			setScale(sheetPageScale);
-		}
-	}
-
 	/**
 	 *
 	 */
@@ -1594,18 +1618,17 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private String getSheetName(CutsInfo xCuts, String sheetName)
+	private String getSheetName(String sheetName, String defaultSheetName)
 	{
-		String name = xCuts == null ? null : (String)xCuts.getPropertiesMap().get(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME);
-		if(name != null)
+		if(sheetName != null)
 		{
 			if (sheetNames != null && sheetNamesIndex < sheetNames.length)
 			{
-				sheetNames[sheetNamesIndex] = name;
+				sheetNames[sheetNamesIndex] = sheetName;
 			}
-			return getSheetName(name);
+			return getSheetName(sheetName);
 		}
-		return getSheetName(sheetName);
+		return getSheetName(defaultSheetName);
 	}
 	
 	private String getSheetName(String sheetName)
@@ -1907,7 +1930,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected abstract void openWorkbook(OutputStream os) throws JRException, IOException;
 
-	protected abstract void createSheet(CutsInfo xCuts, String name);
+	protected abstract void createSheet(CutsInfo xCuts, SheetInfo sheetInfo);
 
 	protected abstract void closeWorkbook(OutputStream os) throws JRException, IOException;
 

@@ -289,9 +289,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void createSheet(CutsInfo xCuts, String name)
+	protected void createSheet(CutsInfo xCuts, SheetInfo sheetInfo)
 	{
-		sheet = workbook.createSheet(name);
+		sheet = workbook.createSheet(sheetInfo.sheetName);
 		patriarch = sheet.createDrawingPatriarch();
 		HSSFPrintSetup printSetup = sheet.getPrintSetup();
 		printSetup.setLandscape(jasperPrint.getOrientationValue() == OrientationEnum.LANDSCAPE);
@@ -327,14 +327,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		}
 
 		String fitWidth = getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FIT_WIDTH);
-		if(!isValidScale(sheetPageScale) && fitWidth != null && fitWidth.length() > 0)
+		if(!isValidScale(sheetInfo.sheetPageScale) && fitWidth != null && fitWidth.length() > 0)
 		{
 			printSetup.setFitWidth(Short.valueOf(fitWidth));
 			sheet.setAutobreaks(true);
 		}
 		
 		String fitHeight = getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FIT_HEIGHT);
-		if(!isValidScale(sheetPageScale) && fitHeight != null && fitHeight.length() > 0)
+		if(!isValidScale(sheetInfo.sheetPageScale) && fitHeight != null && fitHeight.length() > 0)
 		{
 			printSetup.setFitHeight(Short.valueOf(fitHeight));
 			sheet.setAutobreaks(true);
@@ -376,9 +376,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			sheet.setRightToLeft(sheetDirection == RunDirectionEnum.RTL);
 		}
 		
-		if(sheetFirstPageNumber != null && sheetFirstPageNumber > 0)
+		if(sheetInfo.sheetFirstPageNumber != null && sheetInfo.sheetFirstPageNumber > 0)
 		{
-			printSetup.setPageStart((short)sheetFirstPageNumber.intValue());
+			printSetup.setPageStart((short)sheetInfo.sheetFirstPageNumber.intValue());
 			printSetup.setUsePage(true);
 			firstPageNotSet = false;
 		}
@@ -393,8 +393,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			sheet.getFooter().setCenter("Page " + HeaderFooter.page());
 		}
 		
-		boolean showGridlines = sheetShowGridlines != null 
-				? sheetShowGridlines
+		boolean showGridlines = sheetInfo.sheetShowGridlines != null 
+				? sheetInfo.sheetShowGridlines
 				: (documentShowGridlines != null 
 					? documentShowGridlines
 					: true);
