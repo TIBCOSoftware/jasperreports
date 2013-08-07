@@ -1,4 +1,4 @@
-define(['jquerytimepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css'], function($, templates, css) {
+define(['jquerytimepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'jive.i18n'], function($, templates, css, jivei18n) {
     var jive = {
         name: 'jive',
         active: false,
@@ -13,7 +13,6 @@ define(['jquerytimepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css'], fun
         },
         i18n: {
 	    	get: function (key) {
-	    		var jivei18n = {};
 	    		if (jivei18n.hasOwnProperty(key)) {
 	    			return jivei18n[key];
 	    		} else {
@@ -1035,7 +1034,6 @@ define(['jquerytimepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css'], fun
                  Setup CSS
                  */
                 var stylesheet = $('<style id="jive-stylesheets" />');
-                css = css.replace(/\$\{path\}/g, '/jasperreports/servlets/resource?jr.resource='); //FIXMEJIVE remove the hardcoding
                 stylesheet.html(css).appendTo('head');
 
                 /*
