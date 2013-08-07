@@ -57,6 +57,9 @@
 							<c:itemProperty name="title">
 								<valueExpression><![CDATA[$F{address}]]></valueExpression>
 							</c:itemProperty>
+							<c:itemProperty name="label">
+								<valueExpression><![CDATA[$V{REPORT_COUNT} % 5 < 2 ? ""+$V{REPORT_COUNT}*$V{REPORT_COUNT} :($V{REPORT_COUNT} == 2 ? "abc" : "M")]]></valueExpression>
+							</c:itemProperty>
 						</c:item>
 					</c:markerData>
 				</c:map>
