@@ -703,7 +703,7 @@ public class HtmlExporter extends JRAbstractExporter
 		}
 	}
 
-	public void exportElements(List<JRPrintElement> elements) throws IOException //FIXMEICONLABEL creates <table> with jrPage class
+	public void exportElements(List<JRPrintElement> elements) throws IOException
 	{
 		Tabulator tabulator = new Tabulator(filter, elements);
 		tabulator.tabulate();
@@ -713,7 +713,7 @@ public class HtmlExporter extends JRAbstractExporter
 		CellElementVisitor elementVisitor = new CellElementVisitor();
 		TableVisitor tableVisitor = new TableVisitor(tabulator, elementVisitor);
 		
-		exportTable(tableVisitor, table, false, true);
+		exportTable(tableVisitor, table, false, false);
 	}
 
 	protected void exportTable(TableVisitor tableVisitor, Table table, boolean whiteBackground, boolean isMainReportTable) throws IOException
