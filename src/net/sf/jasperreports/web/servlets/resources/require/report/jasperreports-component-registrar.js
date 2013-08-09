@@ -1,4 +1,4 @@
-define(["require", "jquery"], function(require, $) {
+define(["require", "jquery-1.10.2"], function(require, $) {
 	var ComponentRegistrar = function(loader) {
 
         this.loader = loader;

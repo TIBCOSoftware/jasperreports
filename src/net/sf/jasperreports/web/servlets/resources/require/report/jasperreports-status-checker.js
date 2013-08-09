@@ -1,4 +1,4 @@
-define(["jquery"], function($) {
+define(["jquery-1.10.2"], function($) {
 	var StatusChecker = function(loader) {
         this.loader = loader;
 

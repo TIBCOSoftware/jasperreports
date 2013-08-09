@@ -1,4 +1,4 @@
-define(["jasperreports-report", "jquery"], function(Report, $) {
+define(["jasperreports-report", "jquery-1.10.2"], function(Report, $) {
 	var Viewer = function(o) {
         this.config = {
             at: null,

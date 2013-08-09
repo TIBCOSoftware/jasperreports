@@ -1,4 +1,4 @@
-define(["jquery"], function($) {
+define(["jquery-1.10.2"], function($) {
 	var Event = function(name) {
         if (!this instanceof Event) {
             return new Event(name);

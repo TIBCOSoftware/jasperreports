@@ -1,4 +1,13 @@
-define(["jasperreports-url-manager", "jquery"], function(UrlManager, $) {
+define(["jquery-1.10.2"], function($) {
+	
+	var UrlManager = {
+	        reportcontexturl: "/jasperreports/servlets/reportcontext",
+	        reportoutputurl: "/jasperreports/servlets/reportoutput",
+	        reportactionurl: "/jasperreports/servlets/reportaction",
+	        reportcomponentsurl: "/jasperreports/servlets/reportcomponents",
+	        reportpagestatusurl: "/jasperreports/servlets/reportpagestatus"
+	    };
+	
     var Loader = function(o) {
 
         this.config = {
