@@ -1,4 +1,4 @@
-define(['jqueryui'], function(jQuery) {
+define(['jquery.ui-1.10.3'], function(jQuery) {
 	
 /*
  * jQuery timepicker addon
