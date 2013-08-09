@@ -1,4 +1,4 @@
-define(["jquery"], function(jQuery) {
+define(["jquery-1.10.2"], function(jQuery) {
 	var jasperreports = {
 			APPLICATION_CONTEXT_PATH: '',
 			dialogsContainerSelector: 'div.jrPage:first',		// 'jrPage' hardcoded in JRXHtmlExporter.java
