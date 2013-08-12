@@ -208,6 +208,8 @@ public class HtmlExporter extends JRAbstractExporter
 	protected JRHtmlExporterContext exporterContext = new ExporterContext();
 	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
 	
+	protected ExporterFilter tableFilter;
+	
 	public HtmlExporter()
 	{
 		this(DefaultJasperReportsContext.getInstance());
@@ -241,6 +243,9 @@ public class HtmlExporter extends JRAbstractExporter
 			{
 				filter = createFilter(HTML_EXPORTER_PROPERTIES_PREFIX);
 			}
+			
+			// this is the filter used to create the table, taking in consideration unhandled generic elements
+			tableFilter = new GenericElementsFilterDecorator(jasperReportsContext, HTML_EXPORTER_KEY, filter);
 
 			/*   */
 			if (!isModeBatch)
@@ -678,7 +683,7 @@ public class HtmlExporter extends JRAbstractExporter
 	
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
-		Tabulator tabulator = new Tabulator(filter, page.getElements());
+		Tabulator tabulator = new Tabulator(tableFilter, page.getElements());
 		tabulator.tabulate();
 		if (!isIgnorePageMargins)
 		{
@@ -705,7 +710,7 @@ public class HtmlExporter extends JRAbstractExporter
 
 	public void exportElements(List<JRPrintElement> elements) throws IOException
 	{
-		Tabulator tabulator = new Tabulator(filter, elements);
+		Tabulator tabulator = new Tabulator(tableFilter, elements);
 		tabulator.tabulate();
 		
 		Table table = tabulator.getTable();
