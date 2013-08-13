@@ -98,10 +98,11 @@ define(["jquery-1.10.2"], function($) {
 		_ajaxLoad: function(o, dataType) {
 			return  $.ajax(o.url, {type: 'POST', dataType: dataType, data: o.params}).then(
                 null,
-                function(jqXHR, textStatus, errorThrown) {
-                    return $.parseJSON(jqXHR.responseText);
-                }
+                this._errHandler
             );
+		},
+		_errHandler: function(jqXHR, textStatus, errorThrown) {
+			return $.parseJSON(jqXHR.responseText);
 		}
 	};
 

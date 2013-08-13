@@ -39,9 +39,12 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
 
             jive.init(report);
 
-            it.setDynamicProperties();
-
             $.each(report.components.table, function() {
+                // dynamic properties (fonts, fontsizes) come only for the first table
+                if (this.config.genericProperties) {
+                	it.setGenericProperties(this.config.genericProperties);
+                }
+
                 it.initColumns(this);
             });
         },
@@ -409,59 +412,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                 jive.selected.ie.unhide(columnIndices);
             }
         },
-        setDynamicProperties: function (obj) {
-            var obj = {
-                fontSizes: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
-                fonts: {
-                    extension: [
-                        "DejaVu Sans" ,
-                        "DejaVu Sans Mono" ,
-                        "DejaVu Serif" ,
-                        "Monospaced" ,
-                        "SansSerif" ,
-                        "Serif"
-                    ],
-                    system: [
-                        "Bitstream Charter" ,
-                        "Bitstream Vera Sans" ,
-                        "Bitstream Vera Sans Mono" ,
-                        "Bitstream Vera Serif" ,
-                        "Century Schoolbook L" ,
-                        "Courier" ,
-                        "Courier 10 Pitch" ,
-                        "Cursor" ,
-                        "DejaVu LGC Sans" ,
-                        "DejaVu LGC Sans Condensed" ,
-                        "DejaVu LGC Sans Light" ,
-                        "DejaVu LGC Sans Mono" ,
-                        "DejaVu LGC Serif" ,
-                        "DejaVu LGC Serif Condensed" ,
-                        "Dialog" ,
-                        "DialogInput" ,
-                        "Dingbats" ,
-                        "Hershey" ,
-                        "Liberation Mono" ,
-                        "Liberation Sans" ,
-                        "Liberation Serif" ,
-                        "Lucida Bright" ,
-                        "Lucida Sans" ,
-                        "Lucida Sans Typewriter" ,
-                        "Luxi Mono" ,
-                        "Luxi Sans" ,
-                        "Luxi Serif" ,
-                        "Nimbus Mono L" ,
-                        "Nimbus Roman No9 L" ,
-                        "Nimbus Sans L" ,
-                        "Nimbus Sans L Condensed" ,
-                        "Standard Symbols L" ,
-                        "URW Bookman L" ,
-                        "URW Chancery L" ,
-                        "URW Gothic L" ,
-                        "URW Palladio L" ,
-                        "Utopia"
-                    ]
-                }
-            }
+        setGenericProperties: function (obj) {
             jive.interactive.column.fontSizes = obj.fontSizes;
             jive.interactive.column.fonts = obj.fonts;
         },
@@ -716,30 +667,6 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
         name: 'columnfilter',
         method: 'get',
         jc: {},
-        datePickerFormats: {
-            "yyyy-MM-dd": {dateFormat: "yy-mm-dd"},
-            "dd/MM/yyyy": {dateFormat: "dd/mm/yy"},
-            "MM/dd/yyyy": {dateFormat: "mm/dd/yy"},
-            "yyyy/MM/dd": {dateFormat: "yy/mm/dd"},
-            "EEEEE dd MMMMM yyyy": {dateFormat: "DD dd MM yy"},
-            "MMMMM dd. yyyy": {dateFormat: "MM dd. yy"},
-            "dd/MM": {dateFormat: "dd/mm"},
-            "dd/MM/yy": {dateFormat: "dd/mm/y"},
-            "dd-MMM": {dateFormat: "dd-M"},
-            "dd-MMM-yy": {dateFormat: "dd-M-y"},
-            "MMM-yy": {dateFormat: "M-y"},
-            "MMMMM-yy": {dateFormat: "MM-y"},
-            "dd/MM/yyyy h.mm a": {dateFormat: "dd/mm/yy", timeFormat: "h.mm TT", ampm: true},
-            "dd/MM/yyyy HH.mm.ss": {dateFormat: "dd/mm/yy", timeFormat: "hh.mm.ss"},
-            "MMM": {dateFormat: "M"},
-            "d/M/yyyy": {dateFormat: "d/m/yy"},
-            "dd-MMM-yyyy": {dateFormat: "dd-M-yy"},
-            "yyyy.MM.dd G 'at' HH:mm:ss z": {dateFormat: "yy.mm.dd", timeFormat:"hh:mm:ss", separator: 'at'},
-            "EEE. MMM d. ''yy": {dateFormat: "D. M d. 'y"},
-            "yyyy.MMMMM.dd GGG hh:mm aaa": {dateFormat: "yy.MM.dd AD", timeFormat:"hh:mm TT", ampm: true},
-            "EEE. d MMM yyyy HH:mm:ss Z": {dateFormat: "D. d M yy", timeFormat:"hh:mm:ss z"},
-            "yyMMddHHmmssZ": {dateFormat: "ymmdd", timeFormat:"hhmmssz"}
-        },
         elements: [
             [[{type:'radio',id:'clearFilter',label: jive.i18n.get('column.filterform.clearfilter.true.label'), value:'true'}]],
             [
@@ -786,44 +713,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             var it = this;
             var metadata = jive.selected.ie.config.filtering.filterData;
             var filtertype = metadata.filterType.toLowerCase();
-            var options = jive.selected.ie.config.filtering.filterOperatorTypeValueSelector || {
-                text : [
-                    {key:'EQUALS',val:'Equals'},
-                    {key:'IS_NOT_EQUAL_TO',val:'Is not equal to'},
-                    {key:'CONTAINS',val:'Contains'},
-                    {key:'DOES_NOT_CONTAIN',val:'Does not contain'},
-                    {key:'STARTS_WITH',val:'Starts with'},
-                    {key:'DOES_NOT_START_WITH',val:'Does not start with'},
-                    {key:'ENDS_WITH',val:'Ends with'},
-                    {key:'DOES_NOT_END_WITH',val:'Does not end with'}
-                ],
-                date: [
-                    {key:'EQUALS',val:'Equals'},
-                    {key:'IS_NOT_EQUAL_TO',val:'Is not equal to'},
-                    {key:'IS_BETWEEN',val:'Is between'},
-                    {key:'IS_NOT_BETWEEN',val:'Is not between'},
-                    {key:'IS_ON_OR_BEFORE',val:'Is on or before'},
-                    {key:'IS_BEFORE',val:'Is before'},
-                    {key:'IS_ON_OR_AFTER',val:'Is on or after'},
-                    {key:'IS_AFTER',val:'Is after'}
-                ],
-                numeric: [
-                    {key:'EQUALS',val:'Equals'},
-                    {key:'DOES_NOT_EQUAL',val:'Does not equal'},
-                    {key:'GREATER_THAN',val:'Greater than'},
-                    {key:'GREATER_THAN_EQUAL_TO',val:'Greater than or equal to'},
-                    {key:'LESS_THAN',val:'Less than'},
-                    {key:'LESS_THAN_EQUAL_TO',val:'Less than or equal to'},
-                    {key:'IS_BETWEEN',val:'Is between'},
-                    {key:'IS_NOT_BETWEEN',val:'Is not between'}
-                ],
-                boolean: [
-                    {key:'IS_TRUE', val:'Is true'},
-                    {key:'IS_NOT_TRUE', val:'Is not true'},
-                    {key:'IS_FALSE', val:'Is false'},
-                    {key:'IS_NOT_FALSE', val:'Is not false'}
-                ]
-            }[filtertype];
+            var options = jive.selected.ie.config.filtering.filterOperatorTypeValueSelector;
 
             it.jc.filterType.empty();
             var htm = [];
@@ -1168,9 +1058,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             }
 
             jive.hide();
-            jive.runAction({actionData: actions,
-                defaultAction: true});
-            this.actionDataCache = {};
+            jive.selected.ie.format(actions);
         },
         onBlur: function() {
             this.actionDataCache[this.name] = this.getActionData();

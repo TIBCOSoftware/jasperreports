@@ -1,4 +1,4 @@
-define(["jasperreports-report", "jquery-1.10.2"], function(Report, $) {
+define(["jasperreports-loader", "jasperreports-report", "jquery-1.10.2"], function(Loader, Report, $) {
 	var Viewer = function(o) {
         this.config = {
             at: null,
@@ -11,6 +11,11 @@ define(["jasperreports-report", "jquery-1.10.2"], function(Report, $) {
         $.extend(this.config, o);
 
         this.reportInstance = null;
+    };
+    
+    Loader.prototype._errHandler = function(jqXHR, textStatus, errorThrown) {
+    	var jsonMsg = $.parseJSON(jqXHR.responseText);
+    	console.error(jsonMsg);
     };
 
     Viewer.prototype = {
@@ -26,52 +31,6 @@ define(["jasperreports-report", "jquery-1.10.2"], function(Report, $) {
             it._setupEventsForReport(it.reportInstance);
 
             return it.reportInstance.init();
-        },
-
-        /*
-         Series of test that can be called from the console.
-         */
-        test: function(testName) {
-            var Report = this.reportInstance;
-            console.info(Report);
-
-            switch(testName) {
-                case 'goto':
-                    Report.gotoPage(1);
-
-                    return 'Test description: navigate to 2nd page.';
-                    break;
-                case 'sort':
-                    Report.components.table[0].column[0].sort({order: 'Asc'});
-
-                    return 'Test description: sort 1st column in ascending order.';
-                    break;
-                case 'move':
-                    Report.components.table[0].column[1].move({index: 3});
-
-                    return 'Test description: move 2nd column to 4th position.';
-                    break;
-                case 'resize':
-                    Report.components.table[0].column[0].resize({width: 200});
-
-                    return 'Test description: resize 1st column to 200.';
-                    break;
-                case 'filter':
-                    Report.components.table[0].column[1].filter({fieldValueStart: 'Robert', filterTypeOperator: 'CONTAINS'});
-
-                    return 'Test description: filter 2nd column for "Roberts"';
-                    break;
-                case 'hide':
-                    Report.components.table[0].column[1].hide();
-
-                    return 'Test description: hide 2nd column';
-                    break;
-                case 'unhide':
-                    Report.components.table[0].column[1].unhide();
-
-                    return 'Test description: unhide 2nd column';
-                    break;
-            }
         },
 
         // internal functions
