@@ -969,36 +969,6 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'ji
             }
             return null;
         },
-        runAction: function (options) {
-            var settings = {
-                actionData: null,
-                startPoint: null,
-                callback: null,
-                arrCallbackArgs: null,
-                thisContext: null,
-                defaultAction: false
-            };
-
-            $.extend(settings, options);
-
-            settings.startPoint = settings.startPoint || this.selected.jo;
-
-            this.hide();
-
-            jasperreports.reportviewertoolbar.runReport({
-                selectedColumn: {
-                    actionBaseData: $.parseJSON(this.actionBaseData),
-                    actionBaseUrl: this.actionBaseUrl,
-                    toolbarId: settings.startPoint ? settings.startPoint.closest('.mainReportDiv').find('.toolbarDiv').attr('id') : null,
-                    self: settings.startPoint
-                },
-                actionData: settings.actionData,
-                callback: settings.callback,
-                arrCallbackArgs: settings.arrCallbackArgs,
-                thisContext: settings.thisContext,
-                defaultAction: settings.defaultAction
-            });
-        },
         hide: function(items, keepDialogOpen) {
             var it = this;
             if(!items){
