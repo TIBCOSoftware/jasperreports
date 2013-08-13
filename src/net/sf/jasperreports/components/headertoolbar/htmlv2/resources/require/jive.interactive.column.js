@@ -4,6 +4,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
     jive.interactive.column = {
         uuid: null,
         allColumns: {},
+        allColumnsMap: {},
         columnsData: {},
         count: 0,
         ids: {},
@@ -51,6 +52,8 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             var allColumns = Table.config.allColumnsData;
 
             it.allColumns[tableUuid] = allColumns;
+            it.allColumnsMap[tableUuid] = {};
+
             /*
              * Load dynamic form data
              */
@@ -163,6 +166,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                 if (c.interactive) {
                     menu.actions[c.uuid] = {label: c.label, fn:'hide', arg:'{"hide":false, "columnUuid": "' + c.uuid + '"}'};
                 }
+                it.allColumnsMap[tableUuid][c.uuid] = c;
             }
             it.count = it.dropColumns[tableUuid].length;
 
@@ -175,7 +179,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             EventManager.registerEvent('jive.interactive.column.init').trigger();
 
             $.each(Table.columns, function(k, thisColumn){
-                jive.initInteractiveElement(thisColumn);
+                thisColumn && jive.initInteractiveElement(thisColumn);
             });
         },
         getJoForCurrentSelection: function(jo) {
@@ -391,12 +395,19 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             jive.ui.dialog.show(jive.i18n.get('column.format.dialog.title') + ': ' + jive.selected.ie.config.columnLabel, ['formatHeader', 'formatCells', 'columnConditionalFormatting']);
         },
         hide: function(args){
-            var fn = args.hide ? 'hide' : 'unhide';
-
             jive.hide();
-            jive.selected.ie.hide();
-
-            console.info(jive.selected.ie.config);
+            if(args.hide) {
+                jive.selected.ie.hide();
+            } else {
+                var columnIndices;
+                if(args.columnUuid) {
+                    var allColumnsMap = this.allColumnsMap[jive.elements[args.columnUuid].config.tableId];
+                    columnIndices = [allColumnsMap[args.columnUuid].index];
+                } else {
+                    columnIndices = args.column;
+                }
+                jive.selected.ie.unhide(columnIndices);
+            }
         },
         setDynamicProperties: function (obj) {
             var obj = {

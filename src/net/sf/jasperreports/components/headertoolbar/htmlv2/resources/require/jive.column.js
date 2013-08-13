@@ -1,4 +1,14 @@
-define(["validator", "jquery-1.10.2"], function(Validator, $){
+define(["jquery-1.10.2"], function($){
+    var api = {
+        sort: {},
+        move: {},
+        format: {},
+        filter: {},
+        hide: {},
+        unhide: {},
+        resize: {}
+    };
+
     var Column = function(config) {
         this.config = config;
         this.parent = null;
@@ -7,11 +17,12 @@ define(["validator", "jquery-1.10.2"], function(Validator, $){
         this.events = {
             ACTION_PERFORMED: "action"
         };
+
+        this.api = api;
     };
 
     Column.prototype = {
         sort: function(parms) {
-            Validator.check(parms.order).notNull();
             var it = this,
                 payload = {
                     action: this.config.headerToolbar['sort' + parms.order + 'Btn'].sortData
@@ -64,9 +75,9 @@ define(["validator", "jquery-1.10.2"], function(Validator, $){
             });
         },
         filter: function(parms) {
-            Validator.check(parms.fieldValueStart).notNull();
-            Validator.check(parms.filterTypeOperator).notNull();
-            if(parms.filterTypeOperator == 'BETWEEN') Validator.check(parms.fieldValueEnd).notNull();
+            //Validator.check(parms.fieldValueStart).notNull();
+            //Validator.check(parms.filterTypeOperator).notNull();
+            //if(parms.filterTypeOperator == 'BETWEEN') Validator.check(parms.fieldValueEnd).notNull();
 
             $.extend(this.config.filtering.filterData, parms);
 
@@ -110,18 +121,18 @@ define(["validator", "jquery-1.10.2"], function(Validator, $){
                 return it;
             });
         },
-        unhide: function() {
+        unhide: function(columnIds) {
             var it = this,
                 payload = {
                     action: {
                         actionName: 'hideUnhideColumns',
                         columnData: {
                             hide: false,
-                            columnIndexes: [this.config.columnIndex],
+                            columnIndexes: columnIds ? columnIds : [this.config.columnIndex],
                             tableUuid: this.config.tableId
                         }
                     }
-                };
+                }
             return this.loader.runAction(payload).then(function(jsonData) {
                 it._notify({
                     name: it.events.ACTION_PERFORMED,
