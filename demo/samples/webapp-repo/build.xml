@@ -83,7 +83,7 @@
 			<fileset dir="." includes="**/images/**/*.*" />
 			<fileset dir="." includes="**/jasperreports/**/*.*" />
 			<fileset dir="." includes="**/javascript/**/*.*" />
-			<fileset dir="." includes="**/jquery/**/*.*" />
+			<fileset dir="." includes="**/scripts/**/*.*" />
 			<fileset dir="." includes="**/WEB-INF/repository/**/*.*" excludes="**/WEB-INF/repository/**/*.jrxml"/>
 			<classes dir="./WEB-INF/classes/">
 				<include name="**/*.class" />
