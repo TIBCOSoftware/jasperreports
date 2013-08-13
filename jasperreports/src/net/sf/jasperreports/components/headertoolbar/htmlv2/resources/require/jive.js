@@ -1033,7 +1033,7 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'ji
                 /*
                  Setup CSS
                  */
-                var stylesheet = $('<style id="jive-stylesheets" />');
+                var stylesheet = $('<style id="jive-main-stylesheet" />');
                 stylesheet.html(css).appendTo('head');
 
                 /*

@@ -32,10 +32,18 @@ define(["require", "jquery-1.10.2"], function(require, $) {
                         component.loader = it.loader;
                         container[compMeta.type] = container[compMeta.type] || [];
                         container[compMeta.type].push(component);
-                        DFD.resolve(component);
+                        /*
+                            Resolve deferred when component has loaded its own dependencies, i.e. jive.highcharts
+                         */
+                        if(component.rdy) {
+                            component.rdy.then(function() {
+                                DFD.resolve(component);
+                            });
+                        } else {
+                            DFD.resolve(component);
+                        }
                     });
                 }
-
             });
 
             $.when.apply($, DFDs).then(function() {
