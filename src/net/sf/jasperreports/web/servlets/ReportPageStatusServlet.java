@@ -143,7 +143,7 @@ public class ReportPageStatusServlet extends AbstractServlet
 			JasperPrintAccessor printAccessor, Map<String, Object> result) throws JRException
 	{
 		ReportExecutionStatus reportStatus = printAccessor.getReportStatus();
-		result.put("partialPageCount", reportStatus.getCurrentPageCount());
+		result.put("lastPartialPageIndex", reportStatus.getCurrentPageCount() - 1);
 		
 		String status;
 		switch (reportStatus.getStatus())
@@ -151,7 +151,7 @@ public class ReportPageStatusServlet extends AbstractServlet
 		case FINISHED:
 			status = "finished";
 			Integer totalPageCount = reportStatus.getTotalPageCount();
-			result.put("totalPages", totalPageCount);
+			result.put("lastPageIndex", totalPageCount-1);
 			
 			if (log.isDebugEnabled())
 			{
@@ -181,7 +181,7 @@ public class ReportPageStatusServlet extends AbstractServlet
 			break;
 		}
 		
-		result.put("reportStatus", status);
+		result.put("status", status);
 	}
 
 	protected void handleReportUpdateError(HttpServletResponse response, ReportExecutionStatus reportStatus) 

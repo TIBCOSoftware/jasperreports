@@ -31,7 +31,8 @@ define(["jasperreports-loader", "jasperreports-status-checker",
             REDO_PERFORMED: "redo",
             PAGE_MODIFIED: "pageModified",
             REPORT_HTML_READY: "reportHtmlReady",
-            COMPONENTS_REGISTERED: "componentsRegistered"
+            COMPONENTS_REGISTERED: "componentsRegistered",
+            REPORT_FINISHED: "reportFinished"
         };
 	};
 
@@ -62,9 +63,16 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                 }).then(function() {
                 	it.eventManager.triggerEvent(it.events.COMPONENTS_REGISTERED);
                 	
-                    if (it.status.pageTimestamp) {
-                        it.statusChecker.checkPageModified(page, it.status.pageTimestamp).then(function() {
-                            it.eventManager.triggerEvent(it.events.PAGE_MODIFIED);
+                    if (it.status.pageTimestamp || !it.status.totalPages) {
+                        it.statusChecker.checkPageModified(page, it.status.pageTimestamp).then(function(statusResult) {
+                        	if (statusResult.pageModified) {
+                        		it.eventManager.triggerEvent(it.events.PAGE_MODIFIED);
+                        	} else {
+                        		it.status.totalPages = statusResult.lastPageIndex + 1;
+                        		it.status.partialPageCount = statusResult.lastPartialPageIndex + 1;
+                        		it.status.reportStatus = statusResult.status;
+                        		it.eventManager.triggerEvent(it.events.REPORT_FINISHED);
+                        	}
                         });
                     }
                     it.currentpage = page;
