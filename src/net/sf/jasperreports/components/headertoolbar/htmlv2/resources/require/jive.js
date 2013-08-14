@@ -9,17 +9,17 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'ji
         elements: {},
         interactive:{},
         getReportContainer: function() {
-        	return $('table.jrPage').closest('div');
+            return $('table.jrPage').closest('div.body');
         },
         i18n: {
-	    	get: function (key) {
-	    		if (jivei18n.hasOwnProperty(key)) {
-	    			return jivei18n[key];
-	    		} else {
-	    			return key;
-	    		}
-	    	}
-	    },
+            get: function (key) {
+                if (jivei18n.hasOwnProperty(key)) {
+                    return jivei18n[key];
+                } else {
+                    return key;
+                }
+            }
+        },
         ui: {
             scaleFactor: 1,
             marker: {
@@ -97,7 +97,7 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'ji
                     this.jo.appendTo(jive.getReportContainer()).show();
                     this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top',collision:'none'});
 
-                    // on first time selection the overlay need to be repositioned to be correctly aligned  
+                    // on first time selection the overlay need to be repositioned to be correctly aligned
                     isFirstTimeSelection && this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top',collision:'none'});
                 }
             },
@@ -127,10 +127,10 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'ji
                                 var menu = jive.ui.foobar.menus[type][jo.attr('menu')];
                                 menu.jo.show().position({
                                     of: $(this),
-                                    my: 'left top',
+                                    my: 'left top+2',
                                     at: 'left bottom',
-                                    collision: 'none',
-                                    offset: '0 2px'
+                                    collision: 'none'
+                                    //offset: '0 2px'
                                 });
                                 jive.ui.foobar.dropMenu = menu;
                             }
@@ -145,10 +145,10 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'ji
                             var menu = jive.ui.foobar.menus[jive.selected.ie.config.type][jo.attr('menu')];
                             menu.jo.show().position({
                                 of: $(this),
-                                my: 'left top',
+                                my: 'left top+2',
                                 at: 'left bottom',
-                                collision: 'none',
-                                offset: '0 2px'
+                                collision: 'none'
+                                //offset: '0 2px'
                             });
                             jive.ui.foobar.dropMenu = menu;
                         }
@@ -166,7 +166,8 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'ji
                     this.jo.find('button').removeClass('over pressed');
                     this.jo.appendTo(jive.getReportContainer()).show();
                     var top = this.jo.outerHeight() - 1;
-                    this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top', offset:'0 -' + top});
+                    //this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top', offset:'0 -' + top});
+                    this.jo.position({of:jive.selected.jo, my: 'left top-' + top, at:'left top'});
                 },
                 render: function(actionMap){
                     var it = this;
@@ -297,7 +298,8 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'ji
                         if(this.className.indexOf('disabled') < 0){
                             if(this.id == 'dialogCancel'){
                                 jive.active = false;
-                                $.event.trigger('jive_inactive');
+                                //$.event.trigger('jive_inactive');
+                                $('body').trigger('jive.inactive');
                             } else {
                                 jive.selected.form.submit();
                             }
@@ -518,7 +520,8 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'ji
                                         dd.append(htm);
                                         dd.find('.pmenu').show();
                                         dd.css({width: '150px', height: '100px'});
-                                        dd.position({my: 'left top', at: 'left bottom', of: $('div.jive_inputbutton[bname="'+this._idd+'"]'), collision: 'none', offset: '0 -10px'});
+                                        //dd.position({my: 'left top', at: 'left bottom', of: $('div.jive_inputbutton[bname="'+this._idd+'"]'), collision: 'none', offset: '0 -10px'});
+                                        dd.position({my: 'left top-10', at: 'left bottom', of: $('div.jive_inputbutton[bname="'+this._idd+'"]'), collision: 'none'});
                                     },
                                     hideOptions: function () {
                                         $('#jive_dropdown .pmenu').hide();
@@ -1009,10 +1012,10 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'ji
                 /*
                  Event Handling
                  */
-                $('#reportContainer').on('click touchend',function(){
+                it.getReportContainer().on('click touchend', function(){
                     if(!it.ui.dialog.isVisible) {
                         it.hide();
-                        $.event.trigger('jive_inactive');
+                        $('body').trigger('jive.inactive');
                     }
                 });
 
@@ -1072,7 +1075,9 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'ji
                     $(this).hide();
                 });
 
-                jive.initialized = true;
+                it.initialized = true;
+
+                $('body').trigger('jive.initialized', [it]);
             }
         },
         initInteractiveElement: function(o){
@@ -1084,7 +1089,7 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'ji
                 if(!$.hasData($('table.jrPage')[0])) {
                     jive.selectors = {};
                 }
-            } 
+            }
 
             jive.elements[o.config.id] = o;
             /*
