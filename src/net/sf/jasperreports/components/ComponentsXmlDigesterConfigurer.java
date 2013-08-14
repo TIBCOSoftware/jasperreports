@@ -49,12 +49,6 @@ import net.sf.jasperreports.components.map.ItemProperty;
 import net.sf.jasperreports.components.map.ItemPropertyXmlFactory;
 import net.sf.jasperreports.components.map.ItemXmlFactory;
 import net.sf.jasperreports.components.map.MapXmlFactory;
-import net.sf.jasperreports.components.map.Marker;
-import net.sf.jasperreports.components.map.MarkerDataset;
-import net.sf.jasperreports.components.map.MarkerDatasetXmlFactory;
-import net.sf.jasperreports.components.map.MarkerProperty;
-import net.sf.jasperreports.components.map.MarkerPropertyXmlFactory;
-import net.sf.jasperreports.components.map.MarkerXmlFactory;
 import net.sf.jasperreports.components.sort.SortComponentDigester;
 import net.sf.jasperreports.components.spiderchart.SpiderChartDigester;
 import net.sf.jasperreports.components.table.DesignCell;
@@ -232,6 +226,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 				JRExpression.class.getName());
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void addMapRules(Digester digester)
 	{
 		String mapPattern = "*/componentElement/map";
@@ -269,16 +264,16 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		String jrNamespace = JRXmlConstants.JASPERREPORTS_NAMESPACE;
 
 		String markerDatasetPattern = mapPattern + "/markerDataset";
-		digester.addFactoryCreate(markerDatasetPattern, MarkerDatasetXmlFactory.class.getName());
-		digester.addSetNext(markerDatasetPattern, "setMarkerDataset", MarkerDataset.class.getName());
+		digester.addFactoryCreate(markerDatasetPattern, net.sf.jasperreports.components.map.MarkerDatasetXmlFactory.class.getName());
+		digester.addSetNext(markerDatasetPattern, "setMarkerDataset", net.sf.jasperreports.components.map.MarkerDataset.class.getName());
 
 		String markerPattern = markerDatasetPattern + "/marker";
-		digester.addFactoryCreate(markerPattern, MarkerXmlFactory.class.getName());
-		digester.addSetNext(markerPattern, "addMarker", Marker.class.getName());
+		digester.addFactoryCreate(markerPattern, net.sf.jasperreports.components.map.MarkerXmlFactory.class.getName());
+		digester.addSetNext(markerPattern, "addMarker", net.sf.jasperreports.components.map.Marker.class.getName());
 
 		String markerPropertyPattern = markerPattern + "/markerProperty";
-		digester.addFactoryCreate(markerPropertyPattern, MarkerPropertyXmlFactory.class.getName());
-		digester.addSetNext(markerPropertyPattern, "addMarkerProperty", MarkerProperty.class.getName());
+		digester.addFactoryCreate(markerPropertyPattern, net.sf.jasperreports.components.map.MarkerPropertyXmlFactory.class.getName());
+		digester.addSetNext(markerPropertyPattern, "addMarkerProperty", net.sf.jasperreports.components.map.MarkerProperty.class.getName());
 
 		String markerDataPattern = mapPattern + "/markerData";
 		digester.addFactoryCreate(markerDataPattern, ItemDataXmlFactory.class.getName());

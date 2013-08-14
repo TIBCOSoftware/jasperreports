@@ -284,6 +284,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	 */
 	private MarkerDataset markerDataset;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

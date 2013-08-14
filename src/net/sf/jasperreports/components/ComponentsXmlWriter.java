@@ -36,9 +36,6 @@ import net.sf.jasperreports.components.map.ItemData;
 import net.sf.jasperreports.components.map.ItemProperty;
 import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.components.map.MapXmlFactory;
-import net.sf.jasperreports.components.map.Marker;
-import net.sf.jasperreports.components.map.MarkerDataset;
-import net.sf.jasperreports.components.map.MarkerProperty;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
@@ -247,7 +244,8 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			}
 			else
 			{
-				MarkerDataset dataset = map.getMarkerDataset();
+				@SuppressWarnings("deprecation")
+				net.sf.jasperreports.components.map.MarkerDataset dataset = map.getMarkerDataset();
 				writeMarkerDataset(dataset, writer, reportWriter, namespace, componentElement);
 			}
 		}
@@ -309,7 +307,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 	/**
 	 * @deprecated To be removed.
 	 */
-	private void writeMarkerDataset(MarkerDataset dataset, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
+	private void writeMarkerDataset(net.sf.jasperreports.components.map.MarkerDataset dataset, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
 	{
 		if (dataset != null)
 		{
@@ -322,10 +320,10 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			}
 	
 			/*   */
-			List<Marker> markerList = dataset.getMarkers();
+			List<net.sf.jasperreports.components.map.Marker> markerList = dataset.getMarkers();
 			if (markerList != null && !markerList.isEmpty())
 			{
-				for(Marker marker : markerList)
+				for(net.sf.jasperreports.components.map.Marker marker : markerList)
 				{
 					if(marker.getProperties() != null && !marker.getProperties().isEmpty())
 					{
@@ -341,11 +339,17 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 	/**
 	 * @deprecated To be removed.
 	 */
-	private void writeMarker(Marker marker, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
+	private void writeMarker(
+		net.sf.jasperreports.components.map.Marker marker, 
+		JRXmlWriteHelper writer, 
+		JRXmlWriter reportWriter, 
+		XmlNamespace namespace, 
+		JRComponentElement componentElement
+		) throws IOException
 	{
 		writer.startElement(MapXmlFactory.ELEMENT_marker, namespace);
-		List<MarkerProperty> markerProperties = marker.getProperties();
-		for(MarkerProperty property : markerProperties)
+		List<net.sf.jasperreports.components.map.MarkerProperty> markerProperties = marker.getProperties();
+		for(net.sf.jasperreports.components.map.MarkerProperty property : markerProperties)
 		{
 			writeMarkerProperty(property, writer, reportWriter, namespace, componentElement);
 		}
@@ -355,7 +359,13 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 	/**
 	 * @deprecated To be removed.
 	 */
-	private void writeMarkerProperty(MarkerProperty markerProperty, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
+	private void writeMarkerProperty(
+		net.sf.jasperreports.components.map.MarkerProperty markerProperty, 
+		JRXmlWriteHelper writer, 
+		JRXmlWriter reportWriter, 
+		XmlNamespace namespace, 
+		JRComponentElement componentElement
+		) throws IOException
 	{
 		writer.startElement(MapXmlFactory.ELEMENT_markerProperty, namespace);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_name, markerProperty.getName());
