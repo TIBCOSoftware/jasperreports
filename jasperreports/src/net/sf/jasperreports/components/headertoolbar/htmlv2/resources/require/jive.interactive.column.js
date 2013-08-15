@@ -114,7 +114,8 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
 
                 colsData[colUuid] = {
                     jo: $(firstCol),
-                    width: lastCol.position().left - firstCol.position().left + lastCol.width(),
+                    //width: lastCol.position().left - firstCol.position().left + lastCol.width(),
+                    width: lastCol.position().left - firstCol.position().left + lastCol.outerWidth(),
                     height: lastCol.position().top - firstCol.position().top + lastCol.height(),
                     colidx: lastCol.data('colidx')
                 };
@@ -1217,8 +1218,6 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                 prop;
             this.actionDataCache[this.name] = this.getActionData();
 
-            console.info(this.actionDataCache);
-
             for (prop in this.actionDataCache) {
                 if (this.actionDataCache.hasOwnProperty(prop)) {
                     actions.push(this.actionDataCache[prop]);
@@ -1226,7 +1225,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             }
 
             jive.hide();
-            console.info(actions);
+
             jive.selected.ie.format(actions);
         },
         addFormatCondition: function(jo, conditionData, isFromCache) {

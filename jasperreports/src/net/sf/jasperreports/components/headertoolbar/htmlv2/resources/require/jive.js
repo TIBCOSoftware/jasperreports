@@ -130,7 +130,6 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'ji
                                     my: 'left top+2',
                                     at: 'left bottom',
                                     collision: 'none'
-                                    //offset: '0 2px'
                                 });
                                 jive.ui.foobar.dropMenu = menu;
                             }
@@ -148,7 +147,6 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'ji
                                 my: 'left top+2',
                                 at: 'left bottom',
                                 collision: 'none'
-                                //offset: '0 2px'
                             });
                             jive.ui.foobar.dropMenu = menu;
                         }
@@ -1006,8 +1004,7 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'ji
                 /*
                  Setup CSS
                  */
-                var stylesheet = $('<style id="jive-main-stylesheet" />');
-                stylesheet.html(css).appendTo('head');
+                $('head').append('<style id="jive-main-stylesheet">'+css+'</style>');
 
                 /*
                  Event Handling
