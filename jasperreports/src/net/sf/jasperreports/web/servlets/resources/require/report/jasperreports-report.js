@@ -1,6 +1,6 @@
 define(["jasperreports-loader", "jasperreports-status-checker",
-    "jasperreports-component-registrar", "jasperreports-event-manager", "jasperreports-report-processor",
-    "jquery-1.10.2"], function (Loader, StatusChecker, ComponentRegistrar, EventManager, Processor, $) {
+    "jasperreports-component-registrar", "jasperreports-event-manager",
+    "jquery-1.10.2"], function (Loader, StatusChecker, ComponentRegistrar, EventManager, $) {
 	var Report = function(o) {
 
 		this.config = {
@@ -49,7 +49,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                     it.status = $.parseJSON(jqXHR.getResponseHeader("jasperreports-report-status"));
                     it.html = htmlData;
 
-                    Processor.processReport(it);
+                    it.config.postProcess && it.config.postProcess.call(it);
 
                     it.eventManager.triggerEvent(it.events.REPORT_HTML_READY);
 
