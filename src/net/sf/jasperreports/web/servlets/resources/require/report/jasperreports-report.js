@@ -6,7 +6,8 @@ define(["jasperreports-loader", "jasperreports-status-checker",
 		this.config = {
 				reporturi: null,
 				async: true,
-				page: 0
+				page: 0,
+                updateInterval: 1000
 		};
 		$.extend(this.config, o);
 
@@ -19,7 +20,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
 
         // utils
         this.loader = new Loader({reporturi: this.config.reporturi, async: this.config.async});
-        this.statusChecker = new StatusChecker(this.loader);
+        this.statusChecker = new StatusChecker(this.loader, this.config.updateInterval);
         this.componentRegistrar = new ComponentRegistrar(this.loader);
 
         // events
@@ -61,9 +62,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                     it.components = {};
                     return it.componentRegistrar.registerComponents(componentsObject, it);
                 }).then(function() {
-                	it.eventManager.triggerEvent(it.events.COMPONENTS_REGISTERED);
-                	
-                    if (it.status.pageTimestamp || !it.status.totalPages) {
+                    if ((it.status.pageTimestamp || !it.status.totalPages) && it.status.reportStatus != 'canceled') {
                         it.statusChecker.checkPageModified(page, it.status.pageTimestamp).then(function(statusResult) {
                         	if (statusResult.pageModified) {
                         		it.eventManager.triggerEvent(it.events.PAGE_MODIFIED);
@@ -76,6 +75,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                         });
                     }
                     it.currentpage = page;
+                    it.eventManager.triggerEvent(it.events.COMPONENTS_REGISTERED);
                     return it;
                 });
         },
@@ -122,7 +122,9 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                     return it;
                 });
         },
-
+        cancelStatusUpdates: function() {
+            this.statusChecker.cancelCheckPageModified();
+        },
         on: function(evtName, callback) {
             this.eventManager.subscribeToEvent({
                 name: evtName,
@@ -142,7 +144,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
          * @private
          */
         _notify: function(evt) {
-            console.log("report notified of event: " + evt.name + "; type: " + evt.type);
+            this.config.debug && console.log("report notified of event: " + evt.name + "; type: " + evt.type);
             this.eventManager.triggerEvent(evt.name);
         }
 	};

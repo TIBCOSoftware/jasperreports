@@ -1,9 +1,10 @@
 define(["jquery-1.10.2"], function($) {
-	var StatusChecker = function(loader) {
+	var StatusChecker = function(loader, updateInterval) {
         this.loader = loader;
-
         // timers
         this.timeoutId = null;
+
+        this.updateInterval = updateInterval;
 	};
 
 	StatusChecker.prototype = {
@@ -26,7 +27,7 @@ define(["jquery-1.10.2"], function($) {
             if (!booleanDone) {
             	it.timeoutId = setTimeout(function() {
         			it._getPageModifiedStatus(pageNo, pageTimestamp, deferredObject);
-        		}, 3000);
+        		}, it.updateInterval);
             } else {
                 deferredObject.resolve(statusResult);
             }

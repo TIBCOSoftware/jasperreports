@@ -55,8 +55,9 @@ define(["jquery-1.10.2"], function($) {
     };
 
 
-    var EventManager = function() {
+    var EventManager = function(debug) {
 		this._events = {};
+        this.debug = debug;
     };
 
     EventManager.prototype = {
@@ -83,7 +84,7 @@ define(["jquery-1.10.2"], function($) {
         },
         triggerEvent: function (evtName) {
             if (this._events[evtName]) {
-                console.log("triggering event: " + evtName);
+                this.debug && console.log("triggering event: " + evtName);
                 this._events[evtName].trigger();
             }
         },
