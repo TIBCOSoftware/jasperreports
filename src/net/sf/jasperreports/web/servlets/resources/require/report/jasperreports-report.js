@@ -125,6 +125,10 @@ define(["jasperreports-loader", "jasperreports-status-checker",
         cancelStatusUpdates: function() {
             this.statusChecker.cancelCheckPageModified();
         },
+        cancelExecution: function() {
+            this.statusChecker.cancelCheckPageModified();
+            return this.loader.cancelExecution();
+        },
         on: function(evtName, callback) {
             this.eventManager.subscribeToEvent({
                 name: evtName,
