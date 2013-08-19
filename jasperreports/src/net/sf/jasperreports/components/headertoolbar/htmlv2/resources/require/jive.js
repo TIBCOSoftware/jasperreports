@@ -1,4 +1,4 @@
-define(['jquery.timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'jive.i18n'], function($, templates, css, jivei18n) {
+define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'jive.i18n'], function($, templates, css, jivei18n) {
     var jive = {
         name: 'jive',
         active: false,
