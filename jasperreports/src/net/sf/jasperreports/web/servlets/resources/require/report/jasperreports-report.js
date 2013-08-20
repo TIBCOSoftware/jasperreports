@@ -41,10 +41,10 @@ define(["jasperreports-loader", "jasperreports-status-checker",
         init: function() {
             return this.refreshPage(this.currentpage);
         },
-        refreshPage: function(page, boolNavigate) {
+        refreshPage: function(page, boolNavigate, inputParameters) {
             var it = this;
 
-            return it.loader.getHtmlForPage(page, boolNavigate)
+            return it.loader.getHtmlForPage(page, boolNavigate, inputParameters)
                 .then(function(htmlData, textStatus, jqXHR) {
                     it.status = $.parseJSON(jqXHR.getResponseHeader("jasperreports-report-status"));
                     it.html = htmlData;
