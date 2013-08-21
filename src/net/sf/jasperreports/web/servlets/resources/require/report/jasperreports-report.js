@@ -34,11 +34,13 @@ define(["jasperreports-loader", "jasperreports-status-checker",
         this.loader = new Loader({reporturi: this.config.reporturi, async: this.config.async, eventManager: this.eventManager});
         this.statusChecker = new StatusChecker(this.loader, this.config.updateInterval);
         this.componentRegistrar = new ComponentRegistrar(this.loader);
+
+        o.stopOnFinishOnly && (this.loader.config.stopOnFinishOnly = true);
 	};
 
 	Report.prototype = {
-        init: function() {
-            return this.refreshPage(this.currentpage);
+        init: function(inputParameters) {
+            return this.refreshPage(this.currentpage, null, inputParameters);
         },
         refreshPage: function(page, boolNavigate, inputParameters) {
             var it = this;
