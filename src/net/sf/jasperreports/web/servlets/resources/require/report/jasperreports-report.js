@@ -17,12 +17,6 @@ define(["jasperreports-loader", "jasperreports-status-checker",
         this.status = null;
         this.components = null;
 
-
-        // utils
-        this.loader = new Loader({reporturi: this.config.reporturi, async: this.config.async});
-        this.statusChecker = new StatusChecker(this.loader, this.config.updateInterval);
-        this.componentRegistrar = new ComponentRegistrar(this.loader);
-
         // events
         this.eventManager = new EventManager();
         this.events = {
@@ -35,6 +29,11 @@ define(["jasperreports-loader", "jasperreports-status-checker",
             COMPONENTS_REGISTERED: "componentsRegistered",
             REPORT_FINISHED: "reportFinished"
         };
+
+        // utils
+        this.loader = new Loader({reporturi: this.config.reporturi, async: this.config.async, eventManager: this.eventManager});
+        this.statusChecker = new StatusChecker(this.loader, this.config.updateInterval);
+        this.componentRegistrar = new ComponentRegistrar(this.loader);
 	};
 
 	Report.prototype = {
@@ -64,14 +63,16 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                 }).then(function() {
                     if ((it.status.pageTimestamp || !it.status.totalPages) && it.status.reportStatus != 'canceled') {
                         it.statusChecker.checkPageModified(page, it.status.pageTimestamp).then(function(statusResult) {
-                        	if (statusResult.pageModified) {
-                        		it.eventManager.triggerEvent(it.events.PAGE_MODIFIED);
-                        	} else {
-                        		it.status.totalPages = statusResult.lastPageIndex + 1;
-                        		it.status.partialPageCount = statusResult.lastPartialPageIndex + 1;
-                        		it.status.reportStatus = statusResult.status;
-                        		it.eventManager.triggerEvent(it.events.REPORT_FINISHED);
-                        	}
+                            if(statusResult.status == 'finished') {
+                                it.status.totalPages = statusResult.lastPageIndex + 1;
+                                it.status.partialPageCount = statusResult.lastPartialPageIndex + 1;
+                                it.status.reportStatus = statusResult.status;
+                                it.eventManager.triggerEvent(it.events.REPORT_FINISHED);
+                            } else {
+                                if (statusResult.pageModified) {
+                                    it.eventManager.triggerEvent(it.events.PAGE_MODIFIED);
+                                }
+                            }
                         });
                     }
                     it.currentpage = page;
