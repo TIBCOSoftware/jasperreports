@@ -38,10 +38,6 @@
 			<param-value>viewer/CustomFooterTemplate.vm</param-value>
 		</init-param>
 	</servlet>
-	<servlet>
-		<servlet-name>ReportServlet</servlet-name>
-		<servlet-class>net.sf.jasperreports.web.servlets.ReportServlet</servlet-class>
-	</servlet>
 	
 	<!--  begin: report execution servlets -->
 	<servlet>
@@ -86,10 +82,6 @@
 	<servlet-mapping>
 		<servlet-name>CustomViewerServlet</servlet-name>
 		<url-pattern>/servlets/myviewer</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>ReportServlet</servlet-name>
-		<url-pattern>/servlets/report</url-pattern>
 	</servlet-mapping>
 	
 	<!--  begin: report execution servlets mappings -->
