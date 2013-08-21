@@ -17,6 +17,7 @@ define(["jquery-1.10.2"], function($) {
 
             return deferred.promise();
         },
+
         cancelCheckPageModified: function() {
             clearTimeout(this.timeoutId);
         },
@@ -32,10 +33,12 @@ define(["jquery-1.10.2"], function($) {
                 deferredObject.resolve(statusResult);
             }
         },
+
         _getPageModifiedStatus: function(page, pageTimestamp, deferredObject) {
             var it = this;
             return it.loader.getStatusForPage(page, pageTimestamp)
                 .then(function(jsonData, textStatus, jqHXR) {
+                    it.loader.setPageUpdateStatus && it.loader.setPageUpdateStatus(jsonData);
                     it._timedCheckPageModified(jsonData.result.pageModified || jsonData.result.status == "finished", page, pageTimestamp, deferredObject, jsonData.result);
                 });
         }
