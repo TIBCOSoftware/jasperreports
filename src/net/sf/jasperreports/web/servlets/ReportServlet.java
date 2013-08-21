@@ -51,11 +51,13 @@ import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
 import net.sf.jasperreports.web.util.VelocityUtil;
 import net.sf.jasperreports.web.util.WebUtil;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 
 /**
+ * @deprecated Replaced by {@link ReportOutputServlet}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
