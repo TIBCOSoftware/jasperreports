@@ -40,9 +40,6 @@ import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
 import net.sf.jasperreports.web.util.WebUtil;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 
 /**
  * @author Narcis Marcu(nmarcu@users.sourceforge.net)
@@ -51,8 +48,6 @@ import org.apache.commons.logging.LogFactory;
 public class ReportJiveComponentsServlet extends AbstractServlet
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	private static final Log log = LogFactory.getLog(ReportJiveComponentsServlet.class);
 		
 
 	/**
@@ -142,11 +137,6 @@ public class ReportJiveComponentsServlet extends AbstractServlet
 		exporter.setReportContext(webReportContext);
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrintAccessor.getJasperPrint());
 		exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, writer);
-		exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "image?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId() + "&image=");
-		
-		exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, getHeader(request, webReportContext, hasPages, pageStatus));
-		exporter.setParameter(JRHtmlExporterParameter.BETWEEN_PAGES_HTML, getBetweenPages(request, webReportContext));
-		exporter.setParameter(JRHtmlExporterParameter.HTML_FOOTER, getFooter(request, webReportContext, hasPages, pageStatus));
 		
 		exporter.setParameter(
 			JRHtmlExporterParameter.HYPERLINK_PRODUCER_FACTORY, 
