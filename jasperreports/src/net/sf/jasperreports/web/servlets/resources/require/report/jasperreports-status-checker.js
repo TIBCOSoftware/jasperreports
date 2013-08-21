@@ -39,7 +39,13 @@ define(["jquery-1.10.2"], function($) {
             return it.loader.getStatusForPage(page, pageTimestamp)
                 .then(function(jsonData, textStatus, jqHXR) {
                     it.loader.setPageUpdateStatus && it.loader.setPageUpdateStatus(jsonData);
-                    it._timedCheckPageModified(jsonData.result.pageModified || jsonData.result.status == "finished", page, pageTimestamp, deferredObject, jsonData.result);
+                    var booleanDone;
+                    if(it.loader.config.stopOnFinishOnly) {
+                        booleanDone = (jsonData.result.status == "finished");
+                    } else {
+                        booleanDone = (jsonData.result.pageModified || jsonData.result.status == "finished");
+                    }
+                    it._timedCheckPageModified(booleanDone, page, pageTimestamp, deferredObject, jsonData.result);
                 });
         }
 	};
