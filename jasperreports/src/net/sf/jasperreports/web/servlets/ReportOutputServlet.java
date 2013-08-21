@@ -23,6 +23,17 @@
  */
 package net.sf.jasperreports.web.servlets;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -35,18 +46,6 @@ import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
 import net.sf.jasperreports.web.util.VelocityUtil;
 import net.sf.jasperreports.web.util.WebUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 
 /**
@@ -57,8 +56,6 @@ public class ReportOutputServlet extends AbstractServlet
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private static final Log log = LogFactory.getLog(ReportOutputServlet.class);
-
 	private static final String TEMPLATE_HEADER= "net/sf/jasperreports/web/servlets/resources/templates/HeaderTemplate.vm";
 	private static final String TEMPLATE_BETWEEN_PAGES= "net/sf/jasperreports/web/servlets/resources/templates/BetweenPagesTemplate.vm";
 	private static final String TEMPLATE_FOOTER= "net/sf/jasperreports/web/servlets/resources/templates/FooterTemplate.vm";
@@ -77,33 +74,41 @@ public class ReportOutputServlet extends AbstractServlet
 	{
 		setNoExpire(response);
 		
-		PrintWriter out = response.getWriter();
 		String contextId = request.getParameter(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID);
 
 		// render the html for a report
-		if (contextId != null && request.getHeader("accept").indexOf(HTML_ACCEPT_HEADER) >= 0) {
-			
+		if (contextId != null && request.getHeader("accept").indexOf(HTML_ACCEPT_HEADER) >= 0) 
+		{
 			WebReportContext webReportContext = WebReportContext.getInstance(request, false);
-			if (webReportContext != null) {
+			if (webReportContext != null) 
+			{
 				response.setContentType(HTML_CONTENT_TYPE);
-				try {
+				try 
+				{
+					PrintWriter out = response.getWriter();
 					render(request, response, webReportContext, out);
-				} catch (JRException e) {
-					response.setContentType(JSON_CONTENT_TYPE);
+				}
+				catch (JRException e) 
+				{
+					response.setContentType(JSON_CONTENT_TYPE);//FIXMEJIVE probably can't change contentType at this point, because getWriter() was already called once
 					response.setStatus(404);
-					out.println("{\"msg\": \"JasperReports encountered an error!\"}");
+					response.getWriter().println("{\"msg\": \"JasperReports encountered an error!\"}");
 					return;
 				}
-			} else {
+			}
+			else 
+			{
 				response.setContentType(JSON_CONTENT_TYPE);
 				response.setStatus(404);
-				out.println("{\"msg\": \"Resource with id '" + contextId + "' not found!\"}");
+				response.getWriter().println("{\"msg\": \"Resource with id '" + contextId + "' not found!\"}");
 				return;
 			}
-		} else {
+		}
+		else
+		{
 			response.setContentType(JSON_CONTENT_TYPE);
 			response.setStatus(400);
-			out.println("{\"msg\": \"Wrong parameters!\"}");
+			response.getWriter().println("{\"msg\": \"Wrong parameters!\"}");
 		}
 	}
 
@@ -173,7 +178,8 @@ public class ReportOutputServlet extends AbstractServlet
 		exporter.setReportContext(webReportContext);
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrintAccessor.getJasperPrint());
 		exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, writer);
-		exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "image?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId() + "&image=");
+		exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "resource?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId() + "&image=");
+		exporter.setParameter(JRHtmlExporterParameter.RESOURCES_URI, "resource?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId());
 		
 		exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, getHeader(request, webReportContext, hasPages, pageStatus));
 		exporter.setParameter(JRHtmlExporterParameter.BETWEEN_PAGES_HTML, getBetweenPages(request, webReportContext));
