@@ -31,6 +31,7 @@ import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -44,32 +45,27 @@ import net.sf.jasperreports.web.commands.Command;
 public class EditColumnValuesCommand implements Command 
 {
 	
-	private StandardTable table;
 	private EditColumnValueData editColumnValueData;
 	private EditColumnValueData oldEditColumnValueData;
-	private JRDesignTextField textElement;
+	private JRTextField textElement;
 
 
-	public EditColumnValuesCommand(StandardTable table, EditColumnValueData editColumnHeaderData) 
+	public EditColumnValuesCommand(JRTextField textElement, EditColumnValueData editColumnHeaderData)
 	{
-		this.table = table;
+		this.textElement = textElement;
 		this.editColumnValueData = editColumnHeaderData;
 	}
 
 
 	public void execute() {
-		List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
-		StandardColumn column = (StandardColumn) tableColumns.get(editColumnValueData.getColumnIndex());
-		textElement = (JRDesignTextField) TableUtil.getColumnDetailTextElement(column);
-		
 		if (textElement != null) {
 			oldEditColumnValueData = new EditColumnValueData();
-			HeaderToolbarElementUtils.copyOwnTextFieldStyle(oldEditColumnValueData, textElement);
-			applyColumnHeaderData(editColumnValueData, textElement, true);
+			HeaderToolbarElementUtils.copyOwnTextFieldStyle(oldEditColumnValueData, (JRDesignTextField)textElement);
+			applyColumnHeaderData(editColumnValueData, textElement);
 		}
 	}
 
-	private void applyColumnHeaderData(EditColumnValueData headerData, JRDesignTextField textElement, boolean execute) {
+	private void applyColumnHeaderData(EditColumnValueData headerData, JRTextField textElement) {
 		textElement.setFontName(headerData.getFontName());
 		textElement.setFontSize(headerData.getFontSize() != null ? Integer.valueOf(headerData.getFontSize()) : null);
 		textElement.setBold(headerData.getFontBold());
@@ -88,13 +84,13 @@ public class EditColumnValuesCommand implements Command
 
 	public void undo() {
 		if (oldEditColumnValueData != null) {
-			applyColumnHeaderData(oldEditColumnValueData, textElement, false);
+			applyColumnHeaderData(oldEditColumnValueData, textElement);
 		}
 	}
 
 
 	public void redo() {
-		applyColumnHeaderData(editColumnValueData, textElement, true);
+		applyColumnHeaderData(editColumnValueData, textElement);
 	}
 
 }

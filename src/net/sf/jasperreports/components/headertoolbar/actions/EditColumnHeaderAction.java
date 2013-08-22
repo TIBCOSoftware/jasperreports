@@ -23,6 +23,15 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
+import java.util.List;
+
+import net.sf.jasperreports.components.table.BaseColumn;
+import net.sf.jasperreports.components.table.Cell;
+import net.sf.jasperreports.components.table.ColumnGroup;
+import net.sf.jasperreports.components.table.StandardColumn;
+import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.web.actions.ActionException;
 import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.ResetInCacheCommand;
@@ -54,7 +63,7 @@ public class EditColumnHeaderAction extends AbstractVerifiableTableAction {
 		try {
 			getCommandStack().execute(
 				new ResetInCacheCommand(
-					new EditColumnHeaderCommand(table, getEditColumnHeaderData()), 
+					new EditColumnHeaderCommand(getTargetTextField(), getEditColumnHeaderData()),
 					getJasperReportsContext(), 
 					getReportContext(), 
 					targetUri
@@ -64,6 +73,32 @@ public class EditColumnHeaderAction extends AbstractVerifiableTableAction {
 			throw new ActionException(e.getMessage());
 		}
 	}
+
+    private JRDesignTextElement getTargetTextField() {
+        EditColumnHeaderData colValData = getEditColumnHeaderData();
+        JRDesignTextElement result = null;
+
+        if ("headings".equals(colValData.getApplyTo())) {
+            List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
+            StandardColumn column = (StandardColumn) tableColumns.get(colValData.getColumnIndex());
+            result = TableUtil.getColumnHeaderTextElement(column);
+        } else if("groupheading".equals(colValData.getApplyTo())) {
+            List<ColumnGroup> lst = TableUtil.getAllColumnGroups(table.getColumns());
+
+            ColumnGroup colGroup = lst.get(colValData.getI());
+            Cell cell;
+
+            if (colValData.getGroupName() != null && colValData.getGroupName().length() > 0) {
+                cell = colGroup.getGroupHeader(colValData.getGroupName());
+            } else {
+                cell = colGroup.getGroupHeaders().get(colValData.getJ()).getCell();
+            }
+
+            result = TableUtil.getCellTextElement(cell, false);
+        }
+
+        return result;
+    }
 
 	@Override
 	public void verify() throws ActionException {

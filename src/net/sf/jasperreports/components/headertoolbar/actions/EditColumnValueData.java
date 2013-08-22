@@ -24,8 +24,6 @@
 package net.sf.jasperreports.components.headertoolbar.actions;
 
 
-
-
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
@@ -44,6 +42,12 @@ public class EditColumnValueData extends BaseColumnData {
 	private String fontHAlign;
 	private String formatPattern;
 	private String mode;
+
+    private String dataType;
+    private String applyTo;
+    private String groupName;
+    private Integer i;
+    private Integer j;
 	
 	public EditColumnValueData() {
 	}
@@ -144,4 +148,43 @@ public class EditColumnValueData extends BaseColumnData {
 		this.mode = mode;
 	}
 
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    public String getApplyTo() {
+        return applyTo;
+    }
+
+    public void setApplyTo(String applyTo) {
+        this.applyTo = applyTo;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public Integer getI() {
+        return i;
+    }
+
+    public void setI(Integer i) {
+        this.i = i;
+    }
+
+    public Integer getJ() {
+        return j;
+    }
+
+    public void setJ(Integer j) {
+        this.j = j;
+    }
 }

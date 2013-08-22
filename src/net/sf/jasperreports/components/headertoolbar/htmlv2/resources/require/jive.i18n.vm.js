@@ -18,7 +18,6 @@ define(function() {
 			'column.filterform.clearfilter.true.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.clearfilter.true')",
 			'column.filterform.clearfilter.false.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.clearfilter.false')",
 	
-			'column.formatHeaderForm.title': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.title.headings')",
 			'column.formatHeaderForm.headingName.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.headingtext')",
 	
 			'column.formatforms.fontName.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.fontname')",
@@ -32,7 +31,7 @@ define(function() {
 			'column.formatforms.currency.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.currency')",
 			'column.formatforms.currency.none.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.currency.none')",
 			
-			'column.formatCellsForm.title': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.title.values')",
+			'column.basicFormatForm.title': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.title.basicformat')",
 			'column.formatCellsForm.formatPattern.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.formatpattern')",
 			'column.formatCellsForm.numberFormatButtons.localespecific.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.localespecific')",
 			

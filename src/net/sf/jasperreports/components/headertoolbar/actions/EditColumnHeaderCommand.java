@@ -23,14 +23,9 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
-import java.awt.Color;
-import java.util.List;
+import java.awt.*;
 
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
-import net.sf.jasperreports.components.table.BaseColumn;
-import net.sf.jasperreports.components.table.StandardColumn;
-import net.sf.jasperreports.components.table.StandardTable;
-import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignStaticText;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
@@ -48,25 +43,20 @@ import net.sf.jasperreports.web.commands.Command;
 public class EditColumnHeaderCommand implements Command 
 {
 	
-	private StandardTable table;
 	private EditColumnHeaderData editColumnHeaderData;
 	private EditColumnHeaderData oldEditColumnHeaderData;
 	private JRDesignTextElement textElement;
 	private String oldText;
 
 
-	public EditColumnHeaderCommand(StandardTable table, EditColumnHeaderData editColumnHeaderData) 
+	public EditColumnHeaderCommand(JRDesignTextElement textElement, EditColumnHeaderData editColumnHeaderData)
 	{
-		this.table = table;
+		this.textElement = textElement;
 		this.editColumnHeaderData = editColumnHeaderData;
 	}
 
 
 	public void execute() {
-		List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
-		StandardColumn column = (StandardColumn) tableColumns.get(editColumnHeaderData.getColumnIndex());
-		textElement = TableUtil.getColumnHeaderTextElement(column);
-		
 		if (textElement != null) {
 			oldEditColumnHeaderData = new EditColumnHeaderData();
 			HeaderToolbarElementUtils.copyOwnTextElementStyle(oldEditColumnHeaderData, textElement);

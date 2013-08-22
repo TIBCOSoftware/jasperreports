@@ -30,12 +30,18 @@
             <div class="tabContainer"></div>
             <h2><span class="dialogTitle"></span></h2>
         </div>
+        <div class="applytoWrapper">
+            <div class="applytoTitle"><span>Apply to:</span></div>
+            <div class="applytoSelector"><select id="applyTo"></select></div>
+        </div>
         <div class="dialogBody" style="text-align:left;">
 
         </div>
         <div class="dialogFooter">
-            <button id="dialogOk" class="button action primary up"><span class="wrap">OK<span class="icon"></span></span></button>
+            <button id="colprev" class="colnav"><span class="wrap">$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.dialog.previous.column')</span></button>
+            <button id="colnext" class="colnav"><span class="wrap">$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.dialog.next.column')</span></button>
             <button id="dialogCancel" class="button action up"><span class="wrap">Cancel<span class="icon"></span></span></button>
+            <button id="dialogOk" class="button action primary up"><span class="wrap">OK<span class="icon"></span></span></button>
         </div>
     </div>
 </div>

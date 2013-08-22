@@ -29,6 +29,8 @@ import java.util.Locale;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.table.BaseColumn;
+import net.sf.jasperreports.components.table.Cell;
+import net.sf.jasperreports.components.table.ColumnGroup;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.JRField;
@@ -36,6 +38,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignDatasetRun;
+import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.actions.ActionException;
@@ -60,16 +63,12 @@ public class EditColumnValuesAction extends AbstractVerifiableTableAction {
 		return (EditColumnValueData)columnData;
 	}
 
-	public String getName() {
-		return "edit_column_value_action";
-	}
-
 	public void performAction() throws ActionException {
 		// execute command
 		try {
 			getCommandStack().execute(
 				new ResetInCacheCommand(
-					new EditColumnValuesCommand(table, getEditColumnValueData()), 
+					new EditColumnValuesCommand(getTargetTextField(), getEditColumnValueData()),
 					getJasperReportsContext(), 
 					getReportContext(), 
 					targetUri
@@ -79,6 +78,31 @@ public class EditColumnValuesAction extends AbstractVerifiableTableAction {
 			throw new ActionException(e.getMessage());
 		}
 	}
+
+    private JRTextField getTargetTextField() {
+        EditColumnValueData colValData = getEditColumnValueData();
+        JRTextField result = null;
+
+        if ("detailrows".equals(colValData.getApplyTo())) {
+            List<BaseColumn> allCols = TableUtil.getAllColumns(table);
+            StandardColumn col = (StandardColumn)allCols.get(colValData.getColumnIndex());
+            result = TableUtil.getColumnDetailTextElement(col);
+        } else if("groupsubtotal".equals(colValData.getApplyTo())) {
+            List<ColumnGroup> lst = TableUtil.getAllColumnGroups(table.getColumns());
+            ColumnGroup colGroup = lst.get(colValData.getI());
+            Cell cell;
+
+            if (colValData.getGroupName() != null && colValData.getGroupName().length() > 0) {
+                cell = colGroup.getGroupFooter(colValData.getGroupName());
+            } else {
+                cell = colGroup.getGroupFooters().get(colValData.getJ()).getCell();
+            }
+
+            result =  TableUtil.getCellDetailTextElement(cell, false);
+        }
+
+        return result;
+    }
 
 	@Override
 	public void verify() throws ActionException {
@@ -91,11 +115,8 @@ public class EditColumnValuesAction extends AbstractVerifiableTableAction {
 				errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.edit.values.invalid.font.size", colValData.getFontSize());
 			}
 		}
-		
-		List<BaseColumn> allCols = TableUtil.getAllColumns(table);
-		StandardColumn col = (StandardColumn)allCols.get(colValData.getColumnIndex());
-		
-		JRTextField textField = TableUtil.getColumnDetailTextElement(col);
+		JRTextField textField = getTargetTextField();
+
 		if (TableUtil.hasSingleChunkExpression(textField)) {
 			JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
 			String datasetName = datasetRun.getDatasetName();
