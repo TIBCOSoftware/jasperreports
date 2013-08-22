@@ -234,11 +234,87 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				if (!columnNames.isEmpty()) {
 					context.getExportParameters().put(param, tableUUID);
 
+                    // column info
 					contextMap.put("allColumnNames", JacksonUtil.getInstance(jrContext).getJsonString(columnNames));
 					contextMap.put("allColumnGroupsData", JacksonUtil.getInstance(jrContext).getJsonString(columnGroupsData));
-					contextMap.put("numberPatterns", JacksonUtil.getInstance(jrContext).getJsonString(getNumberPatterns(numberPatternsMap)));
+
+                    // patterns
+					contextMap.put("numericPatterns", JacksonUtil.getInstance(jrContext).getJsonString(getNumberPatterns(numberPatternsMap)));
 					contextMap.put("datePatterns", JacksonUtil.getInstance(jrContext).getJsonString(getDatePatterns(datePatterns, locale)));
 					contextMap.put("timePatterns", JacksonUtil.getInstance(jrContext).getJsonString(getDatePatterns(timePatterns, locale)));
+
+                    // operators
+                    contextMap.put("numericOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale)));
+                    contextMap.put("dateOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale)));
+                    contextMap.put("timeOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale)));
+                    contextMap.put("textOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale)));
+                    contextMap.put("booleanOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeBooleanOperatorsEnum.class.getName(), FilterTypeBooleanOperatorsEnum.values(), locale)));
+
+                    /*** begin: FILTER PATTERNS ***/
+                    // numeric filter pattern
+                    String numberPatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(NUMBER_PATTERN_BUNDLE);
+                    if (numberPatternBundleName == null)
+                    {
+                        numberPatternBundleName = DEFAULT_PATTERNS_BUNDLE;
+                    }
+                    String numberPatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(NUMBER_PATTERN_KEY);
+                    if (numberPatternKey == null)
+                    {
+                        numberPatternKey = DEFAULT_NUMBER_PATTERN_KEY;
+                    }
+                    contextMap.put("numericFilterPattern", getBundleMessage(numberPatternKey, jrContext, numberPatternBundleName, locale));
+
+                    // date filter pattern
+                    String datePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(DATE_PATTERN_BUNDLE);
+                    if (datePatternBundleName == null)
+                    {
+                        datePatternBundleName = DEFAULT_PATTERNS_BUNDLE;
+                    }
+                    String datePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(DATE_PATTERN_KEY);
+                    if (datePatternKey == null)
+                    {
+                        datePatternKey = DEFAULT_DATE_PATTERN_KEY;
+                    }
+                    contextMap.put("dateFilterPattern", getBundleMessage(datePatternKey, jrContext, datePatternBundleName, locale));
+
+                    // time filter pattern
+                    String timePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(TIME_PATTERN_BUNDLE);
+                    if (timePatternBundleName == null)
+                    {
+                        timePatternBundleName = DEFAULT_PATTERNS_BUNDLE;
+                    }
+
+                    String timePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(TIME_PATTERN_KEY);
+                    if (timePatternKey == null)
+                    {
+                        timePatternKey = DEFAULT_TIME_PATTERN_KEY;
+                    }
+                    contextMap.put("timeFilterPattern", getBundleMessage(timePatternKey, jrContext, timePatternBundleName, locale));
+                    /*** end: FILTER PATTERNS ***/
+
+                    /*** begin: CALENDAR PATTERNS ***/
+                    // date pattern
+                    String calendarDatePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_PATTERN_BUNDLE);
+                    if (calendarDatePatternBundleName == null)
+                    {
+                        calendarDatePatternBundleName = DEFAULT_PATTERNS_BUNDLE;
+                    }
+                    String calendarDatePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_PATTERN_KEY);
+                    if (calendarDatePatternKey == null)
+                    {
+                        calendarDatePatternKey = DEFAULT_CALENDAR_DATE_PATTERN_KEY;
+                    }
+                    contextMap.put("calendarDatePattern", getBundleMessage(calendarDatePatternKey, jrContext, calendarDatePatternBundleName, locale));
+
+                    // time pattern
+                    String calendarTimePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_TIME_PATTERN_KEY);
+                    if (calendarTimePatternKey == null)
+                    {
+                        calendarTimePatternKey = DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY;
+                    }
+                    contextMap.put("calendarTimePattern", getBundleMessage(calendarTimePatternKey, jrContext, timePatternBundleName, locale));
+                    /*** end: CALENDAR PATTERNS ***/
+
 					contextMap.put("exporterFirstAttempt", true);
 				}
 			}
@@ -270,92 +346,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			String columnName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_NAME);
 			String columnType = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE);
 			FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE));
-			String filterPattern = "";
-			String calendarPattern = null;
-			String calendarTimePattern = null;
 
-			Map<String, String> translatedOperators = null;
-			if (filterType != null) {
-				switch (filterType) {
-				case NUMERIC:
-					translatedOperators = getTranslatedOperators(jrContext, FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale);
-					String numberPatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(NUMBER_PATTERN_BUNDLE);
-					if (numberPatternBundleName == null)
-					{
-						numberPatternBundleName = DEFAULT_PATTERNS_BUNDLE;
-					}
-					String numberPatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(NUMBER_PATTERN_KEY);
-					if (numberPatternKey == null)
-					{
-						numberPatternKey = DEFAULT_NUMBER_PATTERN_KEY;
-					}
-					filterPattern = getBundleMessage(numberPatternKey, jrContext, numberPatternBundleName, locale);
-					
-					break;
-				case DATE:
-					translatedOperators = getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
-					String datePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(DATE_PATTERN_BUNDLE);
-					if (datePatternBundleName == null)
-					{
-						datePatternBundleName = DEFAULT_PATTERNS_BUNDLE;
-					}
-					String datePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(DATE_PATTERN_KEY);
-					if (datePatternKey == null)
-					{
-						datePatternKey = DEFAULT_DATE_PATTERN_KEY;
-					}
-					filterPattern = getBundleMessage(datePatternKey, jrContext, datePatternBundleName, locale);
-					
-					String calendarDatePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_PATTERN_BUNDLE);
-					if (calendarDatePatternBundleName == null)
-					{
-						calendarDatePatternBundleName = DEFAULT_PATTERNS_BUNDLE;
-					}
-					String calendarDatePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_PATTERN_KEY);
-					if (calendarDatePatternKey == null)
-					{
-						calendarDatePatternKey = DEFAULT_CALENDAR_DATE_PATTERN_KEY;
-					}
-					calendarPattern = getBundleMessage(calendarDatePatternKey, jrContext, calendarDatePatternBundleName, locale);
-
-					String calendarDateTimePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_TIME_PATTERN_KEY);
-					if (calendarDateTimePatternKey == null)
-					{
-						calendarDateTimePatternKey = DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY;
-					}
-					calendarTimePattern = getBundleMessage(calendarDateTimePatternKey, jrContext, calendarDatePatternBundleName, locale);
-					break;
-				case TIME:
-					translatedOperators = getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
-					String timePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(TIME_PATTERN_BUNDLE);
-					if (timePatternBundleName == null)
-					{
-						timePatternBundleName = DEFAULT_PATTERNS_BUNDLE;
-					}
-					
-					String timePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(TIME_PATTERN_KEY);
-					if (timePatternKey == null)
-					{
-						timePatternKey = DEFAULT_TIME_PATTERN_KEY;
-					}
-					filterPattern = getBundleMessage(timePatternKey, jrContext, timePatternBundleName, locale);
-					
-					String calendarTimePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_TIME_PATTERN_KEY);
-					if (calendarTimePatternKey == null)
-					{
-						calendarTimePatternKey = DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY;
-					}
-					calendarTimePattern = getBundleMessage(calendarTimePatternKey, jrContext, timePatternBundleName, locale);
-					break;
-				case TEXT:
-					translatedOperators = getTranslatedOperators(jrContext, FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale);
-					break;
-				case BOOLEAN:
-					translatedOperators = getTranslatedOperators(jrContext, FilterTypeBooleanOperatorsEnum.class.getName(), FilterTypeBooleanOperatorsEnum.values(), locale);
-					break;
-				}
-			}
-			
 			if (canFilter) {
 				// existing filters
 				String filterValueStart = "";
@@ -380,9 +371,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				filterData.setTableUuid(tableUUID);
 				filterData.setFieldName(columnName);
 				filterData.setFilterType(filterType.getName());
-				filterData.setFilterPattern(filterPattern);
-				filterData.setCalendarPattern(calendarPattern);
-				filterData.setCalendarTimePattern(calendarTimePattern);
 				if (FilterTypesEnum.TEXT.getName().equals(filterType.getName())) {
 					filterData.setFieldValueStart(JRStringUtil.htmlEncode(filterValueStart));
 				} else {
@@ -393,10 +381,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				filterData.setIsField(SortFieldTypeEnum.FIELD.equals(SortFieldTypeEnum.getByName(columnType)));
 				
 				contextMap.put("filterData", JacksonUtil.getInstance(jrContext).getJsonString(filterData));
-				contextMap.put("filterTypeValuesMap", translatedOperators);
 				contextMap.put("filterTypeOperatorValue", filterTypeOperatorValue);
 				contextMap.put("filterTableUuid", tableUUID);
-				contextMap.put("filterColumnNameLabel", columnLabel);
 			}
 			
 			if (canSort) {
@@ -419,12 +405,9 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			}
 			
 			if (canFormatConditionally) {
-				ConditionalFormattingData cfData = getExistingConditionalFormattingDataForField(jrContext, reportContext, tableUUID, columnName, columnIndex);
+				ConditionalFormattingData cfData = getExistingConditionalFormattingDataForField(jrContext, reportContext, tableUUID, columnIndex);
 				cfData.setTableUuid(tableUUID);
 				cfData.setConditionType(filterType.getName());
-				cfData.setCalendarPattern(calendarPattern);
-				cfData.setCalendarTimePattern(calendarTimePattern);
-				cfData.setConditionPattern(filterPattern);
 				cfData.setColumnType(columnType);
 				cfData.setFieldOrVariableName(fieldOrVariableName);
 				contextMap.put("conditionalFormattingData", JacksonUtil.getInstance(jrContext).getJsonString(cfData));
@@ -539,20 +522,24 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		return true;
 	}
 	
-	private Map<String, String> getTranslatedOperators(
+	private List<LinkedHashMap<String, String>> getTranslatedOperators(
 		JasperReportsContext jasperReportsContext, 
 		String bundleName, 
 		JREnum[] operators, 
 		Locale locale
 		) //FIXMEJIVE make utility method for translating enums
 	{
-		Map<String, String> result = new LinkedHashMap<String, String>();
+        List<LinkedHashMap<String, String>> result = new ArrayList<LinkedHashMap<String, String>>();
 		MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
+        LinkedHashMap<String, String> keys;
 		
 		for (JREnum operator: operators) 
 		{
+            keys = new LinkedHashMap<String, String>();
 			String key = bundleName + "." + ((Enum<?>)operator).name();
-			result.put(((Enum<?>)operator).name(), messageProvider.getMessage(key, null, locale));
+            keys.put("key", ((Enum<?>)operator).name());
+            keys.put("val", messageProvider.getMessage(key, null, locale));
+			result.add(keys);
 		}
 		
 		return result;
@@ -608,7 +595,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			JasperReportsContext jasperReportsContext, 
 			ReportContext reportContext, 
 			String tableUuid, 
-			String fieldName,
 			Integer columnIndex
 			)
 	{
@@ -626,27 +612,31 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			
 			if (columnIndex != null) {
 				StandardColumn column = (StandardColumn) tableColumns.get(columnIndex);
-				
 				JRDesignTextField textElement = (JRDesignTextField)TableUtil.getColumnDetailTextElement(column);
-				
-				if (textElement != null) {
-					JRPropertiesMap propertiesMap = textElement.getPropertiesMap();
-					if (propertiesMap.containsProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY) && propertiesMap.getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY) != null) {
-						result = JacksonUtil.getInstance(jasperReportsContext).loadObject(propertiesMap.getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY), ConditionalFormattingData.class);
-						
-						// html encode the conditions for text based columns
-						if (FilterTypesEnum.TEXT.getName().equals(result.getConditionType())) {
-							for (FormatCondition fc: result.getConditions()) {
-								fc.setConditionStart(JRStringUtil.htmlEncode(fc.getConditionStart()));
-							}
-						}
-					}
-				}
+				result = getCfData(textElement, jasperReportsContext);
 			}
 		}
 		
 		return result;
 	}
+
+    private ConditionalFormattingData getCfData(JRDesignTextElement textElement, JasperReportsContext jasperReportsContext) {
+        ConditionalFormattingData result = new ConditionalFormattingData();
+        if (textElement != null) {
+            JRPropertiesMap propertiesMap = textElement.getPropertiesMap();
+            if (propertiesMap.containsProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY) && propertiesMap.getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY) != null) {
+                result = JacksonUtil.getInstance(jasperReportsContext).loadObject(propertiesMap.getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY), ConditionalFormattingData.class);
+
+                // html encode the conditions for text based columns
+                if (FilterTypesEnum.TEXT.getName().equals(result.getConditionType())) {
+                    for (FormatCondition fc: result.getConditions()) {
+                        fc.setConditionStart(JRStringUtil.htmlEncode(fc.getConditionStart()));
+                    }
+                }
+            }
+        }
+        return result;
+    }
 
 	private void setColumnHeaderData(String sortColumnLabel, Integer columnIndex, String tableUuid, Map<String, Object> contextMap, JasperReportsContext jasperReportsContext, ReportContext reportContext) {
 		FilterAction action = new FilterAction();
@@ -812,6 +802,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 						JRTextField textElement = TableUtil.getCellDetailTextElement(gc.getCell(), false);
 						FilterTypesEnum filterType = null;
 						String fieldOrVariableName = null;
+                        SortFieldTypeEnum columnType = null;
 						
 						if (textElement != null && TableUtil.hasSingleChunkExpression(textElement)) {
 							JRExpressionChunk expression = textElement.getExpression().getChunks()[0];
@@ -823,11 +814,13 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
                             switch (expression.getType()) {
                                 case JRExpressionChunk.TYPE_FIELD:
+                                    columnType = SortFieldTypeEnum.FIELD;
                                     JRField field = getField(fieldOrVariableName, dataset);
                                     filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
                                     break;
 
                                 case JRExpressionChunk.TYPE_VARIABLE:
+                                    columnType = SortFieldTypeEnum.VARIABLE;
                                     JRVariable variable = getVariable(fieldOrVariableName, dataset);
                                     filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
                                     break;
@@ -849,6 +842,16 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 							groupData.put("grouptype", "groupsubtotal");
                             groupData.put("id", "groupsubtotal_" + i + "_" + j);
                             groupData.put("groupData", groupFooterData);
+
+                            ConditionalFormattingData cfData = getCfData((JRDesignTextField)textElement, jasperReportsContext);
+                            cfData.setTableUuid(tableUuid);
+                            cfData.setConditionType(filterType.getName());
+//                            cfData.setCalendarTimePattern(calendarTimePattern);
+//                            cfData.setConditionPattern(filterPattern);
+                            cfData.setColumnType(columnType.getName());
+                            cfData.setFieldOrVariableName(fieldOrVariableName);
+                            groupData.put("conditionalFormattingData", cfData);
+
 							groupsData.add(groupData);
 						}
 					}

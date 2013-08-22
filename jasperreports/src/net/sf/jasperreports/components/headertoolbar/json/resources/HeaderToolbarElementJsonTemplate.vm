@@ -17,9 +17,25 @@
 			]
 		},
         "patterns": {
-            "numeric": ${numberPatterns},
+            "numeric": ${numericPatterns},
             "date": ${datePatterns},
             "time": ${timePatterns}
+        },
+        "operators": {
+            "numeric" :${numericOperators},
+            "date" :${dateOperators},
+            "time" :${timeOperators},
+            "text" :${textOperators},
+            "boolean" :${booleanOperators}
+        },
+        "filterPatterns": {
+            "numeric": "${numericFilterPattern}",
+            "date": "${dateFilterPattern}",
+            "time": "${timeFilterPattern}"
+        },
+        "calendarPatterns": {
+            "date": "${calendarDatePattern}",
+            "time": "${calendarTimePattern}"
         }
 	}
 	#end	 
@@ -47,13 +63,6 @@
     "canFilter": ${canFilter},
     #if (${canFilter})
     "filtering": {
-        "filterColumnNameLabel": "$JRStringUtil.htmlEncode(${filterColumnNameLabel})",
-        "filterOperatorTypeValueSelector": [
-            #foreach( $entry in ${filterTypeValuesMap.entrySet()} )
-                {"key": "$entry.key", "val": "$entry.value"},
-            #end
-            null
-        ],
         "filterData": ${filterData}
     },
     #end

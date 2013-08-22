@@ -400,8 +400,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				filterData.setFieldName(columnName);
 				filterData.setFilterType(filterType.getName());
 				filterData.setFilterPattern(filterPattern);
-				filterData.setCalendarPattern(calendarPattern);
-				filterData.setCalendarTimePattern(calendarTimePattern);
 				if (FilterTypesEnum.TEXT.getName().equals(filterType.getName())) {
 					filterData.setFieldValueStart(JRStringUtil.htmlEncode(filterValueStart));
 				} else {
@@ -441,8 +439,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				ConditionalFormattingData cfData = getExistingConditionalFormattingDataForField(jrContext, reportContext, tableUUID, columnName, columnIndex);
 				cfData.setTableUuid(tableUUID);
 				cfData.setConditionType(filterType.getName());
-				cfData.setCalendarPattern(calendarPattern);
-				cfData.setCalendarTimePattern(calendarTimePattern);
 				cfData.setConditionPattern(filterPattern);
 				cfData.setColumnType(columnType);
 				cfData.setFieldOrVariableName(fieldOrVariableName);
