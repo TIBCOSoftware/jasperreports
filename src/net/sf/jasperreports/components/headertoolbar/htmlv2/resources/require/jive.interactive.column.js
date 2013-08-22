@@ -15,6 +15,9 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             system: null
         },
         patterns: null,
+        operators: null,
+        filterPatterns: null,
+        calendarPatterns: null,
         actions: {
             format: {icon: 'formatIcon', title: jive.i18n.get('column.format.title'), actions:{
                 formatHeaderAndValues: {label: jive.i18n.get('column.format.formatmenu.label'), fn:'formatHeader'},
@@ -416,6 +419,9 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             jive.interactive.column.fontSizes = obj.fontSizes;
             jive.interactive.column.fonts = obj.fonts;
             jive.interactive.column.patterns = obj.patterns;
+            jive.interactive.column.operators = obj.operators;
+            jive.interactive.column.filterPatterns = obj.filterPatterns;
+            jive.interactive.column.calendarPatterns = obj.calendarPatterns;
         },
         showCurrencyDropDown: function(){
             jive.selected.form.inputs['currencyBtn1'].showOptions();
@@ -711,18 +717,29 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             });
         },
         onShow:function(){
-            var it = this;
-            var metadata = jive.selected.ie.config.filtering.filterData;
-            var filtertype = metadata.filterType.toLowerCase();
-            var options = jive.selected.ie.config.filtering.filterOperatorTypeValueSelector;
+            // hide applyTo and prev/next col
+            var dialog = jive.ui.dialog.jo;
+            dialog.find('.applytoWrapper').hide();
+            dialog.find('#colprev').hide();
+            dialog.find('#colnext').hide();
+
+            var it = this,
+                metadata = jive.selected.ie.config.filtering.filterData,
+                filtertype = metadata.filterType.toLowerCase(),
+                options = jive.interactive.column.operators[filtertype],
+                calendarPattern = jive.interactive.column.calendarPatterns["date"],
+                calendarTimePattern = jive.interactive.column.calendarPatterns["time"];
 
             it.jc.filterType.empty();
-            var htm = [];
-            $.each(options,function(k,v){
-                v && htm.push('<option value="'+v.key+'">'+v.val+'</option>');
+
+            $.each(options, function(i, option) {
+                it.jc.filterType.append($("<option/>", {
+                    value: option.key,
+                    text: option.val
+                }));
             });
-            it.jc.filterType.append(htm.join(''));
-            it.jc.filterType.val(metadata.filterTypeOperator);
+
+            metadata.filterTypeOperator && it.jc.filterType.val(metadata.filterTypeOperator);
             if (filtertype === 'text') {
                 it.jc.filterStart.val(jive.decodeHTML(metadata.fieldValueStart));
             } else {
@@ -753,8 +770,8 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                 var pickerOptions = {
                     changeMonth: true,
                     changeYear: true,
-                    dateFormat: metadata.calendarPattern,
-                    timeFormat: metadata.calendarTimePattern,
+                    dateFormat: calendarPattern,
+                    timeFormat: calendarTimePattern,
                     showSecond: true
                 }
                 it.jc.filterStart.timepicker('destroy');
@@ -763,7 +780,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                 it.jc.filterEnd.datetimepicker(pickerOptions);
             } else if (filtertype === 'time') {
                 var timePickerOptions = {
-                    timeFormat: metadata.calendarTimePattern,
+                    timeFormat: calendarTimePattern,
                     showSecond:true,
                     constrainInput:false
                 }
@@ -778,12 +795,15 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                 it.jc.filterEnd.timepicker('destroy');
             }
         },
-        submit:function(){
-            var filterData = {
-                fieldValueStart: jive.selected.form.jo.find('input[name="fieldValueStart"]').val(),
-                filterTypeOperator: jive.selected.form.jo.find('select[name="filterTypeOperator"]').val(),
-                clearFilter: jive.selected.form.jo.find('input[name="clearFilter"]:checked').val()
-            };
+        submit: function() {
+            var metadata = jive.selected.ie.config.filtering.filterData,
+                filtertype = metadata.filterType.toLowerCase(),
+                filterData = {
+                    filterPattern: jive.interactive.column.filterPatterns[filtertype] || null,
+                    fieldValueStart: jive.selected.form.jo.find('input[name="fieldValueStart"]').val(),
+                    filterTypeOperator: jive.selected.form.jo.find('select[name="filterTypeOperator"]').val(),
+                    clearFilter: jive.selected.form.jo.find('input[name="clearFilter"]:checked').val()
+                };
 
             if(!jive.selected.form.jo.find('input[name="filterValueEnd"]').is(':hidden')){
                 filterData.fieldValueEnd = jive.selected.form.jo.find('input[name="fieldValueEnd"]').val();
@@ -929,9 +949,16 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             });
         },
         onShow: function() {
+            // show applyTo and prev/next col
+            var dialog = jive.ui.dialog.jo;
+            dialog.find('.applytoWrapper').show();
+            dialog.find('#colprev').show();
+            dialog.find('#colnext').show();
+
             jive.selected.form.jo.parent().css({'overflow-y': 'hidden'});
 
             // disable conditional formatting tab
+            // FIXME this should only disable the detailRows form
             var conditionalFormattingTab = $('#columnConditionalFormattingTab');
             !jive.selected.ie.config.canFormatConditionally ? conditionalFormattingTab.addClass('disabled') : conditionalFormattingTab.removeClass('disabled');
 
@@ -1278,6 +1305,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
         title: jive.i18n.get('column.conditionalFormatting.title'),
         method: 'get',
         options: null,
+        prevApplyTo: null,
         templateElements: [
             {type:'label', value:''},
             {type:'list', id:'conditionTypeOperator', values:[]},
@@ -1357,14 +1385,46 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
 
             form.find('table:eq(1)').addClass('conditionList').find('tr:last').addClass('add');
         },
-        onShow:function(){
+        columnChanged: function() {
+            // update dialog column name
+            jive.ui.dialog.title.html(jive.i18n.get('column.format.dialog.title') + ': ' + jive.selected.ie.config.columnLabel);
+            jive.interactive.column.basicFormatForm.updateColNavButtons();
+            this.applyToChanged($('#applyTo').val());
+        },
+        applyToChanged: function(val) {
+            var it = this,
+                value = val.substring(0, val.indexOf('_') != -1 ? val.indexOf("_"): val.length);
+            switch(value) {
+                case "headings":
+                    it.onHeadingsShow();
+                    break;
+                case "groupheading":
+                    it.onGroupHeadingShow();
+                    break;
+                case "detailrows":
+                    it.onDetailRowsShow();
+                    break;
+                case "groupsubtotal":
+                    it.onGroupSubtotalShow();
+                    break;
+            }
+        },
+        onShow: function() {
+            jive.selected.form.jo.parent().css({'overflow-y': 'hidden'});
+
+            jive.interactive.column.basicFormatForm.updateColNavButtons();
+            $('#applyTo').val('headings');
+            this.prevApplyTo = 'headings';
+            this.applyToChanged('headings');
+        },
+        onHeadingsShow:function(){
             var it = this,
                 conditionType =  jive.selected.ie.config.conditionalFormatting.conditionType.toLowerCase(),
                 table = jive.selected.form.jo.find('table:eq(1)'),
                 isFromCache = false;
 
             jive.selected.form.jo.parent().css({'overflow-y': 'auto'});
-            it.options = jive.selected.ie.config.filtering.filterOperatorTypeValueSelector;
+            it.options = jive.interactive.column.operators[conditionType];
 
             if (this.actionDataCache[this.name]) {
                 metadata = this.actionDataCache[this.name].conditionalFormattingData.conditions;
@@ -1413,8 +1473,8 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
         },
         addFormatCondition: function(jo, conditionData, isFromCache) {
             var conditionType =  jive.selected.ie.config.conditionalFormatting.conditionType.toLowerCase(),
-                calendarPattern = jive.selected.ie.config.conditionalFormatting.calendarPattern,
-                calendarTimePattern = jive.selected.ie.config.conditionalFormatting.calendarTimePattern,
+                calendarPattern = jive.interactive.column.calendarPatterns["date"],
+                calendarTimePattern = jive.interactive.column.calendarPatterns["time"],
                 form = jo.closest('form'),
                 table = form.find('table:eq(1)'),
                 tr = [],

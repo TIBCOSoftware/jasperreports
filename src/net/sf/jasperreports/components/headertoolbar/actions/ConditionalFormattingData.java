@@ -35,8 +35,6 @@ public class ConditionalFormattingData extends BaseColumnData {
 	private int columnIndex;
 	private String conditionType;
 	private String conditionPattern;
-	private String calendarPattern;
-	private String calendarTimePattern;
 	private String columnType;
 	private String fieldOrVariableName;
 	private List<FormatCondition> conditions;
@@ -67,22 +65,6 @@ public class ConditionalFormattingData extends BaseColumnData {
 
 	public void setConditionPattern(String filterPattern) {
 		this.conditionPattern = filterPattern;
-	}
-
-	public String getCalendarTimePattern() {
-		return calendarTimePattern;
-	}
-	
-	public void setCalendarTimePattern(String calendarTimePattern) {
-		this.calendarTimePattern = calendarTimePattern;
-	}
-	
-	public String getCalendarPattern() {
-		return calendarPattern;
-	}
-
-	public void setCalendarPattern(String calendarPattern) {
-		this.calendarPattern = calendarPattern;
 	}
 
 	public String getColumnType() {

@@ -37,8 +37,6 @@ public class FilterData extends BaseColumnData {
 	private String filterType;
 	private String filterTypeOperator;
 	private String filterPattern;
-	private String calendarPattern;
-	private String calendarTimePattern;
 	private boolean isField;
 	private boolean clearFilter;
 	
@@ -91,22 +89,6 @@ public class FilterData extends BaseColumnData {
 
 	public void setFilterPattern(String filterPattern) {
 		this.filterPattern = filterPattern;
-	}
-
-	public String getCalendarPattern() {
-		return calendarPattern;
-	}
-
-	public void setCalendarPattern(String calendarPattern) {
-		this.calendarPattern = calendarPattern;
-	}
-
-	public String getCalendarTimePattern() {
-		return calendarTimePattern;
-	}
-	
-	public void setCalendarTimePattern(String calendarTimePattern) {
-		this.calendarTimePattern = calendarTimePattern;
 	}
 
 	public boolean isClearFilter() {
