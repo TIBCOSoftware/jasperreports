@@ -22,7 +22,8 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 package net.sf.jasperreports.components.headertoolbar.json;
-import java.awt.GraphicsEnvironment;
+
+import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,17 +57,24 @@ import net.sf.jasperreports.components.sort.actions.FilterCommand;
 import net.sf.jasperreports.components.sort.actions.FilterData;
 import net.sf.jasperreports.components.sort.actions.SortData;
 import net.sf.jasperreports.components.table.BaseColumn;
+import net.sf.jasperreports.components.table.ColumnGroup;
+import net.sf.jasperreports.components.table.GroupCell;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRExpressionChunk;
+import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRIdentifiable;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
+import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
@@ -221,39 +229,44 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			if (!(context.getExportParameters().containsKey(param) 
 					&& tableUUID.equals(context.getExportParameters().get(param)))) {
 				Map<String, ColumnInfo> columnNames = getAllColumnNames(element, jrContext, contextMap);
+				List<Map<String, Object>> columnGroupsData = getColumnGroupsData(jrContext, reportContext, tableUUID);
 				// column names are normally set on the first column, but check if we got them
 				if (!columnNames.isEmpty()) {
 					context.getExportParameters().put(param, tableUUID);
 
 					contextMap.put("allColumnNames", JacksonUtil.getInstance(jrContext).getJsonString(columnNames));
+					contextMap.put("allColumnGroupsData", JacksonUtil.getInstance(jrContext).getJsonString(columnGroupsData));
+					contextMap.put("numberPatterns", JacksonUtil.getInstance(jrContext).getJsonString(getNumberPatterns(numberPatternsMap)));
+					contextMap.put("datePatterns", JacksonUtil.getInstance(jrContext).getJsonString(getDatePatterns(datePatterns, locale)));
+					contextMap.put("timePatterns", JacksonUtil.getInstance(jrContext).getJsonString(getDatePatterns(timePatterns, locale)));
 					contextMap.put("exporterFirstAttempt", true);
 				}
 			}
-			
+
 			contextMap.put("templateAlreadyLoaded", templateAlreadyLoaded);
-			
+
 			Boolean canSort = Boolean.parseBoolean(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_CAN_SORT));
 			Boolean canFilter = Boolean.parseBoolean(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER));
 			Boolean canFormatConditionally = Boolean.parseBoolean(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_CAN_FORMAT_CONDITIONALLY));
-			
+
 			if (element.getModeValue() == ModeEnum.OPAQUE)
 			{
 				contextMap.put("backgroundColor", JRColorUtil.getColorHexa(element.getBackcolor()));
 			}
-			
+
 			contextMap.put("columnUuid", columnUuid);
 			contextMap.put("columnLabel", columnLabel);
 			contextMap.put("columnIndex", columnIndex);
 			contextMap.put("canSort", canSort);
 			contextMap.put("canFilter", canFilter);
 			contextMap.put("canFormatConditionally", canFormatConditionally);
-			
+
 			contextMap.put("fontExtensionsFontNames", getFontExtensionsFontNames(jrContext));
 			contextMap.put("systemFontNames", getSystemFontNames(jrContext));
-			
+
 			setColumnHeaderData(columnLabel, columnIndex, tableUUID, contextMap, jrContext, reportContext);
 			setColumnValueData(columnIndex, tableUUID, contextMap, jrContext, reportContext);
-			
+
 			String columnName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_NAME);
 			String columnType = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE);
 			FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE));
@@ -262,16 +275,10 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			String calendarTimePattern = null;
 
 			Map<String, String> translatedOperators = null;
-			Map<String, String> valuesFormatPatternMap = new LinkedHashMap<String, String>();
-			Boolean hasPattern = true;
-			String formatPatternLabel = "";
-			if (filterType != null) { 
+			if (filterType != null) {
 				switch (filterType) {
 				case NUMERIC:
 					translatedOperators = getTranslatedOperators(jrContext, FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale);
-					valuesFormatPatternMap = numberPatternsMap;//setNumberPatterns(valuesFormatPatternMap, numberPatterns);
-					formatPatternLabel = "Number pattern:";
-					
 					String numberPatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(NUMBER_PATTERN_BUNDLE);
 					if (numberPatternBundleName == null)
 					{
@@ -287,9 +294,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 					break;
 				case DATE:
 					translatedOperators = getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
-					setDatePatterns(valuesFormatPatternMap, datePatterns, locale);
-					formatPatternLabel = "Date pattern:";
-	
 					String datePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(DATE_PATTERN_BUNDLE);
 					if (datePatternBundleName == null)
 					{
@@ -323,8 +327,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 					break;
 				case TIME:
 					translatedOperators = getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
-					setDatePatterns(valuesFormatPatternMap, timePatterns, locale);
-	
 					String timePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(TIME_PATTERN_BUNDLE);
 					if (timePatternBundleName == null)
 					{
@@ -347,11 +349,9 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 					break;
 				case TEXT:
 					translatedOperators = getTranslatedOperators(jrContext, FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale);
-					hasPattern = false;
 					break;
 				case BOOLEAN:
 					translatedOperators = getTranslatedOperators(jrContext, FilterTypeBooleanOperatorsEnum.class.getName(), FilterTypeBooleanOperatorsEnum.values(), locale);
-					hasPattern = false;
 					break;
 				}
 			}
@@ -373,13 +373,9 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 					}
 					filterTypeOperatorValue = ff.getFilterTypeOperator();
 				}
-				
-				contextMap.put("hasPattern", hasPattern);
-				if (hasPattern) {
-					contextMap.put("formatPatternLabel", formatPatternLabel);
-					contextMap.put("valuesFormatPatternMap", valuesFormatPatternMap);
-				}
-				
+
+				contextMap.put("dataType", filterType.getName());
+
 				FilterData filterData = new FilterData();
 				filterData.setTableUuid(tableUUID);
 				filterData.setFieldName(columnName);
@@ -440,18 +436,35 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		return htmlFragment;
 	}
 	
-	private void setDatePatterns(
-			Map<String, String> valuesFormatPatternMap,
-			List<String> datePatterns,
-			Locale locale) {
-		
+	private List<HashMap<String, String>> getDatePatterns(List<String> datePatterns, Locale locale) {
+        List<HashMap<String, String>> formatPatterns = new ArrayList<HashMap<String, String>>();
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", locale);
 		Date today = new Date();
-		
+        HashMap<String, String> keys;
+
 		for(String datePattern: datePatterns) {
+            keys = new HashMap<String, String>();
 			sdf.applyPattern(datePattern);
-			valuesFormatPatternMap.put(datePattern, sdf.format(today));
+            keys.put("key", datePattern);
+            keys.put("val", sdf.format(today));
+			formatPatterns.add(keys);
 		}
+
+        return formatPatterns;
+	}
+	private List<HashMap<String, String>> getNumberPatterns(Map<String, String> numberPatternsMap) {
+        List<HashMap<String, String>> formatPatterns = new ArrayList<HashMap<String, String>>();
+        HashMap<String, String> keys;
+
+        for(Map.Entry<String, String> entry: numberPatternsMap.entrySet()) {
+            keys = new HashMap<String, String>();
+            keys.put("key", entry.getKey());
+            keys.put("val", entry.getValue());
+			formatPatterns.add(keys);
+        }
+
+        return formatPatterns;
 	}
 
 	private String getActionBaseUrl(JsonExporterContext context) {
@@ -663,7 +676,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		}
 		contextMap.put("colHeaderData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(colHeaderData));
 	}
-
+	
 	private void setColumnValueData(Integer columnIndex, String tableUuid, Map<String, Object> contextMap, JasperReportsContext jasperReportsContext, ReportContext reportContext) {
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
@@ -743,6 +756,134 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			}
 		}
 		return columnNames;
+	}
+
+	private List<Map<String, Object>> getColumnGroupsData(JasperReportsContext jasperReportsContext, ReportContext reportContext, String tableUuid) {
+		FilterAction action = new FilterAction();
+		action.init(jasperReportsContext, reportContext);
+		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
+		List<Map<String, Object>> groupsData = new ArrayList<Map<String, Object>>();
+        EditColumnHeaderData groupHeaderData;
+        EditColumnValueData groupFooterData;
+		
+		if (target != null){
+			JRIdentifiable identifiable = target.getIdentifiable();
+			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
+			StandardTable table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
+
+			JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
+			String datasetName = datasetRun.getDatasetName();
+			JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
+			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());
+			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
+
+			List<ColumnGroup> lst = TableUtil.getAllColumnGroups(table.getColumns());
+
+			int i = 0, j;
+			for (ColumnGroup cg: lst) {
+				if (cg.getGroupHeaders() != null) {
+                    j = 0;
+					for (GroupCell gc: cg.getGroupHeaders()) {
+						JRDesignTextElement textElement = TableUtil.getCellTextElement(gc.getCell(), false);
+						
+						if (textElement != null) {
+							Map<String, Object> groupData = new HashMap<String, Object>();
+                            groupHeaderData = new EditColumnHeaderData();
+                            groupHeaderData.setTableUuid(tableUuid);
+                            groupHeaderData.setI(i);
+                            groupHeaderData.setJ(j);
+
+							if (gc.getGroupName() != null && gc.getGroupName().length() > 0) {
+                                groupHeaderData.setGroupName(gc.getGroupName());
+							}
+
+                            HeaderToolbarElementUtils.copyTextElementStyle(groupHeaderData, textElement);
+
+							groupData.put("grouptype", "groupheading");
+                            groupData.put("id", "groupheading_" + i + "_" + j);
+                            groupData.put("groupData", groupHeaderData);
+							groupsData.add(groupData);
+						}
+					}
+				}
+				if (cg.getGroupFooters() != null) {
+                    j = 0;
+					for (GroupCell gc: cg.getGroupFooters()) {
+						JRTextField textElement = TableUtil.getCellDetailTextElement(gc.getCell(), false);
+						FilterTypesEnum filterType = null;
+						String fieldOrVariableName = null;
+						
+						if (textElement != null && TableUtil.hasSingleChunkExpression(textElement)) {
+							JRExpressionChunk expression = textElement.getExpression().getChunks()[0];
+							fieldOrVariableName = expression.getText();
+                            groupFooterData = new EditColumnValueData();
+                            groupFooterData.setTableUuid(tableUuid);
+                            groupFooterData.setI(i);
+                            groupFooterData.setJ(j);
+
+                            switch (expression.getType()) {
+                                case JRExpressionChunk.TYPE_FIELD:
+                                    JRField field = getField(fieldOrVariableName, dataset);
+                                    filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
+                                    break;
+
+                                case JRExpressionChunk.TYPE_VARIABLE:
+                                    JRVariable variable = getVariable(fieldOrVariableName, dataset);
+                                    filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
+                                    break;
+
+                                default:
+                                    // never
+                                    throw new JRRuntimeException("Unrecognized expression type " + expression.getType());
+                            }
+                            groupFooterData.setDataType(filterType.getName());
+
+                            Map<String, Object> groupData = new HashMap<String, Object>();
+
+							if (gc.getGroupName() != null && gc.getGroupName().length() > 0) {
+                                groupFooterData.setGroupName(gc.getGroupName());
+							}
+
+                            HeaderToolbarElementUtils.copyTextFieldStyle(groupFooterData, (JRDesignTextField)textElement);
+
+							groupData.put("grouptype", "groupsubtotal");
+                            groupData.put("id", "groupsubtotal_" + i + "_" + j);
+                            groupData.put("groupData", groupFooterData);
+							groupsData.add(groupData);
+						}
+					}
+				}
+				i++;
+			}
+		}
+		
+		return groupsData;
+	}
+	
+	protected JRField getField(String name, JRDesignDataset dataSet) {
+		JRField found = null;
+		for (JRField field : dataSet.getFields())
+		{
+			if (name.equals(field.getName()))
+			{
+				found = field;
+				break;
+			}
+		}
+		return found;
+	}
+	
+	protected JRVariable getVariable(String name, JRDesignDataset dataSet) {
+		JRVariable found = null;
+		for (JRVariable var : dataSet.getVariables())
+		{
+			if (name.equals(var.getName()))
+			{
+				found = var;
+				break;
+			}
+		}
+		return found;
 	}
 	
 	private Set<String> getFontExtensionsFontNames(JasperReportsContext jasperReportsContext) {

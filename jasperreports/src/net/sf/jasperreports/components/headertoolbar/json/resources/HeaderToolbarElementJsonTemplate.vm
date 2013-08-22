@@ -3,7 +3,8 @@
 	"id": "${tableUUID}",
 	"type": "table",
 	"module": "jive.table",
-	"allColumnsData": ${allColumnNames}
+	"allColumnsData": ${allColumnNames},
+	"allColumnGroupsData": ${allColumnGroupsData}
 	#if (!${templateAlreadyLoaded})
 	, "genericProperties": {
 		"fontSizes": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
@@ -14,7 +15,12 @@
 			"system": [#set ($sysFontSize=$systemFontNames.size())
 			#foreach ($fontName in ${systemFontNames}) "$JRStringUtil.escapeString4JavaScript($fontName)" #if($velocityCount<$sysFontSize),#end#end
 			]
-		}
+		},
+        "patterns": {
+            "numeric": ${numberPatterns},
+            "date": ${datePatterns},
+            "time": ${timePatterns}
+        }
 	}
 	#end	 
 }, 
@@ -28,6 +34,7 @@
     "proxySelector": ".jrcel",
     "columnIndex": ${columnIndex},
     "columnLabel": "$JRStringUtil.htmlEncode(${columnLabel})",
+    "dataType": "${dataType}",
     "filterData": {"actionName": "filter"},
     "clearData": {"actionName": "filter", "filterData": {"clearFilter": true}},
     "canSort": ${canSort},
@@ -49,15 +56,6 @@
         ],
         "filterData": ${filterData}
     },
-    #end
-    #if (${hasPattern})
-        "formatPatternLabel": "${formatPatternLabel}",
-        "formatPatternSelector": [
-            #foreach( $entry in ${valuesFormatPatternMap.entrySet()} )
-                {"key": "$entry.key", "val": "$entry.value"},
-            #end
-            null
-        ],
     #end
     "canFormatConditionally": ${canFormatConditionally},
     #if (${canFormatConditionally})

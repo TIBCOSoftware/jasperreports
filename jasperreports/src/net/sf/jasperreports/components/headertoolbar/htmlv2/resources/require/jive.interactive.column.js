@@ -4,6 +4,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
     jive.interactive.column = {
         uuid: null,
         allColumns: {},
+        allColumnGroups: {},
         allColumnsMap: {},
         columnsData: {},
         count: 0,
@@ -13,6 +14,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             extension: null,
             system: null
         },
+        patterns: null,
         actions: {
             format: {icon: 'formatIcon', title: jive.i18n.get('column.format.title'), actions:{
                 formatHeaderAndValues: {label: jive.i18n.get('column.format.formatmenu.label'), fn:'formatHeader'},
@@ -55,29 +57,24 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             var allColumns = Table.config.allColumnsData;
 
             it.allColumns[tableUuid] = allColumns;
+            it.allColumnGroups[tableUuid] = Table.config.allColumnGroupsData;
             it.allColumnsMap[tableUuid] = {};
 
             /*
              * Load dynamic form data
              */
-            it.formatHeaderForm.elements[0][1][0].groups = [{name: jive.i18n.get('column.dialog.extfonts'),values:[]}];
-            it.formatCellsForm.elements[0][0][0].groups = [{name: jive.i18n.get('column.dialog.extfonts'),values:[]}];
+            it.basicFormatForm.elements[1][0][0].groups = [{name: jive.i18n.get('column.dialog.extfonts'),values:[]}];
             $.each(it.fonts.extension,function(i,v) {
-                it.formatHeaderForm.elements[0][1][0].groups[0].values.push([v,v]);
-                it.formatCellsForm.elements[0][0][0].groups[0].values.push([v,v]);
+                it.basicFormatForm.elements[1][0][0].groups[0].values.push([v,v]);
             });
-            it.formatHeaderForm.elements[0][1][0].groups.push({name: jive.i18n.get('column.dialog.sysfonts'),values:[]});
-            it.formatCellsForm.elements[0][0][0].groups.push({name: jive.i18n.get('column.dialog.sysfonts'),values:[]});
+            it.basicFormatForm.elements[1][0][0].groups.push({name: jive.i18n.get('column.dialog.sysfonts'),values:[]});
             $.each(it.fonts.system,function(i,v) {
-                it.formatHeaderForm.elements[0][1][0].groups[1].values.push([v,v]);
-                it.formatCellsForm.elements[0][0][0].groups[1].values.push([v,v]);
+                it.basicFormatForm.elements[1][0][0].groups[1].values.push([v,v]);
             });
 
-            it.formatHeaderForm.elements[0][1][1].values = [];
-            it.formatCellsForm.elements[0][0][1].values = [];
+            it.basicFormatForm.elements[1][0][1].values = [];
             $.each(it.fontSizes,function(i,v) {
-                it.formatHeaderForm.elements[0][1][1].values.push([v,v]);
-                it.formatCellsForm.elements[0][0][1].values.push([v,v]);
+                it.basicFormatForm.elements[1][0][1].values.push([v,v]);
             });
 
             /*
@@ -176,9 +173,10 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
 
             jive.ui.foobar.reset();
             jive.ui.forms.add(jive.interactive.column.columnFilterForm);
-            jive.ui.forms.add(jive.interactive.column.formatHeaderForm);
-            jive.ui.forms.add(jive.interactive.column.formatCellsForm);
+//            jive.ui.forms.add(jive.interactive.column.formatHeaderForm);
+//            jive.ui.forms.add(jive.interactive.column.formatCellsForm);
             jive.ui.forms.add(jive.interactive.column.columnConditionalFormattingForm);
+            jive.ui.forms.add(jive.interactive.column.basicFormatForm);
 
             EventManager.registerEvent('jive.interactive.column.init').trigger();
 
@@ -396,7 +394,8 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             jive.ui.dialog.show(jive.i18n.get('column.filter.dialog.title') + ': ' + jive.selected.ie.config.columnLabel, ['columnfilter']);
         },
         formatHeader: function(){
-            jive.ui.dialog.show(jive.i18n.get('column.format.dialog.title') + ': ' + jive.selected.ie.config.columnLabel, ['formatHeader', 'formatCells', 'columnConditionalFormatting']);
+//            jive.ui.dialog.show(jive.i18n.get('column.format.dialog.title') + ': ' + jive.selected.ie.config.columnLabel, ['basicFormat', 'formatHeader', 'formatCells', 'columnConditionalFormatting']);
+            jive.ui.dialog.show(jive.i18n.get('column.format.dialog.title') + ': ' + jive.selected.ie.config.columnLabel, ['basicFormat', 'columnConditionalFormatting']);
         },
         hide: function(args){
             jive.hide();
@@ -416,6 +415,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
         setGenericProperties: function (obj) {
             jive.interactive.column.fontSizes = obj.fontSizes;
             jive.interactive.column.fonts = obj.fonts;
+            jive.interactive.column.patterns = obj.patterns;
         },
         showCurrencyDropDown: function(){
             jive.selected.form.inputs['currencyBtn1'].showOptions();
@@ -794,237 +794,320 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
         }
     };
 
-    jive.interactive.column.formatHeaderForm = {
+    jive.interactive.column.basicFormatForm = {
         actionDataCache: {},
-        title: jive.i18n.get('column.formatHeaderForm.title'),
-        name: 'formatHeader',
+        title: jive.i18n.get('column.basicFormatForm.title'),
+        name: 'basicFormat',
         method: 'get',
-        elements: [[
-            [{type:'text', id:'headingName', label: jive.i18n.get('column.formatHeaderForm.headingName.label'), value:'',colspan:4}],
+        prevApplyTo: null,
+        elements: [
             [
-                {type:'list', id:'headerFontName', label: jive.i18n.get('column.formatforms.fontName.label'), values:[], freeText: true, size:6, rowspan:2},
-                {type:'list', id:'headerFontSize', label: jive.i18n.get('column.formatforms.fontSize.label'), values:[], freeText: true, size:6, rowspan:2, restriction: 'numeric'},
-                {
-                    type: 'buttons',
-                    label: jive.i18n.get('column.formatforms.styleButtons.label'),
-                    items: [
-                        {type:'checkbox',id:'headerFontBold',value:'bold',bIcon:'boldIcon'},
-                        {type:'checkbox',id:'headerFontItalic',value:'italic',bIcon:'italicIcon'},
-                        {type:'checkbox',id:'headerFontUnderline',value:'underline',bIcon:'underlineIcon'}
-                    ]
-                },
-                {
-                    type: 'buttons',
-                    label: jive.i18n.get('column.formatforms.color.label'),
-                    items: [
-                        {type:'backcolor',id:'headerFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontBackColor.title'), drop: true, showTransparent: true, styleClass: 'wide'},
-                        {type:'color',id:'headerFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
-                    ]
-                }
+                [
+                    {type: 'text', id: 'headingName', label: jive.i18n.get('column.formatHeaderForm.headingName.label'), value: '', colspan: 4}
+                ]
             ],
+            // common format
             [
-                {
-                    type: 'buttons',
-                    label: jive.i18n.get('column.formatforms.alignment.label'),
-                    items: [
-                        {type:'radio',id:'headerFontAlign',value:'Left',bIcon:'leftIcon'},
-                        {type:'radio',id:'headerFontAlign',value:'Center',bIcon:'centerIcon'},
-                        {type:'radio',id:'headerFontAlign',value:'Right',bIcon:'rightIcon'}
-                    ]
+                [
+                    {type: 'list', id: 'fontName', label: jive.i18n.get('column.formatforms.fontName.label'), values: [], freeText: true, size: 6, rowspan: 2},
+                    {type: 'list', id: 'fontSize', label: jive.i18n.get('column.formatforms.fontSize.label'), values: [], freeText: true, size: 6, rowspan: 2, restriction: 'numeric'},
+                    {
+                        type: 'buttons',
+                        label: jive.i18n.get('column.formatforms.styleButtons.label'),
+                        items: [
+                            {type: 'checkbox', id: 'fontBold', value: 'bold', bIcon: 'boldIcon'},
+                            {type: 'checkbox', id: 'fontItalic', value: 'italic', bIcon: 'italicIcon'},
+                            {type: 'checkbox', id: 'fontUnderline', value: 'underline', bIcon: 'underlineIcon'}
+                        ]
+                    },
+                    {
+                        type: 'buttons',
+                        label: jive.i18n.get('column.formatforms.color.label'),
+                        items: [
+                            {type: 'backcolor', id: 'fontBackColor', bIcon: 'backgroundColorIcon', title: jive.i18n.get('column.formatforms.fontBackColor.title'), drop: true, showTransparent: true, styleClass: 'wide'},
+                            {type: 'color', id: 'fontColor', bIcon: 'fontColorIcon', title: jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
+                        ]
+                    }
+                ],
+                [
+                    {
+                        type: 'buttons',
+                        label: jive.i18n.get('column.formatforms.alignment.label'),
+                        items: [
+                            {type: 'radio', id: 'fontAlign', value: 'Left', bIcon: 'leftIcon'},
+                            {type: 'radio', id: 'fontAlign', value: 'Center', bIcon: 'centerIcon'},
+                            {type: 'radio', id: 'fontAlign', value: 'Right', bIcon: 'rightIcon'}
+                        ]
+                    }
+                ]
+            ],
+            // date/number format
+            [
+                [
+                    {type: 'list', id: 'formatPattern', label: jive.i18n.get('column.formatCellsForm.formatPattern.label'), freeText: true, values: [], colspan: 2, size: 4, rowspan: 2},
+                    {
+                        type: 'buttons',
+                        id: 'numberFormatButtons',
+                        label: jive.i18n.get('column.formatforms.numberformat.label'),
+                        items: [
+                            //                  {type:'checkbox',id:'currencyBtn',fn:'toggleCurrencyFormat',value:'',bIcon:'currencyIcon'},
+                            {type: 'checkbox', id: 'percentageBtn', fn: 'togglePercentageFormat', value: '', bIcon: 'percentageIcon'},
+                            {type: 'checkbox', id: 'commaBtn', fn: 'toggleCommaFormat', value: '', bIcon: 'commaIcon'},
+                            {type: 'action', id: 'increaseDecimalsBtn', fn: 'addDecimal', value: '', bIcon: 'increaseDecimalsIcon'},
+                            {type: 'action', id: 'decreaseDecimalsBtn', fn: 'remDecimal', value: '', bIcon: 'decreaseDecimalsIcon'}
+                        ]
+                    }
+                ],
+                [
+                    {
+                        type: 'buttons',
+                        label: jive.i18n.get('column.formatforms.currency.label'),
+                        items: [
+                            {
+                                type: 'dropdown',
+                                drop: true,
+                                id: 'currencyBtn1',
+                                fn: 'showCurrencyDropDown',
+                                bIcon: 'currencyIcon',
+                                options: {
+                                    'none': {label: jive.i18n.get('column.formatforms.currency.none.label'), value: '', fn: 'applyCurrencyFormat'},
+                                    'locale_specific': {label: jive.i18n.get('column.formatCellsForm.numberFormatButtons.localespecific.label'), value: '\u00A4', fn: 'applyCurrencyFormat'},
+                                    'dollar': {label: '\u0024 - USD', value: '\u0024', fn: 'applyCurrencyFormat'},
+                                    'euro': {label: '\u20AC - EUR', value: '\u20AC', fn: 'applyCurrencyFormat'},
+                                    'pound': {label: '\u00A3 - GBP', value: '\u00A3', fn: 'applyCurrencyFormat'},
+                                    'yen': {label: '\u00A5 - YEN', value: '\u00A5', fn: 'applyCurrencyFormat'}
+                                }
+                            }
+                        ]
+                    }
+                ]
+            ],
+        ],
+        onCreate: function(jo) {
+            // populate applyTo selector
+            var it = this,
+                options = [{value: 'headings', text: 'Headings'}, {value: 'detailrows', text: 'Detail Rows'}],
+                selector = $('#applyTo'),
+                colGroups = jive.interactive.column.allColumnGroups[jive.selected.jo.data('tableuuid')],
+                suffix;
+            $.each(colGroups, function(i, group) {
+                if (group.grouptype === 'groupheading') {
+                    suffix = ' Group';
+                } else if (group.grouptype === 'groupsubtotal') {
+                    suffix = ' Sub-total';
                 }
-            ]
-        ]],
-        onCreate:function(jo){
+                options.push({
+                    value: group.id,
+                    text: (group.groupData? group.groupData.groupName: group.id) + suffix
+                });
+            });
+            $.each(options, function(i, v) {
+                selector.append($("<option/>", v));
+            });
 
+            // events for applyTo selector
+            selector.on('change', function(evt) {
+                jive.selected.form.onBlur(jive.selected.form.prevApplyTo);
+                jive.selected.form.applyToChanged(this.value);
+                jive.selected.form.prevApplyTo = this.value;
+            });
+
+            // events for column advance buttons
+            $("#colnext, #colprev").on('click touchend', function(evt) {
+                if(this.className.indexOf('disabled') < 0){
+                    var colIdx = jive.selected.ie.config.columnIndex;
+
+                    jive.selected.form.onBlur();
+
+                    if(this.id == 'colnext') {
+                        jive.selected.ie = jive.elements[it.getNextVisibleColUuid(colIdx)];
+                    } else {
+                        jive.selected.ie = jive.elements[it.getPrevVisibleColUuid(colIdx)];
+                    }
+                    jive.selected.form.columnChanged();
+                }
+            });
         },
-        onShow:function(){
+        onShow: function() {
+            jive.selected.form.jo.parent().css({'overflow-y': 'hidden'});
+
+            // disable conditional formatting tab
+            var conditionalFormattingTab = $('#columnConditionalFormattingTab');
+            !jive.selected.ie.config.canFormatConditionally ? conditionalFormattingTab.addClass('disabled') : conditionalFormattingTab.removeClass('disabled');
+
+            this.updateColNavButtons();
+            $('#applyTo').val('headings');
+            this.prevApplyTo = 'headings';
+            this.applyToChanged('headings');
+        },
+        columnChanged: function() {
+            // update dialog column name
+            jive.ui.dialog.title.html(jive.i18n.get('column.format.dialog.title') + ': ' + jive.selected.ie.config.columnLabel);
+            this.updateColNavButtons();
+            this.applyToChanged($('#applyTo').val());
+        },
+        applyToChanged: function(val) {
+            var it = this,
+                tables = jive.selected.form.jo.find('table'),
+                value = val.substring(0, val.indexOf('_') != -1 ? val.indexOf("_"): val.length);
+            switch(value) {
+                case "headings":
+                    tables.eq(2).hide();
+                    tables.eq(0).show();
+                    it.onHeadingsShow();
+                    break;
+                case "groupheading":
+                    tables.eq(2).hide();
+                    tables.eq(0).hide();
+                    it.onGroupHeadingShow();
+                    break;
+                case "detailrows":
+                    tables.eq(2).show();
+                    tables.eq(0).hide();
+                    it.onDetailRowsShow();
+                    break;
+                case "groupsubtotal":
+                    tables.eq(2).show();
+                    tables.eq(0).hide();
+                    it.onGroupSubtotalShow();
+                    break;
+            }
+        },
+        updateColNavButtons: function() {
+            var colIdx = jive.selected.ie.config.columnIndex,
+                btnColNext = $("#colnext"),
+                btnColPrev = $("#colprev");
+
+            if (this.getNextVisibleColUuid(colIdx)) {
+                btnColNext.removeClass('disabled');
+            } else {
+                btnColNext.addClass('disabled');
+            }
+
+            if (this.getPrevVisibleColUuid(colIdx)) {
+                btnColPrev.removeClass('disabled');
+            } else {
+                btnColPrev.addClass('disabled');
+            }
+        },
+        getNextVisibleColUuid: function(colIdx) {
+            var allColumns = jive.interactive.column.allColumns[jive.selected.ie.config.tableId], i;
+            for (i = colIdx + 1; allColumns[i]; i++) {
+                if (allColumns[i].visible) {
+                    return allColumns[i].uuid;
+                }
+            }
+            return false;
+        },
+        getPrevVisibleColUuid: function(colIdx) {
+            var allColumns = jive.interactive.column.allColumns[jive.selected.ie.config.tableId], i;
+            for (i = colIdx -1; i >= 0; i--) {
+                if (allColumns[i].visible) {
+                    return allColumns[i].uuid;
+                }
+            }
+            return false;
+        },
+        getCacheKey: function(prevApplyTo) {
+            return this.name + "_" + jive.selected.ie.config.columnIndex + "_" + (prevApplyTo || $('#applyTo').val());
+        },
+        onHeadingsShow: function() {
             var metadata,
                 inputs = jive.selected.form.inputs,
                 isFromCache = false;
 
-            jive.selected.form.jo.parent().css({'overflow-y': 'hidden'});
-
-            if (this.actionDataCache[this.name]) {
-                metadata = this.actionDataCache[this.name].editColumnHeaderData;
+            if (this.actionDataCache[this.getCacheKey()]) {
+                metadata = this.actionDataCache[this.getCacheKey()].editColumnHeaderData;
                 isFromCache = true;
             } else {
                 metadata = jive.selected.ie.config.headingsTabContent;
             }
 
-            inputs['headerFontBold'].set(metadata.fontBold);
-            inputs['headerFontItalic'].set(metadata.fontItalic);
-            inputs['headerFontUnderline'].set(metadata.fontUnderline);
+            inputs['fontBold'].set(metadata.fontBold);
+            inputs['fontItalic'].set(metadata.fontItalic);
+            inputs['fontUnderline'].set(metadata.fontUnderline);
 
-            inputs['headerFontAlign'].set(metadata.fontHAlign);
+            inputs['fontAlign'].set(metadata.fontHAlign);
             if (!isFromCache) {
                 inputs['headingName'].set(jive.decodeHTML(metadata.headingName));
-                inputs['headerFontName'].set(jive.decodeHTML(metadata.fontName));
+                inputs['fontName'].set(jive.decodeHTML(metadata.fontName));
             } else {
                 inputs['headingName'].set(metadata.headingName);
-                inputs['headerFontName'].set(metadata.fontName);
+                inputs['fontName'].set(metadata.fontName);
             }
-            inputs['headerFontSize'].set(metadata.fontSize);
-            inputs['headerFontColor'].set(metadata.fontColor);
-            inputs['headerFontBackColor'].set(metadata.fontBackColor, metadata.mode);
+            inputs['fontSize'].set(metadata.fontSize);
+            inputs['fontColor'].set(metadata.fontColor);
+            inputs['fontBackColor'].set(metadata.fontBackColor, metadata.mode);
+        },
+        getGroupMetadata: function(groupId) {
+            var groupData = null;
+            $.each(jive.interactive.column.allColumnGroups[jive.selected.ie.config.tableId], function(i, group) {
+                if (group.id === groupId) {
+                    groupData = group.groupData;
+                    return false; // break each
+                }
+            });
 
-            // disable conditional formatting tab
-            var conditionalFormattingTab = $('#columnConditionalFormattingTab');
-            !jive.selected.ie.config.canFormatConditionally ? conditionalFormattingTab.addClass('disabled') : conditionalFormattingTab.removeClass('disabled');
+            return groupData;
         },
-        submit:function(){
-            var actions = [],
-                prop;
-            this.actionDataCache[this.name] = this.getActionData();
-
-            for (prop in this.actionDataCache) {
-                if (this.actionDataCache.hasOwnProperty(prop)) {
-                    actions.push(this.actionDataCache[prop]);
-                }
-            }
-            jive.hide();
-            jive.selected.ie.format(actions);
-        },
-        onBlur: function() {
-            this.actionDataCache[this.name] = this.getActionData();
-        },
-        onHide: function() {
-            this.actionDataCache = {};
-        },
-        getActionData: function() {
-            var inputs = jive.selected.form.inputs;
-            return {
-                actionName: 'editColumnHeader',
-                editColumnHeaderData: {
-                    tableUuid: jive.selected.jo.data('tableuuid'),
-                    columnIndex: jive.selected.ie.config.columnIndex,
-                    headingName: inputs['headingName'].get(),
-                    fontName: jive.escapeFontName(inputs['headerFontName'].get()),
-                    fontSize: inputs['headerFontSize'].get(),
-                    fontBold: inputs['headerFontBold'].get(),
-                    fontItalic: inputs['headerFontItalic'].get(),
-                    fontUnderline: inputs['headerFontUnderline'].get(),
-                    fontHAlign: inputs['headerFontAlign'].get(),
-                    fontColor: inputs['headerFontColor'].get(),
-                    fontBackColor: inputs['headerFontBackColor'].getBackColor(),
-                    mode: inputs['headerFontBackColor'].getModeValue()
-                }
-            }
-        }
-    };
-
-    jive.interactive.column.formatCellsForm = {
-        actionDataCache: {},
-        title: jive.i18n.get('column.formatCellsForm.title'),
-        name: 'formatCells',
-        method: 'get',
-        elements: [[
-            [
-                {type:'list', id:'cellsFontName', label: jive.i18n.get('column.formatforms.fontName.label'), values:[], freeText: true, size:6, rowspan:2},
-                {type:'list', id:'cellsFontSize', label: jive.i18n.get('column.formatforms.fontSize.label'), values:[], freeText: true, size:6, rowspan:2, restriction: 'numeric'},
-                {
-                    type: 'buttons',
-                    label: jive.i18n.get('column.formatforms.styleButtons.label'),
-                    items: [
-                        {type:'checkbox',id:'cellsFontBold',value:'bold',bIcon:'boldIcon'},
-                        {type:'checkbox',id:'cellsFontItalic',value:'italic',bIcon:'italicIcon'},
-                        {type:'checkbox',id:'cellsFontUnderline',value:'underline',bIcon:'underlineIcon'}
-                    ]
-                },
-                {
-                    type: 'buttons',
-                    label: jive.i18n.get('column.formatforms.color.label'),
-                    items: [
-                        {type:'backcolor',id:'cellsFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontBackColor.title'), drop: true, showTransparent: true, styleClass: 'wide'},
-                        {type:'color',id:'cellsFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
-                    ]
-                }
-            ],
-            [
-                {
-                    type: 'buttons',
-                    label: jive.i18n.get('column.formatforms.alignment.label'),
-                    items: [
-                        {type:'radio',id:'cellsFontAlign',value:'Left',bIcon:'leftIcon'},
-                        {type:'radio',id:'cellsFontAlign',value:'Center',bIcon:'centerIcon'},
-                        {type:'radio',id:'cellsFontAlign',value:'Right',bIcon:'rightIcon'}
-                    ]
-                }
-            ],
-            [
-                {type:'list',id:'formatPattern',label: jive.i18n.get('column.formatCellsForm.formatPattern.label'),freeText:true,values:[],colspan:2, size:4, rowspan:2},
-                {
-                    type:'buttons',
-                    id: 'numberFormatButtons',
-                    label: jive.i18n.get('column.formatforms.numberformat.label'),
-                    items: [
-                        //                  {type:'checkbox',id:'currencyBtn',fn:'toggleCurrencyFormat',value:'',bIcon:'currencyIcon'},
-                        {type:'checkbox',id:'percentageBtn',fn:'togglePercentageFormat',value:'',bIcon:'percentageIcon'},
-                        {type:'checkbox',id:'commaBtn',fn:'toggleCommaFormat',value:'',bIcon:'commaIcon'},
-                        {type:'action',id:'increaseDecimalsBtn',fn:'addDecimal',value:'',bIcon:'increaseDecimalsIcon'},
-                        {type:'action',id:'decreaseDecimalsBtn',fn:'remDecimal',value:'',bIcon:'decreaseDecimalsIcon'}
-                    ]
-                }
-            ],
-            [
-                {
-                    type:'buttons',
-                    label: jive.i18n.get('column.formatforms.currency.label'),
-                    items: [
-                        {
-                            type: 'dropdown',
-                            drop: true,
-                            id: 'currencyBtn1',
-                            fn: 'showCurrencyDropDown',
-                            bIcon: 'currencyIcon',
-                            options: {
-                                'none': {label: jive.i18n.get('column.formatforms.currency.none.label'), value: '', fn: 'applyCurrencyFormat'},
-                                'locale_specific': {label: jive.i18n.get('column.formatCellsForm.numberFormatButtons.localespecific.label'), value: '\u00A4', fn: 'applyCurrencyFormat'},
-                                'dollar': {label: '\u0024 - USD', value: '\u0024', fn: 'applyCurrencyFormat'},
-                                'euro': {label: '\u20AC - EUR', value: '\u20AC', fn: 'applyCurrencyFormat'},
-                                'pound': {label: '\u00A3 - GBP', value: '\u00A3', fn: 'applyCurrencyFormat'},
-                                'yen': {label: '\u00A5 - YEN', value: '\u00A5', fn: 'applyCurrencyFormat'}
-                            }
-                        }
-                    ]
-                }
-            ]
-        ]],
-        onCreate:function(jo){
-
-        },
-        onShow:function(){
+        onGroupHeadingShow: function() {
             var metadata,
                 inputs = jive.selected.form.inputs,
+                isFromCache = false;
+
+            if (this.actionDataCache[this.getCacheKey()]) {
+                metadata = this.actionDataCache[this.getCacheKey()].editColumnHeaderData;
+                isFromCache = true;
+            } else {
+                metadata = this.getGroupMetadata($('#applyTo').val());
+            }
+
+            inputs['fontBold'].set(metadata.fontBold);
+            inputs['fontItalic'].set(metadata.fontItalic);
+            inputs['fontUnderline'].set(metadata.fontUnderline);
+
+            inputs['fontAlign'].set(metadata.fontHAlign);
+            if (!isFromCache) {
+                inputs['fontName'].set(jive.decodeHTML(metadata.fontName));
+            } else {
+                inputs['fontName'].set(metadata.fontName);
+            }
+            inputs['fontSize'].set(metadata.fontSize);
+            inputs['fontColor'].set(metadata.fontColor);
+            inputs['fontBackColor'].set(metadata.fontBackColor, metadata.mode);
+        },
+        onDetailRowsShow: function() {
+            var metadata,
+                inputs = jive.selected.form.inputs,
+                isFromCache = false,
                 htm = [],
                 ie = jive.selected.ie.config,
-                jo = jive.selected.form.jo
-            isFromCache = false;
+                jo = jive.selected.form.jo.find('table:eq(2)'),
+                colDataType = ie.dataType.toLowerCase();
 
-            jive.selected.form.jo.parent().css({'overflow-y': 'hidden'});
-
-            if (this.actionDataCache[this.name]) {
-                metadata = this.actionDataCache[this.name].editColumnValueData;
+            if (this.actionDataCache[this.getCacheKey()]) {
+                metadata = this.actionDataCache[this.getCacheKey()].editColumnValueData;
                 isFromCache = true;
             } else {
                 metadata = jive.selected.ie.config.valuesTabContent;
             }
 
-            inputs['cellsFontBold'].set(metadata.fontBold);
-            inputs['cellsFontItalic'].set(metadata.fontItalic);
-            inputs['cellsFontUnderline'].set(metadata.fontUnderline);
+            inputs['fontBold'].set(metadata.fontBold);
+            inputs['fontItalic'].set(metadata.fontItalic);
+            inputs['fontUnderline'].set(metadata.fontUnderline);
 
-            inputs['cellsFontAlign'].set(metadata.fontHAlign);
+            inputs['fontAlign'].set(metadata.fontHAlign);
             if (!isFromCache) {
-                inputs['cellsFontName'].set(jive.decodeHTML(metadata.fontName));
+                inputs['fontName'].set(jive.decodeHTML(metadata.fontName));
             } else {
-                inputs['cellsFontName'].set(metadata.fontName);
+                inputs['fontName'].set(metadata.fontName);
             }
-            inputs['cellsFontSize'].set(metadata.fontSize);
-            inputs['cellsFontColor'].set(metadata.fontColor);
-            inputs['cellsFontBackColor'].set(metadata.fontBackColor, metadata.mode);
+            inputs['fontSize'].set(metadata.fontSize);
+            inputs['fontColor'].set(metadata.fontColor);
+            inputs['fontBackColor'].set(metadata.fontBackColor, metadata.mode);
 
-            if(typeof ie.formatPatternLabel === 'string') {
-                $.each(ie.formatPatternSelector,function(i,o){
+            if(colDataType == 'numeric' || colDataType == 'date' || colDataType == 'time') {
+                $.each(jive.interactive.column.patterns[colDataType],function(i,o){
                     o && htm.push('<option value="'+o.key+'">'+o.val+'</option>');
                 })
                 $('#formatPattern').html(htm.join(''));
@@ -1033,59 +1116,159 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                 } else {
                     inputs['formatPattern'].set(metadata.formatPattern);
                 }
-                jo.find('tr:gt(1)').show();
-                if (ie.formatPatternLabel.indexOf('Number') >= 0) {
-                    jo.find('tr:eq(2)').children('td:last').css('visibility','visible');
-                    jo.find('tr:eq(3)').children('td:last').css('visibility','visible');
+                jo.find('tr').show();
+                if (colDataType == 'numeric') {
+                    jo.find('tr:eq(0)').children('td:last').css('visibility','visible');
+                    jo.find('tr:eq(1)').children('td:last').css('visibility','visible');
                     inputs['percentageBtn'].set(false);
                     inputs['commaBtn'].set(false);
                 } else {
-                    jo.find('tr:eq(2)').children('td:last').css('visibility','hidden');
-                    jo.find('tr:eq(3)').children('td:last').css('visibility','hidden');
+                    jo.find('tr:eq(0)').children('td:last').css('visibility','hidden');
+                    jo.find('tr:eq(1)').children('td:last').css('visibility','hidden');
                 }
             } else {
-                jo.find('tr:gt(1)').hide();
+                jo.find('tr').hide();
             }
         },
-        submit: function(){
+        onGroupSubtotalShow: function() {
+            var metadata,
+                inputs = jive.selected.form.inputs,
+                isFromCache = false,
+                htm = [],
+                jo = jive.selected.form.jo.find('table:eq(2)');
+
+            if (this.actionDataCache[this.getCacheKey()]) {
+                metadata = this.actionDataCache[this.getCacheKey()].editColumnValueData;
+                isFromCache = true;
+            } else {
+                metadata = this.getGroupMetadata($('#applyTo').val());
+            }
+
+            inputs['fontBold'].set(metadata.fontBold);
+            inputs['fontItalic'].set(metadata.fontItalic);
+            inputs['fontUnderline'].set(metadata.fontUnderline);
+
+            inputs['fontAlign'].set(metadata.fontHAlign);
+            if (!isFromCache) {
+                inputs['fontName'].set(jive.decodeHTML(metadata.fontName));
+            } else {
+                inputs['fontName'].set(metadata.fontName);
+            }
+            inputs['fontSize'].set(metadata.fontSize);
+            inputs['fontColor'].set(metadata.fontColor);
+            inputs['fontBackColor'].set(metadata.fontBackColor, metadata.mode);
+
+            var dataType = this.getGroupMetadata($('#applyTo').val()).dataType.toLowerCase();
+
+            if(dataType == 'numeric' || dataType == 'date' || dataType == 'time') {
+                $.each(jive.interactive.column.patterns[dataType],function(i,o){
+                    o && htm.push('<option value="'+o.key+'">'+o.val+'</option>');
+                })
+                $('#formatPattern').html(htm.join(''));
+                if (!isFromCache) {
+                    inputs['formatPattern'].set(jive.decodeHTML(metadata.formatPattern));
+                } else {
+                    inputs['formatPattern'].set(metadata.formatPattern);
+                }
+                jo.find('tr').show();
+                if (dataType == 'numeric') {
+                    jo.find('tr:eq(0)').children('td:last').css('visibility','visible');
+                    jo.find('tr:eq(1)').children('td:last').css('visibility','visible');
+                    inputs['percentageBtn'].set(false);
+                    inputs['commaBtn'].set(false);
+                } else {
+                    jo.find('tr:eq(0)').children('td:last').css('visibility','hidden');
+                    jo.find('tr:eq(1)').children('td:last').css('visibility','hidden');
+                }
+            } else {
+                jo.find('tr').hide();
+            }
+        },
+        submit:function(){
             var actions = [],
                 prop;
-            this.actionDataCache[this.name] = this.getActionData();
+            this.actionDataCache[this.getCacheKey()] = this.getActionData();
 
             for (prop in this.actionDataCache) {
                 if (this.actionDataCache.hasOwnProperty(prop)) {
                     actions.push(this.actionDataCache[prop]);
                 }
             }
-
             jive.hide();
             jive.selected.ie.format(actions);
         },
-        onBlur: function() {
-            this.actionDataCache[this.name] = this.getActionData();
+        onBlur: function(prevApplyTo) {
+            this.actionDataCache[this.getCacheKey(prevApplyTo)] = this.getActionData(prevApplyTo);
         },
         onHide: function() {
             this.actionDataCache = {};
         },
-        getActionData: function(isForCache) {
-            var inputs = jive.selected.form.inputs;
-            return {
-                actionName: 'editColumnValues',
-                editColumnValueData:{
+        getActionData: function(prevApplyTo) {
+            var inputs = jive.selected.form.inputs,
+                currentApplyTo = prevApplyTo || $('#applyTo').val(),
+                val = currentApplyTo.substring(0, currentApplyTo.indexOf('_') != -1 ? currentApplyTo.indexOf("_"): currentApplyTo.length),
+                result = null,
+                commonData,
+                metadata;
+
+            commonData = {
+                    applyTo: val,
                     tableUuid: jive.selected.jo.data('tableuuid'),
                     columnIndex: jive.selected.ie.config.columnIndex,
-                    fontName: jive.escapeFontName(inputs['cellsFontName'].get()),
-                    fontSize: inputs['cellsFontSize'].get(),
-                    fontBold: inputs['cellsFontBold'].get(),
-                    fontItalic: inputs['cellsFontItalic'].get(),
-                    fontUnderline: inputs['cellsFontUnderline'].get(),
-                    fontHAlign: inputs['cellsFontAlign'].get(),
-                    fontColor: inputs['cellsFontColor'].get(),
-                    fontBackColor: inputs['cellsFontBackColor'].getBackColor(),
-                    mode: inputs['cellsFontBackColor'].getModeValue(),
-                    formatPattern: inputs['formatPattern'].get()
-                }
+                    fontName: jive.escapeFontName(inputs['fontName'].get()),
+                    fontSize: inputs['fontSize'].get(),
+                    fontBold: inputs['fontBold'].get(),
+                    fontItalic: inputs['fontItalic'].get(),
+                    fontUnderline: inputs['fontUnderline'].get(),
+                    fontHAlign: inputs['fontAlign'].get(),
+                    fontColor: inputs['fontColor'].get(),
+                    fontBackColor: inputs['fontBackColor'].getBackColor(),
+                    mode: inputs['fontBackColor'].getModeValue()
             };
+
+            switch(val) {
+                case 'headings':
+                    result = {
+                        actionName: 'editColumnHeader',
+                        editColumnHeaderData: $.extend({
+                            headingName: inputs['headingName'].get()
+                        }, commonData)
+                    };
+                    break;
+                case 'detailrows':
+                    result = {
+                        actionName: 'editColumnValues',
+                        editColumnValueData: $.extend({
+                            formatPattern: inputs['formatPattern'].get()
+                        }, commonData)
+                    };
+                    break;
+                case 'groupheading':
+                    metadata = this.getGroupMetadata(currentApplyTo);
+                    result = {
+                        actionName: 'editColumnHeader',
+                        editColumnHeaderData: $.extend({
+                            i: metadata.i,
+                            j: metadata.j,
+                            groupName: metadata.groupName || null
+                        }, commonData)
+                    };
+                    break;
+                case 'groupsubtotal':
+                    metadata = this.getGroupMetadata(currentApplyTo);
+                    result = {
+                        actionName: 'editColumnValues',
+                        editColumnValueData: $.extend({
+                            formatPattern: inputs['formatPattern'].get(),
+                            i: metadata.i,
+                            j: metadata.j,
+                            groupName: metadata.groupName || null
+                        }, commonData)
+                    };
+                    break;
+            }
+
+            return result;
         }
     };
 

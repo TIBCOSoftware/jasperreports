@@ -175,6 +175,17 @@ public class TableUtil
 		return lst;
 	}
 
+	public static List<ColumnGroup> getAllColumnGroups(List<BaseColumn> cols) {
+		List<ColumnGroup> lst = new ArrayList<ColumnGroup>();
+		for (BaseColumn bc : cols) {
+			if (bc instanceof ColumnGroup) {
+				lst.add((ColumnGroup) bc);
+				lst.addAll(getAllColumnGroups(((ColumnGroup) bc).getColumns()));
+			}
+		}
+		return lst;
+	}
+
 	private Rectangle initDetail(Rectangle p, BaseColumn bc) {
 		int h = 0;
 		int w = 0;
@@ -317,38 +328,40 @@ public class TableUtil
 	}
 	
 	public static JRDesignTextElement getColumnHeaderTextElement(StandardColumn column) {
-		Cell header = column.getColumnHeader();
-		List<JRChild> detailElements = header == null ? null : header.getChildren();
+		return getCellTextElement(column.getColumnHeader(), true);
+	}
+
+	public static JRDesignTextElement getCellTextElement(Cell cell, boolean oneElementPerCell) {
+		List<JRChild> detailElements = cell == null ? null : cell.getChildren();
 		
-		// only consider cells with a single text fields
-		if (detailElements == null || detailElements.size() != 1)
-		{
+		if (detailElements == null || (detailElements != null && oneElementPerCell && detailElements.size() != 1)) {
 			return null;
 		}
-
-		JRChild detailElement = detailElements.get(0);
-		if (detailElement instanceof JRDesignTextElement)
-		{
-			return (JRDesignTextElement) detailElement;
+		
+		for (JRChild detailElement: detailElements) {
+			if (detailElement instanceof JRDesignTextElement) {
+				return (JRDesignTextElement) detailElement;
+			}
 		}
-
+		
 		return null;
 	}
 
 	public static JRTextField getColumnDetailTextElement(Column column) {
-		Cell detailCell = column.getDetailCell();
-		List<JRChild> detailElements = detailCell == null ? null : detailCell.getChildren();
+		return getCellDetailTextElement(column.getDetailCell(), true);
+	}
+
+	public static JRTextField getCellDetailTextElement(Cell cell, boolean oneElementPerCell) {
+		List<JRChild> detailElements = cell == null ? null : cell.getChildren();
 		
-		// only consider cells with a single text fields
-		if (detailElements == null || detailElements.size() != 1)
-		{
+		if (detailElements == null || (detailElements != null && oneElementPerCell && detailElements.size() != 1)) {
 			return null;
 		}
 		
-		JRChild detailElement = detailElements.get(0);
-		if (detailElement instanceof JRTextField)
-		{
-			return (JRTextField) detailElement;
+		for (JRChild detailElement: detailElements) {
+			if (detailElement instanceof JRTextField) {
+				return (JRTextField) detailElement;
+			}
 		}
 		
 		return null;

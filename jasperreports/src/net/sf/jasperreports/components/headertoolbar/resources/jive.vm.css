@@ -123,8 +123,11 @@ button::-moz-focus-inner {
     text-align: left;
     border-top:solid 1px #d3d5d6;
     overflow:hidden;
-.overflow:visible;
     }
+
+button#dialogOk, button#dialogCancel {
+    float: right;
+}
 
 .jive_dialog button {
     display:block;
@@ -623,4 +626,16 @@ div.ui-datepicker {font-size: 11px;}
 
 #jive_form_columnConditionalFormatting .jive_textLabel>div.wrapper.label {
 	padding:8px 10px 2px 0;
+}
+
+/* ApplyTo Selector */
+.applytoWrapper {
+    padding: 4px;
+}
+.applytoTitle {
+    display: inline;
+    padding: 10px;
+}
+.applytoSelector {
+    display: inline;
 }
