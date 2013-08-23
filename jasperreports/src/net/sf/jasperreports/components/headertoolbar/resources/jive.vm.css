@@ -369,6 +369,8 @@ div.t_wrap {padding-right: 4px;}
     margin-top: 1px;
     width: 28px;
 }
+.jive_inputbutton.disabled {cursor: default;}
+
 .selected .boldIcon {
     background-position: -30px -3px;
 }

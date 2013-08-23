@@ -1305,6 +1305,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
         title: jive.i18n.get('column.conditionalFormatting.title'),
         method: 'get',
         options: null,
+        conditionType: null,
         prevApplyTo: null,
         templateElements: [
             {type:'label', value:''},
@@ -1389,25 +1390,10 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             // update dialog column name
             jive.ui.dialog.title.html(jive.i18n.get('column.format.dialog.title') + ': ' + jive.selected.ie.config.columnLabel);
             jive.interactive.column.basicFormatForm.updateColNavButtons();
-            this.applyToChanged($('#applyTo').val());
+            this.onGenericShow();
         },
         applyToChanged: function(val) {
-            var it = this,
-                value = val.substring(0, val.indexOf('_') != -1 ? val.indexOf("_"): val.length);
-            switch(value) {
-                case "headings":
-                    it.onHeadingsShow();
-                    break;
-                case "groupheading":
-                    it.onGroupHeadingShow();
-                    break;
-                case "detailrows":
-                    it.onDetailRowsShow();
-                    break;
-                case "groupsubtotal":
-                    it.onGroupSubtotalShow();
-                    break;
-            }
+            this.onGenericShow();
         },
         onShow: function() {
             jive.selected.form.jo.parent().css({'overflow-y': 'hidden'});
@@ -1415,40 +1401,73 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             jive.interactive.column.basicFormatForm.updateColNavButtons();
             $('#applyTo').val('headings');
             this.prevApplyTo = 'headings';
-            this.applyToChanged('headings');
+            this.onGenericShow();
         },
-        onHeadingsShow:function(){
+        getGroupMetadata: function(groupId) {
+            var groupData = null;
+            $.each(jive.interactive.column.allColumnGroups[jive.selected.ie.config.tableId], function(i, group) {
+                if (group.id === groupId) {
+                    groupData = group.conditionalFormattingData;
+                    return false; // break each
+                }
+            });
+
+            return groupData;
+        },
+        onGenericShow:function(){
             var it = this,
-                conditionType =  jive.selected.ie.config.conditionalFormatting.conditionType.toLowerCase(),
                 table = jive.selected.form.jo.find('table:eq(1)'),
-                isFromCache = false;
+                isFromCache = false,
+                addButton = jive.selected.form.jo.find('div.jive_inputbutton[bname=conditionAdd]'),
+                metadata,
+                applyToVal = $('#applyTo').val();
 
             jive.selected.form.jo.parent().css({'overflow-y': 'auto'});
-            it.options = jive.interactive.column.operators[conditionType];
 
-            if (this.actionDataCache[this.name]) {
-                metadata = this.actionDataCache[this.name].conditionalFormattingData.conditions;
+            if (this.actionDataCache[this.getCacheKey()]) {
+                metadata = this.actionDataCache[this.getCacheKey()].conditionalFormattingData;
                 isFromCache = true;
             } else {
-                metadata = jive.selected.ie.config.conditionalFormatting.conditions;
+                if (applyToVal.indexOf('group') != -1) {
+                    metadata = this.getGroupMetadata(applyToVal);
+                } else if (applyToVal == 'detailrows') {
+                    metadata = jive.selected.ie.config.conditionalFormattingData;
+                }
             }
 
-            /**
-             * for boolean fields, hide the condition column
-             */
-            if (conditionType === 'boolean') {
-                table.find('th:eq(2), tr.add td:eq(2)').hide();
+            if (metadata) {
+                it.conditionType = metadata.conditionType.toLowerCase();
+                it.options = jive.interactive.column.operators[it.conditionType];
+
+                // enable Add button
+                addButton.removeClass('disabled');
+                /**
+                 * for boolean fields, hide the condition column
+                 */
+                if (it.conditionType === 'boolean') {
+                    table.find('th:eq(2), tr.add td:eq(2)').hide();
+                } else {
+                    table.find('th:eq(2), tr.add td:eq(2)').show();
+                }
+
+                $.each(metadata.conditions, function(i,v) {
+                    it.addFormatCondition(jive.selected.form.jo, v, isFromCache);
+                });
+
             } else {
-                table.find('th:eq(2), tr.add td:eq(2)').show();
-            }
+                // clear conditions table, disable Add button
+                jive.selected.form.jo.find('table:eq(1) tr.jive_condition').each(function() {it.removeRow($(this));});
+                addButton.addClass('disabled');
 
-            $.each(metadata, function(i,v) {
-                it.addFormatCondition(jive.selected.form.jo, v, isFromCache);
-            });
+            }
         },
-        onBlur: function() {
-            var it = this;
-            this.actionDataCache[this.name] = this.getActionData();
+        onBlur: function(prevApplyTo) {
+            var it = this
+                currentApplyTo = prevApplyTo || $('#applyTo').val();
+            // do not cache actionData for headings and goup headings
+            if (currentApplyTo !== 'headings' && currentApplyTo.indexOf('groupheading') == -1) {
+                this.actionDataCache[this.getCacheKey(currentApplyTo)] = this.getActionData(currentApplyTo);
+            }
             jive.selected.form.jo.find('table:eq(1) tr.jive_condition').each(function() {it.removeRow($(this));});
         },
         onHide: function() {
@@ -1472,78 +1491,80 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             jive.selected.ie.format(actions);
         },
         addFormatCondition: function(jo, conditionData, isFromCache) {
-            var conditionType =  jive.selected.ie.config.conditionalFormatting.conditionType.toLowerCase(),
-                calendarPattern = jive.interactive.column.calendarPatterns["date"],
-                calendarTimePattern = jive.interactive.column.calendarPatterns["time"],
-                form = jo.closest('form'),
-                table = form.find('table:eq(1)'),
-                tr = [],
-                it = this,
-                row,
-                inputs = jive.selected.form.inputs,
-                htm = [];
+            if (!jo.is('.disabled')) {
+                var it = this,
+                    conditionType = it.conditionType,
+                    calendarPattern = jive.interactive.column.calendarPatterns["date"],
+                    calendarTimePattern = jive.interactive.column.calendarPatterns["time"],
+                    form = jo.closest('form'),
+                    table = form.find('table:eq(1)'),
+                    tr = [],
+                    row,
+                    inputs = jive.selected.form.inputs,
+                    htm = [];
 
-            tr.push('<tr class="jive_condition">');
-            $.each(this.templateElements, function(i,e) {
-                jive.ui.forms.createTemplateElement(e, it, form, tr);
-            });
-            tr.push('</tr>');
-            row = $(tr.join(''));
-            row.insertBefore(table.find('tr:last'));
+                tr.push('<tr class="jive_condition">');
+                $.each(this.templateElements, function(i,e) {
+                    jive.ui.forms.createTemplateElement(e, it, form, tr);
+                });
+                tr.push('</tr>');
+                row = $(tr.join(''));
+                row.insertBefore(table.find('tr:last'));
 
-            $.each(it.options, function(k,v) {
-                v && htm.push('<option value="'+v.key+'">'+v.val+'</option>');
-            });
+                $.each(it.options, function(k,v) {
+                    v && htm.push('<option value="'+v.key+'">'+v.val+'</option>');
+                });
 
-            row.find('select[name=conditionTypeOperator]').append(htm.join('')).trigger('change');
+                row.find('select[name=conditionTypeOperator]').append(htm.join('')).trigger('change');
 
-            if(conditionType === 'date') {
-                var pickerOptions = {
-                    changeMonth: true,
-                    changeYear: true,
-                    dateFormat: calendarPattern,
-                    timeFormat: calendarTimePattern,
-                    showSecond: true
+                if(conditionType === 'date') {
+                    var pickerOptions = {
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: calendarPattern,
+                        timeFormat: calendarTimePattern,
+                        showSecond: true
+                    }
+                    row.find('input[name=conditionStart]').datetimepicker(pickerOptions);
+                    row.find('input[name=conditionEnd]').datetimepicker(pickerOptions);
+                } else if (conditionType === 'time') {
+                    var timePickerOptions = {
+                        timeFormat: calendarTimePattern,
+                        showSecond:true,
+                        constrainInput:false
+                    }
+                    row.find('input[name=conditionStart]').timepicker(timePickerOptions);
+                    row.find('input[name=conditionEnd]').timepicker(timePickerOptions);
+                } else if (conditionType === 'boolean') {
+                    row.find('input[name=conditionStart]').prop('disabled', true);
+                    row.find('input[name=conditionStart]').closest('td').hide();
                 }
-                row.find('input[name=conditionStart]').datetimepicker(pickerOptions);
-                row.find('input[name=conditionEnd]').datetimepicker(pickerOptions);
-            } else if (conditionType === 'time') {
-                var timePickerOptions = {
-                    timeFormat: calendarTimePattern,
-                    showSecond:true,
-                    constrainInput:false
-                }
-                row.find('input[name=conditionStart]').timepicker(timePickerOptions);
-                row.find('input[name=conditionEnd]').timepicker(timePickerOptions);
-            } else if (conditionType === 'boolean') {
-                row.find('input[name=conditionStart]').prop('disabled', true);
-                row.find('input[name=conditionStart]').closest('td').hide();
-            }
 
-            if (conditionData) {
-                row.find('select[name=conditionTypeOperator]').val(conditionData.conditionTypeOperator).trigger('change');
-                inputs[row.find('input[name=conditionEnd]').attr('id')].set(conditionData.conditionEnd);
+                if (conditionData) {
+                    row.find('select[name=conditionTypeOperator]').val(conditionData.conditionTypeOperator).trigger('change');
+                    inputs[row.find('input[name=conditionEnd]').attr('id')].set(conditionData.conditionEnd);
 
-                if (conditionType === 'text' && isFromCache) {
-                    inputs[row.find('input[name=conditionStart]').attr('id')].set(conditionData.conditionStart);
+                    if (conditionType === 'text' && isFromCache) {
+                        inputs[row.find('input[name=conditionStart]').attr('id')].set(conditionData.conditionStart);
+                    } else {
+                        inputs[row.find('input[name=conditionStart]').attr('id')].set(jive.decodeHTML(conditionData.conditionStart));
+                    }
+
+                    inputs[row.find('.jive_inputbutton[bname^=conditionFontBold]').attr('bname')].set(conditionData.conditionFontBold);
+                    inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].set(conditionData.conditionFontItalic);
+                    inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].set(conditionData.conditionFontUnderline);
+                    inputs[row.find('.jive_inputbutton[bname^=conditionFontColor]').attr('bname')].set(conditionData.conditionFontColor);
+                    inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].set(conditionData.conditionFontBackColor, conditionData.conditionMode);
                 } else {
-                    inputs[row.find('input[name=conditionStart]').attr('id')].set(jive.decodeHTML(conditionData.conditionStart));
+                    inputs[row.find('.jive_inputbutton[bname^=conditionFontBold]').attr('bname')].set(null);
+                    inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].set(null);
+                    inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].set(null);
+                    inputs[row.find('.jive_inputbutton[bname^=conditionFontColor]').attr('bname')].set(null);
+                    inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].set(null, null);
                 }
 
-                inputs[row.find('.jive_inputbutton[bname^=conditionFontBold]').attr('bname')].set(conditionData.conditionFontBold);
-                inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].set(conditionData.conditionFontItalic);
-                inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].set(conditionData.conditionFontUnderline);
-                inputs[row.find('.jive_inputbutton[bname^=conditionFontColor]').attr('bname')].set(conditionData.conditionFontColor);
-                inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].set(conditionData.conditionFontBackColor, conditionData.conditionMode);
-            } else {
-                inputs[row.find('.jive_inputbutton[bname^=conditionFontBold]').attr('bname')].set(null);
-                inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].set(null);
-                inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].set(null);
-                inputs[row.find('.jive_inputbutton[bname^=conditionFontColor]').attr('bname')].set(null);
-                inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].set(null, null);
+                table.trigger('rowchange');
             }
-
-            table.trigger('rowchange');
         },
         removeFormatCondition: function(jo) {
             var row = jo.closest('tr'),
@@ -1581,12 +1602,39 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             }
 
         },
-        getActionData: function(isForCache) {
-            var metadata = jive.selected.ie.config.conditionalFormatting,
+        getCacheKey: function(prevApplyTo) {
+            return this.name + "_" + jive.selected.ie.config.columnIndex + "_" + (prevApplyTo || $('#applyTo').val());
+        },
+        getActionData: function(prevApplyTo) {
+            var currentApplyTo = prevApplyTo || $('#applyTo').val(),
+                val = currentApplyTo.substring(0, currentApplyTo.indexOf('_') != -1 ? currentApplyTo.indexOf("_"): currentApplyTo.length),
                 inputs = jive.selected.form.inputs,
+                metadata, actionData;
+
+            if (currentApplyTo.indexOf('group') != -1) {
+                metadata = this.getGroupMetadata(currentApplyTo);
                 actionData = {
                     actionName: 'conditionalFormatting',
                     conditionalFormattingData: {
+                        applyTo: val,
+                        tableUuid: metadata.tableUuid,
+                        columnIndex: jive.selected.ie.config.columnIndex,
+                        conditionPattern: metadata.conditionPattern,
+                        conditionType: metadata.conditionType,
+                        columnType: metadata.columnType,
+                        fieldOrVariableName: metadata.fieldOrVariableName,
+                        conditions: [],
+                        groupName: metadata.groupName,
+                        i:metadata.i,
+                        j: metadata.j
+                    }
+                };
+            } else if (currentApplyTo == 'detailrows') {
+                metadata = jive.selected.ie.config.conditionalFormattingData;
+                actionData = {
+                    actionName: 'conditionalFormatting',
+                    conditionalFormattingData: {
+                        applyTo: val,
                         tableUuid: metadata.tableUuid,
                         columnIndex: jive.selected.ie.config.columnIndex,
                         conditionPattern: metadata.conditionPattern,
@@ -1596,6 +1644,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                         conditions: []
                     }
                 };
+            }
 
             jive.selected.form.jo.find('table:eq(1) tr.jive_condition').each(function(i, v) {
                 var row = $(this);

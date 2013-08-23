@@ -68,7 +68,7 @@
     #end
     "canFormatConditionally": ${canFormatConditionally},
     #if (${canFormatConditionally})
-    "conditionalFormatting": ${conditionalFormattingData},
+    "conditionalFormattingData": ${conditionalFormattingData},
     #end
     "headingsTabContent": ${colHeaderData},
     "valuesTabContent": ${colValueData}

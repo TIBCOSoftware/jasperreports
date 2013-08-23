@@ -38,6 +38,11 @@ public class ConditionalFormattingData extends BaseColumnData {
 	private String columnType;
 	private String fieldOrVariableName;
 	private List<FormatCondition> conditions;
+
+    private String applyTo;
+    private String groupName;
+    private Integer i;
+    private Integer j;
 	
 	public ConditionalFormattingData() {
 		this.conditions = new ArrayList<FormatCondition>();
@@ -91,4 +96,35 @@ public class ConditionalFormattingData extends BaseColumnData {
 		this.conditions = conditions;
 	}
 
+    public String getApplyTo() {
+        return applyTo;
+    }
+
+    public void setApplyTo(String applyTo) {
+        this.applyTo = applyTo;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public Integer getI() {
+        return i;
+    }
+
+    public void setI(Integer i) {
+        this.i = i;
+    }
+
+    public Integer getJ() {
+        return j;
+    }
+
+    public void setJ(Integer j) {
+        this.j = j;
+    }
 }

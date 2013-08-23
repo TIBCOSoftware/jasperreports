@@ -832,9 +832,11 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
                             groupFooterData.setDataType(filterType.getName());
 
                             Map<String, Object> groupData = new HashMap<String, Object>();
+                            ConditionalFormattingData cfData = getCfData((JRDesignTextField)textElement, jasperReportsContext);
 
 							if (gc.getGroupName() != null && gc.getGroupName().length() > 0) {
                                 groupFooterData.setGroupName(gc.getGroupName());
+                                cfData.setGroupName(gc.getGroupName());
 							}
 
                             HeaderToolbarElementUtils.copyTextFieldStyle(groupFooterData, (JRDesignTextField)textElement);
@@ -843,13 +845,12 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
                             groupData.put("id", "groupsubtotal_" + i + "_" + j);
                             groupData.put("groupData", groupFooterData);
 
-                            ConditionalFormattingData cfData = getCfData((JRDesignTextField)textElement, jasperReportsContext);
                             cfData.setTableUuid(tableUuid);
                             cfData.setConditionType(filterType.getName());
-//                            cfData.setCalendarTimePattern(calendarTimePattern);
-//                            cfData.setConditionPattern(filterPattern);
                             cfData.setColumnType(columnType.getName());
                             cfData.setFieldOrVariableName(fieldOrVariableName);
+                            cfData.setI(i);
+                            cfData.setJ(j);
                             groupData.put("conditionalFormattingData", cfData);
 
 							groupsData.add(groupData);
