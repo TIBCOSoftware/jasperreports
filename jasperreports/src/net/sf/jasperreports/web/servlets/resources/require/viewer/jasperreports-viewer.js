@@ -53,18 +53,21 @@ define(["jasperreports-loader", "jasperreports-report", "jquery-1.10.2"], functi
             }).on("pageModified", function() {
                 this.refreshPage(this.currentpage);
             }).on("componentsRegistered", function() {
-            	var components = it.reportInstance.components;
-                var modules = [];
+            	var components = it.reportInstance.components,
+                    uimodules = [],
+                    uimodule;
 
-                /*
-                    Load and initialize jive modules
-                 */
-                if(components.table && components.table.length && components.table[0].columns && components.table[0].columns.length) {
-                    modules.push('jive.interactive.column');
-                }
+                $.each(components, function(i, componentArray) {
+                    if (componentArray.length > 0) {
+                        uimodule = componentArray[0].config.uimodule;
+                        if (uimodule) {
+                            uimodules.push(uimodule);
+                        }
+                    }
+                });
 
-                if(modules.length) {
-                    require(modules, function() {
+                if(uimodules.length) {
+                    require(uimodules, function() {
                         $.each(arguments, function(i, thisModule) {
                             thisModule.init(it.reportInstance);
                         });
