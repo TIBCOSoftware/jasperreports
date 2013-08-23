@@ -1,0 +1,58 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Pictonic fonts by creativesloth ltd.</metadata>
+<defs>
+<font id="pictonic" horiz-adv-x="512" >
+  <font-face 
+    font-family="pictonic"
+    font-weight="400"
+    font-stretch="normal"
+    units-per-em="512"
+    panose-1="2 0 5 9 0 0 0 0 0 0"
+    ascent="409"
+    descent="-103"
+    bbox="0.5 -59.917 511.5 365.917"
+    underline-thickness="0"
+    underline-position="0"
+    unicode-range="U+E001-E005"
+  />
+    <missing-glyph horiz-adv-x="0"/>
+    <glyph glyph-name="geo-arrw-up" unicode="&#xe001;" 
+>
+  <g fill="currentColor" fill-opacity="1" >
+    <path d="
+M478.124 -55.292h-444.249c-30.542 0 -42.2861 21.1934 -26.0977 47.0938l218.79 350.065c16.1875 25.8994 42.6787 25.8994 58.8652 0l218.791 -350.065c16.1885 -25.9004 4.44238 -47.0938 -26.0996 -47.0938z"/>
+  </g>
+ </glyph>
+    <glyph glyph-name="geo-arrw-down" unicode="&#xe002;" 
+>
+  <g fill="currentColor" fill-opacity="1" >
+    <path d="
+M504.225 314.198l-218.791 -350.064c-16.1875 -25.8994 -42.6787 -25.8994 -58.8652 0l-218.792 350.064c-16.1885 25.8994 -4.44434 47.0938 26.0977 47.0938h444.25c30.542 0 42.2881 -21.1934 26.1006 -47.0938z"/>
+  </g>
+ </glyph>
+    <glyph glyph-name="sort-filter05" unicode="&#xe003;" 
+>
+  <g fill="currentColor" fill-opacity="1" >
+    <path d="
+M511.5 365.917v-63.875l-191.625 -223.563v-138.396h-127.75v138.396l-191.625 223.563v63.875h511z"/>
+  </g>
+ </glyph>
+    <glyph glyph-name="sort-filter04" unicode="&#xe004;" 
+>
+  <g fill="currentColor" fill-opacity="1" >
+    <path d="
+M0.5 365.917v-63.3428l191.625 -224.096v-138.396h127.75v138.396l191.625 223.563v63.875h-511zM481.691 310.559l-191.625 -221.051v-119.616h-68.1338v119.616l-191.625 221.051v25.5508h451.384v-25.5508zM231.386 110.417l-164.25 191.625h24.6143
+l164.25 -191.625h-24.6143z"/>
+  </g>
+ </glyph>
+    <glyph glyph-name="sort-filter03" unicode="&#xe005;" 
+>
+  <g fill="currentColor" fill-opacity="1" >
+    <path d="
+M0.5 365.917v-63.875l191.625 -223.563v-138.396h127.75v138.396l191.625 223.563v63.875h-511zM217.253 89.125l-164.25 191.625h24.6143l164.25 -191.625h-24.6143z"/>
+  </g>
+ </glyph>
+  </font>
+</defs></svg>
