@@ -31,7 +31,13 @@ import java.util.Locale;
 
 import net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
+import net.sf.jasperreports.components.table.BaseColumn;
+import net.sf.jasperreports.components.table.Cell;
+import net.sf.jasperreports.components.table.ColumnGroup;
+import net.sf.jasperreports.components.table.StandardColumn;
+import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.web.actions.ActionException;
 import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.ResetInCacheCommand;
@@ -58,7 +64,7 @@ public class ConditionalFormattingAction extends AbstractVerifiableTableAction {
 		try {
 			getCommandStack().execute(
 				new ResetInCacheCommand(
-					new ConditionalFormattingCommand(getJasperReportsContext(), table, getConditionalFormattingData()),
+					new ConditionalFormattingCommand(getJasperReportsContext(), getTargetTextField(), getConditionalFormattingData()),
 					getJasperReportsContext(),
 					getReportContext(), 
 					targetUri
@@ -68,6 +74,31 @@ public class ConditionalFormattingAction extends AbstractVerifiableTableAction {
 			throw new ActionException(e.getMessage());
 		}
 	}
+
+    private JRTextField getTargetTextField() {
+        ConditionalFormattingData cfData = getConditionalFormattingData();
+        JRTextField result = null;
+
+        if ("detailrows".equals(cfData.getApplyTo())) {
+            List<BaseColumn> allCols = TableUtil.getAllColumns(table);
+            StandardColumn col = (StandardColumn)allCols.get(cfData.getColumnIndex());
+            result = TableUtil.getColumnDetailTextElement(col);
+        } else if("groupsubtotal".equals(cfData.getApplyTo())) {
+            List<ColumnGroup> lst = TableUtil.getAllColumnGroups(table.getColumns());
+            ColumnGroup colGroup = lst.get(cfData.getI());
+            Cell cell;
+
+            if (cfData.getGroupName() != null && cfData.getGroupName().length() > 0) {
+                cell = colGroup.getGroupFooter(cfData.getGroupName());
+            } else {
+                cell = colGroup.getGroupFooters().get(cfData.getJ()).getCell();
+            }
+
+            result =  TableUtil.getCellDetailTextElement(cell, false);
+        }
+
+        return result;
+    }
 
 	@Override
 	public void verify() throws ActionException {

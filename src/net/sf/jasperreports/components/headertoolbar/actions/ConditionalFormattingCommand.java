@@ -30,6 +30,7 @@ import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.web.commands.Command;
@@ -45,26 +46,21 @@ public class ConditionalFormattingCommand implements Command
 	public static final String COLUMN_CONDITIONAL_FORMATTING_PROPERTY = "net.sf.jasperreports.components.headertoolbar.conditional.formatting";
 	
 	private JasperReportsContext jasperReportsContext;
-	protected StandardTable table;
 	protected ConditionalFormattingData conditionalFormattingData;
 	private String oldSerializedConditionsData;
 	private String newSerializedConditionsData;
-	private JRDesignTextField textElement;
-	
-	public ConditionalFormattingCommand(JasperReportsContext jasperReportsContext, StandardTable table, ConditionalFormattingData conditionalFormattingData) 
+	private JRTextField textElement;
+
+	public ConditionalFormattingCommand(JasperReportsContext jasperReportsContext, JRTextField textElement, ConditionalFormattingData conditionalFormattingData)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-		this.table = table;
+		this.textElement = textElement;
 		this.conditionalFormattingData = conditionalFormattingData;
 	}
 
 	public void execute() 
 	{
-		List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
-		StandardColumn column = (StandardColumn) tableColumns.get(conditionalFormattingData.getColumnIndex());
-		textElement = (JRDesignTextField) TableUtil.getColumnDetailTextElement(column);
-		
-		if (textElement != null) 
+		if (textElement != null)
 		{
 			// get existing condition data as JSON string
 			String serializedConditionData = null;
