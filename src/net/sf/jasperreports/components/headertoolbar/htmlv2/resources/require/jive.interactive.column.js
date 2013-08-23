@@ -906,15 +906,15 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
         onCreate: function(jo) {
             // populate applyTo selector
             var it = this,
-                options = [{value: 'headings', text: 'Headings'}, {value: 'detailrows', text: 'Detail Rows'}],
+                options = [{value: 'headings', text: jive.i18n.get('column.basicFormatForm.applyto.option.headings')}, {value: 'detailrows', text: jive.i18n.get('column.basicFormatForm.applyto.option.detailrows')}],
                 selector = $('#applyTo'),
                 colGroups = jive.interactive.column.allColumnGroups[jive.selected.jo.data('tableuuid')],
                 suffix;
             $.each(colGroups, function(i, group) {
                 if (group.grouptype === 'groupheading') {
-                    suffix = ' Group';
+                    suffix = ' ' + jive.i18n.get('column.basicFormatForm.groupheading.prefix');
                 } else if (group.grouptype === 'groupsubtotal') {
-                    suffix = ' Sub-total';
+                    suffix = ' ' + jive.i18n.get('column.basicFormatForm.groupsubtotal.prefix');
                 }
                 options.push({
                     value: group.id,

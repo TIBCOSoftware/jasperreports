@@ -42,6 +42,11 @@ define(function() {
 			'column.conditionalFormatting.condition.operator': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.condition.operator')",
 			'column.conditionalFormatting.condition.condition': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.condition.condition')",
 			'column.conditionalFormatting.condition.format': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.condition.format')",
-			'column.conditionalFormatting.condition.add': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.condition.add')"
+			'column.conditionalFormatting.condition.add': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.condition.add')",
+
+			'column.basicFormatForm.groupheading.prefix': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.groupheading.prefix')",
+			'column.basicFormatForm.groupsubtotal.prefix': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.groupsubtotal.prefix')",
+			'column.basicFormatForm.applyto.option.headings': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.applyto.option.headings')",
+			'column.basicFormatForm.applyto.option.detailrows': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.applyto.option.detailrows')"
 	};
 });
