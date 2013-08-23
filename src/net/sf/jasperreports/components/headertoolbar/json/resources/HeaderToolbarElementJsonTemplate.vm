@@ -3,6 +3,7 @@
 	"id": "${tableUUID}",
 	"type": "table",
 	"module": "jive.table",
+	"uimodule": "jive.interactive.column",
 	"allColumnsData": ${allColumnNames},
 	"allColumnGroupsData": ${allColumnGroupsData}
 	#if (!${templateAlreadyLoaded})
