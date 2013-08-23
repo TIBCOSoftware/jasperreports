@@ -78,14 +78,15 @@ define(["jquery-1.10.2"], function($){
             //Validator.check(parms.fieldValueStart).notNull();
             //Validator.check(parms.filterTypeOperator).notNull();
             //if(parms.filterTypeOperator == 'BETWEEN') Validator.check(parms.fieldValueEnd).notNull();
+            //$.extend(this.config.filtering.filterData, parms);
 
-            $.extend(this.config.filtering.filterData, parms);
+            var filterParms = $.extend({}, this.config.filtering.filterData, parms);
 
             var it = this,
                 payload = {
                     action: {
                         actionName: 'filter',
-                        filterData: this.config.filtering.filterData
+                        filterData: filterParms
                     }
                 };
 
