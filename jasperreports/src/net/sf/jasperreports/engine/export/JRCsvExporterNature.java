@@ -30,6 +30,7 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -63,7 +64,7 @@ public class JRCsvExporterNature extends AbstractExporterNature
 	 */
 	public boolean isToExport(JRPrintElement element)
 	{
-		return (element instanceof JRPrintText || element instanceof JRPrintFrame)
+		return (element instanceof JRPrintText || element instanceof JRPrintFrame || element instanceof JRGenericPrintElement)
 			&& (filter == null || filter.isToExport(element));
 	}
 	

@@ -274,7 +274,7 @@ public abstract class JRAbstractCsvExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected JRStyledText getStyledText(JRPrintText textElement)
+	public JRStyledText getStyledText(JRPrintText textElement)
 	{
 		return textElement.getFullStyledText(noneSelector);
 	}
