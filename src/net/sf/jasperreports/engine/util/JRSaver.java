@@ -33,6 +33,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**
@@ -168,6 +169,42 @@ public final class JRSaver
 	}
 
 
+	/**
+	 * 
+	 */
+	public static void saveResource(String resource, File file)
+	{
+		FileOutputStream fos = null;
+
+		try
+		{
+			fos = new FileOutputStream(file);
+			fos.write(JRLoader.loadBytesFromResource(resource));
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			if (fos != null)
+			{
+				try
+				{
+					fos.close();
+				}
+				catch(IOException e)
+				{
+				}
+			}
+		}
+	}
+	
+	
 	private JRSaver()
 	{
 	}
