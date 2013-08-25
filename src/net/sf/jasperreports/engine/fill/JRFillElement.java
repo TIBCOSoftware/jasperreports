@@ -1492,7 +1492,10 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	public void setStyle(JRStyle style)
 	{
 		initStyle = style;
-		conditionalStylesContainer.collectConditionalStyle(style);
+		if (conditionalStylesContainer != null)
+		{
+			conditionalStylesContainer.collectConditionalStyle(style);
+		}
 	}
 
 	public void setStyleNameReference(String name)
