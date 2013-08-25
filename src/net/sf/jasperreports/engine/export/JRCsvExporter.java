@@ -31,11 +31,16 @@ package net.sf.jasperreports.engine.export;
 import java.io.IOException;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -46,6 +51,26 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  */
 public class JRCsvExporter extends JRAbstractCsvExporter
 {
+	private static final Log log = LogFactory.getLog(JRCsvExporter.class);
+
+	private static final String CSV_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.";
+
+	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
+	public static final String CSV_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "csv";
+
+	protected JRCsvExporterContext exporterContext = new ExporterContext();
+
+	protected class ExporterContext extends BaseExporterContext implements JRCsvExporterContext
+	{
+		public String getExportPropertiesPrefix()
+		{
+			return CSV_EXPORTER_PROPERTIES_PREFIX;
+		}
+	}
+
 	/**
 	 * @see #JRCsvExporter(JasperReportsContext)
 	 */
@@ -87,7 +112,6 @@ public class JRCsvExporter extends JRAbstractCsvExporter
 
 		StringBuffer rowbuffer = null;
 		
-		String text = null;
 		boolean isFirstColumn = true;
 		int rowCount = grid.getRowCount();
 		for(int y = 0; y < rowCount; y++)
@@ -104,6 +128,7 @@ public class JRCsvExporter extends JRAbstractCsvExporter
 					JRPrintElement element = row.get(x).getElement();
 					if(element != null)
 					{
+						String text = null;
 						if (element instanceof JRPrintText)
 						{
 							JRStyledText styledText = getStyledText((JRPrintText)element);
@@ -115,7 +140,30 @@ public class JRCsvExporter extends JRAbstractCsvExporter
 							{
 								text = styledText.getText();
 							}
+						}
+						else if (element instanceof JRGenericPrintElement)
+						{
+							JRGenericPrintElement genericPrintElement = (JRGenericPrintElement)element;
+							GenericElementCsvHandler handler = (GenericElementCsvHandler) 
+								GenericElementHandlerEnviroment.getInstance(getJasperReportsContext()).getElementHandler(
+										genericPrintElement.getGenericType(), CSV_EXPORTER_KEY);
 							
+							if (handler == null)
+							{
+								if (log.isDebugEnabled())
+								{
+									log.debug("No CSV generic element handler for " 
+											+ genericPrintElement.getGenericType());
+								}
+							}
+							else
+							{
+								text = handler.getTextValue(exporterContext, genericPrintElement);
+							}
+						}
+
+						if (text != null)
+						{
 							if (!isFirstColumn)
 							{
 								rowbuffer.append(delimiter);
