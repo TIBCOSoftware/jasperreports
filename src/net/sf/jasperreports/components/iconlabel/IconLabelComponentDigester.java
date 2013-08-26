@@ -47,7 +47,6 @@ public class IconLabelComponentDigester implements XmlDigesterConfigurer
 		String componentNamespace = digester.getRuleNamespaceURI();
 		
 		String iconLabelComponentPattern = "*/componentElement/iconLabel";
-//		digester.addObjectCreate(iconLabelComponentPattern, IconLabelComponent.class.getName());
 		digester.addFactoryCreate(iconLabelComponentPattern, IconLabelComponentFactory.class.getName());
 
 		digester.addSetProperties(iconLabelComponentPattern, new String[] {
@@ -59,7 +58,7 @@ public class IconLabelComponentDigester implements XmlDigesterConfigurer
 		
 		digester.addRule(iconLabelComponentPattern, 
 				new XmlConstantPropertyRule(
-						IconLabelComponent.PROPERTY_ICON_POSITION,//FIXMESORT move attributes to icon tag
+						IconLabelComponent.PROPERTY_ICON_POSITION,
 						IconPositionEnum.values()));
 		digester.addRule(iconLabelComponentPattern, 
 				new XmlConstantPropertyRule(

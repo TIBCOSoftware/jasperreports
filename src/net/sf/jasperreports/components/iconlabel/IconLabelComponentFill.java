@@ -25,14 +25,13 @@ package net.sf.jasperreports.components.iconlabel;
 
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.base.JRBaseGenericPrintElement;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
+import net.sf.jasperreports.engine.component.StretchableFillComponent;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillCloneable;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
@@ -45,8 +44,8 @@ import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: TextInputComponentFill.java 5922 2013-02-19 11:03:27Z teodord $
  */
-public class IconLabelComponentFill extends BaseFillComponent {
-
+public class IconLabelComponentFill extends BaseFillComponent implements StretchableFillComponent
+{
 	private final IconLabelComponent iconLabelComponent;
 
 	private final JRFillTextField labelTextField;
@@ -56,6 +55,8 @@ public class IconLabelComponentFill extends BaseFillComponent {
 	private JRTemplateGenericPrintElement printElement;
 	private JRPrintText labelPrintText;
 	private JRPrintText iconPrintText;
+	
+	private int stretchHeight;
 
 	public IconLabelComponentFill(IconLabelComponent iconLabelComponent, JRFillObjectFactory factory)
 	{
@@ -94,14 +95,19 @@ public class IconLabelComponentFill extends BaseFillComponent {
 		}
 		
 		printElement.setY(fillContext.getElementPrintY());
-		printElement.setHeight(labelPrintText.getHeight());
+		printElement.setHeight(stretchHeight);
 		
 		if (
 			iconLabelComponent.getLabelFill() != ContainerFillEnum.HORIZONTAL
 			&& iconLabelComponent.getLabelFill() != ContainerFillEnum.BOTH
 			)
 		{
-			labelPrintText.setWidth((int)labelTextField.getTextWidth() + 1);
+			int calculatedLabelWidth =
+				(int)labelTextField.getTextWidth() 
+				+ labelTextField.getLineBox().getLeftPadding() 
+				+ labelTextField.getLineBox().getRightPadding() 
+				+ 3;//we do +3 to avoid text wrap in html (+1 was enough for pdf)
+			labelPrintText.setWidth(Math.min(labelTextField.getWidth(), calculatedLabelWidth));//for some reason, calculated text width seems to be larger then available text width
 		}
 		
 		try
@@ -114,32 +120,172 @@ public class IconLabelComponentFill extends BaseFillComponent {
 		}
 		
 		iconPrintText.setY(labelPrintText.getY());
-		iconPrintText.setX(labelPrintText.getX() + labelPrintText.getWidth());
-		iconPrintText.setWidth((int)iconTextField.getTextWidth());//FIXMESORT take care of padding
+		iconPrintText.setWidth(
+			(int)iconTextField.getTextWidth()
+			+ iconTextField.getLineBox().getLeftPadding() 
+			+ iconTextField.getLineBox().getRightPadding() 
+			);
+		
+		switch (iconLabelComponent.getHorizontalAlign())
+		{
+			case LEFT :
+			case JUSTIFIED :
+			{
+				if (iconLabelComponent.getIconPosition() == IconPositionEnum.START)
+				{
+					labelPrintText.setX(iconPrintText.getWidth());
+					iconPrintText.setX(0);
+				}
+				else
+				{
+					labelPrintText.setX(0);
+					iconPrintText.setX(labelPrintText.getWidth());
+					//iconPrintText.setX(labelPrintText.getX() + labelPrintText.getWidth());
+				}
+				break;
+			}
+			case CENTER :
+			{
+				if (iconLabelComponent.getIconPosition() == IconPositionEnum.START)
+				{
+					iconPrintText.setX(
+						(
+						iconLabelComponent.getContext().getComponentElement().getWidth() 
+						- iconLabelComponent.getLineBox().getLeftPadding()
+						- iconLabelComponent.getLineBox().getRightPadding()
+						- labelPrintText.getWidth() 
+						- iconPrintText.getWidth()
+						) / 2
+						);
+					labelPrintText.setX(iconPrintText.getX() + iconPrintText.getWidth());
+				}
+				else
+				{
+					labelPrintText.setX(
+						(
+						iconLabelComponent.getContext().getComponentElement().getWidth() 
+						- iconLabelComponent.getLineBox().getLeftPadding()
+						- iconLabelComponent.getLineBox().getRightPadding()
+						- labelPrintText.getWidth() 
+						- iconPrintText.getWidth()
+						) / 2
+						);
+					iconPrintText.setX(labelPrintText.getX() + labelPrintText.getWidth());
+				}
+				break;
+			}
+			case RIGHT :
+			{
+				if (iconLabelComponent.getIconPosition() == IconPositionEnum.START)
+				{
+					labelPrintText.setX(iconLabelComponent.getContext().getComponentElement().getWidth() - labelPrintText.getWidth());
+					iconPrintText.setX(labelPrintText.getX() - iconPrintText.getWidth());
+				}
+				else
+				{
+					iconPrintText.setX(
+						iconLabelComponent.getContext().getComponentElement().getWidth() 
+						- iconLabelComponent.getLineBox().getLeftPadding()
+						- iconLabelComponent.getLineBox().getRightPadding()
+						- iconPrintText.getWidth()
+						);
+					labelPrintText.setX(iconPrintText.getX() - labelPrintText.getWidth());
+				}
+				break;
+			}
+		}
 
+		switch (iconLabelComponent.getVerticalAlign())
+		{
+			case TOP :
+			case JUSTIFIED :
+			{
+				labelPrintText.setY(0);
+				iconPrintText.setY(0);
+				break;
+			}
+			case MIDDLE :
+			{
+				labelPrintText.setY(
+					(
+					stretchHeight
+					- iconLabelComponent.getLineBox().getTopPadding()
+					- iconLabelComponent.getLineBox().getBottomPadding()
+					- labelPrintText.getHeight()
+					) / 2
+					);
+				iconPrintText.setY(
+					(
+					stretchHeight
+					- iconLabelComponent.getLineBox().getTopPadding()
+					- iconLabelComponent.getLineBox().getBottomPadding()
+					- iconPrintText.getHeight()
+					) / 2
+					);
+				break;
+			}
+			case BOTTOM :
+			{
+				labelPrintText.setY(
+					stretchHeight
+					- iconLabelComponent.getLineBox().getTopPadding()
+					- iconLabelComponent.getLineBox().getBottomPadding()
+					- labelPrintText.getHeight()
+					);
+				iconPrintText.setY(
+						stretchHeight
+						- iconLabelComponent.getLineBox().getTopPadding()
+						- iconLabelComponent.getLineBox().getBottomPadding()
+						- iconPrintText.getHeight()
+						);
+				break;
+			}
+		}
+		
 		copy(printElement);
 		
 		return printElement;
 	}
 
+	public void setStretchHeight(int stretchHeight)
+	{
+		this.stretchHeight = stretchHeight;
+	}
+	
 	public FillPrepareResult prepare(int availableHeight)
 	{
-		iconTextField.setWidth(iconLabelComponent.getContext().getComponentElement().getWidth());
+		int textAvailableHeight = 
+			availableHeight
+			- iconLabelComponent.getLineBox().getTopPadding()
+			- iconLabelComponent.getLineBox().getBottomPadding();
+		
+		iconTextField.setWidth(
+			iconLabelComponent.getContext().getComponentElement().getWidth()
+			- iconLabelComponent.getLineBox().getLeftPadding()
+			- iconLabelComponent.getLineBox().getRightPadding()
+			);
 		
 		try
 		{
-			iconTextField.prepare(availableHeight, fillContext.getFillContainerContext().isCurrentOverflow());
+			iconTextField.prepare(textAvailableHeight, fillContext.getFillContainerContext().isCurrentOverflow());
 		}
 		catch (JRException e)
 		{
 			throw new JRRuntimeException(e);
 		}
 		
-		labelTextField.setWidth(iconLabelComponent.getContext().getComponentElement().getWidth() - (int)iconTextField.getTextWidth());
+		labelTextField.setWidth(
+			iconLabelComponent.getContext().getComponentElement().getWidth()
+			- iconLabelComponent.getLineBox().getLeftPadding()
+			- iconLabelComponent.getLineBox().getRightPadding()
+			- (int)iconTextField.getTextWidth()
+			- iconTextField.getLineBox().getLeftPadding()
+			- iconTextField.getLineBox().getRightPadding()
+			);
 
 		try
 		{
-			labelTextField.prepare(availableHeight, fillContext.getFillContainerContext().isCurrentOverflow());
+			labelTextField.prepare(textAvailableHeight, fillContext.getFillContainerContext().isCurrentOverflow());
 		}
 		catch (JRException e)
 		{
@@ -156,6 +302,7 @@ public class IconLabelComponentFill extends BaseFillComponent {
 					fillContext.getDefaultStyleProvider(),
 					IconLabelElement.ICONLABEL_ELEMENT_TYPE);
 		
+			template.setStyle(iconLabelComponent.getContext().getComponentElement().getStyle());
 			template.setMode(iconLabelComponent.getContext().getComponentElement().getModeValue());
 			template.setBackcolor(iconLabelComponent.getContext().getComponentElement().getBackcolor());
 			template.setForecolor(iconLabelComponent.getContext().getComponentElement().getForecolor());
@@ -168,13 +315,19 @@ public class IconLabelComponentFill extends BaseFillComponent {
 		printElement.setX(element.getX());
 
 		printElement.setWidth(element.getWidth());
-		printElement.setHeight(element.getHeight());
+		stretchHeight = 
+			Math.max(labelTextField.getStretchHeight(), iconTextField.getStretchHeight())
+			+ iconLabelComponent.getLineBox().getTopPadding()
+			+ iconLabelComponent.getLineBox().getBottomPadding();
+		//printElement.setHeight(element.getHeight());
+		printElement.setHeight(stretchHeight);
 		
 		//printElement.setParameterValue(IconLabelElement.PARAMETER_MULTI_LINE, iconLabelComponent.isMultiLine());
 
 //		copy(printElement);
 		
-		result = FillPrepareResult.printStretch(labelTextField.getStretchHeight(), false);
+		result = FillPrepareResult.printStretch(stretchHeight, false);
+		//result = FillPrepareResult.printStretch(labelTextField.getStretchHeight(), false);
 		return result;
 	}
 	
@@ -191,16 +344,8 @@ public class IconLabelComponentFill extends BaseFillComponent {
 
 	protected void copy(JRGenericPrintElement printElement)
 	{
+		printElement.setParameterValue(IconLabelElement.PARAMETER_LINE_BOX, iconLabelComponent.getLineBox().clone(null));
 		printElement.setParameterValue(IconLabelElement.PARAMETER_LABEL_TEXT_ELEMENT, labelPrintText);
-
-		JRBaseGenericPrintElement iconGenericElement = new JRBaseGenericPrintElement(labelPrintText.getDefaultStyleProvider());
-		iconGenericElement.setGenericType(new JRGenericElementType("http://jasperreports.sourceforge.net/jasperreports/pictonic", "pictonic"));//FIXMEICONLABEL use constant
-		iconGenericElement.setX(iconPrintText.getX());
-		iconGenericElement.setY(iconPrintText.getY());
-		iconGenericElement.setWidth(iconPrintText.getWidth());
-		iconGenericElement.setHeight(iconPrintText.getHeight());
-		iconGenericElement.setParameterValue("iconTextElement", iconPrintText);//FIXMEICONLABEL use constant
-		
-		printElement.setParameterValue(IconLabelElement.PARAMETER_ICON_GENERIC_ELEMENT, iconGenericElement);
+		printElement.setParameterValue(IconLabelElement.PARAMETER_ICON_TEXT_ELEMENT, iconPrintText);
 	}
 }

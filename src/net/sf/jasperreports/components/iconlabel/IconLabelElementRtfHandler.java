@@ -26,22 +26,30 @@ package net.sf.jasperreports.components.iconlabel;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
-import net.sf.jasperreports.engine.export.GenericElementPdfHandler;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporterContext;
+import net.sf.jasperreports.engine.export.GenericElementRtfHandler;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
+import net.sf.jasperreports.engine.export.JRRtfExporterContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextInputElementPdfHandler.java 5922 2013-02-19 11:03:27Z teodord $
+ * @version $Id:ChartThemesUtilities.java 2595 2009-02-10 17:56:51Z teodord $
  */
-public class IconLabelElementPdfHandler implements GenericElementPdfHandler
+public class IconLabelElementRtfHandler implements GenericElementRtfHandler
 {
-	/**
-	 * 
-	 */
-	public void exportElement(JRPdfExporterContext exporterContext, JRGenericPrintElement element)
+	private static final IconLabelElementRtfHandler INSTANCE = new IconLabelElementRtfHandler();
+	
+	public static IconLabelElementRtfHandler getInstance()
+	{
+		return INSTANCE;
+	}
+
+
+	@Override
+	public void exportElement(
+		JRRtfExporterContext exporterContext,
+		JRGenericPrintElement element
+		) 
 	{
 		JRPrintText labelPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_LABEL_TEXT_ELEMENT);
 		if (labelPrintText == null) //FIXMEINPUT deal with xml serialization
@@ -72,22 +80,20 @@ public class IconLabelElementPdfHandler implements GenericElementPdfHandler
 			frame.addElement(iconPrintText);
 		}
 
-		JRPdfExporter exporter = (JRPdfExporter)exporterContext.getExporter();
-        try
-        {
-        	exporter.exportFrame(frame);
-        }
-        catch(Exception e)
-        {
-        	throw new JRRuntimeException(e);
-        }
+		try
+		{
+			JRRtfExporter exporter = (JRRtfExporter)exporterContext.getExporter();
+			exporter.exportFrame(frame);
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
-	
-	/**
-	 * 
-	 */
-	public boolean toExport(JRGenericPrintElement element)
+
+	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;
 	}
+	
 }

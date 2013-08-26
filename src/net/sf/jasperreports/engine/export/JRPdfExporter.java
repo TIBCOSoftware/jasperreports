@@ -1921,87 +1921,68 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				//fontName found in font extensions
 				FontFamily family = fontInfo.getFontFamily();
-				FontFace face = fontInfo.getFontFace();
-				int faceStyle = java.awt.Font.PLAIN;
-
-				if (face == null)
-				{
-					//fontName matches family name in font extension
-					if (jrFont.isBold() && jrFont.isItalic())
-					{
-						face = family.getBoldItalicFace();
-						faceStyle = java.awt.Font.BOLD | java.awt.Font.ITALIC;
-					}
-					
-					if (face == null && jrFont.isBold())
-					{
-						face = family.getBoldFace();
-						faceStyle = java.awt.Font.BOLD;
-					}
-					
-					if (face == null && jrFont.isItalic())
-					{
-						face = family.getItalicFace();
-						faceStyle = java.awt.Font.ITALIC;
-					}
-					
-					if (face == null)
-					{
-						face = family.getNormalFace();
-						faceStyle = java.awt.Font.PLAIN;
-					}
-						
-//					if (face == null)
-//					{
-//						throw new JRRuntimeException("Font family '" + family.getName() + "' does not have the normal font face.");
-//					}
-				}
-				else
-				{
-					//fontName matches face name in font extension; not family name
-					faceStyle = fontInfo.getStyle();
-				}
 				
 				String pdfFontName = null;
 				int pdfFontStyle = java.awt.Font.PLAIN;
-				if (jrFont.isBold() && jrFont.isItalic())
+				
+				FontFace fontFace = fontInfo.getFontFace();
+				if (fontFace != null)
 				{
-					pdfFontName = family.getBoldItalicPdfFont();
-					pdfFontStyle = java.awt.Font.BOLD | java.awt.Font.ITALIC;
+					pdfFontName = fontFace.getPdf();
+					pdfFontName = pdfFontName == null ? fontFace.getTtf() : pdfFontName;
+					pdfFontStyle = fontInfo.getStyle();
+				}
+				
+				if (pdfFontName == null && jrFont.isBold() && jrFont.isItalic())
+				{
+					fontFace = family.getBoldItalicFace();
+					if (fontFace != null)
+					{
+						pdfFontName = fontFace.getPdf();
+						pdfFontName = pdfFontName == null ? fontFace.getTtf() : pdfFontName;
+						pdfFontStyle = java.awt.Font.BOLD | java.awt.Font.ITALIC;
+					}
 				}
 				
 				if (pdfFontName == null && jrFont.isBold())
 				{
-					pdfFontName = family.getBoldPdfFont();
-					pdfFontStyle = java.awt.Font.BOLD;
+					fontFace = family.getBoldFace();
+					if (fontFace != null)
+					{
+						pdfFontName = fontFace.getPdf();
+						pdfFontName = pdfFontName == null ? fontFace.getTtf() : pdfFontName;
+						pdfFontStyle = java.awt.Font.BOLD;
+					}
 				}
 				
 				if (pdfFontName == null && jrFont.isItalic())
 				{
-					pdfFontName = family.getItalicPdfFont();
-					pdfFontStyle = java.awt.Font.ITALIC;
+					fontFace = family.getItalicFace();
+					if (fontFace != null)
+					{
+						pdfFontName = fontFace.getPdf();
+						pdfFontName = pdfFontName == null ? fontFace.getTtf() : pdfFontName;
+						pdfFontStyle = java.awt.Font.ITALIC;
+					}
 				}
 				
 				if (pdfFontName == null)
 				{
-					pdfFontName = family.getNormalPdfFont();
-					pdfFontStyle = java.awt.Font.PLAIN;
+					fontFace = family.getNormalFace();
+					if (fontFace != null)
+					{
+						pdfFontName = fontFace.getPdf();
+						pdfFontName = pdfFontName == null ? fontFace.getTtf() : pdfFontName;
+						pdfFontStyle = java.awt.Font.PLAIN;
+					}
 				}
 
 				if (pdfFontName == null)
 				{
-					//in theory, face file cannot be null here
-					pdfFontName = (face == null || face.getFile() == null ? jrFont.getPdfFontName() : face.getFile());
-					pdfFontStyle = faceStyle;//FIXMEFONT not sure this is correct, in case we inherit pdfFontName from default properties
+					pdfFontName = jrFont.getPdfFontName();
 				}
 
-//				String ttf = face.getFile();
-//				if (ttf == null)
-//				{
-//					throw new JRRuntimeException("The '" + face.getName() + "' font face in family '" + family.getName() + "' returns a null file.");
-//				}
-				
-				pdfFont = 
+				pdfFont =
 					new PdfFont(
 						pdfFontName, 
 						family.getPdfEncoding() == null ? jrFont.getPdfEncoding() : family.getPdfEncoding(),
@@ -2649,7 +2630,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	}
 
 
-	protected void exportFrame(JRPrintFrame frame) throws DocumentException, IOException, JRException
+	public void exportFrame(JRPrintFrame frame) throws DocumentException, IOException, JRException
 	{
 		if (frame.getModeValue() == ModeEnum.OPAQUE)
 		{

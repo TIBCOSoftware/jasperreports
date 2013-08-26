@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fontFamilies>
+
+	<fontFamily name="Pictonic">
+		<normal>
+			<ttf>net/sf/jasperreports/fonts/pictonic/pictonic.ttf</ttf>
+			<svg>net/sf/jasperreports/fonts/pictonic/pictonic.svg</svg>
+			<eot>net/sf/jasperreports/fonts/pictonic/pictonic.eot</eot>
+			<woff>net/sf/jasperreports/fonts/pictonic/pictonic.woff</woff>
+		</normal>
+		<pdfEncoding>Identity-H</pdfEncoding>
+		<pdfEmbedded>true</pdfEmbedded>
+	</fontFamily>
+
+</fontFamilies>

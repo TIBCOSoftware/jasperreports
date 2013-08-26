@@ -92,6 +92,7 @@ public class IconLabelComponentXmlWriter implements ComponentXmlWriter
 		writer.addAttribute(IconLabelComponent.PROPERTY_HORIZONTAL_ALIGN, iconLabelComponent.getHorizontalAlign());
 		writer.addAttribute(IconLabelComponent.PROPERTY_VERTICAL_ALIGN, iconLabelComponent.getVerticalAlign());
 
+		reportWriter.writeBox(iconLabelComponent.getLineBox(), JRXmlWriter.JASPERREPORTS_NAMESPACE);
 		writer.startElement("label", componentNamespace);
 		reportWriter.writeTextField(iconLabelComponent.getLabelTextField());
 		writer.closeElement();

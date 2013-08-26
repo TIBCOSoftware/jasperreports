@@ -113,7 +113,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>ResourceServlet</servlet-name>
-		<url-pattern>/servlets/resource</url-pattern>
+		<url-pattern>/servlets/resources/*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>ImageServlet</servlet-name>

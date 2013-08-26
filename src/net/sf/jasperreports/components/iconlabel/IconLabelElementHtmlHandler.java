@@ -27,13 +27,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
+import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -51,30 +56,75 @@ public class IconLabelElementHtmlHandler implements GenericElementHtmlHandler
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
 		JRPrintText labelPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_LABEL_TEXT_ELEMENT);
-		JRGenericPrintElement iconGenericElement = (JRGenericPrintElement)element.getParameterValue(IconLabelElement.PARAMETER_ICON_GENERIC_ELEMENT);
-//		JRPrintText iconPrintText = (JRPrintText)iconGenericElement.getParameterValue("iconTextElement");
-
-		List<JRPrintElement> elements = new ArrayList<JRPrintElement>();
-		elements.add(labelPrintText);
-//		elements.add(iconPrintText);
-		elements.add(iconGenericElement);
-		
-		HtmlExporter exporter = (HtmlExporter)context.getExporter();
-		
-		try
+		if (labelPrintText == null)
 		{
-			exporter.exportElements(elements);
-			
+			return null;
 		}
-		catch (IOException e)
+
+		JRBasePrintFrame frame = new JRBasePrintFrame(element.getDefaultStyleProvider());
+		frame.setX(element.getX());
+		frame.setY(element.getY());
+		frame.setWidth(element.getWidth());
+		frame.setHeight(element.getHeight());
+		frame.setStyle(element.getStyle());
+		frame.setBackcolor(element.getBackcolor());
+		frame.setForecolor(element.getForecolor());
+		frame.setMode(element.getModeValue());
+		JRLineBox lineBox = (JRLineBox)element.getParameterValue(IconLabelElement.PARAMETER_LINE_BOX);
+		if (lineBox != null)
 		{
-			throw new JRRuntimeException(e);
+			frame.copyBox(lineBox);
+		}
+		
+		frame.addElement(labelPrintText);
+		
+		JRPrintText iconPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_ICON_TEXT_ELEMENT);
+		if (iconPrintText != null)
+		{
+			frame.addElement(iconPrintText);
+		}
+
+		JRExporter exporter = context.getExporter();
+		HtmlExporter htmlExporter = exporter instanceof HtmlExporter ? (HtmlExporter)exporter : null;
+		if (htmlExporter == null)
+		{
+			JRXhtmlExporter xhtmlExporter = exporter instanceof JRXhtmlExporter ? (JRXhtmlExporter)exporter : null;
+			if (xhtmlExporter != null)
+			{
+				try
+				{
+					xhtmlExporter.exportFrame(frame);
+				}
+				catch (JRException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+				catch (IOException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+			}
+		}
+		else
+		{
+			List<JRPrintElement> elements = new ArrayList<JRPrintElement>();
+			elements.add(frame);
+
+			try
+			{
+				htmlExporter.exportElements(elements);
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
 		}
 		
 		return "";
 	}
 
-	public boolean toExport(JRGenericPrintElement element) {
+	public boolean toExport(JRGenericPrintElement element) 
+	{
 		return true;
 	}
 	

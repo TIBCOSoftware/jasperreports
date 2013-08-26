@@ -23,10 +23,15 @@
  */
 package net.sf.jasperreports.components.iconlabel;
 
+import java.awt.Color;
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.BaseComponentContext;
 import net.sf.jasperreports.engine.component.ComponentContext;
@@ -41,7 +46,8 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: TextInputComponent.java 5922 2013-02-19 11:03:27Z teodord $
  */
-public class IconLabelComponent implements ContextAwareComponent, Serializable, JRChangeEventsSupport {
+public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer, Serializable, JRChangeEventsSupport 
+{
 
 	/**
 	 * 
@@ -53,6 +59,7 @@ public class IconLabelComponent implements ContextAwareComponent, Serializable, 
 	public static final String PROPERTY_HORIZONTAL_ALIGN = "horizontalAlign";
 	public static final String PROPERTY_VERTICAL_ALIGN = "verticalAlign";
 
+	private JRLineBox lineBox;
 	private JRTextField labelTextField;
 	private JRTextField iconTextField;
 	private IconPositionEnum iconPosition;
@@ -66,12 +73,14 @@ public class IconLabelComponent implements ContextAwareComponent, Serializable, 
 	
 	public IconLabelComponent(JRDefaultStyleProvider defaultStyleProvider) 
 	{
+		lineBox = new JRBaseLineBox(this);
 		labelTextField = new JRDesignTextField(defaultStyleProvider);
 		iconTextField = new JRDesignTextField(defaultStyleProvider);
 	}
 	
 	public IconLabelComponent(IconLabelComponent component, JRBaseObjectFactory objectFactory) 
 	{
+		this.lineBox = component.getLineBox().clone(this);
 		this.labelTextField = (JRTextField)objectFactory.getVisitResult(component.getLabelTextField());
 		this.iconTextField = (JRTextField)objectFactory.getVisitResult(component.getIconTextField());
 		
@@ -93,6 +102,54 @@ public class IconLabelComponent implements ContextAwareComponent, Serializable, 
 		return context;
 	}
 	
+	/**
+	 *
+	 */
+	public JRLineBox getLineBox()
+	{
+		return lineBox;
+	}
+	
+	/**
+	 *
+	 */
+	public void setLineBox(JRLineBox lineBox) 
+	{
+		this.lineBox = lineBox;
+	}
+	
+	/**
+	 *
+	 */
+	public JRDefaultStyleProvider getDefaultStyleProvider()
+	{
+		return context == null ? null : context.getComponentElement().getDefaultStyleProvider();
+	}
+	
+	/**
+	 *
+	 */
+	public JRStyle getStyle()
+	{
+		return context == null ? null : context.getComponentElement().getStyle();
+	}
+	
+	/**
+	 *
+	 */
+	public String getStyleNameReference()
+	{
+		return context == null ? null : context.getComponentElement().getStyleNameReference();
+	}
+
+	/**
+	 * 
+	 */
+	public Color getDefaultLineColor() 
+	{
+		return Color.black;
+	}
+
 	/**
 	 *
 	 */

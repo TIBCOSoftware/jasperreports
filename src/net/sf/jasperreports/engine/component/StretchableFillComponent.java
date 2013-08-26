@@ -21,45 +21,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.web.servlets;
-
-import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.web.util.WebResourceHandler;
+package net.sf.jasperreports.engine.component;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: FillComponent.java 5878 2013-01-07 20:23:13Z teodord $
  */
-public class ResourceServlet extends AbstractServlet
+public interface StretchableFillComponent
 {
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
 	 * 
 	 */
-	public void service(
-		HttpServletRequest request,
-		HttpServletResponse response
-		) throws IOException, ServletException
-	{
-		List<WebResourceHandler> resourceHandlers = getJasperReportsContext().getExtensions(WebResourceHandler.class);
-		if (resourceHandlers != null) 
-		{
-			for (WebResourceHandler handler: resourceHandlers) 
-			{
-				if (handler.handleResource(getJasperReportsContext(), request, response)) 
-				{
-					break;
-				}
-			}
-		}
-	}
+	void setStretchHeight(int stretchHeight);
+	
 }

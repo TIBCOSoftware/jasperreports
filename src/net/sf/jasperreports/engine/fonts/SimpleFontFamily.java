@@ -45,14 +45,10 @@ public class SimpleFontFamily implements FontFamily
 	 */
 	private JasperReportsContext jasperReportsContext;
 	private String name;
-	private FontFace normalFace;
-	private FontFace boldFace;
-	private FontFace italicFace;
-	private FontFace boldItalicFace;
-	private String normalPdfFont;
-	private String boldPdfFont;
-	private String italicPdfFont;
-	private String boldItalicPdfFont;
+	private SimpleFontFace normalFace;
+	private SimpleFontFace boldFace;
+	private SimpleFontFace italicFace;
+	private SimpleFontFace boldItalicFace;
 	private String pdfEncoding;
 	private Boolean isPdfEmbedded;
 	private String defaultExportFont;
@@ -92,35 +88,51 @@ public class SimpleFontFamily implements FontFamily
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #setNormalFace(SimpleFontFace)}.
 	 */
 	public void setNormal(String normal)
 	{
-		normalFace = SimpleFontFace.getInstance(jasperReportsContext, normal);
+		if (normalFace == null)
+		{
+			normalFace = new SimpleFontFace(jasperReportsContext);
+		}
+		normalFace.setTtf(normal);
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #setBoldFace(SimpleFontFace)}.
 	 */
 	public void setBold(String bold)
 	{
-		boldFace = SimpleFontFace.getInstance(jasperReportsContext, bold);
+		if (boldFace == null)
+		{
+			boldFace = new SimpleFontFace(jasperReportsContext);
+		}
+		boldFace.setTtf(bold);
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #setItalicFace(SimpleFontFace)}.
 	 */
 	public void setItalic(String italic)
 	{
-		italicFace = SimpleFontFace.getInstance(jasperReportsContext, italic);
+		if (italicFace == null)
+		{
+			italicFace = new SimpleFontFace(jasperReportsContext);
+		}
+		italicFace.setTtf(italic);
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #setBoldItalicFace(SimpleFontFace)}.
 	 */
 	public void setBoldItalic(String boldItalic)
 	{
-		boldItalicFace = SimpleFontFace.getInstance(jasperReportsContext, boldItalic);
+		if (boldItalicFace == null)
+		{
+			boldItalicFace = new SimpleFontFace(jasperReportsContext);
+		}
+		boldItalicFace.setTtf(boldItalic);
 	}
 
 	/**
@@ -130,6 +142,14 @@ public class SimpleFontFamily implements FontFamily
 	{
 		return normalFace;
 	}
+
+	/**
+	 * 
+	 */
+	public void setNormalFace(SimpleFontFace normalFace)
+	{
+		this.normalFace = normalFace;
+	}
 	
 	/**
 	 * 
@@ -137,6 +157,14 @@ public class SimpleFontFamily implements FontFamily
 	public FontFace getBoldFace()
 	{
 		return boldFace;
+	}
+
+	/**
+	 * 
+	 */
+	public void setBoldFace(SimpleFontFace boldFace)
+	{
+		this.boldFace = boldFace;
 	}
 	
 	/**
@@ -146,6 +174,14 @@ public class SimpleFontFamily implements FontFamily
 	{
 		return italicFace;
 	}
+
+	/**
+	 * 
+	 */
+	public void setItalicFace(SimpleFontFace italicFace)
+	{
+		this.italicFace = italicFace;
+	}
 	
 	/**
 	 * 
@@ -154,69 +190,93 @@ public class SimpleFontFamily implements FontFamily
 	{
 		return boldItalicFace;
 	}
-	
+
 	/**
 	 * 
+	 */
+	public void setBoldItalicFace(SimpleFontFace boldItalicFace)
+	{
+		this.boldItalicFace = boldItalicFace;
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link FontFace#getPdf()}.
 	 */
 	public String getNormalPdfFont()
 	{
-		return normalPdfFont;
+		return getNormalFace() == null ? null : getNormalFace().getPdf();
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link SimpleFontFace#setPdf(String)}.
 	 */
 	public void setNormalPdfFont(String normalPdfFont)
 	{
-		this.normalPdfFont = normalPdfFont;
+		if (normalFace == null)
+		{
+			normalFace = new SimpleFontFace(jasperReportsContext);
+		}
+		normalFace.setPdf(normalPdfFont);
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link FontFace#getPdf()}.
 	 */
 	public String getBoldPdfFont()
 	{
-		return boldPdfFont;
+		return getBoldFace() == null ? null : getBoldFace().getPdf();
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link SimpleFontFace#setPdf(String)}.
 	 */
 	public void setBoldPdfFont(String boldPdfFont)
 	{
-		this.boldPdfFont = boldPdfFont;
+		if (boldFace == null)
+		{
+			boldFace = new SimpleFontFace(jasperReportsContext);
+		}
+		boldFace.setPdf(boldPdfFont);
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link FontFace#getPdf()}.
 	 */
 	public String getItalicPdfFont()
 	{
-		return italicPdfFont;
+		return getItalicFace() == null ? null : getItalicFace().getPdf();
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link SimpleFontFace#setPdf(String)}.
 	 */
 	public void setItalicPdfFont(String italicPdfFont)
 	{
-		this.italicPdfFont = italicPdfFont;
+		if (italicFace == null)
+		{
+			italicFace = new SimpleFontFace(jasperReportsContext);
+		}
+		italicFace.setPdf(italicPdfFont);
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link FontFace#getPdf()}.
 	 */
 	public String getBoldItalicPdfFont()
 	{
-		return boldItalicPdfFont;
+		return getBoldItalicFace() == null ? null : getBoldItalicFace().getPdf();
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link SimpleFontFace#setPdf(String)}.
 	 */
 	public void setBoldItalicPdfFont(String boldItalicPdfFont)
 	{
-		this.boldItalicPdfFont = boldItalicPdfFont;
+		if (boldItalicFace == null)
+		{
+			boldItalicFace = new SimpleFontFace(jasperReportsContext);
+		}
+		boldItalicFace.setPdf(boldItalicPdfFont);
 	}
 	
 	/**

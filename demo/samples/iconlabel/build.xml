@@ -113,7 +113,7 @@
 
 	<target name="test" description="Runs the sample.">
 		<echo message="==================================="/>
-		<echo message=" Container Sample"/>
+		<echo message=" IconLabel Component Sample"/>
 		<echo message="==================================="/>
 		<antcall target="clean" />
 		<antcall target="javac" />

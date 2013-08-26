@@ -936,6 +936,7 @@
 			<complexContent>
 				<extension base="jr:componentType">
 					<sequence>
+						<element ref="jr:box" minOccurs="0" maxOccurs="1"/>
 						<element ref="c:label" minOccurs="1" maxOccurs="1"/>
 						<element ref="c:icon" minOccurs="1" maxOccurs="1"/>
 					</sequence>

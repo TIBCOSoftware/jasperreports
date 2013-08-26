@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.component.FillComponent;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
+import net.sf.jasperreports.engine.component.StretchableFillComponent;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
@@ -161,6 +162,18 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		setReprinted(isReprinted);
 		
 		return willOverflow;
+	}
+
+	protected void setStretchHeight(int stretchHeight)
+	{
+		super.setStretchHeight(stretchHeight);
+		
+		StretchableFillComponent stretchableFillComponent = 
+			fillComponent instanceof StretchableFillComponent ? (StretchableFillComponent)fillComponent : null;
+		if (stretchableFillComponent != null)
+		{
+			stretchableFillComponent.setStretchHeight(stretchHeight);
+		}
 	}
 
 	protected JRPrintElement fill() throws JRException

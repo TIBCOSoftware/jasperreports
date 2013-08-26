@@ -23,32 +23,41 @@
  */
 package net.sf.jasperreports.components.iconlabel;
 
+import java.io.IOException;
+
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
-import net.sf.jasperreports.engine.export.GenericElementPdfHandler;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporterContext;
+import net.sf.jasperreports.engine.export.GenericElementXmlHandler;
+import net.sf.jasperreports.engine.export.JRXmlExporter;
+import net.sf.jasperreports.engine.export.JRXmlExporterContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextInputElementPdfHandler.java 5922 2013-02-19 11:03:27Z teodord $
+ * @version $Id:ChartThemesUtilities.java 2595 2009-02-10 17:56:51Z teodord $
  */
-public class IconLabelElementPdfHandler implements GenericElementPdfHandler
+public class IconLabelElementXmlHandler implements GenericElementXmlHandler
 {
-	/**
-	 * 
-	 */
-	public void exportElement(JRPdfExporterContext exporterContext, JRGenericPrintElement element)
+	private static final IconLabelElementXmlHandler INSTANCE = new IconLabelElementXmlHandler();
+	
+	public static IconLabelElementXmlHandler getInstance()
+	{
+		return INSTANCE;
+	}
+
+
+	@Override
+	public void exportElement(JRXmlExporterContext exporterContext, JRGenericPrintElement element) 
 	{
 		JRPrintText labelPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_LABEL_TEXT_ELEMENT);
-		if (labelPrintText == null) //FIXMEINPUT deal with xml serialization
+		if (labelPrintText == null)
 		{
 			return;
 		}
-		
+
 		JRBasePrintFrame frame = new JRBasePrintFrame(element.getDefaultStyleProvider());
 		frame.setX(element.getX());
 		frame.setY(element.getY());
@@ -66,28 +75,31 @@ public class IconLabelElementPdfHandler implements GenericElementPdfHandler
 		
 		frame.addElement(labelPrintText);
 		
-        JRPrintText iconPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_ICON_TEXT_ELEMENT);
-		if (iconPrintText != null) //FIXMEINPUT deal with xml serialization
+		JRPrintText iconPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_ICON_TEXT_ELEMENT);
+		if (iconPrintText != null)
 		{
 			frame.addElement(iconPrintText);
 		}
 
-		JRPdfExporter exporter = (JRPdfExporter)exporterContext.getExporter();
-        try
-        {
-        	exporter.exportFrame(frame);
-        }
-        catch(Exception e)
-        {
-        	throw new JRRuntimeException(e);
-        }
+		JRXmlExporter exporter = (JRXmlExporter)exporterContext.getExporter();
+		
+		try
+		{
+			exporter.exportElement(frame);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
-	
-	/**
-	 * 
-	 */
-	public boolean toExport(JRGenericPrintElement element)
+
+	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;
 	}
+	
 }

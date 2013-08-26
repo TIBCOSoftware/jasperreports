@@ -1513,7 +1513,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportFrame(JRPrintFrame frame) throws JRException
+	public void exportFrame(JRPrintFrame frame) throws JRException
 	{
 		slideHelper.write("<p:sp>\n");
 		slideHelper.write("  <p:nvSpPr>\n");

@@ -90,7 +90,6 @@ import net.sf.jasperreports.engine.design.JRDesignGenericElement;
 import net.sf.jasperreports.engine.design.JRDesignGenericElementParameter;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignSection;
-import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
@@ -99,7 +98,6 @@ import net.sf.jasperreports.engine.fill.JRFillField;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
@@ -108,7 +106,6 @@ import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.StyleUtil;
@@ -819,7 +816,8 @@ public class TableReport implements JRReport
 		protected IconLabelComponent addIconLabelComponent(Column column, JRDesignFrame frame)
 		{
 			JRBaseTextElement headerTextElement = (JRBaseTextElement)frame.getChildren().get(0);
-			if (headerTextElement != null) {
+			if (headerTextElement != null) 
+			{
 				Cell header = column.getColumnHeader();
 				
 				JRDesignComponentElement designComponent = new JRDesignComponentElement(header.getDefaultStyleProvider());
@@ -828,15 +826,28 @@ public class TableReport implements JRReport
 				designComponent.setY(headerTextElement.getY());
 				designComponent.setHeight(headerTextElement.getHeight());
 				designComponent.setWidth(headerTextElement.getWidth());
-				designComponent.setMode(headerTextElement.getModeValue());
-				designComponent.setForecolor(headerTextElement.getForecolor());
-				designComponent.setBackcolor(headerTextElement.getBackcolor());
+				designComponent.setStyle(headerTextElement.getStyle());
+				designComponent.setStyleNameReference(headerTextElement.getStyleNameReference());
+				designComponent.setMode(headerTextElement.getOwnModeValue());
+				designComponent.setForecolor(headerTextElement.getOwnForecolor());
+				designComponent.setBackcolor(headerTextElement.getOwnBackcolor());
+				designComponent.setStretchType(headerTextElement.getStretchTypeValue());
 				
 				IconLabelComponent iconLabelComponent = new IconLabelComponent(header.getDefaultStyleProvider());
-				iconLabelComponent.setHorizontalAlign(HorizontalAlignEnum.LEFT);
-				iconLabelComponent.setVerticalAlign(VerticalAlignEnum.MIDDLE);
 				iconLabelComponent.setIconPosition(IconPositionEnum.END);
+				iconLabelComponent.setVerticalAlign(headerTextElement.getVerticalAlignmentValue());//FIXMESORT maybe use Own getters?
+				iconLabelComponent.setHorizontalAlign(headerTextElement.getHorizontalAlignmentValue());
+
 				iconLabelComponent.setLabelFill(ContainerFillEnum.NONE);
+//				if (headerTextElement.getHorizontalAlignmentValue() == HorizontalAlignEnum.LEFT)
+//				{
+//					iconLabelComponent.setLabelFill(ContainerFillEnum.NONE);
+//				}
+//				else
+//				{
+//					iconLabelComponent.setLabelFill(ContainerFillEnum.HORIZONTAL);
+//				}
+				iconLabelComponent.setLineBox(headerTextElement.getLineBox().clone(iconLabelComponent));
 				
 				JRDesignTextField labelTextField = new JRDesignTextField();
 				labelTextField.setStretchWithOverflow(true);
@@ -849,10 +860,19 @@ public class TableReport implements JRReport
 				labelTextField.setFontName(headerTextElement.getFontName());
 				labelTextField.setForecolor(headerTextElement.getForecolor());
 				labelTextField.setBackcolor(headerTextElement.getBackcolor());
+				labelTextField.setBold(headerTextElement.isBold());
+				labelTextField.setItalic(headerTextElement.isItalic());
+				labelTextField.setUnderline(headerTextElement.isUnderline());
+				labelTextField.setStrikeThrough(headerTextElement.isStrikeThrough());
+				labelTextField.setHorizontalAlignment(headerTextElement.getHorizontalAlignmentValue());
+				labelTextField.setVerticalAlignment(headerTextElement.getVerticalAlignmentValue());
 				
-				if (headerTextElement instanceof JRTextField) {
+				if (headerTextElement instanceof JRTextField) 
+				{
 					labelTextField.setExpression(((JRTextField) headerTextElement).getExpression());
-				} else if (headerTextElement instanceof JRStaticText) {
+				}
+				else if (headerTextElement instanceof JRStaticText) 
+				{
 					labelTextField.setExpression(createBuiltinExpression(new ConstantBuiltinExpression(((JRStaticText)headerTextElement).getText())));
 				}
 
@@ -866,9 +886,14 @@ public class TableReport implements JRReport
 				iconTextField.setHeight(1);
 //				iconTextField.setHeight(headerTextElement.getHeight());
 				iconTextField.setMode(headerTextElement.getModeValue());
+				iconTextField.setFontName("Pictonic");//FIXMESORT use constant
 				iconTextField.setFontSize(headerTextElement.getFontSize()-1);
 				iconTextField.setForecolor(headerTextElement.getForecolor());
 				iconTextField.setBackcolor(headerTextElement.getBackcolor());
+				iconTextField.setBold(headerTextElement.isBold());
+				iconTextField.setItalic(headerTextElement.isItalic());
+				iconTextField.setUnderline(headerTextElement.isUnderline());
+				iconTextField.setStrikeThrough(headerTextElement.isStrikeThrough());
 				
 				iconLabelComponent.setIconTextField(iconTextField);
 				

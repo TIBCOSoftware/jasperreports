@@ -257,19 +257,19 @@ public final class FontUtil
 					faceStyle = Font.BOLD | Font.ITALIC;
 				}
 				
-				if (face == null && ((style & Font.BOLD) > 0))
+				if ((face == null || face.getFont() == null) && ((style & Font.BOLD) > 0))
 				{
 					face = family.getBoldFace();
 					faceStyle = Font.BOLD;
 				}
 				
-				if (face == null && ((style & Font.ITALIC) > 0))
+				if ((face == null || face.getFont() == null) && ((style & Font.ITALIC) > 0))
 				{
 					face = family.getItalicFace();
 					faceStyle = Font.ITALIC;
 				}
 				
-				if (face == null)
+				if (face == null || face.getFont() == null)
 				{
 					face = family.getNormalFace();
 					faceStyle = Font.PLAIN;
@@ -285,9 +285,9 @@ public final class FontUtil
 				faceStyle = fontInfo.getStyle();
 			}
 
-			if (face == null)
+			if (face == null || face.getFont() == null)
 			{
-				// The font family does not specify any font face, not even a normal one.
+				// None of the family's font faces was found to match, neither by name, nor by style and the font family does not even specify a normal face font.
 				// In such case, we take the family name and consider it as JVM available font name.
 				checkAwtFont(family.getName(), ignoreMissingFont);
 				
