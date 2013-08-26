@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
+import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
@@ -164,6 +165,11 @@ public abstract class AbstractAction implements Action {
 	 */
 	public CommandTarget getCommandTarget(UUID uuid)
 	{
+		return getCommandTarget(uuid, JRDesignComponentElement.class);
+	}
+
+	public CommandTarget getCommandTarget(UUID uuid, Class<? extends JRDesignElement> elementType)
+	{
 		JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());
 
 		Map<String, JasperDesignReportResource> cachedResources = cache.getCachedResources();
@@ -181,7 +187,7 @@ public abstract class AbstractAction implements Action {
 				{
 					for (JRElement element : band.getElements())
 					{
-						if (element instanceof JRDesignComponentElement) 
+						if (elementType.isInstance(element)) 
 						{
 							if (uuid.equals(element.getUUID()))
 							{

@@ -1,0 +1,102 @@
+/*
+ * JasperReports - Free Java Reporting Library.
+ * Copyright (C) 2001 - 2013 Jaspersoft Corporation. All rights reserved.
+ * http://www.jaspersoft.com
+ *
+ * Unless you have purchased a commercial license agreement from Jaspersoft,
+ * the following license terms apply:
+ *
+ * This program is part of JasperReports.
+ *
+ * JasperReports is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JasperReports is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
+ */
+package net.sf.jasperreports.crosstabs.interactive;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
+import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnInfo;
+import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnProvider;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
+import net.sf.jasperreports.web.commands.Command;
+import net.sf.jasperreports.web.commands.CommandException;
+import net.sf.jasperreports.web.util.JacksonUtil;
+
+/**
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @version $Id$
+ */
+public class SortByColumnCommand implements Command
+{
+	
+	private static final Log log = LogFactory.getLog(SortByColumnCommand.class);
+
+	private final JasperReportsContext jasperReportsContext;
+	private final JRDesignCrosstab crosstab;
+	private final SortByColumnData sortData;
+	
+	private String oldOrderBy;
+	private String newOrderBy;
+
+	public SortByColumnCommand(JasperReportsContext jasperReportsContext, JRDesignCrosstab crosstab, SortByColumnData sortData)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+		this.crosstab = crosstab;
+		this.sortData = sortData;
+	}
+	
+	@Override
+	public void execute() throws CommandException
+	{
+		oldOrderBy = crosstab.getPropertiesMap().getProperty(OrderByColumnProvider.PROPERTY_ORDER_BY_COLUMN);
+		
+		OrderByColumnInfo orderByInfo = new OrderByColumnInfo();
+		orderByInfo.setMeasureIndex(0);// TODO lucianc 
+		orderByInfo.setOrder(BucketOrder.toSortOrderEnum(sortData.getOrder()));
+		orderByInfo.setColumnValues(sortData.getColumnValues());
+		newOrderBy = JacksonUtil.getInstance(jasperReportsContext).getJsonString(orderByInfo);
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("crosstab " + sortData.getCrosstabId() + " had order by " + oldOrderBy + ", new " + newOrderBy);
+		}
+		
+		crosstab.getPropertiesMap().setProperty(OrderByColumnProvider.PROPERTY_ORDER_BY_COLUMN, newOrderBy);
+	}
+
+	@Override
+	public void undo()
+	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("reverting crosstab " + sortData.getCrosstabId() + " order by to " + oldOrderBy);
+		}
+		
+		crosstab.getPropertiesMap().setProperty(OrderByColumnProvider.PROPERTY_ORDER_BY_COLUMN, oldOrderBy);
+	}
+
+	@Override
+	public void redo()
+	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("redoing crosstab " + sortData.getCrosstabId() + " order by to " + oldOrderBy);
+		}
+		
+		crosstab.getPropertiesMap().setProperty(OrderByColumnProvider.PROPERTY_ORDER_BY_COLUMN, newOrderBy);
+	}
+
+}
