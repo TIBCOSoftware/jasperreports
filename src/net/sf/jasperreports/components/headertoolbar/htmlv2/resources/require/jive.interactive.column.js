@@ -906,7 +906,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
         onCreate: function(jo) {
             // populate applyTo selector
             var it = this,
-                options = [{value: 'headings', text: jive.i18n.get('column.basicFormatForm.applyto.option.headings')}, {value: 'detailrows', text: jive.i18n.get('column.basicFormatForm.applyto.option.detailrows')}],
+                options = [{value: 'heading', text: jive.i18n.get('column.basicFormatForm.applyto.option.headings')}, {value: 'detailrows', text: jive.i18n.get('column.basicFormatForm.applyto.option.detailrows')}],
                 selector = $('#applyTo'),
                 colGroups = jive.interactive.column.allColumnGroups[jive.selected.jo.data('tableuuid')],
                 suffix;
@@ -957,15 +957,10 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
 
             jive.selected.form.jo.parent().css({'overflow-y': 'hidden'});
 
-            // disable conditional formatting tab
-            // FIXME this should only disable the detailRows form
-            var conditionalFormattingTab = $('#columnConditionalFormattingTab');
-            !jive.selected.ie.config.canFormatConditionally ? conditionalFormattingTab.addClass('disabled') : conditionalFormattingTab.removeClass('disabled');
-
             this.updateColNavButtons();
-            $('#applyTo').val('headings');
-            this.prevApplyTo = 'headings';
-            this.applyToChanged('headings');
+            $('#applyTo').val('heading');
+            this.prevApplyTo = 'heading';
+            this.applyToChanged('heading');
         },
         columnChanged: function() {
             // update dialog column name
@@ -978,7 +973,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                 tables = jive.selected.form.jo.find('table'),
                 value = val.substring(0, val.indexOf('_') != -1 ? val.indexOf("_"): val.length);
             switch(value) {
-                case "headings":
+                case "heading":
                     tables.eq(2).hide();
                     tables.eq(0).show();
                     it.onHeadingsShow();
@@ -1254,7 +1249,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             };
 
             switch(val) {
-                case 'headings':
+                case 'heading':
                     result = {
                         actionName: 'editColumnHeader',
                         editColumnHeaderData: $.extend({
@@ -1399,8 +1394,8 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             jive.selected.form.jo.parent().css({'overflow-y': 'hidden'});
 
             jive.interactive.column.basicFormatForm.updateColNavButtons();
-            $('#applyTo').val('headings');
-            this.prevApplyTo = 'headings';
+            $('#applyTo').val('heading');
+            this.prevApplyTo = 'heading';
             this.onGenericShow();
         },
         getGroupMetadata: function(groupId) {
@@ -1465,7 +1460,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             var it = this
                 currentApplyTo = prevApplyTo || $('#applyTo').val();
             // do not cache actionData for headings and goup headings
-            if (currentApplyTo !== 'headings' && currentApplyTo.indexOf('groupheading') == -1) {
+            if (currentApplyTo !== 'heading' && currentApplyTo.indexOf('groupheading') == -1) {
                 this.actionDataCache[this.getCacheKey(currentApplyTo)] = this.getActionData(currentApplyTo);
             }
             jive.selected.form.jo.find('table:eq(1) tr.jive_condition').each(function() {it.removeRow($(this));});

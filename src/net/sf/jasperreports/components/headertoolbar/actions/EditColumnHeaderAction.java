@@ -30,7 +30,6 @@ import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.ColumnGroup;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.util.TableUtil;
-import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.web.actions.ActionException;
 import net.sf.jasperreports.web.commands.CommandException;
@@ -54,10 +53,6 @@ public class EditColumnHeaderAction extends AbstractVerifiableTableAction {
 		return (EditColumnHeaderData)columnData;
 	}
 
-	public String getName() {
-		return "edit_column_header_action";
-	}
-
 	public void performAction() throws ActionException {
 		// execute command
 		try {
@@ -78,11 +73,11 @@ public class EditColumnHeaderAction extends AbstractVerifiableTableAction {
         EditColumnHeaderData colValData = getEditColumnHeaderData();
         JRDesignTextElement result = null;
 
-        if ("headings".equals(colValData.getApplyTo())) {
+        if (EditColumnHeaderData.APPLY_TO_HEADING.equals(colValData.getApplyTo())) {
             List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
             StandardColumn column = (StandardColumn) tableColumns.get(colValData.getColumnIndex());
             result = TableUtil.getColumnHeaderTextElement(column);
-        } else if("groupheading".equals(colValData.getApplyTo())) {
+        } else if(EditColumnHeaderData.APPLY_TO_GROUPHEADING.equals(colValData.getApplyTo())) {
             List<ColumnGroup> lst = TableUtil.getAllColumnGroups(table.getColumns());
 
             ColumnGroup colGroup = lst.get(colValData.getI());

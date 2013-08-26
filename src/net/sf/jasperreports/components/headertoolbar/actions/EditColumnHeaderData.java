@@ -30,6 +30,9 @@ package net.sf.jasperreports.components.headertoolbar.actions;
  */
 public class EditColumnHeaderData extends BaseColumnData {
 
+    public static final String APPLY_TO_HEADING = "heading";
+    public static final String APPLY_TO_GROUPHEADING = "groupheading";
+
 	private int columnIndex;
 	private String headingName;
 	private String fontName;
