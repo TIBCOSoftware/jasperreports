@@ -65,28 +65,30 @@ public class EditColumnHeaderCommand implements Command
 	}
 
 	private void applyColumnHeaderData(EditColumnHeaderData headerData, JRDesignTextElement textElement, boolean execute) {
-		if (textElement instanceof JRDesignTextField) {
-			JRDesignTextField designTextField = (JRDesignTextField)textElement;
-			if (execute) {
-				if (oldText == null) {
-					oldText = ((JRDesignExpression)designTextField.getExpression()).getText();
-				}
-				((JRDesignExpression)designTextField.getExpression()).setText("\"" + JRStringUtil.escapeJavaStringLiteral(headerData.getHeadingName()) + "\"");
-			} else {
-				((JRDesignExpression)designTextField.getExpression()).setText(oldText);
-			}
-			
-		} else if (textElement instanceof JRDesignStaticText){
-			JRDesignStaticText staticText = (JRDesignStaticText)textElement;
-			if (execute) {
-				if (oldText == null) {
-					oldText = staticText.getText();
-				}
-				staticText.setText(headerData.getHeadingName());
-			} else {
-				staticText.setText(oldText);
-			}
-		}
+		if (EditColumnHeaderData.APPLY_TO_HEADING.equals(headerData.getApplyTo())) {
+            if (textElement instanceof JRDesignTextField) {
+                JRDesignTextField designTextField = (JRDesignTextField)textElement;
+                if (execute) {
+                    if (oldText == null) {
+                        oldText = ((JRDesignExpression)designTextField.getExpression()).getText();
+                    }
+                    ((JRDesignExpression)designTextField.getExpression()).setText("\"" + JRStringUtil.escapeJavaStringLiteral(headerData.getHeadingName()) + "\"");
+                } else {
+                    ((JRDesignExpression)designTextField.getExpression()).setText(oldText);
+                }
+
+            } else if (textElement instanceof JRDesignStaticText){
+                JRDesignStaticText staticText = (JRDesignStaticText)textElement;
+                if (execute) {
+                    if (oldText == null) {
+                        oldText = staticText.getText();
+                    }
+                    staticText.setText(headerData.getHeadingName());
+                } else {
+                    staticText.setText(oldText);
+                }
+            }
+        }
 		textElement.setFontName(headerData.getFontName());
 		textElement.setFontSize(headerData.getFontSize() != null ? Integer.valueOf(headerData.getFontSize()) : null);
 		textElement.setBold(headerData.getFontBold());
