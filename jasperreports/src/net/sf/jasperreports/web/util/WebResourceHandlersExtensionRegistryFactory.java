@@ -23,10 +23,13 @@
  */
 package net.sf.jasperreports.web.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
+import net.sf.jasperreports.extensions.ListExtensionRegistry;
 
 
 /**
@@ -37,8 +40,10 @@ public class WebResourceHandlersExtensionRegistryFactory implements ExtensionsRe
 
 	private static final ExtensionsRegistry REGISTRY;
 	
-	static {
-		
+	static 
+	{
+		List<WebResourceHandler> extensions = new ArrayList<WebResourceHandler>();
+
 		JiveWebResourceHandler jiveHandler = new JiveWebResourceHandler();
 		jiveHandler.addMapping("jive.templates.tmpl", "net/sf/jasperreports/components/headertoolbar/htmlv2/resources/require/jive.templates.tmpl");
 		jiveHandler.addMapping("jive.vm.css", "net/sf/jasperreports/components/headertoolbar/resources/jive.vm.css");
@@ -47,7 +52,18 @@ public class WebResourceHandlersExtensionRegistryFactory implements ExtensionsRe
 		// crosstab resources
 		jiveHandler.addMapping("jive.crosstab.templates.styles.css", "net/sf/jasperreports/crosstabs/interactive/jive.crosstab.templates.styles.css");
 
-		REGISTRY = new SingletonExtensionRegistry<WebResourceHandler>(WebResourceHandler.class, jiveHandler);
+		extensions.add(jiveHandler);
+		
+		ImageWebResourceHandler imageHandler = new ImageWebResourceHandler();
+		extensions.add(imageHandler);
+		
+		FontWebResourceHandler fontHandler = new FontWebResourceHandler();
+		extensions.add(fontHandler);
+		
+		DefaultWebResourceHandler defaultHandler =  DefaultWebResourceHandler.getInstance();
+		extensions.add(defaultHandler);
+		
+		REGISTRY = new ListExtensionRegistry<WebResourceHandler>(WebResourceHandler.class, extensions);
 	}
 	
 	@Override

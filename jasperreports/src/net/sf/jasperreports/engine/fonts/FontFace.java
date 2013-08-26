@@ -40,14 +40,39 @@ public interface FontFace
 	public String getName();
 	
 	/**
+	 * @deprecated Replaced by {@link #getTtf()}.
+	 */
+	public String getFile();
+	
+	/**
 	 * Returns the TTF file, if the font face has specified one (the font face does not specify a TTF file in case it maps
 	 * a JVM available font such as a Java logical font or a system font).
 	 */
-	public String getFile();
+	public String getTtf();
 	
 	/**
 	 * Returns a non-null instance of java.awt.Font representing the font face.
 	 */
 	public Font getFont();
+
+	/**
+	 * 
+	 */
+	public String getPdf();
+
+	/**
+	 * 
+	 */
+	public String getEot();
+	
+	/**
+	 * 
+	 */
+	public String getSvg();
+	
+	/**
+	 * 
+	 */
+	public String getWoff();
 
 }

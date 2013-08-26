@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.iconlabel;
 import java.awt.Graphics2D;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.export.GenericElementGraphics2DHandler;
@@ -33,7 +34,6 @@ import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterContext;
 import net.sf.jasperreports.engine.export.draw.FrameDrawer;
 import net.sf.jasperreports.engine.export.draw.Offset;
-import net.sf.jasperreports.engine.export.draw.TextDrawer;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -63,16 +63,30 @@ public class IconLabelElementGraphics2DHandler implements GenericElementGraphics
 				return;
 			}
 			
-			JRGraphics2DExporter exporter = (JRGraphics2DExporter)exporterContext.getExporter();
-			
 			JRBasePrintFrame frame = new JRBasePrintFrame(element.getDefaultStyleProvider());
 			frame.setX(element.getX());
 			frame.setY(element.getY());
 			frame.setWidth(element.getWidth());
 			frame.setHeight(element.getHeight());
+			frame.setStyle(element.getStyle());
 			frame.setBackcolor(element.getBackcolor());
 			frame.setForecolor(element.getForecolor());
 			frame.setMode(element.getModeValue());
+			JRLineBox lineBox = (JRLineBox)element.getParameterValue(IconLabelElement.PARAMETER_LINE_BOX);
+			if (lineBox != null)
+			{
+				frame.copyBox(lineBox);
+			}
+			
+			frame.addElement(labelPrintText);
+			
+			JRPrintText iconPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_ICON_TEXT_ELEMENT);
+			if (iconPrintText != null) //FIXMEINPUT deal with xml serialization
+			{
+				frame.addElement(iconPrintText);
+			}
+
+			JRGraphics2DExporter exporter = (JRGraphics2DExporter)exporterContext.getExporter();
 			
 			FrameDrawer frameDrawer = exporter.getFrameDrawer();
 			frameDrawer.draw(
@@ -81,28 +95,6 @@ public class IconLabelElementGraphics2DHandler implements GenericElementGraphics
 				offset.getX(), 
 				offset.getY()
 				);
-
-			TextDrawer textDrawer = exporter.getFrameDrawer().getDrawVisitor().getTextDrawer();
-			textDrawer.draw(
-				grx, 
-				labelPrintText, 
-				offset.getX() + element.getX(), 
-				offset.getY() + element.getY()
-				);
-
-			JRGenericPrintElement iconGenericElement = (JRGenericPrintElement)element.getParameterValue(IconLabelElement.PARAMETER_ICON_GENERIC_ELEMENT);
-			JRPrintText iconPrintText = (JRPrintText)iconGenericElement.getParameterValue("iconTextElement");//FIXMEICONLABEL use constant
-			if (iconPrintText != null) //FIXMEINPUT deal with xml serialization
-			{
-				//sortIconText.setX(element.getX() + sortIconText.getX());//FIXMESORT
-				//sortIconText.setY(element.getY() + sortIconText.getY());
-				textDrawer.draw(
-					grx, 
-					iconPrintText, 
-					offset.getX() + element.getX(), 
-					offset.getY() + element.getY()
-					);
-			}
 		}
 		catch (Exception e)
 		{
@@ -110,7 +102,8 @@ public class IconLabelElementGraphics2DHandler implements GenericElementGraphics
 		}
 	}
 
-	public boolean toExport(JRGenericPrintElement element) {
+	public boolean toExport(JRGenericPrintElement element) 
+	{
 		return true;
 	}
 

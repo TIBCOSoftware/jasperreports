@@ -39,6 +39,7 @@ import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -101,6 +102,7 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
@@ -178,6 +180,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	protected Map<String,byte[]> imageNameToImageDataMap;
 	protected List<JRPrintElementIndex> imagesToProcess;
 	
+	protected Map<String, HtmlFont> fontsToProcess;
+	
 	protected int reportIndex;
 	protected int pageIndex;
 	protected List<FrameInfo> frameInfoStack;
@@ -193,6 +197,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	protected File imagesDir;
 	protected String imagesURI;
 	protected boolean isOutputImagesToDir;
+
+	protected File resourcesDir;
+	protected boolean isOutputResourcesToDir;
+	protected String resourcesURI;
+	
 	protected boolean isWhitePageBackground;
 	protected String encoding;
 	protected String sizeUnit;
@@ -277,6 +286,16 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				}
 			}
 	
+			resourcesDir = (File)parameters.get(JRHtmlExporterParameter.RESOURCES_DIR);
+			if (resourcesDir == null)
+			{
+				String dir = (String)parameters.get(JRHtmlExporterParameter.RESOURCES_DIR_NAME);
+				if (dir != null)
+				{
+					resourcesDir = new File(dir);
+				}
+			}
+	
 			isWhitePageBackground = 
 				getBooleanParameter(
 					JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND,
@@ -295,7 +314,19 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			{
 				imagesURI = uri;
 			}
-	
+
+			Boolean isOutputResourcesToDirParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_OUTPUT_RESOURCES_TO_DIR);
+			if (isOutputResourcesToDirParameter != null)
+			{
+				isOutputResourcesToDir = isOutputResourcesToDirParameter.booleanValue();
+			}
+			
+			String resUri = (String)parameters.get(JRHtmlExporterParameter.RESOURCES_URI);
+			if (resUri != null)
+			{
+				resourcesURI = resUri;
+			}
+			
 			encoding = 
 				getStringParameterOrDefault(
 					JRExporterParameter.CHARACTER_ENCODING, 
@@ -314,6 +345,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	//		}
 			//END - backward compatibility with the IMAGE_MAP parameter
 
+			fontsToProcess = new HashMap<String, HtmlFont>();
+			
 			isWrapBreakWord = 
 				getBooleanParameter(
 					JRHtmlExporterParameter.IS_WRAP_BREAK_WORD,
@@ -449,6 +482,21 @@ public class JRXhtmlExporter extends JRAbstractExporter
 							imagesURI = imagesDir.getName() + "/";
 						}
 	
+						if (resourcesDir == null)
+						{
+							resourcesDir = new File(destFile.getParent(), destFile.getName() + "_files");
+						}
+						
+						if (isOutputResourcesToDirParameter == null)
+						{
+							isOutputResourcesToDir = true;
+						}
+	
+						if (resourcesURI == null)
+						{
+							resourcesURI = resourcesDir.getName() + "/";
+						}
+						
 						try
 						{
 							exportReportToWriter();
@@ -637,6 +685,14 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			}
 		}
 
+		if (fontsToProcess != null && fontsToProcess.size() > 0)
+		{
+			for (HtmlFont htmlFont : fontsToProcess.values())
+			{
+				writer.write("<link rel=\"stylesheet\" href=\"" + resourcesURI + (isOutputResourcesToDir ? "" : "&font=") + htmlFont.getId() + "\">\n");
+			}
+		}
+		
 		if (htmlFooter == null)
 		{
 			writer.write("</td><td width=\"50%\">&nbsp;</td></tr>\n");
@@ -918,6 +974,9 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		Color backcolor
 		) throws IOException
 	{
+		boolean isBold = TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT));
+		boolean isItalic = TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE));
+
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);//FIXMENOW reuse this font lookup code everywhere
 		String fontFamily = fontFamilyAttr;
 		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
@@ -932,7 +991,26 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				//fontName found in font extensions
 				FontFamily family = fontInfo.getFontFamily();
 				String exportFont = family.getExportFont(getExporterKey());
-				if (exportFont != null)
+				if (exportFont == null)
+				{
+					HtmlFont htmlFont = HtmlFont.getInstance(locale, fontInfo, isBold, isItalic);
+					
+					if (htmlFont != null)
+					{
+						if (!fontsToProcess.containsKey(htmlFont.getId()))
+						{
+							fontsToProcess.put(htmlFont.getId(), htmlFont);
+
+							if (isOutputResourcesToDir)
+							{
+								processFont(htmlFont);
+							}
+						}
+						
+						fontFamily = htmlFont.getId();
+					}
+				}
+				else
 				{
 					fontFamily = exportFont;
 				}
@@ -1036,11 +1114,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 		*/
 
-		if (TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT)))
+		if (isBold)
 		{
 			writer.write(" font-weight: bold;");
 		}
-		if (TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE)))
+		if (isItalic)
 		{
 			writer.write(" font-style: italic;");
 		}
@@ -2478,7 +2556,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	}
 
 
-	protected void exportFrame(JRPrintFrame frame) throws IOException, JRException
+	public void exportFrame(JRPrintFrame frame) throws IOException, JRException
 	{
 		writer.write("<div");
 		
@@ -2570,6 +2648,84 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 	}
 
+	protected void processFont(HtmlFont htmlFont)
+	{
+		if (resourcesDir == null)
+		{
+			throw new JRRuntimeException("The resources directory was not specified for the exporter.");
+		}
+
+		if (!resourcesDir.exists())
+		{
+			resourcesDir.mkdir();
+		}
+
+		File resourceFile = new File(resourcesDir, htmlFont.getId());
+		FileWriter fw = null;
+
+		try
+		{
+			fw = new FileWriter(resourceFile);
+			fw.write("@charset \"UTF-8\";\n");
+			fw.write("@font-face {\n");
+			fw.write("\tfont-family: \'" + htmlFont.getId() + "';\n");
+			if (htmlFont.getEot() != null)
+			{
+				String eotFileName = htmlFont.getId() + ".eot";
+				fw.write("\tsrc: url('" + eotFileName + "');\n");
+				fw.write("\tsrc: url('" + eotFileName + "?#iefix') format('eot');\n");
+				JRSaver.saveResource(htmlFont.getEot(), new File(resourcesDir, eotFileName));
+			}
+			if (
+				htmlFont.getTtf() != null
+				|| htmlFont.getSvg() != null
+				|| htmlFont.getWoff() != null
+				)
+			{
+				fw.write("\tsrc: local('☺')");
+				if (htmlFont.getWoff() != null)
+				{
+					String woffFileName = htmlFont.getId() + ".woff";
+					fw.write(",\n\t\turl('" + woffFileName + "') format('woff')"); 
+					JRSaver.saveResource(htmlFont.getWoff(), new File(resourcesDir, woffFileName));
+				}
+				if (htmlFont.getTtf() != null)
+				{
+					String ttfFileName = htmlFont.getId() + ".ttf";
+					fw.write(",\n\t\turl('" + ttfFileName + "') format('truetype')"); 
+					JRSaver.saveResource(htmlFont.getTtf(), new File(resourcesDir, ttfFileName));
+				}
+				if (htmlFont.getSvg() != null)
+				{
+					String svgFileName = htmlFont.getId() + ".svg";
+					fw.write(",\n\t\turl('" + svgFileName + "') format('svg')");
+					JRSaver.saveResource(htmlFont.getSvg(), new File(resourcesDir, svgFileName));
+				}
+				fw.write(";\n");
+			}
+			fw.write("\tfont-weight: normal;\n");
+			fw.write("\tfont-style: normal;\n");
+			fw.write("}");
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			if (fw != null)
+			{
+				try
+				{
+					fw.close();
+				}
+				catch(IOException e)
+				{
+				}
+			}
+		}
+	}
+	
 	public Map<JRExporterParameter,Object> getExportParameters()
 	{
 		return parameters;

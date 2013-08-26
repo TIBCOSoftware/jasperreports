@@ -24,6 +24,7 @@
 package net.sf.jasperreports.web.util;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
 
@@ -32,11 +33,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public interface WebResourceHandler {
-	
-	boolean hadlesResource(String resourceKey);
-	
-	String getResourceType(String resourceKey);
-
-	byte[] getData(String resourceKey, HttpServletRequest request, JasperReportsContext jrContext);
+public interface WebResourceHandler 
+{
+	public boolean handleResource(JasperReportsContext jasperReportsContext, HttpServletRequest request, HttpServletResponse response);
 }

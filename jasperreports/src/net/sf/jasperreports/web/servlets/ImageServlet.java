@@ -23,31 +23,18 @@
  */
 package net.sf.jasperreports.web.servlets;
 
-import java.awt.Dimension;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
-import net.sf.jasperreports.engine.type.ImageTypeEnum;
-import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
-import net.sf.jasperreports.web.WebReportContext;
+import net.sf.jasperreports.web.util.ImageWebResourceHandler;
 
 
 /**
+ * @deprecated Replaced by {@link ImageWebResourceHandler} and {@link ResourceServlet}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -57,9 +44,9 @@ public class ImageServlet extends AbstractServlet
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link ImageWebResourceHandler#REQUEST_PARAMETER_IMAGE_NAME}.
 	 */
-	public static final String REQUEST_PARAMETER_IMAGE_NAME = "image";
+	public static final String REQUEST_PARAMETER_IMAGE_NAME = ImageWebResourceHandler.REQUEST_PARAMETER_IMAGE_NAME;
 
 			
 	/**
@@ -70,79 +57,8 @@ public class ImageServlet extends AbstractServlet
 		HttpServletResponse response
 		) throws IOException, ServletException
 	{
-		byte[] imageData = null;
-		String imageMimeType = null;
-
-		String imageName = request.getParameter(REQUEST_PARAMETER_IMAGE_NAME);
-		if ("px".equals(imageName))
-		{
-			try
-			{
-				Renderable pxRenderer = 
-					RenderableUtil.getInstance(getJasperReportsContext()).getRenderable("net/sf/jasperreports/engine/images/pixel.GIF");
-				imageData = pxRenderer.getImageData(getJasperReportsContext());
-				imageMimeType = ImageTypeEnum.GIF.getMimeType();
-			}
-			catch (JRException e)
-			{
-				throw new ServletException(e);
-			}
-		}
-		else
-		{
-			WebReportContext webReportContext = WebReportContext.getInstance(request, false);
-			
-			if (webReportContext == null)
-			{
-				throw new ServletException("No web report context found.");
-			}
-			
-			JasperPrintAccessor jasperPrintAccessor = (JasperPrintAccessor) webReportContext.getParameterValue(
-					WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR);
-			if (jasperPrintAccessor == null)
-			{
-				throw new ServletException("No JasperPrint found in report context.");
-			}
-			
-			List<JasperPrint> jasperPrintList = Collections.singletonList(jasperPrintAccessor.getJasperPrint());
-			
-			JRPrintImage image = JRHtmlExporter.getImage(jasperPrintList, imageName);
-			
-			Renderable renderer = image.getRenderable();
-			if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-			{
-				renderer = 
-					new JRWrappingSvgRenderer(
-						renderer, 
-						new Dimension(image.getWidth(), image.getHeight()),
-						ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-						);
-			}
-
-			imageMimeType = renderer.getImageTypeValue().getMimeType();
-			
-			try
-			{
-				imageData = renderer.getImageData(getJasperReportsContext());
-			}
-			catch (JRException e)
-			{
-				throw new ServletException(e);
-			}
-		}
-
-		if (imageData != null && imageData.length > 0)
-		{
-			if (imageMimeType != null) 
-			{
-				response.setHeader("Content-Type", imageMimeType);
-			}
-			response.setContentLength(imageData.length);
-			ServletOutputStream ouputStream = response.getOutputStream();
-			ouputStream.write(imageData, 0, imageData.length);
-			ouputStream.flush();
-			ouputStream.close();
-		}
+		ImageWebResourceHandler handler = new ImageWebResourceHandler();
+		handler.handleResource(getJasperReportsContext(), request, response);
 	}
 
 

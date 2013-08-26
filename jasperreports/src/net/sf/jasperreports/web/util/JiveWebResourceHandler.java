@@ -39,48 +39,54 @@ import net.sf.jasperreports.engine.util.MessageUtil;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class JiveWebResourceHandler implements WebResourceHandler {
+public class JiveWebResourceHandler extends AbstractWebResourceHandler 
+{
 	
 	private Map<String, String> keyToFileMappings;
 	
-	public JiveWebResourceHandler() {
+	public JiveWebResourceHandler() 
+	{
 		this.keyToFileMappings = new HashMap<String, String>();
 	}
 
-	public boolean hadlesResource(String resourceKey) {
-		return keyToFileMappings.containsKey(resourceKey);
-	}
-
-	public String getResourceType(String resourceKey) {
-		if (resourceKey != null && resourceKey.lastIndexOf(".") != -1) {
-			return resourceKey.substring(resourceKey.lastIndexOf(".") + 1);
-		}
-		return null;
-	}
-
-	public byte[] getData(String resourceKey, HttpServletRequest request, JasperReportsContext jrContext) {
-		if (resourceKey != null) {
-			WebUtil webUtil = WebUtil.getInstance(jrContext);
+	public WebResource getResource(JasperReportsContext jasperReportsContext, HttpServletRequest request, String resourceKey) 
+	{
+		SimpleWebResource resource = null;
+		if (resourceKey != null && keyToFileMappings.containsKey(resourceKey)) 
+		{
+			WebUtil webUtil = WebUtil.getInstance(jasperReportsContext);
 			byte[] bytes = null;
 
-			try {
+			try 
+			{
 				Locale locale = Locale.getDefault();
 				Map<String, Object> contextMap = new HashMap<String, Object>();
 				contextMap.put("path", request.getContextPath() + webUtil.getResourcesBasePath());
-				contextMap.put("msgProvider", MessageUtil.getInstance(jrContext).getLocalizedMessageProvider("net.sf.jasperreports.components.headertoolbar.messages", locale)); 
+				contextMap.put("msgProvider", MessageUtil.getInstance(jasperReportsContext).getLocalizedMessageProvider("net.sf.jasperreports.components.headertoolbar.messages", locale)); 
 				String resourceString = VelocityUtil.processTemplate(keyToFileMappings.get(resourceKey), contextMap);
-				if (resourceString != null) {
+				if (resourceString != null) 
+				{
 					bytes = resourceString.getBytes("UTF-8");
 				}
-			} catch (IOException e) {
+			}
+			catch (IOException e) 
+			{
 				throw new JRRuntimeException(e);
 			}
-			return bytes;
+			
+			resource = new SimpleWebResource();
+			resource.setData(bytes);
+
+			if (resourceKey != null && resourceKey.lastIndexOf(".") != -1) 
+			{
+				resource.setType(resourceKey.substring(resourceKey.lastIndexOf(".") + 1));
+			}
 		}
-		return null;
+		return resource;
 	}
 	
-	public void addMapping(String key, String fileClasspath) {
+	public void addMapping(String key, String fileClasspath) 
+	{
 		this.keyToFileMappings.put(key, fileClasspath);
 	}
 	

@@ -49,12 +49,17 @@ public class SimpleFontFace implements FontFace
 	/**
 	 * 
 	 */
-	private String file;
+	private JasperReportsContext jasperReportsContext;
+	private String ttf;
 	private Font font;
+	private String pdf;
+	private String eot;
+	private String svg;
+	private String woff;
 	
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #SimpleFontFace(JasperReportsContext)} and {@link #setTtf(String)}.
 	 */
 	public static SimpleFontFace getInstance(JasperReportsContext jasperReportsContext, String fontName)
 	{
@@ -62,16 +67,8 @@ public class SimpleFontFace implements FontFace
 
 		if (fontName != null)
 		{
-			if (fontName.trim().toUpperCase().endsWith(".TTF"))
-			{
-				fontFace = new SimpleFontFace(fontName);
-			}
-			else
-			{
-				FontUtil.getInstance(jasperReportsContext).checkAwtFont(fontName, JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT));
-				
-				fontFace = new SimpleFontFace(new Font(fontName, Font.PLAIN, JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(JRFont.DEFAULT_FONT_SIZE)));
-			}
+			fontFace = new SimpleFontFace(jasperReportsContext);
+			fontFace.setTtf(fontName);
 		}
 		
 		return fontFace;
@@ -79,62 +76,42 @@ public class SimpleFontFace implements FontFace
 
 	
 	/**
-	 * 
+	 * @deprecated Replaced by #{@link #SimpleFontFace(JasperReportsContext)} and {@link #setTtf(String)}.
 	 */
-	public SimpleFontFace(JasperReportsContext jasperReportsContext, String file)
+	public SimpleFontFace(JasperReportsContext jasperReportsContext, String ttf)
 	{
-		this.file = file;
-
-		InputStream is = null;
-		try
-		{
-			is = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(file);
-		}
-		catch(JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		
-		try
-		{
-			font = Font.createFont(Font.TRUETYPE_FONT, is);
-		}
-		catch(FontFormatException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch(IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		finally
-		{
-			try
-			{
-				is.close();
-			}
-			catch (IOException e)
-			{
-			}
-		}
+		this(jasperReportsContext);
+		setTtf(ttf);
 	}
 	
 
 	/**
-	 * @see #SimpleFontFace(JasperReportsContext, String)
+	 * @deprecated Replaced by #{@link #SimpleFontFace(JasperReportsContext)} and {@link #setTtf(String)}.
 	 */
 	public SimpleFontFace(String file)
 	{
-		this(DefaultJasperReportsContext.getInstance(), file);
+		this(DefaultJasperReportsContext.getInstance());
+		setTtf(file);
 	}
 
+	
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public SimpleFontFace(Font font)
 	{
 		this.font = font;
 	}
+
+	
+	/**
+	 * 
+	 */
+	public SimpleFontFace(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+
 	
 	/**
 	 * 
@@ -142,15 +119,76 @@ public class SimpleFontFace implements FontFace
 	public String getName()
 	{
 		//(String)font.getAttributes().get(TextAttribute.FAMILY);
-		return font.getName();
+		return font == null ? null : font.getName();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getTtf()}.
+	 */
+	public String getFile()
+	{
+		return getTtf();
 	}
 	
 	/**
 	 * 
 	 */
-	public String getFile()
+	public String getTtf()
 	{
-		return file;
+		return ttf;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setTtf(String ttf)
+	{
+		this.ttf = ttf;
+
+		if (ttf != null)
+		{
+			if (ttf.trim().toUpperCase().endsWith(".TTF"))
+			{
+				InputStream is = null;
+				try
+				{
+					is = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(ttf);
+				}
+				catch(JRException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+				
+				try
+				{
+					font = Font.createFont(Font.TRUETYPE_FONT, is);
+				}
+				catch(FontFormatException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+				catch(IOException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+				finally
+				{
+					try
+					{
+						is.close();
+					}
+					catch (IOException e)
+					{
+					}
+				}
+			}
+			else
+			{
+				FontUtil.getInstance(jasperReportsContext).checkAwtFont(ttf, JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT));
+				
+				font = new Font(ttf, Font.PLAIN, JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(JRFont.DEFAULT_FONT_SIZE));
+			}
+		}
 	}
 	
 	/**
@@ -159,6 +197,70 @@ public class SimpleFontFace implements FontFace
 	public Font getFont()
 	{
 		return font;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getPdf()
+	{
+		return pdf;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setPdf(String pdf)
+	{
+		this.pdf = pdf;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getEot()
+	{
+		return eot;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setEot(String eot)
+	{
+		this.eot = eot;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getSvg()
+	{
+		return svg;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setSvg(String svg)
+	{
+		this.svg = svg;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getWoff()
+	{
+		return woff;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setWoff(String woff)
+	{
+		this.woff = woff;
 	}
 	
 }

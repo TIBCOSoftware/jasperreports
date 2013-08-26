@@ -1337,7 +1337,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * @param frame
 	 * @throws JRException
 	 */
-	protected void exportFrame(JRPrintFrame frame) throws JRException, IOException {
+	public void exportFrame(JRPrintFrame frame) throws JRException, IOException {
 		int x = frame.getX() + getOffsetX();
 		int y = frame.getY() + getOffsetY();
 		int width = frame.getWidth();

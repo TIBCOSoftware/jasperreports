@@ -36,6 +36,7 @@ public interface IconLabelElement
 	public static final String ELEMENT_NAME = "iconLabel";
 	public static final JRGenericElementType ICONLABEL_ELEMENT_TYPE = new JRGenericElementType(JRXmlConstants.JASPERREPORTS_NAMESPACE, ELEMENT_NAME);
 
+	public static final String PARAMETER_LINE_BOX = "lineBox";
 	public static final String PARAMETER_LABEL_TEXT_ELEMENT = "labelTextElement";
-	public static final String PARAMETER_ICON_GENERIC_ELEMENT = "iconGenericElement";
+	public static final String PARAMETER_ICON_TEXT_ELEMENT = "iconTextElement";
 }
