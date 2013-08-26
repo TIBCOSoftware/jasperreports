@@ -21,53 +21,43 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.crosstabs.fill.calculation;
+package net.sf.jasperreports.crosstabs.interactive;
 
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ColumnValueInfo implements Serializable
+public class RowGroupInteractiveInfo implements Serializable
 {
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	private boolean sortable;
+	private BucketOrder order;
+
+	public BucketOrder getOrder()
+	{
+		return order;
+	}
+
+	public void setOrder(BucketOrder order)
+	{
+		this.order = order;
+	}
+
+	public boolean isSortable()
+	{
+		return sortable;
+	}
+
+	public void setSortable(boolean sortable)
+	{
+		this.sortable = sortable;
+	}
 	
-	private boolean total;
-	private String valueType;
-	private String value;
-
-	public boolean isTotal()
-	{
-		return total;
-	}
-
-	public void setTotal(boolean total)
-	{
-		this.total = total;
-	}
-
-	public String getValueType()
-	{
-		return valueType;
-	}
-
-	public void setValueType(String valueType)
-	{
-		this.valueType = valueType;
-	}
-
-	public String getValue()
-	{
-		return value;
-	}
-
-	public void setValue(String value)
-	{
-		this.value = value;
-	}
-
 }

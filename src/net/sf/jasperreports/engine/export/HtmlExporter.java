@@ -48,6 +48,7 @@ import java.util.Map;
 import java.util.SortedSet;
 
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
+import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -1664,6 +1665,20 @@ public class HtmlExporter extends JRAbstractExporter
 		if (columnIndex != null)
 		{
 			sbuffer.append(" data-colidx=\"" + columnIndex + "\"");
+		}
+		
+		String xtabId = getCellProperty(element, cell, CrosstabInteractiveJsonHandler.PROPERTY_CROSSTAB_ID);
+		if (xtabId != null)
+		{
+			sbuffer.append(" " + CrosstabInteractiveJsonHandler.ATTRIBUTE_CROSSTAB_ID + "=\"" 
+					+ JRStringUtil.htmlEncode(xtabId) + "\"");
+		}
+		
+		String xtabColIdx = getCellProperty(element, cell, CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX);
+		if (xtabColIdx != null)
+		{
+			sbuffer.append(" " + CrosstabInteractiveJsonHandler.ATTRIBUTE_COLUMN_INDEX + "=\"" 
+					+ JRStringUtil.htmlEncode(xtabColIdx) + "\"");
 		}
 		
 		return sbuffer.length() > 0 ? sbuffer.toString() : null;

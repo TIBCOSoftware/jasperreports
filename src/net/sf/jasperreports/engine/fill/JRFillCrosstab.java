@@ -35,9 +35,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -65,11 +62,15 @@ import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketingServiceContext;
+import net.sf.jasperreports.crosstabs.fill.calculation.ColumnValueInfo;
 import net.sf.jasperreports.crosstabs.fill.calculation.CrosstabBucketingService;
 import net.sf.jasperreports.crosstabs.fill.calculation.CrosstabCell;
 import net.sf.jasperreports.crosstabs.fill.calculation.HeaderCell;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
+import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
+import net.sf.jasperreports.crosstabs.interactive.DataColumnInfo;
+import net.sf.jasperreports.crosstabs.interactive.RowGroupInteractiveInfo;
 import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
@@ -78,6 +79,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
@@ -91,10 +93,16 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
+import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.JRValueStringUtils;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Fill-time implementation of a {@link net.sf.jasperreports.crosstabs.JRCrosstab crosstab}.
@@ -105,6 +113,14 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROriginProvider, BucketingServiceContext
 {
 	private final static Log log = LogFactory.getLog(JRFillCrosstab.class); 
+
+	public static final String PROPERTY_INTERACTIVE = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.interactive";
+	
+	public static final String CROSSTAB_INTERACTIVE_ELEMENT_NAME = "crosstabInteractiveElement";
+	
+	public static final JRGenericElementType CROSSTAB_INTERACTIVE_ELEMENT_TYPE = 
+			new JRGenericElementType(JRXmlConstants.JASPERREPORTS_NAMESPACE, CROSSTAB_INTERACTIVE_ELEMENT_NAME);
+
 	
 	final protected JRCrosstab parentCrosstab;
 
@@ -153,6 +169,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	private int overflowStartPage;
 	
 	private List<JRTemplatePrintFrame> printFrames;
+	
+	private boolean interactive;
 	
 	public JRFillCrosstab(JRBaseFiller filler, JRCrosstab crosstab, JRFillObjectFactory factory)
 	{
@@ -554,6 +572,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			overflowStartPage = 0;
 
 			ignoreWidth = isIgnoreWidth(filler, parentCrosstab);
+			
+			interactive = filler.getPropertiesUtil().getBooleanProperty(this, PROPERTY_INTERACTIVE, true);
 		}
 	}
 
@@ -680,7 +700,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		
 		return willOverflow;
 	}
-
+	
 	protected void addCrosstabChunk(List<JRPrintElement> elements, int yOffset)
 	{
 		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getTemplateFrame(), elementId);
@@ -722,11 +742,100 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			mirrorPrintElements(elements, xLimit);
 		}
 		
+		if (interactive)
+		{
+			printFrame.getPropertiesMap().setProperty(CrosstabInteractiveJsonHandler.PROPERTY_CROSSTAB_ID, 
+					getUUID().toString());
+			
+			JRTemplateGenericPrintElement genericElement = createInteractiveElement();
+			printFrame.addElement(genericElement);
+		}
+		
 		// dump all elements into the print frame
 		printFrame.addElements(elements);
 		
 		// add this frame to the list to the list of crosstab chunks
 		printFrames.add(printFrame);
+	}
+
+	protected JRTemplateGenericPrintElement createInteractiveElement()
+	{
+		// TODO lucianc cache
+		JRTemplateGenericElement genericElementTemplate = new JRTemplateGenericElement(
+				getElementOrigin(), defaultStyleProvider, CROSSTAB_INTERACTIVE_ELEMENT_TYPE);
+		JRTemplateGenericPrintElement genericElement = new JRTemplateGenericPrintElement(
+				genericElementTemplate, elementId);
+		genericElement.setX(0);
+		genericElement.setY(0);
+		genericElement.setWidth(1);
+		genericElement.setHeight(1);
+		
+		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_CROSSTAB_ID, getUUID().toString());
+		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_START_COLUMN_INDEX, crosstabFiller.startColumnIndex);
+		
+		BucketDefinition[] rowBuckets = bucketingService.getRowBuckets();
+		List<RowGroupInteractiveInfo> rowGroups = new ArrayList<RowGroupInteractiveInfo>(rowBuckets.length);
+		for (BucketDefinition bucket : rowBuckets)
+		{
+			RowGroupInteractiveInfo groupInfo = new RowGroupInteractiveInfo();
+			groupInfo.setSortable(true);// TODO lucianc
+			BucketOrder order = bucket.getOrderer() == null ? bucket.getOrder() : BucketOrder.NONE;
+			groupInfo.setOrder(order);
+			rowGroups.add(groupInfo);
+		}
+		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_ROW_GROUPS, rowGroups);
+		
+		int dataColumnCount = crosstabFiller.lastColumnIndex - crosstabFiller.startColumnIndex;
+		List<DataColumnInfo> dataColumns = new ArrayList<DataColumnInfo>(dataColumnCount);
+		for (int colIdx = crosstabFiller.startColumnIndex; colIdx < crosstabFiller.lastColumnIndex; ++colIdx)
+		{
+			DataColumnInfo dataColumn = new DataColumnInfo();
+			dataColumn.setOrder(null);// TODO lucianc 
+			
+			Bucket[] bucketValues = null;
+			// getting the values from the most detailed column header
+			for (int level = columnHeadersData.length - 1; level >= 0 && bucketValues == null; --level)
+			{
+				HeaderCell header = columnHeadersData[level][colIdx];
+				bucketValues = header == null ? null : header.getBucketValues();
+			}
+			List<ColumnValueInfo> columnValues = toColumnValues(bucketValues);
+			
+			dataColumn.setColumnValues(columnValues);
+			dataColumns.add(dataColumn);
+		}
+		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_DATA_COLUMNS, dataColumns);
+
+		return genericElement;
+	}
+
+	protected List<ColumnValueInfo> toColumnValues(Bucket[] bucketValues)
+	{
+		List<ColumnValueInfo> columnValues = new ArrayList<ColumnValueInfo>(bucketValues.length);
+		for (Bucket bucket : bucketValues)
+		{
+			if (bucket != null)
+			{
+				ColumnValueInfo columnValue = new ColumnValueInfo();
+				if (bucket.isTotal())
+				{
+					columnValue.setTotal(true);
+				}
+				else
+				{
+					Object value = bucket.getValue();
+					if (value != null)
+					{
+						String valueType = value.getClass().getName();
+						columnValue.setValueType(valueType);
+						columnValue.setValue(JRValueStringUtils.serialize(valueType, value));
+					}
+				}
+				
+				columnValues.add(columnValue);
+			}
+		}
+		return columnValues;
 	}
 	
 	protected JRPrintElement fill()
@@ -1381,7 +1490,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					
 					if (cell != null)
 					{
-						JRFillCellContents contents = prepareColumnHeader(cell, columnIdx, rowHeadersXOffset, availableHeight);
+						JRFillCellContents contents = prepareColumnHeader(cell, rowIdx, columnIdx, rowHeadersXOffset, availableHeight);
 						columnHeaderRows[rowIdx + cell.getDepthSpan() - 1][columnIdx - startColumnIndex + 2] = contents;
 						
 						if (willOverflow)
@@ -1457,7 +1566,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			return contents;
 		}
 		
-		private JRFillCellContents prepareColumnHeader(HeaderCell cell, int columnIdx, int xOffset, int availableHeight) throws JRException
+		private JRFillCellContents prepareColumnHeader(HeaderCell cell, int rowIdx, int columnIdx, int xOffset, int availableHeight) throws JRException
 		{
 			JRFillCrosstabColumnGroup group = columnGroups[rowIdx];
 			JRFillCellContents contents = cell.isTotal() ? group.getFillTotalHeader() : group.getFillHeader();
@@ -1490,6 +1599,18 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
 				contents.prepare(availableHeight - rowY);
+				
+				if (interactive)
+				{
+					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(columnIdx));
+					// check if the cell is on the last level
+					// TODO lucianc handle the case of last column group with no headers
+					if (rowIdx + cell.getDepthSpan() == columnGroups.length)
+					{
+						// only last level header cells are interactive
+						contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtcolheader jrxtinteractive");
+					}
+				}
 
 				if (contents.willOverflow())
 				{
@@ -1838,6 +1959,12 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
 				contents.prepare(availableHeight - rowY);
+				
+				if (interactive)
+				{
+					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(column));
+					contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtdatacell");
+				}
 								
 				preparedRow.add(contents);
 				
@@ -1897,6 +2024,16 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
 				contents.prepare(availableHeight - headerY);
+				
+				if (interactive)
+				{
+					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(rowGroup));
+					if (cell.getDepthSpan() == 1)
+					{
+						// marking only unspanned headers for HTML selection 
+						contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader jrxtinteractive");
+					}
+				}
 				
 				preparedRow.add(contents);
 
@@ -2078,6 +2215,16 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
 				contents.prepare(availableHeight - headerY);
 				
+				if (interactive)
+				{
+					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(rowGroup));
+					if (cell.getDepthSpan() == 1)
+					{
+						// marking only unspanned headers for HTML selection 
+						contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader jrxtinteractive");
+					}
+				}
+				
 				preparedRow.add(contents);
 
 				headerOverflow = contents.willOverflow();
@@ -2086,7 +2233,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				{
 					contents.setX(rowHeadersXOffsets[rowGroup]);
 					contents.setY(headerY + yOffset);
-					contents.setVerticalSpan(vSpan);
+					contents.setVerticalSpan(vSpan);//FIXME is this correct?
 					contents.setHorizontalSpan(cell.getDepthSpan());
 					
 					int rowHeight = contents.getPrintHeight() - stretchHeight;

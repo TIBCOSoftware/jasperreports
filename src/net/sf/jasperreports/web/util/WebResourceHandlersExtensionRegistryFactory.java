@@ -44,6 +44,9 @@ public class WebResourceHandlersExtensionRegistryFactory implements ExtensionsRe
 		jiveHandler.addMapping("jive.vm.css", "net/sf/jasperreports/components/headertoolbar/resources/jive.vm.css");
 		jiveHandler.addMapping("jive.i18n.vm.js", "net/sf/jasperreports/components/headertoolbar/htmlv2/resources/require/jive.i18n.vm.js");
 
+		// crosstab resources
+		jiveHandler.addMapping("jive.crosstab.templates.styles.css", "net/sf/jasperreports/crosstabs/interactive/jive.crosstab.templates.styles.css");
+
 		REGISTRY = new SingletonExtensionRegistry<WebResourceHandler>(WebResourceHandler.class, jiveHandler);
 	}
 	

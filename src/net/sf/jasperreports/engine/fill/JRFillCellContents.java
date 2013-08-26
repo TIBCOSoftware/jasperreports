@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabObjectFactory;
@@ -84,6 +85,8 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	private JRDefaultStyleProvider defaultStyleProvider;
 	private JRStyle initStyle;
 	private int prepareStretchHeight;
+	
+	private Map<String, String> printProperties = new HashMap<String, String>();
 
 	public JRFillCellContents(JRBaseFiller filler, JRCellContents cell, String cellType, 
 			JRFillCrosstabObjectFactory factory)
@@ -380,6 +383,10 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		prepareStretchHeight = getStretchHeight();
 	}
 
+	public void setPrintProperty(String name, String value)
+	{
+		printProperties.put(name, value);
+	}
 	
 	protected JRPrintFrame fill() throws JRException
 	{
@@ -417,6 +424,12 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			printCell.getPropertiesMap().setProperty(
 					JRCellContents.PROPERTY_COLUMN_SPAN, Integer.toString(horizontalSpan));
 		}
+		
+		for (Entry<String, String> propEntry : printProperties.entrySet())
+		{
+			printCell.getPropertiesMap().setProperty(propEntry.getKey(), propEntry.getValue());
+		}
+
 		// not transferring cell properties for now
 	}
 
@@ -650,6 +663,8 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 
 	protected void evaluate(byte evaluation) throws JRException
 	{
+		printProperties.clear();
+		
 		evaluateConditionalStyles(evaluation);
 		super.evaluate(evaluation);
 	}

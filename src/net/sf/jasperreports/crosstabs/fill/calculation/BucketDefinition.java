@@ -76,6 +76,8 @@ public class BucketDefinition
 
 	protected final BucketOrderer orderer;
 	private final CrosstabTotalPositionEnum totalPosition;
+
+	private final BucketOrder order;
 	
 	private boolean computeTotal;
 	
@@ -94,6 +96,8 @@ public class BucketDefinition
 			CrosstabTotalPositionEnum totalPosition) throws JRException
 	{
 		this.orderer = orderer;
+		this.order = order;
+		
 		if (orderer == null)
 		{
 			// we don't have a bucket orderer
@@ -213,6 +217,11 @@ public class BucketDefinition
 	public BucketOrderer getOrderer()
 	{
 		return orderer;
+	}
+	
+	public BucketOrder getOrder()
+	{
+		return order;
 	}
 
 

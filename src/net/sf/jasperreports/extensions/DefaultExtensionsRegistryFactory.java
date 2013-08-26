@@ -28,7 +28,6 @@ import java.util.List;
 
 import net.sf.jasperreports.charts.ChartThemeBundle;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
-import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementHtmlHandler;
 import net.sf.jasperreports.components.headertoolbar.json.HeaderToolbarElementJsonHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElement;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementGraphics2DHandler;
@@ -48,6 +47,7 @@ import net.sf.jasperreports.components.map.MapElementXlsxHandler;
 import net.sf.jasperreports.components.map.MapPrintElement;
 import net.sf.jasperreports.components.sort.SortElement;
 import net.sf.jasperreports.components.sort.SortElementHtmlHandler;
+import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.export.FlashHtmlHandler;
 import net.sf.jasperreports.engine.export.FlashPrintElement;
@@ -68,6 +68,7 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
+import net.sf.jasperreports.engine.fill.JRFillCrosstab;
 import net.sf.jasperreports.engine.query.DefaultQueryExecuterFactoryBundle;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactoryBundle;
 import net.sf.jasperreports.engine.scriptlets.DefaultScriptletFactory;
@@ -185,6 +186,15 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 						return IconLabelElementHtmlHandler.getInstance();
 					}		
 				}
+				
+				if (JRFillCrosstab.CROSSTAB_INTERACTIVE_ELEMENT_NAME.equals(elementName))
+				{
+					if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
+					{
+						return new CrosstabInteractiveJsonHandler();
+					}
+				}
+				
 				return null;
 			}
 		};

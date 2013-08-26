@@ -954,4 +954,9 @@ public abstract class BucketingService
 			throw new JRRuntimeException("Crosstab bucket/measure limit (" + bucketMeasureLimit + ") exceeded.");
 		}
 	}
+	
+	public BucketDefinition[] getRowBuckets()
+	{
+		return buckets[DIMENSION_ROW];
+	}
 }

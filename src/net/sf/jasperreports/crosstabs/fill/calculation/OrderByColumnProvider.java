@@ -33,6 +33,7 @@ import net.sf.jasperreports.crosstabs.fill.BucketOrderer;
 import net.sf.jasperreports.crosstabs.fill.BucketOrdererProvider;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
 /**
@@ -61,6 +62,13 @@ public class OrderByColumnProvider implements BucketOrdererProvider
 			return null;
 		}
 		
+		boolean isLast = isLastGroup(crosstab, (JRCrosstabRowGroup) group);
+		if (!isLast && group.getBucket().getOrder() != BucketOrder.NONE)
+		{
+			// ordering by column only applies to nesting groups is they are not already ordered
+			return null;
+		}
+		
 		OrderByColumnInfo orderInfo = JacksonUtil.getInstance(jasperReportsContext).loadObject(
 				orderByProperty, OrderByColumnInfo.class);
 		if (orderInfo.getOrder() == null)
@@ -73,6 +81,14 @@ public class OrderByColumnProvider implements BucketOrdererProvider
 		}
 		
 		return new OrderByColumnOrderer(orderInfo);
+	}
+
+	protected boolean isLastGroup(JRCrosstab crosstab, JRCrosstabRowGroup group)
+	{
+		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
+		JRCrosstabRowGroup lastGroup = rowGroups[rowGroups.length - 1];
+		// comparing group names because object might differ (base/fill/etc)
+		return group.getName().equals(lastGroup.getName());
 	}
 
 }
