@@ -48,7 +48,7 @@ public class SortByColumnCommand implements Command
 	private final JRDesignCrosstab crosstab;
 	private final SortByColumnData sortData;
 	
-	private String oldOrderBy;
+	private CrosstabOrderAttributes oldOrderAttributes;
 	private String newOrderBy;
 
 	public SortByColumnCommand(JasperReportsContext jasperReportsContext, JRDesignCrosstab crosstab, SortByColumnData sortData)
@@ -61,42 +61,38 @@ public class SortByColumnCommand implements Command
 	@Override
 	public void execute() throws CommandException
 	{
-		oldOrderBy = crosstab.getPropertiesMap().getProperty(OrderByColumnProvider.PROPERTY_ORDER_BY_COLUMN);
+		oldOrderAttributes = new CrosstabOrderAttributes(crosstab);
 		
 		OrderByColumnInfo orderByInfo = new OrderByColumnInfo();
 		orderByInfo.setMeasureIndex(0);// TODO lucianc 
 		orderByInfo.setOrder(BucketOrder.toSortOrderEnum(sortData.getOrder()));
 		orderByInfo.setColumnValues(sortData.getColumnValues());
 		newOrderBy = JacksonUtil.getInstance(jasperReportsContext).getJsonString(orderByInfo);
+
+		setOrder();
+	}
+
+	protected void setOrder()
+	{
+		oldOrderAttributes.prepareSorting();
 		
 		if (log.isDebugEnabled())
 		{
-			log.debug("crosstab " + sortData.getCrosstabId() + " had order by " + oldOrderBy + ", new " + newOrderBy);
+			log.debug("setting crosstab " + sortData.getCrosstabId() + " order by to " + newOrderBy);
 		}
-		
 		crosstab.getPropertiesMap().setProperty(OrderByColumnProvider.PROPERTY_ORDER_BY_COLUMN, newOrderBy);
 	}
 
 	@Override
 	public void undo()
 	{
-		if (log.isDebugEnabled())
-		{
-			log.debug("reverting crosstab " + sortData.getCrosstabId() + " order by to " + oldOrderBy);
-		}
-		
-		crosstab.getPropertiesMap().setProperty(OrderByColumnProvider.PROPERTY_ORDER_BY_COLUMN, oldOrderBy);
+		oldOrderAttributes.restore();
 	}
 
 	@Override
 	public void redo()
 	{
-		if (log.isDebugEnabled())
-		{
-			log.debug("redoing crosstab " + sortData.getCrosstabId() + " order by to " + oldOrderBy);
-		}
-		
-		crosstab.getPropertiesMap().setProperty(OrderByColumnProvider.PROPERTY_ORDER_BY_COLUMN, newOrderBy);
+		setOrder();
 	}
 
 }
