@@ -35,6 +35,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -100,7 +101,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public boolean isToExport(JRPrintElement element)
 	{
 		return 
-			(!isIgnoreGraphics || (element instanceof JRPrintText) || (element instanceof JRPrintFrame))
+			(!isIgnoreGraphics || (element instanceof JRPrintText) || (element instanceof JRPrintFrame) || (element instanceof JRGenericPrintElement))
 			&& (filter == null || filter.isToExport(element));
 	}
 	
