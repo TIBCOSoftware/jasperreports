@@ -107,8 +107,31 @@ public class OrderByColumnOrderer implements BucketOrderer
 	@Override
 	public int compareOrderValues(Object orderValue, Object orderValue2)
 	{
-		// assuming natural ordering
-		int order = ((Comparable) orderValue).compareTo(orderValue2);
+		int order;
+		if (orderValue == null)
+		{
+			if (orderValue2 == null)
+			{
+				order = 0;
+			}
+			else
+			{
+				// by convention nulls come before
+				order = -1;
+			}
+		}
+		else
+		{
+			if (orderValue2 == null)
+			{
+				order = 1;
+			}
+			else
+			{
+				// assuming natural ordering
+				order = ((Comparable) orderValue).compareTo(orderValue2);
+			}
+		}
 		return orderInfo.getOrder() == SortOrderEnum.DESCENDING ? -order : order;
 	}
 
