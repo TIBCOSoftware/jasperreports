@@ -133,21 +133,6 @@ public class XlsxCellHelper extends BaseHelper
 			write(" t=\"" + type + "\"");
 		}
 		write(">");
-		
-//		exportPropsHeader();
-//
-//		if (gridCell.getColSpan() > 1)
-//		{
-//			write("      <w:gridSpan w:val=\"" + gridCell.getColSpan() +"\" />\n");
-//		}
-//		if (gridCell.getRowSpan() > 1)
-//		{
-//			write("      <w:vMerge w:val=\"restart\" />\n");
-//		}
-//		
-//		exportProps(element, gridCell);
-//		
-//		exportPropsFooter();
 	}
 
 	/**
@@ -158,121 +143,7 @@ public class XlsxCellHelper extends BaseHelper
 		write("</c>");
 	}
 
-
-	/**
-	 *
-	 *
-	public void exportProps(JRPrintElement element, JRExporterGridCell gridCell)
-	{
-		exportBackcolor(element.getModeValue(), element.getBackcolor());
-		
-		borderHelper.export(gridCell.getBox());
-
-//		if (element instanceof JRCommonGraphicElement)
-//			borderHelper.export(((JRCommonGraphicElement)element).getLinePen());
-		
-		JRAlignment align = element instanceof JRAlignment ? (JRAlignment)element : null;
-		if (align != null)
-		{
-			JRPrintText text = element instanceof JRPrintText ? (JRPrintText)element : null;
-			Byte ownRotation = text == null ? null : text.getOwnRotation();
-			
-			String verticalAlignment = 
-				getVerticalAlignment(
-					align.getOwnVerticalAlignment() 
-					);
-			String textRotation = getTextDirection(ownRotation);
-
-			exportAlignmentAndRotation(verticalAlignment, textRotation);
-		}
-	}
-
-
-	/**
-	 *
-	 *
-	public void exportProps(JRExporterGridCell gridCell)
-	{
-		exportBackcolor(ModeEnum.OPAQUE, gridCell.getBackcolor());//FIXMEDOCX check this
-		
-		borderHelper.export(gridCell.getBox());
-	}
-
 	
-//	/**
-//	 *
-//	 */
-//	private void exportBackcolor(ModeEnum mode, Color backcolor)
-//	{
-//		if (mode == ModeEnum.OPAQUE && backcolor != null)
-//		{
-//			write("      <w:shd w:val=\"clear\" w:color=\"auto\"	w:fill=\"" + JRColorUtil.getColorHexa(backcolor) + "\" />\n");
-//		}
-//	}
-
-//	/**
-//	 *
-//	 */
-//	private void exportPropsHeader()
-//	{
-//		write("      <w:tcPr>\n");
-//	}
-	
-//	/**
-//	 *
-//	 */
-//	private void exportAlignmentAndRotation(String verticalAlignment, String textRotation)
-//	{
-//		if (verticalAlignment != null)
-//		{
-//			write("      <w:vAlign w:val=\"" + verticalAlignment +"\" />\n");
-//		}
-//		if (textRotation != null)
-//		{
-//			write("   <w:textDirection w:val=\"" + textRotation + "\" />\n");
-//		}
-//	}
-	
-//	/**
-//	 *
-//	 */
-//	private void exportPropsFooter()
-//	{
-//		write("      </w:tcPr>\n");
-//	}
-	
-//	/**
-//	 *
-//	 */
-//	private static String getTextDirection(Byte rotation)
-//	{
-//		String textDirection = null;
-//		
-//		if (rotation != null)
-//		{
-//			switch(rotation.byteValue())
-//			{
-//				case JRTextElement.ROTATION_LEFT:
-//				{
-//					textDirection = "btLr";
-//					break;
-//				}
-//				case JRTextElement.ROTATION_RIGHT:
-//				{
-//					textDirection = "tbRl";
-//					break;
-//				}
-//				case JRTextElement.ROTATION_UPSIDE_DOWN://FIXMEDOCX possible?
-//				case JRTextElement.ROTATION_NONE:
-//				default:
-//				{
-//				}
-//			}
-//		}
-//
-//		return textDirection;
-//	}
-
 	/**
 	 *
 	 */
