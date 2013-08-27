@@ -23,12 +23,18 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
+
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class DisplayValue<T>
+public class DisplayValue<T> implements Serializable
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
 	protected final T key;
 	protected final String label;
 	
