@@ -121,13 +121,13 @@ public class DocxCellHelper extends BaseHelper
 		if (align != null)
 		{
 			JRPrintText text = element instanceof JRPrintText ? (JRPrintText)element : null;
-			RotationEnum ownRotation = text == null ? null : text.getOwnRotationValue();
+			RotationEnum rotation = text == null ? null : text.getRotationValue();
 			
 			String verticalAlignment = 
 				getVerticalAlignment(
-					align.getOwnVerticalAlignmentValue() 
+					align.getVerticalAlignmentValue() 
 					);
-			String textRotation = getTextDirection(ownRotation);
+			String textRotation = getTextDirection(rotation);
 
 			exportAlignmentAndRotation(verticalAlignment, textRotation);
 		}
