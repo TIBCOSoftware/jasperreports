@@ -66,6 +66,7 @@ public class BucketExpressionOrderer implements BucketOrderer
 	
 	public int compareOrderValues(Object value1, Object value2)
 	{
+		// FIXME lucianc handle nulls
 		return orderValueComparator.compare(value1, value2);
 	}
 
