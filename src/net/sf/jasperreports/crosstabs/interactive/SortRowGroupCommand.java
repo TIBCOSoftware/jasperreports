@@ -49,8 +49,7 @@ public class SortRowGroupCommand implements Command
 	private JRDesignCrosstabRowGroup rowGroup;
 	private boolean lastRowGroup;
 	
-	private BucketOrder oldOrder;
-	private String oldOrderByColProperty;
+	private CrosstabOrderAttributes oldOrderAttributes;
 	private BucketOrder newOrder;
 
 	public SortRowGroupCommand(JRDesignCrosstab crosstab, SortRowGroupData sortData)
@@ -65,25 +64,24 @@ public class SortRowGroupCommand implements Command
 		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
 		rowGroup = (JRDesignCrosstabRowGroup) rowGroups[sortData.getGroupIndex()];
 		lastRowGroup = sortData.getGroupIndex() == rowGroups.length - 1;
-		
-		oldOrder = rowGroup.getBucket().getOrder();
-		oldOrderByColProperty = crosstab.getPropertiesMap().getProperty(OrderByColumnProvider.PROPERTY_ORDER_BY_COLUMN);
+
+		oldOrderAttributes = new CrosstabOrderAttributes(crosstab);
 		
 		newOrder = sortData.getOrder();
-		
-		if (log.isDebugEnabled())
-		{
-			log.debug("crosstab " + sortData.getCrosstabId() + " row group " + sortData.getGroupIndex() 
-					+ " had order " + oldOrder + ", column order by " + oldOrderByColProperty
-					+ ", changing to " + newOrder);
-		}
-		
 		
 		setOrder();
 	}
 
 	protected void setOrder()
 	{
+		oldOrderAttributes.prepareSorting();
+
+		if (log.isDebugEnabled())
+		{
+			log.debug("setting crosstab " + sortData.getCrosstabId() + " row group " + sortData.getGroupIndex() 
+					+ " order to " + newOrder);
+		}
+		
 		((JRDesignCrosstabBucket) rowGroup.getBucket()).setOrder(newOrder);
 		
 		if (lastRowGroup && newOrder != BucketOrder.NONE)
@@ -96,25 +94,12 @@ public class SortRowGroupCommand implements Command
 	@Override
 	public void undo()
 	{
-		if (log.isDebugEnabled())
-		{
-			log.debug("undoing crosstab " + sortData.getCrosstabId() + " row group " + sortData.getGroupIndex() 
-					+ " order to " + oldOrder + ", column order by " + oldOrderByColProperty);
-		}
-		
-		((JRDesignCrosstabBucket) rowGroup.getBucket()).setOrder(oldOrder);
-		crosstab.getPropertiesMap().setProperty(OrderByColumnProvider.PROPERTY_ORDER_BY_COLUMN, oldOrderByColProperty);
+		oldOrderAttributes.restore();
 	}
 
 	@Override
 	public void redo()
 	{
-		if (log.isDebugEnabled())
-		{
-			log.debug("redoing crosstab " + sortData.getCrosstabId() + " row group " + sortData.getGroupIndex() 
-					+ " order to " + newOrder);
-		}
-		
 		setOrder();
 	}
 
