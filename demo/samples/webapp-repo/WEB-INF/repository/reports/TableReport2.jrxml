@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TableReport2" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" isSummaryWithPageHeaderAndFooter="true" uuid="20c02a81-926f-493f-9f8f-e4c057233e8b">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TableReport2" pageWidth="842" pageHeight="1595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="762" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" isSummaryWithPageHeaderAndFooter="true">
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="9" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="9" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
-	<subDataset name="TableDataset" uuid="9de86285-c230-447d-a7dd-7364b053026d">
+	<subDataset name="TableDataset">
 		<property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.xml"/>
 		<queryString language="csv">
 			<![CDATA[]]>
@@ -32,6 +32,7 @@
 		<field name="moveInDate" class="java.util.Date">
 			<fieldDescription><![CDATA[moveInDate]]></fieldDescription>
 		</field>
+		<sortField name="state" order="Ascending"/>
 		<sortField name="city" order="Descending"/>
 		<variable name="CityNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="CityGroup" calculation="Count">
 			<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
@@ -42,6 +43,9 @@
 		<variable name="longitude" class="java.lang.String" resetType="Group" resetGroup="CityGroup" calculation="Highest">
 			<variableExpression><![CDATA[$F{longitude}]]></variableExpression>
 		</variable>
+		<group name="StateGroup" minHeightToStartNewPage="60">
+			<groupExpression><![CDATA[$F{state}]]></groupExpression>
+		</group>
 		<group name="CityGroup" minHeightToStartNewPage="60">
 			<groupExpression><![CDATA[$F{city}]]></groupExpression>
 		</group>
@@ -49,10 +53,10 @@
 	<title>
 		<band height="70">
 			<line>
-				<reportElement x="0" y="0" width="760" height="1" uuid="19cb2783-92b9-4670-aec5-ddd1c1bee5f8"/>
+				<reportElement x="0" y="0" width="760" height="1"/>
 			</line>
 			<textField isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement key="report_title" style="Sans_Normal" x="123" y="10" width="515" height="30" uuid="8750e756-b991-499d-8e33-e5e6ae579603"/>
+				<reportElement key="report_title" style="Sans_Normal" x="123" y="10" width="515" height="30"/>
 				<textElement textAlignment="Center">
 					<font size="22"/>
 				</textElement>
@@ -60,7 +64,7 @@
 				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="Sans_Normal" x="123" y="40" width="515" height="20" uuid="476ca760-5b08-41b9-9270-c0e818af0db4"/>
+				<reportElement style="Sans_Normal" x="123" y="40" width="515" height="20"/>
 				<textElement textAlignment="Center">
 					<font size="14"/>
 				</textElement>
@@ -71,81 +75,105 @@
 	<pageFooter>
 		<band height="40">
 			<line>
-				<reportElement x="0" y="10" width="760" height="1" uuid="382d944b-ed05-4684-954d-5d005b04e7ed"/>
+				<reportElement x="0" y="10" width="760" height="1"/>
 			</line>
 			<textField>
-				<reportElement x="323" y="20" width="80" height="15" uuid="7af9f461-9afa-4611-ace8-191ab881af16"/>
+				<reportElement x="323" y="20" width="80" height="15"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="403" y="20" width="75" height="15" uuid="05253242-68cf-4f79-a534-c5963d6ca087"/>
+				<reportElement x="403" y="20" width="75" height="15"/>
 				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="157">
+		<band height="1357">
 			<componentElement>
-				<reportElement x="0" y="0" width="760" height="150" uuid="e7f3596c-3182-417e-b910-7cfe9be699d9"/>
+				<reportElement x="0" y="0" width="760" height="1350"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
-					<datasetRun subDataset="TableDataset" uuid="01965c24-33bd-4061-8da5-98e03bd0f2f5"/>
-					<jr:columnGroup width="750" uuid="c1b873b3-9f47-4033-9099-dcedfe467445">
-						<jr:groupHeader groupName="CityGroup">
+					<datasetRun subDataset="TableDataset"/>
+					<jr:columnGroup width="750">
+						<jr:groupHeader groupName="StateGroup">
 							<jr:cell height="20">
-								<textField evaluationTime="Group" evaluationGroup="CityGroup" hyperlinkType="ReportExecution" bookmarkLevel="1">
-									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="750" height="15" backcolor="#C0C0C0" uuid="b9e21a1a-7c24-4b13-a45d-094089843a06"/>
-									<box leftPadding="10">
-										<bottomPen lineWidth="1.0"/>
-									</box>
-									<textFieldExpression><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{city})]]></textFieldExpression>
-									<anchorNameExpression><![CDATA[String.valueOf($F{city})]]></anchorNameExpression>
-									<hyperlinkParameter name="jr.uri">
-										<hyperlinkParameterExpression><![CDATA["/reports/MapReport.jasper"]]></hyperlinkParameterExpression>
-									</hyperlinkParameter>
-									<hyperlinkParameter name="latitude">
-										<hyperlinkParameterExpression><![CDATA[$V{latitude}]]></hyperlinkParameterExpression>
-									</hyperlinkParameter>
-									<hyperlinkParameter name="longitude">
-										<hyperlinkParameterExpression><![CDATA[$V{longitude}]]></hyperlinkParameterExpression>
-									</hyperlinkParameter>
+								<textField evaluationTime="Group" evaluationGroup="StateGroup">
+									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="750" height="15" backcolor="#E0C0C0"/>
+									<textFieldExpression><![CDATA[$F{state}]]></textFieldExpression>
 								</textField>
 							</jr:cell>
 						</jr:groupHeader>
-						<jr:groupFooter groupName="CityGroup">
+						<jr:groupHeader groupName="CityGroup">
 							<jr:cell height="20">
-								<textField>
-									<reportElement style="Sans_Bold" x="690" y="3" width="30" height="15" uuid="f1542d97-5290-4bb4-883e-195ed3632c66"/>
-									<textElement textAlignment="Right"/>
-									<textFieldExpression><![CDATA[$V{CityGroup_COUNT}]]></textFieldExpression>
+								<textField evaluationTime="Group" evaluationGroup="CityGroup">
+									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="750" height="15" backcolor="#C0C0C0"/>
+									<textFieldExpression><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{city})]]></textFieldExpression>
 								</textField>
-								<staticText>
-									<reportElement style="Sans_Bold" x="630" y="3" width="60" height="15" uuid="713ce62f-285d-46f4-97a3-d17805fdde5b"/>
-									<textElement textAlignment="Right"/>
-									<text><![CDATA[Count :]]></text>
-								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupFooter groupName="StateGroup">
+							<jr:cell height="20">
+								<textField evaluationTime="Group" evaluationGroup="StateGroup">
+									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="750" height="15" forecolor="#E0C0C0" backcolor="white"/>
+									<textFieldExpression><![CDATA[$F{state}]]></textFieldExpression>
+								</textField>
 							</jr:cell>
 						</jr:groupFooter>
-						<jr:column width="20" uuid="75a9268d-370d-4663-9d76-5b163ce13fba">
-							<jr:groupHeader groupName="CityGroup">
+						<jr:groupFooter groupName="CityGroup">
+							<jr:cell height="20">
+								<textField evaluationTime="Group" evaluationGroup="CityGroup">
+									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="750" height="15" forecolor="#C0C0C0" backcolor="white"/>
+									<textFieldExpression><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{city})]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:column width="20">
+							<jr:groupHeader groupName="StateGroup">
 								<jr:cell height="60" rowSpan="3">
 									<textField>
-										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="60" forecolor="#FFFFFF" backcolor="#C0C0C0" uuid="1fb3810f-a1ff-42ff-9201-2402c66ff706"/>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="60" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 										<textElement textAlignment="Left"/>
-										<textFieldExpression><![CDATA["G-ID"]]></textFieldExpression>
+										<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
 									</textField>
 								</jr:cell>
 							</jr:groupHeader>
+							<jr:groupHeader groupName="CityGroup">
+								<jr:cell height="60" rowSpan="3">
+									<textField>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="60" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
+										<textElement textAlignment="Left"/>
+										<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:groupFooter groupName="StateGroup">
+								<jr:cell height="60" rowSpan="3">
+									<textField>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="60" forecolor="#E0C0C0" backcolor="white"/>
+										<textElement textAlignment="Left"/>
+										<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupFooter>
+							<jr:groupFooter groupName="CityGroup">
+								<jr:cell height="60" rowSpan="3">
+									<textField>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="60" forecolor="#C0C0C0" backcolor="white"/>
+										<textElement textAlignment="Left"/>
+										<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupFooter>
 							<jr:columnHeader height="60" rowSpan="3">
 								<textField>
-									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="60" forecolor="#FFFFFF" backcolor="#333333" uuid="1fb3810f-a1ff-42ff-9201-2402c66ff706"/>
+									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="60" forecolor="#FFFFFF" backcolor="#333333"/>
 									<textElement textAlignment="Left"/>
 									<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
 							<jr:detailCell height="15">
 								<textField bookmarkLevel="2">
-									<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="20" height="15" uuid="b6798271-1945-4996-805b-372775a434f2"/>
+									<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="20" height="15"/>
 									<box leftPadding="10" rightPadding="10">
 										<leftPen lineWidth="0.5"/>
 										<bottomPen lineWidth="0.5"/>
@@ -156,24 +184,48 @@
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="90" uuid="de5742f5-aaa2-4b69-b603-e780f56f8d9e">
-							<jr:groupHeader groupName="CityGroup">
+						<jr:column width="90">
+							<jr:groupHeader groupName="StateGroup">
 								<jr:cell height="60" rowSpan="3">
 									<staticText>
-										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="60" forecolor="#FFFFFF" backcolor="#C0C0C0" uuid="d0166dbc-e721-445a-b5e6-cc21e31ac15f"/>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="60" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 										<text><![CDATA[Name]]></text>
 									</staticText>
 								</jr:cell>
 							</jr:groupHeader>
+							<jr:groupHeader groupName="CityGroup">
+								<jr:cell height="60" rowSpan="3">
+									<staticText>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="60" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
+										<text><![CDATA[Name]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:groupFooter groupName="CityGroup">
+								<jr:cell height="60" rowSpan="3">
+									<staticText>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="60" backcolor="#FFFFFF" forecolor="#C0C0C0"/>
+										<text><![CDATA[Name]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupFooter>
+							<jr:groupFooter groupName="StateGroup">
+								<jr:cell height="60" rowSpan="3">
+									<staticText>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="60" backcolor="#FFFFFF" forecolor="#E0C0C0"/>
+										<text><![CDATA[Name]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupFooter>
 							<jr:columnHeader height="60" rowSpan="3">
 								<staticText>
-									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="60" forecolor="#FFFFFF" backcolor="#333333" uuid="d0166dbc-e721-445a-b5e6-cc21e31ac15f"/>
+									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="60" forecolor="#FFFFFF" backcolor="#333333"/>
 									<text><![CDATA[Name]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell height="15">
 								<textField isStretchWithOverflow="true">
-									<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="90" height="15" uuid="b39be6e2-bc83-4207-a463-e6cd9a584652"/>
+									<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="90" height="15"/>
 									<box leftPadding="10" rightPadding="10">
 										<leftPen lineWidth="0.5"/>
 										<bottomPen lineWidth="0.5"/>
@@ -182,24 +234,48 @@
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="100" uuid="66a9e037-1efd-470e-adf9-2fed375e0261">
-							<jr:groupHeader groupName="CityGroup">
+						<jr:column width="100">
+							<jr:groupHeader groupName="StateGroup">
 								<jr:cell height="60" rowSpan="3">
 									<textField>
-										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="60" forecolor="#FFFFFF" backcolor="#C0C0C0" uuid="451659b3-f3fe-417b-ba37-a318fa9fe127"/>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="60" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 										<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
 									</textField>
 								</jr:cell>
 							</jr:groupHeader>
+							<jr:groupHeader groupName="CityGroup">
+								<jr:cell height="60" rowSpan="3">
+									<textField>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="60" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
+										<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:groupFooter groupName="CityGroup">
+								<jr:cell height="60" rowSpan="3">
+									<textField>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="60" backcolor="#FFFFFF" forecolor="#C0C0C0"/>
+										<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupFooter>
+							<jr:groupFooter groupName="StateGroup">
+								<jr:cell height="60" rowSpan="3">
+									<textField>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="60" backcolor="#FFFFFF" forecolor="#E0C0C0"/>
+										<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupFooter>
 							<jr:columnHeader height="60" rowSpan="3">
 								<textField>
-									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="60" forecolor="#FFFFFF" backcolor="#333333" uuid="451659b3-f3fe-417b-ba37-a318fa9fe127"/>
+									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="60" forecolor="#FFFFFF" backcolor="#333333"/>
 									<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
 							<jr:detailCell height="15">
 								<textField isStretchWithOverflow="true">
-									<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="15" uuid="50310975-9b64-4afd-a631-7d45beac8572"/>
+									<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="15"/>
 									<box leftPadding="10" rightPadding="10">
 										<leftPen lineWidth="0.5"/>
 										<bottomPen lineWidth="0.5"/>
@@ -208,24 +284,48 @@
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="75" uuid="cd97be8e-cb37-4a61-af5a-302272d5ab9f">
-							<jr:groupHeader groupName="CityGroup">
+						<jr:column width="75">
+							<jr:groupHeader groupName="StateGroup">
 								<jr:cell height="60" rowSpan="3">
 									<textField>
-										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="60" forecolor="#FFFFFF" backcolor="#C0C0C0" uuid="845fc09d-5ab6-4077-b2cb-b615bf45f66b"/>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="60" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 										<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
 									</textField>
 								</jr:cell>
 							</jr:groupHeader>
+							<jr:groupHeader groupName="CityGroup">
+								<jr:cell height="60" rowSpan="3">
+									<textField>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="60" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
+										<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:groupFooter groupName="CityGroup">
+								<jr:cell height="60" rowSpan="3">
+									<textField>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="60" backcolor="#FFFFFF" forecolor="#C0C0C0"/>
+										<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupFooter>
+							<jr:groupFooter groupName="StateGroup">
+								<jr:cell height="60" rowSpan="3">
+									<textField>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="60" backcolor="#FFFFFF" forecolor="#E0C0C0"/>
+										<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupFooter>
 							<jr:columnHeader height="60" rowSpan="3">
 								<textField>
-									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="60" forecolor="#FFFFFF" backcolor="#333333" uuid="845fc09d-5ab6-4077-b2cb-b615bf45f66b"/>
+									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="60" forecolor="#FFFFFF" backcolor="#333333"/>
 									<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
 							<jr:detailCell height="15">
 								<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
-									<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="75" height="15" uuid="c8fd15a4-f27e-4577-b6f9-e63c63a09914"/>
+									<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="75" height="15"/>
 									<box leftPadding="10" rightPadding="10">
 										<leftPen lineWidth="0.5"/>
 										<bottomPen lineWidth="0.5"/>
@@ -235,39 +335,87 @@
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:columnGroup width="90" uuid="94494a60-ec40-4075-8c28-1894862e507f">
-							<jr:groupHeader groupName="CityGroup">
+						<jr:columnGroup width="90">
+							<jr:groupHeader groupName="StateGroup">
 								<jr:cell height="20">
 									<textField>
-										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" forecolor="#FFFFFF" backcolor="#C0C0C0" uuid="1814faf9-cd73-4ace-ba2e-38a0f0dbaa24"/>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 										<textFieldExpression><![CDATA["Position"]]></textFieldExpression>
 									</textField>
 								</jr:cell>
 							</jr:groupHeader>
+							<jr:groupHeader groupName="CityGroup">
+								<jr:cell height="20">
+									<textField>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
+										<textFieldExpression><![CDATA["Position"]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:groupFooter groupName="StateGroup">
+								<jr:cell height="20">
+									<textField>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" backcolor="#FFFFFF" forecolor="#E0C0C0"/>
+										<textFieldExpression><![CDATA["Position"]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupFooter>
+							<jr:groupFooter groupName="CityGroup">
+								<jr:cell height="20">
+									<textField>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" backcolor="#FFFFFF" forecolor="#C0C0C0"/>
+										<textFieldExpression><![CDATA["Position"]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupFooter>
 							<jr:columnHeader height="20">
 								<textField>
-									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="1814faf9-cd73-4ace-ba2e-38a0f0dbaa24"/>
+									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" forecolor="#FFFFFF" backcolor="#333333"/>
 									<textFieldExpression><![CDATA["Position"]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
-							<jr:column width="45" uuid="82ba482c-ee57-427f-89b6-ecbcecc3c3aa">
-								<jr:groupHeader groupName="CityGroup">
+							<jr:column width="45">
+								<jr:groupHeader groupName="StateGroup">
 									<jr:cell height="40" rowSpan="2">
 										<textField>
-											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" forecolor="#FFFFFF" backcolor="#C0C0C0" uuid="44f92121-9ef3-4b12-9e9e-73b9b92a0876"/>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 											<textFieldExpression><![CDATA["Lat"]]></textFieldExpression>
 										</textField>
 									</jr:cell>
 								</jr:groupHeader>
+								<jr:groupHeader groupName="CityGroup">
+									<jr:cell height="40" rowSpan="2">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
+											<textFieldExpression><![CDATA["Lat"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupHeader>
+								<jr:groupFooter groupName="StateGroup">
+									<jr:cell height="40" rowSpan="2">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" backcolor="#FFFFFF" forecolor="#E0C0C0"/>
+											<textFieldExpression><![CDATA["Lat"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupFooter>
+								<jr:groupFooter groupName="CityGroup">
+									<jr:cell height="40" rowSpan="2">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" backcolor="#FFFFFF" forecolor="#C0C0C0"/>
+											<textFieldExpression><![CDATA["Lat"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupFooter>
 								<jr:columnHeader height="40" rowSpan="2">
 									<textField>
-										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" forecolor="#FFFFFF" backcolor="#333333" uuid="44f92121-9ef3-4b12-9e9e-73b9b92a0876"/>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" forecolor="#FFFFFF" backcolor="#333333"/>
 										<textFieldExpression><![CDATA["Lat"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
 								<jr:detailCell height="15">
 									<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
-										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15" uuid="0b64f21c-8d7d-4b26-993b-cea2835a09bb"/>
+										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15"/>
 										<box leftPadding="10" rightPadding="10">
 											<leftPen lineWidth="0.5"/>
 											<bottomPen lineWidth="0.5"/>
@@ -278,24 +426,48 @@
 									</textField>
 								</jr:detailCell>
 							</jr:column>
-							<jr:column width="45" uuid="166e75f5-07ff-43cf-9bca-b5ad254b7287">
-								<jr:groupHeader groupName="CityGroup">
+							<jr:column width="45">
+								<jr:groupHeader groupName="StateGroup">
 									<jr:cell height="40" rowSpan="2">
 										<textField>
-											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" forecolor="#FFFFFF" backcolor="#C0C0C0" uuid="f7aa9645-573d-40b8-8c38-e210af912712"/>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 											<textFieldExpression><![CDATA["Long"]]></textFieldExpression>
 										</textField>
 									</jr:cell>
 								</jr:groupHeader>
+								<jr:groupHeader groupName="CityGroup">
+									<jr:cell height="40" rowSpan="2">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
+											<textFieldExpression><![CDATA["Long"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupHeader>
+								<jr:groupFooter groupName="StateGroup">
+									<jr:cell height="40" rowSpan="2">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" backcolor="#FFFFFF" forecolor="#E0C0C0"/>
+											<textFieldExpression><![CDATA["Long"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupFooter>
+								<jr:groupFooter groupName="CityGroup">
+									<jr:cell height="40" rowSpan="2">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" backcolor="#FFFFFF" forecolor="#C0C0C0"/>
+											<textFieldExpression><![CDATA["Long"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupFooter>
 								<jr:columnHeader height="40" rowSpan="2">
 									<textField>
-										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" forecolor="#FFFFFF" backcolor="#333333" uuid="f7aa9645-573d-40b8-8c38-e210af912712"/>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="40" forecolor="#FFFFFF" backcolor="#333333"/>
 										<textFieldExpression><![CDATA["Long"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
 								<jr:detailCell height="15">
 									<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
-										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15" uuid="377c48ee-8f78-42ea-be92-f3ed0fbc9001"/>
+										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15"/>
 										<box leftPadding="10" rightPadding="10">
 											<leftPen lineWidth="0.5"/>
 											<bottomPen lineWidth="0.5"/>
@@ -307,41 +479,92 @@
 								</jr:detailCell>
 							</jr:column>
 						</jr:columnGroup>
-						<jr:columnGroup width="375" uuid="83300585-537f-45b6-b67a-e835f26380d0">
-							<jr:groupHeader groupName="CityGroup">
+						<jr:columnGroup width="375">
+							<jr:groupHeader groupName="StateGroup">
 								<jr:cell height="20">
 									<textField>
-										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="375" height="20" forecolor="#FFFFFF" backcolor="#C0C0C0" uuid="c471322f-b03c-40f3-a714-f7846377eda5"/>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="375" height="20" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 										<textFieldExpression><![CDATA["Repeated Columns Group"]]></textFieldExpression>
 									</textField>
 								</jr:cell>
 							</jr:groupHeader>
+							<jr:groupHeader groupName="CityGroup">
+								<jr:cell height="20">
+									<textField>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="375" height="20" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
+										<textFieldExpression><![CDATA["Repeated Columns Group"]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:groupFooter groupName="StateGroup">
+								<jr:cell height="20">
+									<textField>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="375" height="20" backcolor="#FFFFFF" forecolor="#E0C0C0"/>
+										<textFieldExpression><![CDATA["Repeated Columns Group"]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupFooter>
+							<jr:groupFooter groupName="CityGroup">
+								<jr:cell height="20">
+									<textField>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="375" height="20" backcolor="#FFFFFF" forecolor="#C0C0C0"/>
+										<textFieldExpression><![CDATA["Repeated Columns Group"]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupFooter>
 							<jr:columnHeader height="20">
 								<textField>
-									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="375" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="c471322f-b03c-40f3-a714-f7846377eda5"/>
+									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="375" height="20" forecolor="#FFFFFF" backcolor="#333333"/>
 									<textFieldExpression><![CDATA["Repeated Columns Group"]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
-							<jr:column width="20" uuid="5aedd7cb-6171-494a-81f9-68f962d79d4e">
-								<jr:groupHeader groupName="CityGroup">
+							<jr:column width="20">
+								<jr:groupHeader groupName="StateGroup">
 									<jr:cell height="40" rowSpan="2">
 										<textField>
-											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="40" forecolor="#FFFFFF" backcolor="#C0C0C0" uuid="4f700135-a3aa-4e0c-bfa3-1eb963784217"/>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="40" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 											<textElement textAlignment="Left"/>
 											<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
 										</textField>
 									</jr:cell>
 								</jr:groupHeader>
+								<jr:groupHeader groupName="CityGroup">
+									<jr:cell height="40" rowSpan="2">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="40" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
+											<textElement textAlignment="Left"/>
+											<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupHeader>
+								<jr:groupFooter groupName="StateGroup">
+									<jr:cell height="40" rowSpan="2">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="40" backcolor="#FFFFFF" forecolor="#E0C0C0"/>
+											<textElement textAlignment="Left"/>
+											<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupFooter>
+								<jr:groupFooter groupName="CityGroup">
+									<jr:cell height="40" rowSpan="2">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="40" backcolor="#FFFFFF" forecolor="#C0C0C0"/>
+											<textElement textAlignment="Left"/>
+											<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupFooter>
 								<jr:columnHeader height="40" rowSpan="2">
 									<textField>
-										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="40" forecolor="#FFFFFF" backcolor="#333333" uuid="4f700135-a3aa-4e0c-bfa3-1eb963784217"/>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="40" forecolor="#FFFFFF" backcolor="#333333"/>
 										<textElement textAlignment="Left"/>
 										<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
 								<jr:detailCell height="15">
 									<textField bookmarkLevel="2">
-										<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="20" height="15" uuid="91f43d82-97fd-4b70-9ca1-fc938a1cd4a7"/>
+										<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="20" height="15"/>
 										<box leftPadding="10" rightPadding="10">
 											<leftPen lineWidth="0.5"/>
 											<bottomPen lineWidth="0.5"/>
@@ -352,24 +575,48 @@
 									</textField>
 								</jr:detailCell>
 							</jr:column>
-							<jr:column width="90" uuid="eb36d9ea-4062-434f-ba5c-e0cf10722c5b">
-								<jr:groupHeader groupName="CityGroup">
+							<jr:column width="90">
+								<jr:groupHeader groupName="StateGroup">
 									<jr:cell height="40" rowSpan="2">
 										<staticText>
-											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="40" forecolor="#FFFFFF" backcolor="#C0C0C0" uuid="2f01f4f9-b543-45be-bd80-6a0f17b46565"/>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="40" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 											<text><![CDATA[Name]]></text>
 										</staticText>
 									</jr:cell>
 								</jr:groupHeader>
+								<jr:groupHeader groupName="CityGroup">
+									<jr:cell height="40" rowSpan="2">
+										<staticText>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="40" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
+											<text><![CDATA[Name]]></text>
+										</staticText>
+									</jr:cell>
+								</jr:groupHeader>
+								<jr:groupFooter groupName="StateGroup">
+									<jr:cell height="40" rowSpan="2">
+										<staticText>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="40" backcolor="#FFFFFF" forecolor="#E0C0C0"/>
+											<text><![CDATA[Name]]></text>
+										</staticText>
+									</jr:cell>
+								</jr:groupFooter>
+								<jr:groupFooter groupName="CityGroup">
+									<jr:cell height="40" rowSpan="2">
+										<staticText>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="40" backcolor="#FFFFFF" forecolor="#C0C0C0"/>
+											<text><![CDATA[Name]]></text>
+										</staticText>
+									</jr:cell>
+								</jr:groupFooter>
 								<jr:columnHeader height="40" rowSpan="2">
 									<staticText>
-										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="40" forecolor="#FFFFFF" backcolor="#333333" uuid="2f01f4f9-b543-45be-bd80-6a0f17b46565"/>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="40" forecolor="#FFFFFF" backcolor="#333333"/>
 										<text><![CDATA[Name]]></text>
 									</staticText>
 								</jr:columnHeader>
 								<jr:detailCell height="15">
 									<textField isStretchWithOverflow="true">
-										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="90" height="15" uuid="07a32f93-8920-40a9-b65a-12e90bb89db7"/>
+										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="90" height="15"/>
 										<box leftPadding="10" rightPadding="10">
 											<leftPen lineWidth="0.5"/>
 											<bottomPen lineWidth="0.5"/>
@@ -378,24 +625,48 @@
 									</textField>
 								</jr:detailCell>
 							</jr:column>
-							<jr:column width="100" uuid="97d4b772-2acf-4a3a-93e7-1f61a9e92f69">
-								<jr:groupHeader groupName="CityGroup">
+							<jr:column width="100">
+								<jr:groupHeader groupName="StateGroup">
 									<jr:cell height="40" rowSpan="2">
 										<textField>
-											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="40" forecolor="#FFFFFF" backcolor="#C0C0C0" uuid="62d91369-cdbb-4b94-be2b-1cfebb71a9ad"/>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="40" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 											<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
 										</textField>
 									</jr:cell>
 								</jr:groupHeader>
+								<jr:groupHeader groupName="CityGroup">
+									<jr:cell height="40" rowSpan="2">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="40" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
+											<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupHeader>
+								<jr:groupFooter groupName="StateGroup">
+									<jr:cell height="40" rowSpan="2">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="40" backcolor="#FFFFFF" forecolor="#E0C0C0"/>
+											<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupFooter>
+								<jr:groupFooter groupName="CityGroup">
+									<jr:cell height="40" rowSpan="2">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="40" backcolor="#FFFFFF" forecolor="#C0C0C0"/>
+											<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupFooter>
 								<jr:columnHeader height="40" rowSpan="2">
 									<textField>
-										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="40" forecolor="#FFFFFF" backcolor="#333333" uuid="62d91369-cdbb-4b94-be2b-1cfebb71a9ad"/>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="40" forecolor="#FFFFFF" backcolor="#333333"/>
 										<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
 								<jr:detailCell height="15">
 									<textField isStretchWithOverflow="true">
-										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="15" uuid="33a77554-9b6c-464c-9b2f-89ecae432313"/>
+										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="15"/>
 										<box leftPadding="10" rightPadding="10">
 											<leftPen lineWidth="0.5"/>
 											<bottomPen lineWidth="0.5"/>
@@ -404,24 +675,48 @@
 									</textField>
 								</jr:detailCell>
 							</jr:column>
-							<jr:column width="75" uuid="d20a029a-3661-41a9-b698-3295121c95bc">
-								<jr:groupHeader groupName="CityGroup">
+							<jr:column width="75">
+								<jr:groupHeader groupName="StateGroup">
 									<jr:cell height="40" rowSpan="2">
 										<textField>
-											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="40" forecolor="#FFFFFF" backcolor="#C0C0C0" uuid="0231eb95-3549-4fba-8782-7e7e3d9b50f9"/>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="40" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 											<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
 										</textField>
 									</jr:cell>
 								</jr:groupHeader>
+								<jr:groupHeader groupName="CityGroup">
+									<jr:cell height="40" rowSpan="2">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="40" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
+											<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupHeader>
+								<jr:groupFooter groupName="StateGroup">
+									<jr:cell height="40" rowSpan="2">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="40" backcolor="#FFFFFF" forecolor="#E0C0C0"/>
+											<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupFooter>
+								<jr:groupFooter groupName="CityGroup">
+									<jr:cell height="40" rowSpan="2">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="40" backcolor="#FFFFFF" forecolor="#C0C0C0"/>
+											<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupFooter>
 								<jr:columnHeader height="40" rowSpan="2">
 									<textField>
-										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="40" forecolor="#FFFFFF" backcolor="#333333" uuid="0231eb95-3549-4fba-8782-7e7e3d9b50f9"/>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="75" height="40" forecolor="#FFFFFF" backcolor="#333333"/>
 										<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
 								<jr:detailCell height="15">
 									<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
-										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="75" height="15" uuid="3c15b20b-6db7-4f82-8a26-8afe1a6ead6e"/>
+										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="75" height="15"/>
 										<box leftPadding="10" rightPadding="10">
 											<leftPen lineWidth="0.5"/>
 											<bottomPen lineWidth="0.5"/>
@@ -431,39 +726,87 @@
 									</textField>
 								</jr:detailCell>
 							</jr:column>
-							<jr:columnGroup width="90" uuid="fa2f6b8c-b903-4361-b8db-6ee09ece2512">
-								<jr:groupHeader groupName="CityGroup">
+							<jr:columnGroup width="90">
+								<jr:groupHeader groupName="StateGroup">
 									<jr:cell height="20">
 										<textField>
-											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" forecolor="#FFFFFF" backcolor="#C0C0C0" uuid="6cff43f4-4656-490c-8897-bf815e93f374"/>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 											<textFieldExpression><![CDATA["Position"]]></textFieldExpression>
 										</textField>
 									</jr:cell>
 								</jr:groupHeader>
+								<jr:groupHeader groupName="CityGroup">
+									<jr:cell height="20">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
+											<textFieldExpression><![CDATA["Position"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupHeader>
+								<jr:groupFooter groupName="StateGroup">
+									<jr:cell height="20">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" backcolor="#FFFFFF" forecolor="#E0C0C0"/>
+											<textFieldExpression><![CDATA["Position"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupFooter>
+								<jr:groupFooter groupName="CityGroup">
+									<jr:cell height="20">
+										<textField>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" backcolor="#FFFFFF" forecolor="#C0C0C0"/>
+											<textFieldExpression><![CDATA["Position"]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupFooter>
 								<jr:columnHeader height="20">
 									<textField>
-										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="6cff43f4-4656-490c-8897-bf815e93f374"/>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="20" forecolor="#FFFFFF" backcolor="#333333"/>
 										<textFieldExpression><![CDATA["Position"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
-								<jr:column width="45" uuid="db5b3ced-cf82-4ca0-ae61-59f8443184ec">
-									<jr:groupHeader groupName="CityGroup">
+								<jr:column width="45">
+									<jr:groupHeader groupName="StateGroup">
 										<jr:cell height="20">
 											<textField>
-												<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" forecolor="#FFFFFF" backcolor="#C0C0C0" uuid="550e1a5e-2c71-40d9-a57d-23b87f71be5d"/>
+												<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 												<textFieldExpression><![CDATA["Lat"]]></textFieldExpression>
 											</textField>
 										</jr:cell>
 									</jr:groupHeader>
+									<jr:groupHeader groupName="CityGroup">
+										<jr:cell height="20">
+											<textField>
+												<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
+												<textFieldExpression><![CDATA["Lat"]]></textFieldExpression>
+											</textField>
+										</jr:cell>
+									</jr:groupHeader>
+									<jr:groupFooter groupName="StateGroup">
+										<jr:cell height="20">
+											<textField>
+												<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" backcolor="#FFFFFF" forecolor="#E0C0C0"/>
+												<textFieldExpression><![CDATA["Lat"]]></textFieldExpression>
+											</textField>
+										</jr:cell>
+									</jr:groupFooter>
+									<jr:groupFooter groupName="CityGroup">
+										<jr:cell height="20">
+											<textField>
+												<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" backcolor="#FFFFFF" forecolor="#C0C0C0"/>
+												<textFieldExpression><![CDATA["Lat"]]></textFieldExpression>
+											</textField>
+										</jr:cell>
+									</jr:groupFooter>
 									<jr:columnHeader height="20">
 										<textField>
-											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="550e1a5e-2c71-40d9-a57d-23b87f71be5d"/>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" forecolor="#FFFFFF" backcolor="#333333"/>
 											<textFieldExpression><![CDATA["Lat"]]></textFieldExpression>
 										</textField>
 									</jr:columnHeader>
 									<jr:detailCell height="15">
 										<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
-											<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15" uuid="a57f1fb0-e2f1-4f57-8d62-ba71cdadf38a"/>
+											<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15"/>
 											<box leftPadding="10" rightPadding="10">
 												<leftPen lineWidth="0.5"/>
 												<bottomPen lineWidth="0.5"/>
@@ -474,24 +817,48 @@
 										</textField>
 									</jr:detailCell>
 								</jr:column>
-								<jr:column width="45" uuid="1714d15f-e1fa-47bd-9252-b9650920d25d">
-									<jr:groupHeader groupName="CityGroup">
+								<jr:column width="45">
+									<jr:groupHeader groupName="StateGroup">
 										<jr:cell height="20">
 											<textField>
-												<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" forecolor="#FFFFFF" backcolor="#C0C0C0" uuid="0ba28b54-a06c-4e85-958e-5730f01e76de"/>
+												<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 												<textFieldExpression><![CDATA["Long"]]></textFieldExpression>
 											</textField>
 										</jr:cell>
 									</jr:groupHeader>
+									<jr:groupHeader groupName="CityGroup">
+										<jr:cell height="20">
+											<textField>
+												<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
+												<textFieldExpression><![CDATA["Long"]]></textFieldExpression>
+											</textField>
+										</jr:cell>
+									</jr:groupHeader>
+									<jr:groupFooter groupName="StateGroup">
+										<jr:cell height="20">
+											<textField>
+												<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" backcolor="#FFFFFF" forecolor="#E0C0C0"/>
+												<textFieldExpression><![CDATA["Long"]]></textFieldExpression>
+											</textField>
+										</jr:cell>
+									</jr:groupFooter>
+									<jr:groupFooter groupName="CityGroup">
+										<jr:cell height="20">
+											<textField>
+												<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" backcolor="#FFFFFF" forecolor="#C0C0C0"/>
+												<textFieldExpression><![CDATA["Long"]]></textFieldExpression>
+											</textField>
+										</jr:cell>
+									</jr:groupFooter>
 									<jr:columnHeader height="20">
 										<textField>
-											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="0ba28b54-a06c-4e85-958e-5730f01e76de"/>
+											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" forecolor="#FFFFFF" backcolor="#333333"/>
 											<textFieldExpression><![CDATA["Long"]]></textFieldExpression>
 										</textField>
 									</jr:columnHeader>
 									<jr:detailCell height="15">
 										<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
-											<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15" uuid="7d72eedd-0839-4ddb-b0b8-240546a300ce"/>
+											<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15"/>
 											<box leftPadding="10" rightPadding="10">
 												<leftPen lineWidth="0.5"/>
 												<bottomPen lineWidth="0.5"/>
