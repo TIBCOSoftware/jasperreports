@@ -98,6 +98,7 @@ import net.sf.jasperreports.engine.fill.JRFillField;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
@@ -887,13 +888,14 @@ public class TableReport implements JRReport
 //				iconTextField.setHeight(headerTextElement.getHeight());
 				iconTextField.setMode(headerTextElement.getModeValue());
 				iconTextField.setFontName("Pictonic");//FIXMESORT use constant
-				iconTextField.setFontSize(headerTextElement.getFontSize()-1);
+				iconTextField.setFontSize((int)(headerTextElement.getFontSize() * 0.8f));
 				iconTextField.setForecolor(headerTextElement.getForecolor());
 				iconTextField.setBackcolor(headerTextElement.getBackcolor());
 				iconTextField.setBold(headerTextElement.isBold());
 				iconTextField.setItalic(headerTextElement.isItalic());
 				iconTextField.setUnderline(headerTextElement.isUnderline());
 				iconTextField.setStrikeThrough(headerTextElement.isStrikeThrough());
+				iconTextField.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
 				
 				iconLabelComponent.setIconTextField(iconTextField);
 				
