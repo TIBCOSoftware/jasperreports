@@ -136,7 +136,7 @@ public class BucketDefinition
 		}
 		
 		this.totalPosition = totalPosition;
-		computeTotal = totalPosition != CrosstabTotalPositionEnum.NONE;
+		computeTotal = totalPosition != CrosstabTotalPositionEnum.NONE || orderer != null;
 	}
 
 	
