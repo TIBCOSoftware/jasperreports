@@ -633,10 +633,10 @@ div.ui-datepicker {font-size: 11px;}
 /* ApplyTo Selector */
 .applytoWrapper {
     padding: 4px;
+    margin: 0 20px;
 }
 .applytoTitle {
     display: inline;
-    padding: 10px;
 }
 .applytoSelector {
     display: inline;
