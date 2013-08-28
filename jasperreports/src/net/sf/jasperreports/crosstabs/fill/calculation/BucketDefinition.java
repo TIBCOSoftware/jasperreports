@@ -26,6 +26,7 @@ package net.sf.jasperreports.crosstabs.fill.calculation;
 import java.util.Comparator;
 
 import net.sf.jasperreports.crosstabs.fill.BucketOrderer;
+import net.sf.jasperreports.crosstabs.fill.calculation.BucketValueOrderDecorator.OrderPosition;
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -238,6 +239,12 @@ public class BucketDefinition
 			return VALUE_NULL;
 		}
 		
+		if (value instanceof BucketValueOrderDecorator)
+		{
+			// create only when orderPosition != normal?
+			return new OrderDecoratorBucket((BucketValueOrderDecorator<?>) value);
+		}
+		
 		return new Bucket(value);
 	}
 	
@@ -353,10 +360,16 @@ public class BucketDefinition
 			{
 				return 0;
 			}
+
+			OrderPosition orderPosition = getOrderPosition();
+			OrderPosition otherOrderPosition = val.getOrderPosition();
+			if (orderPosition != otherOrderPosition)
+			{
+				return orderPosition.comparePosition(otherOrderPosition);
+			}
 			
 			return bucketValueComparator.compare(value, val.value);
 		}
-		
 		
 		/**
 		 * Decides whether this is a total bucket.
@@ -366,6 +379,29 @@ public class BucketDefinition
 		public boolean isTotal()
 		{
 			return type == VALUE_TYPE_TOTAL;
+		}
+		
+		public OrderPosition getOrderPosition()
+		{
+			return OrderPosition.NORMAL;
+		}
+	}
+	
+	public class OrderDecoratorBucket extends Bucket
+	{
+		private OrderPosition orderPosition;
+
+		protected OrderDecoratorBucket(BucketValueOrderDecorator<?> value)
+		{
+			super(value.getValue());
+			
+			orderPosition = value.getOrderPosition();
+		}
+
+		@Override
+		public OrderPosition getOrderPosition()
+		{
+			return orderPosition;
 		}
 	}
 }

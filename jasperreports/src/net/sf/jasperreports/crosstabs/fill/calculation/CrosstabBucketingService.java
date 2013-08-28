@@ -33,6 +33,7 @@ import java.util.TreeSet;
 
 import net.sf.jasperreports.crosstabs.fill.BucketOrderer;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
+import net.sf.jasperreports.crosstabs.fill.calculation.BucketValueOrderDecorator.OrderPosition;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.JRException;
@@ -600,14 +601,24 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 			}
 			else
 			{
-				// first compare the order values
-				order = bucketOrderer.compareOrderValues(
-						l1.orderValue, l2.orderValue);
-				
-				if (order == 0)
+				// check order positions
+				OrderPosition orderPosition1 = l1.key.getOrderPosition();
+				OrderPosition orderPosition2 = l2.key.getOrderPosition();
+				if (orderPosition1 != orderPosition2)
 				{
-					// if order values are equal, fallback to bucket value order
-					order = l1.key.compareTo(l2.key);
+					order = orderPosition1.comparePosition(orderPosition2);
+				}
+				else
+				{
+					// compare the order values
+					order = bucketOrderer.compareOrderValues(
+							l1.orderValue, l2.orderValue);
+					
+					if (order == 0)
+					{
+						// if order values are equal, fallback to bucket value order
+						order = l1.key.compareTo(l2.key);
+					}
 				}
 			}
 			
