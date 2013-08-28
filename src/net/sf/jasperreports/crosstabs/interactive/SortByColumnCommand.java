@@ -28,9 +28,9 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnInfo;
-import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnProvider;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
+import net.sf.jasperreports.engine.fill.JRFillCrosstab;
 import net.sf.jasperreports.web.commands.Command;
 import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.util.JacksonUtil;
@@ -63,11 +63,19 @@ public class SortByColumnCommand implements Command
 	{
 		oldOrderAttributes = new CrosstabOrderAttributes(crosstab);
 		
-		OrderByColumnInfo orderByInfo = new OrderByColumnInfo();
-		orderByInfo.setMeasureIndex(0);// TODO lucianc 
-		orderByInfo.setOrder(BucketOrder.toSortOrderEnum(sortData.getOrder()));
-		orderByInfo.setColumnValues(sortData.getColumnValues());
-		newOrderBy = JacksonUtil.getInstance(jasperReportsContext).getJsonString(orderByInfo);
+		BucketOrder order = sortData.getOrder();
+		if (order == BucketOrder.NONE)
+		{
+			newOrderBy = null;
+		}
+		else
+		{
+			OrderByColumnInfo orderByInfo = new OrderByColumnInfo();
+			orderByInfo.setMeasureIndex(0);// TODO lucianc 
+			orderByInfo.setOrder(BucketOrder.toSortOrderEnum(order));
+			orderByInfo.setColumnValues(sortData.getColumnValues());
+			newOrderBy = JacksonUtil.getInstance(jasperReportsContext).getJsonString(orderByInfo);
+		}
 
 		setOrder();
 	}
@@ -80,7 +88,15 @@ public class SortByColumnCommand implements Command
 		{
 			log.debug("setting crosstab " + sortData.getCrosstabId() + " order by to " + newOrderBy);
 		}
-		crosstab.getPropertiesMap().setProperty(OrderByColumnProvider.PROPERTY_ORDER_BY_COLUMN, newOrderBy);
+		
+		if (newOrderBy == null)
+		{
+			crosstab.getPropertiesMap().removeProperty(JRFillCrosstab.PROPERTY_ORDER_BY_COLUMN);
+		}
+		else
+		{
+			crosstab.getPropertiesMap().setProperty(JRFillCrosstab.PROPERTY_ORDER_BY_COLUMN, newOrderBy);
+		}
 	}
 
 	@Override

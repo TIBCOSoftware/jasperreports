@@ -54,8 +54,6 @@ import net.sf.jasperreports.components.spiderchart.SpiderChartFillFactory;
 import net.sf.jasperreports.components.table.FillTableFactory;
 import net.sf.jasperreports.components.table.TableCompiler;
 import net.sf.jasperreports.components.table.TableDesignConverter;
-import net.sf.jasperreports.crosstabs.fill.BucketOrdererProvider;
-import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnProvider;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
@@ -176,7 +174,6 @@ public class ComponentsExtensionsRegistryFactory implements
 		
 		ListExtensionsRegistry registry = new ListExtensionsRegistry();
 		registry.add(ComponentsBundle.class, bundle);
-		registry.add(BucketOrdererProvider.class, new OrderByColumnProvider());
 		
 		REGISTRY = registry;
 	}

@@ -135,4 +135,9 @@ public class OrderByColumnOrderer implements BucketOrderer
 		return orderInfo.getOrder() == SortOrderEnum.DESCENDING ? -order : order;
 	}
 
+	public List<Bucket> getBucketValues()
+	{
+		return bucketValues;
+	}
+
 }
