@@ -660,13 +660,18 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	protected void setStretchHeight(int stretchHeight)
 	{
-		if (stretchHeight > getHeight() || (shrinkable && isRemoveLineWhenBlank()))
+		//This method is called twice: 
+		// once on prepare, when the element calculates its own stretch height and then by the container, 
+		// when the element should stretch according to container stretch height.
+		// We need to make sure we do not make the element smaller than its calculated stretch height
+
+		if (stretchHeight > getStretchHeight() || (shrinkable && isRemoveLineWhenBlank()))
 		{
 			this.stretchHeight = stretchHeight;
 		}
 		else
 		{
-			this.stretchHeight = getHeight();
+			this.stretchHeight = getStretchHeight();// the reset() method ensures that initial stretchHeight is equal to height
 		}
 	}
 
