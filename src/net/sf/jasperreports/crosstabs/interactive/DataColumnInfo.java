@@ -23,17 +23,21 @@
  */
 package net.sf.jasperreports.crosstabs.interactive;
 
+import java.io.Serializable;
 import java.util.List;
 
 import net.sf.jasperreports.crosstabs.fill.calculation.ColumnValueInfo;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class DataColumnInfo
+public class DataColumnInfo implements Serializable
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private BucketOrder order;
 	private List<ColumnValueInfo> columnValues;
