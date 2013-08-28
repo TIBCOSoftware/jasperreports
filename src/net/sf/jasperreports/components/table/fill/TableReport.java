@@ -615,7 +615,7 @@ public class TableReport implements JRReport
 				genericElement.setHeight(1);
 				genericElement.setWidth(1);
 				genericElement.setMode(ModeEnum.TRANSPARENT);
-				genericElement.setStretchType(StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT);
+				//genericElement.setStretchType(StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT);
 				
 				String fieldOrVariableName = null;
 				SortFieldTypeEnum columnType = null;
