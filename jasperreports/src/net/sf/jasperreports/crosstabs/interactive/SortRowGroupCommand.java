@@ -27,8 +27,8 @@ import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabBucket;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabRowGroup;
-import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnProvider;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
+import net.sf.jasperreports.engine.fill.JRFillCrosstab;
 import net.sf.jasperreports.web.commands.Command;
 
 import org.apache.commons.logging.Log;
@@ -87,7 +87,7 @@ public class SortRowGroupCommand implements Command
 		if (lastRowGroup && newOrder != BucketOrder.NONE)
 		{
 			// sorting the last row group, we need to reset the column order by
-			crosstab.getPropertiesMap().setProperty(OrderByColumnProvider.PROPERTY_ORDER_BY_COLUMN, null);
+			crosstab.getPropertiesMap().setProperty(JRFillCrosstab.PROPERTY_ORDER_BY_COLUMN, null);
 		}
 	}
 

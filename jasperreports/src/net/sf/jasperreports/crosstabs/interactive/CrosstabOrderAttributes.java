@@ -28,8 +28,8 @@ import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabBucket;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabDataset;
-import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnProvider;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
+import net.sf.jasperreports.engine.fill.JRFillCrosstab;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -69,7 +69,7 @@ public class CrosstabOrderAttributes
 			colGroupOrders[i] = colGroups[i].getBucket().getOrder();
 		}
 		
-		orderByColumnProp = crosstab.getPropertiesMap().getProperty(OrderByColumnProvider.PROPERTY_ORDER_BY_COLUMN);
+		orderByColumnProp = crosstab.getPropertiesMap().getProperty(JRFillCrosstab.PROPERTY_ORDER_BY_COLUMN);
 		
 		if (log.isDebugEnabled())
 		{
@@ -123,7 +123,7 @@ public class CrosstabOrderAttributes
 			((JRDesignCrosstabBucket) colGroups[i].getBucket()).setOrder(colGroupOrders[i]);
 		}
 		
-		crosstab.getPropertiesMap().setProperty(OrderByColumnProvider.PROPERTY_ORDER_BY_COLUMN, orderByColumnProp);
+		crosstab.getPropertiesMap().setProperty(JRFillCrosstab.PROPERTY_ORDER_BY_COLUMN, orderByColumnProp);
 	}
 
 	@Override

@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -50,7 +51,6 @@ import net.sf.jasperreports.crosstabs.base.JRBaseCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.fill.BucketExpressionOrderer;
 import net.sf.jasperreports.crosstabs.fill.BucketOrderer;
-import net.sf.jasperreports.crosstabs.fill.BucketOrdererProvider;
 import net.sf.jasperreports.crosstabs.fill.JRCrosstabExpressionEvaluator;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabCell;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabColumnGroup;
@@ -67,6 +67,8 @@ import net.sf.jasperreports.crosstabs.fill.calculation.CrosstabBucketingService;
 import net.sf.jasperreports.crosstabs.fill.calculation.CrosstabCell;
 import net.sf.jasperreports.crosstabs.fill.calculation.HeaderCell;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition;
+import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnInfo;
+import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnOrderer;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
 import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.crosstabs.interactive.DataColumnInfo;
@@ -100,6 +102,7 @@ import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.web.util.JacksonUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -115,6 +118,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	private final static Log log = LogFactory.getLog(JRFillCrosstab.class); 
 
 	public static final String PROPERTY_INTERACTIVE = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.interactive";
+	
+	public static final String PROPERTY_ORDER_BY_COLUMN = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.order.by.column";
 	
 	public static final String CROSSTAB_INTERACTIVE_ELEMENT_NAME = "crosstabInteractiveElement";
 	
@@ -136,6 +141,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 	protected JRFillCrosstabMeasure[] measures;
 
+	private OrderByColumnInfo orderByColumnInfo;
+	
 	protected CrosstabBucketingService bucketingService;
 
 	protected JRFillVariable[] variables;
@@ -416,7 +423,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		for (int i = 0; i < rowGroups.length; ++i)
 		{
 			JRFillCrosstabRowGroup group = rowGroups[i];
-			rowBuckets.add(createServiceBucket(group, evaluation));
+			rowBuckets.add(createServiceBucket(group, i, evaluation));
 			hasOrderByExpression |= group.getBucket().getOrderByExpression() != null;
 		}
 
@@ -424,7 +431,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		for (int i = 0; i < columnGroups.length; ++i)
 		{
 			JRFillCrosstabColumnGroup group = columnGroups[i];
-			colBuckets.add(createServiceBucket(group, evaluation));
+			colBuckets.add(createServiceBucket(group, i, evaluation));
 			hasOrderByExpression |= group.getBucket().getOrderByExpression() != null;
 		}
 
@@ -448,7 +455,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		return new CrosstabBucketingService(this, rowBuckets, colBuckets, measureList, dataset.isDataPreSorted(), retrieveTotal);
 	}
 
-	private BucketDefinition createServiceBucket(JRCrosstabGroup group, byte evaluation) throws JRException
+	private BucketDefinition createServiceBucket(JRCrosstabGroup group, int groupIndex, byte evaluation) throws JRException
 	{
 		JRCrosstabBucket bucket = group.getBucket();
 
@@ -459,27 +466,22 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			comparator = (Comparator<Object>) evaluateExpression(comparatorExpression, evaluation);
 		}
 		
-		BucketOrderer orderer = createOrderer(group, comparator);
+		BucketOrderer orderer = createOrderer(group, groupIndex, comparator);
 		return new BucketDefinition(bucket.getValueClass(),
 				orderer, comparator, bucket.getOrder(), 
 				group.getTotalPositionValue());
 	}
 
-	protected BucketOrderer createOrderer(JRCrosstabGroup group, Comparator<Object> bucketComparator)
+	protected BucketOrderer createOrderer(JRCrosstabGroup group, int groupIndex, Comparator<Object> bucketComparator)
 	{
 		BucketOrderer orderer = null;
-		JasperReportsContext jasperReportsContext = filler.getJasperReportsContext();
-		List<BucketOrdererProvider> ordererProviders = jasperReportsContext.getExtensions(BucketOrdererProvider.class);
-		for (BucketOrdererProvider ordererProvider : ordererProviders)
+		
+		if (group instanceof JRCrosstabRowGroup
+				&& orderByColumnInfo != null && orderByColumnInfo.getOrder() != null
+				// ordering by column only applies to nesting groups is they are not already ordered
+				&& (groupIndex == rowGroups.length - 1 || group.getBucket().getOrder() == BucketOrder.NONE))
 		{
-			orderer = ordererProvider.createOrderer(jasperReportsContext, parentCrosstab, group);
-			if (orderer != null)
-			{
-				if (log.isDebugEnabled())
-				{
-					log.debug("created provider orderer " + orderer + " for group " + group.getName());
-				}
-			}
+			orderer = new OrderByColumnOrderer(orderByColumnInfo);
 		}
 		
 		if (orderer == null)
@@ -612,6 +614,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	{
 		if (bucketingService == null)
 		{
+			setOrderByColumnInfo();
+			
 			try
 			{
 				bucketingService = createService(JRExpression.EVALUATION_DEFAULT);
@@ -625,6 +629,21 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		{
 			bucketingService.clear();
 		}
+	}
+	
+	protected void setOrderByColumnInfo()
+	{
+		orderByColumnInfo = null;
+		
+		// should we read this from evaluated properties?
+		String orderByProperty = parentCrosstab.getPropertiesMap().getProperty(PROPERTY_ORDER_BY_COLUMN);
+		if (orderByProperty == null || orderByProperty.isEmpty())
+		{
+			return;
+		}
+		
+		orderByColumnInfo = JacksonUtil.getInstance(filler.getJasperReportsContext()).loadObject(
+				orderByProperty, OrderByColumnInfo.class);
 	}
 
 	protected boolean prepare(int availableHeight, boolean isOverflow) throws JRException
@@ -785,23 +804,39 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_ROW_GROUPS, rowGroups);
 		
+		List<Bucket> orderColumnValues = null;
+		if (orderByColumnInfo != null && orderByColumnInfo.getOrder() != null)
+		{
+			// creating an orderer for convenience
+			OrderByColumnOrderer orderer = new OrderByColumnOrderer(orderByColumnInfo);
+			orderer.init(bucketingService);
+			orderColumnValues = orderer.getBucketValues();
+		}
+		
 		int dataColumnCount = crosstabFiller.lastColumnIndex - crosstabFiller.startColumnIndex;
 		List<DataColumnInfo> dataColumns = new ArrayList<DataColumnInfo>(dataColumnCount);
 		for (int colIdx = crosstabFiller.startColumnIndex; colIdx < crosstabFiller.lastColumnIndex; ++colIdx)
 		{
 			DataColumnInfo dataColumn = new DataColumnInfo();
-			dataColumn.setOrder(null);// TODO lucianc 
 			
-			Bucket[] bucketValues = null;
+			List<Bucket> bucketValues = null;
 			// getting the values from the most detailed column header
 			for (int level = columnHeadersData.length - 1; level >= 0 && bucketValues == null; --level)
 			{
 				HeaderCell header = columnHeadersData[level][colIdx];
-				bucketValues = header == null ? null : header.getBucketValues();
+				bucketValues = header == null ? null : Arrays.asList(header.getBucketValues());
 			}
-			List<ColumnValueInfo> columnValues = toColumnValues(bucketValues);
 			
+			List<ColumnValueInfo> columnValues = toColumnValues(bucketValues);
 			dataColumn.setColumnValues(columnValues);
+			
+			BucketOrder columnOrder = null;
+			if (orderColumnValues != null && orderColumnValues.equals(bucketValues))
+			{
+				columnOrder = BucketOrder.fromSortOrderEnum(orderByColumnInfo.getOrder());
+			}
+			dataColumn.setOrder(columnOrder);
+
 			dataColumns.add(dataColumn);
 		}
 		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_DATA_COLUMNS, dataColumns);
@@ -809,9 +844,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		return genericElement;
 	}
 
-	protected List<ColumnValueInfo> toColumnValues(Bucket[] bucketValues)
+	protected List<ColumnValueInfo> toColumnValues(List<Bucket> bucketValues)
 	{
-		List<ColumnValueInfo> columnValues = new ArrayList<ColumnValueInfo>(bucketValues.length);
+		List<ColumnValueInfo> columnValues = new ArrayList<ColumnValueInfo>(bucketValues.size());
 		for (Bucket bucket : bucketValues)
 		{
 			if (bucket != null)
