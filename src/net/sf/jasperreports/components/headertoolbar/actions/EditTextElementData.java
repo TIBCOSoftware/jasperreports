@@ -28,7 +28,13 @@ package net.sf.jasperreports.components.headertoolbar.actions;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class EditColumnValueData extends BaseColumnData {
+public class EditTextElementData extends BaseColumnData {
+
+    public static final String APPLY_TO_HEADING = "heading";
+    public static final String APPLY_TO_DETAIL_ROWS = "detailrows";
+    public static final String APPLY_TO_GROUPHEADING = "groupheading";
+    public static final String APPLY_TO_GROUP_SUBTOTAL = "groupsubtotal";
+    public static final String APPLY_TO_TABLE_TOTAL = "tabletotal";
 
 	private int columnIndex;
 	private String headingName;
@@ -46,10 +52,8 @@ public class EditColumnValueData extends BaseColumnData {
     private String dataType;
     private String applyTo;
     private String groupName;
-    private Integer i;
-    private Integer j;
-	
-	public EditColumnValueData() {
+
+	public EditTextElementData() {
 	}
 
 	public int getColumnIndex() {
@@ -172,19 +176,4 @@ public class EditColumnValueData extends BaseColumnData {
         this.groupName = groupName;
     }
 
-    public Integer getI() {
-        return i;
-    }
-
-    public void setI(Integer i) {
-        this.i = i;
-    }
-
-    public Integer getJ() {
-        return j;
-    }
-
-    public void setJ(Integer j) {
-        this.j = j;
-    }
 }

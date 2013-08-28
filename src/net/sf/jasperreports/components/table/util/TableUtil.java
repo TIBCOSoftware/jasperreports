@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.components.table.util;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
+import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
@@ -171,17 +172,6 @@ public class TableUtil
 				lst.addAll(getAllColumns(((ColumnGroup) bc).getColumns()));
 			else
 				lst.add(bc);
-		}
-		return lst;
-	}
-
-	public static List<ColumnGroup> getAllColumnGroups(List<BaseColumn> cols) {
-		List<ColumnGroup> lst = new ArrayList<ColumnGroup>();
-		for (BaseColumn bc : cols) {
-			if (bc instanceof ColumnGroup) {
-				lst.add((ColumnGroup) bc);
-				lst.addAll(getAllColumnGroups(((ColumnGroup) bc).getColumns()));
-			}
 		}
 		return lst;
 	}
@@ -400,5 +390,139 @@ public class TableUtil
 		List<BaseColumn> columns = getAllColumns(table);
 		return columns.indexOf(column);
 	}
+
+    public static List<ColumnGroup> getHierarchicalColumnGroupsForColumn(BaseColumn column, List<BaseColumn> columns, TableComponent table) {
+        List<ColumnGroup> result = new ArrayList<ColumnGroup>();
+        List<BaseColumn> cols = columns != null ? columns : table.getColumns();
+        for (BaseColumn bc : cols) {
+            if (bc instanceof ColumnGroup){
+                if (((ColumnGroup)bc).getColumns().contains(column)) {
+                    result.add((ColumnGroup)bc);
+                    result.addAll(getHierarchicalColumnGroupsForColumn(bc, null, table));
+                } else {
+                    result.addAll(getHierarchicalColumnGroupsForColumn(column, ((ColumnGroup) bc).getColumns(), table));
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public static JRDesignTextField getHeaderGroupTextField(BaseColumn column, String groupName, TableComponent table) {
+        return (JRDesignTextField)getHeaderGroupTextElement(column, groupName, table, true);
+    }
+
+    public static JRDesignTextElement getHeaderGroupTextElement(BaseColumn column, String groupName, TableComponent table, boolean isSingleChunkedTextField) {
+        JRDesignTextElement textElement = null;
+        if (isSingleChunkedTextField) {
+            JRTextField textField = TableUtil.getCellDetailTextElement(column.getGroupHeader(groupName), false);
+            if (textField != null && TableUtil.hasSingleChunkExpression(textField)) {
+                textElement = (JRDesignTextElement) textField;
+            }
+        } else {
+            textElement = TableUtil.getCellTextElement(column.getGroupHeader(groupName), false);
+        }
+
+        if (textElement == null) {
+            List<ColumnGroup> colGroups = TableUtil.getHierarchicalColumnGroupsForColumn(column, table.getColumns(), table);
+
+            for (ColumnGroup cg: colGroups) {
+                if (cg.getGroupHeader(groupName) == null) {
+                    continue;
+                }
+                if (isSingleChunkedTextField) {
+                    JRTextField textField = TableUtil.getCellDetailTextElement(cg.getGroupHeader(groupName), false);
+                    if (textField != null && TableUtil.hasSingleChunkExpression(textField)) {
+                        textElement = (JRDesignTextElement) textField;
+                        break;
+                    }
+                } else {
+                    textElement = TableUtil.getCellTextElement(cg.getGroupHeader(groupName), false);
+                    if (textElement != null) break;
+                }
+            }
+
+        }
+
+        return textElement;
+    }
+
+    public static JRDesignTextField getFooterGroupTextField(BaseColumn column, String groupName, TableComponent table) {
+        return (JRDesignTextField)getFooterGroupTextElement(column, groupName, table, true);
+    }
+
+    public static JRDesignTextElement getFooterGroupTextElement(BaseColumn column, String groupName, TableComponent table, boolean isSingleChunkedTextField) {
+        JRDesignTextElement textElement = null;
+        if (isSingleChunkedTextField){
+            JRTextField textField = TableUtil.getCellDetailTextElement(column.getGroupFooter(groupName), false);
+            if (textField != null && TableUtil.hasSingleChunkExpression(textField)) {
+                textElement = (JRDesignTextElement) textField;
+            }
+        } else {
+            textElement = TableUtil.getCellTextElement(column.getGroupFooter(groupName), false);
+        }
+
+        if (textElement == null) {
+            List<ColumnGroup> colGroups = TableUtil.getHierarchicalColumnGroupsForColumn(column, table.getColumns(), table);
+
+            for (ColumnGroup cg: colGroups) {
+                if (cg.getGroupFooter(groupName) == null) {
+                    continue;
+                }
+                if (isSingleChunkedTextField) {
+                    JRTextField textField = TableUtil.getCellDetailTextElement(cg.getGroupFooter(groupName), false);
+                    if (textField != null && TableUtil.hasSingleChunkExpression(textField)) {
+                        textElement = (JRDesignTextElement) textField;
+                        break;
+                    }
+                } else {
+                    textElement = TableUtil.getCellTextElement(cg.getGroupFooter(groupName), false);
+                    if (textElement != null) break;
+                }
+            }
+
+        }
+
+        return textElement;
+    }
+
+    public static JRDesignTextField getTableFooterTextField(BaseColumn column, TableComponent table) {
+        return (JRDesignTextField)getTableFooterTextElement(column, table, true);
+    }
+
+    public static JRDesignTextElement getTableFooterTextElement(BaseColumn column, TableComponent table, boolean isSingleChunkedTextField) {
+        JRDesignTextElement textElement = null;
+        if (column.getTableFooter() != null) {
+            if (isSingleChunkedTextField){
+                JRTextField textField = TableUtil.getCellDetailTextElement(column.getTableFooter(), false);
+                if (textField != null && TableUtil.hasSingleChunkExpression(textField)) {
+                    textElement = (JRDesignTextElement) textField;
+                }
+            } else {
+                textElement = TableUtil.getCellTextElement(column.getTableFooter(), false);
+            }
+        }
+
+        if (textElement == null) {
+            List<ColumnGroup> colGroups = TableUtil.getHierarchicalColumnGroupsForColumn(column, table.getColumns(), table);
+            for (ColumnGroup cg: colGroups) {
+                if (cg.getTableFooter() == null) {
+                    continue;
+                }
+                if (isSingleChunkedTextField) {
+                    JRTextField textField = TableUtil.getCellDetailTextElement(cg.getTableFooter(), false);
+                    if (textField != null && TableUtil.hasSingleChunkExpression(textField)) {
+                        textElement = (JRDesignTextElement) textField;
+                        break;
+                    }
+                } else {
+                    textElement = TableUtil.getCellTextElement(cg.getTableFooter(), false);
+                    if (textElement != null) break;
+                }
+            }
+        }
+
+        return textElement;
+    }
 
 }

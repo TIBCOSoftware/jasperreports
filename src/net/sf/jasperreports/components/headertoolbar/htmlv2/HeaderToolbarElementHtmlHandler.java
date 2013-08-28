@@ -22,7 +22,8 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 package net.sf.jasperreports.components.headertoolbar.htmlv2;
-import java.awt.GraphicsEnvironment;
+
+import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,8 +43,7 @@ import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
 import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingCommand;
 import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingData;
-import net.sf.jasperreports.components.headertoolbar.actions.EditColumnHeaderData;
-import net.sf.jasperreports.components.headertoolbar.actions.EditColumnValueData;
+import net.sf.jasperreports.components.headertoolbar.actions.EditTextElementData;
 import net.sf.jasperreports.components.headertoolbar.actions.FilterAction;
 import net.sf.jasperreports.components.headertoolbar.actions.FormatCondition;
 import net.sf.jasperreports.components.headertoolbar.actions.SortAction;
@@ -634,7 +634,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
 		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
-		EditColumnHeaderData colHeaderData = new EditColumnHeaderData();
+        EditTextElementData colHeaderData = new EditTextElementData();
 		
 		if (target != null){
 			JRIdentifiable identifiable = target.getIdentifiable();
@@ -663,7 +663,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
 		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
-		EditColumnValueData colValueData = new EditColumnValueData();
+        EditTextElementData colValueData = new EditTextElementData();
 		
 		if (target != null){
 			JRIdentifiable identifiable = target.getIdentifiable();
@@ -680,7 +680,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				if (textElement != null) {
 					colValueData.setColumnIndex(columnIndex);
 					colValueData.setTableUuid(tableUuid);
-					HeaderToolbarElementUtils.copyTextFieldStyle(colValueData, textElement);
+					HeaderToolbarElementUtils.copyTextElementStyle(colValueData, textElement);
 				}
 			}
 		}

@@ -47,6 +47,7 @@ define(function() {
 			'column.basicFormatForm.groupheading.prefix': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.groupheading.prefix')",
 			'column.basicFormatForm.groupsubtotal.prefix': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.groupsubtotal.prefix')",
 			'column.basicFormatForm.applyto.option.headings': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.applyto.option.headings')",
-			'column.basicFormatForm.applyto.option.detailrows': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.applyto.option.detailrows')"
+			'column.basicFormatForm.applyto.option.detailrows': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.applyto.option.detailrows')",
+            'column.basicFormatForm.applyto.option.tabletotal': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.applyto.option.tabletotal')"
 	};
 });

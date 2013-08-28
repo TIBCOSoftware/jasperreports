@@ -904,26 +904,8 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             ],
         ],
         onCreate: function(jo) {
-            // populate applyTo selector
             var it = this,
-                options = [{value: 'heading', text: jive.i18n.get('column.basicFormatForm.applyto.option.headings')}, {value: 'detailrows', text: jive.i18n.get('column.basicFormatForm.applyto.option.detailrows')}],
-                selector = $('#applyTo'),
-                colGroups = jive.interactive.column.allColumnGroups[jive.selected.jo.data('tableuuid')],
-                suffix;
-            $.each(colGroups, function(i, group) {
-                if (group.grouptype === 'groupheading') {
-                    suffix = ' ' + jive.i18n.get('column.basicFormatForm.groupheading.prefix');
-                } else if (group.grouptype === 'groupsubtotal') {
-                    suffix = ' ' + jive.i18n.get('column.basicFormatForm.groupsubtotal.prefix');
-                }
-                options.push({
-                    value: group.id,
-                    text: (group.groupData? group.groupData.groupName: group.id) + suffix
-                });
-            });
-            $.each(options, function(i, v) {
-                selector.append($("<option/>", v));
-            });
+                selector = $('#applyTo');
 
             // events for applyTo selector
             selector.on('change', function(evt) {
@@ -948,6 +930,55 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                 }
             });
         },
+        updateApplyToSelector: function(hideHeadings) {
+            // populate applyTo selector
+            var it = this,
+                options = [],
+                finalOptions,
+                selector = $('#applyTo'),
+                colGroups = jive.interactive.column.allColumnGroups[jive.selected.jo.data('tableuuid')],
+                suffix,
+                currentColIdx = jive.selected.ie.config.columnIndex,
+                groupName,
+                groupHeadingOptions = [],
+                groupSubTotalsOptions = [],
+                totalsOptions = [];
+
+            if (!hideHeadings) {
+                options.push({value: 'heading', text: jive.i18n.get('column.basicFormatForm.applyto.option.headings')});
+            }
+
+            $('option', selector).remove();
+
+            $.each(colGroups, function(i, group) {
+                // check if group is for current column
+                if ($.inArray(currentColIdx, group.forColumns) != -1) {
+                    groupName = group.groupData ? group.groupData.groupName: group.id;
+                    if (group.grouptype === 'groupheading') {
+                        groupHeadingOptions.push({
+                            value: group.id,
+                            text: groupName + ' ' + jive.i18n.get('column.basicFormatForm.groupheading.prefix')
+                        });
+                    } else if (group.grouptype === 'groupsubtotal') {
+                        groupSubTotalsOptions.push({
+                            value: group.id,
+                            text: groupName + ' ' + jive.i18n.get('column.basicFormatForm.groupsubtotal.prefix')
+                        });
+                    } else if (group.grouptype === 'tabletotal') {
+                        totalsOptions.push({
+                            value: group.id,
+                            text: jive.i18n.get('column.basicFormatForm.applyto.option.tabletotal')
+                        });
+                    }
+                }
+            });
+
+            finalOptions = options.concat(groupHeadingOptions, [{value: 'detailrows', text: jive.i18n.get('column.basicFormatForm.applyto.option.detailrows')}], groupSubTotalsOptions, totalsOptions);
+
+            $.each(finalOptions, function(i, v) {
+                selector.append($("<option/>", v));
+            });
+        },
         onShow: function() {
             // show applyTo and prev/next col
             var dialog = jive.ui.dialog.jo;
@@ -958,15 +989,26 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             jive.selected.form.jo.parent().css({'overflow-y': 'hidden'});
 
             this.updateColNavButtons();
-            $('#applyTo').val('heading');
+            this.updateApplyToSelector();
             this.prevApplyTo = 'heading';
             this.applyToChanged('heading');
+
         },
         columnChanged: function() {
+            var existingApplyToText = $('#applyTo :selected').text(),
+                newOption;
             // update dialog column name
             jive.ui.dialog.title.html(jive.i18n.get('column.format.dialog.title') + ': ' + jive.selected.ie.config.columnLabel);
             this.updateColNavButtons();
-            this.applyToChanged($('#applyTo').val());
+            this.updateApplyToSelector();
+
+            newOption = $('#applyTo').find('option:contains(' + existingApplyToText + ')');
+            if (newOption.length > 0) {
+                newOption.attr('selected', true);
+                this.applyToChanged(newOption.val());
+            } else {
+                this.applyToChanged('heading');
+            }
         },
         applyToChanged: function(val) {
             var it = this,
@@ -976,24 +1018,22 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                 case "heading":
                     tables.eq(2).hide();
                     tables.eq(0).show();
-                    it.onHeadingsShow();
                     break;
                 case "groupheading":
                     tables.eq(2).hide();
                     tables.eq(0).hide();
-                    it.onGroupHeadingShow();
                     break;
                 case "detailrows":
                     tables.eq(2).show();
                     tables.eq(0).hide();
-                    it.onDetailRowsShow();
                     break;
+                case "tabletotal":
                 case "groupsubtotal":
                     tables.eq(2).show();
                     tables.eq(0).hide();
-                    it.onGroupSubtotalShow();
                     break;
             }
+            it.onGenericShow(val);
         },
         updateColNavButtons: function() {
             var colIdx = jive.selected.ie.config.columnIndex,
@@ -1031,18 +1071,33 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             return false;
         },
         getCacheKey: function(prevApplyTo) {
-            return this.name + "_" + jive.selected.ie.config.columnIndex + "_" + (prevApplyTo || $('#applyTo').val());
+            var applyTo = prevApplyTo || $('#applyTo').val();
+
+            if (applyTo === 'heading' || applyTo === 'detailrows') {
+                return this.name + "_" + jive.selected.ie.config.columnIndex + "_" + applyTo;
+            } else {
+                return this.name + "_" + applyTo;
+            }
         },
-        onHeadingsShow: function() {
+        onGenericShow: function(applyToVal) {
             var metadata,
                 inputs = jive.selected.form.inputs,
-                isFromCache = false;
+                isFromCache = false,
+                jo,
+                dataType,
+                htm = [];
 
             if (this.actionDataCache[this.getCacheKey()]) {
-                metadata = this.actionDataCache[this.getCacheKey()].editColumnHeaderData;
+                metadata = this.actionDataCache[this.getCacheKey()].editTextElementData;
                 isFromCache = true;
             } else {
-                metadata = jive.selected.ie.config.headingsTabContent;
+                if (applyToVal === 'heading') {
+                    metadata = jive.selected.ie.config.headingsTabContent;
+                } else if (applyToVal === 'detailrows') {
+                    metadata = jive.selected.ie.config.valuesTabContent;
+                } else {
+                    metadata = this.getGroupMetadata(applyToVal);
+                }
             }
 
             inputs['fontBold'].set(metadata.fontBold);
@@ -1051,15 +1106,53 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
 
             inputs['fontAlign'].set(metadata.fontHAlign);
             if (!isFromCache) {
-                inputs['headingName'].set(jive.decodeHTML(metadata.headingName));
+                if (applyToVal === 'heading') {
+                    inputs['headingName'].set(jive.decodeHTML(metadata.headingName));
+                }
                 inputs['fontName'].set(jive.decodeHTML(metadata.fontName));
             } else {
-                inputs['headingName'].set(metadata.headingName);
+                if (applyToVal === 'heading') {
+                    inputs['headingName'].set(metadata.headingName);
+                }
                 inputs['fontName'].set(metadata.fontName);
             }
             inputs['fontSize'].set(metadata.fontSize);
             inputs['fontColor'].set(metadata.fontColor);
             inputs['fontBackColor'].set(metadata.fontBackColor, metadata.mode);
+
+            if (applyToVal !== 'heading') {
+                jo = jive.selected.form.jo.find('table:eq(2)');
+
+                if (applyToVal === 'detailrows') {
+                    dataType = jive.selected.ie.config.dataType.toLowerCase();
+                } else if (metadata.dataType) {
+                    dataType = metadata.dataType.toLowerCase();
+                }
+
+                if(dataType && (dataType == 'numeric' || dataType == 'date' || dataType == 'time')) {
+                    $.each(jive.interactive.column.patterns[dataType],function(i,o){
+                        o && htm.push('<option value="'+o.key+'">'+o.val+'</option>');
+                    })
+                    $('#formatPattern').html(htm.join(''));
+                    if (!isFromCache) {
+                        inputs['formatPattern'].set(jive.decodeHTML(metadata.formatPattern));
+                    } else {
+                        inputs['formatPattern'].set(metadata.formatPattern);
+                    }
+                    jo.find('tr').show();
+                    if (dataType == 'numeric') {
+                        jo.find('tr:eq(0)').children('td:last').css('visibility','visible');
+                        jo.find('tr:eq(1)').children('td:last').css('visibility','visible');
+                        inputs['percentageBtn'].set(false);
+                        inputs['commaBtn'].set(false);
+                    } else {
+                        jo.find('tr:eq(0)').children('td:last').css('visibility','hidden');
+                        jo.find('tr:eq(1)').children('td:last').css('visibility','hidden');
+                    }
+                } else {
+                    jo.find('tr').hide();
+                }
+            }
         },
         getGroupMetadata: function(groupId) {
             var groupData = null;
@@ -1071,140 +1164,6 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             });
 
             return groupData;
-        },
-        onGroupHeadingShow: function() {
-            var metadata,
-                inputs = jive.selected.form.inputs,
-                isFromCache = false;
-
-            if (this.actionDataCache[this.getCacheKey()]) {
-                metadata = this.actionDataCache[this.getCacheKey()].editColumnHeaderData;
-                isFromCache = true;
-            } else {
-                metadata = this.getGroupMetadata($('#applyTo').val());
-            }
-
-            inputs['fontBold'].set(metadata.fontBold);
-            inputs['fontItalic'].set(metadata.fontItalic);
-            inputs['fontUnderline'].set(metadata.fontUnderline);
-
-            inputs['fontAlign'].set(metadata.fontHAlign);
-            if (!isFromCache) {
-                inputs['fontName'].set(jive.decodeHTML(metadata.fontName));
-            } else {
-                inputs['fontName'].set(metadata.fontName);
-            }
-            inputs['fontSize'].set(metadata.fontSize);
-            inputs['fontColor'].set(metadata.fontColor);
-            inputs['fontBackColor'].set(metadata.fontBackColor, metadata.mode);
-        },
-        onDetailRowsShow: function() {
-            var metadata,
-                inputs = jive.selected.form.inputs,
-                isFromCache = false,
-                htm = [],
-                ie = jive.selected.ie.config,
-                jo = jive.selected.form.jo.find('table:eq(2)'),
-                colDataType = ie.dataType.toLowerCase();
-
-            if (this.actionDataCache[this.getCacheKey()]) {
-                metadata = this.actionDataCache[this.getCacheKey()].editColumnValueData;
-                isFromCache = true;
-            } else {
-                metadata = jive.selected.ie.config.valuesTabContent;
-            }
-
-            inputs['fontBold'].set(metadata.fontBold);
-            inputs['fontItalic'].set(metadata.fontItalic);
-            inputs['fontUnderline'].set(metadata.fontUnderline);
-
-            inputs['fontAlign'].set(metadata.fontHAlign);
-            if (!isFromCache) {
-                inputs['fontName'].set(jive.decodeHTML(metadata.fontName));
-            } else {
-                inputs['fontName'].set(metadata.fontName);
-            }
-            inputs['fontSize'].set(metadata.fontSize);
-            inputs['fontColor'].set(metadata.fontColor);
-            inputs['fontBackColor'].set(metadata.fontBackColor, metadata.mode);
-
-            if(colDataType == 'numeric' || colDataType == 'date' || colDataType == 'time') {
-                $.each(jive.interactive.column.patterns[colDataType],function(i,o){
-                    o && htm.push('<option value="'+o.key+'">'+o.val+'</option>');
-                })
-                $('#formatPattern').html(htm.join(''));
-                if (!isFromCache) {
-                    inputs['formatPattern'].set(jive.decodeHTML(metadata.formatPattern));
-                } else {
-                    inputs['formatPattern'].set(metadata.formatPattern);
-                }
-                jo.find('tr').show();
-                if (colDataType == 'numeric') {
-                    jo.find('tr:eq(0)').children('td:last').css('visibility','visible');
-                    jo.find('tr:eq(1)').children('td:last').css('visibility','visible');
-                    inputs['percentageBtn'].set(false);
-                    inputs['commaBtn'].set(false);
-                } else {
-                    jo.find('tr:eq(0)').children('td:last').css('visibility','hidden');
-                    jo.find('tr:eq(1)').children('td:last').css('visibility','hidden');
-                }
-            } else {
-                jo.find('tr').hide();
-            }
-        },
-        onGroupSubtotalShow: function() {
-            var metadata,
-                inputs = jive.selected.form.inputs,
-                isFromCache = false,
-                htm = [],
-                jo = jive.selected.form.jo.find('table:eq(2)');
-
-            if (this.actionDataCache[this.getCacheKey()]) {
-                metadata = this.actionDataCache[this.getCacheKey()].editColumnValueData;
-                isFromCache = true;
-            } else {
-                metadata = this.getGroupMetadata($('#applyTo').val());
-            }
-
-            inputs['fontBold'].set(metadata.fontBold);
-            inputs['fontItalic'].set(metadata.fontItalic);
-            inputs['fontUnderline'].set(metadata.fontUnderline);
-
-            inputs['fontAlign'].set(metadata.fontHAlign);
-            if (!isFromCache) {
-                inputs['fontName'].set(jive.decodeHTML(metadata.fontName));
-            } else {
-                inputs['fontName'].set(metadata.fontName);
-            }
-            inputs['fontSize'].set(metadata.fontSize);
-            inputs['fontColor'].set(metadata.fontColor);
-            inputs['fontBackColor'].set(metadata.fontBackColor, metadata.mode);
-
-            var dataType = this.getGroupMetadata($('#applyTo').val()).dataType.toLowerCase();
-
-            if(dataType == 'numeric' || dataType == 'date' || dataType == 'time') {
-                $.each(jive.interactive.column.patterns[dataType],function(i,o){
-                    o && htm.push('<option value="'+o.key+'">'+o.val+'</option>');
-                })
-                $('#formatPattern').html(htm.join(''));
-                if (!isFromCache) {
-                    inputs['formatPattern'].set(jive.decodeHTML(metadata.formatPattern));
-                } else {
-                    inputs['formatPattern'].set(metadata.formatPattern);
-                }
-                jo.find('tr').show();
-                if (dataType == 'numeric') {
-                    jo.find('tr:eq(0)').children('td:last').css('visibility','visible');
-                    jo.find('tr:eq(1)').children('td:last').css('visibility','visible');
-                    inputs['percentageBtn'].set(false);
-                    inputs['commaBtn'].set(false);
-                } else {
-                    jo.find('tr:eq(0)').children('td:last').css('visibility','hidden');
-                    jo.find('tr:eq(1)').children('td:last').css('visibility','hidden');
-                }
-            } else {
-                jo.find('tr').hide();
-            }
         },
         submit:function(){
             var actions = [],
@@ -1229,11 +1188,12 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             var inputs = jive.selected.form.inputs,
                 currentApplyTo = prevApplyTo || $('#applyTo').val(),
                 val = currentApplyTo.substring(0, currentApplyTo.indexOf('_') != -1 ? currentApplyTo.indexOf("_"): currentApplyTo.length),
-                result = null,
-                commonData,
-                metadata;
+                result,
+                metadata = this.getGroupMetadata(currentApplyTo);
 
-            commonData = {
+            result = {
+                actionName: 'editTextElement',
+                editTextElementData:{
                     applyTo: val,
                     tableUuid: jive.selected.jo.data('tableuuid'),
                     columnIndex: jive.selected.ie.config.columnIndex,
@@ -1246,47 +1206,23 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                     fontColor: inputs['fontColor'].get(),
                     fontBackColor: inputs['fontBackColor'].getBackColor(),
                     mode: inputs['fontBackColor'].getModeValue()
+                }
             };
 
             switch(val) {
                 case 'heading':
-                    result = {
-                        actionName: 'editColumnHeader',
-                        editColumnHeaderData: $.extend({
-                            headingName: inputs['headingName'].get()
-                        }, commonData)
-                    };
+                    result.editTextElementData.headingName = inputs['headingName'].get();
                     break;
+                case 'tabletotal':
                 case 'detailrows':
-                    result = {
-                        actionName: 'editColumnValues',
-                        editColumnValueData: $.extend({
-                            formatPattern: inputs['formatPattern'].get()
-                        }, commonData)
-                    };
+                    result.editTextElementData.formatPattern = inputs['formatPattern'].get();
                     break;
                 case 'groupheading':
-                    metadata = this.getGroupMetadata(currentApplyTo);
-                    result = {
-                        actionName: 'editColumnHeader',
-                        editColumnHeaderData: $.extend({
-                            i: metadata.i,
-                            j: metadata.j,
-                            groupName: metadata.groupName || null
-                        }, commonData)
-                    };
+                    result.editTextElementData.groupName = metadata.groupName || null;
                     break;
                 case 'groupsubtotal':
-                    metadata = this.getGroupMetadata(currentApplyTo);
-                    result = {
-                        actionName: 'editColumnValues',
-                        editColumnValueData: $.extend({
-                            formatPattern: inputs['formatPattern'].get(),
-                            i: metadata.i,
-                            j: metadata.j,
-                            groupName: metadata.groupName || null
-                        }, commonData)
-                    };
+                    result.editTextElementData.formatPattern = inputs['formatPattern'].get();
+                    result.editTextElementData.groupName = metadata.groupName || null;
                     break;
             }
 
@@ -1382,21 +1318,33 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             form.find('table:eq(1)').addClass('conditionList').find('tr:last').addClass('add');
         },
         columnChanged: function() {
+            var existingApplyToText = $('#applyTo :selected').text(),
+                newOption;
             // update dialog column name
             jive.ui.dialog.title.html(jive.i18n.get('column.format.dialog.title') + ': ' + jive.selected.ie.config.columnLabel);
             jive.interactive.column.basicFormatForm.updateColNavButtons();
-            this.onGenericShow();
+            jive.interactive.column.basicFormatForm.updateApplyToSelector(true);
+
+            newOption = $('#applyTo').find('option:contains(' + existingApplyToText + ')');
+            if (newOption.length > 0) {
+                newOption.attr('selected', true);
+                this.applyToChanged(newOption.val());
+            } else {
+                $('#applyTo').val('detailrows');
+                this.applyToChanged('detailrows');
+            }
         },
         applyToChanged: function(val) {
-            this.onGenericShow();
+            this.onGenericShow(val);
         },
         onShow: function() {
             jive.selected.form.jo.parent().css({'overflow-y': 'hidden'});
 
             jive.interactive.column.basicFormatForm.updateColNavButtons();
-            $('#applyTo').val('heading');
-            this.prevApplyTo = 'heading';
-            this.onGenericShow();
+            jive.interactive.column.basicFormatForm.updateApplyToSelector(true);
+            this.prevApplyTo = 'detailrows';
+            $('#applyTo').val('detailrows');
+            this.onGenericShow('detailrows');
         },
         getGroupMetadata: function(groupId) {
             var groupData = null;
@@ -1409,13 +1357,12 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
 
             return groupData;
         },
-        onGenericShow:function(){
+        onGenericShow:function(applyToVal){
             var it = this,
                 table = jive.selected.form.jo.find('table:eq(1)'),
                 isFromCache = false,
                 addButton = jive.selected.form.jo.find('div.jive_inputbutton[bname=conditionAdd]'),
-                metadata,
-                applyToVal = $('#applyTo').val();
+                metadata;
 
             jive.selected.form.jo.parent().css({'overflow-y': 'auto'});
 
@@ -1423,7 +1370,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                 metadata = this.actionDataCache[this.getCacheKey()].conditionalFormattingData;
                 isFromCache = true;
             } else {
-                if (applyToVal.indexOf('group') != -1) {
+                if (applyToVal.indexOf('group') != -1 || applyToVal.indexOf('tabletotal') != -1) {
                     metadata = this.getGroupMetadata(applyToVal);
                 } else if (applyToVal == 'detailrows') {
                     metadata = jive.selected.ie.config.conditionalFormattingData;
@@ -1457,11 +1404,15 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             }
         },
         onBlur: function(prevApplyTo) {
-            var it = this
-                currentApplyTo = prevApplyTo || $('#applyTo').val();
-            // do not cache actionData for headings and goup headings
-            if (currentApplyTo !== 'heading' && currentApplyTo.indexOf('groupheading') == -1) {
-                this.actionDataCache[this.getCacheKey(currentApplyTo)] = this.getActionData(currentApplyTo);
+            var it = this,
+                currentApplyTo = prevApplyTo || $('#applyTo').val(),
+                cacheKey;
+            // do not cache actionData for headings
+            if (currentApplyTo !== 'heading') {
+                cacheKey = this.getCacheKey(currentApplyTo);
+                if (cacheKey) {
+                    this.actionDataCache[cacheKey] = this.getActionData(currentApplyTo);
+                }
             }
             jive.selected.form.jo.find('table:eq(1) tr.jive_condition').each(function() {it.removeRow($(this));});
         },
@@ -1598,7 +1549,19 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
 
         },
         getCacheKey: function(prevApplyTo) {
-            return this.name + "_" + jive.selected.ie.config.columnIndex + "_" + (prevApplyTo || $('#applyTo').val());
+            var applyTo = prevApplyTo || $('#applyTo').val();
+
+            if (applyTo === 'heading') {
+                return null;
+            }
+
+            if (applyTo === 'detailrows' && jive.selected.ie.config.conditionalFormattingData) {
+                return this.name + "_" + jive.selected.ie.config.columnIndex + "_" + applyTo;
+            } else if (this.getGroupMetadata(applyTo) && this.getGroupMetadata(applyTo).conditionalFormattingData) {
+                return this.name + "_" + applyTo;
+            }
+
+            return null;
         },
         getActionData: function(prevApplyTo) {
             var currentApplyTo = prevApplyTo || $('#applyTo').val(),
@@ -1619,12 +1582,10 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                         columnType: metadata.columnType,
                         fieldOrVariableName: metadata.fieldOrVariableName,
                         conditions: [],
-                        groupName: metadata.groupName,
-                        i:metadata.i,
-                        j: metadata.j
+                        groupName: metadata.groupName
                     }
                 };
-            } else if (currentApplyTo == 'detailrows') {
+            } else if (currentApplyTo == 'detailrows' || val === 'tabletotal') {
                 metadata = jive.selected.ie.config.conditionalFormattingData;
                 actionData = {
                     actionName: 'conditionalFormatting',

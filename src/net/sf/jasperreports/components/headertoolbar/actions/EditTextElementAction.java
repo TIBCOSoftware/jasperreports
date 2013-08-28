@@ -29,15 +29,13 @@ import java.util.Locale;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.table.BaseColumn;
-import net.sf.jasperreports.components.table.Cell;
-import net.sf.jasperreports.components.table.ColumnGroup;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignDatasetRun;
+import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.repo.JasperDesignCache;
@@ -50,17 +48,17 @@ import net.sf.jasperreports.web.commands.ResetInCacheCommand;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class EditColumnValuesAction extends AbstractVerifiableTableAction {
+public class EditTextElementAction extends AbstractVerifiableTableAction {
 
-	public EditColumnValuesAction() {
+	public EditTextElementAction() {
 	}
 	
-	public void setEditColumnValueData(EditColumnValueData editColumnValueData) {
-		columnData = editColumnValueData;
+	public void setEditTextElementData(EditTextElementData editTextElementData) {
+		columnData = editTextElementData;
 	}
 
-	public EditColumnValueData getEditColumnValueData() {
-		return (EditColumnValueData)columnData;
+	public EditTextElementData getEditTextElementData() {
+		return (EditTextElementData)columnData;
 	}
 
 	public void performAction() throws ActionException {
@@ -68,7 +66,7 @@ public class EditColumnValuesAction extends AbstractVerifiableTableAction {
 		try {
 			getCommandStack().execute(
 				new ResetInCacheCommand(
-					new EditColumnValuesCommand(getTargetTextField(), getEditColumnValueData()),
+					new EditTextElementCommand(getTargetTextElement(), getEditTextElementData()),
 					getJasperReportsContext(), 
 					getReportContext(), 
 					targetUri
@@ -79,26 +77,22 @@ public class EditColumnValuesAction extends AbstractVerifiableTableAction {
 		}
 	}
 
-    private JRTextField getTargetTextField() {
-        EditColumnValueData colValData = getEditColumnValueData();
-        JRTextField result = null;
+    private JRDesignTextElement getTargetTextElement() {
+        EditTextElementData textElementData = getEditTextElementData();
+        List<BaseColumn> allCols = TableUtil.getAllColumns(table);
+        StandardColumn col = (StandardColumn)allCols.get(textElementData.getColumnIndex());
+        JRDesignTextElement result = null;
 
-        if ("detailrows".equals(colValData.getApplyTo())) {
-            List<BaseColumn> allCols = TableUtil.getAllColumns(table);
-            StandardColumn col = (StandardColumn)allCols.get(colValData.getColumnIndex());
-            result = TableUtil.getColumnDetailTextElement(col);
-        } else if("groupsubtotal".equals(colValData.getApplyTo())) {
-            List<ColumnGroup> lst = TableUtil.getAllColumnGroups(table.getColumns());
-            ColumnGroup colGroup = lst.get(colValData.getI());
-            Cell cell;
-
-            if (colValData.getGroupName() != null && colValData.getGroupName().length() > 0) {
-                cell = colGroup.getGroupFooter(colValData.getGroupName());
-            } else {
-                cell = colGroup.getGroupFooters().get(colValData.getJ()).getCell();
-            }
-
-            result =  TableUtil.getCellDetailTextElement(cell, false);
+        if (EditTextElementData.APPLY_TO_DETAIL_ROWS.equals(textElementData.getApplyTo())) {
+            result = (JRDesignTextElement)TableUtil.getColumnDetailTextElement(col);
+        } else if (EditTextElementData.APPLY_TO_GROUP_SUBTOTAL.equals(textElementData.getApplyTo())) {
+            result = TableUtil.getFooterGroupTextElement(col, textElementData.getGroupName(), table, false);
+        } else if (EditTextElementData.APPLY_TO_HEADING.equals(textElementData.getApplyTo())) {
+            result = TableUtil.getColumnHeaderTextElement(col);
+        } else if (EditTextElementData.APPLY_TO_GROUPHEADING.equals(textElementData.getApplyTo())) {
+            result = TableUtil.getHeaderGroupTextElement(col, textElementData.getGroupName(), table, false);
+        } else if (EditTextElementData.APPLY_TO_TABLE_TOTAL.equals(textElementData.getApplyTo())) {
+            result = TableUtil.getTableFooterTextElement(col, table, false);
         }
 
         return result;
@@ -106,7 +100,7 @@ public class EditColumnValuesAction extends AbstractVerifiableTableAction {
 
 	@Override
 	public void verify() throws ActionException {
-		EditColumnValueData colValData = getEditColumnValueData();
+        EditTextElementData colValData = getEditTextElementData();
 		
 		if (colValData.getFontSize() != null) {
 			try {
@@ -115,16 +109,16 @@ public class EditColumnValuesAction extends AbstractVerifiableTableAction {
 				errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.edit.values.invalid.font.size", colValData.getFontSize());
 			}
 		}
-		JRTextField textField = getTargetTextField();
+        JRDesignTextElement textField = getTargetTextElement();
 
-		if (TableUtil.hasSingleChunkExpression(textField)) {
+		if (textField instanceof JRDesignTextField && TableUtil.hasSingleChunkExpression((JRDesignTextField) textField)) {
 			JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
 			String datasetName = datasetRun.getDatasetName();
 			JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());
 			JasperDesign jasperDesign = cache.getJasperDesign(targetUri);
 			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
 			
-			String textFieldName = textField.getExpression().getChunks()[0].getText();
+			String textFieldName = ((JRDesignTextField) textField).getExpression().getChunks()[0].getText();
 			FilterTypesEnum filterType = null;
 			
 			for (JRField field: dataset.getFields()) {
