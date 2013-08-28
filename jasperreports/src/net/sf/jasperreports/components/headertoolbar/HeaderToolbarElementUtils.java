@@ -28,8 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.components.headertoolbar.actions.EditColumnHeaderData;
-import net.sf.jasperreports.components.headertoolbar.actions.EditColumnValueData;
+import net.sf.jasperreports.components.headertoolbar.actions.EditTextElementData;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
@@ -102,59 +101,35 @@ public class HeaderToolbarElementUtils {
 		return result;
 	}
 
-	public static void copyOwnTextElementStyle(EditColumnHeaderData columnHeaderData, JRDesignTextElement textElement) {
-		columnHeaderData.setFontName(textElement.getOwnFontName());
-		columnHeaderData.setFontSize(textElement.getOwnFontSize() != null ? String.valueOf(textElement.getOwnFontSize()) : null);
-		columnHeaderData.setFontBold(textElement.isOwnBold());
-		columnHeaderData.setFontItalic(textElement.isOwnItalic());
-		columnHeaderData.setFontUnderline(textElement.isOwnUnderline());
-		columnHeaderData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
-		columnHeaderData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()) : null);
-		columnHeaderData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
-		columnHeaderData.setMode(textElement.getOwnModeValue() != null ? textElement.getOwnModeValue().getName() : null);
-	}
-
-	public static void copyTextElementStyle(EditColumnHeaderData columnHeaderData, JRDesignTextElement textElement) {
-		columnHeaderData.setFontName(JRStringUtil.htmlEncode(textElement.getFontName()));
-		columnHeaderData.setFontSize(String.valueOf(textElement.getFontSize()));
-		columnHeaderData.setFontBold(textElement.isBold());
-		columnHeaderData.setFontItalic(textElement.isItalic());
-		columnHeaderData.setFontUnderline(textElement.isUnderline());
-		columnHeaderData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
-		columnHeaderData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getBackcolor()));
-		columnHeaderData.setFontHAlign(textElement.getHorizontalAlignmentValue().getName());
-		columnHeaderData.setMode(textElement.getModeValue().getName());
-	}
-
-	public static void copyOwnTextFieldStyle(EditColumnValueData columnValueData, JRDesignTextField textField) {
-		columnValueData.setFontName(textField.getOwnFontName());
-		columnValueData.setFontSize(textField.getOwnFontSize() != null ? String.valueOf(textField.getOwnFontSize()) : null);
-		columnValueData.setFontBold(textField.isOwnBold());
-		columnValueData.setFontItalic(textField.isOwnItalic());
-		columnValueData.setFontUnderline(textField.isOwnUnderline());
-		columnValueData.setFontColor(textField.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textField.getOwnForecolor()) : null);
-		columnValueData.setFontBackColor(textField.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textField.getOwnBackcolor()) : null);
-		columnValueData.setFontHAlign(textField.getOwnHorizontalAlignmentValue() != null ? textField.getOwnHorizontalAlignmentValue().getName() : null);
-		columnValueData.setMode(textField.getOwnModeValue() != null ? textField.getOwnModeValue().getName() : null);
+	public static void copyOwnTextElementStyle(EditTextElementData textElementData, JRDesignTextElement textElement) {
+		textElementData.setFontName(textElement.getOwnFontName());
+		textElementData.setFontSize(textElement.getOwnFontSize() != null ? String.valueOf(textElement.getOwnFontSize()) : null);
+		textElementData.setFontBold(textElement.isOwnBold());
+		textElementData.setFontItalic(textElement.isOwnItalic());
+		textElementData.setFontUnderline(textElement.isOwnUnderline());
+		textElementData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
+		textElementData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()) : null);
+		textElementData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
+		textElementData.setMode(textElement.getOwnModeValue() != null ? textElement.getOwnModeValue().getName() : null);
 		
-		if (TableUtil.hasSingleChunkExpression(textField)) {
-			columnValueData.setFormatPattern(textField.getOwnPattern());
+		if (textElement instanceof JRDesignTextField && TableUtil.hasSingleChunkExpression((JRDesignTextField) textElement)) {
+			textElementData.setFormatPattern(((JRDesignTextField) textElement).getOwnPattern());
 		}
 	}
 
-	public static void copyTextFieldStyle(EditColumnValueData columnValueData, JRDesignTextField textField) {
-		columnValueData.setFontName(JRStringUtil.htmlEncode(textField.getFontName()));
-		columnValueData.setFontSize(String.valueOf(textField.getFontSize()));
-		columnValueData.setFontBold(textField.isBold());
-		columnValueData.setFontItalic(textField.isItalic());
-		columnValueData.setFontUnderline(textField.isUnderline());
-		columnValueData.setFontColor(JRColorUtil.getColorHexa(textField.getForecolor()));
-		columnValueData.setFontBackColor(JRColorUtil.getColorHexa(textField.getBackcolor()));
-		columnValueData.setFontHAlign(textField.getHorizontalAlignmentValue().getName());
-		columnValueData.setMode(textField.getModeValue().getName());
+	public static void copyTextElementStyle(EditTextElementData textElementData, JRDesignTextElement textElement) {
+		textElementData.setFontName(JRStringUtil.htmlEncode(textElement.getFontName()));
+		textElementData.setFontSize(String.valueOf(textElement.getFontSize()));
+		textElementData.setFontBold(textElement.isBold());
+		textElementData.setFontItalic(textElement.isItalic());
+		textElementData.setFontUnderline(textElement.isUnderline());
+		textElementData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
+		textElementData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getBackcolor()));
+		textElementData.setFontHAlign(textElement.getHorizontalAlignmentValue().getName());
+		textElementData.setMode(textElement.getModeValue().getName());
 		
-		if (TableUtil.hasSingleChunkExpression(textField)) {
-			columnValueData.setFormatPattern(JRStringUtil.htmlEncode(textField.getPattern()));
+		if (textElement instanceof JRDesignTextField && TableUtil.hasSingleChunkExpression((JRDesignTextField) textElement)) {
+			textElementData.setFormatPattern(JRStringUtil.htmlEncode(((JRDesignTextField) textElement).getPattern()));
 		}
 	}
 

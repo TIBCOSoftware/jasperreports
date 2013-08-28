@@ -42,8 +42,7 @@ import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
 import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingCommand;
 import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingData;
-import net.sf.jasperreports.components.headertoolbar.actions.EditColumnHeaderData;
-import net.sf.jasperreports.components.headertoolbar.actions.EditColumnValueData;
+import net.sf.jasperreports.components.headertoolbar.actions.EditTextElementData;
 import net.sf.jasperreports.components.headertoolbar.actions.FilterAction;
 import net.sf.jasperreports.components.headertoolbar.actions.FormatCondition;
 import net.sf.jasperreports.components.headertoolbar.actions.SortAction;
@@ -81,6 +80,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignDatasetRun;
+import net.sf.jasperreports.engine.design.JRDesignStaticText;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -642,7 +642,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
 		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
-		EditColumnHeaderData colHeaderData = new EditColumnHeaderData();
+		EditTextElementData textElementData = new EditTextElementData();
 		
 		if (target != null){
 			JRIdentifiable identifiable = target.getIdentifiable();
@@ -657,21 +657,21 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				JRDesignTextElement textElement = TableUtil.getColumnHeaderTextElement(column);
 				
 				if (textElement != null) {
-					colHeaderData.setHeadingName(JRStringUtil.htmlEncode(sortColumnLabel));
-					colHeaderData.setColumnIndex(columnIndex);
-					colHeaderData.setTableUuid(tableUuid);
-					HeaderToolbarElementUtils.copyTextElementStyle(colHeaderData, textElement);
+					textElementData.setHeadingName(JRStringUtil.htmlEncode(sortColumnLabel));
+					textElementData.setColumnIndex(columnIndex);
+					textElementData.setTableUuid(tableUuid);
+					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement);
 				}
 			}
 		}
-		contextMap.put("colHeaderData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(colHeaderData));
+		contextMap.put("colHeaderData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(textElementData));
 	}
 	
 	private void setColumnValueData(Integer columnIndex, String tableUuid, Map<String, Object> contextMap, JasperReportsContext jasperReportsContext, ReportContext reportContext) {
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
 		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
-		EditColumnValueData colValueData = new EditColumnValueData();
+        EditTextElementData textElementData = new EditTextElementData();
 		
 		if (target != null){
 			JRIdentifiable identifiable = target.getIdentifiable();
@@ -686,13 +686,13 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				JRDesignTextField textElement = (JRDesignTextField)TableUtil.getColumnDetailTextElement(column);
 				
 				if (textElement != null) {
-					colValueData.setColumnIndex(columnIndex);
-					colValueData.setTableUuid(tableUuid);
-					HeaderToolbarElementUtils.copyTextFieldStyle(colValueData, textElement);
+					textElementData.setColumnIndex(columnIndex);
+					textElementData.setTableUuid(tableUuid);
+					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement);
 				}
 			}
 		}
-		contextMap.put("colValueData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(colValueData));
+		contextMap.put("colValueData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(textElementData));
 	}
 
 	public static class ColumnInfo {
@@ -748,122 +748,244 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		return columnNames;
 	}
 
+    public static class GroupInfo {
+        public static final String TYPE_GROUP_HEADING = "groupheading";
+        public static final String TYPE_GROUP_SUBTOTAL = "groupsubtotal";
+        public static final String TYPE_TABLE_TOTAL = "tabletotal";
+
+        private String name;
+        private String type;
+        private List<Integer> forColumns;
+
+        public GroupInfo(String name, String type) {
+            this.name = name;
+            this.type = type;
+            this.forColumns = new ArrayList<Integer>();
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void addForColumn(Integer index) {
+            forColumns.add(index);
+        }
+
+        public List<Integer> getForColumns() {
+            return this.forColumns;
+        }
+    }
+
+    private boolean setTextElements(List<GroupCell> groupCells, Map<JRDesignTextElement, GroupInfo> groups, String groupType, Integer columnIndex) {
+        boolean result = false;
+        if (groupCells != null) {
+            for (GroupCell gc: groupCells) {
+                JRDesignTextElement textElement = TableUtil.getCellTextElement(gc.getCell(), false);
+
+                if (textElement != null) {
+                    result = true;
+                    if (groups.containsKey(textElement)) {
+                        groups.get(textElement).addForColumn(columnIndex);
+                    }
+                    else {
+                        GroupInfo gi = new GroupInfo(gc.getGroupName() != null ? gc.getGroupName() : groupType + "_" + columnIndex, groupType);
+                        gi.addForColumn(columnIndex);
+                        groups.put(textElement, gi);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
 	private List<Map<String, Object>> getColumnGroupsData(JasperReportsContext jasperReportsContext, ReportContext reportContext, String tableUuid) {
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
 		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
 		List<Map<String, Object>> groupsData = new ArrayList<Map<String, Object>>();
-        EditColumnHeaderData groupHeaderData;
-        EditColumnValueData groupFooterData;
-		
-		if (target != null){
+        EditTextElementData textElementData;
+
+		if (target != null) {
 			JRIdentifiable identifiable = target.getIdentifiable();
 			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
 			StandardTable table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
+            List<BaseColumn> allColumns = TableUtil.getAllColumns(table);
 
-			JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
+            int i = 0;
+            Map<JRDesignTextElement, GroupInfo> groups = new HashMap<JRDesignTextElement, GroupInfo>();
+            boolean found;
+
+            // build the groups map
+            for (BaseColumn bc: allColumns) {
+                List<ColumnGroup> colGroups = TableUtil.getHierarchicalColumnGroupsForColumn(bc, table.getColumns(), table);
+
+                // group headers
+                found = setTextElements(bc.getGroupHeaders(), groups, GroupInfo.TYPE_GROUP_HEADING, i);
+                if (!found) {
+                    for (ColumnGroup cg: colGroups) {
+                        if (cg.getGroupHeaders() == null) {
+                            continue;
+                        }
+                        found = setTextElements(cg.getGroupHeaders(), groups, GroupInfo.TYPE_GROUP_HEADING, i);
+                        if (found) break;
+                    }
+                }
+
+                // group footers
+                found = setTextElements(bc.getGroupFooters(), groups, GroupInfo.TYPE_GROUP_SUBTOTAL, i);
+                if (!found) {
+                    for (ColumnGroup cg: colGroups) {
+                        if (cg.getGroupFooters() == null) {
+                            continue;
+                        }
+                        found = setTextElements(cg.getGroupFooters(), groups, GroupInfo.TYPE_GROUP_SUBTOTAL, i);
+                        if (found) break;
+                    }
+                }
+
+                // table footers
+                found = false;
+                if (bc.getTableFooter() != null) {
+                    JRDesignTextElement textElement = TableUtil.getCellTextElement(bc.getTableFooter(), false);
+
+                    if (textElement != null) {
+                        found = true;
+                        if (groups.containsKey(textElement)) {
+                            groups.get(textElement).addForColumn(i);
+                        }
+                        else {
+                            GroupInfo gi = new GroupInfo("Tabletotal" + "_" + i, GroupInfo.TYPE_TABLE_TOTAL);
+                            gi.addForColumn(i);
+                            groups.put(textElement, gi);
+                        }
+                    }
+                }
+                if (!found) {
+                    for (ColumnGroup cg: colGroups) {
+                        if (cg.getTableFooter() == null) {
+                            continue;
+                        }
+                        JRDesignTextElement textElement = TableUtil.getCellTextElement(cg.getTableFooter(), false);
+
+                        if (textElement != null) {
+                            found = true;
+                            if (groups.containsKey(textElement)) {
+                                groups.get(textElement).addForColumn(i);
+                            }
+                            else {
+                                GroupInfo gi = new GroupInfo("Tabletotal" + "_" + i, GroupInfo.TYPE_TABLE_TOTAL);
+                                gi.addForColumn(i);
+                                groups.put(textElement, gi);
+                            }
+                        }
+
+                        if (found) break;
+                    }
+                }
+                i++;
+            }
+
+            // populate groupsData
+            JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
 			String datasetName = datasetRun.getDatasetName();
 			JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
 			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());
 			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
+            i = 0;
+            for (Map.Entry<JRDesignTextElement, GroupInfo> entry: groups.entrySet()) {
+                JRDesignTextElement textElement = entry.getKey();
+                GroupInfo groupInfo = entry.getValue();
 
-			List<ColumnGroup> lst = TableUtil.getAllColumnGroups(table.getColumns());
+                // for static textFields set only styles
+                if (textElement instanceof JRDesignStaticText) {
+                    Map<String, Object> groupData = new HashMap<String, Object>();
+                    textElementData = new EditTextElementData();
+                    textElementData.setTableUuid(tableUuid);
+                    textElementData.setGroupName(groupInfo.getName());
 
-			int i = 0, j;
-			for (ColumnGroup cg: lst) {
-				if (cg.getGroupHeaders() != null) {
-                    j = 0;
-					for (GroupCell gc: cg.getGroupHeaders()) {
-						JRDesignTextElement textElement = TableUtil.getCellTextElement(gc.getCell(), false);
-						
-						if (textElement != null) {
-							Map<String, Object> groupData = new HashMap<String, Object>();
-                            groupHeaderData = new EditColumnHeaderData();
-                            groupHeaderData.setTableUuid(tableUuid);
-                            groupHeaderData.setI(i);
-                            groupHeaderData.setJ(j);
+                    HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement);
 
-							if (gc.getGroupName() != null && gc.getGroupName().length() > 0) {
-                                groupHeaderData.setGroupName(gc.getGroupName());
-							}
+                    groupData.put("grouptype", groupInfo.getType());
+                    groupData.put("id", groupInfo.getType() + "_" + i);
+                    groupData.put("groupData", textElementData);
+                    groupData.put("forColumns", groupInfo.getForColumns());
+                    groupsData.add(groupData);
+                } else if (textElement instanceof JRDesignTextField) {
+                    // for textFields with single chunk expression set conditionalFormatting data
+                    if (TableUtil.hasSingleChunkExpression((JRDesignTextField)textElement)) {
+                        FilterTypesEnum filterType;
+                        String fieldOrVariableName;
+                        SortFieldTypeEnum columnType;
 
-                            HeaderToolbarElementUtils.copyTextElementStyle(groupHeaderData, textElement);
+                        JRExpressionChunk expression = ((JRTextField)textElement).getExpression().getChunks()[0];
+                        fieldOrVariableName = expression.getText();
+                        textElementData = new EditTextElementData();
+                        textElementData.setTableUuid(tableUuid);
+                        textElementData.setGroupName(groupInfo.getName());
 
-							groupData.put("grouptype", "groupheading");
-                            groupData.put("id", "groupheading_" + i + "_" + j);
-                            groupData.put("groupData", groupHeaderData);
-							groupsData.add(groupData);
-						}
-					}
-				}
-				if (cg.getGroupFooters() != null) {
-                    j = 0;
-					for (GroupCell gc: cg.getGroupFooters()) {
-						JRTextField textElement = TableUtil.getCellDetailTextElement(gc.getCell(), false);
-						FilterTypesEnum filterType = null;
-						String fieldOrVariableName = null;
-                        SortFieldTypeEnum columnType = null;
-						
-						if (textElement != null && TableUtil.hasSingleChunkExpression(textElement)) {
-							JRExpressionChunk expression = textElement.getExpression().getChunks()[0];
-							fieldOrVariableName = expression.getText();
-                            groupFooterData = new EditColumnValueData();
-                            groupFooterData.setTableUuid(tableUuid);
-                            groupFooterData.setI(i);
-                            groupFooterData.setJ(j);
+                        switch (expression.getType()) {
+                            case JRExpressionChunk.TYPE_FIELD:
+                                columnType = SortFieldTypeEnum.FIELD;
+                                JRField field = getField(fieldOrVariableName, dataset);
+                                filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
+                                break;
 
-                            switch (expression.getType()) {
-                                case JRExpressionChunk.TYPE_FIELD:
-                                    columnType = SortFieldTypeEnum.FIELD;
-                                    JRField field = getField(fieldOrVariableName, dataset);
-                                    filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
-                                    break;
+                            case JRExpressionChunk.TYPE_VARIABLE:
+                                columnType = SortFieldTypeEnum.VARIABLE;
+                                JRVariable variable = getVariable(fieldOrVariableName, dataset);
+                                filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
+                                break;
 
-                                case JRExpressionChunk.TYPE_VARIABLE:
-                                    columnType = SortFieldTypeEnum.VARIABLE;
-                                    JRVariable variable = getVariable(fieldOrVariableName, dataset);
-                                    filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
-                                    break;
+                            default:
+                                // never
+                                throw new JRRuntimeException("Unrecognized expression type " + expression.getType());
+                        }
+                        textElementData.setDataType(filterType.getName());
+                        HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement);
 
-                                default:
-                                    // never
-                                    throw new JRRuntimeException("Unrecognized expression type " + expression.getType());
-                            }
-                            groupFooterData.setDataType(filterType.getName());
+                        ConditionalFormattingData cfData = getCfData(textElement, jasperReportsContext);
+                        cfData.setGroupName(groupInfo.getName());
 
-                            Map<String, Object> groupData = new HashMap<String, Object>();
-                            ConditionalFormattingData cfData = getCfData((JRDesignTextField)textElement, jasperReportsContext);
+                        Map<String, Object> groupData = new HashMap<String, Object>();
+                        groupData.put("grouptype", groupInfo.getType());
+                        groupData.put("id", groupInfo.getType() + "_" + i);
+                        groupData.put("groupData", textElementData);
+                        groupData.put("forColumns", groupInfo.getForColumns());
 
-							if (gc.getGroupName() != null && gc.getGroupName().length() > 0) {
-                                groupFooterData.setGroupName(gc.getGroupName());
-                                cfData.setGroupName(gc.getGroupName());
-							}
+                        cfData.setTableUuid(tableUuid);
+                        cfData.setConditionType(filterType.getName());
+                        cfData.setColumnType(columnType.getName());
+                        cfData.setFieldOrVariableName(fieldOrVariableName);
+                        groupData.put("conditionalFormattingData", cfData);
 
-                            HeaderToolbarElementUtils.copyTextFieldStyle(groupFooterData, (JRDesignTextField)textElement);
+                        groupsData.add(groupData);
+                    } else {
+                        Map<String, Object> groupData = new HashMap<String, Object>();
+                        textElementData = new EditTextElementData();
+                        textElementData.setTableUuid(tableUuid);
+                        textElementData.setGroupName(groupInfo.getName());
+                        textElementData.setDataType(FilterTypesEnum.TEXT.getName());
 
-							groupData.put("grouptype", "groupsubtotal");
-                            groupData.put("id", "groupsubtotal_" + i + "_" + j);
-                            groupData.put("groupData", groupFooterData);
+                        HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement);
 
-                            cfData.setTableUuid(tableUuid);
-                            cfData.setConditionType(filterType.getName());
-                            cfData.setColumnType(columnType.getName());
-                            cfData.setFieldOrVariableName(fieldOrVariableName);
-                            cfData.setI(i);
-                            cfData.setJ(j);
-                            groupData.put("conditionalFormattingData", cfData);
-
-							groupsData.add(groupData);
-						}
-					}
-				}
-				i++;
-			}
+                        groupData.put("grouptype", groupInfo.getType());
+                        groupData.put("id", groupInfo.getType() + "_" + i);
+                        groupData.put("groupData", textElementData);
+                        groupData.put("forColumns", groupInfo.getForColumns());
+                        groupsData.add(groupData);
+                    }
+                }
+                i++;
+            }
 		}
-		
+
 		return groupsData;
 	}
-	
+
 	protected JRField getField(String name, JRDesignDataset dataSet) {
 		JRField found = null;
 		for (JRField field : dataSet.getFields())
