@@ -249,41 +249,51 @@
 						</jr:column>
 						<jr:column width="100">
 							<jr:tableFooter height="60" rowSpan="3">
+								<!--
 								<textField>
 									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="60" backcolor="#FFFFFF" forecolor="#333333"/>
 									<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
 								</textField>
+								-->
 							</jr:tableFooter>
 							<jr:groupHeader groupName="StateGroup">
 								<jr:cell height="60" rowSpan="3">
+								<!--
 									<textField>
 										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="60" forecolor="#FFFFFF" backcolor="#E0C0C0"/>
 										<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
 									</textField>
+								-->
 								</jr:cell>
 							</jr:groupHeader>
 							<jr:groupHeader groupName="CityGroup">
 								<jr:cell height="60" rowSpan="3">
+								<!--
 									<textField>
 										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="60" forecolor="#FFFFFF" backcolor="#C0C0C0"/>
 										<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
 									</textField>
+								-->
 								</jr:cell>
 							</jr:groupHeader>
 							<jr:groupFooter groupName="CityGroup">
 								<jr:cell height="60" rowSpan="3">
+								<!--
 									<textField>
 										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="60" backcolor="#FFFFFF" forecolor="#C0C0C0"/>
 										<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
 									</textField>
+								-->
 								</jr:cell>
 							</jr:groupFooter>
 							<jr:groupFooter groupName="StateGroup">
 								<jr:cell height="60" rowSpan="3">
+								<!--
 									<textField>
 										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="60" backcolor="#FFFFFF" forecolor="#E0C0C0"/>
 										<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
 									</textField>
+								-->
 								</jr:cell>
 							</jr:groupFooter>
 							<jr:columnHeader height="60" rowSpan="3">
@@ -688,6 +698,7 @@
 								</jr:detailCell>
 							</jr:column>
 							<jr:column width="100">
+								<!--
 								<jr:tableFooter height="40" rowSpan="2">
 									<textField>
 										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="40" backcolor="#FFFFFF" forecolor="#333333"/>
@@ -726,6 +737,7 @@
 										</textField>
 									</jr:cell>
 								</jr:groupFooter>
+								-->
 								<jr:columnHeader height="40" rowSpan="2">
 									<textField>
 										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="40" forecolor="#FFFFFF" backcolor="#333333"/>
@@ -846,6 +858,7 @@
 									</textField>
 								</jr:columnHeader>
 								<jr:column width="45">
+									<!--
 									<jr:tableFooter height="20">
 										<textField>
 											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" backcolor="#FFFFFF" forecolor="#333333"/>
@@ -884,6 +897,7 @@
 											</textField>
 										</jr:cell>
 									</jr:groupFooter>
+									-->
 									<jr:columnHeader height="20">
 										<textField>
 											<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="45" height="20" forecolor="#FFFFFF" backcolor="#333333"/>
