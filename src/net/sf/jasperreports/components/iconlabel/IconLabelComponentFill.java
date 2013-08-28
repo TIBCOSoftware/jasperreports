@@ -110,6 +110,21 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			labelPrintText.setWidth(Math.min(labelTextField.getWidth(), calculatedLabelWidth));//for some reason, calculated text width seems to be larger then available text width
 		}
 		
+		if (
+			iconLabelComponent.getLabelFill() == ContainerFillEnum.VERTICAL
+			|| iconLabelComponent.getLabelFill() == ContainerFillEnum.BOTH
+			)
+		{
+			labelPrintText.setHeight(
+				Math.max(
+					labelTextField.getHeight(), 
+					stretchHeight 
+						- iconLabelComponent.getLineBox().getTopPadding()
+						- iconLabelComponent.getLineBox().getBottomPadding()
+					)
+				);
+		}
+			
 		try
 		{
 			iconPrintText = (JRPrintText)iconTextField.fill();
@@ -178,7 +193,12 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			{
 				if (iconLabelComponent.getIconPosition() == IconPositionEnum.START)
 				{
-					labelPrintText.setX(iconLabelComponent.getContext().getComponentElement().getWidth() - labelPrintText.getWidth());
+					labelPrintText.setX(
+						iconLabelComponent.getContext().getComponentElement().getWidth()
+						- iconLabelComponent.getLineBox().getLeftPadding()
+						- iconLabelComponent.getLineBox().getRightPadding()
+						- labelPrintText.getWidth()
+						);
 					iconPrintText.setX(labelPrintText.getX() - iconPrintText.getWidth());
 				}
 				else
