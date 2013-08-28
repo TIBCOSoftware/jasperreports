@@ -38,13 +38,13 @@ define(["jquery-1.10.2"], function($) {
             var it = this;
             return it.loader.getStatusForPage(page, pageTimestamp)
                 .then(function(jsonData, textStatus, jqHXR) {
-                    it.loader.setPageUpdateStatus && it.loader.setPageUpdateStatus(jsonData);
                     var booleanDone;
                     if(it.loader.config.stopOnFinishOnly) {
                         booleanDone = (jsonData.result.status == "finished");
                     } else {
                         booleanDone = (jsonData.result.pageModified || jsonData.result.status == "finished");
                     }
+                    !booleanDone && it.loader.setPageUpdateStatus && it.loader.setPageUpdateStatus(jsonData);
                     it._timedCheckPageModified(booleanDone, page, pageTimestamp, deferredObject, jsonData.result);
                 });
         }
