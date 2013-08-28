@@ -2,8 +2,13 @@
 JasperReports Library Change Log
 ===================================
 
-JasperReports 5.2.1 (2013-0x-xx)
+JasperReports 5.2.1 (2013-09-xx)
 ---------------------------------------------
+- web fonts support in font extensions;
+
+- crosstab interactive sorting;
+
+- enhanced interactive table formatting;
 
 - minor bug fixes and improvements;
 
@@ -11,7 +16,7 @@ JasperReports 5.2.1 (2013-0x-xx)
 
 
 
-JasperReports 5.2.0 (2013-06-xx)
+JasperReports 5.2.0 (2013-06-29)
 ---------------------------------------------
 
 - minor bug fixes and improvements;
