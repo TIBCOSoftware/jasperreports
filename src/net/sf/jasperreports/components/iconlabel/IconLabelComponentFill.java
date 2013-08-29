@@ -28,7 +28,9 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.component.StretchableFillComponent;
@@ -341,6 +343,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			+ iconLabelComponent.getLineBox().getBottomPadding();
 		//printElement.setHeight(element.getHeight());
 		printElement.setHeight(stretchHeight);
+		JRPropertiesUtil.getInstance(fillContext.getFiller().getJasperReportsContext()).transferProperties(iconLabelComponent.getContext().getComponentElement(), printElement, JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
 		
 		//printElement.setParameterValue(IconLabelElement.PARAMETER_MULTI_LINE, iconLabelComponent.isMultiLine());
 
