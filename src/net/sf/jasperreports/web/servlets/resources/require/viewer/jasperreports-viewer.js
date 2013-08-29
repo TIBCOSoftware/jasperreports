@@ -5,7 +5,8 @@ define(["jasperreports-loader", "jasperreports-report", "jquery-1.10.2"], functi
             reporturi: null,
             async: true,
             page: 0,
-            toolbar: true
+            toolbar: true,
+            applicationContextPath: null
         };
 
         $.extend(this.config, o);
@@ -27,6 +28,8 @@ define(["jasperreports-loader", "jasperreports-report", "jquery-1.10.2"], functi
                 async: it.config.async,
                 page: it.config.page
             });
+
+            it.reportInstance.loader.UrlManager.applicationContextPath = it.config.applicationContextPath;
 
             it._setupEventsForReport(it.reportInstance);
 
@@ -71,6 +74,16 @@ define(["jasperreports-loader", "jasperreports-report", "jquery-1.10.2"], functi
                         $.each(arguments, function(i, thisModule) {
                             thisModule.init(it.reportInstance);
                         });
+                    });
+                }
+
+                /*
+                 If Highcharts are present render them
+                 */
+                if(components.chart) {
+                    $.each(components.chart, function(){
+                        var el = $('#'+this.config.hcinstancedata.renderto).length;
+                        el && this.render();
                     });
                 }
             });

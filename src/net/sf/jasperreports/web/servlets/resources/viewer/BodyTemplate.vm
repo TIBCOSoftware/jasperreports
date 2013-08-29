@@ -8,7 +8,8 @@
             at: "reportContainer",
             reporturi: "${reportUri}",
             async: ${async},
-            page: "${page}"
+            page: "${page}",
+            applicationContextPath: "${contextPath}"
         });
 
         reportPromise = viewer.loadReport();

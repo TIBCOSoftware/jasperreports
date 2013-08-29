@@ -1,13 +1,5 @@
 define(["jquery-1.10.2"], function($) {
 	
-	var UrlManager = {
-	        reportcontexturl: "/jasperreports/servlets/reportcontext",
-	        reportoutputurl: "/jasperreports/servlets/reportoutput",
-	        reportactionurl: "/jasperreports/servlets/reportaction",
-	        reportcomponentsurl: "/jasperreports/servlets/reportcomponents",
-	        reportpagestatusurl: "/jasperreports/servlets/reportpagestatus"
-	    };
-	
     var Loader = function(o) {
 
         this.config = {
@@ -16,6 +8,15 @@ define(["jquery-1.10.2"], function($) {
         };
 
         $.extend(this.config, o);
+
+        this.UrlManager = {
+            applicationContextPath: null,
+            reportcontexturl: "/servlets/reportcontext",
+            reportoutputurl: "/servlets/reportoutput",
+            reportactionurl: "/servlets/reportaction",
+            reportcomponentsurl: "/servlets/reportcomponents",
+            reportpagestatusurl: "/servlets/reportpagestatus"
+        };
 
         // promises
         this.contextIdPromise = null;
@@ -32,7 +33,7 @@ define(["jquery-1.10.2"], function($) {
             var it = this;
             return it.getContextId().then(function(ctxid) {
                 return it._ajaxLoad({
-                    url: UrlManager.reportoutputurl,
+                    url: it._getUrl("reportoutputurl"),
                     params: {
                         jr_ctxid: ctxid,
                         jr_page: page
@@ -45,7 +46,7 @@ define(["jquery-1.10.2"], function($) {
             var it = this;
             return it.getContextId().then(function(ctxid) {
                 return it._ajaxLoad({
-                    url: UrlManager.reportpagestatusurl,
+                    url: it._getUrl("reportpagestatusurl"),
                     params: {
                         jr_ctxid: ctxid,
                         jr_page: page,
@@ -59,7 +60,7 @@ define(["jquery-1.10.2"], function($) {
             var it = this;
             return it.getContextId().then(function(ctxid) {
                 return it._ajaxLoad({
-                    url: UrlManager.reportcomponentsurl,
+                    url: it._getUrl("reportcomponentsurl"),
                     params: {
                         jr_ctxid: ctxid,
                         jr_page: page
@@ -72,7 +73,7 @@ define(["jquery-1.10.2"], function($) {
             var it = this;
             return it.getContextId().then(function(ctxid) {
                 return it._ajaxLoad({
-                    url: UrlManager.reportactionurl,
+                    url: it._getUrl("reportactionurl"),
                     params: {
                         jr_ctxid: ctxid,
                         jr_action: JSON.stringify(o.action)
@@ -82,11 +83,14 @@ define(["jquery-1.10.2"], function($) {
         },
 
         // internal functions
+        _getUrl: function(key) {
+            return this.UrlManager.applicationContextPath + this.UrlManager[key];
+        },
         _getContextIdPromise: function() {
             var it = this;
             if (it.contextIdPromise == null) {
                 it.contextIdPromise = it._ajaxLoad({
-                    url: UrlManager.reportcontexturl,
+                    url: it._getUrl("reportcontexturl"),
                     params: {
                         jr_report_uri: it.config.reporturi,
                         jr_async: it.config.async
