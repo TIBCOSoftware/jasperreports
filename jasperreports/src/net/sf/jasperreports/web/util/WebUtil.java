@@ -59,10 +59,7 @@ public final class WebUtil
 	public static final String PROPERTY_REPORT_RESOURCES_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "web.report.resources.path";
 	public static final String PROPERTY_EMBED_COMPONENT_METADATA = JRPropertiesUtil.PROPERTY_PREFIX + "web.embed.component.metadata.in.html.output";
 
-	public static final String RESOURCE_JR_GLOBAL_JS = "net/sf/jasperreports/web/servlets/resources/require/jasperreports-global.js";
 	public static final String RESOURCE_JR_GLOBAL_CSS = "net/sf/jasperreports/web/servlets/resources/jasperreports-global.css";
-	public static final String RESOURCE_JIVE_JS = "net/sf/jasperreports/web/servlets/resources/require/jive/jive.js";
-	public static final String RESOURCE_JIVE_I18N_JS = "net/sf/jasperreports/web/servlets/resources/require/jive/jive.i18n.vm.js";
 
 	private JasperReportsContext jasperReportsContext;
     private JRPropertiesUtil propertiesUtil;

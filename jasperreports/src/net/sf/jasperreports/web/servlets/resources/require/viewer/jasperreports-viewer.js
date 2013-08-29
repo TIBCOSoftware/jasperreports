@@ -76,16 +76,6 @@ define(["jasperreports-loader", "jasperreports-report", "jquery-1.10.2"], functi
                         });
                     });
                 }
-
-                /*
-                 If Highcharts are present render them
-                 */
-                if(components.chart) {
-                    $.each(components.chart, function(){
-                        var el = $('#'+this.config.hcinstancedata.renderto).length;
-                        el && this.render();
-                    });
-                }
             });
 
             // temporary bind existing toolbar ui
