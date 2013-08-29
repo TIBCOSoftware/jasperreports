@@ -862,7 +862,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
 		return ODS_EXPORTER_KEY;
 	}

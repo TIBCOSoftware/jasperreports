@@ -942,7 +942,7 @@ public class JROdtExporter extends JRAbstractExporter
 	/**
 	 * 
 	 */
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
 		return ODT_EXPORTER_KEY;
 	}
