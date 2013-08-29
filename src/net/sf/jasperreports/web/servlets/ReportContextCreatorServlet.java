@@ -41,56 +41,43 @@ import net.sf.jasperreports.web.util.WebUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 /**
  * @author Narcis Marcu(nmarcu@users.sourceforge.net)
  * @version $Id$
  */
-public class ReportContextCreatorServlet extends AbstractServlet
-{
+public class ReportContextCreatorServlet extends AbstractServlet {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	private static final Log log = LogFactory.getLog(ReportContextCreatorServlet.class);
 
+	private static final Log log = LogFactory.getLog(ReportContextCreatorServlet.class);
 
 	/**
 	 *
 	 */
-	public void service(
-		HttpServletRequest request,
-		HttpServletResponse response
-		) throws IOException, ServletException
-	{
+	public void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		response.setContentType(JSON_CONTENT_TYPE);
 		setNoExpire(response);
 
 		String reportUri = request.getParameter(WebUtil.REQUEST_PARAMETER_REPORT_URI);
 		PrintWriter out = response.getWriter();
-		
+
 		// get the contextid and run the report
 		if (reportUri != null && request.getHeader("accept").indexOf(JSON_ACCEPT_HEADER) >= 0) {
-			
-			
-			WebReportContext webReportContext = WebReportContext.getInstance(request);
-			
-			// begin: run report
-			JasperPrintAccessor jasperPrintAccessor = 
-					(JasperPrintAccessor) webReportContext.getParameterValue(
-						WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR
-					);
 
-			if (jasperPrintAccessor == null)
-			{
+			WebReportContext webReportContext = WebReportContext.getInstance(request);
+
+			// begin: run report
+			JasperPrintAccessor jasperPrintAccessor = (JasperPrintAccessor) webReportContext.getParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR);
+
+			if (jasperPrintAccessor == null) {
 				webReportContext.setParameterValue(WebUtil.REQUEST_PARAMETER_REPORT_URI, reportUri);
-				
+
 				String async = request.getParameter(WebUtil.REQUEST_PARAMETER_ASYNC_REPORT);
-				if (async != null)
-				{
+				if (async != null) {
 					webReportContext.setParameterValue(WebUtil.REQUEST_PARAMETER_ASYNC_REPORT, Boolean.valueOf(async));
 				}
-				
+
 				Controller controller = new Controller(getJasperReportsContext());
-				
+				initWebContext(request, webReportContext);
 				try {
 					controller.runReport(webReportContext, null);
 				} catch (JRInteractiveException e) {
@@ -99,21 +86,27 @@ public class ReportContextCreatorServlet extends AbstractServlet
 					throw new JRRuntimeException(e);
 				} catch (JRException e) {
 					log.error("Error on report execution", e);
-					
+
 					response.setStatus(404);
 					out.println("{\"msg\": \"JasperReports encountered an error on context creation!\",");
 					out.println("\"devmsg\": \"" + JRStringUtil.escapeJavaStringLiteral(e.getMessage()) + "\"}");
 					return;
+				} catch (Throwable t) {
+					t.printStackTrace();
 				}
 			}
 			// end: run report
-			
+
 			out.println("{\"contextid\": " + webReportContext.getId() + "}");
-			
+
 		} else {
 			response.setStatus(400);
 			out.println("{\"msg\": \"Wrong parameters!\"}");
 		}
+	}
+
+	protected void initWebContext(HttpServletRequest request, WebReportContext webReportContext) {
+
 	}
 
 }
