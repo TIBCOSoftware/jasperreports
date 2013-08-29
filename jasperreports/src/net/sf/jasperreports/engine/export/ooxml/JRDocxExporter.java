@@ -1663,7 +1663,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
 		return DOCX_EXPORTER_KEY;
 	}
