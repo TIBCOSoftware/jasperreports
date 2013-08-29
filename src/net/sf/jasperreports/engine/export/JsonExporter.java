@@ -82,7 +82,7 @@ public class JsonExporter extends JRAbstractExporter
 	}
 	
 	@Override
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
 		return JSON_EXPORTER_KEY;
 	}

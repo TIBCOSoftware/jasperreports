@@ -281,7 +281,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
 		return GRAPHICS2D_EXPORTER_KEY;
 	}

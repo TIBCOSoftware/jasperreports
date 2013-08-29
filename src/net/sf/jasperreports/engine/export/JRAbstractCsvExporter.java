@@ -370,9 +370,9 @@ public abstract class JRAbstractCsvExporter extends JRAbstractExporter
 	}
 
 
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
-		return null;
+		return null;//FIXMESORT
 	}
 
 }

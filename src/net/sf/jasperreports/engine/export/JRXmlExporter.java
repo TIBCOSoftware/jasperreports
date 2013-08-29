@@ -1225,7 +1225,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
 		return XML_EXPORTER_KEY;
 	}

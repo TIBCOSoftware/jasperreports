@@ -2525,7 +2525,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		return HTML_EXPORTER_PROPERTIES_PREFIX;
 	}
 	
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
 		return HTML_EXPORTER_KEY;
 	}

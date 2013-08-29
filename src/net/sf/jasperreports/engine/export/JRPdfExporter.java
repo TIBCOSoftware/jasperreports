@@ -2719,7 +2719,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
 		return PDF_EXPORTER_KEY;
 	}

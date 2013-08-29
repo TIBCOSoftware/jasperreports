@@ -689,7 +689,7 @@ public class JRTextExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
 		return null;
 	}

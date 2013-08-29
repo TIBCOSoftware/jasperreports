@@ -1431,7 +1431,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 * 
 	 */
-	protected abstract String getExporterKey() throws JRException;
+	public abstract String getExporterKey();
 
 
 }
