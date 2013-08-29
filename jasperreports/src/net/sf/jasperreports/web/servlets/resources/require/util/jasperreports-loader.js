@@ -84,7 +84,25 @@ define(["jquery-1.10.2"], function($) {
 
         // internal functions
         _getUrl: function(key) {
-            return this.UrlManager.applicationContextPath + this.UrlManager[key];
+            var url = this.UrlManager.applicationContextPath + this.UrlManager[key],
+                jssParam;
+            if (key === 'reportcontexturl') {
+                jssParam = this._getUrlParameter('jss_context');
+                jssParam && (url += '?jss_context=' + jssParam);
+            }
+            return url;
+        },
+        _getUrlParameter: function(paramName) {
+            var params = window.location.search ? window.location.search.split('&') : [],
+                paramValue = null;
+            $.each(params, function(i, param) {
+                if (param.indexOf(paramName) === 0) {
+                    paramValue = param.split('=')[1];
+                    return false; // break each
+                }
+            });
+
+            return paramValue;
         },
         _getContextIdPromise: function() {
             var it = this;
