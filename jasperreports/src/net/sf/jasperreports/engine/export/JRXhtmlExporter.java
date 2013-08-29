@@ -2778,7 +2778,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
 		return XHTML_EXPORTER_KEY;
 	}

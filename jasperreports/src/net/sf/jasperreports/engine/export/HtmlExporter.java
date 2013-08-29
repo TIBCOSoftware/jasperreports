@@ -228,7 +228,7 @@ public class HtmlExporter extends JRAbstractExporter
 	}
 	
 	@Override
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
 		return HTML_EXPORTER_KEY;
 	}

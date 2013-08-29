@@ -1802,7 +1802,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
 		return RTF_EXPORTER_KEY;
 	}

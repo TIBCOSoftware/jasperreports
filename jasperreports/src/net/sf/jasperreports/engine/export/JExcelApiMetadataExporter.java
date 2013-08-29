@@ -2408,7 +2408,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 	}
 
 
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
 		return JXL_EXPORTER_KEY;
 	}
