@@ -1531,7 +1531,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
 		return XLSX_EXPORTER_KEY;
 	}

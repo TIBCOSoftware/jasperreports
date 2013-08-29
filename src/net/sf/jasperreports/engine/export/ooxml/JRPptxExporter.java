@@ -1832,7 +1832,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String getExporterKey()
+	public String getExporterKey()
 	{
 		return PPTX_EXPORTER_KEY;
 	}
