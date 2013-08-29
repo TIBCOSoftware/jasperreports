@@ -901,7 +901,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                         ]
                     }
                 ]
-            ],
+            ]
         ],
         onCreate: function(jo) {
             var it = this,
