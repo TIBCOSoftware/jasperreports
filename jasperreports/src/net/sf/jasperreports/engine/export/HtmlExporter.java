@@ -1040,6 +1040,8 @@ public class HtmlExporter extends JRAbstractExporter
 		spanStyleBuffer.append("rotate(" + rotationAngle + "deg); ");
 		spanStyleBuffer.append("-moz-transform: translate(" + translateX + "px," + translateY + "px) ");
 		spanStyleBuffer.append("rotate(" + rotationAngle + "deg); ");
+		spanStyleBuffer.append("-ms-transform: translate(" + translateX + "px," + translateY + "px) ");
+		spanStyleBuffer.append("rotate(" + rotationAngle + "deg); ");
 		spanStyleBuffer.append("filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=" + rotationIE + "); ");
 		return rotationValue;
 	}

@@ -1317,6 +1317,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			styleBuffer.append("rotate(" + rotationAngle + "deg); ");
 			styleBuffer.append("-moz-transform: translate(" + translateX + "px," + translateY + "px) ");
 			styleBuffer.append("rotate(" + rotationAngle + "deg); ");
+			styleBuffer.append("-ms-transform: translate(" + translateX + "px," + translateY + "px) ");
+			styleBuffer.append("rotate(" + rotationAngle + "deg); ");
 			styleBuffer.append("filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=" + rotationIE + "); ");
 		}
 
