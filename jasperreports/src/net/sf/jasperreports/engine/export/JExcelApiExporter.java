@@ -606,29 +606,38 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			String textStr = styledText.getText();
 
 			String href = null;
-			JRHyperlinkProducer customHandler = getHyperlinkProducer(text);
-			if (customHandler == null)
+			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, text);
+			if (ignoreHyperlink == null)
 			{
-				switch (text.getHyperlinkTypeValue())
+				ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
+			}
+			
+			if(!ignoreHyperlink)
+			{
+				JRHyperlinkProducer customHandler = getHyperlinkProducer(text);
+				if (customHandler == null)
 				{
-					case REFERENCE:
+					switch (text.getHyperlinkTypeValue())
 					{
-						href = text.getHyperlinkReference();
-						break;
-					}
-					case LOCAL_ANCHOR :
-					case LOCAL_PAGE :
-					case REMOTE_ANCHOR :
-					case REMOTE_PAGE :
-					case NONE:
-					default:
-					{
+						case REFERENCE:
+						{
+							href = text.getHyperlinkReference();
+							break;
+						}
+						case LOCAL_ANCHOR :
+						case LOCAL_PAGE :
+						case REMOTE_ANCHOR :
+						case REMOTE_PAGE :
+						case NONE:
+						default:
+						{
+						}
 					}
 				}
-			}
-			else
-			{
-				href = customHandler.getHyperlink(text);
+				else
+				{
+					href = customHandler.getHyperlink(text);
+				}
 			}
 
 			try

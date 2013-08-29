@@ -1862,16 +1862,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					link.setAddress(href);
 				}
 			}
-		}
-
-		if(link != null)
-		{
-			//TODO: make tooltips functional
-//			if(hyperlink.getHyperlinkTooltip() != null)
-//			{
-//				link.setLabel(hyperlink.getHyperlinkTooltip());
-//			}
-			cell.setHyperlink(link);
+			if(link != null)
+			{
+				//TODO: make tooltips functional
+//				if(hyperlink.getHyperlinkTooltip() != null)
+//				{
+//					link.setLabel(hyperlink.getHyperlinkTooltip());
+//				}
+				cell.setHyperlink(link);
+			}
 		}
 	}
 
