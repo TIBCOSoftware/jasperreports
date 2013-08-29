@@ -1,0 +1,132 @@
+/*
+ * JasperReports - Free Java Reporting Library.
+ * Copyright (C) 2001 - 2013 Jaspersoft Corporation. All rights reserved.
+ * http://www.jaspersoft.com
+ *
+ * Unless you have purchased a commercial license agreement from Jaspersoft,
+ * the following license terms apply:
+ *
+ * This program is part of JasperReports.
+ *
+ * JasperReports is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JasperReports is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Contributors:
+ * Greg Hilton 
+ */
+
+package net.sf.jasperreports.engine.export;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+
+/**
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: JROriginExporterFilter.java 5923 2013-02-20 11:19:35Z teodord $
+ */
+public class MatcherExporterFilter implements ExporterFilter
+{
+
+	/**
+	 *
+	 */
+	public static final String PROPERTY_MATCHER_EXPORT_FILTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "export.matcher.filter.key";
+
+	private Set<String> includes;
+	private Set<String> excludes;
+
+	public boolean isToExport(JRPrintElement element)
+	{
+		if (element.getPropertiesMap().containsProperty(PROPERTY_MATCHER_EXPORT_FILTER_KEY))
+		{
+			String matcherKey = element.getPropertiesMap().getProperty(PROPERTY_MATCHER_EXPORT_FILTER_KEY);
+			if (matcherKey != null)
+			{
+				if (includes == null || includes.size() == 0)
+				{
+					if (excludes == null || excludes.size() == 0)
+					{
+						return true;
+					}
+					else
+					{
+						return !excludes.contains(matcherKey);
+					}
+				}
+				else
+				{
+					if (excludes == null || excludes.size() == 0)
+					{
+						return includes.contains(matcherKey);
+					}
+					else
+					{
+						return includes.contains(matcherKey) && !excludes.contains(matcherKey);
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
+	public MatcherExporterFilter(Set<String> includes, Set<String> excludes)
+	{
+		this.includes = includes;
+		this.excludes = excludes;
+	}
+	
+	public static MatcherExporterFilter getInstance(JRExporterContext exporterContext)
+	{
+		MatcherExporterFilter filter = null;
+		
+		JRExporter exporter = exporterContext.getExporter();
+		JRAbstractExporter typedExporter = exporter instanceof JRAbstractExporter ? (JRAbstractExporter)exporter : null;
+		
+		if (typedExporter != null)
+		{
+			String exporterKey = typedExporter.getExporterKey();
+			if (exporterKey != null)
+			{
+				Set<String> includes = new HashSet<String>();
+				Set<String> excludes = new HashSet<String>();
+				List<MatcherExportFilterMapping> mappings = exporterContext.getJasperReportsContext().getExtensions(MatcherExportFilterMapping.class);
+				for (MatcherExportFilterMapping mapping : mappings)
+				{
+					if (exporterKey.equals(mapping.getExporterKey()))
+					{
+						if (mapping.isIncludes())
+						{
+							includes.add(mapping.getValue());
+						}
+						else
+						{
+							excludes.add(mapping.getValue());
+						}
+					}
+				}
+				
+				filter = new MatcherExporterFilter(includes, excludes);
+			}
+		}
+		
+		return filter;
+	}
+}

@@ -78,6 +78,7 @@ import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.base.JRBaseElement;
 import net.sf.jasperreports.engine.base.JRBaseTextElement;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.FillContext;
@@ -92,6 +93,7 @@ import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignSection;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.MatcherExporterFilter;
 import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillField;
@@ -899,9 +901,14 @@ public class TableReport implements JRReport
 				
 				iconLabelComponent.setIconTextField(iconTextField);
 				
+				designComponent.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, "tablecolumnheadericonlabelreplacer");
+				
 				designComponent.setComponent(iconLabelComponent);
 				
-				frame.getChildren().remove(0);
+				JRBaseElement element = (JRBaseElement)frame.getChildren().get(0);
+				element.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, "tablecolumnheadericonlabelreplaced");//FIXMESORT use constants
+
+				//frame.getChildren().remove(0);
 				frame.getChildren().add(designComponent);
 				
 				return iconLabelComponent;
