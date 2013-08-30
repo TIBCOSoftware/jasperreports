@@ -101,7 +101,6 @@ import net.sf.jasperreports.engine.fill.JRFillField;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
@@ -112,6 +111,7 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.StyleUtil;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
@@ -813,9 +813,10 @@ public class TableReport implements JRReport
 			JRBaseTextElement headerTextElement = (JRBaseTextElement)frame.getChildren().get(0);
 			if (headerTextElement != null) 
 			{
-				Cell header = column.getColumnHeader();
+				//Cell header = column.getColumnHeader();
 				
-				JRDesignComponentElement designComponent = new JRDesignComponentElement(header.getDefaultStyleProvider());
+				JRDesignComponentElement designComponent = new JRDesignComponentElement(headerTextElement.getDefaultStyleProvider());
+				//JRDesignComponentElement designComponent = new JRDesignComponentElement(header.getDefaultStyleProvider());
 				designComponent.setComponentKey(new ComponentKey(
 						ComponentsExtensionsRegistryFactory.NAMESPACE, null, ComponentsExtensionsRegistryFactory.ICONLABEL_COMPONENT_NAME));
 				designComponent.setX(headerTextElement.getX());
@@ -824,16 +825,17 @@ public class TableReport implements JRReport
 				designComponent.setWidth(headerTextElement.getWidth());
 				designComponent.setStyle(headerTextElement.getStyle());
 				designComponent.setStyleNameReference(headerTextElement.getStyleNameReference());
+//				designComponent.setMode(ModeEnum.TRANSPARENT);
 				designComponent.setMode(headerTextElement.getOwnModeValue());
 				designComponent.setForecolor(headerTextElement.getOwnForecolor());
 				designComponent.setBackcolor(headerTextElement.getOwnBackcolor());
 				designComponent.setStretchType(headerTextElement.getStretchTypeValue());
 				
-				IconLabelComponent iconLabelComponent = new IconLabelComponent(header.getDefaultStyleProvider());
+				IconLabelComponent iconLabelComponent = new IconLabelComponent(headerTextElement.getDefaultStyleProvider());
+				//IconLabelComponent iconLabelComponent = new IconLabelComponent(header.getDefaultStyleProvider());
 				iconLabelComponent.setIconPosition(IconPositionEnum.END);
-				iconLabelComponent.setVerticalAlign(headerTextElement.getVerticalAlignmentValue());//FIXMESORT maybe use Own getters?
+				iconLabelComponent.setVerticalAlign(headerTextElement.getVerticalAlignmentValue());//FIXMESORT here might have problem with conditional style
 				iconLabelComponent.setHorizontalAlign(headerTextElement.getHorizontalAlignmentValue());
-
 				iconLabelComponent.setLabelFill(ContainerFillEnum.NONE);
 //				if (headerTextElement.getHorizontalAlignmentValue() == HorizontalAlignEnum.LEFT)
 //				{
@@ -844,24 +846,45 @@ public class TableReport implements JRReport
 //					iconLabelComponent.setLabelFill(ContainerFillEnum.HORIZONTAL);
 //				}
 				iconLabelComponent.setLineBox(headerTextElement.getLineBox().clone(iconLabelComponent));
+				iconLabelComponent.getLineBox().setPadding(0);
+				iconLabelComponent.getLineBox().setLeftPadding(0);
+				iconLabelComponent.getLineBox().setRightPadding(0);
+				iconLabelComponent.getLineBox().setTopPadding(0);
+				iconLabelComponent.getLineBox().setBottomPadding(0);
+//				JRBoxUtil.eraseBox(iconLabelComponent.getLineBox());
 				
-				JRDesignTextField labelTextField = new JRDesignTextField();
+				JRDesignTextField labelTextField = new JRDesignTextField(headerTextElement.getDefaultStyleProvider());
 				labelTextField.setStretchWithOverflow(true);
 				labelTextField.setX(0);
 				labelTextField.setY(0);
 				labelTextField.setWidth(1);
+//				labelTextField.setHeight(1);
 				labelTextField.setHeight(headerTextElement.getHeight());
-				labelTextField.setMode(headerTextElement.getModeValue());
-				labelTextField.setFontSize(headerTextElement.getFontSize());
-				labelTextField.setFontName(headerTextElement.getFontName());
-				labelTextField.setForecolor(headerTextElement.getForecolor());
-				labelTextField.setBackcolor(headerTextElement.getBackcolor());
-				labelTextField.setBold(headerTextElement.isBold());
-				labelTextField.setItalic(headerTextElement.isItalic());
-				labelTextField.setUnderline(headerTextElement.isUnderline());
-				labelTextField.setStrikeThrough(headerTextElement.isStrikeThrough());
-				labelTextField.setHorizontalAlignment(headerTextElement.getHorizontalAlignmentValue());
-				labelTextField.setVerticalAlignment(headerTextElement.getVerticalAlignmentValue());
+//				labelTextField.setHeight(Math.max(1, headerTextElement.getHeight() 
+//						- headerTextElement.getLineBox().getTopPadding() - headerTextElement.getLineBox().getBottomPadding()));
+				labelTextField.setStyle(headerTextElement.getStyle());
+				labelTextField.setStyleNameReference(headerTextElement.getStyleNameReference());
+				labelTextField.setMode(headerTextElement.getOwnModeValue());
+				labelTextField.setFontSize(headerTextElement.getOwnFontSize());
+				labelTextField.setFontName(headerTextElement.getOwnFontName());
+				labelTextField.setForecolor(headerTextElement.getOwnForecolor());
+				labelTextField.setBackcolor(headerTextElement.getOwnBackcolor());
+				labelTextField.setBold(headerTextElement.isOwnBold());
+				labelTextField.setItalic(headerTextElement.isOwnItalic());
+				labelTextField.setUnderline(headerTextElement.isOwnUnderline());
+				labelTextField.setStrikeThrough(headerTextElement.isOwnStrikeThrough());
+				labelTextField.setHorizontalAlignment(headerTextElement.getOwnHorizontalAlignmentValue());
+				labelTextField.setVerticalAlignment(headerTextElement.getOwnVerticalAlignmentValue());
+				JRBoxUtil.copy(headerTextElement.getLineBox(), labelTextField.getLineBox());
+				labelTextField.getLineBox().setRightPadding(0);
+				labelTextField.getLineBox().getPen().setLineWidth(0);
+				labelTextField.getLineBox().getLeftPen().setLineWidth(0);
+				labelTextField.getLineBox().getRightPen().setLineWidth(0);
+				labelTextField.getLineBox().getTopPen().setLineWidth(0);
+				labelTextField.getLineBox().getBottomPen().setLineWidth(0);
+//				labelTextField.getLineBox().getRightPen().setLineWidth(0);
+//				labelTextField.getLineBox().setRightPadding(0);
+//				JRBoxUtil.eraseBox(labelTextField.getLineBox());
 				
 				if (headerTextElement instanceof JRTextField) 
 				{
@@ -874,23 +897,35 @@ public class TableReport implements JRReport
 
 				iconLabelComponent.setLabelTextField(labelTextField);
 				
-				JRDesignTextField iconTextField = new JRDesignTextField();
+				JRDesignTextField iconTextField = new JRDesignTextField(headerTextElement.getDefaultStyleProvider());
 				iconTextField.setStretchWithOverflow(true);
 				iconTextField.setX(0);
 				iconTextField.setY(0);
 				iconTextField.setWidth(1);
 				iconTextField.setHeight(1);
 //				iconTextField.setHeight(headerTextElement.getHeight());
-				iconTextField.setMode(headerTextElement.getModeValue());
+				iconTextField.setStyle(headerTextElement.getStyle());
+				iconTextField.setStyleNameReference(headerTextElement.getStyleNameReference());
+				iconTextField.setMode(headerTextElement.getOwnModeValue());
 				iconTextField.setFontName("Pictonic");//FIXMESORT use constant
-				iconTextField.setFontSize((int)(headerTextElement.getFontSize() * 0.8f));
-				iconTextField.setForecolor(headerTextElement.getForecolor());
-				iconTextField.setBackcolor(headerTextElement.getBackcolor());
-				iconTextField.setBold(headerTextElement.isBold());
-				iconTextField.setItalic(headerTextElement.isItalic());
-				iconTextField.setUnderline(headerTextElement.isUnderline());
-				iconTextField.setStrikeThrough(headerTextElement.isStrikeThrough());
-				iconTextField.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
+				iconTextField.setFontSize((int)(headerTextElement.getFontSize() * 0.8f));//FIXME problem with conditionl style?
+				iconTextField.setForecolor(headerTextElement.getOwnForecolor());
+				iconTextField.setBackcolor(headerTextElement.getOwnBackcolor());
+				iconTextField.setBold(headerTextElement.isOwnBold());
+				iconTextField.setItalic(headerTextElement.isOwnItalic());
+				iconTextField.setUnderline(headerTextElement.isOwnUnderline());
+				iconTextField.setStrikeThrough(headerTextElement.isOwnStrikeThrough());
+				iconTextField.setHorizontalAlignment(headerTextElement.getOwnHorizontalAlignmentValue());
+				JRBoxUtil.copy(headerTextElement.getLineBox(), iconTextField.getLineBox());
+				iconTextField.getLineBox().setLeftPadding(0);
+				iconTextField.getLineBox().getPen().setLineWidth(0);
+				iconTextField.getLineBox().getLeftPen().setLineWidth(0);
+				iconTextField.getLineBox().getRightPen().setLineWidth(0);
+				iconTextField.getLineBox().getTopPen().setLineWidth(0);
+				iconTextField.getLineBox().getBottomPen().setLineWidth(0);
+//				iconTextField.getLineBox().getLeftPen().setLineWidth(0);
+//				iconTextField.getLineBox().setLeftPadding(0);
+//				JRBoxUtil.eraseBox(iconTextField.getLineBox());
 				
 				iconLabelComponent.setIconTextField(iconTextField);
 				
