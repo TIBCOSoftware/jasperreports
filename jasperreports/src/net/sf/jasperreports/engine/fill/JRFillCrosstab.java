@@ -39,10 +39,8 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
 
-import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
-import net.sf.jasperreports.components.iconlabel.ContainerFillEnum;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponent;
-import net.sf.jasperreports.components.iconlabel.IconPositionEnum;
+import net.sf.jasperreports.components.iconlabel.IconLabelComponentUtil;
 import net.sf.jasperreports.components.table.fill.BuiltinExpressionEvaluatorFactory;
 import net.sf.jasperreports.components.table.fill.TableReport;
 import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
@@ -109,17 +107,14 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
-import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.MatcherExporterFilter;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
-import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
@@ -1880,49 +1875,16 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		{
 			JRTextElement parentElement = (JRTextElement) textElement.getParent();
 			
-			//FIXME all this looks kind of ugly..
-			JRDesignComponentElement designIconLabelElement = new JRDesignComponentElement();
-			designIconLabelElement.setComponentKey(new ComponentKey(
-					ComponentsExtensionsRegistryFactory.NAMESPACE, null, ComponentsExtensionsRegistryFactory.ICONLABEL_COMPONENT_NAME));
-			designIconLabelElement.setX(textElement.getX());
-			designIconLabelElement.setY(textElement.getY());
-			designIconLabelElement.setHeight(textElement.getHeight());
-			designIconLabelElement.setWidth(textElement.getWidth());
-			designIconLabelElement.setStyle(textElement.getInitStyle());
-			designIconLabelElement.setMode(parentElement.getOwnModeValue());
-			designIconLabelElement.setForecolor(parentElement.getOwnForecolor());
-			designIconLabelElement.setBackcolor(parentElement.getOwnBackcolor());
-			designIconLabelElement.setStretchType(parentElement.getStretchTypeValue());
-			designIconLabelElement.setPositionType(parentElement.getPositionTypeValue());
-			
-			IconLabelComponent iconLabelComponent = new IconLabelComponent(textElement.getDefaultStyleProvider());
-			iconLabelComponent.setIconPosition(IconPositionEnum.END);
-			iconLabelComponent.setVerticalAlign(parentElement.getVerticalAlignmentValue());//FIXMESORT maybe use Own getters?
-			iconLabelComponent.setHorizontalAlign(parentElement.getHorizontalAlignmentValue());
-			iconLabelComponent.setLabelFill(ContainerFillEnum.NONE);
-			iconLabelComponent.setLineBox(parentElement.getLineBox().clone(iconLabelComponent));
+			JRDesignComponentElement designIconLabelElement = IconLabelComponentUtil.createIconLabelComponentElement(parentElement, textElement);
+			IconLabelComponent iconLabelComponent = (IconLabelComponent)designIconLabelElement.getComponent();
 
-			JRDesignTextField labelTextField = new JRDesignTextField();
-			labelTextField.setStretchWithOverflow(true);
-			labelTextField.setX(0);
-			labelTextField.setY(0);
-			labelTextField.setWidth(1);
-			labelTextField.setHeight(Math.max(1, textElement.getHeight() 
-					- parentElement.getLineBox().getTopPadding() - parentElement.getLineBox().getBottomPadding()));
+			JRDesignTextField labelTextField = (JRDesignTextField)iconLabelComponent.getLabelTextField();
+			JRDesignTextField iconTextField = (JRDesignTextField)iconLabelComponent.getIconTextField();
+
+			designIconLabelElement.setStyle(textElement.getInitStyle());
 			labelTextField.setStyle(textElement.getInitStyle());
-			labelTextField.setMode(parentElement.getOwnModeValue());
-			labelTextField.setFontSize(parentElement.getOwnFontSize());
-			labelTextField.setFontName(parentElement.getOwnFontName());
-			labelTextField.setForecolor(parentElement.getOwnForecolor());
-			labelTextField.setBackcolor(parentElement.getOwnBackcolor());
-			labelTextField.setBold(parentElement.isOwnBold());
-			labelTextField.setItalic(parentElement.isOwnItalic());
-			labelTextField.setUnderline(parentElement.isOwnUnderline());
-			labelTextField.setStrikeThrough(parentElement.isOwnStrikeThrough());
-			labelTextField.setHorizontalAlignment(parentElement.getOwnHorizontalAlignmentValue());
-			labelTextField.setVerticalAlignment(parentElement.getOwnVerticalAlignmentValue());
-			JRBoxUtil.eraseBox(labelTextField.getLineBox());
-			
+			iconTextField.setStyle(textElement.getInitStyle());
+
 			if (textElement instanceof JRTextField) 
 			{
 				labelTextField.setExpression(((JRTextField) textElement).getExpression());
@@ -1933,37 +1895,16 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				labelTextField.setExpression(builtinExpressions.createConstantExpression(text));
 			}
 			
-			iconLabelComponent.setLabelTextField(labelTextField);
-			
-			JRDesignTextField iconTextField = new JRDesignTextField();
-			iconTextField.setStretchWithOverflow(true);
-			iconTextField.setX(0);
-			iconTextField.setY(0);
-			iconTextField.setWidth(1);
-			iconTextField.setHeight(1);
-			iconTextField.setStyle(textElement.getInitStyle());
-			iconTextField.setMode(textElement.getModeValue());
-			iconTextField.setFontName("Pictonic");//FIXMESORT use constant
-			iconTextField.setFontSize((int) (parentElement.getFontSize() * 0.8f));//FIXMESORT use constant
-			iconTextField.setForecolor(parentElement.getOwnForecolor());
-			iconTextField.setBackcolor(parentElement.getOwnBackcolor());
-			iconTextField.setBold(parentElement.isOwnBold());
-			iconTextField.setItalic(parentElement.isOwnItalic());
-			iconTextField.setUnderline(parentElement.isOwnUnderline());
-			iconTextField.setStrikeThrough(parentElement.isOwnStrikeThrough());
-			iconTextField.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
-			JRBoxUtil.eraseBox(iconTextField.getLineBox());
-			
 			String iconText =
 					order == SortOrderEnum.ASCENDING ? filler.getPropertiesUtil().getProperty(TableReport.PROPERTY_UP_ARROW_CHAR)
 					: (order == SortOrderEnum.DESCENDING ? filler.getPropertiesUtil().getProperty(TableReport.PROPERTY_DOWN_ARROW_CHAR) : "");
 			iconTextField.setExpression(builtinExpressions.createConstantExpression(iconText)); 
 			
-			iconLabelComponent.setIconTextField(iconTextField);
+			designIconLabelElement.getPropertiesMap().setProperty(
+					MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, 
+					"tablecolumnheadericonlabelreplacer"
+					);
 			
-			designIconLabelElement.setComponent(iconLabelComponent);
-			designIconLabelElement.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, 
-					"tablecolumnheadericonlabelreplacer");
 			return designIconLabelElement;
 		}
 
