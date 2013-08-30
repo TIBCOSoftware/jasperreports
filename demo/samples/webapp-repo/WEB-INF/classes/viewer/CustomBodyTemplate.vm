@@ -1,5 +1,18 @@
+<div id='reportContainer' style='display: table-cell'></div>
 <script class='jasperreports'>
-	require(["reportviewertoolbar"], function(reportviewertoolbar) {
-		reportviewertoolbar.loadReport('${reportUrl}', '${jsonParamsObject}', '${toolbarId}');
-	});
+    var reportPromise = null,
+            viewer = null;
+
+    require(["jasperreports-viewer"], function(Viewer) {
+        viewer = new Viewer({
+            at: "reportContainer",
+            reporturi: "${reportUri}",
+            async: ${async},
+            page: "${page}",
+            applicationContextPath: "${contextPath}"
+        });
+
+        reportPromise = viewer.loadReport();
+    });
+
 </script>
