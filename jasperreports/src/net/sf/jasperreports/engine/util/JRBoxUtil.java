@@ -182,6 +182,24 @@ public final class JRBoxUtil
 	/**
 	 * 
 	 */
+	public static void copy(JRLineBox source, JRLineBox dest)
+	{
+		dest.setLeftPadding(source.getOwnLeftPadding());
+		dest.copyLeftPen(source.getLeftPen());
+		dest.setRightPadding(source.getOwnRightPadding());
+		dest.copyRightPen(source.getRightPen());
+		dest.setTopPadding(source.getOwnTopPadding());
+		dest.copyTopPen(source.getTopPen());
+		dest.setBottomPadding(source.getOwnBottomPadding());
+		dest.copyBottomPen(source.getBottomPen());
+		dest.setPadding(source.getOwnPadding());
+		dest.copyPen(source.getPen());
+	}
+	
+
+	/**
+	 * 
+	 */
 	public static void rotate(JRLineBox box, RotationEnum rotation)
 	{
 		switch (rotation)

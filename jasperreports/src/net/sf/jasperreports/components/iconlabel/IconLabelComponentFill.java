@@ -23,33 +23,43 @@
  */
 package net.sf.jasperreports.components.iconlabel;
 
+import java.awt.Color;
+
+import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
+import net.sf.jasperreports.engine.component.ConditionalStyleAwareFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.component.StretchableFillComponent;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillCloneable;
+import net.sf.jasperreports.engine.fill.JRFillElementContainer;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRFillTextField;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
+import net.sf.jasperreports.engine.util.JRBoxUtil;
 
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: TextInputComponentFill.java 5922 2013-02-19 11:03:27Z teodord $
  */
-public class IconLabelComponentFill extends BaseFillComponent implements StretchableFillComponent
+public class IconLabelComponentFill extends BaseFillComponent implements StretchableFillComponent, ConditionalStyleAwareFillComponent, JRBoxContainer
 {
 	private final IconLabelComponent iconLabelComponent;
 
+	private final JRLineBox lineBox;
 	private final JRFillTextField labelTextField;
 	private final JRFillTextField iconTextField;
 	
@@ -65,6 +75,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	public IconLabelComponentFill(IconLabelComponent iconLabelComponent, JRFillObjectFactory factory)
 	{
 		this.iconLabelComponent = iconLabelComponent;
+		this.lineBox = iconLabelComponent.getLineBox().clone(this);
 		this.labelTextField = (JRFillTextField)factory.getVisitResult(iconLabelComponent.getLabelTextField());
 		this.iconTextField = (JRFillTextField)factory.getVisitResult(iconLabelComponent.getIconTextField());
 	}
@@ -72,6 +83,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	public IconLabelComponentFill(IconLabelComponent iconLabelComponent, JRFillCloneFactory factory)
 	{
 		this.iconLabelComponent = iconLabelComponent;
+		this.lineBox = iconLabelComponent.getLineBox().clone(this);
 		this.labelTextField = null;//FIXMEINPUT (JRFillTextField)factory.getVisitResult(iconLabelComponent.getTextField());
 		this.iconTextField = null;//FIXMEINPUT (JRFillTextField)factory.getVisitResult(iconLabelComponent.getTextField());
 	}
@@ -123,8 +135,8 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 				Math.max(
 					labelTextField.getHeight(), 
 					stretchHeight 
-						- iconLabelComponent.getLineBox().getTopPadding()
-						- iconLabelComponent.getLineBox().getBottomPadding()
+						- getLineBox().getTopPadding()
+						- getLineBox().getBottomPadding()
 					)
 				);
 		}
@@ -170,8 +182,8 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 					iconPrintText.setX(
 						(
 						iconLabelComponent.getContext().getComponentElement().getWidth() 
-						- iconLabelComponent.getLineBox().getLeftPadding()
-						- iconLabelComponent.getLineBox().getRightPadding()
+						- getLineBox().getLeftPadding()
+						- getLineBox().getRightPadding()
 						- labelPrintText.getWidth() 
 						- iconPrintText.getWidth()
 						) / 2
@@ -183,8 +195,8 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 					labelPrintText.setX(
 						(
 						iconLabelComponent.getContext().getComponentElement().getWidth() 
-						- iconLabelComponent.getLineBox().getLeftPadding()
-						- iconLabelComponent.getLineBox().getRightPadding()
+						- getLineBox().getLeftPadding()
+						- getLineBox().getRightPadding()
 						- labelPrintText.getWidth() 
 						- iconPrintText.getWidth()
 						) / 2
@@ -199,8 +211,8 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 				{
 					labelPrintText.setX(
 						iconLabelComponent.getContext().getComponentElement().getWidth()
-						- iconLabelComponent.getLineBox().getLeftPadding()
-						- iconLabelComponent.getLineBox().getRightPadding()
+						- getLineBox().getLeftPadding()
+						- getLineBox().getRightPadding()
 						- labelPrintText.getWidth()
 						);
 					iconPrintText.setX(labelPrintText.getX() - iconPrintText.getWidth());
@@ -209,8 +221,8 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 				{
 					iconPrintText.setX(
 						iconLabelComponent.getContext().getComponentElement().getWidth() 
-						- iconLabelComponent.getLineBox().getLeftPadding()
-						- iconLabelComponent.getLineBox().getRightPadding()
+						- getLineBox().getLeftPadding()
+						- getLineBox().getRightPadding()
 						- iconPrintText.getWidth()
 						);
 					labelPrintText.setX(iconPrintText.getX() - labelPrintText.getWidth());
@@ -233,16 +245,16 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 				labelPrintText.setY(
 					(
 					stretchHeight
-					- iconLabelComponent.getLineBox().getTopPadding()
-					- iconLabelComponent.getLineBox().getBottomPadding()
+					- getLineBox().getTopPadding()
+					- getLineBox().getBottomPadding()
 					- labelPrintText.getHeight()
 					) / 2
 					);
 				iconPrintText.setY(
 					(
 					stretchHeight
-					- iconLabelComponent.getLineBox().getTopPadding()
-					- iconLabelComponent.getLineBox().getBottomPadding()
+					- getLineBox().getTopPadding()
+					- getLineBox().getBottomPadding()
 					- iconPrintText.getHeight()
 					) / 2
 					);
@@ -252,14 +264,14 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			{
 				labelPrintText.setY(
 					stretchHeight
-					- iconLabelComponent.getLineBox().getTopPadding()
-					- iconLabelComponent.getLineBox().getBottomPadding()
+					- getLineBox().getTopPadding()
+					- getLineBox().getBottomPadding()
 					- labelPrintText.getHeight()
 					);
 				iconPrintText.setY(
 						stretchHeight
-						- iconLabelComponent.getLineBox().getTopPadding()
-						- iconLabelComponent.getLineBox().getBottomPadding()
+						- getLineBox().getTopPadding()
+						- getLineBox().getBottomPadding()
 						- iconPrintText.getHeight()
 						);
 				break;
@@ -276,17 +288,23 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		this.stretchHeight = stretchHeight;
 	}
 	
+	public void setConditionalStylesContainer(JRFillElementContainer conditionalStylesContainer)
+	{
+		labelTextField.setConditionalStylesContainer(conditionalStylesContainer);
+		iconTextField.setConditionalStylesContainer(conditionalStylesContainer);
+	}
+
 	public FillPrepareResult prepare(int availableHeight)
 	{
 		int textAvailableHeight = 
 			availableHeight
-			- iconLabelComponent.getLineBox().getTopPadding()
-			- iconLabelComponent.getLineBox().getBottomPadding();
+			- getLineBox().getTopPadding()
+			- getLineBox().getBottomPadding();
 		
 		iconTextField.setWidth(
 			iconLabelComponent.getContext().getComponentElement().getWidth()
-			- iconLabelComponent.getLineBox().getLeftPadding()
-			- iconLabelComponent.getLineBox().getRightPadding()
+			- getLineBox().getLeftPadding()
+			- getLineBox().getRightPadding()
 			);
 		
 		try
@@ -300,8 +318,8 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		
 		labelTextField.setWidth(
 			iconLabelComponent.getContext().getComponentElement().getWidth()
-			- iconLabelComponent.getLineBox().getLeftPadding()
-			- iconLabelComponent.getLineBox().getRightPadding()
+			- getLineBox().getLeftPadding()
+			- getLineBox().getRightPadding()
 			- (int)iconTextField.getTextWidth()
 			- iconTextField.getLineBox().getLeftPadding()
 			- iconTextField.getLineBox().getRightPadding()
@@ -333,10 +351,11 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 //					IconLabelElement.ICONLABEL_ELEMENT_TYPE
 //					);
 		
-			template.setStyle(iconLabelComponent.getContext().getComponentElement().getStyle());
-			template.setMode(iconLabelComponent.getContext().getComponentElement().getModeValue());
-			template.setBackcolor(iconLabelComponent.getContext().getComponentElement().getBackcolor());
-			template.setForecolor(iconLabelComponent.getContext().getComponentElement().getForecolor());
+			template.setStyle(fillContext.getComponentElement().getStyle());
+			template.setMode(fillContext.getComponentElement().getOwnModeValue());
+			template.setBackcolor(fillContext.getComponentElement().getOwnBackcolor());
+			template.setForecolor(fillContext.getComponentElement().getOwnForecolor());
+			JRBoxUtil.copy(getLineBox(), template.getLineBox());
 			
 			template = deduplicate(template);
 		}
@@ -349,8 +368,8 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		printElement.setWidth(element.getWidth());
 		stretchHeight = 
 			Math.max(labelTextField.getStretchHeight(), iconTextField.getStretchHeight())
-			+ iconLabelComponent.getLineBox().getTopPadding()
-			+ iconLabelComponent.getLineBox().getBottomPadding();
+			+ getLineBox().getTopPadding()
+			+ getLineBox().getBottomPadding();
 		//printElement.setHeight(element.getHeight());
 		printElement.setHeight(stretchHeight);
 		
@@ -387,8 +406,34 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 
 	protected void copy(JRPrintFrame printFrame)
 	{
-		iconLabelComponent.getLineBox().clone(printElement);
+		//printElement.iconLabelComponent.getLineBox().clone(printElement);
 		printElement.addElement(labelPrintText);
 		printElement.addElement(iconPrintText);
+	}
+
+	@Override
+	public Color getDefaultLineColor() 
+	{
+		return Color.black;
+	}
+
+	@Override
+	public JRDefaultStyleProvider getDefaultStyleProvider() {
+		return fillContext.getComponentElement().getDefaultStyleProvider();
+	}
+
+	@Override
+	public JRStyle getStyle() {
+		return fillContext.getComponentElement().getStyle();
+	}
+
+	@Override
+	public String getStyleNameReference() {
+		return fillContext.getComponentElement().getStyleNameReference();
+	}
+
+	@Override
+	public JRLineBox getLineBox() {
+		return lineBox;
 	}
 }

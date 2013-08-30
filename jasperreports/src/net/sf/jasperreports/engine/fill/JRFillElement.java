@@ -1374,17 +1374,24 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		}
 	}
 
-
 	/**
 	 * 
 	 */
-	protected void setConditionalStylesContainer(JRFillElementContainer conditionalStylesContainer)
+	public void setConditionalStylesContainer(JRFillElementContainer conditionalStylesContainer)
 	{
 		this.conditionalStylesContainer = conditionalStylesContainer;
 		if (fillContainerContext == null)
 		{
 			fillContainerContext = conditionalStylesContainer;
 		}
+	}
+
+	/**
+	 * 
+	 */
+	public JRFillElementContainer getConditionalStylesContainer()
+	{
+		return conditionalStylesContainer;
 	}
 
 	/**
