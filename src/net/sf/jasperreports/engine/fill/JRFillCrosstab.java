@@ -1776,7 +1776,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			labelTextField.setX(0);
 			labelTextField.setY(0);
 			labelTextField.setWidth(1);
-			labelTextField.setHeight(textElement.getHeight());
+			labelTextField.setHeight(Math.min(1, textElement.getHeight() 
+					- parentElement.getLineBox().getTopPadding() - parentElement.getLineBox().getBottomPadding()));
 			labelTextField.setStyle(textElement.getInitStyle());
 			labelTextField.setMode(parentElement.getOwnModeValue());
 			labelTextField.setFontSize(parentElement.getOwnFontSize());
