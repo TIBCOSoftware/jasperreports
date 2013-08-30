@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
+import net.sf.jasperreports.engine.component.ConditionalStyleAwareFillComponent;
 import net.sf.jasperreports.engine.component.FillComponent;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
@@ -173,6 +174,18 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		if (stretchableFillComponent != null)
 		{
 			stretchableFillComponent.setStretchHeight(stretchHeight);
+		}
+	}
+
+	public void setConditionalStylesContainer(JRFillElementContainer conditionalStylesContainer)
+	{
+		super.setConditionalStylesContainer(conditionalStylesContainer);
+		
+		ConditionalStyleAwareFillComponent conditionalStyleAwareFillComponent = 
+			fillComponent instanceof ConditionalStyleAwareFillComponent ? (ConditionalStyleAwareFillComponent)fillComponent : null;
+		if (conditionalStyleAwareFillComponent != null)
+		{
+			conditionalStyleAwareFillComponent.setConditionalStylesContainer(conditionalStylesContainer);
 		}
 	}
 
