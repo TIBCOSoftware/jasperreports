@@ -44,6 +44,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
         },
         refreshPage: function(page, boolNavigate, inputParameters) {
             var it = this;
+            it.currentpage = page;
 
             return it.loader.getHtmlForPage(page, boolNavigate, inputParameters)
                 .then(function(htmlData, textStatus, jqXHR) {
@@ -77,7 +78,6 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                             }
                         });
                     }
-                    it.currentpage = page;
                     it.eventManager.triggerEvent(it.events.COMPONENTS_REGISTERED);
                     return it;
                 });
