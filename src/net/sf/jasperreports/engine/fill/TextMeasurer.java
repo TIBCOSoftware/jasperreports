@@ -819,7 +819,7 @@ public class TextMeasurer implements JRTextMeasurer
 			prevMeasuredState = measuredState.cloneState();
 			
 			measuredState.isLeftToRight = isLeftToRight;//run direction is per layout; but this is the best we can do for now
-			measuredState.textWidth = Math.max(measuredState.textWidth, crtSegment == null ? 0 : crtSegment.rightX);
+			measuredState.textWidth = Math.max(measuredState.textWidth, (crtSegment == null ? 0 : (crtSegment.rightX - leftPadding)));//FIXMENOW is RTL text actually working here?
 			measuredState.textHeight = newTextHeight;
 			measuredState.lines++;
 
