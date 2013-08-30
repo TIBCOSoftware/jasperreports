@@ -140,7 +140,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 					)
 				);
 		}
-			
+
 		try
 		{
 			iconPrintText = (JRPrintText)iconTextField.fill();
@@ -156,6 +156,10 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			+ iconTextField.getLineBox().getLeftPadding() 
 			+ iconTextField.getLineBox().getRightPadding() 
 			);
+
+		int commonHeight = Math.max(labelPrintText.getHeight(), iconPrintText.getHeight());
+		labelPrintText.setHeight(commonHeight);
+		iconPrintText.setHeight(commonHeight);
 		
 		switch (iconLabelComponent.getHorizontalAlign())
 		{
