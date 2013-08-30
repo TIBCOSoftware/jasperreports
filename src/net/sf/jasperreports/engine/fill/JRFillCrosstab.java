@@ -1893,6 +1893,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			designIconLabelElement.setForecolor(parentElement.getOwnForecolor());
 			designIconLabelElement.setBackcolor(parentElement.getOwnBackcolor());
 			designIconLabelElement.setStretchType(parentElement.getStretchTypeValue());
+			designIconLabelElement.setPositionType(parentElement.getPositionTypeValue());
 			
 			IconLabelComponent iconLabelComponent = new IconLabelComponent(textElement.getDefaultStyleProvider());
 			iconLabelComponent.setIconPosition(IconPositionEnum.END);
