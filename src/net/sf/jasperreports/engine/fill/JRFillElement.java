@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.fill;
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -53,6 +54,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
+import net.sf.jasperreports.engine.design.JRDesignPropertyExpression;
 import net.sf.jasperreports.engine.style.StyleProvider;
 import net.sf.jasperreports.engine.style.StyleProviderFactory;
 import net.sf.jasperreports.engine.type.CalculationEnum;
@@ -75,6 +77,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 *
 	 */
 	protected JRElement parent;
+	protected List<JRPropertyExpression> propertyExpressions;
 	protected List<String> dynamicTransferProperties;
 	protected JRStyle providerStyle;
 	protected Map<JRStyle,JRTemplateElement> templates = new HashMap<JRStyle,JRTemplateElement>();
@@ -180,6 +183,11 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		
 		staticProperties = element.hasProperties() ? element.getPropertiesMap().cloneProperties() : null;
 		mergedProperties = staticProperties;
+		
+		JRPropertyExpression[] elementPropertyExpressions = element.getPropertyExpressions();
+		propertyExpressions = elementPropertyExpressions == null ? new ArrayList<JRPropertyExpression>(0)
+				: new ArrayList<JRPropertyExpression>(Arrays.asList(elementPropertyExpressions));
+		
 		dynamicTransferProperties = findDynamicTransferProperties();
 		
 		factory.registerDelayedStyleSetter(this, parent);
@@ -217,6 +225,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		
 		staticProperties = element.staticProperties == null ? null : element.staticProperties.cloneProperties();
 		mergedProperties = staticProperties;
+		this.propertyExpressions = new ArrayList<JRPropertyExpression>(element.propertyExpressions);
 		this.dynamicTransferProperties = element.dynamicTransferProperties;
 		
 		styleProviders = element.styleProviders;
@@ -224,15 +233,13 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	
 	private List<String> findDynamicTransferProperties()
 	{
-		JRPropertyExpression[] propertyExpressions = parent.getPropertyExpressions();
-		if (propertyExpressions == null || propertyExpressions.length == 0)
+		if (propertyExpressions.isEmpty())
 		{
 			return null;
 		}
 		
-		
 		List<String> prefixes = filler.getPrintTransferPropertyPrefixes();
-		List<String> transferProperties = new ArrayList<String>(propertyExpressions.length);
+		List<String> transferProperties = new ArrayList<String>(propertyExpressions.size());
 		for (JRPropertyExpression propertyExpression : propertyExpressions)
 		{
 			String propertyName = propertyExpression.getName();
@@ -1549,7 +1556,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 
 	public JRPropertyExpression[] getPropertyExpressions()
 	{
-		return parent.getPropertyExpressions();
+		return propertyExpressions.toArray(new JRPropertyExpression[propertyExpressions.size()]);
 	}
 	
 	protected void transferProperties(JRTemplateElement template)
@@ -1571,8 +1578,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	
 	protected void evaluateProperties(byte evaluation) throws JRException
 	{
-		JRPropertyExpression[] propExprs = getPropertyExpressions();
-		if (propExprs == null || propExprs.length == 0)
+		if (propertyExpressions.isEmpty())
 		{
 			dynamicProperties = null;
 			mergedProperties = staticProperties;
@@ -1581,9 +1587,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		{
 			dynamicProperties = new JRPropertiesMap();
 			
-			for (int i = 0; i < propExprs.length; i++)
+			for (JRPropertyExpression prop : propertyExpressions)
 			{
-				JRPropertyExpression prop = propExprs[i];
 				String value = (String) evaluateExpression(prop.getValueExpression(), evaluation);
 				if (value != null)
 				{
@@ -1626,23 +1631,18 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	@Override
 	public boolean hasDynamicProperties()
 	{
-		JRPropertyExpression[] propExprs = getPropertyExpressions();
-		return propExprs != null && propExprs.length > 0;
+		return !propertyExpressions.isEmpty();
 	}
 
 	@Override
 	public boolean hasDynamicProperty(String name)
 	{
-		JRPropertyExpression[] propExprs = getPropertyExpressions();
-		if (propExprs != null && propExprs.length > 0)
+		// not called very often for now so doing linear search in array
+		for (JRPropertyExpression prop : propertyExpressions)
 		{
-			// not called very often for now so doing linear search in array
-			for (int i = 0; i < propExprs.length; i++)
+			if (prop.getName().equals(name))
 			{
-				if (propExprs[i].getName().equals(name))
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 		return false;
@@ -1652,5 +1652,31 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	public JRPropertiesMap getDynamicProperties()
 	{
 		return dynamicProperties;
+	}
+
+	protected JRStyle getInitStyle()
+	{
+		return initStyle;
+	}
+
+	protected JRElement getParent()
+	{
+		return parent;
+	}
+	
+	protected void addDynamicProperty(String name, JRExpression expression)
+	{
+		JRDesignPropertyExpression prop = new JRDesignPropertyExpression();
+		prop.setName(name);
+		prop.setValueExpression(expression);
+		
+		propertyExpressions.add(prop);
+		// recomputing
+		dynamicTransferProperties = findDynamicTransferProperties();
+	}
+	
+	protected void setExpressionEvaluator(JRFillExpressionEvaluator expressionEvaluator)
+	{
+		this.expressionEvaluator = expressionEvaluator;
 	}
 }

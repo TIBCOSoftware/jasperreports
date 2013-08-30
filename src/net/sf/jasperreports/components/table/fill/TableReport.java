@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
 import net.sf.jasperreports.components.iconlabel.ContainerFillEnum;
@@ -125,12 +126,12 @@ public class TableReport implements JRReport
 	/**
 	 * Global property that specifies the character to be used on the column header when the tables's column is sorted ascending
 	 */
-	private static final String PROPERTY_UP_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.up.arrow.char"; //FIXMEJIVE move these from here
+	public static final String PROPERTY_UP_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.up.arrow.char"; //FIXMEJIVE move these from here
 
 	/**
 	 * Global property that specifies the character to be used on the column header when the tables's column is sorted descending
 	 */
-	private static final String PROPERTY_DOWN_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.down.arrow.char";
+	public static final String PROPERTY_DOWN_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.down.arrow.char";
 
 	/**
 	 * Global property that specifies the character to be used on the column header when the tables's column has a filtered applied
@@ -198,7 +199,7 @@ public class TableReport implements JRReport
 	private final TableComponent table;
 	private final JasperReport parentReport;
 	private final TableReportDataset mainDataset;
-	private final Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators;
+	private final BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory;
 	private final JRSection detail;
 	private final JRDesignBand title;
 	private final JRDesignBand summary;
@@ -218,7 +219,7 @@ public class TableReport implements JRReport
 		TableComponent table, 
 		TableReportDataset mainDataset, 
 		List<FillColumn> fillColumns, 
-		Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators
+		BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory
 		)
 	{
 		this.tableIndexProperties = new ArrayList<TableIndexProperties>();
@@ -228,7 +229,7 @@ public class TableReport implements JRReport
 		this.table = table;
 		this.parentReport = fillContext.getFiller().getJasperReport();
 		this.mainDataset = mainDataset;
-		this.builtinEvaluators = builtinEvaluators;
+		this.builtinEvaluatorFactory = builtinEvaluatorFactory;
 		
 		this.propertiesUtil = JRPropertiesUtil.getInstance(fillContext.getFiller().getJasperReportsContext());
 		
@@ -279,15 +280,6 @@ public class TableReport implements JRReport
 			// use the regular page footer
 			this.lastPageFooter = null;
 		}
-	}
-	
-	protected JRDesignExpression createBuiltinExpression(BuiltinExpressionEvaluator evaluator)
-	{
-		// we only need an empty expression object here
-		// the evaluation logic is separate
-		JRDesignExpression expression = new JRDesignExpression();
-		builtinEvaluators.put(expression, evaluator);
-		return expression;
 	}
 	
 	protected class ReportBandInfo
@@ -592,7 +584,7 @@ public class TableReport implements JRReport
 
 			if (detailElement instanceof JRStaticText)
 			{
-				return createBuiltinExpression(new ConstantBuiltinExpression(((JRStaticText)detailElement).getText()));
+				return builtinEvaluatorFactory.createConstantExpression(((JRStaticText)detailElement).getText());
 			}
 			
 			return null;
@@ -748,7 +740,7 @@ public class TableReport implements JRReport
 					IconLabelComponent iconLabelComponent = addIconLabelComponent(column, frame);
 					
 					if (iconLabelComponent != null) {
-						((JRDesignTextField)iconLabelComponent.getIconTextField()).setExpression(createBuiltinExpression(new ConstantBuiltinExpression(suffix)));
+						((JRDesignTextField)iconLabelComponent.getIconTextField()).setExpression(builtinEvaluatorFactory.createConstantExpression(suffix));
 					}
 					
 //					HeaderLabelBuiltinExpression evaluator = HeaderLabelUtil.alterHeaderLabel(frame, " " + suffix);
@@ -824,7 +816,8 @@ public class TableReport implements JRReport
 				Cell header = column.getColumnHeader();
 				
 				JRDesignComponentElement designComponent = new JRDesignComponentElement(header.getDefaultStyleProvider());
-				designComponent.setComponentKey(new ComponentKey("http://jasperreports.sourceforge.net/jasperreports/components", null, "iconLabel"));
+				designComponent.setComponentKey(new ComponentKey(
+						ComponentsExtensionsRegistryFactory.NAMESPACE, null, ComponentsExtensionsRegistryFactory.ICONLABEL_COMPONENT_NAME));
 				designComponent.setX(headerTextElement.getX());
 				designComponent.setY(headerTextElement.getY());
 				designComponent.setHeight(headerTextElement.getHeight());
@@ -876,7 +869,7 @@ public class TableReport implements JRReport
 				}
 				else if (headerTextElement instanceof JRStaticText) 
 				{
-					labelTextField.setExpression(createBuiltinExpression(new ConstantBuiltinExpression(((JRStaticText)headerTextElement).getText())));
+					labelTextField.setExpression(builtinEvaluatorFactory.createConstantExpression(((JRStaticText)headerTextElement).getText()));
 				}
 
 				iconLabelComponent.setLabelTextField(labelTextField);
@@ -921,8 +914,7 @@ public class TableReport implements JRReport
 			JRDesignGenericElementParameter param = new JRDesignGenericElementParameter();
 			param.setName(name);
 			
-			JRDesignExpression valueExpression = createBuiltinExpression(
-					new ConstantBuiltinExpression(value));
+			JRDesignExpression valueExpression = builtinEvaluatorFactory.createConstantExpression(value);
 			param.setValueExpression(valueExpression);
 			
 			element.addParameter(param);
@@ -1348,7 +1340,7 @@ public class TableReport implements JRReport
 		footerFrame.getLineBox().getPen().setLineWidth(0f);
 		footerFrame.setRemoveLineWhenBlank(true);
 		
-		JRDesignExpression footerPrintWhen = createBuiltinExpression(new SummaryGroupFooterPrintWhenEvaluator());
+		JRDesignExpression footerPrintWhen = builtinEvaluatorFactory.createExpression(new SummaryGroupFooterPrintWhenEvaluator());
 		footerFrame.setPrintWhenExpression(footerPrintWhen);
 		
 		// clone the contents of the page footer in the frame

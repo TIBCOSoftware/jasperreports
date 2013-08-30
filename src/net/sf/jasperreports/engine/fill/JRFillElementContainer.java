@@ -106,7 +106,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	}
 
 
-	private void initDeepElements()
+	protected void initDeepElements()
 	{
 		if (elements == null)
 		{

@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -36,6 +35,12 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
+import net.sf.jasperreports.components.iconlabel.ContainerFillEnum;
+import net.sf.jasperreports.components.iconlabel.IconLabelComponent;
+import net.sf.jasperreports.components.iconlabel.IconPositionEnum;
+import net.sf.jasperreports.components.table.fill.BuiltinExpressionEvaluatorFactory;
+import net.sf.jasperreports.components.table.fill.TableReport;
 import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -51,6 +56,7 @@ import net.sf.jasperreports.crosstabs.base.JRBaseCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.fill.BucketExpressionOrderer;
 import net.sf.jasperreports.crosstabs.fill.BucketOrderer;
+import net.sf.jasperreports.crosstabs.fill.IconLabelFillObjectFactory;
 import net.sf.jasperreports.crosstabs.fill.JRCrosstabExpressionEvaluator;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabCell;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabColumnGroup;
@@ -67,9 +73,9 @@ import net.sf.jasperreports.crosstabs.fill.calculation.CrosstabBucketingService;
 import net.sf.jasperreports.crosstabs.fill.calculation.CrosstabCell;
 import net.sf.jasperreports.crosstabs.fill.calculation.HeaderCell;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition;
+import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
 import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnInfo;
 import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnOrderer;
-import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
 import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.crosstabs.interactive.DataColumnInfo;
 import net.sf.jasperreports.crosstabs.interactive.RowGroupInteractiveInfo;
@@ -89,16 +95,26 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStaticText;
+import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
+import net.sf.jasperreports.engine.component.ComponentKey;
+import net.sf.jasperreports.engine.design.JRDesignComponentElement;
+import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.MatcherExporterFilter;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
+import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
@@ -126,6 +142,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	public static final JRGenericElementType CROSSTAB_INTERACTIVE_ELEMENT_TYPE = 
 			new JRGenericElementType(JRXmlConstants.JASPERREPORTS_NAMESPACE, CROSSTAB_INTERACTIVE_ELEMENT_NAME);
 
+
+	private final JRFillObjectFactory fillFactory;
 	
 	final protected JRCrosstab parentCrosstab;
 
@@ -142,6 +160,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	protected JRFillCrosstabMeasure[] measures;
 
 	private OrderByColumnInfo orderByColumnInfo;
+	private List<Bucket> orderByColumnBucketValues;
 	
 	protected CrosstabBucketingService bucketingService;
 
@@ -183,6 +202,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	{
 		super(filler, crosstab, factory);
 
+		this.fillFactory = factory;
+		
 		parentCrosstab = crosstab;
 
 		loadEvaluator(filler.getJasperReport());
@@ -624,6 +645,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			{
 				throw new JRRuntimeException("Could not create bucketing service", e);
 			}
+			
+			setOrderByColumnBucketValues();
 		}
 		else
 		{
@@ -644,6 +667,17 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		
 		orderByColumnInfo = JacksonUtil.getInstance(filler.getJasperReportsContext()).loadObject(
 				orderByProperty, OrderByColumnInfo.class);
+	}
+	
+	protected void setOrderByColumnBucketValues()
+	{
+		if (orderByColumnInfo != null && orderByColumnInfo.getOrder() != null)
+		{
+			// creating an orderer for convenience
+			OrderByColumnOrderer orderer = new OrderByColumnOrderer(orderByColumnInfo);
+			orderer.init(bucketingService);
+			orderByColumnBucketValues = orderer.getBucketValues();
+		}
 	}
 
 	protected boolean prepare(int availableHeight, boolean isOverflow) throws JRException
@@ -804,15 +838,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_ROW_GROUPS, rowGroups);
 		
-		List<Bucket> orderColumnValues = null;
-		if (orderByColumnInfo != null && orderByColumnInfo.getOrder() != null)
-		{
-			// creating an orderer for convenience
-			OrderByColumnOrderer orderer = new OrderByColumnOrderer(orderByColumnInfo);
-			orderer.init(bucketingService);
-			orderColumnValues = orderer.getBucketValues();
-		}
-		
 		int dataColumnCount = crosstabFiller.lastColumnIndex - crosstabFiller.startColumnIndex;
 		List<DataColumnInfo> dataColumns = new ArrayList<DataColumnInfo>(dataColumnCount);
 		for (int colIdx = crosstabFiller.startColumnIndex; colIdx < crosstabFiller.lastColumnIndex; ++colIdx)
@@ -824,14 +849,14 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			for (int level = columnHeadersData.length - 1; level >= 0 && bucketValues == null; --level)
 			{
 				HeaderCell header = columnHeadersData[level][colIdx];
-				bucketValues = header == null ? null : Arrays.asList(header.getBucketValues());
+				bucketValues = header == null ? null : bucketValuesList(header);
 			}
 			
 			List<ColumnValueInfo> columnValues = toColumnValues(bucketValues);
 			dataColumn.setColumnValues(columnValues);
 			
 			BucketOrder columnOrder = null;
-			if (orderColumnValues != null && orderColumnValues.equals(bucketValues))
+			if (orderByColumnBucketValues != null && orderByColumnBucketValues.equals(bucketValues))
 			{
 				columnOrder = BucketOrder.fromSortOrderEnum(orderByColumnInfo.getOrder());
 			}
@@ -842,6 +867,20 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_DATA_COLUMNS, dataColumns);
 
 		return genericElement;
+	}
+	
+	protected List<Bucket> bucketValuesList(HeaderCell cell)
+	{
+		Bucket[] values = cell.getBucketValues();
+		ArrayList<Bucket> valuesList = new ArrayList<Bucket>(values.length);
+		for (Bucket bucket : values)
+		{
+			if (bucket != null)
+			{
+				valuesList.add(bucket);
+			}
+		}
+		return valuesList;
 	}
 
 	protected List<ColumnValueInfo> toColumnValues(List<Bucket> bucketValues)
@@ -1614,6 +1653,10 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				return null;
 			}
 			
+			// check if the cell is on the last level
+			// TODO lucianc handle the case of last column group with no headers
+			boolean lastLevel = rowIdx + cell.getDepthSpan() == columnGroups.length;
+			
 			JRFillCellContents preparedContents = null;
 			
 			int rowY = rowYs.get(rowIdx).intValue();
@@ -1630,21 +1673,25 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 						firstOnRow && getRunDirectionValue() == RunDirectionEnum.LTR,
 						firstOnRow && getRunDirectionValue() == RunDirectionEnum.RTL,
 						false);
+				
+				// check if the column is sorted
+				if (interactive && lastLevel 
+						&& orderByColumnBucketValues != null
+						&& orderByColumnBucketValues.equals(bucketValuesList(cell)))
+				{
+					contents = decorateWithIconLabel(contents, orderByColumnInfo.getOrder());
+				}
+				
 				contents = contents.getWorkingClone();
 
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
 				contents.prepare(availableHeight - rowY);
 				
-				if (interactive)
+				if (interactive && lastLevel)
 				{
+					// only last level header cells are interactive
 					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(columnIdx));
-					// check if the cell is on the last level
-					// TODO lucianc handle the case of last column group with no headers
-					if (rowIdx + cell.getDepthSpan() == columnGroups.length)
-					{
-						// only last level header cells are interactive
-						contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtcolheader jrxtinteractive");
-					}
+					contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtcolheader jrxtinteractive");
 				}
 
 				if (contents.willOverflow())
@@ -1667,6 +1714,138 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 			
 			return preparedContents;
+		}
+
+		private JRFillCellContents decorateWithIconLabel(JRFillCellContents contents, SortOrderEnum order)
+		{
+			// check whether the contents contain a single text element
+			JRElement[] elements = contents.getElements();
+			if (elements.length != 1)
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("order by column header has " + elements.length + " elements");
+				}
+				
+				return contents;
+			}
+			
+			if (!(elements[0] instanceof JRTextElement))
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("order by column header has element " + elements[0].getClass().getName());
+				}
+				
+				return contents;
+			}
+			
+			// TODO lucianc cache
+			JRFillTextElement textElement = (JRFillTextElement) elements[0];
+			JRTextElement parentElement = (JRTextElement) textElement.getParent();
+			if (log.isDebugEnabled())
+			{
+				log.debug("wrapping column header element " + textElement.getClass().getName() + " in iconLabel");
+			}
+			
+			BuiltinExpressionEvaluatorFactory builtinExpressions = new BuiltinExpressionEvaluatorFactory();
+			
+			//FIXME all this looks kind of ugly..
+			JRDesignComponentElement designIconLabelElement = new JRDesignComponentElement();
+			designIconLabelElement.setComponentKey(new ComponentKey(
+					ComponentsExtensionsRegistryFactory.NAMESPACE, null, ComponentsExtensionsRegistryFactory.ICONLABEL_COMPONENT_NAME));
+			designIconLabelElement.setX(textElement.getX());
+			designIconLabelElement.setY(textElement.getY());
+			designIconLabelElement.setHeight(textElement.getHeight());
+			designIconLabelElement.setWidth(textElement.getWidth());
+			designIconLabelElement.setStyle(textElement.getInitStyle());
+			designIconLabelElement.setMode(parentElement.getOwnModeValue());
+			designIconLabelElement.setForecolor(parentElement.getOwnForecolor());
+			designIconLabelElement.setBackcolor(parentElement.getOwnBackcolor());
+			designIconLabelElement.setStretchType(parentElement.getStretchTypeValue());
+			
+			IconLabelComponent iconLabelComponent = new IconLabelComponent(textElement.getDefaultStyleProvider());
+			iconLabelComponent.setIconPosition(IconPositionEnum.END);
+			iconLabelComponent.setVerticalAlign(parentElement.getVerticalAlignmentValue());//FIXMESORT maybe use Own getters?
+			iconLabelComponent.setHorizontalAlign(parentElement.getHorizontalAlignmentValue());
+			iconLabelComponent.setLabelFill(ContainerFillEnum.NONE);
+			iconLabelComponent.setLineBox(parentElement.getLineBox().clone(iconLabelComponent));
+
+			JRDesignTextField labelTextField = new JRDesignTextField();
+			labelTextField.setStretchWithOverflow(true);
+			labelTextField.setX(0);
+			labelTextField.setY(0);
+			labelTextField.setWidth(1);
+			labelTextField.setHeight(textElement.getHeight());
+			labelTextField.setStyle(textElement.getInitStyle());
+			labelTextField.setMode(parentElement.getOwnModeValue());
+			labelTextField.setFontSize(parentElement.getOwnFontSize());
+			labelTextField.setFontName(parentElement.getOwnFontName());
+			labelTextField.setForecolor(parentElement.getOwnForecolor());
+			labelTextField.setBackcolor(parentElement.getOwnBackcolor());
+			labelTextField.setBold(parentElement.isOwnBold());
+			labelTextField.setItalic(parentElement.isOwnItalic());
+			labelTextField.setUnderline(parentElement.isOwnUnderline());
+			labelTextField.setStrikeThrough(parentElement.isOwnStrikeThrough());
+			labelTextField.setHorizontalAlignment(parentElement.getOwnHorizontalAlignmentValue());
+			labelTextField.setVerticalAlignment(parentElement.getOwnVerticalAlignmentValue());
+			JRBoxUtil.eraseBox(labelTextField.getLineBox());
+			
+			if (textElement instanceof JRTextField) 
+			{
+				labelTextField.setExpression(((JRTextField) textElement).getExpression());
+			}
+			else if (textElement instanceof JRStaticText) 
+			{
+				String text = ((JRStaticText) textElement).getText();
+				labelTextField.setExpression(builtinExpressions.createConstantExpression(text));
+			}
+			
+			iconLabelComponent.setLabelTextField(labelTextField);
+			
+			JRDesignTextField iconTextField = new JRDesignTextField();
+			iconTextField.setStretchWithOverflow(true);
+			iconTextField.setX(0);
+			iconTextField.setY(0);
+			iconTextField.setWidth(1);
+			iconTextField.setHeight(1);
+			iconTextField.setStyle(textElement.getInitStyle());
+			iconTextField.setMode(textElement.getModeValue());
+			iconTextField.setFontName("Pictonic");//FIXMESORT use constant
+			iconTextField.setFontSize((int) (parentElement.getFontSize() * 0.8f));//FIXMESORT use constant
+			iconTextField.setForecolor(parentElement.getOwnForecolor());
+			iconTextField.setBackcolor(parentElement.getOwnBackcolor());
+			iconTextField.setBold(parentElement.isOwnBold());
+			iconTextField.setItalic(parentElement.isOwnItalic());
+			iconTextField.setUnderline(parentElement.isOwnUnderline());
+			iconTextField.setStrikeThrough(parentElement.isOwnStrikeThrough());
+			iconTextField.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
+			JRBoxUtil.eraseBox(iconTextField.getLineBox());
+			
+			String iconText =
+					order == SortOrderEnum.ASCENDING ? filler.getPropertiesUtil().getProperty(TableReport.PROPERTY_UP_ARROW_CHAR)
+					: (order == SortOrderEnum.DESCENDING ? filler.getPropertiesUtil().getProperty(TableReport.PROPERTY_DOWN_ARROW_CHAR) : "");
+			iconTextField.setExpression(builtinExpressions.createConstantExpression(iconText)); 
+			
+			iconLabelComponent.setIconTextField(iconTextField);
+			
+			designIconLabelElement.setComponent(iconLabelComponent);
+			designIconLabelElement.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, 
+					"tablecolumnheadericonlabelreplacer");
+
+			JRFillExpressionEvaluator decoratedEvaluator = builtinExpressions.decorate(contents.expressionEvaluator);
+			IconLabelFillObjectFactory factory = new IconLabelFillObjectFactory(fillFactory, decoratedEvaluator);
+			JRFillComponentElement fillIconLabelElement = new JRFillComponentElement(filler, designIconLabelElement, factory);
+			
+			JRFillCellContents clonedContents = (JRFillCellContents) contents.createClone();
+			clonedContents.addElement(1, fillIconLabelElement);
+			
+			JRFillElement clonedTextElement = (JRFillElement) clonedContents.getElements()[0];
+			clonedTextElement.setExpressionEvaluator(decoratedEvaluator);
+			clonedTextElement.addDynamicProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, 
+					builtinExpressions.createConstantExpression("tablecolumnheadericonlabelreplaced"));//FIXMESORT use constants
+			
+			return clonedContents;
 		}
 
 		protected JRFillCellContents prepareColumnCrosstabHeader(int availableHeight) throws JRException

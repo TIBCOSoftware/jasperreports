@@ -30,7 +30,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -55,17 +54,17 @@ public class FillTableSubreport extends JRFillSubreport
 {
 
 	private final TableJasperReport tableReport;
-	private final Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators;
+	private final BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory;
 
 	protected FillTableSubreport(FillContext fillContext, JRSubreport subreport,
 			JRFillObjectFactory factory, TableJasperReport tableReport, 
-			Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators)
+			BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory)
 	{
 		super(fillContext.getFiller(), subreport, factory);
 		
 		this.fillContainerContext = fillContext.getFillContainerContext();
 		this.tableReport = tableReport;
-		this.builtinEvaluators = builtinEvaluators;
+		this.builtinEvaluatorFactory = builtinEvaluatorFactory;
 	}
 
 	public TableJasperReport getTableReport()
@@ -83,15 +82,7 @@ public class FillTableSubreport extends JRFillSubreport
 	protected DatasetExpressionEvaluator createEvaluator() throws JRException
 	{
 		DatasetExpressionEvaluator evaluator = super.createEvaluator();
-		
-		if (!builtinEvaluators.isEmpty())
-		{
-			// use the builtin expression evaluators
-			evaluator = new BuiltinExpressionEvaluatorDecorator(evaluator, 
-					builtinEvaluators);
-		}
-		
-		return evaluator;
+		return builtinEvaluatorFactory.decorate(evaluator);
 	}
 	
 	@Override

@@ -283,6 +283,17 @@ public final class JRBoxUtil
 			);
 	}
 	
+	public static void eraseBox(JRLineBox box)
+	{
+		box.setBottomPadding(0);
+		box.setTopPadding(0);
+		box.setLeftPadding(0);
+		box.setRightPadding(0);
+		box.getBottomPen().setLineWidth(0);
+		box.getTopPen().setLineWidth(0);
+		box.getLeftPen().setLineWidth(0);
+		box.getRightPen().setLineWidth(0);
+	}
 
 	private JRBoxUtil()
 	{
