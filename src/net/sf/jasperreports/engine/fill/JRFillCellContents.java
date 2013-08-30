@@ -425,6 +425,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 					JRCellContents.PROPERTY_COLUMN_SPAN, Integer.toString(horizontalSpan));
 		}
 		
+		// TODO lucianc find a way to put this in templates
 		for (Entry<String, String> propEntry : printProperties.entrySet())
 		{
 			printCell.getPropertiesMap().setProperty(propEntry.getKey(), propEntry.getValue());
