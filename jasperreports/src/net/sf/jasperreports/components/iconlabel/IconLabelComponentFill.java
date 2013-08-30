@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -38,8 +39,8 @@ import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillCloneable;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRFillTextField;
-import net.sf.jasperreports.engine.fill.JRTemplateGenericElement;
-import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
+import net.sf.jasperreports.engine.fill.JRTemplateFrame;
+import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
 
 /**
  * 
@@ -53,8 +54,10 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	private final JRFillTextField labelTextField;
 	private final JRFillTextField iconTextField;
 	
-	private	JRTemplateGenericElement template;
-	private JRTemplateGenericPrintElement printElement;
+	//private	JRTemplateGenericElement template;
+	private	JRTemplateFrame template;
+	//private JRTemplateGenericPrintElement printElement;
+	private JRTemplatePrintFrame printElement;
 	private JRPrintText labelPrintText;
 	private JRPrintText iconPrintText;
 	
@@ -319,10 +322,17 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		JRComponentElement element = fillContext.getComponentElement();
 		if (template == null) 
 		{
-			template = new JRTemplateGenericElement(
+			template = 
+				new JRTemplateFrame(
 					fillContext.getElementOrigin(), 
-					fillContext.getDefaultStyleProvider(),
-					IconLabelElement.ICONLABEL_ELEMENT_TYPE);
+					fillContext.getDefaultStyleProvider()
+					);
+//			template = 
+//				new JRTemplateGenericElement(
+//					fillContext.getElementOrigin(), 
+//					fillContext.getDefaultStyleProvider(),
+//					IconLabelElement.ICONLABEL_ELEMENT_TYPE
+//					);
 		
 			template.setStyle(iconLabelComponent.getContext().getComponentElement().getStyle());
 			template.setMode(iconLabelComponent.getContext().getComponentElement().getModeValue());
@@ -332,7 +342,8 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			template = deduplicate(template);
 		}
 		
-		printElement = new JRTemplateGenericPrintElement(template, elementId);
+		printElement = new JRTemplatePrintFrame(template, elementId);
+//		printElement = new JRTemplateGenericPrintElement(template, elementId);
 		printElement.setUUID(element.getUUID());
 		printElement.setX(element.getX());
 
@@ -370,5 +381,12 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		printElement.setParameterValue(IconLabelElement.PARAMETER_LINE_BOX, iconLabelComponent.getLineBox().clone(null));
 		printElement.setParameterValue(IconLabelElement.PARAMETER_LABEL_TEXT_ELEMENT, labelPrintText);
 		printElement.setParameterValue(IconLabelElement.PARAMETER_ICON_TEXT_ELEMENT, iconPrintText);
+	}
+
+	protected void copy(JRPrintFrame printFrame)
+	{
+		iconLabelComponent.getLineBox().clone(printElement);
+		printElement.addElement(labelPrintText);
+		printElement.addElement(iconPrintText);
 	}
 }
