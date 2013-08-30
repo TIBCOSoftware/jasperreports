@@ -990,10 +990,100 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 });
             }
         },
+        getHeaderTable: function() {
+            var tbl = $('table.floatableHeader');
+            if (tbl.length == 0) {
+                tbl = $("<table class='floatableHeader' style='display:none'/>").appendTo('div#reportContainer');
+
+                var firstColHeader = $('td.jrcolHeader:first'),
+                    parentTable = firstColHeader.closest('table'),
+                    lastColHeader = $('td.jrcolHeader:last', parentTable),
+                    rows = [], clone, row, lastRow, cloneTDs, rowTDs, i, j, k, ln, tblJrPage, parentTableRows;
+                if (firstColHeader) {
+                    row = firstColHeader.closest('tr');
+                    lastRow = lastColHeader.closest('tr');
+//                    tblJrPage = firstColHeader.closest('table.jrPage');
+                    tblJrPage = firstColHeader.closest('table');
+
+                    if (row === lastRow) {
+                        rows.push(row);
+                    } else {
+                        parentTableRows = parentTable.find('tr');
+                        i = parentTableRows.index(row);
+                        j = parentTableRows.index(lastRow);
+
+                        for (k = i; k <= j; k++) {
+                            rows.push(parentTableRows.get(k));
+                        }
+                    }
+
+                    $.each(rows, function(idx, row) {
+                        rowTDs = $(row).find('td');
+                        clone = $(row).clone();
+                        cloneTDs = clone.find('td');
+
+                        // set width for each clone TD
+                        for (i = 0, ln = rowTDs.length; i < ln; i++) {
+                            $(cloneTDs.get(i)).width($(rowTDs.get(i)).width());
+                        }
+                        tbl.append(clone);
+                    });
+                    tbl.css({
+                        width: tblJrPage.width(),
+                        left: tblJrPage.offset().left,
+                        'empty-cells': tblJrPage.css('empty-cells'),
+                        'border-collapse': tblJrPage.css('border-collapse'),
+                        'background-color': tblJrPage.css('background-color')
+                    });
+                    tbl.attr('cellpadding', tblJrPage.attr('cellpadding'));
+                    tbl.attr('cellspacing', tblJrPage.attr('cellspacing'));
+                    tbl.attr('border', tblJrPage.attr('border'));
+                }
+            }
+
+            return tbl;
+        },
+        setScrolableHeader: function(){
+            var it = this,
+                bMoved = false,
+                reportContainerPositionAtMove;
+
+            $('div#reportViewFrame .body').on('scroll', function(evt) {
+                var floatableTbl = it.getHeaderTable(),
+                    containerTop = $(this).offset().top,
+                    firstHeader = $('td.jrcolHeader:first'),
+                    headerTop = firstHeader.closest('tr').offset().top,
+                    reportContainerTop = $('#reportContainer').offset().top;
+
+                if (!bMoved && headerTop-containerTop < 0) {
+                    floatableTbl.show();
+                    floatableTbl.css({
+                        position: 'fixed',
+                        top: containerTop
+                    });
+
+                    bMoved = true;
+                    reportContainerPositionAtMove = reportContainerTop;
+                } else if (bMoved && reportContainerTop > reportContainerPositionAtMove) {
+                        floatableTbl.hide();
+                        floatableTbl.css({
+                            position: '',
+                            top: ''
+                        });
+                    bMoved = false;
+                }
+            });
+        },
         init: function(report) {
             var it = this;
 
             if(!it.initialized) {
+                /*
+                 Scrolable table headers
+                 */
+                it.setScrolableHeader();
+
+
                 /*
                  Setup HTML
                  */
