@@ -300,8 +300,7 @@ public class FillTable extends BaseFillComponent
 		JRDataset reportSubdataset = JRReportUtils.findSubdataset(table.getDatasetRun(), 
 				containingReport);
 		
-		Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators = 
-			new HashMap<JRExpression, BuiltinExpressionEvaluator>();
+		BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory = new BuiltinExpressionEvaluatorFactory();
 		
 		String tableReportName = JRAbstractCompiler.getUnitName(containingReport, reportSubdataset);
 		
@@ -313,7 +312,7 @@ public class FillTable extends BaseFillComponent
 		JRDataset tableSubdataset = DatasetCloneObjectFactory.cloneDataset(reportSubdataset);
 		TableReportDataset reportDataset = new TableReportDataset(tableSubdataset, tableReportName);
 
-		TableReport tableReport = new TableReport(fillContext, table, reportDataset, fillColumns, builtinEvaluators);
+		TableReport tableReport = new TableReport(fillContext, table, reportDataset, fillColumns, builtinEvaluatorFactory);
 		
 		if (log.isDebugEnabled())
 		{
@@ -332,7 +331,7 @@ public class FillTable extends BaseFillComponent
 		TableSubreport subreport = new TableSubreport(table.getDatasetRun(), fillContext);
 		return new FillTableSubreport(
 				fillContext, subreport, factory, compiledTableReport,
-				builtinEvaluators);
+				builtinEvaluatorFactory);
 	}
 
 	protected JasperReport containingReport(JasperReport parentReport)

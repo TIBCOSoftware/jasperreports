@@ -745,5 +745,22 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	{
 		return null;
 	}
+	
+	protected void addElement(int index, JRFillElement element)
+	{
+		children.add(index, element);
+		
+		// recreate elements array
+		this.elements = null;
+		getElements();
+		initDeepElements();
+		
+		// we need to reinit elements
+		initElements();
+		
+		// assuming that the element is not deep and that it does not bring new conditional styles
+		element.setConditionalStylesContainer(this);
+		element.setOriginProvider(originProvider);
+	}
 
 }
