@@ -27,11 +27,14 @@ import java.awt.*;
 
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
 import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.engine.design.JRDesignExpression;
+import net.sf.jasperreports.engine.design.JRDesignStaticText;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.web.commands.Command;
 
 /**
@@ -44,7 +47,7 @@ public class EditTextElementCommand implements Command
 	private EditTextElementData editTextElementData;
 	private EditTextElementData oldEditTextElementData;
 	private JRDesignTextElement textElement;
-
+	private String oldText;
 
 	public EditTextElementCommand(JRDesignTextElement textElement, EditTextElementData editTextElementData)
 	{
@@ -56,12 +59,38 @@ public class EditTextElementCommand implements Command
 	public void execute() {
 		if (textElement != null) {
             oldEditTextElementData = new EditTextElementData();
+            oldEditTextElementData.setApplyTo(editTextElementData.getApplyTo());
 			HeaderToolbarElementUtils.copyOwnTextElementStyle(oldEditTextElementData, textElement);
-			applyColumnHeaderData(editTextElementData, textElement);
+			applyColumnHeaderData(editTextElementData, textElement, true);
 		}
 	}
 
-	private void applyColumnHeaderData(EditTextElementData textElementData, JRDesignTextElement textElement) {
+	private void applyColumnHeaderData(EditTextElementData textElementData, JRDesignTextElement textElement, boolean execute) {
+		if (EditTextElementData.APPLY_TO_HEADING.equals(textElementData.getApplyTo())) {
+            if (textElement instanceof JRDesignTextField) {
+                JRDesignTextField designTextField = (JRDesignTextField)textElement;
+                if (execute) {
+                    if (oldText == null) {
+                        oldText = (designTextField.getExpression()).getText();
+                    }
+                    ((JRDesignExpression)designTextField.getExpression()).setText("\"" + JRStringUtil.escapeJavaStringLiteral(textElementData.getHeadingName()) + "\"");
+                } else {
+                    ((JRDesignExpression)designTextField.getExpression()).setText(oldText);
+                }
+
+            } else if (textElement instanceof JRDesignStaticText){
+                JRDesignStaticText staticText = (JRDesignStaticText)textElement;
+                if (execute) {
+                    if (oldText == null) {
+                        oldText = staticText.getText();
+                    }
+                    staticText.setText(textElementData.getHeadingName());
+                } else {
+                    staticText.setText(oldText);
+                }
+            }
+        }
+		
 		textElement.setFontName(textElementData.getFontName());
 		textElement.setFontSize(textElementData.getFontSize() != null ? Integer.valueOf(textElementData.getFontSize()) : null);
 		textElement.setBold(textElementData.getFontBold());
@@ -80,13 +109,13 @@ public class EditTextElementCommand implements Command
 
 	public void undo() {
 		if (oldEditTextElementData != null) {
-			applyColumnHeaderData(oldEditTextElementData, textElement);
+			applyColumnHeaderData(oldEditTextElementData, textElement, false);
 		}
 	}
 
 
 	public void redo() {
-		applyColumnHeaderData(editTextElementData, textElement);
+		applyColumnHeaderData(editTextElementData, textElement, true);
 	}
 
 }
