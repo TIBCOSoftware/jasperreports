@@ -28,6 +28,10 @@ define(["jquery-1.10.2"], function($) {
 				return it;
 			});
 		},
+		isDataColumnSortable: function(columnIndex) {
+			var dataColumn = this.config.dataColumns[columnIndex - this.config.startColumnIndex];
+			return typeof(dataColumn.sortMeasureIndex) == "number";
+		},
 		sortByDataColumn: function(columnIndex, order) {
 			var it = this;
 			var dataColumn = this.config.dataColumns[columnIndex - this.config.startColumnIndex];
