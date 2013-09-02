@@ -77,7 +77,7 @@ public class SortByColumnCommand implements Command
 		else
 		{
 			OrderByColumnInfo orderByInfo = new OrderByColumnInfo();
-			orderByInfo.setMeasureIndex(0);// TODO lucianc 
+			orderByInfo.setMeasureIndex(sortData.getMeasureIndex()); 
 			orderByInfo.setOrder(BucketOrder.toSortOrderEnum(order));
 			orderByInfo.setColumnValues(sortData.getColumnValues());
 			newOrderBy = JacksonUtil.getInstance(jasperReportsContext).getJsonString(orderByInfo);

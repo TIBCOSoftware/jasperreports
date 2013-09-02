@@ -28,14 +28,16 @@ define(["jquery-1.10.2"], function($) {
 				return it;
 			});
 		},
-		sortByColumn: function(columnIndex, order) {
+		sortByDataColumn: function(columnIndex, order) {
 			var it = this;
+			var dataColumn = this.config.dataColumns[columnIndex - this.config.startColumnIndex];
 			var payload = {
 					action: {"actionName":"sortXTabByColumn",
 						"sortData":{
 							"crosstabId":this.getId(),
 							"order":order,
-							"columnValues": this.config.dataColumns[columnIndex - this.config.startColumnIndex].columnValues}}};
+							"measureIndex": dataColumn.sortMeasureIndex,
+							"columnValues": dataColumn.columnValues}}};
 			return this.loader.runAction(payload).then(function(jsonData) {
 				it._notify({
 					name: "action",
