@@ -89,7 +89,7 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 				
 			ixt.selected = {crosstab: crosstab, header: firstHeader};
 			ixt.overlay.show({w: width, h: height});
-			ixt.foobar.show();
+			ixt.foobar.show(true);
 		},
 		overlay: {
 				jo: null,
