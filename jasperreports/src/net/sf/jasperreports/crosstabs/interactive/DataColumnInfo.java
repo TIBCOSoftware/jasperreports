@@ -39,6 +39,7 @@ public class DataColumnInfo implements Serializable
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	private Integer sortMeasureIndex;
 	private BucketOrder order;
 	private List<ColumnValueInfo> columnValues;
 
@@ -60,6 +61,16 @@ public class DataColumnInfo implements Serializable
 	public void setColumnValues(List<ColumnValueInfo> columnValues)
 	{
 		this.columnValues = columnValues;
+	}
+
+	public Integer getSortMeasureIndex()
+	{
+		return sortMeasureIndex;
+	}
+
+	public void setSortMeasureIndex(Integer sortMeasureIndex)
+	{
+		this.sortMeasureIndex = sortMeasureIndex;
 	}
 	
 }

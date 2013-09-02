@@ -186,7 +186,8 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 				if (sortOrder == this.selected.crosstab.config.dataColumns[columnIdx].order) {
 					sortOrder = 'NONE';
 				}
-				this.selected.crosstab.sortByColumn(columnIdx, sortOrder);
+				//TODO lucianc disable if not sortable
+				this.selected.crosstab.sortByDataColumn(columnIdx, sortOrder);
 			} else if (this.selected.header.hasClass('jrxtrowheader')) {
 				var rowGroupIdx = this.selected.header.data('jrxtcolidx');
 				var sortOrder = order;

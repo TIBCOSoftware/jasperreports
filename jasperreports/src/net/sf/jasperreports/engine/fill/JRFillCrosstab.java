@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -138,6 +139,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	public static final String PROPERTY_ORDER_BY_COLUMN = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.order.by.column";
 	
 	public static final String PROPERTY_ROW_GROUP_COLUMN_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.row.group.column.header";
+	
+	public static final String PROPERTY_COLUMN_HEADER_SORT_MEASURE_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.row.group.column.header";
 	
 	public static final String CROSSTAB_INTERACTIVE_ELEMENT_NAME = "crosstabInteractiveElement";
 	
@@ -844,8 +847,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		List<DataColumnInfo> dataColumns = new ArrayList<DataColumnInfo>(dataColumnCount);
 		for (int colIdx = crosstabFiller.startColumnIndex; colIdx < crosstabFiller.lastColumnIndex; ++colIdx)
 		{
-			DataColumnInfo dataColumn = new DataColumnInfo();
-			
 			List<Bucket> bucketValues = null;
 			// getting the values from the most detailed column header
 			for (int level = columnHeadersData.length - 1; level >= 0 && bucketValues == null; --level)
@@ -854,8 +855,19 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				bucketValues = header == null ? null : bucketValuesList(header);
 			}
 			
-			List<ColumnValueInfo> columnValues = toColumnValues(bucketValues);
-			dataColumn.setColumnValues(columnValues);
+			DataColumnInfo dataColumn = new DataColumnInfo();
+			int sortMeasureIndex = measures.length <= 1 ? 0 
+					: (crosstabFiller.dataColumnSortMeasures == null ? 0 
+							: crosstabFiller.dataColumnSortMeasures[colIdx - crosstabFiller.startColumnIndex]);
+			if (sortMeasureIndex >= 0)
+			{
+				// the column is sortable
+				// TODO lucianc do not repeat this if not necessary + do not serialize nulls
+				dataColumn.setSortMeasureIndex(sortMeasureIndex);
+				
+				List<ColumnValueInfo> columnValues = toColumnValues(bucketValues);
+				dataColumn.setColumnValues(columnValues);
+			}
 			
 			BucketOrder columnOrder = null;
 			if (orderByColumnBucketValues != null && orderByColumnBucketValues.equals(bucketValues))
@@ -1101,6 +1113,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		private List<HeaderCell[]> columnHeaders;
 
 		private List<List<JRPrintElement>> printRows;
+		private int[] dataColumnSortMeasures;
 
 		private HeaderCell[] spanHeaders;
 		private int[] spanHeadersStart;
@@ -1298,6 +1311,12 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				{
 					throw new JRRuntimeException("Not enough space to render the crosstab.");
 				}
+			}
+			
+			if (interactive && measures.length > 1)
+			{
+				dataColumnSortMeasures = new int[lastColumnIndex - startColumnIndex];
+				Arrays.fill(dataColumnSortMeasures, -1);
 			}
 			
 			printColumnHeaders = startRowIndex == 0 || isRepeatColumnHeaders();
@@ -1797,6 +1816,12 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					// only last level header cells are interactive
 					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(columnIdx));
 					contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtcolheader jrxtinteractive");
+					
+					if (measures.length > 1)
+					{
+						int sortMeasureIdx = determineColumnSortMeasure(contents);
+						dataColumnSortMeasures[columnIdx - startColumnIndex] = sortMeasureIdx;
+					}
 				}
 
 				if (contents.willOverflow())
@@ -1819,6 +1844,23 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 			
 			return preparedContents;
+		}
+
+		private int determineColumnSortMeasure(JRFillCellContents contents)
+		{
+			int sortMeasureIdx = -1;
+			JRElement[] cellElements = contents.getElements();
+			for (JRElement element : cellElements)
+			{
+				String sortMeasureIdxProp = element.hasProperties() 
+						? element.getPropertiesMap().getProperty(PROPERTY_COLUMN_HEADER_SORT_MEASURE_INDEX) : null;
+				if (sortMeasureIdxProp != null)
+				{
+					sortMeasureIdx = JRPropertiesUtil.asInteger(sortMeasureIdxProp);
+					break;
+				}
+			}
+			return sortMeasureIdx;
 		}
 
 		private JRFillCellContents decorateWithSortIcon(JRFillCellContents cell, SortOrderEnum order)
