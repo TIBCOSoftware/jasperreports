@@ -26,7 +26,9 @@ package net.sf.jasperreports.crosstabs.interactive;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabBucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnInfo;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
@@ -47,6 +49,7 @@ public class SortByColumnCommand implements Command
 	private final JasperReportsContext jasperReportsContext;
 	private final JRDesignCrosstab crosstab;
 	private final SortByColumnData sortData;
+	private final JRCrosstabRowGroup lastRowGroup;
 	
 	private CrosstabOrderAttributes oldOrderAttributes;
 	private String newOrderBy;
@@ -56,6 +59,9 @@ public class SortByColumnCommand implements Command
 		this.jasperReportsContext = jasperReportsContext;
 		this.crosstab = crosstab;
 		this.sortData = sortData;
+		
+		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
+		lastRowGroup = rowGroups[rowGroups.length - 1];
 	}
 	
 	@Override
@@ -96,6 +102,9 @@ public class SortByColumnCommand implements Command
 		else
 		{
 			crosstab.getPropertiesMap().setProperty(JRFillCrosstab.PROPERTY_ORDER_BY_COLUMN, newOrderBy);
+			
+			// clearing the order of the last row group so that the ordering does not reappear when unsorting by the column
+			((JRDesignCrosstabBucket) lastRowGroup.getBucket()).setOrder(BucketOrder.NONE);
 		}
 	}
 
