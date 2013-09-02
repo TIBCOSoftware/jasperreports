@@ -73,7 +73,10 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 			
 			ixt.selected = {crosstab: crosstab, header: firstHeader};
 			ixt.overlay.show({w: width, h: height});
-			ixt.foobar.show();
+			
+			var columnIdx = firstHeader.data('jrxtcolidx');
+			var sortingEnabled = crosstab.isDataColumnSortable(columnIdx);
+			ixt.foobar.show(sortingEnabled);
 		},
 		selectRowGroup: function(crosstab, cell) {
 			var columnIdx = cell.data('jrxtcolidx');
@@ -138,10 +141,11 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 				this.cache = null;
 				this.menus = {};
 			},
-			show:function(dim){
+			show:function(enabled){
 				!this.jo && this.setElement();
 				this.render(ixt.actions);
-				this.jo.find('button').removeClass('over pressed');
+				this.jo.find('button').removeClass('over pressed disabled');
+				enabled || this.jo.find('button').addClass('disabled');
 				this.jo.appendTo(ixt.getReportContainer()).show();
 				var top = this.jo.outerHeight() - 1;
 				this.jo.position({of:ixt.selected.header, my: 'left top-' + top, at:'left top'});
