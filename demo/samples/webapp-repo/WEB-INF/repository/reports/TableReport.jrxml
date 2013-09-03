@@ -95,7 +95,7 @@
 							<jr:cell height="55">
 								<textField evaluationTime="Group" evaluationGroup="CityGroup" hyperlinkType="ReportExecution" bookmarkLevel="1">
 									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="750" height="15" backcolor="#C0C0C0" uuid="b9e21a1a-7c24-4b13-a45d-094089843a06"/>
-									<box leftPadding="10">
+									<box leftPadding="5">
 										<bottomPen lineWidth="1.0"/>
 									</box>
 									<textFieldExpression><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{city})]]></textFieldExpression>
@@ -144,18 +144,18 @@
 								</staticText>
 							</jr:cell>
 						</jr:groupFooter>
-						<jr:column width="20" uuid="75a9268d-370d-4663-9d76-5b163ce13fba">
+						<jr:column width="30" uuid="75a9268d-370d-4663-9d76-5b163ce13fba">
 							<jr:columnHeader height="60" rowSpan="3">
 								<textField>
-									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="60" forecolor="#FFFFFF" backcolor="#333333" uuid="1fb3810f-a1ff-42ff-9201-2402c66ff706"/>
+									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="30" height="60" forecolor="#FFFFFF" backcolor="#333333" uuid="1fb3810f-a1ff-42ff-9201-2402c66ff706"/>
 									<textElement textAlignment="Left"/>
 									<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
 							<jr:detailCell height="15">
 								<textField bookmarkLevel="2">
-									<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="20" height="15" uuid="b6798271-1945-4996-805b-372775a434f2"/>
-									<box leftPadding="10" rightPadding="10">
+									<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="30" height="15" uuid="b6798271-1945-4996-805b-372775a434f2"/>
+									<box leftPadding="5" rightPadding="5">
 										<leftPen lineWidth="0.5"/>
 										<bottomPen lineWidth="0.5"/>
 									</box>
@@ -165,17 +165,17 @@
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="90" uuid="de5742f5-aaa2-4b69-b603-e780f56f8d9e">
+						<jr:column width="80" uuid="de5742f5-aaa2-4b69-b603-e780f56f8d9e">
 							<jr:columnHeader height="60" rowSpan="3">
 								<staticText>
-									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="60" forecolor="#FFFFFF" backcolor="#333333" uuid="d0166dbc-e721-445a-b5e6-cc21e31ac15f"/>
+									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="80" height="60" forecolor="#FFFFFF" backcolor="#333333" uuid="d0166dbc-e721-445a-b5e6-cc21e31ac15f"/>
 									<text><![CDATA[Name]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell height="15">
 								<textField isStretchWithOverflow="true">
-									<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="90" height="15" uuid="b39be6e2-bc83-4207-a463-e6cd9a584652"/>
-									<box leftPadding="10" rightPadding="10">
+									<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="80" height="15" uuid="b39be6e2-bc83-4207-a463-e6cd9a584652"/>
+									<box leftPadding="5" rightPadding="5">
 										<leftPen lineWidth="0.5"/>
 										<bottomPen lineWidth="0.5"/>
 									</box>
@@ -193,7 +193,7 @@
 							<jr:detailCell height="15">
 								<textField isStretchWithOverflow="true">
 									<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="15" uuid="50310975-9b64-4afd-a631-7d45beac8572"/>
-									<box leftPadding="10" rightPadding="10">
+									<box leftPadding="5" rightPadding="5">
 										<leftPen lineWidth="0.5"/>
 										<bottomPen lineWidth="0.5"/>
 									</box>
@@ -211,7 +211,7 @@
 							<jr:detailCell height="15">
 								<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
 									<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="75" height="15" uuid="c8fd15a4-f27e-4577-b6f9-e63c63a09914"/>
-									<box leftPadding="10" rightPadding="10">
+									<box leftPadding="5" rightPadding="5">
 										<leftPen lineWidth="0.5"/>
 										<bottomPen lineWidth="0.5"/>
 										<rightPen lineWidth="0.5"/>
@@ -237,7 +237,7 @@
 								<jr:detailCell height="15">
 									<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
 										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15" uuid="0b64f21c-8d7d-4b26-993b-cea2835a09bb"/>
-										<box leftPadding="10" rightPadding="10">
+										<box leftPadding="5" rightPadding="5">
 											<leftPen lineWidth="0.5"/>
 											<bottomPen lineWidth="0.5"/>
 											<rightPen lineWidth="0.5"/>
@@ -257,7 +257,7 @@
 								<jr:detailCell height="15">
 									<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
 										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15" uuid="377c48ee-8f78-42ea-be92-f3ed0fbc9001"/>
-										<box leftPadding="10" rightPadding="10">
+										<box leftPadding="5" rightPadding="5">
 											<leftPen lineWidth="0.5"/>
 											<bottomPen lineWidth="0.5"/>
 											<rightPen lineWidth="0.5"/>
@@ -275,18 +275,18 @@
 									<textFieldExpression><![CDATA["Repeated Columns Group"]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
-							<jr:column width="20" uuid="5aedd7cb-6171-494a-81f9-68f962d79d4e">
+							<jr:column width="30" uuid="5aedd7cb-6171-494a-81f9-68f962d79d4e">
 								<jr:columnHeader height="40" rowSpan="2">
 									<textField>
-										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="20" height="40" forecolor="#FFFFFF" backcolor="#333333" uuid="4f700135-a3aa-4e0c-bfa3-1eb963784217"/>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="30" height="40" forecolor="#FFFFFF" backcolor="#333333" uuid="4f700135-a3aa-4e0c-bfa3-1eb963784217"/>
 										<textElement textAlignment="Left"/>
 										<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
 								<jr:detailCell height="15">
 									<textField bookmarkLevel="2">
-										<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="20" height="15" uuid="91f43d82-97fd-4b70-9ca1-fc938a1cd4a7"/>
-										<box leftPadding="10" rightPadding="10">
+										<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="30" height="15" uuid="91f43d82-97fd-4b70-9ca1-fc938a1cd4a7"/>
+										<box leftPadding="5" rightPadding="5">
 											<leftPen lineWidth="0.5"/>
 											<bottomPen lineWidth="0.5"/>
 										</box>
@@ -296,17 +296,17 @@
 									</textField>
 								</jr:detailCell>
 							</jr:column>
-							<jr:column width="90" uuid="eb36d9ea-4062-434f-ba5c-e0cf10722c5b">
+							<jr:column width="80" uuid="eb36d9ea-4062-434f-ba5c-e0cf10722c5b">
 								<jr:columnHeader height="40" rowSpan="2">
 									<staticText>
-										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="90" height="40" forecolor="#FFFFFF" backcolor="#333333" uuid="2f01f4f9-b543-45be-bd80-6a0f17b46565"/>
+										<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="80" height="40" forecolor="#FFFFFF" backcolor="#333333" uuid="2f01f4f9-b543-45be-bd80-6a0f17b46565"/>
 										<text><![CDATA[Name]]></text>
 									</staticText>
 								</jr:columnHeader>
 								<jr:detailCell height="15">
 									<textField isStretchWithOverflow="true">
-										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="90" height="15" uuid="07a32f93-8920-40a9-b65a-12e90bb89db7"/>
-										<box leftPadding="10" rightPadding="10">
+										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="80" height="15" uuid="07a32f93-8920-40a9-b65a-12e90bb89db7"/>
+										<box leftPadding="5" rightPadding="5">
 											<leftPen lineWidth="0.5"/>
 											<bottomPen lineWidth="0.5"/>
 										</box>
@@ -324,7 +324,7 @@
 								<jr:detailCell height="15">
 									<textField isStretchWithOverflow="true">
 										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="15" uuid="33a77554-9b6c-464c-9b2f-89ecae432313"/>
-										<box leftPadding="10" rightPadding="10">
+										<box leftPadding="5" rightPadding="5">
 											<leftPen lineWidth="0.5"/>
 											<bottomPen lineWidth="0.5"/>
 										</box>
@@ -342,7 +342,7 @@
 								<jr:detailCell height="15">
 									<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
 										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="75" height="15" uuid="3c15b20b-6db7-4f82-8a26-8afe1a6ead6e"/>
-										<box leftPadding="10" rightPadding="10">
+										<box leftPadding="5" rightPadding="5">
 											<leftPen lineWidth="0.5"/>
 											<bottomPen lineWidth="0.5"/>
 											<rightPen lineWidth="0.5"/>
@@ -368,7 +368,7 @@
 									<jr:detailCell height="15">
 										<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
 											<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15" uuid="a57f1fb0-e2f1-4f57-8d62-ba71cdadf38a"/>
-											<box leftPadding="10" rightPadding="10">
+											<box leftPadding="5" rightPadding="5">
 												<leftPen lineWidth="0.5"/>
 												<bottomPen lineWidth="0.5"/>
 												<rightPen lineWidth="0.5"/>
@@ -388,7 +388,7 @@
 									<jr:detailCell height="15">
 										<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
 											<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15" uuid="7d72eedd-0839-4ddb-b0b8-240546a300ce"/>
-											<box leftPadding="10" rightPadding="10">
+											<box leftPadding="5" rightPadding="5">
 												<leftPen lineWidth="0.5"/>
 												<bottomPen lineWidth="0.5"/>
 												<rightPen lineWidth="0.5"/>
