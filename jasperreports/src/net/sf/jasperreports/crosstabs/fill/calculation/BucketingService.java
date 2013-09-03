@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -146,7 +145,7 @@ public abstract class BucketingService
 		checkTotals();
 		
 		bucketValueMap = createBucketMap(0);
-		columnBucketMap = new BucketMapMap(rowBucketCount);
+		columnBucketMap = createBucketMapMap(rowBucketCount);
 		
 		zeroMeasureValues = initMeasureValues();
 		zeroUserMeasureValues = initUserMeasureValues();
@@ -248,14 +247,20 @@ public abstract class BucketingService
 		}
 		else
 		{
-			map = new BucketMapMap(level);
+			map = createBucketMapMap(level);
 		}
 		return map;
 	}
 	
-	protected BucketListMap createRowTotalsBucketMap()
+	protected BucketMapMap createBucketMapMap(int level)
 	{
-		BucketListMap totalsBucketMap = new BucketListMap(rowBucketCount);
+		boolean sortedMap = !sorted && allBuckets[level].isSorted();
+		return new BucketMapMap(level, sortedMap);
+	}
+	
+	protected BucketMapMap createRowTotalsBucketMap()
+	{
+		BucketMapMap totalsBucketMap = new BucketMapMap(rowBucketCount, false);
 		totalsBucketMap.copyEntries(columnBucketMap);
 		return totalsBucketMap;
 	}
@@ -560,7 +565,7 @@ public abstract class BucketingService
 
 	protected void computeRowTotals(BucketMap bucketMap) throws JRException
 	{
-		BucketListMap totals = createRowTotalsBucketMap();
+		BucketMapMap totals = createRowTotalsBucketMap();
 		
 		for (Iterator<Map.Entry<Bucket, Object>> it = bucketMap.entryIterator(); it.hasNext();)
 		{
@@ -665,18 +670,11 @@ public abstract class BucketingService
 	{
 		Map<Bucket, Object> map;
 		
-		BucketMapMap(int level)
+		BucketMapMap(int level, boolean sortedMap)
 		{
 			super(level);
 			
-			if (!sorted && allBuckets[level].isSorted())
-			{
-				this.map = new TreeMap<Bucket, Object>();
-			}
-			else
-			{
-				this.map = new LinkedHashMap<Bucket, Object>();
-			}
+			this.map = sortedMap ? new TreeMap<Bucket, Object>() : new LinkedHashMap<Bucket, Object>();
 		}
 		
 		void clear()
@@ -702,7 +700,7 @@ public abstract class BucketingService
 				BucketMapMap nextMap = (BucketMapMap) levelMap.get(bucketValues[i]);
 				if (nextMap == null)
 				{
-					nextMap = new BucketMapMap(i + 1);
+					nextMap = createBucketMapMap(i + 1);
 					levelMap.map.put(bucketValues[i], nextMap);
 				}
 
@@ -748,7 +746,53 @@ public abstract class BucketingService
 			Object value = get(totalKey);
 			return value == null ? null : new MapEntry(totalKey, value);
 		}
-		
+
+		void copyEntries(BucketMap bucketMap)
+		{
+			for (Iterator<Entry<Bucket, Object>> bucketIterator = bucketMap.entryIterator(); bucketIterator.hasNext();)
+			{
+				Entry<Bucket, Object> bucketEntry = bucketIterator.next();
+				Bucket bucketKey = bucketEntry.getKey();
+				
+				Object copyBucketValue;
+				if (bucketMap.last)
+				{
+					copyBucketValue = initMeasureValues();
+				}
+				else
+				{
+					BucketMap bucketSubMap = (BucketMap) bucketEntry.getValue();
+					BucketMapMap copyBucketSubMap = new BucketMapMap(level + 1, false);
+					copyBucketSubMap.copyEntries(bucketSubMap);
+					copyBucketValue = copyBucketSubMap;
+				}
+				
+				map.put(bucketKey, copyBucketValue);
+			}
+		}
+
+		void sumValues(BucketMap bucketMap) throws JRException
+		{
+			for (Iterator<Map.Entry<Bucket, Object>> it = bucketMap.entryIterator(); it.hasNext();)
+			{
+				Map.Entry<Bucket, Object> entry = it.next();
+				
+				// find the total entry that matches the map entry.
+				// the total map is should contain all collected entries
+				//FIXME optimize this for sorted maps where we can assume that the order is the same
+				Object value = get(entry.getKey());
+				if (last)
+				{
+					// last level, sum the values
+					sumVals((MeasureValue[]) value, (MeasureValue[]) entry.getValue());
+				}
+				else
+				{
+					// go to the next level
+					((BucketMapMap) value).sumValues((BucketMap) entry.getValue());
+				}
+			}
+		}
 		
 		public String toString()
 		{
@@ -871,61 +915,6 @@ public abstract class BucketingService
 			}
 			
 			return null;
-		}
-
-		
-		void sumValues(BucketMap map) throws JRException
-		{
-			ListIterator<Map.Entry<Bucket, Object>> totalIt = entries.listIterator();
-			
-			for (Iterator<Map.Entry<Bucket, Object>> it = map.entryIterator(); it.hasNext();)
-			{
-				Map.Entry<Bucket, Object> entry = it.next();
-				
-				// find the total entry that matches the map entry.
-				// the total map is should contain all collected entries, and in the same order as the detail map,
-				// therefore we can assert that we are able to look sequentially in the total map until we find the entry. 
-				Entry<Bucket, Object> totalEntry = totalIt.next();
-				while (!totalEntry.getKey().equals(entry.getKey()))
-				{
-					totalEntry = totalIt.next();
-				}
-				
-				if (last)
-				{
-					// last level, sum the values
-					sumVals((MeasureValue[]) totalEntry.getValue(), (MeasureValue[]) entry.getValue());
-				}
-				else
-				{
-					// go to the next level
-					((BucketListMap) totalEntry.getValue()).sumValues((BucketMap) entry.getValue());
-				}
-			}
-		}
-
-		void copyEntries(BucketMap bucketMap)
-		{
-			for (Iterator<Entry<Bucket, Object>> bucketIterator = bucketMap.entryIterator(); bucketIterator.hasNext();)
-			{
-				Entry<Bucket, Object> bucketEntry = bucketIterator.next();
-				Bucket bucketKey = bucketEntry.getKey();
-				
-				Object copyBucketValue;
-				if (bucketMap.last)
-				{
-					copyBucketValue = initMeasureValues();
-				}
-				else
-				{
-					BucketMap bucketSubMap = (BucketMap) bucketEntry.getValue();
-					BucketListMap copyBucketSubMap = new BucketListMap(level + 1);
-					copyBucketSubMap.copyEntries(bucketSubMap);
-					copyBucketValue = copyBucketSubMap;
-				}
-				
-				add(bucketKey, copyBucketValue);
-			}
 		}
 		
 		public String toString()
