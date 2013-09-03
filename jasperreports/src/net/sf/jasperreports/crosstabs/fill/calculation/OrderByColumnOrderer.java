@@ -69,6 +69,7 @@ public class OrderByColumnOrderer implements BucketOrderer
 		List<ColumnValueInfo> columnValues = orderInfo.getColumnValues();
 		bucketValues = new ArrayList<Bucket>(columnValues.size());
 		
+		// TODO lucianc handle cases when the values no longer match the groups
 		for (ListIterator<ColumnValueInfo> it = columnValues.listIterator(); it.hasNext();)
 		{
 			Bucket bucketValue;

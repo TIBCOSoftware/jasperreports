@@ -637,8 +637,8 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 	{
 		if (columnGroupIndex < 0 || columnGroupIndex >= colBucketCount)
 		{
-			// TODO lucianc 
-			throw new IndexOutOfBoundsException();
+			throw new IndexOutOfBoundsException("Column group index " + columnGroupIndex 
+					+ " out of range, column group count is " + colBucketCount);
 		}
 		
 		return allBuckets[rowBucketCount + columnGroupIndex].VALUE_TOTAL;
@@ -649,8 +649,8 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 	{
 		if (columnGroupIndex < 0 || columnGroupIndex >= colBucketCount)
 		{
-			// TODO lucianc 
-			throw new IndexOutOfBoundsException();
+			throw new IndexOutOfBoundsException("Column group index " + columnGroupIndex 
+					+ " out of range, column group count is " + colBucketCount);
 		}
 		
 		BucketDefinition bucket = allBuckets[rowBucketCount + columnGroupIndex];
