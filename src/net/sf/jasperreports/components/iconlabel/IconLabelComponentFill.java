@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.iconlabel;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -48,14 +49,17 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRFillTextField;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: TextInputComponentFill.java 5922 2013-02-19 11:03:27Z teodord $
  */
-public class IconLabelComponentFill extends BaseFillComponent implements StretchableFillComponent, ConditionalStyleAwareFillComponent, JRBoxContainer
+public class IconLabelComponentFill extends BaseFillComponent implements StretchableFillComponent, ConditionalStyleAwareFillComponent, JRBoxContainer, JRAlignment
 {
 	private final IconLabelComponent iconLabelComponent;
 
@@ -161,7 +165,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		labelPrintText.setHeight(commonHeight);
 		iconPrintText.setHeight(commonHeight);
 		
-		switch (iconLabelComponent.getHorizontalAlign())
+		switch (getHorizontalAlignmentValue())
 		{
 			case LEFT :
 			case JUSTIFIED :
@@ -235,7 +239,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			}
 		}
 
-		switch (iconLabelComponent.getVerticalAlign())
+		switch (getVerticalAlignmentValue())
 		{
 			case TOP :
 			case JUSTIFIED :
@@ -439,5 +443,35 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	@Override
 	public JRLineBox getLineBox() {
 		return lineBox;
+	}
+
+	@Override
+	public HorizontalAlignEnum getHorizontalAlignmentValue() {
+		return JRStyleResolver.getHorizontalAlignmentValue(this);
+	}
+
+	@Override
+	public HorizontalAlignEnum getOwnHorizontalAlignmentValue() {
+		return iconLabelComponent.getOwnHorizontalAlignmentValue();
+	}
+
+	@Override
+	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public VerticalAlignEnum getVerticalAlignmentValue() {
+		return JRStyleResolver.getVerticalAlignmentValue(this);
+	}
+
+	@Override
+	public VerticalAlignEnum getOwnVerticalAlignmentValue() {
+		return iconLabelComponent.getOwnVerticalAlignmentValue();
+	}
+
+	@Override
+	public void setVerticalAlignment(VerticalAlignEnum verticalAlignment) {
+		throw new UnsupportedOperationException();
 	}
 }

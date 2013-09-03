@@ -24,6 +24,7 @@ G * JasperReports - Free Java Reporting Library.
 package net.sf.jasperreports.components.iconlabel;
 
 import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
+import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
@@ -58,7 +59,7 @@ public class IconLabelComponentUtil
 		componentElement.setHeight(textElement.getHeight());
 		componentElement.setWidth(textElement.getWidth());
 		componentElement.setStyle(textElement.getStyle());
-//		componentElement.setStyleNameReference(textElement.getStyleNameReference());
+		componentElement.setStyleNameReference(textElement.getStyleNameReference());
 		componentElement.setMode(parentElement.getOwnModeValue());
 		componentElement.setForecolor(parentElement.getOwnForecolor());
 		componentElement.setBackcolor(parentElement.getOwnBackcolor());
@@ -67,8 +68,8 @@ public class IconLabelComponentUtil
 		
 		IconLabelComponent iconLabelComponent = new IconLabelComponent(textElement.getDefaultStyleProvider());
 		iconLabelComponent.setIconPosition(IconPositionEnum.END);
-		iconLabelComponent.setVerticalAlign(parentElement.getVerticalAlignmentValue());//FIXMESORT here might have problem with conditional style
-		iconLabelComponent.setHorizontalAlign(parentElement.getHorizontalAlignmentValue());
+		iconLabelComponent.setVerticalAlignment(parentElement.getOwnVerticalAlignmentValue());
+		iconLabelComponent.setHorizontalAlignment(parentElement.getOwnHorizontalAlignmentValue());
 		iconLabelComponent.setLabelFill(ContainerFillEnum.NONE);
 		iconLabelComponent.setLineBox(parentElement.getLineBox().clone(iconLabelComponent));
 		iconLabelComponent.getLineBox().setPadding(0);
@@ -86,7 +87,7 @@ public class IconLabelComponentUtil
 //				labelTextField.setHeight(Math.max(1, headerTextElement.getHeight() 
 //						- headerTextElement.getLineBox().getTopPadding() - headerTextElement.getLineBox().getBottomPadding()));
 		labelTextField.setStyle(textElement.getStyle());
-//		labelTextField.setStyleNameReference(textElement.getStyleNameReference());
+		labelTextField.setStyleNameReference(textElement.getStyleNameReference());
 		labelTextField.setMode(parentElement.getOwnModeValue());
 		labelTextField.setFontSize(parentElement.getOwnFontSize());
 		labelTextField.setFontName(parentElement.getOwnFontName());
@@ -106,6 +107,18 @@ public class IconLabelComponentUtil
 		labelTextField.getLineBox().getTopPen().setLineWidth(0);
 		labelTextField.getLineBox().getBottomPen().setLineWidth(0);
 		
+		JRHyperlink hyperlink = parentElement instanceof JRHyperlink ? (JRHyperlink)parentElement : null;
+		if (hyperlink != null)
+		{
+			labelTextField.setHyperlinkWhenExpression(hyperlink.getHyperlinkWhenExpression());
+			labelTextField.setHyperlinkType(hyperlink.getHyperlinkTypeValue());
+			labelTextField.setHyperlinkAnchorExpression(hyperlink.getHyperlinkAnchorExpression());
+			labelTextField.setHyperlinkPageExpression(hyperlink.getHyperlinkPageExpression());
+			labelTextField.setHyperlinkReferenceExpression(hyperlink.getHyperlinkReferenceExpression());
+			labelTextField.setLinkTarget(hyperlink.getLinkTarget());
+			labelTextField.setHyperlinkTooltipExpression(hyperlink.getHyperlinkTooltipExpression());
+		}
+		
 		iconLabelComponent.setLabelTextField(labelTextField);
 		
 		JRDesignTextField iconTextField = new JRDesignTextField(textElement.getDefaultStyleProvider());
@@ -115,16 +128,16 @@ public class IconLabelComponentUtil
 		iconTextField.setWidth(1);
 		iconTextField.setHeight(1);
 		iconTextField.setStyle(textElement.getStyle());
-//		iconTextField.setStyleNameReference(textElement.getStyleNameReference());
+		iconTextField.setStyleNameReference(textElement.getStyleNameReference());
 		iconTextField.setMode(parentElement.getOwnModeValue());
 		iconTextField.setFontName("Pictonic");//FIXMESORT use constant
-		iconTextField.setFontSize((int)(parentElement.getFontSize() * 0.8f));//FIXMESORT problem with conditional style?
+		iconTextField.setFontSize(parentElement.getOwnFontSize());
 		iconTextField.setForecolor(parentElement.getOwnForecolor());
 		iconTextField.setBackcolor(parentElement.getOwnBackcolor());
-		iconTextField.setBold(parentElement.isOwnBold());
-		iconTextField.setItalic(parentElement.isOwnItalic());
-		iconTextField.setUnderline(parentElement.isOwnUnderline());
-		iconTextField.setStrikeThrough(parentElement.isOwnStrikeThrough());
+		iconTextField.setBold(false);//parentElement.isOwnBold());
+		iconTextField.setItalic(false);//parentElement.isOwnItalic());
+		iconTextField.setUnderline(false);//parentElement.isOwnUnderline());
+		iconTextField.setStrikeThrough(false);//parentElement.isOwnStrikeThrough());
 		iconTextField.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
 		iconTextField.setVerticalAlignment(parentElement.getOwnVerticalAlignmentValue());
 		JRBoxUtil.copy(parentElement.getLineBox(), iconTextField.getLineBox());

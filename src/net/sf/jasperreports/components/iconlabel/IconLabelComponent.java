@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.iconlabel;
 import java.awt.Color;
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -41,12 +42,13 @@ import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: TextInputComponent.java 5922 2013-02-19 11:03:27Z teodord $
  */
-public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer, Serializable, JRChangeEventsSupport 
+public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer, JRAlignment, Serializable, JRChangeEventsSupport 
 {
 
 	/**
@@ -86,8 +88,8 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 		
 		this.iconPosition = component.getIconPosition();
 		this.labelFill = component.getLabelFill();
-		this.horizontalAlign = component.getHorizontalAlign();
-		this.verticalAlign = component.getVerticalAlign();
+		this.horizontalAlign = component.getOwnHorizontalAlignmentValue();
+		this.verticalAlign = component.getOwnVerticalAlignmentValue();
 
 		this.context = new BaseComponentContext(component.getContext(), objectFactory);
 	}
@@ -203,7 +205,15 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	/**
 	 *
 	 */
-	public HorizontalAlignEnum getHorizontalAlign() 
+	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	{
+		return JRStyleResolver.getHorizontalAlignmentValue(this);
+	}
+
+	/**
+	 *
+	 */
+	public HorizontalAlignEnum getOwnHorizontalAlignmentValue() 
 	{
 		return horizontalAlign;
 	}
@@ -211,7 +221,7 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	/**
 	 *
 	 */
-	public void setHorizontalAlign(HorizontalAlignEnum horizontalAlign) 
+	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlign) 
 	{
 		HorizontalAlignEnum old = this.horizontalAlign;
 		this.horizontalAlign = horizontalAlign;
@@ -221,7 +231,15 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	/**
 	 *
 	 */
-	public VerticalAlignEnum getVerticalAlign() 
+	public VerticalAlignEnum getVerticalAlignmentValue()
+	{
+		return JRStyleResolver.getVerticalAlignmentValue(this);
+	}
+
+	/**
+	 *
+	 */
+	public VerticalAlignEnum getOwnVerticalAlignmentValue() 
 	{
 		return verticalAlign;
 	}
@@ -229,7 +247,7 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	/**
 	 *
 	 */
-	public void setVerticalAlign(VerticalAlignEnum verticalAlign) 
+	public void setVerticalAlignment(VerticalAlignEnum verticalAlign) 
 	{
 		VerticalAlignEnum old = this.verticalAlign;
 		this.verticalAlign = verticalAlign;
