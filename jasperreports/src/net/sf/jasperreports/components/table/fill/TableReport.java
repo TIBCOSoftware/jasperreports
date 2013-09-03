@@ -819,7 +819,7 @@ public class TableReport implements JRReport
 				}
 
 				JRDesignTextField iconTextField = (JRDesignTextField)iconLabelComponent.getIconTextField();
-				iconTextField.setExpression(builtinEvaluatorFactory.createConstantExpression(suffix));
+				iconTextField.setExpression(builtinEvaluatorFactory.createConstantExpression(" " + suffix));
 				
 				componentElement.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, "tablecolumnheadericonlabelreplacer");
 				

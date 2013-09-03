@@ -1940,7 +1940,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			String iconText =
 					order == SortOrderEnum.ASCENDING ? filler.getPropertiesUtil().getProperty(TableReport.PROPERTY_UP_ARROW_CHAR)
 					: (order == SortOrderEnum.DESCENDING ? filler.getPropertiesUtil().getProperty(TableReport.PROPERTY_DOWN_ARROW_CHAR) : "");
-			iconTextField.setExpression(builtinExpressions.createConstantExpression(iconText)); 
+			iconTextField.setExpression(builtinExpressions.createConstantExpression(" " + iconText)); 
 			
 			designIconLabelElement.getPropertiesMap().setProperty(
 					MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, 
