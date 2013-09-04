@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
@@ -30,6 +32,7 @@ package net.sf.jasperreports.engine.util;
 public class DisplayComparableValue<T extends Comparable<T>> extends DisplayValue<T> 
 		implements Comparable<DisplayComparableValue<T>>
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public DisplayComparableValue(T key, String label)
 	{
