@@ -888,7 +888,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 	protected BucketOrder bucketOrder(BucketDefinition bucket)
 	{
-		return bucket.getOrderer() == null ? bucket.getOrder() : BucketOrder.NONE;
+		return (dataset.isDataPreSorted() || bucket.getOrderer() != null) 
+				? BucketOrder.NONE : bucket.getOrder();
 	}
 	
 	protected boolean matchesOrderByColumn(HeaderCell cell)
@@ -1702,7 +1703,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			setCountVars(-1, -1);
 			
 			JRFillCellContents cell = headerCell;
-			if (!headerCell.getChildren().isEmpty() && interactive && !dataset.isDataPreSorted())
+			if (!headerCell.getChildren().isEmpty() && interactive)
 			{
 				// look for row group column headers
 				cell = decorateHeaderCellWithIconLabel();
@@ -1729,21 +1730,31 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			List<JRChild> cellElements = headerCell.getChildren();
 			BucketDefinition[] rowBuckets = bucketingService.getRowBuckets();
 			int[] headerTextIndices = new int[rowBuckets.length];
+			boolean[] alignedText = new boolean[rowBuckets.length];
 			boolean foundHeader = false;
-			for (int bucketIdx = 0; bucketIdx < rowBuckets.length; bucketIdx++)
+			for (int bucketIdx = 0, bucketXOffset = 0; bucketIdx < rowBuckets.length; 
+					bucketXOffset += rowGroups[bucketIdx].getWidth(), bucketIdx++)
 			{
+				int headerIndex = findRowGroupColumHeaderElementIndex(bucketIdx, cellElements);
+				if (headerIndex < 0)
+				{
+					continue;
+				}
+				
+				JRElement headerElement = (JRElement) cellElements.get(headerIndex);
+				boolean aligned = headerElement.getX() == bucketXOffset 
+						&& headerElement.getWidth() == rowGroups[bucketIdx].getWidth();
+				
 				BucketDefinition rowBucket = rowBuckets[bucketIdx];
-				if (bucketOrder(rowBucket) == BucketOrder.NONE)
+				if (bucketOrder(rowBucket) == BucketOrder.NONE && !aligned)
 				{
 					headerTextIndices[bucketIdx] = -1;
 					continue;
 				}
 				
-				headerTextIndices[bucketIdx] = findRowGroupColumHeaderElementIndex(bucketIdx, cellElements);
-				if (headerTextIndices[bucketIdx] >= 0)
-				{
-					foundHeader = true;
-				}
+				headerTextIndices[bucketIdx] = headerIndex;
+				alignedText[bucketIdx] = aligned;
+				foundHeader = true;
 			}
 			
 			if (!foundHeader)
@@ -1751,43 +1762,67 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				return headerCell;
 			}
 			
+			JRFillCellContents decoratedCell = (JRFillCellContents) headerCell.createClone();
+			List<JRChild> clonedElements = decoratedCell.getChildren();
+			
 			BuiltinExpressionEvaluatorFactory builtinExpressions = new BuiltinExpressionEvaluatorFactory();
+			JRFillExpressionEvaluator decoratedEvaluator = builtinExpressions.decorate(headerCell.expressionEvaluator);
+			
 			NavigableMap<Integer, JRDesignComponentElement> iconLabelElements = new TreeMap<Integer, JRDesignComponentElement>();
 			for (int bucketIdx = 0; bucketIdx < headerTextIndices.length; bucketIdx++)
 			{
 				int textElementIndex = headerTextIndices[bucketIdx];
 				if (textElementIndex >= 0)
 				{
-					SortOrderEnum order = BucketOrder.toSortOrderEnum(bucketOrder(rowBuckets[bucketIdx]));
-					JRFillTextElement textElement = (JRFillTextElement) cellElements.get(textElementIndex);
-					
-					if (log.isDebugEnabled())
+					JRFillTextElement textElement = (JRFillTextElement) clonedElements.get(textElementIndex);
+					BucketOrder bucketOrder = bucketOrder(rowBuckets[bucketIdx]);
+					if (bucketOrder == BucketOrder.NONE)
 					{
-						log.debug("wrapping header element " + textElement.getUUID() + " in iconLabel for row group " + bucketIdx);
+						if (alignedText[bucketIdx])
+						{
+							// adding properties so that the text is selected as part of the row group column
+							textElement.setExpressionEvaluator(decoratedEvaluator);
+							textElement.addDynamicProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, 
+									builtinExpressions.createConstantExpression(Integer.toString(bucketIdx)));
+							textElement.addDynamicProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, 
+									builtinExpressions.createConstantExpression("jrxtrowheader"));
+						}
 					}
-					
-					JRDesignComponentElement iconLabelElement = createIconLabelElement(order, 
-							textElement, builtinExpressions);
-					iconLabelElements.put(textElementIndex, iconLabelElement);
+					else
+					{
+						textElement.setExpressionEvaluator(decoratedEvaluator);
+						textElement.addDynamicProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, 
+								builtinExpressions.createConstantExpression("tablecolumnheadericonlabelreplaced"));//FIXMESORT use constants
+						
+						SortOrderEnum order = BucketOrder.toSortOrderEnum(bucketOrder);
+						if (log.isDebugEnabled())
+						{
+							log.debug("wrapping header element " + textElement.getUUID() + " in iconLabel for row group " + bucketIdx);
+						}
+						
+						JRDesignComponentElement iconLabelElement = createIconLabelElement(order, 
+								textElement, builtinExpressions);
+						if (alignedText[bucketIdx])
+						{
+							iconLabelElement.getPropertiesMap().setProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, 
+									Integer.toString(bucketIdx));
+							iconLabelElement.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader");
+						}
+						
+						iconLabelElements.put(textElementIndex, iconLabelElement);
+					}
 				}
 			}
 			
-			JRFillExpressionEvaluator decoratedEvaluator = builtinExpressions.decorate(headerCell.expressionEvaluator);
 			IconLabelFillObjectFactory factory = new IconLabelFillObjectFactory(fillFactory, decoratedEvaluator);
-			
-			JRFillCellContents decoratedCell = (JRFillCellContents) headerCell.createClone();
 			for (Entry<Integer, JRDesignComponentElement> entry : iconLabelElements.descendingMap().entrySet())
 			{
 				int elementIndex = entry.getKey();
 				JRDesignComponentElement iconLabelElement = entry.getValue();
 				JRFillComponentElement fillIconLabelElement = new JRFillComponentElement(filler, iconLabelElement, factory);
 				decoratedCell.addElement(elementIndex + 1, fillIconLabelElement);
-				
-				JRFillElement clonedTextElement = (JRFillElement) decoratedCell.getChildren().get(elementIndex);
-				clonedTextElement.setExpressionEvaluator(decoratedEvaluator);
-				clonedTextElement.addDynamicProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, 
-						builtinExpressions.createConstantExpression("tablecolumnheadericonlabelreplaced"));//FIXMESORT use constants
 			}
+			
 			return decoratedCell;
 		}
 		
