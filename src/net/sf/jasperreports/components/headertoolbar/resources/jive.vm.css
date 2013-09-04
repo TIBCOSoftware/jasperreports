@@ -114,6 +114,7 @@ button::-moz-focus-inner {
     overflow-x:hidden;
     padding: 3px;
     position: relative;
+    margin: 0 10px;
 }
 
 .jive_dialog div.dialogFooter {
@@ -623,7 +624,7 @@ div.ui-datepicker {font-size: 11px;}
 #jive_form_columnConditionalFormatting {
 	width:700px;
 	display: block;
-    margin: 0 20px 20px 20px;
+    margin: 0 10px 20px 10px;
 }
 
 #jive_form_columnConditionalFormatting .jive_textLabel>div.wrapper.label {
