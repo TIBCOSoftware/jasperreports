@@ -74,12 +74,7 @@ public class BuiltinExpressionEvaluatorFactory
 
 	public JRFillExpressionEvaluator decorate(JRFillExpressionEvaluator evaluator)
 	{
-		if (builtinEvaluators.isEmpty())
-		{
-			return evaluator;
-		}
-		
-		// use the builtin expression evaluators
+		// always use the builtin expression evaluators, bultin expression can be added after decoration
 		return new BuiltinFillExpressionEvaluatorDecorator(evaluator, builtinEvaluators);
 	}
 }
