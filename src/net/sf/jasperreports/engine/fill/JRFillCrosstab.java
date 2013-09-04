@@ -1873,7 +1873,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				if (interactive && header)
 				{
 					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(columnIdx));
-					contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtcolheader jrxtinteractive");
+					contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtcolheader");
 				}
 
 				if (contents.willOverflow())
@@ -2399,7 +2399,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					if (cell.getDepthSpan() == 1)
 					{
 						// marking only unspanned headers for HTML selection 
-						contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader jrxtinteractive");
+						contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader");
 					}
 				}
 				
@@ -2589,7 +2589,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					if (cell.getDepthSpan() == 1)
 					{
 						// marking only unspanned headers for HTML selection 
-						contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader jrxtinteractive");
+						contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader");
 					}
 				}
 				
