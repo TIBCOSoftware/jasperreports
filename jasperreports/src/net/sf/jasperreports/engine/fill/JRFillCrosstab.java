@@ -140,7 +140,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	
 	public static final String PROPERTY_ROW_GROUP_COLUMN_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.row.group.column.header";
 	
-	public static final String PROPERTY_COLUMN_HEADER_SORT_MEASURE_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.row.group.column.header";
+	public static final String PROPERTY_COLUMN_HEADER_SORT_MEASURE_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.column.header.sort.measure.index";
 	
 	public static final String CROSSTAB_INTERACTIVE_ELEMENT_NAME = "crosstabInteractiveElement";
 	
@@ -202,6 +202,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	private List<JRTemplatePrintFrame> printFrames;
 	
 	private boolean interactive;
+	private int lastColumnGroupWithHeaderIndex = -1;
 	
 	public JRFillCrosstab(JRBaseFiller filler, JRCrosstab crosstab, JRFillObjectFactory factory)
 	{
@@ -233,6 +234,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 		copyParameters(crosstab, factory);
 		copyVariables(crosstab, crosstabFactory);
+		
+		lastColumnGroupWithHeaderIndex = determineLastColumnGroupWithHeaderIndex();
 		
 		crosstabFiller = new CrosstabFiller();
 	}
@@ -888,6 +891,32 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		return bucket.getOrderer() == null ? bucket.getOrder() : BucketOrder.NONE;
 	}
 	
+	protected boolean matchesOrderByColumn(HeaderCell cell)
+	{
+		if (orderByColumnBucketValues == null)
+		{
+			return false;
+		}
+		
+		List<Bucket> cellValues = bucketValuesList(cell);
+		if (cellValues.size() > orderByColumnBucketValues.size())
+		{
+			return false;
+		}
+		
+		// when the last column group is empty, we will only match a part of orderByColumnBucketValues
+		Iterator<Bucket> orderValueIt = orderByColumnBucketValues.iterator();
+		for (Bucket cellValue : cellValues)
+		{
+			Bucket orderValue = orderValueIt.next();
+			if (!cellValue.equals(orderValue))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	protected List<Bucket> bucketValuesList(HeaderCell cell)
 	{
 		Bucket[] values = cell.getBucketValues();
@@ -1019,6 +1048,28 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	public JRCrosstabMeasure[] getMeasures()
 	{
 		return measures;
+	}
+	
+	private int determineLastColumnGroupWithHeaderIndex()
+	{
+		int colGroupIdx = columnGroups.length -1;
+		while (colGroupIdx >= 0)
+		{
+			JRCellContents header = columnGroups[colGroupIdx].getHeader();
+			if (header != null && !header.getChildren().isEmpty())
+			{
+				break;
+			}
+			
+			--colGroupIdx;
+		}
+		
+		int lastGroupIndex = colGroupIdx >= 0 ? colGroupIdx : 0;
+		if (log.isDebugEnabled())
+		{
+			log.debug("last column group with header is " + lastGroupIndex);
+		}
+		return lastGroupIndex;
 	}
 
 	
@@ -1777,9 +1828,12 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				return null;
 			}
 			
-			// check if the cell is on the last level
-			// TODO lucianc handle the case of last column group with no headers
-			boolean lastLevel = rowIdx + cell.getDepthSpan() == columnGroups.length;
+			// column header is a cell that is on the last level with a column header and has no row span 
+			boolean headerLabel = rowIdx + cell.getDepthSpan() == lastColumnGroupWithHeaderIndex + 1
+					&& cell.getLevelSpan() == 1;
+			// a column header is a cell that comes after the last level and has no row span
+			boolean header = rowIdx + cell.getDepthSpan() >= lastColumnGroupWithHeaderIndex + 1
+					&& cell.getLevelSpan() == 1;
 			
 			JRFillCellContents preparedContents = null;
 			
@@ -1799,9 +1853,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 						false);
 				
 				// check if the column is sorted
-				if (interactive && lastLevel 
-						&& orderByColumnBucketValues != null
-						&& orderByColumnBucketValues.equals(bucketValuesList(cell)))
+				if (interactive && headerLabel && matchesOrderByColumn(cell))
 				{
 					contents = decorateWithSortIcon(contents, orderByColumnInfo.getOrder());
 				}
@@ -1811,17 +1863,17 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
 				contents.prepare(availableHeight - rowY);
 				
-				if (interactive && lastLevel)
+				if (interactive && headerLabel && measures.length > 1)
 				{
-					// only last level header cells are interactive
+					// looking for the sorting measure index property in the column header
+					int sortMeasureIdx = determineColumnSortMeasure(contents);
+					dataColumnSortMeasures[columnIdx - startColumnIndex] = sortMeasureIdx;
+				}
+				
+				if (interactive && header)
+				{
 					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(columnIdx));
 					contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtcolheader jrxtinteractive");
-					
-					if (measures.length > 1)
-					{
-						int sortMeasureIdx = determineColumnSortMeasure(contents);
-						dataColumnSortMeasures[columnIdx - startColumnIndex] = sortMeasureIdx;
-					}
 				}
 
 				if (contents.willOverflow())
