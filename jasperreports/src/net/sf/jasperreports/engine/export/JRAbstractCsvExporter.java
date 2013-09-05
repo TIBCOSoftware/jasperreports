@@ -60,6 +60,11 @@ public abstract class JRAbstractCsvExporter extends JRAbstractExporter
 	private static final String CSV_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.";
 
 	/**
+	 * 
+	 */
+	public static final String CSV_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "csv";
+
+	/**
 	 *
 	 */
 	protected String delimiter;	
@@ -372,7 +377,7 @@ public abstract class JRAbstractCsvExporter extends JRAbstractExporter
 
 	public String getExporterKey()
 	{
-		return null;//FIXMESORT
+		return CSV_EXPORTER_KEY;
 	}
 
 }
