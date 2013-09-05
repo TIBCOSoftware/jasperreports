@@ -674,10 +674,20 @@ public class HtmlExporter extends JRAbstractExporter
 		{
 			for (HtmlFont htmlFont : fontsToProcess.values())
 			{
-				writer.write("<link rel=\"stylesheet\" href=\"" + resourcesURI + (isOutputResourcesToDir ? "" : "&font=") + htmlFont.getId() + "\">\n");
+				writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + resourcesURI + (isOutputResourcesToDir ? "" : "&font=") + htmlFont.getId() + "\">\n");
 			}
 		}
 		
+		if (!isOutputResourcesToDir)
+		{
+			writer.write("<![if IE]>\n");
+			writer.write("<script>\n");
+			writer.write("var links = document.querySelectorAll('link.jrWebFont');\n");
+			writer.write("setTimeout(function(){ if (links) { for (var i = 0; i < links.length; i++) { links.item(i).href = links.item(i).href; } } }, 0);\n");
+			writer.write("</script>\n");
+			writer.write("<![endif]>\n");
+		}
+
 		if (htmlFooter == null)
 		{
 			writer.write("</td><td width=\"50%\">&nbsp;</td></tr>\n");
