@@ -1785,7 +1785,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 							textElement.addDynamicProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, 
 									builtinExpressions.createConstantExpression(Integer.toString(bucketIdx)));
 							textElement.addDynamicProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, 
-									builtinExpressions.createConstantExpression("jrxtrowheader"));
+									builtinExpressions.createConstantExpression("jrxtrowheader jrxtinteractive"));
 						}
 					}
 					else
@@ -1806,7 +1806,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 						{
 							iconLabelElement.getPropertiesMap().setProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, 
 									Integer.toString(bucketIdx));
-							iconLabelElement.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader");
+							iconLabelElement.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader jrxtinteractive");
 						}
 						
 						iconLabelElements.put(textElementIndex, iconLabelElement);
@@ -1898,17 +1898,26 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
 				contents.prepare(availableHeight - rowY);
 				
+				boolean sortHeader = false;
 				if (interactive && headerLabel && measures.length > 1)
 				{
-					// looking for the sorting measure index property in the column header
-					int sortMeasureIdx = determineColumnSortMeasure(contents);
-					dataColumnSortMeasures[columnIdx - startColumnIndex] = sortMeasureIdx;
+					if (measures.length <= 1)
+					{
+						sortHeader = true;
+					}
+					else
+					{
+						// looking for the sorting measure index property in the column header
+						int sortMeasureIdx = determineColumnSortMeasure(contents);
+						dataColumnSortMeasures[columnIdx - startColumnIndex] = sortMeasureIdx;
+						sortHeader = sortMeasureIdx >= 0;
+					}
 				}
 				
 				if (interactive && header)
 				{
 					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(columnIdx));
-					contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtcolheader");
+					contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, sortHeader ? "jrxtcolheader jrxtinteractive" : "jrxtcolheader");
 				}
 
 				if (contents.willOverflow())
