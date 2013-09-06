@@ -1,3 +1,7 @@
+.jrxtinteractive {
+	cursor:pointer;
+}
+
 #jivext_overlay {
     position:absolute;
     z-index:9;
