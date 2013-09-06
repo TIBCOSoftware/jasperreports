@@ -50,6 +50,18 @@ public class MapCompiler implements ComponentCompiler
 		collector.addExpression(map.getZoomExpression());
 		collector.addExpression(map.getLanguageExpression());
 		collectExpressions(map.getMarkerData(), collector);
+		List<ItemData> pathStyleList = map.getPathStyleList();
+		if(pathStyleList != null && pathStyleList.size() > 0) {
+			for(ItemData pathStyle : pathStyleList){
+				collectExpressions(pathStyle, collector);
+			}
+		}
+		List<ItemData> pathDataList = map.getPathDataList();
+		if(pathDataList != null && pathDataList.size() > 0) {
+			for(ItemData pathData : pathDataList){
+				collectExpressions(pathData, collector);
+			}
+		}
 	}
 
 	public static void collectExpressions(ItemData data, JRExpressionCollector collector)
@@ -147,15 +159,42 @@ public class MapCompiler implements ComponentCompiler
 						+ evaluationGroup + " not found", map);
 			}
 		}
-
+		String[] reqNames = new String[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude};
+		
 		ItemData markerData = map.getMarkerData();
 		if (markerData != null)
 		{
-			verifyMarkerData(verifier, markerData);
+			verifyItemData(verifier, markerData, MapComponent.ELEMENT_MARKER_DATA, reqNames);
+		}
+		
+		List<ItemData> pathStyleList = map.getPathStyleList();
+		if (pathStyleList != null && pathStyleList.size() > 0)
+		{
+			for(ItemData pathStyle : pathStyleList){
+				verifyItemData(verifier, pathStyle, MapComponent.ELEMENT_PATH_STYLE, new String[]{MapComponent.PROPERTY_name});
+			}
+		}
+		
+		List<ItemData> pathDataList = map.getPathDataList();
+		if (pathDataList != null && pathDataList.size() > 0)
+		{
+			for(ItemData pathData : pathDataList){
+				verifyItemData(verifier, pathData, MapComponent.ELEMENT_PATH_DATA, reqNames);
+			}
 		}
 	}
 
 	protected void verifyMarkerData(JRVerifier verifier, ItemData itemData)
+	{
+		verifyItemData(verifier, itemData, MapComponent.ELEMENT_MARKER_DATA, new String[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude});
+	}
+
+	protected void verifyMarker(JRVerifier verifier, Item item)
+	{
+		verifyItem(verifier, item, MapComponent.ELEMENT_MARKER_DATA, new String[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude});
+	}
+	
+	protected void verifyItemData(JRVerifier verifier, ItemData itemData, String itemName, String[] requiredNames)
 	{
 		if (itemData.getDataset() != null)
 		{
@@ -167,40 +206,32 @@ public class MapCompiler implements ComponentCompiler
 		{
 			for (Item item : items)
 			{
-				verifyMarker(verifier, item);
+				verifyItem(verifier, item, itemName, requiredNames);
 			}
 		}
 	}
 
-	protected void verifyMarker(JRVerifier verifier, Item item)
+	protected void verifyItem(JRVerifier verifier, Item item, String itemName, String[] requiredNames)
 	{
-		boolean hasLatitude = false;
-		boolean hasLongitude = false;
-		
-		List<ItemProperty> itemProperties = item.getProperties();
-		
-		if (itemProperties != null)
-		{
-			for (ItemProperty itemProperty : itemProperties)
+		if(requiredNames != null && requiredNames.length > 0){
+			List<ItemProperty> itemProperties = item.getProperties();
+			if (itemProperties != null && !itemProperties.isEmpty())
 			{
-				if (MapComponent.PROPERTY_latitude.equals(itemProperty.getName()))
+				for (String reqName :requiredNames)
 				{
-					hasLatitude = true;
-				}
-				else if (MapComponent.PROPERTY_longitude.equals(itemProperty.getName()))
-				{
-					hasLongitude = true;
+					boolean hasProperty = false;
+					for(ItemProperty itemProperty : itemProperties) {
+						if (itemProperty.getName().equals(reqName)) {
+							hasProperty = true;
+							break;
+						}
+					}
+					if(!hasProperty) 
+					{
+						verifier.addBrokenRule("No '" + reqName + "' property set for the " + itemName + " item.", itemProperties);
+					}
 				}
 			}
-		}
-		
-		if(!hasLatitude) 
-		{
-			verifier.addBrokenRule("No latitude set for marker.", itemProperties);
-		}
-		if(!hasLongitude) 
-		{
-			verifier.addBrokenRule("No longitude set for marker.", itemProperties);
 		}
 	}
 }

@@ -26,6 +26,8 @@ package net.sf.jasperreports.components.map;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
@@ -61,6 +63,8 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public static final String PROPERTY_IMAGE_TYPE = "imageType";
 	public static final String PROPERTY_MARKER_DATA = "markerData";
 	public static final String PROPERTY_ON_ERROR_TYPE = "onErrorType";
+	public static final String PROPERTY_PATH_STYLE_LIST = "pathStyleList";
+	public static final String PROPERTY_PATH_DATA_LIST = "pathDataList";
 	/**
 	 * @deprecated Replaced by {@link #PROPERTY_MARKER_DATA}.
 	 */
@@ -77,6 +81,8 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private MapImageTypeEnum imageType;
 	private ItemData markerData;
 	private OnErrorTypeEnum onErrorType;
+	private List<ItemData> pathStyleList = new ArrayList<ItemData>();
+	private List<ItemData> pathDataList = new ArrayList<ItemData>();
 	
 	private transient JRPropertyChangeSupport eventSupport;
 
@@ -100,6 +106,22 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 			this.markerData = new StandardItemData(map.getMarkerData(), objectFactory);
 		}
 		this.onErrorType = map.getOnErrorType();
+		List<ItemData> styleList = map.getPathStyleList();
+		if(styleList != null && styleList.size() > 0)
+		{
+			this.pathStyleList = new ArrayList<ItemData>();
+			for(ItemData pathStyle : styleList){
+				pathStyleList.add(new StandardItemData(pathStyle, objectFactory));
+			}
+		}
+		List<ItemData> pathList = map.getPathDataList();
+		if(pathList != null && pathList.size() > 0)
+		{
+			this.pathDataList = new ArrayList<ItemData>();
+			for(ItemData pathData : pathList){
+				pathDataList.add(new StandardItemData(pathData, objectFactory));
+			}
+		}
 	}
 	
 	public JRExpression getLatitudeExpression()
@@ -205,6 +227,8 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		clone.zoomExpression = JRCloneUtils.nullSafeClone(zoomExpression);
 		clone.languageExpression = JRCloneUtils.nullSafeClone(languageExpression);
 		clone.markerData = JRCloneUtils.nullSafeClone(markerData);
+		clone.pathStyleList = JRCloneUtils.cloneList(pathStyleList);
+		clone.pathDataList = JRCloneUtils.cloneList(pathDataList);
 		clone.eventSupport = null;
 		return clone;
 	}
@@ -298,4 +322,95 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 			markerDataset = null;
 		}
 	}
+
+	@Override
+	public List<ItemData> getPathStyleList() {
+		return this.pathStyleList;
+	}
+	
+	/**
+	 *
+	 */
+	public void addPathStyle(ItemData pathStyle)
+	{
+		pathStyleList.add(pathStyle);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PATH_STYLE_LIST, pathStyle, pathStyleList.size() - 1);
+	}
+	
+	/**
+	 *
+	 */
+	public void addPathStyle(int index, ItemData pathStyle)
+	{
+		if(index >=0 && index < pathStyleList.size())
+			pathStyleList.add(index, pathStyle);
+		else{
+			pathStyleList.add(pathStyle);
+			index = pathStyleList.size() - 1;
+		}
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PATH_STYLE_LIST, pathStyleList, index);
+	}
+	
+	/**
+	 *
+	 */
+	public ItemData removePathStyle(ItemData pathStyle)
+	{
+		if (pathStyle != null)
+		{
+			int idx = pathStyleList.indexOf(pathStyle);
+			if (idx >= 0)
+			{
+				pathStyleList.remove(idx);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PATH_STYLE_LIST, pathStyle, idx);
+			}
+		}
+		return pathStyle;
+	}
+	
+	@Override
+	public List<ItemData> getPathDataList() {
+		return this.pathDataList;
+	}
+	
+	/**
+	 *
+	 */
+	public void addPathData(ItemData pathData)
+	{
+		pathDataList.add(pathData);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PATH_DATA_LIST, pathData, pathDataList.size() - 1);
+	}
+	
+	/**
+	 *
+	 */
+	public void addPathData(int index, ItemData pathData)
+	{
+		if(index >=0 && index < pathDataList.size())
+			pathDataList.add(index, pathData);
+		else{
+			pathDataList.add(pathData);
+			index = pathDataList.size() - 1;
+		}
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PATH_DATA_LIST, pathDataList, index);
+	}
+
+	/**
+	 *
+	 */
+	public ItemData removePathData(ItemData pathData)
+	{
+		if (pathData != null)
+		{
+			int idx = pathDataList.indexOf(pathData);
+			if (idx >= 0)
+			{
+				pathDataList.remove(idx);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PATH_DATA_LIST, pathData, idx);
+			}
+		}
+		return pathData;
+	}
+	
 }

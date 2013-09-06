@@ -1,0 +1,3 @@
+"style 1", "#FF0000", 0.8, 6, , , false
+"style 2", "#0000FF", 0.6, 4, "#FF33FF", 0.4, false
+"custom style", "#00FF00", 1.0, 6, "#FF3300", 0.4, true

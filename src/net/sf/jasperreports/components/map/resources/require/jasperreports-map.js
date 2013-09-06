@@ -53,7 +53,7 @@ define(["jasperreports-utils"], function(jasperreports) {
 			}
 			return null;
 		},
-		showMap: function(canvasId, latitude, longitude, zoom, mapType, markers) {
+		showMap: function(canvasId, latitude, longitude, zoom, mapType, markers, p) {
 			var it = this,
 				gg = google.maps,
 				myOptions = {
@@ -91,6 +91,35 @@ define(["jasperreports-utils"], function(jasperreports) {
 					});	
 				}
 			}
+			if(p) {
+				for(var k=0; k<p.length; k++){
+					var props = p[k],o={},l=[],isPoly = false;
+					for(prop in props){
+						if(prop === 'locations' && props[prop]){
+							var loc = props[prop];
+							for(var j = 0; j<loc.length; j++) {
+								var latln = loc[j];
+								l.push(new google.maps.LatLng(latln['latitude'], latln['longitude']));
+							}
+						} else if (prop === 'isPolygon'){
+							isPoly= this.getBooleanValue(props[prop]);
+						} else if (prop === 'visible' || prop === 'editable' || prop === 'clickable' || prop === 'draggable' || prop === 'geodesic') {
+							o[prop]=this.getBooleanValue(props[prop]);
+						}else{o[prop] = props[prop];}
+					}
+					o['map']=map;
+					if(isPoly){
+						o['paths']=l;
+						new google.maps.Polygon(o);
+					} else {
+						o['path']=l;
+						new google.maps.Polyline(o);
+					}
+				}
+			}
+		},
+		getBooleanValue: function(v){
+			return (v === true || v === 'true');
 		}
 	};
 });

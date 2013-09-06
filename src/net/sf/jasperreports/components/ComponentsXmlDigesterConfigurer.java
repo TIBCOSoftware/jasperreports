@@ -229,6 +229,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 	@SuppressWarnings("deprecation")
 	protected void addMapRules(Digester digester)
 	{
+		int one = digester.getRules().rules().size();
 		String mapPattern = "*/componentElement/map";
 		digester.addFactoryCreate(mapPattern, MapXmlFactory.class);
 
@@ -278,15 +279,9 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		String markerDataPattern = mapPattern + "/markerData";
 		digester.addFactoryCreate(markerDataPattern, ItemDataXmlFactory.class.getName());
 		digester.addSetNext(markerDataPattern, "setMarkerData", ItemData.class.getName());
-
-		String itemPattern = "*/item";
-		digester.addFactoryCreate(itemPattern, ItemXmlFactory.class.getName());
-		digester.addSetNext(itemPattern, "addItem", Item.class.getName());
-
-		String itemPropertyPattern = itemPattern + "/itemProperty";
-		digester.addFactoryCreate(itemPropertyPattern, ItemPropertyXmlFactory.class.getName());
-		digester.addSetNext(itemPropertyPattern, "addItemProperty", ItemProperty.class.getName());
-
+		
+		addItemRules(digester, markerDataPattern + "/item", jrNamespace);
+		
 		digester.setRuleNamespaceURI(jrNamespace);
 		
 		String markerPropertyValueExpressionPattern = markerPropertyPattern + "/" + JRXmlConstants.ELEMENT_valueExpression;
@@ -294,18 +289,55 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addCallMethod(markerPropertyValueExpressionPattern, "setText", 0);
 		digester.addSetNext(markerPropertyValueExpressionPattern, "setValueExpression", JRExpression.class.getName());
 		
-		String itemPropertyValueExpressionPattern = itemPropertyPattern + "/" + JRXmlConstants.ELEMENT_valueExpression;
-		digester.addFactoryCreate(itemPropertyValueExpressionPattern, JRExpressionFactory.class.getName());
-		digester.addCallMethod(itemPropertyValueExpressionPattern, "setText", 0);
-		digester.addSetNext(itemPropertyValueExpressionPattern, "setValueExpression", JRExpression.class.getName());
-		
 		digester.addFactoryCreate(markerDataPattern + "/dataset", ItemDatasetFactory.class.getName());
 		digester.addSetNext(markerDataPattern + "/dataset", "setDataset", JRElementDataset.class.getName());
 		
-		// leave the digester namespace in the same state
 		digester.setRuleNamespaceURI(componentNamespace);
+		
+		String pathStylePattern = mapPattern + "/pathStyle";
+		digester.addFactoryCreate(pathStylePattern, ItemDataXmlFactory.class.getName());
+		digester.addSetNext(pathStylePattern, "addPathStyle", ItemData.class.getName());
+		
+		addItemRules(digester, pathStylePattern + "/item", jrNamespace);
+		
+		digester.setRuleNamespaceURI(jrNamespace);
+		digester.addFactoryCreate(pathStylePattern + "/dataset", ItemDatasetFactory.class.getName());
+		digester.addSetNext(pathStylePattern + "/dataset", "setDataset", JRElementDataset.class.getName());
+		
+		digester.setRuleNamespaceURI(componentNamespace);
+		
+		String pathDataPattern = mapPattern + "/pathData";
+		digester.addFactoryCreate(pathDataPattern, ItemDataXmlFactory.class.getName());
+		digester.addSetNext(pathDataPattern, "addPathData", ItemData.class.getName());
+
+		addItemRules(digester, pathDataPattern + "/item", jrNamespace);
+
+		digester.setRuleNamespaceURI(jrNamespace);
+		digester.addFactoryCreate(pathDataPattern + "/dataset", ItemDatasetFactory.class.getName());
+		digester.addSetNext(pathDataPattern + "/dataset", "setDataset", JRElementDataset.class.getName());
+		
+		digester.setRuleNamespaceURI(componentNamespace);
+		
 	}
 
+	protected void addItemRules(Digester digester, String itemPattern, String namespace)
+	{
+		digester.addFactoryCreate(itemPattern, ItemXmlFactory.class.getName());
+		digester.addSetNext(itemPattern, "addItem", Item.class.getName());
+
+		String locationItemPropertyPattern = itemPattern + "/itemProperty";
+		digester.addFactoryCreate(locationItemPropertyPattern, ItemPropertyXmlFactory.class.getName());
+		digester.addSetNext(locationItemPropertyPattern, "addItemProperty", ItemProperty.class.getName());
+
+		digester.setRuleNamespaceURI(namespace);
+		
+		String locationItemPropertyValueExpressionPattern = locationItemPropertyPattern + "/" + JRXmlConstants.ELEMENT_valueExpression;
+		digester.addFactoryCreate(locationItemPropertyValueExpressionPattern, JRExpressionFactory.class.getName());
+		digester.addCallMethod(locationItemPropertyValueExpressionPattern, "setText", 0);
+		digester.addSetNext(locationItemPropertyValueExpressionPattern, "setValueExpression", JRExpression.class.getName());
+	}
+
+	
 	@SuppressWarnings("deprecation")
 	protected void addTableRules(Digester digester)
 	{

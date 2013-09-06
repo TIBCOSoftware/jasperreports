@@ -24,7 +24,7 @@
 			jasperreports.events.subscribeToEvent({
 				name: 'jasperreports.map.init',
 				callback: function() {
-					require("jasperreports-map").showMap('${mapCanvasId}', ${latitude}, ${longitude}, ${zoom}, '${mapType}', ${markerList});
+					require("jasperreports-map").showMap('${mapCanvasId}', ${latitude}, ${longitude}, ${zoom}, '${mapType}', ${markerList}, ${pathsList});
 				}
 			});
 		});
@@ -39,7 +39,7 @@
 		<script class='jasperreports' type='text/javascript'>
 			if (typeof jasperreports === 'undefined') jasperreports = {};
 			if (typeof jasperreports.map === 'undefined') {
-			var infowindow;
+				var infowindow;
 				jasperreports.map = {
 					configureImage: function (parentKey, parentProps, parentOptions) {
 						var width, height, originX, originY, anchorX, anchorY, pp = parentProps, pk = parentKey;
@@ -103,6 +103,37 @@
 								});	
 							}
 						}
+					},
+					drawPaths: function(p, map){
+						if(p) {
+							for(var k=0; k<p.length; k++){
+								var props = p[k],o={}, l=[],isPoly = false;
+								for(prop in props){
+									if(prop === 'locations' && props[prop]){
+										var loc = props[prop];
+										for(var j = 0; j<loc.length; j++) {
+											var latln = loc[j];
+											l.push(new google.maps.LatLng(latln['latitude'], latln['longitude']));
+										}
+									} else if (prop === 'isPolygon'){
+										isPoly= this.getBooleanValue(props[prop]);
+									} else if (prop === 'visible' || prop === 'editable' || prop === 'clickable' || prop === 'draggable' || prop === 'geodesic') {
+										o[prop]=this.getBooleanValue(props[prop]);
+									}else{o[prop] = props[prop];}
+								}
+								o['map']=map;
+								if(isPoly){
+									o['paths']=l;
+									new google.maps.Polygon(o);
+								} else {
+									o['path']=l;
+									new google.maps.Polyline(o);
+								}
+							}
+						}
+					},
+					getBooleanValue: function(v){
+						return (v === true || v === 'true');
 					}
 				}
 			}					
@@ -118,6 +149,8 @@
 					});
 			var markers = ${markerList};
 			jasperreports.map.placeMarkers(markers, map);
+			var paths = ${pathsList};
+			jasperreports.map.drawPaths(paths, map);
 		}());	
 	</script>
 #end

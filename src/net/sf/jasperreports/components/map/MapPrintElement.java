@@ -128,6 +128,46 @@ public final class MapPrintElement
 	public static final String PARAMETER_REQ_PARAMS = "reqParams";
 	
 	/**
+	 * The name of the flag parameter that specifies paths on the map
+	 */
+	public static final String PARAMETER_PATHS = "paths";
+	
+	/**
+	 * The name of the flag parameter that specifies whether the path is a polygon or a polyline. Default is <code>false</code>
+	 */
+	public static final String PARAMETER_PATH_IS_POLYGON = "isPolygon";
+	
+	/**
+	 * The name of the parameter that provides the stroke thickness, in pixels. Default is 5.
+	 */
+	public static final String PARAMETER_PATH_STROKE_WEIGHT = "strokeWeight";
+	
+	/**
+	 * The name of the parameter that provides the stroke color. Named colors are not supported.
+	 */
+	public static final String PARAMETER_PATH_STROKE_COLOR = "strokeColor";
+	
+	/**
+	 * The name of the parameter that provides the stroke opacity as a numerical fractional value between 0.0 and 1.0. Default value is 1.0.
+	 */
+	public static final String PARAMETER_PATH_STROKE_OPACITY = "strokeOpacity";
+	
+	/**
+	 * The name of the parameter that provides the fill color for polygons. If set, the path will be processed as polygon. Named colors are not supported.
+	 */
+	public static final String PARAMETER_PATH_FILL_COLOR = "fillColor";
+	
+	/**
+	 * The name of the parameter that provides the fill opacity as a numerical fractional value between 0.0 and 1.0. Default value is 0.0.
+	 */
+	public static final String PARAMETER_PATH_FILL_OPACITY = "fillOpacity";
+	
+	/**
+	 * The name of the parameter that provides the path locations.
+	 */
+	public static final String PARAMETER_PATH_LOCATIONS = "locations";
+	
+	/**
 	 *
 	 */
 	public static final Float DEFAULT_LATITUDE = 0f;

@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.map;
 
+import java.util.List;
+
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
@@ -48,7 +50,17 @@ public interface MapComponent extends Component, JRCloneable
 	public static final String PROPERTY_latitude = "latitude";
 	public static final String PROPERTY_longitude = "longitude";
 	public static final String PROPERTY_title = "title";
+	public static final String PROPERTY_name = "name";
+	public static final String PROPERTY_style = "style";
+	public static final String PROPERTY_isPolygon = "isPolygon";
+	public static final String PROPERTY_locations = "locations";
+	
+	public static final String ELEMENT_MARKER_DATA = "markerData";
+	public static final String ELEMENT_PATH_STYLE = "pathStyle";
+	public static final String ELEMENT_PATH_DATA = "pathData";
+	
 
+	public static final String DEFAULT_PATH_NAME = "DEFAULT_PATH_NAME";
 	public static final Integer DEFAULT_ZOOM = 8;
 	
 	JRExpression getLatitudeExpression();
@@ -72,6 +84,10 @@ public interface MapComponent extends Component, JRCloneable
 	ItemData getMarkerData();
 	
 	OnErrorTypeEnum getOnErrorType();
+	
+	List<ItemData> getPathStyleList();
+	
+	List<ItemData> getPathDataList();
 	
 	/**
 	 * @deprecated Replaced by {@link #getMarkerData()}.
