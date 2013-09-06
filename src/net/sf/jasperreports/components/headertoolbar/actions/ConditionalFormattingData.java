@@ -26,10 +26,13 @@ package net.sf.jasperreports.components.headertoolbar.actions;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class ConditionalFormattingData extends BaseColumnData {
 	
 	private int columnIndex;
