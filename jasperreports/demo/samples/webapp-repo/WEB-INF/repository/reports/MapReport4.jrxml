@@ -24,8 +24,58 @@
 		</field>
 		<filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
 	</subDataset>
+	<subDataset name="PathStyleDataset">
+		<property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.xml"/>
+		<queryString language="csv">
+			<![CDATA[]]>
+		</queryString>
+		<field name="name" class="java.lang.String">
+			<fieldDescription><![CDATA[name]]></fieldDescription>
+		</field>
+		<field name="strokecolor" class="java.lang.String">
+			<fieldDescription><![CDATA[strokecolor]]></fieldDescription>
+		</field>
+		<field name="strokeopacity" class="java.lang.Double">
+			<fieldDescription><![CDATA[strokeopacity]]></fieldDescription>
+		</field>
+		<field name="strokeweight" class="java.lang.Integer">
+			<fieldDescription><![CDATA[strokeweight]]></fieldDescription>
+		</field>
+		<field name="fillcolor" class="java.lang.String">
+			<fieldDescription><![CDATA[fillcolor]]></fieldDescription>
+		</field>
+		<field name="fillopacity" class="java.lang.Double">
+			<fieldDescription><![CDATA[fillopacity]]></fieldDescription>
+		</field>
+		<field name="draggable" class="java.lang.Boolean">
+			<fieldDescription><![CDATA[draggable]]></fieldDescription>
+		</field>
+		<filterExpression><![CDATA[$F{name}==null || "".equals($F{name}) ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
+	</subDataset>
+	<subDataset name="PathLocationDataset" uuid="e275a292-ba61-41c5-9c5b-e4ca9ae49e77">
+		<property name="net.sf.jasperreports.data.adapter" value="/data/PathLocationDataAdapter.xml"/>
+		<queryString language="csv">
+			<![CDATA[]]>
+		</queryString>
+		<field name="name" class="java.lang.String">
+			<fieldDescription><![CDATA[name]]></fieldDescription>
+		</field>
+		<field name="style" class="java.lang.String">
+			<fieldDescription><![CDATA[style]]></fieldDescription>
+		</field>
+		<field name="latitude" class="java.lang.String">
+			<fieldDescription><![CDATA[latitude]]></fieldDescription>
+		</field>
+		<field name="longitude" class="java.lang.String">
+			<fieldDescription><![CDATA[longitude]]></fieldDescription>
+		</field>
+		<field name="ispolygon" class="java.lang.String">
+			<fieldDescription><![CDATA[ispolygon]]></fieldDescription>
+		</field>
+		<filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
+	</subDataset>
 	<parameter name="reqZoom" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[$P{REPORT_CONTEXT}.getParameterValue("zoom") == null ? null : Integer.valueOf((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
 	</parameter>
 	<parameter name="zoom" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? Integer.valueOf(11) : $P{reqZoom}]]></defaultValueExpression>
@@ -37,15 +87,15 @@
 				<textElement>
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA["San Francisco - Satellite Map with Marker Hyperlinks"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["San Francisco - Satellite Map with Marker Hyperlinks and Paths"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="0" y="50" width="515" height="100" uuid="43281568-dbae-4e43-a5b2-80f1116e425e"/>
-				<textFieldExpression><![CDATA["A satellite map sample. Five markers with default icons and custom colors are placed on the map. Marker tooltips are disabled. Clicking on a marker icon will open a new browser window/tab with related information."]]></textFieldExpression>
+				<textFieldExpression><![CDATA["A satellite map sample. Five markers with default icons and custom size/color are placed on the map. Marker tooltips are disabled. Clicking on a marker icon will open a new browser window/tab with related information.\nA green polygon path and a blue line are also represented on the map."]]></textFieldExpression>
 			</textField>
 			<componentElement>
 				<reportElement positionType="Float" x="0" y="150" width="515" height="326" uuid="9f74e287-34ad-45ab-ac56-24b8da1661b4"/>
-				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" mapType="satellite" imageType="jpg">
+				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" mapType="satellite" imageType="jpg" onErrorType="Icon">
 					<c:latitudeExpression><![CDATA[37.800056f]]></c:latitudeExpression>
 					<c:longitudeExpression><![CDATA[-122.4075f]]></c:longitudeExpression>
 					<c:zoomExpression><![CDATA[$P{zoom} + 1]]></c:zoomExpression>
@@ -74,6 +124,56 @@
 							</c:itemProperty>
 						</c:item>
 					</c:markerData>
+					<c:pathStyle>
+						<dataset>
+							<datasetRun subDataset="PathStyleDataset"/>
+						</dataset>
+						<c:item>
+							<c:itemProperty name="name">
+								<valueExpression><![CDATA[$F{name}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="strokeColor">
+								<valueExpression><![CDATA[$F{strokecolor}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="strokeOpacity">
+								<valueExpression><![CDATA[$F{strokeopacity}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="strokeWeight">
+								<valueExpression><![CDATA[$F{strokeweight}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="fillColor">
+								<valueExpression><![CDATA[$F{fillcolor}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="fillOpacity">
+								<valueExpression><![CDATA[$F{fillopacity}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="draggable">
+								<valueExpression><![CDATA[$F{draggable}]]></valueExpression>
+							</c:itemProperty>
+						</c:item>
+					</c:pathStyle>
+					<c:pathData>
+						<dataset>
+							<datasetRun subDataset="PathLocationDataset"/>
+						</dataset>
+						<c:item>
+							<c:itemProperty name="name">
+								<valueExpression><![CDATA[$F{name}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="style">
+								<valueExpression><![CDATA[$F{style}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="latitude">
+								<valueExpression><![CDATA[$F{latitude}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="longitude">
+								<valueExpression><![CDATA[$F{longitude}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="isPolygon">
+								<valueExpression><![CDATA[$F{ispolygon}]]></valueExpression>
+							</c:itemProperty>
+						</c:item>
+					</c:pathData>
 				</c:map>
 			</componentElement>
 		</band>

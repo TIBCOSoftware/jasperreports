@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.map;
 
+import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -105,6 +107,60 @@ public class MapElementImageProvider
 				}
 			}
 		}
+		
+		List<Map<String,Object>> pathList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_PATHS);
+		String currentPaths = "";
+		if(pathList != null && !pathList.isEmpty())
+		{
+			for(Map<String,Object> pathMap : pathList)
+			{
+				if(pathMap != null && !pathMap.isEmpty())
+				{
+					currentPaths += "&path=";
+					String color = (String)pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_COLOR);
+					if(color != null){
+						//adding opacity to color
+						color = JRColorUtil.getColorHexa(JRColorUtil.getColor(color, Color.BLACK));
+						color += pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_OPACITY) == null 
+								? "ff"
+								: Integer.toHexString((int) (255 * Double.valueOf(pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_OPACITY).toString())));
+					}
+					currentPaths += color != null && color.length() > 0 ? "color:0x" + color.toLowerCase() + "%7C" : "";
+					Boolean isPolygon = pathMap.get(MapPrintElement.PARAMETER_PATH_IS_POLYGON) == null ? false : Boolean.valueOf(pathMap.get(MapPrintElement.PARAMETER_PATH_IS_POLYGON).toString());
+					if(isPolygon){
+						String fillColor = (String)pathMap.get(MapPrintElement.PARAMETER_PATH_FILL_COLOR);
+						if(fillColor != null){
+							//adding opacity to fill color
+							fillColor = JRColorUtil.getColorHexa(JRColorUtil.getColor(fillColor, Color.WHITE));
+							fillColor += pathMap.get(MapPrintElement.PARAMETER_PATH_FILL_OPACITY) == null 
+								? "00"
+								: Integer.toHexString((int) (256 * Double.valueOf(pathMap.get(MapPrintElement.PARAMETER_PATH_FILL_OPACITY).toString())));
+						}
+						currentPaths += fillColor != null && fillColor.length() > 0 ? "fillcolor:0x" + fillColor.toLowerCase() + "%7C" : "";
+					}
+					String weight = pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_WEIGHT) == null ? null : pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_WEIGHT).toString();
+					currentPaths += weight != null && weight.length() > 0 ? "weight:" + weight + "%7C" : "";
+					List<Map<String,Object>> locations = (List<Map<String,Object>>)pathMap.get(MapPrintElement.PARAMETER_PATH_LOCATIONS);
+					Map<String,Object> location = null;
+					if(locations != null && !locations.isEmpty()) {
+						for(int i = 0; i < locations.size(); i++) {
+							location = locations.get(i);
+							currentPaths += location.get(MapPrintElement.PARAMETER_LATITUDE);
+							currentPaths += ",";
+							currentPaths += location.get(MapPrintElement.PARAMETER_LONGITUDE);
+							currentPaths += i < locations.size() - 1 ? "%7C":"";
+						}
+
+						if(isPolygon){
+							currentPaths += "%7C";
+							currentPaths += locations.get(0).get(MapPrintElement.PARAMETER_LATITUDE);
+							currentPaths += ",";
+							currentPaths += locations.get(0).get(MapPrintElement.PARAMETER_LONGITUDE);
+						}
+					}
+				}
+			}
+		}
 
 		String imageLocation = 
 			"http://maps.google.com/maps/api/staticmap?center=" 
@@ -123,9 +179,11 @@ public class MapElementImageProvider
 		String params = "&sensor=false" + (reqParams == null ? "" : reqParams);
 
 		//a static map url is limited to 2048 characters
-		imageLocation += (imageLocation.length() + markers.length() + params.length() < MAX_URL_LENGTH) ? markers + params : params;
+		imageLocation += imageLocation.length() + markers.length() + currentPaths.length() + params.length() < MAX_URL_LENGTH 
+				? markers + currentPaths + params 
+				: imageLocation.length() + markers.length() + params.length() < MAX_URL_LENGTH ? markers + params : params;
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
-		
+
 		printImage.setUUID(element.getUUID());
 		printImage.setX(element.getX());
 		printImage.setY(element.getY());

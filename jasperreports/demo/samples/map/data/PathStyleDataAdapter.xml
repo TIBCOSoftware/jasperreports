@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csvDataAdapter class="net.sf.jasperreports.data.csv.CsvDataAdapterImpl">
+	<name>csv</name>
+	<fileName>/data/PathStyleDataSource.csv</fileName>
+	<recordDelimiter>&#13;&#10;</recordDelimiter>
+	<useFirstRowAsHeader>false</useFirstRowAsHeader>
+	<queryExecuterMode>true</queryExecuterMode>
+	<datePattern>yyyy-MM-dd HH:mm:ss</datePattern>
+	<columnNames>name</columnNames>
+	<columnNames>strokecolor</columnNames>
+	<columnNames>strokeopacity</columnNames>
+	<columnNames>strokeweight</columnNames>
+	<columnNames>fillcolor</columnNames>
+	<columnNames>fillopacity</columnNames>
+	<columnNames>draggable</columnNames>
+</csvDataAdapter>

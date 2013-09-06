@@ -33,11 +33,8 @@ import org.xml.sax.Attributes;
  */
 public class ItemDataXmlFactory extends JRBaseFactory
 {
-
 	public Object createObject(Attributes attrs) throws Exception
 	{
-		StandardItemData dataset = new StandardItemData();
-		return dataset;
+		return new StandardItemData();
 	}
-
 }

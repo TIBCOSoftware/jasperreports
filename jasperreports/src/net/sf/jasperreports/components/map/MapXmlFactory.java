@@ -50,6 +50,8 @@ public class MapXmlFactory extends JRBaseFactory
 	public static final String ELEMENT_item = "item";
 	public static final String ELEMENT_markerData = "markerData";
 	public static final String ELEMENT_itemProperty = "itemProperty";
+	public static final String ELEMENT_pathStyle = "pathStyle";
+	public static final String ELEMENT_pathData = "pathData";
 	/**
 	 * @deprecated Replaced by {@link #ELEMENT_item}.
 	 */

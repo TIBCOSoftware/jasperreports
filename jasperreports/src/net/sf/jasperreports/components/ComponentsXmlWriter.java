@@ -240,7 +240,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_0_4))
 			{
 				ItemData itemData = map.getMarkerData();
-				writeItemData(itemData, writer, reportWriter, namespace, componentElement);
+				writeItemData(MapXmlFactory.ELEMENT_markerData, itemData, writer, reportWriter, namespace, componentElement);
 			}
 			else
 			{
@@ -249,35 +249,55 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 				writeMarkerDataset(dataset, writer, reportWriter, namespace, componentElement);
 			}
 		}
+		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_2_1))
+		{
+			List<ItemData> pathStyleList = map.getPathStyleList();
+			if(pathStyleList !=null && pathStyleList.size() > 0) {
+				for(ItemData pathStyle : pathStyleList) {
+					writeItemData(MapXmlFactory.ELEMENT_pathData, pathStyle, writer, reportWriter, namespace, componentElement);
+				}
+			}
+			
+			List<ItemData> pathDataList = map.getPathDataList();
+			if(pathDataList !=null && pathDataList.size() > 0) {
+				for(ItemData pathData : pathDataList) {
+					writeItemData(MapXmlFactory.ELEMENT_pathData, pathData, writer, reportWriter, namespace, componentElement);
+				}
+			}
+		}
 		writer.closeElement();
 	}
 
-	private void writeItemData(ItemData itemData, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
+	private void writeItemData(String name, ItemData itemData, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
 	{
 		if (itemData != null)
 		{
-			writer.startElement(MapXmlFactory.ELEMENT_markerData, namespace);
+			writeItemDataContent(name, itemData, writer, reportWriter, namespace, componentElement);
+			writer.closeElement();
+		}
+	}
 	
-			JRElementDataset dataset = itemData.getDataset();
-			if (dataset != null)
+	private void writeItemDataContent(String name, ItemData itemData, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
+	{
+		writer.startElement(name, namespace);
+		
+		JRElementDataset dataset = itemData.getDataset();
+		if (dataset != null)
+		{
+			reportWriter.writeElementDataset(dataset, false);
+		}
+		
+		/*   */
+		List<Item> itemList = itemData.getItems();
+		if (itemList != null && !itemList.isEmpty())
+		{
+			for(Item item : itemList)
 			{
-				reportWriter.writeElementDataset(dataset, false);
-			}
-	
-			/*   */
-			List<Item> itemList = itemData.getItems();
-			if (itemList != null && !itemList.isEmpty())
-			{
-				for(Item item : itemList)
+				if(item.getProperties() != null && !item.getProperties().isEmpty())
 				{
-					if(item.getProperties() != null && !item.getProperties().isEmpty())
-					{
-						writeItem(item, writer, reportWriter, namespace, componentElement);
-					}
+					writeItem(item, writer, reportWriter, namespace, componentElement);
 				}
 			}
-	
-			writer.closeElement();
 		}
 	}
 	

@@ -23,10 +23,13 @@
  */
 package net.sf.jasperreports.components.map.fill;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.components.map.ItemData;
 import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.components.map.MapPrintElement;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
@@ -70,7 +73,11 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	private String version;
 
 	private FillItemData markerData;
+	private List<FillItemData> pathStyleList;
+	private List<FillItemData> pathDataList;
 	private List<Map<String,Object>> markers;
+	private Map<String, Map<String,Object>> styles;
+	private List<Map<String,Object>> paths;
 	
 	JRFillObjectFactory factory;
 	
@@ -87,6 +94,18 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		if (mapComponent.getMarkerData() != null)
 		{
 			markerData = new FillItemData(this, mapComponent.getMarkerData(), factory);
+		}
+		if(mapComponent.getPathStyleList() != null){
+			pathStyleList = new ArrayList<FillItemData>();
+			for(ItemData pathStyle : mapComponent.getPathStyleList()) {
+				pathStyleList.add(new FillItemData(this, pathStyle, factory));
+			}
+		}
+		if(mapComponent.getPathDataList() != null){
+			pathDataList = new ArrayList<FillItemData>();
+			for(ItemData pathData : mapComponent.getPathDataList()) {
+				pathDataList.add(new FillItemData(this, pathData, factory));
+			}
 		}
 	}
 	
@@ -140,7 +159,90 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		{
 			markers = markerData.getEvaluateItems(evaluation);
 		}
+		
+		if(pathDataList != null) {
+			addPathStyles(evaluation);
+			paths = new ArrayList<Map<String,Object>>();
+			Map<String, Map<String,Object>> pathIds = new HashMap<String,Map<String,Object>>();
+
+			for(FillItemData pathData : pathDataList) {
+				List<Map<String,Object>> currentItemList = pathData.getEvaluateItems(evaluation);
+				if(currentItemList != null && !currentItemList.isEmpty()){
+					for(Map<String,Object> currentItem : currentItemList){
+						String pathName = currentItem.get(MapComponent.PROPERTY_name) != null ? (String)currentItem.get(MapComponent.PROPERTY_name) : MapComponent.DEFAULT_PATH_NAME;
+						Map<String,Object> pathMap = null;
+						if(pathIds.containsKey(pathName)){
+							pathMap = pathIds.get(pathName);
+						} else {
+							pathMap = new HashMap<String,Object>();
+							pathMap.put(MapComponent.PROPERTY_locations, new ArrayList<Map<String,Object>>());
+							pathIds.put(pathName, pathMap);
+							paths.add(pathMap);
+						}
+						boolean coordSet = false;
+						for(String key : currentItem.keySet()){
+							if(!MapComponent.PROPERTY_name.equals(key)){
+								if(MapComponent.PROPERTY_latitude.equals(key) || MapComponent.PROPERTY_longitude.equals(key)){
+									if(!coordSet){
+										if(currentItem.get(MapComponent.PROPERTY_latitude) == null || currentItem.get(MapComponent.PROPERTY_longitude) == null){
+											throw new JRException("Null values are not allowed for latitude and longitude");
+										}
+										Map<String,Object> location = new HashMap<String,Object>();
+										location.put(MapComponent.PROPERTY_latitude, currentItem.get(MapComponent.PROPERTY_latitude));
+										location.put(MapComponent.PROPERTY_longitude, currentItem.get(MapComponent.PROPERTY_longitude));
+										((List<Map<String,Object>>)pathMap.get(MapComponent.PROPERTY_locations)).add(location);
+										coordSet = true;
+									}
+								} else if(MapComponent.PROPERTY_style.equals(key)){
+									String styleName = (String)currentItem.get(MapComponent.PROPERTY_style);
+									if(styleName != null && styles.containsKey(styleName)){
+										Map<String,Object> parentStyle = styles.get(styleName);
+										for(String styleKey: parentStyle.keySet()){
+											pathMap.put(styleKey, parentStyle.get(styleKey));
+										}
+									}
+								} else {
+									pathMap.put(key, currentItem.get(key));
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 		onErrorType = mapComponent.getOnErrorType();
+	}
+
+	protected void addPathStyles(byte evaluation) throws JRException{
+		styles = new HashMap<String, Map<String,Object>>();
+		if (pathStyleList != null)
+		{
+			for(FillItemData styleData : pathStyleList){
+				List<Map<String,Object>> currentStyleList = styleData.getEvaluateItems(evaluation);
+				if(currentStyleList != null && !currentStyleList.isEmpty()){
+					for(Map<String,Object> currentStyle : currentStyleList){
+						String styleName = (String)currentStyle.get(MapComponent.PROPERTY_name);
+						if(styleName == null){
+							throw new JRException("Null value is not allowed for the style name");
+						}
+						Map<String,Object> styleMap = null;
+						if(styles.containsKey(styleName)){
+							styleMap = styles.get(styleName);
+						} else {
+							styleMap = new HashMap<String,Object>();
+							styles.put(styleName, styleMap);
+						}
+						for(String styleProperty : currentStyle.keySet()) {
+							if(!(MapComponent.PROPERTY_name.equals(styleProperty) 
+									|| MapComponent.PROPERTY_latitude.equals(styleProperty) 
+									|| MapComponent.PROPERTY_longitude.equals(styleProperty))){
+								styleMap.put(styleProperty, currentStyle.get(styleProperty));
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	protected boolean isEvaluateNow()
@@ -234,6 +336,10 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		if(markers != null && !markers.isEmpty())
 		{
 			printElement.setParameterValue(MapPrintElement.PARAMETER_MARKERS, markers);
+		}
+		if(paths != null && !paths.isEmpty())
+		{
+			printElement.setParameterValue(MapPrintElement.PARAMETER_PATHS, paths);
 		}
 	}
 }

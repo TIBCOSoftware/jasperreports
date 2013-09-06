@@ -82,8 +82,6 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		String mapType = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE);
 		mapType = (mapType == null ? MapPrintElement.DEFAULT_MAP_TYPE.getName() : mapType).toUpperCase();
 
-		List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_MARKERS);
-		
 		Map<String, Object> contextMap = new HashMap<String, Object>();
 		ReportContext reportContext = context.getExporter().getReportContext();
 
@@ -97,8 +95,12 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		contextMap.put("longitude", longitude);
 		contextMap.put("zoom", zoom);
 		contextMap.put("mapType", mapType);
+		List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_MARKERS);
 		String markers = markerList == null || markerList.isEmpty() ? "[]" : JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(markerList);
 		contextMap.put("markerList", markers);
+		List<Map<String,Object>> pathList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_PATHS);
+		String paths = pathList == null || pathList.isEmpty() ? "[]" : JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(pathList);
+		contextMap.put("pathsList", paths);
 		String reqParams = (String)element.getParameterValue(MapPrintElement.PARAMETER_REQ_PARAMS);
 		if(reqParams != null)
 		{
