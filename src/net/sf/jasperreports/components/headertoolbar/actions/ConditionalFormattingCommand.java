@@ -23,16 +23,9 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
-import java.util.List;
-
-import net.sf.jasperreports.components.table.BaseColumn;
-import net.sf.jasperreports.components.table.StandardColumn;
-import net.sf.jasperreports.components.table.StandardTable;
-import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.web.commands.Command;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
