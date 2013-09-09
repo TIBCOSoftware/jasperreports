@@ -232,14 +232,35 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 							styleMap = new HashMap<String,Object>();
 							styles.put(styleName, styleMap);
 						}
-						for(String styleProperty : currentStyle.keySet()) {
-							if(!(MapComponent.PROPERTY_name.equals(styleProperty) 
-									|| MapComponent.PROPERTY_latitude.equals(styleProperty) 
-									|| MapComponent.PROPERTY_longitude.equals(styleProperty))){
-								styleMap.put(styleProperty, currentStyle.get(styleProperty));
-							}
-						}
+						setStyle((String)currentStyle.get(MapComponent.PROPERTY_style), styleMap);
+						setStyle(currentStyle, styleMap);
 					}
+				}
+			}
+		}
+	}
+	
+	protected void setStyle(String styleName, Map<String,Object> styleMap){
+		if(styleName != null){
+			Map<String,Object> parentStyleMap = styles.get(styleName);
+			if(parentStyleMap != null && ! parentStyleMap.isEmpty()){
+				String parentStyleName = (String)parentStyleMap.get(MapComponent.PROPERTY_style);
+				if(parentStyleName != null){
+					setStyle(parentStyleName, styleMap);
+				}
+				setStyle(parentStyleMap, styleMap);
+			}
+		}
+	}
+	
+	protected void setStyle(Map<String,Object> parentStyleMap, Map<String,Object> styleMap){
+		if(parentStyleMap != null){
+			for(String styleProperty : parentStyleMap.keySet()) {
+				if(!(MapComponent.PROPERTY_name.equals(styleProperty) 
+						|| MapComponent.PROPERTY_latitude.equals(styleProperty) 
+						|| MapComponent.PROPERTY_longitude.equals(styleProperty))
+						&& parentStyleMap.get(styleProperty) != null && parentStyleMap.get(styleProperty).toString().length() > 0){
+					styleMap.put(styleProperty, parentStyleMap.get(styleProperty));
 				}
 			}
 		}

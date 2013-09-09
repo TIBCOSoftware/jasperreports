@@ -7,6 +7,7 @@
 	<queryExecuterMode>true</queryExecuterMode>
 	<datePattern>yyyy-MM-dd HH:mm:ss</datePattern>
 	<columnNames>name</columnNames>
+	<columnNames>style</columnNames>
 	<columnNames>strokecolor</columnNames>
 	<columnNames>strokeopacity</columnNames>
 	<columnNames>strokeweight</columnNames>
