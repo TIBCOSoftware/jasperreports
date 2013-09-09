@@ -1205,7 +1205,8 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                     fontHAlign: inputs['fontAlign'].get(),
                     fontColor: inputs['fontColor'].get(),
                     fontBackColor: inputs['fontBackColor'].getBackColor(),
-                    mode: inputs['fontBackColor'].getModeValue()
+                    mode: inputs['fontBackColor'].getModeValue(),
+                    dataType: metadata && metadata.dataType
                 }
             };
 
