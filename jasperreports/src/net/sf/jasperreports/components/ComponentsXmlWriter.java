@@ -254,7 +254,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			List<ItemData> pathStyleList = map.getPathStyleList();
 			if(pathStyleList !=null && pathStyleList.size() > 0) {
 				for(ItemData pathStyle : pathStyleList) {
-					writeItemData(MapXmlFactory.ELEMENT_pathData, pathStyle, writer, reportWriter, namespace, componentElement);
+					writeItemData(MapXmlFactory.ELEMENT_pathStyle, pathStyle, writer, reportWriter, namespace, componentElement);
 				}
 			}
 			
