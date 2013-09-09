@@ -179,9 +179,10 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 							pathIds.put(pathName, pathMap);
 							paths.add(pathMap);
 						}
+						setStyle((String)currentItem.get(MapComponent.PROPERTY_style), pathMap);
 						boolean coordSet = false;
 						for(String key : currentItem.keySet()){
-							if(!MapComponent.PROPERTY_name.equals(key)){
+							if(!(MapComponent.PROPERTY_name.equals(key) || MapComponent.PROPERTY_style.equals(key))){
 								if(MapComponent.PROPERTY_latitude.equals(key) || MapComponent.PROPERTY_longitude.equals(key)){
 									if(!coordSet){
 										if(currentItem.get(MapComponent.PROPERTY_latitude) == null || currentItem.get(MapComponent.PROPERTY_longitude) == null){
@@ -192,14 +193,6 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 										location.put(MapComponent.PROPERTY_longitude, currentItem.get(MapComponent.PROPERTY_longitude));
 										((List<Map<String,Object>>)pathMap.get(MapComponent.PROPERTY_locations)).add(location);
 										coordSet = true;
-									}
-								} else if(MapComponent.PROPERTY_style.equals(key)){
-									String styleName = (String)currentItem.get(MapComponent.PROPERTY_style);
-									if(styleName != null && styles.containsKey(styleName)){
-										Map<String,Object> parentStyle = styles.get(styleName);
-										for(String styleKey: parentStyle.keySet()){
-											pathMap.put(styleKey, parentStyle.get(styleKey));
-										}
 									}
 								} else {
 									pathMap.put(key, currentItem.get(key));
@@ -232,7 +225,6 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 							styleMap = new HashMap<String,Object>();
 							styles.put(styleName, styleMap);
 						}
-						setStyle((String)currentStyle.get(MapComponent.PROPERTY_style), styleMap);
 						setStyle(currentStyle, styleMap);
 					}
 				}
