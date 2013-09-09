@@ -24,7 +24,7 @@
 		</field>
 		<filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
 	</subDataset>
-	<subDataset name="PathStyleDataset">
+	<subDataset name="PathStyleDataset" uuid="0a614373-2dd9-48f3-b6da-8073f61b3fc3">
 		<property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.xml"/>
 		<queryString language="csv">
 			<![CDATA[]]>
@@ -126,7 +126,7 @@
 					</c:markerData>
 					<c:pathStyle>
 						<dataset>
-							<datasetRun subDataset="PathStyleDataset"/>
+							<datasetRun subDataset="PathStyleDataset" uuid="2f83580b-a7e7-496e-8eca-d2993a5f1120"/>
 						</dataset>
 						<c:item>
 							<c:itemProperty name="name">
@@ -173,7 +173,7 @@
 					</c:pathStyle-->
 					<c:pathData>
 						<dataset>
-							<datasetRun subDataset="PathLocationDataset"/>
+							<datasetRun subDataset="PathLocationDataset" uuid="b9d465b5-397d-4c65-8814-e85e757c97d0"/>
 						</dataset>
 						<c:item>
 							<c:itemProperty name="name">
