@@ -118,10 +118,10 @@ public class MapElementImageProvider
 				{
 					currentPaths += "&path=";
 					String color = (String)pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_COLOR);
-					if(color != null){
+					if(color != null && color.length() > 0){
 						//adding opacity to color
 						color = JRColorUtil.getColorHexa(JRColorUtil.getColor(color, Color.BLACK));
-						color += pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_OPACITY) == null 
+						color += pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_OPACITY) == null || pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_OPACITY).toString().length() == 0
 								? "ff"
 								: Integer.toHexString((int) (255 * Double.valueOf(pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_OPACITY).toString())));
 					}
@@ -129,17 +129,17 @@ public class MapElementImageProvider
 					Boolean isPolygon = pathMap.get(MapPrintElement.PARAMETER_PATH_IS_POLYGON) == null ? false : Boolean.valueOf(pathMap.get(MapPrintElement.PARAMETER_PATH_IS_POLYGON).toString());
 					if(isPolygon){
 						String fillColor = (String)pathMap.get(MapPrintElement.PARAMETER_PATH_FILL_COLOR);
-						if(fillColor != null){
+						if(fillColor != null && fillColor.length() > 0){
 							//adding opacity to fill color
 							fillColor = JRColorUtil.getColorHexa(JRColorUtil.getColor(fillColor, Color.WHITE));
-							fillColor += pathMap.get(MapPrintElement.PARAMETER_PATH_FILL_OPACITY) == null 
+							fillColor += pathMap.get(MapPrintElement.PARAMETER_PATH_FILL_OPACITY) == null || pathMap.get(MapPrintElement.PARAMETER_PATH_FILL_OPACITY).toString().length() == 0
 								? "00"
 								: Integer.toHexString((int) (256 * Double.valueOf(pathMap.get(MapPrintElement.PARAMETER_PATH_FILL_OPACITY).toString())));
 						}
 						currentPaths += fillColor != null && fillColor.length() > 0 ? "fillcolor:0x" + fillColor.toLowerCase() + "%7C" : "";
 					}
 					String weight = pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_WEIGHT) == null ? null : pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_WEIGHT).toString();
-					currentPaths += weight != null && weight.length() > 0 ? "weight:" + weight + "%7C" : "";
+					currentPaths += weight != null && weight.length() > 0 ? "weight:" + Integer.valueOf(weight) + "%7C" : "";
 					List<Map<String,Object>> locations = (List<Map<String,Object>>)pathMap.get(MapPrintElement.PARAMETER_PATH_LOCATIONS);
 					Map<String,Object> location = null;
 					if(locations != null && !locations.isEmpty()) {
@@ -150,7 +150,6 @@ public class MapElementImageProvider
 							currentPaths += location.get(MapPrintElement.PARAMETER_LONGITUDE);
 							currentPaths += i < locations.size() - 1 ? "%7C":"";
 						}
-
 						if(isPolygon){
 							currentPaths += "%7C";
 							currentPaths += locations.get(0).get(MapPrintElement.PARAMETER_LATITUDE);
