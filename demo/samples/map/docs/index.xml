@@ -17,8 +17,8 @@ How to render maps using the built-in map component.
     <since>4.1.1</since>
     <documentedBy>
       <author>
-    	<name>Sanda Zaharia</name>
-    	<email>shertage@users.sourceforge.net</email>
+      <name>Sanda Zaharia</name>
+      <email>shertage@users.sourceforge.net</email>
       </author>
     </documentedBy>
     <content>
@@ -366,6 +366,84 @@ Empty contents are not processed.</li>
 <li><code>infowindow.pixelOffset</code> - integer value. Represents the offset (in pixels) from the tip of the info window to the location on which the info window is anchored.</li>
 <li><code>infowindow.maxWidth</code> - integer value. Specifies the maximum width in pixels of the info window</li>
 </ul>
+<subtitle name="paths">Paths on Google Maps</subtitle>
+<br/>
+<br/>
+Various locations on a given map can be connected to form a path. To configure a path on the map, the following information is needed:
+<ul>
+<li>an ordered sequence of points to be connected. The sequence must contain at least 2 points in order to be considered.</li>
+<li>various style descriptors (such as line color, opacity or weight), in order to create custom appearances for paths</li>
+</ul>
+<subtitle name="pathData">The Path Data Element</subtitle>
+<br/>
+<br/>
+Points that have to be connected in a path are grouped into the <code>&lt;pathData/&gt;</code> element. A path data element is very similar to the 
+<a href="#markerData">marker data element</a> described above, but comes with a different set of item properties. Each item in the path data element 
+represents a location (point) on the map and must provide at least the <code>latitude</code> and <code>longitude</code> properties from the following 
+list of allowed properties:
+<ul>
+<li><code>latitude</code> - required; floating-point value</li>
+<li><code>longitude</code> - required; floating-point value</li>
+<li><code>name</code> - optional; string value. Represents the identifier of a given path, necessary when multiple paths have to be represented on the same map. 
+Points with the same <code>name</code> property belong to the same path. If not provided, the point will be added to the default path.</li>
+<li><code>style</code> - optional; string value. Represents the name of a given path style (path styles are discussed in the next section of this document). 
+If not provided, the path will be generated using Google default style settings for paths.</li>
+<li><code>strokeColor</code> - optional; string value. Represents the path line color. Named colors are not supported for all Google Maps APIs, so the hex value 
+representation for the color would be more suited in this case.</li>
+<li><code>strokeOpacity</code> - optional; numeric value between 0 and 1 (default). Represents the path line opacity. 1 means 100% opaque, 0 means 100% transparent.</li>
+<li><code>strokeWeight</code> - optional; integer value. Represents the path line weight in pixels. Default value is 5.</li>
+<li><code>fillColor</code> - optional; string value. Considered for polygons only, represents the fill color for the polygonal contour. Also named colors are 
+not recommended in this case.</li>
+<li><code>fillOpacity</code> - optional; numeric value between 0 (default) and 1. Considered for polygons only, represents the fill opacity for the polygonal contour. 
+1 means 100% opaque, 0 means 100% transparent.</li>
+<li><code>isPolygon</code> - optional; boolean value. If set to <code>true</code> the last point in the path is connected to the first point in order to form a polygon (closed path).
+Default value is <code>false</code></li>
+<li><code>clickable</code> - optional; boolean value. If set to <code>true</code>, the path object may handle mouse events. Defaults to <code>true</code>.</li>
+<li><code>editable</code> - optional; boolean value. If set to <code>true</code>, the user may edit the path using the control points shown along the path line. Defaults to <code>false</code>.</li>
+<li><code>draggable</code> - optional; boolean value. If set to <code>true</code>, the user may drag the path contour over the map. Defaults to <code>false</code>.</li>
+<li><code>geodesic</code> - optional; boolean value. Defines the mode of dragging. If set to <code>true</code>, edges of the polygon are interpreted as geodesic and will 
+follow the curvature of the Earth when the path contour is dragged. Defaults to <code>false</code>.</li>
+<li><code>visible</code> - optional; boolean value. If set to <code>true</code>, the path is visible on the map. Defaults to <code>true</code>.</li>
+<li><code>zIndex</code> - optional; integer value. Represents the zIndex compared to other path elements</li>
+</ul>
+<b>Notes:</b> 
+<ul>
+<li>A map component may contain 0, one or several <code>&lt;pathData/&gt;</code> elements.</li>
+<li>Points in a given path are connected one by one, in the same order they were declared in the report. To get consistent results, make sure items 
+in the path data element are declared in the right order.</li>
+<li>If points in the same path provide different values for the same item property, the property value will be set by the last point in the path that provides this property.</li>
+</ul>
+<subtitle name="pathStyle">The Path Style Element</subtitle>
+<br/>
+<br/>
+In order to avoid redundant data, common style properties for a given path can be grouped in a style element, so that individual items (points) in the path have 
+to remember only the name of the path style, instead of carrying several style properties by themselves. Path styles are grouped together into a <code>&lt;pathStyle/&gt;</code> element, 
+very similar to <code>&lt;pathData/&gt;</code>, excepting the <code>latitude</code> and <code>longitude</code> properties that are not considered in a path style.
+<br/>
+Below is the list of allowed properties in a path style, with the same meaning and defaults (excepting the <code>name</code> property) as in the path data element:
+<ul>
+<li><code>name</code> - required; string value. Represents the name (unique identifier) of a given style.</li>
+<li><code>style</code> - optional; string value. Represents the name of a parent path style. If present, all the properties in the parent style will be inherited by the current style.
+The own properties of the current style will override the parent properties.</li>
+<li><code>strokeColor</code></li>
+<li><code>strokeOpacity</code></li>
+<li><code>strokeWeight</code></li>
+<li><code>fillColor</code></li>
+<li><code>fillOpacity</code></li>
+<li><code>isPolygon</code></li>
+<li><code>clickable</code></li>
+<li><code>editable</code></li>
+<li><code>draggable</code></li>
+<li><code>geodesic</code></li>
+<li><code>visible</code></li>
+<li><code>zIndex</code></li>
+</ul>
+<b>Notes:</b> 
+<ul>
+<li>A map component may contain 0, one or several <code>&lt;pathStyle/&gt;</code> elements.</li>
+<li>If style items with the same name provide different values for the same item property, the property value will be set by the last item in the list that provides this property.</li>
+<li>If present, an own style property in a path data item will override the same property inherited from the path style.</li>
+</ul>
 <subtitle name="googleStaticMaps">Google Static Maps</subtitle>
 <br/>
 <br/>
@@ -389,6 +467,16 @@ In these conditions, not all item properties defined for markers are considered 
 </ul>
 If no size is set, the default icon is loaded with its normal size
 </li>
+</ul>
+For similar reasons, path style properties considered in static maps are the following:
+<ul>
+<li><code>strokeColor</code></li>
+<li><code>strokeOpacity</code></li>
+<li><code>strokeWeight</code></li>
+<li><code>fillColor</code></li>
+<li><code>fillOpacity</code></li>
+<li><code>isPolygon</code></li>
+<li><code>geodesic</code></li>
 </ul>
 <b>Map Component Example</b>    
 <br/>
@@ -533,12 +621,16 @@ component configuration (and the subdataset):
     </c:markerData>
   </c:map>
 </componentElement>]]></pre>
-<subtitle name="map4">Map #4: Satellite Map with Marker Hyperlinks</subtitle>
+<subtitle name="map4">Map #4: Satellite Map with Marker Hyperlinks and Paths</subtitle>
 <br/>
 <br/>
 In the 4th sample loaded from the <code>reports/MapReport4.jrxml</code> template the same set of markers with default icons are placed on a 
 satellite map. This time marker icons display custom colors, and in static maps only, custom sizes. Marker tooltips are disabled, but markers 
-provide hyperlinks. Clicking on a marker icon will open a new browser window/tab with related information. See the configuration below:
+provide hyperlinks. Clicking on a marker icon will open a new browser window/tab with related information. In addition, all markers are connected to form  
+a green polygonal contour and two of them are also connected with a blue line.
+<br/>
+<br/>
+Two additional subdatasets were added in order to generate path styles and path data.See the configuration below:
 <pre><![CDATA[
 <subDataset name="MarkersDataset">
   <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.xml"/>
@@ -559,6 +651,56 @@ provide hyperlinks. Clicking on a marker icon will open a new browser window/tab
   </field>
   <field name="url" class="java.lang.String">
     <fieldDescription><![CDATA[url]] ></fieldDescription>
+  </field>
+  <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
+</subDataset>
+<subDataset name="PathStyleDataset">
+  <property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.xml"/>
+  <queryString language="csv">
+    <![CDATA[]] >
+  </queryString>
+  <field name="name" class="java.lang.String">
+    <fieldDescription><![CDATA[name]] ></fieldDescription>
+  </field>
+  <field name="strokecolor" class="java.lang.String">
+    <fieldDescription><![CDATA[strokecolor]] ></fieldDescription>
+  </field>
+  <field name="strokeopacity" class="java.lang.Double">
+    <fieldDescription><![CDATA[strokeopacity]] ></fieldDescription>
+  </field>
+  <field name="strokeweight" class="java.lang.Integer">
+    <fieldDescription><![CDATA[strokeweight]] ></fieldDescription>
+  </field>
+  <field name="fillcolor" class="java.lang.String">
+    <fieldDescription><![CDATA[fillcolor]] ></fieldDescription>
+  </field>
+  <field name="fillopacity" class="java.lang.Double">
+    <fieldDescription><![CDATA[fillopacity]] ></fieldDescription>
+  </field>
+  <field name="draggable" class="java.lang.Boolean">
+    <fieldDescription><![CDATA[draggable]] ></fieldDescription>
+  </field>
+  <filterExpression><![CDATA[$F{name}==null || "".equals($F{name}) ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
+</subDataset>
+<subDataset name="PathLocationDataset">
+  <property name="net.sf.jasperreports.data.adapter" value="/data/PathLocationDataAdapter.xml"/>
+  <queryString language="csv">
+    <![CDATA[]] >
+  </queryString>
+  <field name="name" class="java.lang.String">
+    <fieldDescription><![CDATA[name]] ></fieldDescription>
+  </field>
+  <field name="style" class="java.lang.String">
+    <fieldDescription><![CDATA[style]] ></fieldDescription>
+  </field>
+  <field name="latitude" class="java.lang.String">
+    <fieldDescription><![CDATA[latitude]] ></fieldDescription>
+  </field>
+  <field name="longitude" class="java.lang.String">
+    <fieldDescription><![CDATA[longitude]] ></fieldDescription>
+  </field>
+  <field name="ispolygon" class="java.lang.String">
+    <fieldDescription><![CDATA[ispolygon]] ></fieldDescription>
   </field>
   <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
 </subDataset>
@@ -596,6 +738,56 @@ provide hyperlinks. Clicking on a marker icon will open a new browser window/tab
         </c:itemProperty>
       </c:item>
     </c:markerData>
+    <c:pathStyle>
+      <dataset>
+        <datasetRun subDataset="PathStyleDataset" uuid="2f83580b-a7e7-496e-8eca-d2993a5f1120"/>
+      </dataset>
+      <c:item>
+        <c:itemProperty name="name">
+          <valueExpression><![CDATA[$F{name}]] ></valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="strokeColor">
+          <valueExpression><![CDATA[$F{strokecolor}]] ></valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="strokeOpacity">
+          <valueExpression><![CDATA[$F{strokeopacity}]] ></valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="strokeWeight">
+          <valueExpression><![CDATA[$F{strokeweight}]] ></valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="fillColor">
+          <valueExpression><![CDATA[$F{fillcolor}]] ></valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="fillOpacity">
+          <valueExpression><![CDATA[$F{fillopacity}]] ></valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="draggable">
+          <valueExpression><![CDATA[$F{draggable}]] ></valueExpression>
+        </c:itemProperty>
+      </c:item>
+    </c:pathStyle>
+    <c:pathData>
+      <dataset>
+        <datasetRun subDataset="PathLocationDataset" uuid="b9d465b5-397d-4c65-8814-e85e757c97d0"/>
+      </dataset>
+      <c:item>
+        <c:itemProperty name="name">
+          <valueExpression><![CDATA[$F{name}]] ></valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="style">
+          <valueExpression><![CDATA[$F{style}]] ></valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="latitude">
+          <valueExpression><![CDATA[$F{latitude}]] ></valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="longitude">
+          <valueExpression><![CDATA[$F{longitude}]] ></valueExpression>
+        </c:itemProperty>
+        <c:itemProperty name="isPolygon">
+          <valueExpression><![CDATA[$F{ispolygon}]] </valueExpression>
+        </c:itemProperty>
+      </c:item>
+    </c:pathData>
   </c:map>
 </componentElement>]]></pre>
 <subtitle name="map5">Map #5: Hybrid Map with Custom Icons and Info Windows</subtitle>
