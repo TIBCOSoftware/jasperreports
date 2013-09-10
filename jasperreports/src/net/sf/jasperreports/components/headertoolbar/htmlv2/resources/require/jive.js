@@ -994,6 +994,17 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
             var tbl = $('table.floatableHeader');
             if (tbl.length == 0) {
                 tbl = $("<table class='floatableHeader' style='display:none'/>").appendTo('div#reportContainer');
+                
+                tbl.on('click touchend', '.jrcolHeader', function(evt){
+                    // keep html links functional
+                    if(!$(evt.target).parent().is('a')) {
+                        var jo = $(this);
+                        var coluuid = jo.data('coluuid');
+                        var reportTableCell = tbl.parent().find('table.jrPage td.jrcolHeader[data-coluuid=' + coluuid + ']:first');
+                        reportTableCell.length && jive.selectInteractiveElement(reportTableCell);
+                        return false;
+                    }
+                })
 
                 var firstColHeader = $('td.jrcolHeader:first'),
                     parentTable = firstColHeader.closest('table'),
