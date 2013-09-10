@@ -1,4 +1,6 @@
 define(["jive.column", "jquery-1.10.2"], function(Column, $) {
+    var genericProperties = null;
+
     var Table = function(o) {
 
         this.config = {
@@ -10,6 +12,12 @@ define(["jive.column", "jquery-1.10.2"], function(Column, $) {
             allColumnsData: null
         };
         $.extend(this.config, o);
+
+        if(o.genericProperties) {
+            genericProperties = o.genericProperties;
+        } else {
+            this.config.genericProperties = genericProperties;
+        }
 
         this.parent = null;
         this.columns = [];

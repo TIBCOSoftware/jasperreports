@@ -18,6 +18,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
         operators: null,
         filterPatterns: null,
         calendarPatterns: null,
+        genericPropertiesInitialized: false,
         actions: {
             format: {icon: 'formatIcon', title: jive.i18n.get('column.format.title'), actions:{
                 formatHeaderAndValues: {label: jive.i18n.get('column.format.formatmenu.label'), fn:'formatHeader'},
@@ -46,11 +47,14 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
 
             $.each(report.components.table, function() {
                 // dynamic properties (fonts, fontsizes) come only for the first table
-                if (this.config.genericProperties) {
+                if (!it.genericPropertiesInitialized && this.config.genericProperties) {
                 	it.setGenericProperties(this.config.genericProperties);
                 }
-
-                it.initColumns(this);
+                if(!it.genericPropertiesInitialized) {
+                    alert('Error: generic properties not set for interactive column.');
+                } else {
+                    it.initColumns(this);
+                }
             });
         },
 
