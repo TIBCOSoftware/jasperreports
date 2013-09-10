@@ -914,13 +914,12 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				{
 					FilterTypesEnum filterType = FilterTypesEnum.TEXT;
 
-					ConditionalFormattingData cfData = getCfData(textElement, jasperReportsContext);
-					cfData.setGroupName(groupInfo.getName());
-					cfData.setTableUuid(tableUuid);
-
 					// for textFields with single chunk expression set conditionalFormatting data
 					if (TableUtil.hasSingleChunkExpression((JRDesignTextField)textElement)) 
 					{
+						ConditionalFormattingData cfData = getCfData(textElement, jasperReportsContext);
+						cfData.setGroupName(groupInfo.getName());
+						cfData.setTableUuid(tableUuid);
 
 						String fieldOrVariableName;
 						SortFieldTypeEnum columnType;
@@ -948,11 +947,10 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 						cfData.setColumnType(columnType.getName());
 						cfData.setFieldOrVariableName(fieldOrVariableName);
+						cfData.setConditionType(filterType.getName());
+
+						groupData.put("conditionalFormattingData", cfData);
 					}
-
-					cfData.setConditionType(filterType.getName());
-
-					groupData.put("conditionalFormattingData", cfData);
 
 					textElementData.setDataType(filterType.getName());
 
