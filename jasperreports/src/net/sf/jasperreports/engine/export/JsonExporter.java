@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -97,6 +98,7 @@ public class JsonExporter extends JRAbstractExporter
 		{
 			setExportContext();
 			setInput();
+			setHyperlinkProducerFactory();
 			
 			if (!parameters.containsKey(JRExporterParameter.FILTER))
 			{
@@ -346,6 +348,12 @@ public class JsonExporter extends JRAbstractExporter
 		public String getExportPropertiesPrefix()
 		{
 			return JSON_EXPORTER_PROPERTIES_PREFIX;
+		}
+
+		@Override
+		public String getHyperlinkURL(JRPrintHyperlink link)
+		{
+			return HtmlExporter.resolveHyperlinkURL(JsonExporter.this, reportIndex, link);
 		}
 	}
 

@@ -1415,7 +1415,7 @@ public abstract class JRAbstractExporter implements JRExporter
 		}
 	}
 	
-	protected JRHyperlinkProducer getHyperlinkProducer(JRPrintHyperlink link)
+	public JRHyperlinkProducer getHyperlinkProducer(JRPrintHyperlink link)
 	{
 		return hyperlinkProducerFactory == null ? null : hyperlinkProducerFactory.getHandler(link.getLinkType());
 	}
@@ -1432,6 +1432,11 @@ public abstract class JRAbstractExporter implements JRExporter
 	 * 
 	 */
 	public abstract String getExporterKey();
+
+	public JasperPrint getCurrentJasperPrint()
+	{
+		return jasperPrint;
+	}
 
 
 }
