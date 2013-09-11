@@ -73,18 +73,30 @@ public class ConditionalFormattingData extends BaseColumnData {
 		this.conditionPattern = filterPattern;
 	}
 
+	/**
+	 * @deprecated To be removed.
+	 */
 	public String getColumnType() {
 		return columnType;
 	}
 	
+	/**
+	 * @deprecated To be removed.
+	 */
 	public void setColumnType(String columnType) {
 		this.columnType = columnType;
 	}
 
+	/**
+	 * @deprecated To be removed.
+	 */
 	public String getFieldOrVariableName() {
 		return fieldOrVariableName;
 	}
 	
+	/**
+	 * @deprecated To be removed.
+	 */
 	public void setFieldOrVariableName(String fieldOrVariableName) {
 		this.fieldOrVariableName = fieldOrVariableName;
 	}

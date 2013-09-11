@@ -80,13 +80,13 @@ public class ConditionalFormattingAction extends AbstractVerifiableTableAction {
         JRTextField result = null;
 
         if (EditTextElementData.APPLY_TO_DETAIL_ROWS.equals(cfData.getApplyTo())) {
-            result = TableUtil.getColumnDetailTextElement(col);
+            result = TableUtil.getCellElement(JRTextField.class, col.getDetailCell(), true);
         } else if (EditTextElementData.APPLY_TO_GROUP_SUBTOTAL.equals(cfData.getApplyTo())) {
-            result = TableUtil.getFooterGroupTextField(col, cfData.getGroupName(), table);
+            result = TableUtil.getCellElement(JRTextField.class, col, TableUtil.COLUMN_GROUP_FOOTER, cfData.getGroupName(), table);
         } else if (EditTextElementData.APPLY_TO_GROUPHEADING.equals(cfData.getApplyTo())) {
-            result = TableUtil.getHeaderGroupTextField(col, cfData.getGroupName(), table);
+            result = TableUtil.getCellElement(JRTextField.class, col, TableUtil.COLUMN_GROUP_HEADER, cfData.getGroupName(), table);
         } else if (EditTextElementData.APPLY_TO_TABLE_TOTAL.equals(cfData.getApplyTo())) {
-            result = TableUtil.getTableFooterTextField(col, table);
+            result = TableUtil.getCellElement(JRTextField.class, col, TableUtil.TABLE_FOOTER, null, table);
         }
 
         return result;

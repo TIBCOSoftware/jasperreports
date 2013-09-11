@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.components.table.util;
 
-import java.awt.*;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -41,13 +41,13 @@ import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetRun;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
-import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
@@ -317,40 +317,55 @@ public class TableUtil
 		return null;
 	}
 	
-	public static JRDesignTextElement getColumnHeaderTextElement(StandardColumn column) {
-		return getCellTextElement(column.getColumnHeader(), true);
+	/**
+	 * @deprecated Replaced by {@link #getCellElement(Class, Cell, boolean)}.
+	 */
+	public static JRDesignTextElement getColumnHeaderTextElement(StandardColumn column) 
+	{
+		return getCellElement(JRDesignTextElement.class, column.getColumnHeader(), true);
 	}
 
-	public static JRDesignTextElement getCellTextElement(Cell cell, boolean oneElementPerCell) {
-		List<JRChild> detailElements = cell == null ? null : cell.getChildren();
-		
-		if (detailElements == null || (detailElements != null && oneElementPerCell && detailElements.size() != 1)) {
-			return null;
-		}
-		
-		for (JRChild detailElement: detailElements) {
-			if (detailElement instanceof JRDesignTextElement) {
-				return (JRDesignTextElement) detailElement;
-			}
-		}
-		
-		return null;
+	/**
+	 * @deprecated Replaced by {@link #getCellElement(Class, Cell, boolean)}.
+	 */
+	public static JRDesignTextElement getCellTextElement(Cell cell, boolean oneElementPerCell) 
+	{
+		return getCellElement(JRDesignTextElement.class, cell, oneElementPerCell);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getCellElement(Class, Cell, boolean)}.
+	 */
 	public static JRTextField getColumnDetailTextElement(Column column) {
-		return getCellDetailTextElement(column.getDetailCell(), true);
+		return getCellElement(JRTextField.class, column.getDetailCell(), true);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getCellElement(Class, Cell, boolean)}.
+	 */
 	public static JRTextField getCellDetailTextElement(Cell cell, boolean oneElementPerCell) {
+		return getCellElement(JRTextField.class, cell, oneElementPerCell);
+	}
+
+	/**
+	 * 
+	 */
+	public static <T extends JRElement> T getCellElement(Class<T> type, Cell cell, boolean oneElementPerCell) 
+	{
 		List<JRChild> detailElements = cell == null ? null : cell.getChildren();
 		
-		if (detailElements == null || (detailElements != null && oneElementPerCell && detailElements.size() != 1)) {
+		if (detailElements == null || (detailElements != null && oneElementPerCell && detailElements.size() != 1)) 
+		{
 			return null;
 		}
 		
-		for (JRChild detailElement: detailElements) {
-			if (detailElement instanceof JRTextField) {
-				return (JRTextField) detailElement;
+		for (JRChild detailElement: detailElements) 
+		{
+			if (type.isInstance(detailElement) ) 
+			{
+				@SuppressWarnings("unchecked")
+				T de = (T) detailElement;
+				return de;
 			}
 		}
 		
@@ -408,121 +423,33 @@ public class TableUtil
         return result;
     }
 
-    public static JRDesignTextField getHeaderGroupTextField(BaseColumn column, String groupName, TableComponent table) {
-        return (JRDesignTextField)getHeaderGroupTextElement(column, groupName, table, true);
-    }
+    /**
+     * 
+     */
+    public static <T extends JRElement> T getCellElement(Class<T> type, BaseColumn column, int sectionType, String groupName, TableComponent table) 
+    {
+        T element = TableUtil.getCellElement(type, getCell(column, sectionType, groupName), false);
 
-    public static JRDesignTextElement getHeaderGroupTextElement(BaseColumn column, String groupName, TableComponent table, boolean isSingleChunkedTextField) {
-        JRDesignTextElement textElement = null;
-        if (isSingleChunkedTextField) {
-            JRTextField textField = TableUtil.getCellDetailTextElement(column.getGroupHeader(groupName), false);
-            if (textField != null && TableUtil.hasSingleChunkExpression(textField)) {
-                textElement = (JRDesignTextElement) textField;
-            }
-        } else {
-            textElement = TableUtil.getCellTextElement(column.getGroupHeader(groupName), false);
-        }
-
-        if (textElement == null) {
+        if (element == null) 
+        {
             List<ColumnGroup> colGroups = TableUtil.getHierarchicalColumnGroupsForColumn(column, table.getColumns(), table);
 
-            for (ColumnGroup cg: colGroups) {
-                if (cg.getGroupHeader(groupName) == null) {
+            for (ColumnGroup colGroup: colGroups) 
+            {
+                if (colGroup.getGroupHeader(groupName) == null) 
+                {
                     continue;
                 }
-                if (isSingleChunkedTextField) {
-                    JRTextField textField = TableUtil.getCellDetailTextElement(cg.getGroupHeader(groupName), false);
-                    if (textField != null && TableUtil.hasSingleChunkExpression(textField)) {
-                        textElement = (JRDesignTextElement) textField;
-                        break;
-                    }
-                } else {
-                    textElement = TableUtil.getCellTextElement(cg.getGroupHeader(groupName), false);
-                    if (textElement != null) break;
-                }
+                element = TableUtil.getCellElement(type, getCell(colGroup, sectionType, groupName), false);
+                if (element != null)
+               	{
+                	break;
+               	}
             }
 
         }
 
-        return textElement;
-    }
-
-    public static JRDesignTextField getFooterGroupTextField(BaseColumn column, String groupName, TableComponent table) {
-        return (JRDesignTextField)getFooterGroupTextElement(column, groupName, table, true);
-    }
-
-    public static JRDesignTextElement getFooterGroupTextElement(BaseColumn column, String groupName, TableComponent table, boolean isSingleChunkedTextField) {
-        JRDesignTextElement textElement = null;
-        if (isSingleChunkedTextField){
-            JRTextField textField = TableUtil.getCellDetailTextElement(column.getGroupFooter(groupName), false);
-            if (textField != null && TableUtil.hasSingleChunkExpression(textField)) {
-                textElement = (JRDesignTextElement) textField;
-            }
-        } else {
-            textElement = TableUtil.getCellTextElement(column.getGroupFooter(groupName), false);
-        }
-
-        if (textElement == null) {
-            List<ColumnGroup> colGroups = TableUtil.getHierarchicalColumnGroupsForColumn(column, table.getColumns(), table);
-
-            for (ColumnGroup cg: colGroups) {
-                if (cg.getGroupFooter(groupName) == null) {
-                    continue;
-                }
-                if (isSingleChunkedTextField) {
-                    JRTextField textField = TableUtil.getCellDetailTextElement(cg.getGroupFooter(groupName), false);
-                    if (textField != null && TableUtil.hasSingleChunkExpression(textField)) {
-                        textElement = (JRDesignTextElement) textField;
-                        break;
-                    }
-                } else {
-                    textElement = TableUtil.getCellTextElement(cg.getGroupFooter(groupName), false);
-                    if (textElement != null) break;
-                }
-            }
-
-        }
-
-        return textElement;
-    }
-
-    public static JRDesignTextField getTableFooterTextField(BaseColumn column, TableComponent table) {
-        return (JRDesignTextField)getTableFooterTextElement(column, table, true);
-    }
-
-    public static JRDesignTextElement getTableFooterTextElement(BaseColumn column, TableComponent table, boolean isSingleChunkedTextField) {
-        JRDesignTextElement textElement = null;
-        if (column.getTableFooter() != null) {
-            if (isSingleChunkedTextField){
-                JRTextField textField = TableUtil.getCellDetailTextElement(column.getTableFooter(), false);
-                if (textField != null && TableUtil.hasSingleChunkExpression(textField)) {
-                    textElement = (JRDesignTextElement) textField;
-                }
-            } else {
-                textElement = TableUtil.getCellTextElement(column.getTableFooter(), false);
-            }
-        }
-
-        if (textElement == null) {
-            List<ColumnGroup> colGroups = TableUtil.getHierarchicalColumnGroupsForColumn(column, table.getColumns(), table);
-            for (ColumnGroup cg: colGroups) {
-                if (cg.getTableFooter() == null) {
-                    continue;
-                }
-                if (isSingleChunkedTextField) {
-                    JRTextField textField = TableUtil.getCellDetailTextElement(cg.getTableFooter(), false);
-                    if (textField != null && TableUtil.hasSingleChunkExpression(textField)) {
-                        textElement = (JRDesignTextElement) textField;
-                        break;
-                    }
-                } else {
-                    textElement = TableUtil.getCellTextElement(cg.getTableFooter(), false);
-                    if (textElement != null) break;
-                }
-            }
-        }
-
-        return textElement;
+        return element;
     }
 
 }

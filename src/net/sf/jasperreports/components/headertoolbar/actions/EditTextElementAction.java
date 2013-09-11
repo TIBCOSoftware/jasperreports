@@ -84,15 +84,15 @@ public class EditTextElementAction extends AbstractVerifiableTableAction {
         JRDesignTextElement result = null;
 
         if (EditTextElementData.APPLY_TO_DETAIL_ROWS.equals(textElementData.getApplyTo())) {
-            result = (JRDesignTextElement)TableUtil.getColumnDetailTextElement(col);
+            result = TableUtil.getCellElement(JRDesignTextElement.class, col.getDetailCell(), true);
         } else if (EditTextElementData.APPLY_TO_GROUP_SUBTOTAL.equals(textElementData.getApplyTo())) {
-            result = TableUtil.getFooterGroupTextElement(col, textElementData.getGroupName(), table, false);
+            result = TableUtil.getCellElement(JRDesignTextElement.class, col, TableUtil.COLUMN_GROUP_FOOTER, textElementData.getGroupName(), table);
         } else if (EditTextElementData.APPLY_TO_HEADING.equals(textElementData.getApplyTo())) {
-            result = TableUtil.getColumnHeaderTextElement(col);
+            result = TableUtil.getCellElement(JRDesignTextElement.class, col.getColumnHeader(), true);
         } else if (EditTextElementData.APPLY_TO_GROUPHEADING.equals(textElementData.getApplyTo())) {
-            result = TableUtil.getHeaderGroupTextElement(col, textElementData.getGroupName(), table, false);
+            result = TableUtil.getCellElement(JRDesignTextElement.class, col, TableUtil.COLUMN_GROUP_HEADER, textElementData.getGroupName(), table);
         } else if (EditTextElementData.APPLY_TO_TABLE_TOTAL.equals(textElementData.getApplyTo())) {
-            result = TableUtil.getTableFooterTextElement(col, table, false);
+            result = TableUtil.getCellElement(JRDesignTextElement.class, col, TableUtil.TABLE_FOOTER, null, table);
         }
 
         return result;

@@ -182,6 +182,7 @@ public class TableReport implements JRReport
 	 * 
 	 * <p>
 	 * It defaults to <code>true</code>
+	 * @deprecated To be removed.
 	 */
 	public static final String PROPERTY_COLUMN_CONDITIONALLY_FORMATTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.conditionally.formattable";
 
@@ -559,7 +560,7 @@ public class TableReport implements JRReport
 		protected JRDesignFrame createColumnCell(Column column, JRElementGroup parentGroup, Cell cell)
 		{
 			JRDesignFrame frame = (JRDesignFrame) createColumnCell(column, parentGroup, cell, true);
-			addHeaderToolbarElement(column, frame, TableUtil.getColumnDetailTextElement(column));
+			addHeaderToolbarElement(column, frame, TableUtil.getCellElement(JRTextField.class, column.getDetailCell(), true));
 			return frame;
 		}
 
@@ -855,7 +856,7 @@ public class TableReport implements JRReport
 			for(int i = 0, ln = columns.size(); i < ln; i++) {
 				BaseColumn column = columns.get(i);
 				JRExpression columnHeaderExpression = getColumnHeaderLabelExpression(column.getColumnHeader());
-				boolean interactiveColumn = columnInteractivityMapping.get(column) && (TableUtil.getColumnDetailTextElement((Column)column) != null);
+				boolean interactiveColumn = columnInteractivityMapping.get(column) && (TableUtil.getCellElement(JRTextField.class, ((Column)column).getDetailCell(), true) != null);
 				String paramName = HeaderToolbarElement.PARAM_COLUMN_LABEL_PREFIX + i + "|" + column.getUUID().toString() + "|" + interactiveColumn;
 				addElementParameter(element, paramName, columnHeaderExpression);
 			}
