@@ -28,13 +28,14 @@ import java.awt.Color;
 import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingCommand;
 import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingData;
 import net.sf.jasperreports.components.headertoolbar.actions.FormatCondition;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.style.StyleProvider;
 import net.sf.jasperreports.engine.style.StyleProviderContext;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
@@ -66,9 +67,10 @@ public class HeaderToolbarConditionalStyleProvider implements StyleProvider
 				JRStyle style = null;
 				
 				ConditionalFormattingData cfd = JacksonUtil.getInstance(jasperreportsContext).loadObject(srlzdConditionalFormattingData, ConditionalFormattingData.class);
-				if (cfd.getConditions().size() > 0) {
-					SortFieldTypeEnum columnType = SortFieldTypeEnum.getByName(cfd.getColumnType());
-					Object compareTo = columnType.equals(SortFieldTypeEnum.FIELD) ? context.getFieldValue(cfd.getFieldOrVariableName(), evaluation) : context.getVariableValue(cfd.getFieldOrVariableName(), evaluation);
+				if (cfd.getConditions().size() > 0) 
+				{
+					JRExpression expression = context.getElement() instanceof JRTextField ? ((JRTextField)context.getElement()).getExpression() : null;
+					Object compareTo = context.evaluateExpression(expression, evaluation);
 					boolean bgColorSet = false;
 					boolean fontBoldSet = false;
 					boolean fontItalicSet = false;

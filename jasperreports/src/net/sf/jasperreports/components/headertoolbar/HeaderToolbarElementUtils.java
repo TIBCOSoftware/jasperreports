@@ -26,16 +26,29 @@ package net.sf.jasperreports.components.headertoolbar;
 import java.sql.Time;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingCommand;
+import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingData;
 import net.sf.jasperreports.components.headertoolbar.actions.EditTextElementData;
+import net.sf.jasperreports.components.headertoolbar.actions.FormatCondition;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
+import net.sf.jasperreports.engine.util.MessageProvider;
+import net.sf.jasperreports.engine.util.MessageUtil;
+import net.sf.jasperreports.web.util.JacksonUtil;
 
 
 
@@ -43,7 +56,23 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class HeaderToolbarElementUtils {
+public class HeaderToolbarElementUtils 
+{
+	private static final String DEFAULT_PATTERNS_BUNDLE = "net.sf.jasperreports.components.messages";
+	private static final String DEFAULT_DATE_PATTERN_KEY = "net.sf.jasperreports.components.date.pattern";
+	private static final String DEFAULT_TIME_PATTERN_KEY = "net.sf.jasperreports.components.time.pattern";
+	private static final String DEFAULT_NUMBER_PATTERN_KEY = "net.sf.jasperreports.components.number.pattern";
+	private static final String DATE_PATTERN_BUNDLE = DEFAULT_DATE_PATTERN_KEY + ".bundle";
+	private static final String DATE_PATTERN_KEY = DEFAULT_DATE_PATTERN_KEY + ".key";
+	private static final String TIME_PATTERN_BUNDLE = DEFAULT_TIME_PATTERN_KEY + ".bundle";
+	private static final String TIME_PATTERN_KEY = DEFAULT_TIME_PATTERN_KEY + ".key";
+	private static final String NUMBER_PATTERN_BUNDLE = DEFAULT_NUMBER_PATTERN_KEY + ".bundle";
+	private static final String NUMBER_PATTERN_KEY = DEFAULT_NUMBER_PATTERN_KEY + ".key";
+	private static final String DEFAULT_CALENDAR_DATE_PATTERN_KEY = "net.sf.jasperreports.components.calendar.date.pattern";
+	private static final String DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY = "net.sf.jasperreports.components.calendar.date.time.pattern";
+	private static final String CALENDAR_DATE_PATTERN_BUNDLE = DEFAULT_CALENDAR_DATE_PATTERN_KEY + ".bundle";
+	private static final String CALENDAR_DATE_PATTERN_KEY = DEFAULT_CALENDAR_DATE_PATTERN_KEY + ".key";
+	private static final String CALENDAR_DATE_TIME_PATTERN_KEY = DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY + ".key";
 	
 	private static Map<String, SortOrderEnum> sortOrderMapping = new HashMap<String, SortOrderEnum>();
 	
@@ -133,4 +162,170 @@ public class HeaderToolbarElementUtils {
 		}
 	}
 
+	/**
+	 * 
+	 */
+	public static ConditionalFormattingData getConditionalFormattingData(JRDesignTextElement textElement, JasperReportsContext jasperReportsContext) 
+	{
+		ConditionalFormattingData result = null;
+		if (textElement != null) 
+		{
+			JRPropertiesMap propertiesMap = textElement.getPropertiesMap();
+			if (
+				propertiesMap.containsProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY) 
+				&& propertiesMap.getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY) != null
+				) 
+			{
+				result = 
+					JacksonUtil.getInstance(jasperReportsContext).loadObject(
+						propertiesMap.getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY), 
+						ConditionalFormattingData.class
+						);
+
+				// html encode the conditions for text based columns
+				if (FilterTypesEnum.TEXT.getName().equals(result.getConditionType())) 
+				{
+					for (FormatCondition fc: result.getConditions()) 
+					{
+						fc.setConditionStart(JRStringUtil.htmlEncode(fc.getConditionStart()));
+					}
+				}
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * 
+	 */
+	public static JRField getField(String name, JRDesignDataset dataSet) 
+	{
+		JRField found = null;
+		for (JRField field : dataSet.getFields())
+		{
+			if (name.equals(field.getName()))
+			{
+				found = field;
+				break;
+			}
+		}
+		return found;
+	}
+	
+	/**
+	 * 
+	 */
+	public static JRVariable getVariable(String name, JRDesignDataset dataSet) 
+	{
+		JRVariable found = null;
+		for (JRVariable var : dataSet.getVariables())
+		{
+			if (name.equals(var.getName()))
+			{
+				found = var;
+				break;
+			}
+		}
+		return found;
+	}
+
+	/**
+	 * 
+	 */
+	public static String getNumberPattern(JasperReportsContext jrContext, Locale locale)
+	{
+		String numberPatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(NUMBER_PATTERN_BUNDLE);
+		if (numberPatternBundleName == null)
+		{
+			numberPatternBundleName = DEFAULT_PATTERNS_BUNDLE;
+		}
+		String numberPatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(NUMBER_PATTERN_KEY);
+		if (numberPatternKey == null)
+		{
+			numberPatternKey = DEFAULT_NUMBER_PATTERN_KEY;
+		}
+		return getBundleMessage(numberPatternKey, jrContext, numberPatternBundleName, locale);
+	}
+
+	/**
+	 * 
+	 */
+	public static String getDatePattern(JasperReportsContext jrContext, Locale locale)
+	{
+		String datePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(DATE_PATTERN_BUNDLE);
+		if (datePatternBundleName == null)
+		{
+			datePatternBundleName = DEFAULT_PATTERNS_BUNDLE;
+		}
+		String datePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(DATE_PATTERN_KEY);
+		if (datePatternKey == null)
+		{
+			datePatternKey = DEFAULT_DATE_PATTERN_KEY;
+		}
+		return getBundleMessage(datePatternKey, jrContext, datePatternBundleName, locale);
+	}
+
+	/**
+	 * 
+	 */
+	public static String getTimePattern(JasperReportsContext jrContext, Locale locale)
+	{
+		String timePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(TIME_PATTERN_BUNDLE);
+		if (timePatternBundleName == null)
+		{
+			timePatternBundleName = DEFAULT_PATTERNS_BUNDLE;
+		}
+
+		String timePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(TIME_PATTERN_KEY);
+		if (timePatternKey == null)
+		{
+			timePatternKey = DEFAULT_TIME_PATTERN_KEY;
+		}
+		return getBundleMessage(timePatternKey, jrContext, timePatternBundleName, locale);
+	}
+
+	/**
+	 * 
+	 */
+	public static String getCalendarDatePattern(JasperReportsContext jrContext, Locale locale)
+	{
+		String calendarDatePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_PATTERN_BUNDLE);
+		if (calendarDatePatternBundleName == null)
+		{
+			calendarDatePatternBundleName = DEFAULT_PATTERNS_BUNDLE;
+		}
+		String calendarDatePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_PATTERN_KEY);
+		if (calendarDatePatternKey == null)
+		{
+			calendarDatePatternKey = DEFAULT_CALENDAR_DATE_PATTERN_KEY;
+		}
+		return getBundleMessage(calendarDatePatternKey, jrContext, calendarDatePatternBundleName, locale);
+	}
+
+	/**
+	 * 
+	 */
+	public static String getCalendarTimePattern(JasperReportsContext jrContext, Locale locale)
+	{
+		String timePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(TIME_PATTERN_BUNDLE);
+		if (timePatternBundleName == null)
+		{
+			timePatternBundleName = DEFAULT_PATTERNS_BUNDLE;
+		}
+		String calendarTimePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_TIME_PATTERN_KEY);
+		if (calendarTimePatternKey == null)
+		{
+			calendarTimePatternKey = DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY;
+		}
+		return getBundleMessage(calendarTimePatternKey, jrContext, timePatternBundleName, locale);
+	}
+	
+	/**
+	 * 
+	 */
+	public static String getBundleMessage(String key, JasperReportsContext jasperReportsContext, String bundleName, Locale locale) 
+	{
+		MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
+		return messageProvider.getMessage(key, null, locale); 
+	}
 }

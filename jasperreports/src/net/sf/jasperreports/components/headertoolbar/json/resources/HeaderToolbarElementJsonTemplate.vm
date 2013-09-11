@@ -67,9 +67,12 @@
         "filterData": ${filterData}
     },
     #end
-    "canFormatConditionally": ${canFormatConditionally},
-    #if (${canFormatConditionally})
+    "canFormatConditionally": true,
+    #if ($conditionalFormattingData)
     "conditionalFormattingData": ${conditionalFormattingData},
+    #end
+    #if ($totalConditionalFormattingData)
+    "totalConditionalFormattingData": ${totalConditionalFormattingData},
     #end
     "headingsTabContent": ${colHeaderData},
     "valuesTabContent": ${colValueData}

@@ -1580,13 +1580,11 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                         columnIndex: jive.selected.ie.config.columnIndex,
                         conditionPattern: metadata.conditionPattern,
                         conditionType: metadata.conditionType,
-                        columnType: metadata.columnType,
-                        fieldOrVariableName: metadata.fieldOrVariableName,
                         conditions: [],
                         groupName: metadata.groupName
                     }
                 };
-            } else if (currentApplyTo == 'detailrows' || val === 'tabletotal') {
+            } else if (currentApplyTo == 'detailrows') {
                 metadata = jive.selected.ie.config.conditionalFormattingData;
                 actionData = {
                     actionName: 'conditionalFormatting',
@@ -1596,8 +1594,19 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                         columnIndex: jive.selected.ie.config.columnIndex,
                         conditionPattern: metadata.conditionPattern,
                         conditionType: metadata.conditionType,
-                        columnType: metadata.columnType,
-                        fieldOrVariableName: metadata.fieldOrVariableName,
+                        conditions: []
+                    }
+                };
+            } else if (val === 'tabletotal') {
+                metadata = jive.selected.ie.config.totalConditionalFormattingData;
+                actionData = {
+                    actionName: 'conditionalFormatting',
+                    conditionalFormattingData: {
+                        applyTo: val,
+                        tableUuid: metadata.tableUuid,
+                        columnIndex: jive.selected.ie.config.columnIndex,
+                        conditionPattern: metadata.conditionPattern,
+                        conditionType: metadata.conditionType,
                         conditions: []
                     }
                 };
