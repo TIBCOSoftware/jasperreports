@@ -31,6 +31,6 @@ package net.sf.jasperreports.engine.export;
  * @version $Id$
  * @see JsonExporter
  */
-public interface JsonExporterContext extends JRExporterContext {
+public interface JsonExporterContext extends JRExporterContext, HyperlinkURLResolver {
 
 }

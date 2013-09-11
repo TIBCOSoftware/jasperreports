@@ -23,15 +23,15 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 
 /**
- * A context that represents information about an HTML export process.
- * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see JRHtmlExporter
  */
-public interface JRHtmlExporterContext extends JRExporterContext, HyperlinkURLResolver
+public interface HyperlinkURLResolver
 {
 	
+	String getHyperlinkURL(JRPrintHyperlink link);
+
 }

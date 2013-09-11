@@ -2073,17 +2073,23 @@ public class HtmlExporter extends JRAbstractExporter
 
 	protected String getHyperlinkURL(JRPrintHyperlink link)
 	{
+		return resolveHyperlinkURL(this, reportIndex, link);
+	}
+	
+	protected static String resolveHyperlinkURL(JRAbstractExporter exporter, int reportIndex, JRPrintHyperlink link)
+	{
 		String href = null;
 		
 		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
+			ignoreHyperlink = exporter.getPropertiesUtil().getBooleanProperty(exporter.getCurrentJasperPrint(), 
+					PROPERTY_IGNORE_HYPERLINK, false);
 		}
 
 		if (!ignoreHyperlink)
 		{
-			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);		
+			JRHyperlinkProducer customHandler = exporter.getHyperlinkProducer(link);		
 			if (customHandler == null)
 			{
 				switch(link.getHyperlinkTypeValue())
