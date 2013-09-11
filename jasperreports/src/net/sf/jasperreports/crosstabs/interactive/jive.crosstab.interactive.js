@@ -94,11 +94,8 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 		overlay: {
 				jo: null,
 				show: function(dim) {
-					var isFirstTimeSelection = false;
-					if (!this.jo) {
-						this.jo = $('#jivext_overlay');
-						isFirstTimeSelection = true;
-					}
+					var isFirstTimeSelection = !this.jo;
+					isFirstTimeSelection && (this.jo = $('#jivext_overlay'));
 					
 					this.jo.css({
 						width: dim.w,
@@ -107,8 +104,7 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 					this.jo.appendTo(ixt.getReportContainer()).show();
 					this.jo.position({of:ixt.selected.header, my: 'left top', at:'left top',collision:'none'});
 
-					//TODO lucianc on first time selection the overlay need to be repositioned to be correctly aligned
-					//isFirstTimeSelection && this.jo.position({of:ixt.selected.header, my: 'left top', at:'left top',collision:'none'});
+					isFirstTimeSelection && this.jo.position({of:ixt.selected.header, my: 'left top', at:'left top',collision:'none'});
 				}
 		},
 		foobar: {
@@ -142,13 +138,15 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 				this.menus = {};
 			},
 			show:function(enabled){
-				!this.jo && this.setElement();
+				var isFirstTimeSelection = !this.jo;
+				isFirstTimeSelection && this.setElement();
 				this.render(ixt.actions);
 				this.jo.find('button').removeClass('over pressed disabled');
 				enabled || this.jo.find('button').addClass('disabled');
 				this.jo.appendTo(ixt.getReportContainer()).show();
 				var top = this.jo.outerHeight() - 1;
 				this.jo.position({of:ixt.selected.header, my: 'left top-' + top, at:'left top'});
+				isFirstTimeSelection && this.jo.position({of:ixt.selected.header, my: 'left top-' + top, at:'left top'});
 			},
 			render: function(actionMap){
 				var it = this;
