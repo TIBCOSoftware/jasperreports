@@ -109,6 +109,7 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 		},
 		foobar: {
 			jo: null,
+			initialWidth: 0,
 			cache: null,
 			setElement: function() {
 				this.jo = $('#jivext_foobar');
@@ -144,9 +145,11 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 				this.jo.find('button').removeClass('over pressed disabled');
 				enabled || this.jo.find('button').addClass('disabled');
 				this.jo.appendTo(ixt.getReportContainer()).show();
+				isFirstTimeSelection && (this.initialWidth = this.jo.width());
 				var top = this.jo.outerHeight() - 1;
 				this.jo.position({of:ixt.selected.header, my: 'left top-' + top, at:'left top'});
 				isFirstTimeSelection && this.jo.position({of:ixt.selected.header, my: 'left top-' + top, at:'left top'});
+				this.jo.width() >= this.initialWidth || this.jo.width(this.initialWidth);
 			},
 			render: function(actionMap){
 				var it = this;
