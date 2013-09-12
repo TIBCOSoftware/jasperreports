@@ -886,7 +886,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		{
 			case RELATIVE_TO_BAND_HEIGHT :
 			{
-				setStretchHeight(getHeight() + bandStretch);
+				stretchElementToHeight(getHeight() + bandStretch);
 				break;
 			}
 			case RELATIVE_TO_TALLEST_OBJECT :
@@ -894,7 +894,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 				if (elementGroup != null)
 				{
 					//setStretchHeight(getHeight() + getStretchHeightDiff());
-					setStretchHeight(getHeight() + elementGroup.getStretchHeightDiff());
+					stretchElementToHeight(getHeight() + elementGroup.getStretchHeightDiff());
 				}
 
 				break;
@@ -904,6 +904,14 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			{
 				break;
 			}
+		}
+	}
+	
+	protected void stretchElementToHeight(int stretchHeight)
+	{
+		if (stretchHeight > getStretchHeight())
+		{
+			setStretchHeight(stretchHeight);
 		}
 	}
 
