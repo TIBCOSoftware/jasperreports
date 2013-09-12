@@ -31,12 +31,14 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                         axis: "x",
                         start: function(ev,ui) {
                             jive.ui.overlay.left = jive.ui.overlay.jo.position().left;
+                            jive.resizingColumn = true;
                         },
                         drag: function(ev,ui){
                             jive.ui.overlay.jo.width(ui.position.left - jive.ui.overlay.left);
                         },
                         stop:function(ev,ui) {
                             jive.interactive[jive.selected.ie.config.type].resize((ui.position.left - jive.ui.overlay.left) / jive.ui.scaleFactor);
+                            jive.resizingColumn = false;
                         }
                     });
                     //this.jo.appendTo('table.jrPage');
@@ -120,20 +122,23 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                         var type = jive.selected.ie.config.type;
                         var fn = jo.attr('fn');
 
-                        if(fn && !jo.hasClass('disabled')){
-                            jive.interactive[type][fn](jive.interactive[type].actions[jo.attr('actionkey')].arg);
-                        } else {
-                            if(jo.attr('menu')){
-                                var menu = jive.ui.foobar.menus[type][jo.attr('menu')];
-                                menu.jo.show().position({
-                                    of: $(this),
-                                    my: 'left top+2',
-                                    at: 'left bottom',
-                                    collision: 'none'
-                                });
-                                jive.ui.foobar.dropMenu = menu;
+                        if(!jive.resizingColumn) {
+                            if(fn && !jo.hasClass('disabled')){
+                                jive.interactive[type][fn](jive.interactive[type].actions[jo.attr('actionkey')].arg);
+                            } else {
+                                if(jo.attr('menu')){
+                                    var menu = jive.ui.foobar.menus[type][jo.attr('menu')];
+                                    menu.jo.show().position({
+                                        of: $(this),
+                                        my: 'left top+2',
+                                        at: 'left bottom',
+                                        collision: 'none'
+                                    });
+                                    jive.ui.foobar.dropMenu = menu;
+                                }
                             }
                         }
+
                         return false;
                     });
                     this.jo.on('mouseover','button',function(){
