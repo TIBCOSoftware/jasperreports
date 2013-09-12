@@ -2,6 +2,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
     var EventManager = null;
 
     jive.interactive.column = {
+        genericPropertiesInitialized: false,
         uuid: null,
         allColumns: {},
         allColumnGroups: {},
@@ -46,11 +47,15 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
 
             $.each(report.components.table, function() {
                 // dynamic properties (fonts, fontsizes) come only for the first table
-                if (this.config.genericProperties) {
+                if (!it.genericPropertiesInitialized && this.config.genericProperties) {
                 	it.setGenericProperties(this.config.genericProperties);
+                    it.genericPropertiesInitialized = true;
                 }
-
-                it.initColumns(this);
+                if(!it.genericPropertiesInitialized) {
+                    alert('Error: generic properties not set for interactive column.');
+                } else {
+                    it.initColumns(this);
+                }
             });
         },
 
