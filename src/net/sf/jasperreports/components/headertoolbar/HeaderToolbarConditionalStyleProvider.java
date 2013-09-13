@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.style.StyleProvider;
 import net.sf.jasperreports.engine.style.StyleProviderContext;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
 /**
@@ -79,7 +80,16 @@ public class HeaderToolbarConditionalStyleProvider implements StyleProvider
 					boolean modeSet = false;
 					for (FormatCondition condition: cfd.getConditions()) 
 					{
-						if(condition.matches(compareTo, cfd.getConditionType(), cfd.getConditionPattern(), condition.getConditionTypeOperator())) 
+						if(
+							condition.matches(
+								compareTo, 
+								cfd.getConditionType(), 
+								cfd.getConditionPattern(), 
+								condition.getConditionTypeOperator(),
+								cfd.getLocaleCode() == null ? context.getLocale() : JRDataUtils.getLocale(cfd.getLocaleCode()),
+								cfd.getTimeZoneId() == null ? context.getTimeZone() : JRDataUtils.getTimeZone(cfd.getTimeZoneId())
+								)
+							) 
 						{
 							if (style == null) 
 							{

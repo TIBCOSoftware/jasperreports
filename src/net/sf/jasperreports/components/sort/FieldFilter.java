@@ -48,6 +48,8 @@ public class FieldFilter implements DatasetFilter {
 	private String filterType;
 	private String filterTypeOperator;
 	private String filterPattern;
+	private String localeCode;
+	private String timeZoneId;
 
 	private DatasetFillContext context;
 	
@@ -172,4 +174,20 @@ public class FieldFilter implements DatasetFilter {
 		this.filterPattern = filterPattern;
 	}
 	
+	public String getLocaleCode() {
+		return localeCode;
+	}
+
+	public void setLocaleCode(String localeCode) {
+		this.localeCode = localeCode;
+	}
+
+	public String getTimeZoneId() {
+		return timeZoneId;
+	}
+
+	public void setTimeZoneId(String timeZoneId) {
+		this.timeZoneId = timeZoneId;
+	}
+
 }

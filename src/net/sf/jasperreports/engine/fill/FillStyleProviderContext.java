@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.util.Locale;
+import java.util.TimeZone;
+
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -98,5 +101,23 @@ public class FillStyleProviderContext implements StyleProviderContext
 	public Object getVariableValue(String variableName, byte evaluation)
 	{
 		return element.getVariable(variableName).getValue(evaluation);
+	}
+
+
+	/**
+	 *
+	 */
+	public Locale getLocale()
+	{
+		return element.filler.getLocale();
+	}
+
+
+	/**
+	 *
+	 */
+	public TimeZone getTimeZone()
+	{
+		return element.filler.getTimeZone();
 	}
 }
