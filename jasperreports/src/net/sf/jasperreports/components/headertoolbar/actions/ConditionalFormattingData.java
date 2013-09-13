@@ -38,6 +38,8 @@ public class ConditionalFormattingData extends BaseColumnData {
 	private int columnIndex;
 	private String conditionType;
 	private String conditionPattern;
+	private String localeCode;
+	private String timeZoneId;
 	private String columnType;
 	private String fieldOrVariableName;
 	private List<FormatCondition> conditions;
@@ -71,6 +73,22 @@ public class ConditionalFormattingData extends BaseColumnData {
 
 	public void setConditionPattern(String filterPattern) {
 		this.conditionPattern = filterPattern;
+	}
+
+	public String getLocaleCode() {
+		return localeCode;
+	}
+
+	public void setLocaleCode(String localeCode) {
+		this.localeCode = localeCode;
+	}
+
+	public String getTimeZoneId() {
+		return timeZoneId;
+	}
+
+	public void setTimeZoneId(String timeZoneId) {
+		this.timeZoneId = timeZoneId;
 	}
 
 	/**

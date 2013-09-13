@@ -37,6 +37,8 @@ public class FilterData extends BaseColumnData {
 	private String filterType;
 	private String filterTypeOperator;
 	private String filterPattern;
+	private String localeCode;
+	private String timeZoneId;
 	private boolean isField;
 	private boolean clearFilter;
 	
@@ -89,6 +91,22 @@ public class FilterData extends BaseColumnData {
 
 	public void setFilterPattern(String filterPattern) {
 		this.filterPattern = filterPattern;
+	}
+
+	public String getLocaleCode() {
+		return localeCode;
+	}
+
+	public void setLocaleCode(String localeCode) {
+		this.localeCode = localeCode;
+	}
+
+	public String getTimeZoneId() {
+		return timeZoneId;
+	}
+
+	public void setTimeZoneId(String timeZoneId) {
+		this.timeZoneId = timeZoneId;
 	}
 
 	public boolean isClearFilter() {

@@ -65,14 +65,15 @@ public class ConditionalFormattingCommand implements Command
 			oldSerializedConditionsData = serializedConditionData;
 			
 			JacksonUtil jacksonUtil = JacksonUtil.getInstance(jasperReportsContext);
-			ConditionalFormattingData existingConditionData = jacksonUtil.loadObject(serializedConditionData, ConditionalFormattingData.class);
-			if (existingConditionData != null) {
-				existingConditionData.setConditions(conditionalFormattingData.getConditions());
-			} else {
-				existingConditionData = conditionalFormattingData;
-			}
-				
-			newSerializedConditionsData = jacksonUtil.getJsonString(existingConditionData);
+//			ConditionalFormattingData existingConditionData = jacksonUtil.loadObject(serializedConditionData, ConditionalFormattingData.class);
+//			if (existingConditionData != null) {
+//				existingConditionData.setConditions(conditionalFormattingData.getConditions());
+//			} else {
+//				existingConditionData = conditionalFormattingData;
+//			}
+//			
+//			newSerializedConditionsData = jacksonUtil.getJsonString(existingConditionData);
+			newSerializedConditionsData = jacksonUtil.getJsonString(conditionalFormattingData);
 			propertiesMap.setProperty(COLUMN_CONDITIONAL_FORMATTING_PROPERTY, newSerializedConditionsData);
 		}
 	}

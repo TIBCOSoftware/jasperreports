@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.TreeSet;
 import java.util.UUID;
 
@@ -314,42 +315,14 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			String columnType = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE);
 			FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE));
 
-			if (canFilter) {
-				// existing filters
-				String filterValueStart = "";
-				String filterValueEnd = "";
-				String filterTypeOperatorValue = "";
-				List<DatasetFilter> fieldFilters = getExistingFiltersForField(jrContext, reportContext, tableUUID, columnName);
-				
-				if (fieldFilters.size() > 0) {
-					FieldFilter ff = (FieldFilter)fieldFilters.get(0);
-					if (ff.getFilterValueStart() != null) {
-						filterValueStart = ff.getFilterValueStart();
-					}
-					if (ff.getFilterValueEnd() != null) {
-						filterValueEnd = ff.getFilterValueEnd();
-					}
-					filterTypeOperatorValue = ff.getFilterTypeOperator();
-				}
+			if (canFilter) 
+			{
+				FilterData filterData = getFilterData(jrContext, reportContext, dataset, tableUUID, columnName, columnType, filterType);
 
 				contextMap.put("dataType", filterType.getName());
-
-				FilterData filterData = new FilterData();
-				filterData.setTableUuid(tableUUID);
-				filterData.setFieldName(columnName);
-				filterData.setFilterType(filterType.getName());
-				if (FilterTypesEnum.TEXT.getName().equals(filterType.getName())) {
-					filterData.setFieldValueStart(JRStringUtil.htmlEncode(filterValueStart));
-				} else {
-					filterData.setFieldValueStart(filterValueStart);
-				}
-				filterData.setFieldValueEnd(filterValueEnd);
-				filterData.setFilterTypeOperator(filterTypeOperatorValue);
-				filterData.setIsField(SortFieldTypeEnum.FIELD.equals(SortFieldTypeEnum.getByName(columnType)));
-				
 				contextMap.put("filterData", JacksonUtil.getInstance(jrContext).getJsonString(filterData));
-				contextMap.put("filterTypeOperatorValue", filterTypeOperatorValue);
-				contextMap.put("filterTableUuid", tableUUID);
+				contextMap.put("filterTypeOperatorValue", filterData.getFilterTypeOperator());//FIXMEJIVE why not put everything in filterData, just like for cond format
+				contextMap.put("filterTableUuid", filterData.getTableUuid());
 			}
 			
 			if (canSort) {
@@ -377,14 +350,14 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			JRDesignTextField detailTextElement = TableUtil.getCellElement(JRDesignTextField.class, column.getDetailCell(), true);
 			if (detailTextElement != null)
 			{
-				ConditionalFormattingData detailCfd = getCfd(jrContext, reportContext, dataset, tableUUID, detailTextElement, null);
+				ConditionalFormattingData detailCfd = getConditionalFormattingData(jrContext, reportContext, dataset, tableUUID, detailTextElement, null);
 				contextMap.put("conditionalFormattingData", JacksonUtil.getInstance(jrContext).getJsonString(detailCfd));
 			}
 			
 			JRDesignTextField totalTextElement = TableUtil.getCellElement(JRDesignTextField.class, column.getTableFooter(), true);
 			if (totalTextElement != null)
 			{
-				ConditionalFormattingData totalCfd = getCfd(jrContext, reportContext, dataset, tableUUID, totalTextElement, null);
+				ConditionalFormattingData totalCfd = getConditionalFormattingData(jrContext, reportContext, dataset, tableUUID, totalTextElement, null);
 				contextMap.put("totalConditionalFormattingData", JacksonUtil.getInstance(jrContext).getJsonString(totalCfd));
 			}
 			
@@ -520,50 +493,78 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		return result;
 	}
 	
-	private List<DatasetFilter> getExistingFiltersForField(
-		JasperReportsContext jasperReportsContext, 
-		ReportContext reportContext, 
-		String uuid, 
-		String filterFieldName
+	private static FilterData getFilterData(
+		JasperReportsContext jasperReportsContext,
+		ReportContext reportContext,
+		JRDesignDataset dataset,
+		String tableUuid,
+		String columnName,
+		String columnType,
+		FilterTypesEnum filterType
 		) 
 	{
-		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
-		FilterAction action = new FilterAction();
-		action.init(jasperReportsContext, reportContext);
-		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
-		List<DatasetFilter> result = new ArrayList<DatasetFilter>();
-		if (target != null)
-		{
-			JRIdentifiable identifiable = target.getIdentifiable();
-			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
-			StandardTable table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
-			
-			JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
-			
-			String datasetName = datasetRun.getDatasetName();
-			
-			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());//FIXMEJIVE getJasperReport not design
-			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
-			
-			// get existing filter as JSON string
-			String serializedFilters = "[]";
-			JRPropertiesMap propertiesMap = dataset.getPropertiesMap();
-			if (propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY) != null) {
-				serializedFilters = propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
-			}
-			
-			List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
-			if (existingFilters.size() > 0) {
-				for (DatasetFilter filter: existingFilters) {
-					if (((FieldFilter)filter).getField().equals(filterFieldName)) {
-						result.add(filter);
-						break;
-					}
+		// get existing filter as JSON string
+		String serializedFilters = "[]";
+		JRPropertiesMap propertiesMap = dataset.getPropertiesMap();
+		if (propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY) != null) {
+			serializedFilters = propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
+		}
+		
+		List<DatasetFilter> filters = new ArrayList<DatasetFilter>();
+		
+		List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
+		if (existingFilters.size() > 0) {
+			for (DatasetFilter filter: existingFilters) {
+				if (((FieldFilter)filter).getField().equals(columnName)) {
+					filters.add(filter);
+					break;
 				}
 			}
 		}
 		
-		return result;		
+		Locale locale = (Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
+		if (locale == null) {
+			locale = Locale.getDefault();
+		}
+		TimeZone timeZone = (TimeZone) reportContext.getParameterValue(JRParameter.REPORT_TIME_ZONE);
+		if (timeZone == null) {
+			timeZone = TimeZone.getDefault();//FIXMEJIVE maybe get timezone from somewhere else?
+		}
+		
+		FilterData filterData = new FilterData();
+		filterData.setTableUuid(tableUuid);
+		filterData.setFieldName(columnName);
+		filterData.setIsField(SortFieldTypeEnum.FIELD.equals(SortFieldTypeEnum.getByName(columnType)));
+
+		if (filters.size() > 0) 
+		{
+			FieldFilter ff = (FieldFilter)filters.get(0);
+			filterData.setFieldValueStart(ff.getFilterValueStart());
+			filterData.setFieldValueEnd(ff.getFilterValueEnd());
+			filterData.setFilterTypeOperator(ff.getFilterTypeOperator());
+			filterData.setFilterType(ff.getFilterType());
+			filterData.setFilterPattern(ff.getFilterPattern());
+			filterData.setLocaleCode(ff.getLocaleCode());
+			filterData.setTimeZoneId(ff.getTimeZoneId());
+		}
+
+		if (filterType.getName().equals(filterData.getFilterType()))
+		{
+			String filterPattern = HeaderToolbarElementUtils.getFilterPattern(jasperReportsContext, locale, filterType);
+
+			HeaderToolbarElementUtils.updateFilterData(
+				filterData,
+				filterPattern,
+				locale,
+				timeZone
+				);
+		}
+		else
+		{
+			//FIXMEJIVE should we raise error?
+		}
+		
+		return filterData;
 	}
 
 	private void setColumnHeaderData(String sortColumnLabel, Integer columnIndex, String tableUuid, Map<String, Object> contextMap, JasperReportsContext jasperReportsContext, ReportContext reportContext) {
@@ -830,7 +831,15 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 			if (textElement instanceof JRDesignTextField) 
 			{
-				ConditionalFormattingData cfData = getCfd(jasperReportsContext, reportContext, dataset, tableUuid, textElement, groupInfo.getName());
+				ConditionalFormattingData cfData = 
+					getConditionalFormattingData(
+						jasperReportsContext, 
+						reportContext, 
+						dataset, 
+						tableUuid, 
+						textElement, 
+						groupInfo.getName()
+						);
 
 				groupData.put("conditionalFormattingData", cfData);
 
@@ -846,7 +855,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		return groupsData;
 	}
 
-	private static ConditionalFormattingData getCfd(
+	private static ConditionalFormattingData getConditionalFormattingData(
 		JasperReportsContext jasperReportsContext, 
 		ReportContext reportContext, 
 		JRDesignDataset dataset,
@@ -857,18 +866,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 	{
 		FilterTypesEnum filterType = FilterTypesEnum.TEXT;
 		
-		ConditionalFormattingData cfData = 
-				HeaderToolbarElementUtils.getConditionalFormattingData(textElement, jasperReportsContext);
-		if (cfData == null)//FIXMEJIVE should we leave existing data in place?
-		{
-			cfData = new ConditionalFormattingData();
-			if (groupName != null)
-			{
-				cfData.setGroupName(groupName);
-			}
-			cfData.setTableUuid(tableUuid);
-		}
-
 		JRExpression expression = ((JRTextField)textElement).getExpression();
 		if (expression != null)
 		{
@@ -899,34 +896,44 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		if (locale == null) {
 			locale = Locale.getDefault();
 		}
-		
-		String conditionPattern = null;
-		switch (filterType)
-		{
-			case DATE :
-			{
-				conditionPattern = HeaderToolbarElementUtils.getDatePattern(jasperReportsContext, locale);
-				break;
-			}
-			case TIME :
-			{
-				conditionPattern = HeaderToolbarElementUtils.getTimePattern(jasperReportsContext, locale);
-				break;
-			}
-			case NUMERIC :
-			{
-				conditionPattern = HeaderToolbarElementUtils.getNumberPattern(jasperReportsContext, locale);
-				break;
-			}
-			case TEXT :
-			default : 
-			{
-			}
+		TimeZone timeZone = (TimeZone) reportContext.getParameterValue(JRParameter.REPORT_TIME_ZONE);
+		if (timeZone == null) {
+			timeZone = TimeZone.getDefault();//FIXMEJIVE maybe get timezone from somewhere else?
 		}
-		cfData.setConditionPattern(conditionPattern);
-		cfData.setConditionType(filterType.getName());
 		
-		return cfData;
+		ConditionalFormattingData cfd = 
+			HeaderToolbarElementUtils.getConditionalFormattingData(
+				textElement, 
+				jasperReportsContext
+				);
+		if (cfd == null)
+		{
+			cfd = new ConditionalFormattingData();
+			if (groupName != null)
+			{
+				cfd.setGroupName(groupName);
+			}
+			cfd.setTableUuid(tableUuid);
+			cfd.setConditionType(filterType.getName());
+		}
+		
+		if (filterType.getName().equals(cfd.getConditionType()))
+		{
+			String conditionPattern = HeaderToolbarElementUtils.getFilterPattern(jasperReportsContext, locale, filterType);
+
+			HeaderToolbarElementUtils.updateConditionalFormattingData(
+				cfd,
+				conditionPattern,
+				locale,
+				timeZone
+				);
+		}
+		else
+		{
+			//FIXMEJIVE should we raise error?
+		}
+		
+		return cfd;
 	}
 
 	private Set<String> getFontExtensionsFontNames(JasperReportsContext jasperReportsContext) {

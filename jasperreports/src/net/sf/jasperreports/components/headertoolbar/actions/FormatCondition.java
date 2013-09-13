@@ -122,13 +122,23 @@ public class FormatCondition {
 		this.conditionMode = conditionMode;
 	}
 	
-	public boolean matches(Object compareTo, String conditionType, String conditionPattern, String conditionTypeOperator) {
-		AbstractFieldComparator<?> fieldComparator = FieldComparatorFactory
+	public boolean matches(
+		Object compareTo, 
+		String conditionType, 
+		String conditionPattern, 
+		String conditionTypeOperator,
+		Locale locale,
+		TimeZone timeZone
+		) 
+	{
+		AbstractFieldComparator<?> fieldComparator = 
+			FieldComparatorFactory
 				.createFieldComparator(
-						FilterTypesEnum.getByName(conditionType),
-						conditionPattern,
-						Locale.getDefault(),
-						TimeZone.getDefault());
+					FilterTypesEnum.getByName(conditionType),
+					conditionPattern,
+					locale,
+					timeZone
+					);
 		
 		fieldComparator.setValueStart(conditionStart);
 		fieldComparator.setValueEnd(conditionEnd);

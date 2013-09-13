@@ -24,27 +24,36 @@
 package net.sf.jasperreports.components.headertoolbar;
 
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingCommand;
 import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingData;
 import net.sf.jasperreports.components.headertoolbar.actions.EditTextElementData;
 import net.sf.jasperreports.components.headertoolbar.actions.FormatCondition;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
+import net.sf.jasperreports.components.sort.actions.FilterData;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
+import net.sf.jasperreports.engine.util.DefaultFormatFactory;
+import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
@@ -162,12 +171,116 @@ public class HeaderToolbarElementUtils
 		}
 	}
 
+
 	/**
 	 * 
 	 */
-	public static ConditionalFormattingData getConditionalFormattingData(JRDesignTextElement textElement, JasperReportsContext jasperReportsContext) 
+	public static void updateFilterData(
+		FilterData filterData,
+		String filterPattern,
+		Locale locale,
+		TimeZone timeZone
+		) 
 	{
-		ConditionalFormattingData result = null;
+		switch (FilterTypesEnum.getByName(filterData.getFilterType())) 
+		{
+			case TEXT :
+			{
+				// html encode the conditions for text based columns
+				filterData.setFieldValueStart(JRStringUtil.htmlEncode(filterData.getFieldValueStart()));
+				break;
+			}
+			case DATE :
+			case TIME :
+			{
+				FormatFactory formatFactory = new DefaultFormatFactory();
+				DateFormat newDf = 
+					formatFactory.createDateFormat(
+						filterPattern, 
+						locale, 
+						timeZone 
+						);
+					newDf.setLenient(false);
+				DateFormat oldDf = 
+					formatFactory.createDateFormat(
+						filterData.getFilterPattern(), 
+						filterData.getLocaleCode() == null ? locale : JRDataUtils.getLocale(filterData.getLocaleCode()), 
+								filterData.getTimeZoneId() == null ? timeZone : JRDataUtils.getTimeZone(filterData.getTimeZoneId()) 
+						);
+				oldDf.setLenient(false);
+				
+				try
+				{
+					if (filterData.getFieldValueStart() != null && !filterData.getFieldValueStart().trim().isEmpty())
+					{
+						filterData.setFieldValueStart(
+							newDf.format(oldDf.parse(filterData.getFieldValueStart()))
+							);
+					}
+					if (filterData.getFieldValueEnd() != null && !filterData.getFieldValueEnd().trim().isEmpty())
+					{
+						filterData.setFieldValueEnd(
+							newDf.format(oldDf.parse(filterData.getFieldValueEnd()))
+							);
+					}
+				}
+				catch (ParseException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+				break;
+			}
+			case NUMERIC :
+			{
+				FormatFactory formatFactory = new DefaultFormatFactory();
+				NumberFormat newNf = 
+					formatFactory.createNumberFormat(
+						filterPattern, 
+						locale 
+						);
+				NumberFormat oldNf = 
+					formatFactory.createNumberFormat(
+						filterData.getFilterPattern(), 
+						filterData.getLocaleCode() == null ? locale : JRDataUtils.getLocale(filterData.getLocaleCode()) 
+						);
+				
+				try
+				{
+					if (filterData.getFieldValueStart() != null && !filterData.getFieldValueStart().trim().isEmpty())
+					{
+						filterData.setFieldValueStart(
+							newNf.format(oldNf.parse(filterData.getFieldValueStart()))
+							);
+					}
+					if (filterData.getFieldValueEnd() != null && !filterData.getFieldValueEnd().trim().isEmpty())
+					{
+						filterData.setFieldValueEnd(
+							newNf.format(oldNf.parse(filterData.getFieldValueEnd()))
+							);
+					}
+				}
+				catch (ParseException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+				break;
+			}
+		}
+		
+		filterData.setFilterPattern(filterPattern);
+		filterData.setLocaleCode(JRDataUtils.getLocaleCode(locale));
+		filterData.setTimeZoneId(JRDataUtils.getTimeZoneId(timeZone));
+	}
+	
+	/**
+	 * 
+	 */
+	public static ConditionalFormattingData getConditionalFormattingData(
+		JRDesignTextElement textElement, 
+		JasperReportsContext jasperReportsContext
+		) 
+	{
+		ConditionalFormattingData cfd = null;
 		if (textElement != null) 
 		{
 			JRPropertiesMap propertiesMap = textElement.getPropertiesMap();
@@ -176,23 +289,123 @@ public class HeaderToolbarElementUtils
 				&& propertiesMap.getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY) != null
 				) 
 			{
-				result = 
+				cfd = 
 					JacksonUtil.getInstance(jasperReportsContext).loadObject(
 						propertiesMap.getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY), 
 						ConditionalFormattingData.class
 						);
-
-				// html encode the conditions for text based columns
-				if (FilterTypesEnum.TEXT.getName().equals(result.getConditionType())) 
-				{
-					for (FormatCondition fc: result.getConditions()) 
-					{
-						fc.setConditionStart(JRStringUtil.htmlEncode(fc.getConditionStart()));
-					}
-				}
 			}
 		}
-		return result;
+		return cfd;
+	}
+
+	/**
+	 * 
+	 */
+	public static void updateConditionalFormattingData(
+		ConditionalFormattingData cfd,
+		String conditionPattern,
+		Locale locale,
+		TimeZone timeZone
+		) 
+	{
+		switch (FilterTypesEnum.getByName(cfd.getConditionType())) 
+		{
+			case TEXT :
+			{
+				// html encode the conditions for text based columns
+				for (FormatCondition fc: cfd.getConditions()) 
+				{
+					fc.setConditionStart(JRStringUtil.htmlEncode(fc.getConditionStart()));
+				}
+				break;
+			}
+			case DATE :
+			case TIME :
+			{
+				FormatFactory formatFactory = new DefaultFormatFactory();
+				DateFormat newDf = 
+					formatFactory.createDateFormat(
+						conditionPattern, 
+						locale, 
+						timeZone 
+						);
+					newDf.setLenient(false);
+				DateFormat oldDf = 
+					formatFactory.createDateFormat(
+						cfd.getConditionPattern(), 
+						cfd.getLocaleCode() == null ? locale : JRDataUtils.getLocale(cfd.getLocaleCode()), 
+						cfd.getTimeZoneId() == null ? timeZone : JRDataUtils.getTimeZone(cfd.getTimeZoneId()) 
+						);
+				oldDf.setLenient(false);
+				
+				try
+				{
+					for (FormatCondition fc: cfd.getConditions()) 
+					{
+						if (fc.getConditionStart() != null && !fc.getConditionStart().trim().isEmpty())
+						{
+							fc.setConditionStart(
+								newDf.format(oldDf.parse(fc.getConditionStart()))
+								);
+						}
+						if (fc.getConditionEnd() != null && !fc.getConditionEnd().trim().isEmpty())
+						{
+							fc.setConditionEnd(
+								newDf.format(oldDf.parse(fc.getConditionEnd()))
+								);
+						}
+					}
+				}
+				catch (ParseException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+				break;
+			}
+			case NUMERIC :
+			{
+				FormatFactory formatFactory = new DefaultFormatFactory();
+				NumberFormat newNf = 
+					formatFactory.createNumberFormat(
+						conditionPattern, 
+						locale 
+						);
+				NumberFormat oldNf = 
+					formatFactory.createNumberFormat(
+						cfd.getConditionPattern(), 
+						cfd.getLocaleCode() == null ? locale : JRDataUtils.getLocale(cfd.getLocaleCode()) 
+						);
+				
+				try
+				{
+					for (FormatCondition fc: cfd.getConditions()) 
+					{
+						if (fc.getConditionStart() != null && !fc.getConditionStart().trim().isEmpty())
+						{
+							fc.setConditionStart(
+								newNf.format(oldNf.parse(fc.getConditionStart()))
+								);
+						}
+						if (fc.getConditionEnd() != null && !fc.getConditionEnd().trim().isEmpty())
+						{
+							fc.setConditionEnd(
+								newNf.format(oldNf.parse(fc.getConditionEnd()))
+								);
+						}
+					}
+				}
+				catch (ParseException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+				break;
+			}
+		}
+		
+		cfd.setConditionPattern(conditionPattern);
+		cfd.setLocaleCode(JRDataUtils.getLocaleCode(locale));
+		cfd.setTimeZoneId(JRDataUtils.getTimeZoneId(timeZone));
 	}
 	
 	/**
@@ -227,6 +440,39 @@ public class HeaderToolbarElementUtils
 			}
 		}
 		return found;
+	}
+
+
+	public static String getFilterPattern(
+		JasperReportsContext jasperReportsContext, 
+		Locale locale, 
+		FilterTypesEnum filterType
+		) 
+	{
+		String pattern = null;
+		switch (filterType)
+		{
+			case DATE :
+			{
+				pattern = HeaderToolbarElementUtils.getDatePattern(jasperReportsContext, locale);
+				break;
+			}
+			case TIME :
+			{
+				pattern = HeaderToolbarElementUtils.getTimePattern(jasperReportsContext, locale);
+				break;
+			}
+			case NUMERIC :
+			{
+				pattern = HeaderToolbarElementUtils.getNumberPattern(jasperReportsContext, locale);
+				break;
+			}
+			case TEXT :
+			default : 
+			{
+			}
+		}
+		return pattern;
 	}
 
 	/**

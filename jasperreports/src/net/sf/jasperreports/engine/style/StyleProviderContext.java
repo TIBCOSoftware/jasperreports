@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.engine.style;
 
+import java.util.Locale;
+import java.util.TimeZone;
+
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -59,5 +62,15 @@ public interface StyleProviderContext
 	 *
 	 */
 	public Object getVariableValue(String variableName, byte evaluation);
+
+	/**
+	 *
+	 */
+	public Locale getLocale();
+
+	/**
+	 *
+	 */
+	public TimeZone getTimeZone();
 
 }
