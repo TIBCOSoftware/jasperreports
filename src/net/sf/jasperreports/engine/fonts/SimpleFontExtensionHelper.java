@@ -110,6 +110,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	private static final String NODE_locales = "locales";
 	private static final String NODE_locale = "locale";
 	private static final String ATTRIBUTE_name = "name";
+	private static final String ATTRIBUTE_visible = "visible";
 	private static final String ATTRIBUTE_key = "key";
 
 	/**
@@ -270,6 +271,12 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		if (nodeAttrs.getNamedItem(ATTRIBUTE_name) != null)
 		{
 			fontFamily.setName(nodeAttrs.getNamedItem(ATTRIBUTE_name).getNodeValue());
+		}
+		if (nodeAttrs.getNamedItem(ATTRIBUTE_visible) != null)
+		{
+			fontFamily.setVisible(
+				Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_visible).getNodeValue()).booleanValue()
+				);
 		}
 
 		NodeList nodeList = fontFamilyNode.getChildNodes();
@@ -447,7 +454,12 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 			}
 			
 			String indent = "  ";
-			buffer.append(indent + "<fontFamily name=\"" + fontFamily.getName() + "\">\n");
+			buffer.append(indent + "<fontFamily name=\"" + fontFamily.getName() + "\""); 
+			if (!fontFamily.isVisible())
+			{
+				buffer.append(" visible=\"" + fontFamily.isVisible() + "\""); 
+			}
+			buffer.append(">\n");
 			indent = "    ";
 			
 			writeFontFace(buffer, fontFamily.getNormalFace(), NODE_normal);

@@ -2,7 +2,7 @@
 
 <fontFamilies>
 
-	<fontFamily name="Pictonic">
+	<fontFamily name="Pictonic" visible="false">
 		<normal>
 			<ttf>net/sf/jasperreports/fonts/pictonic/pictonic.ttf</ttf>
 			<svg>net/sf/jasperreports/fonts/pictonic/pictonic.svg</svg>
