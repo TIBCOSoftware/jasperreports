@@ -230,7 +230,10 @@ public final class FontUtil
 		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
 		{
 			FontFamily family = itf.next();
-			familyNames.add(family.getName());
+			if (family.isVisible())
+			{
+				familyNames.add(family.getName());
+			}
 		}
 		return familyNames;
 	}

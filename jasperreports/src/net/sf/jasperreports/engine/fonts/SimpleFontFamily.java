@@ -54,6 +54,7 @@ public class SimpleFontFamily implements FontFamily
 	private String defaultExportFont;
 	private Map<String,String> exportFonts;
 	private Set<String> locales;
+	private boolean isVisible = true;
 	
 	/**
 	 * @see #SimpleFontFamily(JasperReportsContext)
@@ -374,6 +375,22 @@ public class SimpleFontFamily implements FontFamily
 	public boolean supportsLocale(Locale locale)
 	{
 		return locales == null || locales.isEmpty() || locales.contains(JRDataUtils.getLocaleCode(locale));
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean isVisible()
+	{
+		return isVisible;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setVisible(boolean isVisible)
+	{
+		this.isVisible = isVisible;
 	}
 	
 }

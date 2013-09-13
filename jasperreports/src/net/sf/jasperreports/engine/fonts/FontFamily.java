@@ -98,5 +98,10 @@ public interface FontFamily
 	 * 
 	 */
 	public boolean supportsLocale(Locale locale);
+	
+	/**
+	 * 
+	 */
+	public boolean isVisible();
 
 }
