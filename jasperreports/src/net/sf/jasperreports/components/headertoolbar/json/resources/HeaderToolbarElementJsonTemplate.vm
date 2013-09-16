@@ -71,9 +71,6 @@
     #if ($conditionalFormattingData)
     "conditionalFormattingData": ${conditionalFormattingData},
     #end
-    #if ($totalConditionalFormattingData)
-    "totalConditionalFormattingData": ${totalConditionalFormattingData},
-    #end
     "headingsTabContent": ${colHeaderData},
     "valuesTabContent": ${colValueData}
 }
