@@ -1590,21 +1590,12 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                         groupName: metadata.groupName
                     }
                 };
-            } else if (currentApplyTo == 'detailrows') {
-                metadata = jive.selected.ie.config.conditionalFormattingData;
-                actionData = {
-                    actionName: 'conditionalFormatting',
-                    conditionalFormattingData: {
-                        applyTo: val,
-                        tableUuid: metadata.tableUuid,
-                        columnIndex: jive.selected.ie.config.columnIndex,
-                        conditionPattern: metadata.conditionPattern,
-                        conditionType: metadata.conditionType,
-                        conditions: []
-                    }
-                };
-            } else if (val === 'tabletotal') {
-                metadata = jive.selected.ie.config.totalConditionalFormattingData;
+            } else if (currentApplyTo == 'detailrows' || val === 'tabletotal') {
+                if (val === 'tabletotal') {
+                    metadata = this.getGroupMetadata(currentApplyTo);
+                } else {
+                    metadata = jive.selected.ie.config.conditionalFormattingData;
+                }
                 actionData = {
                     actionName: 'conditionalFormatting',
                     conditionalFormattingData: {
