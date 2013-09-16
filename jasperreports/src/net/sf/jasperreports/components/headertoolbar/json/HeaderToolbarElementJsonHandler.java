@@ -353,13 +353,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				contextMap.put("conditionalFormattingData", JacksonUtil.getInstance(jrContext).getJsonString(detailCfd));
 			}
 			
-			JRDesignTextField totalTextElement = TableUtil.getCellElement(JRDesignTextField.class, column.getTableFooter(), true);
-			if (totalTextElement != null)
-			{
-				ConditionalFormattingData totalCfd = getConditionalFormattingData(jrContext, reportContext, dataset, tableUUID, totalTextElement, null);
-				contextMap.put("totalConditionalFormattingData", JacksonUtil.getInstance(jrContext).getJsonString(totalCfd));
-			}
-			
 			htmlFragment = VelocityUtil.processTemplate(HeaderToolbarElementJsonHandler.HEADER_TOOLBAR_ELEMENT_JSON_TEMPLATE, contextMap);
 		}
 		
