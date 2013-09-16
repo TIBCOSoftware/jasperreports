@@ -733,7 +733,8 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                 filtertype = metadata.filterType.toLowerCase(),
                 options = jive.interactive.column.operators[filtertype],
                 calendarPattern = jive.interactive.column.calendarPatterns["date"],
-                calendarTimePattern = jive.interactive.column.calendarPatterns["time"];
+                calendarTimePattern = jive.interactive.column.calendarPatterns["time"],
+                p;
 
             it.jc.filterType.empty();
 
@@ -751,11 +752,11 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                 it.jc.filterStart.val(metadata.fieldValueStart);
             }
 
-            var filterOff = metadata.filterTypeOperator == '' ? true : false;
+            var filterOff = metadata.filterTypeOperator == null ? true : false;
             $('input[name="clearFilter"][value="'+filterOff+'"]').prop("checked",true);
             for(p in it.jc) (it.jc.hasOwnProperty(p) && filterOff) ? it.jc[p].prop('disabled',true) : it.jc[p].prop('disabled',false);
 
-            if(!filterOff && metadata.filterTypeOperator.indexOf('BETWEEN') >= 0) {
+            if(!filterOff && metadata.filterTypeOperator && metadata.filterTypeOperator.indexOf('BETWEEN') >= 0) {
                 it.jc.filterEnd.parent().parent().prev().show();
                 it.jc.filterEnd.parent().parent().show();
                 it.jc.filterEnd.val(metadata.fieldValueEnd).prop('disabled', false);

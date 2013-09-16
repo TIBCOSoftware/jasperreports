@@ -321,7 +321,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 				contextMap.put("dataType", filterType.getName());
 				contextMap.put("filterData", JacksonUtil.getInstance(jrContext).getJsonString(filterData));
-				contextMap.put("filterTypeOperatorValue", filterData.getFilterTypeOperator());//FIXMEJIVE why not put everything in filterData, just like for cond format
 				contextMap.put("filterTableUuid", filterData.getTableUuid());
 			}
 			
@@ -534,6 +533,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		FilterData filterData = new FilterData();
 		filterData.setTableUuid(tableUuid);
 		filterData.setFieldName(columnName);
+        filterData.setFilterType(filterType.getName());
 		filterData.setIsField(SortFieldTypeEnum.FIELD.equals(SortFieldTypeEnum.getByName(columnType)));
 
 		if (filters.size() > 0) 
