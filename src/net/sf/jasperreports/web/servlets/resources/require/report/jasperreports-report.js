@@ -21,6 +21,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
         this.eventManager = new EventManager();
         this.events = {
             ACTION_PERFORMED: "action",
+            BEFORE_ACTION_PERFORMED: "beforeAction",
             UNDO_PERFORMED: "undo",
             UNDO_ALL_PERFORMED: "undoall",
             REDO_PERFORMED: "redo",
@@ -88,6 +89,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
         },
         undo: function() {
             var it = this;
+            it._notify({name: it.events.BEFORE_ACTION_PERFORMED});
             return this.loader.runAction({action: {actionName: "undo"}})
                 .then(function(jsonData) {
                 it._notify({
@@ -101,6 +103,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
         },
         redo: function() {
             var it = this;
+            it._notify({name: it.events.BEFORE_ACTION_PERFORMED});
             return this.loader.runAction({action: {actionName: "redo"}})
                 .then(function(jsonData) {
                 it._notify({
@@ -114,6 +117,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
         },
         undoAll: function() {
             var it = this;
+            it._notify({name: it.events.BEFORE_ACTION_PERFORMED});
             return this.loader.runAction({action: {actionName: "undoAll"}})
                 .then(function(jsonData) {
                     it._notify({

@@ -62,6 +62,8 @@ define(["jasperreports-loader", "jasperreports-report", "jquery-1.10.2"], functi
                 it.undoRedoCounters.undos++;
                 it.undoRedoCounters.redos = 0;
                 it._updateUndoRedoButtons(toolbar);
+            }).on("beforeAction", function() {
+                this.cancelStatusUpdates();
             }).on("undo", function() {
                 this.gotoPage(0);
                 it.undoRedoCounters.redos ++;

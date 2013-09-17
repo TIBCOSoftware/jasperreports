@@ -15,7 +15,8 @@ define(["jquery-1.10.2"], function($){
         this.loader = null;
 
         this.events = {
-            ACTION_PERFORMED: "action"
+            ACTION_PERFORMED: "action",
+            BEFORE_ACTION_PERFORMED: "beforeAction"
         };
 
         this.api = api;
@@ -28,6 +29,7 @@ define(["jquery-1.10.2"], function($){
                     action: this.config.headerToolbar['sort' + parms.order + 'Btn'].sortData
                 };
             payload.action.sortData.tableUuid = it.config.parentId;
+            it._notify({name: it.events.BEFORE_ACTION_PERFORMED});
             return this.loader.runAction(payload).then(function(jsonData) {
                 it._notify({
                     name: it.events.ACTION_PERFORMED,
@@ -49,6 +51,7 @@ define(["jquery-1.10.2"], function($){
                         }
                     }
                 };
+            it._notify({name: it.events.BEFORE_ACTION_PERFORMED});
             return this.loader.runAction(payload).then(function(jsonData) {
                 it._notify({
                     name: it.events.ACTION_PERFORMED,
@@ -64,6 +67,7 @@ define(["jquery-1.10.2"], function($){
                 payload = {
                     action: parms
                 };
+            it._notify({name: it.events.BEFORE_ACTION_PERFORMED});
             return this.loader.runAction(payload).then(function(jsonData) {
                 it._notify({
                     name: it.events.ACTION_PERFORMED,
@@ -83,7 +87,7 @@ define(["jquery-1.10.2"], function($){
                         filterData: filterParms
                     }
                 };
-
+            it._notify({name: it.events.BEFORE_ACTION_PERFORMED});
             return this.loader.runAction(payload).then(function(jsonData) {
                 it._notify({
                     name: it.events.ACTION_PERFORMED,
@@ -106,6 +110,7 @@ define(["jquery-1.10.2"], function($){
                         }
                     }
                 };
+            it._notify({name: it.events.BEFORE_ACTION_PERFORMED});
             return this.loader.runAction(payload).then(function(jsonData) {
                 it._notify({
                     name: it.events.ACTION_PERFORMED,
@@ -127,7 +132,8 @@ define(["jquery-1.10.2"], function($){
                             columnIndexes: columnIds ? columnIds : [this.config.columnIndex]
                         }
                     }
-                }
+                };
+            it._notify({name: it.events.BEFORE_ACTION_PERFORMED});
             return this.loader.runAction(payload).then(function(jsonData) {
                 it._notify({
                     name: it.events.ACTION_PERFORMED,
@@ -151,6 +157,7 @@ define(["jquery-1.10.2"], function($){
                         }
                     }
                 };
+            it._notify({name: it.events.BEFORE_ACTION_PERFORMED});
             return this.loader.runAction(payload).then(function(jsonData) {
                 it._notify({
                     name: it.events.ACTION_PERFORMED,
