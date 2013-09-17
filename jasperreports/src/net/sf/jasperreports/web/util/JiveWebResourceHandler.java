@@ -42,10 +42,12 @@ import net.sf.jasperreports.engine.util.MessageUtil;
 public class JiveWebResourceHandler extends AbstractWebResourceHandler 
 {
 	
+	private String bundleName;
 	private Map<String, String> keyToFileMappings;
 	
-	public JiveWebResourceHandler() 
+	public JiveWebResourceHandler(String bundleName) 
 	{
+		this.bundleName = bundleName;
 		this.keyToFileMappings = new HashMap<String, String>();
 	}
 
@@ -62,7 +64,7 @@ public class JiveWebResourceHandler extends AbstractWebResourceHandler
 				Locale locale = Locale.getDefault();
 				Map<String, Object> contextMap = new HashMap<String, Object>();
 				contextMap.put("path", request.getContextPath() + webUtil.getResourcesBasePath());
-				contextMap.put("msgProvider", MessageUtil.getInstance(jasperReportsContext).getLocalizedMessageProvider("net.sf.jasperreports.components.headertoolbar.messages", locale)); 
+				contextMap.put("msgProvider", MessageUtil.getInstance(jasperReportsContext).getLocalizedMessageProvider(bundleName, locale)); 
 				String resourceString = VelocityUtil.processTemplate(keyToFileMappings.get(resourceKey), contextMap);
 				if (resourceString != null) 
 				{
