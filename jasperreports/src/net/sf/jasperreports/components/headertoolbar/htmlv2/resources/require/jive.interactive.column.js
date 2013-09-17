@@ -412,7 +412,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             } else {
                 var columnIndices;
                 if(args.columnUuid) {
-                    var allColumnsMap = this.allColumnsMap[jive.elements[args.columnUuid].config.tableId];
+                    var allColumnsMap = this.allColumnsMap[jive.elements[args.columnUuid].config.parentId];
                     columnIndices = [allColumnsMap[args.columnUuid].index];
                 } else {
                     columnIndices = args.column;
@@ -805,6 +805,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             var metadata = jive.selected.ie.config.filtering.filterData,
                 filtertype = metadata.filterType.toLowerCase(),
                 filterData = {
+                    tableUuid: jive.selected.ie.config.parentId,
                     filterPattern: jive.interactive.column.filterPatterns[filtertype] || null,
                     fieldValueStart: jive.selected.form.jo.find('input[name="fieldValueStart"]').val(),
                     filterTypeOperator: jive.selected.form.jo.find('select[name="filterTypeOperator"]').val(),
@@ -1059,7 +1060,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             }
         },
         getNextVisibleColUuid: function(colIdx) {
-            var allColumns = jive.interactive.column.allColumns[jive.selected.ie.config.tableId], i;
+            var allColumns = jive.interactive.column.allColumns[jive.selected.ie.config.parentId], i;
             for (i = colIdx + 1; allColumns[i]; i++) {
                 if (allColumns[i].visible) {
                     return allColumns[i].uuid;
@@ -1068,7 +1069,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             return false;
         },
         getPrevVisibleColUuid: function(colIdx) {
-            var allColumns = jive.interactive.column.allColumns[jive.selected.ie.config.tableId], i;
+            var allColumns = jive.interactive.column.allColumns[jive.selected.ie.config.parentId], i;
             for (i = colIdx -1; i >= 0; i--) {
                 if (allColumns[i].visible) {
                     return allColumns[i].uuid;
@@ -1162,7 +1163,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
         },
         getGroupMetadata: function(groupId) {
             var groupData = null;
-            $.each(jive.interactive.column.allColumnGroups[jive.selected.ie.config.tableId], function(i, group) {
+            $.each(jive.interactive.column.allColumnGroups[jive.selected.ie.config.parentId], function(i, group) {
                 if (group.id === groupId) {
                     groupData = group.groupData;
                     return false; // break each
@@ -1201,7 +1202,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                 actionName: 'editTextElement',
                 editTextElementData:{
                     applyTo: val,
-                    tableUuid: jive.selected.jo.data('tableuuid'),
+                    tableUuid: jive.selected.ie.config.parentId,
                     columnIndex: jive.selected.ie.config.columnIndex,
                     fontName: jive.escapeFontName(inputs['fontName'].get()),
                     fontSize: inputs['fontSize'].get(),
@@ -1355,7 +1356,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
         },
         getGroupMetadata: function(groupId) {
             var groupData = null;
-            $.each(jive.interactive.column.allColumnGroups[jive.selected.ie.config.tableId], function(i, group) {
+            $.each(jive.interactive.column.allColumnGroups[jive.selected.ie.config.parentId], function(i, group) {
                 if (group.id === groupId) {
                     groupData = group.conditionalFormattingData;
                     return false; // break each
@@ -1582,7 +1583,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                     actionName: 'conditionalFormatting',
                     conditionalFormattingData: {
                         applyTo: val,
-                        tableUuid: metadata.tableUuid,
+                        tableUuid: jive.selected.ie.config.parentId,
                         columnIndex: jive.selected.ie.config.columnIndex,
                         conditionPattern: metadata.conditionPattern,
                         conditionType: metadata.conditionType,
@@ -1600,7 +1601,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                     actionName: 'conditionalFormatting',
                     conditionalFormattingData: {
                         applyTo: val,
-                        tableUuid: metadata.tableUuid,
+                        tableUuid: jive.selected.ie.config.parentId,
                         columnIndex: jive.selected.ie.config.columnIndex,
                         conditionPattern: metadata.conditionPattern,
                         conditionType: metadata.conditionType,

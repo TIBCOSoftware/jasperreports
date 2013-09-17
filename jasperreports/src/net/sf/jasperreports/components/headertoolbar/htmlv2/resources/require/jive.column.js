@@ -27,13 +27,13 @@ define(["jquery-1.10.2"], function($){
                 payload = {
                     action: this.config.headerToolbar['sort' + parms.order + 'Btn'].sortData
                 };
+            payload.action.sortData.tableUuid = it.config.parentId;
             return this.loader.runAction(payload).then(function(jsonData) {
                 it._notify({
                     name: it.events.ACTION_PERFORMED,
                     type: "sort",
                     data: jsonData
                 });
-
                 return it;
             });
         },
@@ -43,8 +43,8 @@ define(["jquery-1.10.2"], function($){
                     action: {
                         actionName: 'move',
                         moveColumnData: {
-                            tableUuid: this.config.tableId,
-                            columnToMoveIndex: this.config.columnIndex,
+                            tableUuid: it.config.parentId,
+                            columnToMoveIndex: it.config.columnIndex,
                             columnToMoveNewIndex: parms.index
                         }
                     }
@@ -75,14 +75,8 @@ define(["jquery-1.10.2"], function($){
             });
         },
         filter: function(parms) {
-            //Validator.check(parms.fieldValueStart).notNull();
-            //Validator.check(parms.filterTypeOperator).notNull();
-            //if(parms.filterTypeOperator == 'BETWEEN') Validator.check(parms.fieldValueEnd).notNull();
-            //$.extend(this.config.filtering.filterData, parms);
-
-            var filterParms = $.extend({}, this.config.filtering.filterData, parms);
-
             var it = this,
+                filterParms = $.extend({}, it.config.filtering.filterData, parms),
                 payload = {
                     action: {
                         actionName: 'filter',
@@ -106,9 +100,9 @@ define(["jquery-1.10.2"], function($){
                     action: {
                         actionName: 'hideUnhideColumns',
                         columnData: {
+                            tableUuid: it.config.parentId,
                             hide: true,
-                            columnIndexes: [this.config.columnIndex],
-                            tableUuid: this.config.tableId
+                            columnIndexes: [this.config.columnIndex]
                         }
                     }
                 };
@@ -128,9 +122,9 @@ define(["jquery-1.10.2"], function($){
                     action: {
                         actionName: 'hideUnhideColumns',
                         columnData: {
+                            tableUuid: it.config.parentId,
                             hide: false,
-                            columnIndexes: columnIds ? columnIds : [this.config.columnIndex],
-                            tableUuid: this.config.tableId
+                            columnIndexes: columnIds ? columnIds : [this.config.columnIndex]
                         }
                     }
                 }
@@ -150,7 +144,7 @@ define(["jquery-1.10.2"], function($){
                     action: {
                         actionName: 'resize',
                         resizeColumnData: {
-                            tableUuid: this.config.tableId,
+                            tableUuid: it.config.parentId,
                             columnIndex: this.config.columnIndex,
                             direction: "right",
                             width: parms.width

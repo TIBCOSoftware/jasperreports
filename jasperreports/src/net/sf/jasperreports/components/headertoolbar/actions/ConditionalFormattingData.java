@@ -26,7 +26,9 @@ package net.sf.jasperreports.components.headertoolbar.actions;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -34,9 +36,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class ConditionalFormattingData extends BaseColumnData {
-	
+
 	private int columnIndex;
-	private String conditionType;
+    private String conditionType;
 	private String conditionPattern;
 	private String localeCode;
 	private String timeZoneId;
@@ -50,11 +52,13 @@ public class ConditionalFormattingData extends BaseColumnData {
 	public ConditionalFormattingData() {
 		this.conditions = new ArrayList<FormatCondition>();
 	}
-	
+
+    @JsonIgnore
 	public int getColumnIndex() {
 		return columnIndex;
 	}
 
+    @JsonProperty
 	public void setColumnIndex(int columnIndex) {
 		this.columnIndex = columnIndex;
 	}

@@ -24,6 +24,9 @@
 package net.sf.jasperreports.components.headertoolbar.actions;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
@@ -39,10 +42,12 @@ public class BaseColumnData {
 		this.tableUuid = tableUuid;
 	}
 
+    @JsonIgnore
 	public String getTableUuid() {
 		return tableUuid;
 	}
 
+    @JsonProperty
 	public void setTableUuid(String tableUuid) {
 		this.tableUuid = tableUuid;
 	}
