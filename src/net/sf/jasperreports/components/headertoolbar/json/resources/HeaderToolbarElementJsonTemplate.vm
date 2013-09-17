@@ -46,7 +46,6 @@
     "id": "${columnUuid}",
     "type": "column",
     "parentId": "${tableUUID}",
-    "tableId": "${tableUUID}",
     "selector": ".jrcolHeader",
     "proxySelector": ".jrcel",
     "columnIndex": ${columnIndex},

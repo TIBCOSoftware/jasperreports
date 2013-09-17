@@ -524,7 +524,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		}
 		
 		FilterData filterData = new FilterData();
-		filterData.setTableUuid(tableUuid);
 		filterData.setFieldName(columnName);
         filterData.setFilterType(filterType.getName());
 		filterData.setIsField(SortFieldTypeEnum.FIELD.equals(SortFieldTypeEnum.getByName(columnType)));
@@ -581,7 +580,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				if (textElement != null) {
 					textElementData.setHeadingName(JRStringUtil.htmlEncode(sortColumnLabel));
 					textElementData.setColumnIndex(columnIndex);
-					textElementData.setTableUuid(tableUuid);
 					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement);
 				}
 			}
@@ -609,7 +607,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				
 				if (textElement != null) {
 					textElementData.setColumnIndex(columnIndex);
-					textElementData.setTableUuid(tableUuid);
 					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement);
 				}
 			}
@@ -813,7 +810,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 			EditTextElementData textElementData;
 			textElementData = new EditTextElementData();
-			textElementData.setTableUuid(tableUuid);
 			textElementData.setGroupName(groupInfo.getName());
 
 			Map<String, Object> groupData = new HashMap<String, Object>();
@@ -906,7 +902,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			{
 				cfd.setGroupName(groupName);
 			}
-			cfd.setTableUuid(tableUuid);
 			cfd.setConditionType(filterType.getName());
 		}
 		
