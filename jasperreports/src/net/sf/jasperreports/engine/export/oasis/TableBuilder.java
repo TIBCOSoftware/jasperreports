@@ -504,7 +504,7 @@ public class TableBuilder
 	{
 		bodyWriter.write("<text:bookmark text:name=\"");
 		bodyWriter.write(anchorName);
-		bodyWriter.write("\"/>\n");
+		bodyWriter.write("\"/>");
 	}
 
 	
