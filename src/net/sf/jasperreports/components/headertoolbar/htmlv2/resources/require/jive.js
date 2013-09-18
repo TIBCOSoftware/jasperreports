@@ -1021,9 +1021,9 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     lastColHeader = $('td.jrcolHeader:last', parentTable),
                     rows = [], clone, row, lastRow, cloneTDs, rowTDs, i, j, k, ln, tblJrPage, parentTableRows;
                 if (firstColHeader) {
+                    firstColHeader.addClass('first_jrcolHeader');
                     row = firstColHeader.closest('tr');
                     lastRow = lastColHeader.closest('tr');
-//                    tblJrPage = firstColHeader.closest('table.jrPage');
                     tblJrPage = firstColHeader.closest('table');
 
                     if (row === lastRow) {
@@ -1064,35 +1064,63 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
 
             return tbl;
         },
-        setScrolableHeader: function(){
+        scrollHeader: function(o) {
             var it = this,
-                bMoved = false,
-                reportContainerPositionAtMove;
+                floatableTbl = it.getHeaderTable(),
+                containerTop = $('div#reportViewFrame .body').offset().top,
+                firstHeader = $('td.first_jrcolHeader'),
+                windowScrollLeft = $(window).scrollLeft(),
+                tblLeft = firstHeader.closest('table').offset().left,
+                headerTop = firstHeader.closest('tr').offset().top,
+                reportContainerTop = $('#reportContainer').offset().top;
+
+            if (!o.bMoved && headerTop-containerTop < 0) {
+                floatableTbl.show();
+                floatableTbl.css({
+                    position: 'fixed',
+                    top: containerTop,
+                    left: tblLeft - windowScrollLeft
+                });
+
+                o.bMoved = true;
+                o.reportContainerPositionAtMove = reportContainerTop;
+            } else if (o.bMoved && headerTop-containerTop < 0) {
+                floatableTbl.show();
+                floatableTbl.css({
+                    position: 'fixed',
+                    top: containerTop,
+                    left: tblLeft - windowScrollLeft
+                });
+            } else if (o.bMoved && reportContainerTop > o.reportContainerPositionAtMove) {
+                floatableTbl.hide();
+                floatableTbl.css({
+                    position: '',
+                    top: '',
+                    left: ''
+                });
+                o.bMoved = false;
+            }
+
+            return o;
+        },
+        setScrollableHeader: function(){
+            var it = this,
+                o = {
+                    bMoved: false,
+                    reportContainerPositionAtMove: null
+                },
+                timeOut;
 
             $('div#reportViewFrame .body').on('scroll', function(evt) {
-                var floatableTbl = it.getHeaderTable(),
-                    containerTop = $(this).offset().top,
-                    firstHeader = $('td.jrcolHeader:first'),
-                    headerTop = firstHeader.closest('tr').offset().top,
-                    reportContainerTop = $('#reportContainer').offset().top;
+                o = it.scrollHeader(o);
+            });
 
-                if (!bMoved && headerTop-containerTop < 0) {
-                    floatableTbl.show();
-                    floatableTbl.css({
-                        position: 'fixed',
-                        top: containerTop
-                    });
-
-                    bMoved = true;
-                    reportContainerPositionAtMove = reportContainerTop;
-                } else if (bMoved && reportContainerTop > reportContainerPositionAtMove) {
-                        floatableTbl.hide();
-                        floatableTbl.css({
-                            position: '',
-                            top: ''
-                        });
-                    bMoved = false;
-                }
+            $(window).on('resize scroll', function() {
+                it.getHeaderTable().hide();
+                timeOut && clearTimeout(timeOut);
+                timeOut = setTimeout(function() {
+                    o = it.scrollHeader(o);
+                }, 500);
             });
         },
         init: function(report) {
@@ -1102,7 +1130,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 /*
                  Scrolable table headers
                  */
-                it.setScrolableHeader();
+                it.setScrollableHeader();
 
 
                 /*
