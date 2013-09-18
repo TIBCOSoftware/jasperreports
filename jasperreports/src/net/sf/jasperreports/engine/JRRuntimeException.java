@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine;
 import java.util.Locale;
 import java.util.MissingResourceException;
 
+import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
 
 
@@ -133,7 +134,9 @@ public class JRRuntimeException extends RuntimeException
 			try
 			{
 				hasLocalizedMessage = true;
-				return MessageUtil.getInstance(jasperReportsContext).getMessageProvider(ERROR_MESSAGES_BUNDLE).getMessage(messageKey, args, locale);
+				String bundleName = getMessageBundleName();
+				MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
+				return messageProvider.getMessage(messageKey, args, locale);
 			}
 			catch (MissingResourceException e)
 			{
@@ -141,5 +144,10 @@ public class JRRuntimeException extends RuntimeException
 		}
 		hasLocalizedMessage = false;
 		return messageKey;
+	}
+	
+	protected String getMessageBundleName()
+	{
+		return ERROR_MESSAGES_BUNDLE;
 	}
 }
