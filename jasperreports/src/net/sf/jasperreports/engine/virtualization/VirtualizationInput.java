@@ -91,7 +91,7 @@ public class VirtualizationInput extends ObjectInputStream
 	{
 		int classIdx = readIntCompressed();
 		Class<?> clazz = serializer.getClassForDescriptorIdx(classIdx);
-		ObjectStreamClass descriptor = ObjectStreamClass.lookup(clazz);
+		ObjectStreamClass descriptor = ObjectStreamClass.lookupAny(clazz);
 		return descriptor;
 	}
 	
