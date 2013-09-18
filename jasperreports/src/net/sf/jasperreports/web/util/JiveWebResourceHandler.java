@@ -61,7 +61,7 @@ public class JiveWebResourceHandler extends AbstractWebResourceHandler
 
 			try 
 			{
-				Locale locale = Locale.getDefault();
+				Locale locale = LocaleResolverUtil.instance(jasperReportsContext).getLocale(request);
 				Map<String, Object> contextMap = new HashMap<String, Object>();
 				contextMap.put("path", request.getContextPath() + webUtil.getResourcesBasePath());
 				contextMap.put("msgProvider", MessageUtil.getInstance(jasperReportsContext).getLocalizedMessageProvider(bundleName, locale)); 
