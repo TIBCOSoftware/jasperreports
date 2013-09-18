@@ -1064,10 +1064,10 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
 
             return tbl;
         },
-        scrollHeader: function(o) {
+        scrollHeader: function(o, isDashboard) {
             var it = this,
                 floatableTbl = it.getHeaderTable(),
-                containerTop = $('div#reportViewFrame .body').offset().top,
+                containerTop = isDashboard ? $(window).scrollTop() : $('div#reportViewFrame .body').offset().top,
                 firstHeader = $('td.first_jrcolHeader'),
                 windowScrollLeft = $(window).scrollLeft(),
                 tblLeft = firstHeader.closest('table').offset().left,
@@ -1078,32 +1078,34 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 floatableTbl.show();
                 floatableTbl.css({
                     position: 'fixed',
-                    top: containerTop,
+                    top: isDashboard ? 0 : containerTop,
                     left: tblLeft - windowScrollLeft
                 });
 
                 o.bMoved = true;
-                o.reportContainerPositionAtMove = reportContainerTop;
+                if (!isDashboard) {
+                    o.reportContainerPositionAtMove = reportContainerTop;
+                }
             } else if (o.bMoved && headerTop-containerTop < 0) {
                 floatableTbl.show();
                 floatableTbl.css({
                     position: 'fixed',
-                    top: containerTop,
+                    top: isDashboard ? 0 : containerTop,
                     left: tblLeft - windowScrollLeft
                 });
-            } else if (o.bMoved && reportContainerTop > o.reportContainerPositionAtMove) {
-                floatableTbl.hide();
-                floatableTbl.css({
-                    position: '',
-                    top: '',
-                    left: ''
-                });
-                o.bMoved = false;
+            } else if (o.bMoved) {
+                if (!isDashboard && reportContainerTop > o.reportContainerPositionAtMove) {
+                    floatableTbl.hide();
+                    o.bMoved = false;
+                } else if (isDashboard && headerTop-containerTop >= 0) {
+                    floatableTbl.hide();
+                    o.bMoved = false;
+                }
             }
 
             return o;
         },
-        setScrollableHeader: function(){
+        setScrollableHeader: function(isDashboard){
             var it = this,
                 o = {
                     bMoved: false,
@@ -1111,26 +1113,30 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 },
                 timeOut;
 
-            $('div#reportViewFrame .body').on('scroll', function(evt) {
-                o = it.scrollHeader(o);
-            });
+            if (!isDashboard) {
+                $('div#reportViewFrame .body').on('scroll', function(evt) {
+                    o = it.scrollHeader(o, isDashboard);
+                });
+            }
 
             $(window).on('resize scroll', function() {
                 it.getHeaderTable().hide();
                 timeOut && clearTimeout(timeOut);
                 timeOut = setTimeout(function() {
-                    o = it.scrollHeader(o);
+                    o = it.scrollHeader(o, isDashboard);
                 }, 500);
             });
         },
         init: function(report) {
-            var it = this;
+            var it = this,
+                isDashboard;
 
             if(!it.initialized) {
                 /*
                  Scrolable table headers
                  */
-                it.setScrollableHeader();
+                isDashboard = $('body').is('.dashboardViewFrame');
+                it.setScrollableHeader(isDashboard);
 
 
                 /*
