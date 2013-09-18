@@ -1072,9 +1072,11 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 windowScrollLeft = $(window).scrollLeft(),
                 tblLeft = firstHeader.closest('table').offset().left,
                 headerTop = firstHeader.closest('tr').offset().top,
-                reportContainerTop = $('#reportContainer').offset().top;
+                reportContainerTop = $('#reportContainer').offset().top,
+                lastTableCel = $('td.first_jrcolHeader:first').closest('table').find('td.jrcel:last'),
+                diff = lastTableCel.length ? lastTableCel.offset().top - floatableTbl.outerHeight() - containerTop: -1;// if last cell is not visible, hide the floating header
 
-            if (!o.bMoved && headerTop-containerTop < 0) {
+            if (!o.bMoved && headerTop-containerTop < 0 && diff > 0) {
                 floatableTbl.show();
                 floatableTbl.css({
                     position: 'fixed',
@@ -1084,9 +1086,11 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
 
                 o.bMoved = true;
                 if (!isDashboard) {
-                    o.reportContainerPositionAtMove = reportContainerTop;
+                    if (!o.reportContainerPositionAtMove) {
+                        o.reportContainerPositionAtMove = reportContainerTop
+                    };
                 }
-            } else if (o.bMoved && headerTop-containerTop < 0) {
+            } else if (o.bMoved && headerTop-containerTop < 0 && diff > 0) {
                 floatableTbl.show();
                 floatableTbl.css({
                     position: 'fixed',
@@ -1094,10 +1098,10 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     left: tblLeft - windowScrollLeft
                 });
             } else if (o.bMoved) {
-                if (!isDashboard && reportContainerTop > o.reportContainerPositionAtMove) {
+                if (!isDashboard && (reportContainerTop > o.reportContainerPositionAtMove || diff <= 0)) {
                     floatableTbl.hide();
                     o.bMoved = false;
-                } else if (isDashboard && headerTop-containerTop >= 0) {
+                } else if (isDashboard && (headerTop-containerTop >= 0 || diff <= 0)) {
                     floatableTbl.hide();
                     o.bMoved = false;
                 }
