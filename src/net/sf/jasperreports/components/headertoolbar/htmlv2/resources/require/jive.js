@@ -1,4 +1,10 @@
 define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'jive.i18n'], function($, templates, css, jivei18n) {
+    var clickEventName = 'click';
+
+    if(/Android|iPhone|iPad/i.test(navigator.userAgent) ) {
+        clickEventName = 'touchend';
+    }
+
     var jive = {
         name: 'jive',
         active: false,
@@ -8,6 +14,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
         selectors: {},
         elements: {},
         interactive:{},
+        clickEventName: clickEventName,
         getReportContainer: function() {
             return $('table.jrPage').closest('div.body');
         },
@@ -243,7 +250,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     /*
                      * Set behaviors for form elements
                      */
-                    it.tabs.on('click touchend', '.tab',function(e){
+                    it.tabs.on(clickEventName, '.tab',function(e){
                         var jo = $(this),
                             activeTabActionCache;
 
@@ -260,13 +267,13 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                             jive.selected.form.onShow();
                             jive.selected.form.jo.show();
                             /*
-                                Force refresh for IE 10 box shadow bug.
-                                http://connect.microsoft.com/IE/feedback/details/763388/repaint-problem-with-dynamically-resizing-box-shadow#
+                             Force refresh for IE 10 box shadow bug.
+                             http://connect.microsoft.com/IE/feedback/details/763388/repaint-problem-with-dynamically-resizing-box-shadow#
                              */
                             $('body')[0].style.zoom = 1;
                         }
                     });
-                    it.body.on('click touchend','input, select',function(e){
+                    it.body.on(clickEventName,'input, select',function(e){
                         var jo = $(this);
                         jo.focus();
                         if(jo.attr('type') == 'radio') jo.trigger('change').prop('checked',true);
@@ -286,7 +293,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                         }
                         return true;
                     });
-                    it.body.on('click touchend','.jive_inputbutton',function(){
+                    it.body.on(clickEventName,'.jive_inputbutton',function(){
                         jo = $(this);
                         input = jive.selected.form.inputs[jo.attr('bname')];
                         switch(jo.attr('type')) {
@@ -298,15 +305,14 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                         }
                         input.onClick && input.onClick(jo);
                     });
-                    it.body.on('click touchend','.jive_freeTextButton',function(){
+                    it.body.on(clickEventName,'.jive_freeTextButton',function(){
                         jo = $(this);
                         jo.parent().next().find('input, select').toggle();
                     });
-                    $('#dialogOk, #dialogCancel').bind('click touchend',function(e){
+                    $('#dialogOk, #dialogCancel').bind(clickEventName,function(e){
                         if(this.className.indexOf('disabled') < 0){
                             if(this.id == 'dialogCancel'){
                                 jive.active = false;
-                                //$.event.trigger('jive_inactive');
                                 $('body').trigger('jive.inactive');
                             } else {
                                 jive.selected.form.submit();
@@ -893,7 +899,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     var jo;
                     it.jo = $('#jive_colorpicker');
                     it.jo.draggable({handle: 'div.dialogHeader'});
-                    it.jo.on('click touchend','div.pick',function(evt){
+                    it.jo.on(clickEventName,'div.pick',function(evt){
                         it.selected = $(this).parent().addClass('selected');
                         jive.selected.form.inputs[it.inputId].set(it.extractHexColor(it.selected.children().eq(0).attr('hexcolor')), it.selected.closest('tr').data('mode'), true);
                         jive.ui.colorpicker.jo.hide();
@@ -943,22 +949,27 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
             },
             modal: {
                 whf: null,
+                visible: false,
                 show: function(whoHasFocus) {
                     this.whf = whoHasFocus;
                     if($('#jive_modal').length == 0) {
                         $('table.jrPage').parent().append('<div id="jive_modal" style="display:none;position:absolute;z-index:9999;top:0;bottom:0;left:0;right:0;"></div>');
-                        $('#jive_modal').on('click touchend',function(evt){
+                        $('#jive_modal').on(clickEventName,function(evt){
                             jive.ui.modal.hide();
                             evt.preventDefault();
                         })
                     }
-                    jive.ui.dialog.toggleButtons();
-                    $('#jive_modal').show();
+                    if(!this.visible) {
+                        jive.ui.dialog.toggleButtons();
+                        $('#jive_modal').show();
+                        this.visible = true;
+                    }
                 },
                 hide: function() {
                     jive.ui.modal.whf.hide();
                     jive.ui.dialog.toggleButtons();
                     $('#jive_modal').hide();
+                    this.visible = false;
                 }
             }
         },
@@ -1004,8 +1015,8 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
             var tbl = $('table.floatableHeader');
             if (tbl.length == 0) {
                 tbl = $("<table class='floatableHeader' style='display:none'/>").appendTo('div#reportContainer');
-                
-                tbl.on('click touchend', '.jrcolHeader', function(evt){
+
+                tbl.on(clickEventName, '.jrcolHeader', function(evt){
                     // keep html links functional
                     if(!$(evt.target).parent().is('a')) {
                         var jo = $(this);
@@ -1158,7 +1169,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 /*
                  Event Handling
                  */
-                it.getReportContainer().on('click touchend', function(){
+                it.getReportContainer().on(clickEventName, function(){
                     if(!it.ui.dialog.isVisible) {
                         it.hide();
                         $('body').trigger('jive.inactive');
@@ -1245,7 +1256,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
 
                 jive.selectors[o.config.selector] = o.config.type;
 
-                $('table.jrPage').on('click touchend', o.config.selector, function(evt){
+                $('table.jrPage').on(clickEventName, o.config.selector, function(evt){
                     // keep html links functional
                     if(!$(evt.target).parent().is('a')) {
                         var jo = $(this);
@@ -1257,7 +1268,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
 
             if(o.config.proxySelector && !jive.selectors[o.config.proxySelector]) {
                 jive.selectors[o.config.proxySelector] = o.config.type;
-                $('table.jrPage').on('click touchend', o.config.proxySelector, function(evt){
+                $('table.jrPage').on(clickEventName, o.config.proxySelector, function(evt){
                     // keep html links functional
                     if(!$(evt.target).parent().is('a')) {
                         var jo = jive.interactive[o.config.type].getInteractiveElementFromProxy($(this));
