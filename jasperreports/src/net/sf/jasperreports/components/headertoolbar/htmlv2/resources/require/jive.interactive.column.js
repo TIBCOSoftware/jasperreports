@@ -106,7 +106,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
 
             for (i = 0; i < tableCols.length; i++) {
                 var colUuid = $(tableCols.get(i)).data('coluuid'),
-                    cols, firstCol, lastCol;
+                    cols, firstCol, lastCol, realWidth, firstLeft;
                 if (colsData[colUuid]) continue;
 
                 cols = parentContainer.find('td.jrcolHeader[data-coluuid=' + colUuid + ']');
@@ -117,10 +117,20 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                     lastCol = firstCol;
                 }
 
+                realWidth = firstCol.outerWidth();
+                firstLeft = firstCol.position().left;
+
+                cols.each(function(i, v) {
+                    var it = $(v);
+                    if (it.position().left > firstLeft) {
+                        realWidth = realWidth + it.outerWidth();
+                        firstLeft = it.position().left;
+                    };
+                });
+
                 colsData[colUuid] = {
                     jo: $(firstCol),
-                    //width: lastCol.position().left - firstCol.position().left + lastCol.width(),
-                    width: lastCol.position().left - firstCol.position().left + lastCol.outerWidth(),
+                    width: realWidth,
                     height: lastCol.position().top - firstCol.position().top + lastCol.height(),
                     colidx: lastCol.data('colidx')
                 };

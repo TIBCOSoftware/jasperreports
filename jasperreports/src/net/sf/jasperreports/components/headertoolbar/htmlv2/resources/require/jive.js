@@ -1014,7 +1014,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                         reportTableCell.length && jive.selectInteractiveElement(reportTableCell);
                         return false;
                     }
-                })
+                });
 
                 var firstColHeader = $('td.jrcolHeader:first'),
                     parentTable = firstColHeader.closest('table'),
