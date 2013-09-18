@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.ConditionalStyleAwareFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
@@ -73,6 +74,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	private JRTemplatePrintFrame printElement;
 	private JRPrintText labelPrintText;
 	private JRPrintText iconPrintText;
+	private boolean iconsVisible;
 	
 	private int stretchHeight;
 
@@ -145,13 +147,20 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 				);
 		}
 
-		try
+		if (iconsVisible)
 		{
-			iconPrintText = (JRPrintText)iconTextField.fill();
+			try
+			{
+				iconPrintText = (JRPrintText)iconTextField.fill();
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
 		}
-		catch (JRException e)
+		else
 		{
-			throw new JRRuntimeException(e);
+			iconPrintText = new JRBasePrintText(null);//instantiate just so that we don't perform null tests below
 		}
 		
 		iconPrintText.setY(labelPrintText.getY());
@@ -324,14 +333,19 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			throw new JRRuntimeException(e);
 		}
 		
-		labelTextField.setWidth(
+		int availableWidth = 
 			iconLabelComponent.getContext().getComponentElement().getWidth()
-			- getLineBox().getLeftPadding()
-			- getLineBox().getRightPadding()
-			- (int)iconTextField.getTextWidth()
-			- iconTextField.getLineBox().getLeftPadding()
-			- iconTextField.getLineBox().getRightPadding()
-			);
+			- getLineBox().getTopPadding()
+			- getLineBox().getBottomPadding();
+		int iconsNeededWidth = 
+			(int)iconTextField.getTextWidth() 
+			+ iconTextField.getLineBox().getLeftPadding() 
+			+ iconTextField.getLineBox().getRightPadding();
+		iconsVisible = availableWidth > iconsNeededWidth;
+		
+		availableWidth = iconsVisible ? (availableWidth - iconsNeededWidth) : availableWidth;
+		
+		labelTextField.setWidth(availableWidth);
 
 		try
 		{
@@ -416,7 +430,10 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	{
 		//printElement.iconLabelComponent.getLineBox().clone(printElement);
 		printElement.addElement(labelPrintText);
-		printElement.addElement(iconPrintText);
+		if (iconsVisible)
+		{
+			printElement.addElement(iconPrintText);
+		}
 	}
 
 	@Override
