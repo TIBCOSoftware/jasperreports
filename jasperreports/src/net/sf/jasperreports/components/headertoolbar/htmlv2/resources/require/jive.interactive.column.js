@@ -932,7 +932,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             });
 
             // events for column advance buttons
-            $("#colnext, #colprev").on('click touchend', function(evt) {
+            $("#colnext, #colprev").on(jive.clickEventName, function(evt) {
                 if(this.className.indexOf('disabled') < 0){
                     var colIdx = jive.selected.ie.config.columnIndex;
 
