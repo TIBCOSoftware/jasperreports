@@ -112,6 +112,7 @@ import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.MatcherExporterFilter;
+import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
@@ -789,10 +790,31 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		JRLineBox lineBox = getLineBox();
 		int width = xLimit + lineBox.getLeftPadding() + lineBox.getRightPadding();
 		printFrame.setWidth(width);
-		if (getRunDirectionValue() == RunDirectionEnum.RTL)
+		
+		HorizontalPosition position = concreteHorizontalPosition();
+		switch (position)
 		{
-			// if RTL filling, move the frame to the left
-			printFrame.setX(getWidth() - width);
+		case RIGHT:
+			// the position does not apply when the crosstab is bigger than the element (ignoreWidth is set)
+			// still, it applies if the crosstab is RTL
+			if (width < getWidth() || getRunDirectionValue() == RunDirectionEnum.RTL)
+			{
+				// move to the right
+				printFrame.setX(getWidth() - width);
+			}
+			break;
+		case CENTER:
+			// the position does not apply when the crosstab is bigger than the element (ignoreWidth is set)
+			if (width < getWidth())
+			{
+				int centeredX = (getWidth() - width) / 2;
+				printFrame.setX(centeredX);
+			}
+			break;
+		case LEFT:
+		default:
+			// x = 0 already set
+			break;
 		}
 		
 		int height = yLimit + lineBox.getTopPadding() + lineBox.getBottomPadding();
@@ -817,6 +839,17 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		
 		// add this frame to the list to the list of crosstab chunks
 		printFrames.add(printFrame);
+	}
+	
+	protected HorizontalPosition concreteHorizontalPosition()
+	{
+		HorizontalPosition position = getHorizontalPosition();
+		if (position == null)
+		{
+			position = getRunDirectionValue() == RunDirectionEnum.RTL 
+					? HorizontalPosition.RIGHT : HorizontalPosition.LEFT;
+		}
+		return position;
 	}
 
 	protected JRTemplateGenericPrintElement createInteractiveElement()
@@ -2873,6 +2906,18 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	 *
 	 */
 	public void setRunDirection(RunDirectionEnum runDirection)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public HorizontalPosition getHorizontalPosition()
+	{
+		return parentCrosstab.getHorizontalPosition();
+	}
+
+	@Override
+	public void setHorizontalPosition(HorizontalPosition horizontalPosition)
 	{
 		throw new UnsupportedOperationException();
 	}

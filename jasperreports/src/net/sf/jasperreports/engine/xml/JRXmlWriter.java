@@ -2743,6 +2743,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_isRepeatRowHeaders, crosstab.isRepeatRowHeaders(), true);
 		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_columnBreakOffset, crosstab.getColumnBreakOffset(), JRCrosstab.DEFAULT_COLUMN_BREAK_OFFSET);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_runDirection, crosstab.getRunDirectionValue(), RunDirectionEnum.LTR);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_horizontalPosition, crosstab.getHorizontalPosition());
 		if(isNewerVersionOrEqual(JRConstants.VERSION_3_5_3))
 		{
 			writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_ignoreWidth, crosstab.getIgnoreWidth());

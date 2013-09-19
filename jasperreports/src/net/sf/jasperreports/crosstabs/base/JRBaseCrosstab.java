@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseElement;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
@@ -68,6 +69,8 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	
 	public static final String PROPERTY_RUN_DIRECTION = "runDirection";
 	
+	public static final String PROPERTY_HORIZONTAL_POSITION = "horizontalPosition";
+	
 	public static final String PROPERTY_IGNORE_WIDTH = "ignoreWidth";
 
 	protected int id;
@@ -82,6 +85,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	protected boolean repeatColumnHeaders = true;
 	protected boolean repeatRowHeaders = true;
 	protected RunDirectionEnum runDirectionValue;
+	protected HorizontalPosition horizontalPosition;
 	protected JRCrosstabCell[][] cells;
 	protected JRCellContents whenNoDataCell;
 	protected JRCellContents headerCell;
@@ -98,6 +102,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		this.repeatColumnHeaders = crosstab.isRepeatColumnHeaders();
 		this.repeatRowHeaders = crosstab.isRepeatRowHeaders();
 		this.runDirectionValue = crosstab.getRunDirectionValue();
+		this.horizontalPosition = crosstab.getHorizontalPosition();
 		this.ignoreWidth = crosstab.getIgnoreWidth();
 		
 		this.dataset = factory.getCrosstabDataset(crosstab.getDataset());
@@ -401,6 +406,20 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		RunDirectionEnum old = this.runDirectionValue;
 		this.runDirectionValue = runDirectionValue;
 		getEventSupport().firePropertyChange(PROPERTY_RUN_DIRECTION, old, this.runDirectionValue);
+	}
+
+	@Override
+	public HorizontalPosition getHorizontalPosition()
+	{
+		return horizontalPosition;
+	}
+
+	@Override
+	public void setHorizontalPosition(HorizontalPosition horizontalPosition)
+	{
+		HorizontalPosition old = this.horizontalPosition;
+		this.horizontalPosition = horizontalPosition;
+		getEventSupport().firePropertyChange(PROPERTY_RUN_DIRECTION, old, this.horizontalPosition);
 	}
 
 	/**

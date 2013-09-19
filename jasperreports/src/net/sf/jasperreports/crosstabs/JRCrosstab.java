@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 
 /**
@@ -334,4 +335,20 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * @see #setIgnoreWidth(Boolean)
 	 */
 	public void setIgnoreWidth(boolean ignoreWidth);
+	
+	/**
+	 * Returns the position of the crosstab within its element box.
+	 * 
+	 * @return the position of the crosstab within its element box, 
+	 * <code>null</code> if no position is specified
+	 */
+	public HorizontalPosition getHorizontalPosition();
+	
+	/**
+	 * Sets the position of the crosstab within its element box.
+	 * 
+	 * @param horizontalPosition the crosstab position, 
+	 * if <code>null</code> the default position is applied
+	 */
+	public void setHorizontalPosition(HorizontalPosition horizontalPosition);
 }
