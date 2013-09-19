@@ -1237,9 +1237,9 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                         jmenuitem.attr('fn') && jive.interactive[jive.selected.ie.config.type][jmenuitem.attr('fn')](args);
 
                         if(evt.type == 'touchend') {
-                            var submenu = jmenuitem.children('ul');
-                            if(submenu.length){
-                                submenu.show().position({
+                            var key = jmenuitem.attr('key');
+                            if(jive.ui.foobar.menus[jive.selected.ie.config.type][key]){
+                                jive.ui.foobar.menus[jive.selected.ie.config.type][key].jo.show().position({
                                     of: jmenuitem,
                                     my: 'left top',
                                     at: 'right top'
