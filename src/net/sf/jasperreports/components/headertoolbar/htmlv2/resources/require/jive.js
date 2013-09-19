@@ -15,6 +15,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
         elements: {},
         interactive:{},
         clickEventName: clickEventName,
+        isIE: /msie/i.test(navigator.userAgent),
         isFloatingHeader: false,
         getReportContainer: function() {
             return $('table.jrPage').closest('div.body');
@@ -179,12 +180,11 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     this.setToolbarPosition();
                 },
                 setToolbarPosition: function() {
-                    var top;
-                    if (jive.selected.jo.offset().top < this.jo.outerHeight()) {
-                        top = jive.selected.jo.offset().top;
-                    } else {
-                        top = jive.selected.jo.offset().top - this.jo.outerHeight();
+                    var top = jive.selected.jo.offset().top;
+                    if (Math.abs(top) > this.jo.outerHeight()) {
+                        top = top - this.jo.outerHeight();
                     }
+
                     this.jo.css({position: 'absolute'});
                     this.jo.offset({top: top, left: jive.selected.jo.offset().left});
 
@@ -1089,16 +1089,25 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
             return tbl;
         },
         setToolbarPositionWhenFloating: function(isJiveActive, isDashboard) {
-            var it = this, top, firstHeader;
+            var it = this, top, firstHeader, toolbarTop, firstHeaderTop;
 
             if (isJiveActive) { // handle the toolbar position
                 firstHeader = $('td.first_jrcolHeader');
                 !isDashboard && (isDashboard = $('body').is('.dashboardViewFrame'));
-                top = isDashboard ? 0 : $('div#reportViewFrame .body').offset().top;
+                top = isDashboard ? 0 : $('div#reportViewFrame .body').offset().top,
+                toolbarTop = it.ui.foobar.jo.offset().top,
+                firstHeaderTop = firstHeader.offset().top;
 
-                if (it.ui.foobar.jo.offset().top > firstHeader.offset().top) {
-                    top = top + it.ui.foobar.jo.offset().top - firstHeader.offset().top;
+                if (toolbarTop < 0) {
+                    if (firstHeaderTop < 0 && toolbarTop > firstHeaderTop) {
+                        top += Math.abs(toolbarTop - firstHeaderTop);
+                    }
+                } else if (firstHeaderTop < 0) {
+                    top += Math.abs(firstHeaderTop) + toolbarTop;
+                } else if (toolbarTop > firstHeaderTop) {
+                    top += toolbarTop - firstHeaderTop;
                 }
+
                 it.ui.foobar.jo.css({
                     position: 'fixed',
                     top: top,
@@ -1169,6 +1178,15 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 });
             }
 
+            if (it.isIE) { // attach scroll to body for dashboards in IE
+                $('body').on('scroll', function() {
+                    it.getHeaderTable().hide();
+                    timeOut && clearTimeout(timeOut);
+                    timeOut = setTimeout(function() {
+                        o = it.scrollHeader(o, isDashboard);
+                    }, 500);
+                });
+            }
             $(window).on('resize scroll', function() {
                 it.getHeaderTable().hide();
                 timeOut && clearTimeout(timeOut);
