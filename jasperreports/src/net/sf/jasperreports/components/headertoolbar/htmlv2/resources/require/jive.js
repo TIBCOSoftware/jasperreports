@@ -15,6 +15,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
         elements: {},
         interactive:{},
         clickEventName: clickEventName,
+        isFloatingHeader: false,
         getReportContainer: function() {
             return $('table.jrPage').closest('div.body');
         },
@@ -175,9 +176,21 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     this.render(jive.interactive[jive.selected.ie.config.type].actions);
                     this.jo.find('button').removeClass('over pressed');
                     this.jo.appendTo(jive.getReportContainer()).show();
-                    var top = this.jo.outerHeight() - 1;
-                    //this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top', offset:'0 -' + top});
-                    this.jo.position({of:jive.selected.jo, my: 'left top-' + top, at:'left top'});
+                    this.setToolbarPosition();
+                },
+                setToolbarPosition: function() {
+                    var top;
+                    if (jive.selected.jo.offset().top < this.jo.outerHeight()) {
+                        top = jive.selected.jo.offset().top;
+                    } else {
+                        top = jive.selected.jo.offset().top - this.jo.outerHeight();
+                    }
+                    this.jo.css({position: 'absolute'});
+                    this.jo.offset({top: top, left: jive.selected.jo.offset().left});
+
+                    if (jive.isFloatingHeader) {
+                        jive.setToolbarPositionWhenFloating(true);
+                    }
                 },
                 render: function(actionMap){
                     var it = this;
@@ -1075,6 +1088,24 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
 
             return tbl;
         },
+        setToolbarPositionWhenFloating: function(isJiveActive, isDashboard) {
+            var it = this, top, firstHeader;
+
+            if (isJiveActive) { // handle the toolbar position
+                firstHeader = $('td.first_jrcolHeader');
+                !isDashboard && (isDashboard = $('body').is('.dashboardViewFrame'));
+                top = isDashboard ? 0 : $('div#reportViewFrame .body').offset().top;
+
+                if (it.ui.foobar.jo.offset().top > firstHeader.offset().top) {
+                    top = top + it.ui.foobar.jo.offset().top - firstHeader.offset().top;
+                }
+                it.ui.foobar.jo.css({
+                    position: 'fixed',
+                    top: top,
+                    left: it.selected.jo.offset().left
+                });
+            }
+        },
         scrollHeader: function(o, isDashboard) {
             var it = this,
                 floatableTbl = it.getHeaderTable(),
@@ -1085,7 +1116,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 headerTop = firstHeader.closest('tr').offset().top,
                 reportContainerTop = $('#reportContainer').offset().top,
                 lastTableCel = $('td.first_jrcolHeader:first').closest('table').find('td.jrcel:last'),
-                diff = lastTableCel.length ? lastTableCel.offset().top - floatableTbl.outerHeight() - containerTop: -1;// if last cell is not visible, hide the floating header
+                diff = lastTableCel.length ? lastTableCel.offset().top - floatableTbl.outerHeight() - containerTop: -1; // if last cell is not visible, hide the floating header
 
             if (!o.bMoved && headerTop-containerTop < 0 && diff > 0) {
                 floatableTbl.show();
@@ -1095,11 +1126,13 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     left: tblLeft - windowScrollLeft
                 });
 
-                o.bMoved = true;
+                it.setToolbarPositionWhenFloating(it.active, isDashboard);
+
+                o.bMoved = it.isFloatingHeader = true;
                 if (!isDashboard) {
                     if (!o.reportContainerPositionAtMove) {
-                        o.reportContainerPositionAtMove = reportContainerTop
-                    };
+                        o.reportContainerPositionAtMove = reportContainerTop;
+                    }
                 }
             } else if (o.bMoved && headerTop-containerTop < 0 && diff > 0) {
                 floatableTbl.show();
@@ -1111,10 +1144,12 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
             } else if (o.bMoved) {
                 if (!isDashboard && (reportContainerTop > o.reportContainerPositionAtMove || diff <= 0)) {
                     floatableTbl.hide();
-                    o.bMoved = false;
+                    o.bMoved = it.isFloatingHeader = false;
+                    it.active && it.ui.foobar.setToolbarPosition();
                 } else if (isDashboard && (headerTop-containerTop >= 0 || diff <= 0)) {
                     floatableTbl.hide();
-                    o.bMoved = false;
+                    o.bMoved = it.isFloatingHeader = false;
+                    it.active && it.ui.foobar.setToolbarPosition();
                 }
             }
 
