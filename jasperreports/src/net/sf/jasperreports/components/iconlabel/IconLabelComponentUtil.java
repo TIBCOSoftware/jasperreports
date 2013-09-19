@@ -25,7 +25,9 @@ package net.sf.jasperreports.components.iconlabel;
 
 import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
@@ -65,6 +67,13 @@ public class IconLabelComponentUtil
 		componentElement.setBackcolor(parentElement.getOwnBackcolor());
 		componentElement.setStretchType(parentElement.getStretchTypeValue());
 		componentElement.setPositionType(parentElement.getPositionTypeValue());
+		componentElement.setKey(parentElement.getKey());
+		componentElement.setPrintWhenExpression(parentElement.getPrintWhenExpression());//FIXMEICONLABEL make this and the ones below work
+		componentElement.setPrintInFirstWholeBand(parentElement.isPrintInFirstWholeBand());
+		componentElement.setPrintRepeatedValues(parentElement.isPrintRepeatedValues());
+		componentElement.setPrintWhenDetailOverflows(parentElement.isPrintWhenDetailOverflows());
+		componentElement.setPrintWhenGroupChanges(parentElement.getPrintWhenGroupChanges());
+		componentElement.setRemoveLineWhenBlank(parentElement.isRemoveLineWhenBlank());
 		
 		IconLabelComponent iconLabelComponent = new IconLabelComponent(textElement.getDefaultStyleProvider());
 		iconLabelComponent.setIconPosition(IconPositionEnum.END);
@@ -99,6 +108,7 @@ public class IconLabelComponentUtil
 		labelTextField.setStrikeThrough(parentElement.isOwnStrikeThrough());
 		labelTextField.setHorizontalAlignment(parentElement.getOwnHorizontalAlignmentValue());
 		labelTextField.setVerticalAlignment(parentElement.getOwnVerticalAlignmentValue());
+		labelTextField.setRotation(parentElement.getOwnRotationValue());//FIXMEICONLABEL how does it work?
 		JRBoxUtil.copy(parentElement.getLineBox(), labelTextField.getLineBox());
 		labelTextField.getLineBox().setRightPadding(0);
 		labelTextField.getLineBox().getPen().setLineWidth(0);
@@ -106,7 +116,38 @@ public class IconLabelComponentUtil
 		labelTextField.getLineBox().getRightPen().setLineWidth(0);
 		labelTextField.getLineBox().getTopPen().setLineWidth(0);
 		labelTextField.getLineBox().getBottomPen().setLineWidth(0);
+
+		for(String propName : parentElement.getPropertiesMap().getPropertyNames())
+		{
+			labelTextField.getPropertiesMap().setProperty(
+				propName, 
+				parentElement.getPropertiesMap().getProperty(propName)
+				);
+		}
 		
+		if (parentElement.getPropertyExpressions() != null)
+		{
+			for(JRPropertyExpression propExpr : parentElement.getPropertyExpressions())
+			{
+				labelTextField.addPropertyExpression(propExpr);
+			}
+		}
+		
+		JRTextField textField = parentElement instanceof JRTextField ? (JRTextField)parentElement : null;
+		if (textField != null)
+		{
+			labelTextField.setStretchWithOverflow(textField.isStretchWithOverflow());
+			labelTextField.setBlankWhenNull(textField.isBlankWhenNull());
+			labelTextField.setMarkup(textField.getMarkup());
+			labelTextField.setPattern(textField.getPattern());
+			labelTextField.setPatternExpression(textField.getPatternExpression());
+			labelTextField.setBookmarkLevel(textField.getBookmarkLevel());
+			labelTextField.setAnchorNameExpression(textField.getAnchorNameExpression());
+			labelTextField.setEvaluationTime(textField.getEvaluationTimeValue());
+			labelTextField.setEvaluationGroup(textField.getEvaluationGroup());
+			labelTextField.setEvaluationGroup(textField.getEvaluationGroup());
+		}
+
 		JRHyperlink hyperlink = parentElement instanceof JRHyperlink ? (JRHyperlink)parentElement : null;
 		if (hyperlink != null)
 		{
