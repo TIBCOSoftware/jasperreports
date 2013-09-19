@@ -1739,7 +1739,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			if (!headerCell.getChildren().isEmpty() && interactive)
 			{
 				// look for row group column headers
-				cell = decorateHeaderCellWithIconLabel();
+				cell = decorateCellWithRowGroupIconLabel(cell);
 			}
 			
 			JRFillCellContents contents = cell.getWorkingClone();
@@ -1758,9 +1758,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			return contents;
 		}
 
-		private JRFillCellContents decorateHeaderCellWithIconLabel()
+		private JRFillCellContents decorateCellWithRowGroupIconLabel(JRFillCellContents cell)
 		{
-			List<JRChild> cellElements = headerCell.getChildren();
+			List<JRChild> cellElements = cell.getChildren();
 			BucketDefinition[] rowBuckets = bucketingService.getRowBuckets();
 			int[] headerTextIndices = new int[rowBuckets.length];
 			boolean[] alignedText = new boolean[rowBuckets.length];
@@ -1792,14 +1792,14 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			
 			if (!foundHeader)
 			{
-				return headerCell;
+				return cell;
 			}
 			
-			JRFillCellContents decoratedCell = (JRFillCellContents) headerCell.createClone();
+			JRFillCellContents decoratedCell = (JRFillCellContents) cell.createClone();
 			List<JRChild> clonedElements = decoratedCell.getChildren();
 			
 			BuiltinExpressionEvaluatorFactory builtinExpressions = new BuiltinExpressionEvaluatorFactory();
-			JRFillExpressionEvaluator decoratedEvaluator = builtinExpressions.decorate(headerCell.expressionEvaluator);
+			JRFillExpressionEvaluator decoratedEvaluator = builtinExpressions.decorate(cell.expressionEvaluator);
 			
 			NavigableMap<Integer, JRDesignComponentElement> iconLabelElements = new TreeMap<Integer, JRDesignComponentElement>();
 			for (int bucketIdx = 0; bucketIdx < headerTextIndices.length; bucketIdx++)
@@ -2099,6 +2099,12 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			{
 				willOverflow = true;
 				return null;
+			}
+			
+			if (rowIdx == columnGroups.length - 1 && !header.getChildren().isEmpty() && interactive)
+			{
+				// look for row group column headers in the last column group's header
+				header = decorateCellWithRowGroupIconLabel(header);
 			}
 			
 			JRFillCellContents preparedCell = header.getWorkingClone();
