@@ -3054,6 +3054,7 @@ public class JRApiWriter
 			write( crosstabName + ".setRepeatRowHeaders({0});\n", crosstab.isRepeatRowHeaders(), true);
 			write( crosstabName + ".setColumnBreakOffset({0, number, #});\n", crosstab.getColumnBreakOffset(), JRCrosstab.DEFAULT_COLUMN_BREAK_OFFSET);
 			write( crosstabName + ".setRunDirection({0});\n", crosstab.getRunDirectionValue(), RunDirectionEnum.LTR);
+			write( crosstabName + ".setHorizontalPosition({0});\n", crosstab.getHorizontalPosition());
 			write( crosstabName + ".setIgnoreWidth({0});\n", getBooleanText(crosstab.getIgnoreWidth()));
 	
 			writeReportElement( crosstab, crosstabName);

@@ -163,7 +163,7 @@ import net.sf.jasperreports.engine.design.JRDesignReportTemplate;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.CalculationEnum;
-import net.sf.jasperreports.engine.type.SortOrderEnum;
+import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
@@ -1217,6 +1217,7 @@ public final class JRXmlDigesterFactory
 	{
 		digester.addFactoryCreate("*/crosstab", JRCrosstabFactory.class.getName());
 		digester.addSetNext("*/crosstab", "addElement", JRDesignElement.class.getName());
+		digester.addRule("*/crosstab", new XmlConstantPropertyRule("horizontalPosition", HorizontalPosition.values()));
 
 		digester.addFactoryCreate("*/crosstab/crosstabParameter", JRCrosstabParameterFactory.class.getName());
 		digester.addSetNext("*/crosstab/crosstabParameter", "addParameter", JRCrosstabParameter.class.getName());

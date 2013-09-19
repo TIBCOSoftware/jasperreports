@@ -648,6 +648,7 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_textAlignment = "textAlignment";
 	public static final String ATTRIBUTE_verticalAlignment = "verticalAlignment";
 	public static final String ATTRIBUTE_runDirection = "runDirection";
+	public static final String ATTRIBUTE_horizontalPosition = "horizontalPosition";
 	public static final String ATTRIBUTE_textHeight = "textHeight";
 	public static final String ATTRIBUTE_lineSpacingFactor = "lineSpacingFactor";
 	public static final String ATTRIBUTE_leadingOffset = "leadingOffset";

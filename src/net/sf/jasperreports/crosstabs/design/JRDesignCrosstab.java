@@ -67,6 +67,7 @@ import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
@@ -129,6 +130,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	protected boolean repeatColumnHeaders = true;
 	protected boolean repeatRowHeaders = true;
 	protected RunDirectionEnum runDirectionValue;
+	protected HorizontalPosition horizontalPosition;
 	protected List<JRCrosstabCell> cellsList;
 	protected Map<Pair<String,String>,JRCrosstabCell> cellsMap;
 	protected JRDesignCrosstabCell[][] crossCells;
@@ -1550,6 +1552,20 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		RunDirectionEnum old = this.runDirectionValue;
 		this.runDirectionValue = runDirectionValue;
 		getEventSupport().firePropertyChange(JRBaseCrosstab.PROPERTY_RUN_DIRECTION, old, this.runDirectionValue);
+	}
+
+	@Override
+	public HorizontalPosition getHorizontalPosition()
+	{
+		return horizontalPosition;
+	}
+
+	@Override
+	public void setHorizontalPosition(HorizontalPosition horizontalPosition)
+	{
+		HorizontalPosition old = this.horizontalPosition;
+		this.horizontalPosition = horizontalPosition;
+		getEventSupport().firePropertyChange(JRBaseCrosstab.PROPERTY_HORIZONTAL_POSITION, old, this.horizontalPosition);
 	}
 
 	protected void setCellOrigin(JRCellContents cell, JRCrosstabOrigin origin)

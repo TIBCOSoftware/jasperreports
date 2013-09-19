@@ -6089,6 +6089,33 @@ property.
    	 </documentation>
   	</annotation>
    </attribute>
+   <attribute name="horizontalPosition" use="optional">
+  	<annotation>
+   	 <documentation>The position of the crosstab within its element box.
+    <p/>
+	 By default LTR crosstabs are positions at the left of the element box, and RTL crosstabs at the right of the box.
+     </documentation>
+  	</annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Left">
+		<annotation>
+		 <documentation>The crosstab is positioned at the left of the element box.</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="Right">
+		<annotation>
+		 <documentation>The crosstab is positioned at the right of the element box.</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="Center">
+		<annotation>
+		 <documentation>The crosstab is centered withing the element box.</documentation>
+		</annotation>
+	  </enumeration>
+     </restriction>
+    </simpleType>
+   </attribute>
   </complexType>
  </element>
 
