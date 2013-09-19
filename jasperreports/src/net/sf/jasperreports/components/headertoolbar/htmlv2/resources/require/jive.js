@@ -1180,19 +1180,19 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
 
             if (it.isIE) { // attach scroll to body for dashboards in IE
                 $('body').on('scroll', function() {
-                    it.getHeaderTable().hide();
-                    timeOut && clearTimeout(timeOut);
-                    timeOut = setTimeout(function() {
+//                    it.getHeaderTable().hide();
+//                    timeOut && clearTimeout(timeOut);
+//                    timeOut = setTimeout(function() {
                         o = it.scrollHeader(o, isDashboard);
-                    }, 500);
+//                    }, 500);
                 });
             }
             $(window).on('resize scroll', function() {
-                it.getHeaderTable().hide();
-                timeOut && clearTimeout(timeOut);
-                timeOut = setTimeout(function() {
+//                it.getHeaderTable().hide();
+//                timeOut && clearTimeout(timeOut);
+//                timeOut = setTimeout(function() {
                     o = it.scrollHeader(o, isDashboard);
-                }, 500);
+//                }, 500);
             });
         },
         init: function(report) {
