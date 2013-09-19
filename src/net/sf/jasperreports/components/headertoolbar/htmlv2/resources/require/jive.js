@@ -270,7 +270,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                              Force refresh for IE 10 box shadow bug.
                              http://connect.microsoft.com/IE/feedback/details/763388/repaint-problem-with-dynamically-resizing-box-shadow#
                              */
-                            $('body')[0].style.zoom = 1;
+                            $('body')[0].style.zoom = ($('body')[0].style.zoom == 0) ? 1 : 0;
                         }
                     });
                     it.body.on(clickEventName,'input, select',function(e){
@@ -1152,7 +1152,6 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                  */
                 isDashboard = $('body').is('.dashboardViewFrame');
                 it.setScrollableHeader(isDashboard);
-
 
                 /*
                  Setup HTML
