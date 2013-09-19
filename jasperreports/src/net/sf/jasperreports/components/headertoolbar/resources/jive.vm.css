@@ -635,6 +635,7 @@ div.ui-datepicker {font-size: 11px;}
 .applytoWrapper {
     padding: 4px;
     margin: 0 20px;
+    position: relative;
 }
 .applytoTitle {
     display: inline;
