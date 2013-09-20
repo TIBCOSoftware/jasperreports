@@ -43,6 +43,7 @@ button::-moz-focus-inner {
     height:20px;
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/foobar.bg.png) repeat-x #fff;
     background-position:0 1px;
+    width: 100px;
     z-index:11;
 }
 
