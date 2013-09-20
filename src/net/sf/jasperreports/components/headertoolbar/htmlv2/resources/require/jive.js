@@ -1044,7 +1044,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     parentTable = firstColHeader.closest('table'),
                     lastColHeader = $('td.jrcolHeader:last', parentTable),
                     rows = [], clone, row, lastRow, cloneTDs, rowTDs, i, j, k, ln, tblJrPage, parentTableRows;
-                if (firstColHeader) {
+                if (firstColHeader.length > 0) {
                     firstColHeader.addClass('first_jrcolHeader');
                     row = firstColHeader.closest('tr');
                     lastRow = lastColHeader.closest('tr');
@@ -1116,10 +1116,13 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
             }
         },
         scrollHeader: function(o, isDashboard) {
+            var firstHeader = $('td.jrcolHeader:first');
+            if (!firstHeader.length > 0) {
+                return o;
+            }
             var it = this,
                 floatableTbl = it.getHeaderTable(),
                 containerTop = isDashboard ? $(window).scrollTop() : $('div#reportViewFrame .body').offset().top,
-                firstHeader = $('td.first_jrcolHeader'),
                 windowScrollLeft = $(window).scrollLeft(),
                 tblLeft = firstHeader.closest('table').offset().left,
                 headerTop = firstHeader.closest('tr').offset().top,
