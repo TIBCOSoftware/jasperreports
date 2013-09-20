@@ -17,6 +17,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
         clickEventName: clickEventName,
         isIE: /msie/i.test(navigator.userAgent),
         isFloatingHeader: false,
+        isDashboard: false,
         getReportContainer: function() {
             return $('table.jrPage').closest('div.body');
         },
@@ -178,18 +179,15 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     this.jo.find('button').removeClass('over pressed');
                     this.jo.appendTo(jive.getReportContainer()).show();
                     this.setToolbarPosition();
+                    this.setToolbarPosition(); // twice
                 },
                 setToolbarPosition: function() {
-                    var top = jive.selected.jo.offset().top;
-                    if (Math.abs(top) > this.jo.outerHeight()) {
-                        top = top - this.jo.outerHeight();
-                    }
-
+                    var top = jive.selected.jo.offset().top - this.jo.outerHeight();
                     this.jo.css({position: 'absolute'});
                     this.jo.offset({top: top, left: jive.selected.jo.offset().left});
-
+                    this.topCalculated = false;
                     if (jive.isFloatingHeader) {
-                        jive.setToolbarPositionWhenFloating(true);
+                        jive.setToolbarPositionWhenFloating(true, jive.isDashboard);
                     }
                 },
                 render: function(actionMap){
@@ -1093,26 +1091,33 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
 
             if (isJiveActive) { // handle the toolbar position
                 firstHeader = $('td.first_jrcolHeader');
-                !isDashboard && (isDashboard = $('body').is('.dashboardViewFrame'));
                 top = isDashboard ? 0 : $('div#reportViewFrame .body').offset().top,
                 toolbarTop = it.ui.foobar.jo.offset().top,
                 firstHeaderTop = firstHeader.offset().top;
 
-                if (toolbarTop < 0) {
-                    if (firstHeaderTop < 0 && toolbarTop > firstHeaderTop) {
-                        top += Math.abs(toolbarTop - firstHeaderTop);
+                if (!it.ui.foobar.topCalculated) {
+                    if (toolbarTop < 0) {
+                        if (firstHeaderTop < 0 && toolbarTop > firstHeaderTop) {
+                            top += Math.abs(toolbarTop - firstHeaderTop);
+                        }
+                    } else if (firstHeaderTop < 0) {
+                        top += Math.abs(firstHeaderTop) + toolbarTop;
+                    } else if (toolbarTop > firstHeaderTop) {
+                        top += toolbarTop - firstHeaderTop;
                     }
-                } else if (firstHeaderTop < 0) {
-                    top += Math.abs(firstHeaderTop) + toolbarTop;
-                } else if (toolbarTop > firstHeaderTop) {
-                    top += toolbarTop - firstHeaderTop;
-                }
 
-                it.ui.foobar.jo.css({
-                    position: 'fixed',
-                    top: top,
-                    left: it.selected.jo.offset().left
-                });
+                    it.ui.foobar.jo.css({
+                        position: 'fixed',
+                        top: top,
+                        left: it.selected.jo.offset().left - $(window).scrollLeft()
+                    });
+
+                    it.ui.foobar.topCalculated = true;
+                } else {
+                    it.ui.foobar.jo.css({
+                        left: it.selected.jo.offset().left - $(window).scrollLeft()
+                    });
+                }
             }
         },
         scrollHeader: function(o, isDashboard) {
@@ -1153,6 +1158,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     top: isDashboard ? 0 : containerTop,
                     left: tblLeft - windowScrollLeft
                 });
+                it.setToolbarPositionWhenFloating(it.active, isDashboard);
             } else if (o.bMoved) {
                 if (!isDashboard && (reportContainerTop > o.reportContainerPositionAtMove || diff <= 0)) {
                     floatableTbl.hide();
@@ -1172,8 +1178,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 o = {
                     bMoved: false,
                     reportContainerPositionAtMove: null
-                },
-                timeOut;
+                };
 
             if (!isDashboard) {
                 $('div#reportViewFrame .body').on('scroll', function(evt) {
@@ -1183,31 +1188,22 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
 
             if (it.isIE) { // attach scroll to body for dashboards in IE
                 $('body').on('scroll', function() {
-//                    it.getHeaderTable().hide();
-//                    timeOut && clearTimeout(timeOut);
-//                    timeOut = setTimeout(function() {
-                        o = it.scrollHeader(o, isDashboard);
-//                    }, 500);
+                    o = it.scrollHeader(o, isDashboard);
                 });
             }
             $(window).on('resize scroll', function() {
-//                it.getHeaderTable().hide();
-//                timeOut && clearTimeout(timeOut);
-//                timeOut = setTimeout(function() {
-                    o = it.scrollHeader(o, isDashboard);
-//                }, 500);
+                o = it.scrollHeader(o, isDashboard);
             });
         },
         init: function(report) {
-            var it = this,
-                isDashboard;
+            var it = this;
 
             if(!it.initialized) {
+                it.isDashboard = $('body').is('.dashboardViewFrame');
                 /*
                  Scrolable table headers
                  */
-                isDashboard = $('body').is('.dashboardViewFrame');
-                it.setScrollableHeader(isDashboard);
+                it.setScrollableHeader(it.isDashboard);
 
                 /*
                  Setup HTML
