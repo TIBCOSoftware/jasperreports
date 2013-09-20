@@ -551,7 +551,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	protected void rewind()
+	public void rewind()
 	{
 		resetTextChunk();
 	}
