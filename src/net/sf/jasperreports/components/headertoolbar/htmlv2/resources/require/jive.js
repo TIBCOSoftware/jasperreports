@@ -1189,10 +1189,16 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
             if (it.isIE) { // attach scroll to body for dashboards in IE
                 $('body').on('scroll', function() {
                     o = it.scrollHeader(o, isDashboard);
+
+                    // reposition jive visual elements
+                    it.active && it.showVisualElements(jive.selected.dim);
                 });
             }
             $(window).on('resize scroll', function() {
                 o = it.scrollHeader(o, isDashboard);
+
+                // reposition jive visual elements
+                it.active && it.showVisualElements(jive.selected.dim);
             });
         },
         init: function(report) {
@@ -1341,17 +1347,20 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     realWidth: colData.width,
                     realHeight: colData.height
                 };
-                var dim = jive.interactive[jive.selected.ie.config.type].getElementSize();
+                jive.selected.dim = jive.interactive[jive.selected.ie.config.type].getElementSize();
 
-                jive.ui.overlay.show(dim);
-                jive.ui.marker.show(dim);
-                jive.ui.foobar.show(dim);
-                jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
+                this.showVisualElements(jive.selected.dim);
 
                 jive.active = true;
                 jive.started = true;
                 jive.interactive[jive.selected.ie.config.type].onSelect();
             }
+        },
+        showVisualElements: function(dim) {
+            jive.ui.overlay.show(dim);
+            jive.ui.marker.show(dim);
+            jive.ui.foobar.show(dim);
+            jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
         }
     }
 
