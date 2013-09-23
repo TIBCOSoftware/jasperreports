@@ -58,8 +58,8 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	
 	public static final String PROPERTY_ICON_POSITION = "iconPosition";
 	public static final String PROPERTY_LABEL_FILL = "labelFill";
-	public static final String PROPERTY_HORIZONTAL_ALIGN = "horizontalAlign";
-	public static final String PROPERTY_VERTICAL_ALIGN = "verticalAlign";
+	public static final String PROPERTY_HORIZONTAL_ALIGNMENT = "horizontalAlignment";
+	public static final String PROPERTY_VERTICAL_ALIGNMENT = "verticalAlignment";
 
 	private JRLineBox lineBox;
 	private JRTextField labelTextField;
@@ -225,7 +225,7 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	{
 		HorizontalAlignEnum old = this.horizontalAlign;
 		this.horizontalAlign = horizontalAlign;
-		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_ALIGN, old, this.horizontalAlign);
+		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlign);
 	}
 
 	/**
@@ -251,7 +251,7 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	{
 		VerticalAlignEnum old = this.verticalAlign;
 		this.verticalAlign = verticalAlign;
-		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_ALIGN, old, this.verticalAlign);
+		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlign);
 	}
 
 	/**

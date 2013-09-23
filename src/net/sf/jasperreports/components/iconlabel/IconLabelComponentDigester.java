@@ -52,8 +52,8 @@ public class IconLabelComponentDigester implements XmlDigesterConfigurer
 		digester.addSetProperties(iconLabelComponentPattern, new String[] {
 				IconLabelComponent.PROPERTY_ICON_POSITION,
 				IconLabelComponent.PROPERTY_LABEL_FILL,
-				IconLabelComponent.PROPERTY_HORIZONTAL_ALIGN,
-				IconLabelComponent.PROPERTY_VERTICAL_ALIGN }, 
+				IconLabelComponent.PROPERTY_HORIZONTAL_ALIGNMENT,
+				IconLabelComponent.PROPERTY_VERTICAL_ALIGNMENT }, 
 				new String[0]);
 		
 		digester.addRule(iconLabelComponentPattern, 
@@ -66,11 +66,11 @@ public class IconLabelComponentDigester implements XmlDigesterConfigurer
 						ContainerFillEnum.values()));
 		digester.addRule(iconLabelComponentPattern, 
 				new XmlConstantPropertyRule(
-						IconLabelComponent.PROPERTY_HORIZONTAL_ALIGN,
+						IconLabelComponent.PROPERTY_HORIZONTAL_ALIGNMENT,
 						HorizontalAlignEnum.values()));
 		digester.addRule(iconLabelComponentPattern, 
 				new XmlConstantPropertyRule(
-						IconLabelComponent.PROPERTY_VERTICAL_ALIGN,
+						IconLabelComponent.PROPERTY_VERTICAL_ALIGNMENT,
 						VerticalAlignEnum.values()));
 		
 		digester.setRuleNamespaceURI(JRXmlConstants.JASPERREPORTS_NAMESPACE);

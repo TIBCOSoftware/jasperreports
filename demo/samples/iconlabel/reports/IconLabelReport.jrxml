@@ -24,8 +24,8 @@
 		<groupHeader>
 			<band height="15">
 				<componentElement>
-					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="0" width="200" height="10" uuid="699cc790-7e42-410b-a2aa-4ea21dc65f2c"/>
-					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="Start" labelFill="Vertical" horizontalAlign="Right" verticalAlign="Bottom">
+					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="5" width="200" height="10" uuid="699cc790-7e42-410b-a2aa-4ea21dc65f2c"/>
+					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="Start" labelFill="Vertical" horizontalAlignment="Right" verticalAlignment="Bottom">
 						<c:label>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Label" x="0" y="0" width="1" height="1" uuid="605b583e-639e-4f8d-b5cd-d89424bff3b0"/>
@@ -47,14 +47,14 @@
 					</c:iconLabel>
 				</componentElement>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="0" width="250" height="10" uuid="1b8394cf-650c-4732-b1ea-f40d41439f22"/>
-					<textFieldExpression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"Start\"\nlabelFill=\"Vertical\"\nhorizontalAlign=\"Right\"\nverticalAlign=\"Bottom\""]]></textFieldExpression>
+					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="5" width="250" height="10" uuid="1b8394cf-650c-4732-b1ea-f40d41439f22"/>
+					<textFieldExpression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"Start\"\nlabelFill=\"Vertical\"\nhorizontalAlignment=\"Right\"\nverticalAlignment=\"Bottom\""]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="15">
 				<componentElement>
-					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="0" width="200" height="10" uuid="3dd69925-afe1-44ef-a001-344eb40bb337"/>
-					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="Start" labelFill="Both" horizontalAlign="Center" verticalAlign="Top">
+					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="5" width="200" height="10" uuid="3dd69925-afe1-44ef-a001-344eb40bb337"/>
+					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="Start" labelFill="Both" horizontalAlignment="Center" verticalAlignment="Top">
 						<c:label>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Label" x="0" y="0" width="1" height="1" uuid="22bb56ea-4fc2-4f23-bc08-01f085973404"/>
@@ -76,14 +76,14 @@
 					</c:iconLabel>
 				</componentElement>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="0" width="250" height="10" uuid="bbcee49e-8cd8-4a6a-9e20-1f687300410d"/>
-					<textFieldExpression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"Start\"\nlabelFill=\"Both\"\nhorizontalAlign=\"Center\"\nverticalAlign=\"Top\""]]></textFieldExpression>
+					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="5" width="250" height="10" uuid="bbcee49e-8cd8-4a6a-9e20-1f687300410d"/>
+					<textFieldExpression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"Start\"\nlabelFill=\"Both\"\nhorizontalAlignment=\"Center\"\nverticalAlignment=\"Top\""]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="15">
 				<componentElement>
-					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="0" width="200" height="10" uuid="25b63cfa-5624-46f2-8161-b093deea55bd"/>
-					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="Start" labelFill="Both" horizontalAlign="Center" verticalAlign="Middle">
+					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="5" width="200" height="10" uuid="25b63cfa-5624-46f2-8161-b093deea55bd"/>
+					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="Start" labelFill="Both" horizontalAlignment="Center" verticalAlignment="Middle">
 						<c:label>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Label" x="0" y="0" width="1" height="1" uuid="9288daa2-c43f-4528-820b-be546a77f340"/>
@@ -105,14 +105,14 @@
 					</c:iconLabel>
 				</componentElement>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="0" width="250" height="10" uuid="04ee6b68-25a1-4f44-881d-b8268ec04380"/>
-					<textFieldExpression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"Start\"\nlabelFill=\"Both\"\nhorizontalAlign=\"Center\"\nverticalAlign=\"Middle\""]]></textFieldExpression>
+					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="5" width="250" height="10" uuid="04ee6b68-25a1-4f44-881d-b8268ec04380"/>
+					<textFieldExpression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"Start\"\nlabelFill=\"Both\"\nhorizontalAlignment=\"Center\"\nverticalAlignment=\"Middle\""]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="15">
 				<componentElement>
-					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="0" width="200" height="10" uuid="c1da4208-2b90-4a91-84ee-5764a8f91f76"/>
-					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="Horizontal" horizontalAlign="Center" verticalAlign="Middle">
+					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="5" width="200" height="10" uuid="c1da4208-2b90-4a91-84ee-5764a8f91f76"/>
+					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="Horizontal" horizontalAlignment="Center" verticalAlignment="Middle">
 						<c:label>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Label" x="0" y="0" width="1" height="1" uuid="2561296b-c9b2-4324-9159-9517cc9fe6b0"/>
@@ -134,14 +134,14 @@
 					</c:iconLabel>
 				</componentElement>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="0" width="250" height="10" uuid="2f5fc455-fddb-432b-a813-4a1d37d22830"/>
-					<textFieldExpression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlign=\"Center\"\nverticalAlign=\"Middle\""]]></textFieldExpression>
+					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="5" width="250" height="10" uuid="2f5fc455-fddb-432b-a813-4a1d37d22830"/>
+					<textFieldExpression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlignment=\"Center\"\nverticalAlignment=\"Middle\""]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="15">
 				<componentElement>
-					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="0" width="200" height="10" uuid="458119e1-f837-409b-91ae-f626a0ca99c8"/>
-					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="Horizontal" horizontalAlign="Center" verticalAlign="Bottom">
+					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="5" width="200" height="10" uuid="458119e1-f837-409b-91ae-f626a0ca99c8"/>
+					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="Horizontal" horizontalAlignment="Center" verticalAlignment="Bottom">
 						<c:label>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Label" x="0" y="0" width="1" height="1" uuid="e77bca92-182f-4be3-95dc-f97d91ee1fcb"/>
@@ -163,14 +163,14 @@
 					</c:iconLabel>
 				</componentElement>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="0" width="250" height="10" uuid="15fac62e-aa2d-43e2-a434-2cb80878aff8"/>
-					<textFieldExpression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlign=\"Center\"\nverticalAlign=\"Bottom\""]]></textFieldExpression>
+					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="5" width="250" height="10" uuid="15fac62e-aa2d-43e2-a434-2cb80878aff8"/>
+					<textFieldExpression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlignment=\"Center\"\nverticalAlignment=\"Bottom\""]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="15">
 				<componentElement>
-					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="0" width="200" height="10" uuid="e7b057a2-7b6d-4b70-b093-ebeb0fb60d08"/>
-					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="Horizontal" horizontalAlign="Center" verticalAlign="Top">
+					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="5" width="200" height="10" uuid="e7b057a2-7b6d-4b70-b093-ebeb0fb60d08"/>
+					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="Horizontal" horizontalAlignment="Center" verticalAlignment="Top">
 						<c:label>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Label" x="0" y="0" width="1" height="1" uuid="fa7dfdf5-80e6-465d-b4a9-4e747f4f74c8"/>
@@ -192,14 +192,14 @@
 					</c:iconLabel>
 				</componentElement>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="0" width="250" height="10" uuid="a979b093-ac92-45da-adac-8a861ea268cb"/>
-					<textFieldExpression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlign=\"Center\"\nverticalAlign=\"Top\""]]></textFieldExpression>
+					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="5" width="250" height="10" uuid="a979b093-ac92-45da-adac-8a861ea268cb"/>
+					<textFieldExpression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlignment=\"Center\"\nverticalAlignment=\"Top\""]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="15">
 				<componentElement>
-					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="0" width="200" height="10" uuid="1170ce2e-ad4e-47ab-9e27-5948486ce366"/>
-					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="Horizontal" horizontalAlign="Center" verticalAlign="Top">
+					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="5" width="200" height="10" uuid="1170ce2e-ad4e-47ab-9e27-5948486ce366"/>
+					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="Horizontal" horizontalAlignment="Center" verticalAlignment="Top">
 						<c:label>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Label" x="0" y="0" width="1" height="1" uuid="6d30a538-46c2-49c1-a927-0ddb33aa178a"/>
@@ -215,14 +215,14 @@
 					</c:iconLabel>
 				</componentElement>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="0" width="250" height="10" uuid="4cdc200a-6c51-4462-b785-6205d4a32af9"/>
-					<textFieldExpression><![CDATA["iconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlign=\"Center\"\nverticalAlign=\"Top\""]]></textFieldExpression>
+					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="5" width="250" height="10" uuid="4cdc200a-6c51-4462-b785-6205d4a32af9"/>
+					<textFieldExpression><![CDATA["iconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlignment=\"Center\"\nverticalAlignment=\"Top\""]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="15">
 				<componentElement>
-					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="0" width="200" height="10" uuid="47c546c5-70e5-4e9a-b81f-fe140a06759d"/>
-					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="None" horizontalAlign="Center" verticalAlign="Top">
+					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="5" width="200" height="10" uuid="47c546c5-70e5-4e9a-b81f-fe140a06759d"/>
+					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="None" horizontalAlignment="Center" verticalAlignment="Top">
 						<c:label>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Label" x="0" y="0" width="1" height="1" uuid="1da65b0c-59f2-4c60-922b-dd9885c3232d"/>
@@ -238,14 +238,14 @@
 					</c:iconLabel>
 				</componentElement>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="0" width="250" height="10" uuid="c753c82a-d811-46c9-aad6-f32be7edf623"/>
-					<textFieldExpression><![CDATA["iconPosition=\"End\"\nlabelFill=\"None\"\nhorizontalAlign=\"Center\"\nverticalAlign=\"Top\""]]></textFieldExpression>
+					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="5" width="250" height="10" uuid="c753c82a-d811-46c9-aad6-f32be7edf623"/>
+					<textFieldExpression><![CDATA["iconPosition=\"End\"\nlabelFill=\"None\"\nhorizontalAlignment=\"Center\"\nverticalAlignment=\"Top\""]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="15">
 				<componentElement>
-					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="0" width="200" height="10" uuid="070c9803-1ada-424a-9dec-71ec5a31431f"/>
-					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="None" horizontalAlign="Right" verticalAlign="Top">
+					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="5" width="200" height="10" uuid="070c9803-1ada-424a-9dec-71ec5a31431f"/>
+					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="None" horizontalAlignment="Right" verticalAlignment="Top">
 						<c:label>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Label" x="0" y="0" width="1" height="1" uuid="285161b3-bcd4-4fd1-b3fd-c9a0717a7460"/>
@@ -261,14 +261,14 @@
 					</c:iconLabel>
 				</componentElement>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="0" width="250" height="10" uuid="b73501fc-8fe2-4619-9935-e19b9fe78167"/>
-					<textFieldExpression><![CDATA["iconPosition=\"End\"\nlabelFill=\"None\"\nhorizontalAlign=\"Right\"\nverticalAlign=\"Top\""]]></textFieldExpression>
+					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="5" width="250" height="10" uuid="b73501fc-8fe2-4619-9935-e19b9fe78167"/>
+					<textFieldExpression><![CDATA["iconPosition=\"End\"\nlabelFill=\"None\"\nhorizontalAlignment=\"Right\"\nverticalAlignment=\"Top\""]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="15">
 				<componentElement>
-					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="0" width="200" height="10" uuid="b3e39060-5a38-4387-afda-07105b944699"/>
-					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="Horizontal" horizontalAlign="Right" verticalAlign="Top">
+					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="5" width="200" height="10" uuid="b3e39060-5a38-4387-afda-07105b944699"/>
+					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="Horizontal" horizontalAlignment="Right" verticalAlignment="Top">
 						<c:label>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Label" x="0" y="0" width="1" height="1" uuid="cced8cf7-6507-4b5c-abf7-5c063c02e9c3"/>
@@ -284,14 +284,14 @@
 					</c:iconLabel>
 				</componentElement>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="0" width="250" height="10" uuid="ae3d5537-f8fd-4790-b08f-54835914547c"/>
-					<textFieldExpression><![CDATA["iconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlign=\"Right\"\nverticalAlign=\"Top\""]]></textFieldExpression>
+					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="5" width="250" height="10" uuid="ae3d5537-f8fd-4790-b08f-54835914547c"/>
+					<textFieldExpression><![CDATA["iconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlignment=\"Right\"\nverticalAlignment=\"Top\""]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="15">
 				<componentElement>
-					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="0" width="200" height="10" uuid="d44d322e-af6c-4fd1-86c6-462049506d75"/>
-					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="Horizontal" horizontalAlign="Left" verticalAlign="Top">
+					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="5" width="200" height="10" uuid="d44d322e-af6c-4fd1-86c6-462049506d75"/>
+					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="Horizontal" horizontalAlignment="Left" verticalAlignment="Top">
 						<c:label>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Label" x="0" y="0" width="1" height="1" uuid="06f34e01-5924-4f20-a258-f15342694893"/>
@@ -307,14 +307,14 @@
 					</c:iconLabel>
 				</componentElement>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="0" width="250" height="10" uuid="87a0fbcb-1d13-46ee-991f-eae68144e34f"/>
-					<textFieldExpression><![CDATA["iconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlign=\"Left\"\nverticalAlign=\"Top\""]]></textFieldExpression>
+					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="5" width="250" height="10" uuid="87a0fbcb-1d13-46ee-991f-eae68144e34f"/>
+					<textFieldExpression><![CDATA["iconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlignment=\"Left\"\nverticalAlignment=\"Top\""]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="15">
 				<componentElement>
-					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="0" width="200" height="10" uuid="1611c88c-ff25-4206-b36d-5dc194397b54"/>
-					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="None" horizontalAlign="Left" verticalAlign="Top">
+					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="5" width="200" height="10" uuid="1611c88c-ff25-4206-b36d-5dc194397b54"/>
+					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="End" labelFill="None" horizontalAlignment="Left" verticalAlignment="Top">
 						<c:label>
 							<textField isStretchWithOverflow="true">
 								<reportElement style="Label" x="0" y="0" width="1" height="1" uuid="2e71178f-5bce-4d30-b517-2ce651a07866"/>
@@ -330,8 +330,8 @@
 					</c:iconLabel>
 				</componentElement>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="0" width="250" height="10" uuid="62b6fb20-22e9-4477-bb0d-806d12877916"/>
-					<textFieldExpression><![CDATA["iconPosition=\"End\"\nlabelFill=\"None\"\nhorizontalAlign=\"Left\"\nverticalAlign=\"Top\""]]></textFieldExpression>
+					<reportElement style="Main" stretchType="RelativeToBandHeight" x="250" y="5" width="250" height="10" uuid="62b6fb20-22e9-4477-bb0d-806d12877916"/>
+					<textFieldExpression><![CDATA["iconPosition=\"End\"\nlabelFill=\"None\"\nhorizontalAlignment=\"Left\"\nverticalAlignment=\"Top\""]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>

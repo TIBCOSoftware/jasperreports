@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
-import net.sf.jasperreports.engine.util.JRBoxUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -81,11 +80,11 @@ public class IconLabelComponentUtil
 		iconLabelComponent.setHorizontalAlignment(parentElement.getOwnHorizontalAlignmentValue());
 		iconLabelComponent.setLabelFill(ContainerFillEnum.NONE);
 		iconLabelComponent.setLineBox(parentElement.getLineBox().clone(iconLabelComponent));
-		iconLabelComponent.getLineBox().setPadding(0);
-		iconLabelComponent.getLineBox().setLeftPadding(0);
-		iconLabelComponent.getLineBox().setRightPadding(0);
-		iconLabelComponent.getLineBox().setTopPadding(0);
-		iconLabelComponent.getLineBox().setBottomPadding(0);
+//		iconLabelComponent.getLineBox().setPadding(0);
+//		iconLabelComponent.getLineBox().setLeftPadding(0);
+//		iconLabelComponent.getLineBox().setRightPadding(0);
+//		iconLabelComponent.getLineBox().setTopPadding(0);
+//		iconLabelComponent.getLineBox().setBottomPadding(0);
 		
 		JRDesignTextField labelTextField = new JRDesignTextField(textElement.getDefaultStyleProvider());
 		labelTextField.setStretchWithOverflow(true);
@@ -109,8 +108,14 @@ public class IconLabelComponentUtil
 		labelTextField.setHorizontalAlignment(parentElement.getOwnHorizontalAlignmentValue());
 		labelTextField.setVerticalAlignment(parentElement.getOwnVerticalAlignmentValue());
 		labelTextField.setRotation(parentElement.getOwnRotationValue());//FIXMEICONLABEL how does it work?
-		JRBoxUtil.copy(parentElement.getLineBox(), labelTextField.getLineBox());
+//		JRBoxUtil.copy(parentElement.getLineBox(), labelTextField.getLineBox());
 		labelTextField.getLineBox().setRightPadding(0);
+		labelTextField.getLineBox().getPen().setLineWidth(0);
+		labelTextField.getLineBox().getLeftPen().setLineWidth(0);
+		labelTextField.getLineBox().getRightPen().setLineWidth(0);
+		labelTextField.getLineBox().getTopPen().setLineWidth(0);
+		labelTextField.getLineBox().getBottomPen().setLineWidth(0);
+		labelTextField.getLineBox().setLeftPadding(0);
 		labelTextField.getLineBox().getPen().setLineWidth(0);
 		labelTextField.getLineBox().getLeftPen().setLineWidth(0);
 		labelTextField.getLineBox().getRightPen().setLineWidth(0);
@@ -181,8 +186,14 @@ public class IconLabelComponentUtil
 		iconTextField.setStrikeThrough(false);//parentElement.isOwnStrikeThrough());
 		iconTextField.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
 		iconTextField.setVerticalAlignment(parentElement.getOwnVerticalAlignmentValue());
-		JRBoxUtil.copy(parentElement.getLineBox(), iconTextField.getLineBox());
+//		JRBoxUtil.copy(parentElement.getLineBox(), iconTextField.getLineBox());
 		iconTextField.getLineBox().setLeftPadding(0);
+		iconTextField.getLineBox().getPen().setLineWidth(0);
+		iconTextField.getLineBox().getLeftPen().setLineWidth(0);
+		iconTextField.getLineBox().getRightPen().setLineWidth(0);
+		iconTextField.getLineBox().getTopPen().setLineWidth(0);
+		iconTextField.getLineBox().getBottomPen().setLineWidth(0);
+		iconTextField.getLineBox().setRightPadding(0);
 		iconTextField.getLineBox().getPen().setLineWidth(0);
 		iconTextField.getLineBox().getLeftPen().setLineWidth(0);
 		iconTextField.getLineBox().getRightPen().setLineWidth(0);

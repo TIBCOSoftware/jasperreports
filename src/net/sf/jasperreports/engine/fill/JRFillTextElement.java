@@ -536,7 +536,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	protected void reset()
+	public void reset()
 	{
 		super.reset();
 		
@@ -667,7 +667,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		setLeadingOffset(measuredText.getLeadingOffset());
 	}
 	
-	protected int getPrintElementHeight()
+	public int getPrintElementHeight()
 	{
 		return getStretchHeight() - elementStretchHeightDelta;
 	}
