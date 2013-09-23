@@ -987,7 +987,7 @@
 							</restriction>
 						</simpleType>
 					</attribute>					
-					<attribute name="horizontalAlign" use="optional">
+					<attribute name="horizontalAlignment" use="optional">
 						<annotation>
 							<documentation>Horizontal alignment.</documentation>
 						</annotation>
@@ -1011,7 +1011,7 @@
 							</restriction>
 						</simpleType>
 					</attribute>
-					<attribute name="verticalAlign" use="optional">
+					<attribute name="verticalAlignment" use="optional">
 						<annotation>
 							<documentation>Vertical alignment.</documentation>
 						</annotation>

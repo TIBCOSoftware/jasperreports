@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.ConditionalStyleAwareFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
@@ -74,8 +73,10 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	private JRTemplatePrintFrame printElement;
 	private JRPrintText labelPrintText;
 	private JRPrintText iconPrintText;
-	private boolean labelVisible;
-	private boolean iconsVisible;
+//	private boolean contentVisible;
+	private boolean iconsVisible = true;
+	private IconLabelDirectionEnum direction = IconLabelDirectionEnum.HORIZONTAL;
+	private int middlePadding;
 	
 	private int stretchHeight;
 
@@ -136,6 +137,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 //		printElement = new JRTemplateGenericPrintElement(template, elementId);
 		printElement.setUUID(element.getUUID());
 		printElement.setX(element.getX());
+		printElement.setY(fillContext.getElementPrintY());
 
 		printElement.setWidth(element.getWidth());
 		//printElement.setHeight(element.getHeight());
@@ -146,24 +148,33 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			printElement, JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX
 			);
 		
-		if (labelVisible)
-		{
-			try
+//		if (contentVisible)
+//		{
+			if (direction == IconLabelDirectionEnum.HORIZONTAL)
 			{
-				labelPrintText = (JRPrintText)labelTextField.fill();
+				fillHorizontal();
 			}
-			catch (JRException e)
+			else
 			{
-				throw new JRRuntimeException(e);
+				fillVertical();
 			}
-		}
-		else
-		{
-			labelPrintText = new JRBasePrintText(null);//instantiate just so that we don't perform null tests below
-		}
+//		}
 		
-		printElement.setY(fillContext.getElementPrintY());
-		printElement.setHeight(stretchHeight);
+		copy(printElement);
+		
+		return printElement;
+	}
+	
+	public void fillHorizontal()
+	{
+		try
+		{
+			labelPrintText = (JRPrintText)labelTextField.fill();
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 		
 		if (
 			iconLabelComponent.getLabelFill() != ContainerFillEnum.HORIZONTAL
@@ -185,7 +196,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		{
 			labelPrintText.setHeight(
 				Math.max(
-					labelTextField.getHeight(), 
+					labelTextField.getStretchHeight(), 
 					stretchHeight 
 						- getLineBox().getTopPadding()
 						- getLineBox().getBottomPadding()
@@ -193,28 +204,20 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 				);
 		}
 
-		if (iconsVisible)
+		try
 		{
-			try
-			{
-				iconPrintText = (JRPrintText)iconTextField.fill();
-			}
-			catch (JRException e)
-			{
-				throw new JRRuntimeException(e);
-			}
+			iconPrintText = (JRPrintText)iconTextField.fill();
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 
-			iconPrintText.setY(labelPrintText.getY());
-			iconPrintText.setWidth(
-				(int)iconTextField.getTextWidth()
-				+ iconTextField.getLineBox().getLeftPadding() 
-				+ iconTextField.getLineBox().getRightPadding() 
-				);
-		}
-		else
-		{
-			iconPrintText = new JRBasePrintText(null);//instantiate just so that we don't perform null tests below
-		}
+		iconPrintText.setWidth(
+			(int)iconTextField.getTextWidth()
+			+ iconTextField.getLineBox().getLeftPadding() 
+			+ iconTextField.getLineBox().getRightPadding() 
+			);
 		
 		int commonHeight = Math.max(labelPrintText.getHeight(), iconPrintText.getHeight());
 		labelPrintText.setHeight(commonHeight);
@@ -227,14 +230,13 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			{
 				if (iconLabelComponent.getIconPosition() == IconPositionEnum.START)
 				{
-					labelPrintText.setX(iconPrintText.getWidth());
+					labelPrintText.setX(iconPrintText.getWidth() + middlePadding);
 					iconPrintText.setX(0);
 				}
 				else
 				{
 					labelPrintText.setX(0);
-					iconPrintText.setX(labelPrintText.getWidth());
-					//iconPrintText.setX(labelPrintText.getX() + labelPrintText.getWidth());
+					iconPrintText.setX(labelPrintText.getWidth() + middlePadding);
 				}
 				break;
 			}
@@ -247,11 +249,12 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 						iconLabelComponent.getContext().getComponentElement().getWidth() 
 						- getLineBox().getLeftPadding()
 						- getLineBox().getRightPadding()
+						- middlePadding
 						- labelPrintText.getWidth() 
 						- iconPrintText.getWidth()
 						) / 2
 						);
-					labelPrintText.setX(iconPrintText.getX() + iconPrintText.getWidth());
+					labelPrintText.setX(iconPrintText.getX() + iconPrintText.getWidth() + middlePadding);
 				}
 				else
 				{
@@ -260,11 +263,12 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 						iconLabelComponent.getContext().getComponentElement().getWidth() 
 						- getLineBox().getLeftPadding()
 						- getLineBox().getRightPadding()
+						- middlePadding
 						- labelPrintText.getWidth() 
 						- iconPrintText.getWidth()
 						) / 2
 						);
-					iconPrintText.setX(labelPrintText.getX() + labelPrintText.getWidth());
+					iconPrintText.setX(labelPrintText.getX() + labelPrintText.getWidth() + middlePadding);
 				}
 				break;
 			}
@@ -278,7 +282,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 						- getLineBox().getRightPadding()
 						- labelPrintText.getWidth()
 						);
-					iconPrintText.setX(labelPrintText.getX() - iconPrintText.getWidth());
+					iconPrintText.setX(labelPrintText.getX() - iconPrintText.getWidth() - middlePadding);
 				}
 				else
 				{
@@ -288,7 +292,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 						- getLineBox().getRightPadding()
 						- iconPrintText.getWidth()
 						);
-					labelPrintText.setX(iconPrintText.getX() - labelPrintText.getWidth());
+					labelPrintText.setX(iconPrintText.getX() - labelPrintText.getWidth() - middlePadding);
 				}
 				break;
 			}
@@ -340,10 +344,188 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 				break;
 			}
 		}
+	}
+
+	
+	public void fillVertical()
+	{
+		try
+		{
+			labelPrintText = (JRPrintText)labelTextField.fill();
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 		
-		copy(printElement);
+//		if (
+//			iconLabelComponent.getLabelFill() != ContainerFillEnum.HORIZONTAL
+//			&& iconLabelComponent.getLabelFill() != ContainerFillEnum.BOTH
+//			)
+//		{
+//			int calculatedLabelWidth =
+//				(int)labelTextField.getTextWidth() 
+//				+ labelTextField.getLineBox().getLeftPadding() 
+//				+ labelTextField.getLineBox().getRightPadding() 
+//				+ 3;//we do +3 to avoid text wrap in html (+1 was enough for pdf)
+//			labelPrintText.setWidth(Math.min(labelTextField.getWidth(), calculatedLabelWidth));//for some reason, calculated text width seems to be larger then available text width
+//		}
 		
-		return printElement;
+		if (
+			iconLabelComponent.getLabelFill() == ContainerFillEnum.VERTICAL
+			|| iconLabelComponent.getLabelFill() == ContainerFillEnum.BOTH
+			)
+		{
+			labelPrintText.setHeight(
+				Math.max(
+					labelTextField.getStretchHeight(), 
+					stretchHeight - (direction == IconLabelDirectionEnum.HORIZONTAL ? 0 : (iconTextField.getStretchHeight() + middlePadding))
+						- getLineBox().getTopPadding()
+						- getLineBox().getBottomPadding()
+					)
+				);
+		}
+
+		try
+		{
+			iconPrintText = (JRPrintText)iconTextField.fill();
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
+//		iconPrintText.setWidth(
+//			(int)iconTextField.getTextWidth()
+//			+ iconTextField.getLineBox().getLeftPadding() 
+//			+ iconTextField.getLineBox().getRightPadding() 
+//			);
+		
+//		int commonHeight = Math.max(labelPrintText.getHeight(), iconPrintText.getHeight());
+//		labelPrintText.setHeight(commonHeight);
+//		iconPrintText.setHeight(commonHeight);
+		
+		switch (getHorizontalAlignmentValue())
+		{
+			case LEFT :
+			case JUSTIFIED :
+			{
+				labelPrintText.setX(0);
+				iconPrintText.setX(0);
+				break;
+			}
+			case CENTER :
+			{
+				labelPrintText.setX(
+					(
+					iconLabelComponent.getContext().getComponentElement().getWidth()
+					- getLineBox().getLeftPadding()
+					- getLineBox().getRightPadding()
+					- labelPrintText.getWidth()
+					) / 2
+					);
+				iconPrintText.setX(
+					(
+					iconLabelComponent.getContext().getComponentElement().getWidth()
+					- getLineBox().getLeftPadding()
+					- getLineBox().getRightPadding()
+					- iconPrintText.getWidth()
+					) / 2
+					);
+				break;
+			}
+			case RIGHT :
+			{
+				labelPrintText.setX(
+					iconLabelComponent.getContext().getComponentElement().getWidth()
+					- getLineBox().getLeftPadding()
+					- getLineBox().getRightPadding()
+					- labelPrintText.getWidth()
+					);
+				iconPrintText.setX(
+					iconLabelComponent.getContext().getComponentElement().getWidth()
+					- getLineBox().getLeftPadding()
+					- getLineBox().getRightPadding()
+					- iconPrintText.getWidth()
+					);
+				break;
+			}
+		}
+		
+		switch (getVerticalAlignmentValue())
+		{
+			case TOP :
+			case JUSTIFIED :
+			{
+				if (iconLabelComponent.getIconPosition() == IconPositionEnum.START)
+				{
+					labelPrintText.setY(iconPrintText.getHeight() + middlePadding);
+					iconPrintText.setY(0);
+				}
+				else
+				{
+					labelPrintText.setY(0);
+					iconPrintText.setY(labelPrintText.getHeight() + middlePadding);
+				}
+				break;
+			}
+			case MIDDLE :
+			{
+				if (iconLabelComponent.getIconPosition() == IconPositionEnum.START)
+				{
+					iconPrintText.setY(
+						(
+						stretchHeight 
+						- getLineBox().getTopPadding()
+						- getLineBox().getBottomPadding()
+						- middlePadding
+						- labelPrintText.getHeight() 
+						- iconPrintText.getHeight()
+						) / 2
+						);
+					labelPrintText.setY(iconPrintText.getY() + iconPrintText.getHeight() + middlePadding);
+				}
+				else
+				{
+					labelPrintText.setY(
+						(
+						stretchHeight 
+						- getLineBox().getTopPadding()
+						- getLineBox().getBottomPadding()
+						- middlePadding
+						- labelPrintText.getHeight() 
+						- iconPrintText.getHeight()
+						) / 2
+						);
+					iconPrintText.setY(labelPrintText.getY() + labelPrintText.getHeight() + middlePadding);
+				}
+				break;
+			}
+			case BOTTOM :
+			{
+				if (iconLabelComponent.getIconPosition() == IconPositionEnum.START)
+				{
+					labelPrintText.setY(
+						stretchHeight 
+						- getLineBox().getTopPadding()
+						- getLineBox().getBottomPadding()
+						- labelPrintText.getHeight()
+						);
+					iconPrintText.setY(labelPrintText.getY() - iconPrintText.getHeight() - middlePadding);
+				}
+				else
+				{
+					iconPrintText.setY(
+						stretchHeight 
+						- getLineBox().getTopPadding()
+						- getLineBox().getBottomPadding()
+						- iconPrintText.getHeight()
+						);
+					labelPrintText.setY(iconPrintText.getY() - labelPrintText.getHeight() - middlePadding);
+				}
+				break;
+			}
+		}
 	}
 
 	public void setStretchHeight(int stretchHeight)
@@ -359,17 +541,53 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 
 	public FillPrepareResult prepare(int availableHeight)
 	{
-		int availableWidth = 
-				iconLabelComponent.getContext().getComponentElement().getWidth()
-				- getLineBox().getLeftPadding()
-				- getLineBox().getRightPadding();
+		float paddingDiff = 
+			iconLabelComponent.getContext().getComponentElement().getWidth()
+			- getLineBox().getLeftPadding() 
+			- getLineBox().getRightPadding()
+			- 1;
 
-		if (availableWidth < 0)
+		if (paddingDiff < 0)
 		{
-			return FillPrepareResult.printStretch(iconLabelComponent.getContext().getComponentElement().getHeight(), false);
+			paddingDiff = paddingDiff / 2;
+
+			int leftPadding = getLineBox().getLeftPadding() + (int)Math.floor(paddingDiff);
+			leftPadding = leftPadding < 0 ? 0 : leftPadding;
+			getLineBox().setLeftPadding(leftPadding);
+			
+			int rightPadding = getLineBox().getRightPadding() + (int)Math.ceil(paddingDiff);
+			rightPadding = rightPadding < 0 ? 0 : rightPadding;
+			getLineBox().setRightPadding(rightPadding);
 		}
 
-		labelVisible = true;
+		int availableWidth = 
+			iconLabelComponent.getContext().getComponentElement().getWidth()
+			- getLineBox().getLeftPadding() 
+			- getLineBox().getRightPadding();
+
+		middlePadding = iconTextField.getFontSize() / 2;
+
+		if (availableWidth <= middlePadding)
+		{
+			middlePadding = 0; 
+		}
+		else
+		{
+			middlePadding = Math.min(availableWidth - middlePadding, middlePadding); 
+		}
+
+		availableWidth = 
+			iconLabelComponent.getContext().getComponentElement().getWidth()
+			- getLineBox().getLeftPadding() 
+			- getLineBox().getRightPadding()
+			- middlePadding;
+
+//		if (availableWidth <= 0)
+//		{
+//			return FillPrepareResult.printStretch(iconLabelComponent.getContext().getComponentElement().getHeight(), false);
+//		}
+//
+//		contentVisible = true;
 
 		int textAvailableHeight = 
 			availableHeight
@@ -387,21 +605,32 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			throw new JRRuntimeException(e);
 		}
 		
+		boolean changeDirection = false;
 		int labelAvailableWidth;
+
+		int iconsUsedWidth = 0; 
 
 		if (iconTextField.getTextWidth() > iconTextField.getWidth() - iconTextField.getLineBox().getLeftPadding() - iconTextField.getLineBox().getRightPadding())
 		{
-			iconsVisible = false;
-			labelAvailableWidth = availableWidth;
+			changeDirection = true;
 		}
 		else
 		{
-			int iconsNeededWidth = 
+			iconsUsedWidth = 
 				(int)iconTextField.getTextWidth() 
 				+ iconTextField.getLineBox().getLeftPadding() 
 				+ iconTextField.getLineBox().getRightPadding();
-			iconsVisible = availableWidth > iconsNeededWidth;
-			labelAvailableWidth = iconsVisible ? (availableWidth - iconsNeededWidth) : availableWidth;
+			changeDirection = availableWidth <= iconsUsedWidth;
+			labelAvailableWidth = changeDirection ? availableWidth : (availableWidth - iconsUsedWidth);
+		}
+		
+		if (changeDirection)
+		{
+			labelAvailableWidth = availableWidth + middlePadding;
+		}
+		else
+		{
+			labelAvailableWidth = availableWidth - iconsUsedWidth;
 		}
 		
 		labelTextField.setWidth(labelAvailableWidth);
@@ -416,25 +645,45 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		}
 
 		if (
-			iconsVisible 
-			&& labelTextField.getTextWidth() > labelTextField.getWidth() - labelTextField.getLineBox().getLeftPadding() - labelTextField.getLineBox().getRightPadding()
+			changeDirection 
+//			&& labelTextField.getTextWidth() > labelTextField.getWidth() - labelTextField.getLineBox().getLeftPadding() - labelTextField.getLineBox().getRightPadding()
 			)//FIXMEICONLABEL here we might get to hide icons simply because label is blank
 		{
-			iconsVisible = false;
-			labelTextField.setWidth(availableWidth);
-			try
+			direction = IconLabelDirectionEnum.VERTICAL;
+			middlePadding = iconTextField.getFontSize() / 2;
+//			labelTextField.setWidth(availableWidth);
+			int iconAvailableHeight =
+				(labelTextField.isStretchWithOverflow()
+				? textAvailableHeight - labelTextField.getStretchHeight() 
+				: iconLabelComponent.getContext().getComponentElement().getHeight() - labelTextField.getStretchHeight())
+				 - middlePadding;
+			iconsVisible = iconAvailableHeight > 0;
+			if (iconsVisible)
 			{
-				labelTextField.rewind();
-				labelTextField.prepare(textAvailableHeight, fillContext.getFillContainerContext().isCurrentOverflow());
-			}
-			catch (JRException e)
-			{
-				throw new JRRuntimeException(e);
+				try
+				{
+//					labelTextField.rewind();
+//					labelTextField.prepare(textAvailableHeight - iconTextField.getStretchHeight(), fillContext.getFillContainerContext().isCurrentOverflow());
+					iconTextField.rewind();
+					iconTextField.reset();
+					iconTextField.setWidth(labelAvailableWidth);
+					iconTextField.prepare(
+						iconAvailableHeight, 
+						fillContext.getFillContainerContext().isCurrentOverflow()
+						);
+					iconsVisible = iconTextField.getPrintElementHeight() <= iconAvailableHeight;
+				}
+				catch (JRException e)
+				{
+					throw new JRRuntimeException(e);
+				}
 			}
 		}
 		
 		stretchHeight = 
-			Math.max(labelTextField.getStretchHeight(), iconTextField.getStretchHeight())
+			(direction == IconLabelDirectionEnum.HORIZONTAL 
+				? Math.max(labelTextField.getStretchHeight(), (iconsVisible ? iconTextField.getStretchHeight() : 0))
+				: (labelTextField.getStretchHeight() + (iconsVisible ? iconTextField.getStretchHeight() + middlePadding : 0)))
 			+ getLineBox().getTopPadding()
 			+ getLineBox().getBottomPadding();
 
@@ -462,14 +711,14 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	protected void copy(JRPrintFrame printFrame)
 	{
 		//printElement.iconLabelComponent.getLineBox().clone(printElement);
-		if (labelVisible)
-		{
+//		if (contentVisible)
+//		{
 			printElement.addElement(labelPrintText);
-		}
-		if (iconsVisible)
-		{
-			printElement.addElement(iconPrintText);
-		}
+			if (iconsVisible)
+			{
+				printElement.addElement(iconPrintText);
+			}
+//		}
 	}
 
 	@Override
