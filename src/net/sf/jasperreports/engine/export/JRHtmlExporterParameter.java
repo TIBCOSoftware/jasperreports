@@ -60,37 +60,29 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	/**
 	 * A map containing all the images that were used for generating the report. The JasperReports engine stores all the
 	 * images in this map, and uses the map keys for referencing images throughout the export process.
+	 * @deprecated Replaced by {@link AbstractHtmlExporter#getImageHandler()}.
 	 */
 	public static final JRHtmlExporterParameter IMAGES_MAP = new JRHtmlExporterParameter("Images Map Object");
 
 
 	/**
 	 * A <tt>java.io.File</tt> instance representing an absolute path to a folder on a local disk, where all the images are stored.
+	 * @deprecated Replaced by {@link AbstractHtmlExporter#getImageHandler()}.
 	 */
 	public static final JRHtmlExporterParameter IMAGES_DIR = new JRHtmlExporterParameter("Images Directory");
 
 
 	/**
 	 * An absolute path to a folder on a local disk, where all the images are stored. This is an alternative to IMAGES_DIR
+	 * @deprecated Replaced by {@link AbstractHtmlExporter#getImageHandler()}.
 	 */
 	public static final JRHtmlExporterParameter IMAGES_DIR_NAME = new JRHtmlExporterParameter("Images Directory Name");
 
 
 	/**
-	 * A <tt>java.io.File</tt> instance representing an absolute path to a folder on a local disk, where all the resources are stored.
-	 */
-	public static final JRHtmlExporterParameter RESOURCES_DIR = new JRHtmlExporterParameter("Resources Directory");
-
-
-	/**
-	 * An absolute path to a folder on a local disk, where all the resources are stored. This is an alternative to RESOURCES_DIR
-	 */
-	public static final JRHtmlExporterParameter RESOURCES_DIR_NAME = new JRHtmlExporterParameter("Resources Directory Name");
-
-
-	/**
 	 * A boolean value specifying whether the images should be stored on disk. The default value is true. If this parameter is
 	 * specified, IMAGES_DIR or IMAGES_DIR_NAME must also be specified and point to a valid directory.
+	 * @deprecated Replaced by {@link AbstractHtmlExporter#getImageHandler()}.
 	 */
 	public static final JRHtmlExporterParameter IS_OUTPUT_IMAGES_TO_DIR = new JRHtmlExporterParameter("Is Output Images to Directory Flag");
 
@@ -99,23 +91,11 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	 * An URI to the folder where all the images are stored. It could also point to a different resource, such as an image servlet.
 	 * It is used in the generated HTML to point to the actual location of the image in the <img> tag (as a file on disk or a
 	 * web resource).
+	 * @deprecated Replaced by {@link AbstractHtmlExporter#getImageHandler()}.
 	 */
 	public static final JRHtmlExporterParameter IMAGES_URI = new JRHtmlExporterParameter("Images URI");
 
 
-	/**
-	 * A boolean value specifying whether the resources should be stored on disk. The default value is true. If this parameter is
-	 * specified, RESOURCES_DIR or RESOURCES_DIR_NAME must also be specified and point to a valid directory.
-	 */
-	public static final JRHtmlExporterParameter IS_OUTPUT_RESOURCES_TO_DIR = new JRHtmlExporterParameter("Is Output Resources to Directory Flag");
-	
-	
-	/**
-	 * An URI to the folder where all the resources are stored. It could also point to a different resource, such as an resource servlet.
-	 */
-	public static final JRHtmlExporterParameter RESOURCES_URI = new JRHtmlExporterParameter("Resources URI");
-	
-	
 	/**
 	 * A string representing HTML code that will be inserted in front of the generated report. The JasperReports engine places
 	 * a piece of HTML code at the top of the page but users can define their own headers and stylesheet links.

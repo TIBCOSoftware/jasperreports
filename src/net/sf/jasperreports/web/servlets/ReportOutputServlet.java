@@ -45,6 +45,7 @@ import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
 import net.sf.jasperreports.web.util.VelocityUtil;
+import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
 import net.sf.jasperreports.web.util.WebUtil;
 
 
@@ -181,8 +182,9 @@ public class ReportOutputServlet extends AbstractServlet
 		exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, writer);
 
 		String resourcesPath = request.getContextPath() + webUtil.getResourcesPath() + "?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
-		exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, resourcesPath + "&image=");
-		exporter.setParameter(JRHtmlExporterParameter.RESOURCES_URI, resourcesPath);
+		exporter.setImageHandler(new WebHtmlResourceHandler(resourcesPath + "&image={0}"));
+		exporter.setResourceHandler(new WebHtmlResourceHandler(resourcesPath + "/{0}"));
+		exporter.setFontHandler(new WebHtmlResourceHandler(resourcesPath + "&font={0}"));
 		
 		exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, getHeader(request, webReportContext, hasPages, pageStatus));
 		exporter.setParameter(JRHtmlExporterParameter.BETWEEN_PAGES_HTML, getBetweenPages(request, webReportContext));
