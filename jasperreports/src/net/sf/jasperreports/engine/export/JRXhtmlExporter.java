@@ -39,7 +39,6 @@ import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -58,7 +57,6 @@ import java.util.Map;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ImageMapRenderable;
-import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -102,11 +100,11 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRColorUtil;
-import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.Pair;
+import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -118,7 +116,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXhtmlExporter extends JRAbstractExporter
+public class JRXhtmlExporter extends AbstractHtmlExporter
 {
 	private static final Log log = LogFactory.getLog(JRXhtmlExporter.class);
 	
@@ -178,7 +176,6 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	protected Map<String,String> rendererToImagePathMap;
 	protected Map<Pair<String,Rectangle>,String> imageMaps;
 	protected Map<String,byte[]> imageNameToImageDataMap;
-	protected List<JRPrintElementIndex> imagesToProcess;
 	
 	protected Map<String, HtmlFont> fontsToProcess;
 	
@@ -194,14 +191,6 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected File imagesDir;
-	protected String imagesURI;
-	protected boolean isOutputImagesToDir;
-
-	protected File resourcesDir;
-	protected boolean isOutputResourcesToDir;
-	protected String resourcesURI;
-	
 	protected boolean isWhitePageBackground;
 	protected String encoding;
 	protected String sizeUnit;
@@ -276,23 +265,36 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			betweenPagesHtml = (String)parameters.get(JRHtmlExporterParameter.BETWEEN_PAGES_HTML);
 			htmlFooter = (String)parameters.get(JRHtmlExporterParameter.HTML_FOOTER);
 	
-			imagesDir = (File)parameters.get(JRHtmlExporterParameter.IMAGES_DIR);
-			if (imagesDir == null)
-			{
-				String dir = (String)parameters.get(JRHtmlExporterParameter.IMAGES_DIR_NAME);
-				if (dir != null)
-				{
-					imagesDir = new File(dir);
-				}
-			}
+			@SuppressWarnings("deprecation")
+			Boolean isOutputImagesToDirParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR);
+			@SuppressWarnings("deprecation")
+			String imagesUri = (String)parameters.get(JRHtmlExporterParameter.IMAGES_URI);
 	
-			resourcesDir = (File)parameters.get(JRHtmlExporterParameter.RESOURCES_DIR);
-			if (resourcesDir == null)
+			if (imageHandler == null)
 			{
-				String dir = (String)parameters.get(JRHtmlExporterParameter.RESOURCES_DIR_NAME);
-				if (dir != null)
+				if (isOutputImagesToDirParameter == null || isOutputImagesToDirParameter.booleanValue())
 				{
-					resourcesDir = new File(dir);
+					@SuppressWarnings("deprecation")
+					File imagesDir = (File)parameters.get(JRHtmlExporterParameter.IMAGES_DIR);
+					if (imagesDir == null)
+					{
+						@SuppressWarnings("deprecation")
+						String imagesDirName = (String)parameters.get(JRHtmlExporterParameter.IMAGES_DIR_NAME);
+						if (imagesDirName != null)
+						{
+							imagesDir = new File(imagesDirName);
+						}
+					}
+					
+					if (imagesDir != null)
+					{
+						imageHandler = new FileHtmlResourceHandler(imagesDir, imagesUri == null ? imagesDir.getName() + "/{0}" : imagesUri + "{0}");
+					}
+				}
+
+				if (imageHandler == null && imagesUri != null)
+				{
+					imageHandler = new WebHtmlResourceHandler(imagesUri + "{0}");
 				}
 			}
 	
@@ -303,30 +305,6 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					true
 					);
 	
-			Boolean isOutputImagesToDirParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR);
-			if (isOutputImagesToDirParameter != null)
-			{
-				isOutputImagesToDir = isOutputImagesToDirParameter.booleanValue();
-			}
-	
-			String uri = (String)parameters.get(JRHtmlExporterParameter.IMAGES_URI);
-			if (uri != null)
-			{
-				imagesURI = uri;
-			}
-
-			Boolean isOutputResourcesToDirParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_OUTPUT_RESOURCES_TO_DIR);
-			if (isOutputResourcesToDirParameter != null)
-			{
-				isOutputResourcesToDir = isOutputResourcesToDirParameter.booleanValue();
-			}
-			
-			String resUri = (String)parameters.get(JRHtmlExporterParameter.RESOURCES_URI);
-			if (resUri != null)
-			{
-				resourcesURI = resUri;
-			}
-			
 			encoding = 
 				getStringParameterOrDefault(
 					JRExporterParameter.CHARACTER_ENCODING, 
@@ -335,14 +313,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 			rendererToImagePathMap = new HashMap<String,String>();
 			imageMaps = new HashMap<Pair<String,Rectangle>,String>();
-			imagesToProcess = new ArrayList<JRPrintElementIndex>();
 	
 			//backward compatibility with the IMAGE_MAP parameter
-			imageNameToImageDataMap = (Map<String,byte[]>)parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
-	//		if (imageNameToImageDataMap == null)
-	//		{
-	//			imageNameToImageDataMap = new HashMap();
-	//		}
+			@SuppressWarnings({ "deprecation", "unchecked" })
+			Map<String,byte[]> depMap = (Map<String,byte[]>)parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
+			imageNameToImageDataMap = depMap;
 			//END - backward compatibility with the IMAGE_MAP parameter
 
 			fontsToProcess = new HashMap<String, HtmlFont>();
@@ -467,34 +442,24 @@ public class JRXhtmlExporter extends JRAbstractExporter
 							throw new JRException("Error creating to file writer : " + jasperPrint.getName(), e);
 						}
 	
-						if (imagesDir == null)
+						if (
+							imageHandler == null
+							&& (isOutputImagesToDirParameter == null || isOutputImagesToDirParameter.booleanValue())
+							)
 						{
-							imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
+							File imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
+							imageHandler = new FileHtmlResourceHandler(imagesDir, imagesUri == null ? imagesDir.getName() + "/{0}" : imagesUri + "{0}");
 						}
-	
-						if (isOutputImagesToDirParameter == null)
+
+						if (fontHandler == null)
 						{
-							isOutputImagesToDir = true;
-						}
-	
-						if (imagesURI == null)
-						{
-							imagesURI = imagesDir.getName() + "/";
-						}
-	
-						if (resourcesDir == null)
-						{
-							resourcesDir = new File(destFile.getParent(), destFile.getName() + "_files");
+							File resourcesDir = new File(destFile.getParent(), destFile.getName() + "_files");
+							fontHandler = new FileHtmlResourceHandler(resourcesDir, resourcesDir.getName() + "/{0}");
 						}
 						
-						if (isOutputResourcesToDirParameter == null)
+						if (resourceHandler == null)
 						{
-							isOutputResourcesToDir = true;
-						}
-	
-						if (resourcesURI == null)
-						{
-							resourcesURI = resourcesDir.getName() + "/";
+							resourceHandler = new FileHtmlResourceHandler(new File(destFile.getParent(), destFile.getName() + "_files"));
 						}
 						
 						try
@@ -512,67 +477,6 @@ public class JRXhtmlExporter extends JRAbstractExporter
 								try
 								{
 									writer.close();
-								}
-								catch(IOException e)
-								{
-								}
-							}
-						}
-					}
-				}
-			}
-	
-			if (isOutputImagesToDir)
-			{
-				if (imagesDir == null)
-				{
-					throw new JRException("The images directory was not specified for the exporter.");
-				}
-	
-				if (imagesToProcess != null && imagesToProcess.size() > 0)
-				{
-					if (!imagesDir.exists())
-					{
-						imagesDir.mkdir();
-					}
-	
-					for(Iterator<JRPrintElementIndex> it = imagesToProcess.iterator(); it.hasNext();)
-					{
-						JRPrintElementIndex imageIndex = it.next();
-	
-						JRPrintImage image = getImage(jasperPrintList, imageIndex);
-						Renderable renderer = image.getRenderable();
-						if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-						{
-							renderer =
-								new JRWrappingSvgRenderer(
-									renderer,
-									new Dimension(image.getWidth(), image.getHeight()),
-									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-									);
-						}
-	
-						byte[] imageData = renderer.getImageData(jasperReportsContext);
-	
-						File imageFile = new File(imagesDir, getImageName(imageIndex));
-						FileOutputStream fos = null;
-	
-						try
-						{
-							fos = new FileOutputStream(imageFile);
-							fos.write(imageData, 0, imageData.length);
-						}
-						catch (IOException e)
-						{
-							throw new JRException("Error writing to image file : " + imageFile, e);
-						}
-						finally
-						{
-							if (fos != null)
-							{
-								try
-								{
-									fos.close();
 								}
 								catch(IOException e)
 								{
@@ -685,14 +589,24 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			}
 		}
 
-		if (fontsToProcess != null && fontsToProcess.size() > 0)
+		if (fontsToProcess != null && fontsToProcess.size() > 0)// when no fontHandler and/or resourceHandler, fonts are not processed 
 		{
 			for (HtmlFont htmlFont : fontsToProcess.values())
 			{
-				writer.write("<link rel=\"stylesheet\" href=\"" + resourcesURI + (isOutputResourcesToDir ? "" : "&font=") + htmlFont.getId() + "\">\n");
+				writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + fontHandler.getResourcePath(htmlFont.getId()) + "\">\n");
 			}
 		}
 		
+//		if (!isOutputResourcesToDir)
+		{
+			writer.write("<![if IE]>\n");
+			writer.write("<script>\n");
+			writer.write("var links = document.querySelectorAll('link.jrWebFont');\n");
+			writer.write("setTimeout(function(){ if (links) { for (var i = 0; i < links.length; i++) { links.item(i).href = links.item(i).href; } } }, 0);\n");
+			writer.write("</script>\n");
+			writer.write("<![endif]>\n");
+		}
+
 		if (htmlFooter == null)
 		{
 			writer.write("</td><td width=\"50%\">&nbsp;</td></tr>\n");
@@ -993,21 +907,21 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				String exportFont = family.getExportFont(getExporterKey());
 				if (exportFont == null)
 				{
-					HtmlFont htmlFont = HtmlFont.getInstance(locale, fontInfo, isBold, isItalic);
-					
-					if (htmlFont != null)
+					if (fontHandler != null && resourceHandler != null)
 					{
-						if (!fontsToProcess.containsKey(htmlFont.getId()))
-						{
-							fontsToProcess.put(htmlFont.getId(), htmlFont);
-
-							if (isOutputResourcesToDir)
-							{
-								processFont(htmlFont);
-							}
-						}
+						HtmlFont htmlFont = HtmlFont.getInstance(locale, fontInfo, isBold, isItalic);
 						
-						fontFamily = htmlFont.getId();
+						if (htmlFont != null)
+						{
+							if (!fontsToProcess.containsKey(htmlFont.getId()))
+							{
+								fontsToProcess.put(htmlFont.getId(), htmlFont);
+
+								HtmlFontUtil.handleFont(resourceHandler, htmlFont);
+							}
+							
+							fontFamily = htmlFont.getId();
+						}
 					}
 				}
 				else
@@ -2023,15 +1937,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					}
 					else
 					{
-						JRPrintElementIndex imageIndex = getElementIndex();
-						imagesToProcess.add(imageIndex);
-	
-						String imageName = getImageName(imageIndex);
-						imagePath = imagesURI + imageName;
-
-						//backward compatibility with the IMAGE_MAP parameter
-						if (imageNameToImageDataMap != null)
+						if (imageHandler != null || imageNameToImageDataMap != null)
 						{
+							JRPrintElementIndex imageIndex = getElementIndex();
+							String imageName = getImageName(imageIndex);
+
 							if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 							{
 								renderer =
@@ -2041,9 +1951,23 @@ public class JRXhtmlExporter extends JRAbstractExporter
 										ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 										);
 							}
-							imageNameToImageDataMap.put(imageName, renderer.getImageData(jasperReportsContext));
+
+							byte[] imageData = renderer.getImageData(jasperReportsContext);
+
+							//backward compatibility with the IMAGE_MAP parameter
+							if (imageNameToImageDataMap != null)
+							{
+								imageNameToImageDataMap.put(imageName, imageData);
+							}
+							//END - backward compatibility with the IMAGE_MAP parameter
+							
+							if (imageHandler != null)
+							{
+								imageHandler.handleResource(imageName, imageData);
+
+								imagePath = imageHandler.getResourcePath(imageName);
+							}
 						}
-						//END - backward compatibility with the IMAGE_MAP parameter
 					}
 	
 					rendererToImagePathMap.put(renderer.getId(), imagePath);
@@ -2650,84 +2574,6 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 	}
 
-	protected void processFont(HtmlFont htmlFont)
-	{
-		if (resourcesDir == null)
-		{
-			throw new JRRuntimeException("The resources directory was not specified for the exporter.");
-		}
-
-		if (!resourcesDir.exists())
-		{
-			resourcesDir.mkdir();
-		}
-
-		File resourceFile = new File(resourcesDir, htmlFont.getId());
-		FileWriter fw = null;
-
-		try
-		{
-			fw = new FileWriter(resourceFile);
-			fw.write("@charset \"UTF-8\";\n");
-			fw.write("@font-face {\n");
-			fw.write("\tfont-family: \'" + htmlFont.getId() + "';\n");
-			if (htmlFont.getEot() != null)
-			{
-				String eotFileName = htmlFont.getId() + ".eot";
-				fw.write("\tsrc: url('" + eotFileName + "');\n");
-				fw.write("\tsrc: url('" + eotFileName + "?#iefix') format('eot');\n");
-				JRSaver.saveResource(htmlFont.getEot(), new File(resourcesDir, eotFileName));
-			}
-			if (
-				htmlFont.getTtf() != null
-				|| htmlFont.getSvg() != null
-				|| htmlFont.getWoff() != null
-				)
-			{
-				fw.write("\tsrc: local('☺')");
-				if (htmlFont.getWoff() != null)
-				{
-					String woffFileName = htmlFont.getId() + ".woff";
-					fw.write(",\n\t\turl('" + woffFileName + "') format('woff')"); 
-					JRSaver.saveResource(htmlFont.getWoff(), new File(resourcesDir, woffFileName));
-				}
-				if (htmlFont.getTtf() != null)
-				{
-					String ttfFileName = htmlFont.getId() + ".ttf";
-					fw.write(",\n\t\turl('" + ttfFileName + "') format('truetype')"); 
-					JRSaver.saveResource(htmlFont.getTtf(), new File(resourcesDir, ttfFileName));
-				}
-				if (htmlFont.getSvg() != null)
-				{
-					String svgFileName = htmlFont.getId() + ".svg";
-					fw.write(",\n\t\turl('" + svgFileName + "') format('svg')");
-					JRSaver.saveResource(htmlFont.getSvg(), new File(resourcesDir, svgFileName));
-				}
-				fw.write(";\n");
-			}
-			fw.write("\tfont-weight: normal;\n");
-			fw.write("\tfont-style: normal;\n");
-			fw.write("}");
-		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		finally
-		{
-			if (fw != null)
-			{
-				try
-				{
-					fw.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-		}
-	}
-	
 	public Map<JRExporterParameter,Object> getExportParameters()
 	{
 		return parameters;

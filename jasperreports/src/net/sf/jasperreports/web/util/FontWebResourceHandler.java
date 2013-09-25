@@ -24,7 +24,8 @@
 package net.sf.jasperreports.web.util;
 
 import java.io.IOException;
-import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +33,8 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.HtmlFont;
+import net.sf.jasperreports.engine.export.HtmlFontUtil;
+import net.sf.jasperreports.engine.export.HtmlResourceHandler;
 
 
 /**
@@ -64,8 +67,8 @@ public class FontWebResourceHandler implements WebResourceHandler
 				{
 					String basePath = getResourceBasePath(jasperReportsContext, request);
 					
-					String resourceString = processFont(basePath, htmlFont);
-					response.getWriter().write(resourceString);//FIXMEFONT close this properly
+					byte[] resourceData = processFont(basePath, htmlFont);
+					response.getOutputStream().write(resourceData);//FIXMEFONT close this properly
 				}
 				catch (IOException e) 
 				{
@@ -79,72 +82,13 @@ public class FontWebResourceHandler implements WebResourceHandler
 	}
 
 
-	protected String processFont(String basePath, HtmlFont htmlFont)
+	protected byte[] processFont(String basePath, HtmlFont htmlFont)
 	{
-		StringWriter fw = new StringWriter();
-
-		try
-		{
-			fw.write("@charset \"UTF-8\";\n");//FIXMEFONT this writer is duplicated
-			fw.write("@font-face {\n");
-			fw.write("\tfont-family: \'" + htmlFont.getId() + "';\n");
-			if (htmlFont.getEot() != null)
-			{
-				String eotFileName = basePath + htmlFont.getEot();
-				fw.write("\tsrc: url('" + eotFileName + "');\n");
-				fw.write("\tsrc: url('" + eotFileName + "?#iefix') format('embedded-opentype');\n");
-				//processFontFile(eotFileName, htmlFont.getEot());
-			}
-			if (
-				htmlFont.getTtf() != null
-				|| htmlFont.getSvg() != null
-				|| htmlFont.getWoff() != null
-				)
-			{
-				fw.write("\tsrc: local('☺')");
-				if (htmlFont.getWoff() != null)
-				{
-					String woffFileName = basePath + htmlFont.getWoff();
-					fw.write(",\n\t\turl('" + woffFileName + "') format('woff')"); 
-					//processFontFile(woffFileName, htmlFont.getWoff());
-				}
-				if (htmlFont.getTtf() != null)
-				{
-					String ttfFileName = basePath + htmlFont.getTtf();
-					fw.write(",\n\t\turl('" + ttfFileName + "') format('truetype')"); 
-					//processFontFile(ttfFileName, htmlFont.getTtf());
-				}
-				if (htmlFont.getSvg() != null)
-				{
-					String svgFileName = basePath + htmlFont.getSvg();
-					fw.write(",\n\t\turl('" + svgFileName + "') format('svg')");
-					//processFontFile(svgFileName, htmlFont.getSvg());
-				}
-				fw.write(";\n");
-			}
-			fw.write("\tfont-weight: normal;\n");
-			fw.write("\tfont-style: normal;\n");
-			fw.write("}");
-		}
-//		catch (IOException e)
-//		{
-//			throw new JRRuntimeException(e);
-//		}
-		finally
-		{
-			if (fw != null)
-			{
-				try
-				{
-					fw.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-		}
+		FontHtmlResourceHandler resourceHandler = new FontHtmlResourceHandler(basePath, htmlFont);
 		
-		return fw.toString();
+		HtmlFontUtil.handleFont(resourceHandler, htmlFont);
+		
+		return resourceHandler.getFontCss();
 	}
 	
 
@@ -156,4 +100,55 @@ public class FontWebResourceHandler implements WebResourceHandler
 		return request.getContextPath() + WebUtil.getInstance(jasperReportsContext).getResourcesPath() + "/";
 		//String basePath = request.getContextPath() + webUtil.getResourcesBasePath();
 	}
+}
+
+
+/**
+ * 
+ */
+class FontHtmlResourceHandler implements HtmlResourceHandler
+{
+	private String basePath;
+	private HtmlFont htmlFont;
+	private Map<String, String> fontFaceIds;
+	private byte[] fontCss;
+	
+	protected FontHtmlResourceHandler(String basePath, HtmlFont htmlFont)
+	{
+		this.basePath = basePath;
+		this.htmlFont = htmlFont;
+		fontFaceIds = new HashMap<String, String>();
+		fontFaceIds.put(htmlFont.getId() + ".ttf", htmlFont.getTtf());
+		fontFaceIds.put(htmlFont.getId() + ".eot", htmlFont.getEot());
+		fontFaceIds.put(htmlFont.getId() + ".woff", htmlFont.getWoff());
+		fontFaceIds.put(htmlFont.getId() + ".svg", htmlFont.getSvg());
+	}
+
+	@Override
+	public String getResourcePath(String id) 
+	{
+		if (fontFaceIds.containsKey(id))
+		{
+			return basePath + fontFaceIds.get(id);
+		}
+		return basePath + id;
+	}
+
+	@Override
+	public void handleResource(String id, byte[] data) 
+	{
+		if (id.equals(htmlFont.getId()))
+		{
+			fontCss = data;
+		}
+	}
+
+	/**
+	 * 
+	 */
+	protected byte[] getFontCss() 
+	{
+		return fontCss;
+	}
+	
 }
