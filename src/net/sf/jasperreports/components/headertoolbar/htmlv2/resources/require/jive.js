@@ -16,6 +16,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
         interactive:{},
         clickEventName: clickEventName,
         isIE: /msie/i.test(navigator.userAgent),
+        isIPad: /ipad/i.test(navigator.userAgent),
         isFloatingHeader: false,
         isDashboard: false,
         getReportContainer: function() {
@@ -1129,18 +1130,26 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 floatableTbl = it.getHeaderTable(),
                 containerTop = isDashboard ? $(window).scrollTop() : $('div#reportViewFrame .body').offset().top,
                 windowScrollLeft = $(window).scrollLeft(),
-                tblLeft = firstHeader.closest('table').offset().left,
+                tbl = firstHeader.closest('table'),
+                tblLeft = tbl.offset().left,
                 headerTop = firstHeader.closest('tr').offset().top,
                 reportContainerTop = $('#reportContainer').offset().top,
                 lastTableCel = $('td.first_jrcolHeader:first').closest('table').find('td.jrcel:last'),
-                diff = lastTableCel.length ? lastTableCel.offset().top - floatableTbl.outerHeight() - containerTop: -1; // if last cell is not visible, hide the floating header
+                diff = lastTableCel.length ? lastTableCel.offset().top - floatableTbl.outerHeight() - containerTop: -1, // if last cell is not visible, hide the floating header
+                scrollTop = it.cachedScroll || 0;
+
+            it.isIPad && !it.cachedHeaderTop && (it.cachedHeaderTop = headerTop);
+
+            if (!isDashboard && it.isIPad) {
+                scrollTop += it.cachedHeaderTop - headerTop;
+            }
 
             if (!o.bMoved && headerTop-containerTop < 0 && diff > 0) {
                 floatableTbl.show();
                 floatableTbl.css({
                     position: 'fixed',
-                    top: isDashboard ? 0 : containerTop,
-                    left: tblLeft - windowScrollLeft
+                    top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
+                    left: it.isIPad ? tbl.position().left : (tblLeft - windowScrollLeft)
                 });
 
                 it.setToolbarPositionWhenFloating(it.active, isDashboard);
@@ -1155,22 +1164,26 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 floatableTbl.show();
                 floatableTbl.css({
                     position: 'fixed',
-                    top: isDashboard ? 0 : containerTop,
-                    left: tblLeft - windowScrollLeft
+                    top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
+                    left: it.isIPad ? tbl.position().left : (tblLeft - windowScrollLeft)
                 });
                 it.setToolbarPositionWhenFloating(it.active, isDashboard);
             } else if (o.bMoved) {
                 if (!isDashboard && (reportContainerTop > o.reportContainerPositionAtMove || diff <= 0)) {
                     floatableTbl.hide();
                     o.bMoved = it.isFloatingHeader = false;
+                    it.cachedScroll = 0;
                     it.active && it.ui.foobar.setToolbarPosition();
                 } else if (isDashboard && (headerTop-containerTop >= 0 || diff <= 0)) {
                     floatableTbl.hide();
                     o.bMoved = it.isFloatingHeader = false;
+                    it.cachedScroll = 0;
                     it.active && it.ui.foobar.setToolbarPosition();
                 }
             }
 
+            it.isIPad && (it.cachedHeaderTop = headerTop);
+            it.isIPad && (it.cachedScroll = scrollTop);
             return o;
         },
         setScrollableHeader: function(isDashboard){
@@ -1181,7 +1194,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 };
 
             if (!isDashboard) {
-                $('div#reportViewFrame .body').on('scroll', function(evt) {
+                $('div#reportViewFrame .body').on('scroll', function() {
                     o = it.scrollHeader(o, isDashboard);
                 });
             }
