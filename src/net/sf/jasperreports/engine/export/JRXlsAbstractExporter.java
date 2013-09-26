@@ -1036,7 +1036,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		
 		if (createXCuts || startRow == 0)
 		{
-			exportSheet(xCuts, yCuts, 0, startRow, defaultSheetName);
+			exportSheet(xCuts, yCuts, 0, defaultSheetName);
 		}
 
 		XlsRowLevelInfo levelInfo = new XlsRowLevelInfo(); 
@@ -1058,7 +1058,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				
 				setRowLevels(levelInfo, null);
 				
-				exportSheet(xCuts, yCuts, y, startRow, defaultSheetName);
+				exportSheet(xCuts, yCuts, y, defaultSheetName);
 				
 				startRow = 0;
 				rowIndex = 0;
@@ -1273,16 +1273,16 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	}
 	
 
-	protected SheetInfo getSheetProps(CutsInfo yCuts, int startCutIndex, int startRow)
+	protected SheetInfo getSheetProps(CutsInfo yCuts, int startCutIndex)
 	{
 		SheetInfo sheetInfo = new SheetInfo();
 		
 		int skippedRows = 0;
-		int rowIndex = startRow;
+		int rowIndex = 0;
 		int rowCount = yCuts.size() - 1;
 		for(int y = startCutIndex; y < rowCount; y++)
 		{
-			rowIndex = y - skippedRows + startRow;
+			rowIndex = y - skippedRows;
 
 			if(
 				y > startCutIndex &&
@@ -1334,9 +1334,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	}
 	
 
-	protected void exportSheet(CutsInfo xCuts, CutsInfo yCuts, int startCutIndex, int startRow, String defaultSheetName)
+	protected void exportSheet(CutsInfo xCuts, CutsInfo yCuts, int startCutIndex, String defaultSheetName)
 	{
-		SheetInfo sheetInfo = getSheetProps(yCuts, startCutIndex, startRow);
+		SheetInfo sheetInfo = getSheetProps(yCuts, startCutIndex);
 		
 		sheetInfo.sheetName = getSheetName(sheetInfo.sheetName, defaultSheetName);
 		
