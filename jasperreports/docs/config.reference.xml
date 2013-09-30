@@ -3149,7 +3149,7 @@ Specifies whether the exporter should take into consideration the type of the or
 Property used at print time to indicate the number of pages height to fit the sheet in. Print pages for a given sheet in Excel are generated according to 'Paper size' settings in the Print menu, 
 with no respect to the initial pagination of the report. In this case differences between a JasperReport print page and a page in Excel may occur. 
 <br/>
-Usually the content of a given sheet considered to be printed into a single page. But when a sheet contains too many rows, including all of them in a single page may lead to an unreadable printed 
+Usually the content of a given sheet is considered to be printed into a single page. But when a sheet contains too many rows, including all of them in a single page may lead to an unreadable printed 
 document. In this case the sheet must be split into multiple print pages. In JasperReports this number of pages can be set with the <code>net.sf.jasperreports.export.xls.fit.height</code> property.
 <br/>
 <b>Note:</b> When this property is set to a value (for instance, n), Excel will estimate if n pages are enough to cover the entire sheet height, keeping font settings and row heights unchanged. 
