@@ -43,7 +43,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class SimpleFontFace implements FontFace
+public class SimpleFontFace implements FontFace, Cloneable
 {
 
 	/**
@@ -56,8 +56,11 @@ public class SimpleFontFace implements FontFace
 	private String eot;
 	private String svg;
 	private String woff;
-	
-	
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
 	/**
 	 * @deprecated Replaced by {@link #SimpleFontFace(JasperReportsContext)} and {@link #setTtf(String)}.
 	 */

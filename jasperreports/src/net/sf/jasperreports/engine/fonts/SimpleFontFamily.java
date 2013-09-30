@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class SimpleFontFamily implements FontFamily
+public class SimpleFontFamily implements FontFamily, Cloneable
 {
 
 	/**
@@ -70,6 +70,11 @@ public class SimpleFontFamily implements FontFamily
 	public SimpleFontFamily(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 	
 	/**
