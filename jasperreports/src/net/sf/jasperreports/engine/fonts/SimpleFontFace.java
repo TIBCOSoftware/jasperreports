@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -43,7 +44,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class SimpleFontFace implements FontFace, Cloneable
+public class SimpleFontFace implements FontFace, JRCloneable
 {
 
 	/**
@@ -58,8 +59,14 @@ public class SimpleFontFace implements FontFace, Cloneable
 	private String woff;
 
 	@Override
-	public Object clone() throws CloneNotSupportedException {
-		return super.clone();
+	public Object clone() {
+		try
+		{
+			return super.clone();
+		} catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 	/**
 	 * @deprecated Replaced by {@link #SimpleFontFace(JasperReportsContext)} and {@link #setTtf(String)}.
