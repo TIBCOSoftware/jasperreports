@@ -3146,7 +3146,17 @@ Specifies whether the exporter should take into consideration the type of the or
   
   <configProperty name="net.sf.jasperreports.export.xls.fit.height">
     <description>
-Property used at print time to indicate the number of pages height to fit the sheet in.
+Property used at print time to indicate the number of pages height to fit the sheet in. Print pages for a given sheet in Excel are generated according to 'Paper size' settings in the Print menu, 
+with no respect to the initial pagination of the report. In this case differences between a JasperReport print page and a page in Excel may occur. 
+<br/>
+Usually the content of a given sheet considered to be printed into a single page. But when a sheet contains too many rows, including all of them in a single page may lead to an unreadable printed 
+document. In this case the sheet must be split into multiple print pages. In JasperReports this number of pages can be set with the <code>net.sf.jasperreports.export.xls.fit.height</code> property.
+<br/>
+<b>Note:</b> When this property is set to a value (for instance, n), Excel will estimate if n pages are enough to cover the entire sheet height, keeping font settings and row heights unchanged. 
+If the number of pages is too small, font and row height adjustments will be performed in order to make room for the entire content. The printed document will come out with smaller fonts and thinner 
+rows than those exposed in the related sheet.
+<br/>
+See also the <a href="#net.sf.jasperreports.export.xls.fit.width">net.sf.jasperreports.export.xls.fit.width</a> property.
     </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_FIT_HEIGHT</api>
     <default>N/A</default>
@@ -3159,7 +3169,18 @@ Property used at print time to indicate the number of pages height to fit the sh
   
   <configProperty name="net.sf.jasperreports.export.xls.fit.width">
     <description>
-Property used at print time to indicate the number of pages width to fit the sheet in.
+Property used at print time to indicate the number of pages width to fit the sheet in. Print pages for a given sheet in Excel are generated according to 'Paper size' settings in the Print menu, 
+with no respect to the initial pagination of the report. In this case differences between a JasperReport print page and a page in Excel may occur. 
+<br/>
+In most common cases the content of a given sheet is supposed to be printed into a single page. But problems may occur when a sheet contains too many rows and/or columns and the printed page 
+becomes unreadable. If too many columns are involved, we can split the sheet width into multiple print pages, in order to make the content readable. In JasperReports this number of pages can 
+be set with the <code>net.sf.jasperreports.export.xls.fit.width</code> property.
+<br/>
+<b>Note:</b> When this property is set to a value (for instance, n), Excel will estimate if n pages are enough to cover the entire sheet width, keeping font settings and column widths unchanged. 
+If the number of pages is too small, font and column width adjustments will be performed in order to include the entire content into available pages. The printed document will come out with 
+smaller fonts and thinner columns than those exposed in the related sheet.
+<br/>
+See also the <a href="#net.sf.jasperreports.export.xls.fit.height">net.sf.jasperreports.export.xls.fit.height</a> property.
     </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_FIT_WIDTH</api>
     <default>N/A</default>
