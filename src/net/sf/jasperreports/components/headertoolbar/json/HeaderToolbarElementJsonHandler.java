@@ -302,6 +302,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			contextMap.put("columnUuid", columnUuid);
 			contextMap.put("columnLabel", columnLabel);
 			contextMap.put("columnIndex", columnIndex);
+            contextMap.put("dataType", FilterTypesEnum.TEXT.getName()); // use Text as default
 			contextMap.put("canSort", canSort);
 			contextMap.put("canFilter", canFilter);
 
