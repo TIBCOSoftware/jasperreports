@@ -1042,7 +1042,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 var firstColHeader = $('td.jrcolHeader:first'),
                     parentTable = firstColHeader.closest('table'),
                     lastColHeader = $('td.jrcolHeader:last', parentTable),
-                    rows = [], clone, row, lastRow, cloneTDs, rowTDs, i, j, k, ln, tblJrPage, parentTableRows;
+                    rows = [], clone, cloneWidth = 0, row, lastRow, cloneTD, rowTD, rowTDs, i, j, k, ln, tblJrPage, parentTableRows;
                 if (firstColHeader.length > 0) {
                     firstColHeader.addClass('first_jrcolHeader');
                     row = firstColHeader.closest('tr');
@@ -1062,19 +1062,22 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     }
 
                     $.each(rows, function(idx, row) {
-                        rowTDs = $(row).find('td');
-                        clone = $(row).clone();
-                        cloneTDs = clone.find('td');
+                        rowTDs = $(row).find('td.jrcolHeader');
+                        clone = $("<tr></tr>");
 
-                        // set width for each clone TD
+                        // set width and height for each cloned TD
                         for (i = 0, ln = rowTDs.length; i < ln; i++) {
-                            $(cloneTDs.get(i)).width($(rowTDs.get(i)).width());
+                            rowTD = $(rowTDs.get(i));
+                            cloneTD = rowTD.clone();
+                            idx == 0 && (cloneWidth += rowTD.outerWidth()); // calculate header width only for the first row
+                            cloneTD.width(rowTD.width());
+                            cloneTD.height(rowTD.height());
+                            clone.append(cloneTD);
                         }
                         tbl.append(clone);
                     });
                     tbl.css({
-                        width: tblJrPage.width(),
-                        left: tblJrPage.offset().left,
+                        width: cloneWidth,
                         'empty-cells': tblJrPage.css('empty-cells'),
                         'border-collapse': tblJrPage.css('border-collapse'),
                         'background-color': tblJrPage.css('background-color')
@@ -1129,9 +1132,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
             var it = this,
                 floatableTbl = it.getHeaderTable(),
                 containerTop = isDashboard ? $(window).scrollTop() : $('div#reportViewFrame .body').offset().top,
-                windowScrollLeft = $(window).scrollLeft(),
                 tbl = firstHeader.closest('table'),
-                tblLeft = tbl.offset().left,
                 headerTop = firstHeader.closest('tr').offset().top,
                 reportContainerTop = $('#reportContainer').offset().top,
                 lastTableCel = $('td.first_jrcolHeader:first').closest('table').find('td.jrcel:last'),
@@ -1148,9 +1149,9 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 floatableTbl.show();
                 floatableTbl.css({
                     position: 'fixed',
-                    top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                    left: it.isIPad ? tbl.position().left : (tblLeft - windowScrollLeft)
+                    top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop)
                 });
+                floatableTbl.offset({left: firstHeader.offset().left});
 
                 it.setToolbarPositionWhenFloating(it.active, isDashboard);
 
@@ -1164,9 +1165,9 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 floatableTbl.show();
                 floatableTbl.css({
                     position: 'fixed',
-                    top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                    left: it.isIPad ? tbl.position().left : (tblLeft - windowScrollLeft)
+                    top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop)
                 });
+                floatableTbl.offset({left: firstHeader.offset().left});
                 it.setToolbarPositionWhenFloating(it.active, isDashboard);
             } else if (o.bMoved) {
                 if (!isDashboard && (reportContainerTop > o.reportContainerPositionAtMove || diff <= 0)) {
