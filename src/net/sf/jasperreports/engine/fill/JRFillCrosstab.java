@@ -152,6 +152,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	private final JRFillObjectFactory fillFactory;
 	
 	final protected JRCrosstab parentCrosstab;
+	
+	protected final JRLineBox lineBox;
 
 	protected JRFillCrosstabDataset dataset;
 
@@ -212,6 +214,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		this.fillFactory = factory;
 		
 		parentCrosstab = crosstab;
+		lineBox = crosstab.getLineBox().clone(this);
 
 		loadEvaluator(filler.getJasperReport());
 
@@ -2955,8 +2958,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 	public JRLineBox getLineBox()
 	{
-		//FIXME get box from style?
-		return parentCrosstab.getLineBox();
+		return lineBox;
 	}
 
 	@Override
