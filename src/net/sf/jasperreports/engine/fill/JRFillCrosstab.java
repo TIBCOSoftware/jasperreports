@@ -1828,7 +1828,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					{
 						textElement.setExpressionEvaluator(decoratedEvaluator);
 						textElement.addDynamicProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, 
-								builtinExpressions.createConstantExpression("tablecolumnheadericonlabelreplaced"));//FIXMESORT use constants
+								builtinExpressions.createConstantExpression(TableReport.TABLE_HEADER_LABEL_MATCHER_EXPORT_KEY));
 						
 						SortOrderEnum order = BucketOrder.toSortOrderEnum(bucketOrder);
 						if (log.isDebugEnabled())
@@ -2039,7 +2039,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			JRFillElement clonedTextElement = (JRFillElement) clonedCell.getElements()[0];
 			clonedTextElement.setExpressionEvaluator(decoratedEvaluator);
 			clonedTextElement.addDynamicProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, 
-					builtinExpressions.createConstantExpression("tablecolumnheadericonlabelreplaced"));//FIXMESORT use constants
+					builtinExpressions.createConstantExpression(TableReport.TABLE_HEADER_LABEL_MATCHER_EXPORT_KEY));
 			
 			return clonedCell;
 		}
@@ -2076,7 +2076,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			
 			designIconLabelElement.getPropertiesMap().setProperty(
 					MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, 
-					"tablecolumnheadericonlabelreplacer"
+					TableReport.TABLE_HEADER_ICON_LABEL_MATCHER_EXPORT_KEY
 					);
 			
 			return designIconLabelElement;
