@@ -204,6 +204,8 @@ public class HtmlExporter extends AbstractHtmlExporter
 	
 	protected ExporterFilter tableFilter;
 	
+	protected int pointerEventsNoneStack = 0;
+	
 	public HtmlExporter()
 	{
 		this(DefaultJasperReportsContext.getInstance());
@@ -769,6 +771,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 			}
 		}
 
+		appendElementCellGenericStyle(cell, styleBuffer);
 		appendBackcolorStyle(cell, styleBuffer);
 		appendBorderStyle(cell.getBox(), styleBuffer);
 		appendPaddingStyle(text.getLineBox(), styleBuffer);
@@ -1005,6 +1008,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 			styleBuffer.append("; ");
 		}
 
+		appendElementCellGenericStyle(cell, styleBuffer);
 		appendBackcolorStyle(cell, styleBuffer);
 		
 		boolean addedToStyle = appendBorderStyle(cell.getBox(), styleBuffer);
@@ -1418,6 +1422,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 		startCell(element, cell);
 
 		StringBuilder styleBuffer = new StringBuilder();
+		appendElementCellGenericStyle(cell, styleBuffer);
 		appendBackcolorStyle(cell, styleBuffer);
 		appendPen(
 			styleBuffer,
@@ -1438,6 +1443,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 
 		StringBuilder styleBuffer = new StringBuilder();
 
+		appendElementCellGenericStyle(cell, styleBuffer);
 		appendBackcolorStyle(cell, styleBuffer);
 		
 		String side = null;
@@ -1499,6 +1505,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 			startCell(element, cell);
 
 			StringBuilder styleBuffer = new StringBuilder();
+			appendElementCellGenericStyle(cell, styleBuffer);
 			appendBackcolorStyle(cell, styleBuffer);
 			appendBorderStyle(cell.getBox(), styleBuffer);
 			if (styleBuffer.length() > 0)
@@ -1525,6 +1532,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 		startCell(cell);
 
 		StringBuilder styleBuffer = new StringBuilder();
+		appendElementCellGenericStyle(cell, styleBuffer);
 		appendBackcolorStyle(cell, styleBuffer);
 		appendBorderStyle(cell.getBox(), styleBuffer);
 		writeStyle(styleBuffer);
@@ -1534,8 +1542,8 @@ public class HtmlExporter extends AbstractHtmlExporter
 		// layers need to always specify backcolors
 		setBackcolor(null);
 		writer.write("<div style=\"width: 100%; height: 100%; position: relative;\">\n");
-		
-		for (Iterator<Table> it = layers.iterator(); it.hasNext();)
+
+		for (ListIterator<Table> it = layers.listIterator(); it.hasNext();)
 		{
 			Table table = it.next();
 			
@@ -1546,12 +1554,19 @@ public class HtmlExporter extends AbstractHtmlExporter
 				layerStyleBuffer.append("position: relative; ");
 			}
 			layerStyleBuffer.append("width: 100%; height: 100%; ");
+			
+			if (it.previousIndex() > 0) {
+				layerStyleBuffer.append("pointer-events: none; ");
+			}
 
 			writer.write("<div style=\"");
 			writer.write(layerStyleBuffer.toString());
 			writer.write("\">\n");
 
+			++pointerEventsNoneStack;
 			exportTable(tableVisitor, table, false, false);
+			--pointerEventsNoneStack;
+			
 			writer.write("</div>\n");
 		}
 		
@@ -1690,6 +1705,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 		startCell(cell);
 		
 		StringBuilder styleBuffer = new StringBuilder();
+		appendElementCellGenericStyle(cell, styleBuffer);
 		appendBackcolorStyle(cell, styleBuffer);
 		appendBorderStyle(cell.getBox(), styleBuffer);
 		writeStyle(styleBuffer);
@@ -1705,6 +1721,14 @@ public class HtmlExporter extends AbstractHtmlExporter
 			writer.write(" style=\"");
 			writer.write(styleBuffer.toString());
 			writer.write("\"");
+		}
+	}
+	
+	protected void appendElementCellGenericStyle(TableCell cell, StringBuilder styleBuffer)
+	{
+		if (pointerEventsNoneStack > 0 && cell.getElement() != null)
+		{
+			styleBuffer.append("pointer-events: auto; ");
 		}
 	}
 
