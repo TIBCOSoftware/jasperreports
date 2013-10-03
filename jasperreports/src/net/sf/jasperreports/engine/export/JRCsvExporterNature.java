@@ -64,6 +64,14 @@ public class JRCsvExporterNature extends AbstractExporterNature
 	 */
 	public boolean isToExport(JRPrintElement element)
 	{
+//		JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame)element : null;
+//		if (frame != null)
+//		{
+//			List<JRPrintElement> elements = frame.getElements();
+//			return elements != null && elements.size() > 0;
+//		}
+//		return (element instanceof JRPrintText || element instanceof JRGenericPrintElement)
+//			&& (filter == null || filter.isToExport(element));
 		return (element instanceof JRPrintText || element instanceof JRPrintFrame || element instanceof JRGenericPrintElement)
 			&& (filter == null || filter.isToExport(element));
 	}

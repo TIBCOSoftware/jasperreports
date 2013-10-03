@@ -192,6 +192,12 @@ public class TableReport implements JRReport
 	protected static final String HTML_CLASS_CELL_PREFIX = "cel_";
 	protected static final String HTML_CLASS_CELL = "jrcel";
 	
+	/**
+	 *
+	 */
+	public static final String TABLE_HEADER_LABEL_MATCHER_EXPORT_KEY = "net.sf.jasperreports.components.table.header.label";
+	public static final String TABLE_HEADER_ICON_LABEL_MATCHER_EXPORT_KEY = "net.sf.jasperreports.components.table.header.icon.label";
+
 	private final FillContext fillContext;
 	private final TableComponent table;
 	private final JasperReport parentReport;
@@ -822,10 +828,10 @@ public class TableReport implements JRReport
 				JRDesignTextField iconTextField = (JRDesignTextField)iconLabelComponent.getIconTextField();
 				iconTextField.setExpression(builtinEvaluatorFactory.createConstantExpression(suffix));
 				
-				componentElement.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, "tablecolumnheadericonlabelreplacer");
+				componentElement.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, TABLE_HEADER_ICON_LABEL_MATCHER_EXPORT_KEY);
 				
 				JRBaseElement element = (JRBaseElement)frame.getChildren().get(0);
-				element.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, "tablecolumnheadericonlabelreplaced");//FIXMESORT use constants
+				element.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, TABLE_HEADER_LABEL_MATCHER_EXPORT_KEY);
 
 				//frame.getChildren().remove(0);
 				frame.getChildren().add(componentElement);
