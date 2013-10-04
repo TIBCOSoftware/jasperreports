@@ -2,13 +2,26 @@
 JasperReports Library Change Log
 ===================================
 
-JasperReports 5.2.1 (2013-09-xx)
+JasperReports 5.3.0 (2013-10-04)
 ---------------------------------------------
-- web fonts support in font extensions;
+- improved JasperReports Web Framework containing embeddable report viewer APIs. 
+It introduces a separation between the report's HTML output and its interactivity-related 
+metadata (new JSON exporter) and support for dynamically loaded Javascript modules through RequireJS. 
+The new APIs simplify interactive  report viewer adoption and it's customization while giving 
+new opportunities for creation of interactive custom components;
 
-- crosstab interactive sorting;
+- interactive table component formatting capabilities extended to allow basic formatting and 
+conditional formatting of all table sections including group headers and footers;
 
-- enhanced interactive table formatting;
+- interactive sorting support introduced to the crosstab element, where crosstab data can be 
+sorted interactively by row group values and/or measure values, when report is viewed with 
+an interactive report viewer;
+
+- support for Web fonts in the HTML exporter by enhancing JasperReports font extension configuration 
+to allow specifying font files in EOT, SVG and WOFF format. When specified, font files are delivered 
+to the browser by dynamically created CSS containing @font-face declarations;
+
+- enhanced Google Map component with support for marker properties and support for paths and polygons;
 
 - minor bug fixes and improvements;
 
@@ -328,7 +341,7 @@ repository API, to locate the report templates and their additional resources;
 
 - the table component was enhanced so that it is more interactive by default,
 when the reports are deployed in an application that makes use of the above mentioned
-Web framework; by default, table columns are sortable, while text columns are filtrable
+Web framework; by default, table columns are sortable, while text columns are filterable
 using a simple "contains" filter criteria; this can be seen in the TableReport
 deployed in the /demo/samples/webapp-repo sample;
 
