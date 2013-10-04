@@ -131,7 +131,7 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket implements JRCh
 	/**
 	 * Sets the sorting type.
 	 * 
-	 * @param orderValue one of
+	 * @param bucketOrder one of
 	 * <ul>
 	 * 	<li>{@link BucketOrder#ASCENDING BucketOrder.ASCENDING}</li>
 	 * 	<li>{@link BucketOrder#DESCENDING BucketOrder.DESCENDING}</li>
