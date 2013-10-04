@@ -220,7 +220,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			writer.addAttribute(MapXmlFactory.ATTRIBUTE_mapType, map.getMapType(), MapTypeEnum.ROADMAP);
 			writer.addAttribute(MapXmlFactory.ATTRIBUTE_mapScale, map.getMapScale(), MapScaleEnum.ONE);
 			writer.addAttribute(MapXmlFactory.ATTRIBUTE_imageType, map.getImageType(), MapImageTypeEnum.PNG);
-			if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_2_1))
+			if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_3_0))
 			{
 				writer.addAttribute(MapXmlFactory.ATTRIBUTE_onErrorType, map.getOnErrorType(), OnErrorTypeEnum.ERROR);
 			}
@@ -249,7 +249,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 				writeMarkerDataset(dataset, writer, reportWriter, namespace, componentElement);
 			}
 		}
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_2_1))
+		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_3_0))
 		{
 			List<ItemData> pathStyleList = map.getPathStyleList();
 			if(pathStyleList !=null && pathStyleList.size() > 0) {

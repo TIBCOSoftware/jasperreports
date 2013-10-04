@@ -2,7 +2,7 @@
 
 	<description>Helps build the JasperReports distribution files.</description>
 
-	<property name="version" value="5.2.1"/>
+	<property name="version" value="5.3.0"/>
 
 	<target name="compile" description="Compiles the java source files of the library.">
 		<mkdir dir="./build/classes"/> 
@@ -225,6 +225,7 @@
 				<include name="**/net/sf/jasperreports/engine/export/JROriginExporterFilter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JROriginExporterFilterFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRPrintServiceExporter.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/MatcherExport*.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/PdfTextRenderer*.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/TabSegment.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/data/*.class"/>
@@ -390,7 +391,7 @@
 	</target>
 
 	<property name="sf.net" value="false"/>
-	<property name="svn" value="jr-5-2-1"/>
+	<property name="svn" value="jr-5-3-0"/>
 
 	<target name="preparedocs" description="Prepares Documentation Folder.">
 		<mkdir dir="./dist/docs"/> 
