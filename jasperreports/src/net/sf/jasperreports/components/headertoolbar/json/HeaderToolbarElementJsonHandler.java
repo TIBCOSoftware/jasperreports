@@ -107,12 +107,7 @@ import net.sf.jasperreports.web.util.WebUtil;
  */
 public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandler
 {
-	private static final String RESOURCE_JIVE_COLUMN_JS = "net/sf/jasperreports/components/headertoolbar/htmlv2/resources/require/jive.interactive.column.js";
-
-	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jive.vm.css";
-
 	private static final String HEADER_TOOLBAR_ELEMENT_JSON_TEMPLATE = "net/sf/jasperreports/components/headertoolbar/json/resources/HeaderToolbarElementJsonTemplate.vm";
-	
 	private static final String PARAM_GENERATED_TEMPLATE_PREFIX = "net.sf.jasperreports.headertoolbar.";
 	
 	private static final List<String> datePatterns = new ArrayList<String>(); 
@@ -173,9 +168,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		ReportContext reportContext = context.getExporter().getReportContext();
 		if (reportContext != null && tableUUID != null)//FIXMEJIVE
 		{
-			String appContext = (String)reportContext.getParameterValue(WebReportContext.APPLICATION_CONTEXT_PATH);
 			String columnUuid = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_UUID);
-			//String fieldOrVariableName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_FIELD_OR_VARIABLE_NAME);
 			String columnLabel = (String)element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);
 			if (columnLabel == null) {
 				columnLabel = "";
@@ -187,9 +180,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			contextMap.put("tableUUID", tableUUID);
 			
 			JasperReportsContext jrContext = context.getJasperReportsContext();
-			WebUtil webUtil = WebUtil.getInstance(jrContext);
-			String webResourcesBasePath = webUtil.getResourcesBasePath();
-			
 			Locale locale = (Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
 			
 			if (locale == null) {
@@ -200,12 +190,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				templateAlreadyLoaded = true;
 			} else {
 				reportContext.setParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX, true);
-				
-				contextMap.put("actionBaseUrl", getActionBaseUrl(context));
-				contextMap.put("actionBaseData", getActionBaseJsonData(context));
-				contextMap.put("jasperreports_tableHeaderToolbar_css", webUtil.getResourcePath(webResourcesBasePath, HeaderToolbarElementJsonHandler.RESOURCE_HEADERTOOLBAR_CSS, true));
-				contextMap.put("jiveColumnScript", appContext + webUtil.getResourcePath(webResourcesBasePath, HeaderToolbarElementJsonHandler.RESOURCE_JIVE_COLUMN_JS));
-				contextMap.put("msgProvider", MessageUtil.getInstance(jrContext).getLocalizedMessageProvider("net.sf.jasperreports.components.headertoolbar.messages", locale));
 			}
 			
 			/*** begin: FILTER PATTERNS ***/
@@ -396,16 +380,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		hyperlink.setLinkType(ReportInteractionHyperlinkProducer.HYPERLINK_TYPE_REPORT_INTERACTION);
 //		return context.getHyperlinkURL(hyperlink);
 		return "FIXME HeaderToolbarElementJsonHandler.getActionBaseUrl";
-	}
-
-	private String getActionBaseJsonData(JsonExporterContext context) {
-		ReportContext reportContext = context.getExporter().getReportContext();
-		Map<String, Object> actionParams = new HashMap<String, Object>();
-		actionParams.put(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, reportContext.getId());
-		actionParams.put(WebUtil.REQUEST_PARAMETER_RUN_REPORT, true);
-		
-//		return JacksonUtil.getInstance(context.getJasperReportsContext()).getEscapedJsonString(actionParams);
-		return JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(actionParams);
 	}
 
 	private String getCurrentSortField(
