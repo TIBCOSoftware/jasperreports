@@ -670,7 +670,6 @@ public class TableReport implements JRReport
 				
 				boolean isSortable = propertiesUtil.getBooleanProperty(column.getPropertiesMap(), PROPERTY_COLUMN_SORTABLE, true) && fieldOrVariableName != null;
 				boolean isFilterable = propertiesUtil.getBooleanProperty(column.getPropertiesMap(), PROPERTY_COLUMN_FILTERABLE, true) && fieldOrVariableName != null && TableUtil.isFilterable(sortTextField);
-				boolean isConditionallyFormattable = propertiesUtil.getBooleanProperty(column.getPropertiesMap(), PROPERTY_COLUMN_CONDITIONALLY_FORMATTABLE, true) && fieldOrVariableName != null && TableUtil.isFilterable(sortTextField);
 				
 				if (isSortable)
 				{	// column is sortable
@@ -729,15 +728,6 @@ public class TableReport implements JRReport
 					
 				}
 				
-				if (isConditionallyFormattable)
-				{	// column is conditionally formattable
-					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FORMAT_CONDITIONALLY, Boolean.TRUE.toString());
-					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_FIELD_OR_VARIABLE_NAME, fieldOrVariableName);
-				} else
-				{	// column is not conditionally formattable
-					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FORMAT_CONDITIONALLY, Boolean.FALSE.toString());
-				}
-				
 				if (suffix.length() > 0)
 				{
 					addIconLabelComponent(column, frame, suffix);
@@ -749,11 +739,11 @@ public class TableReport implements JRReport
 //					}
 				}
 
-				if (isSortable || isFilterable || isConditionallyFormattable) {
+				if (isSortable || isFilterable) {
 					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE, columnType.getName());
 				}
 				
-				if (filterType != null && (isFilterable || isConditionallyFormattable))
+				if (filterType != null && isFilterable)
 				{
 					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE, filterType.getName());
 				}
