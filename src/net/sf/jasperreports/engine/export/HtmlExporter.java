@@ -1356,7 +1356,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 			JRPrintImageAreaHyperlink areaHyperlink = it.previous();
 			JRPrintImageArea area = areaHyperlink.getArea();
 
-			writer.write("  <area shape=\"" + JRPrintImageArea.getHtmlShape(area.getShape()) + "\"");
+			writer.write("  <area class=\"jrLocalAnchorPage\" shape=\"" + JRPrintImageArea.getHtmlShape(area.getShape()) + "\"");
 			writeImageAreaCoordinates(area.getCoordinates());			
 			writeImageAreaHyperlink(areaHyperlink.getHyperlink());
 			writer.write("/>\n");
@@ -1364,7 +1364,12 @@ public class HtmlExporter extends AbstractHtmlExporter
 		
 		if (image.getHyperlinkTypeValue() != HyperlinkTypeEnum.NONE)
 		{
-			writer.write("  <area shape=\"default\"");
+            if (HyperlinkTypeEnum.LOCAL_ANCHOR.equals(image.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(image.getHyperlinkTypeValue())) {
+			    writer.write("  <area class=\"jrLocalAnchorPage\" shape=\"default\"");
+            } else {
+			    writer.write("  <area shape=\"default\"");
+
+            }
 			writeImageAreaCoordinates(new int[]{0, 0, image.getWidth(), image.getHeight()});//for IE
 			writeImageAreaHyperlink(image);
 			writer.write("/>\n");
@@ -1978,7 +1983,11 @@ public class HtmlExporter extends AbstractHtmlExporter
 
 		if (href != null)
 		{
-			writer.write("<a href=\"");
+            if (HyperlinkTypeEnum.LOCAL_ANCHOR.equals(link.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(link.getHyperlinkTypeValue())) {
+			    writer.write("<a class=\"jrLocalAnchorPage\" href=\"");
+            } else {
+			    writer.write("<a href=\"");
+            }
 			writer.write(href);
 			writer.write("\"");
 
