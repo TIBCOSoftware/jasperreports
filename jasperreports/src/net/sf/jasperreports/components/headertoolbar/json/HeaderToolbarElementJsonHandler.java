@@ -71,7 +71,6 @@ import net.sf.jasperreports.engine.JRIdentifiable;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRSortField;
-import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
@@ -331,11 +330,14 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
 			Column column = (Column)tableColumns.get(columnIndex);
 			
-			JRDesignTextField detailTextElement = TableUtil.getCellElement(JRDesignTextField.class, column.getDetailCell(), true);
-			if (detailTextElement != null)
+			JRDesignTextField detailTextField = TableUtil.getCellElement(JRDesignTextField.class, column.getDetailCell(), true);
+			if (detailTextField != null)
 			{
-				ConditionalFormattingData detailCfd = getConditionalFormattingData(jrContext, reportContext, dataset, tableUUID, detailTextElement, null);
-				contextMap.put("conditionalFormattingData", JacksonUtil.getInstance(jrContext).getJsonString(detailCfd));
+				ConditionalFormattingData detailCfd = getConditionalFormattingData(jrContext, reportContext, dataset, tableUUID, detailTextField, null);
+				if (detailCfd != null)
+				{
+					contextMap.put("conditionalFormattingData", JacksonUtil.getInstance(jrContext).getJsonString(detailCfd));
+				}
 			}
 			
 			htmlFragment = VelocityUtil.processTemplate(HeaderToolbarElementJsonHandler.HEADER_TOOLBAR_ELEMENT_JSON_TEMPLATE, contextMap);
@@ -783,33 +785,33 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			JRDesignTextElement textElement = entry.getKey();
 			GroupInfo groupInfo = entry.getValue();
 
-			EditTextElementData textElementData;
-			textElementData = new EditTextElementData();
-			textElementData.setGroupName(groupInfo.getName());
-
-			Map<String, Object> groupData = new HashMap<String, Object>();
-			groupData.put("grouptype", groupInfo.getType());
-			groupData.put("id", groupInfo.getType() + "_" + i);
-			groupData.put("groupData", textElementData);
-			groupData.put("forColumns", groupInfo.getForColumns());
-
-			if (textElement instanceof JRDesignTextField) 
-			{
-				ConditionalFormattingData cfData = 
-					getConditionalFormattingData(
+			JRDesignTextField textField = textElement instanceof JRDesignTextField ? (JRDesignTextField)textElement : null;
+			ConditionalFormattingData cfData = 
+				textField == null 
+					? null 
+					: getConditionalFormattingData(
 						jasperReportsContext, 
 						reportContext, 
 						dataset, 
 						tableUuid, 
-						textElement, 
+						textField, 
 						groupInfo.getName()
 						);
-
-				groupData.put("conditionalFormattingData", cfData);
-
+			
+			if (cfData != null) 
+			{
+				EditTextElementData textElementData;
+				textElementData = new EditTextElementData();
+				textElementData.setGroupName(groupInfo.getName());
 				textElementData.setDataType(cfData.getConditionType());
-
 				HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement);
+
+				Map<String, Object> groupData = new HashMap<String, Object>();
+				groupData.put("grouptype", groupInfo.getType());
+				groupData.put("id", groupInfo.getType() + "_" + i);
+				groupData.put("groupData", textElementData);
+				groupData.put("forColumns", groupInfo.getForColumns());
+				groupData.put("conditionalFormattingData", cfData);
 
 				groupsData.add(groupData);
 			}
@@ -824,76 +826,88 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		ReportContext reportContext, 
 		JRDesignDataset dataset,
 		String tableUuid,
-		JRDesignTextElement textElement,
+		JRDesignTextField textField,
 		String groupName
 		) 
 	{
-		FilterTypesEnum filterType = FilterTypesEnum.TEXT;
+		FilterTypesEnum conditionType = null;
 		
-		JRExpression expression = ((JRTextField)textElement).getExpression();
-		if (expression != null)
+		String conditionTypeProp = textField.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_CONDTION_TYPE);
+		if (conditionTypeProp == null)
 		{
-			JRExpressionChunk[] chunks = expression.getChunks();
-			if (chunks != null && chunks.length == 1)
+			JRExpression expression = textField.getExpression();
+			if (expression != null)
 			{
-				JRExpressionChunk expressionChunk = expression.getChunks()[0];
-				String fieldOrVariableName = expressionChunk.getText();
+				JRExpressionChunk[] chunks = expression.getChunks();
+				if (chunks != null && chunks.length == 1)
+				{
+					JRExpressionChunk expressionChunk = expression.getChunks()[0];
+					String fieldOrVariableName = expressionChunk.getText();
 
-				switch (expressionChunk.getType()) {
-					case JRExpressionChunk.TYPE_FIELD:
-						JRField field = HeaderToolbarElementUtils.getField(fieldOrVariableName, dataset);
-						filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
-						break;
+					switch (expressionChunk.getType()) {
+						case JRExpressionChunk.TYPE_FIELD:
+							JRField field = HeaderToolbarElementUtils.getField(fieldOrVariableName, dataset);
+							conditionType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
+							break;
 
-					case JRExpressionChunk.TYPE_VARIABLE:
-						JRVariable variable = HeaderToolbarElementUtils.getVariable(fieldOrVariableName, dataset);
-						filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
-						break;
+						case JRExpressionChunk.TYPE_VARIABLE:
+							JRVariable variable = HeaderToolbarElementUtils.getVariable(fieldOrVariableName, dataset);
+							conditionType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
+							break;
 
-					case JRExpressionChunk.TYPE_TEXT:
-					default:
+						case JRExpressionChunk.TYPE_TEXT:
+						default:
+					}
 				}
 			}
 		}
-
-		Locale locale = (Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
-		if (locale == null) {
-			locale = Locale.getDefault();
-		}
-		TimeZone timeZone = (TimeZone) reportContext.getParameterValue(JRParameter.REPORT_TIME_ZONE);
-		if (timeZone == null) {
-			timeZone = TimeZone.getDefault();//FIXMEJIVE maybe get timezone from somewhere else?
-		}
-		
-		ConditionalFormattingData cfd = 
-			HeaderToolbarElementUtils.getConditionalFormattingData(
-				textElement, 
-				jasperReportsContext
-				);
-		if (cfd == null)
-		{
-			cfd = new ConditionalFormattingData();
-			if (groupName != null)
-			{
-				cfd.setGroupName(groupName);
-			}
-			cfd.setConditionType(filterType.getName());
-		}
-		
-		if (filterType.getName().equals(cfd.getConditionType()))
-		{
-			String conditionPattern = HeaderToolbarElementUtils.getFilterPattern(jasperReportsContext, locale, filterType);
-
-			HeaderToolbarElementUtils.updateConditionalFormattingData(
-				cfd,
-				conditionPattern,
-				locale,
-				timeZone
-				);
-		}
 		else
 		{
-			//FIXMEJIVE should we raise error?
+			conditionType = FilterTypesEnum.getByName(conditionTypeProp);
+		}
+
+		ConditionalFormattingData cfd = null; 
+		if (conditionType != null)
+		{
+			cfd = 
+				HeaderToolbarElementUtils.getConditionalFormattingData(
+					textField, 
+					jasperReportsContext
+					);
+			if (cfd == null)
+			{
+				cfd = new ConditionalFormattingData();
+				if (groupName != null)
+				{
+					cfd.setGroupName(groupName);
+				}
+				cfd.setConditionType(conditionType.getName());
+			}
+			
+			if (conditionType.getName().equals(cfd.getConditionType()))
+			{
+				Locale locale = (Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
+				if (locale == null) {
+					locale = Locale.getDefault();
+				}
+				TimeZone timeZone = (TimeZone) reportContext.getParameterValue(JRParameter.REPORT_TIME_ZONE);
+				if (timeZone == null) {
+					timeZone = TimeZone.getDefault();//FIXMEJIVE maybe get timezone from somewhere else?
+				}
+				
+				String conditionPattern = HeaderToolbarElementUtils.getFilterPattern(jasperReportsContext, locale, conditionType);
+
+				HeaderToolbarElementUtils.updateConditionalFormattingData(
+					cfd,
+					conditionPattern,
+					locale,
+					timeZone
+					);
+			}
+			else
+			{
+				//FIXMEJIVE should we raise error?
+			}
 		}
 		
 		return cfd;

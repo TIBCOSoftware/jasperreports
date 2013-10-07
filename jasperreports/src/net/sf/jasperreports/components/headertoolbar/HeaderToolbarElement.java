@@ -67,5 +67,6 @@ public interface HeaderToolbarElement {
 	 * @deprecated To be removed.
 	 */
 	public static final String PROPERTY_CAN_FORMAT_CONDITIONALLY = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.can.format.conditionally";
+	public static final String PROPERTY_CONDTION_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "components.condition.type";
 
 }
