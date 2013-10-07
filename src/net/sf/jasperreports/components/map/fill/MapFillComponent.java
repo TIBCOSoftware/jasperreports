@@ -169,33 +169,35 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 				List<Map<String,Object>> currentItemList = pathData.getEvaluateItems(evaluation);
 				if(currentItemList != null && !currentItemList.isEmpty()){
 					for(Map<String,Object> currentItem : currentItemList){
-						String pathName = currentItem.get(MapComponent.PROPERTY_name) != null ? (String)currentItem.get(MapComponent.PROPERTY_name) : MapComponent.DEFAULT_PATH_NAME;
-						Map<String,Object> pathMap = null;
-						if(pathIds.containsKey(pathName)){
-							pathMap = pathIds.get(pathName);
-						} else {
-							pathMap = new HashMap<String,Object>();
-							pathMap.put(MapComponent.PROPERTY_locations, new ArrayList<Map<String,Object>>());
-							pathIds.put(pathName, pathMap);
-							paths.add(pathMap);
-						}
-						setStyle((String)currentItem.get(MapComponent.PROPERTY_style), pathMap);
-						boolean coordSet = false;
-						for(String key : currentItem.keySet()){
-							if(!(MapComponent.PROPERTY_name.equals(key) || MapComponent.PROPERTY_style.equals(key))){
-								if(MapComponent.PROPERTY_latitude.equals(key) || MapComponent.PROPERTY_longitude.equals(key)){
-									if(!coordSet){
-										if(currentItem.get(MapComponent.PROPERTY_latitude) == null || currentItem.get(MapComponent.PROPERTY_longitude) == null){
-											throw new JRException("Null values are not allowed for latitude and longitude");
+						if(currentItem != null){
+							String pathName = currentItem.get(MapComponent.PROPERTY_name) != null ? (String)currentItem.get(MapComponent.PROPERTY_name) : MapComponent.DEFAULT_PATH_NAME;
+							Map<String,Object> pathMap = null;
+							if(pathIds.containsKey(pathName)){
+								pathMap = pathIds.get(pathName);
+							} else {
+								pathMap = new HashMap<String,Object>();
+								pathMap.put(MapComponent.PROPERTY_locations, new ArrayList<Map<String,Object>>());
+								pathIds.put(pathName, pathMap);
+								paths.add(pathMap);
+							}
+							setStyle((String)currentItem.get(MapComponent.PROPERTY_style), pathMap);
+							boolean coordSet = false;
+							for(String key : currentItem.keySet()){
+								if(!(MapComponent.PROPERTY_name.equals(key) || MapComponent.PROPERTY_style.equals(key))){
+									if(MapComponent.PROPERTY_latitude.equals(key) || MapComponent.PROPERTY_longitude.equals(key)){
+										if(!coordSet){
+											if(currentItem.get(MapComponent.PROPERTY_latitude) == null || currentItem.get(MapComponent.PROPERTY_longitude) == null){
+												throw new JRException("Null values are not allowed for latitude and longitude");
+											}
+											Map<String,Object> location = new HashMap<String,Object>();
+											location.put(MapComponent.PROPERTY_latitude, currentItem.get(MapComponent.PROPERTY_latitude));
+											location.put(MapComponent.PROPERTY_longitude, currentItem.get(MapComponent.PROPERTY_longitude));
+											((List<Map<String,Object>>)pathMap.get(MapComponent.PROPERTY_locations)).add(location);
+											coordSet = true;
 										}
-										Map<String,Object> location = new HashMap<String,Object>();
-										location.put(MapComponent.PROPERTY_latitude, currentItem.get(MapComponent.PROPERTY_latitude));
-										location.put(MapComponent.PROPERTY_longitude, currentItem.get(MapComponent.PROPERTY_longitude));
-										((List<Map<String,Object>>)pathMap.get(MapComponent.PROPERTY_locations)).add(location);
-										coordSet = true;
+									} else {
+										pathMap.put(key, currentItem.get(key));
 									}
-								} else {
-									pathMap.put(key, currentItem.get(key));
 								}
 							}
 						}
