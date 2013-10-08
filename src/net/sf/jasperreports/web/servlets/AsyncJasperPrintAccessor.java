@@ -25,6 +25,7 @@ package net.sf.jasperreports.web.servlets;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -159,6 +160,40 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		return jasperPrint;
 	}
 
+	public boolean waitForFinalJasperPrint(int milliseconds)
+	{
+		if (!done)
+		{
+			lock();
+			try
+			{
+				long waitNanos = TimeUnit.MILLISECONDS.toNanos(milliseconds);
+				// wait until the report generation is done or the time expires
+				while (!done && waitNanos > 0)
+				{
+					if (log.isDebugEnabled())
+					{
+						log.debug("waiting for report end");
+					}
+					
+					//FIXME use a condition dedicated to report completion
+					waitNanos = pageCondition.awaitNanos(waitNanos);
+				}
+			}
+			catch (InterruptedException e)
+			{
+				log.error("Error while waiting for final JasperPrint", e);
+				return false;
+			}
+			finally
+			{
+				unlock();
+			}
+		}
+		
+		return done;
+	}
+	
 	public JasperPrint getFinalJasperPrint()
 	{
 		if (!done)
