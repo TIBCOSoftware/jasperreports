@@ -183,12 +183,15 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     this.setToolbarPosition(); // twice
                 },
                 setToolbarPosition: function() {
-                    var top = jive.selected.jo.offset().top - this.jo.outerHeight();
+                    var top = jive.selected.jo.offset().top - this.jo.outerHeight(),
+                        containerTop = jive.isDashboard ? $(window).scrollTop() : $('div#reportViewFrame .body').offset().top;
                     this.jo.css({position: 'absolute'});
                     this.jo.offset({top: top, left: jive.selected.jo.offset().left});
                     this.topCalculated = false;
                     if (jive.isFloatingHeader) {
                         jive.setToolbarPositionWhenFloating(true, jive.isDashboard);
+                    } else  if (containerTop >= top) {
+                        this.jo.offset({top: jive.selected.jo.offset().top});
                     }
                 },
                 render: function(actionMap){
