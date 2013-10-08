@@ -67,6 +67,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                 }).then(function() {
                     if ((it.status.pageTimestamp || !it.status.totalPages) && it.status.reportStatus != 'canceled') {
                         it.statusChecker.checkPageModified(page, it.status.pageTimestamp).then(function(statusResult) {
+                            it.status.originalStatus = statusResult;
                             if(statusResult.status == 'finished') {
                                 it.status.totalPages = statusResult.lastPageIndex + 1;
                                 it.status.partialPageCount = statusResult.lastPartialPageIndex + 1;
