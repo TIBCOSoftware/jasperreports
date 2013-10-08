@@ -184,7 +184,16 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 },
                 setToolbarPosition: function() {
                     var top = jive.selected.jo.offset().top - this.jo.outerHeight(),
-                        containerTop = jive.isDashboard ? $(window).scrollTop() : $('div#reportViewFrame .body').offset().top;
+                        containerTop;
+
+                    if (jive.isDashboard) {
+                        containerTop = $(window).scrollTop();
+                    } else if ($('div#reportViewFrame .body').length > 0) {
+                        containerTop = $('div#reportViewFrame .body').offset().top;
+                    } else {
+                        containerTop = 0;
+                    }
+
                     this.jo.css({position: 'absolute'});
                     this.jo.offset({top: top, left: jive.selected.jo.offset().left});
                     this.topCalculated = false;
@@ -1226,7 +1235,9 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 /*
                  Scrolable table headers
                  */
-                it.setScrollableHeader(it.isDashboard);
+                if(it.isDashboard || $('div#reportViewFrame').length > 0) {
+                   it.setScrollableHeader(it.isDashboard);
+                }
 
                 /*
                  Setup HTML
