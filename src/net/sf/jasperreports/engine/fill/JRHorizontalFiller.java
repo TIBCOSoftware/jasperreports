@@ -1183,6 +1183,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
+
+				/*   */
+				fillSummaryOverflow();
+				
+				//DONE
 			}
 			else
 			{
@@ -1213,13 +1218,19 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
+
+					/*   */
+					fillSummaryOverflow();
+					
+					//DONE
+				}
+				else
+				{
+					resolveBandBoundElements(summary, JRExpression.EVALUATION_DEFAULT);
+
+					//DONE
 				}
 			}
-
-			/*   */
-			fillSummaryOverflow();
-			
-			//DONE
 		}
 		else
 		{
