@@ -2049,7 +2049,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		{
 			JRTextElement parentElement = (JRTextElement) textElement.getParent();
 			
-			JRDesignComponentElement designIconLabelElement = IconLabelComponentUtil.createIconLabelComponentElement(parentElement, textElement);
+			JRDesignComponentElement designIconLabelElement = 
+				IconLabelComponentUtil.getInstance(filler.getJasperReportsContext()).createIconLabelComponentElement(parentElement, textElement);
 			IconLabelComponent iconLabelComponent = (IconLabelComponent)designIconLabelElement.getComponent();
 
 			JRDesignTextField labelTextField = (JRDesignTextField)iconLabelComponent.getLabelTextField();

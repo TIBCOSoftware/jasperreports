@@ -24,10 +24,13 @@ G * JasperReports - Free Java Reporting Library.
 package net.sf.jasperreports.components.iconlabel;
 
 import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
+import net.sf.jasperreports.components.table.fill.TableReport;
 import net.sf.jasperreports.engine.JRHyperlink;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
@@ -39,10 +42,28 @@ import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
  */
 public class IconLabelComponentUtil
 {
+	private JasperReportsContext jasperReportsContext;
+
 	/**
 	 * 
 	 */
-	public static JRDesignComponentElement createIconLabelComponentElement(JRTextElement textElement)
+	public static IconLabelComponentUtil getInstance(JasperReportsContext jasperReportsContext)
+	{
+		return new IconLabelComponentUtil(jasperReportsContext);
+	}
+
+	/**
+	 * 
+	 */
+	private IconLabelComponentUtil(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	
+	/**
+	 * 
+	 */
+	public JRDesignComponentElement createIconLabelComponentElement(JRTextElement textElement)
 	{
 		return createIconLabelComponentElement(textElement, textElement);
 	}
@@ -50,7 +71,7 @@ public class IconLabelComponentUtil
 	/**
 	 * 
 	 */
-	public static JRDesignComponentElement createIconLabelComponentElement(JRTextElement parentElement, JRTextElement textElement)
+	public JRDesignComponentElement createIconLabelComponentElement(JRTextElement parentElement, JRTextElement textElement)
 	{
 		JRDesignComponentElement componentElement = new JRDesignComponentElement(textElement.getDefaultStyleProvider());
 		componentElement.setComponentKey(new ComponentKey(
@@ -176,7 +197,7 @@ public class IconLabelComponentUtil
 		iconTextField.setStyle(textElement.getStyle());
 		iconTextField.setStyleNameReference(textElement.getStyleNameReference());
 		iconTextField.setMode(parentElement.getOwnModeValue());
-		iconTextField.setFontName("Pictonic");//FIXMESORT use constant
+		iconTextField.setFontName(JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(TableReport.PROPERTY_ICON_FONT));
 		iconTextField.setFontSize(parentElement.getOwnFontSize());
 		iconTextField.setForecolor(parentElement.getOwnForecolor());
 		iconTextField.setBackcolor(parentElement.getOwnBackcolor());
