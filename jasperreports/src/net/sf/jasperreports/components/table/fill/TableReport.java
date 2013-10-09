@@ -135,6 +135,11 @@ public class TableReport implements JRReport
 	private static final String PROPERTY_FILTER_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.filter.char";
 
 	/**
+	 * Global property that specifies the font to be used for the icons on the column header
+	 */
+	public static final String PROPERTY_ICON_FONT = JRPropertiesUtil.PROPERTY_PREFIX + "components.icon.font";
+
+	/**
 	 * Property that enables/disables the interactivity in the table component
 	 * 
 	 * <p>
@@ -802,7 +807,8 @@ public class TableReport implements JRReport
 			JRBaseTextElement headerTextElement = (JRBaseTextElement)frame.getChildren().get(0);
 			if (headerTextElement != null) 
 			{
-				JRComponentElement componentElement = IconLabelComponentUtil.createIconLabelComponentElement(headerTextElement);
+				JRComponentElement componentElement = 
+					IconLabelComponentUtil.getInstance(fillContext.getFiller().getJasperReportsContext()).createIconLabelComponentElement(headerTextElement);
 				IconLabelComponent iconLabelComponent = (IconLabelComponent)componentElement.getComponent();
 				
 				JRDesignTextField labelTextField = (JRDesignTextField)iconLabelComponent.getLabelTextField();
