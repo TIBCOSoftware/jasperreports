@@ -55,7 +55,7 @@ public class MatcherExporterFilter implements ExporterFilter
 
 	public boolean isToExport(JRPrintElement element)
 	{
-		if (element.getPropertiesMap().containsProperty(PROPERTY_MATCHER_EXPORT_FILTER_KEY))
+		if (element.hasProperties() && element.getPropertiesMap().containsProperty(PROPERTY_MATCHER_EXPORT_FILTER_KEY))
 		{
 			String matcherKey = element.getPropertiesMap().getProperty(PROPERTY_MATCHER_EXPORT_FILTER_KEY);
 			if (matcherKey != null)
