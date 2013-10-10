@@ -621,7 +621,7 @@ public class JRXmlWriteHelper
 	{
 		if (color != null)
 		{
-			writeAttribute(name, "#" + JRColorUtil.getColorHexa(color));
+			writeAttribute(name, JRColorUtil.getCssColor(color));
 		}
 	}
 	

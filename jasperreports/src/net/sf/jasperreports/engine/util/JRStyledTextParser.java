@@ -130,7 +130,6 @@ public class JRStyledTextParser implements ErrorHandler
 	private static final String SPACE = " ";
 	private static final String EQUAL_QUOTE = "=\"";
 	private static final String QUOTE = "\"";
-	private static final String SHARP = "#";
 	private static final String LESS = "<";
 	private static final String LESS_SLASH = "</";
 	private static final String GREATER = ">";
@@ -961,8 +960,7 @@ public class JRStyledTextParser implements ErrorHandler
 			sbuffer.append(SPACE);
 			sbuffer.append(ATTRIBUTE_forecolor);
 			sbuffer.append(EQUAL_QUOTE);
-			sbuffer.append(SHARP);
-			sbuffer.append(JRColorUtil.getColorHexa((Color)value));
+			sbuffer.append(JRColorUtil.getCssColor((Color)value));
 			sbuffer.append(QUOTE);
 		}
 
@@ -974,8 +972,7 @@ public class JRStyledTextParser implements ErrorHandler
 			sbuffer.append(SPACE);
 			sbuffer.append(ATTRIBUTE_backcolor);
 			sbuffer.append(EQUAL_QUOTE);
-			sbuffer.append(SHARP);
-			sbuffer.append(JRColorUtil.getColorHexa((Color)value));
+			sbuffer.append(JRColorUtil.getCssColor((Color)value));
 			sbuffer.append(QUOTE);
 		}
 		
