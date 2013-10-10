@@ -1763,8 +1763,8 @@ public class HtmlExporter extends AbstractHtmlExporter
 		Color cellBackcolor = cell.getBackcolor();
 		if (cellBackcolor != null && !matchesBackcolor(cellBackcolor))
 		{
-			styleBuffer.append("background-color: #");
-			styleBuffer.append(JRColorUtil.getColorHexa(cellBackcolor));
+			styleBuffer.append("background-color: ");
+			styleBuffer.append(JRColorUtil.getCssColor(cellBackcolor));
 			styleBuffer.append("; ");
 
 			return cellBackcolor;
@@ -1898,8 +1898,8 @@ public class HtmlExporter extends AbstractHtmlExporter
 			sb.append(" ");
 			sb.append(borderStyle);
 
-			sb.append(" #");
-			sb.append(JRColorUtil.getColorHexa(pen.getLineColor()));
+			sb.append(" ");
+			sb.append(JRColorUtil.getCssColor(pen.getLineColor()));
 			sb.append("; ");
 
 			addedToStyle = true;
@@ -2314,16 +2314,16 @@ public class HtmlExporter extends AbstractHtmlExporter
 		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
 		if (!hyperlinkStarted || !Color.black.equals(forecolor))
 		{
-			writer.write("color: #");
-			writer.write(JRColorUtil.getColorHexa(forecolor));
+			writer.write("color: ");
+			writer.write(JRColorUtil.getCssColor(forecolor));
 			writer.write("; ");
 		}
 
 		Color runBackcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
 		if (runBackcolor != null && !runBackcolor.equals(backcolor))
 		{
-			writer.write("background-color: #");
-			writer.write(JRColorUtil.getColorHexa(runBackcolor));
+			writer.write("background-color: ");
+			writer.write(JRColorUtil.getCssColor(runBackcolor));
 			writer.write("; ");
 		}
 

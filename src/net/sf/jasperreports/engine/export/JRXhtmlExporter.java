@@ -946,16 +946,16 @@ public class JRXhtmlExporter extends AbstractHtmlExporter
 		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
 		if (!hyperlinkStarted || !Color.black.equals(forecolor))
 		{
-			writer.write("color: #");
-			writer.write(JRColorUtil.getColorHexa(forecolor));
+			writer.write("color: ");
+			writer.write(JRColorUtil.getCssColor(forecolor));
 			writer.write("; ");
 		}
 
 		Color runBackcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
 		if (runBackcolor != null && !runBackcolor.equals(backcolor))
 		{
-			writer.write("background-color: #");
-			writer.write(JRColorUtil.getColorHexa(runBackcolor));
+			writer.write("background-color: ");
+			writer.write(JRColorUtil.getCssColor(runBackcolor));
 			writer.write("; ");
 		}
 
@@ -1807,8 +1807,8 @@ public class JRXhtmlExporter extends AbstractHtmlExporter
 	{
 		if (element.getModeValue() == ModeEnum.OPAQUE)
 		{
-			styleBuffer.append("background-color: #");
-			styleBuffer.append(JRColorUtil.getColorHexa(element.getBackcolor()));
+			styleBuffer.append("background-color: ");
+			styleBuffer.append(JRColorUtil.getCssColor(element.getBackcolor()));
 			styleBuffer.append("; ");
 		}
 	}
@@ -2378,8 +2378,8 @@ public class JRXhtmlExporter extends AbstractHtmlExporter
 			sb.append(" ");
 			sb.append(borderStyle);
 
-			sb.append(" #");
-			sb.append(JRColorUtil.getColorHexa(pen.getLineColor()));
+			sb.append(" ");
+			sb.append(JRColorUtil.getCssColor(pen.getLineColor()));
 			sb.append("; ");
 
 			addedToStyle = true;

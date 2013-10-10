@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.util;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.ColorEnum;
 
 
@@ -39,6 +40,10 @@ public final class JRColorUtil
 	 *
 	 */
 	public static final int COLOR_MASK = Integer.parseInt("FFFFFF", 16);
+	private static final String RGB = "rgb";
+	public static final String RGB_PREFIX = RGB + "(";
+	public static final String RGBA_PREFIX = RGB + "a(";
+	public static final String RGBA_SUFFIX = ")";
 
 	/**
 	 *
@@ -52,31 +57,112 @@ public final class JRColorUtil
 	/**
 	 *
 	 */
+	public static String getCssColor(Color color)
+	{
+		if (color.getAlpha() == 255)
+		{
+			return "#" + JRColorUtil.getColorHexa(color);
+		}
+		return 
+			"rgba(" 
+			+ color.getRed() + ", " 
+			+ color.getGreen() + ", "
+			+ color.getBlue() + ", "
+			+ ((float)color.getAlpha() / 255) + ")";
+	}
+
+	/**
+	 *
+	 */
 	public static Color getColor(String strColor, Color defaultColor)
 	{
 		Color color = null;
 
-		if (strColor != null && strColor.length() > 0)
+		if (strColor != null)
 		{
-			char firstChar = strColor.charAt(0);
-			if (firstChar == '#')
+			strColor = strColor.trim();
+			
+			if (strColor.length() > 0)
 			{
-				color = new Color(Integer.parseInt(strColor.substring(1), 16));
-			}
-			else if ('0' <= firstChar && firstChar <= '9')
-			{
-				color = new Color(Integer.parseInt(strColor));
-			}
-			else
-			{
-				ColorEnum colorEnum = ColorEnum.getByName(strColor);
-				if (colorEnum == null)
+				char firstChar = strColor.charAt(0);
+				if (firstChar == '#')
 				{
-					color = defaultColor;
+					color = new Color(Integer.parseInt(strColor.substring(1), 16));
+				}
+				else if ('0' <= firstChar && firstChar <= '9')
+				{
+					color = new Color(Integer.parseInt(strColor));
+				}
+				else if (
+					strColor.toLowerCase().startsWith(RGB)
+					&& strColor.endsWith(RGBA_SUFFIX)
+					)
+				{
+					strColor = strColor.toLowerCase();
+					boolean hasAlpha = false;
+					String prefix = null;
+					int numArrayLength = 0;
+					if (strColor.startsWith(RGBA_PREFIX))
+					{
+						hasAlpha = true;
+						prefix = RGBA_PREFIX;
+						numArrayLength = 4;
+					}
+					else if (strColor.startsWith(RGB_PREFIX))
+					{
+						hasAlpha = false;
+						prefix = RGB_PREFIX;
+						numArrayLength = 3;
+					}
+					else
+					{
+						throw new JRRuntimeException("Invalid color : " + strColor);
+					}
+					
+					String numStr = strColor.substring(prefix.length(), strColor.length() - RGBA_SUFFIX.length());
+					String[] numArray = numStr.split(",");
+					
+					if (numArray == null || numArray.length != numArrayLength)
+					{
+						throw new JRRuntimeException("Invalid color : " + strColor);
+					}
+					else
+					{
+						for (int i = 0; i < numArray.length; i++)
+						{
+							numArray[i] = numArray[i].trim();
+							if (numArray[i].length() == 0)
+							{
+								throw new JRRuntimeException("Invalid color : " + strColor);
+							}
+						}
+
+						int red = Integer.parseInt(numArray[0]);
+						int green = Integer.parseInt(numArray[1]);
+						int blue = Integer.parseInt(numArray[2]);
+						
+						if (hasAlpha)
+						{
+							float alpha = Float.parseFloat(numArray[3]);
+							color = new Color(red, green, blue, (int)(alpha * 255));
+						}
+						else
+						{
+							color = new Color(red, green, blue);
+						}
+					}
 				}
 				else
 				{
-					color = colorEnum.getColor();
+					ColorEnum colorEnum = ColorEnum.getByName(strColor);
+					if (colorEnum == null)
+					{
+						color = defaultColor;
+					}
+					else
+					{
+						color = colorEnum.getColor();
+					}
 				}
 			}
 		}
