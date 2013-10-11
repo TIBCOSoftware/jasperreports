@@ -959,6 +959,8 @@ public class HtmlExporter extends AbstractHtmlExporter
 		spanStyleBuffer.append("rotate(" + rotationAngle + "deg); ");
 		spanStyleBuffer.append("-ms-transform: translate(" + translateX + "px," + translateY + "px) ");
 		spanStyleBuffer.append("rotate(" + rotationAngle + "deg); ");
+		spanStyleBuffer.append("-o-transform: translate(" + translateX + "px," + translateY + "px) ");
+		spanStyleBuffer.append("rotate(" + rotationAngle + "deg); ");
 		spanStyleBuffer.append("filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=" + rotationIE + "); ");
 		return rotationValue;
 	}
