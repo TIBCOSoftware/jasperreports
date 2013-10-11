@@ -1233,6 +1233,8 @@ public class JRXhtmlExporter extends AbstractHtmlExporter
 			styleBuffer.append("rotate(" + rotationAngle + "deg); ");
 			styleBuffer.append("-ms-transform: translate(" + translateX + "px," + translateY + "px) ");
 			styleBuffer.append("rotate(" + rotationAngle + "deg); ");
+			styleBuffer.append("-o-transform: translate(" + translateX + "px," + translateY + "px) ");
+			styleBuffer.append("rotate(" + rotationAngle + "deg); ");
 			styleBuffer.append("filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=" + rotationIE + "); ");
 		}
 
