@@ -1,4 +1,4 @@
-define(["jasperreports-loader", "jasperreports-report", "jquery-1.10.2"], function(Loader, Report, $) {
+define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3"], function(Loader, Report, $) {
 	var Viewer = function(o) {
         this.config = {
             at: null,
@@ -19,8 +19,24 @@ define(["jasperreports-loader", "jasperreports-report", "jquery-1.10.2"], functi
     };
     
     Loader.prototype._errHandler = function(jqXHR, textStatus, errorThrown) {
-    	var jsonMsg = $.parseJSON(jqXHR.responseText);
-    	console.error(jsonMsg);
+    	var jsonMsg = $.parseJSON(jqXHR.responseText),
+            errDialogId = 'errDialog',
+            errDialog = $('#' + errDialogId),
+            msg;
+        if (errDialog.size != 1) {
+            errDialog = $("<div id='" + errDialogId + "'></div>");
+            $('body').append(errDialog);
+        }
+        msg = "<p>" + jsonMsg.msg + "</p>";
+        if(jsonMsg.devmsg) {
+            msg += "<p>" + jsonMsg.devmsg + "</p>";
+        }
+        errDialog.html(msg);
+        errDialog.dialog({
+            title: 'Error',
+            width: 530,
+            height: 200
+        });
     };
 
     Viewer.prototype = {
@@ -83,7 +99,11 @@ define(["jasperreports-loader", "jasperreports-report", "jquery-1.10.2"], functi
             }).on("pageModified", function() {
                 this.refreshPage(this.currentpage);
             }).on("reportFinished", function() {
-                this.refreshPage(this.currentpage);
+                if (!this.status.pageFinal) {
+                    this.refreshPage(this.currentpage);
+                } else {
+                    it._updateToolbarPaginationButtons(toolbar);
+                }
             }).on("componentsRegistered", function() {
             	var components = it.reportInstance.components,
                     uimodules = [],
@@ -164,7 +184,7 @@ define(["jasperreports-loader", "jasperreports-report", "jquery-1.10.2"], functi
                 classEnabled = utils.getClassEnabled(),
                 classDisabled = utils.getClassDisabled();
 
-            if (!totalPages) {
+            if (totalPages == null) {
                 utils.enableElem(pageNext);
                 utils.disableElem(pageLast);
             }
