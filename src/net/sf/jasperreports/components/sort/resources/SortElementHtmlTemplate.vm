@@ -1,55 +1,7 @@
-<script class='jasperreports' type='text/javascript'>
-	jasperreports.global.appendScriptElementToDOM('_sortScript', '${resourceSortJs}', 'jasperreports.sort.init');
-	jasperreports.global.appendStyleElementToDOM('_headerToolbarCSS', '${jasperreports_tableHeaderToolbar_css}');
-	
-	jive.actionBaseData = '${actionBaseData}';
-	jive.actionBaseUrl = '${actionBaseUrl}';
-</script>
-<div class='sortlink ${sortLinkClass}'
-	data-resizecolumn='column_${filterColumnName}'
-	data-actionData='${actionData}'
-	#if (${isFilterable})
-		data-filterid='${filterDivId}'
-	#end
-	style="cursor: pointer; display: table; position: absolute; 
-	#if(${elementX})left: ${elementX}; top: ${elementY}; #end
-		width: ${elementWidth}px; height: ${elementHeight}px; text-decoration: none;">
+<div class='sortlink' data-uuid="${uuid}" style="cursor: pointer; display: table; position: absolute;
+    #if(${elementX})left: ${elementX}; top: ${elementY};#end width: ${elementWidth}px; height: ${elementHeight}px; text-decoration: none;">
 	<div style='display: table-cell; vertical-align: ${sortHandlerVAlign}; text-align: ${sortHandlerHAlign};'>
-			#if (${isSorted})<input type='button' class='sortSymbolImage ${sortSymbolResource}' />#end 
-			#if (${isFiltered})<input type='button' class='filterSymbolImage filterSymbol_${filterActiveInactive} ${filterSymbolImageResource}' /> #end
+    #if (${isSorted})<input type='button' class='sortSymbolImage ${sortSymbolResource}' />#end
+    #if (${isFiltered})<input type='button' class='filterSymbolImage filterSymbol_${filterActiveInactive} ${filterSymbolImageResource}' /> #end
 	</div>
 </div>
-
-#if (${isFilterable})
-<script class='jasperreports' type='text/javascript'>
-	(function () {
-		var uid = '${filterDivId}',
-			arrFilterDiv = ["<div id='${filterDivId}' class='filterdiv' style='display: none;' data-forsortlink='${sortLinkClass}'>",
-			                "<div class='hidefilter' />",
-			                "<div class='filterDivForm'>",
-			                "	<input class='postable forClear' type='hidden' name='tableUuid' value='${tableUuid}' />",
-			                "	<input class='postable filterField' type='hidden' name='fieldName' value='${filterColumnName}' />",
-			                "	<input class='postable' type='hidden' name='isField' value='${isField}' />",
-			                "	<input class='postable' type='hidden' name='filterType' value='${filterTypeParamNameValue}' />",
-			                	#if(${filterPatternParamValue})
-			                "	<input class='postable' type='hidden' name='filterPattern' value='${filterPatternParamValue}' />",
-			                	#end
-							"	<select class='postable filterOperatorTypeValueSelector' name='filterTypeOperator'>",
-								#foreach( $entry in ${filterTypeValuesMap.entrySet()} )
-									#set( $selected = "" )
-									#if ($entry.key == ${filterTypeOperatorParamValue})
-										#set( $selected = "selected='selected'" )
-									#end
-    						"	<option value='$entry.key' $selected >$entry.value</option>",
-								#end
-							"	</select>",
-			                "	<input class='postable filterValue filterValueStart #if (${isBooleanFilterType})hidden' disabled #else ' #end type='text' name='fieldValueStart' value='${filterValueStartParamValue}' style='width: 80px;' />",
-			                "	<input class='postable filterValue filterValueEnd #if (!${enableFilterEndParameter})hidden' disabled #else ' #end type='text' name='fieldValueEnd'  value='${filterValueEndParamValue}' style='width: 80px;' />",
-			                "	<input class='submitFilter' type='button' value='Filter' />",
-			                "	<input class='clearFilter' #if(!${isFiltered}) style='display:none;' #end type='button' value='Clear' />",
-			                "</div></div>"];
-			                
-		jasperreports.events.subscribeToEvent({name: 'jasperreports.sort.init', callback: 'jasperreports.sort.createFilterDiv', args: [uid, arrFilterDiv, '${filtersJsonString}']});
-	} ());
-</script>
-#end

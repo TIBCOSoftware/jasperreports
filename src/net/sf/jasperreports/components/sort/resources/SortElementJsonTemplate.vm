@@ -1,0 +1,31 @@
+"${id}": {
+    "id": "${uuid}",
+    "type": "sort",
+    "module": "jive.sort",
+    "uimodule": "jive.interactive.sort",
+    "datasetUuid": "${datasetUuid}",
+    "sortData": ${actionData},
+    "isFilterable": ${isFilterable}
+#if (!${templateAlreadyLoaded})
+    ,"genericProperties": {
+        "operators": {
+            "numeric" :${numericOperators},
+            "date" :${dateOperators},
+            "time" :${timeOperators},
+            "text" :${textOperators},
+            "boolean" :${booleanOperators}
+        }
+    }
+#end
+#if(${isFilterable})
+    ,"filterData": {
+        "isField": ${isField},
+        "fieldName": "${fieldName}",
+        "fieldValueStart": "${fieldValueStart}",
+        "fieldValueEnd": "${fieldValueEnd}",
+        "filterType": "${filterType}",
+        "filterTypeOperator": "${filterTypeOperator}",
+        "filterPattern": "${filterPattern}"
+    }
+#end
+}
