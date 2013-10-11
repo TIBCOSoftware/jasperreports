@@ -23,29 +23,33 @@
  */
 package net.sf.jasperreports.components.sort;
 
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
-import net.sf.jasperreports.components.BaseElementHtmlHandler;
 import net.sf.jasperreports.components.sort.actions.FilterAction;
 import net.sf.jasperreports.components.sort.actions.FilterCommand;
 import net.sf.jasperreports.components.sort.actions.SortAction;
+import net.sf.jasperreports.components.sort.actions.SortData;
 import net.sf.jasperreports.engine.CompositeDatasetFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
-import net.sf.jasperreports.engine.export.JRXhtmlExporter;
-import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.export.GenericElementJsonHandler;
+import net.sf.jasperreports.engine.export.JsonExporterContext;
+import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
+import net.sf.jasperreports.engine.util.MessageProvider;
+import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.util.JacksonUtil;
@@ -59,24 +63,23 @@ import org.apache.velocity.VelocityContext;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id:ChartThemesUtilities.java 2595 2009-02-10 17:56:51Z teodord $
  */
-public class SortElementHtmlHandler extends BaseElementHtmlHandler
+public class SortElementJsonHandler implements GenericElementJsonHandler
 {
-	private static final Log log = LogFactory.getLog(SortElementHtmlHandler.class);
+	private static final Log log = LogFactory.getLog(SortElementJsonHandler.class);
 	
-	private static final String CSS_FILTER_DEFAULT = 		"filterBtnDefault";
-	private static final String CSS_FILTER_WRONG = 			"filterBtnWrong";
-	private static final String CSS_SORT_DEFAULT_ASC = 		"sortAscBtnDefault";
-	private static final String CSS_SORT_DEFAULT_DESC = 	"sortDescBtnDefault";
+	private static final String SORT_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/sort/resources/SortElementJsonTemplate.vm";
+    private static final String PARAM_GENERATED_TEMPLATE = "net.sf.jasperreports.sort";
 
-	private static final String SORT_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/sort/resources/SortElementHtmlTemplate.vm";
-	
-	protected static final String HTML_VERTICAL_ALIGN_TOP = "top";
-	protected static final String CSS_TEXT_ALIGN_LEFT = "left";
+    private static class CustomJRExporterParameter extends JRExporterParameter {
 
-	protected static final String FILTER_SYMBOL_ACTIVE = "Active";
-	protected static final String FILTER_SYMBOL_INACTIVE = "Inactive";
+        protected CustomJRExporterParameter(String name) {
+            super(name);
+        }
+    }
 
-	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
+    private static final CustomJRExporterParameter param = new SortElementJsonHandler.CustomJRExporterParameter("exporter_first_attempt");
+
+	public String getJsonFragment(JsonExporterContext context, JRGenericPrintElement element)
 	{
 		String htmlFragment = null;
 		ReportContext reportContext = context.getExporter().getReportContext();
@@ -85,19 +88,8 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			String sortColumnName = (String) element.getParameterValue(SortElement.PARAMETER_SORT_COLUMN_NAME);
 			String sortColumnType = (String) element.getParameterValue(SortElement.PARAMETER_SORT_COLUMN_TYPE);
 			
-			String sortHandlerVAlign = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN);
-			String sortHandlerHAlign = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN);
 			String sortDatasetName = element.getPropertiesMap().getProperty(SortElement.PROPERTY_DATASET_RUN);
-			
-			JRBaseFont sortHandlerFont = (JRBaseFont) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_FONT);
-			if (sortHandlerFont == null) {
-				sortHandlerFont = new JRBaseFont(element);
-			}
-
-			Color sortHandlerColor = (Color) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_COLOR);
-			if (sortHandlerColor == null) {
-				sortHandlerColor = Color.WHITE;
-			}
+            boolean templateAlreadyLoaded = false;
 			
 			FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(SortElement.PROPERTY_FILTER_TYPE));
 			if (filterType == null)//FIXMEJIVE
@@ -105,61 +97,89 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 				return null;
 			}
 			
-			VelocityContext velocityContext = new VelocityContext();
-			velocityContext.put("uuid", element.getUUID().toString());
-
-			if (context.getExporter() instanceof JRXhtmlExporter) {
-				velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
-				velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
-			}
-			velocityContext.put("elementWidth", element.getWidth());
-			velocityContext.put("elementHeight", element.getHeight());
-			velocityContext.put("sortHandlerHAlign", sortHandlerHAlign != null ? sortHandlerHAlign : CSS_TEXT_ALIGN_LEFT);
-			velocityContext.put("sortHandlerVAlign", sortHandlerVAlign != null ? sortHandlerVAlign : HTML_VERTICAL_ALIGN_TOP);
-			velocityContext.put("sortHandlerColor", JRColorUtil.getColorHexa(sortHandlerColor));
-			velocityContext.put("sortHandlerFontSize", sortHandlerFont.getFontSize());
+			String filterPattern = element.getPropertiesMap().getProperty(SortElement.PROPERTY_FILTER_PATTERN);
+			Locale locale = (Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
+            JasperReportsContext jrContext = context.getJasperReportsContext();
 			
-			if (element.getModeValue() == ModeEnum.OPAQUE)
-			{
-				velocityContext.put("backgroundColor", JRColorUtil.getColorHexa(element.getBackcolor()));
+			if (log.isDebugEnabled()) {
+				log.debug("report locale: " + locale);
 			}
+			
+			if (locale == null) {
+				locale = Locale.getDefault();
+			}
+			
+			VelocityContext contextMap = new VelocityContext();
+
+            if (reportContext.getParameterValue(PARAM_GENERATED_TEMPLATE) != null) {
+                templateAlreadyLoaded = true;
+            } else {
+                reportContext.setParameterValue(PARAM_GENERATED_TEMPLATE, true);
+            }
+            contextMap.put("templateAlreadyLoaded", templateAlreadyLoaded);
+
+            if (!(context.getExportParameters().containsKey(param) && sortDatasetName.equals(context.getExportParameters().get(param)))) {
+
+                context.getExportParameters().put(param, sortDatasetName);
+
+                // operators
+                contextMap.put("numericOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale)));
+                contextMap.put("dateOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale)));
+                contextMap.put("timeOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale)));
+                contextMap.put("textOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale)));
+                contextMap.put("booleanOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeBooleanOperatorsEnum.class.getName(), FilterTypeBooleanOperatorsEnum.values(), locale)));
+            }
+
 
 			String sortField = getCurrentSortField(context.getJasperReportsContext(), reportContext, element.getUUID().toString(), sortDatasetName, sortColumnName, sortColumnType);
-			if (sortField == null)
+			SortData sortData;
+			if (sortField == null) 
 			{
-				velocityContext.put("isSorted", false);
+				sortData = new SortData(element.getUUID().toString(), sortColumnName, sortColumnType, SortElement.SORT_ORDER_ASC);
 			}
 			else 
 			{
 				String[] sortActionData = SortElementUtils.extractColumnInfo(sortField);
 				boolean isAscending = SortElement.SORT_ORDER_ASC.equals(sortActionData[2]);
-				velocityContext.put("isSorted", true);
-				velocityContext.put("sortSymbolResource", isAscending ? CSS_SORT_DEFAULT_ASC : CSS_SORT_DEFAULT_DESC);
+				String sortOrder = !isAscending ? SortElement.SORT_ORDER_NONE : SortElement.SORT_ORDER_DESC;
+				sortData = new SortData(element.getUUID().toString(), sortColumnName, sortColumnType, sortOrder);
 			}
 
 			// existing filters
-			String filterActiveInactive = FILTER_SYMBOL_INACTIVE;
-			boolean isFiltered = false;
-			List<FieldFilter> fieldFilters;
-			String filterSymbolImageResource = CSS_FILTER_DEFAULT;
-
-			fieldFilters = getExistingFiltersForField(context.getJasperReportsContext(), reportContext, element.getUUID().toString(), sortColumnName);
+			String filterValueStart = "";
+			String filterValueEnd = "";
+			String filterTypeOperator = "";
+			List<FieldFilter> fieldFilters = getExistingFiltersForField(context.getJasperReportsContext(), reportContext, element.getUUID().toString(), sortColumnName);
 			
 			if (fieldFilters.size() > 0) {
 				FieldFilter ff = fieldFilters.get(0);
-				filterActiveInactive = FILTER_SYMBOL_ACTIVE;
-				isFiltered = true;
-				if (ff.getIsValid() != null && !ff.getIsValid()) {
-					filterSymbolImageResource = CSS_FILTER_WRONG;
+				if (ff.getFilterValueStart() != null) {
+					filterValueStart = ff.getFilterValueStart();
 				}
-				
+				if (ff.getFilterValueEnd() != null) {
+					filterValueEnd = ff.getFilterValueEnd();
+				}
+				filterTypeOperator = ff.getFilterTypeOperator();
 			}
-			
-			velocityContext.put("isFiltered", isFiltered);
-			velocityContext.put("filterSymbolImageResource", filterSymbolImageResource);
-			velocityContext.put("filterActiveInactive", filterActiveInactive);
 
-			htmlFragment = VelocityUtil.processTemplate(SortElementHtmlHandler.SORT_ELEMENT_HTML_TEMPLATE, velocityContext);
+            contextMap.put("id", element.hashCode());
+            contextMap.put("uuid", element.getUUID().toString());
+            contextMap.put("isFilterable", filterType != null);
+
+            contextMap.put("datasetUuid", element.getUUID().toString());
+            contextMap.put("actionData", getActionData(context, sortData));
+			
+            contextMap.put("isField", SortFieldTypeEnum.FIELD.equals(SortFieldTypeEnum.getByName(sortColumnType)));
+            contextMap.put("fieldName", sortColumnName);
+            contextMap.put("fieldValueStart", filterValueStart);
+            contextMap.put("fieldValueEnd", filterValueEnd);
+            contextMap.put("filterType", filterType.getName());
+            contextMap.put("filterTypeOperator", filterTypeOperator);
+            contextMap.put("filterPattern", filterPattern != null ? filterPattern : "");
+//            velocityContext.put("localeCode",);
+//            velocityContext.put("timeZoneId",);
+
+			htmlFragment = VelocityUtil.processTemplate(SortElementJsonHandler.SORT_ELEMENT_HTML_TEMPLATE, contextMap);
 		}
 		
 		return htmlFragment;
@@ -206,6 +226,29 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		return true;
 	}
 	
+    private List<LinkedHashMap<String, String>> getTranslatedOperators(
+            JasperReportsContext jasperReportsContext,
+            String bundleName,
+            JREnum[] operators,
+            Locale locale
+    ) //FIXMEJIVE make utility method for translating enums
+    {
+        List<LinkedHashMap<String, String>> result = new ArrayList<LinkedHashMap<String, String>>();
+        MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
+        LinkedHashMap<String, String> keys;
+
+        for (JREnum operator: operators)
+        {
+            keys = new LinkedHashMap<String, String>();
+            String key = bundleName + "." + ((Enum<?>)operator).name();
+            keys.put("key", ((Enum<?>)operator).name());
+            keys.put("val", messageProvider.getMessage(key, null, locale));
+            result.add(keys);
+        }
+
+        return result;
+    }
+	
 	public static void getFieldFilters(DatasetFilter existingFilter, List<FieldFilter> fieldFilters, String fieldName) {//FIXMEJIVE put this in some util and reuse
 		if (existingFilter instanceof FieldFilter) {
 			if ( fieldName == null || (fieldName != null && ((FieldFilter)existingFilter).getField().equals(fieldName))) {
@@ -217,6 +260,10 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 				getFieldFilters(filter, fieldFilters, fieldName);
 			}
 		}
+	}
+	
+	private String getActionData(JsonExporterContext context, SortData sortData) {
+		return "{\"actionName\":\"sortica\",\"sortData\":" + JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(sortData)+ "}";
 	}
 	
 	private List<FieldFilter> getExistingFiltersForField(

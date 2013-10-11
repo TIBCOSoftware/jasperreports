@@ -1,0 +1,91 @@
+.filterdiv {
+    text-align: center;
+    background-color: #FFFFFF;
+    /*-moz-box-shadow: 0 0 5px 5px #888;
+    -webkit-box-shadow: 0 0 5px 5px#888;
+    box-shadow: 0 0 5px 5px #888;
+    -moz-border-radius: 5px;
+    border-radius: 5px;*/
+    border: 1px solid black;
+    text-align: left;
+}
+
+.hidefilter {
+    background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/delete_edit.gif');
+    border: 0;
+    cursor: pointer;
+    height: 16px;
+    margin: 0;
+    position: absolute;
+    padding: 0;
+    right: 2px;
+    top: 2px;
+    vertical-align: top;
+    width: 16px;
+}
+
+.filterOperatorTypeValueSelector {
+    display: inline;
+    width: 140px;
+}
+
+.filterDivForm {
+    padding: 16px;
+    /*width: 300px;*/
+}
+
+.sortAscBtnDefault {
+    background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/sort_asc.png');
+}
+
+.sortAscBtnDefault:hover {
+    background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/sort_asc_over.png');
+}
+
+.sortAscBtnDefaultHover, .sortAscBtnEnabled, .sortAscBtnEnabledHover{
+    background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/sort_asc_over.png');
+}
+
+.sortDescBtnDefault {
+    background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/sort_desc.png');
+}
+
+.sortDescBtnDefault:hover {
+    background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/sort_desc_over.png');
+}
+
+.sortDescBtnDefaultHover, .sortDescBtnEnabled, .sortDescBtnEnabledHover{
+    background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/sort_desc_over.png');
+}
+
+.filterBtnDisabled, .filterBtnDefault {
+    background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/filter.png');
+}
+
+.filterBtnDefaultHover, .filterBtnEnabled, .filterBtnEnabledHover {
+    background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/filter_over.png');
+}
+
+.filterBtnWrong, .filterBtnWrongHover {
+    background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/filter_wrong.png');
+}
+
+.filterValue {
+    width: 80px;
+}
+
+.sortlink {
+    background-image: url('${path}net/sf/jasperreports/engine/images/pixel.GIF');
+}
+
+.filterSymbol_Inactive {
+    display: none;
+}
+
+.sortSymbolImage, .filterSymbolImage {
+    border: 0px;
+    height: 14px;
+    margin: 0px 1px;
+    padding: 0px;
+    width: 15px;
+}

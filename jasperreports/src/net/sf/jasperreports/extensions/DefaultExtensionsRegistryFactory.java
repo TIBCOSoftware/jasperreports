@@ -56,6 +56,7 @@ import net.sf.jasperreports.components.map.MapElementXlsxHandler;
 import net.sf.jasperreports.components.map.MapPrintElement;
 import net.sf.jasperreports.components.sort.SortElement;
 import net.sf.jasperreports.components.sort.SortElementHtmlHandler;
+import net.sf.jasperreports.components.sort.SortElementJsonHandler;
 import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.export.FlashHtmlHandler;
@@ -161,11 +162,16 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 						return MapElementOdsHandler.getInstance();
 					}
 				}
-				if (SortElement.SORT_ELEMENT_NAME.equals(elementName)
-						&& (JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey) || HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey)))
-				{
-					return new SortElementHtmlHandler();
-				}
+				if (SortElement.SORT_ELEMENT_NAME.equals(elementName))
+                {
+                    if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
+                    {
+                        return new SortElementHtmlHandler();
+                    } else if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
+                    {
+                        return new SortElementJsonHandler();
+                    }
+                }
 				if (HeaderToolbarElement.ELEMENT_NAME.equals(elementName) && JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
                 {
                     return new HeaderToolbarElementJsonHandler();
