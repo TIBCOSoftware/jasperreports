@@ -46,6 +46,8 @@ public class JRDesignQueryChunk extends JRBaseQueryChunk implements JRChangeEven
 	public static final String PROPERTY_TEXT = "text";
 	
 	public static final String PROPERTY_TOKENS = "tokens";
+
+	public static final String PROPERTY_TOKEN_SEPARATOR = "tokenSeparator";
 	
 	public static final String PROPERTY_TYPE = "type";
 
@@ -81,6 +83,19 @@ public class JRDesignQueryChunk extends JRBaseQueryChunk implements JRChangeEven
 		Object old = this.tokens;
 		this.tokens = tokens;
 		getEventSupport().firePropertyChange(PROPERTY_TOKENS, old, this.tokens);
+	}
+
+	/**
+	 * Sets the clause tokens separator character for chunks of type {@link JRQueryChunk#TYPE_CLAUSE_TOKENS TYPE_CLAUSE_TOKENS}.
+	 * 
+	 * @param tokenSeparator the clause tokens separator character
+	 * @see #getTokens()
+	 */
+	public void setTokenSeparator(Character tokenSeparator)
+	{
+		Character old = this.tokenSeparator;
+		this.tokenSeparator = tokenSeparator;
+		getEventSupport().firePropertyChange(PROPERTY_TOKEN_SEPARATOR, old, this.tokenSeparator);
 	}
 	
 	/**

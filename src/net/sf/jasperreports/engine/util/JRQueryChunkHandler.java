@@ -58,7 +58,8 @@ public interface JRQueryChunkHandler
 	 * Handle a clause chunk (<code>$X{..}</code>).
 	 * 
 	 * @param tokens the chunk tokens
+	 * @param tokenSeparator the token separator character
 	 */
-	void handleClauseChunk(String[] tokens);
+	void handleClauseChunk(String[] tokens, char tokenSeparator);
 
 }

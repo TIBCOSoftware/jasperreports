@@ -489,7 +489,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 					appendTextChunk(sbuffer, text);
 				}
 
-				public void handleClauseChunk(String[] tokens)
+				public void handleClauseChunk(String[] tokens, char tokenSeparator)
 				{
 					appendClauseChunk(sbuffer, tokens);
 				}
