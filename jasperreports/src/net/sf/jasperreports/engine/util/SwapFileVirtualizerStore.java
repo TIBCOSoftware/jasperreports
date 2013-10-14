@@ -26,6 +26,8 @@ package net.sf.jasperreports.engine.util;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,12 +50,19 @@ public class SwapFileVirtualizerStore implements VirtualizerStore
 	private final JRSwapFile swap;
 	private final boolean swapOwner;
 	private final Map<String,JRSwapFile.SwapHandle> handles;
+	private final StreamCompression compression;
 
 	public SwapFileVirtualizerStore(JRSwapFile swap, boolean swapOwner)
+	{
+		this(swap, swapOwner, null);
+	}
+
+	public SwapFileVirtualizerStore(JRSwapFile swap, boolean swapOwner, StreamCompression compression)
 	{
 		this.swap = swap;
 		this.swapOwner = swapOwner;
 		this.handles = Collections.synchronizedMap(new HashMap<String,JRSwapFile.SwapHandle>());
+		this.compression = compression;
 	}
 	
 	@Override
@@ -82,9 +91,11 @@ public class SwapFileVirtualizerStore implements VirtualizerStore
 		try
 		{
 			ByteArrayOutputStream bout = new ByteArrayOutputStream(3000);
-			serializer.writeData(o, bout);
-			byte[] data = bout.toByteArray();
+			OutputStream out = compression == null ? bout : compression.compressedOutput(bout);
+			serializer.writeData(o, out);
+			out.close();
 			
+			byte[] data = bout.toByteArray();
 			if (log.isTraceEnabled())
 			{
 				log.trace("writing " + data.length + " for object " + o.getUID() + " to " + swap);
@@ -121,7 +132,10 @@ public class SwapFileVirtualizerStore implements VirtualizerStore
 				log.trace("read " + data.length + " for object " + o.getUID() + " from " + swap);
 			}
 			
-			serializer.readData(o, new ByteArrayInputStream(data));
+			ByteArrayInputStream rawInput = new ByteArrayInputStream(data);
+			InputStream input = compression == null ? rawInput : compression.uncompressedInput(rawInput);
+			serializer.readData(o, input);
+			input.close();
 		}
 		catch (IOException e)
 		{

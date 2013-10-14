@@ -36,12 +36,13 @@ public class SwapFileVirtualizerStoreFactory implements VirtualizerStoreFactory
 	private String directory = System.getProperty("java.io.tmpdir");//default value
 	private int blockSize = 4096;//default value
 	private int minGrowCount = 20;//default value
+	private StreamCompression compression;
 	
 	@Override
 	public VirtualizerStore createStore(JRVirtualizationContext virtualizationContext)
 	{
 		JRSwapFile swapFile = new JRSwapFile(directory, blockSize, minGrowCount);
-		return new SwapFileVirtualizerStore(swapFile, true);
+		return new SwapFileVirtualizerStore(swapFile, true, compression);
 	}
 
 	public String getDirectory()
@@ -72,5 +73,15 @@ public class SwapFileVirtualizerStoreFactory implements VirtualizerStoreFactory
 	public void setMinGrowCount(int minGrowCount)
 	{
 		this.minGrowCount = minGrowCount;
+	}
+
+	public StreamCompression getCompression()
+	{
+		return compression;
+	}
+
+	public void setCompression(StreamCompression compression)
+	{
+		this.compression = compression;
 	}
 }
