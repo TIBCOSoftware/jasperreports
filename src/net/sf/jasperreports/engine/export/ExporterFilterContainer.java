@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * @version $Id$
  * @see #isToExport(JRPrintElement)
  */
-public class ExporterFilterContainer implements ExporterFilter
+public class ExporterFilterContainer implements ResetableExporterFilter
 {
 
 	private final List<ExporterFilter> filters;
@@ -74,6 +74,18 @@ public class ExporterFilterContainer implements ExporterFilter
 			}
 		}
 		return export;
+	}
+
+	@Override
+	public void reset()
+	{
+		for (ExporterFilter filter : filters)
+		{
+			if (filter instanceof ResetableExporterFilter)
+			{
+				((ResetableExporterFilter) filter).reset();
+			}
+		}
 	}
 
 }

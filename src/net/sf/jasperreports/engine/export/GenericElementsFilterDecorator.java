@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class GenericElementsFilterDecorator implements ExporterFilter
+public class GenericElementsFilterDecorator implements ResetableExporterFilter
 {
 
 	private final ExporterFilter filter;
@@ -61,6 +61,15 @@ public class GenericElementsFilterDecorator implements ExporterFilter
 		}
 		
 		return filter == null || filter.isToExport(element);
+	}
+
+	@Override
+	public void reset()
+	{
+		if (filter instanceof ResetableExporterFilter)
+		{
+			((ResetableExporterFilter) filter).reset();
+		}
 	}
 
 }
