@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.util.JRSwapFile;
+import net.sf.jasperreports.engine.util.StreamCompression;
 import net.sf.jasperreports.engine.util.SwapFileVirtualizerStore;
 
 
@@ -62,5 +63,21 @@ public class JRSwapFileVirtualizer extends StoreVirtualizer
 	public JRSwapFileVirtualizer(int maxSize, JRSwapFile swap, boolean swapOwner)
 	{
 		super(maxSize, new SwapFileVirtualizerStore(swap, swapOwner));
+	}
+	
+	/**
+	 * Creates a virtualizer that uses a swap file.
+	 * 
+	 * @param maxSize the maximum size (in JRVirtualizable objects) of the paged in cache.
+	 * @param swap the swap file to use for data virtualization
+	 * @param swapOwner whether the virtualizer is the owner (single user) of the swap file.
+	 * If <code>true</code>, the virtualizer will dispose the swap file on
+	 * {@link #cleanup() cleanup}.
+	 * @param compression stream compression to apply to serialized data
+	 */
+	public JRSwapFileVirtualizer(int maxSize, JRSwapFile swap, boolean swapOwner,
+			StreamCompression compression)
+	{
+		super(maxSize, new SwapFileVirtualizerStore(swap, swapOwner, compression));
 	}
 }
