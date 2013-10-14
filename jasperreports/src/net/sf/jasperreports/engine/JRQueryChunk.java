@@ -93,4 +93,12 @@ public interface JRQueryChunk extends JRCloneable
 	 * @return the chunk tokens
 	 */
 	public String[] getTokens();
+		
+	
+	/**
+	 * Returns the chunk tokens separator character for {@link #TYPE_CLAUSE_TOKENS clause} chunks.
+	 * 
+	 * @return the chunk tokens separator character
+	 */
+	public Character getTokenSeparator();
 }

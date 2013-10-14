@@ -140,12 +140,31 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 	 * 
 	 * @param tokens the clause tokens
 	 * @see JRDesignQueryChunk#setTokens(String[])
+	 * @deprecated Replaced by {@link #addClauseChunk(String[], char)}.
 	 */
 	public void addClauseChunk(String[] tokens)
 	{
 		JRDesignQueryChunk chunk = new JRDesignQueryChunk();
 		chunk.setType(JRQueryChunk.TYPE_CLAUSE_TOKENS);
 		chunk.setTokens(tokens);
+
+		this.chunks.add(chunk);
+	}
+
+	/**
+	 * Adds a {@link JRQueryChunk#TYPE_CLAUSE_TOKENS clause chunk} to the query.
+	 * 
+	 * @param tokens the clause tokens
+	 * @param tokenSeparator the token separator character
+	 * @see JRDesignQueryChunk#setTokens(String[])
+	 * @see JRQueryChunk#PROPERTY_CHUNK_TOKEN_SEPARATOR
+	 */
+	public void addClauseChunk(String[] tokens, char tokenSeparator)
+	{
+		JRDesignQueryChunk chunk = new JRDesignQueryChunk();
+		chunk.setType(JRQueryChunk.TYPE_CLAUSE_TOKENS);
+		chunk.setTokens(tokens);
+		chunk.setTokenSeparator(tokenSeparator);
 
 		this.chunks.add(chunk);
 	}
@@ -171,9 +190,9 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 					addTextChunk(text);
 				}
 
-				public void handleClauseChunk(String[] tokens)
+				public void handleClauseChunk(String[] tokens, char tokenSeparator)
 				{
-					addClauseChunk(tokens);
+					addClauseChunk(tokens, tokenSeparator);
 				}
 			};
 		}

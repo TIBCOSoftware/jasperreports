@@ -50,6 +50,7 @@ public class JRBaseQueryChunk implements JRQueryChunk, Serializable
 	protected byte type = TYPE_TEXT;
 	protected String text;
 	protected String[] tokens;
+	protected Character tokenSeparator;
 
 
 	/**
@@ -69,6 +70,7 @@ public class JRBaseQueryChunk implements JRQueryChunk, Serializable
 		
 		type = queryChunk.getType();
 		text = queryChunk.getText();
+		tokenSeparator = queryChunk.getTokenSeparator();
 		
 		String[] chunkTokens = queryChunk.getTokens();
 		if (chunkTokens == null)
@@ -98,7 +100,7 @@ public class JRBaseQueryChunk implements JRQueryChunk, Serializable
 	{
 		if (type == TYPE_CLAUSE_TOKENS)
 		{
-			return JRQueryParser.instance().asClauseText(getTokens());
+			return JRQueryParser.instance().asClauseText(getTokens(), getTokenSeparator());
 		}
 		
 		return this.text;
@@ -108,6 +110,12 @@ public class JRBaseQueryChunk implements JRQueryChunk, Serializable
 	public String[] getTokens()
 	{
 		return tokens;
+	}
+		
+
+	public Character getTokenSeparator()
+	{
+		return tokenSeparator;
 	}
 		
 
