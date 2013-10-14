@@ -29,6 +29,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -39,6 +40,7 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JsonUtil;
 import net.sf.jasperreports.repo.RepositoryUtil;
@@ -444,8 +446,12 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 		{
 			throw new JRException("No node available. Iterate or rewind the data source.");
 		}
-		
-		return new JsonDataSource(new ByteArrayInputStream(currentJsonNode.toString().getBytes("UTF-8")), selectExpression);
+
+        try {
+		    return new JsonDataSource(new ByteArrayInputStream(currentJsonNode.toString().getBytes("UTF-8")), selectExpression);
+        } catch(UnsupportedEncodingException e) {
+            throw new JRRuntimeException(e);
+        }
 	}
 
 
