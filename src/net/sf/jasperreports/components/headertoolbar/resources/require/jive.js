@@ -1054,7 +1054,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                 var firstColHeader = $('td.jrcolHeader:first'),
                     parentTable = firstColHeader.closest('table'),
                     lastColHeader = $('td.jrcolHeader:last', parentTable),
-                    rows = [], clone, cloneWidth = 0, row, lastRow, cloneTD, rowTD, rowTDs, i, j, k, ln, tblJrPage, parentTableRows;
+                    rows = [], clone, cloneWidth = [], row, lastRow, cloneTD, rowTD, rowTDs, i, j, k, ln, tblJrPage, parentTableRows;
                 if (firstColHeader.length > 0) {
                     firstColHeader.addClass('first_jrcolHeader');
                     row = firstColHeader.closest('tr');
@@ -1074,14 +1074,15 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     }
 
                     $.each(rows, function(idx, row) {
-                        rowTDs = $(row).find('td.jrcolHeader');
+                        rowTDs = $(row).find('td');
                         clone = $("<tr></tr>");
+                        cloneWidth[idx] = 0;
 
                         // set width and height for each cloned TD
                         for (i = 0, ln = rowTDs.length; i < ln; i++) {
                             rowTD = $(rowTDs.get(i));
                             cloneTD = rowTD.clone();
-                            idx == 0 && (cloneWidth += rowTD.outerWidth()); // calculate header width only for the first row
+                            cloneWidth[idx] = cloneWidth[idx] + rowTD.outerWidth();
                             cloneTD.width(rowTD.width());
                             cloneTD.height(rowTD.height());
                             clone.append(cloneTD);
@@ -1089,7 +1090,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                         tbl.append(clone);
                     });
                     tbl.css({
-                        width: cloneWidth,
+                        width: Math.max.apply(Math, cloneWidth),
                         'empty-cells': tblJrPage.css('empty-cells'),
                         'border-collapse': tblJrPage.css('border-collapse'),
                         'background-color': tblJrPage.css('background-color')
@@ -1144,12 +1145,12 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
             var it = this,
                 floatableTbl = it.getHeaderTable(),
                 containerTop = isDashboard ? $(window).scrollTop() : $('div#reportViewFrame .body').offset().top,
-                tbl = firstHeader.closest('table'),
                 headerTop = firstHeader.closest('tr').offset().top,
                 reportContainerTop = $('#reportContainer').offset().top,
                 lastTableCel = $('td.first_jrcolHeader:first').closest('table').find('td.jrcel:last'),
                 diff = lastTableCel.length ? lastTableCel.offset().top - floatableTbl.outerHeight() - containerTop: -1, // if last cell is not visible, hide the floating header
-                scrollTop = it.cachedScroll || 0;
+                scrollTop = it.cachedScroll || 0,
+                firstHeaderRowCells, delta = 0, i, stop;
 
             it.isIPad && !it.cachedHeaderTop && (it.cachedHeaderTop = headerTop);
 
@@ -1163,8 +1164,14 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     position: 'fixed',
                     top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop)
                 });
-                floatableTbl.offset({left: firstHeader.offset().left});
 
+                firstHeaderRowCells = firstHeader.closest('tr').find('td');
+                stop = firstHeaderRowCells.index(firstHeader);
+                for (i = 0; i < stop; i++) {
+                    delta += $(firstHeaderRowCells[i]).outerWidth();
+                }
+
+                floatableTbl.offset({left: firstHeader.offset().left - delta});
                 it.setToolbarPositionWhenFloating(it.active, isDashboard);
 
                 o.bMoved = it.isFloatingHeader = true;
@@ -1179,7 +1186,14 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     position: 'fixed',
                     top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop)
                 });
-                floatableTbl.offset({left: firstHeader.offset().left});
+
+                firstHeaderRowCells = firstHeader.closest('tr').find('td');
+                stop = firstHeaderRowCells.index(firstHeader);
+                for (i = 0; i < stop; i++) {
+                    delta += $(firstHeaderRowCells[i]).outerWidth();
+                }
+
+                floatableTbl.offset({left: firstHeader.offset().left - delta});
                 it.setToolbarPositionWhenFloating(it.active, isDashboard);
             } else if (o.bMoved) {
                 if (!isDashboard && (reportContainerTop > o.reportContainerPositionAtMove || diff <= 0)) {
