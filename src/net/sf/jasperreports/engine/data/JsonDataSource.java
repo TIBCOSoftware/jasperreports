@@ -445,7 +445,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 			throw new JRException("No node available. Iterate or rewind the data source.");
 		}
 		
-		return new JsonDataSource(new ByteArrayInputStream(currentJsonNode.toString().getBytes()), selectExpression);
+		return new JsonDataSource(new ByteArrayInputStream(currentJsonNode.toString().getBytes("UTF-8")), selectExpression);
 	}
 
 
