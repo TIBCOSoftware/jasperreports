@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 ===================================
 
-JasperReports 5.3.0 (2013-10-04)
+JasperReports 5.5.0 (2013-10-14)
 ---------------------------------------------
 - improved JasperReports Web Framework containing embeddable report viewer APIs. 
 It introduces a separation between the report's HTML output and its interactivity-related 
