@@ -190,7 +190,6 @@ public class JRHtmlExporter extends AbstractHtmlExporter
 	protected Map<String,String> rendererToImagePathMap;
 	protected Map<Pair<String, Rectangle>,String> imageMaps;
 	protected Map<String,byte[]> imageNameToImageDataMap;
-	protected boolean isPxImageLoaded;
 	
 	protected Map<String, HtmlFont> fontsToProcess;
 	
@@ -341,7 +340,6 @@ public class JRHtmlExporter extends AbstractHtmlExporter
 	
 			rendererToImagePathMap = new HashMap<String,String>();
 			imageMaps = new HashMap<Pair<String, Rectangle>,String>();
-			isPxImageLoaded = false;
 	
 			//backward compatibility with the IMAGE_MAP parameter
 			@SuppressWarnings({ "deprecation", "unchecked" })
@@ -406,8 +404,6 @@ public class JRHtmlExporter extends AbstractHtmlExporter
 							return null;
 						}
 					};
-
-				loadPxImage();
 			}
 			else
 			{
@@ -627,6 +623,11 @@ public class JRHtmlExporter extends AbstractHtmlExporter
 	 */
 	protected void exportReportToWriter() throws JRException, IOException
 	{
+		if (isUsingImagesToAlign)
+		{
+			loadPxImage();
+		}
+
 		if (htmlHeader == null)
 		{
 			// no doctype because of bug 1430880
@@ -2044,7 +2045,6 @@ public class JRHtmlExporter extends AbstractHtmlExporter
 			}
 			else 		// ie: 	if(isUsingImagesToAlign)
 			{
-				loadPxImage();
 				imagePath = imageHandler == null ? null : imageHandler.getResourcePath("px");
 				scaleImage = ScaleImageEnum.FILL_FRAME;
 			}
@@ -2243,38 +2243,33 @@ public class JRHtmlExporter extends AbstractHtmlExporter
 	 */
 	protected void loadPxImage() throws JRException
 	{
-		if (!isPxImageLoaded)
+		Renderable pxRenderer =
+			RenderableUtil.getInstance(jasperReportsContext).getRenderable("net/sf/jasperreports/engine/images/pixel.GIF");
+
+		String imageName = "px";
+		String imagePath = null;
+
+		if (imageHandler != null || imageNameToImageDataMap != null)
 		{
-			Renderable pxRenderer =
-				RenderableUtil.getInstance(jasperReportsContext).getRenderable("net/sf/jasperreports/engine/images/pixel.GIF");
-
-			String imageName = "px";
-			String imagePath = null;
-
-			if (imageHandler != null || imageNameToImageDataMap != null)
+			byte[] imageData = pxRenderer.getImageData(jasperReportsContext);
+			
+			//backward compatibility with the IMAGE_MAP parameter
+			if (imageNameToImageDataMap != null)
 			{
-				byte[] imageData = pxRenderer.getImageData(jasperReportsContext);
-				
-				//backward compatibility with the IMAGE_MAP parameter
-				if (imageNameToImageDataMap != null)
-				{
-					imageNameToImageDataMap.put(imageName, imageData);
-				}
-				//END - backward compatibility with the IMAGE_MAP parameter
-				
-				if (imageHandler != null)
-				{
-					imageHandler.handleResource(imageName, imageData);
+				imageNameToImageDataMap.put(imageName, imageData);
+			}
+			//END - backward compatibility with the IMAGE_MAP parameter
+			
+			if (imageHandler != null)
+			{
+				imageHandler.handleResource(imageName, imageData);
 
-					imagePath = imageHandler.getResourcePath(imageName);
-				}
-
+				imagePath = imageHandler.getResourcePath(imageName);
 			}
 
-			rendererToImagePathMap.put(pxRenderer.getId(), imagePath);
 		}
 
-		isPxImageLoaded = true;
+		rendererToImagePathMap.put(pxRenderer.getId(), imagePath);
 	}
 
 
