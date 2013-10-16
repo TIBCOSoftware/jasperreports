@@ -92,12 +92,10 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.repo.JasperDesignCache;
-import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportInteractionHyperlinkProducer;
 import net.sf.jasperreports.web.util.VelocityUtil;
-import net.sf.jasperreports.web.util.WebUtil;
 
 
 /**
@@ -785,6 +783,17 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			JRDesignTextElement textElement = entry.getKey();
 			GroupInfo groupInfo = entry.getValue();
 
+			EditTextElementData textElementData;
+			textElementData = new EditTextElementData();
+			textElementData.setGroupName(groupInfo.getName());
+			HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement);
+
+			Map<String, Object> groupData = new HashMap<String, Object>();
+			groupData.put("grouptype", groupInfo.getType());
+			groupData.put("id", groupInfo.getType() + "_" + i);
+			groupData.put("groupData", textElementData);
+			groupData.put("forColumns", groupInfo.getForColumns());
+
 			JRDesignTextField textField = textElement instanceof JRDesignTextField ? (JRDesignTextField)textElement : null;
 			ConditionalFormattingData cfData = 
 				textField == null 
@@ -800,21 +809,13 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			
 			if (cfData != null) 
 			{
-				EditTextElementData textElementData;
-				textElementData = new EditTextElementData();
-				textElementData.setGroupName(groupInfo.getName());
 				textElementData.setDataType(cfData.getConditionType());
-				HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement);
 
-				Map<String, Object> groupData = new HashMap<String, Object>();
-				groupData.put("grouptype", groupInfo.getType());
-				groupData.put("id", groupInfo.getType() + "_" + i);
-				groupData.put("groupData", textElementData);
-				groupData.put("forColumns", groupInfo.getForColumns());
 				groupData.put("conditionalFormattingData", cfData);
-
-				groupsData.add(groupData);
 			}
+
+			groupsData.add(groupData);
+
 			i++;
 		}
 
