@@ -150,6 +150,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 		}
 		else
 		{
+			@SuppressWarnings("deprecation")
 			int firstNestedIdx = fieldMapping.indexOf(PropertyUtils.NESTED_DELIM);
 
 			if (firstNestedIdx >= 0 && aliasesMap.containsKey(fieldMapping.substring(0, firstNestedIdx)))
@@ -178,6 +179,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 		Integer fieldIdx = aliasesMap.get(fieldMapping);
 		if (fieldIdx == null)
 		{
+			@SuppressWarnings("deprecation")
 			int firstNestedIdx = fieldMapping.indexOf(PropertyUtils.NESTED_DELIM);
 			
 			if (firstNestedIdx < 0)
