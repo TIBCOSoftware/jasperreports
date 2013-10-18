@@ -40,7 +40,6 @@ public class SimpleReportContext implements ReportContext
 	
 	private final String id;
 	private final Map<String, Object> parameters;
-    private boolean forceClearCache;
 
 	public SimpleReportContext()
 	{
@@ -69,15 +68,5 @@ public class SimpleReportContext implements ReportContext
 	{
 		return parameters.containsKey(parameterName);
 	}
-
-    @Override
-    public boolean isForceClearCache() {
-        return forceClearCache;
-    }
-
-    @Override
-    public void setForceClearCache(boolean forceClearCache) {
-        this.forceClearCache = forceClearCache;
-    }
 
 }
