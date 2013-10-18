@@ -33,11 +33,13 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @deprecated To be removed. Use {@link JRXlsExporter} or {@link JRXlsxExporter} instead.
  */
 public class JExcelApiExporterNature extends JRXlsAbstractExporterNature
 {

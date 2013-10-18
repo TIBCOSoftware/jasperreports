@@ -31,12 +31,15 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+
 
 
 
 /**
  * @author Manuel Paul (mpaul@ratundtat.com)
  * @version $Id$
+ * @deprecated To be removed. Use {@link JRXlsExporter} or {@link JRXlsxExporter} instead.
  */
 public class JExcelApiExporterParameter extends JRXlsAbstractExporterParameter {
 

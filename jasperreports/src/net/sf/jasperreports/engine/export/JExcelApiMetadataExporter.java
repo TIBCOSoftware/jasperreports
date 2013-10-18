@@ -110,6 +110,7 @@ import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
@@ -134,6 +135,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
+ * @deprecated Replaced by {@link JRXlsMetadataExporter}.
  */
 public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 {
