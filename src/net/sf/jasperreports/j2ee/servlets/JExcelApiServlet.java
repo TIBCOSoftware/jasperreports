@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @deprecated To be removed. Use {@link XlsServlet} or {@link XlsxServlet} instead.
  */
 public class JExcelApiServlet extends AbstractXlsServlet
 {
