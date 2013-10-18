@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+
 
 /**
  * A context that represents information about an XLS export process.
@@ -30,6 +32,7 @@ package net.sf.jasperreports.engine.export;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  * @see JRXlsExporter
+ * @deprecated To be removed. Use {@link JRXlsExporter} or {@link JRXlsxExporter} instead.
  */
 public interface JExcelApiExporterContext extends JRExporterContext
 {
