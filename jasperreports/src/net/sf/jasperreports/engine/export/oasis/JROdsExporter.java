@@ -107,6 +107,8 @@ public class JROdsExporter extends JRXlsAbstractExporter
 
 	protected boolean startPage;
 	protected boolean flexibleRowHeight;
+	
+	protected StringBuffer namedExpressions;
 
 	
 	@Override
@@ -136,6 +138,8 @@ public class JROdsExporter extends JRXlsAbstractExporter
 		styleBuilder.build();
 
 		stylesWriter.close();
+		
+		namedExpressions = new StringBuffer("<table:named-expressions>\n");
 	}
 
 	@Override
@@ -189,7 +193,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 
 		tempBodyWriter.close();
 		tempStyleWriter.close();
-
+		namedExpressions.append("</table:named-expressions>\n");
 
 		/*   */
 		ContentBuilder contentBuilder =
@@ -198,7 +202,8 @@ public class JROdsExporter extends JRXlsAbstractExporter
 				tempStyleEntry,
 				tempBodyEntry,
 				styleCache.getFontFaces(),
-				OasisZip.MIME_TYPE_ODS
+				OasisZip.MIME_TYPE_ODS,
+				namedExpressions
 				);
 		contentBuilder.build();
 
@@ -285,6 +290,13 @@ public class JROdsExporter extends JRXlsAbstractExporter
 		) throws JRException
 	{
 		tableBuilder.exportText(text, gridCell);
+		if (!ignoreAnchors && text.getAnchorName() != null)
+		{
+			String cellAddress = "$TBL_" + reportIndex + "_" + (isOnePagePerSheet ? pageIndex : 0) + "." + getCellAddress(rowIndex, colIndex);
+			int lastCol = Math.max(0, colIndex + gridCell.getColSpan() -1);
+			String cellRangeAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), lastCol);
+			namedExpressions.append("<table:named-range table:name=\""+ JRStringUtil.xmlEncode(text.getAnchorName()) +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" + cellAddress +":" +cellRangeAddress +"\"/>\n");
+		}
 	}
 
 	@Override
@@ -299,152 +311,155 @@ public class JROdsExporter extends JRXlsAbstractExporter
 		) throws JRException 
 	{
 		int topPadding = 
-				Math.max(image.getLineBox().getTopPadding().intValue(), Math.round(image.getLineBox().getTopPen().getLineWidth().floatValue()));
-			int leftPadding = 
-				Math.max(image.getLineBox().getLeftPadding().intValue(), Math.round(image.getLineBox().getLeftPen().getLineWidth().floatValue()));
-			int bottomPadding = 
-				Math.max(image.getLineBox().getBottomPadding().intValue(), Math.round(image.getLineBox().getBottomPen().getLineWidth().floatValue()));
-			int rightPadding = 
-				Math.max(image.getLineBox().getRightPadding().intValue(), Math.round(image.getLineBox().getRightPen().getLineWidth().floatValue()));
+			Math.max(image.getLineBox().getTopPadding().intValue(), Math.round(image.getLineBox().getTopPen().getLineWidth().floatValue()));
+		int leftPadding = 
+			Math.max(image.getLineBox().getLeftPadding().intValue(), Math.round(image.getLineBox().getLeftPen().getLineWidth().floatValue()));
+		int bottomPadding = 
+			Math.max(image.getLineBox().getBottomPadding().intValue(), Math.round(image.getLineBox().getBottomPen().getLineWidth().floatValue()));
+		int rightPadding = 
+			Math.max(image.getLineBox().getRightPadding().intValue(), Math.round(image.getLineBox().getRightPen().getLineWidth().floatValue()));
 
-			int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
-			availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
+		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
+		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
 
-			int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
-			availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
+		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
+		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
 
-			int width = availableImageWidth;
-			int height = availableImageHeight;
+		int width = availableImageWidth;
+		int height = availableImageHeight;
 
-			int xoffset = 0;
-			int yoffset = 0;
+		int xoffset = 0;
+		int yoffset = 0;
 
-			tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 
-			Renderable renderer = image.getRenderable();
+		Renderable renderer = image.getRenderable();
 
-			if (
-				renderer != null &&
-				availableImageWidth > 0 &&
-				availableImageHeight > 0
-				)
+		if (
+			renderer != null &&
+			availableImageWidth > 0 &&
+			availableImageHeight > 0
+			)
+		{
+			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && !image.isLazy())
 			{
-				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && !image.isLazy())
+				// Non-lazy image renderers are all asked for their image data at some point.
+				// Better to test and replace the renderer now, in case of lazy load error.
+				renderer = RenderableUtil.getInstance(getJasperReportsContext()).getOnErrorRendererForImageData(renderer, image.getOnErrorTypeValue());
+			}
+		}
+		else
+		{
+			renderer = null;
+		}
+
+		if (renderer != null)
+		{
+			float xalignFactor = tableBuilder.getXAlignFactor(image);
+			float yalignFactor = tableBuilder.getYAlignFactor(image);
+
+			switch (image.getScaleImageValue())
+			{
+				case FILL_FRAME :
 				{
-					// Non-lazy image renderers are all asked for their image data at some point.
-					// Better to test and replace the renderer now, in case of lazy load error.
-					renderer = RenderableUtil.getInstance(getJasperReportsContext()).getOnErrorRendererForImageData(renderer, image.getOnErrorTypeValue());
+					width = availableImageWidth;
+					height = availableImageHeight;
+					xoffset = 0;
+					yoffset = 0;
+					break;
+				}
+				case CLIP :
+				case RETAIN_SHAPE :
+				default :
+				{
+					double normalWidth = availableImageWidth;
+					double normalHeight = availableImageHeight;
+
+					if (!image.isLazy())
+					{
+						// Image load might fail.
+						Renderable tmpRenderer =
+							RenderableUtil.getInstance(getJasperReportsContext()).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
+						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(getJasperReportsContext());
+						// If renderer was replaced, ignore image dimension.
+						if (tmpRenderer == renderer && dimension != null)
+						{
+							normalWidth = dimension.getWidth();
+							normalHeight = dimension.getHeight();
+						}
+					}
+
+					if (availableImageHeight > 0)
+					{
+						double ratio = normalWidth / normalHeight;
+
+						if( ratio > availableImageWidth / (double)availableImageHeight )
+						{
+							width = availableImageWidth;
+							height = (int)(width/ratio);
+
+						}
+						else
+						{
+							height = availableImageHeight;
+							width = (int)(ratio * height);
+						}
+					}
+
+					xoffset = (int)(xalignFactor * (availableImageWidth - width));
+					yoffset = (int)(yalignFactor * (availableImageHeight - height));
 				}
 			}
-			else
-			{
-				renderer = null;
-			}
-
-			if (renderer != null)
-			{
-				float xalignFactor = tableBuilder.getXAlignFactor(image);
-				float yalignFactor = tableBuilder.getYAlignFactor(image);
-
-				switch (image.getScaleImageValue())
-				{
-					case FILL_FRAME :
-					{
-						width = availableImageWidth;
-						height = availableImageHeight;
-						xoffset = 0;
-						yoffset = 0;
-						break;
-					}
-					case CLIP :
-					case RETAIN_SHAPE :
-					default :
-					{
-						double normalWidth = availableImageWidth;
-						double normalHeight = availableImageHeight;
-
-						if (!image.isLazy())
-						{
-							// Image load might fail.
-							Renderable tmpRenderer =
-								RenderableUtil.getInstance(getJasperReportsContext()).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
-							Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(getJasperReportsContext());
-							// If renderer was replaced, ignore image dimension.
-							if (tmpRenderer == renderer && dimension != null)
-							{
-								normalWidth = dimension.getWidth();
-								normalHeight = dimension.getHeight();
-							}
-						}
-
-						if (availableImageHeight > 0)
-						{
-							double ratio = normalWidth / normalHeight;
-
-							if( ratio > availableImageWidth / (double)availableImageHeight )
-							{
-								width = availableImageWidth;
-								height = (int)(width/ratio);
-
-							}
-							else
-							{
-								height = availableImageHeight;
-								width = (int)(ratio * height);
-							}
-						}
-
-						xoffset = (int)(xalignFactor * (availableImageWidth - width));
-						yoffset = (int)(yalignFactor * (availableImageHeight - height));
-					}
-				}
 
 //				tempBodyWriter.write("<text:p>");
-				documentBuilder.insertPageAnchor(tableBuilder);
-				if (image.getAnchorName() != null)
-				{
-					tableBuilder.exportAnchor(JRStringUtil.xmlEncode(image.getAnchorName()));
-				}
-
-
-				boolean startedHyperlink = tableBuilder.startHyperlink(image,false);
-
-				//String cellAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), colIndex + gridCell.getColSpan() - 1);
-				String cellAddress = getCellAddress(rowIndex + gridCell.getRowSpan() + 1, colIndex + gridCell.getColSpan());
-				cellAddress = cellAddress == null ? "" : "table:end-cell-address=\"" + cellAddress + "\" ";
-				
-				tempBodyWriter.write("<draw:frame text:anchor-type=\"frame\" "
-						+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" "
-						+ cellAddress
-//						+ "table:end-x=\"" + LengthUtil.inchRound(image.getWidth()) + "in\" "
-//						+ "table:end-y=\"" + LengthUtil.inchRound(image.getHeight()) + "in\" "
-						+ "table:end-x=\"0in\" "
-						+ "table:end-y=\"0in\" "
-//						+ "svg:x=\"" + LengthUtil.inch(image.getX() + leftPadding + xoffset) + "in\" "
-//						+ "svg:y=\"" + LengthUtil.inch(image.getY() + topPadding + yoffset) + "in\" "
-						+ "svg:x=\"0in\" "
-						+ "svg:y=\"0in\" "
-						+ "svg:width=\"" + LengthUtil.inchRound(image.getWidth()) + "in\" "
-						+ "svg:height=\"" + LengthUtil.inchRound(image.getHeight()) + "in\"" 
-						+ ">"
-						);
-				tempBodyWriter.write("<draw:image ");
-				String imagePath = documentBuilder.getImagePath(renderer, image, gridCell);
-				tempBodyWriter.write(" xlink:href=\"" + JRStringUtil.xmlEncode(imagePath) + "\"");
-				tempBodyWriter.write(" xlink:type=\"simple\"");
-				tempBodyWriter.write(" xlink:show=\"embed\"");
-				tempBodyWriter.write(" xlink:actuate=\"onLoad\"");
-				tempBodyWriter.write("/>\n");
-
-				tempBodyWriter.write("</draw:frame>");
-				if(startedHyperlink)
-				{
-					tableBuilder.endHyperlink(false);
-				}
-//				tempBodyWriter.write("</text:p>");
+			documentBuilder.insertPageAnchor(tableBuilder);
+			if (!ignoreAnchors && image.getAnchorName() != null)
+			{
+				tableBuilder.exportAnchor(JRStringUtil.xmlEncode(image.getAnchorName()));
+				String cellAddress = "$TBL_" + reportIndex + "_" + (isOnePagePerSheet ? pageIndex : 0) + "." + getCellAddress(rowIndex, colIndex);
+				int lastCol = Math.max(0, colIndex + gridCell.getColSpan() - 1);
+				String cellRangeAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), lastCol);
+				namedExpressions.append("<table:named-range table:name=\""+ image.getAnchorName() +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" + cellAddress +":" + cellRangeAddress +"\"/>\n");
 			}
 
-			tableBuilder.buildCellFooter();
+			boolean startedHyperlink = tableBuilder.startHyperlink(image,false, isOnePagePerSheet);
+
+			//String cellAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), colIndex + gridCell.getColSpan() - 1);
+			String cellAddress = getCellAddress(rowIndex + gridCell.getRowSpan() + 1, colIndex + gridCell.getColSpan());
+			cellAddress = cellAddress == null ? "" : "table:end-cell-address=\"" + cellAddress + "\" ";
+			
+			tempBodyWriter.write("<draw:frame text:anchor-type=\"frame\" "
+					+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" "
+					+ cellAddress
+//						+ "table:end-x=\"" + LengthUtil.inchRound(image.getWidth()) + "in\" "
+//						+ "table:end-y=\"" + LengthUtil.inchRound(image.getHeight()) + "in\" "
+					+ "table:end-x=\"0in\" "
+					+ "table:end-y=\"0in\" "
+//						+ "svg:x=\"" + LengthUtil.inch(image.getX() + leftPadding + xoffset) + "in\" "
+//						+ "svg:y=\"" + LengthUtil.inch(image.getY() + topPadding + yoffset) + "in\" "
+					+ "svg:x=\"0in\" "
+					+ "svg:y=\"0in\" "
+					+ "svg:width=\"" + LengthUtil.inchRound(image.getWidth()) + "in\" "
+					+ "svg:height=\"" + LengthUtil.inchRound(image.getHeight()) + "in\"" 
+					+ ">"
+					);
+			tempBodyWriter.write("<draw:image ");
+			String imagePath = documentBuilder.getImagePath(renderer, image, gridCell);
+			tempBodyWriter.write(" xlink:href=\"" + JRStringUtil.xmlEncode(imagePath) + "\"");
+			tempBodyWriter.write(" xlink:type=\"simple\"");
+			tempBodyWriter.write(" xlink:show=\"embed\"");
+			tempBodyWriter.write(" xlink:actuate=\"onLoad\"");
+			tempBodyWriter.write("/>\n");
+
+			tempBodyWriter.write("</draw:frame>");
+			if(startedHyperlink)
+			{
+				tableBuilder.endHyperlink(false);
+			}
+//				tempBodyWriter.write("</text:p>");
+		}
+
+		tableBuilder.buildCellFooter();
 	}
 	
 	protected String getCellAddress(int row, int col)
@@ -453,7 +468,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 
 		if(row > 0 && row < 1048577 && col > -1 && col < 16384)
 		{
-			address = getColumnName(col) + row;
+			address = "$" + getColumnName(col) + "$" + row;
 		}
 		return address;
 	}
@@ -747,7 +762,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 
 			if (!ignoreHyperlink)
 			{
-				href = documentBuilder.getHyperlinkURL(textElement);
+				href = documentBuilder.getHyperlinkURL(textElement, isOnePagePerSheet);
 			}
 
 			if (href == null)
@@ -895,7 +910,10 @@ public class JROdsExporter extends JRXlsAbstractExporter
 	{
 		if(startPage)
 		{
-			tableBuilder.exportAnchor(DocumentBuilder.JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
+			String pageName = DocumentBuilder.JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
+			String cellAddress = "$TBL_" + reportIndex + "_" + (isOnePagePerSheet ? pageIndex : 0) + ".$A$1";
+			tableBuilder.exportAnchor(pageName);
+			namedExpressions.append("<table:named-range table:name=\""+ pageName +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" +cellAddress +"\"/>\n");
 			startPage = false;
 		}
 	}

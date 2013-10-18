@@ -42,13 +42,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import jxl.CellView;
 import jxl.JXLException;
+import jxl.Range;
 import jxl.SheetSettings;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
@@ -92,6 +95,7 @@ import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -193,6 +197,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected boolean useTempFile;
 	protected boolean complexFormat;
 	
+	protected Map<String,List<JExcelApiLocalHyperlinkInfo>> anchorLinks = new HashMap<String,List<JExcelApiLocalHyperlinkInfo>>();
+	protected Map<Integer,List<JExcelApiLocalHyperlinkInfo>> pageLinks = new HashMap<Integer,List<JExcelApiLocalHyperlinkInfo>>();
+	
 	protected class ExporterContext extends BaseExporterContext implements JExcelApiExporterContext
 	{
 		public String getExportPropertiesPrefix()
@@ -281,7 +288,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		int blue = reportColour.getBlue();
 
 		workbook.setColourRGB(colour, red, green, blue);
-
 		RGB customRGB = new RGB(red, green, blue);
 		usedColours.put(colour, customRGB);
 	}
@@ -337,6 +343,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			}
 			
 			firstPageNotSet = true;
+			anchorLinks.clear();
+			pageLinks.clear();
 		}
 		catch (IOException e)
 		{
@@ -373,6 +381,66 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			//creating an empty sheet so that write() doesn't fail
 			workbook.createSheet(EMPTY_SHEET_NAME, Integer.MAX_VALUE);
+		}
+
+		if(!ignoreAnchors) {
+			Range[] range = null;
+			List<JExcelApiLocalHyperlinkInfo> hyperlinkInfoList = null;
+			for(String href : anchorLinks.keySet()){
+				range = workbook.findByName(href);
+				hyperlinkInfoList = anchorLinks.get(href);
+				if(range != null && hyperlinkInfoList != null){
+					for(JExcelApiLocalHyperlinkInfo hyperlinkInfo : hyperlinkInfoList){
+						WritableSheet anchorSheet = workbook.getSheet(range[0].getFirstSheetIndex());
+						WritableHyperlink hyperlink = new WritableHyperlink(
+								hyperlinkInfo.getCol(),
+								hyperlinkInfo.getRow(),
+								hyperlinkInfo.getLastCol(),
+								hyperlinkInfo.getLastRow(),
+								hyperlinkInfo.getDescription(),
+								anchorSheet,
+								range[0].getTopLeft().getColumn(),
+								range[0].getTopLeft().getRow(),
+								range[0].getBottomRight().getColumn(),
+								range[0].getBottomRight().getRow());
+						try {
+							hyperlinkInfo.getSheet().addHyperlink(hyperlink);
+						} catch (Exception e) {
+							throw new JRException(e);
+						} 
+					}
+				}
+			}
+			
+			for(Integer href : pageLinks.keySet()){
+				hyperlinkInfoList = pageLinks.get(href);
+				if(hyperlinkInfoList != null){
+					WritableSheet anchorSheet = null;
+					for(JExcelApiLocalHyperlinkInfo hyperlinkInfo : hyperlinkInfoList){
+						if(isOnePagePerSheet){
+							anchorSheet = workbook.getSheet(Math.max(0, href-1));
+						}else {
+							anchorSheet = workbook.getSheet(0);
+						}
+						WritableHyperlink hyperlink = new WritableHyperlink(
+								hyperlinkInfo.getCol(),
+								hyperlinkInfo.getRow(),
+								hyperlinkInfo.getLastCol(),
+								hyperlinkInfo.getLastRow(),
+								hyperlinkInfo.getDescription(),
+								anchorSheet,
+								0,
+								0,
+								0,
+								0);
+						try {
+							hyperlinkInfo.getSheet().addHyperlink(hyperlink);
+						} catch (Exception e) {
+							throw new JRException(e);
+						} 
+					}
+				}
+			}
 		}
 
 		try
@@ -605,9 +673,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					isCellLocked(text)
 					);
 
-			String textStr = styledText.getText();
+			if (!ignoreAnchors && text.getAnchorName() != null)
+			{
+				int lastCol = Math.max(0, col + gridCell.getColSpan() - 1);
+				int lastRow = Math.max(0, row + gridCell.getRowSpan() - 1);
+				workbook.addNameArea(text.getAnchorName(), sheet, col, row, lastCol, lastRow);
+			}
 
-			String href = null;
 			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, text);
 			if (ignoreHyperlink == null)
 			{
@@ -616,57 +688,103 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			
 			if(!ignoreHyperlink)
 			{
-				JRHyperlinkProducer customHandler = getHyperlinkProducer(text);
-				if (customHandler == null)
-				{
-					switch (text.getHyperlinkTypeValue())
-					{
-						case REFERENCE:
-						{
-							href = text.getHyperlinkReference();
-							break;
-						}
-						case LOCAL_ANCHOR :
-						case LOCAL_PAGE :
-						case REMOTE_ANCHOR :
-						case REMOTE_PAGE :
-						case NONE:
-						default:
-						{
-						}
-					}
-				}
-				else
-				{
-					href = customHandler.getHyperlink(text);
-				}
+				exportHyperlink(text, styledText.getText(), gridCell, col, row);
 			}
 
 			try
 			{
-				if (href != null)
-				{
-					try
-					{
-						URL url = new URL(href);
-						WritableHyperlink hyperlink = new WritableHyperlink(col, row, col, row, url);
-						sheet.addHyperlink(hyperlink);
-					}
-					catch (MalformedURLException e)
-					{
-						if (log.isWarnEnabled())
-						{
-							log.warn("Reference \"" + href + "\" could not be parsed as URL.", e);
-						}
-					}
-				}
-				
-				addCell(col, row, text, textStr, baseStyle);
+				addCell(col, row, text, styledText.getText(), baseStyle);
 			}
 			catch (Exception e)
 			{
 				throw new JRException("Can't add cell.", e);
 			}
+		}
+	}
+	
+
+	public void exportHyperlink(JRPrintHyperlink link, String description, JRExporterGridCell gridCell, int col, int row) throws JRException {
+		JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
+		if (customHandler == null)
+		{
+			switch (link.getHyperlinkTypeValue())
+			{
+				case REFERENCE:
+				{
+					exportHyperlink (link.getHyperlinkReference(), col, row, col, row);
+					break;
+				}
+				case LOCAL_ANCHOR :
+				{
+					if(!ignoreAnchors) {
+						String href = link.getHyperlinkAnchor();
+						if(href != null){
+							int lastCol = Math.max(0, col + gridCell.getColSpan() - 1);
+							int lastRow = Math.max(0, row + gridCell.getRowSpan() - 1); 
+							JExcelApiLocalHyperlinkInfo hyperlinkInfo = new JExcelApiLocalHyperlinkInfo(description, sheet, col, row, lastCol, lastRow);
+							if(anchorLinks.containsKey(href)){
+								anchorLinks.get(href).add(hyperlinkInfo);
+							}else {
+								List<JExcelApiLocalHyperlinkInfo> hyperlinkInfoList = new ArrayList<JExcelApiLocalHyperlinkInfo>();
+								hyperlinkInfoList.add(hyperlinkInfo);
+								anchorLinks.put(href, hyperlinkInfoList);
+							}
+						}
+					}
+					break;
+				}
+				case LOCAL_PAGE :
+				{
+					if(!ignoreAnchors) {
+						Integer href = link.getHyperlinkPage();
+						if(href != null){
+							int lastCol = Math.max(0, col + gridCell.getColSpan() - 1);
+							int lastRow = Math.max(0, row + gridCell.getRowSpan() - 1);
+							JExcelApiLocalHyperlinkInfo hyperlinkInfo = new JExcelApiLocalHyperlinkInfo(description, sheet, col, row, lastCol, lastRow);
+							if(pageLinks.containsKey(href)){
+								pageLinks.get(href).add(hyperlinkInfo);
+							}else {
+								List<JExcelApiLocalHyperlinkInfo> hyperlinkInfoList = new ArrayList<JExcelApiLocalHyperlinkInfo>();
+								hyperlinkInfoList.add(hyperlinkInfo);
+								pageLinks.put(href, hyperlinkInfoList);
+							}
+						}
+					}
+					break;
+				}
+				case REMOTE_ANCHOR :
+				case REMOTE_PAGE :
+				case NONE:
+				default:
+				{
+				}
+			}
+		}
+		else
+		{
+			exportHyperlink (customHandler.getHyperlink(link), col, row, col, row);
+		}
+	}
+
+	
+	protected void exportHyperlink (String href, int col, int row, int lastCol, int lastRow) throws JRException{
+		if (href != null)
+		{
+			try
+			{
+				URL url = new URL(href);
+				WritableHyperlink hyperlink = new WritableHyperlink(col, row, lastCol, lastRow, url);
+				sheet.addHyperlink(hyperlink);
+			}
+			catch (MalformedURLException e)
+			{
+				if (log.isWarnEnabled())
+				{
+					log.warn("Reference \"" + href + "\" could not be parsed as URL.", e);
+				}
+			} catch (Exception e) {
+				throw new JRException(e);
+			} 
 		}
 	}
 
@@ -1230,6 +1348,23 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					gridCell,
 					isCellLocked(element)
 					);
+
+			if (!ignoreAnchors && element.getAnchorName() != null)
+			{
+				int lastCol = Math.max(0, col + gridCell.getColSpan() - 1);
+				int lastRow = Math.max(0, row + gridCell.getRowSpan() - 1);
+				workbook.addNameArea(element.getAnchorName(), sheet, col, row, lastCol, lastRow);
+			}
+			
+			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, element);
+			if (ignoreHyperlink == null)
+			{
+				ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
+			}
+			if(!ignoreHyperlink)
+			{
+				exportHyperlink(element, "", gridCell, col, row);
+			}
 
 			try
 			{
