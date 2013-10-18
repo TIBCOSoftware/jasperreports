@@ -111,7 +111,7 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 			
 			VelocityContext contextMap = new VelocityContext();
 
-            if (reportContext.getParameterValue(PARAM_GENERATED_TEMPLATE) != null) {
+            if (reportContext.getParameterValue(PARAM_GENERATED_TEMPLATE) != null && !reportContext.isForceClearCache()) {
                 templateAlreadyLoaded = true;
             } else {
                 reportContext.setParameterValue(PARAM_GENERATED_TEMPLATE, true);

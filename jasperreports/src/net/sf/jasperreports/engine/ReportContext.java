@@ -50,4 +50,14 @@ public interface ReportContext
 	 *
 	 */
 	public boolean containsParameter(String parameterName);
+
+    /**
+     *
+     */
+    public boolean isForceClearCache();
+
+    /**
+     *
+     */
+    public void setForceClearCache(boolean forceClearCache);
 }

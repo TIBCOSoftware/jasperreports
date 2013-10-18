@@ -62,6 +62,7 @@ public class WebReportContext implements ReportContext
 	private Map<String, String> requestParameters = new HashMap<String, String>();
 	private Map<String, Object> parameterValues;
 	private String id;
+    private boolean forceClearCache;
 	
 	/**
 	 *
@@ -204,4 +205,14 @@ public class WebReportContext implements ReportContext
 	{
 		return SESSION_ATTRIBUTE_REPORT_CONTEXT_ID_PREFIX + id;
 	}
+
+    @Override
+    public boolean isForceClearCache() {
+        return forceClearCache;
+    }
+
+    @Override
+    public void setForceClearCache(boolean forceClearCache) {
+        this.forceClearCache = forceClearCache;
+    }
 }
