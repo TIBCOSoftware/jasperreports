@@ -522,6 +522,15 @@ public class TableBuilder
 	 */
 	protected boolean startHyperlink(JRPrintHyperlink link, boolean isText)
 	{
+		return startHyperlink(link, isText, true);
+	}
+	
+	
+	/**
+	 *
+	 */
+	protected boolean startHyperlink(JRPrintHyperlink link, boolean isText, boolean isOnePagePerSheet)
+	{
 		String href = null;
 
 		String ignLnkPropName = getIgnoreHyperlinkProperty();
@@ -533,7 +542,7 @@ public class TableBuilder
 
 		if (!ignoreHyperlink)
 		{
-			href = documentBuilder.getHyperlinkURL(link);
+			href = documentBuilder.getHyperlinkURL(link, isOnePagePerSheet);
 		}
 		
 		if (href != null)

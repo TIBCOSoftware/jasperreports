@@ -82,6 +82,7 @@ import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -152,6 +153,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected XlsxDrawingRelsHelper drawingRelsHelper;
 	protected XlsxStyleHelper styleHelper;
 	protected XlsxCellHelper cellHelper;//FIXMEXLSX maybe cell helper should be part of sheet helper, just like in table helper
+	protected StringBuffer definedNames;
+	protected String firstSheetName;
+	protected String currentSheetName;
 
 	protected Map<String, String> rendererToImagePathMap;
 //	protected Map imageMaps;
@@ -588,18 +592,18 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 					}
 					case LOCAL_ANCHOR :
 					{
-//						if (link.getHyperlinkAnchor() != null)
-//						{
-//							href = "#" + link.getHyperlinkAnchor();
-//						}
+						if (!ignoreAnchors && link.getHyperlinkAnchor() != null)
+						{
+							href = link.getHyperlinkAnchor();
+						}
 						break;
 					}
 					case LOCAL_PAGE :
 					{
-//						if (link.getHyperlinkPage() != null)
-//						{
-//							href = "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
-//						}
+						if (!ignoreAnchors && link.getHyperlinkPage() != null)
+						{
+							href = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (isOnePagePerSheet ? link.getHyperlinkPage().toString() : "1");
+						}
 						break;
 					}
 					case REMOTE_ANCHOR :
@@ -647,16 +651,17 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 //		wbHelper.write("<w:r><w:fldChar w:fldCharType=\"end\"/></w:r>\n");
 //	}
 
-//	protected void insertPageAnchor() throws IOException
-//	{
-//		if(startPage)
-//		{
-//			tempBodyWriter.write("<text:bookmark text:name=\"");
-//			tempBodyWriter.write(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
-//			tempBodyWriter.write("\"/>\n");
-//			startPage = false;
-//		}
-//	}
+	protected void insertPageAnchor(int colIndex, int rowIndex)
+	{
+		if(!ignoreAnchors && startPage)
+		{
+			String anchorPage = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
+			String name = isOnePagePerSheet ? currentSheetName : firstSheetName;
+			String ref = "'" + name + "'!$A$1";		// + XlsxCellHelper.getColumIndexLetter(colIndex) + "$" + (rowIndex + 1);
+			definedNames.append("<definedName name=\"" + anchorPage +"\">"+ ref +"</definedName>\n");
+			startPage = false;
+		}
+	}
 	
 	/**
 	 *
@@ -752,6 +757,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			xlsxZip.zipEntries(os);
 
 			xlsxZip.dispose();
+			
 		}
 		catch (IOException e)
 		{
@@ -764,11 +770,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	{
 		closeSheet();
 		
+		startPage = true;
 		currentSheetJasperPrint = jasperPrint;
 		currentSheetPageScale = sheetInfo.sheetPageScale;
 		currentSheetFirstPageNumber = sheetInfo.sheetFirstPageNumber;
-		
-		wbHelper.exportSheet(sheetIndex + 1, sheetInfo.sheetName);
+		currentSheetName = sheetInfo.sheetName;
+		firstSheetName = firstSheetName == null ? currentSheetName : firstSheetName;
+		wbHelper.exportSheet(sheetIndex + 1, currentSheetName);
 		ctHelper.exportSheet(sheetIndex + 1);
 		relsHelper.exportSheet(sheetIndex + 1);
 
@@ -1120,13 +1128,15 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 				}
 			}
 
-//			insertPageAnchor();
-//			if (image.getAnchorName() != null)
-//			{
-//				tempBodyWriter.write("<text:bookmark text:name=\"");
-//				tempBodyWriter.write(image.getAnchorName());
-//				tempBodyWriter.write("\"/>");
-//			}
+			if(!ignoreAnchors)
+			{
+				insertPageAnchor(colIndex,rowIndex);
+				if (image.getAnchorName() != null)
+				{
+					String ref = "'" + currentSheetName + "'!$" + XlsxCellHelper.getColumIndexLetter(colIndex) + "$" + (rowIndex + 1);
+					definedNames.append("<definedName name=\"" + image.getAnchorName() +"\">"+ ref +"</definedName>\n");
+				}
+			}
 
 //			boolean startedHyperlink = startHyperlink(image,false);
 
@@ -1163,7 +1173,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			drawingHelper.write("<xdr:pic>\n");
 			drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + (image.hashCode() > 0 ? image.hashCode() : -image.hashCode()) + "\" name=\"Picture\">\n");
 
-			String href = getHyperlinkURL(image);
+			String href = HyperlinkTypeEnum.LOCAL_ANCHOR.equals(image.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(image.getHyperlinkTypeValue()) ? "#" + getHyperlinkURL(image) : getHyperlinkURL(image);
 			if (href != null)
 			{
 				drawingHelper.exportHyperlink(href);
@@ -1340,19 +1350,24 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 //		writer.write(">");
 		
 //		tableHelper.getParagraphHelper().exportProps(text);
-		
-//		insertPageAnchor();
-//		if (text.getAnchorName() != null)
-//		{
-//			tempBodyWriter.write("<text:bookmark text:name=\"");
-//			tempBodyWriter.write(text.getAnchorName());
-//			tempBodyWriter.write("\"/>");
-//		}
+		if(!ignoreAnchors)
+		{
+			insertPageAnchor(colIndex,rowIndex);
+			if (text.getAnchorName() != null)
+			{
+				String ref = "'" + currentSheetName + "'!$" + XlsxCellHelper.getColumIndexLetter(colIndex) + "$" + (rowIndex + 1);
+				definedNames.append("<definedName name=\"" + text.getAnchorName() +"\">"+ ref +"</definedName>\n");
+			}
+		}
 
 		String href = getHyperlinkURL(text);
 		if (href != null)
 		{
-			sheetHelper.exportHyperlink(rowIndex, colIndex, href);
+			sheetHelper.exportHyperlink(
+					rowIndex, 
+					colIndex, 
+					href, 
+					HyperlinkTypeEnum.LOCAL_ANCHOR.equals(text.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(text.getHyperlinkTypeValue()));
 		}
 
 		
@@ -1450,13 +1465,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 //		imageMaps = new HashMap();
 		imagesToProcess = new ArrayList<JRPrintElementIndex>();
 //		hyperlinksMap = new HashMap();
-
+		definedNames = new StringBuffer();
 		try
 		{
 			String memoryThreshold = jasperPrint.getPropertiesMap().getProperty(FileBufferedOutputStream.PROPERTY_MEMORY_THRESHOLD);
 			xlsxZip = new XlsxZip(jasperReportsContext, memoryThreshold == null ? null : JRPropertiesUtil.asInteger(memoryThreshold));
 
-			wbHelper = new XlsxWorkbookHelper(jasperReportsContext, xlsxZip.getWorkbookEntry().getWriter());
+			wbHelper = new XlsxWorkbookHelper(jasperReportsContext, xlsxZip.getWorkbookEntry().getWriter(), definedNames);
 			wbHelper.exportHeader();
 
 			relsHelper = new XlsxRelsHelper(jasperReportsContext, xlsxZip.getRelsEntry().getWriter());
@@ -1483,6 +1498,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 					);
 			
 			firstPageNotSet = true;
+			firstSheetName = null;
 		}
 		catch (IOException e)
 		{

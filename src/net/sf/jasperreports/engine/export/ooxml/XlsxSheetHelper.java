@@ -383,12 +383,24 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	public void exportHyperlink(int row, int col, String href) 
 	{
+		exportHyperlink(row, col, href, false);
+	}
+	
+	/**
+	 *
+	 */
+	public void exportHyperlink(int row, int col, String href, boolean isLocal) 
+	{
 		String ref = 
 			XlsxCellHelper.getColumIndexLetter(col) + (row + 1);
 		
 		try
 		{
-			hyperlinksWriter.write("<hyperlink ref=\"" + ref + "\" r:id=\"rIdLnk" + sheetRelsHelper.getHyperlink(href) + "\"/>\n");
+			if(isLocal){
+				hyperlinksWriter.write("<hyperlink ref=\"" + ref + "\" location=\"" + href + "\"/>\n");
+			} else {
+				hyperlinksWriter.write("<hyperlink ref=\"" + ref + "\" r:id=\"rIdLnk" + sheetRelsHelper.getHyperlink(href) + "\"/>\n");
+			}
 		}
 		catch (IOException e)
 		{
