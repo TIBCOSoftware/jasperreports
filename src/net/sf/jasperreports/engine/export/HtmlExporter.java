@@ -637,6 +637,11 @@ public class HtmlExporter extends AbstractHtmlExporter
 		{
 			restoreBackcolor();
 		}
+		
+		if (progressMonitor != null)
+		{
+			progressMonitor.afterPageExport();
+		}
 	}
 
 	public void exportElements(List<JRPrintElement> elements) throws IOException
