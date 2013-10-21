@@ -1231,14 +1231,14 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.
                     o = it.scrollHeader(o, isDashboard);
 
                     // reposition jive visual elements
-                    it.active && it.showVisualElements(jive.selected.dim);
+                    it.active && !it.ui.dialog.isVisible && it.showVisualElements(jive.selected.dim);
                 });
             }
             $(window).on('resize scroll', function() {
                 o = it.scrollHeader(o, isDashboard);
 
                 // reposition jive visual elements
-                it.active && it.showVisualElements(jive.selected.dim);
+                it.active && !it.ui.dialog.isVisible && it.showVisualElements(jive.selected.dim);
             });
         },
         init: function(report) {
