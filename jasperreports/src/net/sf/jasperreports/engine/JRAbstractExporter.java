@@ -517,11 +517,6 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
-	protected Map<String,String> fontMap;
-
-	/**
-	 *
-	 */
 	private LinkedList<int[]> elementOffsetStack = new LinkedList<int[]>();
 	private int elementOffsetX = globalOffsetX;
 	private int elementOffsetY = globalOffsetY;
@@ -1400,12 +1395,6 @@ public abstract class JRAbstractExporter implements JRExporter
 		return defaultFactory.getFilter(context);
 	}
 
-	@SuppressWarnings("deprecation")
-	protected void setFontMap()
-	{
-		fontMap = (Map<String,String>) parameters.get(JRExporterParameter.FONT_MAP);
-	}
-	
 	protected void setHyperlinkProducerFactory()
 	{
 		hyperlinkProducerFactory = (JRHyperlinkProducerFactory) parameters.get(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY);

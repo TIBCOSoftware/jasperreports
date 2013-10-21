@@ -226,9 +226,6 @@ public class JRPdfExporter extends JRAbstractExporter
 
 	private BookmarkStack bookmarkStack;
 
-	@SuppressWarnings("deprecation")
-	private Map<FontKey,PdfFont> pdfFontMap;
-
 	private SplitCharacter splitCharacter;
 	
 	protected JRPdfExporterContext exporterContext = new ExporterContext();
@@ -365,7 +362,6 @@ public class JRPdfExporter extends JRAbstractExporter
 						JRPdfExporterParameter.PROPERTY_PDF_VERSION
 						);
 
-			setFontMap();
 			setSplitCharacter();
 			setHyperlinkProducerFactory();
 
@@ -443,13 +439,6 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 			resetExportContext();
 		}
-	}
-
-
-	@SuppressWarnings("deprecation")
-	protected void setFontMap()
-	{
-		pdfFontMap = (Map<FontKey,PdfFont>) parameters.get(JRExporterParameter.FONT_MAP);
 	}
 
 
@@ -1902,99 +1891,92 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 		
 		Font font = null;
-		PdfFont pdfFont = null;
-		FontKey key = new FontKey(jrFont.getFontName(), jrFont.isBold(), jrFont.isItalic());
+		String pdfFontName = null;
+		String pdfEncoding = null;
+		boolean isPdfEmbedded = false;
+		boolean isPdfSimulatedBold = false;
+		boolean isPdfSimulatedItalic = false;
 
-		if (fontMap != null && fontMap.containsKey(key))
+		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(jrFont.getFontName(), locale);
+		if (fontInfo == null)
 		{
-			pdfFont = pdfFontMap.get(key);
+			//fontName NOT found in font extensions
+			pdfFontName = jrFont.getPdfFontName();
+			pdfEncoding = jrFont.getPdfEncoding();
+			isPdfEmbedded = jrFont.isPdfEmbedded();
 		}
 		else
 		{
-			FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(jrFont.getFontName(), locale);
-			if (fontInfo == null)
+			//fontName found in font extensions
+			FontFamily family = fontInfo.getFontFamily();
+			
+			int pdfFontStyle = java.awt.Font.PLAIN;
+			
+			FontFace fontFace = fontInfo.getFontFace();
+			if (fontFace != null)
 			{
-				//fontName NOT found in font extensions
-				pdfFont = new PdfFont(jrFont.getPdfFontName(), jrFont.getPdfEncoding(), jrFont.isPdfEmbedded());
+				pdfFontName = fontFace.getPdf();
+				pdfFontName = pdfFontName == null ? fontFace.getTtf() : pdfFontName;
+				pdfFontStyle = fontInfo.getStyle();
 			}
-			else
+			
+			if (pdfFontName == null && jrFont.isBold() && jrFont.isItalic())
 			{
-				//fontName found in font extensions
-				FontFamily family = fontInfo.getFontFamily();
-				
-				String pdfFontName = null;
-				int pdfFontStyle = java.awt.Font.PLAIN;
-				
-				FontFace fontFace = fontInfo.getFontFace();
+				fontFace = family.getBoldItalicFace();
 				if (fontFace != null)
 				{
 					pdfFontName = fontFace.getPdf();
 					pdfFontName = pdfFontName == null ? fontFace.getTtf() : pdfFontName;
-					pdfFontStyle = fontInfo.getStyle();
+					pdfFontStyle = java.awt.Font.BOLD | java.awt.Font.ITALIC;
 				}
-				
-				if (pdfFontName == null && jrFont.isBold() && jrFont.isItalic())
-				{
-					fontFace = family.getBoldItalicFace();
-					if (fontFace != null)
-					{
-						pdfFontName = fontFace.getPdf();
-						pdfFontName = pdfFontName == null ? fontFace.getTtf() : pdfFontName;
-						pdfFontStyle = java.awt.Font.BOLD | java.awt.Font.ITALIC;
-					}
-				}
-				
-				if (pdfFontName == null && jrFont.isBold())
-				{
-					fontFace = family.getBoldFace();
-					if (fontFace != null)
-					{
-						pdfFontName = fontFace.getPdf();
-						pdfFontName = pdfFontName == null ? fontFace.getTtf() : pdfFontName;
-						pdfFontStyle = java.awt.Font.BOLD;
-					}
-				}
-				
-				if (pdfFontName == null && jrFont.isItalic())
-				{
-					fontFace = family.getItalicFace();
-					if (fontFace != null)
-					{
-						pdfFontName = fontFace.getPdf();
-						pdfFontName = pdfFontName == null ? fontFace.getTtf() : pdfFontName;
-						pdfFontStyle = java.awt.Font.ITALIC;
-					}
-				}
-				
-				if (pdfFontName == null)
-				{
-					fontFace = family.getNormalFace();
-					if (fontFace != null)
-					{
-						pdfFontName = fontFace.getPdf();
-						pdfFontName = pdfFontName == null ? fontFace.getTtf() : pdfFontName;
-						pdfFontStyle = java.awt.Font.PLAIN;
-					}
-				}
-
-				if (pdfFontName == null)
-				{
-					pdfFontName = jrFont.getPdfFontName();
-				}
-
-				pdfFont =
-					new PdfFont(
-						pdfFontName, 
-						family.getPdfEncoding() == null ? jrFont.getPdfEncoding() : family.getPdfEncoding(),
- 						family.isPdfEmbedded() == null ? jrFont.isPdfEmbedded() : family.isPdfEmbedded().booleanValue(), 
-						jrFont.isBold() && ((pdfFontStyle & java.awt.Font.BOLD) == 0), 
-						jrFont.isItalic() && ((pdfFontStyle & java.awt.Font.ITALIC) == 0)
-						);
 			}
+			
+			if (pdfFontName == null && jrFont.isBold())
+			{
+				fontFace = family.getBoldFace();
+				if (fontFace != null)
+				{
+					pdfFontName = fontFace.getPdf();
+					pdfFontName = pdfFontName == null ? fontFace.getTtf() : pdfFontName;
+					pdfFontStyle = java.awt.Font.BOLD;
+				}
+			}
+			
+			if (pdfFontName == null && jrFont.isItalic())
+			{
+				fontFace = family.getItalicFace();
+				if (fontFace != null)
+				{
+					pdfFontName = fontFace.getPdf();
+					pdfFontName = pdfFontName == null ? fontFace.getTtf() : pdfFontName;
+					pdfFontStyle = java.awt.Font.ITALIC;
+				}
+			}
+			
+			if (pdfFontName == null)
+			{
+				fontFace = family.getNormalFace();
+				if (fontFace != null)
+				{
+					pdfFontName = fontFace.getPdf();
+					pdfFontName = pdfFontName == null ? fontFace.getTtf() : pdfFontName;
+					pdfFontStyle = java.awt.Font.PLAIN;
+				}
+			}
+
+			if (pdfFontName == null)
+			{
+				pdfFontName = jrFont.getPdfFontName();
+			}
+
+			pdfEncoding = family.getPdfEncoding() == null ? jrFont.getPdfEncoding() : family.getPdfEncoding();
+			isPdfEmbedded = family.isPdfEmbedded() == null ? jrFont.isPdfEmbedded() : family.isPdfEmbedded().booleanValue(); 
+			isPdfSimulatedBold = jrFont.isBold() && ((pdfFontStyle & java.awt.Font.BOLD) == 0); 
+			isPdfSimulatedItalic = jrFont.isItalic() && ((pdfFontStyle & java.awt.Font.ITALIC) == 0); 
 		}
 
-		int pdfFontStyle = (pdfFont.isPdfSimulatedBold() ? Font.BOLD : 0)
-				| (pdfFont.isPdfSimulatedItalic() ? Font.ITALIC : 0);
+		int pdfFontStyle = (isPdfSimulatedBold ? Font.BOLD : 0)
+				| (isPdfSimulatedItalic ? Font.ITALIC : 0);
 		if (setFontLines)
 		{
 			pdfFontStyle |= (jrFont.isUnderline() ? Font.UNDERLINE : 0)
@@ -2004,9 +1986,9 @@ public class JRPdfExporter extends JRAbstractExporter
 		try
 		{
 			font = FontFactory.getFont(
-				pdfFont.getPdfFontName(),
-				pdfFont.getPdfEncoding(),
-				pdfFont.isPdfEmbedded(),
+				pdfFontName,
+				pdfEncoding,
+				isPdfEmbedded,
 				jrFont.getFontSize() * fontSizeScale,
 				pdfFontStyle,
 				forecolor
@@ -2029,16 +2011,16 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			try
 			{
-				bytes = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(pdfFont.getPdfFontName());
+				bytes = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(pdfFontName);
 			}
 			catch(JRException e)
 			{
 				throw //NOPMD
 					new JRRuntimeException(
 						"Could not load the following font : "
-						+ "\npdfFontName   : " + pdfFont.getPdfFontName()
-						+ "\npdfEncoding   : " + pdfFont.getPdfEncoding()
-						+ "\nisPdfEmbedded : " + pdfFont.isPdfEmbedded(),
+						+ "\npdfFontName   : " + pdfFontName
+						+ "\npdfEncoding   : " + pdfEncoding
+						+ "\nisPdfEmbedded : " + isPdfEmbedded,
 						initialException
 						);
 			}
@@ -2049,9 +2031,9 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				baseFont =
 					BaseFont.createFont(
-						pdfFont.getPdfFontName(),
-						pdfFont.getPdfEncoding(),
-						pdfFont.isPdfEmbedded(),
+						pdfFontName,
+						pdfEncoding,
+						isPdfEmbedded,
 						true,
 						bytes,
 						null

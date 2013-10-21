@@ -251,8 +251,6 @@ public class JRDocxExporter extends JRAbstractExporter
 			imagesToProcess = new ArrayList<JRPrintElementIndex>();
 //			hyperlinksMap = new HashMap();
 
-			setFontMap();
-
 			setHyperlinkProducerFactory();
 
 			nature = getExporterNature(filter);
@@ -371,7 +369,6 @@ public class JRDocxExporter extends JRAbstractExporter
 			new DocxStyleHelper(
 				jasperReportsContext,
 				docxZip.getStylesEntry().getWriter(), 
-				fontMap, 
 				getExporterKey()
 				);
 		styleHelper.export(jasperPrintList);
@@ -385,7 +382,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		settingsHelper.export(jasperPrint);
 		settingsHelper.close();
 
-		runHelper = new DocxRunHelper(jasperReportsContext, docWriter, fontMap, getExporterKey());
+		runHelper = new DocxRunHelper(jasperReportsContext, docWriter, getExporterKey());
 		
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{

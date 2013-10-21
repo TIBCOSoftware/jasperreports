@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -50,12 +49,12 @@ public class DocxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public DocxStyleHelper(JasperReportsContext jasperReportsContext, Writer writer, Map<String,String> fontMap, String exporterKey)
+	public DocxStyleHelper(JasperReportsContext jasperReportsContext, Writer writer, String exporterKey)
 	{
 		super(jasperReportsContext, writer);
 		
 		paragraphHelper = new DocxParagraphHelper(jasperReportsContext, writer, false);
-		runHelper = new DocxRunHelper(jasperReportsContext, writer, fontMap, exporterKey);
+		runHelper = new DocxRunHelper(jasperReportsContext, writer, exporterKey);
 	}
 
 	/**

@@ -365,8 +365,6 @@ public class HtmlExporter extends AbstractHtmlExporter
 					false
 					);
 			
-			setFontMap();
-						
 			setHyperlinkProducerFactory();
 			
 			flushOutput = getBooleanParameter(JRHtmlExporterParameter.FLUSH_OUTPUT, 
@@ -2269,41 +2267,35 @@ public class HtmlExporter extends AbstractHtmlExporter
 
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
 		String fontFamily = fontFamilyAttr;
-		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
-		{
-			fontFamily = fontMap.get(fontFamilyAttr);
-		}
-		else
-		{
-			FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
-			if (fontInfo != null)
-			{
-				//fontName found in font extensions
-				FontFamily family = fontInfo.getFontFamily();
-				String exportFont = family.getExportFont(getExporterKey());
-				if (exportFont == null)
-				{
-					if (fontHandler != null && resourceHandler != null)
-					{
-						HtmlFont htmlFont = HtmlFont.getInstance(locale, fontInfo, isBold, isItalic);
-						
-						if (htmlFont != null)
-						{
-							if (!fontsToProcess.containsKey(htmlFont.getId()))
-							{
-								fontsToProcess.put(htmlFont.getId(), htmlFont);
 
-								HtmlFontUtil.handleFont(resourceHandler, htmlFont);
-							}
-							
-							fontFamily = htmlFont.getId();
+		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
+		if (fontInfo != null)
+		{
+			//fontName found in font extensions
+			FontFamily family = fontInfo.getFontFamily();
+			String exportFont = family.getExportFont(getExporterKey());
+			if (exportFont == null)
+			{
+				if (fontHandler != null && resourceHandler != null)
+				{
+					HtmlFont htmlFont = HtmlFont.getInstance(locale, fontInfo, isBold, isItalic);
+					
+					if (htmlFont != null)
+					{
+						if (!fontsToProcess.containsKey(htmlFont.getId()))
+						{
+							fontsToProcess.put(htmlFont.getId(), htmlFont);
+
+							HtmlFontUtil.handleFont(resourceHandler, htmlFont);
 						}
+						
+						fontFamily = htmlFont.getId();
 					}
 				}
-				else
-				{
-					fontFamily = exportFont;
-				}
+			}
+			else
+			{
+				fontFamily = exportFont;
 			}
 		}
 			

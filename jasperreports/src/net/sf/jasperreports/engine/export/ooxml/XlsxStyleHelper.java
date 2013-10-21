@@ -65,7 +65,6 @@ public class XlsxStyleHelper extends BaseHelper
 	public XlsxStyleHelper(
 		JasperReportsContext jasperReportsContext,
 		Writer writer, 
-		Map<String,String> fontMap, 
 		String exporterKey,
 		boolean isWhitePageBackground,
 		boolean isIgnoreCellBorder,
@@ -79,7 +78,7 @@ public class XlsxStyleHelper extends BaseHelper
 		this.isIgnoreCellBackground = isIgnoreCellBackground;
 		
 		formatHelper = new XlsxFormatHelper(jasperReportsContext, formatsWriter);
-		fontHelper = new XlsxFontHelper(jasperReportsContext, fontsWriter, fontMap, exporterKey, isFontSizeFixEnabled);
+		fontHelper = new XlsxFontHelper(jasperReportsContext, fontsWriter, exporterKey, isFontSizeFixEnabled);
 		borderHelper = new XlsxBorderHelper(jasperReportsContext ,bordersWriter, isIgnoreCellBorder);
 	}
 

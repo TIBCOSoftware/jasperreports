@@ -53,17 +53,15 @@ public class PptxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private Map<String,String> fontMap;
 	private String exporterKey;
 
 
 	/**
 	 *
 	 */
-	public PptxRunHelper(JasperReportsContext jasperReportsContext, Writer writer, Map<String,String> fontMap, String exporterKey)
+	public PptxRunHelper(JasperReportsContext jasperReportsContext, Writer writer, String exporterKey)
 	{
 		super(jasperReportsContext, writer);
-		this.fontMap = fontMap;
 		this.exporterKey = exporterKey;
 	}
 
@@ -236,22 +234,15 @@ public class PptxRunHelper extends BaseHelper
 		{
 			String fontFamilyAttr = (String)value;
 			String fontFamily = fontFamilyAttr;
-			if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
+			FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
+			if (fontInfo != null)
 			{
-				fontFamily = fontMap.get(fontFamilyAttr);
-			}
-			else
-			{
-				FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
-				if (fontInfo != null)
+				//fontName found in font extensions
+				FontFamily family = fontInfo.getFontFamily();
+				String exportFont = family.getExportFont(exporterKey);
+				if (exportFont != null)
 				{
-					//fontName found in font extensions
-					FontFamily family = fontInfo.getFontFamily();
-					String exportFont = family.getExportFont(exporterKey);
-					if (exportFont != null)
-					{
-						fontFamily = exportFont;
-					}
+					fontFamily = exportFont;
 				}
 			}
 			write("        <a:latin typeface=\"" + fontFamily + "\"/>\n");

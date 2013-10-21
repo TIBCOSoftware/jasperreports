@@ -830,8 +830,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				false
 				);
 
-		setFontMap();
-
 		setHyperlinkProducerFactory();
 
 		maxRowsPerSheet = 
