@@ -130,7 +130,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 
 		documentBuilder = new OdsDocumentBuilder(oasisZip);
 		
-		styleCache = new StyleCache(jasperReportsContext, tempStyleWriter, fontMap, getExporterKey());
+		styleCache = new StyleCache(jasperReportsContext, tempStyleWriter, getExporterKey());
 
 		WriterHelper stylesWriter = new WriterHelper(jasperReportsContext, oasisZip.getStylesEntry().getWriter());
 

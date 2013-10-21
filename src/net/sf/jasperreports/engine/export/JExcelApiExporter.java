@@ -1627,23 +1627,18 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				{
 					fontSize -= 1;
 				}
+				
 				String fontName = font.getFontName();
-				if (fontMap != null && fontMap.containsKey(fontName))
+
+				FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontName, locale);
+				if (fontInfo != null)
 				{
-					fontName = fontMap.get(fontName);
-				}
-				else
-				{
-					FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontName, locale);
-					if (fontInfo != null)
+					//fontName found in font extensions
+					FontFamily family = fontInfo.getFontFamily();
+					String exportFont = family.getExportFont(getExporterKey());
+					if (exportFont != null)
 					{
-						//fontName found in font extensions
-						FontFamily family = fontInfo.getFontFamily();
-						String exportFont = family.getExportFont(getExporterKey());
-						if (exportFont != null)
-						{
-							fontName = exportFont;
-						}
+						fontName = exportFont;
 					}
 				}
 
@@ -1670,11 +1665,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				{
 					fontSize -= 1;
 				}
+
 				String fontName = font.getFontName();
-				if (fontMap != null && fontMap.containsKey(fontName))
-				{
-					fontName = fontMap.get(fontName);
-				}
 
 				cellFont =
 					new WritableFont(

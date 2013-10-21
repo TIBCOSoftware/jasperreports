@@ -804,7 +804,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		
 		cellHelper = new XlsxCellHelper(jasperReportsContext, sheetWriter, styleHelper);
 		
-		runHelper = new XlsxRunHelper(jasperReportsContext, sheetWriter, fontMap, null);//FIXMEXLSX check this null
+		runHelper = new XlsxRunHelper(jasperReportsContext, sheetWriter, null);//FIXMEXLSX check this null
 		
 		boolean showGridlines = sheetInfo.sheetShowGridlines != null 
 				? sheetInfo.sheetShowGridlines
@@ -1489,7 +1489,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 				new XlsxStyleHelper(
 					jasperReportsContext,
 					xlsxZip.getStylesEntry().getWriter(), 
-					fontMap, 
 					getExporterKey(),
 					isWhitePageBackground,
 					isIgnoreCellBorder,

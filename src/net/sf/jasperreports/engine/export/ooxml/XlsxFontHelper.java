@@ -44,7 +44,6 @@ public class XlsxFontHelper extends BaseHelper
 {
 	private Map<String,Integer> fontCache = new HashMap<String,Integer>();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
-	private Map<String,String> fontMap;
 	private String exporterKey;
 	private boolean isFontSizeFixEnabled;
 
@@ -54,14 +53,12 @@ public class XlsxFontHelper extends BaseHelper
 	public XlsxFontHelper(
 		JasperReportsContext jasperReportsContext,
 		Writer writer,
-		Map<String,String> fontMap,
 		String exporterKey,
 		boolean isFontSizeFixEnabled		
 		)
 	{
 		super(jasperReportsContext, writer);
 
-		this.fontMap = fontMap;
 		this.exporterKey = exporterKey;
 		this.isFontSizeFixEnabled = isFontSizeFixEnabled;
 	}
@@ -78,32 +75,26 @@ public class XlsxFontHelper extends BaseHelper
 		}
 
 		String fontName = font.getFontName();
-		if (fontMap != null && fontMap.containsKey(fontName))
+
+		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontName, locale);
+		if (fontInfo != null)
 		{
-			fontName = fontMap.get(fontName);
-		}
-		else
-		{
-			FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontName, locale);
-			if (fontInfo != null)
+			//fontName found in font extensions
+			FontFamily family = fontInfo.getFontFamily();
+			String exportFont = family.getExportFont(exporterKey);
+			if (exportFont != null)
 			{
-				//fontName found in font extensions
-				FontFamily family = fontInfo.getFontFamily();
-				String exportFont = family.getExportFont(exporterKey);
-				if (exportFont != null)
-				{
-					fontName = exportFont;
-				}
+				fontName = exportFont;
 			}
 		}
 		
-		XlsxFontInfo fontInfo = new XlsxFontInfo(gridCell, fontName);
-		Integer fontIndex = fontCache.get(fontInfo.getId());
+		XlsxFontInfo xlsxFontInfo = new XlsxFontInfo(gridCell, fontName);
+		Integer fontIndex = fontCache.get(xlsxFontInfo.getId());
 		if (fontIndex == null)
 		{
 			fontIndex = Integer.valueOf(fontCache.size());
-			export(fontInfo);
-			fontCache.put(fontInfo.getId(), fontIndex);
+			export(xlsxFontInfo);
+			fontCache.put(xlsxFontInfo.getId(), fontIndex);
 		}
 		return fontIndex.intValue();
 	}

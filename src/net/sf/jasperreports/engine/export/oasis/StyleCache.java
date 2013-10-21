@@ -56,7 +56,6 @@ public class StyleCache
 	 */
 	private final JasperReportsContext jasperReportsContext;
 	private final WriterHelper styleWriter;
-	private final Map<String,String> fontMap;
 	private Set<String> fontFaces = new HashSet<String>();
 	private final String exporterKey;
 
@@ -81,13 +80,11 @@ public class StyleCache
 	public StyleCache(
 		JasperReportsContext jasperReportsContext, 
 		WriterHelper styleWriter, 
-		Map<String,String> fontMap, 
 		String exporterKey
 		)
 	{
 		this.jasperReportsContext = jasperReportsContext;
 		this.styleWriter = styleWriter;
-		this.fontMap = fontMap;
 		this.exporterKey = exporterKey;
 	}
 
@@ -226,22 +223,15 @@ public class StyleCache
 	{
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
 		String fontFamily = fontFamilyAttr;
-		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
+		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
+		if (fontInfo != null)
 		{
-			fontFamily = fontMap.get(fontFamilyAttr);
-		}
-		else
-		{
-			FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
-			if (fontInfo != null)
+			//fontName found in font extensions
+			FontFamily family = fontInfo.getFontFamily();
+			String exportFont = family.getExportFont(exporterKey);
+			if (exportFont != null)
 			{
-				//fontName found in font extensions
-				FontFamily family = fontInfo.getFontFamily();
-				String exportFont = family.getExportFont(exporterKey);
-				if (exportFont != null)
-				{
-					fontFamily = exportFont;
-				}
+				fontFamily = exportFont;
 			}
 		}
 		fontFaces.add(fontFamily);

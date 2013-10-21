@@ -193,8 +193,6 @@ public class JRRtfExporter extends JRAbstractExporter
 			colors = new ArrayList<Color>();
 			colors.add(null);
 
-			setFontMap();
-
 			setHyperlinkProducerFactory();
 			
 			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
@@ -422,22 +420,16 @@ public class JRRtfExporter extends JRAbstractExporter
 	private int getFontIndex(JRFont font, Locale locale) throws IOException
 	{
 		String fontName = font.getFontName();
-		if(fontMap != null && fontMap.containsKey(fontName))
+
+		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontName, locale);
+		if (fontInfo != null)
 		{
-			fontName = fontMap.get(fontName);
-		}
-		else
-		{
-			FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontName, locale);
-			if (fontInfo != null)
+			//fontName found in font extensions
+			FontFamily family = fontInfo.getFontFamily();
+			String exportFont = family.getExportFont(getExporterKey());
+			if (exportFont != null)
 			{
-				//fontName found in font extensions
-				FontFamily family = fontInfo.getFontFamily();
-				String exportFont = family.getExportFont(getExporterKey());
-				if (exportFont != null)
-				{
-					fontName = exportFont;
-				}
+				fontName = exportFont;
 			}
 		}
 

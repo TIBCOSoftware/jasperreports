@@ -216,8 +216,6 @@ public class JRPptxExporter extends JRAbstractExporter
 			imagesToProcess = new ArrayList<JRPrintElementIndex>();
 //			hyperlinksMap = new HashMap();
 
-			setFontMap();
-
 			setHyperlinkProducerFactory();
 
 			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
@@ -479,7 +477,7 @@ public class JRPptxExporter extends JRAbstractExporter
 
 //		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
 //		
-		runHelper = new PptxRunHelper(jasperReportsContext, slideWriter, fontMap, null);//FIXMEXLSX check this null
+		runHelper = new PptxRunHelper(jasperReportsContext, slideWriter, null);//FIXMEXLSX check this null
 		
 		slideHelper.exportHeader();
 		slideRelsHelper.exportHeader();

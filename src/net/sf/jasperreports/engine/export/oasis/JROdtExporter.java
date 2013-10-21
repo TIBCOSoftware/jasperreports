@@ -272,8 +272,6 @@ public class JROdtExporter extends JRAbstractExporter
 
 			setFlexibleRowHeight();
 
-			setFontMap();
-
 			setHyperlinkProducerFactory();
 
 			nature = new JROdtExporterNature(filter);
@@ -352,7 +350,7 @@ public class JROdtExporter extends JRAbstractExporter
 
 		documentBuilder = new OdtDocumentBuilder(oasisZip);
 		
-		styleCache = new StyleCache(jasperReportsContext, tempStyleWriter, fontMap, getExporterKey());
+		styleCache = new StyleCache(jasperReportsContext, tempStyleWriter, getExporterKey());
 
 		WriterHelper stylesWriter = new WriterHelper(jasperReportsContext, oasisZip.getStylesEntry().getWriter());
 
