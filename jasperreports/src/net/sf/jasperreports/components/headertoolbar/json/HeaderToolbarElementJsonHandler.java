@@ -183,7 +183,9 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				locale = Locale.getDefault();
 			}
 			
-			if (reportContext.getParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX) != null) {
+            Boolean isClearCache = (Boolean)reportContext.getParameterValue(PARAMETER_CLEAR_CONTEXT_CACHE);
+
+			if (reportContext.getParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX) != null && !(isClearCache != null && isClearCache)) {
 				templateAlreadyLoaded = true;
 			} else {
 				reportContext.setParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX, true);
