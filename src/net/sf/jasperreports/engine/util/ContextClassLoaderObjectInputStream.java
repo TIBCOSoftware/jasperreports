@@ -77,6 +77,14 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 		this(DefaultJasperReportsContext.getInstance(), in);
 	}
 
+	/**
+	 *
+	 */
+	public JasperReportsContext getJasperReportsContext()
+	{
+		return jasperReportsContext;
+	}
+
 	/**.classpath
 	 * Calls <code>super.resolveClass()</code> and in case this fails with
 	 * {@link ClassNotFoundException} attempts to load the class using the
