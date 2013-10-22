@@ -59,6 +59,7 @@ import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.base.JRBaseDataset;
 import net.sf.jasperreports.engine.query.QueryExecuterFactory;
@@ -103,6 +104,8 @@ public class JRDesignDataset extends JRBaseDataset
 	
 	public static final String PROPERTY_VARIABLES = "variables";
 	
+	private transient JasperReportsContext jasperReportsContext;
+
 	private boolean ownUUID;
 
 	/**
@@ -199,7 +202,20 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public JRDesignDataset(boolean isMain)
 	{
+		this(DefaultJasperReportsContext.getInstance(), isMain);
+	}
+
+	/**
+	 * Create a dataset.
+	 * 
+	 * @param isMain whether this is the main dataset of the report or a sub dataset
+	 * @see net.sf.jasperreports.engine.JRDataset#isMainDataset()
+	 */
+	public JRDesignDataset(JasperReportsContext jasperReportsContext, boolean isMain)
+	{
 		super(isMain);
+		
+		this.jasperReportsContext = jasperReportsContext;
 		
 		addBuiltinParameters(BUILT_IN_PARAMETERS);
 		
@@ -1150,7 +1166,7 @@ public class JRDesignDataset extends JRBaseDataset
 		{
 			if (oldLanguage != null)
 			{
-				QueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getInstance(DefaultJasperReportsContext.getInstance()).getExecuterFactory(oldLanguage);//FIXMECONTEXT use some thread local
+				QueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getInstance(jasperReportsContext).getExecuterFactory(oldLanguage);//FIXMECONTEXT use some thread local
 				Object[] builtinParameters = queryExecuterFactory.getBuiltinParameters();
 				if (builtinParameters != null)
 				{
@@ -1160,7 +1176,7 @@ public class JRDesignDataset extends JRBaseDataset
 
 			if (newLanguage != null)
 			{
-				QueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getInstance(DefaultJasperReportsContext.getInstance()).getExecuterFactory(newLanguage);
+				QueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getInstance(jasperReportsContext).getExecuterFactory(newLanguage);
 				Object[] builtinParameters = queryExecuterFactory.getBuiltinParameters();
 				if (builtinParameters != null)
 				{
