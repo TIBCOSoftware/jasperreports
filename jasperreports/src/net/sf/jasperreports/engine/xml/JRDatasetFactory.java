@@ -39,7 +39,8 @@ public class JRDatasetFactory extends JRBaseFactory
 	
 	public Object createObject(Attributes attributes)
 	{
-		JRDesignDataset dataset = new JRDesignDataset(false);
+		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
+		JRDesignDataset dataset = new JRDesignDataset(xmlLoader.getJasperReportsContext(), false);
 		
 		dataset.setName(attributes.getValue(JRXmlConstants.ATTRIBUTE_name));
 		dataset.setScriptletClass(attributes.getValue(JRXmlConstants.ATTRIBUTE_scriptletClass));

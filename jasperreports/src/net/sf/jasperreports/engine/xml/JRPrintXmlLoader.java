@@ -72,7 +72,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 	/**
 	 *
 	 */
-	private JasperReportsContext jasperReportsContext;
+	private final JasperReportsContext jasperReportsContext;
 	private JasperPrint jasperPrint;
 	private List<Exception> errors = new ArrayList<Exception>();
 
@@ -82,6 +82,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 	 */
 	protected JRPrintXmlLoader()
 	{
+		this(DefaultJasperReportsContext.getInstance());
 	}
 	
 
@@ -92,7 +93,16 @@ public class JRPrintXmlLoader implements ErrorHandler
 	{
 		this.jasperReportsContext = jasperReportsContext;
 	}
-	
+
+
+	/**
+	 *
+	 */
+	public JasperReportsContext getJasperReportsContext()
+	{
+		return jasperReportsContext;
+	}
+
 
 	/**
 	 *
