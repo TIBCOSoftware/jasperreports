@@ -67,6 +67,7 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
+import net.sf.jasperreports.engine.util.ContextClassLoaderObjectInputStream;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -1275,6 +1276,18 @@ public class JRDesignDataset extends JRBaseDataset
 		if (sortFieldsList == null)
 		{
 			sortFieldsList = new ArrayList<JRSortField>();
+		}
+		
+		@SuppressWarnings("resource")
+		ContextClassLoaderObjectInputStream cclois = 
+			in instanceof ContextClassLoaderObjectInputStream ? (ContextClassLoaderObjectInputStream)in : null;
+		if (cclois == null)
+		{
+			jasperReportsContext = DefaultJasperReportsContext.getInstance();
+		}
+		else
+		{
+			jasperReportsContext = cclois.getJasperReportsContext();
 		}
 	}
 
