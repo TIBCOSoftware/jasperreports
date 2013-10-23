@@ -225,13 +225,6 @@ public class JRXmlExporter extends JRAbstractExporter
 			/*   */
 			setPageRange();
 	
-			@SuppressWarnings("deprecation")
-			String dtdLocation = (String)parameters.get(JRXmlExporterParameter.DTD_LOCATION);
-			if (dtdLocation != null)
-			{
-				log.warn("The JRXmlExporterParameter.DTD_LOCATION export parameter has no effect and should no longer be used.");
-			}
-			
 			encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
 			if (encoding == null)
 			{
