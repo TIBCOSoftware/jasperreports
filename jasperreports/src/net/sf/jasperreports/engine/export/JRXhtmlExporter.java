@@ -115,6 +115,7 @@ import org.apache.commons.logging.LogFactory;
 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @deprecated Replaced by {@link HtmlExporter}.
  */
 public class JRXhtmlExporter extends AbstractHtmlExporter
 {
@@ -136,21 +137,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
 
 	protected static final float DEFAULT_ZOOM = 1f;
-
-	/**
-	 *
-	 */
-	protected static final String CSS_TEXT_ALIGN_LEFT = "left";
-	protected static final String CSS_TEXT_ALIGN_RIGHT = "right";
-	protected static final String CSS_TEXT_ALIGN_CENTER = "center";
-	protected static final String CSS_TEXT_ALIGN_JUSTIFY = "justify";
-
-	/**
-	 *
-	 */
-	protected static final String HTML_VERTICAL_ALIGN_TOP = "top";
-	protected static final String HTML_VERTICAL_ALIGN_MIDDLE = "middle";
-	protected static final String HTML_VERTICAL_ALIGN_BOTTOM = "bottom";
 	
 	public static final String IMAGE_NAME_PREFIX = "img_";
 	protected static final int IMAGE_NAME_PREFIX_LEGTH = IMAGE_NAME_PREFIX.length();

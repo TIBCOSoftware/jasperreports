@@ -110,7 +110,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.MatcherExporterFilter;
 import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -1820,7 +1820,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 							textElement.setExpressionEvaluator(decoratedEvaluator);
 							textElement.addDynamicProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, 
 									builtinExpressions.createConstantExpression(Integer.toString(bucketIdx)));
-							textElement.addDynamicProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, 
+							textElement.addDynamicProperty(HtmlExporter.PROPERTY_HTML_CLASS, 
 									builtinExpressions.createConstantExpression("jrxtrowheader jrxtinteractive"));
 						}
 					}
@@ -1842,7 +1842,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 						{
 							iconLabelElement.getPropertiesMap().setProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, 
 									Integer.toString(bucketIdx));
-							iconLabelElement.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader jrxtinteractive");
+							iconLabelElement.getPropertiesMap().setProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader jrxtinteractive");
 						}
 						
 						iconLabelElements.put(textElementIndex, iconLabelElement);
@@ -1953,7 +1953,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				if (interactive && header)
 				{
 					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(columnIdx));
-					contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, sortHeader ? "jrxtcolheader jrxtinteractive" : "jrxtcolheader");
+					contents.setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, sortHeader ? "jrxtcolheader jrxtinteractive" : "jrxtcolheader");
 				}
 
 				if (contents.willOverflow())
@@ -2418,7 +2418,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				if (interactive)
 				{
 					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(column));
-					contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtdatacell");
+					contents.setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtdatacell");
 				}
 								
 				preparedRow.add(contents);
@@ -2486,7 +2486,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					if (cell.getDepthSpan() == 1)
 					{
 						// marking only unspanned headers for HTML selection 
-						contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader");
+						contents.setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader");
 					}
 				}
 				
@@ -2676,7 +2676,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					if (cell.getDepthSpan() == 1)
 					{
 						// marking only unspanned headers for HTML selection 
-						contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader");
+						contents.setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader");
 					}
 				}
 				

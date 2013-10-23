@@ -113,61 +113,41 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @deprecated Replaced by {@link HtmlExporter}.
  */
 public class JRHtmlExporter extends AbstractHtmlExporter
 {
-	
 	private static final Log log = LogFactory.getLog(JRHtmlExporter.class);
 
-	private static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.";
-
-	public static final String PROPERTY_IGNORE_HYPERLINK = HTML_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
+	/**
+	 * @deprecated Replaced by {@link HtmlExporter#HTML_EXPORTER_PROPERTIES_PREFIX}.
+	 */
+	protected static final String HTML_EXPORTER_PROPERTIES_PREFIX = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX;
 
 	/**
-	 * The exporter key, as used in
-	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 * @deprecated Replaced by {@link HtmlExporter#PROPERTY_IGNORE_HYPERLINK}.
 	 */
-	public static final String HTML_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "html";
+	public static final String PROPERTY_IGNORE_HYPERLINK = HtmlExporter.PROPERTY_IGNORE_HYPERLINK;
+
+	/**
+	 * @deprecated Replaced by {@link HtmlExporter#HTML_EXPORTER_KEY}.
+	 */
+	public static final String HTML_EXPORTER_KEY = HtmlExporter.HTML_EXPORTER_KEY;
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link HtmlExporter#PROPERTY_HTML_CLASS}.
 	 */
-	public static final String PROPERTY_HTML_CLASS = HTML_EXPORTER_PROPERTIES_PREFIX + "class";
+	public static final String PROPERTY_HTML_CLASS = HtmlExporter.PROPERTY_HTML_CLASS;
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link HtmlExporter#PROPERTY_HTML_ID}.
 	 */
-	public static final String PROPERTY_HTML_ID = HTML_EXPORTER_PROPERTIES_PREFIX + "id";
+	public static final String PROPERTY_HTML_ID = HtmlExporter.PROPERTY_HTML_ID;
 
 	/**
-	 * Configuration property that determines the exporter to produce accessible HTML.
+	 * @deprecated Replaced by {@link HtmlExporter#PROPERTY_ACCESSIBLE}.
 	 */
-	public static final String PROPERTY_ACCESSIBLE = HTML_EXPORTER_PROPERTIES_PREFIX + "accessible";
-	
-	/**
-	 *
-	 */
-	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
-
-	protected static final float DEFAULT_ZOOM = 1f;
-
-	/**
-	 *
-	 */
-	protected static final String CSS_TEXT_ALIGN_LEFT = "left";
-	protected static final String CSS_TEXT_ALIGN_RIGHT = "right";
-	protected static final String CSS_TEXT_ALIGN_CENTER = "center";
-	protected static final String CSS_TEXT_ALIGN_JUSTIFY = "justify";
-
-	/**
-	 *
-	 */
-	protected static final String HTML_VERTICAL_ALIGN_TOP = "top";
-	protected static final String HTML_VERTICAL_ALIGN_MIDDLE = "middle";
-	protected static final String HTML_VERTICAL_ALIGN_BOTTOM = "bottom";
-	
-	public static final String IMAGE_NAME_PREFIX = "img_";
-	protected static final int IMAGE_NAME_PREFIX_LEGTH = IMAGE_NAME_PREFIX.length();
+	public static final String PROPERTY_ACCESSIBLE = HtmlExporter.PROPERTY_ACCESSIBLE;
 
 	protected class ExporterContext extends BaseExporterContext implements JRHtmlExporterContext
 	{
@@ -589,30 +569,6 @@ public class JRHtmlExporter extends AbstractHtmlExporter
 		{
 			resetExportContext();
 		}
-	}
-
-
-	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName)
-	{
-		return getImage(jasperPrintList, getPrintElementIndex(imageName));
-	}
-
-
-	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex)
-	{
-		JasperPrint report = jasperPrintList.get(imageIndex.getReportIndex());
-		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
-
-		Integer[] elementIndexes = imageIndex.getAddressArray();
-		Object element = page.getElements().get(elementIndexes[0].intValue());
-
-		for (int i = 1; i < elementIndexes.length; ++i)
-		{
-			JRPrintFrame frame = (JRPrintFrame) element;
-			element = frame.getElements().get(elementIndexes[i].intValue());
-		}
-
-		return (JRPrintImage) element;
 	}
 
 
@@ -2382,20 +2338,6 @@ public class JRHtmlExporter extends AbstractHtmlExporter
 	public static String getImageName(JRPrintElementIndex printElementIndex)
 	{
 		return IMAGE_NAME_PREFIX + printElementIndex.toString();
-	}
-
-
-	/**
-	 *
-	 */
-	public static JRPrintElementIndex getPrintElementIndex(String imageName)
-	{
-		if (!imageName.startsWith(IMAGE_NAME_PREFIX))
-		{
-			throw new JRRuntimeException("Invalid image name: " + imageName);
-		}
-
-		return JRPrintElementIndex.parsePrintElementIndex(imageName.substring(IMAGE_NAME_PREFIX_LEGTH));
 	}
 
 

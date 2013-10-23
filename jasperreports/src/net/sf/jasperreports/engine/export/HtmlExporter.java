@@ -121,14 +121,38 @@ import org.apache.commons.logging.LogFactory;
  */
 public class HtmlExporter extends AbstractHtmlExporter
 {
-	
 	private static final Log log = LogFactory.getLog(HtmlExporter.class);
 	
+	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
 	public static final String HTML_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "html";
 	
+	/**
+	 *
+	 */
 	protected static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.";
-	
+
+	/**
+	 *
+	 */
 	public static final String PROPERTY_IGNORE_HYPERLINK = HTML_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
+
+	/**
+	 *
+	 */
+	public static final String PROPERTY_HTML_CLASS = HTML_EXPORTER_PROPERTIES_PREFIX + "class";
+
+	/**
+	 * Configuration property that determines the exporter to produce accessible HTML.
+	 */
+	public static final String PROPERTY_ACCESSIBLE = HTML_EXPORTER_PROPERTIES_PREFIX + "accessible";
+
+	/**
+	 *
+	 */
+	public static final String PROPERTY_HTML_ID = HTML_EXPORTER_PROPERTIES_PREFIX + "id";
 
 	/**
 	 * Property that provides the value for the <code>border-collapse</code> CSS property to be applied
@@ -361,7 +385,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 			accessibleHtml = 
 				getPropertiesUtil().getBooleanProperty(
 					jasperPrint,
-					JRHtmlExporter.PROPERTY_ACCESSIBLE,
+					PROPERTY_ACCESSIBLE,
 					false
 					);
 			
@@ -753,24 +777,24 @@ public class HtmlExporter extends AbstractHtmlExporter
 
 		StringBuilder styleBuffer = new StringBuilder();
 
-		String verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_TOP;
+		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 
 		switch (text.getVerticalAlignmentValue())
 		{
 			case BOTTOM :
 			{
-				verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_BOTTOM;
+				verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM;
 				break;
 			}
 			case MIDDLE :
 			{
-				verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_MIDDLE;
+				verticalAlignment = HTML_VERTICAL_ALIGN_MIDDLE;
 				break;
 			}
 			case TOP :
 			default :
 			{
-				verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_TOP;
+				verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 			}
 		}
 
@@ -779,30 +803,30 @@ public class HtmlExporter extends AbstractHtmlExporter
 		appendBorderStyle(cell.getBox(), styleBuffer);
 		appendPaddingStyle(text.getLineBox(), styleBuffer);
 
-		String horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_LEFT;
+		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 		if (textLength > 0)
 		{
 			switch (text.getHorizontalAlignmentValue())
 			{
 				case RIGHT :
 				{
-					horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_RIGHT;
+					horizontalAlignment = CSS_TEXT_ALIGN_RIGHT;
 					break;
 				}
 				case CENTER :
 				{
-					horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_CENTER;
+					horizontalAlignment = CSS_TEXT_ALIGN_CENTER;
 					break;
 				}
 				case JUSTIFIED :
 				{
-					horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_JUSTIFY;
+					horizontalAlignment = CSS_TEXT_ALIGN_JUSTIFY;
 					break;
 				}
 				case LEFT :
 				default :
 				{
-					horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_LEFT;
+					horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 				}
 			}
 		}
@@ -827,7 +851,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 		StringBuilder divStyleBuffer = new StringBuilder();
 		if (text.getRotationValue() == RotationEnum.NONE)
 		{
-			if (!verticalAlignment.equals(JRHtmlExporter.HTML_VERTICAL_ALIGN_TOP))
+			if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
 			{
 				styleBuffer.append(" vertical-align: ");
 				styleBuffer.append(verticalAlignment);
@@ -1264,27 +1288,27 @@ public class HtmlExporter extends AbstractHtmlExporter
 
 	protected void setImageHorizontalAlignmentStyle(JRPrintImage image, StringBuilder styleBuffer)
 	{
-		String horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_LEFT;
+		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 		switch (image.getHorizontalAlignmentValue())
 		{
 			case RIGHT :
 			{
-				horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_RIGHT;
+				horizontalAlignment = CSS_TEXT_ALIGN_RIGHT;
 				break;
 			}
 			case CENTER :
 			{
-				horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_CENTER;
+				horizontalAlignment = CSS_TEXT_ALIGN_CENTER;
 				break;
 			}
 			case LEFT :
 			default :
 			{
-				horizontalAlignment = JRHtmlExporter.CSS_TEXT_ALIGN_LEFT;
+				horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 			}
 		}
 
-		if (!horizontalAlignment.equals(JRHtmlExporter.CSS_TEXT_ALIGN_LEFT))
+		if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
 		{
 			styleBuffer.append("text-align: ");
 			styleBuffer.append(horizontalAlignment);
@@ -1294,27 +1318,27 @@ public class HtmlExporter extends AbstractHtmlExporter
 
 	protected void setImageVerticalAlignmentStyle(JRPrintImage image, StringBuilder styleBuffer)
 	{
-		String verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_TOP;
+		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 		switch (image.getVerticalAlignmentValue())
 		{
 			case BOTTOM :
 			{
-				verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_BOTTOM;
+				verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM;
 				break;
 			}
 			case MIDDLE :
 			{
-				verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_MIDDLE;
+				verticalAlignment = HTML_VERTICAL_ALIGN_MIDDLE;
 				break;
 			}
 			case TOP :
 			default :
 			{
-				verticalAlignment = JRHtmlExporter.HTML_VERTICAL_ALIGN_TOP;
+				verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 			}
 		}
 
-		if (!verticalAlignment.equals(JRHtmlExporter.HTML_VERTICAL_ALIGN_TOP))
+		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
 		{
 			styleBuffer.append(" vertical-align: ");
 			styleBuffer.append(verticalAlignment);
@@ -1601,12 +1625,12 @@ public class HtmlExporter extends AbstractHtmlExporter
 	{
 		StringBuffer sbuffer = new StringBuffer();
 		
-		String id = getCellProperty(element, cell, JRHtmlExporter.PROPERTY_HTML_ID);
+		String id = getCellProperty(element, cell, PROPERTY_HTML_ID);
 		if (id != null)
 		{
 			sbuffer.append(" id=\"" + id +"\"");
 		}
-		String clazz = getCellProperty(element, cell, JRHtmlExporter.PROPERTY_HTML_CLASS);
+		String clazz = getCellProperty(element, cell, PROPERTY_HTML_CLASS);
 		if (clazz != null)
 		{
 			sbuffer.append(" class=\"" + clazz +"\"");
