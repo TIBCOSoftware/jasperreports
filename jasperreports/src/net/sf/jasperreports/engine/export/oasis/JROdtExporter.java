@@ -37,9 +37,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -216,6 +218,8 @@ public class JROdtExporter extends JRAbstractExporter
 
 	protected ExporterNature nature;
 
+	protected Map<Integer, String> rowStyles = new HashMap<Integer, String>();
+	protected Map<Integer, String> columnStyles = new HashMap<Integer, String>();
 	
 	/**
 	 * @see #JROdtExporter(JasperReportsContext)
@@ -361,6 +365,8 @@ public class JROdtExporter extends JRAbstractExporter
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
+			rowStyles.clear();
+			columnStyles.clear();
 			setJasperPrint(jasperPrintList.get(reportIndex));
 			setExporterHints();
 			List<JRPrintPage> pages = jasperPrint.getPages();
@@ -451,8 +457,8 @@ public class JROdtExporter extends JRAbstractExporter
 		Grid grid = gridLayout.getGrid();
 
 		TableBuilder tableBuilder = frameIndex == null
-			? new TableBuilder(documentBuilder, jasperPrint, reportIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache)
-			: new TableBuilder(documentBuilder, jasperPrint, frameIndex.toString(), tempBodyWriter, tempStyleWriter, styleCache);
+			? new TableBuilder(documentBuilder, jasperPrint, reportIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache, rowStyles, columnStyles)
+			: new TableBuilder(documentBuilder, jasperPrint, frameIndex.toString(), tempBodyWriter, tempStyleWriter, styleCache, rowStyles, columnStyles);
 
 		
 		tableBuilder.buildTableStyle(gridLayout.getWidth());
@@ -464,7 +470,7 @@ public class JROdtExporter extends JRAbstractExporter
 					col - 1,
 					xCuts.getCutOffset(col) - xCuts.getCutOffset(col - 1)
 					);
-			tableBuilder.buildColumnHeader(col - 1);
+			tableBuilder.buildColumnHeader(xCuts.getCutOffset(col) - xCuts.getCutOffset(col - 1));
 			tableBuilder.buildColumnFooter();
 		}
 
@@ -476,7 +482,7 @@ public class JROdtExporter extends JRAbstractExporter
 			int rowHeight = gridLayout.getRowHeight(row);
 
 			tableBuilder.buildRowStyle(row, flexibleRowHeight ? -1 : rowHeight);
-			tableBuilder.buildRowHeader(row);
+			tableBuilder.buildRowHeader(flexibleRowHeight ? -1 : rowHeight);
 
 			GridRow gridRow = grid.getRow(row);
 			int rowSize = gridRow.size();
