@@ -233,20 +233,30 @@ public class JRXmlExporter extends JRAbstractExporter
 			
 			setHyperlinkProducerFactory();
 
+			Writer writer = null;
+
 			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 			if (sb != null)
 			{
-				StringBuffer buffer = exportReportToBuffer();
-				sb.append(buffer.toString());
+				writer = new StringWriter();
+				try
+				{
+					exportReportToStream(writer);
+				}
+				catch (IOException e)
+				{
+					throw new JRException("Error while exporting report to buffer", e);
+				}
+				sb.append(writer.toString());
 			}
 			else
 			{
-				Writer outWriter = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
-				if (outWriter != null)
+				writer = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
+				if (writer != null)
 				{
 					try
 					{
-						exportReportToStream(outWriter);
+						exportReportToStream(writer);
 					}
 					catch (IOException e)
 					{
@@ -292,7 +302,79 @@ public class JRXmlExporter extends JRAbstractExporter
 						}
 						isEmbeddingImages = isEmbeddingImagesParameter.booleanValue();
 						
-						exportReportToFile();
+						//if (!isEmbeddingImages)
+						{
+							rendererToImagePathMap = new HashMap<Renderable,String>();
+							imageNameToImageDataMap = new HashMap<String,byte[]>();
+						}
+								
+						try
+						{
+							OutputStream fileOutputStream = new FileOutputStream(destFile);
+							writer = new BufferedWriter(new OutputStreamWriter(fileOutputStream, encoding));
+							exportReportToStream(writer);
+						}
+						catch (IOException e)
+						{
+							throw new JRException("Error writing to file : " + destFile, e);
+						}
+						finally
+						{
+							if (writer != null)
+							{
+								try
+								{
+									writer.close();
+								}
+								catch(IOException e)
+								{
+								}
+							}
+						}
+						
+						if (!isEmbeddingImages)
+						{
+							Collection<String> imageNames = imageNameToImageDataMap.keySet();
+							if (imageNames != null && imageNames.size() > 0)
+							{
+								if (!imagesDir.exists())
+								{
+									imagesDir.mkdir();
+								}
+					
+								for(Iterator<String> it = imageNames.iterator(); it.hasNext();)
+								{
+									String imageName = it.next();
+									byte[] imageData = imageNameToImageDataMap.get(imageName);
+
+									File imageFile = new File(imagesDir, imageName);
+
+									OutputStream fos = null;
+									try
+									{
+										fos = new FileOutputStream(imageFile);
+										fos.write(imageData, 0, imageData.length);
+									}
+									catch (IOException e)
+									{
+										throw new JRException("Error writing to image file : " + imageFile, e);
+									}
+									finally
+									{
+										if (fos != null)
+										{
+											try
+											{
+												fos.close();
+											}
+											catch(IOException e)
+											{
+											}
+										}
+									}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -313,105 +395,6 @@ public class JRXmlExporter extends JRAbstractExporter
 	}
 	
 	
-	/**
-	 *
-	 */
-	protected void exportReportToFile() throws JRException
-	{
-		//if (!isEmbeddingImages)
-		{
-			rendererToImagePathMap = new HashMap<Renderable,String>();
-			imageNameToImageDataMap = new HashMap<String,byte[]>();
-		}
-				
-		Writer writer = null;
-		try
-		{
-			OutputStream fileOutputStream = new FileOutputStream(destFile);
-			writer = new BufferedWriter(new OutputStreamWriter(fileOutputStream, encoding));
-			exportReportToStream(writer);
-		}
-		catch (IOException e)
-		{
-			throw new JRException("Error writing to file : " + destFile, e);
-		}
-		finally
-		{
-			if (writer != null)
-			{
-				try
-				{
-					writer.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-		}
-		
-		if (!isEmbeddingImages)
-		{
-			Collection<String> imageNames = imageNameToImageDataMap.keySet();
-			if (imageNames != null && imageNames.size() > 0)
-			{
-				if (!imagesDir.exists())
-				{
-					imagesDir.mkdir();
-				}
-	
-				for(Iterator<String> it = imageNames.iterator(); it.hasNext();)
-				{
-					String imageName = it.next();
-					byte[] imageData = imageNameToImageDataMap.get(imageName);
-
-					File imageFile = new File(imagesDir, imageName);
-
-					OutputStream fos = null;
-					try
-					{
-						fos = new FileOutputStream(imageFile);
-						fos.write(imageData, 0, imageData.length);
-					}
-					catch (IOException e)
-					{
-						throw new JRException("Error writing to image file : " + imageFile, e);
-					}
-					finally
-					{
-						if (fos != null)
-						{
-							try
-							{
-								fos.close();
-							}
-							catch(IOException e)
-							{
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	
-	/**
-	 *
-	 */
-	protected StringBuffer exportReportToBuffer() throws JRException
-	{
-		StringWriter buffer = new StringWriter();
-		try
-		{
-			exportReportToStream(buffer);
-		}
-		catch (IOException e)
-		{
-			throw new JRException("Error while exporting report to buffer", e);
-		}
-		return buffer.getBuffer();
-	}
-
 	protected XmlNamespace getNamespace()
 	{
 		return JASPERPRINT_NAMESPACE;
