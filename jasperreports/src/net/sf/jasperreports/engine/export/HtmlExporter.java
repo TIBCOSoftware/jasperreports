@@ -164,12 +164,6 @@ public class HtmlExporter extends AbstractHtmlExporter
 	public static final String PROPERTY_BORDER_COLLAPSE = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "export.html.border.collapse";
 
-	protected static final float DEFAULT_ZOOM = 1f;
-
-	public static final String IMAGE_NAME_PREFIX = "img_";
-	
-	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
-	
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory;		
 	
 	protected JRExportProgressMonitor progressMonitor;

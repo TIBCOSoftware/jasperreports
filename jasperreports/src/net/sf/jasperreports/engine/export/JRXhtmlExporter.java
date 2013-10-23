@@ -129,16 +129,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
 	public static final String XHTML_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "xhtml";
-	
-	/**
-	 *
-	 */
-	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
-
-	protected static final float DEFAULT_ZOOM = 1f;
-	
-	public static final String IMAGE_NAME_PREFIX = "img_";
-	protected static final int IMAGE_NAME_PREFIX_LEGTH = IMAGE_NAME_PREFIX.length();
 
 	protected class ExporterContext extends BaseExporterContext implements JRHtmlExporterContext
 	{

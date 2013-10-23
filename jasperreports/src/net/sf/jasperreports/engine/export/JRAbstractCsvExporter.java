@@ -60,7 +60,8 @@ public abstract class JRAbstractCsvExporter extends JRAbstractExporter
 	private static final String CSV_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.";
 
 	/**
-	 * 
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
 	public static final String CSV_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "csv";
 
