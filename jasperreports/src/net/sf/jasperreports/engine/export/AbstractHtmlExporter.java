@@ -137,7 +137,16 @@ public abstract class AbstractHtmlExporter extends JRAbstractExporter
 		return getImage(jasperPrintList, getPrintElementIndex(imageName));
 	}
 
+	
+	/**
+	 * 
+	 */
+	public static String getImageName(JRPrintElementIndex printElementIndex)
+	{
+		return IMAGE_NAME_PREFIX + printElementIndex.toString();
+	}
 
+	
 	/**
 	 * 
 	 */
