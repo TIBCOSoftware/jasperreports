@@ -62,7 +62,13 @@ public class StyleCache
 	/**
 	 *
 	 */
-	private Map<String,String> frameStyles = new HashMap<String,String>();//FIXMEODT soft cache?
+	private Map<String,String> tableStyles = new HashMap<String,String>();//FIXMEODT soft cache?
+	private int tableStylesCounter;
+	private Map<String,String> rowStyles = new HashMap<String,String>();
+	private int rowStylesCounter;
+	private Map<String,String> columnStyles = new HashMap<String,String>();
+	private int columnStylesCounter;
+	private Map<String,String> frameStyles = new HashMap<String,String>();
 	private int frameStylesCounter;
 	private Map<String,String> cellStyles = new HashMap<String,String>();
 	private int cellStylesCounter;
@@ -98,6 +104,72 @@ public class StyleCache
 	}
 
 
+	/**
+	 *
+	 */
+	public String getTableStyle(int width, int reportIndex, boolean isFrame, boolean isPageBreak) throws IOException 
+	{
+		TableStyle tableStyle  = new TableStyle(styleWriter, width, reportIndex, isFrame, isPageBreak);
+		
+		String tableStyleId = tableStyle.getId();
+		String tableStyleName = tableStyles.get(tableStyleId);
+		
+		if (tableStyleName == null)
+		{
+			tableStyleName = "TBL" + tableStylesCounter++;
+			tableStyles.put(tableStyleId, tableStyleName);
+			
+			tableStyle.write(tableStyleName);
+		}
+		
+		return tableStyleName;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public String getRowStyle(int rowHeight) throws IOException 
+	{
+		RowStyle rowStyle  = new RowStyle(styleWriter, rowHeight);
+		
+		String rowStyleId = rowStyle.getId();
+		String rowStyleName = rowStyles.get(rowStyleId);
+		
+		if (rowStyleName == null)
+		{
+			rowStyleName = "TR" + rowStylesCounter++;
+			rowStyles.put(rowStyleId, rowStyleName);
+			
+			rowStyle.write(rowStyleName);
+		}
+		
+		return rowStyleName;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public String getColumnStyle(int columnWidth) throws IOException 
+	{
+		ColumnStyle columnStyle  = new ColumnStyle(styleWriter, columnWidth);
+		
+		String columnStyleId = columnStyle.getId();
+		String columnStyleName = columnStyles.get(columnStyleId);
+		
+		if (columnStyleName == null)
+		{
+			columnStyleName = "TC" + columnStylesCounter++;
+			columnStyles.put(columnStyleId, columnStyleName);
+			
+			columnStyle.write(columnStyleName);
+		}
+		
+		return columnStyleName;
+	}
+	
+	
 	/**
 	 *
 	 */

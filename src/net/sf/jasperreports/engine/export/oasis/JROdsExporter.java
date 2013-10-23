@@ -35,7 +35,9 @@ import java.awt.geom.Dimension2D;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.AttributedCharacterIterator;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
@@ -110,6 +112,8 @@ public class JROdsExporter extends JRXlsAbstractExporter
 	
 	protected StringBuffer namedExpressions;
 
+	protected Map<Integer, String> rowStyles = new HashMap<Integer, String>();
+	protected Map<Integer, String> columnStyles = new HashMap<Integer, String>();
 	
 	@Override
 	protected void setBackground() 
@@ -128,6 +132,8 @@ public class JROdsExporter extends JRXlsAbstractExporter
 		tempBodyWriter = new WriterHelper(jasperReportsContext, tempBodyEntry.getWriter());
 		tempStyleWriter = new WriterHelper(jasperReportsContext, tempStyleEntry.getWriter());
 
+		rowStyles.clear();
+		columnStyles.clear();
 		documentBuilder = new OdsDocumentBuilder(oasisZip);
 		
 		styleCache = new StyleCache(jasperReportsContext, tempStyleWriter, getExporterKey());
@@ -155,7 +161,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 //		TableBuilder tableBuilder = frameIndex == null
 //			? new TableBuilder(reportIndex, pageIndex, tempBodyWriter, tempStyleWriter)
 //			: new TableBuilder(frameIndex.toString(), tempBodyWriter, tempStyleWriter);
-		tableBuilder = new OdsTableBuilder(documentBuilder, jasperPrint, reportIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache);
+		tableBuilder = new OdsTableBuilder(documentBuilder, jasperPrint, reportIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache, rowStyles, columnStyles);
 
 //		tableBuilder.buildTableStyle(gridLayout.getWidth());
 		tableBuilder.buildTableStyle(xCuts.getLastCutOffset());//FIXMEODS
@@ -219,7 +225,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 	protected void setColumnWidth(int col, int width, boolean autoFit)
 	{
 		tableBuilder.buildColumnStyle(col - 1, width);
-		tableBuilder.buildColumnHeader(col - 1);
+		tableBuilder.buildColumnHeader(width);
 		tableBuilder.buildColumnFooter();
 	}
 
@@ -232,7 +238,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 		) throws JRException 
 	{
 		tableBuilder.buildRowStyle(rowIndex, flexibleRowHeight ? -1 : lastRowHeight);
-		tableBuilder.buildRow(rowIndex);
+		tableBuilder.buildRow(rowIndex, flexibleRowHeight ? -1 : lastRowHeight);
 	}
 
 //	@Override
@@ -737,9 +743,9 @@ public class JROdsExporter extends JRXlsAbstractExporter
 	{
 		protected OdsTableBuilder(DocumentBuilder documentBuilder, JasperPrint jasperPrint,
 			int reportIndex, int pageIndex, WriterHelper bodyWriter,
-			WriterHelper styleWriter, StyleCache styleCache) 
+			WriterHelper styleWriter, StyleCache styleCache, Map<Integer, String> rowStyles, Map<Integer, String> columnStyles) 
 		{
-			super(documentBuilder, jasperPrint, reportIndex, pageIndex, bodyWriter, styleWriter, styleCache);
+			super(documentBuilder, jasperPrint, reportIndex, pageIndex, bodyWriter, styleWriter, styleCache, rowStyles, columnStyles);
 		}
 
 		@Override
