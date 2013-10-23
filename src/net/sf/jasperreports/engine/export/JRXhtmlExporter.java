@@ -79,7 +79,6 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -481,24 +480,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter
 	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName)
 	{
 		return getImage(jasperPrintList, getPrintElementIndex(imageName));
-	}
-
-
-	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex)
-	{
-		JasperPrint report = jasperPrintList.get(imageIndex.getReportIndex());
-		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
-
-		Integer[] elementIndexes = imageIndex.getAddressArray();
-		Object element = page.getElements().get(elementIndexes[0].intValue());
-
-		for (int i = 1; i < elementIndexes.length; ++i)
-		{
-			JRPrintFrame frame = (JRPrintFrame) element;
-			element = frame.getElements().get(elementIndexes[i].intValue());
-		}
-
-		return (JRPrintImage) element;
 	}
 
 
@@ -2436,29 +2417,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter
 				}
 			}
 		}
-	}
-
-	
-	/**
-	 *
-	 */
-	public static String getImageName(JRPrintElementIndex printElementIndex)
-	{
-		return IMAGE_NAME_PREFIX + printElementIndex.toString();
-	}
-
-
-	/**
-	 *
-	 */
-	public static JRPrintElementIndex getPrintElementIndex(String imageName)
-	{
-		if (!imageName.startsWith(IMAGE_NAME_PREFIX))
-		{
-			throw new JRRuntimeException("Invalid image name: " + imageName);
-		}
-
-		return JRPrintElementIndex.parsePrintElementIndex(imageName.substring(IMAGE_NAME_PREFIX_LEGTH));
 	}
 
 

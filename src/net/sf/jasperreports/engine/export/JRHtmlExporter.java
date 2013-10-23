@@ -2332,15 +2332,6 @@ public class JRHtmlExporter extends AbstractHtmlExporter
 	}
 
 
-	/**
-	 *
-	 */
-	public static String getImageName(JRPrintElementIndex printElementIndex)
-	{
-		return IMAGE_NAME_PREFIX + printElementIndex.toString();
-	}
-
-
 	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
 	{
 		writeCellStart(gridCell);
