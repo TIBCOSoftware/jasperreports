@@ -39,6 +39,7 @@ import java.util.NavigableMap;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.jasperreports.components.iconlabel.IconLabelComponent;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentUtil;
@@ -148,6 +149,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	public static final JRGenericElementType CROSSTAB_INTERACTIVE_ELEMENT_TYPE = 
 			new JRGenericElementType(JRXmlConstants.JASPERREPORTS_NAMESPACE, CROSSTAB_INTERACTIVE_ELEMENT_NAME);
 
+	protected static final String FILL_CACHE_KEY_CROSSTAB_CHUNK_COUNTER = JRFillCrosstab.class.getName() + "#chunkCounter";
 
 	private final JRFillObjectFactory fillFactory;
 	
@@ -828,12 +830,15 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			mirrorPrintElements(elements, xLimit);
 		}
 		
+		int chunkIndex = getChunkIndex();
+		String chunkId = getUUID().toString() + "." + chunkIndex;
+		
 		if (interactive)
 		{
 			printFrame.getPropertiesMap().setProperty(CrosstabInteractiveJsonHandler.PROPERTY_CROSSTAB_ID, 
-					getUUID().toString());
+					chunkId);
 			
-			JRTemplateGenericPrintElement genericElement = createInteractiveElement();
+			JRTemplateGenericPrintElement genericElement = createInteractiveElement(chunkId);
 			printFrame.addElement(genericElement);
 		}
 		
@@ -842,6 +847,21 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		
 		// add this frame to the list to the list of crosstab chunks
 		printFrames.add(printFrame);
+	}
+
+	protected int getChunkIndex()
+	{
+		JRFillContext fillerContext = filler.getFillContext();
+		AtomicInteger counter = (AtomicInteger) fillerContext.getFillCache(FILL_CACHE_KEY_CROSSTAB_CHUNK_COUNTER);
+		if (counter == null)
+		{
+			// we just need a mutable integer, there's no actual concurrency here
+			counter = new AtomicInteger();
+			fillerContext.setFillCache(FILL_CACHE_KEY_CROSSTAB_CHUNK_COUNTER, counter);
+		}
+		
+		int chunkIndex = counter.getAndIncrement();
+		return chunkIndex;
 	}
 	
 	protected HorizontalPosition concreteHorizontalPosition()
@@ -855,7 +875,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		return position;
 	}
 
-	protected JRTemplateGenericPrintElement createInteractiveElement()
+	protected JRTemplateGenericPrintElement createInteractiveElement(String chunkId)
 	{
 		// TODO lucianc cache
 		JRTemplateGenericElement genericElementTemplate = new JRTemplateGenericElement(
@@ -868,6 +888,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		genericElement.setHeight(1);
 		
 		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_CROSSTAB_ID, getUUID().toString());
+		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_CROSSTAB_FRAGMENT_ID, chunkId);
 		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_START_COLUMN_INDEX, crosstabFiller.startColumnIndex);
 		
 		BucketDefinition[] rowBuckets = bucketingService.getRowBuckets();

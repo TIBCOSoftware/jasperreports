@@ -11,6 +11,9 @@ define(["jquery-1.10.2"], function($) {
 		getId: function() {
 			return this.config.id;
 		},
+		getFragmentId: function() {
+			return this.config.fragmentId;
+		},
 		sortRowGroup: function(groupIndex, order) {
 			var it = this;
 			var payload = {
@@ -31,6 +34,9 @@ define(["jquery-1.10.2"], function($) {
 		isDataColumnSortable: function(columnIndex) {
 			var dataColumn = this.config.dataColumns[columnIndex - this.config.startColumnIndex];
 			return typeof(dataColumn.sortMeasureIndex) == "number";
+		},
+		getColumnOrder: function(columnIndex) {
+			return this.config.dataColumns[columnIndex - this.config.startColumnIndex].order;
 		},
 		sortByDataColumn: function(columnIndex, order) {
 			var it = this;
