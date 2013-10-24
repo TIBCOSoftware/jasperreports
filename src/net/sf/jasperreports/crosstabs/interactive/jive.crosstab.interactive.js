@@ -64,9 +64,10 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 		},
 		selectDataColumn: function(crosstab, cell) {
 			var columnIdx = cell.data('jrxtcolidx');
+			var fragmentId = cell.data('jrxtid');
 			var parentTable = cell.parents("table:first");
-			var firstHeader = $('td.jrxtcolheader[data-jrxtcolidx=\'' + columnIdx + '\']:first', parentTable);
-			var lastCell = $('td.jrxtdatacell[data-jrxtcolidx=\'' + columnIdx + '\']:last', parentTable);
+			var firstHeader = $('td.jrxtcolheader[data-jrxtid=\'' + fragmentId + '\'][data-jrxtcolidx=\'' + columnIdx + '\']:first', parentTable);
+			var lastCell = $('td.jrxtdatacell[data-jrxtid=\'' + fragmentId + '\'][data-jrxtcolidx=\'' + columnIdx + '\']:last', parentTable);
 
 			var width = lastCell.offset().left + lastCell.outerWidth() - firstHeader.offset().left;
 			var height = lastCell.offset().top + lastCell.outerHeight() - firstHeader.offset().top;
@@ -80,7 +81,8 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 		},
 		selectRowGroup: function(crosstab, cell) {
 			var columnIdx = cell.data('jrxtcolidx');
-			var headers = $('td.jrxtrowheader[data-jrxtcolidx=\'' + columnIdx + '\']', cell.parents("table:first"));
+			var fragmentId = cell.data('jrxtid');
+			var headers = $('td.jrxtrowheader[data-jrxtid=\'' + fragmentId + '\'][data-jrxtcolidx=\'' + columnIdx + '\']', cell.parents("table:first"));
 			var firstHeader = $(headers[0]);
 			var lastHeader = $(headers[headers.length - 1]);
 
