@@ -2,12 +2,22 @@
 JasperReports Library Change Log
 ===================================
 
-JasperReports 5.5.0 (2013-10-14)
+JasperReports 5.5.1 (2013-1x-xx)
 ---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 5.5.0 (2013-10-24)
+---------------------------------------------
+
 - improved JasperReports Web Framework containing embeddable report viewer APIs. 
 It introduces a separation between the report's HTML output and its interactivity-related 
 metadata (new JSON exporter) and support for dynamically loaded Javascript modules through RequireJS. 
-The new APIs simplify interactive report viewer adoption and it's customization while giving 
+The new APIs simplify interactive report viewer adoption and its customization while giving 
 new opportunities for creation of interactive custom components;
 
 - interactive table component formatting capabilities extended to allow basic formatting and 
