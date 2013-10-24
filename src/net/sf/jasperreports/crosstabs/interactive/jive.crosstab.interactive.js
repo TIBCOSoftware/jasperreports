@@ -38,7 +38,7 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 			sortDescnding: {icon: 'sortDescIcon', title: i18nfn('column.sortdesc.title'), fn: 'sort', arg: 'DESCENDING'}
 		},
 		initCrosstab: function(crosstab) {
-			$('table.jrPage').on('click touchend', 'td.jrxtcolheader[data-jrxtid=\'' + crosstab.getId() + '\']', function(evt){
+			$('table.jrPage').on('click touchend', 'td.jrxtcolheader[data-jrxtid=\'' + crosstab.getFragmentId() + '\']', function(evt){
 				if(!$(evt.target).parent().is('a')) {
 					var columnHeader = $(this);
 					ixt.selectDataColumn(crosstab, columnHeader);
@@ -46,7 +46,7 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 				}
 			});
 			
-			$('table.jrPage').on('click touchend', 'td.jrxtdatacell[data-jrxtid=\'' + crosstab.getId() + '\']', function(evt){
+			$('table.jrPage').on('click touchend', 'td.jrxtdatacell[data-jrxtid=\'' + crosstab.getFragmentId() + '\']', function(evt){
 				if(!$(evt.target).parent().is('a')) {
 					var dataCell = $(this);
 					ixt.selectDataColumn(crosstab, dataCell);
@@ -54,7 +54,7 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 				}
 			});
 			
-			$('table.jrPage').on('click touchend', 'td.jrxtrowheader[data-jrxtid=\'' + crosstab.getId() + '\']', function(evt){
+			$('table.jrPage').on('click touchend', 'td.jrxtrowheader[data-jrxtid=\'' + crosstab.getFragmentId() + '\']', function(evt){
 				if(!$(evt.target).parent().is('a')) {
 					var rowHeader = $(this);
 					ixt.selectRowGroup(crosstab, rowHeader);
@@ -188,7 +188,7 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 			if (this.selected.header.hasClass('jrxtcolheader')) {
 				var columnIdx = this.selected.header.data('jrxtcolidx');
 				var sortOrder = order;
-				if (sortOrder == this.selected.crosstab.config.dataColumns[columnIdx].order) {
+				if (sortOrder == this.selected.crosstab.getColumnOrder(columnIdx)) {
 					sortOrder = 'NONE';
 				}
 				this.selected.crosstab.sortByDataColumn(columnIdx, sortOrder);
