@@ -1998,7 +1998,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				k.rotation == rotation && k.font.equals(font) &&
 				(k.box == null ? box == null : (box != null && k.box.equals(box))) &&
 				(k.displayFormat == null ? displayFormat == null : (displayFormat!= null && k.displayFormat.equals(displayFormat)) &&
-				k.isWrapText == wrapText && k.isCellLocked == cellLocked);
+				k.isWrapText == isWrapText && k.isCellLocked == isCellLocked);
 		}
 
 		public DisplayFormat getDisplayFormat()
