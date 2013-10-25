@@ -1865,7 +1865,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 				mode + "," + backcolor + "," +
 				horizontalAlignment + "," + verticalAlignment + "," +
 				rotation + "," + font + "," +
-				box + "," + displayFormat + "," + wrapText + "," + cellLocked + ")";
+				box + "," + displayFormat + "," + isWrapText + "," + isCellLocked + ")";
 		}
 	}
 
