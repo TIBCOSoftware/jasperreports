@@ -598,39 +598,6 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 		}
 		return formula;
 	}
-
-	/**
-	 * 
-	 */
-	protected void setSheetNames()
-	{
-		String[] sheetNamesArray = 
-			getStringArrayParameter(
-				JRXlsAbstractExporterParameter.SHEET_NAMES,
-				JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAMES_PREFIX
-				);
-		if (sheetNamesArray != null)
-		{
-			List<String> sheetNamesList = new ArrayList<String>();
-			for(int i = 0; i < sheetNamesArray.length; i++)
-			{
-				if (sheetNamesArray[i] == null)
-				{
-					sheetNamesList.add(null);
-				}
-				else
-				{
-					String[] currentSheetNamesArray = sheetNamesArray[i].split("/");
-					for(int j = 0; j < currentSheetNamesArray.length; j++)
-					{
-						sheetNamesList.add(currentSheetNamesArray[j]);
-					}
-				}
-			}
-			sheetNames = sheetNamesList.toArray(new String[sheetNamesList.size()]);
-		}
-		
-	}
 	
 	/**
 	 * 
