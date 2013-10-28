@@ -1203,63 +1203,11 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected TextValue getDateCellValue(JRPrintText text, String textStr) throws ParseException
 	{
 		return new DateTextValue(textStr, (Date)text.getValue(), text.getPattern());
-//		TextValue textValue;
-//		String pattern = text.getPattern();
-//		if (pattern == null || pattern.trim().length() == 0)
-//		{
-//			textValue = getTextValueString(text, textStr);
-//		}
-//		else
-//		{
-//			DateFormat dateFormat = getDateFormat(getTextFormatFactoryClass(text), pattern, getTextLocale(text), getTextTimeZone(text));
-//			
-//			Date value = null;
-//			if (textStr != null && textStr.length() > 0)
-//			{
-//				value = dateFormat.parse(textStr);
-//			}
-//			textValue = new DateTextValue(textStr, value, getPattern(text));
-//		}
-//		return textValue;
 	}
 
 	protected TextValue getNumberCellValue(JRPrintText text, String textStr) throws ParseException, ClassNotFoundException
 	{
 		return new NumberTextValue(textStr, (Number)text.getValue(), text.getPattern());
-//		TextValue textValue;
-//		String pattern = text.getPattern();
-//		if (pattern == null || pattern.trim().length() == 0)
-//		{
-//			if (textStr != null && textStr.length() > 0)
-//			{
-//				Number value = defaultParseNumber(textStr, JRClassLoader.loadClassForRealName(text.getValueClassName()));
-//
-//				if (value != null)
-//				{
-//					textValue = new NumberTextValue(textStr, value, getPattern(text));
-//				}
-//				else
-//				{
-//					textValue = getTextValueString(text, textStr);
-//				}
-//			}
-//			else
-//			{
-//				textValue = new NumberTextValue(textStr, null, getPattern(text));
-//			}
-//		}
-//		else
-//		{
-//			NumberFormat numberFormat = getNumberFormat(getTextFormatFactoryClass(text), pattern, getTextLocale(text));
-//			
-//			Number value = null;
-//			if (textStr != null && textStr.length() > 0)
-//			{
-//				value = numberFormat.parse(textStr);
-//			}
-//			textValue = new NumberTextValue(textStr, value, getPattern(text));
-//		}
-//		return textValue;
 	}
 
 	protected Number defaultParseNumber(String textStr, Class<?> valueClass)
