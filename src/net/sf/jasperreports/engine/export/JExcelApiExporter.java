@@ -2018,7 +2018,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				mode + "," + backcolor + "," +
 				horizontalAlignment + "," + verticalAlignment + "," +
 				rotation + "," + font + "," +
-				box + "," + displayFormat + "," + wrapText + "," + cellLocked + ")";
+				box + "," + displayFormat + "," + isWrapText + "," + isCellLocked + ")";
 		}
 	}
 
