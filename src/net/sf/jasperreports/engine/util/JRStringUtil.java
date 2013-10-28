@@ -527,6 +527,35 @@ public final class JRStringUtil
 	/**
 	 * 
 	 */
+	public static List<String> split(String[] srcArray, String delimiterRegExp)
+	{
+		List<String> tokens = null;
+		if (srcArray != null)
+		{
+			tokens = new ArrayList<String>();
+			for(int i = 0; i < srcArray.length; i++)
+			{
+				if (srcArray[i] == null)
+				{
+					tokens.add(null);
+				}
+				else
+				{
+					String[] currentTokensArray = srcArray[i].split(delimiterRegExp);
+					for(int j = 0; j < currentTokensArray.length; j++)
+					{
+						tokens.add(currentTokensArray[j].trim());
+					}
+				}
+			}
+		}
+		return tokens;
+	}
+
+	
+	/**
+	 * 
+	 */
 	public static String getString(Object value)
 	{
 		return value == null ? null : value.toString();

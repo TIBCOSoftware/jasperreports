@@ -56,6 +56,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 /**
@@ -120,30 +121,23 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 				JRXlsAbstractMetadataExporterParameter.PROPERTY_COLUMN_NAMES_PREFIX
 				);
 		
+		hasDefinedColumns = (columnNamesArray != null && columnNamesArray.length > 0);
+
 		columnNames = new ArrayList<String>();
 		columnNamesMap = new HashMap<String, Integer>();
-		if (columnNamesArray != null && columnNamesArray.length > 0)
+
+		List<String> columnNamesList = JRStringUtil.split(columnNamesArray, ",");
+		if (columnNamesList != null)
 		{
-			for(int i = 0; i < columnNamesArray.length; ++i)
+			for (String columnName : columnNamesList)
 			{
-				if (columnNamesArray[i] == null)
+				if (!columnNamesMap.containsKey(columnName))
 				{
-					columnNames.add(null);
-				}
-				else
-				{
-					String[] currentColumnNamesArray = columnNamesArray[i].split(",");
-					for(int j = 0; j < currentColumnNamesArray.length; j++)
-					{
-						String columnName = currentColumnNamesArray[j].trim();
-						columnNamesMap.put(columnName, columnNames.size());
-						columnNames.add(columnName);
-					}
+					columnNames.add(columnName);
+					columnNamesMap.put(columnName, columnNames.size());
 				}
 			}
-			hasDefinedColumns = true;
 		}
-		
 	}
 	
 	@Override

@@ -71,6 +71,7 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 /**
@@ -1765,27 +1766,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				JRXlsAbstractExporterParameter.SHEET_NAMES,
 				JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAMES_PREFIX
 				);
-		if (sheetNamesArray != null)
-		{
-			List<String> sheetNamesList = new ArrayList<String>();
-			for(int i = 0; i < sheetNamesArray.length; i++)
-			{
-				if (sheetNamesArray[i] == null)
-				{
-					sheetNamesList.add(null);
-				}
-				else
-				{
-					String[] currentSheetNamesArray = sheetNamesArray[i].split("/");
-					for(int j = 0; j < currentSheetNamesArray.length; j++)
-					{
-						sheetNamesList.add(currentSheetNamesArray[j]);
-					}
-				}
-			}
-			sheetNames = sheetNamesList.toArray(new String[sheetNamesList.size()]);
-		}
 		
+		List<String> sheetNamesList = JRStringUtil.split(sheetNamesArray, "/");
+		sheetNames = sheetNamesList == null ? null : (String[]) sheetNamesList.toArray(new String[sheetNamesList.size()]);
 	}
 	
 	/**
