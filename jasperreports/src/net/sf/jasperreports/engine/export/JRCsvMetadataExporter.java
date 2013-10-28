@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 
@@ -203,26 +204,8 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 				JRCsvMetadataExporterParameter.COLUMN_NAMES,
 				JRCsvMetadataExporterParameter.PROPERTY_COLUMN_NAMES_PREFIX
 				);
-		if (columnNamesArray != null && columnNamesArray.length > 0)
-		{
-			columnNames = new ArrayList<String>();
-			for(int i = 0; i < columnNamesArray.length; i++)
-			{
-				if (columnNamesArray[i] == null)
-				{
-					columnNames.add(null);
-				}
-				else
-				{
-					String[] currentColumnNamesArray = columnNamesArray[i].split(",");
-					for(int j = 0; j < currentColumnNamesArray.length; j++)
-					{
-						columnNames.add(currentColumnNamesArray[j].trim());
-					}
-				}
-			}
-		}
 		
+		columnNames = JRStringUtil.split(columnNamesArray, ",");
 	}
 	
 	/**
