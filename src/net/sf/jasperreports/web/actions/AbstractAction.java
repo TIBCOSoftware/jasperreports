@@ -32,16 +32,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.JRElementsVisitor;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
+import net.sf.jasperreports.engine.util.UniformElementVisitor;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.repo.JasperDesignReportResource;
 import net.sf.jasperreports.web.commands.CommandStack;
@@ -168,7 +170,7 @@ public abstract class AbstractAction implements Action {
 		return getCommandTarget(uuid, JRDesignComponentElement.class);
 	}
 
-	public CommandTarget getCommandTarget(UUID uuid, Class<? extends JRDesignElement> elementType)
+	public CommandTarget getCommandTarget(final UUID uuid, final Class<? extends JRDesignElement> elementType)
 	{
 		JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());
 
@@ -176,27 +178,36 @@ public abstract class AbstractAction implements Action {
 		Set<String> uris = cachedResources.keySet();
 		for (String uri : uris)
 		{
-			CommandTarget target = new CommandTarget();
+			final CommandTarget target = new CommandTarget();
 			target.setUri(uri);
 			
 			JasperDesign jasperDesign = cache.getJasperDesign(uri);
-			
-			for (JRBand band : jasperDesign.getAllBands())
+			JRElementsVisitor.visitReport(jasperDesign, new UniformElementVisitor()
 			{
-				if (band != null)
+				private boolean found = false;
+				
+				@Override
+				public void visitElementGroup(JRElementGroup elementGroup)
 				{
-					for (JRElement element : band.getElements())
+					//NOP
+				}
+				
+				@Override
+				protected void visitElement(JRElement element)
+				{
+					if (!found && elementType.isInstance(element) && uuid.equals(element.getUUID()))
 					{
-						if (elementType.isInstance(element)) 
-						{
-							if (uuid.equals(element.getUUID()))
-							{
-								target.setIdentifiable(element);
-								return target;
-							}
-						}
+						target.setIdentifiable(element);
+						
+						// there's no way to stop the graph visit
+						found = true;
 					}
 				}
+			});
+			
+			if (target.getIdentifiable() != null)
+			{
+				return target;
 			}
 		}
 		return null;
