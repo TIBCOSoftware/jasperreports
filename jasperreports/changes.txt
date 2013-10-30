@@ -438,7 +438,7 @@ JasperReports 4.0.0 (2010-12-31, SVN 4121)
 ---------------------------------------------
 
 - new CSV query executer added to simplify to allow configuring CSV data sources from within report templates
-using built-in paramters and config properties;
+using built-in parameters and config properties;
 
 - new CSV metadata exporter added to better control the CSV export by marking columns in the report template
 using custom properties;
