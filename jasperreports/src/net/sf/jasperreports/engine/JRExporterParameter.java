@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.ExporterInput;
+import net.sf.jasperreports.export.ExporterOutput;
+import net.sf.jasperreports.export.WriterExporterOutput;
 
 
 /**
@@ -41,6 +45,7 @@ package net.sf.jasperreports.engine;
  * parameters. The engine will try to narrow the page range (which is initially the entire report) by using these two
  * parameters, if present.
  *
+ * @deprecated Replaced by {@link ExporterInput}, {@link ExporterConfiguration} and {@link ExporterOutput}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -148,22 +153,19 @@ public class JRExporterParameter
 
 
 	/**
-	 * An integer value representing the index of the page to be exported. This is useful when only one page of the entire
-	 * report is needed for export.
+	 * @deprecated Replaced by {@link ExporterConfiguration#getPageIndex()}.
 	 */
 	public static final JRExporterParameter PAGE_INDEX = new JRExporterParameter("Page Index");
 
 
 	/**
-	 * An integer value representing the start index of the page range to be exported. This is useful when only a range of
-	 * pages is needed for export.
+	 * @deprecated Replaced by {@link ExporterConfiguration#getStartPageIndex()}.
 	 */
 	public static final JRExporterParameter START_PAGE_INDEX = new JRExporterParameter("Start Page Index");
 
 
 	/**
-	 * An integer value representing the end index of the page range to be exported. This is useful when only a range of
-	 * pages is needed for export.
+	 * @deprecated Replaced by {@link ExporterConfiguration#getEndPageIndex()}.
 	 */
 	public static final JRExporterParameter END_PAGE_INDEX = new JRExporterParameter("End Page Index");
 
@@ -175,30 +177,25 @@ public class JRExporterParameter
 
 
 	/**
-	 * Property whose value is used as default for the {@link #CHARACTER_ENCODING CHARACTER_ENCODING} export parameter.
-	 * 
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link WriterExporterOutput#PROPERTY_CHARACTER_ENCODING}.
 	 */
-	public static final String PROPERTY_CHARACTER_ENCODING = JRPropertiesUtil.PROPERTY_PREFIX + "export.character.encoding";
+	public static final String PROPERTY_CHARACTER_ENCODING = WriterExporterOutput.PROPERTY_CHARACTER_ENCODING;
 
 
 	/**
-	 * A {@link net.sf.jasperreports.engine.export.JRExportProgressMonitor JRExportProgressMonitor} instance for monitoring export status. This is useful for users who need to be
-	 * notified after each page is exported (a GUI tool that shows a progress bar might need this feature).
+	 * @deprecated Replaced by {@link ExporterConfiguration#getProgressMonitor()}.
 	 */
 	public static final JRExporterParameter PROGRESS_MONITOR = new JRExporterParameter("Progress Monitor");
 
 
 	/**
-	 * A parameter that allows users to move the entire content of each page horizontally. It is mostly useful for printing,
-	 * when the report data does not fit inside the page margins.
+	 * @deprecated Replaced by {@link ExporterConfiguration#getOffsetX()}.
 	 */
 	public static final JRExporterParameter OFFSET_X = new JRExporterParameter("Offset X");
 
 
 	/**
-	 * A parameter that allows users to move the entire content of each page vertically. It is mostly useful for printing,
-	 * when the report data does not fit inside the page margins.
+	 * @deprecated Replace by {@link ExporterConfiguration#getOffsetY()}.
 	 */
 	public static final JRExporterParameter OFFSET_Y = new JRExporterParameter("Offset Y");
 
@@ -228,20 +225,19 @@ public class JRExporterParameter
 
 	
 	/**
-	 * A {@link net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory JRHyperlinkProducerFactory} which should be used for custom 
-	 * hyperlink types during export.
+	 * @deprecated Replaced by {@link ExporterConfiguration#getHyperlinkProducerFactory()}.
 	 */
 	public static final JRExporterParameter HYPERLINK_PRODUCER_FACTORY = new JRExporterParameter("Hyperlink producer factory");
 
 	
 	/**
-	 * Instance of the {@link net.sf.jasperreports.engine.export.ExporterFilter ExporterFilter} interface to be used by the exporter to filter the elements to be exported.
+	 * @deprecated Replaced by {@link ExporterConfiguration#getExporterFilter()}.
 	 */
 	public static final JRExporterParameter FILTER = new JRExporterParameter("Filter");
 
 
 	/**
-	 * A (per system) property that establishes the priority of export parameters against
+	 * A global (per context) property that establishes the priority of export parameters against
 	 * report hints.
 	 * 
 	 * If the property is true, export parameters override report hints; this is the
@@ -274,13 +270,8 @@ public class JRExporterParameter
 	
 
 	/**
-	 * This property serves as default value for the {@link #IGNORE_PAGE_MARGINS IGNORE_PAGE_MARGINS}
-	 * export parameter.
-	 * <p>
-	 * The property itself defaults to <code>false</code>.
-	 * </p>
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link ExporterConfiguration#PROPERTY_IGNORE_PAGE_MARGINS}.
 	 */
-	public static final String PROPERTY_IGNORE_PAGE_MARGINS = JRPropertiesUtil.PROPERTY_PREFIX + "export.ignore.page.margins";
+	public static final String PROPERTY_IGNORE_PAGE_MARGINS = ExporterConfiguration.PROPERTY_IGNORE_PAGE_MARGINS;
 
 }

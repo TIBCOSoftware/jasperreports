@@ -30,6 +30,11 @@ import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
 
 
 /**
+ * Instances of this class are used for configuring the behavior of exporters.
+ * <p>
+ * see {@link Exporter#setConfiguration(ExporterConfiguration)}
+ * see {@link ExporterInputItem#getConfiguration()}
+ *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -46,55 +51,64 @@ public interface ExporterConfiguration
 	public static final String PROPERTY_IGNORE_PAGE_MARGINS = JRPropertiesUtil.PROPERTY_PREFIX + "export.ignore.page.margins";
 
 	/**
-	 * 
+	 * Specifies whether the settings provided by the current exporter configuration object are supposed to override the equivalent exporter 
+	 * hints specified in the reports themselves using configuration properties. 
 	 */
 	public Boolean isOverrideHints();
 	
 
 	/**
-	 * 
+	 * Returns an integer value representing the start index of the page range to be exported. 
+	 * This is useful when only a range of pages is needed for export.
 	 */
 	public Integer getStartPageIndex();
 	
 
 	/**
-	 * 
+	 * Returns an integer value representing the end index of the page range to be exported. 
+	 * This is useful when only a range of pages is needed for export.
 	 */
 	public Integer getEndPageIndex();
 	
 
 	/**
-	 * 
+	 * Returns an integer value representing the index of the page to be exported. 
+	 * This is useful when only one page of the entire report is needed for export.
 	 */
 	public Integer getPageIndex();
 	
 
 	/**
-	 * 
+	 * Return a {@link net.sf.jasperreports.engine.export.JRExportProgressMonitor JRExportProgressMonitor} instance for monitoring export status. 
+	 * This is useful for users who need to be notified after each page is exported (a GUI tool that shows a progress bar might need this feature).
 	 */
 	public JRExportProgressMonitor getProgressMonitor();
 	
 
 	/**
-	 * 
+	 * Returns an instance of the {@link net.sf.jasperreports.engine.export.ExporterFilter ExporterFilter} interface to be used by the exporter 
+	 * to filter the elements to be exported.
 	 */
 	public ExporterFilter getExporterFilter();
 	
 
 	/**
-	 * 
+	 * A setting that allows users to move the entire content of each page horizontally. 
+	 * It is mostly useful for printing, when the report data does not fit inside the page margins.
 	 */
 	public Integer getOffsetX();
 	
 
 	/**
-	 * 
+	 * A setting that allows users to move the entire content of each page vertically. 
+	 * It is mostly useful for printing, when the report data does not fit inside the page margins.
 	 */
 	public Integer getOffsetY();
 	
 
 	/**
-	 * 
+	 * Returns a {@link net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory JRHyperlinkProducerFactory} which should be used for custom 
+	 * hyperlink types during export.
 	 */
 	public JRHyperlinkProducerFactory getHyperlinkProducerFactory();
 }
