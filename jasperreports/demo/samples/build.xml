@@ -172,6 +172,13 @@
 		</java>
 	</target>
 	
+	<target name="xlsMetadata">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
+			<arg value="xlsMetadata"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+	
 	<target name="jxlMetadata">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="jxlMetadata"/>
