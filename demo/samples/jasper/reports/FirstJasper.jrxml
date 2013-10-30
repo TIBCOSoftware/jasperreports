@@ -134,6 +134,7 @@
 						<property name="net.sf.jasperreports.export.csv.column.name" value="ShipCountry"/>
 						<property name="net.sf.jasperreports.export.csv.repeat.value" value="true"/>
 						<property name="net.sf.jasperreports.export.xls.column.name" value="ShipCountry"/>
+						<property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{ShipCountry}]]></textFieldExpression>
 				</textField>
