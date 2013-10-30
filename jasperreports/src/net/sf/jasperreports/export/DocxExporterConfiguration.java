@@ -23,11 +23,17 @@
  */
 package net.sf.jasperreports.export;
 
+import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 
 /**
+ * Interface containing settings used by the DOCX exporter.
+ *
+ * @see JRDocxExporter
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -52,13 +58,21 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.flexible.row.height";
 
 	/**
-	 * 
+	 * Indicates whether {@link JRPrintFrame frames} are to be exported as nested tables.
+	 * <p>
+	 * Is set to <code>false</code>, the frame contents will be integrated into the master/page table.
+	 * </p>
+	 * @see #PROPERTY_FRAMES_AS_NESTED_TABLES
 	 */
 	@ExporterProperty(PROPERTY_FRAMES_AS_NESTED_TABLES)
 	public Boolean isFramesAsNestedTables();
 	
 	/**
-	 * 
+	 * Indicates whether table rows can grow if more text is added into cells.
+	 * <p>
+	 * Is set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
+	 * </p>
+	 * @see #PROPERTY_FLEXIBLE_ROW_HEIGHT
 	 */
 	@ExporterProperty(PROPERTY_FLEXIBLE_ROW_HEIGHT)
 	public Boolean isFlexibleRowHeight();
