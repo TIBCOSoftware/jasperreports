@@ -31,35 +31,35 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface CsvMetadataExporterConfiguration extends CsvExporterConfiguration
+public interface DocxExporterConfiguration extends ExporterConfiguration
 {
 	/**
-	 * Property whose value is used as default for the {@link #isWriteHeader()} export configuration setting.
+	 * This property serves as default value for the {@link #isFramesAsNestedTables()} export configuration setting.
+	 * <p>
+	 * The property itself defaults to <code>true</code>.
+	 * </p>
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.frames.as.nested.tables";
+
+	/**
+	 * This property serves as default value for the {@link #isFlexibleRowHeight} export configuration setting.
 	 * <p>
 	 * The property itself defaults to <code>false</code>.
 	 * </p>
-	 * 
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_WRITE_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.write.header";
-
-	/**
-	 * Properties having this prefix contain comma-separated column names and are used as default 
-	 * for the {@link #getColumnNames()} export configuration setting.
-	 * 
-	 * @see JRPropertiesUtil
-	 */
-	public static final String PROPERTY_COLUMN_NAMES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.column.names";
+	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.flexible.row.height";
 
 	/**
 	 * 
 	 */
-	@ExporterProperty(PROPERTY_WRITE_HEADER)
-	public Boolean isWriteHeader();
-
+	@ExporterProperty(PROPERTY_FRAMES_AS_NESTED_TABLES)
+	public Boolean isFramesAsNestedTables();
+	
 	/**
 	 * 
 	 */
-	@ExporterProperty(PROPERTY_COLUMN_NAMES_PREFIX)
-	public String[] getColumnNames();
+	@ExporterProperty(PROPERTY_FLEXIBLE_ROW_HEIGHT)
+	public Boolean isFlexibleRowHeight();
 }
