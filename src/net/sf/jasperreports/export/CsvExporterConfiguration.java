@@ -58,14 +58,14 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 
 	/**
 	 * Returns the string representing the character or sequence of characters to be used to delimit two fields on the same record.
-	 * The default value is controlled by the {@link #PROPERTY_FIELD_DELIMITER} configuration property.
+	 * @see #PROPERTY_FIELD_DELIMITER
 	 */
 	@ExporterProperty(PROPERTY_FIELD_DELIMITER)
 	public String getFieldDelimiter();
 
 	/**
 	 * Returns the string representing the character or sequence of characters to be used to delimit two records.
-	 * The default value is controlled by the {@link #PROPERTY_RECORD_DELIMITER} configuration property.
+	 * @see #PROPERTY_RECORD_DELIMITER
 	 */
 	@ExporterProperty(PROPERTY_RECORD_DELIMITER)
 	public String getRecordDelimiter();

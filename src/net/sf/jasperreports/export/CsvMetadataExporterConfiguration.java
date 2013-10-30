@@ -87,7 +87,7 @@ public interface CsvMetadataExporterConfiguration extends CsvExporterConfigurati
 
 	/**
 	 * Returns a boolean that specifies whether the export header (the column names) should be written or not.
-	 * The default is controlled by the {@link #PROPERTY_WRITE_HEADER} configuration property.
+	 * @see #PROPERTY_WRITE_HEADER
 	 */
 	@ExporterProperty(PROPERTY_WRITE_HEADER)
 	public Boolean isWriteHeader();
@@ -95,7 +95,7 @@ public interface CsvMetadataExporterConfiguration extends CsvExporterConfigurati
 	/**
 	 * Returns an array of strings representing the comma-separated names of the columns that should be exported.
 	 * NOTE: The order of the columns is important and, for accurate results, they should be in the same order as the original columns.
-	 * The default is controlled by configuration properties having the {@link #PROPERTY_COLUMN_NAMES_PREFIX} name prefix.
+	 * @see #PROPERTY_COLUMN_NAMES_PREFIX
 	 */
 	@ExporterProperty(PROPERTY_COLUMN_NAMES_PREFIX)
 	public String[] getColumnNames();
