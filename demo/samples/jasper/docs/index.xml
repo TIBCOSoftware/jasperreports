@@ -471,7 +471,7 @@ Shows how to export the report to XLS format using metadata associated with repo
       </author>
     </documentedBy>
     <content>
-<subtitle name="xls_metadata_export">The JExcelApi Metadata Exporter</subtitle>
+<subtitle name="xls_metadata_export">The Excel 2003 Metadata Exporter</subtitle>
 <br/>
 <br/>
 As shown in the section <a href="#csv_metadata_export">above</a>, the CSV metadata exporter is a very useful tool when data-oriented outputs are preferred. The only 
@@ -479,9 +479,8 @@ problem is that any format setting is dropped when the CSV file is saved. CSVs d
 for complex documents. Sometimes data needs to be presented in a meaningful way, column headers should be centered, totals should appear in a bold style, some cells 
 might require a particular background, etc. There is a need to keep together relevant data with their style and formatting information. Since the CSV metadata exporter 
 is limited to data only, another metadata-based exporter comes to solve the problem. This is the 
-<api href="net/sf/jasperreports/engine/export/JExcelApiMetadataExporter.html">JExcelApiMetadataExporter</api>. It relies on equivalent metadata properties and parameters 
-having the same meanings, but dedicated to the XLS output format:
-Before starting the export work, the CSV metadata exporter looks for the presence of the 
+<api href="net/sf/jasperreports/engine/export/JRXlsMetadataExporter.html">JRXlsMetadataExporter</api> that provides a columnar Excel 2003 output. It relies on equivalent 
+metadata properties and parameters having the same meanings, but dedicated to the XLS output format:
 <ul>
 <li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter or the equivalent 
 <a href="../../config.reference.html#net.sf.jasperreports.export.xls.column.names.{suffix}">net.sf.jasperreports.export.xls.column.names.{suffix}</a></li>
@@ -542,8 +541,8 @@ these settings apply to the &lt;detail/&gt; section:
     ...
   </band>
 </detail>]]></pre>
-After running the <code>&gt;ant test view</code> command the data-centric document exported with the JExcelApi metadata exporter will be available in the 
-<code>demo/samples/jasper/build/reports</code> directory as <code>FirstJasper.jxl.metadata.xls</code>. Notice the differences between this one and the 
+After running the <code>&gt;ant test view</code> command the data-centric document exported with the Excel 2003 metadata exporter will be available in the 
+<code>demo/samples/jasper/build/reports</code> directory as <code>FirstJasper.xls.metadata.xls</code>. Notice the differences between this one and the 
 <code>FirstJasper.metadata.csv</code> CSV document.
     </content>
   </feature>
