@@ -173,7 +173,7 @@ public abstract class JRAbstractExporter implements JRExporter
 			else
 			{
 				List<PropertySuffix> properties = JRPropertiesUtil.getProperties(jasperPrint.getPropertiesMap(), propertyPrefix);
-				if (properties != null)
+				if (properties != null && !properties.isEmpty())
 				{
 					values = new String[properties.size()];
 					for(int i = 0; i < values.length; i++)
@@ -329,7 +329,7 @@ public abstract class JRAbstractExporter implements JRExporter
 			if (hintsMap != null)
 			{
 				List<PropertySuffix> properties = JRPropertiesUtil.getProperties(hintsMap, propertyPrefix);
-				if (properties != null)
+				if (properties != null && !properties.isEmpty())
 				{
 					values = new String[properties.size()];
 					for(int i = 0; i < values.length; i++)
