@@ -71,6 +71,10 @@
 		<ant dir="../" target="csvMetadata"/>
 	</target>
 	
+	<target name="xlsMetadata" description="Generates an XLS version of the report by converting the .jrprint file using the Apache POI library.">
+		<ant dir="../" target="xlsMetadata"/>
+	</target>
+	
 	<target name="jxlMetadata" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
 		<ant dir="../" target="jxlMetadata"/>
 	</target>

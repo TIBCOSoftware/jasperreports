@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -90,6 +91,7 @@ public class JasperApp extends AbstractSampleApp
 		csv();
 		csvMetadata();
 		jxlMetadata();
+		xlsMetadata();
 		odt();
 		ods();
 		docx();
@@ -316,15 +318,44 @@ public class JasperApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		File sourceFile = new File("build/reports/FirstJasper.jrprint");
+		
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.metadata.xls");
+		
+		Map<String, Object> dateFormats = new HashMap<String, Object>();
+		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
+		
+		JExcelApiMetadataExporter exporter = new JExcelApiMetadataExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		exporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+		exporter.setParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP, dateFormats);
+		
+		exporter.exportReport();
+		
+		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void xlsMetadata() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/FirstJasper.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.metadata.xls");
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls.metadata.xls");
 
 		Map<String, Object> dateFormats = new HashMap<String, Object>();
 		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
 
-		JExcelApiMetadataExporter exporter = new JExcelApiMetadataExporter();
+		JRXlsMetadataExporter exporter = new JRXlsMetadataExporter();
 
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
