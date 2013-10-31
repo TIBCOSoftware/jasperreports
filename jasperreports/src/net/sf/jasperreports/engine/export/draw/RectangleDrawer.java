@@ -39,7 +39,6 @@ import java.awt.geom.AffineTransform;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -215,28 +214,10 @@ public class RectangleDrawer extends ElementDrawer<JRPrintRectangle>
 			}
 			else
 			{
-				float lineOffset = BorderOffset.getOffset(rectangle.getLinePen());
-				
 				grx.translate(
-					rectangle.getX() + offsetX + lineOffset, 
-					rectangle.getY() + offsetY + lineOffset
+					rectangle.getX() + offsetX, 
+					rectangle.getY() + offsetY
 					);
-				if (width > 2 * lineOffset)
-				{
-					grx.scale(
-						(width - 2 * lineOffset) 
-							/ width, 
-						1 
-						);
-				}
-				if (height > 2 * lineOffset)
-				{
-					grx.scale(
-						1, 
-						(height - 2 * lineOffset) 
-							/ height 
-						);
-				}
 
 				if (rectangle.getRadius() > 0)
 				{

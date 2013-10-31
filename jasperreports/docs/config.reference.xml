@@ -168,7 +168,6 @@
       <property ref="net.sf.jasperreports.export.default.filter.factory"/>
       <property ref="net.sf.jasperreports.export.{arbitrary_name}.default.filter.factory"/>
       <property ref="net.sf.jasperreports.export.character.encoding"/>
-      <property ref="net.sf.jasperreports.export.legacy.border.offset"/>
       
       <property ref="net.sf.jasperreports.export.csv.column.name"/>
       <property ref="net.sf.jasperreports.export.csv.column.names.{suffix}"/>
@@ -2256,21 +2255,6 @@ Property whose value is used as default for the <api href="net/sf/jasperreports/
     <default>UTF-8</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.export.legacy.border.offset -->
-  
-  <configProperty name="net.sf.jasperreports.export.legacy.border.offset">
-    <description>
-Property which allows rendering element borders in older reports using the legacy border offset
-technique that that was used in versions prior to the 2.0.3 release.
-    </description>
-    <api>net/sf/jasperreports/engine/export/legacy/BorderOffset.html#PROPERTY_LEGACY_BORDER_OFFSET</api>
-    <default><api href="net/sf/jasperreports/engine/export/legacy/BorderOffset.html#DEFAULT">net.sf.jasperreports.export.legacy.BorderOffset.DEFAULT</api></default>
-    <scope>Global | Report</scope>
-    <since>3.0.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
