@@ -2017,7 +2017,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 					&& (s.font == null ? font == null : (font != null && s.font.getIndex() == font.getIndex()))
 					&& (s.box == null ? box == null : (box != null && s.box.equals(box)))
 					&& s.rotation == rotation && s.lcWrapText == lcWrapText 
-					&& s.lcCellLocked == cellLocked && s.lcCellHidden == cellHidden;//FIXME should dataformat be part of equals? it is part of toString()...
+					&& s.lcCellLocked == lcCellLocked && s.lcCellHidden == lcCellHidden;//FIXME should dataformat be part of equals? it is part of toString()...
 		}
 	
 		public String toString() {
