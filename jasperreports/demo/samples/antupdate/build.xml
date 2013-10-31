@@ -3,6 +3,7 @@
 	<description>Shows how multiple JRXML files can be updated in batch mode using the ANT build tool.</description>
 
 	<path id="classpath">
+		<pathelement location="./build/classes"/>
 		<pathelement location="../../../build/classes"/>
 		<fileset dir="../../../lib">
 			<include name="**/*.jar"/>
@@ -12,21 +13,20 @@
 	
 	<path id="runClasspath">
 		<path refid="classpath"/>
-		<pathelement location="./build/classes"/>
 	</path>
 
 	<taskdef name="jru" classname="net.sf.jasperreports.ant.JRAntUpdateTask"> 
 		<classpath refid="classpath"/>
 	</taskdef>
 
-	<target name="update1" description="Updates report designs specified using the &quot;srcdir&quot; in the &lt;jru&gt; tag."> 
+	<target name="update1" depends="javac" description="Updates report designs specified using the &quot;srcdir&quot; in the &lt;jru&gt; tag."> 
 		<mkdir dir="./build/reports"/> 
 		<jru 
 				srcdir="./reports"
 				destdir="./build/reports">
 			<classpath refid="runClasspath"/>
 			<include name="**/*.jrxml"/>
-			<updater>net.sf.jasperreports.engine.util.StyleUpdater</updater>
+			<updater>com.update.StyleUpdater</updater>
 		</jru>
 	</target> 
 
