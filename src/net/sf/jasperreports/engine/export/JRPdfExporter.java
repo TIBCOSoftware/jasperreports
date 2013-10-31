@@ -84,7 +84,6 @@ import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.fonts.FontFace;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
@@ -638,10 +637,6 @@ public class JRPdfExporter extends JRAbstractExporter
 				
 				setPageSize(null);
 				
-				BorderOffset.setLegacy(
-					JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, BorderOffset.PROPERTY_LEGACY_BORDER_OFFSET, false)
-					);
-				
 				boolean sizePageToContent = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, JRPdfExporterParameter.PROPERTY_SIZE_PAGE_TO_CONTENT, false);
 
 				List<JRPrintPage> pages = jasperPrint.getPages();
@@ -1060,7 +1055,6 @@ public class JRPdfExporter extends JRAbstractExporter
 		preparePen(pdfContentByte, rectangle.getLinePen(), PdfContentByte.LINE_CAP_PROJECTING_SQUARE);
 
 		float lineWidth = rectangle.getLinePen().getLineWidth().floatValue();
-		float lineOffset = BorderOffset.getOffset(rectangle.getLinePen());
 		
 		if (rectangle.getModeValue() == ModeEnum.OPAQUE)
 		{
@@ -1102,10 +1096,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			else
 			{
 				pdfContentByte.roundRectangle(
-					rectangle.getX() + getOffsetX() + lineOffset,
-					jasperPrint.getPageHeight() - rectangle.getY() - getOffsetY() - rectangle.getHeight() + lineOffset,
-					rectangle.getWidth() - 2 * lineOffset,
-					rectangle.getHeight() - 2 * lineOffset,
+					rectangle.getX() + getOffsetX(),
+					jasperPrint.getPageHeight() - rectangle.getY() - getOffsetY() - rectangle.getHeight(),
+					rectangle.getWidth(),
+					rectangle.getHeight(),
 					rectangle.getRadius()
 					);
 
@@ -1131,7 +1125,6 @@ public class JRPdfExporter extends JRAbstractExporter
 		preparePen(pdfContentByte, ellipse.getLinePen(), PdfContentByte.LINE_CAP_PROJECTING_SQUARE);
 
 		float lineWidth = ellipse.getLinePen().getLineWidth().floatValue();
-		float lineOffset = BorderOffset.getOffset(ellipse.getLinePen());
 		
 		if (ellipse.getModeValue() == ModeEnum.OPAQUE)
 		{
@@ -1170,10 +1163,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			else
 			{
 				pdfContentByte.ellipse(
-					ellipse.getX() + getOffsetX() + lineOffset,
-					jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - ellipse.getHeight() + lineOffset,
-					ellipse.getX() + getOffsetX() + ellipse.getWidth() - lineOffset,
-					jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - lineOffset
+					ellipse.getX() + getOffsetX(),
+					jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY() - ellipse.getHeight(),
+					ellipse.getX() + getOffsetX() + ellipse.getWidth(),
+					jasperPrint.getPageHeight() - ellipse.getY() - getOffsetY()
 					);
 
 				pdfContentByte.stroke();
@@ -2195,8 +2188,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (topPen.getLineWidth().floatValue() > 0f)
 		{
-			float leftOffset = leftPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(leftPen);
-			float rightOffset = rightPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(rightPen);
+			float leftOffset = leftPen.getLineWidth().floatValue() / 2;
+			float rightOffset = rightPen.getLineWidth().floatValue() / 2;
 			
 			preparePen(pdfContentByte, topPen, PdfContentByte.LINE_CAP_BUTT);
 			
@@ -2226,14 +2219,13 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			else
 			{
-				float topOffset =  BorderOffset.getOffset(topPen);
 				pdfContentByte.moveTo(
 					element.getX() + getOffsetX() - leftOffset,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topOffset
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY()
 					);
 				pdfContentByte.lineTo(
 					element.getX() + getOffsetX() + element.getWidth() + rightOffset,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topOffset
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY()
 					);
 				pdfContentByte.stroke();
 			}
@@ -2248,8 +2240,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (leftPen.getLineWidth().floatValue() > 0f)
 		{
-			float topOffset = topPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(topPen);
-			float bottomOffset = bottomPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(bottomPen);
+			float topOffset = topPen.getLineWidth().floatValue() / 2;
+			float bottomOffset = bottomPen.getLineWidth().floatValue() / 2;
 
 			preparePen(pdfContentByte, leftPen, PdfContentByte.LINE_CAP_BUTT);
 
@@ -2279,13 +2271,12 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			else
 			{
-				float leftOffset =  BorderOffset.getOffset(leftPen);
 				pdfContentByte.moveTo(
-					element.getX() + getOffsetX() + leftOffset,
+					element.getX() + getOffsetX(),
 					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topOffset
 					);
 				pdfContentByte.lineTo(
-					element.getX() + getOffsetX() + leftOffset,
+					element.getX() + getOffsetX(),
 					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomOffset
 					);
 				pdfContentByte.stroke();
@@ -2301,8 +2292,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (bottomPen.getLineWidth().floatValue() > 0f)
 		{
-			float leftOffset = leftPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(leftPen);
-			float rightOffset = rightPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(rightPen);
+			float leftOffset = leftPen.getLineWidth().floatValue() / 2;
+			float rightOffset = rightPen.getLineWidth().floatValue() / 2;
 			
 			preparePen(pdfContentByte, bottomPen, PdfContentByte.LINE_CAP_BUTT);
 			
@@ -2332,14 +2323,13 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			else
 			{
-				float bottomOffset =  BorderOffset.getOffset(bottomPen);
 				pdfContentByte.moveTo(
 					element.getX() + getOffsetX() - leftOffset,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomOffset
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight()
 					);
 				pdfContentByte.lineTo(
 					element.getX() + getOffsetX() + element.getWidth() + rightOffset,
-					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomOffset
+					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight()
 					);
 				pdfContentByte.stroke();
 			}
@@ -2354,8 +2344,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (rightPen.getLineWidth().floatValue() > 0f)
 		{
-			float topOffset = topPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(topPen);
-			float bottomOffset = bottomPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(bottomPen);
+			float topOffset = topPen.getLineWidth().floatValue() / 2;
+			float bottomOffset = bottomPen.getLineWidth().floatValue() / 2;
 
 			preparePen(pdfContentByte, rightPen, PdfContentByte.LINE_CAP_BUTT);
 
@@ -2385,13 +2375,12 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			else
 			{
-				float rightOffset =  BorderOffset.getOffset(rightPen);
 				pdfContentByte.moveTo(
-					element.getX() + getOffsetX() + element.getWidth() - rightOffset,
+					element.getX() + getOffsetX() + element.getWidth(),
 					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topOffset
 					);
 				pdfContentByte.lineTo(
-					element.getX() + getOffsetX() + element.getWidth() - rightOffset,
+					element.getX() + getOffsetX() + element.getWidth(),
 					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() - bottomOffset
 					);
 				pdfContentByte.stroke();

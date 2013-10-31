@@ -239,7 +239,6 @@
 				<include name="**/net/sf/jasperreports/engine/export/draw/PrintDrawVisitor.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/draw/RectangleDrawer.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/draw/TextDrawer*.class"/>
-				<include name="**/net/sf/jasperreports/engine/export/legacy/BorderOffset*.class"/>
 				<include name="**/net/sf/jasperreports/engine/fill/JRTemplate*.class"/>
 				<include name="**/net/sf/jasperreports/engine/fill/JRRecordedValues*.class"/>
 				<include name="**/net/sf/jasperreports/engine/fill/JRVirtualizationContext.class"/>

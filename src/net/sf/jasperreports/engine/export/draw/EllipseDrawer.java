@@ -39,7 +39,6 @@ import java.awt.geom.AffineTransform;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -150,28 +149,10 @@ public class EllipseDrawer extends ElementDrawer<JRPrintEllipse>
 			}
 			else
 			{
-				float lineOffset = BorderOffset.getOffset(ellipse.getLinePen());
-				
 				grx.translate(
-					ellipse.getX() + offsetX + lineOffset, 
-					ellipse.getY() + offsetY + lineOffset
+					ellipse.getX() + offsetX, 
+					ellipse.getY() + offsetY
 					);
-				if (width > 2 * lineOffset)
-				{
-					grx.scale(
-						(width - 2 * lineOffset) 
-							/ width, 
-						1 
-						);
-				}
-				if (height > 2 * lineOffset)
-				{
-					grx.scale(
-						1, 
-						(height - 2 * lineOffset) 
-							/ height 
-						);
-				}
 				grx.drawOval(
 					0, 
 					0, 
