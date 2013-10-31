@@ -448,7 +448,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 				? (CellSettings)repeatedValues.get(columnName)
 				: null)
 				: (CellSettings)currentRow.get(columnName);
-			cell = row.createCell(columnNamesMap.get(columnName));
+			cell = row.createCell(i);
 			if(cellSettings != null) {
 				int type = cellSettings.getCellType();
 				cell.setCellType(type);
@@ -462,6 +462,27 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 						cell.setCellValue((Date)cellSettings.getCellValue());
 					} else if(cellValue instanceof Boolean) {
 						cell.setCellValue((Boolean)cellSettings.getCellValue());
+					}else if(cellValue instanceof ImageSettings){
+						ImageSettings imageSettings = (ImageSettings)cellValue;
+						try {
+							HSSFClientAnchor anchor = 
+									new HSSFClientAnchor(
+										0, 
+										0, 
+										0, 
+										0, 
+										(short)(i), 
+										rowIndex, 
+										(short)(i + 1), 
+										rowIndex+1
+										);
+							anchor.setAnchorType(imageSettings.getAnchorType());
+							patriarch.createPicture(anchor, imageSettings.getIndex());
+						} catch (Exception ex) {
+							throw new JRException("The cell cannot be added", ex);
+						} catch (Error err) {
+							throw new JRException("The cell cannot be added", err);
+						}
 					}
 				}
 				
@@ -825,7 +846,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 				addBlankCell(cellStyle, currentRow, currentColumnName); 
 			} else if ( (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && !isColumnReadOnTime(currentRow, currentColumnName)) 	// the column is for export, was not read yet, but it is read after it should be
 					|| (columnNames.contains(currentColumnName) && currentRow.containsKey(currentColumnName)) ) {	// the column is for export and was already read
-
+				
 				if(rowIndex == 1 && writeHeader) {
 					writeReportHeader();
 				}
@@ -845,7 +866,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 			}
 		}
 	}
-	
+
 	protected void addCell(CellSettings cellSettings, Map<String, Object> cellValueMap, String currentColumnName) throws JRException {
 		cellValueMap.put(currentColumnName, cellSettings);
 	}
@@ -1076,7 +1097,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 						isCellHidden(element)
 						);
 
-				addBlankElement(cellStyle, repeatValue, currentColumnName);
+				addBlankElement(cellStyle, false, currentColumnName);
+				
 				int colIndex = columnNamesMap.get(currentColumnName);
 				try {
 					HSSFClientAnchor anchor = 
@@ -1100,7 +1122,16 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 					//int imgIndex = workbook.addPicture(pngEncoder.pngEncode(), HSSFWorkbook.PICTURE_TYPE_PNG);
 					int imgIndex = workbook.addPicture(imageData, HSSFWorkbook.PICTURE_TYPE_PNG);
 					patriarch.createPicture(anchor, imgIndex);
-				
+					
+					// set auto fill columns
+					if(repeatValue) {
+						CellSettings cellSettings = new CellSettings(cellStyle);
+						cellSettings.setCellValue(new ImageSettings(imgIndex, anchor.getAnchorType()));
+						addCell(cellSettings, repeatedValues, currentColumnName);
+					} else {
+						repeatedValues.remove(currentColumnName);
+					}
+					
 //					setHyperlinkCell(element);
 				} catch (Exception ex) {
 					throw new JRException("The cell cannot be added", ex);
