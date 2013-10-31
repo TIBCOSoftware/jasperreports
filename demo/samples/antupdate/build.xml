@@ -26,9 +26,7 @@
 				destdir="./build/reports">
 			<classpath refid="runClasspath"/>
 			<include name="**/*.jrxml"/>
-			<!--
-			<updater>net.sf.jasperreports.engine.util.LegacyBorderOffsetUpdater</updater>
-			-->
+			<updater>net.sf.jasperreports.engine.util.StyleUpdater</updater>
 		</jru>
 	</target> 
 
@@ -54,6 +52,7 @@
 				encoding="ISO-8859-1" includeantruntime="false">
 			<compilerarg value="-Xlint:unchecked"/>
 			<compilerarg value="-Xlint:-options"/>
+			<classpath refid="runClasspath"/>
 		</javac>
 	</target> 
 
