@@ -348,7 +348,11 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		
 		NodeList nodeList = fontFaceNode.getChildNodes();
 
-		if (nodeList.getLength() == 1 && fontFaceNode.getFirstChild().getNodeType() == Node.TEXT_NODE)
+		if (
+			nodeList.getLength() == 1 
+			&& (fontFaceNode.getFirstChild().getNodeType() == Node.TEXT_NODE
+			|| fontFaceNode.getFirstChild().getNodeType() == Node.CDATA_SECTION_NODE)
+			)
 		{
 			fontFace.setTtf(fontFaceNode.getFirstChild().getTextContent());
 		}
