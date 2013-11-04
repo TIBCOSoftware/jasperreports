@@ -39,4 +39,8 @@ import java.lang.annotation.Target;
 public @interface ExporterProperty 
 {
 	String value();
+	boolean booleanDefault() default false;
+	int intDefault() default 0;
+	float floatDefault() default 0;
+	long longDefault() default 0;
 }
