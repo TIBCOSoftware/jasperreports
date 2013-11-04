@@ -81,7 +81,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 {
 
-	protected static final String XLS_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.";
+	public static final String XLS_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.";
 
 	/**
 	 * Property that stores the formula which has to be applied to a given cell in an excel sheet.
