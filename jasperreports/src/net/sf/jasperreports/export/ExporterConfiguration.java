@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
+import net.sf.jasperreports.export.annotations.ExporterParameter;
 
 
 /**
@@ -41,6 +42,18 @@ import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
 public interface ExporterConfiguration
 {
 	/**
+	 * A global (per context) property that serves as default value for the {@link ExporterConfiguration#isOverrideHints()} setting 
+	 * and establishes the priority of export configuration settings against report hints.
+	 * 
+	 * If the property is true, export configuration settings override report hints; this is the
+	 * default behavior.
+	 * 
+	 * This property cannot be used as a report export hint.
+	 */
+	public static final String PROPERTY_EXPORT_CONFIGURATION_OVERRIDE_REPORT_HINTS = 
+		JRPropertiesUtil.PROPERTY_PREFIX + "export.configuration.override.report.hints";
+	
+	/**
 	 * This property serves as default value for the {@link XlsExporterConfiguration#isIgnorePageMargins()} 
 	 * and {@link HtmlExporterConfiguration#isIgnorePageMargins()} exporter configuration settings.
 	 * <p>
@@ -51,8 +64,9 @@ public interface ExporterConfiguration
 	public static final String PROPERTY_IGNORE_PAGE_MARGINS = JRPropertiesUtil.PROPERTY_PREFIX + "export.ignore.page.margins";
 
 	/**
-	 * Specifies whether the settings provided by the current exporter configuration object are supposed to override the equivalent exporter 
-	 * hints specified in the reports themselves using configuration properties. 
+	 * Specifies whether the settings provided by this exporter configuration object are supposed to override the equivalent exporter 
+	 * hints specified in the reports themselves using configuration properties.
+	 * @see #PROPERTY_EXPORT_CONFIGURATION_OVERRIDE_REPORT_HINTS
 	 */
 	public Boolean isOverrideHints();
 	
@@ -61,6 +75,11 @@ public interface ExporterConfiguration
 	 * Returns an integer value representing the start index of the page range to be exported. 
 	 * This is useful when only a range of pages is needed for export.
 	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class, 
+		parameterName="START_PAGE_INDEX"
+		)
 	public Integer getStartPageIndex();
 	
 
@@ -68,6 +87,11 @@ public interface ExporterConfiguration
 	 * Returns an integer value representing the end index of the page range to be exported. 
 	 * This is useful when only a range of pages is needed for export.
 	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class, 
+		parameterName="END_PAGE_INDEX"
+		)
 	public Integer getEndPageIndex();
 	
 
@@ -75,6 +99,11 @@ public interface ExporterConfiguration
 	 * Returns an integer value representing the index of the page to be exported. 
 	 * This is useful when only one page of the entire report is needed for export.
 	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class, 
+		parameterName="PAGE_INDEX"
+		)
 	public Integer getPageIndex();
 	
 
@@ -82,6 +111,11 @@ public interface ExporterConfiguration
 	 * Return a {@link net.sf.jasperreports.engine.export.JRExportProgressMonitor JRExportProgressMonitor} instance for monitoring export status. 
 	 * This is useful for users who need to be notified after each page is exported (a GUI tool that shows a progress bar might need this feature).
 	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class, 
+		parameterName="PROGRESS_MONITOR"
+		)
 	public JRExportProgressMonitor getProgressMonitor();
 	
 
@@ -89,6 +123,11 @@ public interface ExporterConfiguration
 	 * Returns an instance of the {@link net.sf.jasperreports.engine.export.ExporterFilter ExporterFilter} interface to be used by the exporter 
 	 * to filter the elements to be exported.
 	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class,
+		parameterName="FILTER"
+		)
 	public ExporterFilter getExporterFilter();
 	
 
@@ -96,6 +135,11 @@ public interface ExporterConfiguration
 	 * A setting that allows users to move the entire content of each page horizontally. 
 	 * It is mostly useful for printing, when the report data does not fit inside the page margins.
 	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class,
+		parameterName="OFFSET_X"
+		)
 	public Integer getOffsetX();
 	
 
@@ -103,6 +147,11 @@ public interface ExporterConfiguration
 	 * A setting that allows users to move the entire content of each page vertically. 
 	 * It is mostly useful for printing, when the report data does not fit inside the page margins.
 	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class,
+		parameterName="OFFSET_Y"
+		)
 	public Integer getOffsetY();
 	
 
@@ -110,5 +159,10 @@ public interface ExporterConfiguration
 	 * Returns a {@link net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory JRHyperlinkProducerFactory} which should be used for custom 
 	 * hyperlink types during export.
 	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class,
+		parameterName="HYPERLINK_PRODUCER_FACTORY"
+		)
 	public JRHyperlinkProducerFactory getHyperlinkProducerFactory();
 }
