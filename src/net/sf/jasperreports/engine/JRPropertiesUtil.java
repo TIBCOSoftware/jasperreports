@@ -630,6 +630,22 @@ public final class JRPropertiesUtil
 	}
 
 	/**
+	 * @deprecated Replaced by {@link #getLongProperty(JRPropertiesMap, String, long)}.
+	 */
+	public long getLongProperty(JRPropertiesMap propertiesMap, String key, int defaultValue)
+	{
+		return getLongProperty(propertiesMap, key, (long)defaultValue);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getLongProperty(JRPropertiesHolder, String, long)}.
+	 */
+	public long getLongProperty(JRPropertiesHolder propertiesHolder, String key, int defaultValue)
+	{
+		return getLongProperty(propertiesHolder, key, (long)defaultValue);
+	}
+
+	/**
 	 * Returns the value of a property as a long, looking first in the supplied properties map
 	 * and then in the system properties.
 	 * 
@@ -638,7 +654,7 @@ public final class JRPropertiesUtil
 	 * @param defaultValue the default value used if the property is not found
 	 * @return the property value
 	 */
-	public long getLongProperty(JRPropertiesMap propertiesMap, String key, int defaultValue)
+	public long getLongProperty(JRPropertiesMap propertiesMap, String key, long defaultValue)
 	{
 		String value = getProperty(propertiesMap, key);
 		
@@ -654,7 +670,7 @@ public final class JRPropertiesUtil
 	 * @param defaultValue the default value used if the property is not found
 	 * @return the property value
 	 */
-	public long getLongProperty(JRPropertiesHolder propertiesHolder, String key, int defaultValue)
+	public long getLongProperty(JRPropertiesHolder propertiesHolder, String key, long defaultValue)
 	{
 		String value = getProperty(propertiesHolder, key);
 		
