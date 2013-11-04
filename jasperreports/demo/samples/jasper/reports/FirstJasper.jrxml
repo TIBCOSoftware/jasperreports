@@ -276,7 +276,6 @@
 				<reportElement style="OrderIdStyle" x="1" y="0" width="35" height="11" uuid="2bd58b27-e3b0-43f0-934c-aea454c77cc7">
 					<property name="net.sf.jasperreports.export.csv.column.name" value="Order"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="Order"/>
-					<property name="net.sf.jasperreports.export.xls.auto.fit.column" value="true"/>
 				</reportElement>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{OrderID}]]></textFieldExpression>
@@ -301,7 +300,6 @@
 				<reportElement x="185" y="0" width="50" height="11" uuid="656d9081-18ce-487a-bcf6-566efe4f8421">
 					<property name="net.sf.jasperreports.export.csv.column.name" value="OrderDate"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="OrderDate"/>
-					<property name="net.sf.jasperreports.export.xls.auto.fit.column" value="true"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
 			</textField>
@@ -309,7 +307,6 @@
 				<reportElement x="235" y="0" width="35" height="11" uuid="0f2c4477-9611-4576-8759-026ac56415ab">
 					<property name="net.sf.jasperreports.export.csv.column.name" value="Freight"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="Freight"/>
-					<property name="net.sf.jasperreports.export.xls.auto.fit.column" value="true"/>
 				</reportElement>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{Freight}]]></textFieldExpression>
