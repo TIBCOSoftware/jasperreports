@@ -26,6 +26,7 @@ package net.sf.jasperreports.export;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 
@@ -61,12 +62,20 @@ public interface Graphics2DExporterConfiguration extends ExporterConfiguration
 	 *
 	 * @see #MINIMIZE_PRINTER_JOB_SIZE
 	 */
-	@ExporterProperty(MINIMIZE_PRINTER_JOB_SIZE)
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter.class, 
+		parameterName="MINIMIZE_PRINTER_JOB_SIZE"
+		)
+	@ExporterProperty(
+		value=MINIMIZE_PRINTER_JOB_SIZE, 
+		booleanDefault=true
+		)
 	public Boolean isMinimizePrinterJobSize();
 	
 	/**
 	 * 
 	 */
-	@ExporterProperty(JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT)
+	@ExporterProperty(value=JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, booleanDefault=false)
 	public Boolean isIgnoreMissingFont();
 }

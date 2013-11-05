@@ -26,6 +26,7 @@ package net.sf.jasperreports.export;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRCsvMetadataExporter;
+import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 
@@ -60,6 +61,11 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 	 * Returns the string representing the character or sequence of characters to be used to delimit two fields on the same record.
 	 * @see #PROPERTY_FIELD_DELIMITER
 	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.export.JRCsvExporterParameter.class,
+		parameterName="FIELD_DELIMITER"
+		)
 	@ExporterProperty(PROPERTY_FIELD_DELIMITER)
 	public String getFieldDelimiter();
 
@@ -67,6 +73,11 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 	 * Returns the string representing the character or sequence of characters to be used to delimit two records.
 	 * @see #PROPERTY_RECORD_DELIMITER
 	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.export.JRCsvExporterParameter.class,
+		parameterName="RECORD_DELIMITER"
+		)
 	@ExporterProperty(PROPERTY_RECORD_DELIMITER)
 	public String getRecordDelimiter();
 }

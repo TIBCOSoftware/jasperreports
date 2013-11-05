@@ -24,12 +24,11 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JRPrintFrame;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.export.DocxExporterConfiguration;
 
 
 /**
- * Contains parameters useful for export in DOCX format.
+ * @deprecated Replaced by {@link DocxExporterConfiguration}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -47,51 +46,27 @@ public class JRDocxExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * Indicates whether {@link JRPrintFrame frames} are to be exported as nested tables.
-	 * <p>
-	 * The type of the parameter is <code>java.lang.Boolean</code>.
-	 * </p>
-	 * <p>
-	 * Is set to <code>false</code>, the frame contents will be integrated into the master/page table.
-	 * </p>
-	 * @see #PROPERTY_FRAMES_AS_NESTED_TABLES
+	 * @deprecated Replaced by {@link DocxExporterConfiguration#isFramesAsNestedTables()}.
 	 */
 	public static final JRDocxExporterParameter FRAMES_AS_NESTED_TABLES = new JRDocxExporterParameter("Export Frames as Nested Tables");
 	
 
 	/**
-	 * This property serves as default value for the {@link #FRAMES_AS_NESTED_TABLES FRAMES_AS_NESTED_TABLES}
-	 * export parameter.
-	 * <p>
-	 * The property itself defaults to <code>true</code>.
-	 * </p>
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link DocxExporterConfiguration#PROPERTY_FRAMES_AS_NESTED_TABLES}.
 	 */
-	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.frames.as.nested.tables";
+	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = DocxExporterConfiguration.PROPERTY_FRAMES_AS_NESTED_TABLES;
 	
 
 	/**
-	 * Indicates whether table rows can grow if more text is added into cells.
-	 * <p>
-	 * The type of the parameter is <code>java.lang.Boolean</code>.
-	 * </p>
-	 * <p>
-	 * Is set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
-	 * </p>
-	 * @see #PROPERTY_FLEXIBLE_ROW_HEIGHT
+	 * @deprecated Replaced by {@link DocxExporterConfiguration#isFlexibleRowHeight()}.
 	 */
 	public static final JRDocxExporterParameter FLEXIBLE_ROW_HEIGHT = new JRDocxExporterParameter("Flexible Row Height");
 	
 
 	/**
-	 * This property serves as default value for the {@link #FLEXIBLE_ROW_HEIGHT FLEXIBLE_ROW_HEIGHT}
-	 * export parameter.
-	 * <p>
-	 * The property itself defaults to <code>false</code>.
-	 * </p>
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link DocxExporterConfiguration#PROPERTY_FLEXIBLE_ROW_HEIGHT}.
 	 */
-	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.flexible.row.height";
+	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = DocxExporterConfiguration.PROPERTY_FLEXIBLE_ROW_HEIGHT;
 	
 
 }

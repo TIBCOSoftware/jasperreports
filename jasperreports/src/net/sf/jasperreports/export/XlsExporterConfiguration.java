@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.export;
 
+import java.util.Map;
+
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
@@ -590,4 +592,19 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 		)
 	@ExporterProperty(PROPERTY_SHEET_NAMES_PREFIX)
 	public String[] getSheetNames();
+	
+	/**
+	 * This export parameter should be used when converting java format patterns to equivalent proprietary
+	 * format patterns. It should be constructed as a Map containing java format patterns as keys and the
+	 * correspondent proprietary format pattern as correspondent value
+	 * <p/>
+	 * @see org.apache.poi.hssf.usermodel.HSSFDataFormat
+	 * @see jxl.write.NumberFormat
+	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class, 
+		parameterName="FORMAT_PATTERNS_MAP"
+		)
+	public Map<String, String> getFormatPatternsMap();
 }

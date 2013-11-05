@@ -25,6 +25,7 @@ package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRCsvMetadataExporter;
+import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 
@@ -89,7 +90,15 @@ public interface CsvMetadataExporterConfiguration extends CsvExporterConfigurati
 	 * Returns a boolean that specifies whether the export header (the column names) should be written or not.
 	 * @see #PROPERTY_WRITE_HEADER
 	 */
-	@ExporterProperty(PROPERTY_WRITE_HEADER)
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.export.JRCsvMetadataExporterParameter.class, 
+		parameterName="WRITE_HEADER"
+		) 
+	@ExporterProperty(
+		value=PROPERTY_WRITE_HEADER, 
+		booleanDefault=false
+		)
 	public Boolean isWriteHeader();
 
 	/**
@@ -97,6 +106,11 @@ public interface CsvMetadataExporterConfiguration extends CsvExporterConfigurati
 	 * NOTE: The order of the columns is important and, for accurate results, they should be in the same order as the original columns.
 	 * @see #PROPERTY_COLUMN_NAMES_PREFIX
 	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.export.JRCsvMetadataExporterParameter.class, 
+		parameterName="COLUMN_NAMES"
+		)
 	@ExporterProperty(PROPERTY_COLUMN_NAMES_PREFIX)
 	public String[] getColumnNames();
 }
