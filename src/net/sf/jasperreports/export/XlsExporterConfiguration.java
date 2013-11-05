@@ -25,8 +25,12 @@ package net.sf.jasperreports.export;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 
@@ -242,6 +246,195 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_SHEET_NAMES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.names.";
+
+	/**
+	 * 
+	 */
+	public static final String PROPERTY_IGNORE_HYPERLINK = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
+
+	/**
+	 * Flag property that indicates whether local anchors should be ignored when elements are exported to Excel. The default value is <code>false</code>.
+	 * <p>
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * </ul>
+	 */
+	public static final String PROPERTY_IGNORE_ANCHORS = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "ignore.anchors";
+
+	/**
+	 * This property provides a default for the {@link #getFitWidth()} exporter configuration setting.
+	 * <p>
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_FIT_WIDTH = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "fit.width";
+
+	/**
+	 * This property provides a default for the {@link #getFitHeight()} export configuration setting.
+	 * </p>
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_FIT_HEIGHT = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "fit.height";
+
+	/**
+	 * This property provides a default value for the {@link #getPageScale()} export configuration setting.
+	 * <br/>
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code> - this setting can be used to set the page scale per sheet</li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 */
+	public static final String PROPERTY_PAGE_SCALE = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "page.scale";
+
+	/**
+	 * This property provides a default for the {@link #getSheetDirection()} exporter configuration setting.
+	 */
+	public static final String PROPERTY_SHEET_DIRECTION = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.direction";
+
+	/**
+	 * Specifies the index of the first unlocked row in document's sheets. All rows above this will be 'frozen'. 
+	 * Allowed values are represented by positive integers in the 1..65536 range. Negative values are not considered. 
+	 * The property should be used when all sheets in the document have the same freeze row index.
+	 */
+	public static final String PROPERTY_FREEZE_ROW = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.row";
+	
+	/**
+	 * Indicates the name of the first unlocked column in document's sheets. All columns to the left of this one will be 'frozen'. 
+	 * Allowed values are letters or letter combinations representing valid column names in Excel, such as A, B, AB, AC, etc.
+	 * The property should be used when all document sheets have the same freeze column name.
+	 */
+	public static final String PROPERTY_FREEZE_COLUMN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.column";
+
+	/**
+	 * Property used to adjust all column widths in a document or sheet with the same width ratio, in order to get column width 
+	 * values suitable for Excel output. Usually column widths are measured by Excel in Normal style default character width 
+	 * units, while the JR engine uses pixels as default size units. When exporting the report to the Excel output format, the 
+	 * pixel-to-character width translation depends on the normal style default character width provided by the Excel instance, 
+	 * so it cannot be always accurately fitted. In this case, one can alter the generated column widths by setting this property 
+	 * with a float value representing the adjustment ratio. The property can be set:
+	 * <ul>
+	 * <li>globally - then all the columns in all documents exported to the Excel output format will be adjusted with the same width ratio</li>
+	 * <li>at report level - then all the columns in the document will be adjusted with the same width ratio</li>
+	 * <li>at element level - then all the columns in the current sheet will be adjusted with the same width ratio</li>
+	 * </ul> 
+	 * Global settings are overriden by report level settings and report level settings are overriden by element level settings. If 
+	 * present, a {@link #PROPERTY_COLUMN_WIDTH PROPERTY_COLUMN_WIDTH} property will override the 
+	 * {@link #PROPERTY_COLUMN_WIDTH_RATIO PROPERTY_COLUMN_WIDTH_RATIO} value for that column only.
+	 * 
+	 * @see #PROPERTY_COLUMN_WIDTH
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_COLUMN_WIDTH_RATIO = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "column.width.ratio";
+
+	/**
+	 * Property that determines whether date values are to be translated to the timezone
+	 * that was used to fill the report.
+	 * 
+	 * <p>
+	 * By default, date values are exported to Excel using the default timezone of the system.
+	 * Setting this property to <code>true</code> instructs the exporter to use he report fill
+	 * timezone to export date values.
+	 * 
+	 * <p>
+	 * The property only has effect when {@link #isDetectCellType()} is set.
+	 * 
+	 * <p>
+	 * The property can be set globally, at report level and at element level.
+	 * The default value is <code>false</code>.
+	 * 
+	 * @since 4.5.0
+	 */
+	public static final String PROPERTY_USE_TIMEZONE = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "use.timezone";
+
+	/**
+	 * Property used to store the location of an existing workbook template. The content of an existing workbook document 
+	 * or template can be embedded into exported document if the template location is known. In this case the content of 
+	 * the template will be exported first and the content of the exported report will be appended to this one. Macros and 
+	 * other settings in the existing template will be also preserved in the generated document. Templates can be loaded from 
+	 * Excel template files (*.xlt) as well as from valid Excel documents (*.xls).
+	 * <p>
+	 * This property is used in Excel exporters based either on Apache POI APIs ({@link JRXlsExporter}) or on JExcelApi library 
+	 * ({@link net.sf.jasperreports.engine.export.JExcelApiExporter JExcelApiExporter}). There's no similar property for the {@link JRXlsxExporter}.
+	 * 
+	 * @see JRPropertiesUtil
+	 * @since 4.5.1
+	 */
+	public static final String PROPERTY_WORKBOOK_TEMPLATE = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "workbook.template";
+
+	/**
+	 * Flag property that specifies whether to keep the sheets of the existing template into generated document. Sometimes 
+	 * is important to embed in a generated document only macros and/or other global settings from an existing template, but 
+	 * without keeping the own sheets of the template document. If set to false, this property prevent the template sheets 
+	 * to be exported.
+	 * <p>
+	 * This property is used in conjunction with {@link JRXlsAbstractExporter#PROPERTY_WORKBOOK_TEMPLATE}.
+	 * <p>
+	 * Allowed values are:
+	 * <ul>
+	 * <li><code>true</code></li>
+	 * <li><code>false</code> - this is the default value.</li>
+	 * </ul>
+	 * 
+	 * @see JRPropertiesUtil
+	 * @since 4.5.1
+	 */
+	public static final String PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "workbook.template.keep.sheets";
+
+	/**
+	 * Property that specifies the first page number in the page setup dialog.
+	 * <br/>
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code> - this setting can be used to set the first page number per sheet.</li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_FIRST_PAGE_NUMBER = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "first.page.number";
+
+	/**
+	 * Flag property that specifies if the gridlines in a given sheet are shown. If multiple elements in a sheet provide this property, 
+	 * the last read value will be considered. Default value is <code>true</code>.
+	 * <br/>
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_SHOW_GRIDLINES = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "show.gridlines";
+
+	/**
+	 * Property that specifies the image anchor type. Possible values are:
+	 * <ul>
+	 * <li><code>MoveSize</code> - images move and size with cells</li>
+	 * <li><code>MoveNoSize</code> - images move but don't size with cells</li>
+	 * <li><code>NoMoveNoSize</code> - images don't move or size with cells</li>
+	 * </ul>
+	 * Default value is <code>MoveNoSize</code>.
+	 * <br/>
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code></li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element level settings.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_IMAGE_ANCHOR_TYPE = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "image.anchor.type";
 
 	/**
 	 * Returns a boolean value specifying whether each report page should be written in a different XLS sheet.
@@ -594,7 +787,7 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	public String[] getSheetNames();
 	
 	/**
-	 * This export parameter should be used when converting java format patterns to equivalent proprietary
+	 * This export configuration setting should be used when converting java format patterns to equivalent proprietary
 	 * format patterns. It should be constructed as a Map containing java format patterns as keys and the
 	 * correspondent proprietary format pattern as correspondent value
 	 * <p/>
@@ -607,4 +800,57 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 		parameterName="FORMAT_PATTERNS_MAP"
 		)
 	public Map<String, String> getFormatPatternsMap();
+	
+	/**
+	 * @see #PROPERTY_IGNORE_HYPERLINK
+	 */
+	@ExporterProperty(
+		value=PROPERTY_IGNORE_HYPERLINK, 
+		booleanDefault=false
+		)
+	public Boolean isIgnoreHyperlink();
+	
+	/**
+	 * This setting indicates the number of pages wide to fit the sheet in.
+	 * @see #PROPERTY_FIT_WIDTH
+	 */
+	@ExporterProperty(
+		value=PROPERTY_FIT_WIDTH, 
+		acceptNull=true
+		)
+	public Integer getFitWidth();
+	
+	/**
+	 * This setting indicates the number of pages height to fit the sheet in.
+	 * @see #PROPERTY_FIT_WIDTH
+	 */
+	@ExporterProperty(
+		value=PROPERTY_FIT_HEIGHT, 
+		acceptNull=true
+		)
+	public Integer getFitHeight();
+	
+	/**
+	 * This setting is used to adjust the page content to a given percent of the normal size in the print preview pane. Allowed values are 
+	 * positive integers from 10 to 400, representing percents of the normal size.
+	 * This setting overrides the {@link #getFitWidth()} and {@link #getFitHeight()} settings.
+	 * @see #PROPERTY_PAGE_SCALE
+	 */
+	@ExporterProperty(
+		value=PROPERTY_PAGE_SCALE, 
+		acceptNull=true
+		)
+	public Integer getPageScale();
+
+	/**
+	 * This setting indicates if the sheet is left-to-right or right-to-left oriented. Possible values are:
+	 * <ul>
+	 * <li>LTR - meaning left-to-right</li>
+	 * <li>RTL - meaning right-to-left</li>
+	 * </ul>
+	 * The default value is LTR.
+	 * @see #PROPERTY_SHEET_DIRECTION
+	 */
+	@ExporterProperty(PROPERTY_SHEET_DIRECTION)
+	public RunDirectionEnum getSheetDirection();
 }

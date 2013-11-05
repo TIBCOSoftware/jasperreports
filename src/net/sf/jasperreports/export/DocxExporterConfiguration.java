@@ -24,6 +24,7 @@
 package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
@@ -57,6 +58,11 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.flexible.row.height";
+
+	/**
+	 * 
+	 */
+	public static final String PROPERTY_IGNORE_HYPERLINK = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx." + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
 	 * Indicates whether {@link JRPrintFrame frames} are to be exported as nested tables.
@@ -93,4 +99,13 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 		booleanDefault=false
 		)
 	public Boolean isFlexibleRowHeight();
+	
+	/**
+	 * @see #PROPERTY_IGNORE_HYPERLINK
+	 */
+	@ExporterProperty(
+		value=PROPERTY_IGNORE_HYPERLINK, 
+		booleanDefault=false
+		)
+	public Boolean isIgnoreHyperlink();
 }

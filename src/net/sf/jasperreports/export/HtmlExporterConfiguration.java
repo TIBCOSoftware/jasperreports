@@ -23,8 +23,10 @@
  */
 package net.sf.jasperreports.export;
 
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 
@@ -98,6 +100,12 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 * Property that provides a default value for the {@link #isAccessibleHtml()} exporter configuration setting.
 	 */
 	public static final String PROPERTY_ACCESSIBLE = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.accessible";
+
+	
+	/**
+	 *
+	 */
+	public static final String PROPERTY_IGNORE_HYPERLINK = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	
 	/**
@@ -274,4 +282,13 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 		booleanDefault=true
 		)
 	public Boolean isFlushOutput();
+	
+	/**
+	 * @see #PROPERTY_IGNORE_HYPERLINK
+	 */
+	@ExporterProperty(
+		value=PROPERTY_IGNORE_HYPERLINK, 
+		booleanDefault=false
+		)
+	public Boolean isIgnoreHyperlink();
 }
