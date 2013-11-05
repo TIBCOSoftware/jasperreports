@@ -43,4 +43,5 @@ public @interface ExporterProperty
 	int intDefault() default 0;
 	float floatDefault() default 0;
 	long longDefault() default 0;
+	boolean acceptNull() default false;
 }
