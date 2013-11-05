@@ -122,10 +122,13 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
 
                 cols.each(function(i, v) {
                     var it = $(v);
-                    if (it.position().left > firstLeft) {
-                        realWidth = realWidth + it.outerWidth();
+                    if (it.position().left < firstLeft) {//should not happen but let's be safe
+                        realWidth += firstLeft - it.position().left;
                         firstLeft = it.position().left;
-                    };
+                    }
+                    if (it.position().left + it.outerWidth() > firstLeft + realWidth) {
+                        realWidth = it.position().left + it.outerWidth() - firstLeft;
+                    }
                 });
 
                 colsData[colUuid] = {
