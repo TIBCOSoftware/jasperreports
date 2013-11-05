@@ -1076,7 +1076,7 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext( "*/candlestickPlot/domainAxisMinValueExpression", "setDomainAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/candlestickPlot/domainAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/candlestickPlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/candlestickPlot/domainAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
 		digester.addSetNext( "*/candlestickPlot/domainAxisMaxValueExpression", "setDomainAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/candlestickPlot/domainAxisMaxValueExpression", "setText", 0 );
 
