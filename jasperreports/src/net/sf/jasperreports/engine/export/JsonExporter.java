@@ -326,12 +326,15 @@ public class JsonExporter extends JRAbstractExporter
 		
 		if (handler != null)
 		{
-			if (gotFirstJsonFragment) {
-				writer.write(",\n");
-			} else {
-				gotFirstJsonFragment = true;
+			String fragment = handler.getJsonFragment(exporterContext, element);
+			if (fragment != null && !fragment.isEmpty()) {
+				if (gotFirstJsonFragment) {
+					writer.write(",\n");
+				} else {
+					gotFirstJsonFragment = true;
+				}
+				writer.write(fragment);
 			}
-			writer.write(handler.getJsonFragment(exporterContext, element));
 		}
 		else
 		{
