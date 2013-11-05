@@ -131,7 +131,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 	/**
 	 *
 	 */
-	protected static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.";
+	public static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.";
 
 	/**
 	 *
