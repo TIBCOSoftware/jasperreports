@@ -32,17 +32,37 @@ import net.sf.jasperreports.engine.type.JREnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public enum HtmlSizeUnitEnum implements JREnum
+public enum PdfVersionEnum implements JREnum
 {
 	/**
-	 * Constant specifying that measurements in HTML export are made in pixels. 
+	 * 
 	 */
-	PIXEL((byte)1, "px"),
+	VERSION_1_2((byte)102, "2"),
 
 	/**
-	 * Constant specifying that measurements in HTML export are made in points. 
+	 * 
 	 */
-	POINT((byte)2, "pt");
+	VERSION_1_3((byte)103, "3"),
+
+	/**
+	 * 
+	 */
+	VERSION_1_4((byte)104, "4"),
+
+	/**
+	 * 
+	 */
+	VERSION_1_5((byte)105, "5"),
+
+	/**
+	 * 
+	 */
+	VERSION_1_6((byte)106, "6"),
+
+	/**
+	 * 
+	 */
+	VERSION_1_7((byte)107, "7");
 	
 	/**
 	 *
@@ -51,7 +71,7 @@ public enum HtmlSizeUnitEnum implements JREnum
 	private final transient byte value;
 	private final transient String name;
 
-	private HtmlSizeUnitEnum(byte value, String name)
+	private PdfVersionEnum(byte value, String name)
 	{
 		this.value = value;
 		this.name = name;
@@ -84,23 +104,23 @@ public enum HtmlSizeUnitEnum implements JREnum
 	/**
 	 *
 	 */
-	public static HtmlSizeUnitEnum getByName(String name)
+	public static PdfVersionEnum getByName(String name)
 	{
-		return (HtmlSizeUnitEnum)EnumUtil.getByName(values(), name);
+		return (PdfVersionEnum)EnumUtil.getByName(values(), name);
 	}
 	
 	/**
 	 *
 	 */
-	public static HtmlSizeUnitEnum getByValue(Byte value)
+	public static PdfVersionEnum getByValue(Byte value)
 	{
-		return (HtmlSizeUnitEnum)EnumUtil.getByValue(values(), value);
+		return (PdfVersionEnum)EnumUtil.getByValue(values(), value);
 	}
 	
 	/**
 	 *
 	 */
-	public static HtmlSizeUnitEnum getByValue(byte value)
+	public static PdfVersionEnum getByValue(byte value)
 	{
 		return getByValue(new Byte(value));
 	}
