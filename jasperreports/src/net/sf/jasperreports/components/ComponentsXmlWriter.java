@@ -233,7 +233,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_0))
 		{
 			//FIXME: put the proper JR version here
-			writer.writeExpression("centerExpression", map.getCenterExpression());
+			writer.writeExpression("addressExpression", map.getAddressExpression());
 		}
 		writer.writeExpression("zoomExpression", 
 				map.getZoomExpression());

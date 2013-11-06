@@ -134,7 +134,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		latitude = (Float)fillContext.evaluate(mapComponent.getLatitudeExpression(), evaluation);
 		longitude = (Float)fillContext.evaluate(mapComponent.getLongitudeExpression(), evaluation);
 		if(latitude == null || longitude == null) {
-			center = (String)fillContext.evaluate(mapComponent.getCenterExpression(), evaluation);
+			center = (String)fillContext.evaluate(mapComponent.getAddressExpression(), evaluation);
 			Float[] coords = MapUtils.getCoords(center);
 			if(coords != null && coords[0] != null && coords[1] != null){
 				latitude = coords[0];

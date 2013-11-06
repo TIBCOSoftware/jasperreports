@@ -54,7 +54,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	
 	public static final String PROPERTY_LATITUDE_EXPRESSION = "latitudeExpression";
 	public static final String PROPERTY_LONGITUDE_EXPRESSION = "longitudeExpression";
-	public static final String PROPERTY_CENTER_EXPRESSION = "centerExpression";
+	public static final String PROPERTY_ADDRESS_EXPRESSION = "addressExpression";
 	public static final String PROPERTY_ZOOM_EXPRESSION = "zoomExpression";
 	public static final String PROPERTY_LANGUAGE_EXPRESSION = "languageExpression";
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
@@ -73,7 +73,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 
 	private JRExpression latitudeExpression;
 	private JRExpression longitudeExpression;
-	private JRExpression centerExpression;
+	private JRExpression addressExpression;
 	private JRExpression zoomExpression;
 	private JRExpression languageExpression;
 	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
@@ -96,7 +96,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	{
 		this.latitudeExpression = objectFactory.getExpression(map.getLatitudeExpression());
 		this.longitudeExpression = objectFactory.getExpression(map.getLongitudeExpression());
-		this.centerExpression = objectFactory.getExpression(map.getCenterExpression());
+		this.addressExpression = objectFactory.getExpression(map.getAddressExpression());
 		this.zoomExpression = objectFactory.getExpression(map.getZoomExpression());
 		this.languageExpression = objectFactory.getExpression(map.getLanguageExpression());
 		this.evaluationTime = map.getEvaluationTime();
@@ -151,16 +151,16 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_LONGITUDE_EXPRESSION, old, this.longitudeExpression);
 	}
 	
-	public JRExpression getCenterExpression()
+	public JRExpression getAddressExpression()
 	{
-		return centerExpression;
+		return addressExpression;
 	}
 
-	public void setCenterExpression(JRExpression centerExpression)
+	public void setAddressExpression(JRExpression addressExpression)
 	{
-		Object old = this.centerExpression;
-		this.centerExpression = centerExpression;
-		getEventSupport().firePropertyChange(PROPERTY_CENTER_EXPRESSION, old, this.centerExpression);
+		Object old = this.addressExpression;
+		this.addressExpression = addressExpression;
+		getEventSupport().firePropertyChange(PROPERTY_ADDRESS_EXPRESSION, old, this.addressExpression);
 	}
 
 	public JRExpression getZoomExpression()
@@ -239,7 +239,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		}
 		clone.latitudeExpression = JRCloneUtils.nullSafeClone(latitudeExpression);
 		clone.longitudeExpression = JRCloneUtils.nullSafeClone(longitudeExpression);
-		clone.centerExpression = JRCloneUtils.nullSafeClone(centerExpression);
+		clone.addressExpression = JRCloneUtils.nullSafeClone(addressExpression);
 		clone.zoomExpression = JRCloneUtils.nullSafeClone(zoomExpression);
 		clone.languageExpression = JRCloneUtils.nullSafeClone(languageExpression);
 		clone.markerData = JRCloneUtils.nullSafeClone(markerData);

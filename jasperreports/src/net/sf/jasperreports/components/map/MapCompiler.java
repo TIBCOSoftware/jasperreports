@@ -55,7 +55,7 @@ public class MapCompiler implements ComponentCompiler
 		MapComponent map = (MapComponent) component;
 		collector.addExpression(map.getLatitudeExpression());
 		collector.addExpression(map.getLongitudeExpression());
-		collector.addExpression(map.getCenterExpression());
+		collector.addExpression(map.getAddressExpression());
 		collector.addExpression(map.getZoomExpression());
 		collector.addExpression(map.getLanguageExpression());
 		collectExpressions(map.getMarkerData(), collector);
@@ -169,8 +169,8 @@ public class MapCompiler implements ComponentCompiler
 			}
 		}
 		
-		if((map.getLatitudeExpression() == null || map.getLongitudeExpression() == null) && map.getCenterExpression() == null){
-			verifier.addBrokenRule("Missing the latitude and/or the longitude expression for the map center. Try to configure them properly, or configure the equivalent centerExpression for this map.", map);
+		if((map.getLatitudeExpression() == null || map.getLongitudeExpression() == null) && map.getAddressExpression() == null){
+			verifier.addBrokenRule("Missing the latitude and/or the longitude expression for the map center. Try to configure them properly, or configure the equivalent addressExpression for this map.", map);
 		}
 		
 		String[] reqNames = new String[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude};

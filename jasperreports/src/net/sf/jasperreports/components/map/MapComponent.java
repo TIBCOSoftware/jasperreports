@@ -68,7 +68,7 @@ public interface MapComponent extends Component, JRCloneable
 
 	JRExpression getLongitudeExpression();
 	
-	JRExpression getCenterExpression();
+	JRExpression getAddressExpression();
 
 	JRExpression getZoomExpression();
 	
