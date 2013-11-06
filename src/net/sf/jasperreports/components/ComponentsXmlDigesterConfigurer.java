@@ -247,6 +247,13 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addSetNext(longitudeExpressionPattern, "setLongitudeExpression", 
 				JRExpression.class.getName());
 		
+		String centerExpressionPattern = mapPattern + "/centerExpression";
+		digester.addFactoryCreate(centerExpressionPattern, 
+				JRExpressionFactory.class.getName());
+		digester.addCallMethod(centerExpressionPattern, "setText", 0);
+		digester.addSetNext(centerExpressionPattern, "setCenterExpression", 
+				JRExpression.class.getName());
+		
 		String zoomExpressionPattern = mapPattern + "/zoomExpression";
 		digester.addFactoryCreate(zoomExpressionPattern, 
 				JRExpressionFactory.class.getName());

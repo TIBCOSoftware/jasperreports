@@ -49,6 +49,7 @@ public interface MapComponent extends Component, JRCloneable
 
 	public static final String PROPERTY_latitude = "latitude";
 	public static final String PROPERTY_longitude = "longitude";
+	public static final String PROPERTY_address = "address";
 	public static final String PROPERTY_title = "title";
 	public static final String PROPERTY_name = "name";
 	public static final String PROPERTY_style = "style";
@@ -66,6 +67,8 @@ public interface MapComponent extends Component, JRCloneable
 	JRExpression getLatitudeExpression();
 
 	JRExpression getLongitudeExpression();
+	
+	JRExpression getCenterExpression();
 
 	JRExpression getZoomExpression();
 	

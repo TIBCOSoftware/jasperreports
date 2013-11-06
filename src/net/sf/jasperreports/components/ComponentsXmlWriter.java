@@ -226,11 +226,15 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			}
 		}
 		
-
 		writer.writeExpression("latitudeExpression", 
 			map.getLatitudeExpression());
 		writer.writeExpression("longitudeExpression", 
 				map.getLongitudeExpression());
+		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_0))
+		{
+			//FIXME: put the proper JR version here
+			writer.writeExpression("centerExpression", map.getCenterExpression());
+		}
 		writer.writeExpression("zoomExpression", 
 				map.getZoomExpression());
 		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_8_0))
