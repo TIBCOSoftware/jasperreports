@@ -32,17 +32,22 @@ import net.sf.jasperreports.engine.type.JREnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public enum HtmlSizeUnitEnum implements JREnum
+public enum PdfaConformanceEnum implements JREnum
 {
 	/**
-	 * Constant specifying that measurements in HTML export are made in pixels. 
+	 * 
 	 */
-	PIXEL((byte)1, "px"),
+	NONE((byte)1, "none"),
 
 	/**
-	 * Constant specifying that measurements in HTML export are made in points. 
+	 * 
 	 */
-	POINT((byte)2, "pt");
+	PDFA_1A((byte)2, "pdfa1a"),
+
+	/**
+	 * 
+	 */
+	PDFA_1B((byte)3, "pdfa1b");
 	
 	/**
 	 *
@@ -51,7 +56,7 @@ public enum HtmlSizeUnitEnum implements JREnum
 	private final transient byte value;
 	private final transient String name;
 
-	private HtmlSizeUnitEnum(byte value, String name)
+	private PdfaConformanceEnum(byte value, String name)
 	{
 		this.value = value;
 		this.name = name;
@@ -84,23 +89,23 @@ public enum HtmlSizeUnitEnum implements JREnum
 	/**
 	 *
 	 */
-	public static HtmlSizeUnitEnum getByName(String name)
+	public static PdfaConformanceEnum getByName(String name)
 	{
-		return (HtmlSizeUnitEnum)EnumUtil.getByName(values(), name);
+		return (PdfaConformanceEnum)EnumUtil.getByName(values(), name);
 	}
 	
 	/**
 	 *
 	 */
-	public static HtmlSizeUnitEnum getByValue(Byte value)
+	public static PdfaConformanceEnum getByValue(Byte value)
 	{
-		return (HtmlSizeUnitEnum)EnumUtil.getByValue(values(), value);
+		return (PdfaConformanceEnum)EnumUtil.getByValue(values(), value);
 	}
 	
 	/**
 	 *
 	 */
-	public static HtmlSizeUnitEnum getByValue(byte value)
+	public static PdfaConformanceEnum getByValue(byte value)
 	{
 		return getByValue(new Byte(value));
 	}
