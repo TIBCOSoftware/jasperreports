@@ -430,7 +430,7 @@
 						<element name="longitudeExpression" minOccurs="0" maxOccurs="1">
 							<complexType mixed="true"/>
 						</element>
-						<element name="centerExpression" minOccurs="0" maxOccurs="1">
+						<element name="addressExpression" minOccurs="0" maxOccurs="1">
 							<complexType mixed="true"/>
 						</element>
 						<element name="zoomExpression" minOccurs="0" maxOccurs="1">
