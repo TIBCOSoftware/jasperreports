@@ -24,17 +24,17 @@
 package net.sf.jasperreports.export.parameters;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.JRExporterContext;
+import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
@@ -51,7 +51,6 @@ public class ParametersExporterConfigurationFactory<C extends ExporterConfigurat
 	 * 
 	 */
 	private final JRExporterContext exporterContext;
-	private final JRPropertiesUtil propertiesUtil;
 
 	private final ParameterResolver parameterResolver;
 	
@@ -61,7 +60,6 @@ public class ParametersExporterConfigurationFactory<C extends ExporterConfigurat
 	public ParametersExporterConfigurationFactory(JRExporterContext exporterContext)
 	{
 		this.exporterContext = exporterContext;
-		this.propertiesUtil = JRPropertiesUtil.getInstance(exporterContext.getJasperReportsContext());
 
 		Map<JRExporterParameter, Object> parameters = exporterContext.getExportParameters();
 
@@ -70,7 +68,12 @@ public class ParametersExporterConfigurationFactory<C extends ExporterConfigurat
 		Boolean param = (Boolean) parameters.get(JRExporterParameter.PARAMETERS_OVERRIDE_REPORT_HINTS);
 		if (param == null)
 		{
-			isParametersOverrideHints = propertiesUtil.getBooleanProperty(JRExporterParameter.PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS);
+			isParametersOverrideHints = 
+				JRPropertiesUtil.getInstance(
+					exporterContext.getJasperReportsContext()
+					).getBooleanProperty(
+						JRExporterParameter.PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS
+						);
 		}
 		else
 		{
@@ -189,47 +192,12 @@ public class ParametersExporterConfigurationFactory<C extends ExporterConfigurat
 			}
 			else
 			{
-				String propertyName = exporterProperty.value();
-				
-				Class<?> type = method.getReturnType();
-				
-				if (String[].class.equals(type))
-				{
-					List<PropertySuffix> properties = JRPropertiesUtil.getProperties(exporterContext.getExportedReport(), propertyName);
-					if (properties != null && !properties.isEmpty())
-					{
-						String[] values = new String[properties.size()];
-						for(int i = 0; i < values.length; i++)
-						{
-							values[i] = properties.get(i).getValue();
-						}
-						
-						value = values;
-					}
-				}
-				else
-				{
-					if (String.class.equals(type))
-					{
-						value = propertiesUtil.getProperty(exporterContext.getExportedReport(), propertyName);
-					}
-					else if (Integer.class.equals(type))
-					{
-						value = propertiesUtil.getIntegerProperty(exporterContext.getExportedReport(), propertyName, exporterProperty.intDefault());
-					}
-					else if (Long.class.equals(type))
-					{
-						value = propertiesUtil.getLongProperty(exporterContext.getExportedReport(), propertyName, exporterProperty.longDefault());
-					}
-					else if (Float.class.equals(type))
-					{
-						value = propertiesUtil.getFloatProperty(exporterContext.getExportedReport(), propertyName, exporterProperty.floatDefault());
-					}
-					else if (Boolean.class.equals(type))
-					{
-						value = propertiesUtil.getBooleanProperty(exporterContext.getExportedReport(), propertyName, exporterProperty.booleanDefault());
-					}
-				}
+				PropertiesExporterConfigurationFactory.getPropertyValue(
+					exporterContext.getJasperReportsContext(), 
+					exporterContext.getExportedReport(), 
+					exporterProperty, 
+					method.getReturnType()
+					);
 			}
 		}
 		else
@@ -259,6 +227,10 @@ public class ParametersExporterConfigurationFactory<C extends ExporterConfigurat
 						value = parameterResolver.getStringParameterOrDefault(parameter, propertyName);
 					}
 				}
+				else if (Character.class.equals(type))
+				{
+					value = parameterResolver.getCharacterParameter(parameter, propertyName);
+				}
 				else if (Integer.class.equals(type))
 				{
 					value = parameterResolver.getIntegerParameter(parameter, propertyName, exporterProperty.intDefault());
@@ -270,6 +242,35 @@ public class ParametersExporterConfigurationFactory<C extends ExporterConfigurat
 				else if (Boolean.class.equals(type))
 				{
 					value = parameterResolver.getBooleanParameter(parameter, propertyName, exporterProperty.booleanDefault());
+				}
+				else if (JREnum.class.isAssignableFrom(type))
+				{
+					if (exporterParameter.acceptNull())
+					{
+						value = parameterResolver.getStringParameter(parameter, propertyName);
+					}
+					else
+					{
+						value = parameterResolver.getStringParameterOrDefault(parameter, propertyName);
+					}
+
+					try
+					{
+						Method byNameMethod = type.getMethod("getByName", new Class<?>[]{String.class});
+						value = byNameMethod.invoke(null, value);
+					}
+					catch (NoSuchMethodException e)
+					{
+						throw new JRRuntimeException(e);
+					}
+					catch (InvocationTargetException e)
+					{
+						throw new JRRuntimeException(e);
+					}
+					catch (IllegalAccessException e)
+					{
+						throw new JRRuntimeException(e);
+					}
 				}
 				else
 				{
