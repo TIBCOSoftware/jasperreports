@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
+import net.sf.jasperreports.export.type.HtmlSizeUnitEnum;
 
 
 /**
@@ -214,7 +215,7 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 		acceptNull=false
 		)
 	@ExporterProperty(PROPERTY_SIZE_UNIT)
-	public String getSizeUnit();
+	public HtmlSizeUnitEnum getSizeUnit();
 	
 	
 	/**
