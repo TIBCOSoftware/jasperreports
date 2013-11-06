@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.map.fill;
 
+import java.util.Map;
+
 import net.sf.jasperreports.components.map.Item;
 import net.sf.jasperreports.components.map.ItemProperty;
 import net.sf.jasperreports.components.map.MapComponent;
@@ -34,16 +36,18 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class FillMarkerItem extends FillItem
+public class FillStyleItem extends FillItem
 {
+	public static final String PROPERTY_NAME = "name";
 	public static final String PROPERTY_COLOR = "color";
+
 	/**
 	 *
 	 */
-	public FillMarkerItem(
+	public FillStyleItem(
 		Item item, 
 		JRFillObjectFactory factory
 		)
@@ -59,16 +63,22 @@ public class FillMarkerItem extends FillItem
 				? JRColorUtil.getColorHexa(JRColorUtil.getColor((String)result, ColorEnum.RED.getColor()))
 				: result;
 	}
+	
 
-	public void verifyValue(ItemProperty property, Object value) throws JRException
-	{
-		if(MapComponent.PROPERTY_latitude.equals(property.getName()) || MapComponent.PROPERTY_longitude.equals(property.getName()))
-		{
-			if(value == null || "".equals(value))
-			{
-				throw new JRException("Empty item "+ property.getName()+ " found.");
-			}
+	@Override
+	public void verifyValue(ItemProperty property, Object value) throws JRException {
+		if(PROPERTY_NAME.equals(property.getName()) && (value == null || "".equals(value))){
+			throw new JRException("Found empty value the style name");
 		}
 	}
-
+	
+	@Override
+	public void verifyValues(Map<String, Object> result) throws JRException {
+		if(result != null) {
+			//these are not intended for the style property
+			result.remove(MapComponent.PROPERTY_latitude);
+			result.remove(MapComponent.PROPERTY_longitude);
+			result.remove(MapComponent.PROPERTY_address);
+		}
+	}
 }

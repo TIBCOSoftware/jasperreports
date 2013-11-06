@@ -32,6 +32,7 @@ import java.util.Map;
 import net.sf.jasperreports.components.map.ItemData;
 import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.components.map.MapPrintElement;
+import net.sf.jasperreports.components.map.MapUtils;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
@@ -61,6 +62,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	
 	private Float latitude;
 	private Float longitude;
+	private String center;
 	private Integer zoom;
 	private String language;
 	private MapTypeEnum mapType;
@@ -93,18 +95,18 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		
 		if (mapComponent.getMarkerData() != null)
 		{
-			markerData = new FillItemData(this, mapComponent.getMarkerData(), factory);
+			markerData = new FillPlaceItemData(this, mapComponent.getMarkerData(), factory);
 		}
 		if(mapComponent.getPathStyleList() != null){
 			pathStyleList = new ArrayList<FillItemData>();
 			for(ItemData pathStyle : mapComponent.getPathStyleList()) {
-				pathStyleList.add(new FillItemData(this, pathStyle, factory));
+				pathStyleList.add(new FillStyleItemData(this, pathStyle, factory));
 			}
 		}
 		if(mapComponent.getPathDataList() != null){
 			pathDataList = new ArrayList<FillItemData>();
 			for(ItemData pathData : mapComponent.getPathDataList()) {
-				pathDataList.add(new FillItemData(this, pathData, factory));
+				pathDataList.add(new FillPlaceItemData(this, pathData, factory));
 			}
 		}
 	}
@@ -131,6 +133,16 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	{
 		latitude = (Float)fillContext.evaluate(mapComponent.getLatitudeExpression(), evaluation);
 		longitude = (Float)fillContext.evaluate(mapComponent.getLongitudeExpression(), evaluation);
+		if(latitude == null || longitude == null) {
+			center = (String)fillContext.evaluate(mapComponent.getCenterExpression(), evaluation);
+			Float[] coords = MapUtils.getCoords(center);
+			if(coords != null && coords[0] != null && coords[1] != null){
+				latitude = coords[0];
+				longitude = coords[1];
+			} else {
+				throw new JRException("Invalid center coordinates - latitude: " + latitude +"; longitude: "+longitude);
+			}
+		}
 		zoom = (Integer)fillContext.evaluate(mapComponent.getZoomExpression(), evaluation);
 		zoom = zoom == null ? MapComponent.DEFAULT_ZOOM : zoom;
 		if(mapComponent.getLanguageExpression() != null)

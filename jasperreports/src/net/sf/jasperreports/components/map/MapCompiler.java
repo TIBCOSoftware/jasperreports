@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.components.map;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElementDataset;
@@ -42,11 +44,18 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 public class MapCompiler implements ComponentCompiler
 {
 	
+	private final static Map<String,String> addressMap = new HashMap<String,String>();
+	static {
+		addressMap.put(MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_address);
+		addressMap.put(MapComponent.PROPERTY_longitude, MapComponent.PROPERTY_address);
+	}
+	
 	public void collectExpressions(Component component, JRExpressionCollector collector)
 	{
 		MapComponent map = (MapComponent) component;
 		collector.addExpression(map.getLatitudeExpression());
 		collector.addExpression(map.getLongitudeExpression());
+		collector.addExpression(map.getCenterExpression());
 		collector.addExpression(map.getZoomExpression());
 		collector.addExpression(map.getLanguageExpression());
 		collectExpressions(map.getMarkerData(), collector);
@@ -159,19 +168,23 @@ public class MapCompiler implements ComponentCompiler
 						+ evaluationGroup + " not found", map);
 			}
 		}
-		String[] reqNames = new String[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude};
 		
+		if((map.getLatitudeExpression() == null || map.getLongitudeExpression() == null) && map.getCenterExpression() == null){
+			verifier.addBrokenRule("Missing the latitude and/or the longitude expression for the map center. Try to configure them properly, or configure the equivalent centerExpression for this map.", map);
+		}
+		
+		String[] reqNames = new String[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude};
 		ItemData markerData = map.getMarkerData();
 		if (markerData != null)
 		{
-			verifyItemData(verifier, markerData, MapComponent.ELEMENT_MARKER_DATA, reqNames);
+			verifyItemData(verifier, markerData, MapComponent.ELEMENT_MARKER_DATA, reqNames, addressMap);
 		}
 		
 		List<ItemData> pathStyleList = map.getPathStyleList();
 		if (pathStyleList != null && pathStyleList.size() > 0)
 		{
 			for(ItemData pathStyle : pathStyleList){
-				verifyItemData(verifier, pathStyle, MapComponent.ELEMENT_PATH_STYLE, new String[]{MapComponent.PROPERTY_name});
+				verifyItemData(verifier, pathStyle, MapComponent.ELEMENT_PATH_STYLE, new String[]{MapComponent.PROPERTY_name}, null);
 			}
 		}
 		
@@ -179,22 +192,32 @@ public class MapCompiler implements ComponentCompiler
 		if (pathDataList != null && pathDataList.size() > 0)
 		{
 			for(ItemData pathData : pathDataList){
-				verifyItemData(verifier, pathData, MapComponent.ELEMENT_PATH_DATA, reqNames);
+				verifyItemData(verifier, pathData, MapComponent.ELEMENT_PATH_DATA, reqNames, addressMap);
 			}
 		}
 	}
 
 	protected void verifyMarkerData(JRVerifier verifier, ItemData itemData)
 	{
-		verifyItemData(verifier, itemData, MapComponent.ELEMENT_MARKER_DATA, new String[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude});
+		verifyItemData(
+				verifier, 
+				itemData, 
+				MapComponent.ELEMENT_MARKER_DATA, 
+				new String[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude},
+				addressMap);
 	}
 
 	protected void verifyMarker(JRVerifier verifier, Item item)
 	{
-		verifyItem(verifier, item, MapComponent.ELEMENT_MARKER_DATA, new String[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude});
+		verifyItem(
+				verifier, 
+				item, 
+				MapComponent.ELEMENT_MARKER_DATA, 
+				new String[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude},
+				addressMap);
 	}
 	
-	protected void verifyItemData(JRVerifier verifier, ItemData itemData, String itemName, String[] requiredNames)
+	protected void verifyItemData(JRVerifier verifier, ItemData itemData, String itemName, String[] requiredNames, Map<String, String> alternativeNamesMap)
 	{
 		if (itemData.getDataset() != null)
 		{
@@ -206,12 +229,26 @@ public class MapCompiler implements ComponentCompiler
 		{
 			for (Item item : items)
 			{
-				verifyItem(verifier, item, itemName, requiredNames);
+				verifyItem(verifier, item, itemName, requiredNames, alternativeNamesMap);
 			}
 		}
 	}
 
-	protected void verifyItem(JRVerifier verifier, Item item, String itemName, String[] requiredNames)
+	/**
+	 * Verifies if required properties or their alternatives are present in the item properties list. Alternative 
+	 * property names are read from the <code>alternativeNamesMap</code> parameter. 
+	 * <br/>
+	 * For instance, a required latitude property can be provided either directly, using the <code>latitude</code> item 
+	 * property, or by processing the alternative <code>address</code> property. If at least one of the <code>latitude</code> 
+	 * or <code>address</code> properties are present in the item properties list, the latitude requirement is fulfilled.
+	 * 
+	 * @param verifier
+	 * @param item
+	 * @param itemName
+	 * @param requiredNames
+	 * @param alternativeNamesMap
+	 */
+	protected void verifyItem(JRVerifier verifier, Item item, String itemName, String[] requiredNames, Map<String, String> alternativeNamesMap)
 	{
 		if(requiredNames != null && requiredNames.length > 0){
 			List<ItemProperty> itemProperties = item.getProperties();
@@ -221,7 +258,8 @@ public class MapCompiler implements ComponentCompiler
 				{
 					boolean hasProperty = false;
 					for(ItemProperty itemProperty : itemProperties) {
-						if (itemProperty.getName().equals(reqName)) {
+						if (itemProperty.getName().equals(reqName)
+							|| (alternativeNamesMap != null && itemProperty.getName().equals(alternativeNamesMap.get(reqName)))) {
 							hasProperty = true;
 							break;
 						}
@@ -234,4 +272,5 @@ public class MapCompiler implements ComponentCompiler
 			}
 		}
 	}
+	
 }

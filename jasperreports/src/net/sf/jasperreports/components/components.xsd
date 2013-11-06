@@ -424,10 +424,13 @@
 			<complexContent>
 				<extension base="jr:componentType">
 					<sequence>
-						<element name="latitudeExpression">
+						<element name="latitudeExpression" minOccurs="0" maxOccurs="1">
 							<complexType mixed="true"/>
 						</element>
-						<element name="longitudeExpression">
+						<element name="longitudeExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+						<element name="centerExpression" minOccurs="0" maxOccurs="1">
 							<complexType mixed="true"/>
 						</element>
 						<element name="zoomExpression" minOccurs="0" maxOccurs="1">
