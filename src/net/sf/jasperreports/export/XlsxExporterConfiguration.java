@@ -23,43 +23,38 @@
  */
 package net.sf.jasperreports.export;
 
-import net.sf.jasperreports.engine.export.JsonExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 
 /**
- * Interface containing settings used by the JSON exporter.
+ * Interface containing settings used by the XLSX exporter.
  *
- * @see JsonExporter
+ * @see JRXlsxExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JsonExporterConfiguration extends ExporterConfiguration
+public interface XlsxExporterConfiguration extends XlsExporterConfiguration
 {
+
 	/**
-	 * A flag that determines whether the JSON exporter should flush the
-	 * output stream after writing the JSON content to it.
-	 * @see #PROPERTY_FLUSH_OUTPUT
+	 * Property used to provide a default value for the {@link #getMacroTemplate()} export configuration setting.
+	 * 
+	 * @see JRPropertiesUtil
+	 * @since 4.5.1
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		parameterName="FLUSH_OUTPUT"
-		)
-	@ExporterProperty(
-		value=HtmlExporterConfiguration.PROPERTY_FLUSH_OUTPUT, 
-		booleanDefault=true
-		)
-	public Boolean isFlushOutput();//FIXMEEXPORT do we really need flush?
-	
+	public static final String PROPERTY_MACRO_TEMPLATE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xlsx.macro.template";
+
 	/**
-	 * @see HtmlExporterConfiguration#PROPERTY_IGNORE_HYPERLINK
+	 * Specifies the location of an existing workbook template containing a macro object. 
+	 * The macro object will be copied into the generated document if the template location is valid. 
+	 * Macros can be loaded from Excel macro-enabled template files (*.xltm) as well as from valid 
+	 * Excel macro-enabled documents (*.xlsm).
+	 * @see #PROPERTY_MACRO_TEMPLATE
 	 */
-	@ExporterProperty(
-		value=HtmlExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, 
-		booleanDefault=false
-		)
-	public Boolean isIgnoreHyperlink();
+	@ExporterProperty(PROPERTY_MACRO_TEMPLATE)
+	public String getMacroTemplate();
+
 }

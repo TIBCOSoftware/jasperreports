@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.export;
 
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
@@ -32,6 +34,10 @@ import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 
 
 /**
+ * Interface containing settings used by the PDF exporter.
+ *
+ * @see JRPdfExporter
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -164,6 +170,11 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * Property whose value is used as default for the {@link #getIccProfilePath} export configuration setting.
 	 */
 	public static final String PROPERTY_PDFA_ICC_PROFILE_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdfa.icc.profile.path";
+
+	/**
+	 * Property that provides a default for the {@link #isIgnoreHyperlink()} export configuration flag.
+	 */
+	public static final String PROPERTY_IGNORE_HYPERLINK = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
 	 * Returns a boolean value specifying  whether the PDF document should contain an outline section.
@@ -395,4 +406,13 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 		)
 	@ExporterProperty(PROPERTY_PDFA_ICC_PROFILE_PATH)
 	public String getIccProfilePath();
+	
+	/**
+	 * @see #PROPERTY_IGNORE_HYPERLINK
+	 */
+	@ExporterProperty(
+		value=PROPERTY_IGNORE_HYPERLINK, 
+		booleanDefault=false
+		)
+	public Boolean isIgnoreHyperlink();
 }
