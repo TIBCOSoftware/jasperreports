@@ -192,12 +192,13 @@ public class ParametersExporterConfigurationFactory<C extends ExporterConfigurat
 			}
 			else
 			{
-				PropertiesExporterConfigurationFactory.getPropertyValue(
-					exporterContext.getJasperReportsContext(), 
-					exporterContext.getExportedReport(), 
-					exporterProperty, 
-					method.getReturnType()
-					);
+				value = 
+					PropertiesExporterConfigurationFactory.getPropertyValue(
+						exporterContext.getJasperReportsContext(), 
+						exporterContext.getExportedReport(), 
+						exporterProperty, 
+						method.getReturnType()
+						);
 			}
 		}
 		else
