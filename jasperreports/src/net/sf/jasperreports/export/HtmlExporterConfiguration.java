@@ -282,7 +282,7 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 		value=PROPERTY_FLUSH_OUTPUT, 
 		booleanDefault=true
 		)
-	public Boolean isFlushOutput();
+	public Boolean isFlushOutput();//FIXMEEXPORT do we really need flush?
 	
 	/**
 	 * @see #PROPERTY_IGNORE_HYPERLINK
