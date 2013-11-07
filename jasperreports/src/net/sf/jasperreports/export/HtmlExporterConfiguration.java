@@ -33,6 +33,12 @@ import net.sf.jasperreports.export.type.HtmlSizeUnitEnum;
 
 
 /**
+ * Interface containing settings used by the HTML exporters.
+ *
+ * @see HtmlExporter
+ * @see net.sf.jasperreports.engine.export.JRHtmlExporter
+ * @see net.sf.jasperreports.engine.export.JRXhtmlExporter
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -104,7 +110,7 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 
 	
 	/**
-	 *
+	 * Property that provides a default for the {@link #isIgnoreHyperlink()} export configuration flag.
 	 */
 	public static final String PROPERTY_IGNORE_HYPERLINK = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 

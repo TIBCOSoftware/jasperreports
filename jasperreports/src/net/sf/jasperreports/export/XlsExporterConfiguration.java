@@ -29,6 +29,8 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
@@ -36,6 +38,15 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 
 /**
+ * Interface containing settings used by the Excel exporters.
+ *
+ * @see JRXlsExporter
+ * @see JRXlsxExporter
+ * @see JROdsExporter
+ * @see JRXlsMetadataExporter
+ * @see net.sf.jasperreports.engine.export.JExcelApiExporter
+ * @see net.sf.jasperreports.engine.export.JExcelApiMetadataExporter
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -248,7 +259,7 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_SHEET_NAMES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.names.";
 
 	/**
-	 * 
+	 * Property that provides a default value for the {@link #isIgnoreHyperlink()} export configuration flag.
 	 */
 	public static final String PROPERTY_IGNORE_HYPERLINK = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 

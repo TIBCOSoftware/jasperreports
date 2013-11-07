@@ -23,43 +23,15 @@
  */
 package net.sf.jasperreports.export;
 
-import net.sf.jasperreports.engine.export.JsonExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
-import net.sf.jasperreports.export.annotations.ExporterProperty;
-
 
 /**
- * Interface containing settings used by the JSON exporter.
+ * Interface containing settings used by the JExcelApi metadata exporter.
  *
- * @see JsonExporter
+ * @see net.sf.jasperreports.engine.export.JExcelApiMetadataExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JsonExporterConfiguration extends ExporterConfiguration
+public interface JxlMetadataExporterConfiguration extends XlsMetadataExporterConfiguration, JxlExporterConfiguration
 {
-	/**
-	 * A flag that determines whether the JSON exporter should flush the
-	 * output stream after writing the JSON content to it.
-	 * @see #PROPERTY_FLUSH_OUTPUT
-	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		parameterName="FLUSH_OUTPUT"
-		)
-	@ExporterProperty(
-		value=HtmlExporterConfiguration.PROPERTY_FLUSH_OUTPUT, 
-		booleanDefault=true
-		)
-	public Boolean isFlushOutput();//FIXMEEXPORT do we really need flush?
-	
-	/**
-	 * @see HtmlExporterConfiguration#PROPERTY_IGNORE_HYPERLINK
-	 */
-	@ExporterProperty(
-		value=HtmlExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, 
-		booleanDefault=false
-		)
-	public Boolean isIgnoreHyperlink();
 }

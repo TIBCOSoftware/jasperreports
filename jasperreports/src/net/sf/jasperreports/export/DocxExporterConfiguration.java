@@ -60,7 +60,7 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.flexible.row.height";
 
 	/**
-	 * 
+	 * Property that provides a default value for the {@link #isIgnoreHyperlink()} export configuration flag.
 	 */
 	public static final String PROPERTY_IGNORE_HYPERLINK = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx." + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
