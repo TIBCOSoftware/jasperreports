@@ -139,7 +139,10 @@ public class HtmlExporter extends AbstractHtmlExporter
 	public static final String PROPERTY_IGNORE_HYPERLINK = HTML_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
-	 *
+	 * Property that provides the value for the <code>class</code> CSS style property to be applied 
+	 * to elements in the table generated for the report. The value of this property 
+	 * will be used as the value for the <code>class</code> attribute of the <code>&lt;td&gt;</code> tag for the element when exported to HTML and/or 
+	 * the <code>class</code> attribute of the <code>&lt;span&gt;</code> or <code>&lt;div&gt;</code> tag for the element, when exported to XHTML/CSS.
 	 */
 	public static final String PROPERTY_HTML_CLASS = HTML_EXPORTER_PROPERTIES_PREFIX + "class";
 
