@@ -46,8 +46,8 @@ public interface PrintServiceExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
-		parameterName="PRINT_REQUEST_ATTRIBUTE_SET"
+		type=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
+		name="PRINT_REQUEST_ATTRIBUTE_SET"
 		)
 	public PrintRequestAttributeSet getPrintRequestAttributeSet();
 
@@ -56,8 +56,8 @@ public interface PrintServiceExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
-		parameterName="PRINT_SERVICE_ATTRIBUTE_SET"
+		type=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
+		name="PRINT_SERVICE_ATTRIBUTE_SET"
 		)
 	public PrintServiceAttributeSet getPrintServiceAttributeSet();
 
@@ -66,8 +66,8 @@ public interface PrintServiceExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
-		parameterName="DISPLAY_PAGE_DIALOG"
+		type=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
+		name="DISPLAY_PAGE_DIALOG"
 		)
 	public Boolean isDisplayPageDialog();
 
@@ -76,8 +76,8 @@ public interface PrintServiceExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
-		parameterName="DISPLAY_PAGE_DIALOG_ONLY_ONCE"
+		type=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
+		name="DISPLAY_PAGE_DIALOG_ONLY_ONCE"
 		)
 	public Boolean isDisplayPageDialogOnlyOnce();
 
@@ -86,8 +86,8 @@ public interface PrintServiceExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
-		parameterName="DISPLAY_PRINT_DIALOG"
+		type=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
+		name="DISPLAY_PRINT_DIALOG"
 		)
 	public Boolean isDisplayPrintDialog();
 
@@ -96,8 +96,8 @@ public interface PrintServiceExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
-		parameterName="DISPLAY_PRINT_DIALOG_ONLY_ONCE"
+		type=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
+		name="DISPLAY_PRINT_DIALOG_ONLY_ONCE"
 		)
 	public Boolean isDisplayPrintDialogOnlyOnce();
 
@@ -106,8 +106,8 @@ public interface PrintServiceExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
-		parameterName="PRINT_SERVICE"
+		type=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
+		name="PRINT_SERVICE"
 		)
 	public PrintService getPrintService();
 }

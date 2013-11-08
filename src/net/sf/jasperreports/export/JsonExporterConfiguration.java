@@ -45,8 +45,8 @@ public interface JsonExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		parameterName="FLUSH_OUTPUT"
+		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
+		name="FLUSH_OUTPUT"
 		)
 	@ExporterProperty(
 		value=HtmlExporterConfiguration.PROPERTY_FLUSH_OUTPUT, 

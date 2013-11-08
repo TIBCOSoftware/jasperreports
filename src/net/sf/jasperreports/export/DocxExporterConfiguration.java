@@ -73,8 +73,8 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter.class, 
-		parameterName="FRAMES_AS_NESTED_TABLES"
+		type=net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter.class, 
+		name="FRAMES_AS_NESTED_TABLES"
 		)
 	@ExporterProperty(
 		value=PROPERTY_FRAMES_AS_NESTED_TABLES, 
@@ -91,8 +91,8 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter.class, 
-		parameterName="FLEXIBLE_ROW_HEIGHT"
+		type=net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter.class, 
+		name="FLEXIBLE_ROW_HEIGHT"
 		)
 	@ExporterProperty(
 		value=PROPERTY_FLEXIBLE_ROW_HEIGHT, 

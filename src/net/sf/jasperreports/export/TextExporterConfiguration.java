@@ -81,8 +81,8 @@ public interface TextExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		parameterName="CHARACTER_WIDTH"
+		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
+		name="CHARACTER_WIDTH"
 		)
 	@ExporterProperty(
 		value=PROPERTY_CHARACTER_WIDTH, 
@@ -96,8 +96,8 @@ public interface TextExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		parameterName="CHARACTER_HEIGHT"
+		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
+		name="CHARACTER_HEIGHT"
 		)
 	@ExporterProperty(
 		value=PROPERTY_CHARACTER_HEIGHT, 
@@ -111,8 +111,8 @@ public interface TextExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		parameterName="PAGE_WIDTH"
+		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
+		name="PAGE_WIDTH"
 		)
 	@ExporterProperty(
 		value=PROPERTY_PAGE_WIDTH, 
@@ -126,8 +126,8 @@ public interface TextExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		parameterName="PAGE_HEIGHT"
+		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
+		name="PAGE_HEIGHT"
 		)
 	@ExporterProperty(
 		value=PROPERTY_PAGE_HEIGHT, 
@@ -141,8 +141,8 @@ public interface TextExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		parameterName="BETWEEN_PAGES_TEXT"
+		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
+		name="BETWEEN_PAGES_TEXT"
 		)
 	public String getBetweenPagesText();
 	
@@ -152,8 +152,8 @@ public interface TextExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		parameterName="LINE_SEPARATOR"
+		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
+		name="LINE_SEPARATOR"
 		)
 	public String getLineSeparator();
 }

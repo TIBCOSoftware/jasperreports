@@ -33,6 +33,7 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * @see net.sf.jasperreports.engine.export.JExcelApiExporter
  * @see net.sf.jasperreports.engine.export.JExcelApiMetadataExporter
  * 
+ * @deprecated To be removed.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

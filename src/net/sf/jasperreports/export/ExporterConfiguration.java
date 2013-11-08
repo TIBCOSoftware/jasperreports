@@ -77,8 +77,8 @@ public interface ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class, 
-		parameterName="START_PAGE_INDEX"
+		type=net.sf.jasperreports.engine.JRExporterParameter.class, 
+		name="START_PAGE_INDEX"
 		)
 	public Integer getStartPageIndex();
 	
@@ -89,8 +89,8 @@ public interface ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class, 
-		parameterName="END_PAGE_INDEX"
+		type=net.sf.jasperreports.engine.JRExporterParameter.class, 
+		name="END_PAGE_INDEX"
 		)
 	public Integer getEndPageIndex();
 	
@@ -101,8 +101,8 @@ public interface ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class, 
-		parameterName="PAGE_INDEX"
+		type=net.sf.jasperreports.engine.JRExporterParameter.class, 
+		name="PAGE_INDEX"
 		)
 	public Integer getPageIndex();
 	
@@ -113,8 +113,8 @@ public interface ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class, 
-		parameterName="PROGRESS_MONITOR"
+		type=net.sf.jasperreports.engine.JRExporterParameter.class, 
+		name="PROGRESS_MONITOR"
 		)
 	public JRExportProgressMonitor getProgressMonitor();
 	
@@ -125,8 +125,8 @@ public interface ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class,
-		parameterName="FILTER"
+		type=net.sf.jasperreports.engine.JRExporterParameter.class,
+		name="FILTER"
 		)
 	public ExporterFilter getExporterFilter();
 	
@@ -137,8 +137,8 @@ public interface ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class,
-		parameterName="OFFSET_X"
+		type=net.sf.jasperreports.engine.JRExporterParameter.class,
+		name="OFFSET_X"
 		)
 	public Integer getOffsetX();
 	
@@ -149,8 +149,8 @@ public interface ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class,
-		parameterName="OFFSET_Y"
+		type=net.sf.jasperreports.engine.JRExporterParameter.class,
+		name="OFFSET_Y"
 		)
 	public Integer getOffsetY();
 	
@@ -161,8 +161,8 @@ public interface ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class,
-		parameterName="HYPERLINK_PRODUCER_FACTORY"
+		type=net.sf.jasperreports.engine.JRExporterParameter.class,
+		name="HYPERLINK_PRODUCER_FACTORY"
 		)
 	public JRHyperlinkProducerFactory getHyperlinkProducerFactory();
 }

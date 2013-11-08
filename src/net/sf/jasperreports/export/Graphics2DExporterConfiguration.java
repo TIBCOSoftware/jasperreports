@@ -50,8 +50,8 @@ public interface Graphics2DExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter.class,
-		parameterName="ZOOM_RATIO"
+		type=net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter.class,
+		name="ZOOM_RATIO"
 		)
 	public Float getZoomRatio();
 	
@@ -69,8 +69,8 @@ public interface Graphics2DExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter.class, 
-		parameterName="MINIMIZE_PRINTER_JOB_SIZE"
+		type=net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter.class, 
+		name="MINIMIZE_PRINTER_JOB_SIZE"
 		)
 	@ExporterProperty(
 		value=MINIMIZE_PRINTER_JOB_SIZE, 
@@ -81,6 +81,9 @@ public interface Graphics2DExporterConfiguration extends ExporterConfiguration
 	/**
 	 * 
 	 */
-	@ExporterProperty(value=JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, booleanDefault=false)
+	@ExporterProperty(
+		value=JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, 
+		booleanDefault=false
+		)
 	public Boolean isIgnoreMissingFont();
 }

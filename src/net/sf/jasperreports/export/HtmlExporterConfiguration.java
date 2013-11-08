@@ -121,8 +121,8 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		parameterName="HTML_HEADER"
+		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
+		name="HTML_HEADER"
 		)
 	public String getHtmlHeader();
 	
@@ -134,8 +134,8 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		parameterName="HTML_FOOTER"
+		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
+		name="HTML_FOOTER"
 		)
 	public String getHtmlFooter();
 	
@@ -146,8 +146,8 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		parameterName="BETWEEN_PAGES_HTML"
+		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
+		name="BETWEEN_PAGES_HTML"
 		)
 	public String getBetweenPagesHtml();
 	
@@ -160,8 +160,8 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		parameterName="IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS"
+		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
+		name="IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS"
 		)
 	@ExporterProperty(
 		value=PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, 
@@ -177,8 +177,8 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		parameterName="IS_WHITE_PAGE_BACKGROUND"
+		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
+		name="IS_WHITE_PAGE_BACKGROUND"
 		)
 	@ExporterProperty(
 		value=PROPERTY_WHITE_PAGE_BACKGROUND, 
@@ -198,8 +198,8 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class,
-		parameterName="IS_WRAP_BREAK_WORD"
+		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class,
+		name="IS_WRAP_BREAK_WORD"
 		)
 	@ExporterProperty(
 		value=PROPERTY_WRAP_BREAK_WORD,
@@ -216,8 +216,8 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		parameterName="SIZE_UNIT",
+		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
+		name="SIZE_UNIT",
 		acceptNull=false
 		)
 	@ExporterProperty(PROPERTY_SIZE_UNIT)
@@ -242,8 +242,8 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class,
-		parameterName="IGNORE_PAGE_MARGINS"
+		type=net.sf.jasperreports.engine.JRExporterParameter.class,
+		name="IGNORE_PAGE_MARGINS"
 		)
 	@ExporterProperty(
 		value=PROPERTY_IGNORE_PAGE_MARGINS, 
@@ -268,8 +268,8 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		parameterName="ZOOM_RATIO"
+		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
+		name="ZOOM_RATIO"
 		)
 	public Float getZoomRatio();
 	
@@ -281,8 +281,8 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		parameterName="FLUSH_OUTPUT"
+		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
+		name="FLUSH_OUTPUT"
 		)
 	@ExporterProperty(
 		value=PROPERTY_FLUSH_OUTPUT, 

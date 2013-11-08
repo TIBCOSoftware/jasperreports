@@ -170,7 +170,7 @@ public class ParametersExporterConfigurationFactory<C extends ExporterConfigurat
 		{
 			try
 			{
-				parameter = (JRExporterParameter)exporterParameter.parameterClass().getField(exporterParameter.parameterName()).get(null);
+				parameter = (JRExporterParameter)exporterParameter.type().getField(exporterParameter.name()).get(null);
 			}
 			catch (NoSuchFieldException e)
 			{
