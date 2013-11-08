@@ -31,7 +31,9 @@ import net.sf.jasperreports.engine.export.JExcelApiExporterContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 
+
 /**
+ * @deprecated To be removed.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id:ChartThemesUtilities.java 2595 2009-02-10 17:56:51Z teodord $
  */

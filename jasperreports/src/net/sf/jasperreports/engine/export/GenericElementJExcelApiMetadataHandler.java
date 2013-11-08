@@ -28,9 +28,11 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 
+
 /**
  * A generic print element XLS export handler.
  * 
+ * @deprecated To be removed.
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */

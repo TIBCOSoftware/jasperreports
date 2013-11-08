@@ -25,9 +25,11 @@ package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 
+
 /**
  * A generic print element XLS export handler.
  * 
+ * @deprecated To be removed.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
