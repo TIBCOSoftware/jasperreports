@@ -1357,11 +1357,18 @@ public class HtmlExporter extends AbstractHtmlExporter
 		for (ListIterator<JRPrintImageAreaHyperlink> it = imageMapAreas.listIterator(imageMapAreas.size()); it.hasPrevious();)
 		{
 			JRPrintImageAreaHyperlink areaHyperlink = it.previous();
+			JRPrintHyperlink link = areaHyperlink.getHyperlink();
 			JRPrintImageArea area = areaHyperlink.getArea();
 
-			writer.write("  <area class=\"jrLocalAnchorPage\" shape=\"" + JRPrintImageArea.getHtmlShape(area.getShape()) + "\"");
+			writer.write("  <area");
+			if (HyperlinkTypeEnum.LOCAL_ANCHOR.equals(link.getHyperlinkTypeValue()) 
+					|| HyperlinkTypeEnum.LOCAL_PAGE.equals(link.getHyperlinkTypeValue())) {
+				writer.write(" class=\"jrLocalAnchorPage\"");
+			}
+			writer.write(" shape=\"" + JRPrintImageArea.getHtmlShape(area.getShape()) + "\"");
+			
 			writeImageAreaCoordinates(area.getCoordinates());			
-			writeImageAreaHyperlink(areaHyperlink.getHyperlink());
+			writeImageAreaHyperlink(link);
 			writer.write("/>\n");
 		}
 		
