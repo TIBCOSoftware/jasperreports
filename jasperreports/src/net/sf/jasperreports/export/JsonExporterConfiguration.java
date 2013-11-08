@@ -52,7 +52,7 @@ public interface JsonExporterConfiguration extends ExporterConfiguration
 		value=HtmlExporterConfiguration.PROPERTY_FLUSH_OUTPUT, 
 		booleanDefault=true
 		)
-	public Boolean isFlushOutput();//FIXMEEXPORT do we really need flush?
+	public Boolean isFlushOutput();
 	
 	/**
 	 * @see HtmlExporterConfiguration#PROPERTY_IGNORE_HYPERLINK
