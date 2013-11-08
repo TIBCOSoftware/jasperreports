@@ -28,10 +28,11 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 
+
 /**
+ * @deprecated To be removed. Use {@link XlsServlet} or {@link XlsxServlet} instead.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
- * @deprecated To be removed. Use {@link XlsServlet} or {@link XlsxServlet} instead.
  */
 public class JExcelApiServlet extends AbstractXlsServlet
 {
