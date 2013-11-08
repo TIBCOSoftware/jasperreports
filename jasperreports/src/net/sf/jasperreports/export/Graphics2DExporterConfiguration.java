@@ -48,6 +48,11 @@ public interface Graphics2DExporterConfiguration extends ExporterConfiguration
 	/**
 	 * The zoom ratio used for the export. The default value is 1.
 	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter.class,
+		parameterName="ZOOM_RATIO"
+		)
 	public Float getZoomRatio();
 	
 	/**

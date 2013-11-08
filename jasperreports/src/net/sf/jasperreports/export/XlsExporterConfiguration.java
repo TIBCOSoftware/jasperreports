@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
@@ -427,7 +428,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_SHOW_GRIDLINES = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "show.gridlines";
 
 	/**
-	 * Property that specifies the image anchor type. Possible values are:
+	 * Property that provides a default value for the {@link #getImageAnchorType()} export parameter setting.
+	 * Possible values are:
 	 * <ul>
 	 * <li><code>MoveSize</code> - images move and size with cells</li>
 	 * <li><code>MoveNoSize</code> - images move but don't size with cells</li>
@@ -441,7 +443,6 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 * <li><code>Report</code></li>
 	 * <li><code>Element</code></li>
 	 * </ul>
-	 * Global settings are overriden by report level settings; report level settings are overriden by element level settings.
 	 * 
 	 * @see JRPropertiesUtil
 	 */
@@ -864,4 +865,11 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@ExporterProperty(PROPERTY_SHEET_DIRECTION)
 	public RunDirectionEnum getSheetDirection();
+	
+	/**
+	 * Specifies the image anchor type.
+	 * @see #PROPERTY_IMAGE_ANCHOR_TYPE
+	 */
+	@ExporterProperty(PROPERTY_IMAGE_ANCHOR_TYPE)
+	public ImageAnchorTypeEnum getImageAnchorType();
 }
