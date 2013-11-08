@@ -31,7 +31,7 @@ package net.sf.jasperreports.export;
 public interface XmlExporterOutput extends WriterExporterOutput
 {
 	/**
-	 * 
+	 * Returns a boolean value specifying whether images should be store internally or rather as files on disk.
 	 */
 	public Boolean isEmbeddingImages();
 }

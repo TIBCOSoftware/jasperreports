@@ -177,6 +177,11 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_IGNORE_HYPERLINK = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
+	 * Property that provides a default value for the {@link #isForceLineBreakPolicy()} exporter configuration flag.
+	 */
+	public static final String PROPERTY_FORCE_LINEBREAK_POLICY = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
+
+	/**
 	 * Returns a boolean value specifying  whether the PDF document should contain an outline section.
 	 * @see #PROPERTY_CREATE_BATCH_MODE_BOOKMARKS
 	 */
@@ -415,4 +420,92 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 		booleanDefault=false
 		)
 	public Boolean isIgnoreHyperlink();
+	
+	/**
+	 * An integer value representing the PDF permissions for the generated document. The open permissions for the document
+	 * can be AllowPrinting, AllowModifyContents, AllowCopy, AllowModifyAnnotations, AllowFillIn, AllowScreenReaders,
+	 * AllowAssembly and AllowDegradedPrinting (these can all be found in the PdfWriter class of iText library). The
+	 * permissions can be combined by applying bitwise OR to them.
+	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		parameterName="PERMISSIONS"
+		)
+	public Integer getPermissions();
+
+	/**
+	 * The Title of the PDF document.
+	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		parameterName="METADATA_TITLE"
+		)
+	public String getMetadataTitle();
+
+	/**
+	 * The Author of the PDF document.
+	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		parameterName="METADATA_AUTHOR"
+		)
+	public String getMetadataAuthor();
+
+	/**
+	 * The Subject of the PDF document.
+	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		parameterName="METADATA_SUBJECT"
+		)
+	public String getMetadataSubject();
+
+	/**
+	 * The Keywords of the PDF document, as comma-separated String.
+	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		parameterName="METADATA_KEYWORDS"
+		)
+	public String getMetadataKeywords();
+
+	/**
+	 * The Creator or Application for the PDF document. Defaults to "JasperReports Library version x.x.x".
+	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		parameterName="METADATA_CREATOR"
+		)
+	public String getMetadataCreator();
+
+	/**
+	 * Flag that decides whether the PDF exporter should use a {@link com.lowagie.text.SplitCharacter SplitCharacter}
+	 * implementation which ensures that report texts are broken into lines by iText in the same manner as done by the
+	 * fill process.
+	 * <p>
+	 * The default line-breaking logic differs from AWT (which is used during the report fill) to iText (used by the PDF
+	 * exporter).  By setting this flag, the logic used by AWT is imposed to iText.  The drawback is that the PDF export
+	 * performance would drop.  Because of this, the flag is not set by default.
+	 * <p>
+	 * This flag can be set system-wide using the
+	 * {@link #PROPERTY_FORCE_LINEBREAK_POLICY PROPERTY_FORCE_LINEBREAK_POLICY} property.
+	 *
+	 * @see #PROPERTY_FORCE_LINEBREAK_POLICY
+	 * @see net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter
+	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		parameterName="FORCE_LINEBREAK_POLICY"
+		)
+	@ExporterProperty(
+		value=PROPERTY_FORCE_LINEBREAK_POLICY,
+		booleanDefault=false)
+	public Boolean isForceLineBreakPolicy();
 }
