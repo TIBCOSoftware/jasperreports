@@ -63,8 +63,8 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRCsvExporterParameter.class,
-		parameterName="FIELD_DELIMITER"
+		type=net.sf.jasperreports.engine.export.JRCsvExporterParameter.class,
+		name="FIELD_DELIMITER"
 		)
 	@ExporterProperty(PROPERTY_FIELD_DELIMITER)
 	public String getFieldDelimiter();
@@ -75,8 +75,8 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRCsvExporterParameter.class,
-		parameterName="RECORD_DELIMITER"
+		type=net.sf.jasperreports.engine.export.JRCsvExporterParameter.class,
+		name="RECORD_DELIMITER"
 		)
 	@ExporterProperty(PROPERTY_RECORD_DELIMITER)
 	public String getRecordDelimiter();

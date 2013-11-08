@@ -63,8 +63,8 @@ public interface CsvMetadataExporterConfiguration extends CsvExporterConfigurati
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRCsvMetadataExporterParameter.class, 
-		parameterName="WRITE_HEADER"
+		type=net.sf.jasperreports.engine.export.JRCsvMetadataExporterParameter.class, 
+		name="WRITE_HEADER"
 		) 
 	@ExporterProperty(
 		value=PROPERTY_WRITE_HEADER, 
@@ -79,8 +79,8 @@ public interface CsvMetadataExporterConfiguration extends CsvExporterConfigurati
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRCsvMetadataExporterParameter.class, 
-		parameterName="COLUMN_NAMES"
+		type=net.sf.jasperreports.engine.export.JRCsvMetadataExporterParameter.class, 
+		name="COLUMN_NAMES"
 		)
 	@ExporterProperty(PROPERTY_COLUMN_NAMES_PREFIX)
 	public String[] getColumnNames();

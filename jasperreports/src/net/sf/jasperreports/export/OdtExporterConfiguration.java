@@ -63,8 +63,8 @@ public interface OdtExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporterParameter.class, 
-		parameterName="ODT_FLEXIBLE_ROW_HEIGHT"
+		type=net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporterParameter.class, 
+		name="ODT_FLEXIBLE_ROW_HEIGHT"
 		)
 	@ExporterProperty(
 		value=PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT, 

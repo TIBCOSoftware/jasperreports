@@ -40,9 +40,9 @@ import java.lang.annotation.Target;
 public @interface ExporterParameter 
 {
 	@SuppressWarnings("deprecation")
-	Class<? extends net.sf.jasperreports.engine.JRExporterParameter> parameterClass() default net.sf.jasperreports.engine.JRExporterParameter.class;
+	Class<? extends net.sf.jasperreports.engine.JRExporterParameter> type() default net.sf.jasperreports.engine.JRExporterParameter.class;
 
-	String parameterName();
+	String name();
 
 	boolean acceptNull() default true;
 }

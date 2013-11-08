@@ -58,8 +58,8 @@ public interface OdsExporterConfiguration extends XlsExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporterParameter.class,
-		parameterName="ODS_FLEXIBLE_ROW_HEIGHT")
+		type=net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporterParameter.class,
+		name="ODS_FLEXIBLE_ROW_HEIGHT")
 	@ExporterProperty(
 		value=PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT,
 		booleanDefault=false

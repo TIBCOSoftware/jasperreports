@@ -454,8 +454,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class, 
-		parameterName="IS_ONE_PAGE_PER_SHEET"
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class, 
+		name="IS_ONE_PAGE_PER_SHEET"
 		)
 	@ExporterProperty(
 		value=PROPERTY_ONE_PAGE_PER_SHEET, 
@@ -469,8 +469,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		parameterName="IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS"
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
+		name="IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS"
 		)
 	@ExporterProperty(
 		value=PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, 
@@ -484,8 +484,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class, 
-		parameterName="IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS"
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class, 
+		name="IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS"
 		)
 	@ExporterProperty(
 		value=PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, 
@@ -500,8 +500,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class, 
-		parameterName="IS_WHITE_PAGE_BACKGROUND"
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class, 
+		name="IS_WHITE_PAGE_BACKGROUND"
 		)
 	@ExporterProperty(
 		value=PROPERTY_WHITE_PAGE_BACKGROUND, 
@@ -533,8 +533,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		parameterName="IS_DETECT_CELL_TYPE"
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
+		name="IS_DETECT_CELL_TYPE"
 		)
 	@ExporterProperty(
 		value=PROPERTY_DETECT_CELL_TYPE,
@@ -548,8 +548,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		parameterName="IS_FONT_SIZE_FIX_ENABLED"
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
+		name="IS_FONT_SIZE_FIX_ENABLED"
 		)
 	@ExporterProperty(
 		value=PROPERTY_FONT_SIZE_FIX_ENABLED,
@@ -563,8 +563,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		parameterName="IS_IMAGE_BORDER_FIX_ENABLED"
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
+		name="IS_IMAGE_BORDER_FIX_ENABLED"
 		)
 	@ExporterProperty(
 		value=PROPERTY_IMAGE_BORDER_FIX_ENABLED,
@@ -579,8 +579,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		parameterName="IS_IGNORE_GRAPHICS"
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
+		name="IS_IGNORE_GRAPHICS"
 		)
 	@ExporterProperty(
 		value=PROPERTY_IGNORE_GRAPHICS,
@@ -613,8 +613,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		parameterName="CREATE_CUSTOM_PALETTE"
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
+		name="CREATE_CUSTOM_PALETTE"
 		)
 	@ExporterProperty(
 		value=PROPERTY_CREATE_CUSTOM_PALETTE, 
@@ -628,8 +628,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		parameterName="IS_COLLAPSE_ROW_SPAN"
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
+		name="IS_COLLAPSE_ROW_SPAN"
 		)
 	@ExporterProperty(
 		value=PROPERTY_COLLAPSE_ROW_SPAN,
@@ -643,8 +643,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		parameterName="IS_IGNORE_CELL_BORDER"
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
+		name="IS_IGNORE_CELL_BORDER"
 		)
 	@ExporterProperty(
 		value=PROPERTY_IGNORE_CELL_BORDER,
@@ -658,8 +658,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		parameterName="IS_IGNORE_CELL_BACKGROUND"
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
+		name="IS_IGNORE_CELL_BACKGROUND"
 		)
 	@ExporterProperty(
 		value=PROPERTY_IGNORE_CELL_BACKGROUND,
@@ -704,8 +704,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		parameterName="MAXIMUM_ROWS_PER_SHEET"
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
+		name="MAXIMUM_ROWS_PER_SHEET"
 		)
 	@ExporterProperty(
 		value=PROPERTY_MAXIMUM_ROWS_PER_SHEET,
@@ -722,8 +722,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.JRExporterParameter.class,
-		parameterName="IGNORE_PAGE_MARGINS"
+		type=net.sf.jasperreports.engine.JRExporterParameter.class,
+		name="IGNORE_PAGE_MARGINS"
 		)
 	@ExporterProperty(
 		value=PROPERTY_IGNORE_PAGE_MARGINS, 
@@ -779,8 +779,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JExcelApiExporterParameter.class,
-		parameterName="PASSWORD"
+		type=net.sf.jasperreports.engine.export.JExcelApiExporterParameter.class,
+		name="PASSWORD"
 		)
 	@ExporterProperty(PROPERTY_PASSWORD)
 	public String getPassword();
@@ -792,8 +792,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		parameterName="SHEET_NAMES"
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
+		name="SHEET_NAMES"
 		)
 	@ExporterProperty(PROPERTY_SHEET_NAMES_PREFIX)
 	public String[] getSheetNames();
@@ -808,8 +808,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class, 
-		parameterName="FORMAT_PATTERNS_MAP"
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class, 
+		name="FORMAT_PATTERNS_MAP"
 		)
 	public Map<String, String> getFormatPatternsMap();
 	

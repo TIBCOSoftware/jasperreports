@@ -187,8 +187,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="IS_CREATING_BATCH_MODE_BOOKMARKS"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="IS_CREATING_BATCH_MODE_BOOKMARKS"
 		)
 	@ExporterProperty(
 		value=PROPERTY_CREATE_BATCH_MODE_BOOKMARKS, 
@@ -214,8 +214,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="FORCE_SVG_SHAPES"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="FORCE_SVG_SHAPES"
 		)
 	@ExporterProperty(
 		value=PROPERTY_FORCE_SVG_SHAPES, 
@@ -229,8 +229,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="IS_COMPRESSED"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="IS_COMPRESSED"
 		)
 	@ExporterProperty(
 		value=PROPERTY_COMPRESSED, 
@@ -244,8 +244,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="IS_ENCRYPTED"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="IS_ENCRYPTED"
 		)
 	@ExporterProperty(
 		value=PROPERTY_ENCRYPTED, 
@@ -259,8 +259,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="IS_128_BIT_KEY"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="IS_128_BIT_KEY"
 		)
 	@ExporterProperty(
 		value=PROPERTY_128_BIT_KEY, 
@@ -274,8 +274,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="USER_PASSWORD"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="USER_PASSWORD"
 		)
 	@ExporterProperty(PROPERTY_USER_PASSWORD)
 	public String getUserPassword();
@@ -287,8 +287,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="OWNER_PASSWORD"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="OWNER_PASSWORD"
 		)
 	@ExporterProperty(PROPERTY_OWNER_PASSWORD)
 	public String getOwnerPassword();
@@ -300,8 +300,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="PDF_VERSION"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="PDF_VERSION"
 		)
 	@ExporterProperty(PROPERTY_PDF_VERSION)
 	public PdfVersionEnum getPdfVersion();
@@ -312,8 +312,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="PDF_JAVASCRIPT"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="PDF_JAVASCRIPT"
 		)
 	@ExporterProperty(PROPERTY_PDF_JAVASCRIPT)
 	public String getPdfJavaScript();
@@ -323,8 +323,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="PRINT_SCALING"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="PRINT_SCALING"
 		)
 	@ExporterProperty(PROPERTY_PRINT_SCALING)
 	public PdfPrintScalingEnum getPrintScaling();
@@ -357,8 +357,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="IS_TAGGED"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="IS_TAGGED"
 		)
 	@ExporterProperty(
 		value=PROPERTY_TAGGED, 
@@ -372,8 +372,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="TAG_LANGUAGE"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="TAG_LANGUAGE"
 		)
 	@ExporterProperty(PROPERTY_TAG_LANGUAGE)
 	public String getTagLanguage();
@@ -394,8 +394,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="PDFA_CONFORMANCE"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="PDFA_CONFORMANCE"
 		)
 	@ExporterProperty(PROPERTY_PDFA_CONFORMANCE)
 	public PdfaConformanceEnum getPdfaConformance();
@@ -406,8 +406,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="PDFA_ICC_PROFILE_PATH"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="PDFA_ICC_PROFILE_PATH"
 		)
 	@ExporterProperty(PROPERTY_PDFA_ICC_PROFILE_PATH)
 	public String getIccProfilePath();
@@ -429,8 +429,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="PERMISSIONS"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="PERMISSIONS"
 		)
 	public Integer getPermissions();
 
@@ -439,8 +439,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="METADATA_TITLE"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="METADATA_TITLE"
 		)
 	public String getMetadataTitle();
 
@@ -449,8 +449,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="METADATA_AUTHOR"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="METADATA_AUTHOR"
 		)
 	public String getMetadataAuthor();
 
@@ -459,8 +459,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="METADATA_SUBJECT"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="METADATA_SUBJECT"
 		)
 	public String getMetadataSubject();
 
@@ -469,8 +469,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="METADATA_KEYWORDS"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="METADATA_KEYWORDS"
 		)
 	public String getMetadataKeywords();
 
@@ -479,8 +479,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="METADATA_CREATOR"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="METADATA_CREATOR"
 		)
 	public String getMetadataCreator();
 
@@ -501,8 +501,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		parameterClass=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		parameterName="FORCE_LINEBREAK_POLICY"
+		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
+		name="FORCE_LINEBREAK_POLICY"
 		)
 	@ExporterProperty(
 		value=PROPERTY_FORCE_LINEBREAK_POLICY,
