@@ -74,7 +74,7 @@ public final class GovernorFactory implements ScriptletFactory
 		boolean timeoutEnabled = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getBooleanProperty(context.getDataset(), TimeoutGovernor.PROPERTY_TIMEOUT_ENABLED, true);
 		if (timeoutEnabled)
 		{
-			long timeout = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getLongProperty(context.getDataset(), TimeoutGovernor.PROPERTY_TIMEOUT, 0);
+			long timeout = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getLongProperty(context.getDataset(), TimeoutGovernor.PROPERTY_TIMEOUT, 0l);
 			if (timeout > 0)
 			{
 				scriptlets.add(new TimeoutGovernor(timeout));
