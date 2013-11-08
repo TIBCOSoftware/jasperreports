@@ -1864,7 +1864,6 @@ public class JRPdfExporter extends JRAbstractExporter
 	 * @param setFontLines whether to set underline and strikethrough as font style
 	 * @return the PDF font for the specified attributes
 	 */
-	@SuppressWarnings("deprecation")
 	protected Font getFont(Map<Attribute,Object> attributes, Locale locale, boolean setFontLines)
 	{
 		JRFont jrFont = new JRBaseFont(attributes);
