@@ -64,8 +64,8 @@ public interface JRHtmlExporterConfiguration extends HtmlExporterConfiguration
 	 * @see #PROPERTY_FRAMES_AS_NESTED_TABLES
 	 */
 	@ExporterParameter(
-		parameterClass=JRHtmlExporterParameter.class, 
-		parameterName="FRAMES_AS_NESTED_TABLES"
+		type=JRHtmlExporterParameter.class, 
+		name="FRAMES_AS_NESTED_TABLES"
 		)
 	@ExporterProperty(
 		value=PROPERTY_FRAMES_AS_NESTED_TABLES, 
@@ -79,8 +79,8 @@ public interface JRHtmlExporterConfiguration extends HtmlExporterConfiguration
 	 * @see #PROPERTY_USING_IMAGES_TO_ALIGN
 	 */
 	@ExporterParameter(
-		parameterClass=JRHtmlExporterParameter.class, 
-		parameterName="IS_USING_IMAGES_TO_ALIGN"
+		type=JRHtmlExporterParameter.class, 
+		name="IS_USING_IMAGES_TO_ALIGN"
 		)
 	@ExporterProperty(
 		value=PROPERTY_USING_IMAGES_TO_ALIGN, 
