@@ -45,8 +45,10 @@ public class SimpleExporterInput implements ExporterInput
 
 
 	/**
-	 * Creates an ExportInput object containing the list of {@link JasperPrint} objects to be exported. If you need to concatenate several reports into the same
-	 * document, you can use this constructor, provided that you don't need to specify a different export configuration for each item. Otherwise, consider using {@link #SimpleExporterInput(List)} instead.
+	 * Creates an ExportInput object containing the list of {@link JasperPrint} objects to be exported. 
+	 * If you need to concatenate several reports into the same document, you can use this constructor, 
+	 * provided that you don't need to specify a different export configuration for each item. 
+	 * Otherwise, consider using {@link #SimpleExporterInput(List)} instead.
 	 */
 	public static SimpleExporterInput getInstance(List<JasperPrint> jasperPrintList)
 	{
@@ -55,8 +57,8 @@ public class SimpleExporterInput implements ExporterInput
 
 
 	/**
-	 * Creates an ExportInput object with a single item wrapping the {@link JasperPrint} object that will be exported. If you already have a JasperPrint object, you can pass it
-	 * to the exporter using this type of input.
+	 * Creates an {@link ExporterInput} object with a single item wrapping the {@link JasperPrint} object that will be exported. 
+	 * If you already have a JasperPrint object, you can pass it to the exporter using this type of input.
 	 */
 	public SimpleExporterInput(JasperPrint jasperPrint)
 	{
@@ -69,8 +71,8 @@ public class SimpleExporterInput implements ExporterInput
 
 
 	/**
-	 * Creates an ExportInput object with a single {@link JasperPrint} item read from the provided input stream. If you want to read the JasperPrint
-	 * object from an input stream (like a web location), you can pass the stream to this constructor.
+	 * Creates an {@link ExporterInput} object with a single {@link JasperPrint} item read from the provided input stream. 
+	 * If you want to read the JasperPrint object from an input stream (like a web location), you can pass the stream to this constructor.
 	 */
 	public SimpleExporterInput(InputStream inputStream)
 	{
@@ -92,8 +94,9 @@ public class SimpleExporterInput implements ExporterInput
 
 
 	/**
-	 * Creates an ExportInput object with a single {@link JasperPrint} item read from the provided URL. If the JasperPrint object is available as a web
-	 * resource, you can use this constructor, instead of opening a HTTP connection and read from the input stream.
+	 * Creates an {@link ExporterInput} object with a single {@link JasperPrint} item read from the provided URL. 
+	 * If the JasperPrint object is available as a web resource, you can use this constructor, instead of opening 
+	 * a HTTP connection and read from the input stream.
 	 */
 	public SimpleExporterInput(URL url)
 	{
@@ -115,8 +118,8 @@ public class SimpleExporterInput implements ExporterInput
 
 
 	/**
-	 * Creates an ExportInput object with a single {@link JasperPrint} item read from the provided <tt>java.io.File</tt>. This is
-	 * useful if the JasperPrint object is representing a file on disk.
+	 * Creates an {@link ExporterInput} object with a single {@link JasperPrint} item read from the provided <tt>java.io.File</tt>. 
+	 * This is useful if the JasperPrint object is representing a file on disk.
 	 */
 	public SimpleExporterInput(File file)
 	{
@@ -138,7 +141,30 @@ public class SimpleExporterInput implements ExporterInput
 
 	
 	/**
-	 * Creates an ExportInput object with the provided export items.
+	 * Creates an {@link ExporterInput} object with a single {@link JasperPrint} item read from the provided file. 
+	 * This is useful if the JasperPrint object is representing a file on disk.
+	 */
+	public SimpleExporterInput(String fileName)
+	{
+		if (fileName != null)
+		{
+			JasperPrint jasperPrint = null;
+			try
+			{
+				jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(fileName);
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			this.items = new ArrayList<ExporterInputItem>();
+			items.add(new SimpleExporterInputItem(jasperPrint));
+		}
+	}
+
+	
+	/**
+	 * Creates an {@link ExporterInput} object with the provided export items.
 	 */
 	public SimpleExporterInput(List<ExporterInputItem> items)
 	{

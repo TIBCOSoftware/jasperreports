@@ -35,14 +35,14 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 public interface WriterExporterOutput extends ExporterOutput
 {
 	/**
-	 * Property whose value is used as default for the {@link #CHARACTER_ENCODING CHARACTER_ENCODING} export parameter.
+	 * Property whose value is used as default for the {@link #getEncoding()} export output setting.
 	 * 
 	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_CHARACTER_ENCODING = JRPropertiesUtil.PROPERTY_PREFIX + "export.character.encoding";
 
 	/**
-	 * 
+	 * @see #PROPERTY_CHARACTER_ENCODING 
 	 */
 	public String getEncoding();
 
