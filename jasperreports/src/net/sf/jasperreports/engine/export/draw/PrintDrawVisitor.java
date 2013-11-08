@@ -44,9 +44,11 @@ import net.sf.jasperreports.engine.export.GenericElementGraphics2DHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.Graphics2DExporterConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 
 /**
  * Print element draw visitor.
@@ -89,7 +91,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		AwtTextRenderer textRenderer = 
 			new AwtTextRenderer(
 				jasperReportsContext,
-				JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(report, JRGraphics2DExporter.MINIMIZE_PRINTER_JOB_SIZE, true),
+				JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(report, Graphics2DExporterConfiguration.MINIMIZE_PRINTER_JOB_SIZE, true),
 				JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(report, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
 				);
 		
