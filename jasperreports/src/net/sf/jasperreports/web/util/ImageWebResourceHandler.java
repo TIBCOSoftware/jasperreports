@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
@@ -106,7 +106,7 @@ public class ImageWebResourceHandler implements WebResourceHandler
 			
 			List<JasperPrint> jasperPrintList = Collections.singletonList(jasperPrintAccessor.getJasperPrint());
 			
-			JRPrintImage image = JRHtmlExporter.getImage(jasperPrintList, imageName);
+			JRPrintImage image = HtmlExporter.getImage(jasperPrintList, imageName);
 			
 			Renderable renderer = image.getRenderable();
 			if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
