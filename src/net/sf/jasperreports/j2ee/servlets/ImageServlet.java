@@ -127,10 +127,10 @@ public class ImageServlet extends BaseHttpServlet
 				response.setHeader("Content-Type", imageMimeType);
 			}
 			response.setContentLength(imageData.length);
-			ServletOutputStream ouputStream = response.getOutputStream();
-			ouputStream.write(imageData, 0, imageData.length);
-			ouputStream.flush();
-			ouputStream.close();
+			ServletOutputStream outputStream = response.getOutputStream();
+			outputStream.write(imageData, 0, imageData.length);
+			outputStream.flush();
+			outputStream.close();
 		}
 	}
 
