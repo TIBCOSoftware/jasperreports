@@ -6,7 +6,7 @@
     "datasetUuid": "${datasetUuid}",
     "sortData": ${actionData},
     "isFilterable": ${isFilterable}
-#if (!${templateAlreadyLoaded})
+#if (${exporterFirstAttempt} && !${templateAlreadyLoaded})
     ,"genericProperties": {
         "operators": {
             "numeric" :${numericOperators},
