@@ -423,9 +423,13 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             if(args.hide) {
                 jive.selected.ie.hide();
             } else {
-                var columnIndices;
+                var columnIndices, allColumnsMap;
                 if(args.columnUuid) {
-                    var allColumnsMap = this.allColumnsMap[jive.elements[args.columnUuid].config.parentId];
+                    if (!jive.elements[args.columnUuid]) {
+                        allColumnsMap = this.allColumnsMap[jive.selected.ie.config.parentId];
+                    } else {
+                        allColumnsMap = this.allColumnsMap[jive.elements[args.columnUuid].config.parentId];
+                    }
                     columnIndices = [allColumnsMap[args.columnUuid].index];
                 } else {
                     columnIndices = args.column;
