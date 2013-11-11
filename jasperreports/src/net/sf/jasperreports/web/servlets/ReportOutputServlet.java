@@ -36,11 +36,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.HtmlExporter;
-import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.export.JsonExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleHtmlExporterConfiguration;
+import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
@@ -141,6 +143,8 @@ public class ReportOutputServlet extends AbstractServlet
 //		JRXhtmlExporter exporter = new JRXhtmlExporter(getJasperReportsContext());
 		HtmlExporter exporter = new HtmlExporter(getJasperReportsContext());
 
+		SimpleHtmlExporterConfiguration configuration = new SimpleHtmlExporterConfiguration();
+
 		ReportPageStatus pageStatus;
 		if (hasPages)
 		{
@@ -156,7 +160,7 @@ public class ReportOutputServlet extends AbstractServlet
 				throw new JRRuntimeException("Page " + pageIdx + " not found in report");
 			}
 			
-			exporter.setParameter(JRExporterParameter.PAGE_INDEX, pageIdx);
+			configuration.setPageIndex(pageIdx);
 		}
 		else
 		{
@@ -178,22 +182,22 @@ public class ReportOutputServlet extends AbstractServlet
 		response.setHeader("jasperreports-report-status", JacksonUtil.getInstance(getJasperReportsContext()).getJsonString(result));
 		
 		exporter.setReportContext(webReportContext);
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrintAccessor.getJasperPrint());
-		exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, writer);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrintAccessor.getJasperPrint()));
 
+		SimpleHtmlExporterOutput output = new SimpleHtmlExporterOutput(writer);
 		String resourcesPath = request.getContextPath() + webUtil.getResourcesPath() + "?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
-		exporter.setImageHandler(new WebHtmlResourceHandler(resourcesPath + "&image={0}"));
-		exporter.setResourceHandler(new WebHtmlResourceHandler(resourcesPath + "/{0}"));
-		exporter.setFontHandler(new WebHtmlResourceHandler(resourcesPath + "&font={0}"));
-		
-		exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, getHeader(request, webReportContext, hasPages, pageStatus));
-		exporter.setParameter(JRHtmlExporterParameter.BETWEEN_PAGES_HTML, getBetweenPages(request, webReportContext));
-		exporter.setParameter(JRHtmlExporterParameter.HTML_FOOTER, getFooter(request, webReportContext, hasPages, pageStatus, isComponentMetadataEmbedded));
-		
-		exporter.setParameter(
-			JRHtmlExporterParameter.HYPERLINK_PRODUCER_FACTORY, 
+		output.setImageHandler(new WebHtmlResourceHandler(resourcesPath + "&image={0}"));
+		output.setResourceHandler(new WebHtmlResourceHandler(resourcesPath + "/{0}"));
+		output.setFontHandler(new WebHtmlResourceHandler(resourcesPath + "&font={0}"));
+		exporter.setExporterOutput(output);
+
+		configuration.setHtmlHeader(getHeader(request, webReportContext, hasPages, pageStatus));
+		configuration.setBetweenPagesHtml(getBetweenPages(request, webReportContext));
+		configuration.setHtmlFooter(getFooter(request, webReportContext, hasPages, pageStatus, isComponentMetadataEmbedded));
+		configuration.setHyperlinkProducerFactory(
 			ReportExecutionHyperlinkProducerFactory.getInstance(getJasperReportsContext(), request)
 			);
+		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
 
@@ -203,8 +207,8 @@ public class ReportOutputServlet extends AbstractServlet
 			StringWriter sw = new StringWriter();
 
 			jsonExporter.setReportContext(webReportContext);
-			jsonExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrintAccessor.getJasperPrint());
-			jsonExporter.setParameter(JRExporterParameter.OUTPUT_WRITER, sw);
+			jsonExporter.setExporterInput(new SimpleExporterInput(jasperPrintAccessor.getJasperPrint()));
+			jsonExporter.setExporterOutput(new SimpleWriterExporterOutput(sw));
 			jsonExporter.exportReport();
 
 			String serializedJson = sw.getBuffer().toString();

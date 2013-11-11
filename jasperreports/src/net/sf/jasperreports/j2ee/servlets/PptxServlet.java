@@ -35,10 +35,11 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 
 /**
@@ -70,8 +71,8 @@ public class PptxServlet extends BaseHttpServlet
 		{
 			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
 			JRPptxExporter exporter = new JRPptxExporter(DefaultJasperReportsContext.getInstance());
-			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
-			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fbos);
+			exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(fbos));
 			
 			try 
 			{
@@ -83,21 +84,21 @@ public class PptxServlet extends BaseHttpServlet
 					response.setContentType("application/vnd.openxmlformats-officedocument.presentationml.presentation");
 					response.setHeader("Content-Disposition", "inline; filename=\"file.pptx\"");
 					response.setContentLength(fbos.size());
-					ServletOutputStream ouputStream = response.getOutputStream();
+					ServletOutputStream outputStream = response.getOutputStream();
 	
 					try
 					{
-						fbos.writeData(ouputStream);
+						fbos.writeData(outputStream);
 						fbos.dispose();
-						ouputStream.flush();
+						outputStream.flush();
 					}
 					finally
 					{
-						if (ouputStream != null)
+						if (outputStream != null)
 						{
 							try
 							{
-								ouputStream.close();
+								outputStream.close();
 							}
 							catch (IOException ex)
 							{
@@ -122,10 +123,10 @@ public class PptxServlet extends BaseHttpServlet
 			response.setHeader("Content-Disposition", "inline; filename=\"file.pptx\"");
 			
 			JRPptxExporter exporter = new JRPptxExporter(DefaultJasperReportsContext.getInstance());
-			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+			exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
 			
-			OutputStream ouputStream = response.getOutputStream();
-			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, ouputStream);
+			OutputStream outputStream = response.getOutputStream();
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
 
 			try 
 			{
@@ -137,11 +138,11 @@ public class PptxServlet extends BaseHttpServlet
 			}
 			finally
 			{
-				if (ouputStream != null)
+				if (outputStream != null)
 				{
 					try
 					{
-						ouputStream.close();
+						outputStream.close();
 					}
 					catch (IOException ex)
 					{

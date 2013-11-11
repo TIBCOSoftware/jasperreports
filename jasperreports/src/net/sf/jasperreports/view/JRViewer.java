@@ -77,7 +77,6 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintAnchorIndex;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -92,13 +91,15 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
-import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 import net.sf.jasperreports.engine.util.SimpleFileResolver;
 import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleGraphics2DExporterConfiguration;
+import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
 import net.sf.jasperreports.view.save.JRPrintSaveContributor;
 
 import org.apache.commons.logging.Log;
@@ -2095,12 +2096,16 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				exporter.reset();
 			}
 
-			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-			exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, grx.create());
-			exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.valueOf(pageIndex));
-			exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, new Float(realZoom));
-			exporter.setParameter(JRExporterParameter.OFFSET_X, Integer.valueOf(1)); //lblPage border
-			exporter.setParameter(JRExporterParameter.OFFSET_Y, Integer.valueOf(1));
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
+			output.setGraphics2D((Graphics2D)grx.create());
+			exporter.setExporterOutput(output);
+			SimpleGraphics2DExporterConfiguration configuration = new SimpleGraphics2DExporterConfiguration();
+			configuration.setPageIndex(pageIndex);
+			configuration.setZoomRatio(realZoom);
+			configuration.setOffsetX(1); //lblPage border
+			configuration.setOffsetY(1);
+			exporter.setConfiguration(configuration);
 			exporter.exportReport();
 		}
 		catch(Exception e)

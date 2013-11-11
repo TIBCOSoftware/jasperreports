@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.print;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.print.Book;
@@ -35,12 +36,13 @@ import java.awt.print.PrinterJob;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
-import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleGraphics2DExporterConfiguration;
+import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -234,9 +236,13 @@ public class JRPrinterAWT implements Printable
 		try
 		{
 			JRGraphics2DExporter exporter = new JRGraphics2DExporter(jasperReportsContext);
-			exporter.setParameter(JRExporterParameter.JASPER_PRINT, this.jasperPrint);
-			exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, graphics);
-			exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.valueOf(pageIndex));
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
+			output.setGraphics2D((Graphics2D)graphics);
+			exporter.setExporterOutput(output);
+			SimpleGraphics2DExporterConfiguration configuration = new SimpleGraphics2DExporterConfiguration();
+			configuration.setPageIndex(pageIndex);
+			exporter.setConfiguration(configuration);
 			exporter.exportReport();
 		}
 		catch (JRException e)
@@ -265,12 +271,16 @@ public class JRPrinterAWT implements Printable
 			);
 
 		JRGraphics2DExporter exporter = new JRGraphics2DExporter(jasperReportsContext);
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, pageImage.getGraphics());
-		exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.valueOf(pageIndex));
-		exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, new Float(zoom));
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
+		output.setGraphics2D((Graphics2D)pageImage.getGraphics());
+		exporter.setExporterOutput(output);
+		SimpleGraphics2DExporterConfiguration configuration = new SimpleGraphics2DExporterConfiguration();
+		configuration.setPageIndex(pageIndex);
+		configuration.setZoomRatio(zoom);
+		exporter.setConfiguration(configuration);
 		exporter.exportReport();
-
+		
 		return pageImage;
 	}
 

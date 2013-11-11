@@ -31,11 +31,11 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
-import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleXmlExporterOutput;
 import net.sf.jasperreports.view.JRSaveContributor;
 
 /**
@@ -120,9 +120,10 @@ public class JREmbeddedImagesXmlSaveContributor extends JRSaveContributor
 			)
 		{
 			JRXmlExporter exporter = new JRXmlExporter(getJasperReportsContext());
-			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
-			exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
-			exporter.setParameter(JRXmlExporterParameter.IS_EMBEDDING_IMAGES, Boolean.TRUE);
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint)); 
+			SimpleXmlExporterOutput output = new SimpleXmlExporterOutput(file);
+			output.setEmbeddingImages(true);
+			exporter.setExporterOutput(output);
 			exporter.exportReport(); 
 		}
 	}
