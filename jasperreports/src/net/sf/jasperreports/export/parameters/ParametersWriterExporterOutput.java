@@ -1,0 +1,163 @@
+/*
+ * JasperReports - Free Java Reporting Library.
+ * Copyright (C) 2001 - 2013 Jaspersoft Corporation. All rights reserved.
+ * http://www.jaspersoft.com
+ *
+ * Unless you have purchased a commercial license agreement from Jaspersoft,
+ * the following license terms apply:
+ *
+ * This program is part of JasperReports.
+ *
+ * JasperReports is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JasperReports is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
+ */
+package net.sf.jasperreports.export.parameters;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.export.JRExporterContext;
+import net.sf.jasperreports.export.WriterExporterOutput;
+
+
+/**
+ * @deprecated To be removed.
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id$
+ */
+public class ParametersWriterExporterOutput extends AbstractParametersExporterOutput implements WriterExporterOutput
+{
+	/**
+	 * 
+	 */
+	protected String encoding;
+	private Writer writer;
+	private boolean toClose;
+	
+	/**
+	 * 
+	 */
+	public ParametersWriterExporterOutput(JRExporterContext exporterContext)
+	{
+		super(exporterContext);
+		
+		setEncoding();
+		
+		toClose = false;
+	
+		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
+		if (sb != null)
+		{
+			writer = new StringWriter();
+			toClose = true;
+		}
+		else
+		{
+			writer = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
+			if (writer == null)
+			{
+				OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+				if (os != null)
+				{
+					try
+					{
+						writer = new OutputStreamWriter(os, getEncoding());
+					}
+					catch (IOException e)
+					{
+						throw new JRRuntimeException(e);
+					}
+				}
+				else
+				{
+					File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+					if (destFile == null)
+					{
+						String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+						if (fileName != null)
+						{
+							destFile = new File(fileName);
+						}
+						else
+						{
+							throw new JRRuntimeException("No output specified for the exporter.");
+						}
+					}
+
+					try
+					{
+						os = new FileOutputStream(destFile);
+						writer = new OutputStreamWriter(os, getEncoding());
+						toClose = true;
+					}
+					catch (IOException e)
+					{
+						throw new JRRuntimeException(e);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * 
+	 */
+	protected void setEncoding()
+	{
+		encoding = 
+			getParameterResolver().getStringParameterOrDefault(
+				JRExporterParameter.CHARACTER_ENCODING, 
+				PROPERTY_CHARACTER_ENCODING
+				);
+	}
+
+	/**
+	 * 
+	 */
+	public String getEncoding()
+	{
+		return encoding;
+	}
+
+	/**
+	 * 
+	 */
+	public Writer getWriter()
+	{
+		return writer;
+	}
+
+	/**
+	 * 
+	 */
+	public void close()
+	{
+		if (toClose)
+		{
+			try
+			{
+				writer.close();
+			}
+			catch (IOException e)
+			{
+			}
+		}
+	}
+}
