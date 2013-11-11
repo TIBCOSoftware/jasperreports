@@ -26,7 +26,7 @@ package net.sf.jasperreports.export;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRExporter.java 5878 2013-01-07 20:23:13Z teodord $
+ * @version $Id$
  */
 public class SimpleJsonExporterConfiguration extends SimpleExporterConfiguration implements JsonExporterConfiguration
 {

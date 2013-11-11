@@ -28,7 +28,7 @@ import java.awt.Graphics2D;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRExporter.java 5878 2013-01-07 20:23:13Z teodord $
+ * @version $Id$
  */
 public class SimpleGraphics2DExporterOutput implements Graphics2DExporterOutput
 {
