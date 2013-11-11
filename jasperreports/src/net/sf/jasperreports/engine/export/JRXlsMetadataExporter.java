@@ -100,6 +100,8 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.XlsExporterConfiguration;
+import net.sf.jasperreports.export.XlsMetadataExporterConfiguration;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -131,7 +133,8 @@ import org.apache.poi.ss.util.CellReference;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
+public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMetadataExporterConfiguration, JRXlsExporterContext> 
+{
 
 	private static final Log log = LogFactory.getLog(JRXlsMetadataExporter.class);
 	
@@ -174,8 +177,6 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 
 	protected HSSFPatriarch patriarch;
 	
-	protected String password;
-
 	protected static final String EMPTY_SHEET_NAME = "Sheet1";
 
 	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext	{
@@ -202,23 +203,34 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 		super(jasperReportsContext);
 	}
 
-	
-	protected void setParameters() {
-		super.setParameters();
 
-		password = 
-			getStringParameter(
-				JRXlsExporterParameter.PASSWORD,
-				JRXlsExporterParameter.PROPERTY_PASSWORD
-				);
-		
-		nature = new JRXlsMetadataExporterNature(jasperReportsContext, filter, isIgnoreGraphics, isIgnorePageMargins);
+	/**
+	 *
+	 */
+	protected Class<XlsMetadataExporterConfiguration> getConfigurationInterface()
+	{
+		return XlsMetadataExporterConfiguration.class;
 	}
+	
 
-	protected void setBackground() {
-		if (!isWhitePageBackground)	{
+	protected void initExport() 
+	{
+		super.initExport();
+
+		XlsExporterConfiguration configuration = getCurrentConfiguration();
+		
+		if (!configuration.isWhitePageBackground())
+		{
 			backgroundMode = HSSFCellStyle.NO_FILL;
 		}
+
+		nature = 
+			new JRXlsMetadataExporterNature(
+				jasperReportsContext, 
+				configuration.getExporterFilter(), 
+				configuration.isIgnoreGraphics(), 
+				configuration.isIgnorePageMargins()
+				);
 	}
 
 	protected void openWorkbook(OutputStream os) throws JRException	{
@@ -270,13 +282,19 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 		HSSFPrintSetup printSetup = sheet.getPrintSetup();
 		printSetup.setLandscape(jasperPrint.getOrientationValue() == OrientationEnum.LANDSCAPE);
 		short paperSize = getSuitablePaperSize(jasperPrint);
+		
+		XlsExporterConfiguration configuration = getCurrentConfiguration();
 
 		if(paperSize != -1)	{
 			printSetup.setPaperSize(paperSize);
 		}
+
+		String password = configuration.getPassword();
 		if(password != null) {
 			sheet.protectSheet(password);
 		}
+		
+		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
 		
 		if (jasperPrint.getLeftMargin() != null) {
 			sheet.setMargin((short)0, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getLeftMargin()));
@@ -294,42 +312,49 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 			sheet.setMargin((short)3, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getBottomMargin()));
 		}
 
-		String fitWidth = getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FIT_WIDTH);
-		if(!isValidScale(sheetInfo.sheetPageScale) && fitWidth != null && fitWidth.length() > 0) {
-			printSetup.setFitWidth(Short.valueOf(fitWidth));
+		Integer fitWidth = configuration.getFitWidth();
+		if(!isValidScale(sheetInfo.sheetPageScale) && fitWidth != null) {
+			printSetup.setFitWidth(fitWidth.shortValue());
 			sheet.setAutobreaks(true);
 		}
 		
-		String fitHeight = getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FIT_HEIGHT);
-		if(!isValidScale(sheetInfo.sheetPageScale) && fitHeight != null && fitHeight.length() > 0) {
-			printSetup.setFitHeight(Short.valueOf(fitHeight));
+		Integer fitHeight = configuration.getFitHeight();
+		if(!isValidScale(sheetInfo.sheetPageScale) && fitHeight != null) {
+			printSetup.setFitHeight(fitHeight.shortValue());
 			sheet.setAutobreaks(true);
 		}
 		
+		String sheetHeaderLeft = configuration.getSheetHeaderLeft();
 		if(sheetHeaderLeft != null)	{
 			sheet.getHeader().setLeft(sheetHeaderLeft);
 		}
 		
+		String sheetHeaderCenter = configuration.getSheetHeaderCenter();
 		if(sheetHeaderCenter != null) {
 			sheet.getHeader().setCenter(sheetHeaderCenter);
 		}
 		
+		String sheetHeaderRight = configuration.getSheetHeaderRight();
 		if(sheetHeaderRight != null) {
 			sheet.getHeader().setRight(sheetHeaderRight);
 		}
 		
+		String sheetFooterLeft = configuration.getSheetFooterLeft();
 		if(sheetFooterLeft != null) {
 			sheet.getFooter().setLeft(sheetFooterLeft);
 		}
 		
+		String sheetFooterCenter = configuration.getSheetFooterCenter();
 		if(sheetFooterCenter != null) {
 			sheet.getFooter().setCenter(sheetFooterCenter);
 		}
 		
+		String sheetFooterRight = configuration.getSheetFooterRight();
 		if(sheetFooterRight != null) {
 			sheet.getFooter().setRight(sheetFooterRight);
 		}
 		
+		RunDirectionEnum sheetDirection = configuration.getSheetDirection();
 		if(sheetDirection != null) {
 			printSetup.setLeftToRight(sheetDirection == RunDirectionEnum.LTR);
 			sheet.setRightToLeft(sheetDirection == RunDirectionEnum.RTL);
@@ -373,6 +398,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 					}
 				}
 			}
+			
+			boolean isOnePagePerSheet = getCurrentConfiguration().isOnePagePerSheet();
 			
 			for (Object pageIndex : pageLinks.keySet())	{
 				List<Hyperlink> linkList = pageLinks.get(pageIndex);
@@ -502,10 +529,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 	
 
 	protected void exportLine(JRPrintLine line) throws JRException {
-		String currentColumnName = line.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_COLUMN_NAME);
+		String currentColumnName = line.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		
 		if (currentColumnName != null && currentColumnName.length() > 0) {
-			boolean repeatValue = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(line, JRXlsAbstractMetadataExporterParameter.PROPERTY_REPEAT_VALUE, false);
+			boolean repeatValue = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(line, JRXlsAbstractMetadataExporter.PROPERTY_REPEAT_VALUE, false);
 			
 			setColumnName(currentColumnName);
 			adjustColumnWidth(currentColumnName, line.getWidth(), ((JRXlsExporterNature)nature).getColumnAutoFit(line));
@@ -532,7 +559,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 
 			short mode = backgroundMode;
 			short backcolor = whiteIndex;
-			if (!isIgnoreCellBackground && line.getBackcolor() != null) {
+			if (!getCurrentConfiguration().isIgnoreCellBackground() && line.getBackcolor() != null) {
 				mode = HSSFCellStyle.SOLID_FOREGROUND;
 				backcolor = getWorkbookColor(line.getBackcolor()).getIndex();
 			}
@@ -554,10 +581,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 	}
 
 	protected void exportRectangle(JRPrintGraphicElement element) throws JRException {
-		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_COLUMN_NAME);
+		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		
 		if (currentColumnName != null && currentColumnName.length() > 0) {
-			boolean repeatValue = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(element, JRXlsAbstractMetadataExporterParameter.PROPERTY_REPEAT_VALUE, false);
+			boolean repeatValue = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(element, JRXlsAbstractMetadataExporter.PROPERTY_REPEAT_VALUE, false);
 			
 			setColumnName(currentColumnName);
 			adjustColumnWidth(currentColumnName, element.getWidth(), ((JRXlsExporterNature)nature).getColumnAutoFit(element));
@@ -567,7 +594,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 
 			short mode = backgroundMode;
 			short backcolor = whiteIndex;
-			if (!isIgnoreCellBackground && element.getBackcolor() != null) {
+			if (!getCurrentConfiguration().isIgnoreCellBackground() && element.getBackcolor() != null) {
 				mode = HSSFCellStyle.SOLID_FOREGROUND;
 				backcolor = getWorkbookColor(element.getBackcolor()).getIndex();
 			}
@@ -590,10 +617,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 
 
 	protected void exportText(final JRPrintText textElement) throws JRException {
-		String currentColumnName = textElement.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_COLUMN_NAME);
+		String currentColumnName = textElement.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		if (currentColumnName != null && currentColumnName.length() > 0) {
-			String currentColumnData = textElement.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_DATA);
-			boolean repeatValue = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(textElement, JRXlsAbstractMetadataExporterParameter.PROPERTY_REPEAT_VALUE, false);
+			String currentColumnData = textElement.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_DATA);
+			boolean repeatValue = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(textElement, JRXlsAbstractMetadataExporter.PROPERTY_REPEAT_VALUE, false);
 			
 			setColumnName(currentColumnName);
 			adjustColumnWidth(currentColumnName, textElement.getWidth(), ((JRXlsExporterNature)nature).getColumnAutoFit(textElement));
@@ -608,7 +635,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 
 			short mode = backgroundMode;
 			short backcolor = whiteIndex;
-			if (!isIgnoreCellBackground && textElement.getBackcolor() != null) {
+			if (!getCurrentConfiguration().isIgnoreCellBackground() && textElement.getBackcolor() != null) {
 				mode = HSSFCellStyle.SOLID_FOREGROUND;
 				backcolor = getWorkbookColor(textElement.getBackcolor()).getIndex();
 			}
@@ -663,7 +690,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 				
 				cellSettings.importValues(HSSFCell.CELL_TYPE_FORMULA, getLoadedCellStyle(baseStyle), null, formula);
 				
-			} else if (isDetectCellType) {
+			} else if (getCurrentConfiguration().isDetectCellType()) {
 				TextValue value = getTextValue(textElement, textStr);
 				value.handle(new TextValueHandler() {
 					public void handle(StringTextValue textValue) {
@@ -725,9 +752,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 	{
 		Hyperlink link = null;
 
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, hyperlink);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, hyperlink);
 		if (ignoreHyperlink == null) {
-			ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
+			ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
 		}
 
 		if (!ignoreHyperlink) {
@@ -892,9 +919,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 
 	public void exportImage(JRPrintImage element) throws JRException {
 
-		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_COLUMN_NAME);
+		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		if (currentColumnName != null && currentColumnName.length() > 0) {
-			boolean repeatValue = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(element, JRXlsAbstractMetadataExporterParameter.PROPERTY_REPEAT_VALUE, false);
+			boolean repeatValue = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(element, JRXlsAbstractMetadataExporter.PROPERTY_REPEAT_VALUE, false);
 			
 			setColumnName(currentColumnName);
 			adjustColumnWidth(currentColumnName, element.getWidth(), ((JRXlsExporterNature)nature).getColumnAutoFit(element));
@@ -1071,9 +1098,11 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 					}
 				}
 
+				XlsMetadataExporterConfiguration configuration = getCurrentConfiguration();
+				
 				short mode = backgroundMode;
 				short backcolor = whiteIndex;
-				if (!isIgnoreCellBackground && element.getBackcolor() != null) {
+				if (!configuration.isIgnoreCellBackground() && element.getBackcolor() != null) {
 					mode = HSSFCellStyle.SOLID_FOREGROUND;
 					backcolor = getWorkbookColor(element.getBackcolor()).getIndex();
 				}
@@ -1112,12 +1141,19 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 								(short)(colIndex + 1), 
 								rowIndex+1
 								);
-					String currentAnchorType = JRPropertiesUtil.getOwnProperty(element, JRXlsAbstractExporter.PROPERTY_IMAGE_ANCHOR_TYPE) != null
-							? JRPropertiesUtil.getOwnProperty(element, JRXlsAbstractExporter.PROPERTY_IMAGE_ANCHOR_TYPE)
-							: (imageAnchorType != null 
-									? imageAnchorType
-									: ImageAnchorTypeEnum.MOVE_NO_SIZE.getName());
-					anchor.setAnchorType(ImageAnchorTypeEnum.getByName(currentAnchorType).getValue());
+					ImageAnchorTypeEnum imageAnchorType = 
+						ImageAnchorTypeEnum.getByName(
+							JRPropertiesUtil.getOwnProperty(element, XlsExporterConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
+							);
+					if (imageAnchorType == null)
+					{
+						imageAnchorType = configuration.getImageAnchorType();
+						if (imageAnchorType == null)
+						{
+							imageAnchorType = ImageAnchorTypeEnum.MOVE_NO_SIZE;
+						}
+					}
+					anchor.setAnchorType(imageAnchorType.getValue());
 					//pngEncoder.setImage(bi);
 					//int imgIndex = workbook.addPicture(pngEncoder.pngEncode(), HSSFWorkbook.PICTURE_TYPE_PNG);
 					int imgIndex = workbook.addPicture(imageData, HSSFWorkbook.PICTURE_TYPE_PNG);
@@ -1162,7 +1198,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 				cellStyle.setDataFormat(style.getDataFormat());
 			}
 
-			if (!isIgnoreCellBorder) {
+			if (!getCurrentConfiguration().isIgnoreCellBorder()) {
 				BoxStyle box = style.box;
 				cellStyle.setBorderTop(box.borderStyle[BoxStyle.TOP]);
 				cellStyle.setTopBorderColor(box.borderColour[BoxStyle.TOP]);
@@ -1366,9 +1402,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 
 
 	protected void exportGenericElement(JRGenericPrintElement element) throws JRException {
-		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_COLUMN_NAME);
+		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		if(currentColumnName != null && currentColumnName.length() > 0) {
-			boolean repeatValue = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(element, JRXlsAbstractMetadataExporterParameter.PROPERTY_REPEAT_VALUE, false);
+			boolean repeatValue = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(element, JRXlsAbstractMetadataExporter.PROPERTY_REPEAT_VALUE, false);
 			int colIndex = columnNamesMap.get(currentColumnName);
 			
 			setColumnName(currentColumnName);
@@ -1411,6 +1447,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 
 	public String getExporterKey() {
 		return XLS_EXPORTER_KEY;
+	}
+
+	public JRXlsExporterContext getExporterContext() {
+		return exporterContext;
 	}
 
 	protected void setColumnName(String currentColumnName) {
@@ -1607,8 +1647,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 			byte red = (byte)awtColor.getRed();
 			byte green = (byte)awtColor.getGreen();
 			byte blue = (byte)awtColor.getBlue();
-	
-			if (createCustomPalette) {
+
+			XlsExporterConfiguration configuration = getCurrentConfiguration();
+			
+			if (configuration.isCreateCustomPalette()) {
 				try {
 					color = palette.findColor(red,green, blue) != null
 						? palette.findColor(red,green, blue)
@@ -1675,6 +1717,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter {
 				fontName = exportFont;
 			}
 		}
+
+		boolean isFontSizeFixEnabled = getCurrentConfiguration().isFontSizeFixEnabled();
 		
 		short superscriptType = HSSFFont.SS_NONE;
 		

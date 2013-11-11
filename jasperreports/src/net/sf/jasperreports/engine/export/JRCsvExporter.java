@@ -35,9 +35,9 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.CsvExporterConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,11 +49,9 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRCsvExporter extends JRAbstractCsvExporter
+public class JRCsvExporter extends JRAbstractCsvExporter<CsvExporterConfiguration, JRCsvExporterContext>
 {
 	private static final Log log = LogFactory.getLog(JRCsvExporter.class);
-
-	private static final String CSV_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.";
 
 	protected JRCsvExporterContext exporterContext = new ExporterContext();
 
@@ -82,20 +80,47 @@ public class JRCsvExporter extends JRAbstractCsvExporter
 		super(jasperReportsContext);
 	}
 
+
+	/**
+	 *
+	 */
+	protected Class<CsvExporterConfiguration> getConfigurationInterface()
+	{
+		return CsvExporterConfiguration.class;
+	}
 	
+
+	/**
+	 *
+	 */
+	@SuppressWarnings("deprecation")
+	protected void ensureOutput()
+	{
+		if (exporterOutput == null)
+		{
+			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(exporterContext);
+		}
+	}
+	
+
 	/**
 	 *
 	 */
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
+		CsvExporterConfiguration configuration = getCurrentConfiguration();
+		
+		String fieldDelimiter = configuration.getFieldDelimiter();
+		String recordDelimiter = configuration.getRecordDelimiter();
+		
 		JRGridLayout layout = 
 			new JRGridLayout(
 				nature,
 				page.getElements(), 
 				jasperPrint.getPageWidth(), 
 				jasperPrint.getPageHeight(), 
-				globalOffsetX, 
-				globalOffsetY,
+				configuration.getOffsetX() == null ? 0 : configuration.getOffsetX(), 
+				configuration.getOffsetY() == null ? 0 : configuration.getOffsetY(),
 				null //address
 				);
 		
@@ -160,7 +185,7 @@ public class JRCsvExporter extends JRAbstractCsvExporter
 						{
 							if (!isFirstColumn)
 							{
-								rowbuffer.append(delimiter);
+								rowbuffer.append(fieldDelimiter);
 							}
 							rowbuffer.append(
 								prepareText(text)
@@ -174,7 +199,7 @@ public class JRCsvExporter extends JRAbstractCsvExporter
 						{
 							if (!isFirstColumn)
 							{
-								rowbuffer.append(delimiter);
+								rowbuffer.append(fieldDelimiter);
 							}
 							isFirstColumn = false;
 						}
@@ -189,10 +214,19 @@ public class JRCsvExporter extends JRAbstractCsvExporter
 			}
 		}
 		
+		JRExportProgressMonitor progressMonitor  = configuration.getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
 		}
 	}
 
+
+	/**
+	 * 
+	 */
+	public JRCsvExporterContext getExporterContext()
+	{
+		return exporterContext;
+	}
 }

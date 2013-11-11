@@ -43,13 +43,15 @@ import java.util.List;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.draw.FrameDrawer;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
-import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.Graphics2DExporterConfiguration;
+import net.sf.jasperreports.export.Graphics2DExporterOutput;
 
 
 /**
@@ -62,19 +64,14 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRGraphics2DExporter extends JRAbstractExporter
+public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DExporterConfiguration, Graphics2DExporterOutput, JRGraphics2DExporterContext>
 {
-
 	private static final float DEFAULT_ZOOM = 1f;
 
 	/**
-	 * Property that provides a default value for the 
-	 * {@link net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter#MINIMIZE_PRINTER_JOB_SIZE JRGraphics2DExporterParameter.MINIMIZE_PRINTER_JOB_SIZE}
-	 * Graphics2D exporter parameter.
-	 * 
-	 * @see net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter#MINIMIZE_PRINTER_JOB_SIZE
+	 * @deprecated Replaced by {@link Graphics2DExporterConfiguration#MINIMIZE_PRINTER_JOB_SIZE}.
 	 */
-	public static final String MINIMIZE_PRINTER_JOB_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "export.graphics2d.min.job.size";
+	public static final String MINIMIZE_PRINTER_JOB_SIZE = Graphics2DExporterConfiguration.MINIMIZE_PRINTER_JOB_SIZE;
 
 	private static final String GRAPHICS2D_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.graphics2d.";
 
@@ -87,10 +84,6 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Graphics2D grx;
-	protected JRExportProgressMonitor progressMonitor;
-	protected float zoom = DEFAULT_ZOOM;
-
 	protected AwtTextRenderer textRenderer;
 	protected FrameDrawer frameDrawer;
 
@@ -122,6 +115,28 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		
 		JRGraphEnvInitializer.initializeGraphEnv();
 	}
+
+
+	/**
+	 *
+	 */
+	protected Class<Graphics2DExporterConfiguration> getConfigurationInterface()
+	{
+		return Graphics2DExporterConfiguration.class;
+	}
+	
+
+	/**
+	 *
+	 */
+	@SuppressWarnings("deprecation")
+	protected void ensureOutput()
+	{
+		if (exporterOutput == null)
+		{
+			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersGraphics2DExporterOutput(parameters);
+		}
+	}
 	
 
 	/**
@@ -129,108 +144,82 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
-		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
-		
 		/*   */
-		setOffset(false);
+		ensureJasperReportsContext();
+		ensureInput();
 
+		initExport();
+		
+		ensureOutput();
+
+		Graphics2D grx = getExporterOutput().getGraphics2D();
+		
 		try
 		{
-			/*   */
-			setExportContext();
-	
-			/*   */
-			setInput();
-			
-			if (!parameters.containsKey(JRExporterParameter.FILTER))
-			{
-				filter = createFilter(GRAPHICS2D_EXPORTER_PROPERTIES_PREFIX);
-			}
-
-			/*   */
-			setPageRange();
-	
-			/*   */
-			setTextRenderer();
-			
-			grx = (Graphics2D)parameters.get(JRGraphics2DExporterParameter.GRAPHICS_2D);
-			if (grx == null)
-			{
-				throw new JRException("No output specified for the exporter. java.awt.Graphics2D object expected.");
-			}
-			
-			/*   */
-			setDrawers();
-
-			Float zoomRatio = (Float)parameters.get(JRGraphics2DExporterParameter.ZOOM_RATIO);
-			if (zoomRatio != null)
-			{
-				zoom = zoomRatio.floatValue();
-				if (zoom <= 0)
-				{
-					throw new JRException("Invalid zoom ratio : " + zoom);
-				}
-			}
-			else
-			{
-				zoom = DEFAULT_ZOOM;
-			}
-	
-			exportReportToGraphics2D();
+			exportReportToGraphics2D(grx);
 		}
 		finally
 		{
 			resetExportContext();
 		}
 	}
-		
 
-	protected void setTextRenderer()
+
+	@Override
+	protected void initExport()
 	{
-		boolean isMinimizePrinterJobSize = true;
-		Boolean isMinimizePrinterJobSizeParam = (Boolean) parameters.get(JRGraphics2DExporterParameter.MINIMIZE_PRINTER_JOB_SIZE);
-		if (isMinimizePrinterJobSizeParam == null)
-		{
-			isMinimizePrinterJobSize = getPropertiesUtil().getBooleanProperty(MINIMIZE_PRINTER_JOB_SIZE);//FIXMENOW check other potential report properties
-		}
-		else
-		{
-			isMinimizePrinterJobSize = isMinimizePrinterJobSizeParam.booleanValue();
-		}
+		super.initExport();
+		
+		setOffset(false);
+
+		Graphics2DExporterConfiguration configuration = getCurrentConfiguration();
+		Boolean isMinimizePrinterJobSize = configuration.isMinimizePrinterJobSize();
+		Boolean isIgnoreMissingFont = configuration.isIgnoreMissingFont();
 		
 		textRenderer = 
 			new AwtTextRenderer(
 				jasperReportsContext,
-				isMinimizePrinterJobSize,
-				getPropertiesUtil().getBooleanProperty(jasperPrint, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
+				isMinimizePrinterJobSize == null ? Boolean.TRUE : isMinimizePrinterJobSize,
+				isIgnoreMissingFont == null ? Boolean.FALSE : isIgnoreMissingFont
 				);
+
+		setDrawers();
 	}
 
 	
 	protected void setDrawers()
 	{
-		frameDrawer = new FrameDrawer(exporterContext, filter, textRenderer);
+		frameDrawer = new FrameDrawer(exporterContext, getCurrentConfiguration().getExporterFilter(), textRenderer);
 	}
 
 	
 	/**
 	 *
 	 */
-	public void exportReportToGraphics2D() throws JRException
+	public void exportReportToGraphics2D(Graphics2D grx) throws JRException
 	{
 		grx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		//grx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 		grx.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
 		grx.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 
+		ExporterConfiguration configuration = getCurrentConfiguration();
+		
 		AffineTransform atrans = new AffineTransform();
-		atrans.translate(globalOffsetX, globalOffsetY);
+		atrans.translate(
+			configuration.getOffsetX() == null ? 0 : configuration.getOffsetX(), 
+			configuration.getOffsetY() == null ? 0 : configuration.getOffsetY()
+			);
+		float zoom = getZoom();
 		atrans.scale(zoom, zoom);
 		grx.transform(atrans);
 
 		List<JRPrintPage> pages = jasperPrint.getPages();
 		if (pages != null)
 		{
+			PageRange pageRange = getPageRange();
+			int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
+
 			Shape oldClipShape = grx.getClip();
 	
 			grx.clip(new Rectangle(0, 0, jasperPrint.getPageWidth(), jasperPrint.getPageHeight()));
@@ -238,7 +227,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			try
 			{
 				JRPrintPage page = pages.get(startPageIndex);
-				exportPage(page);
+				exportPage(grx, page);
 			}
 			finally
 			{
@@ -251,7 +240,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportPage(JRPrintPage page) throws JRException
+	protected void exportPage(Graphics2D grx, JRPrintPage page) throws JRException
 	{
 		grx.setColor(Color.white);
 		grx.fillRect(
@@ -267,6 +256,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		/*   */
 		frameDrawer.draw(grx, page.getElements(), getOffsetX(), getOffsetY());
 		
+		JRExportProgressMonitor progressMonitor = getCurrentConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -280,6 +270,14 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	{
 		return GRAPHICS2D_EXPORTER_KEY;
 	}
+	
+	/**
+	 * 
+	 */
+	public JRGraphics2DExporterContext getExporterContext()
+	{
+		return exporterContext;
+	}
 
 
 	/**
@@ -288,5 +286,23 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	public FrameDrawer getFrameDrawer()
 	{
 		return this.frameDrawer;
+	}
+
+
+	private float getZoom()//FIXMEEXPORT
+	{
+		float zoom = DEFAULT_ZOOM;
+		
+		Float zoomRatio = getCurrentConfiguration().getZoomRatio();
+		if (zoomRatio != null)
+		{
+			zoom = zoomRatio.floatValue();
+			if (zoom <= 0)
+			{
+				throw new JRRuntimeException("Invalid zoom ratio : " + zoom);
+			}
+		}
+
+		return zoom;
 	}
 }

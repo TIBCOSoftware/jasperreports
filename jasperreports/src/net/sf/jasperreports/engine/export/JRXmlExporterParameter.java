@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.export.XmlExporterOutput;
+
 
 /**
  * Contains parameters useful for export in XML format. The generated XML has a custom structure whose DTD defintion can be
@@ -34,6 +36,7 @@ import net.sf.jasperreports.engine.JasperPrint;
  * The report images can be either stored internally in the resulting XML document or as separate files on disk. The internally stored
  * images are saved as BASE64 encoded byte arrays in CDATA sections.
  *
+ * @deprecated Replaced by {@link XmlExporterOutput}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -51,7 +54,7 @@ public class JRXmlExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * A boolean value specifying whether images should be store internally or rather as files on disk.
+	 * @deprecated Replaced by {@link XmlExporterOutput#isEmbeddingImages()}.
 	 */
 	public static final JRXmlExporterParameter IS_EMBEDDING_IMAGES = new JRXmlExporterParameter("Is Embedding Images Flag");
 

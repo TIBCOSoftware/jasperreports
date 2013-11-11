@@ -24,7 +24,8 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.export.TextExporterConfiguration;
+
 
 /**
  * Contains parameters useful for export in plain text format.
@@ -33,6 +34,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
  * among the export parameters in order to find the selected output type in this order: OUTPUT_STRING_BUFFER, OUTPUT_WRITER,
  * OUTPUT_STREAM, OUTPUT_FILE, OUTPUT_FILE_NAME.
  *
+ * @deprecated Replaced by {@link TextExporterConfiguration}.
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
@@ -48,79 +50,61 @@ public class JRTextExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * A float value representing the pixel/character horizontal ratio.
+	 * @deprecated Replaced by {@link TextExporterConfiguration#getCharWidth()}.
 	 */
 	public static final JRTextExporterParameter CHARACTER_WIDTH = new JRTextExporterParameter("Character Width");
 
 	
 	/**
-	 * Property whose value is used as default state of the {@link #CHARACTER_WIDTH CHARACTER_WIDTH} export parameter.
-	 * <p/>
-	 * This property is not set by default.
-	 * 
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link TextExporterConfiguration#PROPERTY_CHARACTER_WIDTH}.
 	 */
-	public static final String PROPERTY_CHARACTER_WIDTH = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.character.width";
+	public static final String PROPERTY_CHARACTER_WIDTH = TextExporterConfiguration.PROPERTY_CHARACTER_WIDTH;
 
 
 	/**
-	 * A float value representing the pixel/character horizontal ratio.
+	 * @deprecated Replaced by {@link TextExporterConfiguration#getCharHeight()}.
 	 */
 	public static final JRTextExporterParameter CHARACTER_HEIGHT = new JRTextExporterParameter("Character Height");
 
 
 	/**
-	 * Property whose value is used as default state of the {@link #CHARACTER_HEIGHT CHARACTER_HEIGHT} export parameter.
-	 * <p/>
-	 * This property is not set by default.
-	 * 
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link TextExporterConfiguration#PROPERTY_CHARACTER_HEIGHT}.
 	 */
-	public static final String PROPERTY_CHARACTER_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.character.height";
+	public static final String PROPERTY_CHARACTER_HEIGHT = TextExporterConfiguration.PROPERTY_CHARACTER_HEIGHT;
 
 
 	/**
-	 * An integer representing the page width in characters.
+	 * @deprecated Replaced by {@link TextExporterConfiguration#getPageWidthInChars()}.
 	 */
 	public static final JRTextExporterParameter PAGE_WIDTH = new JRTextExporterParameter("Page Width");
 
 
 	/**
-	 * Property whose value is used as default state of the {@link #PAGE_WIDTH PAGE_WIDTH} export parameter.
-	 * <p/>
-	 * This property is not set by default.
-	 * 
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link TextExporterConfiguration#PROPERTY_PAGE_WIDTH}.
 	 */
-	public static final String PROPERTY_PAGE_WIDTH = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.page.width";
+	public static final String PROPERTY_PAGE_WIDTH = TextExporterConfiguration.PROPERTY_PAGE_WIDTH;
 
 
 	/**
-	 * An integer representing the page height in characters.
+	 * @deprecated Replaced by {@link TextExporterConfiguration#getPageHeightInChars()}.
 	 */
 	public static final JRTextExporterParameter PAGE_HEIGHT = new JRTextExporterParameter("Page Height");
 
 
 	/**
-	 * Property whose value is used as default state of the {@link #PAGE_HEIGHT PAGE_HEIGHT} export parameter.
-	 * <p/>
-	 * This property is not set by default.
-	 * 
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link TextExporterConfiguration#PROPERTY_PAGE_HEIGHT}.
 	 */
-	public static final String PROPERTY_PAGE_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.page.height";
+	public static final String PROPERTY_PAGE_HEIGHT = TextExporterConfiguration.PROPERTY_PAGE_HEIGHT;
 
 
 	/**
-	 * A string representing text that will be inserted between pages of the generated report. By default, JasperReports
-	 * separates pages by two empty lines, but this behavior can be overridden by this parameter.
+	 * @deprecated Replaced by {@link TextExporterConfiguration#getBetweenPagesText()}.
 	 */
 	public static final JRTextExporterParameter BETWEEN_PAGES_TEXT = new JRTextExporterParameter("Between Pages Text");
 
 
 	/**
-	 * A string representing the separator between two lines of text. This parameter is useful since line separators can
-	 * vary from one operating system to another. The default value is the system "line.separator" property.
+	 * @deprecated Replaced by {@link TextExporterConfiguration#getLineSeparator()}.
 	 */
 	public static final JRTextExporterParameter LINE_SEPARATOR = new JRTextExporterParameter("Line Separator");
 

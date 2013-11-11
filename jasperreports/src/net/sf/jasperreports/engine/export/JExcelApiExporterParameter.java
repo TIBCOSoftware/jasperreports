@@ -31,20 +31,16 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
-
-
-
 
 /**
+ * @deprecated To be removed.
  * @author Manuel Paul (mpaul@ratundtat.com)
  * @version $Id$
- * @deprecated To be removed. Use {@link JRXlsExporter} or {@link JRXlsxExporter} instead.
  */
-public class JExcelApiExporterParameter extends JRXlsAbstractExporterParameter {
-
-	protected JExcelApiExporterParameter(String name) {
+public class JExcelApiExporterParameter extends JRXlsAbstractExporterParameter 
+{
+	protected JExcelApiExporterParameter(String name) 
+	{
 		super(name);
 	}
-
 }

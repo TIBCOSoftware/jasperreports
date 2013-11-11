@@ -124,6 +124,9 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.JxlExporterConfiguration;
+import net.sf.jasperreports.export.JxlMetadataExporterConfiguration;
+import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -132,32 +135,24 @@ import org.apache.commons.logging.LogFactory;
 
 
 /**
+ * @deprecated Replaced by {@link JRXlsMetadataExporter}.
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
- * @deprecated Replaced by {@link JRXlsMetadataExporter}.
  */
-public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
+public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<JxlMetadataExporterConfiguration, JExcelApiExporterContext>
 {
 
 	private static final Log log = LogFactory.getLog(JExcelApiMetadataExporter.class);
 
 	/**
-	 * Boolean property enabling the JExcelApiMetadataExporter to use temporary files when creating large documents.
-	 * <p/>
-	 * This property is by default not set (<code>false</code>).
-	 * 
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link JxlExporterConfiguration#PROPERTY_USE_TEMP_FILE}.
 	 */
-	public static final String PROPERTY_USE_TEMP_FILE = JRPropertiesUtil.PROPERTY_PREFIX + "export.jxl.use.temp.file";
+	public static final String PROPERTY_USE_TEMP_FILE = JxlExporterConfiguration.PROPERTY_USE_TEMP_FILE;
 
 	/**
-	 * Boolean property specifying whether the cell format pattern is user-defined.
-	 * When set to true, the exporter will assume that the specified pattern is well defined. 
-	 * If the pattern is invalid, it won't be taken into account by the Excel file viewer.
-	 * 
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link JxlExporterConfiguration#PROPERTY_COMPLEX_FORMAT}.
 	 */
-	public static final String PROPERTY_COMPLEX_FORMAT = JRPropertiesUtil.PROPERTY_PREFIX + "export.jxl.cell.complex.format";
+	public static final String PROPERTY_COMPLEX_FORMAT = JxlExporterConfiguration.PROPERTY_COMPLEX_FORMAT;
 
 	/**
 	 * The exporter key, as used in
@@ -189,11 +184,8 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 
 	protected Map<Color,Colour> workbookColours = new HashMap<Color,Colour>();
 	protected Map<Colour,RGB> usedColours = new HashMap<Colour,RGB>();
-	protected String password;
 	
 	protected ExporterNature nature;
-	protected boolean useTempFile;
-	protected boolean complexFormat;
 	
 	protected class ExporterContext extends BaseExporterContext implements JExcelApiExporterContext
 	{
@@ -223,36 +215,42 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		super(jasperReportsContext);
 	}
 
-	
-	protected void setParameters()
-	{
-		super.setParameters();
 
-		if (createCustomPalette)
+	/**
+	 *
+	 */
+	protected Class<JxlMetadataExporterConfiguration> getConfigurationInterface()
+	{
+		return JxlMetadataExporterConfiguration.class;
+	}
+	
+
+	protected void initExport()
+	{
+		super.initExport();
+
+		JxlMetadataExporterConfiguration configuration = getCurrentConfiguration();
+		
+		if (configuration.isCreateCustomPalette())
 		{
 			initCustomPalette();
 		}
 
-		password = 
-			getStringParameter(
-				JExcelApiExporterParameter.PASSWORD,
-				JExcelApiExporterParameter.PROPERTY_PASSWORD
-				);
-		
-		nature = new JExcelApiExporterNature(jasperReportsContext, filter, isIgnoreGraphics, isIgnorePageMargins);
-		
-		useTempFile = 
-			JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
-				jasperPrint,
-				PROPERTY_USE_TEMP_FILE,
-				false
-				);
-		
-		complexFormat = 
-			JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
-				jasperPrint,
-				PROPERTY_COMPLEX_FORMAT,
-				false
+		if (configuration.isWhitePageBackground())
+		{
+			this.backgroundMode = Pattern.SOLID;
+		}
+		else
+		{
+			this.backgroundMode = Pattern.NONE;
+		}
+
+		nature = 
+			new JExcelApiExporterNature(
+				jasperReportsContext, 
+				configuration.getExporterFilter(), 
+				configuration.isIgnoreGraphics(), 
+				configuration.isIgnorePageMargins()
 				);
 	}
 
@@ -288,22 +286,10 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		usedColours.put(colour, customRGB);
 	}
 
-	protected void setBackground()
-	{
-		if (isWhitePageBackground)
-		{
-			this.backgroundMode = Pattern.SOLID;
-		}
-		else
-		{
-			this.backgroundMode = Pattern.NONE;
-		}
-	}
-
 	protected void openWorkbook(OutputStream os) throws JRException
 	{
 		WorkbookSettings settings = new WorkbookSettings();
-		settings.setUseTemporaryFileDuringWrite(useTempFile);
+		settings.setUseTemporaryFileDuringWrite(getCurrentConfiguration().isUseTempFile());
 		
 		InputStream templateIs = null;
 
@@ -513,7 +499,9 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 			Colour backcolor = WHITE;
 			Pattern mode = this.backgroundMode;
 	
-			if (!isIgnoreCellBackground && line.getBackcolor() != null)
+			JxlExporterConfiguration configuration = getCurrentConfiguration();
+			
+			if (!configuration.isIgnoreCellBackground() && line.getBackcolor() != null)
 			{
 				mode = Pattern.SOLID;
 				backcolor = getWorkbookColour(line.getBackcolor(), true);
@@ -573,7 +561,9 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 			Colour backcolor = WHITE;
 			Pattern mode = this.backgroundMode;
 	
-			if (!isIgnoreCellBackground && element.getBackcolor() != null)
+			JxlExporterConfiguration configuration = getCurrentConfiguration();
+			
+			if (!configuration.isIgnoreCellBackground() && element.getBackcolor() != null)
 			{
 				mode = Pattern.SOLID;
 				backcolor = getWorkbookColour(element.getBackcolor(), true);
@@ -621,7 +611,9 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 			Pattern mode = this.backgroundMode;
 			Colour backcolor = WHITE;
 
-			if (!isIgnoreCellBackground && textElement.getBackcolor() != null)
+			JxlExporterConfiguration configuration = getCurrentConfiguration();
+			
+			if (!configuration.isIgnoreCellBackground() && textElement.getBackcolor() != null)
 			{
 				mode = Pattern.SOLID;
 				backcolor = getWorkbookColour(textElement.getBackcolor(), true);
@@ -801,8 +793,9 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		
 		if (cellValue == null)
 		{
+			JxlExporterConfiguration configuration = getCurrentConfiguration();
 			// there was no formula, or the formula cell creation failed
-			if (isDetectCellType)
+			if (configuration.isDetectCellType())
 			{
 				if (textFormula == null)
 				{
@@ -1278,7 +1271,9 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 				Pattern mode = this.backgroundMode;
 				Colour background = WHITE;
 	
-				if (!isIgnoreCellBackground && element.getBackcolor() != null)
+				JxlExporterConfiguration configuration = getCurrentConfiguration();
+				
+				if (!configuration.isIgnoreCellBackground() && element.getBackcolor() != null)
 				{
 					mode = Pattern.SOLID;
 					background = getWorkbookColour(element.getBackcolor(), true);
@@ -1307,12 +1302,19 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 				{
 					int colIndex = columnNamesMap.get(currentColumnName);
 					WritableImage image = new WritableImage(colIndex, rowIndex, 1, 1, imageData);
-					String currentAnchorType = JRPropertiesUtil.getOwnProperty(element, JRXlsAbstractExporter.PROPERTY_IMAGE_ANCHOR_TYPE) != null
-							? JRPropertiesUtil.getOwnProperty(element, JRXlsAbstractExporter.PROPERTY_IMAGE_ANCHOR_TYPE)
-							: (imageAnchorType != null 
-									? imageAnchorType
-									: ImageAnchorTypeEnum.MOVE_NO_SIZE.getName());
-					setAnchorType(image, ImageAnchorTypeEnum.getByName(currentAnchorType));
+					ImageAnchorTypeEnum imageAnchorType = 
+						ImageAnchorTypeEnum.getByName(
+							JRPropertiesUtil.getOwnProperty(element, XlsExporterConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
+							);
+					if (imageAnchorType == null)
+					{
+						imageAnchorType = configuration.getImageAnchorType();
+						if (imageAnchorType == null)
+						{
+							imageAnchorType = ImageAnchorTypeEnum.MOVE_NO_SIZE;
+						}
+					}
+					setAnchorType(image, imageAnchorType);
 					sheet.addImage(image);
 				}
 				catch (Exception ex)
@@ -1338,8 +1340,9 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 
 	protected Colour getWorkbookColour(Color awtColor)
 	{
+		JxlExporterConfiguration configuration = getCurrentConfiguration();
 		Colour colour;
-		if (createCustomPalette)
+		if (configuration.isCreateCustomPalette())
 		{
 			colour = workbookColours.get(awtColor);
 			if (colour == null)
@@ -1461,6 +1464,8 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 
 	private WritableFont getLoadedFont(JRFont font, int forecolor, Locale locale) throws JRException
 	{
+		boolean isFontSizeFixEnabled = getCurrentConfiguration().isFontSizeFixEnabled();
+
 		WritableFont cellFont = null;
 
 		if (this.loadedFonts != null && this.loadedFonts.size() > 0)
@@ -1917,7 +1922,8 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 				cellStyle.setWrap(styleKey.isWrapText);
 				cellStyle.setLocked(styleKey.isCellLocked);
 
-				if (!isIgnoreCellBorder)
+				JxlExporterConfiguration configuration = getCurrentConfiguration();
+				if (!configuration.isIgnoreCellBorder())
 				{
 					BoxStyle box = styleKey.box;
 					cellStyle.setBorder(Border.TOP, box.borderStyle[BoxStyle.TOP], box.borderColour[BoxStyle.TOP]);
@@ -2014,6 +2020,10 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		}
 		SheetSettings sheets = sheet.getSettings();
 		
+		JxlExporterConfiguration configuration = getCurrentConfiguration();
+		
+		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
+		
 		if (jasperPrint.getTopMargin() != null)
 		{
 			sheets.setTopMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getTopMargin()));
@@ -2037,51 +2047,54 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		sheets.setHeaderMargin(0.0);
 		sheets.setFooterMargin(0.0);
 
-		String fitWidth = getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FIT_WIDTH);
-		if(fitWidth != null && fitWidth.length() > 0)
+		Integer fitWidth = configuration.getFitWidth();
+		Integer fitHeight = configuration.getFitHeight();
+		
+		if(fitWidth != null || fitWidth != null)
 		{
-			sheets.setFitWidth(Integer.valueOf(fitWidth));
+			sheets.setFitWidth(fitWidth == null ? 1 : fitWidth);
+			sheets.setFitHeight(fitHeight == null ? 1 : fitHeight);
 			sheets.setFitToPages(true);
 		}
 		
-		String fitHeight = getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FIT_HEIGHT);
-		if(fitHeight != null && fitHeight.length() > 0)
-		{
-			sheets.setFitHeight(Integer.valueOf(fitHeight));
-			sheets.setFitToPages(true);
-		}
-
+		String password = configuration.getPassword();
 		if(password != null)
 		{
 			sheets.setPassword(password);
 			sheets.setProtected(true);
 		}
 		
+		String sheetHeaderLeft = configuration.getSheetHeaderLeft();
 		if(sheetHeaderLeft != null)
 		{
 			sheets.getHeader().getLeft().append(sheetHeaderLeft);
 		}
 		
+		String sheetHeaderCenter = configuration.getSheetHeaderCenter();
 		if(sheetHeaderCenter != null)
 		{
 			sheets.getHeader().getCentre().append(sheetHeaderCenter);
 		}
 		
+		String sheetHeaderRight = configuration.getSheetHeaderRight();
 		if(sheetHeaderRight != null)
 		{
 			sheets.getHeader().getRight().append(sheetHeaderRight);
 		}
 		
+		String sheetFooterLeft = configuration.getSheetFooterLeft();
 		if(sheetFooterLeft != null)
 		{
 			sheets.getFooter().getLeft().append(sheetFooterLeft);
 		}
 		
+		String sheetFooterCenter = configuration.getSheetFooterCenter();
 		if(sheetFooterCenter != null)
 		{
 			sheets.getFooter().getCentre().append(sheetFooterCenter);
 		}
 		
+		String sheetFooterRight = configuration.getSheetFooterRight();
 		if(sheetFooterRight != null)
 		{
 			sheets.getFooter().getRight().append(sheetFooterRight);
@@ -2406,21 +2419,27 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		return JXL_EXPORTER_KEY;
 	}
 
+
+	public JExcelApiExporterContext getExporterContext()
+	{
+		return exporterContext;
+	}
+
 	/**
 	 * 
 	 */
 	protected boolean isComplexFormat(JRPrintElement element)
 	{
 		if (
-				element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(PROPERTY_COMPLEX_FORMAT)
-				)
-			{
-				// we make this test to avoid reaching the global default value of the property directly
-				// and thus skipping the report level one, if present
-				return JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(element, PROPERTY_COMPLEX_FORMAT, complexFormat);
-			}
-		return complexFormat;
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(PROPERTY_COMPLEX_FORMAT)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(element, PROPERTY_COMPLEX_FORMAT, getCurrentConfiguration().isComplexFormat());
+		}
+		return getCurrentConfiguration().isComplexFormat();
 	}
 
 	protected void setColumnName(String currentColumnName)

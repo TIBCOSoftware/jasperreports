@@ -24,9 +24,10 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JRPrintFrame;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.export.ExporterInput;
+import net.sf.jasperreports.export.HtmlExporterConfiguration;
+import net.sf.jasperreports.export.HtmlExporterOutput;
+import net.sf.jasperreports.export.type.HtmlSizeUnitEnum;
 
 
 /**
@@ -41,6 +42,7 @@ import net.sf.jasperreports.engine.JRTextElement;
  * containing the file name on disk. If they remain in memory, IMAGES_URI must point to a resource that is able to send the images
  * to the browser (such as an image servlet, as shown in the <i>webapp</i> example).
  *
+ * @deprecated Replaced by {@link ExporterInput}, {@link HtmlExporterConfiguration} and {@link HtmlExporterOutput}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -60,21 +62,21 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	/**
 	 * A map containing all the images that were used for generating the report. The JasperReports engine stores all the
 	 * images in this map, and uses the map keys for referencing images throughout the export process.
-	 * @deprecated Replaced by {@link AbstractHtmlExporter#getImageHandler()}.
+	 * @deprecated Replaced by {@link HtmlExporterOutput#getImageHandler()}.
 	 */
 	public static final JRHtmlExporterParameter IMAGES_MAP = new JRHtmlExporterParameter("Images Map Object");
 
 
 	/**
 	 * A <tt>java.io.File</tt> instance representing an absolute path to a folder on a local disk, where all the images are stored.
-	 * @deprecated Replaced by {@link AbstractHtmlExporter#getImageHandler()}.
+	 * @deprecated Replaced by {@link HtmlExporterOutput#getImageHandler()}.
 	 */
 	public static final JRHtmlExporterParameter IMAGES_DIR = new JRHtmlExporterParameter("Images Directory");
 
 
 	/**
 	 * An absolute path to a folder on a local disk, where all the images are stored. This is an alternative to IMAGES_DIR
-	 * @deprecated Replaced by {@link AbstractHtmlExporter#getImageHandler()}.
+	 * @deprecated Replaced by {@link HtmlExporterOutput#getImageHandler()}.
 	 */
 	public static final JRHtmlExporterParameter IMAGES_DIR_NAME = new JRHtmlExporterParameter("Images Directory Name");
 
@@ -82,7 +84,7 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	/**
 	 * A boolean value specifying whether the images should be stored on disk. The default value is true. If this parameter is
 	 * specified, IMAGES_DIR or IMAGES_DIR_NAME must also be specified and point to a valid directory.
-	 * @deprecated Replaced by {@link AbstractHtmlExporter#getImageHandler()}.
+	 * @deprecated Replaced by {@link HtmlExporterOutput#getImageHandler()}.
 	 */
 	public static final JRHtmlExporterParameter IS_OUTPUT_IMAGES_TO_DIR = new JRHtmlExporterParameter("Is Output Images to Directory Flag");
 
@@ -91,185 +93,124 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	 * An URI to the folder where all the images are stored. It could also point to a different resource, such as an image servlet.
 	 * It is used in the generated HTML to point to the actual location of the image in the <img> tag (as a file on disk or a
 	 * web resource).
-	 * @deprecated Replaced by {@link AbstractHtmlExporter#getImageHandler()}.
+	 * @deprecated Replaced by {@link HtmlExporterOutput#getImageHandler()}.
 	 */
 	public static final JRHtmlExporterParameter IMAGES_URI = new JRHtmlExporterParameter("Images URI");
 
 
 	/**
-	 * A string representing HTML code that will be inserted in front of the generated report. The JasperReports engine places
-	 * a piece of HTML code at the top of the page but users can define their own headers and stylesheet links.
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#getHtmlHeader()}.
 	 */
 	public static final JRHtmlExporterParameter HTML_HEADER = new JRHtmlExporterParameter("HTML Header");
 
 
 	/**
-	 * A string representing HTML code that will be inserted between pages of the generated report. By default, JasperReports
-	 * separates pages by two empty lines, but this behavior can be overridden by this parameter.
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#getBetweenPagesHtml()}.
 	 */
 	public static final JRHtmlExporterParameter BETWEEN_PAGES_HTML = new JRHtmlExporterParameter("Between Pages HTML");
 
 
 	/**
-	 * A string representing HTML code that will be inserted after the generated report. By default, JasperReports closes
-	 * the usual HTML tags that were opened in HTML_HEADER. If the default HTML_HEADER was overridden, it is recommended that
-	 * this parameter is overridden too, in order to ensure proper construction of HTML page.
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#getHtmlFooter()}.
 	 */
 	public static final JRHtmlExporterParameter HTML_FOOTER = new JRHtmlExporterParameter("HTML Footer");
 
 
 
 	/**
-	 * A boolean value specifying whether the blank lines, that sometimes appear between rows, should be deleted. Sometimes page
-	 * break occurs before the entire page is filled with data (i.e. having a group with the <i>isStartNewPage</i> attribute set to true).
-	 * All the remaining empty space could be removed by setting this parameter to true.
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#isRemoveEmptySpaceBetweenRows()}.
 	 */
 	public static final JRHtmlExporterParameter IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = new JRHtmlExporterParameter("Is Remove Empty Space Between Rows");
 
 
 	/**
-	 * Property whose value is used as default state of the {@link #IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS} export flag.
-	 * <p/>
-	 * This property is by default not set (<code>false</code>).
-	 * 
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS}.
 	 */
-	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.remove.emtpy.space.between.rows";
+	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = HtmlExporterConfiguration.PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS;
 
 
 	/**
-	 * A boolean value specifying whether the report background should be white. If this parameter is not set, the default
-	 * background will appear, depending on the selected CSS styles.
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#isWhitePageBackground()}.
 	 */
 	public static final JRHtmlExporterParameter IS_WHITE_PAGE_BACKGROUND = new JRHtmlExporterParameter("Is White Page Background");
 
 
 	/**
-	 * Property whose value is used as default state of the {@link #IS_WHITE_PAGE_BACKGROUND IS_WHITE_PAGE_BACKGROUND} export flag.
-	 * <p/>
-	 * This property is set by default (<code>true</code>).
-	 * 
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#PROPERTY_WHITE_PAGE_BACKGROUND}.
 	 */
-	public static final String PROPERTY_WHITE_PAGE_BACKGROUND = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.white.page.background";
+	public static final String PROPERTY_WHITE_PAGE_BACKGROUND = HtmlExporterConfiguration.PROPERTY_WHITE_PAGE_BACKGROUND;
 
 
 	/**
-	 * A boolean value specifying whether the export engine should use small images for aligning. This is useful when you don't have
-	 * images in your report anyway and you don't want to have to handle images at all.
+	 * @deprecated Replaced by {@link JRHtmlExporterConfiguration#isUsingImagesToAlign()}.
 	 */
 	public static final JRHtmlExporterParameter IS_USING_IMAGES_TO_ALIGN = new JRHtmlExporterParameter("Is Using Images To Align");
 
 
 	/**
-	 * Property whose value is used as default state of the {@link #IS_USING_IMAGES_TO_ALIGN IS_USING_IMAGES_TO_ALIGN} export flag.
-	 * <p/>
-	 * This property is set by default (<code>true</code>).
-	 * 
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link JRHtmlExporterConfiguration#PROPERTY_USING_IMAGES_TO_ALIGN}.
 	 */
-	public static final String PROPERTY_USING_IMAGES_TO_ALIGN = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.using.images.to.align";
+	public static final String PROPERTY_USING_IMAGES_TO_ALIGN = JRHtmlExporterConfiguration.PROPERTY_USING_IMAGES_TO_ALIGN;
 
 
 	/**
-	 * A boolean value specifying whether the export engine should use force wrapping by breaking words (CSS <code>word-wrap: break-word</code>).
-	 * 
-	 * <p>
-	 * Note that this CSS property is not currently supported by all browsers.
-	 * An alternative approach for forcing word breaks in HTML is to save the
-	 * line breaks at fill time via the {@link JRTextElement#PROPERTY_SAVE_LINE_BREAKS}
-	 * property.
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#isWrapBreakWord()}.
 	 */
 	public static final JRHtmlExporterParameter IS_WRAP_BREAK_WORD = new JRHtmlExporterParameter("Is Wrap Break Word");
 
 
 	/**
-	 * Property whose value is used as default state of the {@link #IS_WRAP_BREAK_WORD IS_WRAP_BREAK_WORD} export flag.
-	 * <p/>
-	 * This property is by default not set (<code>false</code>).
-	 * 
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#PROPERTY_WRAP_BREAK_WORD}.
 	 */
-	public static final String PROPERTY_WRAP_BREAK_WORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.wrap.break.word";
+	public static final String PROPERTY_WRAP_BREAK_WORD = HtmlExporterConfiguration.PROPERTY_WRAP_BREAK_WORD;
 
 
 	/**
-	 * A String value specifying the unit to use when measuring lengths or font size. 
-	 * This can be one of the supported size units from the CSS specifications like "px" for pixels
-	 * or "pt" for points. The default value is "px", meaning that lengths and font sizes are specified in pixels. 
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#getSizeUnit()}. 
 	 */
 	public static final JRHtmlExporterParameter SIZE_UNIT = new JRHtmlExporterParameter("Size Unit");
 
 	/**
-	 * Property whose value is used as default for the {@link #SIZE_UNIT SIZE_UNIT} export parameter.
-	 * 
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#PROPERTY_SIZE_UNIT}.
 	 */
-	public static final String PROPERTY_SIZE_UNIT = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.size.unit";
+	public static final String PROPERTY_SIZE_UNIT = HtmlExporterConfiguration.PROPERTY_SIZE_UNIT;
 
 
 	/**
-	 * Possible value for the {@link JRHtmlExporterParameter#SIZE_UNIT} parameter indicated that measurements are made in pixels. 
+	 * @deprecated Replaced by {@link HtmlSizeUnitEnum#PIXEL}. 
 	 */
-	public static final String SIZE_UNIT_PIXEL = "px";
+	public static final String SIZE_UNIT_PIXEL = HtmlSizeUnitEnum.PIXEL.getName();
 
 	/**
-	 * Possible value for the {@link JRHtmlExporterParameter#SIZE_UNIT} parameter indicated that measurements are made in points. 
+	 * @deprecated Replaced by {@link HtmlSizeUnitEnum#POINT}. 
 	 */
-	public static final String SIZE_UNIT_POINT = "pt";
+	public static final String SIZE_UNIT_POINT = HtmlSizeUnitEnum.POINT.getName();
 
 	
 	/**
-	 * The zoom ratio used for the export. The default value is 1.
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#getZoomRatio()}.
 	 */
 	public static final JRHtmlExporterParameter ZOOM_RATIO = new JRHtmlExporterParameter("Zoom Ratio");
 
 	/**
-	 * Indicates whether {@link JRPrintFrame frames} are to be exported as nested HTML tables.
-	 * <p>
-	 * The type of the parameter is <code>java.lang.Boolean</code>.
-	 * </p>
-	 * <p>
-	 * Is set to <code>false</code>, the frame contents will be integrated into the master/page HTML table.
-	 * This can be useful when exporting frames as nested tables causes output misalignments.
-	 * </p>
-	 * @see #PROPERTY_FRAMES_AS_NESTED_TABLES
+	 * @deprecated Replaced by {@link JRHtmlExporterConfiguration#isFramesAsNestedTables()}.
 	 */
 	public static final JRHtmlExporterParameter FRAMES_AS_NESTED_TABLES = new JRHtmlExporterParameter("Export Frames as Nested Tables");
 	
 
 	/**
-	 * This property serves as default value for the {@link #FRAMES_AS_NESTED_TABLES FRAMES_AS_NESTED_TABLES}
-	 * export parameter.
-	 * <p>
-	 * The propery itself defaults to <code>true</code>.
-	 * </p>
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link JRHtmlExporterConfiguration#PROPERTY_FRAMES_AS_NESTED_TABLES}.
 	 */
-	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.frames.as.nested.tables";
+	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRHtmlExporterConfiguration.PROPERTY_FRAMES_AS_NESTED_TABLES;
 	
 
 	/**
-	 * A parameter that determines whether the HTML exporter should flush the
-	 * output stream after writing the HTML content to it.
-	 * 
-	 * <p>
-	 * The default value is given by the {@link #PROPERTY_FLUSH_OUTPUT} property.
-	 * </p>
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#isFlushOutput()}.
 	 */
-	public static final JRHtmlExporterParameter FLUSH_OUTPUT = 
-		new JRHtmlExporterParameter("Flush Output");
+	public static final JRHtmlExporterParameter FLUSH_OUTPUT = new JRHtmlExporterParameter("Flush Output");
 	
 	/**
-	 * Property that provides the default value for the {@link #FLUSH_OUTPUT}
-	 * parameter.
-	 * 
-	 * <p>
-	 * The property can be set at report level or globally.
-	 * By default, the HTML exporter performs a flush on the output stream
-	 * after export.
-	 * </p>
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#PROPERTY_FLUSH_OUTPUT}.
 	 */
-	public static final String PROPERTY_FLUSH_OUTPUT = 
-		JRPropertiesUtil.PROPERTY_PREFIX + "export.html.flush.output";
+	public static final String PROPERTY_FLUSH_OUTPUT = HtmlExporterConfiguration.PROPERTY_FLUSH_OUTPUT;
 }

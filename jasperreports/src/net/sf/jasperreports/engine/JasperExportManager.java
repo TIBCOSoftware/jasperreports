@@ -31,8 +31,12 @@ import java.io.OutputStream;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
-import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
+import net.sf.jasperreports.export.SimpleXmlExporterOutput;
 
 
 /**
@@ -144,8 +148,8 @@ public final class JasperExportManager
 		/*   */
 		JRPdfExporter exporter = new JRPdfExporter(jasperReportsContext);
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFileName);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFileName));
 		
 		exporter.exportReport();
 	}
@@ -185,8 +189,8 @@ public final class JasperExportManager
 	{
 		JRPdfExporter exporter = new JRPdfExporter(jasperReportsContext);
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outputStream);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
 		
 		exporter.exportReport();
 	}
@@ -206,8 +210,8 @@ public final class JasperExportManager
 
 		JRPdfExporter exporter = new JRPdfExporter(jasperReportsContext);
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(baos));
 		
 		exporter.exportReport();
 		
@@ -307,10 +311,11 @@ public final class JasperExportManager
 	{
 		JRXmlExporter exporter = new JRXmlExporter(jasperReportsContext);
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFileName);
-		exporter.setParameter(JRXmlExporterParameter.IS_EMBEDDING_IMAGES,
-			isEmbeddingImages ? Boolean.TRUE : Boolean.FALSE);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		
+		SimpleXmlExporterOutput xmlOutput = new SimpleXmlExporterOutput(destFileName);
+		xmlOutput.setEmbeddingImages(isEmbeddingImages);
+		exporter.setExporterOutput(xmlOutput);
 		
 		exporter.exportReport();
 	}
@@ -352,8 +357,8 @@ public final class JasperExportManager
 	{
 		JRXmlExporter exporter = new JRXmlExporter(jasperReportsContext);
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outputStream);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleWriterExporterOutput(outputStream));
 		
 		exporter.exportReport();
 	}
@@ -374,8 +379,8 @@ public final class JasperExportManager
 
 		JRXmlExporter exporter = new JRXmlExporter(jasperReportsContext);
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_STRING_BUFFER, sbuffer);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleWriterExporterOutput(sbuffer));
 		
 		exporter.exportReport();
 		
@@ -458,8 +463,8 @@ public final class JasperExportManager
 	{
 		HtmlExporter exporter = new HtmlExporter(jasperReportsContext);
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFileName);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleHtmlExporterOutput(destFileName));
 		
 		exporter.exportReport();
 	}

@@ -33,12 +33,15 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.export.HtmlExporterConfiguration;
+import net.sf.jasperreports.export.HtmlExporterOutput;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: HtmlExporter.java 6502 2013-09-11 14:07:25Z lucianc $
  */
-public abstract class AbstractHtmlExporter extends JRAbstractExporter
+public abstract class AbstractHtmlExporter<C extends HtmlExporterConfiguration> extends JRAbstractExporter<C, HtmlExporterOutput, JRHtmlExporterContext>
 {
 	/**
 	 *
@@ -81,7 +84,7 @@ public abstract class AbstractHtmlExporter extends JRAbstractExporter
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link HtmlExporterOutput#getImageHandler()}.
 	 */
 	public HtmlResourceHandler getImageHandler() 
 	{
@@ -89,7 +92,7 @@ public abstract class AbstractHtmlExporter extends JRAbstractExporter
 	}
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link HtmlExporterOutput#getImageHandler()}.
 	 */
 	public void setImageHandler(HtmlResourceHandler imageHandler) 
 	{
@@ -97,7 +100,7 @@ public abstract class AbstractHtmlExporter extends JRAbstractExporter
 	}
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link HtmlExporterOutput#getFontHandler()}.
 	 */
 	public HtmlResourceHandler getFontHandler() 
 	{
@@ -105,7 +108,7 @@ public abstract class AbstractHtmlExporter extends JRAbstractExporter
 	}
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link HtmlExporterOutput#getFontHandler()}.
 	 */
 	public void setFontHandler(HtmlResourceHandler fontHandler) 
 	{
@@ -113,7 +116,7 @@ public abstract class AbstractHtmlExporter extends JRAbstractExporter
 	}
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link HtmlExporterOutput#getResourceHandler()}.
 	 */
 	public HtmlResourceHandler getResourceHandler() 
 	{
@@ -121,7 +124,7 @@ public abstract class AbstractHtmlExporter extends JRAbstractExporter
 	}
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link HtmlExporterOutput#getResourceHandler()}.
 	 */
 	public void setResourceHandler(HtmlResourceHandler resourceHandler) 
 	{

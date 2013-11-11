@@ -25,6 +25,11 @@ package net.sf.jasperreports.engine;
 
 import java.util.Map;
 
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.ExporterInput;
+import net.sf.jasperreports.export.ExporterOutput;
+
 
 /**
  * All document exporting in JasperReports is done through this interface. There is an implementation of
@@ -53,10 +58,11 @@ import java.util.Map;
  * HTML, XLS and CSV exporters.
  * </ul>
  *
+ * @deprecated Replaced by {@link Exporter}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRExporter
+public interface JRExporter<I extends ExporterInput, C extends ExporterConfiguration, O extends ExporterOutput> extends Exporter<I, C, O>
 {
 
 
@@ -66,12 +72,15 @@ public interface JRExporter
 	 * @param parameter the parameter, selected from the static parameters defined by JasperReports
 	 * @param value the parameter value
 	 * @see JRExporterParameter
+	 * @deprecated Replaced by  {@link #setExporterInput(net.sf.jasperreports.export.ExporterInput)}, 
+	 * {@link #setConfiguration(ExporterConfiguration)} and {@link #setExporterOutput(net.sf.jasperreports.export.ExporterOutput)}
 	 */
 	public void setParameter(JRExporterParameter parameter, Object value);
 
 
 	/**
 	 * Gets an export parameter.
+	 * @deprecated Replaced by {@link ExporterInput}, {@link ExporterConfiguration} and {@link ExporterOutput}.
 	 */
 	public Object getParameter(JRExporterParameter parameter);
 
@@ -79,32 +88,17 @@ public interface JRExporter
 	/**
 	 * Sets export parameters from a specified map.
 	 * @see JRExporter#setParameter(JRExporterParameter, Object)
+	 * @deprecated Replaced by  {@link #setExporterInput(net.sf.jasperreports.export.ExporterInput)}, 
+	 * {@link #setConfiguration(ExporterConfiguration)} and {@link #setExporterOutput(net.sf.jasperreports.export.ExporterOutput)}
 	 */
 	public void setParameters(Map<JRExporterParameter,Object> parameters);
 	
 
 	/**
 	 * Gets a map containing all export parameters.
+	 * @deprecated Replaced by {@link ExporterInput}, {@link ExporterConfiguration} and {@link ExporterOutput}.
 	 */
 	public Map<JRExporterParameter, Object> getParameters();
 
 	
-	/**
-	 *
-	 */
-	public void setReportContext(ReportContext reportContext);
-
-	
-	/**
-	 *
-	 */
-	public ReportContext getReportContext();
-
-	
-	/**
-	 * Actually starts the export process.
-	 */
-	public void exportReport() throws JRException;
-	
-
 }

@@ -82,6 +82,7 @@ public class JRPdfExporterTagHelper
 	protected boolean isDataCellPrinted;
 
 	protected boolean isTagged;
+	protected String language;
 
 	/**
 	 *
@@ -97,6 +98,14 @@ public class JRPdfExporterTagHelper
 	protected void setTagged(boolean isTagged)
 	{
 		this.isTagged = isTagged;
+	}
+	
+	/**
+	 *
+	 */
+	protected void setLanguage(String language)
+	{
+		this.language = language;
 	}
 	
 	/**
@@ -135,11 +144,6 @@ public class JRPdfExporterTagHelper
 				root.mapRole(new PdfName("Anchor"), PdfName.TEXT);
 			}
 			
-			String language = 
-				exporter.getStringParameter(
-						JRPdfExporterParameter.TAG_LANGUAGE,
-						JRPdfExporterParameter.PROPERTY_TAG_LANGUAGE
-						);
 			if (language != null)
 			{
 				allTag.put(PdfName.LANG, new PdfString(language));

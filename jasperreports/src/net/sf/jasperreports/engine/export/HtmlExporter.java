@@ -28,12 +28,7 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
@@ -50,9 +45,7 @@ import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ImageMapRenderable;
-import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -109,16 +102,19 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.Pair;
-import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
+import net.sf.jasperreports.export.ExporterInputItem;
+import net.sf.jasperreports.export.HtmlExporterConfiguration;
+import net.sf.jasperreports.export.HtmlExporterOutput;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class HtmlExporter extends AbstractHtmlExporter
+public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration>
 {
 	private static final Log log = LogFactory.getLog(HtmlExporter.class);
 	
@@ -134,9 +130,9 @@ public class HtmlExporter extends AbstractHtmlExporter
 	public static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.";
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#PROPERTY_IGNORE_HYPERLINK}.
 	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = HTML_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
+	public static final String PROPERTY_IGNORE_HYPERLINK = HtmlExporterConfiguration.PROPERTY_IGNORE_HYPERLINK;
 
 	/**
 	 * Property that provides the value for the <code>class</code> CSS style property to be applied 
@@ -147,49 +143,19 @@ public class HtmlExporter extends AbstractHtmlExporter
 	public static final String PROPERTY_HTML_CLASS = HTML_EXPORTER_PROPERTIES_PREFIX + "class";
 
 	/**
-	 * Configuration property that determines the exporter to produce accessible HTML.
-	 */
-	public static final String PROPERTY_ACCESSIBLE = HTML_EXPORTER_PROPERTIES_PREFIX + "accessible";
-
-	/**
 	 *
 	 */
 	public static final String PROPERTY_HTML_ID = HTML_EXPORTER_PROPERTIES_PREFIX + "id";
 
 	/**
-	 * Property that provides the value for the <code>border-collapse</code> CSS property to be applied
-	 * to the table generated for the report.
-	 * 
-	 * <p>
-	 * The property can be set globally and at report level.  It defaults to <code>collapse</code>.
-	 * </p>
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#PROPERTY_BORDER_COLLAPSE}.
 	 */
-	public static final String PROPERTY_BORDER_COLLAPSE = 
-			JRPropertiesUtil.PROPERTY_PREFIX + "export.html.border.collapse";
+	public static final String PROPERTY_BORDER_COLLAPSE = HtmlExporterConfiguration.PROPERTY_BORDER_COLLAPSE;
 
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory;		
 	
-	protected JRExportProgressMonitor progressMonitor;
-	
-	protected String htmlHeader;
-	protected String betweenPagesHtml;
-	protected String htmlFooter;
-	
-	protected String encoding;
-	
-	protected String borderCollapse;
-	protected boolean isWhitePageBackground;
-	protected boolean isWrapBreakWord;
-	protected boolean isIgnorePageMargins;
-	protected boolean accessibleHtml;// TODO lucianc
-	protected String sizeUnit;
-	protected float zoom = DEFAULT_ZOOM;
-
-	protected boolean flushOutput;
-	
 	protected Map<String,String> rendererToImagePathMap;
 	protected Map<Pair<String, Rectangle>,String> imageMaps;
-	protected Map<String,byte[]> imageNameToImageDataMap;
 
 	protected Map<String, HtmlFont> fontsToProcess;
 	
@@ -212,10 +178,14 @@ public class HtmlExporter extends AbstractHtmlExporter
 	public HtmlExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
-		
-		targetProducerFactory = new DefaultHyperlinkTargetProducerFactory(jasperReportsContext);		
 	}
 	
+	@Override
+	public JRHtmlExporterContext getExporterContext()
+	{
+		return exporterContext;
+	}
+
 	@Override
 	public String getExporterKey()
 	{
@@ -225,289 +195,99 @@ public class HtmlExporter extends AbstractHtmlExporter
 	@Override
 	public void exportReport() throws JRException
 	{
-		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
+		/*   */
+		ensureJasperReportsContext();
+		ensureInput();
 
-		setOffset();
+		HtmlExporterConfiguration configuration = getCurrentConfiguration();
+		
+		if (configuration.isRemoveEmptySpaceBetweenRows())
+		{
+			log.info("Removing empty space between rows not supported");
+		}
+
+		// this is the filter used to create the table, taking in consideration unhandled generic elements
+		tableFilter = new GenericElementsFilterDecorator(jasperReportsContext, HTML_EXPORTER_KEY, configuration.getExporterFilter());
+
+		rendererToImagePathMap = new HashMap<String,String>();
+		imageMaps = new HashMap<Pair<String, Rectangle>,String>();
+
+		fontsToProcess = new HashMap<String, HtmlFont>();
+		
+		//FIXMENOW check all exporter properties that are supposed to work at report level
+		
+		initExport();
+		
+		ensureOutput();
+
+		writer = getExporterOutput().getWriter();
+
 		try
 		{
-			setExportContext();
-			setInput();
-			
-			if (!parameters.containsKey(JRExporterParameter.FILTER))
-			{
-				filter = createFilter(HTML_EXPORTER_PROPERTIES_PREFIX);
-			}
-			
-			// this is the filter used to create the table, taking in consideration unhandled generic elements
-			tableFilter = new GenericElementsFilterDecorator(jasperReportsContext, HTML_EXPORTER_KEY, filter);
-
-			/*   */
-			if (!isModeBatch)
-			{
-				setPageRange();
-			}
-	
-			htmlHeader = (String)parameters.get(JRHtmlExporterParameter.HTML_HEADER);
-			betweenPagesHtml = (String)parameters.get(JRHtmlExporterParameter.BETWEEN_PAGES_HTML);
-			htmlFooter = (String)parameters.get(JRHtmlExporterParameter.HTML_FOOTER);
-	
-			@SuppressWarnings("deprecation")
-			Boolean isOutputImagesToDirParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR);
-			@SuppressWarnings("deprecation")
-			String imagesUri = (String)parameters.get(JRHtmlExporterParameter.IMAGES_URI);
-	
-			if (imageHandler == null)
-			{
-				if (isOutputImagesToDirParameter == null || isOutputImagesToDirParameter.booleanValue())
-				{
-					@SuppressWarnings("deprecation")
-					File imagesDir = (File)parameters.get(JRHtmlExporterParameter.IMAGES_DIR);
-					if (imagesDir == null)
-					{
-						@SuppressWarnings("deprecation")
-						String imagesDirName = (String)parameters.get(JRHtmlExporterParameter.IMAGES_DIR_NAME);
-						if (imagesDirName != null)
-						{
-							imagesDir = new File(imagesDirName);
-						}
-					}
-					
-					if (imagesDir != null)
-					{
-						imageHandler = new FileHtmlResourceHandler(imagesDir, imagesUri == null ? imagesDir.getName() + "/{0}" : imagesUri + "{0}");
-					}
-				}
-
-				if (imageHandler == null && imagesUri != null)
-				{
-					imageHandler = new WebHtmlResourceHandler(imagesUri + "{0}");
-				}
-			}
-
-			boolean isRemoveEmptySpace = 
-				getBooleanParameter(
-					JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
-					JRHtmlExporterParameter.PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
-					false
-					);
-			if (isRemoveEmptySpace)
-			{
-				log.info("Removing empty spalce between rows not supported");
-			}
-	
-			isWhitePageBackground = 
-				getBooleanParameter(
-					JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND,
-					JRHtmlExporterParameter.PROPERTY_WHITE_PAGE_BACKGROUND,
-					true
-					);
-			
-			borderCollapse = getPropertiesUtil().getProperty(
-					jasperPrint.getPropertiesMap(), PROPERTY_BORDER_COLLAPSE);
-	
-			encoding = 
-				getStringParameterOrDefault(
-					JRExporterParameter.CHARACTER_ENCODING, 
-					JRExporterParameter.PROPERTY_CHARACTER_ENCODING
-					);
-	
-			rendererToImagePathMap = new HashMap<String,String>();
-			imageMaps = new HashMap<Pair<String, Rectangle>,String>();
-	
-			//backward compatibility with the IMAGE_MAP parameter
-			@SuppressWarnings({ "deprecation", "unchecked" })
-			Map<String,byte[]> depMap = (Map<String,byte[]>) parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
-			imageNameToImageDataMap = depMap;
-			//END - backward compatibility with the IMAGE_MAP parameter
-	
-			fontsToProcess = new HashMap<String, HtmlFont>();
-			
-			isWrapBreakWord = 
-				getBooleanParameter(
-					JRHtmlExporterParameter.IS_WRAP_BREAK_WORD,
-					JRHtmlExporterParameter.PROPERTY_WRAP_BREAK_WORD,
-					false
-					);
-	
-			sizeUnit = 
-				getStringParameterOrDefault(
-					JRHtmlExporterParameter.SIZE_UNIT,
-					JRHtmlExporterParameter.PROPERTY_SIZE_UNIT
-					);
-	
-			Float zoomRatio = (Float)parameters.get(JRHtmlExporterParameter.ZOOM_RATIO);
-			if (zoomRatio != null)
-			{
-				zoom = zoomRatio.floatValue();
-				if (zoom <= 0)
-				{
-					throw new JRException("Invalid zoom ratio : " + zoom);
-				}
-			}
-			else
-			{
-				zoom = DEFAULT_ZOOM;
-			}
-			
-			isIgnorePageMargins = 
-				getBooleanParameter(
-					JRExporterParameter.IGNORE_PAGE_MARGINS,
-					JRExporterParameter.PROPERTY_IGNORE_PAGE_MARGINS,
-					false
-					);
-			
-			accessibleHtml = 
-				getPropertiesUtil().getBooleanProperty(
-					jasperPrint,
-					PROPERTY_ACCESSIBLE,
-					false
-					);
-			
-			setHyperlinkProducerFactory();
-			
-			flushOutput = getBooleanParameter(JRHtmlExporterParameter.FLUSH_OUTPUT, 
-					JRHtmlExporterParameter.PROPERTY_FLUSH_OUTPUT, 
-					true);
-
-			//FIXMENOW check all exporter properties that are supposed to work at report level
-			
-			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
-			if (sb != null)
-			{
-				try
-				{
-					writer = new StringWriter();
-					exportReportToWriter();
-					sb.append(writer.toString());
-				}
-				catch (IOException e)
-				{
-					throw new JRException("Error writing to StringBuffer writer : " + jasperPrint.getName(), e);
-				}
-				finally
-				{
-					if (writer != null)
-					{
-						try
-						{
-							writer.close();
-						}
-						catch(IOException e)
-						{
-						}
-					}
-				}
-			}
-			else
-			{
-				writer = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
-				if (writer != null)
-				{
-					try
-					{
-						exportReportToWriter();
-					}
-					catch (IOException e)
-					{
-						throw new JRException("Error writing to writer : " + jasperPrint.getName(), e);
-					}
-				}
-				else
-				{
-					OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
-					if (os != null)
-					{
-						try
-						{
-							writer = new OutputStreamWriter(os, encoding);
-							exportReportToWriter();
-						}
-						catch (IOException e)
-						{
-							throw new JRException("Error writing to OutputStream writer : " + jasperPrint.getName(), e);
-						}
-					}
-					else
-					{
-						File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
-						if (destFile == null)
-						{
-							String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
-							if (fileName != null)
-							{
-								destFile = new File(fileName);
-							}
-							else
-							{
-								throw new JRException("No output specified for the exporter.");
-							}
-						}
-	
-						try
-						{
-							os = new FileOutputStream(destFile);
-							writer = new OutputStreamWriter(os, encoding);
-						}
-						catch (IOException e)
-						{
-							throw new JRException("Error creating to file writer : " + jasperPrint.getName(), e);
-						}
-	
-						if (
-							imageHandler == null
-							&& (isOutputImagesToDirParameter == null || isOutputImagesToDirParameter.booleanValue())
-							)
-						{
-							File imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
-							imageHandler = new FileHtmlResourceHandler(imagesDir, imagesUri == null ? imagesDir.getName() + "/{0}" : imagesUri + "{0}");
-						}
-
-						if (fontHandler == null)
-						{
-							File resourcesDir = new File(destFile.getParent(), destFile.getName() + "_files");
-							fontHandler = new FileHtmlResourceHandler(resourcesDir, resourcesDir.getName() + "/{0}");
-						}
-						
-						if (resourceHandler == null)
-						{
-							resourceHandler = new FileHtmlResourceHandler(new File(destFile.getParent(), destFile.getName() + "_files"));
-						}
-						
-						try
-						{
-							exportReportToWriter();
-						}
-						catch (IOException e)
-						{
-							throw new JRException("Error writing to file writer : " + jasperPrint.getName(), e);
-						}
-						finally
-						{
-							if (writer != null)
-							{
-								try
-								{
-									writer.close();
-								}
-								catch(IOException e)
-								{
-								}
-							}
-						}
-					}
-				}
-			}
+			exportReportToWriter();
+		}
+		catch (IOException e)
+		{
+			throw new JRException("Error writing to output writer : " + jasperPrint.getName(), e);
 		}
 		finally
 		{
+			getExporterOutput().close();
 			resetExportContext();
 		}
 	}
+
+	
+	/**
+	 *
+	 */
+	protected Class<HtmlExporterConfiguration> getConfigurationInterface()
+	{
+		return HtmlExporterConfiguration.class;
+	}
+
+
+	/**
+	 *
+	 */
+	@SuppressWarnings("deprecation")
+	protected void ensureOutput()
+	{
+		if (exporterOutput == null)
+		{
+			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersHtmlExporterOutput(exporterContext);
+		}
+	}
+
+
+	@Override
+	protected void initExport()
+	{
+		super.initExport();
+	}
+	
+
+	@Override
+	protected void setJasperReportsContext(JasperReportsContext jasperReportsContext)
+	{
+		super.setJasperReportsContext(jasperReportsContext);
+		
+		targetProducerFactory = new DefaultHyperlinkTargetProducerFactory(jasperReportsContext);
+	}
+
 	
 	protected void exportReportToWriter() throws JRException, IOException
 	{
+		HtmlExporterConfiguration configuration = getCurrentConfiguration(); 
+		String htmlHeader = configuration.getHtmlHeader();
+		String betweenPagesHtml = configuration.getBetweenPagesHtml();
+		String htmlFooter = configuration.getHtmlFooter();
+		boolean flushOutput = configuration.isFlushOutput();//FIXMEEXPORT maybe move flush flag to output
+
 		if (htmlHeader == null)
 		{
+			String encoding = getExporterOutput().getEncoding();
+
 			writer.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n");
 			writer.write("<html>\n");
 			writer.write("<head>\n");
@@ -527,18 +307,21 @@ public class HtmlExporter extends AbstractHtmlExporter
 			writer.write(htmlHeader);
 		}
 
-		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
+		List<ExporterInputItem> items = exporterInput.getItems();
+		
+		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
 		{
-			setJasperPrint(jasperPrintList.get(reportIndex));
+			ExporterInputItem item = items.get(reportIndex);
+			setCurrentExporterInputItem(item);
+			
+			configuration = getCurrentConfiguration();
 
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
-				if (isModeBatch)
-				{
-					startPageIndex = 0;
-					endPageIndex = pages.size() - 1;
-				}
+				PageRange pageRange = getPageRange();
+				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
+				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
 
 				JRPrintPage page = null;
 				for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
@@ -555,7 +338,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 					/*   */
 					exportPage(page);
 
-					if (reportIndex < jasperPrintList.size() - 1 || pageIndex < endPageIndex)
+					if (reportIndex < items.size() - 1 || pageIndex < endPageIndex)
 					{
 						if (betweenPagesHtml == null)
 						{
@@ -574,6 +357,11 @@ public class HtmlExporter extends AbstractHtmlExporter
 
 		if (fontsToProcess != null && fontsToProcess.size() > 0)// when no fontHandler and/or resourceHandler, fonts are not processed 
 		{
+			@SuppressWarnings("deprecation")
+			HtmlResourceHandler fontHandler = 
+				getExporterOutput().getFontHandler() == null
+				? getFontHandler()
+				: getExporterOutput().getFontHandler();
 			for (HtmlFont htmlFont : fontsToProcess.values())
 			{
 				writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + fontHandler.getResourcePath(htmlFont.getId()) + "\">\n");
@@ -612,6 +400,10 @@ public class HtmlExporter extends AbstractHtmlExporter
 	{
 		Tabulator tabulator = new Tabulator(tableFilter, page.getElements());
 		tabulator.tabulate();
+
+		HtmlExporterConfiguration configuration = getCurrentConfiguration(); 
+		
+		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
 		if (!isIgnorePageMargins)
 		{
 			tabulator.addMargins(jasperPrint.getPageWidth(), jasperPrint.getPageHeight());
@@ -619,6 +411,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 		
 		Table table = tabulator.getTable();
 		
+		boolean isWhitePageBackground = configuration.isWhitePageBackground();
 		if (isWhitePageBackground)
 		{
 			setBackcolor(Color.white);
@@ -634,6 +427,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 			restoreBackcolor();
 		}
 		
+		JRExportProgressMonitor progressMonitor = configuration.getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -676,6 +470,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 			writer.write("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: 100%;");
 		}
 		
+		String borderCollapse = getCurrentConfiguration().getBorderCollapse();
 		if (borderCollapse != null)
 		{
 			writer.write(" border-collapse: ");
@@ -805,7 +600,7 @@ public class HtmlExporter extends AbstractHtmlExporter
 			}
 		}
 
-		if (isWrapBreakWord)
+		if (getCurrentConfiguration().isWrapBreakWord())
 		{
 			styleBuffer.append("width: " + toSizeUnit(text.getWidth()) + "; ");
 			styleBuffer.append("word-wrap: break-word; ");
@@ -1083,7 +878,12 @@ public class HtmlExporter extends AbstractHtmlExporter
 				}
 				else
 				{
-					if (imageHandler != null || imageNameToImageDataMap != null)
+					@SuppressWarnings("deprecation")
+					HtmlResourceHandler imageHandler = 
+						getExporterOutput().getImageHandler() == null 
+						? getImageHandler() 
+						: getExporterOutput().getImageHandler();
+					if (imageHandler != null)
 					{
 						JRPrintElementIndex imageIndex = getElementIndex(cell);
 						String imageName = getImageName(imageIndex);
@@ -1099,13 +899,6 @@ public class HtmlExporter extends AbstractHtmlExporter
 						}
 
 						byte[] imageData = renderer.getImageData(jasperReportsContext);
-
-						//backward compatibility with the IMAGE_MAP parameter
-						if (imageNameToImageDataMap != null)
-						{
-							imageNameToImageDataMap.put(imageName, imageData);
-						}
-						//END - backward compatibility with the IMAGE_MAP parameter
 
 						if (imageHandler != null)
 						{
@@ -2030,23 +1823,22 @@ public class HtmlExporter extends AbstractHtmlExporter
 
 	protected String getHyperlinkURL(JRPrintHyperlink link)
 	{
-		return resolveHyperlinkURL(this, reportIndex, link);
+		return resolveHyperlinkURL(reportIndex, link);
 	}
 	
-	protected static String resolveHyperlinkURL(JRAbstractExporter exporter, int reportIndex, JRPrintHyperlink link)
+	protected String resolveHyperlinkURL(int reportIndex, JRPrintHyperlink link)
 	{
 		String href = null;
 		
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(HtmlExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = exporter.getPropertiesUtil().getBooleanProperty(exporter.getCurrentJasperPrint(), 
-					PROPERTY_IGNORE_HYPERLINK, false);
+			ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
 		}
 
 		if (!ignoreHyperlink)
 		{
-			JRHyperlinkProducer customHandler = exporter.getHyperlinkProducer(link);		
+			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);		
 			if (customHandler == null)
 			{
 				switch(link.getHyperlinkTypeValue())
@@ -2175,11 +1967,23 @@ public class HtmlExporter extends AbstractHtmlExporter
 
 	public String toSizeUnit(int size)
 	{
-		return String.valueOf(toZoom(size)) + sizeUnit;
+		return String.valueOf(toZoom(size)) + getCurrentConfiguration().getSizeUnit().getName();
 	}
 
-	protected int toZoom(int size)
+	protected int toZoom(int size)//FIXMEEXPORT cache this
 	{
+		float zoom = DEFAULT_ZOOM;
+		
+		Float zoomRatio = getCurrentConfiguration().getZoomRatio();
+		if (zoomRatio != null)
+		{
+			zoom = zoomRatio.floatValue();
+			if (zoom <= 0)
+			{
+				throw new JRRuntimeException("Invalid zoom ratio : " + zoom);
+			}
+		}
+
 		return (int) (zoom * size);
 	}
 
@@ -2281,6 +2085,17 @@ public class HtmlExporter extends AbstractHtmlExporter
 			String exportFont = family.getExportFont(getExporterKey());
 			if (exportFont == null)
 			{
+				HtmlExporterOutput output = getExporterOutput();
+				@SuppressWarnings("deprecation")
+				HtmlResourceHandler fontHandler = 
+					output.getFontHandler() == null
+					? getFontHandler()
+					: output.getFontHandler();
+				@SuppressWarnings("deprecation")
+				HtmlResourceHandler resourceHandler = 
+					getExporterOutput().getResourceHandler() == null
+					? getResourceHandler()
+					: getExporterOutput().getResourceHandler();
 				if (fontHandler != null && resourceHandler != null)
 				{
 					HtmlFont htmlFont = HtmlFont.getInstance(locale, fontInfo, isBold, isItalic);

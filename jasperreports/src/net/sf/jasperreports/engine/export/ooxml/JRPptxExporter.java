@@ -25,8 +25,6 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.awt.Dimension;
 import java.awt.geom.Dimension2D;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
@@ -41,7 +39,6 @@ import java.util.Map;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
@@ -61,6 +58,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
+import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
@@ -75,6 +73,10 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.ExporterInput;
+import net.sf.jasperreports.export.ExporterInputItem;
+import net.sf.jasperreports.export.OutputStreamExporterOutput;
+import net.sf.jasperreports.export.PptxExporterConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -85,7 +87,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPptxExporter extends JRAbstractExporter
+public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration, OutputStreamExporterOutput, JRPptxExporterContext>
 {
 	private static final Log log = LogFactory.getLog(JRPptxExporter.class);
 	
@@ -98,9 +100,9 @@ public class JRPptxExporter extends JRAbstractExporter
 	protected static final String PPTX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.pptx.";
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link PptxExporterConfiguration#PROPERTY_IGNORE_HYPERLINK}.
 	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = PPTX_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
+	public static final String PROPERTY_IGNORE_HYPERLINK = PptxExporterConfiguration.PROPERTY_IGNORE_HYPERLINK;
 
 	/**
 	 *
@@ -180,6 +182,28 @@ public class JRPptxExporter extends JRAbstractExporter
 	{
 		super(jasperReportsContext);
 	}
+
+
+	/**
+	 *
+	 */
+	protected Class<PptxExporterConfiguration> getConfigurationInterface()
+	{
+		return PptxExporterConfiguration.class;
+	}
+	
+
+	/**
+	 *
+	 */
+	@SuppressWarnings("deprecation")
+	protected void ensureOutput()
+	{
+		if (exporterOutput == null)
+		{
+			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(exporterContext);
+		}
+	}
 	
 
 	/**
@@ -187,108 +211,58 @@ public class JRPptxExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
-		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
-
 		/*   */
-		setOffset();
+		ensureJasperReportsContext();
+		ensureInput();
+
+		rendererToImagePathMap = new HashMap<String,String>();
+//		imageMaps = new HashMap();
+		imagesToProcess = new ArrayList<JRPrintElementIndex>();
+//		hyperlinksMap = new HashMap();
+		
+		initExport();
+
+		ensureOutput();
+		
+		OutputStream outputStream = getExporterOutput().getOutputStream();
 
 		try
 		{
-			/*   */
-			setExportContext();
-
-			/*   */
-			setInput();
-
-			if (!parameters.containsKey(JRExporterParameter.FILTER))
-			{
-				filter = createFilter(getExporterPropertiesPrefix());
-			}
-
-			/*   */
-			if (!isModeBatch)
-			{
-				setPageRange();
-			}
-
-			rendererToImagePathMap = new HashMap<String,String>();
-//			imageMaps = new HashMap();
-			imagesToProcess = new ArrayList<JRPrintElementIndex>();
-//			hyperlinksMap = new HashMap();
-
-			setHyperlinkProducerFactory();
-
-			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
-			if (os != null)
-			{
-				try
-				{
-					exportReportToStream(os);
-				}
-				catch (IOException e)
-				{
-					throw new JRException("Error trying to export to output stream : " + jasperPrint.getName(), e);
-				}
-			}
-			else
-			{
-				File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
-				if (destFile == null)
-				{
-					String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
-					if (fileName != null)
-					{
-						destFile = new File(fileName);
-					}
-					else
-					{
-						throw new JRException("No output specified for the exporter.");
-					}
-				}
-
-				try
-				{
-					os = new FileOutputStream(destFile);
-					exportReportToStream(os);
-				}
-				catch (IOException e)
-				{
-					throw new JRException("Error trying to export to file : " + destFile, e);
-				}
-				finally
-				{
-					if (os != null)
-					{
-						try
-						{
-							os.close();
-						}
-						catch(IOException e)
-						{
-						}
-					}
-				}
-			}
+			exportReportToStream(outputStream);
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
 		}
 		finally
 		{
+			getExporterOutput().close();
 			resetExportContext();
 		}
 	}
 
 
+	@Override
+	protected void initExport()
+	{
+		super.initExport();
+	}
+	
+
 	/**
 	 *
 	 */
-	public JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName) throws JRException
+	public JRPrintImage getImage(ExporterInput exporterInput, String imageName) throws JRException
 	{
-		return getImage(jasperPrintList, getPrintElementIndex(imageName));
+		return getImage(exporterInput, getPrintElementIndex(imageName));
 	}
 
 
-	public JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex) throws JRException
+	public JRPrintImage getImage(ExporterInput exporterInput, JRPrintElementIndex imageIndex) throws JRException
 	{
-		JasperPrint report = jasperPrintList.get(imageIndex.getReportIndex());
+		List<ExporterInputItem> items = exporterInput.getItems();
+		ExporterInputItem item = items.get(imageIndex.getReportIndex());
+		JasperPrint report = item.getJasperPrint();
 		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
 
 		Integer[] elementIndexes = imageIndex.getAddressArray();
@@ -340,19 +314,20 @@ public class JRPptxExporter extends JRAbstractExporter
 //		styleHelper.export(jasperPrintList);
 //		styleHelper.close();
 
-		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
-		{
-			setJasperPrint(jasperPrintList.get(reportIndex));
-			setExporterHints();
+		List<ExporterInputItem> items = exporterInput.getItems();
 
+		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
+		{
+			ExporterInputItem item = items.get(reportIndex);
+			setCurrentExporterInputItem(item);
+			setExporterHints();
+			
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
-				if (isModeBatch)
-				{
-					startPageIndex = 0;
-					endPageIndex = pages.size() - 1;
-				}
+				PageRange pageRange = getPageRange();
+				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
+				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
 
 				JRPrintPage page = null;
 				for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
@@ -384,7 +359,7 @@ public class JRPptxExporter extends JRAbstractExporter
 			{
 				JRPrintElementIndex imageIndex = it.next();
 
-				JRPrintImage image = getImage(jasperPrintList, imageIndex);
+				JRPrintImage image = getImage(exporterInput, imageIndex);
 				Renderable renderer = image.getRenderable();
 				if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 				{
@@ -507,6 +482,8 @@ public class JRPptxExporter extends JRAbstractExporter
 	{
 		if (elements != null && elements.size() > 0)
 		{
+			ExporterFilter filter = getCurrentConfiguration().getExporterFilter();
+			
 			JRPrintElement element;
 			for(int i = 0; i < elements.size(); i++)
 			{
@@ -1726,10 +1703,10 @@ public class JRPptxExporter extends JRAbstractExporter
 	{
 		String href = null;
 
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PptxExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
+			ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
 		}
 
 		if (!ignoreHyperlink)
@@ -1833,6 +1810,14 @@ public class JRPptxExporter extends JRAbstractExporter
 	public String getExporterKey()
 	{
 		return PPTX_EXPORTER_KEY;
+	}
+
+	/**
+	 *
+	 */
+	public JRPptxExporterContext getExporterContext()
+	{
+		return exporterContext;
 	}
 
 	protected void setExporterHints()
