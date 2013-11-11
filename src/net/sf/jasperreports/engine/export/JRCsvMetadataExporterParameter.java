@@ -69,20 +69,20 @@ public class JRCsvMetadataExporterParameter extends JRCsvExporterParameter
 
 	
 	/**
-	 * @deprecated Replaced by {@link CsvMetadataExporterConfiguration#PROPERTY_COLUMN_NAME}.
+	 * @deprecated Replaced by {@link JRCsvMetadataExporter#PROPERTY_COLUMN_NAME}.
 	 */
-	public static final String PROPERTY_COLUMN_NAME = "CsvMetadataExporterConfiguration.PROPERTY_COLUMN_NAME";
+	public static final String PROPERTY_COLUMN_NAME = JRCsvMetadataExporter.PROPERTY_COLUMN_NAME;
 	
 	
 	/**
-	 * @deprecated Replaced by {@link CsvMetadataExporterConfiguration#PROPERTY_REPEAT_VALUE}.
+	 * @deprecated Replaced by {@link JRCsvMetadataExporter#PROPERTY_REPEAT_VALUE}.
 	 */
-	public static final String PROPERTY_REPEAT_VALUE = "CsvMetadataExporterConfiguration.PROPERTY_REPEAT_VALUE";
+	public static final String PROPERTY_REPEAT_VALUE = JRCsvMetadataExporter.PROPERTY_REPEAT_VALUE;
 	
 	
 	/**
-	 * @deprecated Replaced by {@link CsvMetadataExporterConfiguration#PROPERTY_DATA}.
+	 * @deprecated Replaced by {@link JRCsvMetadataExporter#PROPERTY_DATA}.
 	 */
-	public static final String PROPERTY_DATA = "CsvMetadataExporterConfiguration.PROPERTY_DATA";
+	public static final String PROPERTY_DATA = JRCsvMetadataExporter.PROPERTY_DATA;
 	
 }

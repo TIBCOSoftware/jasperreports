@@ -24,11 +24,13 @@
 package net.sf.jasperreports.engine.export.oasis;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.export.OdsExporterConfiguration;
+import net.sf.jasperreports.export.OdtExporterConfiguration;
 
 
 /**
  * Contains parameters useful for export in Open Document format.
+ * @deprecated Replaced by {@link OdtExporterConfiguration} and {@link OdsExporterConfiguration}.
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
@@ -44,47 +46,23 @@ public class JROpenDocumentExporterParameter extends JRExporterParameter
 	}
 
 	/**
-	 * Indicates whether table rows in ODT documents can grow if more text is added into cells.
-	 * <p>
-	 * The type of the parameter is <code>java.lang.Boolean</code>.
-	 * </p>
-	 * <p>
-	 * Is set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
-	 * </p>
-	 * @see #PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT
+	 * @deprecated Replaced by {@link OdtExporterConfiguration#isFlexibleRowHeight()}.
 	 */
 	public static final JROpenDocumentExporterParameter ODT_FLEXIBLE_ROW_HEIGHT = new JROpenDocumentExporterParameter("ODT Flexible Row Height");
 
 	/**
-	 * This property serves as default value for the {@link #ODT_FLEXIBLE_ROW_HEIGHT ODT_FLEXIBLE_ROW_HEIGHT}
-	 * export parameter.
-	 * <p>
-	 * The property itself defaults to <code>false</code>.
-	 * </p>
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link OdtExporterConfiguration#PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT}.
 	 */
-	public static final String PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.odt.flexible.row.height";
+	public static final String PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT = OdtExporterConfiguration.PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT;
 
 	/**
-	 * Indicates whether table rows in ODS documents can grow if more text is added into cells.
-	 * <p>
-	 * The type of the parameter is <code>java.lang.Boolean</code>.
-	 * </p>
-	 * <p>
-	 * Is set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
-	 * </p>
-	 * @see #PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT
+	 * @deprecated Replaced by {@link OdsExporterConfiguration#isFlexibleRowHeight()}.
 	 */
 	public static final JROpenDocumentExporterParameter ODS_FLEXIBLE_ROW_HEIGHT = new JROpenDocumentExporterParameter("ODS Flexible Row Height");
 
 	/**
-	 * This property serves as default value for the {@link #ODS_FLEXIBLE_ROW_HEIGHT ODS_FLEXIBLE_ROW_HEIGHT}
-	 * export parameter.
-	 * <p>
-	 * The property itself defaults to <code>false</code>.
-	 * </p>
-	 * @see JRPropertiesUtil
+	 * @deprecated Replaced by {@link OdsExporterConfiguration#PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT}.
 	 */
-	public static final String PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.ods.flexible.row.height";
+	public static final String PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT = OdsExporterConfiguration.PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT;
 
 }

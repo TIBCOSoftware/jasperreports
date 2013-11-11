@@ -40,8 +40,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -60,7 +58,6 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRImageRenderer;
@@ -99,6 +96,12 @@ import net.sf.jasperreports.engine.util.JRPdfaIccProfileNotFoundException;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.NullOutputStream;
+import net.sf.jasperreports.export.ExporterInputItem;
+import net.sf.jasperreports.export.OutputStreamExporterOutput;
+import net.sf.jasperreports.export.PdfExporterConfiguration;
+import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
+import net.sf.jasperreports.export.type.PdfVersionEnum;
+import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
@@ -137,14 +140,17 @@ import com.lowagie.text.pdf.PdfWriter;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPdfExporter extends JRAbstractExporter
+public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, OutputStreamExporterOutput, JRPdfExporterContext>
 {
 
 	private static final Log log = LogFactory.getLog(JRPdfExporter.class);
 	
 	public static final String PDF_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.";
 
-	public static final String PROPERTY_IGNORE_HYPERLINK = PDF_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
+	/**
+	 * @deprecated Replaced by {@link PdfExporterConfiguration#PROPERTY_IGNORE_HYPERLINK}.
+	 */
+	public static final String PROPERTY_IGNORE_HYPERLINK = PdfExporterConfiguration.PROPERTY_IGNORE_HYPERLINK;
 
 	/**
 	 * Prefix of properties that specify font files for the PDF exporter.
@@ -203,23 +209,6 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected boolean forceSvgShapes;
-	protected boolean isCreatingBatchModeBookmarks;
-	protected boolean isCompressed;
-	protected boolean isEncrypted;
-	protected boolean is128BitKey;
-	protected String userPassword;
-	protected String ownerPassword;
-	protected int permissions;
-	protected Character pdfVersion;
-	protected String pdfJavaScript;
-	protected String printScaling;
-	
-	private boolean collapseMissingBookmarkLevels;
-
-	/**
-	 *
-	 */
 	protected Map<Renderable,com.lowagie.text.Image> loadedImagesMap;
 	protected Image pxImage;
 
@@ -244,6 +233,28 @@ public class JRPdfExporter extends JRAbstractExporter
 	public JRPdfExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+	}
+
+
+	/**
+	 *
+	 */
+	protected Class<PdfExporterConfiguration> getConfigurationInterface()
+	{
+		return PdfExporterConfiguration.class;
+	}
+	
+
+	/**
+	 *
+	 */
+	@SuppressWarnings("deprecation")
+	protected void ensureOutput()
+	{
+		if (exporterOutput == null)
+		{
+			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(exporterContext);
+		}
 	}
 	
 
@@ -278,191 +289,47 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		registerFonts();
 
-		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
-
 		/*   */
-		setOffset();
+		ensureJasperReportsContext();
+		ensureInput();
+
+		if (getCurrentConfiguration().isForceLineBreakPolicy())
+		{
+			splitCharacter = new BreakIteratorSplitCharacter();
+		}
+		
+		initExport();
+
+		ensureOutput();
+		
+		OutputStream outputStream = getExporterOutput().getOutputStream();
 
 		try
 		{
-			/*   */
-			setExportContext();
-
-			/*   */
-			setInput();
-	
-			if (!parameters.containsKey(JRExporterParameter.FILTER))
-			{
-				filter = createFilter(PDF_EXPORTER_PROPERTIES_PREFIX);
-			}
-
-			/*   */
-			if (!isModeBatch)
-			{
-				setPageRange();
-			}
-
-			isCreatingBatchModeBookmarks = 
-				getBooleanParameter(
-					JRPdfExporterParameter.IS_CREATING_BATCH_MODE_BOOKMARKS,
-					JRPdfExporterParameter.PROPERTY_CREATE_BATCH_MODE_BOOKMARKS,
-					false
-					);
-
-			forceSvgShapes = //FIXME certain properties need to be read from each individual document in batch mode; check all exporters and all props
-				getBooleanParameter(
-					JRPdfExporterParameter.FORCE_SVG_SHAPES,
-					JRPdfExporterParameter.PROPERTY_FORCE_SVG_SHAPES,
-					false
-					);
-
-			isCompressed = 
-				getBooleanParameter(
-					JRPdfExporterParameter.IS_COMPRESSED,
-					JRPdfExporterParameter.PROPERTY_COMPRESSED,
-					false
-					);
-
-			isEncrypted = 
-				getBooleanParameter(
-					JRPdfExporterParameter.IS_ENCRYPTED,
-					JRPdfExporterParameter.PROPERTY_ENCRYPTED,
-					false
-					);
-
-			is128BitKey = 
-				getBooleanParameter(
-					JRPdfExporterParameter.IS_128_BIT_KEY,
-					JRPdfExporterParameter.PROPERTY_128_BIT_KEY,
-					false
-					);
-
-			userPassword = 
-				getStringParameter(
-					JRPdfExporterParameter.USER_PASSWORD,
-					JRPdfExporterParameter.PROPERTY_USER_PASSWORD
-					);
-
-			ownerPassword = 
-				getStringParameter(
-					JRPdfExporterParameter.OWNER_PASSWORD,
-					JRPdfExporterParameter.PROPERTY_OWNER_PASSWORD
-					);
-
-			Integer permissionsParameter = (Integer)parameters.get(JRPdfExporterParameter.PERMISSIONS);
-			if (permissionsParameter != null)
-			{
-				permissions = permissionsParameter.intValue();
-			}
-
-			pdfVersion = 
-				getCharacterParameter(
-						JRPdfExporterParameter.PDF_VERSION,
-						JRPdfExporterParameter.PROPERTY_PDF_VERSION
-						);
-
-			setSplitCharacter();
-			setHyperlinkProducerFactory();
-
-			pdfJavaScript = 
-				getStringParameter(
-					JRPdfExporterParameter.PDF_JAVASCRIPT,
-					JRPdfExporterParameter.PROPERTY_PDF_JAVASCRIPT
-					);
-
-			printScaling =
-				getStringParameter(
-					JRPdfExporterParameter.PRINT_SCALING,
-					JRPdfExporterParameter.PROPERTY_PRINT_SCALING
-					);
-
-			tagHelper.setTagged( 
-				getBooleanParameter(
-					JRPdfExporterParameter.IS_TAGGED,
-					JRPdfExporterParameter.PROPERTY_TAGGED,
-					false
-					)
-				);
-			
-			// no export param for this
-			collapseMissingBookmarkLevels = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, 
-					JRPdfExporterParameter.PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS, false);
-
-			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
-			if (os != null)
-			{
-				exportReportToStream(os);
-			}
-			else
-			{
-				File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
-				if (destFile == null)
-				{
-					String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
-					if (fileName != null)
-					{
-						destFile = new File(fileName);
-					}
-					else
-					{
-						throw new JRException("No output specified for the exporter.");
-					}
-				}
-
-				try
-				{
-					os = new FileOutputStream(destFile);
-					exportReportToStream(os);
-					os.flush();
-				}
-				catch (IOException e)
-				{
-					throw new JRException("Error trying to export to file : " + destFile, e);
-				}
-				finally
-				{
-					if (os != null)
-					{
-						try
-						{
-							os.close();
-						}
-						catch(IOException e)
-						{
-						}
-					}
-				}
-			}
+			exportReportToStream(outputStream);
 		}
 		finally
 		{
+			getExporterOutput().close();
 			resetExportContext();
 		}
 	}
 
 
-	protected void setSplitCharacter()
+	@Override
+	protected void initExport()
 	{
-		boolean useFillSplitCharacter;
-		Boolean useFillSplitCharacterParam = (Boolean) parameters.get(JRPdfExporterParameter.FORCE_LINEBREAK_POLICY);
-		if (useFillSplitCharacterParam == null)
+		super.initExport();
+		
+		PdfExporterConfiguration configuration = getCurrentConfiguration();
+		
+		Boolean isTagged = configuration.isTagged();
+		if (isTagged != null)
 		{
-			useFillSplitCharacter = 
-				JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
-					jasperPrint.getPropertiesMap(),
-					JRPdfExporterParameter.PROPERTY_FORCE_LINEBREAK_POLICY,
-					false
-					);
-		}
-		else
-		{
-			useFillSplitCharacter = useFillSplitCharacterParam.booleanValue();
+			tagHelper.setTagged(isTagged); 
 		}
 
-		if (useFillSplitCharacter)
-		{
-			splitCharacter = new BreakIteratorSplitCharacter();
-		}
+		tagHelper.setLanguage(configuration.getTagLanguage()); 
 	}
 
 
@@ -472,6 +339,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected void exportReportToStream(OutputStream os) throws JRException
 	{
 		//ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		PdfExporterConfiguration configuration = getCurrentConfiguration();
 
 		document =
 			new Document(
@@ -497,84 +366,80 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			tagHelper.setPdfWriter(pdfWriter);
 			
+			PdfVersionEnum pdfVersion = configuration.getPdfVersion();
 			if (pdfVersion != null)
 			{
-				pdfWriter.setPdfVersion(pdfVersion.charValue());
+				pdfWriter.setPdfVersion(pdfVersion.getName().charAt(0));
 			}
-			if (isCompressed)
+			if (configuration.isCompressed())
 			{
 				pdfWriter.setFullCompression();
 			}
-			if (isEncrypted)
+			if (configuration.isEncrypted())
 			{
 				pdfWriter.setEncryption(
-					is128BitKey,
-					userPassword,
-					ownerPassword,
-					permissions
+					configuration.is128BitKey(),
+					configuration.getUserPassword(),
+					configuration.getOwnerPassword(),
+					configuration.getPermissions() == null ? 0 : configuration.getPermissions()
 					);
 			}
 			
 
-			if (printScaling != null) 
+			PdfPrintScalingEnum printScaling = configuration.getPrintScaling();
+			if (PdfPrintScalingEnum.DEFAULT == printScaling)
 			{
-				if (JRPdfExporterParameter.PRINT_SCALING_DEFAULT.equals(printScaling))
-				{
-					pdfWriter.addViewerPreference(PdfName.PRINTSCALING, PdfName.APPDEFAULT);
-				}
-				else if (JRPdfExporterParameter.PRINT_SCALING_NONE.equals(printScaling))
-				{
-					pdfWriter.addViewerPreference(PdfName.PRINTSCALING, PdfName.NONE);
-				}
+				pdfWriter.addViewerPreference(PdfName.PRINTSCALING, PdfName.APPDEFAULT);
+			}
+			else if (PdfPrintScalingEnum.NONE == printScaling)
+			{
+				pdfWriter.addViewerPreference(PdfName.PRINTSCALING, PdfName.NONE);
 			}
 
 			// Add meta-data parameters to generated PDF document
 			// mtclough@users.sourceforge.net 2005-12-05
-			String title = (String)parameters.get(JRPdfExporterParameter.METADATA_TITLE);
+			String title = configuration.getMetadataTitle();
 			if( title != null )
 			{
 				document.addTitle(title);
 			}
-			String author = (String)parameters.get(JRPdfExporterParameter.METADATA_AUTHOR);
+			String author = configuration.getMetadataAuthor();
 			if( author != null )
 			{
 				document.addAuthor(author);
 			}
-			String subject = (String)parameters.get(JRPdfExporterParameter.METADATA_SUBJECT);
+			String subject = configuration.getMetadataSubject();
 			if( subject != null )
 			{
 				document.addSubject(subject);
 			}
-			String keywords = (String)parameters.get(JRPdfExporterParameter.METADATA_KEYWORDS);
+			String keywords = configuration.getMetadataKeywords();
 			if( keywords != null )
 			{
 				document.addKeywords(keywords);
 			}
-			String creator = (String)parameters.get(JRPdfExporterParameter.METADATA_CREATOR);
+			String creator = configuration.getMetadataCreator();
 			if( creator != null )
 			{
 				document.addCreator(creator);
 			}
 			else
 			{
-				document.addCreator("JasperReports (" + jasperPrint.getName() + ")");
+				document.addCreator("JasperReports Library version " + Package.getPackage("net.sf.jasperreports.engine").getImplementationVersion());
 			}
 			
 			// BEGIN: PDF/A support
-			String pdfaConformance = getStringParameter( JRPdfExporterParameter.PDFA_CONFORMANCE, JRPdfExporterParameter.PROPERTY_PDFA_CONFORMANCE);
+			PdfaConformanceEnum pdfaConformance = configuration.getPdfaConformance();
 			boolean gotPdfa = false;
-			if (pdfaConformance != null && !JRPdfExporterParameter.PDFA_CONFORMANCE_NONE.equalsIgnoreCase(pdfaConformance)) 
+			if (PdfaConformanceEnum.PDFA_1A == pdfaConformance)
 			{
-				if (JRPdfExporterParameter.PDFA_CONFORMANCE_1A.equalsIgnoreCase(pdfaConformance))
-				{
-					pdfWriter.setPDFXConformance(PdfWriter.PDFA1A);
-					gotPdfa = true;
-				}
-				else if (JRPdfExporterParameter.PDFA_CONFORMANCE_1B.equalsIgnoreCase(pdfaConformance))
-				{
-					pdfWriter.setPDFXConformance(PdfWriter.PDFA1B);
-					gotPdfa = true;
-				}
+				pdfWriter.setPDFXConformance(PdfWriter.PDFA1A);
+				gotPdfa = true;
+			}
+			else if (PdfaConformanceEnum.PDFA_1B == pdfaConformance)
+			{
+				pdfWriter.setPDFXConformance(PdfWriter.PDFA1B);
+				gotPdfa = true;
 			}
 
 			if (gotPdfa) 
@@ -590,7 +455,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			
 			// BEGIN: PDF/A support
 			if (gotPdfa) {
-				String iccProfilePath = getStringParameter( JRPdfExporterParameter.PDFA_ICC_PROFILE_PATH, JRPdfExporterParameter.PROPERTY_PDFA_ICC_PROFILE_PATH);
+				String iccProfilePath = configuration.getIccProfilePath();
 				if (iccProfilePath != null) {
 					PdfDictionary pdfDictionary = new PdfDictionary(PdfName.OUTPUTINTENT);
 					pdfDictionary.put(PdfName.OUTPUTCONDITIONIDENTIFIER, new PdfString("sRGB IEC61966-2.1"));
@@ -609,6 +474,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			// END: PDF/A support
 			
+			String pdfJavaScript = configuration.getPdfJavaScript();
 			if(pdfJavaScript != null)
 			{
 				pdfWriter.addJavaScript(pdfJavaScript);
@@ -630,19 +496,22 @@ public class JRPdfExporter extends JRAbstractExporter
 			imageTesterPdfContentByte = imageTesterPdfWriter.getDirectContent();
 			imageTesterPdfContentByte.setLiteral("\n");
 
-			for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
+			List<ExporterInputItem> items = exporterInput.getItems();
+			
+			boolean isCreatingBatchModeBookmarks = configuration.isCreatingBatchModeBookmarks();
+
+			for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
 			{
-				setJasperPrint(jasperPrintList.get(reportIndex));
+				ExporterInputItem item = items.get(reportIndex);
+				setCurrentExporterInputItem(item);
 				loadedImagesMap = new HashMap<Renderable,com.lowagie.text.Image>();
 				
 				setPageSize(null);
 				
-				boolean sizePageToContent = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, JRPdfExporterParameter.PROPERTY_SIZE_PAGE_TO_CONTENT, false);
-
 				List<JRPrintPage> pages = jasperPrint.getPages();
 				if (pages != null && pages.size() > 0)
 				{
-					if (isModeBatch)
+					if (items.size() > 1)
 					{
 						document.newPage();
 
@@ -651,10 +520,15 @@ public class JRPdfExporter extends JRAbstractExporter
 							//add a new level to our outline for this report
 							addBookmark(0, jasperPrint.getName(), 0, 0);
 						}
-
-						startPageIndex = 0;
-						endPageIndex = pages.size() - 1;
 					}
+					
+					configuration = getCurrentConfiguration();
+
+					boolean sizePageToContent = configuration.isSizePageToContent();
+
+					PageRange pageRange = getPageRange();
+					int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
+					int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
 
 					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
@@ -816,6 +690,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (elements != null && elements.size() > 0)
 		{
+			ExporterFilter filter = getCurrentConfiguration().getExporterFilter();
+
 			for(Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 			{
 				JRPrintElement element = it.next();
@@ -1470,7 +1346,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 				PdfTemplate template = pdfContentByte.createTemplate((float)displayWidth, (float)displayHeight);
 
-				Graphics2D g = forceSvgShapes
+				Graphics2D g = getCurrentConfiguration().isForceSvgShapes()
 					? template.createGraphicsShapes((float)displayWidth, (float)displayHeight)
 					: template.createGraphics(availableImageWidth, availableImageHeight, new LocalFontMapper());
 
@@ -1627,10 +1503,10 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		if (link != null)
 		{
-			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, link);
+			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PdfExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 			if (ignoreHyperlink == null)
 			{
-				ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
+				ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
 			}
 			
 			if (!ignoreHyperlink)
@@ -1711,6 +1587,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					}
 					case CUSTOM :
 					{
+						JRHyperlinkProducerFactory hyperlinkProducerFactory = getCurrentConfiguration().getHyperlinkProducerFactory();
 						if (hyperlinkProducerFactory != null)
 						{
 							String hyperlink = hyperlinkProducerFactory.produceHyperlink(link);
@@ -2553,7 +2430,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	{
 		bookmarkStack = new BookmarkStack();
 
-		int rootLevel = isModeBatch && isCreatingBatchModeBookmarks ? -1 : 0;
+		int rootLevel = exporterInput.getItems().size() > 1 && getCurrentConfiguration().isCreatingBatchModeBookmarks() ? -1 : 0;
 		Bookmark bookmark = new Bookmark(pdfContentByte.getRootOutline(), rootLevel);
 		bookmarkStack.push(bookmark);
 	}
@@ -2569,7 +2446,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			parent = bookmarkStack.peek();
 		}
 
-		if (!collapseMissingBookmarkLevels)
+		if (!getCurrentConfiguration().isCollapseMissingBookmarkLevels())
 		{
 			// creating empty bookmarks in order to preserve the bookmark level
 			for (int i = parent.level + 1; i < level; ++i)
@@ -2692,5 +2569,14 @@ public class JRPdfExporter extends JRAbstractExporter
 	public String getExporterKey()
 	{
 		return PDF_EXPORTER_KEY;
+	}
+
+	
+	/**
+	 *
+	 */
+	public JRPdfExporterContext getExporterContext()
+	{
+		return exporterContext;
 	}
 }

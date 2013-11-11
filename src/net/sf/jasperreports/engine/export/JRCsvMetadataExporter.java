@@ -34,9 +34,12 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.CsvExporterConfiguration;
+import net.sf.jasperreports.export.CsvMetadataExporterConfiguration;
 
 
 /**
@@ -49,13 +52,37 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class JRCsvMetadataExporter extends JRAbstractCsvExporter
+public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataExporterConfiguration, JRCsvExporterContext>
 {
 	/**
+	 * Property specifying the name of the column that should appear in the CSV export.
+	 * It must be one of the values in {@link CsvMetadataExporterConfiguration#getColumnNames()}, if provided. 
 	 * 
+	 * @see JRPropertiesUtil
 	 */
-	protected boolean writeHeader;
+	public static final String PROPERTY_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.column.name";
 	
+	/**
+	 * Property that specifies whether the value associated with {@link #PROPERTY_COLUMN_NAME PROPERTY_COLUMN_NAME} should be repeated or not
+	 * when it is missing.
+	 * <p>
+	 * The property itself defaults to <code>false</code>.
+	 * </p>
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_REPEAT_VALUE = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.repeat.value";
+	
+	/**
+	 * Property that specifies what value to associate with {@link #PROPERTY_COLUMN_NAME PROPERTY_COLUMN_NAME}.
+	 * <p>
+	 * The property itself defaults to the text value of the report element that this property is assigned to.
+	 * </p>
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_DATA = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.data";
+
 	/**
 	 * 
 	 */
@@ -63,6 +90,16 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 	
 	boolean isFirstRow = true;
 	
+
+	protected JRCsvExporterContext exporterContext = new ExporterContext();
+
+	protected class ExporterContext extends BaseExporterContext implements JRCsvExporterContext
+	{
+		public String getExportPropertiesPrefix()
+		{
+			return CSV_EXPORTER_PROPERTIES_PREFIX;
+		}
+	}
 
 	/**
 	 * @see #JRCsvMetadataExporter(JasperReportsContext)
@@ -81,7 +118,29 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 		super(jasperReportsContext);
 	}
 
+
+	/**
+	 *
+	 */
+	protected Class<CsvMetadataExporterConfiguration> getConfigurationInterface()
+	{
+		return CsvMetadataExporterConfiguration.class;
+	}
 	
+
+	/**
+	 *
+	 */
+	@SuppressWarnings("deprecation")
+	protected void ensureOutput()
+	{
+		if (exporterOutput == null)
+		{
+			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(exporterContext);
+		}
+	}
+	
+
 	/**
 	 * 
 	 */
@@ -91,6 +150,9 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 		Map<String, String> currentRow = new HashMap<String, String>();
 		Map<String, String> repeatedValues = new HashMap<String, String>();
 		
+		CsvMetadataExporterConfiguration configuration = getCurrentConfiguration(); 
+		
+		boolean isWriteHeader = configuration.isWriteHeader();
 		boolean hasDefinedColumns = columnNames != null; // if columns where passed in as property
 		String currentTextValue = null;
 		
@@ -103,9 +165,9 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 				
 				if (textElement.getPropertiesMap().getPropertyNames().length > 0) 
 				{
-					String currentColumnName = textElement.getPropertiesMap().getProperty(JRCsvMetadataExporterParameter.PROPERTY_COLUMN_NAME);
-					String currentColumnData = textElement.getPropertiesMap().getProperty(JRCsvMetadataExporterParameter.PROPERTY_DATA);
-					boolean repeatValue = getPropertiesUtil().getBooleanProperty(textElement, JRCsvMetadataExporterParameter.PROPERTY_REPEAT_VALUE, false);
+					String currentColumnName = textElement.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
+					String currentColumnData = textElement.getPropertiesMap().getProperty(PROPERTY_DATA);
+					boolean repeatValue = getPropertiesUtil().getBooleanProperty(textElement, PROPERTY_REPEAT_VALUE, false);
 					
 					if (currentColumnData != null)
 					{
@@ -148,7 +210,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 								|| (columnNames.contains(currentColumnName) && currentRow.containsKey(currentColumnName)) ) // the column is for export and was already read
 						{
 							// write header 
-							if (isFirstRow && writeHeader)
+							if (isFirstRow && isWriteHeader)
 							{
 								writeReportHeader();
 							}
@@ -173,6 +235,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 			writeCurrentRow(currentRow, repeatedValues);
 		}
 
+		JRExportProgressMonitor progressMonitor  = configuration.getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -181,38 +244,23 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 	
 	
 	@Override
-	protected void setParameters() {
-		super.setParameters();
+	protected void initExport() 
+	{
+		super.initExport();
 		
-		writeHeader = getBooleanParameter(
-				JRCsvMetadataExporterParameter.WRITE_HEADER, 
-				JRCsvMetadataExporterParameter.PROPERTY_WRITE_HEADER,
-				false
-				); 
-		
-		setColumnNames();
+		columnNames = JRStringUtil.split(getCurrentConfiguration().getColumnNames(), ",");
 	}
 
-	
-	/**
-	 * 
-	 */
-	protected void setColumnNames()
-	{
-		String[] columnNamesArray = 
-			getStringArrayParameter(
-				JRCsvMetadataExporterParameter.COLUMN_NAMES,
-				JRCsvMetadataExporterParameter.PROPERTY_COLUMN_NAMES_PREFIX
-				);
-		
-		columnNames = JRStringUtil.split(columnNamesArray, ",");
-	}
 	
 	/**
 	 * Writes the delimiter-separated column names
 	 */
 	protected void writeReportHeader() throws IOException 
 	{
+		CsvExporterConfiguration configuration = getCurrentConfiguration();
+		String fieldDelimiter = configuration.getFieldDelimiter();
+		String recordDelimiter = configuration.getRecordDelimiter();
+		
 		StringBuffer rowBuffer = new StringBuffer();
 		
 		for (int i = 0; i < columnNames.size(); i++)
@@ -221,7 +269,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 
 			if (i < (columnNames.size()-1))
 			{
-				rowBuffer.append(delimiter);
+				rowBuffer.append(fieldDelimiter);
 			} else
 			{
 				rowBuffer.append(recordDelimiter);
@@ -250,6 +298,9 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 		// FIXME: the rows that are incomplete (e.g. in case of a group, there are rows that contain only the group columns 
 		// because the report spanned over a new page and it contains only the values for the group columns, as header, and other information
 		// that is not for export, like counts or totals) should not be written
+		CsvExporterConfiguration configuration = getCurrentConfiguration();
+		String fieldDelimiter = configuration.getFieldDelimiter();
+		String recordDelimiter = configuration.getRecordDelimiter();
 
 		StringBuffer rowBuffer = new StringBuffer();
 		boolean isEmptyRow = true;
@@ -272,7 +323,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 			
 			if (i < (columnNames.size()-1))
 			{
-				rowBuffer.append(delimiter);
+				rowBuffer.append(fieldDelimiter);
 			} else
 			{
 				rowBuffer.append(recordDelimiter);
@@ -306,4 +357,12 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 		return indexOfLastFilledColumn < columnNames.indexOf(currentColumnName);
 	}
 	
+
+	/**
+	 * 
+	 */
+	public JRCsvExporterContext getExporterContext()
+	{
+		return exporterContext;
+	}
 }

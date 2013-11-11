@@ -26,7 +26,12 @@ package net.sf.jasperreports.engine;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterOutput;
+import net.sf.jasperreports.export.HtmlExporterConfiguration;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.WriterExporterOutput;
+import net.sf.jasperreports.export.XlsExporterConfiguration;
 
 
 /**
@@ -78,76 +83,70 @@ public class JRExporterParameter
 
 
 	/**
-	 * The {@link JasperPrint} object that will be exported. If you already have a JasperPrint object, you can pass it
-	 * to the export engine.
+	 * @deprecated Replaced by {@link SimpleExporterInput#SimpleExporterInput(JasperPrint)}.
 	 */
 	public static final JRExporterParameter JASPER_PRINT = new JRExporterParameter("JasperPrint Object");
 
 
 	/**
-	 * A list of {@link JasperPrint} objects to be exported. If you need to concatenate several reports into the same
-	 * document, you can use this feature.
+	 * @deprecated Replaced by {@link SimpleExporterInput#getInstance(java.util.List)}.
 	 */
 	public static final JRExporterParameter JASPER_PRINT_LIST = new JRExporterParameter("JasperPrint List");
 
 
 	/**
-	 * The input stream that the exported {@link JasperPrint} object will be read from. If you want to read the JasperPrint
-	 * object from an input stream (like a web location), you can pass the stream to this parameter.
+	 * @deprecated Replaced by {@link SimpleExporterInput#SimpleExporterInput(java.io.InputStream)}.
 	 */
 	public static final JRExporterParameter INPUT_STREAM = new JRExporterParameter("InputStream Object");
 
 
 	/**
-	 * The URL that the {@link JasperPrint} object will be read from. If the JasperPrint object is available as a web
-	 * resource, you can use this parameter, instead of opening a HTTP connection and read from the input stream.
+	 * @deprecated Replaced by {@link SimpleExporterInput#SimpleExporterInput(java.net.URL)}.
 	 */
 	public static final JRExporterParameter INPUT_URL = new JRExporterParameter("URL Object");
 
 
 	/**
-	 * A <tt>java.io.File</tt> pointing to a file representing the serialized form of the {@link JasperPrint} object. This is
-	 * useful if the JasperPrint object is representing a file on disk.
+	 * @deprecated Replaced by {@link SimpleExporterInput#SimpleExporterInput(java.io.File)}.
 	 */
 	public static final JRExporterParameter INPUT_FILE = new JRExporterParameter("Input File");
 
 
 	/**
-	 * A file representing the serialized form of the {@link JasperPrint} object. You can use this parameter to specify a file
-	 * name where the object can be found.
+	 * @deprecated Replaced by {@link SimpleExporterInput#SimpleExporterInput(String)}.
 	 */
 	public static final JRExporterParameter INPUT_FILE_NAME = new JRExporterParameter("Input File Name");
 
 
 	/**
-	 * The string buffer to send the export output to. Useful for just storing the result in a string for later use.
+	 * @deprecated Replaced by {@link SimpleWriterExporterOutput#SimpleWriterExporterOutput(StringBuffer)}.
 	 */
 	public static final JRExporterParameter OUTPUT_STRING_BUFFER = new JRExporterParameter("Output StringBuffer Object");
 
 
 	/**
-	 * The <tt>java.io.Writer</tt> instance that will be used to send the export output to. This is useful for sending
-	 * the export result to a character stream, such as the <tt>PrintWriter</tt> of a servlet.
+	 * @deprecated Replaced by {@link SimpleWriterExporterOutput#SimpleWriterExporterOutput(java.io.Writer)}.
 	 */
 	public static final JRExporterParameter OUTPUT_WRITER = new JRExporterParameter("Output Writer Object");
 
 
 	/**
-	 * The <tt>java.io.OutputStream</tt> instance that will be used to send the export output to. This is useful for sending
-	 * the export result to an output stream, such as a <tt>ServletOutputStream</tt>.
+	 * @deprecated Replaced by {@link SimpleWriterExporterOutput#SimpleWriterExporterOutput(java.io.OutputStream)} 
+	 * and {@link SimpleOutputStreamExporterOutput#SimpleOutputStreamExporterOutput(java.io.OutputStream)}.
 	 */
 	public static final JRExporterParameter OUTPUT_STREAM = new JRExporterParameter("OutputStream Object");
 
 
 	/**
-	 * The <tt>java.io.File</tt> instance that will be used to specify the file name of the exported report. This is useful when
-	 * exporting to a file and the <tt>File</tt> instance is already there.
+	 * @deprecated Replaced by {@link SimpleWriterExporterOutput#SimpleWriterExporterOutput(java.io.File)}
+	 * and {@link SimpleOutputStreamExporterOutput#SimpleOutputStreamExporterOutput(java.io.File)}.
 	 */
 	public static final JRExporterParameter OUTPUT_FILE = new JRExporterParameter("Output File");
 
 
 	/**
-	 * The file name of the exported report. This is an alternative to the OUTPUT_FILE parameter.
+	 * @deprecated Replaced by {@link SimpleWriterExporterOutput#SimpleWriterExporterOutput(String)}
+	 * and {@link SimpleOutputStreamExporterOutput#SimpleOutputStreamExporterOutput(String)}.
 	 */
 	public static final JRExporterParameter OUTPUT_FILE_NAME = new JRExporterParameter("Output File Name");
 
@@ -171,7 +170,9 @@ public class JRExporterParameter
 
 
 	/**
-	 * The character encoding used for export.
+	 * @deprecated Replaced by {@link SimpleWriterExporterOutput#SimpleWriterExporterOutput(java.io.File, String)},
+	 * {@link SimpleWriterExporterOutput#SimpleWriterExporterOutput(String, String)} 
+	 * and {@link SimpleWriterExporterOutput#SimpleWriterExporterOutput(java.io.OutputStream, String)}.
 	 */
 	public static final JRExporterParameter CHARACTER_ENCODING = new JRExporterParameter("Character Encoding");
 
@@ -244,6 +245,7 @@ public class JRExporterParameter
 	 * default behavior.
 	 * 
 	 * This property cannot be used as a report export hint.
+	 * @deprecated To be removed.
 	 */
 	public static final String PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "export.parameters.override.report.hints";
@@ -252,19 +254,14 @@ public class JRExporterParameter
 	 * Export parameter that can override the 
 	 * {@link #PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS}
 	 * property.
+	 * @deprecated To be removed.
 	 */
 	public static final JRExporterParameter PARAMETERS_OVERRIDE_REPORT_HINTS = new JRExporterParameter("Parameters override hints flag");
 
 	
 	/**
-	 * Indicates whether page margins should be ignored when the report is exported using a grid-based exporter
-	 * <p>
-	 * The type of the parameter is <code>java.lang.Boolean</code>.
-	 * </p>
-	 * <p>
-	 * If set to <code>true</code>, any page in the document will be exported without taking into account its margins.
-	 * </p>
-	 * @see JRExporterParameter#PROPERTY_IGNORE_PAGE_MARGINS
+	 * @deprecated Replaced by {@link HtmlExporterConfiguration#isIgnorePageMargins()}
+	 * and {@link XlsExporterConfiguration#isIgnorePageMargins()}.
 	 */
 	public static final JRExporterParameter IGNORE_PAGE_MARGINS = new JRExporterParameter("Ignore page margins");
 	

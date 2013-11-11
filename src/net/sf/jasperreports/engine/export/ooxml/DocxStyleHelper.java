@@ -32,6 +32,8 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.util.JRDataUtils;
+import net.sf.jasperreports.export.ExporterInput;
+import net.sf.jasperreports.export.ExporterInputItem;
 
 
 /**
@@ -60,7 +62,7 @@ public class DocxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public void export(List<JasperPrint> jasperPrintList) throws IOException
+	public void export(ExporterInput exporterInput) throws IOException
 	{
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		writer.write("<w:styles\n");
@@ -79,9 +81,12 @@ public class DocxStyleHelper extends BaseHelper
 		writer.write("  </w:pPrDefault>\n");
 		writer.write(" </w:docDefaults>\n");
 
-		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
+		List<ExporterInputItem> items = exporterInput.getItems();
+
+		for(int reportIndex = 0; reportIndex < items.size(); reportIndex++)
 		{
-			JasperPrint jasperPrint = jasperPrintList.get(reportIndex);
+			ExporterInputItem item = items.get(reportIndex);
+			JasperPrint jasperPrint = item.getJasperPrint();
 			
 			String localeCode = jasperPrint.getLocaleCode();
 			

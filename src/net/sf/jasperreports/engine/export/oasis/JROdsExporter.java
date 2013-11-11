@@ -74,6 +74,8 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.OdsExporterConfiguration;
+import net.sf.jasperreports.export.XlsExporterConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -86,7 +88,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JROdsExporter extends JRXlsAbstractExporter
+public class JROdsExporter extends JRXlsAbstractExporter<OdsExporterConfiguration, JROdsExporterContext>
 {
 	/**
 	 *
@@ -108,18 +110,13 @@ public class JROdsExporter extends JRXlsAbstractExporter
 	protected TableBuilder tableBuilder;
 
 	protected boolean startPage;
-	protected boolean flexibleRowHeight;
 	
 	protected StringBuffer namedExpressions;
 
 	protected Map<Integer, String> rowStyles = new HashMap<Integer, String>();
 	protected Map<Integer, String> columnStyles = new HashMap<Integer, String>();
 	
-	@Override
-	protected void setBackground() 
-	{
-		//FIXMEODS
-	}
+	protected JROdsExporterContext mainExporterContext = new ExporterContext(null);
 
 	@Override
 	protected void openWorkbook(OutputStream os) throws JRException, IOException
@@ -140,7 +137,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 
 		WriterHelper stylesWriter = new WriterHelper(jasperReportsContext, oasisZip.getStylesEntry().getWriter());
 
-		StyleBuilder styleBuilder = new StyleBuilder(jasperPrintList, stylesWriter);
+		StyleBuilder styleBuilder = new StyleBuilder(exporterInput, stylesWriter);
 		styleBuilder.build();
 
 		stylesWriter.close();
@@ -237,8 +234,9 @@ public class JROdsExporter extends JRXlsAbstractExporter
 		XlsRowLevelInfo levelInfo
 		) throws JRException 
 	{
-		tableBuilder.buildRowStyle(rowIndex, flexibleRowHeight ? -1 : lastRowHeight);
-		tableBuilder.buildRow(rowIndex, flexibleRowHeight ? -1 : lastRowHeight);
+		boolean isFlexibleRowHeight = getCurrentConfiguration().isFlexibleRowHeight();
+		tableBuilder.buildRowStyle(rowIndex, isFlexibleRowHeight ? -1 : lastRowHeight);
+		tableBuilder.buildRow(rowIndex, isFlexibleRowHeight ? -1 : lastRowHeight);
 	}
 
 //	@Override
@@ -298,7 +296,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 		tableBuilder.exportText(text, gridCell);
 		if (!ignoreAnchors && text.getAnchorName() != null)
 		{
-			String cellAddress = "$TBL_" + reportIndex + "_" + (isOnePagePerSheet ? pageIndex : 0) + "." + getCellAddress(rowIndex, colIndex);
+			String cellAddress = "$TBL_" + reportIndex + "_" + (getCurrentConfiguration().isOnePagePerSheet() ? pageIndex : 0) + "." + getCellAddress(rowIndex, colIndex);
 			int lastCol = Math.max(0, colIndex + gridCell.getColSpan() -1);
 			String cellRangeAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), lastCol);
 			namedExpressions.append("<table:named-range table:name=\""+ JRStringUtil.xmlEncode(text.getAnchorName()) +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" + cellAddress +":" +cellRangeAddress +"\"/>\n");
@@ -417,6 +415,8 @@ public class JROdsExporter extends JRXlsAbstractExporter
 				}
 			}
 
+			boolean isOnePagePerSheet = getCurrentConfiguration().isOnePagePerSheet();
+			
 //				tempBodyWriter.write("<text:p>");
 			documentBuilder.insertPageAnchor(tableBuilder);
 			if (!ignoreAnchors && image.getAnchorName() != null)
@@ -751,7 +751,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 		@Override
 		protected String getIgnoreHyperlinkProperty()
 		{
-			return JROdsExporter.PROPERTY_IGNORE_HYPERLINK;
+			return XlsExporterConfiguration.PROPERTY_IGNORE_HYPERLINK;
 		}
 		
 		@Override
@@ -768,7 +768,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 
 			if (!ignoreHyperlink)
 			{
-				href = documentBuilder.getHyperlinkURL(textElement, isOnePagePerSheet);
+				href = documentBuilder.getHyperlinkURL(textElement, getCurrentConfiguration().isOnePagePerSheet());
 			}
 
 			if (href == null)
@@ -825,11 +825,30 @@ public class JROdsExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected void setParameters()
+	protected Class<OdsExporterConfiguration> getConfigurationInterface()
 	{
-		super.setParameters();
+		return OdsExporterConfiguration.class;
+	}
+	
 
-		nature = new JROdsExporterNature(jasperReportsContext, filter, isIgnoreGraphics, isIgnorePageMargins);
+	/**
+	 *
+	 */
+	protected void initExport()
+	{
+		super.initExport();
+
+		XlsExporterConfiguration configuration = getCurrentConfiguration();
+		
+		//FIXMEODS setBackground()
+
+		nature = 
+			new JROdsExporterNature(
+				jasperReportsContext, 
+				configuration.getExporterFilter(), 
+				configuration.isIgnoreGraphics(),
+				configuration.isIgnorePageMargins()
+				);
 
 //		macroTemplate =  macroTemplate == null ? getPropertiesUtil().getProperty(jasperPrint, PROPERTY_MACRO_TEMPLATE) : macroTemplate;
 //		
@@ -890,6 +909,15 @@ public class JROdsExporter extends JRXlsAbstractExporter
 
 
 	/**
+	 *
+	 */
+	public JROdsExporterContext getExporterContext()
+	{
+		return mainExporterContext;
+	}
+
+
+	/**
 	 * 
 	 */
 //	@Override
@@ -897,16 +925,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 		return ((GenericElementOdsHandler) GenericElementHandlerEnviroment
 				.getInstance(jasperReportsContext).getElementHandler(
 						genericPrintElement.getGenericType(), ODS_EXPORTER_KEY))
-				.getImage(new ExporterContext(null), genericPrintElement);
-	}
-
-	protected void setFlexibleRowHeight(){
-		flexibleRowHeight = 
-				getBooleanParameter(
-					JROpenDocumentExporterParameter.ODS_FLEXIBLE_ROW_HEIGHT,
-					JROpenDocumentExporterParameter.PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT,
-					false
-					);
+				.getImage(mainExporterContext, genericPrintElement);
 	}
 
 	/**
@@ -917,7 +936,7 @@ public class JROdsExporter extends JRXlsAbstractExporter
 		if(startPage)
 		{
 			String pageName = DocumentBuilder.JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
-			String cellAddress = "$TBL_" + reportIndex + "_" + (isOnePagePerSheet ? pageIndex : 0) + ".$A$1";
+			String cellAddress = "$TBL_" + reportIndex + "_" + (getCurrentConfiguration().isOnePagePerSheet() ? pageIndex : 0) + ".$A$1";
 			tableBuilder.exportAnchor(pageName);
 			namedExpressions.append("<table:named-range table:name=\""+ pageName +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" +cellAddress +"\"/>\n");
 			startPage = false;

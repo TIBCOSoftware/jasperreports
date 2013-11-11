@@ -32,14 +32,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
-import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
@@ -53,7 +48,6 @@ import java.util.Map;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -86,6 +80,9 @@ import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.ExporterInputItem;
+import net.sf.jasperreports.export.RtfExporterConfiguration;
+import net.sf.jasperreports.export.WriterExporterOutput;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -97,7 +94,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRRtfExporter extends JRAbstractExporter
+public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, WriterExporterOutput, JRRtfExporterContext>
 {
 	private static final Log log = LogFactory.getLog(JRRtfExporter.class);
 	
@@ -105,7 +102,10 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	private static final int LINE_SPACING_FACTOR = 240; //(int)(240 * 2/3f);
 
-	public static final String PROPERTY_IGNORE_HYPERLINK = RTF_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
+	/**
+	 * @deprecated Replaced by {@link RtfExporterConfiguration#PROPERTY_IGNORE_HYPERLINK}.
+	 */
+	public static final String PROPERTY_IGNORE_HYPERLINK = RtfExporterConfiguration.PROPERTY_IGNORE_HYPERLINK;
 
 	/**
 	 * The exporter key, as used in
@@ -159,6 +159,28 @@ public class JRRtfExporter extends JRAbstractExporter
 	{
 		super(jasperReportsContext);
 	}
+
+
+	/**
+	 *
+	 */
+	protected Class<RtfExporterConfiguration> getConfigurationInterface()
+	{
+		return RtfExporterConfiguration.class;
+	}
+	
+
+	/**
+	 *
+	 */
+	@SuppressWarnings("deprecation")
+	protected void ensureOutput()
+	{
+		if (exporterOutput == null)
+		{
+			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(exporterContext);
+		}
+	}
 	
 
 	/**
@@ -166,131 +188,42 @@ public class JRRtfExporter extends JRAbstractExporter
 	 */
 	public void exportReport() throws JRException
 	{
-		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
-
 		/*   */
-		setOffset();
+		ensureJasperReportsContext();
+		ensureInput();
+
+		fonts = new ArrayList<String>();
+		colors = new ArrayList<Color>();
+		colors.add(null);
+
+		initExport();
+		
+		ensureOutput();
+		
+		Writer writer = getExporterOutput().getWriter();
 
 		try
 		{
-			/*   */
-			setExportContext();
-
-			/*   */
-			setInput();
-			
-			if (!parameters.containsKey(JRExporterParameter.FILTER))
-			{
-				filter = createFilter(RTF_EXPORTER_PROPERTIES_PREFIX);
-			}
-
-			if (!isModeBatch) {
-				setPageRange();
-			}
-
-			fonts = new ArrayList<String>();
-			colors = new ArrayList<Color>();
-			colors.add(null);
-
-			setHyperlinkProducerFactory();
-			
-			Writer writer = null;
-			
-			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
-			if (sb != null) 
-			{
-				writer = new StringWriter();
-
-				try {
-					exportReportToWriter(writer);
-				}
-				catch (IOException ex) {
-					throw new JRException("Error while exporting report to the buffer", ex);
-				}
-
-				sb.append(writer.toString());
-			}
-			else 
-			{
-				writer = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
-				if (writer != null) 
-				{
-					try 
-					{
-						// export report
-						exportReportToWriter(writer);
-					}
-					catch (IOException ex) 
-					{
-						throw new JRException("Error writing to writer : " + jasperPrint.getName(), ex);
-					}
-				}
-				else 
-				{
-					OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
-					if(os != null) 
-					{
-						try 
-						{
-							writer = new OutputStreamWriter(os);
-
-							// export report
-							exportReportToWriter(writer);
-						}
-						catch (Exception ex) 
-						{
-							throw new JRException("Error writing to output stream : " + jasperPrint.getName(), ex);
-						}
-					}
-					else 
-					{
-						destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
-						if (destFile == null) 
-						{
-							String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
-							if (fileName != null) 
-							{
-								destFile = new File(fileName);
-							}
-							else 
-							{
-								throw new JRException("No output specified for the exporter");
-							}
-						}
-
-						try 
-						{
-							OutputStream fileOutputStream = new FileOutputStream(destFile);
-							writer = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
-							exportReportToWriter(writer);
-						}
-						catch (IOException ex) 
-						{
-							throw new JRException("Error writing to the file : " + destFile, ex);
-						}
-						finally 
-						{
-							if(writer != null) 
-							{
-								try 
-								{
-									writer.close();
-								}
-								catch(IOException ex) 
-								{
-
-								}
-							}
-						}
-					}
-				}
-			}
+			exportReportToWriter(writer);
+		}
+		catch (IOException e)
+		{
+			throw new JRException("Error writing to output writer : " + jasperPrint.getName(), e);
 		}
 		finally
 		{
+			getExporterOutput().close();
 			resetExportContext();
 		}
 	}
+
+
+	@Override
+	protected void initExport()
+	{
+		super.initExport();
+	}
+	
 
 	/**
 	 * Export report in .rtf format to a stream
@@ -303,16 +236,20 @@ public class JRRtfExporter extends JRAbstractExporter
 		fontWriter = new FileBufferedWriter();
 		contentWriter = new FileBufferedWriter();
 
-		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
-			setJasperPrint(jasperPrintList.get(reportIndex));
+		List<ExporterInputItem> items = exporterInput.getItems();
 
+		for(reportIndex = 0; reportIndex < items.size(); reportIndex++ )
+		{
+			ExporterInputItem item = items.get(reportIndex);
+			setCurrentExporterInputItem(item);
+			
 			List<JRPrintPage> pages = jasperPrint.getPages();
-			if (pages != null && pages.size() > 0){
-				if (isModeBatch)
-				{
-					startPageIndex = 0;
-					endPageIndex = pages.size() - 1;
-				}
+			if (pages != null && pages.size() > 0)
+			{
+				PageRange pageRange = getPageRange();
+				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
+				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
+
 				JRPrintPage page = null;
 
 				contentWriter.write("{\\info{\\nofpages");
@@ -350,7 +287,7 @@ public class JRRtfExporter extends JRAbstractExporter
 					writeAnchor(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
 
 					boolean lastPageFlag = false;
-					if(pageIndex == endPageIndex && reportIndex == (jasperPrintList.size() - 1)){
+					if(pageIndex == endPageIndex && reportIndex == (items.size() - 1)){
 						lastPageFlag = true;
 					}
 					exportPage(page, lastPageFlag);
@@ -1350,6 +1287,7 @@ public class JRRtfExporter extends JRAbstractExporter
 
 	protected void exportElements(Collection<JRPrintElement> elements) throws JRException, IOException {
 		if (elements != null && elements.size() > 0) {
+			ExporterFilter filter = getCurrentConfiguration().getExporterFilter();
 			for (Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();) {
 				JRPrintElement element = it.next();
 				if (filter == null || filter.isToExport(element)) {
@@ -1533,10 +1471,10 @@ public class JRRtfExporter extends JRAbstractExporter
 		String local ="";
 		boolean result = false;
 		
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(RtfExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
+			ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
 		}
 
 		if (!ignoreHyperlink)
@@ -1621,10 +1559,10 @@ public class JRRtfExporter extends JRAbstractExporter
 		String hlfr = null;
 		String hlsrc = null;
 		
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(RtfExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
+			ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
 		}
 
 		if (!ignoreHyperlink)
@@ -1796,5 +1734,13 @@ public class JRRtfExporter extends JRAbstractExporter
 	public String getExporterKey()
 	{
 		return RTF_EXPORTER_KEY;
+	}
+	
+	/**
+	 * 
+	 */
+	public JRRtfExporterContext getExporterContext()
+	{
+		return exporterContext;
 	}
 }

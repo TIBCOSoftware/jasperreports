@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
+
 /**
  * A context that represents information about an export process.
  * 
@@ -72,6 +73,7 @@ public interface JRExporterContext
 	 * The map uses {@link JRExporterParameter} instances as keys.
 	 * 
 	 * @return the map of export parameters
+	 * @deprecated To be removed.
 	 */
 	Map<JRExporterParameter,Object> getExportParameters();
 

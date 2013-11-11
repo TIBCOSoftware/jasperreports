@@ -37,6 +37,8 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
+import net.sf.jasperreports.export.DocxExporterConfiguration;
+
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -92,12 +94,12 @@ public class JRDocxExporterNature extends JROfficeOpenXmlExporterNature
 	{
 		if (
 			frame.hasProperties()
-			&& frame.getPropertiesMap().containsProperty(JRDocxExporterParameter.PROPERTY_FRAMES_AS_NESTED_TABLES)
+			&& frame.getPropertiesMap().containsProperty(DocxExporterConfiguration.PROPERTY_FRAMES_AS_NESTED_TABLES)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return !getPropertiesUtil().getBooleanProperty(frame, JRDocxExporterParameter.PROPERTY_FRAMES_AS_NESTED_TABLES, !deepGrid);
+			return !getPropertiesUtil().getBooleanProperty(frame, DocxExporterConfiguration.PROPERTY_FRAMES_AS_NESTED_TABLES, !deepGrid);
 		}
 		return deepGrid;
 	}
