@@ -110,7 +110,6 @@ import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
@@ -174,11 +173,13 @@ import net.sf.jasperreports.engine.type.TabStopAlignEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.export.WriterExporterOutput;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.time.Day;
+
 
 /**
  * A writer that generates the Java code required to produce a given report template programmatically, using the JasperReports API.
@@ -260,8 +261,8 @@ public class JRApiWriter
 		try
 		{
 			fos = new FileOutputStream(destFileName);
-			String encoding = report.getProperty(JRExporterParameter.PROPERTY_CHARACTER_ENCODING) != null
-			? report.getProperty(JRExporterParameter.PROPERTY_CHARACTER_ENCODING)
+			String encoding = report.getProperty(WriterExporterOutput.PROPERTY_CHARACTER_ENCODING) != null
+			? report.getProperty(WriterExporterOutput.PROPERTY_CHARACTER_ENCODING)
 			: "UTF-8";//FIXME this is an export time config property
 			Writer out = new OutputStreamWriter(fos, encoding);
 			writeReport(report, out);
@@ -296,8 +297,8 @@ public class JRApiWriter
 	{
 		try
 		{
-			String encoding = report.getProperty(JRExporterParameter.PROPERTY_CHARACTER_ENCODING) != null
-			? report.getProperty(JRExporterParameter.PROPERTY_CHARACTER_ENCODING)
+			String encoding = report.getProperty(WriterExporterOutput.PROPERTY_CHARACTER_ENCODING) != null
+			? report.getProperty(WriterExporterOutput.PROPERTY_CHARACTER_ENCODING)
 			: "UTF-8";
 			
 			Writer out = new OutputStreamWriter(outputStream, encoding);

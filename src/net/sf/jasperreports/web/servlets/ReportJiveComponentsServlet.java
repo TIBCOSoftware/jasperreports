@@ -32,10 +32,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.export.JsonExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleJsonExporterConfiguration;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
 import net.sf.jasperreports.web.util.WebUtil;
@@ -111,6 +112,8 @@ public class ReportJiveComponentsServlet extends AbstractServlet
 		boolean hasPages = jasperPrintAccessor.pageStatus(0, null).pageExists();
 		
 		JsonExporter exporter = new JsonExporter(getJasperReportsContext());
+		
+		SimpleJsonExporterConfiguration configuration = new SimpleJsonExporterConfiguration();
 
 		ReportPageStatus pageStatus;
 		if (hasPages)
@@ -127,7 +130,7 @@ public class ReportJiveComponentsServlet extends AbstractServlet
 				throw new JRRuntimeException("Page " + pageIdx + " not found in report");
 			}
 			
-			exporter.setParameter(JRExporterParameter.PAGE_INDEX, pageIdx);
+			configuration.setPageIndex(pageIdx);
 		}
 		else
 		{
@@ -135,13 +138,13 @@ public class ReportJiveComponentsServlet extends AbstractServlet
 		}
 		
 		exporter.setReportContext(webReportContext);
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrintAccessor.getJasperPrint());
-		exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, writer);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrintAccessor.getJasperPrint()));
+		exporter.setExporterOutput(new SimpleWriterExporterOutput(writer));
 		
-		exporter.setParameter(
-			JRHtmlExporterParameter.HYPERLINK_PRODUCER_FACTORY, 
+		configuration.setHyperlinkProducerFactory( 
 			ReportExecutionHyperlinkProducerFactory.getInstance(getJasperReportsContext(), request)
 			);
+		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
 
