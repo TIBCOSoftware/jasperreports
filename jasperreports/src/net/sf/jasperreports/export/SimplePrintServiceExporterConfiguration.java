@@ -30,7 +30,7 @@ import javax.print.attribute.PrintServiceAttributeSet;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: PrintServiceExporterConfiguration.java 6709 2013-11-08 14:39:13Z teodord $
+ * @version $Id$
  */
 public class SimplePrintServiceExporterConfiguration extends SimpleGraphics2DExporterConfiguration implements PrintServiceExporterConfiguration
 {
