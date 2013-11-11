@@ -39,7 +39,7 @@ import net.sf.jasperreports.export.annotations.ExporterParameter;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface PrintServiceExporterConfiguration extends ExporterConfiguration
+public interface PrintServiceExporterConfiguration extends Graphics2DExporterConfiguration
 {
 	/**
 	 * Returns an instance of <tt>javax.print.attribute.PrintRequestAttributeSet</tt>.
