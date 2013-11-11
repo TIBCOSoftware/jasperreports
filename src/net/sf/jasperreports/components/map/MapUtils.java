@@ -29,14 +29,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
-import org.apache.commons.collections.ReferenceMap;
 import org.jaxen.dom.DOMXPath;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -51,32 +49,26 @@ public class MapUtils {
 	public static final String LONGITUDE_NODE = "/GeocodeResponse/result/geometry/location/lng";
 	public static final String STATUS_OK = "OK";
 	
-	private static final Map<String, Float[]> coordsCache = new ReferenceMap(ReferenceMap.SOFT, ReferenceMap.SOFT);
-
 	public static Float[] getCoords(String address) throws JRException {
 		Float[] coords = null;
 		if(address != null) {
-			coords = coordsCache.get(address.toLowerCase());
-			if(coords == null) {
-				try {
-					String location = PLACE_URL_PREFIX + URLEncoder.encode(address, DEFAULT_ENCODING) + PLACE_URL_SUFFIX;
-					byte[] response = readData(location);
-					Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(response));
-					Node statusNode = (Node) new DOMXPath(STATUS_NODE).selectSingleNode(document);
-					String status = statusNode.getTextContent();
-					if(STATUS_OK.equals(status)) {
-						coords = new Float[2];
-						Node latNode = (Node) new DOMXPath(LATITUDE_NODE).selectSingleNode(document);
-						coords[0] = Float.valueOf(latNode.getTextContent());
-						Node lngNode = (Node) new DOMXPath(LONGITUDE_NODE).selectSingleNode(document);
-						coords[1] = Float.valueOf(lngNode.getTextContent());
-						coordsCache.put(address.toLowerCase(), coords); 
-					} else {
-						throw new JRRuntimeException("Address request failed (see status: " + status + ")");
-					}
-				} catch (Exception e) {
-					throw new JRException(e);
+			try {
+				String location = PLACE_URL_PREFIX + URLEncoder.encode(address, DEFAULT_ENCODING) + PLACE_URL_SUFFIX;
+				byte[] response = readData(location);
+				Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(response));
+				Node statusNode = (Node) new DOMXPath(STATUS_NODE).selectSingleNode(document);
+				String status = statusNode.getTextContent();
+				if(STATUS_OK.equals(status)) {
+					coords = new Float[2];
+					Node latNode = (Node) new DOMXPath(LATITUDE_NODE).selectSingleNode(document);
+					coords[0] = Float.valueOf(latNode.getTextContent());
+					Node lngNode = (Node) new DOMXPath(LONGITUDE_NODE).selectSingleNode(document);
+					coords[1] = Float.valueOf(lngNode.getTextContent());
+				} else {
+					throw new JRRuntimeException("Address request failed (see status: " + status + ")");
 				}
+			} catch (Exception e) {
+				throw new JRException(e);
 			}
 		}
 		return coords;
