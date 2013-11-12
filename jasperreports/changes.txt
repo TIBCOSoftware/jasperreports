@@ -4,6 +4,17 @@ JasperReports Library Change Log
 
 JasperReports 5.5.2 (2013-1x-xx)
 ---------------------------------------------
+- the JExcelApi based XLS exporters (JExcelApiExporter and JExcelApiMetadataExporter) are now deprecated and should no longer be used
+as they will no longer be maintained and will be completely removed from the library sometime in the future; 
+The JRXlsExporter, JRXlsMetadataExporter (both Apache POI based) and JRXlsxExporter implementations should be used instead;
+
+- the older HTML and XHTML exporters (JRHtmlExporter and JRXhtmlExporter) are now deprecated and should no longer be used
+as they will no longer be maintained and will be completely removed from the library sometime in the future;
+The newer HtmlExporter implementation should be used instead;
+
+- parameter based exporter configuration is now deprecated and replaced with new interfaces for setting the exporter's 
+input, output and configuration; The JRExporterParameter class and its subclasses are now deprecated and replaced by 
+ExporterInput, ExporterOutput and ExporterConfiguration interfaces and their subinterfaces and convenience implementations; 
 
 - minor bug fixes and improvements;
 
