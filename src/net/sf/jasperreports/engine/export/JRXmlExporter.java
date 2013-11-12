@@ -228,7 +228,7 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 			rendererToImagePathMap = new HashMap<Renderable,String>();
 		}
 
-		Writer writer = ((WriterExporterOutput)getExporterOutput()).getWriter();
+		Writer writer = getExporterOutput().getWriter();
 
 		try
 		{
@@ -240,7 +240,7 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 		}
 		finally
 		{
-			((WriterExporterOutput)getExporterOutput()).close();
+			getExporterOutput().close();
 			resetExportContext();
 		}
 	}

@@ -25,16 +25,18 @@ import java.io.File;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOdsExporterConfiguration;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsExporterConfiguration;
+import net.sf.jasperreports.export.SimpleXlsxExporterConfiguration;
 
 
 /**
@@ -92,9 +94,11 @@ public class XlsFormulaApp extends AbstractSampleApp
 		
 		JRXlsExporter exporter = new JRXlsExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		SimpleXlsExporterConfiguration configuration = new SimpleXlsExporterConfiguration();
+		configuration.setOnePagePerSheet(false);
+		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
 
@@ -105,6 +109,7 @@ public class XlsFormulaApp extends AbstractSampleApp
 	/**
 	 *
 	 */
+	@SuppressWarnings("deprecation")
 	public void jxl() throws JRException
 	{
 		long start = System.currentTimeMillis();
@@ -114,11 +119,15 @@ public class XlsFormulaApp extends AbstractSampleApp
 
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
 
-		JExcelApiExporter exporter = new JExcelApiExporter();
+		net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
+			new net.sf.jasperreports.engine.export.JExcelApiExporter();
 
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		net.sf.jasperreports.export.SimpleJxlExporterConfiguration configuration = 
+			new net.sf.jasperreports.export.SimpleJxlExporterConfiguration();
+		configuration.setOnePagePerSheet(true);
+		exporter.setConfiguration(configuration);
 
 		exporter.exportReport();
 
@@ -140,9 +149,11 @@ public class XlsFormulaApp extends AbstractSampleApp
 
 		JROdsExporter exporter = new JROdsExporter();
 
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		SimpleOdsExporterConfiguration configuration = new SimpleOdsExporterConfiguration();
+		configuration.setOnePagePerSheet(true);
+		exporter.setConfiguration(configuration);
 
 		exporter.exportReport();
 
@@ -164,9 +175,11 @@ public class XlsFormulaApp extends AbstractSampleApp
 		
 		JRXlsxExporter exporter = new JRXlsxExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		SimpleXlsxExporterConfiguration configuration = new SimpleXlsxExporterConfiguration();
+		configuration.setOnePagePerSheet(false);
+		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
 

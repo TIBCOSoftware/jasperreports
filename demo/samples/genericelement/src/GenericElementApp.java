@@ -26,13 +26,13 @@ import java.io.File;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 
 
 /**
@@ -112,6 +112,7 @@ public class GenericElementApp extends AbstractSampleApp
 	/**
 	 *
 	 */
+	@SuppressWarnings("deprecation")
 	public void xhtml() throws JRException
 	{
 		long start = System.currentTimeMillis();
@@ -121,10 +122,11 @@ public class GenericElementApp extends AbstractSampleApp
 
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
 		
-		JRXhtmlExporter exporter = new JRXhtmlExporter();
+		net.sf.jasperreports.engine.export.JRXhtmlExporter exporter = 
+			new net.sf.jasperreports.engine.export.JRXhtmlExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleHtmlExporterOutput(destFile));
 		
 		exporter.exportReport();
 

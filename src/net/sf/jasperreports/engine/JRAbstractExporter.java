@@ -302,9 +302,9 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	/**
 	 *
 	 */
-	public void setConfiguration(C exporterConfiguration)
+	public void setConfiguration(C configuration)
 	{
-		this.exporterConfiguration = exporterConfiguration;
+		this.exporterConfiguration = configuration;
 	}
 
 	
