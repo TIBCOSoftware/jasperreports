@@ -230,9 +230,8 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			map.getLatitudeExpression());
 		writer.writeExpression("longitudeExpression", 
 				map.getLongitudeExpression());
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_0))
+		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_2))
 		{
-			//FIXME: put the proper JR version here
 			writer.writeExpression("addressExpression", map.getAddressExpression());
 		}
 		writer.writeExpression("zoomExpression", 
