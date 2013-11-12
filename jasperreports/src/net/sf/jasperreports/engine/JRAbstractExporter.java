@@ -629,14 +629,6 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 		return getStyledText(textElement, true);
 	}
 
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	protected void setOutput()
-	{
-	}
-
 
 	/**
 	 * Returns the X axis offset used for element export.
