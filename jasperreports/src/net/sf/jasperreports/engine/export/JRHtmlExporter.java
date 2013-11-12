@@ -98,7 +98,6 @@ import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
-import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.export.parameters.ParametersHtmlExporterOutput;
 
 import org.apache.commons.logging.Log;
@@ -1791,7 +1790,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlExporterConfigura
 			}
 			else 		// ie: 	if(isUsingImagesToAlign)
 			{
-				HtmlResourceHandler imageHandler = ((HtmlExporterOutput)getExporterOutput()).getImageHandler();
+				HtmlResourceHandler imageHandler = getExporterOutput().getImageHandler();
 				imagePath = imageHandler == null ? null : imageHandler.getResourcePath("px");
 				scaleImage = ScaleImageEnum.FILL_FRAME;
 			}

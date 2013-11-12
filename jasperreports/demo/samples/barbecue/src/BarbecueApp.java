@@ -26,17 +26,13 @@ import java.io.File;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -44,6 +40,13 @@ import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
+import net.sf.jasperreports.export.SimpleOdsExporterConfiguration;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsExporterConfiguration;
+import net.sf.jasperreports.export.SimpleXlsxExporterConfiguration;
 
 
 /**
@@ -166,8 +169,8 @@ public class BarbecueApp extends AbstractSampleApp
 		
 		JRRtfExporter exporter = new JRRtfExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleWriterExporterOutput(destFile));
 		
 		exporter.exportReport();
 
@@ -189,9 +192,11 @@ public class BarbecueApp extends AbstractSampleApp
 		
 		JRXlsExporter exporter = new JRXlsExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		SimpleXlsExporterConfiguration configuration = new SimpleXlsExporterConfiguration();
+		configuration.setOnePagePerSheet(true);
+		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
 
@@ -202,6 +207,7 @@ public class BarbecueApp extends AbstractSampleApp
 	/**
 	 *
 	 */
+	@SuppressWarnings("deprecation")
 	public void jxl() throws JRException
 	{
 		long start = System.currentTimeMillis();
@@ -211,11 +217,15 @@ public class BarbecueApp extends AbstractSampleApp
 
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
 		
-		JExcelApiExporter exporter = new JExcelApiExporter();
+		net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
+			new net.sf.jasperreports.engine.export.JExcelApiExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		net.sf.jasperreports.export.SimpleJxlExporterConfiguration configuration = 
+			new net.sf.jasperreports.export.SimpleJxlExporterConfiguration();
+		configuration.setOnePagePerSheet(true);
+		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
 
@@ -237,8 +247,8 @@ public class BarbecueApp extends AbstractSampleApp
 		
 		JRCsvExporter exporter = new JRCsvExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleWriterExporterOutput(destFile));
 		
 		exporter.exportReport();
 
@@ -260,8 +270,8 @@ public class BarbecueApp extends AbstractSampleApp
 		
 		JROdtExporter exporter = new JROdtExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
 		
 		exporter.exportReport();
 
@@ -283,9 +293,11 @@ public class BarbecueApp extends AbstractSampleApp
 		
 		JROdsExporter exporter = new JROdsExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		SimpleOdsExporterConfiguration configuration = new SimpleOdsExporterConfiguration();
+		configuration.setOnePagePerSheet(true);
+		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
 
@@ -307,8 +319,8 @@ public class BarbecueApp extends AbstractSampleApp
 		
 		JRDocxExporter exporter = new JRDocxExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
 		
 		exporter.exportReport();
 
@@ -330,9 +342,11 @@ public class BarbecueApp extends AbstractSampleApp
 		
 		JRXlsxExporter exporter = new JRXlsxExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		SimpleXlsxExporterConfiguration configuration = new SimpleXlsxExporterConfiguration();
+		configuration.setOnePagePerSheet(true);
+		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
 
@@ -354,8 +368,8 @@ public class BarbecueApp extends AbstractSampleApp
 		
 		JRPptxExporter exporter = new JRPptxExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
 
 		exporter.exportReport();
 
@@ -366,6 +380,7 @@ public class BarbecueApp extends AbstractSampleApp
 	/**
 	 *
 	 */
+	@SuppressWarnings("deprecation")
 	public void xhtml() throws JRException
 	{
 		long start = System.currentTimeMillis();
@@ -375,10 +390,11 @@ public class BarbecueApp extends AbstractSampleApp
 
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
 		
-		JRXhtmlExporter exporter = new JRXhtmlExporter();
+		net.sf.jasperreports.engine.export.JRXhtmlExporter exporter = 
+			new net.sf.jasperreports.engine.export.JRXhtmlExporter();
 		
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleHtmlExporterOutput(destFile));
 		
 		exporter.exportReport();
 
