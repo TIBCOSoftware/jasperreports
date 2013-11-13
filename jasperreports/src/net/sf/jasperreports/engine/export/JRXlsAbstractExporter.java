@@ -499,7 +499,12 @@ public abstract class JRXlsAbstractExporter<C extends XlsExporterConfiguration, 
 	{
 		if (exporterOutput == null)
 		{
-			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(getExporterContext());
+			exporterOutput = 
+				new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(
+					getJasperReportsContext(),
+					getParameters(),
+					getCurrentJasperPrint()
+					);
 		}
 	}
 

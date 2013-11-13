@@ -490,7 +490,9 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 			@SuppressWarnings("deprecation")
 			C depConf = 
 				new net.sf.jasperreports.export.parameters.ParametersExporterConfigurationFactory<C>(
-					getExporterContext()
+					getJasperReportsContext(),
+					getParameters(),
+					getCurrentJasperPrint()
 					).getConfiguration(
 						getConfigurationInterface()
 						);

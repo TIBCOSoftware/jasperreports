@@ -197,7 +197,12 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 	{
 		if (exporterOutput == null)
 		{
-			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(exporterContext);
+			exporterOutput = 
+				new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(
+					getJasperReportsContext(),
+					getParameters(),
+					getCurrentJasperPrint()
+					);
 		}
 	}
 	

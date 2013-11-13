@@ -252,7 +252,12 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 	{
 		if (exporterOutput == null)
 		{
-			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(mainExporterContext);
+			exporterOutput = 
+				new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(
+					getJasperReportsContext(),
+					getParameters(),
+					getCurrentJasperPrint()
+					);
 		}
 	}
 	

@@ -26,10 +26,12 @@ package net.sf.jasperreports.export.parameters;
 import java.io.File;
 import java.io.OutputStream;
 import java.io.Writer;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.export.JRExporterContext;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
 import net.sf.jasperreports.export.XmlExporterOutput;
 
@@ -53,9 +55,17 @@ public class ParametersXmlExporterOutput extends ParametersWriterExporterOutput 
 	/**
 	 * 
 	 */
-	public ParametersXmlExporterOutput(JRExporterContext exporterContext)
+	public ParametersXmlExporterOutput(
+		JasperReportsContext jasperReportsContext,
+		Map<JRExporterParameter, Object> parameters,
+		JasperPrint jasperPrint
+		)
 	{
-		super(exporterContext);
+		super(
+			jasperReportsContext,
+			parameters,
+			jasperPrint
+			);
 		
 		isEmbeddingImages = Boolean.TRUE;
 

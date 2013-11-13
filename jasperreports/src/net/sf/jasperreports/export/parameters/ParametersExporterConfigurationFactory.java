@@ -33,7 +33,8 @@ import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.export.JRExporterContext;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.PropertiesExporterConfigurationFactory;
@@ -51,19 +52,24 @@ public class ParametersExporterConfigurationFactory<C extends ExporterConfigurat
 	/**
 	 * 
 	 */
-	private final JRExporterContext exporterContext;
-
+	private final JasperReportsContext jasperReportsContext;
+	private final Map<JRExporterParameter, Object> parameters;
+	private final JasperPrint jasperPrint;
 	private final ParameterResolver parameterResolver;
 	
 	/**
 	 * 
 	 */
-	public ParametersExporterConfigurationFactory(JRExporterContext exporterContext)
+	public ParametersExporterConfigurationFactory(
+		JasperReportsContext jasperReportsContext,
+		Map<JRExporterParameter, Object> parameters,
+		JasperPrint jasperPrint
+		)
 	{
-		this.exporterContext = exporterContext;
-
-		Map<JRExporterParameter, Object> parameters = exporterContext.getExportParameters();
-
+		this.jasperReportsContext = jasperReportsContext;
+		this.parameters = parameters;
+		this.jasperPrint = jasperPrint;
+		
 		boolean isParametersOverrideHints = true;
 		
 		Boolean param = (Boolean) parameters.get(JRExporterParameter.PARAMETERS_OVERRIDE_REPORT_HINTS);
@@ -71,7 +77,7 @@ public class ParametersExporterConfigurationFactory<C extends ExporterConfigurat
 		{
 			isParametersOverrideHints = 
 				JRPropertiesUtil.getInstance(
-					exporterContext.getJasperReportsContext()
+					jasperReportsContext
 					).getBooleanProperty(
 						JRExporterParameter.PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS
 						);
@@ -85,8 +91,8 @@ public class ParametersExporterConfigurationFactory<C extends ExporterConfigurat
 		{
 			parameterResolver = 
 				new ParameterOverrideResolver(
-					exporterContext.getJasperReportsContext(),
-					exporterContext.getExportedReport(),
+					jasperReportsContext,
+					jasperPrint,
 					parameters
 					);
 		}
@@ -94,8 +100,8 @@ public class ParametersExporterConfigurationFactory<C extends ExporterConfigurat
 		{
 			parameterResolver = 
 				new ParameterOverriddenResolver(
-					exporterContext.getJasperReportsContext(),
-					exporterContext.getExportedReport(),
+					jasperReportsContext,
+					jasperPrint,
 					parameters
 					);
 		}
@@ -195,8 +201,8 @@ public class ParametersExporterConfigurationFactory<C extends ExporterConfigurat
 			{
 				value = 
 					PropertiesExporterConfigurationFactory.getPropertyValue(
-						exporterContext.getJasperReportsContext(), 
-						exporterContext.getExportedReport(), 
+						jasperReportsContext, 
+						jasperPrint, 
 						exporterProperty, 
 						method.getReturnType()
 						);
@@ -206,7 +212,7 @@ public class ParametersExporterConfigurationFactory<C extends ExporterConfigurat
 		{
 			if (exporterProperty == null)
 			{
-				value = exporterContext.getExportParameters().get(parameter);
+				value = parameters.get(parameter);
 			}
 			else
 			{

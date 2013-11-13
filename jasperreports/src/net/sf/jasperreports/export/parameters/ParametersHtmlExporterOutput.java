@@ -30,9 +30,10 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.FileHtmlResourceHandler;
 import net.sf.jasperreports.engine.export.HtmlResourceHandler;
-import net.sf.jasperreports.engine.export.JRExporterContext;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.export.MapHtmlResourceHandler;
 import net.sf.jasperreports.export.HtmlExporterOutput;
@@ -56,12 +57,18 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 	/**
 	 * 
 	 */
-	public ParametersHtmlExporterOutput(JRExporterContext exporterContext)
+	public ParametersHtmlExporterOutput(
+		JasperReportsContext jasperReportsContext,
+		Map<JRExporterParameter, Object> parameters,
+		JasperPrint jasperPrint
+		)
 	{
-		super(exporterContext);
+		super(
+			jasperReportsContext,
+			parameters,
+			jasperPrint
+			);
 		
-		Map<JRExporterParameter, Object> parameters = exporterContext.getExportParameters();
-
 		Boolean isOutputImagesToDirParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR);
 		String imagesUri = (String)parameters.get(JRHtmlExporterParameter.IMAGES_URI);
 
