@@ -27,9 +27,10 @@ package net.sf.jasperreports.engine.export;
 /**
  * A context that represents information about an XLS export process.
  * 
+ * @see JRXlsExporter
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
- * @see JRXlsExporter
  */
 public interface JRXlsExporterContext extends JRExporterContext
 {

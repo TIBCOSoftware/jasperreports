@@ -67,7 +67,7 @@ public class CrosstabInteractiveJsonHandler implements GenericElementJsonHandler
 	@Override
 	public String getJsonFragment(JsonExporterContext exporterContext, JRGenericPrintElement element)
 	{
-		ReportContext reportContext = exporterContext.getExporter().getReportContext();
+		ReportContext reportContext = exporterContext.getExporterRef().getReportContext();
 		String jsonFragment = null;
 		if (reportContext != null)
 		{

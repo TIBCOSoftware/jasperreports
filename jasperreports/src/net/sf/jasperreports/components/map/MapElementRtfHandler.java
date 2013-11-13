@@ -48,7 +48,7 @@ public class MapElementRtfHandler implements GenericElementRtfHandler
 	{
 		try
 		{
-			JRRtfExporter exporter = (JRRtfExporter)exporterContext.getExporter();
+			JRRtfExporter exporter = (JRRtfExporter)exporterContext.getExporterRef();
 			exporter.exportImage(MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element));
 		}
 		catch (Exception e)

@@ -48,7 +48,7 @@ public class MapElementPdfHandler implements GenericElementPdfHandler
 	{
 		try
 		{
-			JRPdfExporter exporter = (JRPdfExporter)exporterContext.getExporter();
+			JRPdfExporter exporter = (JRPdfExporter)exporterContext.getExporterRef();
 			exporter.exportImage(MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element));
 		}
 		catch (Exception e)

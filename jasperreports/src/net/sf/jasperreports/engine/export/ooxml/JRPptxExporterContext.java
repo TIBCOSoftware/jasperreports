@@ -24,15 +24,15 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.export.JRExporterContext;
-import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 
 
 /**
  * A context that represents information about an PPTX export process.
  * 
+ * @see JRPptxExporter
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
- * @see JROdtExporter
  */
 public interface JRPptxExporterContext extends JRExporterContext
 {

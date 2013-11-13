@@ -72,7 +72,7 @@ public class IconLabelElementPdfHandler implements GenericElementPdfHandler
 			frame.addElement(iconPrintText);
 		}
 
-		JRPdfExporter exporter = (JRPdfExporter)exporterContext.getExporter();
+		JRPdfExporter exporter = (JRPdfExporter)exporterContext.getExporterRef();
         try
         {
         	exporter.exportFrame(frame);

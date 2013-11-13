@@ -54,7 +54,7 @@ public class MapElementGraphics2DHandler implements GenericElementGraphics2DHand
 	{
 		try
 		{
-			JRGraphics2DExporter exporter = (JRGraphics2DExporter)exporterContext.getExporter();
+			JRGraphics2DExporter exporter = (JRGraphics2DExporter)exporterContext.getExporterRef();
 			ImageDrawer imageDrawer = exporter.getFrameDrawer().getDrawVisitor().getImageDrawer();
 			
 			imageDrawer.draw(

@@ -56,7 +56,7 @@ public class IconLabelElementDocxHandler implements GenericElementDocxHandler
 		{
 			try
 			{
-				JRDocxExporter exporter = (JRDocxExporter)exporterContext.getExporter();
+				JRDocxExporter exporter = (JRDocxExporter)exporterContext.getExporterRef();
 				exporter.exportText(exporterContext.getTableHelper(), labelPrintText, gridCell);
 			}
 			catch (Exception e)

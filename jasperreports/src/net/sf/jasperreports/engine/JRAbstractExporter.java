@@ -59,6 +59,7 @@ import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.CompositeExporterConfigurationFactory;
+import net.sf.jasperreports.export.Exporter;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
@@ -95,7 +96,15 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	
 	public abstract class BaseExporterContext implements JRExporterContext
 	{
+		/**
+		 * @deprecated Replaced by {@link #getExporterRef()}.
+		 */
 		public JRExporter getExporter()
+		{
+			return JRAbstractExporter.this;
+		}
+
+		public Exporter getExporterRef()
 		{
 			return JRAbstractExporter.this;
 		}
@@ -110,6 +119,7 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 			return jasperPrint;
 		}
 
+		@SuppressWarnings("deprecation")
 		public Map<JRExporterParameter,Object> getExportParameters()
 		{
 			return parameters;
@@ -142,6 +152,7 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	/**
 	 *
 	 */
+	@SuppressWarnings("deprecation")
 	protected Map<JRExporterParameter,Object> parameters = new HashMap<JRExporterParameter,Object>();
 
 	/**
@@ -912,7 +923,7 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	 */
 	protected ExporterFilter createFilter()
 	{
-		JRExporterContext exporterContext = getExporterContext();
+		E exporterContext = getExporterContext();
 		
 		String exportDefaultFactoryProperty = exporterContext.getExportPropertiesPrefix() 
 				+ PROPERTY_SUFFIX_DEFAULT_FILTER_FACTORY;

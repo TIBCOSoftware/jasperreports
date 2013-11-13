@@ -55,7 +55,7 @@ public class IconLabelElementOdtHandler implements GenericElementOdtHandler
 		{
 			try
 			{
-				JROdtExporter exporter = (JROdtExporter)exporterContext.getExporter();
+				JROdtExporter exporter = (JROdtExporter)exporterContext.getExporterRef();
 				exporter.exportText(exporterContext.getTableBuilder(), labelPrintText, gridCell);
 			}
 			catch (Exception e)
