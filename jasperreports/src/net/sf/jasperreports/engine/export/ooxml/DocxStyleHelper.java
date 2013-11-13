@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
@@ -62,24 +61,24 @@ public class DocxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public void export(ExporterInput exporterInput) throws IOException
+	public void export(ExporterInput exporterInput)
 	{
-		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		writer.write("<w:styles\n");
-		writer.write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"\n");
-		writer.write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\">\n");
-		writer.write(" <w:docDefaults>\n");
-		writer.write("  <w:rPrDefault>\n");
-		writer.write("   <w:rPr>\n");
-		writer.write("    <w:rFonts w:ascii=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/>\n");
-		writer.write("   </w:rPr>\n");
-		writer.write("  </w:rPrDefault>\n");
-		writer.write("  <w:pPrDefault>\n");
-		writer.write("  <w:pPr>\n");
-		writer.write("  <w:spacing w:line=\"" + DocxParagraphHelper.LINE_SPACING_FACTOR + "\"/>\n");
-		writer.write("  </w:pPr>\n");
-		writer.write("  </w:pPrDefault>\n");
-		writer.write(" </w:docDefaults>\n");
+		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		write("<w:styles\n");
+		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"\n");
+		write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\">\n");
+		write(" <w:docDefaults>\n");
+		write("  <w:rPrDefault>\n");
+		write("   <w:rPr>\n");
+		write("    <w:rFonts w:ascii=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/>\n");
+		write("   </w:rPr>\n");
+		write("  </w:rPrDefault>\n");
+		write("  <w:pPrDefault>\n");
+		write("  <w:pPr>\n");
+		write("  <w:spacing w:line=\"" + DocxParagraphHelper.LINE_SPACING_FACTOR + "\"/>\n");
+		write("  </w:pPr>\n");
+		write("  </w:pPrDefault>\n");
+		write(" </w:docDefaults>\n");
 
 		List<ExporterInputItem> items = exporterInput.getItems();
 
@@ -116,36 +115,36 @@ public class DocxStyleHelper extends BaseHelper
 			}
 		}
 
-		writer.write("</w:styles>\n");
+		write("</w:styles>\n");
 	}
 	
 	/**
 	 * 
 	 */
-	private void exportHeader(JRStyle style) throws IOException
+	private void exportHeader(JRStyle style)
 	{
-		//writer.write(" <w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"" + style.getName() + "\">\n");
-		writer.write(" <w:style w:type=\"paragraph\" w:styleId=\"" + style.getName() + "\"");
+		//write(" <w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"" + style.getName() + "\">\n");
+		write(" <w:style w:type=\"paragraph\" w:styleId=\"" + style.getName() + "\"");
 		if (style.isDefault())
 		{
-			writer.write(" w:default=\"1\"");
+			write(" w:default=\"1\"");
 		}
-		writer.write(">\n");
-		writer.write("  <w:name w:val=\"" + style.getName() + "\" />\n");
-		writer.write("  <w:qFormat />\n");
+		write(">\n");
+		write("  <w:name w:val=\"" + style.getName() + "\" />\n");
+		write("  <w:qFormat />\n");
 		String styleNameReference = style.getStyle() == null ? null : style.getStyle().getName();//FIXMEDOCX why getStyleNameReference is not working?
 		if (styleNameReference != null)
 		{
-			writer.write("  <w:basedOn w:val=\"" + styleNameReference + "\" />\n");
+			write("  <w:basedOn w:val=\"" + styleNameReference + "\" />\n");
 		}
 	}
 	
 	/**
 	 * 
 	 */
-	private void exportFooter() throws IOException
+	private void exportFooter()
 	{
-		writer.write(" </w:style>\n");
+		write(" </w:style>\n");
 	}
 	
 }
