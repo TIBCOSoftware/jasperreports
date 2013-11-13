@@ -58,7 +58,7 @@ public class IconLabelElementOdsHandler implements GenericElementOdsHandler
 		{
 			try
 			{
-				JROdsExporter exporter = (JROdsExporter)exporterContext.getExporter();
+				JROdsExporter exporter = (JROdsExporter)exporterContext.getExporterRef();
 				exporter.exportText(labelPrintText, gridCell, colIndex, rowIndex);
 			}
 			catch (Exception e)

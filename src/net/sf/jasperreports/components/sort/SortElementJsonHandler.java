@@ -82,7 +82,7 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 	public String getJsonFragment(JsonExporterContext context, JRGenericPrintElement element)
 	{
 		String htmlFragment = null;
-		ReportContext reportContext = context.getExporter().getReportContext();
+		ReportContext reportContext = context.getExporterRef().getReportContext();
 		if (reportContext != null)//FIXMEJIVE
 		{
 			String sortColumnName = (String) element.getParameterValue(SortElement.PARAMETER_SORT_COLUMN_NAME);

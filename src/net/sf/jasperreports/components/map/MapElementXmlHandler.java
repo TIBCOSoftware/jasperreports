@@ -47,7 +47,7 @@ public class MapElementXmlHandler implements GenericElementXmlHandler
 	{
 		try
 		{
-			JRXmlExporter exporter = (JRXmlExporter)exporterContext.getExporter();
+			JRXmlExporter exporter = (JRXmlExporter)exporterContext.getExporterRef();
 			exporter.exportImage(MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element));
 		}
 		catch (Exception e)

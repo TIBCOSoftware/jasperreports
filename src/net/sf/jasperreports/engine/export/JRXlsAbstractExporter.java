@@ -70,6 +70,7 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
@@ -79,7 +80,8 @@ import net.sf.jasperreports.export.XlsExporterConfiguration;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRXlsAbstractExporter<C extends XlsExporterConfiguration, E extends JRExporterContext>  extends JRAbstractExporter<C, OutputStreamExporterOutput, E>
+public abstract class JRXlsAbstractExporter<C extends XlsExporterConfiguration, E extends JRExporterContext> 
+	extends JRAbstractExporter<C, OutputStreamExporterOutput, E>
 {
 
 	public static final String XLS_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.";

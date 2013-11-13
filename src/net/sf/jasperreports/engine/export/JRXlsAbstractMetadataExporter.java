@@ -67,7 +67,8 @@ import net.sf.jasperreports.export.XlsMetadataExporterConfiguration;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporterConfiguration, E extends JRExporterContext> extends JRXlsAbstractExporter<C, E>
+public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporterConfiguration, E extends JRExporterContext> 
+	extends JRXlsAbstractExporter<C, E>
 {
 	/**
 	 * A string that represents the name for the column that should appear in the XLS export.

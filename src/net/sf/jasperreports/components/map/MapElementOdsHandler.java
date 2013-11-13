@@ -56,7 +56,7 @@ public class MapElementOdsHandler implements GenericElementOdsHandler
 	{
 		try
 		{
-			JROdsExporter exporter = (JROdsExporter)exporterContext.getExporter();
+			JROdsExporter exporter = (JROdsExporter)exporterContext.getExporterRef();
 			exporter.exportImage(
 				MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element), 
 				gridCell, 

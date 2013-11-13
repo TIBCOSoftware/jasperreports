@@ -162,7 +162,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 		String htmlFragment = null;
 		String tableUUID = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID);
-		ReportContext reportContext = context.getExporter().getReportContext();
+		ReportContext reportContext = context.getExporterRef().getReportContext();
 		if (reportContext != null && tableUUID != null)//FIXMEJIVE
 		{
 			String columnUuid = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_UUID);

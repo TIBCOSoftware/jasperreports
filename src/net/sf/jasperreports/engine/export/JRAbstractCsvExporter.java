@@ -52,7 +52,8 @@ import net.sf.jasperreports.export.WriterExporterOutput;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRAbstractCsvExporter<C extends CsvExporterConfiguration, E extends JRExporterContext> extends JRAbstractExporter<C, WriterExporterOutput, E>
+public abstract class JRAbstractCsvExporter<C extends CsvExporterConfiguration, E extends JRExporterContext> 
+	extends JRAbstractExporter<C, WriterExporterOutput, E>
 {
 	protected static final String CSV_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.";
 

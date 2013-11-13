@@ -86,7 +86,7 @@ public class IconLabelElementGraphics2DHandler implements GenericElementGraphics
 				frame.addElement(iconPrintText);
 			}
 
-			JRGraphics2DExporter exporter = (JRGraphics2DExporter)exporterContext.getExporter();
+			JRGraphics2DExporter exporter = (JRGraphics2DExporter)exporterContext.getExporterRef();
 			
 			FrameDrawer frameDrawer = exporter.getFrameDrawer();
 			frameDrawer.draw(

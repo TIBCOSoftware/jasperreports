@@ -81,7 +81,7 @@ public class IconLabelElementPptxHandler implements GenericElementPptxHandler
 
 		try
 		{
-			JRPptxExporter exporter = (JRPptxExporter)exporterContext.getExporter();
+			JRPptxExporter exporter = (JRPptxExporter)exporterContext.getExporterRef();
 			exporter.exportFrame(frame);
 		}
 		catch (Exception e)

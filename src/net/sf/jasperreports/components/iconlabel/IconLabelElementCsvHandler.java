@@ -53,7 +53,7 @@ public class IconLabelElementCsvHandler implements GenericElementCsvHandler
 		
 		String text = null;
 		
-		JRStyledText styledText = ((JRCsvExporter)exporterContext.getExporter()).getStyledText(labelPrintText);
+		JRStyledText styledText = ((JRCsvExporter)exporterContext.getExporterRef()).getStyledText(labelPrintText);
 		if (styledText == null)
 		{
 			text = "";

@@ -28,10 +28,11 @@ import net.sf.jasperreports.engine.export.JRExporterContext;
 
 /**
  * A context that represents information about an ODT export process.
+ *
+ * @see JROdtExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
- * @see JROdtExporter
  */
 public interface JROdtExporterContext extends JRExporterContext
 {

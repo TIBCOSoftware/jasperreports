@@ -50,7 +50,7 @@ public class MapElementOdtHandler implements GenericElementOdtHandler
 	{
 		try
 		{
-			JROdtExporter exporter = (JROdtExporter)exporterContext.getExporter();
+			JROdtExporter exporter = (JROdtExporter)exporterContext.getExporterRef();
 			exporter.exportImage(
 				exporterContext.getTableBuilder(), 
 				MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element), 

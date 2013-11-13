@@ -28,6 +28,7 @@ package net.sf.jasperreports.engine.export;
  * A context that represents information about a text export process.
  * 
  * @see JRTextExporter
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.components.sort;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -43,16 +43,17 @@ import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
-import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.ExporterInput;
+import net.sf.jasperreports.export.HtmlExporterConfiguration;
+import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 
 /**
@@ -61,8 +62,6 @@ import org.apache.velocity.VelocityContext;
  */
 public class SortElementHtmlHandler extends BaseElementHtmlHandler
 {
-	private static final Log log = LogFactory.getLog(SortElementHtmlHandler.class);
-	
 	private static final String CSS_FILTER_DEFAULT = 		"filterBtnDefault";
 	private static final String CSS_FILTER_WRONG = 			"filterBtnWrong";
 	private static final String CSS_SORT_DEFAULT_ASC = 		"sortAscBtnDefault";
@@ -79,7 +78,8 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
 		String htmlFragment = null;
-		ReportContext reportContext = context.getExporter().getReportContext();
+		Exporter<ExporterInput, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter = context.getExporterRef();
+		ReportContext reportContext = exporter.getReportContext();
 		if (reportContext != null)//FIXMEJIVE
 		{
 			String sortColumnName = (String) element.getParameterValue(SortElement.PARAMETER_SORT_COLUMN_NAME);
@@ -108,9 +108,13 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			VelocityContext velocityContext = new VelocityContext();
 			velocityContext.put("uuid", element.getUUID().toString());
 
-			if (context.getExporter() instanceof JRXhtmlExporter) {
-				velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
-				velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
+			net.sf.jasperreports.engine.export.JRXhtmlExporter xhtmlExporter = 
+				exporter instanceof net.sf.jasperreports.engine.export.JRXhtmlExporter 
+				? (net.sf.jasperreports.engine.export.JRXhtmlExporter)exporter 
+				: null;
+			if (xhtmlExporter != null) {
+				velocityContext.put("elementX", xhtmlExporter.toSizeUnit(element.getX()));
+				velocityContext.put("elementY", xhtmlExporter.toSizeUnit(element.getY()));
 			}
 			velocityContext.put("elementWidth", element.getWidth());
 			velocityContext.put("elementHeight", element.getHeight());
