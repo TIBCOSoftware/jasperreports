@@ -21,17 +21,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.export.parameters;
+package net.sf.jasperreports.export;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.export.ExporterConfiguration;
 
 import org.apache.commons.lang.ClassUtils;
 
@@ -95,7 +93,7 @@ public class CompositeExporterConfigurationFactory<C extends ExporterConfigurati
 		@SuppressWarnings("unchecked")
 		C composite =
 			(C)Proxy.newProxyInstance(
-				JRAbstractExporter.class.getClassLoader(),
+				ExporterConfiguration.class.getClassLoader(),
 				(Class<?>[]) allInterfaces.toArray(new Class<?>[allInterfaces.size()]),
 				handler
 				);
