@@ -117,7 +117,6 @@ public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, 
 	 *
 	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
-	protected JRExportProgressMonitor progressMonitor;
 
 	protected FileBufferedWriter colorWriter;
 	protected FileBufferedWriter fontWriter;
@@ -398,6 +397,12 @@ public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, 
 		if(!lastPage)
 		{
 			contentWriter.write("\\page\n");
+		}
+		
+		JRExportProgressMonitor progressMonitor = getCurrentConfiguration().getProgressMonitor();
+		if (progressMonitor != null)
+		{
+			progressMonitor.afterPageExport();
 		}
 	}
 
