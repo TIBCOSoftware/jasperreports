@@ -23,9 +23,7 @@
  */
 package net.sf.jasperreports.components.iconlabel;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.ooxml.GenericElementDocxHandler;
@@ -71,13 +69,6 @@ public class IconLabelElementDocxHandler implements GenericElementDocxHandler
 	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;
-	}
-
-	@Override
-	public JRPrintImage getImage(JRDocxExporterContext exporterContext,
-			JRGenericPrintElement element) throws JRException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 }

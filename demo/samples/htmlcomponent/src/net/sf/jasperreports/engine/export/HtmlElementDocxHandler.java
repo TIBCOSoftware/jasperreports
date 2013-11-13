@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.ooxml.GenericElementDocxHandler;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterContext;
@@ -45,21 +44,14 @@ public class HtmlElementDocxHandler implements GenericElementDocxHandler
 		JRDocxExporter exporter = (JRDocxExporter)exporterContext.getExporter();
 		try 
 		{
-			exporter.exportImage(exporterContext.getTableHelper(), getImage(exporterContext, element), gridCell);
+			HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
+			exporter.exportImage(exporterContext.getTableHelper(), htmlPrintElement.createImageFromElement(element), gridCell);
 		} catch (JRException e) 
 		{
 			throw new RuntimeException(e);
 		}
 	}
 
-	@Override
-	public JRPrintImage getImage(JRDocxExporterContext exporterContext,
-			JRGenericPrintElement element) throws JRException 
-	{
-		HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
-		return htmlPrintElement.createImageFromElement(element);
-	}
-	
 	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;

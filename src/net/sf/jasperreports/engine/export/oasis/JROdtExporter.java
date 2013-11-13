@@ -57,7 +57,6 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
@@ -546,41 +545,6 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 	/**
 	 *
 	 */
-	public JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName) throws JRException//FIXMEODS duplicate
-	{
-		return getImage(jasperPrintList, DocumentBuilder.getPrintElementIndex(imageName));
-	}
-
-	
-	/**
-	 *
-	 */
-	public JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex) throws JRException//FIXMEODS duplicate
-	{
-		JasperPrint report = jasperPrintList.get(imageIndex.getReportIndex());
-		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
-
-		Integer[] elementIndexes = imageIndex.getAddressArray();
-		Object element = page.getElements().get(elementIndexes[0].intValue());
-
-		for (int i = 1; i < elementIndexes.length; ++i)
-		{
-			JRPrintFrame frame = (JRPrintFrame) element;
-			element = frame.getElements().get(elementIndexes[i].intValue());
-		}
-		
-		if(element instanceof JRGenericPrintElement)
-		{
-			return getPrintImageForGenericElement((JRGenericPrintElement)element);
-		}
-
-		return (JRPrintImage) element;
-	}
-
-	
-	/**
-	 *
-	 */
 	private void exportOccupiedCells(int count)
 	{
 		for(int i = 0; i < count; i++)
@@ -924,17 +888,6 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 	public JROdtExporterContext getExporterContext()
 	{
 		return mainExporterContext;
-	}
-	
-
-	/**
-	 * 
-	 */
-	protected JRPrintImage getPrintImageForGenericElement(JRGenericPrintElement genericPrintElement) throws JRException {
-		return ((GenericElementOdtHandler) GenericElementHandlerEnviroment
-				.getInstance(jasperReportsContext).getElementHandler(
-						genericPrintElement.getGenericType(), ODT_EXPORTER_KEY))
-				.getImage(mainExporterContext, genericPrintElement);
 	}
 
 

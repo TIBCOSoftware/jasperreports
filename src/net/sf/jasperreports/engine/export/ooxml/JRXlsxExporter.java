@@ -235,15 +235,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 	}
 
 
-	/**
-	 *
-	 */
-	public JRPrintImage getImage(ExporterInput exporterInput, String imageName) throws JRException
-	{
-		return getImage(exporterInput, getPrintElementIndex(imageName));
-	}
-
-
 	public JRPrintImage getImage(ExporterInput exporterInput, JRPrintElementIndex imageIndex) throws JRException//FIXMECONTEXT move these to an abstract up?
 	{
 		List<ExporterInputItem> items = exporterInput.getItems();

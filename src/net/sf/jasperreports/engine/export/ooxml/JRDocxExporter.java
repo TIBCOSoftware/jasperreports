@@ -32,9 +32,7 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -60,7 +58,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
@@ -142,13 +139,13 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 	/**
 	 *
 	 */
+	protected DocxZip docxZip;
 	protected DocxDocumentHelper docHelper;
 	protected Writer docWriter;
 
 	protected JRExportProgressMonitor progressMonitor;
 	protected Map<String, String> rendererToImagePathMap;
 //	protected Map imageMaps;
-	protected List<JRPrintElementIndex> imagesToProcess;
 
 	protected int reportIndex;
 	protected int pageIndex;
@@ -249,7 +246,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 
 		rendererToImagePathMap = new HashMap<String,String>();
 //		imageMaps = new HashMap();
-		imagesToProcess = new ArrayList<JRPrintElementIndex>();
 //		hyperlinksMap = new HashMap();
 
 		nature = getExporterNature(getCurrentConfiguration().getExporterFilter());
@@ -284,46 +280,9 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 	/**
 	 *
 	 */
-	public JRPrintImage getImage(List<ExporterInputItem> items, String imageName) throws JRException
-	{
-		return getImage(items, getPrintElementIndex(imageName));
-	}
-
-
-	public JRPrintImage getImage(List<ExporterInputItem> items, JRPrintElementIndex imageIndex) throws JRException
-	{
-		ExporterInputItem item = items.get(imageIndex.getReportIndex());
-		JasperPrint report = item.getJasperPrint();
-		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
-
-		Integer[] elementIndexes = imageIndex.getAddressArray();
-		Object element = page.getElements().get(elementIndexes[0].intValue());
-
-		for (int i = 1; i < elementIndexes.length; ++i)
-		{
-			JRPrintFrame frame = (JRPrintFrame) element;
-			element = frame.getElements().get(elementIndexes[i].intValue());
-		}
-
-		if(element instanceof JRGenericPrintElement)
-		{
-			JRGenericPrintElement genericPrintElement = (JRGenericPrintElement)element;
-			return ((GenericElementDocxHandler)GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
-					genericPrintElement.getGenericType(), 
-					DOCX_EXPORTER_KEY
-					)).getImage(mainExporterContext, genericPrintElement);
-		}
-		
-		return (JRPrintImage) element;
-	}
-
-
-	/**
-	 *
-	 */
 	protected void exportReportToStream(OutputStream os) throws JRException, IOException
 	{
-		DocxZip docxZip = new DocxZip();
+		docxZip = new DocxZip();
 
 		docWriter = docxZip.getDocumentEntry().getWriter();
 		
@@ -388,44 +347,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 		
 		docHelper.exportFooter(jasperPrint);
 		docHelper.close();
-
-		if ((imagesToProcess != null && imagesToProcess.size() > 0))
-		{
-			for(Iterator<JRPrintElementIndex> it = imagesToProcess.iterator(); it.hasNext();)
-			{
-				JRPrintElementIndex imageIndex = it.next();
-
-				JRPrintImage image = getImage(items, imageIndex);
-				Renderable renderer = image.getRenderable();
-				if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-				{
-					renderer =
-						new JRWrappingSvgRenderer(
-							renderer,
-							new Dimension(image.getWidth(), image.getHeight()),
-							ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-							);
-				}
-
-				String mimeType = renderer.getImageTypeValue().getMimeType();
-				if (mimeType == null)
-				{
-					mimeType = ImageTypeEnum.JPEG.getMimeType();
-				}
-				String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
-				
-				String imageName = getImageName(imageIndex);
-				
-				docxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
-					new FileBufferedZipEntry(
-						"word/media/" + imageName + "." + extension,
-						renderer.getImageData(jasperReportsContext)
-						)
-					);
-				
-				relsHelper.exportImage(imageName, extension);
-			}
-		}
 
 //		if ((hyperlinksMap != null && hyperlinksMap.size() > 0))
 //		{
@@ -1074,7 +995,58 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 			docHelper.write("<pic:pic>\n");
 			docHelper.write("<pic:nvPicPr><pic:cNvPr id=\"" + imageId + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
 			docHelper.write("<pic:blipFill>\n");
-			docHelper.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/>");
+
+			String imagePath = null;
+
+			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
+			{
+				imagePath = rendererToImagePathMap.get(renderer.getId());
+			}
+			else
+			{
+//				if (isLazy)//FIXMEDOCX learn how to link images
+//				{
+//					imagePath = ((JRImageRenderer)renderer).getImageLocation();
+//				}
+//				else
+//				{
+					JRPrintElementIndex imageIndex = getElementIndex(gridCell);
+
+					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
+					{
+						renderer =
+							new JRWrappingSvgRenderer(
+								renderer,
+								new Dimension(image.getWidth(), image.getHeight()),
+								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+								);
+					}
+
+					String mimeType = renderer.getImageTypeValue().getMimeType();
+					if (mimeType == null)
+					{
+						mimeType = ImageTypeEnum.JPEG.getMimeType();
+					}
+					String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
+					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + "." + extension;
+					
+					docxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
+						new FileBufferedZipEntry(
+							"word/media/" + imageName,
+							renderer.getImageData(jasperReportsContext)
+							)
+						);
+					
+					relsHelper.exportImage(imageName);
+
+					imagePath = imageName;
+					//imagePath = "Pictures/" + imageName;
+//				}
+
+				rendererToImagePathMap.put(renderer.getId(), imagePath);
+			}
+
+			docHelper.write("<a:blip r:embed=\"" + imagePath + "\"/>");
 			docHelper.write("<a:srcRect");
 			if (cropLeft > 0)
 			{
@@ -1109,31 +1081,27 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 			if(url != null)
 			{
 				String targetMode = "";
-				try {
-					switch(image.getHyperlinkTypeValue())
+				switch(image.getHyperlinkTypeValue())
+				{
+					case LOCAL_PAGE:
+					case LOCAL_ANCHOR:
 					{
-						case LOCAL_PAGE:
-						case LOCAL_ANCHOR:
-						{
-							relsHelper.exportImageLink(rId, "#"+url, targetMode);
-							break;
-						}
-						
-						case REMOTE_PAGE:
-						case REMOTE_ANCHOR:
-						case REFERENCE:
-						{
-							targetMode = " TargetMode=\"External\"";
-							relsHelper.exportImageLink(rId, url, targetMode);
-							break;
-						}
-						default:
-						{
-							break;
-						}
+						relsHelper.exportImageLink(rId, "#"+url, targetMode);
+						break;
 					}
-				} catch (IOException e) {
-					throw new JRRuntimeException(e);
+					
+					case REMOTE_PAGE:
+					case REMOTE_ANCHOR:
+					case REFERENCE:
+					{
+						targetMode = " TargetMode=\"External\"";
+						relsHelper.exportImageLink(rId, url, targetMode);
+						break;
+					}
+					default:
+					{
+						break;
+					}
 				}
 			}
 			
@@ -1146,43 +1114,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 		docHelper.write("</w:p>");
 
 		tableHelper.getCellHelper().exportFooter();
-	}
-
-
-	/**
-	 *
-	 */
-	public String getImagePath(Renderable renderer, boolean isLazy, JRExporterGridCell gridCell)
-	{
-		String imagePath = null;
-
-		if (renderer != null)
-		{
-			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
-			{
-				imagePath = rendererToImagePathMap.get(renderer.getId());
-			}
-			else
-			{
-//				if (isLazy)//FIXMEDOCX learn how to link images
-//				{
-//					imagePath = ((JRImageRenderer)renderer).getImageLocation();
-//				}
-//				else
-//				{
-					JRPrintElementIndex imageIndex = getElementIndex(gridCell);
-					imagesToProcess.add(imageIndex);
-
-					String imageName = getImageName(imageIndex);
-					imagePath = imageName;
-					//imagePath = "Pictures/" + imageName;
-//				}
-
-				rendererToImagePathMap.put(renderer.getId(), imagePath);
-			}
-		}
-
-		return imagePath;
 	}
 
 
@@ -1271,15 +1202,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 			writer.write(JRStringUtil.xmlEncode(hyperlink.getHyperlinkTooltip()));
 			writer.write("\"");
 		}
-	}
-
-
-	/**
-	 *
-	 */
-	public static String getImageName(JRPrintElementIndex printElementIndex)
-	{
-		return IMAGE_NAME_PREFIX + printElementIndex.toString();
 	}
 
 

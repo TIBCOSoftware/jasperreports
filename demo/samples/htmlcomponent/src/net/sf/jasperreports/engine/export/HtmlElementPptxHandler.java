@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.ooxml.GenericElementPptxHandler;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporterContext;
@@ -45,20 +44,13 @@ public class HtmlElementPptxHandler implements GenericElementPptxHandler
 		JRPptxExporter exporter = (JRPptxExporter)exporterContext.getExporter();
 		try 
 		{
-			exporter.exportImage(getImage(exporterContext, element));
+			HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
+			exporter.exportImage(htmlPrintElement.createImageFromElement(element));
 		} catch (JRException e) 
 		{
 			throw new RuntimeException(e);
 		}
 		
-	}
-
-	@Override
-	public JRPrintImage getImage(JRPptxExporterContext exporterContext,
-			JRGenericPrintElement element) throws JRException {
-		
-		HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
-		return htmlPrintElement.createImageFromElement(element);
 	}
 
 	public boolean toExport(JRGenericPrintElement element) 

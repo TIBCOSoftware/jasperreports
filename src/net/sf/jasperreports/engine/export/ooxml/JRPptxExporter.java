@@ -31,7 +31,6 @@ import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -54,7 +53,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
@@ -73,7 +71,6 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.PptxExporterConfiguration;
@@ -129,7 +126,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 	protected JRExportProgressMonitor progressMonitor;
 	protected Map<String, String> rendererToImagePathMap;
 //	protected Map imageMaps;
-	protected List<JRPrintElementIndex> imagesToProcess;
 //	protected Map hyperlinksMap;
 
 	protected int reportIndex;
@@ -217,7 +213,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 
 		rendererToImagePathMap = new HashMap<String,String>();
 //		imageMaps = new HashMap();
-		imagesToProcess = new ArrayList<JRPrintElementIndex>();
 //		hyperlinksMap = new HashMap();
 		
 		initExport();
@@ -248,44 +243,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 		super.initExport();
 	}
 	
-
-	/**
-	 *
-	 */
-	public JRPrintImage getImage(ExporterInput exporterInput, String imageName) throws JRException
-	{
-		return getImage(exporterInput, getPrintElementIndex(imageName));
-	}
-
-
-	public JRPrintImage getImage(ExporterInput exporterInput, JRPrintElementIndex imageIndex) throws JRException
-	{
-		List<ExporterInputItem> items = exporterInput.getItems();
-		ExporterInputItem item = items.get(imageIndex.getReportIndex());
-		JasperPrint report = item.getJasperPrint();
-		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
-
-		Integer[] elementIndexes = imageIndex.getAddressArray();
-		Object element = page.getElements().get(elementIndexes[0].intValue());
-
-		for (int i = 1; i < elementIndexes.length; ++i)
-		{
-			JRPrintFrame frame = (JRPrintFrame) element;
-			element = frame.getElements().get(elementIndexes[i].intValue());
-		}
-
-		if(element instanceof JRGenericPrintElement)
-		{
-			JRGenericPrintElement genericPrintElement = (JRGenericPrintElement)element;
-			return ((GenericElementPptxHandler)GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
-					genericPrintElement.getGenericType(), 
-					PPTX_EXPORTER_KEY
-					)).getImage(exporterContext, genericPrintElement);
-		}
-		
-		return (JRPrintImage) element;
-	}
-
 
 	/**
 	 *
@@ -352,44 +309,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 
 		presentationHelper.exportFooter(jasperPrint);
 		presentationHelper.close();
-
-		if ((imagesToProcess != null && imagesToProcess.size() > 0))
-		{
-			for(Iterator<JRPrintElementIndex> it = imagesToProcess.iterator(); it.hasNext();)
-			{
-				JRPrintElementIndex imageIndex = it.next();
-
-				JRPrintImage image = getImage(exporterInput, imageIndex);
-				Renderable renderer = image.getRenderable();
-				if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-				{
-					renderer =
-						new JRWrappingSvgRenderer(
-							renderer,
-							new Dimension(image.getWidth(), image.getHeight()),
-							ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-							);
-				}
-
-				String mimeType = renderer.getImageTypeValue().getMimeType();
-				if (mimeType == null)
-				{
-					mimeType = ImageTypeEnum.JPEG.getMimeType();
-				}
-				String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
-				
-				String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + "." + extension;
-				
-				pptxZip.addEntry(//FIXMEPPTX optimize with a different implementation of entry
-					new FileBufferedZipEntry(
-						"ppt/media/" + imageName,
-						renderer.getImageData(jasperReportsContext)
-						)
-					);
-				
-				//presentationRelsHelper.exportImage(imageName, extension);
-			}
-		}
 
 //		if ((hyperlinksMap != null && hyperlinksMap.size() > 0))
 //		{
@@ -1223,8 +1142,57 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 
 //			boolean startedHyperlink = startHyperlink(image,false);
 
-			String imageName = getImagePath(renderer, image.isLazy());
-			slideRelsHelper.exportImage(imageName);
+			String imagePath = null;
+
+			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
+			{
+				imagePath = rendererToImagePathMap.get(renderer.getId());
+			}
+			else
+			{
+//				if (isLazy)//FIXMEDOCX learn how to link images
+//				{
+//					imagePath = ((JRImageRenderer)renderer).getImageLocation();
+//				}
+//				else
+//				{
+					JRPrintElementIndex imageIndex = getElementIndex();
+
+					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
+					{
+						renderer =
+							new JRWrappingSvgRenderer(
+								renderer,
+								new Dimension(image.getWidth(), image.getHeight()),
+								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+								);
+					}
+					
+					String mimeType = renderer.getImageTypeValue().getMimeType();//FIXMEEXPORT this code for file extension is duplicated; is it now?
+					if (mimeType == null)
+					{
+						mimeType = ImageTypeEnum.JPEG.getMimeType();
+					}
+					String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
+					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + "." + extension;
+
+					pptxZip.addEntry(//FIXMEPPTX optimize with a different implementation of entry
+						new FileBufferedZipEntry(
+							"ppt/media/" + imageName,
+							renderer.getImageData(jasperReportsContext)
+							)
+						);
+					
+					//presentationRelsHelper.exportImage(imageName, extension);
+					
+					imagePath = imageName;
+					//imagePath = "Pictures/" + imageName;
+//				}
+
+				rendererToImagePathMap.put(renderer.getId(), imagePath);
+			}
+
+			slideRelsHelper.exportImage(imagePath);
 
 			slideHelper.write("<p:pic>\n");
 			slideHelper.write("  <p:nvPicPr>\n");
@@ -1243,7 +1211,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 			slideHelper.write("    <p:nvPr/>\n");
 			slideHelper.write("  </p:nvPicPr>\n");
 			slideHelper.write("<p:blipFill>\n");
-			slideHelper.write("<a:blip r:embed=\"" + imageName + "\"/>");
+			slideHelper.write("<a:blip r:embed=\"" + imagePath + "\"/>");
 			slideHelper.write("<a:srcRect");
 ////			if (cropLeft > 0)
 ////			{
@@ -1328,50 +1296,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 		}
 
 //		docHelper.write("</w:p>");
-	}
-
-
-	/**
-	 *
-	 */
-	protected String getImagePath(Renderable renderer, boolean isLazy)
-	{
-		String imagePath = null;
-
-		if (renderer != null)
-		{
-			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
-			{
-				imagePath = rendererToImagePathMap.get(renderer.getId());
-			}
-			else
-			{
-//				if (isLazy)//FIXMEDOCX learn how to link images
-//				{
-//					imagePath = ((JRImageRenderer)renderer).getImageLocation();
-//				}
-//				else
-//				{
-					JRPrintElementIndex imageIndex = getElementIndex();
-					imagesToProcess.add(imageIndex);
-
-					String mimeType = renderer.getImageTypeValue().getMimeType();//FIXMEPPTX this code for file extension is duplicated
-					if (mimeType == null)
-					{
-						mimeType = ImageTypeEnum.JPEG.getMimeType();
-					}
-					String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
-
-					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + "." + extension;
-					imagePath = imageName;
-					//imagePath = "Pictures/" + imageName;
-//				}
-
-				rendererToImagePathMap.put(renderer.getId(), imagePath);
-			}
-		}
-
-		return imagePath;
 	}
 
 

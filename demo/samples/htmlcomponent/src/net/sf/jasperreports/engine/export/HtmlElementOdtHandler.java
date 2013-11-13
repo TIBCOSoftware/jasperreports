@@ -23,9 +23,7 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.oasis.GenericElementOdtHandler;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporterContext;
@@ -47,7 +45,8 @@ public class HtmlElementOdtHandler implements GenericElementOdtHandler
 		try
 		{
 			JROdtExporter exporter = (JROdtExporter)exporterContext.getExporter();
-			exporter.exportImage(exporterContext.getTableBuilder(), getImage(exporterContext, element), gridCell);
+			HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
+			exporter.exportImage(exporterContext.getTableBuilder(), htmlPrintElement.createImageFromElement(element), gridCell);
 		}
 		catch (Exception e)
 		{
@@ -55,13 +54,6 @@ public class HtmlElementOdtHandler implements GenericElementOdtHandler
 		}
 	}
 	
-	@Override
-	public JRPrintImage getImage(JROdtExporterContext exporterContext,
-			JRGenericPrintElement element) throws JRException {
-		HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
-		return htmlPrintElement.createImageFromElement(element);
-	}
-
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}

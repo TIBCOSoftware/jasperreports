@@ -920,17 +920,6 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsExporterConfiguratio
 	/**
 	 * 
 	 */
-//	@Override
-	protected JRPrintImage getPrintImageForGenericElement(JRGenericPrintElement genericPrintElement) throws JRException {
-		return ((GenericElementOdsHandler) GenericElementHandlerEnviroment
-				.getInstance(jasperReportsContext).getElementHandler(
-						genericPrintElement.getGenericType(), ODS_EXPORTER_KEY))
-				.getImage(mainExporterContext, genericPrintElement);
-	}
-
-	/**
-	 * 
-	 */
 	protected void insertPageAnchor(TableBuilder tableBuilder)
 	{
 		if(startPage)
