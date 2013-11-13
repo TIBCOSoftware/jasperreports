@@ -58,14 +58,13 @@ import net.sf.jasperreports.engine.util.JRStyledTextParser;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 import net.sf.jasperreports.engine.util.Pair;
+import net.sf.jasperreports.export.CompositeExporterConfigurationFactory;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.ExporterOutput;
+import net.sf.jasperreports.export.PropertiesExporterConfigurationFactory;
 import net.sf.jasperreports.export.SimpleExporterInputItem;
-import net.sf.jasperreports.export.parameters.CompositeExporterConfigurationFactory;
-import net.sf.jasperreports.export.parameters.ParametersExporterConfigurationFactory;
-import net.sf.jasperreports.export.parameters.PropertiesExporterConfigurationFactory;
 
 
 /**
@@ -479,7 +478,7 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 		{
 			@SuppressWarnings("deprecation")
 			C depConf = 
-				new ParametersExporterConfigurationFactory<C>(
+				new net.sf.jasperreports.export.parameters.ParametersExporterConfigurationFactory<C>(
 					getExporterContext()
 					).getConfiguration(
 						getConfigurationInterface()
