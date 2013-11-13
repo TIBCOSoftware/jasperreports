@@ -123,7 +123,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 	protected PptxSlideRelsHelper slideRelsHelper;
 	protected Writer presentationWriter;
 
-	protected JRExportProgressMonitor progressMonitor;
 	protected Map<String, String> rendererToImagePathMap;
 //	protected Map imageMaps;
 //	protected Map hyperlinksMap;
@@ -349,6 +348,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 
 		exportElements(page.getElements());
 		
+		JRExportProgressMonitor progressMonitor = getCurrentConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();

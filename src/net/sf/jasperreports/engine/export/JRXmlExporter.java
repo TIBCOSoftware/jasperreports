@@ -141,7 +141,6 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 	protected String version;
 	protected VersionComparator versionComparator = new VersionComparator();
 	
-	protected JRExportProgressMonitor progressMonitor;
 	protected Map<Renderable,String> rendererToImagePathMap;
 //	protected Map fontsMap = new HashMap();
 	protected Map<String,JRStyle> stylesMap = new HashMap<String,JRStyle>();
@@ -461,6 +460,7 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 
 		xmlWriter.closeElement();
 		
+		JRExportProgressMonitor progressMonitor = getCurrentConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();

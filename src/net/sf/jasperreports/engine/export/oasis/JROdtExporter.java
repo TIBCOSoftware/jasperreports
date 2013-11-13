@@ -196,8 +196,6 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 	protected WriterHelper tempBodyWriter;
 	protected WriterHelper tempStyleWriter;
 
-	protected JRExportProgressMonitor progressMonitor;
-
 	protected int reportIndex;
 	protected int pageIndex;
 	protected int tableIndex;
@@ -409,6 +407,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 
 		exportGrid(layout, null);
 
+		JRExportProgressMonitor progressMonitor = configuration.getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();

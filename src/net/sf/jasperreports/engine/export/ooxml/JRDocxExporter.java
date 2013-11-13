@@ -143,7 +143,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 	protected DocxDocumentHelper docHelper;
 	protected Writer docWriter;
 
-	protected JRExportProgressMonitor progressMonitor;
 	protected Map<String, String> rendererToImagePathMap;
 //	protected Map imageMaps;
 
@@ -397,6 +396,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 
 		exportGrid(layout, null);
 		
+		JRExportProgressMonitor progressMonitor = configuration.getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();

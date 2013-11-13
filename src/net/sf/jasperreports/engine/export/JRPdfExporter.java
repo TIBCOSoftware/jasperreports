@@ -202,8 +202,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 	
 	protected JRPdfExporterTagHelper tagHelper = new JRPdfExporterTagHelper(this);
 
-	protected JRExportProgressMonitor progressMonitor;
-
 	protected int reportIndex;
 
 	/**
@@ -685,6 +683,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 		
 		tagHelper.endPage();
 
+		JRExportProgressMonitor progressMonitor = getCurrentConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
