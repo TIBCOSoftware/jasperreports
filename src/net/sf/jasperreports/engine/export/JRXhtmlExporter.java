@@ -202,7 +202,12 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlExporterConfigurat
 	{
 		if (exporterOutput == null)
 		{
-			exporterOutput = new ParametersHtmlExporterOutput(exporterContext);
+			exporterOutput = 
+				new ParametersHtmlExporterOutput(
+					getJasperReportsContext(),
+					getParameters(),
+					getCurrentJasperPrint()
+					);
 		}
 	}
 	

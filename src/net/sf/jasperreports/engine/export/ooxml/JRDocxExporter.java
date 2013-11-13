@@ -166,7 +166,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 	
 	protected String pageAnchor;
 	
-	protected JRDocxExporterContext mainExporterContext = new ExporterContext(null);
+	protected JRDocxExporterContext mainExporterContext = new ExporterContext(null);//FIXMEEXPORT these are still used?
 	
 	protected DocxRelsHelper relsHelper;
 	
@@ -230,7 +230,12 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 	{
 		if (exporterOutput == null)
 		{
-			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(mainExporterContext);
+			exporterOutput = 
+				new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(
+					getJasperReportsContext(),
+					getParameters(),
+					getCurrentJasperPrint()
+					);
 		}
 	}
 	

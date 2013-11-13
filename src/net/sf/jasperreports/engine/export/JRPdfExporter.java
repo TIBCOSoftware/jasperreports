@@ -253,7 +253,12 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 	{
 		if (exporterOutput == null)
 		{
-			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(exporterContext);
+			exporterOutput = 
+				new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(
+					getJasperReportsContext(),
+					getParameters(),
+					getCurrentJasperPrint()
+					);
 		}
 	}
 	

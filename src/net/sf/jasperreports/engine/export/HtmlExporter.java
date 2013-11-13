@@ -255,7 +255,12 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 	{
 		if (exporterOutput == null)
 		{
-			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersHtmlExporterOutput(exporterContext);
+			exporterOutput = 
+				new net.sf.jasperreports.export.parameters.ParametersHtmlExporterOutput(
+					getJasperReportsContext(),
+					getParameters(),
+					getCurrentJasperPrint()
+					);
 		}
 	}
 

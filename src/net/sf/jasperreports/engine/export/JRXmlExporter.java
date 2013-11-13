@@ -205,7 +205,12 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 	{
 		if (exporterOutput == null)
 		{
-			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersXmlExporterOutput(exporterContext);
+			exporterOutput = 
+				new net.sf.jasperreports.export.parameters.ParametersXmlExporterOutput(
+					getJasperReportsContext(),
+					getParameters(),
+					getCurrentJasperPrint()
+					);
 		}
 	}
 	

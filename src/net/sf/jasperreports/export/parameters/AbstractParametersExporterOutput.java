@@ -27,7 +27,8 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.export.JRExporterContext;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.export.ExporterOutput;
 
 
@@ -48,11 +49,14 @@ public abstract class AbstractParametersExporterOutput implements ExporterOutput
 	/**
 	 * 
 	 */
-	public AbstractParametersExporterOutput(JRExporterContext exporterContext)
+	public AbstractParametersExporterOutput(
+		JasperReportsContext jasperReportsContext,
+		Map<JRExporterParameter, Object> parameters,
+		JasperPrint jasperPrint
+		)
 	{
-		this.propertiesUtil = JRPropertiesUtil.getInstance(exporterContext.getJasperReportsContext());
-
-		parameters = exporterContext.getExportParameters();
+		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+		this.parameters = parameters;
 
 		boolean parametersOverrideHints;
 		Boolean param = (Boolean) parameters.get(JRExporterParameter.PARAMETERS_OVERRIDE_REPORT_HINTS);
@@ -69,8 +73,8 @@ public abstract class AbstractParametersExporterOutput implements ExporterOutput
 		{
 			parameterResolver = 
 				new ParameterOverrideResolver(
-					exporterContext.getJasperReportsContext(),
-					exporterContext.getExportedReport(),
+					jasperReportsContext,
+					jasperPrint,
 					parameters
 					);
 		}
@@ -78,8 +82,8 @@ public abstract class AbstractParametersExporterOutput implements ExporterOutput
 		{
 			parameterResolver = 
 				new ParameterOverriddenResolver(
-					exporterContext.getJasperReportsContext(),
-					exporterContext.getExportedReport(),
+					jasperReportsContext,
+					jasperPrint,
 					parameters
 					);
 		}
