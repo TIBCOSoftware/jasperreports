@@ -40,16 +40,6 @@
 					<c:longitudeExpression><![CDATA[$P{longitude}]]></c:longitudeExpression>
 					<c:zoomExpression><![CDATA[$P{zoom}]]></c:zoomExpression>
 					<c:languageExpression><![CDATA[new java.util.Locale("ro").getLanguage()]]></c:languageExpression>
-					<c:markerData>
-						<c:item>
-							<c:itemProperty name="address">
-								<valueExpression><![CDATA["Bucuresti, Romania"]]></valueExpression>
-							</c:itemProperty>
-							<c:itemProperty name="title">
-								<valueExpression><![CDATA["Bucure\u0219ti"]]></valueExpression>
-							</c:itemProperty>
-						</c:item>
-					</c:markerData>
 				</c:map>
 			</componentElement>
 		</band>
