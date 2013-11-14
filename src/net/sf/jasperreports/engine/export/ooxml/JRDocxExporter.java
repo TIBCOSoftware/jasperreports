@@ -186,11 +186,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 		{
 			return tableHelper;
 		}
-
-		public String getExportPropertiesPrefix()
-		{
-			return DOCX_EXPORTER_PROPERTIES_PREFIX;
-		}
 	}
 	
 	
@@ -253,6 +248,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 //		hyperlinksMap = new HashMap();
 
 		nature = getExporterNature(getCurrentConfiguration().getExporterFilter());
+		
+		initExport();
 		
 		ensureOutput();
 		
@@ -1542,19 +1539,19 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 	/**
 	 *
 	 */
-	protected String getExporterPropertiesPrefix()//FIXMEDOCX move this to abstract exporter
-	{
-		return DOCX_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	/**
-	 *
-	 */
 	public String getExporterKey()
 	{
 		return DOCX_EXPORTER_KEY;
 	}
-	
+
+	/**
+	 * 
+	 */
+	public String getExporterPropertiesPrefix()
+	{
+		return DOCX_EXPORTER_PROPERTIES_PREFIX;
+	}
+
 	/**
 	 * 
 	 */

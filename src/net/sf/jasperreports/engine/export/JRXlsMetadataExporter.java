@@ -179,10 +179,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	
 	protected static final String EMPTY_SHEET_NAME = "Sheet1";
 
-	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext	{
-		public String getExportPropertiesPrefix() {
-			return XLS_EXPORTER_PROPERTIES_PREFIX;
-		}
+	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext	
+	{
 	}
 	
 	protected JRXlsExporterContext exporterContext = new ExporterContext();
@@ -1447,6 +1445,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 	public String getExporterKey() {
 		return XLS_EXPORTER_KEY;
+	}
+
+	public String getExporterPropertiesPrefix() {
+		return XLS_EXPORTER_PROPERTIES_PREFIX;
 	}
 
 	public JRXlsExporterContext getExporterContext() {

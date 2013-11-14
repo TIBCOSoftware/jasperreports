@@ -57,10 +57,6 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvExporterConfiguratio
 
 	protected class ExporterContext extends BaseExporterContext implements JRCsvExporterContext
 	{
-		public String getExportPropertiesPrefix()
-		{
-			return CSV_EXPORTER_PROPERTIES_PREFIX;
-		}
 	}
 
 	/**

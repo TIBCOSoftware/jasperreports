@@ -153,11 +153,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 		{
 			return slideHelper;
 		}
-
-		public String getExportPropertiesPrefix()
-		{
-			return PPTX_EXPORTER_PROPERTIES_PREFIX;
-		}
 	}
 	
 	
@@ -1728,17 +1723,17 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 	/**
 	 *
 	 */
-	protected String getExporterPropertiesPrefix()//FIXMEPPTX move this to abstract exporter
+	public String getExporterKey()
 	{
-		return PPTX_EXPORTER_PROPERTIES_PREFIX;
+		return PPTX_EXPORTER_KEY;
 	}
 
 	/**
 	 *
 	 */
-	public String getExporterKey()
+	public String getExporterPropertiesPrefix()
 	{
-		return PPTX_EXPORTER_KEY;
+		return PPTX_EXPORTER_PROPERTIES_PREFIX;
 	}
 
 	/**

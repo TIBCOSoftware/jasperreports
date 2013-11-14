@@ -134,6 +134,12 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 		{
 			return JRAbstractExporter.this.getOffsetY();
 		}
+
+		@SuppressWarnings("deprecation")
+		public String getExportPropertiesPrefix()
+		{
+			return JRAbstractExporter.this.getExporterPropertiesPrefix();
+		}
 	}
 	
 	// this would make the applet require logging library
@@ -565,7 +571,7 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	{
 		setOffset();
 		
-		createFilter();
+		createFilter();//FIXMEEXPORT filter does not actually work, does it?
 	}
 	
 
@@ -992,6 +998,13 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	 * 
 	 */
 	public abstract String getExporterKey();
+
+	/**
+	 * Returns the properties prefix for the current exporter.
+	 * 
+	 * @return the properties prefix for the current exporter
+	 */
+	public abstract String getExporterPropertiesPrefix();
 
 	/**
 	 * 

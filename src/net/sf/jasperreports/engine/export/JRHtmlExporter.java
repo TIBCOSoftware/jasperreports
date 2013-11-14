@@ -2232,7 +2232,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlExporterConfigura
 		return parameters;
 	}
 
-	public String getExportPropertiesPrefix()
+	public String getExporterPropertiesPrefix()
 	{
 		return HTML_EXPORTER_PROPERTIES_PREFIX;
 	}

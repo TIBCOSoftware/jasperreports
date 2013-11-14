@@ -83,10 +83,6 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceExpor
 	
 	protected class ExporterContext extends BaseExporterContext
 	{
-		public String getExportPropertiesPrefix()
-		{
-			return PRINT_SERVICE_EXPORTER_PROPERTIES_PREFIX;
-		}
 	}
 
 	/**
@@ -495,6 +491,14 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceExpor
 		return null;
 	}
 	
+	/**
+	 * 
+	 */
+	public String getExporterPropertiesPrefix()
+	{
+		return PRINT_SERVICE_EXPORTER_PROPERTIES_PREFIX;
+	}
+
 	/**
 	 * 
 	 */

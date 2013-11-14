@@ -127,11 +127,6 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 		{
 			return tableBuilder;
 		}
-
-		public String getExportPropertiesPrefix()
-		{
-			return ODT_EXPORTER_PROPERTIES_PREFIX;
-		}
 	}
 
 	protected class OdtDocumentBuilder extends DocumentBuilder
@@ -540,15 +535,6 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 	/**
 	 *
 	 */
-	protected String getExporterPropertiesPrefix()
-	{
-		return ODT_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	
-	/**
-	 *
-	 */
 	private void exportOccupiedCells(int count)
 	{
 		for(int i = 0; i < count; i++)
@@ -883,6 +869,15 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 	public String getExporterKey()
 	{
 		return ODT_EXPORTER_KEY;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public String getExporterPropertiesPrefix()
+	{
+		return ODT_EXPORTER_PROPERTIES_PREFIX;
 	}
 
 	

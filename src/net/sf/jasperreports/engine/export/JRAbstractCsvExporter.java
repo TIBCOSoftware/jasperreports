@@ -256,4 +256,9 @@ public abstract class JRAbstractCsvExporter<C extends CsvExporterConfiguration, 
 		return CSV_EXPORTER_KEY;
 	}
 
+	
+	public String getExporterPropertiesPrefix()
+	{
+		return CSV_EXPORTER_PROPERTIES_PREFIX;
+	}
 }

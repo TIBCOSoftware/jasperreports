@@ -675,11 +675,6 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsExporterConfiguratio
 		{
 			return tableBuilder;
 		}
-
-		public String getExportPropertiesPrefix()//FIXMENOW if this is moved in abstract exporter, it can be removed from context
-		{
-			return ODS_EXPORTER_PROPERTIES_PREFIX;
-		}
 	}
 	
 	protected class OdsDocumentBuilder extends DocumentBuilder
@@ -863,15 +858,6 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsExporterConfiguratio
 //	/**
 //	 *
 //	 */
-//	protected String getExporterPropertiesPrefix()
-//	{
-//		return ODS_EXPORTER_PROPERTIES_PREFIX;
-//	}
-//
-//
-//	/**
-//	 *
-//	 */
 //	protected void exportEllipse(TableBuilder tableBuilder, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws IOException
 //	{
 //		JRLineBox box = new JRBaseLineBox(null);
@@ -907,7 +893,16 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsExporterConfiguratio
 		return ODS_EXPORTER_KEY;
 	}
 
+	
+	/**
+	 *
+	 */
+	public String getExporterPropertiesPrefix()
+	{
+		return ODS_EXPORTER_PROPERTIES_PREFIX;
+	}
 
+	
 	/**
 	 *
 	 */
