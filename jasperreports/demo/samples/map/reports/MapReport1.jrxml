@@ -36,9 +36,8 @@
 			<componentElement>
 				<reportElement positionType="Float" x="0" y="150" width="515" height="326" uuid="7aab9b20-071d-47c0-93df-705cada95c60"/>
 				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" evaluationTime="Report" onErrorType="Icon">
-					<!--c:latitudeExpression><![CDATA[$P{latitude}]]></c:latitudeExpression>
-					<c:longitudeExpression><![CDATA[$P{longitude}]]></c:longitudeExpression-->
-					<c:addressExpression><![CDATA["Bucuresti, Romania"]]></c:addressExpression>
+					<c:latitudeExpression><![CDATA[$P{latitude}]]></c:latitudeExpression>
+					<c:longitudeExpression><![CDATA[$P{longitude}]]></c:longitudeExpression>
 					<c:zoomExpression><![CDATA[$P{zoom}]]></c:zoomExpression>
 					<c:languageExpression><![CDATA[new java.util.Locale("ro").getLanguage()]]></c:languageExpression>
 					<c:markerData>
