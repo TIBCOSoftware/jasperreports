@@ -192,14 +192,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 	
 	protected class ExporterContext extends BaseExporterContext implements JExcelApiExporterContext
 	{
-		public String getExportPropertiesPrefix()
-		{
-			return XLS_EXPORTER_PROPERTIES_PREFIX;
-		}
 	}
-	
+
 	protected JExcelApiExporterContext exporterContext = new ExporterContext();
-	
+
 
 	/**
 	 * @see #JExcelApiExporter(JasperReportsContext)
@@ -2595,6 +2591,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 	public String getExporterKey()
 	{
 		return JXL_EXPORTER_KEY;
+	}
+
+	/**
+	 * 
+	 */
+	public String getExporterPropertiesPrefix()
+	{
+		return XLS_EXPORTER_PROPERTIES_PREFIX;
 	}
 
 	/**

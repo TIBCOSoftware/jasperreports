@@ -173,10 +173,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext
 	{
-		public String getExportPropertiesPrefix()
-		{
-			return XLS_EXPORTER_PROPERTIES_PREFIX;
-		}
 	}
 	
 	protected JRXlsExporterContext exporterContext = new ExporterContext();
@@ -1921,6 +1917,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 		return XLS_EXPORTER_KEY;
 	}
 	
+	
+	/**
+	 * 
+	 */
+	public String getExporterPropertiesPrefix()
+	{
+		return XLS_EXPORTER_PROPERTIES_PREFIX;
+	}
+
 	
 	/**
 	 * 

@@ -108,6 +108,12 @@ public class JsonExporter extends JRAbstractExporter<JsonExporterConfiguration, 
 	}
 
 	@Override
+	public String getExporterPropertiesPrefix()
+	{
+		return JSON_EXPORTER_PROPERTIES_PREFIX;
+	}
+
+	@Override
 	public JsonExporterContext getExporterContext()
 	{
 		return exporterContext;
@@ -354,11 +360,6 @@ public class JsonExporter extends JRAbstractExporter<JsonExporterConfiguration, 
 	
 	protected class ExporterContext extends BaseExporterContext implements JsonExporterContext
 	{
-		public String getExportPropertiesPrefix()
-		{
-			return JSON_EXPORTER_PROPERTIES_PREFIX;
-		}
-
 		@Override
 		public String getHyperlinkURL(JRPrintHyperlink link)
 		{

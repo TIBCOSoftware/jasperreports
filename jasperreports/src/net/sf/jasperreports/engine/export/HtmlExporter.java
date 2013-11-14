@@ -193,6 +193,12 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 	}
 
 	@Override
+	public String getExporterPropertiesPrefix()
+	{
+		return HTML_EXPORTER_PROPERTIES_PREFIX;
+	}
+
+	@Override
 	public void exportReport() throws JRException
 	{
 		/*   */
@@ -2407,11 +2413,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 
 	protected class ExporterContext extends BaseExporterContext implements JRHtmlExporterContext
 	{
-		public String getExportPropertiesPrefix()
-		{
-			return HTML_EXPORTER_PROPERTIES_PREFIX;
-		}
-
 		public String getHyperlinkURL(JRPrintHyperlink link)
 		{
 			return HtmlExporter.this.getHyperlinkURL(link);

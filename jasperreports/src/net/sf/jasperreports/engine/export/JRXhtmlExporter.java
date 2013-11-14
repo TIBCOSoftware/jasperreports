@@ -2315,7 +2315,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlExporterConfigurat
 		return parameters;
 	}
 
-	public String getExportPropertiesPrefix()
+	public String getExporterPropertiesPrefix()
 	{
 		return XHTML_EXPORTER_PROPERTIES_PREFIX;
 	}

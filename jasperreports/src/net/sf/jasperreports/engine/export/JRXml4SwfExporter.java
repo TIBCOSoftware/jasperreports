@@ -74,16 +74,17 @@ public class JRXml4SwfExporter extends JRXmlExporter
 	/**
 	 *
 	 */
-	protected String getExporterPropertiesPrefix()
-	{
-		return XML4SWF_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	/**
-	 *
-	 */
 	public String getExporterKey()
 	{
 		return XML4SWF_EXPORTER_KEY;
+	}
+
+	
+	/**
+	 *
+	 */
+	public String getExporterPropertiesPrefix()
+	{
+		return XML4SWF_EXPORTER_PROPERTIES_PREFIX;
 	}
 }

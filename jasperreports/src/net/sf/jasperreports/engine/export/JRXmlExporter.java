@@ -160,10 +160,6 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 
 	protected class ExporterContext extends BaseExporterContext implements JRXmlExporterContext
 	{
-		public String getExportPropertiesPrefix()
-		{
-			return JRXmlExporter.this.getExporterPropertiesPrefix();
-		}
 	}
 	
 	protected JRXmlExporterContext exporterContext = new ExporterContext();
@@ -1100,7 +1096,7 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 	/**
 	 *
 	 */
-	protected String getExporterPropertiesPrefix()
+	public String getExporterPropertiesPrefix()
 	{
 		return XML_EXPORTER_PROPERTIES_PREFIX;
 	}

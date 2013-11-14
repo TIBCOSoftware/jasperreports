@@ -184,10 +184,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext
 	{
-		public String getExportPropertiesPrefix()
-		{
-			return XLSX_EXPORTER_PROPERTIES_PREFIX;
-		}
 	}
 
 	
@@ -661,14 +657,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 		}
 	}
 	
-	/**
-	 *
-	 */
-	protected String getExporterPropertiesPrefix()
-	{
-		return XLSX_EXPORTER_PROPERTIES_PREFIX;
-	}
-
 
 	protected void addBlankCell(
 		JRExporterGridCell gridCell, 
@@ -1565,6 +1553,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 	public String getExporterKey()
 	{
 		return XLSX_EXPORTER_KEY;
+	}
+
+	/**
+	 *
+	 */
+	public String getExporterPropertiesPrefix()
+	{
+		return XLSX_EXPORTER_PROPERTIES_PREFIX;
 	}
 
 	/**

@@ -189,10 +189,6 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 	
 	protected class ExporterContext extends BaseExporterContext implements JExcelApiExporterContext
 	{
-		public String getExportPropertiesPrefix()
-		{
-			return XLS_EXPORTER_PROPERTIES_PREFIX;
-		}
 	}
 	
 	protected JExcelApiExporterContext exporterContext = new ExporterContext();
@@ -2420,6 +2416,12 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 	}
 
 
+	public String getExporterPropertiesPrefix()
+	{
+		return XLS_EXPORTER_PROPERTIES_PREFIX;
+	}
+
+	
 	public JExcelApiExporterContext getExporterContext()
 	{
 		return exporterContext;

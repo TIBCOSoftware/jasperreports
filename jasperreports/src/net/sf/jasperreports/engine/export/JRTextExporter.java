@@ -83,10 +83,6 @@ public class JRTextExporter extends JRAbstractExporter<TextExporterConfiguration
 
 	protected class ExporterContext extends BaseExporterContext implements JRTextExporterContext
 	{
-		public String getExportPropertiesPrefix()
-		{
-			return TXT_EXPORTER_PROPERTIES_PREFIX;
-		}
 	}
 
 	/**
@@ -625,6 +621,14 @@ public class JRTextExporter extends JRAbstractExporter<TextExporterConfiguration
 		return null;
 	}
 	
+	/**
+	 * 
+	 */
+	public String getExporterPropertiesPrefix()
+	{
+		return TXT_EXPORTER_PROPERTIES_PREFIX;
+	}
+
 	/**
 	 * 
 	 */

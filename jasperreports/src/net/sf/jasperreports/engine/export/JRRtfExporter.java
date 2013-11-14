@@ -133,10 +133,6 @@ public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, 
 
 	protected class ExporterContext extends BaseExporterContext implements JRRtfExporterContext
 	{
-		public String getExportPropertiesPrefix()
-		{
-			return RTF_EXPORTER_PROPERTIES_PREFIX;
-		}
 	}
 	
 	protected JRRtfExporterContext exporterContext = new ExporterContext();
@@ -1746,6 +1742,14 @@ public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, 
 		return RTF_EXPORTER_KEY;
 	}
 	
+	/**
+	 * 
+	 */
+	public String getExporterPropertiesPrefix()
+	{
+		return RTF_EXPORTER_PROPERTIES_PREFIX;
+	}
+
 	/**
 	 * 
 	 */

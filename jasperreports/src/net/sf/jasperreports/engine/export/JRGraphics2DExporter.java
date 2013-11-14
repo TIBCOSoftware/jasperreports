@@ -89,10 +89,6 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DExporterC
 
 	protected class ExporterContext extends BaseExporterContext implements JRGraphics2DExporterContext
 	{
-		public String getExportPropertiesPrefix()
-		{
-			return GRAPHICS2D_EXPORTER_PROPERTIES_PREFIX;
-		}
 	}
 
 	protected JRGraphics2DExporterContext exporterContext = new ExporterContext();
@@ -270,7 +266,15 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DExporterC
 	{
 		return GRAPHICS2D_EXPORTER_KEY;
 	}
-	
+
+	/**
+	 * 
+	 */
+	public String getExporterPropertiesPrefix()
+	{
+		return GRAPHICS2D_EXPORTER_PROPERTIES_PREFIX;
+	}
+
 	/**
 	 * 
 	 */

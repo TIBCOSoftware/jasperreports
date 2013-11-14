@@ -179,11 +179,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 
 	protected class ExporterContext extends BaseExporterContext implements JRPdfExporterContext
 	{
-		public String getExportPropertiesPrefix()
-		{
-			return PDF_EXPORTER_PROPERTIES_PREFIX;
-		}
-
 		public PdfWriter getPdfWriter()
 		{
 			return pdfWriter;
@@ -2573,6 +2568,15 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 	public String getExporterKey()
 	{
 		return PDF_EXPORTER_KEY;
+	}
+
+	
+	/**
+	 *
+	 */
+	public String getExporterPropertiesPrefix()
+	{
+		return PDF_EXPORTER_PROPERTIES_PREFIX;
 	}
 
 	
