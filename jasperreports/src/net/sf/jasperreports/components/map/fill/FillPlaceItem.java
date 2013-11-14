@@ -23,17 +23,29 @@
  */
 package net.sf.jasperreports.components.map.fill;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.sf.jasperreports.components.map.Item;
 import net.sf.jasperreports.components.map.ItemProperty;
 import net.sf.jasperreports.components.map.MapComponent;
-import net.sf.jasperreports.components.map.MapUtils;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.type.ColorEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+
+import org.jaxen.dom.DOMXPath;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 
 /**
@@ -59,7 +71,7 @@ public class FillPlaceItem extends FillItem
 	{
 		Object result = super.getEvaluatedValue(property, evaluator, evaluation);
 		return MapComponent.PROPERTY_address.equals(property.getName())
-			? MapUtils.getCoords((String)result)
+			? getCoords((String)result)
 			: (PROPERTY_COLOR.equals(property.getName()) 
 				? JRColorUtil.getColorHexa(JRColorUtil.getColor((String)result, ColorEnum.RED.getColor()))
 				: result);
@@ -95,6 +107,50 @@ public class FillPlaceItem extends FillItem
 				msg += "".equals(msg) ? "" : " and ";
 				msg += hasLongitude ? "" : MapComponent.PROPERTY_longitude;
 				throw new JRException("Found empty value for "+ msg);
+			}
+		}
+	}
+	
+	private Float[] getCoords(String address) throws JRException {
+		Float[] coords = null;
+		if(address != null) {
+			try {
+				String url = MapFillComponent.PLACE_URL_PREFIX + URLEncoder.encode(address, MapFillComponent.DEFAULT_ENCODING) + MapFillComponent.PLACE_URL_SUFFIX;
+				byte[] response = read(url);
+				Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(response));
+				Node statusNode = (Node) new DOMXPath(MapFillComponent.STATUS_NODE).selectSingleNode(document);
+				String status = statusNode.getTextContent();
+				if(MapFillComponent.STATUS_OK.equals(status)) {
+					coords = new Float[2];
+					Node latNode = (Node) new DOMXPath(MapFillComponent.LATITUDE_NODE).selectSingleNode(document);
+					coords[0] = Float.valueOf(latNode.getTextContent());
+					Node lngNode = (Node) new DOMXPath(MapFillComponent.LONGITUDE_NODE).selectSingleNode(document);
+					coords[1] = Float.valueOf(lngNode.getTextContent());
+				} else {
+					throw new JRRuntimeException("Address request failed (see status: " + status + ")");
+				}
+			} catch (Exception e) {
+				throw new JRException(e);
+			}
+		}
+		return coords;
+	}
+	
+	private byte[] read(String url) throws IOException {
+		InputStream stream = null;
+		try {
+			URL u = new URL(url);
+			stream = u.openStream();
+			ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+			byte[] buf = new byte[4096];
+			int read;
+			while ((read = stream.read(buf)) > 0) {
+				byteOut.write(buf, 0, read);
+			}
+			return byteOut.toByteArray();
+		} finally {
+			if(stream != null) {
+				stream.close();
 			}
 		}
 	}
