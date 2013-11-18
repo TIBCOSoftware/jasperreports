@@ -178,8 +178,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 	protected Integer currentSheetPageScale;	
 	
 	protected Integer currentSheetFirstPageNumber;		
-	
-	protected JRXlsxExporterContext exporterContext = new ExporterContext();
 
 	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext
@@ -202,6 +200,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 	public JRXlsxExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+		
+		exporterContext = new ExporterContext();
 	}
 
 
@@ -1561,14 +1561,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 	public String getExporterPropertiesPrefix()
 	{
 		return XLSX_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	/**
-	 *
-	 */
-	public JRXlsxExporterContext getExporterContext()
-	{
-		return exporterContext;
 	}
 	
 	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge)

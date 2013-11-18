@@ -163,7 +163,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 	protected int reportIndex;
 	protected int pageIndex;
 	
-	protected JRHtmlExporterContext exporterContext = new ExporterContext();
 	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
 	
 	protected ExporterFilter tableFilter;
@@ -178,14 +177,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 	public HtmlExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+
+		exporterContext = new ExporterContext();
 	}
 	
-	@Override
-	public JRHtmlExporterContext getExporterContext()
-	{
-		return exporterContext;
-	}
-
 	@Override
 	public String getExporterKey()
 	{

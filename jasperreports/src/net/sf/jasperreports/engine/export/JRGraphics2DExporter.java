@@ -90,8 +90,6 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DExporterC
 	protected class ExporterContext extends BaseExporterContext implements JRGraphics2DExporterContext
 	{
 	}
-
-	protected JRGraphics2DExporterContext exporterContext = new ExporterContext();
 	
 	/**
 	 * @see #JRGraphics2DExporter(JasperReportsContext)
@@ -110,6 +108,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DExporterC
 		super(jasperReportsContext);
 		
 		JRGraphEnvInitializer.initializeGraphEnv();
+
+		exporterContext = new ExporterContext();
 	}
 
 
@@ -273,14 +273,6 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DExporterC
 	public String getExporterPropertiesPrefix()
 	{
 		return GRAPHICS2D_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	/**
-	 * 
-	 */
-	public JRGraphics2DExporterContext getExporterContext()
-	{
-		return exporterContext;
 	}
 
 

@@ -91,8 +91,6 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataExpo
 	boolean isFirstRow = true;
 	
 
-	protected JRCsvExporterContext exporterContext = new ExporterContext();
-
 	protected class ExporterContext extends BaseExporterContext implements JRCsvExporterContext
 	{
 	}
@@ -112,6 +110,8 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataExpo
 	public JRCsvMetadataExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+
+		exporterContext = new ExporterContext();
 	}
 
 
@@ -356,14 +356,5 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataExpo
 		}
 		
 		return indexOfLastFilledColumn < columnNames.indexOf(currentColumnName);
-	}
-	
-
-	/**
-	 * 
-	 */
-	public JRCsvExporterContext getExporterContext()
-	{
-		return exporterContext;
 	}
 }

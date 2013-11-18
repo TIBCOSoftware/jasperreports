@@ -53,8 +53,6 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvExporterConfiguratio
 {
 	private static final Log log = LogFactory.getLog(JRCsvExporter.class);
 
-	protected JRCsvExporterContext exporterContext = new ExporterContext();
-
 	protected class ExporterContext extends BaseExporterContext implements JRCsvExporterContext
 	{
 	}
@@ -74,6 +72,8 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvExporterConfiguratio
 	public JRCsvExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+		
+		exporterContext = new ExporterContext();
 	}
 
 
@@ -220,14 +220,5 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvExporterConfiguratio
 		{
 			progressMonitor.afterPageExport();
 		}
-	}
-
-
-	/**
-	 * 
-	 */
-	public JRCsvExporterContext getExporterContext()
-	{
-		return exporterContext;
 	}
 }

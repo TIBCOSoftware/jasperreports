@@ -75,14 +75,6 @@ import net.sf.jasperreports.export.SimpleExporterInputItem;
 public abstract class JRAbstractExporter<C extends ExporterConfiguration, O extends ExporterOutput, E extends JRExporterContext> implements JRExporter<ExporterInput, C, O>
 {
 	/**
-	 * A property that gives the generic default filter factory class name.
-	 * 
-	 * @see #PROPERTY_SUFFIX_DEFAULT_FILTER_FACTORY
-	 */
-	public static final String PROPERTY_DEFAULT_FILTER_FACTORY = 
-		JRPropertiesUtil.PROPERTY_PREFIX + "export.default.filter.factory";
-
-	/**
 	 * The suffix applied to properties that give the default filter factory for
 	 * a specific exporter.
 	 * 
@@ -93,6 +85,14 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	 * exporter factory given by {@link #PROPERTY_DEFAULT_FILTER_FACTORY} is used.
 	 */
 	public static final String PROPERTY_SUFFIX_DEFAULT_FILTER_FACTORY = "default.filter.factory";
+
+	/**
+	 * A property that gives the generic default filter factory class name.
+	 * 
+	 * @see #PROPERTY_SUFFIX_DEFAULT_FILTER_FACTORY
+	 */
+	public static final String PROPERTY_DEFAULT_FILTER_FACTORY = 
+		JRPropertiesUtil.PROPERTY_PREFIX + "export." + PROPERTY_SUFFIX_DEFAULT_FILTER_FACTORY;
 	
 	public abstract class BaseExporterContext implements JRExporterContext
 	{
@@ -203,6 +203,7 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	 *
 	 */
 	private ReportContext reportContext;
+	protected E exporterContext;
 	
 	
 	/**
@@ -931,9 +932,7 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	 */
 	protected ExporterFilter createFilter()
 	{
-		E exporterContext = getExporterContext();
-		
-		String exportDefaultFactoryProperty = exporterContext.getExportPropertiesPrefix() 
+		String exportDefaultFactoryProperty = getExporterPropertiesPrefix() 
 				+ PROPERTY_SUFFIX_DEFAULT_FILTER_FACTORY;
 		
 		//the default filter class is determined from 4 possible sources
@@ -970,7 +969,7 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 		try
 		{
 			ExporterFilterFactory defaultFactory = ExporterFilterFactoryUtil.getFilterFactory(defaultFilterClassName);
-			filter = defaultFactory.getFilter(exporterContext);
+			filter = defaultFactory.getFilter(getExporterContext());
 		}
 		catch (JRException e)
 		{
@@ -1009,7 +1008,10 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	/**
 	 * 
 	 */
-	public abstract E getExporterContext();
+	public E getExporterContext()
+	{
+		return exporterContext;
+	}
 
 	public JasperPrint getCurrentJasperPrint()
 	{

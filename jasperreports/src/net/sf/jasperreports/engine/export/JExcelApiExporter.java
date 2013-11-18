@@ -194,8 +194,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 	{
 	}
 
-	protected JExcelApiExporterContext exporterContext = new ExporterContext();
-
 
 	/**
 	 * @see #JExcelApiExporter(JasperReportsContext)
@@ -212,6 +210,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 	public JExcelApiExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+
+		exporterContext = new ExporterContext();
 	}
 
 	
@@ -2599,14 +2599,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 	public String getExporterPropertiesPrefix()
 	{
 		return XLS_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	/**
-	 * 
-	 */
-	public JExcelApiExporterContext getExporterContext()
-	{
-		return exporterContext;
 	}
 
 	/**

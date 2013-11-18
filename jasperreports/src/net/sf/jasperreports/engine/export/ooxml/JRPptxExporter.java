@@ -141,8 +141,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 	
 	private PptxRunHelper runHelper;
 
-	protected JRPptxExporterContext exporterContext = new ExporterContext();
-
 	protected class ExporterContext extends BaseExporterContext implements JRPptxExporterContext
 	{
 		public ExporterContext()
@@ -171,6 +169,8 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 	public JRPptxExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+
+		exporterContext = new ExporterContext();
 	}
 
 
@@ -1734,14 +1734,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 	public String getExporterPropertiesPrefix()
 	{
 		return PPTX_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	/**
-	 *
-	 */
-	public JRPptxExporterContext getExporterContext()
-	{
-		return exporterContext;
 	}
 
 	protected void setExporterHints()

@@ -186,8 +186,6 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlExporterConfigura
 	
 	protected ExporterNature nature;
 
-	protected JRHtmlExporterContext exporterContext = new ExporterContext();
-
 	/**
 	 * @see #JRHtmlExporter(JasperReportsContext)
 	 */
@@ -203,6 +201,8 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlExporterConfigura
 	public JRHtmlExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+
+		exporterContext = new ExporterContext();
 	}
 
 
@@ -2242,11 +2242,6 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlExporterConfigura
 		return HTML_EXPORTER_KEY;
 	}
 
-	public JRHtmlExporterContext getExporterContext()
-	{
-		return exporterContext;
-	}
-	
 	public JasperPrint getExportedReport()
 	{
 		return jasperPrint;

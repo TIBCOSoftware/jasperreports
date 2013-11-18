@@ -78,8 +78,6 @@ public class JRTextExporter extends JRAbstractExporter<TextExporterConfiguration
 	protected String lineSeparator;
 
 	protected static final String systemLineSeparator = System.getProperty("line.separator");
-	
-	protected JRTextExporterContext exporterContext = new ExporterContext();
 
 	protected class ExporterContext extends BaseExporterContext implements JRTextExporterContext
 	{
@@ -100,6 +98,8 @@ public class JRTextExporter extends JRAbstractExporter<TextExporterConfiguration
 	public JRTextExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+		
+		exporterContext = new ExporterContext();
 	}
 
 
@@ -627,13 +627,5 @@ public class JRTextExporter extends JRAbstractExporter<TextExporterConfiguration
 	public String getExporterPropertiesPrefix()
 	{
 		return TXT_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	/**
-	 * 
-	 */
-	public JRTextExporterContext getExporterContext()
-	{
-		return exporterContext;
 	}
 }

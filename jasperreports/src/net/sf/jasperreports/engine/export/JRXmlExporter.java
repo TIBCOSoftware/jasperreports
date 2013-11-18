@@ -161,8 +161,6 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 	protected class ExporterContext extends BaseExporterContext implements JRXmlExporterContext
 	{
 	}
-	
-	protected JRXmlExporterContext exporterContext = new ExporterContext();
 
 
 	/**
@@ -180,6 +178,8 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 	public JRXmlExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+		
+		exporterContext = new ExporterContext();
 	}
 
 
@@ -1108,14 +1108,6 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 	public String getExporterKey()
 	{
 		return XML_EXPORTER_KEY;
-	}
-	
-	/**
-	 * 
-	 */
-	public JRXmlExporterContext getExporterContext()
-	{
-		return exporterContext;
 	}
 	
 	/**
