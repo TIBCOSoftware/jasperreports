@@ -187,8 +187,8 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 				sheetNamesIndex = 0;
 			}
 
-			XlsExporterConfiguration configuration = getCurrentConfiguration();
-			
+			XlsMetadataExporterConfiguration configuration = getCurrentConfiguration();
+			writeHeader = configuration.isWriteHeader();
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
