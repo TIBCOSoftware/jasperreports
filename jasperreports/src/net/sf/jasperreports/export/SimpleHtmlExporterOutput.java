@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.OutputStream;
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.export.FileHtmlResourceHandler;
 import net.sf.jasperreports.engine.export.HtmlResourceHandler;
 
 
@@ -86,6 +87,8 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	public SimpleHtmlExporterOutput(File file)
 	{
 		super(file);
+		
+		setFileHandlers(file);
 	}
 
 	
@@ -95,6 +98,8 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	public SimpleHtmlExporterOutput(File file, String encoding)
 	{
 		super(file, encoding);
+		
+		setFileHandlers(file);
 	}
 
 	
@@ -104,6 +109,8 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	public SimpleHtmlExporterOutput(String fileName)
 	{
 		super(fileName);
+		
+		setFileHandlers(new File(fileName));
 	}
 
 	
@@ -113,6 +120,8 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	public SimpleHtmlExporterOutput(String fileName, String encoding)
 	{
 		super(fileName, encoding);
+		
+		setFileHandlers(new File(fileName));
 	}
 	
 	/**
@@ -161,5 +170,17 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	public void setResourceHandler(HtmlResourceHandler resourceHandler)
 	{
 		this.resourceHandler = resourceHandler;
+	}
+	
+	/**
+	 * 
+	 */
+	private void setFileHandlers(File destFile)
+	{
+		File resourcesDir = new File(destFile.getParent(), destFile.getName() + "_files");
+		String pathPattern = resourcesDir.getName() + "/{0}";
+		imageHandler = new FileHtmlResourceHandler(resourcesDir, pathPattern);
+		fontHandler = new FileHtmlResourceHandler(resourcesDir, pathPattern);
+		resourceHandler = new FileHtmlResourceHandler(resourcesDir);
 	}
 }
