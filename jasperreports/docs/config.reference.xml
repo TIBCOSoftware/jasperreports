@@ -2173,7 +2173,7 @@ out content based on element origin information. Possible values for the <code>{
 and <code>txt</code>. The <code>{suffix}</code> token can be <code>band</code>, <code>group</code> or 
 <code>report</code>.
 <br/>
-See this <a href="http://jasperforge.org/website/jasperreportswebsite/trunk/faq.html?group_id=252#FAQ28">FAQ</a> for more details about filtering out content while exporting.
+See this <a href="http://community.jaspersoft.com/wiki/how-can-i-suppress-page-headers-and-footers-when-exporting-xls">FAQ</a> for more details about filtering out content while exporting.
     </description>
     <api>N/A</api>
     <default>N/A</default>
@@ -2191,7 +2191,7 @@ out content based on element origin information. Possible values for the <code>{
 and <code>txt</code>. The <code>{suffix}</code> token can be <code>band</code>, <code>group</code> or 
 <code>report</code>.
 <br/>
-See this <a href="http://jasperforge.org/website/jasperreportswebsite/trunk/faq.html?group_id=252#FAQ28">FAQ</a> for more details about filtering out content while exporting.
+See this <a href="http://community.jaspersoft.com/wiki/how-can-i-suppress-page-headers-and-footers-when-exporting-xls">FAQ</a> for more details about filtering out content while exporting.
     </description>
     <api>N/A</api>
     <default>N/A</default>
@@ -2250,9 +2250,9 @@ If this property is not defined for a specific exporter, the generic
   
   <configProperty name="net.sf.jasperreports.export.character.encoding">
     <description>
-Property whose value is used as default for the <api href="net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_CHARACTER_ENCODING">CHARACTER_ENCODING</api> export parameter, meaning the character encoding used for export.
+Property whose value is used as character encoding for exported reports.
     </description>
-    <api>net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_CHARACTER_ENCODING</api>
+    <api>net/sf/jasperreports/export/WriterExporterOutput.html#PROPERTY_CHARACTER_ENCODING</api>
     <default>UTF-8</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2263,10 +2263,10 @@ Property whose value is used as default for the <api href="net/sf/jasperreports/
   
   <configProperty name="net.sf.jasperreports.export.csv.column.name">
     <description>
-A string that represents the name for the column that should appear in the CSV export.
-It must be one of the values in <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api>, if provided.    
+A string that represents in the CSV export the name for the column the element belongs to.
+It must be one of the column names in the <a href="#net.sf.jasperreports.export.csv.column.names.{suffix}">net.sf.jasperreports.export.csv.column.names.{suffix}</a>, if provided.    
 	</description>
-    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_COLUMN_NAME</api>
+    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporter.html#PROPERTY_COLUMN_NAME</api>
     <default>N/A</default>
     <scope>Element</scope>
     <since>4.0.0</since>
@@ -2277,9 +2277,9 @@ It must be one of the values in <api href="net/sf/jasperreports/engine/export/JR
   
   <configProperty name="net.sf.jasperreports.export.csv.column.names.{suffix}">
     <description>
-Properties having this prefix contain comma-separated column names.
+Properties having this prefix contain comma-separated names of the columns that will be exported to CSV.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_COLUMN_NAMES_PREFIX</api>
+    <api>net/sf/jasperreports/export/PROPERTY_COLUMN_NAMES_PREFIX.html#PROPERTY_COLUMN_NAMES_PREFIX</api>
     <default>N/A</default>
     <scope>Report</scope>
     <since>4.0.0</since>
@@ -2290,9 +2290,9 @@ Properties having this prefix contain comma-separated column names.
   
   <configProperty name="net.sf.jasperreports.export.csv.data">
     <description>
-Property that specifies what value to associate with <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api>.
+Property that specifies a custom value to be associated with the column specified by the <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api>.
 <br/>
-The property itself defaults to the text value of the report element that this property is assigned to.    
+The property itself defaults to the text value of the report element this property is assigned to.    
     </description>
     <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_DATA</api>
     <default>N/A</default>
@@ -2305,10 +2305,9 @@ The property itself defaults to the text value of the report element that this p
   
   <configProperty name="net.sf.jasperreports.export.csv.field.delimiter">
     <description>
-Property whose value is used as default for the <api href="net/sf/jasperreports/engine/export/JRCsvExporterParameter.html#FIELD_DELIMITER">FIELD_DELIMITER</api> CSV export parameter.
-Contains the character or sequence of characters used to delimit two fields on the same record.
+Property that contains the character or sequence of characters used to delimit two fields on the same record.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRCsvExporterParameter.html#PROPERTY_FIELD_DELIMITER</api>
+    <api>net/sf/jasperreports/export/CsvExporterConfiguration.html#PROPERTY_FIELD_DELIMITER</api>
     <default>,</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2319,10 +2318,9 @@ Contains the character or sequence of characters used to delimit two fields on t
   
   <configProperty name="net.sf.jasperreports.export.csv.record.delimiter">
     <description>
-Property whose value is used as default for the <api href="net/sf/jasperreports/engine/export/JRCsvExporterParameter.html#RECORD_DELIMITER">RECORD_DELIMITER</api> CSV export parameter.
-Contains the character or sequence of characters used to delimit two records.
+Property that contains the character or sequence of characters used to delimit two records.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRCsvExporterParameter.html#PROPERTY_RECORD_DELIMITER</api>
+    <api>net/sf/jasperreports/export/CsvExporterConfiguration.html#PROPERTY_RECORD_DELIMITER</api>
     <default>\n</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2333,10 +2331,10 @@ Contains the character or sequence of characters used to delimit two records.
   
   <configProperty name="net.sf.jasperreports.export.csv.repeat.value">
     <description>
-Property that specifies whether the value associated with <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api> 
+Property that specifies whether the value associated with <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api> 
 should be repeated or not when it is missing.
 	</description>
-    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_REPEAT_VALUE</api>
+    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporter.html#PROPERTY_REPEAT_VALUE</api>
     <default>false</default>
     <scope>Element</scope>
     <since>4.0.0</since>
@@ -2347,11 +2345,11 @@ should be repeated or not when it is missing.
   
   <configProperty name="net.sf.jasperreports.export.csv.write.header">
     <description>
-Property whose value is used as default for the <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#WRITE_HEADER">WRITE_HEADER</api> export parameter.
+Property that specifies whether the export header (the column names) should be written or not.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_WRITE_HEADER</api>
+    <api>net/sf/jasperreports/export/CsvMetadataExporterConfiguration.html#PROPERTY_WRITE_HEADER</api>
     <default>false</default>
-    <scope>Element</scope>
+    <scope>Global | Report</scope>
     <since>4.0.0</since>
   </configProperty>
   
@@ -2360,10 +2358,9 @@ Property whose value is used as default for the <api href="net/sf/jasperreports/
   
   <configProperty name="net.sf.jasperreports.export.graphics2d.min.job.size">
     <description>
-Property that provides a default value for the <api href="net/sf/jasperreports/engine/export/JRGraphics2DExporterParameter.html#MINIMIZE_PRINTER_JOB_SIZE">MINIMIZE_PRINTER_JOB_SIZE</api> Graphics2D exporter parameter.
-This flag controls the use of an AWT rendering fix which causes the printer job size to be reduced when the exporter draws onto a printer graphic context.
+Flag property that controls the use of an AWT rendering fix which causes the printer job size to be reduced when the exporter draws onto a printer graphic context.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRGraphics2DExporter.html#MINIMIZE_PRINTER_JOB_SIZE</api>
+    <api>net/sf/jasperreports/export/Graphics2DExporterConfiguration.html#MINIMIZE_PRINTER_JOB_SIZE</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>1.2.8</since>
@@ -2375,11 +2372,10 @@ This flag controls the use of an AWT rendering fix which causes the printer job 
   
   <configProperty name="net.sf.jasperreports.export.ignore.page.margins">
     <description>
-This property serves as default value for the <api href="net/sf/jasperreports/engine/JRExporterParameter.html#IGNORE_PAGE_MARGINS">IGNORE_PAGE_MARGINS</api> export flag.
-Specifies whether page margins should be ignored when the report is exported using a grid-based exporter
+This flag property specifies whether page margins should be ignored when the report is exported using a grid-based exporter.
 If the property is <code>true</code>, any page in the document will be exported without taking into account its margins.
     </description>
-    <api>net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_IGNORE_PAGE_MARGINS</api>
+    <api>net/sf/jasperreports/export/ExporterConfiguration.html#PROPERTY_IGNORE_PAGE_MARGINS</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.5</since>
@@ -2390,10 +2386,10 @@ If the property is <code>true</code>, any page in the document will be exported 
   
   <configProperty name="net.sf.jasperreports.export.docx.frames.as.nested.tables">
     <description>
-This property serves as default value for the <api href="net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#FRAMES_AS_NESTED_TABLES">FRAMES_AS_NESTED_TABLES</api> export parameter.
+This property specifies whether <api href="net/sf/jasperreports/engine/JRPrintFrame.html">JRPrintFrame</api> frames are to be exported as nested tables.
 If set to <code>false</code>, the frame content will be integrated into the master/page table.
     </description>
-    <api>net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
+    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
     <default>true</default>
     <scope>Global | Report | Element</scope>
     <since>3.5.3</since>
@@ -2404,10 +2400,10 @@ If set to <code>false</code>, the frame content will be integrated into the mast
   
   <configProperty name="net.sf.jasperreports.export.docx.flexible.row.height">
     <description>
-This property serves as default value for the <api href="net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#FLEXIBLE_ROW_HEIGHT">FLEXIBLE_ROW_HEIGHT</api> export parameter.
+This property indicates whether table rows can grow if more text is added into cells.
 If set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
     </description>
-    <api>net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#PROPERTY_FLEXIBLE_ROW_HEIGHT</api>
+    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_FLEXIBLE_ROW_HEIGHT</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
@@ -2446,7 +2442,7 @@ Property that determines the value of the allowScriptAccess parameter for Flash 
     <description>
 Configuration property that determines the exporter to produce accessible HTML.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRHtmlExporter.html#PROPERTY_ACCESSIBLE</api>
+    <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_ACCESSIBLE</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.7.5</since>
@@ -2457,10 +2453,10 @@ Configuration property that determines the exporter to produce accessible HTML.
   
   <configProperty name="net.sf.jasperreports.export.html.frames.as.nested.tables">
     <description>
-This property serves as default value for the <api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#FRAMES_AS_NESTED_TABLES">FRAMES_AS_NESTED_TABLES</api> export parameter.
+This property specifies whether <api href="net/sf/jasperreports/engine/JRPrintFrame.html">JRPrintFrame</api> frames are to be exported as nested HTML tables.
 If set to <code>false</code>, the frame content will be integrated into the master/page HTML table.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
+    <api>net/sf/jasperreports/engine/export/JRHtmlExporterConfiguration.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
     <default>true</default>
     <scope>Global | Report | Element</scope>
     <since>2.0.1</since>
@@ -2486,7 +2482,9 @@ the <code>class</code> attribute of the <code>&lt;span&gt;</code> or <code>&lt;d
   
   <configProperty name="net.sf.jasperreports.export.html.id">
     <description>
-Property used to specify the value of the <code>ID</code> attribute of elements when exported to HTML and XHTML formats. The value of this property will be used as the value for the <code>id</code> attribute of the <code>&lt;td&gt;</code> tag for the element when exported to HTML and/or the <code>id</code> attribute of the <code>&lt;span&gt;</code> or <code>&lt;div&gt;</code> tag for the element, when exported to XHTML/CSS.
+Property used to specify the value of the <code>ID</code> attribute of elements when exported to HTML and XHTML formats. The value of this property will be used 
+as the value for the <code>id</code> attribute of the <code>&lt;td&gt;</code> tag for the element when exported to HTML and/or the <code>id</code> attribute of 
+the <code>&lt;span&gt;</code> or <code>&lt;div&gt;</code> tag for the element, when exported to XHTML/CSS.
     </description>
     <api>net/sf/jasperreports/engine/export/HtmlExporter.html#PROPERTY_HTML_ID</api>
     <default>N/A</default>
@@ -2499,10 +2497,9 @@ Property used to specify the value of the <code>ID</code> attribute of elements 
   
   <configProperty name="net.sf.jasperreports.export.html.remove.emtpy.space.between.rows">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS">IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api> export flag.
-If set to <code>true</code>, blank lines that sometimes appear between rows as spacers, should be collapsed.
+Flag property that specifies whether the blank lines that sometimes appear between rows as spacers should be removed.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api>
+    <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2513,10 +2510,10 @@ If set to <code>true</code>, blank lines that sometimes appear between rows as s
   
   <configProperty name="net.sf.jasperreports.export.html.size.unit">
     <description>
-Property whose value is used as default for the <api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#SIZE_UNIT">SIZE_UNIT</api> export parameter.
-A String value specifying the unit to use when measuring lengths or font size. 
+Property that specifies the unit to use when measuring lengths or font size. This can be one of the supported size units from the CSS 
+specifications like "px" for pixels or "pt" for points. The default value is "px", meaning that lengths and font sizes are specified in pixels.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_SIZE_UNIT</api>
+    <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_SIZE_UNIT</api>
     <default>px</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2527,10 +2524,9 @@ A String value specifying the unit to use when measuring lengths or font size.
   
   <configProperty name="net.sf.jasperreports.export.html.using.images.to.align">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#IS_USING_IMAGES_TO_ALIGN">IS_USING_IMAGES_TO_ALIGN</api> export flag.
-It specifies whether the export engine should use small transparent spacer images for aligning content.
+Property that specifies whether the export engine should use small transparent spacer images for aligning content.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_USING_IMAGES_TO_ALIGN</api>
+    <api>net/sf/jasperreports/engine/export/JRHtmlExporterConfiguration.html#PROPERTY_USING_IMAGES_TO_ALIGN</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2541,10 +2537,9 @@ It specifies whether the export engine should use small transparent spacer image
   
   <configProperty name="net.sf.jasperreports.export.html.white.page.background">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#IS_WHITE_PAGE_BACKGROUND">IS_WHITE_PAGE_BACKGROUND</api> export parameter.
-It specifies whether the report page background should be forced to white.
+Property that indicates whether the report background should be turned to white. If not set, the default background will appear, depending on the selected CSS styles.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_WHITE_PAGE_BACKGROUND</api>
+    <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_WHITE_PAGE_BACKGROUND</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2555,10 +2550,12 @@ It specifies whether the report page background should be forced to white.
   
   <configProperty name="net.sf.jasperreports.export.html.wrap.break.word">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#IS_WRAP_BREAK_WORD">IS_WRAP_BREAK_WORD</api> export parameter.
-It specifies whether the export engine should force text wrapping by breaking words (CSS <code>word-wrap: break-word</code>).
+Property that specifies whether the export engine should force text wrapping by breaking words (CSS <code>word-wrap: break-word</code>). 
+<br/>
+Note that this CSS property is not currently supported by all browsers. An alternative approach for forcing word breaks in HTML is to save the 
+line breaks at fill time via the <a href="#net.sf.jasperreports.text.save.line.breaks">net.sf.jasperreports.text.save.line.breaks</a> property.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_WRAP_BREAK_WORD</api>
+    <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_WRAP_BREAK_WORD</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2571,7 +2568,7 @@ It specifies whether the export engine should force text wrapping by breaking wo
     <description>
 Boolean property enabling the JExcelApiExporter to use temporary files when creating large documents.
     </description>
-    <api>net/sf/jasperreports/engine/export/JExcelApiExporter.html#PROPERTY_USE_TEMP_FILE</api>
+    <api>net/sf/jasperreports/export/JxlExporterConfiguration.html#PROPERTY_USE_TEMP_FILE</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.7.5</since>
@@ -2586,7 +2583,7 @@ Boolean property specifying whether the cell format pattern is user-defined.
 When set to <code>true</code>, the exporter will assume that the specified pattern is well defined. 
 If the pattern is invalid, it won't be taken into account by the Excel file viewer.
     </description>
-    <api>net/sf/jasperreports/engine/export/JExcelApiExporter.html#PROPERTY_COMPLEX_FORMAT</api>
+    <api>net/sf/jasperreports/export/JxlExporterConfiguration.html#PROPERTY_COMPLEX_FORMAT</api>
     <default>false</default>
     <scope>Global | Report | Element</scope>
     <since>3.7.6</since>
@@ -2597,11 +2594,11 @@ If the pattern is invalid, it won't be taken into account by the Excel file view
   
   <configProperty name="net.sf.jasperreports.export.ods.flexible.row.height">
     <description>
-This property serves as default value for the <api href="net/sf/jasperreports/engine/export/oasis/JROpenDocumentExporterParameter.html#ODS_FLEXIBLE_ROW_HEIGHT">ODS_FLEXIBLE_ROW_HEIGHT</api> 
-export parameter. If set to <code>false</code>, the rows in the ODS document do not increase in height automatically and the user has to enlarge them manually. Otherwise, the table rows will 
-adjust their height automatically in order to fit their content in.
+This property indicates whether table rows in ODS documents can grow if more text is added into cells. If set to <code>false</code>, the rows in the 
+ODS document do not increase in height automatically and the user has to enlarge them manually. Otherwise, the table rows will adjust their height 
+automatically in order to fit their content in.
     </description>
-    <api>net/sf/jasperreports/engine/export/oasis/JROpenDocumentExporterParameter.html#PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT</api>
+    <api>net/sf/jasperreports/export/OdsExporterConfiguration.html#PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>5.0.4</since>
@@ -2612,11 +2609,10 @@ adjust their height automatically in order to fit their content in.
   
   <configProperty name="net.sf.jasperreports.export.odt.flexible.row.height">
     <description>
-This property serves as default value for the <api href="net/sf/jasperreports/engine/export/oasis/JROpenDocumentExporterParameter.html#ODT_FLEXIBLE_ROW_HEIGHT">ODT_FLEXIBLE_ROW_HEIGHT</api> 
-export parameter. If set to <code>false</code>, the table rows in the ODT document do not increase in height automatically and the user has to enlarge them manually. Otherwise, the table 
-rows will adjust their height automatically in order to fit their content in.
+This property table rows in ODT documents can grow if more text is added into cells. If set to <code>false</code>, the table rows in the ODT document do 
+not increase in height automatically and the user has to enlarge them manually. Otherwise, the table rows will adjust their height automatically in order to fit their content in.
     </description>
-    <api>net/sf/jasperreports/engine/export/oasis/JROpenDocumentExporterParameter.html#PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT</api>
+    <api>net/sf/jasperreports/export/OdtExporterConfiguration.html#PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>5.0.4</since>
@@ -2630,7 +2626,7 @@ rows will adjust their height automatically in order to fit their content in.
 Property that establishes the priority of export parameters against report hints.
 If the property is <code>true</code>, export parameters override report hints; this is the default behavior.
     </description>
-    <api>net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS</api>
+    <api>net/sf/jasperreports/export/ExporterConfiguration.html#PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS</api>
     <default>true</default>
     <scope>Global</scope>
   </configProperty>
@@ -2640,10 +2636,9 @@ If the property is <code>true</code>, export parameters override report hints; t
   
   <configProperty name="net.sf.jasperreports.export.pdf.128.bit.key">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_128_BIT_KEY">IS_128_BIT_KEY</api> export parameter.
-It specifies whether the encryption key is 128 bits.
+Property that specifies whether the encryption key is 128 bits.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_128_BIT_KEY</api>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_128_BIT_KEY</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2654,10 +2649,9 @@ It specifies whether the encryption key is 128 bits.
   
   <configProperty name="net.sf.jasperreports.export.pdf.compressed">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_COMPRESSED">IS_COMPRESSED</api> export flag.
-It specifies whether the PDF document should be compressed.
+Property that specifies whether the PDF document should be compressed.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_COMPRESSED</api>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_COMPRESSED</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2668,10 +2662,9 @@ It specifies whether the PDF document should be compressed.
   
   <configProperty name="net.sf.jasperreports.export.pdf.create.batch.mode.bookmarks">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_CREATING_BATCH_MODE_BOOKMARKS">IS_CREATING_BATCH_MODE_BOOKMARKS</api> export flag.
-It specifies whether the PDF document should contain an outline section.
+Property that specifies whether the PDF document should contain an outline section.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_CREATE_BATCH_MODE_BOOKMARKS</api>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_CREATE_BATCH_MODE_BOOKMARKS</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2682,10 +2675,9 @@ It specifies whether the PDF document should contain an outline section.
   
   <configProperty name="net.sf.jasperreports.export.pdf.encrypted">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_ENCRYPTED">IS_ENCRYPTED</api> export flag.
-It specifies  whether the final PDF document should be encrypted.
+Property that specifies  whether the final PDF document should be encrypted.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_ENCRYPTED</api>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_ENCRYPTED</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2724,10 +2716,10 @@ Prefix of properties that specify font directories for the PDF exporter.
   
   <configProperty name="net.sf.jasperreports.export.pdf.force.linebreak.policy">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#FORCE_LINEBREAK_POLICY">FORCE_LINEBREAK_POLICY</api> export flag.
-It specifies whether the PDF exporter should use a <a href="http://itext.ugent.be/library/api/com/lowagie/text/SplitCharacter.html">SplitCharacter</a> implementation to ensure that PDF text wrap behavior is the same as in AWT.
+Property that specifies whether the PDF exporter should use a <a href="http://itext.ugent.be/library/api/com/lowagie/text/SplitCharacter.html">SplitCharacter</a> 
+implementation to ensure that PDF text wrap behavior is the same as in AWT.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_FORCE_LINEBREAK_POLICY</api>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_FORCE_LINEBREAK_POLICY</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2741,10 +2733,9 @@ It specifies whether the PDF exporter should use a <a href="http://itext.ugent.b
   
   <configProperty name="net.sf.jasperreports.export.pdf.force.svg.shapes">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#FORCE_SVG_SHAPES">FORCE_SVG_SHAPES</api> export flag.
-It specifies whether the rendering of SVG images using shapes on the PDF Graphics2D context should be forced.
+Property that specifies whether the rendering of SVG images using shapes on the PDF Graphics2D context should be forced.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_FORCE_SVG_SHAPES</api>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_FORCE_SVG_SHAPES</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2755,10 +2746,9 @@ It specifies whether the rendering of SVG images using shapes on the PDF Graphic
   
   <configProperty name="net.sf.jasperreports.export.pdf.javascript">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PDF_JAVASCRIPT">PDF_JAVASCRIPT</api> export parameter.
-Contains the user defined JavaScript piece of code to be inserted into the generated PDF document.
+Property that contains the user defined JavaScript piece of code to be inserted into the generated PDF document.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_PDF_JAVASCRIPT</api>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_PDF_JAVASCRIPT</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2769,10 +2759,10 @@ Contains the user defined JavaScript piece of code to be inserted into the gener
   
   <configProperty name="net.sf.jasperreports.export.pdf.owner.password">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#OWNER_PASSWORD">OWNER_PASSWORD</api> export parameter.
-Contains the password belonging to the owner of the document, if it is encrypted. If the owner password is not specified, but the PDF is encrypted, then the password will be a random string.
+Property that contains the password belonging to the owner of the document, if it is encrypted. If the owner password is not specified, but the PDF is 
+encrypted, then the password will be a random string.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_OWNER_PASSWORD</api>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_OWNER_PASSWORD</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2783,10 +2773,11 @@ Contains the password belonging to the owner of the document, if it is encrypted
   
   <configProperty name="net.sf.jasperreports.export.pdf.print.scaling">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PRINT_SCALING">PRINT_SCALING</api> export parameter.
+Property that specifies the print scaling preference in the PDF print dialog.
+<br/>
 Possible values are <code>default</code> and <code>none</code>.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PRINT_SCALING</api>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PRINT_SCALING</api>
     <default>default</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
@@ -2797,10 +2788,9 @@ Possible values are <code>default</code> and <code>none</code>.
   
   <configProperty name="net.sf.jasperreports.export.pdf.user.password">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#USER_PASSWORD">USER_PASSWORD</api> export parameter.
-Contains the user password needed to open the document, if it is encrypted.
+Property that contains the user password needed to open the document, if it is encrypted.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_USER_PASSWORD</api>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_USER_PASSWORD</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2811,10 +2801,9 @@ Contains the user password needed to open the document, if it is encrypted.
   
   <configProperty name="net.sf.jasperreports.export.pdf.version">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PDF_VERSION">PDF_VERSION</api> export parameter.
-Contains a <code>Character</code> instance representing the version of the generated PDF.
+Property that contains a <code>Character</code> instance representing the version of the generated PDF.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_PDF_VERSION</api>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_PDF_VERSION</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
@@ -2825,10 +2814,9 @@ Contains a <code>Character</code> instance representing the version of the gener
   
   <configProperty name="net.sf.jasperreports.export.pdf.tagged">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_TAGGED">IS_TAGGED</api> export flag.
-Specifies whether the exporter should put structure tags in the generated PDF.
+Property that specifies whether the exporter should put structure tags in the generated PDF.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_PDF_TAGGED</api>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_PDF_TAGGED</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.1.2</since>
@@ -2839,10 +2827,9 @@ Specifies whether the exporter should put structure tags in the generated PDF.
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.language">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#TAG_LANGUAGE">TAG_LANGUAGE</api> export parameter.
-Specifies the language that the exporter should put in the language tag of the generated PDF.
+Property that specifies the language that the exporter should put in the language tag of the generated PDF.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_TAG_LANGUAGE</api>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_TAG_LANGUAGE</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.1.2</since>
