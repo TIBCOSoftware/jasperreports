@@ -79,8 +79,6 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceExpor
 	private PrintService printService;
 	private Boolean[] printStatus;
 	
-	protected JRExporterContext exporterContext = new ExporterContext();
-	
 	protected class ExporterContext extends BaseExporterContext
 	{
 	}
@@ -100,6 +98,8 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceExpor
 	public JRPrintServiceExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+		
+		exporterContext = new ExporterContext();
 	}
 
 
@@ -497,13 +497,5 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceExpor
 	public String getExporterPropertiesPrefix()
 	{
 		return PRINT_SERVICE_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	/**
-	 * 
-	 */
-	public JRExporterContext getExporterContext()
-	{
-		return exporterContext;
 	}
 }

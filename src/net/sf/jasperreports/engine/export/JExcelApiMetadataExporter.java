@@ -191,8 +191,6 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 	{
 	}
 	
-	protected JExcelApiExporterContext exporterContext = new ExporterContext();
-	
 
 	/**
 	 * @see #JExcelApiMetadataExporter(JasperReportsContext)
@@ -209,6 +207,8 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 	public JExcelApiMetadataExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+		
+		exporterContext = new ExporterContext();
 	}
 
 
@@ -2419,12 +2419,6 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 	public String getExporterPropertiesPrefix()
 	{
 		return XLS_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	
-	public JExcelApiExporterContext getExporterContext()
-	{
-		return exporterContext;
 	}
 
 	/**

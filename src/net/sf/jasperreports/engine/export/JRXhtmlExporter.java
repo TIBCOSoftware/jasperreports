@@ -163,8 +163,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlExporterConfigurat
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory;		
 
 	protected boolean hyperlinkStarted;	
-	
-	protected JRHtmlExporterContext exporterContext = new ExporterContext();
 
 	/**
 	 * @see #JRXhtmlExporter(JasperReportsContext)
@@ -182,6 +180,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlExporterConfigurat
 	{
 		super(jasperReportsContext);
 
+		exporterContext = new ExporterContext();
 		targetProducerFactory = new DefaultHyperlinkTargetProducerFactory(jasperReportsContext);		
 	}
 
@@ -2370,12 +2369,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlExporterConfigurat
 	}
 	
 	
-	@Override
-	public JRHtmlExporterContext getExporterContext()
-	{
-		return exporterContext;
-	}
-
 	/**
 	 *
 	 */

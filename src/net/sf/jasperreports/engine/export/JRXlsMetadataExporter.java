@@ -182,8 +182,6 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext	
 	{
 	}
-	
-	protected JRXlsExporterContext exporterContext = new ExporterContext();
 
 	
 	/**
@@ -199,6 +197,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	 */
 	public JRXlsMetadataExporter(JasperReportsContext jasperReportsContext)	{
 		super(jasperReportsContext);
+		
+		exporterContext = new ExporterContext();
 	}
 
 
@@ -1449,10 +1449,6 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 	public String getExporterPropertiesPrefix() {
 		return XLS_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	public JRXlsExporterContext getExporterContext() {
-		return exporterContext;
 	}
 
 	protected void setColumnName(String currentColumnName) {

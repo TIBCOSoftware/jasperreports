@@ -174,8 +174,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext
 	{
 	}
-	
-	protected JRXlsExporterContext exporterContext = new ExporterContext();
 
 	
 	/**
@@ -193,6 +191,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 	public JRXlsExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+		
+		exporterContext = new ExporterContext();
 	}
 
 
@@ -1924,15 +1924,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 	public String getExporterPropertiesPrefix()
 	{
 		return XLS_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	
-	/**
-	 * 
-	 */
-	public JRXlsExporterContext getExporterContext()
-	{
-		return exporterContext;
 	}
 
 	

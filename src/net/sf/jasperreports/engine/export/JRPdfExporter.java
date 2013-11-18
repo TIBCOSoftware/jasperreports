@@ -209,8 +209,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 
 	private SplitCharacter splitCharacter;
 	
-	protected JRPdfExporterContext exporterContext = new ExporterContext();
-	
 	/**
 	 * @see #JRPdfExporter(JasperReportsContext)
 	 */
@@ -226,6 +224,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 	public JRPdfExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+		
+		exporterContext = new ExporterContext();
 	}
 
 
@@ -2577,14 +2577,5 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 	public String getExporterPropertiesPrefix()
 	{
 		return PDF_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	
-	/**
-	 *
-	 */
-	public JRPdfExporterContext getExporterContext()
-	{
-		return exporterContext;
 	}
 }

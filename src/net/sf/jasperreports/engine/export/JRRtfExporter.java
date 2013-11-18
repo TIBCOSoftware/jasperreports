@@ -134,8 +134,6 @@ public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, 
 	protected class ExporterContext extends BaseExporterContext implements JRRtfExporterContext
 	{
 	}
-	
-	protected JRRtfExporterContext exporterContext = new ExporterContext();
 
 	
 	/**
@@ -153,6 +151,8 @@ public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, 
 	public JRRtfExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+		
+		exporterContext = new ExporterContext();
 	}
 
 
@@ -1748,13 +1748,5 @@ public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, 
 	public String getExporterPropertiesPrefix()
 	{
 		return RTF_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	/**
-	 * 
-	 */
-	public JRRtfExporterContext getExporterContext()
-	{
-		return exporterContext;
 	}
 }

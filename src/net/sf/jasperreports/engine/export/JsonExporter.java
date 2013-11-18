@@ -66,8 +66,6 @@ public class JsonExporter extends JRAbstractExporter<JsonExporterConfiguration, 
 	protected int pageIndex;
 	private boolean gotFirstJsonFragment;
 	
-	protected JsonExporterContext exporterContext = new ExporterContext();
-	
 	public JsonExporter()
 	{
 		this(DefaultJasperReportsContext.getInstance());
@@ -76,6 +74,8 @@ public class JsonExporter extends JRAbstractExporter<JsonExporterConfiguration, 
 	public JsonExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+
+		exporterContext = new ExporterContext();
 	}
 
 
@@ -111,12 +111,6 @@ public class JsonExporter extends JRAbstractExporter<JsonExporterConfiguration, 
 	public String getExporterPropertiesPrefix()
 	{
 		return JSON_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	@Override
-	public JsonExporterContext getExporterContext()
-	{
-		return exporterContext;
 	}
 
 	@Override

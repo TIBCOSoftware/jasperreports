@@ -111,8 +111,6 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 	 */
 	public static final String PROPERTY_IGNORE_HYPERLINK = OdtExporterConfiguration.PROPERTY_IGNORE_HYPERLINK;
 	
-	protected JROdtExporterContext mainExporterContext = new ExporterContext(null);
-	
 
 	protected class ExporterContext extends BaseExporterContext implements JROdtExporterContext
 	{
@@ -225,6 +223,8 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 	public JROdtExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+		
+		exporterContext = new ExporterContext(null);
 	}
 
 
@@ -879,16 +879,5 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 	{
 		return ODT_EXPORTER_PROPERTIES_PREFIX;
 	}
-
-	
-	/**
-	 * 
-	 */
-	public JROdtExporterContext getExporterContext()
-	{
-		return mainExporterContext;
-	}
-
-
 }
 

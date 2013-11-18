@@ -115,8 +115,6 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsExporterConfiguratio
 
 	protected Map<Integer, String> rowStyles = new HashMap<Integer, String>();
 	protected Map<Integer, String> columnStyles = new HashMap<Integer, String>();
-	
-	protected JROdsExporterContext mainExporterContext = new ExporterContext(null);
 
 	@Override
 	protected void openWorkbook(OutputStream os) throws JRException, IOException
@@ -814,6 +812,8 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsExporterConfiguratio
 	public JROdsExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+		
+		exporterContext = new ExporterContext(null);
 	}
 
 
@@ -903,15 +903,6 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsExporterConfiguratio
 	}
 
 	
-	/**
-	 *
-	 */
-	public JROdsExporterContext getExporterContext()
-	{
-		return mainExporterContext;
-	}
-
-
 	/**
 	 * 
 	 */
