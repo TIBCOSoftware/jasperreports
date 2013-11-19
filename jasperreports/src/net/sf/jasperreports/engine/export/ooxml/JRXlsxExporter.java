@@ -792,11 +792,19 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 		
 		runHelper = new XlsxRunHelper(jasperReportsContext, sheetWriter, null);//FIXMEXLSX check this null
 		
-		boolean showGridlines = sheetInfo.sheetShowGridlines != null 
-				? sheetInfo.sheetShowGridlines
-				: (documentShowGridlines != null 
-					? documentShowGridlines
-					: true);
+		boolean showGridlines = true;
+		if (sheetInfo.sheetShowGridlines == null)
+		{
+			Boolean documentShowGridlines = getCurrentConfiguration().isShowGridLines();
+			if (documentShowGridlines != null)
+			{
+				showGridlines = documentShowGridlines;
+			}
+		}
+		else
+		{
+			showGridlines = sheetInfo.sheetShowGridlines;
+		}
 		sheetHelper.exportHeader(showGridlines, (sheetInfo.sheetPageScale == null ? 0 : sheetInfo.sheetPageScale), gridRowFreezeIndex, gridColumnFreezeIndex, jasperPrint);
 		sheetRelsHelper.exportHeader(sheetIndex + 1);
 		drawingHelper.exportHeader();

@@ -66,6 +66,7 @@ public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguratio
 	private Integer fitHeight;
 	private Integer pageScale;
 	private RunDirectionEnum sheetDirection;
+	private Boolean isShowGridLines;
 	private ImageAnchorTypeEnum imageAnchorType;
 	
 	
@@ -632,6 +633,24 @@ public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguratio
 	public void setSheetDirection(RunDirectionEnum sheetDirection)
 	{
 		this.sheetDirection = sheetDirection;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public Boolean isShowGridLines()
+	{
+		return isShowGridLines;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public void setShowGridLines(Boolean isShowGridLines)
+	{
+		this.isShowGridLines = isShowGridLines;
 	}
 
 	
