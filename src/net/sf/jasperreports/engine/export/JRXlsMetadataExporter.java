@@ -847,7 +847,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			} else if ( (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && !isColumnReadOnTime(currentRow, currentColumnName)) // the column is for export, was not read yet, but it is read after it should be
 					|| (columnNames.contains(currentColumnName) && currentRow.containsKey(currentColumnName)) ) {	// the column is for export and was already read
 
-				if(rowIndex == 1 && writeHeader) {
+				if(rowIndex == 1 && getCurrentConfiguration().isWriteHeader()) {
 					writeReportHeader();
 				}
 				writeCurrentRow(currentRow, repeatedValues);
@@ -872,7 +872,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			} else if ( (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && !isColumnReadOnTime(currentRow, currentColumnName)) 	// the column is for export, was not read yet, but it is read after it should be
 					|| (columnNames.contains(currentColumnName) && currentRow.containsKey(currentColumnName)) ) {	// the column is for export and was already read
 				
-				if(rowIndex == 1 && writeHeader) {
+				if(rowIndex == 1 && getCurrentConfiguration().isWriteHeader()) {
 					writeReportHeader();
 				}
 				

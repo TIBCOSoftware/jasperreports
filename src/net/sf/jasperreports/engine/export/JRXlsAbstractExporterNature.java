@@ -51,9 +51,14 @@ import net.sf.jasperreports.export.XlsExporterConfiguration;
  */
 public class JRXlsAbstractExporterNature extends AbstractExporterNature
 {
-	
-	public static final String PROPERTY_BREAK_BEFORE_ROW = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.break.before.row";
-	public static final String PROPERTY_BREAK_AFTER_ROW = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.break.after.row";
+	/**
+	 * @deprecated Replaced by {@link JRXlsAbstractExporter#PROPERTY_BREAK_BEFORE_ROW}.
+	 */
+	public static final String PROPERTY_BREAK_BEFORE_ROW = JRXlsAbstractExporter.PROPERTY_BREAK_BEFORE_ROW;
+	/**
+	 * @deprecated Replaced by {@link JRXlsAbstractExporter#PROPERTY_BREAK_AFTER_ROW}.
+	 */
+	public static final String PROPERTY_BREAK_AFTER_ROW = JRXlsAbstractExporter.PROPERTY_BREAK_AFTER_ROW;
 
 	protected boolean isIgnoreGraphics;
 	protected boolean isIgnorePageMargins;
@@ -153,7 +158,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public boolean isBreakBeforeRow(JRPrintElement element)
 	{
 		return element.hasProperties() 
-				&& JRPropertiesUtil.asBoolean(element.getPropertiesMap().getProperty(PROPERTY_BREAK_BEFORE_ROW));
+				&& JRPropertiesUtil.asBoolean(element.getPropertiesMap().getProperty(JRXlsAbstractExporter.PROPERTY_BREAK_BEFORE_ROW));
 	}
 	
 	/**
@@ -162,7 +167,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public boolean isBreakAfterRow(JRPrintElement element)
 	{
 		return element.hasProperties()
-				&& JRPropertiesUtil.asBoolean(element.getPropertiesMap().getProperty(PROPERTY_BREAK_AFTER_ROW));
+				&& JRPropertiesUtil.asBoolean(element.getPropertiesMap().getProperty(JRXlsAbstractExporter.PROPERTY_BREAK_AFTER_ROW));
 	}
 	
 	/**

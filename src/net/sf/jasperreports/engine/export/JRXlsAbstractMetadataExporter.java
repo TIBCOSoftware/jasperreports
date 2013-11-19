@@ -102,7 +102,6 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 	/**
 	 * 
 	 */
-	protected boolean writeHeader;
 	protected List<String> columnNames;
 	protected Map<String, Integer> columnNamesMap;
 	protected int rowIndex;
@@ -188,7 +187,7 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 			}
 
 			XlsMetadataExporterConfiguration configuration = getCurrentConfiguration();
-			writeHeader = configuration.isWriteHeader();
+
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
@@ -265,10 +264,11 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 	 */
 	protected int exportPage(JRPrintPage page) throws JRException
 	{
+		XlsMetadataExporterConfiguration configuration = getCurrentConfiguration();
 		
 		List<JRPrintElement> elements = page.getElements();
 		currentRow = new HashMap<String, Object>();
-		rowIndex += writeHeader ? 1 : 0;
+		rowIndex += configuration.isWriteHeader() ? 1 : 0;
 		
 		for (int i = 0; i < elements.size(); ++i) 
 		{
@@ -352,7 +352,7 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 
 		setRowLevels(null, null);
 		
-		JRExportProgressMonitor progressMonitor = getCurrentConfiguration().getProgressMonitor();
+		JRExportProgressMonitor progressMonitor = configuration.getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();

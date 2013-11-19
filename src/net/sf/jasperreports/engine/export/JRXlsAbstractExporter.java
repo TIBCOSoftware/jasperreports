@@ -70,7 +70,6 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.ExporterConfiguration;
-import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
@@ -348,6 +347,20 @@ public abstract class JRXlsAbstractExporter<C extends XlsExporterConfiguration, 
 	public static final String PROPERTY_IGNORE_HYPERLINK = XlsExporterConfiguration.PROPERTY_IGNORE_HYPERLINK;
 	
 
+	/**
+	 * Element level property specifying if a sheet will break before the row displaying that element. 
+	 * It is very useful especially when displaying each report's group on a separate sheet is intended. 
+	 */
+	public static final String PROPERTY_BREAK_BEFORE_ROW = XLS_EXPORTER_PROPERTIES_PREFIX + "break.before.row";
+	
+
+	/**
+	 * Element level property specifying if a sheet will break after the row displaying that element. 
+	 * It is very useful especially when displaying each report's group on a separate sheet is intended. 
+	 */
+	public static final String PROPERTY_BREAK_AFTER_ROW = XLS_EXPORTER_PROPERTIES_PREFIX + "break.after.row";
+
+	
 	protected static class TextAlignHolder
 	{
 		public final HorizontalAlignEnum horizontalAlignment;
