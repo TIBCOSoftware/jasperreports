@@ -91,7 +91,7 @@ public interface TextExporterConfiguration extends ExporterConfiguration
 	public Float getCharWidth();
 
 	/**
-	 * Returns a float value representing the pixel/character horizontal ratio.
+	 * Returns a float value representing the pixel/character vertical ratio.
 	 * @see #PROPERTY_CHARACTER_HEIGHT
 	 */
 	@SuppressWarnings("deprecation")
