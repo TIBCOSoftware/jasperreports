@@ -2318,11 +2318,19 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 			sheets.getFooter().getCentre().appendPageNumber();
 		}
 
-		boolean showGridlines = sheetInfo.sheetShowGridlines != null 
-				? sheetInfo.sheetShowGridlines
-				: (documentShowGridlines != null 
-					? documentShowGridlines
-					: true);
+		boolean showGridlines = true;
+		if (sheetInfo.sheetShowGridlines == null)
+		{
+			Boolean documentShowGridlines = configuration.isShowGridLines();
+			if (documentShowGridlines != null)
+			{
+				showGridlines = documentShowGridlines;
+			}
+		}
+		else
+		{
+			showGridlines = sheetInfo.sheetShowGridlines;
+		}
 		sheets.setShowGridLines(showGridlines);
 		
 		maxRowFreezeIndex = 0;

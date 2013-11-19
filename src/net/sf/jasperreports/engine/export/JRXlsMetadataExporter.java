@@ -371,11 +371,19 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			sheet.getFooter().setCenter("Page " + HeaderFooter.page());
 		}
 		
-		boolean showGridlines = sheetInfo.sheetShowGridlines != null 
-				? sheetInfo.sheetShowGridlines
-				: (documentShowGridlines != null 
-					? documentShowGridlines
-					: true);
+		boolean showGridlines = true;
+		if (sheetInfo.sheetShowGridlines == null)
+		{
+			Boolean documentShowGridlines = configuration.isShowGridLines();
+			if (documentShowGridlines != null)
+			{
+				showGridlines = documentShowGridlines;
+			}
+		}
+		else
+		{
+			showGridlines = sheetInfo.sheetShowGridlines;
+		}
 		sheet.setDisplayGridlines(showGridlines);
 		
 		maxRowFreezeIndex = 0;

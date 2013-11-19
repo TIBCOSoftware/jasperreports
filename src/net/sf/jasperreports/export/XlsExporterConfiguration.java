@@ -412,7 +412,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_FIRST_PAGE_NUMBER = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "first.page.number";
 
 	/**
-	 * Flag property that specifies if the gridlines in a given sheet are shown. If multiple elements in a sheet provide this property, 
+	 * Property that provides a default for the {@link #isShowGridLines()} export configuration flag. 
+	 * When set at report element level and multiple elements in a sheet provide this property, 
 	 * the last read value will be considered. Default value is <code>true</code>.
 	 * <br/>
 	 * Property scope:
@@ -865,6 +866,17 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@ExporterProperty(PROPERTY_SHEET_DIRECTION)
 	public RunDirectionEnum getSheetDirection();
+	
+	
+	/**
+	 * Flag that specifies if the gridlines in a given sheet are shown.
+	 * @see #PROPERTY_SHOW_GRIDLINES
+	 */
+	@ExporterProperty(
+		value=PROPERTY_SHOW_GRIDLINES, 
+		booleanDefault=true
+		)
+	public Boolean isShowGridLines();
 	
 	/**
 	 * Specifies the image anchor type.

@@ -434,7 +434,6 @@ public abstract class JRXlsAbstractExporter<C extends XlsExporterConfiguration, 
 	protected String workbookTemplate;
 	
 	protected boolean ignoreAnchors;
-	protected Boolean documentShowGridlines;
 	
 	protected String invalidCharReplacement;
 	
@@ -550,7 +549,6 @@ public abstract class JRXlsAbstractExporter<C extends XlsExporterConfiguration, 
 		{
 			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
 		}
-		documentShowGridlines = getPropertiesUtil().getBooleanProperty(jasperPrint,	PROPERTY_SHOW_GRIDLINES, true);
 	}
 	
 	protected void exportReportToStream(OutputStream os) throws JRException, IOException
