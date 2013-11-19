@@ -108,14 +108,8 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			VelocityContext velocityContext = new VelocityContext();
 			velocityContext.put("uuid", element.getUUID().toString());
 
-			net.sf.jasperreports.engine.export.JRXhtmlExporter xhtmlExporter = 
-				exporter instanceof net.sf.jasperreports.engine.export.JRXhtmlExporter 
-				? (net.sf.jasperreports.engine.export.JRXhtmlExporter)exporter 
-				: null;
-			if (xhtmlExporter != null) {
-				velocityContext.put("elementX", xhtmlExporter.toSizeUnit(element.getX()));
-				velocityContext.put("elementY", xhtmlExporter.toSizeUnit(element.getY()));
-			}
+			xhtmlExport(exporter, velocityContext, element);
+			
 			velocityContext.put("elementWidth", element.getWidth());
 			velocityContext.put("elementHeight", element.getHeight());
 			velocityContext.put("sortHandlerHAlign", sortHandlerHAlign != null ? sortHandlerHAlign : CSS_TEXT_ALIGN_LEFT);
@@ -224,40 +218,57 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	}
 	
 	private List<FieldFilter> getExistingFiltersForField(
-			JasperReportsContext jasperReportsContext, 
-			ReportContext reportContext, 
-			String uuid, 
-			String filterFieldName
-			) 
+		JasperReportsContext jasperReportsContext, 
+		ReportContext reportContext, 
+		String uuid, 
+		String filterFieldName
+		) 
+	{
+		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
+		FilterAction action = new FilterAction();
+		action.init(jasperReportsContext, reportContext);
+		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
+		List<FieldFilter> result = new ArrayList<FieldFilter>();
+		if (target != null)
 		{
-			JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
-			FilterAction action = new FilterAction();
-			action.init(jasperReportsContext, reportContext);
-			CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
-			List<FieldFilter> result = new ArrayList<FieldFilter>();
-			if (target != null)
-			{
-				JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());
-				JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getMainDataset();
-				
-				// get existing filter as JSON string
-				String serializedFilters = "[]";
-				JRPropertiesMap propertiesMap = dataset.getPropertiesMap();
-				if (propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY) != null) {
-					serializedFilters = propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
-				}
-				
-				List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
-				if (existingFilters.size() > 0) {
-					for (DatasetFilter filter: existingFilters) {
-						if (((FieldFilter)filter).getField().equals(filterFieldName)) {
-							result.add((FieldFilter)filter);
-							break;
-						}
+			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());
+			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getMainDataset();
+			
+			// get existing filter as JSON string
+			String serializedFilters = "[]";
+			JRPropertiesMap propertiesMap = dataset.getPropertiesMap();
+			if (propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY) != null) {
+				serializedFilters = propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
+			}
+			
+			List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
+			if (existingFilters.size() > 0) {
+				for (DatasetFilter filter: existingFilters) {
+					if (((FieldFilter)filter).getField().equals(filterFieldName)) {
+						result.add((FieldFilter)filter);
+						break;
 					}
 				}
 			}
-			
-			return result;
 		}
+		
+		return result;
+	}
+	
+	@SuppressWarnings("deprecation")
+	private void xhtmlExport(
+		Exporter<ExporterInput, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter,
+		VelocityContext velocityContext,
+		JRGenericPrintElement element
+		)
+	{
+		net.sf.jasperreports.engine.export.JRXhtmlExporter xhtmlExporter = 
+			exporter instanceof net.sf.jasperreports.engine.export.JRXhtmlExporter 
+			? (net.sf.jasperreports.engine.export.JRXhtmlExporter)exporter 
+			: null;
+		if (xhtmlExporter != null) {
+			velocityContext.put("elementX", xhtmlExporter.toSizeUnit(element.getX()));
+			velocityContext.put("elementY", xhtmlExporter.toSizeUnit(element.getY()));
+		}
+	}
 }

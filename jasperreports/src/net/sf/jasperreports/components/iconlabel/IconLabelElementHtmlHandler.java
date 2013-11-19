@@ -90,25 +90,7 @@ public class IconLabelElementHtmlHandler implements GenericElementHtmlHandler
 		HtmlExporter htmlExporter = exporter instanceof HtmlExporter ? (HtmlExporter)exporter : null;
 		if (htmlExporter == null)
 		{
-			net.sf.jasperreports.engine.export.JRXhtmlExporter xhtmlExporter = 
-				exporter instanceof net.sf.jasperreports.engine.export.JRXhtmlExporter 
-				? (net.sf.jasperreports.engine.export.JRXhtmlExporter)exporter 
-				: null;
-			if (xhtmlExporter != null)
-			{
-				try
-				{
-					xhtmlExporter.exportFrame(frame);
-				}
-				catch (JRException e)
-				{
-					throw new JRRuntimeException(e);
-				}
-				catch (IOException e)
-				{
-					throw new JRRuntimeException(e);
-				}
-			}
+			xhtmlExport(exporter, frame);
 		}
 		else
 		{
@@ -133,4 +115,30 @@ public class IconLabelElementHtmlHandler implements GenericElementHtmlHandler
 		return true;
 	}
 	
+	@SuppressWarnings("deprecation")
+	private void xhtmlExport(
+		Exporter<ExporterInput, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter,
+		JRBasePrintFrame frame
+		) 
+	{
+		net.sf.jasperreports.engine.export.JRXhtmlExporter xhtmlExporter = 
+			exporter instanceof net.sf.jasperreports.engine.export.JRXhtmlExporter 
+			? (net.sf.jasperreports.engine.export.JRXhtmlExporter)exporter 
+			: null;
+		if (xhtmlExporter != null)
+		{
+			try
+			{
+				xhtmlExporter.exportFrame(frame);
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+	}
 }
