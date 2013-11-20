@@ -160,8 +160,8 @@ Hyperlink parameter expressions are evaluated along with the hyperlink, and the 
 are kept in the generated hyperlink object as parameter values.
 <br/>
 When exporting the report to other formats such as HTML or PDF, the user can set a 
-factory of hyperlink handlers using the <api href="net/sf/jasperreports/engine/JRExporterParameter.html#HYPERLINK_PRODUCER_FACTORY">HYPERLINK_PRODUCER_FACTORY</api> export 
-parameter. A factory is an implementation of 
+factory of hyperlink handlers using the <api href="net/sf/jasperreports/export/SimpleExporterConfiguration.html#setHyperlinkProducerFactory()">setHyperlinkProducerFactory()</api> exporter 
+setting method. A factory is an implementation of 
 <api href="net/sf/jasperreports/engine/export/JRHyperlinkProducerFactory.html">JRHyperlinkProducerFactory</api>, which is 
 responsible for creating a hyperlink handler for a custom hyperlink type. This hyperlink 
 handler created by the factory is a 
