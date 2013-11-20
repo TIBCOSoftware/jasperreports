@@ -61,27 +61,27 @@ to the user access permissions stored in the encryption dictionary.
 When exporting to the PDF format the engine has to know five additional things about the generated document 
 and uses five dedicated exporter parameters for this:
 <ul>
-<li>Is the document encrypted? A flag parameter called 
-<api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_ENCRYPTED">IS_ENCRYPTED</api> 
-answers to this question. If set to <code>Boolean.TRUE</code>, this instructs the exporter to
-encrypt the resulting PDF document. By default PDF files are not encrypted.<br/>One can use the related 
-<code>net.sf.jasperreports.export.pdf.encrypted</code> hint property for the same purpose.</li> 
+<li>Is the document encrypted? The export configuration setting  
+<api href="net/sf/jasperreports/export/SimplePdfExporterConfiguration.html#setEncrypted()">setEncrypted()</api> 
+answers to this question. If set to <code>true</code>, it instructs the exporter to 
+encrypt the resulting PDF document. By default PDF files are not encrypted. 
+<br/>One can use the related 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_ENCRYPTED">PROPERTY_ENCRYPTED</api> flag property for the same purpose.</li> 
 <li>Which key to use for the encrypted document? By default the PDF exporter uses a 40-bit key for encryption, 
-but if needed, it can use a 128-bit one. Setting the 
-<api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_128_BIT_KEY">IS_128_BIT_KEY</api> 
-flag to <code>true</code> will instruct the engine to use a 128-bit key. <br/>One can use the related 
-<code>net.sf.jasperreports.export.pdf.128.bit.key</code> 
-hint property for the same purpose.</li>
+but if needed, it can use a 128-bit one. Setting the <api href="net/sf/jasperreports/export/SimplePdfExporterConfiguration.html#set128BitKey()">set128BitKey()</api> 
+configuration setting or the equivalent  
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_128_BIT_KEY">PROPERTY_128_BIT_KEY</api> 
+flag property to <code>true</code> will instruct the engine to use a 128-bit key.</li>
 <li>The user password. This can be set using the 
-<api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#USER_PASSWORD">USER_PASSWORD</api> 
-or the related <code>net.sf.jasperreports.export.pdf.user.password</code> 
-hint property.</li>
-<li>The owner password. This can be set using the 
-<api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#OWNER_PASSWORD">OWNER_PASSWORD</api> 
-or the related <code>net.sf.jasperreports.export.pdf.owner.password</code> 
-hint property.</li>
-<li>User permissions. They can be set in the 
-<api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PERMISSIONS">PERMISSIONS</api> export parameter. 
+<api href="net/sf/jasperreports/export/SimplePdfExporterConfiguration.html#setUserPassword()}">setUserPassword()</api> export configuration setting 
+or the related <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_USER_PASSWORD">PROPERTY_USER_PASSWORD</api>  
+property.</li>
+<li>The owner password. This can be set using the export configuration setting 
+<api href="net/sf/jasperreports/export/SimplePdfExporterConfiguration.html#setOwnerPassword()}">setOwnerPassword()</api> 
+or the related <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_OWNER_PASSWORD">PROPERTY_OWNER_PASSWORD</api> 
+property.</li>
+<li>User permissions. They can be set using the 
+<api href="net/sf/jasperreports/export/SimplePdfExporterConfiguration.html#setPermissions()">setPermissions()</api> export configuration setting. 
 This exporter parameter accepts <code>java.lang.Integer</code> values 
 representing the PDF permissions for the generated document. The open permissions for 
 the document can be <code>AllowPrinting</code>, <code>AllowModifyContents</code>, <code>AllowCopy</code>, 
@@ -95,14 +95,14 @@ library). Permissions can be combined by applying bitwise <code>OR</code> to the
 This sample makes use of the above export parameters in order to generate an encrypted document. Taking a look at the 
 <code>pdf()</code> method in the <code>src/PdfEncryptApp.java</code> file, one can see how to set them all:
 <pre><![CDATA[
-  exporter.setParameter(JRPdfExporterParameter.IS_ENCRYPTED, Boolean.TRUE);
-  exporter.setParameter(JRPdfExporterParameter.IS_128_BIT_KEY, Boolean.TRUE);
-  exporter.setParameter(JRPdfExporterParameter.USER_PASSWORD, "jasper");
-  exporter.setParameter(JRPdfExporterParameter.OWNER_PASSWORD, "reports");
-  exporter.setParameter(
-    JRPdfExporterParameter.PERMISSIONS, 
-    new Integer(PdfWriter.ALLOW_COPY | PdfWriter.ALLOW_PRINTING)
-    );]]></pre>
+  SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
+  configuration.setEncrypted(true);
+  configuration.set128BitKey(true);
+  configuration.setUserPassword("jasper");
+  configuration.setOwnerPassword("reports");
+  configuration.setPermissions(PdfWriter.ALLOW_COPY | PdfWriter.ALLOW_PRINTING);
+  exporter.setConfiguration(configuration);
+]]></pre>
 <b>Running the Sample</b>
 <br/>
 <br/>
