@@ -284,29 +284,33 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 
 	protected void openWorkbook(OutputStream os) throws JRException
 	{
+		JxlMetadataExporterConfiguration configuration = getCurrentConfiguration();
+		
 		WorkbookSettings settings = new WorkbookSettings();
-		settings.setUseTemporaryFileDuringWrite(getCurrentConfiguration().isUseTempFile());
+		settings.setUseTemporaryFileDuringWrite(configuration.isUseTempFile());
 		
 		InputStream templateIs = null;
 
 		try
 		{
-			if (workbookTemplate == null)
+			String lcWorkbookTemplate = workbookTemplate == null ? configuration.getWorkbookTemplate() : workbookTemplate;
+			if (lcWorkbookTemplate == null)
 			{
 				workbook = Workbook.createWorkbook(os, settings);
 			}
 			else
 			{
-				templateIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(workbookTemplate);
+				templateIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(lcWorkbookTemplate);
 				if (templateIs == null)
 				{
-					throw new JRRuntimeException("Workbook template not found at : " + workbookTemplate);
+					throw new JRRuntimeException("Workbook template not found at : " + lcWorkbookTemplate);
 				}
 				else
 				{
 					Workbook template = Workbook.getWorkbook(templateIs);
 					workbook = Workbook.createWorkbook(os, template, settings);
-					if(!keepTemplateSheets)
+					boolean keepSheets = keepTemplateSheets == null ? configuration.isKeepWorkbookTemplateSheets() : keepTemplateSheets;
+					if(!keepSheets)
 					{
 						for(int i = 0; i < workbook.getNumberOfSheets(); i++)
 						{

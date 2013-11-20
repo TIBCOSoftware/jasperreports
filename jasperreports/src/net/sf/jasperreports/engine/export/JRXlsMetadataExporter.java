@@ -232,17 +232,20 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	}
 
 	protected void openWorkbook(OutputStream os) throws JRException	{
-		if (workbookTemplate == null) {
+		XlsMetadataExporterConfiguration configuration = getCurrentConfiguration();
+		String lcWorkbookTemplate = workbookTemplate == null ? configuration.getWorkbookTemplate() : workbookTemplate;
+		if (lcWorkbookTemplate == null) {
 			workbook = new HSSFWorkbook();
 		} else {
 			InputStream templateIs = null;
 			try {
-				templateIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(workbookTemplate);
+				templateIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(lcWorkbookTemplate);
 				if (templateIs == null)	{
-					throw new JRRuntimeException("Workbook template not found at : " + workbookTemplate);
+					throw new JRRuntimeException("Workbook template not found at : " + lcWorkbookTemplate);
 				} else {
 					workbook = new HSSFWorkbook(new POIFSFileSystem(templateIs));
-					if (keepTemplateSheets) {
+					boolean keepSheets = keepTemplateSheets == null ? configuration.isKeepWorkbookTemplateSheets() : keepTemplateSheets;
+					if (keepSheets) {
 						sheetIndex += workbook.getNumberOfSheets();
 					} else {
 						for(int i = 0; i < workbook.getNumberOfSheets(); i++) {

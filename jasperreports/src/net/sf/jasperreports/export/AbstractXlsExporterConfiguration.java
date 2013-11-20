@@ -69,6 +69,8 @@ public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguratio
 	private RunDirectionEnum sheetDirection;
 	private Float columnWidthRatio;
 	private Boolean isUseTimeZone;
+	private String workbookTemplate;
+	private Boolean isKeepWorkbookTemplateSheets;
 	private Integer firstPageNumber;
 	private Boolean isShowGridLines;
 	private ImageAnchorTypeEnum imageAnchorType;
@@ -691,6 +693,42 @@ public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguratio
 	public void setUseTimeZone(Boolean isUseTimeZone)
 	{
 		this.isUseTimeZone = isUseTimeZone;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public String getWorkbookTemplate()
+	{
+		return workbookTemplate;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public void setFirstPageNumber(String workbookTemplate)
+	{
+		this.workbookTemplate = workbookTemplate;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public Boolean isKeepWorkbookTemplateSheets()
+	{
+		return isKeepWorkbookTemplateSheets;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public void setKeepWorkbookTemplateSheets(Boolean isKeepWorkbookTemplateSheets)
+	{
+		this.isKeepWorkbookTemplateSheets = isKeepWorkbookTemplateSheets;
 	}
 
 	

@@ -349,14 +349,7 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_USE_TIMEZONE = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "use.timezone";
 
 	/**
-	 * Property used to store the location of an existing workbook template. The content of an existing workbook document 
-	 * or template can be embedded into exported document if the template location is known. In this case the content of 
-	 * the template will be exported first and the content of the exported report will be appended to this one. Macros and 
-	 * other settings in the existing template will be also preserved in the generated document. Templates can be loaded from 
-	 * Excel template files (*.xlt) as well as from valid Excel documents (*.xls).
-	 * <p>
-	 * This property is used in Excel exporters based either on Apache POI APIs ({@link JRXlsExporter}) or on JExcelApi library 
-	 * ({@link net.sf.jasperreports.engine.export.JExcelApiExporter JExcelApiExporter}). There's no similar property for the {@link JRXlsxExporter}.
+	 * Property that provides a default value for the {@link #getWorkbookTemplate()} export configuration setting.
 	 * 
 	 * @see JRPropertiesUtil
 	 * @since 4.5.1
@@ -364,18 +357,11 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_WORKBOOK_TEMPLATE = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "workbook.template";
 
 	/**
-	 * Flag property that specifies whether to keep the sheets of the existing template into generated document. Sometimes 
-	 * is important to embed in a generated document only macros and/or other global settings from an existing template, but 
-	 * without keeping the own sheets of the template document. If set to false, this property prevent the template sheets 
-	 * to be exported.
+	 * Property that provides a default value for the {@link #isKeepWorkbookTemplateSheets()} export configuration flag.
 	 * <p>
-	 * This property is used in conjunction with {@link JRXlsAbstractExporter#PROPERTY_WORKBOOK_TEMPLATE}.
+	 * This property is used in conjunction with {@link #PROPERTY_WORKBOOK_TEMPLATE}.
 	 * <p>
-	 * Allowed values are:
-	 * <ul>
-	 * <li><code>true</code></li>
-	 * <li><code>false</code> - this is the default value.</li>
-	 * </ul>
+	 * Default value is <code>false</code>.
 	 * 
 	 * @see JRPropertiesUtil
 	 * @since 4.5.1
@@ -896,6 +882,36 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 		booleanDefault=false
 		)
 	public Boolean isUseTimeZone();
+	
+	/**
+	 * Setting that specifies the location of an existing workbook template. The content of an existing workbook document 
+	 * or template can be embedded into exported document if the template location is known. In this case the content of 
+	 * the template will be exported first and the content of the exported report will be appended to this one. Macros and 
+	 * other settings in the existing template will be also preserved in the generated document. Templates can be loaded from 
+	 * Excel template files (*.xlt) as well as from valid Excel documents (*.xls).
+	 * <p>
+	 * This setting is used in Excel exporters based either on Apache POI APIs ({@link JRXlsExporter}) or on JExcelApi library 
+	 * ({@link net.sf.jasperreports.engine.export.JExcelApiExporter JExcelApiExporter}). There's no similar property for the {@link JRXlsxExporter}.
+	 * @see #PROPERTY_WORKBOOK_TEMPLATE
+	 */
+	@ExporterProperty(PROPERTY_WORKBOOK_TEMPLATE)
+	public String getWorkbookTemplate();
+	
+	/**
+	 * Flag that specifies whether to keep the sheets of the existing template into generated document. Sometimes 
+	 * is important to embed in a generated document only macros and/or other global settings from an existing template, but 
+	 * without keeping the own sheets of the template document. If set to false, this property prevent the template sheets 
+	 * to be exported.
+	 * <p>
+	 * This setting is used in conjunction with {@link #getWorkbookTemplate()}.
+	 * 
+	 * @see #PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS
+	 */
+	@ExporterProperty(
+		value=PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS, 
+		booleanDefault=false
+		)
+	public Boolean isKeepWorkbookTemplateSheets();
 	
 	/**
 	 * Setting that specifies the first page number in the page setup dialog.
