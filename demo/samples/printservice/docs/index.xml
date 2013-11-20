@@ -58,9 +58,9 @@ The printing functionality in the <api href="net/sf/jasperreports/engine/export/
 exporter is based on the printing 2D graphics mechanism using the <code>java.awt.print.PrinterJob</code> class. 
 <br/>
 First of all, this exporter tries to find a print service that supports the necessary print service attributes. 
-To communicate these attributes to the print service one can use the special 
-<api href="net/sf/jasperreports/engine/export/JRPrintServiceExporterParameter.html#PRINT_SERVICE_ATTRIBUTE_SET">PRINT_SERVICE_ATTRIBUTE_SET</api> 
-exporter parameter which can hold a <code>javax.print.attribute.PrintServiceAttributeSet</code> object.
+To communicate these attributes to the print service one can use the 
+<api href="net/sf/jasperreports/export/SimplePrintServiceExporterConfiguration.html#setPrintServiceAttributeSet()">setPrintServiceAttributeSet()</api> 
+exporter configuration setting which accepts a <code>javax.print.attribute.PrintServiceAttributeSet</code> object.
 <br/>
 If the lookup procedure returns more than one print service able to handle the 
 specified attributes, the exporter uses the first one in the list. If no 
@@ -68,25 +68,24 @@ suitable print service is found, an exception is thrown.
 <br/>
 The print service lookup mechanism can be bypassed when the print service is well known and there are no more needs to search for it. 
 In this case, a <code>javax.print.PrintService</code> instance can be passed in using the 
-<api href="net/sf/jasperreports/engine/export/JRPrintServiceExporterParameter.html#PRINT_SERVICE">PRINT_SERVICE</api> 
-exporter parameter. 
+<api href="net/sf/jasperreports/export/SimplePrintServiceExporterConfiguration.html#setPrintService()">setPrintService()</api> 
+exporter configuration setting. 
 <br/>
 Once located a print service, it is associated with a <code>java.awt.print.PrinterJob</code> instance which can be further customized 
-taking into account the following export parameters:
+taking into account the following export configuration settings:
 <ul>
-<li><api href="net/sf/jasperreports/engine/export/JRPrintServiceExporterParameter.html#PRINT_REQUEST_ATTRIBUTE_SET">PRINT_REQUEST_ATTRIBUTE_SET</api> - 
-a <code>javax.print.attribute.PrintRequestAttributeSet</code> instance containing a set of specific print request settings.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPrintServiceExporterParameter.html#DISPLAY_PAGE_DIALOG">DISPLAY_PAGE_DIALOG</api> - 
-flag that specifies if a page dialog will open before the print job is submitted in order to modify some document settings such as 
-page size or layout.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPrintServiceExporterParameter.html#DISPLAY_PRINT_DIALOG">DISPLAY_PRINT_DIALOG</api> - 
-flag that specifies if a print dialog will open before the print job is submitted in order to modify settings for some print request attributes.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPrintServiceExporterParameter.html#DISPLAY_PAGE_DIALOG_ONLY_ONCE">DISPLAY_PAGE_DIALOG_ONLY_ONCE</api> - 
-when printing in batch mode this parameter indicates whether the page dialog will popup globally for all documents in the list, or once per 
+<li><api href="net/sf/jasperreports/export/SimplePrintServiceExporterConfiguration.html#setPrintRequestAttributeSet()">setPrintRequestAttributeSet()</api> - 
+accepts a <code>javax.print.attribute.PrintRequestAttributeSet</code> instance containing a set of specific print request settings.</li>
+<li><api href="net/sf/jasperreports/export/SimplePrintServiceExporterConfiguration.html#setDisplayPageDialog()">setDisplayPageDialog()</api> - 
+accepts a boolean value that specifies if a page dialog will open before the print job is submitted in order to modify some document settings such as page size or layout.</li>
+<li><api href="net/sf/jasperreports/export/SimplePrintServiceExporterConfiguration.html#setDisplayPrintDialog()">setDisplayPrintDialog()</api> - 
+accepts a boolean value that specifies if a print dialog will open before the print job is submitted in order to modify settings for some print request attributes.</li>
+<li><api href="net/sf/jasperreports/export/SimplePrintServiceExporterConfiguration.html#setDisplayPageDialogOnlyOnce()">setDisplayPageDialogOnlyOnce()</api> - 
+when printing in batch mode this setting indicates whether the page dialog will popup globally for all documents in the list, or once per 
 document. If it's <code>true</code>, then the page dialog will open only first time before submitting the batch job, and the page settings will be 
 inherited by all the documents in the list.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPrintServiceExporterParameter.html#DISPLAY_PRINT_DIALOG_ONLY_ONCE">DISPLAY_PRINT_DIALOG_ONLY_ONCE</api> - 
-when printing in batch mode this parameter indicates whether the print dialog will popup globally for all documents in the list, or once per 
+<li><api href="net/sf/jasperreports/export/SimplePrintServiceExporterConfiguration.html#setDisplayPrintDialogOnlyOnce()">setDisplayPrintDialogOnlyOnce()</api> - 
+when printing in batch mode this setting indicates whether the print dialog will popup globally for all documents in the list, or once per 
 document. If it's <code>true</code>, then the print dialog will open only first time before submitting the batch job, and the print request settings will be 
 inherited by all the documents in the list.</li>
 </ul>
@@ -236,13 +235,14 @@ printer when calling the <code>print()</code> method. A print dialog will popup 
     
     JRPrintServiceExporter exporter = new JRPrintServiceExporter();
     
-    exporter.setParameter(JRExporterParameter.INPUT_FILE_NAME, "build/reports/PrintServiceReport.jrprint");
-    exporter.setParameter(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET, printRequestAttributeSet);
-    exporter.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET, printServiceAttributeSet);
-    exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG, Boolean.FALSE);
-    exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.TRUE);
-    
-    exporter.exportReport();
+	exporter.setExporterInput(new SimpleExporterInput("build/reports/PrintServiceReport.jrprint"));
+	SimplePrintServiceExporterConfiguration configuration = new SimplePrintServiceExporterConfiguration();
+	configuration.setPrintRequestAttributeSet(printRequestAttributeSet);
+	configuration.setPrintServiceAttributeSet(printServiceAttributeSet);
+	configuration.setDisplayPageDialog(false);
+	configuration.setDisplayPrintDialog(true);
+	exporter.setConfiguration(configuration);
+	exporter.exportReport();
 
     System.err.println("Printing time : " + (System.currentTimeMillis() - start));
   }]]></pre>
