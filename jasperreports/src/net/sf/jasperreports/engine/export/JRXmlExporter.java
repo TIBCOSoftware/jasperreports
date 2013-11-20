@@ -263,7 +263,7 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 
 	protected void exportReportToStream(Writer writer) throws JRException, IOException
 	{
-		version = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(jasperPrint, JRXmlBaseWriter.PROPERTY_REPORT_VERSION);
+		version = getPropertiesUtil().getProperty(jasperPrint, JRXmlBaseWriter.PROPERTY_REPORT_VERSION);
 		
 		xmlWriter = new JRXmlWriteHelper(writer);
 		

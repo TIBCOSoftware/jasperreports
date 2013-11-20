@@ -339,18 +339,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_COLUMN_WIDTH_RATIO = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "column.width.ratio";
 
 	/**
-	 * Property that determines whether date values are to be translated to the timezone
-	 * that was used to fill the report.
+	 * Property that provides a default for the {@link #isUseTimeZone()} export configuration flag.
 	 * 
-	 * <p>
-	 * By default, date values are exported to Excel using the default timezone of the system.
-	 * Setting this property to <code>true</code> instructs the exporter to use he report fill
-	 * timezone to export date values.
-	 * 
-	 * <p>
-	 * The property only has effect when {@link #isDetectCellType()} is set.
-	 * 
-	 * <p>
 	 * The property can be set globally, at report level and at element level.
 	 * The default value is <code>false</code>.
 	 * 
@@ -886,6 +876,26 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 		acceptNull=true
 		)
 	public Float getColumnWidthRatio();
+	
+	/**
+	 * Flag that determines whether date values are to be translated to the timezone
+	 * that was used to fill the report.
+	 * 
+	 * <p>
+	 * By default, date values are exported to Excel using the default timezone of the system.
+	 * Setting this to <code>true</code> instructs the exporter to use he report fill
+	 * timezone to export date values.
+	 * 
+	 * <p>
+	 * This only has effect when {@link #isDetectCellType()} is set.
+	 * 
+	 * @see #PROPERTY_USE_TIMEZONE
+	 */
+	@ExporterProperty(
+		value=PROPERTY_USE_TIMEZONE, 
+		booleanDefault=false
+		)
+	public Boolean isUseTimeZone();
 	
 	/**
 	 * Setting that specifies the first page number in the page setup dialog.

@@ -68,6 +68,7 @@ public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguratio
 	private Integer pageScale;
 	private RunDirectionEnum sheetDirection;
 	private Float columnWidthRatio;
+	private Boolean isUseTimeZone;
 	private Integer firstPageNumber;
 	private Boolean isShowGridLines;
 	private ImageAnchorTypeEnum imageAnchorType;
@@ -672,6 +673,24 @@ public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguratio
 	public void setColumnWidthRatio(Float columnWidthRatio)
 	{
 		this.columnWidthRatio = columnWidthRatio;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public Boolean isUseTimeZone()
+	{
+		return isUseTimeZone;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public void setUseTimeZone(Boolean isUseTimeZone)
+	{
+		this.isUseTimeZone = isUseTimeZone;
 	}
 
 	
