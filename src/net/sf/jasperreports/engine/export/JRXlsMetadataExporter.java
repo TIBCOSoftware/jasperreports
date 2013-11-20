@@ -358,14 +358,21 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			sheet.setRightToLeft(sheetDirection == RunDirectionEnum.RTL);
 		}
 		
-		if(sheetInfo.sheetFirstPageNumber != null && sheetInfo.sheetFirstPageNumber > 0) {
+		if(sheetInfo.sheetFirstPageNumber != null && sheetInfo.sheetFirstPageNumber > 0) 
+		{
 			printSetup.setPageStart((short)sheetInfo.sheetFirstPageNumber.intValue());
 			printSetup.setUsePage(true);
 			firstPageNotSet = false;
-		} else if(documentFirstPageNumber != null && documentFirstPageNumber > 0 && firstPageNotSet) {
-			printSetup.setPageStart((short)documentFirstPageNumber.intValue());
-			printSetup.setUsePage(true);
-			firstPageNotSet = false;
+		}
+		else 
+		{
+			Integer documentFirstPageNumber = configuration.getFirstPageNumber();
+			if(documentFirstPageNumber != null && documentFirstPageNumber > 0 && firstPageNotSet) 
+			{
+				printSetup.setPageStart((short)documentFirstPageNumber.intValue());
+				printSetup.setUsePage(true);
+				firstPageNotSet = false;
+			}
 		}
 		if(!firstPageNotSet && (sheet.getFooter().getCenter() == null || sheet.getFooter().getCenter().length() == 0)) {
 			sheet.getFooter().setCenter("Page " + HeaderFooter.page());
@@ -638,10 +645,12 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			short horizontalAlignment = getHorizontalAlignment(textAlignHolder);
 			short verticalAlignment = getVerticalAlignment(textAlignHolder);
 			short rotation = getRotation(textAlignHolder);
+			
+			XlsExporterConfiguration configuration = getCurrentConfiguration();
 
 			short mode = backgroundMode;
 			short backcolor = whiteIndex;
-			if (!getCurrentConfiguration().isIgnoreCellBackground() && textElement.getBackcolor() != null) {
+			if (!configuration.isIgnoreCellBackground() && textElement.getBackcolor() != null) {
 				mode = HSSFCellStyle.SOLID_FOREGROUND;
 				backcolor = getWorkbookColor(textElement.getBackcolor()).getIndex();
 			}
@@ -737,7 +746,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				}
 			}
 			
-			if(!ignoreAnchors) {
+			if(!configuration.isIgnoreAnchors()) {
 				String anchorName = textElement.getAnchorName();
 				if(anchorName != null) {
 					HSSFName aName = workbook.createName();
@@ -776,7 +785,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						break;
 					}
 					case LOCAL_ANCHOR : {
-						if(!ignoreAnchors) {
+						if(!getCurrentConfiguration().isIgnoreAnchors()) {
 							String href = hyperlink.getHyperlinkAnchor();
 							if (href != null) {
 								link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);

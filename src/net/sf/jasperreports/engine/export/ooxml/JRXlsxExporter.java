@@ -563,10 +563,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 	{
 		String href = null;
 
+		XlsExporterConfiguration configuration = getCurrentConfiguration();
+		
 		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
+			ignoreHyperlink = configuration.isIgnoreHyperlink();
 		}
 
 		if (!ignoreHyperlink)
@@ -586,7 +588,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 					}
 					case LOCAL_ANCHOR :
 					{
-						if (!ignoreAnchors && link.getHyperlinkAnchor() != null)
+						if (!configuration.isIgnoreAnchors() && link.getHyperlinkAnchor() != null)
 						{
 							href = link.getHyperlinkAnchor();
 						}
@@ -594,9 +596,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 					}
 					case LOCAL_PAGE :
 					{
-						if (!ignoreAnchors && link.getHyperlinkPage() != null)
+						if (!configuration.isIgnoreAnchors() && link.getHyperlinkPage() != null)
 						{
-							href = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (getCurrentConfiguration().isOnePagePerSheet() ? link.getHyperlinkPage().toString() : "1");
+							href = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (configuration.isOnePagePerSheet() ? link.getHyperlinkPage().toString() : "1");
 						}
 						break;
 					}
@@ -647,7 +649,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 
 	protected void insertPageAnchor(int colIndex, int rowIndex)
 	{
-		if(!ignoreAnchors && startPage)
+		if(!getCurrentConfiguration().isIgnoreAnchors() && startPage)
 		{
 			String anchorPage = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
 			String name = getCurrentConfiguration().isOnePagePerSheet() ? currentSheetName : firstSheetName;
@@ -833,9 +835,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 						);
 					firstPageNotSet = false;
 			}
-			else if(documentFirstPageNumber != null && documentFirstPageNumber > 0 && firstPageNotSet)
+			else
 			{
-				sheetHelper.exportFooter(
+				Integer documentFirstPageNumber = configuration.getFirstPageNumber();
+				if(documentFirstPageNumber != null && documentFirstPageNumber > 0 && firstPageNotSet)
+				{
+					sheetHelper.exportFooter(
 						sheetIndex, 
 						currentSheetJasperPrint == null ? jasperPrint : currentSheetJasperPrint, 
 						isIgnorePageMargins, 
@@ -844,11 +849,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 						documentFirstPageNumber,
 						false
 						);
-					firstPageNotSet = false;
-			}
-			else
-			{
-				sheetHelper.exportFooter(
+						firstPageNotSet = false;
+				}
+				else
+				{
+					sheetHelper.exportFooter(
 						sheetIndex, 
 						currentSheetJasperPrint == null ? jasperPrint : currentSheetJasperPrint, 
 						isIgnorePageMargins, 
@@ -857,6 +862,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 						null,
 						firstPageNotSet
 						);
+				}
 			}
 			sheetHelper.close();
 
@@ -1124,7 +1130,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 				}
 			}
 
-			if(!ignoreAnchors)
+			XlsExporterConfiguration configuration = getCurrentConfiguration();
+			
+			if(!configuration.isIgnoreAnchors())
 			{
 				insertPageAnchor(colIndex,rowIndex);
 				if (image.getAnchorName() != null)
@@ -1141,8 +1149,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 
 			sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
-			XlsExporterConfiguration configuration = getCurrentConfiguration();
-			
 			ImageAnchorTypeEnum imageAnchorType = 
 				ImageAnchorTypeEnum.getByName(
 					JRPropertiesUtil.getOwnProperty(image, XlsExporterConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
@@ -1358,7 +1364,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 //		writer.write(">");
 		
 //		tableHelper.getParagraphHelper().exportProps(text);
-		if(!ignoreAnchors)
+		if(!configuration.isIgnoreAnchors())
 		{
 			insertPageAnchor(colIndex,rowIndex);
 			if (text.getAnchorName() != null)

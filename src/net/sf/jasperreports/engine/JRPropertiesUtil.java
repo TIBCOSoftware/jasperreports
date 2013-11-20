@@ -577,6 +577,21 @@ public final class JRPropertiesUtil
 	}
 
 	/**
+	 * Returns the value of a property as a Float, looking first in the supplied properties holder
+	 * and then in the system properties.
+	 * 
+	 * @param propertiesHolder the properties holder
+	 * @param key the key
+	 * @return the property value
+	 */
+	public Float getFloatProperty(JRPropertiesHolder propertiesHolder, String key)
+	{
+		String value = getProperty(propertiesHolder, key);
+		
+		return value == null ? null : asFloat(value);
+	}
+	
+	/**
 	 * Returns the value of a property as a float, looking first in the supplied properties holder
 	 * and then in the system properties.
 	 * 

@@ -193,7 +193,14 @@ public class PropertiesExporterConfigurationFactory<C extends ExporterConfigurat
 			}
 			else if (Float.class.equals(type))
 			{
-				value = propertiesUtil.getFloatProperty(propertiesHolder, propertyName, exporterProperty.floatDefault());
+				if (exporterProperty.acceptNull())
+				{
+					value = propertiesUtil.getFloatProperty(propertiesHolder, propertyName);
+				}
+				else
+				{
+					value = propertiesUtil.getFloatProperty(propertiesHolder, propertyName, exporterProperty.floatDefault());
+				}
 			}
 			else if (Boolean.class.equals(type))
 			{

@@ -292,9 +292,10 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsExporterConfiguratio
 		) throws JRException
 	{
 		tableBuilder.exportText(text, gridCell);
-		if (!ignoreAnchors && text.getAnchorName() != null)
+		XlsExporterConfiguration configuration = getCurrentConfiguration();
+		if (!configuration.isIgnoreAnchors() && text.getAnchorName() != null)
 		{
-			String cellAddress = "$TBL_" + reportIndex + "_" + (getCurrentConfiguration().isOnePagePerSheet() ? pageIndex : 0) + "." + getCellAddress(rowIndex, colIndex);
+			String cellAddress = "$TBL_" + reportIndex + "_" + (configuration.isOnePagePerSheet() ? pageIndex : 0) + "." + getCellAddress(rowIndex, colIndex);
 			int lastCol = Math.max(0, colIndex + gridCell.getColSpan() -1);
 			String cellRangeAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), lastCol);
 			namedExpressions.append("<table:named-range table:name=\""+ JRStringUtil.xmlEncode(text.getAnchorName()) +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" + cellAddress +":" +cellRangeAddress +"\"/>\n");
@@ -413,11 +414,13 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsExporterConfiguratio
 				}
 			}
 
-			boolean isOnePagePerSheet = getCurrentConfiguration().isOnePagePerSheet();
+			XlsExporterConfiguration configuration = getCurrentConfiguration();
+			
+			boolean isOnePagePerSheet = configuration.isOnePagePerSheet();
 			
 //				tempBodyWriter.write("<text:p>");
 			documentBuilder.insertPageAnchor(tableBuilder);
-			if (!ignoreAnchors && image.getAnchorName() != null)
+			if (!configuration.isIgnoreAnchors() && image.getAnchorName() != null)
 			{
 				tableBuilder.exportAnchor(JRStringUtil.xmlEncode(image.getAnchorName()));
 				String cellAddress = "$TBL_" + reportIndex + "_" + (isOnePagePerSheet ? pageIndex : 0) + "." + getCellAddress(rowIndex, colIndex);
