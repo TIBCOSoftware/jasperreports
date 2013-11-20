@@ -521,9 +521,6 @@ public abstract class JRXlsAbstractExporter<C extends XlsExporterConfiguration, 
 	protected void initExport()
 	{
 		super.initExport();
-
-		workbookTemplate = workbookTemplate == null ? getPropertiesUtil().getProperty(jasperPrint, PROPERTY_WORKBOOK_TEMPLATE) : workbookTemplate;
-		keepTemplateSheets = keepTemplateSheets == null ? getPropertiesUtil().getBooleanProperty(jasperPrint, PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS, false) : keepTemplateSheets;
 	}
 
 	
@@ -1591,24 +1588,35 @@ public abstract class JRXlsAbstractExporter<C extends XlsExporterConfiguration, 
 	{
 		return scale != null && scale > 9 && scale < 401;
 	}
+
 	
-	// property setters
-	
+	/**
+	 * @deprecated Replaced by {@link XlsExporterConfiguration#isKeepWorkbookTemplateSheets()}.
+	 */
 	public boolean isWorkbookTemplateKeepSheets() {
 		return keepTemplateSheets;
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link XlsExporterConfiguration#isKeepWorkbookTemplateSheets()}.
+	 */
 	public void setWorkbookTemplateKeepSheets(boolean keepTemplateSheets) {
 		this.keepTemplateSheets = keepTemplateSheets;
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link XlsExporterConfiguration#getWorkbookTemplate()}.
+	 */
 	public String getWorkbookTemplate() {
 		return workbookTemplate;
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link XlsExporterConfiguration#getWorkbookTemplate()}.
+	 */
 	public void setWorkbookTemplate(String workbookTemplate) {
 		this.workbookTemplate = workbookTemplate;
 	}
