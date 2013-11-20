@@ -311,7 +311,7 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 			
 			String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 			
-			String rowFreeze = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_ROW_EDGE);
+			String rowFreeze = getPropertiesUtil().getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_ROW_EDGE);
 			
 			int rowFreezeIndex = rowFreeze == null 
 				? 0 
@@ -320,7 +320,7 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 						: rowIndex
 						);
 			
-			String columnFreeze = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE);
+			String columnFreeze = getPropertiesUtil().getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE);
 				
 			int columnFreezeIndex = columnFreeze == null 
 				? 0 
@@ -579,7 +579,7 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(element, XlsExporterConfiguration.PROPERTY_WRAP_TEXT, getCurrentConfiguration().isWrapText());
+			return getPropertiesUtil().getBooleanProperty(element, XlsExporterConfiguration.PROPERTY_WRAP_TEXT, getCurrentConfiguration().isWrapText());
 		}
 		return getCurrentConfiguration().isWrapText();
 	}
@@ -589,7 +589,6 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 	 */
 	protected boolean isCellLocked(JRPrintElement element)
 	{
-
 		if (
 			element.hasProperties()
 			&& element.getPropertiesMap().containsProperty(XlsExporterConfiguration.PROPERTY_CELL_LOCKED)
@@ -597,7 +596,7 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(element, XlsExporterConfiguration.PROPERTY_CELL_LOCKED, getCurrentConfiguration().isCellLocked());
+			return getPropertiesUtil().getBooleanProperty(element, XlsExporterConfiguration.PROPERTY_CELL_LOCKED, getCurrentConfiguration().isCellLocked());
 		}
 		return getCurrentConfiguration().isCellLocked();
 	}
@@ -631,7 +630,7 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(element, XlsExporterConfiguration.PROPERTY_CELL_HIDDEN, getCurrentConfiguration().isCellHidden());
+			return getPropertiesUtil().getBooleanProperty(element, XlsExporterConfiguration.PROPERTY_CELL_HIDDEN, getCurrentConfiguration().isCellHidden());
 		}
 		return getCurrentConfiguration().isCellHidden();
 	}

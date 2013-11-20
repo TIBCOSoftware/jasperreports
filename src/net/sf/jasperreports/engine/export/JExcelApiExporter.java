@@ -2625,7 +2625,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(element, JxlExporterConfiguration.PROPERTY_COMPLEX_FORMAT, getCurrentConfiguration().isComplexFormat());
+			return getPropertiesUtil().getBooleanProperty(element, JxlExporterConfiguration.PROPERTY_COMPLEX_FORMAT, getCurrentConfiguration().isComplexFormat());
 		}
 		return getCurrentConfiguration().isComplexFormat();
 	}

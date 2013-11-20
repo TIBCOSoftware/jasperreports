@@ -759,7 +759,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsExporterConfiguratio
 			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(ignLnkPropName, textElement);
 			if (ignoreHyperlink == null)
 			{
-				ignoreHyperlink = JRPropertiesUtil.getInstance(getJasperReportsContext()).getBooleanProperty(jasperPrint, ignLnkPropName, false);
+				ignoreHyperlink = getPropertiesUtil().getBooleanProperty(jasperPrint, ignLnkPropName, false);
 			}
 
 			if (!ignoreHyperlink)

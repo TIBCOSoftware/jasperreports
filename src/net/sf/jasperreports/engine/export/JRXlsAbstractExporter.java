@@ -1559,11 +1559,26 @@ public abstract class JRXlsAbstractExporter<C extends XlsExporterConfiguration, 
 		autoFilterEnd = null;
 	}
 	
+	/**
+	 * 
+	 */
+	protected boolean isUseTimeZone(JRPrintElement element)
+	{
+		if (
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(XlsExporterConfiguration.PROPERTY_USE_TIMEZONE)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getBooleanProperty(element, XlsExporterConfiguration.PROPERTY_USE_TIMEZONE, getCurrentConfiguration().isUseTimeZone());
+		}
+		return getCurrentConfiguration().isUseTimeZone();
+	}
+	
 	protected Date translateDateValue(JRPrintText text, Date value)
 	{
-		String prop = getPropertiesUtil().getProperty(PROPERTY_USE_TIMEZONE, 
-				text, jasperPrint);
-		if (JRPropertiesUtil.asBoolean(prop))
+		if (isUseTimeZone(text))
 		{
 			// translate the date to the timezone used at fill time
 			TimeZone tz = getTextTimeZone(text);
