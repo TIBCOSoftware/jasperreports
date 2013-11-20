@@ -265,7 +265,8 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_IGNORE_HYPERLINK = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
-	 * Flag property that indicates whether local anchors should be ignored when elements are exported to Excel. The default value is <code>false</code>.
+	 * Property that provides a default for the {@link #isIgnoreAnchors()} export configuration flag.
+	 * The default value is <code>false</code>.
 	 * <p>
 	 * Property scope:
 	 * <ul>
@@ -322,19 +323,14 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_FREEZE_COLUMN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.column";
 
 	/**
-	 * Property used to adjust all column widths in a document or sheet with the same width ratio, in order to get column width 
-	 * values suitable for Excel output. Usually column widths are measured by Excel in Normal style default character width 
-	 * units, while the JR engine uses pixels as default size units. When exporting the report to the Excel output format, the 
-	 * pixel-to-character width translation depends on the normal style default character width provided by the Excel instance, 
-	 * so it cannot be always accurately fitted. In this case, one can alter the generated column widths by setting this property 
-	 * with a float value representing the adjustment ratio. The property can be set:
+	 * Property used to provide a default value for the {@link #getColumnWidthRatio()} export configuration setting.
+	 * The property can be set:
 	 * <ul>
 	 * <li>globally - then all the columns in all documents exported to the Excel output format will be adjusted with the same width ratio</li>
 	 * <li>at report level - then all the columns in the document will be adjusted with the same width ratio</li>
 	 * <li>at element level - then all the columns in the current sheet will be adjusted with the same width ratio</li>
 	 * </ul> 
-	 * Global settings are overriden by report level settings and report level settings are overriden by element level settings. If 
-	 * present, a {@link #PROPERTY_COLUMN_WIDTH PROPERTY_COLUMN_WIDTH} property will override the 
+	 * If present, a {@link #PROPERTY_COLUMN_WIDTH PROPERTY_COLUMN_WIDTH} property will override the 
 	 * {@link #PROPERTY_COLUMN_WIDTH_RATIO PROPERTY_COLUMN_WIDTH_RATIO} value for that column only.
 	 * 
 	 * @see #PROPERTY_COLUMN_WIDTH
@@ -397,7 +393,7 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "workbook.template.keep.sheets";
 
 	/**
-	 * Property that specifies the first page number in the page setup dialog.
+	 * Property that specifies the default for the {@link #getFirstPageNumber()} exporter configuration setting.
 	 * <br/>
 	 * Property scope:
 	 * <ul>
@@ -405,7 +401,6 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 * <li><code>Report</code></li>
 	 * <li><code>Element</code> - this setting can be used to set the first page number per sheet.</li>
 	 * </ul>
-	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
 	 * 
 	 * @see JRPropertiesUtil
 	 */
@@ -824,6 +819,16 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	public Boolean isIgnoreHyperlink();
 	
 	/**
+	 * Flag that indicates whether local anchors should be ignored when elements are exported to Excel.
+	 * @see #PROPERTY_IGNORE_ANCHORS
+	 */
+	@ExporterProperty(
+		value=PROPERTY_IGNORE_ANCHORS, 
+		booleanDefault=false
+		)
+	public Boolean isIgnoreAnchors();
+	
+	/**
 	 * This setting indicates the number of pages wide to fit the sheet in.
 	 * @see #PROPERTY_FIT_WIDTH
 	 */
@@ -867,6 +872,30 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	@ExporterProperty(PROPERTY_SHEET_DIRECTION)
 	public RunDirectionEnum getSheetDirection();
 	
+	/**
+	 * Setting used to adjust all column widths in a document or sheet with the same width ratio, in order to get column width 
+	 * values suitable for Excel output. Usually column widths are measured by Excel in Normal style default character width 
+	 * units, while the JR engine uses pixels as default size units. When exporting the report to the Excel output format, the 
+	 * pixel-to-character width translation depends on the normal style default character width provided by the Excel instance, 
+	 * so it cannot be always accurately fitted. In this case, one can alter the generated column widths by setting this property 
+	 * with a float value representing the adjustment ratio.
+	 * @see #PROPERTY_COLUMN_WIDTH_RATIO
+	 */
+	@ExporterProperty(
+		value=PROPERTY_COLUMN_WIDTH_RATIO,
+		acceptNull=true
+		)
+	public Float getColumnWidthRatio();
+	
+	/**
+	 * Setting that specifies the first page number in the page setup dialog.
+	 * @see #PROPERTY_FIRST_PAGE_NUMBER
+	 */
+	@ExporterProperty(
+		value=PROPERTY_FIRST_PAGE_NUMBER,
+		acceptNull=true
+		)
+	public Integer getFirstPageNumber();
 	
 	/**
 	 * Flag that specifies if the gridlines in a given sheet are shown.

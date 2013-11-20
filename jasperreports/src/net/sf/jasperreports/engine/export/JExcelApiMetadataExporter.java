@@ -2101,10 +2101,14 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 			sheets.setPageStart(sheetInfo.sheetFirstPageNumber);
 			firstPageNotSet = false;
 		}
-		else if(documentFirstPageNumber != null && documentFirstPageNumber > 0 && firstPageNotSet)
+		else
 		{
-			sheets.setPageStart(documentFirstPageNumber);
-			firstPageNotSet = false;
+			Integer documentFirstPageNumber = configuration.getFirstPageNumber();
+			if(documentFirstPageNumber != null && documentFirstPageNumber > 0 && firstPageNotSet)
+			{
+				sheets.setPageStart(documentFirstPageNumber);
+				firstPageNotSet = false;
+			}
 		}
 		if(!firstPageNotSet && sheets.getFooter().getCentre().empty())
 		{

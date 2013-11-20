@@ -364,7 +364,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 			workbook.createSheet(EMPTY_SHEET_NAME, Integer.MAX_VALUE);
 		}
 
-		if(!ignoreAnchors) {
+		JxlExporterConfiguration configuration = getCurrentConfiguration();
+		
+		if(!configuration.isIgnoreAnchors()) {
 			Range[] range = null;
 			List<JExcelApiLocalHyperlinkInfo> hyperlinkInfoList = null;
 			for(String href : anchorLinks.keySet()){
@@ -392,8 +394,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 					}
 				}
 			}
-			
-			JxlExporterConfiguration configuration = getCurrentConfiguration();
 			
 			for(Integer href : pageLinks.keySet()){
 				hyperlinkInfoList = pageLinks.get(href);
@@ -664,7 +664,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 					isCellLocked(text)
 					);
 
-			if (!ignoreAnchors && text.getAnchorName() != null)
+			if (!configuration.isIgnoreAnchors() && text.getAnchorName() != null)
 			{
 				int lastCol = Math.max(0, col + gridCell.getColSpan() - 1);
 				int lastRow = Math.max(0, row + gridCell.getRowSpan() - 1);
@@ -707,7 +707,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 				}
 				case LOCAL_ANCHOR :
 				{
-					if(!ignoreAnchors) {
+					if(!getCurrentConfiguration().isIgnoreAnchors()) {
 						String href = link.getHyperlinkAnchor();
 						if(href != null){
 							int lastCol = Math.max(0, col + gridCell.getColSpan() - 1);
@@ -726,7 +726,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 				}
 				case LOCAL_PAGE :
 				{
-					if(!ignoreAnchors) {
+					if(!getCurrentConfiguration().isIgnoreAnchors()) {
 						Integer href = link.getHyperlinkPage();
 						if(href != null){
 							int lastCol = Math.max(0, col + gridCell.getColSpan() - 1);
@@ -1348,7 +1348,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 					isCellLocked(element)
 					);
 
-			if (!ignoreAnchors && element.getAnchorName() != null)
+			if (!configuration.isIgnoreAnchors() && element.getAnchorName() != null)
 			{
 				int lastCol = Math.max(0, col + gridCell.getColSpan() - 1);
 				int lastRow = Math.max(0, row + gridCell.getRowSpan() - 1);
@@ -2307,10 +2307,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 			sheets.setPageStart(sheetInfo.sheetFirstPageNumber);
 			firstPageNotSet = false;
 		}
-		else if(documentFirstPageNumber != null && documentFirstPageNumber > 0 && firstPageNotSet)
+		else
 		{
-			sheets.setPageStart(documentFirstPageNumber);
-			firstPageNotSet = false;
+			Integer documentFirstPageNumber = configuration.getFirstPageNumber();
+			if(documentFirstPageNumber != null && documentFirstPageNumber > 0 && firstPageNotSet)
+			{
+				sheets.setPageStart(documentFirstPageNumber);
+				firstPageNotSet = false;
+			}
 		}
 		if(!firstPageNotSet && sheets.getFooter().getCentre().empty())
 		{

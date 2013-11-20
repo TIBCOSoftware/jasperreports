@@ -262,9 +262,9 @@ public abstract class JRXlsAbstractExporter<C extends XlsExporterConfiguration, 
 	 * one can adjust the current column width by setting this property with an integer value measured in pixels. The JR engine 
 	 * will perform the pixel-to-character width mapping using this value instead of the element's <code>width</code> attribute.
 	 * <br/>
-	 * If defined, this property will override the {@link #PROPERTY_COLUMN_WIDTH_RATIO PROPERTY_COLUMN_WIDTH_RATIO} value for the current column
+	 * If defined, this property will override the {@link XlsExporterConfiguration#PROPERTY_COLUMN_WIDTH_RATIO PROPERTY_COLUMN_WIDTH_RATIO} value for the current column
 	 * 
-	 * @see #PROPERTY_COLUMN_WIDTH_RATIO
+	 * @see XlsExporterConfiguration#PROPERTY_COLUMN_WIDTH_RATIO
 	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_COLUMN_WIDTH = XLS_EXPORTER_PROPERTIES_PREFIX + "column.width";
@@ -426,14 +426,10 @@ public abstract class JRXlsAbstractExporter<C extends XlsExporterConfiguration, 
 	protected String autoFilterStart;		
 	protected String autoFilterEnd;		
 
-	protected Float columnWidthRatio;
-	protected Integer documentFirstPageNumber;		
 	protected boolean firstPageNotSet;
 	
 	protected Boolean keepTemplateSheets;
 	protected String workbookTemplate;
-	
-	protected boolean ignoreAnchors;
 	
 	protected String invalidCharReplacement;
 	
@@ -537,9 +533,6 @@ public abstract class JRXlsAbstractExporter<C extends XlsExporterConfiguration, 
 		
 		gridRowFreezeIndex = Math.max(0, getPropertiesUtil().getIntegerProperty(jasperPrint, PROPERTY_FREEZE_ROW, 0) - 1);
 		gridColumnFreezeIndex = Math.max(0, getColumnIndex(getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FREEZE_COLUMN)));	
-		columnWidthRatio = getPropertiesUtil().getFloatProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO, 0f);
-		documentFirstPageNumber = getPropertiesUtil().getIntegerProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FIRST_PAGE_NUMBER, 0);
-		ignoreAnchors = getPropertiesUtil().getBooleanProperty(jasperPrint,	PROPERTY_IGNORE_ANCHORS, false);
 		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
 		{
 			// allows null values for the property
@@ -951,12 +944,12 @@ public abstract class JRXlsAbstractExporter<C extends XlsExporterConfiguration, 
 					sheetInfo.sheetName = sheetName;
 				}
 
-				Integer firstPageNumber = (Integer)yCut.getProperty(PROPERTY_FIRST_PAGE_NUMBER);
+				Integer firstPageNumber = (Integer)yCut.getProperty(XlsExporterConfiguration.PROPERTY_FIRST_PAGE_NUMBER);
 				if (firstPageNumber != null)
 				{
 					sheetInfo.sheetFirstPageNumber = firstPageNumber;
 				}
-				Boolean showGridlines = (Boolean)yCut.getProperty(PROPERTY_SHOW_GRIDLINES);
+				Boolean showGridlines = (Boolean)yCut.getProperty(XlsExporterConfiguration.PROPERTY_SHOW_GRIDLINES);
 				if (showGridlines != null)
 				{
 					sheetInfo.sheetShowGridlines = showGridlines;
@@ -1067,12 +1060,22 @@ public abstract class JRXlsAbstractExporter<C extends XlsExporterConfiguration, 
 		
 		boolean isRemoveEmptySpaceBetweenColumns = configuration.isRemoveEmptySpaceBetweenColumns();
 
+		float sheetRatio = 1f; 
+
 		Map<String, Object> xCutsProperties = xCuts.getPropertiesMap();
-		Float ratio = (Float)xCutsProperties.get(XlsExporterConfiguration.PROPERTY_COLUMN_WIDTH_RATIO);
-		float sheetRatio = 
-			(ratio != null && ratio > 0f) 
-			? ratio 
-			: (columnWidthRatio > 0f ? columnWidthRatio : 1f);
+		Float columnWidthRatio = (Float)xCutsProperties.get(XlsExporterConfiguration.PROPERTY_COLUMN_WIDTH_RATIO);
+		if (columnWidthRatio != null && columnWidthRatio > 0f)
+		{
+			sheetRatio = columnWidthRatio;
+		}
+		else
+		{
+			columnWidthRatio = configuration.getColumnWidthRatio();
+			if (columnWidthRatio != null && columnWidthRatio > 0f)
+			{
+				sheetRatio = columnWidthRatio;
+			}
+		}
 		
 		int emptyCols = 0;
 		for(int xCutIndex = 0; xCutIndex < xCuts.size() - 1; xCutIndex++)
@@ -1593,16 +1596,6 @@ public abstract class JRXlsAbstractExporter<C extends XlsExporterConfiguration, 
 
 	public void setWorkbookTemplate(String workbookTemplate) {
 		this.workbookTemplate = workbookTemplate;
-	}
-
-	
-	public boolean isIgnoreAnchors() {
-		return ignoreAnchors;
-	}
-
-
-	public void setIgnoreAnchors(boolean ignoreAnchors) {
-		this.ignoreAnchors = ignoreAnchors;
 	}
 	
 	

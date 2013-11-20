@@ -397,11 +397,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 			printSetup.setUsePage(true);
 			firstPageNotSet = false;
 		}
-		else if(documentFirstPageNumber != null && documentFirstPageNumber > 0 && firstPageNotSet)
+		else
 		{
-			printSetup.setPageStart((short)documentFirstPageNumber.intValue());
-			printSetup.setUsePage(true);
-			firstPageNotSet = false;
+			Integer documentFirstPageNumber = configuration.getFirstPageNumber();
+			if(documentFirstPageNumber != null && documentFirstPageNumber > 0 && firstPageNotSet)
+			{
+				printSetup.setPageStart((short)documentFirstPageNumber.intValue());
+				printSetup.setUsePage(true);
+				firstPageNotSet = false;
+			}
 		}
 		if(!firstPageNotSet && (sheet.getFooter().getCenter() == null || sheet.getFooter().getCenter().length() == 0))
 		{
@@ -842,7 +846,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 			endCreateCell(cellStyle);
 		}
 		
-		if(!ignoreAnchors)
+		if(!configuration.isIgnoreAnchors())
 		{
 			String anchorName = textElement.getAnchorName();
 			if(anchorName != null)
@@ -1823,7 +1827,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 					}
 					case LOCAL_ANCHOR :
 					{
-						if(!ignoreAnchors)
+						if(!getCurrentConfiguration().isIgnoreAnchors())
 						{
 							String href = hyperlink.getHyperlinkAnchor();
 							if (href != null)

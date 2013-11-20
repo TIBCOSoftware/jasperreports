@@ -61,11 +61,14 @@ public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguratio
 	private String password;
 	private String[] sheetNames;
 	private Map<String,String> formatPatternsMap;
-	private boolean isIgnoreHyperlink;
+	private Boolean isIgnoreHyperlink;
+	private Boolean isIgnoreAnchors;
 	private Integer fitWidth;
 	private Integer fitHeight;
 	private Integer pageScale;
 	private RunDirectionEnum sheetDirection;
+	private Float columnWidthRatio;
+	private Integer firstPageNumber;
 	private Boolean isShowGridLines;
 	private ImageAnchorTypeEnum imageAnchorType;
 	
@@ -567,6 +570,24 @@ public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguratio
 	/**
 	 * 
 	 */
+	public Boolean isIgnoreAnchors()
+	{
+		return isIgnoreAnchors;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public void setIgnoreAnchors(Boolean isIgnoreAnchors)
+	{
+		this.isIgnoreAnchors = isIgnoreAnchors;
+	}
+
+	
+	/**
+	 * 
+	 */
 	public Integer getFitWidth()
 	{
 		return fitWidth;
@@ -633,6 +654,42 @@ public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguratio
 	public void setSheetDirection(RunDirectionEnum sheetDirection)
 	{
 		this.sheetDirection = sheetDirection;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public Float getColumnWidthRatio()
+	{
+		return columnWidthRatio;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public void setColumnWidthRatio(Float columnWidthRatio)
+	{
+		this.columnWidthRatio = columnWidthRatio;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public Integer getFirstPageNumber()
+	{
+		return firstPageNumber;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public void setFirstPageNumber(Integer firstPageNumber)
+	{
+		this.firstPageNumber = firstPageNumber;
 	}
 
 	
