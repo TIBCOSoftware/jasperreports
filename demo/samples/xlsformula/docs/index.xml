@@ -70,7 +70,7 @@ Enabling the cell type detection can be done setting the export hint property <c
 </code>
 <br/>
 <br/>
-In JasperReports a formula can be stored using the <api href="net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_CELL_FORMULA">PROPERTY_CELL_FORMULA</api> text field property.
+In JasperReports a formula can be stored using the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_CELL_FORMULA">PROPERTY_CELL_FORMULA</api> text field property.
 <br/>
 The property name is <code>net.sf.jasperreports.export.xls.formula</code>, and usually its value is a string containing the formula expression. 
 The expression can be a very simple one, or a more and more complex, as needed.
