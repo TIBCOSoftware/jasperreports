@@ -47,17 +47,24 @@ document layout. This sample shows one by one these recently added properties an
 One of the main preoccupations when exporting to Excel output format is to ensure that every sheet in the document has a proper name, because no-named 
 sheets are not allowed in Excel. Older JasperReports versions provided several ways to accomplish this, to cover as many as possible situations. Users 
 either can rely on the engine's default sheet naming procedure, or they can provide themselves  custom sheet names at runtime based on the 
-<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#SHEET_NAMES">SHEET_NAMES</api> export parameter. This second option is 
-very useful when dynamic sheet names are involved, but it cannot cover all possible situations. One of the main troubles when using the 
-<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#SHEET_NAMES">SHEET_NAMES</api> parameter is the impossibility to be set 
-at design time, so it has to be Java hardcoded at runtime. 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getSheetNames()">getSheetNames()</api> export configuration setting. This second option is 
+very useful when dynamic sheet names are involved, but it cannot cover all possible situations. One of the main troubles when using this setting 
+is the impossibility to be used at design time, so it has to be Java hardcoded at runtime. 
 <br/>
-To solve such kind of problems, a new export custom property was added: 
-<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_SHEET_NAME">net.sf.jasperreports.export.xls.sheet.name</api>. 
-It may be set at element level and, if present, it overrides all other settings for the current sheet name (ie the sheet name provided by the 
-<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#SHEET_NAMES">SHEET_NAMES</api> parameter or by the document-level 
-sheet names properties). Since this new property supports also expressions, it's completely suitable for dynamic sheet names.
-<br/>
+To solve such kind of problems, 2 new export custom properties were added: 
+<ul>
+<li>If sheet names are known at design time, they can be specified in one or more properties at report level, starting with the 
+<code>net.sf.jasperreports.export.xls.sheet.names.</code> prefix: 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_SHEET_NAMES_PREFIX">net.sf.jasperreports.export.xls.sheet.names.{suffix}</api>. 
+A <code>net.sf.jasperreports.export.xls.sheet.names.{suffix}</code> property may contain one or several sheet names separated by a slash (/), and does not support 
+dynamic values via the <code>propertyExpression</code>.
+</li>
+<li>Another way is to use the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_SHEET_NAME">net.sf.jasperreports.export.xls.sheet.name</api> 
+property. It may be set at element level and, if present, will override all other settings for the current sheet name (ie the sheet name provided by the 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getSheetNames()">getSheetNames()</api> exporter setting or by the document-level 
+sheet names properties). Since this property supports also expressions, it's completely suitable for dynamic sheet names.
+</li>
+</ul>
 In our <code>demo/samples/xlsfeatures/reports/XlsFeaturesReport.jrxml</code> sample one could see an example of usage in the text element labeled 
 <code>ID</code> in the page header:
 <pre><![CDATA[
@@ -77,8 +84,8 @@ Here comes the <code>pattern</code> attribute of textfields to solve the problem
 <code>pattern</code> attribute contains standard Java format patterns. Unfortunately, not all patterns valid for Java are valid for Excel too. There are situations 
 where such a pattern should be translated in order to be recognized in Excel.
 <br/>
-An older way to realize this translation is to use the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#FORMAT_PATTERNS_MAP">FORMAT_PATTERNS_MAP</api> 
-export parameter at runtime, with the same inconvenient as shown in the <a href="#dynamicSheetNames">Dynamic Sheet Names</a> section: the need of Java hardcoding at runtime.
+An older way to realize this translation is to use the <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getFormatPatternsMap()">getFormatPatternsMap()</api> 
+exporter setting at runtime, with the same inconvenient as shown in the <a href="#dynamicSheetNames">Dynamic Sheet Names</a> section: the need of Java hardcoding.
 <br/>
 Instead of this, now one has the possibility to specify the proper format pattern for Excel right in the report sample, at element level, using the custom property 
 <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_CELL_PATTERN">net.sf.jasperreports.export.xls.pattern</api>
@@ -118,7 +125,7 @@ present in the report.</li>
 <li>If the width adjustment is required for all columns in a sheet or in the entire document, the use of the 
 <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH">net.sf.jasperreports.export.xls.column.width</api> property per 
 each distinct column could be bypassed with the 
-<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH_RATIO">net.sf.jasperreports.export.xls.column.width.ratio</api> property. 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_COLUMN_WIDTH_RATIO">net.sf.jasperreports.export.xls.column.width.ratio</api> property. 
 Its value, a floating point number, represents the ratio used to adjust all column widths in the sheet or in the document. When it's defined at report level all columns in 
 the document will be affected, and when it's defined at element level only columns present in the current sheet will be affected. Settings at element level override 
 settings at document level. This behavior is illustrated in the JRXML sample as it follows:
@@ -145,8 +152,8 @@ There are multiple ways to define freeze panes in JR and they can also be combin
 <li>The first category of properties contain settings for the entire document. There are separate properties for rows and column in order to allow possible 
 combinations with properties at element level. The 2 document-level properties are 
 <ul>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_ROW">net.sf.jasperreports.export.xls.freeze.row</api> and</li>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_COLUMN">net.sf.jasperreports.export.xls.freeze.column</api></li>
+<li><api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_FREEZE_ROW">net.sf.jasperreports.export.xls.freeze.row</api> and</li>
+<li><api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_FREEZE_COLUMN">net.sf.jasperreports.export.xls.freeze.column</api></li>
 </ul> 
 Their values should represent valid row indexes and column names in Excel. The freeze row (or column) property defined at report level can be combined with a 
 freeze column (or row) property defined at element level to delimit the freeze pane edges. As usual, element-level settings will override document-level settings.</li>
@@ -284,7 +291,7 @@ objects, but valid Excel documents instead? The batch export has no answers for 
 <br/>
 In order to solve this kind of requirements, two new exporter properties were added starting with v4.5.1:
 <ul>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_WORKBOOK_TEMPLATE">net.sf.jasperreports.export.xls.workbook.template</api> 
+<li><api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_WORKBOOK_TEMPLATE">net.sf.jasperreports.export.xls.workbook.template</api> 
 - one can use this property to store the 
 location of an existing Excel workbook template. The content of the exported report will be appended to the 
 content of the template document at export time. All settings of the template document along with its embedded 
@@ -295,7 +302,7 @@ This property may be used in Excel exporters based either on Apache POI APIs (su
 <api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api>) or on the 
 JExcelApi library (the <api href="net/sf/jasperreports/engine/export/JExcelApiExporter.html">JExcelApiExporter</api>). 
 There's no similar property for the <api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api>.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS">net.sf.jasperreports.export.xls.workbook.template.keep.sheets</api> 
+<li><api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS">net.sf.jasperreports.export.xls.workbook.template.keep.sheets</api> 
 - specifies whether to keep the 
 sheets of the existing template into generated document. Sometimes only macros and/or other global settings from 
 an existing template are needed in the generated document, without keeping the actual content of the template. 
@@ -319,7 +326,7 @@ the macro imported from the template file by pressing CTRL+SHIFT+T and see how f
 For the moment embedding entire content from external documents does not apply to the 
 <api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api>. But 
 it still keeps the possibility to import macros from an existing template into the generated document. To do so, just 
-use the related <api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html#PROPERTY_MACRO_TEMPLATE">net.sf.jasperreports.export.xlsx.macro.template</api> 
+use the related <api href="net/sf/jasperreports/export/XlsxExporterConfiguration.html#PROPERTY_MACRO_TEMPLATE">net.sf.jasperreports.export.xlsx.macro.template</api> 
 property that stores the location of 
 an existing workbook template containing the macro object.
 <br/>
