@@ -3535,7 +3535,7 @@ Its value is used as default for the
 Property that determines whether date values are to be translated to the timezone that was used to fill the report.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isRemoveEmptySpaceBetweenRows()">isRemoveEmptySpaceBetweenRows()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isUseTimeZone()">isUseTimeZone()</api> Excel export configuration setting.
 <br/>
 By default, date values are exported to Excel using the default timezone of the system.
 Setting this property to <code>true</code> instructs the exporter to use he report fill timezone to export date values.
@@ -3569,7 +3569,12 @@ Its value is used as default for the
   
   <configProperty name="net.sf.jasperreports.export.xls.workbook.template">
     <description>
-Property used to store the location of an existing workbook template. The content of an existing workbook document 
+Property used to store the location of an existing workbook template. 
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getWorkbookTemplate()">getWorkbookTemplate()</api> Excel export configuration setting.
+<br/>
+The content of an existing workbook document 
 or template can be embedded into exported document if the template location is known. In this case the content of 
 the template will be exported first and the content of the exported report will be appended to this one. Macros and 
 other settings in the existing template will be also preserved in the generated document. Templates can be loaded from 
@@ -3591,10 +3596,12 @@ for the <api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html"
   
   <configProperty name="net.sf.jasperreports.export.xls.workbook.template.keep.sheets">
     <description>
-Flag property that specifies whether to keep the sheets of the existing template into generated document. Sometimes 
-is important to embed in a generated document only macros and/or other global settings from an existing template, but 
-without keeping the own sheets of the template document. If set to false, this property prevent the template sheets 
-to be exported.
+Flag property that specifies whether to keep the sheets of the existing template into generated document. 
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isKeepWorkbookTemplateSheets()">isKeepWorkbookTemplateSheets()</api> Excel export configuration setting.
+Sometimes is important to embed in a generated document only macros and/or other global settings from an existing template, but 
+without keeping the own sheets of the template document. If set to false, this property prevent the template sheets to be exported.
 <br/>
 This property is used in conjunction with <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_WORKBOOK_TEMPLATE">PROPERTY_WORKBOOK_TEMPLATE</api>.
 <br/>
