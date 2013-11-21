@@ -62,26 +62,26 @@ When exporting to the PDF format the engine has to know five additional things a
 and uses five dedicated exporter parameters for this:
 <ul>
 <li>Is the document encrypted? The export configuration setting  
-<api href="net/sf/jasperreports/export/SimplePdfExporterConfiguration.html#setEncrypted()">setEncrypted()</api> 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getEncrypted()">getEncrypted()</api> 
 answers to this question. If set to <code>true</code>, it instructs the exporter to 
 encrypt the resulting PDF document. By default PDF files are not encrypted. 
 <br/>One can use the related 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_ENCRYPTED">PROPERTY_ENCRYPTED</api> flag property for the same purpose.</li> 
 <li>Which key to use for the encrypted document? By default the PDF exporter uses a 40-bit key for encryption, 
-but if needed, it can use a 128-bit one. Setting the <api href="net/sf/jasperreports/export/SimplePdfExporterConfiguration.html#set128BitKey()">set128BitKey()</api> 
+but if needed, it can use a 128-bit one. Setting the <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#get128BitKey()">get128BitKey()</api> 
 configuration setting or the equivalent  
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_128_BIT_KEY">PROPERTY_128_BIT_KEY</api> 
 flag property to <code>true</code> will instruct the engine to use a 128-bit key.</li>
 <li>The user password. This can be set using the 
-<api href="net/sf/jasperreports/export/SimplePdfExporterConfiguration.html#setUserPassword()}">setUserPassword()</api> export configuration setting 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getUserPassword()}">getUserPassword()</api> export configuration setting 
 or the related <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_USER_PASSWORD">PROPERTY_USER_PASSWORD</api>  
 property.</li>
 <li>The owner password. This can be set using the export configuration setting 
-<api href="net/sf/jasperreports/export/SimplePdfExporterConfiguration.html#setOwnerPassword()}">setOwnerPassword()</api> 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getOwnerPassword()}">getOwnerPassword()</api> 
 or the related <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_OWNER_PASSWORD">PROPERTY_OWNER_PASSWORD</api> 
 property.</li>
 <li>User permissions. They can be set using the 
-<api href="net/sf/jasperreports/export/SimplePdfExporterConfiguration.html#setPermissions()">setPermissions()</api> export configuration setting. 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getPermissions()">getPermissions()</api> export configuration setting. 
 This exporter parameter accepts <code>java.lang.Integer</code> values 
 representing the PDF permissions for the generated document. The open permissions for 
 the document can be <code>AllowPrinting</code>, <code>AllowModifyContents</code>, <code>AllowCopy</code>, 

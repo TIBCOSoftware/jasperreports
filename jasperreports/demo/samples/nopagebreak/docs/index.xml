@@ -101,8 +101,8 @@ user-friendly webpage and removing the extra blank space between pages is requir
 If this property is <code>true</code>, then all empty rows in the generated HTML table will be collapsed, leading to a completely flow-oriented layout. 
 By default, the exporter preserves all the whitespace for pixel-perfect page layouts.</li> 
 <li>All document pages will be printed out in a sequence where page breaks appear as a custom HTML separator. One can replace the default blank space between pages with 
-a customized separator element (a horizontal line, for example). The HTML code fragment for the custom separator can be set using the 
-<api href="net/sf/jasperreports/export/SimpleHtmlExporterConfiguration.html#setBetweenPagesHtml()">setBetweenPagesHtml()</api> export configuration setting method.</li>
+a customized separator element (a horizontal line, for example). The HTML code fragment for the custom separator can be obtained using the 
+<api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#getBetweenPagesHtml()">getBetweenPagesHtml()</api> export configuration setting.</li>
 </ul>
 <b>Handling Page Breaks with XLS Exporters</b>
 <br/>
