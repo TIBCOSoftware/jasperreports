@@ -391,6 +391,7 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_style = "style";
 	public static final String ATTRIBUTE_origin = "origin";
 	public static final String ATTRIBUTE_srcId = "srcId";
+	public static final String ATTRIBUTE_printId = "printId";
 
 	public static final String ATTRIBUTE_radius = "radius";
 

@@ -61,10 +61,21 @@ public class JRRecordedValuesPrintImage extends JRTemplatePrintImage implements 
 	 * 
 	 * @param image
 	 * @param sourceElementId the Id of the source element
+	 * @deprecated replaced by {@link #JRRecordedValuesPrintImage(JRTemplateImage, PrintElementOriginator)}
 	 */
 	public JRRecordedValuesPrintImage(JRTemplateImage image, int sourceElementId)
 	{
 		super(image, sourceElementId);
+	}
+
+	/**
+	 * 
+	 * @param image
+	 * @param originator
+	 */
+	public JRRecordedValuesPrintImage(JRTemplateImage image, PrintElementOriginator originator)
+	{
+		super(image, originator);
 	}
 
 	public JRRecordedValues getRecordedValues()

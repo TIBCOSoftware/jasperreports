@@ -770,7 +770,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	
 	protected void addCrosstabChunk(List<JRPrintElement> elements, int yOffset)
 	{
-		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getTemplateFrame(), elementId);
+		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getTemplateFrame(), printElementOriginator);
 		//printFrame.setUUID(getUUID());
 		printFrame.setX(0);
 		printFrame.setY(yOffset);
@@ -881,7 +881,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		JRTemplateGenericElement genericElementTemplate = new JRTemplateGenericElement(
 				getElementOrigin(), defaultStyleProvider, CROSSTAB_INTERACTIVE_ELEMENT_TYPE);
 		JRTemplateGenericPrintElement genericElement = new JRTemplateGenericPrintElement(
-				genericElementTemplate, elementId);
+				genericElementTemplate, printElementOriginator);//use a different source id?
 		genericElement.setX(0);
 		genericElement.setY(0);
 		genericElement.setWidth(1);

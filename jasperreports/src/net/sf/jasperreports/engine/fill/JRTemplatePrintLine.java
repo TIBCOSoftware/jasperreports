@@ -67,10 +67,22 @@ public class JRTemplatePrintLine extends JRTemplatePrintGraphicElement implement
 	 * 
 	 * @param line the template line that the element will use
 	 * @param sourceElementId the Id of the source element
+	 * @deprecated replaced by {@link #JRTemplatePrintLine(JRTemplateLine, PrintElementOriginator)}
 	 */
 	public JRTemplatePrintLine(JRTemplateLine line, int sourceElementId)
 	{
 		super(line, sourceElementId);
+	}
+
+	/**
+	 * Creates a print line element.
+	 * 
+	 * @param line the template line that the element will use
+	 * @param originator
+	 */
+	public JRTemplatePrintLine(JRTemplateLine line, PrintElementOriginator originator)
+	{
+		super(line, originator);
 	}
 	
 	/**

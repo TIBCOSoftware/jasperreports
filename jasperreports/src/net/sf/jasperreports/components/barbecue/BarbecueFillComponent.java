@@ -96,7 +96,7 @@ public class BarbecueFillComponent extends BaseFillComponent
 	{
 		JRTemplateImage templateImage = getTemplateImage();
 		
-		JRTemplatePrintImage image = new JRTemplatePrintImage(templateImage, elementId);
+		JRTemplatePrintImage image = new JRTemplatePrintImage(templateImage, printElementOriginator);
 		JRComponentElement element = fillContext.getComponentElement();
 		image.setUUID(element.getUUID());
 		image.setX(element.getX());

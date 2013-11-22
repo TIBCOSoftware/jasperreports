@@ -62,7 +62,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	private final Map<BoxContents,JRFillCellContents> boxContentsCache;
 	private final JRClonePool clonePool;
 	private final JROriginProvider originProvider;
-	private final int elementId;
+	private final PrintElementOriginator printElementOriginator;
 	
 	private JRFillCellContents original;
 	
@@ -97,7 +97,10 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		parentCell = cell;
 		this.cellType = cellType;
-		elementId = filler.getFillContext().generateFillElementId();
+		
+		
+		int elementId = filler.getFillContext().generateFillElementId();
+		printElementOriginator = new DefaultPrintElementOriginator(elementId);
 		
 		lineBox = cell.getLineBox().clone(this);
 		
@@ -133,7 +136,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		parentCell = cellContents.parentCell;
 		cellType = cellContents.cellType;
-		elementId = cellContents.elementId;
+		printElementOriginator = cellContents.printElementOriginator;
 		
 		lineBox = cellContents.getLineBox().clone(this);
 		
@@ -394,7 +397,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		moveBandBottomElements();
 		removeBlankElements();
 
-		JRTemplatePrintFrame printCell = new JRTemplatePrintFrame(getTemplateFrame(), elementId);
+		JRTemplatePrintFrame printCell = new JRTemplatePrintFrame(getTemplateFrame(), printElementOriginator);
 		//printCell.setUUID();
 		printCell.setX(x);
 		printCell.setY(y);

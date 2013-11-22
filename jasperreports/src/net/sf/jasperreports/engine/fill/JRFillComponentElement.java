@@ -267,7 +267,13 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 
 	public int getElementSourceId()
 	{
-		return elementId;
+		return printElementOriginator.getSourceElementId();
+	}
+	
+	@Override
+	public PrintElementOriginator getPrintElementOriginator()
+	{
+		return printElementOriginator;
 	}
 
 	public JROrigin getElementOrigin()
