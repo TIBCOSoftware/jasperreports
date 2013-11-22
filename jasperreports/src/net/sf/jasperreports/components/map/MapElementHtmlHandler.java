@@ -112,7 +112,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 //		velocityContext.put("divClass", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.class"));
 		
 		Exporter<ExporterInput, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter = context.getExporterRef(); 
-		HtmlExporter htmlExporter2 = (HtmlExporter)exporter;
+		HtmlExporter htmlExporter2 = exporter instanceof HtmlExporter ? (HtmlExporter)exporter : null; 
 		if (htmlExporter2 == null)
 		{
 			xhtmlExport(exporter, contextMap, element);
