@@ -74,7 +74,9 @@ public interface CsvMetadataExporterConfiguration extends CsvExporterConfigurati
 
 	/**
 	 * Returns an array of strings representing the comma-separated names of the columns that should be exported.
+	 * <p>
 	 * NOTE: The order of the columns is important and, for accurate results, they should be in the same order as the original columns.
+	 * </p>
 	 * @see #PROPERTY_COLUMN_NAMES_PREFIX
 	 */
 	@SuppressWarnings("deprecation")
