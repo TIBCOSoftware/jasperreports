@@ -62,15 +62,21 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public static final String PROPERTY_MAP_TYPE = "mapType";
 	public static final String PROPERTY_MAP_SCALE = "mapScale";
 	public static final String PROPERTY_IMAGE_TYPE = "imageType";
-	public static final String PROPERTY_MARKER_DATA = "markerData";
 	public static final String PROPERTY_ON_ERROR_TYPE = "onErrorType";
+	public static final String PROPERTY_MARKER_DATA_LIST = "markerDataList";
 	public static final String PROPERTY_PATH_STYLE_LIST = "pathStyleList";
 	public static final String PROPERTY_PATH_DATA_LIST = "pathDataList";
+	
 	/**
 	 * @deprecated Replaced by {@link #PROPERTY_MARKER_DATA}.
 	 */
 	public static final String PROPERTY_MARKER_DATASET = "markerDataset";
 
+	/**
+	 * @deprecated Replaced by {@link #PROPERTY_MARKER_DATA_LIST}.
+	 */
+	public static final String PROPERTY_MARKER_DATA = "markerData";
+	
 	private JRExpression latitudeExpression;
 	private JRExpression longitudeExpression;
 	private JRExpression addressExpression;
@@ -81,8 +87,9 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private MapTypeEnum mapType;
 	private MapScaleEnum mapScale;
 	private MapImageTypeEnum imageType;
-	private ItemData markerData;
+
 	private OnErrorTypeEnum onErrorType;
+	private List<ItemData> markerDataList = new ArrayList<ItemData>();
 	private List<ItemData> pathStyleList = new ArrayList<ItemData>();
 	private List<ItemData> pathDataList = new ArrayList<ItemData>();
 	
@@ -104,10 +111,14 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		this.mapType = map.getMapType();
 		this.mapScale = map.getMapScale();
 		this.imageType = map.getImageType();
-		if(map.getMarkerData() != null)
+		List<ItemData> markerList = map.getMarkerDataList();
+		if(markerList != null && markerList.size() > 0)
 		{
-			this.markerData = new StandardItemData(map.getMarkerData(), objectFactory);
-		}
+			this.markerDataList = new ArrayList<ItemData>();
+			for(ItemData markerData : markerList){
+				this.markerDataList.add(new StandardItemData(markerData, objectFactory));
+			}
+		} 
 		this.onErrorType = map.getOnErrorType();
 		List<ItemData> styleList = map.getPathStyleList();
 		if(styleList != null && styleList.size() > 0)
@@ -242,7 +253,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		clone.addressExpression = JRCloneUtils.nullSafeClone(addressExpression);
 		clone.zoomExpression = JRCloneUtils.nullSafeClone(zoomExpression);
 		clone.languageExpression = JRCloneUtils.nullSafeClone(languageExpression);
-		clone.markerData = JRCloneUtils.nullSafeClone(markerData);
+		clone.markerDataList = JRCloneUtils.cloneList(markerDataList);
 		clone.pathStyleList = JRCloneUtils.cloneList(pathStyleList);
 		clone.pathDataList = JRCloneUtils.cloneList(pathDataList);
 		clone.eventSupport = null;
@@ -279,14 +290,18 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_IMAGE_TYPE, old, this.imageType);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getMarkerDataList()}.
+	 */
 	public ItemData getMarkerData() {
-		return markerData;
+		return markerDataList.get(0);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #addMarkerData(ItemData)}.
+	 */
 	public void setMarkerData(ItemData markerData) {
-		Object old = this.markerData;
-		this.markerData = markerData;
-		getEventSupport().firePropertyChange(PROPERTY_MARKER_DATA, old, this.markerData);
+		addMarkerData(markerData);
 	}
 
 
@@ -323,19 +338,35 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	 * @deprecated
 	 */
 	private MarkerDataset markerDataset;
+	/**
+	 * @deprecated Replaced by {@link #markerDataList}.
+	 */
+	private ItemData markerData;
 	
 	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
 		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_5_2) 	//FIXME: choose the correct value for version
 		{
 			if (markerDataset != null)
 			{
-				markerData = StandardMarkerDataset.getItemData(markerDataset);
+				if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0){
+					markerData = StandardMarkerDataset.getItemData(markerDataset);
+				} else {
+					this.markerDataList = new ArrayList<ItemData>();
+					this.markerDataList.add(StandardMarkerDataset.getItemData(markerDataset));
+				}
 			}
 			markerDataset = null;
+			
+			if (markerData != null)
+			{
+				this.markerDataList = new ArrayList<ItemData>();
+				this.markerDataList.add(markerData);
+			}
+			markerData = null;
 		}
 	}
 
@@ -382,6 +413,51 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 			}
 		}
 		return pathStyle;
+	}
+	
+	@Override
+	public List<ItemData> getMarkerDataList() {
+		return this.markerDataList;
+	}
+	
+	/**
+	 *
+	 */
+	public void addMarkerData(ItemData markerData)
+	{
+		markerDataList.add(markerData);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER_DATA_LIST, markerData, markerDataList.size() - 1);
+	}
+	
+	/**
+	 *
+	 */
+	public void addMarkerData(int index, ItemData markerData)
+	{
+		if(index >=0 && index < markerDataList.size())
+			markerDataList.add(index, markerData);
+		else{
+			markerDataList.add(markerData);
+			index = markerDataList.size() - 1;
+		}
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER_DATA_LIST, markerDataList, index);
+	}
+	
+	/**
+	 *
+	 */
+	public ItemData removeMarkerData(ItemData markerData)
+	{
+		if (markerData != null)
+		{
+			int idx = markerDataList.indexOf(markerData);
+			if (idx >= 0)
+			{
+				markerDataList.remove(idx);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_MARKER_DATA_LIST, markerData, idx);
+			}
+		}
+		return markerData;
 	}
 	
 	@Override

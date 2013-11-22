@@ -440,8 +440,10 @@
 							<complexType mixed="true"/>
 						</element>
 						<choice minOccurs="0" maxOccurs="1">
-							<element ref="c:markerDataset"/>						
-							<element ref="c:markerData"/>						
+							<element ref="c:markerDataset"/>
+							<sequence>						
+								<element ref="c:markerData" minOccurs="0" maxOccurs="unbounded"/>
+							</sequence>						
 						</choice>
 						<element ref="c:pathStyle" minOccurs="0" maxOccurs="unbounded"/>						
 						<element ref="c:pathData" minOccurs="0" maxOccurs="unbounded"/>						

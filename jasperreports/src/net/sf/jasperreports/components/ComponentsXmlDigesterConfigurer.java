@@ -283,12 +283,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addFactoryCreate(markerPropertyPattern, net.sf.jasperreports.components.map.MarkerPropertyXmlFactory.class.getName());
 		digester.addSetNext(markerPropertyPattern, "addMarkerProperty", net.sf.jasperreports.components.map.MarkerProperty.class.getName());
 
-		String markerDataPattern = mapPattern + "/markerData";
-		digester.addFactoryCreate(markerDataPattern, ItemDataXmlFactory.class.getName());
-		digester.addSetNext(markerDataPattern, "setMarkerData", ItemData.class.getName());
-		
-		addItemRules(digester, markerDataPattern + "/item", jrNamespace);
-		
 		digester.setRuleNamespaceURI(jrNamespace);
 		
 		String markerPropertyValueExpressionPattern = markerPropertyPattern + "/" + JRXmlConstants.ELEMENT_valueExpression;
@@ -296,6 +290,15 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addCallMethod(markerPropertyValueExpressionPattern, "setText", 0);
 		digester.addSetNext(markerPropertyValueExpressionPattern, "setValueExpression", JRExpression.class.getName());
 		
+		digester.setRuleNamespaceURI(componentNamespace);
+		
+		String markerDataPattern = mapPattern + "/markerData";
+		digester.addFactoryCreate(markerDataPattern, ItemDataXmlFactory.class.getName());
+		digester.addSetNext(markerDataPattern, "addMarkerData", ItemData.class.getName());
+		
+		addItemRules(digester, markerDataPattern + "/item", jrNamespace);
+		
+		digester.setRuleNamespaceURI(jrNamespace);
 		digester.addFactoryCreate(markerDataPattern + "/dataset", ItemDatasetFactory.class.getName());
 		digester.addSetNext(markerDataPattern + "/dataset", "setDataset", JRElementDataset.class.getName());
 		
