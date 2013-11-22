@@ -58,7 +58,14 @@ public class MapCompiler implements ComponentCompiler
 		collector.addExpression(map.getAddressExpression());
 		collector.addExpression(map.getZoomExpression());
 		collector.addExpression(map.getLanguageExpression());
-		collectExpressions(map.getMarkerData(), collector);
+		collectExpressions(map.getMarkerDataset(), collector);
+
+		List<ItemData> markerDataList = map.getMarkerDataList();
+		if(markerDataList != null && markerDataList.size() > 0) {
+			for(ItemData markerData : markerDataList){
+				collectExpressions(markerData, collector);
+			}
+		}
 		List<ItemData> pathStyleList = map.getPathStyleList();
 		if(pathStyleList != null && pathStyleList.size() > 0) {
 			for(ItemData pathStyle : pathStyleList){
@@ -174,10 +181,12 @@ public class MapCompiler implements ComponentCompiler
 		}
 		
 		String[] reqNames = new String[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude};
-		ItemData markerData = map.getMarkerData();
-		if (markerData != null)
+		List<ItemData> markerDataList = map.getMarkerDataList();
+		if (markerDataList != null && markerDataList.size() > 0)
 		{
-			verifyItemData(verifier, markerData, MapComponent.ELEMENT_MARKER_DATA, reqNames, addressMap);
+			for(ItemData markerData : markerDataList){
+				verifyItemData(verifier, markerData, MapComponent.ELEMENT_MARKER_DATA, reqNames, addressMap);
+			}
 		}
 		
 		List<ItemData> pathStyleList = map.getPathStyleList();

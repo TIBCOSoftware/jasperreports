@@ -94,7 +94,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	private String key;
 	private String version;
 
-	private FillItemData markerData;
+	private List<FillItemData> markerDataList;
 	private List<FillItemData> pathStyleList;
 	private List<FillItemData> pathDataList;
 	private List<Map<String,Object>> markers;
@@ -113,9 +113,11 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		this.mapComponent = map;
 		this.factory = factory;
 		
-		if (mapComponent.getMarkerData() != null)
-		{
-			markerData = new FillPlaceItemData(this, mapComponent.getMarkerData(), factory);
+		if(mapComponent.getMarkerDataList() != null){
+			markerDataList = new ArrayList<FillItemData>();
+			for(ItemData markerData : mapComponent.getMarkerDataList()) {
+				markerDataList.add(new FillPlaceItemData(this, markerData, factory));
+			}
 		}
 		if(mapComponent.getPathStyleList() != null){
 			pathStyleList = new ArrayList<FillItemData>();
@@ -187,9 +189,20 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		mapType = mapComponent.getMapType() == null? MapTypeEnum.ROADMAP : mapComponent.getMapType();
 		mapScale = mapComponent.getMapScale();
 		imageType = mapComponent.getImageType();
-		if (mapComponent.getMarkerData() != null)
-		{
-			markers = markerData.getEvaluateItems(evaluation);
+
+		if(markerDataList != null) {
+			markers = new ArrayList<Map<String,Object>>();
+			
+			for(FillItemData markerData : markerDataList) {
+				List<Map<String,Object>> currentItemList = markerData.getEvaluateItems(evaluation);
+				if(currentItemList != null && !currentItemList.isEmpty()){
+					for(Map<String,Object> currentItem : currentItemList){
+						if(currentItem != null){
+							markers.add(currentItem);
+						}
+					}
+				}
+			}
 		}
 		
 		if(pathDataList != null) {

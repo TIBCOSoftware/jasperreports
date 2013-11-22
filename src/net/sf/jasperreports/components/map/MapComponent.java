@@ -84,13 +84,18 @@ public interface MapComponent extends Component, JRCloneable
 	
 	MapImageTypeEnum getImageType();
 	
-	ItemData getMarkerData();
-	
 	OnErrorTypeEnum getOnErrorType();
+	
+	List<ItemData> getMarkerDataList();
 	
 	List<ItemData> getPathStyleList();
 	
 	List<ItemData> getPathDataList();
+	
+	/**
+	 * @deprecated Replaced by {@link #getMarkerDataList()}.
+	 */
+	ItemData getMarkerData();
 	
 	/**
 	 * @deprecated Replaced by {@link #getMarkerData()}.
