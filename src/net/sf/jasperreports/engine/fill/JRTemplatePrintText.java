@@ -128,10 +128,22 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 * 
 	 * @param text the template text that the element will use
 	 * @param sourceElementId the Id of the source element
+	 * @deprecated replaced by {@link #JRTemplatePrintText(JRTemplateText, PrintElementOriginator)}
 	 */
 	public JRTemplatePrintText(JRTemplateText text, int sourceElementId)
 	{
 		super(text, sourceElementId);
+	}
+	
+	/**
+	 * Creates a print text element.
+	 * 
+	 * @param text the template text that the element will use
+	 * @param originator
+	 */
+	public JRTemplatePrintText(JRTemplateText text, PrintElementOriginator originator)
+	{
+		super(text, originator);
 	}
 
 	/**

@@ -96,7 +96,7 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	 */
 	protected JRPrintElement fill()
 	{
-		JRTemplatePrintEllipse printEllipse = new JRTemplatePrintEllipse(this.getJRTemplateEllipse(), elementId);
+		JRTemplatePrintEllipse printEllipse = new JRTemplatePrintEllipse(this.getJRTemplateEllipse(), printElementOriginator);
 		printEllipse.setUUID(this.getUUID());
 		printEllipse.setX(this.getX());
 		printEllipse.setY(this.getRelativeY());

@@ -566,6 +566,12 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_srcId, elementId);
 		}
 		
+		int printId = element.getPrintElementId();
+		if (printId != JRPrintElement.UNSET_PRINT_ELEMENT_ID)
+		{
+			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_printId, printId);
+		}
+		
 		exportProperties(element);
 		
 		xmlWriter.closeElement();

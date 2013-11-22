@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.fill.FillContainerContext;
 import net.sf.jasperreports.engine.fill.JRBaseFiller;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
+import net.sf.jasperreports.engine.fill.PrintElementOriginator;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
@@ -61,8 +62,18 @@ public interface FillContext extends JRFillExpressionEvaluator
 	 * 
 	 * @return the Id of the component fill element
 	 * @see JRPrintElement#getSourceElementId()
+	 * @see #getPrintElementOriginator()
 	 */
 	int getElementSourceId();
+
+	/**
+	 * Returns a generator for print Ids for the component element.
+	 * 
+	 * @return a generator for print Ids
+	 * @see JRPrintElement#getSourceElementId()
+	 * @see JRPrintElement#getPrintElementId()
+	 */
+	PrintElementOriginator getPrintElementOriginator();
 	
 	/**
 	 * Evaluates an expression in the main report dataset.

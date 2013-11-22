@@ -114,7 +114,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	 */
 	protected JRPrintElement fill()
 	{
-		JRTemplatePrintLine printLine = new JRTemplatePrintLine(this.getJRTemplateLine(), elementId);
+		JRTemplatePrintLine printLine = new JRTemplatePrintLine(this.getJRTemplateLine(), printElementOriginator);
 		printLine.setUUID(this.getUUID());
 		printLine.setX(this.getX());
 		printLine.setY(this.getRelativeY());

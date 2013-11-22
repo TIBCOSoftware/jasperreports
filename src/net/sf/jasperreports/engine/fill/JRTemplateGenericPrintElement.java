@@ -76,6 +76,7 @@ public class JRTemplateGenericPrintElement extends JRTemplatePrintElement
 	 * 
 	 * @param template the template to use for the element
 	 * @param sourceElementId the Id of the source element
+	 * @deprecated replaced by {@link #JRTemplateGenericPrintElement(JRTemplateGenericElement, PrintElementOriginator)}
 	 */
 	public JRTemplateGenericPrintElement(JRTemplateGenericElement template, int sourceElementId)
 	{
@@ -88,13 +89,42 @@ public class JRTemplateGenericPrintElement extends JRTemplatePrintElement
 	 * Creates a generic print element.
 	 * 
 	 * @param template the template to use for the element
+	 * @param originator
+	 */
+	public JRTemplateGenericPrintElement(JRTemplateGenericElement template, PrintElementOriginator originator)
+	{
+		super(template, originator);
+		
+		parameters = new LinkedHashMap<String,Object>();
+	}
+	
+	/**
+	 * Creates a generic print element.
+	 * 
+	 * @param template the template to use for the element
 	 * @param sourceElementId the Id of the source element
 	 * @param parameterCount the number of parameters that the element will have
+	 * @deprecated replaced by {@link #JRTemplateGenericPrintElement(JRTemplateGenericElement, PrintElementOriginator, int)}
 	 */
 	public JRTemplateGenericPrintElement(JRTemplateGenericElement template, int sourceElementId,
 			int parameterCount)
 	{
 		super(template, sourceElementId);
+		
+		parameters = new LinkedHashMap<String,Object>(parameterCount * 4 / 3, 0.75f);
+	}
+	
+	/**
+	 * Creates a generic print element.
+	 * 
+	 * @param template the template to use for the element
+	 * @param originator
+	 * @param parameterCount the number of parameters that the element will have
+	 */
+	public JRTemplateGenericPrintElement(JRTemplateGenericElement template, PrintElementOriginator originator,
+			int parameterCount)
+	{
+		super(template, originator);
 		
 		parameters = new LinkedHashMap<String,Object>(parameterCount * 4 / 3, 0.75f);
 	}

@@ -133,7 +133,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			template = deduplicate(template);
 		}
 		
-		printElement = new JRTemplatePrintFrame(template, elementId);
+		printElement = new JRTemplatePrintFrame(template, printElementOriginator);
 //		printElement = new JRTemplateGenericPrintElement(template, elementId);
 		printElement.setUUID(element.getUUID());
 		printElement.setX(element.getX());
