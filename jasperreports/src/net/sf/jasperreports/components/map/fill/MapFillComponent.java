@@ -281,7 +281,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 				fillContext.getDefaultStyleProvider(),
 				MapPrintElement.MAP_ELEMENT_TYPE);
 		template = deduplicate(template);
-		JRTemplateGenericPrintElement printElement = new JRTemplateGenericPrintElement(template, elementId);
+		JRTemplateGenericPrintElement printElement = new JRTemplateGenericPrintElement(template, printElementOriginator);
 		printElement.setUUID(element.getUUID());
 		printElement.setX(element.getX());
 		printElement.setY(fillContext.getElementPrintY());

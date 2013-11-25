@@ -130,6 +130,12 @@ public class JRPrintElementFactory extends JRBaseFactory
 		{
 			element.setSourceElementId(Integer.parseInt(elementId));
 		}
+		
+		String printId = atts.getValue(JRXmlConstants.ATTRIBUTE_printId);
+		if (printId != null && printId.length() > 0)
+		{
+			element.setPrintElementId(Integer.parseInt(printId));
+		}
 
 		return element;
 	}

@@ -28,6 +28,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.fill.JRTemplateElement;
+import net.sf.jasperreports.engine.fill.PrintElementOriginator;
 
 
 /**
@@ -43,11 +44,18 @@ public abstract class BaseFillComponent implements FillComponent
 	 * The fill context, as set by {@link #initialize(FillContext)}.
 	 */
 	protected FillContext fillContext;
+	protected PrintElementOriginator printElementOriginator;
+	
+	/**
+	 * @deprecated replaced by {@link #printElementOriginator}
+	 */
 	protected int elementId;
 	
 	public void initialize(FillContext fillContext)
 	{
 		this.fillContext = fillContext;
+		
+		this.printElementOriginator = fillContext.getPrintElementOriginator();
 		this.elementId = fillContext.getElementSourceId();
 	}
 

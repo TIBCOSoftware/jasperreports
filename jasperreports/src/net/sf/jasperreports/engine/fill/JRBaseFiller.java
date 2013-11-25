@@ -2247,11 +2247,13 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		return fillerId;
 	}
 
-	public int assignElementId(JRFillElement fillElement)
+	protected PrintElementOriginator assignElementId(JRFillElement fillElement)
 	{
 		int id = getFillContext().generateFillElementId();
 		fillElements.put(id, fillElement);
-		return id;
+		
+		DefaultPrintElementOriginator originator = new DefaultPrintElementOriginator(id);
+		return originator;
 	}
 }
 
@@ -2500,7 +2502,7 @@ class ElementEvaluationVirtualizationListener implements VirtualizationListener<
 							ElementEvaluationAction action = (ElementEvaluationAction) actionsMap.remove(element);
 							if (action != null)
 							{
-								elementEvaluations.put(element, action.element.elementId);
+								elementEvaluations.put(element, action.element.printElementOriginator.getSourceElementId());
 								
 								if (log.isDebugEnabled())
 								{

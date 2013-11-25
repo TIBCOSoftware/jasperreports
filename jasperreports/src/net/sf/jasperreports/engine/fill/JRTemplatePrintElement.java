@@ -82,6 +82,8 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 	//FIXME do we need both uuid and sourceElementId?
 	private int sourceElementId;
 	
+	private int printElementId;
+	
 	public JRTemplatePrintElement()
 	{
 		// used internally
@@ -100,11 +102,33 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 	 * 
 	 * @param element
 	 * @param sourceElementId the Id of the source element
+	 * @deprecated replaced by {@link #JRTemplatePrintElement(JRTemplateElement, PrintElementOriginator)}
 	 */
 	protected JRTemplatePrintElement(JRTemplateElement element, int sourceElementId)
 	{
 		template = element;
 		this.sourceElementId = sourceElementId;
+		this.printElementId = UNSET_PRINT_ELEMENT_ID;
+	}
+	
+	/**
+	 * @param element
+	 * @param originator
+	 */
+	protected JRTemplatePrintElement(JRTemplateElement element, PrintElementOriginator originator)
+	{
+		template = element;
+		
+		if (originator == null)
+		{
+			this.sourceElementId = UNSET_SOURCE_ELEMENT_ID;
+			this.printElementId = UNSET_PRINT_ELEMENT_ID;
+		}
+		else
+		{
+			this.sourceElementId = originator.getSourceElementId();
+			this.printElementId = originator.generatePrintElementId();
+		}
 	}
 
 	/**
@@ -390,6 +414,12 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 		return sourceElementId;
 	}
 
+	@Override
+	public int getPrintElementId()
+	{
+		return printElementId;
+	}
+
 	/**
 	 * Sets the source/fill element Id for the print element.
 	 * 
@@ -416,6 +446,8 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 				sourceElementId = Integer.MIN_VALUE;
 			}
 		}
+		
+		// UNSET_PRINT_ELEMENT_ID is 0, so it will be assigned automatically when missing
 	}
 	
 	public void writeVirtualized(VirtualizationOutput out) throws IOException
@@ -482,6 +514,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 		}
 		
 		out.writeIntCompressed(sourceElementId);
+		out.writeIntCompressed(printElementId);
 		out.writeIntCompressed(x);
 		out.writeIntCompressed(y);
 		out.writeIntCompressed(height);
@@ -535,6 +568,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 		}
 
 		sourceElementId = in.readIntCompressed();
+		printElementId = in.readIntCompressed();
 		x = in.readIntCompressed();
 		y = in.readIntCompressed();
 		height = in.readIntCompressed();

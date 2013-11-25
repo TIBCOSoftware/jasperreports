@@ -75,10 +75,24 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 	 * 
 	 * @param templateFrame the template frame that the element will use
 	 * @param sourceElementId the Id of the source element
+	 * @deprecated replaced by {@link #JRTemplatePrintFrame(JRTemplateFrame, PrintElementOriginator)}
 	 */
 	public JRTemplatePrintFrame(JRTemplateFrame templateFrame, int sourceElementId)
 	{
 		super(templateFrame, sourceElementId);
+		
+		elements = new ArrayList<JRPrintElement>();
+	}
+
+	/**
+	 * Creates a print frame element.
+	 * 
+	 * @param templateFrame the template frame that the element will use
+	 * @param originator
+	 */
+	public JRTemplatePrintFrame(JRTemplateFrame templateFrame, PrintElementOriginator originator)
+	{
+		super(templateFrame, originator);
 		
 		elements = new ArrayList<JRPrintElement>();
 	}

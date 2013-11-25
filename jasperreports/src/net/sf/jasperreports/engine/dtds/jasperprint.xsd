@@ -473,6 +473,7 @@
    <attribute name="backcolor" type="string" use="optional"/>
    <attribute name="origin" type="NMTOKEN" use="optional"/>
    <attribute name="srcId" type="integer" use="optional"/>
+   <attribute name="printId" type="integer" use="optional"/>
   </complexType>
  </element>
 

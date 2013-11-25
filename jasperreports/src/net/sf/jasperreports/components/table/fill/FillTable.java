@@ -386,7 +386,7 @@ public class FillTable extends BaseFillComponent
 				return FillPrepareResult.NO_PRINT_NO_OVERFLOW;
 			}
 			
-			JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getFrameTemplate(), elementId);
+			JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getFrameTemplate(), printElementOriginator);
 			JRLineBox lineBox = printFrame.getLineBox();
 
 			FillPrepareResult result = 
@@ -405,7 +405,7 @@ public class FillTable extends BaseFillComponent
 
 	public JRPrintElement fill()
 	{
-		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getFrameTemplate(), elementId);
+		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getFrameTemplate(), printElementOriginator);
 		printFrame.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID, fillContext.getComponentElement().getUUID().toString());
 
 		JRLineBox lineBox = printFrame.getLineBox();

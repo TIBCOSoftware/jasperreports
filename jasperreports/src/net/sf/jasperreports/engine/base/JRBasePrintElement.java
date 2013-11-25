@@ -74,6 +74,7 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	
 	private JRPropertiesMap propertiesMap;
 	private int sourceElementId;
+	private int printElementId;
 
 	
 	/**
@@ -367,6 +368,23 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	public void setSourceElementId(int sourceElementId)
 	{
 		this.sourceElementId = sourceElementId;
+	}
+
+	@Override
+	public int getPrintElementId()
+	{
+		return printElementId;
+	}
+
+	/**
+	 * Sets the print Id for this element.
+	 * 
+	 * @param printElementId the print Id
+	 * @see #getPrintElementId()
+	 */
+	public void setPrintElementId(int printElementId)
+	{
+		this.printElementId = printElementId;
 	}
 
 }

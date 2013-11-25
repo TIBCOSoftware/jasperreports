@@ -199,7 +199,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	 */
 	protected JRPrintElement fill()
 	{
-		JRTemplatePrintText text = new JRTemplatePrintText(getJRTemplateText(), elementId);
+		JRTemplatePrintText text = new JRTemplatePrintText(getJRTemplateText(), printElementOriginator);
 		text.setUUID(getUUID());
 		text.setX(getX());
 		text.setY(getRelativeY());

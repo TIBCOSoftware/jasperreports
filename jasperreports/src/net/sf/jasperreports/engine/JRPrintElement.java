@@ -41,6 +41,8 @@ public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder, JRI
 	 */
 	int UNSET_SOURCE_ELEMENT_ID = 0;
 	
+	int UNSET_PRINT_ELEMENT_ID = 0;
+	
 	/**
 	 *
 	 */
@@ -128,5 +130,13 @@ public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder, JRI
 	 * @return the Id of the fill element that generated this element
 	 */
 	public int getSourceElementId();
+	
+	/**
+	 * Returns a numerical Id that together with {@link #getSourceElementId()} uniquely identifies a print element.
+	 * 
+	 * @return a print Id for the element
+	 * @see PrintElementId
+	 */
+	public int getPrintElementId();
 	
 }
