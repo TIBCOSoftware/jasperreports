@@ -146,6 +146,14 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 			firstOccurrences.put(elementId, element);
 			return true;
 		}
+		
+		// == does not work for virtualized elements, checking print Ids
+		if (firstElement.getPrintElementId() != JRPrintElement.UNSET_PRINT_ELEMENT_ID
+				&& firstElement.getPrintElementId() == element.getPrintElementId())
+		{
+			return true;
+		}
+		
 		return false;
 	}
 	
