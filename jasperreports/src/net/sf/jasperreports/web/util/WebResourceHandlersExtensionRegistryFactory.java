@@ -29,7 +29,6 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.ListExtensionRegistry;
 
 
 /**
@@ -38,10 +37,7 @@ import net.sf.jasperreports.extensions.ListExtensionRegistry;
  */
 public class WebResourceHandlersExtensionRegistryFactory implements ExtensionsRegistryFactory {
 
-	private static final ExtensionsRegistry REGISTRY;
-	
-	static 
-	{
+	protected static List<?> getResourceHandlers() {
 		List<WebResourceHandler> extensions = new ArrayList<WebResourceHandler>();
 
 		JiveWebResourceHandler jiveHandler = new JiveWebResourceHandler("net.sf.jasperreports.components.headertoolbar.messages");
@@ -65,8 +61,33 @@ public class WebResourceHandlersExtensionRegistryFactory implements ExtensionsRe
 		DefaultWebResourceHandler defaultHandler =  DefaultWebResourceHandler.getInstance();
 		extensions.add(defaultHandler);
 		
-		REGISTRY = new ListExtensionRegistry<WebResourceHandler>(WebResourceHandler.class, extensions);
+		return extensions;
 	}
+
+	private static final ExtensionsRegistry REGISTRY = new ExtensionsRegistry() {
+		private volatile List<?> resourceHandlers;
+		
+		@SuppressWarnings("unchecked")
+		@Override
+		public <T> List<T> getExtensions(Class<T> extensionType) {
+			if (!extensionType.equals(WebResourceHandler.class)) {
+				return null;
+			}
+			
+			List<?> extensions = resourceHandlers;
+			if (extensions == null) {
+				synchronized (this) {
+					// double checking
+					extensions = resourceHandlers;
+					if (extensions == null) {
+						extensions = getResourceHandlers();
+						resourceHandlers = extensions;
+					}
+				}
+			}
+			return (List<T>) extensions;
+		}
+	};
 	
 	@Override
 	public ExtensionsRegistry createRegistry(String registryId,
