@@ -41,6 +41,12 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 
 
 	/**
+	 * A <tt>net.sf.jasperreports.engine.JasperReportsContext</tt> instance representing the current report filling context.
+	 */
+	public static final String JASPER_REPORTS_CONTEXT = "JASPER_REPORTS_CONTEXT";
+
+
+	/**
 	 * A <tt>net.sf.jasperreports.engine.JasperReport</tt> instance representing the current report template.
 	 */
 	public static final String JASPER_REPORT = "JASPER_REPORT";
