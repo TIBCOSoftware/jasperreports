@@ -562,6 +562,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				parameterValues.remove(JRParameter.REPORT_FORMAT_FACTORY);
 			}
 			//parameterValues.remove(JRParameter.REPORT_TIME_ZONE);
+			parameterValues.remove(JRParameter.JASPER_REPORTS_CONTEXT);//FIXMENOW this is probably not necessary. other too
 			parameterValues.remove(JRParameter.JASPER_REPORT);
 			parameterValues.remove(JRParameter.REPORT_CONNECTION);
 			parameterValues.remove(JRParameter.REPORT_MAX_COUNT);
