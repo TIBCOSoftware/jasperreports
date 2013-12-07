@@ -168,6 +168,7 @@ public class JRDesignDataset extends JRBaseDataset
 	private static final Object[] BUILT_IN_PARAMETERS = new Object[] { 
 		JRParameter.REPORT_CONTEXT, ReportContext.class, 
 		JRParameter.REPORT_PARAMETERS_MAP, java.util.Map.class, 
+		JRParameter.JASPER_REPORTS_CONTEXT, JasperReportsContext.class, 
 		JRParameter.JASPER_REPORT, JasperReport.class, 
 		JRParameter.REPORT_CONNECTION, Connection.class,
 		JRParameter.REPORT_MAX_COUNT, Integer.class, 

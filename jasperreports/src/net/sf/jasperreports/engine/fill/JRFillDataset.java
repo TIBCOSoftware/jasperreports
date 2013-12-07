@@ -588,6 +588,8 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	{
 		parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
 		
+		parameterValues.put(JRParameter.JASPER_REPORTS_CONTEXT, getJasperReportsContext());
+		
 		if (filler != null)
 		{
 			// the only case when this filler is null is when called from JRParameterDefaultValuesEvaluator
