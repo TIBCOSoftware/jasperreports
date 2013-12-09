@@ -37,6 +37,10 @@ public interface CsvDataAdapter extends DataAdapter
 
 	public void setFileName(String fileName);
 
+	public String getEncoding();
+
+	public void setEncoding(String encoding);
+
 	public boolean isUseFirstRowAsHeader();
 
 	public void setUseFirstRowAsHeader(boolean useFirstRowAsHeader);
