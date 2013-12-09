@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.data.csv;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Map;
@@ -74,6 +75,10 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 			if (csvDataAdapter.isQueryExecuterMode())
 			{	
 				parameters.put(JRCsvQueryExecuterFactory.CSV_SOURCE, csvDataAdapter.getFileName());
+				if (csvDataAdapter.getEncoding() != null)
+				{
+					parameters.put(JRCsvQueryExecuterFactory.CSV_ENCODING, csvDataAdapter.getEncoding());
+				}
 				if (datePattern != null && datePattern.length() > 0)
 				{
 					parameters.put( JRCsvQueryExecuterFactory.CSV_DATE_FORMAT, new SimpleDateFormat(datePattern) );
@@ -91,7 +96,22 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 					parameters.put( JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES_ARRAY, getColumnNames(csvDataAdapter));
 				}
 			}else{
-				JRCsvDataSource ds = new JRCsvDataSource(getJasperReportsContext(), csvDataAdapter.getFileName());								
+				JRCsvDataSource ds = null;
+				if (csvDataAdapter.getEncoding() == null)
+				{
+					ds = new JRCsvDataSource(getJasperReportsContext(), csvDataAdapter.getFileName());
+				}
+				else
+				{
+					try
+					{
+						ds = new JRCsvDataSource(getJasperReportsContext(), csvDataAdapter.getFileName(), csvDataAdapter.getEncoding());
+					}
+					catch (UnsupportedEncodingException e)
+					{
+						throw new JRException(e);
+					}
+				}
 				if (datePattern != null && datePattern.length() > 0)
 				{
 					ds.setDateFormat( new SimpleDateFormat(datePattern) );

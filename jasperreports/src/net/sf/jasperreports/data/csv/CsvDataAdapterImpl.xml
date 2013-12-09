@@ -13,6 +13,9 @@
 		<field name="fileName" type="string">
 			<bind-xml name="fileName" node="element"/>
 		</field>
+		<field name="encoding" type="string">
+			<bind-xml name="encoding" node="element"/>
+		</field>
 		<field name="recordDelimiter" type="string">
 			<bind-xml name="recordDelimiter" node="element"/>
 		</field>
