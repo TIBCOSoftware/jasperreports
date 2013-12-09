@@ -35,6 +35,7 @@ import net.sf.jasperreports.data.AbstractDataAdapter;
 public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAdapter
 {
 	private String fileName;
+	private String encoding;
 	private String recordDelimiter = "\n";
 	private String fieldDelimiter = ",";
 	private boolean useFirstRowAsHeader = false;
@@ -49,6 +50,14 @@ public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAd
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 
 	public boolean isUseFirstRowAsHeader() {
