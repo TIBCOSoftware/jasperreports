@@ -28,7 +28,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.functions.AbstractFunctionSupport;
 import net.sf.jasperreports.functions.annotations.Function;
 import net.sf.jasperreports.functions.annotations.FunctionCategories;
 import net.sf.jasperreports.functions.annotations.FunctionParameter;
@@ -40,6 +43,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.LocalTime;
 import org.joda.time.Months;
@@ -56,7 +60,7 @@ import org.joda.time.format.DateTimeFormatter;
  * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
  */
 @FunctionCategories({DateTimeCategory.class})
-public final class DateTimeFunctions
+public final class DateTimeFunctions extends AbstractFunctionSupport
 {
 	private static final Log log = LogFactory.getLog(DateTimeFunctions.class);
 	
@@ -65,7 +69,12 @@ public final class DateTimeFunctions
 	 * Returns the current date as date object.
 	 */
 	@Function("TODAY")
-	public static Date TODAY(){
+	public Date TODAY(){
+		TimeZone reportTimeZone = getReportTimeZone();
+		if(reportTimeZone!=null) {
+			DateTime dateTime = new DateTime(DateTimeZone.forTimeZone(reportTimeZone));
+			return dateTime.toDate();
+		}		
 		return new Date();
 	}
 	
@@ -74,8 +83,8 @@ public final class DateTimeFunctions
 	 * Returns the current instant as date object.
 	 */
 	@Function("NOW")
-	public static Date NOW(){
-		return new Date();
+	public Date NOW(){
+		return TODAY();
 	}
 	
 	// ===================== YEAR function ===================== //
@@ -85,7 +94,7 @@ public final class DateTimeFunctions
 	@Function("YEAR")
 	@FunctionParameters({
 		@FunctionParameter("dateObject")})
-	public static Integer YEAR(Object dateObject){
+	public Integer YEAR(Object dateObject){
 		return getCalendarFieldFromDate(dateObject,Calendar.YEAR);
 	}
 	
@@ -96,7 +105,7 @@ public final class DateTimeFunctions
 	@Function("MONTH")
 	@FunctionParameters({
 		@FunctionParameter("dateObject")})
-	public static Integer MONTH(Object dateObject){
+	public Integer MONTH(Object dateObject){
 		return getCalendarFieldFromDate(dateObject,Calendar.MONTH)+1;	// January is 0
 	}
 	
@@ -108,7 +117,7 @@ public final class DateTimeFunctions
 	@Function("DAY")
 	@FunctionParameters({
 		@FunctionParameter("dateObject")})
-	public static Integer DAY(Object dateObject){
+	public Integer DAY(Object dateObject){
 		return getCalendarFieldFromDate(dateObject,Calendar.DAY_OF_MONTH);
 	}
 	
@@ -120,11 +129,11 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("dateObject"),
 		@FunctionParameter("isSundayFirstDay")})
-	public static Integer WEEKDAY(Object dateObject){
+	public Integer WEEKDAY(Object dateObject){
 		return WEEKDAY(dateObject, false);
 	}
 	
-	public static Integer WEEKDAY(Object dateObject, Boolean isSundayFirstDay){
+	public Integer WEEKDAY(Object dateObject, Boolean isSundayFirstDay){
 		Integer dayOfWeek = getCalendarFieldFromDate(dateObject,Calendar.DAY_OF_WEEK);
 		if(dayOfWeek==null) {
 			if(log.isDebugEnabled()){
@@ -156,7 +165,7 @@ public final class DateTimeFunctions
 	@Function("HOUR")
 	@FunctionParameters({
 		@FunctionParameter("dateObject")})
-	public static Integer HOUR(Object dateObject){
+	public Integer HOUR(Object dateObject){
 		return getCalendarFieldFromDate(dateObject,Calendar.HOUR_OF_DAY);
 	}	
 
@@ -167,7 +176,7 @@ public final class DateTimeFunctions
 	@Function("MINUTE")
 	@FunctionParameters({
 		@FunctionParameter("dateObject")})
-	public static Integer MINUTE(Object dateObject){
+	public Integer MINUTE(Object dateObject){
 		return getCalendarFieldFromDate(dateObject,Calendar.MINUTE);
 	}
 	
@@ -178,7 +187,7 @@ public final class DateTimeFunctions
 	@Function("SECOND")
 	@FunctionParameters({
 		@FunctionParameter("dateObject")})
-	public static Integer SECOND(Object dateObject){
+	public Integer SECOND(Object dateObject){
 		return getCalendarFieldFromDate(dateObject,Calendar.SECOND);
 	}
 	
@@ -191,15 +200,20 @@ public final class DateTimeFunctions
 		@FunctionParameter("year"),
 		@FunctionParameter("month"),
 		@FunctionParameter("dayOfMonth")})
-	public static Date DATE(Integer year, Integer month, Integer dayOfMonth){
+	public Date DATE(Integer year, Integer month, Integer dayOfMonth){
 		if(year==null || month==null || dayOfMonth==null) {
 			if(log.isDebugEnabled()){
 				log.debug("None of the arguments can be null.");
 			}
 			return null;
 		}
-		DateTime dt=new DateTime(year,month,dayOfMonth,0,0,0);
-		return dt.toDate();
+		TimeZone reportTimeZone = getReportTimeZone();
+		if(reportTimeZone!=null) {
+			return new DateTime(year,month,dayOfMonth,0,0,0,DateTimeZone.forTimeZone(reportTimeZone)).toDate();
+		}
+		else {
+			return new DateTime(year,month,dayOfMonth,0,0,0).toDate();
+		}
 	}
 	
 	// ===================== DATEVALUE function ===================== //
@@ -209,7 +223,7 @@ public final class DateTimeFunctions
 	@Function("DATEVALUE")
 	@FunctionParameters({
 		@FunctionParameter("dateObject")})
-	public static Long DATEVALUE(Object dateObject){
+	public Long DATEVALUE(Object dateObject){
 		Date convertedDate = convertDateObject(dateObject);
 		if(convertedDate!=null){
 			return convertedDate.getTime(); 
@@ -266,7 +280,7 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("dateObject"),
 		@FunctionParameter("months")})
-	public static Date EDATE(Object dateObject, Integer months){
+	public Date EDATE(Object dateObject, Integer months){
 		Date convertedDate = convertDateObject(dateObject);
 		if(convertedDate==null){
 			logCannotConvertToDate();
@@ -287,7 +301,7 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("dateObject"),
 		@FunctionParameter("workdays")})
-	public static Date WORKDAY(Object dateObject, Integer workdays){
+	public Date WORKDAY(Object dateObject, Integer workdays){
 		Date convertedDate = convertDateObject(dateObject);
 		if(convertedDate==null){
 			logCannotConvertToDate();
@@ -317,7 +331,7 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("startDate"),
 		@FunctionParameter("endDate")})
-	public static Integer NETWORKDAYS(Object startDate, Object endDate){
+	public Integer NETWORKDAYS(Object startDate, Object endDate){
 		Date startDateObj = convertDateObject(startDate);
 		if(startDateObj==null) {
 			logCannotConvertToDate();
@@ -358,7 +372,7 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("startDate"),
 		@FunctionParameter("endDate")})
-	public static Integer DAYS(Object startDate, Object endDate){
+	public Integer DAYS(Object startDate, Object endDate){
 		Date startDateObj = convertDateObject(startDate);
 		if(startDateObj==null) {
 			logCannotConvertToDate();
@@ -383,7 +397,7 @@ public final class DateTimeFunctions
 	@Function("DAYSINMONTH")
 	@FunctionParameters({
 		@FunctionParameter("dateObj")})
-	public static Integer DAYSINMONTH(Object dateObj){
+	public Integer DAYSINMONTH(Object dateObj){
 		Date date = convertDateObject(dateObj);
 		if(date==null){
 			logCannotConvertToDate();
@@ -402,7 +416,7 @@ public final class DateTimeFunctions
 	@Function("DAYSINYEAR")
 	@FunctionParameters({
 		@FunctionParameter("dateObj")})
-	public static Integer DAYSINYEAR(Object dateObj){
+	public Integer DAYSINYEAR(Object dateObj){
 		Date date = convertDateObject(dateObj);
 		if(date==null){
 			logCannotConvertToDate();
@@ -422,7 +436,7 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("startDate"),
 		@FunctionParameter("endDate")})
-	public static Integer WEEKS(Object startDate, Object endDate){
+	public Integer WEEKS(Object startDate, Object endDate){
 		Date startDateObj = convertDateObject(startDate);
 		if(startDateObj==null) {
 			logCannotConvertToDate();
@@ -447,7 +461,7 @@ public final class DateTimeFunctions
 	@Function("WEEKSINYEAR")
 	@FunctionParameters({
 		@FunctionParameter("dateObj")})
-	public static Integer WEEKSINYEAR(Object dateObj){
+	public Integer WEEKSINYEAR(Object dateObj){
 		Date date = convertDateObject(dateObj);
 		if(date==null){
 			logCannotConvertToDate();
@@ -466,7 +480,7 @@ public final class DateTimeFunctions
 	@Function("WEEKNUM")
 	@FunctionParameters({
 		@FunctionParameter("dateObj")})
-	public static Integer WEEKNUM(Object dateObj){
+	public Integer WEEKNUM(Object dateObj){
 		Date date = convertDateObject(dateObj);
 		if(date==null){
 			logCannotConvertToDate();
@@ -486,7 +500,7 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("startDate"),
 		@FunctionParameter("endDate")})
-	public static Integer MONTHS(Object startDate, Object endDate){
+	public Integer MONTHS(Object startDate, Object endDate){
 		Date startDateObj = convertDateObject(startDate);
 		if(startDateObj==null) {
 			logCannotConvertToDate();
@@ -512,7 +526,7 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("startDate"),
 		@FunctionParameter("endDate")})
-	public static Integer YEARS(Object startDate, Object endDate){
+	public Integer YEARS(Object startDate, Object endDate){
 		Date startDateObj = convertDateObject(startDate);
 		if(startDateObj==null) {
 			logCannotConvertToDate();
@@ -537,7 +551,7 @@ public final class DateTimeFunctions
 	@Function("ISLEAPYEAR")
 	@FunctionParameters({
 		@FunctionParameter("dateObj")})
-	public static Boolean ISLEAPYEAR(Object dateObj){
+	public Boolean ISLEAPYEAR(Object dateObj){
 		Date date = convertDateObject(dateObj);
 		if(date==null){
 			logCannotConvertToDate();
@@ -557,14 +571,19 @@ public final class DateTimeFunctions
 	@FunctionParameters({
 		@FunctionParameter("dateObj"),
 		@FunctionParameter("formatPattern")})
-	public static String DATEFORMAT(Date dateObj, String formatPattern){
+	public String DATEFORMAT(Date dateObj, String formatPattern){
 		if(dateObj==null){
 			return null;
 		}
 		else{
 			DateTimeFormatter formatter = DateTimeFormat.forPattern(formatPattern);
-			DateTime dt = new DateTime(dateObj);
-			return dt.toString(formatter);
+			TimeZone reportTimeZone = getReportTimeZone();
+			if(reportTimeZone!=null) {
+				return new DateTime(dateObj,DateTimeZone.forTimeZone(reportTimeZone)).toString(formatter);	
+			}
+			else {
+				return new DateTime(dateObj).toString(formatter);				
+			}
 		}
 	}
 	
@@ -597,7 +616,7 @@ public final class DateTimeFunctions
 	 * Supported types are for now String, Long values (time millis) and Date subtypes
 	 * like for example java.sql.Date.
 	 */
-	private static Date convertDateObject(Object dateObject){
+	private Date convertDateObject(Object dateObject){
 		if(dateObject==null){
 			if(log.isDebugEnabled()){
 				log.debug("The date object can not be null.");
@@ -606,6 +625,10 @@ public final class DateTimeFunctions
 		}
 		else if(dateObject instanceof String){
 			SimpleDateFormat simpleFormat=new SimpleDateFormat();
+			TimeZone reportTimeZone = getReportTimeZone();
+			if(reportTimeZone!=null) {
+				simpleFormat.setTimeZone(reportTimeZone);
+			}
 			try {
 				return simpleFormat.parse((String)dateObject);
 			} catch (ParseException e) {
@@ -631,7 +654,7 @@ public final class DateTimeFunctions
 	 * Tries to recover a specific detail (given by Calendar field type) 
 	 * from an input date object.
 	 */
-	private static Integer getCalendarFieldFromDate(Object dateObject,int field){
+	private Integer getCalendarFieldFromDate(Object dateObject,int field){
 		Date convertedDate = convertDateObject(dateObject);
 		if(convertedDate==null) {
 			logCannotConvertToDate();
@@ -639,6 +662,10 @@ public final class DateTimeFunctions
 		}
 		else{
 			Calendar cal=new GregorianCalendar();
+			TimeZone reportTimeZone = getReportTimeZone();
+			if(reportTimeZone!=null) {
+				cal.setTimeZone(reportTimeZone);
+			}
 			cal.setTime(convertedDate);
 			return cal.get(field);			
 		}
@@ -648,5 +675,13 @@ public final class DateTimeFunctions
 		if(log.isDebugEnabled()){
 			log.debug("Unable to convert to a valid Date instance.");
 		}
+	}
+	
+	private TimeZone getReportTimeZone() {
+		TimeZone reportTimeZone = null; 
+		if(getContext()!=null) {
+			reportTimeZone = (TimeZone) getContext().getParameterValue(JRParameter.REPORT_TIME_ZONE);
+		}
+		return reportTimeZone;
 	}
 }
