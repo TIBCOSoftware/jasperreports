@@ -780,7 +780,18 @@ public class JRClassGenerator
 				methodSignature.append(", ");
 			}
 			methodCall.append("arg" + j);
-			methodSignature.append(paramTypes[j].getName());
+			
+			Class<?> paramType = paramTypes[j];
+			if (j == paramTypes.length - 1 && paramType.isArray() && method.isVarArgs())
+			{
+				// use varargs
+				methodSignature.append(paramType.getComponentType().getName()).append("... ");
+			}
+			else
+			{
+				methodSignature.append(paramType.getName());//FIXME use paramType.getCanonicalName() for arrays 
+			}
+			
 			methodSignature.append(" arg" + j);
 		}
 
