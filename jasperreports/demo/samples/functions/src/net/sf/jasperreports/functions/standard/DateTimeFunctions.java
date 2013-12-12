@@ -23,11 +23,11 @@
  */
 package net.sf.jasperreports.functions.standard;
 
+import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.JRParameter;
@@ -70,12 +70,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 	 */
 	@Function("TODAY")
 	public Date TODAY(){
-		TimeZone reportTimeZone = getReportTimeZone();
-		if(reportTimeZone!=null) {
-			DateTime dateTime = new DateTime(DateTimeZone.forTimeZone(reportTimeZone));
-			return dateTime.toDate();
-		}		
-		return new Date();
+		return Calendar.getInstance(getReportTimeZone(),getReportLocale()).getTime();
 	}
 	
 	// ===================== NOW function ===================== //
@@ -207,13 +202,8 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			}
 			return null;
 		}
-		TimeZone reportTimeZone = getReportTimeZone();
-		if(reportTimeZone!=null) {
-			return new DateTime(year,month,dayOfMonth,0,0,0,DateTimeZone.forTimeZone(reportTimeZone)).toDate();
-		}
-		else {
-			return new DateTime(year,month,dayOfMonth,0,0,0).toDate();
-		}
+		return new DateTime(year, month, dayOfMonth, 0, 0, 0,
+				DateTimeZone.forTimeZone(getReportTimeZone())).toDate();
 	}
 	
 	// ===================== DATEVALUE function ===================== //
@@ -577,13 +567,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 		}
 		else{
 			DateTimeFormatter formatter = DateTimeFormat.forPattern(formatPattern);
-			TimeZone reportTimeZone = getReportTimeZone();
-			if(reportTimeZone!=null) {
-				return new DateTime(dateObj,DateTimeZone.forTimeZone(reportTimeZone)).toString(formatter);	
-			}
-			else {
-				return new DateTime(dateObj).toString(formatter);				
-			}
+			return new DateTime(dateObj,DateTimeZone.forTimeZone(getReportTimeZone())).toString(formatter);	
 		}
 	}
 	
@@ -624,22 +608,26 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else if(dateObject instanceof String){
-			SimpleDateFormat simpleFormat=new SimpleDateFormat();
-			TimeZone reportTimeZone = getReportTimeZone();
-			if(reportTimeZone!=null) {
-				simpleFormat.setTimeZone(reportTimeZone);
-			}
-			try {
-				return simpleFormat.parse((String)dateObject);
-			} catch (ParseException e) {
-				if(log.isDebugEnabled()){
-					log.debug("Unable to parse the string as Date using the standard SimpleDateFormat.");
+			// Try to convert using the different style for pattern.
+			// We use MEDIUM as the first one because it is the DEFAULT
+			int formatTypes[] = new int[]{DateFormat.MEDIUM, DateFormat.SHORT, DateFormat.LONG, DateFormat.FULL};
+			for(int formatType : formatTypes) {
+				try {
+					DateFormat df = DateFormat.getDateInstance(formatType, getReportLocale());
+					df.setTimeZone(getReportTimeZone());
+					return df.parse((String)dateObject);
+				} catch (ParseException e) {
+					if(log.isDebugEnabled()){
+						log.debug("Unable to parse the string as Date using the standard SimpleDateFormat.");
+					}
 				}
-				return null;
 			}
+			return null;
 		}
 		else if(dateObject instanceof Long){
-			return new Date((Long)dateObject);
+			Calendar cal = Calendar.getInstance(getReportTimeZone(), getReportLocale());
+			cal.setTimeInMillis((Long)dateObject);
+			return cal.getTime();
 		}
 		else if(dateObject instanceof Date){
 			return (Date)dateObject;
@@ -661,11 +649,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			Calendar cal=new GregorianCalendar();
-			TimeZone reportTimeZone = getReportTimeZone();
-			if(reportTimeZone!=null) {
-				cal.setTimeZone(reportTimeZone);
-			}
+			Calendar cal = Calendar.getInstance(getReportTimeZone(),getReportLocale());
 			cal.setTime(convertedDate);
 			return cal.get(field);			
 		}
@@ -677,11 +661,33 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 		}
 	}
 	
+	/*
+	 * Tries to retrieve the {@link TimeZone} to be used in the report, 
+	 * using the parameter {@link JRParameter#REPORT_TIME_ZONE}. 
+	 * If not available it will default the {@link TimeZone#getDefault()} value.
+	 * 
+	 * @return the {@link TimeZone} instance to be used
+	 */
 	private TimeZone getReportTimeZone() {
-		TimeZone reportTimeZone = null; 
+		TimeZone reportTimeZone = TimeZone.getDefault(); 
 		if(getContext()!=null) {
 			reportTimeZone = (TimeZone) getContext().getParameterValue(JRParameter.REPORT_TIME_ZONE);
 		}
 		return reportTimeZone;
+	}
+	
+	/*
+	 * Tries to retrieve the {@link Locale} to be used in the report, 
+	 * using the parameter {@link JRParameter#REPORT_LOCALE}. 
+	 * If not available it will default the {@link Locale#getDefault()} value.
+	 * 
+	 * @return the {@link Locale} instance to be used
+	 */
+	private Locale getReportLocale() {
+		Locale reportLocale = Locale.getDefault(); 
+		if(getContext()!=null) {
+			reportLocale = (Locale) getContext().getParameterValue(JRParameter.REPORT_LOCALE);
+		}
+		return reportLocale;
 	}
 }
