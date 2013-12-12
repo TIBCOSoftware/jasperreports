@@ -25,10 +25,13 @@ package net.sf.jasperreports.functions.standard;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.functions.AbstractFunctionSupport;
 import net.sf.jasperreports.functions.annotations.Function;
 import net.sf.jasperreports.functions.annotations.FunctionCategories;
 import net.sf.jasperreports.functions.annotations.FunctionParameter;
@@ -44,7 +47,7 @@ import org.apache.commons.logging.LogFactory;
  * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
  */
 @FunctionCategories({TextCategory.class})
-public final class TextFunctions 
+public final class TextFunctions  extends AbstractFunctionSupport
 {
 	private static final Log log = LogFactory.getLog(TextFunctions.class);	
 	private static final int BASE_MIN_RADIX=2;
@@ -237,11 +240,11 @@ public final class TextFunctions
 			@FunctionParameter("number"),
 			@FunctionParameter("decimals"),
 			@FunctionParameter("omitSeparators")})
-	public static String FIXED(Number number, Integer decimals){
+	public String FIXED(Number number, Integer decimals){
 		return FIXED(number, decimals,false);
 	}
 
-	public static String FIXED(Number number, Integer decimals, Boolean omitSeparators){
+	public String FIXED(Number number, Integer decimals, Boolean omitSeparators){
 		if(number==null || decimals==null || omitSeparators==null) {
 			logHavingNullArguments();
 			return null;
@@ -258,7 +261,8 @@ public final class TextFunctions
 		for(int i=0;i<decimals;i++){
 			patternBuf.append("0");
 		}
-		DecimalFormat myFormatter = new DecimalFormat(patternBuf.toString());
+		DecimalFormat myFormatter = getDecimalFormat();
+		myFormatter.applyPattern(patternBuf.toString());
 	    return myFormatter.format(number);
 	}
 	
@@ -618,13 +622,14 @@ public final class TextFunctions
 	@FunctionParameters({
 			@FunctionParameter("number"),
 			@FunctionParameter("numberFormat")})
-	public static String TEXT(Number number, String numberFormat){
+	public String TEXT(Number number, String numberFormat){
 		if(number==null || numberFormat==null) {
 			logNullTextString();
 			return null;
 		}
 		else {
-			NumberFormat nformat=new DecimalFormat(numberFormat);
+			DecimalFormat nformat = getDecimalFormat();
+			nformat.applyPattern(numberFormat);
 			return nformat.format(number);			
 		}
 	}	
@@ -678,5 +683,24 @@ public final class TextFunctions
 		if(log.isDebugEnabled()){
 			log.debug("None of the arguments can be null.");
 		}
+	}
+	
+	private DecimalFormat getDecimalFormat() {
+		return (DecimalFormat) NumberFormat.getNumberInstance(getReportLocale());
+	}
+	
+	/*
+	 * Tries to retrieve the {@link Locale} to be used in the report, 
+	 * using the parameter {@link JRParameter#REPORT_LOCALE}. 
+	 * If not available it will default the {@link Locale#getDefault()} value.
+	 * 
+	 * @return the {@link Locale} instance to be used
+	 */
+	private Locale getReportLocale() {
+		Locale reportLocale = Locale.getDefault(); 
+		if(getContext()!=null) {
+			reportLocale = (Locale) getContext().getParameterValue(JRParameter.REPORT_LOCALE);
+		}
+		return reportLocale;
 	}
 }
