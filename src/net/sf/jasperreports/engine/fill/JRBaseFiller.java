@@ -106,6 +106,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 {
 
 	private static final Log log = LogFactory.getLog(JRBaseFiller.class);
+	
+	private static final int PAGE_HEIGHT_PAGINATION_IGNORED = 0x7d000000;//less than Integer.MAX_VALUE to avoid 
 
 	protected final Map<Integer, JRFillElement> fillElements = new HashMap<Integer, JRFillElement>();
 	protected final int fillerId;
@@ -759,6 +761,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	protected boolean isSubreport()
 	{
 		return (parentFiller != null);
+	}
+
+	protected boolean isMasterReport()
+	{
+		return parentFiller == null;
 	}
 
 	protected boolean isSubreportRunToBottom()
@@ -1427,7 +1434,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 					groups[i].setStartNewColumn(false);
 				}
 			}
-			setPageHeight(Integer.MAX_VALUE);
+			
+			if (isMasterReport())//subreport page height is already set by master
+			{
+				setPageHeight(PAGE_HEIGHT_PAGINATION_IGNORED);
+			}
 		}
 	}
 
