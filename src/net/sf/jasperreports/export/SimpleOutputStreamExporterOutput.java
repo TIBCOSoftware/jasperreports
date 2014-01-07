@@ -77,7 +77,7 @@ public class SimpleOutputStreamExporterOutput implements OutputStreamExporterOut
 	
 	/**
 	 * Creates a {@link OutputStreamExporterOutput} instance that puts the result into the file designated by the provided file name. 
-	 * This is an alternative to the {@link #OutputStreamExporterOutput(File)}.
+	 * This is an alternative to the {@link #SimpleOutputStreamExporterOutput(File)}.
 	 */
 	public SimpleOutputStreamExporterOutput(String fileName)
 	{
