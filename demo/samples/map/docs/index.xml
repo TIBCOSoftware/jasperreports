@@ -549,7 +549,9 @@ skipped due to the <code>&lt;filterExpression/&gt;</code> in the subdataset:
   <field name="longitude" class="java.lang.String">
     <fieldDescription><![CDATA[longitude]] ></fieldDescription>
   </field>
-  <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
+  <filterExpression>
+    <![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] >
+  </filterExpression>
 </subDataset>]]></pre>
 The map component configuration is the following:
 <pre><![CDATA[
@@ -609,7 +611,9 @@ component configuration (and the subdataset):
   <field name="iconheight" class="java.lang.Integer">
    <fieldDescription><![CDATA[iconheight]] ></fieldDescription>
   </field>
-  <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
+  <filterExpression>
+    <![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] >
+  </filterExpression>
 </subDataset>
 ...
 <componentElement>
@@ -678,7 +682,9 @@ Two additional subdatasets were added in order to generate path styles and path 
   <field name="url" class="java.lang.String">
     <fieldDescription><![CDATA[url]] ></fieldDescription>
   </field>
-  <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
+  <filterExpression>
+    <![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] >
+  </filterExpression>
 </subDataset>
 <subDataset name="PathStyleDataset">
   <property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.xml"/>
@@ -728,7 +734,9 @@ Two additional subdatasets were added in order to generate path styles and path 
   <field name="ispolygon" class="java.lang.String">
     <fieldDescription><![CDATA[ispolygon]] ></fieldDescription>
   </field>
-  <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
+  <filterExpression>
+    <![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] >
+  </filterExpression>
 </subDataset>
 ...
 <componentElement>
@@ -844,9 +852,11 @@ property is a HTML fragment with escaped open and end tags.
     <fieldDescription><![CDATA[iconwidth]] ></fieldDescription>
   </field>
   <field name="iconheight" class="java.lang.Integer">
-   <fieldDescription><![CDATA[iconheight]] ></fieldDescription>
+    <fieldDescription><![CDATA[iconheight]] ></fieldDescription>
   </field>
-  <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
+  <filterExpression>
+    <![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] >
+  </filterExpression>
 </subDataset>
 ...
 <componentElement>
@@ -881,11 +891,8 @@ property is a HTML fragment with escaped open and end tags.
           <valueExpression>$F{iconheight}</valueExpression>
         </c:itemProperty>
         <c:itemProperty name="infowindow.content">
-          <valueExpression>"&lt;p style='text-align:right;'&gt;&lt;img 
-            src='http://jasperreports.sourceforge.net/jasperreports.png'/&gt;&lt;/p&gt;&lt;p 
-            style='text-align:left;'&gt;
-            current latitude: &lt;b&gt;"+$F{latitude}+"&lt;/b&gt;&lt;br/&gt;current longitude: 
-            &lt;b&gt;"+$F{longitude}+"&lt;/b&gt;&lt;/p&gt;"
+          <valueExpression>"<p style='text-align:right;'><img src='http://jasperreports.sourceforge.net/jasperreports.png'/></p>
+          	<p style='text-align:left;'>current latitude: <b>"+$F{latitude}+"</b><br/>current longitude: <b>"+$F{longitude}+"</b></p>"
           </valueExpression>
         </c:itemProperty>
       </c:item>
