@@ -230,7 +230,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			map.getLatitudeExpression());
 		writer.writeExpression("longitudeExpression", 
 				map.getLongitudeExpression());
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_2)) 		//FIXME: correct version number
+		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_2))
 		{
 			writer.writeExpression("addressExpression", map.getAddressExpression());
 		}
@@ -241,7 +241,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			writer.writeExpression("languageExpression", 
 					map.getLanguageExpression());
 		}
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_2)) {			//FIXME: correct version number
+		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_2)) {
 			List<ItemData> markerDataList = map.getMarkerDataList();
 			if(markerDataList !=null && markerDataList.size() > 0) {
 				for(ItemData markerData : markerDataList) {
