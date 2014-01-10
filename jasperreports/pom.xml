@@ -17,9 +17,12 @@
 	</licenses>
 	<scm>
 		<connection>scm:svn:http://jasperforge.org/svn/repos/jasperreports</connection>
-		<tag>jr-5-5-0</tag>
+		<tag>jr-5-5-1</tag>
 		<url>http://code.jaspersoft.com/svn/repos/jasperreports/</url>
 	</scm>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<developers>
 		<developer>
 			<id>teodord</id>
@@ -102,6 +105,7 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
