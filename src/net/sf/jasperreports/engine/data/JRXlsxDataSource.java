@@ -58,7 +58,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * <p>
  * The default naming convention is to name report fields COLUMN_x and map each column with the field found at index x 
  * in each row (these indices start with 0). To avoid this situation, users can either specify a collection of column 
- * names or set a flag to read the column names from the first row of the CSV file.
+ * names or set a flag to read the column names from the first row of the XLSX file.
  *
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
