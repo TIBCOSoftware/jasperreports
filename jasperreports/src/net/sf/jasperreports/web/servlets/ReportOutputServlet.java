@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.export.JsonExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterConfiguration;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
+import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.JacksonUtil;
@@ -143,7 +144,8 @@ public class ReportOutputServlet extends AbstractServlet
 //		JRXhtmlExporter exporter = new JRXhtmlExporter(getJasperReportsContext());
 		HtmlExporter exporter = new HtmlExporter(getJasperReportsContext());
 
-		SimpleHtmlExporterConfiguration configuration = new SimpleHtmlExporterConfiguration();
+		SimpleHtmlExporterConfiguration exporterConfig = new SimpleHtmlExporterConfiguration();
+		SimpleHtmlReportConfiguration reportConfig = new SimpleHtmlReportConfiguration();
 
 		ReportPageStatus pageStatus;
 		if (hasPages)
@@ -160,7 +162,7 @@ public class ReportOutputServlet extends AbstractServlet
 				throw new JRRuntimeException("Page " + pageIdx + " not found in report");
 			}
 			
-			configuration.setPageIndex(pageIdx);
+			reportConfig.setPageIndex(pageIdx);
 		}
 		else
 		{
@@ -191,13 +193,16 @@ public class ReportOutputServlet extends AbstractServlet
 		output.setFontHandler(new WebHtmlResourceHandler(resourcesPath + "&font={0}"));
 		exporter.setExporterOutput(output);
 
-		configuration.setHtmlHeader(getHeader(request, webReportContext, hasPages, pageStatus));
-		configuration.setBetweenPagesHtml(getBetweenPages(request, webReportContext));
-		configuration.setHtmlFooter(getFooter(request, webReportContext, hasPages, pageStatus, isComponentMetadataEmbedded));
-		configuration.setHyperlinkProducerFactory(
+		exporterConfig.setHtmlHeader(getHeader(request, webReportContext, hasPages, pageStatus));
+		exporterConfig.setBetweenPagesHtml(getBetweenPages(request, webReportContext));
+		exporterConfig.setHtmlFooter(getFooter(request, webReportContext, hasPages, pageStatus, isComponentMetadataEmbedded));
+
+		reportConfig.setHyperlinkProducerFactory(
 			ReportExecutionHyperlinkProducerFactory.getInstance(getJasperReportsContext(), request)
 			);
-		exporter.setConfiguration(configuration);
+		
+		exporter.setConfiguration(exporterConfig);
+		exporter.setConfiguration(reportConfig);
 		
 		exporter.exportReport();
 

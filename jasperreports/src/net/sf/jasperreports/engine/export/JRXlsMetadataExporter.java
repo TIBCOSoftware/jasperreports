@@ -102,6 +102,8 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsMetadataExporterConfiguration;
+import net.sf.jasperreports.export.XlsMetadataReportConfiguration;
+import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -133,7 +135,7 @@ import org.apache.poi.ss.util.CellReference;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMetadataExporterConfiguration, JRXlsExporterContext> 
+public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMetadataReportConfiguration, XlsMetadataExporterConfiguration, JRXlsExporterContext> 
 {
 
 	private static final Log log = LogFactory.getLog(JRXlsMetadataExporter.class);
@@ -209,13 +211,30 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	{
 		return XlsMetadataExporterConfiguration.class;
 	}
+
+
+	/**
+	 *
+	 */
+	protected Class<XlsMetadataReportConfiguration> getItemConfigurationInterface()
+	{
+		return XlsMetadataReportConfiguration.class;
+	}
 	
 
+	@Override
 	protected void initExport() 
 	{
 		super.initExport();
+	}
+	
 
-		XlsExporterConfiguration configuration = getCurrentConfiguration();
+	@Override
+	protected void initReport() 
+	{
+		super.initReport();
+
+		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		if (!configuration.isWhitePageBackground())
 		{
@@ -225,7 +244,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		nature = 
 			new JRXlsMetadataExporterNature(
 				jasperReportsContext, 
-				configuration.getExporterFilter(), 
+				filter, 
 				configuration.isIgnoreGraphics(), 
 				configuration.isIgnorePageMargins()
 				);
@@ -284,7 +303,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		printSetup.setLandscape(jasperPrint.getOrientationValue() == OrientationEnum.LANDSCAPE);
 		short paperSize = getSuitablePaperSize(jasperPrint);
 		
-		XlsExporterConfiguration configuration = getCurrentConfiguration();
+		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 
 		if(paperSize != -1)	{
 			printSetup.setPaperSize(paperSize);
@@ -402,7 +421,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 	protected void closeWorkbook(OutputStream os) throws JRException {
 		try	{
-			for (Object anchorName : anchorNames.keySet()) {
+			for (Object anchorName : anchorNames.keySet()) {//FIXMEEXPORT no ignore flag?
 				HSSFName anchor = anchorNames.get(anchorName);
 				List<Hyperlink> linkList = anchorLinks.get(anchorName);
 				int index = anchor.getSheetIndex();
@@ -415,7 +434,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				}
 			}
 			
-			boolean isOnePagePerSheet = getCurrentConfiguration().isOnePagePerSheet();
+			boolean isOnePagePerSheet = getCurrentItemConfiguration().isOnePagePerSheet();//FIXMEEXPORT
 			
 			for (Object pageIndex : pageLinks.keySet())	{
 				List<Hyperlink> linkList = pageLinks.get(pageIndex);
@@ -575,7 +594,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 			short mode = backgroundMode;
 			short backcolor = whiteIndex;
-			if (!getCurrentConfiguration().isIgnoreCellBackground() && line.getBackcolor() != null) {
+			if (!getCurrentItemConfiguration().isIgnoreCellBackground() && line.getBackcolor() != null) {
 				mode = HSSFCellStyle.SOLID_FOREGROUND;
 				backcolor = getWorkbookColor(line.getBackcolor()).getIndex();
 			}
@@ -610,7 +629,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 			short mode = backgroundMode;
 			short backcolor = whiteIndex;
-			if (!getCurrentConfiguration().isIgnoreCellBackground() && element.getBackcolor() != null) {
+			if (!getCurrentItemConfiguration().isIgnoreCellBackground() && element.getBackcolor() != null) {
 				mode = HSSFCellStyle.SOLID_FOREGROUND;
 				backcolor = getWorkbookColor(element.getBackcolor()).getIndex();
 			}
@@ -649,7 +668,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			short verticalAlignment = getVerticalAlignment(textAlignHolder);
 			short rotation = getRotation(textAlignHolder);
 			
-			XlsExporterConfiguration configuration = getCurrentConfiguration();
+			XlsReportConfiguration configuration = getCurrentItemConfiguration();
 
 			short mode = backgroundMode;
 			short backcolor = whiteIndex;
@@ -708,7 +727,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				
 				cellSettings.importValues(HSSFCell.CELL_TYPE_FORMULA, getLoadedCellStyle(baseStyle), null, formula);
 				
-			} else if (getCurrentConfiguration().isDetectCellType()) {
+			} else if (getCurrentItemConfiguration().isDetectCellType()) {
 				TextValue value = getTextValue(textElement, textStr);
 				value.handle(new TextValueHandler() {
 					public void handle(StringTextValue textValue) {
@@ -770,9 +789,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	{
 		Hyperlink link = null;
 
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, hyperlink);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsReportConfiguration.PROPERTY_IGNORE_HYPERLINK, hyperlink);
 		if (ignoreHyperlink == null) {
-			ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
+			ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
 		}
 
 		if (!ignoreHyperlink) {
@@ -788,7 +807,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						break;
 					}
 					case LOCAL_ANCHOR : {
-						if(!getCurrentConfiguration().isIgnoreAnchors()) {
+						if(!getCurrentItemConfiguration().isIgnoreAnchors()) {
 							String href = hyperlink.getHyperlinkAnchor();
 							if (href != null) {
 								link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
@@ -867,7 +886,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			} else if ( (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && !isColumnReadOnTime(currentRow, currentColumnName)) // the column is for export, was not read yet, but it is read after it should be
 					|| (columnNames.contains(currentColumnName) && currentRow.containsKey(currentColumnName)) ) {	// the column is for export and was already read
 
-				if(rowIndex == 1 && getCurrentConfiguration().isWriteHeader()) {
+				if(rowIndex == 1 && getCurrentItemConfiguration().isWriteHeader()) {
 					writeReportHeader();
 				}
 				writeCurrentRow(currentRow, repeatedValues);
@@ -892,7 +911,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			} else if ( (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && !isColumnReadOnTime(currentRow, currentColumnName)) 	// the column is for export, was not read yet, but it is read after it should be
 					|| (columnNames.contains(currentColumnName) && currentRow.containsKey(currentColumnName)) ) {	// the column is for export and was already read
 				
-				if(rowIndex == 1 && getCurrentConfiguration().isWriteHeader()) {
+				if(rowIndex == 1 && getCurrentItemConfiguration().isWriteHeader()) {
 					writeReportHeader();
 				}
 				
@@ -1116,7 +1135,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					}
 				}
 
-				XlsMetadataExporterConfiguration configuration = getCurrentConfiguration();
+				XlsMetadataReportConfiguration configuration = getCurrentItemConfiguration();
 				
 				short mode = backgroundMode;
 				short backcolor = whiteIndex;
@@ -1161,7 +1180,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 								);
 					ImageAnchorTypeEnum imageAnchorType = 
 						ImageAnchorTypeEnum.getByName(
-							JRPropertiesUtil.getOwnProperty(element, XlsExporterConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
+							JRPropertiesUtil.getOwnProperty(element, XlsReportConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
 							);
 					if (imageAnchorType == null)
 					{
@@ -1216,7 +1235,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				cellStyle.setDataFormat(style.getDataFormat());
 			}
 
-			if (!getCurrentConfiguration().isIgnoreCellBorder()) {
+			if (!getCurrentItemConfiguration().isIgnoreCellBorder()) {
 				BoxStyle box = style.box;
 				cellStyle.setBorderTop(box.borderStyle[BoxStyle.TOP]);
 				cellStyle.setTopBorderColor(box.borderColour[BoxStyle.TOP]);
@@ -1736,7 +1755,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			}
 		}
 
-		boolean isFontSizeFixEnabled = getCurrentConfiguration().isFontSizeFixEnabled();
+		boolean isFontSizeFixEnabled = getCurrentItemConfiguration().isFontSizeFixEnabled();
 		
 		short superscriptType = HSSFFont.SS_NONE;
 		

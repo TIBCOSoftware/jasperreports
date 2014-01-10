@@ -56,7 +56,6 @@ import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
-import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
@@ -74,6 +73,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.PptxExporterConfiguration;
+import net.sf.jasperreports.export.PptxReportConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -84,7 +84,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration, OutputStreamExporterOutput, JRPptxExporterContext>
+public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, PptxExporterConfiguration, OutputStreamExporterOutput, JRPptxExporterContext>
 {
 	private static final Log log = LogFactory.getLog(JRPptxExporter.class);
 	
@@ -97,9 +97,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 	protected static final String PPTX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.pptx.";
 
 	/**
-	 * @deprecated Replaced by {@link PptxExporterConfiguration#PROPERTY_IGNORE_HYPERLINK}.
+	 * @deprecated Replaced by {@link PptxReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
 	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = PptxExporterConfiguration.PROPERTY_IGNORE_HYPERLINK;
+	public static final String PROPERTY_IGNORE_HYPERLINK = PptxReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
 
 	/**
 	 *
@@ -181,6 +181,15 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 	{
 		return PptxExporterConfiguration.class;
 	}
+
+
+	/**
+	 *
+	 */
+	protected Class<PptxReportConfiguration> getItemConfigurationInterface()
+	{
+		return PptxReportConfiguration.class;
+	}
 	
 
 	/**
@@ -243,6 +252,23 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 	}
 	
 
+	@Override
+	protected void initReport()
+	{
+		super.initReport();
+		
+		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
+		{
+			// allows null values for the property
+			invalidCharReplacement = jasperPrint.getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS);
+		}
+		else
+		{
+			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
+		}
+	}
+
+	
 	/**
 	 *
 	 */
@@ -275,8 +301,8 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
 		{
 			ExporterInputItem item = items.get(reportIndex);
+			
 			setCurrentExporterInputItem(item);
-			setExporterHints();
 			
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
@@ -343,7 +369,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 
 		exportElements(page.getElements());
 		
-		JRExportProgressMonitor progressMonitor = getCurrentConfiguration().getProgressMonitor();
+		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -401,8 +427,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 	{
 		if (elements != null && elements.size() > 0)
 		{
-			ExporterFilter filter = getCurrentConfiguration().getExporterFilter();
-			
 			JRPrintElement element;
 			for(int i = 0; i < elements.size(); i++)
 			{
@@ -1627,10 +1651,10 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 	{
 		String href = null;
 
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PptxExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PptxReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
+			ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
 		}
 
 		if (!ignoreHyperlink)
@@ -1734,19 +1758,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxExporterConfiguration
 	public String getExporterPropertiesPrefix()
 	{
 		return PPTX_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	protected void setExporterHints()
-	{
-		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
-		{
-			// allows null values for the property
-			invalidCharReplacement = jasperPrint.getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS);
-		}
-		else
-		{
-			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
-		}
 	}
 	
 }

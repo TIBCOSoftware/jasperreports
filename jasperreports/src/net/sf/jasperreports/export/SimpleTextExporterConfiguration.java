@@ -30,10 +30,6 @@ package net.sf.jasperreports.export;
  */
 public class SimpleTextExporterConfiguration extends SimpleExporterConfiguration implements TextExporterConfiguration
 {
-	private Float charWidth;
-	private Float charHeight;
-	private Integer pageWidthInChars;
-	private Integer pageHeightInChars;
 	private String betweenPagesText;
 	private String lineSeparator;
 
@@ -45,70 +41,6 @@ public class SimpleTextExporterConfiguration extends SimpleExporterConfiguration
 	{
 	}
 
-	/**
-	 * 
-	 */
-	public Float getCharWidth()
-	{
-		return charWidth;
-	}
-
-	/**
-	 * 
-	 */
-	public void setCharWidth(Float charWidth)
-	{
-		this.charWidth = charWidth;
-	}
-
-	/**
-	 * 
-	 */
-	public Float getCharHeight()
-	{
-		return charHeight;
-	}
-
-	/**
-	 * 
-	 */
-	public void setCharHeight(Float charHeight)
-	{
-		this.charHeight = charHeight;
-	}
-
-	/**
-	 * 
-	 */
-	public Integer getPageWidthInChars()
-	{
-		return pageWidthInChars;
-	}
-
-	/**
-	 * 
-	 */
-	public void setPageWidthInChars(Integer pageWidthInChars)
-	{
-		this.pageWidthInChars = pageWidthInChars;
-	}
-
-	/**
-	 * 
-	 */
-	public Integer getPageHeightInChars()
-	{
-		return pageHeightInChars;
-	}
-
-	/**
-	 * 
-	 */
-	public void setPageHeightInChars(Integer pageHeightInChars)
-	{
-		this.pageHeightInChars = pageHeightInChars;
-	}
-	
 	/**
 	 * 
 	 */

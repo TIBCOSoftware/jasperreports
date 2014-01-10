@@ -27,6 +27,7 @@ import java.text.BreakIterator;
 import java.text.CharacterIterator;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.export.PdfReportConfiguration;
 
 import com.lowagie.text.SplitCharacter;
 import com.lowagie.text.pdf.PdfChunk;
@@ -39,8 +40,7 @@ import com.lowagie.text.pdf.PdfChunk;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  * 
- * @see net.sf.jasperreports.engine.export.JRPdfExporterParameter#FORCE_LINEBREAK_POLICY
- * @see net.sf.jasperreports.engine.export.JRPdfExporterParameter#PROPERTY_FORCE_LINEBREAK_POLICY
+ * @see PdfReportConfiguration#isForceLineBreakPolicy()
  */
 public class BreakIteratorSplitCharacter implements SplitCharacter
 {

@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.CsvExporterConfiguration;
+import net.sf.jasperreports.export.CsvReportConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,7 +50,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRCsvExporter extends JRAbstractCsvExporter<CsvExporterConfiguration, JRCsvExporterContext>
+public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration, CsvExporterConfiguration, JRCsvExporterContext>
 {
 	private static final Log log = LogFactory.getLog(JRCsvExporter.class);
 
@@ -84,6 +85,15 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvExporterConfiguratio
 	{
 		return CsvExporterConfiguration.class;
 	}
+
+
+	/**
+	 *
+	 */
+	protected Class<CsvReportConfiguration> getItemConfigurationInterface()
+	{
+		return CsvReportConfiguration.class;
+	}
 	
 
 	/**
@@ -114,14 +124,16 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvExporterConfiguratio
 		String fieldDelimiter = configuration.getFieldDelimiter();
 		String recordDelimiter = configuration.getRecordDelimiter();
 		
+		CsvReportConfiguration lcItemConfiguration = getCurrentItemConfiguration();
+		
 		JRGridLayout layout = 
 			new JRGridLayout(
 				nature,
 				page.getElements(), 
 				jasperPrint.getPageWidth(), 
 				jasperPrint.getPageHeight(), 
-				configuration.getOffsetX() == null ? 0 : configuration.getOffsetX(), 
-				configuration.getOffsetY() == null ? 0 : configuration.getOffsetY(),
+				lcItemConfiguration.getOffsetX() == null ? 0 : lcItemConfiguration.getOffsetX(), 
+				lcItemConfiguration.getOffsetY() == null ? 0 : lcItemConfiguration.getOffsetY(),
 				null //address
 				);
 		
@@ -215,7 +227,7 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvExporterConfiguratio
 			}
 		}
 		
-		JRExportProgressMonitor progressMonitor  = configuration.getProgressMonitor();
+		JRExportProgressMonitor progressMonitor  = lcItemConfiguration.getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();

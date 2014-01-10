@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
+import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
 
 
@@ -41,7 +42,7 @@ import net.sf.jasperreports.export.HtmlExporterOutput;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: HtmlExporter.java 6502 2013-09-11 14:07:25Z lucianc $
  */
-public abstract class AbstractHtmlExporter<C extends HtmlExporterConfiguration> extends JRAbstractExporter<C, HtmlExporterOutput, JRHtmlExporterContext>
+public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C extends HtmlExporterConfiguration> extends JRAbstractExporter<RC, C, HtmlExporterOutput, JRHtmlExporterContext>
 {
 	/**
 	 *

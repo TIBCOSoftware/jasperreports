@@ -99,6 +99,7 @@ import net.sf.jasperreports.engine.util.NullOutputStream;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.PdfExporterConfiguration;
+import net.sf.jasperreports.export.PdfReportConfiguration;
 import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
@@ -140,7 +141,7 @@ import com.lowagie.text.pdf.PdfWriter;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, OutputStreamExporterOutput, JRPdfExporterContext>
+public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, PdfExporterConfiguration, OutputStreamExporterOutput, JRPdfExporterContext>
 {
 
 	private static final Log log = LogFactory.getLog(JRPdfExporter.class);
@@ -148,9 +149,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 	public static final String PDF_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.";
 
 	/**
-	 * @deprecated Replaced by {@link PdfExporterConfiguration#PROPERTY_IGNORE_HYPERLINK}.
+	 * @deprecated Replaced by {@link PdfReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
 	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = PdfExporterConfiguration.PROPERTY_IGNORE_HYPERLINK;
+	public static final String PROPERTY_IGNORE_HYPERLINK = PdfReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
 
 	/**
 	 * Prefix of properties that specify font files for the PDF exporter.
@@ -236,6 +237,15 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 	{
 		return PdfExporterConfiguration.class;
 	}
+
+
+	/**
+	 *
+	 */
+	protected Class<PdfReportConfiguration> getItemConfigurationInterface()
+	{
+		return PdfReportConfiguration.class;
+	}
 	
 
 	/**
@@ -291,11 +301,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 		ensureJasperReportsContext();
 		ensureInput();
 
-		if (getCurrentConfiguration().isForceLineBreakPolicy())
-		{
-			splitCharacter = new BreakIteratorSplitCharacter();
-		}
-		
 		initExport();
 
 		ensureOutput();
@@ -328,6 +333,18 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 		}
 
 		tagHelper.setLanguage(configuration.getTagLanguage()); 
+	}
+
+
+	@Override
+	protected void initReport()
+	{
+		super.initReport();
+
+		if (getCurrentItemConfiguration().isForceLineBreakPolicy())
+		{
+			splitCharacter = new BreakIteratorSplitCharacter();
+		}
 	}
 
 
@@ -501,7 +518,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 			for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
 			{
 				ExporterInputItem item = items.get(reportIndex);
+
 				setCurrentExporterInputItem(item);
+				
 				loadedImagesMap = new HashMap<Renderable,com.lowagie.text.Image>();
 				
 				setPageSize(null);
@@ -520,9 +539,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 						}
 					}
 					
-					configuration = getCurrentConfiguration();
+					PdfReportConfiguration lcItemConfiguration = getCurrentItemConfiguration();
 
-					boolean sizePageToContent = configuration.isSizePageToContent();
+					boolean sizePageToContent = lcItemConfiguration.isSizePageToContent();
 
 					PageRange pageRange = getPageRange();
 					int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
@@ -678,7 +697,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 		
 		tagHelper.endPage();
 
-		JRExportProgressMonitor progressMonitor = getCurrentConfiguration().getProgressMonitor();
+		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -689,8 +708,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 	{
 		if (elements != null && elements.size() > 0)
 		{
-			ExporterFilter filter = getCurrentConfiguration().getExporterFilter();
-
 			for(Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 			{
 				JRPrintElement element = it.next();
@@ -1345,7 +1362,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 
 				PdfTemplate template = pdfContentByte.createTemplate((float)displayWidth, (float)displayHeight);
 
-				Graphics2D g = getCurrentConfiguration().isForceSvgShapes()
+				Graphics2D g = getCurrentItemConfiguration().isForceSvgShapes()
 					? template.createGraphicsShapes((float)displayWidth, (float)displayHeight)
 					: template.createGraphics(availableImageWidth, availableImageHeight, new LocalFontMapper());
 
@@ -1502,10 +1519,10 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 	{
 		if (link != null)
 		{
-			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PdfExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
+			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PdfReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 			if (ignoreHyperlink == null)
 			{
-				ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
+				ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
 			}
 			
 			if (!ignoreHyperlink)
@@ -1586,7 +1603,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 					}
 					case CUSTOM :
 					{
-						JRHyperlinkProducerFactory hyperlinkProducerFactory = getCurrentConfiguration().getHyperlinkProducerFactory();
+						JRHyperlinkProducerFactory hyperlinkProducerFactory = getCurrentItemConfiguration().getHyperlinkProducerFactory();
 						if (hyperlinkProducerFactory != null)
 						{
 							String hyperlink = hyperlinkProducerFactory.produceHyperlink(link);
@@ -2445,7 +2462,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfExporterConfiguration, 
 			parent = bookmarkStack.peek();
 		}
 
-		if (!getCurrentConfiguration().isCollapseMissingBookmarkLevels())
+		if (!getCurrentItemConfiguration().isCollapseMissingBookmarkLevels())
 		{
 			// creating empty bookmarks in order to preserve the bookmark level
 			for (int i = parent.level + 1; i < level; ++i)

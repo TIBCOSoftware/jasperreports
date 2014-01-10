@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.export;
 
-import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
@@ -52,11 +51,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 */
 	public static final String PROPERTY_CREATE_BATCH_MODE_BOOKMARKS = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.create.batch.mode.bookmarks";
 	
-	/**
-	 * Property that provides a default value for the {@link #isForceSvgShapes()} PDF exporter configuration flag.
-	 */
-	public static final String PROPERTY_FORCE_SVG_SHAPES = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.force.svg.shapes";
-
 	/**
 	 * Property whose value is used as default state of the {@link #isCompressed()} export configuration flag.
 	 * <p/>
@@ -116,25 +110,11 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	/**
 	 * Property whose value is used as default state of the {@link #getPrintScaling()} export configuration setting.
 	 * <p/>
-	 * By default, this property is set to {@link #PRINT_SCALING_DEFAULT}.
+	 * By default, this property is set to {@link PdfPrintScalingEnum#DEFAULT}.
 	 *
 	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_PRINT_SCALING = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.print.scaling";
-
-	/**
-	 * Property that provides a default for the {@link #isCollapseMissingBookmarkLevels()} export configuration flag.
-	 * 
-	 * <p>
-	 * The property can be set globally and at report level.
-	 * By default, the property is set to <code>false</code>.
-	 * </p>
-	 * 
-	 * @see net.sf.jasperreports.engine.JRAnchor#getBookmarkLevel()
-	 * @since 3.7.3
-	 */
-	public static final String PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS = 
-		JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.collapse.missing.bookmark.levels";
 
 	/**
 	 * Property whose value is used as default for the {@link #isTagged()} export configuration flag.
@@ -151,13 +131,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_TAG_LANGUAGE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.tag.language";
 
 	/**
-	 * Property which specifies a default for the {@link #isSizePageToContent()} export configuration flag.
-	 * 
-	 * @see JRPropertiesUtil
-	 */
-	public static final String PROPERTY_SIZE_PAGE_TO_CONTENT = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.size.page.to.content";
-
-	/**
 	 * Property whose value is used as default for the {@link #getPdfaConformance()} export configuration setting.
 	 * <p/>
 	 * By default, this property is set to {@link PdfaConformanceEnum#NONE}.
@@ -170,16 +143,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * Property whose value is used as default for the {@link #getIccProfilePath} export configuration setting.
 	 */
 	public static final String PROPERTY_PDFA_ICC_PROFILE_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdfa.icc.profile.path";
-
-	/**
-	 * Property that provides a default for the {@link #isIgnoreHyperlink()} export configuration flag.
-	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
-
-	/**
-	 * Property that provides a default value for the {@link #isForceLineBreakPolicy()} exporter configuration flag.
-	 */
-	public static final String PROPERTY_FORCE_LINEBREAK_POLICY = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
 
 	/**
 	 * Returns a boolean value specifying  whether the PDF document should contain an outline section.
@@ -195,33 +158,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 		booleanDefault=false
 		)
 	public Boolean isCreatingBatchModeBookmarks();
-	
-	/**
-	 * Flag to force the rendering of SVG images using shapes, on the PDF Graphics2D context.
-	 *
-	 * This allows rendering fonts as shapes and avoid font mapping issues that might cause Unicode
-	 * text not to show up properly, but has the disadvantage of producing larger PDF files.
-	 * By default, the flag is set to true, mainly due to backward compatibility reasons.
-	 *
-	 * To reduce PDF file size for documents containing SVG images such as charts, the flag should be
-	 * turned to false, and the PDF exporter font mappings should be correctly configured using the
-	 * font extension support, to ensure proper rendering of text in the SVG.
-	 *
-	 * This flag can be set system-wide using the {@link #PROPERTY_FORCE_SVG_SHAPES PROPERTY_FORCE_SVG_SHAPES} 
-	 * property.
-	 *
-	 * @see #PROPERTY_FORCE_SVG_SHAPES
-	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="FORCE_SVG_SHAPES"
-		)
-	@ExporterProperty(
-		value=PROPERTY_FORCE_SVG_SHAPES, 
-		booleanDefault=false
-		)
-	public Boolean isForceSvgShapes();
 	
 	/**
 	 * Returns a boolean value specifying whether the PDF document should be compressed.
@@ -330,28 +266,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	public PdfPrintScalingEnum getPrintScaling();
 	
 	/**
-	 * Flag that determines if missing bookmark levels are collapsed, or if 
-	 * empty bookmarks are created for the missing levels.
-	 * 
-	 * <p>
-	 * The flag dictates what happens when a filled report contains an anchor
-	 * having a bookmark level that is not the immediate successor of its parent
-	 * (e.g. an anchor with bookmark level 3 follows immediately after a bookmark
-	 * of level 1).
-	 * If the flag is not set, an empty bookmark is created for the missing
-	 * level(s) in order to preserve the original level of the bookmark.
-	 * When the property is set, the level of the bookmark will be collapsed and
-	 * the bookmark will be created as a direct descendant of its nearest parent.
-	 * </p>
-	 * @see #PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS
-	 */
-	@ExporterProperty(
-		value=PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS,
-		booleanDefault=false
-		)
-	public Boolean isCollapseMissingBookmarkLevels();
-	
-	/**
 	 * Specifies whether the exporter should put structure tags in the generated PDF.
 	 * @see #PROPERTY_TAGGED
 	 */
@@ -379,16 +293,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	public String getTagLanguage();
 	
 	/**
-	 * Flag which specifies if the size of each page should be increased to accommodate its content.
-	 * @see #PROPERTY_SIZE_PAGE_TO_CONTENT
-	 */
-	@ExporterProperty(
-		value=PROPERTY_SIZE_PAGE_TO_CONTENT, 
-		booleanDefault=false
-		)
-	public Boolean isSizePageToContent();
-	
-	/**
 	 * The Conformance level of the PDF/A document.
 	 * @see #PROPERTY_PDFA_CONFORMANCE
 	 */
@@ -411,15 +315,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 		)
 	@ExporterProperty(PROPERTY_PDFA_ICC_PROFILE_PATH)
 	public String getIccProfilePath();
-	
-	/**
-	 * @see #PROPERTY_IGNORE_HYPERLINK
-	 */
-	@ExporterProperty(
-		value=PROPERTY_IGNORE_HYPERLINK, 
-		booleanDefault=false
-		)
-	public Boolean isIgnoreHyperlink();
 	
 	/**
 	 * An integer value representing the PDF permissions for the generated document. The open permissions for the document
@@ -483,29 +378,4 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 		name="METADATA_CREATOR"
 		)
 	public String getMetadataCreator();
-
-	/**
-	 * Flag that decides whether the PDF exporter should use a {@link com.lowagie.text.SplitCharacter SplitCharacter}
-	 * implementation which ensures that report texts are broken into lines by iText in the same manner as done by the
-	 * fill process.
-	 * <p>
-	 * The default line-breaking logic differs from AWT (which is used during the report fill) to iText (used by the PDF
-	 * exporter).  By setting this flag, the logic used by AWT is imposed to iText.  The drawback is that the PDF export
-	 * performance would drop.  Because of this, the flag is not set by default.
-	 * <p>
-	 * This flag can be set system-wide using the
-	 * {@link #PROPERTY_FORCE_LINEBREAK_POLICY PROPERTY_FORCE_LINEBREAK_POLICY} property.
-	 *
-	 * @see #PROPERTY_FORCE_LINEBREAK_POLICY
-	 * @see net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter
-	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="FORCE_LINEBREAK_POLICY"
-		)
-	@ExporterProperty(
-		value=PROPERTY_FORCE_LINEBREAK_POLICY,
-		booleanDefault=false)
-	public Boolean isForceLineBreakPolicy();
 }

@@ -40,5 +40,5 @@ public interface ExporterInputItem
 	/**
 	 * 
 	 */
-	public ExporterConfiguration getConfiguration();
+	public ReportExportConfiguration getConfiguration();
 }

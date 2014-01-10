@@ -32,7 +32,6 @@ package net.sf.jasperreports.export;
 public class SimpleJxlMetadataExporterConfiguration extends SimpleXlsMetadataExporterConfiguration implements JxlMetadataExporterConfiguration
 {
 	private Boolean isUseTempFile;
-	private Boolean isComplexFormat;
 
 	/**
 	 * 
@@ -55,21 +54,5 @@ public class SimpleJxlMetadataExporterConfiguration extends SimpleXlsMetadataExp
 	public void setUseTempFile(Boolean isUseTempFile)
 	{
 		this.isUseTempFile = isUseTempFile;
-	}
-
-	/**
-	 * 
-	 */
-	public Boolean isComplexFormat()
-	{
-		return isComplexFormat;
-	}
-
-	/**
-	 * 
-	 */
-	public void setComplexFormat(Boolean isComplexFormat)
-	{
-		this.isComplexFormat = isComplexFormat;
 	}
 }

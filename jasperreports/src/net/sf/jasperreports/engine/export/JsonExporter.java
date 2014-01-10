@@ -40,8 +40,9 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.export.ExporterInputItem;
-import net.sf.jasperreports.export.HtmlExporterConfiguration;
+import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.JsonExporterConfiguration;
+import net.sf.jasperreports.export.JsonReportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
 
 import org.apache.commons.logging.Log;
@@ -52,7 +53,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JsonExporter extends JRAbstractExporter<JsonExporterConfiguration, WriterExporterOutput, JsonExporterContext>
+public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, JsonExporterConfiguration, WriterExporterOutput, JsonExporterContext>
 {
 	
 	private static final Log log = LogFactory.getLog(JsonExporter.class);
@@ -85,6 +86,15 @@ public class JsonExporter extends JRAbstractExporter<JsonExporterConfiguration, 
 	protected Class<JsonExporterConfiguration> getConfigurationInterface()
 	{
 		return JsonExporterConfiguration.class;
+	}
+
+
+	/**
+	 *
+	 */
+	protected Class<JsonReportConfiguration> getItemConfigurationInterface()
+	{
+		return JsonReportConfiguration.class;
 	}
 	
 
@@ -149,6 +159,12 @@ public class JsonExporter extends JRAbstractExporter<JsonExporterConfiguration, 
 		super.initExport();
 	}
 	
+	@Override
+	protected void initReport()
+	{
+		super.initReport();
+	}
+	
 	protected void exportReportToWriter() throws JRException, IOException
 	{
 		writer.write("{\n");
@@ -158,6 +174,7 @@ public class JsonExporter extends JRAbstractExporter<JsonExporterConfiguration, 
 		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
 		{
 			ExporterInputItem item = items.get(reportIndex);
+
 			setCurrentExporterInputItem(item);
 			
 			List<JRPrintPage> pages = jasperPrint.getPages();
@@ -201,7 +218,7 @@ public class JsonExporter extends JRAbstractExporter<JsonExporterConfiguration, 
 		Collection<JRPrintElement> elements = page.getElements();
 		exportElements(elements);
 		
-		JRExportProgressMonitor progressMonitor = getCurrentConfiguration().getProgressMonitor();
+		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -212,8 +229,6 @@ public class JsonExporter extends JRAbstractExporter<JsonExporterConfiguration, 
 	{
 		if (elements != null && elements.size() > 0)
 		{
-			ExporterFilter filter = getCurrentConfiguration().getExporterFilter();
-			
 			for(Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 			{
 				JRPrintElement element = it.next();
@@ -276,10 +291,10 @@ public class JsonExporter extends JRAbstractExporter<JsonExporterConfiguration, 
 	{
 		String href = null;
 		
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(HtmlExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(HtmlReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
+			ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
 		}
 
 		if (!ignoreHyperlink)

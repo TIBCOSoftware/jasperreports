@@ -26,12 +26,13 @@ package net.sf.jasperreports.engine;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterOutput;
-import net.sf.jasperreports.export.HtmlExporterConfiguration;
+import net.sf.jasperreports.export.HtmlReportConfiguration;
+import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.WriterExporterOutput;
-import net.sf.jasperreports.export.XlsExporterConfiguration;
+import net.sf.jasperreports.export.XlsReportConfiguration;
 
 
 /**
@@ -152,19 +153,19 @@ public class JRExporterParameter
 
 
 	/**
-	 * @deprecated Replaced by {@link ExporterConfiguration#getPageIndex()}.
+	 * @deprecated Replaced by {@link ReportExportConfiguration#getPageIndex()}.
 	 */
 	public static final JRExporterParameter PAGE_INDEX = new JRExporterParameter("Page Index");
 
 
 	/**
-	 * @deprecated Replaced by {@link ExporterConfiguration#getStartPageIndex()}.
+	 * @deprecated Replaced by {@link ReportExportConfiguration#getStartPageIndex()}.
 	 */
 	public static final JRExporterParameter START_PAGE_INDEX = new JRExporterParameter("Start Page Index");
 
 
 	/**
-	 * @deprecated Replaced by {@link ExporterConfiguration#getEndPageIndex()}.
+	 * @deprecated Replaced by {@link ReportExportConfiguration#getEndPageIndex()}.
 	 */
 	public static final JRExporterParameter END_PAGE_INDEX = new JRExporterParameter("End Page Index");
 
@@ -184,19 +185,19 @@ public class JRExporterParameter
 
 
 	/**
-	 * @deprecated Replaced by {@link ExporterConfiguration#getProgressMonitor()}.
+	 * @deprecated Replaced by {@link ReportExportConfiguration#getProgressMonitor()}.
 	 */
 	public static final JRExporterParameter PROGRESS_MONITOR = new JRExporterParameter("Progress Monitor");
 
 
 	/**
-	 * @deprecated Replaced by {@link ExporterConfiguration#getOffsetX()}.
+	 * @deprecated Replaced by {@link ReportExportConfiguration#getOffsetX()}.
 	 */
 	public static final JRExporterParameter OFFSET_X = new JRExporterParameter("Offset X");
 
 
 	/**
-	 * @deprecated Replace by {@link ExporterConfiguration#getOffsetY()}.
+	 * @deprecated Replace by {@link ReportExportConfiguration#getOffsetY()}.
 	 */
 	public static final JRExporterParameter OFFSET_Y = new JRExporterParameter("Offset Y");
 
@@ -226,13 +227,13 @@ public class JRExporterParameter
 
 	
 	/**
-	 * @deprecated Replaced by {@link ExporterConfiguration#getHyperlinkProducerFactory()}.
+	 * @deprecated Replaced by {@link ReportExportConfiguration#getHyperlinkProducerFactory()}.
 	 */
 	public static final JRExporterParameter HYPERLINK_PRODUCER_FACTORY = new JRExporterParameter("Hyperlink producer factory");
 
 	
 	/**
-	 * @deprecated Replaced by {@link ExporterConfiguration#getExporterFilter()}.
+	 * @deprecated Replaced by {@link ReportExportConfiguration#getExporterFilter()}.
 	 */
 	public static final JRExporterParameter FILTER = new JRExporterParameter("Filter");
 
@@ -260,15 +261,15 @@ public class JRExporterParameter
 
 	
 	/**
-	 * @deprecated Replaced by {@link HtmlExporterConfiguration#isIgnorePageMargins()}
-	 * and {@link XlsExporterConfiguration#isIgnorePageMargins()}.
+	 * @deprecated Replaced by {@link HtmlReportConfiguration#isIgnorePageMargins()}
+	 * and {@link XlsReportConfiguration#isIgnorePageMargins()}.
 	 */
 	public static final JRExporterParameter IGNORE_PAGE_MARGINS = new JRExporterParameter("Ignore page margins");
 	
 
 	/**
-	 * @deprecated Replaced by {@link ExporterConfiguration#PROPERTY_IGNORE_PAGE_MARGINS}.
+	 * @deprecated Replaced by {@link ReportExportConfiguration#PROPERTY_IGNORE_PAGE_MARGINS}.
 	 */
-	public static final String PROPERTY_IGNORE_PAGE_MARGINS = ExporterConfiguration.PROPERTY_IGNORE_PAGE_MARGINS;
+	public static final String PROPERTY_IGNORE_PAGE_MARGINS = ReportExportConfiguration.PROPERTY_IGNORE_PAGE_MARGINS;
 
 }

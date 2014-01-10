@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.export.Exporter;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
+import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.commands.CommandTarget;
@@ -78,7 +79,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
 		String htmlFragment = null;
-		Exporter<ExporterInput, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter = context.getExporterRef();
+		Exporter<ExporterInput, ? extends HtmlReportConfiguration, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter = context.getExporterRef();
 		ReportContext reportContext = exporter.getReportContext();
 		if (reportContext != null)//FIXMEJIVE
 		{
@@ -257,7 +258,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	
 	@SuppressWarnings("deprecation")
 	private void xhtmlExport(
-		Exporter<ExporterInput, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter,
+		Exporter<ExporterInput, ? extends HtmlReportConfiguration, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter,
 		VelocityContext velocityContext,
 		JRGenericPrintElement element
 		)

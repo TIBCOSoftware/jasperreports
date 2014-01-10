@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.JREnum;
-import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.CommonExportConfiguration;
 import net.sf.jasperreports.export.PropertiesExporterConfigurationFactory;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
@@ -47,7 +47,7 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class ParametersExporterConfigurationFactory<C extends ExporterConfiguration>
+public class ParametersExporterConfigurationFactory<C extends CommonExportConfiguration>
 {
 	/**
 	 * 

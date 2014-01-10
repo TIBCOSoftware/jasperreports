@@ -128,7 +128,9 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.JxlExporterConfiguration;
+import net.sf.jasperreports.export.JxlReportConfiguration;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
+import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -141,7 +143,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Manuel Paul (mpaul@ratundtat.com)
  * @version $Id$
  */
-public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfiguration, JExcelApiExporterContext>
+public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfiguration, JxlExporterConfiguration, JExcelApiExporterContext>
 {
 
 	private static final Log log = LogFactory.getLog(JExcelApiExporter.class);
@@ -152,9 +154,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 	public static final String PROPERTY_USE_TEMP_FILE = JxlExporterConfiguration.PROPERTY_USE_TEMP_FILE;
 
 	/**
-	 * @deprecated Replaced by {@link JxlExporterConfiguration#PROPERTY_COMPLEX_FORMAT}.
+	 * @deprecated Replaced by {@link JxlReportConfiguration#PROPERTY_COMPLEX_FORMAT}.
 	 */
-	public static final String PROPERTY_COMPLEX_FORMAT = JxlExporterConfiguration.PROPERTY_COMPLEX_FORMAT;
+	public static final String PROPERTY_COMPLEX_FORMAT = JxlReportConfiguration.PROPERTY_COMPLEX_FORMAT;
 
 	/**
 	 * The exporter key, as used in
@@ -222,6 +224,15 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 	{
 		return JxlExporterConfiguration.class;
 	}
+
+	
+	/**
+	 *
+	 */
+	protected Class<JxlReportConfiguration> getItemConfigurationInterface()
+	{
+		return JxlReportConfiguration.class;
+	}
 	
 
 	@Override
@@ -230,6 +241,20 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 		super.initExport();
 
 		XlsExporterConfiguration configuration = getCurrentConfiguration();
+		
+		if (configuration.isCreateCustomPalette())
+		{
+			initCustomPalette();
+		}
+	}
+	
+
+	@Override
+	protected void initReport()
+	{
+		super.initReport();
+
+		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		if (configuration.isWhitePageBackground())
 		{
@@ -240,20 +265,16 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 			this.backgroundMode = Pattern.NONE;
 		}
 
-		if (configuration.isCreateCustomPalette())
-		{
-			initCustomPalette();
-		}
-
 		nature = 
 			new JExcelApiExporterNature(
 				jasperReportsContext, 
-				configuration.getExporterFilter(), 
+				filter, 
 				configuration.isIgnoreGraphics(), 
 				configuration.isIgnorePageMargins()
 				);
 	}
 
+	
 	protected void initCustomPalette()
 	{
 		//mark "fixed" colours as always used
@@ -368,7 +389,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 			workbook.createSheet(EMPTY_SHEET_NAME, Integer.MAX_VALUE);
 		}
 
-		JxlExporterConfiguration configuration = getCurrentConfiguration();
+		JxlReportConfiguration configuration = getCurrentItemConfiguration();//FIXMEEXPORT how can we use a per item config at workbook level?
 		
 		if(!configuration.isIgnoreAnchors()) {
 			Range[] range = null;
@@ -491,7 +512,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 		Pattern mode = backgroundMode;
 		Colour backcolor = WHITE;
 		
-		JxlExporterConfiguration configuration = getCurrentConfiguration();
+		JxlReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		if (!configuration.isIgnoreCellBackground() && gridCell.getCellBackcolor() != null)
 		{
@@ -536,7 +557,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 		Colour backcolor = WHITE;
 		Pattern mode = this.backgroundMode;
 
-		JxlExporterConfiguration configuration = getCurrentConfiguration(); 
+		JxlReportConfiguration configuration = getCurrentItemConfiguration(); 
 		
 		if (!configuration.isIgnoreCellBackground() && gridCell.getCellBackcolor() != null)
 		{
@@ -597,7 +618,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 		Colour backcolor = WHITE;
 		Pattern mode = this.backgroundMode;
 
-		JxlExporterConfiguration configuration = getCurrentConfiguration();
+		JxlReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		if (!configuration.isIgnoreCellBackground() && gridCell.getCellBackcolor() != null)
 		{
@@ -647,7 +668,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 			Pattern mode = this.backgroundMode;
 			Colour backcolor = WHITE;
 
-			JxlExporterConfiguration configuration = getCurrentConfiguration();
+			JxlReportConfiguration configuration = getCurrentItemConfiguration();
 			
 			if (!configuration.isIgnoreCellBackground() && gridCell.getCellBackcolor() != null)
 			{
@@ -675,7 +696,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 				workbook.addNameArea(text.getAnchorName(), sheet, col, row, lastCol, lastRow);
 			}
 
-			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, text);
+			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsReportConfiguration.PROPERTY_IGNORE_HYPERLINK, text);
 			if (ignoreHyperlink == null)
 			{
 				ignoreHyperlink = configuration.isIgnoreHyperlink();
@@ -711,7 +732,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 				}
 				case LOCAL_ANCHOR :
 				{
-					if(!getCurrentConfiguration().isIgnoreAnchors()) {
+					if(!getCurrentItemConfiguration().isIgnoreAnchors()) {
 						String href = link.getHyperlinkAnchor();
 						if(href != null){
 							int lastCol = Math.max(0, col + gridCell.getColSpan() - 1);
@@ -730,7 +751,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 				}
 				case LOCAL_PAGE :
 				{
-					if(!getCurrentConfiguration().isIgnoreAnchors()) {
+					if(!getCurrentItemConfiguration().isIgnoreAnchors()) {
 						Integer href = link.getHyperlinkPage();
 						if(href != null){
 							int lastCol = Math.max(0, col + gridCell.getColSpan() - 1);
@@ -799,7 +820,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 		
 		if (cellValue == null)
 		{
-			JxlExporterConfiguration configuration = getCurrentConfiguration();
+			JxlReportConfiguration configuration = getCurrentItemConfiguration();
 			
 			// there was no formula, or the formula cell creation failed
 			if (configuration.isDetectCellType())
@@ -1045,7 +1066,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 
 	protected void addMergeRegion(JRExporterGridCell gridCell, int x, int y) throws JRException
 	{
-		boolean isCollapseRowSpan = getCurrentConfiguration().isCollapseRowSpan();
+		boolean isCollapseRowSpan = getCurrentItemConfiguration().isCollapseRowSpan();
 		
 		if (
 			gridCell.getColSpan() > 1 
@@ -1326,7 +1347,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 			Pattern mode = this.backgroundMode;
 			Colour background = WHITE;
 
-			JxlExporterConfiguration configuration = getCurrentConfiguration();
+			JxlReportConfiguration configuration = getCurrentItemConfiguration();
 			
 			if (!configuration.isIgnoreCellBackground() && gridCell.getCellBackcolor() != null)
 			{
@@ -1359,7 +1380,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 				workbook.addNameArea(element.getAnchorName(), sheet, col, row, lastCol, lastRow);
 			}
 			
-			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, element);
+			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsReportConfiguration.PROPERTY_IGNORE_HYPERLINK, element);
 			if (ignoreHyperlink == null)
 			{
 				ignoreHyperlink = configuration.isIgnoreHyperlink();
@@ -1385,7 +1406,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 				
 				ImageAnchorTypeEnum imageAnchorType = 
 					ImageAnchorTypeEnum.getByName(
-						JRPropertiesUtil.getOwnProperty(element, XlsExporterConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
+						JRPropertiesUtil.getOwnProperty(element, XlsReportConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
 						);
 				if (imageAnchorType == null)
 				{
@@ -1441,7 +1462,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 	 */
 	protected double getRowRelativePosition(JRGridLayout layout, int row, int offset)
 	{
-		boolean isCollapseRowSpan = getCurrentConfiguration().isCollapseRowSpan();
+		boolean isCollapseRowSpan = getCurrentItemConfiguration().isCollapseRowSpan();
 		
 		double rowRelPos = 0;
 		
@@ -1628,7 +1649,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 
 	private WritableFont getLoadedFont(JRFont font, int forecolor, Locale locale) throws JRException
 	{
-		boolean isFontSizeFixEnabled = getCurrentConfiguration().isFontSizeFixEnabled();
+		boolean isFontSizeFixEnabled = getCurrentItemConfiguration().isFontSizeFixEnabled();
 		
 		WritableFont cellFont = null;
 
@@ -2128,7 +2149,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 				cellStyle.setWrap(styleKey.isWrapText);
 				cellStyle.setLocked(styleKey.isCellLocked);
 
-				JxlExporterConfiguration configuration = getCurrentConfiguration();
+				JxlReportConfiguration configuration = getCurrentItemConfiguration();
 				
 				if (!configuration.isIgnoreCellBorder())
 				{
@@ -2226,7 +2247,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 		}
 		SheetSettings sheets = sheet.getSettings();
 		
-		JxlExporterConfiguration configuration = getCurrentConfiguration();
+		JxlReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
 		
@@ -2624,14 +2645,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlExporterConfigur
 	{
 		if (
 			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(JxlExporterConfiguration.PROPERTY_COMPLEX_FORMAT)
+			&& element.getPropertiesMap().containsProperty(JxlReportConfiguration.PROPERTY_COMPLEX_FORMAT)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, JxlExporterConfiguration.PROPERTY_COMPLEX_FORMAT, getCurrentConfiguration().isComplexFormat());
+			return getPropertiesUtil().getBooleanProperty(element, JxlReportConfiguration.PROPERTY_COMPLEX_FORMAT, getCurrentItemConfiguration().isComplexFormat());
 		}
-		return getCurrentConfiguration().isComplexFormat();
+		return getCurrentItemConfiguration().isComplexFormat();
 	}
 	
 	/**

@@ -31,7 +31,6 @@ package net.sf.jasperreports.export;
 public class SimpleJsonExporterConfiguration extends SimpleExporterConfiguration implements JsonExporterConfiguration
 {
 	private Boolean flushOutput;
-	private Boolean isIgnoreHyperlink;
 
 	/**
 	 * 
@@ -54,21 +53,5 @@ public class SimpleJsonExporterConfiguration extends SimpleExporterConfiguration
 	public void setFlushOutput(Boolean flushOutput)
 	{
 		this.flushOutput = flushOutput;
-	}
-	
-	/**
-	 * 
-	 */
-	public Boolean isIgnoreHyperlink()
-	{
-		return isIgnoreHyperlink;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setIgnoreHyperlink(Boolean isIgnoreHyperlink)
-	{
-		this.isIgnoreHyperlink = isIgnoreHyperlink;
 	}
 }

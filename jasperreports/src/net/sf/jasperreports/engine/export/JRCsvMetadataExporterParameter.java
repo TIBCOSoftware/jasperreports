@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.export.CsvMetadataExporterConfiguration;
+import net.sf.jasperreports.export.CsvMetadataReportConfiguration;
 
 
 /**
@@ -45,27 +46,27 @@ public class JRCsvMetadataExporterParameter extends JRCsvExporterParameter
 
 
 	/**
-	 * @deprecated Replaced by {@link CsvMetadataExporterConfiguration#getColumnNames()}.
+	 * @deprecated Replaced by {@link CsvMetadataReportConfiguration#getColumnNames()}.
 	 */
 	public static final JRCsvMetadataExporterParameter COLUMN_NAMES = new JRCsvMetadataExporterParameter("Column Names");
 	
 	
 	/**
-	 * @deprecated Replaced by {@link CsvMetadataExporterConfiguration#PROPERTY_COLUMN_NAMES_PREFIX}.
+	 * @deprecated Replaced by {@link CsvMetadataReportConfiguration#PROPERTY_COLUMN_NAMES_PREFIX}.
 	 */
-	public static final String PROPERTY_COLUMN_NAMES_PREFIX = CsvMetadataExporterConfiguration.PROPERTY_COLUMN_NAMES_PREFIX;
+	public static final String PROPERTY_COLUMN_NAMES_PREFIX = CsvMetadataReportConfiguration.PROPERTY_COLUMN_NAMES_PREFIX;
 	
 	
 	/**
-	 * @deprecated Replaced by {@link CsvMetadataExporterConfiguration#isWriteHeader()}.
+	 * @deprecated Replaced by {@link CsvMetadataReportConfiguration#isWriteHeader()}.
 	 */
 	public static final JRCsvMetadataExporterParameter WRITE_HEADER = new JRCsvMetadataExporterParameter("Write Header");
 	
 
 	/**
-	 * @deprecated Replaced by {@link CsvMetadataExporterConfiguration#PROPERTY_WRITE_HEADER}.
+	 * @deprecated Replaced by {@link CsvMetadataReportConfiguration#PROPERTY_WRITE_HEADER}.
 	 */
-	public static final String PROPERTY_WRITE_HEADER = CsvMetadataExporterConfiguration.PROPERTY_WRITE_HEADER;
+	public static final String PROPERTY_WRITE_HEADER = CsvMetadataReportConfiguration.PROPERTY_WRITE_HEADER;
 
 	
 	/**

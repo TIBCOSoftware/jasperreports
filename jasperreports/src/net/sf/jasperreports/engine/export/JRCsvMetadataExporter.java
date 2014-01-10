@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.CsvExporterConfiguration;
 import net.sf.jasperreports.export.CsvMetadataExporterConfiguration;
+import net.sf.jasperreports.export.CsvMetadataReportConfiguration;
 
 
 /**
@@ -52,11 +53,11 @@ import net.sf.jasperreports.export.CsvMetadataExporterConfiguration;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataExporterConfiguration, JRCsvExporterContext>
+public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataReportConfiguration, CsvMetadataExporterConfiguration, JRCsvExporterContext>
 {
 	/**
 	 * Property specifying the name of the column that should appear in the CSV export.
-	 * It must be one of the values in {@link CsvMetadataExporterConfiguration#getColumnNames()}, if provided. 
+	 * It must be one of the values in {@link CsvMetadataReportConfiguration#getColumnNames()}, if provided. 
 	 * 
 	 * @see JRPropertiesUtil
 	 */
@@ -127,6 +128,15 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataExpo
 	/**
 	 *
 	 */
+	protected Class<CsvMetadataReportConfiguration> getItemConfigurationInterface()
+	{
+		return CsvMetadataReportConfiguration.class;
+	}
+	
+
+	/**
+	 *
+	 */
 	@SuppressWarnings("deprecation")
 	protected void ensureOutput()
 	{
@@ -151,9 +161,8 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataExpo
 		Map<String, String> currentRow = new HashMap<String, String>();
 		Map<String, String> repeatedValues = new HashMap<String, String>();
 		
-		CsvMetadataExporterConfiguration configuration = getCurrentConfiguration(); 
+		CsvMetadataReportConfiguration configuration = getCurrentItemConfiguration(); 
 		
-		boolean isWriteHeader = configuration.isWriteHeader();
 		boolean hasDefinedColumns = columnNames != null; // if columns where passed in as property
 		String currentTextValue = null;
 		
@@ -211,12 +220,12 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataExpo
 								|| (columnNames.contains(currentColumnName) && currentRow.containsKey(currentColumnName)) ) // the column is for export and was already read
 						{
 							// write header 
-							if (isFirstRow && isWriteHeader)
+							if (isFirstRow && configuration.isWriteHeader())
 							{
 								writeReportHeader();
 							}
 							
-							if (isFirstRow)	isFirstRow = false;
+							isFirstRow = false;
 							writeCurrentRow(currentRow, repeatedValues);
 							currentRow = new HashMap<String, String>();
 							currentRow.put(currentColumnName, currentTextValue);
@@ -248,8 +257,19 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataExpo
 	protected void initExport() 
 	{
 		super.initExport();
+	}
+	
+	
+	@Override
+	protected void initReport() 
+	{
+		super.initReport();
+
+		CsvMetadataReportConfiguration configuration = getCurrentItemConfiguration();
 		
-		columnNames = JRStringUtil.split(getCurrentConfiguration().getColumnNames(), ",");
+		columnNames = JRStringUtil.split(configuration.getColumnNames(), ",");
+
+		isFirstRow = true;
 	}
 
 	

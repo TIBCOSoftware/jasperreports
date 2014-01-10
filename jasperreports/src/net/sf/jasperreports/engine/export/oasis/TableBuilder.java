@@ -57,7 +57,7 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
-import net.sf.jasperreports.export.OdtExporterConfiguration;
+import net.sf.jasperreports.export.OdtReportConfiguration;
 
 
 /**
@@ -488,7 +488,7 @@ public class TableBuilder
 	 */
 	protected String getIgnoreHyperlinkProperty()
 	{
-		return OdtExporterConfiguration.PROPERTY_IGNORE_HYPERLINK;
+		return OdtReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
 	}
 
 	

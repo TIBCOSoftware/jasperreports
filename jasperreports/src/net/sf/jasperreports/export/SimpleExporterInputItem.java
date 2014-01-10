@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 public class SimpleExporterInputItem implements ExporterInputItem
 {
 	private JasperPrint jasperPrint;
-	private ExporterConfiguration configuration;
+	private ReportExportConfiguration configuration;
 	
 	
 	/**
@@ -48,7 +48,7 @@ public class SimpleExporterInputItem implements ExporterInputItem
 	/**
 	 * 
 	 */
-	public SimpleExporterInputItem(JasperPrint jasperPrint, ExporterConfiguration configuration)
+	public SimpleExporterInputItem(JasperPrint jasperPrint, ReportExportConfiguration configuration)
 	{
 		this.jasperPrint = jasperPrint;
 		this.configuration = configuration;
@@ -67,7 +67,7 @@ public class SimpleExporterInputItem implements ExporterInputItem
 	/**
 	 * 
 	 */
-	public ExporterConfiguration getConfiguration()
+	public ReportExportConfiguration getConfiguration()
 	{
 		return configuration;
 	}

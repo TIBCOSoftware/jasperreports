@@ -59,20 +59,21 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.ExporterInputItem;
-import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsMetadataExporterConfiguration;
+import net.sf.jasperreports.export.XlsMetadataReportConfiguration;
+import net.sf.jasperreports.export.XlsReportConfiguration;
 
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporterConfiguration, E extends JRExporterContext> 
-	extends JRXlsAbstractExporter<C, E>
+public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReportConfiguration, C extends XlsMetadataExporterConfiguration, E extends JRExporterContext> 
+	extends JRXlsAbstractExporter<RC, C, E>
 {
 	/**
 	 * A string that represents the name for the column that should appear in the XLS export.
-	 * It must be one of the values in {@link #COLUMN_NAMES COLUMN_NAMES}, if provided. 
+	 * It must be one of the values in {@link XlsMetadataReportConfiguration#getColumnNames()}, if provided. 
 	 * 
 	 * @see JRPropertiesUtil
 	 */
@@ -132,9 +133,17 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 	{
 		super.initExport();
 		
-		setColumnNames();
-		currentRow = new HashMap<String, Object>();
+		currentRow = new HashMap<String, Object>();//FIXMEEXPORT check these two
 		repeatedValues = new HashMap<String, Object>();
+	}
+
+
+	@Override
+	protected void initReport() 
+	{
+		super.initReport();
+
+		setColumnNames();
 	}
 
 	
@@ -143,7 +152,7 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 	 */
 	protected void setColumnNames()
 	{
-		String[] columnNamesArray = getCurrentConfiguration().getColumnNames();
+		String[] columnNamesArray = getCurrentItemConfiguration().getColumnNames();
 		
 		hasDefinedColumns = (columnNamesArray != null && columnNamesArray.length > 0);
 
@@ -175,18 +184,17 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
 		{
 			ExporterInputItem item = items.get(reportIndex);
+
 			setCurrentExporterInputItem(item);
 			
 			defaultFont = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
-			
-			setExporterHints();
 
 			if(!hasGlobalSheetNames())
 			{
 				sheetNamesIndex = 0;
 			}
 
-			XlsMetadataExporterConfiguration configuration = getCurrentConfiguration();
+			XlsMetadataReportConfiguration configuration = getCurrentItemConfiguration();
 
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
@@ -237,7 +245,6 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 					
 					setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
 					
-					ExporterFilter filter = getCurrentConfiguration().getExporterFilter();
 					if (filter instanceof ResetableExporterFilter)
 					{
 						((ResetableExporterFilter)filter).reset();
@@ -264,7 +271,7 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 	 */
 	protected int exportPage(JRPrintPage page) throws JRException
 	{
-		XlsMetadataExporterConfiguration configuration = getCurrentConfiguration();
+		XlsMetadataReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		List<JRPrintElement> elements = page.getElements();
 		currentRow = new HashMap<String, Object>();
@@ -520,7 +527,7 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 			return 1;
 		}
 		
-		return getCurrentConfiguration().isImageBorderFixEnabled() ? 1 : 0;
+		return getCurrentItemConfiguration().isImageBorderFixEnabled() ? 1 : 0;
 	}
 
 	
@@ -574,14 +581,14 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 	{
 		if (
 			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsExporterConfiguration.PROPERTY_WRAP_TEXT)
+			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_WRAP_TEXT)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsExporterConfiguration.PROPERTY_WRAP_TEXT, getCurrentConfiguration().isWrapText());
+			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_WRAP_TEXT, getCurrentItemConfiguration().isWrapText());
 		}
-		return getCurrentConfiguration().isWrapText();
+		return getCurrentItemConfiguration().isWrapText();
 	}
 
 	/**
@@ -591,14 +598,14 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 	{
 		if (
 			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsExporterConfiguration.PROPERTY_CELL_LOCKED)
+			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_CELL_LOCKED)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsExporterConfiguration.PROPERTY_CELL_LOCKED, getCurrentConfiguration().isCellLocked());
+			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_CELL_LOCKED, getCurrentItemConfiguration().isCellLocked());
 		}
-		return getCurrentConfiguration().isCellLocked();
+		return getCurrentItemConfiguration().isCellLocked();
 	}
 
 	/**
@@ -625,14 +632,14 @@ public abstract class JRXlsAbstractMetadataExporter<C extends XlsMetadataExporte
 	{
 		if (
 			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsExporterConfiguration.PROPERTY_CELL_HIDDEN)
+			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_CELL_HIDDEN)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsExporterConfiguration.PROPERTY_CELL_HIDDEN, getCurrentConfiguration().isCellHidden());
+			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_CELL_HIDDEN, getCurrentItemConfiguration().isCellHidden());
 		}
-		return getCurrentConfiguration().isCellHidden();
+		return getCurrentItemConfiguration().isCellHidden();
 	}
 
 	/**

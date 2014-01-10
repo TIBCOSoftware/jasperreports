@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
+import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.type.HtmlSizeUnitEnum;
 
 
@@ -118,27 +119,27 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * @deprecated Replaced by {@link HtmlExporterConfiguration#isRemoveEmptySpaceBetweenRows()}.
+	 * @deprecated Replaced by {@link HtmlReportConfiguration#isRemoveEmptySpaceBetweenRows()}.
 	 */
 	public static final JRHtmlExporterParameter IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = new JRHtmlExporterParameter("Is Remove Empty Space Between Rows");
 
 
 	/**
-	 * @deprecated Replaced by {@link HtmlExporterConfiguration#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS}.
+	 * @deprecated Replaced by {@link HtmlReportConfiguration#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS}.
 	 */
-	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = HtmlExporterConfiguration.PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS;
+	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = HtmlReportConfiguration.PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS;
 
 
 	/**
-	 * @deprecated Replaced by {@link HtmlExporterConfiguration#isWhitePageBackground()}.
+	 * @deprecated Replaced by {@link HtmlReportConfiguration#isWhitePageBackground()}.
 	 */
 	public static final JRHtmlExporterParameter IS_WHITE_PAGE_BACKGROUND = new JRHtmlExporterParameter("Is White Page Background");
 
 
 	/**
-	 * @deprecated Replaced by {@link HtmlExporterConfiguration#PROPERTY_WHITE_PAGE_BACKGROUND}.
+	 * @deprecated Replaced by {@link HtmlReportConfiguration#PROPERTY_WHITE_PAGE_BACKGROUND}.
 	 */
-	public static final String PROPERTY_WHITE_PAGE_BACKGROUND = HtmlExporterConfiguration.PROPERTY_WHITE_PAGE_BACKGROUND;
+	public static final String PROPERTY_WHITE_PAGE_BACKGROUND = HtmlReportConfiguration.PROPERTY_WHITE_PAGE_BACKGROUND;
 
 
 	/**
@@ -154,26 +155,26 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * @deprecated Replaced by {@link HtmlExporterConfiguration#isWrapBreakWord()}.
+	 * @deprecated Replaced by {@link HtmlReportConfiguration#isWrapBreakWord()}.
 	 */
 	public static final JRHtmlExporterParameter IS_WRAP_BREAK_WORD = new JRHtmlExporterParameter("Is Wrap Break Word");
 
 
 	/**
-	 * @deprecated Replaced by {@link HtmlExporterConfiguration#PROPERTY_WRAP_BREAK_WORD}.
+	 * @deprecated Replaced by {@link HtmlReportConfiguration#PROPERTY_WRAP_BREAK_WORD}.
 	 */
-	public static final String PROPERTY_WRAP_BREAK_WORD = HtmlExporterConfiguration.PROPERTY_WRAP_BREAK_WORD;
+	public static final String PROPERTY_WRAP_BREAK_WORD = HtmlReportConfiguration.PROPERTY_WRAP_BREAK_WORD;
 
 
 	/**
-	 * @deprecated Replaced by {@link HtmlExporterConfiguration#getSizeUnit()}. 
+	 * @deprecated Replaced by {@link HtmlReportConfiguration#getSizeUnit()}. 
 	 */
 	public static final JRHtmlExporterParameter SIZE_UNIT = new JRHtmlExporterParameter("Size Unit");
 
 	/**
-	 * @deprecated Replaced by {@link HtmlExporterConfiguration#PROPERTY_SIZE_UNIT}.
+	 * @deprecated Replaced by {@link HtmlReportConfiguration#PROPERTY_SIZE_UNIT}.
 	 */
-	public static final String PROPERTY_SIZE_UNIT = HtmlExporterConfiguration.PROPERTY_SIZE_UNIT;
+	public static final String PROPERTY_SIZE_UNIT = HtmlReportConfiguration.PROPERTY_SIZE_UNIT;
 
 
 	/**
@@ -188,20 +189,20 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 
 	
 	/**
-	 * @deprecated Replaced by {@link HtmlExporterConfiguration#getZoomRatio()}.
+	 * @deprecated Replaced by {@link HtmlReportConfiguration#getZoomRatio()}.
 	 */
 	public static final JRHtmlExporterParameter ZOOM_RATIO = new JRHtmlExporterParameter("Zoom Ratio");
 
 	/**
-	 * @deprecated Replaced by {@link JRHtmlExporterConfiguration#isFramesAsNestedTables()}.
+	 * @deprecated Replaced by {@link JRHtmlReportConfiguration#isFramesAsNestedTables()}.
 	 */
 	public static final JRHtmlExporterParameter FRAMES_AS_NESTED_TABLES = new JRHtmlExporterParameter("Export Frames as Nested Tables");
 	
 
 	/**
-	 * @deprecated Replaced by {@link JRHtmlExporterConfiguration#PROPERTY_FRAMES_AS_NESTED_TABLES}.
+	 * @deprecated Replaced by {@link JRHtmlReportConfiguration#PROPERTY_FRAMES_AS_NESTED_TABLES}.
 	 */
-	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRHtmlExporterConfiguration.PROPERTY_FRAMES_AS_NESTED_TABLES;
+	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRHtmlReportConfiguration.PROPERTY_FRAMES_AS_NESTED_TABLES;
 	
 
 	/**

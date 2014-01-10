@@ -93,6 +93,7 @@ import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.XmlValueHandlerUtils;
 import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
 
 import org.w3c.tools.codec.Base64Encoder;
@@ -107,7 +108,7 @@ import org.w3c.tools.codec.Base64Encoder;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, WriterExporterOutput, JRXmlExporterContext>
+public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration, ExporterConfiguration, WriterExporterOutput, JRXmlExporterContext>
 {
 	/**
 	 *
@@ -190,6 +191,15 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 	{
 		return ExporterConfiguration.class;
 	}
+
+
+	/**
+	 *
+	 */
+	protected Class<ReportExportConfiguration> getItemConfigurationInterface()
+	{
+		return ReportExportConfiguration.class;
+	}
 	
 
 	/**
@@ -251,6 +261,13 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 	{
 		super.initExport();
 	}
+
+
+	@Override
+	protected void initReport()
+	{
+		super.initReport();
+	}
 	
 
 	/**
@@ -280,7 +297,9 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_orientation, jasperPrint.getOrientationValue(), OrientationEnum.PORTRAIT);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_formatFactoryClass, jasperPrint.getFormatFactoryClass());		
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_locale, jasperPrint.getLocaleCode());		
-		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_timezone, jasperPrint.getTimeZoneId());		
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_timezone, jasperPrint.getTimeZoneId());
+		
+		setCurrentExporterInputItem(exporterInput.getItems().get(0));
 		
 		List<JRPrintPage> pages = jasperPrint.getPages();
 	
@@ -456,7 +475,7 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 
 		xmlWriter.closeElement();
 		
-		JRExportProgressMonitor progressMonitor = getCurrentConfiguration().getProgressMonitor();
+		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -478,8 +497,6 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 
 	public void exportElement(JRPrintElement element) throws IOException, JRException
 	{
-		ExporterFilter filter = getCurrentConfiguration().getExporterFilter();
-		
 		if (filter == null || filter.isToExport(element))
 		{
 			if (element instanceof JRPrintLine)
@@ -660,7 +677,7 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isLazy, image.isLazy(), false);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_onErrorType, image.getOnErrorTypeValue(), OnErrorTypeEnum.ERROR);
 		
-		JRHyperlinkProducerFactory hyperlinkProducerFactory = getCurrentConfiguration().getHyperlinkProducerFactory();
+		JRHyperlinkProducerFactory hyperlinkProducerFactory = getCurrentItemConfiguration().getHyperlinkProducerFactory();
 		if (hyperlinkProducerFactory == null)
 		{
 			xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, image.getLinkType(), HyperlinkTypeEnum.NONE.getName());
@@ -805,7 +822,7 @@ public class JRXmlExporter extends JRAbstractExporter<ExporterConfiguration, Wri
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacingFactor, text.getLineSpacingFactor(), 0f);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_leadingOffset, text.getLeadingOffset(), 0f);
 
-		JRHyperlinkProducerFactory hyperlinkProducerFactory = getCurrentConfiguration().getHyperlinkProducerFactory();
+		JRHyperlinkProducerFactory hyperlinkProducerFactory = getCurrentItemConfiguration().getHyperlinkProducerFactory();
 		if (hyperlinkProducerFactory == null)
 		{
 			xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, text.getLinkType());

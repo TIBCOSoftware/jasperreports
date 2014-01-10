@@ -41,10 +41,10 @@ import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
-import net.sf.jasperreports.export.SimpleOdsExporterConfiguration;
+import net.sf.jasperreports.export.SimpleOdsReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
-import net.sf.jasperreports.export.SimpleXlsExporterConfiguration;
+import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 
 
 /**
@@ -192,7 +192,7 @@ public class StyledTextApp extends AbstractSampleApp
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		SimpleXlsExporterConfiguration configuration = new SimpleXlsExporterConfiguration();
+		SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
 		configuration.setOnePagePerSheet(false);
 		exporter.setConfiguration(configuration);
 		
@@ -220,8 +220,8 @@ public class StyledTextApp extends AbstractSampleApp
 
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		net.sf.jasperreports.export.SimpleJxlExporterConfiguration configuration = 
-			new net.sf.jasperreports.export.SimpleJxlExporterConfiguration();
+		net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration = 
+			new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
 		configuration.setOnePagePerSheet(true);
 		exporter.setConfiguration(configuration);
 
@@ -293,7 +293,7 @@ public class StyledTextApp extends AbstractSampleApp
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		SimpleOdsExporterConfiguration configuration = new SimpleOdsExporterConfiguration();
+		SimpleOdsReportConfiguration configuration = new SimpleOdsReportConfiguration();
 		configuration.setOnePagePerSheet(true);
 		exporter.setConfiguration(configuration);
 		

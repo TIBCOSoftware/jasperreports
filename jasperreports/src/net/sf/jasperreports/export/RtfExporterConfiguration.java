@@ -23,10 +23,7 @@
  */
 package net.sf.jasperreports.export;
 
-import net.sf.jasperreports.engine.JRPrintHyperlink;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 
 /**
@@ -39,17 +36,4 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  */
 public interface RtfExporterConfiguration extends ExporterConfiguration
 {
-	/**
-	 * Property that provides a default value for the {@link #isIgnoreHyperlink()} export configuration flag.
-	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = JRPropertiesUtil.PROPERTY_PREFIX +  "export.rtf." + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
-	
-	/**
-	 * @see #PROPERTY_IGNORE_HYPERLINK
-	 */
-	@ExporterProperty(
-		value=PROPERTY_IGNORE_HYPERLINK, 
-		booleanDefault=false
-		)
-	public Boolean isIgnoreHyperlink();
 }

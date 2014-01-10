@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.export.Graphics2DExporterConfiguration;
 import net.sf.jasperreports.export.Graphics2DExporterOutput;
+import net.sf.jasperreports.export.Graphics2DReportConfiguration;
 
 
 /**
@@ -54,12 +55,12 @@ public class JRGraphics2DExporterParameter extends JRExporterParameter
 	public static final JRGraphics2DExporterParameter GRAPHICS_2D = new JRGraphics2DExporterParameter("Graphics2D");
 
 	/**
-	 * @deprecated Replaced by {@link Graphics2DExporterConfiguration#getZoomRatio()}.
+	 * @deprecated Replaced by {@link Graphics2DReportConfiguration#getZoomRatio()}.
 	 */
 	public static final JRGraphics2DExporterParameter ZOOM_RATIO = new JRGraphics2DExporterParameter("Zoom Ratio");
 
 	/**
-	 * @deprecated Replaced by {@link Graphics2DExporterConfiguration#isMinimizePrinterJobSize()}.
+	 * @deprecated Replaced by {@link Graphics2DReportConfiguration#isMinimizePrinterJobSize()}.
 	 */
 	public static final JRGraphics2DExporterParameter MINIMIZE_PRINTER_JOB_SIZE = new JRGraphics2DExporterParameter("Minimize Printer Job Size");
 

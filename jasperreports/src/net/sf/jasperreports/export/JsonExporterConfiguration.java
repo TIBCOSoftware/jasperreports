@@ -41,7 +41,7 @@ public interface JsonExporterConfiguration extends ExporterConfiguration
 	/**
 	 * A flag that determines whether the JSON exporter should flush the
 	 * output stream after writing the JSON content to it.
-	 * @see #PROPERTY_FLUSH_OUTPUT
+	 * @see HtmlExporterConfiguration#PROPERTY_FLUSH_OUTPUT
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
@@ -53,13 +53,4 @@ public interface JsonExporterConfiguration extends ExporterConfiguration
 		booleanDefault=true
 		)
 	public Boolean isFlushOutput();
-	
-	/**
-	 * @see HtmlExporterConfiguration#PROPERTY_IGNORE_HYPERLINK
-	 */
-	@ExporterProperty(
-		value=HtmlExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, 
-		booleanDefault=false
-		)
-	public Boolean isIgnoreHyperlink();
 }

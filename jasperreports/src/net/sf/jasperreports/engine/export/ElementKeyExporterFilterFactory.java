@@ -71,9 +71,9 @@ public class ElementKeyExporterFilterFactory implements ExporterFilterFactory
 	{
 		ExporterFilter filter = null;
 
-		JRAbstractExporter<?, ?, ?> exporter = 
-			exporterContext.getExporterRef() instanceof JRAbstractExporter<?, ?, ?> 
-			? (JRAbstractExporter<?, ?, ?>)exporterContext.getExporterRef() 
+		JRAbstractExporter<?, ?, ?, ?> exporter = 
+			exporterContext.getExporterRef() instanceof JRAbstractExporter<?, ?, ?, ?> 
+			? (JRAbstractExporter<?, ?, ?, ?>)exporterContext.getExporterRef() 
 			: null;
 			
 		if (exporter != null)

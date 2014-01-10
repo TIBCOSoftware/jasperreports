@@ -30,46 +30,4 @@ package net.sf.jasperreports.export;
  */
 public class SimpleOdtExporterConfiguration extends SimpleExporterConfiguration implements OdtExporterConfiguration
 {
-	private Boolean isFlexibleRowHeight;
-	private Boolean isIgnoreHyperlink;
-
-	
-	/**
-	 * 
-	 */
-	public SimpleOdtExporterConfiguration()
-	{
-	}
-	
-	/**
-	 * 
-	 */
-	public Boolean isFlexibleRowHeight()
-	{
-		return isFlexibleRowHeight;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setFlexibleRowHeight(Boolean isFlexibleRowHeight)
-	{
-		this.isFlexibleRowHeight = isFlexibleRowHeight;
-	}
-	
-	/**
-	 * 
-	 */
-	public Boolean isIgnoreHyperlink()
-	{
-		return isIgnoreHyperlink;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setIgnoreHyperlink(Boolean isIgnoreHyperlink)
-	{
-		this.isIgnoreHyperlink = isIgnoreHyperlink;
-	}
 }

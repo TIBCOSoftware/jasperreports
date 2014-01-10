@@ -82,6 +82,7 @@ import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.RtfExporterConfiguration;
+import net.sf.jasperreports.export.RtfReportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
 
 import org.apache.commons.logging.Log;
@@ -94,7 +95,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, WriterExporterOutput, JRRtfExporterContext>
+public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, RtfExporterConfiguration, WriterExporterOutput, JRRtfExporterContext>
 {
 	private static final Log log = LogFactory.getLog(JRRtfExporter.class);
 	
@@ -103,9 +104,9 @@ public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, 
 	private static final int LINE_SPACING_FACTOR = 240; //(int)(240 * 2/3f);
 
 	/**
-	 * @deprecated Replaced by {@link RtfExporterConfiguration#PROPERTY_IGNORE_HYPERLINK}.
+	 * @deprecated Replaced by {@link RtfReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
 	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = RtfExporterConfiguration.PROPERTY_IGNORE_HYPERLINK;
+	public static final String PROPERTY_IGNORE_HYPERLINK = RtfReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
 
 	/**
 	 * The exporter key, as used in
@@ -162,6 +163,15 @@ public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, 
 	protected Class<RtfExporterConfiguration> getConfigurationInterface()
 	{
 		return RtfExporterConfiguration.class;
+	}
+
+
+	/**
+	 *
+	 */
+	protected Class<RtfReportConfiguration> getItemConfigurationInterface()
+	{
+		return RtfReportConfiguration.class;
 	}
 	
 
@@ -223,6 +233,13 @@ public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, 
 	{
 		super.initExport();
 	}
+
+
+	@Override
+	protected void initReport()
+	{
+		super.initReport();
+	}
 	
 
 	/**
@@ -241,6 +258,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, 
 		for(reportIndex = 0; reportIndex < items.size(); reportIndex++ )
 		{
 			ExporterInputItem item = items.get(reportIndex);
+
 			setCurrentExporterInputItem(item);
 			
 			List<JRPrintPage> pages = jasperPrint.getPages();
@@ -395,7 +413,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, 
 			contentWriter.write("\\page\n");
 		}
 		
-		JRExportProgressMonitor progressMonitor = getCurrentConfiguration().getProgressMonitor();
+		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -1293,7 +1311,6 @@ public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, 
 
 	protected void exportElements(Collection<JRPrintElement> elements) throws JRException, IOException {
 		if (elements != null && elements.size() > 0) {
-			ExporterFilter filter = getCurrentConfiguration().getExporterFilter();
 			for (Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();) {
 				JRPrintElement element = it.next();
 				if (filter == null || filter.isToExport(element)) {
@@ -1477,10 +1494,10 @@ public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, 
 		String local ="";
 		boolean result = false;
 		
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(RtfExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(RtfReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
+			ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
 		}
 
 		if (!ignoreHyperlink)
@@ -1565,10 +1582,10 @@ public class JRRtfExporter extends JRAbstractExporter<RtfExporterConfiguration, 
 		String hlfr = null;
 		String hlsrc = null;
 		
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(RtfExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(RtfReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
+			ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
 		}
 
 		if (!ignoreHyperlink)

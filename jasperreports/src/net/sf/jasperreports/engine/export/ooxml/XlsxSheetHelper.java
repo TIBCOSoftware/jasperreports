@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
 import net.sf.jasperreports.engine.export.ooxml.type.PaperSizeEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
-import net.sf.jasperreports.export.XlsExporterConfiguration;
+import net.sf.jasperreports.export.XlsReportConfiguration;
 
 
 /**
@@ -56,7 +56,7 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	private XlsxSheetRelsHelper sheetRelsHelper;//FIXMEXLSX truly embed the rels helper here and no longer have it available from outside; check drawing rels too
 	private final JRPropertiesUtil propertiesUtil;
-	private final XlsExporterConfiguration configuration;
+	private final XlsReportConfiguration configuration;
 
 	/**
 	 * 
@@ -65,7 +65,7 @@ public class XlsxSheetHelper extends BaseHelper
 		JasperReportsContext jasperReportsContext,
 		Writer writer, 
 		XlsxSheetRelsHelper sheetRelsHelper,
-		XlsExporterConfiguration configuration
+		XlsReportConfiguration configuration
 		)
 	{
 		super(jasperReportsContext, writer);
@@ -121,9 +121,9 @@ public class XlsxSheetHelper extends BaseHelper
 		if(rowFreeze > 0 || columnFreeze > 0)
 		{
 			write(">\n<pane" + (columnFreeze > 0 ? (" xSplit=\"" + columnFreeze + "\"") : "") + (rowFreeze > 0 ? (" ySplit=\"" + rowFreeze + "\"") : ""));
-			String columnName = propertiesUtil.getProperty(jasperPrint, XlsExporterConfiguration.PROPERTY_FREEZE_COLUMN) == null 
+			String columnName = propertiesUtil.getProperty(jasperPrint, XlsReportConfiguration.PROPERTY_FREEZE_COLUMN) == null 
 					? "A" 
-							: propertiesUtil.getProperty(jasperPrint, XlsExporterConfiguration.PROPERTY_FREEZE_COLUMN);
+							: propertiesUtil.getProperty(jasperPrint, XlsReportConfiguration.PROPERTY_FREEZE_COLUMN);
 			write(" topLeftCell=\"" + columnName + (rowFreeze + 1) + "\"");
 			String activePane = (rowFreeze > 0 ? "bottom" : "top") + (columnFreeze > 0 ? "Right" : "Left");
 			write(" activePane=\"" + activePane + "\" state=\"frozen\"/>\n");

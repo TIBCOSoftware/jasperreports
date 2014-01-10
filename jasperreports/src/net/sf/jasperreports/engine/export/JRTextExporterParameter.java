@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.export.TextExporterConfiguration;
+import net.sf.jasperreports.export.TextReportConfiguration;
 
 
 /**
@@ -50,51 +51,51 @@ public class JRTextExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * @deprecated Replaced by {@link TextExporterConfiguration#getCharWidth()}.
+	 * @deprecated Replaced by {@link TextReportConfiguration#getCharWidth()}.
 	 */
 	public static final JRTextExporterParameter CHARACTER_WIDTH = new JRTextExporterParameter("Character Width");
 
 	
 	/**
-	 * @deprecated Replaced by {@link TextExporterConfiguration#PROPERTY_CHARACTER_WIDTH}.
+	 * @deprecated Replaced by {@link TextReportConfiguration#PROPERTY_CHARACTER_WIDTH}.
 	 */
-	public static final String PROPERTY_CHARACTER_WIDTH = TextExporterConfiguration.PROPERTY_CHARACTER_WIDTH;
+	public static final String PROPERTY_CHARACTER_WIDTH = TextReportConfiguration.PROPERTY_CHARACTER_WIDTH;
 
 
 	/**
-	 * @deprecated Replaced by {@link TextExporterConfiguration#getCharHeight()}.
+	 * @deprecated Replaced by {@link TextReportConfiguration#getCharHeight()}.
 	 */
 	public static final JRTextExporterParameter CHARACTER_HEIGHT = new JRTextExporterParameter("Character Height");
 
 
 	/**
-	 * @deprecated Replaced by {@link TextExporterConfiguration#PROPERTY_CHARACTER_HEIGHT}.
+	 * @deprecated Replaced by {@link TextReportConfiguration#PROPERTY_CHARACTER_HEIGHT}.
 	 */
-	public static final String PROPERTY_CHARACTER_HEIGHT = TextExporterConfiguration.PROPERTY_CHARACTER_HEIGHT;
+	public static final String PROPERTY_CHARACTER_HEIGHT = TextReportConfiguration.PROPERTY_CHARACTER_HEIGHT;
 
 
 	/**
-	 * @deprecated Replaced by {@link TextExporterConfiguration#getPageWidthInChars()}.
+	 * @deprecated Replaced by {@link TextReportConfiguration#getPageWidthInChars()}.
 	 */
 	public static final JRTextExporterParameter PAGE_WIDTH = new JRTextExporterParameter("Page Width");
 
 
 	/**
-	 * @deprecated Replaced by {@link TextExporterConfiguration#PROPERTY_PAGE_WIDTH}.
+	 * @deprecated Replaced by {@link TextReportConfiguration#PROPERTY_PAGE_WIDTH}.
 	 */
-	public static final String PROPERTY_PAGE_WIDTH = TextExporterConfiguration.PROPERTY_PAGE_WIDTH;
+	public static final String PROPERTY_PAGE_WIDTH = TextReportConfiguration.PROPERTY_PAGE_WIDTH;
 
 
 	/**
-	 * @deprecated Replaced by {@link TextExporterConfiguration#getPageHeightInChars()}.
+	 * @deprecated Replaced by {@link TextReportConfiguration#getPageHeightInChars()}.
 	 */
 	public static final JRTextExporterParameter PAGE_HEIGHT = new JRTextExporterParameter("Page Height");
 
 
 	/**
-	 * @deprecated Replaced by {@link TextExporterConfiguration#PROPERTY_PAGE_HEIGHT}.
+	 * @deprecated Replaced by {@link TextReportConfiguration#PROPERTY_PAGE_HEIGHT}.
 	 */
-	public static final String PROPERTY_PAGE_HEIGHT = TextExporterConfiguration.PROPERTY_PAGE_HEIGHT;
+	public static final String PROPERTY_PAGE_HEIGHT = TextReportConfiguration.PROPERTY_PAGE_HEIGHT;
 
 
 	/**

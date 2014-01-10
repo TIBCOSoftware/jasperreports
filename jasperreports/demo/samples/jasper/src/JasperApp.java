@@ -55,9 +55,9 @@ import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
-import net.sf.jasperreports.export.SimpleXlsExporterConfiguration;
-import net.sf.jasperreports.export.SimpleXlsMetadataExporterConfiguration;
-import net.sf.jasperreports.export.SimpleXlsxExporterConfiguration;
+import net.sf.jasperreports.export.SimpleXlsMetadataReportConfiguration;
+import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
+import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 
 
@@ -278,7 +278,7 @@ public class JasperApp extends AbstractSampleApp
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		SimpleXlsExporterConfiguration configuration = new SimpleXlsExporterConfiguration();
+		SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
 		configuration.setOnePagePerSheet(true);
 		configuration.setDetectCellType(true);
 		configuration.setFormatPatternsMap(dateFormats);
@@ -311,8 +311,8 @@ public class JasperApp extends AbstractSampleApp
 
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		net.sf.jasperreports.export.SimpleJxlExporterConfiguration configuration = 
-			new net.sf.jasperreports.export.SimpleJxlExporterConfiguration();
+		net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration = 
+			new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
 		configuration.setOnePagePerSheet(true);
 		configuration.setDetectCellType(true);
 		configuration.setFormatPatternsMap(dateFormats);
@@ -345,8 +345,8 @@ public class JasperApp extends AbstractSampleApp
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		net.sf.jasperreports.export.SimpleJxlMetadataExporterConfiguration configuration = 
-			new net.sf.jasperreports.export.SimpleJxlMetadataExporterConfiguration();
+		net.sf.jasperreports.export.SimpleJxlMetadataReportConfiguration configuration = 
+			new net.sf.jasperreports.export.SimpleJxlMetadataReportConfiguration();
 		configuration.setOnePagePerSheet(true);
 		configuration.setDetectCellType(true);
 		configuration.setFormatPatternsMap(dateFormats);
@@ -377,7 +377,7 @@ public class JasperApp extends AbstractSampleApp
 
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		SimpleXlsMetadataExporterConfiguration configuration = new SimpleXlsMetadataExporterConfiguration();
+		SimpleXlsMetadataReportConfiguration configuration = new SimpleXlsMetadataReportConfiguration();
 		configuration.setOnePagePerSheet(true);
 		configuration.setDetectCellType(true);
 		configuration.setFormatPatternsMap(dateFormats);
@@ -523,7 +523,7 @@ public class JasperApp extends AbstractSampleApp
 
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		SimpleXlsxExporterConfiguration configuration = new SimpleXlsxExporterConfiguration();
+		SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
 		configuration.setDetectCellType(true);
 		configuration.setFormatPatternsMap(dateFormats);
 		exporter.setConfiguration(configuration);

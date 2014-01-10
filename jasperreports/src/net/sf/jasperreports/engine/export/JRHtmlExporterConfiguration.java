@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
@@ -38,15 +37,6 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
 public interface JRHtmlExporterConfiguration extends HtmlExporterConfiguration
 {
 	/**
-	 * This property serves as default value for the {@link #isFramesAsNestedTables()} export configuration flag.
-	 * <p>
-	 * The property itself defaults to <code>true</code>.
-	 * </p>
-	 * @see JRPropertiesUtil
-	 */
-	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.frames.as.nested.tables";
-
-	/**
 	 * Property whose value is used as default state of the {@link #isUsingImagesToAlign()} export configuration flag.
 	 * <p/>
 	 * This property is set by default (<code>true</code>).
@@ -55,24 +45,6 @@ public interface JRHtmlExporterConfiguration extends HtmlExporterConfiguration
 	 */
 	public static final String PROPERTY_USING_IMAGES_TO_ALIGN = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.using.images.to.align";
 
-	/**
-	 * Indicates whether {@link JRPrintFrame frames} are to be exported as nested HTML tables.
-	 * <p>
-	 * If set to <code>false</code>, the frame contents will be integrated into the master/page HTML table.
-	 * This can be useful when exporting frames as nested tables causes output misalignments.
-	 * </p>
-	 * @see #PROPERTY_FRAMES_AS_NESTED_TABLES
-	 */
-	@ExporterParameter(
-		type=JRHtmlExporterParameter.class, 
-		name="FRAMES_AS_NESTED_TABLES"
-		)
-	@ExporterProperty(
-		value=PROPERTY_FRAMES_AS_NESTED_TABLES, 
-		booleanDefault=true
-		)
-	public Boolean isFramesAsNestedTables();
-	
 	/**
 	 * Returns a boolean value specifying whether the export engine should use small images for aligning. This is useful when you don't have
 	 * images in your report anyway and you don't want to have to handle images at all.

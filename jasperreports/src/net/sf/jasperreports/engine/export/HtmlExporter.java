@@ -105,6 +105,7 @@ import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
+import net.sf.jasperreports.export.HtmlReportConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -114,7 +115,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration>
+public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, HtmlExporterConfiguration>
 {
 	private static final Log log = LogFactory.getLog(HtmlExporter.class);
 	
@@ -130,9 +131,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 	public static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.";
 
 	/**
-	 * @deprecated Replaced by {@link HtmlExporterConfiguration#PROPERTY_IGNORE_HYPERLINK}.
+	 * @deprecated Replaced by {@link HtmlReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
 	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = HtmlExporterConfiguration.PROPERTY_IGNORE_HYPERLINK;
+	public static final String PROPERTY_IGNORE_HYPERLINK = HtmlReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
 
 	/**
 	 * Property that provides the value for the <code>class</code> CSS style property to be applied 
@@ -148,9 +149,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 	public static final String PROPERTY_HTML_ID = HTML_EXPORTER_PROPERTIES_PREFIX + "id";
 
 	/**
-	 * @deprecated Replaced by {@link HtmlExporterConfiguration#PROPERTY_BORDER_COLLAPSE}.
+	 * @deprecated Replaced by {@link HtmlReportConfiguration#PROPERTY_BORDER_COLLAPSE}.
 	 */
-	public static final String PROPERTY_BORDER_COLLAPSE = HtmlExporterConfiguration.PROPERTY_BORDER_COLLAPSE;
+	public static final String PROPERTY_BORDER_COLLAPSE = HtmlReportConfiguration.PROPERTY_BORDER_COLLAPSE;
 
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory;		
 	
@@ -200,16 +201,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 		ensureJasperReportsContext();
 		ensureInput();
 
-		HtmlExporterConfiguration configuration = getCurrentConfiguration();
-		
-		if (configuration.isRemoveEmptySpaceBetweenRows())
-		{
-			log.info("Removing empty space between rows not supported");
-		}
-
-		// this is the filter used to create the table, taking in consideration unhandled generic elements
-		tableFilter = new GenericElementsFilterDecorator(jasperReportsContext, HTML_EXPORTER_KEY, configuration.getExporterFilter());
-
 		rendererToImagePathMap = new HashMap<String,String>();
 		imageMaps = new HashMap<Pair<String, Rectangle>,String>();
 
@@ -247,6 +238,15 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 		return HtmlExporterConfiguration.class;
 	}
 
+	
+	/**
+	 *
+	 */
+	protected Class<HtmlReportConfiguration> getItemConfigurationInterface()
+	{
+		return HtmlReportConfiguration.class;
+	}
+
 
 	/**
 	 *
@@ -270,6 +270,23 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 	protected void initExport()
 	{
 		super.initExport();
+	}
+
+
+	@Override
+	protected void initReport()
+	{
+		super.initReport();
+
+		HtmlReportConfiguration configuration = getCurrentItemConfiguration();
+		
+		if (configuration.isRemoveEmptySpaceBetweenRows())
+		{
+			log.info("Removing empty space between rows not supported");
+		}
+
+		// this is the filter used to create the table, taking in consideration unhandled generic elements
+		tableFilter = new GenericElementsFilterDecorator(jasperReportsContext, HTML_EXPORTER_KEY, filter);
 	}
 	
 
@@ -318,10 +335,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
 		{
 			ExporterInputItem item = items.get(reportIndex);
+
 			setCurrentExporterInputItem(item);
 			
-			configuration = getCurrentConfiguration();
-
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
@@ -407,7 +423,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 		Tabulator tabulator = new Tabulator(tableFilter, page.getElements());
 		tabulator.tabulate();
 
-		HtmlExporterConfiguration configuration = getCurrentConfiguration(); 
+		HtmlReportConfiguration configuration = getCurrentItemConfiguration(); 
 		
 		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
 		if (!isIgnorePageMargins)
@@ -476,7 +492,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 			writer.write("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: 100%;");
 		}
 		
-		String borderCollapse = getCurrentConfiguration().getBorderCollapse();
+		String borderCollapse = getCurrentItemConfiguration().getBorderCollapse();
 		if (borderCollapse != null)
 		{
 			writer.write(" border-collapse: ");
@@ -606,7 +622,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 			}
 		}
 
-		if (getCurrentConfiguration().isWrapBreakWord())
+		if (getCurrentItemConfiguration().isWrapBreakWord())
 		{
 			styleBuffer.append("width: " + toSizeUnit(text.getWidth()) + "; ");
 			styleBuffer.append("word-wrap: break-word; ");
@@ -1836,10 +1852,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 	{
 		String href = null;
 		
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(HtmlExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(HtmlReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
+			ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
 		}
 
 		if (!ignoreHyperlink)
@@ -1973,14 +1989,14 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration
 
 	public String toSizeUnit(int size)
 	{
-		return String.valueOf(toZoom(size)) + getCurrentConfiguration().getSizeUnit().getName();
+		return String.valueOf(toZoom(size)) + getCurrentItemConfiguration().getSizeUnit().getName();
 	}
 
 	protected int toZoom(int size)//FIXMEEXPORT cache this
 	{
 		float zoom = DEFAULT_ZOOM;
 		
-		Float zoomRatio = getCurrentConfiguration().getZoomRatio();
+		Float zoomRatio = getCurrentItemConfiguration().getZoomRatio();
 		if (zoomRatio != null)
 		{
 			zoom = zoomRatio.floatValue();

@@ -101,6 +101,7 @@ import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
+import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
 import net.sf.jasperreports.export.parameters.ParametersHtmlExporterOutput;
 
@@ -115,7 +116,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlExporterConfiguration>
+public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, HtmlExporterConfiguration>
 {
 	private static final Log log = LogFactory.getLog(JRXhtmlExporter.class);
 	
@@ -192,6 +193,15 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlExporterConfigurat
 	{
 		return HtmlExporterConfiguration.class;
 	}
+
+
+	/**
+	 *
+	 */
+	protected Class<HtmlReportConfiguration> getItemConfigurationInterface()
+	{
+		return HtmlReportConfiguration.class;
+	}
 	
 
 	/**
@@ -252,6 +262,13 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlExporterConfigurat
 	{
 		super.initExport();
 	}
+
+
+	@Override
+	protected void initReport()
+	{
+		super.initReport();
+	}
 	
 
 	/**
@@ -292,6 +309,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlExporterConfigurat
 		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
 		{
 			ExporterInputItem item = items.get(reportIndex);
+
 			setCurrentExporterInputItem(item);
 
 			List<JRPrintPage> pages = jasperPrint.getPages();
@@ -383,7 +401,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlExporterConfigurat
 		
 		setPageLimits(page.getElements());
 
-		HtmlExporterConfiguration configuration = getCurrentConfiguration();
+		HtmlReportConfiguration configuration = getCurrentItemConfiguration();
 
 		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
 		if (!isIgnorePageMargins)
@@ -440,8 +458,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlExporterConfigurat
 	{
 		if (elements != null && elements.size() > 0)
 		{
-			ExporterFilter filter = getCurrentConfiguration().getExporterFilter();
-			
 			JRPrintElement element;
 			for(int i = 0; i < elements.size(); i++)
 			{
@@ -1064,7 +1080,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlExporterConfigurat
 //			}
 		}
 
-		if (getCurrentConfiguration().isWrapBreakWord())
+		if (getCurrentItemConfiguration().isWrapBreakWord())
 		{
 			//styleBuffer.append("width: " + toSizeUnit(text.getWidth()) + "; ");
 			styleBuffer.append("word-wrap: break-word; ");
@@ -2196,8 +2212,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlExporterConfigurat
 	{
 		if (elements != null && elements.size() > 0)
 		{
-			ExporterFilter filter = getCurrentConfiguration().getExporterFilter();
-			
 			JRPrintElement element;
 			for(int i = 0; i < elements.size(); i++)
 			{
@@ -2327,14 +2341,14 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlExporterConfigurat
 
 	public String toSizeUnit(int size)
 	{
-		return String.valueOf(toZoom(size)) + getCurrentConfiguration().getSizeUnit().getName();
+		return String.valueOf(toZoom(size)) + getCurrentItemConfiguration().getSizeUnit().getName();
 	}
 
 	public int toZoom(int size)
 	{
 		float zoom = DEFAULT_ZOOM;
 		
-		Float zoomRatio = getCurrentConfiguration().getZoomRatio();
+		Float zoomRatio = getCurrentItemConfiguration().getZoomRatio();
 		if (zoomRatio != null)
 		{
 			zoom = zoomRatio.floatValue();

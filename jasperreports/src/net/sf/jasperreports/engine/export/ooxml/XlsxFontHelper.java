@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
+import net.sf.jasperreports.export.XlsReportConfiguration;
 
 
 /**
@@ -45,7 +46,7 @@ public class XlsxFontHelper extends BaseHelper
 	private Map<String,Integer> fontCache = new HashMap<String,Integer>();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
 	private String exporterKey;
-	private boolean isFontSizeFixEnabled;
+	private XlsReportConfiguration configuration;
 
 	/**
 	 *
@@ -53,14 +54,20 @@ public class XlsxFontHelper extends BaseHelper
 	public XlsxFontHelper(
 		JasperReportsContext jasperReportsContext,
 		Writer writer,
-		String exporterKey,
-		boolean isFontSizeFixEnabled		
+		String exporterKey
 		)
 	{
 		super(jasperReportsContext, writer);
 
 		this.exporterKey = exporterKey;
-		this.isFontSizeFixEnabled = isFontSizeFixEnabled;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setConfiguration(XlsReportConfiguration configuration)
+	{
+		this.configuration = configuration;
 	}
 	
 	/**
@@ -88,7 +95,7 @@ public class XlsxFontHelper extends BaseHelper
 			}
 		}
 		
-		XlsxFontInfo xlsxFontInfo = new XlsxFontInfo(gridCell, fontName);
+		XlsxFontInfo xlsxFontInfo = new XlsxFontInfo(gridCell, fontName, configuration.isFontSizeFixEnabled());
 		Integer fontIndex = fontCache.get(xlsxFontInfo.getId());
 		if (fontIndex == null)
 		{
@@ -105,7 +112,7 @@ public class XlsxFontHelper extends BaseHelper
 	private void export(XlsxFontInfo fontInfo)
 	{
 		write(
-			"<font><sz val=\"" + (isFontSizeFixEnabled ? fontInfo.fontSize - 1 : fontInfo.fontSize) + "\"/>" 
+			"<font><sz val=\"" + fontInfo.fontSize + "\"/>" 
 			+ "<color rgb=\"" + fontInfo.color + "\"/>"
 			+ "<name val=\"" + fontInfo.fontName + "\"/>"
 			+ "<b val=\"" + fontInfo.isBold + "\"/>"

@@ -27,6 +27,7 @@ package net.sf.jasperreports.engine.export;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.export.PdfExporterConfiguration;
+import net.sf.jasperreports.export.PdfReportConfiguration;
 import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
@@ -84,7 +85,7 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 */
 	public static final String PDFA_CONFORMANCE_1A = PdfaConformanceEnum.PDFA_1A.getName();
 	/**
-	 * @deprecated Replaced by {@link PdfaConformanceEnum.PDFA_1B}.
+	 * @deprecated Replaced by {@link PdfaConformanceEnum#PDFA_1B}.
 	 */
 	public static final String PDFA_CONFORMANCE_1B = PdfaConformanceEnum.PDFA_1B.getName();
 	/**
@@ -218,27 +219,27 @@ public class JRPdfExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * @deprecated Replaced by {@link PdfExporterConfiguration#isForceLineBreakPolicy()}.
+	 * @deprecated Replaced by {@link PdfReportConfiguration#isForceLineBreakPolicy()}.
 	 */
 	public static final JRPdfExporterParameter FORCE_LINEBREAK_POLICY = new JRPdfExporterParameter("Force linebreak policy");
 
 
 	/**
-	 * @deprecated Replaced by {@link PdfExporterConfiguration#PROPERTY_FORCE_LINEBREAK_POLICY}.
+	 * @deprecated Replaced by {@link PdfReportConfiguration#PROPERTY_FORCE_LINEBREAK_POLICY}.
 	 */
 	public static final String PROPERTY_FORCE_LINEBREAK_POLICY = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
 	
 	
 	/**
-	 * @deprecated Replaced by {@link PdfExporterConfiguration#isForceSvgShapes()}.
+	 * @deprecated Replaced by {@link PdfReportConfiguration#isForceSvgShapes()}.
 	 */
 	public static final JRPdfExporterParameter FORCE_SVG_SHAPES = new JRPdfExporterParameter("Force SVG Shapes");
 
 
 	/**
-	 * @deprecated Replaced by {@link PdfExporterConfiguration#PROPERTY_FORCE_SVG_SHAPES}.
+	 * @deprecated Replaced by {@link PdfReportConfiguration#PROPERTY_FORCE_SVG_SHAPES}.
 	 */
-	public static final String PROPERTY_FORCE_SVG_SHAPES = PdfExporterConfiguration.PROPERTY_FORCE_SVG_SHAPES;
+	public static final String PROPERTY_FORCE_SVG_SHAPES = PdfReportConfiguration.PROPERTY_FORCE_SVG_SHAPES;
 
 	
 	/**
@@ -290,15 +291,15 @@ public class JRPdfExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * @deprecated Replaced by {@link PdfExporterConfiguration#PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS}.
+	 * @deprecated Replaced by {@link PdfReportConfiguration#PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS}.
 	 */
-	public static final String PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS = PdfExporterConfiguration.PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS; 
+	public static final String PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS = PdfReportConfiguration.PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS; 
 	
 	
 	/**
-	 * @deprecated Replaced by {@link PdfExporterConfiguration#PROPERTY_SIZE_PAGE_TO_CONTENT}.
+	 * @deprecated Replaced by {@link PdfReportConfiguration#PROPERTY_SIZE_PAGE_TO_CONTENT}.
 	 */
-	public static final String PROPERTY_SIZE_PAGE_TO_CONTENT = PdfExporterConfiguration.PROPERTY_SIZE_PAGE_TO_CONTENT;
+	public static final String PROPERTY_SIZE_PAGE_TO_CONTENT = PdfReportConfiguration.PROPERTY_SIZE_PAGE_TO_CONTENT;
 
 	
 	/**

@@ -38,9 +38,9 @@ public class JROriginExporterFilterFactory implements ExporterFilterFactory
 
 	public ExporterFilter getFilter(JRExporterContext exporterContext)
 	{
-		JRAbstractExporter<?, ?, ?> exporter = 
-			exporterContext.getExporterRef() instanceof JRAbstractExporter<?, ?, ?> 
-			? (JRAbstractExporter<?, ?, ?>)exporterContext.getExporterRef() 
+		JRAbstractExporter<?, ?, ?, ?> exporter = 
+			exporterContext.getExporterRef() instanceof JRAbstractExporter<?, ?, ?, ?> 
+			? (JRAbstractExporter<?, ?, ?, ?>)exporterContext.getExporterRef() 
 			: null;
 		if (exporter != null)
 		{

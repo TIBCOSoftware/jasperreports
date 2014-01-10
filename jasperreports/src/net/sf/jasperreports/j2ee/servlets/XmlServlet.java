@@ -38,8 +38,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
-import net.sf.jasperreports.export.SimpleExporterConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleReportExportConfiguration;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 /**
@@ -118,7 +118,7 @@ public class XmlServlet extends BaseHttpServlet
 			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
 			JRXmlExporter exporter = getExporter();
 			exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-			SimpleExporterConfiguration configuration = new SimpleExporterConfiguration();
+			SimpleReportExportConfiguration configuration = new SimpleReportExportConfiguration();
 			if (startPageIndex >= 0)
 			{
 				configuration.setStartPageIndex(startPageIndex);
@@ -189,7 +189,7 @@ public class XmlServlet extends BaseHttpServlet
 
 			JRXmlExporter exporter = getExporter();
 			exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-			SimpleExporterConfiguration configuration = new SimpleExporterConfiguration();
+			SimpleReportExportConfiguration configuration = new SimpleReportExportConfiguration();
 			if (startPageIndex >= 0)
 			{
 				configuration.setStartPageIndex(startPageIndex);

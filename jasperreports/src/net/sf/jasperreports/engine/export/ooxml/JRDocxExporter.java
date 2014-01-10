@@ -64,7 +64,6 @@ import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
-import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.Grid;
@@ -87,9 +86,10 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.export.DocxExporterConfiguration;
-import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.DocxReportConfiguration;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
+import net.sf.jasperreports.export.ReportExportConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -101,7 +101,7 @@ import org.apache.commons.logging.LogFactory;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration, OutputStreamExporterOutput, JRDocxExporterContext>
+public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, DocxExporterConfiguration, OutputStreamExporterOutput, JRDocxExporterContext>
 {
 	private static final Log log = LogFactory.getLog(JRDocxExporter.class);
 	
@@ -114,9 +114,9 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 	protected static final String DOCX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.";
 
 	/**
-	 * @deprecated Replaced by {@link DocxExporterConfiguration#PROPERTY_IGNORE_HYPERLINK}.
+	 * @deprecated Replaced by {@link DocxReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
 	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = DocxExporterConfiguration.PROPERTY_IGNORE_HYPERLINK;
+	public static final String PROPERTY_IGNORE_HYPERLINK = DocxReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
 
 	/**
 	 * This property is used to mark text elements as being hidden either for printing or on-screen display.
@@ -213,6 +213,15 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 	{
 		return DocxExporterConfiguration.class;
 	}
+
+
+	/**
+	 *
+	 */
+	protected Class<DocxReportConfiguration> getItemConfigurationInterface()
+	{
+		return DocxReportConfiguration.class;
+	}
 	
 
 	/**
@@ -242,12 +251,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 		ensureJasperReportsContext();
 		ensureInput();
 
-		rendererToImagePathMap = new HashMap<String,String>();
-//		imageMaps = new HashMap();
-//		hyperlinksMap = new HashMap();
-
-		nature = getExporterNature(getCurrentConfiguration().getExporterFilter());
-		
 		initExport();
 		
 		ensureOutput();
@@ -274,9 +277,39 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 	protected void initExport()
 	{
 		super.initExport();
+
+		rendererToImagePathMap = new HashMap<String,String>();
+//		imageMaps = new HashMap();
+//		hyperlinksMap = new HashMap();
 	}
 
 
+	@Override
+	protected void initReport()
+	{
+		super.initReport();
+		
+		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
+		{
+			// allows null values for the property
+			invalidCharReplacement = jasperPrint.getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS);
+		}
+		else
+		{
+			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
+		}
+
+		DocxReportConfiguration configuration = getCurrentItemConfiguration();
+		
+		nature = 
+			new JRDocxExporterNature(
+				jasperReportsContext, 
+				filter, 
+				!configuration.isFramesAsNestedTables()
+				);
+	}
+
+	
 	/**
 	 *
 	 */
@@ -316,12 +349,11 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
 		{
 			ExporterInputItem item = items.get(reportIndex);
+
 			setCurrentExporterInputItem(item);
-			setExporterHints();
+
 			bookmarkIndex = 0;
 			emptyPageState = false;
-			
-			ExporterConfiguration configuration = getCurrentConfiguration();
 			
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
@@ -377,7 +409,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 		startPage = true;
 		pageAnchor = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
 		
-		ExporterConfiguration configuration = getCurrentConfiguration();
+		ReportExportConfiguration configuration = getCurrentItemConfiguration();
 		
 		JRGridLayout layout =
 			new JRGridLayout(
@@ -454,7 +486,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 
 		tableHelper.exportHeader();
 		
-		boolean isFlexibleRowHeight = getCurrentConfiguration().isFlexibleRowHeight();
+		boolean isFlexibleRowHeight = getCurrentItemConfiguration().isFlexibleRowHeight();
 
 		for(int row = 0; row < rowCount; row++)
 		{
@@ -1429,10 +1461,10 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 	{
 		String href = null;
 
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(DocxExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(DocxReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
+			ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
 		}
 
 		if (!ignoreHyperlink)
@@ -1530,14 +1562,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 	/**
 	 *
 	 */
-	protected ExporterNature getExporterNature(ExporterFilter filter) 
-	{
-		return new JRDocxExporterNature(jasperReportsContext, filter, !getCurrentConfiguration().isFramesAsNestedTables());
-	}
-
-	/**
-	 *
-	 */
 	public String getExporterKey()
 	{
 		return DOCX_EXPORTER_KEY;
@@ -1549,19 +1573,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxExporterConfiguration
 	public String getExporterPropertiesPrefix()
 	{
 		return DOCX_EXPORTER_PROPERTIES_PREFIX;
-	}
-
-	protected void setExporterHints()
-	{
-		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
-		{
-			// allows null values for the property
-			invalidCharReplacement = jasperPrint.getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS);
-		}
-		else
-		{
-			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
-		}
 	}
 	
 }
