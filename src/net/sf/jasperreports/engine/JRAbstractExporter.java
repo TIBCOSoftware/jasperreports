@@ -65,6 +65,7 @@ import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.ExporterOutput;
 import net.sf.jasperreports.export.PropertiesExporterConfigurationFactory;
+import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInputItem;
 
 
@@ -72,7 +73,7 @@ import net.sf.jasperreports.export.SimpleExporterInputItem;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRAbstractExporter<C extends ExporterConfiguration, O extends ExporterOutput, E extends JRExporterContext> implements JRExporter<ExporterInput, C, O>
+public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C extends ExporterConfiguration, O extends ExporterOutput, E extends JRExporterContext> implements JRExporter<ExporterInput, RC, C, O>
 {
 	/**
 	 * The suffix applied to properties that give the default filter factory for
@@ -165,13 +166,19 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	 *
 	 */
 	protected ExporterInput exporterInput;
+	protected RC itemConfiguration;
 	protected C exporterConfiguration;
 	protected O exporterOutput;
 
 	protected ExporterInputItem crtItem;
-	protected C crtItemConfiguration;
-	protected C crtConfiguration;
+	protected RC crtCompositeItemConfiguration;
+	protected C crtCompositeConfiguration;
 	protected JasperPrint jasperPrint;
+
+	/**
+	 *
+	 */
+	protected ExporterFilter filter;
 
 	/**
 	 *
@@ -238,8 +245,8 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	
 	
 	/**
-	 * @deprecated Replaced by  {@link #setExporterInput(net.sf.jasperreports.export.ExporterInput)}, 
-	 * {@link #setConfiguration(ExporterConfiguration)} and {@link #setExporterOutput(net.sf.jasperreports.export.ExporterOutput)}
+	 * @deprecated Replaced by {@link #setExporterInput(ExporterInput)}, {@link #setConfiguration(ExporterConfiguration)},
+	 * {@link #setConfiguration(ReportExportConfiguration)} and {@link #setExporterOutput(ExporterOutput)}
 	 */
 	public void setParameter(JRExporterParameter parameter, Object value)
 	{
@@ -251,7 +258,8 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 
 
 	/**
-	 * @deprecated Replaced by {@link #getExporterInput()}, {@link #getConfiguration()} and {@link #getExporterOutput()}.
+	 * @deprecated Replaced by {@link #setExporterInput(ExporterInput)}, {@link #setConfiguration(ExporterConfiguration)},
+	 * {@link #setConfiguration(ReportExportConfiguration)} and {@link #setExporterOutput(ExporterOutput)}.
 	 */
 	public Object getParameter(JRExporterParameter parameter)
 	{
@@ -260,8 +268,8 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 
 
 	/**
-	 * @deprecated Replaced by  {@link #setExporterInput(net.sf.jasperreports.export.ExporterInput)}, 
-	 * {@link #setConfiguration(ExporterConfiguration)} and {@link #setExporterOutput(net.sf.jasperreports.export.ExporterOutput)}
+	 * @deprecated Replaced by {@link #setExporterInput(ExporterInput)}, {@link #setConfiguration(ExporterConfiguration)},
+	 * {@link #setConfiguration(ReportExportConfiguration)} and {@link #setExporterOutput(ExporterOutput)}
 	 */
 	public void setParameters(Map<JRExporterParameter,Object> parameters)
 	{
@@ -273,7 +281,8 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	
 
 	/**
-	 * @deprecated Replaced by {@link #getExporterInput()}, {@link #getConfiguration()} and {@link #getExporterOutput()}.
+	 * @deprecated Replaced by {@link #setExporterInput(ExporterInput)}, {@link #setConfiguration(ExporterConfiguration)},
+	 * {@link #setConfiguration(ReportExportConfiguration)} and {@link #setExporterOutput(ExporterOutput)}
 	 */
 	public Map<JRExporterParameter,Object> getParameters()
 	{
@@ -313,6 +322,15 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	public void setExporterOutput(O exporterOutput)
 	{
 		this.exporterOutput = exporterOutput;
+	}
+
+	
+	/**
+	 *
+	 */
+	public void setConfiguration(RC configuration)
+	{
+		this.itemConfiguration = configuration;
 	}
 
 	
@@ -393,7 +411,7 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	{
 		if (setElementOffsets)
 		{
-			ExporterConfiguration configuration = getCurrentConfiguration();
+			ReportExportConfiguration configuration = getCurrentItemConfiguration();
 			Integer offsetX = configuration.getOffsetX();
 			if (offsetX != null)
 			{
@@ -487,15 +505,57 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 		this.crtItem = crtItem;
 
 		jasperPrint = crtItem.getJasperPrint();
-		String localeCode = jasperPrint.getLocaleCode();
-		JRStyledTextParser.setLocale(localeCode == null ? null : JRDataUtils.getLocale(localeCode));
 
-		crtItemConfiguration = (C)crtItem.getConfiguration();
+		crtCompositeItemConfiguration = null;
 		
-		if (crtItemConfiguration == null)
+		initReport();
+	}
+
+
+	/**
+	 *
+	 */
+	protected RC getCurrentItemConfiguration()
+	{
+		if (crtCompositeItemConfiguration == null)
+		{
+			RC crtItemConfiguration = (RC)crtItem.getConfiguration();
+			
+			if (crtItemConfiguration == null)
+			{
+				@SuppressWarnings("deprecation")
+				RC depConf = 
+					new net.sf.jasperreports.export.parameters.ParametersExporterConfigurationFactory<RC>(
+						getJasperReportsContext(),
+						getParameters(),
+						getCurrentJasperPrint()
+						).getConfiguration(
+							getItemConfigurationInterface()
+							);
+				crtItemConfiguration = depConf; 
+			}
+			else
+			{
+				PropertiesExporterConfigurationFactory<RC> factory = new PropertiesExporterConfigurationFactory<RC>(jasperReportsContext);
+				crtItemConfiguration = factory.getConfiguration(crtItemConfiguration, jasperPrint);
+			}
+			
+			CompositeExporterConfigurationFactory<RC> factory = new CompositeExporterConfigurationFactory<RC>(jasperReportsContext);
+			crtCompositeItemConfiguration = factory.getConfiguration(itemConfiguration, crtItemConfiguration);
+		}
+		return crtCompositeItemConfiguration;
+	}
+	
+	
+	/**
+	 *
+	 */
+	protected C getCurrentConfiguration()
+	{
+		if (crtCompositeConfiguration == null)
 		{
 			@SuppressWarnings("deprecation")
-			C depConf = 
+			C crtItemConfiguration = 
 				new net.sf.jasperreports.export.parameters.ParametersExporterConfigurationFactory<C>(
 					getJasperReportsContext(),
 					getParameters(),
@@ -503,29 +563,11 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 					).getConfiguration(
 						getConfigurationInterface()
 						);
-			crtItemConfiguration = depConf; 
-		}
-		else
-		{
-			PropertiesExporterConfigurationFactory<C> factory = new PropertiesExporterConfigurationFactory<C>(jasperReportsContext);
-			crtItemConfiguration = factory.getConfiguration(crtItemConfiguration, jasperPrint);
-		}
-		
-		crtConfiguration = null;
-	}
-
-
-	/**
-	 *
-	 */
-	protected C getCurrentConfiguration()
-	{
-		if (crtConfiguration == null)//FIXMEEXPORT if you want to give up lazy loading, solve the setOffset order problem
-		{
+			
 			CompositeExporterConfigurationFactory<C> factory = new CompositeExporterConfigurationFactory<C>(jasperReportsContext);
-			crtConfiguration = factory.getConfiguration(exporterConfiguration, crtItemConfiguration);
+			crtCompositeConfiguration = factory.getConfiguration(exporterConfiguration, crtItemConfiguration);
 		}
-		return crtConfiguration;
+		return crtCompositeConfiguration;
 	}
 	
 	
@@ -547,6 +589,12 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	/**
 	 *
 	 */
+	protected abstract Class<RC> getItemConfigurationInterface();
+
+	
+	/**
+	 *
+	 */
 	@SuppressWarnings("deprecation")
 	protected void ensureInput()
 	{
@@ -555,7 +603,7 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 			exporterInput = new net.sf.jasperreports.export.parameters.ParametersExporterInput(parameters);
 		}
 		
-		setCurrentExporterInputItem(exporterInput.getItems().get(0));//FIXMEEXPORT check order of operations for first item
+		jasperPrint = exporterInput.getItems().get(0).getJasperPrint();//this is just for the sake of getCurrentConfiguration() calls made prior to any setCurrentExporterInputItem() call
 	}
 
 	
@@ -570,9 +618,27 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 	 */
 	protected void initExport()
 	{
+		crtCompositeConfiguration = null;
+	}
+	
+
+	
+
+	/**
+	 *
+	 */
+	protected void initReport()
+	{
+		String localeCode = jasperPrint.getLocaleCode();
+		JRStyledTextParser.setLocale(localeCode == null ? null : JRDataUtils.getLocale(localeCode));
+
 		setOffset();
 		
-		createFilter();//FIXMEEXPORT filter does not actually work, does it?
+		filter = getCurrentItemConfiguration().getExporterFilter();
+		if (filter == null)
+		{
+			filter = createFilter();
+		}
 	}
 	
 
@@ -590,7 +656,7 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 			lastPageIndex = jasperPrint.getPages().size() - 1;
 		}
 
-		ExporterConfiguration configuration = getCurrentConfiguration();
+		ReportExportConfiguration configuration = getCurrentItemConfiguration();
 		
 		Integer start = configuration.getStartPageIndex();
 		if (start != null)
@@ -651,9 +717,6 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 
 	/**
 	 * Returns the X axis offset used for element export.
-	 * <p>
-	 * This method should be used instead of {@link #globalOffsetX globalOffsetX} when
-	 * exporting elements.
 	 * 
 	 * @return the X axis offset
 	 */
@@ -665,9 +728,6 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 
 	/**
 	 * Returns the Y axis offset used for element export.
-	 * <p>
-	 * This method should be used istead of {@link #globalOffsetY globalOffsetY} when
-	 * exporting elements.
 	 * 
 	 * @return the Y axis offset
 	 */
@@ -981,7 +1041,7 @@ public abstract class JRAbstractExporter<C extends ExporterConfiguration, O exte
 
 	public JRHyperlinkProducer getHyperlinkProducer(JRPrintHyperlink link)
 	{
-		JRHyperlinkProducerFactory factory = getCurrentConfiguration().getHyperlinkProducerFactory();
+		JRHyperlinkProducerFactory factory = getCurrentItemConfiguration().getHyperlinkProducerFactory();
 		return factory == null ? null : factory.getHandler(link.getLinkType());
 	}
 

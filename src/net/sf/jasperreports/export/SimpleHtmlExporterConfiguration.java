@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.export;
 
-import net.sf.jasperreports.export.type.HtmlSizeUnitEnum;
 
 
 /**
@@ -35,16 +34,7 @@ public class SimpleHtmlExporterConfiguration extends SimpleExporterConfiguration
 	private String htmlHeader;
 	private String betweenPagesHtml;
 	private String htmlFooter;
-	private Boolean isRemoveEmptySpaceBetweenRows;
-	private Boolean isWhitePageBackground;
-	private Boolean isWrapBreakWord;
-	private HtmlSizeUnitEnum sizeUnit;
-	private String borderCollapse;
-	private Boolean isIgnorePageMargins;
-	private Boolean accessibleHtml;
-	private Float zoomRatio;
 	private Boolean flushOutput;
-	private Boolean isIgnoreHyperlink;
 
 	
 	/**
@@ -105,134 +95,6 @@ public class SimpleHtmlExporterConfiguration extends SimpleExporterConfiguration
 	/**
 	 * 
 	 */
-	public Boolean isRemoveEmptySpaceBetweenRows()
-	{
-		return isRemoveEmptySpaceBetweenRows;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setRemoveEmptySpaceBetweenRows(Boolean isRemoveEmptySpaceBetweenRows)
-	{
-		this.isRemoveEmptySpaceBetweenRows = isRemoveEmptySpaceBetweenRows;
-	}
-
-	/**
-	 * 
-	 */
-	public Boolean isWhitePageBackground()
-	{
-		return isWhitePageBackground;
-	}
-
-	/**
-	 * 
-	 */
-	public void setWhitePageBackground(Boolean isWhitePageBackground)
-	{
-		this.isWhitePageBackground = isWhitePageBackground;
-	}
-	
-	/**
-	 * 
-	 */
-	public Boolean isWrapBreakWord()
-	{
-		return isWrapBreakWord;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setWrapBreakWord(Boolean isWrapBreakWord)
-	{
-		this.isWrapBreakWord = isWrapBreakWord;
-	}
-	
-	/**
-	 * 
-	 */
-	public HtmlSizeUnitEnum getSizeUnit()
-	{
-		return sizeUnit;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setSizeUnit(HtmlSizeUnitEnum sizeUnit)
-	{
-		this.sizeUnit = sizeUnit;
-	}
-	
-	/**
-	 * 
-	 */
-	public String getBorderCollapse()
-	{
-		return borderCollapse;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setBorderCollapse(String borderCollapse)
-	{
-		this.borderCollapse = borderCollapse;
-	}
-	
-	/**
-	 * 
-	 */
-	public Boolean isIgnorePageMargins()
-	{
-		return isIgnorePageMargins;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setIgnorePageMargins(Boolean isIgnorePageMargins)
-	{
-		this.isIgnorePageMargins = isIgnorePageMargins;
-	}
-	
-	/**
-	 * 
-	 */
-	public Boolean isAccessibleHtml()
-	{
-		return accessibleHtml;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setAccessibleHtml(Boolean accessibleHtml)
-	{
-		this.accessibleHtml = accessibleHtml;
-	}
-	
-	/**
-	 * 
-	 */
-	public Float getZoomRatio()
-	{
-		return zoomRatio;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setZoomRatio(Float zoomRatio)
-	{
-		this.zoomRatio = zoomRatio;
-	}
-	
-	/**
-	 * 
-	 */
 	public Boolean isFlushOutput()
 	{
 		return flushOutput;
@@ -244,21 +106,5 @@ public class SimpleHtmlExporterConfiguration extends SimpleExporterConfiguration
 	public void setFlushOutput(Boolean flushOutput)
 	{
 		this.flushOutput = flushOutput;
-	}
-	
-	/**
-	 * 
-	 */
-	public Boolean isIgnoreHyperlink()
-	{
-		return isIgnoreHyperlink;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setIgnoreHyperlink(Boolean isIgnoreHyperlink)
-	{
-		this.isIgnoreHyperlink = isIgnoreHyperlink;
 	}
 }

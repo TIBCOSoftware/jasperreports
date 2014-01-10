@@ -23,12 +23,7 @@
  */
 package net.sf.jasperreports.export;
 
-import net.sf.jasperreports.engine.JRPrintFrame;
-import net.sf.jasperreports.engine.JRPrintHyperlink;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
-import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 
 /**
@@ -41,71 +36,4 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  */
 public interface DocxExporterConfiguration extends ExporterConfiguration
 {
-	/**
-	 * This property serves as default value for the {@link #isFramesAsNestedTables()} export configuration setting.
-	 * <p>
-	 * The property itself defaults to <code>true</code>.
-	 * </p>
-	 * @see JRPropertiesUtil
-	 */
-	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.frames.as.nested.tables";
-
-	/**
-	 * This property serves as default value for the {@link #isFlexibleRowHeight} export configuration setting.
-	 * <p>
-	 * The property itself defaults to <code>false</code>.
-	 * </p>
-	 * @see JRPropertiesUtil
-	 */
-	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.flexible.row.height";
-
-	/**
-	 * Property that provides a default value for the {@link #isIgnoreHyperlink()} export configuration flag.
-	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx." + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
-
-	/**
-	 * Indicates whether {@link JRPrintFrame frames} are to be exported as nested tables.
-	 * <p>
-	 * Is set to <code>false</code>, the frame contents will be integrated into the master/page table.
-	 * </p>
-	 * @see #PROPERTY_FRAMES_AS_NESTED_TABLES
-	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter.class, 
-		name="FRAMES_AS_NESTED_TABLES"
-		)
-	@ExporterProperty(
-		value=PROPERTY_FRAMES_AS_NESTED_TABLES, 
-		booleanDefault=true
-		)
-	public Boolean isFramesAsNestedTables();
-	
-	/**
-	 * Indicates whether table rows can grow if more text is added into cells.
-	 * <p>
-	 * Is set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
-	 * </p>
-	 * @see #PROPERTY_FLEXIBLE_ROW_HEIGHT
-	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter.class, 
-		name="FLEXIBLE_ROW_HEIGHT"
-		)
-	@ExporterProperty(
-		value=PROPERTY_FLEXIBLE_ROW_HEIGHT, 
-		booleanDefault=false
-		)
-	public Boolean isFlexibleRowHeight();
-	
-	/**
-	 * @see #PROPERTY_IGNORE_HYPERLINK
-	 */
-	@ExporterProperty(
-		value=PROPERTY_IGNORE_HYPERLINK, 
-		booleanDefault=false
-		)
-	public Boolean isIgnoreHyperlink();
 }

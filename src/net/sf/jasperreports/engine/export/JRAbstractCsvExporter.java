@@ -42,7 +42,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.CsvExporterConfiguration;
-import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.CsvReportConfiguration;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.WriterExporterOutput;
 
@@ -52,8 +52,8 @@ import net.sf.jasperreports.export.WriterExporterOutput;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRAbstractCsvExporter<C extends CsvExporterConfiguration, E extends JRExporterContext> 
-	extends JRAbstractExporter<C, WriterExporterOutput, E>
+public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C extends CsvExporterConfiguration, E extends JRExporterContext> 
+	extends JRAbstractExporter<RC, C, WriterExporterOutput, E>
 {
 	protected static final String CSV_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.";
 
@@ -129,9 +129,8 @@ public abstract class JRAbstractCsvExporter<C extends CsvExporterConfiguration, 
 		for(int reportIndex = 0; reportIndex < items.size(); reportIndex++)
 		{
 			ExporterInputItem item = items.get(reportIndex);
-			setCurrentExporterInputItem(item);
 
-			ExporterConfiguration configuration = getCurrentConfiguration();
+			setCurrentExporterInputItem(item);
 
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
@@ -232,22 +231,19 @@ public abstract class JRAbstractCsvExporter<C extends CsvExporterConfiguration, 
 	}
 	
 	
+	@Override
 	protected void initExport()
 	{
 		super.initExport();
-
-		nature = getExporterNature();
 	}
-
-
-	protected ExporterNature getExporterNature()
+	
+	
+	@Override
+	protected void initReport()
 	{
-		if (nature == null)
-		{
-			nature = new JRCsvExporterNature(jasperReportsContext, getCurrentConfiguration().getExporterFilter());
-		}
+		super.initReport();
 
-		return nature;
+		nature = new JRCsvExporterNature(jasperReportsContext, filter);
 	}
 
 

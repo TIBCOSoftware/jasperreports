@@ -55,16 +55,17 @@ import net.sf.jasperreports.engine.print.JRPrinterAWT;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.ExporterOutput;
 import net.sf.jasperreports.export.PrintServiceExporterConfiguration;
+import net.sf.jasperreports.export.PrintServiceReportConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleGraphics2DExporterConfiguration;
 import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
+import net.sf.jasperreports.export.SimpleGraphics2DReportConfiguration;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceExporterConfiguration, ExporterOutput, JRExporterContext> implements Printable
+public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceReportConfiguration, PrintServiceExporterConfiguration, ExporterOutput, JRExporterContext> implements Printable
 {
 	protected static final String PRINT_SERVICE_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.print.service.";
 
@@ -72,7 +73,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceExpor
 	 *
 	 */
 	protected JRGraphics2DExporter exporter;
-	protected SimpleGraphics2DExporterConfiguration grxConfiguration;
+	protected SimpleGraphics2DReportConfiguration grxConfiguration;
 
 	protected int reportIndex;
 	
@@ -109,6 +110,15 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceExpor
 	protected Class<PrintServiceExporterConfiguration> getConfigurationInterface()
 	{
 		return PrintServiceExporterConfiguration.class;
+	}
+	
+
+	/**
+	 *
+	 */
+	protected Class<PrintServiceReportConfiguration> getItemConfigurationInterface()
+	{
+		return PrintServiceReportConfiguration.class;
 	}
 	
 
@@ -244,20 +254,23 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceExpor
 			for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
 			{
 				ExporterInputItem item = items.get(reportIndex);
+
 				setCurrentExporterInputItem(item);
+				
+				PrintServiceReportConfiguration lcItemConfiguration = getCurrentItemConfiguration(); 
 
 				exporter = new JRGraphics2DExporter(jasperReportsContext);
 				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				grxConfiguration = new SimpleGraphics2DExporterConfiguration();
-				grxConfiguration.setProgressMonitor(configuration.getProgressMonitor());
-				grxConfiguration.setOffsetX(configuration.getOffsetX());
-				grxConfiguration.setOffsetY(configuration.getOffsetY());
-				grxConfiguration.setZoomRatio(configuration.getZoomRatio());
+				grxConfiguration = new SimpleGraphics2DReportConfiguration();
+				grxConfiguration.setProgressMonitor(lcItemConfiguration.getProgressMonitor());
+				grxConfiguration.setOffsetX(lcItemConfiguration.getOffsetX());
+				grxConfiguration.setOffsetY(lcItemConfiguration.getOffsetY());
+				grxConfiguration.setZoomRatio(lcItemConfiguration.getZoomRatio());
 //				exporter.setParameter(JRExporterParameter.CLASS_LOADER, classLoader);
 //				exporter.setParameter(JRExporterParameter.URL_HANDLER_FACTORY, urlHandlerFactory);
 //				exporter.setParameter(JRExporterParameter.FILE_RESOLVER, fileResolver);
-				grxConfiguration.setExporterFilter(configuration.getExporterFilter());
-				grxConfiguration.setMinimizePrinterJobSize(configuration.isMinimizePrinterJobSize());
+				grxConfiguration.setExporterFilter(filter);
+				grxConfiguration.setMinimizePrinterJobSize(lcItemConfiguration.isMinimizePrinterJobSize());
 				
 				if(displayPrintDialog || displayPageDialog ||
 						(!displayPrintDialogOnlyOnce && !displayPageDialogOnlyOnce))
@@ -357,6 +370,13 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceExpor
 	protected void initExport()
 	{
 		super.initExport();
+	}
+
+
+	@Override
+	protected void initReport()
+	{
+		super.initReport();
 	}
 	
 

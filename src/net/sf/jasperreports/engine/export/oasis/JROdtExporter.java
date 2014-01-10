@@ -78,10 +78,11 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OdtExporterConfiguration;
+import net.sf.jasperreports.export.OdtReportConfiguration;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
+import net.sf.jasperreports.export.ReportExportConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -93,7 +94,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, OutputStreamExporterOutput, JROdtExporterContext>
+public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, OdtExporterConfiguration, OutputStreamExporterOutput, JROdtExporterContext>
 {
 	private static final Log log = LogFactory.getLog(JROdtExporter.class);
 	
@@ -107,9 +108,9 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 
 	
 	/**
-	 * @deprecated Replaced by {@link OdtExporterConfiguration#PROPERTY_IGNORE_HYPERLINK}.
+	 * @deprecated Replaced by {@link OdtReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
 	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = OdtExporterConfiguration.PROPERTY_IGNORE_HYPERLINK;
+	public static final String PROPERTY_IGNORE_HYPERLINK = OdtReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
 	
 
 	protected class ExporterContext extends BaseExporterContext implements JROdtExporterContext
@@ -235,6 +236,15 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 	{
 		return OdtExporterConfiguration.class;
 	}
+
+
+	/**
+	 *
+	 */
+	protected Class<OdtReportConfiguration> getItemConfigurationInterface()
+	{
+		return OdtReportConfiguration.class;
+	}
 	
 
 	/**
@@ -264,8 +274,6 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 		ensureJasperReportsContext();
 		ensureInput();
 
-		nature = new JROdtExporterNature(getCurrentConfiguration().getExporterFilter());
-		
 		initExport();
 
 		ensureOutput();
@@ -295,6 +303,25 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 	}
 
 
+	@Override
+	protected void initReport()
+	{
+		super.initReport();
+		
+		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
+		{
+			// allows null values for the property
+			invalidCharReplacement = jasperPrint.getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS);
+		}
+		else
+		{
+			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
+		}
+
+		nature = new JROdtExporterNature(filter);
+	}
+
+	
 	/**
 	 *
 	 */
@@ -326,8 +353,8 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 			ExporterInputItem item = items.get(reportIndex);
 			rowStyles.clear();
 			columnStyles.clear();
+
 			setCurrentExporterInputItem(item);
-			setExporterHints();
 			
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
@@ -387,7 +414,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 	{
 		startPage = true;
 
-		ExporterConfiguration configuration = getCurrentConfiguration();
+		ReportExportConfiguration configuration = getCurrentItemConfiguration();
 		
 		JRGridLayout layout =
 			new JRGridLayout(
@@ -415,7 +442,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 	 */
 	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex) throws IOException, JRException
 	{
-		boolean isFlexibleRowHeight = getCurrentConfiguration().isFlexibleRowHeight();
+		boolean isFlexibleRowHeight = getCurrentItemConfiguration().isFlexibleRowHeight();
 		
 		CutsInfo xCuts = gridLayout.getXCuts();
 		Grid grid = gridLayout.getGrid();
@@ -842,23 +869,6 @@ public class JROdtExporter extends JRAbstractExporter<OdtExporterConfiguration, 
 				log.debug("No ODT generic element handler for " 
 						+ element.getGenericType());
 			}
-		}
-	}
-
-	
-	/**
-	 *
-	 */
-	protected void setExporterHints()
-	{
-		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
-		{
-			// allows null values for the property
-			invalidCharReplacement = jasperPrint.getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS);
-		}
-		else
-		{
-			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
 		}
 	}
 

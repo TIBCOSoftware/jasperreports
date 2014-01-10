@@ -92,8 +92,9 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
-import net.sf.jasperreports.export.XlsExporterConfiguration;
+import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.export.XlsxExporterConfiguration;
+import net.sf.jasperreports.export.XlsxReportConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -105,7 +106,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfiguration, JRXlsxExporterContext>
+public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguration, XlsxExporterConfiguration, JRXlsxExporterContext>
 {
 	private static final Log log = LogFactory.getLog(JRXlsxExporter.class);
 	
@@ -212,19 +213,37 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 	{
 		return XlsxExporterConfiguration.class;
 	}
+
+
+	/**
+	 *
+	 */
+	protected Class<XlsxReportConfiguration> getItemConfigurationInterface()
+	{
+		return XlsxReportConfiguration.class;
+	}
 	
 
 	@Override
 	protected void initExport()
 	{
 		super.initExport();
+	}
+	
+
+	@Override
+	protected void initReport()
+	{
+		super.initReport();
 		
-		XlsExporterConfiguration configuration = getCurrentConfiguration();
+		XlsReportConfiguration configuration = getCurrentItemConfiguration();
+
+		styleHelper.setConfiguration(configuration); 
 
 		nature = 
 			new JRXlsxExporterNature(
 				jasperReportsContext, 
-				configuration.getExporterFilter(), 
+				filter, 
 				configuration.isIgnoreGraphics(), 
 				configuration.isIgnorePageMargins()
 				);
@@ -563,9 +582,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 	{
 		String href = null;
 
-		XlsExporterConfiguration configuration = getCurrentConfiguration();
+		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
 			ignoreHyperlink = configuration.isIgnoreHyperlink();
@@ -649,10 +668,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 
 	protected void insertPageAnchor(int colIndex, int rowIndex)
 	{
-		if(!getCurrentConfiguration().isIgnoreAnchors() && startPage)
+		if(!getCurrentItemConfiguration().isIgnoreAnchors() && startPage)
 		{
 			String anchorPage = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
-			String name = getCurrentConfiguration().isOnePagePerSheet() ? currentSheetName : firstSheetName;
+			String name = getCurrentItemConfiguration().isOnePagePerSheet() ? currentSheetName : firstSheetName;
 			String ref = "'" + name + "'!$A$1";		// + XlsxCellHelper.getColumIndexLetter(colIndex) + "$" + (rowIndex + 1);
 			definedNames.append("<definedName name=\"" + anchorPage +"\">"+ ref +"</definedName>\n");
 			startPage = false;
@@ -779,7 +798,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 				jasperReportsContext,
 				sheetWriter, 
 				sheetRelsHelper,
-				getCurrentConfiguration()
+				getCurrentItemConfiguration()
 				);
 		
 		ExportZipEntry drawingRelsEntry = xlsxZip.addDrawingRels(sheetIndex + 1);
@@ -797,7 +816,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 		boolean showGridlines = true;
 		if (sheetInfo.sheetShowGridlines == null)
 		{
-			Boolean documentShowGridlines = getCurrentConfiguration().isShowGridLines();
+			Boolean documentShowGridlines = getCurrentItemConfiguration().isShowGridLines();
 			if (documentShowGridlines != null)
 			{
 				showGridlines = documentShowGridlines;
@@ -818,7 +837,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 	{
 		if (sheetHelper != null)
 		{
-			XlsExporterConfiguration configuration = getCurrentConfiguration();
+			XlsReportConfiguration configuration = getCurrentItemConfiguration();
 			
 			boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
 			
@@ -1130,7 +1149,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 				}
 			}
 
-			XlsExporterConfiguration configuration = getCurrentConfiguration();
+			XlsReportConfiguration configuration = getCurrentItemConfiguration();
 			
 			if(!configuration.isIgnoreAnchors())
 			{
@@ -1151,7 +1170,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 
 			ImageAnchorTypeEnum imageAnchorType = 
 				ImageAnchorTypeEnum.getByName(
-					JRPropertiesUtil.getOwnProperty(image, XlsExporterConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
+					JRPropertiesUtil.getOwnProperty(image, XlsReportConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
 					);
 			if (imageAnchorType == null)
 			{
@@ -1318,7 +1337,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 		TextValue textValue = null;
 		String pattern = null;
 		
-		XlsExporterConfiguration configuration = getCurrentConfiguration();
+		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		if (configuration.isDetectCellType())
 		{
@@ -1491,9 +1510,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 			relsHelper = new XlsxRelsHelper(jasperReportsContext, xlsxZip.getRelsEntry().getWriter());
 			ctHelper = new XlsxContentTypesHelper(jasperReportsContext, xlsxZip.getContentTypesEntry().getWriter());
 			
-			XlsxExporterConfiguration configuration = getCurrentConfiguration();
-			
-			String macro = macroTemplate == null ? configuration.getMacroTemplate() : macroTemplate;
+			String macro = macroTemplate == null ? getCurrentConfiguration().getMacroTemplate() : macroTemplate;
 			if(macro != null)
 			{
 				xlsxZip.addMacro(macro);
@@ -1507,11 +1524,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxExporterConfigurat
 				new XlsxStyleHelper(
 					jasperReportsContext,
 					xlsxZip.getStylesEntry().getWriter(), 
-					getExporterKey(),
-					configuration.isWhitePageBackground(),
-					configuration.isIgnoreCellBorder(),
-					configuration.isIgnoreCellBackground(),
-					configuration.isFontSizeFixEnabled()
+					getExporterKey()
 					);
 			
 			firstPageNotSet = true;

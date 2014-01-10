@@ -23,10 +23,8 @@
  */
 package net.sf.jasperreports.export;
 
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRTextExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
-import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 
 /**
@@ -39,102 +37,6 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  */
 public interface TextExporterConfiguration extends ExporterConfiguration
 {
-	/**
-	 * Property whose value is used as default state of the {@link #getCharWidth()} export configuration setting.
-	 * <p/>
-	 * This property is not set by default.
-	 * 
-	 * @see JRPropertiesUtil
-	 */
-	public static final String PROPERTY_CHARACTER_WIDTH = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.character.width";
-
-	/**
-	 * Property whose value is used as default state of the {@link #getCharHeight()} export configuration setting.
-	 * <p/>
-	 * This property is not set by default.
-	 * 
-	 * @see JRPropertiesUtil
-	 */
-	public static final String PROPERTY_CHARACTER_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.character.height";
-
-	/**
-	 * Property whose value is used as default state of the {@link #getPageWidthInChars()} export configuration setting.
-	 * <p/>
-	 * This property is not set by default.
-	 * 
-	 * @see JRPropertiesUtil
-	 */
-	public static final String PROPERTY_PAGE_WIDTH = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.page.width";
-
-	/**
-	 * Property whose value is used as default state of the {@link #getPageHeightInChars()} export configuration setting.
-	 * <p/>
-	 * This property is not set by default.
-	 * 
-	 * @see JRPropertiesUtil
-	 */
-	public static final String PROPERTY_PAGE_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.page.height";
-
-	/**
-	 * Returns a float value representing the pixel/character horizontal ratio.
-	 * @see #PROPERTY_CHARACTER_WIDTH
-	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		name="CHARACTER_WIDTH"
-		)
-	@ExporterProperty(
-		value=PROPERTY_CHARACTER_WIDTH, 
-		intDefault=0
-		)
-	public Float getCharWidth();
-
-	/**
-	 * Returns a float value representing the pixel/character vertical ratio.
-	 * @see #PROPERTY_CHARACTER_HEIGHT
-	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		name="CHARACTER_HEIGHT"
-		)
-	@ExporterProperty(
-		value=PROPERTY_CHARACTER_HEIGHT, 
-		intDefault=0
-		)
-	public Float getCharHeight();
-
-	/**
-	 * Returns an integer representing the page width in characters.
-	 * @see #PROPERTY_PAGE_WIDTH
-	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		name="PAGE_WIDTH"
-		)
-	@ExporterProperty(
-		value=PROPERTY_PAGE_WIDTH, 
-		intDefault=0
-		)
-	public Integer getPageWidthInChars();
-
-	/**
-	 * Returns an integer representing the page height in characters.
-	 * @see #PROPERTY_PAGE_HEIGHT
-	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		name="PAGE_HEIGHT"
-		)
-	@ExporterProperty(
-		value=PROPERTY_PAGE_HEIGHT, 
-		intDefault=0
-		)
-	public Integer getPageHeightInChars();
-	
 	/**
 	 * Returns a string representing text that will be inserted between pages of the generated report. By default, JasperReports
 	 * separates pages by two empty lines, but this behavior can be overridden by this parameter.

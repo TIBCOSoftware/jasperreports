@@ -44,7 +44,7 @@ import org.apache.commons.lang.ClassUtils;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class PropertiesExporterConfigurationFactory<C extends ExporterConfiguration>
+public class PropertiesExporterConfigurationFactory<RC extends ReportExportConfiguration>
 {
 	/**
 	 * 
@@ -63,11 +63,11 @@ public class PropertiesExporterConfigurationFactory<C extends ExporterConfigurat
 	/**
 	 * 
 	 */
-	public C getConfiguration(final C parent, final JRPropertiesHolder propertiesHolder)
+	public RC getConfiguration(final RC parent, final JRPropertiesHolder propertiesHolder)
 	{
-		final C child = getProxy(parent.getClass(), new PropertiesInvocationHandler(propertiesHolder));
+		final RC child = getProxy(parent.getClass(), new PropertiesInvocationHandler(propertiesHolder));
 
-		CompositeExporterConfigurationFactory<C> factory = new CompositeExporterConfigurationFactory<C>(jasperReportsContext);
+		CompositeExporterConfigurationFactory<RC> factory = new CompositeExporterConfigurationFactory<RC>(jasperReportsContext);
 		
 		return factory.getConfiguration(parent, child);
 	}
@@ -76,14 +76,14 @@ public class PropertiesExporterConfigurationFactory<C extends ExporterConfigurat
 	/**
 	 * 
 	 */
-	private final C getProxy(Class<?> clazz, InvocationHandler handler)
+	private final RC getProxy(Class<?> clazz, InvocationHandler handler)
 	{
 		@SuppressWarnings("rawtypes")
 		List allInterfaces = ClassUtils.getAllInterfaces(clazz);
 
 		@SuppressWarnings("unchecked")
-		C composite =
-			(C)Proxy.newProxyInstance(
+		RC composite =
+			(RC)Proxy.newProxyInstance(
 				ExporterConfiguration.class.getClassLoader(),
 				(Class<?>[]) allInterfaces.toArray(new Class<?>[allInterfaces.size()]),
 				handler

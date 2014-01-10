@@ -28,6 +28,7 @@ import java.util.Map;
 import net.sf.jasperreports.export.Exporter;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ExporterInput;
+import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.ExporterOutput;
 
 
@@ -62,7 +63,7 @@ import net.sf.jasperreports.export.ExporterOutput;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRExporter<I extends ExporterInput, C extends ExporterConfiguration, O extends ExporterOutput> extends Exporter<I, C, O>
+public interface JRExporter<I extends ExporterInput, IC extends ReportExportConfiguration, C extends ExporterConfiguration, O extends ExporterOutput> extends Exporter<I, IC, C, O>
 {
 
 

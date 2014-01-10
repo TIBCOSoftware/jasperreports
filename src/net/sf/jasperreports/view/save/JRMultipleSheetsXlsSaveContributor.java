@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimpleXlsExporterConfiguration;
+import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.view.JRSaveContributor;
 
 /**
@@ -118,7 +118,7 @@ public class JRMultipleSheetsXlsSaveContributor extends JRSaveContributor
 			JRXlsExporter exporter = new JRXlsExporter(getJasperReportsContext());
 			exporter.setExporterInput(new SimpleExporterInput(jasperPrint)); 
 			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(file));
-			SimpleXlsExporterConfiguration configuration = new SimpleXlsExporterConfiguration();
+			SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
 			configuration.setOnePagePerSheet(true);
 			exporter.setConfiguration(configuration);
 			exporter.exportReport(); 

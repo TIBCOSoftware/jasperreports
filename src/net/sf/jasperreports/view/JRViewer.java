@@ -98,8 +98,8 @@ import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 import net.sf.jasperreports.engine.util.SimpleFileResolver;
 import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleGraphics2DExporterConfiguration;
 import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
+import net.sf.jasperreports.export.SimpleGraphics2DReportConfiguration;
 import net.sf.jasperreports.view.save.JRPrintSaveContributor;
 
 import org.apache.commons.logging.Log;
@@ -2100,7 +2100,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
 			output.setGraphics2D((Graphics2D)grx.create());
 			exporter.setExporterOutput(output);
-			SimpleGraphics2DExporterConfiguration configuration = new SimpleGraphics2DExporterConfiguration();
+			SimpleGraphics2DReportConfiguration configuration = new SimpleGraphics2DReportConfiguration();
 			configuration.setPageIndex(pageIndex);
 			configuration.setZoomRatio(realZoom);
 			configuration.setOffsetX(1); //lblPage border

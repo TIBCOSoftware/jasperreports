@@ -93,6 +93,7 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
+import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -127,7 +128,7 @@ import org.apache.poi.ss.util.CellReference;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguration, JRXlsExporterContext>
+public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration, XlsExporterConfiguration, JRXlsExporterContext>
 {
 
 	private static final Log log = LogFactory.getLog(JRXlsExporter.class);
@@ -203,14 +204,30 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 	{
 		return XlsExporterConfiguration.class;
 	}
+
+
+	/**
+	 *
+	 */
+	protected Class<XlsReportConfiguration> getItemConfigurationInterface()
+	{
+		return XlsReportConfiguration.class;
+	}
 	
 
 	@Override
 	protected void initExport()
 	{
 		super.initExport();
+	}
+	
 
-		XlsExporterConfiguration configuration = getCurrentConfiguration();
+	@Override
+	protected void initReport()
+	{
+		super.initReport();
+
+		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		if (!configuration.isWhitePageBackground())
 		{
@@ -220,7 +237,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 		nature = 
 			new JRXlsExporterNature(
 				jasperReportsContext, 
-				configuration.getExporterFilter(), 
+				filter, 
 				configuration.isIgnoreGraphics(), 
 				configuration.isIgnorePageMargins()
 				);
@@ -308,7 +325,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 			printSetup.setPaperSize(paperSize);
 		}
 		
-		XlsExporterConfiguration configuration = getCurrentConfiguration();
+		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		String password = configuration.getPassword();
 		if(password != null)
@@ -438,7 +455,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 	{
 		try
 		{
-			for (Object anchorName : anchorNames.keySet())
+			for (Object anchorName : anchorNames.keySet())//FIXMEEXPORT no test for ignore anchors?
 			{
 				HSSFName anchor = anchorNames.get(anchorName);
 				List<Hyperlink> linkList = anchorLinks.get(anchorName);
@@ -455,7 +472,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 				
 			}
 			
-			boolean isOnePagePerSheet = getCurrentConfiguration().isOnePagePerSheet();
+			boolean isOnePagePerSheet = getCurrentItemConfiguration().isOnePagePerSheet();//FIXMEEXPORT item level config in workbook level code?
 			
 			for (Object pageIndex : pageLinks.keySet())
 			{
@@ -535,7 +552,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
 		
-		XlsExporterConfiguration configuration = getCurrentConfiguration();
+		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		if (!configuration.isIgnoreCellBackground() && gridCell.getCellBackcolor() != null)
 		{
@@ -602,7 +619,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
-		boolean isIgnoreCellBackground = getCurrentConfiguration().isIgnoreCellBackground();
+		boolean isIgnoreCellBackground = getCurrentItemConfiguration().isIgnoreCellBackground();
 		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
@@ -638,7 +655,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
-		boolean isIgnoreCellBackground = getCurrentConfiguration().isIgnoreCellBackground();
+		boolean isIgnoreCellBackground = getCurrentItemConfiguration().isIgnoreCellBackground();
 		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
@@ -684,7 +701,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
-		boolean isIgnoreCellBackground = getCurrentConfiguration().isIgnoreCellBackground();
+		boolean isIgnoreCellBackground = getCurrentItemConfiguration().isIgnoreCellBackground();
 		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
@@ -755,7 +772,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 			}
 		}
 
-		XlsExporterConfiguration configuration = getCurrentConfiguration();
+		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		if (configuration.isDetectCellType())
 		{
@@ -918,7 +935,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 
 	protected void createMergeRegion(JRExporterGridCell gridCell, int colIndex, int rowIndex, HSSFCellStyle cellStyle)
 	{
-		boolean isCollapseRowSpan = getCurrentConfiguration().isCollapseRowSpan();
+		boolean isCollapseRowSpan = getCurrentItemConfiguration().isCollapseRowSpan();
 		int rowSpan = isCollapseRowSpan ? 1 : gridCell.getRowSpan();
 		if (gridCell.getColSpan() > 1 || rowSpan > 1)
 		{
@@ -1105,7 +1122,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 			}
 			
 		}
-		boolean isFontSizeFixEnabled = getCurrentConfiguration().isFontSizeFixEnabled();
+		boolean isFontSizeFixEnabled = getCurrentItemConfiguration().isFontSizeFixEnabled();
 		for (int i = 0; i < loadedFonts.size(); i++)
 		{
 			HSSFFont cf = (HSSFFont)loadedFonts.get(i);
@@ -1192,7 +1209,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 				cellStyle.setDataFormat(style.getDataFormat());
 			}
 
-			boolean isIgnoreCellBorder = getCurrentConfiguration().isIgnoreCellBorder();
+			boolean isIgnoreCellBorder = getCurrentItemConfiguration().isIgnoreCellBorder();
 			if (!isIgnoreCellBorder)
 			{
 				BoxStyle box = style.box;
@@ -1529,7 +1546,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 					}
 				}
 
-				XlsExporterConfiguration configuration = getCurrentConfiguration();
+				XlsReportConfiguration configuration = getCurrentItemConfiguration();
 
 				short mode = backgroundMode;
 				short backcolor = whiteIndex;
@@ -1584,7 +1601,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 
 				ImageAnchorTypeEnum imageAnchorType = 
 					ImageAnchorTypeEnum.getByName(
-						JRPropertiesUtil.getOwnProperty(element, XlsExporterConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
+						JRPropertiesUtil.getOwnProperty(element, XlsReportConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
 						);
 				if (imageAnchorType == null)
 				{
@@ -1644,7 +1661,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 	 */
 	protected double getRowRelativePosition(JRGridLayout layout, int row, int offset)
 	{
-		boolean isCollapseRowSpan = getCurrentConfiguration().isCollapseRowSpan();
+		boolean isCollapseRowSpan = getCurrentItemConfiguration().isCollapseRowSpan();
 		double rowRelPos = 0;
 		
 		//isCollapseRowSpan
@@ -1805,10 +1822,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 	{
 		Hyperlink link = null;
 
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsExporterConfiguration.PROPERTY_IGNORE_HYPERLINK, hyperlink);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsReportConfiguration.PROPERTY_IGNORE_HYPERLINK, hyperlink);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = getCurrentConfiguration().isIgnoreHyperlink();
+			ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
 		}
 
 		if (!ignoreHyperlink)
@@ -1830,7 +1847,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsExporterConfiguratio
 					}
 					case LOCAL_ANCHOR :
 					{
-						if(!getCurrentConfiguration().isIgnoreAnchors())
+						if(!getCurrentItemConfiguration().isIgnoreAnchors())
 						{
 							String href = hyperlink.getHyperlinkAnchor();
 							if (href != null)

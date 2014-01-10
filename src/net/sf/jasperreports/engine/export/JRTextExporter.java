@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.TextExporterConfiguration;
+import net.sf.jasperreports.export.TextReportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
 
 
@@ -64,7 +65,7 @@ import net.sf.jasperreports.export.WriterExporterOutput;
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
-public class JRTextExporter extends JRAbstractExporter<TextExporterConfiguration, WriterExporterOutput, JRTextExporterContext>
+public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, TextExporterConfiguration, WriterExporterOutput, JRTextExporterContext>
 {
 	private static final String TXT_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.txt.";
 
@@ -109,6 +110,15 @@ public class JRTextExporter extends JRAbstractExporter<TextExporterConfiguration
 	protected Class<TextExporterConfiguration> getConfigurationInterface()
 	{
 		return TextExporterConfiguration.class;
+	}
+
+
+	/**
+	 *
+	 */
+	protected Class<TextReportConfiguration> getItemConfigurationInterface()
+	{
+		return TextReportConfiguration.class;
 	}
 	
 
@@ -181,12 +191,12 @@ public class JRTextExporter extends JRAbstractExporter<TextExporterConfiguration
 	}
 
 
-	/**
-	 *
-	 */
-	public void setReportParameters()
+	@Override
+	protected void initReport()
 	{
-		TextExporterConfiguration configuration = getCurrentConfiguration();
+		super.initReport();
+
+		TextReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		Float charWidthValue = configuration.getCharWidth();
 		charWidth = charWidthValue == null ? 0 : charWidthValue;
@@ -246,6 +256,7 @@ public class JRTextExporter extends JRAbstractExporter<TextExporterConfiguration
 		for(int reportIndex = 0; reportIndex < items.size(); reportIndex++)
 		{
 			ExporterInputItem item = items.get(reportIndex);
+
 			setCurrentExporterInputItem(item);
 
 			List<JRPrintPage> pages = jasperPrint.getPages();
@@ -254,9 +265,6 @@ public class JRTextExporter extends JRAbstractExporter<TextExporterConfiguration
 				PageRange pageRange = getPageRange();
 				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
 				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
-
-				/*   */
-				setReportParameters();//FIXMENOW check all report level exporter hints and make sure they are read from the current report, not from the first
 
 				for(int i = startPageIndex; i <= endPageIndex; i++)
 				{
@@ -279,7 +287,7 @@ public class JRTextExporter extends JRAbstractExporter<TextExporterConfiguration
 
 	/**
 	 * Exports a page to the output writer. Only text elements within the page are considered. For each page, the engine
-	 * creates a matrix of characters and each rendered text element is placed at the appropiate position in the matrix.
+	 * creates a matrix of characters and each rendered text element is placed at the appropriate position in the matrix.
 	 * After all texts are parsed, the character matrix is sent to the output writer.
 	 */
 	protected void exportPage(JRPrintPage page) throws IOException
@@ -301,7 +309,7 @@ public class JRTextExporter extends JRAbstractExporter<TextExporterConfiguration
 
 		writer.write(betweenPagesText);
 
-		JRExportProgressMonitor progressMonitor = getCurrentConfiguration().getProgressMonitor();
+		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();

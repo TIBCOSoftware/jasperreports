@@ -23,11 +23,7 @@
  */
 package net.sf.jasperreports.export;
 
-import net.sf.jasperreports.engine.JRPrintHyperlink;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
-import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 
 /**
@@ -40,44 +36,4 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  */
 public interface OdtExporterConfiguration extends ExporterConfiguration
 {
-	/**
-	 * This property serves as default value for the {@link #isFlexibleRowHeight()} export configuration flag.
-	 * <p>
-	 * The property itself defaults to <code>false</code>.
-	 * </p>
-	 * @see JRPropertiesUtil
-	 */
-	public static final String PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.odt.flexible.row.height";
-
-	/**
-	 * Property that provides a default for the {@link #isIgnoreHyperlink()} export configuration flag.
-	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = JRPropertiesUtil.PROPERTY_PREFIX + "export.odt." + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
-
-	/**
-	 * Indicates whether table rows in ODT documents can grow if more text is added into cells.
-	 * <p>
-	 * Is set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
-	 * </p>
-	 * @see #PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT
-	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporterParameter.class, 
-		name="ODT_FLEXIBLE_ROW_HEIGHT"
-		)
-	@ExporterProperty(
-		value=PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT, 
-		booleanDefault=false
-		)
-	public Boolean isFlexibleRowHeight();
-
-	/**
-	 * @see #PROPERTY_IGNORE_HYPERLINK
-	 */
-	@ExporterProperty(
-		value=PROPERTY_IGNORE_HYPERLINK, 
-		booleanDefault=false
-		)
-	public Boolean isIgnoreHyperlink();
 }

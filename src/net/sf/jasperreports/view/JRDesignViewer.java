@@ -220,9 +220,9 @@ public class JRDesignViewer extends JRViewer
 		return 
 			new JRGraphics2DExporter(getJasperReportsContext())
 			{
-				protected void setDrawers()
+				protected void initReport()
 				{
-					super.setDrawers();
+					super.initReport();
 					frameDrawer.setClip(true);//FIXMENOW thick border of margin elements is clipped
 				}
 			};

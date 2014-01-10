@@ -35,7 +35,6 @@ import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration implements PdfExporterConfiguration
 {
 	private Boolean isCreatingBatchModeBookmarks;
-	private Boolean isForceSvgShapes;
 	private Boolean isCompressed;
 	private Boolean isEncrypted;
 	private Boolean is128BitKey;
@@ -44,20 +43,16 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	private PdfVersionEnum pdfVersion;
 	private String pdfJavaScript;
 	private PdfPrintScalingEnum printScaling;
-	private Boolean isCollapseMissingBookmarkLevels;
 	private Boolean isTagged;
 	private String tagLanguage;
-	private Boolean isSizePageToContent;
 	private PdfaConformanceEnum pdfaConformance;
 	private String iccProfilePath;
-	private Boolean isIgnoreHyperlink;
 	private Integer permissions;
 	private String metadataTitle;
 	private String metadataAuthor;
 	private String metadataSubject;
 	private String metadataKeywords;
 	private String metadataCreator;
-	private Boolean isForceLineBreakPolicy;
 
 	
 	/**
@@ -81,22 +76,6 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	public void setCreatingBatchModeBookmarks(Boolean isCreatingBatchModeBookmarks)
 	{
 		this.isCreatingBatchModeBookmarks = isCreatingBatchModeBookmarks;
-	}
-	
-	/**
-	 * 
-	 */
-	public Boolean isForceSvgShapes()
-	{
-		return isForceSvgShapes;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setForceSvgShapes(Boolean isForceSvgShapes)
-	{
-		this.isForceSvgShapes = isForceSvgShapes;
 	}
 	
 	/**
@@ -230,22 +209,6 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	/**
 	 * 
 	 */
-	public Boolean isCollapseMissingBookmarkLevels()
-	{
-		return isCollapseMissingBookmarkLevels;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setCollapseMissingBookmarkLevels(Boolean isCollapseMissingBookmarkLevels)
-	{
-		this.isCollapseMissingBookmarkLevels = isCollapseMissingBookmarkLevels;
-	}
-	
-	/**
-	 * 
-	 */
 	public Boolean isTagged()
 	{
 		return isTagged;
@@ -278,22 +241,6 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	/**
 	 * 
 	 */
-	public Boolean isSizePageToContent()
-	{
-		return isSizePageToContent;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setSizePageToContent(Boolean isSizePageToContent)
-	{
-		this.isSizePageToContent = isSizePageToContent;
-	}
-	
-	/**
-	 * 
-	 */
 	public PdfaConformanceEnum getPdfaConformance()
 	{
 		return pdfaConformance;
@@ -321,22 +268,6 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	public void setIccProfilePath(String iccProfilePath)
 	{
 		this.iccProfilePath = iccProfilePath;
-	}
-	
-	/**
-	 * 
-	 */
-	public Boolean isIgnoreHyperlink()
-	{
-		return isIgnoreHyperlink;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setIgnoreHyperlink(Boolean isIgnoreHyperlink)
-	{
-		this.isIgnoreHyperlink = isIgnoreHyperlink;
 	}
 	
 	/**
@@ -433,21 +364,5 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	public void setMetadataCreator(String metadataCreator)
 	{
 		this.metadataCreator = metadataCreator;
-	}
-	
-	/**
-	 * 
-	 */
-	public Boolean isForceLineBreakPolicy()
-	{
-		return isForceLineBreakPolicy;
-	}
-	
-	/**
-	 * 
-	 */
-	public void setForceLineBreakPolicy(Boolean isForceLineBreakPolicy)
-	{
-		this.isForceLineBreakPolicy = isForceLineBreakPolicy;
 	}
 }

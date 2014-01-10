@@ -49,9 +49,10 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.draw.FrameDrawer;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
-import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.Graphics2DExporterConfiguration;
 import net.sf.jasperreports.export.Graphics2DExporterOutput;
+import net.sf.jasperreports.export.Graphics2DReportConfiguration;
+import net.sf.jasperreports.export.ReportExportConfiguration;
 
 
 /**
@@ -64,14 +65,14 @@ import net.sf.jasperreports.export.Graphics2DExporterOutput;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DExporterConfiguration, Graphics2DExporterOutput, JRGraphics2DExporterContext>
+public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportConfiguration, Graphics2DExporterConfiguration, Graphics2DExporterOutput, JRGraphics2DExporterContext>
 {
 	private static final float DEFAULT_ZOOM = 1f;
 
 	/**
-	 * @deprecated Replaced by {@link Graphics2DExporterConfiguration#MINIMIZE_PRINTER_JOB_SIZE}.
+	 * @deprecated Replaced by {@link Graphics2DReportConfiguration#MINIMIZE_PRINTER_JOB_SIZE}.
 	 */
-	public static final String MINIMIZE_PRINTER_JOB_SIZE = Graphics2DExporterConfiguration.MINIMIZE_PRINTER_JOB_SIZE;
+	public static final String MINIMIZE_PRINTER_JOB_SIZE = Graphics2DReportConfiguration.MINIMIZE_PRINTER_JOB_SIZE;
 
 	private static final String GRAPHICS2D_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.graphics2d.";
 
@@ -120,6 +121,15 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DExporterC
 	{
 		return Graphics2DExporterConfiguration.class;
 	}
+
+
+	/**
+	 *
+	 */
+	protected Class<Graphics2DReportConfiguration> getItemConfigurationInterface()
+	{
+		return Graphics2DReportConfiguration.class;
+	}
 	
 
 	/**
@@ -165,10 +175,18 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DExporterC
 	protected void initExport()
 	{
 		super.initExport();
+	}
+
+
+	@Override
+	protected void initReport()
+	{
+		super.initReport();
 		
 		setOffset(false);
 
-		Graphics2DExporterConfiguration configuration = getCurrentConfiguration();
+		Graphics2DReportConfiguration configuration = getCurrentItemConfiguration();
+		
 		Boolean isMinimizePrinterJobSize = configuration.isMinimizePrinterJobSize();
 		Boolean isIgnoreMissingFont = configuration.isIgnoreMissingFont();
 		
@@ -179,13 +197,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DExporterC
 				isIgnoreMissingFont == null ? Boolean.FALSE : isIgnoreMissingFont
 				);
 
-		setDrawers();
-	}
-
-	
-	protected void setDrawers()
-	{
-		frameDrawer = new FrameDrawer(exporterContext, getCurrentConfiguration().getExporterFilter(), textRenderer);
+		frameDrawer = new FrameDrawer(exporterContext, filter, textRenderer);
 	}
 
 	
@@ -199,7 +211,9 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DExporterC
 		grx.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
 		grx.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 
-		ExporterConfiguration configuration = getCurrentConfiguration();
+		setCurrentExporterInputItem(exporterInput.getItems().get(0));
+		
+		ReportExportConfiguration configuration = getCurrentItemConfiguration();
 		
 		AffineTransform atrans = new AffineTransform();
 		atrans.translate(
@@ -252,7 +266,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DExporterC
 		/*   */
 		frameDrawer.draw(grx, page.getElements(), getOffsetX(), getOffsetY());
 		
-		JRExportProgressMonitor progressMonitor = getCurrentConfiguration().getProgressMonitor();
+		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -289,7 +303,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DExporterC
 	{
 		float zoom = DEFAULT_ZOOM;
 		
-		Float zoomRatio = getCurrentConfiguration().getZoomRatio();
+		Float zoomRatio = getCurrentItemConfiguration().getZoomRatio();
 		if (zoomRatio != null)
 		{
 			zoom = zoomRatio.floatValue();

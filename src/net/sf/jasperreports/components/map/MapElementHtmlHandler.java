@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.export.Exporter;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
+import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.JacksonUtil;
@@ -111,7 +112,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 //		velocityContext.put("divId", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.id"));
 //		velocityContext.put("divClass", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.class"));
 		
-		Exporter<ExporterInput, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter = context.getExporterRef(); 
+		Exporter<ExporterInput, ? extends HtmlReportConfiguration, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter = context.getExporterRef(); 
 		HtmlExporter htmlExporter2 = exporter instanceof HtmlExporter ? (HtmlExporter)exporter : null; 
 		if (htmlExporter2 == null)
 		{
@@ -146,7 +147,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 	
 	@SuppressWarnings("deprecation")
 	private void xhtmlExport(
-		Exporter<ExporterInput, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter,
+		Exporter<ExporterInput, ? extends HtmlReportConfiguration, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter,
 		Map<String, Object> contextMap,
 		JRGenericPrintElement element
 		)

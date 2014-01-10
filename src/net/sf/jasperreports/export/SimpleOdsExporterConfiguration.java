@@ -30,28 +30,4 @@ package net.sf.jasperreports.export;
  */
 public class SimpleOdsExporterConfiguration extends AbstractXlsExporterConfiguration implements OdsExporterConfiguration
 {
-	private boolean isFlexibleRowHeight;
-
-	/**
-	 * 
-	 */
-	public SimpleOdsExporterConfiguration()
-	{
-	}
-
-	/**
-	 * 
-	 */
-	public Boolean isFlexibleRowHeight()
-	{
-		return isFlexibleRowHeight;
-	}
-
-	/**
-	 * 
-	 */
-	public void setFlexibleRowHeight(Boolean isFlexibleRowHeight)
-	{
-		this.isFlexibleRowHeight = isFlexibleRowHeight;
-	}
 }

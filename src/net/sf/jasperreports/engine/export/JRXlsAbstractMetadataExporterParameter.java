@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.export.XlsMetadataExporterConfiguration;
+import net.sf.jasperreports.export.XlsMetadataReportConfiguration;
 
 
 /**
@@ -47,27 +48,27 @@ public class JRXlsAbstractMetadataExporterParameter extends JRXlsAbstractExporte
 
 
 	/**
-	 * @deprecated Replaced by {@link XlsMetadataExporterConfiguration#getColumnNames()}.
+	 * @deprecated Replaced by {@link XlsMetadataReportConfiguration#getColumnNames()}.
 	 */
 	public static final JRXlsAbstractMetadataExporterParameter COLUMN_NAMES = new JRXlsAbstractMetadataExporterParameter("Column Names");
 	
 	
 	/**
-	 * @deprecated Replaced by {@link XlsMetadataExporterConfiguration#PROPERTY_COLUMN_NAMES_PREFIX}.
+	 * @deprecated Replaced by {@link XlsMetadataReportConfiguration#PROPERTY_COLUMN_NAMES_PREFIX}.
 	 */
-	public static final String PROPERTY_COLUMN_NAMES_PREFIX = XlsMetadataExporterConfiguration.PROPERTY_COLUMN_NAMES_PREFIX;
+	public static final String PROPERTY_COLUMN_NAMES_PREFIX = XlsMetadataReportConfiguration.PROPERTY_COLUMN_NAMES_PREFIX;
 	
 	
 	/**
-	 * @deprecated Replaced by {@link XlsMetadataExporterConfiguration#isWriteHeader()}.
+	 * @deprecated Replaced by {@link XlsMetadataReportConfiguration#isWriteHeader()}.
 	 */
 	public static final JRXlsAbstractMetadataExporterParameter WRITE_HEADER = new JRXlsAbstractMetadataExporterParameter("Write Header");
 	
 
 	/**
-	 * @deprecated Replaced by {@link XlsMetadataExporterConfiguration#PROPERTY_WRITE_HEADER}.
+	 * @deprecated Replaced by {@link XlsMetadataReportConfiguration#PROPERTY_WRITE_HEADER}.
 	 */
-	public static final String PROPERTY_WRITE_HEADER = XlsMetadataExporterConfiguration.PROPERTY_WRITE_HEADER;
+	public static final String PROPERTY_WRITE_HEADER = XlsMetadataReportConfiguration.PROPERTY_WRITE_HEADER;
 
 	
 	/**

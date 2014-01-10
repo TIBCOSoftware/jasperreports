@@ -126,7 +126,9 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.JxlExporterConfiguration;
 import net.sf.jasperreports.export.JxlMetadataExporterConfiguration;
-import net.sf.jasperreports.export.XlsExporterConfiguration;
+import net.sf.jasperreports.export.JxlMetadataReportConfiguration;
+import net.sf.jasperreports.export.JxlReportConfiguration;
+import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -139,7 +141,7 @@ import org.apache.commons.logging.LogFactory;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<JxlMetadataExporterConfiguration, JExcelApiExporterContext>
+public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<JxlMetadataReportConfiguration, JxlMetadataExporterConfiguration, JExcelApiExporterContext>
 {
 
 	private static final Log log = LogFactory.getLog(JExcelApiMetadataExporter.class);
@@ -150,9 +152,9 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 	public static final String PROPERTY_USE_TEMP_FILE = JxlExporterConfiguration.PROPERTY_USE_TEMP_FILE;
 
 	/**
-	 * @deprecated Replaced by {@link JxlExporterConfiguration#PROPERTY_COMPLEX_FORMAT}.
+	 * @deprecated Replaced by {@link JxlReportConfiguration#PROPERTY_COMPLEX_FORMAT}.
 	 */
-	public static final String PROPERTY_COMPLEX_FORMAT = JxlExporterConfiguration.PROPERTY_COMPLEX_FORMAT;
+	public static final String PROPERTY_COMPLEX_FORMAT = JxlReportConfiguration.PROPERTY_COMPLEX_FORMAT;
 
 	/**
 	 * The exporter key, as used in
@@ -219,8 +221,18 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 	{
 		return JxlMetadataExporterConfiguration.class;
 	}
+
+
+	/**
+	 *
+	 */
+	protected Class<JxlMetadataReportConfiguration> getItemConfigurationInterface()
+	{
+		return JxlMetadataReportConfiguration.class;
+	}
 	
 
+	@Override
 	protected void initExport()
 	{
 		super.initExport();
@@ -231,7 +243,16 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		{
 			initCustomPalette();
 		}
+	}
+	
 
+	@Override
+	protected void initReport()
+	{
+		super.initReport();
+
+		JxlMetadataReportConfiguration configuration = getCurrentItemConfiguration();
+		
 		if (configuration.isWhitePageBackground())
 		{
 			this.backgroundMode = Pattern.SOLID;
@@ -244,7 +265,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		nature = 
 			new JExcelApiExporterNature(
 				jasperReportsContext, 
-				configuration.getExporterFilter(), 
+				filter, 
 				configuration.isIgnoreGraphics(), 
 				configuration.isIgnorePageMargins()
 				);
@@ -499,7 +520,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 			Colour backcolor = WHITE;
 			Pattern mode = this.backgroundMode;
 	
-			JxlExporterConfiguration configuration = getCurrentConfiguration();
+			JxlReportConfiguration configuration = getCurrentItemConfiguration();
 			
 			if (!configuration.isIgnoreCellBackground() && line.getBackcolor() != null)
 			{
@@ -561,7 +582,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 			Colour backcolor = WHITE;
 			Pattern mode = this.backgroundMode;
 	
-			JxlExporterConfiguration configuration = getCurrentConfiguration();
+			JxlReportConfiguration configuration = getCurrentItemConfiguration();
 			
 			if (!configuration.isIgnoreCellBackground() && element.getBackcolor() != null)
 			{
@@ -611,7 +632,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 			Pattern mode = this.backgroundMode;
 			Colour backcolor = WHITE;
 
-			JxlExporterConfiguration configuration = getCurrentConfiguration();
+			JxlReportConfiguration configuration = getCurrentItemConfiguration();
 			
 			if (!configuration.isIgnoreCellBackground() && textElement.getBackcolor() != null)
 			{
@@ -717,7 +738,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 			else if ( (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && !isColumnReadOnTime(currentRow, currentColumnName)) // the column is for export, was not read yet, but it is read after it should be
 					|| (columnNames.contains(currentColumnName) && currentRow.containsKey(currentColumnName)) ) // the column is for export and was already read
 			{
-				if(rowIndex == 1 && getCurrentConfiguration().isWriteHeader())
+				if(rowIndex == 1 && getCurrentItemConfiguration().isWriteHeader())
 				{
 					writeReportHeader();
 				}
@@ -752,7 +773,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 			else if ( (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && !isColumnReadOnTime(currentRow, currentColumnName)) // the column is for export, was not read yet, but it is read after it should be
 					|| (columnNames.contains(currentColumnName) && currentRow.containsKey(currentColumnName)) ) // the column is for export and was already read
 			{
-				if(rowIndex == 1 && getCurrentConfiguration().isWriteHeader())
+				if(rowIndex == 1 && getCurrentItemConfiguration().isWriteHeader())
 				{
 					writeReportHeader();
 				}
@@ -793,7 +814,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		
 		if (cellValue == null)
 		{
-			JxlExporterConfiguration configuration = getCurrentConfiguration();
+			JxlReportConfiguration configuration = getCurrentItemConfiguration();
 			// there was no formula, or the formula cell creation failed
 			if (configuration.isDetectCellType())
 			{
@@ -1271,7 +1292,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				Pattern mode = this.backgroundMode;
 				Colour background = WHITE;
 	
-				JxlExporterConfiguration configuration = getCurrentConfiguration();
+				JxlReportConfiguration configuration = getCurrentItemConfiguration();
 				
 				if (!configuration.isIgnoreCellBackground() && element.getBackcolor() != null)
 				{
@@ -1304,7 +1325,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 					WritableImage image = new WritableImage(colIndex, rowIndex, 1, 1, imageData);
 					ImageAnchorTypeEnum imageAnchorType = 
 						ImageAnchorTypeEnum.getByName(
-							JRPropertiesUtil.getOwnProperty(element, XlsExporterConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
+							JRPropertiesUtil.getOwnProperty(element, XlsReportConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
 							);
 					if (imageAnchorType == null)
 					{
@@ -1464,7 +1485,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 
 	private WritableFont getLoadedFont(JRFont font, int forecolor, Locale locale) throws JRException
 	{
-		boolean isFontSizeFixEnabled = getCurrentConfiguration().isFontSizeFixEnabled();
+		boolean isFontSizeFixEnabled = getCurrentItemConfiguration().isFontSizeFixEnabled();
 
 		WritableFont cellFont = null;
 
@@ -1922,7 +1943,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				cellStyle.setWrap(styleKey.isWrapText);
 				cellStyle.setLocked(styleKey.isCellLocked);
 
-				JxlExporterConfiguration configuration = getCurrentConfiguration();
+				JxlReportConfiguration configuration = getCurrentItemConfiguration();
 				if (!configuration.isIgnoreCellBorder())
 				{
 					BoxStyle box = styleKey.box;
@@ -2020,7 +2041,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		}
 		SheetSettings sheets = sheet.getSettings();
 		
-		JxlExporterConfiguration configuration = getCurrentConfiguration();
+		JxlReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
 		
@@ -2449,9 +2470,9 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, PROPERTY_COMPLEX_FORMAT, getCurrentConfiguration().isComplexFormat());
+			return getPropertiesUtil().getBooleanProperty(element, PROPERTY_COMPLEX_FORMAT, getCurrentItemConfiguration().isComplexFormat());
 		}
-		return getCurrentConfiguration().isComplexFormat();
+		return getCurrentItemConfiguration().isComplexFormat();
 	}
 
 	protected void setColumnName(String currentColumnName)

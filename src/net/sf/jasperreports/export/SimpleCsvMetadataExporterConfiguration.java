@@ -30,45 +30,4 @@ package net.sf.jasperreports.export;
  */
 public class SimpleCsvMetadataExporterConfiguration extends SimpleCsvExporterConfiguration implements CsvMetadataExporterConfiguration
 {
-	private Boolean isWriteHeader;
-	private String[] columnNames;
-
-	/**
-	 * 
-	 */
-	public SimpleCsvMetadataExporterConfiguration()
-	{
-	}
-
-	/**
-	 * 
-	 */
-	public Boolean isWriteHeader()
-	{
-		return isWriteHeader;
-	}
-
-	/**
-	 * 
-	 */
-	public void setWriteHeader(Boolean isWriteHeader)
-	{
-		this.isWriteHeader = isWriteHeader;
-	}
-
-	/**
-	 * 
-	 */
-	public String[] getColumnNames()
-	{
-		return columnNames;
-	}
-
-	/**
-	 * 
-	 */
-	public void setColumnNames(String[] columnNames)
-	{
-		this.columnNames = columnNames;
-	}
 }

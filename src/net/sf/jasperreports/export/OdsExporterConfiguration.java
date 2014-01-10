@@ -23,10 +23,7 @@
  */
 package net.sf.jasperreports.export;
 
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
-import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 
 /**
@@ -39,31 +36,4 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  */
 public interface OdsExporterConfiguration extends XlsExporterConfiguration
 {
-
-	/**
-	 * This property serves as default value for the {@link #isFlexibleRowHeight()} export configuration flag.
-	 * <p>
-	 * The property itself defaults to <code>false</code>.
-	 * </p>
-	 * @see JRPropertiesUtil
-	 */
-	public static final String PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.ods.flexible.row.height";
-
-	/**
-	 * Indicates whether table rows in ODS documents can grow if more text is added into cells.
-	 * <p>
-	 * Is set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
-	 * </p>
-	 * @see #PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT
-	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporterParameter.class,
-		name="ODS_FLEXIBLE_ROW_HEIGHT")
-	@ExporterProperty(
-		value=PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT,
-		booleanDefault=false
-		)
-	public Boolean isFlexibleRowHeight();
-
 }

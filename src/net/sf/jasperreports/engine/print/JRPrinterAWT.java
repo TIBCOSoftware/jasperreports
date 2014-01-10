@@ -41,8 +41,8 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleGraphics2DExporterConfiguration;
 import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
+import net.sf.jasperreports.export.SimpleGraphics2DReportConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -240,7 +240,7 @@ public class JRPrinterAWT implements Printable
 			SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
 			output.setGraphics2D((Graphics2D)graphics);
 			exporter.setExporterOutput(output);
-			SimpleGraphics2DExporterConfiguration configuration = new SimpleGraphics2DExporterConfiguration();
+			SimpleGraphics2DReportConfiguration configuration = new SimpleGraphics2DReportConfiguration();
 			configuration.setPageIndex(pageIndex);
 			exporter.setConfiguration(configuration);
 			exporter.exportReport();
@@ -275,7 +275,7 @@ public class JRPrinterAWT implements Printable
 		SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
 		output.setGraphics2D((Graphics2D)pageImage.getGraphics());
 		exporter.setExporterOutput(output);
-		SimpleGraphics2DExporterConfiguration configuration = new SimpleGraphics2DExporterConfiguration();
+		SimpleGraphics2DReportConfiguration configuration = new SimpleGraphics2DReportConfiguration();
 		configuration.setPageIndex(pageIndex);
 		configuration.setZoomRatio(zoom);
 		exporter.setConfiguration(configuration);

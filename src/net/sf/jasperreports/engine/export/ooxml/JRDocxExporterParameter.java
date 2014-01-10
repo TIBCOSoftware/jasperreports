@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.export.DocxExporterConfiguration;
+import net.sf.jasperreports.export.DocxReportConfiguration;
 
 
 /**
@@ -46,27 +47,27 @@ public class JRDocxExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * @deprecated Replaced by {@link DocxExporterConfiguration#isFramesAsNestedTables()}.
+	 * @deprecated Replaced by {@link DocxReportConfiguration#isFramesAsNestedTables()}.
 	 */
 	public static final JRDocxExporterParameter FRAMES_AS_NESTED_TABLES = new JRDocxExporterParameter("Export Frames as Nested Tables");
 	
 
 	/**
-	 * @deprecated Replaced by {@link DocxExporterConfiguration#PROPERTY_FRAMES_AS_NESTED_TABLES}.
+	 * @deprecated Replaced by {@link DocxReportConfiguration#PROPERTY_FRAMES_AS_NESTED_TABLES}.
 	 */
-	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = DocxExporterConfiguration.PROPERTY_FRAMES_AS_NESTED_TABLES;
+	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = DocxReportConfiguration.PROPERTY_FRAMES_AS_NESTED_TABLES;
 	
 
 	/**
-	 * @deprecated Replaced by {@link DocxExporterConfiguration#isFlexibleRowHeight()}.
+	 * @deprecated Replaced by {@link DocxReportConfiguration#isFlexibleRowHeight()}.
 	 */
 	public static final JRDocxExporterParameter FLEXIBLE_ROW_HEIGHT = new JRDocxExporterParameter("Flexible Row Height");
 	
 
 	/**
-	 * @deprecated Replaced by {@link DocxExporterConfiguration#PROPERTY_FLEXIBLE_ROW_HEIGHT}.
+	 * @deprecated Replaced by {@link DocxReportConfiguration#PROPERTY_FLEXIBLE_ROW_HEIGHT}.
 	 */
-	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = DocxExporterConfiguration.PROPERTY_FLEXIBLE_ROW_HEIGHT;
+	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = DocxReportConfiguration.PROPERTY_FLEXIBLE_ROW_HEIGHT;
 	
 
 }
