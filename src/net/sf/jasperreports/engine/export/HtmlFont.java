@@ -39,6 +39,8 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
  */
 public class HtmlFont
 {
+	private static final int IE_FONT_NAME_MAX_LENGTH = 31;
+	
 	private Locale locale;
 	private String fontName;
 	private String ttf;
@@ -47,11 +49,22 @@ public class HtmlFont
 	private String woff;
 	private int style;
 	
+	private String id;
+	
 	/**
 	 * 
 	 */
-	private HtmlFont()
+	private HtmlFont(Locale locale, FontFace fontFace, int style)
 	{
+		this.locale = locale;
+		this.fontName = fontFace.getName();
+		this.ttf = fontFace.getTtf();
+		this.eot = fontFace.getEot();
+		this.svg = fontFace.getSvg();
+		this.woff = fontFace.getWoff();
+		this.style = style;
+		
+		createId();
 	}
 	
 	/**
@@ -151,14 +164,7 @@ public class HtmlFont
 			|| fontFace.getWoff() != null
 			)
 		{
-			htmlFont = new HtmlFont();
-			htmlFont.locale = locale;
-			htmlFont.fontName = fontFace.getName();
-			htmlFont.ttf = fontFace.getTtf();
-			htmlFont.eot = fontFace.getEot();
-			htmlFont.svg = fontFace.getSvg();
-			htmlFont.woff = fontFace.getWoff();
-			htmlFont.style = style;
+			htmlFont = new HtmlFont(locale, fontFace, style);
 		}
 
 		return htmlFont;
@@ -167,15 +173,45 @@ public class HtmlFont
 	/**
 	 * 
 	 */
-	public String getId()
+	private void createId()
 	{
-		return 
-			fontName
-			+ ((style & Font.BOLD) > 0 ? "-Bold" : "")
-			+ ((style & Font.ITALIC) > 0 ? "-Italic" : "")
+		String prefix = fontName;
+		String suffix =
+			(((style & Font.BOLD) > 0 || (style & Font.ITALIC) > 0) ? "-" : "")
+			+ ((style & Font.BOLD) > 0 ? "Bold" : "")
+			+ ((style & Font.ITALIC) > 0 ? "Italic" : "")
 			+ (locale == null ? "" : ("-" + JRDataUtils.getLocaleCode(locale)));
 		
+		if (prefix.length() + suffix.length() > IE_FONT_NAME_MAX_LENGTH)
+		{
+			prefix = prefix.replaceAll("\\s", "");
+		}
+		if (prefix.length() + suffix.length() > IE_FONT_NAME_MAX_LENGTH)
+		{
+			suffix =
+				(((style & Font.BOLD) > 0 || (style & Font.ITALIC) > 0) ? "-" : "")
+				+ ((style & Font.BOLD) > 0 ? "B" : "")
+				+ ((style & Font.ITALIC) > 0 ? "I" : "")
+				+ (locale == null ? "" : ("-" + JRDataUtils.getLocaleCode(locale)));
+		}
+		if (prefix.length() + suffix.length() > IE_FONT_NAME_MAX_LENGTH)
+		{
+			prefix = prefix.substring(0, 1) + prefix.substring(1).replaceAll("[AaEeIiOoUu]", "");
+		}
+		if (prefix.length() + suffix.length() > IE_FONT_NAME_MAX_LENGTH)
+		{
+			prefix = prefix.substring(0, IE_FONT_NAME_MAX_LENGTH - suffix.length());
+		}
 		
+		id = prefix + suffix;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getId()
+	{
+		return id;
 	}
 	
 	public Locale getLocale()
