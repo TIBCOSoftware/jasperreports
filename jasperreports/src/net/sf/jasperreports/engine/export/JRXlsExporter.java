@@ -1576,7 +1576,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		int colIndex = 0;
 		while(cumulativeColWidth < offset)
 		{
-			int colWidth = layout.getColumnWidth(col + colIndex);
+			int colWidth = sheet.getColumnWidth(col + colIndex) / 43;
 			if (cumulativeColWidth + colWidth < offset)
 			{
 				colIndex++;
