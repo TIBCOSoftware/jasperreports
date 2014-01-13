@@ -1395,12 +1395,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				sheet.addCell(new Blank(col, row, cellStyle2));
 				double leftPos = getColumnRelativePosition(layout, col, leftOffset);
 				double topPos = getRowRelativePosition(layout, yCutsRow, topOffset);
+				double rightPos = getColumnRelativePosition(layout, col, element.getWidth() - rightOffset);
+				double bottomPos = getRowRelativePosition(layout, yCutsRow, element.getHeight() - bottomOffset);
 				WritableImage image =
 					new WritableImage(
-						col - emptyCols + leftPos,
+						col + leftPos,
 						row + topPos,
-						getColumnRelativePosition(layout, col, element.getWidth() - rightOffset) - leftPos,
-						getRowRelativePosition(layout, yCutsRow, element.getHeight() - bottomOffset) - topPos,
+						rightPos - leftPos,
+						bottomPos - topPos,
 						imageData
 						);
 				
@@ -1442,7 +1444,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		int colIndex = 0;
 		while(cumulativeColWidth < offset)
 		{
-			int colWidth = layout.getColumnWidth(col + colIndex);
+			int colWidth = sheet.getColumnView(col + colIndex).getSize() / 43;
 			if (cumulativeColWidth + colWidth < offset)
 			{
 				colIndex++;
