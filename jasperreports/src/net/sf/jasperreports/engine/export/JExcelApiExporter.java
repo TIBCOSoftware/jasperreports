@@ -389,66 +389,64 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 			workbook.createSheet(EMPTY_SHEET_NAME, Integer.MAX_VALUE);
 		}
 
-		JxlReportConfiguration configuration = getCurrentItemConfiguration();//FIXMEEXPORT how can we use a per item config at workbook level?
+		Range[] range = null;
+		List<JExcelApiLocalHyperlinkInfo> hyperlinkInfoList = null;
 		
-		if(!configuration.isIgnoreAnchors()) {
-			Range[] range = null;
-			List<JExcelApiLocalHyperlinkInfo> hyperlinkInfoList = null;
-			for(String href : anchorLinks.keySet()){
-				range = workbook.findByName(href);
-				hyperlinkInfoList = anchorLinks.get(href);
-				if(range != null && hyperlinkInfoList != null){
-					for(JExcelApiLocalHyperlinkInfo hyperlinkInfo : hyperlinkInfoList){
-						WritableSheet anchorSheet = workbook.getSheet(range[0].getFirstSheetIndex());
-						WritableHyperlink hyperlink = new WritableHyperlink(
-								hyperlinkInfo.getCol(),
-								hyperlinkInfo.getRow(),
-								hyperlinkInfo.getLastCol(),
-								hyperlinkInfo.getLastRow(),
-								hyperlinkInfo.getDescription(),
-								anchorSheet,
-								range[0].getTopLeft().getColumn(),
-								range[0].getTopLeft().getRow(),
-								range[0].getBottomRight().getColumn(),
-								range[0].getBottomRight().getRow());
-						try {
-							hyperlinkInfo.getSheet().addHyperlink(hyperlink);
-						} catch (Exception e) {
-							throw new JRException(e);
-						} 
-					}
+		
+		for(String href : anchorLinks.keySet()){	// the anchorLinks map contains no entries for reports with ignore anchors == true;
+			range = workbook.findByName(href);
+			hyperlinkInfoList = anchorLinks.get(href);
+			if(range != null && hyperlinkInfoList != null){
+				for(JExcelApiLocalHyperlinkInfo hyperlinkInfo : hyperlinkInfoList){
+					WritableSheet anchorSheet = workbook.getSheet(range[0].getFirstSheetIndex());
+					WritableHyperlink hyperlink = new WritableHyperlink(
+							hyperlinkInfo.getCol(),
+							hyperlinkInfo.getRow(),
+							hyperlinkInfo.getLastCol(),
+							hyperlinkInfo.getLastRow(),
+							hyperlinkInfo.getDescription(),
+							anchorSheet,
+							range[0].getTopLeft().getColumn(),
+							range[0].getTopLeft().getRow(),
+							range[0].getBottomRight().getColumn(),
+							range[0].getBottomRight().getRow());
+					try {
+						hyperlinkInfo.getSheet().addHyperlink(hyperlink);
+					} catch (Exception e) {
+						throw new JRException(e);
+					} 
 				}
 			}
-			
-			int index = 0;
-			for(Integer linkPage : pageLinks.keySet()){
-				hyperlinkInfoList = pageLinks.get(linkPage);
-				if(hyperlinkInfoList != null && !hyperlinkInfoList.isEmpty()){
-					WritableSheet anchorSheet = null;
-					for(JExcelApiLocalHyperlinkInfo hyperlinkInfo : hyperlinkInfoList){
-						index = onePagePerSheetMap.get(linkPage-1)!= null 
-								? (onePagePerSheetMap.get(linkPage-1)
-									? Math.max(0, linkPage - 1)
-									: Math.max(0, sheetsBeforeCurrentReportMap.get(linkPage)))
-								: 0;
-						anchorSheet = workbook.getSheet(index);
-						WritableHyperlink hyperlink = new WritableHyperlink(
-								hyperlinkInfo.getCol(),
-								hyperlinkInfo.getRow(),
-								hyperlinkInfo.getLastCol(),
-								hyperlinkInfo.getLastRow(),
-								hyperlinkInfo.getDescription(),
-								anchorSheet,
-								0,
-								0,
-								0,
-								0);
-						try {
-							hyperlinkInfo.getSheet().addHyperlink(hyperlink);
-						} catch (Exception e) {
-							throw new JRException(e);
-						} 
-					}
+		}
+		
+		int index = 0;
+		for(Integer linkPage : pageLinks.keySet()){		// the pageLinks map contains no entries for reports with ignore hyperlinks == true;
+			hyperlinkInfoList = pageLinks.get(linkPage);
+			if(hyperlinkInfoList != null && !hyperlinkInfoList.isEmpty()){
+				WritableSheet anchorSheet = null;
+				for(JExcelApiLocalHyperlinkInfo hyperlinkInfo : hyperlinkInfoList){
+					index = onePagePerSheetMap.get(linkPage-1)!= null 
+							? (onePagePerSheetMap.get(linkPage-1)
+								? Math.max(0, linkPage - 1)
+								: Math.max(0, sheetsBeforeCurrentReportMap.get(linkPage)))
+							: 0;
+					anchorSheet = workbook.getSheet(index);
+					WritableHyperlink hyperlink = new WritableHyperlink(
+							hyperlinkInfo.getCol(),
+							hyperlinkInfo.getRow(),
+							hyperlinkInfo.getLastCol(),
+							hyperlinkInfo.getLastRow(),
+							hyperlinkInfo.getDescription(),
+							anchorSheet,
+							0,
+							0,
+							0,
+							0);
+					try {
+						hyperlinkInfo.getSheet().addHyperlink(hyperlink);
+					} catch (Exception e) {
+						throw new JRException(e);
+					} 
 				}
 			}
 		}
@@ -704,6 +702,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				ignoreHyperlink = configuration.isIgnoreHyperlink();
 			}
 			
+			//test for ignore hyperlink done here
 			if(!ignoreHyperlink)
 			{
 				exportHyperlink(text, styledText.getText(), gridCell, col, row);
@@ -734,6 +733,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				}
 				case LOCAL_ANCHOR :
 				{
+					// test for ignore anchor done here
 					if(!getCurrentItemConfiguration().isIgnoreAnchors()) {
 						String href = link.getHyperlinkAnchor();
 						if(href != null){
@@ -753,6 +753,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				}
 				case LOCAL_PAGE :
 				{
+					// test for ignore anchor done here
 					if(!getCurrentItemConfiguration().isIgnoreAnchors()) {
 						Integer href = getCurrentItemConfiguration().isOnePagePerSheet() ? link.getHyperlinkPage() : 0;
 						if(href != null){
