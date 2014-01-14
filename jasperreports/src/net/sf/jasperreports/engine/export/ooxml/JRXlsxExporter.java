@@ -589,7 +589,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		{
 			ignoreHyperlink = configuration.isIgnoreHyperlink();
 		}
-
+		
+		//test for ignore hyperlinks done here
 		if (!ignoreHyperlink)
 		{
 			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
@@ -607,7 +608,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					}
 					case LOCAL_ANCHOR :
 					{
-						if (!configuration.isIgnoreAnchors() && link.getHyperlinkAnchor() != null)
+						if (!configuration.isIgnoreAnchors() && link.getHyperlinkAnchor() != null)		//test for ignore anchors done here
 						{
 							href = link.getHyperlinkAnchor();
 						}
@@ -615,7 +616,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					}
 					case LOCAL_PAGE :
 					{
-						if (!configuration.isIgnoreAnchors() && link.getHyperlinkPage() != null)
+						if (!configuration.isIgnoreAnchors() && link.getHyperlinkPage() != null)		//test for ignore anchors done here
 						{
 							href = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (configuration.isOnePagePerSheet() ? link.getHyperlinkPage().toString() : "1");
 						}
@@ -671,8 +672,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		if(!getCurrentItemConfiguration().isIgnoreAnchors() && startPage)
 		{
 			String anchorPage = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
-			String name = getCurrentItemConfiguration().isOnePagePerSheet() ? currentSheetName : firstSheetName;
-			String ref = "'" + name + "'!$A$1";		// + XlsxCellHelper.getColumIndexLetter(colIndex) + "$" + (rowIndex + 1);
+			String ref = "'" + currentSheetName + "'!$A$1";		// + XlsxCellHelper.getColumIndexLetter(colIndex) + "$" + (rowIndex + 1);
 			definedNames.append("<definedName name=\"" + anchorPage +"\">"+ ref +"</definedName>\n");
 			startPage = false;
 		}
