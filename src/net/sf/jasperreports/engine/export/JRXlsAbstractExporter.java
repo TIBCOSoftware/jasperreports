@@ -393,6 +393,10 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	
 	protected int reportIndex;
 	protected int pageIndex;
+	protected Map<Integer, Boolean> onePagePerSheetMap = new HashMap<Integer, Boolean>();
+	protected int sheetsBeforeCurrentReport;
+	protected Map<Integer, Integer> sheetsBeforeCurrentReportMap = new HashMap<Integer, Integer>();
+	
 
 	/**
 	 *
@@ -549,7 +553,10 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	{
 		openWorkbook(os);
 		sheetNamesMap = new HashMap<String,Integer>();
-
+		onePagePerSheetMap.clear();
+		sheetsBeforeCurrentReport = 0;
+		sheetsBeforeCurrentReportMap.clear();
+		
 		List<ExporterInputItem> items = exporterInput.getItems();
 
 		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
@@ -576,7 +583,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 				if (configuration.isOnePagePerSheet())
 				{
-
 					for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
 						if (Thread.interrupted())
@@ -619,12 +625,11 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						JRPrintPage page = pages.get(pageIndex);
 						startRow = exportPage(page, xCuts, startRow, jasperPrint.getName());
 					}
-					
 					//updateColumns(xCuts);
 				}
 			}
+			sheetsBeforeCurrentReport = configuration.isOnePagePerSheet() ? sheetIndex : sheetsBeforeCurrentReport + 1;
 		}
-
 		closeWorkbook(os);
 	}
 

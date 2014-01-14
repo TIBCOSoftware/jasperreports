@@ -420,16 +420,18 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				}
 			}
 			
-			for(Integer href : pageLinks.keySet()){
-				hyperlinkInfoList = pageLinks.get(href);
-				if(hyperlinkInfoList != null){
+			int index = 0;
+			for(Integer linkPage : pageLinks.keySet()){
+				hyperlinkInfoList = pageLinks.get(linkPage);
+				if(hyperlinkInfoList != null && !hyperlinkInfoList.isEmpty()){
 					WritableSheet anchorSheet = null;
 					for(JExcelApiLocalHyperlinkInfo hyperlinkInfo : hyperlinkInfoList){
-						if(configuration.isOnePagePerSheet()){
-							anchorSheet = workbook.getSheet(Math.max(0, href-1));
-						}else {
-							anchorSheet = workbook.getSheet(0);
-						}
+						index = onePagePerSheetMap.get(linkPage-1)!= null 
+								? (onePagePerSheetMap.get(linkPage-1)
+									? Math.max(0, linkPage - 1)
+									: Math.max(0, sheetsBeforeCurrentReportMap.get(linkPage)))
+								: 0;
+						anchorSheet = workbook.getSheet(index);
 						WritableHyperlink hyperlink = new WritableHyperlink(
 								hyperlinkInfo.getCol(),
 								hyperlinkInfo.getRow(),
@@ -752,17 +754,17 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				case LOCAL_PAGE :
 				{
 					if(!getCurrentItemConfiguration().isIgnoreAnchors()) {
-						Integer href = link.getHyperlinkPage();
+						Integer href = getCurrentItemConfiguration().isOnePagePerSheet() ? link.getHyperlinkPage() : 0;
 						if(href != null){
 							int lastCol = Math.max(0, col + gridCell.getColSpan() - 1);
 							int lastRow = Math.max(0, row + gridCell.getRowSpan() - 1);
 							JExcelApiLocalHyperlinkInfo hyperlinkInfo = new JExcelApiLocalHyperlinkInfo(description, sheet, col, row, lastCol, lastRow);
-							if(pageLinks.containsKey(href)){
-								pageLinks.get(href).add(hyperlinkInfo);
+							if(pageLinks.containsKey(sheetsBeforeCurrentReport+href)){
+								pageLinks.get(sheetsBeforeCurrentReport+href).add(hyperlinkInfo);
 							}else {
 								List<JExcelApiLocalHyperlinkInfo> hyperlinkInfoList = new ArrayList<JExcelApiLocalHyperlinkInfo>();
 								hyperlinkInfoList.add(hyperlinkInfo);
-								pageLinks.put(href, hyperlinkInfoList);
+								pageLinks.put(sheetsBeforeCurrentReport+href, hyperlinkInfoList);
 							}
 						}
 					}
@@ -2366,6 +2368,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		
 		maxRowFreezeIndex = 0;
 		maxColumnFreezeIndex = 0;
+		
+		onePagePerSheetMap.put(sheetIndex, configuration.isOnePagePerSheet());
+		sheetsBeforeCurrentReportMap.put(sheetIndex, sheetsBeforeCurrentReport);
 	}
 
 	private final PaperSize getSuitablePaperSize(JasperPrint jasP)

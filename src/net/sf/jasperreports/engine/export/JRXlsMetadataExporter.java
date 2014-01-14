@@ -417,15 +417,17 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		
 		maxRowFreezeIndex = 0;
 		maxColumnFreezeIndex = 0;
+
+		onePagePerSheetMap.put(sheetIndex, configuration.isOnePagePerSheet());
+		sheetsBeforeCurrentReportMap.put(sheetIndex, sheetsBeforeCurrentReport);
 	}
 
 	protected void closeWorkbook(OutputStream os) throws JRException {
 		try	{
-			for (Object anchorName : anchorNames.keySet()) {//FIXMEEXPORT no ignore flag?
+			for (Object anchorName : anchorNames.keySet()) {
 				HSSFName anchor = anchorNames.get(anchorName);
 				List<Hyperlink> linkList = anchorLinks.get(anchorName);
-				int index = anchor.getSheetIndex();
-				anchor.setRefersToFormula("'" + workbook.getSheetName(index) + "'!"+ anchor.getRefersToFormula());
+				anchor.setRefersToFormula("'" + workbook.getSheetName(anchor.getSheetIndex()) + "'!"+ anchor.getRefersToFormula());
 				
 				if(linkList != null && !linkList.isEmpty())	{
 					for(Hyperlink link : linkList) {
@@ -434,19 +436,21 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				}
 			}
 			
-			boolean isOnePagePerSheet = getCurrentItemConfiguration().isOnePagePerSheet();//FIXMEEXPORT
-			
-			for (Object pageIndex : pageLinks.keySet())	{
-				List<Hyperlink> linkList = pageLinks.get(pageIndex);
-				if(linkList != null && !linkList.isEmpty())	{
+			int index = 0;
+			for (Integer linkPage : pageLinks.keySet()) {
+				List<Hyperlink> linkList = pageLinks.get(linkPage);
+				if(linkList != null && !linkList.isEmpty()) {
 					for(Hyperlink link : linkList) {
-						String address = isOnePagePerSheet 
-							? "'" + workbook.getSheetName(((Integer)pageIndex).intValue() - 1)+ "'!$A$1"
-							: "'" + workbook.getSheetName(0)+ "'!$A$1";
-						link.setAddress(address);
+						index = onePagePerSheetMap.get(linkPage-1)!= null 
+							? (onePagePerSheetMap.get(linkPage-1)
+								? Math.max(0, linkPage - 1)
+								: Math.max(0, sheetsBeforeCurrentReportMap.get(linkPage)))
+							: 0;
+						link.setAddress("'" + workbook.getSheetName(index)+ "'!$A$1");
 					}
 				}
 			}
+			
 			for(int i=0; i < workbook.getNumberOfSheets(); i++)	{
 				HSSFSheet currentSheet = workbook.getSheetAt(i);
 				currentSheet.setForceFormulaRecalculation(true);
@@ -822,16 +826,17 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						}
 						break;
 					}
-					case LOCAL_PAGE : {
-						Integer hrefPage = hyperlink.getHyperlinkPage();
+					case LOCAL_PAGE :
+					{
+						Integer hrefPage = (getCurrentItemConfiguration().isOnePagePerSheet() ? hyperlink.getHyperlinkPage() : 0);
 						if (hrefPage != null) {
 							link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
-							if(pageLinks.containsKey(hrefPage)) {
-								pageLinks.get(hrefPage).add(link);
+							if(pageLinks.containsKey(sheetsBeforeCurrentReport+hrefPage)) {
+								pageLinks.get(sheetsBeforeCurrentReport + hrefPage).add(link);
 							} else {
 								List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
 								hrefList.add(link);
-								pageLinks.put(hrefPage, hrefList);
+								pageLinks.put(sheetsBeforeCurrentReport + hrefPage, hrefList);
 							}
 						}
 						break;

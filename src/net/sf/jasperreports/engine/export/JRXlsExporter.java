@@ -449,18 +449,20 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		
 		maxRowFreezeIndex = 0;
 		maxColumnFreezeIndex = 0;
+		
+		onePagePerSheetMap.put(sheetIndex, configuration.isOnePagePerSheet());
+		sheetsBeforeCurrentReportMap.put(sheetIndex, sheetsBeforeCurrentReport);
 	}
 
 	protected void closeWorkbook(OutputStream os) throws JRException
 	{
 		try
 		{
-			for (Object anchorName : anchorNames.keySet())//FIXMEEXPORT no test for ignore anchors?
+			for (Object anchorName : anchorNames.keySet())	//FIXMEEXPORT no test for ignore anchors?
 			{
 				HSSFName anchor = anchorNames.get(anchorName);
 				List<Hyperlink> linkList = anchorLinks.get(anchorName);
-				int index = anchor.getSheetIndex();
-				anchor.setRefersToFormula("'" + workbook.getSheetName(index) + "'!"+ anchor.getRefersToFormula());
+				anchor.setRefersToFormula("'" + workbook.getSheetName(anchor.getSheetIndex()) + "'!"+ anchor.getRefersToFormula());
 				
 				if(linkList != null && !linkList.isEmpty())
 				{
@@ -469,30 +471,23 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 						link.setAddress(anchor.getRefersToFormula());
 					}
 				}
-				
 			}
 			
-			boolean isOnePagePerSheet = getCurrentItemConfiguration().isOnePagePerSheet();//FIXMEEXPORT item level config in workbook level code?
-			
-			for (Object pageIndex : pageLinks.keySet())
-			{
-				List<Hyperlink> linkList = pageLinks.get(pageIndex);
-				if(linkList != null && !linkList.isEmpty())
-				{
-					for(Hyperlink link : linkList)
-					{
-						if(isOnePagePerSheet)
-						{
-							link.setAddress("'" + workbook.getSheetName(((Integer)pageIndex).intValue() - 1)+ "'!$A$1");
-						}
-						else
-						{
-							link.setAddress("'" + workbook.getSheetName(0)+ "'!$A$1");
-						}
+			int index = 0;
+			for (Integer linkPage : pageLinks.keySet()) {
+				List<Hyperlink> linkList = pageLinks.get(linkPage);
+				if(linkList != null && !linkList.isEmpty()) {
+					for(Hyperlink link : linkList) {
+						index = onePagePerSheetMap.get(linkPage-1)!= null 
+							? (onePagePerSheetMap.get(linkPage-1)
+								? Math.max(0, linkPage - 1)
+								: Math.max(0, sheetsBeforeCurrentReportMap.get(linkPage)))
+							: 0;
+						link.setAddress("'" + workbook.getSheetName(index)+ "'!$A$1");
 					}
 				}
-				
 			}
+			
 			for(int i=0; i < workbook.getNumberOfSheets(); i++)
 			{
 				workbook.getSheetAt(i).setForceFormulaRecalculation(true);
@@ -1870,19 +1865,19 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					}
 					case LOCAL_PAGE :
 					{
-						Integer hrefPage = hyperlink.getHyperlinkPage();
+						Integer hrefPage = (getCurrentItemConfiguration().isOnePagePerSheet() ? hyperlink.getHyperlinkPage() : 0);
 						if (hrefPage != null)
 						{
 							link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
-							if(pageLinks.containsKey(hrefPage))
+							if(pageLinks.containsKey(sheetsBeforeCurrentReport+hrefPage))
 							{
-								pageLinks.get(hrefPage).add(link);
+								pageLinks.get(sheetsBeforeCurrentReport + hrefPage).add(link);
 							}
 							else
 							{
 								List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
 								hrefList.add(link);
-								pageLinks.put(hrefPage, hrefList);
+								pageLinks.put(sheetsBeforeCurrentReport + hrefPage, hrefList);
 							}
 						}
 						break;
