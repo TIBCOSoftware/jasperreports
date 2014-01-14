@@ -178,6 +178,9 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	{
 		openWorkbook(os);
 		sheetNamesMap = new HashMap<String,Integer>();
+		onePagePerSheetMap.clear();
+		sheetsBeforeCurrentReport = 0;
+		sheetsBeforeCurrentReportMap.clear();
 
 		List<ExporterInputItem> items = exporterInput.getItems();
 
@@ -261,6 +264,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 					
 				}
 			}
+			sheetsBeforeCurrentReport = configuration.isOnePagePerSheet() ? sheetIndex : sheetsBeforeCurrentReport + 1;
 		}
 
 		closeWorkbook(os);
