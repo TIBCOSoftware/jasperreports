@@ -458,7 +458,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	{
 		try
 		{
-			for (Object anchorName : anchorNames.keySet())	//FIXMEEXPORT no test for ignore anchors?
+			for (Object anchorName : anchorNames.keySet())		// the anchorNames map contains no entries for reports with ignore anchors == true;
 			{
 				HSSFName anchor = anchorNames.get(anchorName);
 				List<Hyperlink> linkList = anchorLinks.get(anchorName);
@@ -472,9 +472,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					}
 				}
 			}
-			
+			 
 			int index = 0;
-			for (Integer linkPage : pageLinks.keySet()) {
+			for (Integer linkPage : pageLinks.keySet()) {		// the pageLinks map contains no entries for reports with ignore hyperlinks == true 
 				List<Hyperlink> linkList = pageLinks.get(linkPage);
 				if(linkList != null && !linkList.isEmpty()) {
 					for(Hyperlink link : linkList) {
@@ -1823,6 +1823,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
 		}
 
+		//test for ignore hyperlinks done here
 		if (!ignoreHyperlink)
 		{
 			JRHyperlinkProducer customHandler = getHyperlinkProducer(hyperlink);
@@ -1842,6 +1843,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					}
 					case LOCAL_ANCHOR :
 					{
+						//test for ignore anchors done here
 						if(!getCurrentItemConfiguration().isIgnoreAnchors())
 						{
 							String href = hyperlink.getHyperlinkAnchor();
