@@ -135,6 +135,9 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 		
 		currentRow = new HashMap<String, Object>();//FIXMEEXPORT check these two
 		repeatedValues = new HashMap<String, Object>();
+		onePagePerSheetMap.clear();
+		sheetsBeforeCurrentReport = 0;
+		sheetsBeforeCurrentReportMap.clear();
 	}
 
 
@@ -178,9 +181,6 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	{
 		openWorkbook(os);
 		sheetNamesMap = new HashMap<String,Integer>();
-		onePagePerSheetMap.clear();
-		sheetsBeforeCurrentReport = 0;
-		sheetsBeforeCurrentReportMap.clear();
 
 		List<ExporterInputItem> items = exporterInput.getItems();
 

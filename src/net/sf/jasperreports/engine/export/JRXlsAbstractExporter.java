@@ -526,6 +526,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected void initExport()
 	{
 		super.initExport();
+		onePagePerSheetMap.clear();
+		sheetsBeforeCurrentReport = 0;
+		sheetsBeforeCurrentReportMap.clear();
 	}
 
 
@@ -553,9 +556,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	{
 		openWorkbook(os);
 		sheetNamesMap = new HashMap<String,Integer>();
-		onePagePerSheetMap.clear();
-		sheetsBeforeCurrentReport = 0;
-		sheetsBeforeCurrentReportMap.clear();
 		
 		List<ExporterInputItem> items = exporterInput.getItems();
 
