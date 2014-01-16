@@ -102,7 +102,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 * 
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_SHEET_NAME = XLS_EXPORTER_PROPERTIES_PREFIX + "export.xls.sheet.name";
+	public static final String PROPERTY_SHEET_NAME = XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.name";
 
 	/**
 	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_WRAP_TEXT}.
@@ -1443,7 +1443,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			boolean isExporterConfigOverrideHints = 
 				exporterConfiguration.isOverrideHints() == null 
 				? isOverrideHintsDefault 
-				: exporterConfiguration.isOverrideHints().booleanValue();
+				: exporterConfiguration.isOverrideHints();
 			if (isExporterConfigOverrideHints)
 			{
 				globalSheetNames = true;
@@ -1460,7 +1460,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				boolean isItemConfigOverrideHints = 
 					lcItemConfiguration.isOverrideHints() == null 
 					? isOverrideHintsDefault : 
-					lcItemConfiguration.isOverrideHints().booleanValue();
+					lcItemConfiguration.isOverrideHints();
 				if (isItemConfigOverrideHints)
 				{
 					globalSheetNames = false;
