@@ -500,6 +500,22 @@ public final class JRPropertiesUtil
 	}
 
 	/**
+	 * Returns the value of a property as a boolean, looking first in several properties holders
+	 * and then in the system properties.
+	 * 
+	 * @param key the key
+	 * @param defaultValue the default value used if the property is not found
+	 * @param propertiesHolders the properties holders
+	 * @return the property value
+	 */
+	public boolean getBooleanProperty(String key, boolean defaultValue, JRPropertiesHolder ... propertiesHolders)
+	{
+		String value = getProperty(key, propertiesHolders);
+		
+		return value == null ? defaultValue : asBoolean(value);
+	}
+
+	/**
 	 * Returns the value of a property as a boolean, looking first in the supplied properties map
 	 * and then in the system properties.
 	 * 
