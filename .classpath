@@ -33,7 +33,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/xercesImpl-2.10.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/spring-beans-2.5.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/spring-core-2.5.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-collections-2.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-collections-3.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/xalan-2.7.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jxl-2.6.10.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/poi-3.7-20101029.jar"/>
