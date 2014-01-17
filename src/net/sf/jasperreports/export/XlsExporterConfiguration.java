@@ -58,21 +58,6 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_CREATE_CUSTOM_PALETTE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.create.custom.palette";
 
 	/**
-	 * Property prefix used in order to identify a set of properties holding sheet names, very useful when 
-	 * indicating sheet names in the jrxml template is required. These properties' values are collected in an 
-	 * ordered list, therefore it is important the order they are written in. If set, these values are considered 
-	 * as defaults for the {@link #getSheetNames()} export configuration setting.
-	 * <p/>
-	 * A property starting with this prefix can hold one or many sheet names. In order to be well parsed, 
-	 * sheet names contained in such a property's value should be separated by a slash character ("/")
-	 * <p/>
-	 * These properties are by default not set.
-	 * 
-	 * @see JRPropertiesUtil
-	 */
-	public static final String PROPERTY_SHEET_NAMES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.names.";
-
-	/**
 	 * Property that provides a default value for the {@link #getWorkbookTemplate()} export configuration setting.
 	 * 
 	 * @see JRPropertiesUtil
@@ -126,19 +111,6 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 		)
 	public Boolean isCreateCustomPalette();
 
-	/**
-	 * Returns an array of strings representing custom sheet names. 
-	 * This is useful when used with the <i>isOnePagePerSheet()</i> setting.
-	 * @see #PROPERTY_SHEET_NAMES_PREFIX
-	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		name="SHEET_NAMES"
-		)
-	@ExporterProperty(PROPERTY_SHEET_NAMES_PREFIX)
-	public String[] getSheetNames();//FIXMEEXPORT this is declared both in exporter configuration and report configuration
-	
 	/**
 	 * Setting that specifies the location of an existing workbook template. The content of an existing workbook document 
 	 * or template can be embedded into exported document if the template location is known. In this case the content of 

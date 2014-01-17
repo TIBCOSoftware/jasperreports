@@ -1416,7 +1416,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 */
 	protected void setSheetNames()
 	{
-		String[] sheetNamesArray = getCurrentConfiguration().getSheetNames();
+		String[] sheetNamesArray = getCurrentItemConfiguration().getSheetNames();
 		
 		List<String> sheetNamesList = JRStringUtil.split(sheetNamesArray, "/");
 		sheetNames = sheetNamesList == null ? null : (String[]) sheetNamesList.toArray(new String[sheetNamesList.size()]);
@@ -1436,8 +1436,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				ReportExportConfiguration.PROPERTY_EXPORT_CONFIGURATION_OVERRIDE_REPORT_HINTS
 				);
 		if (
-			exporterConfiguration != null 
-			&& exporterConfiguration.getSheetNames() != null
+			itemConfiguration != null 
+			&& itemConfiguration.getSheetNames() != null
 			)
 		{
 			boolean isExporterConfigOverrideHints = 
@@ -1473,7 +1473,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			List<PropertySuffix> properties = 
 				JRPropertiesUtil.getProperties(
 					getCurrentJasperPrint(), 
-					XlsExporterConfiguration.PROPERTY_SHEET_NAMES_PREFIX
+					XlsReportConfiguration.PROPERTY_SHEET_NAMES_PREFIX
 					);
 			globalSheetNames = properties == null || properties.isEmpty();
 		}

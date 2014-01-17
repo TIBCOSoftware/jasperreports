@@ -119,9 +119,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * @deprecated Replaced by {@link XlsExporterConfiguration#PROPERTY_SHEET_NAMES_PREFIX}.
+	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_SHEET_NAMES_PREFIX}.
 	 */
-	public static final String PROPERTY_SHEET_NAMES_PREFIX = XlsExporterConfiguration.PROPERTY_SHEET_NAMES_PREFIX;
+	public static final String PROPERTY_SHEET_NAMES_PREFIX = XlsReportConfiguration.PROPERTY_SHEET_NAMES_PREFIX;
 
 
 	/**
