@@ -95,6 +95,8 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	 *
 	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
+	protected static final String DEFAULT_COLUMN = "A";
+	protected static final String DEFAULT_ADDRESS = "$A$1";
 
 	/**
 	 * 
@@ -478,7 +480,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		{
 			address = "$" + getColumnName(col) + "$" + (row+1);
 		}
-		return address == null ? "$A$1" : address;
+		return address == null ? DEFAULT_ADDRESS : address;
 	}
 	
 	protected String getColumnName(int colIndex)
@@ -492,7 +494,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 							? String.valueOf((char)(colIndex/26 + 64)) + getColumnName(colIndex%26) 
 							: String.valueOf((char)(colIndex %26 + 65)));
 		}
-		return colName == null ? "A" : colName;
+		return colName == null ? DEFAULT_COLUMN : colName;
 	}
 	
 	@Override
