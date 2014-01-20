@@ -31,7 +31,6 @@ package net.sf.jasperreports.export;
 public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguration implements XlsExporterConfiguration
 {
 	private Boolean isCreateCustomPalette;
-	private String[] sheetNames;
 	private String workbookTemplate;
 	private Boolean isKeepWorkbookTemplateSheets;
 	
@@ -59,24 +58,6 @@ public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguratio
 	public void setCreateCustomPalette(Boolean isCreateCustomPalette)
 	{
 		this.isCreateCustomPalette = isCreateCustomPalette;
-	}
-
-	
-	/**
-	 * 
-	 */
-	public String[] getSheetNames()
-	{
-		return sheetNames;
-	}
-
-	
-	/**
-	 * 
-	 */
-	public void setSheetNames(String[] sheetNames)
-	{
-		this.sheetNames = sheetNames;
 	}
 
 	
