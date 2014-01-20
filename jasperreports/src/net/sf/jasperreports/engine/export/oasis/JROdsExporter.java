@@ -157,7 +157,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 //		TableBuilder tableBuilder = frameIndex == null
 //			? new TableBuilder(reportIndex, pageIndex, tempBodyWriter, tempStyleWriter)
 //			: new TableBuilder(frameIndex.toString(), tempBodyWriter, tempStyleWriter);
-		tableBuilder = new OdsTableBuilder(documentBuilder, jasperPrint, reportIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache, rowStyles, columnStyles);
+		tableBuilder = new OdsTableBuilder(documentBuilder, jasperPrint, reportIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache, rowStyles, columnStyles, sheetInfo.sheetName);
 
 //		tableBuilder.buildTableStyle(gridLayout.getWidth());
 		tableBuilder.buildTableStyle(xCuts.getLastCutOffset());//FIXMEODS
@@ -296,7 +296,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		if (!configuration.isIgnoreAnchors() && text.getAnchorName() != null)
 		{
-			String cellAddress = "$TBL_" + reportIndex + "_" + (configuration.isOnePagePerSheet() ? pageIndex : 0) + "." + getCellAddress(rowIndex, colIndex);
+			String cellAddress = "$" + tableBuilder.getTableName() + "." + getCellAddress(rowIndex, colIndex);
 			int lastCol = Math.max(0, colIndex + gridCell.getColSpan() -1);
 			String cellRangeAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), lastCol);
 			namedExpressions.append("<table:named-range table:name=\""+ JRStringUtil.xmlEncode(text.getAnchorName()) +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" + cellAddress +":" +cellRangeAddress +"\"/>\n");
@@ -424,7 +424,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 			if (!configuration.isIgnoreAnchors() && image.getAnchorName() != null)
 			{
 				tableBuilder.exportAnchor(JRStringUtil.xmlEncode(image.getAnchorName()));
-				String cellAddress = "$TBL_" + reportIndex + "_" + (isOnePagePerSheet ? pageIndex : 0) + "." + getCellAddress(rowIndex, colIndex);
+				String cellAddress = "$" + tableBuilder.getTableName() + "." + getCellAddress(rowIndex, colIndex);
 				int lastCol = Math.max(0, colIndex + gridCell.getColSpan() - 1);
 				String cellRangeAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), lastCol);
 				namedExpressions.append("<table:named-range table:name=\""+ image.getAnchorName() +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" + cellAddress +":" + cellRangeAddress +"\"/>\n");
@@ -739,10 +739,19 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	protected class OdsTableBuilder extends TableBuilder
 	{
 		protected OdsTableBuilder(DocumentBuilder documentBuilder, JasperPrint jasperPrint,
-			int reportIndex, int pageIndex, WriterHelper bodyWriter,
-			WriterHelper styleWriter, StyleCache styleCache, Map<Integer, String> rowStyles, Map<Integer, String> columnStyles) 
+				int reportIndex, int pageIndex, WriterHelper bodyWriter,
+				WriterHelper styleWriter, StyleCache styleCache, Map<Integer, String> rowStyles, Map<Integer, String> columnStyles) 
 		{
 			super(documentBuilder, jasperPrint, reportIndex, pageIndex, bodyWriter, styleWriter, styleCache, rowStyles, columnStyles);
+		}
+		
+		protected OdsTableBuilder(DocumentBuilder documentBuilder, JasperPrint jasperPrint,
+			int reportIndex, int pageIndex, WriterHelper bodyWriter,
+			WriterHelper styleWriter, StyleCache styleCache, Map<Integer, String> rowStyles, Map<Integer, String> columnStyles, 
+			String sheetName) 
+		{
+			super(documentBuilder, jasperPrint, reportIndex, pageIndex, bodyWriter, styleWriter, styleCache, rowStyles, columnStyles);
+			this.tableName = sheetName;
 		}
 
 		@Override
@@ -929,7 +938,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		if(startPage)
 		{
 			String pageName = DocumentBuilder.JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
-			String cellAddress = "$TBL_" + reportIndex + "_" + (getCurrentItemConfiguration().isOnePagePerSheet() ? pageIndex : 0) + ".$A$1";
+			String cellAddress = "$" + tableBuilder.getTableName() + ".$A$1";
 			tableBuilder.exportAnchor(pageName);
 			namedExpressions.append("<table:named-range table:name=\""+ pageName +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" +cellAddress +"\"/>\n");
 			startPage = false;
