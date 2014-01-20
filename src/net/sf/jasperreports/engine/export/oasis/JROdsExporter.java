@@ -298,7 +298,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		{
 			String cellAddress = "$&apos;" + tableBuilder.getTableName() + "&apos;." + getCellAddress(rowIndex, colIndex);
 			int lastCol = Math.max(0, colIndex + gridCell.getColSpan() -1);
-			String cellRangeAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), lastCol);
+			String cellRangeAddress = getCellAddress(rowIndex + gridCell.getRowSpan() - 1, lastCol);
 			namedExpressions.append("<table:named-range table:name=\""+ JRStringUtil.xmlEncode(text.getAnchorName()) +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" + cellAddress +":" +cellRangeAddress +"\"/>\n");
 		}
 	}
@@ -426,7 +426,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 				tableBuilder.exportAnchor(JRStringUtil.xmlEncode(image.getAnchorName()));
 				String cellAddress = "$&apos;" + tableBuilder.getTableName() + "&apos;." + getCellAddress(rowIndex, colIndex);
 				int lastCol = Math.max(0, colIndex + gridCell.getColSpan() - 1);
-				String cellRangeAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), lastCol);
+				String cellRangeAddress = getCellAddress(rowIndex + gridCell.getRowSpan() -1, lastCol);
 				namedExpressions.append("<table:named-range table:name=\""+ image.getAnchorName() +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" + cellAddress +":" + cellRangeAddress +"\"/>\n");
 			}
 
