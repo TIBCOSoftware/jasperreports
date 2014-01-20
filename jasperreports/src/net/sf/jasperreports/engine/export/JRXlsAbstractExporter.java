@@ -1276,7 +1276,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	{
 		if(sheetName != null)
 		{
-			if (sheetNames != null && sheetNamesIndex < sheetNames.length)
+			if (sheetNames != null && sheetNamesIndex < sheetNames.length) 
 			{
 				sheetNames[sheetNamesIndex] = sheetName;
 			}
@@ -1427,8 +1427,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 */
 	protected boolean hasGlobalSheetNames()//FIXMEEXPORT check sheet names
 	{
-		XlsReportConfiguration lcItemConfiguration = (XlsReportConfiguration)crtItem.getConfiguration();
-		
 		Boolean globalSheetNames = null;
 		
 		boolean isOverrideHintsDefault = 
@@ -1441,9 +1439,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			)
 		{
 			boolean isExporterConfigOverrideHints = 
-				exporterConfiguration.isOverrideHints() == null 
+				itemConfiguration.isOverrideHints() == null 
 				? isOverrideHintsDefault 
-				: exporterConfiguration.isOverrideHints();
+				: itemConfiguration.isOverrideHints();
 			if (isExporterConfigOverrideHints)
 			{
 				globalSheetNames = true;
@@ -1452,6 +1450,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 		if (globalSheetNames == null)
 		{
+			XlsReportConfiguration lcItemConfiguration = (XlsReportConfiguration)crtItem.getConfiguration();
 			if (
 				lcItemConfiguration != null 
 				&& lcItemConfiguration.getSheetNames() != null
