@@ -70,7 +70,7 @@ public class TableBuilder
 	 *
 	 */
 	private final DocumentBuilder documentBuilder;
-	private String tableName;
+	protected String tableName;
 	private final JasperPrint jasperPrint;
 	private int reportIndex;
 	private final WriterHelper bodyWriter;
@@ -675,5 +675,9 @@ public class TableBuilder
 	protected JasperReportsContext getJasperReportsContext()
 	{
 		return documentBuilder.getJasperReportsContext();
+	}
+
+	public String getTableName() {
+		return tableName;
 	}
 }
