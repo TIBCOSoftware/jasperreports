@@ -296,7 +296,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		if (!configuration.isIgnoreAnchors() && text.getAnchorName() != null)
 		{
-			String cellAddress = "$" + tableBuilder.getTableName() + "." + getCellAddress(rowIndex, colIndex);
+			String cellAddress = "$&apos;" + tableBuilder.getTableName() + "&apos;." + getCellAddress(rowIndex, colIndex);
 			int lastCol = Math.max(0, colIndex + gridCell.getColSpan() -1);
 			String cellRangeAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), lastCol);
 			namedExpressions.append("<table:named-range table:name=\""+ JRStringUtil.xmlEncode(text.getAnchorName()) +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" + cellAddress +":" +cellRangeAddress +"\"/>\n");
@@ -424,7 +424,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 			if (!configuration.isIgnoreAnchors() && image.getAnchorName() != null)
 			{
 				tableBuilder.exportAnchor(JRStringUtil.xmlEncode(image.getAnchorName()));
-				String cellAddress = "$" + tableBuilder.getTableName() + "." + getCellAddress(rowIndex, colIndex);
+				String cellAddress = "$&apos;" + tableBuilder.getTableName() + "&apos;." + getCellAddress(rowIndex, colIndex);
 				int lastCol = Math.max(0, colIndex + gridCell.getColSpan() - 1);
 				String cellRangeAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), lastCol);
 				namedExpressions.append("<table:named-range table:name=\""+ image.getAnchorName() +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" + cellAddress +":" + cellRangeAddress +"\"/>\n");
@@ -474,11 +474,11 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	{
 		String address = null;
 
-		if(row > 0 && row < 1048577 && col > -1 && col < 16384)
+		if(row > -1 && row < 1048577 && col > -1 && col < 16384)
 		{
-			address = "$" + getColumnName(col) + "$" + row;
+			address = "$" + getColumnName(col) + "$" + (row+1);
 		}
-		return address;
+		return address == null ? "$A$1" : address;
 	}
 	
 	protected String getColumnName(int colIndex)
@@ -492,7 +492,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 							? String.valueOf((char)(colIndex/26 + 64)) + getColumnName(colIndex%26) 
 							: String.valueOf((char)(colIndex %26 + 65)));
 		}
-		return colName;
+		return colName == null ? "A" : colName;
 	}
 	
 	@Override
@@ -938,7 +938,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		if(startPage)
 		{
 			String pageName = DocumentBuilder.JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
-			String cellAddress = "$" + tableBuilder.getTableName() + ".$A$1";
+			String cellAddress = "$&apos;" + tableBuilder.getTableName() + "&apos;.$A$1";
 			tableBuilder.exportAnchor(pageName);
 			namedExpressions.append("<table:named-range table:name=\""+ pageName +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" +cellAddress +"\"/>\n");
 			startPage = false;
