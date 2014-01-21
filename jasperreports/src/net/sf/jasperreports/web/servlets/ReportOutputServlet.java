@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JsonExporter;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterConfiguration;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
@@ -87,9 +88,9 @@ public class ReportOutputServlet extends AbstractServlet
 			if (webReportContext != null) 
 			{
 				response.setContentType(HTML_CONTENT_TYPE);
-				try 
+				PrintWriter out = response.getWriter();
+				try
 				{
-					PrintWriter out = response.getWriter();
 					render(request, response, webReportContext, out);
 				}
 				catch (JRException e) 
@@ -99,6 +100,27 @@ public class ReportOutputServlet extends AbstractServlet
 					response.getWriter().println("{\"msg\": \"JasperReports encountered an error!\"}");
 					return;
 				}
+                catch (Exception e)
+                {
+                    response.setContentType(JSON_CONTENT_TYPE);//FIXMEJIVE probably can't change contentType at this point, because getWriter() was already called once
+                    response.setStatus(404);
+                    out.println("{\"msg\": \"JasperReports encountered an error on report rendering!\"");
+
+                    String message = e.getMessage();
+                    if (message == null && e.getCause() != null) {
+                        message = e.getCause().getMessage();
+                    }
+                    if (message == null) {
+                        StringWriter sw = new StringWriter();
+                        e.printStackTrace(new PrintWriter(sw));
+                        message = sw.toString();
+                    }
+
+                    if (message != null) {
+                        out.println(", \"devmsg\": \"" + JRStringUtil.escapeJavaStringLiteral(message) + "\"");
+                    }
+                    out.println("}");
+                }
 			}
 			else 
 			{
