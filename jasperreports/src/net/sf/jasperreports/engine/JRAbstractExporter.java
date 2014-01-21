@@ -250,6 +250,11 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 */
 	public void setParameter(JRExporterParameter parameter, Object value)
 	{
+		if (exporterConfiguration != null | itemConfiguration != null)
+		{
+			throw new JRRuntimeException("Can't mix deprecated JRParameter API calls with new exporter configuration API calls.");
+		}
+		
 		parameters.put(parameter, value);
 		exporterInput = null;
 		exporterOutput = null;
@@ -273,6 +278,11 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 */
 	public void setParameters(Map<JRExporterParameter,Object> parameters)
 	{
+		if (exporterConfiguration != null | itemConfiguration != null)
+		{
+			throw new JRRuntimeException("Can't mix deprecated JRParameter API calls with new exporter configuration API calls.");
+		}
+
 		this.parameters = parameters;
 		exporterInput = null;
 		exporterOutput = null;
@@ -303,6 +313,11 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 */
 	public void setExporterInput(ExporterInput exporterInput)
 	{
+		if (parameters != null && parameters.size() > 0)
+		{
+			throw new JRRuntimeException("Can't mix deprecated JRParameter API calls with new exporter configuration API calls.");
+		}
+
 		this.exporterInput = exporterInput;
 	}
 
@@ -321,6 +336,11 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 */
 	public void setExporterOutput(O exporterOutput)
 	{
+		if (parameters != null && parameters.size() > 0)
+		{
+			throw new JRRuntimeException("Can't mix deprecated JRParameter API calls with new exporter configuration API calls.");
+		}
+
 		this.exporterOutput = exporterOutput;
 	}
 
@@ -330,6 +350,11 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 */
 	public void setConfiguration(RC configuration)
 	{
+		if (parameters != null && parameters.size() > 0)
+		{
+			throw new JRRuntimeException("Can't mix deprecated JRParameter API calls with new exporter configuration API calls.");
+		}
+
 		this.itemConfiguration = configuration;
 	}
 
@@ -339,6 +364,11 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 */
 	public void setConfiguration(C configuration)
 	{
+		if (parameters != null && parameters.size() > 0)
+		{
+			throw new JRRuntimeException("Can't mix deprecated JRParameter API calls with new exporter configuration API calls.");
+		}
+
 		this.exporterConfiguration = configuration;
 	}
 
