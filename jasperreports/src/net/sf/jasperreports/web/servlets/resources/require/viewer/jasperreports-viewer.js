@@ -125,6 +125,17 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3"], fun
                         });
                     });
                 }
+
+                /*
+                 If Highcharts are present render them  // FIXMEJIVE: should revert back to components being able to render themselves
+                 */
+                if(components.chart) {
+                    $.each(components.chart, function(){
+                        var el = $('#'+this.config.hcinstancedata.renderto).length;
+                        el && this.render();
+                    });
+                }
+
             });
 
             toolbar.on("click", function(evt) {
