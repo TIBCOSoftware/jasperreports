@@ -26,6 +26,7 @@ package net.sf.jasperreports.export;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -44,13 +45,15 @@ public class CompositeExporterConfigurationFactory<C extends CommonExportConfigu
 	 * 
 	 */
 	private final JRPropertiesUtil propertiesUtil;
+	private final Class<C> configurationInterface;
 	
 	/**
 	 * 
 	 */
-	public CompositeExporterConfigurationFactory(JasperReportsContext jasperReportsContext)
+	public CompositeExporterConfigurationFactory(JasperReportsContext jasperReportsContext, Class<C> configurationInterface)
 	{
 		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+		this.configurationInterface = configurationInterface;
 	}
 
 	
@@ -69,15 +72,30 @@ public class CompositeExporterConfigurationFactory<C extends CommonExportConfigu
 				parent.isOverrideHints() == null 
 				? propertiesUtil.getBooleanProperty(ExporterConfiguration.PROPERTY_EXPORT_CONFIGURATION_OVERRIDE_REPORT_HINTS)
 				: parent.isOverrideHints().booleanValue();
+			return getConfiguration(parent, child, isOverrideHints);
+		}
+	}
+
+	
+	/**
+	 * 
+	 */
+	public C getConfiguration(final C parent, final C child, boolean isOverrideHints)
+	{
+		if (parent == null)
+		{
+			return child;
+		}
+		else
+		{
 			if (isOverrideHints)
 			{
-				return getProxy(child.getClass(), new DelegateInvocationHandler(child, parent));
+				return getProxy(configurationInterface, new DelegateInvocationHandler(child, parent));
 			}
 			else
 			{
-				return getProxy(child.getClass(), new DelegateInvocationHandler(parent, child));
+				return getProxy(configurationInterface, new DelegateInvocationHandler(parent, child));
 			}
-			
 		}
 	}
 
@@ -87,14 +105,24 @@ public class CompositeExporterConfigurationFactory<C extends CommonExportConfigu
 	 */
 	private final C getProxy(Class<?> clazz, InvocationHandler handler)
 	{
-		@SuppressWarnings("rawtypes")
-		List allInterfaces = ClassUtils.getAllInterfaces(clazz);
+		List<Class<?>> allInterfaces = new ArrayList<Class<?>>();
+
+		if (clazz.isInterface())
+		{
+			allInterfaces.add(clazz);
+		}
+		else
+		{
+			@SuppressWarnings("unchecked")
+			List<Class<?>> lcInterfaces = ClassUtils.getAllInterfaces(clazz);
+			allInterfaces.addAll(lcInterfaces);
+		}
 
 		@SuppressWarnings("unchecked")
 		C composite =
 			(C)Proxy.newProxyInstance(
 				ExporterConfiguration.class.getClassLoader(),
-				(Class<?>[]) allInterfaces.toArray(new Class<?>[allInterfaces.size()]),
+				allInterfaces.toArray(new Class<?>[allInterfaces.size()]),
 				handler
 				);
 		
