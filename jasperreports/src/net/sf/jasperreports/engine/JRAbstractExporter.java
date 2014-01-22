@@ -64,7 +64,8 @@ import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.ExporterOutput;
-import net.sf.jasperreports.export.PropertiesExporterConfigurationFactory;
+import net.sf.jasperreports.export.PropertiesDefaultsConfigurationFactory;
+import net.sf.jasperreports.export.PropertiesNoDefaultsConfigurationFactory;
 import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInputItem;
 
@@ -145,6 +146,8 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	
 	// this would make the applet require logging library
 	//private final static Log log = LogFactory.getLog(JRAbstractExporter.class);
+	
+	private Boolean useOldApi = null;
 
 	/**
 	 *
@@ -232,15 +235,36 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	
 	
 	/**
+	 * 
+	 */
+	private void checkApi(boolean isOldApi)
+	{
+		if (useOldApi == null)
+		{
+			useOldApi = isOldApi;
+		}
+		else
+		{
+			if (useOldApi != isOldApi)
+			{
+				throw new JRRuntimeException("Can't mix deprecated JRParameter API calls with new exporter configuration API calls.");
+			}
+		}
+	}
+	
+	
+	/**
 	 *
 	 */
 	public void reset()
 	{
+		useOldApi = null;
 		parameters = new HashMap<JRExporterParameter,Object>();
 		elementOffsetStack = new LinkedList<int[]>();
 		exporterInput = null;
 		exporterOutput = null;
 		exporterConfiguration = null;
+		itemConfiguration = null;
 	}
 	
 	
@@ -250,10 +274,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 */
 	public void setParameter(JRExporterParameter parameter, Object value)
 	{
-		if (exporterConfiguration != null | itemConfiguration != null)
-		{
-			throw new JRRuntimeException("Can't mix deprecated JRParameter API calls with new exporter configuration API calls.");
-		}
+		checkApi(true);
 		
 		parameters.put(parameter, value);
 		exporterInput = null;
@@ -278,10 +299,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 */
 	public void setParameters(Map<JRExporterParameter,Object> parameters)
 	{
-		if (exporterConfiguration != null | itemConfiguration != null)
-		{
-			throw new JRRuntimeException("Can't mix deprecated JRParameter API calls with new exporter configuration API calls.");
-		}
+		checkApi(true);
 
 		this.parameters = parameters;
 		exporterInput = null;
@@ -313,10 +331,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 */
 	public void setExporterInput(ExporterInput exporterInput)
 	{
-		if (parameters != null && parameters.size() > 0)
-		{
-			throw new JRRuntimeException("Can't mix deprecated JRParameter API calls with new exporter configuration API calls.");
-		}
+		checkApi(false);
 
 		this.exporterInput = exporterInput;
 	}
@@ -336,10 +351,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 */
 	public void setExporterOutput(O exporterOutput)
 	{
-		if (parameters != null && parameters.size() > 0)
-		{
-			throw new JRRuntimeException("Can't mix deprecated JRParameter API calls with new exporter configuration API calls.");
-		}
+		checkApi(false);
 
 		this.exporterOutput = exporterOutput;
 	}
@@ -350,11 +362,8 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 */
 	public void setConfiguration(RC configuration)
 	{
-		if (parameters != null && parameters.size() > 0)
-		{
-			throw new JRRuntimeException("Can't mix deprecated JRParameter API calls with new exporter configuration API calls.");
-		}
-
+		checkApi(false);
+		
 		this.itemConfiguration = configuration;
 	}
 
@@ -364,11 +373,8 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 */
 	public void setConfiguration(C configuration)
 	{
-		if (parameters != null && parameters.size() > 0)
-		{
-			throw new JRRuntimeException("Can't mix deprecated JRParameter API calls with new exporter configuration API calls.");
-		}
-
+		checkApi(false);
+		
 		this.exporterConfiguration = configuration;
 	}
 
@@ -551,7 +557,12 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		{
 			RC crtItemConfiguration = (RC)crtItem.getConfiguration();
 			
-			if (crtItemConfiguration == null)
+			if (crtItemConfiguration != null)
+			{
+				checkApi(false);
+			}
+			
+			if (useOldApi)
 			{
 				@SuppressWarnings("deprecation")
 				RC depConf = 
@@ -562,16 +573,25 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 						).getConfiguration(
 							getItemConfigurationInterface()
 							);
-				crtItemConfiguration = depConf; 
+				crtCompositeItemConfiguration = depConf; 
 			}
 			else
 			{
-				PropertiesExporterConfigurationFactory<RC> factory = new PropertiesExporterConfigurationFactory<RC>(jasperReportsContext);
-				crtItemConfiguration = factory.getConfiguration(crtItemConfiguration, jasperPrint);
+				PropertiesDefaultsConfigurationFactory<RC> defaultsFactory = new PropertiesDefaultsConfigurationFactory<RC>(jasperReportsContext);
+				RC defaultsConfiguration = defaultsFactory.getConfiguration(getItemConfigurationInterface());
+				
+				PropertiesNoDefaultsConfigurationFactory<RC> noDefaultsFactory = new PropertiesNoDefaultsConfigurationFactory<RC>(jasperReportsContext);
+				RC noDefaultsConfiguration = noDefaultsFactory.getConfiguration(getItemConfigurationInterface(), getCurrentJasperPrint());
+
+				CompositeExporterConfigurationFactory<RC> compositeFactory = new CompositeExporterConfigurationFactory<RC>(jasperReportsContext, getItemConfigurationInterface());
+
+				RC tmpItemConfiguration = compositeFactory.getConfiguration(crtItemConfiguration, noDefaultsConfiguration);
+				
+				tmpItemConfiguration = compositeFactory.getConfiguration(itemConfiguration, tmpItemConfiguration);
+				
+				crtCompositeItemConfiguration = compositeFactory.getConfiguration(tmpItemConfiguration, defaultsConfiguration, true);
+
 			}
-			
-			CompositeExporterConfigurationFactory<RC> factory = new CompositeExporterConfigurationFactory<RC>(jasperReportsContext);
-			crtCompositeItemConfiguration = factory.getConfiguration(itemConfiguration, crtItemConfiguration);
 		}
 		return crtCompositeItemConfiguration;
 	}
@@ -584,18 +604,34 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	{
 		if (crtCompositeConfiguration == null)
 		{
-			@SuppressWarnings("deprecation")
-			C crtItemConfiguration = 
-				new net.sf.jasperreports.export.parameters.ParametersExporterConfigurationFactory<C>(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					).getConfiguration(
-						getConfigurationInterface()
-						);
-			
-			CompositeExporterConfigurationFactory<C> factory = new CompositeExporterConfigurationFactory<C>(jasperReportsContext);
-			crtCompositeConfiguration = factory.getConfiguration(exporterConfiguration, crtItemConfiguration);
+			if (useOldApi)
+			{
+				@SuppressWarnings("deprecation")
+				C depConf = 
+					new net.sf.jasperreports.export.parameters.ParametersExporterConfigurationFactory<C>(
+						getJasperReportsContext(),
+						getParameters(),
+						getCurrentJasperPrint()
+						).getConfiguration(
+							getConfigurationInterface()
+							);
+				crtCompositeConfiguration = depConf;
+			}
+			else
+			{
+				PropertiesDefaultsConfigurationFactory<C> defaultsFactory = new PropertiesDefaultsConfigurationFactory<C>(jasperReportsContext);
+				C defaultsConfiguration = defaultsFactory.getConfiguration(getConfigurationInterface());
+
+				PropertiesNoDefaultsConfigurationFactory<C> noDefaultsFactory = new PropertiesNoDefaultsConfigurationFactory<C>(jasperReportsContext);
+				C noDefaultsConfiguration = noDefaultsFactory.getConfiguration(getConfigurationInterface(), getCurrentJasperPrint());
+
+				CompositeExporterConfigurationFactory<C> compositeFactory = new CompositeExporterConfigurationFactory<C>(jasperReportsContext, getConfigurationInterface());
+
+				C tmpItemConfiguration = compositeFactory.getConfiguration(exporterConfiguration, noDefaultsConfiguration);
+				
+				crtCompositeConfiguration = compositeFactory.getConfiguration(tmpItemConfiguration, defaultsConfiguration, true);
+			}
+
 		}
 		return crtCompositeConfiguration;
 	}

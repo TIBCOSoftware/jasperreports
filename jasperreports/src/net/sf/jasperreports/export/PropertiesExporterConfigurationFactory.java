@@ -23,10 +23,8 @@
  */
 package net.sf.jasperreports.export;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRPropertiesHolder;
@@ -37,108 +35,106 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 
-import org.apache.commons.lang.ClassUtils;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class PropertiesExporterConfigurationFactory<RC extends ReportExportConfiguration>
+public class PropertiesExporterConfigurationFactory<C extends CommonExportConfiguration>
 {
-	/**
-	 * 
-	 */
-	private final JasperReportsContext jasperReportsContext;
+//	/**
+//	 * 
+//	 */
+//	private final JasperReportsContext jasperReportsContext;
+//	
+//	/**
+//	 * 
+//	 */
+//	public PropertiesExporterConfigurationFactory(JasperReportsContext jasperReportsContext)
+//	{
+//		this.jasperReportsContext = jasperReportsContext;
+//	}
+//
+//	
+//	/**
+//	 * 
+//	 */
+//	public C getConfiguration(final C parent, final JRPropertiesHolder propertiesHolder)
+//	{
+//		final C child = getProxy(parent.getClass(), new PropertiesInvocationHandler(propertiesHolder));
+//
+//		CompositeExporterConfigurationFactory<C> factory = new CompositeExporterConfigurationFactory<C>(jasperReportsContext);
+//		
+//		return factory.getConfiguration(parent, child);
+//	}
+//
+//
+//	/**
+//	 * 
+//	 */
+//	private final C getProxy(Class<?> clazz, InvocationHandler handler)
+//	{
+//		@SuppressWarnings("rawtypes")
+//		List allInterfaces = ClassUtils.getAllInterfaces(clazz);
+//
+//		@SuppressWarnings("unchecked")
+//		C proxy =
+//			(C)Proxy.newProxyInstance(
+//				ExporterConfiguration.class.getClassLoader(),
+//				(Class<?>[]) allInterfaces.toArray(new Class<?>[allInterfaces.size()]),
+//				handler
+//				);
+//		
+//		return proxy;
+//	}
+//
+//
+//	/**
+//	 * 
+//	 */
+//	class PropertiesInvocationHandler implements InvocationHandler
+//	{
+//		private final JRPropertiesHolder propertiesHolder;
+//		
+//		/**
+//		 * 
+//		 */
+//		public PropertiesInvocationHandler(final JRPropertiesHolder propertiesHolder)
+//		{
+//			this.propertiesHolder = propertiesHolder;
+//		}
+//		
+//		/**
+//		 * 
+//		 */
+//		public Object invoke(
+//			Object proxy, 
+//			Method method, 
+//			Object[] args
+//			) throws Throwable 
+//		{
+//			return getPropertyValue(method, propertiesHolder);
+//		}
+//	}
+//	
+//	
+//	/**
+//	 * 
+//	 */
+//	protected Object getPropertyValue(Method method, JRPropertiesHolder propertiesHolder)
+//	{
+//		Object value = null;
+//		ExporterProperty exporterProperty = method.getAnnotation(ExporterProperty.class);
+//		if (exporterProperty != null)
+//		{
+//			value = getPropertyValue(jasperReportsContext, propertiesHolder, exporterProperty, method.getReturnType());
+//		}
+//		return value;
+//	}
+	
 	
 	/**
-	 * 
-	 */
-	public PropertiesExporterConfigurationFactory(JasperReportsContext jasperReportsContext)
-	{
-		this.jasperReportsContext = jasperReportsContext;
-	}
-
-	
-	/**
-	 * 
-	 */
-	public RC getConfiguration(final RC parent, final JRPropertiesHolder propertiesHolder)
-	{
-		final RC child = getProxy(parent.getClass(), new PropertiesInvocationHandler(propertiesHolder));
-
-		CompositeExporterConfigurationFactory<RC> factory = new CompositeExporterConfigurationFactory<RC>(jasperReportsContext);
-		
-		return factory.getConfiguration(parent, child);
-	}
-
-
-	/**
-	 * 
-	 */
-	private final RC getProxy(Class<?> clazz, InvocationHandler handler)
-	{
-		@SuppressWarnings("rawtypes")
-		List allInterfaces = ClassUtils.getAllInterfaces(clazz);
-
-		@SuppressWarnings("unchecked")
-		RC composite =
-			(RC)Proxy.newProxyInstance(
-				ExporterConfiguration.class.getClassLoader(),
-				(Class<?>[]) allInterfaces.toArray(new Class<?>[allInterfaces.size()]),
-				handler
-				);
-		
-		return composite;
-	}
-
-
-	/**
-	 * 
-	 */
-	class PropertiesInvocationHandler implements InvocationHandler
-	{
-		private final JRPropertiesHolder propertiesHolder;
-		
-		/**
-		 * 
-		 */
-		public PropertiesInvocationHandler(final JRPropertiesHolder propertiesHolder)
-		{
-			this.propertiesHolder = propertiesHolder;
-		}
-		
-		/**
-		 * 
-		 */
-		public Object invoke(
-			Object proxy, 
-			Method method, 
-			Object[] args
-			) throws Throwable 
-		{
-			return getPropertyValue(method, propertiesHolder);
-		}
-	}
-	
-	
-	/**
-	 * 
-	 */
-	protected Object getPropertyValue(Method method, JRPropertiesHolder propertiesHolder)
-	{
-		Object value = null;
-		ExporterProperty exporterProperty = method.getAnnotation(ExporterProperty.class);
-		if (exporterProperty != null)
-		{
-			value = getPropertyValue(jasperReportsContext, propertiesHolder, exporterProperty, method.getReturnType());
-		}
-		return value;
-	}
-	
-	
-	/**
-	 * 
+	 * FIXMEEXPORT this static method can be moved
 	 */
 	public static Object getPropertyValue(
 		JasperReportsContext jasperReportsContext,

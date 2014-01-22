@@ -113,7 +113,7 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * @deprecated Replaced by {@link XlsExporterConfiguration#getSheetNames()}.
+	 * @deprecated Replaced by {@link XlsReportConfiguration#getSheetNames()}.
 	 */
 	public static final JRXlsAbstractExporterParameter SHEET_NAMES = new JRXlsAbstractExporterParameter("Sheet Names");
 
