@@ -126,7 +126,7 @@ public class ParametersExporterConfigurationFactory<C extends CommonExportConfig
 //		List allInterfaces = ClassUtils.getAllInterfaces(clazz);
 
 		@SuppressWarnings("unchecked")
-		C composite =
+		C proxy =
 			(C)Proxy.newProxyInstance(
 				JRAbstractExporter.class.getClassLoader(),
 //				(Class<?>[]) allInterfaces.toArray(new Class<?>[allInterfaces.size()]),
@@ -134,7 +134,7 @@ public class ParametersExporterConfigurationFactory<C extends CommonExportConfig
 				handler
 				);
 		
-		return composite;
+		return proxy;
 	}
 
 
