@@ -2624,7 +2624,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			if (anchor.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
 			{
-				addBookmark(anchor.getBookmarkLevel(), anchor.getAnchorName(), element.getX(), element.getY());
+				addBookmark(anchor.getBookmarkLevel(), anchor.getAnchorName(), getOffsetX() + element.getX(), getOffsetY() + element.getY());
 			}
 		}
 	}
