@@ -63,6 +63,7 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 	 *
 	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
+	protected static final String JR_BOOKMARK_ANCHOR_PREFIX = "JR_BKMRK_";
 
 	protected static final float DEFAULT_ZOOM = 1f;
 	
