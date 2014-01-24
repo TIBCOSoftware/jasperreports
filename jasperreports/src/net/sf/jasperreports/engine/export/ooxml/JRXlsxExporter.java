@@ -671,7 +671,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	{
 		if(!getCurrentItemConfiguration().isIgnoreAnchors() && startPage)
 		{
-			String anchorPage = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
+			String anchorPage = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (sheetIndex - sheetsBeforeCurrentReport);
 			String ref = "'" + currentSheetName + "'!$A$1";		// + XlsxCellHelper.getColumIndexLetter(colIndex) + "$" + (rowIndex + 1);
 			definedNames.append("<definedName name=\"" + anchorPage +"\">"+ ref +"</definedName>\n");
 			startPage = false;

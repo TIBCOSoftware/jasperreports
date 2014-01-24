@@ -939,7 +939,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	{
 		if(startPage)
 		{
-			String pageName = DocumentBuilder.JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
+			String pageName = DocumentBuilder.JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (sheetIndex - sheetsBeforeCurrentReport);
 			String cellAddress = "$&apos;" + tableBuilder.getTableName() + "&apos;.$A$1";
 			tableBuilder.exportAnchor(pageName);
 			namedExpressions.append("<table:named-range table:name=\""+ pageName +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" +cellAddress +"\"/>\n");
