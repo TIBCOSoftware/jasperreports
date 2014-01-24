@@ -23,7 +23,6 @@
  */
 import java.io.File;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -96,7 +95,7 @@ public class HyperlinkApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperFillManager.fillReportToFile("build/reports/HyperlinkReport.jasper", null, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("build/reports/HyperlinkReport.jasper", null);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 
