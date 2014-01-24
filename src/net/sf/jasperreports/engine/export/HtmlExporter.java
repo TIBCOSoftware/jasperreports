@@ -45,6 +45,7 @@ import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ImageMapRenderable;
+import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRImageRenderer;
@@ -671,6 +672,13 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write(text.getAnchorName());
 			writer.write("\"/>");
 		}
+		
+		if (text.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
+		{
+			writer.write("<a name=\"");
+			writer.write(JR_BOOKMARK_ANCHOR_PREFIX + reportIndex + "_" + pageIndex + "_" + cell.getElementAddress());
+			writer.write("\"/>");
+		}
 
 		if (rotationValue != null)
 		{
@@ -851,6 +859,13 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			writer.write("<a name=\"");
 			writer.write(image.getAnchorName());
+			writer.write("\"/>");
+		}
+		
+		if (image.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
+		{
+			writer.write("<a name=\"");
+			writer.write(JR_BOOKMARK_ANCHOR_PREFIX + reportIndex + "_" + pageIndex + "_" + cell.getElementAddress());
 			writer.write("\"/>");
 		}
 		
