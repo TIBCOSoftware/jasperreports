@@ -23,18 +23,37 @@ Several reports can be exported together to form a single resulting document.
     </documentedBy>
     <content>
 <b>Exporter Input</b>
+Once generated, a JasperPrint object may be exported to various output formats such as PDF, HTML, XML, CSV, RTF, Excel, MSWord, PPTX, etc. 
+The JasperReports library includes a builtin exporter for each output format enumerated here. In order to perform the export, a given exporter 
+requires some specific input data:
+<ul>
+<li>the list of JasperPrint objects to be exported at a time; these objects may:
+<ul>
+<li>be in-memory objects</li>
+<li>come from the network through an input stream</li>
+<li>loaded from files on disk</li>
+</ul>
+</li>
+<li>a set of export configuration settings to be applied either globally or per each report in the list</li>
+</ul>
+An exporter should be able to handle such a wide range of document sources, along with their specific export configuration settings. 
 <br/>
+Exporter builtin implementations are doing this based on the methods inherited from their  
+<api href="net/sf/jasperreports/engine/JRAbstractExporter.html">JRAbstractExporter</api> super class. When extending the 
+<api href="net/sf/jasperreports/engine/JRAbstractExporter.html">JRAbstractExporter</api> class, one can reuse the  
+<code>public void setExporterInput(ExporterInput exporterInput)</code> method to deal with the source reports and export configuration settings.
 <br/>
-The input data for an exporter comes in the form of one or more JasperPrint 
-documents that must be exported to some other document format. These JasperPrint 
-objects may be already in memory, come from the network through an input stream, or 
-reside in files on disk. 
-<br/>
-An exporter should be able to handle such a wide range of document sources. In fact, all 
-the exporter implementations that are shipped inside the library already do this. They all 
-extend the <code>net.sf.jasperreports.engine.JRAbstractExporter</code> class, which 
-holds all the logic for dealing with the source documents that need to be exported inside 
-its defined <code>setInput()</code> method. 
+All we need is an <api href="net/sf/jasperreports/export/ExporterInput.html">ExporterInput</api> object that implements the 
+<code>public List&lt;ExporterInputItem&gt; getItems()</code> method in order to retrieve a list of 
+<api href="net/sf/jasperreports/export/ExporterInputItem.html">ExporterInputItem</api> objects. Each 
+<api href="net/sf/jasperreports/export/ExporterInputItem.html">ExporterInputItem</api> in the list contains a single JasperPrint object along with its related export 
+configuration settings. Methods in the <api href="net/sf/jasperreports/export/ExporterInputItem.html">ExporterInputItem</api> interface are:
+<ul>
+<li><code>public JasperPrint getJasperPrint();</code> - return the JasperPrint object</li>
+<li><code>public ReportExportConfiguration getConfiguration();</code> - return export configuration settings to be applied for the JasperPrint object</li>
+</ul>
+Global settings per exporter can be configured using the <code>public void setConfiguration(C configuration)</code> method in the 
+<api href="net/sf/jasperreports/engine/JRAbstractExporter.html">JRAbstractExporter</api> class
 <br/>
 <br/>
 <b>Batch Mode Export</b>
