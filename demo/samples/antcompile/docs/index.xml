@@ -49,7 +49,7 @@ at application built time and then deployed as part of the application classpath
 <br/>
 The JasperReports library provides a built-in Ant task for compiling source JRXML report template files into <code>*.jasper</code> files. 
 This task is represented by the <api href="net/sf/jasperreports/ant/JRAntCompileTask.html">JRAntCompilerTask</api> task and 
-works very similar to the Ant built-in <a href="http://ant.apache.org/manual/CoreTasks/javac.html">Javac</a> task.
+works very similar to the Ant built-in <a href="http://ant.apache.org/manual/Tasks/javac.html">Javac</a> task.
 <br/>
 <br/>
 This task scans source folders and looks up for report template files (usually having the JRXML file extension) 

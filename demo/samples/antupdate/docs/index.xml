@@ -29,7 +29,7 @@ or to bring them up-to-date with respect to the JasperReports Schema Reference.
 <br/>
 <br/>
 A problem that may occur in applications with several report templates stored in the same resource repository is the amount of time required to modify each report template individually when 
-the same change has to be applied for all reports. Manual modification is not the best practice in this case, the entire process should be automatized instead.
+the same change has to be applied for all reports. Manual modification is not the best practice in this case, the entire process should be done automatically.
 <br/>
 Based on the fact that JRXML templates can be read into <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> objects that can be easily modified and then saved 
 again as JRXML templates, we only need to know where the initial JRXML templates are located, and which changes are to be applied, in order to process a bulk update on all these templates.
