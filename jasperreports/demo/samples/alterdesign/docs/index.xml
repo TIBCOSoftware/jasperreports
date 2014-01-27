@@ -87,14 +87,15 @@ Notice the <code>key</code> attribute in each rectangle <elem>reportElement</ele
 value that will help us locate the rectangle element inside the reports section later on.
 <br/>
 <br/>
-Open the <code>src/AlterDesignApp.java</code> source file in the current sample and go to the <code>if</code> block corresponding 
-to the <code>TASK_FILL</code>, starting at line 75.
+Open the <code>src/AlterDesignApp.java</code> source file in the current sample and go to the <code>fill()</code> method corresponding 
+to the <code>fill</code> ant task.
 <br/>
 Notice how the compiled report template is first loaded from the <code>*.jasper</code> file.
 <br/>
 <br/>
 <pre><![CDATA[
-File sourceFile = new File(fileName);
+File sourceFile = new File("build/reports/AlterDesignReport.jasper");
+...
 JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 ]]>
 </pre>
