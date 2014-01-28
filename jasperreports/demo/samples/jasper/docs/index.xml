@@ -124,7 +124,7 @@ value is <code>Nothing</code>.</li>
 declared. Therefore, the order of variables as they appear in the report template is very important. 
 <br/>
 For more about report variables one can consult also the 
-<a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/tutorial.html#Variables">tutorial</a>.
+<a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial#Variables">tutorial</a>.
 <br/>
 <br/>
 Being familiarized with variables, it's time to focus back on data grouping. Report variables are very useful objects in a report, 
