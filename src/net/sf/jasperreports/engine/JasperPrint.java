@@ -66,6 +66,17 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 * @see JRPropertiesUtil#transferProperties(JRPropertiesHolder, JRPropertiesHolder, String)
 	 */
 	public static final String PROPERTIES_PRINT_TRANSFER_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "print.transfer.";
+
+	/**
+	 * 
+	 */
+	public static final String PROPERTY_CREATE_BOOKMARKS = JRPropertiesUtil.PROPERTY_PREFIX + "print.create.bookmarks";
+
+	/**
+	 * 
+	 */
+	public static final String PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS = 
+		JRPropertiesUtil.PROPERTY_PREFIX + "print.collapse.missing.bookmark.levels";
 	
 	/**
 	 * A small class for implementing just the style provider functionality.
@@ -127,6 +138,8 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	
 	private JRPropertiesMap propertiesMap;
 
+	private List<PrintBookmark> bookmarks;
+	
 
 	/**
 	 * Creates a new empty document. 
@@ -533,6 +546,34 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	{
 		anchorIndexes = null;
 		return pages.remove(index);
+	}
+
+	/**
+	 *
+	 */
+	public List<PrintBookmark> getBookmarks()
+	{
+		return bookmarks;
+	}
+
+	/**
+	 * Adds a new page to the document.
+	 */
+	public synchronized void addBookmark(PrintBookmark bookmark)
+	{
+		if (bookmarks == null)
+		{
+			bookmarks = new ArrayList<PrintBookmark>();
+		}
+		bookmarks.add(bookmark);
+	}
+	
+	/**
+	 *
+	 */
+	public void setBookmarks(List<PrintBookmark> bookmarks)
+	{
+		this.bookmarks = bookmarks;
 	}
 
 	/**

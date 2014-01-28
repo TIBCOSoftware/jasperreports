@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintBookmark;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
@@ -272,6 +273,10 @@ public class JRPrintXmlLoader implements ErrorHandler
 		
 		/*   */
 		digester.addFactoryCreate("*/style/pen", JRPenFactory.Style.class.getName());
+
+		/*   */
+		digester.addFactoryCreate("*/bookmark", PrintBookmarkFactory.class.getName());
+		digester.addSetNext("*/bookmark", "addBookmark", PrintBookmark.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("jasperPrint/page", JRPrintPageFactory.class.getName());

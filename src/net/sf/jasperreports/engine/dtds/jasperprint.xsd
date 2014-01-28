@@ -12,6 +12,7 @@
     <element ref="jrp:origin" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jrp:reportFont" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jrp:style" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jrp:bookmark" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jrp:page" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
    <attribute name="name" type="string" use="required"/>
@@ -411,6 +412,17 @@
     </simpleType>
    </attribute>
    <attribute name="position" type="NMTOKEN" use="required"/>
+  </complexType>
+ </element>
+
+ <element name="bookmark">
+  <complexType>
+   <sequence>
+    <element ref="jrp:bookmark" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="label" type="string" use="required"/>
+   <attribute name="pageIndex" type="integer" use="required"/>
+   <attribute name="elementAddress" type="string" use="required"/>
   </complexType>
  </element>
 

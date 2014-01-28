@@ -75,6 +75,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintBookmark;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
@@ -345,7 +346,8 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 			}
 		}
 
-
+		exportBookmarks(jasperPrint.getBookmarks());
+		
 		if (pages != null && pages.size() > 0)
 		{
 			JRPrintPage page = null;
@@ -460,6 +462,34 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_group, origin.getGroupName());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_band, origin.getBandTypeValue());
 		xmlWriter.closeElement();
+	}
+
+
+	protected void exportBookmarks(List<PrintBookmark> bookmarks) throws IOException
+	{
+		if (bookmarks != null && bookmarks.size() > 0)
+		{
+			for(PrintBookmark bookmark : bookmarks)
+			{
+				exportBookmark(bookmark);
+			}
+		}
+	}
+
+
+	protected void exportBookmark(PrintBookmark bookmark) throws IOException
+	{
+		if (bookmark != null)
+		{
+			xmlWriter.startElement(JRXmlConstants.ELEMENT_bookmark);
+			xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_label, bookmark.getLabel());
+			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_pageIndex, bookmark.getPageIndex());
+			xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_elementAddress, bookmark.getElementAddress());
+			
+			exportBookmarks(bookmark.getBookmarks());
+
+			xmlWriter.closeElement();
+		}
 	}
 
 
