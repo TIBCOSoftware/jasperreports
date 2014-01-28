@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-functions</artifactId>
-	<version>5.5.0</version>
+	<version>5.5.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Functions</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -17,7 +17,7 @@
 	</licenses>
 	<scm>
 		<connection>scm:svn:http://jasperforge.org/svn/repos/jasperreports</connection>
-		<tag>jr-5-5-0</tag>
+		<tag>jr-5-5-1</tag>
 		<url>http://code.jaspersoft.com/svn/repos/jasperreports/</url>
 	</scm>
 	<repositories>
@@ -86,7 +86,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>5.5.0</version>
+			<version>5.5.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
