@@ -106,7 +106,7 @@ If corners are not rounded, then the <code>radius</code> attribute is not necess
 <b>The ellipse shape</b>
 <br/>
 <br/>
-An ellipse is a closed bi-dimensional curved shape characterized by 2 semiaxis: the semimajor and the semiminor axis. When the semimajor axis equals the semiminor axis, the ellipse becomes a circle.
+An ellipse is a closed bi-dimensional curved shape characterized by 2 semiaxis: the major and the minor semiaxis. When the major axis equals the minor semiaxis, the ellipse becomes a circle.
 <br/>
 Any ellipse shape implements the <api href="net/sf/jasperreports/engine/JREllipse.html">JREllipse</api> interface, which extends the <api href="net/sf/jasperreports/engine/JRGraphicElement.html">JRGraphicElement</api>.
 <br/>
