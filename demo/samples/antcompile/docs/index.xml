@@ -48,7 +48,7 @@ at application built time and then deployed as part of the application classpath
 <br/>
 <br/>
 The JasperReports library provides a built-in Ant task for compiling source JRXML report template files into <code>*.jasper</code> files. 
-This task is represented by the <api href="net/sf/jasperreports/ant/JRAntCompileTask.html">JRAntCompilerTask</api> task and 
+This task is represented by the <api href="net/sf/jasperreports/ant/JRAntCompileTask.html">JRAntCompileTask</api> task and 
 works very similar to the Ant built-in <a href="http://ant.apache.org/manual/Tasks/javac.html">Javac</a> task.
 <br/>
 <br/>
@@ -170,12 +170,131 @@ the initial <code>*.jrxml</code> source files being lost.
     <since>3.7.1</since>
     <documentedBy>
       <author>
-    	<name></name>
-    	<email></email>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
       </author>
     </documentedBy>
     <content>
-[Under Construction]
+In the case the older reports JRXML templates are lost, but we still have acces to their <code>*.jasper</code> compiled state, there is a 
+possibility to retrieve the related JRXML, based on a specific built-in Ant task.
+This task provided by the JasperReports library is used for decompiling JasperReport objects serialized as <code>*.jasper</code> files. 
+Its functionality is defined in the <api href="net/sf/jasperreports/ant/JRAntDecompileTask.html">JRAntDecompileTask</api> class and 
+works as opposite to the Ant built-in <api href="net/sf/jasperreports/ant/JRAntCompileTask.html">JRAntCompileTask</api> task described 
+<a href="#antcompile">above</a>.
+<br/>
+This task scans source folders and looks up for <code>*.jasper</code> files, load them into in-memory JasperReport objects,  
+then write their report template source into corresponding <code>*.jrxml</code> files, placed into a destination folder hierarchy.
+<br/>
+The destination folder tree is similar to the source folder tree, meaning that the relative location of <code>*.jasper</code> files from 
+the root folder is preserved for the resulting <code>*.jrxml</code> files.
+<br/>
+Similar to the <api href="net/sf/jasperreports/ant/JRAntCompileTask.html">JRAntCompileTask</api> task, the source folders can be specified 
+using either the <code>srcdir</code> attribute of the task (when there is only one root source folder) or using a nested <code>&lt;src&gt;</code> 
+tag (when source <code>*.jasper</code> files are scattered across multiple paths).
+<br/>
+Below is the <code>decompile</code> task definition in the build.xml file:
+<pre><![CDATA[
+<target name="decompile" description="Decompiles report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag.">
+  <taskdef name="jrdc" classname="net.sf.jasperreports.ant.JRAntDecompileTask"> 
+    <classpath refid="classpath"/>
+  </taskdef>
+  <jrdc destdir="./build/reports">
+    <src>
+      <fileset dir="./build/reports">
+        <include name="**/*.jasper"/>
+      </fileset>
+    </src>
+    <classpath refid="runClasspath"/>
+  </jrdc> 
+</target>]]></pre>
+<b>The JRXML Writer Tool</b>
+<br/>
+<br/>
+Once loaded from their serialized form, the JasperReport objects are passed one by one to the JRXML writer tool represented by the 
+<api href="net/sf/jasperreports/engine/xml/JRXmlWriter.html">JRXmlWriter</api> class. Let's see how is it done in the 
+<api href="net/sf/jasperreports/ant/JRAntDecompileTask.html">JRAntDecompileTask</api> <code>decompile()</code> method:
+<pre><![CDATA[
+protected void decompile() throws BuildException
+{
+  Collection<String> files = reportFilesMap.keySet();
+  if (files != null && files.size() > 0)
+  {
+    boolean isError = false;
+    System.out.println("Decompiling " + files.size() + " report design files.");
+    for (Iterator<String> it = files.iterator(); it.hasNext();)
+    {
+      String srcFileName = it.next();
+      String destFileName = reportFilesMap.get(srcFileName);
+      File destFileParent = new File(destFileName).getParentFile();
+      if(!destFileParent.exists())
+      {
+        destFileParent.mkdirs();
+      }
+      try
+      {
+        System.out.print("File : " + srcFileName + " ... ");
+        JasperReport jasperReport = (JasperReport)JRLoader.loadObjectFromFile(srcFileName);
+        new JRXmlWriter(jasperReportsContext).write(jasperReport, destFileName, "UTF-8");
+        System.out.println("OK.");
+      }
+      catch(JRException e)
+      {
+        System.out.println("FAILED.");
+        System.out.println("Error decompiling report design : " + srcFileName);
+        e.printStackTrace(System.out);
+        isError = true;
+      }
+    }
+    if(isError)
+    {
+      throw new BuildException("Errors were encountered when decompiling report designs.");
+    }
+  }
+}]]></pre>
+The <api href="net/sf/jasperreports/engine/xml/JRXmlWriter.html">JRXmlWriter</api> reads the report template structure from the 
+JasperReport object and write it down in a JRXML file:
+<pre><![CDATA[
+new JRXmlWriter(jasperReportsContext).write(jasperReport, destFileName, "UTF-8");]]></pre>
+Below we can see how the method write(...) in the <api href="net/sf/jasperreports/engine/xml/JRXmlWriter.html">JRXmlWriter</api> looks like:
+<pre><![CDATA[
+public void write(
+    JRReport report,
+    String destFileName,
+    String encoding
+    ) throws JRException
+{
+  FileOutputStream fos = null;
+
+  try
+  {
+    fos = new FileOutputStream(destFileName);
+    Writer out = new OutputStreamWriter(fos, encoding);
+    writeReport(report, encoding, out);
+  }
+  catch (IOException e)
+  {
+    throw new JRException("Error writing to file : " + destFileName, e);
+  }
+  finally
+  {
+    if (fos != null)
+    {
+      try
+      {
+        fos.close();
+      }
+      catch(IOException e)
+      {
+      }
+    }
+  }
+}]]></pre>
+The <api href="net/sf/jasperreports/engine/xml/JRXmlWriter.html">JRXmlWriter</api> tool provides dedicated methods for writing the report prologue,
+report properties, styles, datasets, sections and elements.
+<br/>
+To see the effective result of the <code>decompile</code> task, just run the <code>'&gt;ant clean javac compile1 decompile'</code> 
+command in the root directory of the sample. You will see in the <code>build/reports/com/bar</code> and <code>build/reports/com/foo</code> 
+output directories both the compiled <code>*.jasper</code> and the decompiled <code>*.jrxml</code> files.
     </content>
   </feature>
 
