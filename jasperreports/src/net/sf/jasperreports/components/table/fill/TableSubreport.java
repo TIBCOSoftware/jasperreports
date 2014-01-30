@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import net.sf.jasperreports.engine.ElementDecorator;
+import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpression;
@@ -34,7 +35,6 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.ReturnValue;
-import net.sf.jasperreports.engine.component.FillContext;
 
 /**
  * 
@@ -49,9 +49,9 @@ public class TableSubreport extends ElementDecorator implements JRSubreport
 	private final JRSubreportParameter[] parameters;
 	private final JRSubreportReturnValue[] returnValues;
 
-	public TableSubreport(JRDatasetRun datasetRun, FillContext fillContext)
+	public TableSubreport(JRDatasetRun datasetRun, JRComponentElement componentElement)
 	{
-		super(fillContext.getComponentElement());
+		super(componentElement);
 		
 		this.datasetRun = datasetRun;
 		
