@@ -1,4 +1,4 @@
-define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3"], function(Loader, Report, $) {
+define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3", "jasperreports-url-manager"], function(Loader, Report, $, UrlManager) {
 	var Viewer = function(o) {
         this.config = {
             at: null,
@@ -10,6 +10,8 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3"], fun
         };
 
         $.extend(this.config, o);
+
+        this.config.applicationContextPath && (UrlManager.applicationContextPath = this.config.applicationContextPath);
 
         this.reportInstance = null;
         this.undoRedoCounters = {
@@ -48,8 +50,6 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3"], fun
                 async: it.config.async,
                 page: it.config.page
             });
-
-            it.reportInstance.loader.UrlManager.applicationContextPath = it.config.applicationContextPath;
 
             it._setupEventsForReport(it.reportInstance);
 
