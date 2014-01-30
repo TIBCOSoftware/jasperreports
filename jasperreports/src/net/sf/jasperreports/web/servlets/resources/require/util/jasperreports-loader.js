@@ -1,4 +1,4 @@
-define(["jquery-1.10.2"], function($) {
+define(["jquery-1.10.2", "jasperreports-url-manager", "jasperreports-ajax"], function($, UrlManager, Ajax) {
 	
     var Loader = function(o) {
 
@@ -8,15 +8,6 @@ define(["jquery-1.10.2"], function($) {
         };
 
         $.extend(this.config, o);
-
-        this.UrlManager = {
-            applicationContextPath: null,
-            reportcontexturl: "/servlets/reportcontext",
-            reportoutputurl: "/servlets/reportoutput",
-            reportactionurl: "/servlets/reportaction",
-            reportcomponentsurl: "/servlets/reportcomponents",
-            reportpagestatusurl: "/servlets/reportpagestatus"
-        };
 
         // promises
         this.contextIdPromise = null;
@@ -84,7 +75,7 @@ define(["jquery-1.10.2"], function($) {
 
         // internal functions
         _getUrl: function(key) {
-            var url = this.UrlManager.applicationContextPath + this.UrlManager[key],
+            var url = UrlManager.applicationContextPath + UrlManager[key],
                 jssParam;
             if (key === 'reportcontexturl') {
                 jssParam = this._getUrlParameter('jss_context');
@@ -118,7 +109,7 @@ define(["jquery-1.10.2"], function($) {
             return it.contextIdPromise;
         },
 		_ajaxLoad: function(o, dataType) {
-			return  $.ajax(o.url, {type: 'POST', dataType: dataType, data: o.params}).then(
+			return  Ajax.load(o.url, {type: 'POST', dataType: dataType, data: o.params}).then(
                 null,
                 this._errHandler
             );
