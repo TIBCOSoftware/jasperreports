@@ -171,6 +171,18 @@ public final class JRPropertiesUtil
 	}
 	
 	/**
+	 * Returns a property as a boolean value.
+	 * 
+	 * @param key the key
+	 * @param defaultValue the default value
+	 * @return the property value as a boolean
+	 */
+	public boolean getBooleanProperty(String key, boolean defaultValue)
+	{
+		return asBoolean(getProperty(key), defaultValue);
+	}
+	
+	/**
 	 * Returns a property as an integer value.
 	 * 
 	 * @param key the key
