@@ -239,6 +239,11 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		return new JRFillComponentElement(this, factory);
 	}
 
+	public JRComponentElement getParent()
+	{
+		return (JRComponentElement) parent;
+	}
+
 	public Component getComponent()
 	{
 		return ((JRComponentElement) parent).getComponent();

@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRReportCompileData;
+import net.sf.jasperreports.engine.fill.JRFillComponentElement;
 import net.sf.jasperreports.engine.fill.JRFillContext;
 import net.sf.jasperreports.engine.fill.JRFillDatasetRun;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
@@ -328,10 +329,16 @@ public class FillTable extends BaseFillComponent
 				new TableReportBaseObjectFactory(reportDataset),
 				"");// no suffix as already included in the report name
 		
-		TableSubreport subreport = new TableSubreport(table.getDatasetRun(), fillContext);
-		return new FillTableSubreport(
+		TableSubreport subreport = 
+			new TableSubreport(
+				table.getDatasetRun(), 
+				((JRFillComponentElement)fillContext.getComponentElement()).getParent()
+				);
+		return 
+			new FillTableSubreport(
 				fillContext, subreport, factory, compiledTableReport,
-				builtinEvaluatorFactory);
+				builtinEvaluatorFactory
+				);
 	}
 
 	protected JasperReport containingReport(JasperReport parentReport)
