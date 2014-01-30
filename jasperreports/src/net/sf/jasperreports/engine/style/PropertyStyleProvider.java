@@ -515,7 +515,7 @@ public class PropertyStyleProvider implements StyleProvider
 	{
 		String value = null;
 
-		if (lateEvaluated && stylePropertyExpressions.containsKey(propertyName))
+		if (lateEvaluated && stylePropertyExpressions != null && stylePropertyExpressions.containsKey(propertyName))
 		{
 			JRPropertyExpression stylePropertyExpression = stylePropertyExpressions.get(propertyName);
 			JRExpression expression = stylePropertyExpression.getValueExpression();
