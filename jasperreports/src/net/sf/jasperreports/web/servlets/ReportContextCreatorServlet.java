@@ -76,6 +76,14 @@ public class ReportContextCreatorServlet extends AbstractServlet {
 					webReportContext.setParameterValue(WebUtil.REQUEST_PARAMETER_ASYNC_REPORT, Boolean.valueOf(async));
 				}
 
+				String appDomain = request.getParameter(WebReportContext.REQUEST_PARAMETER_APPLICATION_DOMAIN);
+				if (appDomain != null) {
+                    if (appDomain.endsWith("/")) {
+                        appDomain = appDomain.substring(0, appDomain.length() - 1);
+                    }
+					webReportContext.setParameterValue(WebReportContext.REQUEST_PARAMETER_APPLICATION_DOMAIN, appDomain);
+				}
+
 				Controller controller = new Controller(getJasperReportsContext());
 				initWebContext(request, webReportContext);
 				try {

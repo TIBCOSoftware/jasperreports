@@ -209,7 +209,13 @@ public class ReportOutputServlet extends AbstractServlet
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrintAccessor.getJasperPrint()));
 
 		SimpleHtmlExporterOutput output = new SimpleHtmlExporterOutput(writer);
-		String resourcesPath = request.getContextPath() + webUtil.getResourcesPath() + "?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
+
+        String applicationDomain = (String) webReportContext.getParameterValue(WebReportContext.REQUEST_PARAMETER_APPLICATION_DOMAIN);
+        if (applicationDomain == null) {
+            applicationDomain = request.getContextPath();
+        }
+
+		String resourcesPath = applicationDomain + webUtil.getResourcesPath() + "?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
 		output.setImageHandler(new WebHtmlResourceHandler(resourcesPath + "&image={0}"));
 		output.setResourceHandler(new WebHtmlResourceHandler(resourcesPath + "/{0}"));
 		output.setFontHandler(new WebHtmlResourceHandler(resourcesPath + "&font={0}"));
