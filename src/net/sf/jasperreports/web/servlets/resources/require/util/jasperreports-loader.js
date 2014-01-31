@@ -102,7 +102,8 @@ define(["jquery-1.10.2", "jasperreports-url-manager", "jasperreports-ajax"], fun
                     url: it._getUrl("reportcontexturl"),
                     params: {
                         jr_report_uri: it.config.reporturi,
-                        jr_async: it.config.async
+                        jr_async: it.config.async,
+                        jr_app_domain: UrlManager.applicationContextPath
                     }
                 }, 'json');
             }
