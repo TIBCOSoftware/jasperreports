@@ -85,6 +85,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 {
 
 	public static final String XLS_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.";
+	public static final String DEFAULT_SHEET_NAME_PREFIX = "Page ";
 
 	/**
 	 * Property that stores the formula which has to be applied to a given cell in an excel sheet.
@@ -1085,13 +1086,13 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		{
 			if (!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(xCutIndex) || xCuts.isCutSpanned(xCutIndex)))
 			{
-				Integer width = (Integer)xCutsProperties.get(PROPERTY_COLUMN_WIDTH);
+				Cut xCut = xCuts.getCut(xCutIndex);
+				Integer width = (Integer)xCut.getProperty(PROPERTY_COLUMN_WIDTH);
 				width = 
 					width == null 
 					? (int)((xCuts.getCutOffset(xCutIndex + 1) - xCuts.getCutOffset(xCutIndex)) * sheetRatio) 
 					: width;  
 				
-				Cut xCut = xCuts.getCut(xCutIndex);
 				boolean isAutoFit = xCut.hasProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN) 
 						&& (Boolean)xCut.getProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN);
 				
@@ -1295,7 +1296,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		if (sheetName == null)
 		{
 			// no sheet name was specified or if it was null
-			return "Page " + (sheetIndex + 1);
+			return DEFAULT_SHEET_NAME_PREFIX + (sheetIndex + 1);
 		}
 
 		// sheet name specified; assuming it is first occurrence
