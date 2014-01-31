@@ -1,11 +1,1 @@
-requirejs.config({
-    baseUrl: "${contextPath}",
-    paths: {
-#set ($modulesNo=$modulePaths.size())
-#foreach ($moduleEntry in ${modulePaths})
-        "$moduleEntry.key": "$moduleEntry.value"#if($velocityCount<$modulesNo),
-#end
-#end
-
-    }
-});
+requirejs.config(${config});
