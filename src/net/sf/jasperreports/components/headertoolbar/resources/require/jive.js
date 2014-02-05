@@ -1168,20 +1168,16 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
         },
         zoom: function(o) {
             var it = this;
-            if (it.isFloatingHeader) {
-                it.scrollHeader(it.isDashboard, true);
-            }
+            it.isFloatingHeader && it.scrollHeader(it.isDashboard, true);
+            it.active && it.hide(); // hide jive stuff when zooming to avoid repositioning of its elements
         },
         scrollHeader: function(isDashboard, forceScroll) {
-            console.log('scroll header');
             var it = this,
                 $win = $(window),
 //                scrollContainer = it.isIPad ? $win : $('div#reportViewFrame .body'),
                 scrollContainer = $('div#reportViewFrame .body'),
                 scrolledTop = false,
                 scrolledLeft = false;
-
-            console.log('scrollInfo scrollTop: ' + scrollContainer.scrollTop() + ', scrollLeft: ' + scrollContainer.scrollLeft());
 
             // Determine scroll direction and value
             if (it.scrollData.scrollTop != null) { // check previous scrollTop
@@ -1205,7 +1201,6 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
             }
 
             if (!scrolledLeft && !scrolledTop && !forceScroll) {
-                console.log('no scroll');
                 return;
             }
 
@@ -1233,7 +1228,6 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
                 floatableTbl.show();
 
                 if (zoom) {
-                    console.log('zoom.overflow: ', zoom.overflow);
                     it.applyScaleTransform(floatableTbl, zoom.level, zoom.overflow ? '0 0' : '50% 0');
                     floatableTbl.offset({
                         top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
@@ -1245,7 +1239,6 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
                         left: tbl.offset().left
                     });
                 } else {
-                    console.log('no zoom');
                     floatableTbl.offset({
                         top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
                         left: tbl.offset().left
