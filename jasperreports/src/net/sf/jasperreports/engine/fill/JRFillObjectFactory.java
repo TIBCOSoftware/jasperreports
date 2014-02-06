@@ -130,12 +130,12 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.ReturnValue;
-import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.analytics.dataset.FillMultiAxisData;
+import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.base.JRBaseConditionalStyle;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 
-import org.apache.commons.collections.SequencedHashMap;
+import org.apache.commons.collections.map.LinkedMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -1537,7 +1537,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		Set<JRStyle> requestedStyles = collectRequestedStyles(styles);
 		
 		//collect used styles
-		Map<JRStyle,Object> usedStylesMap = new SequencedHashMap();
+		Map<JRStyle,Object> usedStylesMap = new LinkedMap();
 		Map<String,JRStyle> allStylesMap = new HashMap<String,JRStyle>();
 		for (Iterator<JRStyle> it = styles.iterator(); it.hasNext();)
 		{

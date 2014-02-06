@@ -67,7 +67,7 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
 
-import org.apache.commons.collections.SequencedHashMap;
+import org.apache.commons.collections.map.LinkedMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -224,7 +224,7 @@ public class ReportConverter
 	protected void setStyles(JRReport report)
 	{
 		//styleFactory = new StyleFactory();
-		stylesMap = new SequencedHashMap();
+		stylesMap = new LinkedMap();
 		
 		loadReportStyles(report);
 		
