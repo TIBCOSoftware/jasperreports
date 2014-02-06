@@ -27,7 +27,7 @@ import java.util.Comparator;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 
-import org.apache.commons.collections.ReferenceMap;
+import org.apache.commons.collections.map.ReferenceMap;
 
 /**
  * A comparator that assigns arbitrary ranks to objects and uses the ranks

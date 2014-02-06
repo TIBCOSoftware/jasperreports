@@ -77,7 +77,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.Pair;
 
-import org.apache.commons.collections.SequencedHashMap;
+import org.apache.commons.collections.map.LinkedMap;
 
 /**
  * Design-time {@link net.sf.jasperreports.crosstabs.JRCrosstab crosstab} implementation.
@@ -117,7 +117,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 
 	protected List<JRCrosstabParameter> parametersList;
 	protected Map<String, JRCrosstabParameter> parametersMap;
-	protected SequencedHashMap variablesList;
+	protected LinkedMap variablesList;
 	protected JRExpression parametersMapExpression;
 	protected JRDesignCrosstabDataset dataset;
 	protected List<JRCrosstabRowGroup> rowGroups;
@@ -191,7 +191,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		addBuiltinParameters();
 		
-		variablesList = new SequencedHashMap();
+		variablesList = new LinkedMap();
 		addBuiltinVariables();
 		
 		dataset = new JRDesignCrosstabDataset();
@@ -1688,7 +1688,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		if (variablesList != null)
 		{
-			clone.variablesList = new SequencedHashMap(variablesList.size());
+			clone.variablesList = new LinkedMap(variablesList.size());
 			for(Iterator<?> it = variablesList.values().iterator(); it.hasNext();)
 			{
 				JRVariable variable = (JRVariable) it.next();

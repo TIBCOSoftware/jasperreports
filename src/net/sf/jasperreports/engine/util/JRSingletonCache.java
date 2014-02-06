@@ -27,7 +27,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 
-import org.apache.commons.collections.ReferenceMap;
+import org.apache.commons.collections.map.ReferenceMap;
 
 
 /**

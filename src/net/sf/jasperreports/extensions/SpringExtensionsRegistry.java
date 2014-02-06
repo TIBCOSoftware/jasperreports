@@ -26,7 +26,7 @@ package net.sf.jasperreports.extensions;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.ReferenceMap;
+import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
