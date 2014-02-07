@@ -192,7 +192,7 @@ For instance, if we define the Country parameter that holds the name of a given 
 The built-in JSON query executer (see the 
 <api href="net/sf/jasperreports/engine/query/JsonQueryExecuter.html">JsonQueryExecuter</api> class) is a tool that uses the query string to produce a 
 <api href="net/sf/jasperreports/engine/data/JsonDataSource.html">JsonDataSource</api> instance, 
-based on specific built-in parameters (or equivalent report properties). This queryExceuter is registered via 
+based on specific built-in parameters (or equivalent report properties). This query executer is registered via 
 <api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html">JsonQueryExecuterFactory</api> factory class. 
 <br/>
 In order to prepare the data source, the JSON query executer looks for the 
