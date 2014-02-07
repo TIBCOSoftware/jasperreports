@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -93,6 +94,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	
 	public static final String PROPERTY_DATASET = "dataset";
 	
+	public static final String PROPERTY_TITLE_CELL = "titleCell";
+	
 	public static final String PROPERTY_HEADER_CELL = "headerCell";
 	
 	public static final String PROPERTY_PARAMETERS_MAP_EXPRESSION = "parametersMapExpression";
@@ -135,6 +138,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	protected Map<Pair<String,String>,JRCrosstabCell> cellsMap;
 	protected JRDesignCrosstabCell[][] crossCells;
 	protected JRDesignCellContents whenNoDataCell;
+	protected DesignCrosstabColumnCell titleCell;
 	protected JRDesignCellContents headerCell;
 	protected Boolean ignoreWidth;
 	protected JRLineBox lineBox;
@@ -1167,6 +1171,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			headerCell.setWidth(rowHeadersWidth);
 			headerCell.setHeight(colHeadersHeight);
 		}
+		
+		setTitleSize(rowHeadersWidth);
 	}
 
 	protected void setWhenNoDataCellSize()
@@ -1435,6 +1441,27 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		return heightSum;
 	}
 
+	protected void setTitleSize(int rowHeadersWidth)
+	{
+		if (titleCell != null && titleCell.getDesignCellContents() != null)
+		{
+			JRDesignCellContents titleContents = titleCell.getDesignCellContents();
+			titleContents.setHeight(titleCell.getHeight());
+			
+			int titleWidth = rowHeadersWidth;
+			if (!columnGroups.isEmpty())
+			{
+				JRCrosstabColumnGroup firstGroup = columnGroups.get(0);
+				titleWidth += firstGroup.getHeader().getWidth();
+				if (firstGroup.hasTotal())
+				{
+					titleWidth += firstGroup.getTotalHeader().getWidth();
+				}
+			}
+			titleContents.setWidth(titleWidth);
+		}
+	}
+
 	public JRCellContents getWhenNoDataCell()
 	{
 		return whenNoDataCell;
@@ -1465,6 +1492,22 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	public ModeEnum getModeValue()
 	{
 		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
+	}
+
+	public CrosstabColumnCell getTitleCell()
+	{
+		return titleCell;
+	}
+
+	public void setTitleCell(DesignCrosstabColumnCell titleCell)
+	{
+		Object old = this.titleCell;
+		this.titleCell = titleCell;
+		if (this.titleCell != null)
+		{
+			setCellOrigin(this.titleCell.getCellContents(), new JRCrosstabOrigin(this, JRCrosstabOrigin.TYPE_HEADER_CELL));
+		}
+		getEventSupport().firePropertyChange(PROPERTY_TITLE_CELL, old, this.titleCell);
 	}
 
 	public JRCellContents getHeaderCell()
@@ -1717,6 +1760,13 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		clone.whenNoDataCell = JRCloneUtils.nullSafeClone(whenNoDataCell);
 		adjustCrosstabReference(clone, clone.whenNoDataCell);
+		
+		clone.titleCell = JRCloneUtils.nullSafeClone(titleCell);
+		if (clone.titleCell != null)
+		{
+			adjustCrosstabReference(clone, clone.titleCell.getDesignCellContents());
+		}
+		
 		clone.headerCell = JRCloneUtils.nullSafeClone(headerCell);
 		adjustCrosstabReference(clone, clone.headerCell);
 

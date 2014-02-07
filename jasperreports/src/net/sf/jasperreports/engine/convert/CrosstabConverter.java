@@ -110,6 +110,17 @@ public final class CrosstabConverter extends FrameConverter
 	{
 		List<JRPrintElement> crosstabElements = new ArrayList<JRPrintElement>();
 		
+		int yOffset = 0;
+		if (crosstab.getTitleCell() != null
+				&& crosstab.getTitleCell().getHeight() > 0
+				&& crosstab.getTitleCell().getCellContents() != null)
+		{
+			crosstabElements.add(getCrosstabCellFrame(reportConverter, crosstab.getTitleCell().getCellContents(), 
+					0, yOffset, false, false, false));
+			
+			yOffset += crosstab.getTitleCell().getHeight();
+		}
+		
 		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
 		int rowHeadersXOffset = 0;
 		for (int i = 0; i < rowGroups.length; i++)
@@ -118,7 +129,7 @@ public final class CrosstabConverter extends FrameConverter
 		}
 		
 		JRCrosstabColumnGroup[] columnGroups = crosstab.getColumnGroups();
-		int colHeadersYOffset = 0;
+		int colHeadersYOffset = yOffset;
 		for (int i = 0; i < columnGroups.length; i++)
 		{
 			colHeadersYOffset += columnGroups[i].getHeight();
@@ -134,7 +145,7 @@ public final class CrosstabConverter extends FrameConverter
 						reportConverter,
 						headerCell, 
 						0, 
-						0, 
+						yOffset, 
 						false, 
 						false, 
 						false
@@ -147,7 +158,8 @@ public final class CrosstabConverter extends FrameConverter
 		addCrosstabColumnHeaders(
 			reportConverter,
 			crosstab, 
-			rowHeadersXOffset, 
+			rowHeadersXOffset,
+			yOffset,
 			crosstabElements
 			);
 		addCrosstabRows(
@@ -263,13 +275,13 @@ public final class CrosstabConverter extends FrameConverter
 	private void addCrosstabColumnHeaders(
 		ReportConverter reportConverter,
 		JRCrosstab crosstab, 
-		int rowHeadersXOffset, 
+		int rowHeadersXOffset, int yOffset,
 		List<JRPrintElement> crosstabElements
 		)
 	{
 		JRCrosstabColumnGroup[] groups = crosstab.getColumnGroups();
 		
-		for (int i = 0, x = 0, y = 0; i < groups.length; i++)
+		for (int i = 0, x = 0, y = yOffset; i < groups.length; i++)
 		{
 			JRCrosstabColumnGroup group = groups[i];
 			

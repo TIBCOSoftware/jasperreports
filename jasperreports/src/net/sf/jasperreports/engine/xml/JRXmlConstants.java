@@ -779,6 +779,8 @@ public final class JRXmlConstants
 	public static final String ELEMENT_bucketProperty = "bucketProperty";
 	public static final String ELEMENT_multiAxisMeasure = "multiAxisMeasure";
 	
+	public static final String ATTRIBUTE_contentsPosition = "contentsPosition";
+	
 
 	private JRXmlConstants()
 	{

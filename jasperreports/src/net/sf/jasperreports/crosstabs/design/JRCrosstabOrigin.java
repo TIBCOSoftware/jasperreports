@@ -37,6 +37,7 @@ public class JRCrosstabOrigin implements Serializable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public static final byte TYPE_TITLE_CELL = 9;
 	public static final byte TYPE_HEADER_CELL = 1;
 	public static final byte TYPE_WHEN_NO_DATA_CELL = 2;
 	public static final byte TYPE_ROW_GROUP_HEADER = 3;

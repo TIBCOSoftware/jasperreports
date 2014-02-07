@@ -77,6 +77,7 @@ import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
+import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
@@ -3079,6 +3080,8 @@ public class JRApiWriter
 	
 			writeCrosstabDataset( crosstab, crosstabName);
 
+			writeCrosstabTitleCell(crosstab, crosstabName);
+			
 			writeCrosstabHeaderCell( crosstab, crosstabName);
 	
 			JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
@@ -3132,6 +3135,30 @@ public class JRApiWriter
 	
 			writeCrosstabWhenNoDataCell( crosstab, crosstabName);
 
+			flush();
+		}
+	}
+
+
+	protected void writeCrosstabTitleCell(JRCrosstab crosstab, String crosstabName)
+	{
+		CrosstabColumnCell titleCell = crosstab.getTitleCell();
+		if (titleCell != null)
+		{
+			String titleCellName = crosstabName + "TitleCell";
+			write("DesignCrosstabColumnCell {0} = new DesignCrosstabColumnCell();\n", titleCellName);
+			writePattern("{0}.setHeight({1, number, #});\n", titleCellName, titleCell.getHeight());
+			writePattern("{0}.setContentsPosition({1});\n", titleCellName, titleCell.getContentsPosition());//default value for educative purposes
+			
+			JRCellContents cellContents = titleCell.getCellContents();
+			if (cellContents != null)
+			{
+				String contentsName = titleCellName + "Contents";
+				writeCellContents(cellContents, contentsName);
+				writePattern("{0}.setCellContents({1});\n", titleCellName, contentsName);
+			}
+			
+			writePattern("{0}.setTitleCell({1});\n", crosstabName, titleCellName);
 			flush();
 		}
 	}
@@ -4084,6 +4111,19 @@ public class JRApiWriter
 					);
 			write(MessageFormat.format(pattern, new Object[]{strColor}));
 		}
+	}
+	
+	protected void writePattern(String pattern, Object ... arguments)
+	{
+		for (int i = 0; i < arguments.length; i++)
+		{
+			if (arguments[i] != null && arguments[i].getClass().isEnum())
+			{
+				arguments[i] = arguments[i].getClass().getCanonicalName() + "." + ((Enum<?>) arguments[i]).name();
+			}
+		}
+		
+		write(MessageFormat.format(pattern, arguments));
 	}
 
 	

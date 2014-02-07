@@ -67,6 +67,10 @@ public class CrosstabDeepVisitor extends JRDelegationVisitor implements Elements
 	public void deepVisitCrosstab(JRCrosstab crosstab)
 	{
 		visitCrosstabCell(crosstab.getWhenNoDataCell());
+		if (crosstab.getTitleCell() != null)
+		{
+			visitCrosstabCell(crosstab.getTitleCell().getCellContents());
+		}
 		visitCrosstabCell(crosstab.getHeaderCell());
 		
 		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
