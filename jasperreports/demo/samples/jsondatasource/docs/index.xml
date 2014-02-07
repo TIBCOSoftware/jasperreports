@@ -166,7 +166,7 @@ or
 <code>Northwind.Orders[0].OrderID</code>
 <br/>
 <br/>
-This can be used as a JSON expression language to navigate through objects hierarchy in a 
+This can be used as a JSON query expression language to navigate through objects hierarchy in a 
 source document and retrieve their information, based on a tree representation of objects. The query string is processed using the 
 <a href="http://wiki.fasterxml.com/JacksonHome">Jackson library APIs</a>.
 <br/>
@@ -179,7 +179,7 @@ This query returns a list containing all customer elements in the <code>Customer
 to retrieve only customers from USA, the query have to be refined as:
 <pre><![CDATA[
 <queryString language="json">
-  <![CDATA[Northwind.Customers(Country == "USA")]] >
+  <![CDATA[Northwind.Customers(Country == USA)]] >
 </queryString>]]></pre>
 The JSON query language also supports parameters, in order to allow dynamic queries. Parameters are processed at runtime and replaced by their values. 
 For instance, if we define the Country parameter that holds the name of a given country, the parameterized query will look like:
@@ -190,7 +190,12 @@ For instance, if we define the Country parameter that holds the name of a given 
   <![CDATA[Northwind.Customers(Country == $P{Country})]] >
 </queryString>]]></pre>
 The built-in JSON query executer (see the 
-<api href="net/sf/jasperreports/engine/query/JsonQueryExecuter.html">JsonQueryExecuter</api> class) looks for the 
+<api href="net/sf/jasperreports/engine/query/JsonQueryExecuter.html">JsonQueryExecuter</api> class) is a tool that uses the query string to produce a 
+<api href="net/sf/jasperreports/engine/data/JsonDataSource.html">JsonDataSource</api> instance, 
+based on specific built-in parameters (or equivalent report properties). This queryExceuter is registered via 
+<api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html">JsonQueryExecuterFactory</api> factory class. 
+<br/>
+In order to prepare the data source, the JSON query executer looks for the 
 <api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_INPUT_STREAM">JSON_INPUT_STREAM</api> parameter that contains the JSON 
 source objects in the form of an <code>java.io.InputStream</code>. If no 
 <api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_INPUT_STREAM">JSON_INPUT_STREAM</api> parameter is provided, then 
@@ -201,8 +206,7 @@ String parameter or report property that stores the path to the location of the 
 the result in an in-memory <api href="net/sf/jasperreports/engine/data/JsonDataSource.html">JsonDataSource</api> object.
 <br/>
 <br/>
-When creating the JsonDataSource instance, the query executer also looks for the following additional parameters or report properties, containing localization settings 
-required by the data source: 
+During the JsonDataSource instantiation, the query executer also looks for the following additional parameters or report properties, containing the required localization settings: 
 <ul>
 <li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_DATE_PATTERN">net.sf.jasperreports.json.date.pattern</api></li>
 <li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_NUMBER_PATTERN">net.sf.jasperreports.json.number.pattern</api></li>
