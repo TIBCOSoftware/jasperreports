@@ -19,7 +19,7 @@
 		<field name="timeZone" type="java.util.TimeZone">
 			<bind-xml name="timeZone" node="element" handler="net.sf.jasperreports.data.TimeZoneFieldHandler"/>
 		</field>
-		<field name="locale" type="locale">
+		<field name="locale" type="java.util.Locale" handler="net.sf.jasperreports.data.LocaleFieldHandler">
 			<bind-xml name="locale" node="element"/>
 		</field>
 		<field name="selectExpression" type="string">
