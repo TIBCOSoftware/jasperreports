@@ -11,15 +11,303 @@
   <!-- jsondatasource -->
   
   <feature name="jsondatasource" title="JSON Data Source">
-    <description>How to fill a report using data from an JSON file.</description>
-    <since></since>
+    <description>How to fill a report using data from a JSON file.</description>
+    <since>4.0.1</since>
     <documentedBy>
       <author>
-    	<name></name>
-    	<email></email>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
       </author>
     </documentedBy>
     <content>
+<b>JSON Data Source Overview</b>
+<br/>
+<br/>
+JSON stands for <b>J</b>ava<b>S</b>cript <b>O</b>bject <b>N</b>otation and represents an open standard text format used 
+to transmit data across the network. The main purpose of the JSON format is to provide an alternate way to XML for 
+transporting data between a server and a client (web) application. Wherever possible, the use of a JSON data source 
+implementation (see the built-in <api href="net/sf/jasperreports/engine/data/JsonDataSource.html">JsonDataSource</api>) 
+is recommended, because:
+<ul>
+<li>JSON comes with less memory consumption</li>
+<li>data is retrieved faster from JSON than from an equivalent XML stream</li>
+<li>the JSON syntax rules are very simple, they represent a subset of JavaScript rules:
+<ul>
+<li>data objects are organized as property name:value pairs in a hierarchical structure</li>
+<li>Each property has a specific value. Values in a JSON object can be:
+<ul>
+<li>a number</li>
+<li>a boolean</li>
+<li>a string</li>
+<li>an object</li>
+<li>an array of objects</li>
+<li>null</li>
+</ul>
+</li>
+<li>objects are enclosed in curly braces</li>
+<li>arrays are enclosed in square brackets</li>
+<li>objects are separated by commas</li>
+<li>there are no reserved words</li>
+</ul>
+</li>
+</ul>
+
+Let's see, for instance, the JSON objects inside the <code>data/northwind.json</code> source file:
+<pre><![CDATA[
+{"Northwind": {
+  "Customers": [
+    {
+      Phone: "030-0074321",	// nonstandard unquoted field name
+      'PostalCode': 12209,	// nonstandard single-quoted field name
+      "ContactName": "Maria Anders",	// standard double-quoted field name
+      "Fax": "030-0076545",
+      "Address": "Obere Str. 57",
+      "CustomerID": "ALFKI",
+      "CompanyName": "Alfreds Futterkiste",
+      "Country": "Germany",
+      "City": "Berlin",
+      "ContactTitle": "Sales Representative"
+    },
+  
+    ...
+  
+    {
+      "Phone": "(26) 642-7012",
+      "PostalCode": "01-012",
+      "ContactName": "Zbyszek Piestrzeniewicz",
+      "Fax": "(26) 642-7012",
+      "Address": "ul. Filtrowa 68",
+      "CustomerID": "WOLZA",
+      "CompanyName": "Wolski  Zajazd",
+      "Country": "Poland",
+      "City": "Warszawa",
+      "ContactTitle": "Owner"
+    }
+  ], 
+  
+  "Orders": [
+    {
+      "ShipPostalCode": 51100,
+      "ShippedDate": "1996-07-16",
+      "OrderDate": "1996-07-04",
+      "OrderID": 10248,
+      "Freight": 32.38,
+      "RequiredDate": "1996-08-01",
+      "ShipCity": "Reims",
+      "ShipCountry": "France",
+      "EmployeeID": 5,
+      "ShipVia": 3,
+      "CustomerID": "VINET",
+      "ShipAddress": "59 rue de l'Abbaye",
+      "ShipName": "Vins et alcools Chevalier"
+    },
+  
+    ...
+  
+    {
+      "ShipPostalCode": 87110,
+      "OrderDate": "1998-05-06",
+      "OrderID": 11077,
+      "Freight": 8.53,
+      "ShipRegion": "NM",
+      "RequiredDate": "1998-06-03",
+      "ShipCity": "Albuquerque",
+      "ShipCountry": "USA",
+      "EmployeeID": 1,
+      "ShipVia": 2,
+      "CustomerID": "RATTC",
+      "ShipAddress": "2817 Milton Dr.",
+      "ShipName": "Rattlesnake Canyon Grocery"
+    }
+  ]
+}}]]></pre>
+There is a <code>Northwind</code> parent object enclosing 2 comma-separated objects: <code>Customers</code> and <code>Orders</code>. 
+<br/>
+The <code>Customers</code> object contains a list of similar structured objects, each representing a customer with the following properties:
+<ul>
+<li><code>"Phone"</code></li>
+<li><code>"PostalCode"</code></li>
+<li><code>"ContactName"</code></li>
+<li><code>"Fax"</code></li>
+<li><code>"Address"</code></li>
+<li><code>"CustomerID"</code></li>
+<li><code>"CompanyName"</code></li>
+<li><code>"Country"</code></li>
+<li><code>"City"</code></li>
+<li><code>"ContactTitle"</code></li>
+</ul>
+The <code>Orders</code> object contains a list of order objects, each one exposing the following properties:
+<ul>
+<li><code>"ShipPostalCode"</code></li>
+<li><code>"OrderDate"</code></li>
+<li><code>"OrderID"</code></li>
+<li><code>"Freight"</code></li>
+<li><code>"ShipRegion"</code></li>
+<li><code>"RequiredDate"</code></li>
+<li><code>"ShipCity"</code></li>
+<li><code>"ShipCountry"</code></li>
+<li><code>"EmployeeID"</code></li>
+<li><code>"ShipVia"</code></li>
+<li><code>"CustomerID"</code></li>
+<li><code>"ShipAddress"</code></li>
+<li><code>"ShipName"</code></li>
+</ul>
+<b>The JSON Query Executer</b>
+<br/>
+<br/>
+Properties within a JSON object can be accessed using the period notation. Therefore 
+we have the possibility to query a JSON data source, like below:
+<br/>
+<br/>
+<code>Northwind.Orders</code>
+<br/>
+or
+<br/>
+<code>Northwind.Orders[0].OrderID</code>
+<br/>
+<br/>
+This can be used as a JSON expression language to navigate through objects hierarchy in a 
+source document and retrieve their information, based on a tree representation of objects. The query string is processed using the 
+<a href="http://wiki.fasterxml.com/JacksonHome">Jackson library APIs</a>.
+<br/>
+For instance, one can specify the following expression to produce a list of JSON objects as the report query:
+<pre><![CDATA[
+<queryString language="json">
+  <![CDATA[Northwind.Customers]] >
+</queryString>]]></pre>
+This query returns a list containing all customer elements in the <code>Customers</code> object. If we need 
+to retrieve only customers from USA, the query have to be refined as:
+<pre><![CDATA[
+<queryString language="json">
+  <![CDATA[Northwind.Customers(Country == "USA")]] >
+</queryString>]]></pre>
+The JSON query language also supports parameters, in order to allow dynamic queries. Parameters are processed at runtime and replaced by their values. 
+For instance, if we define the Country parameter that holds the name of a given country, the parameterized query will look like:
+<pre><![CDATA[
+<parameter name="Country" class="java.lang.String"/>
+...
+<queryString language="json">
+  <![CDATA[Northwind.Customers(Country == $P{Country})]] >
+</queryString>]]></pre>
+The built-in JSON query executer (see the 
+<api href="net/sf/jasperreports/engine/query/JsonQueryExecuter.html">JsonQueryExecuter</api> class) looks for the 
+<api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_INPUT_STREAM">JSON_INPUT_STREAM</api> parameter that contains the JSON 
+source objects in the form of an <code>java.io.InputStream</code>. If no 
+<api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_INPUT_STREAM">JSON_INPUT_STREAM</api> parameter is provided, then 
+the query executer looks for the alternate <api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_SOURCE">net.sf.jasperreports.json.source</api> 
+String parameter or report property that stores the path to the location of the JSON source file.
+<br/>
+<api href="net/sf/jasperreports/engine/query/JsonQueryExecuter.html">JsonQueryExecuter</api> runs the query over the input source and stores 
+the result in an in-memory <api href="net/sf/jasperreports/engine/data/JsonDataSource.html">JsonDataSource</api> object.
+<br/>
+<br/>
+When creating the JsonDataSource instance, the query executer also looks for the following additional parameters or report properties, containing localization settings 
+required by the data source: 
+<ul>
+<li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_DATE_PATTERN">net.sf.jasperreports.json.date.pattern</api></li>
+<li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_NUMBER_PATTERN">net.sf.jasperreports.json.number.pattern</api></li>
+<li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_LOCALE">JSON_LOCALE</api> (parameter only) of type <code>java.util.Locale</code></li>
+<li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_LOCALE_CODE">net.sf.jasperreports.json.locale.code</api> of type <code>java.lang.String</code>; 
+this can be used if no <code>java.util.Locale</code> parameter is available</li>
+<li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_TIME_ZONE">JSON_TIME_ZONE</api> (parameter only) of type <code>java.util.TimeZone</code></li>
+<li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_TIME_ZONE_ID">net.sf.jasperreports.json.timezone.id</api> of type <code>java.lang.String</code>; 
+this can be used if no <code>java.util.TimeZone</code> parameter is available</li>
+</ul>
+In the next section you can see how these additional parameters are provided in the <code>/src/JsonDataSourceApp.java</code> class.
+<br/>
+<br/>
+<b>The JSON Data Source Sample</b>
+<br/>
+<br/>
+In our example data are stored as a hierarchy of <code>Northwind.Customers</code> and <code>Northwind.Orders</code> objects in the <code>data/northwind.json</code> file.
+<br/> 
+The source file name is provided in the <code>reports/JsonCustomersReport.jrxml</code> via the report property:
+<pre><![CDATA[
+<property name="net.sf.jasperreports.json.source" value="data/northwind.json"/>]]></pre>
+In the <code>JsonCustomersReport</code> we run a JSON query in order to retrieve only the customers:
+<pre><![CDATA[
+<queryString language="json">
+  <![CDATA[Northwind.Customers]] >
+</queryString>]]></pre>
+The only <code>Customer</code> properties (fields) we are interested in are <code>CustomerID</code> and <code>CompanyName</code>:
+<pre><![CDATA[
+<field name="CustomerID" class="java.lang.String">
+  <fieldDescription><![CDATA[CustomerID]] ></fieldDescription>
+</field>
+<field name="CompanyName" class="java.lang.String">
+  <fieldDescription><![CDATA[CompanyName]] ></fieldDescription>
+</field>
+]]></pre>
+Additional parameters are passed to the report execution in the <code>/src/JsonDataSourceApp.java</code> class (see the <code>fill()</code> method):
+<pre><![CDATA[
+public void fill() throws JRException
+{
+  long start = System.currentTimeMillis();
+  
+  Map<String, Object> params = new HashMap<String, Object>();
+  params.put(JsonQueryExecuterFactory.JSON_DATE_PATTERN, "yyyy-MM-dd");
+  params.put(JsonQueryExecuterFactory.JSON_NUMBER_PATTERN, "#,##0.##");
+  params.put(JsonQueryExecuterFactory.JSON_LOCALE, Locale.ENGLISH);
+  params.put(JRParameter.REPORT_LOCALE, Locale.US);
+  
+  JasperFillManager.fillReportToFile("build/reports/JsonCustomersReport.jasper", params);
+  System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+}]]></pre>
+Each customer in the datasource requires an <code>Orders</code> subreport. Data source and parameters are transmitted from the master report:
+<pre><![CDATA[
+<subreport>
+  <reportElement isPrintRepeatedValues="false" x="5" y="25" width="507" height="20" 
+    isRemoveLineWhenBlank="true" backcolor="#FFCC99" uuid="122eb7b3-e2bf-49eb-859d-4c29bfd6882e"/>
+  <subreportParameter name="net.sf.jasperreports.json.date.pattern">
+    <subreportParameterExpression><![CDATA[$P{net.sf.jasperreports.json.date.pattern}]] ></subreportParameterExpression>
+  </subreportParameter>
+  <subreportParameter name="net.sf.jasperreports.json.number.pattern">
+    <subreportParameterExpression><![CDATA[$P{net.sf.jasperreports.json.number.pattern}]] ></subreportParameterExpression>
+  </subreportParameter>
+  <subreportParameter name="JSON_LOCALE">
+    <subreportParameterExpression><![CDATA[$P{JSON_LOCALE}]] ></subreportParameterExpression>
+  </subreportParameter>
+  <subreportParameter name="CustomerID">
+    <subreportParameterExpression><![CDATA[$F{CustomerID}]] ></subreportParameterExpression>
+  </subreportParameter>
+  <subreportParameter name="net.sf.jasperreports.json.source">
+    <subreportParameterExpression><![CDATA["data/northwind.json"]] ></subreportParameterExpression>
+  </subreportParameter>
+  <subreportExpression><![CDATA["JsonOrdersReport.jasper"]] ></subreportExpression>
+</subreport>
+]]></pre>
+The <code>CustomerID</code> parameter is required in order to filter data in the subreport.
+<br/>
+Next, in the <code>reports/JsonOrdersReport.jrxml</code> file one can see a parametrized query. All orders related to a given <code>CustomerID</code> 
+are retrieved:
+<pre><![CDATA[
+<queryString language="json">
+  <![CDATA[Northwind.Orders(CustomerID == $P{CustomerID})]] >
+</queryString>]]></pre>
+From each order we collect the following properties:
+<pre><![CDATA[
+<field name="Id" class="java.lang.String">
+  <fieldDescription><![CDATA[OrderID]] ></fieldDescription>
+</field>
+<field name="OrderDate" class="java.util.Date">
+  <fieldDescription><![CDATA[OrderDate]] ></fieldDescription>
+</field>
+<field name="ShipCity" class="java.lang.String">
+  <fieldDescription><![CDATA[ShipCity]] ></fieldDescription>
+</field>
+<field name="Freight" class="java.lang.Float">
+  <fieldDescription><![CDATA[Freight]] ></fieldDescription>
+</field>]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/jsondatasource</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/jsondatasource/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
 	</content>
   </feature>
 
