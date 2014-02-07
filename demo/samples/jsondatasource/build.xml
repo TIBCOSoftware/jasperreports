@@ -5,7 +5,7 @@
 	<property name="sample.dir" value="jsondatasource"/>
 	<property name="sample.base.name" value="JsonDataSource" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
-	<property name="sample.report.name" value="CustomersReport" />
+	<property name="sample.report.name" value="JsonCustomersReport" />
 	
 	<path id="classpath">
 		<pathelement location="./build/classes"/>
