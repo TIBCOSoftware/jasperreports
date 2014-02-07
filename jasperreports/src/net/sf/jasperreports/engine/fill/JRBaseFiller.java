@@ -915,6 +915,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 		fillingThread = Thread.currentThread();
 		
+		@SuppressWarnings("deprecation")
+		JRResourcesFillUtil.ResourcesFillContext resourcesContext = 
+			JRResourcesFillUtil.setResourcesFillContext(parameterValues);
+		
 		boolean success = false;
 		try
 		{
@@ -1004,6 +1008,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 			{
 				fillContext.dispose();
 			}
+
+			JRResourcesFillUtil.revertResourcesFillContext(resourcesContext);
 		}
 	}
 

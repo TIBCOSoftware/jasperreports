@@ -621,7 +621,7 @@ public final class JRResourcesUtil
 	{
 		ResourceBundle resourceBundle = null;
 		
-		ClassLoader classLoader = clsLoader;//getClassLoader(clsLoader);
+		ClassLoader classLoader = getClassLoader(clsLoader);
 		if (classLoader != null)
 		{
 			try

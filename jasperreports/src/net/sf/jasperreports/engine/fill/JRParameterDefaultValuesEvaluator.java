@@ -82,6 +82,9 @@ public final class JRParameterDefaultValuesEvaluator
 		fillDataset.createCalculator(report);
 		fillDataset.initCalculator();
 
+		@SuppressWarnings("deprecation")
+		JRResourcesFillUtil.ResourcesFillContext resourcesContext = 
+			JRResourcesFillUtil.setResourcesFillContext(valuesMap);
 		try
 		{
 			fillDataset.setParameterValues(valuesMap);
@@ -104,6 +107,7 @@ public final class JRParameterDefaultValuesEvaluator
 		finally
 		{
 			fillDataset.disposeParameterContributors();
+			JRResourcesFillUtil.revertResourcesFillContext(resourcesContext);
 		}
 	}
 	
