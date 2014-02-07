@@ -40,6 +40,7 @@ import org.xml.sax.Attributes;
 public class JRCrosstabFactory extends JRBaseFactory
 {
 	public static final String ELEMENT_crosstab = "crosstab";
+	public static final String ELEMENT_titleCell = "titleCell";
 	public static final String ELEMENT_whenNoDataCell = "whenNoDataCell";
 	public static final String ELEMENT_crosstabHeaderCell = "crosstabHeaderCell";
 	

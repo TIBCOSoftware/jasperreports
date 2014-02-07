@@ -76,6 +76,7 @@ import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.charts.xml.JRChartAxisFactory;
 import net.sf.jasperreports.charts.xml.JRMeterPlotFactory;
 import net.sf.jasperreports.charts.xml.JRThermometerPlotFactory;
+import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
@@ -2770,6 +2771,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writeCrosstabDataset(crosstab);
 
+		writeCrosstabTitle(crosstab);
+		
 		writeCrosstabHeaderCell(crosstab);
 
 		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();
@@ -2829,6 +2832,22 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRCrosstabDatasetFactory.ATTRIBUTE_isDataPreSorted, dataset.isDataPreSorted(), false);
 		writeElementDataset(dataset);
 		writer.closeElement(true);
+	}
+
+
+	private void writeCrosstabTitle(JRCrosstab crosstab) throws IOException
+	{
+		CrosstabColumnCell titleCell = crosstab.getTitleCell();
+		if (titleCell != null)
+		{
+			writer.startElement(JRCrosstabFactory.ELEMENT_titleCell);
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_height, titleCell.getHeight());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_contentsPosition, titleCell.getContentsPosition(), CrosstabColumnPositionEnum.LEFT);
+			
+			writeCellContents(titleCell.getCellContents());
+			
+			writer.closeElement();
+		}
 	}
 
 

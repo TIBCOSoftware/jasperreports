@@ -99,12 +99,14 @@ import net.sf.jasperreports.charts.xml.JRXySeriesFactory;
 import net.sf.jasperreports.charts.xml.JRXyzDatasetFactory;
 import net.sf.jasperreports.charts.xml.JRXyzSeriesFactory;
 import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
+import net.sf.jasperreports.crosstabs.design.DesignCrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.design.JRDesignCellContents;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabBucket;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabCell;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabColumnGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabRowGroup;
+import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
 import net.sf.jasperreports.crosstabs.xml.JRCellContentsFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabBucketExpressionFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabBucketFactory;
@@ -1287,6 +1289,19 @@ public final class JRXmlDigesterFactory
 
 		digester.addFactoryCreate("*/crosstab/crosstabHeaderCell/cellContents", JRCellContentsFactory.class.getName());
 		digester.addSetNext("*/crosstab/crosstabHeaderCell/cellContents", "setHeaderCell", JRDesignCellContents.class.getName());
+		
+		String titleCellPattern = "*/crosstab/titleCell";
+		digester.addObjectCreate(titleCellPattern, DesignCrosstabColumnCell.class);
+		digester.addSetProperties(titleCellPattern,
+				new String[]{JRXmlConstants.ATTRIBUTE_height, JRXmlConstants.ATTRIBUTE_contentsPosition},
+				new String[]{"height"});
+		digester.addRule(titleCellPattern, 
+				new XmlConstantPropertyRule(JRXmlConstants.ATTRIBUTE_contentsPosition, CrosstabColumnPositionEnum.values()));
+		digester.addSetNext(titleCellPattern, "setTitleCell", DesignCrosstabColumnCell.class.getName());
+		
+		String titleCellContentsPattern = titleCellPattern + "/cellContents";
+		digester.addFactoryCreate(titleCellContentsPattern, JRCellContentsFactory.class.getName());
+		digester.addSetNext(titleCellContentsPattern, "setCellContents", JRDesignCellContents.class.getName());
 	}
 
 
