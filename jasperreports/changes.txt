@@ -2,8 +2,18 @@
 JasperReports Library Change Log
 ===================================
 
-JasperReports 5.5.1 (2014-0x-xx)
+JasperReports 5.5.1 (2014-02-07)
 ---------------------------------------------
+
+- added built-in parameter JASPER_REPORTS_CONTEXT for access to current JasperReportsContext 
+configuration object during report filling;
+
+- allow specifying the encoding in CSV data adapter configuration;
+
+- enhanced built-in datetime and text processing report expression functions to leverage 
+the built-in report parameters for the locale and the timezone;
+
+- added new extension point for template-based RequireJS configurations;
 
 - minor bug fixes and improvements;
 
@@ -13,6 +23,7 @@ JasperReports 5.5.1 (2014-0x-xx)
 
 JasperReports 5.5.0 (2013-10-24)
 ---------------------------------------------
+
 - improved JasperReports Web Framework containing embeddable report viewer APIs. 
 It introduces a separation between the report's HTML output and its interactivity-related 
 metadata (new JSON exporter) and support for dynamically loaded Javascript modules through RequireJS. 
@@ -307,6 +318,7 @@ parameter value handlers;
 
 JasperReports 4.1.2 (2011-09-12, SVN 4600)
 ---------------------------------------------
+
 - support for PDF/A compliance added to the PDF exporter;
 
 - new sort/filter custom component added to allow non-table component reports to leverage 
@@ -320,6 +332,7 @@ the interactive sorting and filtering feature when deployed inside the JR Web Fr
 
 JasperReports 4.1.1 (2011-08-11, SVN 4550)
 ---------------------------------------------
+
 - deprecated code for JRReportFont, JRBox, graphic element pen property
 and all deprecated byte-based properties were removed from the library's API;
 
@@ -387,6 +400,7 @@ exactly like in AWT;
 
 JasperReports 4.0.2 (2011-04-18, SVN 4298)
 ---------------------------------------------
+
 - improved XHTML exporter to bring it at feature parity with the former HTML exporter;
 
 - initial support for paragraph styling including: indentation, spacing and tab stops;
