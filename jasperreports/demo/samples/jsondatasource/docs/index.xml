@@ -33,20 +33,20 @@ is recommended, because:
 <li>data is retrieved faster from JSON than from an equivalent XML stream</li>
 <li>the JSON syntax rules are very simple, they represent a subset of JavaScript rules:
 <ul>
-<li>data objects are organized as property name:value pairs in a hierarchical structure</li>
-<li>Each property has a specific value. Values in a JSON object can be:
+<li>data objects contain properties organized as name : value pairs, in a hierarchical structure</li>
+<li>each property inside an object has a specific value. Values of a JSON property can be:
 <ul>
-<li>a number</li>
-<li>a boolean</li>
+<li>a number (integer or floating point)</li>
+<li>a boolean (true or false)</li>
 <li>a string</li>
-<li>an object</li>
-<li>an array of objects</li>
+<li>an object (set of name : value pairs)</li>
+<li>an array</li>
 <li>null</li>
 </ul>
 </li>
 <li>objects are enclosed in curly braces</li>
-<li>arrays are enclosed in square brackets</li>
-<li>objects are separated by commas</li>
+<li>arrays are enclosed in square brackets; elements in an array are comma-separated</li>
+<li>distinct name : value pairs are comma-separated</li>
 <li>there are no reserved words</li>
 </ul>
 </li>
