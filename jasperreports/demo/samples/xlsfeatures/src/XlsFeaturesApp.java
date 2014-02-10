@@ -27,16 +27,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
-import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 
 /**
@@ -107,13 +106,11 @@ public class XlsFeaturesApp extends AbstractSampleApp
 			
 			JRXlsExporter exporter = new JRXlsExporter();
 			
-			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-			SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
-			configuration.setOnePagePerSheet(true);
-			configuration.setDetectCellType(true);
-			configuration.setCollapseRowSpan(false);
-			exporter.setConfiguration(configuration);
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+			exporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+			exporter.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN, Boolean.FALSE);
 			
 			exporter.exportReport();
 	
@@ -126,7 +123,6 @@ public class XlsFeaturesApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public void jxl() throws JRException
 	{
 		File[] files = getFiles(new File("build/reports"), "jrprint");
@@ -139,17 +135,13 @@ public class XlsFeaturesApp extends AbstractSampleApp
 	
 			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
 	
-			net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
-				new net.sf.jasperreports.engine.export.JExcelApiExporter();
+			JExcelApiExporter exporter = new JExcelApiExporter();
 	
-			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-			net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration = 
-				new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
-			configuration.setOnePagePerSheet(true);
-			configuration.setDetectCellType(true);
-			configuration.setCollapseRowSpan(false);
-			exporter.setConfiguration(configuration);
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+			exporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+			exporter.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN, Boolean.FALSE);
 	
 			exporter.exportReport();
 	
@@ -175,13 +167,11 @@ public class XlsFeaturesApp extends AbstractSampleApp
 			
 			JRXlsxExporter exporter = new JRXlsxExporter();
 			
-			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-			SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
-			configuration.setOnePagePerSheet(true);
-			configuration.setDetectCellType(true);
-			configuration.setCollapseRowSpan(false);
-			exporter.setConfiguration(configuration);
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+			exporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+			exporter.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN, Boolean.FALSE);
 			
 			exporter.exportReport();
 	

@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
-import net.sf.jasperreports.export.XlsReportConfiguration;
 
 
 /**
@@ -57,7 +56,8 @@ public class XlsxStyleHelper extends BaseHelper
 	private XlsxFontHelper fontHelper;
 	private XlsxBorderHelper borderHelper;
 	
-	private XlsReportConfiguration configuration;
+	private boolean isWhitePageBackground;
+	private boolean isIgnoreCellBackground;
 	
 	/**
 	 * 
@@ -65,27 +65,23 @@ public class XlsxStyleHelper extends BaseHelper
 	public XlsxStyleHelper(
 		JasperReportsContext jasperReportsContext,
 		Writer writer, 
-		String exporterKey
+		Map<String,String> fontMap, 
+		String exporterKey,
+		boolean isWhitePageBackground,
+		boolean isIgnoreCellBorder,
+		boolean isIgnoreCellBackground,
+		boolean isFontSizeFixEnabled		
 		)
 	{
 		super(jasperReportsContext, writer);
 		
+		this.isWhitePageBackground = isWhitePageBackground;
+		this.isIgnoreCellBackground = isIgnoreCellBackground;
+		
 		formatHelper = new XlsxFormatHelper(jasperReportsContext, formatsWriter);
-		fontHelper = new XlsxFontHelper(jasperReportsContext, fontsWriter, exporterKey);
-		borderHelper = new XlsxBorderHelper(jasperReportsContext ,bordersWriter);
+		fontHelper = new XlsxFontHelper(jasperReportsContext, fontsWriter, fontMap, exporterKey, isFontSizeFixEnabled);
+		borderHelper = new XlsxBorderHelper(jasperReportsContext ,bordersWriter, isIgnoreCellBorder);
 	}
-	
-	
-	/**
-	 * 
-	 */
-	public void setConfiguration(XlsReportConfiguration configuration)
-	{
-		this.configuration = configuration;
-		fontHelper.setConfiguration(configuration);
-		borderHelper.setConfiguration(configuration);
-	}
-	
 
 	/**
 	 * 
@@ -126,9 +122,9 @@ public class XlsxStyleHelper extends BaseHelper
 	{
 		try
 		{
-			if (configuration.isIgnoreCellBackground() || styleInfo.backcolor == null)
+			if (isIgnoreCellBackground || styleInfo.backcolor == null)
 			{
-				if (configuration.isWhitePageBackground())
+				if (isWhitePageBackground)
 				{
 					fillsWriter.write("<fill><patternFill patternType=\"solid\"><fgColor rgb=\"FFFFFF\"/></patternFill></fill>\n");
 				}

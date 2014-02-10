@@ -28,7 +28,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
@@ -69,37 +68,31 @@ public class ElementKeyExporterFilterFactory implements ExporterFilterFactory
 	public ExporterFilter getFilter(JRExporterContext exporterContext)
 			throws JRException
 	{
-		ExporterFilter filter = null;
-
-		JRAbstractExporter<?, ?, ?, ?> exporter = 
-			exporterContext.getExporterRef() instanceof JRAbstractExporter<?, ?, ?, ?> 
-			? (JRAbstractExporter<?, ?, ?, ?>)exporterContext.getExporterRef() 
-			: null;
-			
-		if (exporter != null)
+		String excludeKeyPrefix = 
+			exporterContext.getExportPropertiesPrefix() + PROPERTY_EXCLUDED_KEY_PREFIX;
+		List<PropertySuffix> props = JRPropertiesUtil.getProperties(
+				exporterContext.getExportedReport(), excludeKeyPrefix);
+		ExporterFilter filter;
+		if (props.isEmpty())
 		{
-			String excludeKeyPrefix = 
-				exporter.getExporterPropertiesPrefix() + PROPERTY_EXCLUDED_KEY_PREFIX;
-			List<PropertySuffix> props = JRPropertiesUtil.getProperties(
-					exporterContext.getExportedReport(), excludeKeyPrefix);
-			if (!props.isEmpty())
-			{
-				Set<String> excludedKeys = new HashSet<String>();
-				for (Iterator<PropertySuffix> it = props.iterator(); it.hasNext();)
-				{
-					PropertySuffix prop = it.next();
-					String key = prop.getValue();
-					if (key == null || key.length() == 0)
-					{
-						key = prop.getSuffix();
-					}
-					excludedKeys.add(key);
-				}
-				
-				filter = new ElementKeyExporterFilter(excludedKeys);
-			}
+			filter = null;
 		}
-		
+		else
+		{
+			Set<String> excludedKeys = new HashSet<String>();
+			for (Iterator<PropertySuffix> it = props.iterator(); it.hasNext();)
+			{
+				PropertySuffix prop = it.next();
+				String key = prop.getValue();
+				if (key == null || key.length() == 0)
+				{
+					key = prop.getSuffix();
+				}
+				excludedKeys.add(key);
+			}
+			
+			filter = new ElementKeyExporterFilter(excludedKeys);
+		}
 		return filter;
 	}
 

@@ -27,10 +27,9 @@ package net.sf.jasperreports.engine.export;
 /**
  * A context that represents information about an RTF export process.
  * 
- * @see JRRtfExporter
- * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @see JRRtfExporter
  */
 public interface JRRtfExporterContext extends JRExporterContext
 {

@@ -160,7 +160,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	}
 
 	/**
-	 * @see #JRXmlDataSource(JasperReportsContext, Document)
+	 * @see #JRXmlDataSource(JasperReportsContext, Document).
 	 */
 	public JRXmlDataSource(Document document) throws JRException {
 		this(DefaultJasperReportsContext.getInstance(), document);

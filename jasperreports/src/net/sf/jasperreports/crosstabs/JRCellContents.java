@@ -89,13 +89,6 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	public static final String PROPERTY_COLUMN_SPAN = PROPERTIES_PREFIX + "column.span";
 	
 	/**
-	 * Type used by the {@link JRCrosstab#getTitleCell() crosstab title cell}.
-	 * 
-	 * @see #PROPERTY_TYPE
-	 */
-	public static final String TYPE_CROSSTAB_TITLE = "CrosstabTitle";
-	
-	/**
 	 * Type used by the {@link JRCrosstab#getHeaderCell() crosstab header cell}.
 	 * 
 	 * @see #PROPERTY_TYPE

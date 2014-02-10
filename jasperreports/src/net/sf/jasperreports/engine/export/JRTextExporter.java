@@ -23,7 +23,12 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Arrays;
 import java.util.List;
@@ -32,19 +37,14 @@ import java.util.StringTokenizer;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.export.ExporterInputItem;
-import net.sf.jasperreports.export.TextExporterConfiguration;
-import net.sf.jasperreports.export.TextReportConfiguration;
-import net.sf.jasperreports.export.WriterExporterOutput;
-
 
 /**
  * Exports filled reports in plain text format. The text exporter allows users to define a custom character resolution
@@ -62,27 +62,25 @@ import net.sf.jasperreports.export.WriterExporterOutput;
  * users have to either design reports with few text or export to big text pages. Another good practice is to arrange text
  * elements at design time as similar as possible to a grid.
  *
+ * @see JRExporterParameter
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
-public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, TextExporterConfiguration, WriterExporterOutput, JRTextExporterContext>
+public class JRTextExporter extends JRAbstractExporter
 {
 	private static final String TXT_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.txt.";
 
-	protected Writer writer;
-	char[][] pageData;
 	protected int pageWidthInChars;
 	protected int pageHeightInChars;
 	protected float charWidth;
 	protected float charHeight;
+	protected JRExportProgressMonitor progressMonitor;
+	protected Writer writer;
+	char[][] pageData;
 	protected String betweenPagesText;
 	protected String lineSeparator;
 
 	protected static final String systemLineSeparator = System.getProperty("line.separator");
-
-	protected class ExporterContext extends BaseExporterContext implements JRTextExporterContext
-	{
-	}
 
 	/**
 	 * @see #JRTextExporter(JasperReportsContext)
@@ -99,44 +97,6 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 	public JRTextExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
-		
-		exporterContext = new ExporterContext();
-	}
-
-
-	/**
-	 *
-	 */
-	protected Class<TextExporterConfiguration> getConfigurationInterface()
-	{
-		return TextExporterConfiguration.class;
-	}
-
-
-	/**
-	 *
-	 */
-	protected Class<TextReportConfiguration> getItemConfigurationInterface()
-	{
-		return TextReportConfiguration.class;
-	}
-	
-
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					);
-		}
 	}
 	
 
@@ -145,73 +105,170 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 	 */
 	public void exportReport() throws JRException
 	{
+		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
+
 		/*   */
-		ensureJasperReportsContext();
-		ensureInput();
+		setOffset();
 
-		initExport();
-		
-		ensureOutput();
-		
-		writer = getExporterOutput().getWriter();
+		/*   */
+		setInput();
 
-		try
+		if (!parameters.containsKey(JRExporterParameter.FILTER))
 		{
-			exportReportToWriter();
+			filter = createFilter(TXT_EXPORTER_PROPERTIES_PREFIX);
 		}
-		catch (IOException e)
-		{
-			throw new JRException("Error writing to output writer : " + jasperPrint.getName(), e);
-		}
-		finally
-		{
-			getExporterOutput().close();
-		}
-	}
 
+		/*   */
+		if (!isModeBatch)
+		{
+			setPageRange();
+		}
 
-	@Override
-	protected void initExport()
-	{
-		super.initExport();
-		
-		TextExporterConfiguration configuration = getCurrentConfiguration();
-		
-		lineSeparator = configuration.getLineSeparator();
+		String encoding = 
+			getStringParameterOrDefault(
+				JRExporterParameter.CHARACTER_ENCODING, 
+				JRExporterParameter.PROPERTY_CHARACTER_ENCODING
+				);
+
+		betweenPagesText = (String) parameters.get(JRTextExporterParameter.BETWEEN_PAGES_TEXT);
+		if (betweenPagesText == null) 
+		{
+			betweenPagesText = systemLineSeparator + systemLineSeparator;
+		}
+
+		lineSeparator = (String) parameters.get(JRTextExporterParameter.LINE_SEPARATOR);
 		if (lineSeparator == null) 
 		{
 			lineSeparator = systemLineSeparator;
 		}
 
-		betweenPagesText = configuration.getBetweenPagesText();
-		if (betweenPagesText == null) 
+		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
+		if (sb != null)
 		{
-			betweenPagesText = systemLineSeparator + systemLineSeparator;
+			try
+			{
+				writer = new StringWriter();
+				exportReportToWriter();
+				sb.append(writer.toString());
+			}
+			catch (IOException e)
+			{
+				throw new JRException("Error writing to StringBuffer writer : " + jasperPrint.getName(), e);
+			}
+			finally
+			{
+				if (writer != null)
+				{
+					try
+					{
+						writer.close();
+					}
+					catch(IOException e)
+					{
+					}
+				}
+			}
+		}
+		else
+		{
+			writer = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
+			if (writer != null)
+			{
+				try
+				{
+					exportReportToWriter();
+				}
+				catch (IOException e)
+				{
+					throw new JRException("Error writing to writer : " + jasperPrint.getName(), e);
+				}
+			}
+			else
+			{
+				OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+				if (os != null)
+				{
+					try
+					{
+						writer = new OutputStreamWriter(os, encoding);
+						exportReportToWriter();
+					}
+					catch (IOException e)
+					{
+						throw new JRException("Error writing to OutputStream writer : " + jasperPrint.getName(), e);
+					}
+				}
+				else
+				{
+					File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+					if (destFile == null)
+					{
+						String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+						if (fileName != null)
+						{
+							destFile = new File(fileName);
+						}
+						else
+						{
+							throw new JRException("No output specified for the exporter.");
+						}
+					}
+
+					try
+					{
+						os = new FileOutputStream(destFile);
+						writer = new OutputStreamWriter(os, encoding);
+						exportReportToWriter();
+					}
+					catch (IOException e)
+					{
+						throw new JRException("Error writing to file writer : " + jasperPrint.getName(), e);
+					}
+					finally
+					{
+						if (writer != null)
+						{
+							try
+							{
+								writer.close();
+							}
+							catch(IOException e)
+							{
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 
 
-	@Override
-	protected void initReport()
+	/**
+	 *
+	 */
+	public void setReportParameters() throws JRException
 	{
-		super.initReport();
-
-		TextReportConfiguration configuration = getCurrentItemConfiguration();
-		
-		Float charWidthValue = configuration.getCharWidth();
-		charWidth = charWidthValue == null ? 0 : charWidthValue;
+		charWidth = 
+			getFloatParameter(
+				JRTextExporterParameter.CHARACTER_WIDTH,
+				JRTextExporterParameter.PROPERTY_CHARACTER_WIDTH,
+				0
+				);
 		if (charWidth < 0)
 		{
-			throw new JRRuntimeException("Character width in pixels must be greater than zero.");
+			throw new JRException("Character width in pixels must be greater than zero.");
 		}
 		else if (charWidth == 0)
 		{
-			Integer pageWidthInCharsValue = configuration.getPageWidthInChars();
-			pageWidthInChars = pageWidthInCharsValue == null ? 0 : pageWidthInCharsValue;
-			
+			pageWidthInChars = 
+				getIntegerParameter(
+					JRTextExporterParameter.PAGE_WIDTH,
+					JRTextExporterParameter.PROPERTY_PAGE_WIDTH,
+					0
+					);
 			if (pageWidthInChars <= 0)
 			{
-				throw new JRRuntimeException("Character width in pixels or page width in characters must be specified and must be greater than zero.");
+				throw new JRException("Character width in pixels or page width in characters must be specified and must be greater than zero.");
 			}
 			
 			charWidth = jasperPrint.getPageWidth() / (float)pageWidthInChars;
@@ -222,19 +279,27 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 		}
 		
 
-		Float charHeightValue = configuration.getCharHeight(); 
-		charHeight = charHeightValue == null ? 0 : charHeightValue; 
+		charHeight = 
+			getFloatParameter(
+				JRTextExporterParameter.CHARACTER_HEIGHT,
+				JRTextExporterParameter.PROPERTY_CHARACTER_HEIGHT,
+				0
+				);
 		if (charHeight < 0)
 		{
-			throw new JRRuntimeException("Character height in pixels must be greater than zero.");
+			throw new JRException("Character height in pixels must be greater than zero.");
 		}
 		else if (charHeight == 0)
 		{
-			Integer pageHeightInCharsValue = configuration.getPageHeightInChars();
-			pageHeightInChars = pageHeightInCharsValue == null ? 0 : pageHeightInCharsValue;
+			pageHeightInChars = 
+				getIntegerParameter(
+					JRTextExporterParameter.PAGE_HEIGHT,
+					JRTextExporterParameter.PROPERTY_PAGE_HEIGHT,
+					0
+					);
 			if (pageHeightInChars <= 0)
 			{
-				throw new JRRuntimeException("Character height in pixels or page height in characters must be specified and must be greater than zero.");
+				throw new JRException("Character height in pixels or page height in characters must be specified and must be greater than zero.");
 			}
 
 			charHeight = jasperPrint.getPageHeight() / (float)pageHeightInChars;
@@ -251,20 +316,21 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 	 */
 	protected void exportReportToWriter() throws JRException, IOException
 	{
-		List<ExporterInputItem> items = exporterInput.getItems();
-
-		for(int reportIndex = 0; reportIndex < items.size(); reportIndex++)
+		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			ExporterInputItem item = items.get(reportIndex);
-
-			setCurrentExporterInputItem(item);
+			setJasperPrint(jasperPrintList.get(reportIndex));
 
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
-				PageRange pageRange = getPageRange();
-				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
-				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
+				if (isModeBatch)
+				{
+					startPageIndex = 0;
+					endPageIndex = pages.size() - 1;
+				}
+
+				/*   */
+				setReportParameters();//FIXMENOW check all report level exporter hints and make sure they are read from the current report, not from the first
 
 				for(int i = startPageIndex; i <= endPageIndex; i++)
 				{
@@ -287,7 +353,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 
 	/**
 	 * Exports a page to the output writer. Only text elements within the page are considered. For each page, the engine
-	 * creates a matrix of characters and each rendered text element is placed at the appropriate position in the matrix.
+	 * creates a matrix of characters and each rendered text element is placed at the appropiate position in the matrix.
 	 * After all texts are parsed, the character matrix is sent to the output writer.
 	 */
 	protected void exportPage(JRPrintPage page) throws IOException
@@ -309,7 +375,6 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 
 		writer.write(betweenPagesText);
 
-		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -627,13 +692,5 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 	public String getExporterKey()
 	{
 		return null;
-	}
-	
-	/**
-	 * 
-	 */
-	public String getExporterPropertiesPrefix()
-	{
-		return TXT_EXPORTER_PROPERTIES_PREFIX;
 	}
 }

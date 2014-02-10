@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections.ReferenceMap;
 
 
 /**

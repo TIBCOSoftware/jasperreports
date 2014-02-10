@@ -99,14 +99,14 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 		colText.setSimpleColumn(
 			getPhrase(styledText, text),
 			x + leftPadding,
-			pdfExporter.getCurrentJasperPrint().getPageHeight()
+			pdfExporter.exporterContext.getExportedReport().getPageHeight()
 				- y
 				- topPadding
 				- verticalAlignOffset
 				- text.getLeadingOffset(),
 				//+ text.getLineSpacingFactor() * text.getFont().getSize(),
 			x + width - rightPadding,
-			pdfExporter.getCurrentJasperPrint().getPageHeight()
+			pdfExporter.exporterContext.getExportedReport().getPageHeight()
 				- y
 				- height
 				+ bottomPadding,

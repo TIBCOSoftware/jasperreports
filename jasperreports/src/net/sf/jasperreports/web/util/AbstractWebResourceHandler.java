@@ -88,9 +88,6 @@ public abstract class AbstractWebResourceHandler implements WebResourceHandler
 					}
 				}
 
-                // FIXME: set this header on for font files; required by Firefox
-                response.setHeader("Access-Control-Allow-Origin", "*");
-
 				// Set to expire far in the past.
 				response.setHeader("Expires", "Sat, 6 May 1995 12:00:00 GMT");
 				// Set standard HTTP/1.1 no-cache headers.

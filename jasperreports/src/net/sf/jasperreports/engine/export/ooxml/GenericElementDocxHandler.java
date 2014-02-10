@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 
@@ -47,5 +49,13 @@ public interface GenericElementDocxHandler extends GenericElementHandler
 	 * @param element the generic element to export
 	 */
 	void exportElement(JRDocxExporterContext exporterContext, JRGenericPrintElement element, JRExporterGridCell gridCell);
+	
+	/**
+	 * Creates an equivalent image of the {@link JRGenericPrintElement} element to be exported instead.
+	 * 
+	 * @param element the generic element to export
+	 * @return JRPrintImage the equivalent image
+	 */
+	JRPrintImage getImage(JRDocxExporterContext exporterContext, JRGenericPrintElement element) throws JRException;//FIXME consider removing this method by using some sort of callback
 	
 }

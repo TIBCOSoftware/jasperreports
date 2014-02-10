@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
-import net.sf.jasperreports.export.XlsReportConfiguration;
 
 
 /**
@@ -42,22 +41,16 @@ public class XlsxBorderHelper extends BaseHelper
 {
 	private Map<String,Integer> borderCache = new HashMap<String,Integer>();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
-	private XlsReportConfiguration configuration;
+	private boolean isIgnoreCellBorder;
 	
 	/**
 	 *
 	 */
-	public XlsxBorderHelper(JasperReportsContext jasperReportsContext, Writer writer)
+	public XlsxBorderHelper(JasperReportsContext jasperReportsContext, Writer writer, boolean isIgnoreCellBorder)
 	{
 		super(jasperReportsContext, writer);
-	}
-	
-	/**
-	 * 
-	 */
-	public void setConfiguration(XlsReportConfiguration configuration)
-	{
-		this.configuration = configuration;
+		
+		this.isIgnoreCellBorder = isIgnoreCellBorder;
 	}
 	
 	/**
@@ -65,7 +58,7 @@ public class XlsxBorderHelper extends BaseHelper
 	 */
 	public int getBorder(JRExporterGridCell gridCell)
 	{
-		if (configuration.isIgnoreCellBorder() || gridCell.getBox() == null)
+		if (isIgnoreCellBorder || gridCell.getBox() == null)
 		{
 			return -1;			
 		}

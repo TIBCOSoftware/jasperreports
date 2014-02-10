@@ -110,14 +110,6 @@ public abstract class DocumentBuilder
 	 */
 	protected String getHyperlinkURL(JRPrintHyperlink link)
 	{
-		return getHyperlinkURL(link, true);
-	}
-	
-	/**
-	 *
-	 */
-	protected String getHyperlinkURL(JRPrintHyperlink link, boolean isOnePagePerSheet)
-	{
 		String href = null;
 		JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
 		if (customHandler == null)
@@ -144,7 +136,7 @@ public abstract class DocumentBuilder
 				{
 					if (link.getHyperlinkPage() != null)
 					{
-						href = "#" + JR_PAGE_ANCHOR_PREFIX + getReportIndex() + "_" + (isOnePagePerSheet ? link.getHyperlinkPage().toString() : "1");
+						href = "#" + JR_PAGE_ANCHOR_PREFIX + getReportIndex() + "_" + link.getHyperlinkPage().toString();
 					}
 					break;
 				}

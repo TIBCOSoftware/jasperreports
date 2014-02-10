@@ -24,13 +24,10 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.export.XlsMetadataExporterConfiguration;
-import net.sf.jasperreports.export.XlsMetadataReportConfiguration;
 
 
 /**
  * Contains parameters useful for export to XLS format based on metadata.
- * @deprecated Replaced by {@link XlsMetadataExporterConfiguration}.
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
@@ -48,43 +45,67 @@ public class JRXlsAbstractMetadataExporterParameter extends JRXlsAbstractExporte
 
 
 	/**
-	 * @deprecated Replaced by {@link XlsMetadataReportConfiguration#getColumnNames()}.
+	 * An array of strings representing the comma-separated names of the columns that should be exported.
+	 * NOTE: The order of the columns is important and for accurate results they should be in the same order as the original columns.
 	 */
 	public static final JRXlsAbstractMetadataExporterParameter COLUMN_NAMES = new JRXlsAbstractMetadataExporterParameter("Column Names");
 	
 	
 	/**
-	 * @deprecated Replaced by {@link XlsMetadataReportConfiguration#PROPERTY_COLUMN_NAMES_PREFIX}.
+	 * Properties having this prefix contain comma-separated column names.
+	 * 
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_COLUMN_NAMES_PREFIX = XlsMetadataReportConfiguration.PROPERTY_COLUMN_NAMES_PREFIX;
+	public static final String PROPERTY_COLUMN_NAMES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.column.names";
 	
 	
 	/**
-	 * @deprecated Replaced by {@link XlsMetadataReportConfiguration#isWriteHeader()}.
+	 * A boolean that specifies whether the export header (the column names) should be written or not.
+	 * 
+	 *  @see JRPropertiesUtil
 	 */
 	public static final JRXlsAbstractMetadataExporterParameter WRITE_HEADER = new JRXlsAbstractMetadataExporterParameter("Write Header");
 	
 
 	/**
-	 * @deprecated Replaced by {@link XlsMetadataReportConfiguration#PROPERTY_WRITE_HEADER}.
+	 * Property whose value is used as default for the {@link #WRITE_HEADER WRITE_HEADER} export parameter.
+	 * <p>
+	 * The property itself defaults to <code>false</code>.
+	 * </p>
+	 * 
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_WRITE_HEADER = XlsMetadataReportConfiguration.PROPERTY_WRITE_HEADER;
+	public static final String PROPERTY_WRITE_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.write.header";
 
 	
 	/**
-	 * @deprecated Replaced by {@link JRXlsAbstractMetadataExporter#PROPERTY_COLUMN_NAME}.
+	 * A string that represents the name for the column that should appear in the XLS export.
+	 * It must be one of the values in {@link #COLUMN_NAMES COLUMN_NAMES}, if provided. 
+	 * 
+	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.column.name";
 	
 	
 	/**
-	 * @deprecated Replaced by {@link JRXlsAbstractMetadataExporter#PROPERTY_REPEAT_VALUE}.
+	 * Property that specifies whether the value associated with {@link #PROPERTY_COLUMN_NAME PROPERTY_COLUMN_NAME} should be repeated or not
+	 * when it is missing.
+	 * <p>
+	 * The property itself defaults to <code>false</code>.
+	 * </p>
+	 * 
+	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_REPEAT_VALUE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.repeat.value";
 	
 	
 	/**
-	 * @deprecated Replaced by {@link JRXlsAbstractMetadataExporter#PROPERTY_DATA}.
+	 * Property that specifies what value to associate with {@link #PROPERTY_COLUMN_NAME PROPERTY_COLUMN_NAME}.
+	 * <p>
+	 * The property itself defaults to the text value of the report element that this property is assigned to.
+	 * </p>
+	 * 
+	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_DATA = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.data";
 	

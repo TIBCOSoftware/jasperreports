@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
+import java.io.IOException;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JasperPrint;
@@ -49,15 +50,15 @@ public class DocxSettingsHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public void export(JasperPrint jasperPrint)
+	public void export(JasperPrint jasperPrint) throws IOException
 	{
-		write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n");
-		write("<w:settings\n");
-		write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\">\n"); 
-		write("  <w:defaultTabStop w:val=\"" +
+		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n");
+		writer.write("<w:settings\n");
+		writer.write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\">\n"); 
+		writer.write("  <w:defaultTabStop w:val=\"" +
 				LengthUtil.twip(new JRBasePrintText(jasperPrint.getDefaultStyleProvider()).getParagraph().getTabStopWidth()) +
 				"\"/>\n");
-		write("</w:settings>");
+		writer.write("</w:settings>");
 	}
 	
 }

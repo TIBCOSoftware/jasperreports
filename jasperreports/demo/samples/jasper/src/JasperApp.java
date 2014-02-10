@@ -32,17 +32,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.export.JExcelApiExporter;
+import net.sf.jasperreports.engine.export.JExcelApiMetadataExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRCsvMetadataExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
+import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -50,15 +55,6 @@ import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
-import net.sf.jasperreports.export.SimpleWriterExporterOutput;
-import net.sf.jasperreports.export.SimpleXlsMetadataReportConfiguration;
-import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
-import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
-import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 
 
 /**
@@ -94,7 +90,6 @@ public class JasperApp extends AbstractSampleApp
 		csv();
 		csvMetadata();
 		jxlMetadata();
-		xlsMetadata();
 		odt();
 		ods();
 		docx();
@@ -169,7 +164,7 @@ public class JasperApp extends AbstractSampleApp
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 
 			JRPdfExporter exporter = new JRPdfExporter();
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));
+			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, os);
 			
 			JasperPrint jp = (JasperPrint)JRLoader.loadObject(new File("build/reports/FirstJasper.jrprint"));
 			
@@ -177,19 +172,16 @@ public class JasperApp extends AbstractSampleApp
 			// will be excluded from the exported PDF
 			jp.setProperty("net.sf.jasperreports.export.pdf.exclude.key.TransparentImage", null);
 			
-			exporter.setExporterInput(new SimpleExporterInput(jp));
-			
-			SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jp);
 			
 			// Include structure tags for PDF/A-1a compliance; unnecessary for PDF/A-1b
-			configuration.setTagged(true);
+			exporter.setParameter(JRPdfExporterParameter.IS_TAGGED, Boolean.TRUE);
 			
-			configuration.setPdfaConformance(PdfaConformanceEnum.PDFA_1A);
+			exporter.setParameter(JRPdfExporterParameter.PDFA_CONFORMANCE, JRPdfExporterParameter.PDFA_CONFORMANCE_1A);
 			
 			// Uncomment the following line and specify a valid path for the ICC profile
 //			exporter.setParameter(JRPdfExporterParameter.PDFA_ICC_PROFILE_PATH, "path/to/ICC/profile");
 			
-			exporter.setConfiguration(configuration);
 			exporter.exportReport();
 
 			FileOutputStream fos = new FileOutputStream("build/reports/FirstJasper_pdfa.pdf");
@@ -250,8 +242,8 @@ public class JasperApp extends AbstractSampleApp
 		
 		JRRtfExporter exporter = new JRRtfExporter();
 		
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleWriterExporterOutput(destFile));
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 		
 		exporter.exportReport();
 
@@ -271,18 +263,16 @@ public class JasperApp extends AbstractSampleApp
 		
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls");
 		
-		Map<String, String> dateFormats = new HashMap<String, String>();
+		Map<String, Object> dateFormats = new HashMap<String, Object>();
 		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
 
 		JRXlsExporter exporter = new JRXlsExporter();
 		
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
-		configuration.setOnePagePerSheet(true);
-		configuration.setDetectCellType(true);
-		configuration.setFormatPatternsMap(dateFormats);
-		exporter.setConfiguration(configuration);
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		exporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+		exporter.setParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP, dateFormats);
 		
 		exporter.exportReport();
 
@@ -293,7 +283,6 @@ public class JasperApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public void jxl() throws JRException
 	{
 		long start = System.currentTimeMillis();
@@ -303,20 +292,16 @@ public class JasperApp extends AbstractSampleApp
 
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
 
-		Map<String, String> dateFormats = new HashMap<String, String>();
+		Map<String, Object> dateFormats = new HashMap<String, Object>();
 		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
 
-		net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
-			new net.sf.jasperreports.engine.export.JExcelApiExporter();
+		JExcelApiExporter exporter = new JExcelApiExporter();
 
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration = 
-			new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
-		configuration.setOnePagePerSheet(true);
-		configuration.setDetectCellType(true);
-		configuration.setFormatPatternsMap(dateFormats);
-		exporter.setConfiguration(configuration);
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		exporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+		exporter.setParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP, dateFormats);
 
 		exporter.exportReport();
 
@@ -327,61 +312,25 @@ public class JasperApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public void jxlMetadata() throws JRException
 	{
 		long start = System.currentTimeMillis();
 		File sourceFile = new File("build/reports/FirstJasper.jrprint");
-		
+
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
+
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.metadata.xls");
-		
-		Map<String, String> dateFormats = new HashMap<String, String>();
-		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
-		
-		net.sf.jasperreports.engine.export.JExcelApiMetadataExporter exporter = 
-			new net.sf.jasperreports.engine.export.JExcelApiMetadataExporter();
-		
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		net.sf.jasperreports.export.SimpleJxlMetadataReportConfiguration configuration = 
-			new net.sf.jasperreports.export.SimpleJxlMetadataReportConfiguration();
-		configuration.setOnePagePerSheet(true);
-		configuration.setDetectCellType(true);
-		configuration.setFormatPatternsMap(dateFormats);
-		exporter.setConfiguration(configuration);
-		
-		exporter.exportReport();
-		
-		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-	}
-	
-	
-	/**
-	 *
-	 */
-	public void xlsMetadata() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/FirstJasper.jrprint");
 
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls.metadata.xls");
-
-		Map<String, String> dateFormats = new HashMap<String, String>();
+		Map<String, Object> dateFormats = new HashMap<String, Object>();
 		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
 
-		JRXlsMetadataExporter exporter = new JRXlsMetadataExporter();
+		JExcelApiMetadataExporter exporter = new JExcelApiMetadataExporter();
 
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		SimpleXlsMetadataReportConfiguration configuration = new SimpleXlsMetadataReportConfiguration();
-		configuration.setOnePagePerSheet(true);
-		configuration.setDetectCellType(true);
-		configuration.setFormatPatternsMap(dateFormats);
-		exporter.setConfiguration(configuration);
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		exporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+		exporter.setParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP, dateFormats);
 
 		exporter.exportReport();
 
@@ -403,8 +352,8 @@ public class JasperApp extends AbstractSampleApp
 		
 		JRCsvExporter exporter = new JRCsvExporter();
 		
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleWriterExporterOutput(destFile));
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 		
 		exporter.exportReport();
 
@@ -426,8 +375,8 @@ public class JasperApp extends AbstractSampleApp
 		
 		JRCsvMetadataExporter exporter = new JRCsvMetadataExporter();
 		
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleWriterExporterOutput(destFile));
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 		
 		exporter.exportReport();
 
@@ -449,8 +398,8 @@ public class JasperApp extends AbstractSampleApp
 
 		JROdtExporter exporter = new JROdtExporter();
 
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 
 		exporter.exportReport();
 
@@ -472,8 +421,8 @@ public class JasperApp extends AbstractSampleApp
 
 		JROdsExporter exporter = new JROdsExporter();
 
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 
 		exporter.exportReport();
 
@@ -495,8 +444,8 @@ public class JasperApp extends AbstractSampleApp
 
 		JRDocxExporter exporter = new JRDocxExporter();
 
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 
 		exporter.exportReport();
 
@@ -516,17 +465,15 @@ public class JasperApp extends AbstractSampleApp
 
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xlsx");
 
-		Map<String, String> dateFormats = new HashMap<String, String>();
+		Map<String, Object> dateFormats = new HashMap<String, Object>();
 		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
 
 		JRXlsxExporter exporter = new JRXlsxExporter();
 
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
-		configuration.setDetectCellType(true);
-		configuration.setFormatPatternsMap(dateFormats);
-		exporter.setConfiguration(configuration);
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+		exporter.setParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP, dateFormats);
 
 		exporter.exportReport();
 
@@ -548,8 +495,8 @@ public class JasperApp extends AbstractSampleApp
 		
 		JRPptxExporter exporter = new JRPptxExporter();
 		
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 
 		exporter.exportReport();
 
@@ -560,7 +507,6 @@ public class JasperApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public void xhtml() throws JRException
 	{
 		long start = System.currentTimeMillis();
@@ -570,11 +516,10 @@ public class JasperApp extends AbstractSampleApp
 
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
 
-		net.sf.jasperreports.engine.export.JRXhtmlExporter exporter = 
-			new net.sf.jasperreports.engine.export.JRXhtmlExporter();
+		JRXhtmlExporter exporter = new JRXhtmlExporter();
 
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleHtmlExporterOutput(destFile));
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 
 		exporter.exportReport();
 

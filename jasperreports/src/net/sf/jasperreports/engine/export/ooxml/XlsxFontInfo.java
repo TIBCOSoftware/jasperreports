@@ -49,7 +49,7 @@ public class XlsxFontInfo
 	/**
 	 *
 	 */
-	public XlsxFontInfo(JRExporterGridCell gridCell, String fontName, boolean isFontSizeFixEnabled)
+	public XlsxFontInfo(JRExporterGridCell gridCell, String fontName)
 	{
 		JRPrintElement element = gridCell.getElement();
 
@@ -62,7 +62,7 @@ public class XlsxFontInfo
 		if (font != null)
 		{
 			this.fontName = fontName;
-			this.fontSize = font.getFontSize() + (isFontSizeFixEnabled ? -1 : 0);
+			this.fontSize = font.getFontSize();
 			this.isBold = font.isBold();
 			this.isItalic = font.isItalic();
 			this.isUnderline = font.isUnderline();

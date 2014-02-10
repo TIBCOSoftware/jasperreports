@@ -27,12 +27,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -41,6 +45,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
@@ -58,12 +63,14 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
+import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.Grid;
@@ -85,11 +92,6 @@ import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
-import net.sf.jasperreports.export.DocxExporterConfiguration;
-import net.sf.jasperreports.export.DocxReportConfiguration;
-import net.sf.jasperreports.export.ExporterInputItem;
-import net.sf.jasperreports.export.OutputStreamExporterOutput;
-import net.sf.jasperreports.export.ReportExportConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -101,7 +103,7 @@ import org.apache.commons.logging.LogFactory;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, DocxExporterConfiguration, OutputStreamExporterOutput, JRDocxExporterContext>
+public class JRDocxExporter extends JRAbstractExporter
 {
 	private static final Log log = LogFactory.getLog(JRDocxExporter.class);
 	
@@ -114,9 +116,9 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	protected static final String DOCX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.";
 
 	/**
-	 * @deprecated Replaced by {@link DocxReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
+	 * 
 	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = DocxReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
+	public static final String PROPERTY_IGNORE_HYPERLINK = DOCX_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
 	 * This property is used to mark text elements as being hidden either for printing or on-screen display.
@@ -139,17 +141,16 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	/**
 	 *
 	 */
-	protected DocxZip docxZip;
 	protected DocxDocumentHelper docHelper;
 	protected Writer docWriter;
 
+	protected JRExportProgressMonitor progressMonitor;
 	protected Map<String, String> rendererToImagePathMap;
 //	protected Map imageMaps;
+	protected List<JRPrintElementIndex> imagesToProcess;
 
 	protected int reportIndex;
 	protected int pageIndex;
-	protected int startPageIndex;
-	protected int endPageIndex;
 	protected int tableIndex;
 	protected boolean startPage;
 	protected String invalidCharReplacement;
@@ -161,13 +162,20 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 	protected ExporterNature nature;
 
+	protected boolean deepGrid;
+
+	protected boolean flexibleRowHeight;
+	
 	protected long bookmarkIndex;
 	
 	protected String pageAnchor;
 	
+	protected JRDocxExporterContext mainExporterContext = new ExporterContext(null);
+	
 	protected DocxRelsHelper relsHelper;
 	
 	boolean emptyPageState;
+	
 	
 
 	protected class ExporterContext extends BaseExporterContext implements JRDocxExporterContext
@@ -182,6 +190,11 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		public DocxTableHelper getTableHelper()
 		{
 			return tableHelper;
+		}
+
+		public String getExportPropertiesPrefix()
+		{
+			return DOCX_EXPORTER_PROPERTIES_PREFIX;
 		}
 	}
 	
@@ -201,121 +214,150 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	public JRDocxExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
-		
-		exporterContext = new ExporterContext(null);
 	}
 
-
-	/**
-	 *
-	 */
-	protected Class<DocxExporterConfiguration> getConfigurationInterface()
-	{
-		return DocxExporterConfiguration.class;
-	}
-
-
-	/**
-	 *
-	 */
-	protected Class<DocxReportConfiguration> getItemConfigurationInterface()
-	{
-		return DocxReportConfiguration.class;
-	}
-	
-
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					);
-		}
-	}
-	
 
 	/**
 	 *
 	 */
 	public void exportReport() throws JRException
 	{
+		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
+		
 		/*   */
-		ensureJasperReportsContext();
-		ensureInput();
-
-		initExport();
-		
-		ensureOutput();
-		
-		OutputStream outputStream = getExporterOutput().getOutputStream();
+		setOffset();
 
 		try
 		{
-			exportReportToStream(outputStream);
-		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
+			/*   */
+			setExportContext();
+
+			/*   */
+			setInput();
+
+			if (!parameters.containsKey(JRExporterParameter.FILTER))
+			{
+				filter = createFilter(getExporterPropertiesPrefix());
+			}
+
+			/*   */
+			if (!isModeBatch)
+			{
+				setPageRange();
+			}
+
+			rendererToImagePathMap = new HashMap<String,String>();
+//			imageMaps = new HashMap();
+			imagesToProcess = new ArrayList<JRPrintElementIndex>();
+//			hyperlinksMap = new HashMap();
+
+			setFontMap();
+
+			setHyperlinkProducerFactory();
+
+			nature = getExporterNature(filter);
+
+			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+			if (os != null)
+			{
+				try
+				{
+					exportReportToStream(os);
+				}
+				catch (IOException e)
+				{
+					throw new JRException("Error trying to export to output stream : " + jasperPrint.getName(), e);
+				}
+			}
+			else
+			{
+				File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+				if (destFile == null)
+				{
+					String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+					if (fileName != null)
+					{
+						destFile = new File(fileName);
+					}
+					else
+					{
+						throw new JRException("No output specified for the exporter.");
+					}
+				}
+
+				try
+				{
+					os = new FileOutputStream(destFile);
+					exportReportToStream(os);
+				}
+				catch (IOException e)
+				{
+					throw new JRException("Error trying to export to file : " + destFile, e);
+				}
+				finally
+				{
+					if (os != null)
+					{
+						try
+						{
+							os.close();
+						}
+						catch(IOException e)
+						{
+						}
+					}
+				}
+			}
 		}
 		finally
 		{
-			getExporterOutput().close();
 			resetExportContext();
 		}
 	}
 
-	
-	@Override
-	protected void initExport()
-	{
-		super.initExport();
 
-		rendererToImagePathMap = new HashMap<String,String>();
-//		imageMaps = new HashMap();
-//		hyperlinksMap = new HashMap();
+	/**
+	 *
+	 */
+	public JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName) throws JRException
+	{
+		return getImage(jasperPrintList, getPrintElementIndex(imageName));
 	}
 
 
-	@Override
-	protected void initReport()
+	public JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex) throws JRException
 	{
-		super.initReport();
-		
-		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
+		JasperPrint report = jasperPrintList.get(imageIndex.getReportIndex());
+		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
+
+		Integer[] elementIndexes = imageIndex.getAddressArray();
+		Object element = page.getElements().get(elementIndexes[0].intValue());
+
+		for (int i = 1; i < elementIndexes.length; ++i)
 		{
-			// allows null values for the property
-			invalidCharReplacement = jasperPrint.getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS);
-		}
-		else
-		{
-			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
+			JRPrintFrame frame = (JRPrintFrame) element;
+			element = frame.getElements().get(elementIndexes[i].intValue());
 		}
 
-		DocxReportConfiguration configuration = getCurrentItemConfiguration();
+		if(element instanceof JRGenericPrintElement)
+		{
+			JRGenericPrintElement genericPrintElement = (JRGenericPrintElement)element;
+			return ((GenericElementDocxHandler)GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
+					genericPrintElement.getGenericType(), 
+					DOCX_EXPORTER_KEY
+					)).getImage(mainExporterContext, genericPrintElement);
+		}
 		
-		nature = 
-			new JRDocxExporterNature(
-				jasperReportsContext, 
-				filter, 
-				!configuration.isFramesAsNestedTables()
-				);
+		return (JRPrintImage) element;
 	}
 
-	
+
 	/**
 	 *
 	 */
 	protected void exportReportToStream(OutputStream os) throws JRException, IOException
 	{
-		docxZip = new DocxZip();
+		DocxZip docxZip = new DocxZip();
 
 		docWriter = docxZip.getDocumentEntry().getWriter();
 		
@@ -325,15 +367,14 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		relsHelper = new DocxRelsHelper(jasperReportsContext, docxZip.getRelsEntry().getWriter());
 		relsHelper.exportHeader();
 		
-		List<ExporterInputItem> items = exporterInput.getItems();
-
 		DocxStyleHelper styleHelper = 
 			new DocxStyleHelper(
 				jasperReportsContext,
 				docxZip.getStylesEntry().getWriter(), 
+				fontMap, 
 				getExporterKey()
 				);
-		styleHelper.export(exporterInput);
+		styleHelper.export(jasperPrintList);
 		styleHelper.close();
 
 		DocxSettingsHelper settingsHelper = 
@@ -344,23 +385,22 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		settingsHelper.export(jasperPrint);
 		settingsHelper.close();
 
-		runHelper = new DocxRunHelper(jasperReportsContext, docWriter, getExporterKey());
+		runHelper = new DocxRunHelper(jasperReportsContext, docWriter, fontMap, getExporterKey());
 		
-		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
+		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			ExporterInputItem item = items.get(reportIndex);
-
-			setCurrentExporterInputItem(item);
-
+			setJasperPrint(jasperPrintList.get(reportIndex));
+			setExporterHints();
 			bookmarkIndex = 0;
 			emptyPageState = false;
-			
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
-				PageRange pageRange = getPageRange();
-				startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
-				endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
+				if (isModeBatch)
+				{
+					startPageIndex = 0;
+					endPageIndex = pages.size() - 1;
+				}
 
 				JRPrintPage page = null;
 				for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
@@ -379,6 +419,44 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		
 		docHelper.exportFooter(jasperPrint);
 		docHelper.close();
+
+		if ((imagesToProcess != null && imagesToProcess.size() > 0))
+		{
+			for(Iterator<JRPrintElementIndex> it = imagesToProcess.iterator(); it.hasNext();)
+			{
+				JRPrintElementIndex imageIndex = it.next();
+
+				JRPrintImage image = getImage(jasperPrintList, imageIndex);
+				Renderable renderer = image.getRenderable();
+				if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
+				{
+					renderer =
+						new JRWrappingSvgRenderer(
+							renderer,
+							new Dimension(image.getWidth(), image.getHeight()),
+							ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+							);
+				}
+
+				String mimeType = renderer.getImageTypeValue().getMimeType();
+				if (mimeType == null)
+				{
+					mimeType = ImageTypeEnum.JPEG.getMimeType();
+				}
+				String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
+				
+				String imageName = getImageName(imageIndex);
+				
+				docxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
+					new FileBufferedZipEntry(
+						"word/media/" + imageName + "." + extension,
+						renderer.getImageData(jasperReportsContext)
+						)
+					);
+				
+				relsHelper.exportImage(imageName, extension);
+			}
+		}
 
 //		if ((hyperlinksMap != null && hyperlinksMap.size() > 0))
 //		{
@@ -408,23 +486,19 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	{
 		startPage = true;
 		pageAnchor = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
-		
-		ReportExportConfiguration configuration = getCurrentItemConfiguration();
-		
 		JRGridLayout layout =
 			new JRGridLayout(
 				nature,
 				page.getElements(),
 				jasperPrint.getPageWidth(),
 				jasperPrint.getPageHeight(),
-				configuration.getOffsetX() == null ? 0 : configuration.getOffsetX(), 
-				configuration.getOffsetY() == null ? 0 : configuration.getOffsetY(),
+				globalOffsetX,
+				globalOffsetY,
 				null //address
 				);
 
 		exportGrid(layout, null);
 		
-		JRExportProgressMonitor progressMonitor = configuration.getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -459,7 +533,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 						xCuts,
 						false
 						);
-			int maxReportIndex = exporterInput.getItems().size() - 1;
+			int maxReportIndex = jasperPrintList.size() - 1;
 			
 			// while the first and last page in the JasperPrint list need single breaks, all the others require double-breaking 
 			boolean twice = 
@@ -485,8 +559,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 					);
 
 		tableHelper.exportHeader();
-		
-		boolean isFlexibleRowHeight = getCurrentItemConfiguration().isFlexibleRowHeight();
 
 		for(int row = 0; row < rowCount; row++)
 		{
@@ -511,7 +583,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				}
 				
 				allowRowResize = 
-					isFlexibleRowHeight 
+					flexibleRowHeight 
 					&& (allowRowResize 
 						|| (gridCell.getElement() instanceof JRPrintText 
 							|| (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL
@@ -613,7 +685,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		}
 
 		tableHelper.exportFooter(
-			frameIndex == null && reportIndex != exporterInput.getItems().size() - 1 && pageIndex == endPageIndex , 
+			frameIndex == null && reportIndex != jasperPrintList.size() - 1 && pageIndex == endPageIndex , 
 			jasperPrint.getPageWidth(), 
 			jasperPrint.getPageHeight()
 			);
@@ -1028,58 +1100,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			docHelper.write("<pic:pic>\n");
 			docHelper.write("<pic:nvPicPr><pic:cNvPr id=\"" + imageId + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
 			docHelper.write("<pic:blipFill>\n");
-
-			String imagePath = null;
-
-			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
-			{
-				imagePath = rendererToImagePathMap.get(renderer.getId());
-			}
-			else
-			{
-//				if (isLazy)//FIXMEDOCX learn how to link images
-//				{
-//					imagePath = ((JRImageRenderer)renderer).getImageLocation();
-//				}
-//				else
-//				{
-					JRPrintElementIndex imageIndex = getElementIndex(gridCell);
-
-					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-					{
-						renderer =
-							new JRWrappingSvgRenderer(
-								renderer,
-								new Dimension(image.getWidth(), image.getHeight()),
-								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-								);
-					}
-
-					String mimeType = renderer.getImageTypeValue().getMimeType();
-					if (mimeType == null)
-					{
-						mimeType = ImageTypeEnum.JPEG.getMimeType();
-					}
-					String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
-					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + "." + extension;
-					
-					docxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
-						new FileBufferedZipEntry(
-							"word/media/" + imageName,
-							renderer.getImageData(jasperReportsContext)
-							)
-						);
-					
-					relsHelper.exportImage(imageName);
-
-					imagePath = imageName;
-					//imagePath = "Pictures/" + imageName;
-//				}
-
-				rendererToImagePathMap.put(renderer.getId(), imagePath);
-			}
-
-			docHelper.write("<a:blip r:embed=\"" + imagePath + "\"/>");
+			docHelper.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/>");
 			docHelper.write("<a:srcRect");
 			if (cropLeft > 0)
 			{
@@ -1114,27 +1135,31 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			if(url != null)
 			{
 				String targetMode = "";
-				switch(image.getHyperlinkTypeValue())
-				{
-					case LOCAL_PAGE:
-					case LOCAL_ANCHOR:
+				try {
+					switch(image.getHyperlinkTypeValue())
 					{
-						relsHelper.exportImageLink(rId, "#"+url, targetMode);
-						break;
+						case LOCAL_PAGE:
+						case LOCAL_ANCHOR:
+						{
+							relsHelper.exportImageLink(rId, "#"+url, targetMode);
+							break;
+						}
+						
+						case REMOTE_PAGE:
+						case REMOTE_ANCHOR:
+						case REFERENCE:
+						{
+							targetMode = " TargetMode=\"External\"";
+							relsHelper.exportImageLink(rId, url, targetMode);
+							break;
+						}
+						default:
+						{
+							break;
+						}
 					}
-					
-					case REMOTE_PAGE:
-					case REMOTE_ANCHOR:
-					case REFERENCE:
-					{
-						targetMode = " TargetMode=\"External\"";
-						relsHelper.exportImageLink(rId, url, targetMode);
-						break;
-					}
-					default:
-					{
-						break;
-					}
+				} catch (IOException e) {
+					throw new JRRuntimeException(e);
 				}
 			}
 			
@@ -1147,6 +1172,43 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		docHelper.write("</w:p>");
 
 		tableHelper.getCellHelper().exportFooter();
+	}
+
+
+	/**
+	 *
+	 */
+	public String getImagePath(Renderable renderer, boolean isLazy, JRExporterGridCell gridCell)
+	{
+		String imagePath = null;
+
+		if (renderer != null)
+		{
+			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
+			{
+				imagePath = rendererToImagePathMap.get(renderer.getId());
+			}
+			else
+			{
+//				if (isLazy)//FIXMEDOCX learn how to link images
+//				{
+//					imagePath = ((JRImageRenderer)renderer).getImageLocation();
+//				}
+//				else
+//				{
+					JRPrintElementIndex imageIndex = getElementIndex(gridCell);
+					imagesToProcess.add(imageIndex);
+
+					String imageName = getImageName(imageIndex);
+					imagePath = imageName;
+					//imagePath = "Pictures/" + imageName;
+//				}
+
+				rendererToImagePathMap.put(renderer.getId(), imagePath);
+			}
+		}
+
+		return imagePath;
 	}
 
 
@@ -1235,6 +1297,15 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			writer.write(JRStringUtil.xmlEncode(hyperlink.getHyperlinkTooltip()));
 			writer.write("\"");
 		}
+	}
+
+
+	/**
+	 *
+	 */
+	public static String getImageName(JRPrintElementIndex printElementIndex)
+	{
+		return IMAGE_NAME_PREFIX + printElementIndex.toString();
 	}
 
 
@@ -1461,10 +1532,10 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	{
 		String href = null;
 
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(DocxReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
+			ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
 		}
 
 		if (!ignoreHyperlink)
@@ -1554,9 +1625,39 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	/**
 	 *
 	 */
-	protected void ensureInput()
+	protected void setInput() throws JRException
 	{
-		super.ensureInput();
+		super.setInput();
+
+		deepGrid = 
+			!getBooleanParameter(
+				JRDocxExporterParameter.FRAMES_AS_NESTED_TABLES,
+				JRDocxExporterParameter.PROPERTY_FRAMES_AS_NESTED_TABLES,
+				true
+				);
+
+		flexibleRowHeight = 
+			getBooleanParameter(
+				JRDocxExporterParameter.FLEXIBLE_ROW_HEIGHT,
+				JRDocxExporterParameter.PROPERTY_FLEXIBLE_ROW_HEIGHT,
+				false
+				);
+	}
+
+	/**
+	 *
+	 */
+	protected ExporterNature getExporterNature(ExporterFilter filter) 
+	{
+		return new JRDocxExporterNature(jasperReportsContext, filter, deepGrid);
+	}
+
+	/**
+	 *
+	 */
+	protected String getExporterPropertiesPrefix()//FIXMEDOCX move this to abstract exporter
+	{
+		return DOCX_EXPORTER_PROPERTIES_PREFIX;
 	}
 
 	/**
@@ -1567,12 +1668,17 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		return DOCX_EXPORTER_KEY;
 	}
 
-	/**
-	 * 
-	 */
-	public String getExporterPropertiesPrefix()
+	protected void setExporterHints()
 	{
-		return DOCX_EXPORTER_PROPERTIES_PREFIX;
+		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
+		{
+			// allows null values for the property
+			invalidCharReplacement = jasperPrint.getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS);
+		}
+		else
+		{
+			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
+		}
 	}
 	
 }

@@ -32,9 +32,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
@@ -48,6 +53,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -80,10 +86,6 @@ import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.export.ExporterInputItem;
-import net.sf.jasperreports.export.RtfExporterConfiguration;
-import net.sf.jasperreports.export.RtfReportConfiguration;
-import net.sf.jasperreports.export.WriterExporterOutput;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -95,7 +97,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, RtfExporterConfiguration, WriterExporterOutput, JRRtfExporterContext>
+public class JRRtfExporter extends JRAbstractExporter
 {
 	private static final Log log = LogFactory.getLog(JRRtfExporter.class);
 	
@@ -103,10 +105,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	
 	private static final int LINE_SPACING_FACTOR = 240; //(int)(240 * 2/3f);
 
-	/**
-	 * @deprecated Replaced by {@link RtfReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
-	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = RtfReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
+	public static final String PROPERTY_IGNORE_HYPERLINK = RTF_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
 	 * The exporter key, as used in
@@ -118,10 +117,12 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	 *
 	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
+	protected JRExportProgressMonitor progressMonitor;
 
 	protected FileBufferedWriter colorWriter;
 	protected FileBufferedWriter fontWriter;
-	protected FileBufferedWriter contentWriter;
+	protected FileBufferedWriter writer;
+	protected Writer rtfWriter;
 	protected File destFile;
 
 	protected int reportIndex;
@@ -134,7 +135,13 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 
 	protected class ExporterContext extends BaseExporterContext implements JRRtfExporterContext
 	{
+		public String getExportPropertiesPrefix()
+		{
+			return RTF_EXPORTER_PROPERTIES_PREFIX;
+		}
 	}
+	
+	protected JRRtfExporterContext exporterContext = new ExporterContext();
 
 	
 	/**
@@ -152,44 +159,6 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	public JRRtfExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
-		
-		exporterContext = new ExporterContext();
-	}
-
-
-	/**
-	 *
-	 */
-	protected Class<RtfExporterConfiguration> getConfigurationInterface()
-	{
-		return RtfExporterConfiguration.class;
-	}
-
-
-	/**
-	 *
-	 */
-	protected Class<RtfReportConfiguration> getItemConfigurationInterface()
-	{
-		return RtfReportConfiguration.class;
-	}
-	
-
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					);
-		}
 	}
 	
 
@@ -198,105 +167,159 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	 */
 	public void exportReport() throws JRException
 	{
+		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
+
 		/*   */
-		ensureJasperReportsContext();
-		ensureInput();
-
-		fonts = new ArrayList<String>();
-		colors = new ArrayList<Color>();
-		colors.add(null);
-
-		initExport();
-		
-		ensureOutput();
-		
-		Writer writer = getExporterOutput().getWriter();
+		setOffset();
 
 		try
 		{
-			exportReportToWriter(writer);
-		}
-		catch (IOException e)
-		{
-			throw new JRException("Error writing to output writer : " + jasperPrint.getName(), e);
+			/*   */
+			setExportContext();
+
+			/*   */
+			setInput();
+			
+			if (!parameters.containsKey(JRExporterParameter.FILTER))
+			{
+				filter = createFilter(RTF_EXPORTER_PROPERTIES_PREFIX);
+			}
+
+			if (!isModeBatch) {
+				setPageRange();
+			}
+
+			fonts = new ArrayList<String>();
+			colors = new ArrayList<Color>();
+			colors.add(null);
+
+			setFontMap();
+
+			setHyperlinkProducerFactory();
+			
+			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
+			if (sb != null) {
+				StringBuffer buffer = exportReportToBuffer();
+				sb.append(buffer.toString());
+			}
+			else {
+				Writer outWriter = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
+				if (outWriter != null) {
+					try {
+						rtfWriter = outWriter;
+
+						// export report
+						exportReportToStream();
+					}
+					catch (IOException ex) {
+						throw new JRException("Error writing to writer : " + jasperPrint.getName(), ex);
+					}
+				}
+				else {
+					OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+					if(os != null) {
+						try {
+							rtfWriter = new OutputStreamWriter(os);
+
+							// export report
+							exportReportToStream();
+						}
+						catch (Exception ex) {
+							throw new JRException("Error writing to output stream : " + jasperPrint.getName(), ex);
+						}
+					}
+					else {
+						destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+						if (destFile == null) {
+							String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+							if (fileName != null) {
+								destFile = new File(fileName);
+							}
+							else {
+								throw new JRException("No output specified for the exporter");
+							}
+						}
+
+						// export report
+						exportReportToFile();
+					}
+				}
+			}
 		}
 		finally
 		{
-			getExporterOutput().close();
 			resetExportContext();
 		}
 	}
 
+	/**
+	 * Export report in .rtf format
+	 * @return report in .rtf format in a StringBuffer object
+	 */
+	protected StringBuffer exportReportToBuffer() throws JRException{
+		StringWriter buffer = new StringWriter();
+		rtfWriter = buffer;
+		try {
+			exportReportToStream();
+		}
+		catch (IOException ex) {
+			throw new JRException("Error while exporting report to the buffer", ex);
+		}
 
-	@Override
-	protected void initExport()
-	{
-		super.initExport();
+		return buffer.getBuffer();
 	}
 
-
-	@Override
-	protected void initReport()
-	{
-		super.initReport();
-	}
-	
 
 	/**
 	 * Export report in .rtf format to a stream
 	 * @throws JRException
 	 * @throws IOException
 	 */
-	protected void exportReportToWriter(Writer writer) throws JRException, IOException 
+	protected void exportReportToStream() throws JRException, IOException 
 	{
 		colorWriter = new FileBufferedWriter();
 		fontWriter = new FileBufferedWriter();
-		contentWriter = new FileBufferedWriter();
+		writer = new FileBufferedWriter();
 
-		List<ExporterInputItem> items = exporterInput.getItems();
+		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
+			setJasperPrint(jasperPrintList.get(reportIndex));
 
-		for(reportIndex = 0; reportIndex < items.size(); reportIndex++ )
-		{
-			ExporterInputItem item = items.get(reportIndex);
-
-			setCurrentExporterInputItem(item);
-			
 			List<JRPrintPage> pages = jasperPrint.getPages();
-			if (pages != null && pages.size() > 0)
-			{
-				PageRange pageRange = getPageRange();
-				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
-				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
-
+			if (pages != null && pages.size() > 0){
+				if (isModeBatch)
+				{
+					startPageIndex = 0;
+					endPageIndex = pages.size() - 1;
+				}
 				JRPrintPage page = null;
 
-				contentWriter.write("{\\info{\\nofpages");
-				contentWriter.write(String.valueOf(pages.size()));
-				contentWriter.write("}}\n");
+				writer.write("{\\info{\\nofpages");
+				writer.write(String.valueOf(pages.size()));
+				writer.write("}}\n");
 
-				contentWriter.write("\\viewkind1\\paperw");
-				contentWriter.write(String.valueOf(LengthUtil.twip(jasperPrint.getPageWidth())));
-				contentWriter.write("\\paperh");
-				contentWriter.write(String.valueOf(LengthUtil.twip(jasperPrint.getPageHeight())));
+				writer.write("\\viewkind1\\paperw");
+				writer.write(String.valueOf(LengthUtil.twip(jasperPrint.getPageWidth())));
+				writer.write("\\paperh");
+				writer.write(String.valueOf(LengthUtil.twip(jasperPrint.getPageHeight())));
 
-				contentWriter.write("\\marglsxn");
-				contentWriter.write(String.valueOf(LengthUtil.twip(jasperPrint.getLeftMargin() == null ? 0 : jasperPrint.getLeftMargin())));
-				contentWriter.write("\\margrsxn");
-				contentWriter.write(String.valueOf(LengthUtil.twip(jasperPrint.getRightMargin() == null ? 0 : jasperPrint.getRightMargin())));
-				contentWriter.write("\\margtsxn");
-				contentWriter.write(String.valueOf(LengthUtil.twip(jasperPrint.getTopMargin() == null ? 0 : jasperPrint.getTopMargin())));
-				contentWriter.write("\\margbsxn");
-				contentWriter.write(String.valueOf(LengthUtil.twip(jasperPrint.getBottomMargin() == null ? 0 : jasperPrint.getBottomMargin())));
-				contentWriter.write("\\deftab");
-				contentWriter.write(String.valueOf(LengthUtil.twip(new JRBasePrintText(jasperPrint.getDefaultStyleProvider()).getParagraph().getTabStopWidth())));
+				writer.write("\\marglsxn");
+				writer.write(String.valueOf(LengthUtil.twip(jasperPrint.getLeftMargin() == null ? 0 : jasperPrint.getLeftMargin())));
+				writer.write("\\margrsxn");
+				writer.write(String.valueOf(LengthUtil.twip(jasperPrint.getRightMargin() == null ? 0 : jasperPrint.getRightMargin())));
+				writer.write("\\margtsxn");
+				writer.write(String.valueOf(LengthUtil.twip(jasperPrint.getTopMargin() == null ? 0 : jasperPrint.getTopMargin())));
+				writer.write("\\margbsxn");
+				writer.write(String.valueOf(LengthUtil.twip(jasperPrint.getBottomMargin() == null ? 0 : jasperPrint.getBottomMargin())));
+				writer.write("\\deftab");
+				writer.write(String.valueOf(LengthUtil.twip(new JRBasePrintText(jasperPrint.getDefaultStyleProvider()).getParagraph().getTabStopWidth())));
 
 				if (jasperPrint.getOrientationValue() == OrientationEnum.LANDSCAPE) {
-					contentWriter.write("\\lndscpsxn");
+					writer.write("\\lndscpsxn");
 				}
 
 
 				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) {
-					contentWriter.write("\n");
+					writer.write("\n");
 					if(Thread.interrupted()){
 						throw new JRException("Current thread interrupted");
 					}
@@ -305,37 +328,62 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 					writeAnchor(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
 
 					boolean lastPageFlag = false;
-					if(pageIndex == endPageIndex && reportIndex == (items.size() - 1)){
+					if(pageIndex == endPageIndex && reportIndex == (jasperPrintList.size() - 1)){
 						lastPageFlag = true;
 					}
 					exportPage(page, lastPageFlag);
 				}
 			}
 		}
-		contentWriter.write("}\n");
+		writer.write("}\n");
 
-		contentWriter.close();
+		writer.close();
 		colorWriter.close();
 		fontWriter.close();
 		
 		// create the header of the rtf file
-		writer.write("{\\rtf1\\ansi\\deff0\n");
+		rtfWriter.write("{\\rtf1\\ansi\\deff0\n");
 		// create font and color tables
-		writer.write("{\\fonttbl ");
-		fontWriter.writeData(writer);
-		writer.write("}\n");
+		rtfWriter.write("{\\fonttbl ");
+		fontWriter.writeData(rtfWriter);
+		rtfWriter.write("}\n");
 
-		writer.write("{\\colortbl ;");
-		colorWriter.writeData(writer);
-		writer.write("}\n");
+		rtfWriter.write("{\\colortbl ;");
+		colorWriter.writeData(rtfWriter);
+		rtfWriter.write("}\n");
 
-		contentWriter.writeData(writer);
+		writer.writeData(rtfWriter);
 
-		writer.flush();
+		rtfWriter.flush();
 
-		contentWriter.dispose();
+		writer.dispose();
 		colorWriter.dispose();
 		fontWriter.dispose();
+	}
+
+
+	/**
+	 * Export report to a file in the .rtf format
+	 */
+	protected void exportReportToFile() throws JRException {
+		try {
+			OutputStream fileOutputStream = new FileOutputStream(destFile);
+			rtfWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
+			exportReportToStream();
+		}
+		catch (IOException ex) {
+			throw new JRException("Error writing to the file : " + destFile, ex);
+		}
+		finally {
+			if(rtfWriter != null) {
+				try {
+					rtfWriter.close();
+				}
+				catch(IOException ex) {
+
+				}
+			}
+		}
 	}
 
 
@@ -374,16 +422,22 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	private int getFontIndex(JRFont font, Locale locale) throws IOException
 	{
 		String fontName = font.getFontName();
-
-		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontName, locale);
-		if (fontInfo != null)
+		if(fontMap != null && fontMap.containsKey(fontName))
 		{
-			//fontName found in font extensions
-			FontFamily family = fontInfo.getFontFamily();
-			String exportFont = family.getExportFont(getExporterKey());
-			if (exportFont != null)
+			fontName = fontMap.get(fontName);
+		}
+		else
+		{
+			FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontName, locale);
+			if (fontInfo != null)
 			{
-				fontName = exportFont;
+				//fontName found in font extensions
+				FontFamily family = fontInfo.getFontFamily();
+				String exportFont = family.getExportFont(getExporterKey());
+				if (exportFont != null)
+				{
+					fontName = exportFont;
+				}
 			}
 		}
 
@@ -410,13 +464,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 
 		if(!lastPage)
 		{
-			contentWriter.write("\\page\n");
-		}
-		
-		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
-		if (progressMonitor != null)
-		{
-			progressMonitor.afterPageExport();
+			writer.write("\\page\n");
 		}
 	}
 
@@ -425,32 +473,32 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	 */
 	private void startElement(JRPrintElement element) throws IOException 
 	{
-		contentWriter.write("{\\shp\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpfblwtxt0\\shpz");
-		contentWriter.write(String.valueOf(zorder++));
-		contentWriter.write("\\shpleft");
-		contentWriter.write(String.valueOf(LengthUtil.twip(element.getX() + getOffsetX())));
-		contentWriter.write("\\shpright");
-		contentWriter.write(String.valueOf(LengthUtil.twip(element.getX() + getOffsetX() + element.getWidth())));
-		contentWriter.write("\\shptop");
-		contentWriter.write(String.valueOf(LengthUtil.twip(element.getY() + getOffsetY())));
-		contentWriter.write("\\shpbottom");
-		contentWriter.write(String.valueOf(LengthUtil.twip(element.getY() + getOffsetY() + element.getHeight())));
+		writer.write("{\\shp\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpfblwtxt0\\shpz");
+		writer.write(String.valueOf(zorder++));
+		writer.write("\\shpleft");
+		writer.write(String.valueOf(LengthUtil.twip(element.getX() + getOffsetX())));
+		writer.write("\\shpright");
+		writer.write(String.valueOf(LengthUtil.twip(element.getX() + getOffsetX() + element.getWidth())));
+		writer.write("\\shptop");
+		writer.write(String.valueOf(LengthUtil.twip(element.getY() + getOffsetY())));
+		writer.write("\\shpbottom");
+		writer.write(String.valueOf(LengthUtil.twip(element.getY() + getOffsetY() + element.getHeight())));
 
 		Color bgcolor = element.getBackcolor();
 
 		if (element.getModeValue() == ModeEnum.OPAQUE)
 		{
-			contentWriter.write("{\\sp{\\sn fFilled}{\\sv 1}}");
-			contentWriter.write("{\\sp{\\sn fillColor}{\\sv ");
-			contentWriter.write(String.valueOf(getColorRGB(bgcolor)));
-			contentWriter.write("}}");
+			writer.write("{\\sp{\\sn fFilled}{\\sv 1}}");
+			writer.write("{\\sp{\\sn fillColor}{\\sv ");
+			writer.write(String.valueOf(getColorRGB(bgcolor)));
+			writer.write("}}");
 		}
 		else
 		{
-			contentWriter.write("{\\sp{\\sn fFilled}{\\sv 0}}");
+			writer.write("{\\sp{\\sn fFilled}{\\sv 0}}");
 		}
 		
-		contentWriter.write("{\\shpinst");
+		writer.write("{\\shpinst");
 	}
 
 	/**
@@ -466,7 +514,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	 */
 	private void finishElement() throws IOException 
 	{
-		contentWriter.write("}}\n");
+		writer.write("}}\n");
 	}
 
 	/**
@@ -474,39 +522,39 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	 */
 	private void exportPen(JRPen pen) throws IOException 
 	{
-		contentWriter.write("{\\sp{\\sn lineColor}{\\sv ");
-		contentWriter.write(String.valueOf(getColorRGB(pen.getLineColor())));
-		contentWriter.write("}}");
+		writer.write("{\\sp{\\sn lineColor}{\\sv ");
+		writer.write(String.valueOf(getColorRGB(pen.getLineColor())));
+		writer.write("}}");
 
 		float lineWidth = pen.getLineWidth().floatValue();
 		
 		if (lineWidth == 0f)
 		{
-			contentWriter.write("{\\sp{\\sn fLine}{\\sv 0}}");
+			writer.write("{\\sp{\\sn fLine}{\\sv 0}}");
 		}
 
 		switch (pen.getLineStyleValue())
 		{
 			case DOUBLE :
 			{
-				contentWriter.write("{\\sp{\\sn lineStyle}{\\sv 1}}");
+				writer.write("{\\sp{\\sn lineStyle}{\\sv 1}}");
 				break;
 			}
 			case DOTTED :
 			{
-				contentWriter.write("{\\sp{\\sn lineDashing}{\\sv 2}}");
+				writer.write("{\\sp{\\sn lineDashing}{\\sv 2}}");
 				break;
 			}
 			case DASHED :
 			{
-				contentWriter.write("{\\sp{\\sn lineDashing}{\\sv 1}}");
+				writer.write("{\\sp{\\sn lineDashing}{\\sv 1}}");
 				break;
 			}
 		}
 
-		contentWriter.write("{\\sp{\\sn lineWidth}{\\sv ");
-		contentWriter.write(String.valueOf(LengthUtil.emu(lineWidth)));
-		contentWriter.write("}}");
+		writer.write("{\\sp{\\sn lineWidth}{\\sv ");
+		writer.write(String.valueOf(LengthUtil.emu(lineWidth)));
+		writer.write("}}");
 	}
 
 
@@ -515,11 +563,11 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	 */
 	private void exportPen(Color color) throws IOException 
 	{
-		contentWriter.write("{\\sp{\\sn lineColor}{\\sv ");
-		contentWriter.write(String.valueOf(getColorRGB(color)));
-		contentWriter.write("}}");
-		contentWriter.write("{\\sp{\\sn fLine}{\\sv 0}}");
-		contentWriter.write("{\\sp{\\sn lineWidth}{\\sv 0}}");
+		writer.write("{\\sp{\\sn lineColor}{\\sv ");
+		writer.write(String.valueOf(getColorRGB(color)));
+		writer.write("}}");
+		writer.write("{\\sp{\\sn fLine}{\\sv 0}}");
+		writer.write("{\\sp{\\sn lineWidth}{\\sv 0}}");
 	}
 
 
@@ -547,33 +595,33 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			}
 		}
 
-		contentWriter.write("{\\shp\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpz");
-		contentWriter.write(String.valueOf(zorder++));
-		contentWriter.write("\\shpleft");
-		contentWriter.write(String.valueOf(LengthUtil.twip(x)));
-		contentWriter.write("\\shpright");
-		contentWriter.write(String.valueOf(LengthUtil.twip(x + width)));
-		contentWriter.write("\\shptop");
-		contentWriter.write(String.valueOf(LengthUtil.twip(y)));
-		contentWriter.write("\\shpbottom");
-		contentWriter.write(String.valueOf(LengthUtil.twip(y + height)));
+		writer.write("{\\shp\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpz");
+		writer.write(String.valueOf(zorder++));
+		writer.write("\\shpleft");
+		writer.write(String.valueOf(LengthUtil.twip(x)));
+		writer.write("\\shpright");
+		writer.write(String.valueOf(LengthUtil.twip(x + width)));
+		writer.write("\\shptop");
+		writer.write(String.valueOf(LengthUtil.twip(y)));
+		writer.write("\\shpbottom");
+		writer.write(String.valueOf(LengthUtil.twip(y + height)));
 
-		contentWriter.write("{\\shpinst");
+		writer.write("{\\shpinst");
 		
-		contentWriter.write("{\\sp{\\sn shapeType}{\\sv 20}}");
+		writer.write("{\\sp{\\sn shapeType}{\\sv 20}}");
 		
 		exportPen(line.getLinePen());
 		
 		if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 		{
-			contentWriter.write("{\\sp{\\sn fFlipV}{\\sv 0}}");
+			writer.write("{\\sp{\\sn fFlipV}{\\sv 0}}");
 		}
 		else
 		{
-			contentWriter.write("{\\sp{\\sn fFlipV}{\\sv 1}}");
+			writer.write("{\\sp{\\sn fFlipV}{\\sv 1}}");
 		}
 
-		contentWriter.write("}}\n");
+		writer.write("}}\n");
 	}
 
 
@@ -582,24 +630,24 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	 */
 	private void exportBorder(JRPen pen, float x, float y, float width, float height) throws IOException 
 	{
-		contentWriter.write("{\\shp\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpz");
-		contentWriter.write(String.valueOf(zorder++));
-		contentWriter.write("\\shpleft");
-		contentWriter.write(String.valueOf(LengthUtil.twip(x)));//FIXMEBORDER starting point of borders seem to have CAP_SQUARE-like appearence at least for Thin
-		contentWriter.write("\\shpright");
-		contentWriter.write(String.valueOf(LengthUtil.twip(x + width)));
-		contentWriter.write("\\shptop");
-		contentWriter.write(String.valueOf(LengthUtil.twip(y)));
-		contentWriter.write("\\shpbottom");
-		contentWriter.write(String.valueOf(LengthUtil.twip(y + height)));
+		writer.write("{\\shp\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpz");
+		writer.write(String.valueOf(zorder++));
+		writer.write("\\shpleft");
+		writer.write(String.valueOf(LengthUtil.twip(x)));//FIXMEBORDER starting point of borders seem to have CAP_SQUARE-like appearence at least for Thin
+		writer.write("\\shpright");
+		writer.write(String.valueOf(LengthUtil.twip(x + width)));
+		writer.write("\\shptop");
+		writer.write(String.valueOf(LengthUtil.twip(y)));
+		writer.write("\\shpbottom");
+		writer.write(String.valueOf(LengthUtil.twip(y + height)));
 
-		contentWriter.write("{\\shpinst");
+		writer.write("{\\shpinst");
 		
-		contentWriter.write("{\\sp{\\sn shapeType}{\\sv 20}}");
+		writer.write("{\\sp{\\sn shapeType}{\\sv 20}}");
 		
 		exportPen(pen);
 		
-		contentWriter.write("}}\n");
+		writer.write("}}\n");
 	}
 
 
@@ -613,11 +661,11 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		
 		if (rectangle.getRadius() == 0)
 		{
-			contentWriter.write("{\\sp{\\sn shapeType}{\\sv 1}}");
+			writer.write("{\\sp{\\sn shapeType}{\\sv 1}}");
 		}
 		else
 		{
-			contentWriter.write("{\\sp{\\sn shapeType}{\\sv 2}}");
+			writer.write("{\\sp{\\sn shapeType}{\\sv 2}}");
 		}
 
 		exportPen(rectangle.getLinePen());
@@ -634,7 +682,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	{
 		startElement(ellipse);
 		
-		contentWriter.write("{\\sp{\\sn shapeType}{\\sv 3}}");
+		writer.write("{\\sp{\\sn shapeType}{\\sv 3}}");
 
 		exportPen(ellipse.getLinePen());
 		
@@ -772,27 +820,27 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			}
 		}
 
-		contentWriter.write(rotation);
-		contentWriter.write("{\\sp{\\sn dyTextTop}{\\sv ");
-		contentWriter.write(String.valueOf(LengthUtil.emu(topPadding)));
-		contentWriter.write("}}");
-		contentWriter.write("{\\sp{\\sn dxTextLeft}{\\sv ");
-		contentWriter.write(String.valueOf(LengthUtil.emu(leftPadding)));
-		contentWriter.write("}}");
-		contentWriter.write("{\\sp{\\sn dyTextBottom}{\\sv ");
-		contentWriter.write(String.valueOf(LengthUtil.emu(bottomPadding)));
-		contentWriter.write("}}");
-		contentWriter.write("{\\sp{\\sn dxTextRight}{\\sv ");
-		contentWriter.write(String.valueOf(LengthUtil.emu(rightPadding)));
-		contentWriter.write("}}");
-		contentWriter.write("{\\sp{\\sn fLine}{\\sv 0}}");
-		contentWriter.write("{\\shptxt{\\pard ");
+		writer.write(rotation);
+		writer.write("{\\sp{\\sn dyTextTop}{\\sv ");
+		writer.write(String.valueOf(LengthUtil.emu(topPadding)));
+		writer.write("}}");
+		writer.write("{\\sp{\\sn dxTextLeft}{\\sv ");
+		writer.write(String.valueOf(LengthUtil.emu(leftPadding)));
+		writer.write("}}");
+		writer.write("{\\sp{\\sn dyTextBottom}{\\sv ");
+		writer.write(String.valueOf(LengthUtil.emu(bottomPadding)));
+		writer.write("}}");
+		writer.write("{\\sp{\\sn dxTextRight}{\\sv ");
+		writer.write(String.valueOf(LengthUtil.emu(rightPadding)));
+		writer.write("}}");
+		writer.write("{\\sp{\\sn fLine}{\\sv 0}}");
+		writer.write("{\\shptxt{\\pard ");
 
-		contentWriter.write("\\fi" + LengthUtil.twip(text.getParagraph().getFirstLineIndent().intValue()) + " ");
-		contentWriter.write("\\li" + LengthUtil.twip(text.getParagraph().getLeftIndent().intValue()) + " ");
-		contentWriter.write("\\ri" + LengthUtil.twip(text.getParagraph().getRightIndent().intValue()) + " ");
-		contentWriter.write("\\sb" + LengthUtil.twip(text.getParagraph().getSpacingBefore().intValue()) + " ");
-		contentWriter.write("\\sa" + LengthUtil.twip(text.getParagraph().getSpacingAfter().intValue()) + " ");
+		writer.write("\\fi" + LengthUtil.twip(text.getParagraph().getFirstLineIndent().intValue()) + " ");
+		writer.write("\\li" + LengthUtil.twip(text.getParagraph().getLeftIndent().intValue()) + " ");
+		writer.write("\\ri" + LengthUtil.twip(text.getParagraph().getRightIndent().intValue()) + " ");
+		writer.write("\\sb" + LengthUtil.twip(text.getParagraph().getSpacingBefore().intValue()) + " ");
+		writer.write("\\sa" + LengthUtil.twip(text.getParagraph().getSpacingAfter().intValue()) + " ");
 
 		TabStop[] tabStops = text.getParagraph().getTabStops();
 		if (tabStops != null && tabStops.length > 0)
@@ -817,22 +865,22 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 						break;
 				}
 
-				contentWriter.write(tabStopAlign + "\\tx" + LengthUtil.twip(tabStop.getPosition()) + " ");
+				writer.write(tabStopAlign + "\\tx" + LengthUtil.twip(tabStop.getPosition()) + " ");
 			}
 		}
 
 //		JRFont font = text;
 		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)
 		{
-			contentWriter.write("\\rtlch");
+			writer.write("\\rtlch");
 		}
 //		writer.write("\\f");
 //		writer.write(String.valueOf(getFontIndex(font)));
 //		writer.write("\\cf");
 //		writer.write(String.valueOf(getColorIndex(text.getForecolor())));
-		contentWriter.write("\\cb");
-		contentWriter.write(String.valueOf(getColorIndex(text.getBackcolor())));
-		contentWriter.write(" ");
+		writer.write("\\cb");
+		writer.write(String.valueOf(getColorIndex(text.getBackcolor())));
+		writer.write(" ");
 
 //		if (font.isBold())
 //			writer.write("\\b");
@@ -848,19 +896,19 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		switch (text.getHorizontalAlignmentValue())
 		{
 			case LEFT:
-				contentWriter.write("\\ql");
+				writer.write("\\ql");
 				break;
 			case CENTER:
-				contentWriter.write("\\qc");
+				writer.write("\\qc");
 				break;
 			case RIGHT:
-				contentWriter.write("\\qr");
+				writer.write("\\qr");
 				break;
 			case JUSTIFIED:
-				contentWriter.write("\\qj");
+				writer.write("\\qj");
 				break;
 			default:
-				contentWriter.write("\\ql");
+				writer.write("\\ql");
 				break;
 		}
 
@@ -868,39 +916,39 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		{
 			case AT_LEAST:
 			{
-				contentWriter.write("\\sl" + LengthUtil.twip(text.getParagraph().getLineSpacingSize().floatValue()));
-				contentWriter.write(" \\slmult0 ");
+				writer.write("\\sl" + LengthUtil.twip(text.getParagraph().getLineSpacingSize().floatValue()));
+				writer.write(" \\slmult0 ");
 				break;
 			}
 			case FIXED:
 			{
-				contentWriter.write("\\sl-" + LengthUtil.twip(text.getParagraph().getLineSpacingSize().floatValue()));
-				contentWriter.write(" \\slmult0 ");
+				writer.write("\\sl-" + LengthUtil.twip(text.getParagraph().getLineSpacingSize().floatValue()));
+				writer.write(" \\slmult0 ");
 				break;
 			}
 			case PROPORTIONAL:
 			{
-				contentWriter.write("\\sl" + (int)(text.getParagraph().getLineSpacingSize().floatValue() * LINE_SPACING_FACTOR));
-				contentWriter.write(" \\slmult1 ");
+				writer.write("\\sl" + (int)(text.getParagraph().getLineSpacingSize().floatValue() * LINE_SPACING_FACTOR));
+				writer.write(" \\slmult1 ");
 				break;
 			}
 			case DOUBLE:
 			{
-				contentWriter.write("\\sl" + (int)(2f * LINE_SPACING_FACTOR));
-				contentWriter.write(" \\slmult1 ");
+				writer.write("\\sl" + (int)(2f * LINE_SPACING_FACTOR));
+				writer.write(" \\slmult1 ");
 				break;
 			}
 			case ONE_AND_HALF:
 			{
-				contentWriter.write("\\sl" + (int)(1.5f * LINE_SPACING_FACTOR));
-				contentWriter.write(" \\slmult1 ");
+				writer.write("\\sl" + (int)(1.5f * LINE_SPACING_FACTOR));
+				writer.write(" \\slmult1 ");
 				break;
 			}
 			case SINGLE:
 			default:
 			{
-				contentWriter.write("\\sl" + (int)(1f * LINE_SPACING_FACTOR));
-				contentWriter.write(" \\slmult1 ");
+				writer.write("\\sl" + (int)(1f * LINE_SPACING_FACTOR));
+				writer.write(" \\slmult1 ");
 				break;
 			}
 		}
@@ -928,60 +976,60 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			Color styleForeground = (Color) styledTextAttributes.get(TextAttribute.FOREGROUND);
 			Color styleBackground = (Color) styledTextAttributes.get(TextAttribute.BACKGROUND);
 
-			contentWriter.write("\\f");
-			contentWriter.write(String.valueOf(getFontIndex(styleFont, getTextLocale(text))));
-			contentWriter.write("\\fs");
-			contentWriter.write(String.valueOf(2 * styleFont.getFontSize()));
+			writer.write("\\f");
+			writer.write(String.valueOf(getFontIndex(styleFont, getTextLocale(text))));
+			writer.write("\\fs");
+			writer.write(String.valueOf(2 * styleFont.getFontSize()));
 
 			if (styleFont.isBold())
 			{
-				contentWriter.write("\\b");
+				writer.write("\\b");
 			}
 			if (styleFont.isItalic())
 			{
-				contentWriter.write("\\i");
+				writer.write("\\i");
 			}
 			if (styleFont.isUnderline())
 			{
-				contentWriter.write("\\ul");
+				writer.write("\\ul");
 			}
 			if (styleFont.isStrikeThrough())
 			{
-				contentWriter.write("\\strike");
+				writer.write("\\strike");
 			}
 
 			if (TextAttribute.SUPERSCRIPT_SUPER.equals(styledTextAttributes.get(TextAttribute.SUPERSCRIPT)))
 			{
-				contentWriter.write("\\super");
+				writer.write("\\super");
 			}
 			else if (TextAttribute.SUPERSCRIPT_SUB.equals(styledTextAttributes.get(TextAttribute.SUPERSCRIPT)))
 			{
-				contentWriter.write("\\sub");
+				writer.write("\\sub");
 			}
 
 			if(!(null == styleBackground || styleBackground.equals(text.getBackcolor()))){
-				contentWriter.write("\\highlight");
-				contentWriter.write(String.valueOf(getColorIndex(styleBackground)));
+				writer.write("\\highlight");
+				writer.write(String.valueOf(getColorIndex(styleBackground)));
 			}
-			contentWriter.write("\\cf");
-			contentWriter.write(String.valueOf(getColorIndex(styleForeground)));
-			contentWriter.write(" ");
+			writer.write("\\cf");
+			writer.write(String.valueOf(getColorIndex(styleForeground)));
+			writer.write(" ");
 
-			contentWriter.write(
+			writer.write(
 				handleUnicodeText(
 					plainText.substring(iterator.getIndex(), runLimit)					
 					)
 				);
 
 			// reset all styles in the paragraph
-			contentWriter.write("\\plain");
+			writer.write("\\plain");
 
 			iterator.setIndex(runLimit);
 		}
 		
 		endHyperlink(startedHyperlink);
 
-		contentWriter.write("\\par}}");
+		writer.write("\\par}}");
 		
 		/*   */
 		finishElement();
@@ -1191,32 +1239,32 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			finishElement();
 			boolean startedHyperlink = exportHyperlink(printImage);
 
-			contentWriter.write("{\\shp{\\*\\shpinst\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpfblwtxt0\\shpz");
-			contentWriter.write(String.valueOf(zorder++));
-			contentWriter.write("\\shpleft");
-			contentWriter.write(String.valueOf(LengthUtil.twip(printImage.getX() + leftPadding + xoffset + getOffsetX())));
-			contentWriter.write("\\shpright");
-			contentWriter.write(String.valueOf(LengthUtil.twip(printImage.getX() + leftPadding + xoffset + getOffsetX() + imageWidth)));
-			contentWriter.write("\\shptop");
-			contentWriter.write(String.valueOf(LengthUtil.twip(printImage.getY() + topPadding + yoffset + getOffsetY())));
-			contentWriter.write("\\shpbottom");
-			contentWriter.write(String.valueOf(LengthUtil.twip(printImage.getY() + topPadding + yoffset + getOffsetY() + imageHeight)));
-			contentWriter.write("{\\sp{\\sn shapeType}{\\sv 75}}");
-			contentWriter.write("{\\sp{\\sn fFilled}{\\sv 0}}");
-			contentWriter.write("{\\sp{\\sn fLockAspectRatio}{\\sv 0}}");
+			writer.write("{\\shp{\\*\\shpinst\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpfblwtxt0\\shpz");
+			writer.write(String.valueOf(zorder++));
+			writer.write("\\shpleft");
+			writer.write(String.valueOf(LengthUtil.twip(printImage.getX() + leftPadding + xoffset + getOffsetX())));
+			writer.write("\\shpright");
+			writer.write(String.valueOf(LengthUtil.twip(printImage.getX() + leftPadding + xoffset + getOffsetX() + imageWidth)));
+			writer.write("\\shptop");
+			writer.write(String.valueOf(LengthUtil.twip(printImage.getY() + topPadding + yoffset + getOffsetY())));
+			writer.write("\\shpbottom");
+			writer.write(String.valueOf(LengthUtil.twip(printImage.getY() + topPadding + yoffset + getOffsetY() + imageHeight)));
+			writer.write("{\\sp{\\sn shapeType}{\\sv 75}}");
+			writer.write("{\\sp{\\sn fFilled}{\\sv 0}}");
+			writer.write("{\\sp{\\sn fLockAspectRatio}{\\sv 0}}");
 
-			contentWriter.write("{\\sp{\\sn cropFromTop}{\\sv ");
-			contentWriter.write(String.valueOf(cropTop));
-			contentWriter.write("}}");
-			contentWriter.write("{\\sp{\\sn cropFromLeft}{\\sv ");
-			contentWriter.write(String.valueOf(cropLeft));
-			contentWriter.write("}}");
-			contentWriter.write("{\\sp{\\sn cropFromBottom}{\\sv ");
-			contentWriter.write(String.valueOf(cropBottom));
-			contentWriter.write("}}");
-			contentWriter.write("{\\sp{\\sn cropFromRight}{\\sv ");
-			contentWriter.write(String.valueOf(cropRight));
-			contentWriter.write("}}");
+			writer.write("{\\sp{\\sn cropFromTop}{\\sv ");
+			writer.write(String.valueOf(cropTop));
+			writer.write("}}");
+			writer.write("{\\sp{\\sn cropFromLeft}{\\sv ");
+			writer.write(String.valueOf(cropLeft));
+			writer.write("}}");
+			writer.write("{\\sp{\\sn cropFromBottom}{\\sv ");
+			writer.write(String.valueOf(cropBottom));
+			writer.write("}}");
+			writer.write("{\\sp{\\sn cropFromRight}{\\sv ");
+			writer.write(String.valueOf(cropRight));
+			writer.write("}}");
 			
 			writeShapeHyperlink(printImage);
 
@@ -1225,16 +1273,16 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 				writeAnchor(printImage.getAnchorName());
 			}
 			
-			contentWriter.write("{\\sp{\\sn pib}{\\sv {\\pict");
+			writer.write("{\\sp{\\sn pib}{\\sv {\\pict");
 			if (renderer.getImageTypeValue() == ImageTypeEnum.JPEG)
 			{
-				contentWriter.write("\\jpegblip");
+				writer.write("\\jpegblip");
 			}
 			else
 			{
-				contentWriter.write("\\pngblip");
+				writer.write("\\pngblip");
 			}
-			contentWriter.write("\n");
+			writer.write("\n");
 
 			ByteArrayInputStream bais = new ByteArrayInputStream(renderer.getImageData(jasperReportsContext));
 
@@ -1247,17 +1295,17 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 				{
 					helperStr = "0" + helperStr;
 				}
-				contentWriter.write(helperStr);
+				writer.write(helperStr);
 				count++;
 				if (count == 64)
 				{
-					contentWriter.write("\n");
+					writer.write("\n");
 					count = 0;
 				}
 			}
 
-			contentWriter.write("\n}}}");
-			contentWriter.write("}}\n");
+			writer.write("\n}}}");
+			writer.write("}}\n");
 			endHyperlink(startedHyperlink);
 		}
 
@@ -1494,10 +1542,10 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		String local ="";
 		boolean result = false;
 		
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(RtfReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
+			ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
 		}
 
 		if (!ignoreHyperlink)
@@ -1570,7 +1618,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		
 		if (hl != null)
 		{
-			contentWriter.write("{\\field{\\*\\fldinst HYPERLINK " + local + "\"" + hl + "\"}{\\fldrslt ");
+			writer.write("{\\field{\\*\\fldinst HYPERLINK " + local + "\"" + hl + "\"}{\\fldrslt ");
 			result = true;
 		}
 		return result;
@@ -1582,10 +1630,10 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		String hlfr = null;
 		String hlsrc = null;
 		
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(RtfReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
+			ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
 		}
 
 		if (!ignoreHyperlink)
@@ -1662,24 +1710,24 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 
 		if (hlfr != null)
 		{
-			contentWriter.write("{\\sp{\\sn fIsButton}{\\sv 1}}");
-			contentWriter.write("{\\sp{\\sn pihlShape}{\\sv {\\*\\hl");
-			contentWriter.write("{\\hlfr ");
-			contentWriter.write(hlfr);
-			contentWriter.write(" }");
+			writer.write("{\\sp{\\sn fIsButton}{\\sv 1}}");
+			writer.write("{\\sp{\\sn pihlShape}{\\sv {\\*\\hl");
+			writer.write("{\\hlfr ");
+			writer.write(hlfr);
+			writer.write(" }");
 			if (hlloc != null)
 			{
-				contentWriter.write("{\\hlloc ");
-				contentWriter.write(hlloc);
-				contentWriter.write(" }");
+				writer.write("{\\hlloc ");
+				writer.write(hlloc);
+				writer.write(" }");
 			}
 			if (hlsrc != null)
 			{
-				contentWriter.write("{\\hlsrc ");
-				contentWriter.write(hlsrc);
-				contentWriter.write(" }");
+				writer.write("{\\hlsrc ");
+				writer.write(hlsrc);
+				writer.write(" }");
 			}
-			contentWriter.write("}}}");
+			writer.write("}}}");
 		}
 	}
 
@@ -1688,17 +1736,17 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	{
 		if(startedHyperlink)
 		{
-			contentWriter.write("}}");
+			writer.write("}}");
 		}
 	}
 	
 	protected void writeAnchor(String anchorName) throws IOException
 	{
-		contentWriter.write("{\\*\\bkmkstart ");
-		contentWriter.write(anchorName);
-		contentWriter.write("}{\\*\\bkmkend ");
-		contentWriter.write(anchorName);
-		contentWriter.write("}");
+		writer.write("{\\*\\bkmkstart ");
+		writer.write(anchorName);
+		writer.write("}{\\*\\bkmkend ");
+		writer.write(anchorName);
+		writer.write("}");
 	}
 
 	private float getXAlignFactor(JRPrintImage image)
@@ -1757,13 +1805,5 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	public String getExporterKey()
 	{
 		return RTF_EXPORTER_KEY;
-	}
-	
-	/**
-	 * 
-	 */
-	public String getExporterPropertiesPrefix()
-	{
-		return RTF_EXPORTER_PROPERTIES_PREFIX;
 	}
 }

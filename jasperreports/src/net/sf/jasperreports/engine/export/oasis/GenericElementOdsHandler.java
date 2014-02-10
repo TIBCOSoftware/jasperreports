@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
@@ -57,5 +59,14 @@ public interface GenericElementOdsHandler extends GenericElementHandler
 		int yCutsRow, 
 		JRGridLayout layout
 		);
+
+
+	/**
+	 * Creates an equivalent image of the {@link JRGenericPrintElement} element to be exported instead.
+	 * 
+	 * @param element the generic element to export
+	 * @return JRPrintImage the equivalent image
+	 */
+	JRPrintImage getImage(JROdsExporterContext exporterContext, JRGenericPrintElement element) throws JRException;
 
 }

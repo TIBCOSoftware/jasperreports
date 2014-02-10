@@ -25,14 +25,13 @@ import java.io.File;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -89,15 +88,17 @@ public class PdfEncryptApp extends AbstractSampleApp
 		
 		JRPdfExporter exporter = new JRPdfExporter();
 		
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
-		configuration.setEncrypted(true);
-		configuration.set128BitKey(true);
-		configuration.setUserPassword("jasper");
-		configuration.setOwnerPassword("reports");
-		configuration.setPermissions(PdfWriter.ALLOW_COPY | PdfWriter.ALLOW_PRINTING);
-		exporter.setConfiguration(configuration);
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE, destFile);
+		exporter.setParameter(JRPdfExporterParameter.IS_ENCRYPTED, Boolean.TRUE);
+		exporter.setParameter(JRPdfExporterParameter.IS_128_BIT_KEY, Boolean.TRUE);
+		exporter.setParameter(JRPdfExporterParameter.USER_PASSWORD, "jasper");
+		exporter.setParameter(JRPdfExporterParameter.OWNER_PASSWORD, "reports");
+		exporter.setParameter(
+			JRPdfExporterParameter.PERMISSIONS, 
+			new Integer(PdfWriter.ALLOW_COPY | PdfWriter.ALLOW_PRINTING)
+			);
+		
 		exporter.exportReport();
 
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));

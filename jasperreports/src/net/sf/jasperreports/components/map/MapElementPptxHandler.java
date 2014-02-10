@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.ooxml.GenericElementPptxHandler;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporterContext;
@@ -48,8 +50,8 @@ public class MapElementPptxHandler implements GenericElementPptxHandler
 	{
 		try
 		{
-			JRPptxExporter exporter = (JRPptxExporter)exporterContext.getExporterRef();
-			exporter.exportImage(MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element));
+			JRPptxExporter exporter = (JRPptxExporter)exporterContext.getExporter();
+			exporter.exportImage(getImage(exporterContext, element));
 		}
 		catch (Exception e)
 		{
@@ -59,5 +61,10 @@ public class MapElementPptxHandler implements GenericElementPptxHandler
 
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
+	}
+	
+	public JRPrintImage getImage(JRPptxExporterContext exporterContext, JRGenericPrintElement element) throws JRException
+	{
+		return MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element);
 	}
 }

@@ -37,7 +37,12 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
@@ -99,11 +104,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.Pair;
-import net.sf.jasperreports.export.ExporterInputItem;
-import net.sf.jasperreports.export.HtmlExporterConfiguration;
-import net.sf.jasperreports.export.HtmlReportConfiguration;
-import net.sf.jasperreports.export.WriterExporterOutput;
-import net.sf.jasperreports.export.parameters.ParametersHtmlExporterOutput;
+import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -112,23 +113,47 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Exports a JasperReports document to XHTML format.
 
- * @deprecated Replaced by {@link HtmlExporter}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, HtmlExporterConfiguration>
+public class JRXhtmlExporter extends AbstractHtmlExporter
 {
 	private static final Log log = LogFactory.getLog(JRXhtmlExporter.class);
 	
 	private static final String XHTML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xhtml.";
 
-	public static final String PROPERTY_IGNORE_HYPERLINK = XHTML_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;//FIXMEEXPORT can we do something about it?
+	public static final String PROPERTY_IGNORE_HYPERLINK = XHTML_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
 	public static final String XHTML_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "xhtml";
+	
+	/**
+	 *
+	 */
+	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
+
+	protected static final float DEFAULT_ZOOM = 1f;
+
+	/**
+	 *
+	 */
+	protected static final String CSS_TEXT_ALIGN_LEFT = "left";
+	protected static final String CSS_TEXT_ALIGN_RIGHT = "right";
+	protected static final String CSS_TEXT_ALIGN_CENTER = "center";
+	protected static final String CSS_TEXT_ALIGN_JUSTIFY = "justify";
+
+	/**
+	 *
+	 */
+	protected static final String HTML_VERTICAL_ALIGN_TOP = "top";
+	protected static final String HTML_VERTICAL_ALIGN_MIDDLE = "middle";
+	protected static final String HTML_VERTICAL_ALIGN_BOTTOM = "bottom";
+	
+	public static final String IMAGE_NAME_PREFIX = "img_";
+	protected static final int IMAGE_NAME_PREFIX_LEGTH = IMAGE_NAME_PREFIX.length();
 
 	protected class ExporterContext extends BaseExporterContext implements JRHtmlExporterContext
 	{
@@ -147,8 +172,10 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 	 *
 	 */
 	protected Writer writer;
+	protected JRExportProgressMonitor progressMonitor;
 	protected Map<String,String> rendererToImagePathMap;
 	protected Map<Pair<String,Rectangle>,String> imageMaps;
+	protected Map<String,byte[]> imageNameToImageDataMap;
 	
 	protected Map<String, HtmlFont> fontsToProcess;
 	
@@ -161,9 +188,29 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 	protected int rightLimit;
 	protected int bottomLimit;
 
+	/**
+	 *
+	 */
+	protected boolean isWhitePageBackground;
+	protected String encoding;
+	protected String sizeUnit;
+	protected float zoom = DEFAULT_ZOOM;
+	protected boolean isWrapBreakWord;
+	protected boolean isIgnorePageMargins;
+
+	/**
+	 *
+	 */
+	protected String htmlHeader;
+	protected String betweenPagesHtml;
+	protected String htmlFooter;
+
+
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory;		
 
 	protected boolean hyperlinkStarted;	
+	
+	protected JRHtmlExporterContext exporterContext = new ExporterContext();
 
 	/**
 	 * @see #JRXhtmlExporter(JasperReportsContext)
@@ -181,43 +228,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 	{
 		super(jasperReportsContext);
 
-		exporterContext = new ExporterContext();
 		targetProducerFactory = new DefaultHyperlinkTargetProducerFactory(jasperReportsContext);		
-	}
-
-
-	/**
-	 *
-	 */
-	protected Class<HtmlExporterConfiguration> getConfigurationInterface()
-	{
-		return HtmlExporterConfiguration.class;
-	}
-
-
-	/**
-	 *
-	 */
-	protected Class<HtmlReportConfiguration> getItemConfigurationInterface()
-	{
-		return HtmlReportConfiguration.class;
-	}
-	
-
-	/**
-	 *
-	 */
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = 
-				new ParametersHtmlExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					);
-		}
 	}
 	
 
@@ -226,65 +237,294 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 	 */
 	public void exportReport() throws JRException
 	{
+		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
+
 		/*   */
-		ensureJasperReportsContext();
-		ensureInput();
-
-		rendererToImagePathMap = new HashMap<String,String>();
-		imageMaps = new HashMap<Pair<String,Rectangle>,String>();
-
-		fontsToProcess = new HashMap<String, HtmlFont>();
-		
-		initExport();
-		
-		ensureOutput();
-		
-		writer = getExporterOutput().getWriter();
+		setOffset();
 
 		try
 		{
-			exportReportToWriter();
-		}
-		catch (IOException e)
-		{
-			throw new JRException("Error writing to output writer : " + jasperPrint.getName(), e);
+			/*   */
+			setExportContext();
+	
+			/*   */
+			setInput();
+			
+			if (!parameters.containsKey(JRExporterParameter.FILTER))
+			{
+				filter = createFilter(XHTML_EXPORTER_PROPERTIES_PREFIX);
+			}
+
+			/*   */
+			if (!isModeBatch)
+			{
+				setPageRange();
+			}
+	
+			htmlHeader = (String)parameters.get(JRHtmlExporterParameter.HTML_HEADER);
+			betweenPagesHtml = (String)parameters.get(JRHtmlExporterParameter.BETWEEN_PAGES_HTML);
+			htmlFooter = (String)parameters.get(JRHtmlExporterParameter.HTML_FOOTER);
+	
+			@SuppressWarnings("deprecation")
+			Boolean isOutputImagesToDirParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR);
+			@SuppressWarnings("deprecation")
+			String imagesUri = (String)parameters.get(JRHtmlExporterParameter.IMAGES_URI);
+	
+			if (imageHandler == null)
+			{
+				if (isOutputImagesToDirParameter == null || isOutputImagesToDirParameter.booleanValue())
+				{
+					@SuppressWarnings("deprecation")
+					File imagesDir = (File)parameters.get(JRHtmlExporterParameter.IMAGES_DIR);
+					if (imagesDir == null)
+					{
+						@SuppressWarnings("deprecation")
+						String imagesDirName = (String)parameters.get(JRHtmlExporterParameter.IMAGES_DIR_NAME);
+						if (imagesDirName != null)
+						{
+							imagesDir = new File(imagesDirName);
+						}
+					}
+					
+					if (imagesDir != null)
+					{
+						imageHandler = new FileHtmlResourceHandler(imagesDir, imagesUri == null ? imagesDir.getName() + "/{0}" : imagesUri + "{0}");
+					}
+				}
+
+				if (imageHandler == null && imagesUri != null)
+				{
+					imageHandler = new WebHtmlResourceHandler(imagesUri + "{0}");
+				}
+			}
+	
+			isWhitePageBackground = 
+				getBooleanParameter(
+					JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND,
+					JRHtmlExporterParameter.PROPERTY_WHITE_PAGE_BACKGROUND,
+					true
+					);
+	
+			encoding = 
+				getStringParameterOrDefault(
+					JRExporterParameter.CHARACTER_ENCODING, 
+					JRExporterParameter.PROPERTY_CHARACTER_ENCODING
+					);
+
+			rendererToImagePathMap = new HashMap<String,String>();
+			imageMaps = new HashMap<Pair<String,Rectangle>,String>();
+	
+			//backward compatibility with the IMAGE_MAP parameter
+			@SuppressWarnings({ "deprecation", "unchecked" })
+			Map<String,byte[]> depMap = (Map<String,byte[]>)parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
+			imageNameToImageDataMap = depMap;
+			//END - backward compatibility with the IMAGE_MAP parameter
+
+			fontsToProcess = new HashMap<String, HtmlFont>();
+			
+			isWrapBreakWord = 
+				getBooleanParameter(
+					JRHtmlExporterParameter.IS_WRAP_BREAK_WORD,
+					JRHtmlExporterParameter.PROPERTY_WRAP_BREAK_WORD,
+					false
+					);
+	
+			sizeUnit = 
+				getStringParameterOrDefault(
+					JRHtmlExporterParameter.SIZE_UNIT,
+					JRHtmlExporterParameter.PROPERTY_SIZE_UNIT
+					);
+			
+			Float zoomRatio = (Float)parameters.get(JRHtmlExporterParameter.ZOOM_RATIO);
+			if (zoomRatio != null)
+			{
+				zoom = zoomRatio.floatValue();
+				if (zoom <= 0)
+				{
+					throw new JRException("Invalid zoom ratio : " + zoom);
+				}
+			}
+			else
+			{
+				zoom = DEFAULT_ZOOM;
+			}
+	
+			isIgnorePageMargins = 
+				getBooleanParameter(
+					JRExporterParameter.IGNORE_PAGE_MARGINS,
+					JRExporterParameter.PROPERTY_IGNORE_PAGE_MARGINS,
+					false
+					);
+			
+			setFontMap();
+						
+			setHyperlinkProducerFactory();
+			
+			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
+			if (sb != null)
+			{
+				try
+				{
+					writer = new StringWriter();
+					exportReportToWriter();
+					sb.append(writer.toString());
+				}
+				catch (IOException e)
+				{
+					throw new JRException("Error writing to StringBuffer writer : " + jasperPrint.getName(), e);
+				}
+				finally
+				{
+					if (writer != null)
+					{
+						try
+						{
+							writer.close();
+						}
+						catch(IOException e)
+						{
+						}
+					}
+				}
+			}
+			else
+			{
+				writer = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
+				if (writer != null)
+				{
+					try
+					{
+						exportReportToWriter();
+					}
+					catch (IOException e)
+					{
+						throw new JRException("Error writing to writer : " + jasperPrint.getName(), e);
+					}
+				}
+				else
+				{
+					OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+					if (os != null)
+					{
+						try
+						{
+							writer = new OutputStreamWriter(os, encoding);
+							exportReportToWriter();
+						}
+						catch (IOException e)
+						{
+							throw new JRException("Error writing to OutputStream writer : " + jasperPrint.getName(), e);
+						}
+					}
+					else
+					{
+						File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+						if (destFile == null)
+						{
+							String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+							if (fileName != null)
+							{
+								destFile = new File(fileName);
+							}
+							else
+							{
+								throw new JRException("No output specified for the exporter.");
+							}
+						}
+	
+						try
+						{
+							os = new FileOutputStream(destFile);
+							writer = new OutputStreamWriter(os, encoding);
+						}
+						catch (IOException e)
+						{
+							throw new JRException("Error creating to file writer : " + jasperPrint.getName(), e);
+						}
+	
+						if (
+							imageHandler == null
+							&& (isOutputImagesToDirParameter == null || isOutputImagesToDirParameter.booleanValue())
+							)
+						{
+							File imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
+							imageHandler = new FileHtmlResourceHandler(imagesDir, imagesUri == null ? imagesDir.getName() + "/{0}" : imagesUri + "{0}");
+						}
+
+						if (fontHandler == null)
+						{
+							File resourcesDir = new File(destFile.getParent(), destFile.getName() + "_files");
+							fontHandler = new FileHtmlResourceHandler(resourcesDir, resourcesDir.getName() + "/{0}");
+						}
+						
+						if (resourceHandler == null)
+						{
+							resourceHandler = new FileHtmlResourceHandler(new File(destFile.getParent(), destFile.getName() + "_files"));
+						}
+						
+						try
+						{
+							exportReportToWriter();
+						}
+						catch (IOException e)
+						{
+							throw new JRException("Error writing to file writer : " + jasperPrint.getName(), e);
+						}
+						finally
+						{
+							if (writer != null)
+							{
+								try
+								{
+									writer.close();
+								}
+								catch(IOException e)
+								{
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 		finally
 		{
-			getExporterOutput().close();
 			resetExportContext();
 		}
 	}
 
 
-	@Override
-	protected void initExport()
+	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName)
 	{
-		super.initExport();
+		return getImage(jasperPrintList, getPrintElementIndex(imageName));
 	}
 
 
-	@Override
-	protected void initReport()
+	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex)
 	{
-		super.initReport();
+		JasperPrint report = jasperPrintList.get(imageIndex.getReportIndex());
+		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
+
+		Integer[] elementIndexes = imageIndex.getAddressArray();
+		Object element = page.getElements().get(elementIndexes[0].intValue());
+
+		for (int i = 1; i < elementIndexes.length; ++i)
+		{
+			JRPrintFrame frame = (JRPrintFrame) element;
+			element = frame.getElements().get(elementIndexes[i].intValue());
+		}
+
+		return (JRPrintImage) element;
 	}
-	
+
 
 	/**
 	 *
 	 */
 	protected void exportReportToWriter() throws JRException, IOException
 	{
-		HtmlExporterConfiguration configuration = getCurrentConfiguration();
-		String htmlHeader = configuration.getHtmlHeader();
-		String betweenPagesHtml = configuration.getBetweenPagesHtml();
-		String htmlFooter = configuration.getHtmlFooter();
-
 		if (htmlHeader == null)
 		{
-			String encoding = ((WriterExporterOutput)getExporterOutput()).getEncoding();
-
 			writer.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n");
 			writer.write("<html>\n");
 			writer.write("<head>\n");
@@ -304,20 +544,18 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 			writer.write(htmlHeader);
 		}
 
-		List<ExporterInputItem> items = exporterInput.getItems();
-
-		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
+		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			ExporterInputItem item = items.get(reportIndex);
-
-			setCurrentExporterInputItem(item);
+			setJasperPrint(jasperPrintList.get(reportIndex));
 
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
-				PageRange pageRange = getPageRange();
-				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
-				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
+				if (isModeBatch)
+				{
+					startPageIndex = 0;
+					endPageIndex = pages.size() - 1;
+				}
 
 				JRPrintPage page = null;
 				for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
@@ -334,7 +572,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 					/*   */
 					exportPage(page);
 
-					if (reportIndex < items.size() - 1 || pageIndex < endPageIndex)
+					if (reportIndex < jasperPrintList.size() - 1 || pageIndex < endPageIndex)
 					{
 						if (betweenPagesHtml == null)
 						{
@@ -353,10 +591,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 
 		if (fontsToProcess != null && fontsToProcess.size() > 0)// when no fontHandler and/or resourceHandler, fonts are not processed 
 		{
-			HtmlResourceHandler fontHandler = 
-				getExporterOutput().getFontHandler() == null
-				? getFontHandler()
-				: getExporterOutput().getFontHandler();
 			for (HtmlFont htmlFont : fontsToProcess.values())
 			{
 				writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + fontHandler.getResourcePath(htmlFont.getId()) + "\">\n");
@@ -385,7 +619,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 			writer.write(htmlFooter);
 		}
 
-		writer.flush();//FIXMEEXPORT other exporters always perform flush
+		writer.flush();
 	}
 
 
@@ -401,9 +635,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 		
 		setPageLimits(page.getElements());
 
-		HtmlReportConfiguration configuration = getCurrentItemConfiguration();
-
-		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
 		if (!isIgnorePageMargins)
 		{
 			topLimit = 0;
@@ -430,7 +661,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 			leftLimit = rightLimit;
 		}
 		
-		boolean isWhitePageBackground = configuration.isWhitePageBackground();
 		writer.write(
 			"<div class=\"jrPage\" style=\"" + (isWhitePageBackground ? "background-color: #FFFFFF;" : "") 
 			+ "position:relative;width:" + toSizeUnit(rightLimit - leftLimit) 
@@ -443,7 +673,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 
 		writer.write("</div>");
 		
-		JRExportProgressMonitor progressMonitor = configuration.getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -664,43 +893,41 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);//FIXMENOW reuse this font lookup code everywhere
 		String fontFamily = fontFamilyAttr;
-
-		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
-		if (fontInfo != null)
+		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
 		{
-			//fontName found in font extensions
-			FontFamily family = fontInfo.getFontFamily();
-			String exportFont = family.getExportFont(getExporterKey());
-			if (exportFont == null)
+			fontFamily = fontMap.get(fontFamilyAttr);
+		}
+		else
+		{
+			FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
+			if (fontInfo != null)
 			{
-				HtmlResourceHandler fontHandler = 
-					getExporterOutput().getFontHandler() == null
-					? getFontHandler()
-					: getExporterOutput().getFontHandler();
-				HtmlResourceHandler resourceHandler = 
-					getExporterOutput().getResourceHandler() == null
-					? getResourceHandler()
-					: getExporterOutput().getResourceHandler();
-				if (fontHandler != null && resourceHandler != null)
+				//fontName found in font extensions
+				FontFamily family = fontInfo.getFontFamily();
+				String exportFont = family.getExportFont(getExporterKey());
+				if (exportFont == null)
 				{
-					HtmlFont htmlFont = HtmlFont.getInstance(locale, fontInfo, isBold, isItalic);
-					
-					if (htmlFont != null)
+					if (fontHandler != null && resourceHandler != null)
 					{
-						if (!fontsToProcess.containsKey(htmlFont.getId()))
-						{
-							fontsToProcess.put(htmlFont.getId(), htmlFont);
-
-							HtmlFontUtil.handleFont(resourceHandler, htmlFont);
-						}
+						HtmlFont htmlFont = HtmlFont.getInstance(locale, fontInfo, isBold, isItalic);
 						
-						fontFamily = htmlFont.getId();
+						if (htmlFont != null)
+						{
+							if (!fontsToProcess.containsKey(htmlFont.getId()))
+							{
+								fontsToProcess.put(htmlFont.getId(), htmlFont);
+
+								HtmlFontUtil.handleFont(resourceHandler, htmlFont);
+							}
+							
+							fontFamily = htmlFont.getId();
+						}
 					}
 				}
-			}
-			else
-			{
-				fontFamily = exportFont;
+				else
+				{
+					fontFamily = exportFont;
+				}
 			}
 		}
 
@@ -1080,7 +1307,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 //			}
 		}
 
-		if (getCurrentItemConfiguration().isWrapBreakWord())
+		if (isWrapBreakWord)
 		{
 			//styleBuffer.append("width: " + toSizeUnit(text.getWidth()) + "; ");
 			styleBuffer.append("word-wrap: break-word; ");
@@ -1256,7 +1483,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = getPropertiesUtil().getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
+			ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
 		}
 
 		if (!ignoreHyperlink)
@@ -1712,11 +1939,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 					}
 					else
 					{
-						HtmlResourceHandler imageHandler = 
-							getExporterOutput().getImageHandler() == null 
-							? getImageHandler() 
-							: getExporterOutput().getImageHandler();
-						if (imageHandler != null)
+						if (imageHandler != null || imageNameToImageDataMap != null)
 						{
 							JRPrintElementIndex imageIndex = getElementIndex();
 							String imageName = getImageName(imageIndex);
@@ -1733,6 +1956,13 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 
 							byte[] imageData = renderer.getImageData(jasperReportsContext);
 
+							//backward compatibility with the IMAGE_MAP parameter
+							if (imageNameToImageDataMap != null)
+							{
+								imageNameToImageDataMap.put(imageName, imageData);
+							}
+							//END - backward compatibility with the IMAGE_MAP parameter
+							
 							if (imageHandler != null)
 							{
 								imageHandler.handleResource(imageName, imageData);
@@ -2230,6 +2460,29 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 		}
 	}
 
+	
+	/**
+	 *
+	 */
+	public static String getImageName(JRPrintElementIndex printElementIndex)
+	{
+		return IMAGE_NAME_PREFIX + printElementIndex.toString();
+	}
+
+
+	/**
+	 *
+	 */
+	public static JRPrintElementIndex getPrintElementIndex(String imageName)
+	{
+		if (!imageName.startsWith(IMAGE_NAME_PREFIX))
+		{
+			throw new JRRuntimeException("Invalid image name: " + imageName);
+		}
+
+		return JRPrintElementIndex.parsePrintElementIndex(imageName.substring(IMAGE_NAME_PREFIX_LEGTH));
+	}
+
 
 	public void exportFrame(JRPrintFrame frame) throws IOException, JRException
 	{
@@ -2328,7 +2581,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 		return parameters;
 	}
 
-	public String getExporterPropertiesPrefix()
+	public String getExportPropertiesPrefix()
 	{
 		return XHTML_EXPORTER_PROPERTIES_PREFIX;
 	}
@@ -2341,23 +2594,11 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 
 	public String toSizeUnit(int size)
 	{
-		return String.valueOf(toZoom(size)) + getCurrentItemConfiguration().getSizeUnit().getName();
+		return String.valueOf(toZoom(size)) + sizeUnit;
 	}
 
 	public int toZoom(int size)
 	{
-		float zoom = DEFAULT_ZOOM;
-		
-		Float zoomRatio = getCurrentItemConfiguration().getZoomRatio();
-		if (zoomRatio != null)
-		{
-			zoom = zoomRatio.floatValue();
-			if (zoom <= 0)
-			{
-				throw new JRRuntimeException("Invalid zoom ratio : " + zoom);
-			}
-		}
-
 		return (int)(zoom * size);
 	}
 
@@ -2381,7 +2622,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 		
 		return styledText;
 	}
-	
 	
 	/**
 	 *

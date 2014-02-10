@@ -107,7 +107,7 @@ public final class FlashPrintElement
 				String exporterKey)
 		{
 			if (FLASH_ELEMENT_NAME.equals(elementName) 
-					&& HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
+					&& JRHtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
 			{
 				return FlashHtmlHandler.getInstance();
 			}

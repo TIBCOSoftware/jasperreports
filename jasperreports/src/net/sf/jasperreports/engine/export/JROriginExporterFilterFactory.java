@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRAbstractExporter;
-
 
 /**
  * Factory of {@link JROriginExporterFilter} instances.
@@ -38,22 +36,14 @@ public class JROriginExporterFilterFactory implements ExporterFilterFactory
 
 	public ExporterFilter getFilter(JRExporterContext exporterContext)
 	{
-		JRAbstractExporter<?, ?, ?, ?> exporter = 
-			exporterContext.getExporterRef() instanceof JRAbstractExporter<?, ?, ?, ?> 
-			? (JRAbstractExporter<?, ?, ?, ?>)exporterContext.getExporterRef() 
-			: null;
-		if (exporter != null)
-		{
-			String originFilterPrefix = exporter.getExporterPropertiesPrefix() 
-					+ JROriginExporterFilter.PROPERTY_EXCLUDE_ORIGIN_PREFIX;
-			return 
-				JROriginExporterFilter.getFilter(
-					exporterContext.getJasperReportsContext(),
-					exporterContext.getExportedReport().getPropertiesMap(), 
-					originFilterPrefix
-					);
-		}
-		return null;
+		String originFilterPrefix = exporterContext.getExportPropertiesPrefix() 
+				+ JROriginExporterFilter.PROPERTY_EXCLUDE_ORIGIN_PREFIX;
+		return 
+			JROriginExporterFilter.getFilter(
+				exporterContext.getJasperReportsContext(),
+				exporterContext.getExportedReport().getPropertiesMap(), 
+				originFilterPrefix
+				);
 	}
 
 }

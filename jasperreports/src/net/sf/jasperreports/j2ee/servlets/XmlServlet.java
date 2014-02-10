@@ -35,12 +35,10 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleReportExportConfiguration;
-import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -117,17 +115,16 @@ public class XmlServlet extends BaseHttpServlet
 		{
 			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
 			JRXmlExporter exporter = getExporter();
-			exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-			SimpleReportExportConfiguration configuration = new SimpleReportExportConfiguration();
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 			if (startPageIndex >= 0)
 			{
-				configuration.setStartPageIndex(startPageIndex);
+				exporter.setParameter(JRExporterParameter.START_PAGE_INDEX, Integer.valueOf(startPageIndex));
 			}
 			if (endPageIndex >= 0)
 			{
-				configuration.setEndPageIndex(endPageIndex);
+				exporter.setParameter(JRExporterParameter.END_PAGE_INDEX, Integer.valueOf(endPageIndex));
 			}
-			exporter.setExporterOutput(new SimpleWriterExporterOutput(fbos));
+			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fbos);
 
 			try 
 			{
@@ -139,21 +136,21 @@ public class XmlServlet extends BaseHttpServlet
 					response.setContentType("text/xml");
 					response.setHeader("Content-Disposition", "inline; filename=\"file.jrpxml\"");
 					response.setContentLength(fbos.size());
-					ServletOutputStream outputStream = response.getOutputStream();
+					ServletOutputStream ouputStream = response.getOutputStream();
 	
 					try
 					{
-						fbos.writeData(outputStream);
+						fbos.writeData(ouputStream);
 						fbos.dispose();
-						outputStream.flush();
+						ouputStream.flush();
 					}
 					finally
 					{
-						if (outputStream != null)
+						if (ouputStream != null)
 						{
 							try
 							{
-								outputStream.close();
+								ouputStream.close();
 							}
 							catch (IOException ex)
 							{
@@ -188,19 +185,18 @@ public class XmlServlet extends BaseHttpServlet
 			response.setHeader("Content-Disposition", "inline; filename=\"file.jrpxml\"");
 
 			JRXmlExporter exporter = getExporter();
-			exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-			SimpleReportExportConfiguration configuration = new SimpleReportExportConfiguration();
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 			if (startPageIndex >= 0)
 			{
-				configuration.setStartPageIndex(startPageIndex);
+				exporter.setParameter(JRExporterParameter.START_PAGE_INDEX, Integer.valueOf(startPageIndex));
 			}
 			if (endPageIndex >= 0)
 			{
-				configuration.setEndPageIndex(endPageIndex);
+				exporter.setParameter(JRExporterParameter.END_PAGE_INDEX, Integer.valueOf(endPageIndex));
 			}
 			
-			OutputStream outputStream = response.getOutputStream();
-			exporter.setExporterOutput(new SimpleWriterExporterOutput(outputStream));
+			OutputStream ouputStream = response.getOutputStream();
+			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, ouputStream);
 
 			try 
 			{
@@ -212,11 +208,11 @@ public class XmlServlet extends BaseHttpServlet
 			}
 			finally
 			{
-				if (outputStream != null)
+				if (ouputStream != null)
 				{
 					try
 					{
-						outputStream.close();
+						ouputStream.close();
 					}
 					catch (IOException ex)
 					{

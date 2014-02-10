@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
@@ -161,8 +162,8 @@ public abstract class ElementDrawer<T extends JRPrintElement>
 	{
 		Stroke topStroke = JRPenUtil.getStroke(topPen, BasicStroke.CAP_BUTT);
 		int width = element.getWidth();
-		float leftOffset = leftPen.getLineWidth().floatValue() / 2;
-		float rightOffset = rightPen.getLineWidth().floatValue() / 2;
+		float leftOffset = leftPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(leftPen);
+		float rightOffset = rightPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(rightPen);
 		
 		if (topStroke != null && width > 0)
 		{
@@ -216,7 +217,7 @@ public abstract class ElementDrawer<T extends JRPrintElement>
 			{
 				grx.translate(
 					element.getX() + offsetX - leftOffset, 
-					element.getY() + offsetY
+					element.getY() + offsetY + BorderOffset.getOffset(topPen)
 					);
 				grx.scale(
 					(width + leftOffset + rightOffset) 
@@ -251,8 +252,8 @@ public abstract class ElementDrawer<T extends JRPrintElement>
 	{
 		Stroke leftStroke = JRPenUtil.getStroke(leftPen, BasicStroke.CAP_BUTT);
 		int height = element.getHeight();
-		float topOffset = topPen.getLineWidth().floatValue() / 2;
-		float bottomOffset = bottomPen.getLineWidth().floatValue() / 2;
+		float topOffset = topPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(topPen);
+		float bottomOffset = bottomPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(bottomPen);
 		
 		if (leftStroke != null && height > 0)
 		{
@@ -305,7 +306,7 @@ public abstract class ElementDrawer<T extends JRPrintElement>
 			else
 			{
 				grx.translate(
-					element.getX() + offsetX, 
+					element.getX() + offsetX + BorderOffset.getOffset(leftPen), 
 					element.getY() + offsetY - topOffset
 					);
 				grx.scale(
@@ -342,8 +343,8 @@ public abstract class ElementDrawer<T extends JRPrintElement>
 		Stroke bottomStroke = JRPenUtil.getStroke(bottomPen, BasicStroke.CAP_BUTT);
 		int width = element.getWidth();
 		int height = element.getHeight();
-		float leftOffset = leftPen.getLineWidth().floatValue() / 2;
-		float rightOffset = rightPen.getLineWidth().floatValue() / 2;
+		float leftOffset = leftPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(leftPen);
+		float rightOffset = rightPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(rightPen);
 		
 		if (bottomStroke != null && width > 0)
 		{
@@ -397,7 +398,7 @@ public abstract class ElementDrawer<T extends JRPrintElement>
 			{
 				grx.translate(
 					element.getX() + offsetX - leftOffset, 
-					element.getY() + offsetY + height
+					element.getY() + offsetY + height - BorderOffset.getOffset(bottomPen)
 					);
 				grx.scale(
 					(width + leftOffset + rightOffset) 
@@ -433,8 +434,8 @@ public abstract class ElementDrawer<T extends JRPrintElement>
 		Stroke rightStroke = JRPenUtil.getStroke(rightPen, BasicStroke.CAP_BUTT);
 		int height = element.getHeight();
 		int width = element.getWidth();
-		float topOffset = topPen.getLineWidth().floatValue() / 2;
-		float bottomOffset = bottomPen.getLineWidth().floatValue() / 2;
+		float topOffset = topPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(topPen);
+		float bottomOffset = bottomPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(bottomPen);
 		
 		if (rightStroke != null && height > 0)
 		{
@@ -487,7 +488,7 @@ public abstract class ElementDrawer<T extends JRPrintElement>
 			else
 			{
 				grx.translate(
-					element.getX() + offsetX + width, 
+					element.getX() + offsetX + width - BorderOffset.getOffset(rightPen), 
 					element.getY() + offsetY - topOffset
 					);
 				grx.scale(

@@ -34,14 +34,11 @@ in the <a href="../../components.schema.reference.html">components.xsd</a> schem
     <complexContent>
       <extension base="jr:componentType">
         <sequence>
-          <element name="latitudeExpression" minOccurs="0" maxOccurs="1">
-	        <complexType mixed="true"/>
+          <element name="latitudeExpression">
+            <complexType mixed="true"/>
           </element>
-          <element name="longitudeExpression" minOccurs="0" maxOccurs="1">
-	        <complexType mixed="true"/>
-          </element>
-          <element name="addressExpression" minOccurs="0" maxOccurs="1">
-	        <complexType mixed="true"/>
+          <element name="longitudeExpression">
+            <complexType mixed="true"/>
           </element>
           <element name="zoomExpression" minOccurs="0" maxOccurs="1">
             <complexType mixed="true"/>
@@ -149,10 +146,8 @@ in the <a href="../../components.schema.reference.html">components.xsd</a> schem
 The JR built-in <code>map</code> component is based on the public 
 <a href="http://code.google.com/apis/maps/documentation/javascript/reference.html">Google Maps APIs</a> licensed 
 under the <a href="http://creativecommons.org/licenses/by/3.0">Creative Commons Attribution 3.0 License</a>. Prior to 
-start using this component, please consult both <a href="https://developers.google.com/maps/terms">Google terms of service</a> 
-and <a href="https://developers.google.com/readme/policies">Google site policies</a> pages. 
-<br/>
-Ensure the map component in your application is used in accordance with these terms and conditions.</b>
+start using this component, please read the <a href="https://developers.google.com/readme/policies">Google site policies</a> 
+page. Ensure that pages using a map component in your application are in accordance with these terms and conditions.</b>
 <br/>
 <br/>
 <b>Map Attributes</b>
@@ -197,23 +192,15 @@ working with high resolution screens available on mobile devices.  Possible valu
 <b>The Latitude Expression</b>    
 <br/>
 <br/>
-The <code>&lt;c:latitudeExpression/&gt;</code> represents the latitude coordinate of the map center, necessary to locate it on the Earth surface. 
-Allowed values are floating point numbers representing degrees from -90&#176; to 90&#176;.
+The <code>&lt;c:latitudeExpression/&gt;</code> represents the latitude coordinate of the main area, necessary to locate it on the Earth surface. 
+Allowed values are floating point numbers representing degrees from -90&#176; to 90&#176;. The default value is 0.
 <br/>
 <br/>
 <b>The Longitude Expression</b>    
 <br/>
 <br/>
-The <code>&lt;c:longitudeExpression/&gt;</code> represents the longitude coordinate of the map center, necessary to locate it on the Earth surface. 
-Allowed values are floating point numbers representing degrees from -180&#176; to 180&#176;.
-<br/>
-<br/>
-<b>The Address Expression</b>    
-<br/>
-<br/>
-The <code>&lt;c:addressExpression/&gt;</code> represents the address of the map center and is optional. It will be considered only when the latitude and/or 
-longitude expressions are missing or empty. Computing address expressions relies on expensive time and resources consumption, therefore the report 
-filling performance may visibly decline. It is highly recommended to use latitude and longitude expressions whenever possible. 
+The <code>&lt;c:longitudeExpression/&gt;</code> represents the longitude coordinate of the main area, necessary to locate it on the Earth surface. 
+Allowed values are floating point numbers representing degrees from -180&#176; to 180&#176;. The default value is 0.
 <br/>
 <br/>
 <b>The Zoom Expression</b>    
@@ -227,7 +214,7 @@ The <code>&lt;c:zoomExpression/&gt;</code> represents the initial map zoom level
 <br/>
 The <code>&lt;c:languageExpression/&gt;</code> represents the language code used to localize the textual information displayed on the map, 
 such as control names, copyright notices and other various labels. Supported languages can be found 
-<a href="https://spreadsheets.google.com/spreadsheet/pub?key=0Ah0xU81penP1cDlwZHdzYWkyaERNc0xrWHNvTTA1S1E&amp;gid=1" target="_blank">here</a>.
+<a href="https://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&amp;gid=1" target="_blank">here</a>.
 <br/>
 <br/>
 <b>The Marker Dataset</b>   
@@ -263,23 +250,17 @@ The marker item element contains a list of specific item properties that can be 
 match the names of supported marker options available <a href="https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions" target="_blank">here</a>. 
 <br/>
 The main exception is the <code>position</code> option, currently undefined in JR. It is actually replaced by the <code>latitude</code> and <code>longitude</code> property 
-names, both necessary to compute the marker position on the map. If at least one of these two properties is missing or empty, try to set the equivalent <code>address</code> property. 
-If no address is available, an exception will be thrown. 
+names, both required. They are used to compute the marker position on the map. If at least one of these two properties is missing or is empty, an exception will be thrown. 
 <br/>
 <br/>
-<b>Warnings:</b> 
-<ul>
-<li>To avoid such exceptions when using a subdataset, use a <code>&lt;filterExpression&gt;</code> to skip markers with empty latitude/longitude and address 
-properties. A data filtering example can be found in the map component sample.
-</li>
-<li>The intensive use of the <code>address</code> property is not recommended, because it will definitely slow the report generation. Try to use the latitude and longitude 
-properties when they are available.</li>
-</ul>
+<b>Warning:</b> To avoid such exceptions when using a subdataset, use a <code>&lt;filterExpression&gt;</code> to skip markers with empty latitude/longitude 
+properties. An example can be found in the map component sample.
+<br/>
+<br/>
 Below is a list of valid <code>itemProperty</code> names:
 <ul>
-<li><code>latitude</code> - floating-point value</li>
-<li><code>longitude</code> - floating-point value</li>
-<li><code>address</code> - optional; string value; considered only when latitude and/or longitude are missing or empty</li>
+<li><code>latitude</code> - required; floating-point value</li>
+<li><code>longitude</code> - required; floating-point value</li>
 <li><code>title</code> - string value</li>
 <li><code>url</code> - string value. Link to a page or document that will be open when the marker is clicked on. See also <a href="#infoWindows">Info Windows</a></li>
 <li><code>target</code> - string value. The target window/frame to load the marker URL. Allowed values are:
@@ -320,13 +301,9 @@ Below is a list of valid <code>itemProperty</code> names:
 <li><code>label</code> - string value representing the label for the default pin icons. This property is taken into account when none of  
 <code>icon</code> or <code>icon.url</code> properties are set.
 <br/>
-<br/>
 <b>Note:</b> Unlike interactive maps, Google static maps require single uppercase alphanumeric character labels. If multiple character 
 labels are set, the JR engine will process the entire label for dynamic maps and only the first character in the label for static maps. 
-Labels are displayed only for default and mid sized markers, small and tiny markers provide no capability to display labels.
-<br/>
-<br/>
-</li>
+Labels are displayed only for default and mid sized markers, small and tiny markers provide no capability to display labels.</li>
 <li><code>cursor</code> - string value</li>
 <li><code>zIndex</code> - integer value</li>
 <li><code>clickable</code> - boolean value</li>
@@ -402,12 +379,11 @@ Various locations on a given map can be connected to form a path. To configure a
 <br/>
 Points that have to be connected in a path are grouped into the <code>&lt;pathData/&gt;</code> element. A path data element is very similar to the 
 <a href="#markerData">marker data element</a> described above, but comes with a different set of item properties. Each item in the path data element 
-represents a place on the map and must provide either the <code>latitude</code> and <code>longitude</code>, or the equivalent <code>address</code> 
-property from the following list of allowed properties:
+represents a location (point) on the map and must provide at least the <code>latitude</code> and <code>longitude</code> properties from the following 
+list of allowed properties:
 <ul>
-<li><code>latitude</code> - floating-point value</li>
-<li><code>longitude</code> - floating-point value</li>
-<li><code>address</code> - optional; string value</li>
+<li><code>latitude</code> - required; floating-point value</li>
+<li><code>longitude</code> - required; floating-point value</li>
 <li><code>name</code> - optional; string value. Represents the identifier of a given path, necessary when multiple paths have to be represented on the same map. 
 Points with the same <code>name</code> property belong to the same path. If not provided, the point will be added to the default path.</li>
 <li><code>style</code> - optional; string value. Represents the name of a given path style (path styles are discussed in the next section of this document). 
@@ -436,8 +412,6 @@ follow the curvature of the Earth when the path contour is dragged. Defaults to 
 <li>Points in a given path are connected one by one, in the same order they were declared in the report. To get consistent results, make sure items 
 in the path data element are declared in the right order.</li>
 <li>If points in the same path provide different values for the same item property, the property value will be set by the last point in the path that provides this property.</li>
-<li>The intensive use of the <code>address</code> property is not recommended, because it will definitely slow the report generation. Try to use the latitude and longitude 
-properties when they are available.</li>
 </ul>
 <subtitle name="pathStyle">The Path Style Element</subtitle>
 <br/>
@@ -549,9 +523,7 @@ skipped due to the <code>&lt;filterExpression/&gt;</code> in the subdataset:
   <field name="longitude" class="java.lang.String">
     <fieldDescription><![CDATA[longitude]] ></fieldDescription>
   </field>
-  <filterExpression>
-    <![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] >
-  </filterExpression>
+  <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
 </subDataset>]]></pre>
 The map component configuration is the following:
 <pre><![CDATA[
@@ -611,9 +583,7 @@ component configuration (and the subdataset):
   <field name="iconheight" class="java.lang.Integer">
    <fieldDescription><![CDATA[iconheight]] ></fieldDescription>
   </field>
-  <filterExpression>
-    <![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] >
-  </filterExpression>
+  <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
 </subDataset>
 ...
 <componentElement>
@@ -682,9 +652,7 @@ Two additional subdatasets were added in order to generate path styles and path 
   <field name="url" class="java.lang.String">
     <fieldDescription><![CDATA[url]] ></fieldDescription>
   </field>
-  <filterExpression>
-    <![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] >
-  </filterExpression>
+  <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
 </subDataset>
 <subDataset name="PathStyleDataset">
   <property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.xml"/>
@@ -734,9 +702,7 @@ Two additional subdatasets were added in order to generate path styles and path 
   <field name="ispolygon" class="java.lang.String">
     <fieldDescription><![CDATA[ispolygon]] ></fieldDescription>
   </field>
-  <filterExpression>
-    <![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] >
-  </filterExpression>
+  <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
 </subDataset>
 ...
 <componentElement>
@@ -852,11 +818,9 @@ property is a HTML fragment with escaped open and end tags.
     <fieldDescription><![CDATA[iconwidth]] ></fieldDescription>
   </field>
   <field name="iconheight" class="java.lang.Integer">
-    <fieldDescription><![CDATA[iconheight]] ></fieldDescription>
+   <fieldDescription><![CDATA[iconheight]] ></fieldDescription>
   </field>
-  <filterExpression>
-    <![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] >
-  </filterExpression>
+  <filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
 </subDataset>
 ...
 <componentElement>
@@ -891,8 +855,11 @@ property is a HTML fragment with escaped open and end tags.
           <valueExpression>$F{iconheight}</valueExpression>
         </c:itemProperty>
         <c:itemProperty name="infowindow.content">
-          <valueExpression>"<p style='text-align:right;'><img src='http://jasperreports.sourceforge.net/jasperreports.png'/></p>
-          	<p style='text-align:left;'>current latitude: <b>"+$F{latitude}+"</b><br/>current longitude: <b>"+$F{longitude}+"</b></p>"
+          <valueExpression>"&lt;p style='text-align:right;'&gt;&lt;img 
+            src='http://jasperreports.sourceforge.net/jasperreports.png'/&gt;&lt;/p&gt;&lt;p 
+            style='text-align:left;'&gt;
+            current latitude: &lt;b&gt;"+$F{latitude}+"&lt;/b&gt;&lt;br/&gt;current longitude: 
+            &lt;b&gt;"+$F{longitude}+"&lt;/b&gt;&lt;/p&gt;"
           </valueExpression>
         </c:itemProperty>
       </c:item>

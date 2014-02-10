@@ -52,7 +52,7 @@ import net.sf.jasperreports.engine.base.VirtualElementsData;
 import net.sf.jasperreports.engine.util.DeepPrintElementVisitor;
 import net.sf.jasperreports.engine.util.UniformPrintElementVisitor;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

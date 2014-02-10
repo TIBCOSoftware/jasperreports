@@ -351,12 +351,4 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * if <code>null</code> the default position is applied
 	 */
 	public void setHorizontalPosition(HorizontalPosition horizontalPosition);
-	
-	/**
-	 * Returns the title cell, which renders once at the beginning of the crosstab.
-	 * 
-	 * @return the title cell
-	 */
-	public CrosstabColumnCell getTitleCell();
-
 }

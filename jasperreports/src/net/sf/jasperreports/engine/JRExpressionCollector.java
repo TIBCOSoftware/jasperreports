@@ -1258,10 +1258,6 @@ public class JRExpressionCollector
 			}
 		}
 
-		if (crosstab.getTitleCell() != null)
-		{
-			crosstabCollector.collect(crosstab.getTitleCell().getCellContents());
-		}
 		crosstabCollector.collect(crosstab.getHeaderCell());
 
 		JRCrosstabRowGroup[] rowGroups = crosstab.getRowGroups();

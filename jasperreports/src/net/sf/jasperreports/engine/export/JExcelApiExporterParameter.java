@@ -32,15 +32,16 @@
 package net.sf.jasperreports.engine.export;
 
 
+
+
 /**
- * @deprecated To be removed.
  * @author Manuel Paul (mpaul@ratundtat.com)
  * @version $Id$
  */
-public class JExcelApiExporterParameter extends JRXlsAbstractExporterParameter 
-{
-	protected JExcelApiExporterParameter(String name) 
-	{
+public class JExcelApiExporterParameter extends JRXlsAbstractExporterParameter {
+
+	protected JExcelApiExporterParameter(String name) {
 		super(name);
 	}
+
 }

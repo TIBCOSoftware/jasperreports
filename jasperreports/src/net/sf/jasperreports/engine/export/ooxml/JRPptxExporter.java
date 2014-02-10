@@ -25,12 +25,15 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.awt.Dimension;
 import java.awt.geom.Dimension2D;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -38,6 +41,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
@@ -53,6 +57,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
@@ -70,10 +75,6 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.export.ExporterInputItem;
-import net.sf.jasperreports.export.OutputStreamExporterOutput;
-import net.sf.jasperreports.export.PptxExporterConfiguration;
-import net.sf.jasperreports.export.PptxReportConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -84,7 +85,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, PptxExporterConfiguration, OutputStreamExporterOutput, JRPptxExporterContext>
+public class JRPptxExporter extends JRAbstractExporter
 {
 	private static final Log log = LogFactory.getLog(JRPptxExporter.class);
 	
@@ -97,9 +98,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	protected static final String PPTX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.pptx.";
 
 	/**
-	 * @deprecated Replaced by {@link PptxReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
+	 * 
 	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = PptxReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
+	public static final String PROPERTY_IGNORE_HYPERLINK = PPTX_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
 	 *
@@ -123,8 +124,10 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	protected PptxSlideRelsHelper slideRelsHelper;
 	protected Writer presentationWriter;
 
+	protected JRExportProgressMonitor progressMonitor;
 	protected Map<String, String> rendererToImagePathMap;
 //	protected Map imageMaps;
+	protected List<JRPrintElementIndex> imagesToProcess;
 //	protected Map hyperlinksMap;
 
 	protected int reportIndex;
@@ -141,6 +144,8 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	
 	private PptxRunHelper runHelper;
 
+	protected JRPptxExporterContext exporterContext = new ExporterContext();
+
 	protected class ExporterContext extends BaseExporterContext implements JRPptxExporterContext
 	{
 		public ExporterContext()
@@ -150,6 +155,11 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		public PptxSlideHelper getSlideHelper()
 		{
 			return slideHelper;
+		}
+
+		public String getExportPropertiesPrefix()
+		{
+			return PPTX_EXPORTER_PROPERTIES_PREFIX;
 		}
 	}
 	
@@ -169,44 +179,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	public JRPptxExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
-
-		exporterContext = new ExporterContext();
-	}
-
-
-	/**
-	 *
-	 */
-	protected Class<PptxExporterConfiguration> getConfigurationInterface()
-	{
-		return PptxExporterConfiguration.class;
-	}
-
-
-	/**
-	 *
-	 */
-	protected Class<PptxReportConfiguration> getItemConfigurationInterface()
-	{
-		return PptxReportConfiguration.class;
-	}
-	
-
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					);
-		}
 	}
 	
 
@@ -215,60 +187,134 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	 */
 	public void exportReport() throws JRException
 	{
+		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
+
 		/*   */
-		ensureJasperReportsContext();
-		ensureInput();
-
-		rendererToImagePathMap = new HashMap<String,String>();
-//		imageMaps = new HashMap();
-//		hyperlinksMap = new HashMap();
-		
-		initExport();
-
-		ensureOutput();
-		
-		OutputStream outputStream = getExporterOutput().getOutputStream();
+		setOffset();
 
 		try
 		{
-			exportReportToStream(outputStream);
-		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
+			/*   */
+			setExportContext();
+
+			/*   */
+			setInput();
+
+			if (!parameters.containsKey(JRExporterParameter.FILTER))
+			{
+				filter = createFilter(getExporterPropertiesPrefix());
+			}
+
+			/*   */
+			if (!isModeBatch)
+			{
+				setPageRange();
+			}
+
+			rendererToImagePathMap = new HashMap<String,String>();
+//			imageMaps = new HashMap();
+			imagesToProcess = new ArrayList<JRPrintElementIndex>();
+//			hyperlinksMap = new HashMap();
+
+			setFontMap();
+
+			setHyperlinkProducerFactory();
+
+			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+			if (os != null)
+			{
+				try
+				{
+					exportReportToStream(os);
+				}
+				catch (IOException e)
+				{
+					throw new JRException("Error trying to export to output stream : " + jasperPrint.getName(), e);
+				}
+			}
+			else
+			{
+				File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+				if (destFile == null)
+				{
+					String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+					if (fileName != null)
+					{
+						destFile = new File(fileName);
+					}
+					else
+					{
+						throw new JRException("No output specified for the exporter.");
+					}
+				}
+
+				try
+				{
+					os = new FileOutputStream(destFile);
+					exportReportToStream(os);
+				}
+				catch (IOException e)
+				{
+					throw new JRException("Error trying to export to file : " + destFile, e);
+				}
+				finally
+				{
+					if (os != null)
+					{
+						try
+						{
+							os.close();
+						}
+						catch(IOException e)
+						{
+						}
+					}
+				}
+			}
 		}
 		finally
 		{
-			getExporterOutput().close();
 			resetExportContext();
 		}
 	}
 
 
-	@Override
-	protected void initExport()
+	/**
+	 *
+	 */
+	public JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName) throws JRException
 	{
-		super.initExport();
+		return getImage(jasperPrintList, getPrintElementIndex(imageName));
 	}
-	
 
-	@Override
-	protected void initReport()
+
+	public JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex) throws JRException
 	{
-		super.initReport();
+		JasperPrint report = jasperPrintList.get(imageIndex.getReportIndex());
+		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
+
+		Integer[] elementIndexes = imageIndex.getAddressArray();
+		Object element = page.getElements().get(elementIndexes[0].intValue());
+
+		for (int i = 1; i < elementIndexes.length; ++i)
+		{
+			JRPrintFrame frame = (JRPrintFrame) element;
+			element = frame.getElements().get(elementIndexes[i].intValue());
+		}
+
+		if(element instanceof JRGenericPrintElement)
+		{
+			JRGenericPrintElement genericPrintElement = (JRGenericPrintElement)element;
+			return ((GenericElementPptxHandler)GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
+					genericPrintElement.getGenericType(), 
+					PPTX_EXPORTER_KEY
+					)).getImage(exporterContext, genericPrintElement);
+		}
 		
-		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
-		{
-			// allows null values for the property
-			invalidCharReplacement = jasperPrint.getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS);
-		}
-		else
-		{
-			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
-		}
+		return (JRPrintImage) element;
 	}
 
-	
+
 	/**
 	 *
 	 */
@@ -296,20 +342,19 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 //		styleHelper.export(jasperPrintList);
 //		styleHelper.close();
 
-		List<ExporterInputItem> items = exporterInput.getItems();
-
-		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
+		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			ExporterInputItem item = items.get(reportIndex);
-			
-			setCurrentExporterInputItem(item);
-			
+			setJasperPrint(jasperPrintList.get(reportIndex));
+			setExporterHints();
+
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
-				PageRange pageRange = getPageRange();
-				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
-				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
+				if (isModeBatch)
+				{
+					startPageIndex = 0;
+					endPageIndex = pages.size() - 1;
+				}
 
 				JRPrintPage page = null;
 				for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
@@ -334,6 +379,44 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		presentationHelper.exportFooter(jasperPrint);
 		presentationHelper.close();
+
+		if ((imagesToProcess != null && imagesToProcess.size() > 0))
+		{
+			for(Iterator<JRPrintElementIndex> it = imagesToProcess.iterator(); it.hasNext();)
+			{
+				JRPrintElementIndex imageIndex = it.next();
+
+				JRPrintImage image = getImage(jasperPrintList, imageIndex);
+				Renderable renderer = image.getRenderable();
+				if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
+				{
+					renderer =
+						new JRWrappingSvgRenderer(
+							renderer,
+							new Dimension(image.getWidth(), image.getHeight()),
+							ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+							);
+				}
+
+				String mimeType = renderer.getImageTypeValue().getMimeType();
+				if (mimeType == null)
+				{
+					mimeType = ImageTypeEnum.JPEG.getMimeType();
+				}
+				String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
+				
+				String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + "." + extension;
+				
+				pptxZip.addEntry(//FIXMEPPTX optimize with a different implementation of entry
+					new FileBufferedZipEntry(
+						"ppt/media/" + imageName,
+						renderer.getImageData(jasperReportsContext)
+						)
+					);
+				
+				//presentationRelsHelper.exportImage(imageName, extension);
+			}
+		}
 
 //		if ((hyperlinksMap != null && hyperlinksMap.size() > 0))
 //		{
@@ -369,7 +452,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		exportElements(page.getElements());
 		
-		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -397,7 +479,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 //		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
 //		
-		runHelper = new PptxRunHelper(jasperReportsContext, slideWriter, null);//FIXMEXLSX check this null
+		runHelper = new PptxRunHelper(jasperReportsContext, slideWriter, fontMap, null);//FIXMEXLSX check this null
 		
 		slideHelper.exportHeader();
 		slideRelsHelper.exportHeader();
@@ -1166,57 +1248,8 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 //			boolean startedHyperlink = startHyperlink(image,false);
 
-			String imagePath = null;
-
-			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
-			{
-				imagePath = rendererToImagePathMap.get(renderer.getId());
-			}
-			else
-			{
-//				if (isLazy)//FIXMEDOCX learn how to link images
-//				{
-//					imagePath = ((JRImageRenderer)renderer).getImageLocation();
-//				}
-//				else
-//				{
-					JRPrintElementIndex imageIndex = getElementIndex();
-
-					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-					{
-						renderer =
-							new JRWrappingSvgRenderer(
-								renderer,
-								new Dimension(image.getWidth(), image.getHeight()),
-								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-								);
-					}
-					
-					String mimeType = renderer.getImageTypeValue().getMimeType();//FIXMEEXPORT this code for file extension is duplicated; is it now?
-					if (mimeType == null)
-					{
-						mimeType = ImageTypeEnum.JPEG.getMimeType();
-					}
-					String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
-					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + "." + extension;
-
-					pptxZip.addEntry(//FIXMEPPTX optimize with a different implementation of entry
-						new FileBufferedZipEntry(
-							"ppt/media/" + imageName,
-							renderer.getImageData(jasperReportsContext)
-							)
-						);
-					
-					//presentationRelsHelper.exportImage(imageName, extension);
-					
-					imagePath = imageName;
-					//imagePath = "Pictures/" + imageName;
-//				}
-
-				rendererToImagePathMap.put(renderer.getId(), imagePath);
-			}
-
-			slideRelsHelper.exportImage(imagePath);
+			String imageName = getImagePath(renderer, image.isLazy());
+			slideRelsHelper.exportImage(imageName);
 
 			slideHelper.write("<p:pic>\n");
 			slideHelper.write("  <p:nvPicPr>\n");
@@ -1235,7 +1268,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			slideHelper.write("    <p:nvPr/>\n");
 			slideHelper.write("  </p:nvPicPr>\n");
 			slideHelper.write("<p:blipFill>\n");
-			slideHelper.write("<a:blip r:embed=\"" + imagePath + "\"/>");
+			slideHelper.write("<a:blip r:embed=\"" + imageName + "\"/>");
 			slideHelper.write("<a:srcRect");
 ////			if (cropLeft > 0)
 ////			{
@@ -1320,6 +1353,50 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		}
 
 //		docHelper.write("</w:p>");
+	}
+
+
+	/**
+	 *
+	 */
+	protected String getImagePath(Renderable renderer, boolean isLazy)
+	{
+		String imagePath = null;
+
+		if (renderer != null)
+		{
+			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
+			{
+				imagePath = rendererToImagePathMap.get(renderer.getId());
+			}
+			else
+			{
+//				if (isLazy)//FIXMEDOCX learn how to link images
+//				{
+//					imagePath = ((JRImageRenderer)renderer).getImageLocation();
+//				}
+//				else
+//				{
+					JRPrintElementIndex imageIndex = getElementIndex();
+					imagesToProcess.add(imageIndex);
+
+					String mimeType = renderer.getImageTypeValue().getMimeType();//FIXMEPPTX this code for file extension is duplicated
+					if (mimeType == null)
+					{
+						mimeType = ImageTypeEnum.JPEG.getMimeType();
+					}
+					String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
+
+					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + "." + extension;
+					imagePath = imageName;
+					//imagePath = "Pictures/" + imageName;
+//				}
+
+				rendererToImagePathMap.put(renderer.getId(), imagePath);
+			}
+		}
+
+		return imagePath;
 	}
 
 
@@ -1651,10 +1728,10 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	{
 		String href = null;
 
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PptxReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
+			ignoreHyperlink = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_IGNORE_HYPERLINK, false);
 		}
 
 		if (!ignoreHyperlink)
@@ -1747,17 +1824,30 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	/**
 	 *
 	 */
-	public String getExporterKey()
+	protected String getExporterPropertiesPrefix()//FIXMEPPTX move this to abstract exporter
 	{
-		return PPTX_EXPORTER_KEY;
+		return PPTX_EXPORTER_PROPERTIES_PREFIX;
 	}
 
 	/**
 	 *
 	 */
-	public String getExporterPropertiesPrefix()
+	public String getExporterKey()
 	{
-		return PPTX_EXPORTER_PROPERTIES_PREFIX;
+		return PPTX_EXPORTER_KEY;
+	}
+
+	protected void setExporterHints()
+	{
+		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
+		{
+			// allows null values for the property
+			invalidCharReplacement = jasperPrint.getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS);
+		}
+		else
+		{
+			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
+		}
 	}
 	
 }

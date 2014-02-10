@@ -202,7 +202,7 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	 * Creates an XML template writer.
 	 * 
 	 * @param template the template to write
-	 * @param out the output writer
+	 * @param out the ouput writer
 	 * @param encoding the XML encoding to use
 	 */
 	public JRXmlTemplateWriter(JRTemplate template, Writer out, String encoding)

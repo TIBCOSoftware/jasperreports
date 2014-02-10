@@ -42,8 +42,6 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.export.XlsReportConfiguration;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -51,14 +49,9 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  */
 public class JRXlsAbstractExporterNature extends AbstractExporterNature
 {
-	/**
-	 * @deprecated Replaced by {@link JRXlsAbstractExporter#PROPERTY_BREAK_BEFORE_ROW}.
-	 */
-	public static final String PROPERTY_BREAK_BEFORE_ROW = JRXlsAbstractExporter.PROPERTY_BREAK_BEFORE_ROW;
-	/**
-	 * @deprecated Replaced by {@link JRXlsAbstractExporter#PROPERTY_BREAK_AFTER_ROW}.
-	 */
-	public static final String PROPERTY_BREAK_AFTER_ROW = JRXlsAbstractExporter.PROPERTY_BREAK_AFTER_ROW;
+	
+	public static final String PROPERTY_BREAK_BEFORE_ROW = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.break.before.row";
+	public static final String PROPERTY_BREAK_AFTER_ROW = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.break.after.row";
 
 	protected boolean isIgnoreGraphics;
 	protected boolean isIgnorePageMargins;
@@ -158,7 +151,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public boolean isBreakBeforeRow(JRPrintElement element)
 	{
 		return element.hasProperties() 
-				&& JRPropertiesUtil.asBoolean(element.getPropertiesMap().getProperty(JRXlsAbstractExporter.PROPERTY_BREAK_BEFORE_ROW));
+				&& JRPropertiesUtil.asBoolean(element.getPropertiesMap().getProperty(PROPERTY_BREAK_BEFORE_ROW));
 	}
 	
 	/**
@@ -167,7 +160,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public boolean isBreakAfterRow(JRPrintElement element)
 	{
 		return element.hasProperties()
-				&& JRPropertiesUtil.asBoolean(element.getPropertiesMap().getProperty(JRXlsAbstractExporter.PROPERTY_BREAK_AFTER_ROW));
+				&& JRPropertiesUtil.asBoolean(element.getPropertiesMap().getProperty(PROPERTY_BREAK_AFTER_ROW));
 	}
 	
 	/**
@@ -211,12 +204,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	{
 		if (
 			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_SHOW_GRIDLINES)
+			&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_SHOW_GRIDLINES)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_SHOW_GRIDLINES, true);
+			return getPropertiesUtil().getBooleanProperty(element, JRXlsAbstractExporter.PROPERTY_SHOW_GRIDLINES, true);
 		}
 		return null;
 	}
@@ -235,12 +228,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	
 	public Float getColumnWidthRatio(JRPrintElement element) {
 		if (element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_COLUMN_WIDTH_RATIO)
+			&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getFloatProperty(element, XlsReportConfiguration.PROPERTY_COLUMN_WIDTH_RATIO, 0f);
+			return getPropertiesUtil().getFloatProperty(element, JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO, 0f);
 		}
 		return null;
 	}
@@ -258,41 +251,40 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public String getSheetName(JRPrintElement element)
 	{
 		if (element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_SHEET_NAME)
+				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME)
 				)
 			{
 				// we make this test to avoid reaching the global default value of the property directly
 				// and thus skipping the report level one, if present
-				return getPropertiesUtil().getProperty(element, JRXlsAbstractExporter.PROPERTY_SHEET_NAME);
+				return getPropertiesUtil().getProperty(element, JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME);
 			}
 			return null;
 	}
 	
 	public Integer getPageScale(JRPrintElement element)
 	{
-		if (
-			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_PAGE_SCALE)
-			)
-		{
-			// we make this test to avoid reaching the global default value of the property directly
-			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getIntegerProperty(element, XlsReportConfiguration.PROPERTY_PAGE_SCALE, 0);
-		}
-		return null;
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_PAGE_SCALE)
+				)
+			{
+				// we make this test to avoid reaching the global default value of the property directly
+				// and thus skipping the report level one, if present
+				return getPropertiesUtil().getIntegerProperty(element, JRXlsAbstractExporter.PROPERTY_PAGE_SCALE, 0);
+			}
+			return null;
 	}
 
 	public Integer getFirstPageNumber(JRPrintElement element)
 	{
 		if (element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_FIRST_PAGE_NUMBER)
-			)
-		{
-			// we make this test to avoid reaching the global default value of the property directly
-			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getIntegerProperty(element, XlsReportConfiguration.PROPERTY_FIRST_PAGE_NUMBER, 0);
-		}
-		return null;
+				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_FIRST_PAGE_NUMBER)
+				)
+			{
+				// we make this test to avoid reaching the global default value of the property directly
+				// and thus skipping the report level one, if present
+				return getPropertiesUtil().getIntegerProperty(element, JRXlsAbstractExporter.PROPERTY_FIRST_PAGE_NUMBER, 0);
+			}
+			return null;
 	}
 
 	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
@@ -327,10 +319,10 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public void setXProperties(Map<String,Object> xCutsProperties, JRPrintElement element)
 	{
 		Float widthRatio = getColumnWidthRatio(element);
-		Float xCutsWidthRatio = (Float)xCutsProperties.get(XlsReportConfiguration.PROPERTY_COLUMN_WIDTH_RATIO);
+		Float xCutsWidthRatio = (Float)xCutsProperties.get(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO);
 		if(widthRatio != null && (xCutsWidthRatio == null || xCutsWidthRatio < widthRatio))
 		{
-			xCutsProperties.put(XlsReportConfiguration.PROPERTY_COLUMN_WIDTH_RATIO, widthRatio);
+			xCutsProperties.put(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO, widthRatio);
 		}
 	}
 	
@@ -370,25 +362,25 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		String sheetName = getSheetName(element);
 		if(sheetName != null)
 		{
-			cut.setProperty(JRXlsAbstractExporter.PROPERTY_SHEET_NAME, sheetName);
+			cut.setProperty(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME, sheetName);
 		}
 
 		Integer pageScale = getPageScale(element);
 		if(pageScale != null && pageScale > 9 && pageScale < 401)
 		{
-			cut.setProperty(XlsReportConfiguration.PROPERTY_PAGE_SCALE, pageScale);
+			cut.setProperty(JRXlsAbstractExporter.PROPERTY_PAGE_SCALE, pageScale);
 		}
 		
 		Integer firstPageNumber = getFirstPageNumber(element);
 		if(firstPageNumber != null)
 		{
-			cut.setProperty(XlsReportConfiguration.PROPERTY_FIRST_PAGE_NUMBER, firstPageNumber);
+			cut.setProperty(JRXlsAbstractExporter.PROPERTY_FIRST_PAGE_NUMBER, firstPageNumber);
 		}
 		
 		Boolean showGridlines = getShowGridlines(element);
 		if(showGridlines != null)
 		{
-			cut.setProperty(XlsReportConfiguration.PROPERTY_SHOW_GRIDLINES, showGridlines);
+			cut.setProperty(JRXlsAbstractExporter.PROPERTY_SHOW_GRIDLINES, showGridlines);
 		}
 
 		setYProperties(yCutsProperties, element);

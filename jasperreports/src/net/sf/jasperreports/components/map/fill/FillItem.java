@@ -77,8 +77,6 @@ public abstract class FillItem implements Item
 			}
 		}
 		
-		//if some of the item properties are conditioning each other
-		verifyValues(result);
 		evaluatedProperties = result;
 	}
 
@@ -120,6 +118,4 @@ public abstract class FillItem implements Item
 	}
 
 	public abstract void verifyValue(ItemProperty property, Object value) throws JRException;
-	
-	public abstract void verifyValues(Map<String, Object> result) throws JRException;
 }

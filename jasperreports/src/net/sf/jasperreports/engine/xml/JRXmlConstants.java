@@ -149,10 +149,6 @@ public final class JRXmlConstants
 	public static final String ELEMENT_property = "property";
 	public static final String ELEMENT_propertyExpression = "propertyExpression";
 
-	public static final String ELEMENT_bookmark = "bookmark";
-	public static final String ATTRIBUTE_pageIndex = "pageIndex";
-	public static final String ATTRIBUTE_elementAddress = "elementAddress";
-
 	public static final String ELEMENT_page = "page";
 
 	/**
@@ -778,8 +774,6 @@ public final class JRXmlConstants
 	public static final String ELEMENT_axisLevelBucket = "axisLevelBucket";
 	public static final String ELEMENT_bucketProperty = "bucketProperty";
 	public static final String ELEMENT_multiAxisMeasure = "multiAxisMeasure";
-	
-	public static final String ATTRIBUTE_contentsPosition = "contentsPosition";
 	
 
 	private JRXmlConstants()

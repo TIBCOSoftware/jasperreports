@@ -5989,7 +5989,6 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:crosstabParameter" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:parametersMapExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:crosstabDataset" minOccurs="0" maxOccurs="1"/>
-    <element name="titleCell" type="jr:CrosstabColumnCell" minOccurs="0" maxOccurs="1"></element>
     <element ref="jr:crosstabHeaderCell" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:rowGroup" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:columnGroup" minOccurs="0" maxOccurs="unbounded"/>
@@ -7205,27 +7204,5 @@ property.
    </attribute>
   </complexType>
  </element>
- 
- <complexType name="CrosstabColumnCell">
-  <sequence>
-   <element ref="jr:cellContents"/>
-  </sequence>
-  <attribute name="height" type="NMTOKEN" use="required">
-  </attribute>
-  <attribute name="contentsPosition" use="optional" default="Left">
-   <simpleType>
-    <restriction base="string">
-     <enumeration value="Left">
-	 </enumeration>
-     <enumeration value="Center">
-	 </enumeration>
-     <enumeration value="Right">
-	 </enumeration>
-     <enumeration value="Stretch">
-	 </enumeration>
-    </restriction>
-   </simpleType>
-  </attribute>
- </complexType>
 
 </schema>

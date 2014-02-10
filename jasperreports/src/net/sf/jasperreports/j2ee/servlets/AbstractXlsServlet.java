@@ -34,15 +34,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterContext;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
-import net.sf.jasperreports.export.XlsExporterConfiguration;
-import net.sf.jasperreports.export.XlsReportConfiguration;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
@@ -72,16 +68,11 @@ public abstract class AbstractXlsServlet extends BaseHttpServlet
 		if (isBuffered.booleanValue())
 		{
 			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
-			
-			JRXlsAbstractExporter<XlsReportConfiguration, XlsExporterConfiguration, JRXlsExporterContext> exporter = getXlsExporter();
-			
-			exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(fbos));
-
-			SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration(); 
-			configuration.setOnePagePerSheet(false);
-			configuration.setWhitePageBackground(false);
-			exporter.setConfiguration(configuration);
+			JRXlsAbstractExporter exporter = getXlsExporter();
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fbos);
+			exporter.setParameter(JRXlsAbstractExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+			exporter.setParameter(JRXlsAbstractExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
 
 			try 
 			{
@@ -93,20 +84,20 @@ public abstract class AbstractXlsServlet extends BaseHttpServlet
 					response.setContentType(getResponseContentType());
 					setResponseHeader(response);
 					response.setContentLength(fbos.size());
-					ServletOutputStream outputStream = response.getOutputStream();
+					ServletOutputStream ouputStream = response.getOutputStream();
 					try
 					{
-						fbos.writeData(outputStream);
+						fbos.writeData(ouputStream);
 						fbos.dispose();
-						outputStream.flush();				
+						ouputStream.flush();				
 					}
 					finally
 					{
-						if (outputStream != null)
+						if (ouputStream != null)
 						{
 							try
 							{
-								outputStream.close();
+								ouputStream.close();
 							}
 							catch (IOException ex)
 							{
@@ -140,16 +131,14 @@ public abstract class AbstractXlsServlet extends BaseHttpServlet
 			response.setContentType(getResponseContentType());
 			setResponseHeader(response);
 
-			JRXlsAbstractExporter<XlsReportConfiguration, XlsExporterConfiguration, JRXlsExporterContext> exporter = getXlsExporter();
-			exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
+			JRXlsAbstractExporter exporter = getXlsExporter();
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 			
-			OutputStream outputStream = response.getOutputStream();
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
+			OutputStream ouputStream = response.getOutputStream();
+			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, ouputStream);
 
-			SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration(); 
-			configuration.setOnePagePerSheet(false);
-			configuration.setWhitePageBackground(false);
-			exporter.setConfiguration(configuration);
+			exporter.setParameter(JRXlsAbstractExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+			exporter.setParameter(JRXlsAbstractExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
 
 			try 
 			{
@@ -161,11 +150,11 @@ public abstract class AbstractXlsServlet extends BaseHttpServlet
 			}
 			finally
 			{
-				if (outputStream != null)
+				if (ouputStream != null)
 				{
 					try
 					{
-						outputStream.close();
+						ouputStream.close();
 					}
 					catch (IOException ex)
 					{
@@ -179,7 +168,7 @@ public abstract class AbstractXlsServlet extends BaseHttpServlet
 	/**
 	 *
 	 */
-	protected abstract JRXlsAbstractExporter<XlsReportConfiguration, XlsExporterConfiguration, JRXlsExporterContext> getXlsExporter();
+	protected abstract JRXlsAbstractExporter getXlsExporter();
 	
 	
 	protected String getResponseContentType(){

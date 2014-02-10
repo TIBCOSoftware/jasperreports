@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.Printable;
@@ -48,42 +47,34 @@ import javax.print.attribute.standard.PrinterIsAcceptingJobs;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
-import net.sf.jasperreports.export.ExporterInputItem;
-import net.sf.jasperreports.export.ExporterOutput;
-import net.sf.jasperreports.export.PrintServiceExporterConfiguration;
-import net.sf.jasperreports.export.PrintServiceReportConfiguration;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
-import net.sf.jasperreports.export.SimpleGraphics2DReportConfiguration;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceReportConfiguration, PrintServiceExporterConfiguration, ExporterOutput, JRExporterContext> implements Printable
+public class JRPrintServiceExporter extends JRAbstractExporter implements Printable
 {
-	protected static final String PRINT_SERVICE_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.print.service.";
+
 
 	/**
 	 *
 	 */
 	protected JRGraphics2DExporter exporter;
-	protected SimpleGraphics2DReportConfiguration grxConfiguration;
+	protected boolean displayPageDialog;
+	protected boolean displayPageDialogOnlyOnce;
+	protected boolean displayPrintDialog;
+	protected boolean displayPrintDialogOnlyOnce;
 
 	protected int reportIndex;
 	
 	private PrintService printService;
 	private Boolean[] printStatus;
 	
-	protected class ExporterContext extends BaseExporterContext
-	{
-	}
-
 	/**
 	 * @see #JRPrintServiceExporter(JasperReportsContext)
 	 */
@@ -99,35 +90,6 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 	public JRPrintServiceExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
-		
-		exporterContext = new ExporterContext();
-	}
-
-
-	/**
-	 *
-	 */
-	protected Class<PrintServiceExporterConfiguration> getConfigurationInterface()
-	{
-		return PrintServiceExporterConfiguration.class;
-	}
-	
-
-	/**
-	 *
-	 */
-	protected Class<PrintServiceReportConfiguration> getItemConfigurationInterface()
-	{
-		return PrintServiceReportConfiguration.class;
-	}
-	
-
-	/**
-	 *
-	 */
-	protected void ensureOutput()
-	{
-		//nothing to do
 	}
 	
 
@@ -137,48 +99,49 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 	public void exportReport() throws JRException
 	{
 		/*   */
-		ensureJasperReportsContext();
-		ensureInput();
-		
-		initExport();
-
-		ensureOutput();
+		setOffset();
 
 		try
 		{
-			PrintServiceExporterConfiguration configuration = getCurrentConfiguration();
-			
-			PrintServiceAttributeSet printServiceAttributeSet = configuration.getPrintServiceAttributeSet();
+			/*   */
+			setExportContext();
+	
+			/*   */
+			setInput();
+
+			/*   */
+			if (!isModeBatch)
+			{
+				setPageRange();
+			}
+	
+			PrintServiceAttributeSet printServiceAttributeSet = 
+				(PrintServiceAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET);
 			if (printServiceAttributeSet == null)
 			{
 				printServiceAttributeSet = new HashPrintServiceAttributeSet();
 			}
 
-			boolean displayPageDialog = false;
-			boolean displayPageDialogOnlyOnce = false;
-			boolean displayPrintDialog = false;
-			boolean displayPrintDialogOnlyOnce = false;
-
-			Boolean pageDialog = configuration.isDisplayPageDialog();
+			Boolean pageDialog = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG);
 			if (pageDialog != null)
 			{
 				displayPageDialog = pageDialog.booleanValue();
 			}
 	
-			Boolean pageDialogOnlyOnce = configuration.isDisplayPageDialogOnlyOnce();
+			Boolean pageDialogOnlyOnce = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG_ONLY_ONCE);
 			if (displayPageDialog && pageDialogOnlyOnce != null)
 			{
 				// it can be (eventually) set to true only if displayPageDialog is true
 				displayPageDialogOnlyOnce = pageDialogOnlyOnce.booleanValue();
 			}
 	
-			Boolean printDialog = configuration.isDisplayPrintDialog();
+			Boolean printDialog = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG);
 			if (printDialog != null)
 			{
 				displayPrintDialog = printDialog.booleanValue();
 			}
 	
-			Boolean printDialogOnlyOnce = configuration.isDisplayPrintDialogOnlyOnce();
+			Boolean printDialogOnlyOnce = (Boolean)parameters.get(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG_ONLY_ONCE);
 			if (displayPrintDialog && printDialogOnlyOnce != null)
 			{
 //				 it can be (eventually) set to true only if displayPrintDialog is true
@@ -193,7 +156,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 			printStatus = null;
 			
 			// determining the print service only once
-			printService = configuration.getPrintService();
+			printService = (PrintService) parameters.get(JRPrintServiceExporterParameter.PRINT_SERVICE);
 			if (printService == null) {
 				PrintService[] services = PrintServiceLookup.lookupPrintServices(null, printServiceAttributeSet);
 				if (services.length > 0)
@@ -216,14 +179,12 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 				throw new JRException(e);
 			}
 
-			List<ExporterInputItem> items = exporterInput.getItems();
-			
 			PrintRequestAttributeSet printRequestAttributeSet = null;
 			if(displayPrintDialogOnlyOnce || displayPageDialogOnlyOnce)
 			{
 				printRequestAttributeSet = new HashPrintRequestAttributeSet();
 				setDefaultPrintRequestAttributeSet(printRequestAttributeSet);
-				setOrientation(items.get(0).getJasperPrint(), printRequestAttributeSet);
+				setOrientation(jasperPrintList.get(0), printRequestAttributeSet);
 				if(displayPageDialogOnlyOnce)
 				{
 					if(printerJob.pageDialog(printRequestAttributeSet) == null)
@@ -251,26 +212,24 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 			
 			List<Boolean> status = new ArrayList<Boolean>();
 			// fix for bug ID artf1455 from jasperforge.org bug database
-			for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
+			for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 			{
-				ExporterInputItem item = items.get(reportIndex);
-
-				setCurrentExporterInputItem(item);
-				
-				PrintServiceReportConfiguration lcItemConfiguration = getCurrentItemConfiguration(); 
+				setJasperPrint(jasperPrintList.get(reportIndex));
 
 				exporter = new JRGraphics2DExporter(jasperReportsContext);
-				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				grxConfiguration = new SimpleGraphics2DReportConfiguration();
-				grxConfiguration.setProgressMonitor(lcItemConfiguration.getProgressMonitor());
-				grxConfiguration.setOffsetX(lcItemConfiguration.getOffsetX());
-				grxConfiguration.setOffsetY(lcItemConfiguration.getOffsetY());
-				grxConfiguration.setZoomRatio(lcItemConfiguration.getZoomRatio());
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.PROGRESS_MONITOR, parameters.get(JRExporterParameter.PROGRESS_MONITOR));
+				exporter.setParameter(JRExporterParameter.OFFSET_X, parameters.get(JRExporterParameter.OFFSET_X));
+				exporter.setParameter(JRExporterParameter.OFFSET_Y, parameters.get(JRExporterParameter.OFFSET_Y));
+				exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, parameters.get(JRGraphics2DExporterParameter.ZOOM_RATIO));
 //				exporter.setParameter(JRExporterParameter.CLASS_LOADER, classLoader);
 //				exporter.setParameter(JRExporterParameter.URL_HANDLER_FACTORY, urlHandlerFactory);
 //				exporter.setParameter(JRExporterParameter.FILE_RESOLVER, fileResolver);
-				grxConfiguration.setExporterFilter(filter);
-				grxConfiguration.setMinimizePrinterJobSize(lcItemConfiguration.isMinimizePrinterJobSize());
+				if (parameters.containsKey(JRExporterParameter.FILTER))
+				{
+					exporter.setParameter(JRExporterParameter.FILTER, filter);
+				}
+				exporter.setParameter(JRGraphics2DExporterParameter.MINIMIZE_PRINTER_JOB_SIZE, parameters.get(JRGraphics2DExporterParameter.MINIMIZE_PRINTER_JOB_SIZE));
 				
 				if(displayPrintDialog || displayPageDialog ||
 						(!displayPrintDialogOnlyOnce && !displayPageDialogOnlyOnce))
@@ -282,11 +241,8 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 		
 				try 
 				{
-					PageRange pageRange = getPageRange();
-					int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
-					int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (jasperPrint.getPages().size() - 1) : pageRange.getEndPageIndex();
-
-					if (items.size() == 1)
+					
+					if (!isModeBatch)
 					{
 						printRequestAttributeSet.add(new PageRanges(startPageIndex + 1, endPageIndex + 1));
 					}
@@ -366,20 +322,6 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 	}
 
 
-	@Override
-	protected void initExport()
-	{
-		super.initExport();
-	}
-
-
-	@Override
-	protected void initReport()
-	{
-		super.initReport();
-	}
-	
-
 	/**
 	 *
 	 */
@@ -395,12 +337,8 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 			return Printable.NO_SUCH_PAGE;
 		}
 		
-		SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
-		output.setGraphics2D((Graphics2D)graphics);
-		exporter.setExporterOutput(output);
-
-		grxConfiguration.setPageIndex(pageIndex);
-		exporter.setConfiguration(grxConfiguration);
+		exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, graphics);
+		exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.valueOf(pageIndex));
 		
 		try
 		{
@@ -463,10 +401,11 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 	
 	private void setDefaultPrintRequestAttributeSet(PrintRequestAttributeSet printRequestAttributeSet)
 	{
-		PrintRequestAttributeSet configPrintRequestAttributeSet = getCurrentConfiguration().getPrintRequestAttributeSet();
-		if (configPrintRequestAttributeSet != null)
+		PrintRequestAttributeSet printRequestAttributeSetParam = 
+			(PrintRequestAttributeSet)parameters.get(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET);
+		if (printRequestAttributeSetParam != null)
 		{
-			printRequestAttributeSet.addAll(configPrintRequestAttributeSet);
+			printRequestAttributeSet.addAll(printRequestAttributeSetParam);
 		}
 	}
 
@@ -509,13 +448,5 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 	public String getExporterKey()
 	{
 		return null;
-	}
-	
-	/**
-	 * 
-	 */
-	public String getExporterPropertiesPrefix()
-	{
-		return PRINT_SERVICE_EXPORTER_PROPERTIES_PREFIX;
 	}
 }

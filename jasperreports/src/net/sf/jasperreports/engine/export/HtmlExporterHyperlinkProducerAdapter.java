@@ -41,7 +41,8 @@ public class HtmlExporterHyperlinkProducerAdapter implements JRHyperlinkProducer
 	 * 
 	 * @param exporterContext the exporter context
 	 */
-	public HtmlExporterHyperlinkProducerAdapter(JRHtmlExporterContext exporterContext)
+	public HtmlExporterHyperlinkProducerAdapter(
+			JRHtmlExporterContext exporterContext)
 	{
 		this.exporterContext = exporterContext;
 	}

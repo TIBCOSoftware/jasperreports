@@ -23,19 +23,11 @@
  */
 package net.sf.jasperreports.components.map.fill;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.sf.jasperreports.components.map.ItemData;
 import net.sf.jasperreports.components.map.MapComponent;
@@ -49,7 +41,6 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
@@ -59,10 +50,6 @@ import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 
-import org.jaxen.dom.DOMXPath;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -70,19 +57,10 @@ import org.w3c.dom.Node;
  */
 public class MapFillComponent extends BaseFillComponent implements FillContextProvider
 {
-	public static final String PLACE_URL_PREFIX = "https://maps.googleapis.com/maps/api/geocode/xml?address=";
-	public static final String PLACE_URL_SUFFIX = "&sensor=false&output=xml&oe=utf8";
-	public static final String DEFAULT_ENCODING = "UTF-8";
-	public static final String STATUS_NODE = "/GeocodeResponse/status";
-	public static final String LATITUDE_NODE = "/GeocodeResponse/result/geometry/location/lat";
-	public static final String LONGITUDE_NODE = "/GeocodeResponse/result/geometry/location/lng";
-	public static final String STATUS_OK = "OK";
-	
 	private final MapComponent mapComponent;
 	
 	private Float latitude;
 	private Float longitude;
-	private String center;
 	private Integer zoom;
 	private String language;
 	private MapTypeEnum mapType;
@@ -94,7 +72,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	private String key;
 	private String version;
 
-	private List<FillItemData> markerDataList;
+	private FillItemData markerData;
 	private List<FillItemData> pathStyleList;
 	private List<FillItemData> pathDataList;
 	private List<Map<String,Object>> markers;
@@ -113,22 +91,20 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		this.mapComponent = map;
 		this.factory = factory;
 		
-		if(mapComponent.getMarkerDataList() != null){
-			markerDataList = new ArrayList<FillItemData>();
-			for(ItemData markerData : mapComponent.getMarkerDataList()) {
-				markerDataList.add(new FillPlaceItemData(this, markerData, factory));
-			}
+		if (mapComponent.getMarkerData() != null)
+		{
+			markerData = new FillItemData(this, mapComponent.getMarkerData(), factory);
 		}
 		if(mapComponent.getPathStyleList() != null){
 			pathStyleList = new ArrayList<FillItemData>();
 			for(ItemData pathStyle : mapComponent.getPathStyleList()) {
-				pathStyleList.add(new FillStyleItemData(this, pathStyle, factory));
+				pathStyleList.add(new FillItemData(this, pathStyle, factory));
 			}
 		}
 		if(mapComponent.getPathDataList() != null){
 			pathDataList = new ArrayList<FillItemData>();
 			for(ItemData pathData : mapComponent.getPathDataList()) {
-				pathDataList.add(new FillPlaceItemData(this, pathData, factory));
+				pathDataList.add(new FillItemData(this, pathData, factory));
 			}
 		}
 	}
@@ -153,25 +129,8 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	
 	protected void evaluateMap(byte evaluation) throws JRException
 	{
-		JRPropertiesHolder propertiesHolder = fillContext.getComponentElement().getParentProperties();
-		JRPropertiesUtil util = JRPropertiesUtil.getInstance(fillContext.getFiller().getJasperReportsContext());
-		clientId = util.getProperty(propertiesHolder, MapComponent.PROPERTY_CLIENT_ID);
-		signature = util.getProperty(propertiesHolder, MapComponent.PROPERTY_SIGNATURE);
-		key = util.getProperty(propertiesHolder, MapComponent.PROPERTY_KEY);
-		version = util.getProperty(propertiesHolder, MapComponent.PROPERTY_VERSION);
-
 		latitude = (Float)fillContext.evaluate(mapComponent.getLatitudeExpression(), evaluation);
 		longitude = (Float)fillContext.evaluate(mapComponent.getLongitudeExpression(), evaluation);
-		if(latitude == null || longitude == null) {
-			center = (String)fillContext.evaluate(mapComponent.getAddressExpression(), evaluation);
-			Float[] coords = getCoords(center);
-			if(coords != null && coords[0] != null && coords[1] != null){
-				latitude = coords[0];
-				longitude = coords[1];
-			} else {
-				throw new JRException("Invalid center coordinates - latitude: " + latitude +"; longitude: "+longitude);
-			}
-		}
 		zoom = (Integer)fillContext.evaluate(mapComponent.getZoomExpression(), evaluation);
 		zoom = zoom == null ? MapComponent.DEFAULT_ZOOM : zoom;
 		if(mapComponent.getLanguageExpression() != null)
@@ -189,20 +148,16 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		mapType = mapComponent.getMapType() == null? MapTypeEnum.ROADMAP : mapComponent.getMapType();
 		mapScale = mapComponent.getMapScale();
 		imageType = mapComponent.getImageType();
-
-		if(markerDataList != null) {
-			markers = new ArrayList<Map<String,Object>>();
-			
-			for(FillItemData markerData : markerDataList) {
-				List<Map<String,Object>> currentItemList = markerData.getEvaluateItems(evaluation);
-				if(currentItemList != null && !currentItemList.isEmpty()){
-					for(Map<String,Object> currentItem : currentItemList){
-						if(currentItem != null){
-							markers.add(currentItem);
-						}
-					}
-				}
-			}
+		JRPropertiesHolder propertiesHolder = fillContext.getComponentElement().getParentProperties();
+		JRPropertiesUtil util = JRPropertiesUtil.getInstance(fillContext.getFiller().getJasperReportsContext());
+		clientId = util.getProperty(propertiesHolder, MapComponent.PROPERTY_CLIENT_ID);
+		signature = util.getProperty(propertiesHolder, MapComponent.PROPERTY_SIGNATURE);
+		key = util.getProperty(propertiesHolder, MapComponent.PROPERTY_KEY);
+		version = util.getProperty(propertiesHolder, MapComponent.PROPERTY_VERSION);
+		
+		if (mapComponent.getMarkerData() != null)
+		{
+			markers = markerData.getEvaluateItems(evaluation);
 		}
 		
 		if(pathDataList != null) {
@@ -402,49 +357,4 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 			printElement.setParameterValue(MapPrintElement.PARAMETER_PATHS, paths);
 		}
 	}
-	
-	private Float[] getCoords(String address) throws JRException {
-		Float[] coords = null;
-		if(address != null) {
-			try {
-				String url = PLACE_URL_PREFIX + URLEncoder.encode(address, DEFAULT_ENCODING) + PLACE_URL_SUFFIX;
-				byte[] response = read(url);
-				Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(response));
-				Node statusNode = (Node) new DOMXPath(STATUS_NODE).selectSingleNode(document);
-				String status = statusNode.getTextContent();
-				if(STATUS_OK.equals(status)) {
-					coords = new Float[2];
-					Node latNode = (Node) new DOMXPath(LATITUDE_NODE).selectSingleNode(document);
-					coords[0] = Float.valueOf(latNode.getTextContent());
-					Node lngNode = (Node) new DOMXPath(LONGITUDE_NODE).selectSingleNode(document);
-					coords[1] = Float.valueOf(lngNode.getTextContent());
-				} else {
-					throw new JRRuntimeException("Address request failed (see status: " + status + ")");
-				}
-			} catch (Exception e) {
-				throw new JRException(e);
-			}
-		}
-		return coords;
-	}
-	
-	private byte[] read(String url) throws IOException {
-		InputStream stream = null;
-		try {
-			URL u = new URL(url);
-			stream = u.openStream();
-			ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-			byte[] buf = new byte[4096];
-			int read;
-			while ((read = stream.read(buf)) > 0) {
-				byteOut.write(buf, 0, read);
-			}
-			return byteOut.toByteArray();
-		} finally {
-			if(stream != null) {
-				stream.close();
-			}
-		}
-	}
-	
 }

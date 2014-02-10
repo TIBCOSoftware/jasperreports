@@ -34,9 +34,9 @@ import java.util.List;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.export.Exporter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -97,7 +97,7 @@ public class MatcherExporterFilter implements ExporterFilter
 	{
 		MatcherExporterFilter filter = null;
 		
-		Exporter exporter = exporterContext.getExporterRef();
+		JRExporter exporter = exporterContext.getExporter();
 		JRAbstractExporter typedExporter = exporter instanceof JRAbstractExporter ? (JRAbstractExporter)exporter : null;
 		
 		if (typedExporter != null)

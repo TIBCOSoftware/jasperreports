@@ -31,11 +31,10 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.view.JRSaveContributor;
 
 /**
@@ -115,8 +114,8 @@ public class JRDocxSaveContributor extends JRSaveContributor
 			)
 		{
 			JRDocxExporter exporter = new JRDocxExporter(getJasperReportsContext());
-			exporter.setExporterInput(new SimpleExporterInput(jasperPrint)); 
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(file));
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
 			exporter.exportReport();
 		}
 	}

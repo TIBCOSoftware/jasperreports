@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.oasis.GenericElementOdsHandler;
@@ -56,16 +58,8 @@ public class MapElementOdsHandler implements GenericElementOdsHandler
 	{
 		try
 		{
-			JROdsExporter exporter = (JROdsExporter)exporterContext.getExporterRef();
-			exporter.exportImage(
-				MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element), 
-				gridCell, 
-				colIndex, 
-				rowIndex, 
-				0, 
-				0, 
-				null
-				);
+			JROdsExporter exporter = (JROdsExporter)exporterContext.getExporter();
+			exporter.exportImage(getImage(exporterContext, element), gridCell, colIndex, rowIndex, 0, 0, null);
 		}
 		catch (Exception e)
 		{
@@ -73,6 +67,12 @@ public class MapElementOdsHandler implements GenericElementOdsHandler
 		}
 	}
 	
+	@Override
+	public JRPrintImage getImage(JROdsExporterContext exporterContext,
+			JRGenericPrintElement element) throws JRException {
+		return MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element);
+	}
+
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}

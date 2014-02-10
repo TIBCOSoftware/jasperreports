@@ -83,9 +83,8 @@ To solve this kind of issues an export custom property was introduced:
 which defaults to <code>UTF-8</code> too. This default value is set in the <code>default.jasperreports.properties</code> file.
 <br/>
 For more specific options at export time, the 
-<api href="net/sf/jasperreports/export/WriterExporterOutput.html#getEncoding()">getEncoding()</api> export output setting or the equivalent 
-<api href="net/sf/jasperreports/export/WriterExporterOutput.html#PROPERTY_CHARACTER_ENCODING">PROPERTY_CHARACTER_ENCODING</api> property 
-are also available.
+<api href="net/sf/jasperreports/engine/JRExporterParameter.html#CHARACTER_ENCODING">CHARACTER_ENCODING</api> export parameter 
+is also available.
 <br/>
 <br/>
 <b>The Unicode Sample</b>

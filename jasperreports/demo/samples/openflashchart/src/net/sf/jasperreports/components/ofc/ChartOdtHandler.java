@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.components.ofc;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.oasis.GenericElementOdtHandler;
@@ -47,5 +49,11 @@ public class ChartOdtHandler extends BaseChartHandler implements GenericElementO
 		JRExporterGridCell newGridCell = getGridCellReplacement(exporterContext, element, gridCell); 
 		
 		exporter.exportText(exporterContext.getTableBuilder(), (JRPrintText)newGridCell.getElement(), newGridCell);
+	}
+
+	@Override
+	public JRPrintImage getImage(JROdtExporterContext exporterContext, JRGenericPrintElement element) throws JRException 
+	{
+		return null;
 	}
 }

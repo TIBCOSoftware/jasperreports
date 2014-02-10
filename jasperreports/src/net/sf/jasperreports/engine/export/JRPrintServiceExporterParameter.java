@@ -24,11 +24,9 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.export.PrintServiceExporterConfiguration;
 
 
 /**
- * @deprecated Replaced by {@link PrintServiceExporterConfiguration}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -46,39 +44,39 @@ public class JRPrintServiceExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * @deprecated Replaced by {@link PrintServiceExporterConfiguration#getPrintRequestAttributeSet()}.
+	 * An instance of <tt>javax.print.attribute.PrintRequestAttributeSet</tt>.
 	 */
 	public static final JRPrintServiceExporterParameter PRINT_REQUEST_ATTRIBUTE_SET = new JRPrintServiceExporterParameter("PrintRequestAttributeSet Object");
 
 
 	/**
-	 * @deprecated Replaced by {@link PrintServiceExporterConfiguration#getPrintServiceAttributeSet()}.
+	 * An instance of <tt>javax.print.attribute.PrintServiceAttributeSet</tt>.
 	 */
 	public static final JRPrintServiceExporterParameter PRINT_SERVICE_ATTRIBUTE_SET = new JRPrintServiceExporterParameter("PrintServiceAttributeSet Object");
 
 
 	/**
-	 * @deprecated Replaced by {@link PrintServiceExporterConfiguration#isDisplayPageDialog()}.
+	 * A boolean value specifying whether a page setup dialog should be opened before printing.
 	 */
 	public static final JRPrintServiceExporterParameter DISPLAY_PAGE_DIALOG = new JRPrintServiceExporterParameter("Display Page Dialog");
 
 	/**
-	 * @deprecated Replaced by {@link PrintServiceExporterConfiguration#isDisplayPageDialogOnlyOnce()}.
+	 * A boolean value specifying whether a page setup dialog should be opened only once before printing in a batch export job.
 	 */
 	public static final JRPrintServiceExporterParameter DISPLAY_PAGE_DIALOG_ONLY_ONCE = new JRPrintServiceExporterParameter("Display Page Dialog Only Once");
 
 	/**
-	 * @deprecated Replaced by {@link PrintServiceExporterConfiguration#isDisplayPrintDialog()}.
+	 * A boolean value specifying whether a print setup dialog should be opened before printing.
 	 */
 	public static final JRPrintServiceExporterParameter DISPLAY_PRINT_DIALOG = new JRPrintServiceExporterParameter("Display Print Dialog");
 
 	/**
-	 * @deprecated Replaced by {@link PrintServiceExporterConfiguration#isDisplayPrintDialogOnlyOnce()}.
+	 * A boolean value specifying whether a print setup dialog should be opened only once in a batch export job.
 	 */
 	public static final JRPrintServiceExporterParameter DISPLAY_PRINT_DIALOG_ONLY_ONCE = new JRPrintServiceExporterParameter("Display Print Dialog Only Once");
 
 	/**
-	 * @deprecated Replaced by {@link PrintServiceExporterConfiguration#getPrintService()}.
+	 * An instance of <tt>javax.print.PrintService</tt>, useful if users do not want JPS to lookup for an available print service.
 	 */
 	public static final JRPrintServiceExporterParameter PRINT_SERVICE = new JRPrintServiceExporterParameter("Print Service");
 }

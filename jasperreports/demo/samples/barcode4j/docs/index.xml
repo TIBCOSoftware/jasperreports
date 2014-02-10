@@ -152,20 +152,20 @@ schema. All of them are based on the same
 <a href="../../components.schema.reference.html#Barcode4j">Barcode4j</a> 
 parent element, and differences are given by their specific extracontent:
 <ul>
-<li><a href="../../components.schema.reference.html#Codabar">Codabar</a></li>
-<li><a href="../../components.schema.reference.html#Code39">Code39</a></li>
-<li><a href="../../components.schema.reference.html#Code128">Code128</a></li>
-<li><a href="../../components.schema.reference.html#EAN8">EAN8</a></li>
-<li><a href="../../components.schema.reference.html#EAN13">EAN13</a></li>
-<li><a href="../../components.schema.reference.html#EAN128">EAN128</a></li>
-<li><a href="../../components.schema.reference.html#DataMatrix">DataMatrix</a></li>
-<li><a href="../../components.schema.reference.html#Interleaved2Of5">Interleaved2Of5</a></li>
-<li><a href="../../components.schema.reference.html#PDF417">PDF417</a></li>
-<li><a href="../../components.schema.reference.html#POSTNET">POSTNET</a></li>
-<li><a href="../../components.schema.reference.html#RoyalMailCustomer">RoyalMailCustomer</a></li>
-<li><a href="../../components.schema.reference.html#UPCA">UPCA</a></li>
-<li><a href="../../components.schema.reference.html#UPCE">UPCE</a></li>
-<li><a href="../../components.schema.reference.html#USPSIntelligentMail">USPSIntelligentMail</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#Codabar">Codabar</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#Code39">Code39</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#Code128">Code128</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#EAN8">EAN8</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#EAN13">EAN13</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#EAN128">EAN128</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#DataMatrix">DataMatrix</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#Interleaved2Of5">Interleaved2Of5</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#PDF417">PDF417</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#POSTNET">POSTNET</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#RoyalMailCustomer">RoyalMailCustomer</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#UPCA">UPCA</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#UPCE">UPCE</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#USPSIntelligentMail">USPSIntelligentMail</a></li>
 </ul>
 The basic <a href="../../components.schema.reference.html#Barcode4j">Barcode4j</a> structure 
 is characterized by the following series of elements:
@@ -192,7 +192,7 @@ Another attribute available for almost all <code>Barcode4j</code> elements is th
 <br/>
 <br/>
 Starting with JasperReports 5.1.2 a <code>templateExpression</code> is available for the 
-<a href="../../components.schema.reference.html#EAN128">EAN128</a>
+<a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#EAN128">EAN128</a>
 component, in order to allow custom configuration for the human readable part of the barcode. The format of the <code>templateExpression</code> 
 must conform to rules specified in the <a href="http://barcode4j.sourceforge.net/2.1/symbol-ean-128.html">official documentation</a>:
 <br/>

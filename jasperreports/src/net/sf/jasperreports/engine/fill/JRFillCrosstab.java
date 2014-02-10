@@ -45,7 +45,6 @@ import net.sf.jasperreports.components.iconlabel.IconLabelComponent;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentUtil;
 import net.sf.jasperreports.components.table.fill.BuiltinExpressionEvaluatorFactory;
 import net.sf.jasperreports.components.table.fill.TableReport;
-import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -112,7 +111,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
-import net.sf.jasperreports.engine.export.HtmlExporter;
+import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.MatcherExporterFilter;
 import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -191,7 +190,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	protected JRCrosstabExpressionEvaluator crosstabEvaluator;
 
 	protected JRFillCrosstabCell[][] crossCells;
-	protected JRFillCellContents titleCellContents;
 	protected JRFillCellContents headerCell;
 	protected JRFillCellContents whenNoDataCell;
 
@@ -225,12 +223,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		JRFillCrosstabObjectFactory crosstabFactory = new JRFillCrosstabObjectFactory(
 				factory, crosstabEvaluator);
 		crosstabFactory.setParentOriginProvider(this);
-		
-		if (crosstab.getTitleCell() != null && crosstab.getTitleCell().getCellContents() != null)
-		{
-			titleCellContents = crosstabFactory.getCell(crosstab.getTitleCell().getCellContents(), 
-					JRCellContents.TYPE_CROSSTAB_TITLE);
-		}
 		
 		headerCell = crosstabFactory.getCell(crosstab.getHeaderCell(), 
 				JRCellContents.TYPE_CROSSTAB_HEADER);
@@ -1223,7 +1215,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		private int[] columnXOffsets;
 		
 		private boolean noDataCellPrinted;
-		private boolean titlePrinted;
 		
 		private int startRowIndex;
 		private int startColumnIndex;
@@ -1275,7 +1266,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			startColumnIndex = 0;
 			lastColumnIndex = 0;
 			noDataCellPrinted = false;
-			titlePrinted = false;
 		}
 
 		protected void setRowHeadersXOffsets()
@@ -1432,17 +1422,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				}
 			}
 			
-			List<JRPrintElement> titleRow = null;
-			if (startRowIndex == 0 && startColumnIndex == 0 && titleCellContents != null && !titlePrinted)
-			{
-				titleRow = fillTitleCell(contentsHeight - yOffset);
-				if (willOverflow)
-				{
-					return;
-				}
-				titlePrinted = true;
-			}
-			
 			if (interactive && measures.length > 1)
 			{
 				dataColumnSortMeasures = new int[lastColumnIndex - startColumnIndex];
@@ -1456,13 +1435,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				columnHeaderRows = fillColumnHeaders(rowHeadersXOffset, contentsHeight - yOffset);
 				if (willOverflow)
 				{
-					//FIXME avoid repeating this
-					if (titleRow != null)
-					{
-						addPrintRow(titleRow);
-						addFilledRows();
-					}
-					
 					return;
 				}
 			}
@@ -1472,21 +1444,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			if (lastRowIndex == startRowIndex)
 			{
 				willOverflow = true;
-				
-				if (titleRow != null)
-				{
-					addPrintRow(titleRow);
-					addFilledRows();
-				}
-				
 				return;
 			}
 
-			if (titleRow != null)
-			{
-				addPrintRow(titleRow);
-			}
-			
 			if (columnHeaderRows != null)
 			{
 				printRows.addAll(columnHeaderRows);
@@ -1544,7 +1504,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				prints.addAll(rowPrints);
 			}
 			
-			// add the crosstab chunk to the element
+			// add the crosstan chunk to the element
 			addCrosstabChunk(prints, yChunkOffset);
 			
 			// clear the added rows
@@ -1794,38 +1754,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				colCountVar.setValue(Integer.valueOf(columnCount[colIdx]));
 			}
 		}
-
-		private List<JRPrintElement> fillTitleCell(int availableHeight) throws JRException
-		{
-			setCountVars(-1, -1);
-			
-			JRFillCellContents cell = titleCellContents;
-			int width = rowHeadersXOffsets[rowGroups.length] + columnXOffsets[lastColumnIndex] - columnXOffsets[startColumnIndex];
-			cell = cell.getTransformedContents(width, cell.getHeight(), getTitleCell().getContentsPosition(), CrosstabRowPositionEnum.TOP);
-			
-			JRFillCellContents contents = cell.getWorkingClone();
-			contents.evaluate(JRExpression.EVALUATION_DEFAULT);
-			contents.prepare(availableHeight);
-			
-			willOverflow = contents.willOverflow();
-			if (willOverflow)
-			{
-				return null;
-			}
-			
-			contents.setX(0);
-			contents.setY(yOffset);
-			contents.setHorizontalSpan(rowGroups.length + lastColumnIndex - startColumnIndex);
-			contents.setVerticalSpan(1);
-			
-			JRPrintFrame printCell = contents.fill();
-			List<JRPrintElement> titleRow = new ArrayList<JRPrintElement>(1);
-			titleRow.add(printCell);
-			
-			yOffset += contents.getPrintHeight();
-			
-			return titleRow;
-		}
 		
 		private JRFillCellContents fillHeader(int availableHeight) throws JRException
 		{
@@ -1913,7 +1841,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 							textElement.setExpressionEvaluator(decoratedEvaluator);
 							textElement.addDynamicProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, 
 									builtinExpressions.createConstantExpression(Integer.toString(bucketIdx)));
-							textElement.addDynamicProperty(HtmlExporter.PROPERTY_HTML_CLASS, 
+							textElement.addDynamicProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, 
 									builtinExpressions.createConstantExpression("jrxtrowheader jrxtinteractive"));
 						}
 					}
@@ -1935,7 +1863,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 						{
 							iconLabelElement.getPropertiesMap().setProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, 
 									Integer.toString(bucketIdx));
-							iconLabelElement.getPropertiesMap().setProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader jrxtinteractive");
+							iconLabelElement.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader jrxtinteractive");
 						}
 						
 						iconLabelElements.put(textElementIndex, iconLabelElement);
@@ -2046,7 +1974,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				if (interactive && header)
 				{
 					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(columnIdx));
-					contents.setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, sortHeader ? "jrxtcolheader jrxtinteractive" : "jrxtcolheader");
+					contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, sortHeader ? "jrxtcolheader jrxtinteractive" : "jrxtcolheader");
 				}
 
 				if (contents.willOverflow())
@@ -2511,7 +2439,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				if (interactive)
 				{
 					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(column));
-					contents.setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtdatacell");
+					contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtdatacell");
 				}
 								
 				preparedRow.add(contents);
@@ -2579,7 +2507,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					if (cell.getDepthSpan() == 1)
 					{
 						// marking only unspanned headers for HTML selection 
-						contents.setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader");
+						contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader");
 					}
 				}
 				
@@ -2769,7 +2697,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					if (cell.getDepthSpan() == 1)
 					{
 						// marking only unspanned headers for HTML selection 
-						contents.setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader");
+						contents.setPrintProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader");
 					}
 				}
 				
@@ -2985,12 +2913,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	{
 		//not needed
 		return null;
-	}
-
-	@Override
-	public CrosstabColumnCell getTitleCell()
-	{
-		return parentCrosstab.getTitleCell();
 	}
 
 	public JRCellContents getHeaderCell()

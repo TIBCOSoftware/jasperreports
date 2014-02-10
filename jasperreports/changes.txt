@@ -2,28 +2,18 @@
 JasperReports Library Change Log
 ===================================
 
-JasperReports 5.5.2 (2013-1x-xx)
+JasperReports 5.5.1 (2014-02-07)
 ---------------------------------------------
-- the JExcelApi based XLS exporters (JExcelApiExporter and JExcelApiMetadataExporter) are now deprecated and should no longer be used
-as they will no longer be maintained and will be completely removed from the library sometime in the future; 
-The JRXlsExporter, JRXlsMetadataExporter (both Apache POI based) and JRXlsxExporter implementations should be used instead;
 
-- the older HTML and XHTML exporters (JRHtmlExporter and JRXhtmlExporter) are now deprecated and should no longer be used
-as they will no longer be maintained and will be completely removed from the library sometime in the future;
-The newer HtmlExporter implementation should be used instead;
+- added built-in parameter JASPER_REPORTS_CONTEXT for access to current JasperReportsContext 
+configuration object during report filling;
 
-- parameter based exporter configuration is now deprecated and replaced with new interfaces for setting the exporter's 
-input, output and configuration; The JRExporterParameter class and its subclasses are now deprecated and replaced by 
-ExporterInput, ExporterOutput and ExporterConfiguration interfaces and their subinterfaces and convenience implementations; 
+- allow specifying the encoding in CSV data adapter configuration;
 
-- minor bug fixes and improvements;
+- enhanced built-in datetime and text processing report expression functions to leverage 
+the built-in report parameters for the locale and the timezone;
 
-
-
-
-
-JasperReports 5.5.1 (2013-1x-xx)
----------------------------------------------
+- added new extension point for template-based RequireJS configurations;
 
 - minor bug fixes and improvements;
 
@@ -328,6 +318,7 @@ parameter value handlers;
 
 JasperReports 4.1.2 (2011-09-12, SVN 4600)
 ---------------------------------------------
+
 - support for PDF/A compliance added to the PDF exporter;
 
 - new sort/filter custom component added to allow non-table component reports to leverage 
@@ -341,6 +332,7 @@ the interactive sorting and filtering feature when deployed inside the JR Web Fr
 
 JasperReports 4.1.1 (2011-08-11, SVN 4550)
 ---------------------------------------------
+
 - deprecated code for JRReportFont, JRBox, graphic element pen property
 and all deprecated byte-based properties were removed from the library's API;
 
@@ -408,6 +400,7 @@ exactly like in AWT;
 
 JasperReports 4.0.2 (2011-04-18, SVN 4298)
 ---------------------------------------------
+
 - improved XHTML exporter to bring it at feature parity with the former HTML exporter;
 
 - initial support for paragraph styling including: indentation, spacing and tab stops;
@@ -458,7 +451,7 @@ JasperReports 4.0.0 (2010-12-31, SVN 4121)
 ---------------------------------------------
 
 - new CSV query executer added to simplify to allow configuring CSV data sources from within report templates
-using built-in parameters and config properties;
+using built-in paramters and config properties;
 
 - new CSV metadata exporter added to better control the CSV export by marking columns in the report template
 using custom properties;

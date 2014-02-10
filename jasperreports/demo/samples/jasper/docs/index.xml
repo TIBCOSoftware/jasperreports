@@ -124,7 +124,7 @@ value is <code>Nothing</code>.</li>
 declared. Therefore, the order of variables as they appear in the report template is very important. 
 <br/>
 For more about report variables one can consult also the 
-<a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial#Variables">tutorial</a>.
+<a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/tutorial.html#Variables">tutorial</a>.
 <br/>
 <br/>
 Being familiarized with variables, it's time to focus back on data grouping. Report variables are very useful objects in a report, 
@@ -375,33 +375,31 @@ data-oriented document, is to customize the export. Some properties are needed t
 in the current sheet. The <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporter.html">JRCsvMetadataExporter</api> is designed to process such kind of 
 metadata information and to generate consistent columns of data, with or without column headers on their top. 
 <br/>
-Before starting the export work, the CSV metadata exporter looks for the presence of the column names by calling the 
-<api href="net/sf/jasperreports/export/CsvMetadataExporterConfiguration.html#getColumnNames()">getColumnNames()</api> exporter configuration setting.
-One can populate this setting either directly, using the APIs, or by collecting values from the 
+Before starting the export work, the CSV metadata exporter looks for the presence of the 
+<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter or the equivalent 
 <a href="../../config.reference.html#net.sf.jasperreports.export.csv.column.names.{suffix}">net.sf.jasperreports.export.csv.column.names.{suffix}</a> 
 properties at report level. If present, they provide a comma-separated list of column names, each one referencing a column that should be exported. For 
 accurate results it's recommended that the column names in the list to follow the same order as the original columns.
 <br/>
-Below is an example of populating the column names via JasperReports APIs:
+Below is an example of <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> usage:
 <pre><![CDATA[
 JRCsvMetadataExporter exporter = new JRCsvMetadataExporter();
-SimpleCsvMetadataExporterConfiguration configuration = new SimpleCsvMetadataExporterConfiguration();
-configuration.setColumnNames(new String[]{"Name,Id"});
-exporter.setConfiguration(configuration);]]></pre>
+exporter.setParameter(JRCsvMetadataExporterParameter.COLUMN_NAMES, new String[]{"Name,Id"});]]></pre>
 It ensures that only 2 columns will be printed out: the column with names and the column with Ids.   
 <br/>
 Now, that we have the column names, it's time to see which elements will be exported into these columns and how. Let's introduce the other metadata properties:
 <ul>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.csv.column.name">net.sf.jasperreports.export.csv.column.name</a> 
 - this is an important element-level property. If the 
-<a href="../../config.reference.html#net.sf.jasperreports.export.csv.column.names.{suffix}">net.sf.jasperreports.export.csv.column.names.{suffix}</a> properties are not 
-present in the report, this property specifies the name of an exported column and assumes that the current element will be placed in that column. If there are defined  
-<code>net.sf.jasperreports.export.csv.column.names.{suffix}</code> properties in the 
-report, then the column name specified by the <code>net.sf.jasperreports.export.csv.column.name</code> 
-property must be one of the names declared in the <code>net.sf.jasperreports.export.csv.column.names.{suffix}</code> properties. The current element will be placed in   
+<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter (or equivalent property) is not 
+present, this property specifies the name of an exported column and assumes that the current element will be placed in that column. If the 
+<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter (or equivalent property) was defined, 
+the name specified by this property must be one of the names in the 
+<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter. The element will be placed in 
 that column.</li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.csv.write.header">net.sf.jasperreports.export.csv.write.header</a> - 
-a report-level flag property indicating whether the column names should be exported as column headers or not. The default value is <code>false</code>.</li>
+a report-level flag property indicating whether the column names should be exported as column headers or not. The equivalent export parameter is 
+<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#WRITE_HEADER">WRITE_HEADER</api>. the default value is <code>false</code>.</li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.csv.repeat.value">net.sf.jasperreports.export.csv.repeat.value</a> - 
 an element-level flag property indicating whether the value associated to that column should be repeated or not when it is missing.</li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.csv.data">net.sf.jasperreports.export.csv.data</a> - 
@@ -473,7 +471,7 @@ Shows how to export the report to XLS format using metadata associated with repo
       </author>
     </documentedBy>
     <content>
-<subtitle name="xls_metadata_export">The Excel 2003 Metadata Exporter</subtitle>
+<subtitle name="xls_metadata_export">The JExcelApi Metadata Exporter</subtitle>
 <br/>
 <br/>
 As shown in the section <a href="#csv_metadata_export">above</a>, the CSV metadata exporter is a very useful tool when data-oriented outputs are preferred. The only 
@@ -481,10 +479,12 @@ problem is that any format setting is dropped when the CSV file is saved. CSVs d
 for complex documents. Sometimes data needs to be presented in a meaningful way, column headers should be centered, totals should appear in a bold style, some cells 
 might require a particular background, etc. There is a need to keep together relevant data with their style and formatting information. Since the CSV metadata exporter 
 is limited to data only, another metadata-based exporter comes to solve the problem. This is the 
-<api href="net/sf/jasperreports/engine/export/JRXlsMetadataExporter.html">JRXlsMetadataExporter</api> that provides a columnar Excel 2003 output. It relies on equivalent 
-metadata properties and parameters having the same meanings, but dedicated to the XLS output format:
+<api href="net/sf/jasperreports/engine/export/JExcelApiMetadataExporter.html">JExcelApiMetadataExporter</api>. It relies on equivalent metadata properties and parameters 
+having the same meanings, but dedicated to the XLS output format:
+Before starting the export work, the CSV metadata exporter looks for the presence of the 
 <ul>
-<li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.column.names.{suffix}">net.sf.jasperreports.export.xls.column.names.{suffix}</a></li>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter or the equivalent 
+<a href="../../config.reference.html#net.sf.jasperreports.export.xls.column.names.{suffix}">net.sf.jasperreports.export.xls.column.names.{suffix}</a></li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.column.name">net.sf.jasperreports.export.xls.column.name</a></li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.write.header">net.sf.jasperreports.export.xls.write.header</a></li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.repeat.value">net.sf.jasperreports.export.xls.repeat.value</a></li>
@@ -542,8 +542,8 @@ these settings apply to the &lt;detail/&gt; section:
     ...
   </band>
 </detail>]]></pre>
-After running the <code>&gt;ant test view</code> command the data-centric document exported with the Excel 2003 metadata exporter will be available in the 
-<code>demo/samples/jasper/build/reports</code> directory as <code>FirstJasper.xls.metadata.xls</code>. Notice the differences between this one and the 
+After running the <code>&gt;ant test view</code> command the data-centric document exported with the JExcelApi metadata exporter will be available in the 
+<code>demo/samples/jasper/build/reports</code> directory as <code>FirstJasper.jxl.metadata.xls</code>. Notice the differences between this one and the 
 <code>FirstJasper.metadata.csv</code> CSV document.
     </content>
   </feature>

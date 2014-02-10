@@ -1,4 +1,4 @@
-define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 'jive.i18n'], function($, templates, css, jivei18n) {
+define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'text!jive.vm.css', 'jive.i18n'], function($, templates, css, jivei18n) {
     var clickEventName = 'click';
 
     if(/Android|iPhone|iPad/i.test(navigator.userAgent) ) {
@@ -7,7 +7,6 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
 
     var jive = {
         name: 'jive',
-        reportInstance: null,
         active: false,
         started: false,
         actionBaseData: null,
@@ -49,27 +48,19 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
                             jive.ui.overlay.jo.width(ui.position.left - jive.ui.overlay.left);
                         },
                         stop:function(ev,ui) {
-                            //jive.interactive[jive.selected.ie.config.type].resize((ui.position.left - jive.ui.overlay.left) / jive.ui.scaleFactor);
-                            jive.interactive[jive.selected.ie.config.type].resize((ui.position.left - jive.ui.overlay.left) / (jive.reportInstance.zoom ? jive.reportInstance.zoom.level : 1));
+                            jive.interactive[jive.selected.ie.config.type].resize((ui.position.left - jive.ui.overlay.left) / jive.ui.scaleFactor);
                             jive.resizingColumn = false;
                         }
                     });
                     //this.jo.appendTo('table.jrPage');
                 },
                 show: function(dim){
-                    var isFirstTimeSelection = false;
-                    if (!this.jo) {
-                        this.setElement('#jive_marker');
-                        isFirstTimeSelection = true;
-                    }
+                    !this.jo && this.setElement('#jive_marker');
                     this.jo.css({
-                        height: dim.h
+                        height: dim.h+'px'
                     });
                     this.jo.appendTo(jive.getReportContainer()).show();
-                    this.jo.position({of:jive.ui.overlay.jo, my: 'left top', at:'right top', collision:'none'});
-
-                    // on first time selection the markers needs to be repositioned to be correctly aligned
-                    isFirstTimeSelection && this.jo.position({of:jive.ui.overlay.jo, my: 'left top', at:'right top', collision:'none'});
+                    this.jo.position({of:jive.ui.overlay.jo, my: 'left top', at:'right top',collision:'none'});
 
                     var de = this.jo.get(0);
                     var left = this.jo.get(0).style.left;
@@ -111,8 +102,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
                         isFirstTimeSelection = true;
                     }
                     this.jo.css({
-                        // width: dim.w * jive.ui.scaleFactor,
-                        width: dim.w * (jive.reportInstance.zoom ? jive.reportInstance.zoom.level : 1),
+                        width: dim.w * jive.ui.scaleFactor,
                         height: dim.h
                     }).draggable('option','helper', function(event) {
                             return $('div.jive_drag_label').clone().appendTo('#jive_components').html(jive.i18n.get('column.move.helper')).show();
@@ -120,7 +110,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
                     this.jo.appendTo(jive.getReportContainer()).show();
                     this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top',collision:'none'});
 
-                    // on first time selection the overlay needs to be repositioned to be correctly aligned
+                    // on first time selection the overlay need to be repositioned to be correctly aligned
                     isFirstTimeSelection && this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top',collision:'none'});
                 }
             },
@@ -1100,7 +1090,6 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
                         tbl.append(clone);
                     });
                     tbl.css({
-                        position: 'fixed',
                         width: Math.max.apply(Math, cloneWidth),
                         'empty-cells': tblJrPage.css('empty-cells'),
                         'border-collapse': tblJrPage.css('border-collapse'),
@@ -1120,8 +1109,8 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
             if (isJiveActive) { // handle the toolbar position
                 firstHeader = $('td.first_jrcolHeader');
                 top = isDashboard ? 0 : $('div#reportViewFrame .body').offset().top,
-                    toolbarTop = it.ui.foobar.jo.offset().top,
-                    firstHeaderTop = firstHeader.offset().top;
+                toolbarTop = it.ui.foobar.jo.offset().top,
+                firstHeaderTop = firstHeader.offset().top;
 
                 if (!it.ui.foobar.topCalculated) {
                     if (toolbarTop < 0) {
@@ -1148,161 +1137,105 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
                 }
             }
         },
-        applyScaleTransform: function($container, zoom, origin) {
-            var scale = 'scale(' + zoom + ")",
-                origin = origin || '50% 0',
-                transform =  {
-                    '-webkit-transform': scale,
-                    '-webkit-transform-origin': origin,
-                    '-moz-transform':    scale,
-                    '-moz-transform-origin': origin,
-                    '-ms-transform':     scale,
-                    '-ms-transform-origin': origin,
-                    '-o-transform':      scale,
-                    '-o-transform-origin': origin,
-                    'transform':         scale,
-                    'transform-origin': origin
-                };
-
-            $container.css(transform);
-        },
-        zoom: function(o) {
-            var it = this;
-            it.isFloatingHeader && it.scrollHeader(it.isDashboard, true);
-            it.active && it.hide(); // hide jive stuff when zooming to avoid repositioning of its elements
-        },
-        scrollHeader: function(isDashboard, forceScroll) {
-            var it = this,
-                $win = $(window),
-//                scrollContainer = it.isIPad ? $win : $('div#reportViewFrame .body'),
-                scrollContainer = $('div#reportViewFrame .body'),
-                scrolledTop = false,
-                scrolledLeft = false;
-
-            // Determine scroll direction and value
-            if (it.scrollData.scrollTop != null) { // check previous scrollTop
-                if (scrollContainer.scrollTop() != it.scrollData.scrollTop) {
-                    it.scrollData.scrollTop = scrollContainer.scrollTop();
-                    scrolledTop = true;
-                }
-            } else if (scrollContainer.scrollTop() != 0) {
-                it.scrollData.scrollTop = scrollContainer.scrollTop();
-                scrolledTop = true;
-            }
-
-            if (it.scrollData.scrollLeft != null) { // check previous scrollLeft
-                if (scrollContainer.scrollLeft() != it.scrollData.scrollLeft) {
-                    it.scrollData.scrollLeft = scrollContainer.scrollLeft();
-                    scrolledLeft = true;
-                }
-            } else if (scrollContainer.scrollLeft() != 0) {
-                it.scrollData.scrollLeft = scrollContainer.scrollLeft();
-                scrolledLeft = true;
-            }
-
-            if (!scrolledLeft && !scrolledTop && !forceScroll) {
-                return;
-            }
-
+        scrollHeader: function(o, isDashboard) {
             var firstHeader = $('td.jrcolHeader:first');
             if (!firstHeader.length > 0) {
-                return;
+                return o;
             }
-
-            var floatableTbl = it.getHeaderTable(),
-                tbl = firstHeader.closest('table'),
-                containerTop = isDashboard ? $win.scrollTop() : $('div#reportViewFrame .body').offset().top,
+            var it = this,
+                floatableTbl = it.getHeaderTable(),
+                containerTop = isDashboard ? $(window).scrollTop() : $('div#reportViewFrame .body').offset().top,
                 headerTop = firstHeader.closest('tr').offset().top,
                 reportContainerTop = $('#reportContainer').offset().top,
                 lastTableCel = $('td.first_jrcolHeader:first').closest('table').find('td.jrcel:last'),
                 diff = lastTableCel.length ? lastTableCel.offset().top - floatableTbl.outerHeight() - containerTop: -1, // if last cell is not visible, hide the floating header
                 scrollTop = it.cachedScroll || 0,
-                zoom = jive.reportInstance.zoom;
+                firstHeaderRowCells, delta = 0, i, stop;
 
             it.isIPad && !it.cachedHeaderTop && (it.cachedHeaderTop = headerTop);
+
             if (!isDashboard && it.isIPad) {
                 scrollTop += it.cachedHeaderTop - headerTop;
             }
 
-            if (!it.scrollData.bMoved && headerTop-containerTop < 0 && diff > 0) {
+            if (!o.bMoved && headerTop-containerTop < 0 && diff > 0) {
                 floatableTbl.show();
+                floatableTbl.css({
+                    position: 'fixed',
+                    top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop)
+                });
 
-                if (zoom) {
-                    it.applyScaleTransform(floatableTbl, zoom.level, zoom.overflow ? '0 0' : '50% 0');
-                    floatableTbl.offset({
-                        top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                        left: tbl.offset().left
-                    });
-                    // do this twice for proper positioning
-                    floatableTbl.offset({
-                        top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                        left: tbl.offset().left
-                    });
-                } else {
-                    floatableTbl.offset({
-                        top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                        left: tbl.offset().left
-                    });
+                firstHeaderRowCells = firstHeader.closest('tr').find('td');
+                stop = firstHeaderRowCells.index(firstHeader);
+                for (i = 0; i < stop; i++) {
+                    delta += $(firstHeaderRowCells[i]).outerWidth();
                 }
 
+                floatableTbl.offset({left: firstHeader.offset().left - delta});
                 it.setToolbarPositionWhenFloating(it.active, isDashboard);
 
-                it.scrollData.bMoved = it.isFloatingHeader = true;
+                o.bMoved = it.isFloatingHeader = true;
                 if (!isDashboard) {
-                    if (!it.scrollData.reportContainerPositionAtMove) {
-                        it.scrollData.reportContainerPositionAtMove = reportContainerTop;
+                    if (!o.reportContainerPositionAtMove) {
+                        o.reportContainerPositionAtMove = reportContainerTop;
                     }
                 }
-            } else if (it.scrollData.bMoved && headerTop-containerTop < 0 && diff > 0) {
+            } else if (o.bMoved && headerTop-containerTop < 0 && diff > 0) {
                 floatableTbl.show();
-                if (zoom) {
-                    it.applyScaleTransform(floatableTbl, zoom.level, zoom.overflow ? '0 0' : '50% 0');
-                    floatableTbl.offset({
-                        top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                        left: tbl.offset().left
-                    });
-                } else if (scrolledLeft) {
-                    floatableTbl.offset({
-                        top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                        left: tbl.offset().left
-                    });
+                floatableTbl.css({
+                    position: 'fixed',
+                    top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop)
+                });
+
+                firstHeaderRowCells = firstHeader.closest('tr').find('td');
+                stop = firstHeaderRowCells.index(firstHeader);
+                for (i = 0; i < stop; i++) {
+                    delta += $(firstHeaderRowCells[i]).outerWidth();
                 }
 
+                floatableTbl.offset({left: firstHeader.offset().left - delta});
                 it.setToolbarPositionWhenFloating(it.active, isDashboard);
-            } else if (it.scrollData.bMoved) {
-                floatableTbl.hide();
-                it.scrollData.bMoved = it.isFloatingHeader = false;
-                it.cachedScroll = 0;
-                it.active && it.ui.foobar.setToolbarPosition();
+            } else if (o.bMoved) {
+                if (!isDashboard && (reportContainerTop > o.reportContainerPositionAtMove || diff <= 0)) {
+                    floatableTbl.hide();
+                    o.bMoved = it.isFloatingHeader = false;
+                    it.cachedScroll = 0;
+                    it.active && it.ui.foobar.setToolbarPosition();
+                } else if (isDashboard && (headerTop-containerTop >= 0 || diff <= 0)) {
+                    floatableTbl.hide();
+                    o.bMoved = it.isFloatingHeader = false;
+                    it.cachedScroll = 0;
+                    it.active && it.ui.foobar.setToolbarPosition();
+                }
             }
 
             it.isIPad && (it.cachedHeaderTop = headerTop);
             it.isIPad && (it.cachedScroll = scrollTop);
+            return o;
         },
         setScrollableHeader: function(isDashboard){
-            var it = this;
-
-            it.scrollData = {
-                bMoved: false,
-                reportContainerPositionAtMove: null
-            };
+            var it = this,
+                o = {
+                    bMoved: false,
+                    reportContainerPositionAtMove: null
+                };
 
             if (!isDashboard) {
                 $('div#reportViewFrame .body').on('scroll', function() {
-                    it.scrollHeader(isDashboard);
+                    o = it.scrollHeader(o, isDashboard);
                 });
             }
 
             if (it.isIE) { // attach scroll to body for dashboards in IE
                 $('body').on('scroll', function() {
-                    it.scrollHeader(isDashboard);
+                    o = it.scrollHeader(o, isDashboard);
 
                     // reposition jive visual elements
                     it.active && !it.ui.dialog.isVisible && it.showVisualElements(jive.selected.dim);
                 });
             }
             $(window).on('resize scroll', function() {
-                it.scrollHeader(isDashboard);
+                o = it.scrollHeader(o, isDashboard);
 
                 // reposition jive visual elements
                 it.active && !it.ui.dialog.isVisible && it.showVisualElements(jive.selected.dim);
@@ -1311,15 +1244,13 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
         init: function(report) {
             var it = this;
 
-            jive.reportInstance = report;
-
             if(!it.initialized) {
                 it.isDashboard = $('body').is('.dashboardViewFrame');
                 /*
                  Scrolable table headers
                  */
                 if(it.isDashboard || $('div#reportViewFrame').length > 0) {
-                    it.setScrollableHeader(it.isDashboard);
+                   it.setScrollableHeader(it.isDashboard);
                 }
 
                 /*
@@ -1332,7 +1263,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
                 /*
                  Setup CSS
                  */
-//                $('head').append('<style id="jive-main-stylesheet">'+css+'</style>');
+                $('head').append('<style id="jive-main-stylesheet">'+css+'</style>');
 
                 /*
                  Event Handling

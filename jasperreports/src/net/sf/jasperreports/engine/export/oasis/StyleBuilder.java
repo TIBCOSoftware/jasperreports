@@ -36,8 +36,6 @@ import java.util.List;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.export.LengthUtil;
-import net.sf.jasperreports.export.ExporterInput;
-import net.sf.jasperreports.export.ExporterInputItem;
 
 
 /**
@@ -49,15 +47,15 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	private ExporterInput exporterInput;
+	private List<JasperPrint> jasperPrintList;
 	private WriterHelper writer;
 	
 	/**
 	 * 
 	 */
-	public StyleBuilder(ExporterInput exporterInput, WriterHelper writer)
+	public StyleBuilder(List<JasperPrint> jasperPrintList, WriterHelper writer)
 	{
-		this.exporterInput = exporterInput;
+		this.jasperPrintList = jasperPrintList;
 		this.writer = writer;
 	}
 
@@ -66,12 +64,9 @@ public class StyleBuilder
 	 */
 	public void build()
 	{
-		List<ExporterInputItem> items = exporterInput.getItems();
-		
-		for(int reportIndex = 0; reportIndex < items.size(); reportIndex++)
+		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			ExporterInputItem item = items.get(reportIndex);
-			JasperPrint jasperPrint = item.getJasperPrint();
+			JasperPrint jasperPrint = jasperPrintList.get(reportIndex);
 
 			if (reportIndex == 0)
 			{
@@ -83,7 +78,7 @@ public class StyleBuilder
 
 		buildBetweenAutomaticAndMasterStyles();
 
-		for(int reportIndex = 0; reportIndex < items.size(); reportIndex++)
+		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
 			buildMasterPage(reportIndex);
 		}

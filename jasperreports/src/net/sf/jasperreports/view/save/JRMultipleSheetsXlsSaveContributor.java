@@ -31,12 +31,11 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.view.JRSaveContributor;
 
 /**
@@ -116,11 +115,9 @@ public class JRMultipleSheetsXlsSaveContributor extends JRSaveContributor
 			)
 		{
 			JRXlsExporter exporter = new JRXlsExporter(getJasperReportsContext());
-			exporter.setExporterInput(new SimpleExporterInput(jasperPrint)); 
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(file));
-			SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
-			configuration.setOnePagePerSheet(true);
-			exporter.setConfiguration(configuration);
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
+			exporter.setParameter(JRXlsAbstractExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
 			exporter.exportReport(); 
 		}
 	}

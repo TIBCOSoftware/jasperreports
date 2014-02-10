@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
-import net.sf.jasperreports.engine.export.HtmlExporter;
+import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
@@ -95,7 +95,7 @@ public class ImageServlet extends BaseHttpServlet
 				throw new ServletException("No JasperPrint documents found on the HTTP session.");
 			}
 			
-			JRPrintImage image = HtmlExporter.getImage(jasperPrintList, imageName);
+			JRPrintImage image = JRHtmlExporter.getImage(jasperPrintList, imageName);
 			
 			Renderable renderer = image.getRenderable();
 			if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
@@ -127,10 +127,10 @@ public class ImageServlet extends BaseHttpServlet
 				response.setHeader("Content-Type", imageMimeType);
 			}
 			response.setContentLength(imageData.length);
-			ServletOutputStream outputStream = response.getOutputStream();
-			outputStream.write(imageData, 0, imageData.length);
-			outputStream.flush();
-			outputStream.close();
+			ServletOutputStream ouputStream = response.getOutputStream();
+			ouputStream.write(imageData, 0, imageData.length);
+			ouputStream.flush();
+			ouputStream.close();
 		}
 	}
 

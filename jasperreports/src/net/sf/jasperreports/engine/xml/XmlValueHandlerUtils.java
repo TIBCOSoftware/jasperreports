@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

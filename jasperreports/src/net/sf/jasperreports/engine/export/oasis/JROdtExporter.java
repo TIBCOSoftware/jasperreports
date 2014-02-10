@@ -33,17 +33,18 @@ package net.sf.jasperreports.engine.export.oasis;
 
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
@@ -56,7 +57,7 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
@@ -78,11 +79,6 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.export.ExporterInputItem;
-import net.sf.jasperreports.export.OdtExporterConfiguration;
-import net.sf.jasperreports.export.OdtReportConfiguration;
-import net.sf.jasperreports.export.OutputStreamExporterOutput;
-import net.sf.jasperreports.export.ReportExportConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -94,7 +90,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, OdtExporterConfiguration, OutputStreamExporterOutput, JROdtExporterContext>
+public class JROdtExporter extends JRAbstractExporter
 {
 	private static final Log log = LogFactory.getLog(JROdtExporter.class);
 	
@@ -108,9 +104,9 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 
 	
 	/**
-	 * @deprecated Replaced by {@link OdtReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
+	 * 
 	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = OdtReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
+	public static final String PROPERTY_IGNORE_HYPERLINK = ODT_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 	
 
 	protected class ExporterContext extends BaseExporterContext implements JROdtExporterContext
@@ -125,6 +121,11 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 		public TableBuilder getTableBuilder()
 		{
 			return tableBuilder;
+		}
+
+		public String getExportPropertiesPrefix()
+		{
+			return ODT_EXPORTER_PROPERTIES_PREFIX;
 		}
 	}
 
@@ -190,12 +191,21 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 	protected WriterHelper tempBodyWriter;
 	protected WriterHelper tempStyleWriter;
 
+	protected JRExportProgressMonitor progressMonitor;
+
 	protected int reportIndex;
 	protected int pageIndex;
 	protected int tableIndex;
 	protected boolean startPage;
+	protected boolean flexibleRowHeight;
 	
 	protected String invalidCharReplacement;
+
+	/**
+	 *
+	 */
+	protected String encoding;
+
 
 	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
 	protected Color backcolor;
@@ -206,8 +216,6 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 
 	protected ExporterNature nature;
 
-	protected Map<Integer, String> rowStyles = new HashMap<Integer, String>();
-	protected Map<Integer, String> columnStyles = new HashMap<Integer, String>();
 	
 	/**
 	 * @see #JROdtExporter(JasperReportsContext)
@@ -224,104 +232,111 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 	public JROdtExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
-		
-		exporterContext = new ExporterContext(null);
 	}
 
-
-	/**
-	 *
-	 */
-	protected Class<OdtExporterConfiguration> getConfigurationInterface()
-	{
-		return OdtExporterConfiguration.class;
-	}
-
-
-	/**
-	 *
-	 */
-	protected Class<OdtReportConfiguration> getItemConfigurationInterface()
-	{
-		return OdtReportConfiguration.class;
-	}
-	
-
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					);
-		}
-	}
-	
 
 	/**
 	 *
 	 */
 	public void exportReport() throws JRException
 	{
+		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
+
 		/*   */
-		ensureJasperReportsContext();
-		ensureInput();
-
-		initExport();
-
-		ensureOutput();
-		
-		OutputStream outputStream = getExporterOutput().getOutputStream();
+		setOffset();
 
 		try
 		{
-			exportReportToOasisZip(outputStream);
-		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
+			/*   */
+			setExportContext();
+
+			/*   */
+			setInput();
+
+			if (!parameters.containsKey(JRExporterParameter.FILTER))
+			{
+				filter = createFilter(getExporterPropertiesPrefix());
+			}
+
+			/*   */
+			if (!isModeBatch)
+			{
+				setPageRange();
+			}
+
+			encoding =
+				getStringParameterOrDefault(
+					JRExporterParameter.CHARACTER_ENCODING,
+					JRExporterParameter.PROPERTY_CHARACTER_ENCODING
+					);
+
+			setFlexibleRowHeight();
+
+			setFontMap();
+
+			setHyperlinkProducerFactory();
+
+			nature = new JROdtExporterNature(filter);
+
+			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+			if (os != null)
+			{
+				try
+				{
+					exportReportToOasisZip(os);
+				}
+				catch (IOException e)
+				{
+					throw new JRException("Error trying to export to output stream : " + jasperPrint.getName(), e);
+				}
+			}
+			else
+			{
+				File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+				if (destFile == null)
+				{
+					String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+					if (fileName != null)
+					{
+						destFile = new File(fileName);
+					}
+					else
+					{
+						throw new JRException("No output specified for the exporter.");
+					}
+				}
+
+				try
+				{
+					os = new FileOutputStream(destFile);
+					exportReportToOasisZip(os);
+				}
+				catch (IOException e)
+				{
+					throw new JRException("Error trying to export to file : " + destFile, e);
+				}
+				finally
+				{
+					if (os != null)
+					{
+						try
+						{
+							os.close();
+						}
+						catch(IOException e)
+						{
+						}
+					}
+				}
+			}
 		}
 		finally
 		{
-			getExporterOutput().close();
 			resetExportContext();
 		}
 	}
-	
-	
-	@Override
-	protected void initExport()
-	{
-		super.initExport();
-	}
 
 
-	@Override
-	protected void initReport()
-	{
-		super.initReport();
-		
-		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
-		{
-			// allows null values for the property
-			invalidCharReplacement = jasperPrint.getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS);
-		}
-		else
-		{
-			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
-		}
-
-		nature = new JROdtExporterNature(filter);
-	}
-
-	
 	/**
 	 *
 	 */
@@ -337,31 +352,27 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 
 		documentBuilder = new OdtDocumentBuilder(oasisZip);
 		
-		styleCache = new StyleCache(jasperReportsContext, tempStyleWriter, getExporterKey());
+		styleCache = new StyleCache(jasperReportsContext, tempStyleWriter, fontMap, getExporterKey());
 
 		WriterHelper stylesWriter = new WriterHelper(jasperReportsContext, oasisZip.getStylesEntry().getWriter());
 
-		List<ExporterInputItem> items = exporterInput.getItems();
-
-		StyleBuilder styleBuilder = new StyleBuilder(exporterInput, stylesWriter);
+		StyleBuilder styleBuilder = new StyleBuilder(jasperPrintList, stylesWriter);
 		styleBuilder.build();
 
 		stylesWriter.close();
 
-		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
+		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			ExporterInputItem item = items.get(reportIndex);
-			rowStyles.clear();
-			columnStyles.clear();
-
-			setCurrentExporterInputItem(item);
-			
+			setJasperPrint(jasperPrintList.get(reportIndex));
+			setExporterHints();
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
-				PageRange pageRange = getPageRange();
-				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
-				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
+				if (isModeBatch)
+				{
+					startPageIndex = 0;
+					endPageIndex = pages.size() - 1;
+				}
 
 				JRPrintPage page = null;
 				for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
@@ -413,23 +424,19 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
 		startPage = true;
-
-		ReportExportConfiguration configuration = getCurrentItemConfiguration();
-		
 		JRGridLayout layout =
 			new JRGridLayout(
 				nature,
 				page.getElements(),
 				jasperPrint.getPageWidth(),
 				jasperPrint.getPageHeight(),
-				configuration.getOffsetX() == null ? 0 : configuration.getOffsetX(), 
-				configuration.getOffsetY() == null ? 0 : configuration.getOffsetY(),
+				globalOffsetX,
+				globalOffsetY,
 				null //address
 				);
 
 		exportGrid(layout, null);
 
-		JRExportProgressMonitor progressMonitor = configuration.getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -442,14 +449,12 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 	 */
 	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex) throws IOException, JRException
 	{
-		boolean isFlexibleRowHeight = getCurrentItemConfiguration().isFlexibleRowHeight();
-		
 		CutsInfo xCuts = gridLayout.getXCuts();
 		Grid grid = gridLayout.getGrid();
 
 		TableBuilder tableBuilder = frameIndex == null
-			? new TableBuilder(documentBuilder, jasperPrint, reportIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache, rowStyles, columnStyles)
-			: new TableBuilder(documentBuilder, jasperPrint, frameIndex.toString(), tempBodyWriter, tempStyleWriter, styleCache, rowStyles, columnStyles);
+			? new TableBuilder(documentBuilder, jasperPrint, reportIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache)
+			: new TableBuilder(documentBuilder, jasperPrint, frameIndex.toString(), tempBodyWriter, tempStyleWriter, styleCache);
 
 		
 		tableBuilder.buildTableStyle(gridLayout.getWidth());
@@ -461,7 +466,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 					col - 1,
 					xCuts.getCutOffset(col) - xCuts.getCutOffset(col - 1)
 					);
-			tableBuilder.buildColumnHeader(xCuts.getCutOffset(col) - xCuts.getCutOffset(col - 1));
+			tableBuilder.buildColumnHeader(col - 1);
 			tableBuilder.buildColumnFooter();
 		}
 
@@ -472,8 +477,8 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 			//int emptyCellWidth = 0;
 			int rowHeight = gridLayout.getRowHeight(row);
 
-			tableBuilder.buildRowStyle(row, isFlexibleRowHeight ? -1 : rowHeight);
-			tableBuilder.buildRowHeader(isFlexibleRowHeight ? -1 : rowHeight);
+			tableBuilder.buildRowStyle(row, flexibleRowHeight ? -1 : rowHeight);
+			tableBuilder.buildRowHeader(row);
 
 			GridRow gridRow = grid.getRow(row);
 			int rowSize = gridRow.size();
@@ -559,6 +564,50 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 	}
 
 
+	/**
+	 *
+	 */
+	protected String getExporterPropertiesPrefix()
+	{
+		return ODT_EXPORTER_PROPERTIES_PREFIX;
+	}
+
+	
+	/**
+	 *
+	 */
+	public JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName) throws JRException//FIXMEODS duplicate
+	{
+		return getImage(jasperPrintList, DocumentBuilder.getPrintElementIndex(imageName));
+	}
+
+	
+	/**
+	 *
+	 */
+	public JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex) throws JRException//FIXMEODS duplicate
+	{
+		JasperPrint report = jasperPrintList.get(imageIndex.getReportIndex());
+		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
+
+		Integer[] elementIndexes = imageIndex.getAddressArray();
+		Object element = page.getElements().get(elementIndexes[0].intValue());
+
+		for (int i = 1; i < elementIndexes.length; ++i)
+		{
+			JRPrintFrame frame = (JRPrintFrame) element;
+			element = frame.getElements().get(elementIndexes[i].intValue());
+		}
+		
+		if(element instanceof JRGenericPrintElement)
+		{
+			return getPrintImageForGenericElement((JRGenericPrintElement)element);
+		}
+
+		return (JRPrintImage) element;
+	}
+
+	
 	/**
 	 *
 	 */
@@ -874,6 +923,23 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 
 	
 	/**
+	 *
+	 */
+	protected void setExporterHints()
+	{
+		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
+		{
+			// allows null values for the property
+			invalidCharReplacement = jasperPrint.getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS);
+		}
+		else
+		{
+			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
+		}
+	}
+
+	
+	/**
 	 * 
 	 */
 	public String getExporterKey()
@@ -881,13 +947,30 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 		return ODT_EXPORTER_KEY;
 	}
 
-	
+
 	/**
 	 * 
 	 */
-	public String getExporterPropertiesPrefix()
-	{
-		return ODT_EXPORTER_PROPERTIES_PREFIX;
+	protected JRPrintImage getPrintImageForGenericElement(JRGenericPrintElement genericPrintElement) throws JRException {
+		return ((GenericElementOdtHandler) GenericElementHandlerEnviroment
+				.getInstance(jasperReportsContext).getElementHandler(
+						genericPrintElement.getGenericType(), ODT_EXPORTER_KEY))
+				.getImage(new ExporterContext(null), genericPrintElement);
 	}
+
+	
+	/**
+	 *
+	 */
+	protected void setFlexibleRowHeight(){
+		flexibleRowHeight = 
+				getBooleanParameter(
+					JROpenDocumentExporterParameter.ODT_FLEXIBLE_ROW_HEIGHT,
+					JROpenDocumentExporterParameter.PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT,
+					false
+					);
+	}
+
+
 }
 

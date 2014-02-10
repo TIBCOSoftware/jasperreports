@@ -1,12 +1,12 @@
 Built-By: Jaspersoft Corporation
 Specification-Title: JasperReports Library
-Specification-Version: 5.5.2
+Specification-Version: 5.5.1
 Specification-Vendor: Jaspersoft Corporation
 Implementation-Title: net.sf.jasperreports.engine
-Implementation-Version: 5.5.2
+Implementation-Version: 5.5.1
 Implementation-Vendor: Jaspersoft Corporation
 Bundle-Name: JasperReports Library
-Bundle-Version: 5.5.2
+Bundle-Version: 5.5.1
 Bundle-Vendor: Jaspersoft Corporation
 Bundle-SymbolicName: net.sf.jasperreports.engine
 Bundle-ClassPath: .
@@ -50,6 +50,7 @@ Export-Package: net.sf.jasperreports.ant,
  net.sf.jasperreports.engine.export,
  net.sf.jasperreports.engine.export.data,
  net.sf.jasperreports.engine.export.draw,
+ net.sf.jasperreports.engine.export.legacy,
  net.sf.jasperreports.engine.export.oasis,
  net.sf.jasperreports.engine.export.ooxml,
  net.sf.jasperreports.engine.export.ooxml.docx,

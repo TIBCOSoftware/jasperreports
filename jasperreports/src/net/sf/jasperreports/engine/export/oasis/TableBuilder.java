@@ -31,9 +31,7 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
-import java.io.IOException;
 import java.text.AttributedCharacterIterator;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -46,7 +44,6 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
@@ -57,7 +54,6 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
-import net.sf.jasperreports.export.OdtReportConfiguration;
 
 
 /**
@@ -70,7 +66,7 @@ public class TableBuilder
 	 *
 	 */
 	private final DocumentBuilder documentBuilder;
-	protected String tableName;
+	private String tableName;
 	private final JasperPrint jasperPrint;
 	private int reportIndex;
 	private final WriterHelper bodyWriter;
@@ -78,9 +74,6 @@ public class TableBuilder
 	private final StyleCache styleCache;
 	private boolean isFrame;
 	private boolean isPageBreak;
-	private String tableStyleName;
-	private Map<Integer, String> rowStyles;
-	private Map<Integer, String> columnStyles;
 	
 
 	protected TableBuilder(
@@ -89,9 +82,7 @@ public class TableBuilder
 		String name, 
 		WriterHelper bodyWriter,
 		WriterHelper styleWriter,
-		StyleCache styleCache,
-		Map<Integer, String> rowStyles,
-		Map<Integer, String> columnStyles
+		StyleCache styleCache
 		) 
 	{
 		this.documentBuilder = documentBuilder;
@@ -105,8 +96,6 @@ public class TableBuilder
 		this.styleCache = styleCache;
 
 		this.tableName = "TBL_" + name;
-		this.rowStyles = rowStyles == null ? new HashMap<Integer, String>() : rowStyles;
-		this.columnStyles = columnStyles == null ? new HashMap<Integer, String>() : columnStyles;
 	}
 
 	protected TableBuilder(
@@ -116,9 +105,7 @@ public class TableBuilder
 		int pageIndex,
 		WriterHelper bodyWriter,
 		WriterHelper styleWriter,
-		StyleCache styleCache,
-		Map<Integer, String> rowStyles,
-		Map<Integer, String> columnStyles
+		StyleCache styleCache
 		) 
 	{
 		this.documentBuilder = documentBuilder;
@@ -133,18 +120,42 @@ public class TableBuilder
 		this.styleCache = styleCache;
 
 		this.tableName = "TBL_" + reportIndex + "_" + pageIndex;
-		this.rowStyles = rowStyles == null ? new HashMap<Integer, String>() : rowStyles;
-		this.columnStyles = columnStyles == null ? new HashMap<Integer, String>() : columnStyles;
 	}
 
 
 	public void buildTableStyle(int width) 
 	{
-		try {
-			  this.tableStyleName = styleCache.getTableStyle(width, reportIndex, isFrame, isPageBreak);
-		} catch (IOException e) {
-			throw new JRRuntimeException(e);
+		styleWriter.write(" <style:style style:name=\"" + tableName + "\"");//FIXMEODT can we have only one page style per report?
+		if (!isFrame)
+		{
+			styleWriter.write(" style:master-page-name=\"master_" + reportIndex +"\"");
 		}
+		styleWriter.write(" style:family=\"table\">\n");
+		styleWriter.write("   <style:table-properties");		
+		styleWriter.write(" table:align=\"left\" style:width=\"" + LengthUtil.inch(width) + "in\"");
+		if (isPageBreak)
+		{
+			styleWriter.write(" fo:break-before=\"page\"");
+		}
+//		FIXMEODT
+//		if (tableWidth != null)
+//		{
+//			styleWriter.write(" style:width=\""+ tableWidth +"in\"");
+//		}
+//		if (align != null)
+//		{
+//			styleWriter.write(" table:align=\""+ align +"\"");
+//		}
+//		if (margin != null)
+//		{
+//			styleWriter.write(" fo:margin=\""+ margin +"\"");
+//		}
+//		if (backGroundColor != null)
+//		{
+//			styleWriter.write(" fo:background-color=\""+ backGroundColor +"\"");
+//		}
+		styleWriter.write("/>\n");
+		styleWriter.write(" </style:style>\n");
 	}
 	
 	public void buildTableHeader() 
@@ -158,7 +169,7 @@ public class TableBuilder
 		bodyWriter.write(tableName);
 		bodyWriter.write("\"");
 		bodyWriter.write(" table:style-name=\"");
-		bodyWriter.write(tableStyleName);
+		bodyWriter.write(tableName);
 		bodyWriter.write("\"");
 		bodyWriter.write(">\n");
 	}
@@ -170,17 +181,28 @@ public class TableBuilder
 	
 	public void buildRowStyle(int rowIndex, int rowHeight) 
 	{
-		try {
-			this.rowStyles.put(rowHeight, styleCache.getRowStyle(rowHeight));
-		} catch (IOException e) {
-			throw new JRRuntimeException(e);
+		String rowName = tableName + "_row_" + rowIndex;
+		styleWriter.write(" <style:style style:name=\"" + rowName + "\"");
+		styleWriter.write(" style:family=\"table-row\">\n");
+		styleWriter.write("   <style:table-row-properties");		
+		if(rowHeight < 0)
+		{
+			styleWriter.write(" style:use-optimal-row-height=\"true\"");
 		}
+		else
+		{
+			styleWriter.write(" style:use-optimal-row-height=\"false\"");
+			styleWriter.write(" style:row-height=\"" + LengthUtil.inch(rowHeight) + "in\"");
+		}
+		styleWriter.write("/>\n");
+		styleWriter.write(" </style:style>\n");
 	}
 
-	public void buildRowHeader(int rowHeight) 
+	public void buildRowHeader(int rowIndex) 
 	{
+		String rowName = tableName + "_row_" + rowIndex;
 		bodyWriter.write("<table:table-row");
-		bodyWriter.write(" table:style-name=\"" + rowStyles.get(rowHeight) + "\"");
+		bodyWriter.write(" table:style-name=\"" + rowName + "\"");
 		bodyWriter.write(">\n");
 	}
 	
@@ -189,28 +211,31 @@ public class TableBuilder
 		bodyWriter.write("</table:table-row>\n");
 	}
 	
-	public void buildRow(int rowIndex, int rowHeight) 
+	public void buildRow(int rowIndex) 
 	{
 		if (rowIndex > 0)
 		{
 			buildRowFooter();
 		}
-		buildRowHeader(rowHeight);
+		buildRowHeader(rowIndex);
 	}
 	
 	public void buildColumnStyle(int colIndex, int colWidth) 
 	{
-		try {
-			this.columnStyles.put(colWidth, styleCache.getColumnStyle(colWidth));
-		} catch (IOException e) {
-			throw new JRRuntimeException(e);
-		}
+		String columnName = tableName + "_col_" + colIndex;
+		styleWriter.write(" <style:style style:name=\"" + columnName + "\"");
+		styleWriter.write(" style:family=\"table-column\">\n");
+		styleWriter.write("   <style:table-column-properties");		
+		styleWriter.write(" style:column-width=\"" + LengthUtil.inch(colWidth) + "in\"");
+		styleWriter.write("/>\n");
+		styleWriter.write(" </style:style>\n");
 	}
 
-	public void buildColumnHeader(int colWidth) 
+	public void buildColumnHeader(int colIndex) 
 	{
+		String columnName = tableName + "_col_" + colIndex;
 		bodyWriter.write("<table:table-column");		
-		bodyWriter.write(" table:style-name=\"" + columnStyles.get(colWidth) + "\"");
+		bodyWriter.write(" table:style-name=\"" + columnName + "\"");
 		bodyWriter.write(">\n");
 	}
 
@@ -488,7 +513,7 @@ public class TableBuilder
 	 */
 	protected String getIgnoreHyperlinkProperty()
 	{
-		return OdtReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
+		return JROdtExporter.PROPERTY_IGNORE_HYPERLINK;
 	}
 
 	
@@ -496,15 +521,6 @@ public class TableBuilder
 	 *
 	 */
 	protected boolean startHyperlink(JRPrintHyperlink link, boolean isText)
-	{
-		return startHyperlink(link, isText, true);
-	}
-	
-	
-	/**
-	 *
-	 */
-	protected boolean startHyperlink(JRPrintHyperlink link, boolean isText, boolean isOnePagePerSheet)
 	{
 		String href = null;
 
@@ -517,7 +533,7 @@ public class TableBuilder
 
 		if (!ignoreHyperlink)
 		{
-			href = documentBuilder.getHyperlinkURL(link, isOnePagePerSheet);
+			href = documentBuilder.getHyperlinkURL(link);
 		}
 		
 		if (href != null)
@@ -675,9 +691,5 @@ public class TableBuilder
 	protected JasperReportsContext getJasperReportsContext()
 	{
 		return documentBuilder.getJasperReportsContext();
-	}
-
-	public String getTableName() {
-		return tableName;
 	}
 }

@@ -162,7 +162,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 		String htmlFragment = null;
 		String tableUUID = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID);
-		ReportContext reportContext = context.getExporterRef().getReportContext();
+		ReportContext reportContext = context.getExporter().getReportContext();
 		if (reportContext != null && tableUUID != null)//FIXMEJIVE
 		{
 			String columnUuid = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_UUID);
@@ -182,9 +182,9 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			if (locale == null) {
 				locale = Locale.getDefault();
 			}
-			
-            Boolean isClearCache = (Boolean)reportContext.getParameterValue(PARAMETER_CLEAR_CONTEXT_CACHE);
 
+            Boolean isClearCache = (Boolean)reportContext.getParameterValue(PARAMETER_CLEAR_CONTEXT_CACHE);
+			
 			if (reportContext.getParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX) != null && !(isClearCache != null && isClearCache)) {
 				templateAlreadyLoaded = true;
 			} else {

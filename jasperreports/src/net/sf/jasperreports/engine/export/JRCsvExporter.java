@@ -35,10 +35,9 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.export.CsvExporterConfiguration;
-import net.sf.jasperreports.export.CsvReportConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,12 +49,26 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration, CsvExporterConfiguration, JRCsvExporterContext>
+public class JRCsvExporter extends JRAbstractCsvExporter
 {
 	private static final Log log = LogFactory.getLog(JRCsvExporter.class);
 
+	private static final String CSV_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.";
+
+	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
+	public static final String CSV_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "csv";
+
+	protected JRCsvExporterContext exporterContext = new ExporterContext();
+
 	protected class ExporterContext extends BaseExporterContext implements JRCsvExporterContext
 	{
+		public String getExportPropertiesPrefix()
+		{
+			return CSV_EXPORTER_PROPERTIES_PREFIX;
+		}
 	}
 
 	/**
@@ -73,67 +86,22 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration,
 	public JRCsvExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
-		
-		exporterContext = new ExporterContext();
 	}
 
-
-	/**
-	 *
-	 */
-	protected Class<CsvExporterConfiguration> getConfigurationInterface()
-	{
-		return CsvExporterConfiguration.class;
-	}
-
-
-	/**
-	 *
-	 */
-	protected Class<CsvReportConfiguration> getItemConfigurationInterface()
-	{
-		return CsvReportConfiguration.class;
-	}
 	
-
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					);
-		}
-	}
-	
-
 	/**
 	 *
 	 */
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
-		CsvExporterConfiguration configuration = getCurrentConfiguration();
-		
-		String fieldDelimiter = configuration.getFieldDelimiter();
-		String recordDelimiter = configuration.getRecordDelimiter();
-		
-		CsvReportConfiguration lcItemConfiguration = getCurrentItemConfiguration();
-		
 		JRGridLayout layout = 
 			new JRGridLayout(
 				nature,
 				page.getElements(), 
 				jasperPrint.getPageWidth(), 
 				jasperPrint.getPageHeight(), 
-				lcItemConfiguration.getOffsetX() == null ? 0 : lcItemConfiguration.getOffsetX(), 
-				lcItemConfiguration.getOffsetY() == null ? 0 : lcItemConfiguration.getOffsetY(),
+				globalOffsetX, 
+				globalOffsetY,
 				null //address
 				);
 		
@@ -198,7 +166,7 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration,
 						{
 							if (!isFirstColumn)
 							{
-								rowbuffer.append(fieldDelimiter);
+								rowbuffer.append(delimiter);
 							}
 							rowbuffer.append(
 								prepareText(text)
@@ -212,7 +180,7 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration,
 						{
 							if (!isFirstColumn)
 							{
-								rowbuffer.append(fieldDelimiter);
+								rowbuffer.append(delimiter);
 							}
 							isFirstColumn = false;
 						}
@@ -227,10 +195,10 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration,
 			}
 		}
 		
-		JRExportProgressMonitor progressMonitor  = lcItemConfiguration.getProgressMonitor();
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
 		}
 	}
+
 }

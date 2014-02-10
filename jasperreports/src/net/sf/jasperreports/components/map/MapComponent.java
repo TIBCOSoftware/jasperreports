@@ -49,7 +49,6 @@ public interface MapComponent extends Component, JRCloneable
 
 	public static final String PROPERTY_latitude = "latitude";
 	public static final String PROPERTY_longitude = "longitude";
-	public static final String PROPERTY_address = "address";
 	public static final String PROPERTY_title = "title";
 	public static final String PROPERTY_name = "name";
 	public static final String PROPERTY_style = "style";
@@ -67,8 +66,6 @@ public interface MapComponent extends Component, JRCloneable
 	JRExpression getLatitudeExpression();
 
 	JRExpression getLongitudeExpression();
-	
-	JRExpression getAddressExpression();
 
 	JRExpression getZoomExpression();
 	
@@ -84,18 +81,13 @@ public interface MapComponent extends Component, JRCloneable
 	
 	MapImageTypeEnum getImageType();
 	
-	OnErrorTypeEnum getOnErrorType();
+	ItemData getMarkerData();
 	
-	List<ItemData> getMarkerDataList();
+	OnErrorTypeEnum getOnErrorType();
 	
 	List<ItemData> getPathStyleList();
 	
 	List<ItemData> getPathDataList();
-	
-	/**
-	 * @deprecated Replaced by {@link #getMarkerDataList()}.
-	 */
-	ItemData getMarkerData();
 	
 	/**
 	 * @deprecated Replaced by {@link #getMarkerData()}.

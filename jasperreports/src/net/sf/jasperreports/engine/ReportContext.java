@@ -50,4 +50,5 @@ public interface ReportContext
 	 *
 	 */
 	public boolean containsParameter(String parameterName);
+
 }

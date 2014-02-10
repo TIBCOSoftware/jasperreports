@@ -1,4 +1,4 @@
-define(["jquery-1.10.2", "jasperreports-url-manager", "jasperreports-ajax"], function($, UrlManager, Ajax) {
+define(["jquery-1.10.2"], function($) {
 	
     var Loader = function(o) {
 
@@ -8,6 +8,15 @@ define(["jquery-1.10.2", "jasperreports-url-manager", "jasperreports-ajax"], fun
         };
 
         $.extend(this.config, o);
+
+        this.UrlManager = {
+            applicationContextPath: null,
+            reportcontexturl: "/servlets/reportcontext",
+            reportoutputurl: "/servlets/reportoutput",
+            reportactionurl: "/servlets/reportaction",
+            reportcomponentsurl: "/servlets/reportcomponents",
+            reportpagestatusurl: "/servlets/reportpagestatus"
+        };
 
         // promises
         this.contextIdPromise = null;
@@ -75,7 +84,7 @@ define(["jquery-1.10.2", "jasperreports-url-manager", "jasperreports-ajax"], fun
 
         // internal functions
         _getUrl: function(key) {
-            var url = UrlManager.applicationContextPath + UrlManager[key],
+            var url = this.UrlManager.applicationContextPath + this.UrlManager[key],
                 jssParam;
             if (key === 'reportcontexturl') {
                 jssParam = this._getUrlParameter('jss_context');
@@ -102,15 +111,14 @@ define(["jquery-1.10.2", "jasperreports-url-manager", "jasperreports-ajax"], fun
                     url: it._getUrl("reportcontexturl"),
                     params: {
                         jr_report_uri: it.config.reporturi,
-                        jr_async: it.config.async,
-                        jr_app_domain: UrlManager.applicationContextPath
+                        jr_async: it.config.async
                     }
                 }, 'json');
             }
             return it.contextIdPromise;
         },
 		_ajaxLoad: function(o, dataType) {
-			return  Ajax.load(o.url, {type: 'POST', dataType: dataType, data: o.params}).then(
+			return  $.ajax(o.url, {type: 'POST', dataType: dataType, data: o.params}).then(
                 null,
                 this._errHandler
             );

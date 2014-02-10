@@ -46,7 +46,6 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.sf.jasperreports.engine.BookmarkHelper;
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -231,8 +230,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	protected JasperPrint jasperPrint;
 
 	protected JRPrintPage printPage;
-	
-	protected BookmarkHelper bookmarkHelper;
 
 	protected int printPageStretchHeight;
 
@@ -378,24 +375,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		whenResourceMissingType = jasperReport.getWhenResourceMissingTypeValue();
 
 		jasperPrint = new JasperPrint();
-
-		boolean isCreateBookmarks = 
-			propertiesUtil.getBooleanProperty(
-				jasperReport, 
-				JasperPrint.PROPERTY_CREATE_BOOKMARKS,
-				false
-				);
-		if (isCreateBookmarks)
-		{
-			bookmarkHelper = 
-				new BookmarkHelper(
-					propertiesUtil.getBooleanProperty(
-						jasperReport, 
-						JasperPrint.PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS,
-						false
-						)
-					);
-		}
 		
 		getPropertiesUtil().transferProperties(jasperReport, jasperPrint, 
 				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
@@ -1859,24 +1838,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 				fillListener.pageGenerated(jasperPrint, pageCount - 1);
 			}
 
-			addLastPageBookmarks();
-
 			jasperPrint.addPage(page);
 			fillContext.setPrintPage(page);
-		}
-	}
-
-
-	protected void addLastPageBookmarks()
-	{
-		if (bookmarkHelper != null)
-		{
-			int pageIndex = jasperPrint.getPages() == null ? -1 : (jasperPrint.getPages().size() - 1);
-			if (pageIndex >= 0)
-			{
-				JRPrintPage page = jasperPrint.getPages().get(pageIndex);
-				bookmarkHelper.addBookmarks(page, pageIndex);
-			}
 		}
 	}
 

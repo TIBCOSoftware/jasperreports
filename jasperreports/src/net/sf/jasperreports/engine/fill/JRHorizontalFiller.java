@@ -259,19 +259,10 @@ public class JRHorizontalFiller extends JRBaseFiller
 				printPageStretchHeight = offsetY + bottomMargin;
 			//}
 		}
-		else
-		{
-			addLastPageBookmarks();
-		}
 
 		if (fillContext.isIgnorePagination())
 		{
 			jasperPrint.setPageHeight(offsetY + bottomMargin);
-		}
-		
-		if (bookmarkHelper != null)
-		{
-			jasperPrint.setBookmarks(bookmarkHelper.getRootBookmarks());
 		}
 	}
 

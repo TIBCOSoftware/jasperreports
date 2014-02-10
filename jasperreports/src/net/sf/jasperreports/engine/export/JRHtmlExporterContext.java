@@ -27,11 +27,11 @@ package net.sf.jasperreports.engine.export;
 /**
  * A context that represents information about an HTML export process.
  * 
- * @see HtmlExporter
- * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
+ * @see JRHtmlExporter
  */
 public interface JRHtmlExporterContext extends JRExporterContext, HyperlinkURLResolver
 {
+	
 }

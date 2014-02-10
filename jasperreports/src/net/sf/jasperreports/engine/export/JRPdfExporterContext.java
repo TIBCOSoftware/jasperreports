@@ -28,10 +28,9 @@ import com.lowagie.text.pdf.PdfWriter;
 /**
  * A context that represents information about an PDF export process.
  * 
- * @see JRPdfExporter
- * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
+ * @see JRPdfExporter
  */
 public interface JRPdfExporterContext extends JRExporterContext
 {

@@ -226,39 +226,29 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			}
 		}
 		
+
 		writer.writeExpression("latitudeExpression", 
 			map.getLatitudeExpression());
 		writer.writeExpression("longitudeExpression", 
 				map.getLongitudeExpression());
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_2))
-		{
-			writer.writeExpression("addressExpression", map.getAddressExpression());
-		}
 		writer.writeExpression("zoomExpression", 
 				map.getZoomExpression());
 		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_8_0))
 		{
 			writer.writeExpression("languageExpression", 
 					map.getLanguageExpression());
-		}
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_2)) {
-			List<ItemData> markerDataList = map.getMarkerDataList();
-			if(markerDataList !=null && markerDataList.size() > 0) {
-				for(ItemData markerData : markerDataList) {
-					writeItemData(MapXmlFactory.ELEMENT_markerData, markerData, writer, reportWriter, namespace, componentElement);
-				}
+			if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_0_4))
+			{
+				ItemData itemData = map.getMarkerData();
+				writeItemData(MapXmlFactory.ELEMENT_markerData, itemData, writer, reportWriter, namespace, componentElement);
 			}
-		} else if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_0_4)) {
-			@SuppressWarnings("deprecation")
-			ItemData itemData = map.getMarkerData();
-			writeItemData(MapXmlFactory.ELEMENT_markerData, itemData, writer, reportWriter, namespace, componentElement);
-		} else if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_8_0)) {
-
-			@SuppressWarnings("deprecation")
-			net.sf.jasperreports.components.map.MarkerDataset dataset = map.getMarkerDataset();
-			writeMarkerDataset(dataset, writer, reportWriter, namespace, componentElement);
+			else
+			{
+				@SuppressWarnings("deprecation")
+				net.sf.jasperreports.components.map.MarkerDataset dataset = map.getMarkerDataset();
+				writeMarkerDataset(dataset, writer, reportWriter, namespace, componentElement);
+			}
 		}
-		
 		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_0))
 		{
 			List<ItemData> pathStyleList = map.getPathStyleList();
@@ -275,7 +265,6 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 				}
 			}
 		}
-		
 		writer.closeElement();
 	}
 

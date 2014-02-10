@@ -58,7 +58,7 @@ public class IconLabelElementXlsxHandler implements GenericElementXlsxHandler
 		{
 			try
 			{
-				JRXlsxExporter exporter = (JRXlsxExporter)exporterContext.getExporterRef();
+				JRXlsxExporter exporter = (JRXlsxExporter)exporterContext.getExporter();
 				exporter.exportText(labelPrintText, gridCell, colIndex, rowIndex);
 			}
 			catch (Exception e)

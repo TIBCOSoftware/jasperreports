@@ -82,7 +82,7 @@ public class IconLabelElementRtfHandler implements GenericElementRtfHandler
 
 		try
 		{
-			JRRtfExporter exporter = (JRRtfExporter)exporterContext.getExporterRef();
+			JRRtfExporter exporter = (JRRtfExporter)exporterContext.getExporter();
 			exporter.exportFrame(frame);
 //			exporter.exportText(labelPrintText);
 		}

@@ -1,4 +1,4 @@
-define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3", "jasperreports-url-manager"], function(Loader, Report, $, UrlManager) {
+define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3"], function(Loader, Report, $) {
 	var Viewer = function(o) {
         this.config = {
             at: null,
@@ -10,8 +10,6 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3", "jas
         };
 
         $.extend(this.config, o);
-
-        this.config.applicationContextPath && (UrlManager.applicationContextPath = this.config.applicationContextPath);
 
         this.reportInstance = null;
         this.undoRedoCounters = {
@@ -50,6 +48,8 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3", "jas
                 async: it.config.async,
                 page: it.config.page
             });
+
+            it.reportInstance.loader.UrlManager.applicationContextPath = it.config.applicationContextPath;
 
             it._setupEventsForReport(it.reportInstance);
 
@@ -125,17 +125,6 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3", "jas
                         });
                     });
                 }
-
-                /*
-                 If Highcharts are present render them  // FIXMEJIVE: should revert back to components being able to render themselves
-                 */
-                if(components.chart) {
-                    $.each(components.chart, function(){
-                        var el = $('#'+this.config.hcinstancedata.renderto).length;
-                        el && this.render();
-                    });
-                }
-
             });
 
             toolbar.on("click", function(evt) {

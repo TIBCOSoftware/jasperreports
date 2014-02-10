@@ -51,25 +51,25 @@ minimum required width for the text element would be 200.</li>
 The basic idea when exporting to plain text output is to find the appropriate pixel/character ratio and convert sizes in the report in order to 
 generate enough space for the exported text. 
 <br/>
-The following exporter configuration settings and properties are very helpful to accomplish such a task:
+The following parameters and properties are very helpful to accomplish such a task:
 <ul>
-<li><api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getCharWidth()" target="_blank">getCharWidth()</api> or 
-<api href="net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_CHARACTER_WIDTH" target="_blank">PROPERTY_CHARACTER_WIDTH</api>, representing the pixel/character horizontal ratio</li>
-<li><api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getCharHeight()" target="_blank">getCharHeight()</api> or 
-<api href="net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_CHARACTER_HEIGHT" target="_blank">PROPERTY_CHARACTER_HEIGHT</api>, representing the pixel/character vertical ratio</li>
-<li><api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getPageWidthInChars()" target="_blank">getPageWidthInChars()</api> or 
-<api href="net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_PAGE_WIDTH" target="_blank">PROPERTY_PAGE_WIDTH</api>, representing the page width (in characters)</li>
-<li><api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getPageHeightInChars()" target="_blank">getPageHeightInChars()</api> or 
-<api href="net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_PAGE_HEIGHT" target="_blank">PROPERTY_PAGE_HEIGHT</api>, representing the page height (in characters)</li>
+<li><api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#CHARACTER_WIDTH" target="_blank">CHARACTER_WIDTH</api> or 
+<api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_CHARACTER_WIDTH" target="_blank">PROPERTY_CHARACTER_WIDTH</api>, representing the pixel/character horizontal ratio</li>
+<li><api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#CHARACTER_HEIGHT" target="_blank">CHARACTER_HEIGHT</api> or 
+<api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_CHARACTER_HEIGHT" target="_blank">PROPERTY_CHARACTER_HEIGHT</api>, representing the pixel/character vertical ratio</li>
+<li><api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PAGE_WIDTH" target="_blank">PAGE_WIDTH</api> or 
+<api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_PAGE_WIDTH" target="_blank">PROPERTY_PAGE_WIDTH</api>, representing the page width (in characters)</li>
+<li><api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PAGE_HEIGHT" target="_blank">PAGE_HEIGHT</api> or 
+<api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#PROPERTY_PAGE_HEIGHT" target="_blank">PROPERTY_PAGE_HEIGHT</api>, representing the page height (in characters)</li>
 </ul>
-Other useful configuration settings are:
+Other useful parameters are:
 <ul>
 <li><api href="net/sf/jasperreports/engine/JRExporterParameter.html#CHARACTER_ENCODING" target="_blank">CHARACTER_ENCODING</api> or 
 <api href="net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_CHARACTER_ENCODING" target="_blank">PROPERTY_CHARACTER_ENCODING</api>, representing the character encoding for the 
 text document.</li>
-<li><api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getBetweenPagesText()" target="_blank">getBetweenPagesText()</api>, containing the text that will be inserted 
+<li><api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#BETWEEN_PAGES_TEXT" target="_blank">BETWEEN_PAGES_TEXT</api>, parameter that stores the text that will be inserted 
 between pages of the generated report, as page separator.</li>
-<li><api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getLineSeparator()" target="_blank">getLineSeparator()</api>, parameter that stores the line separator sequence.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRTextExporterParameter.html#LINE_SEPARATOR" target="_blank">LINE_SEPARATOR</api>, parameter that stores the line separator sequence.</li>
 </ul>
 <subtitle name="sample">The Text Export Sample</subtitle>
 <br/>

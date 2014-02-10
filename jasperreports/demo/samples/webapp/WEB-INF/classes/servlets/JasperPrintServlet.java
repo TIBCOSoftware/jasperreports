@@ -118,15 +118,15 @@ public class JasperPrintServlet extends HttpServlet
 		if (jasperPrint != null)
 		{
 			response.setContentType("application/octet-stream");
-			ServletOutputStream outputStream = response.getOutputStream();
+			ServletOutputStream ouputStream = response.getOutputStream();
 			
-			ObjectOutputStream oos = new ObjectOutputStream(outputStream);
+			ObjectOutputStream oos = new ObjectOutputStream(ouputStream);
 			oos.writeObject(jasperPrint);
 			oos.flush();
 			oos.close();
 
-			outputStream.flush();
-			outputStream.close();
+			ouputStream.flush();
+			ouputStream.close();
 		}
 		else
 		{

@@ -3,7 +3,6 @@
 	<description>Shows how multiple JRXML files can be updated in batch mode using the ANT build tool.</description>
 
 	<path id="classpath">
-		<pathelement location="./build/classes"/>
 		<pathelement location="../../../build/classes"/>
 		<fileset dir="../../../lib">
 			<include name="**/*.jar"/>
@@ -13,6 +12,7 @@
 	
 	<path id="runClasspath">
 		<path refid="classpath"/>
+		<pathelement location="./build/classes"/>
 	</path>
 
 	<taskdef name="jru" classname="net.sf.jasperreports.ant.JRAntUpdateTask"> 
@@ -27,7 +27,7 @@
 			<classpath refid="runClasspath"/>
 			<include name="**/*.jrxml"/>
 			<!--
-			<updater>com.update.StyleUpdater</updater>
+			<updater>net.sf.jasperreports.engine.util.LegacyBorderOffsetUpdater</updater>
 			-->
 		</jru>
 	</target> 
@@ -41,9 +41,6 @@
 				</fileset>
 			</src>
 			<classpath refid="runClasspath"/>
-			<!--
-			<updater>com.update.StyleUpdater</updater>
-			-->
 		</jru> 
 	</target> 
 
@@ -57,7 +54,6 @@
 				encoding="ISO-8859-1" includeantruntime="false">
 			<compilerarg value="-Xlint:unchecked"/>
 			<compilerarg value="-Xlint:-options"/>
-			<classpath refid="runClasspath"/>
 		</javac>
 	</target> 
 
@@ -96,7 +92,6 @@
 		<echo message=" Ant Update Sample"/>
 		<echo message="==================================="/>
 		<antcall target="clean" />
-		<antcall target="javac" />
 		<antcall target="update1" />
 		<antcall target="update2" />
 	</target>

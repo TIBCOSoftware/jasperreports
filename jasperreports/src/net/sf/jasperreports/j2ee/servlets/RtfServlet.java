@@ -35,11 +35,10 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
@@ -70,8 +69,8 @@ public class RtfServlet extends BaseHttpServlet
 		{
 			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
 			JRRtfExporter exporter = new JRRtfExporter(DefaultJasperReportsContext.getInstance());
-			exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-			exporter.setExporterOutput(new SimpleWriterExporterOutput(fbos));
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fbos);
 
 			try 
 			{
@@ -83,21 +82,21 @@ public class RtfServlet extends BaseHttpServlet
 					response.setContentType("application/rtf");
 					response.setHeader("Content-Disposition", "inline; filename=\"file.rtf\"");
 					response.setContentLength(fbos.size());
-					ServletOutputStream outputStream = response.getOutputStream();
+					ServletOutputStream ouputStream = response.getOutputStream();
 	
 					try
 					{
-						fbos.writeData(outputStream);
+						fbos.writeData(ouputStream);
 						fbos.dispose();
-						outputStream.flush();
+						ouputStream.flush();
 					}
 					finally
 					{
-						if (outputStream != null)
+						if (ouputStream != null)
 						{
 							try
 							{
-								outputStream.close();
+								ouputStream.close();
 							}
 							catch (IOException ex)
 							{
@@ -132,10 +131,10 @@ public class RtfServlet extends BaseHttpServlet
 			response.setHeader("Content-Disposition", "inline; filename=\"file.rtf\"");
 
 			JRRtfExporter exporter = new JRRtfExporter(DefaultJasperReportsContext.getInstance());
-			exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 			
-			OutputStream outputStream = response.getOutputStream();
-			exporter.setExporterOutput(new SimpleWriterExporterOutput(outputStream));
+			OutputStream ouputStream = response.getOutputStream();
+			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, ouputStream);
 
 			try 
 			{
@@ -147,11 +146,11 @@ public class RtfServlet extends BaseHttpServlet
 			}
 			finally
 			{
-				if (outputStream != null)
+				if (ouputStream != null)
 				{
 					try
 					{
-						outputStream.close();
+						ouputStream.close();
 					}
 					catch (IOException ex)
 					{

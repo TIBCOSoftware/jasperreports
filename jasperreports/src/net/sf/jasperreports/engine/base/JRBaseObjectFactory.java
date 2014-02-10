@@ -85,7 +85,6 @@ import net.sf.jasperreports.charts.base.JRBaseXyDataset;
 import net.sf.jasperreports.charts.base.JRBaseXySeries;
 import net.sf.jasperreports.charts.base.JRBaseXyzDataset;
 import net.sf.jasperreports.charts.base.JRBaseXyzSeries;
-import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
@@ -95,7 +94,6 @@ import net.sf.jasperreports.crosstabs.JRCrosstabDataset;
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
-import net.sf.jasperreports.crosstabs.base.BaseCrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.base.JRBaseCellContents;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstab;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabBucket;
@@ -1849,22 +1847,5 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 		return baseBucketProperty;
-	}
-
-
-	public CrosstabColumnCell getCrosstabColumnCell(CrosstabColumnCell cell)
-	{
-		BaseCrosstabColumnCell baseCell = null;
-
-		if (cell != null)
-		{
-			baseCell = (BaseCrosstabColumnCell) get(cell);
-			if (baseCell == null)
-			{
-				baseCell = new BaseCrosstabColumnCell(cell, this);
-			}
-		}
-
-		return baseCell;
 	}
 }

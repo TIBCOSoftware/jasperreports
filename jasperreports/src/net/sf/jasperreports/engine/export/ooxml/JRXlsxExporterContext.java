@@ -24,15 +24,15 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.export.JRExporterContext;
+import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 
 
 /**
  * A context that represents information about an XLSX export process.
  * 
- * @see JRXlsxExporter
- * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @see JROdtExporter
  */
 public interface JRXlsxExporterContext extends JRExporterContext
 {

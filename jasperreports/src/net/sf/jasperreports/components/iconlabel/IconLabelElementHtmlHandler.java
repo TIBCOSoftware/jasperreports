@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -37,11 +38,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
-import net.sf.jasperreports.export.Exporter;
-import net.sf.jasperreports.export.ExporterInput;
-import net.sf.jasperreports.export.HtmlExporterConfiguration;
-import net.sf.jasperreports.export.HtmlReportConfiguration;
-import net.sf.jasperreports.export.HtmlExporterOutput;
+import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -87,11 +84,26 @@ public class IconLabelElementHtmlHandler implements GenericElementHtmlHandler
 			frame.addElement(iconPrintText);
 		}
 
-		Exporter<ExporterInput, ? extends HtmlReportConfiguration, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter = context.getExporterRef();
+		JRExporter exporter = context.getExporter();
 		HtmlExporter htmlExporter = exporter instanceof HtmlExporter ? (HtmlExporter)exporter : null;
 		if (htmlExporter == null)
 		{
-			xhtmlExport(exporter, frame);
+			JRXhtmlExporter xhtmlExporter = exporter instanceof JRXhtmlExporter ? (JRXhtmlExporter)exporter : null;
+			if (xhtmlExporter != null)
+			{
+				try
+				{
+					xhtmlExporter.exportFrame(frame);
+				}
+				catch (JRException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+				catch (IOException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+			}
 		}
 		else
 		{
@@ -116,30 +128,4 @@ public class IconLabelElementHtmlHandler implements GenericElementHtmlHandler
 		return true;
 	}
 	
-	@SuppressWarnings("deprecation")
-	private void xhtmlExport(
-		Exporter<ExporterInput, ? extends HtmlReportConfiguration, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter,
-		JRBasePrintFrame frame
-		) 
-	{
-		net.sf.jasperreports.engine.export.JRXhtmlExporter xhtmlExporter = 
-			exporter instanceof net.sf.jasperreports.engine.export.JRXhtmlExporter 
-			? (net.sf.jasperreports.engine.export.JRXhtmlExporter)exporter 
-			: null;
-		if (xhtmlExporter != null)
-		{
-			try
-			{
-				xhtmlExporter.exportFrame(frame);
-			}
-			catch (JRException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-			catch (IOException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-		}
-	}
 }

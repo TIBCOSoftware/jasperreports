@@ -29,7 +29,6 @@ import java.io.ObjectInputStream;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -89,7 +88,6 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	protected HorizontalPosition horizontalPosition;
 	protected JRCrosstabCell[][] cells;
 	protected JRCellContents whenNoDataCell;
-	protected CrosstabColumnCell titleCell;
 	protected JRCellContents headerCell;
 	protected Boolean ignoreWidth;
 	protected JRLineBox lineBox;
@@ -111,7 +109,6 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		
 		copyParameters(crosstab, factory);		
 		copyVariables(crosstab, factory);		
-		titleCell = factory.getCrosstabColumnCell(crosstab.getTitleCell());
 		headerCell = factory.getCell(crosstab.getHeaderCell());
 		copyRowGroups(crosstab, factory);		
 		copyColumnGroups(crosstab, factory);
@@ -292,12 +289,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	{
 		JRElement element = null;
 		
-		if (crosstab.getTitleCell() != null && crosstab.getTitleCell().getCellContents() != null)
-		{
-			element = crosstab.getTitleCell().getCellContents().getElementByKey(key);
-		}
-		
-		if (element == null && crosstab.getHeaderCell() != null)
+		if (crosstab.getHeaderCell() != null)
 		{
 			element = crosstab.getHeaderCell().getElementByKey(key);
 		}
@@ -387,12 +379,6 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		return getElementByKey(this, elementKey);
 	}
 
-	@Override
-	public CrosstabColumnCell getTitleCell()
-	{
-		return titleCell;
-	}
-
 	public JRCellContents getHeaderCell()
 	{
 		return headerCell;
@@ -468,7 +454,6 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		}
 		
 		clone.whenNoDataCell = JRCloneUtils.nullSafeClone(whenNoDataCell);
-		clone.titleCell = JRCloneUtils.nullSafeClone(titleCell);
 		clone.headerCell = JRCloneUtils.nullSafeClone(headerCell);
 		clone.lineBox = lineBox.clone(clone);
 		return clone;

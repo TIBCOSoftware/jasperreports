@@ -26,12 +26,11 @@ package net.sf.jasperreports.engine.export;
 
 /**
  * A context that represents information about an HTML export process.
- *
- * @see JsonExporter
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
+ * @see JsonExporter
  */
-public interface JsonExporterContext extends JRExporterContext, HyperlinkURLResolver 
-{
+public interface JsonExporterContext extends JRExporterContext, HyperlinkURLResolver {
+
 }

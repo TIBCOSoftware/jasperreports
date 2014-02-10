@@ -24,12 +24,12 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.export.DocxExporterConfiguration;
-import net.sf.jasperreports.export.DocxReportConfiguration;
+import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 
 /**
- * @deprecated Replaced by {@link DocxExporterConfiguration}.
+ * Contains parameters useful for export in DOCX format.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -47,27 +47,51 @@ public class JRDocxExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * @deprecated Replaced by {@link DocxReportConfiguration#isFramesAsNestedTables()}.
+	 * Indicates whether {@link JRPrintFrame frames} are to be exported as nested tables.
+	 * <p>
+	 * The type of the parameter is <code>java.lang.Boolean</code>.
+	 * </p>
+	 * <p>
+	 * Is set to <code>false</code>, the frame contents will be integrated into the master/page table.
+	 * </p>
+	 * @see #PROPERTY_FRAMES_AS_NESTED_TABLES
 	 */
 	public static final JRDocxExporterParameter FRAMES_AS_NESTED_TABLES = new JRDocxExporterParameter("Export Frames as Nested Tables");
 	
 
 	/**
-	 * @deprecated Replaced by {@link DocxReportConfiguration#PROPERTY_FRAMES_AS_NESTED_TABLES}.
+	 * This property serves as default value for the {@link #FRAMES_AS_NESTED_TABLES FRAMES_AS_NESTED_TABLES}
+	 * export parameter.
+	 * <p>
+	 * The property itself defaults to <code>true</code>.
+	 * </p>
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = DocxReportConfiguration.PROPERTY_FRAMES_AS_NESTED_TABLES;
+	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.frames.as.nested.tables";
 	
 
 	/**
-	 * @deprecated Replaced by {@link DocxReportConfiguration#isFlexibleRowHeight()}.
+	 * Indicates whether table rows can grow if more text is added into cells.
+	 * <p>
+	 * The type of the parameter is <code>java.lang.Boolean</code>.
+	 * </p>
+	 * <p>
+	 * Is set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
+	 * </p>
+	 * @see #PROPERTY_FLEXIBLE_ROW_HEIGHT
 	 */
 	public static final JRDocxExporterParameter FLEXIBLE_ROW_HEIGHT = new JRDocxExporterParameter("Flexible Row Height");
 	
 
 	/**
-	 * @deprecated Replaced by {@link DocxReportConfiguration#PROPERTY_FLEXIBLE_ROW_HEIGHT}.
+	 * This property serves as default value for the {@link #FLEXIBLE_ROW_HEIGHT FLEXIBLE_ROW_HEIGHT}
+	 * export parameter.
+	 * <p>
+	 * The property itself defaults to <code>false</code>.
+	 * </p>
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = DocxReportConfiguration.PROPERTY_FLEXIBLE_ROW_HEIGHT;
+	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.flexible.row.height";
 	
 
 }

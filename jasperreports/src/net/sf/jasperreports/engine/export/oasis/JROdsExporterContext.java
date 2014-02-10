@@ -29,10 +29,9 @@ import net.sf.jasperreports.engine.export.JRExporterContext;
 /**
  * A context that represents information about an ODS export process.
  * 
- * @see JROdsExporter
- *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @see JROdsExporter
  */
 public interface JROdsExporterContext extends JRExporterContext
 {

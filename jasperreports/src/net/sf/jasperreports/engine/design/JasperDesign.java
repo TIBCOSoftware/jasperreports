@@ -178,7 +178,6 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Constructs a JasperDesign object and fills it with the default variables and parameters.
 	 */
-	@SuppressWarnings("deprecation")
 	public JasperDesign()
 	{
 		setMainDataset(new JRDesignDataset(true));

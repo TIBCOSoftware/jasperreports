@@ -54,7 +54,6 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	
 	public static final String PROPERTY_LATITUDE_EXPRESSION = "latitudeExpression";
 	public static final String PROPERTY_LONGITUDE_EXPRESSION = "longitudeExpression";
-	public static final String PROPERTY_ADDRESS_EXPRESSION = "addressExpression";
 	public static final String PROPERTY_ZOOM_EXPRESSION = "zoomExpression";
 	public static final String PROPERTY_LANGUAGE_EXPRESSION = "languageExpression";
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
@@ -62,24 +61,17 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public static final String PROPERTY_MAP_TYPE = "mapType";
 	public static final String PROPERTY_MAP_SCALE = "mapScale";
 	public static final String PROPERTY_IMAGE_TYPE = "imageType";
+	public static final String PROPERTY_MARKER_DATA = "markerData";
 	public static final String PROPERTY_ON_ERROR_TYPE = "onErrorType";
-	public static final String PROPERTY_MARKER_DATA_LIST = "markerDataList";
 	public static final String PROPERTY_PATH_STYLE_LIST = "pathStyleList";
 	public static final String PROPERTY_PATH_DATA_LIST = "pathDataList";
-	
 	/**
 	 * @deprecated Replaced by {@link #PROPERTY_MARKER_DATA}.
 	 */
 	public static final String PROPERTY_MARKER_DATASET = "markerDataset";
 
-	/**
-	 * @deprecated Replaced by {@link #PROPERTY_MARKER_DATA_LIST}.
-	 */
-	public static final String PROPERTY_MARKER_DATA = "markerData";
-	
 	private JRExpression latitudeExpression;
 	private JRExpression longitudeExpression;
-	private JRExpression addressExpression;
 	private JRExpression zoomExpression;
 	private JRExpression languageExpression;
 	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
@@ -87,9 +79,8 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private MapTypeEnum mapType;
 	private MapScaleEnum mapScale;
 	private MapImageTypeEnum imageType;
-
+	private ItemData markerData;
 	private OnErrorTypeEnum onErrorType;
-	private List<ItemData> markerDataList = new ArrayList<ItemData>();
 	private List<ItemData> pathStyleList = new ArrayList<ItemData>();
 	private List<ItemData> pathDataList = new ArrayList<ItemData>();
 	
@@ -103,7 +94,6 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	{
 		this.latitudeExpression = objectFactory.getExpression(map.getLatitudeExpression());
 		this.longitudeExpression = objectFactory.getExpression(map.getLongitudeExpression());
-		this.addressExpression = objectFactory.getExpression(map.getAddressExpression());
 		this.zoomExpression = objectFactory.getExpression(map.getZoomExpression());
 		this.languageExpression = objectFactory.getExpression(map.getLanguageExpression());
 		this.evaluationTime = map.getEvaluationTime();
@@ -111,14 +101,10 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		this.mapType = map.getMapType();
 		this.mapScale = map.getMapScale();
 		this.imageType = map.getImageType();
-		List<ItemData> markerList = map.getMarkerDataList();
-		if(markerList != null && markerList.size() > 0)
+		if(map.getMarkerData() != null)
 		{
-			this.markerDataList = new ArrayList<ItemData>();
-			for(ItemData markerData : markerList){
-				this.markerDataList.add(new StandardItemData(markerData, objectFactory));
-			}
-		} 
+			this.markerData = new StandardItemData(map.getMarkerData(), objectFactory);
+		}
 		this.onErrorType = map.getOnErrorType();
 		List<ItemData> styleList = map.getPathStyleList();
 		if(styleList != null && styleList.size() > 0)
@@ -154,24 +140,12 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	{
 		return longitudeExpression;
 	}
-	
+
 	public void setLongitudeExpression(JRExpression longitudeExpression)
 	{
 		Object old = this.longitudeExpression;
 		this.longitudeExpression = longitudeExpression;
 		getEventSupport().firePropertyChange(PROPERTY_LONGITUDE_EXPRESSION, old, this.longitudeExpression);
-	}
-	
-	public JRExpression getAddressExpression()
-	{
-		return addressExpression;
-	}
-
-	public void setAddressExpression(JRExpression addressExpression)
-	{
-		Object old = this.addressExpression;
-		this.addressExpression = addressExpression;
-		getEventSupport().firePropertyChange(PROPERTY_ADDRESS_EXPRESSION, old, this.addressExpression);
 	}
 
 	public JRExpression getZoomExpression()
@@ -250,10 +224,9 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		}
 		clone.latitudeExpression = JRCloneUtils.nullSafeClone(latitudeExpression);
 		clone.longitudeExpression = JRCloneUtils.nullSafeClone(longitudeExpression);
-		clone.addressExpression = JRCloneUtils.nullSafeClone(addressExpression);
 		clone.zoomExpression = JRCloneUtils.nullSafeClone(zoomExpression);
 		clone.languageExpression = JRCloneUtils.nullSafeClone(languageExpression);
-		clone.markerDataList = JRCloneUtils.cloneList(markerDataList);
+		clone.markerData = JRCloneUtils.nullSafeClone(markerData);
 		clone.pathStyleList = JRCloneUtils.cloneList(pathStyleList);
 		clone.pathDataList = JRCloneUtils.cloneList(pathDataList);
 		clone.eventSupport = null;
@@ -290,18 +263,14 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_IMAGE_TYPE, old, this.imageType);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getMarkerDataList()}.
-	 */
 	public ItemData getMarkerData() {
-		return markerDataList.get(0);
+		return markerData;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #addMarkerData(ItemData)}.
-	 */
 	public void setMarkerData(ItemData markerData) {
-		addMarkerData(markerData);
+		Object old = this.markerData;
+		this.markerData = markerData;
+		getEventSupport().firePropertyChange(PROPERTY_MARKER_DATA, old, this.markerData);
 	}
 
 
@@ -338,35 +307,19 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	 * @deprecated
 	 */
 	private MarkerDataset markerDataset;
-	/**
-	 * @deprecated Replaced by {@link #markerDataList}.
-	 */
-	private ItemData markerData;
 	
 	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
 		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_5_2) 	//FIXME: choose the correct value for version
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
 		{
 			if (markerDataset != null)
 			{
-				if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0){
-					markerData = StandardMarkerDataset.getItemData(markerDataset);
-				} else {
-					this.markerDataList = new ArrayList<ItemData>();
-					this.markerDataList.add(StandardMarkerDataset.getItemData(markerDataset));
-				}
+				markerData = StandardMarkerDataset.getItemData(markerDataset);
 			}
 			markerDataset = null;
-			
-			if (markerData != null)
-			{
-				this.markerDataList = new ArrayList<ItemData>();
-				this.markerDataList.add(markerData);
-			}
-			markerData = null;
 		}
 	}
 
@@ -413,51 +366,6 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 			}
 		}
 		return pathStyle;
-	}
-	
-	@Override
-	public List<ItemData> getMarkerDataList() {
-		return this.markerDataList;
-	}
-	
-	/**
-	 *
-	 */
-	public void addMarkerData(ItemData markerData)
-	{
-		markerDataList.add(markerData);
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER_DATA_LIST, markerData, markerDataList.size() - 1);
-	}
-	
-	/**
-	 *
-	 */
-	public void addMarkerData(int index, ItemData markerData)
-	{
-		if(index >=0 && index < markerDataList.size())
-			markerDataList.add(index, markerData);
-		else{
-			markerDataList.add(markerData);
-			index = markerDataList.size() - 1;
-		}
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER_DATA_LIST, markerDataList, index);
-	}
-	
-	/**
-	 *
-	 */
-	public ItemData removeMarkerData(ItemData markerData)
-	{
-		if (markerData != null)
-		{
-			int idx = markerDataList.indexOf(markerData);
-			if (idx >= 0)
-			{
-				markerDataList.remove(idx);
-				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_MARKER_DATA_LIST, markerData, idx);
-			}
-		}
-		return markerData;
 	}
 	
 	@Override

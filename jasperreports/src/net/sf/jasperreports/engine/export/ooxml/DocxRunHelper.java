@@ -54,14 +54,16 @@ public class DocxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
+	private Map<String,String> fontMap;
 	private String exporterKey;
 	
 	/**
 	 *
 	 */
-	public DocxRunHelper(JasperReportsContext jasperReportsContext, Writer writer, String exporterKey)
+	public DocxRunHelper(JasperReportsContext jasperReportsContext, Writer writer, Map<String,String> fontMap, String exporterKey)
 	{
 		super(jasperReportsContext, writer);
+		this.fontMap = fontMap;
 		this.exporterKey = exporterKey;
 	}
 
@@ -124,15 +126,22 @@ public class DocxRunHelper extends BaseHelper
 		{
 			String fontFamilyAttr = (String)value;
 			String fontFamily = fontFamilyAttr;
-			FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
-			if (fontInfo != null)
+			if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
 			{
-				//fontName found in font extensions
-				FontFamily family = fontInfo.getFontFamily();
-				String exportFont = family.getExportFont(exporterKey);
-				if (exportFont != null)
+				fontFamily = fontMap.get(fontFamilyAttr);
+			}
+			else
+			{
+				FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
+				if (fontInfo != null)
 				{
-					fontFamily = exportFont;
+					//fontName found in font extensions
+					FontFamily family = fontInfo.getFontFamily();
+					String exportFont = family.getExportFont(exporterKey);
+					if (exportFont != null)
+					{
+						fontFamily = exportFont;
+					}
 				}
 			}
 			write("        <w:rFonts w:ascii=\"" + fontFamily + "\" w:hAnsi=\"" + fontFamily + "\" w:eastAsia=\"" + fontFamily + "\" w:cs=\"" + fontFamily + "\" />\n");

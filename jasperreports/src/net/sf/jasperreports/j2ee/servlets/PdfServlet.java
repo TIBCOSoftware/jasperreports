@@ -35,11 +35,10 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 
 /**
@@ -71,8 +70,8 @@ public class PdfServlet extends BaseHttpServlet
 		{
 			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
 			JRPdfExporter exporter = new JRPdfExporter(DefaultJasperReportsContext.getInstance());
-			exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(fbos));
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
+			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fbos);
 			
 			try 
 			{
@@ -83,21 +82,21 @@ public class PdfServlet extends BaseHttpServlet
 				{
 					response.setContentType("application/pdf");
 					response.setContentLength(fbos.size());
-					ServletOutputStream outputStream = response.getOutputStream();
+					ServletOutputStream ouputStream = response.getOutputStream();
 	
 					try
 					{
-						fbos.writeData(outputStream);
+						fbos.writeData(ouputStream);
 						fbos.dispose();
-						outputStream.flush();
+						ouputStream.flush();
 					}
 					finally
 					{
-						if (outputStream != null)
+						if (ouputStream != null)
 						{
 							try
 							{
-								outputStream.close();
+								ouputStream.close();
 							}
 							catch (IOException ex)
 							{
@@ -132,10 +131,10 @@ public class PdfServlet extends BaseHttpServlet
 			response.setContentType("application/pdf");
 
 			JRPdfExporter exporter = new JRPdfExporter(DefaultJasperReportsContext.getInstance());
-			exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 			
-			OutputStream outputStream = response.getOutputStream();
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
+			OutputStream ouputStream = response.getOutputStream();
+			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, ouputStream);
 
 			try 
 			{
@@ -147,11 +146,11 @@ public class PdfServlet extends BaseHttpServlet
 			}
 			finally
 			{
-				if (outputStream != null)
+				if (ouputStream != null)
 				{
 					try
 					{
-						outputStream.close();
+						ouputStream.close();
 					}
 					catch (IOException ex)
 					{

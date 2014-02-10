@@ -56,19 +56,14 @@ public class StyleCache
 	 */
 	private final JasperReportsContext jasperReportsContext;
 	private final WriterHelper styleWriter;
+	private final Map<String,String> fontMap;
 	private Set<String> fontFaces = new HashSet<String>();
 	private final String exporterKey;
 
 	/**
 	 *
 	 */
-	private Map<String,String> tableStyles = new HashMap<String,String>();//FIXMEODT soft cache?
-	private int tableStylesCounter;
-	private Map<String,String> rowStyles = new HashMap<String,String>();
-	private int rowStylesCounter;
-	private Map<String,String> columnStyles = new HashMap<String,String>();
-	private int columnStylesCounter;
-	private Map<String,String> frameStyles = new HashMap<String,String>();
+	private Map<String,String> frameStyles = new HashMap<String,String>();//FIXMEODT soft cache?
 	private int frameStylesCounter;
 	private Map<String,String> cellStyles = new HashMap<String,String>();
 	private int cellStylesCounter;
@@ -86,11 +81,13 @@ public class StyleCache
 	public StyleCache(
 		JasperReportsContext jasperReportsContext, 
 		WriterHelper styleWriter, 
+		Map<String,String> fontMap, 
 		String exporterKey
 		)
 	{
 		this.jasperReportsContext = jasperReportsContext;
 		this.styleWriter = styleWriter;
+		this.fontMap = fontMap;
 		this.exporterKey = exporterKey;
 	}
 
@@ -104,72 +101,6 @@ public class StyleCache
 	}
 
 
-	/**
-	 *
-	 */
-	public String getTableStyle(int width, int reportIndex, boolean isFrame, boolean isPageBreak) throws IOException 
-	{
-		TableStyle tableStyle  = new TableStyle(styleWriter, width, reportIndex, isFrame, isPageBreak);
-		
-		String tableStyleId = tableStyle.getId();
-		String tableStyleName = tableStyles.get(tableStyleId);
-		
-		if (tableStyleName == null)
-		{
-			tableStyleName = "TBL" + tableStylesCounter++;
-			tableStyles.put(tableStyleId, tableStyleName);
-			
-			tableStyle.write(tableStyleName);
-		}
-		
-		return tableStyleName;
-	}
-	
-	
-	/**
-	 *
-	 */
-	public String getRowStyle(int rowHeight) throws IOException 
-	{
-		RowStyle rowStyle  = new RowStyle(styleWriter, rowHeight);
-		
-		String rowStyleId = rowStyle.getId();
-		String rowStyleName = rowStyles.get(rowStyleId);
-		
-		if (rowStyleName == null)
-		{
-			rowStyleName = "TR" + rowStylesCounter++;
-			rowStyles.put(rowStyleId, rowStyleName);
-			
-			rowStyle.write(rowStyleName);
-		}
-		
-		return rowStyleName;
-	}
-	
-	
-	/**
-	 *
-	 */
-	public String getColumnStyle(int columnWidth) throws IOException 
-	{
-		ColumnStyle columnStyle  = new ColumnStyle(styleWriter, columnWidth);
-		
-		String columnStyleId = columnStyle.getId();
-		String columnStyleName = columnStyles.get(columnStyleId);
-		
-		if (columnStyleName == null)
-		{
-			columnStyleName = "TC" + columnStylesCounter++;
-			columnStyles.put(columnStyleId, columnStyleName);
-			
-			columnStyle.write(columnStyleName);
-		}
-		
-		return columnStyleName;
-	}
-	
-	
 	/**
 	 *
 	 */
@@ -295,15 +226,22 @@ public class StyleCache
 	{
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
 		String fontFamily = fontFamilyAttr;
-		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
-		if (fontInfo != null)
+		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
 		{
-			//fontName found in font extensions
-			FontFamily family = fontInfo.getFontFamily();
-			String exportFont = family.getExportFont(exporterKey);
-			if (exportFont != null)
+			fontFamily = fontMap.get(fontFamilyAttr);
+		}
+		else
+		{
+			FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
+			if (fontInfo != null)
 			{
-				fontFamily = exportFont;
+				//fontName found in font extensions
+				FontFamily family = fontInfo.getFontFamily();
+				String exportFont = family.getExportFont(exporterKey);
+				if (exportFont != null)
+				{
+					fontFamily = exportFont;
+				}
 			}
 		}
 		fontFaces.add(fontFamily);

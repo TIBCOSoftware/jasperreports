@@ -32,6 +32,7 @@ import javax.print.attribute.PrintServiceAttributeSet;
 import javax.print.attribute.standard.MediaSizeName;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
@@ -44,13 +45,12 @@ import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
+import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimplePrintServiceExporterConfiguration;
 
 
 /**
@@ -106,13 +106,12 @@ public class PrintServiceApp extends AbstractSampleApp
 		
 		JRPrintServiceExporter exporter = new JRPrintServiceExporter();
 		
-		exporter.setExporterInput(new SimpleExporterInput("build/reports/PrintServiceReport.jrprint"));
-		SimplePrintServiceExporterConfiguration configuration = new SimplePrintServiceExporterConfiguration();
-		configuration.setPrintRequestAttributeSet(printRequestAttributeSet);
-		configuration.setPrintServiceAttributeSet(printServiceAttributeSet);
-		configuration.setDisplayPageDialog(false);
-		configuration.setDisplayPrintDialog(true);
-		exporter.setConfiguration(configuration);
+		exporter.setParameter(JRExporterParameter.INPUT_FILE_NAME, "build/reports/PrintServiceReport.jrprint");
+		exporter.setParameter(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET, printRequestAttributeSet);
+		exporter.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET, printServiceAttributeSet);
+		exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG, Boolean.FALSE);
+		exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.TRUE);
+		
 		exporter.exportReport();
 
 		System.err.println("Printing time : " + (System.currentTimeMillis() - start));

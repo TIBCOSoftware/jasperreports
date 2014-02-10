@@ -62,8 +62,6 @@ public class ContentBuilder
 	
 	private String mimeType;
 	
-	private StringBuffer namedExpressions;
-	
 	/**
 	 * 
 	 */
@@ -87,34 +85,11 @@ public class ContentBuilder
 	 * 
 	 */
 	public ContentBuilder(
-			ExportZipEntry contentEntry,
-			ExportZipEntry styleEntry,
-			ExportZipEntry bodyEntry,
-			Collection<String> fontFaces,
-			String mimeType
-			)
-	{
-		this(
-				contentEntry,
-				styleEntry,
-				bodyEntry,
-				fontFaces,
-				mimeType,
-				null
-				);
-	}
-	
-	
-	/**
-	 * 
-	 */
-	public ContentBuilder(
 		ExportZipEntry contentEntry,
 		ExportZipEntry styleEntry,
 		ExportZipEntry bodyEntry,
 		Collection<String> fontFaces,
-		String mimeType,
-		StringBuffer namedExpressions
+		String mimeType
 		)
 	{
 		this.contentEntry = contentEntry;
@@ -122,7 +97,6 @@ public class ContentBuilder
 		this.bodyEntry = bodyEntry;
 		this.fontFaces = fontFaces;
 		this.mimeType = mimeType;
-		this.namedExpressions =  namedExpressions;
 	}
 	
 
@@ -191,9 +165,6 @@ public class ContentBuilder
 		writer.write("<office:forms form:automatic-focus=\"false\" form:apply-design-mode=\"false\"/>\n");
 		writer.flush();
 		bodyEntry.writeData(contentEntry.getOutputStream());
-		if(namedExpressions != null){
-			writer.write(namedExpressions.toString());
-		}
 		writer.write("</office:" + mimeType + ">\n</office:body>\n");
 
 		writer.write("</office:document-content>\n");

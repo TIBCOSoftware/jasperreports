@@ -35,22 +35,12 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  */
 public class XlsxWorkbookHelper extends BaseHelper
 {
-	StringBuffer definedNames;
 	/**
 	 * 
 	 */
 	public XlsxWorkbookHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
 		super(jasperReportsContext, writer);
-	}
-	
-	/**
-	 * 
-	 */
-	public XlsxWorkbookHelper(JasperReportsContext jasperReportsContext, Writer writer, StringBuffer definedNames)
-	{
-		super(jasperReportsContext, writer);
-		this.definedNames = definedNames;
 	}
 
 	/**
@@ -82,11 +72,6 @@ public class XlsxWorkbookHelper extends BaseHelper
 	public void exportFooter()
 	{
 		write("</sheets>\n");
-		if(definedNames != null && definedNames.length() > 0) {
-			write("<definedNames>\n");
-			write(definedNames.toString());
-			write("</definedNames>\n");
-		}
 		write("</workbook>\n");
 	}
 }

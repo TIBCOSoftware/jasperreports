@@ -23,8 +23,10 @@
  */
 package net.sf.jasperreports.components.iconlabel;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.export.ooxml.GenericElementPptxHandler;
@@ -81,7 +83,7 @@ public class IconLabelElementPptxHandler implements GenericElementPptxHandler
 
 		try
 		{
-			JRPptxExporter exporter = (JRPptxExporter)exporterContext.getExporterRef();
+			JRPptxExporter exporter = (JRPptxExporter)exporterContext.getExporter();
 			exporter.exportFrame(frame);
 		}
 		catch (Exception e)
@@ -93,6 +95,13 @@ public class IconLabelElementPptxHandler implements GenericElementPptxHandler
 	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;
+	}
+
+	@Override
+	public JRPrintImage getImage(JRPptxExporterContext exporterContext,
+			JRGenericPrintElement element) throws JRException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

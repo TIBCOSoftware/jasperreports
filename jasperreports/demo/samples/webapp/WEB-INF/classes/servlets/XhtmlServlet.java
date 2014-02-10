@@ -37,21 +37,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.j2ee.servlets.ImageServlet;
-import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
 import datasource.WebappDataSource;
 
 
 /**
- * @deprecated To be removed. Use {@link HtmlServlet} instead.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -99,10 +97,9 @@ public class XhtmlServlet extends HttpServlet
 		
 			request.getSession().setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jasperPrint);
 			
-			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			SimpleHtmlExporterOutput output = new SimpleHtmlExporterOutput(out);
-			output.setImageHandler(new WebHtmlResourceHandler("image?image={0}"));
-			exporter.setExporterOutput(output);
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, out);
+			exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "image?image=");
 			
 			exporter.exportReport();
 		}

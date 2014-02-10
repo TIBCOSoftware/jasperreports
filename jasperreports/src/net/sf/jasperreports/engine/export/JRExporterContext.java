@@ -25,11 +25,10 @@ package net.sf.jasperreports.engine.export;
 
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.export.Exporter;
-
 
 /**
  * A context that represents information about an export process.
@@ -41,16 +40,11 @@ public interface JRExporterContext
 {
 
 	/**
-	 * @deprecated Replaced by {@link #getExporterRef()}.
-	 */
-	net.sf.jasperreports.engine.JRExporter  getExporter();
-
-	/**
 	 * Returns the current exporter.
 	 * 
 	 * @return current exporter
 	 */
-	Exporter getExporterRef();
+	JRExporter getExporter();
 
 	/**
 	 *
@@ -65,7 +59,9 @@ public interface JRExporterContext
 	JasperPrint getExportedReport();
 
 	/**
-	 * @deprecated Replaced by {@link JRAbstractExporter#getExporterPropertiesPrefix()}.
+	 * Returns the properties prefix for the current exporter.
+	 * 
+	 * @return the properties prefix for the current exporter
 	 */
 	String getExportPropertiesPrefix();
 	
@@ -73,12 +69,11 @@ public interface JRExporterContext
 	 * Returns the map of export parameters.
 	 * 
 	 * <p>
-	 * The map uses {@link net.sf.jasperreports.engine.JRExporterParameter} instances as keys.
+	 * The map uses {@link JRExporterParameter} instances as keys.
 	 * 
 	 * @return the map of export parameters
-	 * @deprecated To be removed.
 	 */
-	Map<net.sf.jasperreports.engine.JRExporterParameter,Object> getExportParameters();
+	Map<JRExporterParameter,Object> getExportParameters();
 
 	/**
 	 * Returns the current X-axis offset at which elements should be exported.

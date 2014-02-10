@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.components.sort;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -43,18 +43,16 @@ import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
+import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
-import net.sf.jasperreports.export.Exporter;
-import net.sf.jasperreports.export.ExporterInput;
-import net.sf.jasperreports.export.HtmlExporterConfiguration;
-import net.sf.jasperreports.export.HtmlReportConfiguration;
-import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 
 /**
@@ -63,6 +61,8 @@ import org.apache.velocity.VelocityContext;
  */
 public class SortElementHtmlHandler extends BaseElementHtmlHandler
 {
+	private static final Log log = LogFactory.getLog(SortElementHtmlHandler.class);
+	
 	private static final String CSS_FILTER_DEFAULT = 		"filterBtnDefault";
 	private static final String CSS_FILTER_WRONG = 			"filterBtnWrong";
 	private static final String CSS_SORT_DEFAULT_ASC = 		"sortAscBtnDefault";
@@ -79,8 +79,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
 		String htmlFragment = null;
-		Exporter<ExporterInput, ? extends HtmlReportConfiguration, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter = context.getExporterRef();
-		ReportContext reportContext = exporter.getReportContext();
+		ReportContext reportContext = context.getExporter().getReportContext();
 		if (reportContext != null)//FIXMEJIVE
 		{
 			String sortColumnName = (String) element.getParameterValue(SortElement.PARAMETER_SORT_COLUMN_NAME);
@@ -109,8 +108,10 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			VelocityContext velocityContext = new VelocityContext();
 			velocityContext.put("uuid", element.getUUID().toString());
 
-			xhtmlExport(exporter, velocityContext, element);
-			
+			if (context.getExporter() instanceof JRXhtmlExporter) {
+				velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
+				velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
+			}
 			velocityContext.put("elementWidth", element.getWidth());
 			velocityContext.put("elementHeight", element.getHeight());
 			velocityContext.put("sortHandlerHAlign", sortHandlerHAlign != null ? sortHandlerHAlign : CSS_TEXT_ALIGN_LEFT);
@@ -219,57 +220,40 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	}
 	
 	private List<FieldFilter> getExistingFiltersForField(
-		JasperReportsContext jasperReportsContext, 
-		ReportContext reportContext, 
-		String uuid, 
-		String filterFieldName
-		) 
-	{
-		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
-		FilterAction action = new FilterAction();
-		action.init(jasperReportsContext, reportContext);
-		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
-		List<FieldFilter> result = new ArrayList<FieldFilter>();
-		if (target != null)
+			JasperReportsContext jasperReportsContext, 
+			ReportContext reportContext, 
+			String uuid, 
+			String filterFieldName
+			) 
 		{
-			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());
-			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getMainDataset();
-			
-			// get existing filter as JSON string
-			String serializedFilters = "[]";
-			JRPropertiesMap propertiesMap = dataset.getPropertiesMap();
-			if (propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY) != null) {
-				serializedFilters = propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
-			}
-			
-			List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
-			if (existingFilters.size() > 0) {
-				for (DatasetFilter filter: existingFilters) {
-					if (((FieldFilter)filter).getField().equals(filterFieldName)) {
-						result.add((FieldFilter)filter);
-						break;
+			JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
+			FilterAction action = new FilterAction();
+			action.init(jasperReportsContext, reportContext);
+			CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
+			List<FieldFilter> result = new ArrayList<FieldFilter>();
+			if (target != null)
+			{
+				JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());
+				JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getMainDataset();
+				
+				// get existing filter as JSON string
+				String serializedFilters = "[]";
+				JRPropertiesMap propertiesMap = dataset.getPropertiesMap();
+				if (propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY) != null) {
+					serializedFilters = propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
+				}
+				
+				List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
+				if (existingFilters.size() > 0) {
+					for (DatasetFilter filter: existingFilters) {
+						if (((FieldFilter)filter).getField().equals(filterFieldName)) {
+							result.add((FieldFilter)filter);
+							break;
+						}
 					}
 				}
 			}
+			
+			return result;
 		}
-		
-		return result;
-	}
-	
-	@SuppressWarnings("deprecation")
-	private void xhtmlExport(
-		Exporter<ExporterInput, ? extends HtmlReportConfiguration, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter,
-		VelocityContext velocityContext,
-		JRGenericPrintElement element
-		)
-	{
-		net.sf.jasperreports.engine.export.JRXhtmlExporter xhtmlExporter = 
-			exporter instanceof net.sf.jasperreports.engine.export.JRXhtmlExporter 
-			? (net.sf.jasperreports.engine.export.JRXhtmlExporter)exporter 
-			: null;
-		if (xhtmlExporter != null) {
-			velocityContext.put("elementX", xhtmlExporter.toSizeUnit(element.getX()));
-			velocityContext.put("elementY", xhtmlExporter.toSizeUnit(element.getY()));
-		}
-	}
 }

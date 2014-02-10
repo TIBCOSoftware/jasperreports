@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class FillItemData
+public class FillItemData
 {
 
 	/**
@@ -79,7 +79,7 @@ public abstract class FillItemData
 			{
 				if(item != null)
 				{
-					itemsList.add(getFillItem(item, factory));
+					itemsList.add(new FillMarkerItem(item, factory));
 				}
 			}
 		}
@@ -149,6 +149,4 @@ public abstract class FillItemData
 			}
 		}
 	}
-	
-	public abstract FillItem getFillItem(Item item, JRFillObjectFactory factory);
 }

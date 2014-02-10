@@ -81,7 +81,7 @@ public class IconLabelElementXmlHandler implements GenericElementXmlHandler
 			frame.addElement(iconPrintText);
 		}
 
-		JRXmlExporter exporter = (JRXmlExporter)exporterContext.getExporterRef();
+		JRXmlExporter exporter = (JRXmlExporter)exporterContext.getExporter();
 		
 		try
 		{

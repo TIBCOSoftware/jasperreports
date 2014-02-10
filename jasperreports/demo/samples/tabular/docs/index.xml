@@ -176,18 +176,18 @@ along with their related exporter hint properties:
 <ul>
 <li>Tagged Documents
 <ul>
-<li><api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isTagged()">isTagged()</api> - 
-Exporter configuration setting used to turn on the creation of hidden structural tags. By default the feature is turned off.</li>
-<li><api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_TAGGED">net.sf.jasperreports.export.pdf.tagged</api> 
-- Configuration property used as default for the <code>isTagged()</code> setting above. It can be set at global or report level.<br/><br/></li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#IS_TAGGED">IS_TAGGED</api> - 
+Export parameter used to turn on the creation of hidden structural tags. By default the feature is turned off.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_TAGGED">net.sf.jasperreports.export.pdf.tagged</api> 
+- Exporter hint property used as default for the <code>IS_TAGGED</code> parameter above. It can be set at global or report level.<br/><br/></li>
 </ul>
 </li>
 <li>Tag Language
 <ul>
-<li><api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getTagLanguage()">getTagLanguage()</api> - 
-Export configuration setting used to specify the language to be used in the language tag of the generated PDF.</li>
-<li><api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_TAG_LANGUAGE">net.sf.jasperreports.export.pdf.tag.language</api> 
-- Configuration property used as default for the <code>getTagLanguage()</code> setting above. It can be set at global or report level.<br/><br/></li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#TAG_LANGUAGE">TAG_LANGUAGE</api> - 
+Export parameter used to specify the language to be used in the language tag of the generated PDF.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_TAG_LANGUAGE">net.sf.jasperreports.export.pdf.tag.language</api> 
+- Exporter hint property used as default for the <code>TAG_LANGUAGE</code> parameter above. It can be set at global or report level.<br/><br/></li>
 </ul>
 </li>
 <li>Accessibility Tags
