@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -54,15 +53,6 @@ public final class RepositoryUtil
 	private RepositoryUtil(JasperReportsContext jasperReportsContext)//FIXMECONTEXT try to reuse utils as much as you can
 	{
 		this.jasperReportsContext = jasperReportsContext;
-	}
-	
-	
-	/**
-	 *
-	 */
-	private static RepositoryUtil getDefaultInstance()
-	{
-		return new RepositoryUtil(DefaultJasperReportsContext.getInstance());
 	}
 	
 	
