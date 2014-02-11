@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 import net.sf.jasperreports.engine.util.SimpleFileResolver;
@@ -288,14 +287,6 @@ public class JRViewerController
 	public String getBundleString(String key)
 	{
 		return resourceBundle.getString(key);
-	}
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	public FileResolver getFileResolver()
-	{
-		return type == TYPE_FILE_NAME && localJasperReportsContext != null ? localJasperReportsContext.getFileResolver() : null;
 	}
 
 	public JasperPrint getJasperPrint()

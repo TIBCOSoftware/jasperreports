@@ -26,7 +26,6 @@ package net.sf.jasperreports.repo;
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.util.CastorUtil;
 
@@ -39,14 +38,6 @@ import net.sf.jasperreports.util.CastorUtil;
 public class CastorObjectPersistenceService implements PersistenceService
 {
 	private JasperReportsContext jasperReportsContext;
-	
-	/**
-	 * @deprecated Replaced by {@link #CastorObjectPersistenceService(JasperReportsContext)}. 
-	 */
-	public CastorObjectPersistenceService()
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
 	
 	/**
 	 * 

@@ -82,13 +82,4 @@ public final class PersistenceUtil
 		//throw new JRRuntimeException("No persistence service registered for the '" + repositoryServiceType.getName() + "' repository type and '" + resourceType.getName() + "' resource type.");
 		return null;
 	}
-	
-	
-	/**
-	 * @deprecated Replaced by {@link #getService(Class, Class)}.
-	 */
-	public static PersistenceService getPersistenceService(Class<? extends RepositoryService> repositoryServiceType, Class<? extends Resource> resourceType)//FIXMECONTEXT might not need to deprecate, just remove
-	{
-		return getDefaultInstance().getService(repositoryServiceType, resourceType);
-	}
 }

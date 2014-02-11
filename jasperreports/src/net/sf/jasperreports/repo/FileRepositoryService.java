@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
@@ -44,14 +43,6 @@ public class FileRepositoryService implements StreamRepositoryService
 	private JasperReportsContext jasperReportsContext;
 	private String root;
 	private boolean resolveAbsolutePath;//FIXMEREPO consider giving up on this
-	
-	/**
-	 * @deprecated Replaced by {@link #FileRepositoryService(JasperReportsContext, String, boolean)}. 
-	 */
-	public FileRepositoryService(String root, boolean resolveAbsolutePath)
-	{
-		this(DefaultJasperReportsContext.getInstance(), root, resolveAbsolutePath);
-	}
 	
 	/**
 	 * 
@@ -83,20 +74,6 @@ public class FileRepositoryService implements StreamRepositoryService
 		return root;
 	}
 	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void setContext(RepositoryContext context)
-	{
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void revertContext()
-	{
-	}
-
 	/**
 	 * 
 	 */

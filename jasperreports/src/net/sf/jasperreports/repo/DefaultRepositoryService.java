@@ -29,7 +29,6 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -57,14 +56,6 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	private URLStreamHandlerFactory urlHandlerFactory;
 	private FileResolver fileResolver;
 
-	/**
-	 * @deprecated Replaced by {@link #DefaultRepositoryService(JasperReportsContext)}.
-	 */
-	public DefaultRepositoryService() 
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
-	
 	/**
 	 *
 	 */
@@ -97,28 +88,6 @@ public class DefaultRepositoryService implements StreamRepositoryService
 		this.fileResolver = fileResolver;
 	}
 	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public FileResolver getFileResolver() 
-	{
-		return fileResolver;
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void setContext(RepositoryContext context) 
-	{
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void revertContext()
-	{
-	}
-
 	/**
 	 * 
 	 */

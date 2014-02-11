@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
-import net.sf.jasperreports.engine.util.ThreadLocalStack;
 
 
 /**
@@ -43,18 +42,6 @@ import net.sf.jasperreports.engine.util.ThreadLocalStack;
  */
 public final class RepositoryUtil
 {
-	//private static final Log log = LogFactory.getLog(RepositoryUtil.class);
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	private static ThreadLocalStack localContextStack = new ThreadLocalStack();
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	private static final ThreadLocal<ReportContext> threadReportContext = new InheritableThreadLocal<ReportContext>();
-
 	private AtomicReference<List<RepositoryService>> repositoryServices = new AtomicReference<List<RepositoryService>>();
 	
 
@@ -113,84 +100,6 @@ public final class RepositoryUtil
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #getServices()}.
-	 */
-	public static List<RepositoryService> getRepositoryServices()
-	{
-		return getDefaultInstance().getServices();
-	}
-	
-	
-	/**
-	 * 
-	 *
-	private static RepositoryContext getRepositoryContext()
-	{
-		return (RepositoryContext)localContextStack.top();
-	}
-	
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static void setRepositoryContext(RepositoryContext context)
-	{
-		List<RepositoryService> services = getRepositoryServices();
-		if (services != null)
-		{
-			for (RepositoryService service : services)
-			{
-				service.setContext(context);
-			}
-		}
-		localContextStack.push(context);
-	}
-	
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static void revertRepositoryContext()
-	{
-		//RepositoryContext repositoryContext = getRepositoryContext();
-		List<RepositoryService> services = getRepositoryServices();
-		if (services != null)
-		{
-			for (RepositoryService service : services)
-			{
-				service.revertContext();//FIXMEREPO context?
-			}
-		}
-		localContextStack.pop();
-	}
-	
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static ReportContext getThreadReportContext()
-	{
-		return threadReportContext.get();
-	}
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static void setThreadReportContext(ReportContext reportContext)
-	{
-		threadReportContext.set(reportContext);
-	}
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static void resetThreadReportContext()
-	{
-		threadReportContext.set(null);
-	}
-
-	
-	/**
 	 *
 	 */
 	public JasperReport getReport(ReportContext reportContext, String location) throws JRException 
@@ -224,15 +133,6 @@ public final class RepositoryUtil
 
 
 	/**
-	 * @deprecated Replaced by {@link #getReport(ReportContext, String)}.
-	 */
-	public static JasperReport getReport(String location) throws JRException 
-	{
-		return getDefaultInstance().getReport(getThreadReportContext(), location);
-	}
-
-
-	/**
 	 * 
 	 */
 	public <K extends Resource> K getResourceFromLocation(String location, Class<K> resourceType) throws JRException
@@ -259,15 +159,6 @@ public final class RepositoryUtil
 
 
 	/**
-	 * @deprecated Replaced by {@link #getResourceFromLocation(String, Class)}.
-	 */
-	public static <K extends Resource> K getResource(String location, Class<K> resourceType) throws JRException
-	{
-		return getDefaultInstance().getResourceFromLocation(location, resourceType);
-	}
-
-
-	/**
 	 *
 	 */
 	public InputStream getInputStreamFromLocation(String location) throws JRException
@@ -281,15 +172,6 @@ public final class RepositoryUtil
 	}
 
 
-	/**
-	 * @deprecated Replaced by {@link #getInputStreamFromLocation(String)}.
-	 */
-	public static InputStream getInputStream(String location) throws JRException
-	{
-		return getDefaultInstance().getInputStreamFromLocation(location);
-	}
-	
-	
 	/**
 	 *
 	 */
@@ -369,14 +251,5 @@ public final class RepositoryUtil
 		}
 
 		return baos.toByteArray();
-	}
-	
-	
-	/**
-	 * @deprecated Replaced by {@link #getBytesFromLocation(String)}.
-	 */
-	public static byte[] getBytes(String location) throws JRException
-	{
-		return getDefaultInstance().getBytesFromLocation(location);
 	}
 }

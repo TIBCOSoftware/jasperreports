@@ -119,14 +119,6 @@ public class LocalJasperReportsContext extends SimpleJasperReportsContext
 	}
 
 	/**
-	 * @deprecated To be removed.
-	 */
-	public FileResolver getFileResolver()
-	{
-		return localRepositoryService == null ? null : localRepositoryService.getFileResolver();
-	}
-
-	/**
 	 *
 	 */
 	public void setFileResolver(FileResolver fileResolver)

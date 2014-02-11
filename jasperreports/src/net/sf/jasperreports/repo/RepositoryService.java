@@ -23,11 +23,6 @@
  */
 package net.sf.jasperreports.repo;
 
-import java.io.InputStream;
-
-
-
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -35,26 +30,6 @@ import java.io.InputStream;
  */
 public interface RepositoryService
 {
-	/**
-	 * 
-	 *
-	public <T extends RepositoryContext> T createContext();
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void setContext(RepositoryContext context);
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void revertContext();
-
-	/**
-	 * @deprecated Replaced by {@link StreamRepositoryService#getInputStream(String)}.
-	 */
-	public InputStream getInputStream(String uri);
-	
 	/**
 	 * 
 	 */
