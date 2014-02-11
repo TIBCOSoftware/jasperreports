@@ -37,19 +37,17 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.lang.ref.SoftReference;
 import java.net.URL;
-import java.net.URLStreamHandlerFactory;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
-import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.repo.RepositoryUtil;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -139,40 +137,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 	}
 
 	
-	/**
-	 * @deprecated Replaced by {@link #getInstance(String, OnErrorTypeEnum, boolean)}.
-	 */
-	public static JRRenderable getInstance(
-		String imageLocation, 
-		OnErrorTypeEnum onErrorType, 
-		boolean isLazy, 
-		ClassLoader classLoader,
-		URLStreamHandlerFactory urlHandlerFactory,
-		FileResolver fileResolver
-		) throws JRException
-	{
-		if (imageLocation == null)
-		{
-			return null;
-		}
-
-		if (isLazy)
-		{
-			return new JRImageRenderer(imageLocation);
-		}
-
-		try
-		{
-			byte[] data = JRLoader.loadBytesFromLocation(imageLocation, classLoader, urlHandlerFactory, fileResolver);
-			return new JRImageRenderer(data);
-		}
-		catch (JRException e)
-		{
-			return getOnErrorRenderer(onErrorType, e);
-		}
-	}
-
-
 	/**
 	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(Image, OnErrorTypeEnum)}.
 	 */
