@@ -34,7 +34,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
@@ -52,7 +51,6 @@ import net.sf.jasperreports.engine.JRVirtualizationHelper;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -71,15 +69,6 @@ public final class JRLoader
 	 *
 	 */
 	//private static boolean wasWarning;
-
-
-	/**
-	 * @deprecated Replaced by {@link #loadObjectFromFile(String)}.
-	 */
-	public static Object loadObject(String fileName) throws JRException
-	{
-		return loadObjectFromFile(fileName);
-	}
 
 
 	/**
@@ -258,56 +247,6 @@ public final class JRLoader
 
 
 	/**
-	 * @deprecated Replaced by {@link RepositoryUtil#getResource(String, Class)}.
-	 */
-	public static Object loadObjectFromLocation(String location) throws JRException
-	{
-		return loadObjectFromLocation(location, null, null, null);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link RepositoryUtil#getResource(String, Class)}.
-	 */
-	public static Object loadObjectFromLocation(String location, ClassLoader classLoader) throws JRException
-	{
-		return loadObjectFromLocation(location, classLoader, null, null);
-	}
-
-	
-	/**
-	 * @deprecated Replaced by {@link RepositoryUtil#getResource(String, Class)}.
-	 */
-	public static Object loadObjectFromLocation(
-		String location, 
-		ClassLoader classLoader,
-		URLStreamHandlerFactory urlHandlerFactory,
-		FileResolver fileResolver
-		) throws JRException
-	{
-		URL url = JRResourcesUtil.createURL(location, urlHandlerFactory);
-		if (url != null)
-		{
-			return loadObject(url);
-		}
-
-		File file = JRResourcesUtil.resolveFile(location, fileResolver);
-		if (file != null)
-		{
-			return loadObject(file);
-		}
-
-		url = JRResourcesUtil.findClassLoaderResource(location, classLoader);
-		if (url != null)
-		{
-			return loadObject(url);
-		}
-
-		throw new JRException("Could not load object from location : " + location);
-	}
-
-
-	/**
 	 *
 	 */
 	public static InputStream getInputStream(File file) throws JRException
@@ -349,47 +288,6 @@ public final class JRLoader
 		}
 
 		return is;
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link RepositoryUtil#getInputStream(String)}.
-	 */
-	public static InputStream getInputStreamFromLocation(String location) throws JRException
-	{
-		return getInputStreamFromLocation(location, null, null, null);
-	}
-	
-	
-	/**
-	 * @deprecated Replaced by {@link RepositoryUtil#getInputStream(String)}.
-	 */
-	public static InputStream getInputStreamFromLocation(
-		String location, 
-		ClassLoader classLoader,
-		URLStreamHandlerFactory urlHandlerFactory,
-		FileResolver fileResolver
-		) throws JRException
-	{
-		URL url = JRResourcesUtil.createURL(location, urlHandlerFactory);
-		if (url != null)
-		{
-			return getInputStream(url);
-		}
-
-		File file = JRResourcesUtil.resolveFile(location, fileResolver);
-		if (file != null)
-		{
-			return getInputStream(file);
-		}
-
-		url = JRResourcesUtil.findClassLoaderResource(location, classLoader);
-		if (url != null)
-		{
-			return getInputStream(url);
-		}
-
-		throw new JRException("Could not load object from location : " + location);
 	}
 
 
@@ -596,69 +494,6 @@ public final class JRLoader
 	}
 		
 	
-	/**
-	 * @deprecated Replaced by {@link RepositoryUtil#getBytes(String)}.
-	 */
-	public static byte[] loadBytesFromLocation(String location) throws JRException
-	{
-		return loadBytesFromLocation(location, null, null, null);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link RepositoryUtil#getBytes(String)}.
-	 */
-	public static byte[] loadBytesFromLocation(String location, ClassLoader classLoader) throws JRException
-	{
-		return loadBytesFromLocation(location, classLoader, null, null);
-	}
-		
-	
-	/**
-	 * @deprecated Replaced by {@link RepositoryUtil#getBytes(String)}.
-	 */
-	public static byte[] loadBytesFromLocation(
-		String location, 
-		ClassLoader classLoader,
-		URLStreamHandlerFactory urlHandlerFactory
-		) throws JRException
-	{
-		return loadBytesFromLocation(location, classLoader, urlHandlerFactory, null);
-	}
-		
-	
-	/**
-	 * @deprecated Replaced by {@link RepositoryUtil#getBytes(String)}.
-	 */
-	public static byte[] loadBytesFromLocation(
-		String location, 
-		ClassLoader classLoader,
-		URLStreamHandlerFactory urlHandlerFactory,
-		FileResolver fileResolver
-		) throws JRException
-	{
-		URL url = JRResourcesUtil.createURL(location, urlHandlerFactory);
-		if (url != null)
-		{
-			return loadBytes(url);
-		}
-
-		File file = JRResourcesUtil.resolveFile(location, fileResolver);
-		if (file != null)
-		{
-			return loadBytes(file);
-		}
-
-		url = JRResourcesUtil.findClassLoaderResource(location, classLoader);
-		if (url != null)
-		{
-			return loadBytes(url);
-		}
-
-		throw new JRException("Byte data not found at location : " + location);
-	}
-
-
 	/**
 	 * Tries to open an input stream for a location.
 	 * <p>
