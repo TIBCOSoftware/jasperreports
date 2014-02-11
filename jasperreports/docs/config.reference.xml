@@ -216,6 +216,8 @@
       <property ref="net.sf.jasperreports.export.pdf.force.svg.shapes"/>
       <property ref="net.sf.jasperreports.export.pdf.javascript"/>
       <property ref="net.sf.jasperreports.export.pdf.owner.password"/>
+      <property ref="net.sf.jasperreports.export.pdf.permissions.allowed"/>
+      <property ref="net.sf.jasperreports.export.pdf.permissions.denied"/>
       <property ref="net.sf.jasperreports.export.pdf.print.scaling"/>
       <property ref="net.sf.jasperreports.export.pdf.user.password"/>
       <property ref="net.sf.jasperreports.export.pdf.version"/>
@@ -2851,6 +2853,66 @@ Its value is used as default for the
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.permissions.allowed -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.permissions.allowed">
+    <description>
+Property that contains the allowed user permissions of the PDF document, if it is encrypted. Allowed values are one or many the permission names enumerated in  
+<api href="net/sf/jasperreports/export/type/PdfPermissionsEnum.html">PdfPermissionsEnum</api> class, separated by a pipe (|) sign:
+<ul>
+<li><code>ALL</code> - all user permissions are allowed</li>
+<li><code>ASSEMBLY</code> - assembly permission allowed</li>
+<li><code>COPY</code> - copy permission allowed</li>
+<li><code>DEGRADED_PRINTING</code> - degraded printing permission allowed</li>
+<li><code>FILL_IN</code> - fill in forms permission allowed</li>
+<li><code>MODIFY_ANNOTATIONS</code> - modify annotation permission allowed</li>
+<li><code>MODIFY_CONTENTS</code> - modify contents permission allowed</li>
+<li><code>PRINTING</code> - print permission allowed</li>
+<li><code>SCREENREADERS</code> - screen readers permission allowed</li>
+</ul>
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getAllowedPermissionsHint()">getAllowedPermissionsHint()</api> PDF export configuration setting. 
+By default no user permissions are allowed at all.
+    </description>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_PERMISSIONS_ALLOWED</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.6.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.permissions.denied -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.permissions.denied">
+    <description>
+Property that contains the denied user permissions of the PDF document, if it is encrypted. This property works in conjunction with 
+the <a href="net.sf.jasperreports.export.pdf.permissions.allowed">net.sf.jasperreports.export.pdf.permissions.allowed</a>. If present, denied permissions 
+will be excluded from the allowed values. This property may contain one or many permission names enumerated in  
+<api href="net/sf/jasperreports/export/type/PdfPermissionsEnum.html">PdfPermissionsEnum</api> class, separated by a pipe (|) sign:
+<ul>
+<li><code>ALL</code> - all user permissions are denied</li>
+<li><code>ASSEMBLY</code> - assembly permission denied</li>
+<li><code>COPY</code> - copy permission denied</li>
+<li><code>DEGRADED_PRINTING</code> - degraded printing permission denied</li>
+<li><code>FILL_IN</code> - fill in forms permission denied</li>
+<li><code>MODIFY_ANNOTATIONS</code> - modify annotation permission denied</li>
+<li><code>MODIFY_CONTENTS</code> - modify contents permission denied</li>
+<li><code>PRINTING</code> - print permission denied</li>
+<li><code>SCREENREADERS</code> - screen readers permission denied</li>
+</ul>
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getAllowedPermissionsHint()">getDeniedPermissionsHint()</api> PDF export configuration setting. 
+By default there are no user permissions allowed for the document.
+    </description>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_PERMISSIONS_DENIED</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.6.0</since>
   </configProperty>
   
   

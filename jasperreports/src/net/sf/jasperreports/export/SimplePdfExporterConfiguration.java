@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.export;
 
+import net.sf.jasperreports.export.type.PdfPermissionsEnum;
 import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
@@ -48,6 +49,8 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	private PdfaConformanceEnum pdfaConformance;
 	private String iccProfilePath;
 	private Integer permissions;
+	private String allowedPermissionsHint;
+	private String deniedPermissionsHint;
 	private String metadataTitle;
 	private String metadataAuthor;
 	private String metadataSubject;
@@ -284,6 +287,38 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	public void setPermissions(Integer permissions)
 	{
 		this.permissions = permissions;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getAllowedPermissionsHint()
+	{
+		return allowedPermissionsHint;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setAllowedPermissionsHint(String allowedPermissionsHint)
+	{
+		this.allowedPermissionsHint = allowedPermissionsHint;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getDeniedPermissionsHint()
+	{
+		return deniedPermissionsHint;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setDeniedPermissionsHint(String deniedPermissionsHint)
+	{
+		this.deniedPermissionsHint = deniedPermissionsHint;
 	}
 	
 	/**

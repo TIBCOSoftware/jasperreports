@@ -100,6 +100,7 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.PdfExporterConfiguration;
 import net.sf.jasperreports.export.PdfReportConfiguration;
+import net.sf.jasperreports.export.type.PdfPermissionsEnum;
 import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
@@ -199,6 +200,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	protected JRPdfExporterTagHelper tagHelper = new JRPdfExporterTagHelper(this);
 
 	protected int reportIndex;
+	
+	protected int permissions;
 
 	/**
 	 *
@@ -333,6 +336,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		}
 
 		tagHelper.setLanguage(configuration.getTagLanguage()); 
+		
+		this.permissions = getIntegerPermissions(configuration.getAllowedPermissionsHint()) & (~getIntegerPermissions(configuration.getDeniedPermissionsHint()));
 	}
 
 
@@ -392,11 +397,21 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			}
 			if (configuration.isEncrypted())
 			{
+				int perms = configuration.isOverrideHints() == null || configuration.isOverrideHints()
+					? (configuration.getPermissions() != null 
+						? (Integer)configuration.getPermissions() 
+						: permissions) 
+					: (permissions != 0 
+						? permissions 
+						:(configuration.getPermissions() != null 
+							? (Integer)configuration.getPermissions() 
+							: 0));
+						
 				pdfWriter.setEncryption(
 					configuration.is128BitKey(),
 					configuration.getUserPassword(),
 					configuration.getOwnerPassword(),
-					configuration.getPermissions() == null ? 0 : configuration.getPermissions()
+					perms
 					);
 			}
 			
@@ -2594,5 +2609,22 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	public String getExporterPropertiesPrefix()
 	{
 		return PDF_EXPORTER_PROPERTIES_PREFIX;
+	}
+	
+	protected int getIntegerPermissions(String permissions) {
+		int permission = 0;
+		if(permissions != null && permissions.length() > 0) {
+			String[] perms = permissions.split("\\|");
+			for(String perm : perms) {
+				if(PdfPermissionsEnum.ALL.equals(PdfPermissionsEnum.getByName(perm))) {
+					permission = PdfExporterConfiguration.ALL_PERMISSIONS;
+					break;
+				}
+				if(perm != null && perm.length()>0) {
+					permission |= PdfPermissionsEnum.getByName(perm).getValue();
+				}
+			}
+		}
+		return permission;
 	}
 }

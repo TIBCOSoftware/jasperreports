@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.export;
 
+import com.lowagie.text.pdf.PdfWriter;
+
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
@@ -42,6 +44,19 @@ import net.sf.jasperreports.export.type.PdfaConformanceEnum;
  */
 public interface PdfExporterConfiguration extends ExporterConfiguration
 {
+	/**
+	 * Integer property that contains all permissions for the generated PDF document
+	 */
+	public static final Integer ALL_PERMISSIONS = 
+			PdfWriter.ALLOW_ASSEMBLY 
+			| PdfWriter.ALLOW_COPY
+			| PdfWriter.ALLOW_DEGRADED_PRINTING
+			| PdfWriter.ALLOW_FILL_IN
+			| PdfWriter.ALLOW_MODIFY_ANNOTATIONS
+			| PdfWriter.ALLOW_MODIFY_CONTENTS
+			| PdfWriter.ALLOW_PRINTING
+			| PdfWriter.ALLOW_SCREENREADERS;
+	
 	/**
 	 * Property whose value is used as default state of the {@link #isCreatingBatchModeBookmarks()} export configuration flag.
 	 * <p/>
@@ -91,6 +106,20 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_OWNER_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.owner.password";
+	
+	/**
+	 * Property whose value is used as default for the {@link #getAllowedPermissionsHint()} export configuration setting.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_PERMISSIONS_ALLOWED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.permissions.allowed";
+	
+	/**
+	 * Property whose value is used as default for the {@link #getDeniedPermissionsHint()} export configuration setting.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_PERMISSIONS_DENIED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.permissions.denied";
 
 	/**
 	 * Property whose value is used as default for the {@link #getPdfVersion()} export configuration setting.
@@ -318,8 +347,8 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	
 	/**
 	 * An integer value representing the PDF permissions for the generated document. The open permissions for the document
-	 * can be AllowPrinting, AllowModifyContents, AllowCopy, AllowModifyAnnotations, AllowFillIn, AllowScreenReaders,
-	 * AllowAssembly and AllowDegradedPrinting (these can all be found in the PdfWriter class of iText library). The
+	 * can be ALLOW_PRINTING, ALLOW_MODIFY_CONTENTS, ALLOW_COPY, ALLOW_MODIFY_ANNOTATIONS, ALLOW_FILL_IN, ALLOW_SCREENREADERS,
+	 * ALLOW_ASSEMBLY and ALLOW_DEGRADED_PRINTING (these can all be found in the PdfWriter class of iText library). The
 	 * permissions can be combined by applying bitwise OR to them.
 	 */
 	@SuppressWarnings("deprecation")
@@ -328,6 +357,24 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 		name="PERMISSIONS"
 		)
 	public Integer getPermissions();
+	
+	/**
+	 * An exporter hint property representing the allowed permissions for the generated PDF document. Allowed permissions for the document
+	 * can be PRINTING, MODIFY_CONTENTS, COPY, MODIFY_ANNOTATIONS, FILL_IN,SCREENREADERS,
+	 * ASSEMBLY, DEGRADED_PRINTING and ALL. Different permissions are separated by a pipe (|) character.
+	 */
+	
+	@ExporterProperty(PROPERTY_PERMISSIONS_ALLOWED)
+	public String getAllowedPermissionsHint();
+	
+	/**
+	 * An exporter hint property representing the denied permissions for the generated PDF document. Denied permissions for the document
+	 * can be PRINTING, MODIFY_CONTENTS, COPY, MODIFY_ANNOTATIONS, FILL_IN,SCREENREADERS,
+	 * ASSEMBLY, DEGRADED_PRINTING and ALL. Different permissions are separated by a pipe (|) character.
+	 */
+
+	@ExporterProperty(PROPERTY_PERMISSIONS_DENIED)
+	public String getDeniedPermissionsHint();
 
 	/**
 	 * The Title of the PDF document.
