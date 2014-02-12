@@ -64,7 +64,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
 public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource
 {
 	private Workbook workbook;
-
+	private int sheetIndex;
 	private DateFormat dateFormat = new SimpleDateFormat();
 	private NumberFormat numberFormat = new DecimalFormat();
 	private Map<String, Integer> columnNames = new LinkedHashMap<String, Integer>();
@@ -146,16 +146,28 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	public boolean next() throws JRException
 	{
 		recordIndex++;
-
+		
 		if (workbook != null)
 		{
-			if (recordIndex == 0 && useFirstRowAsHeader) 
+
+			if (recordIndex > workbook.getSheet(sheetIndex).getRows()-1)
+			{
+				if( sheetIndex + 1 < workbook.getNumberOfSheets() 
+					&& workbook.getSheet(sheetIndex + 1).getRows() > 0)
+				{
+					sheetIndex++;
+					recordIndex = -1;
+					return next();
+				}
+			}
+			
+			if (sheetIndex == 0 && useFirstRowAsHeader && recordIndex == 0) 
 			{
 				readHeader();
 				recordIndex++;
 			}
 
-			if (recordIndex < workbook.getSheet(0).getRows())
+			if (recordIndex <= workbook.getSheet(sheetIndex).getRows()-1)
 			{
 				return true;
 			}
@@ -163,11 +175,11 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 			{
 				if (closeWorkbook)
 				{
-					workbook.close();
+					//FIXME: close workbook
+					//workbook.close();
 				}
 			}
 		}
-
 		return false;
 	}
 
@@ -196,7 +208,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 		{
 			throw new JRException("Unknown column name : " + fieldName);
 		}
-		Sheet sheet = workbook.getSheet(0);
+		Sheet sheet = workbook.getSheet(sheetIndex);
 		Cell cell = sheet.getCell(columnIndex.intValue(), recordIndex);
 		String fieldValue = cell.getContents();
 		Class<?> valueClass = jrField.getValueClass();
@@ -262,6 +274,10 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 				{
 					columnNames.put(columnName, Integer.valueOf(columnIndex));
 				}
+				else
+				{
+					columnNames.put("COLUMN_" + columnIndex, Integer.valueOf(columnIndex));
+				}				
 			}
 		}
 		else
