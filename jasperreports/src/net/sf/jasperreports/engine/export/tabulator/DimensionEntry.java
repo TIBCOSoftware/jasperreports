@@ -29,8 +29,11 @@ package net.sf.jasperreports.engine.export.tabulator;
  */
 public abstract class DimensionEntry implements Comparable<DimensionEntry>
 {
-	protected static final int MINUS_INF = 0xe0000000;
-	protected static final int PLUS_INF = 0x1fffffff;
+	// keeping this smaller so that PLUS_INF - MINUS_INF does not overflow
+	protected static final int MINUS_INF = 0xfe000000;
+	
+	// we need this to be bigger than JRBaseFiller.PAGE_HEIGHT_PAGINATION_IGNORED to cover some cases with page breaks in unpaginated reports
+	protected static final int PLUS_INF = 0x7d100000;
 	
 	protected int startCoord;
 	protected int endCoord;
