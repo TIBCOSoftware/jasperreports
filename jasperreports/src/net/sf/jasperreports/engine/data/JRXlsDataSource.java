@@ -175,8 +175,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 			{
 				if (closeWorkbook)
 				{
-					//FIXME: close workbook
-					//workbook.close();
+					workbook.close();
 				}
 			}
 		}
