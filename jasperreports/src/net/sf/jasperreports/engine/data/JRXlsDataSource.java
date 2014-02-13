@@ -190,6 +190,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	public void moveFirst()
 	{
 		this.recordIndex = -1;
+		this.sheetIndex = 0;
 	}
 
 
