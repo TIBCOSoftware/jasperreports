@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -429,6 +430,7 @@ public class XlsDataSourceApp extends AbstractSampleApp
 			ds = new JRXlsDataSource(JRLoader.getLocationInputStream("data/XlsDataSource.data.xls"));
 //			ds.setUseFirstRowAsHeader(true);
 			ds.setColumnNames(columnNames, columnIndexes);
+			ds.setSheetName("xlsdatasource2");
 		}
 		catch (IOException e)
 		{
