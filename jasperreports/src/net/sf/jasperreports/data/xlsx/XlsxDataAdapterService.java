@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRXlsxDataSource;
+import net.sf.jasperreports.engine.query.JRXlsQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JRXlsxQueryExecuterFactory;
 
 /**
@@ -73,6 +74,7 @@ public class XlsxDataAdapterService extends AbstractDataAdapterService
 			{
 				String datePattern = xlsxDataAdapter.getDatePattern();
 				String numberPattern = xlsxDataAdapter.getNumberPattern();
+				String sheetName = xlsxDataAdapter.getSheetName();
 				if (xlsxDataAdapter.isQueryExecuterMode())
 				{	
 					parameters.put(JRXlsxQueryExecuterFactory.XLSX_SOURCE, xlsxDataAdapter.getFileName());
@@ -85,6 +87,11 @@ public class XlsxDataAdapterService extends AbstractDataAdapterService
 						parameters.put( JRXlsxQueryExecuterFactory.XLSX_NUMBER_FORMAT, new DecimalFormat(numberPattern) );
 					}
 					parameters.put( JRXlsxQueryExecuterFactory.XLSX_USE_FIRST_ROW_AS_HEADER, new Boolean(xlsxDataAdapter.isUseFirstRowAsHeader()));
+	
+					if (sheetName != null && sheetName.length() > 0)
+					{
+						parameters.put( JRXlsxQueryExecuterFactory.XLSX_SHEET_NAME, sheetName );
+					}
 	
 					if (!xlsxDataAdapter.isUseFirstRowAsHeader())
 					{ 
@@ -108,6 +115,11 @@ public class XlsxDataAdapterService extends AbstractDataAdapterService
 			
 						ds.setUseFirstRowAsHeader(xlsxDataAdapter.isUseFirstRowAsHeader());
 			
+						if (sheetName != null && sheetName.length() > 0)
+						{
+							ds.setSheetName(sheetName);
+						}
+						
 						if (!xlsxDataAdapter.isUseFirstRowAsHeader())
 						{
 							String[] names = new String[xlsxDataAdapter.getColumnNames().size()];

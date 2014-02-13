@@ -67,6 +67,8 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 {
 	private Workbook workbook;
 	private int sheetIndex;
+	private String sheetName;
+	
 	private DateFormat dateFormat = new SimpleDateFormat();
 	private NumberFormat numberFormat = new DecimalFormat();
 	private Map<String, Integer> columnNames = new LinkedHashMap<String, Integer>();
@@ -151,15 +153,16 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 		
 		if (workbook != null)
 		{
-
-			if (recordIndex > workbook.getSheetAt(sheetIndex).getLastRowNum())
-			{
-				if( sheetIndex + 1 < workbook.getNumberOfSheets() 
-					&& workbook.getSheetAt(sheetIndex + 1).getLastRowNum() > 0)
+			if(sheetName == null) {
+				if (recordIndex > workbook.getSheetAt(sheetIndex).getLastRowNum())
 				{
-					sheetIndex++;
-					recordIndex = -1;
-					return next();
+					if( sheetIndex + 1 < workbook.getNumberOfSheets() 
+						&& workbook.getSheetAt(sheetIndex + 1).getLastRowNum() > 0)
+					{
+						sheetIndex++;
+						recordIndex = -1;
+						return next();
+					}
 				}
 			}
 			
@@ -193,7 +196,7 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 	public void moveFirst()
 	{
 		this.recordIndex = -1;
-		this.sheetIndex = 0;
+		this.sheetIndex = sheetName == null ? 0 : workbook.getSheetIndex(workbook.getSheet(sheetName));
 	}
 
 
@@ -441,6 +444,20 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 	public Map<String, Integer> getColumnNames() {
 		return columnNames;
 	}
+	
+	public String getSheetName() {
+		return sheetName;
+	}
+
+
+	public void setSheetName(String sheetName) {
+		if(sheetName != null && sheetName.length() > 0) {
+			checkReadStarted();
+			this.sheetName = sheetName;
+			moveFirst();
+		}
+	}
+	
 }
 
 

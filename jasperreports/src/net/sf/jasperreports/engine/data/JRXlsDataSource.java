@@ -65,6 +65,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 {
 	private Workbook workbook;
 	private int sheetIndex;
+	private String sheetName;
 	private DateFormat dateFormat = new SimpleDateFormat();
 	private NumberFormat numberFormat = new DecimalFormat();
 	private Map<String, Integer> columnNames = new LinkedHashMap<String, Integer>();
@@ -149,15 +150,16 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 		
 		if (workbook != null)
 		{
-
-			if (recordIndex > workbook.getSheet(sheetIndex).getRows()-1)
-			{
-				if( sheetIndex + 1 < workbook.getNumberOfSheets() 
-					&& workbook.getSheet(sheetIndex + 1).getRows() > 0)
+			if(sheetName == null) {
+				if (recordIndex > workbook.getSheet(sheetIndex).getRows()-1)
 				{
-					sheetIndex++;
-					recordIndex = -1;
-					return next();
+					if( sheetIndex + 1 < workbook.getNumberOfSheets() 
+						&& workbook.getSheet(sheetIndex + 1).getRows() > 0)
+					{
+						sheetIndex++;
+						recordIndex = -1;
+						return next();
+					}
 				}
 			}
 			
@@ -189,6 +191,14 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	public void moveFirst()
 	{
 		this.recordIndex = -1;
+		if(sheetName != null) {
+			for(int i = 0; i < workbook.getSheets().length; i++) {	
+				if(sheetName.equals(workbook.getSheet(i).getName())) {
+					this.sheetIndex = i;
+					return;
+				}
+			}
+		}
 		this.sheetIndex = 0;
 	}
 
@@ -427,6 +437,20 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	
 	public Map<String, Integer> getColumnNames() {
 		return columnNames;
+	}
+
+
+	public String getSheetName() {
+		return sheetName;
+	}
+
+
+	public void setSheetName(String sheetName) {
+		if(sheetName != null && sheetName.length() > 0) {
+			checkReadStarted();
+			this.sheetName = sheetName;
+			moveFirst();
+		}
 	}
 }
 

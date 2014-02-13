@@ -28,8 +28,11 @@
 		<field name="columnNames" type="string" collection="arraylist">
 			<bind-xml name="columnNames" node="element"/>
 		</field>
-		<field name="columnIndexes" type="string" collection="arraylist">
+		<field name="columnIndexes" type="int" collection="arraylist">
 			<bind-xml name="columnIndexes" node="element"/>
+		</field>
+		<field name="sheetName" type="string">
+			<bind-xml name="sheetName" node="element"/>
 		</field>
 	</class>
 </mapping>

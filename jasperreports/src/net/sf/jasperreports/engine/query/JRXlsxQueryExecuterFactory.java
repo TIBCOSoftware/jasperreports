@@ -138,6 +138,11 @@ public class JRXlsxQueryExecuterFactory extends AbstractQueryExecuterFactory
 	public static final String XLSX_NUMBER_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "xlsx.number.pattern";
 	
 	/**
+	 * Built-in parameter/property holding the value of the sheet name to be used when parsing the XLSX data.
+	 */
+	public static final String XLSX_SHEET_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "xlsx.sheet.name";
+	
+	/**
 	 * Built-in parameter/property specifying whether or not the column names should be obtained 
 	 * from the first row in the XLSX source.
 	 * As parameter, it should hold a <code>java.lang.Boolean</code> value, while as custom dataset property, it should be true or false. 
@@ -162,7 +167,8 @@ public class JRXlsxQueryExecuterFactory extends AbstractQueryExecuterFactory
 			XLSX_NUMBER_PATTERN, "java.lang.String",
 			XLSX_USE_FIRST_ROW_AS_HEADER, "java.lang.Boolean",
 			XLSX_LOCALE_CODE, "java.lang.String",
-			XLSX_TIMEZONE_ID, "java.lang.String"
+			XLSX_TIMEZONE_ID, "java.lang.String",
+			XLSX_SHEET_NAME, "java.lang.String"
 			};
 	
 	public Object[] getBuiltinParameters() {

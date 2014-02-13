@@ -60,4 +60,9 @@ public interface XlsxDataAdapter extends DataAdapter
 	public boolean isQueryExecuterMode();
 
 	public void setQueryExecuterMode(boolean queryExecuterMode);
+	
+	public String getSheetName();
+	
+	public void setSheetName(String sheetName);
+	
 }

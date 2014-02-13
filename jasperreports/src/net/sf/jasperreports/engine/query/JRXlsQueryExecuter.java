@@ -245,6 +245,11 @@ public class JRXlsQueryExecuter extends JRAbstractQueryExecuter {
 					datasource.setTimeZone(csvTimezoneId);
 				}
 			}
+			
+			String sheetName = getStringParameterOrProperty(JRXlsQueryExecuterFactory.XLS_SHEET_NAME);
+			if(sheetName != null && sheetName.length() > 0) {
+				datasource.setSheetName(sheetName);
+			}
 		}
 		
 		return datasource;
