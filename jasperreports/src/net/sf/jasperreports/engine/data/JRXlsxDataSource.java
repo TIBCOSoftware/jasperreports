@@ -277,7 +277,7 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 	 */
 	private void readHeader()
 	{
-		Sheet sheet = workbook.getSheetAt(0);
+		Sheet sheet = workbook.getSheetAt(sheetName != null ? sheetIndex : 0);
 		if (columnNames.size() == 0)
 		{
 			Row row = sheet.getRow(recordIndex);

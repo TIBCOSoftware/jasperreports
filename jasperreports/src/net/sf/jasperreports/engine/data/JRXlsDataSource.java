@@ -273,7 +273,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	 */
 	private void readHeader()
 	{
-		Sheet sheet = workbook.getSheet(0);
+		Sheet sheet = workbook.getSheet(sheetName != null ? sheetIndex : 0);
 		if (columnNames.size() == 0)
 		{
 			for(int columnIndex = 0; columnIndex < sheet.getColumns(); columnIndex++)
