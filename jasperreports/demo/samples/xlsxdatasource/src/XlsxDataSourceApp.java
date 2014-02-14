@@ -429,6 +429,7 @@ public class XlsxDataSourceApp extends AbstractSampleApp
 			ds = new JRXlsxDataSource(JRLoader.getLocationInputStream("data/MultisheetXlsxDataSource.data.xlsx"));
 //			ds.setUseFirstRowAsHeader(true);
 			ds.setColumnNames(columnNames, columnIndexes);
+//			ds.setSheetName("XlsxDataSource3");
 		}
 		catch (IOException e)
 		{
