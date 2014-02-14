@@ -163,7 +163,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 				}
 			}
 			
-			if (sheetIndex == 0 && useFirstRowAsHeader && recordIndex == 0) 
+			if ((sheetName != null || sheetIndex == 0) && useFirstRowAsHeader && recordIndex == 0) 
 			{
 				readHeader();
 				recordIndex++;

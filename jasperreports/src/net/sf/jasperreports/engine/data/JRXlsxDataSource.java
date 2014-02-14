@@ -166,7 +166,7 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 				}
 			}
 			
-			if (sheetIndex == 0 && useFirstRowAsHeader && recordIndex == 0) 
+			if ((sheetName != null || sheetIndex == 0) && useFirstRowAsHeader && recordIndex == 0) 
 			{
 				readHeader();
 				recordIndex++;
