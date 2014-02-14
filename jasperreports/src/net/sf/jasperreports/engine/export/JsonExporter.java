@@ -102,11 +102,17 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 	 *
 	 */
 	@Override
+	@SuppressWarnings("deprecation")
 	protected void ensureOutput()
 	{
 		if (exporterOutput == null)
 		{
-			//exporterOutput = new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(exporterContext);
+			exporterOutput = 
+				new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(
+					getJasperReportsContext(),
+					getParameters(),
+					getCurrentJasperPrint()
+					);
 		}
 	}
 	
