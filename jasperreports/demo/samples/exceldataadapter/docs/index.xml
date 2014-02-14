@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>exceldataadapter</name>
+  <title>Excel Data Adapter Sample</title>
+  <description>Shows how the Excel data adapters can be used to fill reports.</description>
+
+  <mainFeature ref="xlsdataadapter"/>
+  <secondaryFeature name="xlsdatasource" sample="xlsdatasource" title="XLS Data Source"/>
+  
+  <!-- xlsdataadapter -->
+  
+  <feature name="xlsdataadapter" title="Excel 2003 (XLS) Data Adapter">
+    <description>
+How to fill a report using data from an XLS file.
+    </description>
+    <since></since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="xlsdatasource"/>
+    <content>
+[Under construction]    
+	</content>
+  </feature>
+
+  <!-- xlsxdataadapter -->
+  
+  <feature name="xlsxdataadapter" title="Excel 2007 (XLSX) Data Adapter">
+    <description>
+How to fill a report using data from an XLSX file.
+    </description>
+    <since></since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="xlsdatasource"/>
+    <content>
+[Under construction]    
+	</content>
+  </feature>
+
+</sample>
