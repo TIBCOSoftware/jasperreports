@@ -1,3 +1,7 @@
+span.jr_search_result.highlight span {
+    background-color: yellow;
+}
+
 button::-moz-focus-inner {
     padding: 0 !important;
     border: 0 none !important;

@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
+import net.sf.jasperreports.web.WebReportContext;
 
 
 /**
@@ -80,11 +81,18 @@ public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 	 */
 	public String getHyperlink(JRPrintHyperlink hyperlink) 
 	{
-		String appContext = request.getContextPath();
+		String applicationDomain = null;
 		String servletPath = getPath();
 		String reportUri = request.getParameter(WebUtil.REQUEST_PARAMETER_REPORT_URI);
-//		String reportAction = null;//request.getParameter(FillServlet.REPORT_ACTION);
-//		String reportActionData = null;//request.getParameter(FillServlet.REPORT_ACTION_DATA);
+
+        WebReportContext webReportContext = WebReportContext.getInstance(request, false);
+        if (webReportContext != null) {
+            applicationDomain = (String) webReportContext.getParameterValue(WebReportContext.REQUEST_PARAMETER_APPLICATION_DOMAIN);
+        }
+
+        if (applicationDomain == null) {
+            applicationDomain = request.getContextPath();
+        }
 		
 		StringBuffer allParams = new StringBuffer();
 		
@@ -119,8 +127,8 @@ public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 			}
 		}
 		
-		return 
-			appContext + (servletPath != null ? servletPath : "")
+		return
+                applicationDomain + (servletPath != null ? servletPath : "")
 				+ "?" + WebUtil.REQUEST_PARAMETER_REPORT_URI + "=" + reportUri
 //				+ (reportAction == null ? "" : "&" + FillServlet.REPORT_ACTION + "=" + reportAction) 
 //				+ (reportActionData == null ? "" : "&" + FillServlet.REPORT_ACTION_DATA + "=" + reportActionData)

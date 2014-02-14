@@ -96,6 +96,21 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3", "jas
                     it.undoRedoCounters.redos = 0;
                 }
                 it._updateUndoRedoButtons(toolbar);
+            }).on("search", function(data) {
+                if (data.actionResult.searchResults && data.actionResult.searchResults.length) {
+                    var results = data.actionResult.searchResults;
+
+                    results.sort(function(r1, r2) {
+                        return r1.page - r2.page;
+                    });
+
+                    this.gotoPage(results[0].page).then(function() {
+                        $('.jr_search_result').addClass('highlight');
+                    });
+
+                } else if (data.actionResult.searchString) {
+                    alert("No results for: " + data.actionResult.searchString);
+                }
             }).on("pageModified", function() {
                 this.refreshPage(this.currentpage);
             }).on("reportFinished", function() {

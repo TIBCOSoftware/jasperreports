@@ -24,12 +24,47 @@
 package net.sf.jasperreports.web.actions;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id:ChartThemesUtilities.java 2595 2009-02-10 17:56:51Z teodord $
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
+ * @version $Id$
  */
-public interface Action
-{
-	public void run() throws ActionException;
+public class SearchData {
 
-    public boolean requiresRefill();
+    private String searchString;
+    private boolean caseSensitive;
+    private boolean wholeWordsOnly;
+
+    private boolean removeAccents;
+
+    public boolean isCaseSensitive() {
+        return caseSensitive;
+    }
+
+    public void setCaseSensitive(boolean caseSensitive) {
+        this.caseSensitive = caseSensitive;
+    }
+
+    public boolean isWholeWordsOnly() {
+        return wholeWordsOnly;
+    }
+
+    public void setWholeWordsOnly(boolean wholeWordsOnly) {
+        this.wholeWordsOnly = wholeWordsOnly;
+    }
+
+    public boolean isRemoveAccents() {
+        return removeAccents;
+    }
+
+    public void setRemoveAccents(boolean removeAccents) {
+        this.removeAccents = removeAccents;
+    }
+
+    public String getSearchString() {
+        return searchString;
+    }
+
+    public void setSearchString(String searchString) {
+        this.searchString = searchString;
+    }
+
 }

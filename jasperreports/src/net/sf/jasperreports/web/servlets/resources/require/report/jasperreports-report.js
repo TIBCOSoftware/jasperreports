@@ -24,6 +24,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
             BEFORE_ACTION_PERFORMED: "beforeAction",
             UNDO_PERFORMED: "undo",
             UNDO_ALL_PERFORMED: "undoall",
+            SEARCH_PERFORMED: "search",
             REDO_PERFORMED: "redo",
             PAGE_MODIFIED: "pageModified",
             REPORT_HTML_READY: "reportHtmlReady",
@@ -89,6 +90,28 @@ define(["jasperreports-loader", "jasperreports-status-checker",
         gotoPage: function(page) {
             this.statusChecker.cancelCheckPageModified();
             return this.refreshPage(page, true);
+        },
+        search: function(searchOptions) {
+            var it = this;
+//            it._notify({name: it.events.BEFORE_ACTION_PERFORMED});
+            return this.loader.runAction({
+                action: {
+                    actionName: "search",
+                    searchData: {
+                        searchString: searchOptions.searchString,
+                        caseSensitive: searchOptions.caseSensitive || false,
+                        wholeWordsOnly: searchOptions.wholeWordsOnly || false
+                    }
+                }
+            }).then(function(jsonData) {
+                it._notify({
+                    name: it.events.SEARCH_PERFORMED,
+                    type: "search",
+                    data: jsonData
+                });
+
+                return it;
+            });
         },
         undo: function() {
             var it = this;
@@ -159,7 +182,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
          */
         _notify: function(evt) {
             this.config.debug && console.log("report notified of event: " + evt.name + "; type: " + evt.type);
-            this.eventManager.triggerEvent(evt.name);
+            this.eventManager.triggerEvent(evt.name, evt.data);
         }
 	};
 	

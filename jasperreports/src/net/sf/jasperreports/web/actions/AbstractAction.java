@@ -239,4 +239,10 @@ public abstract class AbstractAction implements Action {
 		}
 		return format;
 	}
+
+
+    @Override
+    public boolean requiresRefill() {
+        return true;
+    }
 }

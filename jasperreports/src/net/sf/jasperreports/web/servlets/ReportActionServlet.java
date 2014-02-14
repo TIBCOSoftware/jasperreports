@@ -31,6 +31,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.ReportContext;
@@ -81,7 +82,16 @@ public class ReportActionServlet extends AbstractServlet
             if (webReportContext != null) {
                 try {
                 	runAction(request, webReportContext);
-                	out.println("{\"contextid\": " + webReportContext.getId() + "}");
+
+                    // FIXMEJIVE: actions shoud return their own ActionResult that would contribute with JSON object to the output
+                    JsonNode actionResult = (JsonNode) webReportContext.getParameterValue("net.sf.jasperreports.web.actions.result.json");
+                    if (actionResult != null) {
+                        out.println("{\"contextid\": " + webReportContext.getId() + ", \"actionResult\": " + actionResult + "}");
+                        webReportContext.setParameterValue("net.sf.jasperreports.web.actions.result.json", null);
+                    } else {
+                        out.println("{\"contextid\": " + webReportContext.getId() + "}");
+                    }
+
                 } catch (Exception e) {
                     log.error("Error on page status update", e);
                     response.setStatus(404);

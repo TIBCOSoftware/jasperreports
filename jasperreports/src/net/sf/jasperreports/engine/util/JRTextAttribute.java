@@ -56,6 +56,11 @@ public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 	 */
 	public static final JRTextAttribute HYPERLINK = new JRTextAttribute("HYPERLINK");
 
+    /**
+	 *
+	 */
+	public static final JRTextAttribute SEARCH_HIGHLIGHT = new JRTextAttribute("SEARCH_HIGHLIGHT");
+
 	/**
 	 *
 	 */

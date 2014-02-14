@@ -28,10 +28,10 @@ define(["jquery-1.10.2"], function($) {
                 this.processSubscriber(subscriber);
             }
         },
-        trigger: function() {
+        trigger: function(data) {
             var i, ln = this.subscribers.length;
             for (i = 0; i < ln; i++) {
-                i = i - this.processSubscriber(this.subscribers[i]);
+                i = i - this.processSubscriber(this.subscribers[i], data);
             }
             this.status = 'finished';
             return this;
@@ -39,9 +39,10 @@ define(["jquery-1.10.2"], function($) {
         reset: function() {
             this.status = 'default';
         },
-        processSubscriber: function(subscriber) {
-            var i, ln = this.subscribers.length;
-            subscriber.callback.apply(subscriber.ctx, subscriber.args || []);
+        processSubscriber: function(subscriber, data) {
+            var i, ln = this.subscribers.length, args = subscriber.args || [];
+            args.push(data);
+            subscriber.callback.apply(subscriber.ctx, args);
             if (!subscriber.keep) {
                 for (i = 0; i < ln; i++) {
                     if (this.subscribers[i] === subscriber) {
@@ -82,10 +83,10 @@ define(["jquery-1.10.2"], function($) {
             }
             return this._events[evtName];
         },
-        triggerEvent: function (evtName) {
+        triggerEvent: function (evtName, evtData) {
             if (this._events[evtName]) {
                 this.debug && console.log("triggering event: " + evtName);
-                this._events[evtName].trigger();
+                this._events[evtName].trigger(evtData);
             }
         },
 

@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
+import java.text.AttributedString;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -69,6 +70,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintElementId;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
@@ -98,6 +100,7 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -107,6 +110,8 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
+import net.sf.jasperreports.search.HitTermInfo;
+import net.sf.jasperreports.search.SpansInfo;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -1825,6 +1830,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
             if (HyperlinkTypeEnum.LOCAL_ANCHOR.equals(link.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(link.getHyperlinkTypeValue())) {
 			    writer.write("<a class=\"jrLocalAnchorPage\" href=\"");
+            } else if (HyperlinkTypeEnum.CUSTOM.equals(link.getHyperlinkTypeValue())) {
+			    writer.write("<a class=\"" + link.getLinkType() + "\" href=\"");
             } else {
 			    writer.write("<a href=\"");
             }
@@ -2044,6 +2051,35 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		return styledText;
 	}
+
+    private void addSearchAttributes(JRStyledText styledText, JRPrintText textElement) {
+        PrintElementId pei = PrintElementId.forElement(textElement);
+
+        SpansInfo spansInfo = (SpansInfo) getReportContext().getParameterValue("net.sf.jasperreports.search.term.highlighter");
+        if (spansInfo != null && spansInfo.hasHitTermsInfo(pei.toString())) {
+            List<HitTermInfo> hitTermInfos = JRCloneUtils.cloneList(spansInfo.getHitTermsInfo(pei.toString()));
+
+            short[] lineBreakOffsets = textElement.getLineBreakOffsets();
+            if (lineBreakOffsets != null && lineBreakOffsets.length > 0) {
+                int sz = lineBreakOffsets.length;
+                for (HitTermInfo ti: hitTermInfos) {
+                    for (int i = 0; i < sz; i++) {
+                        if (lineBreakOffsets[i] <= ti.getStart()) {
+                            ti.setStart(ti.getStart() + 1);
+                            ti.setEnd(ti.getEnd() + 1);
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            AttributedString attributedString = styledText.getAttributedString();
+            for (int i = 0, ln = hitTermInfos.size(); i < ln; i = i + spansInfo.getTermsPerQuery()) {
+                attributedString.addAttribute(JRTextAttribute.SEARCH_HIGHLIGHT, Color.yellow, hitTermInfos.get(i).getStart(), hitTermInfos.get(i + spansInfo.getTermsPerQuery() - 1).getEnd());
+            }
+        }
+    }
 	
 	protected void exportStyledText(JRPrintText printText, JRStyledText styledText, String tooltip, boolean hyperlinkStarted) throws IOException
 	{
@@ -2057,10 +2093,15 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		int runLimit = 0;
 
+        addSearchAttributes(styledText, printText);
+
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
 
 		boolean first = true;
 		boolean startedSpan = false;
+
+        boolean highlightStarted = false;
+
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			//if there are several text runs, write the tooltip into a parent <span>
@@ -2074,21 +2115,35 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				tooltip = null;
 			}
 			first = false;
-			
-			exportStyledTextRun(
-				iterator.getAttributes(), 
-				text.substring(iterator.getIndex(), runLimit),
-				tooltip,
-				locale,
-				lineSpacing,
-				lineSpacingSize,
-				lineSpacingFactor,
-				backcolor,
-				hyperlinkStarted
-				);
+
+            Map<Attribute,Object> attributes = iterator.getAttributes();
+            Color highlightColor = (Color) attributes.get(JRTextAttribute.SEARCH_HIGHLIGHT);
+            if (highlightColor != null && !highlightStarted) {
+                highlightStarted = true;
+                writer.write("<span class=\"jr_search_result\">");
+            } else if (highlightColor == null && highlightStarted) {
+                highlightStarted = false;
+                writer.write("</span>");
+            }
+
+            exportStyledTextRun(
+                attributes,
+                text.substring(iterator.getIndex(), runLimit),
+                tooltip,
+                locale,
+                lineSpacing,
+                lineSpacingSize,
+                lineSpacingFactor,
+                backcolor,
+                hyperlinkStarted
+            );
 
 			iterator.setIndex(runLimit);
 		}
+
+        if (highlightStarted) {
+            writer.write("</span>");
+        }
 		
 		if (startedSpan)
 		{
@@ -2097,7 +2152,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	}
 	
 	protected void exportStyledTextRun(
-			Map<Attribute,Object> attributes, 
+			Map<Attribute,Object> attributes,
 			String text,
 			String tooltip,
 			Locale locale,
@@ -2162,7 +2217,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			localHyperlink = startHyperlink(hyperlink);
 		}
-			
+
 		writer.write("<span style=\"font-family: ");
 		writer.write(fontFamily);
 		writer.write("; ");
@@ -2294,7 +2349,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			);
 
 		writer.write("</span>");
-		
+
 		if (localHyperlink)
 		{
 			endHyperlink();

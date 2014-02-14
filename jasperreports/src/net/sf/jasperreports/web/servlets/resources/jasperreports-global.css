@@ -1,24 +1,5 @@
-.hidden {
-	display: none;	
-}
-
-.globalError {
-	font-family: sans, arial;
-	font-size: 10px;
-	color: red;
-}
-
-.dashboardDiv {
-	position: relative;
-	z-index: 2; 
-	width: 200px; 
-	text-align: left;
-	background-color: #ADD8E6;
-}
-
-.db_cbbutton {
-	cursor: pointer;
-	display: block;	
+span.jr_search_result.highlight span {
+    background-color: yellow;
 }
 
 /************************ <TOOLBAR> ****************************/
