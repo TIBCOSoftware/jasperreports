@@ -101,15 +101,22 @@ public class MondrianApp extends AbstractSampleApp
 	 */
 	public void fill() throws JRException
 	{
-		fill("metadata/monConnection.properties", "build/reports/MondrianReport.jasper");
-		fill("metadata/FoodMartConnection.properties", "build/reports/FoodMartReport.jasper");
+		fillMondrian("metadata/monConnection.properties", "build/reports/MondrianReport.jasper");
+		fillXMLA("metadata/foodmartXmlaConnection.properties", "build/reports/FoodMartSales-XMLAReport.jasper");
+		fillXMLA("metadata/foodmartXmlaConnection.properties", "build/reports/FoodMartSalesWeekly-XMLAReport.jasper");
+		fillXMLA("metadata/adventureWorksXmlaConnection.properties", "build/reports/AdventureWorks-XMLAReport.jasper");
+		fillXMLA("metadata/adventureWorksXmlaConnection.properties", "build/reports/AdventureWorks-Olap4jXMLAReport.jasper");
+		fillXMLA("metadata/adventureWorksXmlaConnection.properties", "build/reports/AdventureWorks-XMLA-XJoinColumnsReport.jasper");
+		fillXMLA("metadata/adventureWorksXmlaConnection.properties", "build/reports/AdventureWorks-Olap4jXMLA-XJoinColumnsReport.jasper");
+		fillMondrian("metadata/FoodMartConnection.properties", "build/reports/MondrianFoodMartSalesReport.jasper");
+		fillXMLA("metadata/foodmartOlap4jXmlaConnection.properties", "build/reports/MondrianFoodMartSalesOlap4jReport.jasper");
 	}
 	
 	
 	/**
 	 *
 	 */
-	private void fill(String connProps, String fileName) throws JRException
+	protected void fillMondrian(String connProps, String fileName) throws JRException
 	{
 		long start = System.currentTimeMillis();
 		Connection conn = null;
@@ -123,6 +130,10 @@ public class MondrianApp extends AbstractSampleApp
 				
 				JasperFillManager.fillReportToFile(fileName, parameters);
 				System.err.println("Report : " + fileName + ". Filling time : " + (System.currentTimeMillis() - start));
+			}
+			else
+			{
+				System.err.println("Report : " + fileName + " not enabled");
 			}
 		}
 		catch (FileNotFoundException e)
@@ -142,6 +153,49 @@ public class MondrianApp extends AbstractSampleApp
 		}
 	}
 	
+	protected void fillXMLA(String connProps, String fileName) throws JRException
+	{
+		long start = System.currentTimeMillis();
+		try
+		{
+			Properties props = loadConnectionProperties(connProps);
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			for (@SuppressWarnings("rawtypes") Map.Entry e : props.entrySet())
+			{
+				parameters.put((String) e.getKey(), e.getValue());
+			}
+
+			Boolean run = null;
+			String enabled = props.getProperty("enabled");
+			if (enabled != null)
+			{
+				run = Boolean.valueOf(enabled); 
+			}
+			else
+			{
+				run = Boolean.FALSE;
+			}
+
+			if (run)
+			{
+				JasperFillManager.fillReportToFile(fileName, parameters);
+				System.err.println("Report : " + fileName + ". Filling time : " + (System.currentTimeMillis() - start));
+			} 
+			else
+			{
+				System.err.println("Report : " + fileName + " not enabled");
+			}
+		}
+		catch (FileNotFoundException e)
+		{
+			throw new JRException(e);
+		}
+		catch (IOException e)
+		{
+			throw new JRException(e);
+		}
+	}
 	
 	/**
 	 *

@@ -21,56 +21,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.olap.mondrian;
+package net.sf.jasperreports.olap;
 
-import mondrian.olap.Member;
-import net.sf.jasperreports.olap.result.JROlapMember;
+import net.sf.jasperreports.engine.JRDataset;
+import net.sf.jasperreports.olap.olap4j.Olap4jResult;
+
+import org.olap4j.CellSet;
 
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author swood
  * @version $Id$
  */
-public class JRMondrianMember implements JROlapMember
+public class Olap4jDataSource extends JROlapDataSource
 {
+	protected CellSet cellSet = null;
 
-	private final Member member;
-	private final JRMondrianMember parent;
-
-	public JRMondrianMember(Member member, JRMondrianFactory factory)
+	public Olap4jDataSource(JRDataset dataset, CellSet cellSet)
 	{
-		this.member = member;
-		this.parent = factory.createMember(member.getParentMember());
-	}
-	
-	public int getDepth()
-	{
-		return member.getDepth();
-	}
+		super(dataset, new Olap4jResult(cellSet));
 
-	public String getName()
-	{
-		return member.getName();
+		this.cellSet = cellSet;
 	}
-
-	public JROlapMember getParentMember()
-	{
-		return parent;
-	}
-
-	public Object getPropertyValue(String propertyName)
-	{
-		return member.getPropertyValue(propertyName);
-	}
-
-	public String getUniqueName()
-	{
-		return member.getUniqueName();
-	}
-
-	public Object getMember()
-	{
-		return member;
-	}
-
 }

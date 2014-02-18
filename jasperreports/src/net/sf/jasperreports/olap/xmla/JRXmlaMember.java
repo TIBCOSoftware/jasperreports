@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.olap.xmla;
 
-import mondrian.olap.Member;
 import net.sf.jasperreports.olap.result.JROlapMember;
 
 
@@ -86,9 +85,9 @@ public class JRXmlaMember implements JROlapMember
 		return dimensionName;
 	}
 
-	public Member getMondrianMember()
+	public Object getMember()
 	{
-		throw new UnsupportedOperationException("XML/A member cannot be converted to a mondrian.olap.Member");
+		throw new UnsupportedOperationException("XML/A member cannot be converted to a Member");
 	}
 
 }

@@ -312,11 +312,16 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			{
 				JRField field = fields[i];
 				String fieldMapping = getFieldMapping(field);
+				if (log.isDebugEnabled())
+				{
+					log.debug("Mapping field: " + field.getName() + " - description: " + fieldMapping);
+				}
 
 				MappingLexer lexer = new MappingLexer(new StringReader(fieldMapping));
 				MappingParser parser = new MappingParser(lexer);
 				parser.setMappingMetadata(this);
 				Mapping mapping;
+				
 				try
 				{
 					mapping = parser.mapping();
@@ -425,24 +430,12 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 	{
 		JROlapHierarchy[] hierarchies = axes[axis.getIdx()].getHierarchiesOnAxis();
 		int dimensionIndex = -1;
-		for (int i = 0; i < hierarchies.length; i++)
+		for (int i = 0; dimensionIndex == -1 && i < hierarchies.length; i++)
 		{
 			JROlapHierarchy hierarchy = hierarchies[i];
-			if (dimension.equals(hierarchy.getDimensionName()))
+			if (matchesDimensionName(hierarchy, dimension))
 			{
 				dimensionIndex = i;
-			}
-		}
-		// MPenningroth 21-April-2009 deal with case when dimension is <dimension>.<hierarchy> form
-		if (dimensionIndex == -1 && dimension.indexOf('.')!= -1 ) {
-			String hierName = "[" + dimension + "]";
-			for (int i = 0; i < hierarchies.length; i++)
-			{
-				JROlapHierarchy hierarchy = hierarchies[i];
-				if (hierName.equals(hierarchy.getHierarchyUniqueName()))
-				{
-					dimensionIndex = i;
-				}
 			}
 		}
 
@@ -452,6 +445,19 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 		}
 
 		return dimensionIndex;
+	}
+	
+	protected boolean matchesDimensionName(JROlapHierarchy hierarchy, String dimensionName)
+	{
+		if (dimensionName.equals(hierarchy.getDimensionName()) 
+				|| dimensionName.equals(hierarchy.getHierarchyUniqueName()))
+		{
+			return true;
+		}
+		
+		// MPenningroth 21-April-2009 deal with case when dimension is <dimension>.<hierarchy> form
+		String hierName = "[" + dimensionName + "]";
+		return hierName.equals(hierarchy.getHierarchyUniqueName());
 	}
 
 	public int getLevelDepth(TuplePosition pos, String levelName)
@@ -536,7 +542,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			if (memberInfo.getDepth() == null)
 			{
 				// The actual member object of the given dimension
-				return member.getMondrianMember();
+				return member.getMember();
 			}
 			else if (property != null)
 			{

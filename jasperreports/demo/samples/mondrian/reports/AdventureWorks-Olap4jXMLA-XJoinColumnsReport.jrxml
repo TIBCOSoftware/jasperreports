@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AdventureWorks-Olap4jXMLA-XJoinColumnsReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="e172100a-5fdf-4634-85a8-e8c5b5ac746b">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SSAS"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<queryString language="olap4j">
+		<![CDATA[SELECT
+    NON EMPTY { [Measures].[Sales Amount], 
+        [Measures].[Tax Amount] } ON COLUMNS,
+   NON EMPTY {
+   		[Date].[Calendar].[Calendar Year].Members *
+   	    [Reseller].[Reseller Type].Members
+  } ON ROWS
+FROM [Adventure Works]
+WHERE ( [Sales Territory].[Southwest] )]]>
+	</queryString>
+	<field name="BusinessType" class="java.lang.String">
+		<fieldDescription><![CDATA[Rows[Reseller Type][Business Type]]]></fieldDescription>
+	</field>
+	<field name="Reseller" class="java.lang.String">
+		<fieldDescription><![CDATA[Rows[Reseller Type][Reseller]]]></fieldDescription>
+	</field>
+	<field name="Year" class="java.lang.String">
+		<fieldDescription><![CDATA[Rows[Calendar][Calendar Year]]]></fieldDescription>
+	</field>
+	<field name="SalesAmount" class="java.lang.Number">
+		<fieldDescription><![CDATA[Data(0,?)]]></fieldDescription>
+	</field>
+	<field name="TaxAmount" class="java.lang.Number">
+		<fieldDescription><![CDATA[Data(1,?)]]></fieldDescription>
+	</field>
+	<variable name="TotalYearlySales" class="java.lang.Double" resetType="Group" resetGroup="Year" calculation="Sum">
+		<variableExpression><![CDATA[$F{SalesAmount}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="TotalBizTypeSales" class="java.lang.Double" resetType="Group" resetGroup="BizType" calculation="Sum">
+		<variableExpression><![CDATA[$F{SalesAmount}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<group name="Year">
+		<groupExpression><![CDATA[$F{Year}]]></groupExpression>
+		<groupHeader>
+			<band height="38">
+				<textField>
+					<reportElement x="10" y="10" width="100" height="19" uuid="f253a6d6-fb66-43ec-aae8-682de33d666d"/>
+					<textFieldExpression><![CDATA[$F{Year}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="44">
+				<textField pattern="¤#,##0.###;¤-#,##0.###">
+					<reportElement x="230" y="10" width="100" height="12" uuid="f253a6d6-fb66-43ec-aae8-682de33d666d"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{TotalYearlySales}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="20" y="10" width="100" height="13" uuid="a951e5bc-e085-405b-9f28-894202860eda"/>
+					<textFieldExpression><![CDATA["Total for " + $F{Year}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="BizType">
+		<groupExpression><![CDATA[$F{BusinessType}]]></groupExpression>
+		<groupHeader>
+			<band height="41">
+				<textField>
+					<reportElement x="50" y="10" width="100" height="19" uuid="f253a6d6-fb66-43ec-aae8-682de33d666d"/>
+					<textFieldExpression><![CDATA[$F{BusinessType}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="47">
+				<textField pattern="¤#,##0.###;¤-#,##0.###">
+					<reportElement x="230" y="10" width="100" height="12" uuid="f253a6d6-fb66-43ec-aae8-682de33d666d"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{TotalBizTypeSales}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="60" y="10" width="150" height="12" uuid="60c3b3f4-261c-4859-8c04-ed3e6428ac61"/>
+					<textFieldExpression><![CDATA["Total for " + $F{BusinessType}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<pageHeader>
+		<band height="16">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" backcolor="#E0E0E0" uuid="424a03ee-0f2d-48d0-9d50-1506a5b7b9c9"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="180" y="0" width="100" height="15" uuid="d43aafc1-19bd-4f5c-87a6-915ddd1404be"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[Sales Amount]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="300" y="0" width="100" height="15" uuid="e2398974-785f-4b37-a94f-59ea339a1afa"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[Tax Amount]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="17">
+			<textField pattern="¤#,##0.###;¤-#,##0.###">
+				<reportElement x="230" y="0" width="100" height="15" uuid="d3686bdb-d81c-412c-bd06-8701e28c2116"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{SalesAmount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00">
+				<reportElement x="350" y="0" width="100" height="15" uuid="978c01f4-43d2-4521-8e77-cbb590a3009e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{TaxAmount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="0" width="118" height="11" uuid="8965ace0-1596-4888-b770-a7dec4e39571"/>
+				<textFieldExpression><![CDATA[$F{Reseller}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band>
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</summary>
+</jasperReport>

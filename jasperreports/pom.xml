@@ -522,5 +522,10 @@
             <artifactId>lucene-queryparser</artifactId>
             <version>4.5.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.olap4j</groupId>
+            <artifactId>olap4j</artifactId>
+            <version>0.9.7.309-JS-3</version>
+        </dependency>
 	</dependencies>
 </project>

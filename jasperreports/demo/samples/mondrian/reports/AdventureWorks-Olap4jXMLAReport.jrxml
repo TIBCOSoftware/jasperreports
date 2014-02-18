@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+
+<jasperReport
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="AdventureWorks-Olap4JXMLAReport" pageWidth="595" pageHeight="842" columnWidth="515" columnSpacing="0" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<queryString language="olap4j">
+		<![CDATA[SELECT
+    { [Measures].[Sales Amount], 
+        [Measures].[Tax Amount] } ON COLUMNS,
+   NON EMPTY {
+    [Date].[Calendar].[Calendar Year].Members
+  } ON ROWS
+FROM [Adventure Works]
+WHERE ( [Sales Territory].[Southwest] )
+]]>
+	</queryString>
+	<field name="Year" class="java.lang.String">
+		<fieldDescription><![CDATA[Rows[Calendar][Calendar Year]]]></fieldDescription>
+	</field>
+	<!--
+	<field name="Name" class="java.lang.String">
+		<fieldDescription><![CDATA[Rows[Address][Person]]]></fieldDescription>
+	</field>
+	<field name="Street" class="java.lang.String">
+		<fieldDescription><![CDATA[Rows[Address][Person](Person Address)]]></fieldDescription>
+	</field>
+	<field name="AddressMember" class="mondrian.olap.Member">
+		<fieldDescription><![CDATA[Rows[Address]]]></fieldDescription>
+	</field>
+	-->
+	<field name="SalesAmount" class="java.lang.Number">
+		<fieldDescription><![CDATA[Data([Measures].[Sales Amount],?)]]></fieldDescription>
+	</field>
+	<field name="TaxAmount" class="java.lang.Number">
+		<fieldDescription><![CDATA[Data([Measures].[Tax Amount],?)]]></fieldDescription>
+	</field>
+	<pageHeader>
+		<band height="16">
+			<frame>
+				<reportElement x="0" y="0" width="515" height="15" mode="Opaque" backcolor="#E0E0E0"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="20" y="0" width="150" height="15"/>
+					<textElement verticalAlignment="Middle"/>
+					<text>Year</text>
+				</staticText>
+				<staticText>
+					<reportElement x="180" y="0" width="100" height="15"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text>Sales Amount</text>
+				</staticText>
+				<staticText>
+					<reportElement x="300" y="0" width="100" height="15"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text>Tax Amount</text>
+				</staticText>
+			</frame>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="32">
+			<textField>
+				<reportElement x="20" y="0" width="150" height="15"/>
+				<textFieldExpression>$F{Year}</textFieldExpression>
+			</textField>
+			<textField pattern="#,###">
+				<reportElement x="180" y="0" width="100" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Number">$F{SalesAmount}</textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00">
+				<reportElement x="300" y="0" width="100" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Number">$F{TaxAmount}</textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="16"/>
+	</summary>
+</jasperReport>

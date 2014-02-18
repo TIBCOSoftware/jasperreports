@@ -21,56 +21,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.olap.mondrian;
+package net.sf.jasperreports.olap.olap4j;
 
-import mondrian.olap.Member;
-import net.sf.jasperreports.olap.result.JROlapMember;
+import org.olap4j.metadata.Level;
+
+import net.sf.jasperreports.olap.result.JROlapHierarchyLevel;
 
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author swood
  * @version $Id$
  */
-public class JRMondrianMember implements JROlapMember
+public class Olap4jLevel implements JROlapHierarchyLevel
 {
 
-	private final Member member;
-	private final JRMondrianMember parent;
-
-	public JRMondrianMember(Member member, JRMondrianFactory factory)
-	{
-		this.member = member;
-		this.parent = factory.createMember(member.getParentMember());
-	}
+	private Level level = null;
 	
+	public Olap4jLevel(Level level)
+	{
+		this.level = level;
+	}
+
 	public int getDepth()
 	{
-		return member.getDepth();
+		return level.getDepth();
 	}
 
 	public String getName()
 	{
-		return member.getName();
-	}
-
-	public JROlapMember getParentMember()
-	{
-		return parent;
-	}
-
-	public Object getPropertyValue(String propertyName)
-	{
-		return member.getPropertyValue(propertyName);
-	}
-
-	public String getUniqueName()
-	{
-		return member.getUniqueName();
-	}
-
-	public Object getMember()
-	{
-		return member;
+		return level.getName();
 	}
 
 }

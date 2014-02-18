@@ -23,7 +23,11 @@
  */
 package net.sf.jasperreports.olap;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import mondrian.olap.Connection;
 import mondrian.olap.Query;
@@ -35,6 +39,12 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.JRAbstractQueryExecuter;
+import net.sf.jasperreports.olap.mondrian.JRMondrianResult;
+import net.sf.jasperreports.olap.result.JROlapHierarchy;
+import net.sf.jasperreports.olap.result.JROlapHierarchyLevel;
+import net.sf.jasperreports.olap.result.JROlapMember;
+import net.sf.jasperreports.olap.result.JROlapMemberTuple;
+import net.sf.jasperreports.olap.result.JROlapResultAxis;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -105,6 +115,7 @@ public class JRMondrianQueryExecuter extends JRAbstractQueryExecuter
 			
 			Query query = connection.parseQuery(queryStr);
 			result = connection.execute(query);
+			logResult();
 			
 			dataSource = new JRMondrianDataSource(dataset, result);
 		}
@@ -129,5 +140,159 @@ public class JRMondrianQueryExecuter extends JRAbstractQueryExecuter
 	public Result getResult()
 	{
 		return result;
+	}
+
+	protected void logResult()
+	{
+		if (!log.isDebugEnabled())//FIXME use a separate logging category
+		{
+			return;
+		}
+		
+		JRMondrianResult monResult = new JRMondrianResult(result);
+		Set<String> measureNames = new HashSet<String>();
+		List<List<String>> allLevelExpressions = new ArrayList<List<String>>();
+		int axisCount = 0;
+		int levelCount = 0;
+		for (JROlapResultAxis axis : monResult.getAxes())
+		{
+			log.debug("Axis: " + axisCount);
+			String prefix = (axisCount == 0) ? "Columns" : "Rows";
+			
+			for (JROlapHierarchy hier: axis.getHierarchiesOnAxis())
+			{
+				log.debug("\t Hierarchy: " + hier.getDimensionName() + " - " + hier.getHierarchyUniqueName());
+				log.debug("\t\tLevels");
+				
+				/*
+				 * create a "Rows/Columns" for each level - but not Measures
+				 */
+				boolean foundMeasuresLevel = false;
+				boolean emittedLevel = false;
+				for (JROlapHierarchyLevel level : hier.getLevels())
+				{
+					log.debug("\t\t\t" + (level == null ? "null" : level.getName() + ", depth: " + level.getDepth()));
+					if (level != null)
+					{
+						if (level.getName().equalsIgnoreCase("MeasuresLevel"))
+						{
+							foundMeasuresLevel = true;
+							//log.info("\t\t\t\t" + hier.getHierarchyUniqueName().replace(" ", "") + level.getName().replace(" ", "") + "- Data(" + hier.getHierarchyUniqueName() + "[" + level.getName() + "],?)");
+						} 
+						else
+						{
+							emittedLevel = true;
+							String rowsExpression = prefix + makeOlapExpression(hier.getDimensionName()) + "[" + level.getName() + "]";
+							List<String> thisLevelExpressions = null;
+							if (levelCount >= allLevelExpressions.size())
+							{
+								thisLevelExpressions = new ArrayList<String>();
+								allLevelExpressions.add(thisLevelExpressions);
+							} 
+							else
+							{
+								thisLevelExpressions = allLevelExpressions.get(levelCount);
+							}
+							thisLevelExpressions.add(rowsExpression);
+							log.debug("\t\t\t\t" + makeJRFieldName(hier.getDimensionName() + level.getName()) + "- " + rowsExpression);
+						}
+					}
+				}
+				
+				if (emittedLevel)
+				{
+					levelCount++;
+				}
+				
+				/*
+				 * Pick up the measure names
+				 */
+				
+				for (int i = 0; i < axis.getTupleCount(); i++)
+				{
+					JROlapMemberTuple memberTuple = axis.getTuple(i);
+					// StringBuffer sb = new StringBuffer();
+					for (int j = 0; j < memberTuple.getMembers().length; j++)
+					{
+						// if (j > 0) { sb.append(", "); }
+						JROlapMember member = memberTuple.getMembers()[j];
+/*							sb.append(member.getName())
+							.append("-")
+							.append(member.getUniqueName())
+							.append("-")
+							.append(member.getDepth());
+*/							
+						if (foundMeasuresLevel && isMeasureMember(member.getUniqueName()) 
+								&& !measureNames.contains(member.getUniqueName())) 
+						{
+							measureNames.add(member.getUniqueName());
+						}
+					}
+				}
+			}
+			axisCount++;
+		}
+		
+		for (String measureName : measureNames)
+		{
+				log.debug("\t\t\t\t" + makeJRFieldName(measureName) 
+						+ "- Data(" + measureName + ",?)");
+		}
+
+		/*
+		for (List<String> allLevelsExpression : allLevelExpressions) {
+			for (String measureName : measureNames) {
+					log.info("\t\t\t\t" + makeJRFieldName(rowExpression + measureName) + "- Data(" + measureName + ",?)");
+					//hier.getHierarchyUniqueName() + "[" + member.getName() + "]
+					//log.info("\t\t\t" + sb.toString());
+			}
+		}
+		*/
+	}
+	
+	private String makeJRFieldName(String s)
+	{
+		String out = s.replace(" ", "");
+		out = out.replace("[", "");
+		out = out.replace("]", "");
+		out = out.replace("(", "");
+		out = out.replace(")", "");
+		out = out.replace(".", "");
+		return out;
+	}
+	
+	private String makeOlapExpression(String s)
+	{
+		/*
+		 * Could be:
+		 * - "hierarchy name"
+		 * - "[hierarchy name]"
+		 * - "[dimension].[hierarchy name]"
+		 * 
+		 * want "[hierarchy name]"
+		 */
+		String out = s.trim();
+		int pos = out.indexOf("].[");
+		if (pos != -1)
+		{
+			out = out.substring(pos + 2);
+		}
+		if (out.charAt(0) != '[') 
+		{
+			out = "[" + out;
+		}
+		if (out.charAt(out.length() - 1) != ']') 
+		{
+			out = out + "]";
+		}
+		return out;
+	}
+
+	private boolean isMeasureMember(String uniqueName) 
+	{
+		/*
+		 * should be "[Measures].[measure name]"
+		 */
+		return uniqueName.startsWith("[Measures].");
 	}
 }

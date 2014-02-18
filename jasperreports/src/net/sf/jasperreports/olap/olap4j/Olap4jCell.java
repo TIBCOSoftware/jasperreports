@@ -21,56 +21,47 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.olap.mondrian;
+package net.sf.jasperreports.olap.olap4j;
 
-import mondrian.olap.Member;
-import net.sf.jasperreports.olap.result.JROlapMember;
+import org.olap4j.Cell;
+
+import net.sf.jasperreports.olap.result.JROlapCell;
 
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author swood
  * @version $Id$
  */
-public class JRMondrianMember implements JROlapMember
+public class Olap4jCell implements JROlapCell
 {
 
-	private final Member member;
-	private final JRMondrianMember parent;
-
-	public JRMondrianMember(Member member, JRMondrianFactory factory)
-	{
-		this.member = member;
-		this.parent = factory.createMember(member.getParentMember());
-	}
+	private String formattedValue;
+	private Object value;
 	
-	public int getDepth()
+	public Olap4jCell(Cell cell)
 	{
-		return member.getDepth();
+		this.value = cell.getValue();
+		this.formattedValue = cell.getFormattedValue();
 	}
 
-	public String getName()
+	public String getFormattedValue()
 	{
-		return member.getName();
+		return formattedValue;
 	}
 
-	public JROlapMember getParentMember()
+	public Object getValue()
 	{
-		return parent;
+		return value;
 	}
 
-	public Object getPropertyValue(String propertyName)
+	public boolean isError()
 	{
-		return member.getPropertyValue(propertyName);
+		return false;//FIXME cell.isError
 	}
 
-	public String getUniqueName()
+	public boolean isNull()
 	{
-		return member.getUniqueName();
-	}
-
-	public Object getMember()
-	{
-		return member;
+		return value == null;//FIXME cell.isNull
 	}
 
 }

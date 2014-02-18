@@ -21,56 +21,40 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.olap.mondrian;
+package net.sf.jasperreports.olap.olap4j;
 
-import mondrian.olap.Member;
+import java.util.Iterator;
+
 import net.sf.jasperreports.olap.result.JROlapMember;
+import net.sf.jasperreports.olap.result.JROlapMemberTuple;
+
+import org.olap4j.Position;
+import org.olap4j.metadata.Member;
 
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author swood
  * @version $Id$
  */
-public class JRMondrianMember implements JROlapMember
+public class Olap4jTuple implements JROlapMemberTuple
 {
 
-	private final Member member;
-	private final JRMondrianMember parent;
+	private final Olap4jMember[] members;
 
-	public JRMondrianMember(Member member, JRMondrianFactory factory)
+	public Olap4jTuple(Position position, Olap4jFactory factory)
 	{
-		this.member = member;
-		this.parent = factory.createMember(member.getParentMember());
-	}
-	
-	public int getDepth()
-	{
-		return member.getDepth();
-	}
-
-	public String getName()
-	{
-		return member.getName();
+		members = new Olap4jMember[position.getMembers().size()];
+		int idx = 0;
+		for (Iterator<Member> it = position.getMembers().iterator(); it.hasNext(); ++idx)
+		{
+			Member member = it.next();
+			members[idx] = factory.createMember(member);
+		}
 	}
 
-	public JROlapMember getParentMember()
+	public JROlapMember[] getMembers()
 	{
-		return parent;
-	}
-
-	public Object getPropertyValue(String propertyName)
-	{
-		return member.getPropertyValue(propertyName);
-	}
-
-	public String getUniqueName()
-	{
-		return member.getUniqueName();
-	}
-
-	public Object getMember()
-	{
-		return member;
+		return members;
 	}
 
 }

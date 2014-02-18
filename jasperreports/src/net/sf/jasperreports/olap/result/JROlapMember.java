@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.olap.result;
 
-import mondrian.olap.Member;
 
 
 /**
@@ -43,6 +42,6 @@ public interface JROlapMember
 
 	Object getPropertyValue(String propertyName);
 	
-	Member getMondrianMember();
+	Object getMember();
 
 }

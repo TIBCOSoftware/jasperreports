@@ -25,7 +25,10 @@ package net.sf.jasperreports.olap.xmla;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.olap.result.JROlapHierarchy;
 import net.sf.jasperreports.olap.result.JROlapHierarchyLevel;
 
@@ -42,13 +45,19 @@ public class JRXmlaHierarchy implements JROlapHierarchy
 	
 	private final static Log log = LogFactory.getLog(JRXmlaHierarchy.class);
 
+	private static final Pattern DIMENSION_HIERARCHY_PATTERN = Pattern.compile("\\[.*\\]\\.\\[.*\\]");
+
 	private final String dimensionName;
+	private final String uniqueName;
 	private final List<JRXmlaHierarchyLevel> levels;
 	private JRXmlaHierarchyLevel[] levelArray;
 
 	public JRXmlaHierarchy(String dimensionName)
 	{
 		this.dimensionName = dimensionName;
+		// Dimension name could be of the form [Dimension].[Hierarchy]
+		// in that case, just put in the Hierarchy as uniqueName
+		this.uniqueName = parseUniqueName(dimensionName);
 		this.levels = new ArrayList<JRXmlaHierarchyLevel>();
 	}
 
@@ -93,7 +102,7 @@ public class JRXmlaHierarchy implements JROlapHierarchy
 	// MPenningroth 21-April-2009 deal with case when dimension is <dimension>.<hierarchy> form
 	public String getHierarchyUniqueName()
 	{
-		return dimensionName;
+		return uniqueName;
 	}
 
 	protected JRXmlaHierarchyLevel[] ensureLevelArray()
@@ -109,5 +118,25 @@ public class JRXmlaHierarchy implements JROlapHierarchy
 	protected void resetLevelArray()
 	{
 		levelArray = null;
+	}
+	
+	protected String parseUniqueName(String originalDimensionName)
+	{
+		Matcher m = DIMENSION_HIERARCHY_PATTERN.matcher(originalDimensionName);
+		Boolean gotMatch = m.matches();
+		if (gotMatch)
+		{
+			int startIndex = originalDimensionName.lastIndexOf(".[");
+			int endIndex = originalDimensionName.lastIndexOf(']'); 
+			if (startIndex == -1 || endIndex == -1 || startIndex + 3 >= endIndex)
+			{
+				throw new JRRuntimeException("Invalid [Dimension].[Hierarchy]: " + originalDimensionName);
+			}
+			else
+			{
+				return originalDimensionName.substring(startIndex + 2, endIndex);
+			}
+		}
+		return originalDimensionName;
 	}
 }

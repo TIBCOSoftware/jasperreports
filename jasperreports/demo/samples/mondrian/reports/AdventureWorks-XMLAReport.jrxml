@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AdventureWorks-XMLAReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="47d3390f-dabb-4d78-af02-868ad77fd245">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Jaspersoft AdventureWorks 2008"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<queryString language="mdx">
+		<![CDATA[SELECT
+    { [Measures].[Sales Amount],
+        [Measures].[Tax Amount] } ON COLUMNS,
+   NON EMPTY {
+    [Date].[Calendar].[Calendar Year].Members
+  } ON ROWS
+FROM [Adventure Works]
+WHERE ( [Sales Territory].[Southwest] )]]>
+	</queryString>
+	<field name="Year" class="java.lang.String">
+		<fieldDescription><![CDATA[Rows[Calendar][Calendar Year]]]></fieldDescription>
+	</field>
+	<field name="SalesAmount" class="java.lang.Number">
+		<fieldDescription><![CDATA[Data([Measures].[Sales Amount],?)]]></fieldDescription>
+	</field>
+	<field name="TaxAmount" class="java.lang.Number">
+		<fieldDescription><![CDATA[Data([Measures].[Tax Amount],?)]]></fieldDescription>
+	</field>
+	<pageHeader>
+		<band height="16">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" backcolor="#E0E0E0" uuid="ea4936be-6f19-4129-a7d8-707da758b3a6"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="20" y="0" width="150" height="15" uuid="3b7b590b-1a55-4dd1-a7ec-36773c8b08ed"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Year]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="180" y="0" width="100" height="15" uuid="b300dbcb-70fe-40c2-a154-e34919d4f5e0"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[Sales Amount]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="300" y="0" width="100" height="15" uuid="f998fc2d-b5fa-467e-906d-ef4d0c43cca6"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[Tax Amount]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="32">
+			<textField>
+				<reportElement x="20" y="0" width="150" height="15" uuid="5d6ce6aa-aa45-4cbd-9740-38501788cd5f"/>
+				<textFieldExpression><![CDATA[$F{Year}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###">
+				<reportElement x="180" y="0" width="100" height="15" uuid="85fd517b-08d3-44cb-a886-49a64304d81b"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{SalesAmount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00">
+				<reportElement x="300" y="0" width="100" height="15" uuid="c4ba08dc-551e-4b3b-9604-cf63fa5a54a5"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{TaxAmount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

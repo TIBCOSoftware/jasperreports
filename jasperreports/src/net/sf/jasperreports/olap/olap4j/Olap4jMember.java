@@ -21,23 +21,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.olap.mondrian;
+package net.sf.jasperreports.olap.olap4j;
 
-import mondrian.olap.Member;
 import net.sf.jasperreports.olap.result.JROlapMember;
+
+import org.olap4j.metadata.Member;
+import org.olap4j.metadata.NamedList;
+import org.olap4j.metadata.Property;
 
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author swood
  * @version $Id$
  */
-public class JRMondrianMember implements JROlapMember
+public class Olap4jMember implements JROlapMember
 {
 
 	private final Member member;
-	private final JRMondrianMember parent;
+	private final Olap4jMember parent;
 
-	public JRMondrianMember(Member member, JRMondrianFactory factory)
+	public Olap4jMember(Member member, Olap4jFactory factory)
 	{
 		this.member = member;
 		this.parent = factory.createMember(member.getParentMember());
@@ -60,7 +63,8 @@ public class JRMondrianMember implements JROlapMember
 
 	public Object getPropertyValue(String propertyName)
 	{
-		return member.getPropertyValue(propertyName);
+		NamedList<Property> properties = member.getProperties();
+		return properties.get(propertyName);
 	}
 
 	public String getUniqueName()
