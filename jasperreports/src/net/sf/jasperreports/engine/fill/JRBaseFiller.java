@@ -915,7 +915,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 		fillingThread = Thread.currentThread();
 		
-		@SuppressWarnings("deprecation")
 		JRResourcesFillUtil.ResourcesFillContext resourcesContext = 
 			JRResourcesFillUtil.setResourcesFillContext(parameterValues);
 		

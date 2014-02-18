@@ -37,7 +37,6 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  * @see JRResourcesUtil
- * @deprecated Replaced by {@link RepositoryUtil}.
  */
 public final class JRResourcesFillUtil
 {

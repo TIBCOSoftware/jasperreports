@@ -82,7 +82,6 @@ public final class JRParameterDefaultValuesEvaluator
 		fillDataset.createCalculator(report);
 		fillDataset.initCalculator();
 
-		@SuppressWarnings("deprecation")
 		JRResourcesFillUtil.ResourcesFillContext resourcesContext = 
 			JRResourcesFillUtil.setResourcesFillContext(valuesMap);
 		try

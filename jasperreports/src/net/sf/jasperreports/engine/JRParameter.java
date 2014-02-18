@@ -106,7 +106,6 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	/**
 	 * A <tt>java.lang.ClassLoader</tt> instance to be used during the report filling process to load resources such 
 	 * as images, fonts and subreport templates.
-	 * @deprecated Replaced by {@link JasperReportsContext}.
 	 */
 	public static final String REPORT_CLASS_LOADER = "REPORT_CLASS_LOADER";
 

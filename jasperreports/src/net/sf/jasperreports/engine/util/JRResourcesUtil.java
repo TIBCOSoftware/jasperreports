@@ -60,11 +60,11 @@ public final class JRResourcesUtil
 	private static ThreadLocalStack localURLHandlerFactoryStack = new ThreadLocalStack();
 
 	/** 
-	 * @deprecated To be removed.
+	 *
 	 */
 	private static ClassLoader globalClassLoader;
 	/** 
-	 * @deprecated To be removed.
+	 *
 	 */
 	private static ThreadLocalStack localClassLoaderStack = new ThreadLocalStack();
 
@@ -396,7 +396,6 @@ public final class JRResourcesUtil
 	 * @return a class loader.
 	 * @see #setGlobalClassLoader(ClassLoader)
 	 * @see #setThreadClassLoader(ClassLoader)
-	 * @deprecated To be removed.
 	 */
 	public static ClassLoader getClassLoader(ClassLoader clsLoader)
 	{
@@ -418,7 +417,6 @@ public final class JRResourcesUtil
 	 * 
 	 * @return the global class loader.
 	 * @see #setGlobalClassLoader(ClassLoader)
-	 * @deprecated To be removed.
 	 */
 	public static ClassLoader getGlobalClassLoader()
 	{
@@ -431,7 +429,6 @@ public final class JRResourcesUtil
 	 * 
 	 * @return the thread local class loader.
 	 * @see #setThreadClassLoader(ClassLoader)
-	 * @deprecated To be removed.
 	 */
 	public static ClassLoader getThreadClassLoader()
 	{
@@ -445,7 +442,6 @@ public final class JRResourcesUtil
 	 * @param classLoader a class loader
 	 * @see #getClassLoader(ClassLoader)
 	 * @see #resetThreadURLHandlerFactory()
-	 * @deprecated To be removed.
 	 */
 	public static void setThreadClassLoader(ClassLoader classLoader)
 	{
@@ -455,7 +451,6 @@ public final class JRResourcesUtil
 	
 	/**
 	 * Resets the the thread local class loader to its previous value.
-	 * @deprecated To be removed.
 	 */
 	public static void resetClassLoader()
 	{
@@ -468,7 +463,6 @@ public final class JRResourcesUtil
 	 * 
 	 * @param classLoader the class loader
 	 * @see #getClassLoader(ClassLoader)
-	 * @deprecated To be removed.
 	 */
 	public static void setGlobalClassLoader(ClassLoader classLoader)
 	{
@@ -547,7 +541,7 @@ public final class JRResourcesUtil
 	 */
 	public static URL findClassLoaderResource(String location, ClassLoader clsLoader)
 	{
-		ClassLoader classLoader = clsLoader;//getClassLoader(clsLoader);
+		ClassLoader classLoader = getClassLoader(clsLoader);
 		
 		URL url = null;
 		
