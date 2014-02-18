@@ -120,21 +120,21 @@
 
 	<target name="viewDesign1" description="Launches the design viewer to preview the first compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="./reports/Report1.jasper"/>
+			<arg value="./build/reports/Report1.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewDesign2" description="Launches the design viewer to preview the second compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="./reports/Report2.jasper"/>
+			<arg value="./build/reports/Report2.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 	<target name="viewDesign3" description="Launches the design viewer to preview the third compiled report design.">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="./reports/Report3.jasper"/>
+			<arg value="./build/reports/Report3.jasper"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
