@@ -74,6 +74,7 @@ import net.sf.jasperreports.engine.PrintElementId;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.tabulator.Cell;
 import net.sf.jasperreports.engine.export.tabulator.CellVisitor;
 import net.sf.jasperreports.engine.export.tabulator.Column;
@@ -2053,30 +2054,37 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	}
 
     private void addSearchAttributes(JRStyledText styledText, JRPrintText textElement) {
-        PrintElementId pei = PrintElementId.forElement(textElement);
+        ReportContext reportContext = getReportContext();
+        if (reportContext != null) {
+            SpansInfo spansInfo = (SpansInfo) reportContext.getParameterValue("net.sf.jasperreports.search.term.highlighter");
+            PrintElementId pei = PrintElementId.forElement(textElement);
 
-        SpansInfo spansInfo = (SpansInfo) getReportContext().getParameterValue("net.sf.jasperreports.search.term.highlighter");
-        if (spansInfo != null && spansInfo.hasHitTermsInfo(pei.toString())) {
-            List<HitTermInfo> hitTermInfos = JRCloneUtils.cloneList(spansInfo.getHitTermsInfo(pei.toString()));
+            if (spansInfo != null && spansInfo.hasHitTermsInfo(pei.toString())) {
+                List<HitTermInfo> hitTermInfos = JRCloneUtils.cloneList(spansInfo.getHitTermsInfo(pei.toString()));
 
-            short[] lineBreakOffsets = textElement.getLineBreakOffsets();
-            if (lineBreakOffsets != null && lineBreakOffsets.length > 0) {
-                int sz = lineBreakOffsets.length;
-                for (HitTermInfo ti: hitTermInfos) {
-                    for (int i = 0; i < sz; i++) {
-                        if (lineBreakOffsets[i] <= ti.getStart()) {
-                            ti.setStart(ti.getStart() + 1);
-                            ti.setEnd(ti.getEnd() + 1);
-                        } else {
-                            break;
+                short[] lineBreakOffsets = textElement.getLineBreakOffsets();
+                if (lineBreakOffsets != null && lineBreakOffsets.length > 0) {
+                    int sz = lineBreakOffsets.length;
+                    for (HitTermInfo ti: hitTermInfos) {
+                        for (int i = 0; i < sz; i++) {
+                            if (lineBreakOffsets[i] <= ti.getStart()) {
+                                ti.setStart(ti.getStart() + 1);
+                                ti.setEnd(ti.getEnd() + 1);
+                            } else {
+                                break;
+                            }
                         }
                     }
                 }
-            }
 
-            AttributedString attributedString = styledText.getAttributedString();
-            for (int i = 0, ln = hitTermInfos.size(); i < ln; i = i + spansInfo.getTermsPerQuery()) {
-                attributedString.addAttribute(JRTextAttribute.SEARCH_HIGHLIGHT, Color.yellow, hitTermInfos.get(i).getStart(), hitTermInfos.get(i + spansInfo.getTermsPerQuery() - 1).getEnd());
+                AttributedString attributedString = styledText.getAttributedString();
+                for (int i = 0, ln = hitTermInfos.size(); i < ln; i = i + spansInfo.getTermsPerQuery()) {
+                    attributedString.addAttribute(JRTextAttribute.SEARCH_HIGHLIGHT, Color.yellow, hitTermInfos.get(i).getStart(), hitTermInfos.get(i + spansInfo.getTermsPerQuery() - 1).getEnd());
+                }
+            }
+        } else {
+            if (log.isDebugEnabled()) {
+                log.debug("No ReportContext to hold search data!");
             }
         }
     }
