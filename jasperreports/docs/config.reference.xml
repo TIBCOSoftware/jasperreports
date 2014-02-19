@@ -4528,7 +4528,7 @@ Flag property that indicates whether the absolute path to be used instead, when 
     <description>
 Specifies the file repository root location.
     </description>
-    <api>net/sf/jasperreports/repo/FileRepositoryServiceExtensionsRegistryFactory.html#PROPERTY_FILE_REPOSITORY_RESOLVE_ABSOLUTE_PATH</api>
+    <api>net/sf/jasperreports/repo/FileRepositoryServiceExtensionsRegistryFactory.html#PROPERTY_FILE_REPOSITORY_ROOT</api>
     <default>N/A</default>
     <scope>Global</scope>
     <since>4.1.1</since>
