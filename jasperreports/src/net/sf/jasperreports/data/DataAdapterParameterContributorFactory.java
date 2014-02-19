@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.ParameterContributor;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.ParameterContributorFactory;
+import net.sf.jasperreports.repo.DataAdapterResource;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 /**
@@ -71,8 +72,8 @@ public final class DataAdapterParameterContributorFactory implements ParameterCo
 		String dataAdapterUri = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(context.getDataset(), PROPERTY_DATA_ADAPTER_LOCATION); 
 		if (dataAdapterUri != null)
 		{
-			DataAdapter dataAdapter = RepositoryUtil.getInstance(context.getJasperReportsContext()).getResourceFromLocation(dataAdapterUri, DataAdapter.class);
-			ParameterContributor dataAdapterService = DataAdapterServiceUtil.getInstance(context.getJasperReportsContext()).getService(dataAdapter);
+			DataAdapterResource dataAdapterResource = RepositoryUtil.getInstance(context.getJasperReportsContext()).getResourceFromLocation(dataAdapterUri, DataAdapterResource.class);
+			ParameterContributor dataAdapterService = DataAdapterServiceUtil.getInstance(context.getJasperReportsContext()).getService(dataAdapterResource.getDataAdapter());
 			
 			return Collections.singletonList(dataAdapterService);
 		}

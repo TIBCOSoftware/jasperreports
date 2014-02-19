@@ -23,14 +23,20 @@
  */
 package net.sf.jasperreports.data;
 
-import net.sf.jasperreports.repo.Resource;
-
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface DataAdapter extends Resource
+public interface DataAdapter
 {
+	/**
+	 * 
+	 */
+	public String getName();
+	
+	/**
+	 * 
+	 */
+	public void setName(String name);
 }

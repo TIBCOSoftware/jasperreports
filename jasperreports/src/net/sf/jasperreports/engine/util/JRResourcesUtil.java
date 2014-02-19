@@ -28,9 +28,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
+import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.ResourceBundleResource;
 
 
 /**
@@ -41,6 +47,11 @@ import java.util.ResourceBundle;
  */
 public final class JRResourcesUtil
 {
+	/**
+	 * 
+	 */
+	private static final String PROPERTIES_FILE_EXTENSION = ".properties";
+
 	/** 
 	 * @deprecated To be removed.
 	 */
@@ -587,6 +598,64 @@ public final class JRResourcesUtil
 	 * @param locale the locale
 	 * @return the resource bundle for the given base name and locale
 	 */
+	public static ResourceBundle loadResourceBundle(JasperReportsContext jasperReportsContext, String baseName, Locale locale)
+	{
+		ResourceBundle resourceBundle = null;
+		MissingResourceException ex = null;
+		try
+		{
+			resourceBundle = loadResourceBundle(baseName, locale, null);
+		}
+		catch (MissingResourceException e)
+		{
+			ex = e;
+		}
+		
+		if (resourceBundle == null)
+		{
+			CustomControl control = new CustomControl();
+			List<Locale> locales = control.getCandidateLocales(baseName, locale);
+			for (Locale lc : locales)
+			{
+				ResourceBundleResource resourceBundleResource = null; 
+				try
+				{
+					resourceBundleResource = 
+							RepositoryUtil.getInstance(jasperReportsContext).getResourceFromLocation(
+								baseName + "_" + lc.toString() + PROPERTIES_FILE_EXTENSION, 
+								ResourceBundleResource.class
+								);
+				}
+				catch (JRException e)
+				{
+				}
+				if (resourceBundleResource != null)
+				{
+					resourceBundle = resourceBundleResource.getResourceBundle();
+					break;
+				}
+			}
+		}
+		
+		if (resourceBundle == null)
+		{
+			throw ex;
+		}
+		
+		return resourceBundle;
+	}
+
+	/**
+	 * Loads a resource bundle for a given base name and locale.
+	 * 
+	 * <p>
+	 * This methods calls {@link #loadResourceBundle(String, Locale, ClassLoader)} with a null classloader.
+	 * </p>
+	 * 
+	 * @param baseName the base name
+	 * @param locale the locale
+	 * @return the resource bundle for the given base name and locale
+	 */
 	public static ResourceBundle loadResourceBundle(String baseName, Locale locale)
 	{
 		return loadResourceBundle(baseName, locale, null);
@@ -660,6 +729,17 @@ public final class JRResourcesUtil
 	
 
 	private JRResourcesUtil()
+	{
+	}
+}
+
+
+/**
+ * 
+ */
+class CustomControl extends ResourceBundle.Control
+{
+	public CustomControl()
 	{
 	}
 }

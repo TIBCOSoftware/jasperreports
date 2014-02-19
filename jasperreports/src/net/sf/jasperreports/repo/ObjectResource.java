@@ -24,15 +24,14 @@
 package net.sf.jasperreports.repo;
 
 
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class ObjectResource implements Resource
+public class ObjectResource<T> implements Resource
 {
 	private String name;
-	private Object value;
+	private T value;
 	
 	/**
 	 * 
@@ -53,7 +52,7 @@ public class ObjectResource implements Resource
 	/**
 	 * 
 	 */
-	public Object getValue()
+	public T getValue()
 	{
 		return value;
 	}
@@ -61,7 +60,7 @@ public class ObjectResource implements Resource
 	/**
 	 * 
 	 */
-	public void setValue(Object value)
+	public void setValue(T value)
 	{
 		this.value = value;
 	}

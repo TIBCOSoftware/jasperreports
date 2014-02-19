@@ -23,23 +23,28 @@
  */
 package net.sf.jasperreports.repo;
 
-import net.sf.jasperreports.data.DataAdapter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.PropertyResourceBundle;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: CastorObjectPersistenceService.java 5879 2013-01-07 20:35:36Z teodord $
  */
-public class CastorDataAdapterPersistenceService extends CastorObjectPersistenceService
+public class ResourceBundlePersistenceService implements PersistenceService
 {
-
+	//private JasperReportsContext jasperReportsContext;
+	
 	/**
 	 * 
 	 */
-	public CastorDataAdapterPersistenceService(JasperReportsContext jasperReportsContext)
+	public ResourceBundlePersistenceService(JasperReportsContext jasperReportsContext)
 	{
-		super(jasperReportsContext);
+		//this.jasperReportsContext = jasperReportsContext;
 	}
 
 	
@@ -48,17 +53,43 @@ public class CastorDataAdapterPersistenceService extends CastorObjectPersistence
 	 */
 	public Resource load(String uri, RepositoryService repositoryService)
 	{
-		DataAdapterResource dataAdapterResource = null;
+		ResourceBundleResource resource = null; 
+
+		InputStreamResource isResource = repositoryService.getResource(uri, InputStreamResource.class);
 		
-		CastorResource resource = (CastorResource)super.load(uri, repositoryService);
-		
-		if (resource != null)
+		InputStream is = isResource == null ? null : isResource.getInputStream();
+		if (is != null)
 		{
-			dataAdapterResource = new DataAdapterResource();
-			dataAdapterResource.setValue((DataAdapter)resource.getValue());
+			resource = new ResourceBundleResource();
+			try
+			{
+				resource.setValue(new PropertyResourceBundle(is));
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			finally
+			{
+				try
+				{
+					is.close();
+				}
+				catch (IOException e)
+				{
+				}
+			}
 		}
-		
-		return dataAdapterResource;
+
+		return resource;
 	}
 
+	
+	/**
+	 * 
+	 */
+	public void save(Resource resource, String uri, RepositoryService repositoryService)
+	{
+		//FIXMEREPO
+	}
 }

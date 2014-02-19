@@ -23,28 +23,11 @@
  */
 package net.sf.jasperreports.repo;
 
-import net.sf.jasperreports.engine.JasperReport;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: InputStreamResource.java 5879 2013-01-07 20:35:36Z teodord $
  */
-public class ReportResource extends SerializableResource<JasperReport>
+public class CastorResource<T> extends ObjectResource<T>
 {
-	/**
-	 * 
-	 */
-	public JasperReport getReport()
-	{
-		return getValue();
-	}
-	
-	/**
-	 * 
-	 */
-	public void setReport(JasperReport report)
-	{
-		setValue(report);
-	}
 }

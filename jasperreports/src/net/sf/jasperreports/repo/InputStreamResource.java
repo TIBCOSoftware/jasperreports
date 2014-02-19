@@ -26,19 +26,18 @@ package net.sf.jasperreports.repo;
 import java.io.InputStream;
 
 
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class InputStreamResource extends ObjectResource
+public class InputStreamResource extends ObjectResource<InputStream>
 {
 	/**
 	 * 
 	 */
 	public InputStream getInputStream()
 	{
-		return (InputStream)getValue();
+		return getValue();
 	}
 	
 	/**

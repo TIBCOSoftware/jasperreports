@@ -26,14 +26,12 @@ package net.sf.jasperreports.repo;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
-
-
-
 
 
 /**
@@ -48,17 +46,17 @@ public class SerializedObjectPersistenceService implements PersistenceService
 	 */
 	public Resource load(String uri, RepositoryService repositoryService)
 	{
-		ObjectResource resource = null; 
+		SerializableResource<Serializable> resource = null; 
 
 		InputStreamResource isResource = repositoryService.getResource(uri, InputStreamResource.class);
 		
 		InputStream is = isResource == null ? null : isResource.getInputStream();
 		if (is != null)
 		{
-			resource = new ObjectResource();
+			resource = new SerializableResource<Serializable>();
 			try
 			{
-				resource.setValue(JRLoader.loadObject(is));
+				resource.setValue((Serializable)JRLoader.loadObject(is));
 			}
 			catch (JRException e)
 			{
@@ -84,7 +82,8 @@ public class SerializedObjectPersistenceService implements PersistenceService
 	 */
 	public void save(Resource resource, String uri, RepositoryService repositoryService)
 	{
-		ObjectResource objectResource = (ObjectResource)resource;
+		@SuppressWarnings("unchecked")
+		ObjectResource<Object> objectResource = (ObjectResource<Object>)resource;
 		
 		OutputStreamResource osResource = repositoryService.getResource(uri, OutputStreamResource.class);
 		

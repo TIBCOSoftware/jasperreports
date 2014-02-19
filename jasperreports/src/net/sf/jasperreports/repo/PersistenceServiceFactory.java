@@ -36,6 +36,6 @@ public interface PersistenceServiceFactory
 	/**
 	 *
 	 */
-	public <K extends RepositoryService, L extends Resource, M extends PersistenceService> M getPersistenceService(JasperReportsContext jasperReportsContext, Class<K> repositoryServiceType, Class<L> resourceType);
+	public <K extends RepositoryService, L extends Resource> PersistenceService getPersistenceService(JasperReportsContext jasperReportsContext, Class<K> repositoryServiceType, Class<L> resourceType);
   
 }

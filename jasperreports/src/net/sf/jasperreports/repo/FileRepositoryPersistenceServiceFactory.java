@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.repo;
 
-import net.sf.jasperreports.data.DataAdapter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 
@@ -46,7 +45,7 @@ public class FileRepositoryPersistenceServiceFactory implements PersistenceServi
 	/**
 	 * 
 	 */
-	public <K extends RepositoryService, L extends Resource, M extends PersistenceService> M getPersistenceService(
+	public <K extends RepositoryService, L extends Resource> PersistenceService getPersistenceService(
 		JasperReportsContext jasperReportsContext,
 		Class<K> repositoryServiceType, 
 		Class<L> resourceType
@@ -56,23 +55,31 @@ public class FileRepositoryPersistenceServiceFactory implements PersistenceServi
 		{
 			if (InputStreamResource.class.getName().equals(resourceType.getName()))
 			{
-				return (M)new InputStreamPersistenceService();
+				return new InputStreamPersistenceService();
 			}
 			else if (OutputStreamResource.class.getName().equals(resourceType.getName()))
 			{
-				return (M)new OutputStreamPersistenceService();
+				return new OutputStreamPersistenceService();
 			}
 			else if (ReportResource.class.getName().equals(resourceType.getName()))
 			{
-				return (M)new SerializedReportPersistenceService();
+				return new SerializedReportPersistenceService();
 			}
-//			else if (ReportResource.class.getName().equals(resourceType.getName()))
-//			{
-//				return (M)new ReportPersistenceService();
-//			}
-			else if (DataAdapter.class.isAssignableFrom(resourceType))
+			else if (ResourceBundleResource.class.getName().equals(resourceType.getName()))
 			{
-				return (M)new CastorDataAdapterPersistenceService(jasperReportsContext);
+				return new ResourceBundlePersistenceService(jasperReportsContext);
+			}
+			else if (DataAdapterResource.class.isAssignableFrom(resourceType))
+			{
+				return new CastorDataAdapterPersistenceService(jasperReportsContext);
+			}
+			else if (CastorResource.class.isAssignableFrom(resourceType))
+			{
+				return new CastorObjectPersistenceService(jasperReportsContext);
+			}
+			else if (SerializableResource.class.isAssignableFrom(resourceType))
+			{
+				return new SerializedObjectPersistenceService();
 			}
 		}
 		return null;

@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 
 
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$

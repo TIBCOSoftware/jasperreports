@@ -26,19 +26,18 @@ package net.sf.jasperreports.repo;
 import java.io.OutputStream;
 
 
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class OutputStreamResource extends ObjectResource
+public class OutputStreamResource extends ObjectResource<OutputStream>
 {
 	/**
 	 * 
 	 */
 	public OutputStream getOutputStream()
 	{
-		return (OutputStream)getValue();
+		return getValue();
 	}
 	
 	/**

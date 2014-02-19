@@ -572,7 +572,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		}
 		else
 		{
-			loadedBundle = JRResourcesUtil.loadResourceBundle(resourceBundleBaseName, locale);//FIXMECONTEXT check how to pass class loader here
+			loadedBundle = JRResourcesUtil.loadResourceBundle(getJasperReportsContext(), resourceBundleBaseName, locale);
 		}
 		return loadedBundle;
 	}

@@ -23,19 +23,19 @@
  */
 package net.sf.jasperreports.repo;
 
-import net.sf.jasperreports.engine.JasperReport;
+import java.util.ResourceBundle;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: ReportResource.java 5879 2013-01-07 20:35:36Z teodord $
  */
-public class ReportResource extends SerializableResource<JasperReport>
+public class ResourceBundleResource extends ObjectResource<ResourceBundle>
 {
 	/**
 	 * 
 	 */
-	public JasperReport getReport()
+	public ResourceBundle getResourceBundle()
 	{
 		return getValue();
 	}
@@ -43,8 +43,8 @@ public class ReportResource extends SerializableResource<JasperReport>
 	/**
 	 * 
 	 */
-	public void setReport(JasperReport report)
+	public void setResourceBundle(ResourceBundle resourceBundle)
 	{
-		setValue(report);
+		setValue(resourceBundle);
 	}
 }

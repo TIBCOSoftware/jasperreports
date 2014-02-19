@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.util.CastorUtil;
 
 
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
@@ -53,14 +52,14 @@ public class CastorObjectPersistenceService implements PersistenceService
 	 */
 	public Resource load(String uri, RepositoryService repositoryService)
 	{
-		ObjectResource resource = null; 
+		CastorResource<Object> resource = null; 
 
 		InputStreamResource isResource = repositoryService.getResource(uri, InputStreamResource.class);
 		
 		InputStream is = isResource == null ? null : isResource.getInputStream();
 		if (is != null)
 		{
-			resource = new ObjectResource();
+			resource = new CastorResource<Object>();
 			try
 			{
 				resource.setValue(CastorUtil.getInstance(jasperReportsContext).read(is));

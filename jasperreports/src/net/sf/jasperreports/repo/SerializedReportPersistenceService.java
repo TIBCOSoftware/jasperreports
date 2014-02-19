@@ -40,7 +40,7 @@ public class SerializedReportPersistenceService extends SerializedObjectPersiste
 	{
 		ReportResource reportResource = null;
 		
-		ObjectResource resource = (ObjectResource)super.load(uri, repositoryService);
+		SerializableResource resource = (SerializableResource)super.load(uri, repositoryService);
 		
 		if (resource != null)
 		{
