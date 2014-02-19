@@ -29,7 +29,6 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
-import net.sf.jasperreports.repo.RepositoryUtil;
 
 /**
  * Resources utility class used for report fills.
@@ -41,6 +40,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
 public final class JRResourcesFillUtil
 {
 	
+	@SuppressWarnings("deprecation")
 	public static ResourcesFillContext setResourcesFillContext(Map<String,Object> parameterValues)
 	{
 		ResourcesFillContext context = new ResourcesFillContext();
@@ -72,6 +72,7 @@ public final class JRResourcesFillUtil
 		return context;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void revertResourcesFillContext(ResourcesFillContext context)
 	{
 		if (context.getClassLoader() != null)
