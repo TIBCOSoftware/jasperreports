@@ -101,7 +101,7 @@ public abstract class JavaScriptCompilerBase extends JRAbstractCompiler
 		if (compileData instanceof JavaScriptCompiledData)
 		{
 			JavaScriptCompiledData jsCompiledData = (JavaScriptCompiledData) compileData;
-			return new JavaScriptCompiledEvaluator(unitName, jsCompiledData);
+			return new JavaScriptCompiledEvaluator(jasperReportsContext, unitName, jsCompiledData);
 		}
 		
 		throw new JRException("Invalid compile data type " + compileData.getClass().getName());

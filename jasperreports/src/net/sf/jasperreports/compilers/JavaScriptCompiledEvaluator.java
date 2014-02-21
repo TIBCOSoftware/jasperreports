@@ -38,8 +38,6 @@ import net.sf.jasperreports.functions.FunctionsUtil;
 import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.Script;
 
 /**
@@ -79,10 +77,10 @@ public class JavaScriptCompiledEvaluator extends JREvaluator implements JasperRe
 		return loader;
 	}
 	
+	private final JasperReportsContext jasperReportsContext;
 	private final String unitName;
 	private final JavaScriptCompiledData compiledData;
 	private FunctionsUtil functionsUtil;
-	private Context context;
 	private JavaScriptEvaluatorScope evaluatorScope;
 	
 	private final Map<Integer, Script> scripts = new HashMap<Integer, Script>();
@@ -90,12 +88,14 @@ public class JavaScriptCompiledEvaluator extends JREvaluator implements JasperRe
 
 	/**
 	 * Create a JavaScript expression evaluator.
-	 * @param unitName 
 	 * 
+	 * @param jasperReportsContext 
+	 * @param unitName 
 	 * @param compiledData the report compile data
 	 */
-	public JavaScriptCompiledEvaluator(String unitName, JavaScriptCompiledData compiledData)
+	public JavaScriptCompiledEvaluator(JasperReportsContext jasperReportsContext, String unitName, JavaScriptCompiledData compiledData)
 	{
+		this.jasperReportsContext = jasperReportsContext;
 		this.unitName = unitName;
 		this.compiledData = compiledData;
 	}
@@ -112,10 +112,7 @@ public class JavaScriptCompiledEvaluator extends JREvaluator implements JasperRe
 			Map<String, JRFillVariable> variablesMap
 			) throws JRException
 	{
-		context = ContextFactory.getGlobal().enterContext();//TODO exit context
-		context.getWrapFactory().setJavaPrimitiveWrap(false);
-		
-		evaluatorScope = new JavaScriptEvaluatorScope(context, this, functionsUtil);
+		evaluatorScope = new JavaScriptEvaluatorScope(jasperReportsContext, this, functionsUtil);
 		evaluatorScope.init(parametersMap, fieldsMap, variablesMap);
 	}
 	

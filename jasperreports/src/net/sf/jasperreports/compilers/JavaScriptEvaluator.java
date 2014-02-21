@@ -40,9 +40,6 @@ import net.sf.jasperreports.functions.FunctionsUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.Script;
 
 /**
  * JavaScript expression evaluator that compiles expressions at fill time.
@@ -67,10 +64,8 @@ public class JavaScriptEvaluator extends JREvaluator implements JasperReportsCon
 	private final JasperReportsContext jrContext;
 	private final JavaScriptCompileData compileData;
 	private FunctionsUtil functionsUtil;
-	private Context context;
 	private JavaScriptEvaluatorScope evaluatorScope;
 	private Map<String, Class<?>> loadedTypes = new HashMap<String, Class<?>>();
-	private Map<String, Script> compiledExpressions = new HashMap<String, Script>();
 
 	/**
 	 * Create a JavaScript expression evaluator.
@@ -95,18 +90,7 @@ public class JavaScriptEvaluator extends JREvaluator implements JasperReportsCon
 			Map<String, JRFillVariable> variablesMap
 			) throws JRException
 	{
-		context = ContextFactory.getGlobal().enterContext();//TODO exit context
-		
-		int optimizationLevel = JRPropertiesUtil.getInstance(jrContext).getIntegerProperty(PROPERTY_OPTIMIZATION_LEVEL);
-		if (log.isDebugEnabled())
-		{
-			log.debug("optimization level " + optimizationLevel);
-		}
-		context.setOptimizationLevel(optimizationLevel);
-		
-		context.getWrapFactory().setJavaPrimitiveWrap(false);
-		
-		evaluatorScope = new JavaScriptEvaluatorScope(context, this, functionsUtil);
+		evaluatorScope = new JavaScriptEvaluatorScope(jrContext, this, functionsUtil);
 		evaluatorScope.init(parametersMap, fieldsMap, variablesMap);
 	}
 	
@@ -143,24 +127,7 @@ public class JavaScriptEvaluator extends JREvaluator implements JasperReportsCon
 	
 	protected Object evaluateExpression(String expression)
 	{
-		Script compiledExpression = getCompiledExpression(expression);
-		return evaluatorScope.evaluateExpression(compiledExpression);
-	}
-	
-	protected Script getCompiledExpression(String expression)
-	{
-		Script compiledExpression = compiledExpressions.get(expression);
-		if (compiledExpression == null)
-		{
-			if (log.isTraceEnabled())
-			{
-				log.trace("compiling expression " + expression);
-			}
-			
-			compiledExpression = context.compileString(expression, "expression", 0, null);
-			compiledExpressions.put(expression, compiledExpression);
-		}
-		return compiledExpression;
+		return evaluatorScope.evaluateExpression(expression);
 	}
 	
 	/**
