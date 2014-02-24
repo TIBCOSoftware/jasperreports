@@ -11,25 +11,7 @@
 	<div id='${mapCanvasId}' style='width: 100%; height: 100%; overflow: auto'></div>
 </div>
 
-#if (${gotReportContext})
-	<script class='jasperreports' type='text/javascript'>
-		requirejs.config({
-			paths: {
-				"jasperreports-map": "${resourceMapJs}"
-			}
-		});
-		
-		require(["jasperreports-map", "jasperreports-utils"], function(jasperreportsmap, jasperreports) {
-			jasperreportsmap.initGoogleMaps('${reqParams}');
-			jasperreports.events.subscribeToEvent({
-				name: 'jasperreports.map.init',
-				callback: function() {
-					require("jasperreports-map").showMap('${mapCanvasId}', ${latitude}, ${longitude}, ${zoom}, '${mapType}', ${markerList}, ${pathsList});
-				}
-			});
-		});
-	</script>
-#else
+#if (!${gotReportContext})
 	#if (${exporterFirstAttempt})
 		#if(${reqParams})
 			<script class='jasperreports' src='http://maps.google.com/maps/api/js?sensor=false${reqParams}'></script>
