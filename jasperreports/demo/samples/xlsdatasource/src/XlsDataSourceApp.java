@@ -430,7 +430,7 @@ public class XlsDataSourceApp extends AbstractSampleApp
 			ds = new JRXlsDataSource(JRLoader.getLocationInputStream("data/XlsDataSource.data.xls"));
 //			ds.setUseFirstRowAsHeader(true);
 			ds.setColumnNames(columnNames, columnIndexes);
-			ds.setSheetName("xlsdatasource2");
+			ds.setSheetSelection("xlsdatasource2");
 		}
 		catch (IOException e)
 		{
