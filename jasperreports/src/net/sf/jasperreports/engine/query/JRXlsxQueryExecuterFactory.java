@@ -140,7 +140,7 @@ public class JRXlsxQueryExecuterFactory extends AbstractQueryExecuterFactory
 	/**
 	 * Built-in parameter/property holding the value of the sheet name to be used when parsing the XLSX data.
 	 */
-	public static final String XLSX_SHEET_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "xlsx.sheet.name";
+	public static final String XLSX_SHEET_SELECTION = JRPropertiesUtil.PROPERTY_PREFIX + "xlsx.sheet.selection";
 	
 	/**
 	 * Built-in parameter/property specifying whether or not the column names should be obtained 
@@ -168,7 +168,7 @@ public class JRXlsxQueryExecuterFactory extends AbstractQueryExecuterFactory
 			XLSX_USE_FIRST_ROW_AS_HEADER, "java.lang.Boolean",
 			XLSX_LOCALE_CODE, "java.lang.String",
 			XLSX_TIMEZONE_ID, "java.lang.String",
-			XLSX_SHEET_NAME, "java.lang.String"
+			XLSX_SHEET_SELECTION, "java.lang.String"
 			};
 	
 	public Object[] getBuiltinParameters() {

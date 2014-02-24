@@ -246,9 +246,10 @@ public class JRXlsQueryExecuter extends JRAbstractQueryExecuter {
 				}
 			}
 			
-			String sheetName = getStringParameterOrProperty(JRXlsQueryExecuterFactory.XLS_SHEET_NAME);
-			if(sheetName != null && sheetName.length() > 0) {
-				datasource.setSheetName(sheetName);
+			String sheetSelection = getStringParameterOrProperty(JRXlsQueryExecuterFactory.XLS_SHEET_SELECTION);
+			if (sheetSelection != null && sheetSelection.length() > 0) 
+			{
+				datasource.setSheetSelection(sheetSelection);
 			}
 		}
 		

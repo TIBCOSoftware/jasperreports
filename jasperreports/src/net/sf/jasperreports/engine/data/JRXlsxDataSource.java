@@ -66,13 +66,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource
 {
 	private Workbook workbook;
-	private int sheetIndex;
-	private String sheetName;
+	private String sheetSelection;
 	
 	private DateFormat dateFormat = new SimpleDateFormat();
 	private NumberFormat numberFormat = new DecimalFormat();
 	private Map<String, Integer> columnNames = new LinkedHashMap<String, Integer>();
 	private boolean useFirstRowAsHeader;
+	private int sheetIndex = -1;
 	private int recordIndex = -1;
 
 	private InputStream inputStream;
@@ -149,14 +149,44 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 	 */
 	public boolean next() throws JRException
 	{
-		recordIndex++;
-		
 		if (workbook != null)
 		{
-			if(sheetName == null) {
+			//initialize sheetIndex before first record
+			if (sheetIndex < 0)
+			{
+				if (sheetSelection != null) 
+				{
+					try
+					{
+						sheetIndex = Integer.parseInt(sheetSelection);
+						if (sheetIndex < 0 || sheetIndex > workbook.getNumberOfSheets() - 1)
+						{
+							throw new JRRuntimeException("Sheet index " + sheetIndex + " is out of range: [0.." + (workbook.getNumberOfSheets() - 1) + "]");
+						}
+					}
+					catch (NumberFormatException e)
+					{
+					}
+					
+					if (sheetIndex < 0)
+					{
+						sheetIndex = workbook.getSheetIndex(workbook.getSheet(sheetSelection));
+
+						if (sheetIndex < 0)
+						{
+							throw new JRRuntimeException("Sheet '" + sheetSelection + "' not found in workbook.");
+						}
+					}
+				}
+			}
+
+			recordIndex++;
+			
+			if (sheetSelection == null) 
+			{
 				if (recordIndex > workbook.getSheetAt(sheetIndex).getLastRowNum())
 				{
-					if( sheetIndex + 1 < workbook.getNumberOfSheets() 
+					if (sheetIndex + 1 < workbook.getNumberOfSheets() 
 						&& workbook.getSheetAt(sheetIndex + 1).getLastRowNum() > 0)
 					{
 						sheetIndex++;
@@ -166,7 +196,7 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 				}
 			}
 			
-			if ((sheetName != null || sheetIndex == 0) && useFirstRowAsHeader && recordIndex == 0) 
+			if ((sheetSelection != null || sheetIndex == 0) && useFirstRowAsHeader && recordIndex == 0) 
 			{
 				readHeader();
 				recordIndex++;
@@ -196,7 +226,7 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 	public void moveFirst()
 	{
 		this.recordIndex = -1;
-		this.sheetIndex = sheetName == null ? 0 : workbook.getSheetIndex(workbook.getSheet(sheetName));
+		this.sheetIndex = -1;
 	}
 
 
@@ -277,7 +307,7 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 	 */
 	private void readHeader()
 	{
-		Sheet sheet = workbook.getSheetAt(sheetName != null ? sheetIndex : 0);
+		Sheet sheet = workbook.getSheetAt(sheetSelection != null ? sheetIndex : 0);
 		if (columnNames.size() == 0)
 		{
 			Row row = sheet.getRow(recordIndex);
@@ -434,28 +464,29 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 
 	private void checkReadStarted()
 	{
-		if (recordIndex > 0)
+		if (sheetIndex >= 0)
 		{
 			throw new JRRuntimeException("Cannot modify data source properties after data reading has started.");
 		}
 	}
 
 	
-	public Map<String, Integer> getColumnNames() {
+	public Map<String, Integer> getColumnNames() 
+	{
 		return columnNames;
 	}
 	
-	public String getSheetName() {
-		return sheetName;
+	public String getSheetSelection() 
+	{
+		return sheetSelection;
 	}
 
 
-	public void setSheetName(String sheetName) {
-		if(sheetName != null && sheetName.length() > 0) {
-			checkReadStarted();
-			this.sheetName = sheetName;
-			moveFirst();
-		}
+	public void setSheetSelection(String sheetSelection) 
+	{
+		checkReadStarted();
+
+		this.sheetSelection = sheetSelection;
 	}
 	
 }

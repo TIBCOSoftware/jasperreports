@@ -41,7 +41,7 @@ public class XlsDataAdapterImpl extends AbstractDataAdapter implements XlsDataAd
 	private List<String> columnNames = new ArrayList<String>();
 	private List<Integer> columnIndexes = new ArrayList<Integer>();
 	private boolean queryExecuterMode = false;
-	private String sheetName;
+	private String sheetSelection;
 	
 	public String getDatePattern() {
 		return datePattern;
@@ -99,12 +99,12 @@ public class XlsDataAdapterImpl extends AbstractDataAdapter implements XlsDataAd
 		this.queryExecuterMode = queryExecuterMode;
 	}
 	
-	public String getSheetName() {
-		return sheetName;
+	public String getSheetSelection() {
+		return sheetSelection;
 	}
 
-	public void setSheetName(String sheetName) {
-		this.sheetName = sheetName;
+	public void setSheetSelection(String sheetSelection) {
+		this.sheetSelection = sheetSelection;
 	}
 	
 	

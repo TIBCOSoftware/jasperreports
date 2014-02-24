@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRXlsxDataSource;
-import net.sf.jasperreports.engine.query.JRXlsQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JRXlsxQueryExecuterFactory;
 
 /**
@@ -74,7 +73,7 @@ public class XlsxDataAdapterService extends AbstractDataAdapterService
 			{
 				String datePattern = xlsxDataAdapter.getDatePattern();
 				String numberPattern = xlsxDataAdapter.getNumberPattern();
-				String sheetName = xlsxDataAdapter.getSheetName();
+				String sheetSelection = xlsxDataAdapter.getSheetSelection();
 				if (xlsxDataAdapter.isQueryExecuterMode())
 				{	
 					parameters.put(JRXlsxQueryExecuterFactory.XLSX_SOURCE, xlsxDataAdapter.getFileName());
@@ -88,9 +87,9 @@ public class XlsxDataAdapterService extends AbstractDataAdapterService
 					}
 					parameters.put( JRXlsxQueryExecuterFactory.XLSX_USE_FIRST_ROW_AS_HEADER, new Boolean(xlsxDataAdapter.isUseFirstRowAsHeader()));
 	
-					if (sheetName != null && sheetName.length() > 0)
+					if (sheetSelection != null && sheetSelection.length() > 0)
 					{
-						parameters.put( JRXlsxQueryExecuterFactory.XLSX_SHEET_NAME, sheetName );
+						parameters.put( JRXlsxQueryExecuterFactory.XLSX_SHEET_SELECTION, sheetSelection );
 					}
 	
 					if (!xlsxDataAdapter.isUseFirstRowAsHeader())
@@ -115,9 +114,9 @@ public class XlsxDataAdapterService extends AbstractDataAdapterService
 			
 						ds.setUseFirstRowAsHeader(xlsxDataAdapter.isUseFirstRowAsHeader());
 			
-						if (sheetName != null && sheetName.length() > 0)
+						if (sheetSelection != null && sheetSelection.length() > 0)
 						{
-							ds.setSheetName(sheetName);
+							ds.setSheetSelection(sheetSelection);
 						}
 						
 						if (!xlsxDataAdapter.isUseFirstRowAsHeader())

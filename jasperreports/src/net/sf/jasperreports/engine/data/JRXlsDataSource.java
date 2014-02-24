@@ -64,12 +64,12 @@ import net.sf.jasperreports.repo.RepositoryUtil;
 public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource
 {
 	private Workbook workbook;
-	private int sheetIndex;
-	private String sheetName;
+	private String sheetSelection;
 	private DateFormat dateFormat = new SimpleDateFormat();
 	private NumberFormat numberFormat = new DecimalFormat();
 	private Map<String, Integer> columnNames = new LinkedHashMap<String, Integer>();
 	private boolean useFirstRowAsHeader;
+	private int sheetIndex = -1;
 	private int recordIndex = -1;
 
 	private InputStream inputStream;
@@ -146,14 +146,51 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	 */
 	public boolean next() throws JRException
 	{
-		recordIndex++;
-		
 		if (workbook != null)
 		{
-			if(sheetName == null) {
-				if (recordIndex > workbook.getSheet(sheetIndex).getRows()-1)
+			//initialize sheetIndex before first record
+			if (sheetIndex < 0)
+			{
+				if (sheetSelection != null) 
 				{
-					if( sheetIndex + 1 < workbook.getNumberOfSheets() 
+					try
+					{
+						sheetIndex = Integer.parseInt(sheetSelection);
+						if (sheetIndex < 0 || sheetIndex > workbook.getNumberOfSheets() - 1)
+						{
+							throw new JRRuntimeException("Sheet index " + sheetIndex + " is out of range: [0.." + (workbook.getNumberOfSheets() - 1) + "]");
+						}
+					}
+					catch (NumberFormatException e)
+					{
+					}
+					
+					if (sheetIndex < 0)
+					{
+						for (int i = 0; i < workbook.getSheets().length; i++) 
+						{	
+							if (sheetSelection.equals(workbook.getSheet(i).getName())) 
+							{
+								this.sheetIndex = i;
+								break;
+							}
+						}
+
+						if (sheetIndex < 0)
+						{
+							throw new JRRuntimeException("Sheet '" + sheetSelection + "' not found in workbook.");
+						}
+					}
+				}
+			}
+
+			recordIndex++;
+
+			if (sheetSelection == null) 
+			{
+				if (recordIndex > workbook.getSheet(sheetIndex).getRows() - 1)
+				{
+					if (sheetIndex + 1 < workbook.getNumberOfSheets() 
 						&& workbook.getSheet(sheetIndex + 1).getRows() > 0)
 					{
 						sheetIndex++;
@@ -163,7 +200,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 				}
 			}
 			
-			if ((sheetName != null || sheetIndex == 0) && useFirstRowAsHeader && recordIndex == 0) 
+			if ((sheetSelection != null || sheetIndex == 0) && useFirstRowAsHeader && recordIndex == 0) 
 			{
 				readHeader();
 				recordIndex++;
@@ -191,15 +228,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	public void moveFirst()
 	{
 		this.recordIndex = -1;
-		if(sheetName != null) {
-			for(int i = 0; i < workbook.getSheets().length; i++) {	
-				if(sheetName.equals(workbook.getSheet(i).getName())) {
-					this.sheetIndex = i;
-					return;
-				}
-			}
-		}
-		this.sheetIndex = 0;
+		this.sheetIndex = -1;
 	}
 
 
@@ -273,7 +302,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	 */
 	private void readHeader()
 	{
-		Sheet sheet = workbook.getSheet(sheetName != null ? sheetIndex : 0);
+		Sheet sheet = workbook.getSheet(sheetSelection != null ? sheetIndex : 0);
 		if (columnNames.size() == 0)
 		{
 			for(int columnIndex = 0; columnIndex < sheet.getColumns(); columnIndex++)
@@ -428,29 +457,30 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 
 	private void checkReadStarted()
 	{
-		if (recordIndex > 0)
+		if (sheetIndex >= 0)
 		{
 			throw new JRRuntimeException("Cannot modify data source properties after data reading has started.");
 		}
 	}
 
 	
-	public Map<String, Integer> getColumnNames() {
+	public Map<String, Integer> getColumnNames() 
+	{
 		return columnNames;
 	}
 
 
-	public String getSheetName() {
-		return sheetName;
+	public String getSheetSelection() 
+	{
+		return sheetSelection;
 	}
 
 
-	public void setSheetName(String sheetName) {
-		if(sheetName != null && sheetName.length() > 0) {
-			checkReadStarted();
-			this.sheetName = sheetName;
-			moveFirst();
-		}
+	public void setSheetSelection(String sheetSelection) 
+	{
+		checkReadStarted();
+
+		this.sheetSelection = sheetSelection;
 	}
 }
 

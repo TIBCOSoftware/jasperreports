@@ -74,7 +74,7 @@ public class XlsDataAdapterService extends AbstractDataAdapterService
 			{
 				String datePattern = xlsDataAdapter.getDatePattern();
 				String numberPattern = xlsDataAdapter.getNumberPattern();
-				String sheetName = xlsDataAdapter.getSheetName();
+				String sheetSelection = xlsDataAdapter.getSheetSelection();
 
 				if (xlsDataAdapter.isQueryExecuterMode())
 				{	
@@ -89,9 +89,9 @@ public class XlsDataAdapterService extends AbstractDataAdapterService
 					}
 					parameters.put( JRXlsQueryExecuterFactory.XLS_USE_FIRST_ROW_AS_HEADER, new Boolean(xlsDataAdapter.isUseFirstRowAsHeader()));
 					
-					if (sheetName != null && sheetName.length() > 0)
+					if (sheetSelection != null && sheetSelection.length() > 0)
 					{
-						parameters.put( JRXlsQueryExecuterFactory.XLS_SHEET_NAME, sheetName );
+						parameters.put( JRXlsQueryExecuterFactory.XLS_SHEET_SELECTION, sheetSelection );
 					}
 	
 					if (!xlsDataAdapter.isUseFirstRowAsHeader())
@@ -116,9 +116,9 @@ public class XlsDataAdapterService extends AbstractDataAdapterService
 			
 						ds.setUseFirstRowAsHeader(xlsDataAdapter.isUseFirstRowAsHeader());
 			
-						if (sheetName != null && sheetName.length() > 0)
+						if (sheetSelection != null && sheetSelection.length() > 0)
 						{
-							ds.setSheetName(sheetName);
+							ds.setSheetSelection(sheetSelection);
 						}
 						if (!xlsDataAdapter.isUseFirstRowAsHeader())
 						{

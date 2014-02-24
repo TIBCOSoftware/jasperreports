@@ -18,5 +18,5 @@
 	<columnIndexes>4</columnIndexes>
 	<columnIndexes>5</columnIndexes>
 	<columnIndexes>6</columnIndexes>
-	<sheetName>XlsxDataSource3</sheetName>
+	<sheetSelection>XlsxDataSource3</sheetSelection>
 </xlsxDataAdapter>
