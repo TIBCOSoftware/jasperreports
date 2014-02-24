@@ -25,15 +25,15 @@ package net.sf.jasperreports.web.util;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -96,14 +96,14 @@ public class RequirejsConfigTemplateExtensionFactory implements ExtensionsRegist
 		List<PropertySuffix> pathProps = JRPropertiesUtil.getProperties(properties, pathPropPrefix);
 		for (PropertySuffix pathProp : pathProps)
 		{
-            String suffix = pathProp.getSuffix();
-            String path = pathProp.getValue();
-            
-            if (log.isDebugEnabled())
-            {
-            	log.debug("setting path " + suffix + " to " + path);
-            }
-        	templateContributor.addPath(suffix, path);
+			String suffix = pathProp.getSuffix();
+			String path = pathProp.getValue();
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("setting path " + suffix + " to " + path);
+			}
+			templateContributor.addPath(suffix, path);
 		}
 	}
 
@@ -114,14 +114,14 @@ public class RequirejsConfigTemplateExtensionFactory implements ExtensionsRegist
 		List<PropertySuffix> pathProps = JRPropertiesUtil.getProperties(properties, pathPropPrefix);
 		for (PropertySuffix pathProp : pathProps)
 		{
-            String suffix = pathProp.getSuffix();
-            String path = pathProp.getValue();
-            
-            if (log.isDebugEnabled())
-            {
-            	log.debug("setting resource " + suffix + " to " + path);
-            }
-        	templateContributor.addResourcePath(suffix, path);
+			String suffix = pathProp.getSuffix();
+			String path = pathProp.getValue();
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("setting resource " + suffix + " to " + path);
+			}
+			templateContributor.addResourcePath(suffix, path);
 		}
 	}
 

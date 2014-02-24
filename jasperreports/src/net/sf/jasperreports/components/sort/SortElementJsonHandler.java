@@ -68,16 +68,16 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 	private static final Log log = LogFactory.getLog(SortElementJsonHandler.class);
 	
 	private static final String SORT_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/sort/resources/SortElementJsonTemplate.vm";
-    private static final String PARAM_GENERATED_TEMPLATE = "net.sf.jasperreports.sort";
+	private static final String PARAM_GENERATED_TEMPLATE = "net.sf.jasperreports.sort";
 
-    private static class CustomJRExporterParameter extends JRExporterParameter {
+	private static class CustomJRExporterParameter extends JRExporterParameter {
 
-        protected CustomJRExporterParameter(String name) {
-            super(name);
-        }
-    }
+		protected CustomJRExporterParameter(String name) {
+			super(name);
+		}
+	}
 
-    private static final CustomJRExporterParameter param = new SortElementJsonHandler.CustomJRExporterParameter("exporter_first_attempt");
+	private static final CustomJRExporterParameter param = new SortElementJsonHandler.CustomJRExporterParameter("exporter_first_attempt");
 
 	public String getJsonFragment(JsonExporterContext context, JRGenericPrintElement element)
 	{
@@ -89,7 +89,7 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 			String sortColumnType = (String) element.getParameterValue(SortElement.PARAMETER_SORT_COLUMN_TYPE);
 			
 			String sortDatasetName = element.getPropertiesMap().getProperty(SortElement.PROPERTY_DATASET_RUN);
-            boolean templateAlreadyLoaded = false;
+			boolean templateAlreadyLoaded = false;
 			
 			FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(SortElement.PROPERTY_FILTER_TYPE));
 			if (filterType == null)//FIXMEJIVE
@@ -99,7 +99,7 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 			
 			String filterPattern = element.getPropertiesMap().getProperty(SortElement.PROPERTY_FILTER_PATTERN);
 			Locale locale = (Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
-            JasperReportsContext jrContext = context.getJasperReportsContext();
+			JasperReportsContext jrContext = context.getJasperReportsContext();
 			
 			if (log.isDebugEnabled()) {
 				log.debug("report locale: " + locale);
@@ -111,28 +111,28 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 			
 			VelocityContext contextMap = new VelocityContext();
 
-            Boolean isClearCache = (Boolean)reportContext.getParameterValue(PARAMETER_CLEAR_CONTEXT_CACHE);
+			Boolean isClearCache = (Boolean)reportContext.getParameterValue(PARAMETER_CLEAR_CONTEXT_CACHE);
 
-            if (reportContext.getParameterValue(PARAM_GENERATED_TEMPLATE) != null && !(isClearCache != null && isClearCache)) {
-                templateAlreadyLoaded = true;
-            } else {
-                reportContext.setParameterValue(PARAM_GENERATED_TEMPLATE, true);
-            }
-            contextMap.put("templateAlreadyLoaded", templateAlreadyLoaded);
+			if (reportContext.getParameterValue(PARAM_GENERATED_TEMPLATE) != null && !(isClearCache != null && isClearCache)) {
+				templateAlreadyLoaded = true;
+			} else {
+				reportContext.setParameterValue(PARAM_GENERATED_TEMPLATE, true);
+			}
+			contextMap.put("templateAlreadyLoaded", templateAlreadyLoaded);
 
-            if (!(context.getExportParameters().containsKey(param) && sortDatasetName.equals(context.getExportParameters().get(param)))) {
+			if (!(context.getExportParameters().containsKey(param) && sortDatasetName.equals(context.getExportParameters().get(param)))) {
 
-                context.getExportParameters().put(param, sortDatasetName);
+				context.getExportParameters().put(param, sortDatasetName);
 
-                // operators
-                contextMap.put("numericOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale)));
-                contextMap.put("dateOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale)));
-                contextMap.put("timeOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale)));
-                contextMap.put("textOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale)));
-                contextMap.put("booleanOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeBooleanOperatorsEnum.class.getName(), FilterTypeBooleanOperatorsEnum.values(), locale)));
-                
-                contextMap.put("exporterFirstAttempt", true);
-            }
+				// operators
+				contextMap.put("numericOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale)));
+				contextMap.put("dateOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale)));
+				contextMap.put("timeOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale)));
+				contextMap.put("textOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale)));
+				contextMap.put("booleanOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeBooleanOperatorsEnum.class.getName(), FilterTypeBooleanOperatorsEnum.values(), locale)));
+				
+				contextMap.put("exporterFirstAttempt", true);
+			}
 
 
 			String sortField = getCurrentSortField(context.getJasperReportsContext(), reportContext, element.getUUID().toString(), sortDatasetName, sortColumnName, sortColumnType);
@@ -166,22 +166,22 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 				filterTypeOperator = ff.getFilterTypeOperator();
 			}
 
-            contextMap.put("id", element.hashCode());
-            contextMap.put("uuid", element.getUUID().toString());
-            contextMap.put("isFilterable", filterType != null);
+			contextMap.put("id", element.hashCode());
+			contextMap.put("uuid", element.getUUID().toString());
+			contextMap.put("isFilterable", filterType != null);
 
-            contextMap.put("datasetUuid", element.getUUID().toString());
-            contextMap.put("actionData", getActionData(context, sortData));
+			contextMap.put("datasetUuid", element.getUUID().toString());
+			contextMap.put("actionData", getActionData(context, sortData));
 			
-            contextMap.put("isField", SortFieldTypeEnum.FIELD.equals(SortFieldTypeEnum.getByName(sortColumnType)));
-            contextMap.put("fieldName", sortColumnName);
-            contextMap.put("fieldValueStart", filterValueStart);
-            contextMap.put("fieldValueEnd", filterValueEnd);
-            contextMap.put("filterType", filterType.getName());
-            contextMap.put("filterTypeOperator", filterTypeOperator);
-            contextMap.put("filterPattern", filterPattern != null ? filterPattern : "");
-//            velocityContext.put("localeCode",);
-//            velocityContext.put("timeZoneId",);
+			contextMap.put("isField", SortFieldTypeEnum.FIELD.equals(SortFieldTypeEnum.getByName(sortColumnType)));
+			contextMap.put("fieldName", sortColumnName);
+			contextMap.put("fieldValueStart", filterValueStart);
+			contextMap.put("fieldValueEnd", filterValueEnd);
+			contextMap.put("filterType", filterType.getName());
+			contextMap.put("filterTypeOperator", filterTypeOperator);
+			contextMap.put("filterPattern", filterPattern != null ? filterPattern : "");
+//			velocityContext.put("localeCode",);
+//			velocityContext.put("timeZoneId",);
 
 			htmlFragment = VelocityUtil.processTemplate(SortElementJsonHandler.SORT_ELEMENT_HTML_TEMPLATE, contextMap);
 		}
@@ -230,28 +230,28 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 		return true;
 	}
 	
-    private List<LinkedHashMap<String, String>> getTranslatedOperators(
-            JasperReportsContext jasperReportsContext,
-            String bundleName,
-            JREnum[] operators,
-            Locale locale
-    ) //FIXMEJIVE make utility method for translating enums
-    {
-        List<LinkedHashMap<String, String>> result = new ArrayList<LinkedHashMap<String, String>>();
-        MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
-        LinkedHashMap<String, String> keys;
+	private List<LinkedHashMap<String, String>> getTranslatedOperators(
+			JasperReportsContext jasperReportsContext,
+			String bundleName,
+			JREnum[] operators,
+			Locale locale
+	) //FIXMEJIVE make utility method for translating enums
+	{
+		List<LinkedHashMap<String, String>> result = new ArrayList<LinkedHashMap<String, String>>();
+		MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
+		LinkedHashMap<String, String> keys;
 
-        for (JREnum operator: operators)
-        {
-            keys = new LinkedHashMap<String, String>();
-            String key = bundleName + "." + ((Enum<?>)operator).name();
-            keys.put("key", ((Enum<?>)operator).name());
-            keys.put("val", messageProvider.getMessage(key, null, locale));
-            result.add(keys);
-        }
+		for (JREnum operator: operators)
+		{
+			keys = new LinkedHashMap<String, String>();
+			String key = bundleName + "." + ((Enum<?>)operator).name();
+			keys.put("key", ((Enum<?>)operator).name());
+			keys.put("val", messageProvider.getMessage(key, null, locale));
+			result.add(keys);
+		}
 
-        return result;
-    }
+		return result;
+	}
 	
 	public static void getFieldFilters(DatasetFilter existingFilter, List<FieldFilter> fieldFilters, String fieldName) {//FIXMEJIVE put this in some util and reuse
 		if (existingFilter instanceof FieldFilter) {

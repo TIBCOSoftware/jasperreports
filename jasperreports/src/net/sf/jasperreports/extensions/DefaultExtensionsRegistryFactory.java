@@ -126,10 +126,10 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 					{
 						return MapElementHtmlHandler.getInstance();
 					}
-                    else if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
-                    {
-                        return MapElementJsonHandler.getInstance();
-                    }
+					else if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
+					{
+						return MapElementJsonHandler.getInstance();
+					}
 					else if(JRPdfExporter.PDF_EXPORTER_KEY.equals(exporterKey))
 					{
 						return MapElementPdfHandler.getInstance();
@@ -175,19 +175,19 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 					}
 				}
 				if (SortElement.SORT_ELEMENT_NAME.equals(elementName))
-                {
-                    if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
-                    {
-                        return new SortElementHtmlHandler();
-                    } else if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
-                    {
-                        return new SortElementJsonHandler();
-                    }
-                }
+				{
+					if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
+					{
+						return new SortElementHtmlHandler();
+					} else if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
+					{
+						return new SortElementJsonHandler();
+					}
+				}
 				if (HeaderToolbarElement.ELEMENT_NAME.equals(elementName) && JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
-                {
-                    return new HeaderToolbarElementJsonHandler();
-                }
+				{
+					return new HeaderToolbarElementJsonHandler();
+				}
 				if (IconLabelElement.ELEMENT_NAME.equals(elementName))
 				{
 					if (JRPdfExporter.PDF_EXPORTER_KEY.equals(exporterKey))

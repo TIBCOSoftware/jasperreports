@@ -74,7 +74,7 @@ public class IconLabelElementRtfHandler implements GenericElementRtfHandler
 		
 		frame.addElement(labelPrintText);
 		
-//        JRPrintText iconPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_ICON_TEXT_ELEMENT);
+//		JRPrintText iconPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_ICON_TEXT_ELEMENT);
 //		if (iconPrintText != null) //FIXMEINPUT deal with xml serialization
 //		{
 //			frame.addElement(iconPrintText);

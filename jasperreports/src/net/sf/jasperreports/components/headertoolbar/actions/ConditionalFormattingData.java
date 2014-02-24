@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ConditionalFormattingData extends BaseColumnData {
 
 	private int columnIndex;
-    private String conditionType;
+	private String conditionType;
 	private String conditionPattern;
 	private String localeCode;
 	private String timeZoneId;
@@ -46,19 +46,19 @@ public class ConditionalFormattingData extends BaseColumnData {
 	private String fieldOrVariableName;
 	private List<FormatCondition> conditions;
 
-    private String applyTo;
-    private String groupName;
+	private String applyTo;
+	private String groupName;
 
 	public ConditionalFormattingData() {
 		this.conditions = new ArrayList<FormatCondition>();
 	}
 
-    @JsonIgnore
+	@JsonIgnore
 	public int getColumnIndex() {
 		return columnIndex;
 	}
 
-    @JsonProperty
+	@JsonProperty
 	public void setColumnIndex(int columnIndex) {
 		this.columnIndex = columnIndex;
 	}
@@ -131,20 +131,20 @@ public class ConditionalFormattingData extends BaseColumnData {
 		this.conditions = conditions;
 	}
 
-    public String getApplyTo() {
-        return applyTo;
-    }
+	public String getApplyTo() {
+		return applyTo;
+	}
 
-    public void setApplyTo(String applyTo) {
-        this.applyTo = applyTo;
-    }
+	public void setApplyTo(String applyTo) {
+		this.applyTo = applyTo;
+	}
 
-    public String getGroupName() {
-        return groupName;
-    }
+	public String getGroupName() {
+		return groupName;
+	}
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
 
 }

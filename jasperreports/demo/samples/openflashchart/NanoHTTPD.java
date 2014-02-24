@@ -401,7 +401,7 @@ public class NanoHTTPD
 				int sep = e.indexOf( '=' );
 				if ( sep >= 0 )
 					p.put( decodePercent( e.substring( 0, sep )).trim(),
-						   decodePercent( e.substring( sep+1 )));
+							decodePercent( e.substring( sep+1 )));
 			}
 		}
 
@@ -512,7 +512,7 @@ public class NanoHTTPD
 	 * Uses only URI, ignores all headers and HTTP parameters.
 	 */
 	public Response serveFile( String uri, Properties header, File homeDir,
-							   boolean allowDirectoryListing )
+								boolean allowDirectoryListing )
 	{
 		// Make sure we won't die of an exception later
 		if ( !homeDir.isDirectory())
@@ -543,8 +543,8 @@ public class NanoHTTPD
 			{
 				uri += "/";
 				Response r = new Response( HTTP_REDIRECT, MIME_HTML,
-										   "<html><body>Redirected: <a href=\"" + uri + "\">" +
-										   uri + "</a></body></html>");
+											"<html><body>Redirected: <a href=\"" + uri + "\">" +
+											uri + "</a></body></html>");
 				r.addHeader( "Location", uri );
 				return r;
 			}
@@ -580,7 +580,7 @@ public class NanoHTTPD
 					}
 
 					msg += "<a href=\"" + encodeUri( uri + files[i] ) + "\">" +
-						   files[i] + "</a>";
+							files[i] + "</a>";
 
 					// Show file size
 					if ( curFile.isFile())

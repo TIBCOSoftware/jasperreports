@@ -94,11 +94,11 @@ public final class MathFunctions
 			return null;
 		}
 		else{
-	       Long result = 1l;
-	       for (int i = 1; i <= number; ++i) {
-	    	   result *= i;
-	       }
-	       return result;
+			Long result = 1l;
+			for (int i = 1; i <= number; ++i) {
+				result *= i;
+			}
+			return result;
 		}
 	}
 	

@@ -201,7 +201,7 @@ public class ViewerServlet extends AbstractServlet
 		String reportPage = request.getParameter(WebUtil.REQUEST_PARAMETER_PAGE);
 		int pageIdx = reportPage == null ? 0 : Integer.parseInt(reportPage);
 		contextMap.put("page", pageIdx);
-        contextMap.put("contextPath", request.getContextPath());
+		contextMap.put("contextPath", request.getContextPath());
 
 		return VelocityUtil.processTemplate(getBodyTemplate(), contextMap);
 	}

@@ -287,7 +287,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			if (log.isDebugEnabled())
 			{
 				log.debug("XML/A query message: \n" + prettyPrintSOAP(message.getSOAPPart().getEnvelope()));
-	        }
+			}
 
 			return message;
 		}
@@ -797,21 +797,21 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 	
 	protected String prettyPrintSOAP(SOAPElement element)
 	{
-        final StringWriter sw = new StringWriter();
+		final StringWriter sw = new StringWriter();
 
-        try
-        {
-        	Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        	transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        	transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-        	transformer.transform(
-                new DOMSource(element),
-                new StreamResult(sw));
-        }
-        catch (TransformerException e)
-        {
-            throw new JRRuntimeException(e);
-        }
+		try
+		{
+			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+			transformer.transform(
+				new DOMSource(element),
+				new StreamResult(sw));
+		}
+		catch (TransformerException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 
 
 		return sw.toString();

@@ -30,11 +30,11 @@ package net.sf.jasperreports.components.headertoolbar.actions;
  */
 public class EditTextElementData extends BaseColumnData {
 
-    public static final String APPLY_TO_HEADING = "heading";
-    public static final String APPLY_TO_DETAIL_ROWS = "detailrows";
-    public static final String APPLY_TO_GROUPHEADING = "groupheading";
-    public static final String APPLY_TO_GROUP_SUBTOTAL = "groupsubtotal";
-    public static final String APPLY_TO_TABLE_TOTAL = "tabletotal";
+	public static final String APPLY_TO_HEADING = "heading";
+	public static final String APPLY_TO_DETAIL_ROWS = "detailrows";
+	public static final String APPLY_TO_GROUPHEADING = "groupheading";
+	public static final String APPLY_TO_GROUP_SUBTOTAL = "groupsubtotal";
+	public static final String APPLY_TO_TABLE_TOTAL = "tabletotal";
 
 	private int columnIndex;
 	private String headingName;
@@ -49,9 +49,9 @@ public class EditTextElementData extends BaseColumnData {
 	private String formatPattern;
 	private String mode;
 
-    private String dataType;
-    private String applyTo;
-    private String groupName;
+	private String dataType;
+	private String applyTo;
+	private String groupName;
 
 	public EditTextElementData() {
 	}
@@ -152,28 +152,28 @@ public class EditTextElementData extends BaseColumnData {
 		this.mode = mode;
 	}
 
-    public String getDataType() {
-        return dataType;
-    }
+	public String getDataType() {
+		return dataType;
+	}
 
-    public void setDataType(String dataType) {
-        this.dataType = dataType;
-    }
+	public void setDataType(String dataType) {
+		this.dataType = dataType;
+	}
 
-    public String getApplyTo() {
-        return applyTo;
-    }
+	public String getApplyTo() {
+		return applyTo;
+	}
 
-    public void setApplyTo(String applyTo) {
-        this.applyTo = applyTo;
-    }
+	public void setApplyTo(String applyTo) {
+		this.applyTo = applyTo;
+	}
 
-    public String getGroupName() {
-        return groupName;
-    }
+	public String getGroupName() {
+		return groupName;
+	}
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
 
 }

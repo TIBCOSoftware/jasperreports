@@ -31,5 +31,5 @@ public interface Action
 {
 	public void run() throws ActionException;
 
-    public boolean requiresRefill();
+	public boolean requiresRefill();
 }

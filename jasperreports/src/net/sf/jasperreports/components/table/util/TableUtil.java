@@ -406,50 +406,50 @@ public class TableUtil
 		return columns.indexOf(column);
 	}
 
-    public static List<ColumnGroup> getHierarchicalColumnGroupsForColumn(BaseColumn column, List<BaseColumn> columns, TableComponent table) {
-        List<ColumnGroup> result = new ArrayList<ColumnGroup>();
-        List<BaseColumn> cols = columns != null ? columns : table.getColumns();
-        for (BaseColumn bc : cols) {
-            if (bc instanceof ColumnGroup){
-                if (((ColumnGroup)bc).getColumns().contains(column)) {
-                    result.add((ColumnGroup)bc);
-                    result.addAll(getHierarchicalColumnGroupsForColumn(bc, null, table));
-                } else {
-                    result.addAll(getHierarchicalColumnGroupsForColumn(column, ((ColumnGroup) bc).getColumns(), table));
-                }
-            }
-        }
+	public static List<ColumnGroup> getHierarchicalColumnGroupsForColumn(BaseColumn column, List<BaseColumn> columns, TableComponent table) {
+		List<ColumnGroup> result = new ArrayList<ColumnGroup>();
+		List<BaseColumn> cols = columns != null ? columns : table.getColumns();
+		for (BaseColumn bc : cols) {
+			if (bc instanceof ColumnGroup){
+				if (((ColumnGroup)bc).getColumns().contains(column)) {
+					result.add((ColumnGroup)bc);
+					result.addAll(getHierarchicalColumnGroupsForColumn(bc, null, table));
+				} else {
+					result.addAll(getHierarchicalColumnGroupsForColumn(column, ((ColumnGroup) bc).getColumns(), table));
+				}
+			}
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    /**
-     * 
-     */
-    public static <T extends JRElement> T getCellElement(Class<T> type, BaseColumn column, int sectionType, String groupName, TableComponent table) 
-    {
-        T element = TableUtil.getCellElement(type, getCell(column, sectionType, groupName), false);
+	/**
+	 * 
+	 */
+	public static <T extends JRElement> T getCellElement(Class<T> type, BaseColumn column, int sectionType, String groupName, TableComponent table) 
+	{
+		T element = TableUtil.getCellElement(type, getCell(column, sectionType, groupName), false);
 
-        if (element == null) 
-        {
-            List<ColumnGroup> colGroups = TableUtil.getHierarchicalColumnGroupsForColumn(column, table.getColumns(), table);
+		if (element == null) 
+		{
+			List<ColumnGroup> colGroups = TableUtil.getHierarchicalColumnGroupsForColumn(column, table.getColumns(), table);
 
-            for (ColumnGroup colGroup: colGroups) 
-            {
-                if (colGroup.getGroupHeader(groupName) == null) 
-                {
-                    continue;
-                }
-                element = TableUtil.getCellElement(type, getCell(colGroup, sectionType, groupName), false);
-                if (element != null)
-               	{
-                	break;
-               	}
-            }
+			for (ColumnGroup colGroup: colGroups) 
+			{
+				if (colGroup.getGroupHeader(groupName) == null) 
+				{
+					continue;
+				}
+				element = TableUtil.getCellElement(type, getCell(colGroup, sectionType, groupName), false);
+				if (element != null)
+			   	{
+					break;
+			   	}
+			}
 
-        }
+		}
 
-        return element;
-    }
+		return element;
+	}
 
 }

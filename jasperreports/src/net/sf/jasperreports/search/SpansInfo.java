@@ -9,12 +9,12 @@ import java.util.Map;
  */
 public interface SpansInfo {
 
-    boolean hasHitTermsInfo(String key);
+	boolean hasHitTermsInfo(String key);
 
-    List<HitTermInfo> getHitTermsInfo(String key);
+	List<HitTermInfo> getHitTermsInfo(String key);
 
-    Map<String, Integer> getHitTermsPerPage();
+	Map<String, Integer> getHitTermsPerPage();
 
-    int getTermsPerQuery();
+	int getTermsPerQuery();
 
 }

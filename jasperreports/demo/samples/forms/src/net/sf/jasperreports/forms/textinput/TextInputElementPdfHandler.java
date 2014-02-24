@@ -63,48 +63,48 @@ public class TextInputElementPdfHandler implements GenericElementPdfHandler
 				element.getX() + exporterContext.getOffsetX() + element.getWidth(),
 				jasperPrint.getPageHeight() - element.getY() - exporterContext.getOffsetY() - element.getHeight()
 				);
-        TextField text = new TextField(writer, rectangle, getFieldName(element));
-        text.setBackgroundColor(printText.getBackcolor());
-        text.setTextColor(printText.getForecolor());
-        text.setText(printText.getFullText());
-        text.setDefaultText("default:" + printText.getFullText());
-//        text.setBackgroundColor(element.getBackcolor());
-//        text.setTextColor(element.getForecolor());
-//        text.setText(getText(element));
-//        text.setDefaultText(getDefaultText(element));
-       
-        //FIXME: dynamic settings below:
-        
-//        text.setAlignment(Element.ALIGN_LEFT);
-//        text.setBorderColor(Color.BLACK);
-//        text.setBorderWidth(TextField.BORDER_WIDTH_THIN);
-//        text.setBorderStyle(PdfBorderDictionary.STYLE_INSET);
+		TextField text = new TextField(writer, rectangle, getFieldName(element));
+		text.setBackgroundColor(printText.getBackcolor());
+		text.setTextColor(printText.getForecolor());
+		text.setText(printText.getFullText());
+		text.setDefaultText("default:" + printText.getFullText());
+//		text.setBackgroundColor(element.getBackcolor());
+//		text.setTextColor(element.getForecolor());
+//		text.setText(getText(element));
+//		text.setDefaultText(getDefaultText(element));
 
-//        text.setChoiceExports(null);
-//        text.setChoices(null);
-//        text.setChoiceSelection(0);
-//        text.setExtensionFont(null);
-//        text.setExtraMargin(0, 0);
-//        try{
-//        	text.setFont(BaseFont.createFont(BaseFont.COURIER, BaseFont.CP1250, true));
-//        }catch(Exception e){
-//        	throw new JRRuntimeException(e);
-//        }
-        text.setFontSize(printText.getFontSize());
-        if (Boolean.TRUE.equals(element.getParameterValue(TextInputElement.PARAMETER_MULTI_LINE)))
-        {
-            text.setOptions(TextField.MULTILINE);
-        }
-//        text.setRotation(90);
-//        text.setVisibility(TextField.VISIBLE);
-        
-        try{
-        	PdfFormField field = text.getTextField();
-        	writer.addAnnotation(field);
-        }catch(Exception e){
-        	throw new JRRuntimeException(e);
-        }
-        
+		//FIXME: dynamic settings below:
+		
+//		text.setAlignment(Element.ALIGN_LEFT);
+//		text.setBorderColor(Color.BLACK);
+//		text.setBorderWidth(TextField.BORDER_WIDTH_THIN);
+//		text.setBorderStyle(PdfBorderDictionary.STYLE_INSET);
+
+//		text.setChoiceExports(null);
+//		text.setChoices(null);
+//		text.setChoiceSelection(0);
+//		text.setExtensionFont(null);
+//		text.setExtraMargin(0, 0);
+//		try{
+//			text.setFont(BaseFont.createFont(BaseFont.COURIER, BaseFont.CP1250, true));
+//		}catch(Exception e){
+//			throw new JRRuntimeException(e);
+//		}
+		text.setFontSize(printText.getFontSize());
+		if (Boolean.TRUE.equals(element.getParameterValue(TextInputElement.PARAMETER_MULTI_LINE)))
+		{
+			text.setOptions(TextField.MULTILINE);
+		}
+//		text.setRotation(90);
+//		text.setVisibility(TextField.VISIBLE);
+		
+		try{
+			PdfFormField field = text.getTextField();
+			writer.addAnnotation(field);
+		}catch(Exception e){
+			throw new JRRuntimeException(e);
+		}
+		
 	}
 	
 	public String getFieldNameParameter()

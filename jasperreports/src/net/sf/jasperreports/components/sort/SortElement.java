@@ -71,7 +71,7 @@ public interface SortElement {
 	public static final String PROPERTY_FILTER_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "export." + SortElement.REQUEST_PARAMETER_FILTER_TYPE;
 	public static final String PROPERTY_FILTER_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "export." + SortElement.REQUEST_PARAMETER_FILTER_PATTERN;
 
-    public static final String SORT_FIELDS_PARAM_SUFFIX = "." + JRParameter.SORT_FIELDS;
+	public static final String SORT_FIELDS_PARAM_SUFFIX = "." + JRParameter.SORT_FIELDS;
 	public static final String FILTER_FIELDS_PARAM_SUFFIX = "." + JRParameter.FILTER;
 
 }

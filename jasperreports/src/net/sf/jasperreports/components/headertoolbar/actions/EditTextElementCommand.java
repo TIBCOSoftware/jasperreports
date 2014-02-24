@@ -51,15 +51,15 @@ public class EditTextElementCommand implements Command
 
 	public EditTextElementCommand(JRDesignTextElement textElement, EditTextElementData editTextElementData)
 	{
-        this.textElement = textElement;
+		this.textElement = textElement;
 		this.editTextElementData = editTextElementData;
 	}
 
 
 	public void execute() {
 		if (textElement != null) {
-            oldEditTextElementData = new EditTextElementData();
-            oldEditTextElementData.setApplyTo(editTextElementData.getApplyTo());
+			oldEditTextElementData = new EditTextElementData();
+			oldEditTextElementData.setApplyTo(editTextElementData.getApplyTo());
 			HeaderToolbarElementUtils.copyOwnTextElementStyle(oldEditTextElementData, textElement);
 			applyColumnHeaderData(editTextElementData, textElement, true);
 		}
@@ -67,29 +67,29 @@ public class EditTextElementCommand implements Command
 
 	private void applyColumnHeaderData(EditTextElementData textElementData, JRDesignTextElement textElement, boolean execute) {
 		if (EditTextElementData.APPLY_TO_HEADING.equals(textElementData.getApplyTo())) {
-            if (textElement instanceof JRDesignTextField) {
-                JRDesignTextField designTextField = (JRDesignTextField)textElement;
-                if (execute) {
-                    if (oldText == null) {
-                        oldText = (designTextField.getExpression()).getText();
-                    }
-                    ((JRDesignExpression)designTextField.getExpression()).setText("\"" + JRStringUtil.escapeJavaStringLiteral(textElementData.getHeadingName()) + "\"");
-                } else {
-                    ((JRDesignExpression)designTextField.getExpression()).setText(oldText);
-                }
+			if (textElement instanceof JRDesignTextField) {
+				JRDesignTextField designTextField = (JRDesignTextField)textElement;
+				if (execute) {
+					if (oldText == null) {
+						oldText = (designTextField.getExpression()).getText();
+					}
+					((JRDesignExpression)designTextField.getExpression()).setText("\"" + JRStringUtil.escapeJavaStringLiteral(textElementData.getHeadingName()) + "\"");
+				} else {
+					((JRDesignExpression)designTextField.getExpression()).setText(oldText);
+				}
 
-            } else if (textElement instanceof JRDesignStaticText){
-                JRDesignStaticText staticText = (JRDesignStaticText)textElement;
-                if (execute) {
-                    if (oldText == null) {
-                        oldText = staticText.getText();
-                    }
-                    staticText.setText(textElementData.getHeadingName());
-                } else {
-                    staticText.setText(oldText);
-                }
-            }
-        }
+			} else if (textElement instanceof JRDesignStaticText){
+				JRDesignStaticText staticText = (JRDesignStaticText)textElement;
+				if (execute) {
+					if (oldText == null) {
+						oldText = staticText.getText();
+					}
+					staticText.setText(textElementData.getHeadingName());
+				} else {
+					staticText.setText(oldText);
+				}
+			}
+		}
 		
 		textElement.setFontName(textElementData.getFontName());
 		textElement.setFontSize(textElementData.getFontSize() != null ? Integer.valueOf(textElementData.getFontSize()) : null);
@@ -101,9 +101,9 @@ public class EditTextElementCommand implements Command
 		textElement.setBackcolor(textElementData.getFontBackColor() != null ? JRColorUtil.getColor("#" + textElementData.getFontBackColor(), Color.white) : null);
 		textElement.setMode(ModeEnum.getByName(textElementData.getMode()));
 		
-        if (textElement instanceof JRDesignTextField && TableUtil.hasSingleChunkExpression((JRDesignTextField) textElement)) {
-            ((JRDesignTextField) textElement).setPattern(textElementData.getFormatPattern());
-        }
+		if (textElement instanceof JRDesignTextField && TableUtil.hasSingleChunkExpression((JRDesignTextField) textElement)) {
+			((JRDesignTextField) textElement).setPattern(textElementData.getFormatPattern());
+		}
 	}
 
 

@@ -64,7 +64,7 @@ public class MapXmlFactory extends JRBaseFactory
 	 * @deprecated Replaced by {@link #ELEMENT_itemProperty}.
 	 */
 	public static final String ELEMENT_markerProperty = "markerProperty";
-	   
+
 	/**
 	 *
 	 */

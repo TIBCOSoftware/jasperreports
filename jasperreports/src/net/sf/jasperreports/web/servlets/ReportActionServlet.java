@@ -31,7 +31,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.ReportContext;
@@ -46,6 +45,8 @@ import net.sf.jasperreports.web.util.WebUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 
 /**
@@ -71,43 +72,43 @@ public class ReportActionServlet extends AbstractServlet
 		) throws IOException, ServletException
 	{
 		response.setContentType(JSON_CONTENT_TYPE);
-        setNoExpire(response);
+		setNoExpire(response);
 
-        PrintWriter out = response.getWriter();
-        String contextId = request.getParameter(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID);
+		PrintWriter out = response.getWriter();
+		String contextId = request.getParameter(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID);
 
-        if (contextId != null && request.getHeader("accept").indexOf(JSON_ACCEPT_HEADER) >= 0 && request.getParameterMap().containsKey(REQUEST_PARAMETER_ACTION)) {
-            WebReportContext webReportContext = WebReportContext.getInstance(request, false);
+		if (contextId != null && request.getHeader("accept").indexOf(JSON_ACCEPT_HEADER) >= 0 && request.getParameterMap().containsKey(REQUEST_PARAMETER_ACTION)) {
+			WebReportContext webReportContext = WebReportContext.getInstance(request, false);
 
-            if (webReportContext != null) {
-                try {
-                	runAction(request, webReportContext);
+			if (webReportContext != null) {
+				try {
+					runAction(request, webReportContext);
 
-                    // FIXMEJIVE: actions shoud return their own ActionResult that would contribute with JSON object to the output
-                    JsonNode actionResult = (JsonNode) webReportContext.getParameterValue("net.sf.jasperreports.web.actions.result.json");
-                    if (actionResult != null) {
-                        out.println("{\"contextid\": " + webReportContext.getId() + ", \"actionResult\": " + actionResult + "}");
-                        webReportContext.setParameterValue("net.sf.jasperreports.web.actions.result.json", null);
-                    } else {
-                        out.println("{\"contextid\": " + webReportContext.getId() + "}");
-                    }
+					// FIXMEJIVE: actions shoud return their own ActionResult that would contribute with JSON object to the output
+					JsonNode actionResult = (JsonNode) webReportContext.getParameterValue("net.sf.jasperreports.web.actions.result.json");
+					if (actionResult != null) {
+						out.println("{\"contextid\": " + webReportContext.getId() + ", \"actionResult\": " + actionResult + "}");
+						webReportContext.setParameterValue("net.sf.jasperreports.web.actions.result.json", null);
+					} else {
+						out.println("{\"contextid\": " + webReportContext.getId() + "}");
+					}
 
-                } catch (Exception e) {
-                    log.error("Error on page status update", e);
-                    response.setStatus(404);
-                    out.println("{\"msg\": \"JasperReports encountered an error on context creation!\",");
-                    out.println("\"devmsg\": \"" + JRStringUtil.escapeJavaStringLiteral(e.getMessage()) + "\"}");
-                }
-            } else {
-                response.setStatus(404);
-                out.println("{\"msg\": \"Resource with id '" + contextId + "' not found!\"}");
-                return;
-            }
+				} catch (Exception e) {
+					log.error("Error on page status update", e);
+					response.setStatus(404);
+					out.println("{\"msg\": \"JasperReports encountered an error on context creation!\",");
+					out.println("\"devmsg\": \"" + JRStringUtil.escapeJavaStringLiteral(e.getMessage()) + "\"}");
+				}
+			} else {
+				response.setStatus(404);
+				out.println("{\"msg\": \"Resource with id '" + contextId + "' not found!\"}");
+				return;
+			}
 
-        } else {
-            response.setStatus(400);
-            out.println("{\"msg\": \"Wrong parameters!\"}");
-        }
+		} else {
+			response.setStatus(400);
+			out.println("{\"msg\": \"Wrong parameters!\"}");
+		}
 	}
 
 

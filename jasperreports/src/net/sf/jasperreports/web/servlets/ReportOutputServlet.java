@@ -100,27 +100,27 @@ public class ReportOutputServlet extends AbstractServlet
 					response.getWriter().println("{\"msg\": \"JasperReports encountered an error!\"}");
 					return;
 				}
-                catch (Exception e)
-                {
-                    response.setContentType(JSON_CONTENT_TYPE);//FIXMEJIVE probably can't change contentType at this point, because getWriter() was already called once
-                    response.setStatus(404);
-                    out.println("{\"msg\": \"JasperReports encountered an error on report rendering!\"");
+				catch (Exception e)
+				{
+					response.setContentType(JSON_CONTENT_TYPE);//FIXMEJIVE probably can't change contentType at this point, because getWriter() was already called once
+					response.setStatus(404);
+					out.println("{\"msg\": \"JasperReports encountered an error on report rendering!\"");
 
-                    String message = e.getMessage();
-                    if (message == null && e.getCause() != null) {
-                        message = e.getCause().getMessage();
-                    }
-                    if (message == null) {
-                        StringWriter sw = new StringWriter();
-                        e.printStackTrace(new PrintWriter(sw));
-                        message = sw.toString();
-                    }
+					String message = e.getMessage();
+					if (message == null && e.getCause() != null) {
+						message = e.getCause().getMessage();
+					}
+					if (message == null) {
+						StringWriter sw = new StringWriter();
+						e.printStackTrace(new PrintWriter(sw));
+						message = sw.toString();
+					}
 
-                    if (message != null) {
-                        out.println(", \"devmsg\": \"" + JRStringUtil.escapeJavaStringLiteral(message) + "\"");
-                    }
-                    out.println("}");
-                }
+					if (message != null) {
+						out.println(", \"devmsg\": \"" + JRStringUtil.escapeJavaStringLiteral(message) + "\"");
+					}
+					out.println("}");
+				}
 			}
 			else 
 			{
@@ -210,10 +210,10 @@ public class ReportOutputServlet extends AbstractServlet
 
 		SimpleHtmlExporterOutput output = new SimpleHtmlExporterOutput(writer);
 
-        String applicationDomain = (String) webReportContext.getParameterValue(WebReportContext.REQUEST_PARAMETER_APPLICATION_DOMAIN);
-        if (applicationDomain == null) {
-            applicationDomain = request.getContextPath();
-        }
+		String applicationDomain = (String) webReportContext.getParameterValue(WebReportContext.REQUEST_PARAMETER_APPLICATION_DOMAIN);
+		if (applicationDomain == null) {
+			applicationDomain = request.getContextPath();
+		}
 
 		String resourcesPath = applicationDomain + webUtil.getResourcesPath() + "?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
 		output.setImageHandler(new WebHtmlResourceHandler(resourcesPath + "&image={0}"));

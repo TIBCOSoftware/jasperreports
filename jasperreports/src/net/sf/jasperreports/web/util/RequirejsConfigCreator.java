@@ -65,76 +65,76 @@ public class RequirejsConfigCreator
 		JasperReportsContext jrContext = context.getJasperReportsContext();
 		String contextPath = context.getRequestContextPath();
 		
-        ObjectNode configRoot = objectMapper.createObjectNode();
-        configRoot.put("baseUrl", contextPath);
-        
-        ObjectNode configPaths = objectMapper.createObjectNode();
-        configRoot.put("paths", configPaths);
+		ObjectNode configRoot = objectMapper.createObjectNode();
+		configRoot.put("baseUrl", contextPath);
+		
+		ObjectNode configPaths = objectMapper.createObjectNode();
+		configRoot.put("paths", configPaths);
 
 		setModuleMappings(jrContext, contextPath, configPaths);
 		runContributors(jrContext, contextPath, configRoot);
-        
-        String requirejsConfig = toConfigScript(configRoot);
-        return requirejsConfig;
+		
+		String requirejsConfig = toConfigScript(configRoot);
+		return requirejsConfig;
 	}
 
 	protected void setModuleMappings(JasperReportsContext jrContext, String contextPath, ObjectNode configPaths)
 	{
 		WebUtil webUtil = WebUtil.getInstance(jrContext);
-        List<RequirejsModuleMapping> requirejsMappings = jrContext.getExtensions(RequirejsModuleMapping.class);
-        for (RequirejsModuleMapping requirejsMapping : requirejsMappings)
-        {
-            String modulePath = requirejsMapping.getPath();
-            if (requirejsMapping.isClasspathResource())
-            {
-                modulePath = contextPath + webUtil.getResourcesBasePath() + modulePath;
-            }
+		List<RequirejsModuleMapping> requirejsMappings = jrContext.getExtensions(RequirejsModuleMapping.class);
+		for (RequirejsModuleMapping requirejsMapping : requirejsMappings)
+		{
+			String modulePath = requirejsMapping.getPath();
+			if (requirejsMapping.isClasspathResource())
+			{
+				modulePath = contextPath + webUtil.getResourcesBasePath() + modulePath;
+			}
 			configPaths.put(requirejsMapping.getName(), modulePath);
-        }
+		}
 	}
 
 	protected void runContributors(JasperReportsContext jrContext, String contextPath, ObjectNode configRoot)
 	{
-        List<RequirejsConfigContributor> contributors = jrContext.getExtensions(RequirejsConfigContributor.class);
-        for (RequirejsConfigContributor contributor : contributors)
-        {
-        	contributor.contribute(context, configRoot);
-        }
+		List<RequirejsConfigContributor> contributors = jrContext.getExtensions(RequirejsConfigContributor.class);
+		for (RequirejsConfigContributor contributor : contributors)
+		{
+			contributor.contribute(context, configRoot);
+		}
 	}
 
 	protected String toConfigScript(ObjectNode configRoot)
 	{
 		String configString = toConfigString(configRoot);
-        
-        Map<String, Object> contextMap = new HashMap<String, Object>();
-        contextMap.put("config", configString);
-        
-        // going through a template so that the final output is somewhat customizable
-        String requirejsConfig = VelocityUtil.processTemplate(REQUIREJS_CONFIG_TEMPLATE, contextMap);
+		
+		Map<String, Object> contextMap = new HashMap<String, Object>();
+		contextMap.put("config", configString);
+		
+		// going through a template so that the final output is somewhat customizable
+		String requirejsConfig = VelocityUtil.processTemplate(REQUIREJS_CONFIG_TEMPLATE, contextMap);
 		return requirejsConfig;
 	}
 
 	protected String toConfigString(ObjectNode configRoot)
 	{
 		CharArrayWriter outWriter = new CharArrayWriter(1024);
-        try
-        {
+		try
+		{
 			objectMapper.writeValue(outWriter, configRoot);
 		}
-        catch (JsonGenerationException e)
-        {
+		catch (JsonGenerationException e)
+		{
 			throw new JRRuntimeException(e);
 		}
-        catch (JsonMappingException e)
-        {
+		catch (JsonMappingException e)
+		{
 			throw new JRRuntimeException(e);
 		}
-        catch (IOException e)
-        {
+		catch (IOException e)
+		{
 			throw new JRRuntimeException(e);
 		}
-        
-        String configString = outWriter.toString();
+		
+		String configString = outWriter.toString();
 		return configString;
 	}
 	

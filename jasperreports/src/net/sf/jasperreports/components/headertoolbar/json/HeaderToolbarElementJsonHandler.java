@@ -183,7 +183,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				locale = Locale.getDefault();
 			}
 			
-            Boolean isClearCache = (Boolean)reportContext.getParameterValue(PARAMETER_CLEAR_CONTEXT_CACHE);
+			Boolean isClearCache = (Boolean)reportContext.getParameterValue(PARAMETER_CLEAR_CONTEXT_CACHE);
 
 			if (reportContext.getParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX) != null && !(isClearCache != null && isClearCache)) {
 				templateAlreadyLoaded = true;
@@ -193,18 +193,18 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			
 			/*** begin: FILTER PATTERNS ***/
 			// numeric filter pattern
-            String numericFilterPattern = HeaderToolbarElementUtils.getNumberPattern(jrContext, locale);
+			String numericFilterPattern = HeaderToolbarElementUtils.getNumberPattern(jrContext, locale);
 
 			// date filter pattern
-            String dateFilterPattern = HeaderToolbarElementUtils.getDatePattern(jrContext, locale);
+			String dateFilterPattern = HeaderToolbarElementUtils.getDatePattern(jrContext, locale);
 
 			// time filter pattern
-            String timeFilterPattern = HeaderToolbarElementUtils.getTimePattern(jrContext, locale);
+			String timeFilterPattern = HeaderToolbarElementUtils.getTimePattern(jrContext, locale);
 			/*** end: FILTER PATTERNS ***/
 
-    		FilterAction action = new FilterAction();
-    		action.init(jrContext, reportContext);
-    		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUUID));
+			FilterAction action = new FilterAction();
+			action.init(jrContext, reportContext);
+			CommandTarget target = action.getCommandTarget(UUID.fromString(tableUUID));
 
 			JasperDesign jasperDesign = null;
 			JRDesignDataset dataset = null;
@@ -212,21 +212,21 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 			if (target != null) 
 			{
-    			JRIdentifiable identifiable = target.getIdentifiable();
-    			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
-    			table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
-    			JasperDesignCache cache = JasperDesignCache.getInstance(jrContext, reportContext);
-    			jasperDesign = cache.getJasperDesign(target.getUri());
+				JRIdentifiable identifiable = target.getIdentifiable();
+				JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
+				table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
+				JasperDesignCache cache = JasperDesignCache.getInstance(jrContext, reportContext);
+				jasperDesign = cache.getJasperDesign(target.getUri());
 				JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
 				String datasetName = datasetRun.getDatasetName();
 				dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
-    		}
-            
-            if (
-            	!(context.getExportParameters().containsKey(param) 
+			}
+			
+			if (
+				!(context.getExportParameters().containsKey(param) 
 				&& tableUUID.equals(context.getExportParameters().get(param)))
 				) 
-            {
+			{
 				Map<String, ColumnInfo> columnNames = getAllColumnNames(element, jrContext, contextMap);
 				List<Map<String, Object>> columnGroupsData = getColumnGroupsData(jrContext, reportContext, jasperDesign, dataset, table, tableUUID);
 				// column names are normally set on the first column, but check if we got them
@@ -251,13 +251,13 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 					/*** begin: FILTER PATTERNS ***/
 					// numeric filter pattern
-                    contextMap.put("numericFilterPattern", numericFilterPattern);
+					contextMap.put("numericFilterPattern", numericFilterPattern);
 
 					// date filter pattern
-                    contextMap.put("dateFilterPattern", dateFilterPattern);
+					contextMap.put("dateFilterPattern", dateFilterPattern);
 
 					// time filter pattern
-                    contextMap.put("timeFilterPattern", timeFilterPattern);
+					contextMap.put("timeFilterPattern", timeFilterPattern);
 					/*** end: FILTER PATTERNS ***/
 
 					/*** begin: CALENDAR PATTERNS ***/
@@ -285,7 +285,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			contextMap.put("columnUuid", columnUuid);
 			contextMap.put("columnLabel", columnLabel);
 			contextMap.put("columnIndex", columnIndex);
-            contextMap.put("dataType", FilterTypesEnum.TEXT.getName()); // use Text as default
+			contextMap.put("dataType", FilterTypesEnum.TEXT.getName()); // use Text as default
 			contextMap.put("canSort", canSort);
 			contextMap.put("canFilter", canFilter);
 
@@ -502,7 +502,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		
 		FilterData filterData = new FilterData();
 		filterData.setFieldName(columnName);
-        filterData.setFilterType(filterType.getName());
+		filterData.setFilterType(filterType.getName());
 		filterData.setIsField(SortFieldTypeEnum.FIELD.equals(SortFieldTypeEnum.getByName(columnType)));
 
 		if (filters.size() > 0) 

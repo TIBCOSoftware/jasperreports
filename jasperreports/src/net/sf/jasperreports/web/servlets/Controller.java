@@ -95,16 +95,16 @@ public class Controller
 			if (action != null) 
 			{
 				action.run();
-                if (log.isDebugEnabled()) {
-                    log.debug("action requires refill: " + action.requiresRefill());
-                }
-                if (!action.requiresRefill()) { // stop here because this action does not modify jasperDesign
-                    return;
-                }
-            }
+				if (log.isDebugEnabled()) {
+					log.debug("action requires refill: " + action.requiresRefill());
+				}
+				if (!action.requiresRefill()) { // stop here because this action does not modify jasperDesign
+					return;
+				}
+			}
 
-            jasperReport = RepositoryUtil.getInstance(jasperReportsContext).getReport(webReportContext, reportUri);
-        }
+			jasperReport = RepositoryUtil.getInstance(jasperReportsContext).getReport(webReportContext, reportUri);
+		}
 
 
 		if (jasperReport == null)

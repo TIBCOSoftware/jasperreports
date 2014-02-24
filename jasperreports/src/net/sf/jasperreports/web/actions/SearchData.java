@@ -29,42 +29,42 @@ package net.sf.jasperreports.web.actions;
  */
 public class SearchData {
 
-    private String searchString;
-    private boolean caseSensitive;
-    private boolean wholeWordsOnly;
+	private String searchString;
+	private boolean caseSensitive;
+	private boolean wholeWordsOnly;
 
-    private boolean removeAccents;
+	private boolean removeAccents;
 
-    public boolean isCaseSensitive() {
-        return caseSensitive;
-    }
+	public boolean isCaseSensitive() {
+		return caseSensitive;
+	}
 
-    public void setCaseSensitive(boolean caseSensitive) {
-        this.caseSensitive = caseSensitive;
-    }
+	public void setCaseSensitive(boolean caseSensitive) {
+		this.caseSensitive = caseSensitive;
+	}
 
-    public boolean isWholeWordsOnly() {
-        return wholeWordsOnly;
-    }
+	public boolean isWholeWordsOnly() {
+		return wholeWordsOnly;
+	}
 
-    public void setWholeWordsOnly(boolean wholeWordsOnly) {
-        this.wholeWordsOnly = wholeWordsOnly;
-    }
+	public void setWholeWordsOnly(boolean wholeWordsOnly) {
+		this.wholeWordsOnly = wholeWordsOnly;
+	}
 
-    public boolean isRemoveAccents() {
-        return removeAccents;
-    }
+	public boolean isRemoveAccents() {
+		return removeAccents;
+	}
 
-    public void setRemoveAccents(boolean removeAccents) {
-        this.removeAccents = removeAccents;
-    }
+	public void setRemoveAccents(boolean removeAccents) {
+		this.removeAccents = removeAccents;
+	}
 
-    public String getSearchString() {
-        return searchString;
-    }
+	public String getSearchString() {
+		return searchString;
+	}
 
-    public void setSearchString(String searchString) {
-        this.searchString = searchString;
-    }
+	public void setSearchString(String searchString) {
+		this.searchString = searchString;
+	}
 
 }

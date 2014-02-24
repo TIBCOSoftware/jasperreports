@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.types.date;
 
-import net.sf.jasperreports.types.date.DateRange;
-
 import java.sql.Timestamp;
 
 /**
@@ -33,7 +31,7 @@ import java.sql.Timestamp;
  */
 public interface TimestampRange extends DateRange 
 {
-    public Timestamp getStart();
-
-    public Timestamp getEnd();
+	public Timestamp getStart();
+	
+	public Timestamp getEnd();
 }

@@ -294,34 +294,34 @@ public final class ChartUtil
 		// adding further values by default because 1E10 is not enough for some people
 		DecimalFormat format = new DecimalFormat("#,##0");
 		
-        units.add(new NumberTickUnit(20000000000L, format));
-        units.add(new NumberTickUnit(50000000000L, format));
-        units.add(new NumberTickUnit(100000000000L, format));
-        units.add(new NumberTickUnit(200000000000L, format));
-        units.add(new NumberTickUnit(500000000000L, format));
-        units.add(new NumberTickUnit(1000000000000L, format));
-        units.add(new NumberTickUnit(2000000000000L, format));
-        units.add(new NumberTickUnit(5000000000000L, format));
-        units.add(new NumberTickUnit(10000000000000L, format));
-        units.add(new NumberTickUnit(20000000000000L, format));
-        units.add(new NumberTickUnit(50000000000000L, format));
-        units.add(new NumberTickUnit(100000000000000L, format));
-        units.add(new NumberTickUnit(200000000000000L, format));
-        units.add(new NumberTickUnit(500000000000000L, format));
-        units.add(new NumberTickUnit(1000000000000000L, format));
-        units.add(new NumberTickUnit(2000000000000000L, format));
-        units.add(new NumberTickUnit(5000000000000000L, format));
-        units.add(new NumberTickUnit(10000000000000000L, format));
-        units.add(new NumberTickUnit(20000000000000000L, format));
-        units.add(new NumberTickUnit(50000000000000000L, format));
-        units.add(new NumberTickUnit(100000000000000000L, format));
-        units.add(new NumberTickUnit(200000000000000000L, format));
-        units.add(new NumberTickUnit(500000000000000000L, format));
-        units.add(new NumberTickUnit(1000000000000000000L, format));
-        units.add(new NumberTickUnit(2000000000000000000L, format));
-        units.add(new NumberTickUnit(5000000000000000000L, format));
-        
-        return units;
+		units.add(new NumberTickUnit(20000000000L, format));
+		units.add(new NumberTickUnit(50000000000L, format));
+		units.add(new NumberTickUnit(100000000000L, format));
+		units.add(new NumberTickUnit(200000000000L, format));
+		units.add(new NumberTickUnit(500000000000L, format));
+		units.add(new NumberTickUnit(1000000000000L, format));
+		units.add(new NumberTickUnit(2000000000000L, format));
+		units.add(new NumberTickUnit(5000000000000L, format));
+		units.add(new NumberTickUnit(10000000000000L, format));
+		units.add(new NumberTickUnit(20000000000000L, format));
+		units.add(new NumberTickUnit(50000000000000L, format));
+		units.add(new NumberTickUnit(100000000000000L, format));
+		units.add(new NumberTickUnit(200000000000000L, format));
+		units.add(new NumberTickUnit(500000000000000L, format));
+		units.add(new NumberTickUnit(1000000000000000L, format));
+		units.add(new NumberTickUnit(2000000000000000L, format));
+		units.add(new NumberTickUnit(5000000000000000L, format));
+		units.add(new NumberTickUnit(10000000000000000L, format));
+		units.add(new NumberTickUnit(20000000000000000L, format));
+		units.add(new NumberTickUnit(50000000000000000L, format));
+		units.add(new NumberTickUnit(100000000000000000L, format));
+		units.add(new NumberTickUnit(200000000000000000L, format));
+		units.add(new NumberTickUnit(500000000000000000L, format));
+		units.add(new NumberTickUnit(1000000000000000000L, format));
+		units.add(new NumberTickUnit(2000000000000000000L, format));
+		units.add(new NumberTickUnit(5000000000000000000L, format));
+		
+		return units;
 	}
 	
 	public TickUnitSource createStandardTickUnits()
@@ -352,8 +352,8 @@ public final class ChartUtil
 		units.add(new NumberTickUnit(1000000000000000000L, format));
 		units.add(new NumberTickUnit(2500000000000000000L, format));
 		units.add(new NumberTickUnit(5000000000000000000L, format));
-        
-        return units;
+
+		return units;
 	}
 	
 	public void setAutoTickUnit(NumberAxis numberAxis)

@@ -42,10 +42,10 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
  */
 public final class WebUtil
 {
-    public static final String REQUEST_PARAMETER_REPORT_URI = "jr_report_uri";
-    public static final String REQUEST_PARAMETER_ASYNC_REPORT = "jr_async";
-    public static final String REQUEST_PARAMETER_PAGE = "jr_page";
-    public static final String REQUEST_PARAMETER_PAGE_TIMESTAMP = "jr_page_timestamp";
+	public static final String REQUEST_PARAMETER_REPORT_URI = "jr_report_uri";
+	public static final String REQUEST_PARAMETER_ASYNC_REPORT = "jr_async";
+	public static final String REQUEST_PARAMETER_PAGE = "jr_page";
+	public static final String REQUEST_PARAMETER_PAGE_TIMESTAMP = "jr_page_timestamp";
 	public static final String REQUEST_PARAMETER_PAGE_UPDATE = "jr_page_update";
 	public static final String REQUEST_PARAMETER_RUN_REPORT = "jr_run";
 
@@ -62,12 +62,12 @@ public final class WebUtil
 	public static final String RESOURCE_JR_GLOBAL_CSS = "net/sf/jasperreports/web/servlets/resources/jasperreports-global.css";
 
 	private JasperReportsContext jasperReportsContext;
-    private JRPropertiesUtil propertiesUtil;
+	private JRPropertiesUtil propertiesUtil;
 	
 	private WebUtil(JasperReportsContext jasperReportsContext) 
 	{
 		this.jasperReportsContext = jasperReportsContext;
-        this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
 	}
 	
 	public static WebUtil getInstance(JasperReportsContext jasperReportsContext) 
@@ -184,10 +184,10 @@ public final class WebUtil
 			+ "&" + resourceLocaleParamName + "=" + JRDataUtils.getLocaleCode(locale);
 	}
 
-    public boolean isComponentMetadataEmbedded()
-    {
-        return Boolean.parseBoolean(propertiesUtil.getProperty(PROPERTY_EMBED_COMPONENT_METADATA));
-    }
+	public boolean isComponentMetadataEmbedded()
+	{
+		return Boolean.parseBoolean(propertiesUtil.getProperty(PROPERTY_EMBED_COMPONENT_METADATA));
+	}
 
 	
 	public static String encodeUrl(String url) {

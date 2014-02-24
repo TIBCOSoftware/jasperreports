@@ -116,26 +116,26 @@ public class Olap4jXmlaQueryExecuter extends JRAbstractQueryExecuter
 	public JRDataSource createDatasource() throws JRException
 	{
 		
-        Properties connectProps = new Properties();
-        connectProps.put(XMLA_SERVER, getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_URL));
-        connectProps.put(XMLA_CATALOG, getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_CATALOG));
-        connectProps.put(XMLA_DATA_SOURCE, getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_DATASOURCE));
-        connectProps.put(XMLA_USER, getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_USER));
-        connectProps.put(XMLA_PASSWORD, getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_PASSWORD));
-        connectProps.put(OLAP4J_DRIVER, OLAP4J_XMLA_DRIVER_CLASS);
-        connectProps.put(OLAP4J_URL_PREFIX, OLAP4J_XMLA_URL_PREFIX);
-        
-        // load driver  and Connection
-        rConnection = null;
-        try
-        {
-            Class.forName(OLAP4J_XMLA_DRIVER_CLASS);
-            rConnection = java.sql.DriverManager.getConnection(OLAP4J_XMLA_URL_PREFIX, connectProps);
-        }
-        catch (Throwable t) 
-        {
-            throw new JRException("error loading olap4j driver and getting Connection '" + OLAP4J_XMLA_DRIVER_CLASS + "'", t);
-        }
+		Properties connectProps = new Properties();
+		connectProps.put(XMLA_SERVER, getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_URL));
+		connectProps.put(XMLA_CATALOG, getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_CATALOG));
+		connectProps.put(XMLA_DATA_SOURCE, getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_DATASOURCE));
+		connectProps.put(XMLA_USER, getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_USER));
+		connectProps.put(XMLA_PASSWORD, getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_PASSWORD));
+		connectProps.put(OLAP4J_DRIVER, OLAP4J_XMLA_DRIVER_CLASS);
+		connectProps.put(OLAP4J_URL_PREFIX, OLAP4J_XMLA_URL_PREFIX);
+		
+		// load driver  and Connection
+		rConnection = null;
+		try
+		{
+			Class.forName(OLAP4J_XMLA_DRIVER_CLASS);
+			rConnection = java.sql.DriverManager.getConnection(OLAP4J_XMLA_URL_PREFIX, connectProps);
+		}
+		catch (Throwable t) 
+		{
+			throw new JRException("error loading olap4j driver and getting Connection '" + OLAP4J_XMLA_DRIVER_CLASS + "'", t);
+		}
 
 		OlapConnection connection = (OlapConnection) rConnection;
 		

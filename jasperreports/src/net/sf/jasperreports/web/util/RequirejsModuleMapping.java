@@ -32,7 +32,7 @@ public class RequirejsModuleMapping
 {
 	private String name;
 	private String path;
-    private boolean isClasspathResource = true;
+	private boolean isClasspathResource = true;
 
 	/**
 	 *
@@ -41,7 +41,7 @@ public class RequirejsModuleMapping
 	{
 		this.name = name;
 		this.path = path;
-        this.isClasspathResource = isClasspathResource;
+		this.isClasspathResource = isClasspathResource;
 	}
 
 	/**
@@ -76,19 +76,19 @@ public class RequirejsModuleMapping
 		this.path = path;
 	}
 
-    /**
-     *
-     */
-    public boolean isClasspathResource()
-    {
-        return isClasspathResource;
-    }
+	/**
+	 *
+	 */
+	public boolean isClasspathResource()
+	{
+		return isClasspathResource;
+	}
 
-    /**
-     *
-     */
-    public void setIsClassPath(boolean isClasspathResource)
-    {
-        this.isClasspathResource = isClasspathResource;
-    }
+	/**
+	 *
+	 */
+	public void setIsClassPath(boolean isClasspathResource)
+	{
+		this.isClasspathResource = isClasspathResource;
+	}
 }

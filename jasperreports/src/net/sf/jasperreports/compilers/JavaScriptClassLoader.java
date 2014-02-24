@@ -85,8 +85,8 @@ public class JavaScriptClassLoader extends DefiningClassLoader
 
 			try
 			{
-	            scriptClass = defineClass(className, compiledClass.getClassBytes());
-	            linkClass(scriptClass);
+				scriptClass = defineClass(className, compiledClass.getClassBytes());
+				linkClass(scriptClass);
 			}
 			catch (SecurityException e)
 			{

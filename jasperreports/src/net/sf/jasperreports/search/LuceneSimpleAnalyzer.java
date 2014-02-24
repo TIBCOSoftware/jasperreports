@@ -17,32 +17,32 @@ import org.apache.lucene.util.Version;
 public class LuceneSimpleAnalyzer extends Analyzer {
 
 	private Version matchVersion;
-    private boolean isCaseSensitive;
-    private boolean removeAccents;
+	private boolean isCaseSensitive;
+	private boolean removeAccents;
 
 	public LuceneSimpleAnalyzer(Version matchVersion, boolean isCaseSensitive, boolean removeAccents) {
 		this.matchVersion = matchVersion;
-        this.isCaseSensitive = isCaseSensitive;
-//        this.removeAccents = removeAccents;
-        this.removeAccents = true;
+		this.isCaseSensitive = isCaseSensitive;
+//		this.removeAccents = removeAccents;
+		this.removeAccents = true;
 	}
 
 	@Override
 	protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
 		Tokenizer source = new WhitespaceTokenizer(matchVersion, reader);
-        TokenStream result = source;
+		TokenStream result = source;
 
-        if (!isCaseSensitive) {
-            // lowercase tokens
-            result = new LowerCaseFilter(matchVersion, source);
-        }
+		if (!isCaseSensitive) {
+			// lowercase tokens
+			result = new LowerCaseFilter(matchVersion, source);
+		}
 
-        if (removeAccents) {
-            // normalize characters
-            result = new ASCIIFoldingFilter(result);
-        }
+		if (removeAccents) {
+			// normalize characters
+			result = new ASCIIFoldingFilter(result);
+		}
 
-        // exclude words with length < 3
+		// exclude words with length < 3
 //		result = new LengthFilter(matchVersion, result, 3, Integer.MAX_VALUE);
 
 

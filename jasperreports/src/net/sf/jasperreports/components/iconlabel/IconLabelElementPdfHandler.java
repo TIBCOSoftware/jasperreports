@@ -66,21 +66,21 @@ public class IconLabelElementPdfHandler implements GenericElementPdfHandler
 		
 		frame.addElement(labelPrintText);
 		
-        JRPrintText iconPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_ICON_TEXT_ELEMENT);
+		JRPrintText iconPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_ICON_TEXT_ELEMENT);
 		if (iconPrintText != null) //FIXMEINPUT deal with xml serialization
 		{
 			frame.addElement(iconPrintText);
 		}
 
 		JRPdfExporter exporter = (JRPdfExporter)exporterContext.getExporterRef();
-        try
-        {
-        	exporter.exportFrame(frame);
-        }
-        catch(Exception e)
-        {
-        	throw new JRRuntimeException(e);
-        }
+		try
+		{
+			exporter.exportFrame(frame);
+		}
+		catch(Exception e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 	
 	/**

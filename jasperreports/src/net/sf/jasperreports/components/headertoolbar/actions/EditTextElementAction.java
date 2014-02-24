@@ -77,30 +77,30 @@ public class EditTextElementAction extends AbstractVerifiableTableAction {
 		}
 	}
 
-    private JRDesignTextElement getTargetTextElement() {
-        EditTextElementData textElementData = getEditTextElementData();
-        List<BaseColumn> allCols = TableUtil.getAllColumns(table);
-        StandardColumn col = (StandardColumn)allCols.get(textElementData.getColumnIndex());
-        JRDesignTextElement result = null;
+	private JRDesignTextElement getTargetTextElement() {
+		EditTextElementData textElementData = getEditTextElementData();
+		List<BaseColumn> allCols = TableUtil.getAllColumns(table);
+		StandardColumn col = (StandardColumn)allCols.get(textElementData.getColumnIndex());
+		JRDesignTextElement result = null;
 
-        if (EditTextElementData.APPLY_TO_DETAIL_ROWS.equals(textElementData.getApplyTo())) {
-            result = TableUtil.getCellElement(JRDesignTextElement.class, col.getDetailCell(), true);
-        } else if (EditTextElementData.APPLY_TO_GROUP_SUBTOTAL.equals(textElementData.getApplyTo())) {
-            result = TableUtil.getCellElement(JRDesignTextElement.class, col, TableUtil.COLUMN_GROUP_FOOTER, textElementData.getGroupName(), table);
-        } else if (EditTextElementData.APPLY_TO_HEADING.equals(textElementData.getApplyTo())) {
-            result = TableUtil.getCellElement(JRDesignTextElement.class, col.getColumnHeader(), true);
-        } else if (EditTextElementData.APPLY_TO_GROUPHEADING.equals(textElementData.getApplyTo())) {
-            result = TableUtil.getCellElement(JRDesignTextElement.class, col, TableUtil.COLUMN_GROUP_HEADER, textElementData.getGroupName(), table);
-        } else if (EditTextElementData.APPLY_TO_TABLE_TOTAL.equals(textElementData.getApplyTo())) {
-            result = TableUtil.getCellElement(JRDesignTextElement.class, col, TableUtil.TABLE_FOOTER, null, table);
-        }
+		if (EditTextElementData.APPLY_TO_DETAIL_ROWS.equals(textElementData.getApplyTo())) {
+			result = TableUtil.getCellElement(JRDesignTextElement.class, col.getDetailCell(), true);
+		} else if (EditTextElementData.APPLY_TO_GROUP_SUBTOTAL.equals(textElementData.getApplyTo())) {
+			result = TableUtil.getCellElement(JRDesignTextElement.class, col, TableUtil.COLUMN_GROUP_FOOTER, textElementData.getGroupName(), table);
+		} else if (EditTextElementData.APPLY_TO_HEADING.equals(textElementData.getApplyTo())) {
+			result = TableUtil.getCellElement(JRDesignTextElement.class, col.getColumnHeader(), true);
+		} else if (EditTextElementData.APPLY_TO_GROUPHEADING.equals(textElementData.getApplyTo())) {
+			result = TableUtil.getCellElement(JRDesignTextElement.class, col, TableUtil.COLUMN_GROUP_HEADER, textElementData.getGroupName(), table);
+		} else if (EditTextElementData.APPLY_TO_TABLE_TOTAL.equals(textElementData.getApplyTo())) {
+			result = TableUtil.getCellElement(JRDesignTextElement.class, col, TableUtil.TABLE_FOOTER, null, table);
+		}
 
-        return result;
-    }
+		return result;
+	}
 
 	@Override
 	public void verify() throws ActionException {
-        EditTextElementData colValData = getEditTextElementData();
+		EditTextElementData colValData = getEditTextElementData();
 		
 		if (colValData.getFontSize() != null) {
 			try {
@@ -109,7 +109,7 @@ public class EditTextElementAction extends AbstractVerifiableTableAction {
 				errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.edit.values.invalid.font.size", colValData.getFontSize());
 			}
 		}
-        JRDesignTextElement textField = getTargetTextElement();
+		JRDesignTextElement textField = getTargetTextElement();
 
 		if (textField instanceof JRDesignTextField && TableUtil.hasSingleChunkExpression((JRDesignTextField) textField)) {
 			JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();

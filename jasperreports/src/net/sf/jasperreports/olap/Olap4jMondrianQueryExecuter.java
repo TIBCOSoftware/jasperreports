@@ -101,32 +101,32 @@ public class Olap4jMondrianQueryExecuter extends JRAbstractQueryExecuter
 	{
 		JRDataSource dataSource = null;
 		
-        Properties connectProps = new Properties();
-        connectProps.put(OLAP4J_JDBC_DRIVERS, getParameterValue(Olap4jMondrianQueryExecuterFactory.PARAMETER_JDBC_DRIVERS));
-        connectProps.put(OLAP4J_JDBC_URL, getParameterValue(Olap4jMondrianQueryExecuterFactory.PARAMETER_JDBC_URL));
-        connectProps.put(OLAP4J_JDBC_CATALOG, getParameterValue(Olap4jMondrianQueryExecuterFactory.PARAMETER_CATALOG));
-        String user = (String) getParameterValue(Olap4jMondrianQueryExecuterFactory.PARAMETER_JDBC_USER);
-        if (user != null) {
-    		connectProps.put(OLAP4J_JDBC_USER, user);
-        }
-        String password = (String) getParameterValue(Olap4jMondrianQueryExecuterFactory.PARAMETER_JDBC_PASSWORD);
-        if (password != null) {
-    		connectProps.put(OLAP4J_JDBC_PASSWORD, password);
-        }
-        connectProps.put(OLAP4J_DRIVER, OLAP4J_MONDRIAN_DRIVER_CLASS);
-        connectProps.put(OLAP4J_URL_PREFIX, OLAP4J_MONDRIAN_URL_PREFIX);
-        
-        // load driver  and Connection
-        rConnection = null;
-        try
-        {
-            Class.forName(OLAP4J_MONDRIAN_DRIVER_CLASS);
-            rConnection = java.sql.DriverManager.getConnection(OLAP4J_MONDRIAN_URL_PREFIX, connectProps);
-        }
-        catch (Throwable t)
-        {
-            throw new JRException("error loading Mondrian olap4j driver and getting Connection '" + OLAP4J_MONDRIAN_DRIVER_CLASS + "'", t);
-        }
+		Properties connectProps = new Properties();
+		connectProps.put(OLAP4J_JDBC_DRIVERS, getParameterValue(Olap4jMondrianQueryExecuterFactory.PARAMETER_JDBC_DRIVERS));
+		connectProps.put(OLAP4J_JDBC_URL, getParameterValue(Olap4jMondrianQueryExecuterFactory.PARAMETER_JDBC_URL));
+		connectProps.put(OLAP4J_JDBC_CATALOG, getParameterValue(Olap4jMondrianQueryExecuterFactory.PARAMETER_CATALOG));
+		String user = (String) getParameterValue(Olap4jMondrianQueryExecuterFactory.PARAMETER_JDBC_USER);
+		if (user != null) {
+			connectProps.put(OLAP4J_JDBC_USER, user);
+		}
+		String password = (String) getParameterValue(Olap4jMondrianQueryExecuterFactory.PARAMETER_JDBC_PASSWORD);
+		if (password != null) {
+			connectProps.put(OLAP4J_JDBC_PASSWORD, password);
+		}
+		connectProps.put(OLAP4J_DRIVER, OLAP4J_MONDRIAN_DRIVER_CLASS);
+		connectProps.put(OLAP4J_URL_PREFIX, OLAP4J_MONDRIAN_URL_PREFIX);
+		
+		// load driver  and Connection
+		rConnection = null;
+		try
+		{
+			Class.forName(OLAP4J_MONDRIAN_DRIVER_CLASS);
+			rConnection = java.sql.DriverManager.getConnection(OLAP4J_MONDRIAN_URL_PREFIX, connectProps);
+		}
+		catch (Throwable t)
+		{
+			throw new JRException("error loading Mondrian olap4j driver and getting Connection '" + OLAP4J_MONDRIAN_DRIVER_CLASS + "'", t);
+		}
 
 		OlapConnection connection = (OlapConnection) rConnection;
 		

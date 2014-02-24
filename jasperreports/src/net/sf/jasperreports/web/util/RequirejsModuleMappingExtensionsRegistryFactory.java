@@ -48,7 +48,7 @@ public class RequirejsModuleMappingExtensionsRegistryFactory implements Extensio
 	public final static String REQUIREJS_MAPPING_PROPERTY_PREFIX =
 		DefaultExtensionsRegistry.PROPERTY_REGISTRY_PREFIX + "requirejs.module.";
 
-    public static final String URL_SUFFIX = "$url";
+	public static final String URL_SUFFIX = "$url";
 	
 	/**
 	 * 
@@ -60,16 +60,16 @@ public class RequirejsModuleMappingExtensionsRegistryFactory implements Extensio
 		for (Iterator<PropertySuffix> it = requirejsModuleProperties.iterator(); it.hasNext();)
 		{
 			PropertySuffix requirejsModuleProp = it.next();
-            String suffix = requirejsModuleProp.getSuffix();
-            boolean isClasspathResource = !suffix.endsWith(URL_SUFFIX);
+			String suffix = requirejsModuleProp.getSuffix();
+			boolean isClasspathResource = !suffix.endsWith(URL_SUFFIX);
 
 			requirejsModules.add(
-                    new RequirejsModuleMapping(
-                            isClasspathResource ? suffix : suffix.substring(0, suffix.indexOf(URL_SUFFIX)),
-                            requirejsModuleProp.getValue(),
-                            isClasspathResource
-                    )
-            );
+					new RequirejsModuleMapping(
+							isClasspathResource ? suffix : suffix.substring(0, suffix.indexOf(URL_SUFFIX)),
+							requirejsModuleProp.getValue(),
+							isClasspathResource
+					)
+			);
 		}
 		
 		return new ListExtensionRegistry<RequirejsModuleMapping>(RequirejsModuleMapping.class, requirejsModules);

@@ -60,16 +60,16 @@ public class RequirejsConfigServlet extends AbstractServlet
 		response.setContentType("text/javascript; charset=UTF-8");
 		setNoExpire(response);
 
-        JasperReportsContext jrContext = getJasperReportsContext();
-        DefaultWebRequestContext webRequestContext = new DefaultWebRequestContext();
-        webRequestContext.setJasperReportsContext(jrContext);
-        webRequestContext.setRequest(request);
-        
-        RequirejsConfigCreator configCreator = RequirejsConfigCreator.getInstance(webRequestContext);
-        String requirejsConfig = configCreator.getRequirejsConfig();
-        
+		JasperReportsContext jrContext = getJasperReportsContext();
+		DefaultWebRequestContext webRequestContext = new DefaultWebRequestContext();
+		webRequestContext.setJasperReportsContext(jrContext);
+		webRequestContext.setRequest(request);
+		
+		RequirejsConfigCreator configCreator = RequirejsConfigCreator.getInstance(webRequestContext);
+		String requirejsConfig = configCreator.getRequirejsConfig();
+		
 		PrintWriter out = response.getWriter();
-        out.write(requirejsConfig);
+		out.write(requirejsConfig);
 	}
 
 }

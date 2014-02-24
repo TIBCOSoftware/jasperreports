@@ -58,39 +58,39 @@ public class ReportPageStatusServlet extends AbstractServlet
 	/**
 	 *
 	 */
-    public void service(
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) throws IOException, ServletException {
+	public void service(
+			HttpServletRequest request,
+			HttpServletResponse response
+	) throws IOException, ServletException {
 
-        response.setContentType(JSON_CONTENT_TYPE);
-        setNoExpire(response);
+		response.setContentType(JSON_CONTENT_TYPE);
+		setNoExpire(response);
 
-        PrintWriter out = response.getWriter();
-        String contextId = request.getParameter(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID);
+		PrintWriter out = response.getWriter();
+		String contextId = request.getParameter(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID);
 
 		if (contextId != null && request.getHeader("accept").indexOf(JSON_ACCEPT_HEADER) >= 0) {
-            WebReportContext webReportContext = WebReportContext.getInstance(request, false);
+			WebReportContext webReportContext = WebReportContext.getInstance(request, false);
 
-            if (webReportContext != null) {
-                try {
-                    pageUpdate(request, response, webReportContext);
-                } catch (Exception e) {
-                    log.error("Error on page status update", e);
-                    response.setStatus(404);
-                    out.println("{\"msg\": \"JasperReports encountered an error on page status update!\"}");
-                }
-            } else {
-                response.setStatus(404);
-                out.println("{\"msg\": \"Resource with id '" + contextId + "' not found!\"}");
-                return;
-            }
+			if (webReportContext != null) {
+				try {
+					pageUpdate(request, response, webReportContext);
+				} catch (Exception e) {
+					log.error("Error on page status update", e);
+					response.setStatus(404);
+					out.println("{\"msg\": \"JasperReports encountered an error on page status update!\"}");
+				}
+			} else {
+				response.setStatus(404);
+				out.println("{\"msg\": \"Resource with id '" + contextId + "' not found!\"}");
+				return;
+			}
 
-        } else {
-            response.setStatus(400);
-            out.println("{\"msg\": \"Wrong parameters!\"}");
-        }
-    }
+		} else {
+			response.setStatus(400);
+			out.println("{\"msg\": \"Wrong parameters!\"}");
+		}
+	}
 
 
 	protected void pageUpdate(HttpServletRequest request, HttpServletResponse response, 

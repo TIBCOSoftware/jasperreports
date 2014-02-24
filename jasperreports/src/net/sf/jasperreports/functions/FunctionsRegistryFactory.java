@@ -93,10 +93,10 @@ public class FunctionsRegistryFactory  implements ExtensionsRegistryFactory
 			for (String className : classes)
 			{
 				className = className.trim();
-			    if (className.length() > 0)
-			    {
-			    	classNames.add( className);
-			    }
+				if (className.length() > 0)
+				{
+					classNames.add( className);
+				}
 			}
 		}
 	}

@@ -42,12 +42,12 @@ public class BaseColumnData {
 		this.tableUuid = tableUuid;
 	}
 
-    @JsonIgnore
+	@JsonIgnore
 	public String getTableUuid() {
 		return tableUuid;
 	}
 
-    @JsonProperty
+	@JsonProperty
 	public void setTableUuid(String tableUuid) {
 		this.tableUuid = tableUuid;
 	}

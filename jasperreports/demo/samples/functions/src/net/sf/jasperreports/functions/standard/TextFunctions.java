@@ -263,7 +263,7 @@ public final class TextFunctions  extends AbstractFunctionSupport
 		}
 		DecimalFormat myFormatter = getDecimalFormat();
 		myFormatter.applyPattern(patternBuf.toString());
-	    return myFormatter.format(number);
+		return myFormatter.format(number);
 	}
 	
 	// ===================== FLOAT_VALUE function ===================== //

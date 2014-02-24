@@ -241,8 +241,8 @@ public abstract class AbstractAction implements Action {
 	}
 
 
-    @Override
-    public boolean requiresRefill() {
-        return true;
-    }
+	@Override
+	public boolean requiresRefill() {
+		return true;
+	}
 }
