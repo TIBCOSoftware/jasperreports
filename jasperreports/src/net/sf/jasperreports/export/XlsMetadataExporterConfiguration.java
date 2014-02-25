@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
  * Interface containing settings used by the Excel metadata exporters.
  *
  * @see JRXlsMetadataExporter
- * @see net.sf.jasperreports.engine.export.JExcelApiMetadataExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$

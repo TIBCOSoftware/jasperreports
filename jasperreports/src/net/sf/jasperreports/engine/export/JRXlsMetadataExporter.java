@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
@@ -142,7 +143,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	
 	/**
 	 * The exporter key, as used in
-	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 * {@link GenericElementHandlerEnviroment#getElementHandler(JRGenericElementType, String)}.
 	 */
 	public static final String XLS_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "xls";
 	public static short MAX_COLOR_INDEX = 56;

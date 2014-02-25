@@ -43,6 +43,7 @@ import java.util.List;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -78,7 +79,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 
 	/**
 	 * The exporter key, as used in
-	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 * {@link GenericElementHandlerEnviroment#getElementHandler(JRGenericElementType, String)}.
 	 */
 	public static final String GRAPHICS2D_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "graphics2d";
 	

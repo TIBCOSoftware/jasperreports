@@ -41,6 +41,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
@@ -662,7 +663,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	
 	/**
 	 * The exporter key, as used in
-	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 * {@link GenericElementHandlerEnviroment#getElementHandler(JRGenericElementType, String)}.
 	 */
 	public static final String ODS_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "ods";
 	

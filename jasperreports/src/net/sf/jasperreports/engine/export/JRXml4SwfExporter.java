@@ -29,6 +29,7 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
@@ -48,7 +49,7 @@ public class JRXml4SwfExporter extends JRXmlExporter
 
 	/**
 	 * The exporter key, as used in
-	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 * {@link GenericElementHandlerEnviroment#getElementHandler(JRGenericElementType, String)}.
 	 */
 	public static final String XML4SWF_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "xml4swf";
 	

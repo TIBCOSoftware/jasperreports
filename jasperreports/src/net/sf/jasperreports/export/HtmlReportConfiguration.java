@@ -36,8 +36,6 @@ import net.sf.jasperreports.export.type.HtmlSizeUnitEnum;
  * Interface containing settings used by the HTML exporters.
  *
  * @see HtmlExporter
- * @see net.sf.jasperreports.engine.export.JRHtmlExporter
- * @see net.sf.jasperreports.engine.export.JRXhtmlExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: HtmlExporterConfiguration.java 6709 2013-11-08 14:39:13Z teodord $

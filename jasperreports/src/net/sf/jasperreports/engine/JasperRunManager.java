@@ -110,7 +110,7 @@ public final class JasperRunManager
 	 * @param params the parameters map
 	 * @return the name of the generated PDF file
 	 * @throws JRException
-	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public String runToPdfFile(
 		String sourceFileName, 
@@ -167,7 +167,7 @@ public final class JasperRunManager
 	 * @param destFileName PDF destination file name
 	 * @param parameters     report parameters map
 	 * @throws JRException
-	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public void runToPdfFile(
 		String sourceFileName, 
@@ -212,7 +212,7 @@ public final class JasperRunManager
 	 * @param outputStream PDF output stream
 	 * @param parameters parameters map
 	 * @throws JRException
-	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public void runToPdfStream(
 		InputStream inputStream, 
@@ -256,7 +256,7 @@ public final class JasperRunManager
 	 * @param parameters     report parameters map
 	 * @return binary PDF output
 	 * @throws JRException
-	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public byte[] runToPdf(
 		String sourceFileName, 
@@ -299,7 +299,7 @@ public final class JasperRunManager
 	 * @param parameters   report parameters map
 	 * @return binary PDF output
 	 * @throws JRException
-	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public byte[] runToPdf(
 		InputStream inputStream, 
@@ -342,7 +342,7 @@ public final class JasperRunManager
 	 * @param parameters the parameters map
 	 * @return binary PDF output
 	 * @throws JRException
-	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public byte[] runToPdf(
 		JasperReport jasperReport, 
@@ -528,7 +528,7 @@ public final class JasperRunManager
 	 * @param params the parameters map
 	 * @return the name of the generated HTML file
 	 * @throws JRException
-	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public String runToHtmlFile(
 		String sourceFileName, 
@@ -585,7 +585,7 @@ public final class JasperRunManager
 	 * @param destFileName name of the destination HTML file
 	 * @param parameters     report parameters map
 	 * @throws JRException
-	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public void runToHtmlFile(
 		String sourceFileName, 

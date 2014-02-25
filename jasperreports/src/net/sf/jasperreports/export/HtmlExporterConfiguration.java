@@ -33,8 +33,6 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * Interface containing settings used by the HTML exporters.
  *
  * @see HtmlExporter
- * @see net.sf.jasperreports.engine.export.JRHtmlExporter
- * @see net.sf.jasperreports.engine.export.JRXhtmlExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$

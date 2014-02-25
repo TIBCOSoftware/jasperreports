@@ -136,7 +136,7 @@ public final class JasperFillManager
 	 * 
 	 * @param sourceFileName source file containing the compile report design
 	 * @param params     report parameters map
-	 * @see JRFiller#fillReport(JasperReport, Map)
+	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public String fillToFile(
 		String sourceFileName, 
@@ -191,7 +191,7 @@ public final class JasperFillManager
 	 * @param sourceFileName source file containing the compile report design
 	 * @param destFileName   file name to place the generated report into
 	 * @param params     report parameters map
-	 * @see JRFiller#fillReport(JasperReport, Map)
+	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public void fillToFile(
 		String sourceFileName, 
@@ -238,7 +238,7 @@ public final class JasperFillManager
 	 * @param jasperReport compiled report design object to use for filling
 	 * @param destFileName file name to place the generated report into
 	 * @param parameters   report parameters map
-	 * @see JRFiller#fillReport(JasperReport, Map)
+	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public void fillToFile(
 		JasperReport jasperReport, 
@@ -284,7 +284,7 @@ public final class JasperFillManager
 	 * @param sourceFileName source file containing the compile report design
 	 * @param params     report parameters map
 	 * @return generated report object
-	 * @see JRFiller#fillReport(JasperReport, Map)
+	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public JasperPrint fill(
 		String sourceFileName, 
@@ -330,7 +330,7 @@ public final class JasperFillManager
 	 * @param inputStream  input stream to read the compiled report design object from
 	 * @param outputStream output stream to write the generated report object to
 	 * @param parameters   report parameters map
-	 * @see JRFiller#fillReport(JasperReport, Map)
+	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public void fillToStream(
 		InputStream inputStream, 
@@ -373,7 +373,7 @@ public final class JasperFillManager
 	 * @param jasperReport compiled report design object to use for filling
 	 * @param outputStream output stream to write the generated report object to
 	 * @param parameters   report parameters map
-	 * @see JRFiller#fillReport(JasperReport, Map)
+	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public void fillToStream(
 		JasperReport jasperReport, 
@@ -415,7 +415,7 @@ public final class JasperFillManager
 	 * @param inputStream  input stream to read the compiled report design object from
 	 * @param parameters   report parameters map
 	 * @return generated report object
-	 * @see JRFiller#fillReport(JasperReport, Map)
+	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public JasperPrint fill(
 		InputStream inputStream, 
@@ -454,7 +454,7 @@ public final class JasperFillManager
 	 * @param jasperReport compiled report design object to use for filling
 	 * @param parameters   report parameters map
 	 * @return generated report object
-	 * @see JRFiller#fillReport(JasperReport, Map)
+	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
 	public JasperPrint fill(
 		JasperReport jasperReport, 

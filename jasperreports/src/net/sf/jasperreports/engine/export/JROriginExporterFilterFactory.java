@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -31,7 +33,7 @@ import net.sf.jasperreports.engine.JRAbstractExporter;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see JROriginExporterFilter#getFilter(net.sf.jasperreports.engine.JRPropertiesMap, String)
+ * @see JROriginExporterFilter#getFilter(JasperReportsContext, JRPropertiesMap, String)
  */
 public class JROriginExporterFilterFactory implements ExporterFilterFactory
 {

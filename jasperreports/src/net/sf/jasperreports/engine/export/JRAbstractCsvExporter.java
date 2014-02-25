@@ -36,6 +36,7 @@ import java.util.StringTokenizer;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -59,7 +60,7 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 
 	/**
 	 * The exporter key, as used in
-	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 * {@link GenericElementHandlerEnviroment#getElementHandler(JRGenericElementType, String)}.
 	 */
 	public static final String CSV_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "csv";
 

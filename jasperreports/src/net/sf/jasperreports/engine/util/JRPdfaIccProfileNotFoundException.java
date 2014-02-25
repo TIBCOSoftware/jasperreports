@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.util;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.export.PdfExporterConfiguration;
 
 
 /**
@@ -58,8 +59,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * </li>
  * </ul>
  * <p/>
- * After obtaining a valid ICC profile, create the {@link net.sf.jasperreports.engine.export.JRPdfExporterParameter#PDFA_ICC_PROFILE_PATH PDFA_ICC_PROFILE_PATH}
- * pdf exporter parameter with the path to the profile.
+ * After obtaining a valid ICC profile, use the path to the profile as value for the {@link PdfExporterConfiguration#getIccProfilePath()} configuration property.
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$

@@ -118,7 +118,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 
 	/**
 	 * The exporter key, as used in
-	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 * {@link GenericElementHandlerEnviroment#getElementHandler(JRGenericElementType, String)}.
 	 */
 	public static final String XML_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "xml";
 

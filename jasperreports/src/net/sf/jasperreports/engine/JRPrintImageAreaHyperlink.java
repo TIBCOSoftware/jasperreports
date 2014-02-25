@@ -31,7 +31,7 @@ import java.io.Serializable;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see JRImageMapRenderer
+ * @see ImageMapRenderable
  */
 public class JRPrintImageAreaHyperlink implements Serializable
 {

@@ -45,8 +45,6 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * @see JRXlsxExporter
  * @see JROdsExporter
  * @see JRXlsMetadataExporter
- * @see net.sf.jasperreports.engine.export.JExcelApiExporter
- * @see net.sf.jasperreports.engine.export.JExcelApiMetadataExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: XlsExporterConfiguration.java 6759 2013-11-20 14:43:19Z teodord $
