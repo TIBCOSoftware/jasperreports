@@ -42,7 +42,7 @@ public abstract class JRAbstractExtendedIncrementerFactory implements JRExtended
 	}
 
 	/**
-	 * This implementation simply calls {@link JRExtendedIncrementerFactory#getExtendedIncrementer(byte) getExtendedIncrementer}.
+	 * This implementation simply calls {@link JRExtendedIncrementerFactory#getExtendedIncrementer(CalculationEnum) getExtendedIncrementer}.
 	 */
 	public JRIncrementer getIncrementer(CalculationEnum calculation)
 	{

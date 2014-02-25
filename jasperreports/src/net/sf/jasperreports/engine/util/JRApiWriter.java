@@ -1398,8 +1398,6 @@ public class JRApiWriter
 	 * The method produces a <code>&lt;dataset&gt;</code> XML element.
 	 * 
 	 * @param dataset the element dataset
-	 * @throws IOException any I/O exception that occurred while writing the
-	 * XML output
 	 */
 	public void writeElementDataset( JRElementDataset dataset, String datasetName)
 	{
@@ -1415,8 +1413,6 @@ public class JRApiWriter
 	 * @param dataset the element dataset
 	 * @param skipIfEmpty if set, no output will be produced if the element dataset
 	 * only has default attribute values
-	 * @throws IOException any I/O exception that occurred while writing the
-	 * XML output
 	 */
 	public void writeElementDataset( JRElementDataset dataset, boolean skipIfEmpty, String datasetName)
 	{
@@ -3508,7 +3504,6 @@ public class JRApiWriter
 	 * Outputs the XML representation of a subdataset run object.
 	 * 
 	 * @param datasetRun the subdataset run
-	 * @throws IOException
 	 */
 	public void writeDatasetRun( JRDatasetRun datasetRun, String parentName)
 	{

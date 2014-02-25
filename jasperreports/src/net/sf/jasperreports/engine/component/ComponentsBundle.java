@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.component;
 
 import java.util.Set;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
+
 /**
  * A component bundle is a package comprising of one or several components that
  * share the same XML namespace and schema. 

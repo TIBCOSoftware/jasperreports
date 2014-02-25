@@ -33,13 +33,14 @@ import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 
 /**
  * Selector of element-level styled text attributes for print text objects.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see JRPrintText#getStyledText(JRStyledTextAttributeSelector)
+ * @see JRStyledTextUtil#getStyledText(JRPrintText, JRStyledTextAttributeSelector)
  * @see JRPrintText#getFullStyledText(JRStyledTextAttributeSelector)
  */
 public abstract class JRStyledTextAttributeSelector

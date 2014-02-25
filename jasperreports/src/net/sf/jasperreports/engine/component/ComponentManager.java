@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see ComponentsEnvironment#getComponentManager(ComponentKey)
+ * @see ComponentsEnvironment#getManager(ComponentKey)
  * @see ComponentsBundle#getComponentManager(String)
  */
 public interface ComponentManager
