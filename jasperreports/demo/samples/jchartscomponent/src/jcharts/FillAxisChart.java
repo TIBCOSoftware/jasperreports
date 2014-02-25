@@ -106,7 +106,7 @@ public class FillAxisChart extends BaseFillComponent implements JRFillCloneable
 				fillContext.getDefaultStyleProvider());
 		templateImage.setStyle(fillContext.getElementStyle());
 		
-		JRTemplatePrintImage image = new JRTemplatePrintImage(templateImage, elementId);
+		JRTemplatePrintImage image = new JRTemplatePrintImage(templateImage, printElementOriginator);
 		image.setX(element.getX());
 		image.setY(fillContext.getElementPrintY());
 		image.setWidth(element.getWidth());

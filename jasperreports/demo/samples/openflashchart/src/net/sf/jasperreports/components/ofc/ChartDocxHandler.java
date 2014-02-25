@@ -42,7 +42,7 @@ public class ChartDocxHandler extends BaseChartHandler implements GenericElement
 		JRExporterGridCell gridCell
 		)
 	{
-		JRDocxExporter exporter = (JRDocxExporter)exporterContext.getExporter();
+		JRDocxExporter exporter = (JRDocxExporter)exporterContext.getExporterRef();
 		
 		JRExporterGridCell newGridCell = getGridCellReplacement(exporterContext, element, gridCell); 
 		

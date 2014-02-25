@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.util.HtmlPrintElement;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 /**
+ * @deprecated To be removed.
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */

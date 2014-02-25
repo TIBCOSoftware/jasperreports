@@ -24,9 +24,6 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.export.GenericElementRtfHandler;
-import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRRtfExporterContext;
 import net.sf.jasperreports.engine.util.HtmlPrintElement;
 import net.sf.jasperreports.engine.util.HtmlPrintElementUtils;
 
@@ -43,7 +40,7 @@ public class HtmlElementRtfHandler implements GenericElementRtfHandler
 	{
 		try
 		{
-			JRRtfExporter exporter = (JRRtfExporter)exporterContext.getExporter();
+			JRRtfExporter exporter = (JRRtfExporter)exporterContext.getExporterRef();
 			HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
 			exporter.exportImage(htmlPrintElement.createImageFromElement(element));
 		}

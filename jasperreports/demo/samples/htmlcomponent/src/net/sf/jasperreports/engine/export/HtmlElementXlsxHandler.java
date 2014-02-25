@@ -48,7 +48,7 @@ public class HtmlElementXlsxHandler implements GenericElementXlsxHandler
 	{
 		try
 		{
-			JRXlsxExporter exporter = (JRXlsxExporter)exporterContext.getExporter();
+			JRXlsxExporter exporter = (JRXlsxExporter)exporterContext.getExporterRef();
 			exporter.exportImage(getImage(exporterContext, element), gridCell, colIndex, rowIndex, 0, 0, null);
 		}
 		catch (Exception e)

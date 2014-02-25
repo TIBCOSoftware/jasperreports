@@ -41,7 +41,7 @@ public class HtmlElementDocxHandler implements GenericElementDocxHandler
 	public void exportElement(JRDocxExporterContext exporterContext,
 			JRGenericPrintElement element, JRExporterGridCell gridCell) 
 	{
-		JRDocxExporter exporter = (JRDocxExporter)exporterContext.getExporter();
+		JRDocxExporter exporter = (JRDocxExporter)exporterContext.getExporterRef();
 		try 
 		{
 			HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();

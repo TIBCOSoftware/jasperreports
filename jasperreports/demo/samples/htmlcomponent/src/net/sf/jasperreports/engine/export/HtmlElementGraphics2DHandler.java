@@ -27,7 +27,6 @@ import java.awt.Graphics2D;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.export.JRGraphics2DExporterContext;
 import net.sf.jasperreports.engine.export.draw.ImageDrawer;
 import net.sf.jasperreports.engine.export.draw.Offset;
 import net.sf.jasperreports.engine.util.HtmlPrintElement;
@@ -48,7 +47,7 @@ public class HtmlElementGraphics2DHandler implements GenericElementGraphics2DHan
 		try {
 			htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
 			
-			JRGraphics2DExporter exporter = (JRGraphics2DExporter)exporterContext.getExporter();
+			JRGraphics2DExporter exporter = (JRGraphics2DExporter)exporterContext.getExporterRef();
 			ImageDrawer imageDrawer = exporter.getFrameDrawer().getDrawVisitor().getImageDrawer();
 			
 			imageDrawer.draw(

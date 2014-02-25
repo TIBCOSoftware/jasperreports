@@ -122,7 +122,7 @@ public class TextInputComponentFill extends BaseFillComponent {
 			template = deduplicate(template);
 		}
 		
-		printElement = new JRTemplateGenericPrintElement(template, elementId);
+		printElement = new JRTemplateGenericPrintElement(template, printElementOriginator);
 		printElement.setUUID(element.getUUID());
 		printElement.setX(element.getX());
 

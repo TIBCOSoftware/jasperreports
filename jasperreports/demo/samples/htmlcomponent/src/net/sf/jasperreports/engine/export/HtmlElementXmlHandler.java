@@ -24,9 +24,6 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.export.GenericElementXmlHandler;
-import net.sf.jasperreports.engine.export.JRXmlExporter;
-import net.sf.jasperreports.engine.export.JRXmlExporterContext;
 import net.sf.jasperreports.engine.util.HtmlPrintElement;
 import net.sf.jasperreports.engine.util.HtmlPrintElementUtils;
 
@@ -43,7 +40,7 @@ public class HtmlElementXmlHandler implements GenericElementXmlHandler
 	{
 		try
 		{
-			JRXmlExporter exporter = (JRXmlExporter)exporterContext.getExporter();
+			JRXmlExporter exporter = (JRXmlExporter)exporterContext.getExporterRef();
 			HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
 			exporter.exportImage(htmlPrintElement.createImageFromElement(element));
 		}

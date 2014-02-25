@@ -50,7 +50,7 @@ public class ChartOdsHandler extends BaseChartHandler implements GenericElementO
 		JRGridLayout layout
 		)
 	{
-		JROdsExporter exporter = (JROdsExporter)exporterContext.getExporter();
+		JROdsExporter exporter = (JROdsExporter)exporterContext.getExporterRef();
 		
 		JRExporterGridCell newGridCell = getGridCellReplacement(exporterContext, element, gridCell);
 		

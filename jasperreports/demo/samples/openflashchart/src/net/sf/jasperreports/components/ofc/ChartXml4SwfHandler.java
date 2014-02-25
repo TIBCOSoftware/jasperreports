@@ -43,7 +43,7 @@ public class ChartXml4SwfHandler extends BaseChartHandler implements GenericElem
 		JRGenericPrintElement element
 		)
 	{
-		JRXml4SwfExporter exporter = (JRXml4SwfExporter)exporterContext.getExporter();
+		JRXml4SwfExporter exporter = (JRXml4SwfExporter)exporterContext.getExporterRef();
 		
 		JRPrintText text = getTextElementReplacement(exporterContext, element);
 		

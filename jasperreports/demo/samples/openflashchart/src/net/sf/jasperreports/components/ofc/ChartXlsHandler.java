@@ -50,7 +50,7 @@ public class ChartXlsHandler extends BaseChartHandler implements GenericElementX
 		JRGridLayout layout
 		)
 	{
-		JRXlsExporter exporter = (JRXlsExporter)exporterContext.getExporter();
+		JRXlsExporter exporter = (JRXlsExporter)exporterContext.getExporterRef();
 		
 		JRExporterGridCell newGridCell = getGridCellReplacement(exporterContext, element, gridCell); 
 		

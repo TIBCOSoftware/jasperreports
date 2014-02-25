@@ -44,7 +44,7 @@ public class HtmlElementOdtHandler implements GenericElementOdtHandler
 	{
 		try
 		{
-			JROdtExporter exporter = (JROdtExporter)exporterContext.getExporter();
+			JROdtExporter exporter = (JROdtExporter)exporterContext.getExporterRef();
 			HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
 			exporter.exportImage(exporterContext.getTableBuilder(), htmlPrintElement.createImageFromElement(element), gridCell);
 		}

@@ -40,7 +40,7 @@ public class ChartPptxHandler extends BaseChartHandler implements GenericElement
 		JRGenericPrintElement element
 		)
 	{
-		JRPptxExporter exporter = (JRPptxExporter)exporterContext.getExporter();
+		JRPptxExporter exporter = (JRPptxExporter)exporterContext.getExporterRef();
 		
 		JRPrintText text = getTextElementReplacement(exporterContext, element);
 		

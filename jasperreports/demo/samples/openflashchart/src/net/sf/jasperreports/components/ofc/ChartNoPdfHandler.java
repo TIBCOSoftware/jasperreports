@@ -37,7 +37,7 @@ public class ChartNoPdfHandler extends BaseChartHandler implements GenericElemen
 {
 	public void exportElement(JRPdfExporterContext exporterContext, JRGenericPrintElement element)
 	{
-		JRPdfExporter exporter = (JRPdfExporter)exporterContext.getExporter();
+		JRPdfExporter exporter = (JRPdfExporter)exporterContext.getExporterRef();
 		
 		JRPrintText text = getTextElementReplacement(exporterContext, element);
 		

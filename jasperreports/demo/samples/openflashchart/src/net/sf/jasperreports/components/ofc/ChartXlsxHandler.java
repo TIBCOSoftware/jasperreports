@@ -46,7 +46,7 @@ public class ChartXlsxHandler extends BaseChartHandler implements GenericElement
 		int rowIndex
 		) throws JRException
 	{
-		JRXlsxExporter exporter = (JRXlsxExporter)exporterContext.getExporter();
+		JRXlsxExporter exporter = (JRXlsxExporter)exporterContext.getExporterRef();
 		
 		JRExporterGridCell newGridCell = getGridCellReplacement(exporterContext, element, gridCell); 
 		

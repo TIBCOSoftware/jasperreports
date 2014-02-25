@@ -51,7 +51,7 @@ public class HtmlElementOdsHandler implements GenericElementOdsHandler
 	{
 		try
 		{
-			JROdsExporter exporter = (JROdsExporter)exporterContext.getExporter();
+			JROdsExporter exporter = (JROdsExporter)exporterContext.getExporterRef();
 			HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
 			exporter.exportImage(htmlPrintElement.createImageFromElement(element), gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
 		}

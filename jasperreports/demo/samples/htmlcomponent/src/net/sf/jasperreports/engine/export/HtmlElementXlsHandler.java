@@ -46,7 +46,7 @@ public class HtmlElementXlsHandler implements GenericElementXlsHandler
 	{
 		try
 		{
-			JRXlsExporter exporter = (JRXlsExporter)exporterContext.getExporter();
+			JRXlsExporter exporter = (JRXlsExporter)exporterContext.getExporterRef();
 			HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
 			exporter.exportImage(htmlPrintElement.createImageFromElement(element), gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
 		}

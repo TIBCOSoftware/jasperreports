@@ -116,7 +116,7 @@ public class HtmlComponentFill extends BaseFillComponent {
 			template.setForecolor(htmlComponent.getContext().getComponentElement().getForecolor());
 		}
 		
-		printElement = new JRTemplateGenericPrintElement(template, elementId);
+		printElement = new JRTemplateGenericPrintElement(template, printElementOriginator);
 		printElement.setX(element.getX());
 
 		printElement.setWidth(element.getWidth());

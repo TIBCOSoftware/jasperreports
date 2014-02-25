@@ -38,7 +38,7 @@ public class HtmlElementPdfHandler implements GenericElementPdfHandler
 		try
 		{
 			HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
-			((JRPdfExporter)exporterContext.getExporter()).exportImage(htmlPrintElement.createImageFromElement(element));
+			((JRPdfExporter)exporterContext.getExporterRef()).exportImage(htmlPrintElement.createImageFromElement(element));
 		}
 		catch (Exception e)
 		{

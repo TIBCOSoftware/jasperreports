@@ -41,7 +41,7 @@ public class HtmlElementPptxHandler implements GenericElementPptxHandler
 	public void exportElement(JRPptxExporterContext exporterContext,
 			JRGenericPrintElement element) 
 	{
-		JRPptxExporter exporter = (JRPptxExporter)exporterContext.getExporter();
+		JRPptxExporter exporter = (JRPptxExporter)exporterContext.getExporterRef();
 		try 
 		{
 			HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();

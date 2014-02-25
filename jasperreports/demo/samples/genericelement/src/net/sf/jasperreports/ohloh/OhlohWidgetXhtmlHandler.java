@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 /**
+ * @deprecated To be removed.
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */

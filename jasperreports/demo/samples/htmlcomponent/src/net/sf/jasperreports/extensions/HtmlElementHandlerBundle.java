@@ -28,21 +28,16 @@ import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
 import net.sf.jasperreports.engine.export.HtmlElementDocxHandler;
 import net.sf.jasperreports.engine.export.HtmlElementGraphics2DHandler;
 import net.sf.jasperreports.engine.export.HtmlElementHtmlHandler;
-import net.sf.jasperreports.engine.export.HtmlElementJExcelHandler;
 import net.sf.jasperreports.engine.export.HtmlElementOdsHandler;
 import net.sf.jasperreports.engine.export.HtmlElementOdtHandler;
 import net.sf.jasperreports.engine.export.HtmlElementPdfHandler;
 import net.sf.jasperreports.engine.export.HtmlElementPptxHandler;
 import net.sf.jasperreports.engine.export.HtmlElementRtfHandler;
-import net.sf.jasperreports.engine.export.HtmlElementXhtmlHandler;
 import net.sf.jasperreports.engine.export.HtmlElementXlsHandler;
 import net.sf.jasperreports.engine.export.HtmlElementXlsxHandler;
-import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
@@ -72,13 +67,14 @@ public final class HtmlElementHandlerBundle implements GenericElementHandlerBund
 		return NAMESPACE;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public GenericElementHandler getHandler(String elementName,
 			String exporterKey)
 	{
 		if (NAME.equals(elementName) 
-				&& JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
+				&& net.sf.jasperreports.engine.export.JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
 		{
-			return new HtmlElementXhtmlHandler();
+			return new net.sf.jasperreports.engine.export.HtmlElementXhtmlHandler();
 		} 
 		else if (NAME.equals(elementName)
 				&& JRPdfExporter.PDF_EXPORTER_KEY.equals(exporterKey))
@@ -86,7 +82,7 @@ public final class HtmlElementHandlerBundle implements GenericElementHandlerBund
 			return new HtmlElementPdfHandler();
 		}
 		else if (NAME.equals(elementName)
-				&& JRHtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
+				&& net.sf.jasperreports.engine.export.JRHtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
 		{
 			return new HtmlElementHtmlHandler();
 		}
@@ -96,9 +92,9 @@ public final class HtmlElementHandlerBundle implements GenericElementHandlerBund
 			return new HtmlElementXlsHandler();
 		}
 		else if (NAME.equals(elementName)
-				&& JExcelApiExporter.JXL_EXPORTER_KEY.equals(exporterKey))
+				&& net.sf.jasperreports.engine.export.JExcelApiExporter.JXL_EXPORTER_KEY.equals(exporterKey))
 		{
-			return new HtmlElementJExcelHandler();
+			return new net.sf.jasperreports.engine.export.HtmlElementJExcelHandler();
 		}		
 		else if (NAME.equals(elementName)
 				&& JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))

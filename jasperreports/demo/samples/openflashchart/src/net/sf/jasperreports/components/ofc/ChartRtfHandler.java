@@ -44,7 +44,7 @@ public class ChartRtfHandler extends BaseChartHandler implements GenericElementR
 		JRGenericPrintElement element
 		)
 	{
-		JRRtfExporter exporter = (JRRtfExporter)exporterContext.getExporter();
+		JRRtfExporter exporter = (JRRtfExporter)exporterContext.getExporterRef();
 		
 		JRPrintText text = getTextElementReplacement(exporterContext, element);
 		

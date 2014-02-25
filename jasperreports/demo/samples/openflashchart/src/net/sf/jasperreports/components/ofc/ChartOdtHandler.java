@@ -42,7 +42,7 @@ public class ChartOdtHandler extends BaseChartHandler implements GenericElementO
 		JRExporterGridCell gridCell
 		)
 	{
-		JROdtExporter exporter = (JROdtExporter)exporterContext.getExporter();
+		JROdtExporter exporter = (JROdtExporter)exporterContext.getExporterRef();
 		
 		JRExporterGridCell newGridCell = getGridCellReplacement(exporterContext, element, gridCell); 
 		
