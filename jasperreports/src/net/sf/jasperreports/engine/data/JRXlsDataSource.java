@@ -151,7 +151,11 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 			//initialize sheetIndex before first record
 			if (sheetIndex < 0)
 			{
-				if (sheetSelection != null) 
+				if (sheetSelection == null)
+				{
+					sheetIndex = 0;
+				}
+				else
 				{
 					try
 					{
