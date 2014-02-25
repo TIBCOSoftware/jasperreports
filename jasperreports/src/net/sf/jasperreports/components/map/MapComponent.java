@@ -98,7 +98,7 @@ public interface MapComponent extends Component, JRCloneable
 	ItemData getMarkerData();
 	
 	/**
-	 * @deprecated Replaced by {@link #getMarkerData()}.
+	 * @deprecated Replaced by {@link #getMarkerDataList()}.
 	 */
 	MarkerDataset getMarkerDataset();
 }

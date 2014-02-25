@@ -58,7 +58,6 @@ public class MapCompiler implements ComponentCompiler
 		collector.addExpression(map.getAddressExpression());
 		collector.addExpression(map.getZoomExpression());
 		collector.addExpression(map.getLanguageExpression());
-		collectExpressions(map.getMarkerDataset(), collector);
 
 		List<ItemData> markerDataList = map.getMarkerDataList();
 		if(markerDataList != null && markerDataList.size() > 0) {
