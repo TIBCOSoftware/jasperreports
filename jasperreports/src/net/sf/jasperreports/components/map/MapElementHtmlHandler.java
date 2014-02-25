@@ -37,8 +37,8 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.export.Exporter;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
-import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
+import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
@@ -52,15 +52,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 	
 	private static final String MAP_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/map/resources/templates/MapElementHtmlTemplate.vm";
 	
-	private static class CustomJRExporterParameter extends net.sf.jasperreports.engine.JRExporterParameter{
-
-		protected CustomJRExporterParameter(String name)
-        {
-			super(name);
-		}
-	}
-	
-	private CustomJRExporterParameter param = new MapElementHtmlHandler.CustomJRExporterParameter("exporter_first_attempt");
+	private static final String FIRST_ATTEMPT_PARAM = "exporter_first_attempt";
 
 	public static MapElementHtmlHandler getInstance()
 	{
@@ -129,9 +121,9 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
                 contextMap.put(MapPrintElement.PARAMETER_REQ_PARAMS, reqParams);
             }
 
-            if (!(context.getExportParameters().containsKey(param)))
+            if (context.getValue(FIRST_ATTEMPT_PARAM) == null)
             {
-                context.getExportParameters().put(param, true);
+                context.setValue(FIRST_ATTEMPT_PARAM, true);
 
                 //FIXME: support for parametrized http://maps.google.com/maps/api/js script (see MapElementHtmlTemplate.vm)
                 contextMap.put("exporterFirstAttempt", true);

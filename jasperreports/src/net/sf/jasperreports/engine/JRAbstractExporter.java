@@ -271,7 +271,11 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	public void reset()
 	{
 		useOldApi = null;
-		parameters = new HashMap<JRExporterParameter,Object>();
+
+		@SuppressWarnings("deprecation")
+		Map<JRExporterParameter,Object> dep = new HashMap<JRExporterParameter,Object>();
+		parameters = dep;
+		
 		elementOffsetStack = new LinkedList<int[]>();
 		exporterInput = null;
 		exporterOutput = null;

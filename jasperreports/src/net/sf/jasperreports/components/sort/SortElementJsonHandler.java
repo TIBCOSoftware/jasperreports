@@ -35,7 +35,6 @@ import net.sf.jasperreports.components.sort.actions.SortAction;
 import net.sf.jasperreports.components.sort.actions.SortData;
 import net.sf.jasperreports.engine.CompositeDatasetFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
@@ -70,14 +69,7 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 	private static final String SORT_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/sort/resources/SortElementJsonTemplate.vm";
 	private static final String PARAM_GENERATED_TEMPLATE = "net.sf.jasperreports.sort";
 
-	private static class CustomJRExporterParameter extends JRExporterParameter {
-
-		protected CustomJRExporterParameter(String name) {
-			super(name);
-		}
-	}
-
-	private static final CustomJRExporterParameter param = new SortElementJsonHandler.CustomJRExporterParameter("exporter_first_attempt");
+	private static final String SORT_DATASET = "exporter_first_attempt";
 
 	public String getJsonFragment(JsonExporterContext context, JRGenericPrintElement element)
 	{
@@ -120,9 +112,9 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 			}
 			contextMap.put("templateAlreadyLoaded", templateAlreadyLoaded);
 
-			if (!(context.getExportParameters().containsKey(param) && sortDatasetName.equals(context.getExportParameters().get(param)))) {
-
-				context.getExportParameters().put(param, sortDatasetName);
+			if (!sortDatasetName.equals(context.getValue(SORT_DATASET))) 
+			{
+				context.setValue(SORT_DATASET, sortDatasetName);
 
 				// operators
 				contextMap.put("numericOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale)));
