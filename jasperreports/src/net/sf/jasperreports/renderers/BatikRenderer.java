@@ -348,7 +348,6 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 	 * @param location the location
 	 * @return a SVG renderer
 	 * @throws JRException
-	 * @see RepositoryUtil#getBytes(String)
 	 * @deprecated Replaced by {@link #getInstanceFromLocation(JasperReportsContext, String)}.
 	 */
 	public static BatikRenderer getInstanceFromLocation(String location) throws JRException
@@ -362,7 +361,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 	 * @param location the location
 	 * @return a SVG renderer
 	 * @throws JRException
-	 * @see RepositoryUtil#getBytes(String)
+	 * @see RepositoryUtil#getBytesFromLocation(String)
 	 */
 	public static BatikRenderer getInstanceFromLocation(JasperReportsContext jasperReportsContext, String location) throws JRException
 	{

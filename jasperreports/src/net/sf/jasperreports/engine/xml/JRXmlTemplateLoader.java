@@ -103,7 +103,7 @@ public class JRXmlTemplateLoader
 	 * 	Can be a URL, a file path or a classloader resource name.
 	 * @return the template object
 	 * @throws JRException when the location cannot be resolved or read
-	 * @see RepositoryUtil#getBytes(String)
+	 * @see RepositoryUtil#getBytesFromLocation(String)
 	 */
 	public JRTemplate loadTemplate(String location) throws JRException
 	{
