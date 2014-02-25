@@ -98,6 +98,8 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	
 	public abstract class BaseExporterContext implements JRExporterContext
 	{
+		private Map<String, Object> values = new HashMap<String, Object>();
+
 		/**
 		 * @deprecated Replaced by {@link #getExporterRef()}.
 		 */
@@ -141,6 +143,16 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		public String getExportPropertiesPrefix()
 		{
 			return JRAbstractExporter.this.getExporterPropertiesPrefix();
+		}
+		
+		public Object getValue(String key)
+		{
+			return values.get(key);
+		}
+		
+		public void setValue(String key, Object value)
+		{
+			values.put(key, value);
 		}
 	}
 	

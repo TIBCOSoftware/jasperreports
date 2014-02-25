@@ -62,7 +62,6 @@ import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.DatasetFilter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRField;
@@ -147,14 +146,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		numberPatternsMap.put("###0;(###0-)", "(1234-)");
 	}
 	
-	private static class CustomJRExporterParameter extends JRExporterParameter{
-
-		protected CustomJRExporterParameter(String name) {
-			super(name);
-		}
-	}
-	
-	private static final CustomJRExporterParameter param = new HeaderToolbarElementJsonHandler.CustomJRExporterParameter("exporter_first_attempt");
+	private static final String TABLE_UUID = "exporter_first_attempt";
 
 	public String getJsonFragment(JsonExporterContext context, JRGenericPrintElement element)
 	{
@@ -222,16 +214,13 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
 			}
 			
-			if (
-				!(context.getExportParameters().containsKey(param) 
-				&& tableUUID.equals(context.getExportParameters().get(param)))
-				) 
+			if (!tableUUID.equals(context.getValue(TABLE_UUID))) 
 			{
 				Map<String, ColumnInfo> columnNames = getAllColumnNames(element, jrContext, contextMap);
 				List<Map<String, Object>> columnGroupsData = getColumnGroupsData(jrContext, reportContext, jasperDesign, dataset, table, tableUUID);
 				// column names are normally set on the first column, but check if we got them
 				if (!columnNames.isEmpty()) {
-					context.getExportParameters().put(param, tableUUID);
+					context.setValue(TABLE_UUID, tableUUID);
 
 					// column info
 					contextMap.put("allColumnNames", JacksonUtil.getInstance(jrContext).getJsonString(columnNames));

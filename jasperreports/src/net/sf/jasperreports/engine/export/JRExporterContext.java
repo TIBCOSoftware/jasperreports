@@ -93,4 +93,14 @@ public interface JRExporterContext
 	 * @return the current Y-axis offset
 	 */
 	int getOffsetY();
+
+	/**
+	 *
+	 */
+	public Object getValue(String key);
+
+	/**
+	 *
+	 */
+	public void setValue(String key, Object value);
 }
