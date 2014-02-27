@@ -838,34 +838,58 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public int getFontSize()
+	public float getFontsize()
 	{
-		return JRStyleResolver.getFontSize(this);
+		return JRStyleResolver.getFontsize(this);
 	}
 
 	/**
 	 *
+	 */
+	public Float getOwnFontsize()
+	{
+		return providerStyle == null || providerStyle.getOwnFontsize() == null ? ((JRFont)parent).getOwnFontsize() : providerStyle.getOwnFontsize();
+	}
+
+	/**
+	 * 
+	 */
+	public void setFontSize(Float size)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getFontsize()}.
+	 */
+	public int getFontSize()
+	{
+		return (int)getFontsize();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getOwnFontsize()}.
 	 */
 	public Integer getOwnFontSize()
 	{
-		return providerStyle == null || providerStyle.getOwnFontSize() == null ? ((JRFont)parent).getOwnFontSize() : providerStyle.getOwnFontSize();
+		Float fontSize = getOwnFontsize();
+		return fontSize == null ? null : fontSize.intValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setFontSize(Float)}.
 	 */
 	public void setFontSize(int size)
 	{
-		throw new UnsupportedOperationException();
+		setFontSize((float)size);
 	}
 
 	/**
-	 * Alternative setSize method which allows also to reset
-	 * the "own" size property.
+	 * @deprecated Replaced by {@link #setFontSize(Float)}.
 	 */
 	public void setFontSize(Integer size)
 	{
-		throw new UnsupportedOperationException();
+		setFontSize(size == null ? null : size.floatValue());
 	}
 
 	/**

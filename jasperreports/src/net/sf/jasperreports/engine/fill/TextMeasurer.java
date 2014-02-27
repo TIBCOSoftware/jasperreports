@@ -830,7 +830,7 @@ public class TextMeasurer implements JRTextMeasurer
 				)
 			{
 				measuredState.fontSizeSum += 
-					lineWrapper.maxFontSize(lineStartPosition, lineStartPosition + characterCount);
+					lineWrapper.maxFontsize(lineStartPosition, lineStartPosition + characterCount);
 
 				if (measuredState.lines == 1)
 				{

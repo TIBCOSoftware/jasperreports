@@ -94,7 +94,7 @@ public class DocxStyleHelper extends BaseHelper
 				JRDesignStyle style = new JRDesignStyle();
 				style.setName("EMPTY_CELL_STYLE");
 				style.setParentStyle(jasperPrint.getDefaultStyle());
-				style.setFontSize(0);
+				style.setFontSize(0f);
 				exportHeader(style);
 				paragraphHelper.exportProps(style);
 				runHelper.exportProps(style, (localeCode == null ? null : JRDataUtils.getLocale(localeCode)));//FIXMEDOCX reuse exporter

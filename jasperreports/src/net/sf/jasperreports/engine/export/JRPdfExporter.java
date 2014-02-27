@@ -1890,7 +1890,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				pdfFontName,
 				pdfEncoding,
 				isPdfEmbedded,
-				jrFont.getFontSize() * fontSizeScale,
+				jrFont.getFontsize() * fontSizeScale,
 				pdfFontStyle,
 				forecolor
 				);
@@ -1952,7 +1952,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			font =
 				new Font(
 					baseFont,
-					jrFont.getFontSize() * fontSizeScale,
+					jrFont.getFontsize() * fontSizeScale,
 					pdfFontStyle,
 					forecolor
 					);

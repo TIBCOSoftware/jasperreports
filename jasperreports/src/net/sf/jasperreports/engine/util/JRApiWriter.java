@@ -1115,7 +1115,7 @@ public class JRApiWriter
 		if (font != null)
 		{
 			write( fontHolderName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(font.getOwnFontName()));
-			write( fontHolderName + ".setFontSize({0, number, #});\n", font.getOwnFontSize());
+			write( fontHolderName + ".setFontSize({0, number, #});\n", font.getOwnFontsize());
 			write( fontHolderName + ".setBold({0});\n", font.isOwnBold());
 			write( fontHolderName + ".setItalic({0});\n", font.isOwnItalic());
 			write( fontHolderName + ".setUnderline({0});\n", font.isOwnUnderline());
@@ -1135,7 +1135,7 @@ public class JRApiWriter
 	{
 		write( styleName + ".setMode({0});\n", style.getOwnModeValue());
 		write( styleName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnFontName()));
-		write( styleName + ".setFontSize({0, number, #});\n", style.getOwnFontSize());
+		write( styleName + ".setFontSize({0, number, #});\n", style.getOwnFontsize());
 		write( styleName + ".setBold({0});\n", style.isOwnBold());
 		write( styleName + ".setItalic({0});\n", style.isOwnItalic());
 		write( styleName + ".setUnderline({0});\n", style.isOwnUnderline());

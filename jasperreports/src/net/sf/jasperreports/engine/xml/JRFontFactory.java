@@ -84,7 +84,7 @@ public abstract class JRFontFactory extends JRBaseFactory
 		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_size) != null)
 		{
-			font.setFontSize(Integer.parseInt(atts.getValue(JRXmlConstants.ATTRIBUTE_size)));
+			font.setFontSize(Float.parseFloat(atts.getValue(JRXmlConstants.ATTRIBUTE_size)));
 		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_pdfFontName) != null)
 		{

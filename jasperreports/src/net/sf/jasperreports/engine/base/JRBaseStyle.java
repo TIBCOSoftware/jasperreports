@@ -151,7 +151,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	protected Boolean isItalic;
 	protected Boolean isUnderline;
 	protected Boolean isStrikeThrough;
-	protected Integer fontSize;
+	protected Float fontsize;
 	protected String pdfFontName;
 	protected String pdfEncoding;
 	protected Boolean isPdfEmbedded;
@@ -235,7 +235,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		isItalic = style.isOwnItalic();
 		isUnderline = style.isOwnUnderline();
 		isStrikeThrough = style.isOwnStrikeThrough();
-		fontSize = style.getOwnFontSize();
+		fontsize = style.getOwnFontsize();
 		pdfFontName = style.getOwnPdfFontName();
 		pdfEncoding = style.getOwnPdfEncoding();
 		isPdfEmbedded = style.isOwnPdfEmbedded();
@@ -530,14 +530,31 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		return isStrikeThrough;
 	}
 
-	public Integer getFontSize()
+	public Float getFontsize()
 	{
-		return JRStyleResolver.getFontSize(this);
+		return JRStyleResolver.getFontsize(this);
 	}
 
+	public Float getOwnFontsize()
+	{
+		return fontsize;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getFontsize()}.
+	 */
+	public Integer getFontSize()
+	{
+		Float fontSize = getFontsize();
+		return fontSize == null ? null : fontSize.intValue();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getOwnFontsize()}.
+	 */
 	public Integer getOwnFontSize()
 	{
-		return fontSize;
+		return fontsize == null ? null : fontsize.intValue();
 	}
 
 	public String getPdfFontName()
@@ -853,19 +870,27 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	public void setFontSize(int fontSize)
+	public void setFontSize(Float fontSize)
 	{
-		setFontSize(Integer.valueOf(fontSize));
+		Object old = this.fontsize;
+		this.fontsize = fontSize;
+		getEventSupport().firePropertyChange(PROPERTY_FONT_SIZE, old, this.fontsize);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setFontSize(Float)}.
+	 */
+	public void setFontSize(int fontSize)
+	{
+		setFontSize((float)fontSize);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setFontSize(Float)}.
 	 */
 	public void setFontSize(Integer fontSize)
 	{
-		Object old = this.fontSize;
-		this.fontSize = fontSize;
-		getEventSupport().firePropertyChange(PROPERTY_FONT_SIZE, old, this.fontSize);
+		setFontSize(fontSize == null ? null : fontSize.floatValue());
 	}
 
 	/**
@@ -1018,6 +1043,10 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 * @deprecated
 	 */
 	private Byte fill;
+	/**
+	 * @deprecated
+	 */
+	private Integer fontSize;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -1099,6 +1128,13 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 			paragraph.setLineSpacing(lineSpacingValue);
 			lineSpacingValue = null;
 		}
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_5_2)
+		{
+			fontsize = fontSize == null ? null : fontSize.floatValue();
+
+			fontSize = null;
+		}
 	}
 	
 	public Object clone()
@@ -1155,7 +1191,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		hash.add(isItalic);
 		hash.add(isUnderline);
 		hash.add(isStrikeThrough);
-		hash.add(fontSize);
+		hash.add(fontsize);
 		hash.add(pdfFontName);
 		hash.add(pdfEncoding);
 		hash.add(isPdfEmbedded);
@@ -1206,7 +1242,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 				&& ObjectUtils.equals(isItalic, style.isItalic)
 				&& ObjectUtils.equals(isUnderline, style.isUnderline)
 				&& ObjectUtils.equals(isStrikeThrough, style.isStrikeThrough)
-				&& ObjectUtils.equals(fontSize, style.fontSize)
+				&& ObjectUtils.equals(fontsize, style.fontsize)
 				&& ObjectUtils.equals(pdfFontName, style.pdfFontName)
 				&& ObjectUtils.equals(pdfEncoding, style.pdfEncoding)
 				&& ObjectUtils.equals(isPdfEmbedded, style.isPdfEmbedded)

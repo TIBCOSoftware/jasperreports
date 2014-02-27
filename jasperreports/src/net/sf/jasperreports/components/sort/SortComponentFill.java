@@ -146,7 +146,7 @@ public class SortComponentFill extends BaseFillComponent {
 		printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_FONT, sortComponent.getSymbolFont());
 		
 		if (sortComponent.getSymbolFont() != null ) {
-			printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_FONT_SIZE, String.valueOf(sortComponent.getSymbolFont().getFontSize()));
+			printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_FONT_SIZE, String.valueOf(sortComponent.getSymbolFont().getFontsize()));
 		} 
 		if (sortComponent.getHandlerHorizontalAlign() != null) 
 		{

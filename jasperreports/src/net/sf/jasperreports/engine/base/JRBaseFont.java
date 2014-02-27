@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.base;
 
 import java.awt.font.TextAttribute;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.Map;
@@ -87,7 +89,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	protected Boolean isItalic;
 	protected Boolean isUnderline;
 	protected Boolean isStrikeThrough;
-	protected Integer fontSize;
+	protected Float fontsize;
 	protected String pdfFontName;
 	protected String pdfEncoding;
 	protected Boolean isPdfEmbedded;
@@ -127,7 +129,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		Float sizeAttr = (Float)attributes.get(TextAttribute.SIZE);
 		if (sizeAttr != null)
 		{
-			setFontSize(sizeAttr.intValue());
+			setFontSize(sizeAttr.floatValue());
 		}
 		
 		Object underline = attributes.get(TextAttribute.UNDERLINE);
@@ -188,7 +190,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 			isItalic = font.isOwnItalic();
 			isUnderline = font.isOwnUnderline();
 			isStrikeThrough = font.isOwnStrikeThrough();
-			fontSize = font.getOwnFontSize();
+			fontsize = font.getOwnFontsize();
 			pdfFontName = font.getOwnPdfFontName();
 			pdfEncoding = font.getOwnPdfEncoding();
 			isPdfEmbedded = font.isOwnPdfEmbedded();
@@ -213,7 +215,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		isItalic = font.isOwnItalic();
 		isUnderline = font.isOwnUnderline();
 		isStrikeThrough = font.isOwnStrikeThrough();
-		fontSize = font.getOwnFontSize();
+		fontsize = font.getOwnFontsize();
 		pdfFontName = font.getOwnPdfFontName();
 		pdfEncoding = font.getOwnPdfEncoding();
 		isPdfEmbedded = font.isOwnPdfEmbedded();
@@ -415,36 +417,59 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	/**
 	 *
 	 */
-	public int getFontSize()
+	public float getFontsize()
 	{
-		return JRStyleResolver.getFontSize(this);
+		return JRStyleResolver.getFontsize(this);
 	}
 	
 	/**
 	 *
 	 */
-	public Integer getOwnFontSize()
+	public Float getOwnFontsize()
 	{
-		return fontSize;
+		return fontsize;
 	}
 	
 	/**
-	 *
+	 * Method which allows also to reset the "own" size property.
 	 */
-	public void setFontSize(int fontSize)
+	public void setFontSize(Float fontSize) 
 	{
-		setFontSize(Integer.valueOf(fontSize));
+		Object old = this.fontsize;
+		this.fontsize = fontSize;
+		getEventSupport().firePropertyChange(PROPERTY_FONT_SIZE, old, this.fontsize);
 	}
 
 	/**
-	 * Alternative setSize method which allows also to reset
-	 * the "own" size property.
+	 * @deprecated Replaced by {@link #getFontsize()}.
+	 */
+	public int getFontSize()
+	{
+		return (int)getFontsize();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getOwnFontsize()}.
+	 */
+	public Integer getOwnFontSize()
+	{
+		return fontsize == null ? null : fontsize.intValue();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setFontSize(Float)}.
+	 */
+	public void setFontSize(int fontSize)
+	{
+		setFontSize((float)fontSize);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setFontSize(Float)}.
 	 */
 	public void setFontSize(Integer fontSize) 
 	{
-		Object old = this.fontSize;
-		this.fontSize = fontSize;
-		getEventSupport().firePropertyChange(PROPERTY_FONT_SIZE, old, this.fontSize);
+		setFontSize(fontSize == null ? null : fontSize.floatValue());
 	}
 
 	/**
@@ -571,5 +596,27 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		
 		return eventSupport;
 	}
+
 	
+	/*
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
+	private Integer fontSize;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_5_2)
+		{
+			fontsize = fontSize == null ? null : fontSize.floatValue();
+			
+			fontSize = null;
+		}
+	}
+
 }

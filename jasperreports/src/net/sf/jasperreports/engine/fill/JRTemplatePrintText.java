@@ -752,32 +752,57 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 *
 	 */
-	public int getFontSize()
+	public float getFontsize()
 	{
-		return ((JRTemplateText)template).getFontSize();
+		return ((JRTemplateText)template).getFontsize();
 	}
 
 	/**
 	 *
+	 */
+	public Float getOwnFontsize()
+	{
+		return ((JRTemplateText)template).getOwnFontsize();
+	}
+
+	/**
+	 * Method which allows also to reset the "own" size property.
+	 */
+	public void setFontSize(Float fontSize)
+	{
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getFontsize()}.
+	 */
+	public int getFontSize()
+	{
+		return (int)getFontsize();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getOwnFontsize()}.
 	 */
 	public Integer getOwnFontSize()
 	{
-		return ((JRTemplateText)template).getOwnFontSize();
+		Float fontSize = getOwnFontsize();
+		return fontSize == null ? null : fontSize.intValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setFontSize(Float)}.
 	 */
 	public void setFontSize(int fontSize)
 	{
+		setFontSize((float)fontSize);
 	}
 
 	/**
-	 * Alternative setSize method which allows also to reset
-	 * the "own" size property.
+	 * @deprecated Replaced by {@link #setFontSize(Float)}.
 	 */
 	public void setFontSize(Integer fontSize)
 	{
+		setFontSize(fontSize == null ? null : fontSize.floatValue());
 	}
 
 	/**

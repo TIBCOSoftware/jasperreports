@@ -765,9 +765,18 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	}
 
 	@Override
-	public int maxFontSize(int start, int end)
+	public float maxFontsize(int start, int end)
 	{
 		return fontKey.size;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #maxFontsize(int, int)}.
+	 */
+	@Override
+	public int maxFontSize(int start, int end)
+	{
+		return (int)maxFontsize(start, end);
 	}
 
 	@Override
@@ -801,11 +810,19 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	protected static class FontKey
 	{
 		String family;
-		int size;
+		float size;
 		int style;
 		Locale locale;
 		
+		/**
+		 * @deprecated To be removed.
+		 */
 		public FontKey(String family, int size, int style, Locale locale)
+		{
+			this(family, (float)size, style, locale);
+		}
+		
+		public FontKey(String family, float size, int style, Locale locale)
 		{
 			super();
 			this.family = family;
@@ -819,7 +836,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		{
 			int hash = 43;
 			hash = hash*29 + family.hashCode();
-			hash = hash*29 + size;
+			hash = hash*29 + Float.floatToIntBits(size);
 			hash = hash*29 + style;
 			hash = hash*29 + (locale == null ? 0 : locale.hashCode());
 			return hash;

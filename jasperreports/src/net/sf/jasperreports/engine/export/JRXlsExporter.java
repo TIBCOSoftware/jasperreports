@@ -1123,7 +1123,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		{
 			HSSFFont cf = (HSSFFont)loadedFonts.get(i);
 
-			short fontSize = (short)font.getFontSize();
+			short fontSize = (short)font.getFontsize();
 			if (isFontSizeFixEnabled)
 			{
 				fontSize -= 1;
@@ -1151,7 +1151,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			cellFont.setFontName(fontName);
 			cellFont.setColor(forecolor);
 
-			short fontSize = (short)font.getFontSize();
+			short fontSize = (short)font.getFontsize();
 			if (isFontSizeFixEnabled)
 			{
 				fontSize -= 1;

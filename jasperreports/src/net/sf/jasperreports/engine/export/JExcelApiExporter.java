@@ -1664,7 +1664,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 			{
 				WritableFont cf = (WritableFont) this.loadedFonts.get(i);
 
-				int fontSize = font.getFontSize();
+				int fontSize = (int)font.getFontsize();
 				if (isFontSizeFixEnabled)
 				{
 					fontSize -= 1;
@@ -1702,7 +1702,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		{
 			if (cellFont == null)
 			{
-				int fontSize = font.getFontSize();
+				int fontSize = (int)font.getFontsize();
 				if (isFontSizeFixEnabled)
 				{
 					fontSize -= 1;

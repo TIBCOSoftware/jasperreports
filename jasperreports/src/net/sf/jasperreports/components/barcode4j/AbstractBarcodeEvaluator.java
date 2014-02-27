@@ -116,10 +116,10 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 				barcode.setFontName(fontName);
 			}
 			
-			Integer fontSize = style.getFontSize();
+			Float fontSize = style.getFontsize();
 			if (fontSize != null)
 			{
-				double barFontSize = UnitConv.pt2mm(fontSize.intValue());
+				double barFontSize = UnitConv.pt2mm(fontSize.floatValue());
 				barcode.setFontSize(barFontSize);
 			}
 		}

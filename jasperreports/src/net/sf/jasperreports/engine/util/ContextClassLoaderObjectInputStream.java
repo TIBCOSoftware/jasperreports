@@ -137,7 +137,7 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 			// We load an instance of an AWT font, even if the specified fontName is not available (ignoreMissingFont=true),
 			// because only third-party visualization packages such as JFreeChart (chart themes) store serialized java.awt.Font objects,
 			// and they are responsible for the drawing as well.
-			Font newFont = FontUtil.getInstance(jasperReportsContext).getAwtFontFromBundles(fontName, font.getStyle(), font.getSize(), null, true);
+			Font newFont = FontUtil.getInstance(jasperReportsContext).getAwtFontFromBundles(fontName, font.getStyle(), font.getSize2D(), null, true);
 			
 			if (newFont != null)
 			{

@@ -1183,31 +1183,31 @@ public final class JRStyleResolver
 	 *
 	 */
 	@SuppressWarnings("deprecation")
-	public static int getFontSize(JRFont font)
+	public static float getFontsize(JRFont font)
 	{
-		Integer ownFontSize = font.getOwnFontSize();
+		Float ownFontSize = font.getOwnFontsize();
 		if (ownFontSize != null)
 		{
-			return ownFontSize.intValue();
+			return ownFontSize.floatValue();
 		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
 		{
-			Integer fontSize = baseStyle.getFontSize();
+			Float fontSize = baseStyle.getFontsize();
 			if (fontSize != null)
 			{
-				return fontSize.intValue();
+				return fontSize.floatValue();
 			}
 		}
-		return JRProperties.getIntegerProperty(JRFont.DEFAULT_FONT_SIZE);
+		return JRProperties.getFloatProperty(JRFont.DEFAULT_FONT_SIZE);
 	}
 	
 	/**
 	 *
 	 */
-	public static Integer getFontSize(JRStyle style)
+	public static Float getFontsize(JRStyle style)
 	{
-		Integer ownFontSize = style.getOwnFontSize();
+		Float ownFontSize = style.getOwnFontsize();
 		if (ownFontSize != null)
 		{
 			return ownFontSize;
@@ -1215,9 +1215,26 @@ public final class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
 		{
-			return baseStyle.getFontSize();
+			return baseStyle.getFontsize();
 		}
 		return null;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getFontsize(JRFont)}.
+	 */
+	public static int getFontSize(JRFont font)
+	{
+		return (int)getFontsize(font);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getFontsize(JRStyle)}.
+	 */
+	public static Integer getFontSize(JRStyle style)
+	{
+		Float fontSize = getFontsize(style);
+		return fontSize == null ? null : fontSize.intValue();
 	}
 
 	/**
@@ -1558,9 +1575,9 @@ public final class JRStyleResolver
 		{
 			destStyle.setStrikeThrough(srcStyle.isOwnStrikeThrough());
 		}
-		if (srcStyle.getOwnFontSize() != null)
+		if (srcStyle.getOwnFontsize() != null)
 		{
-			destStyle.setFontSize(srcStyle.getOwnFontSize());
+			destStyle.setFontSize(srcStyle.getOwnFontsize());
 		}
 		if (srcStyle.getOwnPdfFontName() != null)
 		{

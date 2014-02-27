@@ -223,10 +223,20 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	/**
 	 *
 	 */
-	public Integer getFontSize();
+	public Float getFontsize();
 
 	/**
 	 *
+	 */
+	public Float getOwnFontsize();
+
+	/**
+	 * @deprecated Replaced by {@link #getFontsize()}.
+	 */
+	public Integer getFontSize();
+
+	/**
+	 * @deprecated Replaced by {@link #getOwnFontsize()}.
 	 */
 	public Integer getOwnFontSize();
 
@@ -420,10 +430,15 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	/**
 	 *
 	 */
+	public void setFontSize(Float fontSize);
+
+	/**
+	 * @deprecated Replaced by {@link #setFontSize(Float)}.
+	 */
 	public void setFontSize(int fontSize);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setFontSize(Float)}.
 	 */
 	public void setFontSize(Integer fontSize);
 

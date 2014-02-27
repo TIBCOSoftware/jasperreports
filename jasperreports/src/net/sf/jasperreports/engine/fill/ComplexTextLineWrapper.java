@@ -26,10 +26,10 @@ package net.sf.jasperreports.engine.fill;
 import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
-import java.text.BreakIterator;
-import java.text.CharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.text.AttributedString;
+import java.text.BreakIterator;
+import java.text.CharacterIterator;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -138,11 +138,20 @@ public class ComplexTextLineWrapper implements TextLineWrapper
 	}
 	
 	@Override
-	public int maxFontSize(int start, int end)
+	public float maxFontsize(int start, int end)
 	{
 		return maxFontSizeFinder.findMaxFontSize(
 				new AttributedString(paragraph, start, end).getIterator(),
-				context.getElement().getFontSize());
+				context.getElement().getFontsize());
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #maxFontsize(int, int)}.
+	 */
+	@Override
+	public int maxFontSize(int start, int end)
+	{
+		return (int)maxFontsize(start, end);
 	}
 	
 	@Override

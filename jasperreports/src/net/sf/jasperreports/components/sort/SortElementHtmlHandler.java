@@ -48,8 +48,8 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.export.Exporter;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
-import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
+import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.util.JacksonUtil;
@@ -116,7 +116,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("sortHandlerHAlign", sortHandlerHAlign != null ? sortHandlerHAlign : CSS_TEXT_ALIGN_LEFT);
 			velocityContext.put("sortHandlerVAlign", sortHandlerVAlign != null ? sortHandlerVAlign : HTML_VERTICAL_ALIGN_TOP);
 			velocityContext.put("sortHandlerColor", JRColorUtil.getColorHexa(sortHandlerColor));
-			velocityContext.put("sortHandlerFontSize", sortHandlerFont.getFontSize());
+			velocityContext.put("sortHandlerFontSize", sortHandlerFont.getFontsize());
 			
 			if (element.getModeValue() == ModeEnum.OPAQUE)
 			{

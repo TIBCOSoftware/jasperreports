@@ -114,9 +114,9 @@ public final class FontUtil
 			{
 				destFont.setStrikeThrough(srcFont.isOwnStrikeThrough());
 			}
-			if (srcFont.getOwnFontSize() != null)
+			if (srcFont.getOwnFontsize() != null)
 			{
-				destFont.setFontSize(srcFont.getOwnFontSize());
+				destFont.setFontSize(srcFont.getOwnFontsize());
 			}
 			if (srcFont.getOwnPdfFontName() != null)
 			{
@@ -141,7 +141,7 @@ public final class FontUtil
 	{
 		attributes.put(TextAttribute.FAMILY, font.getFontName());
 
-		attributes.put(TextAttribute.SIZE, new Float(font.getFontSize()));
+		attributes.put(TextAttribute.SIZE, font.getFontsize());
 
 		if (font.isBold())
 		{
@@ -240,9 +240,18 @@ public final class FontUtil
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getAwtFontFromBundles(String, int, float, Locale, boolean)}.
 	 */
 	public Font getAwtFontFromBundles(String name, int style, int size, Locale locale, boolean ignoreMissingFont)
+	{
+		return getAwtFontFromBundles(name, style, (float)size, locale, ignoreMissingFont);
+	}
+
+
+	/**
+	 *
+	 */
+	public Font getAwtFontFromBundles(String name, int style, float size, Locale locale, boolean ignoreMissingFont)
 	{
 		Font awtFont = null;
 		FontInfo fontInfo = getFontInfo(name, locale);
@@ -294,7 +303,8 @@ public final class FontUtil
 				// In such case, we take the family name and consider it as JVM available font name.
 				checkAwtFont(family.getName(), ignoreMissingFont);
 				
-				awtFont = new Font(family.getName(), style, size);
+				awtFont = new Font(family.getName(), style, (int)size);
+				awtFont = awtFont.deriveFont(size);
 			}
 			else
 			{
@@ -304,7 +314,7 @@ public final class FontUtil
 					throw new JRRuntimeException("The '" + face.getName() + "' font face in family '" + family.getName() + "' returns a null font.");
 				}
 
-				awtFont = awtFont.deriveFont((float)size);
+				awtFont = awtFont.deriveFont(size);
 				
 				awtFont = awtFont.deriveFont(style & ~faceStyle);
 			}
@@ -369,7 +379,7 @@ public final class FontUtil
 			getAwtFontFromBundles(
 				font.getFontName(), 
 				((font.isBold()?Font.BOLD:Font.PLAIN)|(font.isItalic()?Font.ITALIC:Font.PLAIN)), 
-				font.getFontSize(),
+				font.getFontsize(),
 				locale,
 				true
 				);

@@ -91,7 +91,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	protected Boolean isItalic;
 	protected Boolean isUnderline;
 	protected Boolean isStrikeThrough;
-	protected Integer fontSize;
+	protected Float fontsize;
 	protected String pdfFontName;
 	protected String pdfEncoding;
 	protected Boolean isPdfEmbedded;
@@ -169,7 +169,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		isItalic = textElement.isOwnItalic();
 		isUnderline = textElement.isOwnUnderline();
 		isStrikeThrough = textElement.isOwnStrikeThrough();
-		fontSize = textElement.getOwnFontSize();
+		fontsize = textElement.getOwnFontsize();
 		pdfFontName = textElement.getOwnPdfFontName();
 		pdfEncoding = textElement.getOwnPdfEncoding();
 		isPdfEmbedded = textElement.isOwnPdfEmbedded();
@@ -577,34 +577,57 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	/**
 	 *
 	 */
-	public int getFontSize()
+	public float getFontsize()
 	{
-		return JRStyleResolver.getFontSize(this);
+		return JRStyleResolver.getFontsize(this);
 	}
 
 	/**
 	 *
+	 */
+	public Float getOwnFontsize()
+	{
+		return fontsize;
+	}
+
+	/**
+	 * Method which allows also to reset the "own" size property.
+	 */
+	public void setFontSize(Float fontSize)
+	{
+		this.fontsize = fontSize;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getFontsize()}. 
+	 */
+	public int getFontSize()
+	{
+		return (int)getFontsize();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getOwnFontsize()}. 
 	 */
 	public Integer getOwnFontSize()
 	{
-		return fontSize;
+		return fontsize == null ? null : fontsize.intValue();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setFontSize(Float)}. 
 	 */
 	public void setFontSize(int fontSize)
 	{
-		setFontSize(Integer.valueOf(fontSize));
+		setFontSize((float)fontSize);
 	}
 
 	/**
-	 * Alternative setSize method which allows also to reset
-	 * the "own" size property.
+	 * @deprecated Replaced by {@link #setFontSize(Float)}. 
 	 */
 	public void setFontSize(Integer fontSize)
 	{
-		this.fontSize = fontSize;
+		setFontSize(fontSize == null ? null : fontSize.floatValue());
 	}
 
 	/**
@@ -917,6 +940,10 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 * @deprecated
 	 */
 	private byte hyperlinkTarget;
+	/**
+	 * @deprecated
+	 */
+	private Integer fontSize;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
@@ -995,6 +1022,13 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 			paragraph.setLineSpacing(lineSpacingValue);
 			lineSpacingValue = null;
 		}
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_5_2)
+		{
+			fontsize = fontSize == null ? null : fontSize.floatValue();
+
+			fontSize = null;
+		}
 	}
 
 	public int getHashCode()
@@ -1014,7 +1048,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 		hash.add(isItalic);
 		hash.add(isUnderline);
 		hash.add(isStrikeThrough);
-		hash.add(fontSize);
+		hash.add(fontsize);
 		hash.add(pdfFontName);
 		hash.add(pdfEncoding);
 		hash.add(isPdfEmbedded);
@@ -1053,7 +1087,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 				&& ObjectUtils.equals(isItalic, template.isItalic)
 				&& ObjectUtils.equals(isUnderline, template.isUnderline)
 				&& ObjectUtils.equals(isStrikeThrough, template.isStrikeThrough)
-				&& ObjectUtils.equals(fontSize, template.fontSize)
+				&& ObjectUtils.equals(fontsize, template.fontsize)
 				&& ObjectUtils.equals(pdfFontName, template.pdfFontName)
 				&& ObjectUtils.equals(pdfEncoding, template.pdfEncoding)
 				&& ObjectUtils.equals(isPdfEmbedded, template.isPdfEmbedded)

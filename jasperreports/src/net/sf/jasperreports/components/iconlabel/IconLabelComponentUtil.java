@@ -118,7 +118,7 @@ public class IconLabelComponentUtil
 		labelTextField.setStyle(textElement.getStyle());
 		labelTextField.setStyleNameReference(textElement.getStyleNameReference());
 		labelTextField.setMode(parentElement.getOwnModeValue());
-		labelTextField.setFontSize(parentElement.getOwnFontSize());
+		labelTextField.setFontSize(parentElement.getOwnFontsize());
 		labelTextField.setFontName(parentElement.getOwnFontName());
 		labelTextField.setForecolor(parentElement.getOwnForecolor());
 		labelTextField.setBackcolor(parentElement.getOwnBackcolor());
@@ -198,7 +198,7 @@ public class IconLabelComponentUtil
 		iconTextField.setStyleNameReference(textElement.getStyleNameReference());
 		iconTextField.setMode(parentElement.getOwnModeValue());
 		iconTextField.setFontName(JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(TableReport.PROPERTY_ICON_FONT));
-		iconTextField.setFontSize(parentElement.getOwnFontSize());
+		iconTextField.setFontSize(parentElement.getOwnFontsize());
 		iconTextField.setForecolor(parentElement.getOwnForecolor());
 		iconTextField.setBackcolor(parentElement.getOwnBackcolor());
 		iconTextField.setBold(false);//parentElement.isOwnBold());

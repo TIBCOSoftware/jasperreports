@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
-import java.awt.*;
+import java.awt.Color;
 
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
 import net.sf.jasperreports.components.table.util.TableUtil;
@@ -92,7 +92,7 @@ public class EditTextElementCommand implements Command
 		}
 		
 		textElement.setFontName(textElementData.getFontName());
-		textElement.setFontSize(textElementData.getFontSize() != null ? Integer.valueOf(textElementData.getFontSize()) : null);
+		textElement.setFontSize(textElementData.getFontSize() != null ? Float.valueOf(textElementData.getFontSize()) : null);
 		textElement.setBold(textElementData.getFontBold());
 		textElement.setItalic(textElementData.getFontItalic());
 		textElement.setUnderline(textElementData.getFontUnderline());

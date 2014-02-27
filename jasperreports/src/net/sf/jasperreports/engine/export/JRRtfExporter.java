@@ -932,7 +932,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			contentWriter.write("\\f");
 			contentWriter.write(String.valueOf(getFontIndex(styleFont, getTextLocale(text))));
 			contentWriter.write("\\fs");
-			contentWriter.write(String.valueOf(2 * styleFont.getFontSize()));
+			contentWriter.write(String.valueOf((int)(2 * styleFont.getFontsize())));
 
 			if (styleFont.isBold())
 			{

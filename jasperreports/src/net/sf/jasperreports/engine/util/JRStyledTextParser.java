@@ -912,7 +912,7 @@ public class JRStyledTextParser implements ErrorHandler
 			sbuffer.append(SPACE);
 			sbuffer.append(ATTRIBUTE_size);
 			sbuffer.append(EQUAL_QUOTE);
-			sbuffer.append(((Float)value).intValue());
+			sbuffer.append(value);
 			sbuffer.append(QUOTE);
 		}
 

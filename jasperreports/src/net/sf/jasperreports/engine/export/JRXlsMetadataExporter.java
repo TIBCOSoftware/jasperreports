@@ -1775,7 +1775,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 		for (int i = 0; i < loadedFonts.size(); i++) {
 			HSSFFont cf = (HSSFFont)loadedFonts.get(i);
-			short fontSize = (short)font.getFontSize();
+			short fontSize = (short)font.getFontsize();
 			if (isFontSizeFixEnabled) {
 				fontSize -= 1;
 			}
@@ -1799,7 +1799,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			cellFont = workbook.createFont();
 			cellFont.setFontName(fontName);
 			cellFont.setColor(forecolor);
-			short fontSize = (short)font.getFontSize();
+			short fontSize = (short)font.getFontsize();
 			if (isFontSizeFixEnabled) {
 				fontSize -= 1;
 			}

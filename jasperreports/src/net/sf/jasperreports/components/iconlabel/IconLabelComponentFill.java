@@ -565,7 +565,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			- getLineBox().getLeftPadding() 
 			- getLineBox().getRightPadding();
 
-		middlePadding = iconTextField.getFontSize() / 2;
+		middlePadding = (int)(iconTextField.getFontsize() / 2);
 
 		if (availableWidth <= middlePadding)
 		{
@@ -650,7 +650,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			)//FIXMEICONLABEL here we might get to hide icons simply because label is blank
 		{
 			direction = IconLabelDirectionEnum.VERTICAL;
-			middlePadding = iconTextField.getFontSize() / 2;
+			middlePadding = (int)(iconTextField.getFontsize() / 2);
 //			labelTextField.setWidth(availableWidth);
 			int iconAvailableHeight =
 				(labelTextField.isStretchWithOverflow()

@@ -1062,7 +1062,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			writer.startElement(JRXmlConstants.ELEMENT_font, getNamespace());
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, font.getOwnFontName());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getOwnFontSize());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getOwnFontsize());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, font.isOwnBold());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isItalic, font.isOwnItalic());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isUnderline, font.isOwnUnderline());

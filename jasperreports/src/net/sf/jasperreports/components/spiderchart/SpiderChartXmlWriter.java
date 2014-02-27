@@ -250,7 +250,7 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		{
 			writer.startElement(JRXmlConstants.ELEMENT_font, JRXmlWriter.JASPERREPORTS_NAMESPACE);
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, font.getOwnFontName());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getOwnFontSize());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getOwnFontsize());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, font.isOwnBold());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isItalic, font.isOwnItalic());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isUnderline, font.isOwnUnderline());

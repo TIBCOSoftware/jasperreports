@@ -263,7 +263,7 @@ public class PropertyStyleProvider implements StyleProvider
 		String fontSize = getPropertyValue(STYLE_PROPERTY_FONT_SIZE, evaluation);
 		if (fontSize != null)
 		{
-			style.setFontSize(Integer.valueOf(fontSize));
+			style.setFontSize(Float.valueOf(fontSize));
 		}
 
 		String bold = getPropertyValue(STYLE_PROPERTY_FONT_BOLD, evaluation);

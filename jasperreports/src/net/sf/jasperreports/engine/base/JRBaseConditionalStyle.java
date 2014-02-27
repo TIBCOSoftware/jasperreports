@@ -83,7 +83,7 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 		isItalic = style.isOwnItalic();
 		isUnderline = style.isOwnUnderline();
 		isStrikeThrough = style.isOwnStrikeThrough();
-		fontSize = style.getOwnFontSize();
+		fontsize = style.getOwnFontsize();
 		pdfFontName = style.getOwnPdfFontName();
 		pdfEncoding = style.getOwnPdfEncoding();
 		isPdfEmbedded = style.isOwnPdfEmbedded();

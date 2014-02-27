@@ -2011,12 +2011,20 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		return target;
 	}
 
-	public String toSizeUnit(int size)
+	public String toSizeUnit(float size)
 	{
 		return String.valueOf(toZoom(size)) + getCurrentItemConfiguration().getSizeUnit().getName();
 	}
 
-	protected int toZoom(int size)//FIXMEEXPORT cache this
+	/**
+	 * @deprecated Replaced by {@link #toSizeUnit(float)}.
+	 */
+	public String toSizeUnit(int size)
+	{
+		return toSizeUnit((float)size);
+	}
+
+	protected float toZoom(float size)//FIXMEEXPORT cache this
 	{
 		float zoom = DEFAULT_ZOOM;
 		
@@ -2030,7 +2038,15 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 		}
 
-		return (int) (zoom * size);
+		return (zoom * size);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #toZoom(float)}.
+	 */
+	protected int toZoom(int size)
+	{
+		return (int)toZoom((float)size);
 	}
 
 	protected JRStyledText getStyledText(JRPrintText textElement,
@@ -2248,7 +2264,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 
 		writer.write("font-size: ");
-		writer.write(toSizeUnit(((Float)attributes.get(TextAttribute.SIZE)).intValue()));
+		writer.write(toSizeUnit((Float)attributes.get(TextAttribute.SIZE)));
 		writer.write(";");
 			
 		switch (lineSpacing)

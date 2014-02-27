@@ -354,7 +354,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_fontSize) != null)
 		{
-			style.setFontSize(Integer.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_fontSize)));
+			style.setFontSize(Float.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_fontSize)));
 		}
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_pdfFontName) != null)
 		{

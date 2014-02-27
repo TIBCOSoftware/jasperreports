@@ -277,7 +277,7 @@ public class JRStyledText implements Cloneable
 						familyName, 
 						((TextAttribute.WEIGHT_BOLD.equals(attrs.get(TextAttribute.WEIGHT))?Font.BOLD:Font.PLAIN)
 							|(TextAttribute.POSTURE_OBLIQUE.equals(attrs.get(TextAttribute.POSTURE))?Font.ITALIC:Font.PLAIN)), 
-						((Float)attrs.get(TextAttribute.SIZE)).intValue(),
+						(Float)attrs.get(TextAttribute.SIZE),
 						locale,
 						ignoreMissingFont
 						);
