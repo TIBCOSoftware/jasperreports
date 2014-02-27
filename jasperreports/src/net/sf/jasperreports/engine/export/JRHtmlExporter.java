@@ -2265,8 +2265,13 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 
 	public String toSizeUnit(float size)
 	{
-		String sizeUnit = getCurrentItemConfiguration().getSizeUnit().getName();
-		return String.valueOf(toZoom(size)) + sizeUnit;
+		Number number = toZoom(size);
+		if (number.intValue() == number.floatValue())
+		{
+			number = number.intValue();
+		}
+
+		return String.valueOf(number) + getCurrentItemConfiguration().getSizeUnit().getName();
 	}
 
 	/**
