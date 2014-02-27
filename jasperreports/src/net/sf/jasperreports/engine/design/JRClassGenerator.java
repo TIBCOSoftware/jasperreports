@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.functions.FunctionSupport;
@@ -59,6 +60,8 @@ import net.sf.jasperreports.functions.FunctionSupport;
  */
 public class JRClassGenerator
 {
+	
+	public static final String PROPERTY_MAX_METHOD_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.max.java.method.size";
 	
 	
 	/**
@@ -93,6 +96,8 @@ public class JRClassGenerator
 	}
 
 	protected final JRSourceCompileTask sourceTask;
+
+	private final int maxMethodSize;
 	
 	protected Map<String, ? extends JRParameter> parametersMap;
 	protected Map<String,JRField> fieldsMap;
@@ -107,6 +112,9 @@ public class JRClassGenerator
 		fieldsMap = sourceTask.getFieldsMap();
 		variablesMap = sourceTask.getVariablesMap();
 		variables = sourceTask.getVariables();
+		
+		JRPropertiesUtil properties = JRPropertiesUtil.getInstance(sourceTask.getJasperReportsContext());
+		maxMethodSize = properties.getIntegerProperty(PROPERTY_MAX_METHOD_SIZE, Integer.MAX_VALUE);
 	}
 
 	
@@ -457,7 +465,7 @@ public class JRClassGenerator
 
 		if (expressionsList.size() > 0)
 		{
-			sb.append(generateMethod(expressionsList.listIterator(), 0, evaluationType));
+			sb.append(generateMethod(expressionsList.listIterator(), evaluationType));
 		}
 		else
 		{
@@ -482,19 +490,55 @@ public class JRClassGenerator
 	/**
 	 *
 	 */
-	private String generateMethod(Iterator<JRExpression> it, int index, byte evaluationType) throws JRException
+	private String generateMethod(Iterator<JRExpression> it, byte evaluationType) throws JRException
 	{
+		int methodIndex = 0;
 		StringBuffer sb = new StringBuffer();
 
-		/*   */
+		writeMethodStart(sb, evaluationType, methodIndex);
+		++methodIndex;
+
+		StringBuffer expressionBuffer = new StringBuffer();
+		int methodExpressionIndex = 0;
+		int methodBufferStartPosition = sb.length();
+		while (it.hasNext())
+		{
+			JRExpression expression = it.next();
+			
+			expressionBuffer.setLength(0);
+			writeExpression(expressionBuffer, expression, evaluationType);
+			if (methodExpressionIndex >= EXPR_MAX_COUNT_PER_METHOD
+					|| (methodExpressionIndex > 0 && sb.length() - methodBufferStartPosition > maxMethodSize))
+			{
+				// end the current method
+				writeMethodEnd(sb, evaluationType, it.hasNext() ? methodIndex : null);
+				
+				// start a new method
+				writeMethodStart(sb, evaluationType, methodIndex);
+				++methodIndex;
+				methodExpressionIndex = 0;
+				methodBufferStartPosition = sb.length();
+			}
+			
+			sb.append(expressionBuffer);
+			++methodExpressionIndex;
+		}
+		
+		writeMethodEnd(sb, evaluationType, null);
+		
+		return sb.toString();
+	}
+
+	protected void writeMethodStart(StringBuffer sb, byte evaluationType, int methodIndex)
+	{
 		sb.append("    /**\n");
 		sb.append("     *\n");
 		sb.append("     */\n");
-		if (index > 0)
+		if (methodIndex > 0)
 		{
 			sb.append("    private Object evaluate");
 			sb.append(methodSuffixMap.get(new Byte(evaluationType)));
-			sb.append(index);
+			sb.append(methodIndex);
 		}
 		else
 		{
@@ -507,32 +551,32 @@ public class JRClassGenerator
 		sb.append("\n");
 		sb.append("        switch (id)\n");
 		sb.append("        {\n");
+	}
 
-		for (int i = 0; it.hasNext() && i < EXPR_MAX_COUNT_PER_METHOD; i++)
-		{
-			JRExpression expression = it.next();
-			
-			sb.append("            case "); 
-			sb.append(sourceTask.getExpressionId(expression)); 
-			sb.append(" : \n");
-			sb.append("            {\n");
-			sb.append("                value = ");
-			sb.append(this.generateExpression(expression, evaluationType));
-			sb.append(";");
-			appendExpressionComment(sb, expression);
-			sb.append("\n");
-			sb.append("                break;\n");
-			sb.append("            }\n");
-		}
-
-		/*   */
+	protected void writeExpression(StringBuffer sb, JRExpression expression, byte evaluationType)
+	{
+		sb.append("            case "); 
+		sb.append(sourceTask.getExpressionId(expression)); 
+		sb.append(" : \n");
+		sb.append("            {\n");
+		sb.append("                value = ");
+		sb.append(this.generateExpression(expression, evaluationType));
+		sb.append(";");
+		appendExpressionComment(sb, expression);
+		sb.append("\n");
+		sb.append("                break;\n");
+		sb.append("            }\n");
+	}
+	
+	protected void writeMethodEnd(StringBuffer sb, byte evaluationType, Integer nextMethodIndex)
+	{
 		sb.append("           default :\n");
 		sb.append("           {\n");
-		if (it.hasNext())
+		if (nextMethodIndex != null)
 		{
 			sb.append("               value = evaluate");
 			sb.append(methodSuffixMap.get(new Byte(evaluationType)));
-			sb.append(index + 1);
+			sb.append(nextMethodIndex);
 			sb.append("(id);\n");
 		}
 		sb.append("           }\n");
@@ -542,14 +586,8 @@ public class JRClassGenerator
 		sb.append("    }\n");
 		sb.append("\n");
 		sb.append("\n");
-		
-		if (it.hasNext())
-		{
-			sb.append(generateMethod(it, index + 1, evaluationType));
-		}
-		
-		return sb.toString();
 	}
+
 
 
 	/**
