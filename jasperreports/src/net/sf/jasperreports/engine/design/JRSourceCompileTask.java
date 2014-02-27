@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * Expression evaluator source code generation information.
@@ -170,5 +171,10 @@ public class JRSourceCompileTask
 	public JRExpression getExpression(int expressionId)
 	{
 		return expressionCollector.getExpression(expressionId);
+	}
+	
+	public JasperReportsContext getJasperReportsContext()
+	{
+		return expressionCollector.getJasperReportsContext();
 	}
 }

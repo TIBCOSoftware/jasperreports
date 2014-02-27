@@ -1534,4 +1534,9 @@ public class JRExpressionCollector
 			}
 		}
 	}
+
+	public JasperReportsContext getJasperReportsContext()
+	{
+		return jasperReportsContext;
+	}
 }
