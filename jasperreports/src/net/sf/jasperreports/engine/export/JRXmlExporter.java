@@ -435,7 +435,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		//xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isBlankWhenNull, style.isOwnBlankWhenNull());
 		
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, style.getOwnFontName());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_fontSize, style.getOwnFontsize());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_fontSize, style.getOwnFontsize(), true);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, style.isOwnBold());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isItalic, style.isOwnItalic());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isUnderline, style.isOwnUnderline());
@@ -1014,7 +1014,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		{
 			xmlWriter.startElement(JRXmlConstants.ELEMENT_font);
 			xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, font.getOwnFontName());
-			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getOwnFontsize());
+			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getOwnFontsize(), true);
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, font.isOwnBold());
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isItalic, font.isOwnItalic());
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isUnderline, font.isOwnUnderline());

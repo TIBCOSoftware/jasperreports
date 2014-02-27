@@ -531,6 +531,19 @@ public class JRXmlWriteHelper
 		}
 	}
 	
+	public void addAttribute(String name, Float value, boolean withMinDecimals)
+	{
+		if (value != null)
+		{
+			Number number = value;
+			if (withMinDecimals && value.intValue() == value.floatValue())
+			{
+				number = value.intValue();
+			}
+			writeAttribute(name, String.valueOf(number));
+		}
+	}
+	
 	public void addAttribute(String name, JREnum value)
 	{
 		addAttribute(name, (NamedEnum) value);
