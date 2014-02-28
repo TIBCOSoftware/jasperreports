@@ -91,25 +91,29 @@ public class FillPlaceItem extends FillItem
 			boolean hasLatitude = !(latitude == null || "".equals(latitude));
 			boolean hasLongitude = !(longitude == null || "".equals(longitude));
 
-			if(hasLatitude && hasLongitude){
+			if(hasLatitude && hasLongitude)
+			{
 				result.remove(MapComponent.PROPERTY_address);
-				if(latitude instanceof String) {
-					String lat = (String) latitude;
-					if (lat.indexOf('f') > -1) {
-						result.put(MapComponent.PROPERTY_latitude, lat.substring(0, lat.indexOf('f')));
-					}
-				} else if (latitude instanceof Double) {
-					result.put(MapComponent.PROPERTY_latitude, (float)((Double)latitude).doubleValue());
+				if (latitude instanceof Number) 
+				{
+					result.put(MapComponent.PROPERTY_latitude, ((Number)latitude).floatValue());
 				}
-				if(longitude instanceof String) {
-					String lg = (String) longitude;
-					if (lg.indexOf('f') > -1) {
-						result.put(MapComponent.PROPERTY_longitude, lg.substring(0, lg.indexOf('f')));
-					}
-				} else if (longitude instanceof Double) {
-					result.put(MapComponent.PROPERTY_longitude, (float)((Double)longitude).doubleValue());
+				else
+				{
+					result.put(MapComponent.PROPERTY_latitude, Float.parseFloat(String.valueOf(latitude)));
 				}
-			} else if (address != null){
+				
+				if (longitude instanceof Number) 
+				{
+					result.put(MapComponent.PROPERTY_longitude, ((Number)longitude).floatValue());
+				}
+				else 
+				{
+					result.put(MapComponent.PROPERTY_longitude, Float.parseFloat(String.valueOf(longitude)));
+				}
+			}
+			else if (address != null)
+			{
 				Float[] coords = (Float[])address;
 				if(coords[0] != null && coords[1] != null){
 					result.put(MapComponent.PROPERTY_latitude, coords[0]);

@@ -160,31 +160,11 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		key = util.getProperty(propertiesHolder, MapComponent.PROPERTY_KEY);
 		version = util.getProperty(propertiesHolder, MapComponent.PROPERTY_VERSION);
 		
-		Object lat = fillContext.evaluate(mapComponent.getLatitudeExpression(), evaluation);
-		if(lat != null)
-		{
-			if(lat instanceof Double) 
-			{
-				latitude = (float)((Double)lat).doubleValue();
-			} 
-			else 
-			{
-				latitude = (Float)lat;
-			}
-		}
+		Number lat = (Number)fillContext.evaluate(mapComponent.getLatitudeExpression(), evaluation);
+		latitude = lat == null ? null : lat.floatValue();
 		
-		Object lg = fillContext.evaluate(mapComponent.getLongitudeExpression(), evaluation);
-		if(lg != null)
-		{
-			if(lg instanceof Double) 
-			{
-				longitude = (float)((Double)lg).doubleValue();
-			} 
-			else 
-			{
-				longitude = (Float)lg;
-			}
-		}
+		Number lg = (Number)fillContext.evaluate(mapComponent.getLongitudeExpression(), evaluation);
+		longitude = lg == null ? null : lg.floatValue();
 
 		if(latitude == null || longitude == null) {
 			center = (String)fillContext.evaluate(mapComponent.getAddressExpression(), evaluation);
