@@ -93,6 +93,22 @@ public class FillPlaceItem extends FillItem
 
 			if(hasLatitude && hasLongitude){
 				result.remove(MapComponent.PROPERTY_address);
+				if(latitude instanceof String) {
+					String lat = (String) latitude;
+					if (lat.indexOf('f') > -1) {
+						result.put(MapComponent.PROPERTY_latitude, lat.substring(0, lat.indexOf('f')));
+					}
+				} else if (latitude instanceof Double) {
+					result.put(MapComponent.PROPERTY_latitude, (float)((Double)latitude).doubleValue());
+				}
+				if(longitude instanceof String) {
+					String lg = (String) longitude;
+					if (lg.indexOf('f') > -1) {
+						result.put(MapComponent.PROPERTY_longitude, lg.substring(0, lg.indexOf('f')));
+					}
+				} else if (longitude instanceof Double) {
+					result.put(MapComponent.PROPERTY_longitude, (float)((Double)longitude).doubleValue());
+				}
 			} else if (address != null){
 				Float[] coords = (Float[])address;
 				if(coords[0] != null && coords[1] != null){
