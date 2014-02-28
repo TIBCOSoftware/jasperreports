@@ -266,9 +266,11 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 		{
 			return null;
 		}		
-		try {
-			if (valueClass.equals(Boolean.class)) {
-				return fieldValue.equalsIgnoreCase("true") ? Boolean.TRUE : Boolean.FALSE;
+		try 
+		{
+			if (valueClass.equals(Boolean.class)) 
+			{
+				return convertStringValue(fieldValue, valueClass);
 			}
 			else if (Number.class.isAssignableFrom(valueClass))
 			{
@@ -281,7 +283,8 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 					return convertStringValue(fieldValue, valueClass);
 				}
 			}
-			else if (Date.class.isAssignableFrom(valueClass)){
+			else if (Date.class.isAssignableFrom(valueClass))
+			{
 				if (dateFormat != null)
 				{
 					return FormatUtils.getFormattedDate(dateFormat, fieldValue, valueClass);
@@ -295,7 +298,9 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 			{
 				throw new JRException("Field '" + jrField.getName() + "' is of class '" + valueClass.getName() + "' and can not be converted");
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) 
+		{
 			throw new JRException("Unable to get value for field '" + jrField.getName() + "' of class '" + valueClass.getName() + "'", e);
 		}
 	}

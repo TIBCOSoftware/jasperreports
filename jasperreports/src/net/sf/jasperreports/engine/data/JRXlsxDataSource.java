@@ -257,9 +257,18 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 		{
 			return cell.getStringCellValue();
 		}
-		try {
-			if (valueClass.equals(Boolean.class)) {
-				return cell.getBooleanCellValue();
+		try 
+		{
+			if (valueClass.equals(Boolean.class)) 
+			{
+				if (cell.getCellType() == Cell.CELL_TYPE_BOOLEAN)
+				{
+					return cell.getBooleanCellValue();
+				}
+				else
+				{
+					return convertStringValue(cell.getStringCellValue(), valueClass);
+				}
 			}
 			else if (Number.class.isAssignableFrom(valueClass))
 			{
@@ -279,7 +288,8 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 					}
 				}
 			}
-			else if (Date.class.isAssignableFrom(valueClass)){
+			else if (Date.class.isAssignableFrom(valueClass))
+			{
 				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC)
 				{
 					return cell.getDateCellValue();
@@ -300,7 +310,9 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 			{
 				throw new JRException("Field '" + jrField.getName() + "' is of class '" + valueClass.getName() + "' and can not be converted");
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) 
+		{
 			throw new JRException("Unable to get value for field '" + jrField.getName() + "' of class '" + valueClass.getName() + "'", e);
 		}
 	}
