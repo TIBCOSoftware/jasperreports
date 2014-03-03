@@ -159,7 +159,7 @@ public class XlsxRunHelper extends BaseHelper
 		value = attrs.get(TextAttribute.SIZE);
 		oldValue = parentAttrs.get(TextAttribute.SIZE);
 
-		if (value != null && !value.equals(oldValue))
+		if (value != null)
 		{
 			write("        <sz val=\"" + value + "\" />\n");
 			
