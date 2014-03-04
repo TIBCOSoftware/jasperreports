@@ -39,11 +39,13 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintBookmark;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.JsonExporterConfiguration;
 import net.sf.jasperreports.export.JsonReportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
+import net.sf.jasperreports.web.util.JacksonUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -223,6 +225,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 	{
 		Collection<JRPrintElement> elements = page.getElements();
 		exportElements(elements);
+		exportBookmarks();
 		
 		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
@@ -257,6 +260,28 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 	protected void exportFrame(JRPrintFrame frame) throws IOException
 	{
 		exportElements(frame.getElements());
+	}
+
+	protected void exportBookmarks() throws IOException
+	{
+		List<PrintBookmark> bookmarks = jasperPrint.getBookmarks();
+		if (bookmarks != null && bookmarks.size() > 0)
+		{
+			if (gotFirstJsonFragment)
+			{
+				writer.write(",\n");
+			} else
+			{
+				gotFirstJsonFragment = true;
+			}
+			writer.write("\"bkmrk_" + (bookmarks.hashCode() & 0x7FFFFFFF) + "\": {");
+
+			writer.write("\"id\": \"bkmrk_" + (bookmarks.hashCode() & 0x7FFFFFFF) + "\",");
+			writer.write("\"type\": \"bookmarks\",");
+			writer.write("\"bookmarks\": " + JacksonUtil.getInstance(getJasperReportsContext()).getJsonString(bookmarks));
+
+			writer.write("}");
+		}
 	}
 
 	/**
