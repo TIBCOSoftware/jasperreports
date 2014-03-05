@@ -7,6 +7,15 @@
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="${sample.base.name}Report" />
 	
+	<path id="classpath">
+		<pathelement location="build/classes"/>
+		<pathelement location="../../../build/classes" />
+		<pathelement location="../../fonts" />
+		<fileset dir="../../../lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
 	</target>
@@ -15,8 +24,18 @@
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
-		<ant dir="../" target="fill"/>
+	<target name="fill1" description="Fills the compiled report design using the Apache POI-based XlsDataSource class and produces the .jrprint file.">
+		<java classname="${sample.app.name}" fork="true">
+			<arg value="fill1"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="fill2" description="Fills the compiled report design using the JExcelApi-based JRXlsDataSource class and produces the .jrprint file.">
+		<java classname="${sample.app.name}" fork="true">
+			<arg value="fill2"/>
+			<classpath refid="classpath"/>
+		</java>
 	</target>
 
 	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">

@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.data.JRXlsDataSource;
+import net.sf.jasperreports.engine.data.XlsDataSource;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
@@ -76,7 +77,7 @@ public class XlsDataSourceApp extends AbstractSampleApp
 	 */
 	public void test() throws JRException
 	{
-		fill();
+		fill1();
 		pdf();
 		xmlEmbed();
 		xml();
@@ -97,7 +98,27 @@ public class XlsDataSourceApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void fill() throws JRException
+	public void fill1() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		//Preparing parameters
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("ReportTitle", "Address Report");
+		parameters.put("DataFile", "XlsDataSource.data.xls - XLS data source");
+		Set<String> states = new HashSet<String>();
+		states.add("Active");
+		states.add("Trial");
+		parameters.put("IncludedStates", states);
+		
+		JasperFillManager.fillReportToFile("build/reports/XlsDataSourceReport.jasper", parameters, getDataSource1());
+		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void fill2() throws JRException
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
@@ -109,7 +130,7 @@ public class XlsDataSourceApp extends AbstractSampleApp
 		states.add("Trial");
 		parameters.put("IncludedStates", states);
 
-		JasperFillManager.fillReportToFile("build/reports/XlsDataSourceReport.jasper", parameters, getDataSource());
+		JasperFillManager.fillReportToFile("build/reports/XlsDataSourceReport.jasper", parameters, getDataSource2());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -419,7 +440,33 @@ public class XlsDataSourceApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	private static JRXlsDataSource getDataSource() throws JRException
+	private static XlsDataSource getDataSource1() throws JRException
+	{
+		XlsDataSource ds;
+		
+		try
+		{
+			String[] columnNames = new String[]{"city", "id", "name", "address", "state"};
+			int[] columnIndexes = new int[]{0, 2, 3, 4, 5};
+			ds = new XlsDataSource(JRLoader.getLocationInputStream("data/XlsDataSource.data.xls"));
+//			ds.setUseFirstRowAsHeader(true);
+			ds.setColumnNames(columnNames, columnIndexes);
+			
+			//uncomment the below line to see how sheet selection works
+//			ds.setSheetSelection("xlsdatasource2");
+		}
+		catch (IOException e)
+		{
+			throw new JRException(e);
+		}
+		
+		return ds;
+	}
+	
+	/**
+	 *
+	 */
+	private static JRXlsDataSource getDataSource2() throws JRException
 	{
 		JRXlsDataSource ds;
 		
@@ -430,7 +477,9 @@ public class XlsDataSourceApp extends AbstractSampleApp
 			ds = new JRXlsDataSource(JRLoader.getLocationInputStream("data/XlsDataSource.data.xls"));
 //			ds.setUseFirstRowAsHeader(true);
 			ds.setColumnNames(columnNames, columnIndexes);
-			ds.setSheetSelection("xlsdatasource2");
+			
+			//uncomment the below line to see how sheet selection works
+//			ds.setSheetSelection("xlsdatasource2");
 		}
 		catch (IOException e)
 		{
