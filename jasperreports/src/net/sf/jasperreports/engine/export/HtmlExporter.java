@@ -118,6 +118,10 @@ import net.sf.jasperreports.search.SpansInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -385,6 +389,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 		}
 
+		ReportContext reportContext = getReportContext();
 		if (fontsToProcess != null && fontsToProcess.size() > 0)// when no fontHandler and/or resourceHandler, fonts are not processed 
 		{
 			@SuppressWarnings("deprecation")
@@ -392,13 +397,30 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				getExporterOutput().getFontHandler() == null
 				? getFontHandler()
 				: getExporterOutput().getFontHandler();
+			ObjectMapper mapper = null;
+			ArrayNode webFonts = null;
+
+			if (reportContext != null) {
+				mapper = new ObjectMapper();
+				webFonts = mapper.createArrayNode();
+				reportContext.setParameterValue("net.sf.jasperreports.html.webfonts", webFonts);	// FIXME: use constant
+			}
+
 			for (HtmlFont htmlFont : fontsToProcess.values())
 			{
-				writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + fontHandler.getResourcePath(htmlFont.getId()) + "\">\n");
+				if (reportContext != null) {
+					ObjectNode objNode = mapper.createObjectNode();
+					objNode.put("id", htmlFont.getId());
+					objNode.put("path", fontHandler.getResourcePath(htmlFont.getId()));
+					webFonts.add(objNode);
+				} else {
+					writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + fontHandler.getResourcePath(htmlFont.getId()) + "\">\n");
+				}
 			}
 		}
 		
 //		if (!isOutputResourcesToDir)
+		if (reportContext == null) // generate script tag on static export only
 		{
 			writer.write("<![if IE]>\n");
 			writer.write("<script>\n");

@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintBookmark;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.JsonExporterConfiguration;
@@ -49,6 +50,8 @@ import net.sf.jasperreports.web.util.JacksonUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 
 /**
@@ -226,6 +229,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 		Collection<JRPrintElement> elements = page.getElements();
 		exportElements(elements);
 		exportBookmarks();
+		exportWebFonts();
 		
 		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
@@ -279,6 +283,29 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 			writer.write("\"id\": \"bkmrk_" + (bookmarks.hashCode() & 0x7FFFFFFF) + "\",");
 			writer.write("\"type\": \"bookmarks\",");
 			writer.write("\"bookmarks\": " + JacksonUtil.getInstance(getJasperReportsContext()).getJsonString(bookmarks));
+
+			writer.write("}");
+		}
+	}
+
+	protected void exportWebFonts() throws IOException
+	{
+		ReportContext reportContext = getReportContext();
+		String webFontsParameter = "net.sf.jasperreports.html.webfonts";
+		if (reportContext != null && reportContext.containsParameter(webFontsParameter)) {
+			ArrayNode webFonts = (ArrayNode) reportContext.getParameterValue(webFontsParameter);
+			if (gotFirstJsonFragment)
+			{
+				writer.write(",\n");
+			} else
+			{
+				gotFirstJsonFragment = true;
+			}
+			writer.write("\"webfonts_" + (webFonts.hashCode() & 0x7FFFFFFF) + "\": {");
+
+			writer.write("\"id\": \"webfonts_" + (webFonts.hashCode() & 0x7FFFFFFF) + "\",");
+			writer.write("\"type\": \"webfonts\",");
+			writer.write("\"webfonts\": " + JacksonUtil.getInstance(getJasperReportsContext()).getJsonString(webFonts));
 
 			writer.write("}");
 		}
