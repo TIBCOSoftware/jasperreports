@@ -23,14 +23,48 @@
  */
 package net.sf.jasperreports.data.excel;
 
-import net.sf.jasperreports.data.xls.XlsDataAdapter;
+import java.util.List;
+
+import net.sf.jasperreports.data.DataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: XlsDataAdapter.java 6920 2014-02-24 09:42:04Z teodord $
  */
-public interface ExcelDataAdapter extends XlsDataAdapter 
+public interface ExcelDataAdapter extends DataAdapter 
 {
+	public String getDatePattern();
+
+	public String getNumberPattern();
+
+	public String getFileName();
+
+	public void setFileName(String filename);
+	
+	public boolean isUseFirstRowAsHeader();
+	
+	public List<String> getColumnNames();
+
+	public List<Integer> getColumnIndexes();
+	
+	public void setColumnNames(List<String> columnNames);
+
+	public void setColumnIndexes(List<Integer> columnIndexes);
+
+	public void setUseFirstRowAsHeader(boolean useFirstRowAsHeader);
+
+	public void setDatePattern(String datePattern);
+
+	public void setNumberPattern(String numberPattern);
+	
+	public boolean isQueryExecuterMode();
+
+	public void setQueryExecuterMode(boolean queryExecuterMode);
+	
+	public String getSheetSelection();
+	
+	public void setSheetSelection(String sheetSelection);
+	
 	public ExcelFormatEnum getFormat();
 	
 	public void setFormat(ExcelFormatEnum format);

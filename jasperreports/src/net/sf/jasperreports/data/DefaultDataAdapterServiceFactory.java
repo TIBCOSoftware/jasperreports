@@ -33,6 +33,8 @@ import net.sf.jasperreports.data.ejbql.EjbqlDataAdapter;
 import net.sf.jasperreports.data.ejbql.EjbqlDataAdapterService;
 import net.sf.jasperreports.data.empty.EmptyDataAdapter;
 import net.sf.jasperreports.data.empty.EmptyDataAdapterService;
+import net.sf.jasperreports.data.excel.ExcelDataAdapter;
+import net.sf.jasperreports.data.excel.ExcelDataAdapterService;
 import net.sf.jasperreports.data.hibernate.HibernateDataAdapter;
 import net.sf.jasperreports.data.hibernate.HibernateDataAdapterService;
 import net.sf.jasperreports.data.hibernate.spring.SpringHibernateDataAdapter;
@@ -125,6 +127,10 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterServiceFacto
 		else if (dataAdapter instanceof XlsxDataAdapter)
 		{
 			dataAdapterService = new XlsxDataAdapterService(jasperReportsContext, (XlsxDataAdapter)dataAdapter);
+		}
+		else if (dataAdapter instanceof ExcelDataAdapter)
+		{
+			dataAdapterService = new ExcelDataAdapterService(jasperReportsContext, (ExcelDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof RemoteXmlDataAdapter)
 		{

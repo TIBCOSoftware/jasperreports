@@ -34,5 +34,8 @@
 		<field name="sheetSelection" type="string">
 			<bind-xml name="sheetSelection" node="element"/>
 		</field>
+		<field name="format" type="string" handler="net.sf.jasperreports.data.excel.ExcelFormatFieldHandler">
+			<bind-xml name="sheetSelection" node="element"/>
+		</field>
 	</class>
 </mapping>

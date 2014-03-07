@@ -32,6 +32,7 @@ import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.data.ExcelDataSource;
 import net.sf.jasperreports.engine.data.JRXlsDataSource;
 import net.sf.jasperreports.engine.query.JRXlsQueryExecuterFactory;
 
@@ -94,33 +95,37 @@ public class ExcelDataAdapterService extends AbstractDataAdapterService
 						parameters.put( JRXlsQueryExecuterFactory.XLS_COLUMN_NAMES_ARRAY, names);
 						parameters.put( JRXlsQueryExecuterFactory.XLS_COLUMN_INDEXES_ARRAY, indexes);
 					}
-				}else{		
-						JRXlsDataSource ds = new JRXlsDataSource(getJasperReportsContext(), excelDataAdapter.getFileName());
-						if (datePattern != null && datePattern.length() > 0)
-						{
-							ds.setDateFormat(new SimpleDateFormat(datePattern));
-						}
-						if (numberPattern != null && numberPattern.length() > 0)
-						{
-							ds.setNumberFormat(new DecimalFormat(numberPattern));
-						}
-			
-						ds.setUseFirstRowAsHeader(excelDataAdapter.isUseFirstRowAsHeader());
-			
-						if (sheetSelection != null && sheetSelection.length() > 0)
-						{
-							ds.setSheetSelection(sheetSelection);
-						}
-						if (!excelDataAdapter.isUseFirstRowAsHeader())
-						{
-							String[] names = new String[excelDataAdapter.getColumnNames().size()];
-							int[] indexes = new int[excelDataAdapter.getColumnNames().size()];
-							setupColumns(excelDataAdapter, names, indexes);
-							ds.setColumnNames( names, indexes);
-						}
-			
-						parameters.put(JRParameter.REPORT_DATA_SOURCE, ds);
-					
+				}
+				else
+				{		
+					ExcelDataSource ds = new ExcelDataSource(
+												getJasperReportsContext(), 
+												excelDataAdapter.getFileName(), 
+												excelDataAdapter.getFormat());
+					if (datePattern != null && datePattern.length() > 0)
+					{
+						ds.setDateFormat(new SimpleDateFormat(datePattern));
+					}
+					if (numberPattern != null && numberPattern.length() > 0)
+					{
+						ds.setNumberFormat(new DecimalFormat(numberPattern));
+					}
+		
+					ds.setUseFirstRowAsHeader(excelDataAdapter.isUseFirstRowAsHeader());
+		
+					if (sheetSelection != null && sheetSelection.length() > 0)
+					{
+						ds.setSheetSelection(sheetSelection);
+					}
+					if (!excelDataAdapter.isUseFirstRowAsHeader())
+					{
+						String[] names = new String[excelDataAdapter.getColumnNames().size()];
+						int[] indexes = new int[excelDataAdapter.getColumnNames().size()];
+						setupColumns(excelDataAdapter, names, indexes);
+						ds.setColumnNames( names, indexes);
+					}
+		
+					parameters.put(JRParameter.REPORT_DATA_SOURCE, ds);
 				}
 			}
 			catch (IOException e)
