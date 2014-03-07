@@ -158,7 +158,7 @@ public class ExcelQueryExecuterFactory extends AbstractQueryExecuterFactory
 	public static final String EXCEL_USE_FIRST_ROW_AS_HEADER = "EXCEL_USE_FIRST_ROW_AS_HEADER";
 
 	private final static Object[] EXCEL_BUILTIN_PARAMETERS = {
-			EXCEL_WORKBOOK, "jxl.Workbook",
+			EXCEL_WORKBOOK, "org.apache.poi.ss.usermodel.Workbook",
 			EXCEL_INPUT_STREAM, "java.io.InputStream",
 			EXCEL_FILE, "java.io.File",
 			EXCEL_SOURCE, "java.lang.String",
