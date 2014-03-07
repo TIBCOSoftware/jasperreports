@@ -62,6 +62,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
+ * @deprecated replaced by {@link net.sf.jasperreports.engine.data.ExcelDataSource ExcelDataSource}
  */
 public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource
 {

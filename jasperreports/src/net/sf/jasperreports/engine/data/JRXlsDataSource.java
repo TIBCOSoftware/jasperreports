@@ -60,6 +60,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @deprecated replaced by {@link net.sf.jasperreports.engine.data.ExcelDataSource ExcelDataSource}
  */
 public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource
 {
