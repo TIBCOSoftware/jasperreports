@@ -3,7 +3,7 @@
 	xmlns="http://jasperreports.sourceforge.net/jasperreports" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
-	name="XlsxDataAdapterReport" 
+	name="ExcelXlsDataAdapterReport" 
 	pageWidth="595" 
 	pageHeight="842" 
 	columnWidth="515" 
@@ -11,9 +11,8 @@
 	rightMargin="40" 
 	topMargin="50" 
 	bottomMargin="50" 
-	uuid="b5645efb-4ea3-4b4f-ace7-af4bc5d86487">
-	<property name="net.sf.jasperreports.data.adapter" value="/data/XlsxDataAdapter.xml"/>
-	<property name="net.sf.jasperreports.export.xls.ignore.anchors" value="true"/>
+	uuid="623644de-c1a7-4f9b-a0b8-6cd49534177b">
+	<property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsDataAdapter.xml"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
@@ -35,9 +34,6 @@
 	<field name="state" class="java.lang.String">
 		<fieldDescription><![CDATA[state]]></fieldDescription>
 	</field>
-	<field name="date" class="java.util.Date">
-		<fieldDescription><![CDATA[date]]></fieldDescription>
-	</field>
 	<sortField name="city" order="Descending"/>
 	<sortField name="name"/>
 	<variable name="CityNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="CityGroup" calculation="Count">
@@ -49,24 +45,23 @@
 		<groupHeader>
 			<band height="20">
 				<textField evaluationTime="Group" evaluationGroup="CityGroup" bookmarkLevel="1">
-					<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="515" height="15" backcolor="#C0C0C0" uuid="a3fc22b1-328a-410b-a60e-89916e405743"/>
+					<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="515" height="15" backcolor="#C0C0C0" uuid="e307471c-f31b-42d5-b90b-91e6f1bcd575"/>
 					<box leftPadding="10">
 						<bottomPen lineWidth="1.0"/>
 					</box>
 					<textFieldExpression><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{city})]]></textFieldExpression>
-					<anchorNameExpression><![CDATA[String.valueOf($F{city})]]></anchorNameExpression>
 				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="20">
 				<staticText>
-					<reportElement style="Sans_Bold" x="400" y="1" width="60" height="15" uuid="2e79de52-7870-4498-8b65-980b48bcd0a2"/>
+					<reportElement style="Sans_Bold" x="400" y="1" width="60" height="15" uuid="0a0fbcce-e7c5-4b36-8204-d07b79ff97fc"/>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Count :]]></text>
 				</staticText>
 				<textField>
-					<reportElement style="Sans_Bold" x="460" y="1" width="30" height="15" uuid="ef1228fd-cf34-47ea-a00f-94ffdf8d83f9"/>
+					<reportElement style="Sans_Bold" x="460" y="1" width="30" height="15" uuid="02c48c91-bacb-483d-9b69-ca5a09ee353a"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$V{CityGroup_COUNT}]]></textFieldExpression>
 				</textField>
@@ -76,18 +71,17 @@
 	<title>
 		<band height="70">
 			<line>
-				<reportElement x="0" y="0" width="515" height="1" uuid="d503d2ab-88a3-4bf5-af6e-18ea4bf83c53"/>
+				<reportElement x="0" y="0" width="515" height="1" uuid="8edeb6e2-6f4e-4de4-999a-fcdf7b30b2c3"/>
 			</line>
 			<textField isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement style="Sans_Normal" x="0" y="10" width="515" height="30" uuid="2aa11d83-065c-49f8-a49d-5db7854a7527"/>
+				<reportElement style="Sans_Normal" x="0" y="10" width="515" height="30" uuid="ec4f60e4-9698-416a-8fc1-f806ae8a60cb"/>
 				<textElement textAlignment="Center">
 					<font size="22"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ReportTitle}]]></textFieldExpression>
-				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="Sans_Normal" x="0" y="40" width="515" height="20" uuid="12abfd98-3281-4a44-bab1-7790c12a1dcd"/>
+				<reportElement style="Sans_Normal" x="0" y="40" width="515" height="20" uuid="d7f18f1d-fcdf-442f-a118-1c4ba752f740"/>
 				<textElement textAlignment="Center">
 					<font size="14"/>
 				</textElement>
@@ -98,38 +92,33 @@
 	<pageHeader>
 		<band height="20">
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="50" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="4c5d9aba-52a9-412f-87b3-ceec0cb47ebc"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="55" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="7d5eee7b-2b85-4837-854b-8230b38d9070"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="50" y="5" width="150" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="91087044-e2e8-4a4d-bfee-842551406b2d"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="55" y="5" width="205" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="48b67e19-cbdb-4e3d-a2fd-ad82483bbccd"/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="200" y="5" width="200" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="7c2d98e7-369a-46d2-83ae-76b2b1c2357d"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="260" y="5" width="255" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="966fbcc7-db0c-41a8-a099-65b2ca8c4d26"/>
 				<text><![CDATA[Street]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="400" y="5" width="115" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="7c2d98e7-369a-46d2-83ae-76b2b1c2357e"/>
-				<text><![CDATA[Date]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
 	<detail>
 		<band height="15">
 			<textField bookmarkLevel="2">
-				<reportElement x="0" y="0" width="50" height="15" uuid="71c796d9-3bb6-49e6-a6ee-64db28ed268e" stretchType="RelativeToBandHeight"/>
+				<reportElement x="0" y="0" width="50" height="15" uuid="e41ff9bb-b1a9-4eda-93b7-aae064c7fe29"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
-				<anchorNameExpression><![CDATA[$F{name} + " (" + $F{id} + ")"]]></anchorNameExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="50" y="0" width="150" height="15" uuid="bf4d92ad-675a-4e6a-ad5d-ac6be4832ffd" stretchType="RelativeToBandHeight"/>
+				<reportElement positionType="Float" x="50" y="0" width="200" height="15" uuid="0b950260-dee8-450e-9767-504d88ce289b"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
@@ -137,7 +126,7 @@
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="200" y="0" width="200" height="15" uuid="f19c1dbf-2a9e-4e16-b03b-89070823b3b0" stretchType="RelativeToBandHeight"/>
+				<reportElement positionType="Float" x="250" y="0" width="265" height="15" uuid="883b220c-70b0-42b0-9e71-0ce7ed55bcda"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
@@ -145,29 +134,20 @@
 				</box>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
-				<reportElement positionType="Float" x="400" y="0" width="115" height="15" uuid="f19c1dbf-2a9e-4e16-b03b-89070823b3b1" stretchType="RelativeToBandHeight"/>
-				<box leftPadding="10" rightPadding="10">
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 	<pageFooter>
 		<band height="40">
 			<line>
-				<reportElement x="0" y="10" width="515" height="1" uuid="a01ffc46-5749-42bc-886a-1aa7703c19c2"/>
+				<reportElement x="0" y="10" width="515" height="1" uuid="f3386a6f-971e-4a3c-8bc5-5f8a6b4cd358"/>
 			</line>
 			<textField>
-				<reportElement x="200" y="20" width="80" height="15" uuid="fc0191d7-720b-43cc-b446-39857bcd2479"/>
+				<reportElement x="200" y="20" width="80" height="15" uuid="b80394ed-9939-40d1-ae7d-99393f5625ae"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="280" y="20" width="75" height="15" uuid="422062c5-1112-4b71-9bcc-560dc4c89523"/>
+				<reportElement x="280" y="20" width="75" height="15" uuid="5f02ce39-db69-4d90-800a-a3645be824ba"/>
 				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>
@@ -175,23 +155,22 @@
 	<lastPageFooter>
 		<band height="60">
 			<textField bookmarkLevel="1">
-				<reportElement x="0" y="10" width="515" height="15" uuid="5bf36ec7-d021-431c-9f3e-7af621bd54e7"/>
+				<reportElement x="0" y="10" width="515" height="15" uuid="baf4f94a-2e7a-4c71-bbee-24c83fcf35e1"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA["There were " + 
 					String.valueOf($V{REPORT_COUNT}) + 
 					" address records on this report."]]></textFieldExpression>
-				<anchorNameExpression><![CDATA["Summary"]]></anchorNameExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="30" width="515" height="1" uuid="4321bb9a-0744-4a70-8757-ae4e5bd2ef7e"/>
+				<reportElement x="0" y="30" width="515" height="1" uuid="849351a6-9307-445f-9b99-ad2bf2b55754"/>
 			</line>
 			<textField>
-				<reportElement x="200" y="40" width="80" height="15" uuid="b5697aa5-f9e7-4c4a-8e39-1e0c1e4bdad8"/>
+				<reportElement x="200" y="40" width="80" height="15" uuid="e0b9b7b6-4203-4fb2-9578-f122edc4ede5"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="280" y="40" width="75" height="15" uuid="ab52d417-e461-40e1-a120-71dd361c910e"/>
+				<reportElement x="280" y="40" width="75" height="15" uuid="bec9c1b0-cd3d-47c5-835a-b04bb8de2893"/>
 				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>

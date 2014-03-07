@@ -102,17 +102,15 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 		//Preparing parameters
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "Address Report");
-		parameters.put("DataFile", "XlsDataSource.data.xls - XLS data source");
+		parameters.put("DataFile", "Excel data adapter for XLS data source");
 		Set<String> states = new HashSet<String>();
 		states.add("Active");
 		states.add("Trial");
 		parameters.put("IncludedStates", states);
 
-		JasperFillManager.fillReportToFile("build/reports/XlsDataAdapterReport.jasper", parameters, new JREmptyDataSource());
-		parameters.put("DataFile", "XlsxDataSource.data.xlsx - XLSX data source");
-		JasperFillManager.fillReportToFile("build/reports/XlsxDataAdapterReport.jasper", parameters, new JREmptyDataSource());
-		parameters.put("DataFile", "Excel data source");
-		JasperFillManager.fillReportToFile("build/reports/ExcelDataAdapterReport.jasper", parameters, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("build/reports/ExcelXlsDataAdapterReport.jasper", parameters, new JREmptyDataSource());
+		parameters.put("DataFile", "Excel data adapter for XLSX data source");
+		JasperFillManager.fillReportToFile("build/reports/ExcelXlsxDataAdapterReport.jasper", parameters, new JREmptyDataSource());
 		
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
@@ -124,7 +122,7 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 	public void print() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperPrintManager.printReport("build/reports/XlsDataAdapterReport.jrprint", true);
+		JasperPrintManager.printReport("build/reports/ExcelXlsDataAdapterReport.jrprint", true);
 		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
 	}
 

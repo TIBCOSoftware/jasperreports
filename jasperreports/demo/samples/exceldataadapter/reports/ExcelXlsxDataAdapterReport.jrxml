@@ -3,7 +3,7 @@
 	xmlns="http://jasperreports.sourceforge.net/jasperreports" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
-	name="ExcelDataAdapterReport" 
+	name="ExcelXlsxDataAdapterReport" 
 	pageWidth="595" 
 	pageHeight="842" 
 	columnWidth="515" 
@@ -12,9 +12,7 @@
 	topMargin="50" 
 	bottomMargin="50" 
 	uuid="623644de-c1a7-4f9b-a0b8-6cd49534177b">
-	<!--property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsDataAdapter.xml"/-->
 	<property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsxDataAdapter.xml"/>
-	<property name="net.sf.jasperreports.export.xls.ignore.anchors" value="true"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
@@ -36,6 +34,9 @@
 	<field name="state" class="java.lang.String">
 		<fieldDescription><![CDATA[state]]></fieldDescription>
 	</field>
+	<field name="date" class="java.util.Date">
+		<fieldDescription><![CDATA[date]]></fieldDescription>
+	</field>
 	<sortField name="city" order="Descending"/>
 	<sortField name="name"/>
 	<variable name="CityNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="CityGroup" calculation="Count">
@@ -52,7 +53,6 @@
 						<bottomPen lineWidth="1.0"/>
 					</box>
 					<textFieldExpression><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{city})]]></textFieldExpression>
-					<anchorNameExpression><![CDATA[String.valueOf($F{city})]]></anchorNameExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -82,7 +82,6 @@
 					<font size="22"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ReportTitle}]]></textFieldExpression>
-				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement style="Sans_Normal" x="0" y="40" width="515" height="20" uuid="d7f18f1d-fcdf-442f-a118-1c4ba752f740"/>
@@ -101,11 +100,15 @@
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="55" y="5" width="205" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="48b67e19-cbdb-4e3d-a2fd-ad82483bbccd"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="55" y="5" width="100" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="48b67e19-cbdb-4e3d-a2fd-ad82483bbccd"/>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Sans_Bold" mode="Opaque" x="155" y="5" width="155" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="48b67e19-cbdb-4e3d-a2fd-ad82483bbccd"/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="260" y="5" width="255" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="966fbcc7-db0c-41a8-a099-65b2ca8c4d26"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="310" y="5" width="205" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="966fbcc7-db0c-41a8-a099-65b2ca8c4d26"/>
 				<text><![CDATA[Street]]></text>
 			</staticText>
 		</band>
@@ -113,17 +116,24 @@
 	<detail>
 		<band height="15">
 			<textField bookmarkLevel="2">
-				<reportElement x="0" y="0" width="50" height="15" uuid="e41ff9bb-b1a9-4eda-93b7-aae064c7fe29"/>
+				<reportElement x="0" y="0" width="55" height="15" uuid="e41ff9bb-b1a9-4eda-93b7-aae064c7fe29"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
-				<anchorNameExpression><![CDATA[$F{name} + " (" + $F{id} + ")"]]></anchorNameExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="MMM, dd">
+				<reportElement positionType="Float" x="55" y="0" width="100" height="15" uuid="0b950260-dee8-450e-9767-504d88ce289b"/>
+				<box leftPadding="10" rightPadding="10">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="50" y="0" width="200" height="15" uuid="0b950260-dee8-450e-9767-504d88ce289b"/>
+				<reportElement positionType="Float" x="155" y="0" width="155" height="15" uuid="0b950260-dee8-450e-9767-504d88ce289b"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
@@ -131,7 +141,7 @@
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="250" y="0" width="265" height="15" uuid="883b220c-70b0-42b0-9e71-0ce7ed55bcda"/>
+				<reportElement positionType="Float" x="310" y="0" width="205" height="15" uuid="883b220c-70b0-42b0-9e71-0ce7ed55bcda"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
@@ -165,7 +175,6 @@
 				<textFieldExpression><![CDATA["There were " + 
 					String.valueOf($V{REPORT_COUNT}) + 
 					" address records on this report."]]></textFieldExpression>
-				<anchorNameExpression><![CDATA["Summary"]]></anchorNameExpression>
 			</textField>
 			<line>
 				<reportElement x="0" y="30" width="515" height="1" uuid="849351a6-9307-445f-9b99-ad2bf2b55754"/>
