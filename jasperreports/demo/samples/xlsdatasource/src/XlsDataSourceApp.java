@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.data.ExcelDataSource;
 import net.sf.jasperreports.engine.data.JRXlsDataSource;
-import net.sf.jasperreports.engine.data.XlsDataSource;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
