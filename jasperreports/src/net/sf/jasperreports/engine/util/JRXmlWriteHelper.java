@@ -495,7 +495,7 @@ public class JRXmlWriteHelper
 	{
 		if (value != null)
 		{
-			writeAttribute(name, JRStringUtil.xmlEncode(value));
+			writeAttribute(name, JRStringUtil.encodeXmlAttribute(value));
 		}
 	}
 	
@@ -511,7 +511,7 @@ public class JRXmlWriteHelper
 	{
 		if (value != null && !value.equals(defaultValue))
 		{
-			writeAttribute(name, JRStringUtil.xmlEncode(value));
+			writeAttribute(name, JRStringUtil.encodeXmlAttribute(value));
 		}
 	}
 	

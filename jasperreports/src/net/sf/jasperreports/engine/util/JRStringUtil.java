@@ -159,6 +159,70 @@ public final class JRStringUtil
 		return ret.toString();
 	}
 	
+	public static String encodeXmlAttribute(String text)
+	{
+		if (text == null || text.length() == 0)
+		{
+			return text;
+		}
+		
+		int length = text.length();
+		StringBuffer ret = new StringBuffer(length * 12 / 10);//FIXME avoid creating this when not necessary
+		int last = 0;
+		for (int i = 0; i < length; i++)
+		{
+			char c = text.charAt(i);
+			switch (c)
+			{
+				case '&' :
+					last = appendText(text, ret, i, last);
+					ret.append("&amp;");
+					break;
+				case '>' :
+					last = appendText(text, ret, i, last);
+					ret.append("&gt;");
+					break;
+				case '<' :
+					last = appendText(text, ret, i, last);
+					ret.append("&lt;");
+					break;
+				case '\"' :
+					last = appendText(text, ret, i, last);
+					ret.append("&quot;");
+					break;
+				case '\'' :
+					last = appendText(text, ret, i, last);
+					ret.append("&apos;");
+					break;
+				// encoding tabs and newlines because otherwise they get replaced by spaces on parsing
+				case '\t' :
+					last = appendText(text, ret, i, last);
+					ret.append("&#x9;");
+					break;
+				case '\r' :
+					last = appendText(text, ret, i, last);
+					ret.append("&#xD;");
+					break;
+				case '\n' :
+					last = appendText(text, ret, i, last);
+					ret.append("&#xA;");
+					break;
+				default :
+					// not checking for invalid characters, preserving them as per xmlEncode() with invalidCharReplacement = null
+					break;
+			}
+		}
+		
+		if (last == 0)
+		{
+			// no changes made to the string
+			return text;
+		}
+		
+		appendText(text, ret, length, last);
+		return ret.toString();
+	}
+	
 	private static int appendText(String text, StringBuffer ret, int current, int old)
 	{
 		if(old < current)
