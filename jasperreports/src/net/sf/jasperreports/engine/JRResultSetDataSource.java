@@ -61,7 +61,7 @@ public class JRResultSetDataSource implements JRDataSource
 {
 
 
-	private static final String INDEXED_COLUMN_PREFIX = "COLUMN_";
+	public static final String INDEXED_COLUMN_PREFIX = "COLUMN_";
 	private static final int INDEXED_COLUMN_PREFIX_LENGTH = INDEXED_COLUMN_PREFIX.length();
 	
 	/**
