@@ -455,7 +455,7 @@ public class XlsDataSourceApp extends AbstractSampleApp
 			//uncomment the below line to see how sheet selection works
 //			ds.setSheetSelection("xlsdatasource2");
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			throw new JRException(e);
 		}
