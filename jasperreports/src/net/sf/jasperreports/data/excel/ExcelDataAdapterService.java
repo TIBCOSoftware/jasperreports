@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.ExcelDataSource;
-import net.sf.jasperreports.engine.query.JRExcelQueryExecuterFactory;
+import net.sf.jasperreports.engine.query.ExcelQueryExecuterFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -70,23 +70,23 @@ public class ExcelDataAdapterService extends AbstractDataAdapterService
 
 				if (excelDataAdapter.isQueryExecuterMode())
 				{	
-					parameters.put(JRExcelQueryExecuterFactory.EXCEL_SOURCE, excelDataAdapter.getFileName());
+					parameters.put(ExcelQueryExecuterFactory.EXCEL_SOURCE, excelDataAdapter.getFileName());
 					if(format != null) {
-						parameters.put( JRExcelQueryExecuterFactory.EXCEL_FORMAT, format);
+						parameters.put( ExcelQueryExecuterFactory.EXCEL_FORMAT, format);
 					}
 					if (datePattern != null && datePattern.length() > 0)
 					{
-						parameters.put( JRExcelQueryExecuterFactory.EXCEL_DATE_FORMAT, new SimpleDateFormat(datePattern) );
+						parameters.put( ExcelQueryExecuterFactory.EXCEL_DATE_FORMAT, new SimpleDateFormat(datePattern) );
 					}
 					if (numberPattern != null && numberPattern.length() > 0)
 					{
-						parameters.put( JRExcelQueryExecuterFactory.EXCEL_NUMBER_FORMAT, new DecimalFormat(numberPattern) );
+						parameters.put( ExcelQueryExecuterFactory.EXCEL_NUMBER_FORMAT, new DecimalFormat(numberPattern) );
 					}
-					parameters.put( JRExcelQueryExecuterFactory.EXCEL_USE_FIRST_ROW_AS_HEADER, new Boolean(excelDataAdapter.isUseFirstRowAsHeader()));
+					parameters.put( ExcelQueryExecuterFactory.EXCEL_USE_FIRST_ROW_AS_HEADER, new Boolean(excelDataAdapter.isUseFirstRowAsHeader()));
 					
 					if (sheetSelection != null && sheetSelection.length() > 0)
 					{
-						parameters.put( JRExcelQueryExecuterFactory.EXCEL_SHEET_SELECTION, sheetSelection );
+						parameters.put( ExcelQueryExecuterFactory.EXCEL_SHEET_SELECTION, sheetSelection );
 					}
 	
 					if (!excelDataAdapter.isUseFirstRowAsHeader())
@@ -95,8 +95,8 @@ public class ExcelDataAdapterService extends AbstractDataAdapterService
 						int[] indexes = new int[excelDataAdapter.getColumnNames().size()];
 						setupColumns(excelDataAdapter, names, indexes);
 	
-						parameters.put( JRExcelQueryExecuterFactory.EXCEL_COLUMN_NAMES_ARRAY, names);
-						parameters.put( JRExcelQueryExecuterFactory.EXCEL_COLUMN_INDEXES_ARRAY, indexes);
+						parameters.put( ExcelQueryExecuterFactory.EXCEL_COLUMN_NAMES_ARRAY, names);
+						parameters.put( ExcelQueryExecuterFactory.EXCEL_COLUMN_INDEXES_ARRAY, indexes);
 					}
 				}
 				else

@@ -34,13 +34,13 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 /**
  * Query executer factory for Excel file type.
  * <p/>
- * The factory creates {@link net.sf.jasperreports.engine.query.JRExcelQueryExecuter JRExcelQueryExecuter}
+ * The factory creates {@link net.sf.jasperreports.engine.query.ExcelQueryExecuter ExcelQueryExecuter}
  * query executers.
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class JRExcelQueryExecuterFactory extends AbstractQueryExecuterFactory 
+public class ExcelQueryExecuterFactory extends AbstractQueryExecuterFactory 
 {
 
 	/**
@@ -187,7 +187,7 @@ public class JRExcelQueryExecuterFactory extends AbstractQueryExecuterFactory
 		Map<String,? extends JRValueParameter> parameters
 		) throws JRException 
 	{
-		return new JRExcelQueryExecuter(jasperReportsContext, dataset, parameters);
+		return new ExcelQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
 	public boolean supportsQueryParameterType(String className) {
