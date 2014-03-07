@@ -111,6 +111,8 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 		JasperFillManager.fillReportToFile("build/reports/XlsDataAdapterReport.jasper", parameters, new JREmptyDataSource());
 		parameters.put("DataFile", "XlsxDataSource.data.xlsx - XLSX data source");
 		JasperFillManager.fillReportToFile("build/reports/XlsxDataAdapterReport.jasper", parameters, new JREmptyDataSource());
+		parameters.put("DataFile", "Excel data source");
+		JasperFillManager.fillReportToFile("build/reports/ExcelDataAdapterReport.jasper", parameters, new JREmptyDataSource());
 		
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
