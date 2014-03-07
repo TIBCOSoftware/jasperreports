@@ -36,10 +36,10 @@ relational database, or loaded from specific files. In order to become more fami
 objects please consult the <a href="../datasources.html#datasources">Data Sources</a> section.
 <br/>
 When reporting data is stored in Microsoft Excel files (XLS), the 
-<api href="net/sf/jasperreports/engine/data/XlsDataSource.html">XlsDataSource</api> data source 
+<api href="net/sf/jasperreports/engine/data/ExcelDataSource.html">ExcelDataSource</api> data source 
 implementation can be used to read it and feed it into the report. 
 <br/>
-The XLS data source uses the <code>JExcelApi</code> library to load the XLS workbook and read 
+The XLS data source uses the <code>Apache POI</code> library to load the XLS workbook and read 
 from it. Instances of this data source can be created by supplying either an in-memory 
 workbook object, a file, or an input stream to read the data from. 
 <br/>
@@ -63,14 +63,14 @@ There are no column headers in the .xls file. This means
 that column names are set independently, as shown in the 
 <code>getDataSource1()</code> method in the /src/XlsDataSourceApp.java file: 
 <pre><![CDATA[
-  private static XlsDataSource getDataSource1() throws JRException
+  private static ExcelDataSource getDataSource1() throws JRException
   {
-    XlsDataSource ds;
+    ExcelDataSource ds;
     try
     {
       String[] columnNames = new String[]{"city", "id", "name", "address", "state"};
       int[] columnIndexes = new int[]{0, 2, 3, 4, 5};
-      ds = new XlsDataSource(JRLoader.getLocationInputStream("data/XlsDataSource.data.xls"));
+      ds = new ExcelDataSource(JRLoader.getLocationInputStream("data/XlsDataSource.data.xls"));
       ds.setColumnNames(columnNames, columnIndexes);
       
       //uncomment the below line to see how sheet selection works
@@ -88,7 +88,7 @@ Column names are the same as in the CSV example: <code>city</code>, <code>id</co
 But they are associated with particular column indexes: <code>0, 2, 3, 4, 5</code>. The empty column's index (1) is skipped, and doing so, 
 the empty content of the second column will be neglected.
 <br/>
-The <code>XlsDataSource</code> object prepared above is passed to the engine at fill time (see again the /src/XlsDataSourceApp.java file):
+The <code>ExcelDataSource</code> object prepared above is passed to the engine at fill time (see again the /src/XlsDataSourceApp.java file):
 <pre><![CDATA[
   public void fill1() throws JRException
   {

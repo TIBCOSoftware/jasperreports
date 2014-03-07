@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.data.ExcelDataSource;
 import net.sf.jasperreports.engine.data.JRXlsDataSource;
 import net.sf.jasperreports.engine.data.XlsDataSource;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
@@ -440,15 +441,15 @@ public class XlsDataSourceApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	private static XlsDataSource getDataSource1() throws JRException
+	private static ExcelDataSource getDataSource1() throws JRException
 	{
-		XlsDataSource ds;
+		ExcelDataSource ds;
 		
 		try
 		{
 			String[] columnNames = new String[]{"city", "id", "name", "address", "state"};
 			int[] columnIndexes = new int[]{0, 2, 3, 4, 5};
-			ds = new XlsDataSource(JRLoader.getLocationInputStream("data/XlsDataSource.data.xls"));
+			ds = new ExcelDataSource(JRLoader.getLocationInputStream("data/XlsDataSource.data.xls"));
 //			ds.setUseFirstRowAsHeader(true);
 			ds.setColumnNames(columnNames, columnIndexes);
 			
