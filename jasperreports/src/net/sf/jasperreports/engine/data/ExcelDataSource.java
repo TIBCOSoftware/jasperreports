@@ -506,7 +506,7 @@ public class ExcelDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * and an array of integers representing the column indexes in the sheet.
 	 * Both array parameters must be not-null and have the same number of values.
 	 */
-	public void setColumnNames(String[] columnNames, int[] columnIndexes)
+	public void setColumnNames(String[] columnNames, Integer[] columnIndexes)
 	{
 		checkReadStarted();
 		
@@ -517,7 +517,7 @@ public class ExcelDataSource extends JRAbstractTextDataSource implements JRRewin
 		
 		for (int i = 0; i < columnNames.length; i++)
 		{
-			this.columnNames.put(columnNames[i], Integer.valueOf(columnIndexes[i]));
+			this.columnNames.put(columnNames[i], columnIndexes[i]);
 		}
 	}
 
