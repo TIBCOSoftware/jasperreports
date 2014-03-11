@@ -34,6 +34,9 @@
 	<field name="state" class="java.lang.String">
 		<fieldDescription><![CDATA[state]]></fieldDescription>
 	</field>
+	<field name="date" class="java.util.Date">
+		<fieldDescription><![CDATA[date]]></fieldDescription>
+	</field>
 	<sortField name="city" order="Descending"/>
 	<sortField name="name"/>
 	<variable name="CityNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="CityGroup" calculation="Count">
@@ -97,11 +100,15 @@
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="55" y="5" width="205" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="48b67e19-cbdb-4e3d-a2fd-ad82483bbccd"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="55" y="5" width="100" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="48b67e19-cbdb-4e3d-a2fd-ad82483bbccd"/>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Sans_Bold" mode="Opaque" x="155" y="5" width="155" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="48b67e19-cbdb-4e3d-a2fd-ad82483bbccd"/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="260" y="5" width="255" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="966fbcc7-db0c-41a8-a099-65b2ca8c4d26"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="310" y="5" width="205" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="966fbcc7-db0c-41a8-a099-65b2ca8c4d26"/>
 				<text><![CDATA[Street]]></text>
 			</staticText>
 		</band>
@@ -109,7 +116,7 @@
 	<detail>
 		<band height="15">
 			<textField bookmarkLevel="2">
-				<reportElement x="0" y="0" width="50" height="15" uuid="e41ff9bb-b1a9-4eda-93b7-aae064c7fe29"/>
+				<reportElement x="0" y="0" width="55" height="15" uuid="e41ff9bb-b1a9-4eda-93b7-aae064c7fe29"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
@@ -117,8 +124,16 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
+			<textField isStretchWithOverflow="true" pattern="MMM, dd">
+				<reportElement positionType="Float" x="55" y="0" width="100" height="15" uuid="0b950260-dee8-450e-9767-504d88ce289b"/>
+				<box leftPadding="10" rightPadding="10">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="50" y="0" width="200" height="15" uuid="0b950260-dee8-450e-9767-504d88ce289b"/>
+				<reportElement positionType="Float" x="155" y="0" width="155" height="15" uuid="0b950260-dee8-450e-9767-504d88ce289b"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
@@ -126,7 +141,7 @@
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="250" y="0" width="265" height="15" uuid="883b220c-70b0-42b0-9e71-0ce7ed55bcda"/>
+				<reportElement positionType="Float" x="310" y="0" width="205" height="15" uuid="883b220c-70b0-42b0-9e71-0ce7ed55bcda"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
