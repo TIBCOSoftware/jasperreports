@@ -1713,9 +1713,9 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 					else
 					{
 						HtmlResourceHandler imageHandler = 
-							getExporterOutput().getImageHandler() == null 
-							? getImageHandler() 
-							: getExporterOutput().getImageHandler();
+							getImageHandler() == null 
+							? getExporterOutput().getImageHandler() 
+							: getImageHandler();
 						if (imageHandler != null)
 						{
 							JRPrintElementIndex imageIndex = getElementIndex();

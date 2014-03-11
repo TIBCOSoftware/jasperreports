@@ -298,18 +298,18 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 					public String getStringForCollapsedTD(int width, int height)
 					{
 						HtmlResourceHandler imageHandler = 
-							getExporterOutput().getImageHandler() == null 
-							? getImageHandler() 
-							: getExporterOutput().getImageHandler();
+							getImageHandler() == null 
+							? getExporterOutput().getImageHandler() 
+							: getImageHandler();
 						String pxUri = imageHandler == null ? null : imageHandler.getResourcePath("px");
 						return "><img alt=\"\" src=\"" + pxUri + "\" style=\"width: " + toSizeUnit(width) + "; height: " + toSizeUnit(height) + ";\"/>";
 					}
 					public String getStringForEmptyTD()
 					{
 						HtmlResourceHandler imageHandler = 
-							getExporterOutput().getImageHandler() == null 
-							? getImageHandler() 
-							: getExporterOutput().getImageHandler();
+							getImageHandler() == null 
+							? getExporterOutput().getImageHandler() 
+							: getImageHandler();
 						String pxUri = imageHandler == null ? null : imageHandler.getResourcePath("px");
 						return "<img alt=\"\" src=\"" + pxUri + "\" border=\"0\"/>";
 					}
@@ -1756,9 +1756,9 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 					else
 					{
 						HtmlResourceHandler imageHandler = 
-							getExporterOutput().getImageHandler() == null 
-							? getImageHandler() 
-							: getExporterOutput().getImageHandler();
+							getImageHandler() == null 
+							? getExporterOutput().getImageHandler() 
+							: getImageHandler();
 						if (imageHandler != null)
 						{
 							JRPrintElementIndex imageIndex = getElementIndex(gridCell);
@@ -2017,9 +2017,9 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		String imagePath = null;
 
 		HtmlResourceHandler imageHandler = 
-			getExporterOutput().getImageHandler() == null 
-			? getImageHandler() 
-			: getExporterOutput().getImageHandler();
+			getImageHandler() == null 
+			? getExporterOutput().getImageHandler() 
+			: getImageHandler();
 		if (imageHandler != null)
 		{
 			byte[] imageData = pxRenderer.getImageData(jasperReportsContext);
