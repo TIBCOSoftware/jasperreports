@@ -70,6 +70,7 @@ public class ExcelDataAdapterService extends AbstractDataAdapterService
 
 				if (excelDataAdapter.isQueryExecuterMode())
 				{	
+					System.out.println("************* excelDataAdapter.isQueryExecuterMode()"+excelDataAdapter.isQueryExecuterMode());
 					parameters.put(ExcelQueryExecuterFactory.EXCEL_SOURCE, excelDataAdapter.getFileName());
 					if(format != null) {
 						parameters.put( ExcelQueryExecuterFactory.EXCEL_FORMAT, format);
@@ -92,7 +93,7 @@ public class ExcelDataAdapterService extends AbstractDataAdapterService
 					if (!excelDataAdapter.isUseFirstRowAsHeader())
 					{ 
 						String[] names = new String[excelDataAdapter.getColumnNames().size()];
-						Integer[] indexes = new Integer[excelDataAdapter.getColumnNames().size()];
+						int[] indexes = new int[excelDataAdapter.getColumnNames().size()];
 						setupColumns(excelDataAdapter, names, indexes);
 	
 						parameters.put( ExcelQueryExecuterFactory.EXCEL_COLUMN_NAMES_ARRAY, names);
@@ -123,7 +124,7 @@ public class ExcelDataAdapterService extends AbstractDataAdapterService
 					if (!excelDataAdapter.isUseFirstRowAsHeader())
 					{
 						String[] names = new String[excelDataAdapter.getColumnNames().size()];
-						Integer[] indexes = new Integer[excelDataAdapter.getColumnNames().size()];
+						int[] indexes = new int[excelDataAdapter.getColumnNames().size()];
 						setupColumns(excelDataAdapter, names, indexes);
 						ds.setColumnNames( names, indexes);
 					}
@@ -139,7 +140,7 @@ public class ExcelDataAdapterService extends AbstractDataAdapterService
 	}
 
 	private void setupColumns(ExcelDataAdapter excelDataAdapter, String[] names,
-			Integer[] indexes) {
+			int[] indexes) {
 		for (int i=0; i< names.length; ++i )
 		{
 			names[i] = "" + excelDataAdapter.getColumnNames().get(i);
