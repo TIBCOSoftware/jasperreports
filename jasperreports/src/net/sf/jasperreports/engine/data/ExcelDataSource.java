@@ -137,6 +137,7 @@ public class ExcelDataSource extends JRAbstractTextDataSource implements JRRewin
 					break;
 				case XLSX : 
 					this.workbook = new XSSFWorkbook(inputStream);
+					break;
 				case AUTODETECT:
 				default:
 					BufferedInputStream bis = (BufferedInputStream)inputStream;
