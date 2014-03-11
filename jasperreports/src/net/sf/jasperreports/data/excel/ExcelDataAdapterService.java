@@ -70,7 +70,6 @@ public class ExcelDataAdapterService extends AbstractDataAdapterService
 
 				if (excelDataAdapter.isQueryExecuterMode())
 				{	
-					System.out.println("************* excelDataAdapter.isQueryExecuterMode()"+excelDataAdapter.isQueryExecuterMode());
 					parameters.put(ExcelQueryExecuterFactory.EXCEL_SOURCE, excelDataAdapter.getFileName());
 					if(format != null) {
 						parameters.put( ExcelQueryExecuterFactory.EXCEL_FORMAT, format);
