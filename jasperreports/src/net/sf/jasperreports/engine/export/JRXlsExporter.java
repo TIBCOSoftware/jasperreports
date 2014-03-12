@@ -2154,7 +2154,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	/**
 	 * 
 	 */
-	class StyleInfo
+	protected class StyleInfo
 	{
 		protected final short mode;
 		protected final short backcolor;
