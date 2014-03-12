@@ -447,7 +447,7 @@ public class XlsDataSourceApp extends AbstractSampleApp
 		try
 		{
 			String[] columnNames = new String[]{"city", "id", "name", "address", "state"};
-			int[] columnIndexes = new int[]{0, 2, 3, 4, 5};
+			Integer[] columnIndexes = new Integer[]{0, 2, 3, 4, 5};
 			ds = new ExcelDataSource(JRLoader.getLocationInputStream("data/XlsDataSource.data.xls"));
 //			ds.setUseFirstRowAsHeader(true);
 			ds.setColumnNames(columnNames, columnIndexes);

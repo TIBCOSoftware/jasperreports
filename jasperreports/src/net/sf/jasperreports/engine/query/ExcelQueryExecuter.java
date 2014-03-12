@@ -186,7 +186,7 @@ public class ExcelQueryExecuter extends JRAbstractQueryExecuter {
 			// set column names or column indexes or both
 			if (splitColumnNamesList != null) {
 				if (columnIndexesList != null) {
-					int[] indexesArray = new int[columnIndexesList.size()];
+					Integer[] indexesArray = new Integer[columnIndexesList.size()];
 					for (int i=0; i<columnIndexesList.size(); i++) {
 						indexesArray[i] = columnIndexesList.get(i);
 					}
