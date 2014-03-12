@@ -95,6 +95,13 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 		states.add("Trial");
 		parameters.put("IncludedStates", states);
 
+		//query executer mode
+		parameters.put("DataFile", "XLS query executer mode for Excel data adapter");
+		JasperFillManager.fillReportToFile("build/reports/ExcelXlsQEDataAdapterReport.jasper", parameters);
+		parameters.put("DataFile", "XLSX query executer mode for Excel data adapter");
+		JasperFillManager.fillReportToFile("build/reports/ExcelXlsxQEDataAdapterReport.jasper", parameters);
+		
+		//data source mode
 		parameters.put("DataFile", "Excel data adapter for XLS data source");
 		JasperFillManager.fillReportToFile("build/reports/ExcelXlsDataAdapterReport.jasper", parameters);
 		parameters.put("DataFile", "Excel data adapter for XLSX data source");
