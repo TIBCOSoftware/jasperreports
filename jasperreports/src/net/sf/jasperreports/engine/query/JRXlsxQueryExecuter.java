@@ -166,13 +166,9 @@ public class JRXlsxQueryExecuter extends JRAbstractQueryExecuter {
 					columnIndexesList.add(Integer.valueOf(colIndex.trim()));
 				}
 			} else {
-				int[] columnIndexesArray = (int[]) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_COLUMN_INDEXES_ARRAY, true);
+				Integer[] columnIndexesArray = (Integer[]) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_COLUMN_INDEXES_ARRAY, true);
 				if (columnIndexesArray != null) {
-					columnIndexesList = new ArrayList<Integer>();
-					for(int i = 0; i<columnIndexesArray.length; i++) {
-						columnIndexesList.add(columnIndexesArray[i]);
-					}
-					//columnIndexesList = Arrays.asList(columnIndexesArray);
+					columnIndexesList = Arrays.asList(columnIndexesArray);
 				} else {
 					String propertiesPrefix = JRXlsxQueryExecuterFactory.XLSX_COLUMN_INDEXES;
 					List<PropertySuffix> properties = getPropertiesUtil().getAllProperties(dataset, propertiesPrefix);

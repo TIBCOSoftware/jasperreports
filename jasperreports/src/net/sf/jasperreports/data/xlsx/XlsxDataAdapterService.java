@@ -95,7 +95,7 @@ public class XlsxDataAdapterService extends AbstractDataAdapterService
 					if (!xlsxDataAdapter.isUseFirstRowAsHeader())
 					{ 
 						String[] names = new String[xlsxDataAdapter.getColumnNames().size()];
-						int[] indexes = new int[xlsxDataAdapter.getColumnNames().size()];
+						Integer[] indexes = new Integer[xlsxDataAdapter.getColumnNames().size()];
 						setupColumns(xlsxDataAdapter, names, indexes);
 	
 						parameters.put( JRXlsxQueryExecuterFactory.XLSX_COLUMN_NAMES_ARRAY, names);
@@ -140,6 +140,15 @@ public class XlsxDataAdapterService extends AbstractDataAdapterService
 
 	private void setupColumns(XlsxDataAdapter xlsxDataAdapter, String[] names,
 			int[] indexes) {
+		for (int i=0; i< names.length; ++i )
+		{
+			names[i] = "" + xlsxDataAdapter.getColumnNames().get(i);
+			indexes[i] = (xlsxDataAdapter.getColumnIndexes().size() > i) ? xlsxDataAdapter.getColumnIndexes().get(i) : i;
+		}
+	}
+	
+	private void setupColumns(XlsxDataAdapter xlsxDataAdapter, String[] names,
+			Integer[] indexes) {
 		for (int i=0; i< names.length; ++i )
 		{
 			names[i] = "" + xlsxDataAdapter.getColumnNames().get(i);
