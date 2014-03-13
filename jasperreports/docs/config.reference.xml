@@ -4552,7 +4552,6 @@ Possible values are:
     <default>ignore</default>
     <scope>Global | Report | Element</scope>
     <since>5.0.4</since>
-    <contextUnaware/>
   </configProperty>
   
   
