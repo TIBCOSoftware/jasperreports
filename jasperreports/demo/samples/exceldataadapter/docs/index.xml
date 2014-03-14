@@ -286,7 +286,7 @@ public void fill() throws JRException
   
   ...
 }]]></pre>
-One can notice that there is no datasource or connection parameters for the <code>fillReportToFile(...)</code> method. The data adapter will 
+One can notice that there are no datasource or connection parameters for the <code>fillReportToFile(...)</code> method. The data adapter will 
 prepare for us the needed datasource before filling the report. 
 <br/>
 <br/>
