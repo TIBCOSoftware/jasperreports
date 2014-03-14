@@ -229,8 +229,8 @@ We can notice that data can be sorted as well as filtered in such a dataset.
 <br/>
 Similar settings can be found in the <code>ExcelXlsxDataAdapterReport.jrxml</code> file.
 <br/>
-If the data adapter is designed to work in query executer mode (ie <code>&lt;queryExecuterMode&gt;true&lt;/queryExecuterMode&gt;</code>), then we need to add 
-a query string in the JRXML file. The query language should e set to "excel" or "EXCEL". An example can be seen in the <code>ExcelXlsQEDataAdapterReport.jrxml</code> 
+If the data adapter is designed to work in query executer mode (ie <code>&lt;queryExecuterMode&gt;true&lt;/queryExecuterMode&gt;</code>), we need to add 
+a query string in the JRXML file. The query language should be set to "excel" (or "EXCEL"). An example can be seen in the <code>ExcelXlsQEDataAdapterReport.jrxml</code> 
 file:
 <pre><![CDATA[
 <property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsQEDataAdapter.xml"/>
