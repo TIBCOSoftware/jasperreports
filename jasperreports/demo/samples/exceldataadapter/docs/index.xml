@@ -132,14 +132,14 @@ All operations required to create and populate the Excel data source are perform
 <api href="net/sf/jasperreports/data/excel/ExcelDataAdapterService.html">ExcelDataAdapterService</api> class.
 <br/>
 The <code>isQueryExecuterMode()</code> setting specifies whether the built-in 
-<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuter.html">ExcelQueryExecuter</api> class will be used to prepare the datasource. If 
-not set, the datasource will be created and populated by the <api href="net/sf/jasperreports/data/excel/ExcelDataAdapterService.html">ExcelDataAdapterService</api>.
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuter.html">ExcelQueryExecuter</api> class will be used to prepare the data source. If 
+not set, the data source will be created and populated by the <api href="net/sf/jasperreports/data/excel/ExcelDataAdapterService.html">ExcelDataAdapterService</api>.
 <br/>
 <br/>
 <subtitle name="dataadaptersample">The Excel Data Adapter Sample</subtitle>     
 <br/>
 <br/>
-Now we'll see how to configure and use the built-in Excel data adapter in order to obtain a valid datasource.
+Now we'll see how to configure and use the built-in Excel data adapter in order to obtain a valid data source.
 <br/>
 First, we need to set the appropriate JasperReports registry extension. In the <code>src/jasperreports_extension.properties</code> file we have to put the following setting:
 <br/>
@@ -149,9 +149,9 @@ First, we need to set the appropriate JasperReports registry extension. In the <
 <br/>
 Then we have to configure the data adapter. There are 4 distinct configurations in this sample, all of them saved in the <code>data</code> folder: 
 <ul>
-<li><code>ExcelXlsDataAdapter.xml</code> - reads data from a XLS data file (see <code>data/XlsDataSource.data.xls</code> Excel file) and works in direct datasource mode</li>
+<li><code>ExcelXlsDataAdapter.xml</code> - reads data from a XLS data file (see <code>data/XlsDataSource.data.xls</code> Excel file) and works in direct data source mode</li>
 <li><code>ExcelXlsQEDataAdapter.xml</code> - reads data from the same XLS data file, but works in query executer mode</li>
-<li><code>ExcelXlsxDataAdapter.xml</code> - reads data from a XLSX data file (see <code>data/XlsxDataSource.data.xlsx</code> Excel file) and works in direct datasource mode</li>
+<li><code>ExcelXlsxDataAdapter.xml</code> - reads data from a XLSX data file (see <code>data/XlsxDataSource.data.xlsx</code> Excel file) and works in direct data source mode</li>
 <li><code>ExcelXlsxQEDataAdapter.xml</code> - reads data from the same XLSX data file, but works in query executer mode</li>
 </ul> 
 Below is the content of the <code>ExcelXlsDataAdapter.xml</code>:
@@ -191,13 +191,13 @@ The other 3 data adapter configurations are set in a similar way, with differenc
 <br/>
 For each data adapter there is a JRXML file to be compiled, filled and exported to various output formats:
 <ul>
-<li><code>reports/ExcelXlsDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsDataAdapter.xml</code> that works in direct datasource mode</li>
+<li><code>reports/ExcelXlsDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsDataAdapter.xml</code> that works in direct data source mode</li>
 <li><code>reports/ExcelXlsQEDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsQEDataAdapter.xml</code> that works in query executer mode</li>
-<li><code>reports/ExcelXlsxDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsxDataAdapter.xml</code> that works in direct datasource mode</li>
+<li><code>reports/ExcelXlsxDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsxDataAdapter.xml</code> that works in direct data source mode</li>
 <li><code>reports/ExcelXlsxQEDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsxQEDataAdapter.xml</code> that works in query executer mode</li>
 </ul>
 Settings for data adapter are very simple in JRXML files. We need to set the <code>net.sf.jasperreports.data.adapter</code> report property to point to the 
-appropriate data adapter configuration. We also have to define the fields to be picked up from the datasource. For instance, in the 
+appropriate data adapter configuration. We also have to define the fields to be picked up from the data source. For instance, in the 
 <code>ExcelXlsDataAdapterReport.jrxml</code> we have the following settings:
 <pre><![CDATA[
 <property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsDataAdapter.xml"/>
@@ -291,8 +291,8 @@ public void fill() throws JRException
   
   ...
 }]]></pre>
-One can notice that there are no datasource or connection parameters for the <code>fillReportToFile(...)</code> method. The data adapter will 
-prepare for us the needed datasource before filling the report. 
+One can notice that there are no data source or connection parameters for the <code>fillReportToFile(...)</code> method. The data adapter will 
+prepare for us the needed data source before filling the report. 
 <br/>
 <br/>
 <b>Running the Sample</b>
