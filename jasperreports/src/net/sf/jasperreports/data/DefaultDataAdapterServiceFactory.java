@@ -120,18 +120,22 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterServiceFacto
 		{
 			dataAdapterService = new QueryExecuterDataAdapterService(jasperReportsContext, (QueryExecuterDataAdapter)dataAdapter);
 		}
-		else if (dataAdapter instanceof XlsDataAdapter)
+		
+		// these following three adapters must be kept in order of inheritance hierarchy
+		else if (dataAdapter instanceof ExcelDataAdapter)
 		{
-			dataAdapterService = new XlsDataAdapterService(jasperReportsContext, (XlsDataAdapter)dataAdapter);
+			dataAdapterService = new ExcelDataAdapterService(jasperReportsContext, (ExcelDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof XlsxDataAdapter)
 		{
 			dataAdapterService = new XlsxDataAdapterService(jasperReportsContext, (XlsxDataAdapter)dataAdapter);
 		}
-		else if (dataAdapter instanceof ExcelDataAdapter)
+		else if (dataAdapter instanceof XlsDataAdapter)
 		{
-			dataAdapterService = new ExcelDataAdapterService(jasperReportsContext, (ExcelDataAdapter)dataAdapter);
+			dataAdapterService = new XlsDataAdapterService(jasperReportsContext, (XlsDataAdapter)dataAdapter);
 		}
+		// end excel
+
 		else if (dataAdapter instanceof RemoteXmlDataAdapter)
 		{
 			dataAdapterService = new RemoteXmlDataAdapterService(jasperReportsContext, (RemoteXmlDataAdapter)dataAdapter);

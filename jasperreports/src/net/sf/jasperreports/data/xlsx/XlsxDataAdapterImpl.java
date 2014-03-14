@@ -23,87 +23,12 @@
  */
 package net.sf.jasperreports.data.xlsx;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.sf.jasperreports.data.AbstractDataAdapter;
+import net.sf.jasperreports.data.xls.XlsDataAdapterImpl;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class XlsxDataAdapterImpl extends AbstractDataAdapter implements XlsxDataAdapter
+public class XlsxDataAdapterImpl extends XlsDataAdapterImpl implements XlsxDataAdapter
 {
-	private boolean useFirstRowAsHeader = false;
-	private String datePattern = null;
-	private String numberPattern = null;
-	private String fileName;
-	private List<String> columnNames = new ArrayList<String>();
-	private List<Integer> columnIndexes = new ArrayList<Integer>();
-	private boolean queryExecuterMode = false;
-	private String sheetSelection;
-	
-	public String getDatePattern() {
-		return datePattern;
-	}
-
-	public String getNumberPattern() {
-		return numberPattern;
-	}
-
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String filename) {
-		this.fileName = filename;
-	}
-	
-	public boolean isUseFirstRowAsHeader() {
-		return useFirstRowAsHeader;
-	}
-	
-	public List<String> getColumnNames() {
-		return columnNames;
-	}
-
-	public List<Integer> getColumnIndexes() {
-		return columnIndexes;
-	}
-	
-	public void setColumnNames(List<String> columnNames) {
-		this.columnNames = columnNames;
-	}
-
-	public void setColumnIndexes(List<Integer> columnIndexes) {
-		this.columnIndexes = columnIndexes;
-	}
-
-	public void setUseFirstRowAsHeader(boolean useFirstRowAsHeader) {
-		this.useFirstRowAsHeader = useFirstRowAsHeader;
-	}
-
-	public void setDatePattern(String datePattern) {
-		this.datePattern = datePattern;
-	}
-
-	public void setNumberPattern(String numberPattern) {
-		this.numberPattern = numberPattern;
-	}
-	
-	public boolean isQueryExecuterMode() {
-		return queryExecuterMode;
-	}
-
-	public void setQueryExecuterMode(boolean queryExecuterMode) {
-		this.queryExecuterMode = queryExecuterMode;
-	}
-
-	public String getSheetSelection() {
-		return sheetSelection;
-	}
-
-	public void setSheetSelection(String sheetSelection) {
-		this.sheetSelection = sheetSelection;
-	}
 }
