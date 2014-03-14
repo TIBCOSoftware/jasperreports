@@ -102,7 +102,14 @@ or report property.</li>
 The built-in Excel data adapter tool can be used to create and populate an Excel data source. Necessary parameters or properties 
 can be set using the existing <api href="net/sf/jasperreports/data/excel/ExcelDataAdapter.html">ExcelDataAdapter</api> implementation:
 <pre><![CDATA[
-public interface ExcelDataAdapter extends DataAdapter 
+public interface ExcelDataAdapter extends XlsDataAdapter 
+{
+  public ExcelFormatEnum getFormat();
+  public void setFormat(ExcelFormatEnum format);
+}]]></pre>
+Settings inherited from the <api href="net/sf/jasperreports/data/xls/XlsDataAdapter.html">XlsDataAdapter</api> are presented below:
+<pre><![CDATA[
+public interface XlsDataAdapter extends DataAdapter 
 {
   public String getDatePattern();
   public String getNumberPattern();
@@ -120,8 +127,6 @@ public interface ExcelDataAdapter extends DataAdapter
   public void setQueryExecuterMode(boolean queryExecuterMode);
   public String getSheetSelection();
   public void setSheetSelection(String sheetSelection);
-  public ExcelFormatEnum getFormat();
-  public void setFormat(ExcelFormatEnum format);
 }]]></pre>
 All operations required to create and populate the Excel data source are performed in the 
 <api href="net/sf/jasperreports/data/excel/ExcelDataAdapterService.html">ExcelDataAdapterService</api> class.
