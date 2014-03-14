@@ -6,14 +6,15 @@
   <title>Excel Data Adapter Sample</title>
   <description>Shows how the Excel data adapters can be used to fill reports.</description>
 
-  <mainFeature ref="xlsdataadapter"/>
+  <mainFeature ref="exceldataadapter"/>
   <secondaryFeature name="xlsdatasource" sample="xlsdatasource" title="XLS Data Source"/>
+  <secondaryFeature name="xlsxdatasource" sample="xlsxdatasource" title="XLSX Data Source"/>
   
-  <!-- xlsdataadapter -->
+  <!-- exceldataadapter -->
   
-  <feature name="xlsdataadapter" title="Excel 2003 (XLS) Data Adapter">
+  <feature name="exceldataadapter" title="Excel Data Adapter">
     <description>
-How to fill a report using data from an XLS file.
+How to fill a report using data from an Excel file.
     </description>
     <since></since>
     <documentedBy>
@@ -23,27 +24,282 @@ How to fill a report using data from an XLS file.
       </author>
     </documentedBy>
   	<otherSample ref="xlsdatasource"/>
+  	<otherSample ref="xlsxdatasource"/>
     <content>
-[Under construction]    
-	</content>
-  </feature>
+<subtitle name="datasource">The Excel Data Source</subtitle>     
+<br/>
+<br/>
+The next step after the report compilation is the report filling. During this process required data is read from the report data source 
+and/or calculated from report expressions, while report sections are filled one by one. 
+<br/>
+Data sources are used when data come as a set of structured records, either extracted from a 
+relational database, or loaded from specific files. In order to become more familiar with data source 
+objects please consult the <a href="../datasources.html#datasources">Data Sources</a> section.
+<br/>
+When reporting data is stored in Microsoft Excel files (either XLSX or XLS format), the 
+<api href="net/sf/jasperreports/engine/data/ExcelDataSource.html">ExcelDataSource</api> implementation can 
+be used to read it and feed it into the report. Excel files are parsed according to their internal structure and 
+resulting data are returned in the form of one or multiple data source records. In order to obtain such records, the 
+<api href="net/sf/jasperreports/engine/data/ExcelDataSource.html">ExcelDataSource</api> needs to know:
+<ul>
+<li>the object that stores the Excel data. This may be:
+<ul>
+<li>an Excel data file saved on the disk. Can be set using the 
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_FILE">EXCEL_FILE</api> parameter.</li>
+<li>a <code>java.io.InputStream</code> object. Can be set using the 
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_INPUT_STREAM">EXCEL_INPUT_STREAM</api> parameter.</li>
+<li>an in-memory Excel workbook object. Can be set using the 
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_WORKBOOK">EXCEL_WORKBOOK</api> parameter.</li>
+<li>a path to the location of an Excel data file. Can be set using the 
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_SOURCE">EXCEL_SOURCE</api> parameter or report property.</li>
+</ul>
+</li>
+<li>the internal format of the Excel document. Can be set using the 
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_FORMAT">EXCEL_FORMAT</api> parameter or report property. 
+Allowed values for the Excel format property are enumerated in the <api href="net/sf/jasperreports/data/excel/ExcelFormatEnum.html">ExcelFormatEnum</api> class:
+<ul>
+<li><code>xls</code> - for Excel 2003 and older documents</li>
+<li><code>xlsx</code> - for Excel 2007 and newer documents</li>
+<li><code>autodetect</code> - this is the default value. If <code>autodetect</code> is set, the engine will try to detect the format based on the 
+internal structure of the document</li>
+</ul>
+</li>
+<li>the number pattern of numeric columns. Can be set using either  
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_NUMBER_FORMAT">EXCEL_NUMBER_FORMAT</api> parameter or 
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_NUMBER_PATTERN">EXCEL_NUMBER_PATTERN</api> parameter/report property.</li>
+<li>the date pattern of date columns. Can be set using either  
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_DATE_FORMAT">EXCEL_DATE_FORMAT</api> parameter or 
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_DATE_PATTERN">EXCEL_DATE_PATTERN</api> parameter/report property.</li>
+<li>whether the first row in the data file should be used to provide the column names. Can be set using the 
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_USE_FIRST_ROW_AS_HEADER">EXCEL_USE_FIRST_ROW_AS_HEADER</api> parameter.</li>
+<li>if column names are not specified in the first row of the data file, they have to be specified along with their column indexes. 
+Report-field mapping for the data source implementation is very similar to the CSV data 
+source field-mapping explained in the <a href="../csvdatasource">CSV Data Source</a> sample. It works on the assumption that 
+the workbook contains data in a tabular form (rows are records and columns contain report-field values).
+<ul>
+<li>Column names can be set using either  
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_COLUMN_NAMES_ARRAY">EXCEL_COLUMN_NAMES_ARRAY</api> parameter or 
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_COLUMN_NAMES">EXCEL_COLUMN_NAMES</api> parameter/report property.</li>
+<li>Column indexes can be set using either  
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_COLUMN_INDEXES_ARRAY">EXCEL_COLUMN_INDEXES_ARRAY</api> parameter or 
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_COLUMN_INDEXES">EXCEL_COLUMN_INDEXES</api> parameter/report property.</li>
+</ul>
+</li>
+<li>optionally, the name of the sheet in the Excel document to be used as single sheet data source. If not provided, data records will be 
+collected from all sheets in the document. The Excel sheet can be specified using the 
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#XLS_SHEET_SELECTION">XLS_SHEET_SELECTION</api> parameter 
+or report property.</li>
+<li>the <code>java.util.Locale</code> to be used when reading data. Can be set using either  
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_LOCALE">EXCEL_LOCALE</api> parameter or 
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_LOCALE_CODE">EXCEL_LOCALE_CODE</api> parameter/report property.</li>
+<li>the <code>java.util.TimeZone</code> to be used when reading data. Can be set using either  
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_TIMEZONE">EXCEL_TIMEZONE</api> parameter or 
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuterFactory.html#EXCEL_TIMEZONE_ID">EXCEL_TIMEZONE_ID</api> parameter/report property.</li>
+</ul>
+<subtitle name="dataadapter">The Excel Data Adapter</subtitle>     
+<br/>
+<br/>
+The built-in Excel data adapter tool can be used to create and populate an Excel data source. Necessary parameters or properties 
+can be set using the existing <api href="net/sf/jasperreports/data/excel/ExcelDataAdapter.html">ExcelDataAdapter</api> implementation:
+<pre><![CDATA[
+public interface ExcelDataAdapter extends DataAdapter 
+{
+  public String getDatePattern();
+  public String getNumberPattern();
+  public String getFileName();
+  public void setFileName(String filename);
+  public boolean isUseFirstRowAsHeader();
+  public List<String> getColumnNames();
+  public List<Integer> getColumnIndexes();
+  public void setColumnNames(List<String> columnNames);
+  public void setColumnIndexes(List<Integer> columnIndexes);
+  public void setUseFirstRowAsHeader(boolean useFirstRowAsHeader);
+  public void setDatePattern(String datePattern);
+  public void setNumberPattern(String numberPattern);
+  public boolean isQueryExecuterMode();
+  public void setQueryExecuterMode(boolean queryExecuterMode);
+  public String getSheetSelection();
+  public void setSheetSelection(String sheetSelection);
+  public ExcelFormatEnum getFormat();
+  public void setFormat(ExcelFormatEnum format);
+}]]></pre>
+All operations required to create and populate the Excel data source are performed in the 
+<api href="net/sf/jasperreports/data/excel/ExcelDataAdapterService.html">ExcelDataAdapterService</api> class.
+<br/>
+The <code>isQueryExecuterMode()</code> setting specifies whether the built-in 
+<api href="net/sf/jasperreports/engine/query/ExcelQueryExecuter.html">ExcelQueryExecuter</api> class will be used to prepare the datasource. If 
+not set, the datasource will be created and populated by the <api href="net/sf/jasperreports/data/excel/ExcelDataAdapterService.html">ExcelDataAdapterService</api>.
+<br/>
+<br/>
+<subtitle name="dataadaptersample">The Excel Data Adapter Sample</subtitle>     
+<br/>
+<br/>
+Now we'll see how to configure and use the built-in Excel data adapter in order to obtain a valid datasource.
+<br/>
+First, we need to set the appropriate JasperReports registry extension. In the <code>src/jasperreports_extension.properties</code> file we have to put the following setting:
+<br/>
+<br/>
+<code>net.sf.jasperreports.extension.registry.factory.parameter.contributor.data.adapter=net.sf.jasperreports.data.DataAdapterParameterContributorExtensionsRegistryFactory</code>
+<br/>
+<br/>
+Then we have to configure the data adapter. There are 4 distinct configurations in this sample, all of them saved in the <code>data</code> folder: 
+<ul>
+<li><code>ExcelXlsDataAdapter.xml</code> - reads data from a XLS data file (see <code>data/XlsDataSource.data.xls</code> Excel file) and works in direct datasource mode</li>
+<li><code>ExcelXlsQEDataAdapter.xml</code> - reads data from the same XLS data file, but works in query executer mode</li>
+<li><code>ExcelXlsxDataAdapter.xml</code> - reads data from a XLSX data file (see <code>data/XlsxDataSource.data.xlsx</code> Excel file) and works in direct datasource mode</li>
+<li><code>ExcelXlsxQEDataAdapter.xml</code> - reads data from the same XLSX data file, but works in query executer mode</li>
+</ul> 
+Below is the content of the <code>ExcelXlsDataAdapter.xml</code>:
+<pre><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<excelDataAdapter class="net.sf.jasperreports.data.excel.ExcelDataAdapterImpl">
+  <name>excel</name>
+  <fileName>/data/XlsDataSource.data.xls</fileName>
+  <useFirstRowAsHeader>false</useFirstRowAsHeader>
+  <queryExecuterMode>false</queryExecuterMode>
+  <numberPattern>#,##0</numberPattern>
+  <datePattern>yyyy-MM-dd</datePattern>
+  <columnNames>city</columnNames>
+  <columnNames>id</columnNames>
+  <columnNames>name</columnNames>
+  <columnNames>address</columnNames>
+  <columnNames>state</columnNames>
+  <columnNames>date</columnNames>
+  <columnIndexes>0</columnIndexes>
+  <columnIndexes>2</columnIndexes>
+  <columnIndexes>3</columnIndexes>
+  <columnIndexes>4</columnIndexes>
+  <columnIndexes>5</columnIndexes>
+  <columnIndexes>6</columnIndexes>
+  <sheetSelection>xlsdatasource2</sheetSelection>
+  <format>xls</format>
+</excelDataAdapter>]]></pre>
+One can see there are 6 columns with their 0-based indexes (0,2,3,4,5,6) and appropriate names: (city, id, name, address, state, date). The second column (ie the one having the index 1) 
+is an empty column, so it can be omitted. Dates are represented using the "yyyy-MM-dd" date pattern and numbers are represented as integer values with the "#,##0" number pattern. The first 
+row in the data file may not be used as column names holder and the data adapter doesn't work in query executer mode. 
+<br/>
+Data are read from a single sheet named <code>xlsdatasource2</code>. This is the second sheet in the data file.
+<br/>
+<br/>
+The other 3 data adapter configurations are set in a similar way, with differences regarding the data file, the query executer mode and the sheet selection.
+<br/>
+<br/>
+For each data adapter there is a JRXML file to be compiled, filled and exported to various output formats:
+<ul>
+<li><code>reports/ExcelXlsDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsDataAdapter.xml</code> that works in direct datasource mode</li>
+<li><code>reports/ExcelXlsQEDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsQEDataAdapter.xml</code> that works in query executer mode</li>
+<li><code>reports/ExcelXlsxDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsxDataAdapter.xml</code> that works in direct datasource mode</li>
+<li><code>reports/ExcelXlsxQEDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsxQEDataAdapter.xml</code> that works in query executer mode</li>
+</ul>
+Settings for data adapter are very simple in JRXML files. We need to set the <code>net.sf.jasperreports.data.adapter</code> report property to point to the 
+appropriate data adapter configuration. We also have to define the fields to be picked up from the datasource. For instance, in the 
+<code>ExcelXlsDataAdapterReport.jrxml</code> we have the following settings:
+<pre><![CDATA[
+<property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsDataAdapter.xml"/>
+...
+<field name="id" class="java.lang.Integer">
+  <fieldDescription><![CDATA[id]] ></fieldDescription>
+</field>
+<field name="name" class="java.lang.String">
+  <fieldDescription><![CDATA[name]] ></fieldDescription>
+</field>
+<field name="address" class="java.lang.String">
+  <fieldDescription><![CDATA[street address]] ></fieldDescription>
+</field>
+<field name="city" class="java.lang.String">
+  <fieldDescription><![CDATA[city]] ></fieldDescription>
+</field>
+<field name="state" class="java.lang.String">
+  <fieldDescription><![CDATA[state]] ></fieldDescription>
+</field>
+<field name="date" class="java.util.Date">
+  <fieldDescription><![CDATA[date]] ></fieldDescription>
+</field>
 
-  <!-- xlsxdataadapter -->
+<sortField name="city" order="Descending"/>
+<sortField name="name"/>
+...
+<filterExpression><![CDATA[$P{IncludedStates}.contains($F{state}) ? Boolean.TRUE : Boolean.FALSE]] ></filterExpression>]]></pre>
+We can notice that data can be sorted as well as filtered in such a dataset.
+<br/>
+Similar settings can be found in the <code>ExcelXlsxDataAdapterReport.jrxml</code> file.
+<br/>
+If the data adapter is designed to work in query executer mode (ie <code>&lt;queryExecuterMode&gt;true&lt;/queryExecuterMode&gt;</code>), then we need to add 
+a query string in the JRXML file. The query language should e set to "excel" or "EXCEL". An example can be seen in the <code>ExcelXlsQEDataAdapterReport.jrxml</code> 
+file:
+<pre><![CDATA[
+<property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsQEDataAdapter.xml"/>
+...
+<queryString language="excel">
+  <![CDATA[]] >
+</queryString>
+<field name="id" class="java.lang.Integer">
+  <fieldDescription><![CDATA[id]] ></fieldDescription>
+</field>
+<field name="name" class="java.lang.String">
+  <fieldDescription><![CDATA[name]] ></fieldDescription>
+</field>
+<field name="address" class="java.lang.String">
+  <fieldDescription><![CDATA[street address]] ></fieldDescription>
+</field>
+<field name="city" class="java.lang.String">
+  <fieldDescription><![CDATA[city]] ></fieldDescription>
+</field>
+<field name="state" class="java.lang.String">
+  <fieldDescription><![CDATA[state]] ></fieldDescription>
+</field>
+<field name="date" class="java.util.Date">
+  <fieldDescription><![CDATA[date]] ></fieldDescription>
+</field>
+
+<sortField name="city" order="Descending"/>
+<sortField name="name"/>
+...
+<filterExpression><![CDATA[$P{IncludedStates}.contains($F{state}) ? Boolean.TRUE : Boolean.FALSE]] ></filterExpression>]]></pre>
+Similar settings can be found in the <code>ExcelXlsxQEDataAdapterReport.jrxml</code> file.
+<br/>
+After having all the necessary stuff prepared as shown above, we can now fill the report. See the <code>fill()</code> method in the 
+<code>src/ExcelDataAdapterApp.java</code> class:
+<pre><![CDATA[
+public void fill() throws JRException
+{
+  ...
+  //Preparing parameters
+  Map<String, Object> parameters = new HashMap<String, Object>();
+  parameters.put("ReportTitle", "Address Report");
+  Set<String> states = new HashSet<String>();
+  states.add("Active");
+  states.add("Trial");
+  parameters.put("IncludedStates", states);
+
+  //query executer mode
+  parameters.put("DataFile", "XLS query executer mode for Excel data adapter");
+  JasperFillManager.fillReportToFile("build/reports/ExcelXlsQEDataAdapterReport.jasper", parameters);
+  parameters.put("DataFile", "XLSX query executer mode for Excel data adapter");
+  JasperFillManager.fillReportToFile("build/reports/ExcelXlsxQEDataAdapterReport.jasper", parameters);
   
-  <feature name="xlsxdataadapter" title="Excel 2007 (XLSX) Data Adapter">
-    <description>
-How to fill a report using data from an XLSX file.
-    </description>
-    <since></since>
-    <documentedBy>
-      <author>
-    	<name>Sanda Zaharia</name>
-    	<email>shertage@users.sourceforge.net</email>
-      </author>
-    </documentedBy>
-  	<otherSample ref="xlsdatasource"/>
-    <content>
-[Under construction]    
+  //data source mode
+  parameters.put("DataFile", "Excel data adapter for XLS data source");
+  JasperFillManager.fillReportToFile("build/reports/ExcelXlsDataAdapterReport.jasper", parameters);
+  parameters.put("DataFile", "Excel data adapter for XLSX data source");
+  JasperFillManager.fillReportToFile("build/reports/ExcelXlsxDataAdapterReport.jasper", parameters);
+  
+  ...
+}]]></pre>
+One can notice that there is no datasource or connection parameters for the <code>fillReportToFile(...)</code> method. The data adapter will 
+prepare for us the needed datasource before filling the report. 
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/exceldataadapter</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/exceldataadapter/build/reports</code> directory. 
+<br/>
+Then the <code>ExcelXlsDataAdapter</code> report will open in the JasperReports internal viewer.
 	</content>
   </feature>
 
