@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import java.sql.Connection;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.fill.JRFiller;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -87,10 +88,10 @@ public final class JasperRunManager
 
 		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
 		
-		Map<String,Object> parameters =jasperFillManager.setFileResolver(sourceFile, params);
+		JasperReportsContext lcJrCtx = jasperFillManager.getLocalJasperReportsContext(sourceFile);
 
 		/*   */
-		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters, conn);
+		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, conn);
 
 		/*   */
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pdf");
@@ -124,10 +125,10 @@ public final class JasperRunManager
 
 		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
 		
-		Map<String,Object> parameters = jasperFillManager.setFileResolver(sourceFile, params);
+		JasperReportsContext lcJrCtx = jasperFillManager.getLocalJasperReportsContext(sourceFile);
 
 		/*   */
-		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters);
+		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params);
 
 		/*   */
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pdf");
@@ -375,10 +376,10 @@ public final class JasperRunManager
 
 		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
 		
-		Map<String,Object> parameters = jasperFillManager.setFileResolver(sourceFile, params);
+		JasperReportsContext lcJrCtx = jasperFillManager.getLocalJasperReportsContext(sourceFile);
 
 		/*   */
-		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters, jrDataSource);
+		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, jrDataSource);
 
 		/*   */
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pdf");
@@ -505,10 +506,10 @@ public final class JasperRunManager
 
 		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
 		
-		Map<String,Object> parameters = jasperFillManager.setFileResolver(sourceFile, params);
+		JasperReportsContext lcJrCtx = jasperFillManager.getLocalJasperReportsContext(sourceFile);
 
 		/*   */
-		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters, conn);
+		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, conn);
 
 		/*   */
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".html");
@@ -542,10 +543,10 @@ public final class JasperRunManager
 
 		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
 		
-		Map<String,Object> parameters = jasperFillManager.setFileResolver(sourceFile, params);
+		JasperReportsContext lcJrCtx = jasperFillManager.getLocalJasperReportsContext(sourceFile);
 
 		/*   */
-		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters);
+		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params);
 
 		/*   */
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".html");
@@ -619,10 +620,10 @@ public final class JasperRunManager
 
 		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
 		
-		Map<String,Object> parameters = jasperFillManager.setFileResolver(sourceFile, params);
+		JasperReportsContext lcJrCtx = jasperFillManager.getLocalJasperReportsContext(sourceFile);
 
 		/*   */
-		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters, jrDataSource);
+		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, jrDataSource);
 
 		/*   */
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".html");

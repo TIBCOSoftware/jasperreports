@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.fill.JRFiller;
@@ -65,7 +64,7 @@ import net.sf.jasperreports.engine.util.SimpleFileResolver;
  */
 public final class JasperFillManager
 {
-	private JasperReportsContext jasperReportsContext;
+	private final JasperReportsContext jasperReportsContext;
 
 
 	/**
@@ -119,9 +118,11 @@ public final class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		Map<String,Object> parameters = setFileResolver(sourceFile, params);
+		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
 
-		fillToFile(jasperReport, destFileName, parameters, connection);
+		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, connection);
+		
+		JRSaver.saveObject(jasperPrint, destFileName);
 		
 		return destFileName;
 	}
@@ -150,10 +151,12 @@ public final class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		Map<String,Object> parameters = setFileResolver(sourceFile, params);
+		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
 
-		fillToFile(jasperReport, destFileName, parameters);
-		
+		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params);
+
+		JRSaver.saveObject(jasperPrint, destFileName);
+
 		return destFileName;
 	}
 
@@ -178,9 +181,11 @@ public final class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map<String,Object> parameters = setFileResolver(sourceFile, params);
+		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
 
-		fillToFile(jasperReport, destFileName, parameters, connection);
+		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, connection);
+		
+		JRSaver.saveObject(jasperPrint, destFileName);
 	}
 
 	
@@ -203,9 +208,11 @@ public final class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map<String,Object> parameters = setFileResolver(sourceFile, params);
+		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
 
-		fillToFile(jasperReport, destFileName, parameters);
+		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params);
+
+		JRSaver.saveObject(jasperPrint, destFileName);
 	}
 
 	
@@ -271,9 +278,9 @@ public final class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map<String,Object> parameters = setFileResolver(sourceFile, params);
+		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
 
-		return fill(jasperReport, parameters, connection);
+		return JRFiller.fill(lcJrCtx, jasperReport, params, connection);
 	}
 
 	
@@ -295,9 +302,9 @@ public final class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 		
-		Map<String,Object> parameters = setFileResolver(sourceFile, params);
+		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
 
-		return fill(jasperReport, parameters);
+		return JRFiller.fill(lcJrCtx, jasperReport, params);
 	}
 
 	
@@ -489,9 +496,11 @@ public final class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		Map<String,Object> parameters = setFileResolver(sourceFile, params);
+		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
 
-		fillToFile(jasperReport, destFileName, parameters, dataSource);
+		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, dataSource);
+
+		JRSaver.saveObject(jasperPrint, destFileName);
 		
 		return destFileName;
 	}
@@ -517,9 +526,11 @@ public final class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map<String,Object> parameters = setFileResolver(sourceFile, params);
+		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
 
-		fillToFile(jasperReport, destFileName, parameters, dataSource);
+		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, dataSource);
+
+		JRSaver.saveObject(jasperPrint, destFileName);
 	}
 
 	
@@ -564,9 +575,9 @@ public final class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map<String,Object> parameters = setFileResolver(sourceFile, params);
+		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
 
-		return fill(jasperReport, parameters, dataSource);
+		return JRFiller.fill(lcJrCtx, jasperReport, params, dataSource);
 	}
 
 	
@@ -972,38 +983,8 @@ public final class JasperFillManager
 
 	/**
 	 * 
-	 *
-	protected static Map<String,Object> setFileResolver(File file, Map<String,Object> params)
-	{
-		Map<String,Object> parameters  = params;
-		
-		if (parameters == null)
-		{
-			parameters = new HashMap<String,Object>();
-		}
-
-		if (!parameters.containsKey(JRParameter.REPORT_FILE_RESOLVER))
-		{
-			SimpleFileResolver fileResolver =
-				new SimpleFileResolver(
-					Arrays.asList(new File[]{file.getParentFile(), new File(".")})
-					);
-			fileResolver.setResolveAbsolutePath(true);
-			
-			parameters.put(
-				JRParameter.REPORT_FILE_RESOLVER, 
-				fileResolver
-				);
-		}
-		
-		return parameters;
-	}
-
-
-	/**
-	 * 
 	 */
-	protected Map<String,Object> setFileResolver(File file, Map<String,Object> params)//FIXMECONTEXT no longer create map
+	protected JasperReportsContext getLocalJasperReportsContext(File file)
 	{
 		SimpleFileResolver fileResolver =
 			new SimpleFileResolver(
@@ -1013,15 +994,6 @@ public final class JasperFillManager
 		
 		LocalJasperReportsContext localJasperReportsContext = new LocalJasperReportsContext(jasperReportsContext);
 		localJasperReportsContext.setFileResolver(fileResolver);
-		jasperReportsContext = localJasperReportsContext;
-		
-		Map<String,Object> parameters  = params;
-		
-		if (parameters == null)
-		{
-			parameters = new HashMap<String,Object>();
-		}
-
-		return parameters;
+		return localJasperReportsContext;
 	}
 }
