@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.web.JRInteractiveException;
 import net.sf.jasperreports.web.WebReportContext;
@@ -76,12 +77,12 @@ public class ReportContextCreatorServlet extends AbstractServlet {
 					webReportContext.setParameterValue(WebUtil.REQUEST_PARAMETER_ASYNC_REPORT, Boolean.valueOf(async));
 				}
 
-				String appDomain = request.getParameter(WebReportContext.REQUEST_PARAMETER_APPLICATION_DOMAIN);
+				String appDomain = request.getParameter(ReportContext.REQUEST_PARAMETER_APPLICATION_DOMAIN);
 				if (appDomain != null) {
 					if (appDomain.endsWith("/")) {
 						appDomain = appDomain.substring(0, appDomain.length() - 1);
 					}
-					webReportContext.setParameterValue(WebReportContext.REQUEST_PARAMETER_APPLICATION_DOMAIN, appDomain);
+					webReportContext.setParameterValue(ReportContext.REQUEST_PARAMETER_APPLICATION_DOMAIN, appDomain);
 				}
 
 				Controller controller = new Controller(getJasperReportsContext());

@@ -31,6 +31,8 @@ package net.sf.jasperreports.engine;
  */
 public interface ReportContext
 {
+	public static final String REQUEST_PARAMETER_APPLICATION_DOMAIN = "jr_app_domain";
+
 	/**
 	 *
 	 */
