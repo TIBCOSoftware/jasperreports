@@ -901,8 +901,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 	public JasperPrint fill(Map<String,Object> parameterValues) throws JRException
 	{
-		setParametersToContext(parameterValues);
-		
 		if (parameterValues == null)
 		{
 			parameterValues = new HashMap<String,Object>();
@@ -912,6 +910,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		{
 			log.debug("Fill " + fillerId + ": filling report");
 		}
+
+		setParametersToContext(parameterValues);
 
 		fillingThread = Thread.currentThread();
 		
