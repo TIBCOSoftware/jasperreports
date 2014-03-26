@@ -62,6 +62,7 @@ import net.sf.jasperreports.data.xml.XmlDataAdapter;
 import net.sf.jasperreports.data.xml.XmlDataAdapterService;
 import net.sf.jasperreports.data.xmla.XmlaDataAdapter;
 import net.sf.jasperreports.data.xmla.XmlaDataAdapterService;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 
@@ -132,7 +133,16 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterServiceFacto
 		}
 		else if (dataAdapter instanceof XlsDataAdapter)
 		{
-			dataAdapterService = new XlsDataAdapterService(jasperReportsContext, (XlsDataAdapter)dataAdapter);
+			if (JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty("", false))
+			{
+				@SuppressWarnings("deprecation")
+				DataAdapterService dep = new net.sf.jasperreports.data.xls.JxlDataAdapterService(jasperReportsContext, (XlsDataAdapter)dataAdapter);
+				dataAdapterService = dep;
+			}
+			else
+			{
+				dataAdapterService = new XlsDataAdapterService(jasperReportsContext, (XlsDataAdapter)dataAdapter);
+			}
 		}
 		// end excel
 

@@ -25,8 +25,8 @@ package net.sf.jasperreports.data.xls;
 
 import java.io.IOException;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
 import net.sf.jasperreports.engine.data.JRXlsDataSource;
@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.data.JRXlsDataSource;
  */
 public class JxlDataAdapterService extends AbstractXlsDataAdapterService 
 {
+	public static final String PROPERTY_DATA_ADAPTER_USE_LEGACY_JEXCELAPI = JRPropertiesUtil.PROPERTY_PREFIX + ".data.adapter.xls.use.legacy.jexcelapi";
 	
 	/**
 	 * 
@@ -45,14 +46,6 @@ public class JxlDataAdapterService extends AbstractXlsDataAdapterService
 	public JxlDataAdapterService(JasperReportsContext jasperReportsContext, XlsDataAdapter xlsDataAdapter)
 	{
 		super(jasperReportsContext, xlsDataAdapter);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #JxlDataAdapterService(JasperReportsContext, XlsDataAdapter)}.
-	 */
-	public JxlDataAdapterService(XlsDataAdapter xlsDataAdapter)
-	{
-		this(DefaultJasperReportsContext.getInstance(), xlsDataAdapter);
 	}
 	
 	@Override
