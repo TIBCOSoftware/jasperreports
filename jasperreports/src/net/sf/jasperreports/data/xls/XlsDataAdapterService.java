@@ -24,12 +24,15 @@
 package net.sf.jasperreports.data.xls;
 
 import java.io.IOException;
+import java.util.Map;
 
+import net.sf.jasperreports.data.excel.ExcelFormatEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
 import net.sf.jasperreports.engine.data.XlsDataSource;
+import net.sf.jasperreports.engine.query.ExcelQueryExecuterFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -54,6 +57,21 @@ public class XlsDataAdapterService extends AbstractXlsDataAdapterService
 		this(DefaultJasperReportsContext.getInstance(), xlsDataAdapter);
 	}
 	
+	@Override
+	public void contributeParameters(Map<String, Object> parameters) throws JRException
+	{
+		super.contributeParameters(parameters);
+
+		XlsDataAdapter xlsDataAdapter = getXlsDataAdapter();
+		if (xlsDataAdapter != null)
+		{
+			if (xlsDataAdapter.isQueryExecuterMode())
+			{	
+				parameters.put( ExcelQueryExecuterFactory.XLS_FORMAT, ExcelFormatEnum.XLS);//add this just for the sake of ExcelQueryExecuter, which is called when queryMode=true
+			}
+		}
+	}
+
 	@Override
 	protected AbstractXlsDataSource getXlsDataSource() throws JRException
 	{

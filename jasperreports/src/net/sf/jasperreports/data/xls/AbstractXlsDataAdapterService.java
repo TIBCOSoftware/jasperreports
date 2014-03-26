@@ -30,6 +30,7 @@ import java.util.Map;
 import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
 import net.sf.jasperreports.engine.query.AbstractXlsQueryExecuterFactory;
@@ -40,6 +41,7 @@ import net.sf.jasperreports.engine.query.AbstractXlsQueryExecuterFactory;
  */
 public abstract class AbstractXlsDataAdapterService extends AbstractDataAdapterService 
 {
+	public static final String PROPERTY_DATA_ADAPTER_USE_LEGACY_JEXCELAPI = JRPropertiesUtil.PROPERTY_PREFIX + "data.adapter.xls.use.legacy.jexcelapi";
 	
 	/**
 	 * 

@@ -30,6 +30,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import net.sf.jasperreports.data.excel.ExcelFormatEnum;
+import net.sf.jasperreports.data.xls.AbstractXlsDataAdapterService;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
@@ -129,7 +130,14 @@ public class ExcelQueryExecuter extends AbstractXlsQueryExecuter
 			{
 				case XLS :
 				{
-					dataSourceClassName = XLS_DATA_SOURCE_CLASS;
+					if (getBooleanParameterOrProperty(AbstractXlsDataAdapterService.PROPERTY_DATA_ADAPTER_USE_LEGACY_JEXCELAPI, false))
+					{
+						dataSourceClassName = JXL_DATA_SOURCE_CLASS;
+					}
+					else
+					{
+						dataSourceClassName = XLS_DATA_SOURCE_CLASS;
+					}
 					break;
 				}
 				case XLSX :
