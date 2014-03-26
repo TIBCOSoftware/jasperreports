@@ -21,55 +21,49 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data.xlsx;
+package net.sf.jasperreports.data.xls;
 
 import java.io.IOException;
 
-import net.sf.jasperreports.data.xls.AbstractXlsDataAdapterService;
-import net.sf.jasperreports.data.xls.XlsDataAdapter;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
-import net.sf.jasperreports.engine.data.JRXlsxDataSource;
+import net.sf.jasperreports.engine.data.JRXlsDataSource;
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
+ * @deprecated To be removed.
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: XlsDataAdapterService.java 6972 2014-03-12 11:41:51Z shertage $
  */
-public class XlsxDataAdapterService extends AbstractXlsDataAdapterService 
+public class JxlDataAdapterService extends AbstractXlsDataAdapterService 
 {
 	
 	/**
 	 * 
 	 */
-	public XlsxDataAdapterService(JasperReportsContext jasperReportsContext, XlsxDataAdapter xlsxDataAdapter)
+	public JxlDataAdapterService(JasperReportsContext jasperReportsContext, XlsDataAdapter xlsDataAdapter)
 	{
-		super(jasperReportsContext, xlsxDataAdapter);
+		super(jasperReportsContext, xlsDataAdapter);
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #XlsxDataAdapterService(JasperReportsContext, XlsxDataAdapter)}.
+	 * @deprecated Replaced by {@link #JxlDataAdapterService(JasperReportsContext, XlsDataAdapter)}.
 	 */
-	public XlsxDataAdapterService(XlsxDataAdapter xlsxDataAdapter)
+	public JxlDataAdapterService(XlsDataAdapter xlsDataAdapter)
 	{
-		this(DefaultJasperReportsContext.getInstance(), xlsxDataAdapter);
-	}
-	
-	public XlsxDataAdapter getXlsxDataAdapter()
-	{
-		return (XlsxDataAdapter)getDataAdapter();
+		this(DefaultJasperReportsContext.getInstance(), xlsDataAdapter);
 	}
 	
 	@Override
 	protected AbstractXlsDataSource getXlsDataSource() throws JRException
 	{
-		XlsDataAdapter xlsDataAdapter  = getXlsDataAdapter();
+		XlsDataAdapter xlsDataAdapter = getXlsDataAdapter();
 		
-		AbstractXlsDataSource dataSource = null;
+		AbstractXlsDataSource dataSource = null; 
 		try
 		{
-			dataSource = new JRXlsxDataSource(getJasperReportsContext(), xlsDataAdapter.getFileName());
+			dataSource = new JRXlsDataSource(getJasperReportsContext(), xlsDataAdapter.getFileName());
 		}
 		catch (IOException e)
 		{

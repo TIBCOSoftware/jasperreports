@@ -24,75 +24,74 @@
 package net.sf.jasperreports.engine.data;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
 /**
- * This data source implementation reads an XLSX stream.
+ * This data source implementation reads an XLS stream.
  * <p>
  * The default naming convention is to name report fields COLUMN_x and map each column with the field found at index x 
  * in each row (these indices start with 0). To avoid this situation, users can either specify a collection of column 
- * names or set a flag to read the column names from the first row of the XLSX file.
+ * names or set a flag to read the column names from the first row of the CSV file.
  *
- * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: JRXlsDataSource.java 6953 2014-03-07 12:24:14Z shertage $
  */
-public class JRXlsxDataSource extends AbstractPoiXlsDataSource
+public class XlsDataSource extends AbstractPoiXlsDataSource
 {
 	/**
 	 * Creates a data source instance from a workbook.
 	 * @param workbook the workbook
 	 */
-	public JRXlsxDataSource(Workbook workbook)
+	public XlsDataSource(Workbook workbook)
 	{
 		super(workbook);
 	}
 
 
 	/**
-	 * Creates a data source instance from an XLSX data input stream.
-	 * @param inputStream an input stream containing XLSX data
+	 * Creates a data source instance from an XLS data input stream.
+	 * @param inputStream an input stream containing XLS data
 	 */
-	public JRXlsxDataSource(InputStream inputStream) throws JRException, IOException
+	public XlsDataSource(InputStream inputStream) throws JRException, IOException
 	{
 		super(inputStream);
 	}
 
 
 	/**
-	 * Creates a data source instance from an XLSX file.
-	 * @param file a file containing XLSX data
+	 * Creates a data source instance from an XLS file.
+	 * @param file a file containing XLS data
 	 */
-	public JRXlsxDataSource(File file) throws JRException, FileNotFoundException, IOException
+	public XlsDataSource(File file) throws JRException, IOException
 	{
 		super(file);
 	}
 
 	
 	/**
-	 * Creates a data source instance that reads XLSX data from a given location.
+	 * Creates a data source instance that reads XLS data from a given location.
 	 * @param jasperReportsContext the JasperReportsContext
-	 * @param location a String representing XLSX data source
+	 * @param location a String representing XLS data source
 	 * @throws IOException 
 	 */
-	public JRXlsxDataSource(JasperReportsContext jasperReportsContext, String location) throws JRException, IOException
+	public XlsDataSource(JasperReportsContext jasperReportsContext, String location) throws JRException, IOException
 	{
 		super(jasperReportsContext, location);
 	}
 
 	
 	/**
-	 * @see #JRXlsxDataSource(JasperReportsContext, String)
+	 * @see #XlsDataSource(JasperReportsContext, String)
 	 */
-	public JRXlsxDataSource(String location) throws JRException, IOException
+	public XlsDataSource(String location) throws JRException, IOException
 	{
 		super(location);
 	}
@@ -103,7 +102,7 @@ public class JRXlsxDataSource extends AbstractPoiXlsDataSource
 	 */
 	protected Workbook loadWorkbook(InputStream inputStream) throws IOException
 	{
-		return new XSSFWorkbook(inputStream);
+		return new HSSFWorkbook(inputStream);
 	}
 
 

@@ -24,32 +24,23 @@
 package net.sf.jasperreports.engine.query;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
-import java.util.TimeZone;
 
 import net.sf.jasperreports.data.excel.ExcelFormatEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.data.ExcelDataSource;
+import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.poi.ss.usermodel.Workbook;
 
 /**
  * Excel query executer implementation.
@@ -57,11 +48,18 @@ import org.apache.poi.ss.usermodel.Workbook;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class ExcelQueryExecuter extends JRAbstractQueryExecuter {
-	
+public class ExcelQueryExecuter extends AbstractXlsQueryExecuter 
+{
 	private static final Log log = LogFactory.getLog(ExcelQueryExecuter.class);
+
+	private static final String EXCEL_DATA_SOURCE_CLASS = "net.sf.jasperreports.engine.data.ExcelDataSource";
+	private static final String XLS_DATA_SOURCE_CLASS = "net.sf.jasperreports.engine.data.XlsDataSource";
+	private static final String XLSX_DATA_SOURCE_CLASS = "net.sf.jasperreports.engine.data.JRXlsxDataSource";
+	private static final String JXL_DATA_SOURCE_CLASS = "net.sf.jasperreports.engine.data.JRXlsDataSource";
+	private static final String JXL_WORKBOOK_CLASS = "jxl.Workbook";
+	private static final String XLS_WORKBOOK_CLASS = "org.apache.poi.hssf.usermodel.HSSFWorkbook";
+	private static final String XLSX_WORKBOOK_CLASS = "org.apache.poi.xssf.usermodel.XSSFWorkbook";
 	
-	private ExcelDataSource datasource;
 	
 	/**
 	 * 
@@ -80,194 +78,167 @@ public class ExcelQueryExecuter extends JRAbstractQueryExecuter {
 		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
 	}
 
-	public JRDataSource createDatasource() throws JRException {
-		try {
-			Workbook workbook = (Workbook) getParameterValue(ExcelQueryExecuterFactory.EXCEL_WORKBOOK);
-			ExcelFormatEnum format = (ExcelFormatEnum) getParameterValue(ExcelQueryExecuterFactory.EXCEL_FORMAT);
-			if (workbook != null) {
-				datasource = new ExcelDataSource(workbook);
-			} else {
-				InputStream xlsxInputStream = (InputStream) getParameterValue(ExcelQueryExecuterFactory.EXCEL_INPUT_STREAM);
-				if (xlsxInputStream != null) {
-					datasource = new ExcelDataSource(xlsxInputStream, format);
-				} else {
-					File xlsxFile = (File) getParameterValue(ExcelQueryExecuterFactory.EXCEL_FILE);
-					if (xlsxFile != null) {
-						datasource = new ExcelDataSource(xlsxFile, format);
-					} else {
-						String xlsxSource = getStringParameterOrProperty(ExcelQueryExecuterFactory.EXCEL_SOURCE);
-						if (xlsxSource != null) {
-							datasource = new ExcelDataSource(getJasperReportsContext(), xlsxSource, format);
-						} else {
-							if (log.isWarnEnabled()){
-								log.warn("No Excel source was provided.");
-							}
+	public JRDataSource createDatasource() throws JRException 
+	{
+		String dataSourceClassName = null;
+		Class<?>[] constrParamTypes = null;
+		Object[] constrParamValues = null;
+
+		@SuppressWarnings("deprecation")
+		Object workbook = getParameterValue(JRXlsxQueryExecuterFactory.XLSX_WORKBOOK, true);
+		if (workbook == null)
+		{
+			workbook = getParameterValue(AbstractXlsQueryExecuterFactory.XLS_WORKBOOK, true);
+		}
+		if (workbook != null) 
+		{
+			String workbookClassName = workbook.getClass().getName();
+			if (JXL_WORKBOOK_CLASS.equals(workbookClassName))
+			{
+				dataSourceClassName = JXL_DATA_SOURCE_CLASS;
+			}
+			else if (XLS_WORKBOOK_CLASS.equals(workbookClassName))
+			{
+				dataSourceClassName = XLS_DATA_SOURCE_CLASS;
+			}
+			else if (XLSX_WORKBOOK_CLASS.equals(workbookClassName))
+			{
+				dataSourceClassName = XLSX_DATA_SOURCE_CLASS;
+			}
+			constrParamTypes = new Class<?>[]{workbook.getClass()};
+			constrParamValues = new Object[]{workbook};
+		}
+		else 
+		{
+			ExcelFormatEnum format = null;
+			Object objFormat = getParameterValue(ExcelQueryExecuterFactory.XLS_FORMAT, true);
+			if (objFormat instanceof ExcelFormatEnum)
+			{
+				format = (ExcelFormatEnum)objFormat;
+			}
+			if (format == null)
+			{
+				format = ExcelFormatEnum.getByName(getStringParameterOrProperty(ExcelQueryExecuterFactory.XLS_FORMAT));
+			}
+			if (format == null)
+			{
+				format = ExcelFormatEnum.AUTODETECT;
+			}
+			
+			switch (format)
+			{
+				case XLS :
+				{
+					dataSourceClassName = XLS_DATA_SOURCE_CLASS;
+					break;
+				}
+				case XLSX :
+				{
+					dataSourceClassName = XLSX_DATA_SOURCE_CLASS;
+					break;
+				}
+				case AUTODETECT :
+				default:
+				{
+					dataSourceClassName = EXCEL_DATA_SOURCE_CLASS;
+				}
+			}
+			
+			@SuppressWarnings("deprecation")
+			InputStream xlsInputStream = (InputStream)getParameterValue(JRXlsxQueryExecuterFactory.XLSX_INPUT_STREAM, true);
+			if (xlsInputStream == null)
+			{
+				xlsInputStream = (InputStream)getParameterValue(AbstractXlsQueryExecuterFactory.XLS_INPUT_STREAM, true);
+			}
+			if (xlsInputStream != null) 
+			{
+				constrParamTypes = new Class<?>[]{InputStream.class};
+				constrParamValues = new Object[]{xlsInputStream};
+			}
+			else 
+			{
+				@SuppressWarnings("deprecation")
+				File xlsFile = (File)getParameterValue(JRXlsxQueryExecuterFactory.XLSX_FILE, true);
+				if (xlsFile == null)
+				{
+					xlsFile = (File)getParameterValue(AbstractXlsQueryExecuterFactory.XLS_FILE, true);
+				}
+				if (xlsFile != null) 
+				{
+					constrParamTypes = new Class<?>[]{File.class};
+					constrParamValues = new Object[]{xlsFile};
+				}
+				else 
+				{
+					@SuppressWarnings("deprecation")
+					String xlsSource = getStringParameterOrProperty(JRXlsxQueryExecuterFactory.XLSX_SOURCE);
+					if (xlsSource == null)
+					{
+						xlsSource = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLS_SOURCE);
+					}
+					if (xlsSource != null) 
+					{
+						constrParamTypes = new Class<?>[]{JasperReportsContext.class, String.class};
+						constrParamValues = new Object[]{getJasperReportsContext(), xlsSource};
+					}
+					else 
+					{
+						if (log.isWarnEnabled())
+						{
+							log.warn("No Excel source was provided.");
 						}
 					}
 				}
 			}
-		} catch (IOException e) {
-			throw new JRException(e);
 		}
 		
+		AbstractXlsDataSource datasource = createDatasource(dataSourceClassName, constrParamTypes, constrParamValues);
+		
 		if (datasource != null) {
-			// build column names list
-			List<String> columnNamesList = null;
-			String columnNames = getStringParameterOrProperty(ExcelQueryExecuterFactory.EXCEL_COLUMN_NAMES);
-			
-			if(columnNames != null) {
-				columnNamesList = new ArrayList<String>();
-				columnNamesList.add(columnNames);
-			} else {
-				String[] columnNamesArray = (String[]) getParameterValue(ExcelQueryExecuterFactory.EXCEL_COLUMN_NAMES_ARRAY, true);
-				if(columnNamesArray != null) {
-					columnNamesList = Arrays.asList(columnNamesArray);
-				} else {
-					String propertiesPrefix = ExcelQueryExecuterFactory.EXCEL_COLUMN_NAMES;
-					List<PropertySuffix> properties = getPropertiesUtil().getAllProperties(dataset, propertiesPrefix);
-					if (properties != null && !properties.isEmpty()) {
-						columnNamesList = new ArrayList<String>();
-						for(int i = 0; i < properties.size(); i++) {
-							PropertySuffix property = properties.get(i);
-							columnNamesList.add(property.getValue());
-						}
-					} else {
-						JRField[] fields = dataset.getFields();
-						if (fields != null && fields.length > 0)
-						{
-							columnNamesList = new ArrayList<String>();
-							for (int i = 0; i < fields.length; i++)
-							{
-								columnNamesList.add(fields[i].getName());
-							}
-						}
-					}
-				}
-			}
-			List<String> splitColumnNamesList = null;
-			if (columnNamesList != null && columnNamesList.size() > 0) {
-				splitColumnNamesList = new ArrayList<String>();
-				for(int i = 0; i < columnNamesList.size(); i++) {
-					String names = columnNamesList.get(i);
-					for(String token: names.split(",")){
-						splitColumnNamesList.add(token.trim());
-					}
-				}
-			} 
-			
-			// build column indexes list
-			List<Integer> columnIndexesList = null;
-			String columnIndexes = getStringParameterOrProperty(ExcelQueryExecuterFactory.EXCEL_COLUMN_INDEXES);
-			
-			if (columnIndexes != null) {
-				columnIndexesList = new ArrayList<Integer>();
-				for (String colIndex: columnIndexes.split(",")){
-					columnIndexesList.add(Integer.valueOf(colIndex.trim()));
-				}
-			} else {
-				Integer[] columnIndexesArray = (Integer[]) getParameterValue(ExcelQueryExecuterFactory.EXCEL_COLUMN_INDEXES_ARRAY, true);
-				if (columnIndexesArray != null) {
-					columnIndexesList = Arrays.asList(columnIndexesArray);
-				} else {
-					String propertiesPrefix = ExcelQueryExecuterFactory.EXCEL_COLUMN_INDEXES;
-					List<PropertySuffix> properties = getPropertiesUtil().getAllProperties(dataset, propertiesPrefix);
-					if (properties != null && !properties.isEmpty()) {
-						columnIndexesList = new ArrayList<Integer>();
-						for(int i = 0; i < properties.size(); i++) {
-							String propertyValue = properties.get(i).getValue();
-							for (String colIndex: propertyValue.split(",")){
-								columnIndexesList.add(Integer.valueOf(colIndex.trim()));
-							}
-						}
-					}
-				}
-			}
-			
-			// set column names or column indexes or both
-			if (splitColumnNamesList != null) {
-				if (columnIndexesList != null) {
-					Integer[] indexesArray = new Integer[columnIndexesList.size()];
-					for (int i=0; i<columnIndexesList.size(); i++) {
-						indexesArray[i] = columnIndexesList.get(i);
-					}
-					datasource.setColumnNames(splitColumnNamesList.toArray(new String[splitColumnNamesList.size()]), indexesArray);
-				} else {
-					datasource.setColumnNames(splitColumnNamesList.toArray(new String[splitColumnNamesList.size()]));
-				}
-			} else if (columnIndexesList != null) {
-				datasource.setColumnIndexes(columnIndexesList.toArray(new Integer[columnIndexesList.size()]));
-			} else {
-				if (log.isWarnEnabled()){
-					log.warn("No column names or column indexes were specified.");
-				}
-			}
-			
-			
-			DateFormat dateFormat = (DateFormat) getParameterValue(ExcelQueryExecuterFactory.EXCEL_DATE_FORMAT, true);
-			if (dateFormat!=null) {
-				datasource.setDateFormat(dateFormat);
-			} else {
-				String dateFormatPattern = getStringParameterOrProperty(ExcelQueryExecuterFactory.EXCEL_DATE_PATTERN);
-				if(dateFormatPattern != null){
-					datasource.setDatePattern(dateFormatPattern);
-				}
-			}
-			
-			NumberFormat numberFormat = (NumberFormat) getParameterValue(ExcelQueryExecuterFactory.EXCEL_NUMBER_FORMAT, true);
-			if (numberFormat != null) {
-				datasource.setNumberFormat(numberFormat);
-			} else {
-				String numberFormatPattern = getStringParameterOrProperty(ExcelQueryExecuterFactory.EXCEL_NUMBER_PATTERN);
-				if(numberFormatPattern != null){
-					datasource.setNumberPattern(numberFormatPattern);
-				}
-			}
-
-			datasource.setUseFirstRowAsHeader(getBooleanParameterOrProperty(ExcelQueryExecuterFactory.EXCEL_USE_FIRST_ROW_AS_HEADER, false));
-			
-			Locale xlsxLocale = (Locale) getParameterValue(JRParameter.REPORT_LOCALE, true);
-			if (xlsxLocale != null) {
-				datasource.setLocale(xlsxLocale);
-			} else {
-				String xlsxLocaleCode = getStringParameterOrProperty(ExcelQueryExecuterFactory.EXCEL_LOCALE_CODE);
-				if (xlsxLocaleCode != null) {
-					datasource.setLocale(xlsxLocaleCode);
-				}
-			}
-			
-			TimeZone xlsxTimezone = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE, true);
-			if (xlsxTimezone != null) {
-				datasource.setTimeZone(xlsxTimezone);
-			} else {
-				String xlsxTimezoneId = getStringParameterOrProperty(ExcelQueryExecuterFactory.EXCEL_TIMEZONE_ID);
-				if (xlsxTimezoneId != null) {
-					datasource.setTimeZone(xlsxTimezoneId);
-				}
-			}
-			
-			String sheetSelection = getStringParameterOrProperty(ExcelQueryExecuterFactory.EXCEL_SHEET_SELECTION);
-			if (sheetSelection != null && sheetSelection.length() > 0) 
-			{
-				datasource.setSheetSelection(sheetSelection);
-			}
+			initDatasource(datasource);
 		}
 		
 		return datasource;
 	}
+	
 
-	public void close() {
-		if(datasource != null){
-			datasource.close();
+	private AbstractXlsDataSource createDatasource(
+		String dataSourceClassName, 
+		Class<?>[] constrParamTypes,
+		Object[] constrParamValues
+		) throws JRException 
+	{
+		AbstractXlsDataSource datasource = null;
+		
+		try
+		{
+			@SuppressWarnings("unchecked")
+			Class<? extends AbstractXlsDataSource> dataSourceClass = (Class<? extends AbstractXlsDataSource>) JRClassLoader.loadClassForName(dataSourceClassName);
+			Constructor<? extends AbstractXlsDataSource> constructor = dataSourceClass.getConstructor(constrParamTypes);
+			datasource = constructor.newInstance(constrParamValues);
 		}
-	}
-
-	public boolean cancelQuery() throws JRException {
-		return false;
-	}
-
-	@Override
-	protected String getParameterReplacement(String parameterName) {
-		return String.valueOf(getParameterValue(parameterName));
+		catch (InvocationTargetException e)
+		{
+			throw new JRException(e);
+		}
+		catch (IllegalAccessException e)
+		{
+			throw new JRException(e);
+		}
+		catch (InstantiationException e)
+		{
+			throw new JRException(e);
+		}
+		catch (NoSuchMethodException e)
+		{
+			throw new JRException(e);
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw new JRException(e);
+		}
+		
+		return datasource;
 	}
 	
 }

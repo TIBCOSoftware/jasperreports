@@ -28,7 +28,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -447,7 +446,7 @@ public class XlsDataSourceApp extends AbstractSampleApp
 		try
 		{
 			String[] columnNames = new String[]{"city", "id", "name", "address", "state"};
-			Integer[] columnIndexes = new Integer[]{0, 2, 3, 4, 5};
+			int[] columnIndexes = new int[]{0, 2, 3, 4, 5};
 			ds = new ExcelDataSource(JRLoader.getLocationInputStream("data/XlsDataSource.data.xls"));
 //			ds.setUseFirstRowAsHeader(true);
 			ds.setColumnNames(columnNames, columnIndexes);

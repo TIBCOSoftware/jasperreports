@@ -24,23 +24,18 @@
 package net.sf.jasperreports.data.xls;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Map;
 
-import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.data.JRXlsDataSource;
-import net.sf.jasperreports.engine.query.JRXlsQueryExecuterFactory;
+import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
+import net.sf.jasperreports.engine.data.XlsDataSource;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class XlsDataAdapterService extends AbstractDataAdapterService 
+public class XlsDataAdapterService extends AbstractXlsDataAdapterService 
 {
 	
 	/**
@@ -59,103 +54,21 @@ public class XlsDataAdapterService extends AbstractDataAdapterService
 		this(DefaultJasperReportsContext.getInstance(), xlsDataAdapter);
 	}
 	
-	public XlsDataAdapter getXlsDataAdapter()
-	{
-		return (XlsDataAdapter)getDataAdapter();
-	}
-	
 	@Override
-	public void contributeParameters(Map<String, Object> parameters) throws JRException
+	protected AbstractXlsDataSource getXlsDataSource() throws JRException
 	{
 		XlsDataAdapter xlsDataAdapter = getXlsDataAdapter();
-		if (xlsDataAdapter != null)
+		
+		AbstractXlsDataSource dataSource = null;
+		try
 		{
-			try
-			{
-				String datePattern = xlsDataAdapter.getDatePattern();
-				String numberPattern = xlsDataAdapter.getNumberPattern();
-				String sheetSelection = xlsDataAdapter.getSheetSelection();
-
-				if (xlsDataAdapter.isQueryExecuterMode())
-				{	
-					parameters.put(JRXlsQueryExecuterFactory.XLS_SOURCE, xlsDataAdapter.getFileName());
-					if (datePattern != null && datePattern.length() > 0)
-					{
-						parameters.put( JRXlsQueryExecuterFactory.XLS_DATE_FORMAT, new SimpleDateFormat(datePattern) );
-					}
-					if (numberPattern != null && numberPattern.length() > 0)
-					{
-						parameters.put( JRXlsQueryExecuterFactory.XLS_NUMBER_FORMAT, new DecimalFormat(numberPattern) );
-					}
-					parameters.put( JRXlsQueryExecuterFactory.XLS_USE_FIRST_ROW_AS_HEADER, new Boolean(xlsDataAdapter.isUseFirstRowAsHeader()));
-					
-					if (sheetSelection != null && sheetSelection.length() > 0)
-					{
-						parameters.put( JRXlsQueryExecuterFactory.XLS_SHEET_SELECTION, sheetSelection );
-					}
-	
-					if (!xlsDataAdapter.isUseFirstRowAsHeader())
-					{ 
-						String[] names = new String[xlsDataAdapter.getColumnNames().size()];
-						Integer[] indexes = new Integer[xlsDataAdapter.getColumnNames().size()];
-						setupColumns(xlsDataAdapter, names, indexes);
-	
-						parameters.put( JRXlsQueryExecuterFactory.XLS_COLUMN_NAMES_ARRAY, names);
-						parameters.put( JRXlsQueryExecuterFactory.XLS_COLUMN_INDEXES_ARRAY, indexes);
-					}
-				}else{		
-						JRXlsDataSource ds = new JRXlsDataSource(getJasperReportsContext(), xlsDataAdapter.getFileName());
-						if (datePattern != null && datePattern.length() > 0)
-						{
-							ds.setDateFormat(new SimpleDateFormat(datePattern));
-						}
-						if (numberPattern != null && numberPattern.length() > 0)
-						{
-							ds.setNumberFormat(new DecimalFormat(numberPattern));
-						}
-			
-						ds.setUseFirstRowAsHeader(xlsDataAdapter.isUseFirstRowAsHeader());
-			
-						if (sheetSelection != null && sheetSelection.length() > 0)
-						{
-							ds.setSheetSelection(sheetSelection);
-						}
-						if (!xlsDataAdapter.isUseFirstRowAsHeader())
-						{
-							String[] names = new String[xlsDataAdapter.getColumnNames().size()];
-							int[] indexes = new int[xlsDataAdapter.getColumnNames().size()];
-							setupColumns(xlsDataAdapter, names, indexes);
-							ds.setColumnNames( names, indexes);
-						}
-			
-						parameters.put(JRParameter.REPORT_DATA_SOURCE, ds);
-					
-				}
-			}
-			catch (IOException e)
-			{
-				throw new JRException(e);
-			}
+			dataSource = new XlsDataSource(getJasperReportsContext(), xlsDataAdapter.getFileName());
 		}
-	}
-
-	private void setupColumns(XlsDataAdapter xlsDataAdapter, String[] names,
-			int[] indexes) {
-		for (int i=0; i< names.length; ++i )
+		catch (IOException e)
 		{
-			names[i] = "" + xlsDataAdapter.getColumnNames().get(i);
-			indexes[i] = (xlsDataAdapter.getColumnIndexes().size() > i) ? xlsDataAdapter.getColumnIndexes().get(i) : i;
+			throw new JRException(e);
 		}
+		return dataSource;
 	}
-	
-	private void setupColumns(XlsDataAdapter xlsDataAdapter, String[] names,
-			Integer[] indexes) {
-		for (int i=0; i< names.length; ++i )
-		{
-			names[i] = "" + xlsDataAdapter.getColumnNames().get(i);
-			indexes[i] = (xlsDataAdapter.getColumnIndexes().size() > i) ? xlsDataAdapter.getColumnIndexes().get(i) : i;
-		}
-	}
-	
 	
 }

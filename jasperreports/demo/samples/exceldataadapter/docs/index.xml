@@ -150,9 +150,9 @@ First, we need to set the appropriate JasperReports registry extension. In the <
 Then we have to configure the data adapter. There are 4 distinct configurations in this sample, all of them saved in the <code>data</code> folder: 
 <ul>
 <li><code>ExcelXlsDataAdapter.xml</code> - reads data from a XLS data file (see <code>data/XlsDataSource.data.xls</code> Excel file) and works in direct data source mode</li>
-<li><code>ExcelXlsQEDataAdapter.xml</code> - reads data from the same XLS data file, but works in query executer mode</li>
+<li><code>ExcelXlsQeDataAdapter.xml</code> - reads data from the same XLS data file, but works in query executer mode</li>
 <li><code>ExcelXlsxDataAdapter.xml</code> - reads data from a XLSX data file (see <code>data/XlsxDataSource.data.xlsx</code> Excel file) and works in direct data source mode</li>
-<li><code>ExcelXlsxQEDataAdapter.xml</code> - reads data from the same XLSX data file, but works in query executer mode</li>
+<li><code>ExcelXlsxQeDataAdapter.xml</code> - reads data from the same XLSX data file, but works in query executer mode</li>
 </ul> 
 Below is the content of the <code>ExcelXlsDataAdapter.xml</code>:
 <pre><![CDATA[
@@ -192,9 +192,9 @@ The other 3 data adapter configurations are set in a similar way, with differenc
 For each data adapter there is a JRXML file to be compiled, filled and exported to various output formats:
 <ul>
 <li><code>reports/ExcelXlsDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsDataAdapter.xml</code> that works in direct data source mode</li>
-<li><code>reports/ExcelXlsQEDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsQEDataAdapter.xml</code> that works in query executer mode</li>
+<li><code>reports/ExcelXlsQeDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsQeDataAdapter.xml</code> that works in query executer mode</li>
 <li><code>reports/ExcelXlsxDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsxDataAdapter.xml</code> that works in direct data source mode</li>
-<li><code>reports/ExcelXlsxQEDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsxQEDataAdapter.xml</code> that works in query executer mode</li>
+<li><code>reports/ExcelXlsxQeDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsxQeDataAdapter.xml</code> that works in query executer mode</li>
 </ul>
 Settings for data adapter are very simple in JRXML files. We need to set the <code>net.sf.jasperreports.data.adapter</code> report property to point to the 
 appropriate data adapter configuration. We also have to define the fields to be picked up from the data source. For instance, in the 
@@ -230,10 +230,10 @@ We can notice that data can be sorted as well as filtered in such a dataset.
 Similar settings can be found in the <code>ExcelXlsxDataAdapterReport.jrxml</code> file.
 <br/>
 If the data adapter is designed to work in query executer mode (ie <code>&lt;queryExecuterMode&gt;true&lt;/queryExecuterMode&gt;</code>), we need to add 
-a query string in the JRXML file. The query language should be set to "excel" (or "EXCEL"). An example can be seen in the <code>ExcelXlsQEDataAdapterReport.jrxml</code> 
+a query string in the JRXML file. The query language should be set to "excel" (or "EXCEL"). An example can be seen in the <code>ExcelXlsQeDataAdapterReport.jrxml</code> 
 file:
 <pre><![CDATA[
-<property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsQEDataAdapter.xml"/>
+<property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsQeDataAdapter.xml"/>
 ...
 <queryString language="excel">
   <![CDATA[]] >
@@ -261,7 +261,7 @@ file:
 <sortField name="name"/>
 ...
 <filterExpression><![CDATA[$P{IncludedStates}.contains($F{state}) ? Boolean.TRUE : Boolean.FALSE]] ></filterExpression>]]></pre>
-Similar settings can be found in the <code>ExcelXlsxQEDataAdapterReport.jrxml</code> file.
+Similar settings can be found in the <code>ExcelXlsxQeDataAdapterReport.jrxml</code> file.
 <br/>
 After having all the necessary stuff prepared as shown above, we can now fill the report. See the <code>fill()</code> method in the 
 <code>src/ExcelDataAdapterApp.java</code> class:
@@ -279,9 +279,9 @@ public void fill() throws JRException
 
   //query executer mode
   parameters.put("DataFile", "XLS query executer mode for Excel data adapter");
-  JasperFillManager.fillReportToFile("build/reports/ExcelXlsQEDataAdapterReport.jasper", parameters);
+  JasperFillManager.fillReportToFile("build/reports/ExcelXlsQeDataAdapterReport.jasper", parameters);
   parameters.put("DataFile", "XLSX query executer mode for Excel data adapter");
-  JasperFillManager.fillReportToFile("build/reports/ExcelXlsxQEDataAdapterReport.jasper", parameters);
+  JasperFillManager.fillReportToFile("build/reports/ExcelXlsxQeDataAdapterReport.jasper", parameters);
   
   //data source mode
   parameters.put("DataFile", "Excel data adapter for XLS data source");

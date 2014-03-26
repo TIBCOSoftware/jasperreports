@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<excelDataAdapter class="net.sf.jasperreports.data.excel.ExcelDataAdapterImpl">
-	<name>excel</name>
-	<fileName>/data/XlsDataSource.data.xls</fileName>
+<xlsxDataAdapter class="net.sf.jasperreports.data.xlsx.XlsxDataAdapterImpl">
+	<name>Excel XLSX Data Adapter</name>
+	<fileName>data/data.xlsx</fileName>
 	<useFirstRowAsHeader>false</useFirstRowAsHeader>
-	<queryExecuterMode>true</queryExecuterMode>
+	<queryExecuterMode>false</queryExecuterMode>
 	<numberPattern>#,##0</numberPattern>
 	<datePattern>yyyy-MM-dd</datePattern>
 	<columnNames>city</columnNames>
@@ -18,6 +18,6 @@
 	<columnIndexes>4</columnIndexes>
 	<columnIndexes>5</columnIndexes>
 	<columnIndexes>6</columnIndexes>
-	<sheetSelection>xlsdatasource2</sheetSelection>
-	<format>xls</format>
-</excelDataAdapter>
+	<sheetSelection>XlsxDataSource3</sheetSelection>
+	<format>autodetect</format>
+</xlsxDataAdapter>

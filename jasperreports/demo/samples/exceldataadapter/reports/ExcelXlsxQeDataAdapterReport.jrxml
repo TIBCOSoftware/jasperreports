@@ -3,7 +3,7 @@
 	xmlns="http://jasperreports.sourceforge.net/jasperreports" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
-	name="ExcelXlsxQEDataAdapterReport" 
+	name="ExcelXlsxQeDataAdapterReport" 
 	pageWidth="595" 
 	pageHeight="842" 
 	columnWidth="515" 
@@ -12,14 +12,16 @@
 	topMargin="50" 
 	bottomMargin="50" 
 	uuid="623644de-c1a7-4f9b-a0b8-6cd49534177b">
-	<property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsxQEDataAdapter.xml"/>
+	<property name="net.sf.jasperreports.data.adapter" value="data/ExcelXlsxQeDataAdapter.xml"/>
+	<property name="net.sf.jasperreports.xlsx.column.names" value="city,id,name,address,state,date"/>
+	<property name="net.sf.jasperreports.xlsx.column.indexes" value="0,2,3,4,5,6"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 	<parameter name="ReportTitle" class="java.lang.String"/>
 	<parameter name="DataFile" class="java.lang.String"/>
 	<parameter name="IncludedStates" class="java.util.Set"/>
-	<queryString language="excel">
+	<queryString language="xlsx">
 		<![CDATA[]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer">

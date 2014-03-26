@@ -28,13 +28,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.data.JRXlsxDataSource;
+import net.sf.jasperreports.engine.data.XlsDataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,20 +42,17 @@ import org.apache.poi.ss.usermodel.Workbook;
 /**
  * XLS query executer implementation.
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
+ * @version $Id: JRXlsQueryExecuter.java 6972 2014-03-12 11:41:51Z shertage $
  */
-public class JRXlsxQueryExecuter extends AbstractXlsQueryExecuter 
-{
+public class XlsQueryExecuter extends AbstractXlsQueryExecuter {
 	
-	private static final Log log = LogFactory.getLog(JRXlsxQueryExecuter.class);
-	
-	private JRXlsxDataSource datasource;
+	private static final Log log = LogFactory.getLog(XlsQueryExecuter.class);
 	
 	/**
 	 * 
 	 */
-	protected JRXlsxQueryExecuter(
+	protected XlsQueryExecuter(
 		JasperReportsContext jasperReportsContext, 
 		JRDataset dataset, 
 		Map<String,? extends JRValueParameter> parametersMap
@@ -65,51 +61,24 @@ public class JRXlsxQueryExecuter extends AbstractXlsQueryExecuter
 		super(jasperReportsContext, dataset, parametersMap);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #JRXlsxQueryExecuter(JasperReportsContext, JRDataset, Map)}.
-	 */
-	protected JRXlsxQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parametersMap) 
-	{
-		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
-	}
-
 	public JRDataSource createDatasource() throws JRException {
+		XlsDataSource datasource = null;
 		try {
-			@SuppressWarnings("deprecation")
-			Workbook workbook = (Workbook) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_WORKBOOK);
-			if (workbook == null)
-			{
-				workbook = (Workbook) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_WORKBOOK, true);
-			}
+			Workbook workbook = (Workbook) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_WORKBOOK);
 			if (workbook != null) {
-				datasource = new JRXlsxDataSource(workbook);
+				datasource = new XlsDataSource(workbook);
 			} else {
-				@SuppressWarnings("deprecation")
-				InputStream xlsxInputStream = (InputStream) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_INPUT_STREAM);
-				if (xlsxInputStream == null)
-				{
-					xlsxInputStream = (InputStream) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_INPUT_STREAM, true);
-				}
-				if (xlsxInputStream != null) {
-					datasource = new JRXlsxDataSource(xlsxInputStream);
+				InputStream xlsInputStream = (InputStream) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_INPUT_STREAM);
+				if (xlsInputStream != null) {
+					datasource = new XlsDataSource(xlsInputStream);
 				} else {
-					@SuppressWarnings("deprecation")
-					File xlsxFile = (File) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_FILE);
-					if (xlsxFile == null)
-					{
-						xlsxFile = (File) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_FILE, true);
-					}
-					if (xlsxFile != null) {
-						datasource = new JRXlsxDataSource(xlsxFile);
+					File xlsFile = (File) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_FILE);
+					if (xlsFile != null) {
+						datasource = new XlsDataSource(xlsFile);
 					} else {
-						@SuppressWarnings("deprecation")
-						String xlsxSource = getStringParameterOrProperty(JRXlsxQueryExecuterFactory.XLSX_SOURCE);
-						if (xlsxSource == null)
-						{
-							xlsxSource = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLS_SOURCE);
-						}
-						if (xlsxSource != null) {
-							datasource = new JRXlsxDataSource(getJasperReportsContext(), xlsxSource);
+						String xlsSource = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLS_SOURCE);
+						if (xlsSource != null) {
+							datasource = new XlsDataSource(getJasperReportsContext(), xlsSource);
 						} else {
 							if (log.isWarnEnabled()){
 								log.warn("No XLS source was provided.");

@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.data;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -33,10 +32,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import jxl.Cell;
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
@@ -45,19 +40,23 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.FormatUtils;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
 
 /**
- * This data source implementation reads an XLS stream.
+ * This data source implementation reads an XLSX or XLS stream.
  * <p>
  * The default naming convention is to name report fields COLUMN_x and map each column with the field found at index x 
  * in each row (these indices start with 0). To avoid this situation, users can either specify a collection of column 
- * names or set a flag to read the column names from the first row of the CSV file.
+ * names or set a flag to read the column names from the first row of the XLSX or XLS file.
  *
- * @deprecated Replaced by {@link XlsDataSource}.
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @version $Id: ExcelDataSource.java 6968 2014-03-12 08:58:07Z shertage $
  */
-public class JRXlsDataSource extends AbstractXlsDataSource
+public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 {
 	private Workbook workbook;
 
@@ -73,7 +72,7 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 	 * Creates a data source instance from a workbook.
 	 * @param workbook the workbook
 	 */
-	public JRXlsDataSource(Workbook workbook)
+	public AbstractPoiXlsDataSource(Workbook workbook)
 	{
 		this.workbook = workbook;
 		this.closeWorkbook = false;
@@ -81,30 +80,24 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 
 
 	/**
-	 * Creates a data source instance from an XLS data input stream.
-	 * @param is an input stream containing XLS data
+	 * Creates a data source instance from an XLSX or XLS data input stream.
+	 * @param is an input stream containing XLSX or XLS data
 	 */
-	public JRXlsDataSource(InputStream is) throws JRException, IOException
+	public AbstractPoiXlsDataSource(InputStream is) throws JRException, IOException
 	{
-		try
-		{
-			this.inputStream = is;
-			this.workbook = Workbook.getWorkbook(is);
-			this.closeWorkbook = true;
-			this.closeInputStream = false;
-		}
-		catch (BiffException e)
-		{
-			throw new JRException(e);
-		}
+		this.inputStream = is;
+		this.closeWorkbook = true;
+		this.closeInputStream = false;
+
+		this.workbook = loadWorkbook(inputStream);
 	}
 
 
 	/**
-	 * Creates a data source instance from an XLS file.
-	 * @param file a file containing XLS data
+	 * Creates a data source instance from an XLSX or XLS file.
+	 * @param file a file containing XLSX or XLS data
 	 */
-	public JRXlsDataSource(File file) throws JRException, FileNotFoundException, IOException
+	public AbstractPoiXlsDataSource(File file) throws JRException, IOException
 	{
 		this(new FileInputStream(file));
 		this.closeInputStream = true;
@@ -112,12 +105,12 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 
 	
 	/**
-	 * Creates a datasource instance that reads XLS data from a given location.
+	 * Creates a data source instance that reads XLSX or XLS data from a given location.
 	 * @param jasperReportsContext the JasperReportsContext
-	 * @param location a String representing XLS data source
+	 * @param location a String representing XLSX or XLS data source
 	 * @throws IOException 
 	 */
-	public JRXlsDataSource(JasperReportsContext jasperReportsContext, String location) throws JRException, IOException
+	public AbstractPoiXlsDataSource(JasperReportsContext jasperReportsContext, String location) throws JRException, IOException
 	{
 		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(location));
 		this.closeInputStream = true;
@@ -125,12 +118,18 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 
 	
 	/**
-	 * @see #JRXlsDataSource(JasperReportsContext, String)
+	 * @see #AbstractPoiXlsDataSource(JasperReportsContext, String)
 	 */
-	public JRXlsDataSource(String location) throws JRException, IOException
+	public AbstractPoiXlsDataSource(String location) throws JRException, IOException
 	{
 		this(DefaultJasperReportsContext.getInstance(), location);
 	}
+	
+	
+	/**
+	 * 
+	 */
+	protected abstract Workbook loadWorkbook(InputStream is) throws IOException;
 	
 
 	/**
@@ -143,7 +142,7 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 			//initialize sheetIndex before first record
 			if (sheetIndex < 0)
 			{
-				if (sheetSelection == null)
+				if (sheetSelection == null) 
 				{
 					sheetIndex = 0;
 				}
@@ -163,14 +162,7 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 					
 					if (sheetIndex < 0)
 					{
-						for (int i = 0; i < workbook.getSheets().length; i++) 
-						{	
-							if (sheetSelection.equals(workbook.getSheet(i).getName())) 
-							{
-								this.sheetIndex = i;
-								break;
-							}
-						}
+						sheetIndex = workbook.getSheetIndex(workbook.getSheet(sheetSelection));
 
 						if (sheetIndex < 0)
 						{
@@ -181,13 +173,13 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 			}
 
 			recordIndex++;
-
+			
 			if (sheetSelection == null) 
 			{
-				if (recordIndex > workbook.getSheet(sheetIndex).getRows() - 1)
+				if (recordIndex > workbook.getSheetAt(sheetIndex).getLastRowNum())
 				{
 					if (sheetIndex + 1 < workbook.getNumberOfSheets() 
-						&& workbook.getSheet(sheetIndex + 1).getRows() > 0)
+						&& workbook.getSheetAt(sheetIndex + 1).getLastRowNum() > 0)
 					{
 						sheetIndex++;
 						recordIndex = -1;
@@ -202,7 +194,7 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 				recordIndex++;
 			}
 
-			if (recordIndex <= workbook.getSheet(sheetIndex).getRows()-1)
+			if (recordIndex <= workbook.getSheetAt(sheetIndex).getLastRowNum())
 			{
 				return true;
 			}
@@ -210,10 +202,12 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 			{
 				if (closeWorkbook)
 				{
-					workbook.close();
+					//FIXME: close workbook
+					//workbook.close();
 				}
 			}
 		}
+
 		return false;
 	}
 
@@ -236,54 +230,69 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 		String fieldName = jrField.getName();
 
 		Integer columnIndex = columnNames.get(fieldName);
-		if (columnIndex == null && fieldName.startsWith("COLUMN_")) {
+		if (columnIndex == null && fieldName.startsWith("COLUMN_")) 
+		{
 			columnIndex = Integer.valueOf(fieldName.substring(7));
 		}
 		if (columnIndex == null)
 		{
 			throw new JRException("Unknown column name : " + fieldName);
 		}
-		Sheet sheet = workbook.getSheet(sheetIndex);
-		Cell cell = sheet.getCell(columnIndex.intValue(), recordIndex);
-		String fieldValue = cell.getContents();
+		Sheet sheet = workbook.getSheetAt(sheetIndex);
+		Cell cell = sheet.getRow(recordIndex).getCell(columnIndex);
 		Class<?> valueClass = jrField.getValueClass();
 		
 		if (valueClass.equals(String.class)) 
 		{
-			return fieldValue;
+			return cell.getStringCellValue();
 		}
-		fieldValue = fieldValue.trim();
-		
-		if (fieldValue.length() == 0)
-		{
-			return null;
-		}		
 		try 
 		{
 			if (valueClass.equals(Boolean.class)) 
 			{
-				return convertStringValue(fieldValue, valueClass);
+				if (cell.getCellType() == Cell.CELL_TYPE_BOOLEAN)
+				{
+					return cell.getBooleanCellValue();
+				}
+				else
+				{
+					return convertStringValue(cell.getStringCellValue(), valueClass);
+				}
 			}
 			else if (Number.class.isAssignableFrom(valueClass))
 			{
-				if (numberFormat != null)
+				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC)
 				{
-					return FormatUtils.getFormattedNumber(numberFormat, fieldValue, valueClass);
+					return convertNumber(cell.getNumericCellValue(), valueClass);
 				}
-				else 
+				else
 				{
-					return convertStringValue(fieldValue, valueClass);
+					if (numberFormat != null)
+					{
+						return FormatUtils.getFormattedNumber(numberFormat, cell.getStringCellValue(), valueClass);
+					}
+					else 
+					{
+						return convertStringValue(cell.getStringCellValue(), valueClass);
+					}
 				}
 			}
 			else if (Date.class.isAssignableFrom(valueClass))
 			{
-				if (dateFormat != null)
+				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC)
 				{
-					return FormatUtils.getFormattedDate(dateFormat, fieldValue, valueClass);
-				} 
+					return cell.getDateCellValue();
+				}
 				else
 				{
-					return convertStringValue(fieldValue, valueClass);
+					if (dateFormat != null)
+					{
+						return FormatUtils.getFormattedDate(dateFormat, cell.getStringCellValue(), valueClass);
+					} 
+					else
+					{
+						return convertStringValue(cell.getStringCellValue(), valueClass);
+					}
 				}
 			}
 			else
@@ -303,21 +312,21 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 	 */
 	private void readHeader()
 	{
-		Sheet sheet = workbook.getSheet(sheetSelection != null ? sheetIndex : 0);
+		Sheet sheet = workbook.getSheetAt(sheetSelection != null ? sheetIndex : 0);
 		if (columnNames.size() == 0)
 		{
-			for(int columnIndex = 0; columnIndex < sheet.getColumns(); columnIndex++)
+			Row row = sheet.getRow(recordIndex);
+			for(int columnIndex = 0; columnIndex < row.getLastCellNum(); columnIndex++)
 			{
-				Cell cell = sheet.getCell(columnIndex, recordIndex);
-				String columnName = cell.getContents();
-				if (columnName != null && columnName.trim().length() > 0)
+				Cell cell = row.getCell(columnIndex);
+				if(cell != null)
 				{
-					columnNames.put(columnName, Integer.valueOf(columnIndex));
+					columnNames.put(cell.toString(), columnIndex);
 				}
 				else
 				{
-					columnNames.put("COLUMN_" + columnIndex, Integer.valueOf(columnIndex));
-				}				
+					columnNames.put("COLUMN_" + columnIndex, columnIndex);
+				}
 			}
 		}
 		else
@@ -326,10 +335,12 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 			for(Iterator<Integer> it = columnNames.values().iterator(); it.hasNext();)
 			{
 				Integer columnIndex = it.next();
-				Cell cell = sheet.getCell(columnIndex.intValue(), recordIndex);
-				String columnName = cell.getContents();
-				
-				newColumnNames.put(columnName, columnIndex);
+				Row row = sheet.getRow(recordIndex) ;
+				Cell cell = row.getCell(columnIndex);
+				if(cell != null)
+				{
+					newColumnNames.put(cell.toString(), columnIndex);
+				}
 			}
 			columnNames = newColumnNames;
 		}
@@ -362,6 +373,7 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 			throw new JRRuntimeException("Cannot modify data source properties after data reading has started.");
 		}
 	}
+	
 }
 
 

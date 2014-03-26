@@ -27,26 +27,20 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
- * Query executer factory for Excel file type.
+ * Query executer factory for XLS file type.
  * <p/>
- * The factory creates {@link net.sf.jasperreports.engine.query.ExcelQueryExecuter ExcelQueryExecuter}
+ * The factory creates {@link net.sf.jasperreports.engine.query.XlsQueryExecuter XlsQueryExecuter}
  * query executers.
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
+ * @version $Id: JRXlsQueryExecuterFactory.java 6920 2014-02-24 09:42:04Z teodord $
  */
-public class ExcelQueryExecuterFactory extends AbstractXlsQueryExecuterFactory 
+public class XlsQueryExecuterFactory extends AbstractXlsQueryExecuterFactory 
 {
-	/**
-	 * Built-in parameter/property holding the value of the Excel format to be used when parsing the Excel data.
-	 */
-	public static final String XLS_FORMAT = JRPropertiesUtil.PROPERTY_PREFIX + "xls.format";
-
 	private final static Object[] XLS_BUILTIN_PARAMETERS = {
 			XLS_WORKBOOK, "org.apache.poi.ss.usermodel.Workbook",
 			XLS_INPUT_STREAM, "java.io.InputStream",
@@ -63,8 +57,7 @@ public class ExcelQueryExecuterFactory extends AbstractXlsQueryExecuterFactory
 			XLS_USE_FIRST_ROW_AS_HEADER, "java.lang.Boolean",
 			XLS_LOCALE_CODE, "java.lang.String",
 			XLS_TIMEZONE_ID, "java.lang.String",
-			XLS_SHEET_SELECTION, "java.lang.String",
-			XLS_FORMAT, "net.sf.jasperreports.data.excel.ExcelFormatEnum"
+			XLS_SHEET_SELECTION, "java.lang.String"
 			};
 	
 	public Object[] getBuiltinParameters() {
@@ -72,12 +65,12 @@ public class ExcelQueryExecuterFactory extends AbstractXlsQueryExecuterFactory
 	}
 
 	public JRQueryExecuter createQueryExecuter(
-		JasperReportsContext jasperReportsContext,
+		JasperReportsContext jasperReportsContext, 
 		JRDataset dataset, 
 		Map<String,? extends JRValueParameter> parameters
 		) throws JRException 
 	{
-		return new ExcelQueryExecuter(jasperReportsContext, dataset, parameters);
+		return new XlsQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
 	public boolean supportsQueryParameterType(String className) {

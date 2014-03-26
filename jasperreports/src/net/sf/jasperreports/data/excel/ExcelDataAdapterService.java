@@ -24,14 +24,12 @@
 package net.sf.jasperreports.data.excel;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Map;
 
-import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.data.xls.AbstractXlsDataAdapterService;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
 import net.sf.jasperreports.engine.data.ExcelDataSource;
 import net.sf.jasperreports.engine.query.ExcelQueryExecuterFactory;
 
@@ -39,7 +37,7 @@ import net.sf.jasperreports.engine.query.ExcelQueryExecuterFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: XlsDataAdapterService.java 6920 2014-02-24 09:42:04Z teodord $
  */
-public class ExcelDataAdapterService extends AbstractDataAdapterService 
+public class ExcelDataAdapterService extends AbstractXlsDataAdapterService 
 {
 	
 	/**
@@ -49,103 +47,52 @@ public class ExcelDataAdapterService extends AbstractDataAdapterService
 	{
 		super(jasperReportsContext, excelDataAdapter);
 	}
-	
+
 	public ExcelDataAdapter getExcelDataAdapter()
 	{
 		return (ExcelDataAdapter)getDataAdapter();
 	}
-	
+
 	@Override
 	public void contributeParameters(Map<String, Object> parameters) throws JRException
 	{
+		super.contributeParameters(parameters);
+
+		ExcelDataAdapter xlsDataAdapter = getExcelDataAdapter();
+		if (xlsDataAdapter != null)
+		{
+			ExcelFormatEnum format = xlsDataAdapter.getFormat();
+
+			if (xlsDataAdapter.isQueryExecuterMode())
+			{	
+				if(format != null) 
+				{
+					parameters.put( ExcelQueryExecuterFactory.XLS_FORMAT, format);
+				}
+			}
+		}
+	}
+
+	@Override
+	protected AbstractXlsDataSource getXlsDataSource() throws JRException
+	{
 		ExcelDataAdapter excelDataAdapter = getExcelDataAdapter();
-		if (excelDataAdapter != null)
+		
+		AbstractXlsDataSource dataSource = null;
+		try
 		{
-			try
-			{
-				String datePattern = excelDataAdapter.getDatePattern();
-				String numberPattern = excelDataAdapter.getNumberPattern();
-				String sheetSelection = excelDataAdapter.getSheetSelection();
-				ExcelFormatEnum format = excelDataAdapter.getFormat();
-
-				if (excelDataAdapter.isQueryExecuterMode())
-				{	
-					parameters.put(ExcelQueryExecuterFactory.EXCEL_SOURCE, excelDataAdapter.getFileName());
-					if(format != null) {
-						parameters.put( ExcelQueryExecuterFactory.EXCEL_FORMAT, format);
-					}
-					if (datePattern != null && datePattern.length() > 0)
-					{
-						parameters.put( ExcelQueryExecuterFactory.EXCEL_DATE_FORMAT, new SimpleDateFormat(datePattern) );
-					}
-					if (numberPattern != null && numberPattern.length() > 0)
-					{
-						parameters.put( ExcelQueryExecuterFactory.EXCEL_NUMBER_FORMAT, new DecimalFormat(numberPattern) );
-					}
-					parameters.put( ExcelQueryExecuterFactory.EXCEL_USE_FIRST_ROW_AS_HEADER, new Boolean(excelDataAdapter.isUseFirstRowAsHeader()));
-					
-					if (sheetSelection != null && sheetSelection.length() > 0)
-					{
-						parameters.put( ExcelQueryExecuterFactory.EXCEL_SHEET_SELECTION, sheetSelection );
-					}
-	
-					if (!excelDataAdapter.isUseFirstRowAsHeader())
-					{ 
-						String[] names = new String[excelDataAdapter.getColumnNames().size()];
-						Integer[] indexes = new Integer[excelDataAdapter.getColumnNames().size()];
-						setupColumns(excelDataAdapter, names, indexes);
-	
-						parameters.put( ExcelQueryExecuterFactory.EXCEL_COLUMN_NAMES_ARRAY, names);
-						parameters.put( ExcelQueryExecuterFactory.EXCEL_COLUMN_INDEXES_ARRAY, indexes);
-					}
-				}
-				else
-				{		
-					ExcelDataSource ds = new ExcelDataSource(
-												getJasperReportsContext(), 
-												excelDataAdapter.getFileName(), 
-												excelDataAdapter.getFormat());
-					if (datePattern != null && datePattern.length() > 0)
-					{
-						ds.setDateFormat(new SimpleDateFormat(datePattern));
-					}
-					if (numberPattern != null && numberPattern.length() > 0)
-					{
-						ds.setNumberFormat(new DecimalFormat(numberPattern));
-					}
-		
-					ds.setUseFirstRowAsHeader(excelDataAdapter.isUseFirstRowAsHeader());
-		
-					if (sheetSelection != null && sheetSelection.length() > 0)
-					{
-						ds.setSheetSelection(sheetSelection);
-					}
-					if (!excelDataAdapter.isUseFirstRowAsHeader())
-					{
-						String[] names = new String[excelDataAdapter.getColumnNames().size()];
-						Integer[] indexes = new Integer[excelDataAdapter.getColumnNames().size()];
-						setupColumns(excelDataAdapter, names, indexes);
-						ds.setColumnNames( names, indexes);
-					}
-		
-					parameters.put(JRParameter.REPORT_DATA_SOURCE, ds);
-				}
-			}
-			catch (IOException e)
-			{
-				throw new JRException(e);
-			}
+			dataSource =
+				new ExcelDataSource(
+					getJasperReportsContext(),
+					excelDataAdapter.getFileName(),
+					excelDataAdapter.getFormat()
+					);
 		}
+		catch (IOException e)
+		{
+			throw new JRException(e);
+		}
+		return dataSource;
 	}
 
-	private void setupColumns(ExcelDataAdapter excelDataAdapter, String[] names,
-			Integer[] indexes) {
-		for (int i=0; i< names.length; ++i )
-		{
-			names[i] = "" + excelDataAdapter.getColumnNames().get(i);
-			indexes[i] = (excelDataAdapter.getColumnIndexes().size() > i) ? excelDataAdapter.getColumnIndexes().get(i) : i;
-		}
-	}
-	
-	
 }

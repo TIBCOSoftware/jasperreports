@@ -761,6 +761,43 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	
 	
 	/**
+	 * 
+	 */
+	protected Boolean getBooleanParameter(String parameter, String property)
+	{
+		if (parameterHasValue(parameter))
+		{
+			Boolean booleanValue = (Boolean)getParameterValue(parameter, true);
+			if (booleanValue == null)
+			{
+				return getPropertiesUtil().getBooleanProperty(property);
+			}
+			else
+			{
+				return booleanValue.booleanValue();
+			}
+		}
+		else
+		{
+			return 
+				getPropertiesUtil().getBooleanProperty(
+					dataset.getPropertiesMap(),
+					property
+					);
+		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	protected Boolean getBooleanParameterOrProperty(String name)
+	{
+		return getBooleanParameter(name, name);
+	}
+	
+	
+	/**
 	 * Return a fill parameter from the parameter map.
 	 * 
 	 * @param parameterName the parameter name

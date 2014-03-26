@@ -22,35 +22,19 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.data.DataAdapterParameterContributorFactory;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.export.JRCsvExporter;
-import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
-import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
-import net.sf.jasperreports.export.SimpleOdsReportConfiguration;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimpleWriterExporterOutput;
-import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
-import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 
 /**
@@ -97,15 +81,46 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 
 		//query executer mode
 		parameters.put("DataFile", "XLS query executer mode for Excel data adapter");
-		JasperFillManager.fillReportToFile("build/reports/ExcelXlsQEDataAdapterReport.jasper", parameters);
+		JasperFillManager.fillReportToFile("build/reports/ExcelXlsQeDataAdapterReport.jasper", parameters);
 		parameters.put("DataFile", "XLSX query executer mode for Excel data adapter");
-		JasperFillManager.fillReportToFile("build/reports/ExcelXlsxQEDataAdapterReport.jasper", parameters);
+		JasperFillManager.fillReportToFile("build/reports/ExcelXlsxQeDataAdapterReport.jasper", parameters);
+		
+		JasperReport jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsQeDataAdapterReport.jasper");
+		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsQeDataAdapter.xml");
+		JasperFillManager.fillReportToFile(jasperReport, "build/reports/XlsQeDataAdapterReport.jrprint", parameters);
+
+		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsxQeDataAdapterReport.jasper");
+		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsxQeDataAdapter.xml");
+		JasperFillManager.fillReportToFile(jasperReport, "build/reports/XlsxQeDataAdapterReport.jrprint", parameters);
+		
+//		SimpleJasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
+//		@SuppressWarnings("deprecation")
+//		String deprecatedFactory = net.sf.jasperreports.engine.query.JRXlsQueryExecuterFactory.class.getName();
+//		jasperReportsContext.setProperty("net.sf.jasperreports.query.executer.factory.xls", deprecatedFactory);
+//		jasperReportsContext.setProperty("net.sf.jasperreports.query.executer.factory.XLS", deprecatedFactory);
+		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsQeDataAdapterReport.jasper");
+		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsQeDataAdapter.xml");
+//		JasperFillManager.getInstance(jasperReportsContext).fillToFile(jasperReport, "build/reports/JxlQeDataAdapterReport.jrprint", parameters);
+		JasperFillManager.fillReportToFile(jasperReport, "build/reports/JxlQeDataAdapterReport.jrprint", parameters);
 		
 		//data source mode
 		parameters.put("DataFile", "Excel data adapter for XLS data source");
 		JasperFillManager.fillReportToFile("build/reports/ExcelXlsDataAdapterReport.jasper", parameters);
 		parameters.put("DataFile", "Excel data adapter for XLSX data source");
 		JasperFillManager.fillReportToFile("build/reports/ExcelXlsxDataAdapterReport.jasper", parameters);
+		
+		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsDataAdapterReport.jasper");
+		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsDataAdapter.xml");
+		JasperFillManager.fillReportToFile(jasperReport, "build/reports/XlsDataAdapterReport.jrprint", parameters);
+
+		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsxDataAdapterReport.jasper");
+		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsxDataAdapter.xml");
+		JasperFillManager.fillReportToFile(jasperReport, "build/reports/XlsxDataAdapterReport.jrprint", parameters);
+		
+		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsDataAdapterReport.jasper");
+		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsDataAdapter.xml");
+//		JasperFillManager.getInstance(jasperReportsContext).fillToFile(jasperReport, "build/reports/JxlDataAdapterReport.jrprint", parameters);
+		JasperFillManager.fillReportToFile(jasperReport, "build/reports/JxlDataAdapterReport.jrprint", parameters);
 		
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
@@ -132,8 +147,10 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 		{
 			File reportFile = files[i];
 			long start = System.currentTimeMillis();
+			String fileName = reportFile.getAbsolutePath();
 			JasperExportManager.exportReportToPdfFile(
-				reportFile.getAbsolutePath()
+				fileName, 
+				fileName.substring(0, fileName.indexOf(".jrprint")) + ".pdf"
 				);
 			System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 		}
@@ -150,7 +167,11 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 		{
 			File reportFile = files[i];
 			long start = System.currentTimeMillis();
-			JasperExportManager.exportReportToHtmlFile(reportFile.getAbsolutePath());
+			String fileName = reportFile.getAbsolutePath();
+			JasperExportManager.exportReportToHtmlFile(
+					fileName, 
+					fileName.substring(0, fileName.indexOf(".jrprint")) + ".html"
+				);
 			System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 		}
 		

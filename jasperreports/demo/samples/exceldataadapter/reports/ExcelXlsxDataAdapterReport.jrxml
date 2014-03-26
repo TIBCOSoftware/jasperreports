@@ -12,7 +12,7 @@
 	topMargin="50" 
 	bottomMargin="50" 
 	uuid="623644de-c1a7-4f9b-a0b8-6cd49534177b">
-	<property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsxDataAdapter.xml"/>
+	<property name="net.sf.jasperreports.data.adapter" value="data/ExcelXlsxDataAdapter.xml"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
