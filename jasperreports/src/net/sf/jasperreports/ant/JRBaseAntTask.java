@@ -35,6 +35,7 @@ import org.apache.tools.ant.taskdefs.MatchingTask;
 
 
 /**
+ * Base class for JasperReports built-in Ant task implementations.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
