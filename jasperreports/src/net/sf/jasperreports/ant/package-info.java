@@ -46,7 +46,7 @@
 * This Ant task is implemented by the {@link net.sf.jasperreports.ant.JRAntCompileTask JRAntCompileTask} class. Its syntax and behavior are 
 * very similar to the built-in <code>&lt;javac&gt;</code> Ant task. 
 * <br/>
-* The report template compilation task can be declared like this, in a project’s <code>build.xml</code> 
+* The report template compilation task can be declared like this, in a project's <code>build.xml</code> 
 * file: 
 * <pre>
 * &lt;taskdef name="jrc" 
