@@ -24,6 +24,8 @@
 package net.sf.jasperreports.components.headertoolbar.actions;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
@@ -52,6 +54,8 @@ public class EditTextElementData extends BaseColumnData {
 	private String dataType;
 	private String applyTo;
 	private String groupName;
+
+	private Float floatFontSize;
 
 	public EditTextElementData() {
 	}
@@ -174,6 +178,16 @@ public class EditTextElementData extends BaseColumnData {
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+
+	@JsonIgnore
+	public Float getFloatFontSize() {
+		return floatFontSize;
+	}
+
+	@JsonIgnore
+	public void setFloatFontSize(Float floatFontSize) {
+		this.floatFontSize = floatFontSize;
 	}
 
 }

@@ -24,9 +24,12 @@
 package net.sf.jasperreports.components.headertoolbar.actions;
 
 import java.awt.Color;
+import java.util.Locale;
 
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
 import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignStaticText;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
@@ -48,19 +51,25 @@ public class EditTextElementCommand implements Command
 	private EditTextElementData oldEditTextElementData;
 	private JRDesignTextElement textElement;
 	private String oldText;
+	private ReportContext reportContext;
 
-	public EditTextElementCommand(JRDesignTextElement textElement, EditTextElementData editTextElementData)
+	public EditTextElementCommand(JRDesignTextElement textElement, EditTextElementData editTextElementData, ReportContext reportContext)
 	{
 		this.textElement = textElement;
 		this.editTextElementData = editTextElementData;
+		this.reportContext = reportContext;
 	}
 
 
 	public void execute() {
 		if (textElement != null) {
+			Locale locale = (Locale)reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
+			if (locale == null) {
+				locale = Locale.getDefault();
+			}
 			oldEditTextElementData = new EditTextElementData();
 			oldEditTextElementData.setApplyTo(editTextElementData.getApplyTo());
-			HeaderToolbarElementUtils.copyOwnTextElementStyle(oldEditTextElementData, textElement);
+			HeaderToolbarElementUtils.copyOwnTextElementStyle(oldEditTextElementData, textElement, locale);
 			applyColumnHeaderData(editTextElementData, textElement, true);
 		}
 	}
@@ -92,7 +101,7 @@ public class EditTextElementCommand implements Command
 		}
 		
 		textElement.setFontName(textElementData.getFontName());
-		textElement.setFontSize(textElementData.getFontSize() != null ? Float.valueOf(textElementData.getFontSize()) : null);
+		textElement.setFontSize(textElementData.getFontSize() != null ? textElementData.getFloatFontSize() : null);
 		textElement.setBold(textElementData.getFontBold());
 		textElement.setItalic(textElementData.getFontItalic());
 		textElement.setUnderline(textElementData.getFontUnderline());

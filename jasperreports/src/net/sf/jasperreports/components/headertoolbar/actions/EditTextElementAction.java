@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.List;
 import java.util.Locale;
 
@@ -66,7 +68,7 @@ public class EditTextElementAction extends AbstractVerifiableTableAction {
 		try {
 			getCommandStack().execute(
 				new ResetInCacheCommand(
-					new EditTextElementCommand(getTargetTextElement(), getEditTextElementData()),
+					new EditTextElementCommand(getTargetTextElement(), getEditTextElementData(), getReportContext()),
 					getJasperReportsContext(), 
 					getReportContext(), 
 					targetUri
@@ -101,10 +103,24 @@ public class EditTextElementAction extends AbstractVerifiableTableAction {
 	@Override
 	public void verify() throws ActionException {
 		EditTextElementData colValData = getEditTextElementData();
-		
+
+		Locale locale = (Locale)getReportContext().getParameterValue(JRParameter.REPORT_LOCALE);
+		if (locale == null) {
+			locale = Locale.getDefault();
+		}
+
 		if (colValData.getFontSize() != null) {
 			try {
-				Integer.valueOf(colValData.getFontSize());
+				NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
+				ParsePosition pp = new ParsePosition(0);
+				Number formattedNumber = numberFormat.parse(colValData.getFontSize(), pp);
+
+				if (formattedNumber != null && pp.getIndex() == colValData.getFontSize().length()) {
+					colValData.setFloatFontSize(formattedNumber.floatValue());
+				} else {
+					errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.edit.values.invalid.font.size", colValData.getFontSize());
+				}
+
 			} catch (NumberFormatException e) {
 				errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.edit.values.invalid.font.size", colValData.getFontSize());
 			}
@@ -117,23 +133,18 @@ public class EditTextElementAction extends AbstractVerifiableTableAction {
 			JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());
 			JasperDesign jasperDesign = cache.getJasperDesign(targetUri);
 			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
-			
+
 			String textFieldName = ((JRDesignTextField) textField).getExpression().getChunks()[0].getText();
 			FilterTypesEnum filterType = null;
-			
+
 			for (JRField field: dataset.getFields()) {
 				if (textFieldName.equals(field.getName())) {
 					filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
 					break;
 				}
 			}
-			
+
 			if (filterType != null) {
-				Locale locale = (Locale)getReportContext().getParameterValue(JRParameter.REPORT_LOCALE);
-				if (locale == null) {
-					locale = Locale.getDefault();
-				}
-				
 				if (filterType.equals(FilterTypesEnum.DATE)) {
 					try {
 						formatFactory.createDateFormat(colValData.getFormatPattern(), locale, null);

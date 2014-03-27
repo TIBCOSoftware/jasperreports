@@ -854,7 +854,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             [
                 [
                     {type: 'list', id: 'fontName', label: jive.i18n.get('column.formatforms.fontName.label'), values: [], freeText: true, size: 6, rowspan: 2},
-                    {type: 'list', id: 'fontSize', label: jive.i18n.get('column.formatforms.fontSize.label'), values: [], freeText: true, size: 6, rowspan: 2, restriction: 'numeric'},
+                    {type: 'list', id: 'fontSize', label: jive.i18n.get('column.formatforms.fontSize.label'), values: [], freeText: true, size: 6, rowspan: 2},
                     {
                         type: 'buttons',
                         label: jive.i18n.get('column.formatforms.styleButtons.label'),

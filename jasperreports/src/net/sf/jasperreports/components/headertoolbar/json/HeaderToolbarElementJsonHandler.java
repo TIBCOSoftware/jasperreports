@@ -217,7 +217,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			if (!tableUUID.equals(context.getValue(TABLE_UUID))) 
 			{
 				Map<String, ColumnInfo> columnNames = getAllColumnNames(element, jrContext, contextMap);
-				List<Map<String, Object>> columnGroupsData = getColumnGroupsData(jrContext, reportContext, jasperDesign, dataset, table, tableUUID);
+				List<Map<String, Object>> columnGroupsData = getColumnGroupsData(jrContext, reportContext, jasperDesign, dataset, table, tableUUID, locale);
 				// column names are normally set on the first column, but check if we got them
 				if (!columnNames.isEmpty()) {
 					context.setValue(TABLE_UUID, tableUUID);
@@ -281,8 +281,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			contextMap.put("fontExtensionsFontNames", getFontExtensionsFontNames(jrContext));
 			contextMap.put("systemFontNames", getSystemFontNames(jrContext));
 
-			setColumnHeaderData(columnLabel, columnIndex, tableUUID, contextMap, jrContext, reportContext);
-			setColumnValueData(columnIndex, tableUUID, contextMap, jrContext, reportContext);
+			setColumnHeaderData(columnLabel, columnIndex, tableUUID, contextMap, jrContext, reportContext, locale);
+			setColumnValueData(columnIndex, tableUUID, contextMap, jrContext, reportContext, locale);
 
 			String columnName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_NAME);
 			String columnType = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE);
@@ -525,35 +525,37 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		return filterData;
 	}
 
-	private void setColumnHeaderData(String sortColumnLabel, Integer columnIndex, String tableUuid, Map<String, Object> contextMap, JasperReportsContext jasperReportsContext, ReportContext reportContext) {
+	private void setColumnHeaderData(String sortColumnLabel, Integer columnIndex, String tableUuid, Map<String, Object> contextMap,
+			JasperReportsContext jasperReportsContext, ReportContext reportContext, Locale locale) {
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
 		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
 		EditTextElementData textElementData = new EditTextElementData();
-		
+
 		if (target != null){
 			JRIdentifiable identifiable = target.getIdentifiable();
 			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
 			StandardTable table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
-			
+
 			List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
-			
+
 			if (columnIndex != null) {
 				StandardColumn column = (StandardColumn) tableColumns.get(columnIndex);
-				
+
 				JRDesignTextElement textElement = TableUtil.getCellElement(JRDesignTextElement.class, column.getColumnHeader(), true);
-				
+
 				if (textElement != null) {
 					textElementData.setHeadingName(JRStringUtil.htmlEncode(sortColumnLabel));
 					textElementData.setColumnIndex(columnIndex);
-					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement);
+					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement, locale);
 				}
 			}
 		}
 		contextMap.put("colHeaderData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(textElementData));
 	}
 	
-	private void setColumnValueData(Integer columnIndex, String tableUuid, Map<String, Object> contextMap, JasperReportsContext jasperReportsContext, ReportContext reportContext) {
+	private void setColumnValueData(Integer columnIndex, String tableUuid, Map<String, Object> contextMap,
+			JasperReportsContext jasperReportsContext, ReportContext reportContext, Locale locale) {
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
 		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
@@ -573,7 +575,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				
 				if (textElement != null) {
 					textElementData.setColumnIndex(columnIndex);
-					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement);
+					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement, locale);
 				}
 			}
 		}
@@ -687,7 +689,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		return result;
 	}
 
-	private List<Map<String, Object>> getColumnGroupsData(JasperReportsContext jasperReportsContext, ReportContext reportContext, JasperDesign jasperDesign, JRDesignDataset dataset, StandardTable table, String tableUuid) 
+	private List<Map<String, Object>> getColumnGroupsData(JasperReportsContext jasperReportsContext, ReportContext reportContext, JasperDesign jasperDesign,
+			JRDesignDataset dataset, StandardTable table, String tableUuid, Locale locale)
 	{
 		List<BaseColumn> allColumns = TableUtil.getAllColumns(table);
 
@@ -777,7 +780,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			EditTextElementData textElementData;
 			textElementData = new EditTextElementData();
 			textElementData.setGroupName(groupInfo.getName());
-			HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement);
+			HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement, locale);
 
 			Map<String, Object> groupData = new HashMap<String, Object>();
 			groupData.put("grouptype", groupInfo.getType());
