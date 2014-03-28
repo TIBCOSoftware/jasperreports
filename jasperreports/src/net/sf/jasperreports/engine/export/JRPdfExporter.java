@@ -338,7 +338,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 		tagHelper.setLanguage(configuration.getTagLanguage()); 
 		
-		this.permissions = getIntegerPermissions(configuration.getAllowedPermissionsHint()) & (~getIntegerPermissions(configuration.getDeniedPermissionsHint()));
+		this.permissions = getIntegerPermissions(configuration.getAllowedPermissions()) & (~getIntegerPermissions(configuration.getDeniedPermissions()));
 	}
 
 

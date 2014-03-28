@@ -75,7 +75,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 	protected int pageHeightInChars;
 	protected float charWidth;
 	protected float charHeight;
-	protected String betweenPagesText;
+	protected String pageSeparator;
 	protected String lineSeparator;
 
 	protected static final String systemLineSeparator = System.getProperty("line.separator");
@@ -183,10 +183,10 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 			lineSeparator = systemLineSeparator;
 		}
 
-		betweenPagesText = configuration.getBetweenPagesText();
-		if (betweenPagesText == null) 
+		pageSeparator = configuration.getPageSeparator();
+		if (pageSeparator == null) 
 		{
-			betweenPagesText = systemLineSeparator + systemLineSeparator;
+			pageSeparator = systemLineSeparator + systemLineSeparator;
 		}
 	}
 
@@ -307,7 +307,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 			writer.write(lineSeparator);
 		}
 
-		writer.write(betweenPagesText);
+		writer.write(pageSeparator);
 
 		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)

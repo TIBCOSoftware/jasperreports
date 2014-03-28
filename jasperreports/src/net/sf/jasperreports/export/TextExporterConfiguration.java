@@ -23,8 +23,10 @@
  */
 package net.sf.jasperreports.export;
 
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRTextExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
+import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 
 /**
@@ -38,6 +40,22 @@ import net.sf.jasperreports.export.annotations.ExporterParameter;
 public interface TextExporterConfiguration extends ExporterConfiguration
 {
 	/**
+	 * Property whose value is used as default for the {@link #getPageSeparator()} export configuration setting.
+	 * The default is the duplicated value of the "line.separator" system property.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_PAGE_SEPARATOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.text.page.separator";
+
+	/**
+	 * Property whose value is used as default for the {@link #getLineSeparator()} export configuration setting.
+	 * The default is the value of the "line.separator" system property.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_LINE_SEPARATOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.text.line.separator";
+
+	/**
 	 * Returns a string representing text that will be inserted between pages of the generated report. By default, JasperReports
 	 * separates pages by two empty lines, but this behavior can be overridden by this parameter.
 	 */
@@ -46,7 +64,8 @@ public interface TextExporterConfiguration extends ExporterConfiguration
 		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
 		name="BETWEEN_PAGES_TEXT"
 		)
-	public String getBetweenPagesText();
+	@ExporterProperty(PROPERTY_PAGE_SEPARATOR)
+	public String getPageSeparator();
 	
 	/**
 	 * Returns a string representing the separator between two lines of text. This parameter is useful since line separators can
@@ -57,5 +76,6 @@ public interface TextExporterConfiguration extends ExporterConfiguration
 		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
 		name="LINE_SEPARATOR"
 		)
+	@ExporterProperty(PROPERTY_LINE_SEPARATOR)
 	public String getLineSeparator();
 }

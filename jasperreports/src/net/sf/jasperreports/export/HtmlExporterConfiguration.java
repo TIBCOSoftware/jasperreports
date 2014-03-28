@@ -52,6 +52,24 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 
 
 	/**
+	 * Property that provides the default value for the {@link #getHtmlHeader()} export configuration setting.
+	 */
+	public static final String PROPERTY_HTML_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.header";
+
+
+	/**
+	 * Property that provides the default value for the {@link #getHtmlFooter()} export configuration setting.
+	 */
+	public static final String PROPERTY_HTML_FOOTER = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.footer";
+
+
+	/**
+	 * Property that provides the default value for the {@link #getBetweenPagesHtml()} export configuration setting.
+	 */
+	public static final String PROPERTY_BETWEEN_PAGES_HTML = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.between.pages";
+
+
+	/**
 	 * Returns a string representing HTML code that will be inserted in front of the generated report. The JasperReports engine places
 	 * a piece of HTML code at the top of the page but users can define their own headers and stylesheet links.
 	 */
@@ -60,6 +78,7 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
 		name="HTML_HEADER"
 		)
+	@ExporterProperty(PROPERTY_HTML_HEADER)
 	public String getHtmlHeader();
 	
 
@@ -73,6 +92,7 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
 		name="HTML_FOOTER"
 		)
+	@ExporterProperty(PROPERTY_HTML_FOOTER)
 	public String getHtmlFooter();
 	
 
@@ -85,6 +105,7 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
 		name="BETWEEN_PAGES_HTML"
 		)
+	@ExporterProperty(PROPERTY_BETWEEN_PAGES_HTML)
 	public String getBetweenPagesHtml();
 	
 	

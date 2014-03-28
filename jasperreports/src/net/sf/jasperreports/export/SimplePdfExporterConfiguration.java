@@ -292,7 +292,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	/**
 	 * 
 	 */
-	public String getAllowedPermissionsHint()
+	public String getAllowedPermissions()
 	{
 		return allowedPermissionsHint;
 	}
@@ -308,7 +308,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	/**
 	 * 
 	 */
-	public String getDeniedPermissionsHint()
+	public String getDeniedPermissions()
 	{
 		return deniedPermissionsHint;
 	}

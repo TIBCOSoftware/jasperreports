@@ -188,15 +188,18 @@
       <property ref="net.sf.jasperreports.export.ignore.page.margins"/>
       
       <property ref="net.sf.jasperreports.export.html.accessible"/>
-      <property ref="net.sf.jasperreports.export.html.frames.as.nested.tables"/>
+      <property ref="net.sf.jasperreports.export.html.between.pages"/>
       <property ref="net.sf.jasperreports.export.html.class"/>
+      <property ref="net.sf.jasperreports.export.html.header"/>
+      <property ref="net.sf.jasperreports.export.html.flush.output"/>
+      <property ref="net.sf.jasperreports.export.html.footer"/>
+      <property ref="net.sf.jasperreports.export.html.frames.as.nested.tables"/>
       <property ref="net.sf.jasperreports.export.html.id"/>
       <property ref="net.sf.jasperreports.export.html.remove.emtpy.space.between.rows"/>
       <property ref="net.sf.jasperreports.export.html.size.unit"/>
       <property ref="net.sf.jasperreports.export.html.using.images.to.align"/>
       <property ref="net.sf.jasperreports.export.html.white.page.background"/>
       <property ref="net.sf.jasperreports.export.html.wrap.break.word"/>
-      <property ref="net.sf.jasperreports.export.html.flush.output"/>
       
       <property ref="net.sf.jasperreports.export.jxl.use.temp.file"/>
       <property ref="net.sf.jasperreports.export.jxl.cell.complex.format"/>
@@ -207,6 +210,7 @@
       <property ref="net.sf.jasperreports.export.parameters.override.report.hints"/>
       
       <property ref="net.sf.jasperreports.export.pdf.128.bit.key"/>
+      <property ref="net.sf.jasperreports.export.pdf.collapse.missing.bookmark.levels"/>
       <property ref="net.sf.jasperreports.export.pdf.compressed"/>
       <property ref="net.sf.jasperreports.export.pdf.create.batch.mode.bookmarks"/>
       <property ref="net.sf.jasperreports.export.pdf.encrypted"/>
@@ -215,13 +219,15 @@
       <property ref="net.sf.jasperreports.export.pdf.force.linebreak.policy"/>
       <property ref="net.sf.jasperreports.export.pdf.force.svg.shapes"/>
       <property ref="net.sf.jasperreports.export.pdf.javascript"/>
+      <property ref="net.sf.jasperreports.export.pdf.metadata.author"/>
+      <property ref="net.sf.jasperreports.export.pdf.metadata.creator"/>
+      <property ref="net.sf.jasperreports.export.pdf.metadata.keywords"/>
+      <property ref="net.sf.jasperreports.export.pdf.metadata.subject"/>
+      <property ref="net.sf.jasperreports.export.pdf.metadata.title"/>
       <property ref="net.sf.jasperreports.export.pdf.owner.password"/>
       <property ref="net.sf.jasperreports.export.pdf.permissions.allowed"/>
       <property ref="net.sf.jasperreports.export.pdf.permissions.denied"/>
       <property ref="net.sf.jasperreports.export.pdf.print.scaling"/>
-      <property ref="net.sf.jasperreports.export.pdf.user.password"/>
-      <property ref="net.sf.jasperreports.export.pdf.version"/>
-      <property ref="net.sf.jasperreports.export.pdf.collapse.missing.bookmark.levels"/>
       <property ref="net.sf.jasperreports.export.pdf.size.page.to.content"/>
       <property ref="net.sf.jasperreports.export.pdf.tagged"/>
       <property ref="net.sf.jasperreports.export.pdf.tag.table"/>
@@ -234,10 +240,14 @@
       <property ref="net.sf.jasperreports.export.pdf.tag.colspan"/>
       <property ref="net.sf.jasperreports.export.pdf.tag.rowspan"/>
       <property ref="net.sf.jasperreports.export.pdf.tag.language"/>
+      <property ref="net.sf.jasperreports.export.pdf.user.password"/>
+      <property ref="net.sf.jasperreports.export.pdf.version"/>
       
       <property ref="net.sf.jasperreports.export.text.character.height"/>
       <property ref="net.sf.jasperreports.export.text.character.width"/>
+      <property ref="net.sf.jasperreports.export.text.line.separator"/>
       <property ref="net.sf.jasperreports.export.text.page.height"/>
+      <property ref="net.sf.jasperreports.export.text.page.separator"/>
       <property ref="net.sf.jasperreports.export.text.page.width"/>
       
       <property ref="net.sf.jasperreports.export.xls.auto.filter"/>
@@ -2501,6 +2511,54 @@ If set to <code>false</code>, the frame content will be integrated into the mast
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.html.between.pages -->
+  
+  <configProperty name="net.sf.jasperreports.export.html.between.pages">
+    <description>
+Configuration property that provides the HTML code that will be inserted between pages of the generated report.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#getBetweenPagesHtml()">getBetweenPagesHtml()</api> HTML export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_BETWEEN_PAGES_HTML</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.html.header -->
+  
+  <configProperty name="net.sf.jasperreports.export.html.header">
+    <description>
+Configuration property that provides the HTML code that will be inserted before the generated report content.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#getHtmlHeader()">getHtmlHeader()</api> HTML export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_HTML_HEADER</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.html.footer -->
+  
+  <configProperty name="net.sf.jasperreports.export.html.footer">
+    <description>
+Configuration property that provides the HTML code that will be inserted after the generated report content.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#getHtmlFooter()">getHtmlFooter()</api> HTML export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_HTML_FOOTER</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.html.class -->
   
   <configProperty name="net.sf.jasperreports.export.html.class">
@@ -2839,6 +2897,86 @@ Its value is used as default for the
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.pdf.metadata.author -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.metadata.author">
+    <description>
+Property that contains the author information to use for the generated PDF metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataAuthor()">getMetadataAutor()</api> PDF export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_METADATA_AUTHOR</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.metadata.creator -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.metadata.creator">
+    <description>
+Property that contains the creator information to use for the generated PDF metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataCreator()">getMetadataCreator()</api> PDF export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_METADATA_CREATOR</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.metadata.keywords -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.metadata.keywords">
+    <description>
+Property that contains the keywords to use for the generated PDF metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataKeywords()">getMetadataKeywords()</api> PDF export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_METADATA_KEYWORDS</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.metadata.subject -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.metadata.subject">
+    <description>
+Property that contains the subject information to use for the generated PDF metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataSubject()">getMetadataSubject()</api> PDF export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_METADATA_SUBJECT</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.metadata.title -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.metadata.title">
+    <description>
+Property that contains the title information to use for the generated PDF metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataTitle()">getMetadataTitle()</api> PDF export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_METADATA_TITLE</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.pdf.owner.password -->
   
   <configProperty name="net.sf.jasperreports.export.pdf.owner.password">
@@ -3014,6 +3152,22 @@ Its value is used as default for the
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.text.page.separator -->
+  
+  <configProperty name="net.sf.jasperreports.export.text.page.separator">
+    <description>
+Property whose value represents text that will be inserted between pages of the generated report.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getPageSeparator()">getPageSeparator()</api> Text export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_PAGE_SEPARATOR</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.text.character.height -->
   
   <configProperty name="net.sf.jasperreports.export.text.character.height">
@@ -3046,6 +3200,22 @@ Its value is used as default for the
   </configProperty>
   
  
+  <!-- net.sf.jasperreports.export.text.line.separator -->
+  
+  <configProperty name="net.sf.jasperreports.export.text.line.separator">
+    <description>
+Property whose value represents the separator between two lines of text in the exported report.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getLineSeparator()">getLineSeparator()</api> Text export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_LINE_SEPARATOR</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.text.page.height -->
   
   <configProperty name="net.sf.jasperreports.export.text.page.height">

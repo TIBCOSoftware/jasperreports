@@ -30,7 +30,7 @@ package net.sf.jasperreports.export;
  */
 public class SimpleTextExporterConfiguration extends SimpleExporterConfiguration implements TextExporterConfiguration
 {
-	private String betweenPagesText;
+	private String pageSeparator;
 	private String lineSeparator;
 
 	
@@ -44,17 +44,17 @@ public class SimpleTextExporterConfiguration extends SimpleExporterConfiguration
 	/**
 	 * 
 	 */
-	public String getBetweenPagesText()
+	public String getPageSeparator()
 	{
-		return betweenPagesText;
+		return pageSeparator;
 	}
 	
 	/**
 	 * 
 	 */
-	public void setBetweenPagesText(String betweenPagesText)
+	public void setPageSeparator(String pageSeparator)
 	{
-		this.betweenPagesText = betweenPagesText;
+		this.pageSeparator = pageSeparator;
 	}
 	
 	/**

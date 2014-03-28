@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.export;
 
-import com.lowagie.text.pdf.PdfWriter;
-
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
@@ -32,6 +30,8 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
+
+import com.lowagie.text.pdf.PdfWriter;
 
 
 /**
@@ -108,14 +108,14 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_OWNER_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.owner.password";
 	
 	/**
-	 * Property whose value is used as default for the {@link #getAllowedPermissionsHint()} export configuration setting.
+	 * Property whose value is used as default for the {@link #getAllowedPermissions()} export configuration setting.
 	 * 
 	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_PERMISSIONS_ALLOWED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.permissions.allowed";
 	
 	/**
-	 * Property whose value is used as default for the {@link #getDeniedPermissionsHint()} export configuration setting.
+	 * Property whose value is used as default for the {@link #getDeniedPermissions()} export configuration setting.
 	 * 
 	 * @see JRPropertiesUtil
 	 */
@@ -172,6 +172,31 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * Property whose value is used as default for the {@link #getIccProfilePath} export configuration setting.
 	 */
 	public static final String PROPERTY_PDFA_ICC_PROFILE_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdfa.icc.profile.path";
+
+	/**
+	 * Property whose value is used as default for the {@link #getMetadataTitle()} export configuration setting.
+	 */
+	public static final String PROPERTY_METADATA_TITLE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.title";
+
+	/**
+	 * Property whose value is used as default for the {@link #getMetadataAuthor()} export configuration setting.
+	 */
+	public static final String PROPERTY_METADATA_AUTHOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.author";
+
+	/**
+	 * Property whose value is used as default for the {@link #getMetadataSubject()} export configuration setting.
+	 */
+	public static final String PROPERTY_METADATA_SUBJECT = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.subject";
+
+	/**
+	 * Property whose value is used as default for the {@link #getMetadataKeywords()} export configuration setting.
+	 */
+	public static final String PROPERTY_METADATA_KEYWORDS = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.keywords";
+
+	/**
+	 * Property whose value is used as default for the {@link #getMetadataCreator()} export configuration setting.
+	 */
+	public static final String PROPERTY_METADATA_CREATOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.creator";
 
 	/**
 	 * Returns a boolean value specifying  whether the PDF document should contain an outline section.
@@ -363,18 +388,16 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * can be PRINTING, MODIFY_CONTENTS, COPY, MODIFY_ANNOTATIONS, FILL_IN,SCREENREADERS,
 	 * ASSEMBLY, DEGRADED_PRINTING and ALL. Different permissions are separated by a pipe (|) character.
 	 */
-	
 	@ExporterProperty(PROPERTY_PERMISSIONS_ALLOWED)
-	public String getAllowedPermissionsHint();
+	public String getAllowedPermissions();
 	
 	/**
 	 * An exporter hint property representing the denied permissions for the generated PDF document. Denied permissions for the document
 	 * can be PRINTING, MODIFY_CONTENTS, COPY, MODIFY_ANNOTATIONS, FILL_IN,SCREENREADERS,
 	 * ASSEMBLY, DEGRADED_PRINTING and ALL. Different permissions are separated by a pipe (|) character.
 	 */
-
 	@ExporterProperty(PROPERTY_PERMISSIONS_DENIED)
-	public String getDeniedPermissionsHint();
+	public String getDeniedPermissions();
 
 	/**
 	 * The Title of the PDF document.
@@ -384,6 +407,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
 		name="METADATA_TITLE"
 		)
+	@ExporterProperty(PROPERTY_METADATA_TITLE)
 	public String getMetadataTitle();
 
 	/**
@@ -394,6 +418,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
 		name="METADATA_AUTHOR"
 		)
+	@ExporterProperty(PROPERTY_METADATA_AUTHOR)
 	public String getMetadataAuthor();
 
 	/**
@@ -404,6 +429,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
 		name="METADATA_SUBJECT"
 		)
+	@ExporterProperty(PROPERTY_METADATA_SUBJECT)
 	public String getMetadataSubject();
 
 	/**
@@ -414,6 +440,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
 		name="METADATA_KEYWORDS"
 		)
+	@ExporterProperty(PROPERTY_METADATA_KEYWORDS)
 	public String getMetadataKeywords();
 
 	/**
@@ -424,5 +451,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
 		name="METADATA_CREATOR"
 		)
+	@ExporterProperty(PROPERTY_METADATA_CREATOR)
 	public String getMetadataCreator();
 }
