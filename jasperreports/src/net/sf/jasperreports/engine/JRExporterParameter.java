@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.export.CommonExportConfiguration;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterOutput;
@@ -246,7 +247,7 @@ public class JRExporterParameter
 	 * default behavior.
 	 * 
 	 * This property cannot be used as a report export hint.
-	 * @deprecated To be removed.
+	 * @deprecated Replaced by {@link CommonExportConfiguration#PROPERTY_EXPORT_CONFIGURATION_OVERRIDE_REPORT_HINTS}.
 	 */
 	public static final String PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "export.parameters.override.report.hints";
