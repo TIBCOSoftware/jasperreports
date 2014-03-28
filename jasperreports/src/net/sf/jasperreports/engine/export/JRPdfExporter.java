@@ -2612,7 +2612,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		return PDF_EXPORTER_PROPERTIES_PREFIX;
 	}
 	
-	protected int getIntegerPermissions(String permissions) {
+	public static int getIntegerPermissions(String permissions) {
 		int permission = 0;
 		if(permissions != null && permissions.length() > 0) {
 			String[] perms = permissions.split("\\|");
