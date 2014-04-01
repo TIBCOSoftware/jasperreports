@@ -29,49 +29,63 @@ import net.sf.jasperreports.engine.JRHyperlink;
 
 
 /**
+ * Although the name of this dataset is "High-Low", it can actually hold a series of 
+ * (x, high, low, open, close, volume) items. It is used in combination with either 
+ * a High-Low or a Candlestick chart.
+ * 
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
 public interface JRHighLowDataset extends JRChartDataset
 {
 	/**
-	 *
+	 * @return the expression of the series name. Currently only one series is supported inside 
+	 * a High-Low or Candlestick chart. This limitation is documented inside JFreeChart, the 
+	 * library used for the built-in chart support. However, this single series must 
+	 * be identified by a <code>java.lang.Comparable</code> value returned by this expression, 
+	 * and it must also be used as the series name in the chart's legend.
 	 */
 	public JRExpression getSeriesExpression();
 
 
 	/**
-	 *
+	 * @return the expression of the date to which the current 
+	 * (high, low, open, close, volume) item refers.
 	 */
 	public JRExpression getDateExpression();
 
 
 	/**
-	 *
+	 * @return a numeric expression that will be part of the data item added to 
+	 * the series when the dataset gets incremented.
 	 */
 	public JRExpression getHighExpression();
 
 
 	/**
-	 *
+	 * @return a numeric expression that will be part of the data item added to 
+	 * the series when the dataset gets incremented.
 	 */
 	public JRExpression getLowExpression();
 
 
 	/**
-	 *
+	 * @return a numeric expression that will be part of the data item added to 
+	 * the series when the dataset gets incremented.
 	 */
 	public JRExpression getOpenExpression();
 
 
 	/**
-	 *
+	 * @return a numeric expression that will be part of the data item added to 
+	 * the series when the dataset gets incremented.
 	 */
 	public JRExpression getCloseExpression();
 
 
 	/**
-	 *
+	 * @return a numeric expression representing the volume value to use for the current 
+	 * data item. It is used only for Candlestick charts.
 	 */
 	public JRExpression getVolumeExpression();
 	

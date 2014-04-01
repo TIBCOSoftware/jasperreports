@@ -27,6 +27,11 @@ import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpression;
 
 /**
+ * This type of plot is similar to the Line plot and Scatter plot in that it lets users configure 
+ * the labels for both axes, the rendering of lines to connect the item points, and the rendering 
+ * of the small shapes that mark each item point on the target plot area. It is used only in 
+ * combination with Time Series charts. 
+ * 
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
@@ -34,32 +39,32 @@ public interface JRTimeSeriesPlot extends JRChartPlot, JRTimeAxisFormat, JRValue
 {
 
 	/**
-	 * 
+	 * @return the time axis label expression
 	 */
 	public JRExpression getTimeAxisLabelExpression();
 
 	/**
-	 * 
+	 * @return the value axis label expression
 	 */
 	public JRExpression getValueAxisLabelExpression();
 
 	/**
-	 * 
+	 * @return the minimum value expression for the domain axis
 	 */
 	public JRExpression getDomainAxisMinValueExpression();
 
 	/**
-	 * 
+	 * @return the maximum value expression for the domain axis
 	 */
 	public JRExpression getDomainAxisMaxValueExpression();
 
 	/**
-	 * 
+	 * @return the minimum value expression for the range axis
 	 */
 	public JRExpression getRangeAxisMinValueExpression();
 
 	/**
-	 * 
+	 * @return the maximum value expression for the range axis
 	 */
 	public JRExpression getRangeAxisMaxValueExpression();
 	

@@ -27,6 +27,10 @@ import net.sf.jasperreports.engine.JRChartDataset;
 
 
 /**
+ * This dataset accommodates one or more data series consisting of values associated with 
+ * categories. It is used to render Bar, Bar 3D, Stacked Bar, Line, Area, and Stacked Area 
+ * charts 
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -34,7 +38,10 @@ public interface JRCategoryDataset extends JRChartDataset
 {
 	
 	/**
+	 * @return an array of {@link JRCategorySeries} objects representing the 
+	 * series for category charts
 	 * 
+	 * @see JRCategorySeries
 	 */
 	public JRCategorySeries[] getSeries();
 

@@ -26,11 +26,22 @@ package net.sf.jasperreports.charts;
 import net.sf.jasperreports.engine.JRChartDataset;
 
 /**
+ * The Time Period dataset is very much like the Time Series dataset in that it wraps series 
+ * consisting of (time period, numeric value) pairs. The only difference is that in this case 
+ * the time periods are not chosen from a predefined list but can be arbitrary time intervals. 
+ * This kind of dataset is for use only with XY Bar charts.
+ *  
  * @author Flavius Sana (flavius_sana@users.sourceforge.net) 
  * @version $Id$
+ * @see JRTimeSeriesDataset
  */
 public interface JRTimePeriodDataset extends JRChartDataset {
 
+	/**
+	 * @return an array of {@link JRTimePeriodSeries} objects representing the 
+	 * series for the Time Period chart
+	 * @see JRTimePeriodSeries
+	 */
 	public JRTimePeriodSeries[] getSeries();
 	
 }

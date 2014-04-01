@@ -27,6 +27,8 @@ import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpression;
 
 /**
+ * Type of plot used for rendering category charts.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -34,32 +36,32 @@ public interface JRCategoryPlot extends JRChartPlot, JRCategoryAxisFormat, JRVal
 {
 	
 	/**
-	 * 
+	 * @return the category axis label expression
 	 */
 	public JRExpression getCategoryAxisLabelExpression();
 
 	/**
-	 * 
+	 * @return the value axis label expression
 	 */
 	public JRExpression getValueAxisLabelExpression();
 
 	/**
-	 * 
+	 * @return the minimum value expression for the domain axis
 	 */
 	public JRExpression getDomainAxisMinValueExpression();
 
 	/**
-	 * 
+	 * @return the maximum value expression for the domain axis
 	 */
 	public JRExpression getDomainAxisMaxValueExpression();
 
 	/**
-	 * 
+	 * @return the minimum value expression for the range axis
 	 */
 	public JRExpression getRangeAxisMinValueExpression();
 
 	/**
-	 * 
+	 * @return the maximum value expression for the range axis
 	 */
 	public JRExpression getRangeAxisMaxValueExpression();
 

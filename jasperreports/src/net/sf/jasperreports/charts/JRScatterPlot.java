@@ -27,6 +27,11 @@ import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpression;
 
 /**
+ * Scatter plots are used only with Scatter charts. They render items as points on a two-axis 
+ * plot area. This plot closely resembles the Line plot, in that it lets users 
+ * configure the labels for both axes, the rendering of lines to unite the item points, and the 
+ * rendering of the small shapes that mark each item point on the target plot area. 
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -34,32 +39,32 @@ public interface JRScatterPlot extends JRChartPlot, JRXAxisFormat, JRYAxisFormat
 {
 	
 	/**
-	 * 
+	 * @return the x axis label expression
 	 */
 	public JRExpression getXAxisLabelExpression();
 
 	/**
-	 * 
+	 * @return the y axis label expression
 	 */
 	public JRExpression getYAxisLabelExpression();
 
 	/**
-	 * 
+	 * @return the minimum value expression for the domain axis
 	 */
 	public JRExpression getDomainAxisMinValueExpression();
 
 	/**
-	 * 
+	 * @return the maximum value expression for the domain axis
 	 */
 	public JRExpression getDomainAxisMaxValueExpression();
 
 	/**
-	 * 
+	 * @return the minimum value expression for the range axis
 	 */
 	public JRExpression getRangeAxisMinValueExpression();
 
 	/**
-	 * 
+	 * @return the maximum value expression for the range axis
 	 */
 	public JRExpression getRangeAxisMaxValueExpression();
 

@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.JRFont;
 
 
 /**
- * Represents the formatting option for the textual
+ * Contains the formatting option for the textual 
  * representation of item labels in a category plot
  *
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -40,27 +40,21 @@ import net.sf.jasperreports.engine.JRFont;
 public interface JRItemLabel extends JRCloneable
 {
 	/**
-	 * 
+	 * @return the chart the current item label belongs to. 
 	 */
 	public JRChart getChart();
 	
 	/**
-	 * Returns the item label font.
-	 *
-	 * @return the item label font
+	 * @return the item label font. Allows full font customization for the item label.
 	 */
 	public JRFont getFont();
 
 	/**
-	 * Returns the item label text color
-	 *
 	 * @return the item label text color
 	 */
 	public Color getColor();
 
 	/**
-	 * Returns the item label background color
-	 *
 	 * @return the item label background color
 	 */
 	public Color getBackgroundColor();

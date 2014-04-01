@@ -26,13 +26,18 @@ package net.sf.jasperreports.charts;
 import net.sf.jasperreports.engine.JRChartDataset;
 
 /**
+ * This dataset accommodates one or more data series consisting of values associated with 
+ * tasks and subtasks. It is used to render the Gantt chart.
+ * 
  * @author Peter Risko (peter@risko.hu)
  * @version $Id$
  */
 public interface JRGanttDataset extends JRChartDataset {
 
 	/**
-	 *
+	 * @return an array of {@link JRGanttSeries} objects representing the 
+	 * series for the Gantt chart
+	 * @see JRGanttSeries
 	 */
 	public JRGanttSeries[] getSeries();
 

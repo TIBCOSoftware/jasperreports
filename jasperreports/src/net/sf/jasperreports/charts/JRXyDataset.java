@@ -27,6 +27,9 @@ import net.sf.jasperreports.engine.JRChartDataset;
 
 
 /**
+ * This dataset is a wrapper for data series made of (x, y) value pairs and is used for 
+ * rendering XY Bar, XY Line, XY Area, and Scatter Plot charts.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -34,7 +37,9 @@ public interface JRXyDataset extends JRChartDataset
 {
 	
 	/**
-	 * 
+	 * @return an array of {@link JRXySeries} objects representing the 
+	 * series for the XY charts.
+	 * @see JRXySeries
 	 */
 	public JRXySeries[] getSeries();
 

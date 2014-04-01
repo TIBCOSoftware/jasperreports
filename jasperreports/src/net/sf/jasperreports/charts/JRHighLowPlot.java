@@ -28,6 +28,15 @@ import net.sf.jasperreports.engine.JRExpression;
 
 
 /**
+ * Used only in combination with High-Low charts, this type of plot lets users customize 
+ * the labels for both axes, like all the other axis-oriented plots.
+ * <br/>
+ * This special type of plot draws the items as vertical lines that start at the high value and 
+ * go downward to the low value. On each line the plot displays by default small ticks to 
+ * indicate the open and close values corresponding to the current item. To suppress these 
+ * ticks, set to false the two flags available inside the plot definition: <code>isShowCloseTicks</code> 
+ * and <code>isShowOpenTicks</code>. 
+ * 
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */

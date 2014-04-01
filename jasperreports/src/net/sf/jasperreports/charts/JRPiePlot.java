@@ -27,33 +27,44 @@ import net.sf.jasperreports.engine.JRChartPlot;
 
 
 /**
+ * Type of plot used for rendering Pie charts. 
+ * <br/>
+ * Special settings that the Pie plot exposes are: 
+ * <ul>
+ * <li>the <code>circular</code> flag</li>
+ * <li>the label format</li>
+ * <li>the legend label format</li>
+ * <li>the item label</li>
+ * <li>the <code>showLabels</code> flag</li>
+ * </ul>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
 public interface JRPiePlot extends JRChartPlot
 {
 	/**
-	 * 
+	 * @return a flag that specifies a circular form for the pie
 	 */
 	public Boolean getCircular();
 	
 	/**
-	 * 
+	 * @return the format pattern for labels
 	 */
 	public String getLabelFormat();
 	
 	/**
-	 * 
+	 * @return the format pattern for legend labels
 	 */
 	public String getLegendLabelFormat();
 
 	/**
-	 * 
+	 * @return a {@link net.sf.jasperreports.charts.JRItemLabel JRItemLabel} object 
+	 * representing the item label
 	 */
 	public JRItemLabel getItemLabel();
 	
 	/**
-	 * 
+	 * @return a flag that specifies whether labels are to be shown or not
 	 */
 	public Boolean getShowLabels();
 	

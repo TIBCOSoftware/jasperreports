@@ -26,6 +26,12 @@ package net.sf.jasperreports.charts;
 
 
 /**
+ * Type of plot 
+ * used to render Bar 3D and the Stacked Bar 3D charts. 
+ * <br/>
+ * Like the {@link net.sf.jasperreports.charts.JRBarPlot JRBarPlot}, the JRBar3DPlot 
+ * allows customization of the labels for both of its axes and the display of the item labels
+ * 
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$ 
  */
@@ -33,37 +39,41 @@ public interface JRBar3DPlot extends JRCategoryPlot
 {
 
 	/**
-	 * 
+	 * @return the x offset
 	 */
 	public Double getXOffsetDouble();
 	
 	/**
-	 * 
+	 * @return a {@link net.sf.jasperreports.charts.JRItemLabel JRItemLabel} object 
+	 * representing the item label
 	 */
 	public JRItemLabel getItemLabel();
 	
 	/**
-	 * 
+	 * Sets the x offset
+	 * @param xOffset the x offset
 	 */
 	public void setXOffset(Double xOffset);
 	
 	/**
-	 * 
+	 * @return the y offset
 	 */
 	public Double getYOffsetDouble();
 	
 	/**
-	 * 
+	 * Sets the y offset
+	 * @param yOffset the y offset
 	 */
 	public void setYOffset(Double yOffset);
 	
 	/**
-	 * 
+	 * @return a flag that specifies whether the labels are to be shown or not
 	 */
 	public Boolean getShowLabels();
 
 	/**
-	 * 
+	 * Sets a flag that specifies whether the labels are to be shown or not
+	 * @param isShowLabels the show labels flag
 	 */
 	public void setShowLabels(Boolean isShowLabels);
 

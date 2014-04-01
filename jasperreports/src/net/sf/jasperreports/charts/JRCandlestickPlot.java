@@ -28,6 +28,16 @@ import net.sf.jasperreports.engine.JRExpression;
 
 
 /**
+ * The Candlestick plot is also an axis-oriented plot and allows you to customize axis labels 
+ * using expressions. It can be used only in combination with a Candlestick chart.
+ * <br/>
+ * The Candlestick chart uses a High-Low dataset, but unlike the High-Low chart, the 
+ * Candlestick chart can make use of the volume value inside each dataset item.
+ * <br/>
+ * The volume value is displayed as the body of the candlestick figure rendered for each 
+ * item. The volume is displayed by default in a Candlestick chart but can be suppressed by 
+ * setting the <code>isShowVolume</code> flag to false.
+ * 
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */

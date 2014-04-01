@@ -27,43 +27,45 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
 
 /**
+ * Represents the series for the Gantt dataset.
+ * 
  * @author Peter Risko (peter@risko.hu)
  * @version $Id$
  */
 public interface JRGanttSeries {
 
 	/**
-	 *
+	 * @return the expression of the series name
 	 */
 	public JRExpression getSeriesExpression();
 
 	/**
-	 *
+	 * @return the expression of the task name
 	 */
 	public JRExpression getTaskExpression();
 
 	/**
-	 *
+	 * @return the expression of the subtask name
 	 */
 	public JRExpression getSubtaskExpression();
 
 	/**
-	 *
+	 * @return the start date expression
 	 */
 	public JRExpression getStartDateExpression();
 
 	/**
-	 *
+	 * @return the end date expression
 	 */
 	public JRExpression getEndDateExpression();
 
 	/**
-	 *
+	 * @return the task percent expression
 	 */
 	public JRExpression getPercentExpression();
 
 	/**
-	 *
+	 * @return the label expression
 	 */
 	public JRExpression getLabelExpression();
 

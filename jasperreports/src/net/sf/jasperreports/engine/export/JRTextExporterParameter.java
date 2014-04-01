@@ -99,7 +99,7 @@ public class JRTextExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * @deprecated Replaced by {@link TextExporterConfiguration#getBetweenPagesText()}.
+	 * @deprecated Replaced by {@link TextExporterConfiguration#getPageSeparator()}.
 	 */
 	public static final JRTextExporterParameter BETWEEN_PAGES_TEXT = new JRTextExporterParameter("Between Pages Text");
 

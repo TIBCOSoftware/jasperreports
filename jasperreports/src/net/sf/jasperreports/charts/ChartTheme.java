@@ -28,6 +28,24 @@ import net.sf.jasperreports.engine.JRException;
 import org.jfree.chart.JFreeChart;
 
 /**
+ * Chart themes give more control over chart output, including 
+ * the creation of the JFreeChart object itself. Also, chart themes 
+ * affect a whole range of chart types across multiple reports and are not necessarily tied to 
+ * a specific chart element within a report. They can even apply globally to all charts within 
+ * a given JasperReports deployment, applying a new look and feel to all charts created.
+ * <br/>
+ * A chart theme can be set globally using a configuration property within the 
+ * <code>jasperreports.properties</code> file as follows: 
+ * <br/><br/>
+ * <code>net.sf.jasperreports.chart.theme=&lt;theme_name&gt;</code> 
+ * <br/><br/>
+ * The global chart theme can be overridden at report level using the following report 
+ * property in the report template: 
+ * <br/><br/>
+ * <code>&lt;property name="net.sf.jasperreports.chart.theme" value="&lt;theme_name&gt;"/&gt;</code> 
+ * <br/><br/>
+ * If needed, at chart element level, the chart theme is specified using the <code>theme</code> attribute. 
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net) 
  * @version $Id$
  */
@@ -35,7 +53,7 @@ public interface ChartTheme
 {
 
 	/**
-	 * 
+	 * @return an <code>org.jfree.chart.JFreeChart</code> object representing the chart 
 	 */
 	public JFreeChart createChart(ChartContext chartContext) throws JRException;
 

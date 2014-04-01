@@ -26,11 +26,19 @@ package net.sf.jasperreports.charts;
 import net.sf.jasperreports.engine.JRChartDataset;
 
 /**
+ * The XYZ dataset wraps series consisting of (x, y, z) items. 
+ * It is used only by the Bubble chart
+ * 
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
 public interface JRXyzDataset extends JRChartDataset {
 	
+	/**
+	 * @return an array of {@link JRXyzSeries} objects representing the 
+	 * series for the XYZ charts.
+	 * @see JRXyzSeries
+	 */
 	public JRXyzSeries[] getSeries();
 
 }

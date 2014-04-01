@@ -27,6 +27,17 @@ import net.sf.jasperreports.engine.JRChartPlot;
 
 
 /**
+ * Type of plot used for rendering Pie 3D charts.
+ * <br/>
+ * Special settings that the Pie 3D plot exposes are: 
+ * <ul>
+ * <li>the <code>circular</code> flag</li>
+ * <li>the depth factor</li>
+ * <li>the label format</li>
+ * <li>the legend label format</li>
+ * <li>the item label</li>
+ * <li>the <code>showLabels</code> flag</li>
+ * </ul>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -36,32 +47,34 @@ public interface JRPie3DPlot extends JRChartPlot
 	public static final double DEPTH_FACTOR_DEFAULT = 0.2;
 	
 	/**
-	 * 
+	 * @return a numeric value ranging from 0 to 1 that represents the depth of the pie as 
+	 * a percentage of the height of the plot area.
 	 */
 	public Double getDepthFactorDouble();
 	
 	/**
-	 * 
+	 * @return a flag that specifies a circular form for the 3D pie
 	 */
 	public Boolean getCircular();
 	
 	/**
-	 * 
+	 * @return the format pattern for labels
 	 */
 	public String getLabelFormat();
 	
 	/**
-	 * 
+	 * @return the format pattern for legend labels
 	 */
 	public String getLegendLabelFormat();
 
 	/**
-	 * 
+	 * @return a {@link net.sf.jasperreports.charts.JRItemLabel JRItemLabel} object 
+	 * representing the item label
 	 */
 	public JRItemLabel getItemLabel();
 	
 	/**
-	 * 
+	 * @return a flag that specifies whether labels are to be shown or not
 	 */
 	public Boolean getShowLabels();
 	

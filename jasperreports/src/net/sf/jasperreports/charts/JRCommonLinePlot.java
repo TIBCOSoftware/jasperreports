@@ -25,6 +25,13 @@ package net.sf.jasperreports.charts;
 
 
 /**
+ * Type of the plot used to render Line, XY Line and Scatter charts.
+ * <br/>
+ * It exposes the following specific settings:
+ * <ul>
+ * <li>the show lines flag</li>
+ * <li>the show shapes flag</li>
+ * </ul>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -32,22 +39,24 @@ public interface JRCommonLinePlot
 {
 	
 	/**
-	 * 
+	 * @return the show lines flag
 	 */
 	public Boolean getShowLines();
 	
 	/**
-	 * 
+	 * Sets the show lines flag
+	 * @param isShowLines the show lines flag
 	 */
 	public void setShowLines(Boolean isShowLines);
 	
 	/**
-	 * 
+	 * @return the show shapes flag
 	 */
 	public Boolean getShowShapes();
 
 	/**
-	 * 
+	 * Sets the show shapes flag
+	 * @param isShowShapes the show shapes flag
 	 */
 	public void setShowShapes(Boolean isShowShapes);
 	

@@ -29,8 +29,8 @@ import java.util.List;
 
 
 /**
- * Represents the display options and nested charts of a multiple axis chart.
- * The display options set at the root of a multiple axis chart override the
+ * Represents the display options and nested charts of a multiple axis chart. 
+ * The display options set at the root of a multiple axis chart override the 
  * options set in the nested charts.
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
@@ -39,7 +39,7 @@ import java.util.List;
 public interface JRMultiAxisPlot extends JRChartPlot
 {
 	/**
-	 * Returns a List of all the children axis.  Each element is of type
+	 * Returns a List of all the children axis.  Each element is of type 
 	 * <code>net.sf.jasperreports.charts.util.JRChartAxis</code>.
 	 */
 	public List<JRChartAxis> getAxes();

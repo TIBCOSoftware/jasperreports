@@ -29,6 +29,8 @@ import net.sf.jasperreports.engine.JRHyperlink;
 
 
 /**
+ * Represents the series for the XY dataset.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -36,22 +38,28 @@ public interface JRXySeries extends JRCloneable
 {
 	
 	/**
-	 * 
+	 * @return a <code>java.lang.Comparable</code> object that identifies 
+	 * a certain data series in the overall dataset. It can return different values, 
+	 * which will result in the dataset containing multiple series even when a single 
+	 * <code>&lt;xySeries&gt;</code> tag is used inside the <code>&lt;xyDataset&gt;</code> tag. 
 	 */
 	public JRExpression getSeriesExpression();
 
 	/**
-	 * 
+	 * @return a numeric expression representing the X value from the (x, y) pair 
+	 * that will be added to the current data series.
 	 */
 	public JRExpression getXValueExpression();
 
 	/**
-	 * 
+	 * @return a numeric expression representing the Y value from the (x, y) pair 
+	 * that will be added to the current data series.
 	 */
 	public JRExpression getYValueExpression();
 
 	/**
-	 * 
+	 * @return the label expression. If present, it helps 
+	 * customize the item labels inside charts.
 	 */
 	public JRExpression getLabelExpression();
 

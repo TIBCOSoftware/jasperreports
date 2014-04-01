@@ -29,6 +29,9 @@ import net.sf.jasperreports.engine.JRHyperlink;
 
 
 /**
+ * This dataset is useful for rendering Pie or Pie 3D charts. Data required for such charts 
+ * comes in the form of key-value pairs. Each pair represents a slice in the pie chart.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -56,7 +59,9 @@ public interface JRPieDataset extends JRChartDataset
 	public void setMaxCount(Integer maxCount);
 
 	/**
-	 * 
+	 * @return an array of {@link JRPieSeries} objects representing the 
+	 * series for the Pie or Pie 3D chart
+	 * @see JRPieSeries
 	 */
 	public JRPieSeries[] getSeries();
 
@@ -64,6 +69,7 @@ public interface JRPieDataset extends JRChartDataset
 	 * 
 	 */
 	public JRExpression getOtherKeyExpression();
+	
 	/**
 	 * 
 	 */

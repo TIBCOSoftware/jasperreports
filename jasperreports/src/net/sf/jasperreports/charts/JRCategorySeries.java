@@ -29,6 +29,8 @@ import net.sf.jasperreports.engine.JRHyperlink;
 
 
 /**
+ * Represents the series for any Category dataset.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -36,22 +38,32 @@ public interface JRCategorySeries extends JRCloneable
 {
 	
 	/**
-	 * 
+	 * @return the expression of the series name. The value of this expression can be any 
+	 * <code>java.lang.Comparable</code> object. 
+	 * <br/>
+	 * Note that this expression may return different values with each iteration, which in turn 
+	 * will result in the dataset having multiple category series, even though a single 
+	 * <code>&lt;categorySeries&gt;</code> tag was used inside <code>&lt;categoryDataset&gt;</code>. However, this 
+	 * expression usually returns a <code>java.lang.String</code> constant, and there are several 
+	 * <code>&lt;categorySeries&gt;</code> tags that introduce multiple category series in the dataset. 
 	 */
 	public JRExpression getSeriesExpression();
 
 	/**
-	 * 
+	 * @return the expression of the name of the category for each value inside the series 
+	 * specified by the series expression. Categories are <code>java.lang.Comparable</code> objects 
+	 * (not necessarily <code>java.lang.String</code> objects).
 	 */
 	public JRExpression getCategoryExpression();
 
 	/**
-	 * 
+	 * @return the value expression, a <code>java.lang.Number</code> value for each category in the specified series.
 	 */
 	public JRExpression getValueExpression();
 
 	/**
-	 * 
+	 * @return the label expression. If present, this expression allows 
+	 * customization of the item labels in the chart.
 	 */
 	public JRExpression getLabelExpression();
 

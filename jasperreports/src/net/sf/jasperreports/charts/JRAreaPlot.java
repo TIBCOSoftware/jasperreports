@@ -25,6 +25,10 @@ package net.sf.jasperreports.charts;
 
 
 /**
+ * Area charts and Stacked Area charts rely on this plot to render their axes and items. This 
+ * kind of plot allows users to specify only the labels for both axes and their format. 
+ * Currently no other settings are necessary. 
+ * 
  * @author Flavus Sana (flavius_sana@users.sourceforge.net) 
  * @version $Id$
  */

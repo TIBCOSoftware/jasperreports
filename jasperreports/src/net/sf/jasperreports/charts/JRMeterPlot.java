@@ -33,9 +33,10 @@ import net.sf.jasperreports.engine.JRFont;
 
 
 /**
- * Represents the display options of a Meter Chart.  A meter chart consists of a dial,
- * a needle pointing to the current value on the dial, and the value itself.  The Meter
- * can be broken up into shaded regions to highlight portions of the range.
+ * This type of plot can be used only for Meter charts and 
+ * represents the display options of a Meter Chart.  A meter chart consists of a dial, 
+ * a needle pointing to the current value on the dial, and the value itself. The Meter plot 
+ * can be broken up into shaded regions to highlight portions of the range. 
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
  * @version $Id$
@@ -80,7 +81,8 @@ public interface JRMeterPlot extends JRChartPlot
 	public List<JRMeterInterval> getIntervals();
 
 	/**
-	 * Returns the size of the Meter face in degrees.
+	 * Returns the size of the Meter face in degrees. By default 
+     * the meter dial is a semicircle. 
 	 *
 	 * @return the size of the Meter face in degrees
 	 */

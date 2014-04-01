@@ -29,6 +29,8 @@ import net.sf.jasperreports.engine.JRHyperlink;
 
 
 /**
+ * Represents the series for the Pie dataset.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -36,17 +38,22 @@ public interface JRPieSeries extends JRCloneable
 {
 	
 	/**
-	 * 
+	 * @return a <code>java.lang.Comparable</code> object representing 
+	 * the categories that will make up the slices in the pie chart.
 	 */
 	public JRExpression getKeyExpression();
 
 	/**
-	 * 
+	 * @return a numeric expression that produces the values corresponding 
+	 * to each category/key in the dataset.
 	 */
 	public JRExpression getValueExpression();
 
 	/**
-	 * 
+	 * @return the label expression. If this expression is missing, the chart 
+	 * will display default labels for each slice in the pie chart. Use this 
+	 * expression, which returns <code>java.lang.String</code> values, to customize 
+	 * the item labels for the pie chart.
 	 */
 	public JRExpression getLabelExpression();
 
