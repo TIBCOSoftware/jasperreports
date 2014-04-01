@@ -42,8 +42,11 @@ import bsh.TargetError;
 
 
 /**
+ * BeanShell expression evaluator that compiles expressions at fill time.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @see JRBshCompiler
  */
 public class JRBshEvaluator extends JREvaluator
 {
