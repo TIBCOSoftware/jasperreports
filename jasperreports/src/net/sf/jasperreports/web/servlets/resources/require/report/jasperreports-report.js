@@ -25,6 +25,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
             UNDO_PERFORMED: "undo",
             UNDO_ALL_PERFORMED: "undoall",
             SEARCH_PERFORMED: "search",
+            SAVE_ZOOM_PERFORMED: "saveZoom",
             REDO_PERFORMED: "redo",
             PAGE_MODIFIED: "pageModified",
             REPORT_HTML_READY: "reportHtmlReady",
@@ -107,6 +108,24 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                 it._notify({
                     name: it.events.SEARCH_PERFORMED,
                     type: "search",
+                    data: jsonData
+                });
+
+                return it;
+            });
+        },
+        saveZoom: function(zoomValue) {
+            var it = this;
+            return this.loader.runAction({
+                action: {
+                    actionName: "saveZoom",
+                    zoomValue: zoomValue
+                },
+                showAjaxDialog: false
+            }).then(function(jsonData) {
+                it._notify({
+                    name: it.events.SAVE_ZOOM_PERFORMED,
+                    type: "saveZoom",
                     data: jsonData
                 });
 
