@@ -36,6 +36,11 @@ import org.xml.sax.Attributes;
  */
 public class JRAreaChartFactory extends JRBaseFactory {
 
+	/**
+	 * Creates an Area chart which is a combination of a Pie dataset and a Pie plot.
+	 * @return an instance of {@link net.sf.jasperreports.engine.design.JRDesignChart JRDesignChart} 
+	 * representing the Area chart
+	 */
 	public Object createObject( Attributes atts ){
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 
