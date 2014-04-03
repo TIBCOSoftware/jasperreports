@@ -43,12 +43,16 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 public class JRCsvExporterNature extends AbstractExporterNature
 {
 	
+	private final GenericElementHandlerEnviroment handlerEnvironment;
+	
 	/**
 	 * 
 	 */
 	public JRCsvExporterNature(JasperReportsContext jasperReportsContext, ExporterFilter filter)
 	{
 		super(jasperReportsContext, filter);
+		
+		this.handlerEnvironment = GenericElementHandlerEnviroment.getInstance(jasperReportsContext);
 	}
 	
 	/**
@@ -72,6 +76,17 @@ public class JRCsvExporterNature extends AbstractExporterNature
 //		}
 //		return (element instanceof JRPrintText || element instanceof JRGenericPrintElement)
 //			&& (filter == null || filter.isToExport(element));
+		if (element instanceof JRGenericPrintElement)
+		{
+			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
+			GenericElementHandler handler = handlerEnvironment.getElementHandler(
+					genericElement.getGenericType(), JRAbstractCsvExporter.CSV_EXPORTER_KEY);
+			if (handler == null || !handler.toExport(genericElement))
+			{
+				return false;
+			}
+		}
+		
 		return (element instanceof JRPrintText || element instanceof JRPrintFrame || element instanceof JRGenericPrintElement)
 			&& (filter == null || filter.isToExport(element));
 	}

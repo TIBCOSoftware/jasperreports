@@ -187,6 +187,9 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration,
 									log.debug("No CSV generic element handler for " 
 											+ genericPrintElement.getGenericType());
 								}
+								
+								// it shouldn't get to this due to JRCsvExporterNature.isToExport, but let's be safe
+								text = "";
 							}
 							else
 							{
