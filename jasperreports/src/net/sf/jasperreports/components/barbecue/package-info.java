@@ -24,5 +24,53 @@
 
 /**
 * Contains classes for the built-in Barbecue component.
+* <br/>
+* <h2>The Barbecue Component</h2>
+* This component uses the Barbecue library 
+* (<a href="http://barbecue.sourceforge.net">http://barbecue.sourceforge.net</a>). Its barcodes can be embedded in 
+* reports via a uniform component element that specifies common attributes and 
+* determines the barcode type via a special attribute.
+* <p> 
+* The JRXML structure of a barcode component is listed in the JasperReports components schema. The XML element 
+* belongs to the <code>http://jasperreports.sourceforge.net/jasperreports/components</code> namespace, 
+* which is the namespace of the component elements built into JasperReports. 
+* </p><p>
+* The type of the barcode is given by the mandatory <code>type</code> attribute. The supported types 
+* are listed in the JRXML structure as values allowed for this attribute. For the most part, 
+* they correspond to the Barbecue barcode factory methods. 
+* </p><p>
+* The data/text to be encoded in a barcode is provided by the code expression, which is 
+* expected to evaluate to a <code>java.lang.String</code> object. If the expression evaluates to null 
+* and the barcode does not have delayed evaluation, the element will not 
+* generate an image in the filled report. 
+* </p><p>
+* A second expression is used to provide an application identifier for the generic UCC 128 
+* barcode type. The expression should not be used for any other barcode type. Note that 
+* the list of supported barcode types includes types for specific UCC 128 application 
+* domains: EAN 128, USPS, Shipment Identification Number, SSCC 18, SCC 14, and 
+* Global Trade Item Number. 
+* </p><p>
+* Further attributes influence which barcode is displayed and how it is displayed. The 
+* <code>drawText</code> attribute specifies whether or not the encoded data should be shown 
+* underneath the barcode; the <code>barWidth</code> attribute can be used to set a desired width of 
+* the thinnest bar, the <code>barHeight</code> attribute can specify the height of the bars, and the 
+* <code>checksumRequired</code> attribute determines whether a check digit is to be included in the 
+* barcode for the types that support it. 
+* </p><p>
+* The <code>evaluationTime</code> and <code>evaluationGroup</code> attributes allow the barcode to be 
+* evaluated after the band on which it is placed has been rendered. This attribute functions 
+* in the same way as for text fields and images, with the exception that <code>Auto</code> evaluation 
+* type is not supported. 
+* </p><p>
+* On the API side, the Barbecue component is represented by the 
+* {@link net.sf.jasperreports.components.barbecue.BarbecueComponent BarbecueComponent} 
+* interface, whose default implementation is 
+* {@link net.sf.jasperreports.components.barbecue.StandardBarbecueComponent StandardBarbecueComponent}. 
+* </p><p>
+* When the report is filled, a barcode renderer of type 
+* {@link net.sf.jasperreports.components.barbecue.BarbecueRenderer BarbecueRenderer} is 
+* created. It is used for the image included in the generated report. The image takes its 
+* scale type from the <code>RetainShape</code> attribute and its size from the <code>size</code> defined 
+* for the barcode element in the report. 
 */
 package net.sf.jasperreports.components.barbecue;
