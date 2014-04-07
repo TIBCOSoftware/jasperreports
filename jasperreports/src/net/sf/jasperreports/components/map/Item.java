@@ -37,8 +37,10 @@ public interface Item extends JRCloneable
 {
 
 	/**
-	 * @return a list of {@link net.sf.jasperreports.components.map.ItemProperty ItemProperty} objects. 
+	 * Returns a list of {@link net.sf.jasperreports.components.map.ItemProperty ItemProperty} objects. 
 	 * Each item property provides a name-value pair.
+	 * 
+	 * @return a list of item properties
 	 * @see net.sf.jasperreports.components.map.ItemProperty
 	 */
 	public List<ItemProperty> getProperties();

@@ -67,82 +67,88 @@ public interface MapComponent extends Component, JRCloneable
 	public static final Integer DEFAULT_ZOOM = 8;
 	
 	/**
-	 * 
-	 * @return a {@link net.sf.jasperreports.engine.JRExpression JRExpression} 
+	 * Returns a {@link net.sf.jasperreports.engine.JRExpression JRExpression} 
 	 * representing the latitude coordinate of the map center
+	 *  
+	 * @return the latitude expression
 	 */
 	JRExpression getLatitudeExpression();
 
 	/**
-	 * 
-	 * @return a {@link net.sf.jasperreports.engine.JRExpression JRExpression} 
+	 * Returns a {@link net.sf.jasperreports.engine.JRExpression JRExpression} 
 	 * representing the longitude coordinate of the map center
+	 *  
+	 * @return the longitude expression
 	 */
 	JRExpression getLongitudeExpression();
 	
 	/**
-	 * 
-	 * @return a {@link net.sf.jasperreports.engine.JRExpression JRExpression} 
+	 * Returns a {@link net.sf.jasperreports.engine.JRExpression JRExpression} 
 	 * representing the address of the map center. If no latitude or longitude 
 	 * coordinates are provided, the address expression will be used to calculate 
 	 * these coordinates
+	 * 
+	 * @return the address expression
 	 */
 	JRExpression getAddressExpression();
 
 	/**
+	 * Returns a numeric expression  
+	 * representing the zoom factor of the map.
 	 * 
-	 * @return a numeric expression  
-	 * representing the zoom factor of the map
+	 * @return the zoom expression
 	 */
 	JRExpression getZoomExpression();
 	
 	/**
+	 * Returns a {@link net.sf.jasperreports.engine.JRExpression JRExpression} 
+	 * representing the language for the labels on the map.
 	 * 
-	 * @return a {@link net.sf.jasperreports.engine.JRExpression JRExpression} 
-	 * representing the language for the labels on the map
+	 * @return the language expression 
 	 */
 	JRExpression getLanguageExpression();
 
 	/**
+	 * Returns the evaluation time of the map component element
 	 * 
-	 * @return the evaluation time of the map component element
+	 * @return the evaluation time
 	 */
 	EvaluationTimeEnum getEvaluationTime();
 	
 	/**
+	 * Returns the evaluation group name for the map component element
 	 * 
-	 * @return the evaluation group name for the map component element
+	 * @return the evaluation group
 	 */
 	String getEvaluationGroup();
 	
 	/**
-	 * 
-	 * @return the type of the Google map. Possible values are:
+	 * Returns the type of the Google map. Possible values are:
 	 * <ul>
 	 * <li>{@link net.sf.jasperreports.components.map.type.MapTypeEnum#ROADMAP ROADMAP} (default value)</li>
 	 * <li>{@link net.sf.jasperreports.components.map.type.MapTypeEnum#SATELLITE SATELLITE}</li>
 	 * <li>{@link net.sf.jasperreports.components.map.type.MapTypeEnum#TERRAIN TERRAIN}</li>
 	 * <li>{@link net.sf.jasperreports.components.map.type.MapTypeEnum#HYBRID HYBRID}</li>
 	 * </ul>
+	 * @return the type of the Google map
 	 * @see net.sf.jasperreports.components.map.type.MapTypeEnum
 	 */
 	MapTypeEnum getMapType();
 
 	/**
-	 * 
-	 * @return the scale factor of the Google map used to return higher-resolution map images when 
+	 * Returns the scale factor of the Google map used to return higher-resolution map images when 
 	 * working with high resolution screens available on mobile devices. Possible values are:
 	 * <ul>
 	 * <li><code>1</code> (default value)</li>
 	 * <li><code>2</code></li>
 	 * <li><code>4</code> (for Business customers only)</li>
 	 * </ul>
+	 * @return the scale factor
 	 */
 	MapScaleEnum getMapScale();
 	
 	/**
-	 * 
-	 * @return the image format of the map. Possible values are:
+	 * Returns the image format of the map. Possible values are:
 	 * <ul>
 	 * <li>{@link net.sf.jasperreports.components.map.type.MapImageTypeEnum#PNG PNG} (default value)</li>
 	 * <li>{@link net.sf.jasperreports.components.map.type.MapImageTypeEnum#PNG_8 PNG_8}</li>
@@ -151,43 +157,47 @@ public interface MapComponent extends Component, JRCloneable
 	 * <li>{@link net.sf.jasperreports.components.map.type.MapImageTypeEnum#JPG JPG}</li>
 	 * <li>{@link net.sf.jasperreports.components.map.type.MapImageTypeEnum#JPG_BASELINE JPG_BASELINE}</li>
 	 * </ul>
+	 * @return the image format of the map
 	 * @see net.sf.jasperreports.components.map.type.MapImageTypeEnum
 	 */
 	MapImageTypeEnum getImageType();
 	
 	/**
-	 * 
-	 * @return an attribute that customizes the way the engine handles a missing map image 
+	 * Returns an attribute that customizes the way the engine handles a missing map image 
 	 * during report generation. Possible values are:
 	 * <ul>
 	 * <li>{@link net.sf.jasperreports.engine.type.OnErrorTypeEnum#ERROR ERROR} (default value)</li>
 	 * <li>{@link net.sf.jasperreports.engine.type.OnErrorTypeEnum#BLANK BLANK}</li>
 	 * <li>{@link net.sf.jasperreports.engine.type.OnErrorTypeEnum#ICON ICON}</li>
 	 * </ul>
+	 * @return the onErrorType attribute
 	 * @see net.sf.jasperreports.engine.type.OnErrorTypeEnum
 	 */
 	OnErrorTypeEnum getOnErrorType();
 	
 	/**
-	 * 
-	 * @return a list of {@link net.sf.jasperreports.components.map.ItemData ItemData} objects 
+	 * Returns a list of {@link net.sf.jasperreports.components.map.ItemData ItemData} objects 
 	 * representing collections of markers on the map
+	 * 
+	 * @return a list of marker data
 	 * @see net.sf.jasperreports.components.map.ItemData
 	 */
 	List<ItemData> getMarkerDataList();
 	
 	/**
-	 * 
-	 * @return a list of {@link net.sf.jasperreports.components.map.ItemData ItemData} objects 
+	 * Returns a list of {@link net.sf.jasperreports.components.map.ItemData ItemData} objects 
 	 * representing collections of path styles for the map
+	 * 
+	 * @return a list of path styles
 	 * @see net.sf.jasperreports.components.map.ItemData
 	 */
 	List<ItemData> getPathStyleList();
 	
 	/**
-	 * 
-	 * @return a list of {@link net.sf.jasperreports.components.map.ItemData ItemData} objects 
+	 * Returns a list of {@link net.sf.jasperreports.components.map.ItemData ItemData} objects 
 	 * representing collections of paths on the map
+	 * 
+	 * @return a list of path data
 	 * @see net.sf.jasperreports.components.map.ItemData
 	 */
 	List<ItemData> getPathDataList();

@@ -38,20 +38,24 @@ public interface ItemProperty extends JRCloneable
 {
 
 	/**
-	 * @return the name of the item property (required)
+	 * Returns the name of the item property (required).
+	 * @return the property name
 	 */
 	String getName();
 	
 	/**
-	 * @return the <code>value</code> attribute of the item property. Only 
+	 * Returns the <code>value</code> attribute of the item property. Only 
 	 * <code>java.lang.String</code> values are allowed for this attribute.
+	 * @return the <code>value</code> attribute
 	 */
 	String getValue();
 	
 	/**
-	 * @return a {@link net.sf.jasperreports.engine.JRExpression JRExpression} representing 
+	 * Returns a {@link net.sf.jasperreports.engine.JRExpression JRExpression} representing 
 	 * the value object for the item property. If present, it overrides the value given by 
 	 * the <code>value</code> attribute.
+	 * 
+	 * @return the value expression
 	 */
 	JRExpression getValueExpression();
 	
