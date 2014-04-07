@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRElementDataset;
 
 /**
+ * The ItemData interface
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -37,11 +38,22 @@ public interface ItemData extends JRCloneable
 
 	/**
 	 * 
+	 * @return a list of {@link net.sf.jasperreports.components.map.Item Item} 
+	 * objects. Each item in the list provides a collection of item properties.
+	 * 
+	 * @see net.sf.jasperreports.components.map.Item
+	 * @see net.sf.jasperreports.components.map.ItemProperty
 	 */
 	public List<Item> getItems();
 	
 	/**
 	 * 
+	 * @return the dataset information that will be used by the <code>ItemData</code> object.
+	 * <p>
+	 * This information is required ether to use the main dataset or to instantiate a 
+	 * subdataset from the report. The data produced by the subdataset is fed to the items list.
+	 * 
+	 * @see net.sf.jasperreports.engine.JRElementDataset
 	 */
 	public JRElementDataset getDataset();
 

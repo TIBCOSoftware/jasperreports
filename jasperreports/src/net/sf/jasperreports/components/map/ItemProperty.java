@@ -27,6 +27,10 @@ import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 
 /**
+ * The ItemProperty interface. An item property has a name (required) and a 
+ * value provided either in a static way, using the <code>value</code> attribute, 
+ * or dynamically, using a value expression.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -34,17 +38,20 @@ public interface ItemProperty extends JRCloneable
 {
 
 	/**
-	 * 
+	 * @return the name of the item property (required)
 	 */
 	String getName();
 	
 	/**
-	 * 
+	 * @return the <code>value</code> attribute of the item property. Only 
+	 * <code>java.lang.String</code> values are allowed for this attribute.
 	 */
 	String getValue();
 	
 	/**
-	 * 
+	 * @return a {@link net.sf.jasperreports.engine.JRExpression JRExpression} representing 
+	 * the value object for the item property. If present, it overrides the value given by 
+	 * the <code>value</code> attribute.
 	 */
 	JRExpression getValueExpression();
 	

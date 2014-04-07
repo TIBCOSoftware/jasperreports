@@ -28,6 +28,8 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRCloneable;
 
 /**
+ * The Item interface. Provides a collection of item properties.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
@@ -35,7 +37,9 @@ public interface Item extends JRCloneable
 {
 
 	/**
-	 * 
+	 * @return a list of {@link net.sf.jasperreports.components.map.ItemProperty ItemProperty} objects. 
+	 * Each item property provides a name-value pair.
+	 * @see net.sf.jasperreports.components.map.ItemProperty
 	 */
 	public List<ItemProperty> getProperties();
 
