@@ -111,7 +111,6 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
                         isFirstTimeSelection = true;
                     }
                     this.jo.css({
-                        // width: dim.w * jive.ui.scaleFactor,
                         width: dim.w * (jive.reportInstance.zoom ? jive.reportInstance.zoom.level : 1),
                         height: dim.h
                     }).draggable('option','helper', function(event) {
@@ -1458,6 +1457,34 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
                     realWidth: colData.width,
                     realHeight: colData.height
                 };
+
+                /*******************/
+                /*
+                    Fix for bug #36767: Jive selection area does not shown correct for table columns after sorting;
+                    When zooming, it is necessary to recalculate the overlay width
+                 */
+                var headerCols = $('table.jrPage .jrcolHeader[data-coluuid=' + jo.data('coluuid') + ']'),
+                    firstCol = headerCols.eq(0),
+                    widthSoFar,
+                    realWidth,
+                    firstLeft = firstCol.offset().left;
+
+                widthSoFar = realWidth = firstCol.outerWidth();
+                headerCols.each(function(i, v) {
+                    var it = $(v);
+                    if (it.offset().left < firstLeft) { //should not happen but let's be safe
+                        realWidth += firstLeft - it.offset().left;
+                        firstLeft = it.offset().left;
+                    }
+                    if (it.offset().left + it.outerWidth() > firstLeft + realWidth) {
+                        realWidth = it.offset().left + it.outerWidth() - firstLeft;
+                        widthSoFar += it.outerWidth()
+                    }
+                });
+
+                jive.selected.realWidth = widthSoFar;
+                /*******************/
+
                 jive.selected.dim = jive.interactive[jive.selected.ie.config.type].getElementSize();
 
                 this.showVisualElements(jive.selected.dim);
