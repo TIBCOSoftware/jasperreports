@@ -1885,6 +1885,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		}
 	}
 
+	protected void updateBookmark(JRPrintElement element)
+	{
+		if (bookmarkHelper != null)
+		{
+			bookmarkHelper.updateBookmark(element);
+		}
+	}
+
 
 	/**
 	 * Evaluates an expression

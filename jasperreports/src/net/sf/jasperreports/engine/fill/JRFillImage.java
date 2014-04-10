@@ -828,6 +828,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		printImage.setY(this.getRelativeY());
 		printImage.setWidth(getWidth());
 		printImage.setHeight(this.getStretchHeight());
+		printImage.setBookmarkLevel(getBookmarkLevel());
 
 		if (isEvaluateNow())
 		{
@@ -875,7 +876,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		printImage.setHyperlinkAnchor(getHyperlinkAnchor());
 		printImage.setHyperlinkPage(getHyperlinkPage());
 		printImage.setHyperlinkTooltip(getHyperlinkTooltip());
-		printImage.setBookmarkLevel(getBookmarkLevel());
 		printImage.setHyperlinkParameters(hyperlinkParameters);
 		transferProperties(printImage);
 	}
@@ -913,6 +913,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		}
 		
 		copy(printImage);
+		filler.getFillContext().updateBookmark(element);
 	}
 
 

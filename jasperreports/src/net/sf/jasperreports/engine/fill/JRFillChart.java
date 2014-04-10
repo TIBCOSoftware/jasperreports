@@ -974,6 +974,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		printImage.setY(getRelativeY());
 		printImage.setWidth(getWidth());
 		printImage.setHeight(getStretchHeight());
+		printImage.setBookmarkLevel(getBookmarkLevel());
 
 		EvaluationTimeEnum evaluationTime = getEvaluationTimeValue();
 		if (evaluationTime == EvaluationTimeEnum.NOW)
@@ -1007,7 +1008,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 		printImage.setHyperlinkAnchor(getHyperlinkAnchor());
 		printImage.setHyperlinkPage(getHyperlinkPage());
 		printImage.setHyperlinkTooltip(getHyperlinkTooltip());
-		printImage.setBookmarkLevel(getBookmarkLevel());
 		printImage.setHyperlinkParameters(hyperlinkParameters);
 		transferProperties(printImage);
 	}
@@ -1384,6 +1384,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		evaluateRenderer(evaluation);
 
 		copy((JRPrintImage) element);
+		filler.getFillContext().updateBookmark(element);
 	}
 
 

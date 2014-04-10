@@ -46,7 +46,7 @@ public class BasePrintBookmark implements PrintBookmark, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private final String label;
+	private String label;
 	private final int pageIndex;
 	private String elementAddress;
 
@@ -86,5 +86,10 @@ public class BasePrintBookmark implements PrintBookmark, Serializable
 	public List<PrintBookmark> getBookmarks()
 	{
 		return bookmarks;
+	}
+	
+	public void setLabel(String label)
+	{
+		this.label = label;
 	}
 }

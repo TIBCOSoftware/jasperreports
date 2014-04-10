@@ -797,6 +797,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 //			text.setHeight(getHeight());
 //		}
 		text.setRunDirection(getRunDirectionValue());
+		text.setBookmarkLevel(getBookmarkLevel());
 
 		if (isEvaluateNow())
 		{
@@ -842,7 +843,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setHyperlinkAnchor(getHyperlinkAnchor());
 		text.setHyperlinkPage(getHyperlinkPage());
 		text.setHyperlinkTooltip(getHyperlinkTooltip());
-		text.setBookmarkLevel(getBookmarkLevel());
 		text.setHyperlinkParameters(hyperlinkParameters);
 		transferProperties(text);
 	}
@@ -938,6 +938,9 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		chopTextElement(0);
 
 		copy((JRPrintText) element);
+		
+		//FIXME put this somewhere else, e.g. in ElementEvaluationAction
+		filler.getFillContext().updateBookmark(element);
 	}
 
 

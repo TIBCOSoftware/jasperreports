@@ -30,8 +30,13 @@
 
 package net.sf.jasperreports.engine;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -52,6 +57,11 @@ public class BookmarkHelper
 		bookmarkStack.addBookmarks(page.getElements(), pageIndex, null);
 	}
 	
+	public void updateBookmark(JRPrintElement element)
+	{
+		bookmarkStack.updateBookmark(element);
+	}
+	
 	public List<PrintBookmark> getRootBookmarks()
 	{
 		return bookmarkStack.getRootBookmarks();
@@ -64,14 +74,19 @@ public class BookmarkHelper
  */
 class BookmarkStack
 {
+	private static final Log log = LogFactory.getLog(BookmarkStack.class); 
+	
 	LinkedList<Bookmark> stack;
 	boolean isCollapseMissingBookmarkLevels;
+	Map<PrintElementId, Bookmark> updateableBookmarks;
 
 	public BookmarkStack(boolean isCollapseMissingBookmarkLevels)
 	{
 		stack = new LinkedList<Bookmark>();
 		this.isCollapseMissingBookmarkLevels = isCollapseMissingBookmarkLevels;
 		push(new Bookmark(null, null, 0, null));//root bookmark is only used as container for root node
+		
+		updateableBookmarks = new HashMap<PrintElementId, Bookmark>();
 	}
 
 	public void push(Bookmark bookmark)
@@ -89,7 +104,7 @@ class BookmarkStack
 		return stack.getLast();
 	}
 
-	protected void addBookmark(int level, String label, int pageIndex, String elementAddress)
+	protected Bookmark addBookmark(int level, String label, int pageIndex, String elementAddress)
 	{
 		Bookmark parent = this.peek();
 		// searching for parent
@@ -113,6 +128,7 @@ class BookmarkStack
 
 		Bookmark bookmark = new Bookmark(parent, label, pageIndex, elementAddress);
 		this.push(bookmark);
+		return bookmark;
 	}
 	
 	protected void addBookmarks(List<JRPrintElement> elements, int pageIndex, String elementAddress)
@@ -131,12 +147,49 @@ class BookmarkStack
 				else if (element instanceof JRPrintAnchor)
 				{
 					JRPrintAnchor anchor = (JRPrintAnchor)element;
-					if (anchor.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
+					int level = anchor.getBookmarkLevel();
+					if (level != JRAnchor.NO_BOOKMARK)
 					{
-						addBookmark(anchor.getBookmarkLevel(), anchor.getAnchorName(), pageIndex, elementAddress + i);
+						String anchorName = anchor.getAnchorName();
+						Bookmark bookmark = addBookmark(level, anchorName, pageIndex, elementAddress + i);
+						
+						// we're keeping a map with bookmarks for elements with late evaluation
+						// not placing bookmarks for other elements in the map to save some space
+						if (anchorName == null)// the element could have late evaluation; there's no exact test for it
+						{
+							PrintElementId elementId = PrintElementId.forElement(element);
+							updateableBookmarks.put(elementId, bookmark);
+						}
 					}
 				}
 				i++;
+			}
+		}
+	}
+
+	public void updateBookmark(JRPrintElement element)
+	{
+		if (element instanceof JRPrintAnchor)
+		{
+			JRPrintAnchor anchor = (JRPrintAnchor) element;
+			int level = anchor.getBookmarkLevel();
+			if (level != JRAnchor.NO_BOOKMARK)
+			{
+				PrintElementId elementId = PrintElementId.forElement(element);
+				Bookmark bookmark = updateableBookmarks.get(elementId);//FIXME remove from the map?
+				if (bookmark == null)
+				{
+					if (log.isDebugEnabled())
+					{
+						// this can happen when the element has a delayed evaluation on the same page
+						log.debug("Cound not find bookmark for " + elementId + " to update");
+					}
+				}
+				else
+				{
+					String anchorName = anchor.getAnchorName();
+					bookmark.updateLabel(anchorName);
+				}
 			}
 		}
 	}
@@ -167,6 +220,11 @@ class Bookmark
 		}
 	}
 	
+	public void updateLabel(String label)
+	{
+		((BasePrintBookmark) printBookmark).setLabel(label);
+	}
+
 	public int getLevel()
 	{
 		return level;

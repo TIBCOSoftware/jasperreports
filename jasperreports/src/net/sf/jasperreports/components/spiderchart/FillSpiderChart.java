@@ -182,6 +182,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		image.setY(fillContext.getElementPrintY());
 		image.setWidth(element.getWidth());
 		image.setHeight(element.getHeight());
+		image.setBookmarkLevel(getBookmarkLevel());
 
 		if (isEvaluateNow())
 		{
@@ -210,6 +211,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	{
 		evaluateRenderer(evaluation);
 		copy((JRPrintImage) element);
+		fillContext.getFiller().getFillContext().updateBookmark(element);
 	}
 
 	protected void copy(JRPrintImage printImage)
@@ -227,7 +229,6 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		printImage.setHyperlinkAnchor(getHyperlinkAnchor());
 		printImage.setHyperlinkPage(getHyperlinkPage());
 		printImage.setHyperlinkTooltip(getHyperlinkTooltip());
-		printImage.setBookmarkLevel(getBookmarkLevel());
 		printImage.setHyperlinkParameters(hyperlinkParameters);
 //		transferProperties(printImage);
 	}
