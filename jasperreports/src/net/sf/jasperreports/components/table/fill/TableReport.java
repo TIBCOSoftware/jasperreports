@@ -804,33 +804,37 @@ public class TableReport implements JRReport
 		
 		protected void addIconLabelComponent(Column column, JRDesignFrame frame, String suffix)
 		{
-			JRBaseTextElement headerTextElement = (JRBaseTextElement)frame.getChildren().get(0);
-			if (headerTextElement != null) 
+			List<JRChild> children = frame.getChildren();
+			if (children.size() > 0)
 			{
-				JRComponentElement componentElement = 
-					IconLabelComponentUtil.getInstance(fillContext.getFiller().getJasperReportsContext()).createIconLabelComponentElement(headerTextElement);
-				IconLabelComponent iconLabelComponent = (IconLabelComponent)componentElement.getComponent();
-				
-				JRDesignTextField labelTextField = (JRDesignTextField)iconLabelComponent.getLabelTextField();
-				if (headerTextElement instanceof JRTextField) 
+				JRBaseTextElement headerTextElement = (JRBaseTextElement)children.get(0);
+				if (headerTextElement != null) 
 				{
-					labelTextField.setExpression(((JRTextField) headerTextElement).getExpression());
-				}
-				else if (headerTextElement instanceof JRStaticText) 
-				{
-					labelTextField.setExpression(builtinEvaluatorFactory.createConstantExpression(((JRStaticText)headerTextElement).getText()));
-				}
+					JRComponentElement componentElement = 
+						IconLabelComponentUtil.getInstance(fillContext.getFiller().getJasperReportsContext()).createIconLabelComponentElement(headerTextElement);
+					IconLabelComponent iconLabelComponent = (IconLabelComponent)componentElement.getComponent();
+					
+					JRDesignTextField labelTextField = (JRDesignTextField)iconLabelComponent.getLabelTextField();
+					if (headerTextElement instanceof JRTextField) 
+					{
+						labelTextField.setExpression(((JRTextField) headerTextElement).getExpression());
+					}
+					else if (headerTextElement instanceof JRStaticText) 
+					{
+						labelTextField.setExpression(builtinEvaluatorFactory.createConstantExpression(((JRStaticText)headerTextElement).getText()));
+					}
 
-				JRDesignTextField iconTextField = (JRDesignTextField)iconLabelComponent.getIconTextField();
-				iconTextField.setExpression(builtinEvaluatorFactory.createConstantExpression(suffix));
-				
-				componentElement.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, TABLE_HEADER_ICON_LABEL_MATCHER_EXPORT_KEY);
-				
-				JRBaseElement element = (JRBaseElement)frame.getChildren().get(0);
-				element.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, TABLE_HEADER_LABEL_MATCHER_EXPORT_KEY);
+					JRDesignTextField iconTextField = (JRDesignTextField)iconLabelComponent.getIconTextField();
+					iconTextField.setExpression(builtinEvaluatorFactory.createConstantExpression(suffix));
+					
+					componentElement.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, TABLE_HEADER_ICON_LABEL_MATCHER_EXPORT_KEY);
+					
+					JRBaseElement element = (JRBaseElement)frame.getChildren().get(0);
+					element.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, TABLE_HEADER_LABEL_MATCHER_EXPORT_KEY);
 
-				//frame.getChildren().remove(0);
-				frame.getChildren().add(componentElement);
+					//frame.getChildren().remove(0);
+					frame.getChildren().add(componentElement);
+				}
 			}
 		}
 		
