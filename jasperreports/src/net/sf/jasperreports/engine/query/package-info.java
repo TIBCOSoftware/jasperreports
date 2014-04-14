@@ -175,7 +175,7 @@
  * <li>{@link net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory#XML_LOCALE XML_LOCALE}</li>
  * <li>{@link net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory#XML_NUMBER_PATTERN XML_NUMBER_PATTERN}</li>
  * <li>{@link net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory#XML_DATE_PATTERN XML_DATE_PATTERN}</li>
- * <ul>
+ * </ul>
  * </p>
  * <h2>Hibernate Query Executer</h2>
  * JasperReports includes support for Hibernate 3 in the form of a query executer. This 
@@ -225,18 +225,206 @@
  * </p><p>
  * The mappings are similar to the ones used by JavaBeans data sources, except that select aliases are 
  * used when queries return tuples instead of single objects. 
- * 
- * 
- * 
- * 
- * 
- * 
+ * </p>
+ * <h2>MDX Query Executer</h2>
+ * Reporting on OLAP data is supported in JasperReports via the MDX query executer and 
+ * a data source that use the Mondrian API's (this is why often we refer to this query 
+ * executer also as the Mondrian query executer). Users can create reports with MDX 
+ * queries and map report fields onto the OLAP result; the engine will execute the query via 
+ * Mondrian and pass the result to a data source implementation, which will be used to fill 
+ * the report. 
+ * <p>
+ * The Mondrian query executer is registered by default for queries having <code>MDX</code> or <code>mdx</code> as 
+ * the language specified in the report template. One can use JasperReports configuration 
+ * properties to register additional or alternative query language to query executer mappings 
+ * </p><p>
+ * The Mondrian query executer requires a single connection parameter named 
+ * {@link net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory#PARAMETER_MONDRIAN_CONNECTION MONDRIAN_CONNECTION} 
+ * of type <code>mondrian.olap.Connection</code>.
+ * </p><p>
+ * MDX queries can contain placeholders for parameters of any type. When the query gets 
+ * executed, each parameter placeholder will be replaced in the query string by its 
+ * <code>toString()</code> value. Therefore, for MDX queries, <code>$P{...}</code> parameters are equivalent to 
+ * <code>$P!{...}</code> query fragments.
+ * </p><p>
+ * The Mondrian query executer passes the query result to a {@link net.sf.jasperreports.olap.JRMondrianDataSource}, which 
+ * will be used to iterate the result and map values from the result to the report fields. 
+ * The field mapping deals with mapping values from the OLAP result to the report fields. 
+ * As an OLAP result has a multidimensional and hierarchical structure while a 
+ * JasperReports data source has a tabular structure, mapping values to fields is not a trivial 
+ * task. 
+ * </p><p>
+ * A special syntax is used to specify what value should be mapped to a field. The field 
+ * description is used to hold the mapping specification. 
+ * </p><p>
+ * Using the mapping syntax, one can map two types of values from the OLAP result: 
+ * <ul>
+ * <li>Member values are names or properties of members of the result axes.</li>
+ * <li>Data/measure values are cell values from the result.</li>
+ * </ul>
+ * The Mondrian data source performs a traversal of the OLAP result by iterating the 
+ * members of the result axes. On every step, each field is checked for whether its mapping 
+ * matches the current position in the OLAP result. If so, the value is extracted from the 
+ * result and set to the field. 
+ * </p>
+ * <h2>XML/A Query Executer</h2>
+ * MDX queries can also be executed on remote OLAP data sources via the XML for 
+ * Analysis interface. This functionality is implemented in JasperReports as a query 
+ * executer. 
+ * <p>
+ * Just like the Mondrian query executer presented in the previous section, the XML/A 
+ * query executer is also mapped by default to the <code>MDX</code> and <code>mdx</code> query languages, but the 
+ * Mondrian query executer takes precedence. 
+ * </p><p>
+ * The dispatch between the two query executers that are mapped on the same query 
+ * language is done by a special query executer implementation. It is actually the 
+ * {@link net.sf.jasperreports.olap.JRMdxQueryExecuterFactory} class that is registered by default 
+ * with the <code>MDX</code> and <code>mdx</code> 
+ * query languages, and it delegates the creation of the query instances at runtime to either 
+ * the {@link net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory} or the 
+ * {@link net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuterFactory}, 
+ * depending on the specific parameter values that are passed in at report-filling time. 
+ * It first checks for the 
+ * {@link net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory#PARAMETER_MONDRIAN_CONNECTION MONDRIAN_CONNECTION} 
+ * parameter, and if found, the Mondrian query executer takes over. If this parameter is not found, it 
+ * then checks for the {@link net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuterFactory#PARAMETER_XMLA_URL PARAMETER_XMLA_URL} 
+ * to see if the XMLA query executer can be used. In fact, there are 3 possible connection parameters for the 
+ * XML/A query executer:
+ * <ul>
+ * <li><code>XMLA_URL</code> - a <code>java.lang.String</code> value representing the XMLA/SOAP service URL</li>
+ * <li><code>XMLA_DATASOURCE</code> - a <code>java.lang.String</code> value representing the information 
+ * required to connect to the OLAP data source</li>
+ * <li><code>XMLA_CATALOG</code> - a <code>java.lang.String</code> value representing name of the OLAP catalog to use</li>
+ * </ul>
+ * The XMLA query executer creates a data source equivalent to the one created by the 
+ * Mondrian query executer, with a few minor exceptions. 
+ * </p><p>
+ * This means that the result cube traversal and field mapping logic available for the 
+ * MDX query executer applies for the XMLA query executer as well. 
+ * </p><p>
+ * The XMLA query executer lacks some of the functionality of the Mondrian query 
+ * executer, due to inherent limitations of the XML for Analysis standard. The missing 
+ * features are the following: 
+ * <ul>
+ * <li>Mapping report fields to custom member properties does not work with XML/A</li>
+ * <li>For XMLA, it is not possible to produce a complete <code>mondrian.olap.Member</code> 
+ * object, hence this feature is not supported.</li>
+ * <li>Parent member matching using the <code>mondrian.olap.Member.getParent()</code> method 
+ * does nor work via XML/A, since the parent member information is not present in the response.</li>
+ * </ul></p>
+ * <h2>EJB-QL/JPA Query Executer</h2>
+ * The EJB-QL report query executer adds support for reporting on EJB 3.0 persistent 
+ * entities data. For an EJB-QL query in a report, the query executer will use the EJB 3.0 
+ * Java Persistence API to execute the query against an entity manager provided at runtime, 
+ * and use the query result as a data source for the report.
+ * <p> 
+ * The built-in EJB-QL query executer is registered by default for queries having <code>EJBQL</code> or 
+ * <code>ejbql</code> as their language. This mapping can be changed by using JasperReports 
+ * properties. 
+ * </p><p>
+ * The EJB-QL query executer contributes built-in parameters to the report: </p>
+ * <ul>
+ * <li>The entity manager to be used for executing the query</li> 
+ * <li>An optional query hints map</li> 
+ * </ul>
+ * When the report template contains an EJB-QL query, one must provide a JPA entity 
+ * manager at runtime; the query executer will run the query using the supplied entity 
+ * manager. The entity manager is of type <code>javax.persistence.EntityManager</code> and 
+ * should be provided via the 
+ * {@link net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory#PARAMETER_JPA_ENTITY_MANAGER JPA_ENTITY_MANAGER} 
+ * built-in parameter: 
+ * <pre>
+ *   Map parameters = new HashMap();
+ *   javax.persistence.EntityManager entityManager = createEntityManager();
+ *   parameters.put( JRJpaQueryExecuterFactory.PARAMETER_JPA_ENTITY_MANAGER, entityManager );
+ *   JasperFillManager.fillReport(jasperReport, parameters);
+ * </pre>
+ * The means of getting hold of an entity manager depends on the particular EJB/JPA 
+ * environment and implementation. 
+ * <p>
+ * An additional parameter named 
+ * {@link net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory#PARAMETER_JPA_QUERY_HINTS_MAP JPA_QUERY_HINTS_MAP} 
+ * allows you to specify query hints for running the query. The parameter value should be a map containing hint values 
+ * mapped to hint names. The hints are set using the 
+ * </p><p>
+ * <code>javax.persistence.Query.setHint(String hintName, Object value)</code> method. 
+ * </p><p>
+ * Hints can also be specified statically by using report properties. The query executer treats 
+ * any report property starting with 
+ * <code>net.sf.jasperreports.ejbql.query.hint.&lt;hintName7gt;</code> as a hint by interpreting 
+ * the property suffix as the hint name and the property value as the hint value. Thus, if the 
+ * following property is present in the report: 
+ * </p><p>
+ * <code>&lt;property name="net.sf.jasperreports.ejbql.query.hint.cacheType" value="Shared"/&gt;</code> 
+ * </p><p>
+ * then the <code>cacheType</code> hint having <code>Shared</code> as value will be set when running the query. 
+ * </p><p>
+ * Note that only hints that accept String values can be set using this mechanism. 
+ * </p><p>
+ * A separate report property can be used to paginate the query result. This property can be 
+ * used for controlling the amount of Java heap space used by the query executer while 
+ * filling the report. The property can be set in the following manner: 
+ * </p><p>
+ * <code>&lt;property name="net.sf.jasperreports.ejbql.query.page.size" value="500"/&gt;</code> 
+ * </p><p>
+ * The results of the query will be fetched in chunks containing 500 rows. 
+ * </p><p>
+ * The pagination is achieved via the <code>javax.persistence.Query.setMaxResults()</code> 
+ * and <code>setFirstResult()</code> methods. Obviously, using pagination could result in 
+ * performance loss. Therefore enabling it is primarily recommended when the query 
+ * results are very large. 
+ * </p><p>
+ * EJB-QL report queries can contain parameters of any type. At runtime, the value of the 
+ * parameter is directly set by using 
+ * <code>javax.persistence.Query.setParameter(String name, Object value)</code>, with 
+ * no other processing. 
+ * </p><p>
+ * The result of the query execution is sent to a 
+ * {@link net.sf.jasperreports.engine.data.JRJpaDataSource} 
+ * data source implementation, which iterates 
+ * over it and extracts report field values. Fields are mapped to specific values in the query 
+ * result by specifying the mapping as field description or field name. 
+ * The JPA data source can handle two types of query results: </p>
+ * <ul>
+ * <li>Queries returning a single entity/bean per row</li>
+ * <li>Queries returning object tuples as rows</li>
+ * </ul>
+ * When the query returns a single entity/bean per row, as in 
+ * <p>
+ * <code>SELECT m FROM Movie m</code>
+ * </p><p>
+ * or 
+ * </p><p>
+ * <code>SELECT NEW MovieDescription(m.title, m.gender) FROM Movie m</code> 
+ * </p><p>
+ * then the field mappings are interpreted as bean property names. The same conventions as for 
+ * JavaBeans data sources are used. 
+ * </p><p>
+ * When the query returns multiple objects per row, as in 
+ * </p><p>
+ * <code>SELECT m.title, m.gender FROM Movie m</code> 
+ * </p><p>
+ * then the fields are mapped using one of the following forms: </p>
+ * <ul>
+ * <li><code>COLUMN_&lt;index&gt;</code> - maps the field to a value specified by its position 
+ * in the resulting tuple. The positions start from 1.</li>
+ * <li><code>COLUMN_&lt;index&gt;.&lt;property&gt;</code> - maps the field to a property of a 
+ * value specified by its position in the resulting tuple.</li>
+ * </ul>
+ * For instance, the following mappings could be used for a query returning multiple
+ * objects per row: <code>COLUMN_1</code>, <code>COLUMN_2</code>, <code>COLUMN_1.title</code>, and
+ * <code>COLUMN_2.movie.title</code>.
  * 
  * <h2>Related Documentation</h2>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
  * @see net.sf.jasperreports.engine.JRDataSource
  * @see net.sf.jasperreports.engine.JRResultSetDataSource
+ * @see net.sf.jasperreports.engine.data.JRJpaDataSource
  * @see net.sf.jasperreports.engine.data.JRXmlDataSource
+ * @see net.sf.jasperreports.olap.JRMdxQueryExecuterFactory
+ * @see net.sf.jasperreports.olap.JRMondrianDataSource
+ * @see net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory
+ * @see net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuterFactory
  */
 package net.sf.jasperreports.engine.query;
 
