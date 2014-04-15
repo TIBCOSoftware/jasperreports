@@ -34,8 +34,16 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
- * Fa�ade class for the JasperReports engine. 
- * 
+ * Facade class for the JasperReports engine. 
+ * <p>
+ * Sometimes it is useful to produce documents only in a popular format such as PDF or
+ * HTML, without having to store on disk the serialized, intermediate
+ * {@link net.sf.jasperreports.engine.JasperPrint} object produced by the report-filling
+ * process.
+ * </p><p>
+ * This can be achieved using this manager class, which immediately exports the document
+ * produced by the report-filling process into the desired output format.
+ * </p>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

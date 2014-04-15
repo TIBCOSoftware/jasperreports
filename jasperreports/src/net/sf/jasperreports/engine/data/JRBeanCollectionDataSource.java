@@ -31,6 +31,15 @@ import net.sf.jasperreports.engine.JRField;
 
 
 /**
+ * A data source implementation that wraps a collection of JavaBean objects.
+ * <p>
+ * It is common to access application data through object persistence layers like EJB,
+ * Hibernate, or JDO. Such applications may need to generate reports using data they
+ * already have available as arrays or collections of in-memory JavaBean objects.
+ * </p><p>
+ * This JavaBean-compliant data source cand be used when data comes in a 
+ * <code>java.util.Collection</code> of JavaBean objects.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

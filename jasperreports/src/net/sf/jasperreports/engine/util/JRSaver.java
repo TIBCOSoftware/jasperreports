@@ -37,6 +37,9 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**
+ * Utility class that can be used when serializable objects must be saved on disk 
+ * or sent over the network through an output stream.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

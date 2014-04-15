@@ -47,9 +47,21 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
- * Fa�ade class for compiling report designs into the ready-to-fill form
+ * Facade class for compiling report designs into the ready-to-fill form
  * and for getting the XML representation of report design objects for
  * storage or network transfer.
+ * <p>
+ * This class exposes all the library's report compilation functionality. It has
+ * various methods that allow the users to compile JRXML report templates found in files
+ * on disk or that come from input streams. It also lets people compile in-memory report
+ * templates by directly passing a
+ * {@link net.sf.jasperreports.engine.design.JasperDesign} object and receiving the
+ * corresponding {@link net.sf.jasperreports.engine.JasperReport} object.
+ * </p><p>
+ * Other utility methods include report template verification and JRXML report template
+ * generation for in-memory constructed
+ * {@link net.sf.jasperreports.engine.design.JasperDesign} class instances. These
+ * instances are especially useful in GUI tools that simplify report design work.
  * 
  * @see net.sf.jasperreports.engine.design.JasperDesign
  * @see net.sf.jasperreports.engine.JasperReport

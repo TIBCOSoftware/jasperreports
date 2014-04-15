@@ -59,6 +59,14 @@ import org.xml.sax.SAXParseException;
 
 
 /**
+ * Utility class that helps reconverting XML documents into 
+ * {@link net.sf.jasperreports.engine.JasperPrint} objects. 
+ * <p>
+ * Generated documents can be stored in XML format if they are exported using the
+ * {@link net.sf.jasperreports.engine.export.JRXmlExporter}. After they're exported,
+ * one can parse them back into {@link net.sf.jasperreports.engine.JasperPrint} objects
+ * by using this class.
+ * </p>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

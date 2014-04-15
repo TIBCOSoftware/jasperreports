@@ -40,10 +40,13 @@ import net.sf.jasperreports.export.SimpleXmlExporterOutput;
 
 
 /**
- * Fa�ade class for exporting generated reports into more popular
+ * Facade class for exporting generated reports into more popular
  * formats such as PDF, HTML and XML.
+ * <p>
  * This class contains convenience methods for exporting to only these 3 formats.
- * <p> 
+ * These methods can process data that comes from different
+ * sources and goes to different destinations (files, input and output streams, etc.).
+ * </p><p>
  * For exporting to XLS and CSV format or for using special exporter parameters, 
  * the specific exporter class should be used directly.  
  * 

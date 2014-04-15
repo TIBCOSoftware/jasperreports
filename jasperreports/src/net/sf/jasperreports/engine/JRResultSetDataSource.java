@@ -53,7 +53,16 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 
 
 /**
- * An implementation of a data source that uses a supplied <tt>ResultSet</tt>.
+ * This is a default implementation of the
+ * {@link net.sf.jasperreports.engine.JRDataSource} interface. Since most reports are
+ * generated using data from a relational database, JasperReports includes by default this
+ * implementation that wraps a <code>java.sql.ResultSet</code> object.
+ * <p>
+ * This class can be instantiated intentionally to wrap already loaded result sets before
+ * passing them to the report-filling routines, but it is also used by the reporting engine to
+ * wrap the data retrieved from the database after having executed the report query (if
+ * present) through JDBC.
+
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

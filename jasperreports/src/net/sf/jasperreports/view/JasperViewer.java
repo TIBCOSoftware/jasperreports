@@ -46,6 +46,10 @@ import org.apache.commons.logging.LogFactory;
 
 
 /**
+ * This class uses the {@link net.sf.jasperreports.view.JRViewer} component to display reports. 
+ * It represents a simple Java Swing application that can load and display reports. It is used 
+ * in almost all of the supplied samples to display the generated documents.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

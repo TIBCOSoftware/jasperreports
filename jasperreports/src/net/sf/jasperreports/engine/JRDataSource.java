@@ -28,6 +28,8 @@ package net.sf.jasperreports.engine;
  * This interface represents the abstract representation of a JasperReports data source. All data source types must
  * implement this interface.
  * <p>
+ * Every time a report is filled, an instance of this interface is supplied or created behind the scenes by the reporting engine.
+ * </p><p>
  * JasperReports provides default implementations of result set, bean collections and bean arrays data sources.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$

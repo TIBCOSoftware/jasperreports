@@ -38,20 +38,24 @@ import net.sf.jasperreports.engine.util.SimpleFileResolver;
 
 
 /**
- * Fa�ade class for filling compiled report designs with data from report data sources, 
+ * Facade class for filling compiled report designs with data from report data sources, 
  * in order to produce page-oriented documents, ready-to-print.
  * <p>
+ * It exposes a variety of methods that receive a report template in the form of an object, file,
+ * or input stream, and also produces a document in various output forms (object, file, or
+ * output stream).
+ * <p>
  * All methods receive a Map object that should contain the values for the report parameters.
- * These value are retrieved by the engine using the corresponding report parameter name as the key. 
+ * These values are retrieved by the engine using the corresponding report parameter name as the key. 
  * <p>
  * There are two types of method signatures with regards to the data source
  * provided for filling the report:
  * <ul>
  * <li>Methods that receive an instance of the {@link net.sf.jasperreports.engine.JRDataSource} interface
  * and use it directly for retrieving report data;
- * <li>Methods that receive an instance of the {@link java.sql.Connection} interface and retrieve
+ * <li>Methods that receive an instance of the <code>java.sql.Connection</code> interface and retrieve
  * the report data by executing the report internal SQL query through this JDBC connection and wrapping 
- * the returned {@link java.sql.ResultSet} object inside a {@link net.sf.jasperreports.engine.JRResultSetDataSource}
+ * the returned <code>java.sql.ResultSet</code> object inside a {@link net.sf.jasperreports.engine.JRResultSetDataSource}
  * instance. 
  * </ul>
  * 

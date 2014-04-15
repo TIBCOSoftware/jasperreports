@@ -37,6 +37,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * This class can be used at design time to preview the report
+ * templates. It was included in the main library as a development tool in order to make up
+ * for the missing visual designer.
+ * <p>
+ * This class is also used in all the samples to preview the report designs, either in raw
+ * JRXML form or the compiled form.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

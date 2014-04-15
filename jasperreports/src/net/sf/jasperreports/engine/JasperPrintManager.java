@@ -32,7 +32,16 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
- * Fa�ade class for the JasperReports engine.
+ * Facade class for the printing functionality exposed by the JasperReports library.
+ * <p>
+ * After having filled a report, you have the option of viewing it, exporting it to a different
+ * format, or (most commonly) printing it.
+ * <p>
+ * In JasperReports, you can print reports using this manager class. It contains various methods that
+ * can send entire documents or portions of them to the printer. It also allows people to choose
+ * whether to display the print dialog. one can display the content of a page from a
+ * JasperReports document by generating a <code>java.awt.Image</code> object for it using this
+ * manager class.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
