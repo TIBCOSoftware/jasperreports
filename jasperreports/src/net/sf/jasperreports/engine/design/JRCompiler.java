@@ -69,7 +69,35 @@ import net.sf.jasperreports.engine.fill.JREvaluator;
  * There are several implementations for this compiler interface depending on the language
  * used for the report expressions or the mechanism used for their runtime evaluation.
  * </p>
- * 
+ * <h2>Expressions Scripting Language</h2>
+ * The default language for the report expressions is Java, but report expressions
+ * can be written in Groovy, JavaScript or any other scripting language as long as a report
+ * compiler implementation that can evaluate them at runtime is available.
+ * <p>
+ * JasperReports currently ships report compiler implementations for the Groovy scripting
+ * language (<a href="http://groovy.codehaus.org">http://groovy.codehaus.org</a>), 
+ * JavaScript (<a href="http://www.mozilla.org/rhino">http://www.mozilla.org/rhino</a>), and
+ * the BeanShell scripting library (<a href="http://www.beanshell.org">http://www.beanshell.org</a>). </p>
+ * The related compiler implementation classes are:
+ * <ul>
+ * <li>{@link net.sf.jasperreports.compilers.JRGroovyCompiler}</li>
+ * <li>{@link net.sf.jasperreports.compilers.JavaScriptCompiler}</li>
+ * <li>{@link net.sf.jasperreports.compilers.JRBshCompiler}</li>
+ * </ul>
+ * <p>
+ * Since the most common scenario is to use the Java language for writing report
+ * expressions, default implementations of the report compiler interface are shipped with
+ * the library and are ready to use. They generate a Java class from the report expressions
+ * and store bytecode in the generated {@link net.sf.jasperreports.engine.JasperReport}
+ * object for use at report-filling time.</p>
+ * <h2>Java Compilers</h2>
+ * The Java report compilers come in different flavors depending on the Java compiler used
+ * to compile the class that is generated on the fly:
+ * <ul>
+ * <li>{@link net.sf.jasperreports.engine.design.JRJdtCompiler}</li>
+ * <li>{@link net.sf.jasperreports.engine.design.JRJdk13Compiler}</li>
+ * <li>{@link net.sf.jasperreports.engine.design.JRJavacCompiler}</li>
+ * </ul>
  * @see net.sf.jasperreports.engine.JasperReport
  * @see net.sf.jasperreports.engine.design.JasperDesign
  * @see net.sf.jasperreports.engine.xml.JRXmlLoader

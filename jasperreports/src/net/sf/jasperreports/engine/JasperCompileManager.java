@@ -62,10 +62,111 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * generation for in-memory constructed
  * {@link net.sf.jasperreports.engine.design.JasperDesign} class instances. These
  * instances are especially useful in GUI tools that simplify report design work.
- * 
- * @see net.sf.jasperreports.engine.design.JasperDesign
+ * </p><p>
+ * The facade class relies on the report template language to determine an appropriate report compiler.
+ * The report compilation facade first reads a configuration property called
+ * <code>net.sf.jasperreports.compiler.&lt;language&gt;</code> to determine whether a compiler
+ * implementation has been configured for the specific report language. If such a property
+ * is found, its value is used as compiler implementation class name and the facade
+ * instantiates a compiler object and delegates the report compilation to it. By default,
+ * JasperReports includes configuration properties that map the Groovy, JavaScript and
+ * BeanShell report compilers to the <code>groovy</code>, <code>javascript</code> and <code>bsh</code> 
+ * report languages, respectively.
+ * </p><p>
+ * If the report uses Java as language and no specific compiler has been set for this
+ * language, the report compilation facade employs a built-in fall back mechanism that
+ * picks the best Java-based report compiler available in the environment in which the
+ * report compilation process takes place.
+ * </p><p>
+ * The facade first reads the
+ * configuration property called <code>net.sf.jasperreports.compiler.class</code> to allow
+ * users to override its built-in compiler-detection logic by providing the name of the report
+ * compiler implementation to use directly.
+ * </p><p>
+ * If the property is not provided, the facade first tries to see if the JDT compiler from the 
+ * Eclipse Foundation is available in the application's classpath. If it is, the
+ * {@link net.sf.jasperreports.engine.design.JRJdtCompiler} implementation is used.
+ * </p><p>
+ * If the JDT compiler is not available, the compilation facade then tries to locate the JDK
+ * 1.3-compatible Java compiler from Sun Microsystems. This is normally found in the
+ * <code>tools.jar</code> file that comes with the JDK installation.
+ * </p><p>
+ * If all these fail, the last thing the fall back mechanism does is to try to launch the
+ * <code>javac.exe</code> program from the command line in order to compile the temporarily
+ * generated Java source file on the fly.
+ * </p>
+ * <h2>Configuration Properties to Customize Report Compilation</h2>
+ * JasperReports offers various mechanisms for letting users
+ * customize its behavior. One of these mechanisms is a complete set of configuration
+ * properties. The following list contains all the configuration properties that customize
+ * report compilation.
+ * <dl>
+ * <dt><code>net.sf.jasperreports.compiler.&lt;language&gt;</code><dt>
+ * <dd>Such properties are used for indicating the name of the class that implements the
+ * {@link net.sf.jasperreports.engine.design.JRCompiler} interface to be instantiated by 
+ * the engine for a specific report language
+ * when the default compilation is used through this facade class. The
+ * value for such a configuration property can be the name of one of the built-in
+ * implementations of this interface shipped with the library as listed previously, or the
+ * name of a custom-made implementing class.
+ * <br/>
+ * One can configure report compilers for custom report languages and override the default
+ * compiler mappings by setting JasperReports properties of the form
+ * <code>net.sf.jasperreports.compiler.&lt;language&gt;</code> to the desired compiler
+ * implementation class names. In particular, the mechanism that automatically chooses a
+ * Java report compiler can be superseded by explicitly setting the
+ * <code>net.sf.jasperreports.compiler.java</code> property to the name of one of the built-in
+ * Java compiler classes or of a custom compiler implementation class.
+ * <br/>
+ * Note that the classes implementing the {@link net.sf.jasperreports.engine.design.JRCompiler} 
+ * interface can also be used directly in
+ * the programs without having to call them through this facade class.</dd>
+ * <dt><code>net.sf.jasperreports.compiler.xml.validation</code><dt>
+ * <dd>The XML validation, which is on by default, can be turned off by setting this
+ * configuration property to
+ * false. When turned off, the XML parser no longer validates the supplied JRXML
+ * against its associated XSD. This might prove useful in some environments, although it is
+ * not recommended.</dd>
+ * <dt><code>net.sf.jasperreports.compiler.classpath</code><dt>
+ * <dd>This property
+ * supplies the classpath. JDK-based compilers require that the classpath be
+ * supplied as a parameter. They cannot use the current JVM classpath. The supplied
+ * classpath resolves class references inside the Java code they are compiling.
+ * <br/>
+ * This property is not used by the JDT-based report compiler, which simply uses the parent
+ * application's classpath during Java source file compilation.</dd>
+ * <dt><code>net.sf.jasperreports.compiler.temp.dir</code><dt>
+ * <dd>The temporary location for the files generated on the fly is by default the current working
+ * directory. It can be changed by supplying a value to this
+ * configuration property. This is used by
+ * the JDT-based compiler only when it is requested that a copy of the on-the-fly generated
+ * Java class be kept for debugging purposes as specified by the next configuration
+ * property, because normally this report compiler does not work with files on disk.</dd>
+ * <dt><code>net.sf.jasperreports.compiler.keep.java.file</code><dt>
+ * <dd>Sometimes, for debugging purposes, it is useful to have the generated <code>*.java</code> file or
+ * generated script in order to fix compilation problems related to report expressions. By
+ * default, the engine deletes this file after report compilation, along with its corresponding
+ * <code>*.class</code> file. To keep it, however, set this configuration property to true.</dd>
+ * </dl>
+ * <h2>JDT Compiler-Specific Configuration Properties</h2>
+ * The JRJdtCompiler report compiler can use special JasperReports configuration
+ * properties to configure the underlying JDT Java compiler. This report compiler collects
+ * all the JasperReports configuration properties (the ones usually set in the
+ * jasperreports.properties file) that start with the <code>org.eclipse.jdt.core.</code> prefix
+ * and passes them to the JDT Java compiler when compiling the generated Java class to
+ * evaluate report expressions.
+ * <p>
+ * One of the uses of this mechanism is to instruct the JDT compiler to observe Java 1.5
+ * code compatibility. To do so, the following properties should be set:</p>
+ * <ul>
+ * <li><code>org.eclipse.jdt.core.compiler.source=1.5</code></li>
+ * <li><code>org.eclipse.jdt.core.compiler.compliance=1.5</code></li>
+ * <li><code>org.eclipse.jdt.core.compiler.codegen.TargetPlatform=1.5</code></li>
+ * </ul>
  * @see net.sf.jasperreports.engine.JasperReport
+ * @see net.sf.jasperreports.engine.design.JasperDesign
  * @see net.sf.jasperreports.engine.design.JRCompiler
+ * @see net.sf.jasperreports.engine.design.JRJdtCompiler
  * @see net.sf.jasperreports.engine.design.JRVerifier
  * @see net.sf.jasperreports.engine.xml.JRXmlLoader
  * @see net.sf.jasperreports.engine.xml.JRXmlWriter
