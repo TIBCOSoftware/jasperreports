@@ -212,9 +212,64 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  * This attribute or the built-in {@link net.sf.jasperreports.engine.JRParameter#REPORT_FORMAT_FACTORY REPORT_FORMAT_FACTORY}
  * parameter should be used only if the report relies on custom date and number formatters.
  * </p>
+ * <h2>Custom Properties</h2>
+ * Sometimes it is useful to put some information into the report template itself. This
+ * information can be used by the parent application at runtime after loading the report
+ * template, or it can be used by the UI report-design tools to store designer-specific
+ * information, like whether to display the rules, the size of the snap grid, and so on.
+ * <p>
+ * Some of the properties can be transferred onto the generated document and can be used
+ * by exporter to tailor their behavior.
+ * </p><p>
+ * The report templates can store application or user-defined properties in the form of
+ * named values that can be archived by using any number or <code>&lt;property&gt;</code> tags inside the
+ * report template.
+ * </p><p>
+ * It is recommended that property names rely on some namespace policy, just as Java
+ * application packages do, to ensure that no naming conflict arises when several
+ * applications store information in the same report template.
+ * </p><p>
+ * Here is how a named value can be put inside the report template:</p>
+ * <pre>
+ *   &lt;property name="com.mycompany.report.author" value="John Smith"/&gt;
+ *   &lt;property name="com.mycompany.report.description" value="Displays sales data"/&gt;</pre>
+ * At runtime, this application-defined data can be retrieved from the report template using
+ * the <code>public JRPropertiesMap getPropertiesMap()</code> inherited from the 
+ * {@link net.sf.jasperreports.engine.JRPropertiesHolder} interface.
+ * <h2>Report Styles</h2>
+ * A report style is a collection of style settings declared at the report level. These settings
+ * can be reused throughout the entire report template when setting the style properties of
+ * report elements.
+ * <p>
+ * The <code>name</code> attribute of a <code>&lt;style&gt;</code> element is mandatory. It must be unique because it 
+ * references the corresponding report style throughout the report.
+ * </p><p>
+ * One can use <code>isDefault="true"</code> for one of your report style declarations to mark the 
+ * default for elements that do not or cannot have another style specified.
+ * </p><p>
+ * Each report style definition can reference another style definition from which it will
+ * inherit some or all of its properties. The <code>style</code> attribute inside a <code>&lt;style&gt;</code> element 
+ * specifies the name of the parent report style.
+ * </p><p>
+ * All report elements can reference a report style to inherit all or part of the style
+ * properties. A report style declaration groups all the style-related properties supported
+ * throughout the library, but an individual element inherits only those style properties that
+ * apply to it. The others will be ignored.
+ * </p><p>
+ * Sometimes users need to change a report element style at runtime based on certain
+ * conditions (for example, to alternate adjacent row colors in a report detail section). To
+ * achieve this goal, one can set some style properties to be enabled only if a specified
+ * condition is true. This is done using conditional styles.
+ * </p><p>
+ * The default style of a report can be accessed using the 
+ * <code>public JRStyle getDefaultStyle()</code> method inherited from the 
+ * {@link net.sf.jasperreports.engine.JRDefaultStyleProvider} interface.
+ * </p>
  * @see net.sf.jasperreports.engine.JRParameter#IS_IGNORE_PAGINATION
  * @see net.sf.jasperreports.engine.JRParameter#REPORT_RESOURCE_BUNDLE
  * @see net.sf.jasperreports.engine.JRParameter#REPORT_SCRIPTLET
+ * @see net.sf.jasperreports.engine.JRPropertiesMap
+ * @see net.sf.jasperreports.engine.JRStyle
  * @see net.sf.jasperreports.engine.util.DefaultFormatFactory
  * @see net.sf.jasperreports.engine.util.FormatFactory
  * @author Teodor Danciu (teodord@users.sourceforge.net)

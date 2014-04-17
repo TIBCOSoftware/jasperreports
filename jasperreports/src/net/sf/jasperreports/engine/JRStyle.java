@@ -34,6 +34,138 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 /**
+ * Provides a collection of style settings declared at the report level.
+ * <h2>Report Styles</h2>
+ * A report style is a collection of style settings declared at the report level. These settings
+ * can be reused throughout the entire report template when setting the style properties of
+ * report elements.
+ * <p>
+ * The <code>name</code> attribute of a <code>&lt;style&gt;</code> element is mandatory. It must be unique because it 
+ * references the corresponding report style throughout the report.
+ * </p><p>
+ * One can use <code>isDefault="true"</code> for one of your report style declarations to mark the 
+ * default for elements that do not or cannot have another style specified.
+ * </p><p>
+ * Each report style definition can reference another style definition from which it will
+ * inherit some or all of its properties. The <code>style</code> attribute inside a <code>&lt;style&gt;</code> element 
+ * specifies the name of the parent report style.
+ * </p><p>
+ * Below is a list with the main style attributes:</p>
+ * <ul>
+ * <li><code>name</code> - the name of the style. Required.</li>
+ * <li><code>isDefault</code> - flag that specifies if the style represents the default report style.</li>
+ * <li><code>style</code> - the name of the parent style</li>
+ * <li><code>mode</code> - specifies whether report elements are opaque or transparent. Possible values are:
+ * <ul>
+ * <li><code>Opaque</code></li>
+ * <li><code>Transparent</code></li>
+ * </ul>
+ * </li>
+ * <li><code>forecolor</code> - the font color for text elements or the line color for graphic elements</li>
+ * <li><code>backcolor</code> - the element background color</li>
+ * <li><code>fill</code> - the fill pattern. Possible value is <code>Solid</code></li>
+ * <li><code>radius</code> - the radius for some graphic elements</li>
+ * <li><code>hAlign</code> - the horizontal alignment of the text within a text element. Possible values are:
+ * <ul>
+ * <li><code>Left</code> - default setting</li>
+ * <li><code>Center</code></li>
+ * <li><code>Right</code></li>
+ * <li><code>Justified</code></li>
+ * </ul>
+ * </li>
+ * <li><code>vAlign</code> - the vertical alignment of the text within a text element. Possible values are:
+ * <ul>
+ * <li><code>Top</code> - default setting</li>
+ * <li><code>Middle</code></li>
+ * <li><code>Bottom</code></li>
+ * </ul>
+ * </li>
+ * <li><code>rotation</code> - the text rotation within a text element. Possible values are:
+ * <ul>
+ * <li><code>None</code> - default setting</li>
+ * <li><code>Left</code></li>
+ * <li><code>Right</code></li>
+ * <li><code>UpsideDown</code></li>
+ * </ul>
+ * </li>
+ * <li><code>fontName</code> - the name of the font face</li>
+ * <li><code>fontSize</code> - the font size</li>
+ * <li><code>isBold</code> - flag that specifies whether the font is bold</li>
+ * <li><code>isItalic</code> - flag that specifies whether the font is italic</li>
+ * <li><code>isUnderline</code> - flag that specifies whether the font is underlined</li>
+ * <li><code>isStrikeThrough</code> - flag that specifies whether the font is strike through</li>
+ * <li><code>pattern</code> - specifies the format pattern for text elements</li>
+ * <li><code>isBlankWhenNull</code> - flag that specifies whether null values should be represented as blanks</li>
+ * <li><code>markup</code> - the markup style for the text elements. Possible values are:
+ * <ul>
+ * <li><code>none</code> - default setting</li>
+ * <li><code>styled</code></li>
+ * <li><code>html</code></li>
+ * <li><code>rtf</code></li>
+ * </ul>
+ * </li>
+ * </ul>
+ * <p>
+ * A style also may contain:</p>
+ * <ul>
+ * <li>a {@link net.sf.jasperreports.engine.JRPen} element that can be retrieved 
+ * using the <code>public JRPen getLinePen()</code> method.</li>
+ * <li>a {@link net.sf.jasperreports.engine.JRLineBox} element that can be retrieved 
+ * using the <code>public JRLineBox getLineBox()</code> method.</li>
+ * <li>a {@link net.sf.jasperreports.engine.JRParagraph} element that can be retrieved 
+ * using the <code>public JRParagraph getParagraph()</code> method inherited from the 
+ *  {@link net.sf.jasperreports.engine.JRParagraphContainer} interface.</li>
+ * </ul>
+ * <p>
+ * All report elements can reference a report style to inherit all or part of the style
+ * properties. A report style declaration groups all the style-related properties supported
+ * throughout the library, but an individual element inherits only those style properties that
+ * apply to it. The others will be ignored.
+ * </p>
+ * <h2>Conditional Styles</h2>
+ * Sometimes users need to change a report element style at runtime based on certain
+ * conditions (for example, to alternate adjacent row colors in a report detail section). To
+ * achieve this goal, one can set some style properties to be enabled only if a specified
+ * condition is true. This is done using conditional styles.
+ * </p><p>
+ * A conditional style has two elements: a Boolean condition expression and a <code>style</code>. The
+ * style is used only if the condition evaluates to true.
+ * </p><p>
+ * An important aspect is the priority of styles. When applied, a conditional style will
+ * override the properties of its parent style.
+ * </p><p>
+ * A style can contain more than one conditional style. In this case, all conditionals that
+ * evaluate to true will be appended to the existing style (the second style will be
+ * appended to the first, and so on).
+ * </p><p>
+ * By default, the style condition expressions are evaluated during the report filling process
+ * at the time that the style reference is used. The conditional expression evaluation will use
+ * the current values of referenced variables and fields, regardless of the <code>evaluationTime</code>
+ * attribute of the element that makes use of the style.
+ * </p><p>
+ * If the evaluation of the condition expression of the style needs to be delayed, just like the
+ * value of the text field or the image element that uses the conditional style, the
+ * <code>net.sf.jasperreports.style.evaluation.time.enabled</code> configuration property
+ * should be set to true.
+ * </p>
+ * <h2>Style Templates</h2>
+ * Report styles can also be defined in external style template files that are referenced by
+ * report templates. This allows report designers to define in a single place a common look
+ * for a set of reports.
+ * </p><p>
+ * A style template is an XML file that contains one or more style definitions. A template
+ * can include references to other style template files, hence one can organize a style library
+ * as a hierarchical set of style template files.
+ * </p><p>
+ * Style template files use by convention the <code>*.jrtx</code> extension, but this is not mandatory.
+ * </p><p>
+ * A report can use style templates by explicitly referring them in its definition. References
+ * to a style templates are included in JRXML reports as <code>&lt;template&gt;</code> elements. Such an
+ * element contains an expression that is resolved at fill time to a style template instance.
+ * </p>
+ * @see net.sf.jasperreports.engine.JRLineBox
+ * @see net.sf.jasperreports.engine.JRParagraph
+ * @see net.sf.jasperreports.engine.JRPen
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
