@@ -41,8 +41,21 @@ import org.apache.commons.logging.LogFactory;
  * templates. It was included in the main library as a development tool in order to make up
  * for the missing visual designer.
  * <p>
- * This class is also used in all the samples to preview the report designs, either in raw
- * JRXML form or the compiled form.
+ * The class is a simple
+ * Swing-based Java application that can load and display a report template either in its raw
+ * JRXML form or in its compiled form. Even though it is not a complex GUI application and
+ * lacks advanced functionality like dragging and dropping visual report elements, it is a
+ * very helpful tool. All the supplied JasperReports samples were initially created using this design
+ * viewer.
+ * </p><p>
+ * All the supplied samples already have Ant tasks in their <code>build.xml</code> files that will launch
+ * this design viewer to display the report templates.
+ * There are two Ant tasks for each sample report: <code>viewDesign</code> and <code>viewDesignXML</code>. The
+ * first one loads the compiled report template that is normally found in the <code>*.jasper</code> file.
+ * The second one loads the JRXML report template, which is more useful since you can
+ * edit the JRXML file and click the Reload button to immediately see the modification on
+ * the screen.
+ * </p>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

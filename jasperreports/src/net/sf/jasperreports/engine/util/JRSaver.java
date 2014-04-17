@@ -39,7 +39,15 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 /**
  * Utility class that can be used when serializable objects must be saved on disk 
  * or sent over the network through an output stream.
- * 
+ * <p>
+ * Both the {@link net.sf.jasperreports.engine.design.JasperDesign} and
+ * {@link net.sf.jasperreports.engine.JasperReport} classes implement the
+ * <code>java.io.Serializable</code> interface. This allows users to store their report templates as
+ * serialized objects either in their fully modifiable state 
+ * ({@link net.sf.jasperreports.engine.design.JasperDesign} objects) or in their
+ * compiled form ({@link net.sf.jasperreports.engine.JasperReport} objects), using 
+ * various methods exposed by this class. 
+ * </p>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

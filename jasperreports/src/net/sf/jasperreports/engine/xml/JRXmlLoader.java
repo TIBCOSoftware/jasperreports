@@ -73,7 +73,7 @@ import org.xml.sax.SAXException;
  * Utility class that helps parsing a JRXML file into a 
  * {@link net.sf.jasperreports.engine.design.JasperDesign} object.
  * <p>
- * This can be done using one of the
+ * This can be done using one of the <code>load(...)</code> or <code>loadXml</code> 
  * methods published by this class. Applications might need to do this in cases where report
  * templates kept in their source form (JRXML) must be modified at runtime based on
  * some user input and then compiled on the fly for filling with data.

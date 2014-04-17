@@ -33,7 +33,190 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 /**
  * An abstract representation of a Jasper report. This interface is inherited by all report implementations
  * (designs, compiled reports, filled reports). It only contains constants and getters and setters for the most common
- * report properties and elements.
+ * report properties and elements. Below are listed these properties:
+ * <p>
+ * <h2>Report Name</h2>
+ * Every report design needs a name. Its name is important because the library uses it when
+ * generating files, especially when the default behavior is preferred for compiling, filling,
+ * or exporting the report.
+ * <p>
+ * The name of the report is specified using the <code>name</code> attribute, and its inclusion 
+ * is mandatory. Spaces are not allowed in the report name - it must be a single word.
+ * </p>
+ * <h2>Language</h2>
+ * Report expressions are usually written using the Java language. However, one can use
+ * other languages as long as a report compiler is available to help evaluate these
+ * expressions at report-filling time.
+ * <p>
+ * The default value for the <code>language</code> property is <code>java</code>, meaning that the Java language is
+ * used for writing expressions, and that a report compiler capable of generating and
+ * compiling a Java class on the fly is used for producing the bytecode needed for
+ * expression evaluation at runtime.
+ * </p><p>
+ * Report compilers reference this property to see whether they can compile the supplied
+ * report template or whether a different report compiler should be used, depending on the
+ * actual scripting language.
+ * </p>
+ * <h2>Column Count</h2>
+ * JasperReports lets users create reports with more than one column on each page.
+ * <p>
+ * Multicolumn report templates also have an associated column-filling order specified by
+ * the <code>printOrder</code> attribute.
+ * </p><p>
+ * By default, the reporting engine creates reports with one column on each page.
+ * </p>
+ * <h2>Print Order</h2>
+ * For reports having more that one column, it is important to specify the order in which the 
+ * columns will be filled. One can do this using the printOrder attribute with 2 possible values:
+ * <ul>
+ * <li><code>Vertical</code> - columns are filled from top to bottom and then left to right. This is the default print order.</li>
+ * <li><code>Horizontal</code> - columns are filled from left to right and then top to bottom</li>
+ * </ul>
+ * <h2>Page Size</h2>
+ * There are two attributes at this level to specify the page size of the document that will be
+ * generated: <code>pageWidth</code> and <code>pageHeight</code>. Like all the other JasperReports attributes that
+ * represent element dimensions and position, these are specified in pixels. JasperReports
+ * uses the default Java resolution of 72 dots per inch (DPI). This means that
+ * <code>pageWidth="595"</code> will be about 8.26 inches, which is roughly the width of an A4 sheet
+ * of paper.
+ * <p>
+ * The default page size corresponds to an A4 sheet of paper:
+ * </p><p>
+ * <code>pageWith="595" pageHeight="842"</code>
+ * </p>
+ * <h2>Page Orientation</h2>
+ * The <code>orientation</code> attribute determines whether the documents use the 
+ * <code>Portrait</code> or the <code>Landscape</code> format.
+ * <p>
+ * This <code>orientation</code> attribute is useful only at report-printing time to inform the printer 
+ * about the page orientation, and in some special exporters. The default page orientation 
+ * is <code>Portrait</code>.
+ * </p>
+ * <h2>Page Margins</h2>
+ * Once the page size is decided, one can specify what margins the reporting engine should
+ * preserve when generating the reports. Four attributes control this: <code>topMargin</code>,
+ * <code>leftMargin</code>, <code>bottomMargin</code>, and <code>rightMargin</code>.
+ * <p>
+ * The default margin for the top and bottom of the page is 20 pixels. The default margin 
+ * for the right and left margins is 30 pixels.
+ * </p>
+ * <h2>Column Size and Spacing</h2>
+ * Reports may have more that one column, as specified in the
+ * <code>columnCount</code> attribute. However, the reporting engine has to know how large a column
+ * can be and how much space should be allowed between columns. Two attributes control
+ * this: <code>columnWidth</code> and <code>columnSpacing</code>.
+ * <p>
+ * Also, when a report is compiled JasperReports checks whether the width of the overall
+ * columns and the space between them exceed the specified page width and page margins.
+ * </p><p>
+ * Since there is only one column by default, the default column spacing is 0 pixels and the
+ * default column width is 555 pixels (the default page width minus the default left and
+ * right margins).
+ * </p>
+ * <h2>Empty Data Source Behavior</h2>
+ * The data source for a report might not contain any records. In this case, it is not clear
+ * what the output should be. Some people may expect to see a blank document and others may
+ * want some of the report sections to be displayed anyway.
+ * <p>
+ * The <code>whenNoDataType</code> attribute lets users decide how the generated document should look
+ * when there is no data in the data source supplied to it. Possible values of this attribute are as follows:</p>
+ * <ul>
+ * <li><code>NoPages</code> - This is the default setting. The generated document will have no pages in it. 
+ * Viewers might throw an error when trying to load such documents.</li>
+ * <li><code>BlankPage</code> - the generated document will contain a single blank page</li>
+ * <li><code>AllSectionsNoDetail</code> - All the report sections except the <code>detail</code> 
+ * section will appear in the generated document.</li>
+ * <li><code>NoData</code> - the generated document will contain only the <code>NoData</code> section</li>
+ * </ul>
+ * <h2>Title and Summary Section Placement</h2>
+ * To display the title or/and summary section on a separate page, set one or both of the
+ * following attributes to true:
+ * <ul>
+ * <li><code>isTitleNewPage</code></li>
+ * <li><code>isSummaryNewPage</code></li>
+ * </ul>
+ * Both of these Boolean attributes are set to false by default.
+ * <p>
+ * When the summary section stretches to a new page, or starts on a new page altogether, it
+ * is not accompanied by the page header and page footer. In order to force the page header
+ * and page footer to reappear on summary trailing pages, set the
+ * <code>isSummaryWithPageHeaderAndFooter</code> to true; it is set to false by default.
+ * </p>
+ * <h2>Column Footer Placement</h2>
+ * The <code>isFloatColumnFooter</code> Boolean property lets users customize the behavior of the
+ * column footer section. By default, this section is rendered at the bottom of the page, just
+ * above the page footer. In certain cases, it is useful to render it higher on the page, just
+ * below the last detail or group footer on that particular column. To do this, set the
+ * <code>isFloatColumnFooter</code> property to true.
+ * <h2>Scriptlet Class</h2>
+ * There can be multiple scriptlet instances associated with a report. The <code>scriptletClass</code> 
+ * attribute is just a convenient way to specify the scriptlet class in case there is
+ * only one scriptlet associated with the report.
+ * <p>
+ * This attribute is used by the engine only if no value is supplied for the built-in
+ * {@link net.sf.jasperreports.engine.JRParameter#REPORT_SCRIPTLET REPORT_SCRIPTLET} parameter. 
+ * If neither the attribute nor the parameter
+ * is used, and no other scriptlet is specified for the report using named scriptlet tags the
+ * reporting engine uses a single
+ * {@link net.sf.jasperreports.engine.JRDefaultScriptlet} instance as the report
+ * scriptlet.
+ * </p>
+ * <h2>Resource Bundle</h2>
+ * To generate reports in different languages from the same report template, associate a
+ * resource bundle with the template and make sure that the locale-specific resources inside
+ * report expressions are retrieved based on the <code>$R{}</code> syntax.
+ * <p>
+ * There are two ways to associate the <code>java.util.ResourceBundle</code> object with the
+ * report template.
+ * </p><p>
+ * The first is a static association made by setting the <code>resourceBundle</code> property of the
+ * report template object to the base name of the target resource bundle.
+ * </p><p>
+ * A dynamic association can be made by supplying a <code>java.util.ResourceBundle</code>
+ * object as the value for the 
+ * {@link net.sf.jasperreports.engine.JRParameter#REPORT_RESOURCE_BUNDLE REPORT_RESOURCE_BUNDLE} 
+ * parameter at report-filling time.
+ * </p>
+ * <h2>Missing Resources Behavior</h2>
+ * The <code>whenResourceMissingType</code> property allows users to choose the desired behavior
+ * of the engine when it deals with missing locale-specific resources in the supplied
+ * resource bundle. There are four different values that can be used to deal with missing
+ * resources:
+ * <ul>
+ * <li><code>Null</code> - The null value is used</li>
+ * <li><code>Empty</code> - An empty string is used</li>
+ * <li><code>Key</code> - The key is used</li>
+ * <li><code>Error</code> - An exception is raised in case a locale-specific resource is not found in the 
+ * supplied resource bundle for the given key and locale</li>
+ * </ul>
+ * <h2>Pagination</h2>
+ * When the <code>isIgnorePagination</code> property is set to true, the report-filling engine will
+ * completely ignore page break-related settings inside the report template and generate the
+ * document on a single, very long page. The value of this property can be overridden at
+ * runtime using the optional, built-in 
+ * {@link net.sf.jasperreports.engine.JRParameter#IS_IGNORE_PAGINATION IS_IGNORE_PAGINATION} parameter.
+ * <h2>Formatting Numbers, Dates and Times</h2>
+ * The <code>formatFactoryClass</code> attribute lets users specify the name of the factory class
+ * implementing the {@link net.sf.jasperreports.engine.util.FormatFactory} interface,
+ * which should be instantiated by the engine in order to produce <code>java.text.DateFormat</code>
+ * and <code>java.text.NumberFormat</code> objects to use for date and number formatting in the
+ * current report.
+ * <p>
+ * This attribute specifying the factory class name is used only if no value is supplied for
+ * the built-in {@link net.sf.jasperreports.engine.JRParameter#REPORT_FORMAT_FACTORY REPORT_FORMAT_FACTORY} parameter.
+ * </p><p>
+ * If neither of the attribute nor the parameter is used, the engine will eventually instantiate
+ * the {@link net.sf.jasperreports.engine.util.DefaultFormatFactory} implementation
+ * of the factory interface, which produces <code>java.text.SimpleDateFormat</code> and
+ * <code>java.text.DecimalFormat</code> objects for date and number formatting.
+ * This attribute or the built-in {@link net.sf.jasperreports.engine.JRParameter#REPORT_FORMAT_FACTORY REPORT_FORMAT_FACTORY}
+ * parameter should be used only if the report relies on custom date and number formatters.
+ * </p>
+ * @see net.sf.jasperreports.engine.JRParameter#IS_IGNORE_PAGINATION
+ * @see net.sf.jasperreports.engine.JRParameter#REPORT_RESOURCE_BUNDLE
+ * @see net.sf.jasperreports.engine.JRParameter#REPORT_SCRIPTLET
+ * @see net.sf.jasperreports.engine.util.DefaultFormatFactory
+ * @see net.sf.jasperreports.engine.util.FormatFactory
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

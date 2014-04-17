@@ -193,7 +193,14 @@ import net.sf.jasperreports.engine.util.XmlNamespace;
 
 /**
  * A writer that produces the JRXML representation of an in-memory report.
- * 
+ * <p>
+ * Sometimes report designs are generated automatically using the JasperReports 
+ * API. Report design objects obtained this way can be serialized for disk storage or 
+ * transferred over the network, but they also can be stored in JRXML format.
+ * </p><p>
+ * The JRXML representation of a given report design object can be obtained by using one 
+ * of the <code>public static writeReport()</code> methods exposed by this class.
+ * </p>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @author Minor enhancements by Barry Klawans (bklawans@users.sourceforge.net)
  * @version $Id$

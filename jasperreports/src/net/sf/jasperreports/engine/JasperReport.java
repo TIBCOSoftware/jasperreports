@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.base.JRBaseReport;
  * image expressions, and group expressions). This class or script is used to evaluate report 
  * expressions during the report-filling process at runtime. 
  * </p><p>
- * The main difference between a report and a report design is that
+ * The main difference between a compiled report and a report design is that
  * reports are already compiled and validated, so many characteristics are read only.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)

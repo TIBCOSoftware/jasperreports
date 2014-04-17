@@ -61,8 +61,12 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 
 /**
+ * Base class that implements the {@link net.sf.jasperreports.engine.JRReport} interface.
+ * 
+ * @see net.sf.jasperreports.engine.JRReport
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * 
  */
 public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSupport
 {

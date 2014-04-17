@@ -32,6 +32,47 @@ import net.sf.jasperreports.engine.fill.JREvaluator;
 
 
 /**
+ * This interface exposes methods to load expressions evaluators and compile report templates.
+ * <p>
+ * Source report templates, created either by using the API or by parsing JRXML files, are
+ * subject to the report compilation process before they are filled with data.
+ * This is necessary to make various consistency validations and to incorporate into these
+ * report templates data used to evaluate all report expressions at runtime.
+ * </p><p>
+ * The compilation process transforms
+ * {@link net.sf.jasperreports.engine.design.JasperDesign} objects into
+ * {@link net.sf.jasperreports.engine.JasperReport} objects. Both classes are
+ * implementations of the same basic {@link net.sf.jasperreports.engine.JRReport}
+ * interface. However, {@link net.sf.jasperreports.engine.JasperReport} objects 
+ * cannot be modified once they are produced,
+ * while {@link net.sf.jasperreports.engine.design.JasperDesign} objects can. 
+ * This is because some modifications made on the
+ * report template would probably require re-validation, or if a report expression is
+ * modified, the compiler-associated data stored inside the report template would have to be
+ * updated.
+ * </p><p>
+ * {@link net.sf.jasperreports.engine.design.JasperDesign} objects are produced when parsing JRXML files using the
+ * {@link net.sf.jasperreports.engine.xml.JRXmlLoader} or created directly by the parent
+ * application if dynamic report templates are required. The GUI tools for editing
+ * JasperReports templates also work with this class to make in-memory modifications to
+ * the report templates before storing them on disk.
+ * </p><p>
+ * A {@link net.sf.jasperreports.engine.design.JasperDesign} object must be 
+ * subject to the report compilation process to produce a
+ * {@link net.sf.jasperreports.engine.JasperReport} object.
+ * </p><p>
+ * Central to this process is this {@link net.sf.jasperreports.engine.design.JRCompiler}
+ * interface, which defines few methods, one being the following:
+ * </p><p>
+ * <code>public JasperReport compileReport(JasperDesign design) throws JRException;</code>
+ * </p><p>
+ * There are several implementations for this compiler interface depending on the language
+ * used for the report expressions or the mechanism used for their runtime evaluation.
+ * </p>
+ * 
+ * @see net.sf.jasperreports.engine.JasperReport
+ * @see net.sf.jasperreports.engine.design.JasperDesign
+ * @see net.sf.jasperreports.engine.xml.JRXmlLoader
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
