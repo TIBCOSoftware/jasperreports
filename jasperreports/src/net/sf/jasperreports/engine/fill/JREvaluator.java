@@ -39,6 +39,25 @@ import net.sf.jasperreports.functions.FunctionSupport;
 
 /**
  * Base class for the dynamically generated expression evaluator classes.
+ * This class also provides some built-in functions that will be described next.
+ * <h2>Built-in Functions</h2>
+ * Report expressions can perform method calls on various objects that are available during
+ * report filling, such as parameters, fields, or variable values, but can also call methods on
+ * a special object that is already available as the <code>this</code> reference. This is the calculator
+ * object. It has public utility methods that are ready to use inside report expressions.
+ * <p>
+ * Currently, there are only a few utility methods of the calculator object available as built-in
+ * functions inside report expressions. These are the following:</p>
+ * <ul>
+ * <li><code>msg</code> - this function offers a convenient way to format messages based on the current
+ * report locale, just as you would normally do when using a
+ * <code>java.text.MessageFormat</code> instance. Furthermore, several signatures for this
+ * function take up to three message parameters in order to make the formatting
+ * functionality easier to use.</li>
+ * <li><code>str</code> - this function is the equivalent of the <code>$R{}</code> syntax. It gives access 
+ * to locale specific resources from the associated resource bundle.</li>
+ * </ul>
+ * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
