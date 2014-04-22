@@ -47,7 +47,8 @@ import org.apache.commons.logging.LogFactory;
  */
 public class JRVerticalFiller extends JRBaseFiller
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_COLUMN_HEADER_OVERFLOW_INFINITE_LOOP = JRVerticalFiller.class.getName() +  ".column.header.overflow.infinite.loop";
+	
 	private static final Log log = LogFactory.getLog(JRVerticalFiller.class);
 
 	/**
@@ -545,7 +546,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			if (!filled)
 			{
-				throw new JRRuntimeException("net.sf.jasperreports.engine.fill.JRVerticalFiller.column.header.overflow.infinite.loop", (Object[]) null, getJasperReportsContext(), getLocale());
+				throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_COLUMN_HEADER_OVERFLOW_INFINITE_LOOP, (Object[]) null, getJasperReportsContext(), getLocale());
 			}
 		}
 

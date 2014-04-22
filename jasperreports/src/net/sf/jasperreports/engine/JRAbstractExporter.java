@@ -76,6 +76,10 @@ import net.sf.jasperreports.export.SimpleExporterInputItem;
  */
 public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C extends ExporterConfiguration, O extends ExporterOutput, E extends JRExporterContext> implements JRExporter<ExporterInput, RC, C, O>
 {
+	public static final String EXCEPTION_MESSAGE_KEY_START_PAGE_INDEX_OUT_OF_RANGE = JRAbstractExporter.class.getName() + ".start.page.index.out.of.range";
+	public static final String EXCEPTION_MESSAGE_KEY_END_PAGE_INDEX_OUT_OF_RANGE = JRAbstractExporter.class.getName() + ".end.page.index.out.of.range";
+	public static final String EXCEPTION_MESSAGE_KEY_PAGE_INDEX_OUT_OF_RANGE = JRAbstractExporter.class.getName() + ".page.index.out.of.range";
+
 	/**
 	 * The suffix applied to properties that give the default filter factory for
 	 * a specific exporter.
@@ -746,7 +750,13 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 			startPageIndex = start;
 			if (startPageIndex < 0 || startPageIndex > lastPageIndex)
 			{
-				throw new JRRuntimeException("Start page index out of range : " + startPageIndex + " of " + lastPageIndex);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_START_PAGE_INDEX_OUT_OF_RANGE,  
+						new Object[]{startPageIndex, lastPageIndex}, 
+						getJasperReportsContext(), 
+						getLocale()
+						);
 			}
 		}
 
@@ -756,7 +766,13 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 			endPageIndex = end;
 			if (endPageIndex < startPageIndex || endPageIndex > lastPageIndex)
 			{
-				throw new JRRuntimeException("End page index out of range : " + endPageIndex + " (" + startPageIndex + " : " + lastPageIndex + ")");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_END_PAGE_INDEX_OUT_OF_RANGE,  
+						new Object[]{startPageIndex, endPageIndex, lastPageIndex}, 
+						getJasperReportsContext(), 
+						getLocale()
+						);
 			}
 		}
 
@@ -765,7 +781,13 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		{
 			if (pageIndex < 0 || pageIndex > lastPageIndex)
 			{
-				throw new JRRuntimeException("Page index out of range : " + pageIndex + " of " + lastPageIndex);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_PAGE_INDEX_OUT_OF_RANGE,  
+						new Object[]{pageIndex, lastPageIndex}, 
+						getJasperReportsContext(), 
+						getLocale()
+						);
 			}
 			startPageIndex = pageIndex;
 			endPageIndex = pageIndex;
