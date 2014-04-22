@@ -27,6 +27,54 @@ package net.sf.jasperreports.engine;
 /**
  * An abstract representation of a data source field. Each row in a dataset consists of one or more fields with unique
  * names. These names can be used in report expressions.
+ * <h2>Report Fields</h2>
+ * The report fields represent the only way to map data from the data source into the report
+ * template and to use this data in report expressions to obtain the desired output. 
+ * <p/>
+ * When declaring report fields, make sure that the data source supplied at report-filling
+ * time can provide values for all those fields.
+ * <p/>
+ * For example, if a
+ * {@link net.sf.jasperreports.engine.JRResultSetDataSource} implementation is used along with 
+ * the report's SQL query, make sure that there is a column for each field in the
+ * result set obtained after the execution of the query. The corresponding column must bear
+ * the same name and have the same data type as the field that maps it.
+ * <p/>
+ * If a field is declared without a corresponding column in the result set, an exception will
+ * be thrown at runtime. The columns in the result set produced by the execution of the
+ * SQL query that do not have corresponding fields in the report template will not affect the
+ * report-filling operations, but they also won't be accessible for display on the report.
+ * <p/>
+ * Following are described the components of a report field definition.
+ * <h2>Field Name</h2>
+ * The <code>name</code> attribute of the <code>&lt;field&gt;</code> element is mandatory. It 
+ * lets you reference the field in report expressions by name.
+ * <h2>Field Class</h2>
+ * The second attribute for a report field specifies the class name for the field values. Its
+ * default value is <code>java.lang.String</code>, but it can be changed to any class available at
+ * runtime. Regardless of the type of a report field, the engine makes the appropriate cast in
+ * report expressions in which the <code>$F{}</code> token is used, making manual casts unnecessary.
+ * <h2>Field Description</h2>
+ * This additional text chunk can prove very useful when implementing a custom data
+ * source, for example. You could store in it a key, or whatever information you might need
+ * in order to retrieve the field's value from the custom data source at runtime.
+ * <p/>
+ * By using the optional <code>&lt;fieldDesciption&gt;</code> element instead of the field name, you can
+ * easily overcome restrictions of field-naming conventions when retrieving the field values
+ * from the data source:
+ * <pre>
+ *   &lt;field name="PersonName" class="java.lang.String" isForPrompting="true"&gt;
+ *     &lt;fieldDesciption>PERSON NAME&lt;/fieldDesciption&gt;
+ *   &lt;/field&gt;</pre>
+ * The field description is less important than in previous versions of the library because
+ * now even the field's name accepts dots, spaces, and other special characters.
+ * <h2>Custom Field Properties</h2>
+ * Just like the report template and report parameters, report fields can have custom-defined
+ * properties, too. This comes in addition to the field description, which can be considered a
+ * built-in report field property. Custom properties are useful in some cases where more
+ * information or meta data needs to be associated with the report field definition. This
+ * additional information can be leveraged by query executer or data source
+ * implementations.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

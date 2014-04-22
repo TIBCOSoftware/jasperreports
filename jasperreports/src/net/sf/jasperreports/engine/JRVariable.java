@@ -31,11 +31,162 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
 /**
  * An interface for implementing classes that deal with report variables. This interface defines constants for names of
  * built-in variables and for reset, increment and calculation types.
- * <p>
+ * <h2>Report Variables</h2>
+ * Report variables are special objects built on top of a report expression. They can simplify
+ * the report template by isolating in one place an expression that is heavily used
+ * throughout the report template, and they can perform various calculations based on the
+ * corresponding expression.
+ * <p/>
+ * In its expression, a variable can reference other report variables, fields, or parameters.
+ * With every iteration through the data source, variables are evaluated/incremented in the
+ * same order as they are declared. Therefore, the order of variables as they appear in the
+ * report template is very important.
+ * <h2>Variable Name</h2>
+ * Just as for parameters and fields, the name attribute of the <code>&lt;variable&gt;</code> element is
+ * mandatory and allows referencing the variable by its declared name in report
+ * expressions.
+ * <h2>Variable Class</h2>
+ * The class attribute contains the name of the class to which the variable values belong.
+ * The default is <code>java.lang.String</code>, but you can declare report variables of any class as
+ * long as the class is available in the classpath, both at report-compilation time and report-filling
+ * time.
+ * <h2>Reset Type</h2>
+ * The value of a report variable can change with every iteration, but it can be brought back
+ * to the value returned by its initial value expression at specified times during the report filling
+ * process. This behavior is controlled using the resetType attribute, which
+ * indicates when the variable should be reinitialized during the report-filling process.
+ * There are five reset types for a variable:
+ * <ul>
+ * <li><code>None</code> - The variable will never be initialized using its initial value expression and
+ * will only contain values obtained by evaluating the variable's expression</li>
+ * <li><code>Report</code> - The variable is initialized only once, at the beginning of the
+ * report-filling process, with the value returned by the variable's initial value
+ * expression</li>
+ * <li><code>Page</code> - The variable is reinitialized at the beginning of each new page.</li>
+ * <li><code>Column</code> - The variable is reinitialized at the beginning of each new column</li>
+ * <li><code>Group</code> - The variable is reinitialized every time the group specified by 
+ * the <code>resetGroup</code> attributes breaks</li>
+ * </ul>
+ * <h2>Reset Group</h2>
+ * If present, the <code>resetGroup</code> attribute contains the name of a report group and works only
+ * in conjunction with the <code>resetType</code> attribute, whose value must be
+ * <code>resetType="Group"</code>.
+ * <h2>Increment Type</h2>
+ * This property lets you choose the exact moment to increment the variable. By default,
+ * variables are incremented with each record in the data source, but in reports with
+ * multiple levels of data grouping, some variables might calculate higher-level totals and
+ * would need to be incremented only occasionally, not with every iteration through the
+ * data source.
+ * <p/>
+ * This attribute uses the same values as the resetType attribute, as follows:
+ * <ul>
+ * <li><code>None</code> - The variable is incremented with every record during the
+ * iteration through the data source</li>
+ * <li><code>Report</code> - The variable never gets incremented during the report filling process.</li>
+ * <li><code>Page</code> - The variable is incremented with each new page.</li>
+ * <li><code>Column</code> - The variable is incremented with each new column.</li>
+ * <li><code>Group</code> - The variable is incremented every time the group specified
+ * by the <code>incrementGroup</code> attributes breaks</li>
+ * </ul>
+ * <h2>Increment Group</h2>
+ * If present, the <code>incrementGroup</code> attribute contains the name of a report group. It works
+ * only in conjunction with the <code>incrementType</code> attribute, whose value must be
+ * <code>incrementType="Group"</code>.
+ * <h2>Calculations</h2>
+ * As mentioned, variables can perform built-in types of calculations on their corresponding
+ * expression values. Following are described all the possible values for the
+ * <code>calculation</code> attribute of the <code>&lt;variable&gt;</code> element.
+ * <dl>
+ * <dt><code>Nothing</code></dt>
+ * <dd>This is the default calculation type that a variable performs. It means that the variable's
+ * value is recalculated with every iteration in the data source and that the value returned is
+ * obtained by simply evaluating the variable's expression.</dd>
+ * <dt><code>Count</code></dt>
+ * <dd>A count variable includes in the count the non-null values returned after evaluating the
+ * variable's main expression, with every iteration in the data source. Count variables must
+ * always be of a numeric type. However, they can have non-numeric expressions as their
+ * main expression since the engine does not care about the expression type, but only
+ * counts for the non-null values returned, regardless of their type.
+ * <br/>
+ * Only the variable's initial value expression should be numeric and compatible with the
+ * variable's type, since this value will be directly assigned to the count variable when
+ * initialized.</dd>
+ * <dt><code>DistinctCount</code></dt>
+ * <dd>This type of calculation works just like the <code>Count</code> calculation, the only difference being
+ * that it ignores repeating values and counts only for distinct non-null values.</dd>
+ * <dt><code>Sum</code></dt>
+ * <dd>The reporting engine can sum up the values returned by the variable's main expression if
+ * this type of calculation is chosen; but make sure the variable has a numeric type. One
+ * cannot calculate the sum of a <code>java.lang.String</code> or <code>java.util.Date</code> type of report
+ * variable unless a customized variable incrementer is used.</dd>
+ * <dt><code>Average</code></dt>
+ * <dd>The reporting engine can also calculate the average for the series of values obtained by
+ * evaluating the variable's expression for each record in the data source. This type of
+ * calculation can be performed only for numeric variables.</dd>
+ * <dt><code>Lowest</code> and <code>Highest</code></dt>
+ * <dd>Choose this type of calculation when you want to obtain the lowest or highest value in
+ * the series of values obtained by evaluating the variable's expression for each data source
+ * record.</dd>
+ * <dt><code>StandardDeviation</code> and <code>Variance</code></dt>
+ * <dd>In some special reports, you might want to perform more advanced types of calculations
+ * on numeric expressions. JasperReports has built-in algorithms to obtain the standard
+ * deviation and the variance for the series of values returned by evaluation of a report
+ * variable's expression.</dd>
+ * <dt><code>System</code></dt>
+ * <dd>This type of calculation can be chosen only when you don't want the engine to calculate
+ * any value for the variable. That means you are calculating the value for that variable
+ * yourself, almost certainly using the scriptlets functionality of JasperReports.
+ * For this type of calculation, the only thing the engine does is to conserve the calculated value 
+ * from one iteration in the data source to the next.</dd>
+ * <dt><code>First</code></dt>
+ * <dd>When using the calculation type <code>First</code>, the variable will keep the value obtained after
+ * the first incrementation and will not change it until the reset event occurs.</dd>
+ * </dl>
+ * Here is a simple report variable declaration that calculates the sum for a numeric report
+ * field called <code>Quantity</code>:
+ * <pre>
+ *   &lt;variable name="QuantitySum" class="java.lang.Double" calculation="Sum"&gt;
+ *     &lt;variableExpression&gt;$F{Quantity}&lt;/variableExpression&gt;
+ *   &lt;/variable&gt;</pre>
+ * If you want the sum of this field for each page, here's the complete variable declaration:
+ * <pre>
+ *   &lt;variable name="QuantitySum" class="java.lang.Double" resetType="Page" calculation="Sum"&gt;
+ *     &lt;variableExpression&gt;$F{Quantity}&lt;/variableExpression&gt;
+ *     &lt;initialValueExpression&gt;new Double(0)&lt;/initialValueExpression&gt;
+ *   &lt;/variable&gt;</pre>
+ * In this example, the page sum variable will be initialized with zero at the beginning of
+ * each new page.
+ * <h2>Incrementers</h2>
+ * All calculations in the JasperReports engine are performed incrementally. This is
+ * obvious for variables that calculate counts, sums, or the highest and lowest value of a
+ * series, but is also true for more complex calculations like average or standard deviation.
+ * There are formulas that allow updating the average value of a series when a new element
+ * is added, so the average is updated with each iteration through the data source.
+ * <p/>
+ * JasperReports provides a built-in set of calculations that depend on the type of the data
+ * involved. You can also create custom calculation capabilities using simple interfaces.
+ * <p/>
+ * If a variable needs to perform a certain type of calculation on some special data,
+ * implement the {@link net.sf.jasperreports.engine.fill.JRIncrementer} interface and
+ * associate that implementation with a report variable that shows the JasperReports engine
+ * how to handle that custom calculation.
+ * <p/>
+ * To associate custom types of calculations with a given report variable, set the
+ * <code>incrementerFactoryClass</code> attribute to the name of a class that implements the
+ * {@link net.sf.jasperreports.engine.fill.JRIncrementerFactory} interface. The
+ * factory class will be used by the engine to instantiate incrementer objects at runtime
+ * depending on the calculation attribute set for the variable.
+ * <p/>
+ * Such customized calculations could be useful for making JasperReports sum up
+ * <code>java.lang.String</code> values or for teaching it how to calculate the average value of some
+ * custom-made numeric data (third-party optimized implementations of big decimal
+ * numbers, for instance).
+ * <h2>GroupName_COUNT Built-In Variable</h2>
  * When declaring a report group, the engine will automatically create a count variable that will calculate
  * the number of records that make up the current group (number of records processed between group ruptures).
+ * <p/>
  * The name for this variable comes from the name of the group it corresponds to, suffixed with the
- * "_COUNT" sequence. It can be used like any other report variable, in any report expression (even in the
+ * "<code>_COUNT</code>" sequence. It can be used like any other report variable, in any report expression (even in the
  * current group expression like you can see done in the "BreakGroup" of the <i>jasper</i> sample).
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
