@@ -30,9 +30,110 @@ import net.sf.jasperreports.engine.type.FooterPositionEnum;
  * Groups represent a flexible way to organize data on a report. A report group is represented by sequence
  * of consecutive records in the data source that have something in common, like the value of a certain report
  * field for example.
- * <p>
+ * <p/>
+ * A report group has three components:
+ * <ul>
+ * <li>Group expression</li>
+ * <li>Group header section</li>
+ * <li>Group footer section</li>
+ * </ul>
  * The value of the associated group expression is what makes group records stick together. This value is the
- * thing that they have in common.
+ * thing that they have in common. When the value of the group expression
+ * changes during the iteration through the data source at report-filling time, a group
+ * rupture occurs and the corresponding <code>&lt;groupFooter&gt;</code> and <code>&lt;groupHeader&gt;</code> 
+ * sections are inserted in the resulting document.
+ * <p/>
+ * You can have as many groups as you want on a report. The order of groups declared in a
+ * report template is important because groups contain each other. One group contains the
+ * following group, and so on. When a larger group encounters a rupture, all subsequent
+ * groups are reinitialized.
+ * <p/>
+ * <b>Note:</b> Data grouping works as expected only when the records in the data source are already ordered
+ * according to the group expressions used in the report. For example, if you want to group some products by 
+ * the country and city of the manufacturer, the engine expects to find the records in the data source already 
+ * ordered by country and city.
+ * <h2>Group Name</h2>
+ * The name unequivocally identifies the group and can be used in other JRXML attributes
+ * when you want to refer a particular report group. The name of a group is mandatory and
+ * obeys the same naming convention that we mentioned for the report parameters, fields,
+ * and report variables.
+ * <h2>Staring a New Page or a New Column When a Group Breaks</h2>
+ * Sometimes it is useful to introduce a page or column break when a new group starts,
+ * usually because that particular group is more important and should start on a page or
+ * column of its own.
+ * <p/>
+ * To instruct the engine to start a new page or column for a certain group instead of
+ * printing it on the remaining space at the bottom of the page or column, one must set
+ * either the <code>isStartNewPage</code> or <code>isStartNewColumn</code> attribute to true.
+ * These two attributes represent one of the most common ways to control page and column
+ * breaks in a report. The other one is by using the special break element. In all other
+ * situations, the reporting engine introduces page breaks automatically if content overflows
+ * onto a new page or column during the report-filling process.
+ * <p/>
+ * In some report templates, you may want to introduce page breaks on purpose when a
+ * report section is larger than one page. Using the break element would not help, as the
+ * report template, having a band larger than the page size, would not get past the report
+ * validation process. To do this, you would need to introduce special dummy groups, as
+ * explained in the FAQs section of the freely available documentation published on the
+ * JasperReports web site (<a href="http://community.jaspersoft.com/wiki/jasperreports-library-faqs">http://community.jaspersoft.com/wiki/jasperreports-library-faqs</a>).
+ * However, if you don't want to consistently introduce page or column breaks for a
+ * particular group, but prefer to do that only if the remaining space at the bottom of the
+ * page or column is too small, use the <code>minHeightToStartNewPage</code> attribute. This
+ * attribute specifies the minimum remaining vertical space that prevents the group from
+ * starting a new page of its own. It is measured in pixels.
+ * <h2>Resetting Page Number</h2>
+ * If required, report groups have the power to reset the built-in report variable that contains
+ * the current page number (variable {@link net.sf.jasperreports.engine.JRVariable#PAGE_NUMBER PAGE_NUMBER}). 
+ * To do this, set the <code>isResetPageNumber</code> attribute to true.
+ * <h2>Group Header</h2>
+ * This section marks the start of a new group in the resulting document. It is inserted in the
+ * document every time the value of the group expression changes during the iteration
+ * through the data source. The group header section is a multi-band section.
+ * <h2>Group Footer</h2>
+ * Every time a report group changes, the engine adds the corresponding group footer
+ * section before starting the new group or when the report ends. The group footer section
+ * is also a multi-band section.
+ * <p/>
+ * The rendering position of the group footer on the page, as well as its behavior in relation
+ * to the report sections that follow it, is controlled by the <code>footerPosition</code> attribute, as
+ * follows:
+ * <ul>
+ * <li><code>Normal</code> - The group footer section is rendered immediately after the previous section.</li>
+ * <li><code>StackAtBottom</code> - The group footer section appears at the bottom of
+ * the current page. Remaining space on the page appears above it. The group footer
+ * section of the outer groups is pushed to the bottom of the current page, as well, in
+ * case the current group is a nested inner group. So both the current group footer and
+ * the outer group footers stack at the bottom of the current page</li>
+ * <li><code>ForceAtBottom</code> - The group footer section is forced to render at the
+ * very bottom of the page and is followed only by the page footer section. All
+ * sections following this type of group footer are forced to render on the next page</li>
+ * <li><code>CollateAtBottom</code> - The collate setting is a weak setting. If all outer
+ * group footers are configured to render at the bottom of the page, the group footer
+ * section will also appear at the bottom and any remaining white space will appear
+ * above it. However, if at least one outer group footer has normal rendering position
+ * and its positioning is not overridden by another inner group, the current group
+ * footer renders at the normal position.</li>
+ * </ul>
+ * Without specifying a footer position for the group, the group footer is rendered 
+ * in normal position.
+ * <h2>Preventing Group Split</h2>
+ * Sometimes it is useful to keep the content of a group together and prevent it from
+ * spanning pages or columns. In such cases, it is often advisable to start the group on a
+ * new page or column and leave some unused space on the current page/column rather
+ * than having the group split in the middle.
+ * <p/>
+ * This behavior can be controlled with the <code>keepTogether</code> flag available at group level.
+ * When this flag is turned on, we prevent the group from splitting on its first break
+ * attempt. If a group is long, it will certainly need to break at some point. So, with a first
+ * break only, we avoid a split only when the group attempts to split for the first time, while
+ * subsequent breaks during the current group are allowed.
+ * <p/>
+ * Note that this a purely visual feature of the engine, because it does not involve reverting
+ * any of the calculations made during the current group iteration . It is only about moving
+ * already-generated content to a new page, making it appear as if the group started there in
+ * the first place. Be advised that in cases where group-, page- or column-related
+ * information is displayed in the group, such as the current page number, their values 
+ * might be wrong after they are moved.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

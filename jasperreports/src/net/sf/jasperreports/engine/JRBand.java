@@ -27,9 +27,65 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
 
 
 /**
- * Implementations of this interface represent various bands in the report template. A report can contain the following
- * bands: background, title, summary, page header, page footer, last page footer, column header and column footer.
- * @see JRSection
+ * Implementations of this interface represent various bands in the report template. 
+ * <h2>Report Sections</h2>
+ * JasperReports works with templates that are structured into multiple sections, like any
+ * traditional reporting tool. A report can contain the following
+ * sections: background, title, summary, page header, page footer, last page footer, 
+ * column header and column footer.
+ * <p/>
+ * At report-filling time, the engine iterates through the virtual
+ * records of the supplied report data source and renders each report section when
+ * appropriate, depending on each section's defined behavior.
+ * <p/>
+ * For instance, the detail section is rendered for each record in the data source. When page
+ * breaks occur, the page header and page footer sections are rendered as needed.
+ * <p/>
+ * Sections are made of one or more bands. Bands are portions of the report template that
+ * have a specified height and width and can contain report elements like lines, rectangles,
+ * images, and text fields. These bands are filled repeatedly at report-generating time and
+ * make up the final document.
+ * <p/>
+ * When declaring the content and layout of a report section, in an JRXML report design,
+ * use the generic element <code>&lt;band&gt;</code>.
+ * <p/>
+ * Report sections, sometimes referred to as report bands, represent a feature and
+ * functionality common to almost all reporting tools.
+ * <h2>Band Height</h2>
+ * The <code>height</code> attribute in a report band declaration specifies the height in pixels for that
+ * particular band and is very important in the overall report design.
+ * <p/>
+ * The elements contained by a certain report band should always fit the band's dimensions;
+ * this will prevent potentially bad results when generating the reports. The engine issues a
+ * warning if it finds elements outside the band borders when compiling report designs.
+ * <h2>Preventing Band Split</h2>
+ * In some cases it is desirable to keep the whole contents of a given band in one piece to
+ * prevent page breaks when the band stretches beyond its initial specified height. To do
+ * this, use the <code>splitType</code> attribute, as follows:
+ * <dl>
+ * <dt><code>Stretch</code></dt>
+ * <dd>The band never splits within its declared height. The band
+ * will not start rendering on the current page if the remaining available space is not at
+ * least equal to the band's declared height. However, if the band stretches on the
+ * current page, the region that is added to the original height is allowed to split onto
+ * the next page.</dd>
+ * <dt><code>Prevent</code></dt>
+ * <dd>The band starts to render normally, but if the bottom
+ * of the page is reached without finishing the band, the whole contents of the band
+ * that are already being laid out are moved to the next page. If the band does not fit
+ * on the next page, the split occurs normally, as band split prevention is effective
+ * only on the first split attempt</dd>
+ * <dt><code>Immediate</code></dt>
+ * <dd>The band is allowed to split anywhere except above its topmost element</dd>
+ * </dl>
+ * <h2>Skipping Bands</h2>
+ * All the report sections allow users to define a report expression that will be evaluated at
+ * runtime to decide if that section should be generated or skipped when producing the
+ * document.
+ * This expression is introduced by the <code>&lt;printWhenExpression&gt;</code> tag, which is available
+ * in any <code>&lt;band&gt;</code> element of the JRXML report design and should always return a
+ * <code>java.lang.Boolean</code> object or null.
+ * @see net.sf.jasperreports.engine.JRSection
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
