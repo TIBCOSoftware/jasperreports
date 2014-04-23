@@ -31,6 +31,57 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 /**
  * An abstract representation of a report element. All report elements implement this interface. The interface contains
  * constants and methods that apply to all report elements.
+ * <p/>
+ * The properties that are common to all types of report elements are grouped in the
+ * <code>&lt;reportElement&gt;</code> tag, which appears in the declaration of all report elements.
+ * <h2>Element Key</h2>
+ * Unlike variables and parameters, report elements are not required to have a name,
+ * because normally you do not need to obtain any individual element inside a report
+ * template. However, in some cases it is useful to be able to locate an element to alter one
+ * of its properties before using the report template.
+ * <p/>
+ * This could be the case in an application for which the color of some elements in the
+ * report template needs to change based on user input. To locate the report elements that
+ * need to have their colors altered, the caller program could use the
+ * <code>getElementByKey(String)</code> method available at band level. A key value must be
+ * associated with the report element and it must be unique within the overall band for the
+ * lookup to work.
+ * <h2>Element Size</h2>
+ * The <code>width</code> and <code>height</code> attributes are mandatory and represent the size of the report
+ * element measured in pixels. Other element stretching settings may instruct the reporting
+ * engine to ignore the specified element height. Even in this case, the attributes remain
+ * mandatory since even when the height is calculated dynamically, the element will not be
+ * smaller than the originally specified height.
+ * <h2>Element Transparency</h2>
+ * Report elements can either be transparent or opaque, depending on the value specified
+ * for the <code>mode</code> attribute. The default value for this attribute depends on the type of the
+ * report element. Graphic elements like rectangles and lines are opaque by default, while
+ * images are transparent. Both static texts and text fields are transparent by default, and so
+ * are the subreport elements.
+ * <h2>Element Color</h2>
+ * Two attributes represent colors: <code>forecolor</code> and <code>backcolor</code>. The 
+ * <i>fore color</i> is for the
+ * text of the text elements and the border of the graphic elements. The <i>background color</i>
+ * fills the background of the specified report element, if it is not transparent.
+ * <p/>
+ * One can also use the decimal or hexadecimal representation for the desired color. The
+ * preferred way to specify colors in JRXML is using the hexadecimal representation,
+ * because it lets people control the level for each base color of the RGB system. For example,
+ * one can display a text field in red by setting its <code>forecolor</code> attribute as follows:
+ * <p/>
+ * <code>forecolor="#FF0000"</code>
+ * <p/>
+ * The equivalent using the decimal representation would be the following:
+ * <p/>
+ * <code>forecolor="16711680"</code>
+ * <p/>
+ * The default fore color is <code>black</code> and the default background color is <code>white</code>.
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$

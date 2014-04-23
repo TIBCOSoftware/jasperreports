@@ -78,6 +78,8 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
  * <dt><code>Immediate</code></dt>
  * <dd>The band is allowed to split anywhere except above its topmost element</dd>
  * </dl>
+ * If a split type is not specified, the default is given by the
+ * <code>net.sf.jasperreports.band.split.type</code> configuration property.
  * <h2>Skipping Bands</h2>
  * All the report sections allow users to define a report expression that will be evaluated at
  * runtime to decide if that section should be generated or skipped when producing the
