@@ -225,6 +225,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 					// column info
 					contextMap.put("allColumnNames", JacksonUtil.getInstance(jrContext).getJsonString(columnNames));
 					contextMap.put("allColumnGroupsData", JacksonUtil.getInstance(jrContext).getJsonString(columnGroupsData));
+					contextMap.put("tableName", element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_TABLE_NAME));
 
 					// patterns
 					contextMap.put("numericPatterns", JacksonUtil.getInstance(jrContext).getJsonString(getNumberPatterns(numberPatternsMap)));
@@ -285,10 +286,16 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			setColumnValueData(columnIndex, tableUUID, contextMap, jrContext, reportContext, locale);
 
 			String columnName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_NAME);
+			String columnComponentName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_COMPONENT_NAME);
 			String columnType = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE);
 			FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE));
 
-			if (canFilter) 
+			if (columnComponentName == null) {
+				columnComponentName = columnName;
+			}
+			contextMap.put("columnName", columnComponentName);
+
+			if (canFilter)
 			{
 				FilterData filterData = getFilterData(jrContext, reportContext, dataset, tableUUID, columnName, columnType, filterType);
 

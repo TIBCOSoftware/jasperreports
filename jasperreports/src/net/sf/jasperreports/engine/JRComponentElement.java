@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.component.ComponentKey;
  */
 public interface JRComponentElement extends JRElement
 {
+	String PROPERTY_COMPONENT_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "components.name";
 
 	/**
 	 * Returns the component type key for this element.

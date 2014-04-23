@@ -1,6 +1,7 @@
 #if (${exporterFirstAttempt})
 "${tableUUID}": {
 	"id": "${tableUUID}",
+	#if (${tableName})"name": "${tableName}",#end
 	"type": "table",
 	"module": "jive.table",
 	"uimodule": "jive.interactive.column",
@@ -44,6 +45,7 @@
 #end
 "${columnUuid}": {
     "id": "${columnUuid}",
+	"name": "${columnName}",
     "type": "column",
     "parentId": "${tableUUID}",
     "selector": ".jrcolHeader",

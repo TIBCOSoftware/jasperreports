@@ -45,6 +45,7 @@ public interface HeaderToolbarElement {
 	public static final String SORT_COLUMN_TOKEN_SEPARATOR = ":";
 	
 	public static final String PROPERTY_TABLE_UUID = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.tableUUID";
+	public static final String PROPERTY_TABLE_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.table.name";
 	public static final String PROPERTY_COLUMN_UUID = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.columnUUID";
 	public static final String PROPERTY_CELL_ID = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.cellID";
 	/**
@@ -52,6 +53,7 @@ public interface HeaderToolbarElement {
 	 */
 	public static final String PROPERTY_COLUMN_FIELD_OR_VARIABLE_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.field.or.variable";
 	public static final String PROPERTY_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.sortColumnName";
+	public static final String PROPERTY_COLUMN_COMPONENT_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.column.name";
 	public static final String PARAMETER_COLUMN_LABEL = "sortColumnLabel";
 	public static final String PROPERTY_COLUMN_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.sortColumnType";
 	public static final String PROPERTY_COLUMN_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.columnIndex";

@@ -108,6 +108,7 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyleUtil;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
@@ -220,7 +221,7 @@ public class TableReport implements JRReport
 	
 	private final JRPropertiesUtil propertiesUtil;
 	private boolean isInteractiveTable;
-	private Map<Column, Boolean> columnInteractivityMapping;
+	private Map<Column, Pair<Boolean, String>> columnInteractivityMapping;
 	
 	public TableReport(
 		FillContext fillContext, 
@@ -244,19 +245,24 @@ public class TableReport implements JRReport
 		// begin: table interactivity
 		this.isInteractiveTable  = Boolean.valueOf(propertiesUtil.getProperty(PROPERTY_INTERACTIVE_TABLE, fillContext.getComponentElement(), this.parentReport));
 
-		this.columnInteractivityMapping = new HashMap<Column, Boolean>();
+		this.columnInteractivityMapping = new HashMap<Column, Pair<Boolean, String>>();
 		int interactiveColumnCount = 0;
 		for (BaseColumn column: TableUtil.getAllColumns(table)) {
 			boolean interactiveColumn = isInteractiveTable;
+			String columnName = null;
 			if (column.getPropertiesMap().containsProperty(PROPERTY_INTERACTIVE_TABLE)) {
 				interactiveColumn = Boolean.valueOf(column.getPropertiesMap().getProperty(PROPERTY_INTERACTIVE_TABLE));
 			}
 			if (interactiveColumn) {
 				interactiveColumnCount++;
 			}
-			columnInteractivityMapping.put((Column)column, interactiveColumn);
+
+			if (column.getPropertiesMap().containsProperty(JRComponentElement.PROPERTY_COMPONENT_NAME)) {
+				columnName = column.getPropertiesMap().getProperty(JRComponentElement.PROPERTY_COMPONENT_NAME);
+			}
+			columnInteractivityMapping.put((Column)column, new Pair<Boolean, String>(interactiveColumn, columnName));
 		}
-		
+
 		if (interactiveColumnCount > 0) {
 			this.isInteractiveTable = true;
 		}
@@ -601,8 +607,9 @@ public class TableReport implements JRReport
 		protected void addHeaderToolbarElement(Column column, JRDesignFrame frame, JRTextField sortTextField)
 		{
 			int columnIndex = TableUtil.getColumnIndex(column, table);
-			boolean interactiveColumn = columnInteractivityMapping.get(column);
-			
+			Pair<Boolean, String> columnData = columnInteractivityMapping.get(column);
+			boolean interactiveColumn = columnData.first();
+
 			if (sortTextField != null && interactiveColumn)
 			{
 				Cell header = column.getColumnHeader();
@@ -761,12 +768,17 @@ public class TableReport implements JRReport
 					// only setting on the first column to save memory
 					//FIXME a cleaner approach would be to set these another single generic element 
 					addColumnLabelParameters(genericElement, table);
+
+					// setting component name on first column
+					String tableName = propertiesUtil.getProperty(JRComponentElement.PROPERTY_COMPONENT_NAME, fillContext.getComponentElement());
+					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_TABLE_NAME, tableName);
 				}
 	
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_UUID, columnUuid);
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX, Integer.toString(columnIndex));
 	
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_NAME, columnName);
+				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_COMPONENT_NAME, columnData.second());
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID, fillContext.getComponentElement().getUUID().toString());
 				addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_LABEL, getColumnHeaderLabelExpression(header));
 	
@@ -862,7 +874,7 @@ public class TableReport implements JRReport
 			for(int i = 0, ln = columns.size(); i < ln; i++) {
 				BaseColumn column = columns.get(i);
 				JRExpression columnHeaderExpression = getColumnHeaderLabelExpression(column.getColumnHeader());
-				boolean interactiveColumn = columnInteractivityMapping.get(column) && (TableUtil.getCellElement(JRTextField.class, ((Column)column).getDetailCell(), true) != null);
+				boolean interactiveColumn = columnInteractivityMapping.get(column).first() && (TableUtil.getCellElement(JRTextField.class, ((Column)column).getDetailCell(), true) != null);
 				String paramName = HeaderToolbarElement.PARAM_COLUMN_LABEL_PREFIX + i + "|" + column.getUUID().toString() + "|" + interactiveColumn;
 				addElementParameter(element, paramName, columnHeaderExpression);
 			}
