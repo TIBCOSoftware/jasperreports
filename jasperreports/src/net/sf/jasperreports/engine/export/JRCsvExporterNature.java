@@ -43,16 +43,12 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 public class JRCsvExporterNature extends AbstractExporterNature
 {
 	
-	private final GenericElementHandlerEnviroment handlerEnvironment;
-	
 	/**
 	 * 
 	 */
 	public JRCsvExporterNature(JasperReportsContext jasperReportsContext, ExporterFilter filter)
 	{
 		super(jasperReportsContext, filter);
-		
-		this.handlerEnvironment = GenericElementHandlerEnviroment.getInstance(jasperReportsContext);
 	}
 	
 	/**

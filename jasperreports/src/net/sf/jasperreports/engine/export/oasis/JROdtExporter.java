@@ -319,7 +319,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
 		}
 
-		nature = new JROdtExporterNature(filter);
+		nature = new JROdtExporterNature(getJasperReportsContext(), filter);
 	}
 
 	

@@ -77,7 +77,7 @@ public class JRXlsExporterNature extends JRXlsAbstractExporterNature
 		if (element instanceof JRGenericPrintElement)
 		{
 			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
-			GenericElementHandler handler = GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
+			GenericElementHandler handler = handlerEnvironment.getElementHandler(
 					genericElement.getGenericType(), JRXlsExporter.XLS_EXPORTER_KEY);
 			if (handler == null || !handler.toExport(genericElement))
 			{

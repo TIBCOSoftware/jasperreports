@@ -42,8 +42,9 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 public abstract class AbstractExporterNature implements ExporterNature
 {
 	protected final JasperReportsContext jasperReportsContext;
+	protected final GenericElementHandlerEnviroment handlerEnvironment;
 	protected final JRPropertiesUtil propertiesUtil;
-	protected ExporterFilter filter;
+	protected final ExporterFilter filter;
 
 	/**
 	 * 
@@ -54,6 +55,7 @@ public abstract class AbstractExporterNature implements ExporterNature
 		)
 	{
 		this.jasperReportsContext = jasperReportsContext;
+		this.handlerEnvironment = GenericElementHandlerEnviroment.getInstance(jasperReportsContext);
 		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
 		this.filter = filter;
 	}

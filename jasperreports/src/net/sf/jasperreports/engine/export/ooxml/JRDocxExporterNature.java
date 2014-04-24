@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
-import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.export.DocxReportConfiguration;
 
 
@@ -76,7 +75,7 @@ public class JRDocxExporterNature extends JROfficeOpenXmlExporterNature
 		if (element instanceof JRGenericPrintElement)
 		{
 			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
-			GenericElementHandler handler = GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
+			GenericElementHandler handler = handlerEnvironment.getElementHandler(
 					genericElement.getGenericType(), JRDocxExporter.DOCX_EXPORTER_KEY);
 			if (handler == null || !handler.toExport(genericElement))
 			{

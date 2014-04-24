@@ -81,7 +81,7 @@ public class JExcelApiExporterNature extends JRXlsAbstractExporterNature
 		if (element instanceof JRGenericPrintElement)
 		{
 			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
-			GenericElementHandler handler = GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
+			GenericElementHandler handler = handlerEnvironment.getElementHandler(
 					genericElement.getGenericType(), JExcelApiExporter.JXL_EXPORTER_KEY);
 			if (handler == null || !handler.toExport(genericElement))
 			{

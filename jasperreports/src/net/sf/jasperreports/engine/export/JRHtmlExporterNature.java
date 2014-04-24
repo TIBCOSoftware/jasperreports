@@ -80,8 +80,7 @@ public class JRHtmlExporterNature extends AbstractExporterNature
 		if (element instanceof JRGenericPrintElement)
 		{
 			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
-			GenericElementHtmlHandler handler = (GenericElementHtmlHandler) 
-			GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
+			GenericElementHtmlHandler handler = (GenericElementHtmlHandler)handlerEnvironment.getElementHandler(
 					genericElement.getGenericType(), JRHtmlExporter.HTML_EXPORTER_KEY);
 			if (handler == null || !handler.toExport(genericElement))
 			{

@@ -29,7 +29,11 @@
 
 package net.sf.jasperreports.engine.export.oasis;
 
+import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.ExporterFilter;
+import net.sf.jasperreports.engine.export.GenericElementHandler;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -40,8 +44,35 @@ public class JROdtExporterNature extends JROpenDocumentExporterNature
 	/**
 	 *
 	 */
+	public JROdtExporterNature(JasperReportsContext jasperReportsContext, ExporterFilter filter)
+	{
+		super(jasperReportsContext, filter);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JROdtExporterNature(JasperReportsContext, ExporterFilter)}.
+	 */
 	public JROdtExporterNature(ExporterFilter filter)
 	{
 		super(filter);
+	}
+
+	/**
+	 * 
+	 */
+	public boolean isToExport(JRPrintElement element)
+	{
+		if (element instanceof JRGenericPrintElement)
+		{
+			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
+			GenericElementHandler handler = handlerEnvironment.getElementHandler(
+					genericElement.getGenericType(), JROdtExporter.ODT_EXPORTER_KEY);
+			if (handler == null || !handler.toExport(genericElement))
+			{
+				return false;
+			}
+		}
+		
+		return (filter == null || filter.isToExport(element));
 	}
 }

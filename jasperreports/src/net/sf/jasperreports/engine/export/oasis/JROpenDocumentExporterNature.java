@@ -31,27 +31,35 @@ package net.sf.jasperreports.engine.export.oasis;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.AbstractExporterNature;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ExporterFilter;
-import net.sf.jasperreports.engine.export.ExporterNature;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JROpenDocumentExporterNature implements ExporterNature
+public abstract class JROpenDocumentExporterNature extends AbstractExporterNature
 {
 	
-	protected ExporterFilter filter;
-
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #JROpenDocumentExporterNature(JasperReportsContext, ExporterFilter)}. 
 	 */
 	public JROpenDocumentExporterNature(ExporterFilter filter)
 	{
-		this.filter = filter;
+		this(DefaultJasperReportsContext.getInstance(), filter);
+	}
+	
+	/**
+	 * 
+	 */
+	public JROpenDocumentExporterNature(JasperReportsContext jasperReportsContext, ExporterFilter filter)
+	{
+		super(jasperReportsContext, filter);
 	}
 	
 	/**
