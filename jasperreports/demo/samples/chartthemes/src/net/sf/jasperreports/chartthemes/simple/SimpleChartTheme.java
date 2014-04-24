@@ -32,6 +32,7 @@ import java.awt.Paint;
 import java.awt.Stroke;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1084,7 +1085,9 @@ public class SimpleChartTheme implements ChartTheme
 			else if (jrPie3DPlot.getLabelFormat() != null)
 			{
 				piePlot3D.setLabelGenerator(
-					new StandardPieSectionLabelGenerator(jrPie3DPlot.getLabelFormat())
+					new StandardPieSectionLabelGenerator(jrPie3DPlot.getLabelFormat(), 
+							NumberFormat.getNumberInstance(getLocale()),
+			                NumberFormat.getPercentInstance(getLocale()))
 					);
 			}
 	//		else if (itemLabel != null && itemLabel.getMask() != null)
@@ -1129,7 +1132,9 @@ public class SimpleChartTheme implements ChartTheme
 		if (jrPie3DPlot.getLegendLabelFormat() != null)
 		{
 			piePlot3D.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator(jrPie3DPlot.getLegendLabelFormat())
+				new StandardPieSectionLabelGenerator(jrPie3DPlot.getLegendLabelFormat(), 
+						NumberFormat.getNumberInstance(getLocale()),
+		                NumberFormat.getPercentInstance(getLocale()))
 				);
 		}
 		
@@ -1174,7 +1179,9 @@ public class SimpleChartTheme implements ChartTheme
 			else if (jrPiePlot.getLabelFormat() != null)
 			{
 				piePlot.setLabelGenerator(
-					new StandardPieSectionLabelGenerator(jrPiePlot.getLabelFormat())
+					new StandardPieSectionLabelGenerator(jrPiePlot.getLabelFormat(), 
+							NumberFormat.getNumberInstance(getLocale()),
+			                NumberFormat.getPercentInstance(getLocale()))
 					);
 			}
 	//		else if (itemLabel != null && itemLabel.getMask() != null)
@@ -1219,7 +1226,9 @@ public class SimpleChartTheme implements ChartTheme
 		if (jrPiePlot.getLegendLabelFormat() != null)
 		{
 			piePlot.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator(((JRPiePlot)getPlot()).getLegendLabelFormat())
+				new StandardPieSectionLabelGenerator(((JRPiePlot)getPlot()).getLegendLabelFormat(), 
+						NumberFormat.getNumberInstance(getLocale()),
+		                NumberFormat.getPercentInstance(getLocale()))
 				);
 		}
 		
@@ -1808,6 +1817,9 @@ public class SimpleChartTheme implements ChartTheme
 		font = new JRBaseFont(getChart(), font);
 		chartPlot.setTickLabelFont(getFontUtil().getAwtFont(font, getLocale()));
 
+		// localizing the default format, can be overridden by display.getMask()
+		chartPlot.setTickLabelFormat(NumberFormat.getInstance(getLocale()));
+		
 		// Set how the value is displayed.
 		JRValueDisplay display = jrPlot.getValueDisplay();
 		if (display != null)
@@ -1819,7 +1831,8 @@ public class SimpleChartTheme implements ChartTheme
 
 			if (display.getMask() != null)
 			{
-				chartPlot.setTickLabelFormat(new DecimalFormat(display.getMask()));
+				chartPlot.setTickLabelFormat(new DecimalFormat(display.getMask(), 
+						DecimalFormatSymbols.getInstance(getLocale())));
 			}
 			
 			font = new JRBaseFont();
@@ -1876,6 +1889,10 @@ public class SimpleChartTheme implements ChartTheme
 
 		// Create the plot that will hold the thermometer.
 		ThermometerPlot chartPlot = new ThermometerPlot((ValueDataset)getDataset());
+		
+		ChartUtil chartUtil = ChartUtil.getInstance(getChartContext().getJasperReportsContext());
+		// setting localized range axis formatters
+		chartPlot.getRangeAxis().setStandardTickUnits(chartUtil.createIntegerTickUnits(getLocale()));
 
 		Range range = convertRange(jrPlot.getDataRange());
 
@@ -1895,6 +1912,9 @@ public class SimpleChartTheme implements ChartTheme
 			chartPlot.setUseSubrangePaint(false);
 		}
 
+		// localizing the default format, can be overridden by display.getMask()
+		chartPlot.setValueFormat(NumberFormat.getNumberInstance(getLocale()));
+		
 		// Set the formatting of the value display
 		JRValueDisplay display = jrPlot.getValueDisplay();
 		if (display != null)
@@ -1905,7 +1925,8 @@ public class SimpleChartTheme implements ChartTheme
 			}
 			if (display.getMask() != null)
 			{
-				chartPlot.setValueFormat(new DecimalFormat(display.getMask()));
+				chartPlot.setValueFormat(new DecimalFormat(display.getMask(),
+						DecimalFormatSymbols.getInstance(getLocale())));
 			}
 			if (display.getFont() != null)
 			{
@@ -2002,6 +2023,9 @@ public class SimpleChartTheme implements ChartTheme
 
 		scale.setTickLabelsVisible(true);
 		scale.setFirstTickLabelVisible(true);
+		
+		// localizing the default tick label formatter
+		scale.setTickLabelFormatter(new DecimalFormat("0.0", DecimalFormatSymbols.getInstance(getLocale())));
 
 		dialPlot.addScale(0, scale);
 		List<JRMeterInterval> intervals = jrPlot.getIntervals();
@@ -2047,7 +2071,7 @@ public class SimpleChartTheme implements ChartTheme
 
 			String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
 			if(pattern != null)
-				dvi.setNumberFormat( new DecimalFormat(pattern));
+				dvi.setNumberFormat( new DecimalFormat(pattern, DecimalFormatSymbols.getInstance(getLocale())));
 			dvi.setRadius(0.15);
 			dvi.setValueAnchor(RectangleAnchor.CENTER);
 			dvi.setTextAnchor(TextAnchor.CENTER);
@@ -2735,7 +2759,7 @@ public class SimpleChartTheme implements ChartTheme
 			{
 				if (axis instanceof NumberAxis)
 				{
-					NumberFormat fmt = NumberFormat.getInstance();
+					NumberFormat fmt = NumberFormat.getInstance(getLocale());
 					if (fmt instanceof DecimalFormat)
 						((DecimalFormat) fmt).applyPattern(tickLabelMask);
 					((NumberAxis)axis).setNumberFormatOverride(fmt);
@@ -2744,15 +2768,15 @@ public class SimpleChartTheme implements ChartTheme
 				{
 					DateFormat fmt;
 					if (tickLabelMask.equals("SHORT") || tickLabelMask.equals("DateFormat.SHORT"))
-						fmt = DateFormat.getDateInstance(DateFormat.SHORT);
+						fmt = DateFormat.getDateInstance(DateFormat.SHORT, getLocale());
 					else if (tickLabelMask.equals("MEDIUM") || tickLabelMask.equals("DateFormat.MEDIUM"))
-						fmt = DateFormat.getDateInstance(DateFormat.MEDIUM);
+						fmt = DateFormat.getDateInstance(DateFormat.MEDIUM, getLocale());
 					else if (tickLabelMask.equals("LONG") || tickLabelMask.equals("DateFormat.LONG"))
-						fmt = DateFormat.getDateInstance(DateFormat.LONG);
+						fmt = DateFormat.getDateInstance(DateFormat.LONG, getLocale());
 					else if (tickLabelMask.equals("FULL") || tickLabelMask.equals("DateFormat.FULL"))
-						fmt = DateFormat.getDateInstance(DateFormat.FULL);
+						fmt = DateFormat.getDateInstance(DateFormat.FULL, getLocale());
 					else
-						fmt = new SimpleDateFormat(tickLabelMask);
+						fmt = new SimpleDateFormat(tickLabelMask, getLocale());
 					
 					// FIXME fmt cannot be null
 					if (fmt != null)
@@ -2765,7 +2789,7 @@ public class SimpleChartTheme implements ChartTheme
 						((DateAxis)axis).setDateFormatOverride(fmt);
 					}
 					else
-						((DateAxis)axis).setDateFormatOverride(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT));
+						((DateAxis)axis).setDateFormatOverride(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, getLocale()));
 				}
 				// ignore mask for other axis types.
 			}
@@ -2891,7 +2915,7 @@ public class SimpleChartTheme implements ChartTheme
 			if(axisIntegerUnit)
 			{
 				ChartUtil chartUtil = ChartUtil.getInstance(getChartContext().getJasperReportsContext());
-				numberAxis.setStandardTickUnits(chartUtil.createIntegerTickUnits());
+				numberAxis.setStandardTickUnits(chartUtil.createIntegerTickUnits(getLocale()));
 				chartUtil.setAutoTickUnit(numberAxis);
 			}
 			else if(axisRange > 0)
@@ -2904,7 +2928,7 @@ public class SimpleChartTheme implements ChartTheme
 					}
 					else
 					{
-						numberAxis.setTickUnit(new NumberTickUnit(tickInterval.doubleValue()));
+						numberAxis.setTickUnit(new NumberTickUnit(tickInterval.doubleValue(), NumberFormat.getNumberInstance(getLocale())));
 					}
 				}
 				else if (tickCount != null)
@@ -2915,13 +2939,13 @@ public class SimpleChartTheme implements ChartTheme
 					}
 					else
 					{
-						numberAxis.setTickUnit(new NumberTickUnit(axisRange / tickCount.intValue()));
+						numberAxis.setTickUnit(new NumberTickUnit(axisRange / tickCount.intValue(), NumberFormat.getNumberInstance(getLocale())));
 					}
 				}
 				else
 				{
 					ChartUtil chartUtil = ChartUtil.getInstance(getChartContext().getJasperReportsContext());
-					numberAxis.setStandardTickUnits(chartUtil.createStandardTickUnits());
+					numberAxis.setStandardTickUnits(chartUtil.createStandardTickUnits(getLocale()));
 					chartUtil.setAutoTickUnit(numberAxis);
 				}
 			}
