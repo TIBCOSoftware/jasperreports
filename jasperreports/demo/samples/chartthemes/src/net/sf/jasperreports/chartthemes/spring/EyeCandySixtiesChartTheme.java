@@ -35,7 +35,9 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.MessageFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 import net.sf.jasperreports.charts.JRMeterPlot;
@@ -44,6 +46,7 @@ import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.charts.type.ValueLocationEnum;
+import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -604,6 +607,9 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		Integer defaultBaseFontSize = (Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BASEFONT_SIZE);
 		Font themeTickLabelFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_TICK_LABEL_FONT), tickLabelFont, defaultBaseFontSize);
 		chartPlot.setTickLabelFont(themeTickLabelFont);
+
+		// localizing the default format, can be overridden by display.getMask()
+		chartPlot.setTickLabelFormat(NumberFormat.getInstance(getLocale()));
 		
 		Color tickColor = jrPlot.getTickColor() == null ? Color.BLACK : jrPlot.getTickColor();
 		chartPlot.setTickPaint(tickColor);
@@ -622,15 +628,15 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 					dialUnitScale > 1
 					)
 			{
-				chartPlot.setTickLabelFormat(new DecimalFormat("#,##0"));
+				chartPlot.setTickLabelFormat(new DecimalFormat("#,##0", DecimalFormatSymbols.getInstance(getLocale())));
 			}
 			else if(dialUnitScale == 1)
 			{
-				chartPlot.setTickLabelFormat(new DecimalFormat("#,##0.0"));
+				chartPlot.setTickLabelFormat(new DecimalFormat("#,##0.0", DecimalFormatSymbols.getInstance(getLocale())));
 			}
 			else if(dialUnitScale <= 0)
 			{
-				chartPlot.setTickLabelFormat(new DecimalFormat("#,##0.00"));
+				chartPlot.setTickLabelFormat(new DecimalFormat("#,##0.00", DecimalFormatSymbols.getInstance(getLocale())));
 			}
 		}
 		chartPlot.setTickLabelsVisible(true);
@@ -657,7 +663,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		//chartPlot.setForegroundAlpha(1f);
 		Paint needlePaint = jrPlot.getNeedleColor() == null ? new Color(191, 48, 0) : jrPlot.getNeedleColor();
 		chartPlot.setNeedlePaint(needlePaint);
-
+		
 		JRValueDisplay display = jrPlot.getValueDisplay();
 		if(display != null)
 		{
@@ -665,7 +671,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			chartPlot.setValuePaint(valueColor);
 			String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
 			if(pattern != null)
-				chartPlot.setTickLabelFormat( new DecimalFormat(pattern));
+				chartPlot.setTickLabelFormat( new DecimalFormat(pattern, DecimalFormatSymbols.getInstance(getLocale())));
 			JRFont displayFont = display.getFont();
 			Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
 	
@@ -744,6 +750,11 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 
 		// Create the plot that will hold the thermometer.
 		ThermometerPlot chartPlot = new ThermometerPlot((ValueDataset)getDataset());
+		
+		ChartUtil chartUtil = ChartUtil.getInstance(getChartContext().getJasperReportsContext());
+		// setting localized range axis formatters
+		chartPlot.getRangeAxis().setStandardTickUnits(chartUtil.createIntegerTickUnits(getLocale()));
+
 		// Build a chart around this plot
 		JFreeChart jfreeChart = new JFreeChart(chartPlot);
 
@@ -785,7 +796,8 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		chartPlot.setOutlineVisible(false);
 		chartPlot.setValueFont(chartPlot.getValueFont().deriveFont(Font.BOLD));
 
-
+		// localizing the default format, can be overridden by display.getMask()
+		chartPlot.setValueFormat(NumberFormat.getNumberInstance(getLocale()));
 
 		// Set the formatting of the value display
 		JRValueDisplay display = jrPlot.getValueDisplay();
@@ -797,7 +809,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			}
 			if (display.getMask() != null)
 			{
-				chartPlot.setValueFormat(new DecimalFormat(display.getMask()));
+				chartPlot.setValueFormat(new DecimalFormat(display.getMask(), DecimalFormatSymbols.getInstance(getLocale())));
 			}
 			if (display.getFont() != null)
 			{
@@ -911,22 +923,30 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 					dialUnitScale > 1
 					)
 			{
-				scale.setTickLabelFormatter(new DecimalFormat("#,##0"));
+				scale.setTickLabelFormatter(new DecimalFormat("#,##0", DecimalFormatSymbols.getInstance(getLocale())));
 			}
 			else if(dialUnitScale == 1)
 			{
 	
-				scale.setTickLabelFormatter(new DecimalFormat("#,##0.0"));
+				scale.setTickLabelFormatter(new DecimalFormat("#,##0.0", DecimalFormatSymbols.getInstance(getLocale())));
 			}
 			else if(dialUnitScale <= 0)
 			{
-				scale.setTickLabelFormatter(new DecimalFormat("#,##0.00"));
+				scale.setTickLabelFormatter(new DecimalFormat("#,##0.00", DecimalFormatSymbols.getInstance(getLocale())));
+			}
+			else
+			{
+				// localizing the default tick label formatter
+				scale.setTickLabelFormatter(new DecimalFormat("0.0", DecimalFormatSymbols.getInstance(getLocale())));
 			}
 	
 		}
 		else
 		{
 			scale = new StandardDialScale();
+			
+			// localizing the default tick label formatter
+			scale.setTickLabelFormatter(new DecimalFormat("0.0", DecimalFormatSymbols.getInstance(getLocale())));
 		}
 		scale.setTickRadius(0.9);
 		scale.setTickLabelOffset(0.16);
@@ -940,6 +960,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		scale.setMinorTickPaint(Color.WHITE);
 		scale.setTickLabelsVisible(true);
 		scale.setFirstTickLabelVisible(true);
+
 		dialPlot.addScale(0, scale);
 
 		List<JRMeterInterval> intervals = jrPlot.getIntervals();
@@ -989,7 +1010,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 
 			String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
 			if(pattern != null)
-				dvi.setNumberFormat( new DecimalFormat(pattern));
+				dvi.setNumberFormat( new DecimalFormat(pattern, DecimalFormatSymbols.getInstance(getLocale())));
 			dvi.setRadius(0.15);
 			dvi.setValueAnchor(RectangleAnchor.CENTER);
 			dvi.setTextAnchor(TextAnchor.CENTER);
