@@ -25,7 +25,7 @@
 /**
 * Contains classes for the built-in Barbecue component.
 * <br/>
-* <h2>The Barbecue Component</h2>
+* <h3>The Barbecue Component</h3>
 * This component uses the Barbecue library 
 * (<a href="http://barbecue.sourceforge.net">http://barbecue.sourceforge.net</a>). Its barcodes can be embedded in 
 * reports via a uniform component element that specifies common attributes and 

@@ -24,7 +24,7 @@
 /**
  * Contains Base64 encoder/decoder implementations.
  * <br/>
- * <h2>Related Documentation</h2>
+ * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
  */
 package org.w3c.tools.codec;

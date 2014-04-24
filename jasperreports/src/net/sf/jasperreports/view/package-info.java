@@ -24,7 +24,7 @@
 /**
  * Contains the Jasper viewer implementation.
  * <br/>
- * <h2>Viewing Reports</h2>
+ * <h3>Viewing Reports</h3>
  * The JasperReports library comes with built-in viewers for viewing the generated reports in its 
  * proprietary format or in the proprietary XML format produced by the internal XML 
  * exporter. It is a Swing-based component. Other Java applications can easily integrate this 
@@ -49,7 +49,7 @@
  * &gt;ant view
  * or
  * &gt;ant viewXml</pre>
- * <h2>Customizing Viewers</h2>
+ * <h3>Customizing Viewers</h3>
  * Built-in viewers are represented by the following two classes:
  * <ul>
  * <li>{@link net.sf.jasperreports.view.JasperViewer} - use this class to view generated reports, 
@@ -112,7 +112,7 @@
  * By default, this configuration property is set to 0, which means that only direct rendering 
  * is performed, no matter what the zoom ratio. 
  * 
- * <h2>Related Documentation</h2>
+ * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
  * 
  * @see net.sf.jasperreports.view.JRHyperlinkListener

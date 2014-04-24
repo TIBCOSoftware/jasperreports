@@ -24,7 +24,7 @@
 /**
  * Provides exporter input, exporter output and exporter configurations
  * <p>
- * <h2>Exporter Input</h2>
+ * <h3>Exporter Input</h3>
  * All the input data the exporter might need is supplied by the so-called exporter 
  * input before the exporting process is started. This is because the exporting process 
  * is always invoked by calling the <code>exportReport()</code> method of the 
@@ -53,7 +53,7 @@
  * {@link net.sf.jasperreports.engine.JasperPrint} object along with its related export 
  * configuration settings. 
  * </p>
- * <h2>Exporter Output</h2>
+ * <h3>Exporter Output</h3>
  * There are at least three types of exporters, depending on the type of output they produce: 
  * <ul>
  * <li>Exporters that export to text- or character-based file formats (HTML, RTF, CSV, TXT, XML ... exporters)</li>
@@ -86,7 +86,7 @@
  * {@link net.sf.jasperreports.engine.JRAbstractExporter} parent class. The <code>exporterOutput</code> 
  * argument must be an instance of {@link net.sf.jasperreports.export.ExporterOutput} interface. 
  * </p>
- * <h2>Export Configuration Settings</h2>
+ * <h3>Export Configuration Settings</h3>
  * Other export configuration settings can be communicated to exporters using the 
  * <code>public void setConfiguration(C configuration)</code> and 
  * <code>public void setConfiguration(RC configuration)</code> inherited from the 
@@ -108,7 +108,7 @@
  * </ul>
  * </p>
  * 
- * <h2>Related Documentation</h2>
+ * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
  * 
  * @see net.sf.jasperreports.engine.JasperPrint

@@ -24,7 +24,7 @@
 /**
  * Provides support for extension points.
  * <br/>
- * <h2>Extension Support</h2>
+ * <h3>Extension Support</h3>
  * The JasperReports functionality can be extended in various ways, but is usually done by 
  * implementing public interfaces that the library already exposes. 
  * </p><p>
@@ -59,7 +59,7 @@
  * what extensions where provided within the JAR, making them available to all interested 
  * extension points.
  * </p>
- * <h2>Extension registry</h2>
+ * <h3>Extension registry</h3>
  * JasperReports looks for available extensions by loading all the 
  * <code>jasperreports_extension.properties</code> files that it can find in the default package. 
  * <p>
@@ -108,7 +108,7 @@
  * {@link net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory} interface 
  * and thus the extension registry implementation should return a list of those. 
  * </p>
- * <h2>Spring Extension Registry Factory</h2>
+ * <h3>Spring Extension Registry Factory</h3>
  * JasperReports is shipped with a convenience implementation of the 
  * {@link net.sf.jasperreports.extensions.ExtensionsRegistryFactory} 
  * interface that can be used to load extensions from a Spring bean XML file.
@@ -132,7 +132,7 @@
  * will use the bean factory. 
  * This Spring-based extension registry factory is used by the built-in font extensions mechanism. 
  * 
- * <h2>Related Documentation</h2>
+ * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
  */
 package net.sf.jasperreports.extensions;

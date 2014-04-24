@@ -24,7 +24,7 @@
 /**
  * Contains classes for saving reports inside the Jasper viewer.
  * <br/>
- * <h2>Related Documentation</h2>
+ * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
  */
 package net.sf.jasperreports.view.save;

@@ -24,7 +24,7 @@
 /**
  * Contains interfaces for chart plots and chart datasets.
  * <br/>
- * <h2>The Built-In Chart Component</h2>
+ * <h3>The Built-In Chart Component</h3>
  * JasperReports provides built-in support for charts using the chart component based on the 
  * <a href="http://www.jfree.org">JFreeChart</a> library. It exposes a limited set of visual 
  * properties that the charting package actually supports. This limited set should be 
@@ -48,7 +48,7 @@
  * For each type of chart there is a special JRXML tag that groups various chart settings, 
  * including the dataset and the plot. 
  * <br/>
- * <h2>Chart Properties</h2>
+ * <h3>Chart Properties</h3>
  * All chart types have a common set of properties. Charts are normal report elements, so 
  * they share some of their properties with all the other report elements. Charts are also 
  * box elements and can have hyperlinks associated with them.
@@ -75,7 +75,7 @@
  * <li><code>chartSubtitle</code>: element to customize the chart subtitle</li>
  * <li><code>chartLegend</code>: element to customize the chart legend</li>
  * </ul>
- * <h2>Chart Rendering</h2>
+ * <h3>Chart Rendering</h3>
  * In generated reports the output produced by a chart element is an image element. Image elements are drawn using 
  * implementations of the {@link net.sf.jasperreports.engine.JRRenderable JRRenderable} interface. 
  * The <code>renderType</code> attribute specifies the renderer implementation that will be used to render the 
@@ -85,11 +85,11 @@
  * <li><code>image</code>: an image is first produced from the chart and this image in turn gets rendered onto the target graphic context</li>
  * <li><code>svg</code>: the chart is transformed into the SVG format and from that format is then rendered onto the target graphic context</li>
  * </ul>
- * <h2>Chart Title, Subtitle and Legend</h2>
+ * <h3>Chart Title, Subtitle and Legend</h3>
  * All charts can have a title, a subtitle and a legend. All of them are optional and can be customized 
  * for color, font, and position.
  * <br/>
- * <h2>Chart Customizer and Chart Themes</h2>
+ * <h3>Chart Customizer and Chart Themes</h3>
  * To provide full control over chart customization even when using the built-in chart 
  * component, JasperReports can make use of either a chart theme implementation, or of a 
  * chart customizer implementation associated with the chart element, or both. 
@@ -126,7 +126,7 @@
  * <br/><br/>
  * If needed, at chart element level, the chart theme is specified using the <code>theme</code> attribute. 
  * <br/>
- * <h2>Chart Datasets</h2>
+ * <h3>Chart Datasets</h3>
  * One of the most important considerations when putting a chart element into a report 
  * template is the data mapping. The chart will need to extract its data from whatever data is 
  * available inside the report at runtime. 
@@ -149,7 +149,7 @@
  * data or data series they map. 
  * Common dataset properties are grouped under the <code>&lt;dataset&gt;</code> tag in JRXML format. 
  * <br/>
- * <h2>Chart Plot</h2>
+ * <h3>Chart Plot</h3>
  * The chart plot is the area of the chart on which the axes and items are rendered. Plots 
  * differ based on the type of chart. Some plots specialize in drawing pies; others specialize 
  * in drawing bar items or lines. 

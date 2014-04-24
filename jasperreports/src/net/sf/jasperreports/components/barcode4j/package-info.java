@@ -25,7 +25,7 @@
 /**
 * Contains classes for the built-in Barcode4J component.
 * <br/>
-* <h2>The Barcode4J Component</h2>
+* <h3>The Barcode4J Component</h3>
 * This component relies on the Barcode4J library (<a href="http://barcode4j.sourceforge.net">http://barcode4j.sourceforge.net</a>). 
 * <br/>
 * Unlike the Barbecue barcode component, there is only one component per Barcode4J 

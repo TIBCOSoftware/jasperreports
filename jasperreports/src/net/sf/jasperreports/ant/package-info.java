@@ -25,7 +25,7 @@
 /**
 * Provides Ant task classes for batch-processing report files.
 * <br/>
-* <h2>Ant Tasks</h2>
+* <h3>Ant Tasks</h3>
 * When the number of different report files that one has to deal with in a project is 
 * significant, there is a need for automating repeating or re-occurring tasks that are to be 
 * performed on those files. 
@@ -39,7 +39,7 @@
 * For these re-occurring tasks, JasperReports provides built-in ready-to-use Ant task 
 * definitions, based on the {@link net.sf.jasperreports.ant.JRBaseAntTask JRBaseAntTask} class.
 * <br/>
-* <h2>Ant Task for Compiling Reports</h2>
+* <h3>Ant Task for Compiling Reports</h3>
 * Since report template compilation is more like a design-time job than a runtime one, a 
 * custom Ant task has been provided with the library to simplify application development. 
 * <br/>
@@ -79,7 +79,7 @@
 * The report template compilation task supports nested <code>&lt;src&gt;</code> and <code>&lt;classpath&gt;</code> 
 * elements, just like the Ant <code>&lt;javac&gt;</code> built-in task.
 * <br/>
-* <h2>Ant Task for Decompiling Reports</h2>
+* <h3>Ant Task for Decompiling Reports</h3>
 * Sometimes it happens that report templates are to be found only in their compiled form. 
 * <br/>
 * The source report template files might have been lost and we might have only the 
@@ -102,7 +102,7 @@
 * folder or, for more sophisticated file match patterns, a nested <code>&lt;src&gt;</code> tag. The output 
 * folder for the generated files is specified using the <code>destdir</code> attribute. 
 * <br/>
-* <h2>Ant Task for Updating Reports</h2>
+* <h3>Ant Task for Updating Reports</h3>
 * Although JasperReports always guarantees backward compatibility of report templates 
 * when upgrading to a newer version, sometimes tags or attributes in JRXML are 
 * deprecated and replaced with newer ones that offer enhanced capabilities. So while the 
@@ -129,7 +129,7 @@
 * JasperReport API after the report design object has been loaded but before it is saved 
 * again. 
 * <br/>
-* <h2>Related documentation:</h2>
+* <h3>Related documentation:</h3>
 * <ul>
 * <li><a href="http://ant.apache.org/manual/index.html" target="_blank">Apache Ant Manual</a></li>
 * </ul>

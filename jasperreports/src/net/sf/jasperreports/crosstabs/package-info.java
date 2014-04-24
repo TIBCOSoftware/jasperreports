@@ -34,7 +34,7 @@
  * data (nominal, ordinal, interval, or ratio), and provide greater insight than single
  * statistics.
  * </p>
- * <h2>Crosstab Attributes</h2>
+ * <h3>Crosstab Attributes</h3>
  * When a crosstab does not fit entirely on the current page and either a column or row 
  * break occurs, the crosstab is split into multiple pieces and continues on the same page or 
  * overflows onto a new page. By default, the subsequent crosstab pieces redisplay the 
@@ -58,7 +58,7 @@
  * rendering columns within the crosstab width limit and continue with the remaining 
  * columns only after all rows have started rendering. 
  * </p>
- * <h2>Crosstab Parameters</h2>
+ * <h3>Crosstab Parameters</h3>
  * Crosstabs use an internal calculation engine for bucketing and preparing the aggregated 
  * data they display. However, sometimes it is useful to pass single values from the 
  * containing report and display them inside the crosstab. This would be the case for some 
@@ -76,14 +76,14 @@
  * Crosstab parameters can be referenced only from crosstab cell expressions using the 
  * <code>$P{}</code> syntax, so they can participate only in the displayed values.
  * </p>
- * <h2>Crosstab Dataset</h2>
+ * <h3>Crosstab Dataset</h3>
  * The crosstab calculation engine aggregates data by iterating through an associated 
  * dataset. This can be the parent report's main dataset or a dataset run that uses one of the 
  * report's declared subdatasets. 
  * <br/>
  * Crosstab dataset resetting, incrementing, and filtering out data work the same as for the main dataset.
  * </p>
- * <h2>Presorted Data</h2>
+ * <h3>Presorted Data</h3>
  * The calculation engine of a crosstab works faster if the data in its associated dataset is 
  * already sorted in accordance with the row and column groups (buckets) declared by the 
  * crosstab, in this order: row buckets, and then column buckets. 
@@ -92,7 +92,7 @@
  * calculation engine can sort it during the data aggregation process using supplied 
  * comparators. However, this will result in some performance loss. 
  * </p>
- * <h2>Data Grouping (Bucketing)</h2>
+ * <h3>Data Grouping (Bucketing)</h3>
  * The original dataset data through which the crosstab calculation engine iterates to make 
  * the required data aggregation must be grouped in accordance with the declared rows and 
  * columns of the crosstab. Row and column groups in a crosstab rely on group items called 
@@ -103,7 +103,7 @@
  * <li>A comparator to sort the group items (buckets) in case the natural ordering of the 
  * values is not acceptable or even possible</li>
  * </ul>
- * <h2>Row Groups</h2>
+ * <h3>Row Groups</h3>
  * Crosstabs can have any number of row groups, nested according to the order in which 
  * they were declared.
  * <p>
@@ -147,7 +147,7 @@
  * </ul>
  * By default, the row header content stays at the top of the row header area.
  * </p>
- * <h2>Column Groups</h2>
+ * <h3>Column Groups</h3>
  * A crosstab can contain any number of nested columns. The order of column groups is also important.
  * <p>
  * Column groups are also uniquely identified by the <code>name</code> attribute, typically to reference 
@@ -183,7 +183,7 @@
  * corresponding to the group's bucket values</li>
  * <li><code>None</code> - the column that displays the totals for the group is not displayed</li>
  * </ul>
- * <h2>Measures</h2>
+ * <h3>Measures</h3>
  * The crosstab calculation engine aggregates data, called a <i>measure</i>, while iterating 
  * through the associated dataset. A measure is typically displayed in the crosstab cells. For 
  * each thing that the crosstab needs for accumulating data during bucketing, a 
@@ -218,7 +218,7 @@
  * {@link net.sf.jasperreports.crosstabs.fill.JRPercentageCalculator JRPercentageCalculator} interface and 
  * associate it with the measure using the <code>percentageCalculatorClass</code> attribute. 
  * </p>
- * <h2>Built-in Crosstab Total Variables</h2>
+ * <h3>Built-in Crosstab Total Variables</h3>
  * The value of a measure is available inside a crosstab cell through a variable bearing the 
  * same name as the measure. In addition to the current value of the measure, totals of 
  * different levels corresponding to the cell can be accessed through variables named 
@@ -232,7 +232,7 @@
  * corresponding to the row and column groups (that is, the total corresponding to all the entries in 
  * both row and column groups)</li>
  * </ul>
- * <h2>Crosstab Governor</h2>
+ * <h3>Crosstab Governor</h3>
  * The crosstab calculation engine performs all calculations in memory. If large 
  * volumes of data are processed, it could be possible to run out of memory due to the large 
  * number of totals and aggregation variables that the engine keeps track of. 
@@ -251,7 +251,7 @@
  * property. This property defaults to -1, meaning that the crosstab governor is disabled by 
  * default. 
  * </p>
- * <h2>Crosstab Cells</h2>
+ * <h3>Crosstab Cells</h3>
  * A crosstab cell is a rectangular area at the intersection of a crosstab row and a crosstab 
  * column. The cell is a free-form element that can contain any kind of report element 
  * except subreports, charts, and crosstabs. 

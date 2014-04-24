@@ -25,7 +25,7 @@
 /**
 * Contains classes for the built-in Table component.
 * <br/>
-* <h2>The Table Component</h2>
+* <h3>The Table Component</h3>
 * The majority of reports created by a reporting tool have a tabular structure because, most 
 * of the time, the tool has to iterate through a set of records, extracting values from the 
 * same fields in each record, then display the values one beside the other, resulting in the 

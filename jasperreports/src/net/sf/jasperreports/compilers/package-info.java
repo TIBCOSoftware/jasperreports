@@ -25,7 +25,7 @@
 /**
  * Contains classes for report compiling and expressions evaluating.
  * <br/>
- * <h2>Compiling Report Templates</h2>
+ * <h3>Compiling Report Templates</h3>
  * Source report templates, created either by using the API or by parsing JRXML files, are 
  * subject to the report compilation process before they are filled with data. 
  * <p>
@@ -59,7 +59,7 @@
  * There are several implementations for this compiler interface depending on the language 
  * used for the report expressions or the mechanism used for their runtime evaluation. 
  * <p/>
- * <h2>Expressions Scripting Language</h2>
+ * <h3>Expressions Scripting Language</h3>
  * The default language for the report expressions is Java, but report expressions
  * can be written in Groovy, JavaScript or any other scripting language as long as a report
  * compiler implementation that can evaluate them at runtime is available.
@@ -77,7 +77,7 @@
  * Historically, these compiler implementations used to be shipped as separate samples, 
  * but now they are part of the core library.
  * </p>
- * <h2>Related Documentation</h2>
+ * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
 
 */

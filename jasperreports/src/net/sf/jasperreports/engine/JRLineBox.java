@@ -29,7 +29,30 @@ import net.sf.jasperreports.engine.base.JRBoxPen;
 
 /**
  * This is useful for drawing borders around text elements and images. Boxes can have borders and paddings, which can
- * have different width and colour on each side of the element.
+ * have different width and color on each side of the element.
+ * <p/>
+ * Text elements, images, and charts are considered "box elements" because one can
+ * surround them by a border that's customizable on each side. When defining the border
+ * around such a box element, the user can control the width, style, and color of each of the
+ * four sides of the element, as well as the padding (the amount of blank space to reserve
+ * between the border of the element and its actual content).These properties are grouped 
+ * into the <code>&lt;box&gt;</code> tag.
+ * <h3>Border Line Settings</h3>
+ * Border line settings such as line width, line style and the line color  
+ * can be accessed using the {@link #getPen()} method and are grouped into the <code>pen</code> tag. 
+ * <p/>
+ * The attributes for specifying the border style for each side of the box are grouped into <code>topPen</code>,
+ * <code>leftPen</code>, <code>bottomPen</code>, and <code>rightPen</code> tag. These can be used for overriding the
+ * border style specified by the <code>pen</code> element mentioned previously. There is a getter method for each side 
+ * pen element.
+ * <h3>Box Padding</h3>
+ * The amount of space to be left blank as margins within the bounds of a box element can
+ * be controlled using either the <code>padding</code> attribute (providing the same amount of padding
+ * on all four sides) or the individual attributes for each side: <code>topPadding</code>, 
+ * <code>leftPadding</code>, <code>bottomPadding</code>, and <code>rightPadding</code>. Each padding 
+ * attribute is accessed with a corresponding getter method.
+ * 
+ * @see net.sf.jasperreports.engine.JRPen
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

@@ -24,7 +24,7 @@
 /**
  * Provides support for JasperReports search feature.
  * <br/>
- * <h2>Related Documentation</h2>
+ * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
  */
 package net.sf.jasperreports.search;
