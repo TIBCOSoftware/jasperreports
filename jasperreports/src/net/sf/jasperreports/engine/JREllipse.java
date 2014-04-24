@@ -26,6 +26,11 @@ package net.sf.jasperreports.engine;
 
 /**
  * An abstract representation of a graphic element representing an ellipse.
+ * <p/>
+ * Ellipses are the most basic graphic elements. As such, there are no supplementary
+ * settings to declare an ellipse element besides those already mentioned in the sections for
+ * the <code>&lt;reportElement&gt;</code> and <code>&lt;graphicElement&gt;</code> tags.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

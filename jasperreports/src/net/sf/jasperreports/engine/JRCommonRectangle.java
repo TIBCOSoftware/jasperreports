@@ -26,7 +26,14 @@ package net.sf.jasperreports.engine;
 
 /**
  * An abstract representation of a graphic element representing a rectangle.
- *
+ * <p/>
+ * Rectangle elements are the simplest report elements. They share almost all their settings
+ * with most other report elements.
+ * <p/>
+ * The <code>radius</code> attribute (see {@link #getRadius()}) specifies the radius for the 
+ * arcs used to draw the corners of the rectangle. The default value is 0, meaning that the 
+ * rectangle has normal, square corners.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
