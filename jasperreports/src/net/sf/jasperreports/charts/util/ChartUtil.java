@@ -289,6 +289,10 @@ public final class ChartUtil
 		}
 	}
 	
+	/**
+	 * @deprecated replaced by {@link #createIntegerTickUnits(Locale)}
+	 */
+	@Deprecated
 	public TickUnitSource createIntegerTickUnits()
 	{
 		return createIntegerTickUnits(Locale.getDefault());
@@ -366,6 +370,10 @@ public final class ChartUtil
 		return units;
 	}
 	
+	/**
+	 * @deprecated replaced by {@link #createStandardTickUnits(Locale)}
+	 */
+	@Deprecated
 	public TickUnitSource createStandardTickUnits()
 	{
 		return createStandardTickUnits(Locale.getDefault());
