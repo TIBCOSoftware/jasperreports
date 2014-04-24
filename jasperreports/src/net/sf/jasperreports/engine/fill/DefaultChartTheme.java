@@ -28,6 +28,7 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -550,7 +551,7 @@ public class DefaultChartTheme implements ChartTheme
 		{
 			if (axis instanceof NumberAxis)
 			{
-				NumberFormat fmt = NumberFormat.getInstance();
+				NumberFormat fmt = NumberFormat.getInstance(getLocale());
 				if (fmt instanceof DecimalFormat)
 				{
 					((DecimalFormat) fmt).applyPattern(tickLabelMask);
@@ -562,23 +563,23 @@ public class DefaultChartTheme implements ChartTheme
 				DateFormat fmt;
 				if (tickLabelMask.equals("SHORT") || tickLabelMask.equals("DateFormat.SHORT"))
 				{
-					fmt = DateFormat.getDateInstance(DateFormat.SHORT);
+					fmt = DateFormat.getDateInstance(DateFormat.SHORT, getLocale());
 				}
 				else if (tickLabelMask.equals("MEDIUM") || tickLabelMask.equals("DateFormat.MEDIUM"))
 				{
-					fmt = DateFormat.getDateInstance(DateFormat.MEDIUM);
+					fmt = DateFormat.getDateInstance(DateFormat.MEDIUM, getLocale());
 				}
 				else if (tickLabelMask.equals("LONG") || tickLabelMask.equals("DateFormat.LONG"))
 				{
-					fmt = DateFormat.getDateInstance(DateFormat.LONG);
+					fmt = DateFormat.getDateInstance(DateFormat.LONG, getLocale());
 				}
 				else if (tickLabelMask.equals("FULL") || tickLabelMask.equals("DateFormat.FULL"))
 				{
-					fmt = DateFormat.getDateInstance(DateFormat.FULL);
+					fmt = DateFormat.getDateInstance(DateFormat.FULL, getLocale());
 				}
 				else
 				{
-					fmt = new SimpleDateFormat(tickLabelMask);
+					fmt = new SimpleDateFormat(tickLabelMask, getLocale());
 				}
 
 				if (timeZone != null)
@@ -1068,11 +1069,13 @@ public class DefaultChartTheme implements ChartTheme
 				piePlot3D.setLabelGenerator(labelGenerator);
 			}
 			else if (jrPie3DPlot.getLabelFormat() != null)
-			{
+			{ 
 				piePlot3D.setLabelGenerator(
-					new StandardPieSectionLabelGenerator(jrPie3DPlot.getLabelFormat())
+					new StandardPieSectionLabelGenerator(jrPie3DPlot.getLabelFormat(), 
+							NumberFormat.getNumberInstance(getLocale()),
+			                NumberFormat.getPercentInstance(getLocale()))
 					);
-			}
+			}// the default section label is just the key, so there's no need to set localized number formats
 	//		else if (itemLabel != null && itemLabel.getMask() != null)
 	//		{
 	//			piePlot3D.setLabelGenerator(
@@ -1111,11 +1114,13 @@ public class DefaultChartTheme implements ChartTheme
 		}
 		
 		if (jrPie3DPlot.getLegendLabelFormat() != null)
-		{
+		{ 
 			piePlot3D.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator(jrPie3DPlot.getLegendLabelFormat())
+				new StandardPieSectionLabelGenerator(jrPie3DPlot.getLegendLabelFormat(), 
+						NumberFormat.getNumberInstance(getLocale()),
+		                NumberFormat.getPercentInstance(getLocale()))
 				);
-		}
+		}// the default legend label is just the key, so there's no need to set localized number formats
 		
 		return jfreeChart;
 	}
@@ -1158,9 +1163,11 @@ public class DefaultChartTheme implements ChartTheme
 			else if (jrPiePlot.getLabelFormat() != null)
 			{
 				piePlot.setLabelGenerator(
-					new StandardPieSectionLabelGenerator(jrPiePlot.getLabelFormat())
+					new StandardPieSectionLabelGenerator(jrPiePlot.getLabelFormat(), 
+							NumberFormat.getNumberInstance(getLocale()),
+			                NumberFormat.getPercentInstance(getLocale()))
 					);
-			}
+			}// the default section label is just the key, so there's no need to set localized number formats
 	//		else if (itemLabel != null && itemLabel.getMask() != null)
 	//		{
 	//			piePlot.setLabelGenerator(
@@ -1201,9 +1208,11 @@ public class DefaultChartTheme implements ChartTheme
 		if (jrPiePlot.getLegendLabelFormat() != null)
 		{
 			piePlot.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator(jrPiePlot.getLegendLabelFormat())
+				new StandardPieSectionLabelGenerator(jrPiePlot.getLegendLabelFormat(),
+						NumberFormat.getNumberInstance(getLocale()),
+						NumberFormat.getPercentInstance(getLocale()))
 				);
-		}
+		}// the default legend label is just the key, so there's no need to set localized number formats
 		
 		return jfreeChart;
 	}
@@ -1773,6 +1782,9 @@ public class DefaultChartTheme implements ChartTheme
 		{
 			chartPlot.setNeedlePaint(color);
 		}
+		
+		// localizing the default format, can be overridden by display.getMask()
+		chartPlot.setTickLabelFormat(NumberFormat.getInstance(getLocale()));
 
 		// Set how the value is displayed.
 		JRValueDisplay display = jrPlot.getValueDisplay();
@@ -1785,8 +1797,10 @@ public class DefaultChartTheme implements ChartTheme
 
 			if (display.getMask() != null)
 			{
-				chartPlot.setTickLabelFormat(new DecimalFormat(display.getMask()));
+				chartPlot.setTickLabelFormat(new DecimalFormat(display.getMask(), 
+						DecimalFormatSymbols.getInstance(getLocale())));
 			}
+			
 			if (display.getFont() != null)
 			{
 				chartPlot.setValueFont(fontUtil.getAwtFont(display.getFont(), getLocale()));
@@ -1838,6 +1852,10 @@ public class DefaultChartTheme implements ChartTheme
 
 		// Create the plot that will hold the thermometer.
 		ThermometerPlot chartPlot = new ThermometerPlot((ValueDataset)getDataset());
+		
+		ChartUtil chartUtil = ChartUtil.getInstance(chartContext.getJasperReportsContext());
+		// setting localized range axis formatters
+		chartPlot.getRangeAxis().setStandardTickUnits(chartUtil.createIntegerTickUnits(getLocale()));
 
 		Range range = convertRange(jrPlot.getDataRange());
 
@@ -1857,6 +1875,9 @@ public class DefaultChartTheme implements ChartTheme
 			chartPlot.setUseSubrangePaint(false);
 		}
 
+		// localizing the default format, can be overridden by display.getMask()
+		chartPlot.setValueFormat(NumberFormat.getNumberInstance(getLocale()));
+		
 		// Set the formatting of the value display
 		JRValueDisplay display = jrPlot.getValueDisplay();
 		if (display != null)
@@ -1865,10 +1886,13 @@ public class DefaultChartTheme implements ChartTheme
 			{
 				chartPlot.setValuePaint(display.getColor());
 			}
+			
 			if (display.getMask() != null)
-			{
-				chartPlot.setValueFormat(new DecimalFormat(display.getMask()));
+			{ 
+				chartPlot.setValueFormat(new DecimalFormat(display.getMask(),
+						DecimalFormatSymbols.getInstance(getLocale())));
 			}
+			
 			if (display.getFont() != null)
 			{
 				chartPlot.setValueFont(fontUtil.getAwtFont(display.getFont(), getLocale()));
@@ -1961,6 +1985,9 @@ public class DefaultChartTheme implements ChartTheme
 
 		scale.setTickLabelsVisible(true);
 		scale.setFirstTickLabelVisible(true);
+		
+		// localizing the default tick label formatter
+		scale.setTickLabelFormatter(new DecimalFormat("0.0", DecimalFormatSymbols.getInstance(getLocale())));
 
 		dialPlot.addScale(0, scale);
 		List<JRMeterInterval> intervals = jrPlot.getIntervals();
@@ -2007,7 +2034,7 @@ public class DefaultChartTheme implements ChartTheme
 			String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
 			if(pattern != null)
 			{
-				dvi.setNumberFormat( new DecimalFormat(pattern));
+				dvi.setNumberFormat( new DecimalFormat(pattern, DecimalFormatSymbols.getInstance(getLocale())));
 			}
 			dvi.setRadius(0.15);
 			dvi.setValueAnchor(RectangleAnchor.CENTER);
@@ -2167,7 +2194,7 @@ public class DefaultChartTheme implements ChartTheme
 			if(axisIntegerUnit)
 			{
 				ChartUtil chartUtil = ChartUtil.getInstance(chartContext.getJasperReportsContext());
-				numberAxis.setStandardTickUnits(chartUtil.createIntegerTickUnits());
+				numberAxis.setStandardTickUnits(chartUtil.createIntegerTickUnits(getLocale()));
 				chartUtil.setAutoTickUnit(numberAxis);
 			}
 			else if(axisRange > 0)
@@ -2180,7 +2207,7 @@ public class DefaultChartTheme implements ChartTheme
 					}
 					else
 					{
-						numberAxis.setTickUnit(new NumberTickUnit(tickInterval.doubleValue()));
+						numberAxis.setTickUnit(new NumberTickUnit(tickInterval.doubleValue(), NumberFormat.getNumberInstance(getLocale())));
 					}
 				}
 				else if (tickCount != null)
@@ -2191,13 +2218,13 @@ public class DefaultChartTheme implements ChartTheme
 					}
 					else
 					{
-						numberAxis.setTickUnit(new NumberTickUnit(axisRange / tickCount.intValue()));
+						numberAxis.setTickUnit(new NumberTickUnit(axisRange / tickCount.intValue(), NumberFormat.getNumberInstance(getLocale())));
 					}
 				}
 				else
 				{
 					ChartUtil chartUtil = ChartUtil.getInstance(chartContext.getJasperReportsContext());
-					numberAxis.setStandardTickUnits(chartUtil.createStandardTickUnits());
+					numberAxis.setStandardTickUnits(chartUtil.createStandardTickUnits(getLocale()));
 					chartUtil.setAutoTickUnit(numberAxis);
 				}
 			}
