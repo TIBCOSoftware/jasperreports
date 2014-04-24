@@ -24,7 +24,7 @@
 /**
  * Provides support for font extensions. 
  * <br/>
- * <h2>The Font Extension Point</h2>
+ * <h3>The Font Extension Point</h3>
  * Among the various extension points that JasperReports exposes, this one 
  * allows users to make use of fonts that are not available to the JVM at runtime in normal 
  * circumstances. 
@@ -80,7 +80,7 @@
  * The best way to deploy font files as extensions is to rely on the Spring-based extension 
  * registry factory shipped with JasperReports and make use of the default font interfaces. 
  * </p>
- * <h2>Related Documentation</h2>
+ * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
  * 
  * @see net.sf.jasperreports.engine.util.JRFontNotFoundException

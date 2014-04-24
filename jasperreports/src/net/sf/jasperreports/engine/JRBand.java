@@ -28,7 +28,7 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
 
 /**
  * Implementations of this interface represent various bands in the report template. 
- * <h2>Report Sections</h2>
+ * <h3>Report Sections</h3>
  * JasperReports works with templates that are structured into multiple sections, like any
  * traditional reporting tool. A report can contain the following
  * sections: background, title, summary, page header, page footer, last page footer, 
@@ -51,14 +51,14 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
  * <p/>
  * Report sections, sometimes referred to as report bands, represent a feature and
  * functionality common to almost all reporting tools.
- * <h2>Band Height</h2>
+ * <h3>Band Height</h3>
  * The <code>height</code> attribute in a report band declaration specifies the height in pixels for that
  * particular band and is very important in the overall report design.
  * <p/>
  * The elements contained by a certain report band should always fit the band's dimensions;
  * this will prevent potentially bad results when generating the reports. The engine issues a
  * warning if it finds elements outside the band borders when compiling report designs.
- * <h2>Preventing Band Split</h2>
+ * <h3>Preventing Band Split</h3>
  * In some cases it is desirable to keep the whole contents of a given band in one piece to
  * prevent page breaks when the band stretches beyond its initial specified height. To do
  * this, use the <code>splitType</code> attribute, as follows:
@@ -80,7 +80,7 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
  * </dl>
  * If a split type is not specified, the default is given by the
  * <code>net.sf.jasperreports.band.split.type</code> configuration property.
- * <h2>Skipping Bands</h2>
+ * <h3>Skipping Bands</h3>
  * All the report sections allow users to define a report expression that will be evaluated at
  * runtime to decide if that section should be generated or skipped when producing the
  * document.

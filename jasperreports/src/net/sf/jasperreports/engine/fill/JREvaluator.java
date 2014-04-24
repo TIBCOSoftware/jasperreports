@@ -40,7 +40,7 @@ import net.sf.jasperreports.functions.FunctionSupport;
 /**
  * Base class for the dynamically generated expression evaluator classes.
  * This class also provides some built-in functions that will be described next.
- * <h2>Built-in Functions</h2>
+ * <h3>Built-in Functions</h3>
  * Report expressions can perform method calls on various objects that are available during
  * report filling, such as parameters, fields, or variable values, but can also call methods on
  * a special object that is already available as the <code>this</code> reference. This is the calculator

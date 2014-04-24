@@ -48,17 +48,17 @@ import net.sf.jasperreports.engine.util.FileResolver;
  * <p>
  * Below are described the components that make a report parameter
  * definition complete.</p>
- * <h2>Parameter Name</h2>
+ * <h3>Parameter Name</h3>
  * The <code>name</code> attribute of the <code>&lt;parameter&gt;</code> element is mandatory and allows referencing the
  * parameter by its declared name. The naming conventions of JasperReports are similar to
  * those of the Java language regarding variable declaration. That means that the parameter
  * name should be a single word containing no special characters like a dot or a comma.
- * <h2>Parameter Class</h2>
+ * <h3>Parameter Class</h3>
  * The second mandatory attribute for a report parameter specifies the class name for the
  * parameter values. The <code>class</code> attribute can have any value as long it represents a class
  * name that is available in the classpath both at report-compilation time and report-filling
  * time.
- * <h2>Prompting for Parameter Values</h2>
+ * <h3>Prompting for Parameter Values</h3>
  * In some GUI applications, it is useful to establish the set of report parameters for which
  * the application should request user input, before launching the report-filling process.
  * It is also useful to specify the text description that will prompt for the user input for each
@@ -66,13 +66,13 @@ import net.sf.jasperreports.engine.util.FileResolver;
  * <p>
  * This is why we have the Boolean <code>isForPrompting</code> attribute in the parameter
  * declaration sequence and the inner <code>&lt;parameterDescription&gt;</code> element.</p>
- * <h2>Parameter Custom Properties</h2>
+ * <h3>Parameter Custom Properties</h3>
  * In addition to the parameter description and the prompting flag mentioned previously,
  * some applications might need to attach more information or metadata to a report
  * parameter definition. This is why report parameters can have any number of
  * custom-defined name/value property pairs, just like the report template itself could have
  * at the top level.
- * <h2>Parameter Default Value</h2>
+ * <h3>Parameter Default Value</h3>
  * Parameter values are supplied to the report-filling process packed in a <code>java.util.Map</code>
  * object with the parameter names as the keys. This way, there is no more need to supply a
  * value for each parameter every time.

@@ -90,7 +90,7 @@
  * certain report properties in the report template to see if they should be triggered or stay 
  * dormant during the current report execution. 
  * </p>
- * <h2>Report Governors</h2>
+ * <h3>Report Governors</h3>
  * Report governors are just a breed of global scriptlets that enable us to tackle the problem of 
  * infinite loops that sometimes occur during the report generation. 
  * <p>
@@ -129,7 +129,7 @@
  * also because you might want turn on the governors for all reports, while turning it off for 
  * some, or vice-versa. 
  * 
- * <h2>Related Documentation</h2>
+ * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
  * 
  * @see net.sf.jasperreports.engine.JRAbstractScriptlet

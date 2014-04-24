@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
  * <p/>
  * The properties that are common to all types of report elements are grouped in the
  * <code>&lt;reportElement&gt;</code> tag, which appears in the declaration of all report elements.
- * <h2>Element Key</h2>
+ * <h3>Element Key</h3>
  * Unlike variables and parameters, report elements are not required to have a name,
  * because normally you do not need to obtain any individual element inside a report
  * template. However, in some cases it is useful to be able to locate an element to alter one
@@ -46,19 +46,19 @@ import net.sf.jasperreports.engine.type.ModeEnum;
  * <code>getElementByKey(String)</code> method available at band level. A key value must be
  * associated with the report element and it must be unique within the overall band for the
  * lookup to work.
- * <h2>Element Size</h2>
+ * <h3>Element Size</h3>
  * The <code>width</code> and <code>height</code> attributes are mandatory and represent the size of the report
  * element measured in pixels. Other element stretching settings may instruct the reporting
  * engine to ignore the specified element height. Even in this case, the attributes remain
  * mandatory since even when the height is calculated dynamically, the element will not be
  * smaller than the originally specified height.
- * <h2>Element Transparency</h2>
+ * <h3>Element Transparency</h3>
  * Report elements can either be transparent or opaque, depending on the value specified
  * for the <code>mode</code> attribute. The default value for this attribute depends on the type of the
  * report element. Graphic elements like rectangles and lines are opaque by default, while
  * images are transparent. Both static texts and text fields are transparent by default, and so
  * are the subreport elements.
- * <h2>Element Color</h2>
+ * <h3>Element Color</h3>
  * Two attributes represent colors: <code>forecolor</code> and <code>backcolor</code>. The 
  * <i>fore color</i> is for the
  * text of the text elements and the border of the graphic elements. The <i>background color</i>

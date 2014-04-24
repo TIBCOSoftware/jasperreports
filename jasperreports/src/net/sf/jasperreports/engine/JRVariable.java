@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
 /**
  * An interface for implementing classes that deal with report variables. This interface defines constants for names of
  * built-in variables and for reset, increment and calculation types.
- * <h2>Report Variables</h2>
+ * <h3>Report Variables</h3>
  * Report variables are special objects built on top of a report expression. They can simplify
  * the report template by isolating in one place an expression that is heavily used
  * throughout the report template, and they can perform various calculations based on the
@@ -41,16 +41,16 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
  * With every iteration through the data source, variables are evaluated/incremented in the
  * same order as they are declared. Therefore, the order of variables as they appear in the
  * report template is very important.
- * <h2>Variable Name</h2>
+ * <h3>Variable Name</h3>
  * Just as for parameters and fields, the name attribute of the <code>&lt;variable&gt;</code> element is
  * mandatory and allows referencing the variable by its declared name in report
  * expressions.
- * <h2>Variable Class</h2>
+ * <h3>Variable Class</h3>
  * The class attribute contains the name of the class to which the variable values belong.
  * The default is <code>java.lang.String</code>, but you can declare report variables of any class as
  * long as the class is available in the classpath, both at report-compilation time and report-filling
  * time.
- * <h2>Reset Type</h2>
+ * <h3>Reset Type</h3>
  * The value of a report variable can change with every iteration, but it can be brought back
  * to the value returned by its initial value expression at specified times during the report filling
  * process. This behavior is controlled using the resetType attribute, which
@@ -67,11 +67,11 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
  * <li><code>Group</code> - The variable is reinitialized every time the group specified by 
  * the <code>resetGroup</code> attributes breaks</li>
  * </ul>
- * <h2>Reset Group</h2>
+ * <h3>Reset Group</h3>
  * If present, the <code>resetGroup</code> attribute contains the name of a report group and works only
  * in conjunction with the <code>resetType</code> attribute, whose value must be
  * <code>resetType="Group"</code>.
- * <h2>Increment Type</h2>
+ * <h3>Increment Type</h3>
  * This property lets you choose the exact moment to increment the variable. By default,
  * variables are incremented with each record in the data source, but in reports with
  * multiple levels of data grouping, some variables might calculate higher-level totals and
@@ -88,11 +88,11 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
  * <li><code>Group</code> - The variable is incremented every time the group specified
  * by the <code>incrementGroup</code> attributes breaks</li>
  * </ul>
- * <h2>Increment Group</h2>
+ * <h3>Increment Group</h3>
  * If present, the <code>incrementGroup</code> attribute contains the name of a report group. It works
  * only in conjunction with the <code>incrementType</code> attribute, whose value must be
  * <code>incrementType="Group"</code>.
- * <h2>Calculations</h2>
+ * <h3>Calculations</h3>
  * As mentioned, variables can perform built-in types of calculations on their corresponding
  * expression values. Following are described all the possible values for the
  * <code>calculation</code> attribute of the <code>&lt;variable&gt;</code> element.
@@ -156,7 +156,7 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
  *   &lt;/variable&gt;</pre>
  * In this example, the page sum variable will be initialized with zero at the beginning of
  * each new page.
- * <h2>Incrementers</h2>
+ * <h3>Incrementers</h3>
  * All calculations in the JasperReports engine are performed incrementally. This is
  * obvious for variables that calculate counts, sums, or the highest and lowest value of a
  * series, but is also true for more complex calculations like average or standard deviation.
@@ -181,7 +181,7 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
  * <code>java.lang.String</code> values or for teaching it how to calculate the average value of some
  * custom-made numeric data (third-party optimized implementations of big decimal
  * numbers, for instance).
- * <h2>GroupName_COUNT Built-In Variable</h2>
+ * <h3>GroupName_COUNT Built-In Variable</h3>
  * When declaring a report group, the engine will automatically create a count variable that will calculate
  * the number of records that make up the current group (number of records processed between group ruptures).
  * <p/>

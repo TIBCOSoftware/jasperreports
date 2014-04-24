@@ -27,7 +27,7 @@ package net.sf.jasperreports.engine;
 
 /**
  * Implementations of this interface represent various sections in the report template. 
- * <h2>Report Sections</h2>
+ * <h3>Report Sections</h3>
  * JasperReports works with templates that are structured into multiple sections, like any
  * traditional reporting tool. A report can contain the following
  * sections: background, title, summary, page header, page footer, last page footer, 
@@ -53,7 +53,7 @@ package net.sf.jasperreports.engine;
  * <code>&lt;lastPageFooter&gt;</code>, <code>&lt;summary&gt;</code>, &lt;background&gt;</code> and &lt;noData&gt;</code>.
  * All report sections are optional, but of course all useful templates must have at least 
  * one such section.
- * <h2>Title</h2>
+ * <h3>Title</h3>
  * This is the first section of the report. It is generated only once during the report-filling
  * process and represents the beginning of the resulting document.
  * <p/>
@@ -65,23 +65,23 @@ package net.sf.jasperreports.engine;
  * <p/>
  * The title section can be followed by a page break if the <code>isTitleNewPage</code> attribute 
  * at report level is set to true.
- * <h2>Page Header</h2>
+ * <h3>Page Header</h3>
  * This section appears at the top of each page in the generated document.
- * <h2>Column Header</h2>
+ * <h3>Column Header</h3>
  * This section appears at the top of each column in the generated document.
- * <h2>Detail</h2>
+ * <h3>Detail</h3>
  * For each record in the data source, the engine tries to generate this section. The detail
  * section can be made of multiple bands.
- * <h2>Column Footer</h2>
+ * <h3>Column Footer</h3>
  * This section appears at the bottom of each column in the generated document. It never
  * stretches downward to acquire the content of its containing text fields. Its rendering
  * position is controlled by the <code>isFloatColumnFooter</code> flag declared at report template
  * level.
- * <h2>Page Footer</h2>
+ * <h3>Page Footer</h3>
  * This section appears at the bottom of each page in the generated document. Just like the
  * column footer section, the page footer never stretches downwards to acquire the content
  * of its containing text fields and always retains the declared fixed height.
- * <h2>Summary</h2>
+ * <h3>Summary</h3>
  * This section is generated only once per report and appears at the end of the generated
  * document, but is not necessarily the last section generated. This is because in some cases
  * the column footer and/or page footer of the last page follows it.
@@ -92,17 +92,17 @@ package net.sf.jasperreports.engine;
  * Even if this attribute remains false, the summary section always starts a new page if it
  * does not fit on the remaining space of the last page, or if the report has more than one
  * column and it has already started a second column on the last page.
- * <h2>Last Page Footer</h2>
+ * <h3>Last Page Footer</h3>
  * If present, this section replaces the normal page footer section, but only on the last
  * occurrence of the page footer, which might not be the last page if the summary is present
  * and it overflows on multiple pages or it is rendered alone on its own last page. So it
  * behaves more like <i>the last</i> page footer than the footer of the <i>last page</i>.
- * <h2>Background</h2>
+ * <h3>Background</h3>
  * This is a special section that is rendered on all pages and its content placed underneath
  * all other report sections. Normal report sections are rendered one after the other, but the
  * background section does not interfere with the other report sections and can be used to
  * achieve watermark effects or to create the same background for all pages.
- * <h2>No Data</h2>
+ * <h3>No Data</h3>
  * This is another special section that is generated only once per report and, under certain
  * conditions, its content will replace all the ordinary report's content.
  * <p/>
@@ -114,11 +114,11 @@ package net.sf.jasperreports.engine;
  * If the <code>&lt;noData&gt;</code> section is defined in the report template, and if the data source is empty,
  * then the <code>&lt;noData&gt;</code> section will be the only one taken into account at fill time, and its
  * content will produce the report output.
- * <h2>Group Header</h2>
+ * <h3>Group Header</h3>
  * This section marks the start of a new group in the resulting document. It is inserted in the
  * document every time the value of the group expression changes during the iteration
  * through the data source. The group header section is a multi-band section.
- * <h2>Group Footer</h2>
+ * <h3>Group Footer</h3>
  * Every time a report group changes, the engine adds the corresponding group footer
  * section before starting the new group or when the report ends. The group footer section
  * is also a multi-band section.

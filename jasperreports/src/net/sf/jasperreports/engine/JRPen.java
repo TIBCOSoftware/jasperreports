@@ -31,10 +31,10 @@ import net.sf.jasperreports.engine.type.LineStyleEnum;
 /**
  * This interface is used to customize line settings such as width, style and color. 
  * This is useful for drawing graphic elements as well as drawing borders around text elements and images.
- * <h2>Line Width</h2>
+ * <h3>Line Width</h3>
  * The <code>lineWidth</code> attribute represents the width of the line measured in points. 
  * Can be accessed using the {@link #getLineWidth()} method.
- * <h2>Line Style</h2>
+ * <h3>Line Style</h3>
  * The <code>lineStyle</code> attribute represents the line style and has one of the following predefined values
  * (see {@link #getLineStyleValue()}): 
  * <ul>
@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.type.LineStyleEnum;
  * <li><code>Dotted</code></li>
  * <li><code>Double</code></li>
  * </ul>
- * <h2>Line Color</h2>
+ * <h3>Line Color</h3>
  * The <code>lineColor</code> attribute represents the color of the line. 
  * Can be accessed using the {@link #getLineColor()} method.
  * 

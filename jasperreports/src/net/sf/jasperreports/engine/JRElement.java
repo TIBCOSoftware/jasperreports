@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  * <p/>
  * The properties that are common to all types of report elements are grouped in the
  * <code>&lt;reportElement&gt;</code> tag, which appears in the declaration of all report elements.
- * <h2>Element Key</h2>
+ * <h3>Element Key</h3>
  * Unlike variables and parameters, report elements are not required to have a name,
  * because normally you do not need to obtain any individual element inside a report
  * template. However, in some cases it is useful to be able to locate an element to alter one
@@ -45,7 +45,7 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  * <code>getElementByKey(String)</code> method available at band level. A key value must be
  * associated with the report element and it must be unique within the overall band for the
  * lookup to work.
- * <h2>Element Position</h2>
+ * <h3>Element Position</h3>
  * <dl>
  * <dt>Absolute position</dt>
  * <dd>The <code>x</code> and <code>y</code> attributes of any report element are mandatory and represent the x and y
@@ -83,7 +83,7 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  * The second and third conditions together imply that the element e2 must be placed
  * below the e1. By default, all elements have a fixed position relative to the top of the
  * band.
- * <h2>Skipping Element Display</h2>
+ * <h3>Skipping Element Display</h3>
  * The engine can decide at runtime if it really should display a report element when a
  * <code>&lt;printWhenExpression&gt;</code> is used, which is available for all types of report elements.
  * <p/>
@@ -93,7 +93,7 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  * returns null, it is equivalent to returning <code>java.lang.Boolean.FALSE</code>. If the
  * expression is missing, then the report element will get printed every time - that is, if
  * other settings do not intervene.
- * <h2>Reprinting Elements on Section Overflows</h2>
+ * <h3>Reprinting Elements on Section Overflows</h3>
  * When generating a report section, the engine might be forced to start a new page or
  * column because the remaining space at the bottom of the current page or column is not
  * sufficient for all the section elements to fit in, probably because some elements have
@@ -103,7 +103,7 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  * <p/>
  * To achieve this, set <code>isPrintWhenDetailOverflows="true"</code> for all report elements
  * you want to reappear on the next page or column.
- * <h2>Suppressing Repeated Values Display</h2>
+ * <h3>Suppressing Repeated Values Display</h3>
  * First, let's see what exactly a "repeating value" is. It very much depends on the type of
  * the report element we are talking about. For textfield elements, this is very intuitive. 
  * For instance, in an ordinary phone book, one can see that
@@ -146,7 +146,7 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  * Also, if the repeating value you have suppressed spans multiple groups, you can make it
  * reappear at the beginning of a certain report group if you specify the name of that
  * particular group in the <code>printWhenGroupChanges</code> attribute.
- * <h2>Removing Blank Space</h2>
+ * <h3>Removing Blank Space</h3>
  * When a report element is not displayed for some reason (for example,
  * <code>&lt;printWhenExpression&gt;</code> evaluates to <code>Boolean.FALSE</code>, or a repeated value is
  * suppressed), the area where the report element stood at design time will be left empty.
@@ -157,7 +157,7 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  * The blank space will be removed only if the empty text field doesn't share any vertical space with
  * other report elements that are printed, even if this empty textfield does not print. If this 
  * condition is met, then set <code>isRemoveLineWhenBlank= "true"</code> for the empty textfield.
- * <h2>Stretch Behavior</h2>
+ * <h3>Stretch Behavior</h3>
  * The <code>stretchType</code> attribute of a report element can be used to customize the stretch
  * behavior of the element when, on the same report section, there are text fields that stretch
  * themselves because their text content is too large for the original text field height. When
@@ -175,7 +175,7 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  * height to fit the amount of stretch suffered by the tallest element in the group that
  * they are part of.</li>
  * </ul>
- * <h2>Custom Element Properties</h2>
+ * <h3>Custom Element Properties</h3>
  * Report elements can define arbitrary properties in the form of name/value pairs.
  * JasperReports itself recognizes and uses a set of such properties, and external code can
  * recognize further custom element properties.

@@ -25,7 +25,7 @@
  * Provides utility classes for exporting reports to various popular formats such as 
  * PDF, HTML, RTF, CSV, Excel, DOCX, PPTX, ODT, ODS, XML, Text, etc. 
  * <br/>
- * <h2>Exporting Reports</h2>
+ * <h3>Exporting Reports</h3>
  * In some application environments, it is useful to transform the JasperReports-generated 
  * documents from the proprietary format into other, more popular formats like PDF, 
  * HTML, RTF, or XLSX. This way, users can view those reports without having to install 
@@ -70,7 +70,7 @@
  * implementation is created and configured before the export method is called to launch
  * the actual export process on that exporter.
  * </p>
- * <h2>Exporter Input</h2>
+ * <h3>Exporter Input</h3>
  * All the input data the exporter might need is supplied by the so-called exporter 
  * input before the exporting process is started. This is because the exporting process 
  * is always invoked by calling the <code>exportReport()</code> method of the 
@@ -99,7 +99,7 @@
  * {@link net.sf.jasperreports.engine.JasperPrint} object along with its related export 
  * configuration settings. 
  * </p>
- * <h2>Exporter Output</h2>
+ * <h3>Exporter Output</h3>
  * There are at least three types of exporters, depending on the type of output they produce: 
  * <ul>
  * <li>Exporters that export to text- or character-based file formats (HTML, RTF, CSV, TXT, XML ... exporters)</li>
@@ -132,7 +132,7 @@
  * {@link net.sf.jasperreports.engine.JRAbstractExporter} parent class. The <code>exporterOutput</code> 
  * argument must be an instance of {@link net.sf.jasperreports.export.ExporterOutput} interface. 
  * </p>
- * <h2>Other Export Configuration Settings</h2>
+ * <h3>Other Export Configuration Settings</h3>
  * Other export configuration settings can be communicated to exporters using the 
  * <code>public void setConfiguration(C configuration)</code> and 
  * <code>public void setConfiguration(RC configuration)</code> inherited from the 
@@ -153,7 +153,7 @@
  * <li>etc</li>
  * </ul>
  * </p>
- * <h2>Batch Mode Export</h2>
+ * <h3>Batch Mode Export</h3>
  * The first thing an exporter needs to know is whether it is acting on a single 
  * {@link net.sf.jasperreports.engine.JasperPrint} document or a list with several such generated documents. Exporting 
  * multiple {@link net.sf.jasperreports.engine.JasperPrint} objects to a single resulting document is called batch mode 
@@ -170,7 +170,7 @@
  * a file object, or a file name. If the exporter does not find any of these 
  * settings, then it throws an exception telling the caller that no input source was set for the export process. 
  * </p>
- * <h2>Exporter Filters</h2>
+ * <h3>Exporter Filters</h3>
  * When exporting a report to any format, it is possible to filter the elements from the 
  * generated report by skipping elements that do meet a certain condition. This allows 
  * report designers to control what gets exported to each format. In many cases, it's not 
@@ -273,7 +273,7 @@
  * key is given by the property value, or if no value is set for the property, by the property 
  * suffix. 
  * </p>
- * <h2>Monitoring Export Progress</h2>
+ * <h3>Monitoring Export Progress</h3>
  * Some applications need to display a progress bar to show the user how much has been 
  * already processed from the supplied document and how much remains to be exported. 
  * <p>
@@ -290,7 +290,7 @@
  * number of pages to be exported by checking the number of pages in the source 
  * {@link net.sf.jasperreports.engine.JasperPrint} object. 
  * </p>
- * <h2>Grid Exporters</h2>
+ * <h3>Grid Exporters</h3>
  * The main goal of the JasperReports library is to produce high-quality, pixel-perfect 
  * documents for printing. The documents it produces can have rich content, and all the 
  * elements on a given page are positioned and sized absolutely. The library tries to keep 
@@ -329,7 +329,7 @@
  * elements share a region, they cannot share the same cell in the resulting grid structure. 
  * Overlapping elements might lead to unexpected results.</li>
  * </ol>
- * <h2>Related Documentation</h2>
+ * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
  * 
  * @see net.sf.jasperreports.engine.JasperExportManager

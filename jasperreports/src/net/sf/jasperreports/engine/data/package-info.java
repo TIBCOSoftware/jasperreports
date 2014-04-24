@@ -24,7 +24,7 @@
 /**
  * Provides various report data source implementations and allows creating custom data sources. 
  * <br/>
- * <h2>Data Sources</h2>
+ * <h3>Data Sources</h3>
  * When filling the report, the JasperReports engine iterates through the records of the 
  * supplied data source object and generates every section according to the template defined 
  * in the report design. 
@@ -52,7 +52,7 @@
  * There are several default implementations of the 
  * {@link net.sf.jasperreports.engine.JRDataSource JRDataSource} interface.
  * </p>
- * <h2>JDBC Data Sources</h2>
+ * <h3>JDBC Data Sources</h3>
  * The {@link net.sf.jasperreports.engine.JRResultSetDataSource JRResultSetDataSource} is a very useful 
  * implementation of the {@link net.sf.jasperreports.engine.JRDataSource JRDataSource} interface 
  * because it wraps a <code>java.sql.ResultSet</code> object. Since most reports are generated using 
@@ -85,7 +85,7 @@
  * ensure that they work this way, consider declaring the report fields in the same order as 
  * they appear in the SQL query. 
  * </p>
- * <h2>JavaBeans Data Sources</h2>
+ * <h3>JavaBeans Data Sources</h3>
  * The library provides two data source implementations that can wrap collections or 
  * arrays of JavaBean objects. Both implementations rely on Java reflection to retrieve 
  * report field data from the JavaBean objects wrapped inside the data sources. These data 
@@ -116,7 +116,7 @@
  * master report contains a subreport that needs to iterate on the same JavaBeans collection as the master.</li>
  * </ul>
  * </p>
- * <h2>Map-Based Data Sources</h2>
+ * <h3>Map-Based Data Sources</h3>
  * JasperReports library comes with two data source implementations that can wrap arrays or 
  * collections of <code>java.util.Map</code> objects. 
  * <p>
@@ -138,7 +138,7 @@
  * <li><code>cloneDataSource()</code> - to create a fresh copy of the data source</li>
  * </ul>
  * </p>
- * <h2>TableModel Data Sources</h2>
+ * <h3>TableModel Data Sources</h3>
  * In some Swing-based desktop client applications, the reporting data might already be 
  * available in the form of a <code>javax.swing.table.TableModel</code> implementation used for 
  * rendering <code>javax.swing.JTable</code> components on various forms. JasperReports can 
@@ -157,7 +157,7 @@
  * object (index=2), then you could name the corresponding field "COLUMN_2" and use the 
  * column data without problems. 
  * </p>
- * <h2>XML Data Sources</h2>
+ * <h3>XML Data Sources</h3>
  * XML documents can be used as report data sources by means of a data source 
  * implementation. JasperReports features a built-in XML data source implementation 
  * ({@link net.sf.jasperreports.engine.data.JRXmlDataSource JRXmlDataSource}) that is based on DOM 
@@ -240,7 +240,7 @@
  * To switch back to Xalan, one would comment or remove the property line, or explicitly set the property to 
  * <code>net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory</code>. 
  * </p>
- * <h2>CSV Data Sources</h2>
+ * <h3>CSV Data Sources</h3>
  * Sometimes data that users need to fill the report with is found in plain text files, in a 
  * certain format, such as the popular CSV (comma-separated value). 
  * <p>
@@ -291,7 +291,7 @@
  * The CSV data source implementation also has a JRCsvDataSourceProvider class, 
  * useful for design tools creators. 
  * </p>
- * <h2>Excel Data Sources</h2>
+ * <h3>Excel Data Sources</h3>
  * When reporting data is in Microsoft Excel files (XLS or XLSX), the 
  * {@link net.sf.jasperreports.engine.data.ExcelDataSource ExcelDataSource} data source 
  * implementation can be used to read it and feed it into the report. 
@@ -305,7 +305,7 @@
  * the workbook contains data in a tabular form (rows are records and columns contain 
  * report-field values). 
  * </p>
- * <h2>Empty Data Sources</h2>
+ * <h3>Empty Data Sources</h3>
  * The {@link net.sf.jasperreports.engine.JREmptyDataSource JREmptyDataSource} class is a very simple 
  * data source implementation that simulates a data source with a given number of virtual 
  * records inside. It is called "empty data source" because even though it has one or more 
@@ -315,7 +315,7 @@
  * preview functionality, or in special report templates, or for testing and debugging 
  * purposes. 
  * </p>
- * <h2>Rewindable Data Sources</h2>
+ * <h3>Rewindable Data Sources</h3>
  * The {@link net.sf.jasperreports.engine.JRRewindableDataSource JRRewindableDataSource} is an extension of 
  * the basic {@link net.sf.jasperreports.engine.JRDataSource JRDataSource}interface, to which it adds 
  * the possibility of moving the record pointer back before the first virtual record. It adds 
@@ -337,7 +337,7 @@
  * problem if the SQL query resides in the subreport template because the engine will reexecute 
  * it when restarting the subreport on the next page. 
  * </p>
- * <h2>Data Source Provider</h2>
+ * <h3>Data Source Provider</h3>
  * To simplify integration with the GUI tools for creating and previewing report templates, 
  * the JasperReports library has published an interface that allows those tools to create and 
  * dispose of data source objects. This is the standard way to plug custom data sources into 
@@ -363,7 +363,7 @@
  * The {@link net.sf.jasperreports.engine.data.JRAbstractBeanDataSourceProvider JRAbstractBeanDataSourceProvider} 
  * uses Java reflection to provide available report fields names for a given JavaBean class. 
  * </p>
- * <h2>Related Documentation</h2>
+ * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
  */
 package net.sf.jasperreports.engine.data;

@@ -95,7 +95,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * <code>javac.exe</code> program from the command line in order to compile the temporarily
  * generated Java source file on the fly.
  * </p>
- * <h2>Configuration Properties to Customize Report Compilation</h2>
+ * <h3>Configuration Properties to Customize Report Compilation</h3>
  * JasperReports offers various mechanisms for letting users
  * customize its behavior. One of these mechanisms is a complete set of configuration
  * properties. The following list contains all the configuration properties that customize
@@ -148,7 +148,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * default, the engine deletes this file after report compilation, along with its corresponding
  * <code>*.class</code> file. To keep it, however, set this configuration property to true.</dd>
  * </dl>
- * <h2>JDT Compiler-Specific Configuration Properties</h2>
+ * <h3>JDT Compiler-Specific Configuration Properties</h3>
  * The JRJdtCompiler report compiler can use special JasperReports configuration
  * properties to configure the underlying JDT Java compiler. This report compiler collects
  * all the JasperReports configuration properties (the ones usually set in the

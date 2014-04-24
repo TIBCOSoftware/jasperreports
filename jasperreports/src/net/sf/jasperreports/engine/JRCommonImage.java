@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
  * <p/>
  * The most complex graphics on a report are the images. Just as for text field elements,
  * their content is dynamically evaluated at runtime, using a report expression.
- * <h2>Scaling Images</h2>
+ * <h3>Scaling Images</h3>
  * Since images are loaded at runtime, there is no way to know their exact size when
  * creating the report template. The dimensions of the image element specified at design
  * time may differ from the actual image loaded at runtime. One must define how the image
@@ -61,7 +61,7 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
  * match the actual image height, while adjusting the width of the image element to
  * match the actual image width.</dd>
  * </dl>
- * <h2>Stretching Images</h2>
+ * <h3>Stretching Images</h3>
  * The last two options allow report designers to specify a minimum height for the image
  * element in the report template and to rely on the fact that the image element will stretch
  * at fill time to accommodate the actual size of the rendered picture.

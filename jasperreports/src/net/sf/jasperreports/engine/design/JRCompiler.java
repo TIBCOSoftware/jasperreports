@@ -69,7 +69,7 @@ import net.sf.jasperreports.engine.fill.JREvaluator;
  * There are several implementations for this compiler interface depending on the language
  * used for the report expressions or the mechanism used for their runtime evaluation.
  * </p>
- * <h2>Expressions Scripting Language</h2>
+ * <h3>Expressions Scripting Language</h3>
  * The default language for the report expressions is Java, but report expressions
  * can be written in Groovy, JavaScript or any other scripting language as long as a report
  * compiler implementation that can evaluate them at runtime is available.
@@ -90,7 +90,7 @@ import net.sf.jasperreports.engine.fill.JREvaluator;
  * the library and are ready to use. They generate a Java class from the report expressions
  * and store bytecode in the generated {@link net.sf.jasperreports.engine.JasperReport}
  * object for use at report-filling time.</p>
- * <h2>Java Compilers</h2>
+ * <h3>Java Compilers</h3>
  * The Java report compilers come in different flavors depending on the Java compiler used
  * to compile the class that is generated on the fly:
  * <ul>

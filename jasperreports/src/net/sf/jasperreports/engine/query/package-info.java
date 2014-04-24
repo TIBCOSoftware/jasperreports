@@ -24,7 +24,7 @@
 /**
  * Provides support for report queries and query executers. 
  * <br/>
- * <h2>Report SQL Queries</h2>
+ * <h3>Report SQL Queries</h3>
  * To fill a report, provide the reporting engine with the report data, or at least instruct it 
  * how to get this data. 
  * <p>
@@ -73,7 +73,7 @@
  * <li>The stored procedure must return a <code>java.sql.ResultSet</code> when called through JDBC.</li>
  * <li>The stored procedure cannot have OUT parameters.</li>
  * </ul>
- * <h2>Query Executers</h2>
+ * <h3>Query Executers</h3>
  * Report data can be produced by specifying queries in languages other than SQL. Each query language 
  * is associated a query executer factory implementation. JasperReports has built-in query executer 
  * implementations for SQL, Hibernate 3, XPath, EJB-QL, CSV and Excel queries. 
@@ -142,7 +142,7 @@
  * extension point in JasperReports is represented by the 
  * {@link net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle} interface. 
  * </p>
- * <h2>SQL Query Executer</h2>
+ * <h3>SQL Query Executer</h3>
  * The SQL query executer is a JDBC-based executer for SQL queries. 
  * <p>
  * The SQL query executer factory does not register any parameter as the 
@@ -158,7 +158,7 @@
  * <code>net.sf.jasperreports.jdbc.fetch.size</code> configuration property at report level or 
  * globally.
  * </p>
- * <h2>XPath Query Executer</h2>
+ * <h3>XPath Query Executer</h3>
  * The XPath query executer permits reports using XML data sources to specify the XPath 
  * that produces the list of nodes/records as the report query. 
  * <p>
@@ -177,7 +177,7 @@
  * <li>{@link net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory#XML_DATE_PATTERN XML_DATE_PATTERN}</li>
  * </ul>
  * </p>
- * <h2>Hibernate Query Executer</h2>
+ * <h3>Hibernate Query Executer</h3>
  * JasperReports includes support for Hibernate 3 in the form of a query executer. This 
  * allows users to specify in a report an HQL query that should be used to retrieve report 
  * data. 
@@ -226,7 +226,7 @@
  * The mappings are similar to the ones used by JavaBeans data sources, except that select aliases are 
  * used when queries return tuples instead of single objects. 
  * </p>
- * <h2>MDX Query Executer</h2>
+ * <h3>MDX Query Executer</h3>
  * Reporting on OLAP data is supported in JasperReports via the MDX query executer and 
  * a data source that use the Mondrian API's (this is why often we refer to this query 
  * executer also as the Mondrian query executer). Users can create reports with MDX 
@@ -267,7 +267,7 @@
  * matches the current position in the OLAP result. If so, the value is extracted from the 
  * result and set to the field. 
  * </p>
- * <h2>XML/A Query Executer</h2>
+ * <h3>XML/A Query Executer</h3>
  * MDX queries can also be executed on remote OLAP data sources via the XML for 
  * Analysis interface. This functionality is implemented in JasperReports as a query 
  * executer. 
@@ -312,7 +312,7 @@
  * <li>Parent member matching using the <code>mondrian.olap.Member.getParent()</code> method 
  * does nor work via XML/A, since the parent member information is not present in the response.</li>
  * </ul></p>
- * <h2>EJB-QL/JPA Query Executer</h2>
+ * <h3>EJB-QL/JPA Query Executer</h3>
  * The EJB-QL report query executer adds support for reporting on EJB 3.0 persistent 
  * entities data. For an EJB-QL query in a report, the query executer will use the EJB 3.0 
  * Java Persistence API to execute the query against an entity manager provided at runtime, 
@@ -415,7 +415,7 @@
  * objects per row: <code>COLUMN_1</code>, <code>COLUMN_2</code>, <code>COLUMN_1.title</code>, and
  * <code>COLUMN_2.movie.title</code>.
  * 
- * <h2>Related Documentation</h2>
+ * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
  * @see net.sf.jasperreports.engine.JRDataSource
  * @see net.sf.jasperreports.engine.JRResultSetDataSource

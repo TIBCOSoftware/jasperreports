@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 /**
  * An abstract representation of a graphic element representing an image. Images can be aligned and scaled. 
  * They can also contain hyperlinks or be anchors for other hyperlinks.
- * <h2>Image Alignment</h2>
+ * <h3>Image Alignment</h3>
  * If the scale type for the image is <code>Clip</code> or <code>RetainShape</code> 
  * (see {@link net.sf.jasperreports.engine.JRCommonImage}) and the actual image is smaller
  * than its defined size in the report template or does not have the same proportions, the
@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
  * axis (<code>Left</code>, <code>Center</code>, <code>Right</code>) and the vertical axis 
  * (<code>Top</code>, <code>Middle</code>, <code>Bottom</code>). By default, images are
  * aligned at the top and to the left inside their specified bounds.
- * <h2>Caching Images</h2>
+ * <h3>Caching Images</h3>
  * All image elements have dynamic content. There are no special elements to introduce
  * static images on the reports as there are for static text elements. However, most of the
  * time, the images on a report are in fact static and do not necessarily come from the data
@@ -68,7 +68,7 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
  * out-of-memory error. Obviously, the flag should also not be set when a single source is
  * used to produce different images (for example, a URL that would return a different
  * image each time it's accessed).
- * <h2>Lazy Loading Images</h2>
+ * <h3>Lazy Loading Images</h3>
  * The <code>isLazy</code> flag attribute (see {@link #isLazy()} method) specifies whether the 
  * image should be loaded and processed during report filling or during exporting. This can be useful 
  * in cases in which the image is loaded from a URL and is not available at report-filling time, but 
@@ -82,7 +82,7 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
  * will no longer try to load the image from the specified String location but only store
  * that location inside the generated document. The exporter class is responsible for using
  * that String value to access the image at report-export time.
- * <h2>Missing Images Behavior</h2>
+ * <h3>Missing Images Behavior</h3>
  * For various reasons, an image may be unavailable when the engine tries to load it either
  * at report-filling or export time, especially if the image is loaded from some public URL.
  * In this case you may want to customize the way the engine handles missing images
@@ -95,7 +95,7 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
  * <li><code>Icon</code> - If the image does not load successfully, then the engine will put a small icon
  * in the document to indicate that the actual image is missing</li>
  * </ul>
- * <h2>Image Expression</h2>
+ * <h3>Image Expression</h3>
  * The value returned by the image expression (see {@link #getExpression()}) is the source 
  * for the image to be displayed. The image expression is introduced by the 
  * <code>&lt;imageExpression&gt;</code> element and can return
@@ -113,7 +113,7 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
  * file on disk and load the image from it, assuming that the value represents a file name. If no file is found, it finally
  * assumes that the string value represents the location of a classpath resource and tries to load the image from
  * there. An exception is thrown only if all these attempts fail.
- * <h2>Evaluating Images</h2>
+ * <h3>Evaluating Images</h3>
  * As with text fields, one can postpone evaluating the image expression, which by default
  * is performed immediately. This will allow users to display somewhere in the document
  * images that will be built or chosen later in the report-filling process, due to complex

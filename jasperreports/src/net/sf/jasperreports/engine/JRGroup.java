@@ -52,12 +52,12 @@ import net.sf.jasperreports.engine.type.FooterPositionEnum;
  * according to the group expressions used in the report. For example, if you want to group some products by 
  * the country and city of the manufacturer, the engine expects to find the records in the data source already 
  * ordered by country and city.
- * <h2>Group Name</h2>
+ * <h3>Group Name</h3>
  * The name unequivocally identifies the group and can be used in other JRXML attributes
  * when you want to refer a particular report group. The name of a group is mandatory and
  * obeys the same naming convention that we mentioned for the report parameters, fields,
  * and report variables.
- * <h2>Staring a New Page or a New Column When a Group Breaks</h2>
+ * <h3>Staring a New Page or a New Column When a Group Breaks</h3>
  * Sometimes it is useful to introduce a page or column break when a new group starts,
  * usually because that particular group is more important and should start on a page or
  * column of its own.
@@ -81,15 +81,15 @@ import net.sf.jasperreports.engine.type.FooterPositionEnum;
  * page or column is too small, use the <code>minHeightToStartNewPage</code> attribute. This
  * attribute specifies the minimum remaining vertical space that prevents the group from
  * starting a new page of its own. It is measured in pixels.
- * <h2>Resetting Page Number</h2>
+ * <h3>Resetting Page Number</h3>
  * If required, report groups have the power to reset the built-in report variable that contains
  * the current page number (variable {@link net.sf.jasperreports.engine.JRVariable#PAGE_NUMBER PAGE_NUMBER}). 
  * To do this, set the <code>isResetPageNumber</code> attribute to true.
- * <h2>Group Header</h2>
+ * <h3>Group Header</h3>
  * This section marks the start of a new group in the resulting document. It is inserted in the
  * document every time the value of the group expression changes during the iteration
  * through the data source. The group header section is a multi-band section.
- * <h2>Group Footer</h2>
+ * <h3>Group Footer</h3>
  * Every time a report group changes, the engine adds the corresponding group footer
  * section before starting the new group or when the report ends. The group footer section
  * is also a multi-band section.
@@ -116,7 +116,7 @@ import net.sf.jasperreports.engine.type.FooterPositionEnum;
  * </ul>
  * Without specifying a footer position for the group, the group footer is rendered 
  * in normal position.
- * <h2>Preventing Group Split</h2>
+ * <h3>Preventing Group Split</h3>
  * Sometimes it is useful to keep the content of a group together and prevent it from
  * spanning pages or columns. In such cases, it is often advisable to start the group on a
  * new page or column and leave some unused space on the current page/column rather

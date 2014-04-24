@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 /**
  * Provides a collection of style settings declared at the report level.
- * <h2>Report Styles</h2>
+ * <h3>Report Styles</h3>
  * A report style is a collection of style settings declared at the report level. These settings
  * can be reused throughout the entire report template when setting the style properties of
  * report elements.
@@ -122,7 +122,7 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
  * throughout the library, but an individual element inherits only those style properties that
  * apply to it. The others will be ignored.
  * </p>
- * <h2>Conditional Styles</h2>
+ * <h3>Conditional Styles</h3>
  * Sometimes users need to change a report element style at runtime based on certain
  * conditions (for example, to alternate adjacent row colors in a report detail section). To
  * achieve this goal, one can set some style properties to be enabled only if a specified
@@ -148,7 +148,7 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
  * <code>net.sf.jasperreports.style.evaluation.time.enabled</code> configuration property
  * should be set to true.
  * </p>
- * <h2>Style Templates</h2>
+ * <h3>Style Templates</h3>
  * Report styles can also be defined in external style template files that are referenced by
  * report templates. This allows report designers to define in a single place a common look
  * for a set of reports.

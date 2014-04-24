@@ -32,7 +32,7 @@ package net.sf.jasperreports.engine;
  * <p/>
  * A template can in its turn include other templates, see {@link #getIncludedTemplates() getIncludedTemplates()}.
  * <p/>
- * <h2>Style Templates</h2>
+ * <h3>Style Templates</h3>
  * Report styles can also be defined in external style template files that are referenced by
  * report templates. This allows report designers to define in a single place a common look
  * for a set of reports.

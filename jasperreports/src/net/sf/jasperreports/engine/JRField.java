@@ -27,7 +27,7 @@ package net.sf.jasperreports.engine;
 /**
  * An abstract representation of a data source field. Each row in a dataset consists of one or more fields with unique
  * names. These names can be used in report expressions.
- * <h2>Report Fields</h2>
+ * <h3>Report Fields</h3>
  * The report fields represent the only way to map data from the data source into the report
  * template and to use this data in report expressions to obtain the desired output. 
  * <p/>
@@ -46,15 +46,15 @@ package net.sf.jasperreports.engine;
  * report-filling operations, but they also won't be accessible for display on the report.
  * <p/>
  * Following are described the components of a report field definition.
- * <h2>Field Name</h2>
+ * <h3>Field Name</h3>
  * The <code>name</code> attribute of the <code>&lt;field&gt;</code> element is mandatory. It 
  * lets you reference the field in report expressions by name.
- * <h2>Field Class</h2>
+ * <h3>Field Class</h3>
  * The second attribute for a report field specifies the class name for the field values. Its
  * default value is <code>java.lang.String</code>, but it can be changed to any class available at
  * runtime. Regardless of the type of a report field, the engine makes the appropriate cast in
  * report expressions in which the <code>$F{}</code> token is used, making manual casts unnecessary.
- * <h2>Field Description</h2>
+ * <h3>Field Description</h3>
  * This additional text chunk can prove very useful when implementing a custom data
  * source, for example. You could store in it a key, or whatever information you might need
  * in order to retrieve the field's value from the custom data source at runtime.
@@ -68,7 +68,7 @@ package net.sf.jasperreports.engine;
  *   &lt;/field&gt;</pre>
  * The field description is less important than in previous versions of the library because
  * now even the field's name accepts dots, spaces, and other special characters.
- * <h2>Custom Field Properties</h2>
+ * <h3>Custom Field Properties</h3>
  * Just like the report template and report parameters, report fields can have custom-defined
  * properties, too. This comes in addition to the field description, which can be considered a
  * built-in report field property. Custom properties are useful in some cases where more

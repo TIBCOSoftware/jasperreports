@@ -25,7 +25,7 @@
  * Contains fill time implementations for the library's main interfaces and the entire 
  * engine used in the filling process (the actual core of JasperReports). 
  * <br/>
- * <h2>Filling Report Templates</h2>
+ * <h3>Filling Report Templates</h3>
  * The report-filling process is the most important piece of JasperReports library 
  * functionality, because it manipulates sets of data to produce high-quality documents. 
  * This is the main purpose of any reporting tool. 
@@ -65,7 +65,7 @@
  * can always customize the report-filling process using the library's basic functionality just 
  * described.
  * </p>
- * <h2>Generated Reports</h2>
+ * <h3>Generated Reports</h3>
  * The output of the report-filling process is always a pixel-perfect document, ready for 
  * viewing, printing, or exporting to other formats. These documents come in the form of 
  * {@link net.sf.jasperreports.engine.JasperPrint} objects, which are serializable. This 
@@ -80,7 +80,7 @@
  * in pixels. They can be lines, rectangles, ellipses, images, or text, with various style 
  * settings corresponding to their type. 
  * </p>
- * <h2>Filling Order</h2>
+ * <h3Filling Order</h3>
  * JasperReports templates allow the detail section to be smaller than the specified page 
  * width so that the output can be structured into multiple columns, like a newspaper. 
  * <p>
@@ -101,7 +101,7 @@
  * as the page and column footers, preserving its declared height when horizontal filling is 
  * used. 
  * </p>
- * <h2>Asynchronous Report Filling</h2>
+ * <h3>Asynchronous Report Filling</h3>
  * JasperReports provides the 
  * {@link net.sf.jasperreports.engine.fill.AsynchronousFillHandle} class to be used 
  * for asynchronous report filling. The main benefit of this method is that the filling process 
@@ -141,7 +141,7 @@
  * </ul>
  * </li>
  * </ul>
- * <h2>Large File Support</h2>
+ * <h3>Large File Support</h3>
  * If very large datasets are used for report filling, the size of the resulting 
  * {@link net.sf.jasperreports.engine.JasperPrint} object could also be very large and might cause 
  * the JVM to run out of memory.
@@ -182,7 +182,7 @@
  * thread variable by calling the following: 
  * </p><pre>
  * JRVirtualizationHelper.setThreadVirtualizer(JRVirtualizer virtualizer)</pre>
- * <h2>File virtualizer</h2>
+ * <h3>File virtualizer</h3>
  * The library ships with a ready-to-use implementation of this interface called 
  * {@link net.sf.jasperreports.engine.fill.JRFileVirtualizer}, which stores document 
  * pages on disk during the filling process to free up memory. Once a {@link net.sf.jasperreports.engine.JasperPrint} object 
@@ -212,7 +212,7 @@
  * avoid using this feature in long-running applications by turning it off using the 
  * <code>net.sf.jasperreports.virtualizer.files.delete.on.exit</code> configuration property. 
  * </p>
- * <h2>Swap File Virtualizer</h2>
+ * <h3>Swap File Virtualizer</h3>
  * On some platforms, working with a large number of files in a single folder, or even the 
  * file manipulating processes themselves, may have a significant impact on performance or 
  * pose additional problems. This makes the use of the {@link net.sf.jasperreports.engine.fill.JRFileVirtualizer} 
@@ -240,14 +240,14 @@
  * version 1.4 or later, because it uses a <code>java.nio.channels.FileChannel</code> to perform 
  * concurrent I/O on the swap file. 
  * </p>
- * <h2>In-Memory GZIP Virtualizer</h2>
+ * <h3>In-Memory GZIP Virtualizer</h3>
  * The {@link net.sf.jasperreports.engine.fill.JRGzipVirtualizer} is a convenient 
  * report virtualizer implementation that does not rely on the file system to temporarily 
  * store unused/virtualized document pages during the report filling. Rather, it optimizes 
  * memory consumption by compressing those pages in-memory using a GZIP algorithm. 
  * Tests indicate that memory consumption during large report-generating processes is 
  * reduced up to a factor of ten when the in-memory GZIP report virtualizer is used. 
- * <h2>Related Documentation</h2>
+ * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
  * 
  * @see net.sf.jasperreports.engine.JasperFillManager

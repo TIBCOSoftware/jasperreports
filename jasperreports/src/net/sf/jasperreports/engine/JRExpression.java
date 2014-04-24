@@ -27,7 +27,7 @@ package net.sf.jasperreports.engine;
 
 /**
  * Provides the JasperReports expressions functionality.
- * <h2>Expressions in JasperReports</h2>
+ * <h3>Expressions in JasperReports</h3>
  * Expressions are a powerful feature of JasperReports. They can be used to declare report
  * variables that perform various calculations, group data on the report, specify report text
  * field content, or further customize the appearance of report objects.
@@ -52,7 +52,7 @@ package net.sf.jasperreports.engine;
  * <code>&lt;groupExpression&gt;</code>, <code>&lt;printWhenExpression&gt;</code>, 
  * <code>&lt;imageExpression&gt;</code>, <code>&lt;textFieldExpression&gt;</code>...
  * </p>
- * <h2>Expression Syntax</h2>
+ * <h3>Expression Syntax</h3>
  * Report expressions would be useless if there were no way to reference in them the report
  * parameters, report fields, or declared report variables. For this reason, a special
  * JasperReports syntax on top of the scripting language allows introducing such
@@ -117,7 +117,7 @@ package net.sf.jasperreports.engine;
  * <code>$$P{paramName}</code> in the expression. When escaped, an expression token is preserved as-is
  * in the resulting expression, and no attempt to parse the token is made.
  * </p>
- * <h2>Conditional Expressions</h2>
+ * <h3>Conditional Expressions</h3>
  * As the Java language documentation states, an expression is a series of variables,
  * operators, and method calls (constructed according to the syntax of the language) that
  * evaluate to a single value.
@@ -135,7 +135,7 @@ package net.sf.jasperreports.engine;
  *   &lt;textFieldExpression&gt;
  *     $F{quantity} == null ? "No data" : String.valueOf($F{quantity})
  *   &lt;/textFieldExpression&gt;</pre>
- * <h2>Expressions Calculator</h2>  
+ * <h3>Expressions Calculator</h3>  
  * The expressions calculator is the entity inside JasperReports that evaluates
  * expressions and increments variables or datasets at report-filling time. When a report
  * template is compiled, the report compiler produces and stores in the compiled report

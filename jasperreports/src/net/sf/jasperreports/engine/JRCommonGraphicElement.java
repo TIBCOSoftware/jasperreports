@@ -33,16 +33,17 @@ import net.sf.jasperreports.engine.type.FillEnum;
  * Graphic elements are the second major category of report elements. This category
  * includes lines, rectangles, ellipses and images. They all have some properties in common, which
  * are grouped under the attributes of the <code>&lt;graphicElement&gt;</code> tag.
- * <h2>Background Fill Style</h2>
+ * <h3>Background Fill Style</h3>
  * The <code>fill</code> attribute specifies the style of the background of the graphic elements. The
  * only style currently supported is the solid fill style, which is also the default
  * (<code>fill="Solid"</code>). The {@link #getFillValue()} method can 
  * be used to access the fill setting.
- * <h2>Line Settings</h2>
+ * <h3>Line Settings</h3>
  * Other common settings for graphic elements are the line width, line style and the line color. These are 
  * grouped together into the <code>&lt;pen&gt;</code> tag and can be accessed using the {@link #getLinePen()} 
  * method.
  * 
+ * @see net.sf.jasperreports.engine.JRPen
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
