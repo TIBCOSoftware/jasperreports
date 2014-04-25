@@ -27,7 +27,14 @@ package net.sf.jasperreports.engine;
 /**
  * An interface providing anchor functionality. It must be implemented by elements that can contain anchors for
  * hyperlinks.
- *
+ * <p/>
+ * If present in a text field or image element declaration, the <code>&lt;anchorNameExpression&gt;</code>
+ * tag (see {@link #getAnchorNameExpression()}) transforms that particular text field or image into a 
+ * local anchor of the resulting document, to which hyperlinks can point. The anchor will bear the 
+ * name returned after evaluation of the anchor name expression, which should always return
+ * <code>java.lang.String</code> values.
+ * 
+ * @see net.sf.jasperreports.engine.JRHyperlink
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

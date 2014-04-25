@@ -30,6 +30,22 @@ import java.util.List;
  * Groups several report elements. Report elements placed in any report section can be arranged in multiple
  * nested groups. The only reason you might have for grouping your elements is to be able to customize the
  * stretch behavior of the report elements.
+ * <p/>
+ * One possible value of the <code>stretchType</code> attribute, available for all report elements, is
+ * <code>RelativeToTallestObject</code>. If you choose this option, the engine tries to identify the
+ * object from the same group as the current graphic element that has suffered the biggest
+ * amount of stretch. It will then adapt the height of the current report element to the height
+ * of this tallest element of the group.
+ * <p/>
+ * However, for this to work, you must group your elements. To do this, use the
+ * <code>&lt;elementGroup&gt;</code> and <code>&lt;/elementGroup&gt;</code> tags to mark the elements that 
+ * are part of the same group.
+ * <p/>
+ * Report sections are element groups themselves, so all report elements placed directly in a
+ * containing band are part of the same default element group, which is the band itself. As
+ * such, for these report elements, <code>stretchType="RelativeToTallestObject"</code> and
+ * <code>stretchType= "RelativeToBandHeight"</code> have the same effect.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

@@ -30,13 +30,17 @@ package net.sf.jasperreports.engine;
  * <p>
  * A frame is a report element that contains sub elements.
  * It has a backgroud, a border and it stretches to accommodate its content.
+ * It is usually helpful when a common background and/or common border must 
+ * be put around a group of elements.
  * <p>
  * For the Graphics2D and PDF exporters, a frame is equivalent to a rectangle
  * placed behind a group of elements.  The HTML exporter creates sub-tables for frames
  * and the XLS exporter includes the frame sub elements into the grid.
  * <p>
- * For elements inside a frame, the coordinates, positionType and stretchType
- * properties are relative to the frame instead of the band. 
+ * For elements inside a frame, the coordinates, <code>positionType</code> and 
+ * <code>stretchType</code> properties are relative to the frame instead of the band. 
+ * <p/>
+ * Frames can be nested into one another to any depth.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
