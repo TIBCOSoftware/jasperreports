@@ -27,18 +27,55 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 /**
  * Interface representing a data set that can be used in a report.
- * <p>
+ * <p/>
+ * A dataset is a concept that lies somewhere between a data source and a subreport.
+ * Datasets allow the engine to iterate through some virtual records, just as data sources do,
+ * but they also enable calculations and data grouping during this iteration using variables
+ * and groups. Because dataset declarations contain parameters, fields, variables, and
+ * groups, they closely resemble subreports, but they completely lack any visual content
+ * (that is, they have no sections or layout information at the dataset level).
+ * <p/>
+ * Datasets are useful for chart, crosstab and other components generation when you need to iterate through
+ * data that is not the main report data source itself, in order to gather data for the component or
+ * perform data bucketing for the crosstab. Before datasets, the use of subreports was the
+ * only way to iterate through virtual records that were nested collections of virtual records
+ * rather than part of the current report data source. However, subreports come with
+ * unwanted visual settings and tend to complicate layout and report template structure.
+ * <p/>
  * A data set consists of parameters, fields, variables, groups and an optional query.
  * When a data set gets instantiated, parameter values and a data source is passed to it.
- * <p>
- * A report has one main data set and multiple sub data sets that can be instantiated by charts and crosstabs.
- * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
+ * <h3>Main Dataset</h3>
+ * The report data source, along with the parameters, fields, variables, and groups declared
+ * at the report level, represent the building blocks of the <i>main dataset</i> for the report. All
+ * report templates implicitly declare and use this main dataset.
+ * <p/>
+ * The main dataset is responsible for iterating through the data source records, calculating
+ * variables, filtering out records, and estimating group breaks during the report-filling
+ * process.
+ * <p/>
+ * A report has one main dataset and multiple subdatasets that can be instantiated by charts, crosstabs 
+ * and other components.
+ * <h3>Subdatasets</h3>
+ * User-defined datasets (or <i>subdatasets</i>) are declared in JRXML using the 
+ * <code>&lt;subDataset&gt;</code> tag.
+ * <p/>
+ * The engine does not necessarily use a subdataset, once defined in the report. Subdatasets are 
+ * instantiated and iterate through the supplied data source to calculate dataset variable values 
+ * only if they are referenced by a chart, crosstab or other component's dataset run.
+ * <p/>
+ * Just like subreports, datasets, when instantiated, expect to receive parameter values and a
+ * data source to iterate through. As a convenience, datasets can have an associated SQL
+ * query that is executed by the engine if a java.sql.Connection object is supplied to
+ * them instead of the usual data source.
+ * <p/>
+ * Datasets can also have scriptlets associated with them to allow making callbacks to userdefined
+ * business logic during the dataset iteration, if further data manipulation is needed.
  * 
  * @see net.sf.jasperreports.engine.JRDatasetRun
  * @see net.sf.jasperreports.engine.JRReport#getMainDataset()
  * @see net.sf.jasperreports.engine.JRReport#getDatasets()
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @version $Id$
  */
 public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiable
 {
