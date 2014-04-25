@@ -23,13 +23,27 @@
  */
 package net.sf.jasperreports.data.xmla;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.olap4j.OlapConnection;
+import org.olap4j.OlapDatabaseMetaData;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuterFactory;
+import net.sf.jasperreports.olap.xmla.Olap4jXmlaQueryExecuter;
 import net.sf.jasperreports.util.SecretsUtil;
 
 /**
@@ -39,50 +53,149 @@ import net.sf.jasperreports.util.SecretsUtil;
 public class XmlaDataAdapterService extends AbstractDataAdapterService 
 {
 
+	private static final Log log = LogFactory.getLog(XmlaDataAdapterService.class);
+	
 	/**
 	 * 
 	 */
-	public XmlaDataAdapterService(JasperReportsContext jasperReportsContext, XmlaDataAdapter jsonDataAdapter) 
+	public XmlaDataAdapterService(JasperReportsContext jasperReportsContext, XmlaDataAdapter dataAdapter) 
 	{
-		super(jasperReportsContext, jsonDataAdapter);
+		super(jasperReportsContext, dataAdapter);
 	}
 
 	/**
 	 * @deprecated Replaced by {@link #XmlaDataAdapterService(JasperReportsContext, XmlaDataAdapter)}.
 	 */
-	public XmlaDataAdapterService(XmlaDataAdapter jsonDataAdapter) 
+	public XmlaDataAdapterService(XmlaDataAdapter dataAdapter) 
 	{
-		this(DefaultJasperReportsContext.getInstance(), jsonDataAdapter);
+		this(DefaultJasperReportsContext.getInstance(), dataAdapter);
 	}
 
-	public XmlaDataAdapter getHibernateDataAdapter() {
+	public XmlaDataAdapter getXmlaDataAdapter()
+	{
 		return (XmlaDataAdapter) getDataAdapter();
 	}
 
 	@Override
 	public void contributeParameters(Map<String, Object> parameters)
 			throws JRException {
-		XmlaDataAdapter hbmDA = getHibernateDataAdapter();
-		if (hbmDA != null) {
+		XmlaDataAdapter xmlaDA = getXmlaDataAdapter();
+		if (xmlaDA != null) {
 			parameters.put(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_URL,
-					hbmDA.getXmlaUrl());
+					xmlaDA.getXmlaUrl());
 			parameters.put(
 					JRXmlaQueryExecuterFactory.PARAMETER_XMLA_DATASOURCE,
-					hbmDA.getDatasource());
+					xmlaDA.getDatasource());
 			parameters.put(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_CATALOG,
-					hbmDA.getCatalog());
+					xmlaDA.getCatalog());
 
-			String username = hbmDA.getUsername();
+			String username = xmlaDA.getUsername();
 			if (username != null && !username.isEmpty())
 				parameters.put(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_USER,
 						username);
 
-			String password = hbmDA.getPassword();
+			String password = xmlaDA.getPassword();
 			SecretsUtil secretService = SecretsUtil.getInstance(getJasperReportsContext());
 			if (secretService != null)
 				password = secretService.getSecret(SECRETS_CATEGORY, password);
 			if (password != null && !password.isEmpty())
 				parameters.put(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_PASSWORD, password);
+		}
+	}
+
+	@Override
+	public void test() throws JRException
+	{
+		Map<String, Object> params = new HashMap<String, Object>();
+		contributeParameters(params);
+		
+		Properties props = new Properties();
+		putNonNull(props, Olap4jXmlaQueryExecuter.XMLA_SERVER, params.get(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_URL));
+		putNonNull(props, Olap4jXmlaQueryExecuter.XMLA_CATALOG, params.get(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_CATALOG));
+		putNonNull(props, Olap4jXmlaQueryExecuter.XMLA_DATA_SOURCE, params.get(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_DATASOURCE));
+		putNonNull(props, Olap4jXmlaQueryExecuter.XMLA_USER, params.get(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_USER));
+		putNonNull(props, Olap4jXmlaQueryExecuter.XMLA_PASSWORD, params.get(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_PASSWORD));
+		putNonNull(props, Olap4jXmlaQueryExecuter.OLAP4J_DRIVER, Olap4jXmlaQueryExecuter.OLAP4J_XMLA_DRIVER_CLASS);
+		putNonNull(props, Olap4jXmlaQueryExecuter.OLAP4J_URL_PREFIX, Olap4jXmlaQueryExecuter.OLAP4J_XMLA_URL_PREFIX);
+		
+		try
+		{
+			// load driver  and Connection
+			Class.forName(Olap4jXmlaQueryExecuter.OLAP4J_XMLA_DRIVER_CLASS);
+			Connection connection = DriverManager.getConnection(Olap4jXmlaQueryExecuter.OLAP4J_XMLA_URL_PREFIX, props);
+			OlapConnection olapConnection = connection.unwrap(OlapConnection.class);
+			
+			// doing something to validate the connection
+			OlapDatabaseMetaData metaData = olapConnection.getMetaData();
+			ResultSet datasources = null;
+			try
+			{
+				// try olap4j 1.1 first
+				Method method = OlapDatabaseMetaData.class.getMethod("getDatabases");
+				datasources = (ResultSet) method.invoke(metaData);
+			}
+			catch (NoSuchMethodException e)
+			{
+				// not olap4j 1.1
+				if (log.isDebugEnabled())
+				{
+					log.debug("OlapDatabaseMetaData.getDatabases method not found: " + e.getMessage());
+				}
+			}
+			
+			if (datasources == null)
+			{
+				try
+				{
+					// try olap4j 0.9
+					Method method = OlapDatabaseMetaData.class.getMethod("getDatasources");
+					datasources = (ResultSet) method.invoke(metaData);
+				}
+				catch (NoSuchMethodException e)
+				{
+					// not olap4j 0.9?  giving up
+					if (log.isDebugEnabled())
+					{
+						log.debug("OlapDatabaseMetaData.getDatasources method not found: " + e.getMessage());
+					}
+				}
+			}
+			
+			if (datasources != null)
+			{
+				// making sure the request is sent
+				datasources.next();
+				
+				datasources.close();
+			}
+			
+			connection.close();
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw new JRException("Error creating XMLA connection", e);
+		}
+		catch (IllegalAccessException e)
+		{
+			throw new JRException("Error creating XMLA connection", e);
+		} 
+		catch (InvocationTargetException e)
+		{
+			throw new JRException("Error creating XMLA connection", e);
+		}
+		catch (SQLException e)
+		{
+			throw new JRException("Error creating XMLA connection", e);
+		} 
+		
+		dispose();
+	}
+	
+	private void putNonNull(Properties props, String key, Object value)
+	{
+		if (value != null)
+		{
+			props.put(key, value);
 		}
 	}
 
