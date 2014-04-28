@@ -28,11 +28,14 @@
  * John Bindel - jbindel@users.sourceforge.net 
  */
 
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.PrintBookmark;
 
 
 /**

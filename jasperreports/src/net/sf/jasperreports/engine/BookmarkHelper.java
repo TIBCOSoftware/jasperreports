@@ -35,6 +35,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.base.BasePrintBookmark;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

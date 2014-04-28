@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import net.sf.jasperreports.engine.BasePrintBookmark;
+import net.sf.jasperreports.engine.base.BasePrintBookmark;
 
 import org.xml.sax.Attributes;
 
