@@ -142,13 +142,37 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3", "jas
                 }
 
                 /*
-                 If Highcharts are present render them  // FIXMEJIVE: should revert back to components being able to render themselves
+                 Handle webfonts
                  */
-                if(components.chart) {
-                    $.each(components.chart, function(){
-                        var el = $('#'+this.config.hcinstancedata.renderto).length;
-                        el && this.render();
+                if (components.webfonts && components.webfonts.length) {
+                    var webFonts = components.webfonts[0].config.webfonts,
+                        modules = [],
+                        webFontsConfig = {paths: {}},
+                        moduleName;
+
+                    $.each(webFonts, function(i, webfont) {
+                        moduleName = 'webfont_' + webfont.id;
+                        modules.push('csslink!' + moduleName);
+                        webFontsConfig.paths[moduleName] = webfont.path;
                     });
+
+                    require.config(webFontsConfig);
+                    require(modules, function() {
+                        /*
+                         IE Webfonts fix
+                         */
+                        if (/msie/i.test(navigator.userAgent)) {
+                            var links = document.querySelectorAll('link.jrWebFont');
+                            setTimeout(function() {
+                                if (links) {
+                                    for (var i = 0; i < links.length; i++) {
+                                        links.item(i).href = links.item(i).href;
+                                    }
+                                }
+                            }, 0);
+                        }
+                    });
+
                 }
 
             });
