@@ -430,7 +430,7 @@ public class NoReportApp extends AbstractSampleApp
 		normalStyle.setName("Sans_Normal");
 		normalStyle.setDefault(true);
 		normalStyle.setFontName("DejaVu Sans");
-		normalStyle.setFontSize(8);
+		normalStyle.setFontSize(8f);
 		normalStyle.setPdfFontName("Helvetica");
 		normalStyle.setPdfEncoding("Cp1252");
 		normalStyle.setPdfEmbedded(false);
@@ -439,7 +439,7 @@ public class NoReportApp extends AbstractSampleApp
 		JRDesignStyle boldStyle = new JRDesignStyle();
 		boldStyle.setName("Sans_Bold");
 		boldStyle.setFontName("DejaVu Sans");
-		boldStyle.setFontSize(8);
+		boldStyle.setFontSize(8f);
 		boldStyle.setBold(true);
 		boldStyle.setPdfFontName("Helvetica-Bold");
 		boldStyle.setPdfEncoding("Cp1252");
@@ -449,7 +449,7 @@ public class NoReportApp extends AbstractSampleApp
 		JRDesignStyle italicStyle = new JRDesignStyle();
 		italicStyle.setName("Sans_Italic");
 		italicStyle.setFontName("DejaVu Sans");
-		italicStyle.setFontSize(8);
+		italicStyle.setFontSize(8f);
 		italicStyle.setItalic(true);
 		italicStyle.setPdfFontName("Helvetica-Oblique");
 		italicStyle.setPdfEncoding("Cp1252");
@@ -488,7 +488,7 @@ public class NoReportApp extends AbstractSampleApp
 		text.setLineSpacingFactor(1.3133681f);
 		text.setLeadingOffset(-4.955078f);
 		text.setStyle(boldStyle);
-		text.setFontSize(18);
+		text.setFontSize(18f);
 		text.setText("JasperReports Project Description");
 		page.addElement(text);
 
@@ -502,7 +502,7 @@ public class NoReportApp extends AbstractSampleApp
 		text.setLineSpacingFactor(1.329241f);
 		text.setLeadingOffset(-4.076172f);
 		text.setStyle(italicStyle);
-		text.setFontSize(12);
+		text.setFontSize(12f);
 		text.setText((new SimpleDateFormat("EEE, MMM d, yyyy")).format(new Date()));
 		page.addElement(text);
 
@@ -516,7 +516,7 @@ public class NoReportApp extends AbstractSampleApp
 		text.setLineSpacingFactor(1.329241f);
 		text.setLeadingOffset(-4.076172f);
 		text.setStyle(normalStyle);
-		text.setFontSize(14);
+		text.setFontSize(14f);
 		text.setText(
 			"JasperReports is a powerful report-generating tool that has the ability to deliver rich content onto the screen, to the printer or into PDF, HTML, XLS, CSV or XML files.\n\n" +
 			"It is entirely written in Java and can be used in a variety of Java enabled applications, including J2EE or Web applications, to generate dynamic content.\n\n" +

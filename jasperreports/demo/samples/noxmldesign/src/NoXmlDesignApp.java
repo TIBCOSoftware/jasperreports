@@ -474,7 +474,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		normalStyle.setName("Sans_Normal");
 		normalStyle.setDefault(true);
 		normalStyle.setFontName("DejaVu Sans");
-		normalStyle.setFontSize(12);
+		normalStyle.setFontSize(12f);
 		normalStyle.setPdfFontName("Helvetica");
 		normalStyle.setPdfEncoding("Cp1252");
 		normalStyle.setPdfEmbedded(false);
@@ -483,7 +483,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		JRDesignStyle boldStyle = new JRDesignStyle();
 		boldStyle.setName("Sans_Bold");
 		boldStyle.setFontName("DejaVu Sans");
-		boldStyle.setFontSize(12);
+		boldStyle.setFontSize(12f);
 		boldStyle.setBold(true);
 		boldStyle.setPdfFontName("Helvetica-Bold");
 		boldStyle.setPdfEncoding("Cp1252");
@@ -493,7 +493,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		JRDesignStyle italicStyle = new JRDesignStyle();
 		italicStyle.setName("Sans_Italic");
 		italicStyle.setFontName("DejaVu Sans");
-		italicStyle.setFontSize(12);
+		italicStyle.setFontSize(12f);
 		italicStyle.setItalic(true);
 		italicStyle.setPdfFontName("Helvetica-Oblique");
 		italicStyle.setPdfEncoding("Cp1252");
@@ -633,7 +633,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		textField.setHeight(30);
 		textField.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
 		textField.setStyle(normalStyle);
-		textField.setFontSize(22);
+		textField.setFontSize(22f);
 		textField.setExpression(new JRDesignExpression("$P{ReportTitle}"));
 		band.addElement(textField);
 		jasperDesign.setTitle(band);

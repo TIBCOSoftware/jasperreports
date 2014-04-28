@@ -39,7 +39,7 @@ public class StyleUpdater implements ReportUpdater {
 	public JasperDesign update(JasperDesign jasperDesign){
 		JRDesignStyle style = (JRDesignStyle)jasperDesign.getStyles()[0];
 		style.setForecolor(Color.BLUE);
-		style.setFontSize(14);
+		style.setFontSize(14f);
 		style.setBold(Boolean.TRUE);
 		return jasperDesign;
 	}

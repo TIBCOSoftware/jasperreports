@@ -26,7 +26,6 @@ package net.sf.jasperreports.ohloh;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
-import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -44,7 +43,7 @@ public class OhlohWidgetXhtmlHandler extends OhlohWidgetHtmlHandler
 		StringBuffer script = new StringBuffer(128);
 		
 		script.append("<div");
-		String dataAttr = ((JRXhtmlExporter)context.getExporter()).getDataAttributes(element);
+		String dataAttr = ((net.sf.jasperreports.engine.export.JRXhtmlExporter)context.getExporter()).getDataAttributes(element);
 		if (dataAttr != null)
 		{
 			script.append(dataAttr);
@@ -104,7 +103,7 @@ public class OhlohWidgetXhtmlHandler extends OhlohWidgetHtmlHandler
 	
 	protected String toSizeUnit(JRHtmlExporterContext context, int size)
 	{
-		return ((JRXhtmlExporter)context.getExporter()).toSizeUnit(size);
+		return ((net.sf.jasperreports.engine.export.JRXhtmlExporter)context.getExporter()).toSizeUnit(size);
 	}
 
 	

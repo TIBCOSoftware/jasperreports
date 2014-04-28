@@ -2833,9 +2833,9 @@ public class GenericChartTheme implements ChartTheme
 	protected Font getFont(JRFont themeFont, JRFont ownFont, Integer baseFontSize)
 	{
 		JRBaseFont font = new JRBaseFont();
-		if(themeFont != null && themeFont.getFontSize() <= 0 && baseFontSize != null && baseFontSize.intValue() >0)
+		if(themeFont != null && themeFont.getFontsize() <= 0 && baseFontSize != null && baseFontSize.intValue() > 0)
 		{
-			themeFont.setFontSize(baseFontSize);
+			themeFont.setFontSize((float)baseFontSize);
 		}
 		FontUtil.copyNonNullOwnProperties(themeFont, font);
 		FontUtil.copyNonNullOwnProperties(ownFont, font);

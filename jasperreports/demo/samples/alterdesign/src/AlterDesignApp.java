@@ -88,7 +88,7 @@ public class AlterDesignApp extends AbstractSampleApp
 		rectangle.setBackcolor(new Color((int)(16000000 * Math.random())));
 
 		JRStyle style = jasperReport.getStyles()[0];
-		style.setFontSize(16);
+		style.setFontSize(16f);
 		style.setItalic(true);
 
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, (JRDataSource)null);

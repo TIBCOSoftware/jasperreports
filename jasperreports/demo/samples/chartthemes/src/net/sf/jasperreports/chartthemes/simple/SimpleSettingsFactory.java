@@ -142,7 +142,7 @@ public class SimpleSettingsFactory
 		titleSettings.setForegroundPaint(new ColorProvider(Color.black));
 		titleSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
 		titleSettings.getFont().setBold(Boolean.TRUE);
-		titleSettings.getFont().setFontSize(22);
+		titleSettings.getFont().setFontSize(22f);
 		titleSettings.setHorizontalAlignment(HorizontalAlignment.CENTER);
 		titleSettings.setVerticalAlignment(VerticalAlignment.TOP);
 		titleSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
@@ -194,10 +194,10 @@ public class SimpleSettingsFactory
 		plotSettings.setRangeGridlineStroke(new BasicStroke(0.5f));
 		plotSettings.getTickLabelFont().setFontName("Courier");
 		plotSettings.getTickLabelFont().setBold(Boolean.TRUE);
-		plotSettings.getTickLabelFont().setFontSize(10);
+		plotSettings.getTickLabelFont().setFontSize(10f);
 		plotSettings.getDisplayFont().setFontName("Arial");
 		plotSettings.getDisplayFont().setBold(Boolean.TRUE);
-		plotSettings.getDisplayFont().setFontSize(12);
+		plotSettings.getDisplayFont().setFontSize(12f);
 		
 		AxisSettings domainAxisSettings = settings.getDomainAxisSettings();
 		domainAxisSettings.setVisible(Boolean.TRUE);
@@ -211,14 +211,14 @@ public class SimpleSettingsFactory
 		domainAxisSettings.getLabelFont().setBold(Boolean.TRUE);
 		domainAxisSettings.getLabelFont().setItalic(Boolean.TRUE);
 		domainAxisSettings.getLabelFont().setFontName("Comic Sans MS");
-		domainAxisSettings.getLabelFont().setFontSize(12);
+		domainAxisSettings.getLabelFont().setFontSize(12f);
 		domainAxisSettings.setLabelInsets(new RectangleInsets(UnitType.ABSOLUTE, 0.5, 0.5, 1, 1));
 		domainAxisSettings.setLabelVisible(Boolean.TRUE);
 		domainAxisSettings.setTickLabelPaint(new ColorProvider(Color.cyan));
 		domainAxisSettings.getTickLabelFont().setBold(Boolean.TRUE);
 		domainAxisSettings.getTickLabelFont().setItalic(Boolean.FALSE);
 		domainAxisSettings.getTickLabelFont().setFontName("Arial");
-		domainAxisSettings.getTickLabelFont().setFontSize(10);
+		domainAxisSettings.getTickLabelFont().setFontSize(10f);
 		domainAxisSettings.setTickLabelInsets(new RectangleInsets(UnitType.ABSOLUTE, 0.5, 0.5, 0.5, 0.5));
 		domainAxisSettings.setTickLabelsVisible(Boolean.TRUE);
 		domainAxisSettings.setTickMarksInsideLength(new Float(0.1f));
@@ -241,14 +241,14 @@ public class SimpleSettingsFactory
 		rangeAxisSettings.getLabelFont().setBold(Boolean.TRUE);
 		rangeAxisSettings.getLabelFont().setItalic(Boolean.TRUE);
 		rangeAxisSettings.getLabelFont().setFontName("Comic Sans MS");
-		rangeAxisSettings.getLabelFont().setFontSize(12);
+		rangeAxisSettings.getLabelFont().setFontSize(12f);
 		rangeAxisSettings.setLabelInsets(new RectangleInsets(UnitType.ABSOLUTE, 0.5, 0.5, 1, 1));
 		rangeAxisSettings.setLabelVisible(Boolean.TRUE);
 		rangeAxisSettings.setTickLabelPaint(new ColorProvider(Color.pink));
 		rangeAxisSettings.getTickLabelFont().setBold(Boolean.FALSE);
 		rangeAxisSettings.getTickLabelFont().setItalic(Boolean.TRUE);
 		rangeAxisSettings.getTickLabelFont().setFontName("Arial");
-		rangeAxisSettings.getTickLabelFont().setFontSize(10);
+		rangeAxisSettings.getTickLabelFont().setFontSize(10f);
 		rangeAxisSettings.setTickLabelInsets(new RectangleInsets(UnitType.ABSOLUTE, 0.5, 0.5, 0.5, 0.5));
 		rangeAxisSettings.setTickLabelsVisible(Boolean.TRUE);
 		rangeAxisSettings.setTickMarksInsideLength(new Float(0.2f));

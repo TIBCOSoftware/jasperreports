@@ -90,7 +90,7 @@ public class TextInputElementPdfHandler implements GenericElementPdfHandler
 //		}catch(Exception e){
 //			throw new JRRuntimeException(e);
 //		}
-		text.setFontSize(printText.getFontSize());
+		text.setFontSize(printText.getFontsize());
 		if (Boolean.TRUE.equals(element.getParameterValue(TextInputElement.PARAMETER_MULTI_LINE)))
 		{
 			text.setOptions(TextField.MULTILINE);
