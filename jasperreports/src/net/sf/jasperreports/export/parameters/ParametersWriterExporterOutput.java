@@ -75,7 +75,7 @@ public class ParametersWriterExporterOutput extends AbstractParametersExporterOu
 		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb != null)
 		{
-			writer = new StringWriter();
+			writer = new StringBufferWrapperWriter(sb);
 			toClose = true;
 		}
 		else
@@ -169,5 +169,26 @@ public class ParametersWriterExporterOutput extends AbstractParametersExporterOu
 			{
 			}
 		}
+	}
+}
+
+class StringBufferWrapperWriter extends StringWriter
+{
+	private final StringBuffer sb;
+	
+	public StringBufferWrapperWriter(StringBuffer sb)
+	{
+		super();
+		this.sb = sb;
+	}
+
+	@Override
+	public void close() throws IOException
+	{
+		super.close();
+		
+		// this preserves existing functionality
+		// implementing a writer that directly writes to sb might be better
+		sb.append(toString());
 	}
 }
