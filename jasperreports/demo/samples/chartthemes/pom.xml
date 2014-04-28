@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-chart-themes</artifactId>
-	<version>5.5.2-SNAPSHOT</version>
+	<version>5.5.2</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Chart Themes</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -24,6 +24,11 @@
 		<repository>
 			<id>jasperreports</id>
 			<url>http://jasperreports.sourceforge.net/maven2</url>
+		</repository>
+		<repository>
+			<id>jr-ce-snapshots</id>
+			<name>JasperReports CE Snapshots</name>
+			<url>http://jaspersoft.artifactoryonline.com/jaspersoft/jr-ce-snapshots</url>
 		</repository>
 	</repositories>
 	<build>
@@ -92,7 +97,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>5.5.2-SNAPSHOT</version>
+			<version>5.5.2</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
