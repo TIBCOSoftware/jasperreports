@@ -42,7 +42,7 @@
 		if (!reportFile.exists())
 			throw new JRRuntimeException("File WebappReport.jasper not found. The report design must be compiled first.");
 
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(reportFile.getPath());
+		JasperReport jasperReport = (JasperReport)JRLoader.loadObjectFromFile(reportFile.getPath());
 
 		Map parameters = new HashMap();
 		parameters.put("ReportTitle", "Address Report");

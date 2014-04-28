@@ -24,10 +24,6 @@
 		<servlet-class>servlets.HtmlServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>XhtmlServlet</servlet-name>
-		<servlet-class>servlets.XhtmlServlet</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>ImageServlet</servlet-name>
 		<servlet-class>net.sf.jasperreports.j2ee.servlets.ImageServlet</servlet-class>
 	</servlet>
@@ -88,10 +84,6 @@
 	<servlet-mapping>
 		<servlet-name>HtmlServlet</servlet-name>
 		<url-pattern>/servlets/html</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>XhtmlServlet</servlet-name>
-		<url-pattern>/servlets/xhtml</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>ImageServlet</servlet-name>

@@ -25,11 +25,11 @@
 				<include name="**/i*ext*.jar"/>
 				<include name="**/*jdt*.jar"/>
 				<include name="**/poi*.jar"/>
-				<include name="**/jxl*.jar"/>
 				<include name="**/png-encoder*.jar"/>
 				<include name="**/spring*.jar"/>
 				<include name="**/velocity*.jar"/>
 				<exclude name="**/commons-javaflow-*.jar"/>
+				<include name="**/jackson*.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="./applets">
