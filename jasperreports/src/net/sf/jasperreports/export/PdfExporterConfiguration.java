@@ -230,6 +230,9 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	
 	/**
 	 * Returns a boolean value specifying whether the final PDF document should be encrypted.
+	 * <p/>
+	 * When set to <code>Boolean.TRUE</code>, this parameter instructs the exporter to 
+	 * encrypt the resulting PDF document. By default PDF files are not encrypted.
 	 * @see PdfExporterConfiguration#PROPERTY_ENCRYPTED
 	 */
 	@SuppressWarnings("deprecation")
@@ -245,6 +248,11 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	
 	/**
 	 * Returns a boolean value specifying whether the encryption key is 128 bits.
+	 * <p/>
+	 * The PDF exporter can encrypt the files using either a 40-bit key or a
+	 * 128-bit key. By default, it uses a 40-bit key, but if you set this flag to 
+	 * <code>Boolean.TRUE</code>, it
+	 * can be configured to use a 128-bit key for stronger encryption.
 	 * @see #PROPERTY_128_BIT_KEY
 	 */
 	@SuppressWarnings("deprecation")
@@ -272,7 +280,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	
 	/**
 	 * The password belonging to the owner of the document, if it is encrypted. If the password is null, it will be replaced
-	 * by a random string.
+	 * by a random string, so that access is denied to all would-be owners.
 	 * @see #PROPERTY_OWNER_PASSWORD
 	 */
 	@SuppressWarnings("deprecation")

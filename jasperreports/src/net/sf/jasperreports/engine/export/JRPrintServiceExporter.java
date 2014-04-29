@@ -41,6 +41,7 @@ import javax.print.attribute.HashPrintServiceAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.PrintServiceAttributeSet;
 import javax.print.attribute.standard.MediaPrintableArea;
+import javax.print.attribute.standard.MediaSizeName;
 import javax.print.attribute.standard.OrientationRequested;
 import javax.print.attribute.standard.PageRanges;
 import javax.print.attribute.standard.PrinterIsAcceptingJobs;
@@ -59,9 +60,124 @@ import net.sf.jasperreports.export.PrintServiceReportConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
 import net.sf.jasperreports.export.SimpleGraphics2DReportConfiguration;
+import net.sf.jasperreports.export.SimplePrintServiceExporterConfiguration;
 
 
 /**
+ * Prints a JasperReports document using the Java Print Service API.
+ * <p/>
+ * There are four ways of using the Java Print Service with the Java 2D API:
+ * <ul>
+ * <li>Printing 2D graphics using <code>java.awt.print.PrinterJob</code></li>
+ * <li>Streaming 2D graphics using <code>java.awt.print.PrinterJob</code></li>
+ * <li>Printing 2D graphics using <code>javax.print.DocPrintJob</code> and a service-formatted <code>javax.print.DocFlavor</code></li>
+ * <li>Streaming 2D graphics using <code>javax.print.DocPrintJob</code> and a service-formatted <code>javax.print.DocFlavor</code></li>
+ * </ul>
+ * <p/>
+ * The {@link net.sf.jasperreports.engine.export.JRPrintServiceExporter}
+ * implementation takes the first approach and uses some of the methods added to the
+ * <code>java.awt.print.PrinterJob</code> class:
+ * <ul>
+ * <li>Static convenience methods to look up print services that can image 2D graphics,
+ * which are returned as an array of <code>PrintService</code> or
+ * <code>StreamPrintServiceFactory</code> objects depending on the method</li>
+ * <li>Methods to set and get a <code>PrintService</code> on a <code>PrinterJob</code></li>
+ * <li>A <code>pageDialog()</code> method that takes a <code>PrintRequestAttributeSet</code> parameter</li>
+ * <li>A <code>printDialog()()</code> method that takes a <code>PrintRequestAttributeSet</code> parameter</li>
+ * <li>A print method that takes a <code>PrintRequestAttributeSet</code> parameter</li>
+ * </ul>
+ * <h3>Looking Up a Printing Service</h3>
+ * This exporter tries to find a print service that supports the necessary attributes. The set of
+ * attributes can be supplied to the exporter in the form of a
+ * <code>javax.print.attribute.PrintServiceAttributeSet</code> object that is passed as the
+ * value for the special 
+ * {@link net.sf.jasperreports.export.PrintServiceExporterConfiguration#getPrintServiceAttributeSet() getPrintServiceAttributeSet()} 
+ * exporter configuration setting. For more
+ * details about the attributes that can be part of such an attribute set, check the Java Print
+ * Service API documentation.
+ * <p/>
+ * The lookup procedure might return one or more print services able to handle the
+ * specified print service attributes. If so, the exporter uses the first one in the list. If no
+ * suitable print service is found, then the exporter throws an exception. As an alternative, a
+ * <code>javax.print.PrintService</code> instance can be passed in using the 
+ * {@link net.sf.jasperreports.export.PrintServiceExporterConfiguration#getPrintService() getPrintService()} 
+ * exporter configuration setting when users do not want the Java Print Service to search for an
+ * available print service.
+ * <h3>Configuring the Printer Job</h3>
+ * Once a print service has been located, it is associated with a <code>PrinterJob</code> instance.
+ * Further customization is made by passing a
+ * <code>javax.print.attribute.PrintRequestAttributeSet</code> instance when calling the
+ * <code>print()</code> method on the <code>PrinterJob</code> object to start the printing process.
+ * <p/>
+ * To supply the <code>javax.print.attribute.PrintRequestAttributeSet</code> object
+ * containing the desired <code>javax.print.attribute.PrintRequestAttribute</code> values to
+ * the exporter, set the special 
+ * {@link net.sf.jasperreports.export.PrintServiceExporterConfiguration#getPrintRequestAttributeSet() getPrintRequestAttributeSet()} 
+ * exporter configuration setting.
+ * <h3>Displaying Print Dialogs</h3>
+ * If this exporter is invoked by a desktop or client-side Java application, you can offer the
+ * end user a final chance to customize the printer job before the printing process actually
+ * starts. The exporter has two other predefined configuration settings: 
+ * {@link net.sf.jasperreports.export.PrintServiceExporterConfiguration#isDisplayPageDialog() isDisplayPageDialog()}
+ * and
+ * {@link net.sf.jasperreports.export.PrintServiceExporterConfiguration#isDisplayPrintDialog() isDisplayPrintDialog()}, 
+ * both receiving <code>java.lang.Boolean</code> values, which show or
+ * suppress the page dialog and/or the print dialog associated with the <code>PrinterJob</code>
+ * instance.
+ * <p/>
+ * The two dialogs are cross-platform. They enable users to alter the print service attributes
+ * and the print request attributes that are already set for the current print service and printer
+ * job. They also allow canceling the current printing procedure altogether. When batch
+ * printing a set of documents, if 
+ * {@link net.sf.jasperreports.export.PrintServiceExporterConfiguration#isDisplayPageDialog() isDisplayPageDialog()} or 
+ * {@link net.sf.jasperreports.export.PrintServiceExporterConfiguration#isDisplayPrintDialog() isDisplayPrintDialog()} are
+ * set to true, a dialog window will pop up each time a document in the list is to be
+ * printed. This is very useful if you intend to set different printing options for each
+ * document. However, setting the same page/printing options each time would quickly
+ * become cumbersome. If same settings are intended for all documents in the list, the
+ * exporter provides two additional predefined export configuration settings:
+ * {@link net.sf.jasperreports.export.PrintServiceExporterConfiguration#isDisplayPageDialogOnlyOnce() isDisplayPageDialogOnlyOnce()} and 
+ * {@link net.sf.jasperreports.export.PrintServiceExporterConfiguration#isDisplayPrintDialogOnlyOnce() isDisplayPrintDialogOnlyOnce()}. These
+ * are only effective if the corresponding 
+ * {@link net.sf.jasperreports.export.PrintServiceExporterConfiguration#isDisplayPageDialog() isDisplayPageDialog()} or 
+ * {@link net.sf.jasperreports.export.PrintServiceExporterConfiguration#isDisplayPrintDialog() isDisplayPrintDialog()} are
+ * set to true.
+ * <p/>
+ * If {@link net.sf.jasperreports.export.PrintServiceExporterConfiguration#isDisplayPageDialogOnlyOnce() isDisplayPageDialogOnlyOnce()}
+ * is true, then the page dialog will open only
+ * once, and the export options set within will be preserved for all documents in the list.
+ * The same thing happens when 
+ * {@link net.sf.jasperreports.export.PrintServiceExporterConfiguration#isDisplayPrintDialogOnlyOnce() isDisplayPrintDialogOnlyOnce()}
+ * is set to true - the print dialog will open only once.
+ * <p/>
+ * Below is an example of configuring the print service exporter taken from the supplied
+ * <code>/demo/ samples/printservice</code> sample:
+ * <pre>
+ * public void print() throws JRException
+ * {
+ *   PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
+ *   printRequestAttributeSet.add(MediaSizeName.ISO_A4);
+ *
+ *   PrintServiceAttributeSet printServiceAttributeSet = new HashPrintServiceAttributeSet();
+ *   //printServiceAttributeSet.add(new PrinterName("Epson Stylus 820 ESC/P 2", null));
+ *   //printServiceAttributeSet.add(new PrinterName("hp LaserJet 1320 PCL 6", null));
+ *   //printServiceAttributeSet.add(new PrinterName("PDFCreator", null));
+ *
+ *   JRPrintServiceExporter exporter = new JRPrintServiceExporter();
+ *
+ *   exporter.setExporterInput(new SimpleExporterInput("build/reports/PrintServiceReport.jrprint"));
+ *   SimplePrintServiceExporterConfiguration configuration = new SimplePrintServiceExporterConfiguration();
+ *   configuration.setPrintRequestAttributeSet(printRequestAttributeSet);
+ *   configuration.setPrintServiceAttributeSet(printServiceAttributeSet);
+ *   configuration.setDisplayPageDialog(false);
+ *   configuration.setDisplayPrintDialog(true);
+ *   exporter.setConfiguration(configuration);
+ *   exporter.exportReport();
+
+ *   System.err.println("Printing time : " + (System.currentTimeMillis() - start));
+ * }</pre>
+ * 
+ * @see net.sf.jasperreports.export.PrintServiceExporterConfiguration
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

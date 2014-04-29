@@ -57,12 +57,82 @@ import net.sf.jasperreports.export.ReportExportConfiguration;
 
 
 /**
- * Exports a JasperReports document to a <tt>Graphics2D</tt> object. Since all font measurement and layout
- * calculation during report filling is done using AWT, this is considered the perfect exporter, unlike the others,
- * which are only approximations of the initial document.
- * <p>
- * As its name indicates, this exporter is special because it does not produce files or does not send character
- * or binary data to an output stream.
+ * Exports a JasperReports document to a <code>Graphics2D</code> object. 
+ * <p/>
+ * JasperReports relies on AWT for text measurements and all sorts of layout calculations
+ * during report filling, so documents created using AWT will certainly look perfect when
+ * rendered with AWT on a <code>java.awt.Graphics2D</code> context. For this reason, the
+ * {@link net.sf.jasperreports.engine.export.JRGraphics2DExporter} is the perfect
+ * exporter. The output it produces is considered to be the reference in terms of layout
+ * capabilities and element styling.
+ * <p/>
+ * Generally speaking, the document quality produced by all the other exporters is only an
+ * approximation of the perfect output that the Graphics2D exporter can produce. As its
+ * name indicates, this exporter is special because it does not produce files or send character
+ * or binary data to an output stream. Instead, its only target for rendering the content of a
+ * page is a <code>java.awt.Graphics2D</code> object. This exporter is also special because it can
+ * export only one page at a time.
+ * <p/>
+ * This exporter is used by the built-in Swing viewer to render the content of each page, and
+ * it is also used when printing the documents. The documents are printed page by page,
+ * and the exporter is invoked to draw each document page on the graphic context
+ * associated with the selected printer job.
+ * <p/>
+ * Because we are relying on the same code (same exporter) when viewing the documents
+ * using the built-in viewer and when printing them, JasperReports is a perfect WYSIWYG
+ * tool. The document quality on paper is the same as on the screen.
+ * <p/>
+ * In terms of exporter input, note that this exporter does not work in batch mode. If a
+ * <code>java.util.List</code> of JasperPrint documents is supplied to it through a
+ * {@link net.sf.jasperreports.export.SimpleExporterInput} instance, the exporter 
+ * considers only the first one for exporting and ignores all the others.
+ * <p/>
+ * Furthermore, this exporter can export only a single page at a time. The index of the page
+ * to be exported can be set using either the 
+ * {@link net.sf.jasperreports.export.ReportExportConfiguration#getStartPageIndex() getStartPageIndex()}
+ * exporter configuration setting or the
+ * {@link net.sf.jasperreports.export.ReportExportConfiguration#getPageIndex() getPageIndex()}.
+ * Note that if present, {@link net.sf.jasperreports.export.ReportExportConfiguration#getPageIndex() getPageIndex()} overrides the value of
+ * {@link net.sf.jasperreports.export.ReportExportConfiguration#getStartPageIndex() getStartPageIndex()}. 
+ * Therefore, this exporter actually exports only the first page from
+ * the specified page range, no matter how the page range is specified.
+ * <p/>
+ * As already mentioned, this exporter needs a target <code>java.awt.Graphics2D</code> object onto
+ * which to render the specified page. This Graphics2D object can be set using the special
+ * exporter output setting {@link net.sf.jasperreports.export.Graphics2DExporterOutput#getGraphics2D() getGraphics2D()}. 
+ * If this setting is not present, the exporter will throw an
+ * exception signaling to the caller program that no output target was specified for the
+ * export process.
+ * <p/>
+ * By default, the exporter renders the content of the page at normal proportions. However,
+ * it can also render it at different proportions if needed. For instance, when used inside the
+ * Swing viewer, the Graphics2D exporter must render the page using the user-defined
+ * zoom ratio. To set the zoom ratio for the exporter, supply a <code>java.lang.Float</code> value
+ * ranging from 0 to 1 as the value for the 
+ * {@link net.sf.jasperreports.export.Graphics2DReportConfiguration#getZoomRatio() getZoomRatio()} export 
+ * configuration setting.
+ * <p/>
+ * The Graphics2D exporter is also used when printing directly from Java. The Java Print
+ * Service exporter relies on the Graphics2D exporter
+ * and delegates to it all the rendering that needs to be performed on the printer's graphic
+ * context. Some of the existing JVM implementations have problems related to the huge
+ * size of the printer spool jobs that are created even for small documents. To avoid this, a
+ * bug fix was introduced in the Graphics2D exporter to minimize the impact of this
+ * problem and reduce the size of print spool jobs, while preserving document quality when
+ * printing. However, the bug fix itself is not perfect, and users might experience problems
+ * when printing bidirectional writing texts such as Arabic and Hebrew.
+ * <p/>
+ * This is why the special
+ * {@link net.sf.jasperreports.export.Graphics2DReportConfiguration#isMinimizePrinterJobSize() isMinimizePrinterJobSize()} 
+ * export configuration setting was introduced, along with a configuration property called
+ * <code>net.sf.jasperreports.export.graphics2d.min.job.size</code>, to allow users to turn
+ * on and off this rendering optimization, depending on their actual needs. The
+ * configuration property value is used only in the absence of the export configuration setting.
+ * 
+ * @see net.sf.jasperreports.export.Graphics2DExporterOutput
+ * @see net.sf.jasperreports.export.Graphics2DReportConfiguration
+ * @see net.sf.jasperreports.export.ReportExportConfiguration
+ * @see net.sf.jasperreports.export.SimpleExporterInput
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

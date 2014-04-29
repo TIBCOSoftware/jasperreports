@@ -51,6 +51,137 @@ import com.lowagie.text.pdf.PdfWriter;
 
 
 /**
+ * Provides support for tagged PDF documents.
+ * <p/>
+ * PDF files can contain hidden tags that describe the structure of the document. Some of
+ * the tags are used by the automated reader tool that reads PDF documents aloud to people
+ * with disabilities.
+ * <h3>Marking Headings</h3>
+ * JasperReports currently supports specifying type 1, 2 and 3 level headings.
+ * In order to mark a text field as a level 1 heading, the following custom element property
+ * should be used in JRXML:
+ * <p/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.h1" value="full"/&gt;</code>
+ * <p/>
+ * Value full means that a full <code>&lt;H1&gt;</code> tag will be embedded in the PDF wrapping the
+ * current text element.
+ * If two or more text fields make up a single level 1 heading, there are two ways to mark
+ * the heading:
+ * <ul>
+ * <li>In the first, the text elements making up the heading are placed inside a frame and
+ * the frame is marked with the following custom property:
+ * <br/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.h1" value="full"/&gt;</code></li>
+ * <li>In the second, the first element of the heading (respective to the Z-Order, or the
+ * order in which the elements appear in JRXML) is tagged with:
+ * <br/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.h1" value="start"/&gt;</code>
+ * <br/>
+ * and the last element from the heading (respective to the same order) is marked with
+ * <br/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.h1" value="end"/&gt;</code></li>
+ * </ul>
+ * <p/>
+ * Level 2 and level 3 headings are marked the same way, except that the properties are:
+ * <p/>
+ * <code>net.sf.jasperreports.export.pdf.tag.h2</code>
+ * <p/>
+ * and
+ * <p/>
+ * <code>net.sf.jasperreports.export.pdf.tag.h3</code>.
+ * <h3>Marking Tables</h3>
+ * Tables are comprised of column headers, row headers, and a data section. Each table
+ * section is made of cells. Marking table structures in PDF is similar to the way tables are
+ * described in HTML and uses the same techniques as those for marking headings.
+ * <p/>
+ * When marking a table, the user has to indicate in the report template where the table
+ * starts and where it ends.
+ * <p/>
+ * If the entire table is placed in a container, such as a frame element, marking the table
+ * requires only marking the parent frame with the following custom element property:
+ * <p/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.table" value="full"/&gt;</code>
+ * <p/>
+ * However, most of the time, tables cannot be isolated in a frame unless they are
+ * subreports, because they generally span multiple report sections and bands. In such
+ * cases, marking a table requires marking in JRXML the first and last element making up
+ * the table structure.
+ * <p/>
+ * The first element of the table (probably the first element in the table header) should be
+ * marked with the following custom property:
+ * <p/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.table" value="start"/&gt;</code>
+ * <p/>
+ * The last element of the table should be marked with:
+ * <p/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.table" value="end"/&gt;</code>
+ * <p/>
+ * Tables are made of rows, and each row has to be precisely delimited within the table
+ * structure. This includes the column header rows at the top of the table. Similar to the
+ * headings and table marking, a table row can be identified in two ways:
+ * <ul>
+ * <li>If the entire content that makes up the row is isolated within a frame, the frame can be
+ * marked with the following custom property:
+ * <br/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.tr" value="full"/&gt;</code>
+ * </li>
+ * <li>If the content of the row is not grouped in a container frame, its first and last elements
+ * (respective to the Z-order or the order in which they appear in JRXML) have to be
+ * marked with the following custom properties:
+ * <br/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.tr" value="start"/&gt;</code>
+ * <br/>
+ * for the first element and
+ * <br/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.tr" value="start"/&gt;</code>
+ * <br/>
+ * for the last element.</li>
+ * </ul>
+ * <p/>
+ * Each table row can contain header cells or data cells. Regardless of their type, and
+ * similar to headings, tables, and table rows, cells can be marked either by marking a
+ * single element representing the cell content (this single cell element can actually be a
+ * frame element), or by marking the first and last element from the cell content.
+ * <p/>
+ * Header cells made of a single element (this single element can actually be a frame) are
+ * marked with
+ * <p/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/&gt;</code>
+ * <p/>
+ * A header cell made of multiple elements is marked with
+ * <p/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.th" value="start"/&gt;</code>
+ * on its first element and
+ * <p/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.th" value="end"/&gt;</code>
+ * on its last element.
+ * <p/>
+ * Normal data cells made of a single element (that can be frame) are marked with
+ * <p/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/&gt;</code>
+ * <p/>
+ * Normal data cells made of multiple elements are marked with
+ * <p/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.td" value="start"/&gt;</code>
+ * on their first element and
+ * <p/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.td" value="end"/&gt;</code>
+ * on their last element.
+ * <p/>
+ * Just as in HTML tables, cells can span multiple rows and/or columns. Column span and
+ * row span values for the current table cell can be specified using the following custom
+ * properties on the same element where the cell start was marked (the element with the
+ * full or start property marking the cell):
+ * <p/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.colspan" value="&lt;number&gt;"/&gt;</code>
+ * <p/>
+ * <code>&lt;property name="net.sf.jasperreports.export.pdf.tag.rowspan" value="&lt;number&gt;"/&gt;</code>
+ * <h3>PDF Content Reading Order</h3>
+ * JasperReports uses the Z-order of the elements as present in the report template
+ * (JRXML) to control reading order in the resulting PDF files. This is usually the intended
+ * way for the documents to be read, so no specific modifications were required in order to
+ * achieve it.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
