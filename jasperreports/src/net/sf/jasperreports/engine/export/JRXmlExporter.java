@@ -101,11 +101,64 @@ import org.w3c.tools.codec.Base64Encoder;
 
 
 /**
- * Exports a JasperReports document to an XML file that contains the same data as a {@link net.sf.jasperreports.engine.JasperPrint}
- * object, but in XML format, instead of a serialized class. Such XML files can be parsed back into <tt>JasperPrint</tt>
- * object using the {@link net.sf.jasperreports.engine.xml.JRPrintXmlLoader} utility class. Their structure is validated
- * against an internal XSD file called jasperprint.xsd.
+ * Exports a JasperReports document to an XML file that contains the same data as a 
+ * {@link net.sf.jasperreports.engine.JasperPrint} object, but in XML format, instead 
+ * of a serialized class. As report templates are defined using the
+ * special XML syntax JRXML, the JasperReports library also has a special XML structure
+ * for storing generated documents in XML format. This format is called JRPXML because
+ * the files produced by the JRXmlExporter usually have the <code>*.jrpxml</code> extension.
+ * <p/>
+ * Such XML files can be parsed back into 
+ * {@link net.sf.jasperreports.engine.JasperPrint}
+ * object using the {@link net.sf.jasperreports.engine.xml.JRPrintXmlLoader} utility class. 
+ * Their structure is validated against an internal XSD file called <code>jasperprint.xsd</code>, 
+ * that provides the details of the JRPXML structure. Valid JRPXML files
+ * should point to the internal XSD file using a public location, as follows:
+ * <pre>
+ * &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+ * &lt;jasperPrint 
+ *   xmlns="http://jasperreports.sourceforge.net/jasperreports/print" 
+ *   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ *   xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/print http://jasperreports.sourceforge.net/xsd/jasperprint.xsd"
+ *   ...&gt;
+ * </pre>
+ * The root element of a JRPXML document is <code>&lt;jasperPrint&gt;</code>, which contains a list of
+ * report custom properties (<code>&lt;property&gt;</code> tags), a list of element origins
+ * (<code>&lt;origin&gt;</code> tags), a list of
+ * report style definitions (<code>&lt;style&gt;</code> tags) that are reused by report elements throughout
+ * the document, and a list of pages (<code>&lt;page&gt;</code> tags), each of which contains a nested list of
+ * elements like lines, rectangles, ellipses, images, and texts.
+ * <p/>
+ * The quality of this exporter is equal to the <code>Graphics2D</code> exporter because it preserves
+ * 100% of the initial document content and properties. There is no loss in document
+ * quality when exporting to XML because the resulting XML content can be loaded back
+ * into a {@link net.sf.jasperreports.engine.JasperPrint} object that will look the same as the original one.
+ * <p/>
+ * The built-in viewers can display documents exported in JRPXML format because they
+ * actually rely on the {@link net.sf.jasperreports.engine.xml.JRPrintXmlLoader} to load the 
+ * document back into a {@link net.sf.jasperreports.engine.JasperPrint} object before 
+ * rendering it on the screen.
+ * <h3>Embedding Images</h3>
+ * When exporting XML, pay special attention to how images are stored. The two ways are
+ * as follows:
+ * <ul>
+ * <li>If the exporter outputs to a file on disk, it stores the images contained by the source
+ * document in separate files that accompany the main JRPXML file. The image files
+ * are put in a directory that takes its name from the original destination file name
+ * plus the <code>_files</code> suffix, the same directory as the JRPXML file.</li>
+ * <li>The exporter can embed images in the JRPXML file itself by encoding their binary
+ * data using a Base64 encoder. This simplifies transfer over the network or by direct
+ * output to streams.</li>
+ * </ul>
+ * <p/>
+ * To determine how to handle images, set the 
+ * {@link net.sf.jasperreports.export.XmlExporterOutput#isEmbeddingImages() isEmbeddingImages()} 
+ * exporter output flag,
+ * which expects a <code>java.lang.Boolean</code>. By default, the images are embedded in the
+ * resulting XML.
  * 
+ * @see net.sf.jasperreports.engine.JasperPrint
+ * @see net.sf.jasperreports.engine.xml.JRPrintXmlLoader
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

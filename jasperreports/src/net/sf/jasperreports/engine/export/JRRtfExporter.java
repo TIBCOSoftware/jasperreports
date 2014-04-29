@@ -90,9 +90,25 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Exports a JasperReports document to RTF format. It has binary output type and exports the document to
- * a free-form layout. It uses the RTF Specification 1.6 (compatible with MS Word 6.0, 2003 and XP).
+ * Exports a JasperReports document to RTF format. 
+ * <p/>
+ * The {@link net.sf.jasperreports.engine.export.JRRtfExporter} implementation helps
+ * to export JasperPrint documents in RTF format using RTF Specification 1.6. This
+ * means that the RTF files produced by this exporter are compatible with Microsoft Word
+ * 6.0, 2003 and XP.
+ * <p/>
+ * However, users might experience some problems when opening those RTF files with
+ * OpenOffice or StarOffice, as these products are not perfectly compatible with the RTF
+ * specifications from Microsoft.
+ * <p/>
+ * RTF is a character-based file format that supports absolute positioning of elements,
+ * which means that this exporter produces output very similar to that of the <code>Graphics2D</code>
+ * and PDF exporters. The {@link net.sf.jasperreports.export.RtfReportConfiguration} provides special 
+ * configuration settings for this exporter.
+ * <p/>
+ * Almost all the provided samples show how to export to RTF.
  * 
+ * @see net.sf.jasperreports.export.RtfReportConfiguration
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */

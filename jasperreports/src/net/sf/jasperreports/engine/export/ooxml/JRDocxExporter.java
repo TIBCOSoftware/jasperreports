@@ -97,8 +97,32 @@ import org.apache.commons.logging.LogFactory;
 
 
 /**
- * Exports a JasperReports document to DOCX format. It has character output type and exports the document to a
- * grid-based layout.
+ * Exports a JasperReports document to DOCX format. It has binary output type and exports the document to a
+ * grid-based layout, therefore having the known limitations of grid exporters.
+ * <p/>
+ * It can work in batch mode and supports all types of
+ * exporter input and output, content filtering, and font mappings.
+ * <p/>
+ * Currently, there are two special configurations that can be made to a DOCX
+ * exporter instance (see {@link net.sf.jasperreports.export.DocxReportConfiguration}):
+ * <ul>
+ * <li>Forcing the use of nested tables to render the content of frame elements using either
+ * the {@link net.sf.jasperreports.export.DocxReportConfiguration#isFramesAsNestedTables() isFramesAsNestedTables()} 
+ * exporter configuration flag or its corresponding exporter hint called
+ * <code>net.sf.jasperreports.export.docx.frames.as.nested.tables</code>.</li>
+ * <li>Allowing table rows to adjust their height if more text is typed into their cells using
+ * the Word editor. This is controlled using either the
+ * {@link net.sf.jasperreports.export.DocxReportConfiguration#isFlexibleRowHeight() isFlexibleRowHeight()} 
+ * exporter configuration flag, or its corresponding exporter hint called
+ * <code>net.sf.jasperreports.export.docx.flexible.row.height</code>.</li>
+ * <li>Ignoring hyperlinks in generated documents if they are not intended for the DOCX output format. This can be 
+ * customized using either the 
+ * {@link net.sf.jasperreports.export.DocxReportConfiguration#isIgnoreHyperlink() isIgnoreHyperlink()} 
+ * exporter configuration flag, or its corresponding exporter hint called
+ * <code>net.sf.jasperreports.export.docx.ignore.hyperlinks</code></li>
+ * </ul>
+ * 
+ * @see net.sf.jasperreports.export.DocxReportConfiguration
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
