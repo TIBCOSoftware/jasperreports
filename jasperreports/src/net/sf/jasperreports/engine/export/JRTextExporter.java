@@ -50,18 +50,65 @@ import net.sf.jasperreports.export.WriterExporterOutput;
  * Exports filled reports in plain text format. The text exporter allows users to define a custom character resolution
  * (the number of columns and rows in text format). Since the character resolution is mapped on the actual pixel resolution,
  * every character corresponds to a rectangle of pixels. If a certain text element has a smaller size in pixels (width,
- * height, or both) than the number of pixels that map to a character, the text element will not be rendered. Because of
- * this, users must take some precautions when creating reports for text export. First, they must make sure the page size in
- * characters is large enough to render the report, because if the report pages contain too much text, some of it may be
- * rendered only partially. On the other hand, if the character resolution is too small compared to the pixel resolution
- * (say, a height of 20 characters for a page 800 pixels tall) all texts with sizes smaller than the one needed to map to a
- * character, will not be displayed (in the previous example, a text element needs to be at least 800/20 = 40 pixels tall
- * in order to be rendered).
- * <p>
- * As a conclusion, the text exporter will yield the better results if the space needed for displaying a text is large. So
+ * height, or both) than the number of pixels that map to a character, the text element will not be rendered. 
+ * <p/>
+ * The text exporter will yield the better results if the space needed for displaying a text is large. So
  * users have to either design reports with few text or export to big text pages. Another good practice is to arrange text
  * elements at design time as similar as possible to a grid.
- *
+ * <p/>
+ * The text exporter tries to convert the JasperReports document into a simple text document with a fixed page width 
+ * and height, measured in characters. Users can specify the desired page width and height, and the engine will make the 
+ * best effort to fit text elements into the corresponding text page. The basic idea of the algorithm is to convert pixels 
+ * to characters (to find a pixel/character ratio). To achieve this, use the following configuration settings 
+ * (see {@link net.sf.jasperreports.export.TextReportConfiguration}):
+ * <ul>
+ * <li>{@link net.sf.jasperreports.export.TextReportConfiguration#getCharWidth() getCharWidth()} and 
+ * {@link net.sf.jasperreports.export.TextReportConfiguration#getCharHeight() getCharHeight()} - 
+ * these specify how many pixels in the original report should be mapped onto a character in the exported text.</li>
+ * <li>{@link net.sf.jasperreports.export.TextReportConfiguration#getPageWidthInChars() getPageWidthInChars()} and 
+ * {@link net.sf.jasperreports.export.TextReportConfiguration#getPageHeightInChars() getPageHeightInChars()} - 
+ * these specify the text page width and height in characters.</li>
+ * </ul>
+ * <p/>
+ * Note that both width and height must be specified and that character sizes have priority
+ * over page sizes.
+ * <p/>
+ * Since the algorithm causes loss of precision, a few precautions should be taken when
+ * creating templates that will eventually be exported to plain text:
+ * <ul>
+ * <li>Report sizes and text page sizes should be divisible (for example, specify a
+ * template width of 1,000 pixels and a page width of 100 characters, resulting in a
+ * character width of 10 pixels).</li>
+ * <li>Text element sizes should also follow the preceding rule (for example, if the
+ * character height is 10 pixels and a particular text element is expected to span two
+ * rows, then the text element should be 20 pixels tall).</li>
+ * <li>For best results, text elements should be aligned in a grid-like fashion.</li>
+ * <li>Text fields should not be too small. Following are two examples of problems that
+ * this can cause:
+ * <ul>
+ * <li>If the element height is smaller than the character height, then the element will
+ * not appear in the exported text file.</li>
+ * <li>If the character width is 10 and the element width is 80, then only the first eight
+ * characters will be displayed.</li>
+ * </ul>
+ * </li>
+ * </ul>
+ * <p/>
+ * Users can specify the text that should be inserted between two subsequent pages by using
+ * the {@link net.sf.jasperreports.export.TextExporterConfiguration#getPageSeparator() getPageSeparator()} 
+ * exporter configuration setting. The default value is two blank lines.
+ * <p/>
+ * The line separator to be used in the generated text file can be specified using the
+ * {@link net.sf.jasperreports.export.TextExporterConfiguration#getLineSeparator() getLineSeparator()} 
+ * exporter configuration setting. This is most useful when you want to force a
+ * particular line separator, knowing that the default line separator is operating system
+ * dependent, as specified by the <code>line.separator</code> system property of the JVM.
+ * <p/>
+ * Check the supplied /demo/samples/text sample to see the kind of output this exporter
+ * can produce.
+ * 
+ * @see net.sf.jasperreports.export.TextExporterConfiguration
+ * @see net.sf.jasperreports.export.TextReportConfiguration
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */

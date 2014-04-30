@@ -86,7 +86,22 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Exports a JasperReports document to Open Document Spreadsheet format. It has character output type
  * and exports the document to a grid-based layout.
- *
+ * <p/>
+ * The {@link net.sf.jasperreports.engine.export.oasis.JROdsExporter} exporter
+ * implementation produces documents that comply with the Open Document Format for
+ * Office Applications specifications for spreadsheets. These documents use the 
+ * <code>.ods</code> file extension.
+ * <p/>
+ * Because spreadsheet documents are made of sheets containing cells, this exporter is a
+ * grid exporter, as well, therefore having the known limitations of grid exporters. 
+ * <p/>
+ * Special exporter configuration settings, that can be applied to a 
+ * {@link net.sf.jasperreports.engine.export.oasis.JROdsExporter} instance
+ * to control its behavior, can be found in {@link net.sf.jasperreports.export.OdsReportConfiguration} 
+ * and in its {@link net.sf.jasperreports.export.XlsReportConfiguration} superclass.
+ * 
+ * @see net.sf.jasperreports.export.OdsReportConfiguration
+ * @see net.sf.jasperreports.export.XlsReportConfiguration
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

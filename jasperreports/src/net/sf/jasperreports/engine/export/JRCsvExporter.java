@@ -47,6 +47,28 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Exports a JasperReports document to CSV format. It has character output type and exports the document to a
  * grid-based layout.
+ * <p/>
+ * Because CSV is a data-oriented file format, exporting rich content documents to
+ * CSV results in a tremendous loss of quality. The CSV exporter will completely ignore graphic elements present in
+ * the source document that needs to be exported. It will only deal will text elements, and
+ * from those, it will only extract the text value, completely ignoring the style properties.
+ * <p/>
+ * CSV is a character-based file format whose content is structured in rows and columns, so
+ * the {@link net.sf.jasperreports.engine.export.JRCsvExporter} is a grid exporter 
+ * because it must transform the free-form content of
+ * each page from the source document into a grid-like structure using the special grid layout algorithm.
+ * <p/>
+ * By default, the CSV exporter uses commas to separate column values and newline
+ * characters to separate rows in the resulting file. However, one can redefine the delimiters
+ * using the two special exporter configuration settings in the 
+ * {@link net.sf.jasperreports.export.CsvExporterConfiguration} class:
+ * <ul>
+ * <li>{@link net.sf.jasperreports.export.CsvExporterConfiguration#getFieldDelimiter() getFieldDelimiter()}</li>
+ * <li>{@link net.sf.jasperreports.export.CsvExporterConfiguration#getRecordDelimiter() getRecordDelimiter()}</li>
+ * <ul>
+ * which both provide <code>java.lang.String</code> values.
+ * 
+ * @see net.sf.jasperreports.export.CsvExporterConfiguration
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

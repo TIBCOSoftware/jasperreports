@@ -81,7 +81,25 @@ import org.apache.commons.logging.LogFactory;
 
 
 /**
- * Exports a JasperReports document to PPTX format.
+ * Exports a JasperReports document to Microsoft PowerPoint 2007 format (PPTX).
+ * <p/>
+ * This exporter uses an absolute positioned layout and currently there is a single special 
+ * configuration that can be applied to a PPTX
+ * exporter instance (see {@link net.sf.jasperreports.export.PptxReportConfiguration})
+ * to configure its behavior: one can ignore hyperlinks in generated documents if they are 
+ * not intended for the PPTX output format. This can be customized using either the 
+ * {@link net.sf.jasperreports.export.PptxReportConfiguration#isIgnoreHyperlink() isIgnoreHyperlink()} 
+ * exporter configuration flag, or its corresponding exporter hint called
+ * <code>net.sf.jasperreports.export.pptx.ignore.hyperlinks</code>.
+ * <p/>
+ * It supports font mappings, batch mode exporting, and filtering
+ * out content using exporter filters.
+ * <p/>
+ * Documents produced using this exporter can be generated in the great majority of the
+ * samples shipped with the JasperReports project source files, where the <code>pptx</code> Ant task is
+ * defined.
+ * 
+ * @see net.sf.jasperreports.export.PptxReportConfiguration
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

@@ -103,7 +103,7 @@ import org.apache.commons.logging.LogFactory;
  * It can work in batch mode and supports all types of
  * exporter input and output, content filtering, and font mappings.
  * <p/>
- * Currently, there are two special configurations that can be made to a DOCX
+ * Currently, there are the following special configurations that can be made to a DOCX
  * exporter instance (see {@link net.sf.jasperreports.export.DocxReportConfiguration}):
  * <ul>
  * <li>Forcing the use of nested tables to render the content of frame elements using either

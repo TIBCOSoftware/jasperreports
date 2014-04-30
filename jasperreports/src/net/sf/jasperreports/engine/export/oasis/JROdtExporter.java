@@ -92,6 +92,35 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Exports a JasperReports document to ODF format. It has character output type and exports the document to a
  * grid-based layout.
+ * <p/>
+ * Open Document Format (short for OASIS Open Document Format for Office
+ * Applications) describes electronic documents such as memos, spreadsheets, books,
+ * charts, presentations, and word processing documents. <code>.odt</code> is the 
+ * file extension used for the word processing documents in the Open Document Format, and such
+ * files can be obtained in JasperReports using the 
+ * {@link net.sf.jasperreports.engine.export.oasis.JROdtExporter} class.
+ * <p/>
+ * Currently, there are the following special configurations that can be applied to an ODT
+ * exporter instance (see {@link net.sf.jasperreports.export.DocxReportConfiguration}) to customize 
+ * its behavior:
+ * <ul>
+ * <li>Allowing table rows to adjust their height if more text is typed into their cells using
+ * the ODT editor. This is controlled using either the
+ * {@link net.sf.jasperreports.export.OdtReportConfiguration#isFlexibleRowHeight() isFlexibleRowHeight()} 
+ * exporter configuration flag, or its corresponding exporter hint called
+ * <code>net.sf.jasperreports.export.odt.flexible.row.height</code>.</li>
+ * <li>Ignoring hyperlinks in generated documents if they are not intended for the ODT output format. This can be 
+ * customized using either the 
+ * {@link net.sf.jasperreports.export.OdtReportConfiguration#isIgnoreHyperlink() isIgnoreHyperlink()} 
+ * exporter configuration flag, or its corresponding exporter hint called
+ * <code>net.sf.jasperreports.export.odt.ignore.hyperlinks</code></li>
+ * </ul>
+ * <p/>
+ * So far, the ODT exporter has the known limitations of grid exporters. It
+ * can work in batch mode and supports all types of exporter input and output as well as
+ * font mappings.
+ * 
+ * @see net.sf.jasperreports.export.OdtReportConfiguration
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
