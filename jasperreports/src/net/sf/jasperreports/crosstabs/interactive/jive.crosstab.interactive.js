@@ -10,9 +10,11 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 	var ixt = {
 		initialized: false,
 		selected: null,
+        reportInstance: null,
 		init: function(report) {
 			var ic = this;
-			
+			ic.reportInstance = report;
+
 			if (!ic.initialized) {
 				$('head').append('<style id="jivext-stylesheet">' + templateCss + '</style>');
 			
@@ -96,11 +98,12 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 		overlay: {
 				jo: null,
 				show: function(dim) {
-					var isFirstTimeSelection = !this.jo;
+					var isFirstTimeSelection = !this.jo,
+                        zoomLevel = ixt.reportInstance.zoom ? ixt.reportInstance.zoom.level : 1;
 					isFirstTimeSelection && (this.jo = $('#jivext_overlay'));
 					
 					this.jo.css({
-						width: dim.w,
+						width: dim.w * zoomLevel,
 						height: dim.h
 					});
 					this.jo.appendTo(ixt.getReportContainer()).show();
@@ -181,6 +184,9 @@ define(["jquery.ui-1.10.3", "text!jive.crosstab.templates.tmpl", "text!jive.cros
 		getReportContainer: function() {
 			return $('table.jrPage').closest('div.body');
 		},
+        zoom: function(o) {
+            this.hide();
+        },
 		hide: function() {
 			ixt.overlay.jo && ixt.overlay.jo.appendTo('#jivext_components').hide();
 			ixt.foobar.jo && ixt.foobar.jo.appendTo('#jivext_components').hide();
