@@ -77,6 +77,174 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
 
 
 /**
+ * Superclass for the Excel exporters.
+ * <h3>Excel Exporters</h3>
+ * For generating Excel files, there are currently two different exporter implementations
+ * available in JasperReports. The first to appear was the
+ * {@link net.sf.jasperreports.engine.export.JRXlsExporter} implementation, which
+ * uses the Apache POI library to export documents to the Microsoft Excel 2003 file format (XLS). 
+ * <p/>
+ * Later on, with the introduction of the Microsoft Excel 2007 file format (XLSX), a new
+ * exporter was added to JasperReports to support it. This exporter implementation is the
+ * {@link net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter}; it does not rely
+ * on any third party library to produce XLSX files.
+ * <p/>
+ * Because in XLS and XLSX all document content is placed inside cells, the Excel exporters
+ * are considered typical grid exporters, and having their known limitations.
+ * <h3>Configuring Sheets</h3>
+ * An Excel file is structured in multiple sheets, and both exporters can be configured either
+ * to put all pages inside the source {@link net.sf.jasperreports.engine.JasperPrint} document 
+ * on one sheet (one after the another), or to put each page on a separate sheet in the resulting 
+ * Excel file. The choice is made by setting the 
+ * {@link net.sf.jasperreports.export.XlsReportConfiguration#isOnePagePerSheet() isOnePagePerSheet()}
+ * exporter configuration setting, which is set to <code>Boolean.FALSE</code> by default.
+ * <p/>
+ * When {@link net.sf.jasperreports.export.XlsReportConfiguration#isOnePagePerSheet() isOnePagePerSheet()} 
+ * is set to true, or when you have to execute a batch export to XLS, multiple sheets are created in the worksheet.
+ * You can also combine two exporter settings to customize the maximum number of rows per
+ * page, and display each page of the report in a separate sheet. To do this, set the number
+ * of rows per sheet for <code>net.sf.jasperreports.export.xls.max.rows.per.sheet</code> property and
+ * set true for <code>net.sf.jasperreports.export.xls.one.page.per.sheet</code> property.
+ * <p/>
+ * The JasperReports Excel exporters provide a simple but efficient sheet-naming
+ * mechanism. They use the {@link net.sf.jasperreports.export.XlsReportConfiguration#getSheetNames() getSheetNames()} 
+ * exporter configuration setting to read custom sheet names
+ * from the String array passed as value. This exporter setting can hold an array of
+ * strings, which are passed as sheet names in order. If no value is supplied for this
+ * setting or if the value contains fewer sheet names than actually needed
+ * by the final document, then the sheets are named by default <code>Page i</code> (where i represents
+ * the one-based sheet index).
+ * <p/>
+ * Taking into account the sheet name's length limitation in Excel (31 characters), if a sheet
+ * name contains more than 31 characters it will be truncated as follows: the name of the
+ * sheet will be given by the first 31 characters minus the sheet index length characters of
+ * the document's name, followed by the sheet index, so that the entire name has exactly 31
+ * characters.
+ * <p/>
+ * For example, if the second sheet name is TheQuickBrownFoxJumpsOverTheLazyDog
+ * (35 chars), it will become TheQuickBrownFoxJumpsOverTheLa2 (the final zyDog gets
+ * truncated, and the second sheet index 2 will end the name).
+ * The name of the 12345-th sheet will become TheQuickBrownFoxJumpsOverT12345
+ * (the final heLazyDog gets truncated, in order to make the exact room for 12345).
+ * <p/>
+ * Multiple sheet names can be specified in the JRXML file as well, using the
+ * <code>net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}</code> property 
+ * at report level. Add the following to the JRXML file:
+ * <pre>
+ * &lt;property name="net.sf.jasperreports.export.xls.sheet.names.all" value="Sheet A/Sheet B/Sheet C" /&gt;
+ * </pre>
+ * Keep in mind the naming order is important, sheets will be named in the same order the names are 
+ * provided in this property. 
+ * <p/>
+ * Sheets can be also named at element level, using the <code>net.sf.jasperreports.export.xls.sheet.name</code> 
+ * element property. This name will be provided for the sheet the element belongs to.
+ * <h3>Flow-Oriented Output</h3>
+ * The JasperPrint documents are page-oriented. When they are exported to a single sheet
+ * Excel document, all the pages are rendered consecutively. Because all exporters try
+ * to adhere as closely as possible to the quality and layout of the source document's
+ * <code>Graphics2D</code> or PDF format, the page breaks are visible in Excel format. Sometimes this
+ * is not desirable. One way to make page breaks less obvious and the layout more flow-based
+ * is to suppress all the remaining blank space between cells on the vertical axis.
+ * <p/>
+ * When set to <code>Boolean.TRUE</code>, the 
+ * {@link net.sf.jasperreports.export.XlsReportConfiguration#isRemoveEmptySpaceBetweenRows() isRemoveEmptySpaceBetweenRows()} 
+ * exporter configuration flag ensures that all empty rows on the resulting sheet are collapsed. By
+ * default, the exporter preserves all the white space for a precise page layout.
+ * The provided /demo/samples/nopagebreak sample shows you how to use this
+ * setting when exporting to XLS to produce a more flow-based document layout.
+ * <p/>
+ * To completely ignore pagination, use the built-in fill-time parameter
+ * {@link net.sf.jasperreports.engine.JRParameter#IS_IGNORE_PAGINATION IS_IGNORE_PAGINATION}.
+ * You can modify the API to remove the empty space between rows and columns as well.
+ * You need to set <code>net.sf.jasperreports.export.xls.remove.empty.space.between.rows</code>
+ * property and/or <code>net.sf.jasperreports.export.xls.remove.empty.space.between.columns</code>
+ * property to true.
+ * <p/>
+ * Keep in mind these settings are limited by your report layout. If it is too far away
+ * from a grid layout, these options cannot work. On a good grid layout, once you set
+ * <code>net.sf.jasperreports.export.xls.remove.empty.space.between.rows</code> property and/or
+ * <code>net.sf.jasperreports.export.xls.remove.empty.space.between.columns</code> property to
+ * true, the empty spaces are removed.
+ * <h3>Cell Types</h3>
+ * Inside the proprietary document format that JasperReports uses (represented by the
+ * {@link net.sf.jasperreports.engine.JasperPrint} object), all text elements are 
+ * considered alphanumeric values. This means that if a numeric text field of type 
+ * <code>java.lang.Double</code> is placed in the report template at design time, all 
+ * the text elements inside the {@link net.sf.jasperreports.engine.JasperPrint} object 
+ * resulting from it will hold <code>java.lang.String</code> values, even though 
+ * they are actually numbers. Therefore, in a sense, data type information is lost 
+ * during report filling. This is because the main goal of JasperReports is to create 
+ * documents for viewing and printing, not necessarily for further data manipulation inside 
+ * tools like Excel, where formulas could be added to numeric cells.
+ * <p/>
+ * However, these resulting text elements found in the generated documents nowadays hold
+ * enough data type information (in addition to the alphanumeric content) for the original
+ * value of the text element to be re-created, if needed.
+ * <p/>
+ * Both Excel exporters support the 
+ * {@link net.sf.jasperreports.export.XlsReportConfiguration#isDetectCellType() isDetectCellType()} 
+ * configuration flag, which forces the recreation
+ * of the original cell value in accordance with its declared data type, as specified
+ * in the report template. 
+ * <p/>
+ * Cell type detection is turned off by default.
+ * You can have JasperReports automatically detect the cell type by modifying the API. Set the
+ * <code>net.sf.jasperreports.export.xls.detect.cell.type</code> property to true. When you do this, instead
+ * of being prompted by Excel to convert the value manually, the value is automatically
+ * converted.
+ * <h3>Format Pattern Conversions</h3>
+ * It is important to keep in mind that standard Java format patterns are not 
+ * completely supported by Microsoft Excel. There are rather few data patterns 
+ * that make a perfect match between Java and Excel.
+ * <p/>
+ * In the case that the Java pattern stored in the generated report does not match any of the
+ * supported Excel cell patterns, there is still a way to choose an appropriate Excel format
+ * pattern. The solution is to use the 
+ * {@link net.sf.jasperreports.export.XlsReportConfiguration#getFormatPatternsMap() getFormatPatternsMap()} 
+ * export configuration setting and supply
+ * a <code>java.util.Map</code> as value. This map should contain Java format patterns as keys and
+ * corresponding Excel format patterns as values.
+ * <p/>
+ * Another way to adjust the format pattern to Excel-compatible values is to set the 
+ * <code>net.sf.jasperreports.export.xls.pattern</code> property at element level.
+ * <h3>Font Size Correction</h3>
+ * Currently, there is no way to control the line spacing in a spreadsheet cell, which results
+ * in the cell text not fitting exactly within the cell boundaries. As a workaround, in order to
+ * force the cell text to fit, one can use the 
+ * {@link net.sf.jasperreports.export.XlsReportConfiguration#isFontSizeFixEnabled() isFontSizeFixEnabled()} 
+ * exporter configuration flag to decrease the font size by one point when generating the cell format.
+ * Alternatively, one can use the <code>net.sf.jasperreports.export.xls.font.size.fix.enabled</code>
+ * property at report level.
+ * <h3>Background Color</h3>
+ * Empty space found on each page in the source {@link net.sf.jasperreports.engine.JasperPrint} 
+ * document normally results in empty cells on the corresponding sheet inside the Excel file. 
+ * The background color of these empty cells is specified by the configuration of the Excel 
+ * viewer itself. This makes the cells appear transparent. To force the document's background 
+ * to be white, set the 
+ * {@link net.sf.jasperreports.export.XlsReportConfiguration#isWhitePageBackground() isWhitePageBackground()} 
+ * exporter configuration flag to <code>Boolean.TRUE</code>.
+ * <h3>Excel Color Palette</h3>
+ * In JasperReports, any color can be used for the background or the foreground of a report
+ * element. However, when exporting to Excel format, only a limited set of colors is
+ * supported, through what is called a <i>color palette</i>.
+ * <p/>
+ * If the colors used in a report template do not match the colors in the color palette, then
+ * the Excel exporter will use a special algorithm to determine the closest matches by
+ * comparing the RGB levels. However, the results might not always be as expected. A 
+ * possibility to optimize the use of supported colors is to create a custom color palette. This 
+ * can be achieved by setting to true the 
+ * {@link net.sf.jasperreports.export.XlsExporterConfiguration#isCreateCustomPalette() isCreateCustomPalette()} 
+ * export configuration flag. If the flag is set, the nearest not yet modified color from the palette is chosen
+ * and modified to exactly match the report color.  If all the colors from the palette
+ * are modified (the palette has a fixed size), the nearest color from the palette is
+ * chosen for further report colors.
+ * <p/>
+ * To see other various exporter configuration settings, please consult the 
+ * {@link net.sf.jasperreports.export.XlsReportConfiguration} and 
+ * {@link net.sf.jasperreports.export.XlsExporterConfiguration} classes.
+ * 
+ * @see net.sf.jasperreports.export.XlsExporterConfiguration
+ * @see net.sf.jasperreports.export.XlsReportConfiguration
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

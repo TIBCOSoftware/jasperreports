@@ -126,6 +126,9 @@ import org.apache.poi.ss.util.CellReference;
  * Exports a JasperReports document to XLS format. It has binary output type and exports the document to
  * a grid-based layout.
  * 
+ * @see net.sf.jasperreports.engine.export.JRXlsAbstractExporter
+ * @see net.sf.jasperreports.export.XlsExporterConfiguration
+ * @see net.sf.jasperreports.export.XlsReportConfiguration
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
