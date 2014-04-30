@@ -617,12 +617,14 @@ public final class JRResourcesUtil
 			List<Locale> locales = control.getCandidateLocales(baseName, locale);
 			for (Locale lc : locales)
 			{
+				String suffix = lc.toString();
+				suffix = (suffix.trim().length() > 0 ? "_" : "") + suffix;
 				ResourceBundleResource resourceBundleResource = null; 
 				try
 				{
 					resourceBundleResource = 
 							RepositoryUtil.getInstance(jasperReportsContext).getResourceFromLocation(
-								baseName + "_" + lc.toString() + PROPERTIES_FILE_EXTENSION, 
+								baseName + suffix + PROPERTIES_FILE_EXTENSION, 
 								ResourceBundleResource.class
 								);
 				}
