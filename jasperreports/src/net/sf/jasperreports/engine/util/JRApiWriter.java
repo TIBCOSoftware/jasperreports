@@ -1255,6 +1255,7 @@ public class JRApiWriter
 			write( "JRDesignSubreport " + subreportName + " = new JRDesignSubreport(jasperDesign);\n");
 			write( subreportName + ".setUsingCache({0});\n", subreport.getUsingCache());
 			write( subreportName + ".setRunToBottom({0});\n", subreport.isRunToBottom());
+			write(subreportName + ".setOverflowType({0});\n", subreport.getOverflowType());
 			writeReportElement( subreport, subreportName);
 	
 			writeExpression( subreport.getParametersMapExpression(), subreportName, "ParametersMapExpression");

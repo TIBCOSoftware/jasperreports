@@ -3437,6 +3437,25 @@ This can be useful when, for instance, a border has to be drawn around the image
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="overflowType" use="optional">
+    <annotation>
+     <documentation>Determines what happens when the subreport contents overflows the element height.  If not specified, the subreport will stretch to accomodate the contents.</documentation>
+    </annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Stretch">
+		<annotation>
+		 <documentation>The subreport stretches to to accomodate the overflown contents.</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="NoStretch">
+		<annotation>
+		 <documentation>The contents do not stretch beyond the subreport element height.  The band on which the subreport is placed overflows to a new page if allowed, and the subreport contents continues there.</documentation>
+		</annotation>
+	  </enumeration>
+     </restriction>
+    </simpleType>
+   </attribute>
   </complexType>
  </element>
 

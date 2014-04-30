@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.OverflowType;
+
 
 /**
  * An abstract representation of a subreport.
@@ -344,4 +346,8 @@ public interface JRSubreport extends JRElement
 	 */
 	public void setRunToBottom(Boolean runToBottom);
 	
+	public OverflowType getOverflowType();
+	
+	public void setOverflowType(OverflowType overflowType);
+
 }

@@ -1138,6 +1138,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_runToBottom, subreport.isRunToBottom());
 		}
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_overflowType, subreport.getOverflowType());
 
 		writeReportElement(subreport);
 

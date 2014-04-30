@@ -166,6 +166,7 @@ import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.HorizontalPosition;
+import net.sf.jasperreports.engine.type.OverflowType;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
@@ -461,6 +462,7 @@ public final class JRXmlDigesterFactory
 
 		/*   */
 		digester.addFactoryCreate("*/subreport", JRSubreportFactory.class.getName());
+		digester.addRule("*/subreport", new XmlConstantPropertyRule(JRXmlConstants.ATTRIBUTE_overflowType, OverflowType.values()));
 		digester.addSetNext("*/subreport", "addElement", JRDesignElement.class.getName());
 
 		/*   */

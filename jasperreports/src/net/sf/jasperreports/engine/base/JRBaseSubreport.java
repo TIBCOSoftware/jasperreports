@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.OverflowType;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -52,12 +53,15 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	
 	public static final String PROPERTY_RUN_TO_BOTTOM = "runToBottom";
 
+	public static final String PROPERTY_OVERFLOW_TYPE = "overflowType";
+
 	/**
 	 *
 	 */
 	protected Boolean isUsingCache;
 
 	private Boolean runToBottom;
+	private OverflowType overflowType;
 
 	/**
 	 *
@@ -93,6 +97,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 		isUsingCache = subreport.getUsingCache();
 		
 		runToBottom = subreport.isRunToBottom();
+		overflowType = subreport.getOverflowType();
 
 		parametersMapExpression = factory.getExpression(subreport.getParametersMapExpression());
 
@@ -250,6 +255,19 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 		getEventSupport().firePropertyChange(PROPERTY_RUN_TO_BOTTOM, old, this.runToBottom);
 	}
 
+	@Override
+	public OverflowType getOverflowType()
+	{
+		return overflowType;
+	}
+
+	@Override
+	public void setOverflowType(OverflowType overflowType)
+	{
+		Object old = this.overflowType;
+		this.overflowType = overflowType;
+		getEventSupport().firePropertyChange(PROPERTY_OVERFLOW_TYPE, old, this.overflowType);
+	}
 
 	/**
 	 * 

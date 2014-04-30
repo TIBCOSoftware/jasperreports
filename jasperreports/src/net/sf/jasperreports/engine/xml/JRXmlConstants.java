@@ -605,6 +605,8 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_onErrorType = "onErrorType";
 	
 	public static final String ATTRIBUTE_runToBottom = "runToBottom";
+	
+	public static final String ATTRIBUTE_overflowType = "overflowType";
 
 	/**
 	 * JRLineFactory associated constants

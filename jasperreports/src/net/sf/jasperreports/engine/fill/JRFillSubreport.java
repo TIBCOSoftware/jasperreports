@@ -62,6 +62,7 @@ import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JRValidationFault;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.OverflowType;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -193,6 +194,18 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 
 	public void setRunToBottom(Boolean runToBottom)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public OverflowType getOverflowType()
+	{
+		return ((JRSubreport) parent).getOverflowType();
+	}
+
+	@Override
+	public void setOverflowType(OverflowType overflowType)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -732,7 +745,20 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			((JRVirtualPrintPage) printPage).dispose();
 		}
 		
-		subreportFiller.setPageHeight(availableHeight - getRelativeY());
+		int pageHeight;
+		OverflowType overflowType = getOverflowType();
+		if (overflowType == OverflowType.NO_STRETCH && !filler.getFillContext().isIgnorePagination())
+		{
+			// not allowed to stretch beyond the element height
+			// note that we always have elementHeight <= availableHeight - getRelativeY(), it's tested above
+			pageHeight = elementHeight;
+		}
+		else
+		{
+			// stretching by default
+			pageHeight = availableHeight - getRelativeY();
+		}
+		subreportFiller.setPageHeight(pageHeight);
 
 		synchronized (subreportFiller)
 		{
@@ -801,7 +827,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			}
 
 			printPage = subreportFiller.getCurrentPage();
-			setStretchHeight(result.hasFinished() ? subreportFiller.getCurrentPageStretchHeight() : availableHeight - getRelativeY());
+			setStretchHeight(result.hasFinished() ? subreportFiller.getCurrentPageStretchHeight() : pageHeight);
 
 			//if the subreport fill thread has not finished, 
 			// it means that the subreport will overflow on the next page

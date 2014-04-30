@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.ReturnValue;
+import net.sf.jasperreports.engine.type.OverflowType;
 
 /**
  * 
@@ -151,6 +152,19 @@ public class TableSubreport extends ElementDecorator implements JRSubreport
 	}
 
 	public void setUsingCache(Boolean isUsingCache)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public OverflowType getOverflowType()
+	{
+		// default
+		return null;
+	}
+
+	@Override
+	public void setOverflowType(OverflowType overflowType)
 	{
 		throw new UnsupportedOperationException();
 	}
