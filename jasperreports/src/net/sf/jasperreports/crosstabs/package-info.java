@@ -232,6 +232,27 @@
  * corresponding to the row and column groups (that is, the total corresponding to all the entries in 
  * both row and column groups)</li>
  * </ul>
+ * <p/>
+ * For example, if one creates a crosstab having Year and Month column groups, a City
+ * row group, and a Sales measure, the following variables can be used:
+ * <ul>
+ * <li><code>Sales</code>: The current measure value</li>
+ * <li><code>Sales_Month_ALL</code>: The total for all the months (one year) corresponding to the current cell</li>
+ * <li><code>Sales_Year_ALL</code>: The total for all the years</li>
+ * <li><code>Sales_City_ALL</code>: The total for all the cities</li>
+ * <li><code>Sales_City_Month_ALL</code>: The total for all the cities and all the months (one year)</li>
+ * <li><code>Sales_City_Year_ALL</code>: The grand total</li>
+ * </ul>
+ * <p/>
+ * These variables can be used in both detail and total cells. In total cells, such a variable
+ * can be used to access a total corresponding to a higher-level group of the same
+ * dimension (for example, in a <code>Month</code> total cell, <code>Sales_Year_ALL</code> can be used as the total
+ * for all the years) or a total corresponding to a group on the other dimension (for example,
+ * in a <code>Month</code> total cell, <code>Sales_City_ALL</code> can be used as the total for all the cities and one
+ * year).
+ * <p/>
+ * A typical usage of these variables is to show measure values as percentages out of
+ * arbitrary level totals.
  * <h3>Crosstab Governor</h3>
  * The crosstab calculation engine performs all calculations in memory. If large 
  * volumes of data are processed, it could be possible to run out of memory due to the large 

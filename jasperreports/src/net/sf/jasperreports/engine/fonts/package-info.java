@@ -23,45 +23,44 @@
  */
 /**
  * Provides support for font extensions. 
- * <br/>
  * <h3>The Font Extension Point</h3>
  * Among the various extension points that JasperReports exposes, this one 
  * allows users to make use of fonts that are not available to the JVM at runtime in normal 
  * circumstances. 
- * <p>
+ * <p/>
  * Usually, in order to make a font file available to the JVM, one would need to install that 
  * font file into the system, or make some configuration changes in the local JVM. But if 
  * the application ends up being deployed on some other machine, the same font file 
  * installation process has to be performed on that machine as well.
- * </p><p> 
+ * <p/> 
  * When designing reports, we are immediately faced with the selection of fonts to be used 
  * by the various text fields present in the report template. Using fonts that are available 
  * only on the local JVM where we design and test our reports poses the risk of those fonts 
  * not being available on the system where the reports are actually generated at runtime. 
- * </p><p> 
+ * <p/> 
  * When specified fonts are missing on a system, the JVM uses some default fonts as 
  * on-the-fly replacements and these might have totally different properties and font metrics, 
  * producing various side effects, including but not limited to chunks of text being cut from 
  * the generated output. 
- * </p><p> 
+ * <p/> 
  * This is why it is so important for an application to control and make sure that the fonts used 
  * in its reports are available at runtime on the machines on which the application is 
  * running. 
- * </p><p> 
+ * <p/> 
  * The best way to control fonts in JasperReports is to provide the font files as extensions to 
  * the library. Basically, this involves putting True Type Font files in a JAR file, together 
  * with an XML file that describes the content of the JAR and the various relationships 
  * between the fonts and the locales. 
- * </p><p> 
+ * <p/> 
  * JasperReports raises a {@link net.sf.jasperreports.engine.util.JRFontNotFoundException} in the case where the font used inside 
  * a report template is not available to the JVM as either as a system font or a font coming 
  * from a JR font extension. This ensure that all problems caused by font metrics 
  * mismatches are avoided and we have an early warning about the inconsistency. 
- * </p><p> 
+ * <p/> 
  * However, for backward compatibility reasons, this font runtime validation can be turned 
  * off using the <code>net.sf.jasperreports.awt.ignore.missing.font</code> configuration 
  * property, which can be employed either globally or at report level. 
- * </p><p> 
+ * <p/> 
  * The font extension point in JasperReports is exposed as the 
  * {@link net.sf.jasperreports.engine.fonts.FontFamily} public interface. Each font 
  * family is made out of 4 font faces: normal, bold, italic and bolditalic. Only the normal 
@@ -70,16 +69,121 @@
  * a font family also supports certain locales and tells if it is able to simulate the bold style 
  * and the italic style in PDF export, in case the corresponding font faces are missing from 
  * its declaration. 
- * </p><p> 
+ * <p/> 
  * JasperReports is shipped with convenience implementations for the above mentioned 
  * interfaces. The {@link net.sf.jasperreports.engine.fonts.SimpleFontFamily} is the default 
  * implementation of the {@link net.sf.jasperreports.engine.fonts.FontFamily} interface. This 
  * works with the {@link net.sf.jasperreports.engine.fonts.SimpleFontFace} default implementation 
  * of the font face.
- * </p><p> 
+ * <p/> 
  * The best way to deploy font files as extensions is to rely on the Spring-based extension 
  * registry factory shipped with JasperReports and make use of the default font interfaces. 
- * </p>
+ * <h3>Simple Font Extension Example</h3>
+ * The samples shipped with the JasperReports project distribution package under the
+ * <code>/demo/samples</code> folder make use of two font families called <code>DejaVu Sans</code> and 
+ * <code>DejaVu Serif</code>. These are open source fonts from the 
+ * <a href="http://dejavu-fonts.org">http://dejavu-fonts.org</a> project and
+ * are made available to the samples as a font extension.
+ * <p/>
+ * This font extension is found in the <code>/demo/fonts</code> folder of the JasperReports project
+ * distribution package and consists of the following files:
+ * <p/>
+ * <code>jasperreports_extension.properties</code>
+ * <p/>
+ * This file is required by the JasperReports extension mechanism and describes the content
+ * of any given extension. The first line in this particular properties file specifies that the 
+ * built-in Spring-based extension registry factory is used by the current extension:
+ * <pre>
+ * net.sf.jasperreports.extension.registry.factory.fonts=net.sf.jasperreports.extensions.SpringExtensionsRegistryFactory
+ * net.sf.jasperreports.extension.fonts.spring.beans.resource=fonts.xml
+ * </pre>
+ * The second line gives the name of the Spring XML file required by this Spring-based
+ * extension factory, containing the Spring bean definitions. 
+ * <p/>
+ * This Spring XML file contains the beans that are going to be loaded by the Spring-based
+ * extension registry factory. As mentioned earlier, the font extension point in
+ * JasperReports is expecting font families, so the beans in our Spring XML file are
+ * instances of the convenience
+ * {@link net.sf.jasperreports.engine.fonts.SimpleFontFamily} implementation of the
+ * {@link net.sf.jasperreports.engine.fonts.FontFamily} interface and introduce two 
+ * font families: the <code>DejaVu Sans</code> and the <code>DejaVu Serif</code>.
+ * <pre>
+ * &lt;bean id="dejaVuSansFamily"
+ *   class="net.sf.jasperreports.engine.fonts.SimpleFontFamily"&gt;
+ *   &lt;property name="name" value="DejaVu Sans"/&gt;
+ *   &lt;property name="normal" value="DejaVuSans.ttf"/&gt;
+ *   &lt;property name="bold" value="DejaVuSans-Bold.ttf"/&gt;
+ *   &lt;property name="italic" value="DejaVuSans-Oblique.ttf"/&gt;
+ *   &lt;property name="boldItalic" value="DejaVuSans-BoldOblique.ttf"/&gt;
+ *   &lt;property name="pdfEncoding" value="Identity-H"/&gt;
+ *   &lt;property name="pdfEmbedded" value="true"/&gt;
+ * &lt;/bean&gt;
+ * &lt;bean id="dejaVuSerifFamily"
+ *   class="net.sf.jasperreports.engine.fonts.SimpleFontFamily"&gt;
+ *   &lt;property name="name" value="DejaVu Serif"/&gt;
+ *   &lt;property name="normal" value="DejaVuSerif.ttf"/&gt;
+ *   &lt;property name="bold" value="DejaVuSerif-Bold.ttf"/&gt;
+ *   &lt;property name="italic" value="DejaVuSerif-Italic.ttf"/&gt;
+ *   &lt;property name="boldItalic" value="DejaVuSerif-BoldItalic.ttf"/&gt;
+ *   &lt;property name="pdfEncoding" value="Identity-H"/&gt;
+ *   &lt;property name="pdfEmbedded" value="true"/&gt;
+ * &lt;/bean>
+ * </pre>
+ * Notice how font families are specifying a name and their different faces. The name and
+ * the normal face are both required, while the other properties are optional.
+ * <p/>
+ * The name of the family is required because this is the value that gets used as the
+ * <code>fontName</code> attribute of a text element or a style in the report template. The <code>fontName</code>
+ * together with the <code>isBold</code> and <code>isItalic</code> attributes of the text field or style in the report
+ * help to locate and load the appropriate font face from the family. In case a particular font
+ * face is not present or declared in the family whose name was used, then the normal font
+ * face is used instead and this makes the normal face mandatory in a font family.
+ * <p/>
+ * Font files usually support only some languages and this is why the font families can
+ * specify the list of locales that they support. In the example above, no locale was
+ * specified, meaning that the <code>DejaVu Sans</code> and the <code>DejaVu Serif</code> families would apply
+ * to all locales (which is not true, but the JasperReports samples that use this font
+ * extension do not make use of languages that are not supported by this font families, so
+ * we did not bother to filter on supported locales).
+ * <p/>
+ * However, locale support in font families is extremely important in cases where font
+ * families having the same name are made of different TTF files supporting different
+ * locales.
+ * <p/>
+ * A very good example is of people using the same <code>fontName</code> value inside their reports
+ * that sometimes are generated in Chinese and other times in Japanese. They would use a
+ * set of TTF files that support Chinese and another set of TTF files that support Japanese.
+ * With them, they would create two font families having the same <code>fontName</code> name, and
+ * specify Chinese as supported locale for the first one and Japanese for the second. This
+ * way, depending on the runtime locale, the appropriate font family would be selected,
+ * with the appropriate TTF files for that locale, although at design time the <code>fontName</code>
+ * attribute was the same for all text fields, regardless of locale.
+ * <p/>
+ * Below is the extract from a <code>fonts.xml</code> file that would declare a <code>DejaVu Serif</code> font
+ * family supporting only English and German:
+ * <pre>
+ * &lt;bean id="dejaVuSerifFamily"
+ *   class="net.sf.jasperreports.engine.fonts.SimpleFontFamily"&gt;
+ *   &lt;property name="name" value="DejaVu Serif"/&gt;
+ *   &lt;property name="locales"&gt;
+ *     &lt;set&gt;
+ *       &lt;value&gt;en_US&lt;/value&gt;
+ *       &lt;value&gt;de_DE&lt;/value&gt;
+ *     &lt;/set&gt;
+ *   &lt;/property&gt; 
+ *   &lt;property name="normal" value="DejaVuSerif.ttf"/&gt;
+ *   &lt;property name="bold" value="DejaVuSerif-Bold.ttf"/&gt;
+ *   &lt;property name="italic" value="DejaVuSerif-Italic.ttf"/&gt;
+ *   &lt;property name="boldItalic" value="DejaVuSerif-BoldItalic.ttf"/&gt;
+ *   &lt;property name="pdfEncoding" value="Identity-H"/&gt;
+ *   &lt;property name="pdfEmbedded" value="true"/&gt;
+ * &lt;/bean&gt;
+ * </pre>
+ * For more details about deploying fonts as extensions, you can take a look at the
+ * <code>/demo/samples/fonts</code> sample provided with the JasperReports project distribution
+ * package, which adds one more font extension for another open source font called
+ * <code>Gentium</code>.
+ * 
  * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
  * 
