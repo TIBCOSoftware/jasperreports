@@ -294,7 +294,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	 * @deprecated Replaced by {@link #getMarkerDataList()}.
 	 */
 	public ItemData getMarkerData() {
-		return markerDataList.get(0);
+		return !markerDataList.isEmpty() ? markerDataList.get(0) : null;
 	}
 
 	/**
