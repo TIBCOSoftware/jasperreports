@@ -52,7 +52,133 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Default text measurer implementation.
+ * <h3>Text Measuring</h3>
+ * When a the contents of a text element do not fit
+ * into the area given by the element width and height, the engine will either truncate the
+ * text contents or, in the case of a text field that is allowed to stretch, increase the height of
+ * the element to accommodate the contents. To do so, the JasperReports engine needs to
+ * measure the text and calculate how much of it fits in the element area, or how much the
+ * element needs to stretch in order to fit the entire text.
+ * <p/>
+ * JasperReports does this, by default, by using standard Java AWT classes to layout and
+ * measure the text with its style information given by the text font and by other style
+ * attributes. This ensures that the result of the text layout calculation is exact according to
+ * the JasperReports principle of pixel perfectness.
+ * <p/>
+ * However, this comes at a price - the AWT text layout calls contribute to the overall
+ * report fill performance. For this reason and possibly others, it might be desired in some
+ * cases to implement a different text measuring mechanism. JasperReports allows users to
+ * employ custom text measurer implementations by setting a value for the
+ * <code>net.sf.jasperreports.text.measurer.factory</code> property.
+ * The property can be set globally (in <code>jasperreports.properties</code> or via the
+ * {@link net.sf.jasperreports.engine.JRPropertiesUtil#setProperty(String, String)} method), at
+ * report level or at element level (as an element property). The property value should be
+ * either the name of a class that implements the
+ * {@link net.sf.jasperreports.engine.util.JRTextMeasurerFactory} interface, or an
+ * alias defined for such a text measurer factory class. To define an alias, one needs to
+ * define a property having
+ * <code>net.sf.jasperreports.text.measurer.factory.&lt;alias&gt;</code> as key and the factory
+ * class name as value. Take the following examples of text measurer factory properties:
+ * <ul>
+ * <li>in jasperreports.properties set a custom default text measurer factory:
+ * <br/>
+ * <code>net.sf.jasperreports.text.measurer.factory=com.jasperreports.MyTextMeasurerFactory</code></li>
+ * <li>define an alias for a different text measurer factory:
+ * <br/>
+ * <code>net.sf.jasperreports.text.measurer.factory.fast=com.jasperreports.MyFastTextMeasurerFactory</code></li>
+ * <li>in a JRXML, use the fast text measurer for a static text:</li>
+ * </ul>
+ * <pre>
+ * &lt;staticText&gt;
+ *   &lt;reportElement ...&gt;
+ *     &lt;property name="net.sf.jasperreports.text.measurer.factory" value="fast"/&gt;
+ *   &lt;/reportElement&gt;
+ *   &lt;text&gt;...&lt;/text&gt;
+ * &lt;/staticText&gt;
+ * </pre>
+ * The default text measurer factory used by JasperReports is
+ * {@link net.sf.jasperreports.engine.fill.TextMeasurerFactory}; the factory is also
+ * registered under an alias named <code>default</code>.
+ * <h3>Text Truncation</h3>
+ * The built-in text measurer supports a series of text truncation customizations. As a
+ * reminder, text truncation occurs when a the contents of a static text element or of a text
+ * field that is not set as stretchable do not fit the area reserved for the element in the report
+ * template. Note that text truncation only refers to the truncation of the last line of a text
+ * element, and not to the word wrapping of a text element that spans across multiple lines.
+ * <p/>
+ * The default behavior is to use the standard AWT line break logic (as returned by the
+ * <code>java.text.BreakIterator.getLineInstance()</code> method) to determine where to
+ * truncate the text. This means that the last line of text will be truncated after the last word
+ * that fits on the line, or after the last character when the first word on the line does not
+ * entirely fit.
+ * <p/>
+ * This behavior can be changed by forcing the text to always get truncated at the last
+ * character that fits the element area, and by appending one or more characters to the
+ * truncated text to notify a report reader that the text has been truncated.
+ * To force the text to be wrapped at the last character, the
+ * {@link net.sf.jasperreports.engine.JRTextElement#PROPERTY_TRUNCATE_AT_CHAR net.sf.jasperreports.text.truncate.at.char}
+ * property needs to be set to true
+ * globally, at report level or at text element level. The levels at which the property can be
+ * set are listed in a decreasing order of precedence, therefore an element level property
+ * overrides the report level property, which in its turn overrides the global property. The
+ * property can also be set to false at report or element level to override the true value of the
+ * property set at a higher level.
+ * <p/>
+ * To append a suffix to the truncated text, one needs to set the desired suffix as the value
+ * of the {@link net.sf.jasperreports.engine.JRTextElement#PROPERTY_TRUNCATE_SUFFIX net.sf.jasperreports.text.truncate.suffix} 
+ * property globally, at report level or at element level. For instance, to use a Unicode 
+ * horizontal ellipsis character (code point U+2026) as text truncation suffix, one would set 
+ * the property globally or at report level as following:
+ * <ul>
+ * <li>globally in <code>jasperreports.properties</code>:
+ * <br/>
+ * <code>net.sf.jasperreports.text.truncate.suffix=&#92;u2026</code></li>
+ * <li>at report level:</li>
+ * </ul>
+ * <pre>
+ * &lt;jasperReport ...&gt;
+ *   &lt;property name="net.sf.jasperreports.text.truncate.suffix" value="&amp;#x2026;"/&gt;
+ *   ...
+ * &lt;/jasperReport&gt;
+ * </pre>
+ * Note that in the JRXML the ellipsis character was introduced via an XML numerical
+ * character entity. If the JRXML file uses a Unicode XML encoding, the Unicode
+ * character can also be directly written in the JRXML.
+ * <p/>
+ * When using a truncation suffix, the truncate at character property is taken into
+ * consideration in order to determine where to append the truncation suffix. If the
+ * truncation at character property is set to false, the suffix is appended after the last word
+ * that fits; if the property is set to true, the suffix is appended after the last text character
+ * that fits.
+ * <p/>
+ * When used for a text element that produces styled text, the truncation suffix is placed
+ * outside the styled text, that is, the truncation suffix will be displayed using the style
+ * defined at element level.
+ * <p/>
+ * Text truncation is desirable when producing reports for that are displayed on a screen or
+ * printed on paper - in such scenarios the layout of the report is important. On the other
+ * hand, some JasperReports exporters, such as the Excel or CSV ones, produce output
+ * which in many cases is intended as data-centric. In such cases, it could be useful not to
+ * truncate any text generated by the report, even if some texts would not fit when rendered
+ * on a layout-sensitive media.
+ * <p/>
+ * To inhibit the unconditional truncation of report texts, one would need to set the
+ * {@link net.sf.jasperreports.engine.JRTextElement#PROPERTY_PRINT_KEEP_FULL_TEXT net.sf.jasperreports.print.keep.full.text}
+ * property to true globally, at report level or at text element level. When the 
+ * property is set to true, the text is not truncated at fill time and the generated 
+ * report preserves the full text as produced by the text element.
+ * <p/>
+ * Visual report exporters (such as the exporters used for PDF, HTML, RTF, printing or the
+ * Java report viewer) would still truncate the rendered text, but the Excel and CSV data-centric
+ * exporters would use the full text. Note that preserving the full text does not affect
+ * the size of the text element, therefore the Excel exporter would display the full text
+ * inside a cell that has the size of the truncated text.
  * 
+ * @see net.sf.jasperreports.engine.JRTextElement#PROPERTY_PRINT_KEEP_FULL_TEXT
+ * @see net.sf.jasperreports.engine.JRTextElement#PROPERTY_TRUNCATE_AT_CHAR
+ * @see net.sf.jasperreports.engine.JRTextElement#PROPERTY_TRUNCATE_SUFFIX
+ * @see net.sf.jasperreports.engine.fill.TextMeasurerFactory
+ * @see net.sf.jasperreports.engine.util.JRTextMeasurerUtil#PROPERTY_TEXT_MEASURER_FACTORY
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */

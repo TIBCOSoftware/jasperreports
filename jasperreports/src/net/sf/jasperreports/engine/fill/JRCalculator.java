@@ -56,7 +56,7 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  * needed for expression evaluation.
  * </p><p>
  * Only the report compiler creates the calculator instance because only the report compiler
- * can make sense of the information it stored in the compiled report template at reportcompilation
+ * can make sense of the information it stored in the compiled report template at report compilation
  * time.
  * </p>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
