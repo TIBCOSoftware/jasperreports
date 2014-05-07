@@ -764,12 +764,13 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		if (end != null)
 		{
 			endPageIndex = end;
-			if (endPageIndex < startPageIndex || endPageIndex > lastPageIndex)
+			int startPage = startPageIndex == null ? 0 : startPageIndex;
+			if (endPageIndex < startPage || endPageIndex > lastPageIndex)
 			{
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_END_PAGE_INDEX_OUT_OF_RANGE,  
-						new Object[]{startPageIndex, endPageIndex, lastPageIndex}, 
+						new Object[]{startPage, endPageIndex, lastPageIndex}, 
 						getJasperReportsContext(), 
 						getLocale()
 						);
