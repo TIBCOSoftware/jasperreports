@@ -25,9 +25,11 @@ package net.sf.jasperreports.engine.export;
 
 import java.io.UnsupportedEncodingException;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -35,11 +37,41 @@ import net.sf.jasperreports.engine.util.JRLoader;
  */
 public class HtmlFontUtil
 {
+
+	private final RepositoryUtil repositoryUtil;
+
+
+	/**
+	 *
+	 */
+	private HtmlFontUtil(JasperReportsContext jasperReportsContext)
+	{
+		this.repositoryUtil = RepositoryUtil.getInstance(jasperReportsContext);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static HtmlFontUtil getInstance(JasperReportsContext jasperReportsContext)
+	{
+		return new HtmlFontUtil(jasperReportsContext);
+	}
+	
+	
+	/**
+	 * @deprecated Replaced by {@link #handleHtmlFont(HtmlResourceHandler, HtmlFont)}.
+	 */
+	public static void handleFont(HtmlResourceHandler resourceHandler, HtmlFont htmlFont)
+	{
+		getInstance(DefaultJasperReportsContext.getInstance()).handleHtmlFont(resourceHandler, htmlFont);
+	}
+	
 	
 	/**
 	 * 
 	 */
-	public static void handleFont(HtmlResourceHandler resourceHandler, HtmlFont htmlFont)
+	public void handleHtmlFont(HtmlResourceHandler resourceHandler, HtmlFont htmlFont)
 	{
 		StringBuffer sbuffer = new StringBuffer();
 
@@ -55,7 +87,7 @@ public class HtmlFontUtil
 				sbuffer.append("\tsrc: url('" + eotFileName + "');\n");
 				sbuffer.append("\tsrc: url('" + eotFileName + "?#iefix') format('embedded-opentype');\n");
 				//sbuffer.append("\tsrc: url('" + eotFileName + "?#iefix') format('eot');\n");
-				resourceHandler.handleResource(eotId, JRLoader.loadBytesFromResource(htmlFont.getEot()));
+				resourceHandler.handleResource(eotId, repositoryUtil.getBytesFromLocation(htmlFont.getEot()));
 			}
 			if (
 				htmlFont.getTtf() != null
@@ -69,21 +101,21 @@ public class HtmlFontUtil
 					String woffId = htmlFont.getId() + ".woff";
 					String woffFileName = resourceHandler.getResourcePath(woffId);
 					sbuffer.append(",\n\t\turl('" + woffFileName + "') format('woff')"); 
-					resourceHandler.handleResource(woffId, JRLoader.loadBytesFromResource(htmlFont.getWoff()));
+					resourceHandler.handleResource(woffId, repositoryUtil.getBytesFromLocation(htmlFont.getWoff()));
 				}
 				if (htmlFont.getTtf() != null)
 				{
 					String ttfId = htmlFont.getId() + ".ttf";
 					String ttfFileName = resourceHandler.getResourcePath(ttfId);
 					sbuffer.append(",\n\t\turl('" + ttfFileName + "') format('truetype')"); 
-					resourceHandler.handleResource(ttfId, JRLoader.loadBytesFromResource(htmlFont.getTtf()));
+					resourceHandler.handleResource(ttfId, repositoryUtil.getBytesFromLocation(htmlFont.getTtf()));
 				}
 				if (htmlFont.getSvg() != null)
 				{
 					String svgId = htmlFont.getId() + ".svg";
 					String svgFileName = resourceHandler.getResourcePath(svgId);
 					sbuffer.append(",\n\t\turl('" + svgFileName + "') format('svg')");
-					resourceHandler.handleResource(svgId, JRLoader.loadBytesFromResource(htmlFont.getSvg()));
+					resourceHandler.handleResource(svgId, repositoryUtil.getBytesFromLocation(htmlFont.getSvg()));
 				}
 				sbuffer.append(";\n");
 			}

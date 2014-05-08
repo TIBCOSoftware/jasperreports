@@ -2251,7 +2251,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						{
 							fontsToProcess.put(htmlFont.getId(), htmlFont);
 
-							HtmlFontUtil.handleFont(resourceHandler, htmlFont);
+							HtmlFontUtil.getInstance(jasperReportsContext).handleHtmlFont(resourceHandler, htmlFont);
 						}
 						
 						fontFamily = htmlFont.getId();

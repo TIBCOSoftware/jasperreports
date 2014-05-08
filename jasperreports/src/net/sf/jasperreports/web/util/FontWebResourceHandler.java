@@ -30,6 +30,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.HtmlFont;
@@ -67,7 +68,7 @@ public class FontWebResourceHandler implements WebResourceHandler
 				{
 					String basePath = getResourceBasePath(jasperReportsContext, request);
 					
-					byte[] resourceData = processFont(basePath, htmlFont);
+					byte[] resourceData = processFont(jasperReportsContext, basePath, htmlFont);
 					response.getOutputStream().write(resourceData);//FIXMEFONT close this properly
 				}
 				catch (IOException e) 
@@ -82,11 +83,20 @@ public class FontWebResourceHandler implements WebResourceHandler
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link #processFont(JasperReportsContext, String, HtmlFont)}.
+	 */
 	protected byte[] processFont(String basePath, HtmlFont htmlFont)
+	{
+		return processFont(DefaultJasperReportsContext.getInstance(), basePath, htmlFont);
+	}
+	
+
+	protected byte[] processFont(JasperReportsContext jasperReportsContext, String basePath, HtmlFont htmlFont)
 	{
 		FontHtmlResourceHandler resourceHandler = new FontHtmlResourceHandler(basePath, htmlFont);
 		
-		HtmlFontUtil.handleFont(resourceHandler, htmlFont);
+		HtmlFontUtil.getInstance(jasperReportsContext).handleHtmlFont(resourceHandler, htmlFont);
 		
 		return resourceHandler.getFontCss();
 	}
