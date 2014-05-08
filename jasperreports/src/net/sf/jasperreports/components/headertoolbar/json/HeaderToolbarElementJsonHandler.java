@@ -273,7 +273,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			}
 
 			contextMap.put("columnUuid", columnUuid);
-			contextMap.put("columnLabel", JRStringUtil.escapeJavaScript(columnLabel));
+			//FIXME the template also does JRStringUtil.htmlEncode, is that required?
+			contextMap.put("columnLabel", JRStringUtil.escapeJSONString(columnLabel));
 			contextMap.put("columnIndex", columnIndex);
 			contextMap.put("dataType", FilterTypesEnum.TEXT.getName()); // use Text as default
 			contextMap.put("canSort", canSort);

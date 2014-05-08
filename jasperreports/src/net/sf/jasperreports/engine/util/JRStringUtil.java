@@ -28,9 +28,12 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 
 
 /**
@@ -623,6 +626,30 @@ public final class JRStringUtil
 	public static String getString(Object value)
 	{
 		return value == null ? null : value.toString();
+	}
+	
+	/**
+	 * Escapes a text to be used for a JSON string value.
+	 * 
+	 * @param text the text to escape for JSON
+	 * @return the escaped text if not null
+	 */
+	public static String escapeJSONString(String text)
+	{
+		if (text == null)
+		{
+			return null;
+		}
+		
+		// using Jackson's string quote method
+		char[] escapedChars = JsonStringEncoder.getInstance().quoteAsString(text);
+		if (text.contentEquals(CharBuffer.wrap(escapedChars)))
+		{
+			// nothing changed
+			return text;
+		}
+		
+		return String.valueOf(escapedChars);
 	}
 	
 
