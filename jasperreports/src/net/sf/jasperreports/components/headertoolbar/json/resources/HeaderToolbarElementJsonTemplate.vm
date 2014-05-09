@@ -51,7 +51,7 @@
     "selector": ".jrcolHeader",
     "proxySelector": ".jrcel",
     "columnIndex": ${columnIndex},
-    "columnLabel": "$JRStringUtil.htmlEncode(${columnLabel})",
+    "columnLabel": "$JRStringUtil.escapeJSONString(${columnLabel})",
     "dataType": "${dataType}",
     "filterData": {"actionName": "filter"},
     "clearData": {"actionName": "filter", "filterData": {"clearFilter": true}},
