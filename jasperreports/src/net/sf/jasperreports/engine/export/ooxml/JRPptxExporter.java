@@ -513,7 +513,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		slideHelper.write("<p:sp>\n");
 		slideHelper.write("  <p:nvSpPr>\n");
-		slideHelper.write("    <p:cNvPr id=\"" + line.hashCode() + "\" name=\"Line\"/>\n");
+		slideHelper.write("    <p:cNvPr id=\"" + toOOXMLId(line) + "\" name=\"Line\"/>\n");
 		slideHelper.write("    <p:cNvSpPr>\n");
 		slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
 		slideHelper.write("    </p:cNvSpPr>\n");
@@ -575,7 +575,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	{
 		slideHelper.write("<p:sp>\n");
 		slideHelper.write("  <p:nvSpPr>\n");
-		slideHelper.write("    <p:cNvPr id=\"" + rectangle.hashCode() + "\" name=\"Rectangle\"/>\n");
+		slideHelper.write("    <p:cNvPr id=\"" + toOOXMLId(rectangle) + "\" name=\"Rectangle\"/>\n");
 		slideHelper.write("    <p:cNvSpPr>\n");
 		slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
 		slideHelper.write("    </p:cNvSpPr>\n");
@@ -637,7 +637,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	{
 		slideHelper.write("<p:sp>\n");
 		slideHelper.write("  <p:nvSpPr>\n");
-		slideHelper.write("    <p:cNvPr id=\"" + ellipse.hashCode() + "\" name=\"Ellipse\"/>\n");
+		slideHelper.write("    <p:cNvPr id=\"" + toOOXMLId(ellipse) + "\" name=\"Ellipse\"/>\n");
 		slideHelper.write("    <p:cNvSpPr>\n");
 		slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
 		slideHelper.write("    </p:cNvSpPr>\n");
@@ -776,7 +776,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		
 		slideHelper.write("<p:sp>\n");
 		slideHelper.write("  <p:nvSpPr>\n");
-		slideHelper.write("    <p:cNvPr id=\"" + text.hashCode() + "\" name=\"Text\">\n");
+		slideHelper.write("    <p:cNvPr id=\"" + toOOXMLId(text) + "\" name=\"Text\">\n");
 		
 		String href = getHyperlinkURL(text);
 		if (href != null)
@@ -1239,7 +1239,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 			slideHelper.write("<p:pic>\n");
 			slideHelper.write("  <p:nvPicPr>\n");
-			slideHelper.write("    <p:cNvPr id=\"" + (image.hashCode() > 0 ? image.hashCode() : -image.hashCode()) + "\" name=\"Picture\">\n");
+			slideHelper.write("    <p:cNvPr id=\"" + toOOXMLId(image) + "\" name=\"Picture\">\n");
 
 			String href = getHyperlinkURL(image);
 			if (href != null)
@@ -1459,7 +1459,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	{
 		slideHelper.write("<p:sp>\n");
 		slideHelper.write("  <p:nvSpPr>\n");
-		slideHelper.write("    <p:cNvPr id=\"" + frame.hashCode() + "\" name=\"Frame\"/>\n");
+		slideHelper.write("    <p:cNvPr id=\"" + toOOXMLId(frame) + "\" name=\"Frame\"/>\n");
 		slideHelper.write("    <p:cNvSpPr>\n");
 		slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
 		slideHelper.write("    </p:cNvSpPr>\n");
@@ -1778,6 +1778,15 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	{
 		return PPTX_EXPORTER_PROPERTIES_PREFIX;
 	}
-	
+
+	protected String toOOXMLId(JRPrintElement element)
+	{
+		// using hashCode() for now, though in theory there is a risk of collisions
+		// we could use something based on getSourceElementId() and getPrintElementId()
+		// or even a counter since we do not have any references to Ids
+		int hashCode = element.hashCode();
+		// OOXML object ids are xsd:unsignedInt 
+		return Long.toString(hashCode & 0xFFFFFFFFL); 
+	}
 }
 
