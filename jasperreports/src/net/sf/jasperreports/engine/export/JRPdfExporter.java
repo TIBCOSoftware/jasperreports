@@ -90,6 +90,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -2684,8 +2685,10 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				parent = emptyBookmark;
 			}
 		}
-
-		Bookmark bookmark = new Bookmark(parent, x, jasperPrint.getPageHeight() - y, title);
+		int height = OrientationEnum.PORTRAIT.equals(jasperPrint.getOrientationValue()) 
+				? jasperPrint.getPageHeight() - y 
+				: y;
+		Bookmark bookmark = new Bookmark(parent, x, height, title);
 		bookmarkStack.push(bookmark);
 	}
 
@@ -2699,7 +2702,13 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 			if (anchor.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
 			{
-				addBookmark(anchor.getBookmarkLevel(), anchor.getAnchorName(), getOffsetX() + element.getX(), getOffsetY() + element.getY());
+				int x = OrientationEnum.PORTRAIT.equals(jasperPrint.getOrientationValue()) 
+						? getOffsetX() + element.getX() 
+						: getOffsetY() + element.getY();
+				int y = OrientationEnum.PORTRAIT.equals(jasperPrint.getOrientationValue()) 
+						? getOffsetY() + element.getY() 
+						: getOffsetX() + element.getX();
+				addBookmark(anchor.getBookmarkLevel(), anchor.getAnchorName(), x, y);
 			}
 		}
 	}
