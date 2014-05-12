@@ -105,18 +105,18 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 		scaleTypeValue = bubblePlot.getScaleTypeValue();
 		
 		xAxisLabelExpression = factory.getExpression( bubblePlot.getXAxisLabelExpression() );
-		xAxisLabelFont = factory.getFont(bubblePlot.getChart(), bubblePlot.getXAxisLabelFont());
+		xAxisLabelFont = factory.getFont(chart, bubblePlot.getXAxisLabelFont());
 		xAxisLabelColor = bubblePlot.getOwnXAxisLabelColor();
-		xAxisTickLabelFont = factory.getFont(bubblePlot.getChart(), bubblePlot.getXAxisTickLabelFont());
+		xAxisTickLabelFont = factory.getFont(chart, bubblePlot.getXAxisTickLabelFont());
 		xAxisTickLabelColor = bubblePlot.getOwnXAxisTickLabelColor();
 		xAxisTickLabelMask = bubblePlot.getXAxisTickLabelMask();
 		xAxisVerticalTickLabels = bubblePlot.getXAxisVerticalTickLabels();
 		xAxisLineColor = bubblePlot.getOwnXAxisLineColor();
 		
 		yAxisLabelExpression = factory.getExpression( bubblePlot.getYAxisLabelExpression() );
-		yAxisLabelFont = factory.getFont(bubblePlot.getChart(), bubblePlot.getYAxisLabelFont());
+		yAxisLabelFont = factory.getFont(chart, bubblePlot.getYAxisLabelFont());
 		yAxisLabelColor = bubblePlot.getOwnYAxisLabelColor();
-		yAxisTickLabelFont = factory.getFont(bubblePlot.getChart(), bubblePlot.getYAxisTickLabelFont());
+		yAxisTickLabelFont = factory.getFont(chart, bubblePlot.getYAxisTickLabelFont());
 		yAxisTickLabelColor = bubblePlot.getOwnYAxisTickLabelColor();
 		yAxisTickLabelMask = bubblePlot.getYAxisTickLabelMask();
 		yAxisVerticalTickLabels = bubblePlot.getYAxisVerticalTickLabels();

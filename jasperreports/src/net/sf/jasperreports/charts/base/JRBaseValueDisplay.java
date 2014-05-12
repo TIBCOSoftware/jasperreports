@@ -103,7 +103,7 @@ public class JRBaseValueDisplay implements JRValueDisplay, Serializable
 
 		color = valueDisplay.getColor();
 		mask = valueDisplay.getMask();
-		font = factory.getFont(valueDisplay.getChart(), valueDisplay.getFont());
+		font = factory.getFont(chart, valueDisplay.getFont());
 	}
 
 

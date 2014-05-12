@@ -62,6 +62,7 @@ public class JRFillAreaPlot extends JRFillChartPlot implements JRAreaPlot
 	{
 		super( areaPlot, factory ); 
 
+		//FIXME should the font use the fill chart?
 		categoryAxisLabelFont = factory.getFont(areaPlot.getChart(), areaPlot.getCategoryAxisLabelFont()); 
 		categoryAxisLabelColor = areaPlot.getOwnCategoryAxisLabelColor();
 		categoryAxisTickLabelFont = factory.getFont(areaPlot.getChart(), areaPlot.getCategoryAxisTickLabelFont());

@@ -284,6 +284,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		titleFont = factory.getFont(chart, chart.getTitleFont());
 		subtitleFont = factory.getFont(chart, chart.getSubtitleFont());
+		//FIXME this is inconsistent with the lines above
 		legendFont =  factory.getFont(this, chart.getLegendFont());
 		
 		initLineBox = chart.getLineBox().clone(this);

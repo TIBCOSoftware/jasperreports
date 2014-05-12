@@ -109,7 +109,7 @@ public class JRBaseItemLabel implements JRItemLabel, Serializable
 		color = itemLabel.getColor();
 		backgroundColor = itemLabel.getBackgroundColor();
 //		mask = itemLabel.getMask();
-		font = factory.getFont(itemLabel.getChart(), itemLabel.getFont());
+		font = factory.getFont(chart, itemLabel.getFont());
 	}
 
 
