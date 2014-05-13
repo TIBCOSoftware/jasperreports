@@ -1505,7 +1505,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		this.titleCell = titleCell;
 		if (this.titleCell != null)
 		{
-			setCellOrigin(this.titleCell.getCellContents(), new JRCrosstabOrigin(this, JRCrosstabOrigin.TYPE_HEADER_CELL));
+			setCellOrigin(this.titleCell.getCellContents(), new JRCrosstabOrigin(this, JRCrosstabOrigin.TYPE_TITLE_CELL));
 		}
 		getEventSupport().firePropertyChange(PROPERTY_TITLE_CELL, old, this.titleCell);
 	}
