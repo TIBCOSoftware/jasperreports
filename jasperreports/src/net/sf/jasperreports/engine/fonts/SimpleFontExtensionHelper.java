@@ -540,7 +540,10 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 				&& fontFace.getWoff() == null
 				)
 			{
-				buffer.append(indent + "<" + faceTypeName + ">"	+ fontFace.getTtf() + "</" + faceTypeName + ">\n");
+				if (fontFace.getTtf() != null)
+				{
+					buffer.append(indent + "<" + faceTypeName + ">"	+ fontFace.getTtf() + "</" + faceTypeName + ">\n");
+				}
 			}
 			else
 			{
