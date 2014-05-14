@@ -86,7 +86,7 @@ public class FlashHtmlHandler implements GenericElementHtmlHandler//FIXME need t
 					//TODO have a flag to determine if this is needed
 					String text = (String) value;
 					text = FlashPrintElement.resolveLinks(
-							text, element, hyperlinkProducer);
+							text, element, hyperlinkProducer, false);
 					value = FlashUtils.encodeFlashVariable(text);
 				}
 				

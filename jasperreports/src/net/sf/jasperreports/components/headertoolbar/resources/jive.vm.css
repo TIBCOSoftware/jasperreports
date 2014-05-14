@@ -1,8 +1,8 @@
-span.jr_search_result.highlight span {
+table.jrPage span.jr_search_result.highlight span {
     background-color: yellow;
 }
 
-button::-moz-focus-inner {
+#jive_foobar button::-moz-focus-inner, #jive_dialog button::-moz-focus-inner {
     padding: 0 !important;
     border: 0 none !important;
 }
@@ -131,7 +131,7 @@ button::-moz-focus-inner {
     overflow:hidden;
     }
 
-button#dialogOk, button#dialogCancel {
+.jive_dialog button#dialogOk, .jive_dialog button#dialogCancel {
     float: right;
 }
 
@@ -162,7 +162,7 @@ button#dialogOk, button#dialogCancel {
     z-index:3;
 }
 
-.pmenu {
+#jive_menus .pmenu {
     position:absolute;
     background:#fff;
     z-index:10000;
@@ -176,7 +176,7 @@ button#dialogOk, button#dialogCancel {
     font-family: arial;
 }
 
-.pmenuitem {
+#jive_menus .pmenuitem {
     color: #666666;
     cursor: pointer;
     font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -186,7 +186,7 @@ button#dialogOk, button#dialogCancel {
     padding: 0 12px;
 }
 
-.pmenuitem.hover {background:#fc870e; color:#fff;}
+#jive_menus .pmenuitem.hover {background:#fc870e; color:#fff;}
 
 #jive_dialog button.action {
     /* from(e7e7e7), to(c1c1c1) */
@@ -224,7 +224,7 @@ button#dialogOk, button#dialogCancel {
     color:#aaa !important;
 }
 
-.tabContainer {
+#jive_dialog .tabContainer {
     position:absolute;
     right:22px;
     top:3px;
@@ -232,7 +232,7 @@ button#dialogOk, button#dialogCancel {
     width:auto;
 }
 
-.tab {
+#jive_dialog .tab {
     display:inline-block;
     *display:inline;
     zoom:1;
@@ -243,8 +243,8 @@ button#dialogOk, button#dialogCancel {
 }
 
 /* multisheet tabs */
-.tab.multisheet,
-.tab.dialog {
+#jive_dialog .tab.multisheet,
+#jive_dialog .tab.dialog {
     min-width:100px;
     cursor:pointer;
     white-space:nowrap;
@@ -257,8 +257,8 @@ button#dialogOk, button#dialogCancel {
     margin: 0 2px;
 }
 
-.tab.multisheet span,
-.tab.dialog span	{
+#jive_dialog .tab.multisheet span,
+#jive_dialog .tab.dialog span	{
     display: block;
     height: 100%;
     line-height: 19px;
@@ -268,8 +268,8 @@ button#dialogOk, button#dialogCancel {
     width: auto;
 }
 
-.tab.multisheet.active,
-.tab.dialog.active {
+#jive_dialog .tab.multisheet.active,
+#jive_dialog .tab.dialog.active {
     height:22px;
     top:1px;
     border:1px solid #c5c5c5;
@@ -277,8 +277,8 @@ button#dialogOk, button#dialogCancel {
     border-bottom:transparent;
 }
 
-.tab.multisheet.active span,
-.tab.dialog.active span {
+#jive_dialog .tab.multisheet.active span,
+#jive_dialog .tab.dialog.active span {
     line-height:23px;
     font-weight:bold;
     border:1px solid #f8f8f8;
@@ -287,7 +287,7 @@ button#dialogOk, button#dialogCancel {
     background: #ededed; /*fallback for non-CSS3 browsers*/
 }
 
-.tab.dialog.active span {
+#jive_dialog .tab.dialog.active span {
     background:#fff;
     border-bottom:1px solid #ffffff;
 }
@@ -308,18 +308,18 @@ button#dialogOk, button#dialogCancel {
     vertical-align: middle;
 }
 
-div.thick.wrapper {position:relative;padding:10px 10px;z-index:1;overflow:hidden;}
-div.wrapper {
+#jive_dialog div.thick.wrapper {position:relative;padding:10px 10px;z-index:1;overflow:hidden;}
+#jive_dialog div.wrapper {
 	overflow: hidden;
     padding: 4px 10px 6px 10px;
     position: relative;
     z-index: 1;
 }
-div.wrapper.label {
+#jive_dialog div.wrapper.label {
 	padding:8px 10px 0px 10px;
 	margin-bottom:0px;
 }
-div.t_wrap {padding-right: 4px;}
+#jive_dialog div.t_wrap {padding-right: 4px;}
 .jive_form input,
 .jive_form select {
     font-size: 11px;
@@ -377,27 +377,27 @@ div.t_wrap {padding-right: 4px;}
 }
 .jive_inputbutton.disabled {cursor: default;}
 
-.selected .boldIcon {
+#jive_dialog .selected .boldIcon {
     background-position: -30px -3px;
 }
 
-.selected .italicIcon {
+#jive_dialog .selected .italicIcon {
     background-position: -30px -49px;
 }
 
-.selected .underlineIcon {
+#jive_dialog .selected .underlineIcon {
     background-position: -30px -94px;
 }
 
-.unchanged .boldIcon {
+#jive_dialog .unchanged .boldIcon {
 	background-position: -60px -3px;
 }
 
-.unchanged .italicIcon {
+#jive_dialog .unchanged .italicIcon {
     background-position: -60px -49px;
 }
 
-.unchanged .underlineIcon {
+#jive_dialog .unchanged .underlineIcon {
     background-position: -60px -94px;
 }
 
@@ -407,11 +407,11 @@ div.t_wrap {padding-right: 4px;}
     top: 18px;
     height:4px;
 }
-div.colorpick.normal {
+#jive_dialog div.colorpick.normal {
     width:16px;
     margin-left:6px;
 }
-div.colorpick.wide {
+#jive_dialog div.colorpick.wide {
     width: 18px;
     margin-left:5px;
 }
@@ -440,21 +440,21 @@ div.colorpick.wide {
     margin:6px;
 }
 
-.sortDescIcon {
+#jive_foobar .sortDescIcon {
     background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/iv_format_button_sprite.png);
     background-position:3px -94px;
     top:2px;
     left:3px;
 }
-.sortAscIcon {
+#jive_foobar .sortAscIcon {
     background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/iv_format_button_sprite.png);
     background-position:3px -63px;
 }
-.filterIcon {
+#jive_foobar .filterIcon {
     background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/iv_format_button_sprite.png);
     background-position:4px -31px;
 }
-.formatIcon {
+#jive_foobar .formatIcon {
     background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/iv_format_button_sprite.png);
     background-position:2px 2px;
 }
@@ -479,70 +479,70 @@ div.colorpick.wide {
 .jive_foobar_button.disabled .filterIcon{
     background-position:-34px -31px;
 }
-.boldIcon {
+#jive_dialog .boldIcon {
     background-position:0 -3px;
 }
-.italicIcon {
+#jive_dialog .italicIcon {
     background-position:0 -49px;
 }
-.underlineIcon {
+#jive_dialog .underlineIcon {
     background-position:0 -94px;
 }
-.backgroundColorIcon {
+#jive_dialog .backgroundColorIcon {
     background-position: 2px -551px;
 }
-.unchanged .backgroundColorIcon {
+#jive_dialog .unchanged .backgroundColorIcon {
     background-position: -60px -551px;
 }
-.moveUpIcon {
+#jive_form_columnConditionalFormatting .moveUpIcon {
     background-position: 0 -598px;
 }
 
-.moveDownIcon {
+#jive_form_columnConditionalFormatting .moveDownIcon {
     background-position: 0 -640px;
 }
 
-.deleteIcon {
+#jive_form_columnConditionalFormatting .deleteIcon {
     background-position: 0 -680px;
 }
-.leftIcon {
+#jive_form_basicFormat .leftIcon {
     background-position:-2px -142px;
 }
-.selected .leftIcon {
+#jive_form_basicFormat .selected .leftIcon {
     background-position: -32px -142px;
 }
-.centerIcon {
+#jive_form_basicFormat .centerIcon {
     background-position: -1px -188px;
 }
-.selected .centerIcon {
+#jive_form_basicFormat .selected .centerIcon {
     background-position: -31px -188px;
 }
-.rightIcon {
+#jive_form_basicFormat .rightIcon {
     background-position: 0 -234px;
 }
-.selected .rightIcon {
+#jive_form_basicFormat .selected .rightIcon {
     background-position: -30px -234px;
 }
-.currencyIcon {
+#jive_form_basicFormat .currencyIcon {
     background-position:-1px -277px;
     width: 23px;
 }
-.percentageIcon {
+#jive_form_basicFormat .percentageIcon {
     background-position:-1px -326px;
 }
-.commaIcon {
+#jive_form_basicFormat .commaIcon {
     background-position:-1px -371px;
 }
-.increaseDecimalsIcon {
+#jive_form_basicFormat .increaseDecimalsIcon {
     background-position:-2px -417px;
 }
-.decreaseDecimalsIcon {
+#jive_form_basicFormat .decreaseDecimalsIcon {
     background-position:-1px -463px;
 }
-.fontColorIcon {
+#jive_dialog .fontColorIcon {
     background-position:2px -508px;
 }
-.unchanged .fontColorIcon {
+#jive_dialog .unchanged .fontColorIcon {
     background-position: -60px -508px;
 }
 
@@ -553,23 +553,21 @@ div.colorpick.wide {
 #jive_colorpicker table {border-collapse: collapse;}
 #jive_colorpicker tr.transparent_pick div.pick{border: 1px solid black; width: 240px;}
 #jive_colorpicker tr.reset_pick div.pick{border: 1px solid black; width: 240px;}
-.interactiveElement{cursor:pointer;}
-
-div.ui-datepicker {font-size: 11px;}
+table.jrPage .interactiveElement{cursor:pointer;}
 
 /* CONDITION LIST */
-.conditionList {
+#jive_form_columnConditionalFormatting .conditionList {
 	border-collapse: separate;
 	border:1px solid #c0c0c0;
 	border-spacing: 0;
 	color:#666666;
 }
 
-.conditionList tr {
+#jive_form_columnConditionalFormatting .conditionList tr {
 	height:26px;
 }
 
-.conditionList th {
+#jive_form_columnConditionalFormatting .conditionList th {
 	background-color: #D4DEE9; /* fallback/image non-cover color */
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E1E9F3), to(#D4DEE9)); /* Safari 4+, Chrome 1-9 */
 	background-image: -webkit-linear-gradient(top, #E1E9F3, #D4DEE9); /* Safari 5.1+, Mobile Safari, Chrome 10+ */
@@ -586,7 +584,7 @@ div.ui-datepicker {font-size: 11px;}
 	border-left:1px solid #ffffff;
 }
 
-.conditionList td {
+#jive_form_columnConditionalFormatting .conditionList td {
 	position:relative;
 	vertical-align:middle;
 	padding:4px 2px;
@@ -599,28 +597,28 @@ div.ui-datepicker {font-size: 11px;}
 	*border-left:1px solid #e3e9ef;
 }
 
-.conditionList tr.add td{
+#jive_form_columnConditionalFormatting .conditionList tr.add td{
 	background-color:#f6f6f6;
 }
 
-.conditionList tr.add td .jive_inputbutton {
+#jive_form_columnConditionalFormatting .conditionList tr.add td .jive_inputbutton {
 	height: auto;
 }
 
-.conditionList .last {
+#jive_form_columnConditionalFormatting .conditionList .last {
 	border-right:none;
 }
 
-.conditionList td.condition_between_start {
+#jive_form_columnConditionalFormatting .conditionList td.condition_between_start {
 	border-right: none;
 }
 
-.conditionList td.condition_between_end {
+#jive_form_columnConditionalFormatting .conditionList td.condition_between_end {
 	border-left: none;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-	div.wrapper.label { /* CRHOME/SAFARI STYLES */
+	#jive_dialog div.wrapper.label { /* CHROME/SAFARI STYLES */
 		margin-top:2px;
 		margin-bottom:0px;
 	}
@@ -637,14 +635,11 @@ div.ui-datepicker {font-size: 11px;}
 }
 
 /* ApplyTo Selector */
-.applytoWrapper {
+#jive_dialog .applytoWrapper {
     padding: 4px;
     margin: 0 20px;
     position: relative;
 }
-.applytoTitle {
-    display: inline;
-}
-.applytoSelector {
+#jive_dialog .applytoTitle, #jive_dialog .applytoSelector {
     display: inline;
 }

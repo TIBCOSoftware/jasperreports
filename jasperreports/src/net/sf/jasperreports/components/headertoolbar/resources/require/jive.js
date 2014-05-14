@@ -1,4 +1,4 @@
-define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 'jive.i18n'], function($, templates, css, jivei18n) {
+define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 'text!jive.i18n.tmpl'], function($, templates, css, jivei18nText) {
     var clickEventName = 'click';
 
     if(/Android|iPhone|iPad/i.test(navigator.userAgent) ) {
@@ -10,8 +10,6 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
         reportInstance: null,
         active: false,
         started: false,
-        actionBaseData: null,
-        actionBaseUrl: null,
         selectors: {},
         elements: {},
         interactive:{},
@@ -20,13 +18,15 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
         isIPad: /ipad/i.test(navigator.userAgent),
         isFloatingHeader: false,
         isDashboard: false,
+        activeContainer: null,
         getReportContainer: function() {
-            return $('table.jrPage').closest('div.body');
+            return this.activeContainer;
         },
+        jivei18n: JSON.parse(jivei18nText),
         i18n: {
             get: function (key) {
-                if (jivei18n.hasOwnProperty(key)) {
-                    return jivei18n[key];
+                if (jive.jivei18n.hasOwnProperty(key)) {
+                    return jive.jivei18n[key];
                 } else {
                     return key;
                 }
@@ -89,6 +89,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
                 left: null,
                 setElement: function(selector){
                     this.jo = $(selector);
+                    this.jo.draggable();
                     this.jo.draggable({
                         cursorAt: { top: 40, left: -30 },
                         start: function(ev,ui) {
@@ -110,6 +111,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
                         this.setElement('#jive_overlay');
                         isFirstTimeSelection = true;
                     }
+                    this.jo.draggable();
                     this.jo.css({
                         width: dim.w * (jive.reportInstance.zoom ? jive.reportInstance.zoom.level : 1),
                         height: dim.h
@@ -1329,14 +1331,9 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
                 $('#jive_components').append(templates);
 
                 /*
-                 Setup CSS
-                 */
-//                $('head').append('<style id="jive-main-stylesheet">'+css+'</style>');
-
-                /*
                  Event Handling
                  */
-                it.getReportContainer().on(clickEventName, function(){
+                report.config.container.on(clickEventName, function(){
                     if(!it.ui.dialog.isVisible) {
                         it.hide();
                         $('body').trigger('jive.inactive');
@@ -1404,13 +1401,13 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
                 $('body').trigger('jive.initialized', [it]);
             }
         },
-        initInteractiveElement: function(o){
+        initInteractiveElement: function(o, jqReportContainer){
             if(jive.elements[o.config.id]) {
                 /*
                  * Check if report has been reloaded, if so we need to setup event
                  * listeners.
                  */
-                if(!$.hasData($('table.jrPage')[0])) {
+                if(!$.hasData(jqReportContainer.find('table.jrPage')[0])) {
                     jive.selectors = {};
                 }
             }
@@ -1419,11 +1416,11 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
             /*
              * Check if event listener has for selector already set.
              */
-            if(!jive.selectors[o.config.selector]){
+            if(!jive.selectors[o.config.parentId + "-" + o.config.selector]){
 
-                jive.selectors[o.config.selector] = o.config.type;
+                jive.selectors[o.config.parentId + "-" + o.config.selector] = o.config.type;
 
-                $('table.jrPage').on(clickEventName, o.config.selector, function(evt){
+                jqReportContainer.find('table.jrPage').on(clickEventName, o.config.selector, function(evt){
                     // keep html links functional
                     if(!$(evt.target).parent().is('a')) {
                         var jo = $(this);
@@ -1433,9 +1430,9 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
                 })
             }
 
-            if(o.config.proxySelector && !jive.selectors[o.config.proxySelector]) {
-                jive.selectors[o.config.proxySelector] = o.config.type;
-                $('table.jrPage').on(clickEventName, o.config.proxySelector, function(evt){
+            if(o.config.proxySelector && !jive.selectors[o.config.parentId + "-" + o.config.proxySelector]) {
+                jive.selectors[o.config.parentId + "-" + o.config.proxySelector] = o.config.type;
+                jqReportContainer.find('table.jrPage').on(clickEventName, o.config.proxySelector, function(evt){
                     // keep html links functional
                     if(!$(evt.target).parent().is('a')) {
                         var jo = jive.interactive[o.config.type].getInteractiveElementFromProxy($(this));
@@ -1449,6 +1446,8 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
             if (jo && jo.is('.interactiveElement')) {
                 jive.ui.dialog.isVisible && jive.ui.dialog.hide();
 
+                jive.activeContainer = jo.closest('._jr_report_container_');
+
                 var colData = jive.interactive.column.columnsData[jo.data('tableuuid')][jo.data('coluuid')];
 
                 jive.selected = {
@@ -1460,7 +1459,7 @@ define(['jqueryui-1.10.3-timepicker', 'text!jive.templates.tmpl', 'csslink!jive.
 
                 /*******************/
                 /*
-                    Fix for bug #36767: Jive selection area does not shown correct for table columns after sorting;
+                    Fix for bug #36767 - overlay is not shown correctly for table columns after sorting;
                     When zooming, it is necessary to recalculate the overlay width
                  */
                 var headerCols = $('table.jrPage .jrcolHeader[data-coluuid=' + jo.data('coluuid') + ']'),

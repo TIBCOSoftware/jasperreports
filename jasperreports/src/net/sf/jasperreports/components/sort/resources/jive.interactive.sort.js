@@ -1,4 +1,4 @@
-define(["jquery.ui-1.10.3", "text!jive.sort.vm.css", "text!jive.filterDialog.tmpl"], function($, css, filterDialogTemplate) {
+define(["jquery.ui", "text!jive.sort.vm.css", "text!jive.filterDialog.tmpl"], function($, css, filterDialogTemplate) {
 
     var InteractiveSort = {
         initialized: false,

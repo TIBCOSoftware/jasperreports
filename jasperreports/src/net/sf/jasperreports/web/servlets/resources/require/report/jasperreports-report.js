@@ -1,13 +1,14 @@
 define(["jasperreports-loader", "jasperreports-status-checker",
     "jasperreports-component-registrar", "jasperreports-event-manager", "jasperreports-report-processor",
-    "jquery-1.10.2"], function (Loader, StatusChecker, ComponentRegistrar, EventManager, ReportProcessor, $) {
+    "jquery"], function (Loader, StatusChecker, ComponentRegistrar, EventManager, ReportProcessor, $) {
 	var Report = function(o) {
 
 		this.config = {
-				reporturi: null,
-				async: true,
-				page: 0,
-                updateInterval: 1000
+            reporturi: null,
+            async: true,
+            page: 0,
+            updateInterval: 1000,
+            container: null
 		};
 		$.extend(this.config, o);
 
@@ -201,7 +202,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
          */
         _notify: function(evt) {
             this.config.debug && console.log("report notified of event: " + evt.name + "; type: " + evt.type);
-            this.eventManager.triggerEvent(evt.name, evt.data);
+            this.eventManager.triggerEvent(evt.name, evt);
         }
 	};
 	

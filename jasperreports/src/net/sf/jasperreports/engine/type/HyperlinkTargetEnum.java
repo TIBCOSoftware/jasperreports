@@ -36,27 +36,27 @@ public enum HyperlinkTargetEnum implements JREnum
 	/**
 	 * Target not defined.
 	 */
-	NONE((byte)0, "None"),
+	NONE((byte)0, "None", null),
 
 	/**
 	 * Constant useful for specifying that the hyperlink will be opened in the same window.
 	 */
-	SELF((byte)1, "Self"),
+	SELF((byte)1, "Self", null),
 
 	/**
 	 * Constant useful for specifying that the hyperlink will be opened in a new window.
 	 */
-	BLANK((byte)2, "Blank"),
+	BLANK((byte)2, "Blank", "_blank"),
 
 	/**
 	 * Constant useful for specifying that the hyperlink will be opened in the parent frame.
 	 */
-	PARENT((byte)3, "Parent"),
+	PARENT((byte)3, "Parent", "_parent"),
 
 	/**
 	 * Constant useful for specifying that the hyperlink will be opened in the top frame.
 	 */
-	TOP((byte)4, "Top"),
+	TOP((byte)4, "Top", "_top"),
 
 	/**
 	 * Custom hyperlink target name.
@@ -64,7 +64,7 @@ public enum HyperlinkTargetEnum implements JREnum
 	 * The specific target name is determined by {@link JRHyperlink#getLinkTarget() getLinkTarget()}.
 	 * </p>
 	 */
-	CUSTOM((byte)5, "Custom");
+	CUSTOM((byte)5, "Custom", null);
 
 	/**
 	 *
@@ -72,11 +72,13 @@ public enum HyperlinkTargetEnum implements JREnum
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	private final transient byte value;
 	private final transient String name;
+	private final transient String htmlValue;
 
-	private HyperlinkTargetEnum(byte value, String name)
+	private HyperlinkTargetEnum(byte value, String name, String htmlValue)
 	{
 		this.value = value;
 		this.name = name;
+		this.htmlValue = htmlValue;
 	}
 
 	/**
@@ -102,7 +104,15 @@ public enum HyperlinkTargetEnum implements JREnum
 	{
 		return name;
 	}
-	
+
+	/**
+	 *
+	 */
+	public String getHtmlValue()
+	{
+		return htmlValue;
+	}
+
 	/**
 	 *
 	 */

@@ -33,6 +33,7 @@ import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.text.AttributedString;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -102,6 +103,7 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.util.HyperlinkData;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -181,6 +183,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	protected ExporterFilter tableFilter;
 	
 	protected int pointerEventsNoneStack = 0;
+
+	private List<HyperlinkData> hyperlinksData = new ArrayList<HyperlinkData>();
 	
 	public HtmlExporter()
 	{
@@ -417,6 +421,11 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + fontHandler.getResourcePath(htmlFont.getId()) + "\">\n");
 				}
 			}
+		}
+
+		// place hyperlinksData on reportContext
+		if (hyperlinksData.size() > 0) {
+			reportContext.setParameterValue("net.sf.jasperreports.html.hyperlinks", hyperlinksData);
 		}
 		
 //		if (!isOutputResourcesToDir)
@@ -1219,12 +1228,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			JRPrintHyperlink link = areaHyperlink.getHyperlink();
 			JRPrintImageArea area = areaHyperlink.getArea();
 
-			writer.write("  <area");
-			if (HyperlinkTypeEnum.LOCAL_ANCHOR.equals(link.getHyperlinkTypeValue()) 
-					|| HyperlinkTypeEnum.LOCAL_PAGE.equals(link.getHyperlinkTypeValue())) {
-				writer.write(" class=\"jrLocalAnchorPage\"");
-			}
-			writer.write(" shape=\"" + JRPrintImageArea.getHtmlShape(area.getShape()) + "\"");
+			writer.write("  <area shape=\"" + JRPrintImageArea.getHtmlShape(area.getShape()) + "\"");
 			
 			writeImageAreaCoordinates(area.getCoordinates());			
 			writeImageAreaHyperlink(link);
@@ -1233,12 +1237,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		if (image.getHyperlinkTypeValue() != HyperlinkTypeEnum.NONE)
 		{
-			if (HyperlinkTypeEnum.LOCAL_ANCHOR.equals(image.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(image.getHyperlinkTypeValue())) {
-				writer.write("  <area class=\"jrLocalAnchorPage\" shape=\"default\"");
-			} else {
-				writer.write("  <area shape=\"default\"");
-
-			}
+			writer.write("  <area shape=\"default\"");
 			writeImageAreaCoordinates(new int[]{0, 0, image.getWidth(), image.getHeight()});//for IE
 			writeImageAreaHyperlink(image);
 			writer.write("/>\n");
@@ -1265,21 +1264,40 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 	protected void writeImageAreaHyperlink(JRPrintHyperlink hyperlink) throws IOException
 	{
-		String href = getHyperlinkURL(hyperlink);
-		if (href == null)
+		if (getReportContext() != null)
 		{
-			writer.write(" nohref=\"nohref\"");
+			if (hyperlink.getLinkType() != null)
+			{
+				int id = hyperlink.hashCode() & 0x7FFFFFFF;
+				writer.write(" class=\"_jrHyperLink " + hyperlink.getLinkType() + "\" data-id=\"" + id + "\"");
+
+				HyperlinkData hyperlinkData = new HyperlinkData();
+				hyperlinkData.setId(String.valueOf(id));
+				hyperlinkData.setHref(getHyperlinkURL(hyperlink));
+				hyperlinkData.setSelector("._jrHyperLink." + hyperlink.getLinkType());
+				hyperlinkData.setHyperlink(hyperlink);
+
+				hyperlinksData.add(hyperlinkData);
+			}
 		}
 		else
 		{
-			writer.write(" href=\"" + href + "\"");
-			
-			String target = getHyperlinkTarget(hyperlink);
-			if (target != null)
+			String href = getHyperlinkURL(hyperlink);
+			if (href == null)
 			{
-				writer.write(" target=\"");
-				writer.write(target);
-				writer.write("\"");
+				writer.write(" nohref=\"nohref\"");
+			}
+			else
+			{
+				writer.write(" href=\"" + href + "\"");
+
+				String target = getHyperlinkTarget(hyperlink);
+				if (target != null)
+				{
+					writer.write(" target=\"");
+					writer.write(target);
+					writer.write("\"");
+				}
 			}
 		}
 
@@ -1848,45 +1866,81 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 	protected boolean startHyperlink(JRPrintHyperlink link) throws IOException
 	{
-		String href = getHyperlinkURL(link);
+		boolean hyperlinkStarted = false,
+				canWrite = false;
 
-		if (href != null)
+		if (getReportContext() != null)
 		{
-			if (HyperlinkTypeEnum.LOCAL_ANCHOR.equals(link.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(link.getHyperlinkTypeValue())) {
-				writer.write("<a class=\"jrLocalAnchorPage\" href=\"");
-			} else if (HyperlinkTypeEnum.CUSTOM.equals(link.getHyperlinkTypeValue())) {
-				writer.write("<a class=\"" + link.getLinkType() + "\" href=\"");
-			} else {
-				writer.write("<a href=\"");
-			}
-			writer.write(href);
-			writer.write("\"");
-
-			String target = getHyperlinkTarget(link);
-			if (target != null)
+			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(HtmlReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
+			if (ignoreHyperlink == null)
 			{
-				writer.write(" target=\"");
-				writer.write(target);
-				writer.write("\"");
+				ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
 			}
 
+			if (!ignoreHyperlink && link.getLinkType() != null)
+			{
+				canWrite = true;
+				int id = link.hashCode() & 0x7FFFFFFF;
+
+				writer.write("<span class=\"_jrHyperLink " + link.getLinkType() + "\" data-id=\"" + id + "\"");
+
+				HyperlinkData hyperlinkData = new HyperlinkData();
+				hyperlinkData.setId(String.valueOf(id));
+				hyperlinkData.setHref(getHyperlinkURL(link));
+				hyperlinkData.setSelector("._jrHyperLink." + link.getLinkType());
+				hyperlinkData.setHyperlink(link);
+
+				hyperlinksData.add(hyperlinkData);
+				hyperlinkStarted = true;
+			}
+		}
+		else
+		{
+			String href = getHyperlinkURL(link);
+
+			if (href != null)
+			{
+				canWrite = true;
+				writer.write("<a href=\"");
+				writer.write(href);
+				writer.write("\"");
+
+				String target = getHyperlinkTarget(link);
+				if (target != null)
+				{
+					writer.write(" target=\"");
+					writer.write(target);
+					writer.write("\"");
+				}
+			}
+
+			hyperlinkStarted = href != null;
+		}
+
+		if (canWrite)
+		{
 			if (link.getHyperlinkTooltip() != null)
 			{
 				writer.write(" title=\"");
 				writer.write(JRStringUtil.xmlEncode(link.getHyperlinkTooltip()));
 				writer.write("\"");
 			}
-			
+
 			writer.write(">");
 		}
-		
-		boolean hyperlinkStarted = href != null;
+
 		return hyperlinkStarted;
 	}
 
 	protected void endHyperlink() throws IOException
 	{
-		writer.write("</a>");
+		if (getReportContext() != null) {
+			writer.write("</span>");
+		}
+		else
+		{
+			writer.write("</a>");
+		}
 	}
 
 	protected String getHyperlinkURL(JRPrintHyperlink link)

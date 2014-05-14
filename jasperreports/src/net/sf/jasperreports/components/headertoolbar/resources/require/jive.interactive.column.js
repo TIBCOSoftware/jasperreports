@@ -1,4 +1,4 @@
-define(["jquery.ui-1.10.3", "jive"], function($, jive) {
+define(["jquery.ui", "jive"], function($, jive) {
     var EventManager = null;
 
     jive.interactive.column = {
@@ -54,13 +54,13 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
                 if(!it.genericPropertiesInitialized) {
                     alert('Error: generic properties not set for interactive column.');
                 } else {
-                    it.initColumns(this);
+                    it.initColumns(this, report.config.container);
                 }
             });
         },
 
-        initColumns: function(Table){
-            var c,i,it = this, tableCols = [], colData, prop;
+        initColumns: function(Table, jqReportContainer){
+            var c,i,it = this, lt, tableCols = [], colData, prop;
             var tableUuid = Table.config.id;
             var allColumns = Table.config.allColumnsData;
 
@@ -92,7 +92,7 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
             it.visibleColumnsMoveData[tableUuid] = [];
             it.dropColumns[tableUuid] = [];
 
-            var firstColumnHeader = $("table.jrPage").find('td.jrcolHeader[data-tableuuid=' + tableUuid + ']:first');
+            var firstColumnHeader = jqReportContainer.find("table.jrPage").find('td.jrcolHeader[data-tableuuid=' + tableUuid + ']:first');
             var parentContainer;
             firstColumnHeader.parents('table').each(function(i, v) {
                 parentContainer = $(v);
@@ -194,15 +194,13 @@ define(["jquery.ui-1.10.3", "jive"], function($, jive) {
 
             jive.ui.foobar.reset();
             jive.ui.forms.add(jive.interactive.column.columnFilterForm);
-//            jive.ui.forms.add(jive.interactive.column.formatHeaderForm);
-//            jive.ui.forms.add(jive.interactive.column.formatCellsForm);
             jive.ui.forms.add(jive.interactive.column.columnConditionalFormattingForm);
             jive.ui.forms.add(jive.interactive.column.basicFormatForm);
 
             EventManager.registerEvent('jive.interactive.column.init').trigger();
 
             $.each(Table.columns, function(k, thisColumn){
-                thisColumn && jive.initInteractiveElement(thisColumn);
+                thisColumn && jive.initInteractiveElement(thisColumn, jqReportContainer);
             });
         },
         getJoForCurrentSelection: function(jo) {

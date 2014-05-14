@@ -1,4 +1,4 @@
-define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3", "jasperreports-url-manager"], function(Loader, Report, $, UrlManager) {
+define(["jasperreports-loader", "jasperreports-report", "jquery.ui", "jasperreports-url-manager"], function(Loader, Report, $, UrlManager) {
 	var Viewer = function(o) {
         this.config = {
             at: null,
@@ -14,6 +14,7 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3", "jas
         this.config.applicationContextPath && (UrlManager.applicationContextPath = this.config.applicationContextPath);
 
         this.reportInstance = null;
+        this.container = null;
         this.undoRedoCounters = {
             undos: 0,
             redos: 0
@@ -48,7 +49,8 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3", "jas
             it.reportInstance = new Report({
                 reporturi: it.config.reporturi,
                 async: it.config.async,
-                page: it.config.page
+                page: it.config.page,
+                container: it._getContainer()
             });
 
             it._setupEventsForReport(it.reportInstance);
@@ -58,13 +60,23 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui-1.10.3", "jas
 
         // internal functions
         _render: function(htmlOutput) {
-            var it = this;
             // place output into container
-            var container = $('#' + it.config.at);
-            if (container.size() === 0) {
-                container = $('.' + it.config.at);
+            this._getContainer().html(htmlOutput);
+        },
+        _getContainer: function() {
+            if (!this.container) {
+                var sel = this.config.at;
+                this.container = $(sel);
+                if (!this.container.length) {
+                    this.container = $('#' + sel)
+                    if (!this.container.length) {
+                        this.container = $('.' + sel);
+                    }
+                }
+
+                this.container.addClass('_jr_report_container_');
             }
-            container.html(htmlOutput);
+            return this.container;
         },
         _setupEventsForReport: function(report) {
             var it = this,

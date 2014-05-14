@@ -1,4 +1,4 @@
-define(["jquery-1.10.2"], function($) {
+define(["jquery"], function($) {
 	var Crosstab = function(o) {
 		this.config = {};
 		$.extend(this.config, o);

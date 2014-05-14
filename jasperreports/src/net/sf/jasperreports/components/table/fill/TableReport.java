@@ -609,7 +609,7 @@ public class TableReport implements JRReport
 			int columnIndex = TableUtil.getColumnIndex(column, table);
 			Pair<Boolean, String> columnData = columnInteractivityMapping.get(column);
 			boolean interactiveColumn = columnData.first();
-
+			
 			if (sortTextField != null && interactiveColumn)
 			{
 				Cell header = column.getColumnHeader();

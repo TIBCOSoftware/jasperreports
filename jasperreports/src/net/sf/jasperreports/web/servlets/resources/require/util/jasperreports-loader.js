@@ -1,4 +1,4 @@
-define(["jquery-1.10.2", "jasperreports-url-manager", "jasperreports-ajax"], function($, UrlManager, Ajax) {
+define(["jquery", "jasperreports-url-manager", "jasperreports-ajax"], function($, UrlManager, Ajax) {
 	
     var Loader = function(o) {
 

@@ -1,4 +1,4 @@
-define(["jquery-1.10.2"], function($){
+define(["jquery"], function($){
     var api = {
         sort: {},
         move: {},

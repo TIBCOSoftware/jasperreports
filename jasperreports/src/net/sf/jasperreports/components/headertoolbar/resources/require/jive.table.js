@@ -1,4 +1,4 @@
-define(["jive.column", "jquery-1.10.2"], function(Column, $) {
+define(["jive.column", "jquery"], function(Column, $) {
     var genericProperties = null;
 
     var Table = function(o) {

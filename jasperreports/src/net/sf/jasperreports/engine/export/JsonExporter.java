@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.export;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -41,6 +42,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintBookmark;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.util.HyperlinkData;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.JsonExporterConfiguration;
@@ -51,7 +53,9 @@ import net.sf.jasperreports.web.util.JacksonUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 
 /**
@@ -71,6 +75,8 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 	protected int reportIndex;
 	protected int pageIndex;
 	private boolean gotFirstJsonFragment;
+	private JacksonUtil jacksonUtil;
+	private List<HyperlinkData> hyperlinksData;
 	
 	public JsonExporter()
 	{
@@ -82,6 +88,8 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 		super(jasperReportsContext);
 
 		exporterContext = new ExporterContext();
+		jacksonUtil = JacksonUtil.getInstance(jasperReportsContext);
+		hyperlinksData = new ArrayList<HyperlinkData>();
 	}
 
 
@@ -230,7 +238,8 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 		exportElements(elements);
 		exportBookmarks();
 		exportWebFonts();
-		
+		exportHyperlinks();
+
 		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
 		{
@@ -282,7 +291,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 
 			writer.write("\"id\": \"bkmrk_" + (bookmarks.hashCode() & 0x7FFFFFFF) + "\",");
 			writer.write("\"type\": \"bookmarks\",");
-			writer.write("\"bookmarks\": " + JacksonUtil.getInstance(getJasperReportsContext()).getJsonString(bookmarks));
+			writer.write("\"bookmarks\": " + jacksonUtil.getJsonString(bookmarks));
 
 			writer.write("}");
 		}
@@ -305,8 +314,50 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 
 			writer.write("\"id\": \"webfonts_" + (webFonts.hashCode() & 0x7FFFFFFF) + "\",");
 			writer.write("\"type\": \"webfonts\",");
-			writer.write("\"webfonts\": " + JacksonUtil.getInstance(getJasperReportsContext()).getJsonString(webFonts));
+			writer.write("\"webfonts\": " + jacksonUtil.getJsonString(webFonts));
 
+			writer.write("}");
+		}
+	}
+
+	protected void exportHyperlinks() throws IOException
+	{
+		ReportContext reportContext = getReportContext();
+		String hyperlinksParameter = "net.sf.jasperreports.html.hyperlinks";
+		if (reportContext != null && reportContext.containsParameter(hyperlinksParameter)) {
+			List<HyperlinkData> contextHyperlinksData = (List<HyperlinkData>) reportContext.getParameterValue(hyperlinksParameter);
+			hyperlinksData.addAll(contextHyperlinksData);
+		}
+		if (hyperlinksData.size() > 0) {
+			String id = "hyperlinks_" + (hyperlinksData.hashCode() & 0x7FFFFFFF);
+			if (gotFirstJsonFragment)
+			{
+				writer.write(",\n");
+			} else
+			{
+				gotFirstJsonFragment = true;
+			}
+			writer.write("\"" + id + "\": {");
+
+			writer.write("\"id\": \"" + id + "\",");
+			writer.write("\"type\": \"hyperlinks\",");
+			writer.write("\"hyperlinks\": ");
+
+			ObjectMapper mapper = new ObjectMapper();
+			ArrayNode hyperlinkArray = mapper.createArrayNode();
+
+			for (HyperlinkData hd: hyperlinksData) {
+				JRPrintHyperlink hyperlink = hd.getHyperlink();
+				ObjectNode hyperlinkNode = jacksonUtil.hyperlinkToJsonObject(hyperlink);
+
+				jacksonUtil.addProperty(hyperlinkNode, "id", hd.getId());
+				jacksonUtil.addProperty(hyperlinkNode, "href", hd.getHref());
+				jacksonUtil.addProperty(hyperlinkNode, "selector", hd.getSelector());
+
+				hyperlinkArray.add(hyperlinkNode);
+			}
+
+			writer.write(jacksonUtil.getJsonString(hyperlinkArray));
 			writer.write("}");
 		}
 	}
@@ -422,6 +473,13 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 		}
 		
 		return href;
+	}
+
+	/**
+	 *
+	 */
+	public void addHyperlinkData(HyperlinkData hyperlinkData) {
+		this.hyperlinksData.add(hyperlinkData);
 	}
 
 	
