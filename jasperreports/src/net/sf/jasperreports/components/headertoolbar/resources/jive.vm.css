@@ -162,7 +162,7 @@ table.jrPage span.jr_search_result.highlight span {
     z-index:3;
 }
 
-#jive_menus .pmenu {
+#jive_dropdown .pmenu, #jive_menus .pmenu {
     position:absolute;
     background:#fff;
     z-index:10000;
@@ -176,7 +176,7 @@ table.jrPage span.jr_search_result.highlight span {
     font-family: arial;
 }
 
-#jive_menus .pmenuitem {
+#jive_dropdown .pmenuitem, #jive_menus .pmenuitem {
     color: #666666;
     cursor: pointer;
     font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -186,7 +186,7 @@ table.jrPage span.jr_search_result.highlight span {
     padding: 0 12px;
 }
 
-#jive_menus .pmenuitem.hover {background:#fc870e; color:#fff;}
+#jive_dropdown .pmenuitem.hover, #jive_menus .pmenuitem.hover {background:#fc870e; color:#fff;}
 
 #jive_dialog button.action {
     /* from(e7e7e7), to(c1c1c1) */
@@ -369,7 +369,7 @@ table.jrPage span.jr_search_result.highlight span {
 .jive_inputbutton.unchanged {background-position: -124px 0px;}
 .jive_inputbutton.drop {background-position: -58px 0; width: 34px;}
 .jive_inputbutton.drop.unchanged {background-position: -182px 0;}
-.jive_inputbutton.drop > .jive_bIcon {
+#jive_form_basicFormat .jive_inputbutton.drop > .jive_bIcon {
     margin-left: 0;
     height: 30px;
     margin-top: 1px;
