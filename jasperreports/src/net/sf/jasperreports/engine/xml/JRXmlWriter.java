@@ -3369,7 +3369,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 				for (DataAxisLevel level : dataAxis.getLevels())
 				{
 					writer.startElement(JRXmlConstants.ELEMENT_axisLevel);
-					writer.addAttribute(JRXmlConstants.ATTRIBUTE_name, level.getName());
+					writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, level.getName());
 					writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, level.getLabelExpression());
 					writeDataLevelBucket(level.getBucket());
 					writer.closeElement();//JRXmlConstants.ELEMENT_axisLevel
@@ -3381,7 +3381,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			for (DataMeasure measure : data.getMeasures())
 			{
 				writer.startElement(JRXmlConstants.ELEMENT_multiAxisMeasure);
-				writer.addAttribute(JRXmlConstants.ATTRIBUTE_name, measure.getName());
+				writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, measure.getName());
 				writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, measure.getValueClassName());
 				writer.addAttribute(JRXmlConstants.ATTRIBUTE_calculation, measure.getCalculation());
 				writer.addAttribute(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, measure.getIncrementerFactoryClassName());
