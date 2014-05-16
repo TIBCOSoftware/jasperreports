@@ -120,7 +120,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 
 	protected List<JRCrosstabParameter> parametersList;
 	protected Map<String, JRCrosstabParameter> parametersMap;
-	protected LinkedMap variablesList;
+	// used to be a org.apache.commons.collections.SequencedHashMap, we're now using LinkedMap
+	protected Map<String, JRVariable> variablesList;
 	protected JRExpression parametersMapExpression;
 	protected JRDesignCrosstabDataset dataset;
 	protected List<JRCrosstabRowGroup> rowGroups;
@@ -1874,6 +1875,14 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		if (lineBox == null)
 		{
 			lineBox = new JRBaseLineBox(this);
+		}
+		
+		// this will work as long as SequencedHashMap is part of commons collections
+		// we could also look at PSEUDO_SERIAL_VERSION_UID
+		if (variablesList instanceof org.apache.commons.collections.SequencedHashMap)
+		{
+			// converting to the new type
+			variablesList = new LinkedMap(variablesList);
 		}
 	}
 
