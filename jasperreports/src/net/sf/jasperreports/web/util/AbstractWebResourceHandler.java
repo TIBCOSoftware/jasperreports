@@ -25,6 +25,8 @@ package net.sf.jasperreports.web.util;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +57,15 @@ public abstract class AbstractWebResourceHandler implements WebResourceHandler
 		
 		if (resourceUri == null)
 		{
-			String requestUrl = request.getRequestURL().toString();
+			String requestUrl = null;
+			try
+			{
+				requestUrl = URLDecoder.decode(request.getRequestURL().toString(), "UTF-8");
+			}
+			catch (UnsupportedEncodingException e)
+			{
+				throw new JRRuntimeException(e);
+			}
 			//String servletPath = request.getServletPath();
 			String servletPath = webUtil.getResourcesPath();
 			int uriStart = requestUrl.indexOf(servletPath);
