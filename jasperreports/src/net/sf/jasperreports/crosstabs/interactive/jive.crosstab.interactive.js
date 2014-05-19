@@ -72,8 +72,9 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 			var firstHeader = $('td.jrxtcolheader[data-jrxtid=\'' + fragmentId + '\'][data-jrxtcolidx=\'' + columnIdx + '\']:first', parentTable);
 			var lastCell = $('td.jrxtdatacell[data-jrxtid=\'' + fragmentId + '\'][data-jrxtcolidx=\'' + columnIdx + '\']:last', parentTable);
 
+            var zoomLevel = this.reportInstance.zoom && this.reportInstance.zoom.level ? this.reportInstance.zoom.level : 1;
 			var width = lastCell.offset().left + lastCell.outerWidth() - firstHeader.offset().left;
-			var height = lastCell.offset().top + lastCell.outerHeight() - firstHeader.offset().top;
+			var height = lastCell.offset().top + lastCell.outerHeight() * zoomLevel - firstHeader.offset().top;
 			
 			ixt.selected = {crosstab: crosstab, header: firstHeader};
 			ixt.overlay.show({w: width, h: height});
@@ -89,8 +90,9 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 			var firstHeader = $(headers[0]);
 			var lastHeader = $(headers[headers.length - 1]);
 
+            var zoomLevel = this.reportInstance.zoom && this.reportInstance.zoom.level ? this.reportInstance.zoom.level : 1;
 			var width = lastHeader.offset().left + lastHeader.outerWidth() - firstHeader.offset().left;
-			var height = lastHeader.offset().top + lastHeader.outerHeight() - firstHeader.offset().top;
+			var height = lastHeader.offset().top + lastHeader.outerHeight() * zoomLevel - firstHeader.offset().top;
 				
 			ixt.selected = {crosstab: crosstab, header: firstHeader};
 			ixt.overlay.show({w: width, h: height});

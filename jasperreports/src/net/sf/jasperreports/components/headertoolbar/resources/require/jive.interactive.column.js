@@ -37,10 +37,12 @@ define(["jquery.ui", "jive"], function($, jive) {
         ldi: null,
         rdi: null,
         delta: null,
+        reportInstance: null,
 
         init: function(report) {
             var it = this;
 
+            it.reportInstance = report;
             EventManager = report.eventManager;
 
             jive.init(report);
@@ -245,7 +247,8 @@ define(["jquery.ui", "jive"], function($, jive) {
             jive.zoom(o);
         },
         getElementSize: function(){
-            var jo = jive.selected.jo,
+            var it = this,
+                jo = jive.selected.jo,
                 cid = jo.data('cellid'),
                 h = null;
 
@@ -255,7 +258,7 @@ define(["jquery.ui", "jive"], function($, jive) {
                 var lastCell = $('td.cel_' + cid + ':last', v);
                 if(lastCell && lastCell.length > 0) {
                     var lastElemTop = lastCell.offset().top;
-                    var lastElemHeight = lastCell.outerHeight();
+                    var lastElemHeight = lastCell.outerHeight() * (it.reportInstance.zoom && it.reportInstance.zoom.level ? it.reportInstance.zoom.level : 1);
                     h = lastElemTop + lastElemHeight - jo.offset().top;
                     return false; // break each
                 }
