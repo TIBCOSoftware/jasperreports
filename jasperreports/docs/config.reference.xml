@@ -162,6 +162,7 @@
       <property ref="net.sf.jasperreports.default.pdf.embedded"/>
       
       <property ref="net.sf.jasperreports.export.{format}.ignore.hyperlink"/>
+      <property ref="net.sf.jasperreports.export.{format}.exclude.key.{suffix}"/>
       <property ref="net.sf.jasperreports.export.{format}.exclude.origin.{suffix}.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.export.{format}.exclude.origin.keep.first.{suffix}.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.export.filter.factory.{filter_element}"/>
@@ -2172,6 +2173,40 @@ These flags can be controlled at hyperlink declaration level by using the hyperl
     <api>N/A</api>
     <default>N/A</default>
     <scope>Global | Report | Hyperlink</scope>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.{format}.exclude.key.{suffix} -->
+  
+  <configProperty name="net.sf.jasperreports.export.{format}.exclude.key.{suffix}">
+    <description>
+Properties with this syntax are used by the exporters to create default exporter filter instances that filter 
+out content based on element key information. Possible values for the <code>{format}</code> token are 
+<code>pdf</code>, <code>html</code>, <code>xls</code>, <code>rtf</code>, <code>odt</code>, <code>csv</code> 
+and <code>txt</code>. The <code>{suffix}</code> token can be either the element key value or an arbitrary string.
+<br/>
+The following example shows how to specify element keys which are to be excluded
+from specific export outputs:
+<br/><br/><code>
+  &lt;jasperReport ...&gt;
+  <br/>
+  &lt;!-- exclude elements with keys Image1 and Text4 from HTML export --&gt;
+  <br/>
+  &lt;property name="net.sf.jasperreports.export.html.exclude.key.Image1"/&gt;
+  <br/>
+  &lt;property name="net.sf.jasperreports.export.html.exclude.key.Text4"/&gt;
+  <br/>
+  &lt;!-- exclude elements with keys Image5 from PDF export --&gt;
+  <br/>
+  &lt;property name="net.sf.jasperreports.export.pdf.exclude.key.the.image"	value="Image5"/&gt;
+  <br/>
+  ...
+  <br/>
+  &lt;/jasperReport&gt;</code>
+    </description>
+    <api>N/A</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
   </configProperty>
   
   

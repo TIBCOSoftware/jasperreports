@@ -32,6 +32,29 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * An exporter filter that excludes elements based on their keys.
  *
  * The filter uses a fixed set of elements keys to exclude.
+ * <p/>
+ * Element keys are set at report design time and are propagated into generated reports.
+ * Each element in a filled report has the same key as the element from the report template
+ * that generated it.
+ * <p/>
+ * To trigger an element key filter, the report designer needs to define one or more report
+ * properties that start with <code>&lt;exporter_property_prefix&gt;.exclude.key</code>. Each such
+ * property matches a single element key which is to be excluded by the filter. The element
+ * key is given by the property value, or if no value is set for the property, by the property
+ * suffix.
+ * <p/>
+ * The following example shows how to specify element keys which are to be excluded
+ * from specific export outputs:
+ * <pre>
+ * &lt;jasperReport ...&gt;
+ *   &lt;!-- exclude elements with keys Image1 and Text4 from HTML export --&gt;
+ *   &lt;property name="net.sf.jasperreports.export.html.exclude.key.Image1"/&gt;
+ *   &lt;property name="net.sf.jasperreports.export.html.exclude.key.Text4"/&gt;
+ *   &lt;!-- exclude elements with keys Image5 from PDF export --&gt;
+ *   &lt;property name="net.sf.jasperreports.export.pdf.exclude.key.the.image" value="Image5"/&gt;
+ *   ...
+ * &lt;/jasperReport&gt;
+ * </pre>
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
