@@ -86,7 +86,10 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 			}
 		}
 		
-		collectedHeaders[DIMENSION_COLUMN] = createHeadersList(DIMENSION_COLUMN, columnBucketMap, 0, false);
+		collectedHeaders[DIMENSION_COLUMN] = createHeadersList(DIMENSION_COLUMN,
+				// using column totals for sorting if needed
+				columnTotalsMap == null ? columnBucketMap : columnTotalsMap, 
+				0, false);
 		
 		int rowBuckets = collectedHeaders[BucketingService.DIMENSION_ROW].span;
 		int colBuckets = collectedHeaders[BucketingService.DIMENSION_COLUMN].span;
