@@ -852,7 +852,27 @@ public final class JasperCompileManager
 		try 
 		{
 			Class<?> clazz = JRClassLoader.loadClassForName(compilerClassName);
-			compiler = (JRCompiler)clazz.newInstance();
+			
+			Constructor<?> contextConstructor;
+			try
+			{
+				contextConstructor = clazz.getConstructor(JasperReportsContext.class);
+			}
+			catch (NoSuchMethodException e)
+			{
+				// no context constructor
+				contextConstructor = null;
+			}
+			
+			if (contextConstructor == null)
+			{
+				// assuming default constructor
+				compiler = (JRCompiler) clazz.newInstance();
+			}
+			else
+			{
+				compiler = (JRCompiler) contextConstructor.newInstance(jasperReportsContext);
+			}
 		}
 		catch (Exception e)
 		{
