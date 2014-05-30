@@ -48,14 +48,14 @@
  * running. 
  * <p/> 
  * The best way to control fonts in JasperReports is to provide the font files as extensions to 
- * the library. Basically, this involves putting True Type Font files in a JAR file, together 
- * with an XML file that describes the content of the JAR and the various relationships 
- * between the fonts and the locales. 
+ * the library. Basically, this involves putting various Font files (such as True Type, Open Type, 
+ * SVG or Web Open Font Format) in a JAR file, together with an XML file that describes the content 
+ * of the JAR and the various relationships between the fonts and the locales. 
  * <p/> 
- * JasperReports raises a {@link net.sf.jasperreports.engine.util.JRFontNotFoundException} in the case where the font used inside 
- * a report template is not available to the JVM as either as a system font or a font coming 
- * from a JR font extension. This ensure that all problems caused by font metrics 
- * mismatches are avoided and we have an early warning about the inconsistency. 
+ * JasperReports raises a {@link net.sf.jasperreports.engine.util.JRFontNotFoundException} in the 
+ * case where the font used inside a report template is not available to the JVM as either as a 
+ * system font or a font coming from a JR font extension. This ensure that all problems caused by 
+ * font metrics mismatches are avoided and we have an early warning about the inconsistency. 
  * <p/> 
  * However, for backward compatibility reasons, this font runtime validation can be turned 
  * off using the <code>net.sf.jasperreports.awt.ignore.missing.font</code> configuration 
@@ -63,11 +63,12 @@
  * <p/> 
  * The font extension point in JasperReports is exposed as the 
  * {@link net.sf.jasperreports.engine.fonts.FontFamily} public interface. Each font 
- * family is made out of 4 font faces: normal, bold, italic and bolditalic. Only the normal 
- * face is required in a font family. Font faces are described by the 
- * {@link net.sf.jasperreports.engine.fonts.FontFace} interface. Besides the font faces, 
- * a font family also supports certain locales and tells if it is able to simulate the bold style 
- * and the italic style in PDF export, in case the corresponding font faces are missing from 
+ * family is made out of 4 font faces: <code>normal</code>, <code>bold</code>, <code>italic</code> and 
+ * <code>bolditalic</code>. None of them is required in a font family, but when they are all missing, 
+ * then the name of the font family should be the name of an existing font face, already installed on 
+ * the machine. Font faces are described by the {@link net.sf.jasperreports.engine.fonts.FontFace} interface. 
+ * Besides the font faces, a font family also supports certain locales and tells if it is able to simulate 
+ * the bold style and the italic style in PDF export, in case the corresponding font faces are missing from 
  * its declaration. 
  * <p/> 
  * JasperReports is shipped with convenience implementations for the above mentioned 
@@ -108,26 +109,31 @@
  * {@link net.sf.jasperreports.engine.fonts.FontFamily} interface and introduce two 
  * font families: the <code>DejaVu Sans</code> and the <code>DejaVu Serif</code>.
  * <pre>
- * &lt;bean id="dejaVuSansFamily"
- *   class="net.sf.jasperreports.engine.fonts.SimpleFontFamily"&gt;
- *   &lt;property name="name" value="DejaVu Sans"/&gt;
- *   &lt;property name="normal" value="DejaVuSans.ttf"/&gt;
- *   &lt;property name="bold" value="DejaVuSans-Bold.ttf"/&gt;
- *   &lt;property name="italic" value="DejaVuSans-Oblique.ttf"/&gt;
- *   &lt;property name="boldItalic" value="DejaVuSans-BoldOblique.ttf"/&gt;
- *   &lt;property name="pdfEncoding" value="Identity-H"/&gt;
- *   &lt;property name="pdfEmbedded" value="true"/&gt;
- * &lt;/bean&gt;
- * &lt;bean id="dejaVuSerifFamily"
- *   class="net.sf.jasperreports.engine.fonts.SimpleFontFamily"&gt;
- *   &lt;property name="name" value="DejaVu Serif"/&gt;
- *   &lt;property name="normal" value="DejaVuSerif.ttf"/&gt;
- *   &lt;property name="bold" value="DejaVuSerif-Bold.ttf"/&gt;
- *   &lt;property name="italic" value="DejaVuSerif-Italic.ttf"/&gt;
- *   &lt;property name="boldItalic" value="DejaVuSerif-BoldItalic.ttf"/&gt;
- *   &lt;property name="pdfEncoding" value="Identity-H"/&gt;
- *   &lt;property name="pdfEmbedded" value="true"/&gt;
- * &lt;/bean>
+ * &lt;fontFamily name="DejaVu Sans"&gt;
+ *   &lt;normal&gt;net/sf/jasperreports/fonts/dejavu/DejaVuSans.ttf&lt;/normal&gt;
+ *   &lt;bold&gt;net/sf/jasperreports/fonts/dejavu/DejaVuSans-Bold.ttf&lt;/bold&gt;
+ *   &lt;italic&gt;net/sf/jasperreports/fonts/dejavu/DejaVuSans-Oblique.ttf&lt;/italic&gt;
+ *   &lt;boldItalic&gt;net/sf/jasperreports/fonts/dejavu/DejaVuSans-BoldOblique.ttf&lt;/boldItalic&gt;
+ *   &lt;pdfEncoding&gt;Identity-H&lt;/pdfEncoding&gt;
+ *   &lt;pdfEmbedded&gt;true&lt;/pdfEmbedded&gt;
+ *   &lt;exportFonts&gt;
+ *     &lt;export key="net.sf.jasperreports.html"&gt;'DejaVu Sans', Arial, Helvetica, sans-serif&lt;/export&gt;
+ *     &lt;export key="net.sf.jasperreports.xhtml"&gt;'DejaVu Sans', Arial, Helvetica, sans-serif&lt;/export&gt;
+ *   &lt;/exportFonts&gt;
+ * &lt;/fontFamily&gt;
+ * 
+ * &lt;fontFamily name="DejaVu Serif"&gt;
+ *   &lt;normal&gt;net/sf/jasperreports/fonts/dejavu/DejaVuSerif.ttf&lt;/normal&gt;
+ *   &lt;bold&gt;net/sf/jasperreports/fonts/dejavu/DejaVuSerif-Bold.ttf&lt;/bold&gt;
+ *   &lt;italic&gt;net/sf/jasperreports/fonts/dejavu/DejaVuSerif-Italic.ttf&lt;/italic&gt;
+ *   &lt;boldItalic&gt;net/sf/jasperreports/fonts/dejavu/DejaVuSerif-BoldItalic.ttf&lt;/boldItalic&gt;
+ *   &lt;pdfEncoding&gt;Identity-H&lt;/pdfEncoding&gt;
+ *   &lt;pdfEmbedded&gt;true&lt;/pdfEmbedded&gt;
+ *   &lt;exportFonts&gt;
+ *     &lt;export key="net.sf.jasperreports.html"&gt;'DejaVu Serif', 'Times New Roman', Times, serif&lt;/export&gt;
+ *     &lt;export key="net.sf.jasperreports.xhtml"&gt;'DejaVu Serif', 'Times New Roman', Times, serif&lt;/export&gt;
+ *   &lt;/exportFonts&gt;
+ * &lt;/fontFamily&gt;
  * </pre>
  * Notice how font families are specifying a name and their different faces. The name and
  * the normal face are both required, while the other properties are optional.
@@ -162,22 +168,24 @@
  * Below is the extract from a <code>fonts.xml</code> file that would declare a <code>DejaVu Serif</code> font
  * family supporting only English and German:
  * <pre>
- * &lt;bean id="dejaVuSerifFamily"
- *   class="net.sf.jasperreports.engine.fonts.SimpleFontFamily"&gt;
- *   &lt;property name="name" value="DejaVu Serif"/&gt;
- *   &lt;property name="locales"&gt;
- *     &lt;set&gt;
- *       &lt;value&gt;en_US&lt;/value&gt;
- *       &lt;value&gt;de_DE&lt;/value&gt;
- *     &lt;/set&gt;
- *   &lt;/property&gt; 
- *   &lt;property name="normal" value="DejaVuSerif.ttf"/&gt;
- *   &lt;property name="bold" value="DejaVuSerif-Bold.ttf"/&gt;
- *   &lt;property name="italic" value="DejaVuSerif-Italic.ttf"/&gt;
- *   &lt;property name="boldItalic" value="DejaVuSerif-BoldItalic.ttf"/&gt;
- *   &lt;property name="pdfEncoding" value="Identity-H"/&gt;
- *   &lt;property name="pdfEmbedded" value="true"/&gt;
- * &lt;/bean&gt;
+ * &lt;fontFamily name="DejaVu Sans"&gt;
+ *   &lt;normal&gt;net/sf/jasperreports/fonts/dejavu/DejaVuSans.ttf&lt;/normal&gt;
+ *   &lt;bold&gt;net/sf/jasperreports/fonts/dejavu/DejaVuSans-Bold.ttf&lt;/bold&gt;
+ *   &lt;italic&gt;net/sf/jasperreports/fonts/dejavu/DejaVuSans-Oblique.ttf&lt;/italic&gt;
+ *   &lt;boldItalic&gt;net/sf/jasperreports/fonts/dejavu/DejaVuSans-BoldOblique.ttf&lt;/boldItalic&gt;
+ *   &lt;pdfEncoding&gt;Identity-H&lt;/pdfEncoding&gt;
+ *   &lt;pdfEmbedded&gt;true&lt;/pdfEmbedded&gt;
+ *   &lt;exportFonts&gt;
+ *     &lt;export key="net.sf.jasperreports.html"&gt;'DejaVu Sans', Arial, Helvetica, sans-serif&lt;/export&gt;
+ *     &lt;export key="net.sf.jasperreports.xhtml"&gt;'DejaVu Sans', Arial, Helvetica, sans-serif&lt;/export&gt;
+ *   &lt;/exportFonts&gt;
+ *   &lt;!--
+ *   &lt;locales&gt;
+ *     &lt;locale&gt;en_US&lt;/locale&gt;
+ *     &lt;locale&gt;de_DE&lt;/locale&gt;
+ *   &lt;/locales&gt;
+ *   --&gt;
+ * &lt;/fontFamily&gt;
  * </pre>
  * For more details about deploying fonts as extensions, you can take a look at the
  * <code>/demo/samples/fonts</code> sample provided with the JasperReports project distribution
