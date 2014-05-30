@@ -151,6 +151,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	protected Map<String,List<Hyperlink>> anchorLinks = new HashMap<String,List<Hyperlink>>();
 	protected Map<Integer,List<Hyperlink>> pageLinks = new HashMap<Integer,List<Hyperlink>>();
 	protected Map<String,HSSFName> anchorNames = new HashMap<String,HSSFName>();
+	protected Map<HSSFSheet,List<Integer>> autofitColumns = new HashMap<HSSFSheet,List<Integer>>();
 
 	/**
 	 *
@@ -313,6 +314,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		firstPageNotSet = true;
 		palette =  workbook.getCustomPalette();
 		customColorIndex = MIN_COLOR_INDEX; 
+		autofitColumns = new HashMap<HSSFSheet,List<Integer>>();
 	}
 
 
@@ -494,7 +496,16 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			
 			for(int i=0; i < workbook.getNumberOfSheets(); i++)
 			{
-				workbook.getSheetAt(i).setForceFormulaRecalculation(true);
+				HSSFSheet currentSheet = workbook.getSheetAt(i);
+				currentSheet.setForceFormulaRecalculation(true);
+				List<Integer> autofitList= autofitColumns.get(currentSheet);
+				if(autofitList != null)
+				{
+					for(Integer j : autofitList) 
+					{
+						currentSheet.autoSizeColumn(j, false);
+					}
+				}
 			}
 			
 			workbook.write(os);
@@ -509,7 +520,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	{
 		if (autoFit)
 		{
-			sheet.autoSizeColumn(col, false);
+			//the autofit will be applied before closing workbook, after the sheet completion
+			List<Integer> autofitList= autofitColumns.get(sheet) != null ? autofitColumns.get(sheet) : new ArrayList<Integer>();
+			autofitList.add(col);
+			autofitColumns.put(sheet, autofitList);
 		}
 		else
 		{
