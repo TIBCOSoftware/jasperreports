@@ -19,7 +19,6 @@
 			<fileset dir="../../../dist">
 				<include name="**/jasperreports-*.jar"/>
 				<exclude name="**/jasperreports-javaflow-*.jar"/>
-				<exclude name="**/jasperreports-applet-*.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="./WEB-INF/lib">

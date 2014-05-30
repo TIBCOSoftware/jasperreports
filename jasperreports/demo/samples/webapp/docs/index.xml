@@ -28,8 +28,6 @@ How to add reporting functionality to a Web application.
 	This sample also demonstrates:
 	<ul>
 		<li>Configuring and using several of the JasperReports exporters</li>
-		<li>Viewing a report in Flash</li>
-		<li>Viewing a report in an Applet</li>
 		<li>Creating and using an XML Datasource</li>
 	</ul>
 	<br/>
@@ -74,10 +72,6 @@ How to add reporting functionality to a Web application.
 	<b>Filling the Report</b>
 	<br/>
 	<b>Exporting the Report</b>
-	<br/>
-	<b>Applet Viewer</b>
-	<br/>
-	<b>Flash Viewer</b>
 	<br/>
 	<b>Further Resources:</b>
     <br/>

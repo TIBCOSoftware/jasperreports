@@ -96,12 +96,12 @@ How to generate very large documents using report virtualizers that optimize mem
     <br/>
     <ul>
     <li>All java code will be compiled to produce class files.</li>
-    <li>JRXML fills will be compiled by JasperReports to produce a .jasperfile (this is a serialized version of a JasperReports object).</li>
+    <li>JRXML fills will be compiled by JasperReports to produce a .jasper file (this is a serialized version of a JasperReports object).</li>
     <li>The report will be filled with data and the resulting object, JasperPrint, will be serialized to the file system as a .jrprint.</li>
     <li>All the exporters the sample is configured to test will run.</li>
     </ul>
     <br/>
-    You can now run 'ant view' to see a version of the report in the JasperViewer (an applet contained in the JasperReports package which can be used to view a .jrprint object).
+    You can now run 'ant view' to see a version of the report in the JasperViewer (a Swing report viewer contained in the JasperReports package which can be used to view a .jrprint object).
     <br/>
     Each of the these task can be ran separately as well:
     <br/>

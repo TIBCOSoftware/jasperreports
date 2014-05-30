@@ -16,7 +16,6 @@
 			<fileset dir="../../../dist">
 				<include name="**/jasperreports-*.jar"/>
 				<exclude name="**/jasperreports-javaflow-*.jar"/>
-				<exclude name="**/jasperreports-applet-*.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="./WEB-INF/lib">
@@ -32,11 +31,6 @@
 				<include name="**/jackson*.jar"/>
 			</fileset>
 		</copy>
-		<copy todir="./applets">
-			<fileset dir="../../../dist" includes="**/jasperreports-applet-*.jar"/>
-			<fileset dir="../../../lib" includes="**/commons-logging-*.jar"/>
-			<fileset dir="../../../lib" includes="**/commons-collections-*.jar"/>
-		</copy>
 	</target>
 
 	<target name="javac" depends="prepare" description="Compiles the java source files of the web application.">
@@ -44,18 +38,6 @@
 				encoding="ISO-8859-1" includeantruntime="false">
 			<classpath>
 				<pathelement location="./WEB-INF/classes/"/>
-				<pathelement location="../../../build/classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
-			<compilerarg value="-Xlint:unchecked"/>
-			<compilerarg value="-Xlint:-options"/>
-		</javac>
-		<javac srcdir="./applets/" destdir="./applets/" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6"
-				encoding="ISO-8859-1" includeantruntime="false">
-			<classpath>
-				<pathelement location="./applets/"/>
 				<pathelement location="../../../build/classes"/>
 				<fileset dir="../../../lib">
 					<include name="**/*.jar"/>
@@ -104,7 +86,6 @@
 			<fileset dir="." includes="**/*.gif" />
 			<fileset dir="." includes="**/*.GIF" />
 			<fileset dir="." includes="**/*.png" />
-			<fileset dir="." includes="**/*.swf" />
 			<fileset dir="." includes="**/*.jrxml" />
 			<classes dir="./WEB-INF/classes/">
 				<include name="**/*.class" />
