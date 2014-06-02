@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/xml-apis.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jdt-compiler-3.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/ecj-4.3.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/hibernate3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/png-encoder-1.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-javaflow-20060411.jar"/>

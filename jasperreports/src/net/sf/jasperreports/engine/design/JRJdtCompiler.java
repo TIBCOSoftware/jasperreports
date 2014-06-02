@@ -796,6 +796,11 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		{
 			return new char[0][0];
 		}
+
+		public boolean ignoreOptionalProblems() 
+		{
+			return false;
+		}
 	}
 
 
