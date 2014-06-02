@@ -29,8 +29,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.ResourceBundle.Control;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -903,6 +905,28 @@ public final class JRPropertiesUtil
 		if (propertiesHolder.hasProperties())
 		{
 			value = propertiesHolder.getPropertiesMap().getProperty(key);
+		}
+		return value;
+	}
+
+
+	public String getLocalizedProperty(String property, Locale locale)
+	{
+		Control control = Control.getControl(Control.FORMAT_PROPERTIES);
+		String value = null;
+		
+		// we're not looking at the fallback locale to be consistent with JRResourcesUtil.loadResourceBundle
+		List<Locale> locales = control.getCandidateLocales(property, locale);
+		for (Locale candidate : locales)
+		{
+			String candidateString = candidate.toString();
+			String candidateProperty = candidateString.isEmpty() ? property : (property + "_" + candidateString);
+			String candidateValue = getProperty(candidateProperty);
+			if (candidateValue != null)// test for empty?
+			{
+				value = candidateValue;
+				break;
+			}
 		}
 		return value;
 	}

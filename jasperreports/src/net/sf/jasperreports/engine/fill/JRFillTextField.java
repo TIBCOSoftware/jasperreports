@@ -94,6 +94,9 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	private Integer hyperlinkPage;
 	private String hyperlinkTooltip;
 	private JRPrintHyperlinkParameters hyperlinkParameters;
+	
+	private static final String NULL_VALUE = new String();
+	private final Map<String, String> localizedProperties;
 
 	/**
 	 *
@@ -108,6 +111,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		
 		this.textTemplates = new HashMap<Pair<JRStyle,TextFormat>, JRTemplateElement>();
 		evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
+		this.localizedProperties = new HashMap<String, String>();
 	}
 
 	
@@ -117,6 +121,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 		this.textTemplates = textField.textTemplates;
 		this.evaluationGroup = textField.evaluationGroup;
+		this.localizedProperties = textField.localizedProperties;
 	}
 
 
@@ -161,6 +166,70 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			return JRStyleResolver.getPattern(this);
 		}
 		return pattern;
+	}
+	
+	protected String getDatePattern(Object value)
+	{
+		String pattern = getPattern();
+		if (pattern != null || value == null)
+		{
+			return pattern;
+		}
+		
+		String property;
+		if (value instanceof java.sql.Date)
+		{
+			property = JRTextField.PROPERTY_PATTERN_DATE;
+		}
+		else if (value instanceof java.sql.Time)
+		{
+			property = JRTextField.PROPERTY_PATTERN_TIME;
+		}
+		else 
+		{
+			property = JRTextField.PROPERTY_PATTERN_DATETIME;
+		}
+		return getLocalizedProperty(property);
+	}
+	
+	protected String getNumberPattern(Object value)
+	{
+		String pattern = getPattern();
+		if (pattern != null || value == null)
+		{
+			return pattern;
+		}
+		
+		String property;
+		if (value instanceof java.lang.Byte
+				|| value instanceof java.lang.Short
+				|| value instanceof java.lang.Integer
+				|| value instanceof java.lang.Long
+				|| value instanceof java.math.BigInteger)
+		{
+			property = JRTextField.PROPERTY_PATTERN_INTEGER;
+		}
+		else 
+		{
+			property = JRTextField.PROPERTY_PATTERN_NUMBER;
+		}
+		return getLocalizedProperty(property);
+	}
+	
+	protected String getLocalizedProperty(String property)
+	{
+		// caching locally because it's not cached in JRPropertiesUtil
+		String value = localizedProperties.get(property);
+		if (value == null)
+		{
+			value = filler.getPropertiesUtil().getLocalizedProperty(property, filler.getLocale());
+			localizedProperties.put(property, value == null ? NULL_VALUE : value);
+		}
+		else if (value == NULL_VALUE)
+		{
+			value = null;
+		}
+		return value;
 	}
 		
 	public String getOwnPattern()
@@ -872,11 +941,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 		if (value instanceof java.util.Date)
 		{
-			format = filler.getDateFormat(getPattern(), ownTimeZone);
+			format = filler.getDateFormat(getDatePattern(value), ownTimeZone);
 		}
 		else if (value instanceof java.lang.Number)
 		{
-			format = filler.getNumberFormat(getPattern());
+			format = filler.getNumberFormat(getNumberPattern(value));
 		}
 		
 		return format;
@@ -888,10 +957,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	protected String getTemplatePattern(Format format, Object value)//FIXMEFORMAT optimize this with an interface
 	{
 		String pattern = null;
-		String originalPattern = getPattern();
+		String originalPattern;
 
 		if (value instanceof java.util.Date)
 		{
+			originalPattern = getDatePattern(value);
 			if (format instanceof SimpleDateFormat)
 			{
 				pattern = ((SimpleDateFormat) format).toPattern();
@@ -899,10 +969,15 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		}
 		else if (value instanceof Number)
 		{
+			originalPattern = getNumberPattern(value);
 			if (format instanceof DecimalFormat)
 			{
 				pattern = ((DecimalFormat) format).toPattern();
 			}
+		}
+		else
+		{
+			originalPattern = getPattern();
 		}
 		
 		if (pattern == null)//fallback to the original pattern

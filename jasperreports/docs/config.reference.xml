@@ -91,6 +91,11 @@
       <property ref="net.sf.jasperreports.virtual.page.element.size"/>
       <property ref="net.sf.jasperreports.default.locale"/>
       <property ref="net.sf.jasperreports.default.timezone"/>
+      <property ref="net.sf.jasperreports.text.pattern.date"/>
+      <property ref="net.sf.jasperreports.text.pattern.time"/>
+      <property ref="net.sf.jasperreports.text.pattern.datetime"/>
+      <property ref="net.sf.jasperreports.text.pattern.integer"/>
+      <property ref="net.sf.jasperreports.text.pattern.number"/>
     </content>
   </category>
   
@@ -4783,6 +4788,111 @@ The default time zone used to fill reports.  The property is overridden by the <
     <default>system time zone</default>
     <scope>Global | Report</scope>
     <since>5.2.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.text.pattern.date -->
+  
+  <configProperty name="net.sf.jasperreports.text.pattern.date">
+    <description>
+Provides a default pattern to be used for <code>java.sql.Date</code> values.
+
+<p>
+Locale specific values can be configured by appending _&lt;locale code&gt; to the property name.
+</p>
+
+<p>
+The property can be set at global/JasperReports context level.
+</p>
+    </description>
+    <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_DATE</api>
+    <default>N/A</default>
+    <scope>Global</scope>
+    <since>5.6.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.text.pattern.time -->
+  
+  <configProperty name="net.sf.jasperreports.text.pattern.time">
+    <description>
+Provides a default pattern to be used for <code>java.sql.Time</code> values.
+
+<p>
+Locale specific values can be configured by appending _&lt;locale code&gt; to the property name.
+</p>
+
+<p>
+The property can be set at global/JasperReports context level.
+</p>
+    </description>
+    <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_TIME</api>
+    <default>N/A</default>
+    <scope>Global</scope>
+    <since>5.6.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.text.pattern.datetime -->
+  
+  <configProperty name="net.sf.jasperreports.text.pattern.datetime">
+    <description>
+Provides a default pattern to be used for <code>java.util.Date</code> values other than <code>java.sql.Date</code> and <code>java.sql.Time</code>.
+
+<p>
+Locale specific values can be configured by appending _&lt;locale code&gt; to the property name.
+</p>
+
+<p>
+The property can be set at global/JasperReports context level.
+</p>
+    </description>
+    <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_DATETIME</api>
+    <default>N/A</default>
+    <scope>Global</scope>
+    <since>5.6.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.text.pattern.integer -->
+  
+  <configProperty name="net.sf.jasperreports.text.pattern.integer">
+    <description>
+Provides a default pattern to be used for numerical values that are known to be integer, i.e. integer primitive wrapper types and <code>java.math.BigInteger</code>.
+
+<p>
+Locale specific values can be configured by appending _&lt;locale code&gt; to the property name.
+</p>
+
+<p>
+The property can be set at global/JasperReports context level.
+</p>
+    </description>
+    <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_INTEGER</api>
+    <default>N/A</default>
+    <scope>Global</scope>
+    <since>5.6.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.text.pattern.number -->
+  
+  <configProperty name="net.sf.jasperreports.text.pattern.number">
+    <description>
+Provides a default pattern to be used for numerical values other than the integer types.
+
+<p>
+Locale specific values can be configured by appending _&lt;locale code&gt; to the property name.
+</p>
+
+<p>
+The property can be set at global/JasperReports context level.
+</p>
+    </description>
+    <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_NUMBER</api>
+    <default>N/A</default>
+    <scope>Global</scope>
+    <since>5.6.1</since>
   </configProperty>
   
   

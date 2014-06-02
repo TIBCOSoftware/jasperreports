@@ -138,6 +138,78 @@ public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHy
 	public static final String PROPERTY_FORMAT_TIMEZONE = JRPropertiesUtil.PROPERTY_PREFIX + "pattern.timezone";
 
 	public static final String FORMAT_TIMEZONE_SYSTEM = "System";
+
+	/**
+	 * Provides a default pattern to be used for <code>java.sql.Date</code> values.
+	 * 
+	 * <p>
+	 * Locale specific values can be configured by appending _&lt;locale code&gt; to the property name.
+	 * </p>
+	 * 
+	 * <p>
+	 * The property can be set at global/JasperReports context level.
+	 * </p>
+	 * @since 5.6.1
+	 */
+	public static final String PROPERTY_PATTERN_DATE = JRPropertiesUtil.PROPERTY_PREFIX + "text.pattern.date";
+
+	/**
+	 * Provides a default pattern to be used for <code>java.sql.Time</code> values.
+	 * 
+	 * <p>
+	 * Locale specific values can be configured by appending _&lt;locale code&gt; to the property name.
+	 * </p>
+	 * 
+	 * <p>
+	 * The property can be set at global/JasperReports context level.
+	 * </p>
+	 * @since 5.6.1
+	 */
+	public static final String PROPERTY_PATTERN_TIME = JRPropertiesUtil.PROPERTY_PREFIX + "text.pattern.time";
+
+	/**
+	 * Provides a default pattern to be used for <code>java.util.Date</code> values other than
+	 * <code>java.sql.Date</code> and <code>java.sql.Time</code>.
+	 * 
+	 * <p>
+	 * Locale specific values can be configured by appending _&lt;locale code&gt; to the property name.
+	 * </p>
+	 * 
+	 * <p>
+	 * The property can be set at global/JasperReports context level.
+	 * </p>
+	 * @since 5.6.1
+	 */
+	public static final String PROPERTY_PATTERN_DATETIME = JRPropertiesUtil.PROPERTY_PREFIX + "text.pattern.datetime";
+
+	/**
+	 * Provides a default pattern to be used for numerical values that are known to be integer,
+	 * i.e. integer primitive wrapper types and <code>java.math.BigInteger</code>.
+	 * 
+	 * <p>
+	 * Locale specific values can be configured by appending _&lt;locale code&gt; to the property name.
+	 * </p>
+	 * 
+	 * <p>
+	 * The property can be set at global/JasperReports context level.
+	 * </p>
+	 * @since 5.6.1
+	 */
+	public static final String PROPERTY_PATTERN_INTEGER = JRPropertiesUtil.PROPERTY_PREFIX + "text.pattern.integer";
+
+	/**
+	 * Provides a default pattern to be used for numerical values other than the integer types.
+	 * 
+	 * <p>
+	 * Locale specific values can be configured by appending _&lt;locale code&gt; to the property name.
+	 * </p>
+	 * 
+	 * <p>
+	 * The property can be set at global/JasperReports context level.
+	 * </p>
+	 * @since 5.6.1
+	 */
+	public static final String PROPERTY_PATTERN_NUMBER = JRPropertiesUtil.PROPERTY_PREFIX + "text.pattern.number";
 	
 	/**
 	 * Specifies whether the text field will stretch vertically if its text does not fit in one line.
