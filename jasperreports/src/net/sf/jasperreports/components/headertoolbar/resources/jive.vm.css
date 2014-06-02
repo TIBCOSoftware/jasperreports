@@ -470,13 +470,13 @@ table.jrPage span.jr_search_result.highlight span {
 .jive_foobar_button.over .formatIcon{
     background-position:-74px 2px;
 }
-.jive_foobar_button.disabled .sortDescIcon{
+#jive_foobar .jive_foobar_button.disabled .sortDescIcon{
     background-position:-35px -94px;
 }
-.jive_foobar_button.disabled .sortAscIcon{
+#jive_foobar .jive_foobar_button.disabled .sortAscIcon{
     background-position:-35px -63px;
 }
-.jive_foobar_button.disabled .filterIcon{
+#jive_foobar .jive_foobar_button.disabled .filterIcon{
     background-position:-34px -31px;
 }
 #jive_dialog .boldIcon {
