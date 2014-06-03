@@ -3,12 +3,19 @@
 	<parameter name="number" class="java.lang.Double"/>
 	<title>
 		<band height="552">
+			<textField>
+				<reportElement positionType="Float" x="20" y="0" width="530" height="20"/>
+				<textElement textAlignment="Right">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression>new Date()</textFieldExpression>
+			</textField>
 			<image scaleImage="Clip">
-				<reportElement positionType="Float" x="20" y="20" width="100" height="50" uuid="46e07ab6-7965-4fbe-a6f5-c9c2db5dda0f"/>
+				<reportElement positionType="Float" x="20" y="30" width="100" height="50" uuid="46e07ab6-7965-4fbe-a6f5-c9c2db5dda0f"/>
 				<imageExpression><![CDATA[$R{image.flag}]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement positionType="Float" x="150" y="20" width="400" height="50" uuid="b776962f-11f2-417a-915d-477540da81bd"/>
+				<reportElement positionType="Float" x="150" y="30" width="400" height="50" uuid="b776962f-11f2-417a-915d-477540da81bd"/>
 				<textElement>
 					<font size="24"/>
 				</textElement>
