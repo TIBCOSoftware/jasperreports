@@ -282,6 +282,7 @@ public final class FlashPrintElement
 					hyperlinkData.setId(id);
 					hyperlinkData.setHref(replacement);
 					hyperlinkData.setHyperlink(hyperlink);
+					hyperlinkData.setSelector("._jrHyperLink." + hyperlink.getLinkType());
 					replacement = "jrhl-" + id + ";" + hyperlink.getLinkType();
 
 					hyperlinksData.add(hyperlinkData);
