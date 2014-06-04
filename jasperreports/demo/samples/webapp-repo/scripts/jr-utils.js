@@ -5,7 +5,7 @@ define(["jquery"], function($) {
         if (!(this instanceof JRUtils)) {
             return new JRUtils(o);
         }
-			
+
 		this.config = {
             width: 300,
             height: 400,
@@ -29,8 +29,8 @@ define(["jquery"], function($) {
 				container = $('#' + cfg.containerid);
                 cfg.width && container.css({ width: cfg.width});
                 cfg.height && container.css({ height: cfg.height});
-				container.append("<div class='result' style='width:100%; height:100%; overflow:auto;'></div>");
-				
+				container.append("<div class='result' style='position: relative; width:100%; height:100%; overflow:auto; z-index: 1001'></div>");
+
 				$('div.result', container).load(cfg.reporturl, function(response, status, xhr) {
 					if (status === 'error') {
 						alert('Error: ' + xhr.status + ' ' + xhr.statusText);
