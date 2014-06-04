@@ -16,13 +16,13 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui", "jasperrepo
         it.config.applicationContextPath && (UrlManager.applicationContextPath = it.config.applicationContextPath);
 
         it.reportInstance = null;
-        it.container = null;
+        it.container = it._getContainer();
         it.undoRedoCounters = {
             undos: 0,
             redos: 0
         };
 
-        it.isUndoRedo = false;
+        it.renderNow = false;
         it.renderReportLater = false;
         it.dfds = {
             'jive.inactive': null
@@ -36,27 +36,72 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui", "jasperrepo
                 it.dfds['jive.inactive'] && it.dfds['jive.inactive'].resolve();
             }
         });
-    };
-    
-    Loader.prototype._errHandler = function(jqXHR, textStatus, errorThrown) {
-    	var jsonMsg = $.parseJSON(jqXHR.responseText),
-            errDialogId = 'errDialog',
-            errDialog = $('#' + errDialogId),
-            msg;
-        if (errDialog.size != 1) {
-            errDialog = $("<div id='" + errDialogId + "'></div>");
-            $('body').append(errDialog);
-        }
-        msg = "<p>" + jsonMsg.msg + "</p>";
-        if(jsonMsg.devmsg) {
-            msg += "<p>" + jsonMsg.devmsg + "</p>";
-        }
-        errDialog.html(msg);
-        errDialog.dialog({
-            title: 'Error',
-            width: 530,
-            height: 200
-        });
+
+        it.loadMask = {
+            jqMask: null,
+            show: function() {
+                var c = it.container;
+                if (this.jqMask == null) {
+                    this.jqMask = $("<div class='_jrLoadMask_' style='position: absolute; display: none; cursor: wait; z-index: 1000'>");
+                    this.jqMask.css({
+                        backgroundColor:	"grey",
+                        opacity:            0.3,
+                        borderTopWidth:	    c.css('borderTopWidth'),
+                        borderTopStyle:	    c.css('borderTopStyle'),
+                        borderBottomWidth:  c.css('borderBottomWidth'),
+                        borderBottomStyle:	c.css('borderBottomStyle'),
+                        borderLeftWidth:	c.css('borderLeftWidth'),
+                        borderLeftStyle:	c.css('borderLeftStyle'),
+                        borderRightWidth:	c.css('borderRightWidth'),
+                        borderRightStyle:	c.css('borderRightStyle')
+                    });
+                    c.parent().append(this.jqMask);
+                }
+
+                if (c.height()) {
+                    this.jqMask.show().css({
+                        width:  c.width(),
+                        height: c.height(),
+                        left:   c.position().left
+                    });
+                    this.jqMask.offset({top: c.offset().top});
+                } else {
+                    this.jqMask.show().css({
+                        width:  '100%',
+                        height:	'100%',
+                        left:   0,
+                        top:    0
+                    });
+                }
+            },
+            hide: function() {
+                this.jqMask && this.jqMask.hide();
+            }
+        };
+
+        it.loadMask.show();
+
+        Loader.prototype._errHandler = function(jqXHR, textStatus, errorThrown) {
+            it.loadMask.hide();
+            var jsonMsg = $.parseJSON(jqXHR.responseText),
+                errDialogId = 'errDialog',
+                errDialog = $('#' + errDialogId),
+                msg;
+            if (errDialog.size != 1) {
+                errDialog = $("<div id='" + errDialogId + "'></div>");
+                $('body').append(errDialog);
+            }
+            msg = "<p>" + jsonMsg.msg + "</p>";
+            if(jsonMsg.devmsg) {
+                msg += "<p>" + jsonMsg.devmsg + "</p>";
+            }
+            errDialog.html(msg);
+            errDialog.dialog({
+                title: 'Error',
+                width: 530,
+                height: 200
+            });
+        };
     };
 
     Viewer.prototype = {
@@ -104,8 +149,8 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui", "jasperrepo
                 it.dfds['jive.inactive'] = new $.Deferred();
 
                 if(it.jive) {
-                    if(!it.jive.active || it.isUndoRedo) {
-                        it.isUndoRedo && it.jive.hide();
+                    if(!it.jive.active || it.renderNow) {
+                        it.renderNow && it.jive.hide();
                         it._render(this.html);
                         it.dfds['jive.inactive'].resolve();
                     } else {
@@ -118,15 +163,16 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui", "jasperrepo
 
                 it._updateToolbarPaginationButtons(toolbar);
             }).on("action", function() {
-                it.isUndoRedo = false;
+                it.renderNow = false;
                 this.gotoPage(0);
                 it.undoRedoCounters.undos++;
                 it.undoRedoCounters.redos = 0;
                 it._updateUndoRedoButtons(toolbar);
             }).on("beforeAction", function() {
+                it.loadMask.show();
                 this.cancelStatusUpdates();
             }).on("undo", function() {
-                it.isUndoRedo = true;
+                it.renderNow = true;
                 this.gotoPage(0);
                 it.undoRedoCounters.redos ++;
                 it.undoRedoCounters.undos --;
@@ -135,7 +181,7 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui", "jasperrepo
                 }
                 it._updateUndoRedoButtons(toolbar);
             }).on("redo", function() {
-                it.isUndoRedo = true;
+                it.renderNow = true;
                 this.gotoPage(0);
                 it.undoRedoCounters.undos ++;
                 it.undoRedoCounters.redos --;
@@ -144,7 +190,7 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui", "jasperrepo
                 }
                 it._updateUndoRedoButtons(toolbar);
             }).on("search", function(data) {
-                it.isUndoRedo = false;
+                it.renderNow = false;
                 if (data.actionResult.searchResults && data.actionResult.searchResults.length) {
                     var results = data.actionResult.searchResults;
 
@@ -223,9 +269,8 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui", "jasperrepo
                             }, 0);
                         }
                     });
-
                 }
-
+                it.loadMask.hide();
             });
 
             toolbar.on("click", function(evt) {
@@ -237,12 +282,16 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui", "jasperrepo
                 }
 
                 if (target.is('.pageNext')) {
+                    it.renderNow = true;
                     report.gotoPage(parseInt(report.currentpage) + 1);
                 } else if (target.is('.pagePrevious')) {
+                    it.renderNow = true;
                     report.gotoPage(parseInt(report.currentpage) - 1);
                 } else if (target.is('.pageFirst')) {
+                    it.renderNow = true;
                     report.gotoPage(0);
                 } else if (target.is('.pageLast')) {
+                    it.renderNow = true;
                     report.gotoPage(report.status.totalPages - 1);
                 } else if (target.is('.undo')) {
                     report.undo();
