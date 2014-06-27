@@ -209,7 +209,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 						log.debug("waiting for report end");
 					}
 					
-					pageCondition.await();
+					pageCondition.await();//FIXME use a different condition to void frequent interruptions
 				}
 			}
 			catch (InterruptedException e)
