@@ -30,14 +30,19 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.data.DataFile;
+import net.sf.jasperreports.data.DataFileConnection;
+import net.sf.jasperreports.data.DataFileResolver;
+import net.sf.jasperreports.data.DataFileService;
+import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
-import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -82,6 +87,8 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 		XmlDataAdapter xmlDataAdapter = getXmlDataAdapter();
 		if (xmlDataAdapter != null)
 		{
+			Document dataDocument = loadDataDocument(xmlDataAdapter, parameters);
+			
 			if (xmlDataAdapter.isUseConnection()) {
 				
 				/*
@@ -94,23 +101,7 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 				else
 				{
 				*/
-					InputStream dataStream = RepositoryUtil.getInstance(getJasperReportsContext()).getInputStreamFromLocation(xmlDataAdapter.getFileName());
-					try
-					{
-						Document document = JRXmlUtils.parse(dataStream, xmlDataAdapter.isNamespaceAware());
-						parameters.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
-					}
-					finally
-					{
-						try
-						{
-							dataStream.close();
-						}
-						catch (IOException e)
-						{
-							log.warn("Failed to close input stream for " + xmlDataAdapter.getFileName());
-						}
-					}
+				parameters.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, dataDocument);
 				//}
 				
 				
@@ -136,7 +127,7 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 			}
 			else
 			{
-				JRXmlDataSource ds = new JRXmlDataSource(getJasperReportsContext(), xmlDataAdapter.getFileName(), xmlDataAdapter.getSelectExpression(), xmlDataAdapter.isNamespaceAware()); 
+				JRXmlDataSource ds = new JRXmlDataSource(getJasperReportsContext(), dataDocument, xmlDataAdapter.getSelectExpression()); 
 
 				Locale locale = xmlDataAdapter.getLocale();
 				if (locale != null) {
@@ -161,6 +152,60 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 				parameters.put(JRParameter.REPORT_DATA_SOURCE, ds);
 			}
 		}
+	}
+
+	protected Document loadDataDocument(XmlDataAdapter xmlDataAdapter, Map<String, Object> parameters) throws JRException
+	{
+		DataFile dataFile = xmlDataAdapter.getDataFile();
+		if (dataFile == null)
+		{
+			String fileName = xmlDataAdapter.getFileName();
+			dataFile = new StandardRepositoryDataLocation(fileName);
+		}
+		
+		DataFileResolver dataFileResolver = DataFileResolver.instance(getJasperReportsContext());
+		DataFileService dataFileService = dataFileResolver.getService(dataFile);
+		
+		DataFileConnection dataConnection = dataFileService.getDataFileConnection(parameters);
+		Document dataDocument;
+		try
+		{
+			dataDocument = parseDocument(dataConnection, xmlDataAdapter.isNamespaceAware());
+		}
+		finally
+		{
+			try
+			{
+				dataConnection.dispose();
+			}
+			catch (JRRuntimeException e)//catch RuntimeException?
+			{
+				log.warn("Failed to dispose connection for " + dataConnection);
+			}
+		}
+		return dataDocument;
+	}
+
+	protected Document parseDocument(DataFileConnection dataConnection, boolean namespaceAware) throws JRException
+	{
+		InputStream dataStream = dataConnection.getInputStream();
+		Document dataDocument;
+		try
+		{
+			dataDocument = JRXmlUtils.parse(dataStream, namespaceAware);
+		}
+		finally
+		{
+			try
+			{
+				dataStream.close();
+			}
+			catch (IOException e)
+			{
+				log.warn("Failed to close input stream for " + dataConnection);
+			}
+		}
+		return dataDocument;
 	}
 	
 }

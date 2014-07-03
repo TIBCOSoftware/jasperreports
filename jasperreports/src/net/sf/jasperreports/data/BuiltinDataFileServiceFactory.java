@@ -23,31 +23,34 @@
  */
 package net.sf.jasperreports.data;
 
-import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.engine.ParameterContributorFactory;
-import net.sf.jasperreports.extensions.ExtensionsRegistry;
-import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.ListExtensionsRegistry;
-
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class DataAdapterParameterContributorExtensionsRegistryFactory implements ExtensionsRegistryFactory
+public class BuiltinDataFileServiceFactory implements DataFileServiceFactory
 {
-	private static final ExtensionsRegistry extensionsRegistry;
 	
-	static
+	private static final BuiltinDataFileServiceFactory INSTANCE = new BuiltinDataFileServiceFactory();
+	
+	public static BuiltinDataFileServiceFactory instance()
 	{
-		ListExtensionsRegistry registry = new ListExtensionsRegistry();
-		registry.add(ParameterContributorFactory.class, DataAdapterParameterContributorFactory.getInstance());
-		registry.add(DataFileServiceFactory.class, BuiltinDataFileServiceFactory.instance());
-		extensionsRegistry = registry;
+		return INSTANCE;
 	}
 	
-	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
+	protected BuiltinDataFileServiceFactory()
 	{
-		return extensionsRegistry;
 	}
+
+	@Override
+	public DataFileService createService(JasperReportsContext context, DataFile dataFile)
+	{
+		if (dataFile instanceof RepositoryDataLocation)
+		{
+			return new RepositoryDataLocationService(context, (RepositoryDataLocation) dataFile);
+		}
+		return null;
+	}
+
 }

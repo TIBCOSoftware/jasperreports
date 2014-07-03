@@ -23,31 +23,33 @@
  */
 package net.sf.jasperreports.data;
 
-import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.engine.ParameterContributorFactory;
-import net.sf.jasperreports.extensions.ExtensionsRegistry;
-import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.ListExtensionsRegistry;
-
-
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class DataAdapterParameterContributorExtensionsRegistryFactory implements ExtensionsRegistryFactory
+public class StandardRepositoryDataLocation implements RepositoryDataLocation
 {
-	private static final ExtensionsRegistry extensionsRegistry;
 	
-	static
+	private String location;
+
+	public StandardRepositoryDataLocation()
 	{
-		ListExtensionsRegistry registry = new ListExtensionsRegistry();
-		registry.add(ParameterContributorFactory.class, DataAdapterParameterContributorFactory.getInstance());
-		registry.add(DataFileServiceFactory.class, BuiltinDataFileServiceFactory.instance());
-		extensionsRegistry = registry;
+	}
+
+	public StandardRepositoryDataLocation(String location)
+	{
+		this.location = location;
 	}
 	
-	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
+	@Override
+	public String getLocation()
 	{
-		return extensionsRegistry;
+		return location;
 	}
+
+	public void setLocation(String location)
+	{
+		this.location = location;
+	}
+
 }

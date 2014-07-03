@@ -23,31 +23,46 @@
  */
 package net.sf.jasperreports.data;
 
-import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.engine.ParameterContributorFactory;
-import net.sf.jasperreports.extensions.ExtensionsRegistry;
-import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.ListExtensionsRegistry;
+import java.util.List;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class DataAdapterParameterContributorExtensionsRegistryFactory implements ExtensionsRegistryFactory
+public class DataFileResolver
 {
-	private static final ExtensionsRegistry extensionsRegistry;
-	
-	static
+
+	private final JasperReportsContext context;
+
+	public static DataFileResolver instance(JasperReportsContext context)
 	{
-		ListExtensionsRegistry registry = new ListExtensionsRegistry();
-		registry.add(ParameterContributorFactory.class, DataAdapterParameterContributorFactory.getInstance());
-		registry.add(DataFileServiceFactory.class, BuiltinDataFileServiceFactory.instance());
-		extensionsRegistry = registry;
+		// not caching for now
+		return new DataFileResolver(context);
+	}
+
+	protected DataFileResolver(JasperReportsContext context)
+	{
+		this.context = context;
 	}
 	
-	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
+	public DataFileService getService(DataFile dataFile)
 	{
-		return extensionsRegistry;
+		List<DataFileServiceFactory> factories = context.getExtensions(DataFileServiceFactory.class);
+		DataFileService dataService = null;
+		if (factories != null)
+		{
+			for (DataFileServiceFactory factory : factories)
+			{
+				DataFileService service = factory.createService(context, dataFile);
+				if (service != null)
+				{
+					dataService = service;
+					break;
+				}
+			}
+		}
+		return dataService;
 	}
 }

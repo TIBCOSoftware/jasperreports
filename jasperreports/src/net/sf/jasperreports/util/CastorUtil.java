@@ -23,12 +23,18 @@
  */
 package net.sf.jasperreports.util;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.List;
 
@@ -262,6 +268,85 @@ public class CastorUtil
 		{
 			throw new JRRuntimeException(e);
 		}
+		catch (ValidationException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	public String writeToString(Object object)
+	{
+		StringWriter writer = new StringWriter();
+		write(object, writer);
+		return writer.toString();
+	}
+	
+	public void writeToFile(Object object, String filename)
+	{
+		OutputStream output = null;
+		boolean closed = false;
+		try
+		{
+			output = new BufferedOutputStream(new FileOutputStream(filename));
+			write(object, output);
+			output.close();
+			closed = true;
+		}
+		catch (FileNotFoundException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			if (output != null && !closed)
+			{
+				try
+				{
+					output.close();
+				}
+				catch (IOException e)
+				{
+					//NOP
+				}
+			}
+		}
+	}
+	
+	public void write(Object object, OutputStream output)
+	{
+		try
+		{
+			Writer writer = new OutputStreamWriter(output, "UTF-8");//hardcoding utf8 instead of the default encoding
+			write(object, writer);
+		} 
+		catch (UnsupportedEncodingException e)
+		{
+			// should not happen
+			throw new JRRuntimeException(e);
+		}
+	}
+	
+	public void write(Object object, Writer writer)
+	{
+		Marshaller marshaller = getXmlContext().createMarshaller();
+		try
+		{
+			marshaller.setWriter(writer);
+			marshaller.setMarshalAsDocument(false);
+			marshaller.marshal(object);
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		} 
+		catch (MarshalException e)
+		{
+			throw new JRRuntimeException(e);
+		} 
 		catch (ValidationException e)
 		{
 			throw new JRRuntimeException(e);

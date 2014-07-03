@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.data.DataAdapter;
+import net.sf.jasperreports.data.DataFile;
 
 
 /**
@@ -38,6 +39,10 @@ public interface XmlDataAdapter extends DataAdapter
 	public String getFileName();
 
 	public void setFileName(String fileName);
+	
+	public DataFile getDataFile();
+	
+	public void setDataFile(DataFile dataFile);
 	
 	public String getSelectExpression();
 

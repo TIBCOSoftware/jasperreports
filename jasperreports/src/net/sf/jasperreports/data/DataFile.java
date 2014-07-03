@@ -23,31 +23,11 @@
  */
 package net.sf.jasperreports.data;
 
-import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.engine.ParameterContributorFactory;
-import net.sf.jasperreports.extensions.ExtensionsRegistry;
-import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.ListExtensionsRegistry;
-
-
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class DataAdapterParameterContributorExtensionsRegistryFactory implements ExtensionsRegistryFactory
+public interface DataFile
 {
-	private static final ExtensionsRegistry extensionsRegistry;
-	
-	static
-	{
-		ListExtensionsRegistry registry = new ListExtensionsRegistry();
-		registry.add(ParameterContributorFactory.class, DataAdapterParameterContributorFactory.getInstance());
-		registry.add(DataFileServiceFactory.class, BuiltinDataFileServiceFactory.instance());
-		extensionsRegistry = registry;
-	}
-	
-	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
-	{
-		return extensionsRegistry;
-	}
+
 }

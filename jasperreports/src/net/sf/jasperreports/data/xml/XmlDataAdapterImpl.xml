@@ -13,6 +13,9 @@
 		<field name="fileName" type="string">
 			<bind-xml name="fileName" node="element"/>
 		</field>
+		<field name="dataFile" type="net.sf.jasperreports.data.DataFile">
+			<bind-xml name="dataFile" node="element"/>
+		</field> 
 		<field name="useConnection" type="boolean">
 			<bind-xml name="useConnection" node="element"/>
 		</field>

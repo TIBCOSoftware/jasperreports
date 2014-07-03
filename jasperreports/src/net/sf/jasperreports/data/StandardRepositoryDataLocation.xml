@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+	<class name="net.sf.jasperreports.data.StandardRepositoryDataLocation">
+		<map-to xml="repositoryDataLocation"/>
+		<field name="location" type="string">
+			<bind-xml name="location" node="element"/>
+		</field>
+	</class>
+</mapping>

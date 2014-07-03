@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.data.AbstractDataAdapter;
+import net.sf.jasperreports.data.DataFile;
 
 
 /**
@@ -36,6 +37,7 @@ import net.sf.jasperreports.data.AbstractDataAdapter;
 public class XmlDataAdapterImpl extends AbstractDataAdapter implements XmlDataAdapter
 {
 	private String fileName;
+	private DataFile dataFile;
 	private String selectExpression;
 	private boolean useConnection = false;
 	private Locale locale = null;
@@ -49,6 +51,9 @@ public class XmlDataAdapterImpl extends AbstractDataAdapter implements XmlDataAd
 	}
 
 	public void setFileName(String fileName) {
+		if (fileName != null) {
+			this.dataFile = null;
+		}
 		this.fileName = fileName;
 	}
 	
@@ -106,5 +111,19 @@ public class XmlDataAdapterImpl extends AbstractDataAdapter implements XmlDataAd
 
 	public void setNamespaceAware(boolean namespaceAware) {
 		this.namespaceAware = namespaceAware;
+	}
+
+	public DataFile getDataFile()
+	{
+		return dataFile;
+	}
+
+	public void setDataFile(DataFile dataFile)
+	{
+		if (dataFile != null)
+		{
+			this.fileName = null;
+		}
+		this.dataFile = dataFile;
 	}
 }
