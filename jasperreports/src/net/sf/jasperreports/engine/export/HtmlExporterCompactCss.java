@@ -1368,32 +1368,42 @@ public class HtmlExporterCompactCss extends AbstractHtmlExporter<HtmlReportConfi
 		appendElementCellGenericStyle(cell, styleBuffer);
 		appendOwnBackcolorStyle(cell, styleBuffer, lineStyle);
 
-		String side = null;
+		String[] sides = new String[] {"top", "bottom", "left", "right"};
+		int sideIndex;
 		float ratio = line.getWidth() / line.getHeight();
 		if (ratio > 1)
 		{
 			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 			{
-				side = "top";
+				sideIndex = 0;
 			}
 			else
 			{
-				side = "bottom";
+				sideIndex = 1;
 			}
 		}
 		else
 		{
 			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 			{
-				side = "left";
+				sideIndex = 2;
 			}
 			else
 			{
-				side = "right";
+				sideIndex = 3;
 			}
 		}
 
-		appendGraphicElementBorder(line, lineStyle, styleBuffer, side);
+		appendGraphicElementBorder(line, lineStyle, styleBuffer, sides[sideIndex]);
+
+		// clear the border width for the other sides
+		for (int i = 0; i < 4; i++)
+		{
+			if (i != sideIndex)
+			{
+				styleBuffer.append("border-").append(sides[i]).append("-width: 0; ");
+			}
+		}
 
 		writeStyle(styleBuffer);
 		finishStartCell();
@@ -3099,10 +3109,12 @@ public class HtmlExporterCompactCss extends AbstractHtmlExporter<HtmlReportConfi
 		/*** Graphic specific styling ***/
 		JRPen stylePen = style.getLinePen();
 		StringBuilder penBuffer = null;
-		if (stylePen.getLineWidth() != null) // FIXME: add default border when no pen defined?
+
+		sb.append(".").append(style.getName()).append(CSS_GRAPHIC_SUFFIX).append(" {\n");
+
+		if (stylePen.getLineWidth() != null)
 		{
 			penBuffer = new StringBuilder();
-			sb.append(".").append(style.getName()).append(CSS_GRAPHIC_SUFFIX).append(" {\n");
 
 			float borderWidth = stylePen.getLineWidth().floatValue();
 			if (0f < borderWidth && borderWidth < 1f)
@@ -3111,10 +3123,14 @@ public class HtmlExporterCompactCss extends AbstractHtmlExporter<HtmlReportConfi
 			}
 
 			appendOwnPen(penBuffer, borderWidth, stylePen.getLineStyleValue(), stylePen.getLineColor(), null);
-
-
 			sb.append(penBuffer).append("}\n");
 		}
+		else // defaults
+		{
+			appendOwnPen(sb,  JRPen.LINE_WIDTH_1, LineStyleEnum.SOLID, Color.black, null);
+			sb.append("}\n");
+		}
+
 
 		/*** Image specific styling ***/
 		sb.append(".").append(style.getName()).append(CSS_IMAGE_SUFFIX).append(" {\n");
