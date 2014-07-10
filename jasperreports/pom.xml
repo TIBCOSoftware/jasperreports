@@ -512,5 +512,11 @@
             <artifactId>olap4j</artifactId>
             <version>0.9.7.309-JS-3</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.4</version>
+			<optional>true</optional>
+        </dependency>
 	</dependencies>
 </project>

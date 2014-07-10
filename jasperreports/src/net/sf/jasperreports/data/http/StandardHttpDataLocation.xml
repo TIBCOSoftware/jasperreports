@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+	<class name="net.sf.jasperreports.data.http.StandardHttpDataLocation">
+		<map-to xml="httpDataLocation"/>
+		<field name="url" type="string">
+			<bind-xml name="url" node="element"/>
+		</field>
+		<field name="username" type="string">
+			<bind-xml name="username" node="element"/>
+		</field>
+		<field name="password" type="string">
+			<bind-xml name="password" node="element"/>
+		</field>
+	</class>
+</mapping>

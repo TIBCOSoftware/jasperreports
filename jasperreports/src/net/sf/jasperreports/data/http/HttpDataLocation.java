@@ -21,42 +21,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data;
+package net.sf.jasperreports.data.http;
 
-import net.sf.jasperreports.data.http.HttpDataLocation;
-import net.sf.jasperreports.data.http.HttpDataService;
-import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.data.DataFile;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class BuiltinDataFileServiceFactory implements DataFileServiceFactory
+public interface HttpDataLocation extends DataFile
 {
-	
-	private static final BuiltinDataFileServiceFactory INSTANCE = new BuiltinDataFileServiceFactory();
-	
-	public static BuiltinDataFileServiceFactory instance()
-	{
-		return INSTANCE;
-	}
-	
-	protected BuiltinDataFileServiceFactory()
-	{
-	}
 
-	@Override
-	public DataFileService createService(JasperReportsContext context, DataFile dataFile)
-	{
-		if (dataFile instanceof RepositoryDataLocation)
-		{
-			return new RepositoryDataLocationService(context, (RepositoryDataLocation) dataFile);
-		}
-		if (dataFile instanceof HttpDataLocation)
-		{
-			return new HttpDataService(context, (HttpDataLocation) dataFile);
-		}
-		return null;
-	}
+	String getUrl();
+	
+	String getUsername();
+	
+	String getPassword();
 
 }

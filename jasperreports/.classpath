@@ -52,5 +52,7 @@
 	<classpathentry kind="lib" path="lib/lucene-core-4.5.1.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-queryparser-4.5.1.jar"/>
 	<classpathentry kind="lib" path="lib/olap4j-0.9.7.309-JS-3.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-4.3.4.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-4.3.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

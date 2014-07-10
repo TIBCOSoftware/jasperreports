@@ -21,42 +21,50 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data;
-
-import net.sf.jasperreports.data.http.HttpDataLocation;
-import net.sf.jasperreports.data.http.HttpDataService;
-import net.sf.jasperreports.engine.JasperReportsContext;
+package net.sf.jasperreports.data.http;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class BuiltinDataFileServiceFactory implements DataFileServiceFactory
+public class StandardHttpDataLocation implements HttpDataLocation
 {
+
+	private String url;
+	private String username;
+	private String password;
 	
-	private static final BuiltinDataFileServiceFactory INSTANCE = new BuiltinDataFileServiceFactory();
-	
-	public static BuiltinDataFileServiceFactory instance()
+	@Override
+	public String getUrl()
 	{
-		return INSTANCE;
+		return url;
 	}
-	
-	protected BuiltinDataFileServiceFactory()
+
+	public void setUrl(String url)
 	{
+		this.url = url;
 	}
 
 	@Override
-	public DataFileService createService(JasperReportsContext context, DataFile dataFile)
+	public String getUsername()
 	{
-		if (dataFile instanceof RepositoryDataLocation)
-		{
-			return new RepositoryDataLocationService(context, (RepositoryDataLocation) dataFile);
-		}
-		if (dataFile instanceof HttpDataLocation)
-		{
-			return new HttpDataService(context, (HttpDataLocation) dataFile);
-		}
-		return null;
+		return username;
+	}
+
+	public void setUsername(String username)
+	{
+		this.username = username;
+	}
+
+	@Override
+	public String getPassword()
+	{
+		return password;
+	}
+
+	public void setPassword(String password)
+	{
+		this.password = password;
 	}
 
 }
