@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -38,6 +39,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
+import net.sf.jasperreports.engine.type.ColorEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -49,6 +51,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  */
 public class XlsxRunHelper extends BaseHelper
 {
+	public static final String COLOR_NONE = "none";
 	/**
 	 *
 	 */
@@ -89,6 +92,23 @@ public class XlsxRunHelper extends BaseHelper
 			write("</t></r>\n");
 		}
 	}
+	
+	/**
+	 *
+	 */
+	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, String invalidCharReplacement, String markup)
+	{
+		if (text != null)
+		{
+			write("<r>\n");
+			if(!(markup == null || JRCommonText.MARKUP_NONE.equals(markup))){
+				exportProps(getAttributes(style), attributes, locale);
+			}
+			write("<t xml:space=\"preserve\">");
+			write(JRStringUtil.xmlEncode(text, invalidCharReplacement));
+			write("</t></r>\n");
+		}
+	}
 
 	/**
 	 *
@@ -117,8 +137,9 @@ public class XlsxRunHelper extends BaseHelper
 
 		Object value = attrs.get(TextAttribute.FAMILY);
 		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
+		boolean isOwnFont = false;
 		
-		if (value != null && !value.equals(oldValue))//FIXMEDOCX the text locale might be different from the report locale, resulting in different export font
+		if (value != null && !value.equals(oldValue))//FIXMEXLSX the text locale might be different from the report locale, resulting in different export font
 		{
 			String fontFamilyAttr = (String)value;
 			String fontFamily = fontFamilyAttr;
@@ -134,32 +155,36 @@ public class XlsxRunHelper extends BaseHelper
 				}
 			}
 			write("        <rFont val=\"" + fontFamily + "\"/>\n");
-			
+			isOwnFont = true;
 		}
 		
 		value = attrs.get(TextAttribute.FOREGROUND);
 		oldValue = parentAttrs.get(TextAttribute.FOREGROUND);
 		
-		if (value != null && !value.equals(oldValue))
+		if (value != null && (isOwnFont ||!value.equals(oldValue)))
 		{
 			write("        <color rgb=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
 		}
 
 		
-//		highlighted text is not allowed in Excel Spreadsheet ML
+//		highlighted text run is not allowed in Excel Spreadsheet ML
 		
 //		value = attrs.get(TextAttribute.BACKGROUND);
 //		oldValue = parentAttrs.get(TextAttribute.BACKGROUND);
 //		
-//		if (value != null && !value.equals(oldValue))
+//		
+//		if (value != null && (isOwnFont ||!value.equals(oldValue)))
 //		{
-//			writer.write("        <w:highlight w:val=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
+//			String backcolor = ColorEnum.getByColor((Color)value) == null ? COLOR_NONE : ColorEnum.getByColor((Color)value).getName();
+//			if(backcolor != null){
+//				write("        <highlight val=\"" + backcolor + "\" />\n");
+//			}
 //		}
 
 		value = attrs.get(TextAttribute.SIZE);
 		oldValue = parentAttrs.get(TextAttribute.SIZE);
 
-		if (value != null)
+		if (value != null && (isOwnFont ||!value.equals(oldValue)))
 		{
 			write("        <sz val=\"" + value + "\" />\n");
 			
@@ -168,7 +193,7 @@ public class XlsxRunHelper extends BaseHelper
 		value = attrs.get(TextAttribute.WEIGHT);
 		oldValue = parentAttrs.get(TextAttribute.WEIGHT);
 
-		if (value != null && !value.equals(oldValue))
+		if (value != null && (isOwnFont ||!value.equals(oldValue)))
 		{
 			write("        <b val=\"" + value.equals(TextAttribute.WEIGHT_BOLD) + "\"/>\n");
 		}
@@ -176,7 +201,7 @@ public class XlsxRunHelper extends BaseHelper
 		value = attrs.get(TextAttribute.POSTURE);
 		oldValue = parentAttrs.get(TextAttribute.POSTURE);
 
-		if (value != null && !value.equals(oldValue))
+		if (value != null && (isOwnFont ||!value.equals(oldValue)))
 		{
 			write("        <i val=\"" + value.equals(TextAttribute.POSTURE_OBLIQUE) + "\"/>\n");
 		}
@@ -187,7 +212,7 @@ public class XlsxRunHelper extends BaseHelper
 
 		if (
 			(value == null && oldValue != null)
-			|| (value != null && !value.equals(oldValue))
+			|| (value != null && (isOwnFont ||!value.equals(oldValue)))
 			)
 		{
 			write("        <u val=\"" + (value == null ? "none" : "single") + "\"/>\n");
@@ -198,7 +223,7 @@ public class XlsxRunHelper extends BaseHelper
 
 		if (
 			(value == null && oldValue != null)
-			|| (value != null && !value.equals(oldValue))
+			|| (value != null && (isOwnFont ||!value.equals(oldValue)))
 			)
 		{
 			write("        <strike val=\"" + (value != null) + "\"/>\n");

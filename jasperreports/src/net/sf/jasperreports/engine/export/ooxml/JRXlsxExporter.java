@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -287,25 +288,35 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale)
+	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, String markup)
 	{
 		String text = styledText.getText();
-
+		
 		int runLimit = 0;
-
+		
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
-
+		
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			runHelper.export(
-				style, iterator.getAttributes(), 
-				text.substring(iterator.getIndex(), runLimit),
-				locale,
-				invalidCharReplacement
-				);
-
+					style, iterator.getAttributes(), 
+					text.substring(iterator.getIndex(), runLimit),
+					locale,
+					invalidCharReplacement,
+					markup
+					);
+			
 			iterator.setIndex(runLimit);
 		}
+	}
+	
+	
+	/**
+	 *
+	 */
+	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale)
+	{
+		exportStyledText(style, styledText, locale, JRCommonText.MARKUP_NONE);
 	}
 
 
@@ -1447,7 +1458,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	
 					if (textLength > 0)
 					{
-						exportStyledText(text.getStyle(), styledText, getTextLocale(text));
+						exportStyledText(text.getStyle(), styledText, getTextLocale(text), text.getMarkup());
 					}
 	
 					sheetHelper.write("</is>");
