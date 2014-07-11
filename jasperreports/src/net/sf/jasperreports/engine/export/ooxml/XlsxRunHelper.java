@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
-import net.sf.jasperreports.engine.type.ColorEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
