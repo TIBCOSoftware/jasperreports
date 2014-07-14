@@ -68,7 +68,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 	// the current node
 	private JsonNode currentJsonNode;
 
-	private final String PROPERTY_SEPARATOR = ".";
+	private final String PROPERTY_SEPARATOR = ".";//FIXME static?
 
 	private final String ARRAY_LEFT = "[";
 
