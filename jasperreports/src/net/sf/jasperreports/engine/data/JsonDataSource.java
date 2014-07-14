@@ -218,7 +218,9 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 		
 		if(Object.class != valueClass) 
 		{
-			if (selectedObject != null) 
+			boolean hasValue = selectedObject != null 
+					&& !selectedObject.isMissingNode() && !selectedObject.isNull();
+			if (hasValue) 
 			{
 				try {
 					if (valueClass.equals(String.class)) {
@@ -228,6 +230,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 						value = selectedObject.booleanValue();
 						
 					} else if (Number.class.isAssignableFrom(valueClass)) {
+						//FIXME if the json node is a number, avoid converting to string and parsing back the value
 							value = convertStringValue(selectedObject.asText(), valueClass);
 							
 					}
