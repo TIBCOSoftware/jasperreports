@@ -448,7 +448,10 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 		}
 
 		try {
-			return new JsonDataSource(new ByteArrayInputStream(currentJsonNode.toString().getBytes("UTF-8")), selectExpression);
+			byte[] jsonNodeBytes = currentJsonNode.toString().getBytes("UTF-8");
+			JsonDataSource subDataSource = new JsonDataSource(new ByteArrayInputStream(jsonNodeBytes), selectExpression);
+			subDataSource.setTextAttributes(this);
+			return subDataSource;
 		} catch(UnsupportedEncodingException e) {
 			throw new JRRuntimeException(e);
 		}
