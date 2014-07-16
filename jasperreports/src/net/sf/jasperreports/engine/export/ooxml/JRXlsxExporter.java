@@ -288,7 +288,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, String markup)
+	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean isStyledText)
 	{
 		String text = styledText.getText();
 		
@@ -303,20 +303,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					text.substring(iterator.getIndex(), runLimit),
 					locale,
 					invalidCharReplacement,
-					markup
+					isStyledText
 					);
 			
 			iterator.setIndex(runLimit);
 		}
-	}
-	
-	
-	/**
-	 *
-	 */
-	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale)
-	{
-		exportStyledText(style, styledText, locale, JRCommonText.MARKUP_NONE);
 	}
 
 
@@ -1458,7 +1449,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	
 					if (textLength > 0)
 					{
-						exportStyledText(text.getStyle(), styledText, getTextLocale(text), text.getMarkup());
+						String markup = text.getMarkup();
+						boolean isStyledText = markup != null && !JRCommonText.MARKUP_NONE.equals(markup);
+						
+						exportStyledText(text.getStyle(), styledText, getTextLocale(text), isStyledText);
 					}
 	
 					sheetHelper.write("</is>");

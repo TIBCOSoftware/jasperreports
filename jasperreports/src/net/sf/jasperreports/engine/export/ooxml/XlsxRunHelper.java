@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -70,37 +69,13 @@ public class XlsxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale)
-	{
-		export(style,attributes, text, locale, null);
-	}
-	
-	/**
-	 *
-	 */
-	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, String invalidCharReplacement)
+	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, String invalidCharReplacement, boolean isStyledText)
 	{
 		if (text != null)
 		{
 			write("<r>\n");
-			
-			exportProps(getAttributes(style), attributes, locale);
-			
-			write("<t xml:space=\"preserve\">");
-			write(JRStringUtil.xmlEncode(text, invalidCharReplacement));
-			write("</t></r>\n");
-		}
-	}
-	
-	/**
-	 *
-	 */
-	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, String invalidCharReplacement, String markup)
-	{
-		if (text != null)
-		{
-			write("<r>\n");
-			if(!(markup == null || JRCommonText.MARKUP_NONE.equals(markup))){
+			if (isStyledText)
+			{
 				exportProps(getAttributes(style), attributes, locale);
 			}
 			write("<t xml:space=\"preserve\">");
