@@ -1202,7 +1202,7 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext(datasetParamPattern, "addParameter", JRDatasetParameter.class.getName());
 
 		String datasetParamExprPattern = datasetParamPattern + "/" + JRXmlConstants.ELEMENT_datasetParameterExpression;
-		digester.addFactoryCreate(datasetParamExprPattern, JRDatasetRunParameterExpressionFactory.class.getName());
+		digester.addFactoryCreate(datasetParamExprPattern, JRExpressionFactory.class.getName());
 		digester.addSetNext(datasetParamExprPattern, "setExpression", JRExpression.class.getName());
 		digester.addCallMethod(datasetParamExprPattern, "setText", 0);
 
