@@ -1842,6 +1842,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			contents.evaluate(JRExpression.EVALUATION_DEFAULT);
 			contents.prepare(availableHeight);
 			
+			if (interactive)
+			{
+				contents.setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtcrossheader");
+			}
+			
 			willOverflow = contents.willOverflow();
 			
 			if (!willOverflow)
@@ -2026,6 +2031,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 				contents.evaluate(JRExpression.EVALUATION_DEFAULT);
 				contents.prepare(availableHeight - rowY);
+				contents.addHtmlClass("jrxtcolfloating");
 				
 				boolean sortHeader = false;
 				if (interactive && headerLabel && measures.length > 1)
@@ -2042,11 +2048,15 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 						sortHeader = sortMeasureIdx >= 0;
 					}
 				}
-				
+
 				if (interactive && header)
 				{
 					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(columnIdx));
-					contents.setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, sortHeader ? "jrxtcolheader jrxtinteractive" : "jrxtcolheader");
+					contents.addHtmlClass("jrxtcolheader");
+					if (sortHeader)
+					{
+						contents.addHtmlClass("jrxtinteractive");
+					}
 				}
 
 				if (contents.willOverflow())
@@ -2208,6 +2218,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			setCountVars(-1, -1);
 			preparedCell.evaluate(JRExpression.EVALUATION_DEFAULT);
 			preparedCell.prepare(availableHeight - rowY);
+			
+			if (interactive)
+			{
+				preparedCell.setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtcrossheader");
+			}
 
 			if (preparedCell.willOverflow())
 			{

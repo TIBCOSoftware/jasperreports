@@ -401,9 +401,7 @@ public class TableReport implements JRReport
 				int rowLevel = level + rowSpan - 1;
 				JRDesignElementGroup elementGroup = bandInfo.getRowElementGroup(rowLevel);
 				
-				JRElement cellElement = createCell(elementGroup, cell, 
-						columnGroup.getWidth(), fillColumn.getWidth(), 
-						xOffset, yOffset, null, false);
+				JRElement cellElement = createColumnGroupCell(columnGroup, cell, elementGroup);
 				elementGroup.addElement(cellElement);
 				bandInfo.elementAdded(cellElement);
 				
@@ -420,6 +418,13 @@ public class TableReport implements JRReport
 			}
 			
 			return null;
+		}
+
+		protected JRElement createColumnGroupCell(ColumnGroup columnGroup, Cell cell, JRDesignElementGroup elementGroup)
+		{
+			return createCell(elementGroup, cell, 
+					columnGroup.getWidth(), fillColumn.getWidth(), 
+					xOffset, yOffset, null, false);
 		}
 
 		protected abstract Cell columnGroupCell(ColumnGroup group);
@@ -892,6 +897,16 @@ public class TableReport implements JRReport
 		{
 			return new ColumnHeaderCreator(bandInfo, subcolumn, xOffset, yOffset, sublevel, 
 					headerHtmlBaseProperties, firstColumn);
+		}
+
+		@Override
+		protected JRElement createColumnGroupCell(ColumnGroup columnGroup, Cell cell, JRDesignElementGroup elementGroup)
+		{
+			JRDesignFrame frame = (JRDesignFrame) createCell(elementGroup, cell, 
+					columnGroup.getWidth(), fillColumn.getWidth(), 
+					xOffset, yOffset, null, true);
+			frame.getPropertiesMap().setProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrcolGroupHeader");
+			return frame;
 		}
 	}
 

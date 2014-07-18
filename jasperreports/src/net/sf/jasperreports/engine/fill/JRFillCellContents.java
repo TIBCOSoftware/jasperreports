@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
+import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
 
 import org.apache.commons.collections.map.ReferenceMap;
@@ -765,6 +766,13 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		// assuming that the element is not deep and that it does not bring new conditional styles
 		element.setConditionalStylesContainer(this);
 		element.setOriginProvider(originProvider);
+	}
+	
+	protected void addHtmlClass(String className)
+	{
+		String originalClasses = printProperties.get(HtmlExporter.PROPERTY_HTML_CLASS);
+		String newClasses = originalClasses == null ? className : (originalClasses + " " + className);
+		setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, newClasses);
 	}
 
 }
