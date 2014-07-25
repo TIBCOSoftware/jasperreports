@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.export;
 
-import net.sf.jasperreports.export.type.PdfPermissionsEnum;
 import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
@@ -56,6 +55,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	private String metadataSubject;
 	private String metadataKeywords;
 	private String metadataCreator;
+	private Boolean displayMetadataTitle;
 
 	
 	/**
@@ -399,5 +399,19 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	public void setMetadataCreator(String metadataCreator)
 	{
 		this.metadataCreator = metadataCreator;
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean isDisplayMetadataTitle() {
+		return displayMetadataTitle;
+	}
+
+	/**
+	 * 
+	 */
+	public void setDisplayMetadataTitle(Boolean displayMetadataTitle) {
+		this.displayMetadataTitle = displayMetadataTitle;
 	}
 }

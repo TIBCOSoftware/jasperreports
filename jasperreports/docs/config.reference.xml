@@ -213,6 +213,7 @@
       <property ref="net.sf.jasperreports.export.pdf.collapse.missing.bookmark.levels"/>
       <property ref="net.sf.jasperreports.export.pdf.compressed"/>
       <property ref="net.sf.jasperreports.export.pdf.create.batch.mode.bookmarks"/>
+      <property ref="net.sf.jasperreports.export.pdf.display.metadata.title"/>
       <property ref="net.sf.jasperreports.export.pdf.encrypted"/>
       <property ref="net.sf.jasperreports.export.pdf.font.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.export.pdf.fontdir.{arbitrary_name}"/>
@@ -2974,6 +2975,22 @@ Its value is used as default for the
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>5.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.display.metadata.title -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.display.metadata.title">
+    <description>
+Property that specifies whether the document title should be displayed in the title bar instead of the file name. Should be set to true for accessible documents that provide a document title.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isDisplayMetadataTitle()">isDisplayMetadataTitle()</api> PDF export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_DISPLAY_METADATA_TITLE</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>5.6.2</since>
   </configProperty>
   
   

@@ -197,6 +197,11 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * Property whose value is used as default for the {@link #getMetadataCreator()} export configuration setting.
 	 */
 	public static final String PROPERTY_METADATA_CREATOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.creator";
+	
+	/**
+	 * Property whose value is used as default for the {@link #isDisplayMetadataTitle()} export configuration setting.
+	 */
+	public static final String PROPERTY_DISPLAY_METADATA_TITLE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.display.metadata.title";
 
 	/**
 	 * Returns a boolean value specifying  whether the PDF document should contain an outline section.
@@ -461,4 +466,14 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 		)
 	@ExporterProperty(PROPERTY_METADATA_CREATOR)
 	public String getMetadataCreator();
+	
+	/**
+	 * Specifies whether the document title should be displayed in the title bar instead of the file name.
+	 * @see #PROPERTY_DISPLAY_METADATA_TITLE
+	 */
+	@ExporterProperty(
+		value=PROPERTY_DISPLAY_METADATA_TITLE, 
+		booleanDefault=false
+		)
+	public Boolean isDisplayMetadataTitle();
 }
