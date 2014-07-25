@@ -126,6 +126,7 @@ import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.FontMapper;
 import com.lowagie.text.pdf.PdfAction;
 import com.lowagie.text.pdf.PdfArray;
+import com.lowagie.text.pdf.PdfBoolean;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfDictionary;
@@ -630,6 +631,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			if( title != null )
 			{
 				document.addTitle(title);
+				if(configuration.isDisplayMetadataTitle()){
+					pdfWriter.addViewerPreference(PdfName.DISPLAYDOCTITLE, new PdfBoolean(true));
+				}
 			}
 			String author = configuration.getMetadataAuthor();
 			if( author != null )
@@ -656,6 +660,15 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				document.addCreator("JasperReports Library version " + Package.getPackage("net.sf.jasperreports.engine").getImplementationVersion());
 			}
 			
+			//accessibility check: tab order follows the structure of the document
+			pdfWriter.setTabs(PdfName.S);
+			
+			//accessibility check: setting the document primary language
+			String language = configuration.getTagLanguage();
+			if(language != null){
+				pdfWriter.getExtraCatalog().put(PdfName.LANG, new PdfString(language));
+			}
+			
 			// BEGIN: PDF/A support
 			PdfaConformanceEnum pdfaConformance = configuration.getPdfaConformance();
 			boolean gotPdfa = false;
@@ -678,9 +691,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				pdfWriter.setRgbTransparencyBlending(true);
 			}
 			// END: PDF/A support
-
-			document.open();
 			
+			document.open();
 			// BEGIN: PDF/A support
 			if (gotPdfa) {
 				String iccProfilePath = configuration.getIccProfilePath();
@@ -689,7 +701,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					pdfDictionary.put(PdfName.OUTPUTCONDITIONIDENTIFIER, new PdfString("sRGB IEC61966-2.1"));
 					pdfDictionary.put(PdfName.INFO, new PdfString("sRGB IEC61966-2.1"));
 					pdfDictionary.put(PdfName.S, PdfName.GTS_PDFA1);
-					
 					InputStream iccIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(iccProfilePath);
 					PdfICCBased pdfICCBased = new PdfICCBased(ICC_Profile.getInstance(iccIs));
 					pdfICCBased.remove(PdfName.ALTERNATE);
