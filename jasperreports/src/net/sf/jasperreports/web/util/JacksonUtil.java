@@ -242,7 +242,7 @@ public class JacksonUtil
 		addProperty(hyperlinkNode, "type", hyperlink.getLinkType());
 		addProperty(hyperlinkNode, "typeValue", hyperlink.getHyperlinkTypeValue().getName());
 		addProperty(hyperlinkNode, "target", hyperlink.getLinkTarget());
-		addProperty(hyperlinkNode, "targetValue", hyperlink.getHyperlinkTargetValue().getHtmlValue());
+		addProperty(hyperlinkNode, "targetValue", hyperlink.getHyperlinkTargetValue().getHtmlValue(), hyperlink.getLinkTarget());
 		addProperty(hyperlinkNode, "tooltip", hyperlink.getHyperlinkTooltip());
 		addProperty(hyperlinkNode, "anchor", hyperlink.getHyperlinkAnchor());
 		addProperty(hyperlinkNode, "page", String.valueOf(hyperlink.getHyperlinkPage()));
@@ -287,9 +287,22 @@ public class JacksonUtil
 	 */
 	public void addProperty(ObjectNode objectNode, String property, String value)
 	{
+		addProperty(objectNode, property, value, null);
+	}
+
+
+	/**
+	 *
+	 */
+	public void addProperty(ObjectNode objectNode, String property, String value, String altValue)
+	{
 		if (value != null && !value.equals("null"))
 		{
 			objectNode.put(property, value);
+		}
+		else if (altValue != null && !altValue.equals("null"))
+		{
+			objectNode.put(property, altValue);
 		}
 	}
 }
