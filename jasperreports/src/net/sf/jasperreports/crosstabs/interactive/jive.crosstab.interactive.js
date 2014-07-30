@@ -683,14 +683,14 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
             }
         },
         markCrossHeaderElements: function() {
-            // Hack to prepare the crosssection in case it doesn't exist
-            // FIXME: sorted headers do not get marked properly
+            // Prepare the crosssection in case it doesn't exist
             if (!$('td.jrxtcrossheader').length) {
                 var firstColHeader = $('td.jrxtcolfloating').filter(':first'),
                     lastColHeader,
                     firstRow,
                     lastRow,
-                    parentTable, parentTableRows, i, j, k,
+                    lastRowGroupRow,
+                    parentTable, parentTableRows, i, j, k, l,
                     rows = [],
                     bFoundRowHeader = false,
                     firstRowHeaderIdx = -1,
@@ -698,19 +698,27 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 
                 if (firstColHeader.length) {
                     parentTable = firstColHeader.closest('table');
-                    lastColHeader = parentTable.find('td.jrxtcolfloating').filter(':last');
                     firstRow = firstColHeader.closest('tr');
+                    lastColHeader = parentTable.find('td.jrxtcolfloating').filter(':last');
                     lastRow = lastColHeader.closest('tr');
 
                     if (firstRow === lastRow) {
                         rows.push(firstRow);
                     } else {
+                        lastRowGroupRow = parentTable.find('td.jrxtrowheader.jrxtinteractive').filter(':last').closest('tr');
                         parentTableRows = parentTable.find('tr');
                         i = parentTableRows.index(firstRow);
                         j = parentTableRows.index(lastRow);
 
                         for (k = i; k <= j; k++) {
                             rows.push(parentTableRows.get(k));
+                        }
+
+                        l = parentTableRows.index(lastRowGroupRow);
+                        if (l > j) {
+                            for (k = j; k <=l; k++) {
+                                rows.push(parentTableRows.get(k))
+                            }
                         }
                     }
 
@@ -735,9 +743,9 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                     bFoundRowHeader && $.each(remember, function(i, v) {
                         if (v.idx >= firstRowHeaderIdx) {
                             v.$td.addClass('jrxtcrossheader');
-                            if (!v.$td.children().length) {
-                                v.$td.css('background-color', ixt.defaultPageBgColor);
-                            }
+//                            if (!v.$td.children().length) {
+//                                v.$td.css('background-color', ixt.defaultPageBgColor);
+//                            }
                         }
                     });
                 }
