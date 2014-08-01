@@ -217,6 +217,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		labelFormat = (String) fields.get("labelFormat", null);
 		legendLabelFormat = (String) fields.get("legendLabelFormat", null);
 		itemLabel = (JRItemLabel) fields.get("itemLabel", null);
+		showLabels = (Boolean) fields.get("showLabels", null);
 		
 		PSEUDO_SERIAL_VERSION_UID = fields.get("PSEUDO_SERIAL_VERSION_UID", 0);
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
