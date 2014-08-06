@@ -137,8 +137,8 @@ public class JaxenXPathQueryExecuter extends JRAbstractQueryExecuter
 			datasource.setDocumentBuilderFactory(documentBuilderFactory);
 			
 			datasource.setLocale((Locale)getParameterValue(JaxenXPathQueryExecuterFactory.XML_LOCALE, true));
-			datasource.setDatePattern((String)getParameterValue(JaxenXPathQueryExecuterFactory.XML_DATE_PATTERN, true));
-			datasource.setNumberPattern((String)getParameterValue(JaxenXPathQueryExecuterFactory.XML_NUMBER_PATTERN, true));
+			datasource.setDatePattern(getStringParameter(JaxenXPathQueryExecuterFactory.XML_DATE_PATTERN, JaxenXPathQueryExecuterFactory.PROPERTY_XML_DATE_PATTERN));
+			datasource.setNumberPattern(getStringParameter(JaxenXPathQueryExecuterFactory.XML_NUMBER_PATTERN, JaxenXPathQueryExecuterFactory.PROPERTY_XML_NUMBER_PATTERN));
 			datasource.setTimeZone((TimeZone)getParameterValue(JaxenXPathQueryExecuterFactory.XML_TIME_ZONE, true));
 		}
 		
