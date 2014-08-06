@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.forms.textinput;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -30,10 +32,12 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.GenericElementPdfHandler;
 import net.sf.jasperreports.engine.export.JRPdfExporterContext;
 
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.PdfFormField;
-import com.lowagie.text.pdf.PdfWriter;
-import com.lowagie.text.pdf.TextField;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfFormField;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.TextField;
+
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -64,8 +68,14 @@ public class TextInputElementPdfHandler implements GenericElementPdfHandler
 				jasperPrint.getPageHeight() - element.getY() - exporterContext.getOffsetY() - element.getHeight()
 				);
 		TextField text = new TextField(writer, rectangle, getFieldName(element));
-		text.setBackgroundColor(printText.getBackcolor());
-		text.setTextColor(printText.getForecolor());
+		Color backColor = printText.getBackcolor();
+		if(backColor != null){
+			text.setBackgroundColor(new BaseColor(backColor.getRed(), backColor.getGreen(), backColor.getBlue(), backColor.getAlpha()));
+		}
+		Color forecolor = printText.getForecolor();
+		if(forecolor != null){
+			text.setTextColor(new BaseColor(forecolor.getRed(), forecolor.getGreen(), forecolor.getBlue(), forecolor.getAlpha()));
+		}
 		text.setText(printText.getFullText());
 		text.setDefaultText("default:" + printText.getFullText());
 //		text.setBackgroundColor(element.getBackcolor());
@@ -96,7 +106,7 @@ public class TextInputElementPdfHandler implements GenericElementPdfHandler
 			text.setOptions(TextField.MULTILINE);
 		}
 //		text.setRotation(90);
-//		text.setVisibility(TextField.VISIBLE);
+		text.setVisibility(TextField.VISIBLE);
 		
 		try{
 			PdfFormField field = text.getTextField();

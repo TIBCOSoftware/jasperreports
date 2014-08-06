@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  * A context that represents information about an PDF export process.

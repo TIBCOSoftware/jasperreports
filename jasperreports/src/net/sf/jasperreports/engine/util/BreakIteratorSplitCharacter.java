@@ -29,8 +29,8 @@ import java.text.CharacterIterator;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.export.PdfReportConfiguration;
 
-import com.lowagie.text.SplitCharacter;
-import com.lowagie.text.pdf.PdfChunk;
+import com.itextpdf.text.SplitCharacter;
+import com.itextpdf.text.pdf.PdfChunk;
 
 
 /**
