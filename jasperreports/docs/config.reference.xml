@@ -4825,7 +4825,7 @@ The property can be set at global/JasperReports context level.
     <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_DATE</api>
     <default>N/A</default>
     <scope>Global</scope>
-    <since>5.6.1</since>
+    <since>5.6.2</since>
   </configProperty>
   
   
@@ -4846,7 +4846,7 @@ The property can be set at global/JasperReports context level.
     <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_TIME</api>
     <default>N/A</default>
     <scope>Global</scope>
-    <since>5.6.1</since>
+    <since>5.6.2</since>
   </configProperty>
   
   
@@ -4867,7 +4867,7 @@ The property can be set at global/JasperReports context level.
     <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_DATETIME</api>
     <default>N/A</default>
     <scope>Global</scope>
-    <since>5.6.1</since>
+    <since>5.6.2</since>
   </configProperty>
   
   
@@ -4888,7 +4888,7 @@ The property can be set at global/JasperReports context level.
     <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_INTEGER</api>
     <default>N/A</default>
     <scope>Global</scope>
-    <since>5.6.1</since>
+    <since>5.6.2</since>
   </configProperty>
   
   
@@ -4909,7 +4909,7 @@ The property can be set at global/JasperReports context level.
     <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_NUMBER</api>
     <default>N/A</default>
     <scope>Global</scope>
-    <since>5.6.1</since>
+    <since>5.6.2</since>
   </configProperty>
   
   
