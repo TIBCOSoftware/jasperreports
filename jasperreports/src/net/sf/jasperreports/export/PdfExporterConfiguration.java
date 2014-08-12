@@ -169,7 +169,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_PDFA_CONFORMANCE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdfa.conformance";
 
 	/**
-	 * Property whose value is used as default for the {@link #getIccProfilePath} export configuration setting.
+	 * Property whose value is used as default for the {@link #getIccProfilePath()} export configuration setting.
 	 */
 	public static final String PROPERTY_PDFA_ICC_PROFILE_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdfa.icc.profile.path";
 
