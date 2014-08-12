@@ -106,6 +106,21 @@ public class JRFillDatasetRun implements JRDatasetRun
 		dataSourceExpression = datasetRun.getDataSourceExpression();
 	}
 
+	public JRFillDatasetRun(JRFillDatasetRun datasetRun, JRFillCloneFactory factory)
+	{
+		this.filler = datasetRun.filler;
+		this.dataset = datasetRun.dataset;
+		
+		this.parentDatasetRun = datasetRun.parentDatasetRun;
+		this.parametersMapExpression = datasetRun.parametersMapExpression;
+		this.parameters = datasetRun.parameters;
+		this.connectionExpression = datasetRun.getConnectionExpression();
+		this.dataSourceExpression = datasetRun.getDataSourceExpression();
+		
+		this.returnValues = new FillReturnValues(datasetRun.returnValues, factory);
+		this.returnValuesContext = datasetRun.returnValuesContext;
+	}
+
 	protected void initReturnValues(JRFillObjectFactory factory)
 	{
 		if (log.isDebugEnabled())

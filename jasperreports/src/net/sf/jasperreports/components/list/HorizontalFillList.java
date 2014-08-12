@@ -29,6 +29,8 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
+import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
+import net.sf.jasperreports.engine.fill.JRFillCloneable;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 import org.apache.commons.logging.Log;
@@ -68,6 +70,20 @@ public class HorizontalFillList extends BaseFillList
 				listContents, datasetFactory);
 		this.contentsList = new ArrayList<FillListContents>();
 		this.contentsList.add(fillContents);
+	}
+
+	protected HorizontalFillList(HorizontalFillList list, JRFillCloneFactory factory)
+	{
+		super(list, factory);
+		
+		this.contentsWidth = list.contentsWidth;
+		this.ignoreWidth = list.ignoreWidth;
+		
+		FillListContents listContents = list.contentsList.get(0);
+		FillListContents contentsClone = new FillListContents(listContents, factory);
+		
+		this.contentsList = new ArrayList<FillListContents>();
+		this.contentsList.add(contentsClone);
 	}
 
 	public FillPrepareResult prepare(int availableHeight)
@@ -320,5 +336,11 @@ public class HorizontalFillList extends BaseFillList
 
 		overflowStartPage = 0;
 		overflowColumnIndex = 0;
+	}
+
+	@Override
+	public JRFillCloneable createClone(JRFillCloneFactory factory)
+	{
+		return new HorizontalFillList(this, factory);
 	}
 }

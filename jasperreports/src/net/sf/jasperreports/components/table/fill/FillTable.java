@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRReportCompileData;
+import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillComponentElement;
 import net.sf.jasperreports.engine.fill.JRFillContext;
 import net.sf.jasperreports.engine.fill.JRFillDatasetRun;
@@ -80,8 +81,7 @@ public class FillTable extends BaseFillComponent
 	
 	private final TableComponent table;
 	private final JRFillObjectFactory factory;
-	private final Map<List<FillColumn>, FillTableSubreport> fillSubreports = 
-		new HashMap<List<FillColumn>, FillTableSubreport>();
+	private Map<List<FillColumn>, FillTableSubreportFactory> fillSubreportFactories;
 	private FillTableSubreport fillSubreport;
 	
 	private boolean filling;
@@ -98,6 +98,19 @@ public class FillTable extends BaseFillComponent
 		JRFillDatasetRun fillDatasetRun = factory.getDatasetRun(table.getDatasetRun());
 		// this is needed for returned variables with evaluationTime=Auto
 		factory.registerDatasetRun(fillDatasetRun);
+		
+		this.fillSubreportFactories = new HashMap<List<FillColumn>, FillTableSubreportFactory>();
+	}
+
+	public FillTable(FillTable table, JRFillCloneFactory factory)
+	{
+		super(table, factory);
+		
+		this.table = table.table;
+		this.factory = table.factory;
+		
+		this.fillSubreportFactories = table.fillSubreportFactories;
+		this.printFrameTemplates = table.printFrameTemplates;
 	}
 
 	public void evaluate(byte evaluation) throws JRException
@@ -286,15 +299,17 @@ public class FillTable extends BaseFillComponent
 
 	protected void createFillSubreport() throws JRException
 	{
-		fillSubreport = fillSubreports.get(fillColumns);
-		if (fillSubreport == null)
+		FillTableSubreportFactory subreportFactory = fillSubreportFactories.get(fillColumns);
+		if (subreportFactory == null)
 		{
-			fillSubreport = createFillTableSubreport();
-			fillSubreports.put(fillColumns, fillSubreport);
+			subreportFactory = createFillTableSubreportFactory();
+			fillSubreportFactories.put(fillColumns, subreportFactory);
 		}
+		
+		fillSubreport = subreportFactory.createFillSubreport();
 	}
 
-	protected FillTableSubreport createFillTableSubreport() throws JRException
+	protected FillTableSubreportFactory createFillTableSubreportFactory() throws JRException
 	{
 		JasperReport parentReport = fillContext.getFiller().getJasperReport();
 		JasperReport containingReport = containingReport(parentReport);
@@ -335,8 +350,8 @@ public class FillTable extends BaseFillComponent
 				((JRFillComponentElement)fillContext.getComponentElement()).getParent()
 				);
 		return 
-			new FillTableSubreport(
-				fillContext, subreport, factory, compiledTableReport,
+			new FillTableSubreportFactory(
+				subreport, compiledTableReport,
 				builtinEvaluatorFactory
 				);
 	}
@@ -500,4 +515,27 @@ public class FillTable extends BaseFillComponent
 		}
 	}
 
+	protected class FillTableSubreportFactory
+	{
+		private final TableSubreport subreport;
+		private final TableJasperReport compiledTableReport;
+		private final BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory;
+		
+		public FillTableSubreportFactory(TableSubreport subreport, TableJasperReport compiledTableReport, 
+				BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory)
+		{
+			this.subreport = subreport;
+			this.compiledTableReport = compiledTableReport;
+			this.builtinEvaluatorFactory = builtinEvaluatorFactory;
+		}
+
+		public FillTableSubreport createFillSubreport()
+		{
+			return new FillTableSubreport(
+						fillContext, subreport, factory, compiledTableReport,
+						builtinEvaluatorFactory
+						);
+		}
+	}
+	
 }

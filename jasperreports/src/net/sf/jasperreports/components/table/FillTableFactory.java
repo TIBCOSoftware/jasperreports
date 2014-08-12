@@ -42,8 +42,7 @@ public class FillTableFactory implements ComponentFillFactory
 	public FillComponent cloneFillComponent(FillComponent component,
 			JRFillCloneFactory factory)
 	{
-		//TODO implement
-		throw new UnsupportedOperationException();
+		return new FillTable((FillTable) component, factory);
 	}
 
 	public FillComponent toFillComponent(Component component,

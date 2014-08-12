@@ -34,6 +34,8 @@ import net.sf.jasperreports.engine.JRPrintElementContainer;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
+import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
+import net.sf.jasperreports.engine.fill.JRFillCloneable;
 import net.sf.jasperreports.engine.fill.JRFillDataset;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
@@ -49,7 +51,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class BaseFillList extends BaseFillComponent
+public abstract class BaseFillList extends BaseFillComponent implements JRFillCloneable
 {
 	
 	private static final Log log = LogFactory.getLog(BaseFillList.class);
@@ -68,6 +70,15 @@ public abstract class BaseFillList extends BaseFillComponent
 		this.contentsHeight = listContents.getHeight();
 		
 		this.datasetRun = new FillDatasetRun(component.getDatasetRun(), factory);
+	}
+
+	protected BaseFillList(BaseFillList list, JRFillCloneFactory factory)
+	{
+		super(list, factory);
+		
+		this.contentsHeight = list.contentsHeight;
+		this.datasetRun = new FillDatasetRun(list.datasetRun, factory);
+		this.printFrameTemplates = list.printFrameTemplates;//share the templates among clones
 	}
 
 	protected JRFillExpressionEvaluator createDatasetExpressionEvaluator()

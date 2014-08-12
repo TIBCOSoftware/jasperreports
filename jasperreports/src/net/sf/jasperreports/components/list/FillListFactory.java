@@ -44,8 +44,7 @@ public class FillListFactory implements ComponentFillFactory
 	public FillComponent cloneFillComponent(FillComponent component,
 			JRFillCloneFactory factory)
 	{
-		//TODO implement
-		throw new UnsupportedOperationException();
+		return (FillComponent) ((BaseFillList) component).createClone(factory);
 	}
 
 	public FillComponent toFillComponent(Component component,

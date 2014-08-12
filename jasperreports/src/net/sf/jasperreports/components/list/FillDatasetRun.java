@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.fill.FillDatasetPosition;
+import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillDataset;
 import net.sf.jasperreports.engine.fill.JRFillDatasetRun;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
@@ -76,6 +77,13 @@ public class FillDatasetRun extends JRFillDatasetRun
 		
 		initReturnValues(factory);
 		factory.registerDatasetRun(this);
+	}
+
+	public FillDatasetRun(FillDatasetRun datasetRun, JRFillCloneFactory factory)
+	{
+		super(datasetRun, factory);
+		
+		this.expressionEvaluator = datasetRun.expressionEvaluator;
 	}
 
 	private static JRFillDataset createFillDataset(JRDatasetRun datasetRun,
