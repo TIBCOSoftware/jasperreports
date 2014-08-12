@@ -79,6 +79,23 @@ public class JRFillSubreportReturnValue implements JRSubreportReturnValue
 		this.filler = filler;
 	}
 
+	/**
+	 * Cloning constructor.
+	 * 
+	 * @param fillReturnValue the object to clone
+	 * @param factory the clone factory
+	 */
+	protected JRFillSubreportReturnValue(JRFillSubreportReturnValue fillReturnValue, JRFillCloneFactory factory)
+	{
+		this.fromVariable = fillReturnValue.fromVariable;
+		this.toVariable = fillReturnValue.toVariable;
+		this.incrementerFactoryClassName = fillReturnValue.incrementerFactoryClassName;
+		this.calculation = fillReturnValue.calculation;
+		this.derived = fillReturnValue.derived;
+		this.incrementer = fillReturnValue.incrementer;
+		this.filler = fillReturnValue.filler;
+	}
+
 	public String getSubreportVariable()
 	{
 		return fromVariable;

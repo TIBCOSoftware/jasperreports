@@ -150,6 +150,17 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		checkedReports = new HashSet<JasperReport>();
 	}
 
+	protected JRFillSubreport(JRFillSubreport subreport, JRFillCloneFactory factory)
+	{
+		super(subreport, factory);
+		
+		parameters = subreport.parameters;
+		returnValues = new FillReturnValues(subreport.returnValues, factory);
+		
+		loadedEvaluators = new HashMap<JasperReport,JREvaluator>();// not sharing evaluators between clones
+		checkedReports = subreport.checkedReports;
+	}
+
 	@Override
 	protected void setBand(JRFillBand band)
 	{
@@ -1031,8 +1042,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
-		//not needed
-		return null;
+		return new JRFillSubreport(this, factory);
 	}
 	
 	protected JRSubreportRunnerFactory getRunnerFactory() throws JRException

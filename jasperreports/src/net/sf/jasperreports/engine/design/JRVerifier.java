@@ -2065,7 +2065,7 @@ public class JRVerifier
 					}
 					else if (element instanceof JRSubreport)
 					{
-						addBrokenRule("Subreports are not allowed inside crosstab cells.", element);
+						verifySubreport((JRSubreport) element);
 					}
 					else if (element instanceof JRCrosstab)
 					{

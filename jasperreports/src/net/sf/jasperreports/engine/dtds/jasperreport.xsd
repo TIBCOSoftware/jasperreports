@@ -6803,6 +6803,7 @@ property.
      <element ref="jr:image"/>
      <element ref="jr:staticText"/>
      <element ref="jr:textField"/>
+     <element ref="jr:subreport"/>
      <element ref="jr:elementGroup"/>
      <element ref="jr:frame"/>
      <element ref="jr:componentElement"/>

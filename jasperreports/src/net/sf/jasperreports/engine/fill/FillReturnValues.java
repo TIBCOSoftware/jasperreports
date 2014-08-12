@@ -95,6 +95,21 @@ public class FillReturnValues
 		}
 	}
 
+	protected FillReturnValues(FillReturnValues values, JRFillCloneFactory factory)
+	{
+		this.filler = values.filler;
+		this.band = values.band;
+		
+		if (values.returnValues != null)
+		{
+			this.returnValues = new JRFillSubreportReturnValue[values.returnValues.length];
+			for (int i = 0; i < values.returnValues.length; i++)
+			{
+				this.returnValues[i] = new JRFillSubreportReturnValue(values.returnValues[i], factory);
+			}
+		}
+	}
+
 	protected JRFillSubreportReturnValue addReturnValue(
 			JRFillSubreportReturnValue returnValue,
 			List<JRFillSubreportReturnValue> returnValueList,
