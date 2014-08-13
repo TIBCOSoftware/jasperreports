@@ -32,6 +32,7 @@ import java.util.Set;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -160,85 +161,12 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 		List<JRPrintElement> elements = page.getElements();
 		Map<String, String> currentRow = new HashMap<String, String>();
 		Map<String, String> repeatedValues = new HashMap<String, String>();
-		
 		CsvMetadataReportConfiguration configuration = getCurrentItemConfiguration(); 
-		
 		boolean hasDefinedColumns = columnNames != null; // if columns where passed in as property
-		String currentTextValue = null;
 		
-		for (int i = 0; i < elements.size(); ++i) 
-		{
-			Object element = elements.get(i);
-			if (element instanceof JRPrintText) 
-			{
-				JRPrintText textElement = (JRPrintText) element;
-				
-				if (textElement.getPropertiesMap().getPropertyNames().length > 0) 
-				{
-					String currentColumnName = textElement.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
-					String currentColumnData = textElement.getPropertiesMap().getProperty(PROPERTY_DATA);
-					boolean repeatValue = getPropertiesUtil().getBooleanProperty(textElement, PROPERTY_REPEAT_VALUE, false);
-					
-					if (currentColumnData != null)
-					{
-						currentTextValue = currentColumnData;
-						
-					} else
-					{
-						JRStyledText styledText = getStyledText((JRPrintText)element);
-						
-						if (styledText != null)
-						{
-							currentTextValue = styledText.getText();
-						} else
-						{
-							currentTextValue = "";
-						}
-					}
-					
-					// when no columns are provided, build the column names list as they are retrieved from the report element property
-					if (!hasDefinedColumns)
-					{
-						if (columnNames == null) 
-						{
-							columnNames = new ArrayList<String>();
-						}
-						
-						if (currentColumnName != null && currentColumnName.length() > 0 && !columnNames.contains(currentColumnName))
-						{
-							columnNames.add(currentColumnName);
-						}
-					}
-					
-					if (columnNames.size() > 0)
-					{
-						if (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && isColumnReadOnTime(currentRow, currentColumnName)) // the column is for export but was not read yet and comes in the expected order
-						{
-							currentRow.put(currentColumnName, currentTextValue);
-								
-						} else if ( (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && !isColumnReadOnTime(currentRow, currentColumnName)) // the column is for export, was not read yet, but it is read after it should be
-								|| (columnNames.contains(currentColumnName) && currentRow.containsKey(currentColumnName)) ) // the column is for export and was already read
-						{
-							// write header 
-							if (isFirstRow && configuration.isWriteHeader())
-							{
-								writeReportHeader();
-							}
-							
-							isFirstRow = false;
-							writeCurrentRow(currentRow, repeatedValues);
-							currentRow = new HashMap<String, String>();
-							currentRow.put(currentColumnName, currentTextValue);
-						}
-						// set auto fill columns
-						if (repeatValue && currentColumnName != null && currentColumnName.length() > 0 && currentTextValue.length() > 0)
-						{
-							repeatedValues.put(currentColumnName, currentTextValue);
-						}
-					}
-				}
-			}
-		}
+		exportElements(elements, configuration, currentRow, repeatedValues, hasDefinedColumns);
+		
+
 		// write last row
 		if (columnNames != null && columnNames.size() > 0)
 		{
@@ -250,6 +178,103 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 		{
 			progressMonitor.afterPageExport();
 		}
+	}
+	
+	protected void exportElements(
+			List<JRPrintElement> elements, 
+			CsvMetadataReportConfiguration configuration,
+			Map<String, String> currentRow,
+			Map<String, String> repeatedValues,
+			boolean hasDefinedColumns)  throws IOException
+	{
+		
+		for (int i = 0; i < elements.size(); ++i) 
+		{
+			Object element = elements.get(i);
+			if (element instanceof JRPrintText) 
+			{
+				exportText((JRPrintText) element, configuration, currentRow, repeatedValues, hasDefinedColumns);
+			}
+			else if (element instanceof JRPrintFrame)
+			{
+				exportElements(((JRPrintFrame) element).getElements(), configuration, currentRow, repeatedValues, hasDefinedColumns);
+			}
+		}		
+	}
+	
+	protected void exportText(
+			JRPrintText textElement,
+			CsvMetadataReportConfiguration configuration,
+			Map<String, String> currentRow,
+			Map<String, String> repeatedValues,
+			boolean hasDefinedColumns)  throws IOException
+	{
+		
+		String currentTextValue = null;
+
+		if (textElement.getPropertiesMap().getPropertyNames().length > 0) 
+		{
+			String currentColumnName = textElement.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
+			String currentColumnData = textElement.getPropertiesMap().getProperty(PROPERTY_DATA);
+			boolean repeatValue = getPropertiesUtil().getBooleanProperty(textElement, PROPERTY_REPEAT_VALUE, false);
+			
+			if (currentColumnData != null)
+			{
+				currentTextValue = currentColumnData;
+				
+			} else
+			{
+				JRStyledText styledText = getStyledText(textElement);
+				
+				if (styledText != null)
+				{
+					currentTextValue = styledText.getText();
+				} else
+				{
+					currentTextValue = "";
+				}
+			}
+			// when no columns are provided, build the column names list as they are retrieved from the report element property
+			if (!hasDefinedColumns)
+			{
+				if (columnNames == null) 
+				{
+					columnNames = new ArrayList<String>();
+				}
+				
+				if (currentColumnName != null && currentColumnName.length() > 0 && !columnNames.contains(currentColumnName))
+				{
+					columnNames.add(currentColumnName);
+				}
+			}
+			
+			if (columnNames.size() > 0)
+			{
+				if (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && isColumnReadOnTime(currentRow, currentColumnName)) // the column is for export but was not read yet and comes in the expected order
+				{
+					currentRow.put(currentColumnName, currentTextValue);
+						
+				} else if ( (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && !isColumnReadOnTime(currentRow, currentColumnName)) // the column is for export, was not read yet, but it is read after it should be
+						|| (columnNames.contains(currentColumnName) && currentRow.containsKey(currentColumnName)) ) // the column is for export and was already read
+				{
+					// write header 
+					if (isFirstRow && configuration.isWriteHeader())
+					{
+						writeReportHeader();
+					}
+					
+					isFirstRow = false;
+					writeCurrentRow(currentRow, repeatedValues);
+					currentRow.clear();
+					currentRow.put(currentColumnName, currentTextValue);
+				}
+				// set auto fill columns
+				if (repeatValue && currentColumnName != null && currentColumnName.length() > 0 && currentTextValue.length() > 0)
+				{
+					repeatedValues.put(currentColumnName, currentTextValue);
+				}
+			}
+		}		
 	}
 	
 	
