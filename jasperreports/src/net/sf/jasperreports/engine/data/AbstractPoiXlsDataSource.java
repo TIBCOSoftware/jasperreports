@@ -193,7 +193,6 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 				readHeader();
 				recordIndex++;
 			}
-
 			if (recordIndex <= workbook.getSheetAt(sheetIndex).getLastRowNum())
 			{
 				return true;
@@ -240,6 +239,10 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 		}
 		Sheet sheet = workbook.getSheetAt(sheetIndex);
 		Cell cell = sheet.getRow(recordIndex).getCell(columnIndex);
+		if(cell == null)
+		{
+			return null;
+		}
 		Class<?> valueClass = jrField.getValueClass();
 		
 		if (valueClass.equals(String.class)) 
@@ -254,9 +257,17 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 				{
 					return cell.getBooleanCellValue();
 				}
-				else
+				else 
 				{
-					return convertStringValue(cell.getStringCellValue(), valueClass);
+					String value = cell.getStringCellValue();
+					if(value == null || "".equals(value.trim()))
+					{
+						return null;
+					}
+					else
+					{
+						return convertStringValue(value, valueClass);
+					}					
 				}
 			}
 			else if (Number.class.isAssignableFrom(valueClass))
@@ -267,14 +278,22 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 				}
 				else
 				{
-					if (numberFormat != null)
+					String value = cell.getStringCellValue();
+					if(value == null || "".equals(value.trim()))
 					{
-						return FormatUtils.getFormattedNumber(numberFormat, cell.getStringCellValue(), valueClass);
+						return null;
 					}
-					else 
+					else
 					{
-						return convertStringValue(cell.getStringCellValue(), valueClass);
-					}
+						if (numberFormat != null)
+						{
+							return FormatUtils.getFormattedNumber(numberFormat, value, valueClass);
+						}
+						else 
+						{
+							return convertStringValue(value, valueClass);
+						}
+					}					
 				}
 			}
 			else if (Date.class.isAssignableFrom(valueClass))
@@ -285,14 +304,22 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 				}
 				else
 				{
-					if (dateFormat != null)
+					String value = cell.getStringCellValue();
+					if(value == null || "".equals(value.trim()))
 					{
-						return FormatUtils.getFormattedDate(dateFormat, cell.getStringCellValue(), valueClass);
-					} 
+						return null;
+					}
 					else
 					{
-						return convertStringValue(cell.getStringCellValue(), valueClass);
-					}
+						if (dateFormat != null)
+						{
+							return FormatUtils.getFormattedDate(dateFormat, value, valueClass);
+						}
+						else 
+						{
+							return convertStringValue(value, valueClass);
+						}
+					}					
 				}
 			}
 			else
