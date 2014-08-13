@@ -16,6 +16,7 @@
       <property ref="net.sf.jasperreports.csv.record.delimiter"/>
       <property ref="net.sf.jasperreports.csv.source"/>
       <property ref="net.sf.jasperreports.csv.timezone.id"/>
+      <property ref="net.sf.jasperreports.data.adapter"/>
       <property ref="net.sf.jasperreports.ejbql.query.hint.{hint}"/>
       <property ref="net.sf.jasperreports.ejbql.query.page.size"/>
       <property ref="net.sf.jasperreports.hql.clear.cache"/>
@@ -484,6 +485,19 @@ Property holding the value of the number format pattern to be used when parsing 
     <default>N/A</default>
     <scope>Global | Dataset</scope>
     <since>4.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.data.adapter -->
+  
+  <configProperty name="net.sf.jasperreports.data.adapter">
+    <description>
+A report/dataset level property that provides the location of a data adapter resource to be used for the dataset.    
+    </description>
+    <api>net/sf/jasperreports/data/DataAdapterParameterContributorFactory.html#PROPERTY_DATA_ADAPTER_LOCATION</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>4.1.1</since>
   </configProperty>
   
   
