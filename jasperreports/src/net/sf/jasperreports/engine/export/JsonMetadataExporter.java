@@ -81,12 +81,14 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 	protected int reportIndex;
 	protected int pageIndex;
 
-	private Map<String, SchemaNode> pathToValueNode;
-	private Map<String, SchemaNode> pathToObjectNode;
+	private Map<String, SchemaNode> pathToValueNode = new HashMap<String, SchemaNode>();
+	private Map<String, SchemaNode> pathToObjectNode = new HashMap<String, SchemaNode>();
 
-	private List<NodeTypeEnum> openedNodes;
+	private List<NodeTypeEnum> openedNodes = new ArrayList<NodeTypeEnum>();
+
 	private String jsonSchema;
 	private String previousPath;
+	private boolean gotSchema;
 
 	public void validateSchema(String jsonSchema) throws JRException {
 		ObjectMapper mapper = new ObjectMapper();
@@ -104,18 +106,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 				openedNodes = new ArrayList<NodeTypeEnum>();
 				previousPath = null;
 
-				if (isValid((ObjectNode) root, JSON_SCHEMA_ROOT_NAME, "", null)) {
-
-					if (log.isDebugEnabled()) {
-						for (Map.Entry<String, SchemaNode> entry: pathToValueNode.entrySet()) {
-							log.debug("pathToValueNode: path: " + entry.getKey() + "; node: " + entry.getValue());
-						}
-
-						for (Map.Entry<String, SchemaNode> entry: pathToObjectNode.entrySet()) {
-							log.debug("pathToObjectNode: path: " + entry.getKey() + "; node: " + entry.getValue());
-						}
-					}
-				} else {
+				if (!isValid((ObjectNode) root, JSON_SCHEMA_ROOT_NAME, "", null)) {
 					throw new JRException("Invalid JSON object provided: semantically invalid!");
 				}
 			} else {
@@ -320,6 +311,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 
 			if (jsonSchema != null) {
 				validateSchema(jsonSchema);
+				gotSchema = true;
 			} else {
 				log.warn("No JSON Schema provided!");
 			}
@@ -345,6 +337,16 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 				}
 
 				closeOpenNodes();
+			}
+
+			if (log.isDebugEnabled()) {
+				for (Map.Entry<String, SchemaNode> entry: pathToValueNode.entrySet()) {
+					log.debug("pathToValueNode: path: " + entry.getKey() + "; node: " + entry.getValue());
+				}
+
+				for (Map.Entry<String, SchemaNode> entry: pathToObjectNode.entrySet()) {
+					log.debug("pathToObjectNode: path: " + entry.getKey() + "; node: " + entry.getValue());
+				}
 			}
 		}
 
@@ -404,141 +406,180 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 		JRPropertiesMap propMap = printText.getPropertiesMap();
 
 		if (propMap.containsProperty(JSON_EXPORTER_PATH_PROPERTY)) {
-			String path = propMap.getProperty(JSON_EXPORTER_PATH_PROPERTY);
+			String propertyPath = propMap.getProperty(JSON_EXPORTER_PATH_PROPERTY);
 
-			if (path.length() > 0) {
-				String currentPath = JSON_SCHEMA_ROOT_NAME + "." + path;
+			if (propertyPath.length() > 0) {
+				String currentPath = JSON_SCHEMA_ROOT_NAME + "." + propertyPath;
 
 				// we have a mapped node for this path
-				if (pathToValueNode != null && pathToValueNode.containsKey(currentPath)) {
+				if (gotSchema && pathToValueNode.containsKey(currentPath)) {
 
 					if (log.isDebugEnabled()) {
-						log.debug("found element with path: " + path);
+						log.debug("found element with path: " + propertyPath);
 					}
 
-					if (openedNodes.size() == 0) {
-						// initialize the json for the first time
-						initJson(currentPath, printText.getValue());
-					} else {
-						String valueProperty = path.indexOf(".") > 0 ? path.substring(path.lastIndexOf(".") + 1) : path;
-
-						String[] curSegments = currentPath.substring(0, currentPath.lastIndexOf(".")).split("\\.");
-						String[] prevSegments = previousPath.substring(0, previousPath.lastIndexOf(".")).split("\\.");
-
-						List<String> commonSegments = new ArrayList<String>();
-
-						int ln = Math.min(curSegments.length, prevSegments.length);
-						int lastCommonIndex = -1;
-
-						for (int i = 0; i < ln; i++) {
-							if (curSegments[i].equals(prevSegments[i])) {
-								commonSegments.add(curSegments[i]);
-								lastCommonIndex = i;
-							} else {
-								break;
-							}
-						}
-
-						// compared to previous path, we have different path with common segments
-						if (commonSegments.size() < prevSegments.length) {
-							if (log.isDebugEnabled()) {
-								log.debug("found different paths with common segments");
-							}
-
-							// close the extra path segments of the previous path
-							for (int i = prevSegments.length - 1; i > lastCommonIndex; i--) {
-								StringBuilder sb = new StringBuilder(prevSegments[0]);
-								for (int j=1; j <= i; j++) {
-									sb.append(".").append(prevSegments[j]);
-								}
-
-								SchemaNode toClose = pathToObjectNode.get(sb.toString());
-								if (toClose.isObject()) {
-									writer.write("},\n");
-									openedNodes.remove(openedNodes.size()-1);
-								} else {
-									writer.write("}],\n");
-									openedNodes.remove(openedNodes.size()-1);
-									openedNodes.remove(openedNodes.size()-1);
-								}
-							}
-
-							// open new path segments for the current path
-							for (int i = lastCommonIndex + 1; i < curSegments.length; i++) {
-								StringBuilder sb = new StringBuilder(curSegments[0]);
-								for (int j=1; j <= i; j++) {
-									sb.append(".").append(curSegments[j]);
-								}
-
-								writer.write(curSegments[i] + ":");
-
-								SchemaNode toOpen = pathToObjectNode.get(sb.toString());
-								if (toOpen.isObject()) {
-									writer.write("{");
-									openedNodes.add(NodeTypeEnum.OBJECT);
-								} else {
-									writer.write("[{");
-									openedNodes.add(NodeTypeEnum.ARRAY);
-									openedNodes.add(NodeTypeEnum.OBJECT);
-								}
-							}
-						}
-						// we have a longer path that extends previous path
-						else if (commonSegments.size() == prevSegments.length && curSegments.length > prevSegments.length) {
-							if (log.isDebugEnabled()) {
-								log.debug("found longer path than previous one");
-							}
-
-							writer.write(",");
-
-							// open new paths
-							for (int i = lastCommonIndex + 1; i < curSegments.length; i++) {
-								StringBuilder sb = new StringBuilder(curSegments[0]);
-								for (int j=1; j <= i; j++) {
-									sb.append(".").append(curSegments[j]);
-								}
-
-								writer.write(curSegments[i] + ":");
-
-								SchemaNode toOpen = pathToObjectNode.get(sb.toString());
-								if (toOpen.isObject()) {
-									writer.write("{");
-									openedNodes.add(NodeTypeEnum.OBJECT);
-								} else {
-									writer.write("[{");
-									openedNodes.add(NodeTypeEnum.ARRAY);
-									openedNodes.add(NodeTypeEnum.OBJECT);
-								}
-							}
-						}
-						// have the same path
-						else if (commonSegments.size() == prevSegments.length) {
-							if (log.isDebugEnabled()) {
-								log.debug("found same path");
-							}
-
-							SchemaNode currentNode = pathToValueNode.get(currentPath);
-							String prevValProp = previousPath.indexOf(".") > 0 ? previousPath.substring(previousPath.lastIndexOf(".") + 1) : previousPath;
-
-							int valPropIdx = currentNode.indexOfMember(valueProperty);
-							int prevValPropIdx = currentNode.indexOfMember(prevValProp);
-
-							// the property is after the previous one => same object
-							if (valPropIdx > prevValPropIdx) {
-								writer.write(", \n");
-							} else {
-								writer.write("},\n{");
-							}
-						}
-
-						writer.write(valueProperty + ":");
-						writeValue(printText.getValue() != null ? printText.getValue() : printText.getFullText());
-					}
-
-					previousPath = currentPath;
+					processTextElement(printText, propertyPath, currentPath);
+				} else if (!gotSchema) {
+					prepareSchema(currentPath);
+					processTextElement(printText, propertyPath, currentPath);
 				}
 			}
 		}
+	}
+
+	private void prepareSchema(String currentPath) {
+		if (!pathToValueNode.containsKey(currentPath)) {
+			String valueProperty = currentPath.substring(currentPath.lastIndexOf(".") + 1);
+			String[] objectPathSegments = currentPath.substring(0, currentPath.lastIndexOf(".")).split("\\.");
+			SchemaNode node = null;
+
+			for (int i = 0; i < objectPathSegments.length; i++) {
+				StringBuilder objectPath = new StringBuilder(objectPathSegments[0]);
+				for (int j = 1; j <= i; j++) {
+					objectPath.append(".").append(objectPathSegments[j]);
+				}
+
+				if (!pathToObjectNode.containsKey(objectPath.toString())) {
+					String schemaNodePath = "";
+
+					for (int k = 0; k < i; k++) {
+						schemaNodePath += schemaNodePath.length() > 0 ? "." + objectPathSegments[k] : objectPathSegments[k];
+					}
+
+					node = new SchemaNode(i, objectPathSegments[i], NodeTypeEnum.ARRAY, schemaNodePath);
+
+					pathToObjectNode.put(objectPath.toString(), node);
+				} else {
+					node = pathToObjectNode.get(objectPath.toString());
+				}
+			}
+
+			node.addMember(valueProperty);
+			pathToValueNode.put(currentPath, node);
+		}
+	}
+
+	private void processTextElement(JRPrintText printText, String propertyPath, String currentPath) throws IOException {
+		if (openedNodes.size() == 0) {
+			// initialize the json for the first time
+			initJson(currentPath, printText.getValue());
+		} else {
+			String valueProperty = propertyPath.indexOf(".") > 0 ? propertyPath.substring(propertyPath.lastIndexOf(".") + 1) : propertyPath;
+
+			String[] curSegments = currentPath.substring(0, currentPath.lastIndexOf(".")).split("\\.");
+			String[] prevSegments = previousPath.substring(0, previousPath.lastIndexOf(".")).split("\\.");
+
+			List<String> commonSegments = new ArrayList<String>();
+
+			int ln = Math.min(curSegments.length, prevSegments.length);
+			int lastCommonIndex = -1;
+
+			for (int i = 0; i < ln; i++) {
+				if (curSegments[i].equals(prevSegments[i])) {
+					commonSegments.add(curSegments[i]);
+					lastCommonIndex = i;
+				} else {
+					break;
+				}
+			}
+
+			// compared to previous path, we have different path with common segments
+			if (commonSegments.size() < prevSegments.length) {
+				if (log.isDebugEnabled()) {
+					log.debug("found different paths with common segments");
+				}
+
+				// close the extra path segments of the previous path
+				for (int i = prevSegments.length - 1; i > lastCommonIndex; i--) {
+					StringBuilder sb = new StringBuilder(prevSegments[0]);
+					for (int j=1; j <= i; j++) {
+						sb.append(".").append(prevSegments[j]);
+					}
+
+					SchemaNode toClose = pathToObjectNode.get(sb.toString());
+					if (toClose.isObject()) {
+						writer.write("},\n");
+						openedNodes.remove(openedNodes.size()-1);
+					} else {
+						writer.write("}],\n");
+						openedNodes.remove(openedNodes.size()-1);
+						openedNodes.remove(openedNodes.size()-1);
+					}
+				}
+
+				// open new path segments for the current path
+				for (int i = lastCommonIndex + 1; i < curSegments.length; i++) {
+					StringBuilder sb = new StringBuilder(curSegments[0]);
+					for (int j=1; j <= i; j++) {
+						sb.append(".").append(curSegments[j]);
+					}
+
+					writer.write(curSegments[i] + ":");
+
+					SchemaNode toOpen = pathToObjectNode.get(sb.toString());
+					if (toOpen.isObject()) {
+						writer.write("{");
+						openedNodes.add(NodeTypeEnum.OBJECT);
+					} else {
+						writer.write("[{");
+						openedNodes.add(NodeTypeEnum.ARRAY);
+						openedNodes.add(NodeTypeEnum.OBJECT);
+					}
+				}
+			}
+			// we have a longer path that extends previous path
+			else if (commonSegments.size() == prevSegments.length && curSegments.length > prevSegments.length) {
+				if (log.isDebugEnabled()) {
+					log.debug("found longer path than previous one");
+				}
+
+				writer.write(",\n");
+
+				// open new paths
+				for (int i = lastCommonIndex + 1; i < curSegments.length; i++) {
+					StringBuilder sb = new StringBuilder(curSegments[0]);
+					for (int j=1; j <= i; j++) {
+						sb.append(".").append(curSegments[j]);
+					}
+
+					writer.write(curSegments[i] + ":");
+
+					SchemaNode toOpen = pathToObjectNode.get(sb.toString());
+					if (toOpen.isObject()) {
+						writer.write("{");
+						openedNodes.add(NodeTypeEnum.OBJECT);
+					} else {
+						writer.write("[{");
+						openedNodes.add(NodeTypeEnum.ARRAY);
+						openedNodes.add(NodeTypeEnum.OBJECT);
+					}
+				}
+			}
+			// have the same path
+			else if (commonSegments.size() == prevSegments.length) {
+				if (log.isDebugEnabled()) {
+					log.debug("found same path");
+				}
+
+				SchemaNode currentNode = pathToValueNode.get(currentPath);
+				String prevValProp = previousPath.indexOf(".") > 0 ? previousPath.substring(previousPath.lastIndexOf(".") + 1) : previousPath;
+
+				int valPropIdx = currentNode.indexOfMember(valueProperty);
+				int prevValPropIdx = currentNode.indexOfMember(prevValProp);
+
+				// the property is after the previous one => same object
+				if (valPropIdx > prevValPropIdx) {
+					writer.write(", \n");
+				} else {
+					writer.write("},\n{");
+				}
+			}
+
+			writer.write(valueProperty + ":");
+			writeValue(printText.getValue() != null ? printText.getValue() : printText.getFullText());
+		}
+
+		previousPath = currentPath;
 	}
 
 	private void closeOpenNodes() throws IOException {
