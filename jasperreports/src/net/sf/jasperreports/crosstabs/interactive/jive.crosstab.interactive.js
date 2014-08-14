@@ -184,7 +184,7 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                 it.jo.css({position: 'absolute', width: '60px'});
                 it.jo.offset({top: top, left: ixt.selected.header.offset().left});
                 it.topCalculated = false;
-                if (ixt.isFloatingColumnHeader) {
+                if (ixt.isFloatingColumnHeader || ixt.isfloatingRowHeader) {
                     ixt.setToolbarPositionWhenFloating(true, it.isDashboard);
                 } else if (containerTop >= top) {
                     this.jo.offset({top: ixt.selected.header.offset().top});
@@ -653,9 +653,9 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 
             if (isActive) { // handle the toolbar position
                 firstHeader = $('td.jrxtcolfloating.first');
-                top = isDashboard ? 0 : $('div#reportViewFrame .body').offset().top,
-                    toolbarTop = it.foobar.jo.offset().top,
-                    firstHeaderTop = firstHeader.offset().top;
+                top = isDashboard ? 0 : $('div#reportViewFrame .body').offset().top;
+                toolbarTop = it.foobar.jo.offset().top;
+                firstHeaderTop = firstHeader.offset().top;
 
                 if (!it.foobar.topCalculated) {
                     if (toolbarTop < 0) {
