@@ -260,7 +260,7 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 				else 
 				{
 					String value = cell.getStringCellValue();
-					if(value == null || "".equals(value.trim()))
+					if(value == null || value.trim().length() == 0)
 					{
 						return null;
 					}
@@ -279,7 +279,7 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 				else
 				{
 					String value = cell.getStringCellValue();
-					if(value == null || "".equals(value.trim()))
+					if(value == null || value.trim().length() == 0)
 					{
 						return null;
 					}
@@ -305,7 +305,7 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 				else
 				{
 					String value = cell.getStringCellValue();
-					if(value == null || "".equals(value.trim()))
+					if(value == null || value.trim().length() == 0)
 					{
 						return null;
 					}

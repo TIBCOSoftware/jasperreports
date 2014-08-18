@@ -22,7 +22,7 @@
 		<field name="url" class="java.lang.String">
 			<fieldDescription><![CDATA[url]]></fieldDescription>
 		</field>
-		<filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
+		<filterExpression><![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
 	</subDataset>
 	<subDataset name="PathStyleDataset">
 		<property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.xml"/>
@@ -50,7 +50,7 @@
 		<field name="draggable" class="java.lang.Boolean">
 			<fieldDescription><![CDATA[draggable]]></fieldDescription>
 		</field>
-		<filterExpression><![CDATA[$F{name}==null || "".equals($F{name}) ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
+		<filterExpression><![CDATA[$F{name}==null || $F{name}.length() == 0 ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
 	</subDataset>
 	<subDataset name="PathLocationDataset" uuid="e275a292-ba61-41c5-9c5b-e4ca9ae49e77">
 		<property name="net.sf.jasperreports.data.adapter" value="/data/PathLocationDataAdapter.xml"/>
@@ -72,7 +72,7 @@
 		<field name="ispolygon" class="java.lang.String">
 			<fieldDescription><![CDATA[ispolygon]]></fieldDescription>
 		</field>
-		<filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
+		<filterExpression><![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
 	</subDataset>
 	<parameter name="reqZoom" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>

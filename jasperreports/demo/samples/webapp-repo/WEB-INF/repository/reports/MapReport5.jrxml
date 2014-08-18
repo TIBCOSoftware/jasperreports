@@ -25,7 +25,7 @@
 		<field name="iconheight" class="java.lang.Integer">
 			<fieldDescription><![CDATA[iconheight]]></fieldDescription>
 		</field>
-		<filterExpression><![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
+		<filterExpression><![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
 	</subDataset>
 	<parameter name="reqZoom" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[$P{REPORT_CONTEXT}.getParameterValue("zoom") == null ? null : Integer.valueOf((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>

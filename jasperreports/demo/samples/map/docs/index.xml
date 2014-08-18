@@ -550,7 +550,7 @@ skipped due to the <code>&lt;filterExpression/&gt;</code> in the subdataset:
     <fieldDescription><![CDATA[longitude]] ></fieldDescription>
   </field>
   <filterExpression>
-    <![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] >
+    <![CDATA[$F{latitude}==null || $F{latitude}.length()==0) || $F{longitude}==null || $F{longitude}.length()==0)  ? Boolean.FALSE : Boolean.TRUE]] >
   </filterExpression>
 </subDataset>]]></pre>
 The map component configuration is the following:
@@ -612,7 +612,7 @@ component configuration (and the subdataset):
    <fieldDescription><![CDATA[iconheight]] ></fieldDescription>
   </field>
   <filterExpression>
-    <![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] >
+    <![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]] >
   </filterExpression>
 </subDataset>
 ...
@@ -683,7 +683,7 @@ Two additional subdatasets were added in order to generate path styles and path 
     <fieldDescription><![CDATA[url]] ></fieldDescription>
   </field>
   <filterExpression>
-    <![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] >
+    <![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]] >
   </filterExpression>
 </subDataset>
 <subDataset name="PathStyleDataset">
@@ -712,7 +712,7 @@ Two additional subdatasets were added in order to generate path styles and path 
   <field name="draggable" class="java.lang.Boolean">
     <fieldDescription><![CDATA[draggable]] ></fieldDescription>
   </field>
-  <filterExpression><![CDATA[$F{name}==null || "".equals($F{name}) ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
+  <filterExpression><![CDATA[$F{name}==null || $F{name}.length() == 0 ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
 </subDataset>
 <subDataset name="PathLocationDataset">
   <property name="net.sf.jasperreports.data.adapter" value="/data/PathLocationDataAdapter.xml"/>
@@ -735,7 +735,7 @@ Two additional subdatasets were added in order to generate path styles and path 
     <fieldDescription><![CDATA[ispolygon]] ></fieldDescription>
   </field>
   <filterExpression>
-    <![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] >
+    <![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]] >
   </filterExpression>
 </subDataset>
 ...
@@ -855,7 +855,7 @@ property is a HTML fragment with escaped open and end tags.
     <fieldDescription><![CDATA[iconheight]] ></fieldDescription>
   </field>
   <filterExpression>
-    <![CDATA[$F{latitude}==null || "".equals($F{latitude}) || $F{longitude}==null || "".equals($F{longitude})  ? Boolean.FALSE : Boolean.TRUE]] >
+    <![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]] >
   </filterExpression>
 </subDataset>
 ...

@@ -118,7 +118,7 @@ public final class JRStringUtil
 					//the invalid character is preserved
 					ret.append(c);
 				}
-				else if("".equals(invalidCharReplacement))
+				else if(invalidCharReplacement.length() == 0)
 				{
 					//the invalid character is removed
 					continue;
