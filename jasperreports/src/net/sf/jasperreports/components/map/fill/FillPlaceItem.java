@@ -88,29 +88,33 @@ public class FillPlaceItem extends FillItem
 			Object longitude = result.get(MapComponent.PROPERTY_longitude);
 			Object address = result.get(MapComponent.PROPERTY_address);
 
-			boolean hasLatitude = !(latitude == null || "".equals(latitude));
-			boolean hasLongitude = !(longitude == null || "".equals(longitude));
-
-			if(hasLatitude && hasLongitude)
+			Float fLatitude = null;
+			if (latitude instanceof Number)
+			{
+				fLatitude = ((Number)latitude).floatValue();
+			}
+			else
+			{
+				String strLatitude = latitude == null ? null : String.valueOf(latitude);
+				fLatitude = strLatitude == null || strLatitude.trim().length() == 0 ? null : Float.parseFloat(strLatitude);
+			}
+			
+			Float fLongitude = null;
+			if (longitude instanceof Number)
+			{
+				fLongitude = ((Number)longitude).floatValue();
+			}
+			else
+			{
+				String strLongitude = longitude == null ? null : String.valueOf(longitude);
+				fLongitude = strLongitude == null || strLongitude.trim().length() == 0 ? null : Float.parseFloat(strLongitude);
+			}
+			
+			if (fLatitude != null && fLongitude != null)
 			{
 				result.remove(MapComponent.PROPERTY_address);
-				if (latitude instanceof Number) 
-				{
-					result.put(MapComponent.PROPERTY_latitude, ((Number)latitude).floatValue());
-				}
-				else
-				{
-					result.put(MapComponent.PROPERTY_latitude, Float.parseFloat(String.valueOf(latitude)));
-				}
-				
-				if (longitude instanceof Number) 
-				{
-					result.put(MapComponent.PROPERTY_longitude, ((Number)longitude).floatValue());
-				}
-				else 
-				{
-					result.put(MapComponent.PROPERTY_longitude, Float.parseFloat(String.valueOf(longitude)));
-				}
+				result.put(MapComponent.PROPERTY_latitude, fLatitude);
+				result.put(MapComponent.PROPERTY_longitude, fLongitude);
 			}
 			else if (address != null)
 			{
@@ -122,11 +126,14 @@ public class FillPlaceItem extends FillItem
 				} else {
 					throw new JRException("Invalid coordinates geocoded from address: (" + coords[0] +", "+coords[1]+").");
 				}
-			} else {
-				String msg = hasLatitude ? "" : MapComponent.PROPERTY_latitude;
-				msg += "".equals(msg) ? "" : " and ";
-				msg += hasLongitude ? "" : MapComponent.PROPERTY_longitude;
-				throw new JRException("Found empty value for "+ msg);
+			}
+			else 
+			{
+				throw 
+					new JRException(
+						"The value for " + (fLatitude == null ? MapComponent.PROPERTY_latitude : MapComponent.PROPERTY_longitude) 
+						+ " property is missing and no address was provided either."
+						);
 			}
 		}
 	}

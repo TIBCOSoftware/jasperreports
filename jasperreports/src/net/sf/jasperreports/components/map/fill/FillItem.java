@@ -105,7 +105,11 @@ public abstract class FillItem implements Item
 	public Object getEvaluatedValue(ItemProperty property, JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
 	{
 		Object result = null;
-		if(property.getValueExpression() == null || "".equals(property.getValueExpression()))
+		if(
+			property.getValueExpression() == null 
+			|| property.getValueExpression().getText() == null
+			|| property.getValueExpression().getText().trim().length() == 0
+			)
 		{
 			result = property.getValue();
 		}
