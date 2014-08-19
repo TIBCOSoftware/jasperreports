@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.type.BorderSplitType;
 
 
@@ -64,6 +65,13 @@ public interface JRFrame extends JRElement, JRElementGroup, JRBoxContainer
 	 */
 	String PROPERTY_BORDER_SPLIT_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "frame.border.split.type";
 	
+	/**
+	 * Determines how should the frames borders behave when the frame splits on two pages.
+	 * 
+	 * @return the border split type
+	 * @see JRFrame#PROPERTY_BORDER_SPLIT_TYPE
+	 * @see JRDesignFrame#setBorderSplitType(BorderSplitType)
+	 */
 	BorderSplitType getBorderSplitType();
 
 }

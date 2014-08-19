@@ -270,6 +270,12 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 		return borderSplitType;
 	}
 
+	/**
+	 * Sets the border split type for the frame.
+	 * 
+	 * @param borderSplitType the border split type
+	 * @see JRFrame#getBorderSplitType()
+	 */
 	public void setBorderSplitType(BorderSplitType borderSplitType)
 	{
 		Object old = this.borderSplitType;
