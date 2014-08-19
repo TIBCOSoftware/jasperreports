@@ -177,10 +177,11 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		}
 		
 		first = !isOverflow || !filling;
-		int topPadding = first ? getLineBox().getTopPadding().intValue() : 0;
+		
+		int topPadding = getLineBox().getTopPadding().intValue();
 		int bottomPadding = getLineBox().getBottomPadding().intValue();		
 		
-		if (availableHeight < getRelativeY() + getHeight() - topPadding)
+		if (availableHeight < getRelativeY() + getHeight() - topPadding - bottomPadding)
 		{
 			setToPrint(false);
 			return true;
@@ -214,25 +215,24 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		frameContainer.initFill();
 		frameContainer.resetElements();
 		
-		frameContainer.prepareElements(availableHeight - getRelativeY() + bottomPadding + getLineBox().getTopPadding().intValue() - topPadding, true);
+		frameContainer.prepareElements(availableHeight - getRelativeY() - topPadding - bottomPadding, true);
 		
 		boolean willOverflow = frameContainer.willOverflow();
+		fillBottomBorder = !willOverflow;
 		if (willOverflow)
 		{
-			fillBottomBorder = false;
 			setStretchHeight(availableHeight - getRelativeY());
 		}
 		else
 		{
 			int neededStretch = frameContainer.getStretchHeight() - frameContainer.getFirstY() + topPadding + bottomPadding;
-			if (neededStretch <= availableHeight - getRelativeY())
+			if (neededStretch <= availableHeight - getRelativeY()) 
 			{
-				fillBottomBorder = true;
 				setStretchHeight(neededStretch);
 			}
-			else //don't overflow because of the bottom padding
+			else
 			{
-				fillBottomBorder = false;
+				//FIXME is this case possible?
 				setStretchHeight(availableHeight - getRelativeY());
 			}
 		}
@@ -246,8 +246,8 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	{
 		super.setStretchHeight(stretchHeight);
 		
-		int topPadding = first ? getLineBox().getTopPadding().intValue() : 0;
-		int bottomPadding = fillBottomBorder ? getLineBox().getBottomPadding().intValue() : 0;		
+		int topPadding = getLineBox().getTopPadding().intValue();
+		int bottomPadding = getLineBox().getBottomPadding().intValue();		
 		frameContainer.setStretchHeight(stretchHeight + frameContainer.getFirstY() - topPadding - bottomPadding);
 	}
 	
@@ -261,8 +261,8 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 			frameContainer.moveBandBottomElements();
 			frameContainer.removeBlankElements();
 
-			int topPadding = first ? getLineBox().getTopPadding().intValue() : 0;
-			int bottomPadding = fillBottomBorder ? getLineBox().getBottomPadding().intValue() : 0;
+			int topPadding = getLineBox().getTopPadding().intValue();
+			int bottomPadding = getLineBox().getBottomPadding().intValue();
 			super.setStretchHeight(frameContainer.getStretchHeight() - frameContainer.getFirstY() + topPadding + bottomPadding);
 		}
 	}
@@ -317,6 +317,9 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		{
 			boxTemplate = createFrameTemplate();
 			transferProperties(boxTemplate);
+			
+			//FIXME up to revision 2006 (Dec 5 2007) we were resetting both the border and the padding.
+			// now we are only resetting the border and not the padding, prepare() assumes that the top and bottom paddings are always used.
 			if (first)
 			{
 				if (!fillBottomBorder) //remove the bottom border
