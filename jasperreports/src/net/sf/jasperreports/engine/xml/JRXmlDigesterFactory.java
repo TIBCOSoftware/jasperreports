@@ -164,6 +164,7 @@ import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JRDesignReportTemplate;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.BorderSplitType;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.type.OverflowType;
@@ -1312,6 +1313,7 @@ public final class JRXmlDigesterFactory
 		String framePattern = "*/" + JRXmlConstants.ELEMENT_frame;
 		digester.addFactoryCreate(framePattern, JRFrameFactory.class.getName());
 		digester.addSetNext(framePattern, "addElement", JRDesignElement.class.getName());
+		digester.addRule(framePattern, new XmlConstantPropertyRule(JRXmlConstants.ATTRIBUTE_borderSplitType, BorderSplitType.values()));
 	}
 
 

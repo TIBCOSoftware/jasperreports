@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.BorderSplitType;
+
 
 
 /**
@@ -47,4 +49,21 @@ package net.sf.jasperreports.engine;
  */
 public interface JRFrame extends JRElement, JRElementGroup, JRBoxContainer
 {
+	
+	/**
+	 * A property that provides the default border split type for frames.
+	 * 
+	 * <p>
+	 * The property can be set at report and global/context levels.
+	 * The property value should be one of the names of the {@link BorderSplitType} enum,
+	 * that is NoBorders or DrawBorders.
+	 * By default {@link BorderSplitType#NO_BORDERS} is used.
+	 * </p>
+	 * 
+	 * @see #getBorderSplitType()
+	 */
+	String PROPERTY_BORDER_SPLIT_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "frame.border.split.type";
+	
+	BorderSplitType getBorderSplitType();
+
 }

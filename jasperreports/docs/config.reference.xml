@@ -97,6 +97,7 @@
       <property ref="net.sf.jasperreports.text.pattern.datetime"/>
       <property ref="net.sf.jasperreports.text.pattern.integer"/>
       <property ref="net.sf.jasperreports.text.pattern.number"/>
+      <property ref="net.sf.jasperreports.frame.border.split.type"/>
     </content>
   </category>
   
@@ -4956,6 +4957,25 @@ The property can be set at global/JasperReports context level.
     <default>N/A</default>
     <scope>Global</scope>
     <since>5.6.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.frame.border.split.type -->
+  
+  <configProperty name="net.sf.jasperreports.frame.border.split.type">
+    <description>
+Provides the default border split type for frames.
+
+<p>
+The property can be set at report and global/JasperReports context levels.
+The property value can be NoBorders, in which case frames that span two pages do not have the bottom border of the first fragment and the top border of the second fragment drawn,
+and DrawBorders, in which case both fragments have borders drawn on all sides.
+</p>
+    </description>
+    <api>net/sf/jasperreports/engine/JRFrame.html#PROPERTY_BORDER_SPLIT_TYPE</api>
+    <default>NoBorders</default>
+    <scope>Global | Report</scope>
+    <since>6.0.0</since>
   </configProperty>
   
   

@@ -3554,7 +3554,8 @@ public class JRApiWriter
 		if(frame != null)
 		{
 			write( "JRDesignFrame " + frameName + " = new JRDesignFrame(jasperDesign);\n");
-	
+			write(frameName + ".setBorderSplitType({0});\n", frame.getBorderSplitType());
+			
 			writeReportElement( frame, frameName);
 			writeBox( frame.getLineBox(), frameName + ".getLineBox()");
 	

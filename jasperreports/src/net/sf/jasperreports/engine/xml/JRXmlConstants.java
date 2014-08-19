@@ -539,6 +539,7 @@ public final class JRXmlConstants
 	 * JRFrameFactory associated constants
 	 */
 	public static final String ELEMENT_frame = "frame";
+	public static final String ATTRIBUTE_borderSplitType = "borderSplitType";
 
 	/**
 	 * JRGraphicElementFactory associated constants

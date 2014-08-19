@@ -6915,6 +6915,25 @@ property.
      <element ref="jr:genericElement"/>
     </choice>
    </sequence>
+   <attribute name="borderSplitType" use="optional">
+	<annotation>
+	 <documentation>Specifies the way the frame border is to be drawn when the frame element splits.</documentation>
+	</annotation>  
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="NoBorders">
+		<annotation>
+		 <documentation>When the frame splits, the bottom border of the first fragment and the top border of the second fragment are not drawn.</documentation>
+		</annotation> 
+	  </enumeration> 
+      <enumeration value="DrawBorders">
+		<annotation>
+		 <documentation>When the frame splits, both fragments are drawn will borders and paddings on all sides.</documentation>
+		</annotation> 
+	  </enumeration> 
+     </restriction>
+    </simpleType>
+   </attribute>
   </complexType>
  </element>
  

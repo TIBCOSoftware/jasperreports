@@ -3170,6 +3170,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public void writeFrame(JRFrame frame) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_frame, getNamespace());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_borderSplitType, frame.getBorderSplitType());
 
 		writeReportElement(frame);
 		writeBox(frame.getLineBox());
