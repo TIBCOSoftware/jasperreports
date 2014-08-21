@@ -904,15 +904,15 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		if (getHyperlinkWhenExpression() == null || hyperlinkWhen == Boolean.TRUE)
 		{
 			text.setHyperlinkReference(getHyperlinkReference());
+			text.setHyperlinkAnchor(getHyperlinkAnchor());
+			text.setHyperlinkPage(getHyperlinkPage());
+			text.setHyperlinkTooltip(getHyperlinkTooltip());
+			text.setHyperlinkParameters(hyperlinkParameters);
 		}
 		else
 		{
 			text.setHyperlinkReference(null);
 		}
-		text.setHyperlinkAnchor(getHyperlinkAnchor());
-		text.setHyperlinkPage(getHyperlinkPage());
-		text.setHyperlinkTooltip(getHyperlinkTooltip());
-		text.setHyperlinkParameters(hyperlinkParameters);
 		transferProperties(text);
 	}
 

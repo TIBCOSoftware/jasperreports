@@ -221,15 +221,15 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		if (getChartSettings().getHyperlinkWhenExpression() == null || hyperlinkWhen == Boolean.TRUE)
 		{
 			printImage.setHyperlinkReference(getHyperlinkReference());
+			printImage.setHyperlinkAnchor(getHyperlinkAnchor());
+			printImage.setHyperlinkPage(getHyperlinkPage());
+			printImage.setHyperlinkTooltip(getHyperlinkTooltip());
+			printImage.setHyperlinkParameters(hyperlinkParameters);
 		}
 		else
 		{
 			printImage.setHyperlinkReference(null);
 		}
-		printImage.setHyperlinkAnchor(getHyperlinkAnchor());
-		printImage.setHyperlinkPage(getHyperlinkPage());
-		printImage.setHyperlinkTooltip(getHyperlinkTooltip());
-		printImage.setHyperlinkParameters(hyperlinkParameters);
 //		transferProperties(printImage);
 	}
 
