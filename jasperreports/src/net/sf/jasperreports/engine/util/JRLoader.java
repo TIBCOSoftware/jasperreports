@@ -65,11 +65,12 @@ import org.apache.commons.logging.LogFactory;
  * serialized objects before submitting them to the desired JasperReport process.
  * </p><p>
  * The most interesting method exposed by this class is
- * <code>loadObjectFromLocation(String)</code>. When calling this method to load an object from
- * the supplied location, the program first tries to interpret the location as a valid URL. If
+ * {@link #getLocationInputStream(String) getLocationInputStream(String location)}. 
+ * When calling this method to load an InputStream object from
+ * the supplied location, the program first tries to interpret the location as a valid resource name. If
  * this fails, then the program assumes that the supplied location is the name of a file on
- * disk and tries to read from it. If no file is found at that location, it will try to locate a
- * resource through the classpath that would correspond to the location. Only after this third
+ * disk and tries to read from it. If no file is found at that location, it will assume that the location 
+ * represents a valid URL. Only after this third
  * try fails an exception is thrown.
  * </p>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
