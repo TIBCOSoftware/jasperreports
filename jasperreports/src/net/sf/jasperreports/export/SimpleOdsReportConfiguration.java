@@ -26,7 +26,7 @@ package net.sf.jasperreports.export;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: SimpleOdsExporterConfiguration.java 6720 2013-11-11 10:44:07Z teodord $
+ * @version $Id$
  */
 public class SimpleOdsReportConfiguration extends AbstractXlsReportConfiguration implements OdsReportConfiguration
 {

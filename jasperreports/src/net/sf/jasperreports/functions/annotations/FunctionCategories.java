@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
  * {@link Function} belong to. 
  *  
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
- * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
+ * @version $Id$
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})

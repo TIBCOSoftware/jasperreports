@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
  * Annotation used to mark a method as function usable inside an expression editor. 
  * 
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
- * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
+ * @version $Id$
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

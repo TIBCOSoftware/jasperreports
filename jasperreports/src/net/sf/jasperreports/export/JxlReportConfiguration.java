@@ -35,7 +35,7 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * 
  * @deprecated To be removed.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JxlExporterConfiguration.java 6709 2013-11-08 14:39:13Z teodord $
+ * @version $Id$
  */
 public interface JxlReportConfiguration extends XlsReportConfiguration
 {

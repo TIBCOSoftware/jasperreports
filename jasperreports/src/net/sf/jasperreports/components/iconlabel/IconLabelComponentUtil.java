@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TableReport.java 6461 2013-08-30 17:03:40Z teodord $
+ * @version $Id$
  */
 public class IconLabelComponentUtil
 {

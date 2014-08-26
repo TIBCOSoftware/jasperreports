@@ -26,7 +26,7 @@ package net.sf.jasperreports.repo;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: InputStreamResource.java 5879 2013-01-07 20:35:36Z teodord $
+ * @version $Id$
  */
 public class CastorResource<T> extends ObjectResource<T>
 {

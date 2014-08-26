@@ -54,7 +54,7 @@ import org.apache.poi.ss.usermodel.Workbook;
  * names or set a flag to read the column names from the first row of the XLSX or XLS file.
  *
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: ExcelDataSource.java 6968 2014-03-12 08:58:07Z shertage $
+ * @version $Id$
  */
 public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 {

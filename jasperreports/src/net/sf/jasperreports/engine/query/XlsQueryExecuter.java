@@ -43,7 +43,7 @@ import org.apache.poi.ss.usermodel.Workbook;
  * XLS query executer implementation.
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id: JRXlsQueryExecuter.java 6972 2014-03-12 11:41:51Z shertage $
+ * @version $Id$
  */
 public class XlsQueryExecuter extends AbstractXlsQueryExecuter {
 	

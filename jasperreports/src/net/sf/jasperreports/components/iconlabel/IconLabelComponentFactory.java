@@ -31,7 +31,7 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextInputComponentFactory.java 5922 2013-02-19 11:03:27Z teodord $
+ * @version $Id$
  */
 public class IconLabelComponentFactory extends JRBaseFactory
 {

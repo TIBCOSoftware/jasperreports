@@ -57,7 +57,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextInputComponentFill.java 5922 2013-02-19 11:03:27Z teodord $
+ * @version $Id$
  */
 public class IconLabelComponentFill extends BaseFillComponent implements StretchableFillComponent, ConditionalStyleAwareFillComponent, JRBoxContainer, JRAlignment
 {

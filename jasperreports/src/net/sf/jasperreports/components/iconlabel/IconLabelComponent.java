@@ -46,7 +46,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextInputComponent.java 5922 2013-02-19 11:03:27Z teodord $
+ * @version $Id$
  */
 public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer, JRAlignment, Serializable, JRChangeEventsSupport 
 {

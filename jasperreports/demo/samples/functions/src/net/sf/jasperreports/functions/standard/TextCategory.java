@@ -30,7 +30,7 @@ import net.sf.jasperreports.functions.annotations.FunctionCategory;
  * This class should maintain all function methods that belongs to the category {@link #DATE_TIME}.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
+ * @version $Id$
  */
 @FunctionCategory(
 	//"TEXT" // if not specified, the value is the name of the category class

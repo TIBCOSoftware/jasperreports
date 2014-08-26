@@ -30,7 +30,7 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRPrintPageFactory.java 5878 2013-01-07 20:23:13Z teodord $
+ * @version $Id$
  */
 public class PrintBookmarkFactory extends JRBaseFactory
 {

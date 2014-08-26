@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
  * This class should maintain all functions that allows logic decisions, and belong to the category {@link #LOGICAL}.
  * 
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
- * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
+ * @version $Id$
  */
 @FunctionCategories({LogicalCategory.class})
 public final class LogicalFunctions 

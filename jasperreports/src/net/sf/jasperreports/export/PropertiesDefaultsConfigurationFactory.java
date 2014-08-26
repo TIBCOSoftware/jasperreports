@@ -42,7 +42,7 @@ import org.apache.commons.lang.ClassUtils;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: PropertiesExporterConfigurationFactory.java 6805 2014-01-10 12:42:19Z teodord $
+ * @version $Id$
  */
 public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfiguration>
 {

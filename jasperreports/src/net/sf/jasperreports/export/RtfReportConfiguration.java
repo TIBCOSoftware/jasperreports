@@ -35,7 +35,7 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * @see JRRtfExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: RtfExporterConfiguration.java 6697 2013-11-07 10:25:58Z teodord $
+ * @version $Id$
  */
 public interface RtfReportConfiguration extends ReportExportConfiguration
 {

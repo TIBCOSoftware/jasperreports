@@ -28,7 +28,7 @@ import net.sf.jasperreports.data.DataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ReportResource.java 5879 2013-01-07 20:35:36Z teodord $
+ * @version $Id$
  */
 public class DataAdapterResource extends CastorResource<DataAdapter>
 {

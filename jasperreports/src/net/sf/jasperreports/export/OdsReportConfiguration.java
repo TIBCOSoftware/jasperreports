@@ -35,7 +35,7 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * @see JROdsExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: OdsExporterConfiguration.java 6709 2013-11-08 14:39:13Z teodord $
+ * @version $Id$
  */
 public interface OdsReportConfiguration extends XlsReportConfiguration
 {

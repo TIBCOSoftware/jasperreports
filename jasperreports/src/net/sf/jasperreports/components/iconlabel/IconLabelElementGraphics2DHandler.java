@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.export.draw.Offset;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: MapElementGraphics2DHandler.java 5877 2013-01-07 19:51:14Z teodord $
+ * @version $Id$
  */
 public class IconLabelElementGraphics2DHandler implements GenericElementGraphics2DHandler
 {
