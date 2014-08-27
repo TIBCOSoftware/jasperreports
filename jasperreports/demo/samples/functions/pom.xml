@@ -68,10 +68,10 @@
 								<manifestEntries>
 									<Specification-Title>JasperReports Library Functions</Specification-Title>
 									<Specification-Version>${pom.version}</Specification-Version>
-									<Specification-Vendor>Jaspersoft</Specification-Vendor>
+									<Specification-Vendor>TIBCO Software Inc.</Specification-Vendor>
 									<Implementation-Title>net.sf.jasperreports.functions</Implementation-Title>
 									<Implementation-Version>${pom.version}</Implementation-Version>
-									<Implementation-Vendor>Jaspersoft</Implementation-Vendor>
+									<Implementation-Vendor>TIBCO Software Inc.</Implementation-Vendor>
 								</manifestEntries>
 							</manifestSection>
 						</manifestSections>
