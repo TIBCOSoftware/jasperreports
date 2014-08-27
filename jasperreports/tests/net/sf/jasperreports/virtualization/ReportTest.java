@@ -68,7 +68,7 @@ public class ReportTest
 
 	private static final Log log = LogFactory.getLog(ReportTest.class);
 	
-	private final String DIGEST = "3196c0a2ab0dd663c2aad65f8436d321e44d5527";
+	private final String DIGEST = "ece1c2b966beca403f642d6e0f72d5d460852554";
 	
 	private JasperReport report;
 	private JasperFillManager fillManager;
