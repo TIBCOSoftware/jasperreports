@@ -35,7 +35,7 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * @see JRPptxExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: PptxExporterConfiguration.java 6697 2013-11-07 10:25:58Z teodord $
+ * @version $Id$
  */
 public interface PptxReportConfiguration extends ReportExportConfiguration
 {

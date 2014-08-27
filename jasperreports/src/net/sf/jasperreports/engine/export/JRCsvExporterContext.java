@@ -29,7 +29,7 @@ package net.sf.jasperreports.engine.export;
  * 
  * @see JRCsvExporter
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRHtmlExporterContext.java 5878 2013-01-07 20:23:13Z teodord $
+ * @version $Id$
  */
 public interface JRCsvExporterContext extends JRExporterContext
 {

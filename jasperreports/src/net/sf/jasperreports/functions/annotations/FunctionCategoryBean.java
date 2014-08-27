@@ -28,7 +28,7 @@ import java.util.List;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: FunctionCategoryBean.java 6184 2013-05-27 10:24:51Z shertage $
+ * @version $Id$
  */
 public class FunctionCategoryBean 
 {

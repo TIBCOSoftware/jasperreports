@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextInputElement.java 5922 2013-02-19 11:03:27Z teodord $
+ * @version $Id$
  */
 public interface IconLabelElement 
 {

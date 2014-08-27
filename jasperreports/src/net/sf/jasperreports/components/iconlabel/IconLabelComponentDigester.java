@@ -33,7 +33,7 @@ import org.apache.commons.digester.Digester;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextInputComponentDigester.java 5922 2013-02-19 11:03:27Z teodord $
+ * @version $Id$
  */
 public class IconLabelComponentDigester implements XmlDigesterConfigurer
 {

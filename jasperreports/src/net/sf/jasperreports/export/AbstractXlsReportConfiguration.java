@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: AbstractXlsExporterConfiguration.java 6759 2013-11-20 14:43:19Z teodord $
+ * @version $Id$
  */
 public class AbstractXlsReportConfiguration extends SimpleReportExportConfiguration implements XlsReportConfiguration
 {

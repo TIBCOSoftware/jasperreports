@@ -39,7 +39,7 @@ import net.sf.jasperreports.functions.annotations.FunctionsInfo;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: GroovyApp.java 5876 2013-01-07 19:05:05Z teodord $
+ * @version $Id$
  */
 public class FunctionsApp extends AbstractSampleApp
 {

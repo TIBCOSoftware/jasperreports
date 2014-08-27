@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: CastorObjectPersistenceService.java 5879 2013-01-07 20:35:36Z teodord $
+ * @version $Id$
  */
 public class ResourceBundlePersistenceService implements PersistenceService
 {

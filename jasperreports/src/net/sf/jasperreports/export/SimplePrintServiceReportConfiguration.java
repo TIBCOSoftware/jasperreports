@@ -27,7 +27,7 @@ package net.sf.jasperreports.export;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: SimplePrintServiceExporterConfiguration.java 6718 2013-11-11 09:32:19Z teodord $
+ * @version $Id$
  */
 public class SimplePrintServiceReportConfiguration extends SimpleGraphics2DReportConfiguration implements PrintServiceReportConfiguration
 {

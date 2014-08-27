@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.export.JRCsvMetadataExporter;
  * @see JRCsvMetadataExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: CsvExporterConfiguration.java 6709 2013-11-08 14:39:13Z teodord $
+ * @version $Id$
  */
 public interface CsvReportConfiguration extends ReportExportConfiguration
 {

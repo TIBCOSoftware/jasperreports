@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
  * Annotations used to describe a parameter associated to a function.
  * 
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
- * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
+ * @version $Id$
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

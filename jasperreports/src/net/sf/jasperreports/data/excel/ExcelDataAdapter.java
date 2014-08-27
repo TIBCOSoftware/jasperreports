@@ -27,7 +27,7 @@ import net.sf.jasperreports.data.xls.XlsDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: XlsDataAdapter.java 6920 2014-02-24 09:42:04Z teodord $
+ * @version $Id$
  */
 public interface ExcelDataAdapter extends XlsDataAdapter 
 {

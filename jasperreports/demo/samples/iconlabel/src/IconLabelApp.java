@@ -53,7 +53,7 @@ import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: IconLabelApp.java 5918 2013-02-18 10:05:14Z teodord $
+ * @version $Id$
  */
 public class IconLabelApp extends AbstractSampleApp
 {

@@ -35,7 +35,7 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * @see JRTextExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextExporterConfiguration.java 6749 2013-11-19 12:31:02Z shertage $
+ * @version $Id$
  */
 public interface TextReportConfiguration extends ReportExportConfiguration
 {

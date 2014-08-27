@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextInputComponentXmlWriter.java 5922 2013-02-19 11:03:27Z teodord $
+ * @version $Id$
  */
 public class IconLabelComponentXmlWriter implements ComponentXmlWriter 
 {

@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.type.JREnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: HorizontalAlignEnum.java 5878 2013-01-07 20:23:13Z teodord $
+ * @version $Id$
  */
 public enum IconLabelDirectionEnum implements JREnum
 {

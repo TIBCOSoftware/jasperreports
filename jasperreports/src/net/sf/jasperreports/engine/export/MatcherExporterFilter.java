@@ -40,7 +40,7 @@ import net.sf.jasperreports.export.Exporter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JROriginExporterFilter.java 5923 2013-02-20 11:19:35Z teodord $
+ * @version $Id$
  */
 public class MatcherExporterFilter implements ExporterFilter
 {

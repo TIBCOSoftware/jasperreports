@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
  * This class should maintain all function methods that belongs to the category {@link #MATH}.
  * 
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
- * @version $Id: CastorUtil.java 5880 2013-01-07 20:40:06Z teodord $
+ * @version $Id$
  */
 @FunctionCategories({MathCategory.class})
 public final class MathFunctions 

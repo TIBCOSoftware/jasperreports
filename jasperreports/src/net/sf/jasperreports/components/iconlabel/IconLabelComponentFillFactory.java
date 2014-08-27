@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextInputComponentFillFactory.java 5921 2013-02-19 10:23:06Z teodord $
+ * @version $Id$
  */
 public class IconLabelComponentFillFactory implements ComponentFillFactory
 {

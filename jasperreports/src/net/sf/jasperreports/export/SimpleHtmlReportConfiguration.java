@@ -28,7 +28,7 @@ import net.sf.jasperreports.export.type.HtmlSizeUnitEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: SimpleHtmlExporterConfiguration.java 6718 2013-11-11 09:32:19Z teodord $
+ * @version $Id$
  */
 public class SimpleHtmlReportConfiguration extends SimpleReportExportConfiguration implements HtmlReportConfiguration
 {

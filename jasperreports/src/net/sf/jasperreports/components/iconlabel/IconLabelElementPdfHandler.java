@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.export.JRPdfExporterContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextInputElementPdfHandler.java 5922 2013-02-19 11:03:27Z teodord $
+ * @version $Id$
  */
 public class IconLabelElementPdfHandler implements GenericElementPdfHandler
 {

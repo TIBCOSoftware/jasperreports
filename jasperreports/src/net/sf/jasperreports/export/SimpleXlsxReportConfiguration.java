@@ -26,7 +26,7 @@ package net.sf.jasperreports.export;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: SimpleXlsxExporterConfiguration.java 6731 2013-11-12 12:20:12Z teodord $
+ * @version $Id$
  */
 public class SimpleXlsxReportConfiguration extends SimpleXlsReportConfiguration implements XlsxReportConfiguration
 {

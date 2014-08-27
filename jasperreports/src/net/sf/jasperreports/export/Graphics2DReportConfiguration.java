@@ -36,7 +36,7 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * @see JRGraphics2DExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: Graphics2DExporterConfiguration.java 6709 2013-11-08 14:39:13Z teodord $
+ * @version $Id$
  */
 public interface Graphics2DReportConfiguration extends ReportExportConfiguration
 {

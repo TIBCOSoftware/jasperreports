@@ -28,7 +28,7 @@ import java.util.Set;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: AbstractDataAdapterService.java 6233 2013-06-06 11:43:11Z teodord $
+ * @version $Id$
  */
 public class IdentitySecretsProviderFactory implements SecretsProviderFactory 
 {

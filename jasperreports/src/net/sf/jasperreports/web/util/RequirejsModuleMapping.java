@@ -26,7 +26,7 @@ package net.sf.jasperreports.web.util;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JacksonMapping.java 5880 2013-01-07 20:40:06Z teodord $
+ * @version $Id$
  */
 public class RequirejsModuleMapping
 {

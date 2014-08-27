@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: HtmlExporter.java 6376 2013-08-12 16:21:55Z lucianc $
+ * @version $Id$
  */
 public class HtmlFont
 {

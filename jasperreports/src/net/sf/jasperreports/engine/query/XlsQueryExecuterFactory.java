@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * query executers.
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id: JRXlsQueryExecuterFactory.java 6920 2014-02-24 09:42:04Z teodord $
+ * @version $Id$
  */
 public class XlsQueryExecuterFactory extends AbstractXlsQueryExecuterFactory 
 {

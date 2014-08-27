@@ -27,7 +27,7 @@ package net.sf.jasperreports.export;
 /**
  * @deprecated To be removed.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: SimpleJxlMetadataExporterConfiguration.java 6723 2013-11-11 12:31:17Z teodord $
+ * @version $Id$
  */
 public class SimpleJxlMetadataReportConfiguration extends SimpleXlsMetadataReportConfiguration implements JxlMetadataReportConfiguration
 {

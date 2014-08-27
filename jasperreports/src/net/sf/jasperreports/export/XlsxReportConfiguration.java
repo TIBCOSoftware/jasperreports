@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
  * @see JRXlsxExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: XlsxExporterConfiguration.java 6695 2013-11-07 09:53:57Z teodord $
+ * @version $Id$
  */
 public interface XlsxReportConfiguration extends XlsReportConfiguration
 {
