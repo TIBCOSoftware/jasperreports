@@ -1,5 +1,5 @@
 /*
-G * JasperReports - Free Java Reporting Library.
+ * JasperReports - Free Java Reporting Library.
  * Copyright (C) 2001 - 2013 Jaspersoft Corporation. All rights reserved.
  * http://www.jaspersoft.com
  *

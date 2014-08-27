@@ -1,5 +1,5 @@
 /*
-G * JasperReports - Free Java Reporting Library.
+ * JasperReports - Free Java Reporting Library.
  * Copyright (C) 2001 - 2013 Jaspersoft Corporation. All rights reserved.
  * http://www.jaspersoft.com
  *
@@ -113,8 +113,6 @@ import net.sf.jasperreports.engine.util.StyleUtil;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
 /**
- * 
- * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
