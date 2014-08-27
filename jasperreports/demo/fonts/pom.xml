@@ -26,7 +26,7 @@
 			<name>Teodor Danciu</name>
 			<email>teodord@users.sourceforge.net</email>
 			<url>http://sourceforge.net/users/teodord</url>
-			<organization>Jaspersoft Corporation</organization>
+			<organization>TIBCO Software Inc.</organization>
 			<organizationUrl>http://www.jaspersoft.com</organizationUrl>
 			<roles>
 				<role>architect</role>
@@ -55,7 +55,7 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<Built-By>Jaspersoft Corporation</Built-By>
+							<Built-By>TIBCO Software Inc.</Built-By>
 						</manifestEntries>
 						<manifestSections>
 							<manifestSection>
@@ -63,10 +63,10 @@
 								<manifestEntries>
 									<Specification-Title>JasperReports Library Font Extension</Specification-Title>
 									<Specification-Version>${pom.version}</Specification-Version>
-									<Specification-Vendor>Jaspersoft Corporation</Specification-Vendor>
+									<Specification-Vendor>TIBCO Software Inc.</Specification-Vendor>
 									<Implementation-Title>net.sf.jasperreports.fonts</Implementation-Title>
 									<Implementation-Version>${pom.version}</Implementation-Version>
-									<Implementation-Vendor>Jaspersoft Corporation</Implementation-Vendor>
+									<Implementation-Vendor>TIBCO Software Inc.</Implementation-Vendor>
 								</manifestEntries>
 							</manifestSection>
 						</manifestSections>

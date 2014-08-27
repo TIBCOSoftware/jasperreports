@@ -254,7 +254,7 @@ ga('send', 'pageview');
   </tr>
   <tr>
     <td colspan="5" align="center">
-      <span class="copy">&#169; 2001-<script language="javascript">document.write((new Date()).getFullYear())</script> Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" class="copy">www.jaspersoft.com</a></span>
+      <span class="copy">&#169; 2001-<script language="javascript">document.write((new Date()).getFullYear())</script> TIBCO Software Inc. <a href="http://www.jaspersoft.com" target="_blank" class="copy">www.jaspersoft.com</a></span>
     </td>
   </tr>
 </table>

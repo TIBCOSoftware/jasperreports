@@ -209,7 +209,7 @@
 				<textElement textAlignment="Right">
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[(c)2001-2009 by teodord]]></text>
+				<text><![CDATA[(c)2001-2014 by teodord]]></text>
 			</staticText>
 			<textField evaluationTime="Report">
 				<reportElement x="255" y="55" width="100" height="40" uuid="62a6e8cf-c7b3-4831-a77c-a14c5bbec0ee"/>
