@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
- * An immutable instantiation of a <code>JRDataRange</code>, suitable for holding
+ * An immutable instantiation of a {@link net.sf.jasperreports.charts.JRDataRange JRDataRange}, suitable for holding
  * a range.
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)

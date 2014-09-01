@@ -55,7 +55,7 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 	 * All the axes contained in this plot.  Each entry indicates a chart containing
 	 * the dataset and layout of that entry and where to draw that chart's range
 	 * axis.  All entries in the list are of the type
-	 * <code>{@link JRChartAxis}</code>
+	 * {@link net.sf.jasperreports.charts.JRChartAxis JRChartAxis}
 	 */
 	protected List<JRChartAxis> axes = new ArrayList<JRChartAxis>();
 

@@ -74,7 +74,7 @@ public interface JRMeterPlot extends JRChartPlot
 	/**
 	 * Returns a list of all the intervals contained in this Meter.  The return value is never
 	 * <code>null</code> but can be an empty list.  Each element in the list is a
-	 * {@link net.sf.jasperreports.charts.util.JRMeterInterval <code>net.sf.jasperreports.charts.util.JRMeterInterval</code>}
+	 * {@link net.sf.jasperreports.charts.util.JRMeterInterval JRMeterInterval}
 	 *
 	 * @return a list of all the intervals contained in this Meter
 	 */
