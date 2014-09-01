@@ -34,7 +34,7 @@ import com.itextpdf.text.pdf.PdfChunk;
 
 
 /**
- * Implementation of {@link com.lowagie.text.SplitCharacter SplitCharacter} that
+ * Implementation of {@link com.itextpdf.text.SplitCharacter SplitCharacter} that
  * uses the same logic as AWT to break texts into lines.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)

@@ -69,7 +69,7 @@ import org.apache.commons.logging.LogFactory;
  * report fill performance. For this reason and possibly others, it might be desired in some
  * cases to implement a different text measuring mechanism. JasperReports allows users to
  * employ custom text measurer implementations by setting a value for the
- * <code>net.sf.jasperreports.text.measurer.factory</code> property.
+ * {@link net.sf.jasperreports.engine.util.JRTextMeasurerUtil#PROPERTY_TEXT_MEASURER_FACTORY net.sf.jasperreports.text.measurer.factory} property.
  * The property can be set globally (in <code>jasperreports.properties</code> or via the
  * {@link net.sf.jasperreports.engine.JRPropertiesUtil#setProperty(String, String)} method), at
  * report level or at element level (as an element property). The property value should be

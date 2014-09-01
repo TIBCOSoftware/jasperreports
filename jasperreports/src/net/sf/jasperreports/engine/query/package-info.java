@@ -80,12 +80,12 @@
  * <p>
  * The query language is specified in JRXML using the <code>language</code> attribute of the 
  * <code>&lt;queryString&gt;</code> tag. Using the API, the query language is set by 
- * <code>JRDesignQuery.setLanguage(String)</code>. The default language is SQL, thus ensuring 
+ * {@link net.sf.jasperreports.engine.design.JRDesignQuery#setLanguage(String) setLanguage(String)}. The default language is SQL, thus ensuring 
  * backward compatibility for report queries that do not specify a query language. 
  * </p><p>
  * To register a query executer factory for a query language, one has to define a 
  * JasperReports property named 
- * <code>net.sf.jasperreports.query.executer.factory.&lt;language&gt;</code>. The same mechanism can be used to 
+ * {@link net.sf.jasperreports.engine.query.QueryExecuterFactory#QUERY_EXECUTER_FACTORY_PREFIX net.sf.jasperreports.query.executer.factory.&lt;language&gt;}. The same mechanism can be used to 
  * override the built-in query executers for a query language, for instance to use a custom 
  * query executer for SQL queries. 
  * </p><p>
@@ -155,7 +155,7 @@
  * Aborting the currently running query is supported using 
  * <code>java.sql.PreparedStatement.cancel()</code>. The fetch size of the JDBC statement used 
  * by the query executer behind the scenes can be set using the 
- * <code>net.sf.jasperreports.jdbc.fetch.size</code> configuration property at report level or 
+ * {@link net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory#PROPERTY_JDBC_FETCH_SIZE net.sf.jasperreports.jdbc.fetch.size} configuration property at report level or 
  * globally.
  * </p>
  * <h3>XPath Query Executer</h3>
@@ -195,16 +195,17 @@
  * </ul>
  * The result of a Hibernate query can be obtained in several ways. The Hibernate query 
  * executer chooses the way the query result will be produced based on a property named 
- * <code>net.sf.jasperreports.hql.query.run.type</code>. The run type can be one of the following: 
+ * {@link net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory#PROPERTY_HIBERNATE_QUERY_RUN_TYPE net.sf.jasperreports.hql.query.run.type}. The run type can be one of the following: 
  * <ul>
  * <li><code>list</code> - The result is fetched using <code>org.hibernate.Query.list()</code>. The result 
  * rows can be fetched all at once or in fixed-sized chunks. To enable paginated result row retrieval, 
- * the <code>net.sf.jasperreports.hql.query.list.page.size</code> configuration property should have a positive value.</li>
+ * the {@link net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory#PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE net.sf.jasperreports.hql.query.list.page.size} 
+ * configuration property should have a positive value.</li>
  * <li><code>scroll</code> - The result is fetched using <code>org.hibernate.Query.scroll()</code>.</li>
  * <li><code>iterate</code> - The result is fetched using <code>org.hibernate.Query.iterate()</code>.</li>
  * </ul>
  * The fetch size of the query can be set using the 
- * <code>net.sf.jasperreports.jdbc.fetch.size</code> configuration property at report level or 
+ * {@link net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory#PROPERTY_JDBC_FETCH_SIZE net.sf.jasperreports.jdbc.fetch.size} configuration property at report level or 
  * globally. 
  * </p><p>
  * However, when dealing with large amounts of data, using pagination is the most 
@@ -213,14 +214,14 @@
  * eventually cause an OutOfMemory error. If the Hibernate's session cache is regularly 
  * cleared, the memory trap can be avoided. Because flushing data and clearing the cache is 
  * a time-consuming process, you should use it only if really huge datasets are involved. 
- * This is why the <code>net.sf.jasperreports.hql.clear.cache</code> property was introduced. 
+ * This is why the {@link net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory#PROPERTY_HIBERNATE_CLEAR_CACHE net.sf.jasperreports.hql.clear.cache} property was introduced. 
  * Normally, it defaults to false. If set to true, the periodic Hibernate session cache 
  * cleanup is performed after each page fetching. 
  * </p><p>
  * A report/dataset field is mapped to a value from the Hibernate query result either by its 
  * description or its name. By default, the program uses the report field name, but the report 
  * field description property can be used instead if the 
- * <code>net.sf.jasperreports.hql.field.mapping.descriptions</code> configuration 
+ * {@link net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory#PROPERTY_HIBERNATE_FIELD_MAPPING_DESCRIPTIONS net.sf.jasperreports.hql.field.mapping.descriptions} configuration 
  * property is set to true either in the report template or globally. 
  * </p><p>
  * The mappings are similar to the ones used by JavaBeans data sources, except that select aliases are 
@@ -351,7 +352,7 @@
  * </p><p>
  * Hints can also be specified statically by using report properties. The query executer treats 
  * any report property starting with 
- * <code>net.sf.jasperreports.ejbql.query.hint.&lt;hintName7gt;</code> as a hint by interpreting 
+ * {@link net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory#PROPERTY_JPA_QUERY_HINT_PREFIX net.sf.jasperreports.ejbql.query.hint.&lt;hintName&gt;} as a hint by interpreting 
  * the property suffix as the hint name and the property value as the hint value. Thus, if the 
  * following property is present in the report: 
  * </p><p>

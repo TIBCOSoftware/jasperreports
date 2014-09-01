@@ -54,7 +54,7 @@ public class DefaultExporterFilterFactory implements ExporterFilterFactory
 	
 	/**
 	 * The method searches for all filter factories registered via
-	 * <code>net.sf.jasperreports.export.filter.factory.*</code> properties,
+	 * {@link #PROPERTY_EXPORTER_FILTER_FACTORY_PREFIX net.sf.jasperreports.export.filter.factory.*} properties,
 	 * calls each factory and collects the returned filters.
 	 * 
 	 * The method returns:

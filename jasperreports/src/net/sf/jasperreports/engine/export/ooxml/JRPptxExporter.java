@@ -90,7 +90,7 @@ import org.apache.commons.logging.LogFactory;
  * not intended for the PPTX output format. This can be customized using either the 
  * {@link net.sf.jasperreports.export.PptxReportConfiguration#isIgnoreHyperlink() isIgnoreHyperlink()} 
  * exporter configuration flag, or its corresponding exporter hint called
- * <code>net.sf.jasperreports.export.pptx.ignore.hyperlinks</code>.
+ * {@link net.sf.jasperreports.export.PptxReportConfiguration#PROPERTY_IGNORE_HYPERLINK net.sf.jasperreports.export.pptx.ignore.hyperlink}.
  * <p/>
  * It supports font mappings, batch mode exporting, and filtering
  * out content using exporter filters.

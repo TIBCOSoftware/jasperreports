@@ -197,7 +197,7 @@
  * When no value is found for the export filter setting, the exporter will use a default filter 
  * factory to instantiate a filter that will be used for the export. The default filter factory 
  * class is set via a property named 
- * <code>net.sf.jasperreports.engine.export.default.filter.factory</code>. 
+ * {@link net.sf.jasperreports.engine.JRAbstractExporter#PROPERTY_DEFAULT_FILTER_FACTORY net.sf.jasperreports.engine.export.default.filter.factory}. 
  * </p><p>
  * The built-in default filter factory implementation calls all registered filter factories and 
  * allows each of them to apply filters on the exporter report. If any of the filters decides to 
@@ -206,11 +206,11 @@
  * choose to change it by setting another value for the default filter factory property. 
  * To allow a custom export filter implementation to be used by the implicit export filter 
  * mechanism, one needs to register an export filter factory class with JasperReports. To do 
- * so, a property named <code>net.sf.jasperreports.engine.export.filter.factory.&lt;factory_name&gt;</code> has 
+ * so, a property named {@link net.sf.jasperreports.engine.export.DefaultExporterFilterFactory#PROPERTY_EXPORTER_FILTER_FACTORY_PREFIX net.sf.jasperreports.engine.export.filter.factory.&lt;factory_name&gt;} has 
  * to be included in the <code>jasperreports.properties</code> file (or set at runtime via 
- * {@link net.sf.jasperreports.engine.util.JRProperties}). The factory name is an arbitrary suffix, and the property value should 
+ * {@link net.sf.jasperreports.engine.util.JRProperties JRProperties}). The factory name is an arbitrary suffix, and the property value should 
  * be the name of a class that implements 
- * {@link net.sf.jasperreports.engine.export.ExporterFilterFactory}. The engine 
+ * {@link net.sf.jasperreports.engine.export.ExporterFilterFactory ExporterFilterFactory}. The engine 
  * uses the class name to instantiate an export filter factory, therefore the factory class 
  * needs to have an accessible no-argument constructor. 
  * </p><p>

@@ -231,7 +231,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  * exporter configuration setting to true. Note that this feature is not turned on by default, because it affects the
  * exporter performance. This default behavior that applies in the absence of the mentioned
  * export parameter can be controlled using the
- * <code>net.sf.jasperreports.export.pdf.force.linebreak.policy</code> configuration
+ * {@link net.sf.jasperreports.export.PdfReportConfiguration#PROPERTY_FORCE_LINEBREAK_POLICY net.sf.jasperreports.export.pdf.force.linebreak.policy} configuration
  * property
  * <h3>JavaScript Actions</h3>
  * The PDF specifications provide a means for the automation of various processes, such as
@@ -296,7 +296,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  * attributes (<code>pdfFontName</code>, <code>pdfEncoding</code>, and <code>isPdfEmbedded</code>) 
  * to be set along with the normal font attributes every time a font setting is made for the chart 
  * title, subtitle, chart legend, or axis. This feature can be controlled system-wide using the
- * <code>net.sf.jasperreports.export.pdf.force.svg.shapes</code> configuration property.
+ * {@link net.sf.jasperreports.export.PdfReportConfiguration#PROPERTY_FORCE_SVG_SHAPES net.sf.jasperreports.export.pdf.force.svg.shapes} configuration property.
  * The {@link net.sf.jasperreports.export.PdfReportConfiguration#isForceSvgShapes() isForceSvgShapes()} 
  * export configuration setting overrides the configuration property value, if present.
  * <h3>Section 508 Compliance</h3>
@@ -315,7 +315,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  * <ul>
  * <li>setting to true the {@link net.sf.jasperreports.export.PdfExporterConfiguration#isTagged() isTagged()}
  * configuration flag</li>
- * <li>setting to true the <code>net.sf.jasperreports.export.pdf.tagged</code> configuration property.</li>
+ * <li>setting to true the {@link net.sf.jasperreports.export.PdfExporterConfiguration#PROPERTY_TAGGED net.sf.jasperreports.export.pdf.tagged} configuration property.</li>
  * </ul>
  * <h3>Setting the PDF File Language</h3>
  * When a full accessibility check is requested from Acrobat Professional, among the things
@@ -325,7 +325,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  * <ul>
  * <li>using the {@link net.sf.jasperreports.export.PdfExporterConfiguration#getTagLanguage() getTagLanguage()}
  * configuration setting to retrieve the language as a <code>java.lang.String</code> value;</li>
- * <li>using the <code>net.sf.jasperreports.export.pdf.tag.language</code> configuration property 
+ * <li>using the {@link net.sf.jasperreports.export.PdfExporterConfiguration#PROPERTY_TAG_LANGUAGE net.sf.jasperreports.export.pdf.tag.language} configuration property 
  * globally or at report level</li>
  * </ul>
  * <h3>Alternate Text for Images</h3>

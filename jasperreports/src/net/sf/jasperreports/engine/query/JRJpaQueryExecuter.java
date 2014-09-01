@@ -83,7 +83,7 @@ import org.apache.commons.logging.LogFactory;
  * &lt;property name="net.sf.jasperreports.ejbql.query.hint.fetchSize" value="100"/&gt;
  * </pre>
  * </code>
- * The name of the query hint need to be prefixed with <code>net.sf.jasperreports.ejbql.query.hint.</code> ({@link net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory#PROPERTY_JPA_QUERY_HINT_PREFIX}).
+ * The name of the query hint need to be prefixed with {@link net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory#PROPERTY_JPA_QUERY_HINT_PREFIX net.sf.jasperreports.ejbql.query.hint.}.
  * Above example will set a query hint with the name <code>fetchSize</code> and the <code>String</code> value <code>100</code>.
  * <p/>
  * Example using map:

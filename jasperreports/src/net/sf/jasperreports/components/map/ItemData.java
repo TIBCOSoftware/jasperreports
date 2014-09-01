@@ -48,7 +48,7 @@ public interface ItemData extends JRCloneable
 	public List<Item> getItems();
 	
 	/**
-	 * Returns the dataset information that will be used by the <code>ItemData</code> object.
+	 * Returns the dataset information that will be used by the {@link net.sf.jasperreports.components.map.ItemData ItemData} object.
 	 * <p>
 	 * This information is required either to use the main dataset or to instantiate a 
 	 * subdataset from the report. The data produced by the subdataset is fed to the items list.

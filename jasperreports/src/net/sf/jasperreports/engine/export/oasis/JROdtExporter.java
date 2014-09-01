@@ -108,12 +108,12 @@ import org.apache.commons.logging.LogFactory;
  * the ODT editor. This is controlled using either the
  * {@link net.sf.jasperreports.export.OdtReportConfiguration#isFlexibleRowHeight() isFlexibleRowHeight()} 
  * exporter configuration flag, or its corresponding exporter hint called
- * <code>net.sf.jasperreports.export.odt.flexible.row.height</code>.</li>
+ * {@link net.sf.jasperreports.export.OdtReportConfiguration#PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT net.sf.jasperreports.export.odt.flexible.row.height}.</li>
  * <li>Ignoring hyperlinks in generated documents if they are not intended for the ODT output format. This can be 
  * customized using either the 
  * {@link net.sf.jasperreports.export.OdtReportConfiguration#isIgnoreHyperlink() isIgnoreHyperlink()} 
  * exporter configuration flag, or its corresponding exporter hint called
- * <code>net.sf.jasperreports.export.odt.ignore.hyperlinks</code></li>
+ * {@link net.sf.jasperreports.export.OdtReportConfiguration#PROPERTY_IGNORE_HYPERLINK net.sf.jasperreports.export.odt.ignore.hyperlink}</li>
  * </ul>
  * <p/>
  * So far, the ODT exporter has the known limitations of grid exporters. It

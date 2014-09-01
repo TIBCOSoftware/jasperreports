@@ -118,7 +118,7 @@
  * </p><p>
  * A typical usage of this handle is the following: 
  * <ul>
- * <li>The handle is created by calling the static <code>AsynchronousFillHandle.createHandle()</code> methods 
+ * <li>The handle is created by calling the static <code>createHandle()</code> methods in {@link net.sf.jasperreports.engine.fill.AsynchronousFillHandle AsynchronousFillHandle}  
  * that take as arguments the report object, the parameter map, and the data source or the database 
  * connection to be used.</li>
  * <li>One or more listeners are registered with the handle by calling the <code>addListener()</code> 
@@ -210,7 +210,7 @@
  * virtual machine implementations (see 
  * <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4513817">http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4513817</a>); you should 
  * avoid using this feature in long-running applications by turning it off using the 
- * <code>net.sf.jasperreports.virtualizer.files.delete.on.exit</code> configuration property. 
+ * {@link net.sf.jasperreports.engine.fill.JRFileVirtualizer#PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT net.sf.jasperreports.virtualizer.files.delete.on.exit} configuration property. 
  * </p>
  * <h3>Swap File Virtualizer</h3>
  * On some platforms, working with a large number of files in a single folder, or even the 

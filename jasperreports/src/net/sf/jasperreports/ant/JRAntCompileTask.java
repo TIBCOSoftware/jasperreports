@@ -174,7 +174,7 @@ public class JRAntCompileTask extends JRBaseAntTask
 	 * The specified class should be an implementation of the 
 	 * {@link net.sf.jasperreports.engine.design.JRCompiler} interface.
 	 * When specified, this value will temporarily override the value of the
-	 * <code>jasper.reports.compiler.class</code> system property.
+	 * {@link net.sf.jasperreports.engine.design.JRCompiler#COMPILER_CLASS net.sf.jasperreports.compiler.class} system property.
 	 * 
 	 * @param compiler report compiler class name
 	 */

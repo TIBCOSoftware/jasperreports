@@ -220,7 +220,7 @@
  * {@link net.sf.jasperreports.engine.util.xml.JRXPathExecuter JRXPathExecuter}. 
  * </p><p> 
  * The XPath executer implementation used by XML data sources can be configured via a 
- * JasperReports property named <code>net.sf.jasperreports.xpath.executer.factory</code>. 
+ * JasperReports property named {@link net.sf.jasperreports.engine.util.xml.JRXPathExecuterUtils#PROPERTY_XPATH_EXECUTER_FACTORY net.sf.jasperreports.xpath.executer.factory}. 
  * This property gives the name of a XPath executer factory class, which has to implement 
  * the {@link net.sf.jasperreports.engine.util.xml.JRXPathExecuterFactory JRXPathExecuterFactory}. 
  * JasperReports includes two built-in XPath executer implementations, one based on 
@@ -230,15 +230,15 @@
  * </p><p> 
  * In many cases, though, the Jaxen XPath executor provides better performance than an 
  * executor that uses Xalan. To switch to the Jaxen XPath executer, one needs to set the 
- * <code>net.sf.jasperreports.xpath.executer.factory</code> property to 
- * <code>net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory</code>, which 
+ * {@link net.sf.jasperreports.engine.util.xml.JRXPathExecuterUtils#PROPERTY_XPATH_EXECUTER_FACTORY net.sf.jasperreports.xpath.executer.factory} property to 
+ * {@link net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory JaxenXPathExecuterFactory}, which 
  * is usually done by including the following line in the jasperreports.properties 
  * configuration file: 
  * <pre>
  * net.sf.jasperreports.xpath.executer.factory=net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory
  * </pre> 
  * To switch back to Xalan, one would comment or remove the property line, or explicitly set the property to 
- * <code>net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory</code>. 
+ * {@link net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory XalanXPathExecuterFactory}. 
  * </p>
  * <h3>CSV Data Sources</h3>
  * Sometimes data that users need to fill the report with is found in plain text files, in a 
@@ -247,7 +247,7 @@
  * JasperReports provides an implementation for such a data source, by wrapping the CSV 
  * data from a text file into a {@link net.sf.jasperreports.engine.data.JRCsvDataSource JRCsvDataSource}. 
  * The CSV data source usually needs to read a file from disk, or at least from an input 
- * stream. Thus, the <code>JRCsvDataSource</code> can be initialized in three ways, depending on 
+ * stream. Thus, the {@link net.sf.jasperreports.engine.data.JRCsvDataSource JRCsvDataSource} can be initialized in three ways, depending on 
  * where it gets the data:
  * <ul>
  * <li>a file - <code>new JRCsvDataSource(File)</code></li>

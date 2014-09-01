@@ -268,7 +268,7 @@
  * </p><p>
  * The governor threshold is given as an integer number representing the maximum number 
  * of cells multiplied by the number of measures in the generated crosstab. It can be set 
- * using the <code>net.sf.jasperreports.crosstab.bucket.measure.limit</code> configuration 
+ * using the {@link net.sf.jasperreports.crosstabs.fill.calculation.BucketingService#PROPERTY_BUCKET_MEASURE_LIMIT net.sf.jasperreports.crosstab.bucket.measure.limit} configuration 
  * property. This property defaults to -1, meaning that the crosstab governor is disabled by 
  * default. 
  * </p>

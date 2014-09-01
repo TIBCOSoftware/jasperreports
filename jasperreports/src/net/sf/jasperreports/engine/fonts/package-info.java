@@ -58,7 +58,7 @@
  * font metrics mismatches are avoided and we have an early warning about the inconsistency. 
  * <p/> 
  * However, for backward compatibility reasons, this font runtime validation can be turned 
- * off using the <code>net.sf.jasperreports.awt.ignore.missing.font</code> configuration 
+ * off using the {@link net.sf.jasperreports.engine.util.JRStyledText#PROPERTY_AWT_IGNORE_MISSING_FONT net.sf.jasperreports.awt.ignore.missing.font} configuration 
  * property, which can be employed either globally or at report level. 
  * <p/> 
  * The font extension point in JasperReports is exposed as the 

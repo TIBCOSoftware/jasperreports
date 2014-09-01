@@ -103,8 +103,8 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  * is set to true, or when you have to execute a batch export to XLS, multiple sheets are created in the worksheet.
  * You can also combine two exporter settings to customize the maximum number of rows per
  * page, and display each page of the report in a separate sheet. To do this, set the number
- * of rows per sheet for <code>net.sf.jasperreports.export.xls.max.rows.per.sheet</code> property and
- * set true for <code>net.sf.jasperreports.export.xls.one.page.per.sheet</code> property.
+ * of rows per sheet for {@link net.sf.jasperreports.export.XlsReportConfiguration#PROPERTY_MAXIMUM_ROWS_PER_SHEET net.sf.jasperreports.export.xls.max.rows.per.sheet} property and
+ * set true for {@link net.sf.jasperreports.export.XlsReportConfiguration#PROPERTY_ONE_PAGE_PER_SHEET net.sf.jasperreports.export.xls.one.page.per.sheet} property.
  * <p/>
  * The JasperReports Excel exporters provide a simple but efficient sheet-naming
  * mechanism. They use the {@link net.sf.jasperreports.export.XlsReportConfiguration#getSheetNames() getSheetNames()} 
@@ -128,7 +128,7 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  * (the final heLazyDog gets truncated, in order to make the exact room for 12345).
  * <p/>
  * Multiple sheet names can be specified in the JRXML file as well, using the
- * <code>net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}</code> property 
+ * {@link net.sf.jasperreports.export.XlsReportConfiguration#PROPERTY_SHEET_NAMES_PREFIX net.sf.jasperreports.export.xls.sheet.names.&lt;arbitrary_name&gt;} property 
  * at report level. Add the following to the JRXML file:
  * <pre>
  * &lt;property name="net.sf.jasperreports.export.xls.sheet.names.all" value="Sheet A/Sheet B/Sheet C" /&gt;
@@ -136,7 +136,7 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  * Keep in mind the naming order is important, sheets will be named in the same order the names are 
  * provided in this property. 
  * <p/>
- * Sheets can be also named at element level, using the <code>net.sf.jasperreports.export.xls.sheet.name</code> 
+ * Sheets can be also named at element level, using the {@link #PROPERTY_SHEET_NAME net.sf.jasperreports.export.xls.sheet.name} 
  * element property. This name will be provided for the sheet the element belongs to.
  * <h3>Flow-Oriented Output</h3>
  * The JasperPrint documents are page-oriented. When they are exported to a single sheet
@@ -156,14 +156,14 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  * To completely ignore pagination, use the built-in fill-time parameter
  * {@link net.sf.jasperreports.engine.JRParameter#IS_IGNORE_PAGINATION IS_IGNORE_PAGINATION}.
  * You can modify the API to remove the empty space between rows and columns as well.
- * You need to set <code>net.sf.jasperreports.export.xls.remove.empty.space.between.rows</code>
- * property and/or <code>net.sf.jasperreports.export.xls.remove.empty.space.between.columns</code>
+ * You need to set {@link net.sf.jasperreports.export.XlsReportConfiguration#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS net.sf.jasperreports.export.xls.remove.empty.space.between.rows}
+ * property and/or {@link net.sf.jasperreports.export.XlsReportConfiguration#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS net.sf.jasperreports.export.xls.remove.empty.space.between.columns}
  * property to true.
  * <p/>
  * Keep in mind these settings are limited by your report layout. If it is too far away
  * from a grid layout, these options cannot work. On a good grid layout, once you set
- * <code>net.sf.jasperreports.export.xls.remove.empty.space.between.rows</code> property and/or
- * <code>net.sf.jasperreports.export.xls.remove.empty.space.between.columns</code> property to
+ * {@link net.sf.jasperreports.export.XlsReportConfiguration#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS net.sf.jasperreports.export.xls.remove.empty.space.between.rows} property and/or
+ * {@link net.sf.jasperreports.export.XlsReportConfiguration#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS net.sf.jasperreports.export.xls.remove.empty.space.between.columns} property to
  * true, the empty spaces are removed.
  * <h3>Cell Types</h3>
  * Inside the proprietary document format that JasperReports uses (represented by the
@@ -189,7 +189,7 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  * <p/>
  * Cell type detection is turned off by default.
  * You can have JasperReports automatically detect the cell type by modifying the API. Set the
- * <code>net.sf.jasperreports.export.xls.detect.cell.type</code> property to true. When you do this, instead
+ * {@link net.sf.jasperreports.export.XlsReportConfiguration#PROPERTY_DETECT_CELL_TYPE net.sf.jasperreports.export.xls.detect.cell.type} property to true. When you do this, instead
  * of being prompted by Excel to convert the value manually, the value is automatically
  * converted.
  * <h3>Format Pattern Conversions</h3>
@@ -206,14 +206,14 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  * corresponding Excel format patterns as values.
  * <p/>
  * Another way to adjust the format pattern to Excel-compatible values is to set the 
- * <code>net.sf.jasperreports.export.xls.pattern</code> property at element level.
+ * {@link #PROPERTY_CELL_PATTERN net.sf.jasperreports.export.xls.pattern} property at element level.
  * <h3>Font Size Correction</h3>
  * Currently, there is no way to control the line spacing in a spreadsheet cell, which results
  * in the cell text not fitting exactly within the cell boundaries. As a workaround, in order to
  * force the cell text to fit, one can use the 
  * {@link net.sf.jasperreports.export.XlsReportConfiguration#isFontSizeFixEnabled() isFontSizeFixEnabled()} 
  * exporter configuration flag to decrease the font size by one point when generating the cell format.
- * Alternatively, one can use the <code>net.sf.jasperreports.export.xls.font.size.fix.enabled</code>
+ * Alternatively, one can use the {@link net.sf.jasperreports.export.XlsReportConfiguration#PROPERTY_FONT_SIZE_FIX_ENABLED net.sf.jasperreports.export.xls.font.size.fix.enabled}
  * property at report level.
  * <h3>Background Color</h3>
  * Empty space found on each page in the source {@link net.sf.jasperreports.engine.JasperPrint} 
@@ -453,7 +453,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 * descriptors. For instance, because "aaa" &lt; "bbb", the outline level associated with the "aaa" suffix will be smaller than 
 	 * the level associated with the "bbb" suffix. The most intuitive representation of the row levels uses the row level as property suffix.
 	 * <br/>
-	 * In such a case, The <code>net.sf.jasperreports.export.xls.outline.level.2</code> property means that its value is correlated with 
+	 * In such a case, the {@link #PROPERTY_ROW_OUTLINE_LEVEL_PREFIX net.sf.jasperreports.export.xls.outline.level.2} property means that its value is correlated with 
 	 * the outline level 2, so the current row belongs to a level 2 row group. Based on Office Open XML specs, allowed values for outline 
 	 * levels are positive integers from 1 to 7.
 	 * <br/>

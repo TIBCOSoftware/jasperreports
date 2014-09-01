@@ -36,20 +36,20 @@
  * {@link net.sf.jasperreports.engine.design.JasperDesign JasperDesign} objects into 
  * {@link net.sf.jasperreports.engine.JasperReport JasperReport} objects. Both classes are 
  * implementations of the same basic {@link net.sf.jasperreports.engine.JRReport JRReport} 
- * interface. However, <code>JasperReport</code> objects cannot be modified once they are produced, 
- * while <code>JasperDesign</code> objects can. This is because some modifications made on the 
+ * interface. However, {@link net.sf.jasperreports.engine.JasperReport JasperReport} objects cannot be modified once they are produced, 
+ * while {@link net.sf.jasperreports.engine.design.JasperDesign JasperDesign} objects can. This is because some modifications made on the 
  * report template would probably require re-validation, or if a report expression is 
  * modified, the compiler-associated data stored inside the report template would have to be 
  * updated. 
  * </p><p>
- * <code>JasperDesign</code> objects are produced when parsing JRXML files using the 
+ * {@link net.sf.jasperreports.engine.design.JasperDesign JasperDesign} objects are produced when parsing JRXML files using the 
  * {@link net.sf.jasperreports.engine.xml.JRXmlLoader JRXmlLoader} or created directly by the parent 
  * application if dynamic report templates are required. The GUI tools for editing 
  * JasperReports templates also work with this class to make in-memory modifications to 
  * the report templates before storing them on disk. 
  * </p><p>
- * A <code>JasperDesign</code> object must be subject to the report compilation process to produce a 
- * JasperReport object. 
+ * A {@link net.sf.jasperreports.engine.design.JasperDesign JasperDesign} object must be subject to the report compilation process to produce a 
+ * {@link net.sf.jasperreports.engine.JasperReport JasperReport} object. 
  * </p><p>
  * Central to this process is the {@link net.sf.jasperreports.engine.design.JRCompiler JRCompiler} 
  * interface, which defines two methods, one being the following: 

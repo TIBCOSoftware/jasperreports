@@ -112,15 +112,15 @@
 * </p><p>
 * Determining which image producer to use for a barcode component element relies on 
 * custom properties defined at the element, report and global levels. The 
-* <code>net.sf.jasperreports.components.barcode4j.image.producer</code> property can 
+* {@link net.sf.jasperreports.components.barcode4j.BarcodeImageProducer#PROPERTY_IMAGE_PRODUCER net.sf.jasperreports.components.barcode4j.image.producer} property can 
 * have a value of the name of the class that implements the image producer interface or an 
 * alias that has been set for such a class, using a property of the form 
-* <code>net.sf.jasperreports.components.barcode4j.image.producer.&lt;alias&gt;</code>. 
+* {@link net.sf.jasperreports.components.barcode4j.BarcodeImageProducer#PROPERTY_PREFIX_IMAGE_PRODUCER net.sf.jasperreports.components.barcode4j.image.producer.&lt;alias&gt;}. 
 * JasperReports has two barcode image producer implementations: one which renders the 
 * barcode in SVG format and one which renders the barcode as a rasterized image. The 
 * first implementation is registered under the <code>svg</code> alias and is used by default; 
 * the second one has <code>image</code> as alias and can be used by changing the 
-* <code>net.sf.jasperreports.components.barcode4j.image.producer.&lt;alias&gt;</code> 
+* {@link net.sf.jasperreports.components.barcode4j.BarcodeImageProducer#PROPERTY_PREFIX_IMAGE_PRODUCER net.sf.jasperreports.components.barcode4j.image.producer.&lt;alias&gt;} 
 * property at any level. 
 * </p><p>
 * The SVG barcode image producer uses the Barcode4J API to export the barcode to SVG, 
