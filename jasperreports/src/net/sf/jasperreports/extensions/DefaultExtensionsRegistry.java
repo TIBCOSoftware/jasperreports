@@ -50,7 +50,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * <p>
  * Each such resource is loaded as a properties file, and properties that start
- * with <code>net.sf.jasperreports.extension.registry.factory.</code> are identified.
+ * with {@link #PROPERTY_REGISTRY_FACTORY_PREFIX net.sf.jasperreports.extension.registry.factory.} are identified.
  * 
  * <p>
  * Each such property should have as value the name of a 
@@ -60,7 +60,7 @@ import org.apache.commons.logging.LogFactory;
  * is called on it, using the propery suffix as registry ID and passing the
  * properties map.  The registry factory can collect properties that apply to the
  * specific registry by using a property prefix obtain by appending the registry ID
- * to "<code>net.sf.jasperreports.extension.</code>".
+ * to "{@link #PROPERTY_REGISTRY_PREFIX net.sf.jasperreports.extension.}".
  * 
  * <p>
  * If instantiating an extension registry results in an exception, the registry

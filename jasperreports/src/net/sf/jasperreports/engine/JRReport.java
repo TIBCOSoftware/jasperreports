@@ -234,8 +234,8 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  *   &lt;property name="com.mycompany.report.author" value="John Smith"/&gt;
  *   &lt;property name="com.mycompany.report.description" value="Displays sales data"/&gt;</pre>
  * At runtime, this application-defined data can be retrieved from the report template using
- * the <code>public JRPropertiesMap getPropertiesMap()</code> inherited from the 
- * {@link net.sf.jasperreports.engine.JRPropertiesHolder} interface.
+ * the public method {@link net.sf.jasperreports.engine.JRPropertiesHolder#getPropertiesMap() getPropertiesMap()} 
+ * inherited from the {@link net.sf.jasperreports.engine.JRPropertiesHolder} interface.
  * <h3>Report Styles</h3>
  * A report style is a collection of style settings declared at the report level. These settings
  * can be reused throughout the entire report template when setting the style properties of
@@ -262,7 +262,7 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  * condition is true. This is done using conditional styles.
  * </p><p>
  * The default style of a report can be accessed using the 
- * <code>public JRStyle getDefaultStyle()</code> method inherited from the 
+ * {@link net.sf.jasperreports.engine.JRDefaultStyleProvider#getDefaultStyle() getDefaultStyle()} method inherited from the 
  * {@link net.sf.jasperreports.engine.JRDefaultStyleProvider} interface.
  * </p>
  * @see net.sf.jasperreports.engine.JRParameter#IS_IGNORE_PAGINATION

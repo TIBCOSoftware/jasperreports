@@ -65,7 +65,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * </p><p>
  * The facade class relies on the report template language to determine an appropriate report compiler.
  * The report compilation facade first reads a configuration property called
- * <code>net.sf.jasperreports.compiler.&lt;language&gt;</code> to determine whether a compiler
+ * {@link net.sf.jasperreports.engine.design.JRCompiler#COMPILER_PREFIX net.sf.jasperreports.compiler.&lt;language&gt;} to determine whether a compiler
  * implementation has been configured for the specific report language. If such a property
  * is found, its value is used as compiler implementation class name and the facade
  * instantiates a compiler object and delegates the report compilation to it. By default,
@@ -79,7 +79,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * report compilation process takes place.
  * </p><p>
  * The facade first reads the
- * configuration property called <code>net.sf.jasperreports.compiler.class</code> to allow
+ * configuration property called {@link net.sf.jasperreports.engine.design.JRCompiler#COMPILER_CLASS net.sf.jasperreports.compiler.class} to allow
  * users to override its built-in compiler-detection logic by providing the name of the report
  * compiler implementation to use directly.
  * </p><p>
@@ -101,7 +101,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * properties. The following list contains all the configuration properties that customize
  * report compilation.
  * <dl>
- * <dt><code>net.sf.jasperreports.compiler.&lt;language&gt;</code><dt>
+ * <dt>{@link net.sf.jasperreports.engine.design.JRCompiler#COMPILER_PREFIX net.sf.jasperreports.compiler.&lt;language&gt;}<dt>
  * <dd>Such properties are used for indicating the name of the class that implements the
  * {@link net.sf.jasperreports.engine.design.JRCompiler} interface to be instantiated by 
  * the engine for a specific report language
@@ -112,7 +112,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * <br/>
  * One can configure report compilers for custom report languages and override the default
  * compiler mappings by setting JasperReports properties of the form
- * <code>net.sf.jasperreports.compiler.&lt;language&gt;</code> to the desired compiler
+ * {@link net.sf.jasperreports.engine.design.JRCompiler#COMPILER_PREFIX net.sf.jasperreports.compiler.&lt;language&gt;} to the desired compiler
  * implementation class names. In particular, the mechanism that automatically chooses a
  * Java report compiler can be superseded by explicitly setting the
  * <code>net.sf.jasperreports.compiler.java</code> property to the name of one of the built-in
@@ -121,13 +121,13 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * Note that the classes implementing the {@link net.sf.jasperreports.engine.design.JRCompiler} 
  * interface can also be used directly in
  * the programs without having to call them through this facade class.</dd>
- * <dt><code>net.sf.jasperreports.compiler.xml.validation</code><dt>
+ * <dt>{@link net.sf.jasperreports.engine.xml.JRReportSaxParserFactory#COMPILER_XML_VALIDATION net.sf.jasperreports.compiler.xml.validation}<dt>
  * <dd>The XML validation, which is on by default, can be turned off by setting this
  * configuration property to
  * false. When turned off, the XML parser no longer validates the supplied JRXML
  * against its associated XSD. This might prove useful in some environments, although it is
  * not recommended.</dd>
- * <dt><code>net.sf.jasperreports.compiler.classpath</code><dt>
+ * <dt>{@link net.sf.jasperreports.engine.design.JRCompiler#COMPILER_CLASSPATH net.sf.jasperreports.compiler.classpath}<dt>
  * <dd>This property
  * supplies the classpath. JDK-based compilers require that the classpath be
  * supplied as a parameter. They cannot use the current JVM classpath. The supplied
@@ -135,14 +135,14 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * <br/>
  * This property is not used by the JDT-based report compiler, which simply uses the parent
  * application's classpath during Java source file compilation.</dd>
- * <dt><code>net.sf.jasperreports.compiler.temp.dir</code><dt>
+ * <dt>{@link net.sf.jasperreports.engine.design.JRCompiler#COMPILER_TEMP_DIR net.sf.jasperreports.compiler.temp.dir}<dt>
  * <dd>The temporary location for the files generated on the fly is by default the current working
  * directory. It can be changed by supplying a value to this
  * configuration property. This is used by
  * the JDT-based compiler only when it is requested that a copy of the on-the-fly generated
  * Java class be kept for debugging purposes as specified by the next configuration
  * property, because normally this report compiler does not work with files on disk.</dd>
- * <dt><code>net.sf.jasperreports.compiler.keep.java.file</code><dt>
+ * <dt>{@link net.sf.jasperreports.engine.design.JRCompiler#COMPILER_KEEP_JAVA_FILE net.sf.jasperreports.compiler.keep.java.file}<dt>
  * <dd>Sometimes, for debugging purposes, it is useful to have the generated <code>*.java</code> file or
  * generated script in order to fix compilation problems related to report expressions. By
  * default, the engine deletes this file after report compilation, along with its corresponding

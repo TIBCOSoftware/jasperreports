@@ -162,7 +162,7 @@ public interface JRChartPlot extends JRCloneable
 	{
 		/**
 		 * Returns the series order that this color applies to.  The series order is relative to
-		 * the series order of all other <code>JRSeriesColor</code>s defined for this plot.  The
+		 * the series order of all other {@link JRSeriesColor}s defined for this plot.  The
 		 * relative ordering defines the order of the colors in the series.
 		 */
 		public int getSeriesOrder();

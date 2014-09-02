@@ -41,7 +41,7 @@ import org.springframework.core.io.UrlResource;
  *
  * <p>
  * The factory requires a property named
- * <code>net.sf.jasperreports.extension.&lt;registry ID&gt;.spring.beans.resource</code>
+ * {@link net.sf.jasperreports.extensions.DefaultExtensionsRegistry#PROPERTY_REGISTRY_PREFIX net.sf.jasperreports.extension.&lt;registry_id&gt;.spring.beans.resource}
  * to be present in the properties map passed to
  * {@link #createRegistry(String, JRPropertiesMap)}.
  * The value of this property must resolve to a resource name which is loaded

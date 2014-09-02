@@ -54,7 +54,7 @@ import net.sf.jasperreports.engine.type.OverflowType;
  * <li><code>java.io.File</code></li>
  * <li><code>java.io.InputStream</code></li>
  * <li><code>java.net.URL</code></li>
- * <li><code>net.sf.jasperreports.engine.JasperReport</code></li>
+ * <li><code>{@link net.sf.jasperreports.engine.JasperReport}</code></li>
  * </ul>
  * <p/>
  * <b>Note:</b> When the subreport expression returns a <code>java.lang.String</code> value, the engine tries to see
@@ -208,7 +208,7 @@ import net.sf.jasperreports.engine.type.OverflowType;
  * <p/>
  * Switching between the preceding subreport runner implementation is not done through
  * direct instantiation, but rather through a configuration property called
- * <code>net.sf.jasperreports.subreport.runner.factory</code>. This configuration property
+ * {@link net.sf.jasperreports.engine.fill.JRSubreportRunnerFactory#SUBREPORT_RUNNER_FACTORY net.sf.jasperreports.subreport.runner.factory}. This configuration property
  * should point to a
  * {@link net.sf.jasperreports.engine.fill.JRSubreportRunnerFactory}
  * implementation able to produce the needed {@link net.sf.jasperreports.engine.fill.JRSubreportRunnable} 

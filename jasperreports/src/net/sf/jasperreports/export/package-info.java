@@ -27,7 +27,7 @@
  * <h3>Exporter Input</h3>
  * All the input data the exporter might need is supplied by the so-called exporter 
  * input before the exporting process is started. This is because the exporting process 
- * is always invoked by calling the <code>exportReport()</code> method of the 
+ * is always invoked by calling the {@link net.sf.jasperreports.export.Exporter#exportReport() exportReport()} method of the 
  * {@link net.sf.jasperreports.export.Exporter} interface, and this method does not 
  * receive any parameters when called. 
  * <p>
@@ -43,7 +43,7 @@
  * the exporter implementations that are shipped inside the library already do this. They all 
  * extend the {@link net.sf.jasperreports.engine.JRAbstractExporter} class, which 
  * holds all the logic for dealing with the source documents that need to be exported inside 
- * its defined <code>setExporterInput(ExporterInput exporterInput)</code> method. 
+ * its defined {@link net.sf.jasperreports.engine.JRAbstractExporter#setExporterInput(ExporterInput) setExporterInput(ExporterInput)} method. 
  * </p><p>
  * As shown in the method signature, 
  * all we need is an {@link net.sf.jasperreports.export.ExporterInput} instance that holds the necessary 
@@ -82,14 +82,14 @@
  * output. 
  * </p><p>
  * Output settings for all built-in exporters can be set using the 
- * <code>public void setExporterOutput(O exporterOutput)</code> method inherited from their 
+ * {@link net.sf.jasperreports.engine.JRAbstractExporter#setExporterOutput(ExporterOutput) setExporterOutput(O exporterOutput)} method inherited from their 
  * {@link net.sf.jasperreports.engine.JRAbstractExporter} parent class. The <code>exporterOutput</code> 
  * argument must be an instance of {@link net.sf.jasperreports.export.ExporterOutput} interface. 
  * </p>
  * <h3>Export Configuration Settings</h3>
  * Other export configuration settings can be communicated to exporters using the 
- * <code>public void setConfiguration(C configuration)</code> and 
- * <code>public void setConfiguration(RC configuration)</code> inherited from the 
+ * <code>public void {@link net.sf.jasperreports.engine.JRAbstractExporter#setConfiguration(ExporterConfiguration) setConfiguration(C configuration)}</code> and 
+ * <code>public void {@link net.sf.jasperreports.engine.JRAbstractExporter#setConfiguration(ReportExportConfiguration) setConfiguration(RC configuration)}</code> 
  * {@link net.sf.jasperreports.engine.JRAbstractExporter} parent class. The first method accepts 
  * an {@link net.sf.jasperreports.export.ExporterConfiguration} argument and applies settings per exporter. 
  * The second one accepts a {@link net.sf.jasperreports.export.ReportExportConfiguration} and applies 

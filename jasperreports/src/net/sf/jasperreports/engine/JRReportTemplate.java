@@ -45,7 +45,7 @@ public interface JRReportTemplate
 	 * The expression type should be (compatible with) one of <code>java.lang.String</code>,
 	 * <code>java.io.File</code>, <code>java.net.URL</code>, <code>java.io.InputStream</code>
 	 * (in which cases the template is loaded via {@link JRXmlTemplateLoader}) or
-	 * <code>net.sf.jasperreports.engine.JRTemplate</code> .
+	 * {@link net.sf.jasperreports.engine.JRTemplate} .
 	 * 
 	 * @return the template source expression
 	 */

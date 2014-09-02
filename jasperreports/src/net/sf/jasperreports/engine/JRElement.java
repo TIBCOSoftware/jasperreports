@@ -42,7 +42,7 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  * This could be the case in an application for which the color of some elements in the
  * report template needs to change based on user input. To locate the report elements that
  * need to have their colors altered, the caller program could use the
- * <code>getElementByKey(String)</code> method available at band level. A key value must be
+ * {@link JRBand#getElementByKey(String)} method available at band level. A key value must be
  * associated with the report element and it must be unique within the overall band for the
  * lookup to work.
  * <h3>Element Position</h3>
@@ -215,7 +215,7 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  * <p/>
  * The prefixes of properties to be propagated are configured via JasperReports global
  * properties of the form
- * <code>net.sf.jasperreports.print.transfer.&lt;arbitrary_suffix&gt;</code>. The values of
+ * {@link net.sf.jasperreports.engine.JasperPrint#PROPERTIES_PRINT_TRANSFER_PREFIX net.sf.jasperreports.print.transfer.&lt;arbitrary_suffix&gt;}. The values of
  * such properties are used as prefixes for properties that are to be transferred to the filled
  * report elements.
  * <p/>

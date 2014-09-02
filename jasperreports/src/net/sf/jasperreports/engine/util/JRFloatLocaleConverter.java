@@ -30,7 +30,7 @@ import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.locale.converters.DecimalLocaleConverter;
 
 /**
- * <code>FloatLocaleConverter</code> extension that fixes 
+ * <code>DecimalLocaleConverter</code> extension that fixes 
  * https://issues.apache.org/jira/browse/BEANUTILS-351
  * 
  * To be removed on upgrade to BeanUtils 1.8.1.

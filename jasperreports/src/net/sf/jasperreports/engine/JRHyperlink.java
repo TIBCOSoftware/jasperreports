@@ -169,7 +169,8 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
  * hyperlink parameters and other information supplied at export time.
  * <p/>
  * To handle custom hyperlinks in the built-in Swing viewer, one needs to register a
- * hyperlink listener by calling <code>addHyperlinkListener(listener)</code> on the
+ * hyperlink listener by calling 
+ * {@link net.sf.jasperreports.view.JRViewer#addHyperlinkListener(net.sf.jasperreports.view.JRHyperlinkListener) addHyperlinkListener(JRHyperlinkListener)} on the
  * {@link net.sf.jasperreports.view.JRViewer} component. The listener is an
  * implementation of the {@link net.sf.jasperreports.view.JRHyperlinkListener}
  * interface. When a report hyperlink gets clicked, the listener queries the hyperlink type

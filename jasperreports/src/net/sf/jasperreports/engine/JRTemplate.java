@@ -101,8 +101,8 @@ package net.sf.jasperreports.engine;
  * style template in a report is represented by a
  * {@link net.sf.jasperreports.engine.JRReportTemplate} instance. Such references can
  * be added to a {@link net.sf.jasperreports.engine.design.JasperDesign} object 
- * via the <code>addTemplate()</code> method, and the list of
- * template references can be obtained by calling the <code>getTemplates()</code> method.
+ * via the {@link net.sf.jasperreports.engine.design.JasperDesign#addTemplate(JRReportTemplate) addTemplate(JRReportTemplate)} method, and the list of
+ * template references can be obtained by calling the {@link net.sf.jasperreports.engine.design.JasperDesign#getTemplates() getTemplates()} method.
  * <p/>
  * In more complex cases, style templates can be injected into a report by using the built-in
  * {@link net.sf.jasperreports.engine.JRParameter#REPORT_TEMPLATES REPORT_TEMPLATES} report parameter. 

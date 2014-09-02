@@ -42,7 +42,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * <p>
  * The workaround consists of simply reattempting the text measuring when 
- * a <code>java.lang.NullPointer</code> exception is thrown from
+ * a <code>java.lang.NullPointerException</code> is thrown from
  * <code>sun.font.GlyphLayout</code>. 
  * </p>
  * 

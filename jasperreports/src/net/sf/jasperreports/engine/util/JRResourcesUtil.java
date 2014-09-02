@@ -486,7 +486,7 @@ public final class JRResourcesUtil
 	 * <p/>
 	 * The following sources are tried:
 	 * <ul>
-	 * 	<li>the class loader returned by {@link #getClassLoader(ClassLoader) <code>getClassLoader(classLoader)</code>}</li>
+	 * 	<li>the class loader returned by {@link #getClassLoader(ClassLoader) getClassLoader(ClassLoader)}</li>
 	 * 	<li>the context class loader</li>
 	 * 	<li><code>clazz.getClassLoader()</code></li>
 	 * 	<li><code>clazz.getResource()</code></li>
@@ -540,7 +540,7 @@ public final class JRResourcesUtil
 	 * <p/>
 	 * The following sources are tried:
 	 * <ul>
-	 * 	<li>the class loader returned by {@link #getClassLoader(ClassLoader) <code>getClassLoader(classLoader)</code>}</li>
+	 * 	<li>the class loader returned by {@link #getClassLoader(ClassLoader) getClassLoader(ClassLoader)}</li>
 	 * 	<li>the context class loader</li>
 	 * 	<li><code>JRLoader.class.getClassLoader()</code></li>
 	 * 	<li><code>JRLoader.class.getResource()</code></li>
@@ -670,7 +670,7 @@ public final class JRResourcesUtil
 	 * The method attempts to load the resource bundle using the following classloaders
 	 * (and stops at the first successful attempt):
 	 * <ul>
-	 * 	<li>the class loader returned by {@link #getClassLoader(ClassLoader) <code>getClassLoader(classLoader)</code>}</li>
+	 * 	<li>the class loader returned by {@link #getClassLoader(ClassLoader) getClassLoader(ClassLoader)}</li>
 	 * 	<li>the context class loader</li>
 	 * 	<li><code>JRClassLoader.class.getClassLoader()</code></li>
 	 * </ul>

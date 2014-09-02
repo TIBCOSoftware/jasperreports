@@ -109,11 +109,11 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
  * A style also may contain:</p>
  * <ul>
  * <li>a {@link net.sf.jasperreports.engine.JRPen} element that can be retrieved 
- * using the <code>public JRPen getLinePen()</code> method.</li>
+ * using the {@link #getLinePen()} method.</li>
  * <li>a {@link net.sf.jasperreports.engine.JRLineBox} element that can be retrieved 
- * using the <code>public JRLineBox getLineBox()</code> method.</li>
+ * using the {@link #getLineBox()} method.</li>
  * <li>a {@link net.sf.jasperreports.engine.JRParagraph} element that can be retrieved 
- * using the <code>public JRParagraph getParagraph()</code> method inherited from the 
+ * using the {@link #getParagraph()} method inherited from the 
  *  {@link net.sf.jasperreports.engine.JRParagraphContainer} interface.</li>
  * </ul>
  * <p>
@@ -145,7 +145,7 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
  * </p><p>
  * If the evaluation of the condition expression of the style needs to be delayed, just like the
  * value of the text field or the image element that uses the conditional style, the
- * <code>net.sf.jasperreports.style.evaluation.time.enabled</code> configuration property
+ * {@link #PROPERTY_EVALUATION_TIME_ENABLED net.sf.jasperreports.style.evaluation.time.enabled} configuration property
  * should be set to true.
  * </p>
  * <h3>Style Templates</h3>

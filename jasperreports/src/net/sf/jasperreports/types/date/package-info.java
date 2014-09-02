@@ -22,7 +22,7 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * Provides the built-in <code>DateRange</code> type implementation.
+ * Provides the built-in {@link net.sf.jasperreports.types.date.DateRange} type implementation.
  * <br/>
  * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>

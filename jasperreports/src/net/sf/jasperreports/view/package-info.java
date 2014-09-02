@@ -82,9 +82,10 @@
  * point to external documents. To do this, simply implement the 
  * {@link net.sf.jasperreports.view.JRHyperlinkListener} interface and add an instance 
  * of this listener class to register with the viewer component, using the 
- * <code>addHyperlinkListener()</code> method exposed by the 
+ * {@link net.sf.jasperreports.view.JRViewer#addHyperlinkListener(JRHyperlinkListener) addHyperlinkListener(JRHyperlinkListener)} method exposed by the 
  * {@link net.sf.jasperreports.view.JRViewer} class. By doing this, you ensure that the 
- * viewer will also call the implementation of the <code>gotoHyperlink()</code> method in which 
+ * viewer will also call the implementation of the 
+ * {@link net.sf.jasperreports.view.JRViewer#gotoHyperlink(net.sf.jasperreports.engine.JRPrintHyperlink) gotoHyperlink(JRPrintHyperlink)} method in which 
  * the external references are handled. 
  * </p><p>
  * There are two ways of rendering the current document page on the viewer component: 
@@ -102,7 +103,7 @@
  * performance that can be seen when scrolling the page. 
  * </p><p>
  * Switching between the two rendering methods can be controlled by setting the 
- * <code>net.sf.jasperreports.viewer.render.buffer.max.size</code> configuration property. 
+ * {@link net.sf.jasperreports.view.JRViewer#VIEWER_RENDER_BUFFER_MAX_SIZE net.sf.jasperreports.viewer.render.buffer.max.size} configuration property. 
  * The value of this property represents the maximum size (in pixels) of a buffered image 
  * that would be used by the {@link net.sf.jasperreports.view.JRViewer} component to render 
  * a report page (the first rendering technique). If rendering a report page requires an 

@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
  * This could be the case in an application for which the color of some elements in the
  * report template needs to change based on user input. To locate the report elements that
  * need to have their colors altered, the caller program could use the
- * <code>getElementByKey(String)</code> method available at band level. A key value must be
+ * {@link JRBand#getElementByKey(String) getElementByKey(String)} method available at band level. A key value must be
  * associated with the report element and it must be unique within the overall band for the
  * lookup to work.
  * <h3>Element Size</h3>
