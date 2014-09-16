@@ -49,7 +49,7 @@ import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.JsonExporterConfiguration;
-import net.sf.jasperreports.export.JsonReportConfiguration;
+import net.sf.jasperreports.export.JsonMetadataReportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
@@ -67,7 +67,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfiguration, JsonExporterConfiguration, WriterExporterOutput, JsonExporterContext>
+public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportConfiguration, JsonExporterConfiguration, WriterExporterOutput, JsonExporterContext>
 {
 
 	private static final Log log = LogFactory.getLog(JsonMetadataExporter.class);
@@ -76,7 +76,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 
 	protected static final String JSON_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.json.";
 	protected static final String JSON_EXPORTER_PATH_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "path";
-	protected static final String JSON_EXPORTER_SCHEMA_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "schema";
+	protected static final String JSON_EXPORTER_REPEAT_VALUE_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "repeat.value";
 
 	private static final String JSON_SCHEMA_ROOT_NAME = "___root";
 
@@ -91,6 +91,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 
 	private String jsonSchema;
 	private String previousPath;
+	private boolean escapeMembers;
 	private boolean gotSchema;
 
 	public void validateSchema(String jsonSchema) throws JRException {
@@ -221,9 +222,9 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 	/**
 	 *
 	 */
-	protected Class<JsonReportConfiguration> getItemConfigurationInterface()
+	protected Class<JsonMetadataReportConfiguration> getItemConfigurationInterface()
 	{
-		return JsonReportConfiguration.class;
+		return JsonMetadataReportConfiguration.class;
 	}
 	
 
@@ -310,7 +311,10 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 
 			setCurrentExporterInputItem(item);
 
-			String jsonSchemaResource = jasperPrint.getProperty(JSON_EXPORTER_SCHEMA_PROPERTY);
+			JsonMetadataReportConfiguration currentItemConfiguration = getCurrentItemConfiguration();
+
+			escapeMembers = currentItemConfiguration.isEscapeMembers();
+			String jsonSchemaResource = currentItemConfiguration.getJsonSchemaResource();
 
 			if (jsonSchemaResource != null) {
 				InputStream is = null;
@@ -332,7 +336,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 						}
 					}
 				}
-				
+
 				validateSchema(jsonSchema);
 				gotSchema = true;
 			} else {
@@ -434,28 +438,29 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 			String propertyPath = propMap.getProperty(JSON_EXPORTER_PATH_PROPERTY);
 
 			if (propertyPath.length() > 0) {
-				String currentPath = JSON_SCHEMA_ROOT_NAME + "." + propertyPath;
+				String absolutePath = JSON_SCHEMA_ROOT_NAME + "." + propertyPath;
+				boolean repeatValue = getPropertiesUtil().getBooleanProperty(propMap, JSON_EXPORTER_REPEAT_VALUE_PROPERTY, false);
 
 				// we have a mapped node for this path
-				if (gotSchema && pathToValueNode.containsKey(currentPath)) {
+				if (gotSchema && pathToValueNode.containsKey(absolutePath)) {
 
 					if (log.isDebugEnabled()) {
 						log.debug("found element with path: " + propertyPath);
 					}
 
-					processTextElement(printText, propertyPath, currentPath);
+					processTextElement(printText, absolutePath, repeatValue);
 				} else if (!gotSchema) {
-					prepareSchema(currentPath);
-					processTextElement(printText, propertyPath, currentPath);
+					prepareSchema(absolutePath);
+					processTextElement(printText, absolutePath, repeatValue);
 				}
 			}
 		}
 	}
 
-	private void prepareSchema(String currentPath) {
-		if (!pathToValueNode.containsKey(currentPath)) {
-			String valueProperty = currentPath.substring(currentPath.lastIndexOf(".") + 1);
-			String[] objectPathSegments = currentPath.substring(0, currentPath.lastIndexOf(".")).split("\\.");
+	private void prepareSchema(String absolutePath) {
+		if (!pathToValueNode.containsKey(absolutePath)) {
+			String valueProperty = absolutePath.substring(absolutePath.lastIndexOf(".") + 1);
+			String[] objectPathSegments = absolutePath.substring(0, absolutePath.lastIndexOf(".")).split("\\.");
 			SchemaNode node = null;
 
 			for (int i = 0; i < objectPathSegments.length; i++) {
@@ -480,18 +485,18 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 			}
 
 			node.addMember(valueProperty);
-			pathToValueNode.put(currentPath, node);
+			pathToValueNode.put(absolutePath, node);
 		}
 	}
 
-	private void processTextElement(JRPrintText printText, String propertyPath, String currentPath) throws IOException {
+	private void processTextElement(JRPrintText printText, String absolutePath, boolean repeatValue) throws IOException {
 		if (openedNodes.size() == 0) {
 			// initialize the json for the first time
-			initJson(currentPath, printText.getValue());
+			initJson(absolutePath, printText.getValue(), repeatValue);
 		} else {
-			String valueProperty = propertyPath.indexOf(".") > 0 ? propertyPath.substring(propertyPath.lastIndexOf(".") + 1) : propertyPath;
+			String valueProperty = absolutePath.substring(absolutePath.lastIndexOf(".") + 1);
 
-			String[] curSegments = currentPath.substring(0, currentPath.lastIndexOf(".")).split("\\.");
+			String[] curSegments = absolutePath.substring(0, absolutePath.lastIndexOf(".")).split("\\.");
 			String[] prevSegments = previousPath.substring(0, previousPath.lastIndexOf(".")).split("\\.");
 
 			List<String> commonSegments = new ArrayList<String>();
@@ -539,7 +544,11 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 						sb.append(".").append(curSegments[j]);
 					}
 
-					writer.write(curSegments[i] + ":");
+					if (escapeMembers) {
+						writer.write("\"" + curSegments[i] + "\":");
+					} else {
+						writer.write(curSegments[i] + ":");
+					}
 
 					SchemaNode toOpen = pathToObjectNode.get(sb.toString());
 					if (toOpen.isObject()) {
@@ -567,7 +576,11 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 						sb.append(".").append(curSegments[j]);
 					}
 
-					writer.write(curSegments[i] + ":");
+					if (escapeMembers) {
+						writer.write("\"" + curSegments[i] + "\":");
+					} else {
+						writer.write(curSegments[i] + ":");
+					}
 
 					SchemaNode toOpen = pathToObjectNode.get(sb.toString());
 					if (toOpen.isObject()) {
@@ -586,7 +599,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 					log.debug("found same path");
 				}
 
-				SchemaNode currentNode = pathToValueNode.get(currentPath);
+				SchemaNode currentNode = pathToValueNode.get(absolutePath);
 				String prevValProp = previousPath.indexOf(".") > 0 ? previousPath.substring(previousPath.lastIndexOf(".") + 1) : previousPath;
 
 				int valPropIdx = currentNode.indexOfMember(valueProperty);
@@ -595,16 +608,89 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 				// the property is after the previous one => same object
 				if (valPropIdx > prevValPropIdx) {
 					writer.write(", \n");
-				} else {
+				}
+				// the property is before(or equals) previous one => new object
+				else {
+					// before closing current object, check for repeated values;
+					// this makes sense only for array type nodes
+					if (NodeTypeEnum.ARRAY.equals(currentNode.getType())) {
+						SchemaNodeMember member;
+						for (int i = prevValPropIdx + 1; i < currentNode.getMembers().size(); i++) {
+							member = currentNode.getMember(i);
+							if (member.isRepeatValue() && member.getPreviousValue() != null) {
+								writer.write(", \n");
+								if (escapeMembers) {
+									writer.write("\"" + member.getName() + "\":");
+								} else {
+									writer.write(member.getName() + ":");
+								}
+								writeValue(member.getPreviousValue());
+							}
+						}
+					}
+
 					writer.write("},\n{");
 				}
 			}
 
-			writer.write(valueProperty + ":");
-			writeValue(printText.getValue() != null ? printText.getValue() : printText.getFullText());
+			SchemaNode currentNode = pathToValueNode.get(absolutePath);
+			boolean foundPreviousRepeated = false;
+
+			// before writing actual value for the property, write previous repeated values, if any;
+			// this also makes sense for array type node only
+			if (previousPath != null && NodeTypeEnum.ARRAY.equals(currentNode.getType())) {
+				SchemaNode previousNode = pathToValueNode.get(previousPath);
+				int valPropIdx = currentNode.indexOfMember(valueProperty);
+				int i = 0;
+			 	if (previousNode.equals(currentNode)) {
+					String prevValProp = previousPath.substring(previousPath.lastIndexOf(".") + 1);
+					int prevValPropIdx = currentNode.indexOfMember(prevValProp);
+
+					if (prevValPropIdx < valPropIdx) {
+						i = prevValPropIdx + 1;
+					}
+				}
+
+				SchemaNodeMember member;
+				for (; i < valPropIdx; i++) {
+					member = currentNode.getMember(i);
+					if (member.isRepeatValue() && member.getPreviousValue() != null) {
+						foundPreviousRepeated = true;
+						if (i != 0) {
+							writer.write(", \n");
+						}
+						if (escapeMembers) {
+							writer.write("\"" + member.getName() + "\":");
+						} else {
+							writer.write(member.getName() + ":");
+						}
+						writeValue(member.getPreviousValue());
+					}
+				}
+			}
+
+			if (foundPreviousRepeated) {
+				writer.write(",\n");
+			}
+
+			if (escapeMembers) {
+				writer.write("\"" + valueProperty + "\":");
+			} else {
+				writer.write(valueProperty + ":");
+			}
+
+			Object value = printText.getValue() != null ? printText.getValue() : printText.getFullText();
+			writeValue(value);
+
+			// mark repeated value
+			if (repeatValue) {
+				SchemaNodeMember nodeMember = currentNode.getMember(valueProperty);
+				nodeMember.setRepeatValue(true);
+				nodeMember.setPreviousValue(value);
+			}
 		}
 
-		previousPath = currentPath;
+		previousPath = absolutePath;
 	}
 
 	private void closeOpenNodes() throws IOException {
@@ -620,22 +706,22 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 		}
 	}
 
-	private void initJson(String firstPath, Object firstValue) throws IOException {
+	private void initJson(String firstPath, Object firstValue, boolean repeatValue) throws IOException {
 		if (log.isDebugEnabled()) {
 			log.debug("Initializing JSON with first path: " + firstPath);
 		}
 		String[] segments = firstPath.split("\\.");
 
 		String currentPath = "";
-		SchemaNode n;
+		SchemaNode schemaNode = null;
 		int i;
 
 		for (i=0; i < segments.length - 1; i++) {
 			currentPath = currentPath.length() > 0 ? currentPath + "." + segments[i] : segments[i];
-			n = pathToObjectNode.get(currentPath);
+			schemaNode = pathToObjectNode.get(currentPath);
 
 			if (i == 0) { // got root node
-				if (n.isObject()) {
+				if (schemaNode.isObject()) {
 					writer.write("{");
 					openedNodes.add(NodeTypeEnum.OBJECT);
 				} else {
@@ -644,27 +730,46 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 					openedNodes.add(NodeTypeEnum.OBJECT);
 				}
 			} else {
-				if (n.isObject()) {
-					writer.write(segments[i] + ":" + "{");
+				if (schemaNode.isObject()) {
+					if (escapeMembers) {
+						writer.write("\"" + segments[i] + "\":{");
+					} else {
+						writer.write(segments[i] + ":{");
+					}
 					openedNodes.add(NodeTypeEnum.OBJECT);
 				} else {
-					writer.write(segments[i] + ":" + "[{");
+					if (escapeMembers) {
+						writer.write("\"" + segments[i] + "\":[{");
+					} else {
+						writer.write(segments[i] + ":[{");
+					}
 					openedNodes.add(NodeTypeEnum.ARRAY);
 					openedNodes.add(NodeTypeEnum.OBJECT);
 				}
 			}
 		}
 
-		writer.write(segments[i] + ":");
+		if (escapeMembers) {
+			writer.write("\"" + segments[i] + "\":");
+		} else {
+			writer.write(segments[i] + ":");
+		}
 		writeValue(firstValue);
+
+		// mark repeated value
+		if (schemaNode != null && repeatValue) {
+			SchemaNodeMember nodeMember = schemaNode.getMember(segments[i]);
+			nodeMember.setRepeatValue(true);
+			nodeMember.setPreviousValue(firstValue);
+		}
 	}
 
 	private void writeValue(Object value)throws IOException {
 		if (value != null) {
-			boolean isString = value instanceof String;
-			if (isString) {
+			boolean isNumber = value instanceof Number;
+			if (!isNumber) {
 				writer.write("\"");
-				writer.write(JsonStringEncoder.getInstance().quoteAsString((String)value));
+				writer.write(JsonStringEncoder.getInstance().quoteAsString(value.toString()));
 				writer.write("\"");
 			} else {
 				writer.write(value.toString());
@@ -689,27 +794,45 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 		private String name;
 		private NodeTypeEnum type;
 		private String path;
-		private List<String> members;
+		private List<SchemaNodeMember> members;
+		private List<String> memberNames;
 
 		public SchemaNode(int _level, String _name, NodeTypeEnum _type, String _path) {
 			level = _level;
 			name = _name;
 			type = _type;
 			path = _path;
-			members = new ArrayList<String>();
-
+			members = new ArrayList<SchemaNodeMember>();
+			memberNames = new ArrayList<String>();
 		}
 
-		public void addMember(String member) {
-			members.add(member);
+		public NodeTypeEnum getType() {
+			return type;
+		}
+
+		public void addMember(String memberName) {
+			members.add(new SchemaNodeMember(memberName));
+			memberNames.add(memberName);
 		}
 
 		public boolean isObject() {
 			return NodeTypeEnum.OBJECT.equals(type);
 		}
 
-		public int indexOfMember(String member) {
-			return members.indexOf(member);
+		public int indexOfMember(String memberName) {
+			return memberNames.indexOf(memberName);
+		}
+
+		public SchemaNodeMember getMember(int i) {
+			return members.get(i);
+		}
+
+		public SchemaNodeMember getMember(String memberName) {
+			return members.get(indexOfMember(memberName));
+		}
+
+		public List<SchemaNodeMember> getMembers() {
+			return members;
 		}
 
 		@Override
@@ -756,6 +879,37 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 		}
 	}
 
+	private class SchemaNodeMember {
+
+		private boolean repeatValue;
+		private Object previousValue;
+		private String name;
+
+		public SchemaNodeMember(String _name) {
+			name = _name;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public boolean isRepeatValue() {
+			return repeatValue;
+		}
+
+		public void setRepeatValue(boolean _repeatValue) {
+			repeatValue = _repeatValue;
+		}
+
+		public Object getPreviousValue() {
+			return previousValue;
+		}
+
+		public void setPreviousValue(Object _previousValue) {
+			previousValue = _previousValue;
+		}
+
+	}
 
 	private enum NodeTypeEnum implements JREnum{
 
