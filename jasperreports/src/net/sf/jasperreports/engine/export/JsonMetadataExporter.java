@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.export;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,6 +32,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -49,6 +51,7 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.JsonExporterConfiguration;
 import net.sf.jasperreports.export.JsonReportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -301,19 +304,41 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonReportConfigura
 	{
 		List<ExporterInputItem> items = exporterInput.getItems();
 
-		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
+		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)//FIXMEJSONMETA deal with batch export
 		{
 			ExporterInputItem item = items.get(reportIndex);
 
 			setCurrentExporterInputItem(item);
 
-			jsonSchema = jasperPrint.getProperty(JSON_EXPORTER_SCHEMA_PROPERTY);
+			String jsonSchemaResource = jasperPrint.getProperty(JSON_EXPORTER_SCHEMA_PROPERTY);
 
-			if (jsonSchema != null) {
+			if (jsonSchemaResource != null) {
+				InputStream is = null;
+				try
+				{
+					is = RepositoryUtil.getInstance(getJasperReportsContext()).getInputStreamFromLocation(jsonSchemaResource);
+					jsonSchema = new Scanner(is, "UTF-8").useDelimiter("\\A").next();
+				}
+				finally
+				{
+					if (is != null)
+					{
+						try
+						{
+							is.close();
+						}
+						catch (IOException e)
+						{
+						}
+					}
+				}
+				
 				validateSchema(jsonSchema);
 				gotSchema = true;
 			} else {
-				log.warn("No JSON Schema provided!");
+				if (log.isWarnEnabled()) {
+					log.warn("No JSON Schema provided!");
+				}
 			}
 
 			List<JRPrintPage> pages = jasperPrint.getPages();
