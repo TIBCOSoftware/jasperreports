@@ -741,7 +741,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				cellSettings.importValues(HSSFCell.CELL_TYPE_FORMULA, getLoadedCellStyle(baseStyle), null, formula);
 				
 			} else if (getCurrentItemConfiguration().isDetectCellType()) {
-				TextValue value = getTextValue(textElement, textStr, hasCurrentColumnData, currentColumnData);
+				TextValue value = getTextValue(textElement, textStr, hasCurrentColumnData);
 				value.handle(new TextValueHandler() {
 					public void handle(StringTextValue textValue) {
 						if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup())) {
@@ -1832,7 +1832,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		return cellFont;
 	}
 
-	protected TextValue getTextValue(JRPrintText text, String textStr, boolean hasCurrentColumnData, String currentColumnData)
+	protected TextValue getTextValue(JRPrintText text, String textStr, boolean hasCurrentColumnData)
 	{
 		if(!hasCurrentColumnData)
 		{
