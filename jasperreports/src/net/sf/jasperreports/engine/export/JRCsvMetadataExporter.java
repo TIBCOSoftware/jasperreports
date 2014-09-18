@@ -218,7 +218,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 			String currentColumnData = textElement.getPropertiesMap().getProperty(PROPERTY_DATA);
 			boolean repeatValue = getPropertiesUtil().getBooleanProperty(textElement, PROPERTY_REPEAT_VALUE, false);
 			
-			if (currentColumnData != null)
+			if (textElement.getPropertiesMap().containsProperty(PROPERTY_DATA))
 			{
 				currentTextValue = currentColumnData;
 				

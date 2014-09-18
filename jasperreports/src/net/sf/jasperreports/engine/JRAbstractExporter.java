@@ -223,7 +223,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 * cache of text value class to avoid calling JRClassLoader.loadClassForRealName() each time.
 	 * note that we're assuming single threaded exporting.
 	 */
-	private Map<String, Class<?>> textValueClasses = new HashMap<String, Class<?>>();
+	protected Map<String, Class<?>> textValueClasses = new HashMap<String, Class<?>>();
 	
 	/**
 	 *
