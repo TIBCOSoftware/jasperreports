@@ -165,9 +165,7 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 	protected abstract void exportPage(JRPrintPage page) throws IOException;
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRStyledText getStyledText(JRPrintText textElement)
 	{
 		return textElement.getFullStyledText(noneSelector);
