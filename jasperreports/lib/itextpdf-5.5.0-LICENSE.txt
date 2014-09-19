@@ -1,3 +1,18 @@
+
+iText Version 5 LGPL Exception
+
+As a special exception, the copyright holders of this library 
+give you permission to use this library only in connection with 
+the Jaspersoft LGPL Library and may only be distributed as part of the 
+Jaspersoft LGPL Library. You may only call the library through interfaces 
+provided in the Jaspersoft LGPL Library and not in any way use this library 
+except through the Jaspersoft LGPL Library. If you redistribute the 
+Jaspersoft LGPL Library with this library, you must extend this exception 
+to your version of the library. If you choose to remove this library from 
+the Jaspersoft LGPL Library, you may remove this restriction.
+
+---------------------------------------------------------------------------
+
 		  GNU LIBRARY GENERAL PUBLIC LICENSE
 		       Version 2, June 1991
 
