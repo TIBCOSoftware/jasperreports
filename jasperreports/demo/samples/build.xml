@@ -186,6 +186,13 @@
 		</java>
 	</target>
 	
+	<target name="jsonMetadata">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
+			<arg value="jsonMetadata"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+	
 	<target name="odt">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="odt"/>

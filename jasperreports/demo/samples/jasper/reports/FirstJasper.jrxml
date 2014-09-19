@@ -135,6 +135,8 @@
 						<property name="net.sf.jasperreports.export.csv.repeat.value" value="true"/>
 						<property name="net.sf.jasperreports.export.xls.column.name" value="ShipCountry"/>
 						<property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
+						<property name="net.sf.jasperreports.export.json.path" value="ShipCountry"/>
+						<property name="net.sf.jasperreports.export.json.repeat.value" value="true"/>
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{ShipCountry}]]></textFieldExpression>
 				</textField>
@@ -276,6 +278,7 @@
 				<reportElement style="OrderIdStyle" x="1" y="0" width="35" height="11" uuid="2bd58b27-e3b0-43f0-934c-aea454c77cc7">
 					<property name="net.sf.jasperreports.export.csv.column.name" value="Order"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="Order"/>
+					<property name="net.sf.jasperreports.export.json.path" value="Order"/>
 				</reportElement>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{OrderID}]]></textFieldExpression>
@@ -284,8 +287,10 @@
 				<reportElement positionType="Float" x="40" y="0" width="110" height="11" uuid="d36fd6e1-ab2d-43cb-9723-a85056345cf9">
 					<property name="net.sf.jasperreports.export.csv.column.name" value="ShipCity"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="ShipCity"/>
+					<property name="net.sf.jasperreports.export.json.path" value="ShipCity"/>
 					<propertyExpression name="net.sf.jasperreports.export.csv.data"><![CDATA[$F{ShipCity}]]></propertyExpression>
 					<propertyExpression name="net.sf.jasperreports.export.xls.data"><![CDATA[$F{ShipCity}]]></propertyExpression>
+					<propertyExpression name="net.sf.jasperreports.export.json.data"><![CDATA[$F{ShipCity}]]></propertyExpression>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{ShipName} + ", " + $F{ShipCity}]]></textFieldExpression>
 			</textField>
@@ -293,6 +298,8 @@
 				<reportElement x="155" y="0" width="25" height="11" uuid="dbbee54a-9b8f-4468-bd64-d22f8661d2cb">
 					<property name="net.sf.jasperreports.export.csv.column.name" value="ShipRegion"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="ShipRegion"/>
+					<property name="net.sf.jasperreports.export.json.path" value="ShipRegion"/>
+					<propertyExpression name="net.sf.jasperreports.export.json.data"><![CDATA[$F{ShipRegion}]]></propertyExpression>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{ShipRegion}]]></textFieldExpression>
 			</textField>
@@ -300,6 +307,7 @@
 				<reportElement x="185" y="0" width="50" height="11" uuid="656d9081-18ce-487a-bcf6-566efe4f8421">
 					<property name="net.sf.jasperreports.export.csv.column.name" value="OrderDate"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="OrderDate"/>
+					<property name="net.sf.jasperreports.export.json.path" value="OrderDate"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
 			</textField>
@@ -307,6 +315,7 @@
 				<reportElement x="235" y="0" width="35" height="11" uuid="0f2c4477-9611-4576-8759-026ac56415ab">
 					<property name="net.sf.jasperreports.export.csv.column.name" value="Freight"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="Freight"/>
+					<property name="net.sf.jasperreports.export.json.path" value="Freight"/>
 				</reportElement>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{Freight}]]></textFieldExpression>

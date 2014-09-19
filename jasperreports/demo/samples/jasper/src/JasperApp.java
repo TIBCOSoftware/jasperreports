@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
+import net.sf.jasperreports.engine.export.JsonMetadataExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -95,6 +96,7 @@ public class JasperApp extends AbstractSampleApp
 		csvMetadata();
 		jxlMetadata();
 		xlsMetadata();
+		jsonMetadata();
 		odt();
 		ods();
 		docx();
@@ -386,6 +388,29 @@ public class JasperApp extends AbstractSampleApp
 		exporter.exportReport();
 
 		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void jsonMetadata() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/FirstJasper.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".json");
+
+		JsonMetadataExporter exporter = new JsonMetadataExporter();
+
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleWriterExporterOutput(destFile));
+
+		exporter.exportReport();
+
+		System.err.println("JSON creation time : " + (System.currentTimeMillis() - start));
 	}
 	
 	

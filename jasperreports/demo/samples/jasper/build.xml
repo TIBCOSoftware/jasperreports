@@ -79,6 +79,10 @@
 		<ant dir="../" target="jxlMetadata"/>
 	</target>
 	
+	<target name="jsonMetadata" description="Generates a JSON version of the report by converting the .jrprint file.">
+		<ant dir="../" target="jsonMetadata"/>
+	</target>
+		
 	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
 		<ant dir="../" target="odt"/>
 	</target>
