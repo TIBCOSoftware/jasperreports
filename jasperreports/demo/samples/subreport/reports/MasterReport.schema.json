@@ -1,0 +1,25 @@
+{
+	_type: 'array',
+	_children: {
+		_type: 'object',
+		City: 'value',
+		products: {
+			_type: 'array',
+			_children: {
+				_type: 'object',
+				Id: 'value',
+				Name: 'value',
+				Quantity: 'value',
+				Price: 'value'
+			}
+		},
+		customers: {
+			_type: 'array',
+			_children: {
+				_type: 'object',
+				Name: 'value',
+				Street: 'value'
+			}
+		}	
+	}
+}

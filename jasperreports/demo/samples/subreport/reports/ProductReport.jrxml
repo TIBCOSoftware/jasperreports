@@ -38,21 +38,29 @@
 		<groupHeader>
 			<band height="14">
 				<textField>
-					<reportElement x="0" y="2" width="15" height="10" uuid="fc2ad1b0-4874-4765-baf8-b17a2490185a"/>
+					<reportElement x="0" y="2" width="15" height="10" uuid="fc2ad1b0-4874-4765-baf8-b17a2490185a">
+						<property name="net.sf.jasperreports.export.json.path" value="products.Id"/>
+					</reportElement>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$F{Id}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement positionType="Float" x="20" y="2" width="80" height="10" uuid="f53978bd-fc13-4359-b82d-2142640c6696"/>
+					<reportElement positionType="Float" x="20" y="2" width="80" height="10" uuid="f53978bd-fc13-4359-b82d-2142640c6696">
+						<property name="net.sf.jasperreports.export.json.path" value="products.Name"/>
+					</reportElement>
 					<textFieldExpression><![CDATA[$F{Name}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="ProductGroup" pattern="#0">
-					<reportElement positionType="Float" x="105" y="2" width="20" height="10" uuid="aec3706b-5a2e-455a-aec0-245ada2a8830"/>
+					<reportElement positionType="Float" x="105" y="2" width="20" height="10" uuid="aec3706b-5a2e-455a-aec0-245ada2a8830">
+						<property name="net.sf.jasperreports.export.json.path" value="products.Quantity"/>
+					</reportElement>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$V{QuantityProductSum}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="ProductGroup" pattern="#0.00">
-					<reportElement positionType="Float" x="130" y="2" width="30" height="10" uuid="38a1047a-67fe-4c37-ac55-1252bcb7f9db"/>
+					<reportElement positionType="Float" x="130" y="2" width="30" height="10" uuid="38a1047a-67fe-4c37-ac55-1252bcb7f9db">
+						<property name="net.sf.jasperreports.export.json.path" value="products.Price"/>
+					</reportElement>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$V{PriceProductSum}]]></textFieldExpression>
 				</textField>
