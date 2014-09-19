@@ -30,7 +30,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Properties;
 
-import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -42,9 +42,9 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: HibernateDataAdapterService.java 7197 2014-08-27 11:59:50Z teodord $
  */
-public class HibernateDataAdapterService extends AbstractDataAdapterService {
+public class HibernateDataAdapterService extends AbstractClasspathAwareDataAdapterService {
 	private static final Log log = LogFactory
 			.getLog(HibernateDataAdapterService.class);
 	private Object session;
@@ -74,9 +74,18 @@ public class HibernateDataAdapterService extends AbstractDataAdapterService {
 			throws JRException {
 		HibernateDataAdapter hbmDA = getHibernateDataAdapter();
 		if (hbmDA != null) {
+			ClassLoader oldThreadClassLoader = Thread.currentThread().getContextClassLoader();
+			
 			try {
-				Class<?> clazz = JRClassLoader
-						.loadClassForRealName("org.hibernate.cfg.Configuration");
+				Thread.currentThread().setContextClassLoader(getClassLoader(oldThreadClassLoader));		
+				
+				Class<?> clazz = null;
+				if (!hbmDA.isUseAnnotation()) {
+					clazz = JRClassLoader.loadClassForRealName("org.hibernate.cfg.Configuration");
+				}
+				else {
+					clazz = JRClassLoader.loadClassForRealName("org.hibernate.cfg.AnnotationConfiguration");
+				}
 				if (clazz != null) {
 					Object configure = clazz.newInstance();
 					if (configure != null) {
@@ -98,24 +107,7 @@ public class HibernateDataAdapterService extends AbstractDataAdapterService {
 									propHibernate.getClass()).invoke(configure,
 									propHibernate);
 						}
-						if (hbmDA.isUseAnnotation()) {
-							try {// this one is optional
-								Class<?> anclazz = JRClassLoader
-										.loadClassForRealName("org.hibernate.cfg.AnnotationConfiguration");
-								Object conf = anclazz.newInstance();
-								conf.getClass()
-										.getMethod("configure", new Class[] {})
-										.invoke(conf, new Object[] {});
-
-								clazz.getMethod("setProperty", String.class,
-										String.class)
-										.invoke(configure,
-												"hibernate.connection.provider_class",
-												"com.jaspersoft.ireport.designer.connection.HibernateConnectionProvider");
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
+						
 
 						Object bsf = clazz.getMethod("buildSessionFactory",
 								new Class[] {}).invoke(configure,
@@ -147,6 +139,8 @@ public class HibernateDataAdapterService extends AbstractDataAdapterService {
 				throw new JRException(e);
 			} catch (NoSuchMethodException e) {
 				throw new JRException(e);
+			} finally {
+				Thread.currentThread().setContextClassLoader(oldThreadClassLoader);
 			}
 		}
 	}

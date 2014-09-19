@@ -23,13 +23,13 @@
  */
 package net.sf.jasperreports.data.hibernate;
 
-import net.sf.jasperreports.data.AbstractDataAdapter;
+import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: HibernateDataAdapterImpl.java 7197 2014-08-27 11:59:50Z teodord $
  */
-public class HibernateDataAdapterImpl extends AbstractDataAdapter implements
+public class HibernateDataAdapterImpl extends AbstractClasspathAwareDataAdapter implements
 		HibernateDataAdapter {
 	private String xmlFile;
 	private String propertiesFile;
