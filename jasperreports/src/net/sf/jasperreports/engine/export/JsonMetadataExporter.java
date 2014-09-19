@@ -26,8 +26,10 @@ package net.sf.jasperreports.engine.export;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -45,8 +47,12 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.data.StringTextValue;
+import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.util.JRDataUtils;
+import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.JsonExporterConfiguration;
 import net.sf.jasperreports.export.JsonMetadataReportConfiguration;
@@ -77,8 +83,11 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 	protected static final String JSON_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.json.";
 	protected static final String JSON_EXPORTER_PATH_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "path";
 	protected static final String JSON_EXPORTER_REPEAT_VALUE_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "repeat.value";
+	protected static final String JSON_EXPORTER_DATA_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "data";
 
 	private static final String JSON_SCHEMA_ROOT_NAME = "___root";
+
+	protected final DateFormat isoDateFormat = JRDataUtils.getIsoDateFormat();
 
 	protected Writer writer;
 	protected int reportIndex;
@@ -490,9 +499,32 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 	}
 
 	private void processTextElement(JRPrintText printText, String absolutePath, boolean repeatValue) throws IOException {
+		
+		Object value = null;
+		if (printText.getPropertiesMap().containsProperty(JSON_EXPORTER_DATA_PROPERTY)) {
+			value = printText.getPropertiesMap().getProperty(JSON_EXPORTER_DATA_PROPERTY);
+		} else {
+			String textStr = null;
+			JRStyledText styledText = getStyledText(printText);
+			
+			if (styledText != null) {
+				textStr = styledText.getText();
+			}
+			
+			TextValue textValue = getTextValue(printText, textStr);
+			if (textValue instanceof StringTextValue)
+			{
+				value = textStr;
+			}
+			else
+			{
+				value = printText.getValue();
+			}
+		}
+
 		if (openedNodes.size() == 0) {
 			// initialize the json for the first time
-			initJson(absolutePath, printText.getValue(), repeatValue);
+			initJson(absolutePath, value, repeatValue);
 		} else {
 			String valueProperty = absolutePath.substring(absolutePath.lastIndexOf(".") + 1);
 
@@ -679,7 +711,6 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 				writer.write(valueProperty + ":");
 			}
 
-			Object value = printText.getValue() != null ? printText.getValue() : printText.getFullText();
 			writeValue(value);
 
 			// mark repeated value
@@ -766,17 +797,26 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 
 	private void writeValue(Object value)throws IOException {
 		if (value != null) {
-			boolean isNumber = value instanceof Number;
-			if (!isNumber) {
+			if (value instanceof Number) {
+				writer.write(value.toString());
+			} else if (value instanceof Date) {
+				writer.write("\"");
+				writer.write(isoDateFormat.format((Date)value));
+				writer.write("\"");
+			} else {
 				writer.write("\"");
 				writer.write(JsonStringEncoder.getInstance().quoteAsString(value.toString()));
 				writer.write("\"");
-			} else {
-				writer.write(value.toString());
 			}
 		} else {
-			writer.write("null");  // TODO: how to treat null values?
+			writer.write("null");  // FIXMEJSONMETA: how to treat null values?
 		}
+	}
+
+	@Override
+	protected JRStyledText getStyledText(JRPrintText textElement)
+	{
+		return textElement.getFullStyledText(noneSelector);
 	}
 
 	protected class ExporterContext extends BaseExporterContext implements JsonExporterContext
@@ -784,7 +824,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 		@Override
 		public String getHyperlinkURL(JRPrintHyperlink link)
 		{
-			return ""; // FIXME should we treat hyperlinks?
+			return ""; // FIXMEJSONMETA should we treat hyperlinks?
 		}
 	}
 
