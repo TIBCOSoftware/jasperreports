@@ -42,7 +42,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)
- * @version $Id: HibernateDataAdapterService.java 7197 2014-08-27 11:59:50Z teodord $
+ * @version $Id$
  */
 public class HibernateDataAdapterService extends AbstractClasspathAwareDataAdapterService {
 	private static final Log log = LogFactory

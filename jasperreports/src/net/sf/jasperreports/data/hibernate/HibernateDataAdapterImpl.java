@@ -27,7 +27,7 @@ import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: HibernateDataAdapterImpl.java 7197 2014-08-27 11:59:50Z teodord $
+ * @version $Id$
  */
 public class HibernateDataAdapterImpl extends AbstractClasspathAwareDataAdapter implements
 		HibernateDataAdapter {
