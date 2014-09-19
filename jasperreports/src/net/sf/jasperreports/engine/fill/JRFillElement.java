@@ -1600,7 +1600,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			for (JRPropertyExpression prop : propertyExpressions)
 			{
 				String value = (String) evaluateExpression(prop.getValueExpression(), evaluation);
-				if (value != null)
+				//if (value != null) //for some properties such as data properties in metadata exporters, the null value is significant
 				{
 					dynamicProperties.setProperty(prop.getName(), value);
 				}
