@@ -42,6 +42,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -122,6 +123,8 @@ import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.JxlExporterConfiguration;
@@ -188,6 +191,8 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 	protected Map<Colour,RGB> usedColours = new HashMap<Colour,RGB>();
 	
 	protected ExporterNature nature;
+	protected final java.text.DateFormat isoDateFormat = JRDataUtils.getIsoDateFormat();
+	
 	
 	protected class ExporterContext extends BaseExporterContext implements JExcelApiExporterContext
 	{
@@ -613,6 +618,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		String currentColumnName = textElement.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_COLUMN_NAME);
 		if (currentColumnName != null && currentColumnName.length() > 0) 
 		{
+			boolean hasCurrentColumnData = textElement.getPropertiesMap().containsProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_DATA);
 			String currentColumnData = textElement.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_DATA);
 			boolean repeatValue = getPropertiesUtil().getBooleanProperty(textElement, JRXlsAbstractMetadataExporterParameter.PROPERTY_REPEAT_VALUE, false);
 			
@@ -707,13 +713,15 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 
 			JRStyledText styledText = null;
 			String textStr = null;
-			
-			if (currentColumnData != null)
+			if(hasCurrentColumnData)
 			{
 				styledText = new JRStyledText();
-				styledText.append(currentColumnData);
+				if (currentColumnData != null)
+				{
+					styledText.append(currentColumnData);
+				} 
 				textStr = currentColumnData;
-			} 
+			}
 			else
 			{
 				styledText = getStyledText(textElement);
@@ -723,17 +731,17 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				}
 			}
 			
-			addTextElement(textElement, textStr, baseStyle, repeatValue, currentColumnName);
+			addTextElement(textElement, textStr, baseStyle, repeatValue, currentColumnName, hasCurrentColumnData);
 		}
 	}
 
-	protected void addTextElement(JRPrintText textElement, String textStr, StyleInfo baseStyle, boolean repeatValue, String currentColumnName) throws JRException
+	protected void addTextElement(JRPrintText textElement, String textStr, StyleInfo baseStyle, boolean repeatValue, String currentColumnName, boolean hasCurrentColumnData) throws JRException
 	{
 		if (columnNames.size() > 0)
 		{
 			if (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && isColumnReadOnTime(currentRow, currentColumnName)) // the column is for export but was not read yet and comes in the expected order
 			{
-				addCell(textElement, textStr, baseStyle, currentRow, currentColumnName);
+				addCell(textElement, textStr, baseStyle, currentRow, currentColumnName, hasCurrentColumnData);
 			} 
 			else if ( (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && !isColumnReadOnTime(currentRow, currentColumnName)) // the column is for export, was not read yet, but it is read after it should be
 					|| (columnNames.contains(currentColumnName) && currentRow.containsKey(currentColumnName)) ) // the column is for export and was already read
@@ -745,14 +753,14 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				
 				writeCurrentRow(currentRow, repeatedValues);
 				currentRow = new HashMap<String, Object>();
-				addCell(textElement, textStr, baseStyle, currentRow, currentColumnName);
+				addCell(textElement, textStr, baseStyle, currentRow, currentColumnName, hasCurrentColumnData);
 			}
 			// set auto fill columns
 			if(repeatValue)
 			{
 				if ( currentColumnName != null && currentColumnName.length() > 0 && textStr.length() > 0)
 				{
-					addCell(textElement, textStr, baseStyle, repeatedValues, currentColumnName);
+					addCell(textElement, textStr, baseStyle, repeatedValues, currentColumnName, hasCurrentColumnData);
 				}
 			}
 			else
@@ -797,14 +805,14 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		}
 	}
 	
-	protected void addCell(JRPrintText text, String textStr, StyleInfo baseStyle, Map<String, Object> cellValueMap, String currentColumnName) throws JRException
+	protected void addCell(JRPrintText text, String textStr, StyleInfo baseStyle, Map<String, Object> cellValueMap, String currentColumnName, boolean hasCurrentColumnData) throws JRException
 	{
 		CellValue cellValue = null;
 		TextValue textValue = null;
 		
 		int colIndex = columnNamesMap.get(currentColumnName) ;
 
-		String textFormula = getFormula(text);
+		String textFormula = hasCurrentColumnData ? null : getFormula(text);
 		if( text != null && textFormula != null)
 		{
 			// if the cell has formula, we try create a formula cell
@@ -821,7 +829,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				if (textFormula == null)
 				{
 					// there was no formula, so textValue was not created
-					textValue = getTextValue(text, textStr);
+					textValue = getTextValue(text, textStr, hasCurrentColumnData);
 				}
 				cellValue = getDetectedCellValue(colIndex, rowIndex, text, textValue, baseStyle, isComplexFormat(text));
 			}
@@ -2583,6 +2591,60 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				image.setImageAnchor(WritableImage.MOVE_WITH_CELLS);
 				break;
 		}
+	}
+	
+	protected TextValue getTextValue(JRPrintText text, String textStr, boolean hasCurrentColumnData)
+	{
+		if(!hasCurrentColumnData)
+		{
+			return getTextValue(text,textStr);
+		}
+		TextValue textValue;
+		String valueClassName = text.getValueClassName();
+		if (valueClassName == null)
+		{
+			textValue = getTextValueString(text, textStr);
+		}
+		else
+		{
+			try
+			{
+				Class<?> valueClass = textValueClasses.get(valueClassName);
+				if (valueClass == null)
+				{
+					valueClass = JRClassLoader.loadClassForRealName(valueClassName);
+					textValueClasses.put(valueClassName, valueClass);
+				}
+				
+				if (java.lang.Number.class.isAssignableFrom(valueClass))
+				{
+					textValue = new NumberTextValue(textStr, Double.parseDouble(textStr), text.getPattern());
+				}
+				else if (Date.class.isAssignableFrom(valueClass))
+				{
+					textValue = new DateTextValue(textStr, isoDateFormat.parse(textStr), text.getPattern());
+				}
+				else if (Boolean.class.equals(valueClass))
+				{
+					textValue = new BooleanTextValue(textStr, Boolean.valueOf(textStr));
+				}
+				else
+				{
+					textValue = getTextValueString(text, textStr);
+				} 
+			}
+			catch (ParseException e)
+			{
+				//log.warn("Error parsing text value", e);
+				textValue = getTextValueString(text, textStr);
+			}
+			catch (ClassNotFoundException e)
+			{
+				//log.warn("Error loading text value class", e);
+				textValue = getTextValueString(text, textStr);
+			}			
+		}
+		return textValue;
 	}
 	
 }
