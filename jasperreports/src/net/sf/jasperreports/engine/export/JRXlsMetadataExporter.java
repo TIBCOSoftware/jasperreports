@@ -797,7 +797,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					}
 
 					public void handle(BooleanTextValue textValue) {
-						cellSettings.importValues(HSSFCell.CELL_TYPE_BOOLEAN, getLoadedCellStyle(baseStyle), textValue.getValue());
+						Boolean value = hasCurrentColumnData ? Boolean.valueOf(textStr) : textValue.getValue();
+						cellSettings.importValues(HSSFCell.CELL_TYPE_BOOLEAN, getLoadedCellStyle(baseStyle), value);
 					}
 
 				});
