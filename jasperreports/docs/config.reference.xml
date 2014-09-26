@@ -4339,7 +4339,7 @@ A set of report custom properties (exporter hints) added in order to hold user d
 indicating sheet names in the jrxml template is required.
 <br/>
 Sheet names in these properties are used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getSheetNames()">getSheetNames()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetNames()">getSheetNames()</api> Excel export configuration setting.
 <br/>
 These properties should start with the 
 <code>net.sf.jasperreports.export.xls.sheet.names.</code> prefix, and should end with an 
