@@ -29,6 +29,11 @@ define(["jquery"], function($) {
 		
         this.parent = null;
         this.loader = null;
+
+        this.events = {
+            ACTION_PERFORMED: "action",
+            BEFORE_ACTION_PERFORMED: "beforeAction"
+        };
 	};
 
 	Crosstab.prototype = {
@@ -46,10 +51,11 @@ define(["jquery"], function($) {
 							"crosstabId":this.getId(),
 							"order":order,
 							"groupIndex":groupIndex}}};
+            it._notify({name: it.events.BEFORE_ACTION_PERFORMED});
 			return this.loader.runAction(payload).then(function(jsonData) {
 				it._notify({
-					name: "action",
-					type: "sortXTabByColumn",
+					name: it.events.ACTION_PERFORMED,
+					type: "sortXTabRowGroup",
 					data: jsonData});
 
 				return it;
@@ -72,9 +78,10 @@ define(["jquery"], function($) {
 							"order":order,
 							"measureIndex": dataColumn.sortMeasureIndex,
 							"columnValues": dataColumn.columnValues}}};
+            it._notify({name: it.events.BEFORE_ACTION_PERFORMED});
 			return this.loader.runAction(payload).then(function(jsonData) {
 				it._notify({
-					name: "action",
+					name: it.events.ACTION_PERFORMED,
 					type: "sortXTabByColumn",
 					data: jsonData});
 

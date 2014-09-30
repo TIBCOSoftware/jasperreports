@@ -119,7 +119,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
         },
         search: function(searchOptions) {
             var it = this;
-//            it._notify({name: it.events.BEFORE_ACTION_PERFORMED});
+            it._notify({name: it.events.BEFORE_ACTION_PERFORMED, type: "search"});
             return this.loader.runAction({
                 action: {
                     actionName: "search",
