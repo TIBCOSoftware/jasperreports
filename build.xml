@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<project name="Bridge Component Samples" basedir="." default="create-samples-tgz">
+    <description>Create a package for the Bridge Component Samples.</description>
+    
+    <!-- =========================================================
+      Create the regular tar.gz distributions for iReport NB
+    ============================================================= -->
+    <target name="create-samples-tgz" description="Creates an tar.gz with the samples.">
+        <tar tarfile="bridge-component_samples.tar">
+            <tarfileset  dir="src/test/resources/reports" prefix="reports">
+                <include name="*.jrxml"/>
+            </tarfileset>
+            <tarfileset  dir="src/test/resources/templates" prefix="templates">
+                <include name="*.vm"/>
+            </tarfileset>
+            <tarfileset  dir="src/test/resources/scripts" prefix="scripts/scripts">
+                <include name="*/**.js"/>
+            </tarfileset>
+        </tar>  
+
+        <gzip zipfile="bridge-component_samples.tar.gz" src="bridge-component_samples.tar"/>
+        <delete file="bridge-component_samples.tar"/>
+    </target>
+    
+</project>

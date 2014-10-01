@@ -1,0 +1,169 @@
+<div id="element${configuration.element.hashCode()}" style="width: ${configuration.element.width}px; height: ${configuration.element.height}px;" ></div>
+
+
+${configuration.scripts.require( { "path": "", "name": "jquery", "export": "", "key": "jquery"},
+                                 { "path": "scripts/highcharts/highcharts-3.0.7.src.js", "name": "", "export": "", "key": "highcharts"} )}
+
+<!-- 
+## <script type='text/javascript' src='http://code.jquery.com/jquery-1.9.1.js'></script>
+## <script src="http://code.highcharts.com/highcharts.js"></script>
+-->
+
+<script class='jasperreports' type='text/javascript'>
+        
+            function renderComponentelement${configuration.element.hashCode()}(instanceData)
+            {
+                var colors = Highcharts.getOptions().colors;
+
+                var categories = [];
+
+                // Take all the categories from the data...
+                var series0 = instanceData.series[0];
+
+                var currentCategory = "";
+                for (var index = 0; index < series0.length; ++index) {
+                    
+                    var record = series0[index];
+                    if (currentCategory != record.category)
+                    {
+                        categories.push(record.category);
+                    }
+                    currentCategory = record.category;
+                } 
+
+
+                // This title could be easily stored in a parameter of the component...
+                var name = 'Orders in countries';
+
+                var data = []; // For each category extract the subcategories...
+                
+                currentCategory = "";
+
+                var total = 0;
+                var subcategory_names = [];
+                var subcategory_values = [];
+
+                for (var index = 0; index < series0.length; ++index) {
+                    
+                    var record = series0[index];
+
+                    if (currentCategory != record.category)
+                    {
+                        currentCategory = record.category;
+                        total = 0;
+                        subcategory_names = [];
+                        subcategory_values = [];
+
+                        for (var index2 = 0; index2 < series0.length; ++index2)
+                        {
+                            var subRecord = series0[index2];
+                            if (currentCategory == subRecord.category)
+                            {
+                                subcategory_names.push(subRecord.subcategory);
+                                subcategory_values.push(subRecord.value);
+                                total += subRecord.value;
+                            }
+                        }
+                        var jsonRecord = {
+                                          y: total,
+                                          color: colors[index%4],
+                                          drilldown: {
+                                            name: record.category,
+                                            categories: subcategory_names,
+                                            data: subcategory_values,
+                                            color: colors[index%4]
+                                          }
+                                       };
+                        data.push(jsonRecord);
+                    }
+                    
+                } 
+
+
+
+            // Build the data arrays
+            var browserData = [];
+            var versionsData = [];
+            for (var i = 0; i < data.length; i++) {
+
+                // add browser data
+                browserData.push({
+                    name: categories[i],
+                    y: data[i].y,
+                    color: data[i].color
+                });
+
+                // add version data
+                for (var j = 0; j < data[i].drilldown.data.length; j++) {
+                    var brightness = 0.2 - (j / data[i].drilldown.data.length) / 5 ;
+                    versionsData.push({
+                        name: data[i].drilldown.categories[j],
+                        y: data[i].drilldown.data[j],
+                        color: Highcharts.Color(data[i].color).brighten(brightness).get()
+                    });
+                }
+            }
+
+            // Create the chart
+            jQuery("#element" + instanceData.key ).highcharts({
+                chart: {
+                    type: 'pie'
+
+                },
+                title: {
+                    text: 'Browser market share, April, 2011'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Total percent market share'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        shadow: false,
+                        center: ['50%', '50%']
+                    },
+                    series: {
+                        animation: false
+                    }
+                },
+                tooltip: {
+                        valueSuffix: '%'
+                },
+                series: [{
+                    name: 'Browsers',
+                    data: browserData,
+                    size: '60%',
+                    dataLabels: {
+                        formatter: function() {
+                            return this.y > 5 ? this.point.name : null;
+                        },
+                        color: 'white',
+                        distance: -30
+                    }
+                }, {
+                    name: 'Versions',
+                    data: versionsData,
+                    size: '80%',
+                    innerSize: '60%',
+                    dataLabels: {
+                        formatter: function() {
+                            // display only if larger than 1
+                            return this.y > 1 ? '<b>'+ this.point.name +':</b> '+ this.y +'%'  : null;
+                        }
+                    }
+                }]
+            });
+
+        }
+    
+
+        ## The main function (renderComponentelementXXX) is invoked by requirejs and the component javascript module
+        ## automatically. In case the environment is not using requirejs, which is what happens with a standard
+        ## export outside jasperreports server or an interactive environment, we need to kick the rendering
+        ## process manually by invoking renderComponentelementXXX  
+        #if (!${configuration.isInteractiveViewer})
+            renderComponentelement${configuration.element.hashCode()}(${configuration.instanceData});
+        #end
+			
+</script>

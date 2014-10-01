@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HighCharts_Donut" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="af19a009-a534-47f2-95e4-1cddcf04ff84">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<queryString language="SQL">
+		<![CDATA[select count(*) t, shipcountry, shipcity from orders group by shipcountry, shipcity order by shipcountry, shipcity]]>
+	</queryString>
+	<field name="SHIPCOUNTRY" class="java.lang.String"/>
+	<field name="T" class="java.lang.Long"/>
+	<field name="SHIPCITY" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="503" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="70" width="555" height="433" uuid="8457279e-2dfc-4ca4-9953-3fbbdf33c4a3"/>
+				<bc:bridge xmlns:bc="http://www.jaspersoft.com/bridgecomponent" xsi:schemaLocation="http://www.jaspersoft.com/bridgecomponent http://www.jaspersoft.com/bridgecomponent/component.xsd" evaluationTime="Report">
+					<bc:itemProperty name="velocity.template" value="templates/hc_donut.vm"/>
+					<bc:bridgeData>
+						<dataset/>
+						<bc:item>
+							<bc:itemProperty name="category">
+								<valueExpression><![CDATA[$F{SHIPCOUNTRY}]]></valueExpression>
+							</bc:itemProperty>
+							<bc:itemProperty name="subcategory">
+								<valueExpression><![CDATA[$F{SHIPCITY}]]></valueExpression>
+							</bc:itemProperty>
+							<bc:itemProperty name="value">
+								<valueExpression><![CDATA[$F{T}]]></valueExpression>
+							</bc:itemProperty>
+						</bc:item>
+					</bc:bridgeData>
+				</bc:bridge>
+			</componentElement>
+			<staticText>
+				<reportElement x="0" y="0" width="400" height="40" uuid="33efe829-b23f-4c8d-86fe-242aae88cd57"/>
+				<textElement>
+					<font size="33"/>
+				</textElement>
+				<text><![CDATA[HighCharts - Donut Chart]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="555" height="30" uuid="70042cf9-ff29-4663-9eeb-ac91fdbe7379"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Properties: category, subcategory, vale]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

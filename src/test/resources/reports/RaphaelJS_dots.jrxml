@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RaphaelJS_dots" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="af19a009-a534-47f2-95e4-1cddcf04ff84">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<queryString language="SQL">
+		<![CDATA[select count(*) t, YEAR(ORDERDATE) OYEAR, MONTH(ORDERDATE) OMONTH, shipcountry  from orders
+                         group by YEAR(ORDERDATE),
+                         MONTH(ORDERDATE),
+                         shipcountry
+                         ORDER BY shipcountry, OYEAR, OMONTH]]>
+	</queryString>
+	<field name="SHIPCOUNTRY" class="java.lang.String"/>
+	<field name="T" class="java.lang.Long"/>
+	<field name="OYEAR" class="java.lang.Integer"/>
+	<field name="OMONTH" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="400" height="40" uuid="76076e0d-c6ee-4589-9df6-c4bd8914ea12"/>
+				<textElement>
+					<font size="33"/>
+				</textElement>
+				<text><![CDATA[gRaphaël Dots Chart]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="555" height="30" uuid="3fe7da96-dd19-4da2-a708-851aedf1ec4a"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Implementation based on work by Dmitry Baranovskiy]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="471" splitType="Stretch">
+			<componentElement>
+				<reportElement x="-1" y="0" width="555" height="471" uuid="8457279e-2dfc-4ca4-9953-3fbbdf33c4a3"/>
+				<bc:bridge xmlns:bc="http://www.jaspersoft.com/bridgecomponent" xsi:schemaLocation="http://www.jaspersoft.com/bridgecomponent http://www.jaspersoft.com/bridgecomponent/component.xsd" evaluationTime="Report">
+					<bc:itemProperty name="velocity.template" value="templates/raphaeljs_dots.vm"/>
+					<bc:bridgeData>
+						<dataset/>
+						<bc:item>
+							<bc:itemProperty name="x">
+								<valueExpression><![CDATA[$F{SHIPCOUNTRY}]]></valueExpression>
+							</bc:itemProperty>
+							<bc:itemProperty name="y">
+								<valueExpression><![CDATA[$F{OYEAR} + "-" + (new java.text.DecimalFormat("00")).format($F{OMONTH})]]></valueExpression>
+							</bc:itemProperty>
+							<bc:itemProperty name="value">
+								<valueExpression><![CDATA[$F{T}]]></valueExpression>
+							</bc:itemProperty>
+						</bc:item>
+					</bc:bridgeData>
+				</bc:bridge>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

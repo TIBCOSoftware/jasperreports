@@ -1,0 +1,127 @@
+<div id="element${configuration.element.hashCode()}" style="width: ${configuration.element.width}px; height: ${configuration.element.height}px;" ></div>
+
+## {configuration.scripts.add("http://code.jquery.com/jquery-1.9.1.js")}
+## {configuration.scripts.add("http://code.highcharts.com/highcharts.js")}
+
+${configuration.scripts.require( { "path": "", "name": "jquery", "export": "", "key": "jquery"},
+                                 { "path": "scripts/highcharts/highcharts-3.0.7.src.js", "name": "", "export": "", "key": "highcharts"} )}
+
+
+<script class='jasperreports' type='text/javascript'>
+     
+        function renderComponentelement${configuration.element.hashCode()}(instanceData)
+        {
+    
+                var data = [];
+
+                var series0 = instanceData.series[0];
+                for (var index = 0; index < series0.length; ++index) {
+                    var record = series0[index];
+                   data.push(record.value);
+                }
+
+               // Create the chart
+               var config = {
+                       chart: {
+                       renderTo: "element" + instanceData.key,
+                       backgroundColor: null,
+                       borderWidth: 0,
+                       type: 'area',
+                       margin: [2, 0, 2, 0],
+                       width: instanceData.width,
+                       height: instanceData.height,
+                       style: {
+                           overflow: 'visible'
+                       },
+                       skipClone: true
+                       },
+                       title: {
+                           text: ''
+                       },
+                       credits: {
+                           enabled: false
+                       },
+                       xAxis: {
+                           labels: {
+                               enabled: false
+                           },
+                           title: {
+                               text: null
+                           },
+                           startOnTick: false,
+                           endOnTick: false,
+                           tickPositions: []
+                       },
+                       yAxis: {
+                           endOnTick: false,
+                           startOnTick: false,
+                           labels: {
+                               enabled: false
+                           },
+                           title: {
+                               text: null
+                           },
+                           tickPositions: [0]
+                       },
+                       legend: {
+                           enabled: false
+                       },
+                       tooltip: {
+                           backgroundColor: null,
+                           borderWidth: 0,
+                           shadow: false,
+                           useHTML: true,
+                           hideDelay: 0,
+                           shared: true,
+                           padding: 0,
+                           positioner: function (w, h, point) {
+                               return { x: point.plotX - w / 2, y: point.plotY - h};
+                           },
+                           headerFormat: '<span style="font-size: 10px">' + "Tooltip" + ', Q{point.x}:</span><br/>',
+                           pointFormat: '<b>{point.y}.000</b> USD'
+                       },
+                       plotOptions: {
+                           series: {
+                               animation: false,
+                               lineWidth: 1,
+                               shadow: false,
+                               states: {
+                                   hover: {
+                                       lineWidth: 1
+                                   }
+                               },
+                               marker: {
+                                   radius: 1,
+                                   states: {
+                                       hover: {
+                                           radius: 2
+                                       }
+                                   }
+                               },
+                               fillOpacity: 0.25
+                           },
+                           column: {
+                               negativeColor: '#910000',
+                               borderColor: 'silver'
+                           }
+                       },
+                       series: [{
+                           data: data,
+                           pointStart: 1
+                       }],
+                   };
+
+                   new Highcharts.Chart(config);
+
+            }
+
+
+            ## The main function (renderComponentelementXXX) is invoked by requirejs and the component javascript module
+            ## automatically. In case the environment is not using requirejs, which is what happens with a standard
+            ## export outside jasperreports server or an interactive environment, we need to kick the rendering
+            ## process manually by invoking renderComponentelementXXX  
+            #if (!${configuration.isInteractiveViewer})
+                renderComponentelement${configuration.element.hashCode()}(${configuration.instanceData});
+            #end
+
+</script>

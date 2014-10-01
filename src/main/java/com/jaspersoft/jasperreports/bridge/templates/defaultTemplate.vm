@@ -1,0 +1,28 @@
+<div id="element${configuration.element.hashCode()}" style="width: ${configuration.element.width}px; height: ${configuration.element.height}px;" >
+
+<svg xmlns="http://www.w3.org/2000/svg" 
+ xmlns:xlink="http://www.w3.org/1999/xlink" 
+ width='${configuration.element.width}px' height='${configuration.element.height}px'>
+
+</svg>
+
+</div>
+
+
+<script class='jasperreports' type='text/javascript'>
+            
+        ## Empty requireJS function. Used when no javascript is involved.
+        function requireJSComponentelement${configuration.element.hashCode()}()
+        {
+                 return [];
+        }
+
+        ## The main function (renderComponentelementXXX) is invoked by requirejs and the component javascript module
+        ## automatically. In case the environment is not using requirejs, which is what happens with a standard
+        ## export outside jasperreports server or an interactive environment, we need to kick the rendering
+        ## process manually by invoking renderComponentelementXXX  
+        #if (!${configuration.isInteractiveViewer})
+            renderComponentelement${configuration.element.hashCode()}(${configuration.instanceData});
+        #end
+
+</script>
