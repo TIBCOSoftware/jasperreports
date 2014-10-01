@@ -1842,11 +1842,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			contents.evaluate(JRExpression.EVALUATION_DEFAULT);
 			contents.prepare(availableHeight);
 			
-			if (interactive)
-			{
-				contents.setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtcrossheader");
-			}
-			
 			willOverflow = contents.willOverflow();
 			
 			if (!willOverflow)
@@ -1919,7 +1914,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 							textElement.addDynamicProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, 
 									builtinExpressions.createConstantExpression(Integer.toString(bucketIdx)));
 							textElement.addDynamicProperty(HtmlExporter.PROPERTY_HTML_CLASS, 
-									builtinExpressions.createConstantExpression("jrxtcrossheader jrxtrowheader jrxtinteractive"));
+									builtinExpressions.createConstantExpression("jrxtrowheader jrxtinteractive"));
 						}
 					}
 					else
@@ -2219,11 +2214,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			preparedCell.evaluate(JRExpression.EVALUATION_DEFAULT);
 			preparedCell.prepare(availableHeight - rowY);
 			
-			if (interactive)
-			{
-				preparedCell.setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtcrossheader");
-			}
-
 			if (preparedCell.willOverflow())
 			{
 				willOverflow = true;
