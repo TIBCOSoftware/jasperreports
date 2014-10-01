@@ -3,16 +3,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jaspersoft.jasperreports</groupId>
-    <artifactId>jasperreports-bridge</artifactId>
+    <artifactId>jasperreports-customvisualization</artifactId>
     <version>5.6.2-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>JasperReports Bridge Component</name>
+    <name>JasperReports Custom Visualization Component</name>
     <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>5.6.0</version>
+            <version>5.6.1</version>
         </dependency>
         <!-- 
         <dependency>

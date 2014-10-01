@@ -1,6 +1,0 @@
-"${elementId}": {
-    "id": "${elementId}",
-    "type": "BridgeComponent",
-    "module": "bridge-component",
-    "instanceData" : ${configuration.instanceData}
-}

@@ -8,9 +8,9 @@
 		<band height="503" splitType="Stretch">
 			<componentElement>
 				<reportElement x="0" y="80" width="555" height="423" uuid="8457279e-2dfc-4ca4-9953-3fbbdf33c4a3"/>
-				<bc:bridge xmlns:bc="http://www.jaspersoft.com/bridgecomponent" xsi:schemaLocation="http://www.jaspersoft.com/bridgecomponent http://www.jaspersoft.com/bridgecomponent/component.xsd" evaluationTime="Report">
-					<!-- <bc:itemProperty name="velocity.template" value="templates/empty_component.vm"/> -->
-				</bc:bridge>
+				<cvc:customvisualization xmlns:bc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
+					<!-- <cvc:itemProperty name="velocity.template" value="templates/empty_component.vm"/> -->
+				</cvc:customvisualization>
 			</componentElement>
                         <staticText>
 				<reportElement x="0" y="0" width="400" height="40" uuid="bf8f9779-d623-456c-bbd4-50380fc187ea"/>

@@ -16,8 +16,8 @@
 
 ## Import of the javascritp files in a map {key:value}, where key is the require.js name, and value the path or url of the file
 ## If no require.js is defined, use the url itself as key.
-##${configuration.scripts.require( { "path": "com/jaspersoft/jasperreports/components/bridge/templates/d3.v3.min.js", "name": "", "export": "d3", "key": "d3"},
-##                                 { "path": "com/jaspersoft/jasperreports/components/bridge/templates/d3.layout.min.js", "name": "", "export": "", "key": "d3-layout"} )}
+##${configuration.scripts.require( { "path": "com/jaspersoft/jasperreports/components/customvisualization/templates/d3.v3.min.js", "name": "", "export": "d3", "key": "d3"},
+##                                 { "path": "com/jaspersoft/jasperreports/components/customvisualization/templates/d3.layout.min.js", "name": "", "export": "", "key": "d3-layout"} )}
 
 
 

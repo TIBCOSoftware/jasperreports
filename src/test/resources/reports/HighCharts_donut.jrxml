@@ -15,23 +15,23 @@
 		<band height="503" splitType="Stretch">
 			<componentElement>
 				<reportElement x="0" y="70" width="555" height="433" uuid="8457279e-2dfc-4ca4-9953-3fbbdf33c4a3"/>
-				<bc:bridge xmlns:bc="http://www.jaspersoft.com/bridgecomponent" xsi:schemaLocation="http://www.jaspersoft.com/bridgecomponent http://www.jaspersoft.com/bridgecomponent/component.xsd" evaluationTime="Report">
-					<bc:itemProperty name="velocity.template" value="templates/hc_donut.vm"/>
-					<bc:bridgeData>
+				<cvc:customvisualization xmlns:bc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
+					<cvc:itemProperty name="velocity.template" value="templates/hc_donut.vm"/>
+					<cvc:cvData>
 						<dataset/>
-						<bc:item>
-							<bc:itemProperty name="category">
+						<cvc:item>
+							<cvc:itemProperty name="category">
 								<valueExpression><![CDATA[$F{SHIPCOUNTRY}]]></valueExpression>
-							</bc:itemProperty>
-							<bc:itemProperty name="subcategory">
+							</cvc:itemProperty>
+							<cvc:itemProperty name="subcategory">
 								<valueExpression><![CDATA[$F{SHIPCITY}]]></valueExpression>
-							</bc:itemProperty>
-							<bc:itemProperty name="value">
+							</cvc:itemProperty>
+							<cvc:itemProperty name="value">
 								<valueExpression><![CDATA[$F{T}]]></valueExpression>
-							</bc:itemProperty>
-						</bc:item>
-					</bc:bridgeData>
-				</bc:bridge>
+							</cvc:itemProperty>
+						</cvc:item>
+					</cvc:cvData>
+				</cvc:customvisualization>
 			</componentElement>
 			<staticText>
 				<reportElement x="0" y="0" width="400" height="40" uuid="33efe829-b23f-4c8d-86fe-242aae88cd57"/>

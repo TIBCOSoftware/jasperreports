@@ -3,14 +3,14 @@
 To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
-<project name="Bridge Component Samples" basedir="." default="create-samples-tgz">
-    <description>Create a package for the Bridge Component Samples.</description>
+<project name="Custom Visualization Component Samples" basedir="." default="create-samples-tgz">
+    <description>Create a package for the Custom Visualization Component Samples.</description>
     
     <!-- =========================================================
       Create the regular tar.gz distributions for iReport NB
     ============================================================= -->
     <target name="create-samples-tgz" description="Creates an tar.gz with the samples.">
-        <tar tarfile="bridge-component_samples.tar">
+        <tar tarfile="customvisualization-component_samples.tar">
             <tarfileset  dir="src/test/resources/reports" prefix="reports">
                 <include name="*.jrxml"/>
             </tarfileset>
@@ -22,8 +22,8 @@ and open the template in the editor.
             </tarfileset>
         </tar>  
 
-        <gzip zipfile="bridge-component_samples.tar.gz" src="bridge-component_samples.tar"/>
-        <delete file="bridge-component_samples.tar"/>
+        <gzip zipfile="customvisualization-component_samples.tar.gz" src="customvisualization-component_samples.tar"/>
+        <delete file="customvisualization-component_samples.tar"/>
     </target>
     
 </project>

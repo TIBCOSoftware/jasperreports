@@ -23,26 +23,26 @@
 		<band height="801" splitType="Stretch">
 			<componentElement>
 				<reportElement x="0" y="0" width="555" height="801" uuid="8457279e-2dfc-4ca4-9953-3fbbdf33c4a3">
-					<property name="bridge.keepTemporaryFiles" value="true"/>
+					<property name="cv.keepTemporaryFiles" value="true"/>
 				</reportElement>
-				<bc:bridge xmlns:bc="http://www.jaspersoft.com/bridgecomponent" xsi:schemaLocation="http://www.jaspersoft.com/bridgecomponent http://www.jaspersoft.com/bridgecomponent/component.xsd" evaluationTime="Report" processingClass="com.jaspersoft.jasperreports.bridge.DefaultProcessor">
-					<bc:itemProperty name="velocity.template" value="templates/d3_dendogram.vm"/>
-					<bc:itemProperty name="rootLabel" value="Orders"/>
-					<bc:bridgeData>
+				<cvc:customvisualization xmlns:bc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report" processingClass="com.jaspersoft.jasperreports.customvisualization.DefaultProcessor">
+					<cvc:itemProperty name="velocity.template" value="templates/d3_dendogram.vm"/>
+					<cvc:itemProperty name="rootLabel" value="Orders"/>
+					<cvc:cvData>
 						<dataset/>
-						<bc:item>
-							<bc:itemProperty name="category">
+						<cvc:item>
+							<cvc:itemProperty name="category">
 								<valueExpression><![CDATA[$F{SHIPCOUNTRY}]]></valueExpression>
-							</bc:itemProperty>
-							<bc:itemProperty name="subcategory">
+							</cvc:itemProperty>
+							<cvc:itemProperty name="subcategory">
 								<valueExpression><![CDATA[$F{SHIPCITY}]]></valueExpression>
-							</bc:itemProperty>
-							<bc:itemProperty name="value">
+							</cvc:itemProperty>
+							<cvc:itemProperty name="value">
 								<valueExpression><![CDATA[$F{T}]]></valueExpression>
-							</bc:itemProperty>
-						</bc:item>
-					</bc:bridgeData>
-				</bc:bridge>
+							</cvc:itemProperty>
+						</cvc:item>
+					</cvc:cvData>
+				</cvc:customvisualization>
 			</componentElement>
 			<staticText>
 				<reportElement x="-1" y="0" width="51" height="230" uuid="73539956-e5fa-4369-81bf-24d23f28c64e"/>
@@ -84,24 +84,24 @@
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<componentElement>
 				<reportElement x="0" y="0" width="555" height="510" uuid="02d5521c-c5cf-4071-b7fe-4f877c1903de"/>
-				<bc:bridge xmlns:bc="http://www.jaspersoft.com/bridgecomponent" xsi:schemaLocation="http://www.jaspersoft.com/bridgecomponent http://www.jaspersoft.com/bridgecomponent/component.xsd" evaluationTime="Report" processingClass="">
-					<bc:itemProperty name="velocity.template" value="templates/d3_dendogram.vm"/>
-					<bc:itemProperty name="rootLabel" value="Orders"/>
-					<bc:bridgeData>
+				<cvc:customvisualization xmlns:bc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report" processingClass="">
+					<cvc:itemProperty name="velocity.template" value="templates/d3_dendogram.vm"/>
+					<cvc:itemProperty name="rootLabel" value="Orders"/>
+					<cvc:cvData>
 						<dataset/>
-						<bc:item>
-							<bc:itemProperty name="category">
+						<cvc:item>
+							<cvc:itemProperty name="category">
 								<valueExpression><![CDATA[$F{SHIPCOUNTRY}]]></valueExpression>
-							</bc:itemProperty>
-							<bc:itemProperty name="subcategory">
+							</cvc:itemProperty>
+							<cvc:itemProperty name="subcategory">
 								<valueExpression><![CDATA[$F{SHIPCITY}]]></valueExpression>
-							</bc:itemProperty>
-							<bc:itemProperty name="value">
+							</cvc:itemProperty>
+							<cvc:itemProperty name="value">
 								<valueExpression><![CDATA[$F{T}]]></valueExpression>
-							</bc:itemProperty>
-						</bc:item>
-					</bc:bridgeData>
-				</bc:bridge>
+							</cvc:itemProperty>
+						</cvc:item>
+					</cvc:cvData>
+				</cvc:customvisualization>
 			</componentElement>
 		</band>
 	</summary>

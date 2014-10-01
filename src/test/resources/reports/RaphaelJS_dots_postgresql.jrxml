@@ -65,23 +65,23 @@ ORDER BY shipcountry, OYEAR, OMONTH]]>
 		<band height="471" splitType="Stretch">
 			<componentElement>
 				<reportElement x="-1" y="0" width="555" height="471" uuid="8457279e-2dfc-4ca4-9953-3fbbdf33c4a3"/>
-				<bc:bridge xmlns:bc="http://www.jaspersoft.com/bridgecomponent" xsi:schemaLocation="http://www.jaspersoft.com/bridgecomponent http://www.jaspersoft.com/bridgecomponent/component.xsd" evaluationTime="Report" processingClass="test">
-					<bc:itemProperty name="velocity.template" value="templates/raphaeljs_dots.vm"/>
-					<bc:bridgeData>
+				<cvc:customvisualization xmlns:bc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report" processingClass="test">
+					<cvc:itemProperty name="velocity.template" value="templates/raphaeljs_dots.vm"/>
+					<cvc:cvData>
 						<dataset/>
-						<bc:item>
-							<bc:itemProperty name="x">
+						<cvc:item>
+							<cvc:itemProperty name="x">
 								<valueExpression><![CDATA[$F{shipcountry}]]></valueExpression>
-							</bc:itemProperty>
-							<bc:itemProperty name="y">
+							</cvc:itemProperty>
+							<cvc:itemProperty name="y">
 								<valueExpression><![CDATA[$F{oyear}.intValue() + "-" + (new java.text.DecimalFormat("00")).format($F{omonth})]]></valueExpression>
-							</bc:itemProperty>
-							<bc:itemProperty name="value">
+							</cvc:itemProperty>
+							<cvc:itemProperty name="value">
 								<valueExpression><![CDATA[$F{t}.intValue() ]]></valueExpression>
-							</bc:itemProperty>
-						</bc:item>
-					</bc:bridgeData>
-				</bc:bridge>
+							</cvc:itemProperty>
+						</cvc:item>
+					</cvc:cvData>
+				</cvc:customvisualization>
 			</componentElement>
 		</band>
 	</summary>

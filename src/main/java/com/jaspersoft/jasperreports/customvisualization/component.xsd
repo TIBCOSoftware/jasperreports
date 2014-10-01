@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.jaspersoft.com/cvcomponent"
+	xmlns:cvc="http://www.jaspersoft.com/cvcomponent"
+	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports"
+	xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"
+	elementFormDefault="qualified">
+
+
+    <import namespace="http://jasperreports.sourceforge.net/jasperreports" />
+    <import namespace="http://jasperreports.sourceforge.net/jasperreports/components" 
+		schemaLocation="http://jasperreports.sourceforge.net/xsd/components.xsd"/>
+
+    	
+    
+    <element name="customvisualization" substitutionGroup="jr:component">
+        <complexType>
+            <complexContent>
+                <extension base="jr:componentType">
+                    <sequence>
+			<element name="itemProperty" type="c:ItemProperty" minOccurs="0" maxOccurs="unbounded" />
+                        <element ref="cvc:cvData" minOccurs="0" maxOccurs="unbounded" />
+                    </sequence>
+	            <attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+                    <attribute name="evaluationGroup" type="string" use="optional"/>
+		    <attribute name="processingClass" type="string" use="optional"/>
+                    <attribute name="onErrorType" use="optional" default="Error">
+                        <simpleType>
+                         <restriction base="string">
+                          <enumeration value="Error"/>
+                          <enumeration value="Blank"/>
+                          <enumeration value="Icon"/>
+                         </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </complexContent>
+        </complexType>
+    </element>
+    
+    
+    <element name="cvData">
+            <annotation>
+                    <documentation>Creates a dataset with one or more item objects</documentation>
+            </annotation>
+            <complexType>
+                    <sequence>
+                            <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+                            <element ref="cvc:item" minOccurs="0" maxOccurs="unbounded"/>
+                    </sequence>
+            </complexType>
+    </element>
+    
+    
+    <element name="item">
+		<complexType>
+			<sequence>
+				<element name="itemProperty" type="c:ItemProperty" minOccurs="0" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+    </element>
+
+</schema>

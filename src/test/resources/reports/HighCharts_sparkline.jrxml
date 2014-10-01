@@ -18,20 +18,20 @@ order by shipcountry, oy, om]]>
 			<band height="60">
 				<componentElement>
 					<reportElement x="250" y="8" width="305" height="52" uuid="8457279e-2dfc-4ca4-9953-3fbbdf33c4a3"/>
-					<bc:bridge xmlns:bc="http://www.jaspersoft.com/bridgecomponent" xsi:schemaLocation="http://www.jaspersoft.com/bridgecomponent http://www.jaspersoft.com/bridgecomponent/component.xsd" evaluationTime="Group" evaluationGroup="Country">
-						<bc:itemProperty name="velocity.template" value="templates/hc_sparkline.vm"/>
-						<bc:bridgeData>
+					<cvc:customvisualization xmlns:bc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Group" evaluationGroup="Country">
+						<cvc:itemProperty name="velocity.template" value="templates/hc_sparkline.vm"/>
+						<cvc:cvData>
 							<dataset resetType="Group" resetGroup="Country"/>
-							<bc:item>
-								<bc:itemProperty name="value">
+							<cvc:item>
+								<cvc:itemProperty name="value">
 									<valueExpression><![CDATA[$F{T}]]></valueExpression>
-								</bc:itemProperty>
-								<bc:itemProperty name="country">
+								</cvc:itemProperty>
+								<cvc:itemProperty name="country">
 									<valueExpression><![CDATA[$F{SHIPCOUNTRY}]]></valueExpression>
-								</bc:itemProperty>
-							</bc:item>
-						</bc:bridgeData>
-					</bc:bridge>
+								</cvc:itemProperty>
+							</cvc:item>
+						</cvc:cvData>
+					</cvc:customvisualization>
 				</componentElement>
 				<textField>
 					<reportElement x="0" y="10" width="200" height="30" uuid="fee0df15-b10f-4e2b-b869-f9aff29b0898"/>
