@@ -72,6 +72,10 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                     }, 1500);
                 });
 
+                ic.reportInstance.on("beforeAction", function(evt) {
+                    ic.active && ic.hide();
+                });
+
 				$('head').append('<style id="jivext-stylesheet">' + templateCss + '</style>');
 			
 				$('#jivext_components').length == 0 &&  $('body').append('<div id="jivext_components"></div>');
