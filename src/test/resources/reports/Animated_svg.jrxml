@@ -11,7 +11,7 @@
 		<band height="801" splitType="Stretch">
 			<componentElement>
 				<reportElement x="0" y="60" width="555" height="741" uuid="79deb5cc-9ed5-494a-a531-a20a385a8e16"/>
-				<cvc:customvisualization xmlns:bc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
+				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
 					<cvc:itemProperty name="velocity.template" value="templates/animated_svg.vm"/>
 				</cvc:customvisualization>
 			</componentElement>

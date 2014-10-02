@@ -46,7 +46,7 @@
 		<band height="385" splitType="Stretch">
 			<componentElement>
 				<reportElement key="" x="0" y="0" width="555" height="385" uuid="8457279e-2dfc-4ca4-9953-3fbbdf33c4a3"/>
-				<cvc:customvisualization xmlns:bc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
+				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
 					<cvc:itemProperty name="velocity.template" value="templates/d3_treemap.vm"/>
 					<cvc:itemProperty name="title">
 						<valueExpression><![CDATA["Hello World at " + new java.util.Date()]]></valueExpression>

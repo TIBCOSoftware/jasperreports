@@ -65,7 +65,7 @@ ORDER BY shipcountry, OYEAR, OMONTH]]>
 		<band height="471" splitType="Stretch">
 			<componentElement>
 				<reportElement x="-1" y="0" width="555" height="471" uuid="8457279e-2dfc-4ca4-9953-3fbbdf33c4a3"/>
-				<cvc:customvisualization xmlns:bc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report" processingClass="test">
+				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report" processingClass="test">
 					<cvc:itemProperty name="velocity.template" value="templates/raphaeljs_dots.vm"/>
 					<cvc:cvData>
 						<dataset/>

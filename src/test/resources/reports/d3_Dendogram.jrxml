@@ -25,7 +25,7 @@
 				<reportElement x="0" y="0" width="555" height="801" uuid="8457279e-2dfc-4ca4-9953-3fbbdf33c4a3">
 					<property name="cv.keepTemporaryFiles" value="true"/>
 				</reportElement>
-				<cvc:customvisualization xmlns:bc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report" processingClass="com.jaspersoft.jasperreports.customvisualization.DefaultProcessor">
+				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report" processingClass="com.jaspersoft.jasperreports.customvisualization.DefaultProcessor">
 					<cvc:itemProperty name="velocity.template" value="templates/d3_dendogram.vm"/>
 					<cvc:itemProperty name="rootLabel" value="Orders"/>
 					<cvc:cvData>
@@ -84,7 +84,7 @@
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<componentElement>
 				<reportElement x="0" y="0" width="555" height="510" uuid="02d5521c-c5cf-4071-b7fe-4f877c1903de"/>
-				<cvc:customvisualization xmlns:bc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report" processingClass="">
+				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report" processingClass="">
 					<cvc:itemProperty name="velocity.template" value="templates/d3_dendogram.vm"/>
 					<cvc:itemProperty name="rootLabel" value="Orders"/>
 					<cvc:cvData>

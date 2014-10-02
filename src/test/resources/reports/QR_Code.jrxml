@@ -20,7 +20,7 @@
 				</box>
 				<componentElement>
 					<reportElement x="0" y="10" width="423" height="230" uuid="8452f7f6-15bb-4619-950c-fe97a2d3b79d"/>
-					<cvc:customvisualization xmlns:bc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report" onErrorType="Icon">
+					<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report" onErrorType="Icon">
 						<cvc:itemProperty name="velocity.template" value="templates/qrcode.vm"/>
 						<cvc:itemProperty name="code" value="This is a test!"/>
 					</cvc:customvisualization>

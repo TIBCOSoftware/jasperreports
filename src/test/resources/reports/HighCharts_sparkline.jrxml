@@ -18,7 +18,7 @@ order by shipcountry, oy, om]]>
 			<band height="60">
 				<componentElement>
 					<reportElement x="250" y="8" width="305" height="52" uuid="8457279e-2dfc-4ca4-9953-3fbbdf33c4a3"/>
-					<cvc:customvisualization xmlns:bc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Group" evaluationGroup="Country">
+					<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Group" evaluationGroup="Country">
 						<cvc:itemProperty name="velocity.template" value="templates/hc_sparkline.vm"/>
 						<cvc:cvData>
 							<dataset resetType="Group" resetGroup="Country"/>
