@@ -443,7 +443,7 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                         top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
                         left: firstHeaderCel.offset().left
                     });
-                } else if (scrolledLeft) {
+                } else /*if (scrolledLeft)*/ {
                     floatingTbl.offset({
                         top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
                         left: firstHeaderCel.offset().left
@@ -512,7 +512,7 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                         top: firstHeader.offset().top,
                         left: containerLeft
                     });
-                } else if (scrolledTop) {
+                } else /*if (scrolledTop)*/ {
                     floatingTbl.offset({
                         top: firstHeader.offset().top,
                         left: containerLeft
@@ -729,7 +729,8 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                     });
 
                     tbl.css({
-                        position: 'fixed',
+//                        position: 'fixed',
+                        position: 'relative',
                         width: Math.max.apply(Math, cloneWidth),
                         'empty-cells': tblJrPage.css('empty-cells'),
                         'border-collapse': tblJrPage.css('border-collapse'),
