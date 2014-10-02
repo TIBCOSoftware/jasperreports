@@ -397,7 +397,7 @@ public class XlsxSheetHelper extends BaseHelper
 		try
 		{
 			if(isLocal){
-				hyperlinksWriter.write("<hyperlink ref=\"" + ref + "\" location=\"" + href + "\"/>\n");
+				hyperlinksWriter.write("<hyperlink ref=\"" + ref + "\" location=\"" + (href == null ? null : href.replaceAll("[\\s\\W]", "")) + "\"/>\n");
 			} else {
 				hyperlinksWriter.write("<hyperlink ref=\"" + ref + "\" r:id=\"rIdLnk" + sheetRelsHelper.getHyperlink(href) + "\"/>\n");
 			}
