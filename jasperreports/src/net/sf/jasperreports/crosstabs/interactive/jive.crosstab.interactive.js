@@ -38,7 +38,13 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 		selected: null,
         isDashboard: false,
         reportInstance: null,
-        isIE: /msie/i.test(navigator.userAgent),
+        isIE: (function() {
+            var isIe = /msie/i.test(navigator.userAgent);
+            if (!isIe) { // for IE11
+                isIe = /trident\/\d+/i.test(navigator.userAgent) && /rv:\d+/i.test(navigator.userAgent);
+            }
+            return isIe;
+        })(),
         isFirefox: /firefox/i.test(navigator.userAgent),
         canFloat: true,
 		init: function(report) {
@@ -55,16 +61,7 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                 ic.reportInstance.on("beforeSearchAdvance", function(evt) {
                     ic.canFloat = false;
 
-                    // hide floating parts
-                    if (ic.isFloatingColumnHeader) {
-                        ic.getFloatingTable('floatingColumnHeader').hide();
-                    }
-                    if (ic.isFloatingRowHeader) {
-                        ic.getFloatingTable('floatingRowHeader').hide();
-                    }
-                    if (ic.isFloatingCrossHeader) {
-                        ic.getFloatingTable('floatingCrossHeader').hide();
-                    }
+                    ic.hideFloatingElements();
 
                     // releasing this flag after 1.5 seconds
                     setTimeout(function() {
@@ -320,7 +317,9 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 		},
         setScrollableHeader: function(isDashboard) {
             var it = this,
-                tblJrPage = $('table.jrPage');
+                tblJrPage = $('table.jrPage'),
+                tmr = null,
+                scrollDelay = 500;
 
             it.scrollData = {
                 bColMoved: false,
@@ -333,7 +332,24 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 
             if (!isDashboard) {
                 $('div#reportViewFrame .body').on('scroll', function() {
-                    it.scrollHeaders(isDashboard);
+                    if (it.isIE) {
+                        it.active && it.justHide();
+                        it.hideFloatingElements();
+                        if (tmr == null) {
+                            tmr = setTimeout(function() {
+                                it.scrollHeaders(isDashboard);
+                                it.active && it.justHidden && it.reApplySelection();
+                            }, scrollDelay);
+                        } else {
+                            clearTimeout(tmr);
+                            tmr = setTimeout(function() {
+                                it.scrollHeaders(isDashboard);
+                                it.active && it.justHidden && it.reApplySelection();
+                            }, scrollDelay);
+                        }
+                    } else {
+                    	it.scrollHeaders(isDashboard);
+                    }
                 });
             }
 
@@ -390,6 +406,19 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
             it.scrollColumnHeader(isDashboard, scrolledLeft, scrolledTop);
             it.scrollRowHeader(isDashboard, scrolledLeft, scrolledTop);
             it.scrollCrossSection(isDashboard, scrolledLeft, scrolledTop);
+        },
+        hideFloatingElements: function() {
+            var it = this;
+            // hide floating parts
+            if (it.isFloatingColumnHeader) {
+                it.getFloatingTable('floatingColumnHeader').hide();
+            }
+            if (it.isFloatingRowHeader) {
+                it.getFloatingTable('floatingRowHeader').hide();
+            }
+            if (it.isFloatingCrossHeader) {
+                it.getFloatingTable('floatingCrossHeader').hide();
+            }
         },
         scrollColumnHeader: function(isDashboard, scrolledLeft, scrolledTop) {
             var it = this,
