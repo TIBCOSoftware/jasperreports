@@ -48,7 +48,8 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
         isFirefox: /firefox/i.test(navigator.userAgent),
         canFloat: true,
 		init: function(report) {
-			var ic = this;
+			var ic = this,
+                hasFloatingHeaders = true;
 			ic.reportInstance = report;
             ic.isDashboard = $('body').is('.dashboardViewFrame');
 
@@ -85,8 +86,18 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 					//$('body').trigger('jive.inactive');
 				});
 
-                ic.setScrollableHeader(ic.isDashboard);
-				
+                // if there is more than one crosstab and only one doesn't have floating headers, none won't have
+                $.each(report.components.crosstab, function() {
+                    if (this.config.hasFloatingHeaders != null && this.config.hasFloatingHeaders === false) {
+                        hasFloatingHeaders = false;
+                        return false; // break each
+                    }
+                });
+
+                if (hasFloatingHeaders) {
+                    ic.setScrollableHeader(ic.isDashboard);
+                }
+
 				ic.initialized = true;
 			}
 				

@@ -138,7 +138,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	private final static Log log = LogFactory.getLog(JRFillCrosstab.class); 
 
 	public static final String PROPERTY_INTERACTIVE = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.interactive";
-	
+
+	public static final String PROPERTY_FLOATING_HEADERS = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.floating.headers";
+
 	public static final String PROPERTY_ORDER_BY_COLUMN = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.order.by.column";
 	
 	public static final String PROPERTY_ROW_GROUP_COLUMN_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.row.group.column.header";
@@ -209,6 +211,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	private List<JRTemplatePrintFrame> printFrames;
 	
 	private boolean interactive;
+	private boolean floatingHeaders;
 	private int lastColumnGroupWithHeaderIndex = -1;
 	
 	public JRFillCrosstab(JRBaseFiller filler, JRCrosstab crosstab, JRFillObjectFactory factory)
@@ -619,6 +622,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			ignoreWidth = isIgnoreWidth(filler, parentCrosstab);
 			
 			interactive = filler.getPropertiesUtil().getBooleanProperty(this, PROPERTY_INTERACTIVE, true);
+
+			floatingHeaders = filler.getPropertiesUtil().getBooleanProperty(this, PROPERTY_FLOATING_HEADERS, true);
 		}
 	}
 
@@ -845,11 +850,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		{
 			printFrame.getPropertiesMap().setProperty(CrosstabInteractiveJsonHandler.PROPERTY_CROSSTAB_ID, 
 					chunkId);
-			
-			JRTemplateGenericPrintElement genericElement = createInteractiveElement(chunkId);
+
+			JRTemplateGenericPrintElement genericElement = createInteractiveElement(chunkId, floatingHeaders);
 			printFrame.addElement(genericElement);
 		}
-		
+
 		// dump all elements into the print frame
 		printFrame.addElements(elements);
 		
@@ -883,7 +888,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		return position;
 	}
 
-	protected JRTemplateGenericPrintElement createInteractiveElement(String chunkId)
+	protected JRTemplateGenericPrintElement createInteractiveElement(String chunkId, boolean floatingHeaders)
 	{
 		// TODO lucianc cache
 		JRTemplateGenericElement genericElementTemplate = new JRTemplateGenericElement(
@@ -898,7 +903,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_CROSSTAB_ID, getUUID().toString());
 		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_CROSSTAB_FRAGMENT_ID, chunkId);
 		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_START_COLUMN_INDEX, crosstabFiller.startColumnIndex);
-		
+		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_FLOATING_HEADERS, floatingHeaders);
+
 		BucketDefinition[] rowBuckets = bucketingService.getRowBuckets();
 		List<RowGroupInteractiveInfo> rowGroups = new ArrayList<RowGroupInteractiveInfo>(rowBuckets.length);
 		for (BucketDefinition bucket : rowBuckets)

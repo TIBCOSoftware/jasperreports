@@ -41,11 +41,11 @@ public class CrosstabInteractiveJsonHandler implements GenericElementJsonHandler
 {
 	
 	public static final String PROPERTY_CROSSTAB_ID = JRPropertiesUtil.PROPERTY_PREFIX + "export.crosstab.crosstabId";
-	
+
 	public static final String ATTRIBUTE_CROSSTAB_ID = "data-jrxtid";
-	
+
 	public static final String PROPERTY_COLUMN_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "export.crosstab.columnIndex";
-	
+
 	public static final String ATTRIBUTE_COLUMN_INDEX = "data-jrxtcolidx";
 
 	public static final String ELEMENT_PARAMETER_CROSSTAB_ID = "crosstabId";
@@ -57,7 +57,9 @@ public class CrosstabInteractiveJsonHandler implements GenericElementJsonHandler
 	public static final String ELEMENT_PARAMETER_ROW_GROUPS = "rowGroups";
 
 	public static final String ELEMENT_PARAMETER_DATA_COLUMNS = "dataColumns";
-	
+
+	public static final String ELEMENT_PARAMETER_FLOATING_HEADERS = "hasFloatingHeaders";
+
 	@Override
 	public boolean toExport(JRGenericPrintElement element)
 	{
@@ -87,6 +89,7 @@ public class CrosstabInteractiveJsonHandler implements GenericElementJsonHandler
 			elementInfo.put("id", crosstabId);
 			elementInfo.put("fragmentId", crosstabFragmentId);
 			elementInfo.put("startColumnIndex", element.getParameterValue(ELEMENT_PARAMETER_START_COLUMN_INDEX));			
+			elementInfo.put("hasFloatingHeaders", element.getParameterValue(ELEMENT_PARAMETER_FLOATING_HEADERS));
 			elementInfo.put("rowGroups", element.getParameterValue(ELEMENT_PARAMETER_ROW_GROUPS));
 			elementInfo.put("dataColumns", element.getParameterValue(ELEMENT_PARAMETER_DATA_COLUMNS));
 			
