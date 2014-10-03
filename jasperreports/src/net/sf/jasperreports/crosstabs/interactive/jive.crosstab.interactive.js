@@ -734,7 +734,7 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 
                     tbl.css({
 //                        position: 'fixed',
-                        position: 'relative',
+                        position: 'absolute',
                         width: Math.max.apply(Math, cloneWidth),
                         'empty-cells': tblJrPage.css('empty-cells'),
                         'border-collapse': tblJrPage.css('border-collapse'),
