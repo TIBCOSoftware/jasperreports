@@ -1935,7 +1935,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 						{
 							iconLabelElement.getPropertiesMap().setProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, 
 									Integer.toString(bucketIdx));
-							iconLabelElement.getPropertiesMap().setProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtcrossheader jrxtrowheader jrxtinteractive");
+							iconLabelElement.getPropertiesMap().setProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader jrxtinteractive");
 						}
 						
 						iconLabelElements.put(textElementIndex, iconLabelElement);
