@@ -1668,7 +1668,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	{
 		if (name != null)
 		{
-			return name.replaceAll("[\\s\\W]", "");
+			return name.replaceAll("\\W", "");
 		}
 		return null;
 	}
