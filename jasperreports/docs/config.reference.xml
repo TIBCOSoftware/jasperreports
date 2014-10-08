@@ -193,8 +193,6 @@
       
       <property ref="net.sf.jasperreports.export.graphics2d.min.job.size"/>
       
-      <property ref="net.sf.jasperreports.export.ignore.page.margins"/>
-      
       <property ref="net.sf.jasperreports.export.html.accessible"/>
       <property ref="net.sf.jasperreports.export.html.between.pages"/>
       <property ref="net.sf.jasperreports.export.html.class"/>
@@ -208,6 +206,14 @@
       <property ref="net.sf.jasperreports.export.html.using.images.to.align"/>
       <property ref="net.sf.jasperreports.export.html.white.page.background"/>
       <property ref="net.sf.jasperreports.export.html.wrap.break.word"/>
+      
+      <property ref="net.sf.jasperreports.export.ignore.page.margins"/>
+      
+      <property ref="net.sf.jasperreports.export.json.data"/>
+      <property ref="net.sf.jasperreports.export.json.escape.members"/>
+      <property ref="net.sf.jasperreports.export.json.path"/>
+      <property ref="net.sf.jasperreports.export.json.repeat.value"/>
+      <property ref="net.sf.jasperreports.export.json.schema"/>
       
       <property ref="net.sf.jasperreports.export.jxl.use.temp.file"/>
       <property ref="net.sf.jasperreports.export.jxl.cell.complex.format"/>
@@ -2728,6 +2734,83 @@ line breaks at fill time via the <a href="#net.sf.jasperreports.text.save.line.b
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.json.data -->
+  
+  <configProperty name="net.sf.jasperreports.export.json.data">
+    <description>
+This element-level property is considered by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
+and provides the exported value for that element. By default is considered the value of the report element itself.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_DATA_PROPERTY</api>
+    <default>N/A</default>
+    <scope>Element</scope>
+    <since>5.6.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.json.escape.members -->
+  
+  <configProperty name="net.sf.jasperreports.export.json.escape.members">
+    <description>
+This report-level flag is considered by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
+and specifies if the member property names should be enclosed with quotes or no. 
+    </description>
+    <api>net/sf/jasperreports/export/JsonMetadataReportConfiguration.html#JSON_EXPORTER_ESCAPE_MEMBERS</api>
+    <default>true</default>
+    <scope>Report</scope>
+    <since>5.6.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.json.path -->
+  
+  <configProperty name="net.sf.jasperreports.export.json.path">
+    <description>
+This element-level property is required by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
+and specifies a given path within the JSON tree, where the current element will be exported. If the 
+<a href="#net.sf.jasperreports.export.json.schema">net.sf.jasperreports.export.json.schema</a> property is not 
+present in the report, this property can be used to determine a rule in the JSON schema as well.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_PATH_PROPERTY</api>
+    <default>N/A</default>
+    <scope>Element</scope>
+    <since>5.6.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.json.repeat.value -->
+  
+  <configProperty name="net.sf.jasperreports.export.json.repeat.value">
+    <description>
+This element-level flag is considered by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
+and specifies whether the value associated to that JSON path should be repeated or not when it is missing.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_REPEAT_VALUE_PROPERTY</api>
+    <default>false</default>
+    <scope>Element</scope>
+    <since>5.6.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.json.schema -->
+  
+  <configProperty name="net.sf.jasperreports.export.json.schema">
+    <description>
+This report-level property is considered by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
+and specifies the path to a JSON schema file that will be used to generate the JSON structure at export time. Nodes in a given schema should provide:
+<ul>
+<li>the <code>_type</code> property (mandatory), which can be an <code>object</code> or an <code>array</code>.</li>
+<li>the  <code>_children</code> property (mandatory for array-type nodes), which defines the type of the objects in the array.</li>
+<li>other properties that describe the object.</li>
+</ul> 
+    </description>
+    <api>net/sf/jasperreports/export/JsonMetadataReportConfiguration.html#JSON_EXPORTER_JSON_SCHEMA</api>
+    <default>N/A</default>
+    <scope>Report</scope>
+    <since>5.6.2</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.jxl.use.temp.file -->
   
   <configProperty name="net.sf.jasperreports.export.jxl.use.temp.file">
@@ -3575,7 +3658,10 @@ This property is by default not set (<code>false</code>).
     <description>
 Property that specifies the value to be placed in the cell associated with the 
 <api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api> 
-in the metadata-based Excel export.  
+in the metadata-based Excel export. If the cell is of Numeric type, values of this property should be written as standard Java 
+numeric values, using a period (".") as decimal separator. If the cell is representing a Date, values of this property should be 
+written either as a number representing the datetime in milliseconds, or as a formatted string in accordance with the ISO 8601 format: 
+"yyyy-MM-dd'T'HH:mm:ss".
 <br/>
 By default this value is represented by the value stored in the report element this property is assigned to.    
     </description>

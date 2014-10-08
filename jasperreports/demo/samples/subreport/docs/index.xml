@@ -7,6 +7,7 @@
   <description>Shows how subreport could be used to create complex document layouts.</description>
 
   <mainFeature ref="subreports"/>
+  <mainFeature ref="jsonmetadataexport"/>
   
   <!-- subreports -->
   
@@ -237,5 +238,214 @@ Other alternatives for processing different queries in the same report are usage
     iReport Ultimate Guide (available from the JasperSoft eShop)<br/>
     </content>
   </feature>
+
+  <!-- jsonmetadataexport -->
+  
+  <feature name="jsonmetadataexport" title="Exporting to JSON Format Using Report Metadata">
+    <description>
+Shows how to export the report to JSON format using metadata associated with report elements at design time, to mark JSON tree nodes.
+    </description>
+    <since>5.6.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <otherSample ref="jasper"/>
+    <content>
+<subtitle name="json_output">Pixel-Perfect Requirement and JSON Output Format</subtitle>
+<br/>
+<br/>
+<api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> objects are ready to be printed out in a pixel-perfect 
+representation. This means that they are very appropriate for  visual representations of data, since objects' dimensions, their 
+absolute and relative positions within the document are completely preserved. The pixel-perfect representation suits very well 
+the read-only or layout-oriented output formats, such as PDF or Graphics2D, but it may generate some inconvenients for 
+data-oriented output formats like CSV, Excel or JSON. In this case more important than the pixel-perfectness of the document is to allow 
+the generated data in the report to be properly stored, transmitted or manipulated by specific engines. To successfully handle a set of data  
+ideally is to know:
+<ul>
+<li>how to iterate through records in order to retrieve the data;</li>
+<li>the field name the data is associated with;</li>
+<li>the correct field type (text, numeric, currency, date, etc);</li>
+<li>the data value</li>
+</ul>
+Document pagination and visual layout are not important in this case: 
+<ul>
+<li>no page margins and other padding settings;</li>
+<li>no page numbers;</li>
+<li>no repetition of page headers;</li>
+<li>etc.</li>
+</ul>
+The JSON output format comes with data hierachically organized in a tree structure.
+<br/>
+<br/>
+<subtitle name="json_metadata_export">The JSON Metadata Exporter</subtitle>
+<br/>
+<br/>
+Extracting relevant data from a pixel-perfect <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> object, in order to generate a 
+data-oriented output, may be done by customizing the export process. Some properties are needed to tell the JR engine which elements should be exported 
+and where should they be placed within the JSON tree object. The <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
+is designed to handle such kind of metadata information and to generate consistent data structures. 
+<br/>
+Before starting its export work, the JSON metadata exporter looks for the presence of an existing JSON schema by calling the 
+<api href="net/sf/jasperreports/export/JsonMetadataReportConfiguration.html#getJsonSchemaResource()">getJsonSchemaResource()</api> exporter configuration setting.
+This can be configured either directly, using the APIs, or by reading the value from the 
+<a href="../../config.reference.html#net.sf.jasperreports.export.json.schema">net.sf.jasperreports.export.json.schema</a> report 
+property. If present, this setting provides the path to a JSON schema file that will be used to generate the JSON structure at export time. Nodes in a given schema may provide:
+<ul>
+<li>the <code>_type</code> property (mandatory), which can be an <code>object</code> or an <code>array</code>.</li>
+<li>the  <code>_children</code> property (mandatory for array-type nodes), which defines the type of the objects in the array.</li>
+<li>other properties that describe the object.</li>
+</ul> 
+An example of JSON schema can be found in <code>demo/samples/subreport/reports/MasterReport.schema.json</code> file in the <code>subreport</code> sample directory:
+<pre><![CDATA[
+{
+  _type: 'array',
+  _children: {
+    _type: 'object',
+    City: 'value',
+    products: {
+      _type: 'array',
+      _children: {
+        _type: 'object',
+        Id: 'value',
+        Name: 'value',
+        Quantity: 'value',
+        Price: 'value'
+      }
+    },
+    customers: {
+      _type: 'array',
+      _children: {
+        _type: 'object',
+        Name: 'value',
+        Street: 'value'
+      }
+    }  
+  }
+}]]></pre>
+The above schema instructs the engine to export data into an array of objects, each of them containing a City, an array of products and an array of customers. 
+A product is defined by its Id, Name, Quantity and Price properties, while a customer is characterized by a Name and a Street
+<br/>
+If no schema is provided at export time, then the output structure will be deduced from the elements marked for JSON export, in accordance with the 
+<a href="../../config.reference.html#net.sf.jasperreports.export.json.path">net.sf.jasperreports.export.json.path</a> metadata property.
+<br/>
+Following are the metadata properties defined at element level, that are taken into account by the JSON metadata exporter:
+<ul>
+<li><a href="../../config.reference.html#net.sf.jasperreports.export.json.path">net.sf.jasperreports.export.json.path</a> 
+- this is a required property, that uses the period notation to specify a given path within the JSON tree, where the current element will be exported. If the 
+<a href="../../config.reference.html#net.sf.jasperreports.export.json.schema">net.sf.jasperreports.export.json.schema</a> property is not 
+present in the report, this property can be used to determine a rule in the JSON schema as well. If the JSON schema is provided, then the path 
+specified by <a href="../../config.reference.html#net.sf.jasperreports.export.json.path">net.sf.jasperreports.export.json.path</a> must follow the 
+rules in that schema. The current element will be placed in a node according to this path.</li>
+<li><a href="../../config.reference.html#net.sf.jasperreports.export.json.repeat.value">net.sf.jasperreports.export.json.repeat.value</a> - 
+an element-level flag property indicating whether the value associated to that JSON path should be repeated or not when it is missing.</li>
+<li><a href="../../config.reference.html#net.sf.jasperreports.export.json.data">net.sf.jasperreports.export.json.data</a> - 
+element-level property containing the exported value for that element. By default is considered the value of the report element itself.</li>
+</ul>
+In this sample the JSON schema is referenced in MasterReport.jrxml. For each City given in the master report, a list of products is retrieved based on the 
+ProductReport.jrxml subreport, and a list of customers is collected based on the AddressRport.jrxml subreport. Below are some coding fragments that show the use of 
+properties discussed above:
+<br/>
+In MasterReport.jrxml:
+<pre><![CDATA[
+<jasperReport ...>
+  <property name="net.sf.jasperreports.export.json.schema" value="reports/MasterReport.schema.json"/>
+  ...
+  <detail>
+    <band height="50">
+      <textField>
+        <reportElement style="Sans_Bold" x="5" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="2c343d22-1686-4fe6-be91-a83597306aeb">
+          <property name="net.sf.jasperreports.export.json.path" value="City"/>
+        </reportElement>
+        <textFieldExpression><![CDATA[$F{City}]] ></textFieldExpression>
+      </textField>
+      ...
+    </band>
+  </detail>
+  ...
+</jasperReport>]]></pre>
+In ProductReport.jrxml:
+<pre><![CDATA[
+<jasperReport ...>
+  ...
+  <group name="ProductGroup">
+    <groupExpression><![CDATA[$F{Id}]] ></groupExpression>
+    <groupHeader>
+      <band height="14">
+        <textField>
+          <reportElement x="0" y="2" width="15" height="10" uuid="fc2ad1b0-4874-4765-baf8-b17a2490185a">
+            <property name="net.sf.jasperreports.export.json.path" value="products.Id"/>
+          </reportElement>
+          <textElement textAlignment="Right"/>
+          <textFieldExpression><![CDATA[$F{Id}]] ></textFieldExpression>
+        </textField>
+        <textField isStretchWithOverflow="true">
+          <reportElement positionType="Float" x="20" y="2" width="80" height="10" uuid="f53978bd-fc13-4359-b82d-2142640c6696">
+            <property name="net.sf.jasperreports.export.json.path" value="products.Name"/>
+          </reportElement>
+          <textFieldExpression><![CDATA[$F{Name}]] ></textFieldExpression>
+        </textField>
+        <textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="ProductGroup" pattern="#0">
+          <reportElement positionType="Float" x="105" y="2" width="20" height="10" uuid="aec3706b-5a2e-455a-aec0-245ada2a8830">
+            <property name="net.sf.jasperreports.export.json.path" value="products.Quantity"/>
+          </reportElement>
+          <textElement textAlignment="Right"/>
+          <textFieldExpression><![CDATA[$V{QuantityProductSum}]] ></textFieldExpression>
+        </textField>
+        <textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="ProductGroup" pattern="#0.00">
+          <reportElement positionType="Float" x="130" y="2" width="30" height="10" uuid="38a1047a-67fe-4c37-ac55-1252bcb7f9db">
+            <property name="net.sf.jasperreports.export.json.path" value="products.Price"/>
+          </reportElement>
+          <textElement textAlignment="Right"/>
+          <textFieldExpression><![CDATA[$V{PriceProductSum}]] ></textFieldExpression>
+        </textField>
+      </band>
+    </groupHeader>
+    <groupFooter>
+      <band/>
+    </groupFooter>
+  </group>
+  ...
+</jasperReport>]]></pre>
+In AddressReport.jrxml:
+<pre><![CDATA[
+<jasperReport ...>
+  ...
+  <detail>
+    <band height="14">
+      <textField>
+        <reportElement x="0" y="2" width="15" height="10" uuid="e9328667-edce-49cd-a5a4-504884a5094f"/>
+        <textElement textAlignment="Right"/>
+        <textFieldExpression><![CDATA[$F{Id}]] ></textFieldExpression>
+      </textField>
+      <textField isStretchWithOverflow="true">
+        <reportElement positionType="Float" x="20" y="2" width="80" height="10" uuid="1c766997-5272-480b-935f-cf519342a2a1">
+          <property name="net.sf.jasperreports.export.json.path" value="customers.Name"/>
+        </reportElement>
+        <textFieldExpression><![CDATA[$F{FirstName} + " " + $F{LastName}]] ></textFieldExpression>
+      </textField>
+      <textField isStretchWithOverflow="true">
+        <reportElement positionType="Float" x="105" y="2" width="70" height="10" uuid="919d119f-31d8-4631-b19c-555f21ef3e5e">
+          <property name="net.sf.jasperreports.export.json.path" value="customers.Street"/>
+        </reportElement>
+        <textFieldExpression><![CDATA[$F{Street}]] ></textFieldExpression>
+      </textField>
+    </band>
+  </detail>
+  ...
+</jasperReport>]]></pre>
+
+After running the <code>&gt;ant test view</code> command, the pure data exported with the JSON metadata exporter will be available in the 
+<code>demo/samples/subreport/build/reports</code> directory as <code>MasterReport.json</code>.
+    </content>
+  </feature>
+  
+  
+  
+  
+  
+  
 
 </sample>
