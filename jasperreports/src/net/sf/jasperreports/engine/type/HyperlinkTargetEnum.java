@@ -41,7 +41,7 @@ public enum HyperlinkTargetEnum implements JREnum
 	/**
 	 * Constant useful for specifying that the hyperlink will be opened in the same window.
 	 */
-	SELF((byte)1, "Self", null),
+	SELF((byte)1, "Self", "_self"),
 
 	/**
 	 * Constant useful for specifying that the hyperlink will be opened in a new window.
