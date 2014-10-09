@@ -2740,6 +2740,9 @@ line breaks at fill time via the <a href="#net.sf.jasperreports.text.save.line.b
     <description>
 This element-level property is considered by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
 and provides the exported value for that element. By default is considered the value of the report element itself.
+<br/>
+When working with this property, numbers have to be written with no thousand separators and using a period as decimal. For instance, 1,000,000 should be written as 
+"1000000" and 2,000.45 should be written as "2000.45". Dates must be written according to ISO 8601 standard: "yyyy-MM-dd'T'HH:mm:ss".
     </description>
     <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_DATA_PROPERTY</api>
     <default>N/A</default>
@@ -3658,10 +3661,10 @@ This property is by default not set (<code>false</code>).
     <description>
 Property that specifies the value to be placed in the cell associated with the 
 <api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api> 
-in the metadata-based Excel export. If the cell is of Numeric type, values of this property should be written as standard Java 
-numeric values, using a period (".") as decimal separator. If the cell is representing a Date, values of this property should be 
-written either as a number representing the datetime in milliseconds, or as a formatted string in accordance with the ISO 8601 format: 
-"yyyy-MM-dd'T'HH:mm:ss".
+in the metadata-based Excel export. 
+<br/>
+When working with this property, numbers have to be written with no thousand separators and using a period as decimal. For instance, 1,000,000 should be written as 
+"1000000" and 2,000.45 should be written as "2000.45". Dates must be written according to ISO 8601 standard: "yyyy-MM-dd'T'HH:mm:ss".
 <br/>
 By default this value is represented by the value stored in the report element this property is assigned to.    
     </description>

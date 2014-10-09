@@ -342,7 +342,11 @@ rules in that schema. The current element will be placed in a node according to 
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.json.repeat.value">net.sf.jasperreports.export.json.repeat.value</a> - 
 an element-level flag property indicating whether the value associated to that JSON path should be repeated or not when it is missing.</li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.json.data">net.sf.jasperreports.export.json.data</a> - 
-element-level property containing the exported value for that element. By default is considered the value of the report element itself.</li>
+element-level property containing the exported value for that element. By default is considered the value of the report element itself.
+<br/>
+When working with this property, numbers have to be written with no thousand separators and using a period as decimal. For instance, 1,000,000 should be written as 
+"1000000" and 2,000.45 should be written as "2000.45". Dates must be written according to ISO 8601 standard: "yyyy-MM-dd'T'HH:mm:ss".
+</li>
 </ul>
 In this sample the JSON schema is referenced in MasterReport.jrxml. For each City given in the master report, a list of products is retrieved based on the 
 ProductReport.jrxml subreport, and a list of customers is collected based on the AddressRport.jrxml subreport. Below are some coding fragments that show the use of 
