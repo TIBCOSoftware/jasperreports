@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -46,9 +47,14 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.data.BooleanTextValue;
+import net.sf.jasperreports.engine.export.data.DateTextValue;
+import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
+import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
@@ -502,27 +508,37 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 	private void processTextElement(JRPrintText printText, String absolutePath, boolean repeatValue) throws IOException {
 		
 		Object value = null;
+		final String textStr;
+		final boolean hasDataProp;
 		if (printText.getPropertiesMap().containsProperty(JSON_EXPORTER_DATA_PROPERTY)) {
-			value = printText.getPropertiesMap().getProperty(JSON_EXPORTER_DATA_PROPERTY);
+			hasDataProp = true;
+			textStr = printText.getPropertiesMap().getProperty(JSON_EXPORTER_DATA_PROPERTY);
 		} else {
-			String textStr = null;
+			hasDataProp = false;
 			JRStyledText styledText = getStyledText(printText);
 			
-			if (styledText != null) {
-				textStr = styledText.getText();
-			}
-			
-			TextValue textValue = getTextValue(printText, textStr);
-			if (textValue instanceof StringTextValue)
+			if (styledText != null) 
 			{
-				value = textStr;
+				textStr = styledText.getText();
 			}
 			else
 			{
-				value = printText.getValue();
+				textStr = null;
 			}
 		}
 
+		TextValue textValue = getTextValue(printText, textStr);
+		LocalTextValueHandler handler = new LocalTextValueHandler(hasDataProp, textStr);
+		try
+		{
+			textValue.handle(handler);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		value = handler.getValue();
+		
 		if (openedNodes.size() == 0) {
 			// initialize the json for the first time
 			initJson(absolutePath, value, repeatValue);
@@ -991,4 +1007,62 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 		}
 	}
 
+	private class LocalTextValueHandler implements TextValueHandler
+	{
+		Object value;
+		boolean hasDataProp;
+		String textStr;
+		
+		public LocalTextValueHandler(boolean hasDataProp, String textStr)
+		{
+			this.hasDataProp = hasDataProp;
+			this.textStr = textStr;
+		}
+		
+		public Object getValue()
+		{
+			return value;
+		}
+		
+		public void handle(StringTextValue textValue) {
+			value = textValue.getText();
+		}
+
+		public void handle(NumberTextValue textValue) {
+			if (hasDataProp) {
+				if (textStr != null) {
+					try {
+						value = Double.parseDouble(textStr);
+					} catch (NumberFormatException nfe) {
+						throw new JRRuntimeException(nfe);
+					}
+				}
+			} else {
+				value = textValue.getValue();
+			}
+		}
+
+		public void handle(DateTextValue textValue) {
+			if (hasDataProp) {
+				if (textStr != null) {
+					try {
+						value = new Date(Long.parseLong(textStr));
+					} catch (NumberFormatException nfe) {
+						try {
+							value = isoDateFormat.parse(textStr);
+						} catch (ParseException pe) {
+							throw new JRRuntimeException(pe);
+						}
+					}
+				}
+			} else {
+				value = textValue.getValue();
+			}
+		}
+
+		public void handle(BooleanTextValue textValue) {
+			value = hasDataProp ? Boolean.valueOf(textStr) : textValue.getValue();
+		}
+
+	}
 }
