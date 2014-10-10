@@ -265,9 +265,9 @@ data-oriented output formats like CSV, Excel or JSON. In this case more importan
 the generated data in the report to be properly stored, transmitted or manipulated by specific engines. To successfully handle a set of data  
 ideally is to know:
 <ul>
-<li>how to iterate through records in order to retrieve the data;</li>
+<li>how to navigate through the data structure in order to retrieve the data;</li>
 <li>the field name the data is associated with;</li>
-<li>the correct field type (text, numeric, currency, date, etc);</li>
+<li>the correct data type (text, numeric, date, etc);</li>
 <li>the data value</li>
 </ul>
 Document pagination and visual layout are not important in this case: 
@@ -277,9 +277,13 @@ Document pagination and visual layout are not important in this case:
 <li>no repetition of page headers;</li>
 <li>etc.</li>
 </ul>
-The JSON output format comes with data hierachically organized in a tree structure.
-<br/>
-<br/>
+The JSON output format organizes data hierachically in a tree structure, written in accordance with the JSON syntax:
+<ul>
+<li>arrays are enclosed in square brackets</li>
+<li>objects in arrays are comma-separated</li>
+<li>objects are enclosed in curly braces</li>
+<li>object members come in <code>name:value</code> pairs, separated by commas</li>
+</ul> 
 <subtitle name="json_metadata_export">The JSON Metadata Exporter</subtitle>
 <br/>
 <br/>
@@ -348,6 +352,10 @@ When working with this property, numbers have to be written with no thousand sep
 "1000000" and 2,000.45 should be written as "2000.45". Dates must be written according to ISO 8601 standard: "yyyy-MM-dd'T'HH:mm:ss".
 </li>
 </ul>
+To control the appearance of the name of the member properties in an object, the metadata exporter looks for a report-level property called 
+<a href="../../config.reference.html#net.sf.jasperreports.export.json.escape.members">net.sf.jasperreports.export.json.escape.members</a>. 
+If this flag is set to true (as it is, by default), then member names will be surrounded by double quotes.
+<br/>
 In this sample the JSON schema is referenced in MasterReport.jrxml. For each City given in the master report, a list of products is retrieved based on the 
 ProductReport.jrxml subreport, and a list of customers is collected based on the AddressRport.jrxml subreport. Below are some coding fragments that show the use of 
 properties discussed above:
