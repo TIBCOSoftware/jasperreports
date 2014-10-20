@@ -814,7 +814,11 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 
 	private void writeValue(Object value)throws IOException {
 		if (value != null) {
-			if (value instanceof Number) {
+			if (
+				value instanceof Number
+				|| value instanceof Boolean
+				) 
+			{
 				writer.write(value.toString());
 			} else if (value instanceof Date) {
 				writer.write("\"");
