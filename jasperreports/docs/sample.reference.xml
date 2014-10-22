@@ -115,11 +115,12 @@
       <feature name="batchexport" sample="batchexport" title="Exporting Multiple Reports into a Single Output File (Batch Export)"/>
       <feature name="pdfencrypt" sample="pdfencrypt" title="Encrypted PDF"/>
       <feature name="printservice" sample="printservice" title="Printing Reports Using the Java Print Service API"/>
-      <feature name="csvmetadataexport" sample="jasper" title="Exporting to CSV Format Using Report Metadata"/>
-      <feature name="xlsmetadataexport" sample="jasper" title="Exporting to XLS Format Using Report Metadata"/>
       <feature name="textexport" sample="text" title="Exporting to Pure Text Format"/>
       <feature name="xlsformula" sample="xlsformula" title="Exporting XLS Formulas"/>
       <feature name="xlsfeatures" sample="xlsfeatures" title="Advanced Excel Features"/>
+      <feature name="csvmetadataexport" sample="jasper" title="Exporting to CSV Format Using Report Metadata"/>
+      <feature name="xlsmetadataexport" sample="jasper" title="Exporting to XLS Format Using Report Metadata"/>
+      <feature name="jsonmetadataexport" sample="subreport" title="Exporting to JSON Format Using Report Metadata"/>
     </content>
   </category>
   
