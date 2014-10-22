@@ -181,7 +181,7 @@ public class FillReturnValues
 		helper.setToVariable(returnValue.getToVariable() + "_DISTINCT_COUNT");
 		helper.setSubreportVariable(returnValue.getSubreportVariable());
 		helper.setCalculation(CalculationEnum.NOTHING);
-		helper.setIncrementerFactoryClassName(helper.getIncrementerFactoryClassName());//FIXME shouldn't it be returnValue? tests required
+		helper.setIncrementerFactoryClassName(JRDistinctCountIncrementerFactory.class.getName());
 		
 		return helper;
 	}
