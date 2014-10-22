@@ -2211,8 +2211,9 @@ These flags can be controlled at hyperlink declaration level by using the hyperl
     <description>
 Properties with this syntax are used by the exporters to create default exporter filter instances that filter 
 out content based on element key information. Possible values for the <code>{format}</code> token are 
-<code>pdf</code>, <code>html</code>, <code>xls</code>, <code>rtf</code>, <code>odt</code>, <code>csv</code> 
-and <code>txt</code>. The <code>{suffix}</code> token can be either the element key value or an arbitrary string.
+<code>pdf</code>, <code>html</code>, <code>xls</code>, <code>xlsx</code>, <code>rtf</code>, <code>odt</code>, <code>ods</code>, <code>csv</code> 
+and <code>txt</code>. The <code>{suffix}</code> token can be either the element's key value or an arbitrary string. The value of the property, if 
+defined, should be the element's key value. If the property has no value, its suffix will be assumed as a value.
 <br/>
 The following example shows how to specify element keys which are to be excluded
 from specific export outputs:
@@ -2236,6 +2237,7 @@ from specific export outputs:
     <api>N/A</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>3.0.1</since>
   </configProperty>
   
   
@@ -2245,8 +2247,8 @@ from specific export outputs:
     <description>
 Properties with this syntax are used by the exporters to create default exporter filter instances that filter 
 out content based on element origin information. Possible values for the <code>{format}</code> token are 
-<code>pdf</code>, <code>html</code>, <code>xls</code>, <code>rtf</code>, <code>odt</code>, <code>csv</code> 
-and <code>txt</code>. The <code>{suffix}</code> token can be <code>band</code>, <code>group</code> or 
+<code>pdf</code>, <code>html</code>, <code>xls</code>, <code>xlsx</code>, <code>rtf</code>, <code>odt</code>, <code>csv</code> 
+and <code>txt</code>. The <code>{suffix}</code> token can be: <code>band</code>, <code>group</code> or 
 <code>report</code>.
 <br/>
 See this <a href="http://community.jaspersoft.com/wiki/how-can-i-suppress-page-headers-and-footers-when-exporting-xls">FAQ</a> for more details about filtering out content while exporting.
@@ -2254,6 +2256,7 @@ See this <a href="http://community.jaspersoft.com/wiki/how-can-i-suppress-page-h
     <api>N/A</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>2.0.3</since>
   </configProperty>
   
   
@@ -2263,8 +2266,8 @@ See this <a href="http://community.jaspersoft.com/wiki/how-can-i-suppress-page-h
     <description>
 Properties with this syntax are used by the exporters to create default exporter filter instances that filter 
 out content based on element origin information. Possible values for the <code>{format}</code> token are 
-<code>pdf</code>, <code>html</code>, <code>xls</code>, <code>rtf</code>, <code>odt</code>, <code>csv</code> 
-and <code>txt</code>. The <code>{suffix}</code> token can be <code>band</code>, <code>group</code> or 
+<code>pdf</code>, <code>html</code>, <code>xls</code>, <code>xlsx</code>, <code>rtf</code>, <code>odt</code>, <code>csv</code> 
+and <code>txt</code>. The <code>{suffix}</code> token can be: <code>band</code>, <code>group</code> or 
 <code>report</code>.
 <br/>
 See this <a href="http://community.jaspersoft.com/wiki/how-can-i-suppress-page-headers-and-footers-when-exporting-xls">FAQ</a> for more details about filtering out content while exporting.
@@ -2272,6 +2275,7 @@ See this <a href="http://community.jaspersoft.com/wiki/how-can-i-suppress-page-h
     <api>N/A</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
+    <since>2.0.3</since>
   </configProperty>
   
   
