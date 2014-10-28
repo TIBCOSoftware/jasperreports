@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="demo/samples/jasper/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/xml-apis.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/ecj-4.3.1.jar"/>
@@ -36,8 +37,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/commons-collections-3.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/xalan-2.7.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jxl-2.6.10.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/poi-3.7-20101029.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/poi-ooxml-3.7-20101029.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/castor-1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/velocity-1.7-dep.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-digester-2.1.jar"/>
@@ -55,5 +54,7 @@
 	<classpathentry kind="lib" path="lib/httpcore-4.3.2.jar"/>
 	<classpathentry kind="lib" path="lib/itext-pdfa-5.5.0.jar"/>
 	<classpathentry kind="lib" path="lib/itextpdf-5.5.0.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.10.1.jar"/>
+	<classpathentry kind="lib" path="lib/poi-ooxml-3.10.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
