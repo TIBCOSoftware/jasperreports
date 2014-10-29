@@ -59,8 +59,8 @@ public class FillStyleItem extends FillItem
 	public Object getEvaluatedValue(ItemProperty property, JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
 	{
 		Object result = super.getEvaluatedValue(property, evaluator, evaluation);
-		return PROPERTY_COLOR.equals(property.getName()) 
-				? JRColorUtil.getColorHexa(JRColorUtil.getColor((String)result, ColorEnum.RED.getColor()))
+		return property.getName().toLowerCase().contains(PROPERTY_COLOR) 
+				? (result == null || ((String)result).trim().length() == 0 ? ColorEnum.RED.getColor() : JRColorUtil.getColorHexa(JRColorUtil.getColor((String)result, ColorEnum.RED.getColor())))
 				: result;
 	}
 	

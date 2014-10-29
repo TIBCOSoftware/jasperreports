@@ -72,8 +72,8 @@ public class FillPlaceItem extends FillItem
 		Object result = super.getEvaluatedValue(property, evaluator, evaluation);
 		return MapComponent.PROPERTY_address.equals(property.getName())
 			? getCoords((String)result)
-			: (PROPERTY_COLOR.equals(property.getName()) 
-				? JRColorUtil.getColorHexa(JRColorUtil.getColor((String)result, ColorEnum.RED.getColor()))
+			: (property.getName().toLowerCase().contains(PROPERTY_COLOR) 
+				? (result == null || ((String)result).trim().length() == 0 ? ColorEnum.RED.getColor() : JRColorUtil.getColorHexa(JRColorUtil.getColor((String)result, ColorEnum.RED.getColor())))
 				: result);
 	}
 	
