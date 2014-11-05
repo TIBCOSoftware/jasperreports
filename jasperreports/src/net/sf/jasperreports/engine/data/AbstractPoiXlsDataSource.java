@@ -41,6 +41,8 @@ import net.sf.jasperreports.engine.util.FormatUtils;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellValue;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -227,30 +229,96 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 	public Object getFieldValue(JRField jrField) throws JRException
 	{
 		String fieldName = jrField.getName();
-
-		Integer columnIndex = columnNames.get(fieldName);
-		if (columnIndex == null && fieldName.startsWith("COLUMN_")) 
-		{
-			columnIndex = Integer.valueOf(fieldName.substring(7));
-		}
-		if (columnIndex == null)
-		{
-			throw new JRException("Unknown column name : " + fieldName);
-		}
-		Sheet sheet = workbook.getSheetAt(sheetIndex);
-		Cell cell = sheet.getRow(recordIndex).getCell(columnIndex);
-		if(cell == null)
-		{
-			return null;
-		}
 		Class<?> valueClass = jrField.getValueClass();
-		
-		if (valueClass.equals(String.class)) 
-		{
-			return cell.getStringCellValue();
-		}
 		try 
 		{
+	
+			Integer columnIndex = columnNames.get(fieldName);
+			if (columnIndex == null && fieldName.startsWith("COLUMN_")) 
+			{
+				columnIndex = Integer.valueOf(fieldName.substring(7));
+			}
+			if (columnIndex == null)
+			{
+				throw new JRException("Unknown column name : " + fieldName);
+			}
+			Sheet sheet = workbook.getSheetAt(sheetIndex);
+			Cell cell = sheet.getRow(recordIndex).getCell(columnIndex);
+			if(cell == null)
+			{
+				return null;
+			}
+			if(cell.getCellType() == Cell.CELL_TYPE_FORMULA) 
+			{
+				FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+				Object value = null;
+				switch (evaluator.evaluateFormulaCell(cell)) 
+				{
+				    case Cell.CELL_TYPE_BOOLEAN:
+				    	value = cell.getBooleanCellValue();
+				        break;
+				    case Cell.CELL_TYPE_NUMERIC:
+				    	if(Date.class.isAssignableFrom(valueClass)) 
+				    	{
+				    		value = cell.getDateCellValue();
+				    	} 
+				    	else 
+				    	{
+				    		value = cell.getNumericCellValue();
+				    	}
+				        break;
+				    case Cell.CELL_TYPE_STRING:
+				    	value = cell.getStringCellValue();
+				    	if(Date.class.isAssignableFrom(valueClass))
+				    	{
+							if(value == null || ((String)value).trim().length() == 0)
+							{
+								value = null;
+							}
+							else
+							{
+								if (dateFormat != null)
+								{
+									value = FormatUtils.getFormattedDate(dateFormat, (String)value, valueClass);
+								}
+								else 
+								{
+									value = convertStringValue((String)value, valueClass);
+								}
+							}					
+				    	} 
+				    	else if (Number.class.isAssignableFrom(valueClass))
+				    	{
+							if(value == null || ((String)value).trim().length() == 0)
+							{
+								value = null;
+							}
+							else
+							{
+								if (numberFormat != null)
+								{
+									value = FormatUtils.getFormattedNumber(numberFormat, (String)value, valueClass);
+								}
+								else 
+								{
+									value = convertStringValue((String)value, valueClass);
+								}
+							}					
+				    	}
+				        break;
+				    case Cell.CELL_TYPE_BLANK:
+				    case Cell.CELL_TYPE_ERROR:
+				    case Cell.CELL_TYPE_FORMULA: 
+				    default:	
+				        break;
+				}
+				return value;
+			}
+			
+			if (valueClass.equals(String.class)) 
+			{
+				return cell.getStringCellValue();
+			}
 			if (valueClass.equals(Boolean.class)) 
 			{
 				if (cell.getCellType() == Cell.CELL_TYPE_BOOLEAN)
