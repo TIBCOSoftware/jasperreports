@@ -4868,7 +4868,7 @@ the bookmark will be created as a direct descendant of its nearest parent.
     <description>
 Property which specifies if the size of each page should be increased to accommodate its content.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_SIZE_PAGE_TO_CONTENT</api>
+    <api>net/sf/jasperreports/export/PdfReportConfiguration.html#PROPERTY_SIZE_PAGE_TO_CONTENT</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>4.7.0</since>
