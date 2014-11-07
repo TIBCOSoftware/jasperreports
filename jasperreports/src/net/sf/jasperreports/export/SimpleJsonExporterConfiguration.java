@@ -31,6 +31,7 @@ package net.sf.jasperreports.export;
 public class SimpleJsonExporterConfiguration extends SimpleExporterConfiguration implements JsonExporterConfiguration
 {
 	private Boolean flushOutput;
+	private Boolean reportComponentsExportOnly;
 
 	/**
 	 * 
@@ -46,12 +47,28 @@ public class SimpleJsonExporterConfiguration extends SimpleExporterConfiguration
 	{
 		return flushOutput;
 	}
-	
+
 	/**
 	 * 
 	 */
 	public void setFlushOutput(Boolean flushOutput)
 	{
 		this.flushOutput = flushOutput;
+	}
+
+	/**
+	 *
+	 */
+	public Boolean isReportComponentsExportOnly()
+	{
+		return reportComponentsExportOnly;
+	}
+
+	/**
+	 *
+	 */
+	public void setReportComponentsExportOnly(Boolean reportComponentsExportOnly)
+	{
+		this.reportComponentsExportOnly = reportComponentsExportOnly;
 	}
 }

@@ -85,7 +85,7 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 		colText.setSimpleColumn(
 			pdfExporter.getPhrase(segment.as, segment.text, text),
 			x + drawPosX + leftOffsetFactor * advance,// + leftPadding
-			pdfExporter.getCurrentJasperPrint().getPageHeight()
+			pdfExporter.getCurrentPageFormat().getPageHeight()
 				- y
 				- topPadding
 				- verticalAlignOffset
@@ -93,7 +93,7 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 				+ lineHeight
 				- drawPosY,
 			x + drawPosX  + segment.layout.getAdvance() + rightOffsetFactor * advance,// + leftPadding
-			pdfExporter.getCurrentJasperPrint().getPageHeight()
+			pdfExporter.getCurrentPageFormat().getPageHeight()
 				- y
 				- topPadding
 				- verticalAlignOffset

@@ -76,6 +76,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
@@ -513,12 +514,14 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 			elements = page.getElements();
 		}
 		
+		PrintPageFormat pageFormat = jasperPrint.getPageFormat(pageIndex);
+		
 		JRGridLayout layout = 
 			new JRGridLayout(
 				nature,
 				elements,
-				jasperPrint.getPageWidth(), 
-				jasperPrint.getPageHeight(),
+				pageFormat.getPageWidth(), 
+				pageFormat.getPageHeight(),
 				configuration.getOffsetX() == null ? 0 : configuration.getOffsetX(), 
 				configuration.getOffsetY() == null ? 0 : configuration.getOffsetY(), 
 				null //address

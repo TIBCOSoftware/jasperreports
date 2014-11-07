@@ -368,7 +368,6 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		) throws JRException
 	{
 		filler.checkInterrupted();
-		filler.fillContext.ensureMasterPageAvailable();
 
 		filler.setBandOverFlowAllowed(isOverflowAllowed);
 
@@ -499,7 +498,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		
 		if (isPageBreakInhibited && filler.isSubreport())
 		{
-			isPageBreakInhibited = filler.parentElement.getBand().isPageBreakInhibited();
+			isPageBreakInhibited = filler.bandReportParent.isPageBreakInhibited();
 		}
 		
 		return isPageBreakInhibited;

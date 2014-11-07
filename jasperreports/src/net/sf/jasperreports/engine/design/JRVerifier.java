@@ -88,6 +88,7 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPart;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertyExpression;
@@ -114,11 +115,18 @@ import net.sf.jasperreports.engine.component.ComponentCompiler;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
+import net.sf.jasperreports.engine.part.PartComponent;
+import net.sf.jasperreports.engine.part.PartComponentCompiler;
+import net.sf.jasperreports.engine.part.PartComponentManager;
+import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
+import net.sf.jasperreports.engine.part.PartEvaluationTime;
 import net.sf.jasperreports.engine.query.QueryExecuterFactory;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
+import net.sf.jasperreports.engine.type.PartEvaluationTimeType;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
+import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.util.FormatFactory;
@@ -236,6 +244,7 @@ public class JRVerifier
 	 */
 	private JasperReportsContext jasperReportsContext;
 	private JasperDesign jasperDesign;
+	private SectionTypeEnum sectionType;
 	private Collection<JRValidationFault> brokenRules;
 
 	private JRExpressionCollector expressionCollector;
@@ -273,6 +282,7 @@ public class JRVerifier
 	{
 		this.jasperReportsContext = jasperReportsContext;
 		this.jasperDesign = jasperDesign;
+		this.sectionType = jasperDesign.getSectionType() == null ? SectionTypeEnum.BAND : jasperDesign.getSectionType();
 		brokenRules = new ArrayList<JRValidationFault>();
 
 		if (expressionCollector != null)
@@ -1395,9 +1405,32 @@ public class JRVerifier
 			JRBand[] bands = section.getBands();
 			if (bands != null && bands.length > 0)
 			{
-				for(int i = 0; i< bands.length; i++)
+				if (sectionType == SectionTypeEnum.PART)
 				{
-					verifyBand(bands[i]);
+					addBrokenRule("Part reports cannot contain bands", section);
+				}
+				else
+				{
+					for(int i = 0; i< bands.length; i++)
+					{
+						verifyBand(bands[i]);
+					}
+				}
+			}
+			
+			JRPart[] parts = section.getParts();
+			if (parts != null && parts.length > 0)
+			{
+				if (sectionType == SectionTypeEnum.BAND)
+				{
+					addBrokenRule("Band reports cannot contain bands", section);
+				}
+				else
+				{
+					for (int i = 0; i < parts.length; i++)
+					{
+						verifyPart(parts[i]);
+					}
 				}
 			}
 		}
@@ -1411,6 +1444,12 @@ public class JRVerifier
 	{
 		if (band != null)
 		{
+			if (sectionType == SectionTypeEnum.PART)
+			{
+				addBrokenRule("Part reports cannot contain bands", band);
+				return;
+			}
+			
 			JRElement[] elements = band.getElements();
 			if (elements != null && elements.length > 0)
 			{
@@ -2643,6 +2682,54 @@ public class JRVerifier
 	public void verify(MultiAxisData data)
 	{
 		// TODO lucianc 
+	}
+
+
+	protected void verifyPart(JRPart part)
+	{
+		PartEvaluationTime evaluationTime = part.getEvaluationTime();
+		if (evaluationTime != null && evaluationTime.getEvaluationTimeType() == PartEvaluationTimeType.GROUP)
+		{
+			String evaluationGroup = evaluationTime.getEvaluationGroup();
+			if (evaluationGroup == null)
+			{
+				addBrokenRule("Evaluation group not set for part", part);
+			}
+			else
+			{
+				Map<String, JRGroup> groups = jasperDesign.getGroupsMap();
+				if (!groups.containsKey(evaluationGroup))
+				{
+					addBrokenRule("Part evaluation group \"" + evaluationGroup + "\" not found in report", part);
+				}
+			}
+		}
+
+		ComponentKey componentKey = part.getComponentKey();
+		if (componentKey == null)
+		{
+			addBrokenRule("No component key set for part", part);
+		}
+		
+		PartComponent component = part.getComponent();
+		if (component == null)
+		{
+			addBrokenRule("No component set for part", part);
+		}
+		
+		if (componentKey != null && component != null)
+		{
+			PartComponentManager manager = PartComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey);
+			if (manager == null)
+			{
+				addBrokenRule("No component manager found for part component \"" + componentKey.getName() + "\"", part);
+			}
+			else
+			{
+				PartComponentCompiler compiler = manager.getComponentCompiler(jasperReportsContext);
+				compiler.verify(component, this);
+			}
+		}
 	}
 	
 }

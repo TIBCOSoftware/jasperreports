@@ -287,6 +287,9 @@ public class JRPrintXmlLoader implements ErrorHandler
 		digester.addSetNext("*/bookmark", "addBookmark", PrintBookmark.class.getName());
 
 		/*   */
+		digester.addFactoryCreate("jasperPrint/part", PrintPartFactory.class.getName());
+
+		/*   */
 		digester.addFactoryCreate("jasperPrint/page", JRPrintPageFactory.class.getName());
 		digester.addSetNext("jasperPrint/page", "addPage", JRPrintPage.class.getName());
 

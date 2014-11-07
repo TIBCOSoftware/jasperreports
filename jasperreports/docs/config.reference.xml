@@ -7,6 +7,7 @@
   <category>
     <name>Data Source / Query Executer</name>
     <content>
+      <property ref="net.sf.jasperreports.bookmarks.data.source.parameter"/>
       <property ref="net.sf.jasperreports.csv.column.names.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.csv.date.pattern"/>
       <property ref="net.sf.jasperreports.csv.encoding"/>
@@ -81,6 +82,8 @@
       <property ref="net.sf.jasperreports.image.reader"/>
       <property ref="net.sf.jasperreports.markup.processor.factory.{markup}"/>
       <property ref="net.sf.jasperreports.page.break.no.pagination"/>
+      <property ref="net.sf.jasperreports.print.collapse.missing.bookmark.levels"/>
+      <property ref="net.sf.jasperreports.print.create.bookmarks"/>
       <property ref="net.sf.jasperreports.print.keep.full.text"/>
       <property ref="net.sf.jasperreports.text.truncate.at.char"/>
       <property ref="net.sf.jasperreports.text.truncate.suffix"/>
@@ -382,6 +385,19 @@
       <property ref="net.sf.jasperreports.viewer.render.buffer.max.size"/>
     </content>
   </category>
+  
+  
+  <!-- net.sf.jasperreports.bookmarks.data.source.parameter -->
+  
+  <configProperty name="net.sf.jasperreports.bookmarks.data.source.parameter">
+    <description>
+Property that references the parameter containing the bookmarks data source.
+    </description>
+    <api>net/sf/jasperreports/parts/subreport/SubreportFillPart.html#PROPERTY_BOOKMARKS_DATA_SOURCE_PARAMETER</api>
+    <default>N/A</default>
+    <scope>Part</scope>
+    <since>6.0.0</since>
+  </configProperty>
   
   
   <!-- net.sf.jasperreports.csv.column.names.{arbitrary_name} -->
@@ -1307,6 +1323,33 @@ a given styled text having the markup type specified in the property suffix.
     <default>N/A</default>
     <scope>Global</scope>
     <since>2.0.5</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.print.collapse.missing.bookmark.levels -->
+  
+  <configProperty name="net.sf.jasperreports.print.collapse.missing.bookmark.levels">
+    <description>
+This property is used to determine whether missing bookmarks levels should be colapsed when 
+the propety <a href="#net.sf.jasperreports.print.create.bookmarks">net.sf.jasperreports.print.create.bookmarks</a> is set
+    </description>
+    <api>net/sf/jasperreports/engine/JasperPrint.html#PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.print.create.bookmarks -->
+  
+  <configProperty name="net.sf.jasperreports.print.create.bookmarks">
+    <description>
+Property used to determine whether bookmarks should be collected at report generation time.
+    </description>
+    <api>net/sf/jasperreports/engine/JasperPrint.html#PROPERTY_CREATE_BOOKMARKS</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>5.5.2</since>
   </configProperty>
   
   

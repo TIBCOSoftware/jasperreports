@@ -60,7 +60,7 @@ import net.sf.jasperreports.engine.util.Pair;
  */
 public class JRFillContext
 {
-	private final JRBaseFiller masterFiller;
+	private final BaseReportFiller masterFiller;
 	
 	private Map<Object,JRPrintImage> loadedImages;
 	private Map<Object,JasperReport> loadedSubreports;
@@ -68,7 +68,6 @@ public class JRFillContext
 	private DeduplicableRegistry deduplicableRegistry;
 	private boolean usingVirtualizer;
 	private JRPrintPage printPage;
-	private boolean ignorePagination;
 	private JRQueryExecuter queryExecuter;
 	
 	private JasperReportsContext jasperReportsContext;
@@ -95,7 +94,7 @@ public class JRFillContext
 	/**
 	 * Constructs a fill context.
 	 */
-	public JRFillContext(JRBaseFiller masterFiller)
+	public JRFillContext(BaseReportFiller masterFiller)
 	{
 		this.masterFiller = masterFiller;
 		this.jasperReportsContext = masterFiller.getJasperReportsContext();
@@ -108,7 +107,7 @@ public class JRFillContext
 		FontUtil.getInstance(jasperReportsContext).resetThreadMissingFontsCache();
 	}
 
-	public JRBaseFiller getMasterFiller()
+	public BaseReportFiller getMasterFiller()
 	{
 		return masterFiller;
 	}
@@ -255,27 +254,15 @@ public class JRFillContext
 	
 	
 	/**
-	 * Sets the flag that decides whether pagination should be ignored during filling.
-	 * 
-	 * @param ignorePagination
-	 * @see #isIgnorePagination()
-	 */
-	public void setIgnorePagination(boolean ignorePagination)
-	{
-		this.ignorePagination  = ignorePagination;
-	}
-	
-	
-	/**
 	 * Decides whether the filling should ignore pagination.
 	 *  
 	 * @return whether the filling should ignore pagination
-	 * @see #setIgnorePagination(boolean)
 	 * @see net.sf.jasperreports.engine.JRParameter#IS_IGNORE_PAGINATION
+	 * @see JRBaseFiller#isIgnorePagination()
 	 */
 	public boolean isIgnorePagination()
 	{
-		return ignorePagination;
+		return masterFiller.isIgnorePagination();
 	}
 	
 	
@@ -319,18 +306,6 @@ public class JRFillContext
 		
 		return false;
 	}
-
-
-	/**
-	 * Ensures that the master page is available when virtualization is used.
-	 */
-	public void ensureMasterPageAvailable()
-	{
-		if (usingVirtualizer)
-		{
-			printPage.getElements();
-		}
-	}
 	
 	
 	/**
@@ -341,6 +316,22 @@ public class JRFillContext
 	public JRVirtualizationContext getVirtualizationContext()
 	{
 		return virtualizationContext;
+	}
+	
+	public void lockVirtualizationContext()
+	{
+		if (virtualizationContext != null)
+		{
+			virtualizationContext.lock();
+		}
+	}
+	
+	public void unlockVirtualizationContext()
+	{
+		if (virtualizationContext != null)
+		{
+			virtualizationContext.unlock();
+		}
 	}
 
 	
@@ -537,12 +528,6 @@ public class JRFillContext
 		return canceled;
 	}
 	
-	public void updateBookmark(JRPrintElement element)
-	{
-		// bookmarks are in the master filler
-		masterFiller.updateBookmark(element);
-	}
-	
 	public Object getFillCache(String key)
 	{
 		return fillCaches.get(key);
@@ -567,5 +552,10 @@ public class JRFillContext
 	public static interface FillCacheDisposable
 	{
 		void dispose();
+	}
+
+	public boolean isCollectingBookmarks()
+	{
+		return getMasterFiller().bookmarkHelper != null;
 	}
 }

@@ -52,14 +52,25 @@ public class BasePrintBookmark implements PrintBookmark, Serializable
 	private String label;
 	private final int pageIndex;
 	private String elementAddress;
+	
+	// we're keeping the level here to have it in BookmarkHelper.appendBookmarks
+	// not adding to the PrintBookmark interface for now
+	private int level;
 
 	public List<PrintBookmark> bookmarks;
 
 	public BasePrintBookmark(String label, int pageIndex, String elementAddress)
 	{
+		this(label, pageIndex, elementAddress, 0);
+	}
+
+	public BasePrintBookmark(String label, int pageIndex, String elementAddress,
+			int level)
+	{
 		this.label = label;
 		this.pageIndex = pageIndex;
 		this.elementAddress = elementAddress;
+		this.level = level;
 	}
 	
 	public String getLabel()
@@ -94,5 +105,10 @@ public class BasePrintBookmark implements PrintBookmark, Serializable
 	public void setLabel(String label)
 	{
 		this.label = label;
+	}
+
+	public int getLevel()
+	{
+		return level;
 	}
 }

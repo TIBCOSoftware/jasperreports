@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -264,9 +265,11 @@ public class JRPrinterAWT implements Printable
 	 */
 	public Image printPageToImage(int pageIndex, float zoom) throws JRException
 	{
+		PrintPageFormat pageFormat = jasperPrint.getPageFormat(pageIndex);
+		
 		Image pageImage = new BufferedImage(
-			(int)(jasperPrint.getPageWidth() * zoom) + 1,
-			(int)(jasperPrint.getPageHeight() * zoom) + 1,
+			(int)(pageFormat.getPageWidth() * zoom) + 1,
+			(int)(pageFormat.getPageHeight() * zoom) + 1,
 			BufferedImage.TYPE_INT_RGB
 			);
 
@@ -301,6 +304,9 @@ public class JRPrinterAWT implements Printable
 	}
 	
 	
+	/**
+	 * @deprecated To be removed.
+	 */
 	public static long getImageSize(JasperPrint jasperPrint, float zoom)
 	{
 		int width = (int) (jasperPrint.getPageWidth() * zoom) + 1;

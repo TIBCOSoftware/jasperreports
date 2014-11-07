@@ -13,6 +13,7 @@
     <element ref="jrp:reportFont" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jrp:style" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jrp:bookmark" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jrp:part" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jrp:page" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
    <attribute name="name" type="string" use="required"/>
@@ -423,6 +424,27 @@
    <attribute name="label" type="string" use="required"/>
    <attribute name="pageIndex" type="integer" use="required"/>
    <attribute name="elementAddress" type="string" use="required"/>
+  </complexType>
+ </element>
+
+ <element name="part">
+  <complexType>
+   <attribute name="pageIndex" type="NMTOKEN" use="required"/>
+   <attribute name="name" type="string" use="required"/>
+   <attribute name="pageWidth" type="NMTOKEN" use="optional"/>
+   <attribute name="pageHeight" type="NMTOKEN" use="optional"/>
+   <attribute name="topMargin" type="NMTOKEN" use="optional"/>
+   <attribute name="leftMargin" type="NMTOKEN" use="optional"/>
+   <attribute name="bottomMargin" type="NMTOKEN" use="optional"/>
+   <attribute name="rightMargin" type="NMTOKEN" use="optional"/>
+   <attribute name="orientation" default="Portrait">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Portrait"/>
+      <enumeration value="Landscape"/>
+     </restriction>
+    </simpleType>
+   </attribute>
   </complexType>
  </element>
 

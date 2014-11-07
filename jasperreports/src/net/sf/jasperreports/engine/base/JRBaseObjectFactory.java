@@ -131,6 +131,7 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPart;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
@@ -537,6 +538,26 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
+	protected JRBasePart getPart(JRPart part)
+	{
+		JRBasePart basePart = null;
+
+		if (part != null)
+		{
+			basePart = (JRBasePart)get(part);
+			if (basePart == null)
+			{
+				basePart = new JRBasePart(part, this);
+			}
+		}
+
+		return basePart;
+	}
+
+
+	/**
+	 *
+	 */
 	public void visitElementGroup(JRElementGroup elementGroup)
 	{
 		JRElementGroup baseElementGroup = null;
@@ -717,7 +738,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	protected JRBaseSubreportParameter getSubreportParameter(JRSubreportParameter subreportParameter)
+	public JRBaseSubreportParameter getSubreportParameter(JRSubreportParameter subreportParameter)
 	{
 		JRBaseSubreportParameter baseSubreportParameter = null;
 
@@ -1338,7 +1359,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	protected JRBaseSubreportReturnValue getSubreportReturnValue(JRSubreportReturnValue returnValue)
+	public JRBaseSubreportReturnValue getSubreportReturnValue(JRSubreportReturnValue returnValue)
 	{
 		JRBaseSubreportReturnValue baseSubreportReturnValue = null;
 

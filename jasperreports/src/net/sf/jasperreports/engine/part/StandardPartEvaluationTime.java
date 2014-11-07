@@ -1,0 +1,94 @@
+/*
+ * JasperReports - Free Java Reporting Library.
+ * Copyright (C) 2001 - 2014 TIBCO Software Inc. All rights reserved.
+ * http://www.jaspersoft.com
+ *
+ * Unless you have purchased a commercial license agreement from Jaspersoft,
+ * the following license terms apply:
+ *
+ * This program is part of JasperReports.
+ *
+ * JasperReports is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JasperReports is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
+ */
+package net.sf.jasperreports.engine.part;
+
+import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.type.PartEvaluationTimeType;
+
+/**
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @version $Id$
+ */
+public class StandardPartEvaluationTime implements PartEvaluationTime, Serializable
+{
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;//FIXMEBOOK readObject to preserve constants
+
+	public final static StandardPartEvaluationTime EVALUATION_NOW = new StandardPartEvaluationTime(PartEvaluationTimeType.NOW, null);
+	
+	public final static StandardPartEvaluationTime EVALUATION_REPORT = new StandardPartEvaluationTime(PartEvaluationTimeType.REPORT, null);
+	
+	public static StandardPartEvaluationTime forType(String typeName)
+	{
+		PartEvaluationTimeType type = PartEvaluationTimeType.byName(typeName);
+		if (type == null)
+		{
+			throw new JRRuntimeException("Invalid evaluation type " + typeName);
+		}
+		
+		StandardPartEvaluationTime evaluationTime;
+		switch (type)
+		{
+		case NOW:
+			evaluationTime = EVALUATION_NOW;
+			break;
+		case REPORT:
+			evaluationTime = EVALUATION_REPORT;
+			break;
+		case GROUP:
+		default:
+			throw new JRRuntimeException("Invalid simple evaluation type " + typeName);
+		}
+		return evaluationTime;
+	}
+	
+	public static StandardPartEvaluationTime forGroup(String groupName)
+	{
+		return new StandardPartEvaluationTime(PartEvaluationTimeType.GROUP, groupName);
+	}
+	
+	private final PartEvaluationTimeType type;
+	private final String groupName;
+	
+	protected StandardPartEvaluationTime(PartEvaluationTimeType type, String groupName)
+	{
+		this.type = type;
+		this.groupName = groupName;
+	}
+
+	@Override
+	public PartEvaluationTimeType getEvaluationTimeType()
+	{
+		return type;
+	}
+
+	@Override
+	public String getEvaluationGroup()
+	{
+		return groupName;
+	}
+
+}

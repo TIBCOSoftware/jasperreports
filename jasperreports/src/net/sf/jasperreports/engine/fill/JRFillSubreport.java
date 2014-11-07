@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.design.JRValidationFault;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OverflowType;
+import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -122,6 +123,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	 *
 	 */
 	protected JRBaseFiller subreportFiller;
+	protected FillerSubreportParent subFillerParent;
 	private JRPrintPage printPage;
 
 	private JRSubreportRunner runner;
@@ -297,6 +299,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	{
 		if (printPage != null)
 		{
+			if (subreportFiller.delayedActions.hasMasterDelayedActions(printPage))
+			{
+				// if there are master delayed evaluations, the evaluator needs to keep the current variables and cannot be reused
+				evictReportEvaluator();
+			}
+
 			subreportFiller.subreportPageFilled(printPage);
 		}
 	}
@@ -339,36 +347,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			}
 			else
 			{
-				if (source instanceof net.sf.jasperreports.engine.JasperReport)
-				{
-					report = (JasperReport)source;
-				}
-				else if (source instanceof java.io.InputStream)
-				{
-					report = (JasperReport)JRLoader.loadObject((InputStream)source);
-				}
-				else if (source instanceof java.net.URL)
-				{
-					report = (JasperReport)JRLoader.loadObject((URL)source);
-				}
-				else if (source instanceof java.io.File)
-				{
-					report = (JasperReport)JRLoader.loadObject((File)source);
-				}
-				else if (source instanceof java.lang.String)
-				{
-					report = RepositoryUtil.getInstance(filler.getJasperReportsContext()).getReport(filler.getFillContext().getReportContext(), (String)source);
-//						(JasperReport)JRLoader.loadObjectFromLocation(
-//							(String)source, 
-//							filler.reportClassLoader,
-//							filler.urlHandlerFactory,
-//							filler.fileResolver
-//							);
-				}
-				else
-				{
-					throw new JRRuntimeException("Unknown subreport source class " + source.getClass().getName());
-				}
+				report = loadReport(source, filler);
 				
 				if (isUsingCache)
 				{
@@ -377,6 +356,42 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			}
 		}
 		
+		return report;
+	}
+
+	public static JasperReport loadReport(Object source, BaseReportFiller filler) throws JRException
+	{
+		JasperReport report;
+		if (source instanceof net.sf.jasperreports.engine.JasperReport)
+		{
+			report = (JasperReport)source;
+		}
+		else if (source instanceof java.io.InputStream)
+		{
+			report = (JasperReport)JRLoader.loadObject((InputStream)source);
+		}
+		else if (source instanceof java.net.URL)
+		{
+			report = (JasperReport)JRLoader.loadObject((URL)source);
+		}
+		else if (source instanceof java.io.File)
+		{
+			report = (JasperReport)JRLoader.loadObject((File)source);
+		}
+		else if (source instanceof java.lang.String)
+		{
+			report = RepositoryUtil.getInstance(filler.getJasperReportsContext()).getReport(filler.getFillContext().getReportContext(), (String)source);
+//						(JasperReport)JRLoader.loadObjectFromLocation(
+//							(String)source, 
+//							filler.reportClassLoader,
+//							filler.urlHandlerFactory,
+//							filler.fileResolver
+//							);
+		}
+		else
+		{
+			throw new JRRuntimeException("Unknown subreport source class " + source.getClass().getName());
+		}
 		return report;
 	}
 
@@ -467,6 +482,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		}
 		return evaluator;
 	}
+	
+	protected void evictReportEvaluator()
+	{
+		loadedEvaluators.remove(jasperReport);
+	}
 
 
 	protected DatasetExpressionEvaluator createEvaluator() throws JRException
@@ -482,16 +502,24 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			log.debug("Fill " + filler.fillerId + ": creating subreport filler");
 		}
 		
+		SectionTypeEnum subreportSectionType = jasperReport.getSectionType();
+		if (subreportSectionType != null && subreportSectionType != SectionTypeEnum.BAND)
+		{
+			throw new JRRuntimeException("Unsupported subreport section type " + subreportSectionType);
+		}
+		
+		subFillerParent = new FillerSubreportParent(this, evaluator);
+		
 		switch (jasperReport.getPrintOrderValue())
 		{
 			case HORIZONTAL :
 			{
-				subreportFiller = new JRHorizontalFiller(filler.getJasperReportsContext(), jasperReport, evaluator, this);
+				subreportFiller = new JRHorizontalFiller(filler.getJasperReportsContext(), jasperReport, subFillerParent);
 				break;
 			}
 			case VERTICAL :
 			{
-				subreportFiller = new JRVerticalFiller(filler.getJasperReportsContext(), jasperReport, evaluator, this);
+				subreportFiller = new JRVerticalFiller(filler.getJasperReportsContext(), jasperReport, subFillerParent);
 				break;
 			}
 			default :
@@ -501,7 +529,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		}
 		
 		runner = getRunnerFactory().createSubreportRunner(this, subreportFiller);
-		subreportFiller.setSubreportRunner(runner);
+		subFillerParent.setSubreportRunner(runner);
 		
 		subreportFiller.mainDataset.setFillPosition(datasetPosition);
 		subreportFiller.mainDataset.setCacheSkipped(!cacheIncluded);
@@ -521,7 +549,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	 * @throws JRException
 	 */
 	public static Map<String, Object> getParameterValues(
-			JRBaseFiller filler, 
+			BaseReportFiller filler, 
 			JRExpression parametersMapExpression, 
 			JRDatasetParameter[] subreportParameters, 
 			byte evaluation, 
@@ -551,7 +579,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	 */
 	public static Map<String, Object> getParameterValues(
 			//TODO using the filler or current dataset?
-			JRBaseFiller filler, 
+			BaseReportFiller filler, 
 			JRFillExpressionEvaluator expressionEvaluator,
 			JRExpression parametersMapExpression, 
 			JRDatasetParameter[] subreportParameters, 
@@ -758,7 +786,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		
 		int pageHeight;
 		OverflowType overflowType = getOverflowType();
-		if (overflowType == OverflowType.NO_STRETCH && !filler.getFillContext().isIgnorePagination())
+		if (overflowType == OverflowType.NO_STRETCH && !filler.isIgnorePagination())
 		{
 			// not allowed to stretch beyond the element height
 			// note that we always have elementHeight <= availableHeight - getRelativeY(), it's tested above
@@ -838,7 +866,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			}
 
 			printPage = subreportFiller.getCurrentPage();
-			setStretchHeight(result.hasFinished() ? subreportFiller.getCurrentPageStretchHeight() : pageHeight);
+			setStretchHeight(result.hasFinished() ? subFillerParent.getCurrentPageStretchHeight() : pageHeight);
 
 			//if the subreport fill thread has not finished, 
 			// it means that the subreport will overflow on the next page
@@ -971,7 +999,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	
 	protected void verifyBandHeights() throws JRException
 	{
-		if (!filler.fillContext.isIgnorePagination())
+		if (!filler.isIgnorePagination())
 		{
 			int pageHeight;
 			int topMargin = jasperReport.getTopMargin();
@@ -987,7 +1015,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				topMargin += parentFiller.jasperReport.getTopMargin();
 				bottomMargin += parentFiller.jasperReport.getBottomMargin();
 				
-				parentFiller = parentFiller.parentFiller;
+				parentFiller = parentFiller.parent instanceof JRBaseFiller ? (JRBaseFiller) parentFiller.parent.getFiller() : null;//FIXMEBOOK
 			}
 			while (parentFiller != null);
 			
@@ -1057,6 +1085,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 	protected int getContentsStretchHeight()
 	{
-		return subreportFiller.getCurrentPageStretchHeight();
+		return subFillerParent.getCurrentPageStretchHeight();
 	}
 }

@@ -38,6 +38,7 @@
       <feature name="stretch" sample="stretch" title="Stretching Text Fields"/>
       <feature name="styledtext" sample="styledtext" title="Styled Text"/>
       <feature name="subreports" sample="subreport" title="Subreports"/>
+      <feature name="parts" sample="book" title="Report parts"/>
       <feature name="tableofcontents" sample="tableofcontents" title="Creating Table-Of-Contents Structures"/>
       <feature name="tabular" sample="tabular" title="Creating Table-like Structures"/>
       <feature name="templates" sample="templates" title="Style Templates"/>

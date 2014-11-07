@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.type;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRVariable;
 
 
 /**
@@ -76,7 +77,15 @@ public enum EvaluationTimeEnum implements JREnum
 	 * NB: avoid using this evaluation type when other types suffice as it can lead
 	 * to performance loss.
 	 */
-	AUTO((byte)7, "Auto");
+	AUTO((byte)7, "Auto"),
+	
+	/**
+	 * Used for elements that are evaluated at the moment the master report ends.
+	 * 
+	 * @see JRVariable#MASTER_CURRENT_PAGE
+	 * @see JRVariable#MASTER_TOTAL_PAGES
+	 */
+	MASTER((byte) 8, "Master");
 
 	/**
 	 *

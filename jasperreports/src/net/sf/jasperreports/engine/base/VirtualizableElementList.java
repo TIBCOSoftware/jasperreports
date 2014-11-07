@@ -169,6 +169,11 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 	{
 		store.dispose();
 	}
+
+	public JRVirtualizationContext getVirtualizationContext()
+	{
+		return virtualizationContext;
+	}
 	
 	//FIXME implement faster bulk methods such as addAll
 }

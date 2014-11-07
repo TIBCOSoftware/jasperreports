@@ -98,26 +98,9 @@ public class DocxTableHelper extends BaseHelper
 		write("   </w:tblGrid>\n");
 	}
 	
-	public void exportFooter(boolean lastPage, int pageWidth, int pageHeight) 
+	public void exportFooter() 
 	{
 		write("  </w:tbl>\n");
-		exportSection(lastPage, pageWidth, pageHeight);
-	}
-	
-	public void exportSection(boolean lastPage, int pageWidth, int pageHeight) 
-	{
-		if (lastPage)
-		{
-			write("    <w:p>\n");
-			write("    <w:pPr>\n");
-			write("  <w:sectPr>\n");
-			write("   <w:pgSz w:w=\"" + LengthUtil.twip(pageWidth) + "\" w:h=\"" + LengthUtil.twip(pageHeight) + "\" />\n");
-			write("   <w:pgMar w:top=\"0\" w:right=\"0\" w:bottom=\"0\" w:left=\"0\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" />\n");
-			write("   <w:docGrid w:linePitch=\"360\" />\n");
-			write("  </w:sectPr>\n");
-			write("    </w:pPr>\n");
-			write("    </w:p>\n");
-		}
 	}
 	
 	public void exportRowHeader(int rowHeight, boolean allowRowResize) 

@@ -48,12 +48,12 @@ public class JRFillSubreportReturnValue implements JRSubreportReturnValue
 
 	protected JRIncrementer incrementer;
 	
-	protected final JRBaseFiller filler;
+	protected final BaseReportFiller filler;
 
 
 	protected JRFillSubreportReturnValue(
 		JRSubreportReturnValue returnValue, 
-		JRFillObjectFactory factory, JRBaseFiller filler
+		JRFillObjectFactory factory, BaseReportFiller filler
 		)
 	{
 		factory.put(returnValue, this);

@@ -52,7 +52,7 @@ public abstract class BaseFillHandle implements FillHandle
 	protected final Map<String,Object> parameters;
 	protected final JRDataSource dataSource;
 	protected final Connection conn;
-	protected final JRBaseFiller filler;
+	protected final ReportFiller filler;
 	protected final List<AsynchronousFilllListener> listeners;
 	protected boolean started;
 	protected boolean running;
@@ -72,7 +72,7 @@ public abstract class BaseFillHandle implements FillHandle
 		this.parameters = parameters;
 		this.dataSource = dataSource;
 		this.conn = conn;
-		this.filler = JRFiller.createFiller(jasperReportsContext, jasperReport);
+		this.filler = JRFiller.createReportFiller(jasperReportsContext, jasperReport);
 		this.listeners = new ArrayList<AsynchronousFilllListener>();
 		lock = this;
 	}
@@ -95,7 +95,7 @@ public abstract class BaseFillHandle implements FillHandle
 	}
 
 	
-	protected class ReportFiller implements Runnable
+	protected class ReportFill implements Runnable
 	{
 		public void run()
 		{
@@ -159,7 +159,7 @@ public abstract class BaseFillHandle implements FillHandle
 			started = true;
 		}
 		
-		ReportFiller reportFiller = new ReportFiller();
+		ReportFill reportFiller = new ReportFill();
 		
 		Executor executor = getReportExecutor();
 		executor.execute(reportFiller);

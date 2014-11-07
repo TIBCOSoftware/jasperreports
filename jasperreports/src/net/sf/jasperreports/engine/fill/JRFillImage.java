@@ -913,7 +913,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		}
 		
 		copy(printImage);
-		filler.getFillContext().updateBookmark(element);
+		filler.updateBookmark(element);
 	}
 
 

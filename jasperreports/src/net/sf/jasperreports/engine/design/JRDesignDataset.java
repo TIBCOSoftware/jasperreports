@@ -229,6 +229,8 @@ public class JRDesignDataset extends JRBaseDataset
 		try 
 		{
 			addVariable(createPageNumberVariable());
+			addVariable(createMasterCurrentPageVariable());
+			addVariable(createMasterTotalPagesVariable());
 			addVariable(createColumnNumberVariable());
 			addVariable(createReportCountVariable());
 			addVariable(createPageCountVariable());
@@ -294,6 +296,28 @@ public class JRDesignDataset extends JRBaseDataset
 		//expression.setText("($V{PAGE_NUMBER} != null)?(Integer.valueOf($V{PAGE_NUMBER}.intValue() + 1)):(Integer.valueOf(1))");
 		expression.setText("new java.lang.Integer(1)");
 		variable.setInitialValueExpression(expression);
+		return variable;
+	}
+
+	private static JRDesignVariable createMasterCurrentPageVariable()
+	{
+		JRDesignVariable variable = new JRDesignVariable();
+		variable.setName(JRVariable.MASTER_CURRENT_PAGE);
+		variable.setValueClass(Integer.class);
+		variable.setResetType(ResetTypeEnum.REPORT);
+		variable.setCalculation(CalculationEnum.SYSTEM);
+		variable.setSystemDefined(true);
+		return variable;
+	}
+
+	private static JRDesignVariable createMasterTotalPagesVariable()
+	{
+		JRDesignVariable variable = new JRDesignVariable();
+		variable.setName(JRVariable.MASTER_TOTAL_PAGES);
+		variable.setValueClass(Integer.class);
+		variable.setResetType(ResetTypeEnum.REPORT);
+		variable.setCalculation(CalculationEnum.SYSTEM);
+		variable.setSystemDefined(true);
 		return variable;
 	}
 

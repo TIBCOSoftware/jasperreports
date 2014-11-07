@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.draw.FrameDrawer;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.export.Graphics2DExporterConfiguration;
@@ -303,12 +304,12 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 
 			Shape oldClipShape = grx.getClip();
 	
-			grx.clip(new Rectangle(0, 0, jasperPrint.getPageWidth(), jasperPrint.getPageHeight()));
+			PrintPageFormat pageFormat = jasperPrint.getPageFormat(startPageIndex);
+			grx.clip(new Rectangle(0, 0, pageFormat.getPageWidth(), pageFormat.getPageHeight()));
 	
 			try
 			{
-				JRPrintPage page = pages.get(startPageIndex);
-				exportPage(grx, page);
+				exportPage(grx, startPageIndex);
 			}
 			finally
 			{
@@ -321,14 +322,18 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 	/**
 	 *
 	 */
-	protected void exportPage(Graphics2D grx, JRPrintPage page) throws JRException
+	protected void exportPage(Graphics2D grx, int pageIndex) throws JRException
 	{
+		List<JRPrintPage> pages = jasperPrint.getPages();
+		JRPrintPage page = pages.get(pageIndex);
+		PrintPageFormat pageFormat = jasperPrint.getPageFormat(pageIndex);
+
 		grx.setColor(Color.white);
 		grx.fillRect(
 			0, 
 			0, 
-			jasperPrint.getPageWidth(), 
-			jasperPrint.getPageHeight()
+			pageFormat.getPageWidth(), 
+			pageFormat.getPageHeight()
 			);
 
 		grx.setColor(Color.black);

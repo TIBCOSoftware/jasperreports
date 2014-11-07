@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
@@ -225,6 +226,26 @@ public interface JRVariable extends JRCloneable
 	 */
 	public static final String COLUMN_NUMBER = "COLUMN_NUMBER";
 
+	/**
+	 * A variable that provides the current master report page number.
+	 * 
+	 * <p>
+	 * It can only be used in text elements with {@link EvaluationTimeEnum#MASTER Master} evaluation time,
+	 * it evaluates to <code>null</code> before the moment in which master elements are resolved.
+	 * </p> 
+	 */
+	public static final String MASTER_CURRENT_PAGE = "MASTER_CURRENT_PAGE";
+
+
+	/**
+	 * A variable that provides the number of master report pages.
+	 * 
+	 * <p>
+	 * It can only be used in text elements with {@link EvaluationTimeEnum#MASTER Master} evaluation time,
+	 * it evaluates to <code>null</code> before the moment in which master elements are resolved.
+	 * </p> 
+	 */
+	public static final String MASTER_TOTAL_PAGES = "MASTER_TOTAL_PAGES";
 
 	/**
 	 * Returns the name of the variable. Since all variables are stored in a map, the variable names are the keys in the map.

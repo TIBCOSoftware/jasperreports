@@ -1015,7 +1015,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		copy((JRPrintText) element);
 		
 		//FIXME put this somewhere else, e.g. in ElementEvaluationAction
-		filler.getFillContext().updateBookmark(element);
+		filler.updateBookmark(element);
 	}
 
 

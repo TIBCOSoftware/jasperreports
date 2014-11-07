@@ -29,7 +29,6 @@
 
 package net.sf.jasperreports.engine.fill;
 
-import java.sql.Connection;
 import java.text.Format;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +36,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -46,11 +44,7 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.sf.jasperreports.engine.BookmarkHelper;
-import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRBand;
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -59,41 +53,29 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JRTemplateReference;
-import net.sf.jasperreports.engine.JRVirtualizable;
-import net.sf.jasperreports.engine.JRVirtualizer;
+import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.PrintElementVisitor;
-import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
-import net.sf.jasperreports.engine.base.VirtualElementsData;
-import net.sf.jasperreports.engine.base.VirtualizablePageElements;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
-import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
-import net.sf.jasperreports.engine.util.DefaultFormatFactory;
-import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRDataUtils;
-import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
-import net.sf.jasperreports.engine.util.LinkedMap;
-import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
-import net.sf.jasperreports.engine.util.UniformPrintElementVisitor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -103,32 +85,16 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRBaseFiller implements JRDefaultStyleProvider
+public abstract class JRBaseFiller extends BaseReportFiller implements JRDefaultStyleProvider
 {
 
 	private static final Log log = LogFactory.getLog(JRBaseFiller.class);
 	
 	private static final int PAGE_HEIGHT_PAGINATION_IGNORED = 0x7d000000;//less than Integer.MAX_VALUE to avoid 
 
-	protected final Map<Integer, JRFillElement> fillElements = new HashMap<Integer, JRFillElement>();
-	protected final int fillerId;
-
-	/**
-	 *
-	 */
-	protected JRBaseFiller parentFiller;
-	protected JRFillSubreport parentElement;
-
-	private final JRFillObjectFactory factory;
+	protected BandReportFillerParent bandReportParent;
 
 	private JRStyledTextParser styledTextParser = JRStyledTextParser.getInstance();
-
-	private FillListener fillListener;
-	
-	/**
-	 *
-	 */
-	private boolean isInterrupted;
 
 	/**
 	 *
@@ -182,11 +148,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 	protected JRStyle[] styles;
 
-	/**
-	 * Main report dataset.
-	 */
-	protected JRFillDataset mainDataset;
-
 	protected JRFillGroup[] groups;
 
 	protected JRFillSection missingFillSection;
@@ -212,29 +173,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 	protected JRFillBand noData;
 
-	protected JRVirtualizationContext virtualizationContext;
-	protected ElementEvaluationVirtualizationListener virtualizationListener;
-
-	protected FormatFactory formatFactory;
-
-	protected JRFillContext fillContext;
-
-	/**
-	 * Bound element maps indexed by {@link JREvaluationTime JREvaluationTime} objects.
-	 */
-	// we can use HashMap because the map is initialized in the beginning and doesn't change afterwards
-	protected HashMap<JREvaluationTime, LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>>> boundElements;
-
-	/**
-	 *
-	 */
-	protected JasperPrint jasperPrint;
-
 	protected JRPrintPage printPage;
-	
-	protected BookmarkHelper bookmarkHelper;
-
-	protected int printPageStretchHeight;
 
 	/**
 	 * List of {@link JRFillBand JRFillBand} objects containing all bands of the
@@ -247,29 +186,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	 */
 	protected Map<Integer, JRBaseFiller> subfillers;
 
-	private Thread fillingThread;
-
-	protected JRCalculator calculator;
-
-	protected JRAbstractScriptlet scriptlet;
-
-	/**
-	 * Map of datasets ({@link JRFillDataset JRFillDataset} objects} indexed by name.
-	 */
-	protected Map<String,JRFillDataset> datasetMap;
-
-	/**
-	 *
-	 */
-	private JasperReportsContext jasperReportsContext;
-	private JRPropertiesUtil propertiesUtil;
-	private List<String> printTransferPropertyPrefixes;
-
-	/**
-	 * The report.
-	 */
-	protected JasperReport jasperReport;
-
 	private boolean bandOverFlowAllowed;
 
 	/**
@@ -277,8 +193,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	 */
 	protected Map<String,Format> dateFormatCache = new HashMap<String,Format>();
 	protected Map<String,Format> numberFormatCache = new HashMap<String,Format>();
-
-	private JRSubreportRunner subreportRunner;
 
 	protected SavePoint keepTogetherSavePoint;
 	
@@ -309,52 +223,18 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	protected JRBaseFiller(
 		JasperReportsContext jasperReportsContext, 
 		JasperReport jasperReport, 
-		JREvaluator initEvaluator, 
-		JRFillSubreport parentElement
+		BandReportFillerParent parent 
 		) throws JRException
 	{
-		this(jasperReportsContext, jasperReport, (DatasetExpressionEvaluator) initEvaluator, parentElement);
-	}
-
-	/**
-	 *
-	 */
-	protected JRBaseFiller(
-		JasperReportsContext jasperReportsContext, 
-		JasperReport jasperReport, 
-		DatasetExpressionEvaluator initEvaluator, 
-		JRFillSubreport parentElement
-		) throws JRException
-	{
-		JRGraphEnvInitializer.initializeGraphEnv();
-
-		setJasperReportsContext(jasperReportsContext);
+		super(jasperReportsContext, jasperReport, parent);
 		
-		this.jasperReport = jasperReport;
-
-		/*   */
-		this.parentElement = parentElement;
-		if (parentElement != null)
+		SectionTypeEnum sectionType = jasperReport.getSectionType();
+		if (sectionType != null && sectionType != SectionTypeEnum.BAND)
 		{
-			this.parentFiller = parentElement.filler;
-		}
-
-		if (parentFiller == null)
-		{
-			fillContext = new JRFillContext(this);
-			printTransferPropertyPrefixes = readPrintTransferPropertyPrefixes();
-		}
-		else
-		{
-			fillContext = parentFiller.fillContext;
-			printTransferPropertyPrefixes = parentFiller.printTransferPropertyPrefixes;
+			throw new JRRuntimeException("Unsupported report section type " + jasperReport.getSectionType());
 		}
 		
-		this.fillerId = fillContext.generatedFillerId();
-		if (log.isDebugEnabled())
-		{
-			log.debug("Fill " + fillerId + ": created for " + jasperReport.getName());
-		}
+		this.bandReportParent = parent;
 
 		/*   */
 		name = jasperReport.getName();
@@ -377,103 +257,16 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		isFloatColumnFooter = jasperReport.isFloatColumnFooter();
 		whenResourceMissingType = jasperReport.getWhenResourceMissingTypeValue();
 
-		jasperPrint = new JasperPrint();
-
-		boolean isCreateBookmarks = 
-			propertiesUtil.getBooleanProperty(
-				jasperReport, 
-				JasperPrint.PROPERTY_CREATE_BOOKMARKS,
-				false
-				);
-		if (isCreateBookmarks)
-		{
-			bookmarkHelper = 
-				new BookmarkHelper(
-					propertiesUtil.getBooleanProperty(
-						jasperReport, 
-						JasperPrint.PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS,
-						false
-						)
-					);
-		}
-		
-		getPropertiesUtil().transferProperties(jasperReport, jasperPrint, 
-				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
-		
-		if (initEvaluator == null)
-		{
-			calculator = JRFillDataset.createCalculator(jasperReportsContext, jasperReport, jasperReport.getMainDataset());
-		}
-		else
-		{
-			calculator = new JRCalculator(initEvaluator);
-		}
-
-		/*   */
-		factory = new JRFillObjectFactory(this);
-
-		/*   */
-		missingFillBand = new JRFillBand(this, null, factory);
-		missingFillSection = new JRFillSection(this, null, factory);
-
-		createDatasets();
-		mainDataset = factory.getDataset(jasperReport.getMainDataset());
-		
-		if (parentFiller == null)
-		{
-			FillDatasetPosition masterFillPosition = new FillDatasetPosition(null);
-			mainDataset.setFillPosition(masterFillPosition);
-		}
-		
 		groups = mainDataset.groups;
 
 		createReportTemplates(factory);
 
 		String reportName = factory.getFiller().isSubreport() ? factory.getFiller().getJasperReport().getName() : null;
 		
-		background = factory.getBand(jasperReport.getBackground());
-		if (background != missingFillBand)
-		{
-			background.setOrigin(
-				new JROrigin(
-					reportName,
-					BandTypeEnum.BACKGROUND
-					)
-				);
-		}
-		
-		title = factory.getBand(jasperReport.getTitle());
-		if (title != missingFillBand)
-		{
-			title.setOrigin(
-				new JROrigin(
-					reportName,
-					BandTypeEnum.TITLE
-					)
-				);
-		}
-
-		pageHeader = factory.getBand(jasperReport.getPageHeader());
-		if (pageHeader != missingFillBand)
-		{
-			pageHeader.setOrigin(
-				new JROrigin(
-					reportName,
-					BandTypeEnum.PAGE_HEADER
-					)
-				);
-		}
-		
-		columnHeader = factory.getBand(jasperReport.getColumnHeader());
-		if (columnHeader != missingFillBand)
-		{
-			columnHeader.setOrigin(
-				new JROrigin(
-					reportName,
-					BandTypeEnum.COLUMN_HEADER
-					)
-				);
-		}
+		background = createFillBand(jasperReport.getBackground(), reportName, BandTypeEnum.BACKGROUND);
+		title = createFillBand(jasperReport.getTitle(), reportName, BandTypeEnum.TITLE);
+		pageHeader = createFillBand(jasperReport.getPageHeader(), reportName, BandTypeEnum.PAGE_HEADER);
+		columnHeader = createFillBand(jasperReport.getColumnHeader(), reportName, BandTypeEnum.COLUMN_HEADER);
 		
 		detailSection = factory.getSection(jasperReport.getDetailSection());
 		if (detailSection != missingFillSection)
@@ -486,96 +279,45 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 				);
 		}
 		
-		columnFooter = factory.getBand(jasperReport.getColumnFooter());
-		if (columnFooter != missingFillBand)
-		{
-			columnFooter.setOrigin(
-				new JROrigin(
-					reportName,
-					BandTypeEnum.COLUMN_FOOTER
-					)
-				);
-		}
+		columnFooter = createFillBand(jasperReport.getColumnFooter(), reportName, BandTypeEnum.COLUMN_FOOTER);
+		pageFooter = createFillBand(jasperReport.getPageFooter(), reportName, BandTypeEnum.PAGE_FOOTER);
+		lastPageFooter = createFillBand(jasperReport.getLastPageFooter(), reportName, BandTypeEnum.LAST_PAGE_FOOTER);
 		
-		pageFooter = factory.getBand(jasperReport.getPageFooter());
-		if (pageFooter != missingFillBand)
-		{
-			pageFooter.setOrigin(
-				new JROrigin(
-					reportName,
-					BandTypeEnum.PAGE_FOOTER
-					)
-				);
-		}
-		
-		lastPageFooter = factory.getBand(jasperReport.getLastPageFooter());
-		if (lastPageFooter != missingFillBand)
-		{
-			lastPageFooter.setOrigin(
-				new JROrigin(
-					reportName,
-					BandTypeEnum.LAST_PAGE_FOOTER
-					)
-				);
-		}
-		
-		summary = factory.getBand(jasperReport.getSummary());
+		summary = createFillBand(jasperReport.getSummary(), reportName, BandTypeEnum.SUMMARY);
 		if (summary != missingFillBand && summary.isEmpty())
 		{
 			summary = missingFillBand;
 		}
-		if (summary != missingFillBand)
-		{
-			summary.setOrigin(
-				new JROrigin(
-					reportName,
-					BandTypeEnum.SUMMARY
-					)
-				);
-		}
 		
-		noData = factory.getBand(jasperReport.getNoData());
-		if (noData != missingFillBand)
-		{
-			noData.setOrigin(
-				new JROrigin(
-					reportName,
-					BandTypeEnum.NO_DATA
-					)
-				);
-		}
+		noData = createFillBand(jasperReport.getNoData(), reportName, BandTypeEnum.NO_DATA);
 
-		mainDataset.initElementDatasets(factory);
-		initDatasets(factory);
-
-		mainDataset.checkVariableCalculationReqs(factory);
-
-		/*   */
-		mainDataset.setCalculator(calculator);
-		mainDataset.initCalculator();
-
+		initDatasets();
 		initBands();
 	}
 
-	/**
-	 * Returns the report parameters indexed by name.
-	 *
-	 * @return the report parameters map
-	 */
-	protected Map<String,JRFillParameter> getParametersMap()
+	@Override
+	protected JRFillObjectFactory initFillFactory()
 	{
-		return mainDataset.parametersMap;
-	}
+		JRFillObjectFactory fillFactory = new JRFillObjectFactory(this);
+		
+		// needed when creating group bands
+		defaultStyleListeners = new ArrayList<DefaultStyleListener>();
+		
+		missingFillBand = new JRFillBand(this, null, fillFactory);
+		missingFillSection = new JRFillSection(this, null, fillFactory);
 
+		return fillFactory;
+	}
 	
-	/**
-	 * Returns the map of parameter values.
-	 * 
-	 * @return the map of parameter values
-	 */
-	public Map<String,Object> getParameterValuesMap()
+	private JRFillBand createFillBand(JRBand reportBand, String reportName, BandTypeEnum bandType)
 	{
-		return mainDataset.getParameterValuesMap();
+		JRFillBand fillBand = factory.getBand(reportBand);
+		if (fillBand != missingFillBand)
+		{
+			JROrigin origin = new JROrigin(reportName, bandType);
+			fillBand.setOrigin(origin);
+		}
+		return fillBand;
 	}
 
 	/**
@@ -597,18 +339,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	protected Map<String,JRFillVariable> getVariablesMap()
 	{
 		return mainDataset.variablesMap;
-	}
-
-
-	/**
-	 * Returns a report variable.
-	 *
-	 * @param variableName the variable name
-	 * @return the variable
-	 */
-	protected JRFillVariable getVariable(String variableName)
-	{
-		return mainDataset.getVariable(variableName);
 	}
 
 
@@ -695,48 +425,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		noData.addNowEvaluationTimes(groupEvaluationTimes);
 	}
 
-
-	/**
-	 *
-	 */
-	public JasperReportsContext getJasperReportsContext()
-	{
-		return jasperReportsContext;
-	}
-
-	/**
-	 *
-	 */
-	protected void setJasperReportsContext(JasperReportsContext jasperReportsContext)
-	{
-		this.jasperReportsContext = jasperReportsContext;
-		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
-	}
-
-	/**
-	 *
-	 */
-	public JRPropertiesUtil getPropertiesUtil()
-	{
-		return propertiesUtil;
-	}
-
-	private List<String> readPrintTransferPropertyPrefixes()
-	{
-		List<JRPropertiesUtil.PropertySuffix> transferProperties = propertiesUtil.getProperties(
-				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
-		List<String> prefixes = new ArrayList<String>(transferProperties.size());
-		for (JRPropertiesUtil.PropertySuffix property : transferProperties)
-		{
-			String transferPrefix = property.getValue();
-			if (transferPrefix != null && transferPrefix.length() > 0)
-			{
-				prefixes.add(transferPrefix);
-			}
-		}
-		return prefixes;
-	}
-
 	protected List<String> getPrintTransferPropertyPrefixes()
 	{
 		return printTransferPropertyPrefixes;
@@ -748,14 +436,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	public JRStyledTextParser getStyledTextParser()
 	{
 		return styledTextParser;
-	}
-
-	/**
-	 *
-	 */
-	public JasperPrint getJasperPrint()
-	{
-		return jasperPrint;
 	}
 
 	/**
@@ -776,57 +456,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		return defaultStyle;
 	}
 
-	/**
-	 *
-	 */
-	protected boolean isSubreport()
-	{
-		return (parentFiller != null);
-	}
-
-	protected boolean isMasterReport()
-	{
-		return parentFiller == null;
-	}
-
 	protected boolean isSubreportRunToBottom()
 	{
-		return parentElement != null && parentElement.isRunToBottom() != null
-				&& parentElement.isRunToBottom().booleanValue();
-	}
-	
-	/**
-	 *
-	 */
-	protected boolean isInterrupted()
-	{
-		return (isInterrupted || (parentFiller != null && parentFiller.isInterrupted()));
-	}
-
-	/**
-	 *
-	 */
-	protected void setInterrupted(boolean isInterrupted)
-	{
-		this.isInterrupted = isInterrupted;
-	}
-
-	protected void checkInterrupted()
-	{
-		if (Thread.interrupted())
-		{
-			setInterrupted(true);
-		}
-		
-		if (isInterrupted())
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug("Fill " + fillerId + ": interrupting");
-			}
-
-			throw new JRFillInterruptedException();
-		}
+		return bandReportParent != null && bandReportParent.isRunToBottom();
 	}
 	
 	/**
@@ -840,65 +472,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	/**
 	 *
 	 */
-	protected int getCurrentPageStretchHeight()
-	{
-		return printPageStretchHeight;
-	}
-
-	/**
-	 *
-	 */
 	protected abstract void setPageHeight(int pageHeight);
 
-	
-	/**
-	 * Adds a fill lister to be notified by events that occur during the fill.
-	 * 
-	 * @param fillListener the listener to add
-	 */
-	public void addFillListener(FillListener fillListener)
-	{
-		this.fillListener = CompositeFillListener.addListener(this.fillListener, fillListener);
-	}
 
-	public JasperPrint fill(Map<String,Object> parameterValues, Connection conn) throws JRException
-	{
-		if (parameterValues == null)
-		{
-			parameterValues = new HashMap<String,Object>();
-		}
-
-		setConnectionParameterValue(parameterValues, conn);
-
-		return fill(parameterValues);
-	}
-
-
-	protected void setConnectionParameterValue(Map<String,Object> parameterValues, Connection conn)
-	{
-		mainDataset.setConnectionParameterValue(parameterValues, conn);
-	}
-
-
-	public JasperPrint fill(Map<String,Object> parameterValues, JRDataSource ds) throws JRException
-	{
-		if (parameterValues == null)
-		{
-			parameterValues = new HashMap<String,Object>();
-		}
-
-		setDatasourceParameterValue(parameterValues, ds);
-
-		return fill(parameterValues);
-	}
-
-
-	protected void setDatasourceParameterValue(Map<String,Object> parameterValues, JRDataSource ds)
-	{
-		mainDataset.setDatasourceParameterValue(parameterValues, ds);
-	}
-
-
+	@Override
 	public JasperPrint fill(Map<String,Object> parameterValues) throws JRException
 	{
 		if (parameterValues == null)
@@ -923,9 +500,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		{
 			createBoundElemementMaps();
 
-			if (parentFiller != null)
+			if (parent != null)
 			{
-				parentFiller.registerSubfiller(this);
+				bandReportParent.registerSubfiller(this);
 			}
 
 			setParameters(parameterValues);
@@ -981,43 +558,30 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 			mainDataset.closeDatasource();
 			mainDataset.disposeParameterContributors();
 			
-			if (success && parentFiller == null)
+			if (success && parent == null)
 			{
 				// commit the cached data
 				fillContext.cacheDone();
 			}
 
-			if (parentFiller != null)
+			if (parent != null)
 			{
-				parentFiller.unregisterSubfiller(this);
+				bandReportParent.unregisterSubfiller(this);
 			}
 			
-			if (fillContext.isUsingVirtualizer())
-			{
-				// removing the listener
-				virtualizationContext.removeListener(virtualizationListener);
-			}
+			delayedActions.dispose();
 
 			fillingThread = null;
 
 			//kill the subreport filler threads
 			killSubfillerThreads();
 			
-			if (parentFiller == null)
+			if (parent == null)
 			{
 				fillContext.dispose();
 			}
 
 			JRResourcesFillUtil.revertResourcesFillContext(resourcesContext);
-		}
-	}
-
-	private void setParametersToContext(Map<String,Object> parameterValues)
-	{
-		JasperReportsContext localContext = LocalJasperReportsContext.getLocalContext(jasperReportsContext, parameterValues);
-		if (localContext != jasperReportsContext)
-		{
-			setJasperReportsContext(localContext);
 		}
 	}
 		
@@ -1031,7 +595,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		void defaultStyleSet(JRStyle style);
 	}
 
-	private final List<DefaultStyleListener> defaultStyleListeners = new ArrayList<DefaultStyleListener>();
+	private List<DefaultStyleListener> defaultStyleListeners;
 
 	protected void addDefaultStyleListener(DefaultStyleListener listener)
 	{
@@ -1238,8 +802,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 	private void createBoundElemementMaps()
 	{
-		boundElements = new HashMap<JREvaluationTime, LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>>>();
-
+		createBoundElementMaps(JREvaluationTime.EVALUATION_TIME_MASTER);
 		createBoundElementMaps(JREvaluationTime.EVALUATION_TIME_REPORT);
 		createBoundElementMaps(JREvaluationTime.EVALUATION_TIME_PAGE);
 		createBoundElementMaps(JREvaluationTime.EVALUATION_TIME_COLUMN);
@@ -1257,14 +820,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 			JRFillBand band = (JRFillBand) i.next();
 			createBoundElementMaps(JREvaluationTime.getBandEvaluationTime(band));
 		}
-	}
-
-
-	private void createBoundElementMaps(JREvaluationTime evaluationTime)
-	{
-		LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>> boundElementsMap = 
-				new LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>>();
-		boundElements.put(evaluationTime, boundElementsMap);
 	}
 
 
@@ -1293,161 +848,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	 */
 	protected abstract void fillReport() throws JRException;
 
-	/**
-	 *
-	 */
-	protected void setParameters(Map<String,Object> parameterValues) throws JRException
+	@Override
+	protected void ignorePaginationSet()
 	{
-		initVirtualizationContext(parameterValues);
-
-		setFormatFactory(parameterValues);
-
-		setIgnorePagination(parameterValues);
-
-		if (parentFiller == null)
-		{
-			ReportContext reportContext = (ReportContext) parameterValues.get(JRParameter.REPORT_CONTEXT);
-			fillContext.setReportContext(reportContext);
-		}
-
-		mainDataset.setParameterValues(parameterValues);
-		mainDataset.initDatasource();
-
-		this.scriptlet = mainDataset.delegateScriptlet;
-
-		if (!isSubreport())
-		{
-			fillContext.setMasterFormatFactory(getFormatFactory());
-			fillContext.setMasterLocale(getLocale());
-			fillContext.setMasterTimeZone(getTimeZone());
-		}
-	}
-
-	protected void initVirtualizationContext(Map<String, Object> parameterValues)
-	{
-		if (isSubreport())
-		{
-			if (fillContext.isUsingVirtualizer())
-			{
-				// creating a subcontext for the subreport.
-				// this allows setting a separate listener, and guarantees that
-				// the current subreport page is not externalized.
-				virtualizationContext = new JRVirtualizationContext(fillContext.getVirtualizationContext());//FIXME lucianc clear this context from the virtualizer
-				
-				// setting per subreport page size
-				setVirtualPageSize(parameterValues);
-				
-				virtualizationListener = new ElementEvaluationVirtualizationListener(this);
-				virtualizationContext.addListener(virtualizationListener);
-			}
-		}
-		else
-		{
-			/* Virtualizer */
-			JRVirtualizer virtualizer = (JRVirtualizer) parameterValues.get(JRParameter.REPORT_VIRTUALIZER);
-			if (virtualizer == null)
-			{
-				return;
-			}
-			
-			if (log.isDebugEnabled())
-			{
-				log.debug("Fill " + fillerId + ": using virtualizer " + virtualizer);
-			}
-
-			fillContext.setUsingVirtualizer(true);
-			
-			virtualizationContext = fillContext.getVirtualizationContext();
-			virtualizationContext.setVirtualizer(virtualizer);
-			
-			setVirtualPageSize(parameterValues);
-			
-			virtualizationListener = new ElementEvaluationVirtualizationListener(this);
-			virtualizationContext.addListener(virtualizationListener);
-			
-			JRVirtualizationContext.register(virtualizationContext, jasperPrint);
-		}
-	}
-	
-	protected void lockVirtualizationContext()
-	{
-		if (virtualizationContext != null)
-		{
-			virtualizationContext.lock();
-		}
-	}
-	
-	protected void unlockVirtualizationContext()
-	{
-		if (virtualizationContext != null)
-		{
-			virtualizationContext.unlock();
-		}
-	}
-
-	protected void setVirtualPageSize(Map<String, Object> parameterValues)
-	{
-		// see if we have a parameter for the page size
-		Integer virtualPageSize = (Integer) parameterValues.get(
-				JRVirtualPrintPage.PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE);
-		if (virtualPageSize == null)
-		{
-			// check if we have a property
-			String pageSizeProp = jasperReport.getPropertiesMap().getProperty(
-					JRVirtualPrintPage.PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE);
-			if (pageSizeProp != null)
-			{
-				virtualPageSize = JRPropertiesUtil.asInteger(pageSizeProp);
-			}
-		}
-		
-		if (virtualPageSize != null)
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug("virtual page size " + virtualPageSize);
-			}
-			
-			// override the default
-			virtualizationContext.setPageElementSize(virtualPageSize);
-		}
-	}
-
-
-	private void setFormatFactory(Map<String,Object> parameterValues)
-	{
-		formatFactory = (FormatFactory)parameterValues.get(JRParameter.REPORT_FORMAT_FACTORY);
-		if (formatFactory == null)
-		{
-			formatFactory = DefaultFormatFactory.createFormatFactory(jasperReport.getFormatFactoryClass());
-			parameterValues.put(JRParameter.REPORT_FORMAT_FACTORY, formatFactory);
-		}
-	}
-
-
-	private void setIgnorePagination(Map<String,Object> parameterValues)
-	{
-		if (parentFiller == null)//pagination is driven by the master
-		{
-			Boolean isIgnorePaginationParam = (Boolean) parameterValues.get(JRParameter.IS_IGNORE_PAGINATION);
-			if (isIgnorePaginationParam != null)
-			{
-				fillContext.setIgnorePagination(isIgnorePaginationParam.booleanValue());
-			}
-			else
-			{
-				boolean ignorePagination = jasperReport.isIgnorePagination();
-				fillContext.setIgnorePagination(ignorePagination);
-				parameterValues.put(JRParameter.IS_IGNORE_PAGINATION, ignorePagination ? Boolean.TRUE : Boolean.FALSE);
-			}
-		}
-		else
-		{
-			boolean ignorePagination = fillContext.isIgnorePagination();
-			parameterValues.put(JRParameter.IS_IGNORE_PAGINATION, ignorePagination ? Boolean.TRUE : Boolean.FALSE);
-		}
-
-		if (fillContext.isIgnorePagination())
+		if (ignorePagination)
 		{
 			isTitleNewPage = false;
 			isSummaryNewPage = false;
@@ -1461,33 +865,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 				}
 			}
 			
-			if (isMasterReport())//subreport page height is already set by master
+			if (isMasterReport() || !bandReportParent.isParentPagination())//subreport page height is already set by band master
 			{
 				setPageHeight(PAGE_HEIGHT_PAGINATION_IGNORED);
 			}
 		}
-	}
-
-
-	/**
-	 * Returns the report locale.
-	 *
-	 * @return the report locale
-	 */
-	protected Locale getLocale()
-	{
-		return mainDataset.getLocale();
-	}
-
-
-	/**
-	 * Returns the report time zone.
-	 *
-	 * @return the report time zone
-	 */
-	protected TimeZone getTimeZone()
-	{
-		return mainDataset.timeZone;
 	}
 
 
@@ -1499,17 +881,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	protected ResourceBundle getResourceBundle()
 	{
 		return mainDataset.resourceBundle;
-	}
-
-
-	/**
-	 * Returns the report format factory.
-	 *
-	 * @return the report format factory
-	 */
-	protected FormatFactory getFormatFactory()
-	{
-		return formatFactory;
 	}
 
 
@@ -1614,57 +985,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		return mainDataset.next();
 	}
 
-	protected void resolveBoundElements(JREvaluationTime evaluationTime, byte evaluation) throws JRException
-	{
-		LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>> pagesMap = boundElements.get(evaluationTime);
-		
-		boolean hasEntry;
-		do
-		{
-			checkInterrupted();
-			
-			// locking once per page so that we don't hold the lock for too long
-			// (that would prevent async exporters from getting page data during a long resolve)
-			lockVirtualizationContext();
-			try
-			{
-				synchronized (pagesMap)
-				{
-					// resolve a single page
-					Iterator<Map.Entry<PageKey, LinkedMap<Object, EvaluationBoundAction>>> pagesIt = pagesMap.entrySet().iterator();
-					hasEntry = pagesIt.hasNext();
-					if (hasEntry)
-					{
-						Map.Entry<PageKey, LinkedMap<Object, EvaluationBoundAction>> pageEntry = pagesIt.next();
-						int pageIdx = pageEntry.getKey().index;
-						
-						LinkedMap<Object, EvaluationBoundAction> boundElementsMap = pageEntry.getValue();
-						// execute the actions
-						while (!boundElementsMap.isEmpty())
-						{
-							EvaluationBoundAction action = boundElementsMap.pop();
-							action.execute(evaluation, evaluationTime);
-						}
-						
-						// remove the entry from the pages map
-						pagesIt.remove();
-						
-						// call the listener to signal that the page has been modified
-						if (fillListener != null)
-						{
-							fillListener.pageUpdated(jasperPrint, pageIdx);
-						}
-					}
-				}
-			}
-			finally
-			{
-				unlockVirtualizationContext();
-			}
-		}
-		while(hasEntry);
-	}
-
 	/**
 	 * Resolves elements which are to be evaluated at report level.
 	 */
@@ -1738,32 +1058,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	}
 
 	/**
-	 * Returns the value of a variable.
-	 *
-	 * @param variableName
-	 *            the variable name
-	 *
-	 * @return the variable value
-	 *
-	 * @throws JRRuntimeException when the variable does not exist
-	 */
-	public Object getVariableValue(String variableName)
-	{
-		return mainDataset.getVariableValue(variableName);
-	}
-	
-	/**
-	 * Returns the value of a parameter.
-	 * 
-	 * @param parameterName the parameter name
-	 * @return the parameter value
-	 */
-	public Object getParameterValue(String parameterName)
-	{
-		return mainDataset.getParameterValue(parameterName);
-	}
-
-	/**
 	 * Resloves elements which are to be evaluated at band level.
 	 *
 	 * @param band
@@ -1779,24 +1073,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 
 	/**
-	 * Adds a variable calculation request.
-	 *
-	 * @param variableName
-	 *            the variable name
-	 * @param calculation
-	 *            the calculation type
-	 */
-	protected void addVariableCalculationReq(String variableName, CalculationEnum calculation)
-	{
-		mainDataset.addVariableCalculationReq(variableName, calculation);
-	}
-
-
-	/**
 	 * Cancells the fill process.
 	 *
 	 * @throws JRException
 	 */
+	@Override
 	public void cancelFill() throws JRException
 	{
 		if (log.isDebugEnabled())
@@ -1870,90 +1151,86 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 			fillContext.setPrintPage(page);
 		}
 	}
-
-
-	protected void addLastPageBookmarks()
+	
+	protected void addPageToParent(final boolean ended) throws JRException
 	{
-		if (bookmarkHelper != null)
+		if (printPage == null)
 		{
-			int pageIndex = jasperPrint.getPages() == null ? -1 : (jasperPrint.getPages().size() - 1);
-			if (pageIndex >= 0)
+			return;
+		}
+		
+		FillerPageAddedEvent pageAdded = new FillerPageAddedEvent()
+		{
+			@Override
+			public JasperPrint getJasperPrint()
 			{
-				JRPrintPage page = jasperPrint.getPages().get(pageIndex);
-				bookmarkHelper.addBookmarks(page, pageIndex);
+				return jasperPrint;
 			}
-		}
-	}
-
-	protected void updateBookmark(JRPrintElement element)
-	{
-		if (bookmarkHelper != null)
-		{
-			bookmarkHelper.updateBookmark(element);
-		}
-	}
-
-
-	/**
-	 * Evaluates an expression
-	 * @param expression the expression
-	 * @param evaluation the evaluation type
-	 * @return the evaluation result
-	 * @throws JRException
-	 */
-	protected Object evaluateExpression(JRExpression expression, byte evaluation) throws JRException
-	{
-		return mainDataset.evaluateExpression(expression, evaluation);
-	}
-
-	protected JRFillExpressionEvaluator getExpressionEvaluator()
-	{
-		return calculator;
-	}
-
-	private void createDatasets() throws JRException
-	{
-		datasetMap = new HashMap<String,JRFillDataset>();
-
-		JRDataset[] datasets = jasperReport.getDatasets();
-		if (datasets != null && datasets.length > 0)
-		{
-			for (int i = 0; i < datasets.length; i++)
+			
+			@Override
+			public JRPrintPage getPage()
 			{
-				JRFillDataset fillDataset = factory.getDataset(datasets[i]);
-				fillDataset.createCalculator(jasperReport);
-
-				datasetMap.put(datasets[i].getName(), fillDataset);
+				return printPage;
 			}
-		}
+
+			@Override
+			public boolean hasReportEnded()
+			{
+				return ended;
+			}
+
+			@Override
+			public int getPageStretchHeight()
+			{
+				return offsetY + bottomMargin;
+			}
+
+			@Override
+			public int getPageIndex()
+			{
+				Number pageNumber = (Number) calculator.getPageNumber().getValue();
+				if (pageNumber == null)//this happens when whenNoDataType="BlankPage" //FIXMEBOOK maybe we should set the variable?
+				{
+					return 0;
+				}
+				return pageNumber.intValue() - 1;
+			}
+
+			@Override
+			public JRBaseFiller getFiller()
+			{
+				return JRBaseFiller.this;
+			}
+
+			@Override
+			public DelayedFillActions getDelayedActions()
+			{
+				return delayedActions;
+			}
+		};
+		
+		//FIXMEBOOK use a fill listener instead of this?
+		bandReportParent.addPage(pageAdded);
 	}
 
-
-	private void initDatasets(JRFillObjectFactory factory)
+	protected void setMasterPageVariables(int currentPageIndex, int totalPages)
 	{
-		for (Iterator<JRFillDataset> it = datasetMap.values().iterator(); it.hasNext();)
+		JRFillVariable masterCurrentPage = getVariable(JRVariable.MASTER_CURRENT_PAGE);
+		if (masterCurrentPage != null)
 		{
-			JRFillDataset dataset = it.next();
-			dataset.inheritFromMain();
-			dataset.initElementDatasets(factory);
+			masterCurrentPage.setValue(currentPageIndex + 1);
+		}
+		
+		JRFillVariable masterTotalPages = getVariable(JRVariable.MASTER_TOTAL_PAGES);
+		if (masterTotalPages != null)
+		{
+			masterTotalPages.setValue(totalPages);
 		}
 	}
-
 
 	protected WhenResourceMissingTypeEnum getWhenResourceMissingType()
 	{
 		return mainDataset.whenResourceMissingType;
-	}
-
-
-	/**
-	 * Returns the report.
-	 *
-	 * @return the report
-	 */
-	public JasperReport getJasperReport()
-	{
-		return jasperReport;
 	}
 
 
@@ -1970,13 +1247,17 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 	protected int getMasterColumnCount()
 	{
-		JRBaseFiller filler = parentFiller;
+		FillerParent fillerParent = parent;
 		int colCount = 1;
 
-		while (filler != null)
+		while (fillerParent != null)
 		{
-			colCount *= filler.columnCount;
-			filler = filler.parentFiller;
+			BaseReportFiller filler = fillerParent.getFiller();
+			if (filler instanceof JRBaseFiller)//FIXMEBOOK
+			{
+				colCount *= ((JRBaseFiller) filler).columnCount;
+			}
+			fillerParent = filler.parent;
 		}
 
 		return colCount;
@@ -1987,19 +1268,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	 * 
 	 * @return the master filler object
 	 */
-	public JRBaseFiller getMasterFiller()
+	public BaseReportFiller getMasterFiller()
 	{
-		JRBaseFiller filler = this;
-		while (filler.parentFiller != null)
+		BaseReportFiller filler = this;
+		while (filler.parent != null)
 		{
-			filler = filler.parentFiller;
+			filler = filler.parent.getFiller();
 		}
 		return filler;
-	}
-
-	public JRFillDataset getMainDataset()
-	{
-		return mainDataset;
 	}
 
 
@@ -2018,78 +1294,32 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 	protected void addBoundElement(JRFillElement element, JRPrintElement printElement, JREvaluationTime evaluationTime)
 	{
-		if (log.isDebugEnabled())
-		{
-			log.debug("Adding evaluation of " + printElement + " by " + element 
-					+ " for evaluation " + evaluationTime);
-		}
+		// the key contains the page and its index; the index is only stored so that we have it in resolveBoundElements
+		int pageIndex = ((Number) calculator.getPageNumber().getValue()).intValue() - 1;
+		FillPageKey pageKey = new FillPageKey(printPage, pageIndex);
 		
-		// get the pages map for the evaluation
-		LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>> pagesMap = boundElements.get(evaluationTime);
-		
-		lockVirtualizationContext();
-		try
-		{
-			synchronized (pagesMap)
-			{
-				// the key contains the page and its index; the index is only stored so that we have it in resolveBoundElements
-				PageKey pageKey = new PageKey(printPage, jasperPrint.getPages().size() - 1);
-				
-				// get the actions map for the current page, creating if it does not yet exist
-				LinkedMap<Object, EvaluationBoundAction> boundElementsMap = pagesMap.get(pageKey);
-				if (boundElementsMap == null)
-				{
-					boundElementsMap = new LinkedMap<Object, EvaluationBoundAction>();
-					pagesMap.put(pageKey, boundElementsMap);
-				}
-				
-				// add the delayed element action to the map
-				boundElementsMap.add(printElement, new ElementEvaluationAction(element, printElement));
-			}
-		}
-		finally
-		{
-			unlockVirtualizationContext();
-		}
+		addBoundElement(element, printElement, evaluationTime, pageKey);
 	}
 
 	protected void subreportPageFilled(JRPrintPage subreportPage)
 	{
-		PageKey subreportKey = new PageKey(subreportPage);
-		PageKey parentKey = new PageKey(parentFiller.printPage);
+		FillPageKey subreportKey = new FillPageKey(subreportPage);
+		
+		// this method is only called when the parent is a band report
+		JRBaseFiller parentFiller = (JRBaseFiller) parent.getFiller();
+		//FIXMEBOOK the index is only correct when the parent is the master, see fillListener.pageUpdated
+		int parentPageIndex = parentFiller.getJasperPrint().getPages().size() - 1;
+		FillPageKey parentKey = new FillPageKey(parentFiller.printPage, parentPageIndex);
 		
 		// move all delayed elements from the subreport page to the master page
 		moveBoundActions(subreportKey, parentKey);
+		// move all master evaluations to the parent
+		parent.getFiller().delayedActions.moveMasterEvaluations(delayedActions, parentKey);
 	}
 
-	protected void moveBoundActions(PageKey subreportKey, PageKey parentKey)
+	protected void moveBoundActions(FillPageKey subreportKey, FillPageKey parentKey)
 	{
-		for (LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>> map : boundElements.values())
-		{
-			lockVirtualizationContext();
-			try
-			{
-				synchronized (map)
-				{
-					LinkedMap<Object, EvaluationBoundAction> subreportMap = map.remove(subreportKey);
-					if (subreportMap != null && !subreportMap.isEmpty())
-					{
-						LinkedMap<Object, EvaluationBoundAction> masterMap = map.get(parentKey);
-						if (masterMap == null)
-						{
-							masterMap = new LinkedMap<Object, EvaluationBoundAction>();
-							map.put(parentKey, masterMap);
-						}
-						
-						masterMap.addAll(subreportMap);
-					}
-				}
-			}
-			finally
-			{
-				unlockVirtualizationContext();
-			}
-		}
+		delayedActions.moveActions(subreportKey, parentKey);
 		
 		if (subfillers != null)//recursive
 		{
@@ -2100,32 +1330,24 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		}
 	}
 
-	protected boolean isPageFinal(int pageIdx)
+	@Override
+	public boolean isPageFinal(int pageIdx)
 	{
 		JRPrintPage page = jasperPrint.getPages().get(pageIdx);
 		return !hasBoundActions(page);
 	}
 
+	public boolean isPageFinal(JRPrintPage page)
+	{
+		return !hasBoundActions(page);
+	}
+	
 	protected boolean hasBoundActions(JRPrintPage page)
 	{
-		for (LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>> map : boundElements.values())
+		boolean hasActions = delayedActions.hasDelayedActions(page);
+		if (hasActions)
 		{
-			lockVirtualizationContext();
-			try
-			{
-				synchronized (map)
-				{
-					LinkedMap<Object, EvaluationBoundAction> boundMap = map.get(new PageKey(page));
-					if (boundMap != null && !boundMap.isEmpty())
-					{
-						return true;
-					}
-				}
-			}
-			finally
-			{
-				unlockVirtualizationContext();
-			}
+			return true;
 		}
 		
 		if (subfillers != null)
@@ -2176,26 +1398,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 //	{
 //		consolidatedStyles.put(consolidatedStyle.getName(), consolidatedStyle);
 //	}
-
-	protected void setSubreportRunner(JRSubreportRunner runner)
-	{
-		this.subreportRunner = runner;
-	}
-
-	protected void suspendSubreportRunner() throws JRException
-	{
-		if (subreportRunner == null)
-		{
-			throw new JRRuntimeException("No subreport runner set.");
-		}
-
-		if (log.isDebugEnabled())
-		{
-			log.debug("Fill " + fillerId + ": suspeding subreport runner");
-		}
-
-		subreportRunner.suspend();
-	}
 
 
 	protected void createReportTemplates(JRFillObjectFactory factory)
@@ -2297,11 +1499,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		
 		return moved;
 	}
-
-	public JRFillContext getFillContext()
-	{
-		return fillContext;
-	}
 	
 	protected int getFillerId()
 	{
@@ -2311,8 +1508,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	protected PrintElementOriginator assignElementId(JRFillElement fillElement)
 	{
 		int id = getFillContext().generateFillElementId();
-		fillElements.put(id, fillElement);
-		
 		DefaultPrintElementOriginator originator = new DefaultPrintElementOriginator(id);
 		return originator;
 	}
@@ -2415,282 +1610,4 @@ class SavePoint
 		}
 	}
 
-}
-
-class PageKey
-{
-	final JRPrintPage page;
-	final int index;
-	
-	public PageKey(JRPrintPage page, int index)
-	{
-		this.page = page;
-		this.index = index;
-	}
-	
-	public PageKey(JRPrintPage page)
-	{
-		this(page, 0);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return page.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (!(obj instanceof PageKey))
-		{
-			return false;
-		}
-		
-		return page.equals(((PageKey) obj).page);
-	}
-}
-
-/**
- * Generic delayed evaluation action.
- */
-interface EvaluationBoundAction
-{
-	void execute(byte evaluation, JREvaluationTime evaluationTime) throws JRException;
-}
-
-/**
- * Delayed evaluation action that evaluates a print element.
- */
-class ElementEvaluationAction implements EvaluationBoundAction
-{
-	private static final Log log = LogFactory.getLog(ElementEvaluationAction.class);
-	
-	protected final JRFillElement element;
-	protected final JRPrintElement printElement;
-
-	public ElementEvaluationAction(JRFillElement element, JRPrintElement printElement)
-	{
-		this.element = element;
-		this.printElement = printElement;
-	}
-	
-	public void execute(byte evaluation, JREvaluationTime evaluationTime) throws JRException
-	{
-		if (log.isDebugEnabled())
-		{
-			log.debug("resolving element " + printElement + " by " + element
-					+ " on " + evaluationTime);
-		}
-		
-		element.resolveElement(printElement, evaluation, evaluationTime);
-	}
-
-	@Override
-	public String toString()
-	{
-		return "delayed evaluation {element: " + element
-				+ ", printElement: " + printElement
-				+ "}";
-	}
-}
-
-/**
- * Virtualization listener that looks for elements with delayed evaluations 
- * and saves/restores the evaluations and externalization/internalization.
- */
-class ElementEvaluationVirtualizationListener implements VirtualizationListener<VirtualElementsData>
-{
-	private static final Log log = LogFactory.getLog(ElementEvaluationAction.class);
-	
-	private final JRBaseFiller mainFiller;
-	
-	public ElementEvaluationVirtualizationListener(JRBaseFiller filler)
-	{
-		this.mainFiller = filler;
-	}
-
-	public void beforeExternalization(JRVirtualizable<VirtualElementsData> object)
-	{
-		JRVirtualizationContext virtualizationContext = object.getContext();
-		virtualizationContext.lock();
-		try
-		{
-			setElementEvaluationsToPage(mainFiller, object);
-		}
-		finally
-		{
-			virtualizationContext.unlock();
-		}
-	}
-
-	protected void setElementEvaluationsToPage(final JRBaseFiller filler, final JRVirtualizable<VirtualElementsData> object)
-	{
-		if (log.isDebugEnabled())
-		{
-			log.debug("filler " + filler.fillerId + " setting element evaluation for elements in " + object.getUID());
-		}
-		
-		JRVirtualPrintPage page = ((VirtualizablePageElements) object).getPage();// ugly but needed for now
-		PageKey pageKey = new PageKey(page);
-		VirtualElementsData virtualData = object.getVirtualData();
-		
-		for (Map.Entry<JREvaluationTime, LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>>> boundMapEntry : 
-			filler.boundElements.entrySet())
-		{
-			final JREvaluationTime evaluationTime = boundMapEntry.getKey();
-			LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>> map = boundMapEntry.getValue();
-			
-			synchronized (map)
-			{
-				final LinkedMap<Object, EvaluationBoundAction> actionsMap = map.get(pageKey);
-				
-				if (actionsMap != null && !actionsMap.isEmpty())
-				{
-					// collection delayed evaluations for elements that are about to be externalized.
-					// the evaluations store the ID of the fill elements in order to serialize the data.
-					final Map<JRPrintElement, Integer> elementEvaluations = new LinkedHashMap<JRPrintElement, Integer>();
-					
-					// FIXME optimize for pages with a single virtual block
-					// create a deep element visitor
-					PrintElementVisitor<Void> visitor = new UniformPrintElementVisitor<Void>(true)
-					{
-						@Override
-						protected void visitElement(JRPrintElement element, Void arg)
-						{
-							// remove the action from the map because we're saving it as part of the page.
-							// ugly cast but acceptable for now.
-							ElementEvaluationAction action = (ElementEvaluationAction) actionsMap.remove(element);
-							if (action != null)
-							{
-								elementEvaluations.put(element, action.element.printElementOriginator.getSourceElementId());
-								
-								if (log.isDebugEnabled())
-								{
-									log.debug("filler " + filler.fillerId + " saving evaluation " + evaluationTime + " of element " + element 
-											+ " on object " + object);
-								}
-							}
-						}
-					};
-					
-					for (JRPrintElement element : virtualData.getElements())
-					{
-						element.accept(visitor, null);
-					}
-					
-					if (!elementEvaluations.isEmpty())
-					{
-						// save the evaluations in the virtual data
-						virtualData.setElementEvaluations(filler.fillerId, evaluationTime, elementEvaluations);
-						
-						// add an action for the page so that it gets devirtualized on resolveBoundElements
-						actionsMap.add(null, new VirtualizedPageEvaluationAction(object));
-					}
-				}
-			}
-		}
-		
-		if (filler.subfillers != null)//recursive
-		{
-			for (JRBaseFiller subfiller : filler.subfillers.values())
-			{
-				setElementEvaluationsToPage(subfiller, object);
-			}
-		}
-	}
-	
-	public void afterInternalization(JRVirtualizable<VirtualElementsData> object)
-	{
-		JRVirtualizationContext virtualizationContext = object.getContext();
-		virtualizationContext.lock();
-		try
-		{
-			getElementEvaluationsFromPage(mainFiller, object);
-		}
-		finally
-		{
-			virtualizationContext.unlock();
-		}
-	}
-
-	protected void getElementEvaluationsFromPage(JRBaseFiller filler, JRVirtualizable<VirtualElementsData> object)
-	{
-		if (log.isDebugEnabled())
-		{
-			log.debug("filler " + filler.fillerId + " recreating element evaluation for elements in " + object.getUID());
-		}
-		
-		JRVirtualPrintPage page = ((VirtualizablePageElements) object).getPage();// ugly but needed for now
-		PageKey pageKey = new PageKey(page);
-		VirtualElementsData elementsData = object.getVirtualData();
-		
-		for (Map.Entry<JREvaluationTime, LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>>> boundMapEntry : 
-			filler.boundElements.entrySet())
-		{
-			JREvaluationTime evaluationTime = boundMapEntry.getKey();
-			LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>> map = boundMapEntry.getValue();
-			
-			synchronized (map)
-			{
-				LinkedMap<Object, EvaluationBoundAction> actionsMap = map.get(pageKey);
-				
-				// get the delayed evaluations from the devirtualized data and add it back
-				// to the filler delayed evaluation maps.
-				Map<JRPrintElement, Integer> elementEvaluations = elementsData.getElementEvaluations(filler.fillerId, evaluationTime);
-				if (elementEvaluations != null)
-				{
-					for (Map.Entry<JRPrintElement, Integer> entry : elementEvaluations.entrySet())
-					{
-						JRPrintElement element = entry.getKey();
-						int fillElementId = entry.getValue();
-						JRFillElement fillElement = filler.fillElements.get(fillElementId);
-						
-						if (log.isDebugEnabled())
-						{
-							log.debug("filler " + filler.fillerId + " got evaluation " + evaluationTime + " on " + element 
-									+ " from object " + object + ", using " + fillElement);
-						}
-						
-						if (fillElement == null)
-						{
-							throw new JRRuntimeException("Fill element with id " + fillElementId + " not found");
-						}
-						
-						// add first so that it will be executed immediately
-						actionsMap.addFirst(element, new ElementEvaluationAction(fillElement, element));
-					}
-				}
-			}
-		}
-		
-		if (filler.subfillers != null)//recursive
-		{
-			for (JRBaseFiller subfiller : filler.subfillers.values())
-			{
-				getElementEvaluationsFromPage(subfiller, object);
-			}
-		}
-	}
-}
-
-/**
- * Delayed evaluation action that devirtualizes a set of elements in order to
- * evaluate one of several of them.
- */
-class VirtualizedPageEvaluationAction implements EvaluationBoundAction
-{
-	private final JRVirtualizable<?> object;
-
-	public VirtualizedPageEvaluationAction(JRVirtualizable<?> object)
-	{
-		this.object = object;
-	}
-
-	public void execute(byte evaluation, JREvaluationTime evaluationTime)
-			throws JRException
-	{
-		// this forces devirtualization and queues the element evaluations via setElementEvaluationsToPage
-		object.ensureVirtualData();
-	}
 }

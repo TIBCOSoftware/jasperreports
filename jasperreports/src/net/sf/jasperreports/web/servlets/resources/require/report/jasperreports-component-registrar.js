@@ -29,12 +29,11 @@ define(["require", "jquery"], function(require, $) {
 	};
 
 	ComponentRegistrar.prototype = {
-        registerComponents: function(componentsObject, reportInstance) {
+        registerComponents: function(componentsObject, reportInstance, container) {
             var it = this,
                 DFDs = [],
                 componentsReady = new $.Deferred(),
-                registeredComponents = {},
-                container = reportInstance.components;
+                registeredComponents = {};
 
             $.each(componentsObject, function(key, compMeta) {
                 if (compMeta.parentId) {

@@ -59,6 +59,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.export.CutsInfo;
@@ -221,6 +222,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 	protected WriterHelper tempStyleWriter;
 
 	protected int reportIndex;
+	protected int pageFormatIndex;
 	protected int pageIndex;
 	protected int tableIndex;
 	protected boolean startPage;
@@ -373,10 +375,11 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 
 		List<ExporterInputItem> items = exporterInput.getItems();
 
-		StyleBuilder styleBuilder = new StyleBuilder(exporterInput, stylesWriter);
-		styleBuilder.build();
-
-		stylesWriter.close();
+		StyleBuilder styleBuilder = new StyleBuilder(stylesWriter);
+		
+		styleBuilder.buildBeforeAutomaticStyles(jasperPrint);
+		
+		pageFormatIndex = -1;
 
 		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
 		{
@@ -393,12 +396,21 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
 				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
 
+				PrintPageFormat oldPageFormat = null;
 				JRPrintPage page = null;
 				for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 				{
 					if (Thread.interrupted())
 					{
 						throw new JRException("Current thread interrupted.");
+					}
+
+					PrintPageFormat pageFormat = jasperPrint.getPageFormat(pageIndex);
+					
+					if (oldPageFormat != pageFormat)
+					{
+						styleBuilder.buildPageLayout(++pageFormatIndex, pageFormat);
+						oldPageFormat = pageFormat;
 					}
 
 					page = pages.get(pageIndex);
@@ -408,11 +420,15 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 			}
 		}
 
+		styleBuilder.buildMasterPages(pageFormatIndex);
+		
 
+		stylesWriter.flush();
 		tempBodyWriter.flush();
 		tempStyleWriter.flush();
 
 
+		stylesWriter.close();
 		tempBodyWriter.close();
 		tempStyleWriter.close();
 
@@ -446,12 +462,14 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 
 		ReportExportConfiguration configuration = getCurrentItemConfiguration();
 		
+		PrintPageFormat pageFormat = jasperPrint.getPageFormat(pageIndex);
+		
 		JRGridLayout layout =
 			new JRGridLayout(
 				nature,
 				page.getElements(),
-				jasperPrint.getPageWidth(),
-				jasperPrint.getPageHeight(),
+				pageFormat.getPageWidth(),
+				pageFormat.getPageHeight(),
 				configuration.getOffsetX() == null ? 0 : configuration.getOffsetX(), 
 				configuration.getOffsetY() == null ? 0 : configuration.getOffsetY(),
 				null //address
@@ -478,7 +496,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 		Grid grid = gridLayout.getGrid();
 
 		TableBuilder tableBuilder = frameIndex == null
-			? new TableBuilder(documentBuilder, jasperPrint, reportIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache, rowStyles, columnStyles)
+			? new TableBuilder(documentBuilder, jasperPrint, pageFormatIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache, rowStyles, columnStyles)
 			: new TableBuilder(documentBuilder, jasperPrint, frameIndex.toString(), tempBodyWriter, tempStyleWriter, styleCache, rowStyles, columnStyles);
 
 		

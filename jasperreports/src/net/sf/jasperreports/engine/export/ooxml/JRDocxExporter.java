@@ -60,6 +60,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
@@ -178,6 +179,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	protected int tableIndex;
 	protected boolean startPage;
 	protected String invalidCharReplacement;
+	protected PrintPageFormat pageFormat;
 
 	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
 	protected Color backcolor;
@@ -371,6 +373,9 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 		runHelper = new DocxRunHelper(jasperReportsContext, docWriter, getExporterKey());
 		
+		pageFormat = null;
+		PrintPageFormat oldPageFormat = null;
+
 		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
 		{
 			ExporterInputItem item = items.get(reportIndex);
@@ -397,12 +402,23 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 					page = pages.get(pageIndex);
 
+					pageFormat = jasperPrint.getPageFormat(pageIndex);
+					
+					if (oldPageFormat != null && oldPageFormat != pageFormat)
+					{
+						docHelper.exportSection(oldPageFormat, false);
+					}
+					
 					exportPage(page);
+
+					oldPageFormat = pageFormat;
 				}
 			}
 		}
 		
-		docHelper.exportFooter(jasperPrint);
+		docHelper.exportSection(oldPageFormat, true);
+
+		docHelper.exportFooter();
 		docHelper.close();
 
 //		if ((hyperlinksMap != null && hyperlinksMap.size() > 0))
@@ -440,8 +456,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			new JRGridLayout(
 				nature,
 				page.getElements(),
-				jasperPrint.getPageWidth(),
-				jasperPrint.getPageHeight(),
+				pageFormat.getPageWidth(),
+				pageFormat.getPageHeight(),
 				configuration.getOffsetX() == null ? 0 : configuration.getOffsetX(), 
 				configuration.getOffsetY() == null ? 0 : configuration.getOffsetY(),
 				null //address
@@ -491,11 +507,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 					(pageIndex > startPageIndex && pageIndex < endPageIndex && !emptyPageState)
 					||(reportIndex < maxReportIndex && pageIndex == endPageIndex);
 			tableHelper.getParagraphHelper().exportEmptyPage(pageAnchor, bookmarkIndex, twice);
-			tableHelper.exportSection(
-					reportIndex < maxReportIndex && pageIndex == endPageIndex, 
-					jasperPrint.getPageWidth(), 
-					jasperPrint.getPageHeight()
-					);
 			bookmarkIndex++;
 			emptyPageState = true;
 			return;
@@ -637,11 +648,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			tableHelper.exportRowFooter();
 		}
 
-		tableHelper.exportFooter(
-			frameIndex == null && reportIndex != exporterInput.getItems().size() - 1 && pageIndex == endPageIndex , 
-			jasperPrint.getPageWidth(), 
-			jasperPrint.getPageHeight()
-			);
+		tableHelper.exportFooter();
 		// if a non-empty page was exported, the series of previous empty pages is ended
 		emptyPageState = false;
 	}

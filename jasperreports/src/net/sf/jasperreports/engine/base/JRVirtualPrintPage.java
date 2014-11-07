@@ -281,4 +281,10 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 	{
 		elements.dispose();
 	}
+	
+	public JRVirtualizationContext getVirtualizationContext()
+	{
+		return elements.getVirtualizationContext();
+	}
+	
 }

@@ -76,7 +76,6 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
@@ -306,8 +305,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		sheet = workbook.createSheet(sheetInfo.sheetName);
 		patriarch = sheet.createDrawingPatriarch();
 		HSSFPrintSetup printSetup = sheet.getPrintSetup();
-		printSetup.setLandscape(jasperPrint.getOrientationValue() == OrientationEnum.LANDSCAPE);
-		short paperSize = getSuitablePaperSize(jasperPrint);
+		printSetup.setLandscape(pageFormat.getOrientation() == OrientationEnum.LANDSCAPE);
+		short paperSize = getSuitablePaperSize();
 		
 		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 
@@ -322,20 +321,20 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		
 		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
 		
-		if (jasperPrint.getLeftMargin() != null) {
-			sheet.setMargin((short)0, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getLeftMargin()));
+		if (pageFormat.getLeftMargin() != null) {
+			sheet.setMargin((short)0, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getLeftMargin()));
 		}
 		
-		if (jasperPrint.getRightMargin() != null) {
-			sheet.setMargin((short)1, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getRightMargin()));
+		if (pageFormat.getRightMargin() != null) {
+			sheet.setMargin((short)1, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getRightMargin()));
 		}
 		
-		if (jasperPrint.getTopMargin() != null)	{
-			sheet.setMargin((short)2, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getTopMargin()));
+		if (pageFormat.getTopMargin() != null)	{
+			sheet.setMargin((short)2, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getTopMargin()));
 		}
 		
-		if (jasperPrint.getBottomMargin() != null) {
-			sheet.setMargin((short)3, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getBottomMargin()));
+		if (pageFormat.getBottomMargin() != null) {
+			sheet.setMargin((short)3, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getBottomMargin()));
 		}
 
 		Integer fitWidth = configuration.getFitWidth();
@@ -1613,19 +1612,19 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	}
 
 
-	private final short getSuitablePaperSize(JasperPrint jasP) {
+	private final short getSuitablePaperSize() {
 
-		if (jasP == null) {
+		if (pageFormat == null) {
 			return -1;
 		}
 		long width = 0;
 		long height = 0;
 		short ps = -1;
 
-		if ((jasP.getPageWidth() != 0) && (jasP.getPageHeight() != 0)) {
+		if ((pageFormat.getPageWidth() != 0) && (pageFormat.getPageHeight() != 0)) {
 
-			double dWidth = (jasP.getPageWidth() / 72.0);
-			double dHeight = (jasP.getPageHeight() / 72.0);
+			double dWidth = (pageFormat.getPageWidth() / 72.0);
+			double dHeight = (pageFormat.getPageHeight() / 72.0);
 
 			height = Math.round(dHeight * 25.4);
 			width = Math.round(dWidth * 25.4);

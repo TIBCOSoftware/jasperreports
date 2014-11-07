@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://jasperreports.sourceforge.net/jasperreports/parts"
+	xmlns:c="http://jasperreports.sourceforge.net/jasperreports/parts"
+	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports"
+	elementFormDefault="qualified">
+
+	<import namespace="http://jasperreports.sourceforge.net/jasperreports" />
+
+	<element name="subreportPart" substitutionGroup="jr:partComponent">
+		<complexType>
+			<complexContent>
+				<extension base="jr:partComponentType">
+					<sequence>
+						<element ref="jr:parametersMapExpression" minOccurs="0" maxOccurs="1"/>
+						<element ref="jr:subreportParameter" minOccurs="0" maxOccurs="unbounded"/>
+						<element ref="jr:returnValue" minOccurs="0" maxOccurs="unbounded"/>
+						<element ref="jr:subreportExpression" minOccurs="0" maxOccurs="1"/>
+					</sequence>
+					<attribute name="usingCache" type="boolean" use="optional">
+						<annotation>
+							<documentation>If true, tells the report engine to cache the report definition objects that are loaded from the same location.</documentation>
+						</annotation>
+					</attribute>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+</schema>

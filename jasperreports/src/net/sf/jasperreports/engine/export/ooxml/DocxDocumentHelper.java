@@ -25,8 +25,8 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
 
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 
@@ -65,21 +65,36 @@ public class DocxDocumentHelper extends BaseHelper
 		write(" xmlns:pic=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n"); 
 		write(" <w:body>\n");
 	}
-	
 
 	/**
 	 *
 	 */
-	public void exportFooter(JasperPrint jasperPrint)
+	public void exportSection(PrintPageFormat pageFormat, boolean lastPage)
 	{
+		if (!lastPage)
+		{
+			write("    <w:p>\n");
+			write("    <w:pPr>\n");
+		}
 		write("  <w:sectPr>\n");
-		write("   <w:pgSz w:w=\"" + LengthUtil.twip(jasperPrint.getPageWidth()) + "\" w:h=\"" + LengthUtil.twip(jasperPrint.getPageHeight()) + "\"");
-		write(" w:orient=\"" + (jasperPrint.getOrientationValue() == OrientationEnum.LANDSCAPE ? "landscape" : "portrait") + "\"");
+		write("   <w:pgSz w:w=\"" + LengthUtil.twip(pageFormat.getPageWidth()) + "\" w:h=\"" + LengthUtil.twip(pageFormat.getPageHeight()) + "\"");
+		write(" w:orient=\"" + (pageFormat.getOrientation() == OrientationEnum.LANDSCAPE ? "landscape" : "portrait") + "\"");
 		write("/>\n");
 		write("   <w:pgMar w:top=\"0\" w:right=\"0\" w:bottom=\"0\" w:left=\"0\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" />\n");
 //		write("   <w:cols w:space=\"720\" />\n");
 		write("   <w:docGrid w:linePitch=\"360\" />\n");
 		write("  </w:sectPr>\n");
+		if (!lastPage)
+		{
+			write("    </w:pPr>\n");
+			write("    </w:p>\n");
+		}
+	}
+	/**
+	 *
+	 */
+	public void exportFooter()
+	{
 		write(" </w:body>\n");
 		write("</w:document>\n");
 	}

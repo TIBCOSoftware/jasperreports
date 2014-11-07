@@ -77,7 +77,7 @@ public abstract class JRFillElementDataset implements JRElementDataset
 		factory.put(dataset, this);
 
 		parent = dataset;
-		filler = factory.getFiller();
+		filler = factory.getFiller();//FIXMEBOOK
 		
 		resetGroup = factory.getGroup(dataset.getResetGroup());
 		incrementGroup = factory.getGroup(dataset.getIncrementGroup());

@@ -76,30 +76,34 @@ public class JRFillGroup implements JRGroup
 
 		parent = group;
 
-		String reportName = factory.getFiller().isSubreport() ? factory.getFiller().getJasperReport().getName() : null;
-		
-		groupHeaderSection = factory.getSection(group.getGroupHeaderSection());
-		if (groupHeaderSection != factory.getFiller().missingFillSection)
+		JRBaseFiller filler = factory.getFiller();
+		if (filler != null)
 		{
-			groupHeaderSection.setOrigin(
-				new JROrigin(
-					reportName,
-					group.getName(),
-					BandTypeEnum.GROUP_HEADER
-					)
-				);
-		}
+			String reportName = filler.isSubreport() ? factory.getFiller().getJasperReport().getName() : null;
+			
+			groupHeaderSection = factory.getSection(group.getGroupHeaderSection());
+			if (groupHeaderSection != factory.getFiller().missingFillSection)
+			{
+				groupHeaderSection.setOrigin(
+					new JROrigin(
+						reportName,
+						group.getName(),
+						BandTypeEnum.GROUP_HEADER
+						)
+					);
+			}
 
-		groupFooterSection = factory.getSection(group.getGroupFooterSection());
-		if (groupFooterSection != factory.getFiller().missingFillSection)
-		{
-			groupFooterSection.setOrigin(
-				new JROrigin(
-					reportName,
-					group.getName(),
-					BandTypeEnum.GROUP_FOOTER
-					)
-				);
+			groupFooterSection = factory.getSection(group.getGroupFooterSection());
+			if (groupFooterSection != factory.getFiller().missingFillSection)
+			{
+				groupFooterSection.setOrigin(
+					new JROrigin(
+						reportName,
+						group.getName(),
+						BandTypeEnum.GROUP_FOOTER
+						)
+					);
+			}
 		}
 
 		countVariable = factory.getVariable(group.getCountVariable());

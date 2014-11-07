@@ -38,18 +38,18 @@ public class TableStyle extends Style
 	 *
 	 */
 	private int width;
-	private int reportIndex;
+	private int pageFormatIndex;
 	private boolean isFrame;
 	private boolean isPageBreak;
 
 	/**
 	 *
 	 */
-	public TableStyle(WriterHelper styleWriter, int width, int reportIndex, boolean isFrame, boolean isPageBreak)
+	public TableStyle(WriterHelper styleWriter, int width, int pageFormatIndex, boolean isFrame, boolean isPageBreak)
 	{
 		super(styleWriter);
 		this.width = width;
-		this.reportIndex = reportIndex;
+		this.pageFormatIndex = pageFormatIndex;
 		this.isFrame = isFrame;
 		this.isPageBreak = isPageBreak;
 	}
@@ -60,7 +60,7 @@ public class TableStyle extends Style
 	@Override
 	public String getId()
 	{
-		return "" + width + "|" + reportIndex + "|" + isFrame + "|" + isPageBreak; 
+		return "" + width + "|" + pageFormatIndex + "|" + isFrame + "|" + isPageBreak; 
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class TableStyle extends Style
 		styleWriter.write(" <style:style style:name=\"" + tableStyleName + "\"");
 		if (!isFrame)
 		{
-			styleWriter.write(" style:master-page-name=\"master_" + reportIndex +"\"");
+			styleWriter.write(" style:master-page-name=\"master_" + pageFormatIndex +"\"");
 		}
 		styleWriter.write(" style:family=\"table\">\n");
 		styleWriter.write("   <style:table-properties");		

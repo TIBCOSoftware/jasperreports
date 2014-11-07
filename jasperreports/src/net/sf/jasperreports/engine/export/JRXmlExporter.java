@@ -76,6 +76,9 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintBookmark;
+import net.sf.jasperreports.engine.PrintPageFormat;
+import net.sf.jasperreports.engine.PrintPart;
+import net.sf.jasperreports.engine.PrintParts;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
@@ -401,6 +404,17 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 
 		exportBookmarks(jasperPrint.getBookmarks());
 		
+		PrintParts parts = jasperPrint.getParts();
+		if (parts != null && parts.hasParts())
+		{
+			for (Iterator<Map.Entry<Integer, PrintPart>> it = parts.partsIterator(); it.hasNext();)
+			{
+				Map.Entry<Integer, PrintPart> partsEntry = it.next();
+				/*   */
+				exportPart(partsEntry.getKey(), partsEntry.getValue());
+			}
+		}
+
 		if (pages != null && pages.size() > 0)
 		{
 			JRPrintPage page = null;
@@ -543,6 +557,28 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 
 			xmlWriter.closeElement();
 		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportPart(Integer pageIndex, PrintPart part) throws JRException, IOException
+	{
+		xmlWriter.startElement(JRXmlConstants.ELEMENT_part);
+
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_pageIndex, pageIndex);
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, part.getName());
+		PrintPageFormat pageFormat = part.getPageFormat();
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_pageWidth, pageFormat.getPageWidth());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_pageHeight, pageFormat.getPageHeight());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_topMargin, pageFormat.getTopMargin());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_leftMargin, pageFormat.getLeftMargin());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_bottomMargin, pageFormat.getBottomMargin());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_rightMargin, pageFormat.getRightMargin());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_orientation, pageFormat.getOrientation(), OrientationEnum.PORTRAIT);
+
+		xmlWriter.closeElement();
 	}
 
 

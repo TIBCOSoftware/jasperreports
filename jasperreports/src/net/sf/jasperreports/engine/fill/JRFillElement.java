@@ -1238,6 +1238,9 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			case REPORT:
 				evaluationTime = JREvaluationTime.EVALUATION_TIME_REPORT;
 				break;
+			case MASTER:
+				evaluationTime = JREvaluationTime.EVALUATION_TIME_MASTER;
+				break;
 			case PAGE:
 				evaluationTime = JREvaluationTime.EVALUATION_TIME_PAGE;
 				break;

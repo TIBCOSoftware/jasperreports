@@ -84,6 +84,9 @@ public class EvaluationTimeSerializer implements ObjectSerializer<JREvaluationTi
 		case REPORT:
 			value = JREvaluationTime.EVALUATION_TIME_REPORT;
 			break;
+		case MASTER:
+			value = JREvaluationTime.EVALUATION_TIME_MASTER;
+			break;
 		case PAGE:
 			value = JREvaluationTime.EVALUATION_TIME_PAGE;
 			break;

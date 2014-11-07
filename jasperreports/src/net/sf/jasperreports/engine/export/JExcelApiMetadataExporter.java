@@ -101,7 +101,6 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
@@ -2030,8 +2029,8 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		rowIndex = 0;
 		PageOrientation po;
 		PaperSize ps;
-
-		if (jasperPrint.getOrientationValue() == OrientationEnum.PORTRAIT)
+		
+		if (pageFormat.getOrientation() == OrientationEnum.PORTRAIT)
 		{
 			po = PageOrientation.PORTRAIT;
 		}
@@ -2039,7 +2038,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		{
 			po = PageOrientation.LANDSCAPE;
 		}
-		if ((ps = getSuitablePaperSize(jasperPrint)) != null)
+		if ((ps = getSuitablePaperSize()) != null)
 		{
 			sheet.setPageSetup(po, ps, 0, 0);
 		}
@@ -2053,24 +2052,24 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		
 		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
 		
-		if (jasperPrint.getTopMargin() != null)
+		if (pageFormat.getTopMargin() != null)
 		{
-			sheets.setTopMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getTopMargin()));
+			sheets.setTopMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getTopMargin()));
 		}
 
-		if (jasperPrint.getLeftMargin() != null)
+		if (pageFormat.getLeftMargin() != null)
 		{
-			sheets.setLeftMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getLeftMargin()));
+			sheets.setLeftMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getLeftMargin()));
 		}
 		
-		if (jasperPrint.getRightMargin() != null)
+		if (pageFormat.getRightMargin() != null)
 		{
-			sheets.setRightMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getRightMargin()));
+			sheets.setRightMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getRightMargin()));
 		}
 
-		if (jasperPrint.getBottomMargin() != null)
+		if (pageFormat.getBottomMargin() != null)
 		{
-			sheets.setBottomMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getBottomMargin()));
+			sheets.setBottomMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getBottomMargin()));
 		}
 
 		sheets.setHeaderMargin(0.0);
@@ -2168,10 +2167,10 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		maxColumnFreezeIndex = 0;
 	}
 
-	private final PaperSize getSuitablePaperSize(JasperPrint jasP)
+	private final PaperSize getSuitablePaperSize()
 	{
 
-		if (jasP == null)
+		if (pageFormat == null)
 		{
 			return null;
 		}
@@ -2179,11 +2178,11 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		long height = 0;
 		PaperSize ps = null;
 
-		if ((jasP.getPageWidth() != 0) && (jasP.getPageHeight() != 0))
+		if ((pageFormat.getPageWidth() != 0) && (pageFormat.getPageHeight() != 0))
 		{
 
-			double dWidth = (jasP.getPageWidth() / 72.0);
-			double dHeight = (jasP.getPageHeight() / 72.0);
+			double dWidth = (pageFormat.getPageWidth() / 72.0);
+			double dHeight = (pageFormat.getPageHeight() / 72.0);
 
 			height = Math.round(dHeight * 25.4);
 			width = Math.round(dWidth * 25.4);

@@ -70,7 +70,7 @@ public class FillDatasetRun extends JRFillDatasetRun
 	public FillDatasetRun(JRDatasetRun datasetRun,
 			JRFillObjectFactory factory) throws JRException
 	{
-		super(factory.getFiller(), datasetRun, 
+		super(factory.getReportFiller(), datasetRun, 
 				createFillDataset(datasetRun, factory));
 		
 		this.expressionEvaluator = factory.getExpressionEvaluator();
@@ -89,9 +89,9 @@ public class FillDatasetRun extends JRFillDatasetRun
 	private static JRFillDataset createFillDataset(JRDatasetRun datasetRun,
 			JRFillObjectFactory factory) throws JRException
 	{
-		JasperReport jasperReport = factory.getFiller().getJasperReport();
+		JasperReport jasperReport = factory.getReportFiller().getJasperReport();
 		JRDataset reportDataset = JRReportUtils.findSubdataset(datasetRun, jasperReport);
-		JRFillDataset fillDataset = new JRFillDataset(factory.getFiller(), reportDataset, factory);
+		JRFillDataset fillDataset = new JRFillDataset(factory.getReportFiller(), reportDataset, factory);
 		fillDataset.createCalculator(jasperReport);
 		return fillDataset;
 	}

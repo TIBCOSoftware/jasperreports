@@ -285,14 +285,12 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
 				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
 
-				JRPrintPage page = null;
-
 				contentWriter.write("{\\info{\\nofpages");
 				contentWriter.write(String.valueOf(pages.size()));
 				contentWriter.write("}}\n");
 
 				contentWriter.write("\\viewkind1\\paperw");
-				contentWriter.write(String.valueOf(LengthUtil.twip(jasperPrint.getPageWidth())));
+				contentWriter.write(String.valueOf(LengthUtil.twip(jasperPrint.getPageWidth())));//FIXMEPART rtf does not work in batch mode
 				contentWriter.write("\\paperh");
 				contentWriter.write(String.valueOf(LengthUtil.twip(jasperPrint.getPageHeight())));
 
@@ -312,13 +310,17 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 				}
 
 
-				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) {
-					contentWriter.write("\n");
-					if(Thread.interrupted()){
+				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) 
+				{
+					if (Thread.interrupted())
+					{
 						throw new JRException("Current thread interrupted");
 					}
 
-					page = pages.get(pageIndex);
+					JRPrintPage page = pages.get(pageIndex);
+
+					contentWriter.write("\n");
+
 					writeAnchor(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
 
 					boolean lastPageFlag = false;

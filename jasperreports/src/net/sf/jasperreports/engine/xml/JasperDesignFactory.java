@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
@@ -94,6 +95,12 @@ public class JasperDesignFactory extends JRBaseFactory
 		if (whenNoDataType != null)
 		{
 			jasperDesign.setWhenNoDataType(whenNoDataType);
+		}
+
+		SectionTypeEnum sectionType = SectionTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_sectionType));
+		if (sectionType != null)
+		{
+			jasperDesign.setSectionType(sectionType);
 		}
 
 		String columnWidth = atts.getValue(JRXmlConstants.ATTRIBUTE_columnWidth);

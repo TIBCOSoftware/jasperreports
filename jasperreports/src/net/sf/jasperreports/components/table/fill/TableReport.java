@@ -102,6 +102,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
@@ -1748,6 +1749,11 @@ public class TableReport implements JRReport
 			}
 		}
 		return whenNoDataType;
+	}
+
+	public SectionTypeEnum getSectionType()
+	{
+		return SectionTypeEnum.BAND;
 	}
 
 	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()

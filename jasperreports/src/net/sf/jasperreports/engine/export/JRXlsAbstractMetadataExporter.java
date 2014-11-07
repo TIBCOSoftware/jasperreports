@@ -218,6 +218,8 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 
 						JRPrintPage page = pages.get(pageIndex);
 
+						pageFormat = jasperPrint.getPageFormat(pageIndex);
+
 						SheetInfo sheetInfo = new SheetInfo();
 						sheetInfo.sheetName = getSheetName(null);
 						createSheet(sheetInfo);
@@ -236,6 +238,8 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 				}
 				else
 				{
+					pageFormat = jasperPrint.getPageFormat(startPageIndex);
+					
 					// Create the sheet before looping.
 					SheetInfo sheetInfo = new SheetInfo();
 					sheetInfo.sheetName = getSheetName(jasperPrint.getName());
@@ -259,6 +263,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 							throw new JRException("Current thread interrupted.");
 						}
 						JRPrintPage page = pages.get(pageIndex);
+						pageFormat = jasperPrint.getPageFormat(pageIndex);
 						exportPage(page);
 					}
 					

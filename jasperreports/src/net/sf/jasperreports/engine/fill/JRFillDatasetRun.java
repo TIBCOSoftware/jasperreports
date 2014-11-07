@@ -60,7 +60,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 	
 	private static final Log log = LogFactory.getLog(JRFillDatasetRun.class);
 	
-	protected final JRBaseFiller filler;
+	protected final BaseReportFiller filler;
 
 	protected final JRDatasetRun parentDatasetRun;
 	protected final JRFillDataset dataset;
@@ -93,7 +93,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 		initReturnValues(factory);
 	}
 
-	protected JRFillDatasetRun(JRBaseFiller filler, JRDatasetRun datasetRun, 
+	protected JRFillDatasetRun(BaseReportFiller filler, JRDatasetRun datasetRun, 
 			JRFillDataset dataset)
 	{
 		this.filler = filler;

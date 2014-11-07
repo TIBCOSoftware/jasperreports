@@ -56,6 +56,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
@@ -78,6 +79,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public static final String PROPERTY_WHEN_NO_DATA_TYPE = "whenNoDataType";
+	public static final String PROPERTY_SECTION_TYPE = "sectionType";
 
 	/**
 	 *
@@ -91,6 +93,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	protected int pageHeight = 842;
 	protected OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
 	protected WhenNoDataTypeEnum whenNoDataTypeValue = WhenNoDataTypeEnum.NO_PAGES;
+	protected SectionTypeEnum sectionType = SectionTypeEnum.BAND;
 	protected int columnWidth = 555;
 	protected int columnSpacing;
 	protected int leftMargin = 20;
@@ -101,7 +104,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	protected boolean isSummaryNewPage;
 	protected boolean isSummaryWithPageHeaderAndFooter;
 	protected boolean isFloatColumnFooter;
-	protected boolean ignorePagination;
+	protected boolean ignorePagination;//FIXMEBOOK remove default
 
 	/**
 	 *
@@ -170,6 +173,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		pageHeight = report.getPageHeight();
 		orientationValue = report.getOrientationValue();
 		whenNoDataTypeValue = report.getWhenNoDataTypeValue();
+		sectionType = report.getSectionType();
 		columnWidth = report.getColumnWidth();
 		columnSpacing = report.getColumnSpacing();
 		leftMargin = report.getLeftMargin();
@@ -339,6 +343,24 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		Object old = this.whenNoDataTypeValue;
 		this.whenNoDataTypeValue = whenNoDataTypeValue;
 		getEventSupport().firePropertyChange(PROPERTY_WHEN_NO_DATA_TYPE, old, whenNoDataTypeValue);
+	}
+
+	/**
+	 *
+	 */
+	public SectionTypeEnum getSectionType()
+	{
+		return sectionType;
+	}
+
+	/**
+	 *
+	 */
+	public void setSectionType(SectionTypeEnum sectionType)
+	{
+		Object old = this.sectionType;
+		this.sectionType = sectionType;
+		getEventSupport().firePropertyChange(PROPERTY_SECTION_TYPE, old, sectionType);
 	}
 
 	/**

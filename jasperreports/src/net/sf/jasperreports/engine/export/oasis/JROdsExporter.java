@@ -50,10 +50,12 @@ import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
@@ -122,13 +124,17 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	protected ExportZipEntry tempStyleEntry;
 	protected WriterHelper tempBodyWriter;
 	protected WriterHelper tempStyleWriter;
+	protected WriterHelper stylesWriter;
 
 	protected StyleCache styleCache;
 
 	protected DocumentBuilder documentBuilder;
 	protected TableBuilder tableBuilder;
+	protected StyleBuilder styleBuilder;
 
 	protected boolean startPage;
+	protected PrintPageFormat oldPageFormat;
+	protected int pageFormatIndex;
 	
 	protected StringBuffer namedExpressions;
 
@@ -152,16 +158,28 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		
 		styleCache = new StyleCache(jasperReportsContext, tempStyleWriter, getExporterKey());
 
-		WriterHelper stylesWriter = new WriterHelper(jasperReportsContext, oasisZip.getStylesEntry().getWriter());
+		stylesWriter = new WriterHelper(jasperReportsContext, oasisZip.getStylesEntry().getWriter());
 
-		StyleBuilder styleBuilder = new StyleBuilder(exporterInput, stylesWriter);
-		styleBuilder.build();
+		styleBuilder = new StyleBuilder(stylesWriter);
+		styleBuilder.buildBeforeAutomaticStyles(jasperPrint);
 
-		stylesWriter.close();
-		
 		namedExpressions = new StringBuffer("<table:named-expressions>\n");
+		
+		pageFormatIndex = -1;
 	}
 
+	@Override
+	protected int exportPage(JRPrintPage page, CutsInfo xCuts, int startRow, String defaultSheetName) throws JRException
+	{
+		if (oldPageFormat != pageFormat)
+		{
+			styleBuilder.buildPageLayout(++pageFormatIndex, pageFormat);
+			oldPageFormat = pageFormat;
+		}
+
+		return super.exportPage(page, xCuts, startRow, defaultSheetName);
+	}
+	
 	@Override
 	protected void createSheet(CutsInfo xCuts, SheetInfo sheetInfo)
 	{
@@ -175,7 +193,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 //		TableBuilder tableBuilder = frameIndex == null
 //			? new TableBuilder(reportIndex, pageIndex, tempBodyWriter, tempStyleWriter)
 //			: new TableBuilder(frameIndex.toString(), tempBodyWriter, tempStyleWriter);
-		tableBuilder = new OdsTableBuilder(documentBuilder, jasperPrint, reportIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache, rowStyles, columnStyles, sheetInfo.sheetName);
+		tableBuilder = new OdsTableBuilder(documentBuilder, jasperPrint, pageFormatIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache, rowStyles, columnStyles, sheetInfo.sheetName);
 
 //		tableBuilder.buildTableStyle(gridLayout.getWidth());
 		tableBuilder.buildTableStyle(xCuts.getLastCutOffset());//FIXMEODS
@@ -206,11 +224,15 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	protected void closeWorkbook(OutputStream os) throws JRException, IOException
 	{
 		closeSheet();
+
+		styleBuilder.buildMasterPages(pageFormatIndex);
 		
+		stylesWriter.flush();
 		tempBodyWriter.flush();
 		tempStyleWriter.flush();
 
 
+		stylesWriter.close();
 		tempBodyWriter.close();
 		tempStyleWriter.close();
 		namedExpressions.append("</table:named-expressions>\n");
@@ -757,18 +779,18 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	protected class OdsTableBuilder extends TableBuilder
 	{
 		protected OdsTableBuilder(DocumentBuilder documentBuilder, JasperPrint jasperPrint,
-				int reportIndex, int pageIndex, WriterHelper bodyWriter,
+				int pageFormatIndex, int pageIndex, WriterHelper bodyWriter,
 				WriterHelper styleWriter, StyleCache styleCache, Map<Integer, String> rowStyles, Map<Integer, String> columnStyles) 
 		{
-			super(documentBuilder, jasperPrint, reportIndex, pageIndex, bodyWriter, styleWriter, styleCache, rowStyles, columnStyles);
+			super(documentBuilder, jasperPrint, pageFormatIndex, pageIndex, bodyWriter, styleWriter, styleCache, rowStyles, columnStyles);
 		}
 		
 		protected OdsTableBuilder(DocumentBuilder documentBuilder, JasperPrint jasperPrint,
-			int reportIndex, int pageIndex, WriterHelper bodyWriter,
+			int pageFormatIndex, int pageIndex, WriterHelper bodyWriter,
 			WriterHelper styleWriter, StyleCache styleCache, Map<Integer, String> rowStyles, Map<Integer, String> columnStyles, 
 			String sheetName) 
 		{
-			super(documentBuilder, jasperPrint, reportIndex, pageIndex, bodyWriter, styleWriter, styleCache, rowStyles, columnStyles);
+			super(documentBuilder, jasperPrint, pageFormatIndex, pageIndex, bodyWriter, styleWriter, styleCache, rowStyles, columnStyles);
 			this.tableName = sheetName;
 		}
 

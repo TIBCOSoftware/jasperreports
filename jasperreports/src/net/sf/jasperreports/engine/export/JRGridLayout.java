@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.Pair;
@@ -782,6 +783,47 @@ public class JRGridLayout
 	 *            The page width
 	 * @param offsetX
 	 *            horizontal element position offset
+	 */
+	public static CutsInfo calculateXCuts(ExporterNature nature, JasperPrint jasperPrint, int startPageIndex, int endPageIndex, int offsetX)
+	{
+		CutsInfo xCuts = new CutsInfo();
+
+		List<JRPrintPage> pages = jasperPrint.getPages();
+		for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
+		{
+			JRPrintPage page = pages.get(pageIndex);
+			addXCuts(nature, page.getElements(), offsetX, xCuts);
+		}
+
+		// add a cut at the page width if there are not parts and if no element goes beyond the page width
+		if (!jasperPrint.hasParts())
+		{
+			int width = jasperPrint.getPageWidth();
+			int lastCut = xCuts.getLastCutOffset();
+			if (lastCut < width)
+			{
+				xCuts.addCutOffset(width);
+			}
+		}
+
+		return xCuts;
+	}
+
+
+	/**
+	 * This static method calculates all the X cuts for a list of pages.
+	 *
+	 * @param pages
+	 *            The list of pages.
+	 * @param startPageIndex
+	 *            The first page to consider.
+	 * @param endPageIndex
+	 *            The last page to consider.
+	 * @param width
+	 *            The page width
+	 * @param offsetX
+	 *            horizontal element position offset
+	 * @deprecated Replaced by {@link #calculateXCuts(ExporterNature, JasperPrint, int, int, int)}.
 	 */
 	public static CutsInfo calculateXCuts(ExporterNature nature, List<JRPrintPage> pages, int startPageIndex, int endPageIndex, int width, int offsetX)
 	{

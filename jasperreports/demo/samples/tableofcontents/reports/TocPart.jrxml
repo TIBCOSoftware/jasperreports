@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TocPart" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="47d0342f-7687-4167-8741-854ed01cfed5">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="ReportTitle" class="java.lang.String"/>
+	<field name="level" class="java.lang.Integer"/>
+	<field name="label" class="java.lang.String"/>
+	<field name="pageIndex" class="java.lang.Integer"/>
+	<title>
+		<band height="200" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="300c799d-e09f-44f7-8be8-5422c73f87a7">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Sans_Normal" x="50" y="10" width="455" height="60" uuid="00a87b84-1ab0-4558-9780-c6bf32fb8889">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="22"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ReportTitle}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="50" y="100" width="455" height="60" isRemoveLineWhenBlank="true" uuid="b8d09c84-640c-4033-9e32-272a25d00715">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified"/>
+				<text><![CDATA[Here is a simple example that shows how to create a table of contents for your report, using JasperReports parts and bookmarked elements in the report.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement style="Sans_Normal" positionType="Float" x="50" y="10" width="455" height="20" isRemoveLineWhenBlank="true" uuid="2d14bb6a-c6a1-448e-83df-d3ea629a9d32">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Table of Contents]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
+				<reportElement style="Sans_Bold" positionType="Float" x="50" y="0" width="100" height="15" isRemoveLineWhenBlank="true" uuid="db8b68c6-4430-4199-8967-3ab5c077cb56">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<printWhenExpression><![CDATA[$F{level} == 1]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{label}]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Sans_Bold" positionType="Float" x="150" y="0" width="325" height="15" isRemoveLineWhenBlank="true" uuid="c1b5050c-266f-4e13-a402-a15b50548116">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<printWhenExpression><![CDATA[$F{level} == 1]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[___________________________________________________]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor" evaluationTime="Auto">
+				<reportElement style="Sans_Bold" positionType="Float" x="475" y="0" width="30" height="15" isRemoveLineWhenBlank="true" uuid="012b7361-f06b-4539-b299-5a3f0bcbb7b5">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<printWhenExpression><![CDATA[$F{level} == 1]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER} + $F{pageIndex} + 1]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
+				<reportElement positionType="Float" x="75" y="16" width="100" height="15" isRemoveLineWhenBlank="true" uuid="effe6dfe-dbc8-4451-bf44-a96565a20564">
+					<printWhenExpression><![CDATA[$F{level} == 2]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{label}]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
+				<hyperlinkTooltipExpression><![CDATA["View orders from " + $F{label}]]></hyperlinkTooltipExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="175" y="16" width="260" height="15" isRemoveLineWhenBlank="true" uuid="c6cf49ba-d7d0-42fa-9b2c-36ba110e91f4">
+					<printWhenExpression><![CDATA[$F{level} == 2]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor" evaluationTime="Auto">
+				<reportElement positionType="Float" x="435" y="16" width="30" height="15" isRemoveLineWhenBlank="true" uuid="3c835858-cc27-41b1-b820-94b8d9ec0acf">
+					<printWhenExpression><![CDATA[$F{level} == 2]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER} + $F{pageIndex} + 1]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

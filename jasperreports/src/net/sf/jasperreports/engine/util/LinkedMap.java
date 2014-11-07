@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.util;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A doubly linked list that can also map entries on keys.
@@ -42,7 +43,7 @@ import java.util.HashMap;
 public class LinkedMap<K, V>
 {
 
-	protected static class LinkedValue<K, V>
+	protected static class LinkedValue<K, V> implements Map.Entry<K, V>
 	{
 		private LinkedValue<K, V> prev;
 		private LinkedValue<K, V> next;
@@ -53,6 +54,24 @@ public class LinkedMap<K, V>
 		{
 			this.key = key;
 			this.value = value;
+		}
+
+		@Override
+		public K getKey()
+		{
+			return key;
+		}
+
+		@Override
+		public V getValue()
+		{
+			return value;
+		}
+
+		@Override
+		public V setValue(V value)
+		{
+			throw new UnsupportedOperationException();
 		}
 	}
 	
@@ -141,6 +160,22 @@ public class LinkedMap<K, V>
 	 */
 	public V pop()
 	{
+		LinkedValue<K, V> entry = removeFirst();
+		return entry.value;
+	}
+	
+	/**
+	 * Removes and returns the first element in the list.
+	 * 
+	 * @return the first element in the list
+	 */
+	public Map.Entry<K, V> popEntry()
+	{
+		return removeFirst();
+	}
+	
+	protected LinkedValue<K, V> removeFirst()
+	{
 		if (header.next == header)
 		{
 			throw new IllegalStateException("Empty map");
@@ -155,7 +190,7 @@ public class LinkedMap<K, V>
 			map.remove(entry.key);
 		}
 
-		return entry.value;
+		return entry;
 	}
 	
 	/**

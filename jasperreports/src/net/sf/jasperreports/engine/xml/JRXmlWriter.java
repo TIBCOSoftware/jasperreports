@@ -134,6 +134,7 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPart;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -166,6 +167,9 @@ import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
+import net.sf.jasperreports.engine.part.PartComponentXmlWriter;
+import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
+import net.sf.jasperreports.engine.part.PartEvaluationTime;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.CalculationEnum;
@@ -181,6 +185,7 @@ import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
@@ -393,6 +398,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_pageHeight, report.getPageHeight());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_orientation, report.getOrientationValue(), OrientationEnum.PORTRAIT);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenNoDataType, report.getWhenNoDataTypeValue(), WhenNoDataTypeEnum.NO_PAGES);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_sectionType, report.getSectionType(), SectionTypeEnum.BAND);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_columnWidth, report.getColumnWidth());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_columnSpacing, report.getColumnSpacing(), 0);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_leftMargin, report.getLeftMargin());
@@ -783,6 +789,18 @@ public class JRXmlWriter extends JRXmlBaseWriter
 					writeBand(bands[0]);
 				}
 			}
+
+			if(isNewerVersionOrEqual(JRConstants.VERSION_5_6_2))
+			{
+				JRPart[] parts = section.getParts();
+				if (parts != null && parts.length > 0)
+				{
+					for(int i = 0; i < parts.length; i++)
+					{
+						writePart(parts[i]);
+					}
+				}
+			}
 		}
 	}
 
@@ -812,6 +830,37 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeChildElements(band);
 
 		writer.closeElement();
+	}
+
+
+	/**
+	 *
+	 */
+	private void writePart(JRPart part) throws IOException
+	{
+		ComponentKey componentKey = part.getComponentKey();
+		PartComponentXmlWriter componentXmlWriter = 
+			PartComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey).getComponentXmlWriter(jasperReportsContext);
+		
+		if (componentXmlWriter.isToWrite(part, this))
+		{
+			writer.startElement(JRXmlConstants.ELEMENT_part, getNamespace());
+			PartEvaluationTime evaluationTime = part.getEvaluationTime();
+			if (evaluationTime != null)
+			{
+				writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, evaluationTime.getEvaluationTimeType());
+				writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, evaluationTime.getEvaluationGroup());
+			}
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_uuid, part.getUUID().toString());
+
+			writeProperties(part);
+			writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, part.getPrintWhenExpression(), false);
+			writeExpression(JRXmlConstants.ELEMENT_partNameExpression, part.getPartNameExpression(), false);
+			
+			componentXmlWriter.writeToXml(part, this);
+
+			writer.closeElement();
+		}
 	}
 
 	
@@ -1150,7 +1199,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			for(int i = 0; i < parameters.length; i++)
 			{
-				writeSubreportParameter(parameters[i]);
+				writeSubreportParameter(parameters[i], getNamespace());
 			}
 		}
 
@@ -1162,7 +1211,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			for(int i = 0; i < returnValues.length; i++)
 			{
-				writeSubreportReturnValue(returnValues[i]);
+				writeSubreportReturnValue(returnValues[i], getNamespace());
 			}
 		}
 
@@ -1176,9 +1225,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 *
 	 */
 	
-	private void writeSubreportParameter(JRSubreportParameter subreportParameter) throws IOException
+	public void writeSubreportParameter(JRSubreportParameter subreportParameter, XmlNamespace namespace) throws IOException
 	{
-		writer.startElement(JRXmlConstants.ELEMENT_subreportParameter);
+		writer.startElement(JRXmlConstants.ELEMENT_subreportParameter, namespace);
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, subreportParameter.getName());
 
 		writeExpression(JRXmlConstants.ELEMENT_subreportParameterExpression, subreportParameter.getExpression(), false);
@@ -2722,9 +2771,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	}
 
 
-	private void writeSubreportReturnValue(JRSubreportReturnValue returnValue) throws IOException
+	public void writeSubreportReturnValue(JRSubreportReturnValue returnValue, XmlNamespace namespace) throws IOException
 	{
-		writer.startElement(JRXmlConstants.ELEMENT_returnValue);
+		writer.startElement(JRXmlConstants.ELEMENT_returnValue, namespace);
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_subreportVariable, returnValue.getSubreportVariable());
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_toVariable, returnValue.getToVariable());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_calculation, returnValue.getCalculationValue(), CalculationEnum.NOTHING);

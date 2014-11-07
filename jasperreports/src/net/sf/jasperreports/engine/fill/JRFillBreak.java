@@ -211,7 +211,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 		
 		if (isToPrint)
 		{
-			boolean paginationIgnored = filler.getFillContext().isIgnorePagination();
+			boolean paginationIgnored = filler.isIgnorePagination();
 			if (getTypeValue() == BreakTypeEnum.COLUMN)
 			{
 				//column break

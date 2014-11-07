@@ -117,7 +117,8 @@ public final class JRParameterDefaultValuesEvaluator
 			super((JRBaseFiller) null, null);
 		}
 
-		protected JRFillGroup getGroup(JRGroup group)
+		@Override
+		public JRFillGroup getGroup(JRGroup group)
 		{
 			return super.getGroup(null);
 		}

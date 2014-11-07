@@ -28,10 +28,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.component.ComponentsXmlParser;
+import net.sf.jasperreports.engine.part.PartComponentsBundle;
+import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -81,7 +84,7 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 		schemas.add(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_RESOURCE));
 		schemas.add(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_DTD_COMPAT_RESOURCE));
 		
-		Collection<ComponentsBundle> components = ComponentsEnvironment.getComponentBundles();
+		Collection<ComponentsBundle> components = ComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getBundles();
 		for (Iterator<ComponentsBundle> it = components.iterator(); it.hasNext();)
 		{
 			ComponentsBundle componentManager = it.next();
@@ -105,6 +108,32 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 			
 			schemas.add(schemaURI);
 		}
+		
+		Collection<PartComponentsBundle> parts = PartComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getBundles();
+		for (Iterator<PartComponentsBundle> it = parts.iterator(); it.hasNext();)
+		{
+			PartComponentsBundle componentManager = it.next();
+			ComponentsXmlParser xmlParser = componentManager.getXmlParser();
+			
+			String schemaURI;
+			String schemaResource = xmlParser.getInternalSchemaResource();
+			if (schemaResource != null)
+			{
+				schemaURI = getResourceURI(schemaResource);
+			}
+			else
+			{
+				schemaURI = xmlParser.getPublicSchemaLocation();
+			}
+
+			if (log.isDebugEnabled())
+			{
+				log.debug("Adding components schema at " + schemaURI);
+			}
+			
+			schemas.add(schemaURI);
+		}
+
 		return schemas;
 	}
 

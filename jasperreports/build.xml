@@ -87,12 +87,14 @@
 		</replace>
 
 		<javaflow srcdir="./build/javaflow" dstdir="./build/javaflow" mode="bcel">
+			<include name="net/sf/jasperreports/engine/fill/BaseReportFiller.class"/>
 			<include name="net/sf/jasperreports/engine/fill/JRBaseFiller.class"/>
 			<include name="net/sf/jasperreports/engine/fill/JRVerticalFiller.class"/>
 			<include name="net/sf/jasperreports/engine/fill/JRHorizontalFiller.class"/>
 			<include name="net/sf/jasperreports/engine/fill/JRFillSubreport.class"/>
 			<include name="net/sf/jasperreports/engine/fill/JRSubreportRunnable.class"/>
 			<include name="net/sf/jasperreports/engine/fill/JRContinuationSubreportRunner.class"/>
+			<include name="net/sf/jasperreports/engine/fill/FillerSubreportParent.class"/>
 		</javaflow>
 
 		<mkdir dir="./dist"/> 

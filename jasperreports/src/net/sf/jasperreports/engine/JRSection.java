@@ -133,5 +133,10 @@ public interface JRSection extends JRCloneable
 	 * Returns the bands within the current section.
 	 */
 	public JRBand[] getBands();
+	
+	/**
+	 * Returns the parts within the current section.
+	 */
+	public JRPart[] getParts();
 		
 }

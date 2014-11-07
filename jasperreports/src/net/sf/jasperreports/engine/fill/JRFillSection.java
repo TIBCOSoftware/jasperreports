@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.fill;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.JRPart;
 import net.sf.jasperreports.engine.JRSection;
 
 
@@ -131,6 +132,14 @@ public class JRFillSection implements JRSection, JROriginProvider
 	public JRBand[] getBands() 
 	{
 		return bands;
+	}
+	
+	/**
+	 *
+	 */
+	public JRPart[] getParts() 
+	{
+		return null;
 	}
 
 

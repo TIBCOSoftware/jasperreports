@@ -78,6 +78,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
@@ -394,8 +395,9 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
-		topLimit = jasperPrint.getPageHeight();
-		leftLimit = jasperPrint.getPageWidth();
+		PrintPageFormat pageFormat = jasperPrint.getPageFormat(pageIndex);
+		topLimit = pageFormat.getPageHeight();
+		leftLimit = pageFormat.getPageWidth();
 		rightLimit = 0;
 		bottomLimit = 0;
 		
@@ -412,13 +414,13 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 		{
 			leftLimit = 0;
 		}
-		if (jasperPrint.getPageWidth() > rightLimit && !isIgnorePageMargins)
+		if (pageFormat.getPageWidth() > rightLimit && !isIgnorePageMargins)
 		{
-			rightLimit = jasperPrint.getPageWidth();
+			rightLimit = pageFormat.getPageWidth();
 		}
-		if (jasperPrint.getPageHeight() > bottomLimit && !isIgnorePageMargins)
+		if (pageFormat.getPageHeight() > bottomLimit && !isIgnorePageMargins)
 		{
-			bottomLimit = jasperPrint.getPageHeight();
+			bottomLimit = pageFormat.getPageHeight();
 		}
 		
 		if (topLimit > bottomLimit)//these can occur only when empty page and page margins are ignored

@@ -49,8 +49,19 @@ public interface JsonExporterConfiguration extends ExporterConfiguration
 		name="FLUSH_OUTPUT"
 		)
 	@ExporterProperty(
-		value=HtmlExporterConfiguration.PROPERTY_FLUSH_OUTPUT, 
+		value=HtmlExporterConfiguration.PROPERTY_FLUSH_OUTPUT,
 		booleanDefault=true
 		)
 	public Boolean isFlushOutput();
+
+	/**
+	 * A flag that determines whether the JSON exporter should export only the
+	 * report components, thus ignoring the page components
+	 */
+	@SuppressWarnings("deprecation")
+	@ExporterParameter(
+		type=net.sf.jasperreports.engine.export.JsonExporterParameter.class,
+		name="REPORT_COMPONENTS_EXPORT_ONLY"
+		)
+	public Boolean isReportComponentsExportOnly();
 }

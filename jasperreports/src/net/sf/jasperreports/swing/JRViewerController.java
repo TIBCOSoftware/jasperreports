@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 import net.sf.jasperreports.engine.util.SimpleFileResolver;
@@ -297,6 +298,11 @@ public class JRViewerController
 	public int getPageCount()
 	{
 		return jasperPrint.getPages().size();
+	}
+	
+	public PrintPageFormat getPageFormat()
+	{
+		return getJasperPrint().getPageFormat(getPageIndex());
 	}
 	
 	public void clear()

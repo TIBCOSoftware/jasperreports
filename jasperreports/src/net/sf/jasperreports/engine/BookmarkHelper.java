@@ -68,6 +68,26 @@ public class BookmarkHelper
 	{
 		return bookmarkStack.getRootBookmarks();
 	}
+
+	public void appendBookmarks(BookmarkHelper bookmarkHelper, int pageOffset)
+	{
+		bookmarkStack.appendBookmarks(bookmarkHelper.bookmarkStack, pageOffset);
+	}
+	
+	public void addBookmark(BasePrintBookmark bookmark, int pageOffset)
+	{
+		bookmarkStack.addBookmark(bookmark, pageOffset);
+	}
+	
+	public BookmarkIterator bookmarkIterator()
+	{
+		return bookmarkStack.bookmarkIterator();
+	}
+	
+	public boolean hasBookmarks()
+	{
+		return bookmarkStack.hasBookmarks();
+	}
 }
 
 
@@ -78,37 +98,46 @@ class BookmarkStack
 {
 	private static final Log log = LogFactory.getLog(BookmarkStack.class); 
 	
-	LinkedList<Bookmark> stack;
+	LinkedList<BasePrintBookmark> stack;
 	boolean isCollapseMissingBookmarkLevels;
-	Map<PrintElementId, Bookmark> updateableBookmarks;
+	Map<PrintElementId, BasePrintBookmark> updateableBookmarks;
 
 	public BookmarkStack(boolean isCollapseMissingBookmarkLevels)
 	{
-		stack = new LinkedList<Bookmark>();
+		stack = new LinkedList<BasePrintBookmark>();
 		this.isCollapseMissingBookmarkLevels = isCollapseMissingBookmarkLevels;
-		push(new Bookmark(null, null, 0, null));//root bookmark is only used as container for root node
 		
-		updateableBookmarks = new HashMap<PrintElementId, Bookmark>();
+		//root bookmark is only used as container for root node
+		BasePrintBookmark root = new BasePrintBookmark(null, 0, null, 0);
+		push(root);
+		
+		updateableBookmarks = new HashMap<PrintElementId, BasePrintBookmark>();
 	}
 
-	public void push(Bookmark bookmark)
+	public boolean hasBookmarks()
+	{
+		List<PrintBookmark> bookmarks = stack.getFirst().getBookmarks();
+		return bookmarks != null && !bookmarks.isEmpty();
+	}
+
+	public void push(BasePrintBookmark bookmark)
 	{
 		stack.add(bookmark);
 	}
 
-	public Bookmark pop()
+	public BasePrintBookmark pop()
 	{
 		return stack.removeLast();
 	}
 
-	public Bookmark peek()
+	public BasePrintBookmark peek()
 	{
 		return stack.getLast();
 	}
 
-	protected Bookmark addBookmark(int level, String label, int pageIndex, String elementAddress)
+	protected BasePrintBookmark addBookmark(int level, String label, int pageIndex, String elementAddress)
 	{
-		Bookmark parent = this.peek();
+		BasePrintBookmark parent = this.peek();
 		// searching for parent
 		while(parent.getLevel() >= level)
 		{
@@ -118,19 +147,32 @@ class BookmarkStack
 
 		if (!isCollapseMissingBookmarkLevels)
 		{
-			PrintBookmark parentPrintBookmark = parent.getPrintBookmark();
+			PrintBookmark parentPrintBookmark = parent;
 			// creating empty bookmarks in order to preserve the bookmark level
 			for (int i = parent.getLevel() + 1; i < level; ++i)
 			{
-				Bookmark emptyBookmark = new Bookmark(parent, "", parentPrintBookmark.getPageIndex(), parentPrintBookmark.getElementAddress());
+				BasePrintBookmark emptyBookmark = createBookmark(parent, "", parentPrintBookmark.getPageIndex(), parentPrintBookmark.getElementAddress());
 				this.push(emptyBookmark);
 				parent = emptyBookmark;
 			}
 		}
 
-		Bookmark bookmark = new Bookmark(parent, label, pageIndex, elementAddress);
+		BasePrintBookmark bookmark = createBookmark(parent, label, pageIndex, elementAddress);
 		this.push(bookmark);
 		return bookmark;
+	}
+	
+	protected BasePrintBookmark createBookmark(BasePrintBookmark parent, String label, int pageIndex, String elementAddress)
+	{
+		int level = parent == null ? 0 : (parent.getLevel() + 1);
+		BasePrintBookmark printBookmark = new BasePrintBookmark(label, pageIndex, elementAddress, level);
+		
+		if (parent != null)
+		{
+			parent.addBookmark(printBookmark);
+		}
+		
+		return printBookmark;
 	}
 	
 	protected void addBookmarks(List<JRPrintElement> elements, int pageIndex, String elementAddress)
@@ -153,7 +195,7 @@ class BookmarkStack
 					if (level != JRAnchor.NO_BOOKMARK)
 					{
 						String anchorName = anchor.getAnchorName();
-						Bookmark bookmark = addBookmark(level, anchorName, pageIndex, elementAddress + i);
+						BasePrintBookmark bookmark = addBookmark(level, anchorName, pageIndex, elementAddress + i);
 						
 						// we're keeping a map with bookmarks for elements with late evaluation
 						// not placing bookmarks for other elements in the map to save some space
@@ -178,7 +220,7 @@ class BookmarkStack
 			if (level != JRAnchor.NO_BOOKMARK)
 			{
 				PrintElementId elementId = PrintElementId.forElement(element);
-				Bookmark bookmark = updateableBookmarks.get(elementId);//FIXME remove from the map?
+				BasePrintBookmark bookmark = updateableBookmarks.get(elementId);//FIXME remove from the map?
 				if (bookmark == null)
 				{
 					if (log.isDebugEnabled())
@@ -190,7 +232,7 @@ class BookmarkStack
 				else
 				{
 					String anchorName = anchor.getAnchorName();
-					bookmark.updateLabel(anchorName);
+					bookmark.setLabel(anchorName);
 				}
 			}
 		}
@@ -198,43 +240,28 @@ class BookmarkStack
 	
 	protected List<PrintBookmark> getRootBookmarks()
 	{
-		return stack.getFirst().getPrintBookmark().getBookmarks();
+		return stack.getFirst().getBookmarks();
 	}
-}
 
-
-/**
- *
- */
-class Bookmark
-{
-	private final int level;
-	private final PrintBookmark printBookmark;
-	
-	public Bookmark(Bookmark parent, String label, int pageIndex, String elementAddress)
+	protected void addBookmark(BasePrintBookmark bookmark, int pageOffset)
 	{
-		this.level = parent == null ? 0 : (parent.getLevel() + 1);
-		this.printBookmark = new BasePrintBookmark(label, pageIndex, elementAddress);
-		
-		if (parent != null)
+		addBookmark(bookmark.getLevel(), bookmark.getLabel(), 
+				pageOffset + bookmark.getPageIndex(), bookmark.getElementAddress());
+	}
+	
+	public void appendBookmarks(BookmarkStack bookmarkStack, int pageOffset)
+	{
+		// we're creating new objects though we could add the existing ones and update the page indices
+		// depth first to preserve parent/children relations in the new objects
+		for (BookmarkIterator iterator = bookmarkStack.bookmarkIterator(); iterator.hasBookmark(); iterator.next())
 		{
-			((BasePrintBookmark)parent.getPrintBookmark()).addBookmark(printBookmark);
+			BasePrintBookmark bookmark = iterator.bookmark();
+			addBookmark(bookmark, pageOffset);
 		}
 	}
-	
-	public void updateLabel(String label)
-	{
-		((BasePrintBookmark) printBookmark).setLabel(label);
-	}
 
-	public int getLevel()
+	public BookmarkIterator bookmarkIterator()
 	{
-		return level;
-	}
-	
-	public PrintBookmark getPrintBookmark()
-	{
-		return printBookmark;
+		return new BookmarkIterator(stack.getFirst());
 	}
 }
-

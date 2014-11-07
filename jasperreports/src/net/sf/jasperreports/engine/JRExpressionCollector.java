@@ -86,6 +86,9 @@ import net.sf.jasperreports.engine.component.ComponentCompiler;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
+import net.sf.jasperreports.engine.part.PartComponent;
+import net.sf.jasperreports.engine.part.PartComponentManager;
+import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
 
 
 /**
@@ -640,6 +643,15 @@ public class JRExpressionCollector
 					collect(bands[i]);
 				}
 			}
+
+			JRPart[] parts = section.getParts();
+			if (parts != null && parts.length > 0)
+			{
+				for(int i = 0; i < parts.length; i++)
+				{
+					collect(parts[i]);
+				}
+			}
 		}
 	}
 
@@ -660,6 +672,23 @@ public class JRExpressionCollector
 					elements[i].collectExpressions(this);
 				}
 			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	private void collect(JRPart part)
+	{
+		if (part != null)
+		{
+			addExpression(part.getPrintWhenExpression());
+			addExpression(part.getPartNameExpression());
+
+			ComponentKey componentKey = part.getComponentKey();
+			PartComponentManager manager = PartComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey);
+			PartComponent component = part.getComponent();
+			manager.getComponentCompiler(jasperReportsContext).collectExpressions(component, this);
 		}
 	}
 

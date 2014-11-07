@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.base.StandardPrintParts;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 
 
@@ -120,12 +121,53 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	private Integer bottomMargin;
 	private Integer rightMargin;
 	private OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
+	
+	private transient PrintPageFormat pageFormat;
+
+	private class DefaultPrintPageFormat implements PrintPageFormat
+	{
+		@Override
+		public Integer getPageWidth() {
+			return JasperPrint.this.getPageWidth();
+		}
+
+		@Override
+		public Integer getPageHeight() {
+			return JasperPrint.this.getPageHeight();
+		}
+
+		@Override
+		public Integer getTopMargin() {
+			return JasperPrint.this.getTopMargin();
+		}
+
+		@Override
+		public Integer getLeftMargin() {
+			return JasperPrint.this.getLeftMargin();
+		}
+
+		@Override
+		public Integer getBottomMargin() {
+			return JasperPrint.this.getBottomMargin();
+		}
+
+		@Override
+		public Integer getRightMargin() {
+			return JasperPrint.this.getRightMargin();
+		}
+
+		@Override
+		public OrientationEnum getOrientation() {
+			return JasperPrint.this.getOrientationValue();
+		}
+	}
 
 	private Map<String, JRStyle> stylesMap = new HashMap<String, JRStyle>();
 	private List<JRStyle> stylesList = new ArrayList<JRStyle>();
 	private Map<JROrigin, Integer> originsMap = new HashMap<JROrigin, Integer>();
 	private List<JROrigin> originsList = new ArrayList<JROrigin>();
 
+	private PrintParts parts;
 	//FIXME unsynchronize on serialization?
 	private List<JRPrintPage> pages = Collections.synchronizedList(new ArrayList<JRPrintPage>());
 
@@ -169,6 +211,41 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		this.name = name;
 	}
 
+	/**
+	 * @return Returns the page format for specified page index.
+	 */
+	public PrintPageFormat getPageFormat(int pageIndex)
+	{
+		if (parts == null || !parts.hasParts())
+		{
+			return getPageFormat();
+		}
+		else
+		{
+			PrintPageFormat partPageFormat = parts.getPageFormat(pageIndex);
+			if (partPageFormat == null)
+			{
+				return getPageFormat();
+			}
+			else
+			{
+				return partPageFormat;
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	private synchronized PrintPageFormat getPageFormat()
+	{
+		if (pageFormat == null)
+		{
+			pageFormat = new DefaultPrintPageFormat();
+		}
+		return pageFormat;
+	}
+		
 	/**
 	 * @return Returns the page width
 	 */
@@ -514,13 +591,58 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	}
 
 	/**
+	 * Determines whether this document contains parts.
+	 * 
+	 * @return whether this document contains parts
+	 * @see #getParts()
+	 */
+	public boolean hasParts()
+	{
+		return parts != null && parts.hasParts();
+	}
+	
+	/**
+	 * Returns a list of all parts in the filled report.
+	 */
+	public PrintParts getParts()
+	{
+		return parts;
+	}
+
+	/**
+	 * Adds a new part to the document.
+	 */
+	public synchronized void addPart(int pageIndex, PrintPart part)
+	{
+		if (parts == null)
+		{
+			parts = new StandardPrintParts();
+		}
+
+		parts.addPart(pageIndex, part);
+	}
+
+	/**
+	 * Removes a part from the document.
+	 */
+	public synchronized PrintPart removePart(int pageIndex)
+	{
+		if (parts == null)
+		{
+			return null;
+		}
+
+		return parts.removePart(pageIndex);
+	}
+
+	/**
 	 * Returns a list of all pages in the filled report.
 	 */
 	public List<JRPrintPage> getPages()
 	{
 		return pages;
 	}
-		
+
 	/**
 	 * Adds a new page to the document.
 	 */

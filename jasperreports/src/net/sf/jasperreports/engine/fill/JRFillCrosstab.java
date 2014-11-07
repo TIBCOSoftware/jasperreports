@@ -282,12 +282,10 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			return JRPropertiesUtil.asBoolean(reportProperty);
 		}
 		
-		// report pagination parameter from the master filler
-		Boolean ignorePaginationParam = (Boolean) filler.getMasterFiller().getParameterValue(
-				JRParameter.IS_IGNORE_PAGINATION);
-		if (ignorePaginationParam != null && ignorePaginationParam.booleanValue())
+		// report pagination flag from the filler
+		if (filler.isIgnorePagination())
 		{
-			return ignorePaginationParam.booleanValue();
+			return true;
 		}
 		
 		// global property

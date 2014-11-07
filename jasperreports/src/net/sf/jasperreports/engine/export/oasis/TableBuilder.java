@@ -72,7 +72,7 @@ public class TableBuilder
 	private final DocumentBuilder documentBuilder;
 	protected String tableName;
 	private final JasperPrint jasperPrint;
-	private int reportIndex;
+	private int pageFormatIndex;
 	private final WriterHelper bodyWriter;
 	private final WriterHelper styleWriter;
 	private final StyleCache styleCache;
@@ -112,7 +112,7 @@ public class TableBuilder
 	protected TableBuilder(
 		DocumentBuilder documentBuilder,
 		JasperPrint jasperPrint,
-		int reportIndex,
+		int pageFormatIndex,
 		int pageIndex,
 		WriterHelper bodyWriter,
 		WriterHelper styleWriter,
@@ -125,14 +125,14 @@ public class TableBuilder
 		this.jasperPrint = jasperPrint;
 
 		isFrame = false;
-		isPageBreak = (reportIndex != 0 || pageIndex != 0);
+		isPageBreak = (pageFormatIndex != 0 || pageIndex != 0);
 		
-		this.reportIndex = reportIndex;
+		this.pageFormatIndex = pageFormatIndex;
 		this.bodyWriter = bodyWriter;
 		this.styleWriter = styleWriter;
 		this.styleCache = styleCache;
 
-		this.tableName = "TBL_" + reportIndex + "_" + pageIndex;
+		this.tableName = "TBL_" + pageFormatIndex + "_" + pageIndex;
 		this.rowStyles = rowStyles == null ? new HashMap<Integer, String>() : rowStyles;
 		this.columnStyles = columnStyles == null ? new HashMap<Integer, String>() : columnStyles;
 	}
@@ -141,7 +141,7 @@ public class TableBuilder
 	public void buildTableStyle(int width) 
 	{
 		try {
-			  this.tableStyleName = styleCache.getTableStyle(width, reportIndex, isFrame, isPageBreak);
+			  this.tableStyleName = styleCache.getTableStyle(width, pageFormatIndex, isFrame, isPageBreak);
 		} catch (IOException e) {
 			throw new JRRuntimeException(e);
 		}

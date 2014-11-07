@@ -21,77 +21,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-
-
+package net.sf.jasperreports.engine.part;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class HeadingBean
+public class DelayedPrintPart extends FillPrintPart
 {
 
+	private final FillPart fillPart;
 
-	/**
-	 *
-	 */
-	private Integer headingType;
-	private String headingText;
-	private String reference;
-	private Integer pageIndex;
-
-
-	/**
-	 *
-	 */
-	public HeadingBean(
-		Integer type,
-		String text,
-		String reference,
-		Integer pageIndex
-		)
+	public DelayedPrintPart(FillPart fillPart)
 	{
-		this.headingType = type;
-		this.headingText = text;
-		this.reference = reference;
-		this.pageIndex = pageIndex;
+		this.fillPart = fillPart;
 	}
 
-
-	/**
-	 *
-	 */
-	public Integer getHeadingType()
+	public FillPart getFillPart()
 	{
-		return this.headingType;
+		return fillPart;
 	}
 
-
-	/**
-	 *
-	 */
-	public String getHeadingText()
+	@Override
+	public PartPrintOutput getOutput()
 	{
-		return this.headingText;
+		return null;
 	}
-
-
-	/**
-	 *
-	 */
-	public String getReference()
-	{
-		return this.reference;
-	}
-
-
-	/**
-	 *
-	 */
-	public Integer getPageIndex()
-	{
-		return this.pageIndex;
-	}
-
-
+	
 }

@@ -58,7 +58,16 @@ public enum ResetTypeEnum implements JREnum
 	 * The variable will never be initialized using its initial value expression and will only contain values obtained by
 	 * evaluating the variable's expression.
 	 */
-	NONE((byte)5, "None");
+	NONE((byte)5, "None"),
+	
+	/**
+	 * Used internally by the master report page variables to allow the variables to be used in
+	 * text fields with {@link EvaluationTimeEnum#AUTO Auto} evaluation time.
+	 * 
+	 * @see JRVariable#MASTER_CURRENT_PAGE
+	 * @see JRVariable#MASTER_TOTAL_PAGES
+	 */
+	MASTER((byte) 6, "Master");
 
 	/**
 	 *

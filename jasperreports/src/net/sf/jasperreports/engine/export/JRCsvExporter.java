@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.CsvExporterConfiguration;
 import net.sf.jasperreports.export.CsvReportConfiguration;
@@ -148,12 +149,14 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration,
 		
 		CsvReportConfiguration lcItemConfiguration = getCurrentItemConfiguration();
 		
+		PrintPageFormat pageFormat = jasperPrint.getPageFormat(pageIndex); 
+		
 		JRGridLayout layout = 
 			new JRGridLayout(
 				nature,
 				page.getElements(), 
-				jasperPrint.getPageWidth(), 
-				jasperPrint.getPageHeight(), 
+				pageFormat.getPageWidth(), 
+				pageFormat.getPageHeight(), 
 				lcItemConfiguration.getOffsetX() == null ? 0 : lcItemConfiguration.getOffsetX(), 
 				lcItemConfiguration.getOffsetY() == null ? 0 : lcItemConfiguration.getOffsetY(),
 				null //address

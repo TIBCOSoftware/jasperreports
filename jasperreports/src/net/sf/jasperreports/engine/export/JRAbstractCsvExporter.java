@@ -71,6 +71,8 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 	
 	protected ExporterNature nature;
 
+	protected int pageIndex;
+
 	
 	/**
 	 * @see #JRAbstractCsvExporter(JasperReportsContext)
@@ -140,14 +142,14 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
 				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
 
-				for(int i = startPageIndex; i <= endPageIndex; i++)
+				for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 				{
 					if (Thread.interrupted())
 					{
 						throw new JRException("Current thread interrupted.");
 					}
 				
-					JRPrintPage page = pages.get(i);
+					JRPrintPage page = pages.get(pageIndex);
 
 					/*   */
 					exportPage(page);

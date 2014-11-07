@@ -22,23 +22,14 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
@@ -49,8 +40,6 @@ import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRSaver;
-import net.sf.jasperreports.engine.util.SimpleFileResolver;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOdsReportConfiguration;
@@ -106,27 +95,9 @@ public class TableOfContentsApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		//Preparing parameters
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "Orders Report");
-
-		SimpleFileResolver fileResolver =
-			new SimpleFileResolver(
-				Arrays.asList(new File[]{new File("build/reports")})
-				);
-		fileResolver.setResolveAbsolutePath(true);
-		
-		parameters.put(JRParameter.REPORT_FILE_RESOLVER, fileResolver);
-		
-		
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/TableOfContentsReport.jasper");
-
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, getDemoHsqldbConnection());
-		
-		jasperPrint = moveTableOfContents(jasperPrint);
-
-		JRSaver.saveObject(jasperPrint, "build/reports/TableOfContentsReport.jrprint");
-
+		JasperFillManager.fillReportToFile("build/reports/TableOfContentsReport.jasper", parameters, getDemoHsqldbConnection());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -430,64 +401,6 @@ public class TableOfContentsApp extends AbstractSampleApp
 		exporter.exportReport();
 
 		System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
-	}
-
-
-	/**
-	 *
-	 */
-	private static JasperPrint moveTableOfContents(JasperPrint jasperPrint)
-	{
-		if (jasperPrint != null)
-		{
-			List<JRPrintPage> pages = jasperPrint.getPages();
-			if (pages != null && pages.size() > 0)
-			{
-				String key = "HIDDEN TEXT TO MARK THE BEGINNING OF THE TABLE OF CONTENTS";
-				JRPrintPage page = null;
-				Collection<JRPrintElement> elements = null;
-				Iterator<JRPrintElement> it = null;
-				JRPrintElement element = null;
-				int i = pages.size() - 1;
-				boolean isFound = false;
-				while(i >= 0 && !isFound)
-				{
-					page = pages.get(i);
-					elements = page.getElements();
-
-					if (elements != null && elements.size() > 0)
-					{
-						it = elements.iterator();
-						
-						while(it.hasNext() && !isFound)
-						{
-							element = it.next();
-							
-							if (element instanceof JRPrintText)
-							{
-								if ( key.equals( ((JRPrintText)element).getText() ) )
-								{
-									isFound = true;
-									break;
-								}
-							}
-						}
-					}
-					
-					i--;
-				}
-				
-				if (isFound)
-				{
-					for(int j = i + 1; j < pages.size(); j++)
-					{
-						jasperPrint.addPage(j - i - 1, jasperPrint.removePage(j));
-					}
-				}
-			}
-		}
-		
-		return jasperPrint;
 	}
 
 

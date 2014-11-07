@@ -74,6 +74,7 @@ import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintElementId;
 import net.sf.jasperreports.engine.PrintElementVisitor;
+import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.ReportContext;
@@ -467,7 +468,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
 		if (!isIgnorePageMargins)
 		{
-			tabulator.addMargins(jasperPrint.getPageWidth(), jasperPrint.getPageHeight());
+			PrintPageFormat pageFormat = jasperPrint.getPageFormat(pageIndex);
+			tabulator.addMargins(pageFormat.getPageWidth(), pageFormat.getPageHeight());
 		}
 		
 		Table table = tabulator.getTable();

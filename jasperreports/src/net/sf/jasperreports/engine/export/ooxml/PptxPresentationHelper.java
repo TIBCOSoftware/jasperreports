@@ -74,7 +74,7 @@ public class PptxPresentationHelper extends BaseHelper
 	public void exportFooter(JasperPrint jasperPrint)
 	{
 		write("</p:sldIdLst>\n");
-		write("<p:sldSz cx=\"" + LengthUtil.emu(jasperPrint.getPageWidth()) + "\" cy=\"" + LengthUtil.emu(jasperPrint.getPageHeight()) + "\" type=\"custom\"/>\n");
+		write("<p:sldSz cx=\"" + LengthUtil.emu(jasperPrint.getPageWidth()) + "\" cy=\"" + LengthUtil.emu(jasperPrint.getPageHeight()) + "\" type=\"custom\"/>\n");//FIXMEPART pptx does not work in batch mode
 		write("<p:notesSz cx=\"6858000\" cy=\"9144000\"/>\n");
 		write("</p:presentation>\n");
 	}

@@ -30,6 +30,7 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.JRPart;
 import net.sf.jasperreports.engine.base.JRBaseSection;
 
 
@@ -46,8 +47,10 @@ public class JRDesignSection extends JRBaseSection
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public static final String PROPERTY_BANDS = "bands";
+	public static final String PROPERTY_PARTS = "parts";
 	
 	protected List<JRBand> bandsList = new ArrayList<JRBand>();
+	protected List<JRPart> partsList = new ArrayList<JRPart>();
 
 	private JROrigin origin;
 
@@ -175,6 +178,87 @@ public class JRDesignSection extends JRBaseSection
 		getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_BANDS, band, index);
 
 		return band;
+	}
+
+	/**
+	 *
+	 */
+	public JRPart[] getParts()
+	{
+		JRPart[] partsArray = new JRPart[partsList.size()];
+
+		partsList.toArray(partsArray);
+
+		return partsArray;
+	}
+
+	/**
+	 * Gets a list of all parts within the current section.
+	 */
+	public List<JRPart> getPartsList()
+	{
+		return partsList;
+	}
+		
+	/**
+	 * Adds a part to the section.
+
+	 * @param part the part to be added
+	 */
+	public void addPart(JRPart part)
+	{
+		partsList.add(part);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PARTS, part, partsList.size() - 1);
+	}
+
+	/**
+	 * Adds a part to the section.
+
+	 * @param index the zero based index of the part to be added
+	 * @param part the part to be added
+	 */
+	public void addPart(int index, JRPart part)
+	{
+		partsList.add(index, part);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PARTS, part, index);
+	}
+
+	/**
+	 * Removes a part from the section.
+	 * 
+	 * @param part the part to be removed
+	 * @return the part to be removed
+	 */
+	public JRPart removePart(JRPart part)
+	{
+		if (part != null)
+		{
+			int idx = partsList.indexOf(part);
+			if (idx >= 0)
+			{
+				partsList.remove(idx);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PARTS, part, idx);
+			}
+		}
+
+		return part;
+	}
+
+	/**
+	 * Removes a part from the section.
+	 * 
+	 * @param index the index of the part to be removed
+	 * @return the part to be removed
+	 */
+	public JRPart removePart(int index)
+	{
+		JRPart part = partsList.remove(index);
+
+		getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PARTS, part, index);
+
+		return part;
 	}
 
 }

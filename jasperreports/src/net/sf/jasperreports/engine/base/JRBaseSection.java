@@ -27,6 +27,7 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRPart;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -52,6 +53,7 @@ public class JRBaseSection implements JRSection, JRChangeEventsSupport, Serializ
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	protected JRBand[] bands;
+	protected JRPart[] parts;
 
 
 	/**
@@ -88,6 +90,17 @@ public class JRBaseSection implements JRSection, JRChangeEventsSupport, Serializ
 				bands[i] = factory.getBand(jrBands[i]);
 			}
 		}
+		
+		/*   */
+		JRPart[] jrParts = section.getParts();
+		if (jrParts != null && jrParts.length > 0)
+		{
+			parts = new JRPart[jrParts.length];
+			for(int i = 0; i < jrParts.length; i++)
+			{
+				parts[i] = factory.getPart(jrParts[i]);
+			}
+		}
 	}
 
 	/**
@@ -96,6 +109,14 @@ public class JRBaseSection implements JRSection, JRChangeEventsSupport, Serializ
 	public JRBand[] getBands() 
 	{
 		return bands;
+	}	
+
+	/**
+	 *
+	 */
+	public JRPart[] getParts() 
+	{
+		return parts;
 	}	
 
 	/**
@@ -115,6 +136,7 @@ public class JRBaseSection implements JRSection, JRChangeEventsSupport, Serializ
 		}
 
 		clone.bands = JRCloneUtils.cloneArray(bands);
+		clone.parts = JRCloneUtils.cloneArray(parts);
 		clone.eventSupport = null;
 
 		return clone;

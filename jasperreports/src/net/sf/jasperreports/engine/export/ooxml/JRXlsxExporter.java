@@ -60,6 +60,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
@@ -180,7 +181,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	
 	protected String macroTemplate;
 	
-	protected JasperPrint currentSheetJasperPrint;	
+	protected PrintPageFormat oldPageFormat;
 	
 	protected Integer currentSheetPageScale;	
 	
@@ -255,7 +256,17 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				);
 	}
 
+	@Override
+	protected int exportPage(JRPrintPage page, CutsInfo xCuts, int startRow, String defaultSheetName) throws JRException
+	{
+		if (oldPageFormat != pageFormat)
+		{
+			oldPageFormat = pageFormat;
+		}
 
+		return super.exportPage(page, xCuts, startRow, defaultSheetName);
+	}
+	
 	public JRPrintImage getImage(ExporterInput exporterInput, JRPrintElementIndex imageIndex) throws JRException//FIXMECONTEXT move these to an abstract up?
 	{
 		List<ExporterInputItem> items = exporterInput.getItems();
@@ -785,7 +796,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		closeSheet();
 		
 		startPage = true;
-		currentSheetJasperPrint = jasperPrint;
 		currentSheetPageScale = sheetInfo.sheetPageScale;
 		currentSheetFirstPageNumber = sheetInfo.sheetFirstPageNumber;
 		currentSheetName = sheetInfo.sheetName;
@@ -852,7 +862,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			{
 				sheetHelper.exportFooter(
 						sheetIndex, 
-						currentSheetJasperPrint == null ? jasperPrint : currentSheetJasperPrint, 
+						oldPageFormat == null ? pageFormat : oldPageFormat, 
 						isIgnorePageMargins, 
 						sheetAutoFilter,
 						currentSheetPageScale, 
@@ -868,7 +878,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				{
 					sheetHelper.exportFooter(
 						sheetIndex, 
-						currentSheetJasperPrint == null ? jasperPrint : currentSheetJasperPrint, 
+						oldPageFormat == null ? pageFormat : oldPageFormat, 
 						isIgnorePageMargins, 
 						sheetAutoFilter,
 						currentSheetPageScale, 
@@ -881,7 +891,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				{
 					sheetHelper.exportFooter(
 						sheetIndex, 
-						currentSheetJasperPrint == null ? jasperPrint : currentSheetJasperPrint, 
+						oldPageFormat == null ? pageFormat : oldPageFormat, 
 						isIgnorePageMargins, 
 						sheetAutoFilter,
 						currentSheetPageScale, 

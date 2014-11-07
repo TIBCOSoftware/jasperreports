@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.swing;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
@@ -47,6 +48,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -67,10 +69,13 @@ import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.PrintPageFormat;
+import net.sf.jasperreports.engine.PrintPart;
+import net.sf.jasperreports.engine.PrintParts;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
-import net.sf.jasperreports.engine.print.JRPrinterAWT;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
@@ -106,6 +111,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 	private javax.swing.JPanel pnlInScroll;
 	private javax.swing.JPanel pnlLinks;
 	private javax.swing.JPanel pnlPage;
+	private javax.swing.JTabbedPane pnlTabs;
 	private javax.swing.JScrollPane scrollPane;
 
 	private final JRViewerController viewerContext;
@@ -114,6 +120,8 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 
 	private int downX;
 	private int downY;
+
+	private boolean pnlTabsChangeListenerEnabled = true;
 	
 	private List<JRHyperlinkListener> hyperlinkListeners = new ArrayList<JRHyperlinkListener>();
 	private Map<JPanel, JRPrintHyperlink> linksMap = new HashMap<JPanel, JRPrintHyperlink>();
@@ -168,6 +176,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		scrollPane.getHorizontalScrollBar().setUnitIncrement(5);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(5);
 
+		pnlTabs = new javax.swing.JTabbedPane();
 		pnlInScroll = new javax.swing.JPanel();
 		pnlPage = new javax.swing.JPanel();
 		jPanel4 = new javax.swing.JPanel();
@@ -190,8 +199,15 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			}
 		});
 
-		scrollPane.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPane.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		pnlTabs.addChangeListener(new javax.swing.event.ChangeListener() {
+			public void stateChanged(javax.swing.event.ChangeEvent evt) {
+				pnlTabsStateChanged(evt);
+			}
+		});
+		add(pnlTabs, java.awt.BorderLayout.CENTER);
+
+		scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		pnlInScroll.setLayout(new java.awt.GridBagLayout());
 
 		pnlPage.setLayout(new java.awt.BorderLayout());
@@ -272,7 +288,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		jPanel4.add(jPanel9, gridBagConstraints);
 
 		lblPage.setBackground(java.awt.Color.white);
-		lblPage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0)));
+		lblPage.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 		lblPage.setOpaque(true);
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 0;
@@ -538,8 +554,9 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 
 	protected void drawPageError(Graphics grx)
 	{
+		PrintPageFormat pageFormat = viewerContext.getPageFormat();
 		grx.setColor(Color.white);
-		grx.fillRect(0, 0, viewerContext.getJasperPrint().getPageWidth() + 1, viewerContext.getJasperPrint().getPageHeight() + 1);
+		grx.fillRect(0, 0, pageFormat.getPageWidth() + 1, pageFormat.getPageHeight() + 1);
 	}
 
 	class PageRenderer extends JLabel
@@ -590,14 +607,15 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 
 	protected void fitPage()
 	{
-		float heightRatio = getPageCanvasHeight() / viewerContext.getJasperPrint().getPageHeight();
-		float widthRatio = getPageCanvasWidth() / viewerContext.getJasperPrint().getPageWidth();
+		PrintPageFormat pageFormat = viewerContext.getPageFormat();
+		float heightRatio = getPageCanvasHeight() / pageFormat.getPageHeight();
+		float widthRatio = getPageCanvasWidth() / pageFormat.getPageWidth();
 		setRealZoomRatio(heightRatio < widthRatio ? heightRatio : widthRatio);
 	}
 
 	protected void fitWidth()
 	{
-		setRealZoomRatio(getPageCanvasWidth() / viewerContext.getJasperPrint().getPageWidth());
+		setRealZoomRatio(getPageCanvasWidth() / viewerContext.getPageFormat().getPageWidth());
 	}
 
 	protected float getPageCanvasWidth()
@@ -658,12 +676,90 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		pnlLinks.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}//GEN-LAST:event_pnlLinksMouseReleased
 
+	private void pnlTabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_pnlTabsStateChanged
+		if (pnlTabsChangeListenerEnabled)
+		{
+			((JPanel)pnlTabs.getSelectedComponent()).add(scrollPane);
+
+			Integer pgIdx = 0;
+
+			Integer partIndex = pnlTabs.getSelectedIndex();
+			if (partIndex > 0)
+			{
+				JasperPrint jasperPrint = viewerContext.getJasperPrint();
+				PrintParts parts = jasperPrint == null ? null : jasperPrint.getParts();
+				
+				if (parts != null && parts.hasParts())
+				{
+					partIndex = parts.startsAtZero() ? partIndex : partIndex - 1;
+					pgIdx = parts.getStartPageIndex(partIndex);
+				}
+			}
+
+			viewerContext.setPageIndex(pgIdx);
+			viewerContext.refreshPage();
+		}
+	}//GEN-LAST:event_pnlTabsStateChanged
+
 	protected void pageChanged()
 	{
 		if (viewerContext.hasPages())
 		{
 			pageError = false;
+			
+			if (viewerContext.getJasperPrint().hasParts())
+			{
+				PrintParts parts = viewerContext.getJasperPrint().getParts();
+				Integer pageIndex = viewerContext.getPageIndex();
+				Integer partIndex = parts.getPartIndex(pageIndex);
+				
+				if (partIndex < pnlTabs.getComponentCount())
+				{
+					pnlTabsChangeListenerEnabled = false;
+					pnlTabs.setSelectedIndex(partIndex - (parts.startsAtZero() ? 1 : 0));
+					((JPanel)pnlTabs.getSelectedComponent()).add(scrollPane);
+					pnlTabsChangeListenerEnabled = true;
+				}
+			}
 		}
+	}
+
+	protected void refreshTabs()
+	{
+		pnlTabsChangeListenerEnabled = false;
+
+		pnlTabs.removeAll();
+		removeAll();
+
+		JasperPrint jasperPrint =  viewerContext.getJasperPrint();
+		PrintParts parts = jasperPrint == null ? null : jasperPrint.getParts();
+		if (parts == null || !parts.hasParts())
+		{
+			add(scrollPane, java.awt.BorderLayout.CENTER);
+		}
+		else
+		{
+			if (!parts.startsAtZero())
+			{
+				JPanel partTab = new JPanel();
+				partTab.setLayout(new BorderLayout());
+				partTab.setName(viewerContext.getJasperPrint().getName());
+				pnlTabs.add(partTab);
+			}
+			
+			for (Iterator<Entry<Integer, PrintPart>> it = parts.partsIterator(); it.hasNext();)
+			{
+				PrintPart part = it.next().getValue();
+				JPanel partTab = new JPanel();
+				partTab.setLayout(new BorderLayout());
+				partTab.setName(part.getName());
+				pnlTabs.add(partTab);
+			}
+			
+			add(pnlTabs, java.awt.BorderLayout.CENTER);
+		}
+
+		pnlTabsChangeListenerEnabled = true;
 	}
 
 	protected void refreshPage()
@@ -682,9 +778,10 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 
 		pnlPage.setVisible(true);
 
+		PrintPageFormat pageFormat = viewerContext.getPageFormat();
 		Dimension dim = new Dimension(
-			(int)(viewerContext.getJasperPrint().getPageWidth() * realZoom) + 8, // 2 from border, 5 from shadow and 1 extra pixel for image
-			(int)(viewerContext.getJasperPrint().getPageHeight() * realZoom) + 8
+			(int)(pageFormat.getPageWidth() * realZoom) + 8, // 2 from border, 5 from shadow and 1 extra pixel for image
+			(int)(pageFormat.getPageHeight() * realZoom) + 8
 			);
 		pnlPage.setMaximumSize(dim);
 		pnlPage.setMinimumSize(dim);
@@ -698,7 +795,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		}
 		else
 		{
-			long imageSize = JRPrinterAWT.getImageSize(viewerContext.getJasperPrint(), realZoom);
+			long imageSize = ((int) (pageFormat.getPageWidth() * realZoom) + 1) * ((int) (pageFormat.getPageHeight() * realZoom) + 1);
 			renderImage = imageSize <= maxImageSize;
 		}
 
@@ -755,9 +852,10 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 
 	protected Image getPageErrorImage()
 	{
+		PrintPageFormat pageFormat = viewerContext.getPageFormat();
 		Image image = new BufferedImage(
-				(int) (viewerContext.getJasperPrint().getPageWidth() * realZoom) + 1,
-				(int) (viewerContext.getJasperPrint().getPageHeight() * realZoom) + 1,
+				(int) (pageFormat.getPageWidth() * realZoom) + 1,
+				(int) (pageFormat.getPageHeight() * realZoom) + 1,
 				BufferedImage.TYPE_INT_RGB
 				);
 		
@@ -1092,12 +1190,12 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 
 	public void setFitWidthZoomRatio()
 	{
-		setRealZoomRatio(getPageCanvasWidth() / viewerContext.getJasperPrint().getPageWidth());
+		setRealZoomRatio(getPageCanvasWidth() / viewerContext.getPageFormat().getPageWidth());
 	}
 
 	public void setFitPageZoomRatio()
 	{
-		setRealZoomRatio(getPageCanvasHeight() / viewerContext.getJasperPrint().getPageHeight());
+		setRealZoomRatio(getPageCanvasHeight() / viewerContext.getPageFormat().getPageHeight());
 	}
 
 	protected void keyNavigate(KeyEvent evt)
@@ -1190,6 +1288,10 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			break;
 		case JRViewerEvent.EVENT_ZOOM_CHANGED:
 			zoomChanged();
+			break;
+		case JRViewerEvent.EVENT_REPORT_LOADED:
+		case JRViewerEvent.EVENT_REPORT_LOAD_FAILED:
+			refreshTabs();
 			break;
 		}
 	}

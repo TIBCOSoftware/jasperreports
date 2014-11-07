@@ -211,7 +211,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	{
 		evaluateRenderer(evaluation);
 		copy((JRPrintImage) element);
-		fillContext.getFiller().getFillContext().updateBookmark(element);
+		fillContext.getFiller().updateBookmark(element);
 	}
 
 	protected void copy(JRPrintImage printImage)

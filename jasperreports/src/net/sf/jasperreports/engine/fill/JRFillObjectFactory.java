@@ -155,6 +155,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	 *
 	 */
 	protected JRBaseFiller filler;
+	protected BaseReportFiller reportFiller;
 	private JRFillExpressionEvaluator evaluator;
 
 	private JRFillObjectFactory parentFiller;
@@ -216,6 +217,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	public JRFillObjectFactory(JRBaseFiller filler, JRFillExpressionEvaluator expressionEvaluator)
 	{
 		this.filler = filler;
+		this.reportFiller = filler;
 		this.evaluator = expressionEvaluator;
 	}
 
@@ -228,6 +230,13 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 	
+	public JRFillObjectFactory(BaseReportFiller reportFiller)
+	{
+		this.reportFiller = reportFiller;
+		this.evaluator = reportFiller.calculator;
+	}
+
+
 	/**
 	 * Returns the expression evaluator which is to be used by objects
 	 * created by this factory.
@@ -445,7 +454,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	protected JRFillGroup getGroup(JRGroup group)
+	public JRFillGroup getGroup(JRGroup group)
 	{
 		JRFillGroup fillGroup = null;
 
@@ -1266,7 +1275,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			fillReturnValue = (JRFillSubreportReturnValue) get(returnValue);
 			if (fillReturnValue == null)
 			{
-				fillReturnValue = new JRFillSubreportReturnValue(returnValue, this, filler);
+				fillReturnValue = new JRFillSubreportReturnValue(returnValue, this, reportFiller);
 			}
 		}
 
@@ -1335,7 +1344,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			fillDataset = (JRFillDataset) get(dataset);
 			if (fillDataset == null)
 			{
-				fillDataset = new JRFillDataset(filler, dataset, this);
+				fillDataset = new JRFillDataset(reportFiller, dataset, this);
 			}
 		}
 
@@ -1464,6 +1473,10 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		setVisitResult(fillFrame);
 	}
 
+	public BaseReportFiller getReportFiller()
+	{
+		return reportFiller;
+	}
 
 	/**
 	 * Returns the current report filler.

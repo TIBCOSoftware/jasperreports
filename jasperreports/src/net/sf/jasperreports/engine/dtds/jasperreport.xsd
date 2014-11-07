@@ -148,6 +148,25 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="sectionType" use="optional" default="Band">
+   	<annotation>
+   		<documentation>Specifies if the report design is made of sections containing bands or containing parts.</documentation>
+   	</annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Band">
+	   	<annotation>
+	   		<documentation>The report template is made of sections containing bands.</documentation>
+	   	</annotation>
+	  </enumeration>      
+      <enumeration value="Part">
+	   	<annotation>
+	   		<documentation>The report template is made of sections containing parts.</documentation>
+	   	</annotation>
+      </enumeration>
+     </restriction>
+    </simpleType>
+   </attribute>
    <attribute name="columnWidth" type="NMTOKEN" use="optional" default="555">
    	<annotation>
    		<documentation>Column width.</documentation>
@@ -1573,9 +1592,10 @@
    <documentation>Contains the definition of the header section for this group.</documentation>
   </annotation>  
   <complexType>
-   <sequence>
+   <choice minOccurs="0" maxOccurs="1">
     <element ref="jr:band" minOccurs="0" maxOccurs="unbounded"/>
-   </sequence>
+    <element ref="jr:part" minOccurs="0" maxOccurs="unbounded"/>
+   </choice>
   </complexType>
  </element>
 
@@ -1584,9 +1604,10 @@
    <documentation>Contains the definition of the footer section for this group.</documentation>
   </annotation>  
   <complexType>
-   <sequence>
+   <choice minOccurs="0" maxOccurs="1">
     <element ref="jr:band" minOccurs="0" maxOccurs="unbounded"/>
-   </sequence>
+    <element ref="jr:part" minOccurs="0" maxOccurs="unbounded"/>
+   </choice>
   </complexType>
  </element>
 
@@ -1639,9 +1660,10 @@
    <documentation>Definition of a detail band for this report. A detail band is repeated for each line of data supplied by the report's data source. There can be multiple detail bands in a report.</documentation>
   </annotation>  
   <complexType>
-   <sequence>
+   <choice minOccurs="0" maxOccurs="1">
     <element ref="jr:band" minOccurs="0" maxOccurs="unbounded"/>
-   </sequence>
+    <element ref="jr:part" minOccurs="0" maxOccurs="unbounded"/>
+   </choice>
   </complexType>
  </element>
 
@@ -1795,6 +1817,74 @@
    </attribute>
   </complexType>
  </element>
+
+ <element name="part">
+  <annotation>
+   <documentation>Generic definition of a report part.</documentation>
+  </annotation>  
+  <complexType>
+   <sequence>
+    <element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:partNameExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:partComponent"/>
+   </sequence>
+   <attribute name="uuid" type="string" use="optional">
+	<annotation>
+	 <documentation>This attribute is auto-generated and is used to uniquely identify parts.</documentation>
+	</annotation>
+   </attribute>  
+   <attribute name="evaluationTime" use="optional">
+     <annotation>
+       <documentation>Determines the time at which the part is to be evaluated.</documentation>
+     </annotation>
+     <simpleType>
+       <restriction base="string">
+         <enumeration value="Now">
+           <annotation>
+             <documentation>The part is to be evaluated immediatelly.</documentation>
+           </annotation>
+         </enumeration>
+         <enumeration value="Report">
+           <annotation>
+             <documentation>The part is to be evaluated when the report ends.</documentation>
+           </annotation>
+         </enumeration>
+         <enumeration value="Group">
+           <annotation>
+             <documentation>The part is to be evaluated when a group breaks.</documentation>
+           </annotation>
+         </enumeration>
+       </restriction>
+     </simpleType>
+   </attribute>  
+   <attribute name="evaluationGroup" type="string" use="optional">
+     <annotation>
+       <documentation>Specifies the group at which to evaluate the part when <code>evaluationTime</code> is Group.</documentation>
+     </annotation>
+   </attribute>  
+  </complexType>
+ </element>
+
+ <element name="partNameExpression">
+  <annotation>
+   <documentation>An expression that will provide a name for a report part.</documentation>
+  </annotation>
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="partComponent" type="jr:partComponentType" abstract="true">
+  <annotation>
+   <documentation></documentation>
+  </annotation>
+ </element>
+  
+ <complexType name="partComponentType" abstract="true">
+  <annotation>
+   <documentation></documentation>
+  </annotation>
+ </complexType>
 
  <element name="break">
   <annotation>
@@ -7037,6 +7127,7 @@ property.
    <enumeration value="Column"/>
    <enumeration value="Group"/>
    <enumeration value="Band"/>
+   <enumeration value="Master"/>
   </restriction>
  </simpleType>
 
@@ -7052,6 +7143,7 @@ property.
    <enumeration value="Group"/>
    <enumeration value="Band"/>
    <enumeration value="Auto"/>
+   <enumeration value="Master"/>
   </restriction>
  </simpleType>
 

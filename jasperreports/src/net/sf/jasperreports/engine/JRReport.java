@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
@@ -342,6 +343,12 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JR
 	 * Sets the report behavior in case of empty datasources.
 	 */
 	public void setWhenNoDataType(WhenNoDataTypeEnum whenNoDataType);
+
+	/**
+	 * Specifies whether report sections are made of bands or of parts.
+	 * @return a value representing one of the section type constants in {@link SectionTypeEnum}
+	 */
+	public SectionTypeEnum getSectionType();
 
 	/**
 	 *

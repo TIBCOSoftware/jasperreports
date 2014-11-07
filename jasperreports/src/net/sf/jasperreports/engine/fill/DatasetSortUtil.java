@@ -98,7 +98,7 @@ public class DatasetSortUtil
 	 *
 	 */
 	public static SortedDataSource getSortedDataSource(
-		JRBaseFiller filler, 
+		BaseReportFiller filler, 
 		JRFillDataset dataset, 
 		Locale locale 
 		) throws JRException
@@ -323,7 +323,7 @@ class SortFillDatasetRun extends JRFillDatasetRun
 	private List<SortedDataSource.SortRecord> records;
 
 	
-	public SortFillDatasetRun(JRBaseFiller filler, JRFillDataset dataset, SortInfo sortInfo) throws JRException
+	public SortFillDatasetRun(BaseReportFiller filler, JRFillDataset dataset, SortInfo sortInfo) throws JRException
 	{
 		super(
 			filler, 

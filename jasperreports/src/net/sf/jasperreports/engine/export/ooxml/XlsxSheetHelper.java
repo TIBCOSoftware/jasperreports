@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
@@ -181,7 +182,7 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	public void exportFooter(
 			int index, 
-			JasperPrint jasperPrint, 
+			PrintPageFormat jasperPrint, 
 			boolean isIgnorePageMargins, 
 			String autoFilter,
 			Integer scale,
@@ -234,9 +235,9 @@ public class XlsxSheetHelper extends BaseHelper
 		
 		write("<pageSetup");	
 		
-		if (jasperPrint.getOrientationValue() != null)
+		if (jasperPrint.getOrientation() != null)
 		{
-			write(" orientation=\"" + jasperPrint.getOrientationValue().getName().toLowerCase() + "\"");	
+			write(" orientation=\"" + jasperPrint.getOrientation().getName().toLowerCase() + "\"");	
 		}
 		
 		/* the scale factor takes precedence over fitWidth and fitHeight properties */
@@ -408,7 +409,7 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 	}
 	
-	private final byte getSuitablePaperSize(JasperPrint jasP)
+	private final byte getSuitablePaperSize(PrintPageFormat jasP)
 	{
 
 		if (jasP == null)

@@ -59,49 +59,21 @@ public class JRVerticalFiller extends JRBaseFiller
 		JasperReport jasperReport
 		) throws JRException
 	{
-		this(jasperReportsContext, jasperReport, null, null);
+		this(jasperReportsContext, jasperReport, null);
 	}
 
 	/**
 	 *
 	 */
-	protected JRVerticalFiller(
-		JasperReportsContext jasperReportsContext, 
-		JasperReport jasperReport, 
-		JRFillSubreport parentElement
-		) throws JRException
-	{
-		super(jasperReportsContext, jasperReport, null, parentElement);
-
-		setPageHeight(pageHeight);
-	}
-
-	/**
-	 *
-	 */
-	protected JRVerticalFiller(
+	public JRVerticalFiller(
 		JasperReportsContext jasperReportsContext,
 		JasperReport jasperReport, 
-		DatasetExpressionEvaluator evaluator, 
-		JRFillSubreport parentElement
+		BandReportFillerParent parent 
 		) throws JRException
 	{
-		super(jasperReportsContext, jasperReport, evaluator, parentElement);
+		super(jasperReportsContext, jasperReport, parent);
 
 		setPageHeight(pageHeight);
-	}
-
-	/**
-	 *
-	 */
-	protected JRVerticalFiller(
-		JasperReportsContext jasperReportsContext, 
-		JasperReport jasperReport, 
-		JREvaluator evaluator, 
-		JRFillSubreport parentElement
-		) throws JRException
-	{
-		this(jasperReportsContext, jasperReport, (DatasetExpressionEvaluator) evaluator, parentElement);
 	}
 
 
@@ -244,24 +216,18 @@ public class JRVerticalFiller extends JRBaseFiller
 			}
 		}
 
+		if (ignorePagination)
+		{
+			jasperPrint.setPageHeight(offsetY + bottomMargin);
+		}
+
 		if (isSubreport())
 		{
-			//if (
-			//	columnIndex == 0 ||
-			//	(columnIndex > 0 && printPageStretchHeight < offsetY + bottomMargin)
-			//	)
-			//{
-				printPageStretchHeight = offsetY + bottomMargin;
-			//}
+			addPageToParent(true);
 		}
 		else
 		{
 			addLastPageBookmarks();
-		}
-
-		if (fillContext.isIgnorePagination())
-		{
-			jasperPrint.setPageHeight(offsetY + bottomMargin);
 		}
 		
 		if (bookmarkHelper != null)
@@ -995,7 +961,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 
 		int oldOffsetY = offsetY;
-		if (!isFloatColumnFooter && !fillContext.isIgnorePagination())
+		if (!isFloatColumnFooter && !ignorePagination)
 		{
 			offsetY = columnFooterOffsetY;
 		}
@@ -1007,7 +973,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			fillFixedBand(columnFooter, evaluation);
 		}
 
-		if (isFloatColumnFooter && !fillContext.isIgnorePagination())
+		if (isFloatColumnFooter && !ignorePagination)
 		{
 			offsetY += columnFooterOffsetY - oldOffsetY;
 		}
@@ -1028,7 +994,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		offsetX = leftMargin;
 
-		if ((!isSubreport() || isSubreportRunToBottom()) && !fillContext.isIgnorePagination())
+		if ((!isSubreport() || isSubreportRunToBottom()) && !ignorePagination)
 		{
 			offsetY = pageHeight - crtPageFooter.getHeight() - bottomMargin;
 		}
@@ -1085,6 +1051,10 @@ public class JRVerticalFiller extends JRBaseFiller
 		resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
 		resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
 		resolveReportBoundElements();
+		if (isMasterReport())
+		{
+			resolveMasterBoundElements();
+		}
 	}
 
 
@@ -1863,20 +1833,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	{
 		if (isSubreport())
 		{
-			if (!parentFiller.isBandOverFlowAllowed())
-			{
-				throw new JRRuntimeException("Subreport overflowed on a band that does not support overflow.");
-			}
-
-			//if (
-			//	columnIndex == 0 ||
-			//	(columnIndex > 0 && printPageStretchHeight < offsetY + bottomMargin)
-			//	)
-			//{
-				printPageStretchHeight = offsetY + bottomMargin;
-			//}
-
-			suspendSubreportRunner();
+			addPageToParent(false);
 		}
 
 		printPage = newPage();

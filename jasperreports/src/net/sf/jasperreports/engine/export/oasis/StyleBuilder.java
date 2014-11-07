@@ -31,13 +31,10 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
-import java.util.List;
-
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.export.LengthUtil;
-import net.sf.jasperreports.export.ExporterInput;
-import net.sf.jasperreports.export.ExporterInputItem;
 
 
 /**
@@ -49,54 +46,20 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	private ExporterInput exporterInput;
 	private WriterHelper writer;
 	
 	/**
 	 * 
 	 */
-	public StyleBuilder(ExporterInput exporterInput, WriterHelper writer)
+	public StyleBuilder(WriterHelper writer)
 	{
-		this.exporterInput = exporterInput;
 		this.writer = writer;
 	}
 
 	/**
 	 * 
 	 */
-	public void build()
-	{
-		List<ExporterInputItem> items = exporterInput.getItems();
-		
-		for(int reportIndex = 0; reportIndex < items.size(); reportIndex++)
-		{
-			ExporterInputItem item = items.get(reportIndex);
-			JasperPrint jasperPrint = item.getJasperPrint();
-
-			if (reportIndex == 0)
-			{
-				buildBeforeAutomaticStyles(jasperPrint);
-			}
-			
-			buildPageLayout(reportIndex, jasperPrint);
-		}
-
-		buildBetweenAutomaticAndMasterStyles();
-
-		for(int reportIndex = 0; reportIndex < items.size(); reportIndex++)
-		{
-			buildMasterPage(reportIndex);
-		}
-
-		buildAfterMasterStyles();
-		
-		writer.flush();
-	}
-	
-	/**
-	 * 
-	 */
-	private void buildBeforeAutomaticStyles(JasperPrint jasperPrint)
+	public void buildBeforeAutomaticStyles(JasperPrint jasperPrint)
 	{
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 
@@ -142,38 +105,20 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	private void buildBetweenAutomaticAndMasterStyles()
-	{
-		writer.write(" </office:automatic-styles>\n");
-		writer.write(" <office:master-styles>\n");	
-	}
-	
-	/**
-	 * 
-	 */
-	private void buildAfterMasterStyles()
-	{
-		writer.write(" </office:master-styles>\n");	
-		writer.write("</office:document-styles>\n");
-	}
-
-	/**
-	 * 
-	 */
-	private void buildPageLayout(int reportIndex, JasperPrint jasperPrint) 
+	public void buildPageLayout(int pageFormatIndex, PrintPageFormat pageFormat) 
 	{
 			writer.write("<style:page-layout");
-			writer.write(" style:name=\"page_" + reportIndex + "\">\n");
+			writer.write(" style:name=\"page_" + pageFormatIndex + "\">\n");
 			
 			writer.write("<style:page-layout-properties");
-			writer.write(" fo:page-width=\"" + LengthUtil.inchRound(jasperPrint.getPageWidth()) +"in\"");
-			writer.write(" fo:page-height=\"" + LengthUtil.inchRound(jasperPrint.getPageHeight()) +"in\"");//FIXMEODT we probably need some actualHeight trick
+			writer.write(" fo:page-width=\"" + LengthUtil.inchRound(pageFormat.getPageWidth()) +"in\"");
+			writer.write(" fo:page-height=\"" + LengthUtil.inchRound(pageFormat.getPageHeight()) +"in\"");//FIXMEODT we probably need some actualHeight trick
 			writer.write(" fo:margin-top=\"0in\"");//FIXMEODT if first cell on page is for frame (nested table), this forcing of margins to zero does not work
 			writer.write(" fo:margin-bottom=\"0in\"");
 			writer.write(" fo:margin-left=\"0in\"");
 			writer.write(" fo:margin-right=\"0in\"");
 
-			switch (jasperPrint.getOrientationValue())
+			switch (pageFormat.getOrientation())
 			{
 				case LANDSCAPE:
 					writer.write(" style:print-orientation=\"landscape\"");
@@ -190,13 +135,22 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	private void buildMasterPage(int reportIndex) 
+	public void buildMasterPages(int pageFormatCount) 
 	{
-		writer.write("<style:master-page style:name=\"master_");
-		writer.write(String.valueOf(reportIndex));
-		writer.write("\" style:page-layout-name=\"page_");
-		writer.write(String.valueOf(reportIndex));
-		writer.write("\"/>\n");
+		writer.write(" </office:automatic-styles>\n");
+		writer.write(" <office:master-styles>\n");	
+
+		for (int i = 0; i <= pageFormatCount; i++)
+		{
+			writer.write("<style:master-page style:name=\"master_");
+			writer.write(String.valueOf(i));
+			writer.write("\" style:page-layout-name=\"page_");
+			writer.write(String.valueOf(i));
+			writer.write("\"/>\n");
+		}
+
+		writer.write(" </office:master-styles>\n");	
+		writer.write("</office:document-styles>\n");
 	}
 
 }

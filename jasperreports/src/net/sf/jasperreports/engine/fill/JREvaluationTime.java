@@ -61,6 +61,11 @@ public final class JREvaluationTime implements Serializable
 	 */
 	public static final JREvaluationTime EVALUATION_TIME_NOW = new JREvaluationTime(EvaluationTimeEnum.NOW, null, null);
 	
+
+	/**
+	 * Evaluation time corresponding to {@link EvaluationTimeEnum#MASTER EvaluationTimeEnum.MASTER}.
+	 */
+	public static final JREvaluationTime EVALUATION_TIME_MASTER = new JREvaluationTime(EvaluationTimeEnum.MASTER, null, null);
 	
 	/**
 	 * Returns the evaluation time corresponding to
@@ -110,6 +115,9 @@ public final class JREvaluationTime implements Serializable
 		{
 			case REPORT:
 				evaluationTime = EVALUATION_TIME_REPORT;
+				break;
+			case MASTER:
+				evaluationTime = EVALUATION_TIME_MASTER;
 				break;
 			case PAGE:
 				evaluationTime = EVALUATION_TIME_PAGE;

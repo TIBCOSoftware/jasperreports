@@ -119,6 +119,7 @@ import net.sf.jasperreports.crosstabs.xml.JRCrosstabMeasureFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabParameterFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabParameterValueExpressionFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabRowGroupFactory;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRDatasetParameter;
@@ -132,6 +133,7 @@ import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPart;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -164,6 +166,8 @@ import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JRDesignReportTemplate;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.part.PartComponentsBundle;
+import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
 import net.sf.jasperreports.engine.type.BorderSplitType;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.HorizontalPosition;
@@ -355,6 +359,11 @@ public final class JRXmlDigesterFactory
 		digester.addCallMethod("*/band/printWhenExpression", "setText", 0);
 
 		/*   */
+		digester.addFactoryCreate("*/part/printWhenExpression", JRExpressionFactory.BooleanExpressionFactory.class.getName());
+		digester.addSetNext("*/part/printWhenExpression", "setPrintWhenExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/part/printWhenExpression", "setText", 0);
+
+		/*   */
 		digester.addFactoryCreate("*/break", JRBreakFactory.class.getName());
 		digester.addSetNext("*/break", "addElement", JRDesignElement.class.getName());
 
@@ -513,6 +522,8 @@ public final class JRXmlDigesterFactory
 		
 		addComponentRules(digester);
 		
+		addPartComponentRules(digester);
+		
 		addGenericElementRules(digester);
 		
 		addMultiAxisDataRules(digester);
@@ -524,7 +535,7 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/componentElement", JRComponentElementFactory.class.getName());
 		digester.addSetNext("*/componentElement", "addElement", JRDesignElement.class.getName());
 		
-		Collection<ComponentsBundle> components = ComponentsEnvironment.getComponentBundles();
+		Collection<ComponentsBundle> components = ComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getBundles();
 		for (Iterator<ComponentsBundle> it = components.iterator(); it.hasNext();)
 		{
 			ComponentsBundle componentsBundle = it.next();
@@ -544,6 +555,41 @@ public final class JRXmlDigesterFactory
 				String componentName = namesIt.next();
 				digester.addRule("*/componentElement/" + componentName, 
 						JRComponentRule.newInstance());
+			}
+		}
+		
+		digester.setRuleNamespaceURI(JRXmlConstants.JASPERREPORTS_NAMESPACE);
+	}
+
+
+	protected static void addPartComponentRules(Digester digester)
+	{
+		digester.addFactoryCreate("*/part", JRPartFactory.class.getName());
+		digester.addRule("*/part", new UuidPropertyRule("uuid", "UUID"));
+		digester.addSetNext("*/part", "addPart", JRPart.class.getName());
+
+		addExpressionRules(digester, "*/part/" + JRXmlConstants.ELEMENT_partNameExpression, "setPartNameExpression");
+
+		Collection<PartComponentsBundle> components = PartComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getBundles();
+		for (Iterator<PartComponentsBundle> it = components.iterator(); it.hasNext();)
+		{
+			PartComponentsBundle componentsBundle = it.next();
+			ComponentsXmlParser xmlParser = componentsBundle.getXmlParser();
+			digester.setRuleNamespaceURI(xmlParser.getNamespace());
+			
+			XmlDigesterConfigurer configurer = xmlParser.getDigesterConfigurer();
+			if (configurer != null)
+			{
+				configurer.configureDigester(digester);
+			}
+			
+			digester.setRuleNamespaceURI(xmlParser.getNamespace());
+			for (Iterator<String> namesIt = componentsBundle.getComponentNames().iterator(); 
+					namesIt.hasNext();)
+			{
+				String componentName = namesIt.next();
+				digester.addRule("*/part/" + componentName, 
+						JRPartComponentRule.newInstance());
 			}
 		}
 		

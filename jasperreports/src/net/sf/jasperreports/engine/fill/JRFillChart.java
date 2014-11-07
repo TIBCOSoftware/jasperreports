@@ -1385,7 +1385,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		evaluateRenderer(evaluation);
 
 		copy((JRPrintImage) element);
-		filler.getFillContext().updateBookmark(element);
+		filler.updateBookmark(element);
 	}
 
 

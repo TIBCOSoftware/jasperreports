@@ -53,11 +53,11 @@ public class FillReturnValues
 
 	private static final Log log = LogFactory.getLog(FillReturnValues.class);
 	
-	private final JRBaseFiller filler;
+	private final BaseReportFiller filler;
 	private JRFillSubreportReturnValue[] returnValues;
 	private JRFillBand band;
 	
-	public FillReturnValues(JRSubreportReturnValue[] values, JRFillObjectFactory factory, JRBaseFiller filler)
+	public FillReturnValues(JRSubreportReturnValue[] values, JRFillObjectFactory factory, BaseReportFiller filler)
 	{
 		this.filler = filler;
 		
@@ -76,7 +76,7 @@ public class FillReturnValues
 		}
 	}
 	
-	public FillReturnValues(List<ReturnValue> values, JRFillObjectFactory factory, JRBaseFiller filler)
+	public FillReturnValues(List<ReturnValue> values, JRFillObjectFactory factory, BaseReportFiller filler)
 	{
 		this.filler = filler;
 		
@@ -113,7 +113,7 @@ public class FillReturnValues
 	protected JRFillSubreportReturnValue addReturnValue(
 			JRFillSubreportReturnValue returnValue,
 			List<JRFillSubreportReturnValue> returnValueList,
-			JRFillObjectFactory factory, JRBaseFiller filler)
+			JRFillObjectFactory factory, BaseReportFiller filler)
 	{
 		CalculationEnum calculation = returnValue.getCalculationValue();
 		switch (calculation)
@@ -156,7 +156,7 @@ public class FillReturnValues
 	protected JRFillSubreportReturnValue addDerivedReturnValue (
 			JRSubreportReturnValue parentReturnValue, 
 			List<JRFillSubreportReturnValue> returnValueList, 
-			JRFillObjectFactory factory, JRBaseFiller filler
+			JRFillObjectFactory factory, BaseReportFiller filler
 			)
 	{
 		JRFillSubreportReturnValue returnValue = factory.getSubreportReturnValue(parentReturnValue);

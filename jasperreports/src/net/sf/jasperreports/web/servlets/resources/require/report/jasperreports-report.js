@@ -92,7 +92,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                     }
                 }).then(function(componentsObject) {
                     it.components = {};
-                    return it.componentRegistrar.registerComponents(componentsObject, it);
+                    return it.componentRegistrar.registerComponents(componentsObject, it, it.components);
                 }).then(function() {
                     if ((it.status.pageTimestamp || !it.status.totalPages) && it.status.reportStatus != 'canceled') {
                         it.statusChecker.checkPageModified(page, it.status.pageTimestamp).then(function(statusResult) {
@@ -101,7 +101,18 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                                 it.status.totalPages = statusResult.lastPageIndex + 1;
                                 it.status.partialPageCount = statusResult.lastPartialPageIndex + 1;
                                 it.status.reportStatus = statusResult.status;
-                                it.eventManager.triggerEvent(it.events.REPORT_FINISHED);
+
+                                // final pages may not contain all the report components (e.g. bookmarks, parts), so try to load them
+                                if (it.status.pageFinal) {
+                                    it.loader.getComponentsForPage().then(function(reportComponents) {
+                                        it.reportComponents = {};
+                                        it.componentRegistrar.registerComponents(reportComponents, it, it.reportComponents).then(function() {
+                                            it.eventManager.triggerEvent(it.events.REPORT_FINISHED);
+                                        });
+                                    });
+                                } else {
+                                    it.eventManager.triggerEvent(it.events.REPORT_FINISHED);
+                                }
                             } else {
                                 if (statusResult.pageModified) {
                                     it.eventManager.triggerEvent(it.events.PAGE_MODIFIED);
