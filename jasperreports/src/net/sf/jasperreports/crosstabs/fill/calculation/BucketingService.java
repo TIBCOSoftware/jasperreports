@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 public abstract class BucketingService
 {
 	
+	public static final String EXCEPTION_MESSAGE_KEY_BUCKET_MEASURE_LIMIT = BucketingService.class.getName() + ".crosstab.bucket.measure.limit";
 	public static final String PROPERTY_BUCKET_MEASURE_LIMIT = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.bucket.measure.limit";
 	
 	protected static final byte DIMENSION_ROW = 0;
@@ -940,7 +941,13 @@ public abstract class BucketingService
 	{
 		if (bucketMeasureLimit > 0 && bucketMeasureCount > bucketMeasureLimit)
 		{
-			throw new JRRuntimeException("Crosstab bucket/measure limit (" + bucketMeasureLimit + ") exceeded.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_BUCKET_MEASURE_LIMIT,  
+					new Object[]{bucketMeasureLimit}, 
+					serviceContext.getJasperReportsContext(),
+					serviceContext.getExpressionEvaluator().getFillDataset().getLocale()
+					);
 		}
 	}
 	
