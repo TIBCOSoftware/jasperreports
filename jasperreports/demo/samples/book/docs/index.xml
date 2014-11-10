@@ -113,7 +113,7 @@ The preexisting <code>PAGE_NUMBER</code> variable has a scope limited to the lif
 Two new variables have been introduced to allow subreport parts to print the index of the current page in the generated document and the total number of pages in the document.
 The variables are named <code>MASTER_CURRENT_PAGE</code> and <code>MASTER_TOTAL_PAGES</code> and should only be used in text fields that have <code>evaluationTime=&quot;Master&quot;</code> or <code>evaluationTime=&quot;Auto&quot;</code> because they evaluate to null in all other contexts.
 <br/>
-A typical text field using the variable would look something like the following:
+A typical text field using the two variables would look something like the following:
 <pre><![CDATA[
   <textField evaluationTime="Master">
     <reportElement .../>
