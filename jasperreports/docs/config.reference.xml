@@ -2794,7 +2794,7 @@ When working with this property, numbers have to be written with no thousand sep
     <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_DATA_PROPERTY</api>
     <default>N/A</default>
     <scope>Element</scope>
-    <since>5.6.2</since>
+    <since>6.0.0</since>
   </configProperty>
   
   
@@ -2808,7 +2808,7 @@ and specifies if the member property names should be enclosed with quotes or no.
     <api>net/sf/jasperreports/export/JsonMetadataReportConfiguration.html#JSON_EXPORTER_ESCAPE_MEMBERS</api>
     <default>true</default>
     <scope>Report</scope>
-    <since>5.6.2</since>
+    <since>6.0.0</since>
   </configProperty>
   
   
@@ -2824,7 +2824,7 @@ present in the report, this property can be used to determine a rule in the JSON
     <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_PATH_PROPERTY</api>
     <default>N/A</default>
     <scope>Element</scope>
-    <since>5.6.2</since>
+    <since>6.0.0</since>
   </configProperty>
   
   
@@ -2838,7 +2838,7 @@ and specifies whether the value associated to that JSON path should be repeated 
     <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_REPEAT_VALUE_PROPERTY</api>
     <default>false</default>
     <scope>Element</scope>
-    <since>5.6.2</since>
+    <since>6.0.0</since>
   </configProperty>
   
   
@@ -2857,7 +2857,7 @@ and specifies the path to a JSON schema file that will be used to generate the J
     <api>net/sf/jasperreports/export/JsonMetadataReportConfiguration.html#JSON_EXPORTER_JSON_SCHEMA</api>
     <default>N/A</default>
     <scope>Report</scope>
-    <since>5.6.2</since>
+    <since>6.0.0</since>
   </configProperty>
   
   
@@ -3180,7 +3180,7 @@ Its value is used as default for the
     <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_DISPLAY_METADATA_TITLE</api>
     <default>false</default>
     <scope>Global | Report</scope>
-    <since>5.6.2</since>
+    <since>6.0.0</since>
   </configProperty>
   
   
@@ -5008,7 +5008,7 @@ The property can be set at global/JasperReports context level.
     <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_DATE</api>
     <default>N/A</default>
     <scope>Global</scope>
-    <since>5.6.2</since>
+    <since>6.0.0</since>
   </configProperty>
   
   
@@ -5029,7 +5029,7 @@ The property can be set at global/JasperReports context level.
     <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_TIME</api>
     <default>N/A</default>
     <scope>Global</scope>
-    <since>5.6.2</since>
+    <since>6.0.0</since>
   </configProperty>
   
   
@@ -5050,7 +5050,7 @@ The property can be set at global/JasperReports context level.
     <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_DATETIME</api>
     <default>N/A</default>
     <scope>Global</scope>
-    <since>5.6.2</since>
+    <since>6.0.0</since>
   </configProperty>
   
   
@@ -5071,7 +5071,7 @@ The property can be set at global/JasperReports context level.
     <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_INTEGER</api>
     <default>N/A</default>
     <scope>Global</scope>
-    <since>5.6.2</since>
+    <since>6.0.0</since>
   </configProperty>
   
   
@@ -5092,7 +5092,7 @@ The property can be set at global/JasperReports context level.
     <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_NUMBER</api>
     <default>N/A</default>
     <scope>Global</scope>
-    <since>5.6.2</since>
+    <since>6.0.0</since>
   </configProperty>
   
   

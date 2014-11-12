@@ -112,7 +112,7 @@ public class PartComponentsXmlWriter extends AbstractPartComponentXmlWriter
 		{
 			if(PartComponentsExtensionsRegistryFactory.SUBREPORT_PART_COMPONENT_NAME.equals(componentKey.getName()))
 			{
-				return isNewerVersionOrEqual(part, reportWriter, JRConstants.VERSION_5_6_2);
+				return isNewerVersionOrEqual(part, reportWriter, JRConstants.VERSION_6_0_0);
 			}
 		}
 

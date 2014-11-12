@@ -245,7 +245,7 @@ Other alternatives for processing different queries in the same report are usage
     <description>
 Shows how to export the report to JSON format using metadata associated with report elements at design time, to mark JSON tree nodes.
     </description>
-    <since>5.6.2</since>
+    <since>6.0.0</since>
     <documentedBy>
       <author>
     	<name>Sanda Zaharia</name>

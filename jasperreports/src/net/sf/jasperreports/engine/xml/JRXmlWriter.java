@@ -790,7 +790,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 				}
 			}
 
-			if(isNewerVersionOrEqual(JRConstants.VERSION_5_6_2))
+			if (isNewerVersionOrEqual(JRConstants.VERSION_6_0_0))
 			{
 				JRPart[] parts = section.getParts();
 				if (parts != null && parts.length > 0)
