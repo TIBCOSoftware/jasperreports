@@ -45,7 +45,7 @@ public interface TextExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_PAGE_SEPARATOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.text.page.separator";
+	public static final String PROPERTY_PAGE_SEPARATOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.page.separator";
 
 	/**
 	 * Property whose value is used as default for the {@link #getLineSeparator()} export configuration setting.
@@ -53,7 +53,16 @@ public interface TextExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_LINE_SEPARATOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.text.line.separator";
+	public static final String PROPERTY_LINE_SEPARATOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.line.separator";
+
+	/**
+	 * Property whose value is used as default for the {@link #isTrimLineRight()} export configuration setting.
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 *
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_TRIM_LINE_RIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.trim.line.right";
 
 	/**
 	 * Returns a string representing text that will be inserted between pages of the generated report. By default, JasperReports
@@ -78,4 +87,14 @@ public interface TextExporterConfiguration extends ExporterConfiguration
 		)
 	@ExporterProperty(PROPERTY_LINE_SEPARATOR)
 	public String getLineSeparator();
+
+	/**
+	 * Returns a boolean value specifying  whether the lines of text in the document should be trimmed to the right.
+	 * @see #PROPERTY_TRIM_LINE_RIGHT
+	 */
+	@ExporterProperty(
+		value=PROPERTY_TRIM_LINE_RIGHT, 
+		booleanDefault=false
+		)
+	public Boolean isTrimLineRight();
 }

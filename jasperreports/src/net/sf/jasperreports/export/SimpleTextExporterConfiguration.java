@@ -32,6 +32,7 @@ public class SimpleTextExporterConfiguration extends SimpleExporterConfiguration
 {
 	private String pageSeparator;
 	private String lineSeparator;
+	private Boolean isTrimLineRight;
 
 	
 	/**
@@ -71,5 +72,21 @@ public class SimpleTextExporterConfiguration extends SimpleExporterConfiguration
 	public void setLineSeparator(String lineSeparator)
 	{
 		this.lineSeparator = lineSeparator;
+	}
+
+	/**
+	 * 
+	 */
+	public Boolean isTrimLineRight()
+	{
+		return isTrimLineRight;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setTrimLineRight(Boolean isTrimLineRight)
+	{
+		this.isTrimLineRight = isTrimLineRight;
 	}
 }

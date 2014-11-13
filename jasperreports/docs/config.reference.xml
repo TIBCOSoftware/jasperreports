@@ -269,6 +269,7 @@
       <property ref="net.sf.jasperreports.export.text.page.height"/>
       <property ref="net.sf.jasperreports.export.text.page.separator"/>
       <property ref="net.sf.jasperreports.export.text.page.width"/>
+      <property ref="net.sf.jasperreports.export.text.trim.line.right"/>
       
       <property ref="net.sf.jasperreports.export.xls.auto.filter"/>
       <property ref="net.sf.jasperreports.export.xls.auto.fit.column"/>
@@ -3466,6 +3467,22 @@ Its value is used as default for the
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.text.trim.line.right -->
+  
+  <configProperty name="net.sf.jasperreports.export.text.trim.line.right">
+    <description>
+Property that specifies whether the text lines in the document should be trimmed to the right.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/TextExporterConfiguration.html#isTrimLineRight()">isTrimLineRight()</api> export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_TRIM_LINE_RIGHT</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>6.0.0</since>
   </configProperty>
   
   

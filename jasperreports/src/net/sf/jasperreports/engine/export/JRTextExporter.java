@@ -124,6 +124,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 	protected float charHeight;
 	protected String pageSeparator;
 	protected String lineSeparator;
+	protected boolean isTrimLineRight;
 
 	protected static final String systemLineSeparator = System.getProperty("line.separator");
 
@@ -235,6 +236,8 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 		{
 			pageSeparator = systemLineSeparator + systemLineSeparator;
 		}
+
+		isTrimLineRight = configuration.isTrimLineRight();
 	}
 
 
@@ -349,8 +352,20 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 
 		exportElements(elements);
 
-		for (int i = 0; i < pageHeightInChars; i++) {
-			writer.write(pageData[i]);
+		for (int i = 0; i < pageHeightInChars; i++) 
+		{
+			int lineLength = pageWidthInChars;
+			if (isTrimLineRight)
+			{
+				int j = pageWidthInChars - 1;
+				while (j >= 0 && pageData[i][j] == ' ')
+				{
+					j--;
+				}
+				lineLength = j + 1;
+			}
+
+			writer.write(pageData[i], 0, lineLength);
 			writer.write(lineSeparator);
 		}
 
