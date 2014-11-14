@@ -45,6 +45,7 @@ import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
 import net.sf.jasperreports.components.table.ColumnVisitor;
 import net.sf.jasperreports.components.table.TableComponent;
+import net.sf.jasperreports.components.table.WhenNoDataTypeTableEnum;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.CompositeDatasetFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
@@ -1730,25 +1731,30 @@ public class TableReport implements JRReport
 	
 	public WhenNoDataTypeEnum getWhenNoDataTypeValue()
 	{
-		WhenNoDataTypeEnum whenNoDataType = WhenNoDataTypeEnum.NO_PAGES;
-		if (table.getWhenNoDataType() != null)
+		WhenNoDataTypeTableEnum whenNoDataType = table.getWhenNoDataType(); 
+		if (whenNoDataType == null)
 		{
-			switch (table.getWhenNoDataType())
+			whenNoDataType = 
+				WhenNoDataTypeTableEnum.getByName(
+					propertiesUtil.getProperty(
+						fillContext.getFillDataset(),
+						TableComponent.PROPERTY_WHEN_NO_DATA_TYPE
+						)
+					);
+		}
+
+		switch (whenNoDataType)
+		{
+			case ALL_SECTIONS_NO_DETAIL :
 			{
-				case ALL_SECTIONS_NO_DETAIL :
-				{
-					whenNoDataType = WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL;
-					break;
-				}
-				case BLANK :
-				default :
-				{
-					whenNoDataType = WhenNoDataTypeEnum.NO_PAGES;
-					break;
-				}
+				return WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL;
+			}
+			case BLANK :
+			default :
+			{
+				return WhenNoDataTypeEnum.NO_PAGES;
 			}
 		}
-		return whenNoDataType;
 	}
 
 	public SectionTypeEnum getSectionType()

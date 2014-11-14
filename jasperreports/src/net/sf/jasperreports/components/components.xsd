@@ -651,7 +651,7 @@
 							<element ref="c:column"/>
 						</choice>
 					</sequence>
-					<attribute name="whenNoDataType" use="optional" default="Blank">
+					<attribute name="whenNoDataType" use="optional">
 						<annotation>
 							<documentation>Allows users to customize the behavior of the table when there are now rows in the data source.</documentation>
 						</annotation>

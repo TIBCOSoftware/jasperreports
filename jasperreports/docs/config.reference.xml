@@ -147,6 +147,7 @@
   		<property ref="net.sf.jasperreports.components.table.column.sortable" />
   		<property ref="net.sf.jasperreports.components.table.column.filterable" />
   		<property ref="net.sf.jasperreports.components.table.column.conditionally.formattable" />
+  		<property ref="net.sf.jasperreports.components.table.when.no.data.type" />
   	</content>
   </category>
   
@@ -1867,6 +1868,19 @@ Property that enables/disables conditional formatting
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.components.table.when.no.data.type -->
+  
+  <configProperty name="net.sf.jasperreports.components.table.when.no.data.type">
+    <description>
+Property that specifies a default value for the <code>whenNoDataType</code> attribute of table components.
+    </description>
+    <api>net/sf/jasperreports/components/table/TableComponent.html#PROPERTY_WHEN_NO_DATA_TYPE</api>
+    <default>Blank</default>
+    <scope>Global | Report</scope>
+    <since>6.0.0</since>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.chart.dial.value.display.visible -->  
   
   <configProperty name="net.sf.jasperreports.chart.dial.value.display.visible">

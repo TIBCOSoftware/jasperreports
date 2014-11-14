@@ -50,7 +50,6 @@ import net.sf.jasperreports.components.table.ColumnGroup;
 import net.sf.jasperreports.components.table.ColumnVisitor;
 import net.sf.jasperreports.components.table.GroupCell;
 import net.sf.jasperreports.components.table.TableComponent;
-import net.sf.jasperreports.components.table.WhenNoDataTypeTableEnum;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -424,7 +423,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		writer.startElement("table", namespace);
 		if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_1))
 		{
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenNoDataType, table.getWhenNoDataType(), WhenNoDataTypeTableEnum.BLANK);
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenNoDataType, table.getWhenNoDataType());
 		}
 		reportWriter.writeDatasetRun(table.getDatasetRun());
 		

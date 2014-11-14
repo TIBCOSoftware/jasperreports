@@ -27,6 +27,7 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRDatasetRun;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.component.Component;
 
@@ -37,6 +38,10 @@ import net.sf.jasperreports.engine.component.Component;
  */
 public interface TableComponent extends Component, JRCloneable, JRVisitable
 {
+	/**
+	 * Property that specifies a default value for the <code>whenNoDataType</code> attribute of table components.
+	 */
+	public static final String PROPERTY_WHEN_NO_DATA_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.when.no.data.type";
 
 	JRDatasetRun getDatasetRun();
 
