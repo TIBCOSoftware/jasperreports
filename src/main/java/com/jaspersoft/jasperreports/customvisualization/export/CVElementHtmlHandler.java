@@ -49,18 +49,25 @@ public class CVElementHtmlHandler implements GenericElementHtmlHandler
         
 	public String getHtmlFragment(JasperReportsContext jrContext, JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
-            Map<String, Object> configuration = (Map<String, Object>)element.getParameterValue( CVPrintElement.CONFIGURATION);
+            Map<String, Object> originalConfiguration = (Map<String, Object>)element.getParameterValue( CVPrintElement.CONFIGURATION);
             
             
-            if (configuration == null)
+            if (originalConfiguration == null)
             {
                 log.warn("Configuration object in the element "+ element + " is NULL!");
                 throw new JRRuntimeException("Configuration object in the element "+ element + " is NULL!");
             }
             
-            if (context != null &&
+            // Duplicate the configuration.
+            Map<String, Object> configuration = new HashMap<String,Object>();
+            configuration.putAll(configuration);
+            
+            
+            if ((context != null &&
                 context.getExporterRef() != null &&
-                context.getExporterRef().getReportContext() != null)
+                context.getExporterRef().getReportContext() != null) ||
+                (element.getPropertiesMap().containsProperty("cv.forceRequirejs") &&
+                 "true".equals( element.getPropertiesMap().getProperty("cv.forceRequirejs"))))
             {
                 configuration.put("isInteractiveViewer", true);
             }
@@ -76,13 +83,14 @@ public class CVElementHtmlHandler implements GenericElementHtmlHandler
                 
                 if (!configuration.containsKey("instanceData"))
                 {
-                    CVElementJsonHandler.cleanConfigurationForJSON(configuration);
-                    String instanceData = mapper.writeValueAsString(configuration);
+                    Map<String, Object> jsonConfiguration = CVElementJsonHandler.createConfigurationForJSON(configuration);
+                    String instanceData = mapper.writeValueAsString(jsonConfiguration);
                     configuration.put("instanceData", instanceData);
                 }
             } catch (Exception ex)
             {
-                log.warn("Error dumping the JSON for the configuration...: " + ex.getMessage());
+                log.warn("Error dumping the JSON for the configuration...: " + ex.getMessage(), ex);
+                ex.printStackTrace();
                 throw new JRRuntimeException("Error dumping the JSON for the configuration...: " + ex.getMessage());
             }
             

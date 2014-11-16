@@ -216,46 +216,46 @@ public class CVComponentTest
 				new File(outputDir,  jasperPrint.getName() + ".html").getPath());
                 
                 
-                JasperExportManager.exportReportToPdfFile(jasperPrint, 
-				new File(outputDir, jasperPrint.getName() + ".pdf").getPath());
-                
-                                
-                HtmlExporter htmlExporter = new HtmlExporter();
-                htmlExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-                htmlExporter.setExporterOutput(new SimpleHtmlExporterOutput(new File(outputDir, jasperPrint.getName() + ".x.html")));
-		htmlExporter.exportReport();
-                
-                
-		JRDocxExporter docxExporter = new JRDocxExporter();
-		docxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		docxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".docx")));
-		docxExporter.exportReport();
-		
-                
-		JRPptxExporter pptxExporter = new JRPptxExporter();
-		pptxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		pptxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".pptx")));
-		pptxExporter.exportReport();
-
-		JRXlsxExporter xlsxExporter = new JRXlsxExporter();
-		xlsxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		xlsxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".xlsx")));
-		xlsxExporter.exportReport();
-
-		JROdsExporter odsExporter = new JROdsExporter();
-		odsExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		odsExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".ods")));
-		odsExporter.exportReport();
-
-		JROdtExporter odtExporter = new JROdtExporter();
-		odtExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		odtExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".odt")));
-		odtExporter.exportReport();
-
-		JRRtfExporter rtfExporter = new JRRtfExporter();
-		rtfExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		rtfExporter.setExporterOutput(new SimpleWriterExporterOutput(new File(outputDir, jasperPrint.getName() + ".rtf")));
-		rtfExporter.exportReport();
+//                JasperExportManager.exportReportToPdfFile(jasperPrint, 
+//				new File(outputDir, jasperPrint.getName() + ".pdf").getPath());
+//                
+//                                
+//                HtmlExporter htmlExporter = new HtmlExporter();
+//                htmlExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+//                htmlExporter.setExporterOutput(new SimpleHtmlExporterOutput(new File(outputDir, jasperPrint.getName() + ".x.html")));
+//		htmlExporter.exportReport();
+//                
+//                
+//		JRDocxExporter docxExporter = new JRDocxExporter();
+//		docxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+//		docxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".docx")));
+//		docxExporter.exportReport();
+//		
+//                
+//		JRPptxExporter pptxExporter = new JRPptxExporter();
+//		pptxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+//		pptxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".pptx")));
+//		pptxExporter.exportReport();
+//
+//		JRXlsxExporter xlsxExporter = new JRXlsxExporter();
+//		xlsxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+//		xlsxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".xlsx")));
+//		xlsxExporter.exportReport();
+//
+//		JROdsExporter odsExporter = new JROdsExporter();
+//		odsExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+//		odsExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".ods")));
+//		odsExporter.exportReport();
+//
+//		JROdtExporter odtExporter = new JROdtExporter();
+//		odtExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+//		odtExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".odt")));
+//		odtExporter.exportReport();
+//
+//		JRRtfExporter rtfExporter = new JRRtfExporter();
+//		rtfExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+//		rtfExporter.setExporterOutput(new SimpleWriterExporterOutput(new File(outputDir, jasperPrint.getName() + ".rtf")));
+//		rtfExporter.exportReport();
 
                 
                 // Other exporters, while possibly supported, are deprecated or no longer used.

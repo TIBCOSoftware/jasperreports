@@ -67,12 +67,13 @@ public class CVElementJsonHandler implements GenericElementJsonHandler
                 
                 Map<String, Object> configuration = (Map<String, Object>)element.getParameterValue( CVPrintElement.CONFIGURATION);
             
-                
                 if (configuration != null)
                 {
-                    if (context != null &&
+                    if ((context != null &&
                         context.getExporterRef() != null &&
-                        context.getExporterRef().getReportContext() != null)
+                        context.getExporterRef().getReportContext() != null) || 
+                        (element.getPropertiesMap().containsProperty("cv.forceRequirejs") &&
+                         "true".equals( element.getPropertiesMap().getProperty("cv.forceRequirejs"))))
                     {
                         configuration.put("isInteractiveViewer", true);
                     }
@@ -88,8 +89,8 @@ public class CVElementJsonHandler implements GenericElementJsonHandler
                     
                     if (!configuration.containsKey("instanceData"))
                     {
-                        cleanConfigurationForJSON(configuration);
-                        String instanceData = mapper.writeValueAsString(configuration);
+                        Map<String, Object> jsonConfiguration = createConfigurationForJSON(configuration);
+                        String instanceData = mapper.writeValueAsString(jsonConfiguration);
                     
                         configuration.put("instanceData", instanceData);
                     }
@@ -149,26 +150,34 @@ public class CVElementJsonHandler implements GenericElementJsonHandler
          * @param configuration
          * @return 
          */
-        public static Map<String, Object> cleanConfigurationForJSON(Map<String, Object> configuration)
+        public static Map<String, Object> createConfigurationForJSON(Map<String, Object> configuration)
         {
             
+            // Create a copy of configuration with all the serializable objects in it...
+            Map<String, Object> jsonConfiguration = new HashMap<String,Object>();
+                
             JRTemplateGenericPrintElement element = (JRTemplateGenericPrintElement)configuration.remove("element");
                             
-            // Strip out from the configuration all the stuff not useful for the JSON object....
-            configuration.remove("scripts");
-            
-            if (!configuration.containsKey("instanceData"))
+            if (configuration.containsKey("instanceData"))
             {
-                configuration.remove("instanceData");
+                jsonConfiguration.put("instanceData", configuration.get("instanceData"));
             }
             
             if (element != null)
             {
+                jsonConfiguration.put(Processor.CONF_WIDTH, element.getWidth());
+                jsonConfiguration.put(Processor.CONF_KEY, ""+ element.hashCode());
+                jsonConfiguration.put(Processor.CONF_HEIGHT, element.getHeight());
+                
+                
                 configuration.put(Processor.CONF_WIDTH, element.getWidth());
                 configuration.put(Processor.CONF_KEY, ""+ element.hashCode());
                 configuration.put(Processor.CONF_HEIGHT, element.getHeight());
+                
+                
                 for (String prop : element.getPropertiesMap().getPropertyNames())
                 {
+                    jsonConfiguration.put("property." + prop, element.getPropertiesMap().getProperty(prop));
                     configuration.put("property." + prop, element.getPropertiesMap().getProperty(prop));
                 }
             }

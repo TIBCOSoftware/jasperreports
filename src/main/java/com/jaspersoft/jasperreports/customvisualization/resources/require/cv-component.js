@@ -1,5 +1,6 @@
 define(function(require){
     var cvComponent = function(config) {
+        
         this.config = config;
         this.parent = null;
         this.loader = null;
@@ -11,6 +12,7 @@ define(function(require){
 
         // internal API
         _init: function() {
+            
             var it = this;
             
             var requiredModuleConfigs = window["requireJSComponent" + it.config.id]();
@@ -30,7 +32,10 @@ define(function(require){
         {
             if (requiredModuleConfigs.length <= indexToLoad)
             {
-                window["renderComponent" + it.config.id](it.config.instanceData);
+                if (window["renderComponent" + it.config.id] != 'undefined')
+                {
+                    window["renderComponent" + it.config.id](it.config.instanceData);
+                }
             }
             else
             {
