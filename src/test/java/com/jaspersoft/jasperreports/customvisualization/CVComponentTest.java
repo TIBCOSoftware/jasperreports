@@ -134,7 +134,7 @@ public class CVComponentTest
     
     public void testEmptyComponent() throws Exception
     {
-        testReport("reports/empty_component.jrxml");
+        testReport("reports/Empty_component.jrxml");
     }
     
     public void testHighChartsSparkline() throws Exception
