@@ -1,4 +1,4 @@
-define(function(require){
+define(["require","jquery"], function(require, $){
     var cvComponent = function(config) {
         
         this.config = config;
@@ -16,6 +16,10 @@ define(function(require){
             var it = this;
             
             var requiredModuleConfigs = window["requireJSComponent" + it.config.id]();
+            
+            // Cleanup the DIV...
+            $("#" + it.config.id).empty();
+            
             this._init2(requiredModuleConfigs,0,it);
         },  
         

@@ -65,24 +65,33 @@ public class CVElementJsonHandler implements GenericElementJsonHandler
 		Map<String, Object> contextMap = new HashMap<String, Object>();
                 contextMap.put("elementId", "element" + element.hashCode());
                 
-                Map<String, Object> configuration = (Map<String, Object>)element.getParameterValue( CVPrintElement.CONFIGURATION);
+                Map<String, Object> originalConfiguration = (Map<String, Object>)element.getParameterValue( CVPrintElement.CONFIGURATION);
             
-                if (configuration != null)
+                
+                if (originalConfiguration == null)
                 {
-                    if ((context != null &&
-                        context.getExporterRef() != null &&
-                        context.getExporterRef().getReportContext() != null) || 
-                        (element.getPropertiesMap().containsProperty("cv.forceRequirejs") &&
-                         "true".equals( element.getPropertiesMap().getProperty("cv.forceRequirejs"))))
-                    {
-                        configuration.put("isInteractiveViewer", true);
-                    }
-                    else
-                    {
-                        configuration.put("isInteractiveViewer", false);
-                    }
+                    log.warn("Configuration object in the element "+ element + " is NULL!");
+                    throw new JRRuntimeException("Configuration object in the element "+ element + " is NULL!");
                 }
-            
+                
+                // Duplicate the configuration.
+                Map<String, Object> configuration = new HashMap<String,Object>();
+                configuration.putAll(originalConfiguration);
+                
+                
+                if ((context != null &&
+                    context.getExporterRef() != null &&
+                    context.getExporterRef().getReportContext() != null) || 
+                    (element.getPropertiesMap().containsProperty("cv.forceRequirejs") &&
+                     "true".equals( element.getPropertiesMap().getProperty("cv.forceRequirejs"))))
+                {
+                    configuration.put("isInteractiveViewer", true);
+                }
+                else
+                {
+                    configuration.put("isInteractiveViewer", false);
+                }
+                
                 
                 ObjectMapper mapper = new ObjectMapper();
                 try {

@@ -60,7 +60,7 @@ public class CVElementHtmlHandler implements GenericElementHtmlHandler
             
             // Duplicate the configuration.
             Map<String, Object> configuration = new HashMap<String,Object>();
-            configuration.putAll(configuration);
+            configuration.putAll(originalConfiguration);
             
             
             if ((context != null &&
