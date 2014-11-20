@@ -348,8 +348,9 @@ public class PartReportFiller extends BaseReportFiller
 
 	private void fillChangedGroupFooters() throws JRException
 	{
-		for (GroupFillParts group : groupParts)
+		for (ListIterator<GroupFillParts> iterator = groupParts.listIterator(groupParts.size()); iterator.hasPrevious();)
 		{
+			GroupFillParts group = iterator.previous();
 			if (group.hasChanged())
 			{
 				fillParts(group.getFooterParts(), JRExpression.EVALUATION_OLD);
@@ -359,8 +360,9 @@ public class PartReportFiller extends BaseReportFiller
 
 	private void fillLastGroupFooters() throws JRException
 	{
-		for (GroupFillParts group : groupParts)
+		for (ListIterator<GroupFillParts> iterator = groupParts.listIterator(groupParts.size()); iterator.hasPrevious();)
 		{
+			GroupFillParts group = iterator.previous();
 			fillParts(group.getFooterParts(), JRExpression.EVALUATION_DEFAULT);
 		}
 	}
