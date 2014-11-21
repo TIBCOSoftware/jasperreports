@@ -28,7 +28,7 @@ package net.sf.jasperreports.export;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class SimpleJsonReportConfiguration extends SimpleReportExportConfiguration implements JsonReportConfiguration
+public class SimpleJsonReportConfiguration extends SimpleReportExportConfiguration implements JsonReportConfiguration //FIXMENOW check if it makes sense
 {
 	private Boolean isIgnoreHyperlink;
 
