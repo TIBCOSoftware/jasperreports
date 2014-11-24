@@ -773,14 +773,12 @@ public class JRGridLayout
 	/**
 	 * This static method calculates all the X cuts for a list of pages.
 	 *
-	 * @param pages
-	 *            The list of pages.
+	 * @param jasperPrint
+	 *            The JasperPrint document.
 	 * @param startPageIndex
 	 *            The first page to consider.
 	 * @param endPageIndex
 	 *            The last page to consider.
-	 * @param width
-	 *            The page width
 	 * @param offsetX
 	 *            horizontal element position offset
 	 */
