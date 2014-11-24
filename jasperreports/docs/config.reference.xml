@@ -148,6 +148,7 @@
   		<property ref="net.sf.jasperreports.components.table.column.filterable" />
   		<property ref="net.sf.jasperreports.components.table.column.conditionally.formattable" />
   		<property ref="net.sf.jasperreports.components.table.when.no.data.type" />
+  		<property ref="net.sf.jasperreports.create.sort.fields.for.groups" />
   	</content>
   </category>
   
@@ -1878,6 +1879,21 @@ Property that specifies a default value for the <code>whenNoDataType</code> attr
     <default>Blank</default>
     <scope>Global | Report</scope>
     <since>6.0.0</since>
+  </configProperty>
+
+
+  <!-- net.sf.jasperreports.create.sort.fields.for.groups -->
+  
+  <configProperty name="net.sf.jasperreports.create.sort.fields.for.groups">
+    <description>
+Property that specifies whether additional sort fields should be created automatically to preserve 
+the integrity of dataset groups, when interactive sorting is performed. The groups need to have simple 
+expressions using single field or single variable reference, for this feature to work properly.
+    </description>
+    <api>net/sf/jasperreports/components/table/TableComponent.html#PROPERTY_WHEN_NO_DATA_TYPE</api>
+    <default>false</default>
+    <scope>Global | Dataset</scope>
+    <since>4.6.0</since>
   </configProperty>
 
 

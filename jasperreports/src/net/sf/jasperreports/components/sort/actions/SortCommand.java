@@ -46,6 +46,11 @@ import net.sf.jasperreports.web.commands.CommandStack;
  */
 public class SortCommand implements Command 
 {
+	/**
+	 * Property that specifies whether additional sort fields should be created automatically to preserve the integrity of dataset groups,
+	 * when interactive sorting is performed. The groups need to have simple expressions using single field or single variable reference, for
+	 * this feature to work properly.
+	 */
 	public static final String PROPERTY_CREATE_SORT_FIELDS_FOR_GROUPS = JRPropertiesUtil.PROPERTY_PREFIX + "create.sort.fields.for.groups";
 	
 //	private ReportContext reportContext;
