@@ -2,9 +2,24 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.0.0 (2014-1x-xx)
+JasperReports 6.0.0 (2014-11-2x)
 ---------------------------------------------
 
+- new type of report template called "report book" was added, in which sections are made 
+of parts instead of bands; parts are external report templates, similar to subreports, 
+and allow creation of documents with variable page size and/or orientation; parts can be 
+displayed on separate tabs by report viewers and simplify creation of "table of contents" 
+structures in which parts that appear early in the document are actually filled/rendered 
+later during the report filling process (see evaluationTime attribute of part);
+
+- new JSON metadata exporter added, similar to the XLS and CSV metadata exporters in which 
+the values that need to be exported have to be marked-up using configuration properties at 
+text element level;
+
+- upgrade to iText version 5.5.0 in the PDF exporter;
+
+- upgrade to POI version 3.10.1 in the XLS exporter and data source;
+ 
 - minor bug fixes and improvements;
 
 
