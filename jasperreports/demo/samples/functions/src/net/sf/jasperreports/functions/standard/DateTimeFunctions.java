@@ -298,8 +298,9 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
+			boolean lookBack = workdays<0;
 			DateTime cursorDT=new DateTime(convertedDate);
-			int remainingDays=workdays;
+			int remainingDays=Math.abs(workdays);
 			while(remainingDays>0){
 				int dayOfWeek = cursorDT.getDayOfWeek();
 				if(!(dayOfWeek==DateTimeConstants.SATURDAY || 
@@ -307,7 +308,12 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 					// Decrement remaining days only when it is not Saturday or Sunday
 					remainingDays--;
 				}
-				cursorDT= dayOfWeek==DateTimeConstants.FRIDAY?cursorDT.plusDays(3):cursorDT.plusDays(1);
+				if(!lookBack) {
+					cursorDT= dayOfWeek==DateTimeConstants.FRIDAY?cursorDT.plusDays(3):cursorDT.plusDays(1);
+				}
+				else {
+					cursorDT= dayOfWeek==DateTimeConstants.MONDAY?cursorDT.minusDays(3):cursorDT.minusDays(1);
+				}
 			}
 			return cursorDT.toDate();
 		}
