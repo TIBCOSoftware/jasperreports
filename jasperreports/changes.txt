@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.0.0 (2014-11-2x)
+JasperReports 6.0.0 (2014-11-25)
 ---------------------------------------------
 
 - new type of report template called "report book" was added, in which sections are made 
