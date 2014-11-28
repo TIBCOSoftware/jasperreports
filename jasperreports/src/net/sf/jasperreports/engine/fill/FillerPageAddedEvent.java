@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface FillerPageAddedEvent
 {

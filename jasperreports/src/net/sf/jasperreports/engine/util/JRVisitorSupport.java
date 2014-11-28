@@ -48,7 +48,6 @@ import net.sf.jasperreports.engine.JRVisitor;
  * all methods.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRVisitorSupport implements JRVisitor
 {

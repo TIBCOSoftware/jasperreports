@@ -30,7 +30,6 @@ import net.sf.jasperreports.olap.mondrian.JRMondrianResult;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRMondrianDataSource extends JROlapDataSource
 {

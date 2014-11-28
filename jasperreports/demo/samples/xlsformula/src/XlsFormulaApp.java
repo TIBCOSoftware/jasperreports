@@ -41,7 +41,6 @@ import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class XlsFormulaApp extends AbstractSampleApp
 {

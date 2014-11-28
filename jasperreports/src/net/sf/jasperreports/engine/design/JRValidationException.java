@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JRException;
  * An exception that contains a list of {@link JRValidationFault report validation faults}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRVerifier
  */
 public class JRValidationException extends JRException

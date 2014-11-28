@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.fill.JRFillElementDataset;
  * access to parameter, variable and field values.
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractChartCustomizer implements ChartCustomizer
 {

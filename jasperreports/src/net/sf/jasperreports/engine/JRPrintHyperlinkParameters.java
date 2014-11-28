@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.virtualization.VirtualizationSerializable;
  * A set of parameters associated with a print element.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRPrintHyperlinkParameters implements Serializable, VirtualizationSerializable
 {

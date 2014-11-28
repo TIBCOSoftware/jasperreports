@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
  * Print image implementation that supports recorded values.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRRecordedValuesPrintImage extends JRTemplatePrintImage implements JRRecordedValuesPrintElement
 {

@@ -45,7 +45,6 @@ import org.w3c.dom.Document;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BarcodeSVGImageProducer implements BarcodeImageProducer
 {

@@ -39,7 +39,6 @@ import org.mozilla.javascript.Scriptable;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JavaScriptFunctionsObject implements Scriptable
 {

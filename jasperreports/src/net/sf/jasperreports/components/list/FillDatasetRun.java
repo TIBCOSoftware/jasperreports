@@ -51,7 +51,6 @@ import org.apache.commons.logging.LogFactory;
  * Used to iterate on the list subdataset at fill time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class FillDatasetRun extends JRFillDatasetRun
 {

@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * that is included in compiled reports.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseGenericElement extends JRBaseElement implements
 		JRGenericElement

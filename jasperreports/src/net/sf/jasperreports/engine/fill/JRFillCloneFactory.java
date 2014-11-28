@@ -33,7 +33,6 @@ import java.util.Map;
  * A instance of this class is used for each created clone.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillCloneFactory
 {

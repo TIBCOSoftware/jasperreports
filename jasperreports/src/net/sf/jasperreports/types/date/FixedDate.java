@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRConstants;
  * <p>Implementation of {@link DateRange} for fixed, non relative date.</p>
  *
  * @author Sergey Prilukin
- * @version $Id$
  */
 public class FixedDate extends AbstractDateRange 
 {

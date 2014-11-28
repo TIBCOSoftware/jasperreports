@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.ReportContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class SimpleReportContext implements ReportContext
 {

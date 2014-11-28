@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine;
  * A report/dataset parameter having an assigned value.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRValueParameter extends JRParameter
 {

@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * Class utilities.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class ClassUtils
 {

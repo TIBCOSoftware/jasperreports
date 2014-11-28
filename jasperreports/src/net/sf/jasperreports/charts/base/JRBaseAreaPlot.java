@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot 
 {

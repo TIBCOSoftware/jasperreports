@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.design.JRDesignField;
  * implementation for bean properties introspection.
  * 
  * @author Peter Severin (peter_s@sourceforge.net, contact@jasperassistant.com)
- * @version $Id$
  */
 public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourceProvider 
 {

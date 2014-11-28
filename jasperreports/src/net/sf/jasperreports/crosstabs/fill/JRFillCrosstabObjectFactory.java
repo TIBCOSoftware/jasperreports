@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.fill.JROriginProvider;
  * Factory of fill instances of crosstab internal objects.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillCrosstabObjectFactory extends JRFillObjectFactory
 {

@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.Deduplicable;
  * A registry of deduplicable objects.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DeduplicableRegistry
 {

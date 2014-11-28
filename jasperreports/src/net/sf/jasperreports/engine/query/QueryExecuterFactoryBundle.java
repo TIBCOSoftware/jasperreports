@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.JRException;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  * @deprecated Replaced by {@link JRQueryExecuterFactoryBundle}.
  */
 public interface QueryExecuterFactoryBundle

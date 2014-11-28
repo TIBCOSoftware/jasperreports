@@ -27,7 +27,6 @@ package net.sf.jasperreports.charts;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net) 
- * @version $Id$
  */
 public interface ChartThemeBundle
 {

@@ -94,7 +94,6 @@ import net.sf.jasperreports.engine.type.RotationEnum;
  * <code>/demo/samples/markup</code> sample provided with the project source files.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRCommonText extends JRCommonElement, JRBoxContainer, JRParagraphContainer
 {

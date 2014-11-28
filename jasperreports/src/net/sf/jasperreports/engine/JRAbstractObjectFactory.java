@@ -49,7 +49,6 @@ import net.sf.jasperreports.engine.base.JRBaseFont;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRAbstractObjectFactory implements JRVisitor
 {

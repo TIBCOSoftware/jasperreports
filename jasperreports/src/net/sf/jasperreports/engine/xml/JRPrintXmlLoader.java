@@ -68,7 +68,6 @@ import org.xml.sax.SAXParseException;
  * by using this class.
  * </p>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRPrintXmlLoader implements ErrorHandler
 {

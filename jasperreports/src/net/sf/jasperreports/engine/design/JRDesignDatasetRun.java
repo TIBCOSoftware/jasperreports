@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * Implementation of {@link net.sf.jasperreports.engine.JRDatasetRun JRDatasetRun} to be used for report desing.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEventsSupport
 {

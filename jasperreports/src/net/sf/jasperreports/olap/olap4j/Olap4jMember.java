@@ -32,7 +32,6 @@ import org.olap4j.metadata.Property;
 
 /**
  * @author swood
- * @version $Id$
  */
 public class Olap4jMember implements JROlapMember
 {

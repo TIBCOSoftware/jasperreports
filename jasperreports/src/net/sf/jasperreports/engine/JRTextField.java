@@ -130,7 +130,6 @@ package net.sf.jasperreports.engine;
  * 
  * @see net.sf.jasperreports.engine.JREvaluation
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHyperlink
 {

@@ -28,7 +28,6 @@ import org.exolab.castor.mapping.GeneralizedFieldHandler;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class ExcelFormatFieldHandler extends GeneralizedFieldHandler
 {

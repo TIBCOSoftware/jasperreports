@@ -35,7 +35,6 @@ import java.net.URL;
  * asked to resolve the class. 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class CompositeClassloader extends ClassLoader
 {

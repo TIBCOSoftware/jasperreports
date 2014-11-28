@@ -25,7 +25,6 @@ package net.sf.jasperreports.data.http;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class StandardHttpDataLocation implements HttpDataLocation
 {

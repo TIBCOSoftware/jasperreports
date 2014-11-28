@@ -32,7 +32,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public enum PdfPermissionsEnum implements NamedEnum {
 	

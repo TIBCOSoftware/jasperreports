@@ -69,7 +69,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * XML writer for built-in component implementations.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see ComponentsExtensionsRegistryFactory
  */
 public class ComponentsXmlWriter extends AbstractComponentXmlWriter

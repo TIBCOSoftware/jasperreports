@@ -44,7 +44,6 @@ import org.apache.commons.logging.LogFactory;
  * before the entire report has been generated.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class AsyncJasperPrintAccessor implements JasperPrintAccessor, AsynchronousFilllListener, FillListener
 {

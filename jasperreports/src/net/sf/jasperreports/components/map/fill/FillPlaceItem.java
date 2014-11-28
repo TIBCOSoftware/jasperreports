@@ -50,7 +50,6 @@ import org.w3c.dom.Node;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class FillPlaceItem extends FillItem
 {

@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * <p>
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class DefaultHyperlinkProducerFactory extends JRHyperlinkProducerFactory
 {

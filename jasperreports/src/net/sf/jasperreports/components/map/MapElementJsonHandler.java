@@ -35,7 +35,6 @@ import java.util.Map;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class MapElementJsonHandler implements GenericElementJsonHandler
 {

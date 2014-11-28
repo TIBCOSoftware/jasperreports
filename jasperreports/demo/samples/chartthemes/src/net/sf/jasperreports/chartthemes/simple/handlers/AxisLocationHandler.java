@@ -29,7 +29,6 @@ import org.jfree.chart.axis.AxisLocation;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class AxisLocationHandler extends GeneralizedFieldHandler
 {

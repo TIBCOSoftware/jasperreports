@@ -62,7 +62,6 @@ import net.sf.jasperreports.engine.xml.PrintSaxParserFactory;
  * </p> 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @deprecated Replaced by {@link JRPropertiesUtil}.
  */
 public final class JRProperties

@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.util.JRSingletonCache;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class DefaultQueryExecuterFactoryBundle implements JRQueryExecuterFactoryBundle
 {

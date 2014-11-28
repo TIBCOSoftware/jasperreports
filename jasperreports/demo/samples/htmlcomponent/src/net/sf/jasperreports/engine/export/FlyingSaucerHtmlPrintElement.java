@@ -45,7 +45,6 @@ import org.w3c.tidy.Tidy;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class FlyingSaucerHtmlPrintElement implements HtmlPrintElement {
 	

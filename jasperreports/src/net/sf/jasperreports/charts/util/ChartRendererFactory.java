@@ -33,7 +33,6 @@ import org.jfree.chart.JFreeChart;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  * @deprecated Replaced by {@link ChartRenderableFactory}.
  */
 public interface ChartRendererFactory

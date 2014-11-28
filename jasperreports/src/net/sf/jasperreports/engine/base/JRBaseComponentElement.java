@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.component.ComponentsEnvironment;
  * in compiled reports.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseComponentElement extends JRBaseElement implements
 		JRComponentElement

@@ -26,7 +26,6 @@ package net.sf.jasperreports.data.xml;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface RemoteXmlDataAdapter extends XmlDataAdapter 
 {

@@ -27,7 +27,6 @@ import java.util.List;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface MultiAxisDataSource
 {

@@ -37,7 +37,6 @@ import java.util.List;
 
 /**
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 {

@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.query.JRQueryExecuter;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRMondrianQueryExecuterFactory extends AbstractQueryExecuterFactory
 {

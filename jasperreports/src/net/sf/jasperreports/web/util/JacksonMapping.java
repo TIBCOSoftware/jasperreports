@@ -28,7 +28,6 @@ package net.sf.jasperreports.web.util;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JacksonMapping
 {

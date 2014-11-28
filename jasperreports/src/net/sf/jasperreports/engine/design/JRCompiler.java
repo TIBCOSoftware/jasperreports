@@ -102,7 +102,6 @@ import net.sf.jasperreports.engine.fill.JREvaluator;
  * @see net.sf.jasperreports.engine.design.JasperDesign
  * @see net.sf.jasperreports.engine.xml.JRXmlLoader
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRCompiler
 {

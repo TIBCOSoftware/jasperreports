@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class HtmlComponentFillFactory implements ComponentFillFactory
 {

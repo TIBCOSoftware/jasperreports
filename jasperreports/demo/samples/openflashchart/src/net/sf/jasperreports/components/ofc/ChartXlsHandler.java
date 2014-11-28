@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.export.JRXlsExporterContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ChartXlsHandler extends BaseChartHandler implements GenericElementXlsHandler
 {

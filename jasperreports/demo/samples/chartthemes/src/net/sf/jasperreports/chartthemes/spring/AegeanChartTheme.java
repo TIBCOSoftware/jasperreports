@@ -85,7 +85,6 @@ import org.jfree.ui.TextAnchor;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class AegeanChartTheme extends GenericChartTheme
 {

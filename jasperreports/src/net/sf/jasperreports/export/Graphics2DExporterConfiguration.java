@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
  * @see JRGraphics2DExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface Graphics2DExporterConfiguration extends ExporterConfiguration
 {

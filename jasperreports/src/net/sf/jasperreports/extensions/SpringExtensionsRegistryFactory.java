@@ -52,7 +52,6 @@ import org.springframework.core.io.UrlResource;
  * {@link SpringExtensionsRegistry} instance which will use the bean factory.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class SpringExtensionsRegistryFactory implements
 		ExtensionsRegistryFactory

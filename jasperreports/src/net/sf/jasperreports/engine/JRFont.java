@@ -34,7 +34,6 @@ package net.sf.jasperreports.engine;
  * can be overridden in each element (for example, a text element can use a report level font and just change its
  * "underline" attribute). All the "own" methods in this class actually return the override values of font properties.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRFont extends JRStyleContainer
 {

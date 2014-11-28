@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRHyperlink;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRXyzSeries extends JRCloneable 
 {

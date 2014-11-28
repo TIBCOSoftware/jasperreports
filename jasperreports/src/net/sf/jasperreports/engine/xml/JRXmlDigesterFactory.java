@@ -191,7 +191,6 @@ import org.xml.sax.SAXParseException;
  * a digester in order to prepare it for parsing JasperReports xml definition files.
  *
  * @author Peter Severin (peter_p_s@users.sourceforge.net)
- * @version $Id$
  */
 @SuppressWarnings("deprecation")
 public final class JRXmlDigesterFactory

@@ -64,7 +64,6 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
  * present) through JDBC.
 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRResultSetDataSource implements JRDataSource
 {

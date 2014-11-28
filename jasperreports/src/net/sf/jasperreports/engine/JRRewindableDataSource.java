@@ -27,7 +27,6 @@ package net.sf.jasperreports.engine;
 /**
  * This interface represents a data source which can go back to the first element.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRRewindableDataSource extends JRDataSource
 {

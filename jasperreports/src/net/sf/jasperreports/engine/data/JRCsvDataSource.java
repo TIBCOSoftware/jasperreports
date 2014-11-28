@@ -64,7 +64,6 @@ import org.apache.commons.logging.LogFactory;
  * either specify a collection of column names or set a flag to read the column names from the first row of the CSV file.
  *
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDataSource
 {

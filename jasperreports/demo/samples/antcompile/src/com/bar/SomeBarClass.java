@@ -26,7 +26,6 @@ package com.bar;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class SomeBarClass
 {

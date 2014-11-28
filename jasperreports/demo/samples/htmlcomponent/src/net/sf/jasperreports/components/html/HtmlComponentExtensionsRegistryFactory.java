@@ -43,7 +43,6 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
  * This registry factory is registered by default in JasperReports.
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class HtmlComponentExtensionsRegistryFactory implements
 		ExtensionsRegistryFactory

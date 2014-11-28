@@ -40,7 +40,6 @@ import net.sf.jasperreports.view.JRSaveContributor;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public class JRRtfSaveContributor extends JRSaveContributor 
 {

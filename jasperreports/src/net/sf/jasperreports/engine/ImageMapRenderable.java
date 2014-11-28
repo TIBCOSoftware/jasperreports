@@ -31,7 +31,6 @@ import java.util.List;
  * Image renderer able to produce image maps.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 @SuppressWarnings("deprecation")
 public interface ImageMapRenderable extends Renderable, JRImageMapRenderer

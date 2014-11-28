@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * in <tt>JRTextElement</tt>.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRDesignGraphicElement extends JRDesignElement implements JRGraphicElement
 {

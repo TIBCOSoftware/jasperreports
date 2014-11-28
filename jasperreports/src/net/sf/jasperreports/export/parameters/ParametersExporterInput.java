@@ -41,7 +41,6 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 /**
  * @deprecated To be removed.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ParametersExporterInput extends SimpleExporterInput
 {

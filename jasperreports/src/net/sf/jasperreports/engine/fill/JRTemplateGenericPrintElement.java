@@ -42,7 +42,6 @@ import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
  * store common attributes. 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRTemplateGenericPrintElement
  */
 public class JRTemplateGenericPrintElement extends JRTemplatePrintElement

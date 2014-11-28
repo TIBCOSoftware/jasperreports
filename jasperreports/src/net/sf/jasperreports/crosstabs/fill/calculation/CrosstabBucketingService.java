@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class CrosstabBucketingService extends BucketingService implements BucketingData
 {

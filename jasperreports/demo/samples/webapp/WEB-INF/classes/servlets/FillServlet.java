@@ -46,7 +46,6 @@ import datasource.WebappDataSource;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class FillServlet extends HttpServlet
 {

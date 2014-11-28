@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.util.ObjectUtils;
  * Generic print element information shared by multiple elements.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRTemplateGenericPrintElement
  */
 public class JRTemplateGenericElement extends JRTemplateElement

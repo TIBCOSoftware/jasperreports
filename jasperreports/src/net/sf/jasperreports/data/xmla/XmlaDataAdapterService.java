@@ -48,7 +48,6 @@ import net.sf.jasperreports.util.SecretsUtil;
 
 /**
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)
- * @version $Id$
  */
 public class XmlaDataAdapterService extends AbstractDataAdapterService 
 {

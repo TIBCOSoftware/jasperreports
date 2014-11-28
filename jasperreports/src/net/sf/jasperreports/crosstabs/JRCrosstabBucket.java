@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
  * implement {@link java.lang.Comparable Comparable}) or using a comparator.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRCrosstabBucket extends JRCloneable
 {

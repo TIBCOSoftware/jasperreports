@@ -49,7 +49,6 @@ import org.apache.commons.logging.LogFactory;
  * List implementation that can virtualize blocks of elements.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class VirtualizableElementList extends AbstractList<JRPrintElement> implements Serializable
 {

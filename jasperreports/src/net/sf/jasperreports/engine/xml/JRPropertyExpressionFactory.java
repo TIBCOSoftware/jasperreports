@@ -31,7 +31,6 @@ import org.xml.sax.Attributes;
  * {@link JRDesignPropertyExpression} factory.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRPropertyExpressionFactory extends JRBaseFactory
 {

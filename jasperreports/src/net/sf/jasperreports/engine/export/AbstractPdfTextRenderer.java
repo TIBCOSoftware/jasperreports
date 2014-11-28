@@ -34,7 +34,6 @@ import com.itextpdf.text.pdf.PdfContentByte;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 {

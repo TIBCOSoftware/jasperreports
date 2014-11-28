@@ -114,7 +114,6 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * @see net.sf.jasperreports.engine.export.GenericElementHandler
  * @see net.sf.jasperreports.engine.export.GenericElementHandlerBundle
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRGenericElement extends JRElement
 {

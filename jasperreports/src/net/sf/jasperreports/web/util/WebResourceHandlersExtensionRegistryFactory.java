@@ -33,7 +33,6 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class WebResourceHandlersExtensionRegistryFactory implements ExtensionsRegistryFactory {
 

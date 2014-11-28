@@ -42,7 +42,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * summary, page header, page footer, last page footer, column header and column footer.
  * @see JRBaseSection
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEventsSupport
 {

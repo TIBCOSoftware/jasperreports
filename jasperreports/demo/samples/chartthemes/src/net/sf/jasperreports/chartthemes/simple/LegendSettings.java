@@ -42,7 +42,6 @@ import org.jfree.ui.VerticalAlignment;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class LegendSettings implements JRChangeEventsSupport, Serializable
 {

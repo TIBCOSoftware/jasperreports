@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
  * Factory of {@link net.sf.jasperreports.engine.fill.JRSubreportRunner JRSubreportRunner} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRSubreportRunnerFactory
 {

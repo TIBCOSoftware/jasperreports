@@ -35,7 +35,6 @@ import org.krysalis.barcode4j.impl.datamatrix.SymbolShapeHint;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BarcodeVerifier implements BarcodeVisitor
 {

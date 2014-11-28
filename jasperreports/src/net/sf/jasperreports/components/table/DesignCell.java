@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.design.JRDesignElementGroup;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DesignCell extends JRDesignElementGroup implements Cell, DesignStyleContainer
 {

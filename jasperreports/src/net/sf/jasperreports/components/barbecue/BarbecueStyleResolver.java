@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 /**
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public final class BarbecueStyleResolver {
 	

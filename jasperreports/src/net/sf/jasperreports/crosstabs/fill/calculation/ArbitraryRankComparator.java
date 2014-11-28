@@ -34,7 +34,6 @@ import org.apache.commons.collections.map.ReferenceMap;
  * to impose an arbitrary order on them.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ArbitraryRankComparator implements Comparator<Object>
 {

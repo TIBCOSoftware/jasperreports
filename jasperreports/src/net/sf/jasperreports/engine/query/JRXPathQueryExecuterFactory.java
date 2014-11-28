@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * query executers.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory
 {

@@ -62,7 +62,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * Base read-only {@link net.sf.jasperreports.crosstabs.JRCrosstab crosstab} implementation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 {

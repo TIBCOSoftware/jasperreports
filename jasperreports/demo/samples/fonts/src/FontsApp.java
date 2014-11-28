@@ -54,7 +54,6 @@ import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class FontsApp extends AbstractSampleApp
 {

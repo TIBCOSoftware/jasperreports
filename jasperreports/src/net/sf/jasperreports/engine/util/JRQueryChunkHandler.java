@@ -27,7 +27,6 @@ package net.sf.jasperreports.engine.util;
  * A query chunk handler.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRQueryParser#parse(String, JRQueryChunkHandler)
  */
 public interface JRQueryChunkHandler

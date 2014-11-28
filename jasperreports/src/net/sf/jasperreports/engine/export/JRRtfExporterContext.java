@@ -30,7 +30,6 @@ package net.sf.jasperreports.engine.export;
  * @see JRRtfExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRRtfExporterContext extends JRExporterContext
 {

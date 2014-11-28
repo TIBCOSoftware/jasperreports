@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * Base implementation of {@link JRPropertyExpression}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBasePropertyExpression implements JRPropertyExpression, Serializable, JRChangeEventsSupport, JRCloneable
 {

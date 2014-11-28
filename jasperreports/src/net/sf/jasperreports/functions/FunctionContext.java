@@ -27,7 +27,6 @@ package net.sf.jasperreports.functions;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface FunctionContext 
 {

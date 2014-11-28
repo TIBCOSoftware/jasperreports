@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DateTextValue extends TextValue
 {

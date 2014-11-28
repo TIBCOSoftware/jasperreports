@@ -36,7 +36,6 @@ import org.apache.commons.digester.Digester;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class HtmlComponentDigester implements XmlDigesterConfigurer
 {

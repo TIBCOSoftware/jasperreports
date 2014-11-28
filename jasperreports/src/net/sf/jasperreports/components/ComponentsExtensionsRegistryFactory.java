@@ -71,7 +71,6 @@ import net.sf.jasperreports.extensions.ListExtensionsRegistry;
  * This registry factory is registered by default in JasperReports.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see ListComponent
  */
 public class ComponentsExtensionsRegistryFactory implements

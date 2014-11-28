@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRChartDataset;
  * charts 
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRCategoryDataset extends JRChartDataset
 {

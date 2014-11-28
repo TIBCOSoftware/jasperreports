@@ -52,7 +52,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * </p> 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRPropertiesUtil
 {

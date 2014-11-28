@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JasperPrint;
  * Such an object is usually placed on the session when a report is generated.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JasperPrintAccessor
 {

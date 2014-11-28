@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * Working clones pooling utility used at fill time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRClonePool
 {

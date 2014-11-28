@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignSortField extends JRBaseSortField
 {

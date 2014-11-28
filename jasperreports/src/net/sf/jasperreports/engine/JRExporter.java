@@ -61,7 +61,6 @@ import net.sf.jasperreports.export.ExporterOutput;
  *
  * @deprecated Replaced by {@link Exporter}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRExporter<I extends ExporterInput, IC extends ReportExportConfiguration, C extends ExporterConfiguration, O extends ExporterOutput> extends Exporter<I, IC, C, O>
 {

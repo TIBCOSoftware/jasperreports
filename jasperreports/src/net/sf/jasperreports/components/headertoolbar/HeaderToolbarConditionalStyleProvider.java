@@ -44,7 +44,6 @@ import net.sf.jasperreports.web.util.JacksonUtil;
  * 
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class HeaderToolbarConditionalStyleProvider implements StyleProvider
 {

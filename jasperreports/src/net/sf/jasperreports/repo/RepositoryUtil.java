@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.ReportContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class RepositoryUtil
 {

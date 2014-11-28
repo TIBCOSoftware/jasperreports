@@ -27,7 +27,6 @@ import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class SortRowGroupData
 {

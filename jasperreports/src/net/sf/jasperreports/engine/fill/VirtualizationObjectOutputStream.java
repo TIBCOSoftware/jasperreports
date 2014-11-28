@@ -32,7 +32,6 @@ import java.io.OutputStream;
  * data on virtualization.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class VirtualizationObjectOutputStream extends ObjectOutputStream
 {

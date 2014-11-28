@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.design.JRVerifier;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class TextInputComponentCompiler implements ComponentCompiler 
 {

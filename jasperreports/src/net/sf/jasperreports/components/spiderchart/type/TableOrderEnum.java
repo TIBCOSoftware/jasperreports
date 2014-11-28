@@ -32,7 +32,6 @@ import org.jfree.util.TableOrder;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public enum TableOrderEnum implements JREnum
 {

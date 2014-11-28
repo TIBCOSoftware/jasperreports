@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class SubreportConverter extends ElementIconConverter
 {

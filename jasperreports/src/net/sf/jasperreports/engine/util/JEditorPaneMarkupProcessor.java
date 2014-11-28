@@ -34,7 +34,6 @@ import javax.swing.text.StyleConstants;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 {

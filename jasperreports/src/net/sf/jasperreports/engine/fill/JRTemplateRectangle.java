@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.util.ObjectUtils;
  * Rectangle information shared by multiple print rectangle objects.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  * @see JRTemplatePrintRectangle
  */
 public class JRTemplateRectangle extends JRTemplateGraphicElement implements JRCommonRectangle

@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class XlsxServlet extends AbstractXlsServlet
 {

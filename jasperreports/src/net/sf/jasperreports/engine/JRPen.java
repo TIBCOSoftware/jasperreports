@@ -48,7 +48,6 @@ import net.sf.jasperreports.engine.type.LineStyleEnum;
  * Can be accessed using the {@link #getLineColor()} method.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRPen
 {

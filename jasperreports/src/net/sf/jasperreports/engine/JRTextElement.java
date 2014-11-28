@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.util.JRStyledTextUtil;
  * An abstract representation of a report text element. It provides basic functionality for static texts and text fields.
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRTextElement extends JRElement, JRAlignment, JRFont, JRCommonText
 {

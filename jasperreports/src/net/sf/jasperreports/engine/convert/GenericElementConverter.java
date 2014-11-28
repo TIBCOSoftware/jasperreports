@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
  * Converter of {@link JRGenericElement} into print elements.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class GenericElementConverter extends ElementIconConverter
 {

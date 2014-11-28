@@ -42,7 +42,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * Base read-only crosstab measure implementation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, CrosstabBaseCloneable
 {

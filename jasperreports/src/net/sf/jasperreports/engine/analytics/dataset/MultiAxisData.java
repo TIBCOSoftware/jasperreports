@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.analytics.data.Axis;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface MultiAxisData extends JRCloneable
 {

@@ -84,7 +84,6 @@ import org.apache.commons.collections.map.LinkedMap;
  * Design-time {@link net.sf.jasperreports.crosstabs.JRCrosstab crosstab} implementation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 {

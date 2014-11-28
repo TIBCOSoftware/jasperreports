@@ -29,7 +29,6 @@ import net.sf.jasperreports.olap.result.JROlapMemberTuple;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRXmlaMemberTuple implements JROlapMemberTuple
 {

@@ -32,7 +32,6 @@ import java.security.ProtectionDomain;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRClassLoader extends ClassLoader
 {

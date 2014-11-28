@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRException;
  * variables only.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRExtendedIncrementer extends JRIncrementer
 {

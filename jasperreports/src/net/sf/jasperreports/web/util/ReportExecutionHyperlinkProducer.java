@@ -36,7 +36,6 @@ import net.sf.jasperreports.web.WebReportContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 {

@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.fill.DatasetFillContext;
  * A dataset filter that wraps several other filters and applies them as a conjunction.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class CompositeDatasetFilter implements DatasetFilter
 {

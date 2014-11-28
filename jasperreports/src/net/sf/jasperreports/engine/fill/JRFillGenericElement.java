@@ -42,7 +42,6 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * A {@link JRGenericElement} used during report fill.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillGenericElement extends JRFillElement implements
 		JRGenericElement

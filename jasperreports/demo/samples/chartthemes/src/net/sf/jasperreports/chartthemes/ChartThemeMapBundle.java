@@ -30,7 +30,6 @@ import net.sf.jasperreports.charts.ChartThemeBundle;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net) 
- * @version $Id$
  */
 public class ChartThemeMapBundle implements ChartThemeBundle
 {

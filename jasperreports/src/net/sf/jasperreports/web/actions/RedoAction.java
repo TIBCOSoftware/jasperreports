@@ -27,7 +27,6 @@ import net.sf.jasperreports.web.commands.CommandStack;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class RedoAction extends AbstractAction {
 

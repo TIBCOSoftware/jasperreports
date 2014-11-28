@@ -33,7 +33,6 @@ import java.util.zip.ZipOutputStream;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractZip
 {

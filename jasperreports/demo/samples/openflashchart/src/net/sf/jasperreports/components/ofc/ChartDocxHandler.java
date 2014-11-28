@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ChartDocxHandler extends BaseChartHandler implements GenericElementDocxHandler
 {

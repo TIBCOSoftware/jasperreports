@@ -39,7 +39,6 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)
- * @version $Id$
  */
 public class SpringHibernateDataAdapterService extends
 		AbstractDataAdapterService {

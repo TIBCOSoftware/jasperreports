@@ -43,7 +43,6 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class OdsServlet extends BaseHttpServlet
 {

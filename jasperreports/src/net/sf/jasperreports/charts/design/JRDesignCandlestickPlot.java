@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRFont;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 {

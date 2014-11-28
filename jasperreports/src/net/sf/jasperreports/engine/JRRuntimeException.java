@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.util.MessageUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRRuntimeException extends RuntimeException
 {

@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JRChartPlot;
  * <li>the <code>showLabels</code> flag</li>
  * </ul>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRPiePlot extends JRChartPlot
 {

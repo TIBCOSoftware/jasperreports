@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.PrintElementVisitor;
  * Print element visitor that delegates all visit calls to a single method.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class UniformPrintElementVisitor<T> implements
 		PrintElementVisitor<T>

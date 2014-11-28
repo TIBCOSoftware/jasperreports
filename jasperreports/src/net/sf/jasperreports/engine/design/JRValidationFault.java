@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRConstants;
  * A report validation fault.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRVerifier
  */
 public class JRValidationFault implements Serializable

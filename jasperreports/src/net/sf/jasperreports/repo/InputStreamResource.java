@@ -28,7 +28,6 @@ import java.io.InputStream;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class InputStreamResource extends ObjectResource<InputStream>
 {

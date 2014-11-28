@@ -57,7 +57,6 @@ import net.sf.jasperreports.engine.util.ObjectUtils;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport, Deduplicable
 {

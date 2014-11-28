@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRScriptletException;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class GovernorException extends JRScriptletException
 {

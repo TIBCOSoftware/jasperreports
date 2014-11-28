@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class VirtualizationSerializer
 {

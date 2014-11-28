@@ -26,7 +26,6 @@ package net.sf.jasperreports.web.commands;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public interface Command {
 	

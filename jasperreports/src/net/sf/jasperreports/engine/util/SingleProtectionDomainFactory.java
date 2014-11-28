@@ -31,7 +31,6 @@ import java.security.ProtectionDomain;
  * wraps a single protection domain.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class SingleProtectionDomainFactory implements ProtectionDomainFactory
 {

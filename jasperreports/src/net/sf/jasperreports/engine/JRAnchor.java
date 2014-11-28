@@ -36,7 +36,6 @@ package net.sf.jasperreports.engine;
  * 
  * @see net.sf.jasperreports.engine.JRHyperlink
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRAnchor
 {

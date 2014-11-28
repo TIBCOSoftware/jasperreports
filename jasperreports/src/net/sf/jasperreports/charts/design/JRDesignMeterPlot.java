@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.JRFont;
  * range can be further subdivided into multiple color coded regions.
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignMeterPlot extends JRBaseMeterPlot
 {

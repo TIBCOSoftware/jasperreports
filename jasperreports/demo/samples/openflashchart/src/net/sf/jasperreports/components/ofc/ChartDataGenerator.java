@@ -34,7 +34,6 @@ import org.json.JSONObject;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ChartDataGenerator
 {

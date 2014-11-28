@@ -41,7 +41,6 @@ import org.apache.commons.digester.Digester;
 /**
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class SpiderChartDigester implements XmlDigesterConfigurer
 {

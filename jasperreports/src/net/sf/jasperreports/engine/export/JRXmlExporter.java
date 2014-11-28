@@ -163,7 +163,6 @@ import org.w3c.tools.codec.Base64Encoder;
  * @see net.sf.jasperreports.engine.JasperPrint
  * @see net.sf.jasperreports.engine.xml.JRPrintXmlLoader
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration, ExporterConfiguration, WriterExporterOutput, JRXmlExporterContext>
 {

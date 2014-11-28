@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.base.JRBaseField;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignField extends JRBaseField
 {

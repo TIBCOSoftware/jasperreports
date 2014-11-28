@@ -32,7 +32,6 @@ import org.xml.sax.Attributes;
  * XML factory of {@link JRBaseGenericPrintElement} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRGenericPrintElementFactory extends JRBaseFactory
 {

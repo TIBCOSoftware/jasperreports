@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRQueryChunk;
  * </p>
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRQueryChunk#TYPE_CLAUSE_TOKENS
  */
 public interface JRClauseFunction

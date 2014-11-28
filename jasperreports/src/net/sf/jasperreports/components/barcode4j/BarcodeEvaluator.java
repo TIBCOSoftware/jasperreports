@@ -34,7 +34,6 @@ import org.krysalis.barcode4j.impl.code128.EAN128Bean;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BarcodeEvaluator extends AbstractBarcodeEvaluator
 {

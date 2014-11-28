@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.util.HtmlPrintElementUtils;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class HtmlElementGraphics2DHandler implements GenericElementGraphics2DHandler {
 

@@ -44,7 +44,6 @@ import org.apache.commons.logging.LogFactory;
  * Used to evaluate template source expressions.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillReportTemplate implements JRReportTemplate
 {

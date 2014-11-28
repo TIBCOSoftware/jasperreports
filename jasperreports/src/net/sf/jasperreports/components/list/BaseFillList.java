@@ -49,7 +49,6 @@ import org.apache.commons.logging.LogFactory;
  * Base fill list component implementation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class BaseFillList extends BaseFillComponent implements JRFillCloneable
 {

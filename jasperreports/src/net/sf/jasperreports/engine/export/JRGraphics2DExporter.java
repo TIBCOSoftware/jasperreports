@@ -135,7 +135,6 @@ import net.sf.jasperreports.export.ReportExportConfiguration;
  * @see net.sf.jasperreports.export.ReportExportConfiguration
  * @see net.sf.jasperreports.export.SimpleExporterInput
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportConfiguration, Graphics2DExporterConfiguration, Graphics2DExporterOutput, JRGraphics2DExporterContext>
 {

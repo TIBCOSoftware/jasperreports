@@ -66,7 +66,6 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  * 
  * @see net.sf.jasperreports.engine.JRReport
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  * 
  */
 public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSupport

@@ -44,7 +44,6 @@ import org.mozilla.javascript.Script;
  * JavaScript expression evaluator that uses Java bytecode compiled by {@link JavaScriptClassCompiler}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JavaScriptCompiledEvaluator extends JREvaluator implements JasperReportsContextAware
 {

@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.JRExporterContext;
  * @see JROdsExporter
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JROdsExporterContext extends JRExporterContext
 {

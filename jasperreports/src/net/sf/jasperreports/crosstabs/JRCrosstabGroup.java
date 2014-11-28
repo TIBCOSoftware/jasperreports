@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRVariable;
  * Base interface for crosstab row and column groups.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRCrosstabGroup extends JRCloneable
 {

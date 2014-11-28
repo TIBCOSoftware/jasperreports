@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * manager class.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class JasperPrintManager
 {

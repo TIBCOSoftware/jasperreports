@@ -29,7 +29,6 @@ import javax.persistence.OneToMany;
 
 /**
  * @author Marcel Overdijk (marceloverdijk@hotmail.com)
- * @version $Id$
  */
 @Entity
 public class Person {

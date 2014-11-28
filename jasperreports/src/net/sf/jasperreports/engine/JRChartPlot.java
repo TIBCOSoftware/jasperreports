@@ -38,7 +38,6 @@ import org.jfree.chart.plot.PlotOrientation;
  * characteristics, depending on the chart type it belongs to. This is the superinterface for all plots and contains common
  * properties.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRChartPlot extends JRCloneable
 {

@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.fill.JRFillChartDataset;
  * access to parameter, variable and field values.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRAbstractChartCustomizer implements JRChartCustomizer
 {

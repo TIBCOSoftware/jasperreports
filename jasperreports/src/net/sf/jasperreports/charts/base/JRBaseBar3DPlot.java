@@ -44,7 +44,6 @@ import org.jfree.chart.renderer.category.BarRenderer3D;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$ 
  */
 public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot 
 {

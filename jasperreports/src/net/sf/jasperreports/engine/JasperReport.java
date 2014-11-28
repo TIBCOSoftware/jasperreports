@@ -45,7 +45,6 @@ import net.sf.jasperreports.engine.base.JRBaseReport;
  * reports are already compiled and validated, so many characteristics are read only.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JasperReport extends JRBaseReport
 {

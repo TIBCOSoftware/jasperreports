@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  * Base crosstab row/column group implementation to be used at design time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implements JRChangeEventsSupport
 {

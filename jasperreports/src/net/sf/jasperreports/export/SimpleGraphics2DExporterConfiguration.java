@@ -26,7 +26,6 @@ package net.sf.jasperreports.export;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class SimpleGraphics2DExporterConfiguration extends SimpleExporterConfiguration implements Graphics2DExporterConfiguration
 {

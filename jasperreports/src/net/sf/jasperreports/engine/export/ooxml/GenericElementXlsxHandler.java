@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
  * A generic print element XLSX export handler.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface GenericElementXlsxHandler extends GenericElementHandler
 {

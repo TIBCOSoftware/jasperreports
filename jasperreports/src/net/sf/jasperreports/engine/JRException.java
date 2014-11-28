@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.util.MessageUtil;
 /**
  * General purpose JasperReports exception.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRException extends Exception
 {

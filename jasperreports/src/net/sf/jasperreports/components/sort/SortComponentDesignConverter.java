@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class SortComponentDesignConverter extends ElementIconConverter implements ComponentDesignConverter
 {

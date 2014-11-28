@@ -33,7 +33,6 @@ import org.xml.sax.Attributes;
  * Factory used to create {@link JRHyperlink hyperlink} for stand-alone JRXML hyperlink specifications.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRHyperlinkFactory extends JRBaseFactory
 {

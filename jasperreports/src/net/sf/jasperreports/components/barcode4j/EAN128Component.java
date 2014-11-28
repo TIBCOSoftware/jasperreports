@@ -32,7 +32,6 @@ import org.krysalis.barcode4j.ChecksumMode;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class EAN128Component extends Code128Component
 {

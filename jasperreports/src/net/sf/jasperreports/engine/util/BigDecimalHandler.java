@@ -29,7 +29,6 @@ import java.math.BigDecimal;
  * {@link BigDecimal} handler interface used by {@link BigDecimalUtils}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface BigDecimalHandler
 {

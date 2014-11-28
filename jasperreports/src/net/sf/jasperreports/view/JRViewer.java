@@ -123,7 +123,6 @@ import org.apache.commons.logging.LogFactory;
  * The preferred way to adapt this component to a particular application is by subclassing it.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 {

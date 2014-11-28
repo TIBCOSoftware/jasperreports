@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface WriterExporterOutput extends ExporterOutput
 {

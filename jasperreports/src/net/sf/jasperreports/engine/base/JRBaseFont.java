@@ -46,7 +46,6 @@ import net.sf.jasperreports.engine.util.JRTextAttribute;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, JRCloneable
 {

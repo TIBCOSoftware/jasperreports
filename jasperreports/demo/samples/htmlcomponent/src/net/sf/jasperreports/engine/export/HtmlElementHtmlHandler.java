@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class HtmlElementHtmlHandler implements GenericElementHtmlHandler
 {

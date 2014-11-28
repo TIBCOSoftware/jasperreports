@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.type.EnumUtil;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public enum ImageAnchorTypeEnum implements JREnum
 {

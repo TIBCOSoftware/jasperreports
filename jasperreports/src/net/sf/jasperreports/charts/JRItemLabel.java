@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JRFont;
  * representation of item labels in a category plot
  *
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRItemLabel extends JRCloneable
 {

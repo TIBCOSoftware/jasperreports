@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.draw.Offset;
  * A generic print element Graphics2D export handler.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface GenericElementGraphics2DHandler extends GenericElementHandler
 {

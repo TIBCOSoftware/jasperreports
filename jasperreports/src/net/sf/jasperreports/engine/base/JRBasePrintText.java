@@ -59,7 +59,6 @@ import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 {

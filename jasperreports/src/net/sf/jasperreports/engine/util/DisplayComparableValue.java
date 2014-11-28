@@ -27,7 +27,6 @@ import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DisplayComparableValue<T extends Comparable<T>> extends DisplayValue<T> 
 		implements Comparable<DisplayComparableValue<T>>

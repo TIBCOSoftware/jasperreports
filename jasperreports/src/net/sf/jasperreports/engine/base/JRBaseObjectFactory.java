@@ -171,7 +171,6 @@ import net.sf.jasperreports.engine.analytics.dataset.MultiAxisDataset;
  * Factory of objects used in compiled reports.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseObjectFactory extends JRAbstractObjectFactory
 {

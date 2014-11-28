@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * @author Peter Risko (peter@risko.hu)
- * @version $Id$
  */
 public class JRDesignGanttSeries extends JRBaseGanttSeries implements JRChangeEventsSupport
 {

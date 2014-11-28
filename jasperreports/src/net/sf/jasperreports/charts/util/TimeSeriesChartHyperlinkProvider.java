@@ -37,7 +37,6 @@ import org.jfree.data.time.TimeSeriesCollection;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class TimeSeriesChartHyperlinkProvider implements ChartHyperlinkProvider
 {

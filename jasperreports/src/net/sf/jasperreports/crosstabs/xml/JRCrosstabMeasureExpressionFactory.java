@@ -32,7 +32,6 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @deprecated To be removed.
  */
 public class JRCrosstabMeasureExpressionFactory extends JRBaseFactory

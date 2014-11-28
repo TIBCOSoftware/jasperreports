@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRPrintImage;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public interface HtmlPrintElement {
 	

@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.util.FlashUtils;
  * {@link FlashPrintElement}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class FlashHtmlHandler implements GenericElementHtmlHandler//FIXME need to make a similar one for XHTML?
 {

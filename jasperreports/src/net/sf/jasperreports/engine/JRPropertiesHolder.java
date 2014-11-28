@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine;
  * Interface to be implemented by objects that have properties attached.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRPropertiesHolder
 {

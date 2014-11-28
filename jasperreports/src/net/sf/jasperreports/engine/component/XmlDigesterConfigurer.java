@@ -30,7 +30,6 @@ import org.apache.commons.digester.Digester;
  * schemas and produce component object instances out of XML fragments.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see ComponentsXmlParser#getDigesterConfigurer()
  */
 public interface XmlDigesterConfigurer

@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
  * @see JRPptxExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface PptxExporterConfiguration extends ExporterConfiguration
 {

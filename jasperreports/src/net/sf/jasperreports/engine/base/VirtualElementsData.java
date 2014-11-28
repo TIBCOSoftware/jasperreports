@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.virtualization.VirtualizationSerializable;
  * Virtual data type used by report pages to virtualize elements.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class VirtualElementsData implements Serializable, VirtualizationSerializable
 {

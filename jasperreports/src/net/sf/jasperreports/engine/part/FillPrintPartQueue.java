@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.fill.PartReportFiller;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class FillPrintPartQueue
 {

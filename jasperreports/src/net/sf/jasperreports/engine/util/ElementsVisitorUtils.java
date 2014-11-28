@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRVisitor;
  * Utility methods for element visitors.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ElementsVisitorUtils
 {

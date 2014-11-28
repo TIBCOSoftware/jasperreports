@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.PrintElementVisitor;
  * subelements.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DeepPrintElementVisitor<T> implements PrintElementVisitor<T>
 {

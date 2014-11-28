@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * {@link JRChartAxis JRChartAxis} implementation to be used for report design.
  *
  * @author Barry Klawans (barry@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEventsSupport
 {

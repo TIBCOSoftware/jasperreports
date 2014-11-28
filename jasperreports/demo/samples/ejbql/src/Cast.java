@@ -31,7 +31,6 @@ import javax.persistence.Table;
 
 /**
  * @author Marcel Overdijk (marceloverdijk@hotmail.com)
- * @version $Id$
  */
 @Entity
 @Table(name="movie_cast")

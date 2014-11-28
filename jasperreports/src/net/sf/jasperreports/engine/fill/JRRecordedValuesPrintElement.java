@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * This instance will be responsible of storing field/variable values until the element can be evaluated.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see EvaluationTimeEnum#AUTO
  */
 public interface JRRecordedValuesPrintElement extends JRPrintElement

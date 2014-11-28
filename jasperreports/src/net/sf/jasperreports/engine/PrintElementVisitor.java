@@ -34,7 +34,6 @@ package net.sf.jasperreports.engine;
  * @param <T> the type of the argument that gets passed to the visit operation
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRPrintElement#accept(PrintElementVisitor, Object)
  */
 public interface PrintElementVisitor<T>

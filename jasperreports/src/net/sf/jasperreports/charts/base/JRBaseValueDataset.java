@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * a potential range, such as meter chart or a thermometer chart.
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseValueDataset extends JRBaseChartDataset implements JRValueDataset
 {

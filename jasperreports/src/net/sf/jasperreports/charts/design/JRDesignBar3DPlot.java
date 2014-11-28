@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRFont;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$ 
  */
 public class JRDesignBar3DPlot extends JRBaseBar3DPlot implements JRDesignCategoryPlot 
 {

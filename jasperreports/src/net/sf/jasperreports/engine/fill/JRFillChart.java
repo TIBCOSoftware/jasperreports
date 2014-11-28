@@ -121,7 +121,6 @@ import org.jfree.data.general.Dataset;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @author Some enhancements by Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillChart extends JRFillElement implements JRChart
 {

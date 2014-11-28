@@ -48,7 +48,6 @@ import org.apache.commons.logging.LogFactory;
  * framework (see {@link ExtensionsEnvironment}). 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class GenericElementHandlerEnviroment
 {

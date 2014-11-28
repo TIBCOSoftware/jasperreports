@@ -27,7 +27,6 @@ import java.awt.font.TextLayout;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class TextLayoutLine implements TextLine
 {

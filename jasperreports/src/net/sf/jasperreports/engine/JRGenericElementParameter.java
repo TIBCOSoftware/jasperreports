@@ -27,7 +27,6 @@ package net.sf.jasperreports.engine;
  * A generic report element parameter.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRGenericElement#getParameters()
  */
 public interface JRGenericElementParameter extends JRCloneable

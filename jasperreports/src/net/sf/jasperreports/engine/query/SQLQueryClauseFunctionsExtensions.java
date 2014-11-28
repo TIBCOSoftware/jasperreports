@@ -32,7 +32,6 @@ import net.sf.jasperreports.extensions.ListExtensionsRegistry;
  * Extensions factory that registers built-in query clause functions for SQL queries.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class SQLQueryClauseFunctionsExtensions implements ExtensionsRegistryFactory
 {

@@ -41,7 +41,6 @@ import org.jfree.chart.JFreeChart;
  * to gain access to such values.
  *
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public interface ChartCustomizer {
 

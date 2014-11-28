@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.export.JRRtfExporterContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ChartRtfHandler extends BaseChartHandler implements GenericElementRtfHandler
 {

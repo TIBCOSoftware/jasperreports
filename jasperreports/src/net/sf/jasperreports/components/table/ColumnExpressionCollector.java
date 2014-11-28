@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ColumnExpressionCollector implements ColumnVisitor<Void>
 {

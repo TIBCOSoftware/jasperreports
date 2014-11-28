@@ -49,7 +49,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * various methods exposed by this class. 
  * </p>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRSaver
 {

@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
  * Report data cache handler.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface DataCacheHandler
 {

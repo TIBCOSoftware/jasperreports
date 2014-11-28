@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  * Crosstab measure definition.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class MeasureDefinition
 {

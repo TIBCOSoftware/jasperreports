@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * swap file.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRConcurrentSwapFile extends JRSwapFile
 {

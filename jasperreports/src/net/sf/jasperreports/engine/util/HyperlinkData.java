@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
 
 /**
  * @author Narcis Marcu (nmarcu@users.sourceforge.net)
- * @version $Id$
  */
 public class HyperlinkData {
 

@@ -29,7 +29,6 @@ package net.sf.jasperreports.engine.fill;
  * subreport runners factory.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRContinuationSubreportRunnerFactory implements JRSubreportRunnerFactory
 {

@@ -37,7 +37,6 @@ import net.sf.jasperreports.repo.RepositoryService;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class LocalJasperReportsContext extends SimpleJasperReportsContext
 {

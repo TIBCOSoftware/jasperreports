@@ -32,7 +32,6 @@ import java.lang.annotation.Target;
  * Annotation to describe a list of parameters for a specific {@link Function}.
  *  
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
- * @version $Id$
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

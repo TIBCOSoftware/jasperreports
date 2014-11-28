@@ -31,7 +31,6 @@ import java.awt.Color;
  * have different width and colour on each side of the element.
  * @deprecated Replaced by {@link JRLineBox}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRBox extends JRStyleContainer
 {

@@ -31,7 +31,6 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Peter Risko (peter@risko.hu)
- * @version $Id$
  */
 public class JRGanttDatasetFactory extends JRBaseFactory {
 

@@ -32,7 +32,6 @@ import java.lang.annotation.Target;
  * Annotations used to describe a parameter associated to a function.
  * 
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
- * @version $Id$
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

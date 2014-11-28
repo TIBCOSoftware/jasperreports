@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
  * A generic print element CSV export handler.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface GenericElementCsvHandler extends GenericElementHandler
 {

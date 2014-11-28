@@ -29,7 +29,6 @@ import net.sf.jasperreports.data.AbstractDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class QueryExecuterDataAdapterImpl extends AbstractDataAdapter implements QueryExecuterDataAdapter
 {

@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRChartDataset;
  * Times Series and XY Bar charts. 
  * 
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRTimeSeriesDataset extends JRChartDataset {
 	

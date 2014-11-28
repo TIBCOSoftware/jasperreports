@@ -32,7 +32,6 @@ import java.lang.annotation.Target;
  * Annotations used to describe a category associated to a function.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

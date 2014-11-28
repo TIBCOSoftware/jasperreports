@@ -59,7 +59,6 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @deprecated Replaced by {@link ReportOutputServlet}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ReportServlet extends AbstractServlet
 {

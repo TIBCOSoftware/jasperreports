@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * (via {@link JRXmlWriter}).
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRComponentElement#getComponentKey()
  */
 public class ComponentKey implements Serializable

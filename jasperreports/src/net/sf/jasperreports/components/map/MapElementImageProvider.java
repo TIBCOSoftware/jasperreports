@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class MapElementImageProvider
 {

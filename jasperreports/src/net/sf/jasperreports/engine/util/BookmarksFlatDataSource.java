@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.data.JRAbstractBeanDataSource;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BookmarksFlatDataSource extends JRAbstractBeanDataSource
 {

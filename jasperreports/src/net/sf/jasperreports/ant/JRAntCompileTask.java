@@ -72,7 +72,6 @@ import org.apache.tools.ant.util.SourceFileScanner;
  * is older than the XML file will be compiled.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRAntCompileTask extends JRBaseAntTask
 {

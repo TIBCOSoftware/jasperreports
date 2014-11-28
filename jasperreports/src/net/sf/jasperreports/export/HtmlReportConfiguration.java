@@ -38,7 +38,6 @@ import net.sf.jasperreports.export.type.HtmlSizeUnitEnum;
  * @see HtmlExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface HtmlReportConfiguration extends ReportExportConfiguration
 {

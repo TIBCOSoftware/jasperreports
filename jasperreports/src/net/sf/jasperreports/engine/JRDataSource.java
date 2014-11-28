@@ -32,7 +32,6 @@ package net.sf.jasperreports.engine;
  * </p><p>
  * JasperReports provides default implementations of result set, bean collections and bean arrays data sources.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRDataSource
 {

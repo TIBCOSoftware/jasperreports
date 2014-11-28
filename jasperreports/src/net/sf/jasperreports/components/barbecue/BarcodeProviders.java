@@ -35,7 +35,6 @@ import net.sourceforge.barbecue.linear.ean.UCCEAN128Barcode;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class BarcodeProviders
 {

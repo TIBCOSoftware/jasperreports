@@ -27,7 +27,6 @@ import net.sf.jasperreports.engine.export.PrintElementIndex;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class BaseElementCell implements Cell
 {

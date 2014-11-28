@@ -32,7 +32,6 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRMeterIntervalFactory extends JRBaseFactory
 {

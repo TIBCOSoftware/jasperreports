@@ -38,7 +38,6 @@ import org.apache.commons.logging.LogFactory;
  * Class the provides access to {@link XmlValueHandler XML value handlers}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class XmlValueHandlerUtils
 {

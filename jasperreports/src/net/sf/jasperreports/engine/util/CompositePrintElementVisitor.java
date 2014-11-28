@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.PrintElementVisitor;
  * A print element visitor that contains several visitors to which it delegates calls.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class CompositePrintElementVisitor<T> implements PrintElementVisitor<T>
 {

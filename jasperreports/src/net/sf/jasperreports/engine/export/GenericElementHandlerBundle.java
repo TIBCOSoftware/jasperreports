@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRGenericElementType;
  * having a unique name.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRGenericElementType
  */
 public interface GenericElementHandlerBundle

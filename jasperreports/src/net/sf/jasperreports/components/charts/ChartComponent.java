@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public interface ChartComponent extends ContextAwareComponent, Serializable
 {

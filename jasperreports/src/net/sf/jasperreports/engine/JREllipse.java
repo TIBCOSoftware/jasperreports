@@ -32,7 +32,6 @@ package net.sf.jasperreports.engine;
  * the <code>&lt;reportElement&gt;</code> and <code>&lt;graphicElement&gt;</code> tags.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JREllipse extends JRGraphicElement
 {

@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * elements through each of them.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see #isToExport(JRPrintElement)
  */
 public class ExporterFilterContainer implements ResetableExporterFilter

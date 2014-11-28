@@ -27,7 +27,6 @@ import net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class MondrianDataAdapterImpl extends JdbcDataAdapterImpl implements
 		MondrianDataAdapter {

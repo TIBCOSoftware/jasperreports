@@ -51,7 +51,6 @@ import org.apache.commons.logging.LogFactory;
  * in almost all of the supplied samples to display the generated documents.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JasperViewer extends javax.swing.JFrame 
 {

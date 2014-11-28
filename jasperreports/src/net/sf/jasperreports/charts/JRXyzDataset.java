@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRChartDataset;
  * It is used only by the Bubble chart
  * 
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRXyzDataset extends JRChartDataset {
 	

@@ -31,7 +31,6 @@ import com.itextpdf.text.pdf.PdfWriter;
  * @see JRPdfExporter
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRPdfExporterContext extends JRExporterContext
 {

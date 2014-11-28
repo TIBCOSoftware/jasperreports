@@ -45,7 +45,6 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * report component fill.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface FillContext extends JRFillExpressionEvaluator
 {

@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.export.ExporterFilter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JROpenDocumentExporterNature extends AbstractExporterNature
 {

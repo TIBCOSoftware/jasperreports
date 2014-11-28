@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JasperPrint;
  * or by cancellation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface AsynchronousFilllListener
 {

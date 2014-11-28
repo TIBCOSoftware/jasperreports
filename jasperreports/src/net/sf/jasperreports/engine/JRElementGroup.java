@@ -47,7 +47,6 @@ import java.util.List;
  * <code>stretchType= "RelativeToBandHeight"</code> have the same effect.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRElementGroup extends JRChild
 {

@@ -51,7 +51,6 @@ import net.sf.jasperreports.export.WriterExporterOutput;
 /**
  * Exports a JasperReports document to CSV format.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C extends CsvExporterConfiguration, E extends JRExporterContext> 
 	extends JRAbstractExporter<RC, C, WriterExporterOutput, E>

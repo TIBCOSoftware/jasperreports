@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
  * Specialized handler interfaces exist for each exporter.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface GenericElementHandler
 {

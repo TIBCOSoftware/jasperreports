@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRPart;
  * as report part components.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRPart
  */
 public interface PartComponent

@@ -36,7 +36,6 @@ import java.awt.Color;
  * Thermometer chart.
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRValueDisplay extends JRCloneable
 {

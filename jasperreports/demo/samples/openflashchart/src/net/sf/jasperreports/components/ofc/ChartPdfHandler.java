@@ -50,7 +50,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ChartPdfHandler implements GenericElementPdfHandler
 {

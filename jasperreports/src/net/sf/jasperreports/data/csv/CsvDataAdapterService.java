@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.query.JRCsvQueryExecuterFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class CsvDataAdapterService extends AbstractDataAdapterService 
 {

@@ -28,7 +28,6 @@ import java.util.TimeZone;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class FieldComparatorFactory {
 	private FieldComparatorFactory() {

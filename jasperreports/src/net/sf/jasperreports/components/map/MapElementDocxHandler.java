@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterContext;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class MapElementDocxHandler implements GenericElementDocxHandler
 {

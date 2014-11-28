@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRHyperlink;
  * a High-Low or a Candlestick chart.
  * 
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRHighLowDataset extends JRChartDataset
 {

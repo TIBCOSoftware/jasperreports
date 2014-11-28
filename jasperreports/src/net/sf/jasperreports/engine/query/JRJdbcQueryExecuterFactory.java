@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * This factory creates JDBC query executers for SQL queries.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see net.sf.jasperreports.engine.query.JRJdbcQueryExecuter
  */
 public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory

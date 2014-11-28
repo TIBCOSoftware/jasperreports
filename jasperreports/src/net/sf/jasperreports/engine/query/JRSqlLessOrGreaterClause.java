@@ -40,7 +40,6 @@ package net.sf.jasperreports.engine.query;
  * </p> 
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class JRSqlLessOrGreaterClause extends SQLLessOrGreaterBaseClause
 {

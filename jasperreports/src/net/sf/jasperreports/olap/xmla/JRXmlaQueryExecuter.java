@@ -72,7 +72,6 @@ import org.apache.commons.logging.LogFactory;
  * @author Michael Gunther (m.guenther at users.sourceforge.net)
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @author swood
- * @version $Id$
  */
 public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 {

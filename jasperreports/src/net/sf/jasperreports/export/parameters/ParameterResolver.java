@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 /**
  * @deprecated To be removed.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface ParameterResolver
 {

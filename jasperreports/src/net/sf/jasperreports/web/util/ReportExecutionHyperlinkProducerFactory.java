@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ReportExecutionHyperlinkProducerFactory extends JRHyperlinkProducerFactory
 {

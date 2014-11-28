@@ -35,7 +35,6 @@ package net.sf.jasperreports.engine;
  * rectangle has normal, square corners.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRCommonRectangle extends JRStyleContainer
 {

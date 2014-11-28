@@ -39,7 +39,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class SearchAction extends AbstractAction {
 

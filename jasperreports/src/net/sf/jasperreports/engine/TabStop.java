@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.util.ObjectUtils;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class TabStop implements JRCloneable, Serializable, Deduplicable
 {

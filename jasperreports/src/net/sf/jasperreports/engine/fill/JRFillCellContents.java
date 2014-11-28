@@ -55,7 +55,6 @@ import org.apache.commons.collections.map.ReferenceMap;
  * Crosstab cell contents filler.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillCellContents extends JRFillElementContainer implements JRCellContents, JRStyleSetter
 {

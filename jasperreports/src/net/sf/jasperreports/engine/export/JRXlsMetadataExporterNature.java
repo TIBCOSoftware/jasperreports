@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class JRXlsMetadataExporterNature extends JRXlsExporterNature
 {

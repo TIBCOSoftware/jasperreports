@@ -135,7 +135,6 @@ import net.sf.jasperreports.engine.type.FooterPositionEnum;
  * information is displayed in the group, such as the current page number, their values 
  * might be wrong after they are moved.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRGroup extends JRCloneable
 {

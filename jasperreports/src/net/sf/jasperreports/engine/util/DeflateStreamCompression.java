@@ -31,7 +31,6 @@ import java.util.zip.InflaterInputStream;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DeflateStreamCompression implements StreamCompression
 {

@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.util.XmlNamespace;
  * Base XML writer.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRXmlBaseWriter
 {

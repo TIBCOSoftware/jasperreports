@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRExpressionChunk;
  * Visitor of expressions chunks.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRExpression#getChunks()
  */
 public interface ExpressionChunkVisitor

@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.style.StyleProviderContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class FillStyleProviderContext implements StyleProviderContext
 {

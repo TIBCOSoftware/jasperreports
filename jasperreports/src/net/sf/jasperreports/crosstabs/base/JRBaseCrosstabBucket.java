@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * Base read-only implementation of {@link net.sf.jasperreports.crosstabs.JRCrosstabBucket JRCrosstabBucket}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 {

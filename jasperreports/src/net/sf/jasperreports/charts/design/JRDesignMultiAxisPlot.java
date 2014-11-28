@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.design.JRDesignChart;
  * axis chart.
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 {

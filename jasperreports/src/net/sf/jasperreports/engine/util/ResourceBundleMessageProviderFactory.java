@@ -31,7 +31,6 @@ package net.sf.jasperreports.engine.util;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ResourceBundleMessageProviderFactory implements MessageProviderFactory
 {

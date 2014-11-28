@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
  * @see JROdsExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface OdsExporterConfiguration extends XlsExporterConfiguration
 {

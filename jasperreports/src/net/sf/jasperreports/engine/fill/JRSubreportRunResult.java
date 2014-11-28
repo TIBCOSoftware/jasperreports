@@ -29,7 +29,6 @@ package net.sf.jasperreports.engine.fill;
  * or {@link net.sf.jasperreports.engine.fill.JRSubreportRunner#resume() JRSubreportRunner.resume()}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRSubreportRunResult
 {

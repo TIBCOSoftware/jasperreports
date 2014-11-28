@@ -43,7 +43,6 @@ import org.apache.commons.digester.Rule;
  * and the node name is used as component name.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRComponentRule extends Rule
 {

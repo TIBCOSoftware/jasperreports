@@ -32,7 +32,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 /**
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class JsonUtil {
 	

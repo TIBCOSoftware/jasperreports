@@ -29,7 +29,6 @@ import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.Measure
  * Crosstab header cell produced by the crosstab bucketing engine.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class HeaderCell
 {

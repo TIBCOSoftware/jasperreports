@@ -208,7 +208,6 @@ import net.sf.jasperreports.engine.util.XmlNamespace;
  * </p>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @author Minor enhancements by Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRXmlWriter extends JRXmlBaseWriter
 {

@@ -58,7 +58,6 @@ import net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class MondrianApp extends AbstractSampleApp
 {

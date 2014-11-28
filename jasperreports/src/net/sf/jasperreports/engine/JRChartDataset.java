@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.design.JRVerifier;
  * Datasets are used to represent the actual data needed to generate a chart. The dataset structure may vary with each chart type. This
  * is the superinterface for all datasets and contains common dataset properties.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRChartDataset extends JRElementDataset
 {

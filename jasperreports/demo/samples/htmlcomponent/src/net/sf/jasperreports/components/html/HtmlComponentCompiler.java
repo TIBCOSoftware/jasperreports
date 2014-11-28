@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.design.JRVerifier;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class HtmlComponentCompiler implements ComponentCompiler {
 

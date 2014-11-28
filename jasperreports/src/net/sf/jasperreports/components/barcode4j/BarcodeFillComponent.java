@@ -43,7 +43,6 @@ import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BarcodeFillComponent extends BaseFillComponent
 {

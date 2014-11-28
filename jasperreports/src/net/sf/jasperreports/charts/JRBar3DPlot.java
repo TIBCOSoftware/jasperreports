@@ -33,7 +33,6 @@ package net.sf.jasperreports.charts;
  * allows customization of the labels for both of its axes and the display of the item labels
  * 
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$ 
  */
 public interface JRBar3DPlot extends JRCategoryPlot
 {

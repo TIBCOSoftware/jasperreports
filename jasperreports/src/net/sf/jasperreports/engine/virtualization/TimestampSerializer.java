@@ -28,7 +28,6 @@ import java.sql.Timestamp;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class TimestampSerializer implements ObjectSerializer<Timestamp>
 {

@@ -40,7 +40,6 @@ import org.jfree.chart.JFreeChart;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class DrawChartRenderer extends JRAbstractSvgRenderer implements ImageMapRenderable
 {

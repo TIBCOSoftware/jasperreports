@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class TableSubreportParameter implements JRSubreportParameter
 {

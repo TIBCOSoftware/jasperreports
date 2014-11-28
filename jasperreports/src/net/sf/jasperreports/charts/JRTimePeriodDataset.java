@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRChartDataset;
  * This kind of dataset is for use only with XY Bar charts.
  *  
  * @author Flavius Sana (flavius_sana@users.sourceforge.net) 
- * @version $Id$
  * @see JRTimeSeriesDataset
  */
 public interface JRTimePeriodDataset extends JRChartDataset {

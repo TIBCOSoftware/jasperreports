@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporterContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ChartOdtHandler extends BaseChartHandler implements GenericElementOdtHandler
 {

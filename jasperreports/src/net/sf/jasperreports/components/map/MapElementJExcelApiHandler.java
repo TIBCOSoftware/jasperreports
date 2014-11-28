@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.export.JRGridLayout;
 /**
  * @deprecated To be removed.
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class MapElementJExcelApiHandler implements GenericElementJExcelApiHandler
 {

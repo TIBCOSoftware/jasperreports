@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRPrintFrame;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface ExporterNature extends ExporterFilter
 {

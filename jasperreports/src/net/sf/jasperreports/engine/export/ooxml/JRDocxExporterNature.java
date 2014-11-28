@@ -41,7 +41,6 @@ import net.sf.jasperreports.export.DocxReportConfiguration;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDocxExporterNature extends JROfficeOpenXmlExporterNature
 {

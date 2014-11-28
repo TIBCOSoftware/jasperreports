@@ -32,7 +32,6 @@ import org.jfree.util.Rotation;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public enum SpiderRotationEnum implements JREnum
 {

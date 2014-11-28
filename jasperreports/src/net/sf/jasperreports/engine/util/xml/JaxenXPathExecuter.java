@@ -41,7 +41,6 @@ import org.w3c.dom.NodeList;
  * XPath executer implementation that uses <a href="http://jaxen.org/" target="_blank">Jaxen</a>.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JaxenXPathExecuter implements JRXPathExecuter
 {

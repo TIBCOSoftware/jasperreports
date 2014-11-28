@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.fill.JRFillElementContainer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface ConditionalStyleAwareFillComponent
 {

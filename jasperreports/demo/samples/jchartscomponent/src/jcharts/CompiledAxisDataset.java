@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class CompiledAxisDataset extends JRBaseElementDataset implements AxisDataset
 {

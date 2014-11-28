@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BaseDataAxisLevel implements DataAxisLevel, Serializable
 {

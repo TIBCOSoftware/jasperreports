@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.query.SQLBetweenBaseClause;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DateRangeSQLBetweenClause extends SQLBetweenBaseClause
 {

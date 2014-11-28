@@ -27,7 +27,6 @@ import net.sf.jasperreports.data.jdbc.JdbcDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface MondrianDataAdapter extends JdbcDataAdapter {
 	public String getCatalogURI();

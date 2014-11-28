@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.type.FillEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRPrintGraphicElement extends JRPrintElement, JRCommonGraphicElement
 {

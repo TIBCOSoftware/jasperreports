@@ -30,7 +30,6 @@ import java.io.Serializable;
  * Utility class used to pair two objects.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 //FIXME use generics everywhere
 public class Pair<T, U> implements Serializable

@@ -34,7 +34,6 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class TextInputElementExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {

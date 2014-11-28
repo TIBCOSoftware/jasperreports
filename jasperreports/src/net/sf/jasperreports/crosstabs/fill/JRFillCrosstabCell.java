@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.fill.JRFillCellContents;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillCrosstabCell implements JRCrosstabCell
 {

@@ -30,7 +30,6 @@ import org.krysalis.barcode4j.ChecksumMode;
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class EAN13Component extends BarcodeComponent
 {

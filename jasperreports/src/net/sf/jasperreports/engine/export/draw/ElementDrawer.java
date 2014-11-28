@@ -51,7 +51,6 @@ import net.sf.jasperreports.engine.util.JRPenUtil;
  * @param <T> the type of the element that the drawer supports
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class ElementDrawer<T extends JRPrintElement>
 {

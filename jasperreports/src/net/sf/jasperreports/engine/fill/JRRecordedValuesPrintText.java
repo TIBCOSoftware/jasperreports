@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
  * Print text implementation that supports recorded values.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 //FIXME these objects reach JasperPrints, find another way to store recorded values
 public class JRRecordedValuesPrintText extends JRTemplatePrintText implements JRRecordedValuesPrintElement

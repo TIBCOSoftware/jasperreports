@@ -31,7 +31,6 @@ import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.Measure
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface BucketingData
 {

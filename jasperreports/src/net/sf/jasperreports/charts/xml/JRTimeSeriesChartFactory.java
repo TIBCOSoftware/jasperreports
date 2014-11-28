@@ -33,7 +33,6 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public class JRTimeSeriesChartFactory extends JRBaseFactory {
 	public Object createObject( Attributes attrs ){

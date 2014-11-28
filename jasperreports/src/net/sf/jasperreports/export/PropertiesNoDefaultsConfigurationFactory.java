@@ -44,7 +44,6 @@ import org.apache.commons.lang.ClassUtils;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class PropertiesNoDefaultsConfigurationFactory<C extends CommonExportConfiguration>
 {

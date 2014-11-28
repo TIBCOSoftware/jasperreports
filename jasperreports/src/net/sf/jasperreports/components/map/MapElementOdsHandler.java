@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.oasis.JROdsExporterContext;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class MapElementOdsHandler implements GenericElementOdsHandler
 {

@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * Base class that can be used by single source file compilers to implement multiple compilation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRAbstractSingleClassCompiler extends JRAbstractClassCompiler
 {

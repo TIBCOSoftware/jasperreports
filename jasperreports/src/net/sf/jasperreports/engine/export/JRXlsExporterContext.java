@@ -30,7 +30,6 @@ package net.sf.jasperreports.engine.export;
  * @see JRXlsExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRXlsExporterContext extends JRExporterContext
 {

@@ -31,7 +31,6 @@ import java.io.InputStream;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class InputStreamPersistenceService implements PersistenceService
 {

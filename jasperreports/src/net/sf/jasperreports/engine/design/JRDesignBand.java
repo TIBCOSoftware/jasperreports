@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignBand extends JRDesignElementGroup implements JRBand
 {

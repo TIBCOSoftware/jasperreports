@@ -30,7 +30,6 @@ import net.sf.jasperreports.functions.annotations.FunctionCategory;
  * This class should maintain all function methods that belongs to the category {@link #DATE_TIME}.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 @FunctionCategory(
 	//"LOGICAL" // if not specified, the value is the name of the category class

@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.design.JRVerifier;
 
 /**
  * @author Peter Risko (peter@risko.hu)
- * @version $Id$
  */
 //FIXME clone
 public class JRBaseGanttDataset extends JRBaseChartDataset implements JRGanttDataset {

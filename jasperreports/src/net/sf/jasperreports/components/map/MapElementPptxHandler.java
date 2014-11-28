@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.export.ooxml.JRPptxExporterContext;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class MapElementPptxHandler implements GenericElementPptxHandler
 {

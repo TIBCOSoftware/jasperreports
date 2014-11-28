@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.query.JRHibernateQueryExecuter;
  * Hibernate data source that uses <code>org.hibernate.Query.iterate()</code>.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRHibernateIterateDataSource extends JRHibernateAbstractDataSource implements JRRewindableDataSource
 {

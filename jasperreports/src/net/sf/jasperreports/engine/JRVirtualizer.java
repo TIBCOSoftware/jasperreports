@@ -30,7 +30,6 @@ package net.sf.jasperreports.engine;
 
 /**
  * @author John Bindel
- * @version $Id$
  * @see net.sf.jasperreports.engine.JRVirtualizationHelper
  */
 public interface JRVirtualizer

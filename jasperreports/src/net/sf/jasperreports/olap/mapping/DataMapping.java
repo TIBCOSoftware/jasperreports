@@ -29,7 +29,6 @@ import java.util.List;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 @SuppressWarnings("rawtypes")
 public class DataMapping implements Mapping

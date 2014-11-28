@@ -47,7 +47,6 @@ import org.jfree.ui.Drawable;
  * used to allow JFreeChart objects to be included in the output report in vector form.
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
 {

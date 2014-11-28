@@ -29,7 +29,6 @@ import java.text.AttributedCharacterIterator;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class MaxFontSizeFinder//FIXMETAB deprecate?
 {

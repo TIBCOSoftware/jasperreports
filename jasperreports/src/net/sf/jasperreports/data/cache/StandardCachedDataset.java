@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.data.IndexedDataSource;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class StandardCachedDataset implements CachedDataset
 {

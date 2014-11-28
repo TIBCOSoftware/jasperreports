@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
  * which should be used for report design purposes. 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEventsSupport
 {

@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.JasperReport;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public class JRCsvDataSourceProvider implements JRDataSourceProvider
 {

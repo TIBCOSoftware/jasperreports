@@ -34,7 +34,6 @@ import org.apache.commons.digester.Rule;
  * {@link JRPrintText#setLineBreakOffsets(short[])}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class TextLineBreakOffsetsRule extends Rule
 {

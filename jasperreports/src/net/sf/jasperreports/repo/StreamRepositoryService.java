@@ -29,7 +29,6 @@ import java.io.OutputStream;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface StreamRepositoryService extends RepositoryService
 {

@@ -224,7 +224,6 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  * this prefix will be propagated to the generated report elements by default.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder, JRIdentifiable
 {

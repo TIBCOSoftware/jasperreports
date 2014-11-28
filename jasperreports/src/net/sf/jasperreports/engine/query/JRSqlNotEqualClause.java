@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine.query;
  * SQL "EQUAL" clause function.
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  * @see #apply(JRClauseTokens, JRQueryClauseContext)
  */
 public class JRSqlNotEqualClause extends JRSqlAbstractEqualClause

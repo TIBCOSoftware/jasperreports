@@ -27,7 +27,6 @@ package net.sf.jasperreports.web.servlets;
  * Information related to the status of a report execution.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ReportExecutionStatus
 {

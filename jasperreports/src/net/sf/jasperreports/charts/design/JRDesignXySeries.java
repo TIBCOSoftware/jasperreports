@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignXySeries extends JRBaseXySeries implements JRChangeEventsSupport
 {

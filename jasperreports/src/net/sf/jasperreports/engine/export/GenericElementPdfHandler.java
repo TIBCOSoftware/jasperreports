@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
  * A generic print element PDF export handler.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface GenericElementPdfHandler extends GenericElementHandler
 {

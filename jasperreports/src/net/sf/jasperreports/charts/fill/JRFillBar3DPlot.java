@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$ 
  */
 public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot 
 {

@@ -36,7 +36,6 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillBreak extends JRFillElement implements JRBreak
 {

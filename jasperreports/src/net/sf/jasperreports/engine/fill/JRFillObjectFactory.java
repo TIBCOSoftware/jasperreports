@@ -144,7 +144,6 @@ import org.apache.commons.logging.LogFactory;
  * A factory used to instantiate fill objects based on compiled report objects.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillObjectFactory extends JRAbstractObjectFactory
 {

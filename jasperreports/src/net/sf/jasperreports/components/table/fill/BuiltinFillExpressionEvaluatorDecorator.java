@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BuiltinFillExpressionEvaluatorDecorator implements
 		JRFillExpressionEvaluator

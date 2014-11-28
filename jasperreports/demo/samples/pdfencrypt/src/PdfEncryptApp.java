@@ -39,7 +39,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class PdfEncryptApp extends AbstractSampleApp
 {

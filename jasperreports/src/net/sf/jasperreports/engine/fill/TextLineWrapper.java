@@ -27,7 +27,6 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface TextLineWrapper
 {

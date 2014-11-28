@@ -179,7 +179,6 @@ import net.sf.jasperreports.export.SimplePrintServiceExporterConfiguration;
  * 
  * @see net.sf.jasperreports.export.PrintServiceExporterConfiguration
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceReportConfiguration, PrintServiceExporterConfiguration, ExporterOutput, JRExporterContext> implements Printable
 {

@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ChartXhtmlHandler extends ChartHtmlHandler
 {

@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public class XYZElement implements Serializable {
 

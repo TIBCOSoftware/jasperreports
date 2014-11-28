@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRExpression;
  * a list of expressions corresponding to lines in the code.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDefaultCompilationSourceCode implements JRCompilationSourceCode
 {

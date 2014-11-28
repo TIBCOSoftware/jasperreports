@@ -48,7 +48,6 @@ import org.xml.sax.InputSource;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  * @deprecated Replaced by {@link CastorUtil}.
  */
 public class XmlUtil

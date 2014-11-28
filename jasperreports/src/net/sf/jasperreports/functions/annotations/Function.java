@@ -32,7 +32,6 @@ import java.lang.annotation.Target;
  * Annotation used to mark a method as function usable inside an expression editor. 
  * 
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
- * @version $Id$
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

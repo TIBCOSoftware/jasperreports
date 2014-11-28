@@ -29,7 +29,6 @@ package net.sf.jasperreports.engine;
  * An abstract representation of a report graphic element. It provides basic functionality for images, lines, rectangles
  * and ellipses.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRGraphicElement extends JRElement, JRCommonGraphicElement
 {

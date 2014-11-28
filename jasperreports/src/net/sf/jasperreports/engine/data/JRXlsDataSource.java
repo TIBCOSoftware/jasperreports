@@ -55,7 +55,6 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  *
  * @deprecated Replaced by {@link XlsDataSource}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRXlsDataSource extends AbstractXlsDataSource
 {

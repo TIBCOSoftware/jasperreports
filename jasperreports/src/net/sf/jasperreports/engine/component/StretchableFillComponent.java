@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.component;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface StretchableFillComponent
 {

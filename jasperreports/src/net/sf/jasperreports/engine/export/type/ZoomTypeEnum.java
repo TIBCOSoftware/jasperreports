@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.type.JREnum;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public enum ZoomTypeEnum implements JREnum
 {

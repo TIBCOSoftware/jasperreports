@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRExpression;
  * evaluate expressions.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRFillExpressionEvaluator
 {

@@ -27,7 +27,6 @@ import java.util.TreeSet;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class EntryIndexes
 {

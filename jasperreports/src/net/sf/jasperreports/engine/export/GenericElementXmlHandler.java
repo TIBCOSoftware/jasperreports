@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
  * A generic print element XML export handler.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface GenericElementXmlHandler extends GenericElementHandler
 {

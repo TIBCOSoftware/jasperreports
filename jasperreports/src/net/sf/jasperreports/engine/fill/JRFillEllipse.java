@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRVisitor;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 {

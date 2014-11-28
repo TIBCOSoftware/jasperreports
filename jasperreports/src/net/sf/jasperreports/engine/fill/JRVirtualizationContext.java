@@ -60,7 +60,6 @@ import org.apache.commons.logging.LogFactory;
  * Context used to store data shared by virtualized objects resulted from a report fill process.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRVirtualizationContext implements Serializable, VirtualizationListener<VirtualElementsData>
 {

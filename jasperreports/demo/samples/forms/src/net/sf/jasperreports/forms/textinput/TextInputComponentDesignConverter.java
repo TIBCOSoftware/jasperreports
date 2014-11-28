@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class TextInputComponentDesignConverter extends ElementIconConverter implements ComponentDesignConverter
 {

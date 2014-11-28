@@ -30,7 +30,6 @@ import java.util.LinkedList;
  * Thread local stack utility class.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ThreadLocalStack
 {

@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.type.FooterPositionEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillGroup implements JRGroup
 {

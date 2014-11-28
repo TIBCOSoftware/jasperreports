@@ -45,7 +45,6 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @deprecated Replaced by {@link XlsQueryExecuter}.
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class JRXlsQueryExecuter extends AbstractXlsQueryExecuter {
 	

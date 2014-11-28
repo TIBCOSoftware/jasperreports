@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine.design.events;
  * Interface implemented by classes that offer propery change events support.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRChangeEventsSupport
 {

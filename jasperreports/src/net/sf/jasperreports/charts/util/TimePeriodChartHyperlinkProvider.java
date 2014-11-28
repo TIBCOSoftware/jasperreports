@@ -37,7 +37,6 @@ import org.jfree.data.time.TimePeriodValuesCollection;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class TimePeriodChartHyperlinkProvider implements ChartHyperlinkProvider
 {

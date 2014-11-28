@@ -62,7 +62,6 @@ import net.sf.jasperreports.export.PdfExporterConfiguration;
  * After obtaining a valid ICC profile, use the path to the profile as value for the {@link PdfExporterConfiguration#getIccProfilePath()} configuration property.
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class JRPdfaIccProfileNotFoundException extends JRRuntimeException
 {

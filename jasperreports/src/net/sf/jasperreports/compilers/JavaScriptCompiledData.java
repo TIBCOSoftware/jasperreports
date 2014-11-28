@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * Compiled Java code for reports that use JavaScript as expression language.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JavaScriptClassCompiler
  */
 public class JavaScriptCompiledData implements Serializable

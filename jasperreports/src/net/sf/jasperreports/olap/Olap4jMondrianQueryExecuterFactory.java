@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.query.JRQueryExecuter;
 
 /**
  * @author swood
- * @version $Id$
  */
 public class Olap4jMondrianQueryExecuterFactory extends AbstractQueryExecuterFactory
 {

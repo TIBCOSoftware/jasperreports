@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class ElementDecorator implements JRElement
 {

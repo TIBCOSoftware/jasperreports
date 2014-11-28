@@ -34,7 +34,6 @@ import java.util.List;
  * options set in the nested charts.
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRMultiAxisPlot extends JRChartPlot
 {

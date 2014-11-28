@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class AwtTextRenderer extends AbstractTextRenderer
 {

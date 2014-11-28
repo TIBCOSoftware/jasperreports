@@ -31,7 +31,6 @@ import org.jfree.chart.renderer.category.BarRenderer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class BarChartCustomizer implements JRChartCustomizer
 {

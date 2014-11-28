@@ -100,7 +100,6 @@ import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
  * and used at report fill time to evaluate expressions.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRExpressionCollector
 {

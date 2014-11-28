@@ -35,7 +35,6 @@ import java.util.List;
  * The coordinates of elements inside a print frame are relative to the frame and not the page.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRPrintFrame extends JRPrintElement, JRBoxContainer
 {

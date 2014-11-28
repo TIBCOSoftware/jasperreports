@@ -69,7 +69,6 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * only when reaching the end of the current page.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JREvaluation
 {

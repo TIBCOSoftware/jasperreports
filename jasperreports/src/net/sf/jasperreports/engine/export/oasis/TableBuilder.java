@@ -62,7 +62,6 @@ import net.sf.jasperreports.export.OdtReportConfiguration;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class TableBuilder 
 {

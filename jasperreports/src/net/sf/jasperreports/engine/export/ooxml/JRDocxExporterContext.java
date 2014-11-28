@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
  * A context that represents information about an DOCX export process.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  * @see JROdtExporter
  */
 public interface JRDocxExporterContext extends JRExporterContext

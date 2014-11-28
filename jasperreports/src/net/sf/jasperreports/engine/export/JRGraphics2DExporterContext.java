@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine.export;
  * A context that represents information about an Graphics2D export process.
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  * @see JRGraphics2DExporter
  */
 public interface JRGraphics2DExporterContext extends JRExporterContext

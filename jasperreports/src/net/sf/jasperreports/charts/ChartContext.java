@@ -35,7 +35,6 @@ import org.jfree.data.general.Dataset;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net) 
- * @version $Id$
  */
 public interface ChartContext
 {

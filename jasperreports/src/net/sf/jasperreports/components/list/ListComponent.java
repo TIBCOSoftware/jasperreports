@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.type.PrintOrderEnum;
  * List component interface.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface ListComponent extends Component, JRCloneable, JRVisitable
 {

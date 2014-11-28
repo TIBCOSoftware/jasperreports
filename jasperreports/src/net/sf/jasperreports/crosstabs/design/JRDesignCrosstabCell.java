@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * for report design.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignCrosstabCell extends JRBaseCrosstabCell implements JRChangeEventsSupport
 {

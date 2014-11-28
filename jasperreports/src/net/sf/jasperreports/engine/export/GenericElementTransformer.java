@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
  * </p>
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see GenericElementTransformer
  */
 public interface GenericElementTransformer extends GenericElementHandler

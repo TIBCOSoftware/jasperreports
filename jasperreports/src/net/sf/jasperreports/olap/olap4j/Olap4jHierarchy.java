@@ -32,7 +32,6 @@ import org.olap4j.metadata.NamedList;
 
 /**
  * @author swood
- * @version $Id$
  */
 public class Olap4jHierarchy implements JROlapHierarchy
 {

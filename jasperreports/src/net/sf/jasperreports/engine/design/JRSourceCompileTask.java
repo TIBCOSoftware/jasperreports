@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * Expression evaluator source code generation information.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRSourceCompileTask
 {

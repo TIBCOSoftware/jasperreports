@@ -28,7 +28,6 @@ import java.io.Serializable;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class SerializableResource<T extends Serializable> extends ObjectResource<T>
 {

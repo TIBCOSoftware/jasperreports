@@ -52,7 +52,6 @@ import net.sf.jasperreports.export.CsvMetadataReportConfiguration;
  * for group columns)
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataReportConfiguration, CsvMetadataExporterConfiguration, JRCsvExporterContext>
 {

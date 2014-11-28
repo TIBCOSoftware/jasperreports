@@ -28,7 +28,6 @@ import java.util.Date;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DateSerializer implements ObjectSerializer<Date>
 {

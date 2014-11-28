@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * {@link EvaluationTimeEnum#AUTO Auto evaluation time}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRRecordedValues implements Serializable
 {

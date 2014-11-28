@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.fill.DatasetFillContext;
  * </p>
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRParameter#FILTER
  * @see JRDataset#getFilterExpression()
  */

@@ -52,7 +52,6 @@ import org.xml.sax.SAXException;
  * SAX parser.  See {@link #PROPERTY_CACHE_SCHEMAS}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 {

@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.JRXlsExporterContext;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class MapElementXlsHandler implements GenericElementXlsHandler
 {

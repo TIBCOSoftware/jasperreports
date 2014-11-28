@@ -41,7 +41,6 @@ import org.apache.commons.logging.LogFactory;
  * Bucket definition.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BucketDefinition
 {

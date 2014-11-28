@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.design.JRDesignStyle;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRPrintStyleFactory extends JRAbstractStyleFactory
 {

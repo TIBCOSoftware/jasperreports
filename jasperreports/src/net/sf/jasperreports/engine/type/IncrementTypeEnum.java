@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRVariable;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public enum IncrementTypeEnum implements JREnum
 {

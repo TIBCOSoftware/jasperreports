@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
  * to {@link JasperPrint} objects.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface XmlValueHandler
 {

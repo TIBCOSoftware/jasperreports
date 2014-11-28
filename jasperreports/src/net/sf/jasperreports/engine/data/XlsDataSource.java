@@ -42,7 +42,6 @@ import org.apache.poi.ss.usermodel.Workbook;
  * names or set a flag to read the column names from the first row of the CSV file.
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class XlsDataSource extends AbstractPoiXlsDataSource
 {

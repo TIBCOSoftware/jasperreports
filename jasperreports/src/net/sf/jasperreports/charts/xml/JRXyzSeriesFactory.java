@@ -31,7 +31,6 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Flavius Sana (flavius_sana@user.sourceforge.net)
- * @version $Id$
  */
 public class JRXyzSeriesFactory extends JRBaseFactory 
 {

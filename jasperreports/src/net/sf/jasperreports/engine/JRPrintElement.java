@@ -29,7 +29,6 @@ import java.util.UUID;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder, JRIdentifiable
 {

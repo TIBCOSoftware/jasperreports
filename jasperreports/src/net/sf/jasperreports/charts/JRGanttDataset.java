@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRChartDataset;
  * tasks and subtasks. It is used to render the Gantt chart.
  * 
  * @author Peter Risko (peter@risko.hu)
- * @version $Id$
  */
 public interface JRGanttDataset extends JRChartDataset {
 

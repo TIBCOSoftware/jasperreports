@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * a range.
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseDataRange implements JRDataRange, Serializable
 {

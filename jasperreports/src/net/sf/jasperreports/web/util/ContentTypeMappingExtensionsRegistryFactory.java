@@ -37,7 +37,6 @@ import net.sf.jasperreports.extensions.ListExtensionRegistry;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class ContentTypeMappingExtensionsRegistryFactory implements ExtensionsRegistryFactory {
 

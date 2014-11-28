@@ -44,7 +44,6 @@ import org.apache.commons.logging.LogFactory;
  * design time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignComponentElement extends JRDesignElement implements JRComponentElement
 {

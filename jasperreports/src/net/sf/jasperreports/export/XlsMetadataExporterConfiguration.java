@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
  * @see JRXlsMetadataExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface XlsMetadataExporterConfiguration extends XlsExporterConfiguration
 {

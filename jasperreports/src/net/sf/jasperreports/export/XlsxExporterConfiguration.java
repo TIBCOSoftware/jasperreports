@@ -34,7 +34,6 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * @see JRXlsxExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface XlsxExporterConfiguration extends XlsExporterConfiguration
 {

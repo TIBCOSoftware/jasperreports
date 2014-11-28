@@ -50,7 +50,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * Implementation of {@link net.sf.jasperreports.engine.JRFrame JRFrame} to be used at design time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignFrame extends JRDesignElement implements JRFrame
 {

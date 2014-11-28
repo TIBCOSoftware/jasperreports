@@ -48,7 +48,6 @@ import org.jfree.data.time.TimeSeriesCollection;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTimeSeriesDataset 
 {

@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.fill.JRCalculable;
  * Factory for percentage calculators.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRPercentageCalculatorFactory
 {

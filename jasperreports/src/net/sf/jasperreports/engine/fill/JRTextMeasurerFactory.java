@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * Text measurer factory.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRTextMeasurer
  * @deprecated Replaced by {@link net.sf.jasperreports.engine.util.JRTextMeasurerFactory}.
  */

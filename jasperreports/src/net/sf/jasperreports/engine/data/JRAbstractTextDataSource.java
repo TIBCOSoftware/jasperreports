@@ -46,7 +46,6 @@ import org.apache.commons.beanutils.locale.LocaleConvertUtilsBean;
  * data into numerical or date values.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRAbstractTextDataSource implements JRDataSource
 {

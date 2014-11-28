@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public enum BucketOrder implements NamedEnum
 {

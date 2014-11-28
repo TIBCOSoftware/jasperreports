@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.JRFont;
  * can be broken up into shaded regions to highlight portions of the range. 
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRMeterPlot extends JRChartPlot
 {

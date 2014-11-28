@@ -30,7 +30,6 @@ import net.sf.jasperreports.olap.result.JROlapCell;
 
 /**
  * @author swood
- * @version $Id$
  */
 public class Olap4jCell implements JROlapCell
 {

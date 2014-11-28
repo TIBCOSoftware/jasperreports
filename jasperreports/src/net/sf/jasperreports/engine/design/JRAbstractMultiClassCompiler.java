@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * Base class for multiple class compilers.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRAbstractMultiClassCompiler extends JRAbstractClassCompiler
 {

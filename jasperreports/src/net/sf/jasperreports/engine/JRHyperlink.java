@@ -195,7 +195,6 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
  * @see net.sf.jasperreports.engine.export.JRHyperlinkTargetProducerFactory
  * @see net.sf.jasperreports.view.JRHyperlinkListener
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRHyperlink extends JRCloneable
 {

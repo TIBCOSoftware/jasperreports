@@ -119,7 +119,6 @@ package net.sf.jasperreports.engine;
  * the templates referenced in the report definition, hence styles from the parameter
  * templates override styles with identical names from the statically referenced templates.
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRReport#getTemplates()
  * @see JRParameter#REPORT_TEMPLATES
  * @see JRStyleContainer#getStyleNameReference()

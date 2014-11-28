@@ -29,7 +29,6 @@ import java.util.Locale;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface FontFamily
 {

@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.part.PartEvaluationTime;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public enum PartEvaluationTimeType implements NamedEnum
 {

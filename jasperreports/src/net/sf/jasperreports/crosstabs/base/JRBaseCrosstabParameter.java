@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * Base read-only implementation of crosstab parameters.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseCrosstabParameter extends JRBaseParameter implements JRCrosstabParameter
 {

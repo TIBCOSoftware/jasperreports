@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 /**
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class SpiderChartComponent implements ChartComponent, JRChangeEventsSupport, JRCloneable
 {

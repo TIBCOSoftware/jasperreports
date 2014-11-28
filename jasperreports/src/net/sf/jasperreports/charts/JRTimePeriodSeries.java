@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRHyperlink;
  * Represents the series for the Time Period dataset.
  * 
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRTimePeriodSeries extends JRCloneable 
 {

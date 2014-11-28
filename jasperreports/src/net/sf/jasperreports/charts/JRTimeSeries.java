@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRHyperlink;
  * Represents the series for the Time Series dataset.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRTimeSeries extends JRCloneable
 {

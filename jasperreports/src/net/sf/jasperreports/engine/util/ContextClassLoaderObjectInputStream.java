@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.fonts.FontUtil;
  * classes encountered in the input stream.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 {

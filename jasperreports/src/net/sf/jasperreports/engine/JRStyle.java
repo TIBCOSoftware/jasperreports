@@ -167,7 +167,6 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
  * @see net.sf.jasperreports.engine.JRParagraph
  * @see net.sf.jasperreports.engine.JRPen
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContainer, JRParagraphContainer, JRCloneable
 {

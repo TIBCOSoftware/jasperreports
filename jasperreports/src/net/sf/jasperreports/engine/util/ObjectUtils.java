@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
  * Object comparison and hashing utilities.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ObjectUtils
 {

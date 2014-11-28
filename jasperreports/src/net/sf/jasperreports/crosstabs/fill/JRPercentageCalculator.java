@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.fill.JRCalculable;
  * missing built-in support.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see net.sf.jasperreports.crosstabs.fill.JRPercentageCalculatorFactory
  */
 public interface JRPercentageCalculator

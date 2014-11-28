@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * A context in which an element tranformation takes place.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see GenericElementTransformer
  */
 public interface GenericElementTransformerContext

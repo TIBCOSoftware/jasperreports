@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  * {@link net.sf.jasperreports.engine.fill.JRIncrementerFactory JRIncrementerFactory} is kept for backward compatibility.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRExtendedIncrementerFactory extends JRIncrementerFactory
 {

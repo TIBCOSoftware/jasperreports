@@ -38,7 +38,6 @@ import org.olap4j.metadata.Hierarchy;
 
 /**
  * @author swood
- * @version $Id$
  */
 public class Olap4jResultAxis implements JROlapResultAxis
 {

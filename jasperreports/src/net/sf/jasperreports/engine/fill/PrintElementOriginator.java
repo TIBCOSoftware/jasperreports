@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
  * Default {@link PrintElementOriginator} implementation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRPrintElement#getSourceElementId()
  * @see JRPrintElement#getPrintElementId()
  */

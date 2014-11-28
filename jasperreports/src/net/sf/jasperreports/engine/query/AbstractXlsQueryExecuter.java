@@ -49,7 +49,6 @@ import org.apache.commons.logging.LogFactory;
  * Excel query executer implementation.
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 	

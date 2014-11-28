@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class CompileServlet extends HttpServlet
 {

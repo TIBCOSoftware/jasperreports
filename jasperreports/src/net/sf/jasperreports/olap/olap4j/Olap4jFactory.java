@@ -31,7 +31,6 @@ import org.olap4j.metadata.Member;
 
 /**
  * @author swood
- * @version $Id$
  */
 public class Olap4jFactory
 {

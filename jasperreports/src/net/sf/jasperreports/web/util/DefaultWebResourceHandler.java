@@ -47,7 +47,6 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class DefaultWebResourceHandler extends AbstractWebResourceHandler 
 {

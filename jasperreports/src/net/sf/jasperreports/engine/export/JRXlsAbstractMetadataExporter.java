@@ -66,7 +66,6 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReportConfiguration, C extends XlsMetadataExporterConfiguration, E extends JRExporterContext> 
 	extends JRXlsAbstractExporter<RC, C, E>

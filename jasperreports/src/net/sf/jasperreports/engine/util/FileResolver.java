@@ -28,7 +28,6 @@ import java.io.File;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface FileResolver
 {

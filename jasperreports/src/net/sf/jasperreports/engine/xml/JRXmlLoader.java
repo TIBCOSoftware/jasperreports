@@ -79,7 +79,6 @@ import org.xml.sax.SAXException;
  * some user input and then compiled on the fly for filling with data.
  * </p>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRXmlLoader
 {

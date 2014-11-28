@@ -65,7 +65,6 @@ import antlr.ANTLRException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JROlapDataSource implements JRDataSource, MappingMetadata
 {

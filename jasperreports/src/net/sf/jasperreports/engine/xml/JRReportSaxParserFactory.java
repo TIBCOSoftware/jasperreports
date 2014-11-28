@@ -56,7 +56,6 @@ import org.apache.commons.logging.LogFactory;
  * SAX parser.  See {@link #PROPERTY_CACHE_SCHEMAS}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRReportSaxParserFactory extends BaseSaxParserFactory
 {

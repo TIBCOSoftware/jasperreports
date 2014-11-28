@@ -55,7 +55,6 @@ import net.sf.jasperreports.engine.util.Pair;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillTextField extends JRFillTextElement implements JRTextField
 {

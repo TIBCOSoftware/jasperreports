@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JRPropertyExpression;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface BaseColumn extends JRCloneable, JRPropertiesHolder, JRIdentifiable
 {

@@ -54,7 +54,6 @@ import net.sf.jasperreports.engine.base.JRBoxPen;
  * 
  * @see net.sf.jasperreports.engine.JRPen
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRLineBox extends JRPenContainer
 {

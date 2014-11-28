@@ -39,7 +39,6 @@ import org.apache.commons.logging.LogFactory;
  * Report data cache handler that collects data in column stores.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ColumnDataCacheHandler implements DataCacheHandler
 {

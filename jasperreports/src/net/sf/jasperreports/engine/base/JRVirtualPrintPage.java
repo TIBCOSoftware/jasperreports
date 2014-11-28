@@ -57,7 +57,6 @@ import org.apache.commons.logging.LogFactory;
  * A print page that can be virtualized to free heap memory.
  * 
  * @author John Bindel
- * @version $Id$
  */
 public class JRVirtualPrintPage implements JRPrintPage, Serializable
 {

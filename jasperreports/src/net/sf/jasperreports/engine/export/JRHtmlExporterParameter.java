@@ -45,7 +45,6 @@ import net.sf.jasperreports.export.type.HtmlSizeUnitEnum;
  *
  * @deprecated Replaced by {@link ExporterInput}, {@link HtmlExporterConfiguration} and {@link HtmlExporterOutput}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRHtmlExporterParameter extends JRExporterParameter
 {

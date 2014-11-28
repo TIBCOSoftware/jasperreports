@@ -43,7 +43,6 @@ import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public class RtfServlet extends BaseHttpServlet
 {

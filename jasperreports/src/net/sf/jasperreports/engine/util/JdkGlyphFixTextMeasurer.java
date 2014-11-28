@@ -47,7 +47,6 @@ import org.apache.commons.logging.LogFactory;
  * </p>
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JdkGlyphFixTextMeasurerFactory
  */
 public class JdkGlyphFixTextMeasurer extends TextMeasurer

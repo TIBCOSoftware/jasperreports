@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.export.JRPdfExporterContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ChartNoPdfHandler extends BaseChartHandler implements GenericElementPdfHandler
 {

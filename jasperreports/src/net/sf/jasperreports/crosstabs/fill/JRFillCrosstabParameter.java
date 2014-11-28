@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.fill.JRFillParameter;
  * Crosstab parameter implementation used at fill time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillCrosstabParameter extends JRFillParameter implements JRCrosstabParameter
 {

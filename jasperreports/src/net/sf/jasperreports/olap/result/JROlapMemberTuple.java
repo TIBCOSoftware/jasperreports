@@ -26,7 +26,6 @@ package net.sf.jasperreports.olap.result;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JROlapMemberTuple
 {

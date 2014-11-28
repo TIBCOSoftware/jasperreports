@@ -31,7 +31,6 @@ import org.xml.sax.Attributes;
  * XML factory of {@link JRDesignGenericElementParameter} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRGenericElementParameterFactory extends JRBaseFactory
 {

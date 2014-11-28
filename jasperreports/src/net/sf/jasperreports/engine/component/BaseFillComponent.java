@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.fill.PrintElementOriginator;
  * A base abstract implementation of a fill component.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class BaseFillComponent implements FillComponent
 {

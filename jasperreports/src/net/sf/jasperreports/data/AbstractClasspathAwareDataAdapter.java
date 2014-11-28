@@ -29,7 +29,6 @@ import java.util.List;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractClasspathAwareDataAdapter extends AbstractDataAdapter implements ClasspathAwareDataAdapter
 {

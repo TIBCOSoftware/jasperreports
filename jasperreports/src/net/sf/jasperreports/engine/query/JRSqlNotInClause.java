@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine.query;
  * SQL "NOT IN" clause function.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see #apply(JRClauseTokens, JRQueryClauseContext)
  */
 public class JRSqlNotInClause extends JRSqlAbstractInClause

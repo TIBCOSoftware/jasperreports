@@ -42,7 +42,6 @@ import net.sf.jasperreports.export.WriterExporterOutput;
 /**
  * @deprecated To be removed.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ParametersWriterExporterOutput extends AbstractParametersExporterOutput implements WriterExporterOutput
 {

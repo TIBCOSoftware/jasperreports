@@ -29,7 +29,6 @@ import java.net.URL;
  * Details of a resource found on a classloader.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRLoader#getClassLoaderResources(String)
  */
 public class ClassLoaderResource

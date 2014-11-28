@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * An immutable representation of the layout of a thermometer plot.
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermometerPlot
 {

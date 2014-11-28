@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRPrintLine extends JRPrintGraphicElement
 {

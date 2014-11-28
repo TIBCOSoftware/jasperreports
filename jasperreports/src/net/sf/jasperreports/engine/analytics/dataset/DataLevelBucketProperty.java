@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.JRExpression;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface DataLevelBucketProperty extends JRCloneable
 {

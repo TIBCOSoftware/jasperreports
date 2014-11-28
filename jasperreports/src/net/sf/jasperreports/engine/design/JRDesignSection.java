@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.base.JRBaseSection;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignSection extends JRBaseSection
 {

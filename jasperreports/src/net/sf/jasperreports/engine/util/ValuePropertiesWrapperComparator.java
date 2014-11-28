@@ -27,7 +27,6 @@ import java.util.Comparator;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ValuePropertiesWrapperComparator implements Comparator<Object>
 {

@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine.component;
  * The default {@link ComponentsXmlParser} implementation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DefaultComponentXmlParser implements ComponentsXmlParser
 {

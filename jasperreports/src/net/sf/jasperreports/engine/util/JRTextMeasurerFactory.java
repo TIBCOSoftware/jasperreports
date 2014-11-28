@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.fill.JRTextMeasurer;
  * Text measurer factory.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRTextMeasurer
  */
 @SuppressWarnings("deprecation")

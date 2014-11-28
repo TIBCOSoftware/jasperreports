@@ -25,7 +25,6 @@ package net.sf.jasperreports.data.cache;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class NumberValuesUtils
 {

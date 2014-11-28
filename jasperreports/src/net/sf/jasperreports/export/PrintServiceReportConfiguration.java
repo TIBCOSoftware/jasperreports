@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
  * @see JRPrintServiceExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface PrintServiceReportConfiguration extends Graphics2DReportConfiguration
 {

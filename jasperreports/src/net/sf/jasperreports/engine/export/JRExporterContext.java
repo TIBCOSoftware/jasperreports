@@ -35,7 +35,6 @@ import net.sf.jasperreports.export.Exporter;
  * A context that represents information about an export process.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRExporterContext
 {

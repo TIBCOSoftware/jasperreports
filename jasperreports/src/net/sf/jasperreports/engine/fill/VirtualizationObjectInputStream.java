@@ -32,7 +32,6 @@ import java.io.ObjectInputStream;
  * data on virtualization.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class VirtualizationObjectInputStream extends ObjectInputStream
 {

@@ -31,7 +31,6 @@ package net.sf.jasperreports.engine.fill;
  * Such an element should implement this interface so that working clones of the element can be created.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRFillCloneable
 {

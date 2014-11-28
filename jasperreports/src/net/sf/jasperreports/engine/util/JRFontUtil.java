@@ -51,7 +51,6 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @deprecated Replaced by {@link FontUtil}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRFontUtil
 {

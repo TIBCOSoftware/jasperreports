@@ -47,7 +47,6 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class DatasetSortUtil
 {
@@ -312,7 +311,6 @@ class SortFieldInfo
  * Used to iterate on a subdataset and create a sorted data source.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 class SortFillDatasetRun extends JRFillDatasetRun
 {

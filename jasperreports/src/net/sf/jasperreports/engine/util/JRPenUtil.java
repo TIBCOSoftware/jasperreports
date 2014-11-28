@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.type.PenEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRPenUtil
 {

@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class HtmlComponentXmlWriter extends AbstractComponentXmlWriter 
 {

@@ -32,7 +32,6 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractThreadSubreportRunner extends JRSubreportRunnable implements JRSubreportRunner
 {

@@ -42,7 +42,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * names or set a flag to read the column names from the first row of the XLSX or XLS file.
  *
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource
 {

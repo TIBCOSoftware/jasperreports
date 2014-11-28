@@ -31,7 +31,6 @@ package net.sf.jasperreports.charts;
  * specific settings for showing/hiding axis labels, tick marks and tick labels.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRBarPlot extends JRCategoryPlot
 {

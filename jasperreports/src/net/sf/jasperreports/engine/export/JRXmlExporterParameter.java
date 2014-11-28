@@ -38,7 +38,6 @@ import net.sf.jasperreports.export.XmlExporterOutput;
  *
  * @deprecated Replaced by {@link XmlExporterOutput}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRXmlExporterParameter extends JRExporterParameter
 {

@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.design.JRDesignElementDataset;
  * Input crosstab dataset implementation to be used at design time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignCrosstabDataset extends JRDesignElementDataset implements JRCrosstabDataset
 {

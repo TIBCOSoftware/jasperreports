@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.fill.VirtualizerStoreFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class SwapFileVirtualizerStoreFactory implements VirtualizerStoreFactory
 {

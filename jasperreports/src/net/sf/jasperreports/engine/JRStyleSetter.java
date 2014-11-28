@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine;
  * An interface implemented by objects upon which style attributes can be set.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRAbstractObjectFactory#setStyle(JRStyleSetter, JRStyleContainer)
  */
 public interface JRStyleSetter

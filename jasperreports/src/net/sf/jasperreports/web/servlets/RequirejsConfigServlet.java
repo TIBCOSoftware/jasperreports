@@ -41,7 +41,6 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Narcis Marcu(nmarcu@users.sourceforge.net)
- * @version $Id$
  */
 public class RequirejsConfigServlet extends AbstractServlet
 {

@@ -40,7 +40,6 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Veaceslav Chicu (schicu@users.sourceforge.net)
- * @version $Id$
  */
 public class EjbqlDataAdapterService extends AbstractDataAdapterService {
 	private static final Log log = LogFactory

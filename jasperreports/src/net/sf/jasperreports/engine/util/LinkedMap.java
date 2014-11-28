@@ -38,7 +38,6 @@ import java.util.Map;
  * </ul>
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class LinkedMap<K, V>
 {

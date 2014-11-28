@@ -42,7 +42,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 {

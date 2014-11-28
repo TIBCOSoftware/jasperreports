@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
  * @see JRDocxExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface DocxExporterConfiguration extends ExporterConfiguration
 {

@@ -47,7 +47,6 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  * and compiled elements is that at design time they are more customizable. This class contains setters for properties
  * that can be only modified at design time.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRDesignElement extends JRBaseElement
 {

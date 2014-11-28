@@ -43,7 +43,6 @@ import org.apache.commons.logging.LogFactory;
  * to a filled report.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see GenericElementTransformer
  */
 public final class GenericElementReportTransformer

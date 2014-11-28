@@ -29,7 +29,6 @@ package net.sf.jasperreports.engine.util.xml;
  * {@link XalanXPathExecuter Apache Xalan XPath executers} factory.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class XalanXPathExecuterFactory implements JRXPathExecuterFactory
 {

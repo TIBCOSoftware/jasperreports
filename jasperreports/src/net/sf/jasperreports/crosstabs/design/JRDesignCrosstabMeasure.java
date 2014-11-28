@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  * Crosstab measure implementation to be used for report designing.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JRChangeEventsSupport
 {

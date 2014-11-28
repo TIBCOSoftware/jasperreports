@@ -103,7 +103,6 @@ import org.apache.commons.logging.LogFactory;
  * When using a query hints map, any <code>Object</code> can be set as value.
  * 
  * @author Marcel Overdijk (marceloverdijk@hotmail.com)
- * @version $Id$
  * @see net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory
  */
 public class JRJpaQueryExecuter extends JRAbstractQueryExecuter 

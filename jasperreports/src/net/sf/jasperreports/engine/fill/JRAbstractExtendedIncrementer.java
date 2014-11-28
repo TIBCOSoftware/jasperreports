@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRException;
  * Base class for extended incrementers.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRAbstractExtendedIncrementer implements JRExtendedIncrementer
 {

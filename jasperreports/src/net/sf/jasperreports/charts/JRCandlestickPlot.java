@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.JRExpression;
  * setting the <code>isShowVolume</code> flag to false.
  * 
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRCandlestickPlot extends JRChartPlot, JRTimeAxisFormat, JRValueAxisFormat
 {

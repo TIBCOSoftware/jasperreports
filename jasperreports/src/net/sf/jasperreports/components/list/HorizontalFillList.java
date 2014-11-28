@@ -40,7 +40,6 @@ import org.apache.commons.logging.LogFactory;
  * Horizontal fill list component implementation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class HorizontalFillList extends BaseFillList
 {

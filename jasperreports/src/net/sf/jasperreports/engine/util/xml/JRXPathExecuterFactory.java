@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine.util.xml;
  * An {@link JRXPathExecuter XPath Executer} factory.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRXPathExecuterUtils
  */
 public interface JRXPathExecuterFactory

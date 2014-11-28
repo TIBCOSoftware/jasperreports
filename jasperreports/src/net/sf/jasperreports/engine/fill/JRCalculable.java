@@ -27,7 +27,6 @@ package net.sf.jasperreports.engine.fill;
  * Interface for objects that can be used by extended incrementers for calculations.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see net.sf.jasperreports.engine.fill.JRExtendedIncrementer
  */
 public interface JRCalculable

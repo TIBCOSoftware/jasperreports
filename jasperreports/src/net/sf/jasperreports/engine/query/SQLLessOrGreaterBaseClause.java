@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class SQLLessOrGreaterBaseClause implements JRClauseFunction
 {

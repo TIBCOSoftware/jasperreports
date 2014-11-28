@@ -36,7 +36,6 @@ package net.sf.jasperreports.engine;
  * 
  * @see net.sf.jasperreports.engine.JRDataSource
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JREmptyDataSource implements JRRewindableDataSource
 {

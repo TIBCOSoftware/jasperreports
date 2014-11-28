@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * query executers. 
  * 
  * @author Marcel Overdijk (marceloverdijk@hotmail.com)
- * @version $Id$
  */
 public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory 
 {

@@ -31,7 +31,6 @@ import net.sf.jasperreports.web.util.JacksonUtil;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class ConditionalFormattingCommand implements Command 
 {

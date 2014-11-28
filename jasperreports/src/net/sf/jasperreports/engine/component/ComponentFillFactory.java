@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  * A factory of fill component instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see ComponentManager
  * @see FillComponent
  */

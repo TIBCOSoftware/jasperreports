@@ -51,7 +51,6 @@ import org.w3c.dom.NodeList;
  * XPath executer implementation that uses <a href="http://xml.apache.org/xalan-j/" target="_blank">Apache Xalan</a>.
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class XalanNsAwareXPathExecuter extends XalanXPathExecuter {
 

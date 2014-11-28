@@ -48,7 +48,6 @@ import net.sf.jasperreports.renderers.AwtComponentRenderer;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class DefaultHtmlPrintElement implements HtmlPrintElement {
 	

@@ -27,7 +27,6 @@ package net.sf.jasperreports.engine;
  * Dataset parameter value interface.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRDatasetParameter extends JRCloneable
 {

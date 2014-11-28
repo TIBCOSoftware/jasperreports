@@ -27,7 +27,6 @@ import net.sf.jasperreports.engine.JRComponentElement;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface ComponentContext
 {

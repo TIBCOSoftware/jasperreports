@@ -25,7 +25,6 @@ package net.sf.jasperreports.olap.mapping;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class AxisPosition
 {

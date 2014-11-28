@@ -35,7 +35,6 @@ import java.util.TreeMap;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class XlsRowLevelInfo
 {

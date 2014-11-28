@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.convert.ReportConverter;
  * Table preview converter.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class TableDesignConverter implements ComponentDesignConverter
 {

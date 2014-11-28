@@ -69,7 +69,6 @@ import org.apache.tools.ant.util.SourceFileScanner;
  * is older than the input file will be processed.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRAntApiWriteTask extends JRBaseAntTask
 {

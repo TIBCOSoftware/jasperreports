@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.util.AbstractTextMeasurerFactory;
  * This factory produces {@link TextMeasurer} instances. 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class TextMeasurerFactory extends AbstractTextMeasurerFactory
 {

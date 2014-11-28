@@ -35,7 +35,6 @@ import java.util.Set;
  * responsible for producing export output for the element.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRGenericElement
  */
 public interface JRGenericPrintElement extends JRPrintElement

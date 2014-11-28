@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * such as a Meter or Thermometer.
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseValueDisplay implements JRValueDisplay, Serializable
 {

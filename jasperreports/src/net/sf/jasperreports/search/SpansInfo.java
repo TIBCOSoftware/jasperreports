@@ -28,7 +28,6 @@ import java.util.Map;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public interface SpansInfo {
 

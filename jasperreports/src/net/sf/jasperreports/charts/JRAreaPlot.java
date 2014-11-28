@@ -30,7 +30,6 @@ package net.sf.jasperreports.charts;
  * Currently no other settings are necessary. 
  * 
  * @author Flavus Sana (flavius_sana@users.sourceforge.net) 
- * @version $Id$
  */
 public interface JRAreaPlot extends JRCategoryPlot
 {

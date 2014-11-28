@@ -27,7 +27,6 @@ import net.sf.jasperreports.data.DataFile;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface HttpDataLocation extends DataFile
 {

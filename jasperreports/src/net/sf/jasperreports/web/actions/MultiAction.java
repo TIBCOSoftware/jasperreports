@@ -32,7 +32,6 @@ import net.sf.jasperreports.web.commands.MultiActionCommand;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class MultiAction extends AbstractAction {
 

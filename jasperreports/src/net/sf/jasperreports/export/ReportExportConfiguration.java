@@ -37,7 +37,6 @@ import net.sf.jasperreports.export.annotations.ExporterParameter;
  * see {@link ExporterInputItem#getConfiguration()}
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface ReportExportConfiguration extends CommonExportConfiguration
 {

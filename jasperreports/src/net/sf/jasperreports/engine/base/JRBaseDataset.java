@@ -50,7 +50,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * The base implementation of {@link net.sf.jasperreports.engine.JRDataset JRDataset}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSupport
 {

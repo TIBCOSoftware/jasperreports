@@ -31,7 +31,6 @@ import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
  * Crosstab row group implementation used at fill time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillCrosstabRowGroup extends JRFillCrosstabGroup implements JRCrosstabRowGroup
 {

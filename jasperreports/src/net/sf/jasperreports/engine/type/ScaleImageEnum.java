@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.Renderable;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public enum ScaleImageEnum implements JREnum
 {

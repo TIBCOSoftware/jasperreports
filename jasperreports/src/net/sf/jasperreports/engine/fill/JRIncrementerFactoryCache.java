@@ -32,7 +32,6 @@ import org.apache.commons.collections.map.ReferenceMap;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRIncrementerFactoryCache
 {

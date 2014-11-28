@@ -50,7 +50,6 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  * Base class for report compilers.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRAbstractCompiler implements JRCompiler
 {

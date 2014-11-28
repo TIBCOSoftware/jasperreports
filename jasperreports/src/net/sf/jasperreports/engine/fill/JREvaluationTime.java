@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * An evaluation time during the report fill process.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class JREvaluationTime implements Serializable
 {

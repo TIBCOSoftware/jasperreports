@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRPrintFrame;
  * {@link JRPrintFrame} containers.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 //we need a mutable integer argument, using AtomicInteger
 public class DeepPrintElementCounter extends UniformPrintElementVisitor<AtomicInteger>

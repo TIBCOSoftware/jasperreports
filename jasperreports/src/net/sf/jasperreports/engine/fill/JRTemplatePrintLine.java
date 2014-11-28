@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
  * store common attributes. 
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRTemplatePrintLine extends JRTemplatePrintGraphicElement implements JRPrintLine
 {

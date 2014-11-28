@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * Report sections consist of one or more bands.
  * @see JRBaseBand
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseSection implements JRSection, JRChangeEventsSupport, Serializable
 {

@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * A query clause handling context, as seen from a {@link JRClauseFunction clause function}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRQueryClauseContext
 {

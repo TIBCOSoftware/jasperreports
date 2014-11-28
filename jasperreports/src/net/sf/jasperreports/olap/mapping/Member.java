@@ -27,7 +27,6 @@ import net.sf.jasperreports.olap.result.JROlapMember;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class Member
 {

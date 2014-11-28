@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRHyperlink;
  * Represents the series for the Gantt dataset.
  * 
  * @author Peter Risko (peter@risko.hu)
- * @version $Id$
  */
 public interface JRGanttSeries {
 

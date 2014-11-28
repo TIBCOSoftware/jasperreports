@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
  * The registry may return one or more instances of this classes.
  * 
  * @author Giulio Toffoli (gt78@users.sourceforge.net)
- * @version $Id$
  */
 public class FunctionsBundle 
 {

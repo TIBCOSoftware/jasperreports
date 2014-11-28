@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 /**
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class SortComponentFill extends BaseFillComponent {
 

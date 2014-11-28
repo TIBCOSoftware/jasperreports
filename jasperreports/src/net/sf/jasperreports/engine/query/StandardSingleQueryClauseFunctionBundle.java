@@ -30,7 +30,6 @@ import java.util.Map;
  * Query clause function bundle for a single query language.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class StandardSingleQueryClauseFunctionBundle 
 	implements QueryClauseFunctionBundle

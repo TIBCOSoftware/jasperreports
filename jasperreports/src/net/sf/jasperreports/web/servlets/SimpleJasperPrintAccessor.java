@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JasperPrint;
  * Generated report accessor used for fully generated reports.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class SimpleJasperPrintAccessor implements JasperPrintAccessor, Serializable
 {

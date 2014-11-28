@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.util.AbstractSampleApp;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JavaScriptApp extends AbstractSampleApp
 {

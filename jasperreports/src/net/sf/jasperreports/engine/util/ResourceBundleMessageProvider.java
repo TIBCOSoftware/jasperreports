@@ -35,7 +35,6 @@ import java.util.ResourceBundle;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ResourceBundleMessageProvider implements MessageProvider
 {

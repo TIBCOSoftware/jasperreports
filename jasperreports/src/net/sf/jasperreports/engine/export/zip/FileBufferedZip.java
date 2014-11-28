@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class FileBufferedZip extends AbstractZip
 {

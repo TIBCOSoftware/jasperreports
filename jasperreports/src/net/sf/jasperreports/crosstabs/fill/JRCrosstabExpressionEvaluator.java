@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  * Expression evaluator used for crosstabs at fill time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRCrosstabExpressionEvaluator implements JRFillExpressionEvaluator
 {

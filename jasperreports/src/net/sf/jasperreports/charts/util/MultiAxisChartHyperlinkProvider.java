@@ -43,7 +43,6 @@ import org.jfree.data.general.Dataset;
  * chart entity and delegates the hyperlink retrieval to it.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class MultiAxisChartHyperlinkProvider implements ChartHyperlinkProvider
 {

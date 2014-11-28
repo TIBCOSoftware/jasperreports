@@ -25,6 +25,5 @@
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public enum Greeting { bye, day }
