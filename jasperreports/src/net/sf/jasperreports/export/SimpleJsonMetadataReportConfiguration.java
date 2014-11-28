@@ -29,7 +29,7 @@ package net.sf.jasperreports.export;
  */
 public class SimpleJsonMetadataReportConfiguration extends SimpleJsonReportConfiguration implements JsonMetadataReportConfiguration {
 
-	private boolean escapeMembers;
+	private Boolean escapeMembers;
 	private String jsonSchemaResource;
 
 	public SimpleJsonMetadataReportConfiguration() {
