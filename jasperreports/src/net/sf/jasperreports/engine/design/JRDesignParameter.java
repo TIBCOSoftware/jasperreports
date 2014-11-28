@@ -84,7 +84,7 @@ public class JRDesignParameter extends JRBaseParameter
 	/**
 	 * Sets the parameter nested value type.
 	 * 
-	 * @param type the nester value type
+	 * @param type the nested value type
 	 * @see #getNestedType()
 	 */
 	public void setNestedType(Class<?> type)
