@@ -32,7 +32,6 @@ import net.sf.jasperreports.extensions.ListExtensionsRegistry;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class DataAdapterParameterContributorExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {

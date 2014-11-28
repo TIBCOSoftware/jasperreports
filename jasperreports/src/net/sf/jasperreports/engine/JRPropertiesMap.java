@@ -48,7 +48,6 @@ import org.apache.commons.logging.LogFactory;
  * is the same as the order in which the properties were added.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRPropertiesMap implements Serializable, Cloneable
 {

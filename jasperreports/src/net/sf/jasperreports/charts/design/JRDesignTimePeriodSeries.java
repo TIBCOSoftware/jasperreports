@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignTimePeriodSeries extends JRBaseTimePeriodSeries implements JRChangeEventsSupport {
 

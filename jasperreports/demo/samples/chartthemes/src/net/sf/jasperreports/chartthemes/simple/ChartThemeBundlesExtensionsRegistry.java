@@ -31,7 +31,6 @@ import net.sf.jasperreports.extensions.ExtensionsRegistry;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ChartThemeBundlesExtensionsRegistry implements ExtensionsRegistry
 {

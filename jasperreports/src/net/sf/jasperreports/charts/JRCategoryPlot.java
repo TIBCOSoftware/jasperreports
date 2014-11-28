@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRExpression;
  * Type of plot used for rendering category charts.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRCategoryPlot extends JRChartPlot, JRCategoryAxisFormat, JRValueAxisFormat
 {

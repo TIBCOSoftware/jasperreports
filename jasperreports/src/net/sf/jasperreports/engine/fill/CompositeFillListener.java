@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JasperPrint;
  * {@link FillListener} implementation that contains several other listeners.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class CompositeFillListener implements FillListener
 {

@@ -35,7 +35,6 @@ import net.sf.jasperreports.export.ExporterOutput;
 /**
  * @deprecated To be removed.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractParametersExporterOutput implements ExporterOutput
 {

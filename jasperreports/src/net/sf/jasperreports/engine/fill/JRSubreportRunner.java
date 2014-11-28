@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRException;
  * Subreport runner interface.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRSubreportRunner
 {

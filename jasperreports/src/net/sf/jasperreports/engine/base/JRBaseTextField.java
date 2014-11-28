@@ -46,7 +46,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * This class is used for representing a text field.
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 {

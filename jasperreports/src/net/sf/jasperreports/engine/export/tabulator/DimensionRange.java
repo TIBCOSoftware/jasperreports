@@ -27,7 +27,6 @@ import java.util.NavigableSet;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DimensionRange<T>
 {

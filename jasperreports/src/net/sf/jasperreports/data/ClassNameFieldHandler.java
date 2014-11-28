@@ -28,7 +28,6 @@ import org.exolab.castor.mapping.GeneralizedFieldHandler;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ClassNameFieldHandler extends GeneralizedFieldHandler
 {

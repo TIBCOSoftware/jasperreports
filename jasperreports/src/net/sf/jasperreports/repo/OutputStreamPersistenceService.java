@@ -31,7 +31,6 @@ import java.io.OutputStream;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class OutputStreamPersistenceService implements PersistenceService
 {

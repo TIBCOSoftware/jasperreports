@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class TableReportBaseObjectFactory extends JRBaseObjectFactory
 {

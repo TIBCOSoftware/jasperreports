@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.fill.DelayedFillActions;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface PartPrintOutput
 {

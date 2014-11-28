@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * Default {@link JRTemplate} implementation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEventsSupport {
 	public static final String PROPERTY_STYLE = "style";

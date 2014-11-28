@@ -46,7 +46,6 @@ import org.xml.sax.SAXParseException;
  * Factory for template XML digesters.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRTemplate
  */
 public class JRXmlTemplateDigesterFactory implements ErrorHandler

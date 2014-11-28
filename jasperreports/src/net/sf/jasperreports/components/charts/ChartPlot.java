@@ -33,7 +33,6 @@ import org.jfree.chart.plot.PlotOrientation;
 /**
  *
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public interface ChartPlot extends Serializable, JRCloneable
 {

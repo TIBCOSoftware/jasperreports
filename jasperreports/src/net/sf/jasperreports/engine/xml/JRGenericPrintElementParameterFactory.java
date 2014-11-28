@@ -33,7 +33,6 @@ import org.xml.sax.Attributes;
  * Helper factory class used to parse generic print element parameters.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRGenericPrintElement#setParameterValue(String, Object)
  */
 public class JRGenericPrintElementParameterFactory extends JRBaseFactory

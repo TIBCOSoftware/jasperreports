@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface Cell extends JRElementGroup, JRBoxContainer, JRPropertiesHolder
 {

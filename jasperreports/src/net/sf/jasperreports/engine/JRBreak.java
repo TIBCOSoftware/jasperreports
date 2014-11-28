@@ -45,7 +45,6 @@ import net.sf.jasperreports.engine.type.BreakTypeEnum;
  * attribute available for this element (see {@link #getTypeValue()}). By default, page breaks are created.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRBreak extends JRElement
 {

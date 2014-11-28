@@ -33,7 +33,6 @@ import org.xml.sax.Attributes;
  * Digester rule that handles an object property.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRPropertyDigesterRule extends Rule
 {

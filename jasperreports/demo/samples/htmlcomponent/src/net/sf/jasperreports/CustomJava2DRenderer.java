@@ -48,7 +48,6 @@ import org.xhtmlrenderer.util.ImageUtil;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class CustomJava2DRenderer  extends Java2DRenderer{
 	private static final int DEFAULT_HEIGHT = 1000;

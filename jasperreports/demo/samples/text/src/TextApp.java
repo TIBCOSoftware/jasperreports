@@ -40,7 +40,6 @@ import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class TextApp extends AbstractSampleApp
 {

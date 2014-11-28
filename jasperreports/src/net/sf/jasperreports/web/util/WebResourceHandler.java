@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public interface WebResourceHandler 
 {

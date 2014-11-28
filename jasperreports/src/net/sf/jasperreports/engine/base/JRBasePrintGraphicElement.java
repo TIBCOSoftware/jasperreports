@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRBasePrintGraphicElement extends JRBasePrintElement implements JRPrintGraphicElement
 {

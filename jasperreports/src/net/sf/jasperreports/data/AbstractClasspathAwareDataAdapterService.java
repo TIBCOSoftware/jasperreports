@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.util.SimpleFileResolver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractClasspathAwareDataAdapterService extends AbstractDataAdapterService 
 {

@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine.type;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class EnumUtil
 {

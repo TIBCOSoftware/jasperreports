@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.JRExporterContext;
  * @see JRPptxExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRPptxExporterContext extends JRExporterContext
 {

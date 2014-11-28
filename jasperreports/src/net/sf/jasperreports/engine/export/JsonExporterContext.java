@@ -30,7 +30,6 @@ package net.sf.jasperreports.engine.export;
  * @see JsonExporter
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public interface JsonExporterContext extends JRExporterContext, HyperlinkURLResolver 
 {

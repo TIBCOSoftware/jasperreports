@@ -36,7 +36,6 @@ import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DateRangeQueryClauseExtensions implements ExtensionsRegistryFactory
 {

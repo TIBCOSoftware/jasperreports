@@ -36,7 +36,6 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * @see JROdtExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface OdtReportConfiguration extends ReportExportConfiguration
 {

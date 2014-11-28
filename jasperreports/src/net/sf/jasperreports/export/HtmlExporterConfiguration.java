@@ -35,7 +35,6 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * @see HtmlExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface HtmlExporterConfiguration extends ExporterConfiguration
 {

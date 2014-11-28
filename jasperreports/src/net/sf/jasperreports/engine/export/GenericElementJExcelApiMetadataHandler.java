@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
  * 
  * @deprecated To be removed.
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public interface GenericElementJExcelApiMetadataHandler extends GenericElementHandler
 {

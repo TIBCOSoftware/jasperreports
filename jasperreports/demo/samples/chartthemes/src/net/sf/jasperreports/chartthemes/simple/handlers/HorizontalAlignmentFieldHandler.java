@@ -29,7 +29,6 @@ import org.jfree.ui.HorizontalAlignment;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class HorizontalAlignmentFieldHandler extends GeneralizedFieldHandler
 {

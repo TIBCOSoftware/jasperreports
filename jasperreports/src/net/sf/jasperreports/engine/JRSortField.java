@@ -50,7 +50,6 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
  * When several sort fields are specified, the sorting will be performed using the fields as
  * sort keys in the order in which they appear in the report template.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  * @see net.sf.jasperreports.engine.data.IndexedDataSource
  * @see net.sf.jasperreports.engine.fill.DatasetSortUtil
  * @see net.sf.jasperreports.engine.fill.SortedDataSource

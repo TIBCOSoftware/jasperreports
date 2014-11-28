@@ -30,7 +30,6 @@ import java.io.Writer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class SimpleXmlExporterOutput extends SimpleWriterExporterOutput implements XmlExporterOutput
 {

@@ -28,7 +28,6 @@ import java.math.BigInteger;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BigIntegerSerializer implements ObjectSerializer<BigInteger>
 {

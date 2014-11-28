@@ -41,7 +41,6 @@ import org.jfree.chart.JFreeChart;
  * to gain access to such values.
  *
  * @author Michael McMahon (Michael.McMahon@activewire.net)
- * @version $Id$
  */
 public interface JRChartCustomizer {
 

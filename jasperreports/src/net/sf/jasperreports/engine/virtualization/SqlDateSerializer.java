@@ -28,7 +28,6 @@ import java.sql.Date;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class SqlDateSerializer implements ObjectSerializer<Date>
 {

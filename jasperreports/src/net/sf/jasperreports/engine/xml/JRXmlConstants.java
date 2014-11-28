@@ -27,7 +27,6 @@ package net.sf.jasperreports.engine.xml;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRXmlConstants
 {

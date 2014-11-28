@@ -28,7 +28,6 @@ import net.sf.jasperreports.olap.result.JROlapHierarchyLevel;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRXmlaHierarchyLevel implements JROlapHierarchyLevel
 {

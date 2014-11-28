@@ -60,7 +60,6 @@ import org.apache.commons.logging.LogFactory;
  * This query executer implementation offers built-in support for SQL queries.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 {

@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * Base read-only implementation for crosstab row and column groups.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializable, CrosstabBaseCloneable
 {

@@ -33,7 +33,6 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class JRStackedAreaChartFactory extends JRBaseFactory
 {

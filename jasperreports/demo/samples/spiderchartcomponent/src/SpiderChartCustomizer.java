@@ -31,7 +31,6 @@ import org.jfree.chart.JFreeChart;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class SpiderChartCustomizer extends AbstractChartCustomizer
 {

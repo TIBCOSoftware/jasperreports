@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.base.JRBaseFont;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignFont extends JRBaseFont
 {

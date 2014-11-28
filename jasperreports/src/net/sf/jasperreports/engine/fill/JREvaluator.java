@@ -60,7 +60,6 @@ import net.sf.jasperreports.functions.FunctionSupport;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JREvaluator implements DatasetExpressionEvaluator
 {

@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillValueDisplay implements JRValueDisplay
 {

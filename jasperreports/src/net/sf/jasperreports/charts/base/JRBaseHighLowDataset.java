@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseHighLowDataset extends JRBaseChartDataset implements JRHighLowDataset
 {

@@ -33,7 +33,6 @@ package net.sf.jasperreports.charts;
  * <li>the show shapes flag</li>
  * </ul>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRCommonLinePlot
 {

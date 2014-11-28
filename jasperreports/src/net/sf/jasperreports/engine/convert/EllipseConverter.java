@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.base.JRBasePrintEllipse;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class EllipseConverter extends ElementConverter
 {

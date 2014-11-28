@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
  * Utility class used to evaluate custom hyperlink parameters.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRFillHyperlinkHelper
 {

@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.convert.ReportConverter;
  * provides a preview representation of a component instance.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see net.sf.jasperreports.view.JasperDesignViewer
  * @see JRPrintElement
  */

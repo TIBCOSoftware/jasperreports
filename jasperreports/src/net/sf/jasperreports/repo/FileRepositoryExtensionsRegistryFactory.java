@@ -31,7 +31,6 @@ import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class FileRepositoryExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {

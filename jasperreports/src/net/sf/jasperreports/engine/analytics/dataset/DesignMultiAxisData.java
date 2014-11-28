@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DesignMultiAxisData extends BaseMultiAxisData implements JRChangeEventsSupport
 {

@@ -27,7 +27,6 @@ package net.sf.jasperreports.engine;
  * Virtualization helper class.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRVirtualizationHelper
 {

@@ -44,7 +44,6 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Narcis Marcu(nmarcu@users.sourceforge.net)
- * @version $Id$
  */
 public class ReportContextCreatorServlet extends AbstractServlet {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;

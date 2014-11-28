@@ -31,7 +31,6 @@ import net.sf.jasperreports.export.DocxReportConfiguration;
 /**
  * @deprecated Replaced by {@link DocxExporterConfiguration}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDocxExporterParameter extends JRExporterParameter
 {

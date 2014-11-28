@@ -36,7 +36,6 @@ import org.mozilla.javascript.optimizer.Codegen;
  * Class loader used to load classes generated for JavaScript expression evaluation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JavaScriptCompiledEvaluator
  */
 public class JavaScriptClassLoader extends DefiningClassLoader

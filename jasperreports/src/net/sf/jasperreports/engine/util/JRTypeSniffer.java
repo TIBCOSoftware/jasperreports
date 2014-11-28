@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 
 /**
  * @author George Stojanoff (gstojanoff@jaspersoft.com), Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRTypeSniffer
 {

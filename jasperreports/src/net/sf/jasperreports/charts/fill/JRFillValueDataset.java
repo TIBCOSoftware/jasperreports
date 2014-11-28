@@ -38,7 +38,6 @@ import org.jfree.data.general.DefaultValueDataset;
 
 /**
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillValueDataset extends JRFillChartDataset implements JRValueDataset
 {

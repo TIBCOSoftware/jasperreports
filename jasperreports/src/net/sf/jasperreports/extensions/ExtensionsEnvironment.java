@@ -36,7 +36,6 @@ import org.apache.commons.logging.LogFactory;
  * {@link ExtensionsRegistry} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see #getExtensionsRegistry()
  */
 public final class ExtensionsEnvironment

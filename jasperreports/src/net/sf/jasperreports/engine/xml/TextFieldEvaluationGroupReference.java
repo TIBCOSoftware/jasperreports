@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.design.JRValidationException;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 // TODO extract an interface for delayed evaluation elements
 public class TextFieldEvaluationGroupReference implements XmlGroupReference

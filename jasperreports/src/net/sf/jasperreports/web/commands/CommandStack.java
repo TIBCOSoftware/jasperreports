@@ -27,7 +27,6 @@ import java.util.LinkedList;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class CommandStack {
 	private LinkedList<Command> commandStack = new LinkedList<Command>();

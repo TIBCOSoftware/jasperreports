@@ -114,7 +114,6 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
  * 
  * @see net.sf.jasperreports.engine.Renderable
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRCommonImage extends JRCommonGraphicElement, JRBoxContainer
 {

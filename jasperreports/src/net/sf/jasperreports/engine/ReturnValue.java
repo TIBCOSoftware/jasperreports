@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  * A value copied from a subdataset into a variable of the parent report.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface ReturnValue extends JRCloneable
 {

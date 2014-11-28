@@ -29,7 +29,6 @@ import org.jfree.util.UnitType;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class UnitTypeFieldHandler extends GeneralizedFieldHandler
 {

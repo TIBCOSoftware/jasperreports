@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRDataSource;
  * the current position.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface IndexedDataSource extends JRDataSource
 {

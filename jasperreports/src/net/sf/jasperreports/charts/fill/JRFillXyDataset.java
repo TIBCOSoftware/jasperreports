@@ -48,7 +48,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 {

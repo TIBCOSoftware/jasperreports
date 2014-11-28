@@ -41,7 +41,6 @@ import com.itextpdf.text.pdf.TextField;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class TextInputElementPdfHandler implements GenericElementPdfHandler
 {

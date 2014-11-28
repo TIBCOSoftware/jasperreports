@@ -125,7 +125,6 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @see net.sf.jasperreports.export.DocxReportConfiguration
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, DocxExporterConfiguration, OutputStreamExporterOutput, JRDocxExporterContext>
 {

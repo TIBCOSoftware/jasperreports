@@ -51,7 +51,6 @@ import net.sf.jasperreports.engine.virtualization.VirtualizationSerializable;
  * store common attributes. 
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRTemplatePrintElement implements JRPrintElement, Serializable, VirtualizationSerializable
 {

@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRHyperlink;
  * comes in the form of key-value pairs. Each pair represents a slice in the pie chart.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRPieDataset extends JRChartDataset
 {

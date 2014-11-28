@@ -61,7 +61,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 /**
  * The actual implementation of a graphic element representing an image, used at design time.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 {

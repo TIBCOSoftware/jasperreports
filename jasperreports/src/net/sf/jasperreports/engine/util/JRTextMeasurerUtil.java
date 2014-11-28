@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.fill.JRTextMeasurer;
  * Text measurer utility class.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRTextMeasurer
  * @see JRTextMeasurerFactory
  */

@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRFont;
 
 /**
  * @author Flavus Sana (flavius_sana@users.sourceforge.net) 
- * @version $Id$
  */
 public interface JRValueAxisFormat 
 {

@@ -28,7 +28,6 @@ import java.util.UUID;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class UUIDSerializer implements ObjectSerializer<UUID>
 {

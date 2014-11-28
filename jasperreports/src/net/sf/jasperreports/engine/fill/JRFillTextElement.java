@@ -57,7 +57,6 @@ import net.sf.jasperreports.engine.util.MarkupProcessorFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRFillTextElement extends JRFillElement implements JRTextElement
 {

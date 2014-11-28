@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JasperPrint;
  * The main benefit of this method is that the filling process can be cancelled.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface FillHandle
 {

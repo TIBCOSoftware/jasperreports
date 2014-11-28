@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
  * </p>
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRHyperlinkProducer
 {

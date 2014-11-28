@@ -30,7 +30,6 @@ import org.xml.sax.Attributes;
 /**
  * @deprecated Replaced by {@link ItemDataXmlFactory}.
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class MarkerDatasetXmlFactory extends JRBaseFactory
 {

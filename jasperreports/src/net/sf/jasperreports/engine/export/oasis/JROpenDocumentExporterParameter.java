@@ -34,7 +34,6 @@ import net.sf.jasperreports.export.OdtReportConfiguration;
  * Contains parameters useful for export in Open Document format.
  * @deprecated Replaced by {@link OdtExporterConfiguration} and {@link OdsExporterConfiguration}.
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class JROpenDocumentExporterParameter extends JRExporterParameter
 {

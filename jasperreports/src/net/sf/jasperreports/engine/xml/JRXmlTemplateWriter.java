@@ -47,7 +47,6 @@ import org.apache.commons.logging.LogFactory;
  * {@link JRTemplate Template} XML serializer.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRXmlTemplateLoader
  */
 public class JRXmlTemplateWriter extends JRXmlBaseWriter

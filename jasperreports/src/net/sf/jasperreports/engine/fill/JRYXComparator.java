@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRYXComparator implements Comparator<JRPrintElement>
 {

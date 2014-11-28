@@ -37,7 +37,6 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class SortComponentSymbolFactory extends JRBaseFactory
 {

@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.design.JRVerifier;
  * Responsible with handling a componet during report compile.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface ComponentCompiler
 {

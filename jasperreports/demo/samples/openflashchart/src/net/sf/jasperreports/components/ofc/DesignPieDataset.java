@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DesignPieDataset extends JRDesignElementDataset implements PieDataset
 {

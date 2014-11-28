@@ -44,7 +44,6 @@ import net.sf.jasperreports.web.util.WebUtil;
 
 /**
  * @author Narcis Marcu(nmarcu@users.sourceforge.net)
- * @version $Id$
  */
 public class ReportJiveComponentsServlet extends AbstractServlet
 {

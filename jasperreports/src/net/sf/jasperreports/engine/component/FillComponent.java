@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * and create a print element to be included in the generated report.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface FillComponent
 {

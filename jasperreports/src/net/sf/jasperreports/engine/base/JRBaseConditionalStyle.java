@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.util.ObjectUtils;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditionalStyle
 {

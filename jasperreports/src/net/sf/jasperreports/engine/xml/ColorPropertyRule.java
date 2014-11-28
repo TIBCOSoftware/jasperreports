@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ColorPropertyRule extends TransformedPropertyRule
 {

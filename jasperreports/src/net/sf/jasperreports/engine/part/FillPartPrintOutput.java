@@ -46,7 +46,6 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class FillPartPrintOutput implements PartPrintOutput
 {

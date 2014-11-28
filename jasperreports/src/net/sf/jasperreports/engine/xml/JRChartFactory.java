@@ -39,7 +39,6 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public class JRChartFactory extends JRBaseFactory
 {

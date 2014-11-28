@@ -30,7 +30,6 @@ import org.testng.annotations.Test;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ReferencesTest extends BaseSerializationTests
 {

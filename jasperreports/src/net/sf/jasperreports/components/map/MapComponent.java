@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
  * The Map component interface. 
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface MapComponent extends Component, JRCloneable
 {

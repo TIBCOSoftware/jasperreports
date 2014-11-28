@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JRFont;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignAreaPlot extends JRBaseAreaPlot implements JRDesignCategoryPlot
 {

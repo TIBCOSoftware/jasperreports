@@ -42,7 +42,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * Standard {@link ListComponent} implementation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class StandardListComponent implements Serializable, ListComponent, JRChangeEventsSupport
 {

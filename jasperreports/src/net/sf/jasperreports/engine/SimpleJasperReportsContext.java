@@ -32,7 +32,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class SimpleJasperReportsContext implements JasperReportsContext
 {

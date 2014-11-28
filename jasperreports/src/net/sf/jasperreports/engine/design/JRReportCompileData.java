@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.JasperReport;
  * and for sub datasets.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * 
  * @see net.sf.jasperreports.engine.JasperReport#getCompileData()
  */

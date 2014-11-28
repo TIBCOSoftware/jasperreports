@@ -45,7 +45,6 @@ import net.sf.jasperreports.engine.util.JRPenUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class LineDrawer extends ElementDrawer<JRPrintLine>
 {

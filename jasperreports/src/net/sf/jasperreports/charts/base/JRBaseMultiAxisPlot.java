@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * An immutable representation of the layout options of a multiple axis chart.
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisPlot
 {

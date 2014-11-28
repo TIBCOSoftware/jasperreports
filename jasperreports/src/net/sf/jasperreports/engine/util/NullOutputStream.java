@@ -29,7 +29,6 @@ import java.io.OutputStream;
  * Output stream implementation that discards all the data.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class NullOutputStream extends OutputStream
 {

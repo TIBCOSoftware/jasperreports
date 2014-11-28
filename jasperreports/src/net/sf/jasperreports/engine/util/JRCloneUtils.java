@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRCloneable;
  * Cloning related utility methods.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRCloneUtils
 {

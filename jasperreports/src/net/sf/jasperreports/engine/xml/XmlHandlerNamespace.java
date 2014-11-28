@@ -27,7 +27,6 @@ package net.sf.jasperreports.engine.xml;
  * XML namespace information used by an XML handler.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class XmlHandlerNamespace
 {

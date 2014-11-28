@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRExpression;
  * rendering of the small shapes that mark each item point on the target plot area. 
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRScatterPlot extends JRChartPlot, JRXAxisFormat, JRYAxisFormat, JRCommonLinePlot
 {

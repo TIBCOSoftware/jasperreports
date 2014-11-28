@@ -180,7 +180,6 @@ import org.apache.commons.logging.LogFactory;
  * @see net.sf.jasperreports.engine.fill.TextMeasurerFactory
  * @see net.sf.jasperreports.engine.util.JRTextMeasurerUtil#PROPERTY_TEXT_MEASURER_FACTORY
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class TextMeasurer implements JRTextMeasurer
 {

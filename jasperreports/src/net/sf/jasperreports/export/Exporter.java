@@ -54,7 +54,6 @@ import net.sf.jasperreports.engine.ReportContext;
  * </ul>
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface Exporter<I extends ExporterInput, IC extends ReportExportConfiguration, C extends ExporterConfiguration, O extends ExporterOutput>
 {

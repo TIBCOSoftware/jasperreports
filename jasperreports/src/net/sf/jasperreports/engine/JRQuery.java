@@ -36,7 +36,6 @@ package net.sf.jasperreports.engine;
  * defined in the report template.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  * @see net.sf.jasperreports.engine.query.QueryExecuterFactory
  */
 public interface JRQuery extends JRCloneable

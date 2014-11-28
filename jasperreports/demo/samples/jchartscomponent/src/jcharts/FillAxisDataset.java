@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class FillAxisDataset extends JRFillElementDataset
 {

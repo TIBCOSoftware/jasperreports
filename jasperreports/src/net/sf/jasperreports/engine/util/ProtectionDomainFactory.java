@@ -31,7 +31,6 @@ import java.security.ProtectionDomain;
  * {@link JRClassLoader JRClassLoader} to create per-instance protection domains.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface ProtectionDomainFactory
 {

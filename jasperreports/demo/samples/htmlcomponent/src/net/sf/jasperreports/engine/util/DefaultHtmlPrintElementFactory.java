@@ -27,7 +27,6 @@ import net.sf.jasperreports.engine.export.DefaultHtmlPrintElement;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class DefaultHtmlPrintElementFactory implements HtmlPrintElementFactory {
 

@@ -30,7 +30,6 @@ package net.sf.jasperreports.types.date;
  * UI presentation of date range.<p/>
  *
  * @author Sergey Prilukin
- * @version $Id$
  */
 public interface DateRangeExpression 
 {

@@ -88,7 +88,6 @@ import org.apache.lucene.util.Version;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class LuceneUtil {
 

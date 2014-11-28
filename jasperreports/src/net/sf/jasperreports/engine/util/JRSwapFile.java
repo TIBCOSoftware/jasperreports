@@ -46,7 +46,6 @@ import org.apache.commons.logging.LogFactory;
  * only one thread would do a read or write at one moment.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRSwapFile
 {

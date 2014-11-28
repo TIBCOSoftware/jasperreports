@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class DelegatePropertiesHolder implements JRPropertiesHolder
 {

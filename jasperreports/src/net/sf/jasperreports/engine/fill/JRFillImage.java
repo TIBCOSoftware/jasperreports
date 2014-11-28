@@ -55,7 +55,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillImage extends JRFillGraphicElement implements JRImage
 {

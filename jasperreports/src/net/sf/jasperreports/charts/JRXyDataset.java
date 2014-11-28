@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRChartDataset;
  * rendering XY Bar, XY Line, XY Area, and Scatter Plot charts.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRXyDataset extends JRChartDataset
 {

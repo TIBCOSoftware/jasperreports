@@ -50,7 +50,6 @@ import net.sf.jasperreports.engine.util.JRQueryParser;
  * Base abstract query executer.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 {

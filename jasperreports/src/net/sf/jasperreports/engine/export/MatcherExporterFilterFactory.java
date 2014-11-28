@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * Factory of {@link MatcherExporterFilter} instances.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  * @see JROriginExporterFilter#getFilter(JasperReportsContext, JRPropertiesMap, String)
  */
 public class MatcherExporterFilterFactory implements ExporterFilterFactory

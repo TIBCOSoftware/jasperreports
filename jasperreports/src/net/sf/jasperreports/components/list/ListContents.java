@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRElementGroup;
  * list subdataset.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see ListComponent#getContents()
  */
 public interface ListContents extends JRElementGroup

@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DesignCrosstabColumnCell extends BaseCrosstabColumnCell implements JRChangeEventsSupport
 {

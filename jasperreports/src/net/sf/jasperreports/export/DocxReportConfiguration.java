@@ -37,7 +37,6 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * @see JRDocxExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface DocxReportConfiguration extends ReportExportConfiguration
 {

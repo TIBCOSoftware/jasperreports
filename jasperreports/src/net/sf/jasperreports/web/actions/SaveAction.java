@@ -38,7 +38,6 @@ import net.sf.jasperreports.repo.JasperDesignReportResource;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class SaveAction extends AbstractAction {
 

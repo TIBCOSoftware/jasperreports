@@ -27,7 +27,6 @@ package net.sf.jasperreports.engine;
  * An Id for a print element.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRPrintElement#getSourceElementId()
  * @see JRPrintElement#getPrintElementId()
  */

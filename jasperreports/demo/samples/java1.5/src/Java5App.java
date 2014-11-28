@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.util.AbstractSampleApp;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class Java5App extends AbstractSampleApp
 {

@@ -32,7 +32,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class ConditionalFormattingData extends BaseColumnData {

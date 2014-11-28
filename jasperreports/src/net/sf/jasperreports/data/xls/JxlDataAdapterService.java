@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.query.ExcelQueryExecuterFactory;
 /**
  * @deprecated To be removed.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JxlDataAdapterService extends AbstractXlsDataAdapterService 
 {

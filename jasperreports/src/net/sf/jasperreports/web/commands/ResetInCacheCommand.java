@@ -29,7 +29,6 @@ import net.sf.jasperreports.repo.JasperDesignCache;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ResetInCacheCommand implements Command 
 {

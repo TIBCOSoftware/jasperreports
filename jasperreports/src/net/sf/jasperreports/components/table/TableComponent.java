@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.component.Component;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface TableComponent extends Component, JRCloneable, JRVisitable
 {

@@ -36,7 +36,6 @@ import net.sf.jasperreports.web.util.WebResourceHandler;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ResourceServlet extends AbstractServlet
 {

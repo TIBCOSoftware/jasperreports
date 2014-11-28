@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRFrame;
  * Specifies the way the frame border is to be drawn when the frame element splits.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRFrame#getBorderSplitType()
  */
 public enum BorderSplitType implements NamedEnum

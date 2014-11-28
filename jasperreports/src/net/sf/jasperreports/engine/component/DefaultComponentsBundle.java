@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * instance and a map of {@link ComponentManager component managers}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DefaultComponentsBundle implements ComponentsBundle
 {

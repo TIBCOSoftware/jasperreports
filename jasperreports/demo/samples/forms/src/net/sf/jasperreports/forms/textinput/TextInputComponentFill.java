@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class TextInputComponentFill extends BaseFillComponent {
 

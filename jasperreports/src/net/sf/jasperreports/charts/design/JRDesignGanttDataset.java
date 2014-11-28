@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.design.JRVerifier;
 
 /**
  * @author Peter Risko (peter@risko.hu)
- * @version $Id$
  */
 public class JRDesignGanttDataset  extends JRDesignChartDataset implements JRGanttDataset {
 

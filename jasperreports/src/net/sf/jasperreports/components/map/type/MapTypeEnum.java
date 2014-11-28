@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.type.JREnum;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public enum MapTypeEnum implements JREnum
 {

@@ -30,7 +30,6 @@ import java.util.List;
  * A registry of JasperReports extensions.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface ExtensionsRegistry
 {

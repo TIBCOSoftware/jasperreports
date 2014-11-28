@@ -29,7 +29,6 @@ import java.math.BigDecimal;
  * {@link BigDecimalHandler} implementation used on Java 1.4.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see BigDecimalUtils#divide(BigDecimal, BigDecimal)
  */
 public class Java14BigDecimalHandler implements BigDecimalHandler

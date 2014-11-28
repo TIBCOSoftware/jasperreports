@@ -77,7 +77,6 @@ import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
  * Implementation of {@link net.sf.jasperreports.engine.JRDataset JRDataset} to be used for report desing.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignDataset extends JRBaseDataset
 {

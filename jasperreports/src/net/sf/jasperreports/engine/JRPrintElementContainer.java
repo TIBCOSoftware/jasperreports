@@ -32,7 +32,6 @@ import java.util.List;
  * to collect the generated print elements.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRPrintElementContainer
 {

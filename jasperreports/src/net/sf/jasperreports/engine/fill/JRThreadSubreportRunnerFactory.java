@@ -31,7 +31,6 @@ package net.sf.jasperreports.engine.fill;
  * This factory is used by default if no other factory class is specified.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRThreadSubreportRunnerFactory implements JRSubreportRunnerFactory
 {

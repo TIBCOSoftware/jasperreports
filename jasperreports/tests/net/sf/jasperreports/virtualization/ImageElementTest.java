@@ -48,7 +48,6 @@ import org.testng.annotations.Test;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ImageElementTest extends BaseElementsTests
 {

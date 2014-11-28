@@ -25,7 +25,6 @@ package net.sf.jasperreports.web.actions;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class SearchData {
 

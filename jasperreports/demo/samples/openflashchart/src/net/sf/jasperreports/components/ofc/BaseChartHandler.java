@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class BaseChartHandler implements GenericElementHandler
 {

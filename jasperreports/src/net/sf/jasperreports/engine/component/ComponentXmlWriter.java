@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * transforms XML fragments into object instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface ComponentXmlWriter
 {

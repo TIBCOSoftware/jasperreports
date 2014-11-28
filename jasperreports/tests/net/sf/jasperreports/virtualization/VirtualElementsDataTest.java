@@ -42,7 +42,6 @@ import org.testng.annotations.Test;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class VirtualElementsDataTest extends BaseElementsTests
 {

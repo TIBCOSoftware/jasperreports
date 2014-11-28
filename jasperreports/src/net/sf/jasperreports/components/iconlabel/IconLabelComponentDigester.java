@@ -33,7 +33,6 @@ import org.apache.commons.digester.Digester;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class IconLabelComponentDigester implements XmlDigesterConfigurer
 {

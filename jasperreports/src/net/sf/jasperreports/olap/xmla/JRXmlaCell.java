@@ -28,7 +28,6 @@ import net.sf.jasperreports.olap.result.JROlapCell;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRXmlaCell implements JROlapCell
 {

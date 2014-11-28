@@ -43,7 +43,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class RequirejsTemplateConfigContributor implements RequirejsConfigContributor
 {

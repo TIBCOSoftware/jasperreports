@@ -28,7 +28,6 @@ import java.util.Collection;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class CustomBeanFactory
 {

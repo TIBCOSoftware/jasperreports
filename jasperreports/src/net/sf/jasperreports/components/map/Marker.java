@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRCloneable;
 /**
  * @deprecated Replaced by {@link Item}.
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public interface Marker extends JRCloneable {
 	/**

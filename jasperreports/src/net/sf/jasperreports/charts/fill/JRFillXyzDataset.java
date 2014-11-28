@@ -44,7 +44,6 @@ import org.jfree.data.general.Dataset;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset {
 

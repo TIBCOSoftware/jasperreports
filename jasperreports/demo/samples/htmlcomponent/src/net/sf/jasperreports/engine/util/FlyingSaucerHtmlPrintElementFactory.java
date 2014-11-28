@@ -27,7 +27,6 @@ import net.sf.jasperreports.engine.export.FlyingSaucerHtmlPrintElement;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class FlyingSaucerHtmlPrintElementFactory implements HtmlPrintElementFactory {
 

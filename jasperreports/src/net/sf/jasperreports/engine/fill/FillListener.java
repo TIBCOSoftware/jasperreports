@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JasperPrint;
  * Listener notified of page events during a report generation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see AsynchronousFillHandle#addFillListener(FillListener)
  */
 public interface FillListener

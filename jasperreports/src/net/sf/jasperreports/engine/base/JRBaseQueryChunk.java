@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.util.JRQueryParser;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseQueryChunk implements JRQueryChunk, Serializable
 {

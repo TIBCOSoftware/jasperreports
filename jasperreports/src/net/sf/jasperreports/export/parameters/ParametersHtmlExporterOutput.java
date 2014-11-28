@@ -43,7 +43,6 @@ import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
 /**
  * @deprecated To be removed.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput implements HtmlExporterOutput
 {

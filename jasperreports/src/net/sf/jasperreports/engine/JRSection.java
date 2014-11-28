@@ -124,7 +124,6 @@ package net.sf.jasperreports.engine;
  * is also a multi-band section.
  * @see JRBand
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRSection extends JRCloneable
 {

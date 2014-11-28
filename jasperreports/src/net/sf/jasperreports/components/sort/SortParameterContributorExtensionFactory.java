@@ -33,7 +33,6 @@ import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
  * Extension factory for {@link SortParameterContributorFactory}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class SortParameterContributorExtensionFactory implements ExtensionsRegistryFactory
 {

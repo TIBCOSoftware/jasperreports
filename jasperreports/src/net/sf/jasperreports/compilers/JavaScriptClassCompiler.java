@@ -54,7 +54,6 @@ import org.mozilla.javascript.optimizer.ClassCompiler;
  * This implementation produces Java bytecode for the expressions.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JavaScriptCompiledData
  * @see JavaScriptCompiledEvaluator
  */

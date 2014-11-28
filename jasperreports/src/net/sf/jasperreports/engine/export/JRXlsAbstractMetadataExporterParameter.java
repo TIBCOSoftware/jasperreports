@@ -32,7 +32,6 @@ import net.sf.jasperreports.export.XlsMetadataReportConfiguration;
  * Contains parameters useful for export to XLS format based on metadata.
  * @deprecated Replaced by {@link XlsMetadataExporterConfiguration}.
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class JRXlsAbstractMetadataExporterParameter extends JRXlsAbstractExporterParameter
 {

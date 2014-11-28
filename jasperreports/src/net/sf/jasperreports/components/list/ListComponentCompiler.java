@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.type.PrintOrderEnum;
  * Compile-time handler of {@link ListComponent list component} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ListComponentCompiler implements ComponentCompiler
 {

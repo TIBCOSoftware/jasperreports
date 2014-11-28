@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.type.PrintOrderEnum;
  * Factory of {@link BaseFillList list fill component} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class FillListFactory implements ComponentFillFactory
 {

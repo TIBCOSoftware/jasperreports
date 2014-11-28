@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRConstants;
  * Provides generic methods for all implementation</p>
  *
  * @author Sergey Prilukin
- * @version $Id$
  */
 public abstract class AbstractDateRange implements DateRange, Serializable 
 {

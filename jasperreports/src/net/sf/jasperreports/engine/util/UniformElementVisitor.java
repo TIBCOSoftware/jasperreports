@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.JRVisitor;
  * An abstract visitor class that treats all report elements in the same way. 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see #visitElement(JRElement)
  */
 public abstract class UniformElementVisitor implements JRVisitor

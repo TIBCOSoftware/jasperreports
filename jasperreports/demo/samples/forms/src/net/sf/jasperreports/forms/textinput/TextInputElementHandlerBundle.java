@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class TextInputElementHandlerBundle implements GenericElementHandlerBundle
 {

@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRException;
  * Interface implemented by classes able to compile multiple source files.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRMultiClassCompiler extends JRClassCompiler
 {

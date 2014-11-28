@@ -51,7 +51,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * in <tt>JRTextElement</tt> and setters for text element attributes that can only be modified at design time.
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRDesignTextElement extends JRDesignElement implements JRTextElement
 {

@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ElementReplacementGridCell extends JRExporterGridCell
 {

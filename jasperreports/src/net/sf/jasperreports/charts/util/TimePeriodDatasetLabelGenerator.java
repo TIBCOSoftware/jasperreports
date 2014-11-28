@@ -35,7 +35,6 @@ import org.jfree.data.xy.XYDataset;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class TimePeriodDatasetLabelGenerator extends StandardXYItemLabelGenerator 
 {

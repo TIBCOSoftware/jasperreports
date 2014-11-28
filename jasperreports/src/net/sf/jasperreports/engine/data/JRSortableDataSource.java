@@ -50,7 +50,6 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
  * It will be removed from the library in future versions.
  * @deprecated Replaced by {@link ListOfArrayDataSource} and {@link DatasetSortUtil}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRSortableDataSource implements JRRewindableDataSource
 {

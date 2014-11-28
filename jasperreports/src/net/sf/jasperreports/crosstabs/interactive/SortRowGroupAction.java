@@ -37,7 +37,6 @@ import net.sf.jasperreports.web.commands.ResetInCacheCommand;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class SortRowGroupAction extends AbstractAction
 {

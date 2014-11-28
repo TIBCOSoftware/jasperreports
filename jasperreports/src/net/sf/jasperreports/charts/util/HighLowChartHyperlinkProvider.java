@@ -34,7 +34,6 @@ import org.jfree.chart.entity.XYItemEntity;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class HighLowChartHyperlinkProvider implements ChartHyperlinkProvider
 {

@@ -37,7 +37,6 @@ import org.olap4j.CellSetAxis;
 
 /**
  * @author swood
- * @version $Id$
  */
 public class Olap4jResult implements JROlapResult
 {

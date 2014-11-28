@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRCloneable;
  * dataset.
  *
  * @author Barry Klawans (barry@users.sourceforge.net)
- * @version $Id$
  */
 
 

@@ -62,7 +62,6 @@ import org.apache.tools.ant.util.SourceFileScanner;
  * design file is older than the source file will be exported.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRAntXmlExportTask extends JRBaseAntTask
 {

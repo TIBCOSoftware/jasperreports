@@ -144,7 +144,6 @@ package net.sf.jasperreports.engine;
  * 
  * @see net.sf.jasperreports.engine.fill.JRCalculator
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRExpression extends JRCloneable
 {

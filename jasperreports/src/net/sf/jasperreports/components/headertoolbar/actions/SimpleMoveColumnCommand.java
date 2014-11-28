@@ -30,7 +30,6 @@ import net.sf.jasperreports.web.commands.Command;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class SimpleMoveColumnCommand implements Command 
 {

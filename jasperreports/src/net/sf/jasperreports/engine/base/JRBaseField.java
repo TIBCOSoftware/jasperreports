@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 {

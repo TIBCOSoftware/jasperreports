@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.export.ooxml.JRPptxExporterContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ChartPptxHandler extends BaseChartHandler implements GenericElementPptxHandler
 {

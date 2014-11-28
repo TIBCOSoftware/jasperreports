@@ -27,7 +27,6 @@ package net.sf.jasperreports.components.map;
 /**
  * @deprecated Replaced by {@link ItemProperty}.
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public interface MarkerProperty extends ItemProperty
 {

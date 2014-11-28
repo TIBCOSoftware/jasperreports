@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine.query;
  * Extension type that bundles query clause functions.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRClauseFunction
  */
 public interface QueryClauseFunctionBundle

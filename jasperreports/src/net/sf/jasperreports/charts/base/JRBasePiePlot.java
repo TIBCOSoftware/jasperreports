@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 {

@@ -31,7 +31,6 @@ import org.apache.commons.digester.Digester;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ChartsDigester implements XmlDigesterConfigurer
 {

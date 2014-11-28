@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRFont;
  * a range axis, and any options that do not apply to the current axis are simply ignored.
  * 
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRAxisFormat implements Serializable 
 {

@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.type.ModeEnum;
  * List preview converter.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ListDesignConverter implements ComponentDesignConverter
 {

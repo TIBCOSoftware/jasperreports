@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * category plots such as a bar or pie plot.
  *
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignItemLabel extends JRBaseItemLabel implements JRChangeEventsSupport
 {

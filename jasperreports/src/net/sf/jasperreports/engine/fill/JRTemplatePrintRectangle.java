@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.PrintElementVisitor;
  * store common attributes. 
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRTemplatePrintRectangle extends JRTemplatePrintGraphicElement implements JRPrintRectangle
 {

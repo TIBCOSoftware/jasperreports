@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.design.JRDesignElementGroup;
  * {@link ListContents} implementation used at report design time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DesignListContents extends JRDesignElementGroup implements
 		ListContents

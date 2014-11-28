@@ -67,7 +67,6 @@ import org.apache.commons.logging.LogFactory;
  * is skipped and an error message is logged.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DefaultExtensionsRegistry implements ExtensionsRegistry
 {

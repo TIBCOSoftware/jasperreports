@@ -32,7 +32,6 @@ import java.util.Date;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class FormatUtils {
 	

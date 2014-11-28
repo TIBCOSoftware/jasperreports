@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.JRGridLayout;
  * A generic print element ODS export handler.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface GenericElementOdsHandler extends GenericElementHandler
 {

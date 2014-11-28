@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRVirtualizable;
  * Listener that plugs into the virtualization process.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface VirtualizationListener<T>
 {

@@ -105,7 +105,6 @@ import org.apache.commons.logging.LogFactory;
  * @see net.sf.jasperreports.export.OdsReportConfiguration
  * @see net.sf.jasperreports.export.XlsReportConfiguration
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration, OdsExporterConfiguration, JROdsExporterContext>
 {

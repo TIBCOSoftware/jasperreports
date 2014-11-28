@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * Implementation of crosstab parameters to be used for report designing.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignCrosstabParameter extends JRDesignParameter implements JRCrosstabParameter
 {

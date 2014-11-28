@@ -47,7 +47,6 @@ import org.apache.commons.logging.LogFactory;
  * {@link ExtensionsEnvironment}).
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class ComponentsEnvironment
 {

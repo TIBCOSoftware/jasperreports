@@ -56,7 +56,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
  * JSON data source implementation
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class JsonDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource {
 

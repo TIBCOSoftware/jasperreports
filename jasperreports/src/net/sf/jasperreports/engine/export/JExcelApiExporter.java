@@ -140,7 +140,6 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @deprecated To be removed. Use {@link JRXlsExporter} or {@link JRXlsxExporter} instead.
  * @author Manuel Paul (mpaul@ratundtat.com)
- * @version $Id$
  */
 public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfiguration, JxlExporterConfiguration, JExcelApiExporterContext>
 {

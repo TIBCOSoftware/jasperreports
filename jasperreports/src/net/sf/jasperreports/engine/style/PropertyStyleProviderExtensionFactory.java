@@ -33,7 +33,6 @@ import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
  * Extension factory for {@link PropertyStyleProviderFactory}.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class PropertyStyleProviderExtensionFactory implements ExtensionsRegistryFactory
 {

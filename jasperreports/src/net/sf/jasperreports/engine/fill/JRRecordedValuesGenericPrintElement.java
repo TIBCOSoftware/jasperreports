@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
  * Generic print element implementation that supports recorded values.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRRecordedValuesGenericPrintElement extends
 		JRTemplateGenericPrintElement implements JRRecordedValuesPrintElement

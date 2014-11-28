@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.base.JRBaseConditionalStyle;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignConditionalStyle extends JRBaseConditionalStyle
 {

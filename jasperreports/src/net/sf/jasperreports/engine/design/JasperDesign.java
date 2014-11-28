@@ -111,7 +111,6 @@ import net.sf.jasperreports.engine.util.JRVisitorSupport;
  * @see net.sf.jasperreports.engine.base.JRBaseReport
  * @see net.sf.jasperreports.engine.xml.JRXmlLoader
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JasperDesign extends JRBaseReport
 {

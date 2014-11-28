@@ -29,7 +29,6 @@ import net.sf.jasperreports.web.commands.Command;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class SaveZoomCommand implements Command {
 

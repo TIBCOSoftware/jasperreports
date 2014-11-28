@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * Base implementation of crosstab input dataset.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseCrosstabDataset extends JRBaseElementDataset implements JRCrosstabDataset
 {

@@ -36,7 +36,6 @@ package net.sf.jasperreports.engine;
  * of the static text element. The text content can be collected using the {@link #getText()} method.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRStaticText extends JRTextElement
 {

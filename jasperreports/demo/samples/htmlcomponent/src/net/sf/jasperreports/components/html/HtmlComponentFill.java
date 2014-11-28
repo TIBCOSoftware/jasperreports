@@ -46,7 +46,6 @@ import net.sf.jasperreports.extensions.HtmlElementHandlerBundle;
 /**
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class HtmlComponentFill extends BaseFillComponent {
 

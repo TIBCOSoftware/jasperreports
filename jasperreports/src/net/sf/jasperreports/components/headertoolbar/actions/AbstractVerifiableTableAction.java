@@ -36,7 +36,6 @@ import net.sf.jasperreports.web.commands.CommandTarget;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractVerifiableTableAction extends AbstractAction 
 {

@@ -31,7 +31,6 @@ import java.util.Map;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class StandardSingleQueryParameterTypesClauseFunctionBundle implements
 		ParameterTypesClauseFunctionBundle

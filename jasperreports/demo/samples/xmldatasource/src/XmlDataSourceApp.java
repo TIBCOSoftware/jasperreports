@@ -57,7 +57,6 @@ import org.w3c.dom.Document;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class XmlDataSourceApp extends AbstractSampleApp
 {

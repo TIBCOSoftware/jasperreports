@@ -57,7 +57,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * </pre>
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ElementKeyExporterFilter implements ExporterFilter
 {

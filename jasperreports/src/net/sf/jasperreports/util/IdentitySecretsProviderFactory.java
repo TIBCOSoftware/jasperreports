@@ -28,7 +28,6 @@ import java.util.Set;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class IdentitySecretsProviderFactory implements SecretsProviderFactory 
 {

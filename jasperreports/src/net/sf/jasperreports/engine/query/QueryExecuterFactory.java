@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * Query executer factory instances must be thread-safe as they are cached and used as singletons.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see net.sf.jasperreports.engine.query.JRQueryExecuter
  */
 @SuppressWarnings("deprecation")

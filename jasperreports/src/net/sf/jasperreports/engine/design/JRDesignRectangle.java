@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 /**
  * The actual implementation of a graphic element representing a rectangle, used at design time.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignRectangle extends JRDesignGraphicElement implements JRRectangle
 {

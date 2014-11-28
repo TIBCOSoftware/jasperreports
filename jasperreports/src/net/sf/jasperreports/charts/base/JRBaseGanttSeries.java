@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Peter Risko (peter@risko.hu)
- * @version $Id$
  */
 public class JRBaseGanttSeries implements JRGanttSeries, Serializable
 {

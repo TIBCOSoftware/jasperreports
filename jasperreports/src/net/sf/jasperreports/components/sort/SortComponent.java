@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class SortComponent implements ContextAwareComponent, Serializable, JRChangeEventsSupport {
 

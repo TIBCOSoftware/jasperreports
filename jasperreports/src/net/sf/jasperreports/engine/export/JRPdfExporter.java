@@ -343,7 +343,6 @@ import com.itextpdf.text.pdf.PdfWriter;
  * @see net.sf.jasperreports.engine.util.JRTextAttribute#PDF_ENCODING
  * @see net.sf.jasperreports.engine.util.JRTextAttribute#PDF_FONT_NAME
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, PdfExporterConfiguration, OutputStreamExporterOutput, JRPdfExporterContext>
 {

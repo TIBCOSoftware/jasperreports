@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.fill.JRFillDataset;
  * A dataset filter that matches String values based on substrings.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class FieldFilter implements DatasetFilter {
 

@@ -41,7 +41,6 @@ import net.sourceforge.barbecue.output.OutputException;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BarbecueRenderer extends JRAbstractSvgRenderer
 {

@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
  * attributes. 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPrintFrame, JRPrintElementContainer
 {

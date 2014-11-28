@@ -27,7 +27,6 @@ package net.sf.jasperreports.engine.export.draw;
  * Drawing offset used by the print element draw visitor.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see PrintDrawVisitor
  */
 public class Offset

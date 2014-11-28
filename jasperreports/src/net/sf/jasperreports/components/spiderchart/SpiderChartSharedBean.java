@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRConstants;
 /**
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class SpiderChartSharedBean implements Serializable
 {

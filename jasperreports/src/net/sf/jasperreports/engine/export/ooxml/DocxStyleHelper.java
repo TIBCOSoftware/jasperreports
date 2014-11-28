@@ -37,7 +37,6 @@ import net.sf.jasperreports.export.ExporterInputItem;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class DocxStyleHelper extends BaseHelper
 {

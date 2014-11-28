@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRException;
  * A factory of {@link ExporterFilter} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface ExporterFilterFactory
 {

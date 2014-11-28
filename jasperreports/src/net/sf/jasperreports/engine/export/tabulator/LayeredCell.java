@@ -28,7 +28,6 @@ import java.util.List;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class LayeredCell implements Cell
 {

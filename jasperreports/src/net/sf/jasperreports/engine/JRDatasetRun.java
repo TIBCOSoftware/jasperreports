@@ -52,7 +52,6 @@ import java.util.List;
  * @see net.sf.jasperreports.engine.JRDataset
  * @see net.sf.jasperreports.engine.JRChartDataset#getDatasetRun()
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRDatasetRun extends JRCloneable, JRIdentifiable, JRPropertiesHolder
 {

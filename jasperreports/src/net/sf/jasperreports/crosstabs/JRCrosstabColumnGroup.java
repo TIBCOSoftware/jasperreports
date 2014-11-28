@@ -29,7 +29,6 @@ import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
  * Crosstab column group interface.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRCrosstabColumnGroup extends JRCrosstabGroup
 {

@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.util.DeduplicableRegistry;
  * previously created identical instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see DeduplicableRegistry
  */
 public interface Deduplicable

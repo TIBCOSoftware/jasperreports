@@ -110,7 +110,6 @@ import net.sf.jasperreports.export.WriterExporterOutput;
  * @see net.sf.jasperreports.export.TextExporterConfiguration
  * @see net.sf.jasperreports.export.TextReportConfiguration
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, TextExporterConfiguration, WriterExporterOutput, JRTextExporterContext>
 {

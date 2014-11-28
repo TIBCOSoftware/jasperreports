@@ -30,7 +30,6 @@ import net.sf.jasperreports.olap.result.JROlapHierarchyLevel;
 
 /**
  * @author swood
- * @version $Id$
  */
 public class Olap4jLevel implements JROlapHierarchyLevel
 {

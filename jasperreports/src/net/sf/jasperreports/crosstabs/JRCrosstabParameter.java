@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JRParameter;
  * be set by using a {@link java.util.Map Map} object with name/value mappings.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see net.sf.jasperreports.crosstabs.JRCrosstab#getParameters()
  * @see net.sf.jasperreports.crosstabs.JRCrosstab#getParametersMapExpression()
  */

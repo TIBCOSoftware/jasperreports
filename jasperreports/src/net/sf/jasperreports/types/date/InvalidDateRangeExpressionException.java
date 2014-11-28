@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * <p>Indicates that expression for date rang was invalid</p>
  *
  * @author Sergey Prilukin
- * @version $Id$
  */
 public class InvalidDateRangeExpressionException extends JRRuntimeException 
 {

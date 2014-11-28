@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRConstants;
  * Crosstab row group implementation to be used for report designing.
  *  
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignCrosstabRowGroup extends JRDesignCrosstabGroup implements JRCrosstabRowGroup
 {

@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.JRException;
  * with the query and the parameter values.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see net.sf.jasperreports.engine.query.QueryExecuterFactory
  */
 public interface JRQueryExecuter

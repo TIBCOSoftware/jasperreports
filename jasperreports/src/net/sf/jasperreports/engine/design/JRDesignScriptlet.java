@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.base.JRBaseScriptlet;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignScriptlet extends JRBaseScriptlet
 {

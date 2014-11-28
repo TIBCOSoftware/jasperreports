@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseSubreportParameter extends JRBaseDatasetParameter implements JRSubreportParameter
 {

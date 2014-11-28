@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.util.JRBoxUtil;
  * Base read-only implementation of {@link net.sf.jasperreports.crosstabs.JRCellContents JRCellContents}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseCellContents extends JRBaseElementGroup implements JRCellContents
 {

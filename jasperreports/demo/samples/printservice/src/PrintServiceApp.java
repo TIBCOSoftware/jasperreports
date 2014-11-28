@@ -55,7 +55,6 @@ import net.sf.jasperreports.export.SimplePrintServiceExporterConfiguration;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class PrintServiceApp extends AbstractSampleApp
 {

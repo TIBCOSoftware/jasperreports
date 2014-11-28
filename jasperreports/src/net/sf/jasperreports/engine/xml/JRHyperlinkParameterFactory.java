@@ -33,7 +33,6 @@ import org.xml.sax.Attributes;
  * from <code>hyperlinkParameter</code> XML elements.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRHyperlinkParameterFactory extends JRBaseFactory
 {

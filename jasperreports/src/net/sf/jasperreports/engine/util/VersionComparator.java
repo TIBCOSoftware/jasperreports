@@ -27,7 +27,6 @@ import java.util.Comparator;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class VersionComparator implements Comparator<String>
 {

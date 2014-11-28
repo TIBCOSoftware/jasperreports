@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRExporterParameter;
  *
  * @deprecated Replaced by {@link net.sf.jasperreports.export.JsonExporterConfiguration}.
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class JsonExporterParameter extends JRExporterParameter
 {

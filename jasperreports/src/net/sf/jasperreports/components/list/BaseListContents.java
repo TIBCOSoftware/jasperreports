@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * {@link ListContents} implementation used in compiled reports.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BaseListContents extends JRBaseElementGroup implements ListContents
 {

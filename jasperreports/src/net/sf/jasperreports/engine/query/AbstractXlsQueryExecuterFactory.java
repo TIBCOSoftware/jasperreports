@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
  * Query executer factory for Excel file type.
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecuterFactory 
 {

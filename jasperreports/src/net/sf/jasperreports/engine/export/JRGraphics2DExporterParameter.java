@@ -34,7 +34,6 @@ import net.sf.jasperreports.export.Graphics2DReportConfiguration;
  *
  * @deprecated Replaced by {@link Graphics2DExporterConfiguration} and {@link Graphics2DExporterOutput}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRGraphics2DExporterParameter extends JRExporterParameter
 {

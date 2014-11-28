@@ -47,7 +47,6 @@ import org.jfree.chart.JFreeChart;
  * If needed, at chart element level, the chart theme is specified using the <code>theme</code> attribute. 
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net) 
- * @version $Id$
  */
 public interface ChartTheme
 {

@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
  * without actually filling it.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRParameterDefaultValuesEvaluator
 {

@@ -48,7 +48,6 @@ import net.sf.jasperreports.forms.textinput.TextInputComponentManager;
  * This registry factory is registered by default in JasperReports.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class FormComponentsExtensionsRegistryFactory implements
 		ExtensionsRegistryFactory

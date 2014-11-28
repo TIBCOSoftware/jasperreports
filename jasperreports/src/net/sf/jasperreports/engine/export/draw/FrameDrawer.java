@@ -55,7 +55,6 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class FrameDrawer extends ElementDrawer<JRPrintFrame>
 {

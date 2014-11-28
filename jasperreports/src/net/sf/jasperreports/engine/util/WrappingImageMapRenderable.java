@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  * @deprecated To be removed.
  */
 public class WrappingImageMapRenderable extends WrappingRenderable implements ImageMapRenderable

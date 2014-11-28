@@ -32,7 +32,6 @@ import org.jfree.chart.plot.PlotOrientation;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public enum PlotOrientationEnum implements JREnum
 {

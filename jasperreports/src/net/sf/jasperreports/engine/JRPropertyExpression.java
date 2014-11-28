@@ -27,7 +27,6 @@ package net.sf.jasperreports.engine;
  * Report property with a value based on an expression.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRElement#getPropertyExpressions()
  */
 public interface JRPropertyExpression

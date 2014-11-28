@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.export.HtmlResourceHandler;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class FontWebResourceHandler implements WebResourceHandler 
 {

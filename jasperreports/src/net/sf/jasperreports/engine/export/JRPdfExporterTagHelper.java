@@ -184,7 +184,6 @@ import com.itextpdf.text.pdf.PdfWriter;
  * achieve it.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRPdfExporterTagHelper
 {

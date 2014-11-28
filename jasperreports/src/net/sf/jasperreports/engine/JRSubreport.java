@@ -237,7 +237,6 @@ import net.sf.jasperreports.engine.type.OverflowType;
  * @see net.sf.jasperreports.engine.fill.JRThreadSubreportRunner
  * @see net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRSubreport extends JRElement
 {

@@ -30,7 +30,6 @@ import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
  * Crosstab row group interface.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRCrosstabRowGroup extends JRCrosstabGroup
 {

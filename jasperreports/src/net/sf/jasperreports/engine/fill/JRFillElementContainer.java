@@ -53,7 +53,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * This is the base for band, frame and crosstab cell fillers.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRFillElementContainer extends JRFillElementGroup implements FillContainerContext
 {

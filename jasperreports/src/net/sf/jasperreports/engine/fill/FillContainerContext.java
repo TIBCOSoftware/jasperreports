@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine.fill;
  * report component fill.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface FillContainerContext
 {

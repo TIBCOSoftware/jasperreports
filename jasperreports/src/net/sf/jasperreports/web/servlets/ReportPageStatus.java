@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.fill.FillListener;
  * Status of a page in a generated report.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ReportPageStatus
 {

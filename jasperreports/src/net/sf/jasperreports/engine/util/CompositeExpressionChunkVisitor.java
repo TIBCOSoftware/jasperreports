@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRExpressionChunk;
  * Composite expression chunk visitor.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class CompositeExpressionChunkVisitor implements ExpressionChunkVisitor 
 {

@@ -42,7 +42,6 @@ import org.xml.sax.SAXException;
  * Produces a <code>org.w3c.dom.Document</code> based on a <code>java.io.File</code>, <code>java.io.InputStream</code> or a <code>java.lang.String</code> uri
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class JRXmlDocumentProducer {
 	

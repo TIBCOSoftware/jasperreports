@@ -40,7 +40,6 @@ import com.itextpdf.text.pdf.PdfWriter;
  * @see JRPdfExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface PdfExporterConfiguration extends ExporterConfiguration
 {

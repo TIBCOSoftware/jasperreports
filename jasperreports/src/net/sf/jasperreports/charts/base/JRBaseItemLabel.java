@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * item labels in a category plot.
  *
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseItemLabel implements JRItemLabel, Serializable
 {

@@ -29,7 +29,6 @@ import java.util.Collections;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class StandardParameterTypesClauseFunction implements ParameterTypesClauseFunction
 {

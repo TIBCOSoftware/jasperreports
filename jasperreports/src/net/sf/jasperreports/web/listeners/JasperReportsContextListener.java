@@ -36,7 +36,6 @@ import net.sf.jasperreports.web.servlets.AbstractServlet;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JasperReportsContextListener implements ServletContextListener
 {

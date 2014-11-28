@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.JRField;
  * <code>java.util.Collection</code> of JavaBean objects.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBeanCollectionDataSource extends JRAbstractBeanDataSource
 {

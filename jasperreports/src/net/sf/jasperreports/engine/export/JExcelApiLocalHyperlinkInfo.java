@@ -28,7 +28,6 @@ import jxl.write.WritableSheet;
 /**
  * @deprecated To be removed.
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class JExcelApiLocalHyperlinkInfo 
 {

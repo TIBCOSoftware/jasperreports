@@ -30,7 +30,6 @@ import org.jfree.data.general.Dataset;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRFillChartDataset extends JRFillElementDataset implements JRChartDataset
 {

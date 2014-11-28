@@ -27,7 +27,6 @@ package net.sf.jasperreports.engine.xml;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class XmlLoaderReportContext
 {

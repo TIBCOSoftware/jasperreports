@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JRComponentElement;
  * in order to have component clones created when components elements are cloned.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRComponentElement
  */
 public interface Component

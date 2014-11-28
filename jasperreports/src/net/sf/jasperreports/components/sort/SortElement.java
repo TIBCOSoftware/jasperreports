@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public interface SortElement {
 	

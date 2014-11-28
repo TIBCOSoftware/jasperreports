@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
  * to be used for report designing.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket implements JRChangeEventsSupport
 {

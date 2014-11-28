@@ -33,7 +33,6 @@ import org.jfree.data.xy.AbstractXYZDataset;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public class DefaultXYZDataset extends AbstractXYZDataset 
 {

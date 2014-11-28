@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * for a meter or thermometer, and to divide those charts up into subsections.
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignDataRange extends JRBaseDataRange implements JRChangeEventsSupport
 {

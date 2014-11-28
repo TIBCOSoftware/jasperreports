@@ -28,7 +28,6 @@ import java.awt.Graphics2D;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class SimpleGraphics2DExporterOutput implements Graphics2DExporterOutput
 {

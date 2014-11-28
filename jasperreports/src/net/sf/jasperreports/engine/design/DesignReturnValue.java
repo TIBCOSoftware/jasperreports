@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  * to be used for report desing purposes.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DesignReturnValue extends BaseReturnValue implements JRChangeEventsSupport
 {

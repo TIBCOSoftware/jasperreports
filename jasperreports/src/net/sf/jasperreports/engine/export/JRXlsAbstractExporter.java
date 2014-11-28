@@ -248,7 +248,6 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  * @see net.sf.jasperreports.export.XlsExporterConfiguration
  * @see net.sf.jasperreports.export.XlsReportConfiguration
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C extends XlsExporterConfiguration, E extends JRExporterContext> 
 	extends JRAbstractExporter<RC, C, OutputStreamExporterOutput, E>

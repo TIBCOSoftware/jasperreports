@@ -30,7 +30,6 @@ package net.sf.jasperreports.engine.export;
  * @see HtmlExporter
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRHtmlExporterContext extends JRExporterContext, HyperlinkURLResolver
 {

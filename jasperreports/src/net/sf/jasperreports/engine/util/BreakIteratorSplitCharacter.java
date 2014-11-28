@@ -38,7 +38,6 @@ import com.itextpdf.text.pdf.PdfChunk;
  * uses the same logic as AWT to break texts into lines.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * 
  * @see PdfReportConfiguration#isForceLineBreakPolicy()
  */

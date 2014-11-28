@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.JRVisitor;
  * This class can be used to recursively visit all the elements of a report.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRElementsVisitor extends JRDelegationVisitor implements ElementsVisitor
 {

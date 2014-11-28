@@ -34,7 +34,6 @@ import org.jfree.chart.entity.PieSectionEntity;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class PieChartHyperlinkProvider implements ChartHyperlinkProvider
 {

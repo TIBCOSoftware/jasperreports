@@ -75,7 +75,6 @@ import org.jfree.date.DateUtilities;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ConvertChartContext implements ChartContext
 {

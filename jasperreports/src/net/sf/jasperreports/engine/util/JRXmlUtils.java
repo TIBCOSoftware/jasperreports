@@ -45,7 +45,6 @@ import org.xml.sax.SAXException;
  * XML parsing utilities.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRXmlUtils
 {

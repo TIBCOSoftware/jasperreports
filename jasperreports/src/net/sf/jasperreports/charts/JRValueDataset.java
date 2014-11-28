@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRExpression;
  * plot a single value against a range.
  * 
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRValueDataset extends JRChartDataset
 {

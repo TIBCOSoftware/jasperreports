@@ -27,7 +27,6 @@ import java.io.IOException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DoubleSerializer implements ObjectSerializer<Double>
 {

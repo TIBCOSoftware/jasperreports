@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * Object factory used to clone a report dataset.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DatasetCloneObjectFactory extends JRBaseObjectFactory
 {

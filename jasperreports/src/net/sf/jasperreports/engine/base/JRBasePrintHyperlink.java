@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
  * Stand-alone implementation of {@link JRPrintHyperlink JRPrintHyperlink}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 {

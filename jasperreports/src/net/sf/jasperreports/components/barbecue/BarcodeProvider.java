@@ -29,7 +29,6 @@ import net.sourceforge.barbecue.BarcodeException;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface BarcodeProvider
 {

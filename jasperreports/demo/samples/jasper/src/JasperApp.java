@@ -64,7 +64,6 @@ import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JasperApp extends AbstractSampleApp
 {

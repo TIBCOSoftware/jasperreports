@@ -46,7 +46,6 @@ import net.sf.jasperreports.engine.type.BorderSplitType;
  * Frames can be nested into one another to any depth.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRFrame extends JRElement, JRElementGroup, JRBoxContainer
 {

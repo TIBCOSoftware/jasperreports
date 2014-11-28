@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.base.JRBasePropertyExpression;
  * design time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignPropertyExpression extends JRBasePropertyExpression
 {

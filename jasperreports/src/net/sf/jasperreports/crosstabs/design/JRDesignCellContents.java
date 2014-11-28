@@ -45,7 +45,6 @@ import net.sf.jasperreports.engine.util.JRBoxUtil;
  * report design.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignCellContents extends JRDesignElementGroup implements JRCellContents
 {

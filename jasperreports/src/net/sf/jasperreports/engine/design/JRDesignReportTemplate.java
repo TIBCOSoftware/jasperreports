@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * {@link JRReportTemplate} implementation to be used at report design time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignReportTemplate extends JRBaseReportTemplate implements JRChangeEventsSupport
 {

@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.type.OverflowType;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class TableSubreport extends ElementDecorator implements JRSubreport
 {

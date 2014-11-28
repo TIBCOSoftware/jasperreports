@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.export.GenericElementHandler;
  * A generic print element PPTX export handler.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface GenericElementPptxHandler extends GenericElementHandler
 {

@@ -33,7 +33,6 @@ import net.sf.jasperreports.charts.type.EdgeEnum;
  * datasource can be also displayed in a chart, embedded in the report. There are a lot of chart types, each with
  * its own dataset and characteristics. This interface only defines the common properties.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink, JRBoxContainer
 {

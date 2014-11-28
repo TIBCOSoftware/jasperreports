@@ -49,7 +49,6 @@ import org.jfree.data.time.SimpleTimePeriod;
 
 /**
  * @author Peter Risko (peter@risko.hu)
- * @version $Id$
  */
 public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDataset {
 

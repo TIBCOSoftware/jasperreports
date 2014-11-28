@@ -32,7 +32,6 @@ package net.sf.jasperreports.export;
  * see {@link ExporterInputItem#getConfiguration()}
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface ExporterConfiguration extends CommonExportConfiguration
 {

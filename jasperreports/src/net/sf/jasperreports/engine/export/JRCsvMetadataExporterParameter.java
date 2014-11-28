@@ -30,7 +30,6 @@ import net.sf.jasperreports.export.CsvMetadataReportConfiguration;
 /**
  * @deprecated Replaced by {@link CsvMetadataExporterConfiguration}.
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class JRCsvMetadataExporterParameter extends JRCsvExporterParameter
 {

@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JasperReport;
  * Compile data for reports that use JavaScript as expression language.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JasperReport#getCompileData()
  * @see JavaScriptCompiler
  */

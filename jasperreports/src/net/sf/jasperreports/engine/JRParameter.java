@@ -94,7 +94,6 @@ import net.sf.jasperreports.engine.util.FileResolver;
  * report parameters.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRParameter extends JRPropertiesHolder, JRCloneable
 {

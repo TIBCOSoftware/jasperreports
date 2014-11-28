@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle;
  * Query executer utility class.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 @SuppressWarnings("deprecation")
 public final class JRQueryExecuterUtils

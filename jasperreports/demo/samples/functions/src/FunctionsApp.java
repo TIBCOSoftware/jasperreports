@@ -39,7 +39,6 @@ import net.sf.jasperreports.functions.annotations.FunctionsInfo;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class FunctionsApp extends AbstractSampleApp
 {

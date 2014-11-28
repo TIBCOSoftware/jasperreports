@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.util;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class SingleValue implements Comparable<SingleValue>
 {

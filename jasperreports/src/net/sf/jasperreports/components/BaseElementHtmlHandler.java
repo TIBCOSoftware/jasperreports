@@ -27,7 +27,6 @@ import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class BaseElementHtmlHandler implements GenericElementHtmlHandler {
 

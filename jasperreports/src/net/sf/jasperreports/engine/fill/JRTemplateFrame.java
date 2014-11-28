@@ -42,7 +42,6 @@ import net.sf.jasperreports.engine.util.ObjectUtils;
  * Frame information shared by multiple print frame objects.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see net.sf.jasperreports.engine.fill.JRTemplatePrintFrame
  */
 public class JRTemplateFrame extends JRTemplateElement implements JRBoxContainer

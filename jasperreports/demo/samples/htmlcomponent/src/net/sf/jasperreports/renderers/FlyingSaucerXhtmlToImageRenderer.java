@@ -41,7 +41,6 @@ import org.w3c.dom.Document;
 /**
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class FlyingSaucerXhtmlToImageRenderer extends JRAbstractSvgRenderer
 {

@@ -40,7 +40,6 @@ import net.sf.jasperreports.view.JRSaveContributor;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDocxSaveContributor extends JRSaveContributor 
 {

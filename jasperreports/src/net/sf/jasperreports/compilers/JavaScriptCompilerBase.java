@@ -44,7 +44,6 @@ import org.mozilla.javascript.EvaluatorException;
  * Base compiler class for reports that use JavaScript as expression language.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JavaScriptCompilerBase extends JRAbstractCompiler
 {

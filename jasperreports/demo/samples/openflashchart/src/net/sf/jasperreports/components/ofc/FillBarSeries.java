@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class FillBarSeries
 {

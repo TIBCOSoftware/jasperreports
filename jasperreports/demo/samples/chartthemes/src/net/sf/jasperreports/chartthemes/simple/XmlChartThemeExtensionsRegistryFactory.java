@@ -46,7 +46,6 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class XmlChartThemeExtensionsRegistryFactory implements
 		ExtensionsRegistryFactory

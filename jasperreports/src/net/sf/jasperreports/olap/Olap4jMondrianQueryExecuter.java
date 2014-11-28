@@ -51,7 +51,6 @@ import org.olap4j.layout.RectangularCellSetFormatter;
 
 /**
  * @author swood
- * @version $Id$
  */
 public class Olap4jMondrianQueryExecuter extends JRAbstractQueryExecuter
 {

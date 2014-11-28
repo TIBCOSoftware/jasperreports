@@ -48,7 +48,6 @@ import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ImageDrawer extends ElementDrawer<JRPrintImage>
 {

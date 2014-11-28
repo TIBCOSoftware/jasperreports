@@ -28,7 +28,6 @@ import java.util.List;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class FunctionBean
 {

@@ -42,7 +42,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlestickPlot
 {

@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
  * can be loaded.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRTemplate#getIncludedTemplates()
  * @see JRXmlTemplateLoader#load(String)
  */

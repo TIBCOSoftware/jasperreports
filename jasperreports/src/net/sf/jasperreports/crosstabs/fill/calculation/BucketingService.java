@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  * Bidimensional bucketing engine.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class BucketingService
 {

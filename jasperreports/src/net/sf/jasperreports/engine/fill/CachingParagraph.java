@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.type.LineSpacingEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class CachingParagraph implements JRParagraph
 {

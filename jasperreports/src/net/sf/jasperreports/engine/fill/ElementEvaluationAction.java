@@ -34,7 +34,6 @@ import org.apache.commons.logging.LogFactory;
  * Delayed evaluation action that evaluates a print element.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ElementEvaluationAction implements EvaluationBoundAction
 {

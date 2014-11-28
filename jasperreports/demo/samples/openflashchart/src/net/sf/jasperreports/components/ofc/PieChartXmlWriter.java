@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class PieChartXmlWriter extends AbstractComponentXmlWriter
 {

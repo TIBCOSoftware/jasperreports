@@ -28,7 +28,6 @@ import java.util.Map;
 
 /**
  * @author schubar
- * @version $Id$
  */
 public enum CalendarUnit 
 {

@@ -173,7 +173,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * @see net.sf.jasperreports.engine.util.JRLoader
  * @see net.sf.jasperreports.engine.util.JRSaver
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class JasperCompileManager
 {

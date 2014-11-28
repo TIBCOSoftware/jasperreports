@@ -54,7 +54,6 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  *
  * @deprecated Replaced by {@link ExporterInput}, {@link ExporterConfiguration} and {@link ExporterOutput}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRExporterParameter
 {

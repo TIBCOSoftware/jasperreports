@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine;
  * An interface that provides a default style when none is specified. All classes that might need to return a default style
  * if one is not specified will implement this interface.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRDefaultStyleProvider
 {

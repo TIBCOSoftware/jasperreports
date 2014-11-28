@@ -49,7 +49,6 @@ import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class StyledTextApp extends AbstractSampleApp
 {

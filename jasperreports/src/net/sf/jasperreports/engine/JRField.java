@@ -76,7 +76,6 @@ package net.sf.jasperreports.engine;
  * additional information can be leveraged by query executer or data source
  * implementations.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRField extends JRPropertiesHolder, JRCloneable
 {

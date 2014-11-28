@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRPrintHyperlink
 {

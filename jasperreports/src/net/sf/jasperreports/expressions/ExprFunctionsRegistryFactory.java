@@ -28,7 +28,6 @@ import net.sf.jasperreports.functions.FunctionsRegistryFactory;
 /**
  * @deprecated Replaced by {@link FunctionsRegistryFactory}.
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
- * @version $Id$
  */
 public class ExprFunctionsRegistryFactory  extends FunctionsRegistryFactory
 {

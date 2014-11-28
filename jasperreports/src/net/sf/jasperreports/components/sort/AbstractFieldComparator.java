@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.util.FormatFactory;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractFieldComparator<T> {
 	

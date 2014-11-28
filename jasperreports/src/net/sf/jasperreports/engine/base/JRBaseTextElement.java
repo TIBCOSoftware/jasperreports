@@ -46,7 +46,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * This class provides functionality common to text elements. It provides implementation for the methods described
  * in <tt>JRTextElement</tt>.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRBaseTextElement extends JRBaseElement implements JRTextElement
 {

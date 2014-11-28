@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.type.TabStopAlignEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class ParagraphUtil
 {

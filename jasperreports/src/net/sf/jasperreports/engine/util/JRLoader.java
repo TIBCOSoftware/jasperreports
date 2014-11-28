@@ -74,7 +74,6 @@ import org.apache.commons.logging.LogFactory;
  * try fails an exception is thrown.
  * </p>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRLoader
 {

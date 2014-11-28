@@ -145,7 +145,6 @@ import org.apache.commons.logging.LogFactory;
  * report compilation.  
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRVerifier
 {

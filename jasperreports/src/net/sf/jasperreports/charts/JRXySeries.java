@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRHyperlink;
  * Represents the series for the XY dataset.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRXySeries extends JRCloneable
 {

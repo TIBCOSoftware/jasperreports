@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class SortElementUtils {
 	

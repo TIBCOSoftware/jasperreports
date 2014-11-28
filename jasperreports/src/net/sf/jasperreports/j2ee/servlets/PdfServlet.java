@@ -44,7 +44,6 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class PdfServlet extends BaseHttpServlet
 {

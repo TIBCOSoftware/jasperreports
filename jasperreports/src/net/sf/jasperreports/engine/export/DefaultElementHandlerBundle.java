@@ -37,7 +37,6 @@ import org.apache.commons.logging.LogFactory;
  * This implementation uses a {@link Map map} to keep element handlers.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DefaultElementHandlerBundle implements GenericElementHandlerBundle
 {

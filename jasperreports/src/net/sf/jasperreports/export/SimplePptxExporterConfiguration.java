@@ -26,7 +26,6 @@ package net.sf.jasperreports.export;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class SimplePptxExporterConfiguration extends SimpleExporterConfiguration implements PptxExporterConfiguration
 {

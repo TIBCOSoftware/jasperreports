@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.fill.JRRecordedValues;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class RecordedValuesSerializer implements ObjectSerializer<JRRecordedValues>
 {

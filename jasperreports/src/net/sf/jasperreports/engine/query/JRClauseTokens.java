@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRQueryChunk;
  * Query clause chunk wrapper.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRQueryChunk#getTokens()
  * @see JRQueryChunk#TYPE_CLAUSE_TOKENS
  */

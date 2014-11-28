@@ -49,7 +49,6 @@ import org.apache.commons.logging.LogFactory;
  * Base converter that generates a static preview icon for the element.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ElementIconConverter extends ElementConverter
 {

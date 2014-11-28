@@ -27,7 +27,6 @@ import net.sf.jasperreports.engine.JRPrintPage;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class FinalFillingPrintPart implements FillingPrintPart
 {

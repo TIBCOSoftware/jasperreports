@@ -33,7 +33,6 @@ import java.lang.annotation.Target;
  * Annotation used to specify the JR exporter parameter that is associated with a particular exporter configuration setting.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

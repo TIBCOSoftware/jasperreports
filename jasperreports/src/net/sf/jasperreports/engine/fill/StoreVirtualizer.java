@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRVirtualizable;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class StoreVirtualizer extends JRAbstractLRUVirtualizer
 {

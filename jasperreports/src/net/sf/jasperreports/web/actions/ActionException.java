@@ -28,7 +28,6 @@ import net.sf.jasperreports.web.JRInteractiveException;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class ActionException extends JRInteractiveException 
 {

@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.design.JRValidationException;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ElementReprintGroupReference implements XmlGroupReference
 {

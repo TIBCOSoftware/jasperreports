@@ -44,7 +44,6 @@ import org.apache.commons.logging.LogFactory;
  *  <p/>
  * @see org.apache.commons.beanutils.locale.converters.DateLocaleConverter
  * @author szaharia
- * @version $Id$
  */
 
 public class JRDateLocaleConverter extends DateLocaleConverter 

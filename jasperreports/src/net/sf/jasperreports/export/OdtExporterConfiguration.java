@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
  * @see JROdtExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface OdtExporterConfiguration extends ExporterConfiguration
 {

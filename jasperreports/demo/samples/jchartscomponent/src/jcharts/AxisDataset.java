@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRExpression;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface AxisDataset extends JRElementDataset
 {

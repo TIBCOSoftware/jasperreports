@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.fill;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class SimpleTextLine implements TextLine
 {

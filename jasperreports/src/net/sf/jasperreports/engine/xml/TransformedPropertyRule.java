@@ -32,7 +32,6 @@ import org.xml.sax.Attributes;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class TransformedPropertyRule extends Rule
 {

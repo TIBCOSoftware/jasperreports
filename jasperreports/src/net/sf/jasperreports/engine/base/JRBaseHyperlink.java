@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * Read-only implementation of {@link JRHyperlink JRHyperlink}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseHyperlink implements JRHyperlink, Serializable
 {

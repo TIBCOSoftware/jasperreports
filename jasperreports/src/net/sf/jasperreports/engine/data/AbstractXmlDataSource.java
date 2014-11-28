@@ -106,7 +106,6 @@ import org.w3c.dom.NodeList;
  * consider implementing a custom data source that directly accesses the Document through the DOM API. 
  * </p>
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractXmlDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource {
 

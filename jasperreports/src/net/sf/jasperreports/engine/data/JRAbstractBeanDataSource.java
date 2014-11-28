@@ -32,7 +32,6 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 {

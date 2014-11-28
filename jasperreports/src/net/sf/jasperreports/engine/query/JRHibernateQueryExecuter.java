@@ -57,7 +57,6 @@ import org.hibernate.type.Type;
  * HQL query executer that uses Hibernate 3.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 {

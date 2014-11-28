@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRExpression;
  * Expression evaluator compilation unit used by report compilers.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRCompilationUnit
 {

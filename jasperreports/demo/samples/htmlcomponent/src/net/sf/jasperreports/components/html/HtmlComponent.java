@@ -42,7 +42,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class HtmlComponent implements ContextAwareComponent, Serializable, JRChangeEventsSupport, JRCloneable
 {

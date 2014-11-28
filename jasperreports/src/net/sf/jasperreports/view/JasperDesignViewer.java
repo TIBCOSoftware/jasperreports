@@ -57,7 +57,6 @@ import org.apache.commons.logging.LogFactory;
  * the screen.
  * </p>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JasperDesignViewer extends javax.swing.JFrame 
 {

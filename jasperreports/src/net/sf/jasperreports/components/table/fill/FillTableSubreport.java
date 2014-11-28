@@ -50,7 +50,6 @@ import net.sf.jasperreports.engine.fill.JRFillSubreport;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class FillTableSubreport extends JRFillSubreport
 {

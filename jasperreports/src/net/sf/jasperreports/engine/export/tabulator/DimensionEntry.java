@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.export.tabulator;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class DimensionEntry implements Comparable<DimensionEntry>
 {

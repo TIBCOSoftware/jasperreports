@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
  * An adapter of {@link JRHtmlExporterContext} as {@link JRHyperlinkProducer}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class HtmlExporterHyperlinkProducerAdapter implements JRHyperlinkProducer
 {

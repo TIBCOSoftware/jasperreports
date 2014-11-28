@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.export.zip.FileBufferedZip;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class PptxZip extends FileBufferedZip
 {

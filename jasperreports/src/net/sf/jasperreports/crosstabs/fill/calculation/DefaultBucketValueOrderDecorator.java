@@ -25,7 +25,6 @@ package net.sf.jasperreports.crosstabs.fill.calculation;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DefaultBucketValueOrderDecorator<T extends Comparable<T>> 
 		implements BucketValueOrderDecorator<Comparable<T>>, Comparable<DefaultBucketValueOrderDecorator<T>>

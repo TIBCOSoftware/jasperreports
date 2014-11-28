@@ -61,7 +61,6 @@ import org.apache.http.message.BasicNameValuePair;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class HttpDataService implements DataFileService
 {

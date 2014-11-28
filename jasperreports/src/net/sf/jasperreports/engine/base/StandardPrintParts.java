@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.PrintParts;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class StandardPrintParts implements PrintParts, Serializable
 {

@@ -66,7 +66,6 @@ import org.w3c.tools.codec.Base64FormatException;
  * </p>
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRValueStringUtils
 {

@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DesignDataLevelBucket extends BaseDataLevelBucket implements JRChangeEventsSupport
 {

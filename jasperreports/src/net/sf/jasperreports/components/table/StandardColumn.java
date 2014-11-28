@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class StandardColumn extends StandardBaseColumn implements Column
 {

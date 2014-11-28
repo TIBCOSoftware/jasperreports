@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRMapArrayDataSource implements JRRewindableDataSource
 {

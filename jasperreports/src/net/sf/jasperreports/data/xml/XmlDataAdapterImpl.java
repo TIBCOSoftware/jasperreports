@@ -32,7 +32,6 @@ import net.sf.jasperreports.data.DataFile;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class XmlDataAdapterImpl extends AbstractDataAdapter implements XmlDataAdapter
 {

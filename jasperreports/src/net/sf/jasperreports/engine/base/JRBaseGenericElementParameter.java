@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * that is included in compiled reports.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseGenericElementParameter implements JRGenericElementParameter, Serializable
 {

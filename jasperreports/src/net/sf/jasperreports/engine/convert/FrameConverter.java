@@ -42,7 +42,6 @@ import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class FrameConverter extends ElementConverter
 {

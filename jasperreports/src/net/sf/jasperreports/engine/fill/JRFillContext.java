@@ -55,7 +55,6 @@ import net.sf.jasperreports.engine.util.Pair;
  * The context is created by the master filler and inherited by the subfillers.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see net.sf.jasperreports.engine.fill.JRBaseFiller
  */
 public class JRFillContext

@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.JasperReport;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class SerializedReportPersistenceService extends SerializedObjectPersistenceService
 {

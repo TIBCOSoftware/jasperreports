@@ -29,7 +29,6 @@ import net.sf.jasperreports.components.headertoolbar.actions.BaseColumnData;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class SortData extends BaseColumnData {
 	

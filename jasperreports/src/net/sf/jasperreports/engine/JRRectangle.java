@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine;
  * An abstract representation of a graphic element representing a rectangle.
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRRectangle extends JRGraphicElement, JRCommonRectangle
 {

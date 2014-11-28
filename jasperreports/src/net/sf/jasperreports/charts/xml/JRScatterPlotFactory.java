@@ -31,7 +31,6 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRScatterPlotFactory extends JRBaseFactory {
 	private static final String ATTRIBUTE_isShowShapes = "isShowShapes";

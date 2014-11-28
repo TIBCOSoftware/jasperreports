@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.fill.JRFillCellContents;
  * Crosstab column group implementation used at fill time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillCrosstabColumnGroup extends JRFillCrosstabGroup implements JRCrosstabColumnGroup
 {

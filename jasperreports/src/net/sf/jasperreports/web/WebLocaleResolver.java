@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface WebLocaleResolver
 {

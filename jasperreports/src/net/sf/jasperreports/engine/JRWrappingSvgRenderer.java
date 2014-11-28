@@ -32,7 +32,6 @@ import java.awt.image.BufferedImage;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 {

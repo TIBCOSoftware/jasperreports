@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRPrintElementContainer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRPrintBand implements JRPrintElementContainer
 {

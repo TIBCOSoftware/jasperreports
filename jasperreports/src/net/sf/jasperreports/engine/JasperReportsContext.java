@@ -29,7 +29,6 @@ import java.util.Map;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JasperReportsContext//FIXMECONTEXT extends ExtensionsRegistry
 {

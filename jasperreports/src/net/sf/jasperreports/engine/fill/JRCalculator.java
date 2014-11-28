@@ -60,7 +60,6 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  * time.
  * </p>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRCalculator implements JRFillExpressionEvaluator
 {

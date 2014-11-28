@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRExpression;
  * combination with Time Series charts. 
  * 
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRTimeSeriesPlot extends JRChartPlot, JRTimeAxisFormat, JRValueAxisFormat, JRCommonLinePlot
 {

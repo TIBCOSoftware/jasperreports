@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * charts such as a meter or thermometer that display a single value.
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignValueDisplay extends JRBaseValueDisplay implements JRChangeEventsSupport
 {

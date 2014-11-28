@@ -114,7 +114,6 @@ import net.sf.jasperreports.engine.type.BandTypeEnum;
  * and page footers from all reports, when exporting to XLS, for example.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JROriginExporterFilter implements ResetableExporterFilter
 {

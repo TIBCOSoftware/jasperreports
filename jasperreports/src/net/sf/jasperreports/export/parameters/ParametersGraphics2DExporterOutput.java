@@ -35,7 +35,6 @@ import net.sf.jasperreports.export.Graphics2DExporterOutput;
 /**
  * @deprecated To be removed.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ParametersGraphics2DExporterOutput implements Graphics2DExporterOutput
 {

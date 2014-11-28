@@ -34,7 +34,6 @@ import org.jfree.chart.entity.ChartEntity;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class CategoryChartHyperlinkProvider implements ChartHyperlinkProvider
 {

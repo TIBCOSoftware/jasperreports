@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.query;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DefaultClauseFunctionParameterHandler implements ClauseFunctionParameterHandler
 {

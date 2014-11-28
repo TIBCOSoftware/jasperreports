@@ -33,7 +33,6 @@ import net.sf.jasperreports.web.WebLocaleResolver;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class LocaleResolverUtil
 {

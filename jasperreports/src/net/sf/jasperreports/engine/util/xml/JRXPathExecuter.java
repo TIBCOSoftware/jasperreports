@@ -37,7 +37,6 @@ import org.w3c.dom.NodeList;
  * of this interface.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRXPathExecuterFactory
  * @see JRXPathExecuterUtils
  */

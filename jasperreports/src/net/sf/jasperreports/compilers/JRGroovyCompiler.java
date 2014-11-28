@@ -58,7 +58,6 @@ import org.codehaus.groovy.control.Phases;
  * Calculator compiler that uses groovy to compile expressions.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net), Peter Severin (peter_p_s@users.sourceforge.net)
- * @version $Id$
  */
 public class JRGroovyCompiler extends JRAbstractJavaCompiler 
 {

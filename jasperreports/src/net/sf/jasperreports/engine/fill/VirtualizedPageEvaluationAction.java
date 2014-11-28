@@ -34,7 +34,6 @@ import org.apache.commons.logging.LogFactory;
  * evaluate one or several of them.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class VirtualizedPageEvaluationAction implements EvaluationBoundAction
 {

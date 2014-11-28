@@ -27,7 +27,6 @@ package net.sf.jasperreports.components.table;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface ColumnVisitor<R>
 {

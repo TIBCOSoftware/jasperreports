@@ -77,7 +77,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportConfiguration, JsonExporterConfiguration, WriterExporterOutput, JsonExporterContext>
 {
@@ -102,8 +101,9 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 
 	private Map<String, SchemaNode> pathToValueNode = new HashMap<String, SchemaNode>();
 	private Map<String, SchemaNode> pathToObjectNode = new HashMap<String, SchemaNode>();
+	private Map<SchemaNode, ArrayList<String>> visitedMembers = new HashMap<SchemaNode, ArrayList<String>>();
 
-	private List<NodeTypeEnum> openedNodes = new ArrayList<NodeTypeEnum>();
+	private ArrayList<SchemaNode> openedSchemaNodes = new ArrayList<SchemaNode>();
 
 	private String jsonSchema;
 	private String previousPath;
@@ -116,6 +116,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 		// relax the JSON rules
 		mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
 		mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+		mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
 
 		try {
 			JsonNode root = mapper.readTree(jsonSchema);
@@ -123,7 +124,6 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 				pathToValueNode = new HashMap<String, SchemaNode>();
 				pathToObjectNode = new HashMap<String, SchemaNode>();
 
-				openedNodes = new ArrayList<NodeTypeEnum>();
 				previousPath = null;
 
 				if (!isValid((ObjectNode) root, JSON_SCHEMA_ROOT_NAME, "", null)) {
@@ -139,14 +139,20 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 	}
 
 	private boolean isValid(ObjectNode objectNode, String objectName, String currentPath, SchemaNode parent) {
+		String nodeTypeValue = null;
 		JsonNode typeNode = objectNode.path("_type");
 
-		// type is mandatory and must be text
-		if (typeNode.isMissingNode() || !typeNode.isTextual()) {
+		if (typeNode.isMissingNode()) {
+			nodeTypeValue = "object";
+		} else if (!typeNode.isTextual()) {
 			return false;
 		}
 
-		NodeTypeEnum nodeType = NodeTypeEnum.getByName(typeNode.asText());
+		if (nodeTypeValue == null) {
+			nodeTypeValue = typeNode.asText();
+		}
+
+		NodeTypeEnum nodeType = NodeTypeEnum.getByName(nodeTypeValue);
 
 		// enforce type "object" or "array" with "_children"
 		if (!(NodeTypeEnum.OBJECT.equals(nodeType) || (NodeTypeEnum.ARRAY.equals(nodeType) && objectNode.has("_children")))) {
@@ -179,7 +185,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 				level = 1;
 			}
 
-			schemaNode = new SchemaNode(level, objectName, nodeType, currentPath);
+			schemaNode = new SchemaNode(level, objectName, nodeType, currentPath.endsWith(".") ? currentPath.substring(0, currentPath.length() - 2) : currentPath);
 			pathToObjectNode.put(availablePath, schemaNode);
 		}
 
@@ -242,7 +248,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 	{
 		return JsonMetadataReportConfiguration.class;
 	}
-	
+
 
 	/**
 	 *
@@ -253,15 +259,15 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 	{
 		if (exporterOutput == null)
 		{
-			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
+			exporterOutput =
+					new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(
+							getJasperReportsContext(),
+							getParameters(),
+							getCurrentJasperPrint()
 					);
 		}
 	}
-	
+
 
 	@Override
 	public String getExporterKey()
@@ -283,9 +289,9 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 		ensureInput();
 
 		//FIXMENOW check all exporter properties that are supposed to work at report level
-		
+
 		initExport();
-		
+
 		ensureOutput();
 
 		writer = getExporterOutput().getWriter();
@@ -304,19 +310,19 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			resetExportContext();//FIXMEEXPORT check if using same finally is correct; everywhere
 		}
 	}
-	
+
 	@Override
 	protected void initExport()
 	{
 		super.initExport();
 	}
-	
+
 	@Override
 	protected void initReport()
 	{
 		super.initReport();
 	}
-	
+
 	protected void exportReportToWriter() throws JRException, IOException
 	{
 		List<ExporterInputItem> items = exporterInput.getItems();
@@ -401,7 +407,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			writer.flush();
 		}
 	}
-	
+
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
 		Collection<JRPrintElement> elements = page.getElements();
@@ -467,6 +473,9 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 					processTextElement(printText, absolutePath, repeatValue);
 				} else if (!gotSchema) {
 					prepareSchema(absolutePath);
+					if (log.isDebugEnabled()) {
+						log.debug("found element with path: " + propertyPath);
+					}
 					processTextElement(printText, absolutePath, repeatValue);
 				}
 			}
@@ -494,9 +503,14 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 
 					node = new SchemaNode(i, objectPathSegments[i], NodeTypeEnum.ARRAY, schemaNodePath);
 
+
 					pathToObjectNode.put(objectPath.toString(), node);
 				} else {
 					node = pathToObjectNode.get(objectPath.toString());
+				}
+
+				if (i < objectPathSegments.length - 1 && node.getMember(objectPathSegments[i+1]) == null) {
+					node.addMember(objectPathSegments[i+1]);
 				}
 			}
 
@@ -506,8 +520,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 	}
 
 	private void processTextElement(JRPrintText printText, String absolutePath, boolean repeatValue) throws IOException {
-		
-		Object value = null;
+		Object value;
 		final String textStr;
 		final boolean hasDataProp;
 		if (printText.getPropertiesMap().containsProperty(JSON_EXPORTER_DATA_PROPERTY)) {
@@ -516,8 +529,8 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 		} else {
 			hasDataProp = false;
 			JRStyledText styledText = getStyledText(printText);
-			
-			if (styledText != null) 
+
+			if (styledText != null)
 			{
 				textStr = styledText.getText();
 			}
@@ -538,8 +551,8 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			throw new JRRuntimeException(e);
 		}
 		value = handler.getValue();
-		
-		if (openedNodes.size() == 0) {
+
+		if (openedSchemaNodes.size() == 0) {
 			// initialize the json for the first time
 			initJson(absolutePath, value, repeatValue);
 		} else {
@@ -548,215 +561,306 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			String[] curSegments = absolutePath.substring(0, absolutePath.lastIndexOf(".")).split("\\.");
 			String[] prevSegments = previousPath.substring(0, previousPath.lastIndexOf(".")).split("\\.");
 
-			List<String> commonSegments = new ArrayList<String>();
-
 			int ln = Math.min(curSegments.length, prevSegments.length);
 			int lastCommonIndex = -1;
 
 			for (int i = 0; i < ln; i++) {
 				if (curSegments[i].equals(prevSegments[i])) {
-					commonSegments.add(curSegments[i]);
 					lastCommonIndex = i;
 				} else {
 					break;
 				}
 			}
 
+			int commonSegmentsNo = lastCommonIndex + 1;
+
 			// compared to previous path, we have different path with common segments
-			if (commonSegments.size() < prevSegments.length) {
+			if (commonSegmentsNo < prevSegments.length) {
 				if (log.isDebugEnabled()) {
-					log.debug("found different paths with common segments");
+					log.debug("\tgot different path with common segments");
 				}
 
 				// close the extra path segments of the previous path
-				for (int i = prevSegments.length - 1; i > lastCommonIndex; i--) {
-					StringBuilder sb = new StringBuilder(prevSegments[0]);
-					for (int j=1; j <= i; j++) {
-						sb.append(".").append(prevSegments[j]);
-					}
-
-					SchemaNode toClose = pathToObjectNode.get(sb.toString());
-					if (toClose.isObject()) {
-						writer.write("},\n");
-						openedNodes.remove(openedNodes.size()-1);
-					} else {
-						writer.write("}],\n");
-						openedNodes.remove(openedNodes.size()-1);
-						openedNodes.remove(openedNodes.size()-1);
-					}
-				}
+				closeExtraPathSegments(prevSegments, lastCommonIndex);
 
 				// open new path segments for the current path
-				for (int i = lastCommonIndex + 1; i < curSegments.length; i++) {
-					StringBuilder sb = new StringBuilder(curSegments[0]);
-					for (int j=1; j <= i; j++) {
-						sb.append(".").append(curSegments[j]);
-					}
-
-					if (escapeMembers) {
-						writer.write("\"" + curSegments[i] + "\":");
-					} else {
-						writer.write(curSegments[i] + ":");
-					}
-
-					SchemaNode toOpen = pathToObjectNode.get(sb.toString());
-					if (toOpen.isObject()) {
-						writer.write("{");
-						openedNodes.add(NodeTypeEnum.OBJECT);
-					} else {
-						writer.write("[{");
-						openedNodes.add(NodeTypeEnum.ARRAY);
-						openedNodes.add(NodeTypeEnum.OBJECT);
-					}
-				}
+				openPathSegments(curSegments, lastCommonIndex + 1);
 			}
 			// we have a longer path that extends previous path
-			else if (commonSegments.size() == prevSegments.length && curSegments.length > prevSegments.length) {
+			else if (commonSegmentsNo == prevSegments.length && curSegments.length > prevSegments.length) {
 				if (log.isDebugEnabled()) {
-					log.debug("found longer path than previous one");
+					log.debug("\tgot longer path than previous one");
 				}
 
 				writer.write(",\n");
 
 				// open new paths
-				for (int i = lastCommonIndex + 1; i < curSegments.length; i++) {
-					StringBuilder sb = new StringBuilder(curSegments[0]);
-					for (int j=1; j <= i; j++) {
-						sb.append(".").append(curSegments[j]);
-					}
-
-					if (escapeMembers) {
-						writer.write("\"" + curSegments[i] + "\":");
-					} else {
-						writer.write(curSegments[i] + ":");
-					}
-
-					SchemaNode toOpen = pathToObjectNode.get(sb.toString());
-					if (toOpen.isObject()) {
-						writer.write("{");
-						openedNodes.add(NodeTypeEnum.OBJECT);
-					} else {
-						writer.write("[{");
-						openedNodes.add(NodeTypeEnum.ARRAY);
-						openedNodes.add(NodeTypeEnum.OBJECT);
-					}
-				}
-			}
-			// have the same path
-			else if (commonSegments.size() == prevSegments.length) {
-				if (log.isDebugEnabled()) {
-					log.debug("found same path");
-				}
-
-				SchemaNode currentNode = pathToValueNode.get(absolutePath);
-				String prevValProp = previousPath.indexOf(".") > 0 ? previousPath.substring(previousPath.lastIndexOf(".") + 1) : previousPath;
-
-				int valPropIdx = currentNode.indexOfMember(valueProperty);
-				int prevValPropIdx = currentNode.indexOfMember(prevValProp);
-
-				// the property is after the previous one => same object
-				if (valPropIdx > prevValPropIdx) {
-					writer.write(", \n");
-				}
-				// the property is before(or equals) previous one => new object
-				else {
-					// before closing current object, check for repeated values;
-					// this makes sense only for array type nodes
-					if (NodeTypeEnum.ARRAY.equals(currentNode.getType())) {
-						SchemaNodeMember member;
-						for (int i = prevValPropIdx + 1; i < currentNode.getMembers().size(); i++) {
-							member = currentNode.getMember(i);
-							if (member.isRepeatValue() && member.getPreviousValue() != null) {
-								writer.write(", \n");
-								if (escapeMembers) {
-									writer.write("\"" + member.getName() + "\":");
-								} else {
-									writer.write(member.getName() + ":");
-								}
-								writeValue(member.getPreviousValue());
-							}
-						}
-					}
-
-					writer.write("},\n{");
-				}
+				openPathSegments(curSegments, lastCommonIndex + 1);
 			}
 
 			SchemaNode currentNode = pathToValueNode.get(absolutePath);
-			boolean foundPreviousRepeated = false;
 
-			// before writing actual value for the property, write previous repeated values, if any;
-			// this also makes sense for array type node only
-			if (previousPath != null && NodeTypeEnum.ARRAY.equals(currentNode.getType())) {
-				SchemaNode previousNode = pathToValueNode.get(previousPath);
-				int valPropIdx = currentNode.indexOfMember(valueProperty);
-				int i = 0;
-			 	if (previousNode.equals(currentNode)) {
-					String prevValProp = previousPath.substring(previousPath.lastIndexOf(".") + 1);
-					int prevValPropIdx = currentNode.indexOfMember(prevValProp);
-
-					if (prevValPropIdx < valPropIdx) {
-						i = prevValPropIdx + 1;
-					}
-				}
-
-				SchemaNodeMember member;
-				for (; i < valPropIdx; i++) {
-					member = currentNode.getMember(i);
-					if (member.isRepeatValue() && member.getPreviousValue() != null) {
-						foundPreviousRepeated = true;
-						if (i != 0) {
-							writer.write(", \n");
-						}
-						if (escapeMembers) {
-							writer.write("\"" + member.getName() + "\":");
-						} else {
-							writer.write(member.getName() + ":");
-						}
-						writeValue(member.getPreviousValue());
-					}
-				}
+			if (log.isDebugEnabled()) {
+				log.debug("\tcurrent node is: " + currentNode.getType().getName());
 			}
 
-			if (foundPreviousRepeated) {
-				writer.write(",\n");
+			if (currentNode.isArray()) {
+				writePathProperty(currentNode, valueProperty, value, repeatValue);
 			}
-
-			if (escapeMembers) {
-				writer.write("\"" + valueProperty + "\":");
-			} else {
-				writer.write(valueProperty + ":");
-			}
-
-			writeValue(value);
-
-			// mark repeated value
-			if (repeatValue) {
-				SchemaNodeMember nodeMember = currentNode.getMember(valueProperty);
-				nodeMember.setRepeatValue(true);
-				nodeMember.setPreviousValue(value);
+			// just write the value for property, no repeat
+			else {
+				writeEscaped(currentNode, valueProperty, value, false);
 			}
 		}
 
 		previousPath = absolutePath;
 	}
 
+	private void writePathProperty(SchemaNode node, String valueProperty, Object value, boolean repeatValue) throws IOException {
+		if (log.isDebugEnabled()) {
+			log.debug("\twriting property: " + valueProperty);
+		}
+		ArrayList<String> vizMembers = visitedMembers.get(node);
+		String lastProp = null;
+		int lastPropIdx = -1;
+		int valPropIdx = node.indexOfMember(valueProperty);
+
+		if (vizMembers != null && vizMembers.size() > 0) {
+			lastProp = vizMembers.get(vizMembers.size() - 1);
+			lastPropIdx = node.indexOfMember(lastProp);
+		} else {
+			vizMembers = new ArrayList<String>();
+			visitedMembers.put(node, vizMembers);
+		}
+
+		boolean foundPreviousRepeated = false;
+
+		// if property of the same object
+		if (lastProp == null || valPropIdx > lastPropIdx) {
+			if (log.isDebugEnabled()) {
+				log.debug("\tgot property of the same object");
+			}
+
+			// check for repeated values, if any, before writing current
+			if (lastProp != null) {
+				foundPreviousRepeated = writeReapeatedValues(node, lastPropIdx + 1, valPropIdx);
+			} else {
+				foundPreviousRepeated = writeReapeatedValues(node, 0, valPropIdx);
+			}
+
+			if (foundPreviousRepeated || vizMembers.size() > 0) {
+				writer.write(",\n");
+			}
+
+			writeEscaped(node, valueProperty, value, repeatValue);
+
+			// mark visited property for current node
+			visitedMembers.get(node).add(valueProperty);
+		}
+		// create new object
+		else {
+			if (log.isDebugEnabled()) {
+				log.debug("\tgot property of a new object");
+			}
+			// before closing current object, write the repeated values, if any, from last accessed property until the end is reached
+			writeReapeatedValues(node, lastPropIdx + 1, node.getMembers().size());
+
+			// close existing object
+			writer.write("},\n{");
+
+			// check for repeated values, if any, before writing current
+			foundPreviousRepeated = writeReapeatedValues(node, 0, valPropIdx);
+
+			if (foundPreviousRepeated) {
+				writer.write(",");
+			}
+
+			writeEscaped(node, valueProperty, value, repeatValue);
+
+			// mark visited property for current node
+			visitedMembers.get(node).clear();
+			visitedMembers.get(node).add(valueProperty);
+		}
+	}
+
+	private boolean writeReapeatedValues(SchemaNode node, int from, int to) throws IOException {
+		return writeReapeatedValues(node, from, to, true);
+	}
+
+	private boolean writeReapeatedValues(SchemaNode node, int from, int to, boolean startWithComma) throws IOException {
+		boolean found = false;
+		SchemaNodeMember member;
+
+		for (int i = from; i < to; i++) {
+			member = node.getMember(i);
+			if (member.isRepeatValue() && member.getPreviousValue() != null) {
+				found = true;
+				if (i != 0 && startWithComma) {
+					writer.write(",");
+				}
+				if (escapeMembers) {
+					writer.write("\"" + member.getName() + "\":");
+				} else {
+					writer.write(member.getName() + ":");
+				}
+
+				writeValue(member.getPreviousValue());
+
+				if (log.isDebugEnabled()) {
+					log.debug("\t\twriting repeated value for member: " + member.getName());
+				}
+			}
+		}
+
+		return found;
+	}
+
+	private void writeEscaped(SchemaNode node, String valueProperty, Object value, boolean repeatValue) throws IOException {
+		// write current value
+		if (escapeMembers) {
+			writer.write("\"" + valueProperty + "\":");
+		} else {
+			writer.write(valueProperty + ":");
+		}
+
+		writeValue(value);
+
+		// mark repeated value
+		if (repeatValue) {
+			SchemaNodeMember nodeMember = node.getMember(valueProperty);
+			nodeMember.setRepeatValue(true);
+			nodeMember.setPreviousValue(value);
+		}
+	}
+
+	private void closeExtraPathSegments(String[] prevSegments, int lastCommonIndex) throws IOException {
+		for (int i = prevSegments.length - 1; i > lastCommonIndex; i--) {
+			StringBuilder sb = new StringBuilder(prevSegments[0]);
+			for (int j=1; j <= i; j++) {
+				sb.append(".").append(prevSegments[j]);
+			}
+
+			SchemaNode toClose = pathToObjectNode.get(sb.toString());
+
+			if (openedSchemaNodes.get(openedSchemaNodes.size() - 1).equals(toClose)) {
+				openedSchemaNodes.remove(openedSchemaNodes.size() - 1);
+			} else if (log.isWarnEnabled()) {
+				log.warn("unexpected");
+			}
+
+			// write previous repeated before closing
+			if (toClose.isArray()) {
+				List<String> vizMembers = visitedMembers.get(toClose);
+				String lastProp = vizMembers.get(vizMembers.size() - 1);
+				int lastPropIdx = toClose.indexOfMember(lastProp);
+				writeReapeatedValues(toClose, lastPropIdx + 1, toClose.getMembers().size());
+
+				// clear visited member cache for closed node
+				vizMembers.clear();
+			}
+
+			if (toClose.isObject()) {
+				writer.write("}\n");
+			} else {
+				writer.write("}]\n");
+			}
+
+			if (log.isDebugEnabled()) {
+				log.debug("\t\tclosing " + toClose.getType().getName() + " path: " + sb.toString());
+			}
+		}
+	}
+
+	private void openPathSegments(String[] pathSegments, int from) throws IOException {
+		for (int i = from; i < pathSegments.length; i++) {
+			StringBuilder sb = new StringBuilder(pathSegments[0]);
+			StringBuilder parentPath = new StringBuilder(pathSegments[0]);
+			for (int j=1; j <= i; j++) {
+				sb.append(".").append(pathSegments[j]);
+				if (j < i) {
+					parentPath.append(".").append(pathSegments[j]);
+				}
+			}
+
+			SchemaNode parent = pathToObjectNode.get(parentPath.toString());
+			String currentProperty = pathSegments[i];
+			boolean foundPreviousRepeated = false;
+
+			// before opening new path, check if previous has repeated values to be written
+			if (parent.isArray()) {
+				ArrayList<String> vizMembers = visitedMembers.get(parent);
+				if (vizMembers != null && vizMembers.size() > 0) {
+					String lastProp = vizMembers.get(vizMembers.size() - 1);
+					int lastPropIdx = parent.indexOfMember(lastProp);
+					int currentPropIdx = parent.indexOfMember(currentProperty);
+					foundPreviousRepeated = writeReapeatedValues(parent, lastPropIdx + 1, currentPropIdx, false);
+				} else {
+					vizMembers = new ArrayList<String>();
+					visitedMembers.put(parent, vizMembers);
+				}
+
+				vizMembers.add(currentProperty);
+			}
+
+			if (foundPreviousRepeated) {
+				writer.write(",");
+			}
+
+			if (escapeMembers) {
+				writer.write("\"" + currentProperty + "\":");
+			} else {
+				writer.write(currentProperty + ":");
+			}
+
+			SchemaNode toOpen = pathToObjectNode.get(sb.toString());
+
+			openedSchemaNodes.add(toOpen);
+
+			if (toOpen.isObject()) {
+				writer.write("{");
+			} else {
+				writer.write("[{");
+			}
+
+			if (log.isDebugEnabled()) {
+				log.debug("\t\topening " + toOpen.getType().getName() + " path: " + sb.toString());
+			}
+		}
+	}
+
 	private void closeOpenNodes() throws IOException {
-		if (openedNodes == null) {
+		if (openedSchemaNodes.size() == 0) {
 			return;
 		}
-		for (int i = openedNodes.size() - 1; i >= 0; i--) {
-			if (NodeTypeEnum.OBJECT.equals(openedNodes.get(i))) {
-				writer.write("}");
+
+		SchemaNode toClose;
+		for (int i = openedSchemaNodes.size() - 1; i >= 0; i--) {
+			toClose = openedSchemaNodes.get(i);
+			if (toClose.isArray()) {
+				// write previous repeated before closing
+				List<String> vizMembers = visitedMembers.get(toClose);
+
+				String lastProp = vizMembers.get(vizMembers.size() - 1);
+				int lastPropIdx = toClose.indexOfMember(lastProp);
+				writeReapeatedValues(toClose, lastPropIdx + 1, toClose.getMembers().size());
+
+				// clear visited member cache for closed node
+				vizMembers.clear();
+
+				writer.write("}]");
 			} else {
-				writer.write("]");
+				writer.write("}");
+			}
+
+			if (log.isDebugEnabled()) {
+				log.debug("closing " + toClose.getType().getName() + " path: " + (toClose.path.length() > 0 ? toClose.path + "." : "") + toClose.name);
 			}
 		}
 	}
 
 	private void initJson(String firstPath, Object firstValue, boolean repeatValue) throws IOException {
 		if (log.isDebugEnabled()) {
-			log.debug("Initializing JSON with first path: " + firstPath);
+			log.debug("Initializing JSON with first absolute path: " + firstPath);
 		}
 		String[] segments = firstPath.split("\\.");
 
@@ -768,39 +872,43 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			currentPath = currentPath.length() > 0 ? currentPath + "." + segments[i] : segments[i];
 			schemaNode = pathToObjectNode.get(currentPath);
 
+			openedSchemaNodes.add(schemaNode);
+
 			if (i == 0) { // got root node
 				if (schemaNode.isObject()) {
 					writer.write("{");
-					openedNodes.add(NodeTypeEnum.OBJECT);
 				} else {
 					writer.write("[{");
-					openedNodes.add(NodeTypeEnum.ARRAY);
-					openedNodes.add(NodeTypeEnum.OBJECT);
 				}
 			} else {
+				String parentPath = currentPath.substring(0, currentPath.lastIndexOf("."));
+				SchemaNode parent = pathToObjectNode.get(parentPath);
+				String currentProperty = segments[i];
+
+				ArrayList<String> vizMembers = new ArrayList<String>();
+				vizMembers.add(currentProperty);
+				visitedMembers.put(parent, vizMembers);
+
 				if (schemaNode.isObject()) {
 					if (escapeMembers) {
-						writer.write("\"" + segments[i] + "\":{");
+						writer.write("\"" + currentProperty + "\": {");
 					} else {
-						writer.write(segments[i] + ":{");
+						writer.write(currentProperty + ": {");
 					}
-					openedNodes.add(NodeTypeEnum.OBJECT);
 				} else {
 					if (escapeMembers) {
-						writer.write("\"" + segments[i] + "\":[{");
+						writer.write("\"" + currentProperty + "\": [{");
 					} else {
-						writer.write(segments[i] + ":[{");
+						writer.write(currentProperty + ": [{");
 					}
-					openedNodes.add(NodeTypeEnum.ARRAY);
-					openedNodes.add(NodeTypeEnum.OBJECT);
 				}
 			}
 		}
 
 		if (escapeMembers) {
-			writer.write("\"" + segments[i] + "\":");
+			writer.write("\"" + segments[i] + "\": ");
 		} else {
-			writer.write(segments[i] + ":");
+			writer.write(segments[i] + ": ");
 		}
 		writeValue(firstValue);
 
@@ -810,14 +918,19 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			nodeMember.setRepeatValue(true);
 			nodeMember.setPreviousValue(firstValue);
 		}
+
+		// mark visited property for current node
+		ArrayList<String> members = new ArrayList<String>();
+		members.add(segments[i]);
+		visitedMembers.put(schemaNode, members);
 	}
 
 	private void writeValue(Object value)throws IOException {
 		if (value != null) {
 			if (
-				value instanceof Number
-				|| value instanceof Boolean
-				) 
+					value instanceof Number
+							|| value instanceof Boolean
+					)
 			{
 				writer.write(value.toString());
 			} else if (value instanceof Date) {
@@ -880,6 +993,10 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			return NodeTypeEnum.OBJECT.equals(type);
 		}
 
+		public boolean isArray() {
+			return NodeTypeEnum.ARRAY.equals(type);
+		}
+
 		public int indexOfMember(String memberName) {
 			return memberNames.indexOf(memberName);
 		}
@@ -889,7 +1006,11 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 		}
 
 		public SchemaNodeMember getMember(String memberName) {
-			return members.get(indexOfMember(memberName));
+			if (indexOfMember(memberName) != -1) {
+				return members.get(indexOfMember(memberName));
+			}  else {
+				return null;
+			}
 		}
 
 		public List<SchemaNodeMember> getMembers() {
@@ -910,7 +1031,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 				out.append("{");
 			}
 			for (int i=0, ln = members.size(); i < ln; i++) {
-				out.append("\"").append(members.get(i)).append("\"");
+				out.append("\"").append(members.get(i).getName()).append("\"");
 				if (i < ln-1) {
 					out.append(", ");
 				}
@@ -1016,18 +1137,18 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 		Object value;
 		boolean hasDataProp;
 		String textStr;
-		
+
 		public LocalTextValueHandler(boolean hasDataProp, String textStr)
 		{
 			this.hasDataProp = hasDataProp;
 			this.textStr = textStr;
 		}
-		
+
 		public Object getValue()
 		{
 			return value;
 		}
-		
+
 		public void handle(StringTextValue textValue) {
 			value = textValue.getText();
 		}

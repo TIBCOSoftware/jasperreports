@@ -53,7 +53,6 @@ import org.xml.sax.SAXException;
  * Utility class that loads {@link JRTemplate templates} from XML representations.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRXmlTemplateLoader
 {

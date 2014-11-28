@@ -54,7 +54,6 @@ package net.sf.jasperreports.engine;
  * </pre>
  * </code>
  * @author Peter Severin (peter_s@sourceforge.net, contact@jasperassistant.com)
- * @version $Id$
  */
 public interface JRDataSourceProvider 
 {

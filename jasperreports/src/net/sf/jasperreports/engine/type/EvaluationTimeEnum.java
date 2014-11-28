@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRVariable;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public enum EvaluationTimeEnum implements JREnum
 {

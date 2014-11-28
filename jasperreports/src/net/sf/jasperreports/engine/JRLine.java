@@ -48,7 +48,6 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
  * <code>height="1"</code>. For vertical lines, the direction is not important.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRLine extends JRGraphicElement
 {

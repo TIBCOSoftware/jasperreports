@@ -33,7 +33,6 @@ import org.hibernate.ScrollableResults;
  * Hibernate data source that uses <code>org.hibernate.Query.scroll()</code>.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRHibernateScrollDataSource extends JRHibernateAbstractDataSource implements JRRewindableDataSource
 {

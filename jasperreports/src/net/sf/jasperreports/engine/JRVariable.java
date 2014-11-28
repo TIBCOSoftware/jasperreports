@@ -191,7 +191,6 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
  * current group expression like you can see done in the "BreakGroup" of the <i>jasper</i> sample).
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRVariable extends JRCloneable
 {

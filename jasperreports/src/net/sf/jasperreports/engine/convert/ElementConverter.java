@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.base.JRBasePrintGraphicElement;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class ElementConverter
 {

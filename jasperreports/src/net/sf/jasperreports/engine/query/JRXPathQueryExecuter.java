@@ -52,7 +52,6 @@ import org.w3c.dom.Document;
  * on the parameter value.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 {

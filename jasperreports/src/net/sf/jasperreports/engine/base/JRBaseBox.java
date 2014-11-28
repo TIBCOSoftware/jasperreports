@@ -42,7 +42,6 @@ import net.sf.jasperreports.engine.util.JRPenUtil;
  * have different width and colour on each side of the element.
  * @deprecated Replaced by {@link JRBaseLineBox}
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseBox implements JRBox, Serializable
 {

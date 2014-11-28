@@ -36,7 +36,6 @@ import org.apache.commons.beanutils.locale.converters.DecimalLocaleConverter;
  * To be removed on upgrade to BeanUtils 1.8.1.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFloatLocaleConverter extends DecimalLocaleConverter
 {

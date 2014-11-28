@@ -33,7 +33,6 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  * @see JsonExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JsonReportConfiguration extends ReportExportConfiguration
 {

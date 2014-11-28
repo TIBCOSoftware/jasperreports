@@ -27,7 +27,6 @@ package net.sf.jasperreports.engine;
  * Report elements visitor extended interface that is able to visit deep/nested elements.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface ElementsVisitor extends JRVisitor
 {

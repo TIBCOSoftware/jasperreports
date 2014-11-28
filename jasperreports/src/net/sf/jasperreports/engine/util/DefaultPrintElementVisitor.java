@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.PrintElementVisitor;
  * The class is meant to be extended by visitors that only want to implement specific methods.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class DefaultPrintElementVisitor<T> implements
 		PrintElementVisitor<T>

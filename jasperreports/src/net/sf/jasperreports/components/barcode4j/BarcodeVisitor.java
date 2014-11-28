@@ -26,7 +26,6 @@ package net.sf.jasperreports.components.barcode4j;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface BarcodeVisitor
 {

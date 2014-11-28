@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.design.JRDesignStyle;
  * Factory for {@link JRTemplate template} {@link JRStyle styles}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRTemplateStyleFactory extends JRAbstractStyleFactory
 {

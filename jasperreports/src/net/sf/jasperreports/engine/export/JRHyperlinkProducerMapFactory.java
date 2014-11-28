@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JRConstants;
  * </p>
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRHyperlinkProducerMapFactory extends JRHyperlinkProducerFactory implements Serializable
 {

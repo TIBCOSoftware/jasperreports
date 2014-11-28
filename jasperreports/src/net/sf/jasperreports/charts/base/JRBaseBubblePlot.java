@@ -44,7 +44,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 

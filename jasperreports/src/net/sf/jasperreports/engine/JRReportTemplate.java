@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
  * resolved at runtime to a {@link JRTemplate JRTemplate} instance.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRReport#getTemplates()
  */
 public interface JRReportTemplate

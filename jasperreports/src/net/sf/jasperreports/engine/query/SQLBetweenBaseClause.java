@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * </p>
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class SQLBetweenBaseClause implements JRClauseFunction
 {

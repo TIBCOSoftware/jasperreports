@@ -274,7 +274,6 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  * @see net.sf.jasperreports.engine.util.DefaultFormatFactory
  * @see net.sf.jasperreports.engine.util.FormatFactory
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JRIdentifiable
 {

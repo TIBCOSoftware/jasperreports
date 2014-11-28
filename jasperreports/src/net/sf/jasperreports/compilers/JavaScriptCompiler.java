@@ -44,7 +44,6 @@ import org.mozilla.javascript.EvaluatorException;
  * This implementation produces evaluators that compile expressions at fill time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JavaScriptEvaluator
  * @see JavaScriptClassCompiler
  */

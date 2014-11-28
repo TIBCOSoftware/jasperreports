@@ -62,7 +62,6 @@ import org.jCharts.types.ChartType;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class FillAxisChart extends BaseFillComponent implements JRFillCloneable
 {

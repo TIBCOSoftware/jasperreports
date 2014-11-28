@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.JRVirtualizable;
  * GZips the pages that it doesn't need, but keeps them in memory.
  * 
  * @author John Bindel
- * @version $Id$
  */
 public class JRGzipVirtualizer extends JRAbstractLRUVirtualizer
 {

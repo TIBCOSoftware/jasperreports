@@ -33,7 +33,6 @@ import org.jfree.chart.JFreeChart;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractChartRenderableFactory implements ChartRenderableFactory
 {

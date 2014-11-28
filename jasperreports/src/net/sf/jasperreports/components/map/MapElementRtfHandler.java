@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.export.JRRtfExporterContext;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class MapElementRtfHandler implements GenericElementRtfHandler
 {

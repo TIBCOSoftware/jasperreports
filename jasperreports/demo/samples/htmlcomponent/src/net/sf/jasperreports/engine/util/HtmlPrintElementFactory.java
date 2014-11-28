@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.util;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public interface HtmlPrintElementFactory {
 

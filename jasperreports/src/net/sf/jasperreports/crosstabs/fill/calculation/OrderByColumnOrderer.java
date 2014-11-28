@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.util.JRValueStringUtils;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class OrderByColumnOrderer implements BucketOrderer
 {

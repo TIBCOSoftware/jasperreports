@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.virtualization;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface SerializerRegistry
 {

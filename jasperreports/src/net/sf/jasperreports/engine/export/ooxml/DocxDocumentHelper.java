@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.type.OrientationEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class DocxDocumentHelper extends BaseHelper
 {

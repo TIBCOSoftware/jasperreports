@@ -38,7 +38,6 @@ import net.sf.jasperreports.web.util.WebUtil;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class SaveZoomAction extends AbstractAction {
 

@@ -53,7 +53,6 @@ import org.apache.commons.logging.LogFactory;
  * Utility class used by grid exporters to create a grid for page layout.
  *
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRGridLayout
 {

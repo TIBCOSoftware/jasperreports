@@ -46,7 +46,6 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractXlsServlet extends BaseHttpServlet
 {

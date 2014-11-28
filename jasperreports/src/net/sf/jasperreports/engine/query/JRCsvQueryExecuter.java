@@ -55,7 +55,6 @@ import org.apache.commons.logging.LogFactory;
  * CSV query executer implementation.
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class JRCsvQueryExecuter extends JRAbstractQueryExecuter 
 {

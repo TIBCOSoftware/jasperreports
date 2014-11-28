@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * filters produced by these factories for a specific exporter context.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see #getFilter(JRExporterContext)
  */
 public class DefaultExporterFilterFactory implements ExporterFilterFactory

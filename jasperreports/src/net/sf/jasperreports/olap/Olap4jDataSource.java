@@ -31,7 +31,6 @@ import org.olap4j.CellSet;
 
 /**
  * @author swood
- * @version $Id$
  */
 public class Olap4jDataSource extends JROlapDataSource
 {

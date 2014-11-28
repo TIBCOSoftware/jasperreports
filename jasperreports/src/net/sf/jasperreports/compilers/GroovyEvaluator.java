@@ -50,7 +50,6 @@ import org.codehaus.groovy.runtime.metaclass.ClosureMetaMethod;
  * Groovy expression evaluator that compiles expressions at fill time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRGroovyCompiler
  */
 public abstract class GroovyEvaluator extends JREvaluator implements JasperReportsContextAware

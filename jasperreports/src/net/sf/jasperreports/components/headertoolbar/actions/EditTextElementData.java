@@ -28,7 +28,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class EditTextElementData extends BaseColumnData {
 

@@ -54,7 +54,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * the most common element properties, and their getter/setter methods. It also has a constructor for initializing
  * these properties.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRBaseElement implements JRElement, Serializable, JRChangeEventsSupport
 {

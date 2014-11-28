@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface BarbecueComponent extends ContextAwareComponent, JRCloneable
 {

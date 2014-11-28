@@ -30,7 +30,6 @@ package net.sf.jasperreports.engine;
  * Hyperlink parameters can be used to parametrize hyperlinks of custom types.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRHyperlink#getHyperlinkParameters()
  */
 public interface JRHyperlinkParameter extends JRCloneable

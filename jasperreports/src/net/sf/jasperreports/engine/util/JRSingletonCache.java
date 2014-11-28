@@ -34,7 +34,6 @@ import org.apache.commons.collections.map.ReferenceMap;
  * Utility to use as a soft cache of singleton instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRSingletonCache<T>
 {

@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRConstants;
  * Position that uniquely identifies a dataset instantiation as part of a fill process.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class FillDatasetPosition implements Serializable
 {

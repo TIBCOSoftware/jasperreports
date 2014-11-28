@@ -49,7 +49,6 @@ import net.sf.jasperreports.engine.JRExpression;
  * By default, bubbles scale on the range axis. 
  *
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRBubblePlot extends JRChartPlot, JRXAxisFormat, JRYAxisFormat
 {

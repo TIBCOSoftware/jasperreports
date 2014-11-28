@@ -57,7 +57,6 @@ import org.apache.tools.ant.util.FileUtils;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class MarkupApp extends AbstractSampleApp
 {

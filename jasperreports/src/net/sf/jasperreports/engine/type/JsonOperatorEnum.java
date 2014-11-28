@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.type;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public enum JsonOperatorEnum {
 	

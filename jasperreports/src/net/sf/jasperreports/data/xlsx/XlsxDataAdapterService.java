@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.query.ExcelQueryExecuterFactory;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class XlsxDataAdapterService extends AbstractXlsDataAdapterService 
 {

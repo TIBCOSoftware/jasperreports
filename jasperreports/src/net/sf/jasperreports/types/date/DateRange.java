@@ -27,7 +27,6 @@ import java.util.Date;
 
 /**
  * @author Sergey Prilukin
- * @version $Id$
  */
 public interface DateRange
 {

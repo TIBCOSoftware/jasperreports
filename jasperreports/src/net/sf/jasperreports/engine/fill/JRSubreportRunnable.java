@@ -30,7 +30,6 @@ package net.sf.jasperreports.engine.fill;
  * implementations.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRSubreportRunnable implements Runnable
 {

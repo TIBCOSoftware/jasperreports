@@ -32,7 +32,6 @@ import org.jfree.chart.entity.ChartEntity;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface ChartHyperlinkProvider extends Serializable
 {

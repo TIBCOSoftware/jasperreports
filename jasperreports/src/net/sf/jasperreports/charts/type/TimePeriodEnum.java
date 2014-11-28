@@ -40,7 +40,6 @@ import org.jfree.data.time.Year;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public enum TimePeriodEnum implements JREnum
 {

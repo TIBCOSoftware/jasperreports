@@ -36,7 +36,6 @@ import net.sf.jasperreports.web.util.ImageWebResourceHandler;
 /**
  * @deprecated Replaced by {@link ImageWebResourceHandler} and {@link ResourceServlet}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ImageServlet extends AbstractServlet
 {

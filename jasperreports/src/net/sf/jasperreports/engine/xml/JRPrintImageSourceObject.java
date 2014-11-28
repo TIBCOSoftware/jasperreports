@@ -37,7 +37,6 @@ import org.w3c.tools.codec.Base64Decoder;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRPrintImageSourceObject
 {

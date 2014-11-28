@@ -32,7 +32,6 @@ import org.krysalis.barcode4j.BarcodeGenerator;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface BarcodeImageProducer
 {

@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BaseElementsTests extends BaseSerializationTests
 {

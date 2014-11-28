@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.util.ReportUpdater;
  * Utility class that provides a {@link net.sf.jasperreports.engine.util.ReportUpdater ReportUpdater} 
  * implementation
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class UpdaterElement
 {

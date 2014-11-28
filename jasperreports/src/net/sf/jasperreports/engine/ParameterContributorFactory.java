@@ -27,7 +27,6 @@ import java.util.List;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface ParameterContributorFactory
 {

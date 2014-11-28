@@ -45,7 +45,6 @@ import org.apache.commons.logging.LogFactory;
  * JavaScript expression evaluator that compiles expressions at fill time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JavaScriptCompiler
  */
 public class JavaScriptEvaluator extends JREvaluator implements JasperReportsContextAware

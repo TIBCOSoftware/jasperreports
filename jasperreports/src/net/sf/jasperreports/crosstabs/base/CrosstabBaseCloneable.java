@@ -25,7 +25,6 @@ package net.sf.jasperreports.crosstabs.base;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface CrosstabBaseCloneable
 {

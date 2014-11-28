@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * Implementation of {@link net.sf.jasperreports.engine.JRDatasetParameter JRDatasetParameter} used at design time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignDatasetParameter extends JRBaseDatasetParameter implements JRChangeEventsSupport
 {

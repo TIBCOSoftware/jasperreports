@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class OasisZip extends AbstractZip
 {

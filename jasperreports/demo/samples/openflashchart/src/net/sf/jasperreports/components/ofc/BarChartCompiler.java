@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.design.JRVerifier;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BarChartCompiler implements ComponentCompiler
 {

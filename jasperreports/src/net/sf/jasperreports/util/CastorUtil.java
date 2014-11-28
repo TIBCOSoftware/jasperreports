@@ -57,7 +57,6 @@ import org.xml.sax.InputSource;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class CastorUtil
 {

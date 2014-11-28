@@ -27,7 +27,6 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface HyperlinkURLResolver
 {

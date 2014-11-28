@@ -31,7 +31,6 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBar3DPlotFactory extends JRBaseFactory {
 	private static final String ATTRIBUTE_xOffset = "xOffset";

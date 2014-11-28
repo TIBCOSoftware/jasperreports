@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * share the same XML namespace and schema. 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface ComponentsBundle
 {

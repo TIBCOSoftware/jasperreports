@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.JRGenericElementType;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface TextInputElement 
 {

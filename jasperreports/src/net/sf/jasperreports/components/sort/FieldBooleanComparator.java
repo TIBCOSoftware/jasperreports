@@ -26,7 +26,6 @@ package net.sf.jasperreports.components.sort;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class FieldBooleanComparator extends AbstractFieldComparator<Boolean> {
 

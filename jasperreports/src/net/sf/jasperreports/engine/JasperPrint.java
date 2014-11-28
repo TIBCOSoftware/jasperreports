@@ -55,7 +55,6 @@ import net.sf.jasperreports.engine.type.OrientationEnum;
  * other formats like PDF, HTML, XLS, CSV or XML.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JasperPrint implements Serializable, JRPropertiesHolder
 {

@@ -43,7 +43,6 @@ import net.sf.jasperreports.repo.ResourceBundleResource;
  * Provides methods for resource resolution via class loaders or URL stream handlers.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRResourcesUtil
 {

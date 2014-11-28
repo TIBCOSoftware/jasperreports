@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.type.LineSpacingEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRParagraph extends JRStyleContainer
 {

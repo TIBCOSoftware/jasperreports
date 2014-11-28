@@ -37,7 +37,6 @@ import java.io.Serializable;
  * the organization that implemented the generic element type) and a type name.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRGenericElementType implements Serializable
 {

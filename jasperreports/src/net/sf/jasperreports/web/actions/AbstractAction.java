@@ -54,7 +54,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="actionName")
 public abstract class AbstractAction implements Action {

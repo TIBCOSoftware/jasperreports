@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  * Base implementation of {@link net.sf.jasperreports.engine.ReturnValue JRReturnValue}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BaseReturnValue implements ReturnValue, Serializable
 {

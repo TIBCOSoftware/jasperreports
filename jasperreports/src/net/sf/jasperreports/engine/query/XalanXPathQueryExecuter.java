@@ -56,7 +56,6 @@ import org.w3c.dom.Document;
  * on the parameter value.
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class XalanXPathQueryExecuter extends JRAbstractQueryExecuter
 {

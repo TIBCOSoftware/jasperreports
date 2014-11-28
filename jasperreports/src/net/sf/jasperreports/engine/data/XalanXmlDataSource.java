@@ -39,7 +39,6 @@ import org.w3c.dom.NodeList;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class XalanXmlDataSource extends AbstractXmlDataSource {
 

@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.xml.JRTextFieldFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class TextInputTextFieldFactory extends JRTextFieldFactory
 {

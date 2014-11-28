@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.design.JRReportCompileData;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class TableReportCompileData extends JRReportCompileData
 {

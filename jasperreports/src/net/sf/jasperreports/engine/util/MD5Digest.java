@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class MD5Digest implements Serializable
 {

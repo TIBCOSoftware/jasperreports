@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.util.FormatUtils;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class FieldNumberComparator extends AbstractFieldComparator<Number> {
 

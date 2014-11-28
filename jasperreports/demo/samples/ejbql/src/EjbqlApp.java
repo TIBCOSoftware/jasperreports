@@ -58,7 +58,6 @@ import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 /**
  * @author Marcel Overdijk (marceloverdijk@hotmail.com)
- * @version $Id$
  */
 public class EjbqlApp extends AbstractSampleApp
 {

@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.PrintElementVisitor;
  * A basic implementation of {@link JRGenericPrintElement}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseGenericPrintElement extends JRBasePrintElement 
 		implements JRGenericPrintElement

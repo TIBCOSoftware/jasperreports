@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRException;
  * A factory of {@link JRAbstractScriptlet} instances.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface ScriptletFactory
 {

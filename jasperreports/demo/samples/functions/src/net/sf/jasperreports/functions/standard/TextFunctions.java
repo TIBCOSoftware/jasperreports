@@ -44,7 +44,6 @@ import org.apache.commons.logging.LogFactory;
  * This class should maintain all function methods that belongs to the category {@link #TEXT}.
  * 
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
- * @version $Id$
  */
 @FunctionCategories({TextCategory.class})
 public final class TextFunctions  extends AbstractFunctionSupport

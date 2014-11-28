@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRViewerEvent extends EventObject
 {

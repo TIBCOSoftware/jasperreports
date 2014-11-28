@@ -48,7 +48,6 @@ import org.jfree.chart.plot.PlotOrientation;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRChangeEventsSupport
 {

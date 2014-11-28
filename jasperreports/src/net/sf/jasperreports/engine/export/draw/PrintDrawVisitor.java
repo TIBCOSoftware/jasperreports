@@ -54,7 +54,6 @@ import org.apache.commons.logging.LogFactory;
  * Print element draw visitor.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 {

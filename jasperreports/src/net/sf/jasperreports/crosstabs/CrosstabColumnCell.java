@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.JRCloneable;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface CrosstabColumnCell extends JRCloneable
 {

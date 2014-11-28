@@ -48,7 +48,6 @@ import net.sf.jasperreports.engine.fonts.FontUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRStyledText implements Cloneable
 {

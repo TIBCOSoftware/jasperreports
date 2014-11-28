@@ -36,7 +36,6 @@ import org.springframework.beans.factory.ListableBeanFactory;
  * for beans of a specific extension type in a Spring beans factory.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 //TODO generic element fallback handlers
 public class SpringExtensionsRegistry implements ExtensionsRegistry

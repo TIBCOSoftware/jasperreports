@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
  * A {@link ExporterFilterFactory} utility class.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class ExporterFilterFactoryUtil
 {

@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
  * instantiate sub extensions registries.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see DefaultExtensionsRegistry#PROPERTY_REGISTRY_FACTORY_PREFIX
  */
 public interface ExtensionsRegistryFactory

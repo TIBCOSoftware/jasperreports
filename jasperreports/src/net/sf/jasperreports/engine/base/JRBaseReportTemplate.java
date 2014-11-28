@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * Base read-only implementation of {@link JRReportTemplate JRReportTemplate}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseReportTemplate implements JRReportTemplate, Serializable, JRCloneable
 {

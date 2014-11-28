@@ -42,7 +42,6 @@ import net.sourceforge.barbecue.Barcode;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BarbecueFillComponent extends BaseFillComponent
 {

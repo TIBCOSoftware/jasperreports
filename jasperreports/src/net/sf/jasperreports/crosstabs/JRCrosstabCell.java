@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRCloneable;
  * Crosstab data cell interface.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see net.sf.jasperreports.crosstabs.JRCrosstab#getCells()
  */
 public interface JRCrosstabCell extends JRCloneable

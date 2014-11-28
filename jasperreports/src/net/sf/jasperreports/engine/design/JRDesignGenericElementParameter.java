@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * design time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignGenericElementParameter extends JRBaseGenericElementParameter
 {

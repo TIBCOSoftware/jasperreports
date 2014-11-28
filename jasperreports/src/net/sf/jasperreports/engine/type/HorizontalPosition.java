@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.type.NamedEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public enum HorizontalPosition implements NamedEnum
 {

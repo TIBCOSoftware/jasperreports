@@ -26,7 +26,6 @@ package net.sf.jasperreports.chartthemes.simple;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class AegeanSettingsFactory extends SimpleSettingsFactory
 {

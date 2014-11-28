@@ -57,7 +57,6 @@ import net.sf.jasperreports.export.SimpleXmlExporterOutput;
  * @see net.sf.jasperreports.engine.export.JRXlsExporter
  * @see net.sf.jasperreports.engine.export.JRCsvExporter
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class JasperExportManager
 {

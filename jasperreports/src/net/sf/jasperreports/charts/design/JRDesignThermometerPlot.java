@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JRConstants;
  * The layout options of a thermometer chart.
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 {

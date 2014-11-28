@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.util.JRStyledTextUtil;
  * Selector of element-level styled text attributes for print text objects.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRStyledTextUtil#getStyledText(JRPrintText, JRStyledTextAttributeSelector)
  * @see JRPrintText#getFullStyledText(JRStyledTextAttributeSelector)
  */

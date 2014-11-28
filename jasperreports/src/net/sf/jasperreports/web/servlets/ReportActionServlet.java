@@ -51,7 +51,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * @author Narcis Marcu(nmarcu@users.sourceforge.net)
- * @version $Id$
  */
 public class ReportActionServlet extends AbstractServlet
 {

@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * Base read-only implementation of {@link net.sf.jasperreports.engine.JRDatasetParameter JRDatasetParameter}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseDatasetParameter implements JRDatasetParameter, Serializable
 {

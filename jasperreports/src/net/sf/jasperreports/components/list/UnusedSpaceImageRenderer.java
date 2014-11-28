@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * component preview.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class UnusedSpaceImageRenderer extends JRAbstractSvgRenderer
 {

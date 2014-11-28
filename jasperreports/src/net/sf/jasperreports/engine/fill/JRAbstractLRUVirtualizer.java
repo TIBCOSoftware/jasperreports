@@ -53,7 +53,6 @@ import org.apache.commons.logging.LogFactory;
  * Abstract base for LRU and serialization based virtualizer
  *
  * @author John Bindel
- * @version $Id$
  */
 public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 {

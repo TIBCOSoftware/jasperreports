@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.util.JRResourcesUtil;
  * Resources utility class used for report fills.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRResourcesUtil
  */
 public final class JRResourcesFillUtil

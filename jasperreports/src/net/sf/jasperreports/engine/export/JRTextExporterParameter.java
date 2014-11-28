@@ -37,7 +37,6 @@ import net.sf.jasperreports.export.TextReportConfiguration;
  *
  * @deprecated Replaced by {@link TextExporterConfiguration}.
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
- * @version $Id$
  */
 public class JRTextExporterParameter extends JRExporterParameter
 {

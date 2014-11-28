@@ -27,7 +27,6 @@ import java.sql.Timestamp;
 
 /**
  * @author Sergey Prilukin
- * @version $Id$
  */
 public interface TimestampRange extends DateRange 
 {

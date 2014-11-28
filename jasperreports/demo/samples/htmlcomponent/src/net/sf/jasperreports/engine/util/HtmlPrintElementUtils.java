@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
  * <p/>
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public final class HtmlPrintElementUtils
 {

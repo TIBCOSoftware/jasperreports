@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.JRVisitor;
  * Abstract delegation visitor.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRDelegationVisitor implements JRVisitor
 {

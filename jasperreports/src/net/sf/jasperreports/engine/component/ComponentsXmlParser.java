@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine.component;
  * contained by a single component bundle.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface ComponentsXmlParser
 {

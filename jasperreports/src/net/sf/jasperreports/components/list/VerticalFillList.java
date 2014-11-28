@@ -37,7 +37,6 @@ import org.apache.commons.logging.LogFactory;
  * Vertical fill list component implementation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class VerticalFillList extends BaseFillList
 {

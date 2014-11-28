@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.util.JRSingletonCache;
  * are used.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class JRXPathExecuterUtils
 {

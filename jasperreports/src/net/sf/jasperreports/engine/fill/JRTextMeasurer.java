@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  * and for computing other text measuring information.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRTextMeasurer
 {

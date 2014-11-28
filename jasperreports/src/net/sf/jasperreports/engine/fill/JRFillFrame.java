@@ -48,7 +48,6 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * Fill time implementation of a frame element.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillFrame extends JRFillElement implements JRFrame
 {

@@ -27,7 +27,6 @@ package net.sf.jasperreports.engine.util;
  * An XML namespace.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRXmlWriteHelper#startElement(String, XmlNamespace)
  */
 public class XmlNamespace

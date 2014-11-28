@@ -42,7 +42,6 @@ import net.sf.jasperreports.export.type.PdfaConformanceEnum;
  *
  * @deprecated Replaced by {@link PdfExporterConfiguration}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRPdfExporterParameter extends JRExporterParameter
 {

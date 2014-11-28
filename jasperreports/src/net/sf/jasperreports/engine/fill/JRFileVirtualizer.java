@@ -49,7 +49,6 @@ import org.apache.commons.logging.LogFactory;
  * using it are only weakly referenced.
  * 
  * @author John Bindel
- * @version $Id$
  */
 public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 	

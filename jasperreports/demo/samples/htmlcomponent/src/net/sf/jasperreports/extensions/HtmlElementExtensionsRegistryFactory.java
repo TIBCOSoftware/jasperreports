@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class HtmlElementExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {

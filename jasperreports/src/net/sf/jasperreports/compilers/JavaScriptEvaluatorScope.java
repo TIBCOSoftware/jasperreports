@@ -46,7 +46,6 @@ import org.mozilla.javascript.ScriptableObject;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JavaScriptEvaluatorScope
 {

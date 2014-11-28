@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  * in the crosstab cells.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRCrosstabMeasure extends JRCloneable
 {

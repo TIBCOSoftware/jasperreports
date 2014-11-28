@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.type.BandTypeEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignGroup extends JRBaseGroup
 {

@@ -117,7 +117,6 @@ import org.xml.sax.InputSource;
  * consider implementing a custom data source that directly accesses the Document through the DOM API. 
  * </p>
  * @author Peter Severin (peter_p_s@sourceforge.net, contact@jasperassistant.com)
- * @version $Id$
  * @see JRXPathExecuterUtils
  */
 public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource {

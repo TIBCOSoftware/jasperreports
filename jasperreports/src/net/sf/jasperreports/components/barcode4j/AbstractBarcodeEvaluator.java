@@ -54,7 +54,6 @@ import org.krysalis.barcode4j.tools.UnitConv;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 {

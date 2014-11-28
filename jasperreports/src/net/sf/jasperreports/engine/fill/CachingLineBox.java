@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.base.JRBoxPen;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class CachingLineBox implements JRLineBox
 {

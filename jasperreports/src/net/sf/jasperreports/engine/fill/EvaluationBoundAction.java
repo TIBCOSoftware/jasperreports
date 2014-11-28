@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRException;
  * Generic delayed evaluation action.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface EvaluationBoundAction
 {

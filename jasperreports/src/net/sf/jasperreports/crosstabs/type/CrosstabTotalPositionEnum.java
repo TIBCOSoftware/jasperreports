@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.type.JREnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public enum CrosstabTotalPositionEnum implements JREnum
 {

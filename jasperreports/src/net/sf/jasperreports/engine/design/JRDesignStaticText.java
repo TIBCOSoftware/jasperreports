@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.base.JRBaseStaticText;
  * to use static texts at design time.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignStaticText extends JRDesignTextElement implements JRStaticText
 {

@@ -37,7 +37,6 @@ import org.jfree.ui.RectangleInsets;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class ChartSettings implements JRChangeEventsSupport, Serializable
 {

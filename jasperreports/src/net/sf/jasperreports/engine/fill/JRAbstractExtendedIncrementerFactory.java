@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  * Base abstract implementation of {@link net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory JRExtendedIncrementerFactory}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRAbstractExtendedIncrementerFactory implements JRExtendedIncrementerFactory
 {

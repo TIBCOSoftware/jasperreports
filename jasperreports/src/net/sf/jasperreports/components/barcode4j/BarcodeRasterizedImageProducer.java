@@ -39,7 +39,6 @@ import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BarcodeRasterizedImageProducer implements BarcodeImageProducer
 {

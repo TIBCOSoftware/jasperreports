@@ -37,7 +37,6 @@ import org.apache.commons.logging.LogFactory;
  * the master thread.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ThreadExecutorSubreportRunner extends AbstractThreadSubreportRunner
 {

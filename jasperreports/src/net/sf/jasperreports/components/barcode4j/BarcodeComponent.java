@@ -43,7 +43,6 @@ import org.krysalis.barcode4j.HumanReadablePlacement;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class BarcodeComponent implements Component, Serializable, JRCloneable, JRChangeEventsSupport
 {

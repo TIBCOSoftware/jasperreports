@@ -35,7 +35,6 @@ import net.sf.jasperreports.web.util.JacksonUtil;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class CrosstabInteractiveJsonHandler implements GenericElementJsonHandler
 {

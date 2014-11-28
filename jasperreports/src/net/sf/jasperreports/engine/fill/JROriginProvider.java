@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JROrigin;
  * A provider of {@link JROrigin} instances, used by report elements at fill time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JROriginProvider
 {

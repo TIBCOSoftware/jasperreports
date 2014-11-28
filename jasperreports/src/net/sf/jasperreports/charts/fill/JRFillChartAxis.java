@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  * dataset.
  *
  * @author Barry Klawans (barry@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillChartAxis implements JRChartAxis
 {

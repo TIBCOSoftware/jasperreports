@@ -52,7 +52,6 @@ import net.sf.jasperreports.engine.fill.JRTemplatePrintText;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class DefaultSerializerRegistry implements SerializerRegistry
 {

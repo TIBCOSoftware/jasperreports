@@ -41,7 +41,6 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author swood
- * @version $Id$
  */
 public class Olap4jQueryExecuterFactory extends AbstractQueryExecuterFactory
 {

@@ -50,7 +50,6 @@ import org.jfree.data.time.TimePeriodValuesCollection;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTimePeriodDataset
 {

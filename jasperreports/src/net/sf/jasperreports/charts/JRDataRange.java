@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRExpression;
  * Represents a numeric range.
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRDataRange extends JRCloneable
 {

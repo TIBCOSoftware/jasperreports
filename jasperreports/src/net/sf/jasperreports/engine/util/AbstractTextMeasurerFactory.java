@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.fill.JRTextMeasurer;
  * Factory of {@link JdkGlyphFixTextMeasurer} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRTextMeasurerUtil#PROPERTY_TEXT_MEASURER_FACTORY
  */
 public abstract class AbstractTextMeasurerFactory implements JRTextMeasurerFactory

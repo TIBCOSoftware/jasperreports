@@ -45,7 +45,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * produced by the report-filling process into the desired output format.
  * </p>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class JasperRunManager
 {

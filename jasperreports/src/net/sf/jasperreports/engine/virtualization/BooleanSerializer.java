@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class BooleanSerializer implements ObjectSerializer<Boolean>
 {

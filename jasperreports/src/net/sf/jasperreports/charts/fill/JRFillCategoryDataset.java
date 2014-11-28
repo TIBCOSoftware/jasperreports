@@ -45,7 +45,6 @@ import org.jfree.data.general.Dataset;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillCategoryDataset extends JRFillChartDataset implements JRCategoryDataset
 {

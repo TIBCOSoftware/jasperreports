@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
  * divisions.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see BigDecimalUtils#divide(BigDecimal, BigDecimal)
  * @see #PROPERTY_MINIMUM_PRECISION
  */

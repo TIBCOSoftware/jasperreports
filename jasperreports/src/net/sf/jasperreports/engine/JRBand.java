@@ -89,7 +89,6 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
  * <code>java.lang.Boolean</code> object or null.
  * @see net.sf.jasperreports.engine.JRSection
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRBand extends JRElementGroup, JRPropertiesHolder
 {

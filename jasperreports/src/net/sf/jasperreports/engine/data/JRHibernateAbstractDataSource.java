@@ -39,7 +39,6 @@ import org.hibernate.type.Type;
  * Base abstract Hibernate data source.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRHibernateAbstractDataSource implements JRDataSource
 {

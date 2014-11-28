@@ -27,7 +27,6 @@ package net.sf.jasperreports.functions.annotations;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class FunctionParameterBean
 {

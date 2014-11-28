@@ -45,7 +45,6 @@ import net.sf.jasperreports.engine.type.ModeEnum;
  * </ul>
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxContainer, JRPropertiesHolder
 {

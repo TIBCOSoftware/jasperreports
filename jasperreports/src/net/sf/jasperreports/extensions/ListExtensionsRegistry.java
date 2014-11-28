@@ -32,7 +32,6 @@ import java.util.Map;
  * An extension registry that contains several lists of extensions.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class ListExtensionsRegistry implements ExtensionsRegistry
 {

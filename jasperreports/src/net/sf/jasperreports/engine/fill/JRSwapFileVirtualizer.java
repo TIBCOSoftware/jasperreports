@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.util.SwapFileVirtualizerStore;
  * A virtualizer that uses a single swap file to serialize virtual data.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRSwapFileVirtualizer extends StoreVirtualizer
 {

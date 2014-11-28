@@ -28,7 +28,6 @@ package net.sf.jasperreports.engine.util.xml;
  * {@link JaxenXPathExecuter Jaxen XPath executers} factory.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JaxenXPathExecuterFactory implements JRXPathExecuterFactory
 {

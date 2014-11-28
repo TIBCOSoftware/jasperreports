@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
  * parsers/digesters.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRSaxParserFactory
 {

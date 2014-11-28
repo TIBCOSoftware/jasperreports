@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * Base implementation of the {@link net.sf.jasperreports.engine.JRDatasetRun JRDatasetRun} interface.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 {

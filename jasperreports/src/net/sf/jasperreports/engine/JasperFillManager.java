@@ -64,7 +64,6 @@ import net.sf.jasperreports.engine.util.SimpleFileResolver;
  * @see net.sf.jasperreports.engine.fill.JRFiller
  * @see net.sf.jasperreports.engine.JasperPrint
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class JasperFillManager
 {

@@ -28,7 +28,6 @@ package net.sf.jasperreports.charts;
  * Type of plot used to render Line charts.
  * 
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRLinePlot extends JRCategoryPlot, JRCommonLinePlot
 {

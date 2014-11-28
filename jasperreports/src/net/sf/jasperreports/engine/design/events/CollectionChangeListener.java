@@ -28,7 +28,6 @@ import java.util.EventListener;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface CollectionChangeListener extends EventListener
 {

@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRPrintText;
  * Text measuring information as produced by a {@link JRTextMeasurer text measurer}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JRTextMeasurer#measure(net.sf.jasperreports.engine.util.JRStyledText, int, int, boolean)
  */
 public interface JRMeasuredText

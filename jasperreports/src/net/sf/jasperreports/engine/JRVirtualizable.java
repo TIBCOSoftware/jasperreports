@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 
 /**
  * @author John Bindel
- * @version $Id$
  * 
  * @param <T> the type of the virtual data object, see {@link #getVirtualData()}
  */

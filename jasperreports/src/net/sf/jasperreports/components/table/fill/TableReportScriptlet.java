@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRScriptletException;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class TableReportScriptlet extends JRDefaultScriptlet
 {

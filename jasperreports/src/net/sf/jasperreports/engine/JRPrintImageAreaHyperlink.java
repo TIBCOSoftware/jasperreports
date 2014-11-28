@@ -30,7 +30,6 @@ import java.io.Serializable;
  * A component of an image map.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see ImageMapRenderable
  */
 public class JRPrintImageAreaHyperlink implements Serializable

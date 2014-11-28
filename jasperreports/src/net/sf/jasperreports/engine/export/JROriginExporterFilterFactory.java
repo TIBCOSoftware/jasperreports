@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * Factory of {@link JROriginExporterFilter} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see JROriginExporterFilter#getFilter(JasperReportsContext, JRPropertiesMap, String)
  */
 public class JROriginExporterFilterFactory implements ExporterFilterFactory

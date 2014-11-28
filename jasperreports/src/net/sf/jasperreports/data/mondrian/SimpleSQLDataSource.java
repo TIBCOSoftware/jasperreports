@@ -33,7 +33,6 @@ import javax.sql.DataSource;
 
 /**
  * @author Veaceslav Chicu (schicu@users.sourceforge.net)
- * @version $Id$
  */
 public class SimpleSQLDataSource implements DataSource {
 	private MondrianDataAdapterService connection;

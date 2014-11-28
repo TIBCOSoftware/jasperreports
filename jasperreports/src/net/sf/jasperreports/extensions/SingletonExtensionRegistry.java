@@ -32,7 +32,6 @@ import java.util.List;
  * @param <Type> the extension type
  *  
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class SingletonExtensionRegistry<Type> implements ExtensionsRegistry
 {

@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * that can be used for report designing purposes.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignHyperlinkParameter extends JRBaseHyperlinkParameter implements JRChangeEventsSupport
 {

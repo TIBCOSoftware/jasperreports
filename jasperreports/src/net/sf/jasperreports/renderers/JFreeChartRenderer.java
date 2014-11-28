@@ -38,7 +38,6 @@ import org.jfree.chart.JFreeChart;
  * @deprecated
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class JFreeChartRenderer extends JRAbstractSvgRenderer
 {

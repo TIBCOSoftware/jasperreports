@@ -32,7 +32,6 @@ import org.apache.commons.logging.LogFactory;
  * Utility methods for {@link BigDecimal} handling.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public final class BigDecimalUtils
 {

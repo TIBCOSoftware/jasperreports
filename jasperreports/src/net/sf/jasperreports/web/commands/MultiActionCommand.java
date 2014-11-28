@@ -33,7 +33,6 @@ import net.sf.jasperreports.web.actions.ActionException;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class MultiActionCommand implements Command {
 	

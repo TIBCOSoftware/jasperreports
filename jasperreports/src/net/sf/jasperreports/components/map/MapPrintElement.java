@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.xml.JRXmlConstants;
  * Utility class that creates generic print elements of map type.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class MapPrintElement
 {

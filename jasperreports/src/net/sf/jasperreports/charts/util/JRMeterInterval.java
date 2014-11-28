@@ -42,7 +42,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * Common usages are to show "critical", "warning" and "good" ranges.
  *
  * @author Barry Klawans (barry@users.sourceforge.net)
- * @version $Id$
  */
 
 

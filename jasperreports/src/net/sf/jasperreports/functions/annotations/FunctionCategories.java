@@ -33,7 +33,6 @@ import java.lang.annotation.Target;
  * {@link Function} belong to. 
  *  
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
- * @version $Id$
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})

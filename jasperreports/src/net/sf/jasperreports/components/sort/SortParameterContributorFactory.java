@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.ParameterContributorFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public final class SortParameterContributorFactory implements ParameterContributorFactory
 {

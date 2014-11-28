@@ -68,7 +68,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRSubreportReturnValue extends JRCloneable
 {

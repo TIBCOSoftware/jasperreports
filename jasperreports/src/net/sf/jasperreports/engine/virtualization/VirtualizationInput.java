@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.util.VirtualizationSerializer;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public class VirtualizationInput extends ObjectInputStream
 {

@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRScriptlet;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillScriptlet implements JRScriptlet
 {

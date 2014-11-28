@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRAbstractImageEncoder implements JRImageEncoder
 {

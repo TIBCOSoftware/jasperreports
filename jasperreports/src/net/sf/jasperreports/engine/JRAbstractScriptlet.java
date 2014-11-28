@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.fill.JRFillVariable;
  * in certain moments of the report filling process, such as report, column or group initialization. Scriptlets must implement
  * the abstract methods that define the behavior at the specified moments.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class JRAbstractScriptlet
 {

@@ -56,7 +56,6 @@ import net.sf.jasperreports.functions.FunctionSupport;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRClassGenerator
 {

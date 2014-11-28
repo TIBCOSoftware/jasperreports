@@ -36,7 +36,6 @@ import java.util.List;
 
 /**
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id$
  */
 public class JRFillMultiAxisPlot extends JRFillChartPlot implements JRMultiAxisPlot
 {

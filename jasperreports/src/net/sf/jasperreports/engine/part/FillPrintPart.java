@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.part;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public abstract class FillPrintPart
 {

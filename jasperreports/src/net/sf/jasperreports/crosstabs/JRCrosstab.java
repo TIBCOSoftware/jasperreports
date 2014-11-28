@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
  * Crosstab element interface.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 public interface JRCrosstab extends JRElement, JRBoxContainer
 {

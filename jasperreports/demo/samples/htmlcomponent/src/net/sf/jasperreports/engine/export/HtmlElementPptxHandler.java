@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.util.HtmlPrintElementUtils;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
  */
 public class HtmlElementPptxHandler implements GenericElementPptxHandler 
 {

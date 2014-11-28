@@ -47,7 +47,6 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public class DocxRunHelper extends BaseHelper
 {

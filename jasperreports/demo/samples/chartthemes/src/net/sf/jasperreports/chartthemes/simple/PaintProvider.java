@@ -29,7 +29,6 @@ import java.io.Serializable;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public interface PaintProvider extends Serializable
 {

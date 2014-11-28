@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.base.JRBaseParameter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRDesignParameter extends JRBaseParameter
 {
@@ -85,7 +84,7 @@ public class JRDesignParameter extends JRBaseParameter
 	/**
 	 * Sets the parameter nested value type.
 	 * 
-	 * @param type the nester value type
+	 * @param type the nested value type
 	 * @see #getNestedType()
 	 */
 	public void setNestedType(Class<?> type)

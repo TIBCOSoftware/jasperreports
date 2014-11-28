@@ -186,7 +186,6 @@ import org.jfree.data.time.Day;
  * A writer that generates the Java code required to produce a given report template programmatically, using the JasperReports API.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class JRApiWriter
 {

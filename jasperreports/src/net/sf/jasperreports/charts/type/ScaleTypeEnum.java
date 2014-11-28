@@ -32,7 +32,6 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
  */
 public enum ScaleTypeEnum implements JREnum
 {

@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.query.JRHibernateQueryExecuter;
  * The query result can be paginated by not retrieving all the rows at once.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  * @see net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory#PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE
  */
 public class JRHibernateListDataSource extends JRHibernateAbstractDataSource implements JRRewindableDataSource

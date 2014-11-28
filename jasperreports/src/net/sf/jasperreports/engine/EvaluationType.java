@@ -27,7 +27,6 @@ package net.sf.jasperreports.engine;
  * Determines the field and variables values to be used when evaluating an expression.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
  */
 //FIXME deprecate methods that take byte evaluation type in favor of this enum
 public enum EvaluationType

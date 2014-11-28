@@ -35,7 +35,6 @@ import org.jfree.data.general.PieDataset;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
  */
 public class PieLabelGenerator implements PieSectionLabelGenerator, Serializable
 {
