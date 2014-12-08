@@ -40,7 +40,7 @@
                     <field name="key" type="java.lang.String">
 						<bind-xml name="key" node="element"/> 
 					</field>
-					<field name="value" type="java.util.HashSet">
+					<field name="value" type="java.lang.String">
 						<bind-xml name="value" node="element"/> 
 					</field> 
                   </class>
