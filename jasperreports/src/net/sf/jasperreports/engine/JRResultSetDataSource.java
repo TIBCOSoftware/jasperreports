@@ -143,6 +143,10 @@ public class JRResultSetDataSource implements JRDataSource
 				if (clazz.equals(java.lang.Boolean.class))
 				{
 					objValue = resultSet.getBoolean(columnIndex.intValue()) ? Boolean.TRUE : Boolean.FALSE;
+					if(resultSet.wasNull())
+					{
+						objValue = null;
+					}
 				}
 				else if (clazz.equals(java.lang.Byte.class))
 				{
