@@ -40,9 +40,10 @@ import net.sf.jasperreports.engine.JRScriptletException;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignDatasetRun;
+import net.sf.jasperreports.engine.fill.DatasetSortInfo.RecordField;
+import net.sf.jasperreports.engine.fill.DatasetSortInfo.SortFieldInfo;
 import net.sf.jasperreports.engine.fill.SortedDataSource.SortRecord;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
-import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 
 /**
@@ -102,7 +103,7 @@ public class DatasetSortUtil
 		Locale locale 
 		) throws JRException
 	{
-		SortInfo sortInfo = createSortInfo(dataset);
+		DatasetSortInfo sortInfo = createSortInfo(dataset);
 		
 		SortFillDatasetRun sortDatasetRun = new SortFillDatasetRun(filler, dataset, sortInfo);
 		
@@ -120,23 +121,22 @@ public class DatasetSortUtil
 		Arrays.sort(
 			indexes, 
 			new DataSourceComparator(
-				sortInfo.sortFieldInfo, 
+				sortInfo, 
 				locale,
 				records
 				)
 			);
 		
-		return new SortedDataSource(records, indexes, 
-				sortInfo.fieldNames.toArray(new String[sortInfo.fieldNames.size()]));
+		return new SortedDataSource(sortInfo, records, indexes);
 	}
 
 
 	/**
 	 *
 	 */
-	private static SortInfo createSortInfo(JRFillDataset dataset) throws JRException
+	private static DatasetSortInfo createSortInfo(JRFillDataset dataset) throws JRException
 	{
-		SortInfo sortInfo = new SortInfo();
+		DatasetSortInfo sortInfo = new DatasetSortInfo();
 
 		Map<String, JRField> fieldsMap = new HashMap<String, JRField>();
 		Map<String, Integer> fieldIndexMap = new HashMap<String, Integer>();
@@ -148,7 +148,7 @@ public class DatasetSortUtil
 				JRField field = fields[i];
 				fieldsMap.put(field.getName(), field);
 				fieldIndexMap.put(field.getName(), Integer.valueOf(i));
-				sortInfo.fieldNames.add(field.getName());
+				sortInfo.addRecordField(field.getName());
 			}
 		}
 
@@ -165,22 +165,14 @@ public class DatasetSortUtil
 		JRSortField[] sortFields = getAllSortFields(dataset);
 		if (sortFields != null)
 		{
-			sortInfo.sortFieldInfo = new SortFieldInfo[sortFields.length];
-
 			for(int i = 0; i < sortFields.length; i++)
 			{
 				JRSortField sortField = sortFields[i];
 
 				String sortFieldName = sortField.getName();
-				
-				SortFieldInfo info = new SortFieldInfo();
-				
-				info.name = sortFieldName;
-				info.isVariable = sortField.getType() == SortFieldTypeEnum.VARIABLE;
-				info.order = (SortOrderEnum.ASCENDING == sortField.getOrderValue() ? 1 : -1);
-
-				Integer index;
-				if (info.isVariable)
+				boolean collatorFlag;
+				int recordIndex;
+				if (sortField.getType() == SortFieldTypeEnum.VARIABLE)
 				{
 					JRVariable variable = variablesMap.get(sortFieldName);
 					if (variable == null)
@@ -188,10 +180,8 @@ public class DatasetSortUtil
 						throw new JRRuntimeException("Sort variable \"" + sortFieldName + "\" not found in dataset.");
 					}
 					
-					index = new Integer(sortInfo.fieldNames.size());
-					info.collatorFlag = String.class.getName().equals(variable.getValueClassName());
-					
-					sortInfo.fieldNames.add(variable.getName());
+					recordIndex = sortInfo.addRecordVariable(variable.getName());
+					collatorFlag = String.class.getName().equals(variable.getValueClassName());
 				}
 				else
 				{
@@ -201,13 +191,11 @@ public class DatasetSortUtil
 						throw new JRRuntimeException("Sort field \"" + sortFieldName + "\" not found in dataset.");
 					}
 					
-					index = fieldIndexMap.get(sortField.getName());
-
-					info.collatorFlag = String.class.getName().equals(field.getValueClassName());
+					recordIndex = fieldIndexMap.get(sortField.getName());
+					collatorFlag = String.class.getName().equals(field.getValueClassName());
 				}
-				info.index = index.intValue();
 
-				sortInfo.sortFieldInfo[i] = info; 
+				sortInfo.addSortField(sortField, recordIndex, collatorFlag);
 			}
 		}
 		
@@ -223,15 +211,15 @@ public class DatasetSortUtil
  */
 class DataSourceComparator implements Comparator<Integer>
 {
-	Collator collator;
-	SortFieldInfo[] sortFieldInfo;
+	private final Collator collator;
+	private final List<SortFieldInfo> sortFields;
 	private final List<SortedDataSource.SortRecord> records;
 
-	public DataSourceComparator(SortFieldInfo[] sortFieldInfo, Locale locale, 
+	public DataSourceComparator(DatasetSortInfo sortFieldInfo, Locale locale, 
 			List<SortedDataSource.SortRecord> records)
 	{
 		this.collator = Collator.getInstance(locale);
-		this.sortFieldInfo = sortFieldInfo;
+		this.sortFields = sortFieldInfo.getSortFields();
 		this.records = records;
 	}
 
@@ -244,12 +232,10 @@ class DataSourceComparator implements Comparator<Integer>
 		
 		int ret = 0;
 
-		for(int i = 0; i < sortFieldInfo.length; i++)
+		for (SortFieldInfo info : sortFields)
 		{
-			SortFieldInfo info = sortFieldInfo[i];
-			
-			Comparable field1 = (Comparable)record1[info.index];
-			Comparable field2 = (Comparable)record2[info.index];
+			Comparable field1 = (Comparable)record1[info.getRecordIndex()];
+			Comparable field2 = (Comparable)record2[info.getRecordIndex()];
 
 			if (field1 == null)
 			{
@@ -261,7 +247,7 @@ class DataSourceComparator implements Comparator<Integer>
 			}
 			else
 			{
-				if (info.collatorFlag)
+				if (info.useCollator())
 				{
 					ret = collator.compare(field1, field2);
 				}
@@ -271,39 +257,19 @@ class DataSourceComparator implements Comparator<Integer>
 				}
 			}
 
-			ret = ret * info.order;
-
 			if (ret != 0)
 			{
+				if (info.isDescending())
+				{
+					ret = -ret;
+				}
+				
 				return ret;
 			}
 		}
 
 		return ret;
 	}
-}
-
-
-/**
- *
- */
-class SortInfo
-{
-	public List<String> fieldNames = new ArrayList<String>();
-	public SortFieldInfo[] sortFieldInfo;
-}
-
-
-/**
- *
- */
-class SortFieldInfo
-{
-	public String name;
-	public boolean isVariable;
-	public int order;
-	public int index;
-	public boolean collatorFlag;
 }
 
 
@@ -315,21 +281,18 @@ class SortFieldInfo
 class SortFillDatasetRun extends JRFillDatasetRun
 {
 
-	private JRSortField[] allSortFields;
-	private SortInfo sortInfo;
+	private DatasetSortInfo sortInfo;
 	private int recordIndex;
 	private List<SortedDataSource.SortRecord> records;
 
 	
-	public SortFillDatasetRun(BaseReportFiller filler, JRFillDataset dataset, SortInfo sortInfo) throws JRException
+	public SortFillDatasetRun(BaseReportFiller filler, JRFillDataset dataset, DatasetSortInfo sortInfo) throws JRException
 	{
 		super(
 			filler, 
 			new JRDesignDatasetRun(), //we don't need anything from a dataset run. just avoid NPEs down the call 
 			dataset
 			);
-		
-		allSortFields = DatasetSortUtil.getAllSortFields(dataset);
 
 		this.sortInfo = sortInfo;
 	}
@@ -361,23 +324,25 @@ class SortFillDatasetRun extends JRFillDatasetRun
 	{
 		super.detail();
 		
-		int fieldCount = sortInfo.fieldNames.size();
-		JRField[] fields = dataset.getFields();
+		List<RecordField> recordFields = sortInfo.getRecordFields();
+		int fieldCount = recordFields.size();
+		
 		Object[] record = new Object[fieldCount];
-		if(fields != null)
+		int index = 0;
+		for (RecordField recordField : recordFields)
 		{
-			for(int i = 0; i < fields.length; i++)
+			Object value;
+			if (recordField.isVariable())
 			{
-				record[i] = dataset.getFieldValue(fields[i].getName());
+				value = dataset.getVariableValue(recordField.getName());
 			}
-		}
-		for(int i = 0; i < allSortFields.length; i++)
-		{
-			JRSortField sortField = allSortFields[i];
-			if (sortField.getType() == SortFieldTypeEnum.VARIABLE)
+			else
 			{
-				record[sortInfo.sortFieldInfo[i].index] = dataset.getVariableValue(sortField.getName());
+				value = dataset.getFieldValue(recordField.getName());
 			}
+			
+			record[index] = value;
+			++index;
 		}
 		
 		// also store the original record index
