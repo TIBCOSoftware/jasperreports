@@ -87,7 +87,7 @@ public class StandardPrintParts implements PrintParts, Serializable
 	@Override
 	public Iterator<Map.Entry<Integer, PrintPart>> partsIterator()
 	{
-		return parts == null ? Collections.<Map.Entry<Integer, PrintPart>>emptyIterator() 
+		return parts == null ? Collections.<Map.Entry<Integer, PrintPart>>emptySet().iterator()
 				: parts.entrySet().iterator();
 	}
 
