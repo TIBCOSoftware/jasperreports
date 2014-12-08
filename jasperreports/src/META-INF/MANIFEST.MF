@@ -1,12 +1,12 @@
 Built-By: TIBCO Software Inc.
 Specification-Title: JasperReports Library
-Specification-Version: 6.0.0
+Specification-Version: 6.0.1
 Specification-Vendor: TIBCO Software Inc.
 Implementation-Title: net.sf.jasperreports.engine
-Implementation-Version: 6.0.0
+Implementation-Version: 6.0.1
 Implementation-Vendor: TIBCO Software Inc.
 Bundle-Name: JasperReports Library
-Bundle-Version: 6.0.0
+Bundle-Version: 6.0.1
 Bundle-Vendor: TIBCO Software Inc.
 Bundle-SymbolicName: net.sf.jasperreports.engine
 Bundle-ClassPath: .
