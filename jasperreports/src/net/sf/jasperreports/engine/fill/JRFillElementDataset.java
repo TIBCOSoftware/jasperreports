@@ -127,6 +127,14 @@ public abstract class JRFillElementDataset implements JRElementDataset
 	/**
 	 *
 	 */
+	protected JRBaseFiller getFiller()
+	{
+		return filler;
+	}
+
+	/**
+	 *
+	 */
 	protected TimeZone getTimeZone()
 	{
 		return filler.getTimeZone();

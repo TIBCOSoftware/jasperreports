@@ -65,6 +65,7 @@
     <name>Report Filling</name>
     <content>
       <property ref="net.sf.jasperreports.band.split.type"/>
+      <property ref="net.sf.jasperreports.chart.pie.ignore.duplicate.key"/>
       <property ref="net.sf.jasperreports.chart.render.type"/>
       <property ref="net.sf.jasperreports.chart.renderer.factory.{render_type}"/>
       <property ref="net.sf.jasperreports.chart.theme"/>
@@ -1094,6 +1095,19 @@ Specifies the default split type for bands. See the splitType attribute of the r
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.chart.pie.ignore.duplicate.key -->
+  
+  <configProperty name="net.sf.jasperreports.chart.pie.ignore.duplicate.key">
+    <description>
+Specifies whether duplicated key entries in pie dataset should be ignored and only the last value be considered, or whether an exception should be raised instead.
+    </description>
+    <api>net/sf/jasperreports/charts/JRPieDataset.html#PROPERTY_IGNORE_DUPLICATED_KEY</api>
+    <default>false</default>
+    <scope>Global | Report | Dataset</scope>
+    <since>6.0.2</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.chart.render.type -->
   
   <configProperty name="net.sf.jasperreports.chart.render.type">
@@ -1890,7 +1904,7 @@ Property that specifies whether additional sort fields should be created automat
 the integrity of dataset groups, when interactive sorting is performed. The groups need to have simple 
 expressions using single field or single variable reference, for this feature to work properly.
     </description>
-    <api>net/sf/jasperreports/components/table/TableComponent.html#PROPERTY_WHEN_NO_DATA_TYPE</api>
+    <api>net/sf/jasperreports/components/sort/actions/SortCommand.html#PROPERTY_CREATE_SORT_FIELDS_FOR_GROUPS</api>
     <default>false</default>
     <scope>Global | Dataset</scope>
     <since>4.6.0</since>

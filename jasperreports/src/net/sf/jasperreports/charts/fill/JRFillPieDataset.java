@@ -58,6 +58,10 @@ import org.jfree.data.general.DefaultPieDataset;
  */
 public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 {
+	/**
+	 * 
+	 */
+	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATED_KEY = JRFillPieDataset.class.getName() + ".duplicated.key";
 
 	/**
 	 *
@@ -70,6 +74,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	private Map<Comparable<?>, Number> values;
 	private Map<Comparable<?>, String> labels;
 	private Map<Comparable<?>, JRPrintHyperlink> sectionHyperlinks;
+	private boolean ignoreDuplicatedKey = false;
 	
 	private Comparable<?> otherKey;
 	private String otherLabel;
@@ -170,6 +175,14 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		values = new LinkedHashMap<Comparable<?>, Number>();
 		labels = new HashMap<Comparable<?>, String>();
 		sectionHyperlinks = new HashMap<Comparable<?>, JRPrintHyperlink>();
+		
+		// read property here because fill dataset is null on constructor
+		ignoreDuplicatedKey = 
+			getFiller().getPropertiesUtil().getBooleanProperty(
+				getFillDataset(), 
+				PROPERTY_IGNORE_DUPLICATED_KEY, 
+				false
+				);
 	}
 
 	/**
@@ -226,6 +239,20 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 				if (key == null)
 				{
 					throw new JRRuntimeException("Key is null in pie dataset.");
+				}
+
+				if (
+					!ignoreDuplicatedKey
+					&& values.containsKey(key)
+					)
+				{
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_DUPLICATED_KEY,
+							new Object[]{key}, 
+							getFiller().getJasperReportsContext(),
+							getFillDataset().getLocale()
+							);
 				}
 
 				values.put(key, crtPieSeries.getValue());
