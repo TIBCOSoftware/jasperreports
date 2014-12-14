@@ -1,26 +1,29 @@
-/*
- * iReport - Visual Designer for JasperReports.
- * Copyright (C) 2002 - 2009 Jaspersoft Corporation. All rights reserved.
- * http://www.jaspersoft.com
- *
- * Unless you have purchased a commercial license agreement from Jaspersoft,
- * the following license terms apply:
- *
- * This program is part of iReport.
- *
- * iReport is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
+/*******************************************************************************
+ * Copyright (C) 2005 - 2014 TIBCO Software Inc. All rights reserved.
+ * http://www.jaspersoft.com.
+ * 
+ * Unless you have purchased  a commercial license agreement from Jaspersoft,
+ * the following license terms  apply:
+ * 
+ * The Custom Visualization Component program and the accompanying materials
+ * has been dual licensed under the the following licenses:
+ * 
+ * Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * iReport is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * The Custom Visualization Component is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License
- * along with iReport. If not, see <http://www.gnu.org/licenses/>.
- */
+ * You should have received a copy of the GNU Lesser General Public License.
+ * If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization.export;
 
 import java.io.InputStream;
@@ -43,6 +46,7 @@ import org.apache.velocity.VelocityContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jaspersoft.jasperreports.customvisualization.CVPrintElement;
 import com.jaspersoft.jasperreports.customvisualization.Processor;
+import java.io.Serializable;
 
 /**
  *
@@ -60,6 +64,16 @@ public class CVElementJsonHandler implements GenericElementJsonHandler
 		return INSTANCE;
 	}
 
+        
+        /**
+         * 
+         * Creates the main component configuration.
+         * This also includes the information about which renderer to use.
+         * 
+         * @param context
+         * @param element
+         * @return 
+         */
 	public String getJsonFragment(JsonExporterContext context, JRGenericPrintElement element)
 	{
 		Map<String, Object> contextMap = new HashMap<String, Object>();
@@ -79,11 +93,9 @@ public class CVElementJsonHandler implements GenericElementJsonHandler
                 configuration.putAll(originalConfiguration);
                 
                 
-                if ((context != null &&
+                if (context != null &&
                     context.getExporterRef() != null &&
-                    context.getExporterRef().getReportContext() != null) || 
-                    (element.getPropertiesMap().containsProperty("cv.forceRequirejs") &&
-                     "true".equals( element.getPropertiesMap().getProperty("cv.forceRequirejs"))))
+                    context.getExporterRef().getReportContext() != null)
                 {
                     configuration.put("isInteractiveViewer", true);
                 }
@@ -108,7 +120,11 @@ public class CVElementJsonHandler implements GenericElementJsonHandler
                     log.warn("(JSON): Error dumping the JSON for the configuration...: " + ex.getMessage(), ex);
                 }
                 
+                
+                configuration.put("module", element.getParameterValue(CVPrintElement.MODULE));
+                
                 contextMap.put("configuration", configuration);
+                
                     
                 // Pre export the object programmatically...
                 
@@ -165,33 +181,53 @@ public class CVElementJsonHandler implements GenericElementJsonHandler
             // Create a copy of configuration with all the serializable objects in it...
             Map<String, Object> jsonConfiguration = new HashMap<String,Object>();
                 
-            JRTemplateGenericPrintElement element = (JRTemplateGenericPrintElement)configuration.remove("element");
+            JRTemplateGenericPrintElement element = (JRTemplateGenericPrintElement)configuration.get("element");
                             
-            if (configuration.containsKey("instanceData"))
+            if (configuration.containsKey("series"))
             {
-                jsonConfiguration.put("instanceData", configuration.get("instanceData"));
+                jsonConfiguration.put("series", configuration.get("series"));
             }
             
             if (element != null)
             {
                 jsonConfiguration.put(Processor.CONF_WIDTH, element.getWidth());
-                jsonConfiguration.put(Processor.CONF_KEY, ""+ element.hashCode());
                 jsonConfiguration.put(Processor.CONF_HEIGHT, element.getHeight());
                 
-                
-                configuration.put(Processor.CONF_WIDTH, element.getWidth());
-                configuration.put(Processor.CONF_KEY, ""+ element.hashCode());
-                configuration.put(Processor.CONF_HEIGHT, element.getHeight());
-                
+//                configuration.put(Processor.CONF_WIDTH, element.getWidth());
+//                configuration.put(Processor.CONF_HEIGHT, element.getHeight());
                 
                 for (String prop : element.getPropertiesMap().getPropertyNames())
                 {
                     jsonConfiguration.put("property." + prop, element.getPropertiesMap().getProperty(prop));
                     configuration.put("property." + prop, element.getPropertiesMap().getProperty(prop));
                 }
+                
+                jsonConfiguration.put("id", "element" + element.hashCode());
+
+                //configuration.put(CVPrintElement.MODULE, element.getParameterValue(CVPrintElement.MODULE));
+                if (element.getParameterValue(CVPrintElement.SCRIPT_URI) != null)
+                {
+                    configuration.put(CVPrintElement.SCRIPT_URI, element.getParameterValue(CVPrintElement.SCRIPT_URI));
+                }
             }
             
-            return configuration;
+            // Add all the items properties...
+            for (String itemPropertyKey : configuration.keySet())
+            {
+                Object value = configuration.get( itemPropertyKey );
+
+                if (itemPropertyKey == null ||
+                    itemPropertyKey.isEmpty() ||
+                    itemPropertyKey.equals("element") ||
+                    itemPropertyKey.equals("series")) continue;
+                
+                if (value != null)
+                {
+                    jsonConfiguration.put(itemPropertyKey,  value.toString());
+                }
+            }
+            
+            return jsonConfiguration;
         }
         
 }

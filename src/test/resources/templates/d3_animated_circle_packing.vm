@@ -3,7 +3,8 @@
 ${configuration.scripts.require( { "path": "scripts/d3/d3.v3.min.js", "name": "", "export": "d3", "key": "d3"},
                                  { "path": "scripts/d3/d3.layout.min.js", "name": "", "export": "", "key": "d3-layout"} )}
 
-<style>
+<style type="text/css">
+
 
 ## rgb(31, 119, 180);
 

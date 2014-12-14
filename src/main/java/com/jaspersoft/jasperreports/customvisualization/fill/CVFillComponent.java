@@ -1,3 +1,29 @@
+/*******************************************************************************
+ * Copyright (C) 2005 - 2014 TIBCO Software Inc. All rights reserved.
+ * http://www.jaspersoft.com.
+ * 
+ * Unless you have purchased  a commercial license agreement from Jaspersoft,
+ * the following license terms  apply:
+ * 
+ * The Custom Visualization Component program and the accompanying materials
+ * has been dual licensed under the the following licenses:
+ * 
+ * Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Custom Visualization Component is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License.
+ * If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization.fill;
 
 import java.io.Serializable;
@@ -25,11 +51,24 @@ import com.jaspersoft.jasperreports.customvisualization.CVItemData;
 import com.jaspersoft.jasperreports.customvisualization.CVItemProperty;
 import com.jaspersoft.jasperreports.customvisualization.CVPrintElement;
 import com.jaspersoft.jasperreports.customvisualization.Processor;
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Iterator;
+import java.util.regex.Pattern;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import static net.sf.jasperreports.web.util.AbstractWebResourceHandler.PROPERTIES_WEB_RESOURCE_PATTERN_PREFIX;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 public class CVFillComponent extends BaseFillComponent implements Serializable, FillContextProvider
 {
         private static final long serialVersionUID = CVConstants.SERIAL_VERSION_UID;
+        private static final Log log = LogFactory.getLog(CVFillComponent.class);
 
 	private final CVComponent component;
         
@@ -38,7 +77,7 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
         private List<CVFillItemData> itemDataList = new ArrayList<CVFillItemData>();
         private List<List<Map<String,Object>>> datasetsData = new ArrayList<List<Map<String,Object>>>();
         private Processor processor = null;
-        
+        private JasperReportsContext context = null;
         
         
         
@@ -69,8 +108,9 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
                                 datasetsData.add(null);
                         }
                     }
+                    
+                    this.context = factory.getFiller().getJasperReportsContext();
                 }
-                
                 
                 String processingClass = component.getProcessingClass();
 		if (processingClass != null && processingClass.length() > 0) {
@@ -217,9 +257,24 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
           
           configuration.put(Processor.CONF_SERIES, savedDatasetsData);
           
+          
+          Object scriptSource = null;
+          Object cssSource = null;
+          
           for (CVFillItemProperty p : itemProperties)
           {
-                configuration.put(p.getName(), p.getValue());
+                if (CVPrintElement.SCRIPT.equals(p.getName()))
+                {
+                    scriptSource = p.getValue();
+                }
+                else if (CVPrintElement.CSS.equals(p.getName()))
+                {
+                    cssSource = p.getValue();
+                }
+                else
+                {
+                    configuration.put(p.getName(), p.getValue());
+                }
           }
           
           
@@ -235,6 +290,72 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
           
           element.setParameterValue(CVPrintElement.CONFIGURATION, configuration);
           
+          // Check the jasperreports property (CV_SCRIPT_FROM_CLASSPATH_ONLY_PROPERTY) to see if we are allowed
+          // to load the resource from any location or just from the classpath
+          String cpOnly = JRPropertiesUtil.getInstance(this.context).getProperty(CVConstants.CV_SCRIPT_FROM_CLASSPATH_ONLY_PROPERTY);
+          boolean classpathOnly = cpOnly != null && "true".equals(cpOnly);
+          
+          String script = loadResource(scriptSource, classpathOnly);
+          
+          element.setParameterValue(CVPrintElement.SCRIPT, script);
+          
+          // We store also the script URI (o resource name) to be passed in the configuration
+          // for Visualize.js
+          element.setParameterValue(CVPrintElement.SCRIPT_URI, scriptSource);
+          
+          if (cssSource != null && !cssSource.equals(""))
+          {
+              String css = loadResource(cssSource, false);
+              element.setParameterValue(CVPrintElement.CSS, css);
+          }
+          
+          
+          String moduleName = ( configuration.containsKey(CVPrintElement.MODULE) ) ? (String)configuration.get(CVPrintElement.MODULE) : null;
+          
+          // We need a module name. If the module name has not been provided by the user
+          // by using the module property, the module name is guessed from the file name.
+          if (moduleName == null || moduleName.isEmpty())
+          {
+              String location = null;
+              // Use the base name as module name...
+              if (scriptSource instanceof File)
+              {
+                  location = ((File)scriptSource).toURI().toString();
+              }
+              else if (scriptSource instanceof String)
+              {
+                  location = (String)scriptSource;
+              }
+              
+              if (location != null)
+              {
+                  File f = new File(location);
+                  
+                  String name = f.getName();
+                  if (name.toLowerCase().endsWith(".min.js"))
+                  {
+                      name = name.substring(0, name.length() -7);
+                  }
+                  else if (name.toLowerCase().endsWith(".js"))
+                  {
+                      name = name.substring(0, name.length() -3);
+                  }
+                  
+                  // Get just the file name...
+                  element.setParameterValue(CVPrintElement.MODULE, name); 
+              }
+          }
+          else
+          {
+              element.setParameterValue(CVPrintElement.MODULE, moduleName); 
+          }
+          
+          // If a module name is still missing, we rise an expection...
+          if (element.getParameterValue(CVPrintElement.MODULE) == null)
+          {
+              throw new JRRuntimeException("No 'module' property defined for a Custom Visualization Component."); 
+          }
+          
     }
 
    
@@ -245,4 +366,123 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
     }
 
 
+    
+    
+    /**
+     * Load a resource from a repository location, input stream, URL or File.
+     * If fromClasspathOnly is set to true, the sourc is used as a string
+     * pointing to a resource inside the classpath.
+     * Classpath access is restricted by PROPERTIES_WEB_RESOURCE_PATTERN_PREFIX
+     * properties inside JasperReports.
+     * 
+     * @param source
+     * @param fromClasspathOnly
+     * @return 
+     */
+    protected String loadResource(Object source, boolean fromClasspathOnly)
+    {
+        try {
+              
+                byte[] scriptBytes = null;
+
+                if (!fromClasspathOnly)
+                {
+                    if (source instanceof InputStream)
+                    {
+                          scriptBytes = JRLoader.loadBytes((InputStream)source);
+                    }
+                    else if (source instanceof URL)
+                    {
+                            scriptBytes = JRLoader.loadBytes((URL)source);
+                    }
+                    else if (source instanceof File)
+                    {
+                            scriptBytes = JRLoader.loadBytes((File)source);
+                    }
+                    else if (source instanceof String)
+                    {
+                            String location = (String) source;
+                            scriptBytes = RepositoryUtil.getInstance(this.context).getBytesFromLocation(location);
+                    }
+                }
+                
+                
+                if (scriptBytes == null && (source != null && source instanceof String && ((String)source).length() > 0))
+                {
+                    String location = (String)source;
+                    
+                    if (checkResourceName(this.context, location))
+                    {
+                        scriptBytes = JRLoader.loadBytes(Thread.currentThread().getContextClassLoader().getResourceAsStream(location));
+                    }
+                }
+                
+                
+                if (scriptBytes == null)
+                {
+                    String message = "No script provided for the Custom Visualization component. ";
+                    if (fromClasspathOnly)
+                    {
+                        message += "(Loading of this resource is restricted to the classpath)";
+                    }
+                    
+                    throw new JRRuntimeException(message); 
+                }
+                return new String(scriptBytes, "UTF-8");
+            
+          } catch (Exception ex)
+          {
+              // Depending on the error type, use a fake image or rise an exception...
+              throw new JRRuntimeException("No script provided for the Custom Visualization component.", ex); 
+          }
+    }
+    
+    
+    
+    
+    /**
+     * Function taked by the DefaultWebResourceHandler of JasperReports.
+     * 
+     * It checks if a specific resource name inside the classpath can be loaded or no.
+     * 
+     * @param jasperReportsContext
+     * @param resourceName
+     * @return 
+     */
+    protected boolean checkResourceName(JasperReportsContext jasperReportsContext, String resourceName) 
+    {
+		boolean matched = false;
+
+		List<JRPropertiesUtil.PropertySuffix> patternProps = JRPropertiesUtil.getInstance(jasperReportsContext).getProperties(PROPERTIES_WEB_RESOURCE_PATTERN_PREFIX);//FIXMESORT cache this
+		for (Iterator<JRPropertiesUtil.PropertySuffix> patternIt = patternProps.iterator(); patternIt.hasNext();)
+		{
+			JRPropertiesUtil.PropertySuffix patternProp = patternIt.next();
+			String patternStr = patternProp.getValue();
+			if (patternStr != null && patternStr.length() > 0)
+			{
+				Pattern resourcePattern = Pattern.compile(patternStr);
+				if (resourcePattern.matcher(resourceName).matches()) 
+				{
+					if (log.isDebugEnabled()) 
+					{
+						log.debug("resource " + resourceName + " matched pattern " + resourcePattern);
+					}
+					
+					matched = true;
+					break;
+				}
+			}
+		}
+
+		if (!matched) 
+		{
+			if (log.isDebugEnabled()) 
+			{
+				log.debug("Resource " + resourceName + " does not matched any allowed pattern");
+			}
+		}
+		
+		return matched;
+	}
+    
 }

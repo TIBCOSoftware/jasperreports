@@ -1,9 +1,0 @@
-<script>
-    function requireJSComponentelement${elementId}(){
-
-        return [
-            #foreach( $script in ${scripts} ){ name: '$script.name',  path: '$script.path',  export: '$script.export'},
-            #end
-        ];
-    }
-</script>

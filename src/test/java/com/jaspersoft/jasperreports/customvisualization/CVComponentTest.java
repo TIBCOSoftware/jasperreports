@@ -1,3 +1,29 @@
+/*******************************************************************************
+ * Copyright (C) 2005 - 2014 TIBCO Software Inc. All rights reserved.
+ * http://www.jaspersoft.com.
+ * 
+ * Unless you have purchased  a commercial license agreement from Jaspersoft,
+ * the following license terms  apply:
+ * 
+ * The Custom Visualization Component program and the accompanying materials
+ * has been dual licensed under the the following licenses:
+ * 
+ * Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Custom Visualization Component is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License.
+ * If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization;
 
 import java.io.File;
@@ -20,19 +46,11 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.export.HtmlExporter;
-import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
-import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 /**
  * Unit test for simple App.
@@ -84,18 +102,7 @@ public class CVComponentTest
         System.out.println("Templates directory: " + templatesDirectory );
         System.out.println("Default encoding: " + Charset.defaultCharset().displayName() );
         
-        
-
-
-        context.setProperty(SCRIPT_PROPERTY_PREFIX + "d3", "file://" + scriptsDirectory + "/d3/d3.v3.min.js");
-        context.setProperty(SCRIPT_PROPERTY_PREFIX + "d3-layout", "file://" + scriptsDirectory + "/d3/d3.layout.min.js");
-        context.setProperty(SCRIPT_PROPERTY_PREFIX + "jquery", "file://" + scriptsDirectory + "/jquery/jquery.min.js"); //jQuery v1.8.3
-        context.setProperty(SCRIPT_PROPERTY_PREFIX + "highcharts", "file://" + scriptsDirectory + "/highcharts/highcharts-3.0.7.src.js");
-        context.setProperty(SCRIPT_PROPERTY_PREFIX + "raphael", "file://" + scriptsDirectory + "/graphael/raphael.js");
-        context.setProperty(SCRIPT_PROPERTY_PREFIX + "graphael", "file://" + scriptsDirectory + "/graphael/g.raphael.js");
-        context.setProperty(SCRIPT_PROPERTY_PREFIX + "gdot", "file://" + scriptsDirectory + "/graphael/g.dot.js");
-        context.setProperty(SCRIPT_PROPERTY_PREFIX + "qrcode", "file://" + scriptsDirectory + "/qrcode/qrcode.min.js");
-            
+        context.setProperty(CVConstants.CV_REQUIREJS_PROPERTY, "file://" + scriptsDirectory + "/require.js");
     }
     
     /**
@@ -107,55 +114,55 @@ public class CVComponentTest
     }
 
 
-    public void testDendogram() throws Exception
-    {
-        testReport("reports/d3_Dendogram.jrxml");
-    }
-    
-    public void testCirclePacking() throws Exception
-    {
-        testReport("reports/d3_Circle_Packing.jrxml");
-    }
+//    public void testDendogram() throws Exception
+//    {
+//        testReport("reports/d3_Dendogram.jrxml");
+//    }
+//    
+//    public void testCirclePacking() throws Exception
+//    {
+//        testReport("reports/d3_Circle_Packing.jrxml");
+//    }
     
     public void testZoomableCirclePacking() throws Exception
     {
         testReport("reports/d3_Zoomable_Circle_Packing.jrxml");
     }
     
-    public void testTreemap() throws Exception
-    {
-        testReport("reports/d3_Treemap.jrxml");
-    }
-
-    public void testAnimatedSVG() throws Exception
-    {
-        testReport("reports/Animated_svg.jrxml");
-    }
-    
-    public void testEmptyComponent() throws Exception
-    {
-        testReport("reports/Empty_Component.jrxml");
-    }
-    
-    public void testHighChartsSparkline() throws Exception
-    {
-        testReport("reports/HighCharts_sparkline.jrxml");
-    }
-    
-    public void testHighChartsDonut() throws Exception
-    {
-        testReport("reports/HighCharts_donut.jrxml");
-    }
-    
-    public void testQRCode() throws Exception
-    {
-        testReport("reports/QR_Code.jrxml");
-    }
-    
-    public void testRaphaelJSDots() throws Exception
-    {
-        testReport("reports/RaphaelJS_dots.jrxml");
-    }
+//    public void testTreemap() throws Exception
+//    {
+//        testReport("reports/d3_Treemap.jrxml");
+//    }
+//
+//    public void testAnimatedSVG() throws Exception
+//    {
+//        testReport("reports/Animated_svg.jrxml");
+//    }
+//    
+//    public void testEmptyComponent() throws Exception
+//    {
+//        testReport("reports/Empty_Component.jrxml");
+//    }
+//    
+//    public void testHighChartsSparkline() throws Exception
+//    {
+//        testReport("reports/HighCharts_sparkline.jrxml");
+//    }
+//    
+//    public void testHighChartsDonut() throws Exception
+//    {
+//        testReport("reports/HighCharts_donut.jrxml");
+//    }
+//    
+//    public void testQRCode() throws Exception
+//    {
+//        testReport("reports/QR_Code.jrxml");
+//    }
+//    
+//    public void testRaphaelJSDots() throws Exception
+//    {
+//        testReport("reports/RaphaelJS_dots.jrxml");
+//    }
     
     
     
@@ -216,8 +223,8 @@ public class CVComponentTest
 				new File(outputDir,  jasperPrint.getName() + ".html").getPath());
                 
                 
-//                JasperExportManager.exportReportToPdfFile(jasperPrint, 
-//				new File(outputDir, jasperPrint.getName() + ".pdf").getPath());
+                JasperExportManager.exportReportToPdfFile(jasperPrint, 
+				new File(outputDir, jasperPrint.getName() + ".pdf").getPath());
 //                
 //                                
 //                HtmlExporter htmlExporter = new HtmlExporter();
@@ -226,12 +233,12 @@ public class CVComponentTest
 //		htmlExporter.exportReport();
 //                
 //                
-//		JRDocxExporter docxExporter = new JRDocxExporter();
-//		docxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-//		docxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".docx")));
-//		docxExporter.exportReport();
+		JRDocxExporter docxExporter = new JRDocxExporter();
+		docxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		docxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".docx")));
+		docxExporter.exportReport();
 //		
-//                
+//                 
 //		JRPptxExporter pptxExporter = new JRPptxExporter();
 //		pptxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 //		pptxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".pptx")));

@@ -1,3 +1,29 @@
+/*******************************************************************************
+ * Copyright (C) 2005 - 2014 TIBCO Software Inc. All rights reserved.
+ * http://www.jaspersoft.com.
+ * 
+ * Unless you have purchased  a commercial license agreement from Jaspersoft,
+ * the following license terms  apply:
+ * 
+ * The Custom Visualization Component program and the accompanying materials
+ * has been dual licensed under the the following licenses:
+ * 
+ * Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Custom Visualization Component is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License.
+ * If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization.export;
 
 
@@ -21,8 +47,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jaspersoft.jasperreports.customvisualization.CVConstants;
 import com.jaspersoft.jasperreports.customvisualization.CVPrintElement;
-import com.jaspersoft.jasperreports.customvisualization.ScriptsHandler;
+import com.jaspersoft.jasperreports.customvisualization.CVUtils;
 
 
 
@@ -33,7 +60,9 @@ public class CVElementHtmlHandler implements GenericElementHtmlHandler
         
         private static final String CV_COMPONENT_SCRIPTS_HANDLER = "cv_component_script_handler";
         private static final String CV_COMPONENT_FIRST_ATTEMPT = "cv_component_first_attempt";
+        
         private static final String VELOCITY_TEMPLATE = "com/jaspersoft/jasperreports/customvisualization/templates/defaultTemplate.vm";
+        private static final String COMPONENT_TEMPLATE = "com/jaspersoft/jasperreports/customvisualization/templates/component.vm";
 	
 	public static CVElementHtmlHandler getInstance()
 	{
@@ -63,20 +92,24 @@ public class CVElementHtmlHandler implements GenericElementHtmlHandler
             configuration.putAll(originalConfiguration);
             
             
-            if ((context != null &&
+            String requireJsPath = null;
+            
+            if (context != null &&
                 context.getExporterRef() != null &&
-                context.getExporterRef().getReportContext() != null) ||
-                (element.getPropertiesMap().containsProperty("cv.forceRequirejs") &&
-                 "true".equals( element.getPropertiesMap().getProperty("cv.forceRequirejs"))))
+                context.getExporterRef().getReportContext() != null)
             {
                 configuration.put("isInteractiveViewer", true);
+                // Load the resource trough a servlet
+                requireJsPath = CVUtils.getResourceWebPath(context, jrContext, "com/jaspersoft/jasperreports/customvisualization/resources/require/require.js");
             }
             else
             {
                 configuration.put("isInteractiveViewer", false);
+                requireJsPath = getRequireJsPath(jrContext);
             }
             
             
+            System.out.println("Require JS Path: " + requireJsPath);
             
             ObjectMapper mapper = new ObjectMapper();
             try {
@@ -90,32 +123,49 @@ public class CVElementHtmlHandler implements GenericElementHtmlHandler
             } catch (Exception ex)
             {
                 log.warn("Error dumping the JSON for the configuration...: " + ex.getMessage(), ex);
-                ex.printStackTrace();
                 throw new JRRuntimeException("Error dumping the JSON for the configuration...: " + ex.getMessage());
             }
             
             configuration.put("element", element);
-            configuration.put("scripts", new ScriptsHandler(context, element, jrContext));
             
             Map<String, Object> velocityContext = new HashMap<String, Object>();
             velocityContext.put("configuration", configuration);
+            
+            
+            velocityContext.put("module", element.getParameterValue(CVPrintElement.MODULE));
+            velocityContext.put("requirejsPath", requireJsPath);
+            
+            velocityContext.put("script", element.getParameterValue( CVPrintElement.SCRIPT));
+            
+            String cssContent = (String)element.getParameterValue( CVPrintElement.CSS);
+            if (cssContent != null)
+            {
+                // Perform a replacement of the /*elid*/ special keyword 
+                cssContent = cssContent.replace("/*elid*/", "#element" + element.hashCode() );
+                velocityContext.put("css", cssContent);
+            }
+            else
+            {
+                velocityContext.put("css", "");
+            }
+            
 
             StringBuilder strBuilder = new StringBuilder( );
             
-            String velocityTemplate = VELOCITY_TEMPLATE;
+//            String velocityTemplate = COMPONENT_TEMPLATE; //VELOCITY_TEMPLATE;
 
-            if (configuration.containsKey("velocity.template"))
-            {
-                velocityTemplate = (String)configuration.get("velocity.template");
-            }
+//            if (configuration.containsKey("velocity.template"))
+//            {
+//                velocityTemplate = (String)configuration.get("velocity.template");
+//            }
 
             try {
             
-                String mainHtml = fillVelocityTemplate(jrContext, velocityTemplate, velocityContext);
-
-
-                strBuilder.append(mainHtml);
-
+                String componentHtml = fillVelocityTemplate(jrContext, COMPONENT_TEMPLATE, velocityContext);
+                strBuilder.append(componentHtml);
+                
+                // TODO: Append extra css
+                
                 if (isXHtmlExporter(context))
                 {
                     strBuilder.append("<style>\n")
@@ -180,6 +230,32 @@ public class CVElementHtmlHandler implements GenericElementHtmlHandler
             {
                 throw new JRRuntimeException(e);
             }
+    }
+
+    
+    /**
+     * Check for a suitable require.js installation...
+     * 
+     * @param jrContext
+     * @return 
+     */
+    public static String getRequireJsPath(JasperReportsContext jrContext) {
+        
+         if (jrContext.getProperty(CVConstants.CV_REQUIREJS_PROPERTY) != null)
+         {
+             return jrContext.getProperty(CVConstants.CV_REQUIREJS_PROPERTY);
+         }
+         
+         if (jrContext.getProperty("com.jaspersoft.jasperreports.highcharts.render.require.js$url") != null)
+         {
+             return jrContext.getProperty("com.jaspersoft.jasperreports.highcharts.render.require.js$url");
+         }
+         
+         
+         log.warn("No property set for the require.js path. Please set the property " + CVConstants.CV_REQUIREJS_PROPERTY);
+         
+         return "require.js";
+        
     }
     
 }

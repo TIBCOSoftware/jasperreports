@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2005 - 2014 TIBCO Software Inc. All rights reserved.
+ * http://www.jaspersoft.com
+ * Licensed under commercial Jaspersoft Subscription License Agreement
+ */
+ 
 var args = require('system').args,
         page = require('webpage').create(),
         fileSystem = require('fs'),
@@ -8,8 +14,8 @@ if (args.length != 3) {
     phantom.exit();
 }
 
-url = args[1];
-outputFileName = args[2];
+var url = args[1];
+var outputFileName = args[2];
 
 page.onConsoleMessage = function(msg) {
     if (msg == "__quit__") {
@@ -18,24 +24,92 @@ page.onConsoleMessage = function(msg) {
     console.log(msg);
 };
 
+
+/**
+ * As the page is loaded this function will be call by PhantomJS
+ * @returns {undefined}
+ */
 page.onLoadFinished = function() {
 
-    try {
+
+        /**
+         * Function taken from the PhantomJS examples to wait for something
+         * to happen inside the page. In our case we will check if the svg has
+         * been actually laoded.
+         * This is somehow risky, because the script may fail and we will end
+         * up waiting for nothing.
+         */
+	function waitFor($config) {
+		    $config._start = $config._start || new Date();
+		
+		    if ($config.timeout && new Date - $config._start > $config.timeout) {
+			if ($config.error) $config.error();
+			if ($config.debug) console.log('timedout ' + (new Date - $config._start) + 'ms');
+			return;
+		    }
+		
+		    if ($config.check()) {
+			if ($config.debug) console.log('success ' + (new Date - $config._start) + 'ms');
+			return $config.success();
+		    }
+		
+		    setTimeout(waitFor, $config.interval || 0, $config);
+		}
+		
+		
+	
+	try {
         
-        window.onerror = function myErrorHandler(errorMsg) {
-            console.log("SCRIPT_ERROR " + errorMsg);
+        
+                /**
+                 * Error handler, this will make phantomJS exit with code 500
+                 */
+                window.onerror = function myErrorHandler(errorMsg) {
+                                    console.log("SCRIPT_ERROR " + errorMsg);
+                                    phantom.exit(500);
+                                }
+
+
+                // We will wait for 3 seconds until we don't see an SVG tag, we will exit...
+                waitFor({
+                            debug: false,  // optional
+                            interval: 0,  // optional
+                            timeout: 3000,  // optional
+                            check: function () {
+                                return page.evaluate(function() {
+                                    return svgs = document.getElementsByTagName("svg").length > 0;
+                                });
+                            },
+                            success: function () {
+                                // we have what we want
+                                page.onPageReady();
+                            },
+                            error: function () {
+                                console.log("SCRIPT_ERROR Script did not produce any SVG within 3 seconds. Possible script error.");
+                                phantom.exit(500);
+                            } // optional
+                        });
+        
+        } catch (ex)
+        {
+            console.log("SCRIPT_ERROR " + ex);
             phantom.exit(500);
         }
-                
+    
+};
 
-        var svgString = page.evaluate(function() {
 
-//                if (typeof d3 == 'undefined')
-//                {
-//                    console.log("SCRIPT_ERROR D3.js is not included in your script... you must include it in your template file to export in formats other than HTML.");
-//                    console.log("__quit__");
-//                }
-                    
+/**
+ * This pageReady will be invoked as we see an SVG tag on the page....
+ * 
+ * @returns {undefined}
+ */
+page.onPageReady = function()
+{
+		var svgString = page.evaluate(function() {
+
+        		
+        		
                 function getStyles(doc) {
                         var styles = "",
                             styleSheets = doc.styleSheets;
@@ -70,10 +144,13 @@ page.onLoadFinished = function() {
 
 
                function getSources(doc, styles) {
-                            var doctype = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
+               	       
+               	            var doctype = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
                             var svgInfo = [],
                                 svgs = doc.getElementsByTagName("svg"); //  d3.select(doc).selectAll("svg");
 
+                             console.log("svgs..." + svgs.length);    
+                                
                             styles = (styles === undefined) ? "" : styles;
 
                             for (i=0; i<svgs.length; ++i)
@@ -114,8 +191,8 @@ page.onLoadFinished = function() {
 //                                svg.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:svg", "http://www.w3.org/2000/svg");
 //                              }
                               
-                              
                               var source = (new XMLSerializer()).serializeToString(svg).replace('</style>', '<![CDATA[' + styles + ']]></style>');
+                              console.log("Source is " + source);
                               
                               var rect = svg.getBoundingClientRect();
                               svgInfo.push({
@@ -131,17 +208,21 @@ page.onLoadFinished = function() {
                             }
                             return svgInfo;
                           }
-
+    
                 try {
                     
-                    
+                
+                	
                     var styles = getStyles(document);
                     var sources = getSources(document, styles);
+                    
+                    // This should never be true...
                     if (sources.length == 0)
                     {
                         throw "No SVG found in this html.";
                     }
                     return sources[0].source;
+                    
                 } catch (e)
                 {
                     console.log("SCRIPT_ERROR " + e);
@@ -160,23 +241,8 @@ page.onLoadFinished = function() {
             {
                 console.log("SCRIPT_ERROR Empty SVG created. SVG element not found?");
                 phantom.exit(500);
-            }
-            
-    } catch (ex)
-    {
-        console.log("SCRIPT_ERROR " + ex);
-        phantom.exit(500);
-    }
-};
+            }	
+}
 
 
 page.open(url);
-
-
-
-
-
-
-  
-  
-  

@@ -1,6 +1,32 @@
-define(["require","jquery"], function(require, $){
+/*******************************************************************************
+ * Copyright (C) 2005 - 2014 TIBCO Software Inc. All rights reserved.
+ * http://www.jaspersoft.com.
+ * 
+ * Unless you have purchased  a commercial license agreement from Jaspersoft,
+ * the following license terms  apply:
+ * 
+ * The Custom Visualization Component program and the accompanying materials
+ * has been dual licensed under the the following licenses:
+ * 
+ * Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Custom Visualization Component is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License.
+ * If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+define('cv-component',["require"], function(require){
     var cvComponent = function(config) {
-        
+
         this.config = config;
         this.parent = null;
         this.loader = null;
@@ -12,64 +38,26 @@ define(["require","jquery"], function(require, $){
 
         // internal API
         _init: function() {
-            
+
             var it = this;
-            
-            var requiredModuleConfigs = window["requireJSComponent" + it.config.id]();
-            
+
             // Cleanup the DIV...
-            $("#" + it.config.id).empty();
-            
-            this._init2(requiredModuleConfigs,0,it);
-        },  
-        
-        
-        /**
-         * Load the next required javascript, if required.
-         * At the end invokes the render component...
-         * 
-         * @param {type} requiredModuleConfigs
-         * @param {type} indexToLoad
-         * @returns {undefined}
-         */
-        _init2: function(requiredModuleConfigs, indexToLoad, it)
-        {
-            if (requiredModuleConfigs.length <= indexToLoad)
+            // This is due to a bug in the interactive viewer which
+            // inovkes the component twice.
+            var element = document.getElementById(it.config.id);
+            if (element)
             {
-                if (window["renderComponent" + it.config.id] != 'undefined')
-                {
-                    window["renderComponent" + it.config.id](it.config.instanceData);
-                }
+                var currentSvgTags = element.getElementsByTagName("svg");
+                if (currentSvgTags.length > 0) { element.removeChild(currentSvgTags[0]); };
             }
-            else
-            {
-                    var loadModules = [];
-                    var bComponent = this;
-            
-                    var mConf = requiredModuleConfigs[indexToLoad];
-                    if (mConf.name != "")
-                    {
-                        loadModules.push( mConf.name );
-                    }
-                    else if (mConf.path != "")
-                    {
-                        loadModules.push( mConf.path );
-                    }
-                    
-                    require(loadModules,  function () {
-                            
-                          if (mConf.export != "")
-                          {
-                                window[mConf.export] = require( (mConf.name != "") ? mConf.name : mConf.path);
-                                this[mConf.export] = window[mConf.export];
-                          }
-                          
-                          bComponent._init2(requiredModuleConfigs, indexToLoad+1, it);
-                    });  
-            }
+
+
+            require([it.config.renderer], function(renderer) {  // it.config.renderer
+                        renderer(it.config.instanceData);
+            });
+
         }
-    
     }
-    
+
     return cvComponent;
 });
