@@ -21,21 +21,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRException;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRFillInterruptedException extends JRRuntimeException
+public class ExportInterruptedException extends JRException
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public JRFillInterruptedException() 
+	public ExportInterruptedException() 
 	{
-		super("Report filling process interrupted.");
+		super("Report export process interrupted.");
 	}
 }

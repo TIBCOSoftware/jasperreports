@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.PrintPart;
 import net.sf.jasperreports.engine.PrintParts;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.util.HyperlinkData;
+import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.JsonExporterConfiguration;
@@ -211,7 +212,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 				{
 					if (Thread.interrupted())
 					{
-						throw new JRException("Current thread interrupted.");
+						throw new ExportInterruptedException();
 					}
 
 					page = pages.get(pageIndex);

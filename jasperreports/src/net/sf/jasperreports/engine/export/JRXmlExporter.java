@@ -96,6 +96,7 @@ import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.XmlValueHandlerUtils;
+import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
@@ -421,7 +422,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 			{
 				if (Thread.interrupted())
 				{
-					throw new JRException("Current thread interrupted.");
+					throw new ExportInterruptedException();
 				}
 				
 				page = pages.get(i);

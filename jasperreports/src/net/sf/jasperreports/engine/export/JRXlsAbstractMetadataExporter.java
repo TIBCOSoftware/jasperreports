@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.XlsMetadataExporterConfiguration;
 import net.sf.jasperreports.export.XlsMetadataReportConfiguration;
@@ -212,7 +213,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 					{
 						if (Thread.interrupted())
 						{
-							throw new JRException("Current thread interrupted.");
+							throw new ExportInterruptedException();
 						}
 
 						JRPrintPage page = pages.get(pageIndex);
@@ -259,7 +260,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 					{
 						if (Thread.interrupted())
 						{
-							throw new JRException("Current thread interrupted.");
+							throw new ExportInterruptedException();
 						}
 						JRPrintPage page = pages.get(pageIndex);
 						pageFormat = jasperPrint.getPageFormat(pageIndex);
