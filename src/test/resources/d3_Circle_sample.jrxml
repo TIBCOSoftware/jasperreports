@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.1.qualifier using JasperReports Library version 6.0.0  -->
+<!-- 2014-12-15T18:03:12 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="d3_Circle_sample" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31c5bd3e-7f1a-4ab1-b4e4-a617f592984c">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString language="SQL">
+		<![CDATA[]]>
+	</queryString>
+	<title>
+		<band height="376" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="0" width="555" height="376" uuid="fbb36477-0a3a-4763-98ce-94237b08671e"/>
+				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
+					<cvc:itemProperty name="script" value="d3Circle.min.js"/>
+                                        <cvc:itemProperty name="css" value="d3Circle.css"/>
+					<cvc:itemProperty name="module" value="d3Circle"/>
+				</cvc:customvisualization>
+			</componentElement>
+		</band>
+	</title>
+</jasperReport>
