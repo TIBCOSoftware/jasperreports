@@ -39,6 +39,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -46,11 +47,19 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.export.HtmlExporter;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 /**
  * Unit test for simple App.
@@ -95,11 +104,11 @@ public class CVComponentTest
         
         String currentDirectory = new File(".").getCanonicalPath();
         String scriptsDirectory = new File(".", "target/test-classes/scripts").getCanonicalPath();
-        String templatesDirectory = new File(".", "target/test-classes/templates").getCanonicalPath();
+        //String templatesDirectory = new File(".", "target/test-classes/templates").getCanonicalPath();
 
         System.out.println("Current directory:   " + currentDirectory );
-        System.out.println("Scripts directory:   " + scriptsDirectory );
-        System.out.println("Templates directory: " + templatesDirectory );
+        //System.out.println("Scripts directory:   " + scriptsDirectory );
+        //System.out.println("Templates directory: " + templatesDirectory );
         System.out.println("Default encoding: " + Charset.defaultCharset().displayName() );
         
         context.setProperty(CVConstants.CV_REQUIREJS_PROPERTY, "file://" + scriptsDirectory + "/require.js");
@@ -113,7 +122,11 @@ public class CVComponentTest
         return new TestSuite( CVComponentTest.class );
     }
 
-
+    public void testCircle() throws Exception
+    {
+        testReport("d3_Circle_sample.jrxml", true);
+    }
+    
 //    public void testDendogram() throws Exception
 //    {
 //        testReport("reports/d3_Dendogram.jrxml");
@@ -124,10 +137,10 @@ public class CVComponentTest
 //        testReport("reports/d3_Circle_Packing.jrxml");
 //    }
     
-    public void testZoomableCirclePacking() throws Exception
-    {
-        testReport("reports/d3_Zoomable_Circle_Packing.jrxml");
-    }
+//    public void testZoomableCirclePacking() throws Exception
+//    {
+//        testReport("reports/d3_Zoomable_Circle_Packing.jrxml");
+//    }
     
 //    public void testTreemap() throws Exception
 //    {
@@ -169,7 +182,7 @@ public class CVComponentTest
     /**
      * Rigourous Test :-)
      */
-    private void testReport(String filename) throws Exception
+    private void testReport(String filename, boolean useEmptyDatasource) throws Exception
     {
                 Connection connection = null;
 		InputStream jrxmlStream = null;
@@ -184,9 +197,18 @@ public class CVComponentTest
 			report = JasperCompileManager.compileReport(template);
 			Map params = new HashMap();
 			
-			connection = getHsql();
-			
-                        jasperPrint = JasperFillManager.fillReport(report, params, connection);
+                        if (useEmptyDatasource)
+                        {
+                            
+                            params.put("REPORT_DATA_SOURCE", new JREmptyDataSource(1));
+                        }
+                        else
+                        {
+                            connection = getHsql();
+                            params.put("REPORT_CONNECTION", connection);
+                        }
+                        
+                        jasperPrint = JasperFillManager.fillReport(report, params);
 			export(jasperPrint);
 
 		}
@@ -225,44 +247,44 @@ public class CVComponentTest
                 
                 JasperExportManager.exportReportToPdfFile(jasperPrint, 
 				new File(outputDir, jasperPrint.getName() + ".pdf").getPath());
-//                
-//                                
-//                HtmlExporter htmlExporter = new HtmlExporter();
-//                htmlExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-//                htmlExporter.setExporterOutput(new SimpleHtmlExporterOutput(new File(outputDir, jasperPrint.getName() + ".x.html")));
-//		htmlExporter.exportReport();
-//                
-//                
+                
+                                
+                HtmlExporter htmlExporter = new HtmlExporter();
+                htmlExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                htmlExporter.setExporterOutput(new SimpleHtmlExporterOutput(new File(outputDir, jasperPrint.getName() + ".x.html")));
+		htmlExporter.exportReport();
+                
+                
 		JRDocxExporter docxExporter = new JRDocxExporter();
 		docxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		docxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".docx")));
 		docxExporter.exportReport();
-//		
-//                 
-//		JRPptxExporter pptxExporter = new JRPptxExporter();
-//		pptxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-//		pptxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".pptx")));
-//		pptxExporter.exportReport();
-//
-//		JRXlsxExporter xlsxExporter = new JRXlsxExporter();
-//		xlsxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-//		xlsxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".xlsx")));
-//		xlsxExporter.exportReport();
-//
-//		JROdsExporter odsExporter = new JROdsExporter();
-//		odsExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-//		odsExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".ods")));
-//		odsExporter.exportReport();
-//
-//		JROdtExporter odtExporter = new JROdtExporter();
-//		odtExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-//		odtExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".odt")));
-//		odtExporter.exportReport();
-//
-//		JRRtfExporter rtfExporter = new JRRtfExporter();
-//		rtfExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-//		rtfExporter.setExporterOutput(new SimpleWriterExporterOutput(new File(outputDir, jasperPrint.getName() + ".rtf")));
-//		rtfExporter.exportReport();
+		
+                 
+		JRPptxExporter pptxExporter = new JRPptxExporter();
+		pptxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		pptxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".pptx")));
+		pptxExporter.exportReport();
+
+		JRXlsxExporter xlsxExporter = new JRXlsxExporter();
+		xlsxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		xlsxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".xlsx")));
+		xlsxExporter.exportReport();
+
+		JROdsExporter odsExporter = new JROdsExporter();
+		odsExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		odsExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".ods")));
+		odsExporter.exportReport();
+
+		JROdtExporter odtExporter = new JROdtExporter();
+		odtExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		odtExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(new File(outputDir, jasperPrint.getName() + ".odt")));
+		odtExporter.exportReport();
+
+		JRRtfExporter rtfExporter = new JRRtfExporter();
+		rtfExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		rtfExporter.setExporterOutput(new SimpleWriterExporterOutput(new File(outputDir, jasperPrint.getName() + ".rtf")));
+		rtfExporter.exportReport();
 
                 
                 // Other exporters, while possibly supported, are deprecated or no longer used.
