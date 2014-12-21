@@ -743,7 +743,16 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		imageWidth = null;
 		imageX = null;
 		
-		Dimension2D imageSize = renderer == null ? null : renderer.getDimension(filler.getJasperReportsContext());
+		Dimension2D imageSize = null;
+		try
+		{
+			imageSize = renderer == null ? null : renderer.getDimension(filler.getJasperReportsContext());
+		}
+		catch (Exception e)
+		{
+			//ignore exception here; will be raised again when rendering the image
+		}
+		
 		if (imageSize == null)
 		{
 			return true;
