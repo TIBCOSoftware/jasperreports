@@ -30,7 +30,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -111,30 +110,15 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	private static final String ATTRIBUTE_name = "name";
 	private static final String ATTRIBUTE_visible = "visible";
 	private static final String ATTRIBUTE_key = "key";
-
-	/**
-	 * Thread local soft cache of instances.
-	 */
-	private static final ThreadLocal<SoftReference<SimpleFontExtensionHelper>> threadInstances = new ThreadLocal<SoftReference<SimpleFontExtensionHelper>>();
 	
 	/**
-	 * Return a cached instance.
+	 * Return a new instance.
 	 * 
-	 * @return a cached instance
+	 * @return a new instance
 	 */
 	public static SimpleFontExtensionHelper getInstance()
 	{
-		SimpleFontExtensionHelper instance = null;
-		SoftReference<SimpleFontExtensionHelper> instanceRef = threadInstances.get();
-		if (instanceRef != null)
-		{
-			instance = instanceRef.get();
-		}
-		if (instance == null)
-		{
-			instance = new SimpleFontExtensionHelper();
-			threadInstances.set(new SoftReference<SimpleFontExtensionHelper>(instance));
-		}
+		SimpleFontExtensionHelper instance = new SimpleFontExtensionHelper();
 		return instance;
 	}
 	

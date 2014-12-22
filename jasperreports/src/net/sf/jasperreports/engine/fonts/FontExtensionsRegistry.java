@@ -49,10 +49,14 @@ public class FontExtensionsRegistry implements ExtensionsRegistry
 		{
 			if (fontFamilies == null && fontFamiliesLocations != null)
 			{
+				SimpleFontExtensionHelper fontExtensionHelper = SimpleFontExtensionHelper.getInstance();
+				DefaultJasperReportsContext context = DefaultJasperReportsContext.getInstance();
+				
 				fontFamilies = new ArrayList<FontFamily>();
 				for (String location : fontFamiliesLocations)
 				{
-					fontFamilies.addAll(SimpleFontExtensionHelper.getInstance().loadFontFamilies(DefaultJasperReportsContext.getInstance(), location));
+					List<FontFamily> families = fontExtensionHelper.loadFontFamilies(context, location);
+					fontFamilies.addAll(families);
 				}
 			}
 			@SuppressWarnings("unchecked")
