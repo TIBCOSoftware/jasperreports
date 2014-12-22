@@ -66,7 +66,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 	}
 	
 	public static final Pattern PLACEHOLDER_PATTERN = 
-			Pattern.compile("\\$([RPFV])\\{(.+?)\\}", Pattern.MULTILINE | Pattern.DOTALL);
+			Pattern.compile("\\$([RPFV])\\{(.*?)\\}", Pattern.MULTILINE | Pattern.DOTALL);
 	
 	protected static final int PLACEHOLDER_TYPE_INDEX = 1;
 	protected static final int PLACEHOLDER_TEXT_INDEX = 2;
