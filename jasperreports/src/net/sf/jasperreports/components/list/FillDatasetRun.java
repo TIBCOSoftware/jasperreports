@@ -179,7 +179,11 @@ public class FillDatasetRun extends JRFillDatasetRun
 		
 		if (dataset.next())
 		{
-			if (!first)
+			if (first)
+			{
+				first = false;
+			}
+			else
 			{
 				group();
 			}
