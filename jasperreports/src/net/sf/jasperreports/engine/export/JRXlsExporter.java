@@ -117,6 +117,7 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Hyperlink;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
 
@@ -340,22 +341,22 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
 		if (pageFormat.getLeftMargin() != null)
 		{
-			sheet.setMargin((short)0, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getLeftMargin()));
+			sheet.setMargin(Sheet.LeftMargin, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getLeftMargin()));
 		}
 		
 		if (pageFormat.getRightMargin() != null)
 		{
-			sheet.setMargin((short)1, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getRightMargin()));
+			sheet.setMargin(Sheet.RightMargin, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getRightMargin()));
 		}
 		
 		if (pageFormat.getTopMargin() != null)
 		{
-			sheet.setMargin((short)2, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getTopMargin()));
+			sheet.setMargin(Sheet.TopMargin, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getTopMargin()));
 		}
 		
 		if (pageFormat.getBottomMargin() != null)
 		{
-			sheet.setMargin((short)3, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getBottomMargin()));
+			sheet.setMargin(Sheet.BottomMargin, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getBottomMargin()));
 		}
 
 		Integer fitWidth = configuration.getFitWidth();
