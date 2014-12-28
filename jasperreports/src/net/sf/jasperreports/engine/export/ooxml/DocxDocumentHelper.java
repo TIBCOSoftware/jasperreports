@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.type.OrientationEnum;
  */
 public class DocxDocumentHelper extends BaseHelper
 {
-	protected static int DEFAULT_LINE_PITCH = 360;
 	/**
 	 * 
 	 */
@@ -80,14 +79,9 @@ public class DocxDocumentHelper extends BaseHelper
 		write("   <w:pgSz w:w=\"" + LengthUtil.twip(pageFormat.getPageWidth()) + "\" w:h=\"" + LengthUtil.twip(pageFormat.getPageHeight()) + "\"");
 		write(" w:orient=\"" + (pageFormat.getOrientation() == OrientationEnum.LANDSCAPE ? "landscape" : "portrait") + "\"");
 		write("/>\n");
-		int top = pageFormat.getTopMargin() != null ? LengthUtil.twip(pageFormat.getTopMargin()) : 0;
-		int left = pageFormat.getLeftMargin() != null ? LengthUtil.twip(pageFormat.getLeftMargin()) : 0;
-		int right = pageFormat.getRightMargin() != null ? LengthUtil.twip(pageFormat.getRightMargin()) : 0;
-		int bottom = pageFormat.getBottomMargin() != null ? Math.max(LengthUtil.twip(pageFormat.getBottomMargin()) - DEFAULT_LINE_PITCH, 0) : 0;
-
-		write("   <w:pgMar w:top=\"" + top + "\" w:right=\"" + right + "\" w:bottom=\"" + bottom + "\" w:left=\"" + left + "\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" />\n");
+		write("   <w:pgMar w:top=\"0\" w:right=\"0\" w:bottom=\"0\" w:left=\"0\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" />\n");
 //		write("   <w:cols w:space=\"720\" />\n");
-		write("   <w:docGrid w:linePitch=\"" + DEFAULT_LINE_PITCH + "\" />\n");
+		write("   <w:docGrid w:linePitch=\"360\" />\n");
 		write("  </w:sectPr>\n");
 		if (!lastPage)
 		{

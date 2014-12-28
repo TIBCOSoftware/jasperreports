@@ -451,6 +451,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		pageAnchor = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
 		
 		ReportExportConfiguration configuration = getCurrentItemConfiguration();
+
 		JRGridLayout layout =
 			new JRGridLayout(
 				nature,
