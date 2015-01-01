@@ -41,12 +41,7 @@ import net.sf.jasperreports.engine.util.SortedIntList;
  */
 public class CutsInfo
 {
-//	public static final int USAGE_NOT_EMPTY = 1;
-//	public static final int USAGE_SPANNED = 2;
-//	public static final int USAGE_BREAK = 4;
-	
 	private final SortedIntList cutOffsets = new SortedIntList();
-//	private int[] cutUsage;
 	private Cut[] cuts;
 	
 	private Map<String, Object> propertiesMap;
@@ -115,37 +110,6 @@ public class CutsInfo
 		return cutOffsets.indexOf(cutOffset);
 	}
 
-	/**
-	 * Decides whether a cut is empty or not.
-	 * 
-	 * @param index the cut index
-	 * @return <code>true</code> if and only if the cut is not empty
-	 */
-	public boolean isCutNotEmpty(int index)//FIXMEXLS do this in Cut
-	{
-		return getCut(index).isCutNotEmpty();
-	}
-
-	/**
-	 * Decides whether a cut is occupied by spanning cells or not.
-	 * 
-	 * @param index the cut index
-	 * @return <code>true</code> if and only if the cut is not empty
-	 */
-	public boolean isCutSpanned(int index)
-	{
-		return getCut(index).isCutSpanned();
-	}
-
-	/**
-	 * 
-	 */
-	public boolean isBreak(int index)
-	{
-		Cut cut = getCut(index);
-		return ((cut.getUsage() & Cut.USAGE_BREAK) > 0);
-	}
-	
 	public boolean hasCuts()
 	{
 		return !cutOffsets.isEmpty();

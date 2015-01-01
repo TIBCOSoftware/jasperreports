@@ -83,6 +83,14 @@ public class Cut
 		return ((getUsage() & Cut.USAGE_SPANNED) > 0);
 	}
 
+	/**
+	 * 
+	 */
+	public boolean isBreak()
+	{
+		return ((getUsage() & Cut.USAGE_BREAK) > 0);
+	}
+	
 	public boolean hasProperty(String name) 
 	{
 		return propertiesMap == null ? false : propertiesMap.containsKey(name);

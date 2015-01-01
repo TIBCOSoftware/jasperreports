@@ -869,12 +869,14 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		int rowCount = grid.getRowCount();
 		for(int y = 0; y < rowCount; y++)
 		{
+			Cut yCut = yCuts.getCut(y);
+
 			rowIndex = y - skippedRows + startRow;
 
 			//if number of rows is too large a new sheet is created and populated with remaining rows
 			if(
 				(maxRowsPerSheet > 0 && rowIndex >= maxRowsPerSheet)
-				|| yCuts.isBreak(y) 
+				|| yCut.isBreak() 
 				)
 			{
 				//updateColumns(xCuts);
@@ -889,8 +891,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			}
 			
 			if (
-				yCuts.isCutNotEmpty(y)
-				|| ((!isRemoveEmptySpaceBetweenRows || yCuts.isCutSpanned(y))
+				yCut.isCutNotEmpty()
+				|| ((!isRemoveEmptySpaceBetweenRows || yCut.isCutSpanned())
 				&& !isCollapseRowSpan)
 				)
 			{
@@ -899,7 +901,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				int emptyCellColSpan = 0;
 				//int emptyCellWidth = 0;
 
-				Cut yCut = yCuts.getCut(y);
 				mergeAndSetRowLevels(levelInfo, (SortedMap<String, Boolean>)yCut.getProperty(PROPERTY_ROW_OUTLINE_LEVEL_PREFIX), rowIndex);
 
 				setRowHeight(
@@ -915,7 +916,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				int rowSize = gridRow.size();
 				for(int xCutIndex = 0; xCutIndex < rowSize; xCutIndex++)
 				{
-					boolean isEmptyCol = !(xCuts.isCutNotEmpty(xCutIndex) || xCuts.isCutSpanned(xCutIndex));//FIXMEXLS we could do this only once
+					Cut xCut = xCuts.getCut(xCutIndex);
+
+					boolean isEmptyCol = !(xCut.isCutNotEmpty() || xCut.isCutSpanned());//FIXMEXLS we could do this only once
 					emptyCols += isRemoveEmptySpaceBetweenColumns && isEmptyCol ? 1 : 0;
 					
 					int colIndex = xCutIndex - emptyCols;
@@ -1111,25 +1114,25 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		int rowCount = yCuts.size() - 1;
 		for(int y = startCutIndex; y < rowCount; y++)
 		{
+			Cut yCut = yCuts.getCut(y);
+			
 			rowIndex = y - skippedRows;
 
 			if(
 				y > startCutIndex &&
 				((maxRowsPerSheet > 0 && rowIndex >= maxRowsPerSheet)
-				|| yCuts.isBreak(y)) 
+				|| yCut.isBreak()) 
 				)
 			{
 				break;
 			}
 			
 			if (
-				yCuts.isCutNotEmpty(y)
-				|| ((!isRemoveEmptySpaceBetweenRows || yCuts.isCutSpanned(y))
+				yCut.isCutNotEmpty()
+				|| ((!isRemoveEmptySpaceBetweenRows || yCut.isCutSpanned())
 				&& !isCollapseRowSpan)
 				)
 			{
-				Cut yCut = yCuts.getCut(y);
-
 				String sheetName = (String)yCut.getProperty(PROPERTY_SHEET_NAME);
 				if (sheetName != null)
 				{
@@ -1272,9 +1275,10 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		int emptyCols = 0;
 		for(int xCutIndex = 0; xCutIndex < xCuts.size() - 1; xCutIndex++)
 		{
-			if (!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(xCutIndex) || xCuts.isCutSpanned(xCutIndex)))
+			Cut xCut = xCuts.getCut(xCutIndex);
+
+			if (!isRemoveEmptySpaceBetweenColumns || (xCut.isCutNotEmpty() || xCut.isCutSpanned()))
 			{
-				Cut xCut = xCuts.getCut(xCutIndex);
 				Integer width = (Integer)xCut.getProperty(PROPERTY_COLUMN_WIDTH);
 				width = 
 					width == null 

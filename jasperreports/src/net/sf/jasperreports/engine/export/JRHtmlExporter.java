@@ -575,11 +575,15 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		
 		boolean isRemoveEmptySpaceBetweenRows = ((HtmlReportConfiguration)getCurrentItemConfiguration()).isRemoveEmptySpaceBetweenRows();
 
+		CutsInfo yCuts = gridLayout.getYCuts();
+		
 		thDepth = 0;
 		int rowCount = grid.getRowCount();
 		for(int y = 0; y < rowCount; y++)
 		{
-			if (gridLayout.getYCuts().isCutSpanned(y) || !isRemoveEmptySpaceBetweenRows)
+			Cut yCut = yCuts.getCut(y);
+
+			if (yCut.isCutSpanned() || !isRemoveEmptySpaceBetweenRows)
 			{
 				GridRow gridRow = grid.getRow(y);
 				
