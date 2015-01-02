@@ -24,10 +24,10 @@
 package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.NavigableMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.PrintPageFormat;
@@ -42,18 +42,23 @@ public class StandardPrintParts implements PrintParts, Serializable
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private TreeMap<Integer, PrintPart> parts;
+	private NavigableMap<Integer, PrintPart> parts;
 
+	public StandardPrintParts()
+	{
+		this.parts = new ConcurrentSkipListMap<Integer, PrintPart>();
+	}
+	
 	@Override
 	public boolean hasParts()
 	{
-		return parts != null && !parts.isEmpty();
+		return !parts.isEmpty();
 	}
 
 	@Override
 	public int partCount()
 	{
-		return parts == null ? 0 : parts.size();
+		return parts.size();
 	}
 
 	@Override
@@ -70,11 +75,6 @@ public class StandardPrintParts implements PrintParts, Serializable
 	@Override
 	public void addPart(int pageIndex, PrintPart part)
 	{
-		if (parts == null)
-		{
-			parts = new TreeMap<Integer, PrintPart>();
-		}
-		
 		parts.put(pageIndex, part);
 	}
 
@@ -87,8 +87,7 @@ public class StandardPrintParts implements PrintParts, Serializable
 	@Override
 	public Iterator<Map.Entry<Integer, PrintPart>> partsIterator()
 	{
-		return parts == null ? Collections.<Map.Entry<Integer, PrintPart>>emptySet().iterator()
-				: parts.entrySet().iterator();
+		return parts.entrySet().iterator();
 	}
 
 	@Override
