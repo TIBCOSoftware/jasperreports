@@ -118,7 +118,7 @@ public final class ChartConverter extends ElementConverter
 		
 		ChartTheme theme = ChartUtil.getInstance(reportConverter.getJasperReportsContext()).getTheme(themeName);
 		
-		ChartContext chartContext = new ConvertChartContext(chart);
+		ChartContext chartContext = new ConvertChartContext(reportConverter, chart);
 		
 		JFreeChart jfreeChart = null;
 		try

@@ -78,10 +78,12 @@ import org.jfree.date.DateUtilities;
  */
 public class ConvertChartContext implements ChartContext
 {
+	private final ReportConverter reportConverter;
 	private final JRChart chart;
 	
-	protected ConvertChartContext(JRChart chart)
+	protected ConvertChartContext(ReportConverter reportConverter, JRChart chart)
 	{
+		this.reportConverter = reportConverter;
 		this.chart = chart;
 	}
 	
@@ -151,11 +153,11 @@ public class ConvertChartContext implements ChartContext
 	}
 
 	public Locale getLocale() {
-		return null;//FIXMETHEME
+		return reportConverter.getLocale();
 	}
 
 	public TimeZone getTimeZone() {
-		return null;
+		return reportConverter.getTimeZone();
 	}
 	
 	private static DefaultCategoryDataset sampleCategoryDataset;
