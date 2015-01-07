@@ -225,6 +225,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	{
 		this.parentFiller = parent;
 		this.filler = parent.filler;
+		this.reportFiller = parent.reportFiller;
 		this.evaluator = expressionEvaluator;
 	}
 
