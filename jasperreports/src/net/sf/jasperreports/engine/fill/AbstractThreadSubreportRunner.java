@@ -172,7 +172,7 @@ public abstract class AbstractThreadSubreportRunner extends JRSubreportRunnable 
 		}
 		catch(InterruptedException e)
 		{
-			if (subreportFiller.fillContext.isCanceled())
+			if (subreportFiller.fillContext.isCanceled() || subreportFiller.isDeliberatelyInterrupted())
 			{
 				// only log a debug message if cancel was requested
 				if (log.isDebugEnabled())

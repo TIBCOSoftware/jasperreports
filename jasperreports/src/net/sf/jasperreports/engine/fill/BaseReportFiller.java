@@ -112,6 +112,7 @@ public abstract class BaseReportFiller implements ReportFiller
 	protected Thread fillingThread;
 	
 	private boolean isInterrupted;
+	private boolean threadInterrupted;
 
 	protected FillListener fillListener;
 
@@ -504,7 +505,12 @@ public abstract class BaseReportFiller implements ReportFiller
 	
 	protected boolean isInterrupted()
 	{
-		return (isInterrupted || (parent != null && parent.getFiller().isInterrupted()));
+		return (isInterrupted || threadInterrupted || (parent != null && parent.getFiller().isInterrupted()));
+	}
+	
+	protected boolean isDeliberatelyInterrupted()
+	{
+		return (isInterrupted || (parent != null && parent.getFiller().isDeliberatelyInterrupted()));
 	}
 
 	protected void setInterrupted(boolean isInterrupted)
@@ -516,7 +522,7 @@ public abstract class BaseReportFiller implements ReportFiller
 	{
 		if (Thread.interrupted())
 		{
-			setInterrupted(true);
+			threadInterrupted = true;
 		}
 		
 		if (isInterrupted())
