@@ -498,7 +498,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	{
 		if (log.isDebugEnabled())
 		{
-			log.debug("Fill " + filler.fillerId + ": creating subreport filler");
+			log.debug("Fill " + filler.fillerId + ": creating subreport filler for " + jasperReport.getName());
 		}
 		
 		SectionTypeEnum subreportSectionType = jasperReport.getSectionType();
