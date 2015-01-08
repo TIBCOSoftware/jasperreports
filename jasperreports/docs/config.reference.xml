@@ -276,6 +276,7 @@
       
       <property ref="net.sf.jasperreports.export.xls.auto.filter"/>
       <property ref="net.sf.jasperreports.export.xls.auto.fit.column"/>
+      <property ref="net.sf.jasperreports.export.xls.auto.fit.height"/>
       <property ref="net.sf.jasperreports.export.xls.auto.fit.row"/>
       
       <property ref="net.sf.jasperreports.export.xls.break.after.row"/>
@@ -3585,6 +3586,27 @@ Allowed values are:
     <default>false</default>
     <scope>Element</scope>
     <since>4.5.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.auto.fit.height -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.auto.fit.height">
+    <description>
+Flag property that provides a default value for the <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isAutoFitHeight()">isAutoFitHeight()</api>api> export setting.
+If set to true, the exporter will automatically fit the print height of a sheet to the number of JasperPrint pages exported in that sheet
+Default value is not set.
+<br/>
+Allowed values are:
+<ul>
+<li><code>true</code></li>
+<li><code>false</code></li>
+</ul>
+    </description>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_AUTO_FIT_HEIGHT</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>6.0.2</since>
   </configProperty>
   
   
