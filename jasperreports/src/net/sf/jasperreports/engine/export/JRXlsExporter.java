@@ -176,6 +176,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 	protected HSSFPatriarch patriarch;
 	
+	protected boolean scaleSet;
+	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext
 	{
 	}
@@ -338,38 +340,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			sheet.protectSheet(password);
 		}
 		
-		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
-		if (pageFormat.getLeftMargin() != null)
-		{
-			sheet.setMargin(Sheet.LeftMargin, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getLeftMargin()));
-		}
-		
-		if (pageFormat.getRightMargin() != null)
-		{
-			sheet.setMargin(Sheet.RightMargin, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getRightMargin()));
-		}
-		
-		if (pageFormat.getTopMargin() != null)
-		{
-			sheet.setMargin(Sheet.TopMargin, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getTopMargin()));
-		}
-		
-		if (pageFormat.getBottomMargin() != null)
-		{
-			sheet.setMargin(Sheet.BottomMargin, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getBottomMargin()));
-		}
+		sheet.setMargin(Sheet.LeftMargin, 0.0);
+		sheet.setMargin(Sheet.RightMargin, 0.0);
+		sheet.setMargin(Sheet.TopMargin, 0.0);
+		sheet.setMargin(Sheet.BottomMargin, 0.0);
 
 		Integer fitWidth = configuration.getFitWidth();
 		if(!isValidScale(sheetInfo.sheetPageScale) && fitWidth != null)
 		{
 			printSetup.setFitWidth(fitWidth.shortValue());
-			sheet.setAutobreaks(true);
-		}
-		
-		Integer fitHeight = configuration.getFitHeight();
-		if(!isValidScale(sheetInfo.sheetPageScale) && fitHeight != null)
-		{
-			printSetup.setFitHeight(fitHeight.shortValue());
 			sheet.setAutobreaks(true);
 		}
 		
@@ -2034,13 +2013,23 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	
 	protected void setScale(Integer scale)
 	{
-		if (isValidScale(scale))
+		scaleSet = isValidScale(scale);
+		if (scaleSet)
 		{
 			HSSFPrintSetup printSetup = sheet.getPrintSetup();
 			printSetup.setScale((short)scale.intValue());
 		}
 	}
-
+	
+	protected void setFitHeight(Integer fitHeight)
+	{
+		if(!scaleSet && fitHeight != null)
+		{
+			HSSFPrintSetup printSetup = sheet.getPrintSetup();
+			printSetup.setFitHeight(fitHeight.shortValue());
+			sheet.setAutobreaks(true);
+		}
+	}
 
 	/**
 	 * 

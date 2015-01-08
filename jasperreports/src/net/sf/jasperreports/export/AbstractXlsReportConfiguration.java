@@ -70,7 +70,8 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	private Integer firstPageNumber;
 	private Boolean isShowGridLines;
 	private ImageAnchorTypeEnum imageAnchorType;
-	
+	private Boolean isAutoFitHeight;
+
 	
 	/**
 	 * 
@@ -726,4 +727,21 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	{
 		this.imageAnchorType = imageAnchorType;
 	}
+	
+	/**
+	 * 
+	 */
+	public Boolean isAutoFitHeight()
+	{
+		return isAutoFitHeight;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setAutoFitHeight(Boolean isAutoFitHeight)
+	{
+		this.isAutoFitHeight = isAutoFitHeight;
+	}
+	
 }

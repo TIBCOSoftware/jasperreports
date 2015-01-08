@@ -136,6 +136,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
 import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.ss.usermodel.Sheet;
 
 
 /**
@@ -2049,34 +2050,16 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		
 		JxlReportConfiguration configuration = getCurrentItemConfiguration();
 		
-		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
-		
-		if (pageFormat.getTopMargin() != null)
-		{
-			sheets.setTopMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getTopMargin()));
-		}
-
-		if (pageFormat.getLeftMargin() != null)
-		{
-			sheets.setLeftMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getLeftMargin()));
-		}
-		
-		if (pageFormat.getRightMargin() != null)
-		{
-			sheets.setRightMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getRightMargin()));
-		}
-
-		if (pageFormat.getBottomMargin() != null)
-		{
-			sheets.setBottomMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getBottomMargin()));
-		}
+		sheets.setTopMargin(0.0);
+		sheets.setLeftMargin(0.0);
+		sheets.setRightMargin(0.0);
+		sheets.setBottomMargin(0.0);
 
 		sheets.setHeaderMargin(0.0);
 		sheets.setFooterMargin(0.0);
 
 		Integer fitWidth = configuration.getFitWidth();
 		Integer fitHeight = configuration.getFitHeight();
-		
 		if(fitWidth != null || fitWidth != null)
 		{
 			sheets.setFitWidth(fitWidth == null ? 1 : fitWidth);
@@ -2643,6 +2626,20 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 			}			
 		}
 		return textValue;
+	}
+	
+	protected void setFitHeight(Integer fitHeight)
+	{
+		SheetSettings sheetSettings = sheet.getSettings();
+		if(sheetSettings.getScaleFactor() == 0 && fitHeight != null)
+		{
+			sheetSettings.setFitHeight(fitHeight);
+			if(sheetSettings.getFitWidth() == 0)
+			{
+				sheetSettings.setFitWidth(1);
+			}
+			sheetSettings.setFitToPages(true);
+		}
 	}
 	
 }

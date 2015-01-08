@@ -866,7 +866,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						sheetAutoFilter,
 						currentSheetPageScale, 
 						currentSheetFirstPageNumber,
-						false
+						false,
+						totalPrintPages
 						);
 					firstPageNotSet = false;
 			}
@@ -882,7 +883,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						sheetAutoFilter,
 						currentSheetPageScale, 
 						documentFirstPageNumber,
-						false
+						false,
+						totalPrintPages
 						);
 						firstPageNotSet = false;
 				}
@@ -895,7 +897,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						sheetAutoFilter,
 						currentSheetPageScale, 
 						null,
-						firstPageNotSet
+						firstPageNotSet,
+						totalPrintPages
 						);
 				}
 			}
@@ -1680,6 +1683,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			return name.replaceAll("\\W", "");
 		}
 		return null;
+	}
+	
+	protected void setFitHeight(Integer fitHeight)
+	{
+		//nothing to do here; already done in XlsxSheetHelper exportFooter() method
 	}
 	
 }

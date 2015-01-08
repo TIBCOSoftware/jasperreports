@@ -387,6 +387,21 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_IMAGE_ANCHOR_TYPE = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "image.anchor.type";
+	
+	/**
+	 * Flag property that provides a default value for the {@link #isAutoFitHeight()} export setting.
+	 * If set to true, the exporter will automatically fit the print height of a sheet to the number of JasperPrint pages exported in that sheet
+	 * Default value is not set.
+	 * <br/>
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * </ul>
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_AUTO_FIT_HEIGHT = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "auto.fit.height";
 
 	/**
 	 * Returns a boolean value specifying whether each report page should be written in a different XLS sheet.
@@ -843,4 +858,14 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(PROPERTY_IMAGE_ANCHOR_TYPE)
 	public ImageAnchorTypeEnum getImageAnchorType();
+	
+	/**
+	 * Flag that specifies whether the fit height should be estimated automatically.
+	 * @see #PROPERTY_AUTO_FIT_HEIGHT
+	 */
+	@ExporterProperty(
+			value=PROPERTY_AUTO_FIT_HEIGHT,
+			booleanDefault=false
+			)
+	public Boolean isAutoFitHeight();
 }

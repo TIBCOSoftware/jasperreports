@@ -984,6 +984,10 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		}
 	}
 
+	protected void setFitHeight(Integer fitHeight)
+	{
+		//nothing to do here
+	}
 	
 }
 

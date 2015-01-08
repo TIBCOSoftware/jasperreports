@@ -610,6 +610,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	
 	protected String invalidCharReplacement;
 	
+	protected Integer totalPrintPages;
+	
 	protected static class SheetInfo
 	{
 		public String sheetName;
@@ -680,12 +682,11 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 *
 	 */
 	@Override
-	protected void ensureInput()
+  	protected void ensureInput()
 	{
 		super.ensureInput();
 
 		exporterInput = new PrintPartUnrollExporterInput(exporterInput);
-		
 		jasperPrint = exporterInput.getItems().get(0).getJasperPrint();//this is just for the sake of getCurrentConfiguration() calls made prior to any setCurrentExporterInputItem() call
 	}
 
@@ -754,6 +755,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			
 			defaultFont = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 			
+			totalPrintPages = null;
+			
 			if(!hasGlobalSheetNames())
 			{
 				sheetNamesIndex = 0;
@@ -783,6 +786,16 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						
 						/*   */
 						exportPage(page, /*xCuts*/null, /*startRow*/0, /*defaultSheetName*/null);
+						
+						if(configuration.getFitHeight() != null)
+						{
+							setFitHeight(configuration.getFitHeight());
+						}
+						else if(configuration.isAutoFitHeight())
+						{
+							setFitHeight(1);
+						}
+						
 					}
 				}
 				else
@@ -813,8 +826,25 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						JRPrintPage page = pages.get(pageIndex);
 						pageFormat = jasperPrint.getPageFormat(pageIndex);
 						startRow = exportPage(page, xCuts, startRow, jasperPrint.getName());//FIXMEPART
+						if(configuration.getFitHeight() != null)
+						{
+							totalPrintPages = totalPrintPages == null ? configuration.getFitHeight() : totalPrintPages + configuration.getFitHeight();
+						}
+						else 
+						{
+							totalPrintPages = totalPrintPages == null ? 1 : totalPrintPages + 1;
+						}
 					}
 					//updateColumns(xCuts);
+					if(configuration.getFitHeight() != null)
+					{
+						setFitHeight(configuration.getFitHeight());
+					}
+					else if(configuration.isAutoFitHeight())
+					{
+						setFitHeight(totalPrintPages);
+					}
+					
 				}
 			}
 			sheetsBeforeCurrentReport = configuration.isOnePagePerSheet() ? sheetIndex : sheetsBeforeCurrentReport + 1;
@@ -1865,5 +1895,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected abstract void setRowLevels(XlsRowLevelInfo levelInfo, String level);
 	
 	protected abstract void setScale(Integer scale);
+	
+	protected abstract void setFitHeight(Integer fitHeight);
 	
 }

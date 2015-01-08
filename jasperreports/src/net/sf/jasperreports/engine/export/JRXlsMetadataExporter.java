@@ -184,6 +184,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 	protected HSSFPatriarch patriarch;
 	
+	protected boolean scaleSet;
+	
 	protected static final String EMPTY_SHEET_NAME = "Sheet1";
 
 	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext	
@@ -319,33 +321,14 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			sheet.protectSheet(password);
 		}
 		
-		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
-		
-		if (pageFormat.getLeftMargin() != null) {
-			sheet.setMargin(Sheet.LeftMargin, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getLeftMargin()));
-		}
-		
-		if (pageFormat.getRightMargin() != null) {
-			sheet.setMargin(Sheet.RightMargin, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getRightMargin()));
-		}
-		
-		if (pageFormat.getTopMargin() != null)	{
-			sheet.setMargin(Sheet.TopMargin, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getTopMargin()));
-		}
-		
-		if (pageFormat.getBottomMargin() != null) {
-			sheet.setMargin(Sheet.BottomMargin, LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : pageFormat.getBottomMargin()));
-		}
+		sheet.setMargin(Sheet.LeftMargin, 0.0);
+		sheet.setMargin(Sheet.RightMargin, 0.0);
+		sheet.setMargin(Sheet.TopMargin, 0.0);
+		sheet.setMargin(Sheet.BottomMargin, 0.0);
 
 		Integer fitWidth = configuration.getFitWidth();
 		if(!isValidScale(sheetInfo.sheetPageScale) && fitWidth != null) {
 			printSetup.setFitWidth(fitWidth.shortValue());
-			sheet.setAutobreaks(true);
-		}
-		
-		Integer fitHeight = configuration.getFitHeight();
-		if(!isValidScale(sheetInfo.sheetPageScale) && fitHeight != null) {
-			printSetup.setFitHeight(fitHeight.shortValue());
 			sheet.setAutobreaks(true);
 		}
 		
@@ -1604,8 +1587,11 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 //		}
 	}
 	
-	protected void setScale(Integer scale) {
-		if (isValidScale(scale)) {
+	protected void setScale(Integer scale)
+	{
+		scaleSet = isValidScale(scale);
+		if (scaleSet)
+		{
 			HSSFPrintSetup printSetup = sheet.getPrintSetup();
 			printSetup.setScale((short)scale.intValue());
 		}
@@ -1860,6 +1846,16 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		return cellFont;
 	}
 	
+	protected void setFitHeight(Integer fitHeight)
+	{
+		if(!scaleSet && fitHeight != null)
+		{
+			HSSFPrintSetup printSetup = sheet.getPrintSetup();
+			printSetup.setFitHeight(fitHeight.shortValue());
+			sheet.setAutobreaks(true);
+		}
+	}
+
 	@Override
 	protected void createSheet(CutsInfo xCuts, SheetInfo sheetInfo) {
 	}
