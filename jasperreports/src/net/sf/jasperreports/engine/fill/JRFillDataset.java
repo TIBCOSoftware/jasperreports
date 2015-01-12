@@ -477,7 +477,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	/**
 	 * Inherits properties from the report.
 	 */
-	protected void inheritFromMain()
+	public void inheritFromMain()
 	{
 		if (resourceBundleBaseName == null && !isMain)
 		{
