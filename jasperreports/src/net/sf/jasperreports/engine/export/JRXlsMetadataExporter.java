@@ -184,8 +184,6 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 	protected HSSFPatriarch patriarch;
 	
-	protected boolean scaleSet;
-	
 	protected static final String EMPTY_SHEET_NAME = "Sheet1";
 
 	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext	
@@ -326,12 +324,6 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		sheet.setMargin(Sheet.TopMargin, 0.0);
 		sheet.setMargin(Sheet.BottomMargin, 0.0);
 
-		Integer fitWidth = configuration.getFitWidth();
-		if(!isValidScale(sheetInfo.sheetPageScale) && fitWidth != null) {
-			printSetup.setFitWidth(fitWidth.shortValue());
-			sheet.setAutobreaks(true);
-		}
-		
 		String sheetHeaderLeft = configuration.getSheetHeaderLeft();
 		if(sheetHeaderLeft != null)	{
 			sheet.getHeader().setLeft(sheetHeaderLeft);
@@ -408,6 +400,39 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 		onePagePerSheetMap.put(sheetIndex, configuration.isOnePagePerSheet());
 		sheetsBeforeCurrentReportMap.put(sheetIndex, sheetsBeforeCurrentReport);
+	}
+
+	protected void closeSheet()	{
+		HSSFPrintSetup printSetup = sheet.getPrintSetup();
+		
+		if (isValidScale(sheetInfo.sheetPageScale))
+		{
+			printSetup.setScale((short)sheetInfo.sheetPageScale.intValue());
+		}
+		else
+		{
+			XlsReportConfiguration configuration = getCurrentItemConfiguration();
+
+			Integer fitWidth = configuration.getFitWidth();
+			if (fitWidth != null) 
+			{
+				printSetup.setFitWidth(fitWidth.shortValue());
+				sheet.setAutobreaks(true);
+			}
+
+			Integer fitHeight = configuration.getFitHeight();
+			fitHeight = 
+				fitHeight == null
+				? (Boolean.TRUE == configuration.isAutoFitPageHeight() 
+					? (pageIndex - sheetInfo.sheetFirstPageIndex)
+					: null)
+				: fitHeight;
+			if (fitHeight != null)
+			{
+				printSetup.setFitHeight(fitHeight.shortValue());
+				sheet.setAutobreaks(true);
+			}
+		}
 	}
 
 	protected void closeWorkbook(OutputStream os) throws JRException {
@@ -1586,16 +1611,6 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 //			}
 //		}
 	}
-	
-	protected void setScale(Integer scale)
-	{
-		scaleSet = isValidScale(scale);
-		if (scaleSet)
-		{
-			HSSFPrintSetup printSetup = sheet.getPrintSetup();
-			printSetup.setScale((short)scale.intValue());
-		}
-	}
 
 
 	private final short getSuitablePaperSize() {
@@ -1846,22 +1861,18 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		return cellFont;
 	}
 	
-	protected void setFitHeight(Integer fitHeight)
-	{
-		if(!scaleSet && fitHeight != null)
-		{
-			HSSFPrintSetup printSetup = sheet.getPrintSetup();
-			printSetup.setFitHeight(fitHeight.shortValue());
-			sheet.setAutobreaks(true);
-		}
-	}
-
 	@Override
 	protected void createSheet(CutsInfo xCuts, SheetInfo sheetInfo) {
 	}
 
 	@Override
 	protected void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut, XlsRowLevelInfo levelInfo) throws JRException {
+	}
+
+	@Override
+	protected void addRowBreak(int rowIndex)
+	{
+		sheet.setRowBreak(rowIndex);
 	}
 
 	@Override

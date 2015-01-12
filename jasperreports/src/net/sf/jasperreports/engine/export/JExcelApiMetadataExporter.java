@@ -136,7 +136,6 @@ import net.sf.jasperreports.repo.RepositoryUtil;
 import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.poi.ss.usermodel.Sheet;
 
 
 /**
@@ -380,6 +379,42 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		setSheetSettings(sheetInfo, sheet);
 	}
 
+	protected void closeSheet()
+	{
+		sheet = workbook.createSheet(sheetInfo.sheetName, Integer.MAX_VALUE);
+
+		if (sheetInfo.sheetPageScale != null && sheetInfo.sheetPageScale > 9 && sheetInfo.sheetPageScale < 401)
+		{
+			SheetSettings sheetSettings = sheet.getSettings();
+			sheetSettings.setScaleFactor(sheetInfo.sheetPageScale);
+			
+			/* the scale factor takes precedence over fitWidth and fitHeight properties */			
+			sheetSettings.setFitWidth(0);
+			sheetSettings.setFitHeight(0);
+			sheetSettings.setFitToPages(false);
+		}
+		else
+		{
+			JxlReportConfiguration configuration = getCurrentItemConfiguration();
+
+			Integer fitWidth = configuration.getFitWidth();
+			Integer fitHeight = configuration.getFitHeight();
+			fitHeight = 
+				fitHeight == null
+				? (Boolean.TRUE == configuration.isAutoFitPageHeight() 
+					? (pageIndex - sheetInfo.sheetFirstPageIndex)
+					: null)
+				: fitHeight;
+			if (fitWidth != null || fitWidth != null)
+			{
+				SheetSettings sheetSettings = sheet.getSettings();
+				sheetSettings.setFitWidth(fitWidth == null ? 1 : fitWidth);
+				sheetSettings.setFitHeight(fitHeight == null ? 1 : fitHeight);
+				sheetSettings.setFitToPages(true);
+			}
+		}
+	}
+
 	protected void closeWorkbook(OutputStream os) throws JRException
 	{
 		if (sheet == null)//empty document
@@ -466,6 +501,11 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				throw new JRException("Too many rows in sheet " + sheet.getName() + ": " + rowIndex, e);
 			}
 		}
+	}
+
+	protected void addRowBreak(int rowIndex)
+	{
+		sheet.addRowPageBreak(rowIndex);
 	}
 
 	protected void addBlankCell(WritableCellFormat baseStyleFormat, Map<String, Object> cellValueMap, String currentColumnName) throws JRException
@@ -2058,15 +2098,6 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		sheets.setHeaderMargin(0.0);
 		sheets.setFooterMargin(0.0);
 
-		Integer fitWidth = configuration.getFitWidth();
-		Integer fitHeight = configuration.getFitHeight();
-		if(fitWidth != null || fitWidth != null)
-		{
-			sheets.setFitWidth(fitWidth == null ? 1 : fitWidth);
-			sheets.setFitHeight(fitHeight == null ? 1 : fitHeight);
-			sheets.setFitToPages(true);
-		}
-		
 		String password = configuration.getPassword();
 		if(password != null)
 		{
@@ -2543,20 +2574,6 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		// TODO set row levels
 	}
 	
-	protected void setScale(Integer scale)
-	{
-		if (scale != null && scale > 9 && scale < 401)
-		{
-			SheetSettings sheetSettings = sheet.getSettings();
-			sheetSettings.setScaleFactor(scale);
-			
-			/* the scale factor takes precedence over fitWidth and fitHeight properties */			
-			sheetSettings.setFitWidth(0);
-			sheetSettings.setFitHeight(0);
-			sheetSettings.setFitToPages(false);
-		}
-	}
-
 	protected void setAnchorType(WritableImage image, ImageAnchorTypeEnum anchorType)
 	{
 		switch (anchorType)
@@ -2626,20 +2643,6 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 			}			
 		}
 		return textValue;
-	}
-	
-	protected void setFitHeight(Integer fitHeight)
-	{
-		SheetSettings sheetSettings = sheet.getSettings();
-		if(sheetSettings.getScaleFactor() == 0 && fitHeight != null)
-		{
-			sheetSettings.setFitHeight(fitHeight);
-			if(sheetSettings.getFitWidth() == 0)
-			{
-				sheetSettings.setFitWidth(1);
-			}
-			sheetSettings.setFitToPages(true);
-		}
 	}
 	
 }

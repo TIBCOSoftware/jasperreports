@@ -277,6 +277,11 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		tableBuilder.buildRow(rowIndex, isFlexibleRowHeight ? -1 : lastRowHeight);
 	}
 
+	protected void addRowBreak(int rowIndex)
+	{
+		//FIXMEODS sheet.setRowBreak(rowIndex);
+	}
+
 //	@Override
 //	protected void setCell(
 //		JRExporterGridCell gridCell, 
@@ -686,12 +691,6 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		
 	}
 
-	@Override
-	protected void setScale(Integer scale) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	
 	private static final Log log = LogFactory.getLog(JROdsExporter.class);
 	
@@ -984,10 +983,6 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		}
 	}
 
-	protected void setFitHeight(Integer fitHeight)
-	{
-		//nothing to do here
-	}
 	
 }
 

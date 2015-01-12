@@ -176,8 +176,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 	protected HSSFPatriarch patriarch;
 	
-	protected boolean scaleSet;
-	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext
 	{
 	}
@@ -345,13 +343,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		sheet.setMargin(Sheet.TopMargin, 0.0);
 		sheet.setMargin(Sheet.BottomMargin, 0.0);
 
-		Integer fitWidth = configuration.getFitWidth();
-		if(!isValidScale(sheetInfo.sheetPageScale) && fitWidth != null)
-		{
-			printSetup.setFitWidth(fitWidth.shortValue());
-			sheet.setAutobreaks(true);
-		}
-		
 		String sheetHeaderLeft = configuration.getSheetHeaderLeft();
 		if(sheetHeaderLeft != null)
 		{
@@ -438,6 +429,40 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		sheetsBeforeCurrentReportMap.put(sheetIndex, sheetsBeforeCurrentReport);
 	}
 
+	protected void closeSheet()
+	{
+		HSSFPrintSetup printSetup = sheet.getPrintSetup();
+
+		if (isValidScale(sheetInfo.sheetPageScale))
+		{
+			printSetup.setScale((short)sheetInfo.sheetPageScale.intValue());
+		}
+		else
+		{
+			XlsReportConfiguration configuration = getCurrentItemConfiguration();
+
+			Integer fitWidth = configuration.getFitWidth();
+			if (fitWidth != null)
+			{
+				printSetup.setFitWidth(fitWidth.shortValue());
+				sheet.setAutobreaks(true);
+			}
+
+			Integer fitHeight = configuration.getFitHeight();
+			fitHeight = 
+				fitHeight == null
+				? (Boolean.TRUE == configuration.isAutoFitPageHeight() 
+					? (pageIndex - sheetInfo.sheetFirstPageIndex)
+					: null)
+				: fitHeight;
+			if (fitHeight != null)
+			{
+				printSetup.setFitHeight(fitHeight.shortValue());
+				sheet.setAutobreaks(true);
+			}
+		}
+	}
+	
 	protected void closeWorkbook(OutputStream os) throws JRException
 	{
 		try
@@ -524,6 +549,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		{
 			row.setHeightInPoints(lastRowHeight);
 		}
+	}
+
+	protected void addRowBreak(int rowIndex)
+	{
+		sheet.setRowBreak(rowIndex);
 	}
 
 //	protected void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex)
@@ -2011,25 +2041,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		}
 	}
 	
-	protected void setScale(Integer scale)
-	{
-		scaleSet = isValidScale(scale);
-		if (scaleSet)
-		{
-			HSSFPrintSetup printSetup = sheet.getPrintSetup();
-			printSetup.setScale((short)scale.intValue());
-		}
-	}
-	
-	protected void setFitHeight(Integer fitHeight)
-	{
-		if(!scaleSet && fitHeight != null)
-		{
-			HSSFPrintSetup printSetup = sheet.getPrintSetup();
-			printSetup.setFitHeight(fitHeight.shortValue());
-			sheet.setAutobreaks(true);
-		}
-	}
 
 	/**
 	 * 

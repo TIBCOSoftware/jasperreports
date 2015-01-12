@@ -610,10 +610,11 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	
 	protected String invalidCharReplacement;
 	
-	protected Integer totalPrintPages;
+	protected SheetInfo sheetInfo;
 	
 	protected static class SheetInfo
 	{
+		public Integer sheetFirstPageIndex;
 		public String sheetName;
 		public Integer sheetFirstPageNumber;		
 		public Integer sheetPageScale;		
@@ -682,11 +683,12 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 *
 	 */
 	@Override
-  	protected void ensureInput()
+	protected void ensureInput()
 	{
 		super.ensureInput();
 
 		exporterInput = new PrintPartUnrollExporterInput(exporterInput);
+
 		jasperPrint = exporterInput.getItems().get(0).getJasperPrint();//this is just for the sake of getCurrentConfiguration() calls made prior to any setCurrentExporterInputItem() call
 	}
 
@@ -713,6 +715,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected void initExport()
 	{
 		super.initExport();
+
+		sheetIndex = 0;
+		sheetInfo = null;
 		onePagePerSheetMap.clear();
 		sheetsBeforeCurrentReport = 0;
 		sheetsBeforeCurrentReportMap.clear();
@@ -755,8 +760,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			
 			defaultFont = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 			
-			totalPrintPages = null;
-			
 			if(!hasGlobalSheetNames())
 			{
 				sheetNamesIndex = 0;
@@ -786,16 +789,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						
 						/*   */
 						exportPage(page, /*xCuts*/null, /*startRow*/0, /*defaultSheetName*/null);
-						
-						if(configuration.getFitHeight() != null)
-						{
-							setFitHeight(configuration.getFitHeight());
-						}
-						else if(configuration.isAutoFitHeight())
-						{
-							setFitHeight(1);
-						}
-						
 					}
 				}
 				else
@@ -826,29 +819,13 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						JRPrintPage page = pages.get(pageIndex);
 						pageFormat = jasperPrint.getPageFormat(pageIndex);
 						startRow = exportPage(page, xCuts, startRow, jasperPrint.getName());//FIXMEPART
-						if(configuration.getFitHeight() != null)
-						{
-							totalPrintPages = totalPrintPages == null ? configuration.getFitHeight() : totalPrintPages + configuration.getFitHeight();
-						}
-						else 
-						{
-							totalPrintPages = totalPrintPages == null ? 1 : totalPrintPages + 1;
-						}
 					}
 					//updateColumns(xCuts);
-					if(configuration.getFitHeight() != null)
-					{
-						setFitHeight(configuration.getFitHeight());
-					}
-					else if(configuration.isAutoFitHeight())
-					{
-						setFitHeight(totalPrintPages);
-					}
-					
 				}
 			}
 			sheetsBeforeCurrentReport = configuration.isOnePagePerSheet() ? sheetIndex : sheetsBeforeCurrentReport + 1;
 		}
+		closeSheet();
 		closeWorkbook(os);
 	}
 
@@ -1103,6 +1080,11 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			}
 		}
 
+		if (configuration.isForcePageBreaks())
+		{
+			addRowBreak(rowCount - skippedRows + startRow - 1);
+		}
+		
 		if(autoFilterStart != null)
 		{
 			setAutoFilter(autoFilterStart + ":" + (autoFilterEnd != null ? autoFilterEnd : autoFilterStart));
@@ -1198,12 +1180,18 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	protected void exportSheet(CutsInfo xCuts, CutsInfo yCuts, int startCutIndex, String defaultSheetName)
 	{
-		SheetInfo sheetInfo = getSheetProps(yCuts, startCutIndex);
+		if (sheetInfo != null)
+		{
+			closeSheet();
+		}
+
+		sheetInfo = getSheetProps(yCuts, startCutIndex);
 		
 		sheetInfo.sheetName = getSheetName(sheetInfo.sheetName, defaultSheetName);
 		
+		sheetInfo.sheetFirstPageIndex = pageIndex;
+		
 		createSheet(xCuts, sheetInfo);
-		setScale(sheetInfo.sheetPageScale);
 
 		// we need to count all sheets generated for all exported documents
 		sheetIndex++;
@@ -1862,11 +1850,15 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	protected abstract void createSheet(CutsInfo xCuts, SheetInfo sheetInfo);
 
+	protected abstract void closeSheet();
+
 	protected abstract void closeWorkbook(OutputStream os) throws JRException, IOException;
 
 	protected abstract void setColumnWidth(int col, int width, boolean autoFit);
 	
 	protected abstract void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut, XlsRowLevelInfo levelInfo) throws JRException;
+
+	protected abstract void addRowBreak(int rowIndex);
 
 //	protected abstract void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex);
 
@@ -1888,14 +1880,10 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	protected abstract void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge);
 	
-	protected abstract void setSheetName(String sheetName);
+	protected abstract void setSheetName(String sheetName);//FIXMEXLS this is not needed anymore, or if it is, then how is xlsx working?
 	
 	protected abstract void setAutoFilter(String autoFilterRange);
 	
 	protected abstract void setRowLevels(XlsRowLevelInfo levelInfo, String level);
-	
-	protected abstract void setScale(Integer scale);
-	
-	protected abstract void setFitHeight(Integer fitHeight);
-	
+
 }

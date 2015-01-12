@@ -276,7 +276,7 @@
       
       <property ref="net.sf.jasperreports.export.xls.auto.filter"/>
       <property ref="net.sf.jasperreports.export.xls.auto.fit.column"/>
-      <property ref="net.sf.jasperreports.export.xls.auto.fit.height"/>
+      <property ref="net.sf.jasperreports.export.xls.auto.fit.page.height"/>
       <property ref="net.sf.jasperreports.export.xls.auto.fit.row"/>
       
       <property ref="net.sf.jasperreports.export.xls.break.after.row"/>
@@ -298,6 +298,7 @@
       <property ref="net.sf.jasperreports.export.xls.fit.width"/>
       <property ref="net.sf.jasperreports.export.xls.first.page.number"/>
       <property ref="net.sf.jasperreports.export.xls.font.size.fix.enabled"/>
+      <property ref="net.sf.jasperreports.export.xls.force.page.breaks"/>
       <property ref="net.sf.jasperreports.export.xls.formula"/>
       <property ref="net.sf.jasperreports.export.xls.freeze.column"/>
       <property ref="net.sf.jasperreports.export.xls.freeze.column.edge"/>
@@ -3589,13 +3590,12 @@ Allowed values are:
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.xls.auto.fit.height -->
+  <!-- net.sf.jasperreports.export.xls.auto.fit.page.height -->
   
-  <configProperty name="net.sf.jasperreports.export.xls.auto.fit.height">
+  <configProperty name="net.sf.jasperreports.export.xls.auto.fit.page.height">
     <description>
-Flag property that provides a default value for the <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isAutoFitHeight()">isAutoFitHeight()</api>api> export setting.
+Flag property that provides a default value for the <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isAutoFitPageHeight()">isAutoFitPageHeight()</api>api> export setting.
 If set to true, the exporter will automatically fit the print height of a sheet to the number of JasperPrint pages exported in that sheet
-Default value is not set.
 <br/>
 Allowed values are:
 <ul>
@@ -3603,7 +3603,7 @@ Allowed values are:
 <li><code>false</code></li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_AUTO_FIT_HEIGHT</api>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_AUTO_FIT_PAGE_HEIGHT</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>6.0.2</since>
@@ -3911,6 +3911,26 @@ Its value is used as default for the
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.force.page.breaks -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.force.page.breaks">
+    <description>
+Flag property that provides a default value for the <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isForcePageBreaks()">isForcePageBreaks()</api>api> export setting.
+If set to true, the exporter will automatically add a page break at the end of each page exported on the current sheet.
+<br/>
+Allowed values are:
+<ul>
+<li><code>true</code></li>
+<li><code>false</code></li>
+</ul>
+    </description>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_FORCE_PAGE_BREAKS</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>6.0.2</since>
   </configProperty>
   
   

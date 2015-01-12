@@ -709,8 +709,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 	protected void closeWorkbook(OutputStream os) throws JRException //FIXMEXLSX could throw IOException here, as other implementations do
 	{
-		closeSheet();
-		
 		styleHelper.export();
 		
 		styleHelper.close();
@@ -792,8 +790,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 	protected void createSheet(CutsInfo xCuts, SheetInfo sheetInfo)
 	{
-		closeSheet();
-		
 		startPage = true;
 		currentSheetPageScale = sheetInfo.sheetPageScale;
 		currentSheetFirstPageNumber = sheetInfo.sheetFirstPageNumber;
@@ -849,6 +845,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	}
 
 
+	@Override
 	protected void closeSheet()
 	{
 		if (sheetHelper != null)
@@ -867,7 +864,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						currentSheetPageScale, 
 						currentSheetFirstPageNumber,
 						false,
-						totalPrintPages
+						pageIndex - sheetInfo.sheetFirstPageIndex
 						);
 					firstPageNotSet = false;
 			}
@@ -884,9 +881,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						currentSheetPageScale, 
 						documentFirstPageNumber,
 						false,
-						totalPrintPages
+						pageIndex - sheetInfo.sheetFirstPageIndex
 						);
-						firstPageNotSet = false;
+					firstPageNotSet = false;
 				}
 				else
 				{
@@ -898,7 +895,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						currentSheetPageScale, 
 						null,
 						firstPageNotSet,
-						totalPrintPages
+						pageIndex - sheetInfo.sheetFirstPageIndex
 						);
 				}
 			}
@@ -1596,6 +1593,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		sheetHelper.exportRow(rowHeight, yCut, levelInfo);
 	}
 
+
+	protected void addRowBreak(int rowIndex) 
+	{
+		sheetHelper.addRowBreak(rowIndex);
+	}
+
 	/**
 	 *
 	 */
@@ -1683,11 +1686,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			return name.replaceAll("\\W", "");
 		}
 		return null;
-	}
-	
-	protected void setFitHeight(Integer fitHeight)
-	{
-		//nothing to do here; already done in XlsxSheetHelper exportFooter() method
 	}
 	
 }
