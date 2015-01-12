@@ -92,6 +92,7 @@ public class FillDatasetRun extends JRFillDatasetRun
 		JRDataset reportDataset = JRReportUtils.findSubdataset(datasetRun, jasperReport);
 		JRFillDataset fillDataset = new JRFillDataset(factory.getReportFiller(), reportDataset, factory);
 		fillDataset.createCalculator(jasperReport);
+		fillDataset.inheritFromMain();
 		return fillDataset;
 	}
 	
