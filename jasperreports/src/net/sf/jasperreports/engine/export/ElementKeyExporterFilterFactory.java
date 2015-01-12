@@ -79,7 +79,9 @@ public class ElementKeyExporterFilterFactory implements ExporterFilterFactory
 		{
 			String excludeKeyPrefix = 
 				exporter.getExporterPropertiesPrefix() + PROPERTY_EXCLUDED_KEY_PREFIX;
-			List<PropertySuffix> props = JRPropertiesUtil.getProperties(
+			JRPropertiesUtil propsUtil = JRPropertiesUtil.getInstance(
+					exporterContext.getJasperReportsContext());
+			List<PropertySuffix> props = propsUtil.getAllProperties(
 					exporterContext.getExportedReport(), excludeKeyPrefix);
 			if (!props.isEmpty())
 			{
