@@ -42,6 +42,8 @@ public class DocxTableHelper extends BaseHelper
 	private CutsInfo xCuts;
 	private DocxCellHelper cellHelper;
 	private DocxParagraphHelper paragraphHelper;
+	private int leftMargin;
+	private int rightMargin;
 
 
 	/**
@@ -54,11 +56,28 @@ public class DocxTableHelper extends BaseHelper
 		boolean pageBreak
 		) 
 	{
+		this(jasperReportsContext, writer, xCuts, pageBreak, 0, 0);
+	}
+	
+	/**
+	 * 
+	 */
+	protected DocxTableHelper(
+		JasperReportsContext jasperReportsContext,
+		Writer writer,
+		CutsInfo xCuts,
+		boolean pageBreak,
+		int leftMargin,
+		int rightMargin
+		) 
+	{
 		super(jasperReportsContext, writer);
 
 		this.xCuts = xCuts;
 		this.cellHelper = new DocxCellHelper(jasperReportsContext, writer);
 		this.paragraphHelper = new DocxParagraphHelper(jasperReportsContext, writer, pageBreak);
+		this.leftMargin = leftMargin;
+		this.rightMargin = rightMargin;
 	}
 
 
@@ -90,9 +109,16 @@ public class DocxTableHelper extends BaseHelper
 		write("    <w:tblLayout w:type=\"fixed\"/>\n");
 		write("   </w:tblPr>\n");
 		write("   <w:tblGrid>\n");
-		for(int col = 1; col < xCuts.size(); col++)
+		int width = 0;
+		int xSize = xCuts.size();
+		for(int col = 1; col < xSize; col++)
 		{
-			write("    <w:gridCol w:w=\"" + LengthUtil.twip(xCuts.getCutOffset(col) - xCuts.getCutOffset(col - 1)) + "\"/>\n");
+			width = col == 1 
+				? xCuts.getCutOffset(col) - xCuts.getCutOffset(col - 1) - leftMargin + 1
+				:(col == xSize - 1 
+					? xCuts.getCutOffset(col) - xCuts.getCutOffset(col - 1) - rightMargin + 1
+					: xCuts.getCutOffset(col) - xCuts.getCutOffset(col - 1));
+			write("    <w:gridCol w:w=\"" + LengthUtil.twip(width) + "\"/>\n");
 		}
 		write("   </w:tblGrid>\n");
 	}

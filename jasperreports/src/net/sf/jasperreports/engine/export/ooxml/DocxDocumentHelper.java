@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.type.OrientationEnum;
  */
 public class DocxDocumentHelper extends BaseHelper
 {
+	protected static int DEFAULT_LINE_PITCH = 360;
 	/**
 	 * 
 	 */
@@ -79,9 +80,15 @@ public class DocxDocumentHelper extends BaseHelper
 		write("   <w:pgSz w:w=\"" + LengthUtil.twip(pageFormat.getPageWidth()) + "\" w:h=\"" + LengthUtil.twip(pageFormat.getPageHeight()) + "\"");
 		write(" w:orient=\"" + (pageFormat.getOrientation() == OrientationEnum.LANDSCAPE ? "landscape" : "portrait") + "\"");
 		write("/>\n");
-		write("   <w:pgMar w:top=\"0\" w:right=\"0\" w:bottom=\"0\" w:left=\"0\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" />\n");
+		//the height of the first row and the width of the first and last column should be at least 1; see how are they calculated in DocxTableHelper
+		int top = pageFormat.getTopMargin() != null ? Math.max(LengthUtil.twip(pageFormat.getTopMargin() - 1), 0) : 0;
+		int left = pageFormat.getLeftMargin() != null ? Math.max(LengthUtil.twip(pageFormat.getLeftMargin() - 1), 0) : 0;
+		int right = pageFormat.getRightMargin() != null ? Math.max(LengthUtil.twip(pageFormat.getRightMargin() - 1), 0) : 0;
+		int bottom = pageFormat.getBottomMargin() != null && pageFormat.getBottomMargin() > 0? Math.max(LengthUtil.twip(pageFormat.getBottomMargin()) - DEFAULT_LINE_PITCH, 20) : 0;
+
+		write("   <w:pgMar w:top=\"" + top + "\" w:right=\"" + right + "\" w:bottom=\"" + bottom + "\" w:left=\"" + left + "\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" />\n");
 //		write("   <w:cols w:space=\"720\" />\n");
-		write("   <w:docGrid w:linePitch=\"360\" />\n");
+		write("   <w:docGrid w:linePitch=\"" + DEFAULT_LINE_PITCH + "\" />\n");
 		write("  </w:sectPr>\n");
 		if (!lastPage)
 		{
