@@ -1590,6 +1590,11 @@ public final class JRStyleResolver
 		{
 			destStyle.setPdfEmbedded(srcStyle.isOwnPdfEmbedded());
 		}
+		
+		if (srcStyle.isOwnBlankWhenNull() != null)
+		{
+			destStyle.setBlankWhenNull(srcStyle.isOwnBlankWhenNull());
+		}
 	}
 
 	/**
