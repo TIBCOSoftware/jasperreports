@@ -960,7 +960,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				{
 					if (normalWidth > availableImageWidth)
 					{
-						switch (image.getHorizontalAlignmentValue())
+						switch (image.getHorizontalImageAlign())
 						{
 							case RIGHT :
 							{
@@ -993,7 +993,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 					if (normalHeight > availableImageHeight)
 					{
-						switch (image.getVerticalAlignmentValue())
+						switch (image.getVerticalImageAlign())
 						{
 							case TOP :
 							{
@@ -1064,7 +1064,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			docHelper.write("<w:drawing>\n");
 			docHelper.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"0\" behindDoc=\"0\" locked=\"1\" layoutInCell=\"1\" allowOverlap=\"1\">");
 			docHelper.write("<wp:simplePos x=\"0\" y=\"0\"/>");
-			docHelper.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + DocxParagraphHelper.getHorizontalAlignment(image.getHorizontalAlignmentValue()) + "</wp:align></wp:positionH>");
+			docHelper.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + DocxParagraphHelper.getHorizontalImageAlign(image.getHorizontalImageAlign()) + "</wp:align></wp:positionH>");
 			docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
 //			docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
 			docHelper.write("<wp:extent cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>\n");

@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 
 /**
@@ -44,13 +43,6 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
  */
 public class XlsxCellHelper extends BaseHelper
 {
-	/**
-	 *
-	 */
-	private static final String VERTICAL_ALIGN_TOP = "top";
-	private static final String VERTICAL_ALIGN_MIDDLE = "center";
-	private static final String VERTICAL_ALIGN_BOTTOM = "bottom";
-	
 	/**
 	 *
 	 */
@@ -142,28 +134,6 @@ public class XlsxCellHelper extends BaseHelper
 		write("</c>");
 	}
 
-	
-	/**
-	 *
-	 */
-	public static String getVerticalAlignment(VerticalAlignEnum verticalAlignment)
-	{
-		if (verticalAlignment != null)
-		{
-			switch (verticalAlignment)
-			{
-				case BOTTOM :
-					return VERTICAL_ALIGN_BOTTOM;
-				case MIDDLE :
-					return VERTICAL_ALIGN_MIDDLE;
-				case TOP :
-				default :
-					return VERTICAL_ALIGN_TOP;
-			}
-		}
-		return null;
-	}
-	
 	
 	/**
 	 *

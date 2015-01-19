@@ -26,9 +26,9 @@ package net.sf.jasperreports.engine.export.oasis;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.LengthUtil;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -92,14 +92,14 @@ public class GraphicStyle extends Style
 		}
 
 		width = String.valueOf(LengthUtil.inchNoRound(doubleWidth));
-		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.LEFT;
-		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.TOP;
+		HorizontalImageAlignEnum horizontalAlignment = HorizontalImageAlignEnum.LEFT;
+		VerticalImageAlignEnum verticalAlignment = VerticalImageAlignEnum.TOP;
 
 		if(element instanceof JRPrintImage)
 		{
 			JRPrintImage imageElement = (JRPrintImage)element;
-			horizontalAlignment = imageElement.getHorizontalAlignmentValue();
-			verticalAlignment = imageElement.getVerticalAlignmentValue();
+			horizontalAlignment = imageElement.getHorizontalImageAlign();
+			verticalAlignment = imageElement.getVerticalImageAlign();
 		}
 
 		switch(horizontalAlignment)
@@ -107,11 +107,6 @@ public class GraphicStyle extends Style
 			case RIGHT:
 			{
 				hAlign = "right";
-				break;
-			}
-			case JUSTIFIED:
-			{
-				hAlign = "justified";
 				break;
 			}
 			case CENTER:

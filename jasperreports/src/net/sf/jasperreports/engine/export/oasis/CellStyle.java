@@ -23,14 +23,14 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRTextAlignment;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -70,14 +70,14 @@ public class CellStyle extends BorderStyle
 		}
 
 		RotationEnum rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotationValue() : RotationEnum.NONE;
-		VerticalAlignEnum vAlign = VerticalAlignEnum.TOP;
-		HorizontalAlignEnum hAlign = HorizontalAlignEnum.LEFT;
+		VerticalTextAlignEnum vAlign = VerticalTextAlignEnum.TOP;
+		HorizontalTextAlignEnum hAlign = HorizontalTextAlignEnum.LEFT;
 
-		JRAlignment alignment = element instanceof JRAlignment ? (JRAlignment)element : null;
+		JRTextAlignment alignment = element instanceof JRTextAlignment ? (JRTextAlignment)element : null;
 		if (alignment != null)
 		{
-			vAlign = alignment.getVerticalAlignmentValue();
-			hAlign = alignment.getHorizontalAlignmentValue();
+			vAlign = alignment.getVerticalTextAlign();
+			hAlign = alignment.getHorizontalTextAlign();
 		}
 		
 		horizontalAlignment = ParagraphStyle.getHorizontalAlignment(hAlign, vAlign, rotation);

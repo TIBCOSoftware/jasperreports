@@ -30,7 +30,6 @@ import net.sf.jasperreports.charts.JRTimeAxisFormat;
 import net.sf.jasperreports.charts.JRValueAxisFormat;
 import net.sf.jasperreports.charts.JRXAxisFormat;
 import net.sf.jasperreports.charts.JRYAxisFormat;
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRCommonElement;
@@ -40,22 +39,26 @@ import net.sf.jasperreports.engine.JRCommonRectangle;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRImageAlignment;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
+import net.sf.jasperreports.engine.JRTextAlignment;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.base.JRBoxPen;
 import net.sf.jasperreports.engine.type.FillEnum;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 
 
 /**
@@ -508,11 +511,11 @@ public final class JRStyleResolver
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalTextAlign(JRTextAlignment)} and {@link #getHorizontalImageAlign(JRImageAlignment)}.
 	 */
-	public static HorizontalAlignEnum getHorizontalAlignmentValue(JRAlignment alignment)
+	public static net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue(net.sf.jasperreports.engine.JRAlignment alignment)
 	{
-		HorizontalAlignEnum ownHorizontalAlignment = alignment.getOwnHorizontalAlignmentValue();
+		net.sf.jasperreports.engine.type.HorizontalAlignEnum ownHorizontalAlignment = alignment.getOwnHorizontalAlignmentValue();
 		if (ownHorizontalAlignment != null)
 		{
 			return ownHorizontalAlignment;
@@ -520,21 +523,65 @@ public final class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(alignment);
 		if (baseStyle != null)
 		{
-			HorizontalAlignEnum horizontalAlignment = baseStyle.getHorizontalAlignmentValue();
+			net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignment = baseStyle.getHorizontalAlignmentValue();
 			if (horizontalAlignment != null)
 			{
 				return horizontalAlignment;
 			}
 		}
-		return HorizontalAlignEnum.LEFT;
+		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.LEFT;
 	}
 
 	/**
 	 *
 	 */
-	public static HorizontalAlignEnum getHorizontalAlignmentValue(JRStyle style)
+	public static HorizontalTextAlignEnum getHorizontalTextAlign(JRTextAlignment alignment)
 	{
-		HorizontalAlignEnum ownHorizontalAlignment = style.getOwnHorizontalAlignmentValue();
+		HorizontalTextAlignEnum ownHorizontalAlignment = alignment.getOwnHorizontalTextAlign();
+		if (ownHorizontalAlignment != null)
+		{
+			return ownHorizontalAlignment;
+		}
+		JRStyle baseStyle = getBaseStyle(alignment);
+		if (baseStyle != null)
+		{
+			HorizontalTextAlignEnum horizontalAlignment = baseStyle.getHorizontalTextAlign();
+			if (horizontalAlignment != null)
+			{
+				return horizontalAlignment;
+			}
+		}
+		return HorizontalTextAlignEnum.LEFT;
+	}
+
+	/**
+	 *
+	 */
+	public static HorizontalImageAlignEnum getHorizontalImageAlign(JRImageAlignment alignment)
+	{
+		HorizontalImageAlignEnum ownHorizontalAlignment = alignment.getOwnHorizontalImageAlign();
+		if (ownHorizontalAlignment != null)
+		{
+			return ownHorizontalAlignment;
+		}
+		JRStyle baseStyle = getBaseStyle(alignment);
+		if (baseStyle != null)
+		{
+			HorizontalImageAlignEnum horizontalAlignment = baseStyle.getHorizontalImageAlign();
+			if (horizontalAlignment != null)
+			{
+				return horizontalAlignment;
+			}
+		}
+		return HorizontalImageAlignEnum.LEFT;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getHorizontalTextAlign(JRStyle)} and {@link #getHorizontalImageAlign(JRStyle)}.
+	 */
+	public static net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue(JRStyle style)
+	{
+		net.sf.jasperreports.engine.type.HorizontalAlignEnum ownHorizontalAlignment = style.getOwnHorizontalAlignmentValue();
 		if (ownHorizontalAlignment != null)
 		{
 			return ownHorizontalAlignment;
@@ -550,9 +597,45 @@ public final class JRStyleResolver
 	/**
 	 *
 	 */
-	public static VerticalAlignEnum getVerticalAlignmentValue(JRAlignment alignment)
+	public static HorizontalTextAlignEnum getHorizontalTextAlign(JRStyle style)
 	{
-		VerticalAlignEnum ownVerticalAlignment = alignment.getOwnVerticalAlignmentValue();
+		HorizontalTextAlignEnum ownHorizontalAlignment = style.getOwnHorizontalTextAlign();
+		if (ownHorizontalAlignment != null)
+		{
+			return ownHorizontalAlignment;
+		}
+		JRStyle baseStyle = getBaseStyle(style);
+		if (baseStyle != null)
+		{
+			return baseStyle.getHorizontalTextAlign();
+		}
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public static HorizontalImageAlignEnum getHorizontalImageAlign(JRStyle style)
+	{
+		HorizontalImageAlignEnum ownHorizontalAlignment = style.getOwnHorizontalImageAlign();
+		if (ownHorizontalAlignment != null)
+		{
+			return ownHorizontalAlignment;
+		}
+		JRStyle baseStyle = getBaseStyle(style);
+		if (baseStyle != null)
+		{
+			return baseStyle.getHorizontalImageAlign();
+		}
+		return null;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getVerticalTextAlign(JRTextAlignment)} and {@link #getVerticalImageAlign(JRImageAlignment)}.
+	 */
+	public static net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue(net.sf.jasperreports.engine.JRAlignment alignment)
+	{
+		net.sf.jasperreports.engine.type.VerticalAlignEnum ownVerticalAlignment = alignment.getOwnVerticalAlignmentValue();
 		if (ownVerticalAlignment != null)
 		{
 			return ownVerticalAlignment;
@@ -560,30 +643,74 @@ public final class JRStyleResolver
 		JRStyle baseStyle = getBaseStyle(alignment);
 		if (baseStyle != null)
 		{
-			VerticalAlignEnum verticalAlignment = baseStyle.getVerticalAlignmentValue();
+			net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignment = baseStyle.getVerticalAlignmentValue();
 			if (verticalAlignment != null)
 			{
 				return verticalAlignment;
 			}
 		}
-		return VerticalAlignEnum.TOP;
+		return net.sf.jasperreports.engine.type.VerticalAlignEnum.TOP;
 	}
 
 	/**
 	 *
 	 */
+	public static VerticalTextAlignEnum getVerticalTextAlign(JRTextAlignment alignment)
+	{
+		VerticalTextAlignEnum ownVerticalAlignment = alignment.getOwnVerticalTextAlign();
+		if (ownVerticalAlignment != null)
+		{
+			return ownVerticalAlignment;
+		}
+		JRStyle baseStyle = getBaseStyle(alignment);
+		if (baseStyle != null)
+		{
+			VerticalTextAlignEnum verticalAlignment = baseStyle.getVerticalTextAlign();
+			if (verticalAlignment != null)
+			{
+				return verticalAlignment;
+			}
+		}
+		return VerticalTextAlignEnum.TOP;
+	}
+
+	/**
+	 *
+	 */
+	public static VerticalImageAlignEnum getVerticalImageAlign(JRImageAlignment alignment)
+	{
+		VerticalImageAlignEnum ownVerticalAlignment = alignment.getOwnVerticalImageAlign();
+		if (ownVerticalAlignment != null)
+		{
+			return ownVerticalAlignment;
+		}
+		JRStyle baseStyle = getBaseStyle(alignment);
+		if (baseStyle != null)
+		{
+			VerticalImageAlignEnum verticalAlignment = baseStyle.getVerticalImageAlign();
+			if (verticalAlignment != null)
+			{
+				return verticalAlignment;
+			}
+		}
+		return VerticalImageAlignEnum.TOP;
+	}
+
+	/**
+	 * @deprecated To be removed.
+	 */
 	public static Byte getVerticalAlignment(JRStyle style)
 	{
-		VerticalAlignEnum verticalAlignment =getVerticalAlignmentValue(style);
+		net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignment = getVerticalAlignmentValue(style);
 		return verticalAlignment == null ? null : verticalAlignment.getValueByte();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getVerticalTextAlign(JRStyle)} and {@link #getVerticalImageAlign(JRStyle)}.
 	 */
-	public static VerticalAlignEnum getVerticalAlignmentValue(JRStyle style)
+	public static net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue(JRStyle style)
 	{
-		VerticalAlignEnum ownVerticalAlignment = style.getOwnVerticalAlignmentValue();
+		net.sf.jasperreports.engine.type.VerticalAlignEnum ownVerticalAlignment = style.getOwnVerticalAlignmentValue();
 		if (ownVerticalAlignment != null)
 		{
 			return ownVerticalAlignment;
@@ -592,6 +719,42 @@ public final class JRStyleResolver
 		if (baseStyle != null)
 		{
 			return baseStyle.getVerticalAlignmentValue();
+		}
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public static VerticalTextAlignEnum getVerticalTextAlign(JRStyle style)
+	{
+		VerticalTextAlignEnum ownVerticalAlignment = style.getOwnVerticalTextAlign();
+		if (ownVerticalAlignment != null)
+		{
+			return ownVerticalAlignment;
+		}
+		JRStyle baseStyle = getBaseStyle(style);
+		if (baseStyle != null)
+		{
+			return baseStyle.getVerticalTextAlign();
+		}
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public static VerticalImageAlignEnum getVerticalImageAlign(JRStyle style)
+	{
+		VerticalImageAlignEnum ownVerticalAlignment = style.getOwnVerticalImageAlign();
+		if (ownVerticalAlignment != null)
+		{
+			return ownVerticalAlignment;
+		}
+		JRStyle baseStyle = getBaseStyle(style);
+		if (baseStyle != null)
+		{
+			return baseStyle.getVerticalImageAlign();
 		}
 		return null;
 	}
@@ -1531,13 +1694,21 @@ public final class JRStyleResolver
 		{
 			destStyle.setScaleImage(srcStyle.getOwnScaleImageValue());
 		}
-		if (srcStyle.getOwnHorizontalAlignmentValue() != null)
+		if (srcStyle.getOwnHorizontalTextAlign() != null)
 		{
-			destStyle.setHorizontalAlignment(srcStyle.getOwnHorizontalAlignmentValue());
+			destStyle.setHorizontalTextAlign(srcStyle.getOwnHorizontalTextAlign());
 		}
-		if (srcStyle.getOwnVerticalAlignmentValue() != null)
+		if (srcStyle.getOwnHorizontalImageAlign() != null)
 		{
-			destStyle.setVerticalAlignment(srcStyle.getOwnVerticalAlignmentValue());
+			destStyle.setHorizontalImageAlign(srcStyle.getOwnHorizontalImageAlign());
+		}
+		if (srcStyle.getOwnVerticalTextAlign() != null)
+		{
+			destStyle.setVerticalTextAlign(srcStyle.getOwnVerticalTextAlign());
+		}
+		if (srcStyle.getOwnVerticalImageAlign() != null)
+		{
+			destStyle.setVerticalImageAlign(srcStyle.getOwnVerticalImageAlign());
 		}
 		appendBox(destStyle.getLineBox(), srcStyle.getLineBox());
 		appendParagraph(destStyle.getParagraph(), srcStyle.getParagraph());

@@ -84,7 +84,7 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 		rightOffsetFactor = 0f;
 		
 		//FIXMETAB 0.2f was a fair approximation
-		switch (text.getHorizontalAlignmentValue())
+		switch (text.getHorizontalTextAlign())
 		{
 			case JUSTIFIED :
 			{

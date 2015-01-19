@@ -23,8 +23,8 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRTextAlignment;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -76,11 +76,11 @@ public class XlsxStyleInfo
 			this.backcolor = JRColorUtil.getColorHexa(gridCell.getBackcolor());
 		}
 
-		JRAlignment align = element instanceof JRAlignment ? (JRAlignment)element : null;
+		JRTextAlignment align = element instanceof JRTextAlignment ? (JRTextAlignment)element : null;
 		if (align != null)
 		{
-			this.horizontalAlign = XlsxParagraphHelper.getHorizontalAlignment(align.getHorizontalAlignmentValue());//FIXMEXLSX use common util
-			this.verticalAlign = DocxCellHelper.getVerticalAlignment(align.getVerticalAlignmentValue());//FIXMEXLSX use common util
+			this.horizontalAlign = XlsxParagraphHelper.getHorizontalAlignment(align.getHorizontalTextAlign());//FIXMEXLSX use common util
+			this.verticalAlign = DocxCellHelper.getVerticalAlignment(align.getVerticalTextAlign());//FIXMEXLSX use common util
 		}
 		
 		this.isWrapText = isWrapText;

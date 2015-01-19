@@ -194,7 +194,44 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="hTextAlign" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Left"/>
+      <enumeration value="Center"/>
+      <enumeration value="Right"/>
+      <enumeration value="Justified"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="hImageAlign" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Left"/>
+      <enumeration value="Center"/>
+      <enumeration value="Right"/>
+     </restriction>
+    </simpleType>
+   </attribute>
    <attribute name="vAlign" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Top"/>
+      <enumeration value="Middle"/>
+      <enumeration value="Bottom"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="vTextAlign" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Top"/>
+      <enumeration value="Middle"/>
+      <enumeration value="Bottom"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="vImageAlign" use="optional">
     <simpleType>
      <restriction base="string">
       <enumeration value="Top"/>

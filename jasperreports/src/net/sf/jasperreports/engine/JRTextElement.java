@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.util.JRStyledTextUtil;
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface JRTextElement extends JRElement, JRAlignment, JRFont, JRCommonText
+public interface JRTextElement extends JRElement, JRAlignment, JRTextAlignment, JRFont, JRCommonText
 {
 
 	/**

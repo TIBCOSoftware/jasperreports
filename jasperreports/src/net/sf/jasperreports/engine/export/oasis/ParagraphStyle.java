@@ -27,11 +27,11 @@ import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.export.LengthUtil;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.TabStopAlignEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 
 
 /**
@@ -82,8 +82,8 @@ public class ParagraphStyle extends Style
 	{
 		super(styleWriter);
 		
-		horizontalAlignment = getHorizontalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotationValue());
-		verticalAlignment = getVerticalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotationValue());
+		horizontalAlignment = getHorizontalAlignment(text.getHorizontalTextAlign(), text.getVerticalTextAlign(), text.getRotationValue());
+		verticalAlignment = getVerticalAlignment(text.getHorizontalTextAlign(), text.getVerticalTextAlign(), text.getRotationValue());
 		
 		switch(text.getRotationValue())
 		{
@@ -118,8 +118,8 @@ public class ParagraphStyle extends Style
 	 *
 	 */
 	public static String getVerticalAlignment(
-		HorizontalAlignEnum horizontalAlignment, 
-		VerticalAlignEnum verticalAlignment, 
+		HorizontalTextAlignEnum horizontalAlignment, 
+		VerticalTextAlignEnum verticalAlignment, 
 		RotationEnum rotation
 		)
 	{
@@ -177,8 +177,8 @@ public class ParagraphStyle extends Style
 	 *
 	 */
 	public static String getHorizontalAlignment(
-		HorizontalAlignEnum horizontalAlignment, 
-		VerticalAlignEnum verticalAlignment, 
+		HorizontalTextAlignEnum horizontalAlignment, 
+		VerticalTextAlignEnum verticalAlignment, 
 		RotationEnum rotation
 		)
 	{

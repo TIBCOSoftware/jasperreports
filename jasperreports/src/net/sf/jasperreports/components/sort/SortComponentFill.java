@@ -147,13 +147,13 @@ public class SortComponentFill extends BaseFillComponent {
 		if (sortComponent.getSymbolFont() != null ) {
 			printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_FONT_SIZE, String.valueOf(sortComponent.getSymbolFont().getFontsize()));
 		} 
-		if (sortComponent.getHandlerHorizontalAlign() != null) 
+		if (sortComponent.getHandlerHorizontalImageAlign() != null) 
 		{
-			printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN, sortComponent.getHandlerHorizontalAlign().getName());
+			printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN, sortComponent.getHandlerHorizontalImageAlign().getName());
 		}
-		if (sortComponent.getHandlerVerticalAlign() != null) 
+		if (sortComponent.getHandlerVerticalImageAlign() != null) 
 		{
-			printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN, sortComponent.getHandlerVerticalAlign().getName());
+			printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN, sortComponent.getHandlerVerticalImageAlign().getName());
 		}
 		
 		FilterTypesEnum filterType = getFilterType();

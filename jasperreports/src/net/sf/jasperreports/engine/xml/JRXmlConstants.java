@@ -606,7 +606,11 @@ public final class JRXmlConstants
 
 	public static final String ATTRIBUTE_scaleImage = "scaleImage";
 	public static final String ATTRIBUTE_hAlign = "hAlign";
+	public static final String ATTRIBUTE_hTextAlign = "hTextAlign";
+	public static final String ATTRIBUTE_hImageAlign = "hImageAlign";
 	public static final String ATTRIBUTE_vAlign = "vAlign";
+	public static final String ATTRIBUTE_vTextAlign = "vTextAlign";
+	public static final String ATTRIBUTE_vImageAlign = "vImageAlign";
 	public static final String ATTRIBUTE_isUsingCache = "isUsingCache";
 	public static final String ATTRIBUTE_isLazy = "isLazy";
 	public static final String ATTRIBUTE_onErrorType = "onErrorType";

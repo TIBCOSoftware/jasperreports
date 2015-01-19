@@ -44,12 +44,12 @@ import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -161,22 +161,70 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalImageAlign()}.
 	 */
-	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
-		return JRStyleResolver.getHorizontalAlignmentValue(this);
+		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalImageAlign());
 	}
 		
-	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	/**
+	 * @deprecated Replaced by {@link #getOwnHorizontalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
-		return providerStyle == null || providerStyle.getOwnHorizontalAlignmentValue() == null ? ((JRImage)this.parent).getOwnHorizontalAlignmentValue() : providerStyle.getOwnHorizontalAlignmentValue();
+		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getOwnHorizontalImageAlign());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalImageAlign(HorizontalImageAlignEnum)}.
+	 */
+	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue)
+	{
+		setHorizontalImageAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getVerticalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
+	{
+		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalImageAlign());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getOwnVerticalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
+	{
+		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getOwnVerticalImageAlign());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setVerticalImageAlign(VerticalImageAlignEnum)}.
+	 */
+	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue)
+	{
+		setVerticalImageAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue));
+	}
+		
+	/**
+	 *
+	 */
+	public HorizontalImageAlignEnum getHorizontalImageAlign()
+	{
+		return JRStyleResolver.getHorizontalImageAlign(this);
+	}
+		
+	public HorizontalImageAlignEnum getOwnHorizontalImageAlign()
+	{
+		return providerStyle == null || providerStyle.getOwnHorizontalImageAlign() == null ? ((JRImage)this.parent).getOwnHorizontalImageAlign() : providerStyle.getOwnHorizontalImageAlign();
 	}
 
 	/**
 	 *
 	 */
-	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment)
+	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -184,20 +232,20 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	public VerticalAlignEnum getVerticalAlignmentValue()
+	public VerticalImageAlignEnum getVerticalImageAlign()
 	{
-		return JRStyleResolver.getVerticalAlignmentValue(this);
+		return JRStyleResolver.getVerticalImageAlign(this);
 	}
 		
-	public VerticalAlignEnum getOwnVerticalAlignmentValue()
+	public VerticalImageAlignEnum getOwnVerticalImageAlign()
 	{
-		return providerStyle == null || providerStyle.getOwnVerticalAlignmentValue() == null ? ((JRImage)this.parent).getOwnVerticalAlignmentValue() : providerStyle.getOwnVerticalAlignmentValue();
+		return providerStyle == null || providerStyle.getOwnVerticalImageAlign() == null ? ((JRImage)this.parent).getOwnVerticalImageAlign() : providerStyle.getOwnVerticalImageAlign();
 	}
 
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(VerticalAlignEnum verticalAlignment)
+	public void setVerticalImageAlign(VerticalImageAlignEnum verticalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -666,7 +714,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					boolean imageOverflowAllowed = 
 							filler.isBandOverFlowAllowed() && !reprinted && !hasOverflowed;
 					boolean fits = fitImage(availableHeight - getRelativeY() - padding, imageOverflowAllowed, 
-							getHorizontalAlignmentValue());
+							getHorizontalImageAlign());
 					if (fits)
 					{
 						if (imageHeight != null)
@@ -737,7 +785,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 	protected boolean fitImage(int availableHeight, boolean overflowAllowed,
-			HorizontalAlignEnum hAlign) throws JRException
+			HorizontalImageAlignEnum hAlign) throws JRException
 	{
 		imageHeight = null;
 		imageWidth = null;
@@ -917,7 +965,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			int padding = printImage.getLineBox().getBottomPadding().intValue() 
 			+ printImage.getLineBox().getTopPadding().intValue();
 			fitImage(getHeight() - padding, false, 
-					printImage.getHorizontalAlignmentValue());
+					printImage.getHorizontalImageAlign());
 		}
 		
 		copy(printImage);

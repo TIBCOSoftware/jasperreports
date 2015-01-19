@@ -1017,7 +1017,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 
-		switch (text.getVerticalAlignmentValue())
+		switch (text.getVerticalTextAlign())
 		{
 			case BOTTOM :
 			{
@@ -1040,7 +1040,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 
 		if (textLength > 0)
 		{
-			switch (text.getHorizontalAlignmentValue())
+			switch (text.getHorizontalTextAlign())
 			{
 				case RIGHT :
 				{
@@ -1602,7 +1602,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 
 		float xAlignFactor = 0f;
 
-		switch (image.getHorizontalAlignmentValue())
+		switch (image.getHorizontalImageAlign())
 		{
 			case RIGHT :
 			{
@@ -1623,7 +1623,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 
 		float yAlignFactor = 0f;
 
-		switch (image.getVerticalAlignmentValue())
+		switch (image.getVerticalImageAlign())
 		{
 			case BOTTOM :
 			{

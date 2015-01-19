@@ -26,14 +26,14 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.awt.Color;
 import java.io.Writer;
 
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRTextAlignment;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -116,7 +116,7 @@ public class DocxCellHelper extends BaseHelper
 //		if (element instanceof JRCommonGraphicElement)
 //			borderHelper.export(((JRCommonGraphicElement)element).getLinePen());
 		
-		JRAlignment align = element instanceof JRAlignment ? (JRAlignment)element : null;
+		JRTextAlignment align = element instanceof JRTextAlignment ? (JRTextAlignment)element : null;
 		if (align != null)
 		{
 			JRPrintText text = element instanceof JRPrintText ? (JRPrintText)element : null;
@@ -124,7 +124,7 @@ public class DocxCellHelper extends BaseHelper
 			
 			String verticalAlignment = 
 				getVerticalAlignment(
-					align.getVerticalAlignmentValue() 
+					align.getVerticalTextAlign() 
 					);
 			String textRotation = getTextDirection(rotation);
 
@@ -221,7 +221,7 @@ public class DocxCellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public static String getVerticalAlignment(VerticalAlignEnum verticalAlignment)
+	public static String getVerticalAlignment(VerticalTextAlignEnum verticalAlignment)
 	{
 		if (verticalAlignment != null)
 		{

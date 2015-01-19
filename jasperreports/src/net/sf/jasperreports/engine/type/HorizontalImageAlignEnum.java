@@ -27,31 +27,25 @@ import net.sf.jasperreports.engine.JRConstants;
 
 
 /**
- * @deprecated Replaced by {@link VerticalTextAlignEnum} and {@link VerticalImageAlignEnum}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum VerticalAlignEnum implements JREnum
+public enum HorizontalImageAlignEnum implements JREnum
 {
 	/**
 	 *
 	 */ 
-	TOP((byte)1, "Top"),
+	LEFT((byte)1, "Left"),
 	
 	/**
 	 *
 	 */ 
-	MIDDLE((byte)2, "Middle"),
+	CENTER((byte)2, "Center"),
 	
 	/**
 	 *
 	 */ 
-	BOTTOM((byte)3, "Bottom"),
+	RIGHT((byte)3, "Right");
 	
-	/**
-	 *
-	 */ 
-	JUSTIFIED((byte)4, "Justified");//FIXMEENUM this is not used, right?
-
 	/**
 	 *
 	 */
@@ -59,7 +53,7 @@ public enum VerticalAlignEnum implements JREnum
 	private final transient byte value;
 	private final transient String name;
 
-	private VerticalAlignEnum(byte value, String name)
+	private HorizontalImageAlignEnum(byte value, String name)
 	{
 		this.value = value;
 		this.name = name;
@@ -92,65 +86,25 @@ public enum VerticalAlignEnum implements JREnum
 	/**
 	 *
 	 */
-	public static VerticalAlignEnum getByName(String name)
+	public static HorizontalImageAlignEnum getByName(String name)
 	{
-		return (VerticalAlignEnum)EnumUtil.getByName(values(), name);
+		return (HorizontalImageAlignEnum)EnumUtil.getByName(values(), name);
 	}
 	
 	/**
 	 *
 	 */
-	public static VerticalAlignEnum getByValue(Byte value)
+	public static HorizontalImageAlignEnum getByValue(Byte value)
 	{
-		return (VerticalAlignEnum)EnumUtil.getByValue(values(), value);
+		return (HorizontalImageAlignEnum)EnumUtil.getByValue(values(), value);
 	}
 	
 	/**
 	 *
 	 */
-	public static VerticalAlignEnum getByValue(byte value)
+	public static HorizontalImageAlignEnum getByValue(byte value)
 	{
 		return getByValue(new Byte(value));
-	}
-	
-	/**
-	 *
-	 */
-	public static VerticalTextAlignEnum getVerticalTextAlignEnum(VerticalAlignEnum verticalAlignment)
-	{
-		if (verticalAlignment == JUSTIFIED)
-		{
-			return VerticalTextAlignEnum.TOP;
-		}
-		return verticalAlignment == null ? null : VerticalTextAlignEnum.getByValue(verticalAlignment.value);
-	}
-	
-	/**
-	 *
-	 */
-	public static VerticalImageAlignEnum getVerticalImageAlignEnum(VerticalAlignEnum verticalAlignment)
-	{
-		if (verticalAlignment == JUSTIFIED)
-		{
-			return VerticalImageAlignEnum.TOP;
-		}
-		return verticalAlignment == null ? null : VerticalImageAlignEnum.getByValue(verticalAlignment.value);
-	}
-	
-	/**
-	 *
-	 */
-	public static VerticalAlignEnum getVerticalAlignEnum(VerticalTextAlignEnum verticalTextAlign)
-	{
-		return verticalTextAlign == null ? null : VerticalAlignEnum.getByValue(verticalTextAlign.getValue());
-	}
-	
-	/**
-	 *
-	 */
-	public static VerticalAlignEnum getVerticalAlignEnum(VerticalImageAlignEnum verticalImageAlign)
-	{
-		return verticalImageAlign == null ? null : VerticalAlignEnum.getByValue(verticalImageAlign.getValue());
 	}
 
 }

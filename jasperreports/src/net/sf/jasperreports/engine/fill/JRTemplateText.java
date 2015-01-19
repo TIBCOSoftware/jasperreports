@@ -38,17 +38,18 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRTextAlignment;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseParagraph;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.ObjectUtils;
@@ -60,7 +61,7 @@ import net.sf.jasperreports.engine.util.ObjectUtils;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @see JRTemplatePrintText
  */
-public class JRTemplateText extends JRTemplateElement implements JRAlignment, JRFont, JRCommonText, TextFormat
+public class JRTemplateText extends JRTemplateElement implements JRAlignment, JRTextAlignment, JRFont, JRCommonText, TextFormat
 {
 
 
@@ -72,8 +73,8 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 *
 	 */
-	private HorizontalAlignEnum horizontalAlignmentValue;
-	private VerticalAlignEnum verticalAlignmentValue;
+	private HorizontalTextAlignEnum horizontalTextAlign;
+	private VerticalTextAlignEnum verticalTextAlign;
 	private RotationEnum rotationValue;
 	private String markup;
 	private String linkType;
@@ -173,8 +174,8 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		pdfEncoding = textElement.getOwnPdfEncoding();
 		isPdfEmbedded = textElement.isOwnPdfEmbedded();
 
-		horizontalAlignmentValue = textElement.getOwnHorizontalAlignmentValue();
-		verticalAlignmentValue = textElement.getOwnVerticalAlignmentValue();
+		horizontalTextAlign = textElement.getOwnHorizontalTextAlign();
+		verticalTextAlign = textElement.getOwnVerticalTextAlign();
 		rotationValue = textElement.getOwnRotationValue();
 		markup = textElement.getOwnMarkup();
 	}
@@ -221,51 +222,99 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 		
 	/**
+	 * @deprecated Replaced by {@link #getHorizontalTextAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
+	{
+		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalTextAlign());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getOwnHorizontalTextAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	{
+		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getOwnHorizontalTextAlign());
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalTextAlign(HorizontalTextAlignEnum)}.
+	 */
+	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue)
+	{
+		setHorizontalTextAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalTextAlignEnum(horizontalAlignmentValue));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getVerticalTextAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
+	{
+		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalTextAlign());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getOwnVerticalTextAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
+	{
+		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getOwnVerticalTextAlign());
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setVerticalTextAlign(VerticalTextAlignEnum)}.
+	 */
+	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue)
+	{
+		setVerticalTextAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalTextAlignEnum(verticalAlignmentValue));
+	}
+
+	/**
 	 *
 	 */
-	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	public HorizontalTextAlignEnum getHorizontalTextAlign()
 	{
-		return JRStyleResolver.getHorizontalAlignmentValue(this);
+		return JRStyleResolver.getHorizontalTextAlign(this);
 	}
 		
 	/**
 	 *
 	 */
-	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	public HorizontalTextAlignEnum getOwnHorizontalTextAlign()
 	{
-		return horizontalAlignmentValue;
+		return horizontalTextAlign;
 	}
 		
 	/**
 	 *
 	 */
-	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignmentValue)
+	public void setHorizontalTextAlign(HorizontalTextAlignEnum horizontalTextAlign)
 	{
-		this.horizontalAlignmentValue = horizontalAlignmentValue;
+		this.horizontalTextAlign = horizontalTextAlign;
+	}
+
+	/**
+	 *
+	 */
+	public VerticalTextAlignEnum getVerticalTextAlign()
+	{
+		return JRStyleResolver.getVerticalTextAlign(this);
 	}
 		
 	/**
 	 *
 	 */
-	public VerticalAlignEnum getVerticalAlignmentValue()
+	public VerticalTextAlignEnum getOwnVerticalTextAlign()
 	{
-		return JRStyleResolver.getVerticalAlignmentValue(this);
+		return verticalTextAlign;
 	}
 		
 	/**
 	 *
 	 */
-	public VerticalAlignEnum getOwnVerticalAlignmentValue()
+	public void setVerticalTextAlign(VerticalTextAlignEnum verticalTextAlign)
 	{
-		return verticalAlignmentValue;
-	}
-		
-	/**
-	 *
-	 */
-	public void setVerticalAlignment(VerticalAlignEnum verticalAlignmentValue)
-	{
-		this.verticalAlignmentValue = verticalAlignmentValue;
+		this.verticalTextAlign = verticalTextAlign;
 	}
 
 	/**
@@ -858,6 +907,14 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	/**
 	 * @deprecated
 	 */
+	private net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue;
+	/**
+	 * @deprecated
+	 */
+	private net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue;
+	/**
+	 * @deprecated
+	 */
 	private Byte rotation;
 	/**
 	 * @deprecated
@@ -944,14 +1001,15 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 */
 	private Integer fontSize;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
 
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
-			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
-			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
+			horizontalAlignmentValue = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getByValue(horizontalAlignment);
+			verticalAlignmentValue = net.sf.jasperreports.engine.type.VerticalAlignEnum.getByValue(verticalAlignment);
 			rotationValue = RotationEnum.getByValue(rotation);
 			lineSpacingValue = LineSpacingEnum.getByValue(lineSpacing);
 
@@ -1028,14 +1086,23 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 
 			fontSize = null;
 		}
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_0_2)
+		{
+			horizontalTextAlign = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalTextAlignEnum(horizontalAlignmentValue);
+			verticalTextAlign = net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalTextAlignEnum(verticalAlignmentValue);
+
+			horizontalAlignmentValue = null;
+			verticalAlignmentValue = null;
+		}
 	}
 
 	public int getHashCode()
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
 		addTemplateHash(hash);
-		hash.add(horizontalAlignmentValue);
-		hash.add(verticalAlignmentValue);
+		hash.add(horizontalTextAlign);
+		hash.add(verticalTextAlign);
 		hash.add(rotationValue);
 		hash.add(markup);
 		hash.add(linkType);
@@ -1073,8 +1140,8 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 		
 		JRTemplateText template = (JRTemplateText) object;
 		return templateIdentical(template)
-				&& ObjectUtils.equals(horizontalAlignmentValue, template.horizontalAlignmentValue)
-				&& ObjectUtils.equals(verticalAlignmentValue, template.verticalAlignmentValue)
+				&& ObjectUtils.equals(horizontalTextAlign, template.horizontalTextAlign)
+				&& ObjectUtils.equals(verticalTextAlign, template.verticalTextAlign)
 				&& ObjectUtils.equals(rotationValue, template.rotationValue)
 				&& ObjectUtils.equals(markup, template.markup)
 				&& ObjectUtils.equals(linkType, template.linkType)

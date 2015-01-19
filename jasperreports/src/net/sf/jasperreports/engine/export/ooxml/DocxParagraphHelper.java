@@ -31,7 +31,8 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.export.LengthUtil;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.TabStopAlignEnum;
 
 
@@ -80,8 +81,8 @@ public class DocxParagraphHelper extends BaseHelper
 		exportPropsHeader(null, style.getParagraph());
 
 		exportAlignment(
-			getHorizontalAlignment(
-				style.getOwnHorizontalAlignmentValue() 
+			getHorizontalTextAlign(
+				style.getOwnHorizontalTextAlign() 
 				)
 			);
 
@@ -104,8 +105,8 @@ public class DocxParagraphHelper extends BaseHelper
 		exportPropsHeader(text.getStyle() == null ? null : text.getStyle().getName(), text.getParagraph());//FIXMEDOCX why getStyleNameReference is not working?
 
 		exportAlignment(
-			getHorizontalAlignment(
-				text.getOwnHorizontalAlignmentValue()
+			getHorizontalTextAlign(
+				text.getOwnHorizontalTextAlign()
 				)
 			);
 		
@@ -285,7 +286,7 @@ public class DocxParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public static String getHorizontalAlignment(HorizontalAlignEnum horizontalAlignment)
+	public static String getHorizontalTextAlign(HorizontalTextAlignEnum horizontalAlignment)
 	{
 		if (horizontalAlignment != null)
 		{
@@ -297,6 +298,27 @@ public class DocxParagraphHelper extends BaseHelper
 					return HORIZONTAL_ALIGN_CENTER;
 				case JUSTIFIED :
 					return HORIZONTAL_ALIGN_BOTH;
+				case LEFT :
+				default :
+					return HORIZONTAL_ALIGN_LEFT;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public static String getHorizontalImageAlign(HorizontalImageAlignEnum horizontalAlignment)
+	{
+		if (horizontalAlignment != null)
+		{
+			switch (horizontalAlignment)
+			{
+				case RIGHT :
+					return HORIZONTAL_ALIGN_RIGHT;
+				case CENTER :
+					return HORIZONTAL_ALIGN_CENTER;
 				case LEFT :
 				default :
 					return HORIZONTAL_ALIGN_LEFT;

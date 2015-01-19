@@ -616,7 +616,7 @@ public class TableBuilder
 	protected float getXAlignFactor(JRPrintImage image)
 	{
 		float xalignFactor = 0f;
-		switch (image.getHorizontalAlignmentValue())
+		switch (image.getHorizontalImageAlign())
 		{
 			case RIGHT :
 			{
@@ -645,7 +645,7 @@ public class TableBuilder
 	protected float getYAlignFactor(JRPrintImage image)
 	{
 		float yalignFactor = 0f;
-		switch (image.getVerticalAlignmentValue())
+		switch (image.getVerticalImageAlign())
 		{
 			case BOTTOM :
 			{

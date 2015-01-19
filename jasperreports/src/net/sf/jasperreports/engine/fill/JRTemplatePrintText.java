@@ -37,13 +37,13 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.PrintElementVisitor;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
@@ -282,25 +282,49 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalTextAlign()}.
 	 */
-	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
 		return ((JRTemplateText)this.template).getHorizontalAlignmentValue();
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnHorizontalTextAlign()}.
 	 */
-	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
 		return ((JRTemplateText)this.template).getOwnHorizontalAlignmentValue();
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalTextAlign(HorizontalTextAlignEnum)}.
 	 */
-	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment)
+	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignment)
+	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getVerticalTextAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
+	{
+		return ((JRTemplateText)this.template).getVerticalAlignmentValue();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getOwnVerticalTextAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
+	{
+		return ((JRTemplateText)this.template).getOwnVerticalAlignmentValue();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setVerticalTextAlign(VerticalTextAlignEnum)}.
+	 */
+	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -308,23 +332,47 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 *
 	 */
-	public VerticalAlignEnum getVerticalAlignmentValue()
+	public HorizontalTextAlignEnum getHorizontalTextAlign()
 	{
-		return ((JRTemplateText)this.template).getVerticalAlignmentValue();
+		return ((JRTemplateText)this.template).getHorizontalTextAlign();
 	}
 		
 	/**
 	 *
 	 */
-	public VerticalAlignEnum getOwnVerticalAlignmentValue()
+	public HorizontalTextAlignEnum getOwnHorizontalTextAlign()
 	{
-		return ((JRTemplateText)this.template).getOwnVerticalAlignmentValue();
+		return ((JRTemplateText)this.template).getOwnHorizontalTextAlign();
 	}
 		
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(VerticalAlignEnum verticalAlignment)
+	public void setHorizontalTextAlign(HorizontalTextAlignEnum horizontalAlignment)
+	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
+	 *
+	 */
+	public VerticalTextAlignEnum getVerticalTextAlign()
+	{
+		return ((JRTemplateText)this.template).getVerticalTextAlign();
+	}
+		
+	/**
+	 *
+	 */
+	public VerticalTextAlignEnum getOwnVerticalTextAlign()
+	{
+		return ((JRTemplateText)this.template).getOwnVerticalTextAlign();
+	}
+		
+	/**
+	 *
+	 */
+	public void setVerticalTextAlign(VerticalTextAlignEnum verticalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}

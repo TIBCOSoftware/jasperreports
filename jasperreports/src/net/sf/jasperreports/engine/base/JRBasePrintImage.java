@@ -39,13 +39,13 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -68,8 +68,8 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	protected Renderable renderable;
 	protected ScaleImageEnum scaleImageValue;
 	protected Boolean isUsingCache = Boolean.TRUE;
-	protected HorizontalAlignEnum horizontalAlignmentValue;
-	protected VerticalAlignEnum verticalAlignmentValue;
+	protected HorizontalImageAlignEnum horizontalImageAlign;
+	protected VerticalImageAlignEnum verticalImageAlign;
 	protected boolean isLazy;
 	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
 	protected JRLineBox lineBox;
@@ -181,51 +181,99 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalImageAlign()}.
 	 */
-	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
-		return JRStyleResolver.getHorizontalAlignmentValue(this);
+		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalImageAlign());
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnHorizontalImageAlign()}.
 	 */
-	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
-		return horizontalAlignmentValue;
+		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getOwnHorizontalImageAlign());
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalImageAlign(HorizontalImageAlignEnum)}.
 	 */
-	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignmentValue)
+	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue)
 	{
-		this.horizontalAlignmentValue = horizontalAlignmentValue;
+		setHorizontalImageAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getVerticalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
+	{
+		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalImageAlign());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getOwnVerticalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
+	{
+		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getOwnVerticalImageAlign());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setVerticalImageAlign(VerticalImageAlignEnum)}.
+	 */
+	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue)
+	{
+		setVerticalImageAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue));
 	}
 
 	/**
 	 *
 	 */
-	public VerticalAlignEnum getVerticalAlignmentValue()
+	public HorizontalImageAlignEnum getHorizontalImageAlign()
 	{
-		return JRStyleResolver.getVerticalAlignmentValue(this);
+		return JRStyleResolver.getHorizontalImageAlign(this);
 	}
 		
 	/**
 	 *
 	 */
-	public VerticalAlignEnum getOwnVerticalAlignmentValue()
+	public HorizontalImageAlignEnum getOwnHorizontalImageAlign()
 	{
-		return verticalAlignmentValue;
+		return horizontalImageAlign;
 	}
 		
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(VerticalAlignEnum verticalAlignmentValue)
+	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalImageAlign)
 	{
-		this.verticalAlignmentValue = verticalAlignmentValue;
+		this.horizontalImageAlign = horizontalImageAlign;
+	}
+
+	/**
+	 *
+	 */
+	public VerticalImageAlignEnum getVerticalImageAlign()
+	{
+		return JRStyleResolver.getVerticalImageAlign(this);
+	}
+		
+	/**
+	 *
+	 */
+	public VerticalImageAlignEnum getOwnVerticalImageAlign()
+	{
+		return verticalImageAlign;
+	}
+		
+	/**
+	 *
+	 */
+	public void setVerticalImageAlign(VerticalImageAlignEnum verticalImageAlign)
+	{
+		this.verticalImageAlign = verticalImageAlign;
 	}
 
 	/**
@@ -480,6 +528,14 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 * @deprecated
 	 */
+	private net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue;
+	/**
+	 * @deprecated
+	 */
+	private net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue;
+	/**
+	 * @deprecated
+	 */
 	private Byte border;
 	/**
 	 * @deprecated
@@ -566,8 +622,8 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
-			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
-			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
+			horizontalAlignmentValue = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getByValue(horizontalAlignment);
+			verticalAlignmentValue = net.sf.jasperreports.engine.type.VerticalAlignEnum.getByValue(verticalAlignment);
 			scaleImageValue = ScaleImageEnum.getByValue(scaleImage);
 			onErrorTypeValue = OnErrorTypeEnum.getByValue(onErrorType);
 
@@ -634,6 +690,15 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 			{
 				renderable = RenderableUtil.getWrappingRenderable(renderer);
 			}
+		}
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_0_2)
+		{
+			horizontalImageAlign = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue);
+			verticalImageAlign = net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue);
+
+			horizontalAlignmentValue = null;
+			verticalAlignmentValue = null;
 		}
 	}
 

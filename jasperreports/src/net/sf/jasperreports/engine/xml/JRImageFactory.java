@@ -27,10 +27,10 @@ import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignImage;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 
 import org.xml.sax.Attributes;
 
@@ -58,16 +58,16 @@ public class JRImageFactory extends JRBaseFactory
 			image.setScaleImage(scaleImage);
 		}
 
-		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
-		if (horizontalAlignment != null)
+		HorizontalImageAlignEnum horizontalImageAlign = HorizontalImageAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
+		if (horizontalImageAlign != null)
 		{
-			image.setHorizontalAlignment(horizontalAlignment);
+			image.setHorizontalImageAlign(horizontalImageAlign);
 		}
 
-		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
-		if (verticalAlignment != null)
+		VerticalImageAlignEnum verticalImageAlign = VerticalImageAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
+		if (verticalImageAlign != null)
 		{
-			image.setVerticalAlignment(verticalAlignment);
+			image.setVerticalImageAlign(verticalImageAlign);
 		}
 
 		String isUsingCache = atts.getValue(JRXmlConstants.ATTRIBUTE_isUsingCache);

@@ -28,7 +28,7 @@ import java.io.Writer;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 
 
 /**
@@ -68,7 +68,7 @@ public class XlsxParagraphHelper extends BaseHelper
 
 		exportAlignment(
 			getHorizontalAlignment(
-				style.getOwnHorizontalAlignmentValue() 
+				style.getOwnHorizontalTextAlign() 
 				)
 			);
 
@@ -84,7 +84,7 @@ public class XlsxParagraphHelper extends BaseHelper
 
 		exportAlignment(
 			getHorizontalAlignment(
-				text.getOwnHorizontalAlignmentValue()
+				text.getOwnHorizontalTextAlign()
 				)
 			);
 		
@@ -148,7 +148,7 @@ public class XlsxParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public static String getHorizontalAlignment(HorizontalAlignEnum horizontalAlignment)
+	public static String getHorizontalAlignment(HorizontalTextAlignEnum horizontalAlignment)
 	{
 		if (horizontalAlignment != null)
 		{

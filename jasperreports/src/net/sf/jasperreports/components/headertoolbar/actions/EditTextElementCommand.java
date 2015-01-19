@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignStaticText;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -105,7 +105,7 @@ public class EditTextElementCommand implements Command
 		textElement.setItalic(textElementData.getFontItalic());
 		textElement.setUnderline(textElementData.getFontUnderline());
 		textElement.setForecolor(textElementData.getFontColor() != null ? JRColorUtil.getColor("#" + textElementData.getFontColor(), textElement.getForecolor()) : null);
-		textElement.setHorizontalAlignment(HorizontalAlignEnum.getByName(textElementData.getFontHAlign()));
+		textElement.setHorizontalTextAlign(HorizontalTextAlignEnum.getByName(textElementData.getFontHAlign()));
 		textElement.setBackcolor(textElementData.getFontBackColor() != null ? JRColorUtil.getColor("#" + textElementData.getFontBackColor(), Color.white) : null);
 		textElement.setMode(ModeEnum.getByName(textElementData.getMode()));
 		

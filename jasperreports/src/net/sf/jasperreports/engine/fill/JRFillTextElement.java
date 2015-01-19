@@ -40,12 +40,12 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.fonts.FontUtil;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -221,22 +221,70 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalTextAlign()}.
 	 */
-	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
-		return JRStyleResolver.getHorizontalAlignmentValue(this);
+		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalTextAlign());
 	}
 		
-	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	/**
+	 * @deprecated Replaced by {@link #getOwnHorizontalTextAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
-		return providerStyle == null || providerStyle.getOwnHorizontalAlignmentValue() == null ? ((JRTextElement)this.parent).getOwnHorizontalAlignmentValue() : providerStyle.getOwnHorizontalAlignmentValue();
+		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getOwnHorizontalTextAlign());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalTextAlign(HorizontalTextAlignEnum)}.
+	 */
+	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue)
+	{
+		setHorizontalTextAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalTextAlignEnum(horizontalAlignmentValue));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getVerticalTextAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
+	{
+		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalTextAlign());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getOwnVerticalTextAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
+	{
+		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getOwnVerticalTextAlign());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setVerticalTextAlign(VerticalTextAlignEnum)}.
+	 */
+	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue)
+	{
+		setVerticalTextAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalTextAlignEnum(verticalAlignmentValue));
+	}
+		
+	/**
+	 *
+	 */
+	public HorizontalTextAlignEnum getHorizontalTextAlign()
+	{
+		return JRStyleResolver.getHorizontalTextAlign(this);
+	}
+		
+	public HorizontalTextAlignEnum getOwnHorizontalTextAlign()
+	{
+		return providerStyle == null || providerStyle.getOwnHorizontalTextAlign() == null ? ((JRTextElement)this.parent).getOwnHorizontalTextAlign() : providerStyle.getOwnHorizontalTextAlign();
 	}
 
 	/**
 	 *
 	 */
-	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment)
+	public void setHorizontalTextAlign(HorizontalTextAlignEnum horizontalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -244,20 +292,20 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public VerticalAlignEnum getVerticalAlignmentValue()
+	public VerticalTextAlignEnum getVerticalTextAlign()
 	{
-		return JRStyleResolver.getVerticalAlignmentValue(this);
+		return JRStyleResolver.getVerticalTextAlign(this);
 	}
 		
-	public VerticalAlignEnum getOwnVerticalAlignmentValue()
+	public VerticalTextAlignEnum getOwnVerticalTextAlign()
 	{
-		return providerStyle == null || providerStyle.getOwnVerticalAlignmentValue() == null ? ((JRTextElement)this.parent).getOwnVerticalAlignmentValue() : providerStyle.getOwnVerticalAlignmentValue();
+		return providerStyle == null || providerStyle.getOwnVerticalTextAlign() == null ? ((JRTextElement)this.parent).getOwnVerticalTextAlign() : providerStyle.getOwnVerticalTextAlign();
 	}
 
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(VerticalAlignEnum verticalAlignment)
+	public void setVerticalTextAlign(VerticalTextAlignEnum verticalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}

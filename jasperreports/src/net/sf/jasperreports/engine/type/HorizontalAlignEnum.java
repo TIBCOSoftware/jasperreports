@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JRConstants;
 
 
 /**
+ * @deprecated Replaced by {@link HorizontalTextAlignEnum} and {@link HorizontalImageAlignEnum}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public enum HorizontalAlignEnum implements JREnum
@@ -111,5 +112,41 @@ public enum HorizontalAlignEnum implements JREnum
 	{
 		return getByValue(new Byte(value));
 	}
+	
+	/**
+	 *
+	 */
+	public static HorizontalTextAlignEnum getHorizontalTextAlignEnum(HorizontalAlignEnum horizontalAlignment)
+	{
+		return horizontalAlignment == null ? null : HorizontalTextAlignEnum.getByValue(horizontalAlignment.value);
+	}
+	
+	/**
+	 *
+	 */
+	public static HorizontalImageAlignEnum getHorizontalImageAlignEnum(HorizontalAlignEnum horizontalAlignment)
+	{
+		if (horizontalAlignment == JUSTIFIED)
+		{
+			return HorizontalImageAlignEnum.LEFT;
+		}
+		return horizontalAlignment == null ? null : HorizontalImageAlignEnum.getByValue(horizontalAlignment.value);
+	}
+	
+	/**
+	 *
+	 */
+	public static HorizontalAlignEnum getHorizontalAlignEnum(HorizontalTextAlignEnum horizontalTextAlign)
+	{
+		return horizontalTextAlign == null ? null : HorizontalAlignEnum.getByValue(horizontalTextAlign.getValue());
+	}
 
+	/**
+	 *
+	 */
+	public static HorizontalAlignEnum getHorizontalAlignEnum(HorizontalImageAlignEnum horizontalImageAlign)
+	{
+		return horizontalImageAlign == null ? null : HorizontalAlignEnum.getByValue(horizontalImageAlign.getValue());
+	}
+	
 }

@@ -91,11 +91,11 @@ public final class ImageConverter extends ElementConverter
 		
 		printImage.setAnchorName(JRExpressionUtil.getExpressionText(image.getAnchorNameExpression()));
 		printImage.setBookmarkLevel(image.getBookmarkLevel());
-		printImage.setHorizontalAlignment(image.getOwnHorizontalAlignmentValue());
+		printImage.setHorizontalImageAlign(image.getOwnHorizontalImageAlign());
 		printImage.setLazy(image.isLazy());
 		printImage.setLinkType(image.getLinkType());
 		printImage.setOnErrorType(OnErrorTypeEnum.ICON);
-		printImage.setVerticalAlignment(image.getOwnVerticalAlignmentValue());
+		printImage.setVerticalImageAlign(image.getOwnVerticalImageAlign());
 		printImage.setRenderable(getRenderable(reportConverter.getJasperReportsContext(), image, printImage));
 		printImage.setScaleImage(image.getOwnScaleImageValue());
 		

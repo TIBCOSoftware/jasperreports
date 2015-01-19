@@ -24,8 +24,8 @@
 package net.sf.jasperreports.components.iconlabel;
 
 import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
 
@@ -66,11 +66,13 @@ public class IconLabelComponentDigester implements XmlDigesterConfigurer
 		digester.addRule(iconLabelComponentPattern, 
 				new XmlConstantPropertyRule(
 						IconLabelComponent.PROPERTY_HORIZONTAL_ALIGNMENT,
-						HorizontalAlignEnum.values()));
+						"horizontalImageAlign",
+						HorizontalImageAlignEnum.values()));
 		digester.addRule(iconLabelComponentPattern, 
 				new XmlConstantPropertyRule(
 						IconLabelComponent.PROPERTY_VERTICAL_ALIGNMENT,
-						VerticalAlignEnum.values()));
+						"verticalImageAlign",
+						VerticalImageAlignEnum.values()));
 		
 		digester.setRuleNamespaceURI(JRXmlConstants.JASPERREPORTS_NAMESPACE);
 

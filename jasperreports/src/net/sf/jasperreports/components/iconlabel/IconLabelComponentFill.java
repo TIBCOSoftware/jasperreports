@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRImageAlignment;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -49,8 +50,8 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRFillTextField;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -58,7 +59,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class IconLabelComponentFill extends BaseFillComponent implements StretchableFillComponent, ConditionalStyleAwareFillComponent, JRBoxContainer, JRAlignment
+public class IconLabelComponentFill extends BaseFillComponent implements StretchableFillComponent, ConditionalStyleAwareFillComponent, JRBoxContainer, JRAlignment, JRImageAlignment
 {
 	private final IconLabelComponent iconLabelComponent;
 
@@ -222,10 +223,9 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		labelPrintText.setHeight(commonHeight);
 		iconPrintText.setHeight(commonHeight);
 		
-		switch (getHorizontalAlignmentValue())
+		switch (getHorizontalImageAlign())
 		{
 			case LEFT :
-			case JUSTIFIED :
 			{
 				if (iconLabelComponent.getIconPosition() == IconPositionEnum.START)
 				{
@@ -297,10 +297,9 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			}
 		}
 
-		switch (getVerticalAlignmentValue())
+		switch (getVerticalImageAlign())
 		{
 			case TOP :
-			case JUSTIFIED :
 			{
 				labelPrintText.setY(0);
 				iconPrintText.setY(0);
@@ -404,10 +403,9 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 //		labelPrintText.setHeight(commonHeight);
 //		iconPrintText.setHeight(commonHeight);
 		
-		switch (getHorizontalAlignmentValue())
+		switch (getHorizontalImageAlign())
 		{
 			case LEFT :
-			case JUSTIFIED :
 			{
 				labelPrintText.setX(0);
 				iconPrintText.setX(0);
@@ -451,10 +449,9 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			}
 		}
 		
-		switch (getVerticalAlignmentValue())
+		switch (getVerticalImageAlign())
 		{
 			case TOP :
-			case JUSTIFIED :
 			{
 				if (iconLabelComponent.getIconPosition() == IconPositionEnum.START)
 				{
@@ -746,33 +743,93 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		return lineBox;
 	}
 
-	@Override
-	public HorizontalAlignEnum getHorizontalAlignmentValue() {
-		return JRStyleResolver.getHorizontalAlignmentValue(this);
+	/**
+	 * @deprecated Replaced by {@link #getHorizontalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
+	{
+		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalImageAlign());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getOwnHorizontalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	{
+		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getOwnHorizontalImageAlign());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalImageAlign(HorizontalImageAlignEnum)}.
+	 */
+	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue)
+	{
+		setHorizontalImageAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue));
 	}
 
-	@Override
-	public HorizontalAlignEnum getOwnHorizontalAlignmentValue() {
-		return iconLabelComponent.getOwnHorizontalAlignmentValue();
+	/**
+	 * @deprecated Replaced by {@link #getVerticalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
+	{
+		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalImageAlign());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getOwnVerticalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
+	{
+		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getOwnVerticalImageAlign());
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setVerticalImageAlign(VerticalImageAlignEnum)}.
+	 */
+	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue)
+	{
+		setVerticalImageAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue));
+	}
+		
+	/**
+	 *
+	 */
+	public HorizontalImageAlignEnum getHorizontalImageAlign()
+	{
+		return JRStyleResolver.getHorizontalImageAlign(this);
+	}
+		
+	public HorizontalImageAlignEnum getOwnHorizontalImageAlign()
+	{
+		return iconLabelComponent.getOwnHorizontalImageAlign();
 	}
 
-	@Override
-	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment) {
+	/**
+	 *
+	 */
+	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalAlignment)
+	{
 		throw new UnsupportedOperationException();
 	}
-
-	@Override
-	public VerticalAlignEnum getVerticalAlignmentValue() {
-		return JRStyleResolver.getVerticalAlignmentValue(this);
+		
+	/**
+	 *
+	 */
+	public VerticalImageAlignEnum getVerticalImageAlign()
+	{
+		return JRStyleResolver.getVerticalImageAlign(this);
+	}
+		
+	public VerticalImageAlignEnum getOwnVerticalImageAlign()
+	{
+		return iconLabelComponent.getOwnVerticalImageAlign();
 	}
 
-	@Override
-	public VerticalAlignEnum getOwnVerticalAlignmentValue() {
-		return iconLabelComponent.getOwnVerticalAlignmentValue();
-	}
-
-	@Override
-	public void setVerticalAlignment(VerticalAlignEnum verticalAlignment) {
+	/**
+	 *
+	 */
+	public void setVerticalImageAlign(VerticalImageAlignEnum verticalAlignment)
+	{
 		throw new UnsupportedOperationException();
 	}
 }

@@ -43,12 +43,14 @@ import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.FillEnum;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -80,8 +82,15 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_FORECOLOR = "forecolor";
 	
+	/**
+	 * @deprecated Replaced by {@link #PROPERTY_HORIZONTAL_TEXT_ALIGNMENT} and {@link #PROPERTY_HORIZONTAL_IMAGE_ALIGNMENT}.
+	 */
 	public static final String PROPERTY_HORIZONTAL_ALIGNMENT = "horizontalAlignment";
 	
+	public static final String PROPERTY_HORIZONTAL_TEXT_ALIGNMENT = "horizontalTextAlignment";
+
+	public static final String PROPERTY_HORIZONTAL_IMAGE_ALIGNMENT = "horizontalImageAlignment";
+
 	public static final String PROPERTY_ITALIC = "isItalic";
 	
 	/**
@@ -111,7 +120,14 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_UNDERLINE = "isUnderline";
 	
+	/**
+	 * @deprecated Replaced by {@link #PROPERTY_VERTICAL_TEXT_ALIGNMENT} and {@value #PROPERTY_VERTICAL_IMAGE_ALIGNMENT}.
+	 */
 	public static final String PROPERTY_VERTICAL_ALIGNMENT = "verticalAlignment";
+	
+	public static final String PROPERTY_VERTICAL_TEXT_ALIGNMENT = "verticalTextAlignment";
+	
+	public static final String PROPERTY_VERTICAL_IMAGE_ALIGNMENT = "verticalImageAlignment";
 
 
 	/**
@@ -139,8 +155,10 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	protected Integer radius;
 
 	protected ScaleImageEnum scaleImageValue;
-	protected HorizontalAlignEnum horizontalAlignmentValue;
-	protected VerticalAlignEnum verticalAlignmentValue;
+	protected HorizontalTextAlignEnum horizontalTextAlign;
+	protected VerticalTextAlignEnum verticalTextAlign;
+	protected HorizontalImageAlignEnum horizontalImageAlign;
+	protected VerticalImageAlignEnum verticalImageAlign;
 
 	protected JRLineBox lineBox;
 	protected JRParagraph paragraph;
@@ -218,8 +236,10 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		radius = style.getOwnRadius();
 
 		scaleImageValue = style.getOwnScaleImageValue();
-		horizontalAlignmentValue = style.getOwnHorizontalAlignmentValue();
-		verticalAlignmentValue = style.getOwnVerticalAlignmentValue();
+		horizontalTextAlign = style.getOwnHorizontalTextAlign();
+		verticalTextAlign = style.getOwnVerticalTextAlign();
+		horizontalImageAlign = style.getOwnHorizontalImageAlign();
+		verticalImageAlign = style.getOwnVerticalImageAlign();
 
 		lineBox = style.getLineBox().clone(this);
 		paragraph = style.getParagraph().clone(this);
@@ -380,26 +400,102 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		return this.scaleImageValue;
 	}
 
-	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	/**
+	 * @deprecated Replaced by {@link #getHorizontalTextAlign()} and {@link #getHorizontalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
-		return JRStyleResolver.getHorizontalAlignmentValue(this);
+		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalTextAlign());
 	}
 
-	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	/**
+	 * @deprecated Replaced by {@link #getOwnHorizontalTextAlign()} and {@link #getOwnHorizontalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
-		return horizontalAlignmentValue;
+		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getOwnHorizontalTextAlign());
 	}
 
-	public VerticalAlignEnum getVerticalAlignmentValue()
+	/**
+	 * @deprecated Replaced by {@link #getVerticalTextAlign()} and {@link #getVerticalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
 	{
-		return JRStyleResolver.getVerticalAlignmentValue(this);
+		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalTextAlign());
 	}
 
-	public VerticalAlignEnum getOwnVerticalAlignmentValue()
+	/**
+	 * @deprecated Replaced by {@link #getOwnVerticalTextAlign()} and {@link #getOwnVerticalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
-		return verticalAlignmentValue;
+		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getOwnVerticalTextAlign());
 	}
 
+	/**
+	 *
+	 */
+	public HorizontalTextAlignEnum getHorizontalTextAlign()
+	{
+		return JRStyleResolver.getHorizontalTextAlign(this);
+	}
+		
+	/**
+	 *
+	 */
+	public HorizontalTextAlignEnum getOwnHorizontalTextAlign()
+	{
+		return horizontalTextAlign;
+	}
+		
+	/**
+	 *
+	 */
+	public VerticalTextAlignEnum getVerticalTextAlign()
+	{
+		return JRStyleResolver.getVerticalTextAlign(this);
+	}
+		
+	/**
+	 *
+	 */
+	public VerticalTextAlignEnum getOwnVerticalTextAlign()
+	{
+		return verticalTextAlign;
+	}
+
+	/**
+	 *
+	 */
+	public HorizontalImageAlignEnum getHorizontalImageAlign()
+	{
+		return JRStyleResolver.getHorizontalImageAlign(this);
+	}
+		
+	/**
+	 *
+	 */
+	public HorizontalImageAlignEnum getOwnHorizontalImageAlign()
+	{
+		return horizontalImageAlign;
+	}
+		
+	/**
+	 *
+	 */
+	public VerticalImageAlignEnum getVerticalImageAlign()
+	{
+		return JRStyleResolver.getVerticalImageAlign(this);
+	}
+		
+	/**
+	 *
+	 */
+	public VerticalImageAlignEnum getOwnVerticalImageAlign()
+	{
+		return verticalImageAlign;
+	}
+		
 	/**
 	 *
 	 */
@@ -681,23 +777,53 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalTextAlign(HorizontalTextAlignEnum)} and {@link #setHorizontalImageAlign(HorizontalImageAlignEnum)}.
 	 */
-	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignmentValue)
+	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue)
 	{
-		Object old = this.horizontalAlignmentValue;
-		this.horizontalAlignmentValue = horizontalAlignmentValue;
-		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignmentValue);
+		setHorizontalTextAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalTextAlignEnum(horizontalAlignmentValue));
+		setHorizontalImageAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue));
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setVerticalTextAlign(VerticalTextAlignEnum)} and {@link #setVerticalImageAlign(VerticalImageAlignEnum)}.
+	 */
+	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue)
+	{
+		setVerticalTextAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalTextAlignEnum(verticalAlignmentValue));
+		setVerticalImageAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue));
 	}
 
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(VerticalAlignEnum verticalAlignmentValue)
+	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalImageAlign)
 	{
-		Object old = this.verticalAlignmentValue;
-		this.verticalAlignmentValue = verticalAlignmentValue;
-		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlignmentValue);
+		this.horizontalImageAlign = horizontalImageAlign;
+	}
+
+	/**
+	 *
+	 */
+	public void setVerticalImageAlign(VerticalImageAlignEnum verticalImageAlign)
+	{
+		this.verticalImageAlign = verticalImageAlign;
+	}
+
+	/**
+	 *
+	 */
+	public void setHorizontalTextAlign(HorizontalTextAlignEnum horizontalTextAlign)
+	{
+		this.horizontalTextAlign = horizontalTextAlign;
+	}
+
+	/**
+	 *
+	 */
+	public void setVerticalTextAlign(VerticalTextAlignEnum verticalTextAlign)
+	{
+		this.verticalTextAlign = verticalTextAlign;
 	}
 
 	/**
@@ -957,6 +1083,14 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 * @deprecated
 	 */
+	private net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue;
+	/**
+	 * @deprecated
+	 */
+	private net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue;
+	/**
+	 * @deprecated
+	 */
 	private Byte rotation;
 	/**
 	 * @deprecated
@@ -1047,6 +1181,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	private Integer fontSize;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
@@ -1054,8 +1189,8 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
 			modeValue = ModeEnum.getByValue(mode);
-			horizontalAlignmentValue = HorizontalAlignEnum.getByValue(horizontalAlignment);
-			verticalAlignmentValue = VerticalAlignEnum.getByValue(verticalAlignment);
+			horizontalAlignmentValue = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getByValue(horizontalAlignment);
+			verticalAlignmentValue = net.sf.jasperreports.engine.type.VerticalAlignEnum.getByValue(verticalAlignment);
 			rotationValue = RotationEnum.getByValue(rotation);
 			lineSpacingValue = LineSpacingEnum.getByValue(lineSpacing);
 			scaleImageValue = ScaleImageEnum.getByValue(scaleImage);
@@ -1134,6 +1269,18 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 			fontSize = null;
 		}
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_0_2)
+		{
+			horizontalTextAlign = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalTextAlignEnum(horizontalAlignmentValue);
+			verticalTextAlign = net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalTextAlignEnum(verticalAlignmentValue);
+
+			horizontalImageAlign = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue);
+			verticalImageAlign = net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue);
+
+			horizontalAlignmentValue = null;
+			verticalAlignmentValue = null;
+		}
 	}
 	
 	public Object clone()
@@ -1181,8 +1328,10 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		hash.add(fillValue);
 		hash.add(radius);
 		hash.add(scaleImageValue);
-		hash.add(horizontalAlignmentValue);
-		hash.add(verticalAlignmentValue);
+		hash.add(horizontalTextAlign);
+		hash.add(verticalTextAlign);
+		hash.add(horizontalImageAlign);
+		hash.add(verticalImageAlign);
 		hash.addIdentical(lineBox); 
 		hash.addIdentical(paragraph); 
 		hash.add(fontName);
@@ -1232,8 +1381,10 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 				&& ObjectUtils.equals(fillValue, style.fillValue)
 				&& ObjectUtils.equals(radius, style.radius)
 				&& ObjectUtils.equals(scaleImageValue, style.scaleImageValue)
-				&& ObjectUtils.equals(horizontalAlignmentValue, style.horizontalAlignmentValue)
-				&& ObjectUtils.equals(verticalAlignmentValue, style.verticalAlignmentValue)
+				&& ObjectUtils.equals(horizontalTextAlign, style.horizontalTextAlign)
+				&& ObjectUtils.equals(verticalTextAlign, style.verticalTextAlign)
+				&& ObjectUtils.equals(horizontalImageAlign, style.horizontalImageAlign)
+				&& ObjectUtils.equals(verticalImageAlign, style.verticalImageAlign)
 				&& ObjectUtils.identical(lineBox, style.lineBox)
 				&& ObjectUtils.identical(paragraph, style.paragraph)
 				&& ObjectUtils.equals(fontName, style.fontName)

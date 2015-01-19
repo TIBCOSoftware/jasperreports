@@ -93,7 +93,7 @@ import net.sf.jasperreports.engine.export.tabulator.Tabulator;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
@@ -103,7 +103,7 @@ import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.HyperlinkData;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -611,7 +611,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 
-		switch (text.getVerticalAlignmentValue())
+		switch (text.getVerticalTextAlign())
 		{
 			case BOTTOM :
 			{
@@ -638,7 +638,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 		if (textLength > 0)
 		{
-			switch (text.getHorizontalAlignmentValue())
+			switch (text.getHorizontalTextAlign())
 			{
 				case RIGHT :
 				{
@@ -1034,9 +1034,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					int positionLeft;
 					int positionTop;
 					
-					HorizontalAlignEnum horizontalAlign = image.getHorizontalAlignmentValue();
-					VerticalAlignEnum verticalAlign = image.getVerticalAlignmentValue();
-					if (horizontalAlign == HorizontalAlignEnum.LEFT && verticalAlign == VerticalAlignEnum.TOP)
+					HorizontalImageAlignEnum horizontalAlign = image.getHorizontalImageAlign();
+					VerticalImageAlignEnum verticalAlign = image.getVerticalImageAlign();
+					if (horizontalAlign == HorizontalImageAlignEnum.LEFT && verticalAlign == VerticalImageAlignEnum.TOP)
 					{
 						// no need to compute anything
 						positionLeft = 0;
@@ -1047,10 +1047,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						double[] normalSize = getImageNormalSize(image, originalRenderer, imageWidth, imageHeight);
 						// these calculations assume that the image td does not stretch due to other cells.
 						// when that happens, the image will not be properly aligned.
-						float xAlignFactor = horizontalAlign == HorizontalAlignEnum.RIGHT ? 1f
-								: (horizontalAlign == HorizontalAlignEnum.CENTER ? 0.5f : 0f);
-						float yAlignFactor = verticalAlign == VerticalAlignEnum.BOTTOM ? 1f
-								: (verticalAlign == VerticalAlignEnum.MIDDLE ? 0.5f : 0f);
+						float xAlignFactor = horizontalAlign == HorizontalImageAlignEnum.RIGHT ? 1f
+								: (horizontalAlign == HorizontalImageAlignEnum.CENTER ? 0.5f : 0f);
+						float yAlignFactor = verticalAlign == VerticalImageAlignEnum.BOTTOM ? 1f
+								: (verticalAlign == VerticalImageAlignEnum.MIDDLE ? 0.5f : 0f);
 						positionLeft = (int) (xAlignFactor * (imageWidth - normalSize[0]));
 						positionTop = (int) (yAlignFactor * (imageHeight - normalSize[1]));
 					}
@@ -1133,7 +1133,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	protected void setImageHorizontalAlignmentStyle(JRPrintImage image, StringBuilder styleBuffer)
 	{
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
-		switch (image.getHorizontalAlignmentValue())
+		switch (image.getHorizontalImageAlign())
 		{
 			case RIGHT :
 			{
@@ -1163,7 +1163,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	protected void setImageVerticalAlignmentStyle(JRPrintImage image, StringBuilder styleBuffer)
 	{
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
-		switch (image.getVerticalAlignmentValue())
+		switch (image.getVerticalImageAlign())
 		{
 			case BOTTOM :
 			{

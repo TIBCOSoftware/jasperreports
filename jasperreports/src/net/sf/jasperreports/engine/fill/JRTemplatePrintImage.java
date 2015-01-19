@@ -34,12 +34,12 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
 import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
 
@@ -192,25 +192,49 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getHorizontalImageAlign()}.
 	 */
-	public HorizontalAlignEnum getHorizontalAlignmentValue()
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
 		return ((JRTemplateImage)this.template).getHorizontalAlignmentValue();
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getOwnHorizontalImageAlign()}.
 	 */
-	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
 		return ((JRTemplateImage)this.template).getOwnHorizontalAlignmentValue();
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalImageAlign(HorizontalImageAlignEnum)}.
 	 */
-	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment)
+	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignment)
+	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getVerticalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
+	{
+		return ((JRTemplateImage)this.template).getVerticalAlignmentValue();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getOwnVerticalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
+	{
+		return ((JRTemplateImage)this.template).getOwnVerticalAlignmentValue();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setVerticalImageAlign(VerticalImageAlignEnum)}.
+	 */
+	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -218,23 +242,47 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 *
 	 */
-	public VerticalAlignEnum getVerticalAlignmentValue()
+	public HorizontalImageAlignEnum getHorizontalImageAlign()
 	{
-		return ((JRTemplateImage)this.template).getVerticalAlignmentValue();
+		return ((JRTemplateImage)this.template).getHorizontalImageAlign();
 	}
 		
 	/**
 	 *
 	 */
-	public VerticalAlignEnum getOwnVerticalAlignmentValue()
+	public HorizontalImageAlignEnum getOwnHorizontalImageAlign()
 	{
-		return ((JRTemplateImage)this.template).getOwnVerticalAlignmentValue();
+		return ((JRTemplateImage)this.template).getOwnHorizontalImageAlign();
 	}
 		
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(VerticalAlignEnum verticalAlignment)
+	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalAlignment)
+	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
+	 *
+	 */
+	public VerticalImageAlignEnum getVerticalImageAlign()
+	{
+		return ((JRTemplateImage)this.template).getVerticalImageAlign();
+	}
+		
+	/**
+	 *
+	 */
+	public VerticalImageAlignEnum getOwnVerticalImageAlign()
+	{
+		return ((JRTemplateImage)this.template).getOwnVerticalImageAlign();
+	}
+		
+	/**
+	 *
+	 */
+	public void setVerticalImageAlign(VerticalImageAlignEnum verticalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}

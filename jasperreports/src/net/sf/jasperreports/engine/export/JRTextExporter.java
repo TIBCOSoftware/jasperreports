@@ -560,7 +560,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 		int colOffset = 0;
 		int rowOffset = 0;
 
-		switch (element.getVerticalAlignmentValue())
+		switch (element.getVerticalTextAlign())
 		{
 			case BOTTOM :
 			{
@@ -582,7 +582,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 				pos--;
 			}
 			line = line.substring(0, pos + 1);
-			switch (element.getHorizontalAlignmentValue())
+			switch (element.getHorizontalTextAlign())
 			{
 				case RIGHT :
 				{

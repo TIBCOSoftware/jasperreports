@@ -1038,7 +1038,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				{
 //					if (normalWidth > availableImageWidth)
 //					{
-						switch (image.getHorizontalAlignmentValue())
+						switch (image.getHorizontalImageAlign())
 						{
 							case RIGHT :
 							{
@@ -1068,7 +1068,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 //					if (normalHeight > availableImageHeight)
 //					{
-						switch (image.getVerticalAlignmentValue())
+						switch (image.getVerticalImageAlign())
 						{
 							case TOP :
 							{
@@ -1110,7 +1110,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 							width = availableImageWidth;
 							height = (int)(width/ratio);
 
-							switch (image.getVerticalAlignmentValue())
+							switch (image.getVerticalImageAlign())
 							{
 								case TOP :
 								{
@@ -1138,7 +1138,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 							height = availableImageHeight;
 							width = (int)(ratio * height);
 
-							switch (image.getHorizontalAlignmentValue())
+							switch (image.getHorizontalImageAlign())
 							{
 								case RIGHT :
 								{

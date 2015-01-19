@@ -26,11 +26,11 @@ package net.sf.jasperreports.engine.xml;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,16 +53,16 @@ public class JRPrintTextFactory extends JRBaseFactory
 
 		JRBasePrintText text = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 
-		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_textAlignment));
-		if (horizontalAlignment != null)
+		HorizontalTextAlignEnum horizontalTextAlign = HorizontalTextAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_textAlignment));
+		if (horizontalTextAlign != null)
 		{
-			text.setHorizontalAlignment(horizontalAlignment);
+			text.setHorizontalTextAlign(horizontalTextAlign);
 		}
 
-		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_verticalAlignment));
-		if (verticalAlignment != null)
+		VerticalTextAlignEnum verticalTextAlign = VerticalTextAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_verticalAlignment));
+		if (verticalTextAlign != null)
 		{
-			text.setVerticalAlignment(verticalAlignment);
+			text.setVerticalTextAlign(verticalTextAlign);
 		}
 
 		RotationEnum rotation = RotationEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_rotation));

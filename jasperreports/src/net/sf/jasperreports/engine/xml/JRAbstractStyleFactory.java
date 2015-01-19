@@ -29,13 +29,15 @@ import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.type.FillEnum;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PenEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
@@ -130,18 +132,49 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			style.setScaleImage(scaleImage);
 		}
 
-		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
-		if (horizontalAlignment != null)
+		HorizontalTextAlignEnum horizontalTextAlign = HorizontalTextAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
+		if (horizontalTextAlign != null)
 		{
-			style.setHorizontalAlignment(horizontalAlignment);
+			style.setHorizontalTextAlign(horizontalTextAlign);
+		}
+		horizontalTextAlign = HorizontalTextAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_hTextAlign));
+		if (horizontalTextAlign != null)
+		{
+			style.setHorizontalTextAlign(horizontalTextAlign);
 		}
 
-		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
-		if (verticalAlignment != null)
+		VerticalTextAlignEnum verticalTextAlign = VerticalTextAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
+		if (verticalTextAlign != null)
 		{
-			style.setVerticalAlignment(verticalAlignment);
+			style.setVerticalTextAlign(verticalTextAlign);
+		}
+		verticalTextAlign = VerticalTextAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_vTextAlign));
+		if (verticalTextAlign != null)
+		{
+			style.setVerticalTextAlign(verticalTextAlign);
 		}
 
+		HorizontalImageAlignEnum horizontalImageAlign = HorizontalImageAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));
+		if (horizontalImageAlign != null)
+		{
+			style.setHorizontalImageAlign(horizontalImageAlign);
+		}
+		horizontalImageAlign = HorizontalImageAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_hImageAlign));
+		if (horizontalImageAlign != null)
+		{
+			style.setHorizontalImageAlign(horizontalImageAlign);
+		}
+
+		VerticalImageAlignEnum verticalImageAlign = VerticalImageAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_vAlign));
+		if (verticalImageAlign != null)
+		{
+			style.setVerticalImageAlign(verticalImageAlign);
+		}
+		verticalImageAlign = VerticalImageAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_vImageAlign));
+		if (verticalImageAlign != null)
+		{
+			style.setVerticalImageAlign(verticalImageAlign);
+		}
 
 		// get box attributes
 		PenEnum border = PenEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_border));

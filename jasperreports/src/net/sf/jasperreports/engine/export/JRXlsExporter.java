@@ -1434,7 +1434,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				}
 
 				float xalignFactor = 0f;
-				switch (element.getHorizontalAlignmentValue())
+				switch (element.getHorizontalImageAlign())
 				{
 					case RIGHT:
 					{
@@ -1455,7 +1455,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				}
 
 				float yalignFactor = 0f;
-				switch (element.getVerticalAlignmentValue())
+				switch (element.getVerticalImageAlign())
 				{
 					case BOTTOM:
 					{

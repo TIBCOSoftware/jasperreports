@@ -57,7 +57,7 @@ public abstract class TextElementConverter extends ElementConverter
 		printText.setBold(textElement.isOwnBold());
 		printText.setFontName(textElement.getOwnFontName());
 		printText.setFontSize(textElement.getOwnFontsize());
-		printText.setHorizontalAlignment(textElement.getOwnHorizontalAlignmentValue());
+		printText.setHorizontalTextAlign(textElement.getOwnHorizontalTextAlign());
 		printText.setItalic(textElement.isOwnItalic());
 		printText.setPdfEmbedded(textElement.isOwnPdfEmbedded());
 		printText.setPdfEncoding(textElement.getOwnPdfEncoding());
@@ -66,7 +66,7 @@ public abstract class TextElementConverter extends ElementConverter
 		printText.setStrikeThrough(textElement.isOwnStrikeThrough());
 		printText.setMarkup(textElement.getOwnMarkup());
 		printText.setUnderline(textElement.isOwnUnderline());
-		printText.setVerticalAlignment(textElement.getOwnVerticalAlignmentValue());
+		printText.setVerticalTextAlign(textElement.getOwnVerticalTextAlign());
 	}
 
 	

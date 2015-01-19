@@ -38,13 +38,15 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FillEnum;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
@@ -71,8 +73,18 @@ public class PropertyStyleProvider implements StyleProvider
 	public static final String STYLE_PROPERTY_FILL = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_fill;
 	public static final String STYLE_PROPERTY_RADIUS = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_radius;
 	public static final String STYLE_PROPERTY_SCALE_IMAGE = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_scaleImage;
+	/**
+	 * @deprecated Replaced by {@link #STYLE_PROPERTY_H_TEXT_ALIGN} and {@link #STYLE_PROPERTY_H_IMAGE_ALIGN}.
+	 */
 	public static final String STYLE_PROPERTY_HALIGN = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_hAlign;
+	public static final String STYLE_PROPERTY_H_TEXT_ALIGN = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_hTextAlign;
+	public static final String STYLE_PROPERTY_H_IMAGE_ALIGN = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_hImageAlign;
+	/**
+	 * @deprecated Replaced by {@link #STYLE_PROPERTY_V_TEXT_ALIGN} and {@link #STYLE_PROPERTY_V_IMAGE_ALIGN}.
+	 */
 	public static final String STYLE_PROPERTY_VALIGN = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_vAlign;
+	public static final String STYLE_PROPERTY_V_TEXT_ALIGN = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_vTextAlign;
+	public static final String STYLE_PROPERTY_V_IMAGE_ALIGN = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_vImageAlign;
 	public static final String STYLE_PROPERTY_ROTATION = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_rotation;
 	public static final String STYLE_PROPERTY_MARKUP = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_markup;
 	public static final String STYLE_PROPERTY_PATTERN = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_pattern;
@@ -220,13 +232,35 @@ public class PropertyStyleProvider implements StyleProvider
 		String hAlign = getPropertyValue(STYLE_PROPERTY_HALIGN, evaluation);
 		if (hAlign != null)
 		{
-			style.setHorizontalAlignment(HorizontalAlignEnum.getByName(hAlign));
+			style.setHorizontalTextAlign(HorizontalTextAlignEnum.getByName(hAlign));
+			style.setHorizontalImageAlign(HorizontalImageAlignEnum.getByName(hAlign));
+		}
+		hAlign = getPropertyValue(STYLE_PROPERTY_H_TEXT_ALIGN, evaluation);
+		if (hAlign != null)
+		{
+			style.setHorizontalTextAlign(HorizontalTextAlignEnum.getByName(hAlign));
+		}
+		hAlign = getPropertyValue(STYLE_PROPERTY_H_IMAGE_ALIGN, evaluation);
+		if (hAlign != null)
+		{
+			style.setHorizontalImageAlign(HorizontalImageAlignEnum.getByName(hAlign));
 		}
 		
 		String vAlign = getPropertyValue(STYLE_PROPERTY_VALIGN, evaluation);
 		if (vAlign != null)
 		{
-			style.setVerticalAlignment(VerticalAlignEnum.getByName(vAlign));
+			style.setVerticalTextAlign(VerticalTextAlignEnum.getByName(vAlign));
+			style.setVerticalImageAlign(VerticalImageAlignEnum.getByName(vAlign));
+		}
+		vAlign = getPropertyValue(STYLE_PROPERTY_V_TEXT_ALIGN, evaluation);
+		if (vAlign != null)
+		{
+			style.setVerticalTextAlign(VerticalTextAlignEnum.getByName(vAlign));
+		}
+		vAlign = getPropertyValue(STYLE_PROPERTY_V_IMAGE_ALIGN, evaluation);
+		if (vAlign != null)
+		{
+			style.setVerticalImageAlign(VerticalImageAlignEnum.getByName(vAlign));
 		}
 		
 		String rotation = getPropertyValue(STYLE_PROPERTY_ROTATION, evaluation);

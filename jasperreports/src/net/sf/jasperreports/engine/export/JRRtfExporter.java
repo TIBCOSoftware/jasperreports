@@ -702,7 +702,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		{
 			case LEFT :
 			{
-				switch (text.getVerticalAlignmentValue())
+				switch (text.getVerticalTextAlign())
 				{
 					case TOP:
 					{
@@ -724,7 +724,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			}
 			case RIGHT :
 			{
-				switch (text.getVerticalAlignmentValue())
+				switch (text.getVerticalTextAlign())
 				{
 					case TOP:
 					{
@@ -746,7 +746,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			}
 			case UPSIDE_DOWN :
 			{
-				switch (text.getVerticalAlignmentValue())
+				switch (text.getVerticalTextAlign())
 				{
 					case TOP:
 					{
@@ -769,7 +769,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			case NONE :
 			default :
 			{
-				switch (text.getVerticalAlignmentValue())
+				switch (text.getVerticalTextAlign())
 				{
 					case TOP:
 					{
@@ -863,7 +863,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 //		writer.write("\\fs");
 //		writer.write(String.valueOf(font.getFontSize() * 2));
 
-		switch (text.getHorizontalAlignmentValue())
+		switch (text.getHorizontalTextAlign())
 		{
 			case LEFT:
 				contentWriter.write("\\ql");
@@ -1120,7 +1120,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			{
 				case CLIP:
 				{
-					switch (printImage.getHorizontalAlignmentValue())
+					switch (printImage.getHorizontalImageAlign())
 					{
 						case RIGHT :
 						{
@@ -1142,7 +1142,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 							break;
 						}
 					}
-					switch (printImage.getVerticalAlignmentValue())
+					switch (printImage.getVerticalImageAlign())
 					{
 						case TOP :
 						{
@@ -1722,7 +1722,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	private float getXAlignFactor(JRPrintImage image)
 	{
 		float xalignFactor = 0f;
-		switch (image.getHorizontalAlignmentValue())
+		switch (image.getHorizontalImageAlign())
 		{
 			case RIGHT :
 			{
@@ -1747,7 +1747,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	private float getYAlignFactor(JRPrintImage image)
 	{
 		float yalignFactor = 0f;
-		switch (image.getVerticalAlignmentValue())
+		switch (image.getVerticalImageAlign())
 		{
 			case BOTTOM :
 			{

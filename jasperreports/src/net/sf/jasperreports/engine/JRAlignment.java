@@ -23,14 +23,10 @@
  */
 package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
-
 
 /**
  * An interface that defines constants useful for alignment. All report elements that can be aligned in some way
  * implement this interface.
- *
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
@@ -39,30 +35,40 @@ public interface JRAlignment extends JRStyleContainer
 
 	/**
 	 * Gets the text horizontal alignment.
-	 * @return a value representing one of the horizontal alignment constants in {@link HorizontalAlignEnum}
+	 * @return a value representing one of the horizontal alignment constants in {@link net.sf.jasperreports.engine.type.HorizontalAlignEnum}
+	 * @deprecated Replaced by {@link JRTextAlignment} and {@link JRImageAlignment}. 
 	 */
-	public HorizontalAlignEnum getHorizontalAlignmentValue();
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue();
 
-	public HorizontalAlignEnum getOwnHorizontalAlignmentValue();
+	/**
+	 * @deprecated Replaced by {@link JRTextAlignment} and {@link JRImageAlignment}. 
+	 */
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue();
 
 	/**
 	 * Sets the text horizontal alignment.
-	 * @param horizontalAlignment a value representing one of the horizontal alignment constants in {@link HorizontalAlignEnum}
+	 * @param horizontalAlignment a value representing one of the horizontal alignment constants in {@link net.sf.jasperreports.engine.type.HorizontalAlignEnum}
+	 * @deprecated Replaced by {@link JRTextAlignment} and {@link JRImageAlignment}. 
 	 */
-	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment);
+	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignment);
 
 	/**
 	 * Gets the text vertical alignment.
-	 * @return a value representing one of the vertical alignment constants in {@link VerticalAlignEnum}
+	 * @return a value representing one of the vertical alignment constants in {@link net.sf.jasperreports.engine.type.VerticalAlignEnum}
+	 * @deprecated Replaced by {@link JRTextAlignment} and {@link JRImageAlignment}. 
 	 */
-	public VerticalAlignEnum getVerticalAlignmentValue();
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue();
 	
-	public VerticalAlignEnum getOwnVerticalAlignmentValue();
+	/**
+	 * @deprecated Replaced by {@link JRTextAlignment} and {@link JRImageAlignment}. 
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue();
 
 	/**
 	 * Gets the text vertical alignment.
-	 * @param verticalAlignment a value representing one of the vertical alignment constants in {@link VerticalAlignEnum}
+	 * @param verticalAlignment a value representing one of the vertical alignment constants in {@link net.sf.jasperreports.engine.type.VerticalAlignEnum}
+	 * @deprecated Replaced by {@link JRTextAlignment} and {@link JRImageAlignment}. 
 	 */
-	public void setVerticalAlignment(VerticalAlignEnum verticalAlignment);
+	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignment);
 
 }

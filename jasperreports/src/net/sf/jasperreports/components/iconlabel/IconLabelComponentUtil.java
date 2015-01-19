@@ -34,7 +34,9 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -96,8 +98,55 @@ public class IconLabelComponentUtil
 		
 		IconLabelComponent iconLabelComponent = new IconLabelComponent(textElement.getDefaultStyleProvider());
 		iconLabelComponent.setIconPosition(IconPositionEnum.END);
-		iconLabelComponent.setVerticalAlignment(parentElement.getOwnVerticalAlignmentValue());
-		iconLabelComponent.setHorizontalAlignment(parentElement.getOwnHorizontalAlignmentValue());
+
+		if (parentElement.getOwnVerticalTextAlign() != null)
+		{
+			switch (parentElement.getOwnVerticalTextAlign())
+			{
+				case BOTTOM :
+				{
+					iconLabelComponent.setVerticalImageAlign(VerticalImageAlignEnum.BOTTOM);
+					break;
+				}
+				case MIDDLE :
+				{
+					iconLabelComponent.setVerticalImageAlign(VerticalImageAlignEnum.MIDDLE);
+					break;
+				}
+				case TOP :
+				case JUSTIFIED :
+				default :
+				{
+					iconLabelComponent.setVerticalImageAlign(VerticalImageAlignEnum.TOP);
+					break;
+				}
+			}
+		}
+			
+		if (parentElement.getOwnHorizontalTextAlign() != null)
+		{
+			switch (parentElement.getOwnHorizontalTextAlign())
+			{
+				case RIGHT :
+				{
+					iconLabelComponent.setHorizontalImageAlign(HorizontalImageAlignEnum.RIGHT);
+					break;
+				}
+				case CENTER :
+				{
+					iconLabelComponent.setHorizontalImageAlign(HorizontalImageAlignEnum.CENTER);
+					break;
+				}
+				case LEFT :
+				case JUSTIFIED :
+				default :
+				{
+					iconLabelComponent.setHorizontalImageAlign(HorizontalImageAlignEnum.LEFT);
+					break;
+				}
+			}
+		}
+			
 		iconLabelComponent.setLabelFill(ContainerFillEnum.NONE);
 		iconLabelComponent.setLineBox(parentElement.getLineBox().clone(iconLabelComponent));
 //		iconLabelComponent.getLineBox().setPadding(0);
@@ -125,8 +174,8 @@ public class IconLabelComponentUtil
 		labelTextField.setItalic(parentElement.isOwnItalic());
 		labelTextField.setUnderline(parentElement.isOwnUnderline());
 		labelTextField.setStrikeThrough(parentElement.isOwnStrikeThrough());
-		labelTextField.setHorizontalAlignment(parentElement.getOwnHorizontalAlignmentValue());
-		labelTextField.setVerticalAlignment(parentElement.getOwnVerticalAlignmentValue());
+		labelTextField.setHorizontalTextAlign(parentElement.getOwnHorizontalTextAlign());
+		labelTextField.setVerticalTextAlign(parentElement.getOwnVerticalTextAlign());
 		labelTextField.setRotation(parentElement.getOwnRotationValue());//FIXMEICONLABEL how does it work?
 //		JRBoxUtil.copy(parentElement.getLineBox(), labelTextField.getLineBox());
 		labelTextField.getLineBox().setRightPadding(0);
@@ -204,8 +253,8 @@ public class IconLabelComponentUtil
 		iconTextField.setItalic(false);//parentElement.isOwnItalic());
 		iconTextField.setUnderline(false);//parentElement.isOwnUnderline());
 		iconTextField.setStrikeThrough(false);//parentElement.isOwnStrikeThrough());
-		iconTextField.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
-		iconTextField.setVerticalAlignment(parentElement.getOwnVerticalAlignmentValue());
+		iconTextField.setHorizontalTextAlign(HorizontalTextAlignEnum.CENTER);
+		iconTextField.setVerticalTextAlign(parentElement.getOwnVerticalTextAlign());
 //		JRBoxUtil.copy(parentElement.getLineBox(), iconTextField.getLineBox());
 		iconTextField.getLineBox().setLeftPadding(0);
 		iconTextField.getLineBox().getPen().setLineWidth(0);

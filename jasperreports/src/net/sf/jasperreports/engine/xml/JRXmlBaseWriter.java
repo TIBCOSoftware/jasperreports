@@ -90,8 +90,33 @@ public abstract class JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_fill, style.getOwnFillValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_radius, style.getOwnRadius());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, style.getOwnScaleImageValue());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalAlignmentValue());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, style.getOwnVerticalAlignmentValue());
+		if (isOlderVersionThan(JRConstants.VERSION_6_0_2))
+		{
+			if (style.getOwnHorizontalTextAlign() == null)
+			{
+				writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalImageAlign());
+			}
+			else
+			{
+				writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalTextAlign());
+			}
+
+			if (style.getOwnVerticalTextAlign() == null)
+			{
+				writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, style.getOwnVerticalImageAlign());
+			}
+			else
+			{
+				writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, style.getOwnVerticalTextAlign());
+			}
+		}
+		else
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_hTextAlign, style.getOwnHorizontalTextAlign());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_hImageAlign, style.getOwnHorizontalImageAlign());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_vTextAlign, style.getOwnVerticalTextAlign());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_vImageAlign, style.getOwnVerticalImageAlign());
+		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, style.getOwnRotationValue());
 		if (isOlderVersionThan(JRConstants.VERSION_4_0_2))
 		{

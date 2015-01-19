@@ -35,10 +35,10 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 /**
@@ -195,8 +195,8 @@ public class MapElementImageProvider
 		
 		//FIXMEMAP there are no scale image and alignment attributes defined for the map element
 		printImage.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
-		printImage.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
-		printImage.setVerticalAlignment(VerticalAlignEnum.TOP);
+		printImage.setHorizontalImageAlign(HorizontalImageAlignEnum.LEFT);
+		printImage.setVerticalImageAlign(VerticalImageAlignEnum.TOP);
 		
 		Renderable cacheRenderer = (Renderable)element.getParameterValue(MapPrintElement.PARAMETER_CACHE_RENDERER);
 

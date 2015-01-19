@@ -1712,7 +1712,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	private float getXAlignFactor(JRPrintImage printImage)
 	{
 		float xalignFactor = 0f;
-		switch (printImage.getHorizontalAlignmentValue())
+		switch (printImage.getHorizontalImageAlign())
 		{
 			case RIGHT :
 			{
@@ -1738,7 +1738,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	private float getYAlignFactor(JRPrintImage printImage)
 	{
 		float yalignFactor = 0f;
-		switch (printImage.getVerticalAlignmentValue())
+		switch (printImage.getVerticalImageAlign())
 		{
 			case BOTTOM :
 			{

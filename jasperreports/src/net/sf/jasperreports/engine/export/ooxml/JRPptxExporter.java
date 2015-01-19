@@ -848,7 +848,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				"\" bIns=\"" +
 				LengthUtil.emu(bottomPadding) +
 				"\" rtlCol=\"0\" anchor=\"");
-		switch (text.getVerticalAlignmentValue())
+		switch (text.getVerticalTextAlign())
 		{
 			case TOP:
 				slideHelper.write("t");
@@ -878,7 +878,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		slideHelper.write("<a:pPr");
 		slideHelper.write(" algn=\"");
-		switch (text.getHorizontalAlignmentValue())
+		switch (text.getHorizontalTextAlign())
 		{
 			case LEFT:
 				slideHelper.write("l");
@@ -1047,7 +1047,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				{
 //					if (normalWidth > availableImageWidth)
 //					{
-						switch (image.getHorizontalAlignmentValue())
+						switch (image.getHorizontalImageAlign())
 						{
 							case RIGHT :
 							{
@@ -1082,7 +1082,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 //					if (normalHeight > availableImageHeight)
 //					{
-						switch (image.getVerticalAlignmentValue())
+						switch (image.getVerticalImageAlign())
 						{
 							case TOP :
 							{
@@ -1129,7 +1129,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 							width = availableImageWidth;
 							height = (int)(width/ratio);
 
-							switch (image.getVerticalAlignmentValue())
+							switch (image.getVerticalImageAlign())
 							{
 								case TOP :
 								{
@@ -1157,7 +1157,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 							height = availableImageHeight;
 							width = (int)(ratio * height);
 
-							switch (image.getHorizontalAlignmentValue())
+							switch (image.getHorizontalImageAlign())
 							{
 								case RIGHT :
 								{

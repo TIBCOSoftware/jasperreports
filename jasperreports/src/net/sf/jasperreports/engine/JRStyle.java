@@ -26,12 +26,14 @@ package net.sf.jasperreports.engine;
 import java.awt.Color;
 
 import net.sf.jasperreports.engine.type.FillEnum;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 
 /**
  * Provides a collection of style settings declared at the report level.
@@ -252,19 +254,59 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 
 	/**
 	 * Gets the horizontal alignment of the element.
-	 * @return one of the alignment values defined in {@link HorizontalAlignEnum}
+	 * @return one of the alignment values defined in {@link net.sf.jasperreports.engine.type.HorizontalAlignEnum}
+	 * @deprecated Replaced by {@link #getHorizontalTextAlign()} and {@link #getHorizontalImageAlign()}.
 	 */
-	public HorizontalAlignEnum getHorizontalAlignmentValue();
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue();
 
-	public HorizontalAlignEnum getOwnHorizontalAlignmentValue();
+	/**
+	 * @deprecated Replaced by {@link #getOwnHorizontalTextAlign()} and {@link #getOwnHorizontalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue();
 
 	/**
 	 * Gets the vertical alignment of the element.
-	 * @return one of the alignment values defined in {@link JRAlignment}
+	 * @return one of the alignment values defined in {@link net.sf.jasperreports.engine.type.VerticalAlignEnum}
+	 * @deprecated Replaced by {@link #getVerticalTextAlign()} and {@link #getVerticalImageAlign()}.
 	 */
-	public VerticalAlignEnum getVerticalAlignmentValue();
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue();
 
-	public VerticalAlignEnum getOwnVerticalAlignmentValue();
+	/**
+	 * @deprecated Replaced by {@link #getOwnVerticalTextAlign()} and {@link #getOwnVerticalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue();
+
+	/**
+	 * Gets the horizontal text alignment of the element.
+	 * @return one of the alignment values defined in {@link HorizontalTextAlignEnum}
+	 */
+	public HorizontalTextAlignEnum getHorizontalTextAlign();
+
+	public HorizontalTextAlignEnum getOwnHorizontalTextAlign();
+
+	/**
+	 * Gets the vertical text alignment of the element.
+	 * @return one of the alignment values defined in {@link VerticalTextAlignEnum}
+	 */
+	public VerticalTextAlignEnum getVerticalTextAlign();
+
+	public VerticalTextAlignEnum getOwnVerticalTextAlign();
+
+	/**
+	 * Gets the horizontal image alignment of the element.
+	 * @return one of the alignment values defined in {@link HorizontalImageAlignEnum}
+	 */
+	public HorizontalImageAlignEnum getHorizontalImageAlign();
+
+	public HorizontalImageAlignEnum getOwnHorizontalImageAlign();
+
+	/**
+	 * Gets the vertical image alignment of the element.
+	 * @return one of the alignment values defined in {@link VerticalImageAlignEnum}
+	 */
+	public VerticalImageAlignEnum getVerticalImageAlign();
+
+	public VerticalImageAlignEnum getOwnVerticalImageAlign();
 
 	/**
 	 * 
@@ -457,14 +499,34 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setScaleImage(ScaleImageEnum scaleImage);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setHorizontalTextAlign(HorizontalTextAlignEnum)} and {@link #setHorizontalImageAlign(HorizontalImageAlignEnum)}.
 	 */
-	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment);
+	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignment);
+
+	/**
+	 * @deprecated Replaced by {@link #setVerticalTextAlign(VerticalTextAlignEnum)} and {@link #setVerticalImageAlign(VerticalImageAlignEnum)}.
+	 */
+	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignment);
 
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(VerticalAlignEnum verticalAlignment);
+	public void setHorizontalTextAlign(HorizontalTextAlignEnum horizontalAlignment);
+
+	/**
+	 *
+	 */
+	public void setVerticalTextAlign(VerticalTextAlignEnum verticalAlignment);
+
+	/**
+	 *
+	 */
+	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalAlignment);
+
+	/**
+	 *
+	 */
+	public void setVerticalImageAlign(VerticalImageAlignEnum verticalAlignment);
 
 	public void setRotation(RotationEnum rotation);
 

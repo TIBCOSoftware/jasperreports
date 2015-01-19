@@ -146,7 +146,7 @@ public class HeaderToolbarElementUtils
 		textElementData.setFontUnderline(textElement.isOwnUnderline());
 		textElementData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
 		textElementData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()) : null);
-		textElementData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
+		textElementData.setFontHAlign(textElement.getOwnHorizontalTextAlign() != null ? textElement.getOwnHorizontalTextAlign().getName() : null);
 		textElementData.setMode(textElement.getOwnModeValue() != null ? textElement.getOwnModeValue().getName() : null);
 		
 		if (textElement instanceof JRDesignTextField && TableUtil.hasSingleChunkExpression((JRDesignTextField) textElement)) {
@@ -162,7 +162,7 @@ public class HeaderToolbarElementUtils
 		textElementData.setFontUnderline(textElement.isUnderline());
 		textElementData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
 		textElementData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getBackcolor()));
-		textElementData.setFontHAlign(textElement.getHorizontalAlignmentValue().getName());
+		textElementData.setFontHAlign(textElement.getHorizontalTextAlign().getName());
 		textElementData.setMode(textElement.getModeValue().getName());
 		
 		if (textElement instanceof JRDesignTextField && TableUtil.hasSingleChunkExpression((JRDesignTextField) textElement)) {
