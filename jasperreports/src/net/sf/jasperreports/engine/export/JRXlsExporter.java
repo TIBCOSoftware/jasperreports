@@ -1963,6 +1963,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		}
 	}
 
+	@Override
+	protected Integer getMaxRowsPerSheet()
+	{
+		Integer maxRowsPerSheet = super.getMaxRowsPerSheet();
+		return maxRowsPerSheet == null || maxRowsPerSheet == 0  || maxRowsPerSheet > 65536 ? 65536 : maxRowsPerSheet;
+	}
+
 
 	/**
 	 *

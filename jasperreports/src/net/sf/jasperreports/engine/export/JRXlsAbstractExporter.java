@@ -837,7 +837,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	{
 		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		
-		int maxRowsPerSheet = configuration.getMaxRowsPerSheet();
+		int maxRowsPerSheet = getMaxRowsPerSheet();
 		boolean isRemoveEmptySpaceBetweenRows = configuration.isRemoveEmptySpaceBetweenRows();
 		boolean isRemoveEmptySpaceBetweenColumns = configuration.isRemoveEmptySpaceBetweenColumns();
 		boolean isCollapseRowSpan = configuration.isCollapseRowSpan();
@@ -1117,7 +1117,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		SheetInfo sheetInfo = new SheetInfo();
 		
 		XlsReportConfiguration configuration = getCurrentItemConfiguration();
-		int maxRowsPerSheet = configuration.getMaxRowsPerSheet();
+		int maxRowsPerSheet = getMaxRowsPerSheet();
 		boolean isRemoveEmptySpaceBetweenRows = configuration.isRemoveEmptySpaceBetweenRows();
 		boolean isCollapseRowSpan = configuration.isCollapseRowSpan();
 		
@@ -1803,6 +1803,11 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected boolean isValidScale(Integer scale)
 	{
 		return scale != null && scale > 9 && scale < 401;
+	}
+	
+	protected Integer getMaxRowsPerSheet()
+	{
+		return getCurrentItemConfiguration().getMaxRowsPerSheet();
 	}
 
 	
