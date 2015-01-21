@@ -591,31 +591,32 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 						//	maxStretch = stretch;
 						//}
 						printContainer.addElement(printElement);
-						
-						if (element instanceof JRFillSubreport)
-						{
-							JRFillSubreport subreport = (JRFillSubreport)element;
-							
-							List<JRStyle> styles = subreport.subreportFiller.getJasperPrint().getStylesList();
-							for(int j = 0; j < styles.size(); j++)
-							{
-								filler.addPrintStyle(styles.get(j));
-							}
-							
-							List<JROrigin> origins = subreport.subreportFiller.getJasperPrint().getOriginsList();
-							for(int j = 0; j < origins.size(); j++)
-							{
-								filler.getJasperPrint().addOrigin(origins.get(j));
-							}
-							
-							Collection<JRPrintElement> printElements = subreport.getPrintElements();
-							addSubElements(printContainer, element, printElements);
-							
-							subreport.subreportPageFilled();
-						}
 					}
+					
+					if (element instanceof JRFillSubreport)
+					{
+						JRFillSubreport subreport = (JRFillSubreport)element;
+						
+						List<JRStyle> styles = subreport.subreportFiller.getJasperPrint().getStylesList();
+						for(int j = 0; j < styles.size(); j++)
+						{
+							filler.addPrintStyle(styles.get(j));
+						}
+						
+						List<JROrigin> origins = subreport.subreportFiller.getJasperPrint().getOriginsList();
+						for(int j = 0; j < origins.size(); j++)
+						{
+							filler.getJasperPrint().addOrigin(origins.get(j));
+						}
+						
+						Collection<JRPrintElement> printElements = subreport.getPrintElements();
+						addSubElements(printContainer, element, printElements);
+						
+						subreport.subreportPageFilled();
+					}
+					
 					// crosstabs do not return a fill() element
-					else if (element instanceof JRFillCrosstab)
+					if (element instanceof JRFillCrosstab)
 					{
 						List<? extends JRPrintElement> printElements = ((JRFillCrosstab) element).getPrintElements();
 						addSubElements(printContainer, element, printElements);

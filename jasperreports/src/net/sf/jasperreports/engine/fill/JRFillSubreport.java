@@ -81,6 +81,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 	private static final Log log = LogFactory.getLog(JRFillSubreport.class);
 	
+	public static final String PROPERTY_SUBREPORT_GENERATE_RECTANGLE = 
+			JRPropertiesUtil.PROPERTY_PREFIX + "subreport.generate.rectangle";
+	
+	public static final String SUBREPORT_GENERATE_RECTANGLE_ALWAYS = "always";
+	
 	private static final JRSingletonCache<JRSubreportRunnerFactory> runnerFactoryCache = 
 			new JRSingletonCache<JRSubreportRunnerFactory>(JRSubreportRunnerFactory.class);
 
@@ -132,6 +137,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	 */
 	private Set<JasperReport> checkedReports;
 
+	private final String defaultGenerateRectangle;
+	private final boolean dynamicGenerateRectangle;
+
 
 	/**
 	 *
@@ -149,6 +157,10 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		
 		loadedEvaluators = new HashMap<JasperReport,JREvaluator>();
 		checkedReports = new HashSet<JasperReport>();
+		
+		this.defaultGenerateRectangle = filler.getPropertiesUtil().getProperty( 
+				PROPERTY_SUBREPORT_GENERATE_RECTANGLE, subreport, filler.getJasperReport());
+		this.dynamicGenerateRectangle = hasDynamicProperty(PROPERTY_SUBREPORT_GENERATE_RECTANGLE);
 	}
 
 	protected JRFillSubreport(JRFillSubreport subreport, JRFillCloneFactory factory)
@@ -160,6 +172,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		
 		loadedEvaluators = new HashMap<JasperReport,JREvaluator>();// not sharing evaluators between clones
 		checkedReports = subreport.checkedReports;
+		
+		defaultGenerateRectangle = subreport.defaultGenerateRectangle;
+		dynamicGenerateRectangle = subreport.dynamicGenerateRectangle;
 	}
 
 	@Override
@@ -950,6 +965,21 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		//FIXME lucianc create a frame instead to avoid HTML layers
 		JRPrintRectangle printRectangle = new JRTemplatePrintRectangle(getJRTemplateRectangle(), printElementOriginator);
 
+		if (printRectangle.getModeValue() == ModeEnum.TRANSPARENT && !printRectangle.hasProperties())
+		{
+			String generateRectangle = generateRectangleOption();
+			if (log.isDebugEnabled())
+			{
+				log.debug("empty rectangle, generate option: " + generateRectangle);
+			}
+			
+			if (generateRectangle == null || !generateRectangle.equals(SUBREPORT_GENERATE_RECTANGLE_ALWAYS))
+			{
+				// skipping empty rectangle
+				return null;
+			}
+		}
+		
 		printRectangle.setUUID(getUUID());
 		printRectangle.setX(getX());
 		printRectangle.setY(getRelativeY());
@@ -957,6 +987,20 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		printRectangle.setHeight(getStretchHeight());
 		
 		return printRectangle;
+	}
+	
+	protected String generateRectangleOption()
+	{
+		String generateRectangle = defaultGenerateRectangle;
+		if (dynamicGenerateRectangle)
+		{
+			String generateRectangleProp = getDynamicProperties().getProperty(PROPERTY_SUBREPORT_GENERATE_RECTANGLE);
+			if (generateRectangleProp != null)
+			{
+				generateRectangle = generateRectangleProp;
+			}
+		}
+		return generateRectangle;
 	}
 
 
