@@ -29,7 +29,7 @@ package net.sf.jasperreports.engine;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see JRElement#getPropertyExpressions()
  */
-public interface JRPropertyExpression
+public interface JRPropertyExpression extends JRCloneable
 {
 	
 	/**

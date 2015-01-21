@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseElement;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -283,6 +284,7 @@ public abstract class JRDesignElement extends JRBaseElement
 	{
 		JRDesignElement clone = (JRDesignElement) super.clone();
 		clone.uuid = null;
+		clone.propertyExpressions = JRCloneUtils.cloneList(propertyExpressions);
 		return clone;
 	}
 	
