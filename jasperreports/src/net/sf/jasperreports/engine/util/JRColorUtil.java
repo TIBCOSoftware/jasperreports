@@ -169,6 +169,10 @@ public final class JRColorUtil
 		return color;
 	}
 
+	public static int getOpaqueArgb(Color color, Color defaultColor) {
+		Color result = color == null ? defaultColor : color;
+		return result == null ? 0x00000000 : result.getRGB() & 0xffffffff;
+	}
 
 	private JRColorUtil()
 	{

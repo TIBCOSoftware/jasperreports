@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.barcode4j;
 import java.io.IOException;
 
 import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
+import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeComponent;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -94,18 +95,25 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 		xmlWriteHelper.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, 
 				barcode.getEvaluationGroup());
-		
-		xmlWriteHelper.addAttribute("orientation", barcode.getOrientation(), 0);
 		xmlWriteHelper.addAttribute("moduleWidth", barcode.getModuleWidth());
-		xmlWriteHelper.addAttribute("textPosition", barcode.getTextPosition());
+		
+		if(!(barcode instanceof QRCodeComponent))
+		{
+			xmlWriteHelper.addAttribute("orientation", barcode.getOrientation(), 0);
+			xmlWriteHelper.addAttribute("textPosition", barcode.getTextPosition());
+			xmlWriteHelper.addAttribute("verticalQuietZone", barcode.getVerticalQuietZone());
+		}
 		xmlWriteHelper.addAttribute("quietZone", barcode.getQuietZone());
-		xmlWriteHelper.addAttribute("verticalQuietZone", barcode.getVerticalQuietZone());
+
 	}
 	
 	protected void writeBaseContents(BarcodeComponent barcode) throws IOException
 	{
 		writeExpression("codeExpression", barcode.getCodeExpression(), false);
-		writeExpression("patternExpression", barcode.getPatternExpression(), false);
+		if(!(barcode instanceof QRCodeComponent))
+		{
+			writeExpression("patternExpression", barcode.getPatternExpression(), false);
+		}
 	}
 	
 	public void visitCodabar(CodabarComponent codabar)
@@ -347,6 +355,23 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 	
+	public void visitQRCode(QRCodeComponent qrCode)
+	{
+		try
+		{
+			startBarcode(qrCode);
+			xmlWriteHelper.addAttribute(QRCodeComponent.PROPERTY_ERROR_CORRECTION_LEVEL, 
+					qrCode.getErrorCorrectionLevel(), 
+					QRCodeComponent.PROPERTY_DEFAULT_ERROR_CORRECTION_LEVEL);
+			writeBaseContents(qrCode);
+			endBarcode();
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
 	@SuppressWarnings("deprecation")
 	protected void writeExpression(String name, JRExpression expression, boolean writeClass)  throws IOException
 	{

@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
+import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeComponent;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -235,5 +236,9 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 	{
 		evaluateBaseBarcode(pdf417, "01234");
 	}
-
+	
+	protected void evaluateQRCode(QRCodeComponent qrCode)
+	{
+		evaluateBaseBarcode(qrCode, "0123456789");
+	}
 }

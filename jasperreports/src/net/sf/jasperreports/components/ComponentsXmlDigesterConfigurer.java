@@ -38,6 +38,7 @@ import net.sf.jasperreports.components.barcode4j.RoyalMailCustomerComponent;
 import net.sf.jasperreports.components.barcode4j.UPCAComponent;
 import net.sf.jasperreports.components.barcode4j.UPCEComponent;
 import net.sf.jasperreports.components.barcode4j.USPSIntelligentMailComponent;
+import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeComponent;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentDigester;
 import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.StandardListComponent;
@@ -182,10 +183,30 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 				"*/componentElement/POSTNET", POSTNETComponent.class);
 		addBaseBarcode4jRules(digester, 
 				"*/componentElement/PDF417", PDF417Component.class);
+		addPrimaryBarcode4jRules(digester, 
+				"*/componentElement/QRCode", QRCodeComponent.class);
+	}
+	
+	protected <T> void addBaseBarcode4jRules(Digester digester, 
+			String barcodePattern, Class<T> barcodeComponentClass)
+	{
+		addPrimaryBarcode4jRules(digester, barcodePattern, barcodeComponentClass);
+		addPatternExpressionRules(digester, barcodePattern);
 	}
 	
 	@SuppressWarnings("deprecation")
-	protected <T> void addBaseBarcode4jRules(Digester digester, 
+	protected <T> void addPatternExpressionRules(Digester digester, String barcodePattern)
+	{
+		String patternExpressionPattern = barcodePattern + "/patternExpression";
+		digester.addFactoryCreate(patternExpressionPattern, 
+				JRExpressionFactory.StringExpressionFactory.class.getName());
+		digester.addCallMethod(patternExpressionPattern, "setText", 0);
+		digester.addSetNext(patternExpressionPattern, "setPatternExpression", 
+				JRExpression.class.getName());
+	}
+	
+	@SuppressWarnings("deprecation")
+	protected <T> void addPrimaryBarcode4jRules(Digester digester, 
 			String barcodePattern, Class<T> barcodeComponentClass)
 	{
 		digester.addObjectCreate(barcodePattern, barcodeComponentClass);
@@ -205,13 +226,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addCallMethod(codeExpressionPattern, "setText", 0);
 		digester.addSetNext(codeExpressionPattern, "setCodeExpression", 
 				JRExpression.class.getName());
-		
-		String patternExpressionPattern = barcodePattern + "/patternExpression";
-		digester.addFactoryCreate(patternExpressionPattern, 
-				JRExpressionFactory.StringExpressionFactory.class.getName());
-		digester.addCallMethod(patternExpressionPattern, "setText", 0);
-		digester.addSetNext(patternExpressionPattern, "setPatternExpression", 
-				JRExpression.class.getName());
+
 	}
 	
 	@SuppressWarnings("deprecation")

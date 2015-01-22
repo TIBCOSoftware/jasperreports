@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
+import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeComponent;
+
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -103,5 +105,9 @@ public abstract class UniformBarcodeVisitor implements BarcodeVisitor
 	{
 		visitBarcode(pdf417);
 	}
-
+	
+	public void visitQRCode(QRCodeComponent qrCode)
+	{
+		visitBarcode(qrCode);
+	}
 }

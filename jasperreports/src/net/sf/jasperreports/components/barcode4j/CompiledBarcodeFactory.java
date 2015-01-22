@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
+import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeComponent;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -56,9 +57,12 @@ public class CompiledBarcodeFactory extends UniformBarcodeVisitor
 				barcode.getCodeExpression());
 		compiledComponent.setCodeExpression(compiledCodeExpression);
 		
-		JRExpression compiledPatternExpression = baseFactory.getExpression(
-				barcode.getPatternExpression());
-		compiledComponent.setPatternExpression(compiledPatternExpression);
+		if(!(barcode instanceof QRCodeComponent))
+		{
+			JRExpression compiledPatternExpression = baseFactory.getExpression(
+					barcode.getPatternExpression());
+			compiledComponent.setPatternExpression(compiledPatternExpression);
+		}
 		if(barcode instanceof EAN128Component)
 		{
 			JRExpression compiledTemplateExpression = baseFactory.getExpression(

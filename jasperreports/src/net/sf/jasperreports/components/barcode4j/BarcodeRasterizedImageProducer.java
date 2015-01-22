@@ -26,6 +26,8 @@ package net.sf.jasperreports.components.barcode4j;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 
+import net.sf.jasperreports.components.barcode4j.qrcode.QRBitmapCanvasProvider;
+import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeBean;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -72,9 +74,17 @@ public class BarcodeRasterizedImageProducer implements BarcodeImageProducer
 					componentElement, PROPERTY_ANTIALIAS, true);
 			int imageType = gray ? BufferedImage.TYPE_BYTE_GRAY 
 					: BufferedImage.TYPE_BYTE_BINARY;
-			
-			BitmapCanvasProvider provider = new BitmapCanvasProvider(
+			BitmapCanvasProvider provider = null;
+			if(barcode instanceof QRCodeBean)
+			{
+				provider = new QRBitmapCanvasProvider(
 				out, "image/x-png", resolution, imageType, antiAlias, orientation);
+			}
+			else
+			{
+				provider = new BitmapCanvasProvider(
+				out, "image/x-png", resolution, imageType, antiAlias, orientation);
+			}
 			barcode.generateBarcode(provider, message);
 			provider.finish();
 			

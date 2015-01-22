@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
+import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeComponent;
+import net.sf.jasperreports.components.barcode4j.type.ErrorCorrectionLevelEnum;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -54,9 +56,6 @@ public class BarcodeVerifier implements BarcodeVisitor
 			verifier.addBrokenRule("Barcode expression is null", barcode);
 		}
 		
-		verifyTextPosition(barcode);
-		verifyOrientation(barcode);
-		
 		EvaluationTimeEnum evaluationTime = barcode.getEvaluationTimeValue();
 		if (evaluationTime == EvaluationTimeEnum.AUTO)
 		{
@@ -74,6 +73,12 @@ public class BarcodeVerifier implements BarcodeVisitor
 				verifier.addBrokenRule("Barcode evalution group \"" 
 						+ evaluationGroup + " not found", barcode);
 			}
+		}
+		
+		if(!(barcode instanceof QRCodeComponent))
+		{
+			verifyTextPosition(barcode);
+			verifyOrientation(barcode);
 		}
 	}
 
@@ -227,5 +232,19 @@ public class BarcodeVerifier implements BarcodeVisitor
 	{
 		verifyBarcode(pdf417);
 	}
+	
+	public void visitQRCode(QRCodeComponent qrCode)
+	{
+		verifyBarcode(qrCode);
+		verifyErrorCorrectionLevel(qrCode);
+	}
 
+	public void verifyErrorCorrectionLevel(QRCodeComponent qrCode)
+	{
+		if(qrCode.getErrorCorrectionLevel() != null && ErrorCorrectionLevelEnum.getByName(qrCode.getErrorCorrectionLevel()) == null)
+		{
+			verifier.addBrokenRule("Invalid error correction level:" + qrCode.getErrorCorrectionLevel() +"; supported values are L, M, Q, H", 
+					qrCode);
+		}
+	}
 }

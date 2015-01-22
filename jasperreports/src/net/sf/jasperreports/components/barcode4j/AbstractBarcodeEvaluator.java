@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
+import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeBean;
+import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeComponent;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -126,7 +128,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 		Double moduleWidth = barcodeComponent.getModuleWidth();
 		if (moduleWidth != null)
 		{
-			barcode.setModuleWidth(UnitConv.pt2mm(moduleWidth.doubleValue()));
+			barcode.setModuleWidth(barcodeComponent instanceof QRCodeComponent ? moduleWidth : UnitConv.pt2mm(moduleWidth.doubleValue()));
 		}
 		
 		String textPlacement = barcodeComponent.getTextPosition();
@@ -140,7 +142,14 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 		if (quietZone != null)
 		{
 			barcode.doQuietZone(true);
-			barcode.setQuietZone(UnitConv.pt2mm(quietZone.doubleValue()));
+			if(barcode instanceof QRCodeBean)
+			{
+				barcode.setQuietZone(quietZone);
+			}
+			else
+			{
+				barcode.setQuietZone(UnitConv.pt2mm(quietZone.doubleValue()));
+			}
 		}
 		
 		Double vQuietZone = barcodeComponent.getVerticalQuietZone();
@@ -468,5 +477,21 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	}
 
 	protected abstract void evaluatePDF417(PDF417Component pdf417);
+
+	public void visitQRCode(QRCodeComponent qrCode)
+	{
+		QRCodeBean qrCodeBean = new QRCodeBean();
+		barcode = qrCodeBean;
+		evaluateQRCode(qrCode);
+		setBaseAttributes(qrCode);
+		qrCodeBean.setOnColor(componentElement.getForecolor());
+		qrCodeBean.setOffColor(componentElement.getBackcolor());
+		qrCodeBean.setEncoding(QRCodeComponent.PROPERTY_DEFAULT_ENCODING);
+		qrCodeBean.setErrorCorrectionLevel(qrCode.getErrorCorrectionLevel());
+		qrCodeBean.setCustomWidth(componentElement.getWidth());
+		qrCodeBean.setCustomHeight(componentElement.getHeight());
+	}
+
+	protected abstract void evaluateQRCode(QRCodeComponent qrCode);
 
 }

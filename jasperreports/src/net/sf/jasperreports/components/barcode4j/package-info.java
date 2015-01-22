@@ -98,6 +98,7 @@
 * <code>minColumns</code>, <code>maxColumns</code>, <code>minRows</code>, <code>maxRows</code> and 
 * <code>widthToHeightRatio</code> attributes. The error correction level can be set using the 
 * <code>errorCorrectionLevel</code> attribute.</li>
+* <li>QRCode barcode can control its error correction level using the <code>errorCorrectionLevel</code> attribute.</li>
 * </ul>
 * The object model for the barcode components uses 
 * {@link net.sf.jasperreports.components.barcode4j.BarcodeComponent BarcodeComponent} 

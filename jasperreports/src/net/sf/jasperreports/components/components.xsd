@@ -419,6 +419,25 @@
 		</complexType>
 	</element>
 
+	<element name="QRCode" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="errorCorrectionLevel" use="optional" default="L">
+					<simpleType>
+						<restriction base="string">
+							<enumeration value="L"/>
+							<enumeration value="M"/>
+							<enumeration value="Q"/>
+							<enumeration value="H"/>
+						</restriction>
+					</simpleType>
+					</attribute>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
 	<element name="map" substitutionGroup="jr:component">
 		<complexType>
 			<complexContent>

@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
+import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeComponent;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -57,10 +58,13 @@ public class BarcodeEvaluator extends AbstractBarcodeEvaluator
 	{
 		message = JRStringUtil.getString(evaluateExpression(barcodeComponent.getCodeExpression()));
 		
-		String pattern = JRStringUtil.getString(evaluateExpression(barcodeComponent.getPatternExpression()));
-		if (pattern != null) 
+		if(!(barcodeComponent instanceof QRCodeComponent))
 		{
-			barcode.setPattern(pattern);
+			String pattern = JRStringUtil.getString(evaluateExpression(barcodeComponent.getPatternExpression()));
+			if (pattern != null) 
+			{
+				barcode.setPattern(pattern);
+			}
 		}
 	}
 	
@@ -151,6 +155,11 @@ public class BarcodeEvaluator extends AbstractBarcodeEvaluator
 	protected void evaluatePDF417(PDF417Component pdf417)
 	{
 		evaluateBaseBarcode(pdf417);
+	}
+	
+	protected void evaluateQRCode(QRCodeComponent qrCode)
+	{
+		evaluateBaseBarcode(qrCode);
 	}
 
 }
