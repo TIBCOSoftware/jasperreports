@@ -159,7 +159,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 
 	/**
 	 * The exporter key, as used in
-	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 * {@link GenericElementHandlerEnviroment#getElementHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
 	public static final String JXL_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "jxl";
 	
@@ -553,11 +553,11 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 
 	protected void exportLine(JRPrintLine line) throws JRException
 	{
-		String currentColumnName = line.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_COLUMN_NAME);
+		String currentColumnName = line.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		
 		if (currentColumnName != null && currentColumnName.length() > 0) 
 		{
-			boolean repeatValue = getPropertiesUtil().getBooleanProperty(line, JRXlsAbstractMetadataExporterParameter.PROPERTY_REPEAT_VALUE, false);
+			boolean repeatValue = getPropertiesUtil().getBooleanProperty(line, JRXlsAbstractMetadataExporter.PROPERTY_REPEAT_VALUE, false);
 			
 			setColumnName(currentColumnName);
 			setColumnWidth(columnNamesMap.get(currentColumnName), line.getWidth());
@@ -618,11 +618,11 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 
 	protected void exportRectangle(JRPrintGraphicElement element) throws JRException
 	{
-		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_COLUMN_NAME);
+		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		
 		if (currentColumnName != null && currentColumnName.length() > 0) 
 		{
-			boolean repeatValue = getPropertiesUtil().getBooleanProperty(element, JRXlsAbstractMetadataExporterParameter.PROPERTY_REPEAT_VALUE, false);
+			boolean repeatValue = getPropertiesUtil().getBooleanProperty(element, JRXlsAbstractMetadataExporter.PROPERTY_REPEAT_VALUE, false);
 			
 			setColumnName(currentColumnName);
 			setColumnWidth(columnNamesMap.get(currentColumnName), element.getWidth());
@@ -659,12 +659,12 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 
 	protected void exportText(JRPrintText textElement) throws JRException
 	{
-		String currentColumnName = textElement.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_COLUMN_NAME);
+		String currentColumnName = textElement.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		if (currentColumnName != null && currentColumnName.length() > 0) 
 		{
-			boolean hasCurrentColumnData = textElement.getPropertiesMap().containsProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_DATA);
-			String currentColumnData = textElement.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_DATA);
-			boolean repeatValue = getPropertiesUtil().getBooleanProperty(textElement, JRXlsAbstractMetadataExporterParameter.PROPERTY_REPEAT_VALUE, false);
+			boolean hasCurrentColumnData = textElement.getPropertiesMap().containsProperty(JRXlsAbstractMetadataExporter.PROPERTY_DATA);
+			String currentColumnData = textElement.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_DATA);
+			boolean repeatValue = getPropertiesUtil().getBooleanProperty(textElement, JRXlsAbstractMetadataExporter.PROPERTY_REPEAT_VALUE, false);
 			
 			setColumnName(currentColumnName);
 			setColumnWidth(columnNamesMap.get(currentColumnName), textElement.getWidth());
@@ -1157,10 +1157,10 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 	public void exportImage(JRPrintImage element) throws JRException
 	{
 
-		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_COLUMN_NAME);
+		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		if (currentColumnName != null && currentColumnName.length() > 0) 
 		{
-			boolean repeatValue = getPropertiesUtil().getBooleanProperty(element, JRXlsAbstractMetadataExporterParameter.PROPERTY_REPEAT_VALUE, false);
+			boolean repeatValue = getPropertiesUtil().getBooleanProperty(element, JRXlsAbstractMetadataExporter.PROPERTY_REPEAT_VALUE, false);
 			
 			setColumnName(currentColumnName);
 			setColumnWidth(columnNamesMap.get(currentColumnName), element.getWidth());
@@ -2423,10 +2423,10 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 
 	protected void exportGenericElement(JRGenericPrintElement element) throws JRException
 	{
-		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_COLUMN_NAME);
+		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		if(currentColumnName != null && currentColumnName.length() > 0)
 		{
-			boolean repeatValue = getPropertiesUtil().getBooleanProperty(element, JRXlsAbstractMetadataExporterParameter.PROPERTY_REPEAT_VALUE, false);
+			boolean repeatValue = getPropertiesUtil().getBooleanProperty(element, JRXlsAbstractMetadataExporter.PROPERTY_REPEAT_VALUE, false);
 			int colIndex = columnNamesMap.get(currentColumnName);
 			
 			setColumnName(currentColumnName);
