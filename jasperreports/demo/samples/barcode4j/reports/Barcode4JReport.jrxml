@@ -169,7 +169,7 @@
 				</c:PDF417>
 			</componentElement>
 			<staticText>
-				<reportElement style="Barcode" x="0" y="600" width="200" height="100" uuid="c1127dd1-6cde-483c-8b1c-927b5fd285a3"/>
+				<reportElement style="Barcode" x="0" y="600" width="200" height="80" uuid="c1127dd1-6cde-483c-8b1c-927b5fd285a3"/>
 				<text><![CDATA[QRCode (http://barcode4j.sourceforge.net/)]]></text>
 			</staticText>
 			<componentElement>
