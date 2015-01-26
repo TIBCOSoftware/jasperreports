@@ -231,6 +231,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	protected void initExport() 
 	{
 		super.initExport();
+		
+		sheet = null;
 	}
 	
 
@@ -402,7 +404,13 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		sheetsBeforeCurrentReportMap.put(sheetIndex, sheetsBeforeCurrentReport);
 	}
 
-	protected void closeSheet()	{
+	protected void closeSheet()	
+	{
+		if (sheet == null)
+		{
+			return;
+		}
+		
 		HSSFPrintSetup printSetup = sheet.getPrintSetup();
 		
 		if (isValidScale(sheetInfo.sheetPageScale))

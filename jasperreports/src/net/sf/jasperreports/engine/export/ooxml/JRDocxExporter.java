@@ -416,8 +416,11 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			}
 		}
 		
-		docHelper.exportSection(oldPageFormat, true);
-
+		if (oldPageFormat != null)
+		{
+			docHelper.exportSection(oldPageFormat, true);
+		}
+			
 		docHelper.exportFooter();
 		docHelper.close();
 

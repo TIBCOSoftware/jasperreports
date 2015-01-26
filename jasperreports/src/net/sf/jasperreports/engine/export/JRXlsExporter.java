@@ -223,6 +223,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	protected void initExport()
 	{
 		super.initExport();
+		
+		sheet = null;
 	}
 	
 
@@ -431,6 +433,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 	protected void closeSheet()
 	{
+		if (sheet == null)
+		{
+			return;
+		}
+		
 		HSSFPrintSetup printSetup = sheet.getPrintSetup();
 
 		if (isValidScale(sheetInfo.sheetPageScale))
