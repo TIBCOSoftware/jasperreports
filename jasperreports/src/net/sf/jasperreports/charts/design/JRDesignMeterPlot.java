@@ -117,22 +117,13 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	}
 
 	/**
-	 * Sets the shape of the meter.  Must be one of
-	 * {@link net.sf.jasperreports.charts.type.MeterShapeEnum#CHORD CHORD}, 
-	 * {@link net.sf.jasperreports.charts.type.MeterShapeEnum#CIRCLE CIRCLE},
-	 * {@link net.sf.jasperreports.charts.type.MeterShapeEnum#PIE PIE}
-	 * or {@link net.sf.jasperreports.charts.type.MeterShapeEnum#DIAL DIAL}.
+	 * Sets the shape of the meter.
 	 *
 	 * @param shape the shape of the meter
 	 * @throws JRException invalid shape was specified
 	 */
 	public void setShape(MeterShapeEnum shape) throws JRException
 	{
-		if (shape != null && (shape.getValue() < 0 || shape.getValue() > MeterShapeEnum.DIAL.getValue()))
-		{
-			throw new JRException("Unknown shape for MeterPlot");
-		}
-
 		MeterShapeEnum old = this.shapeValue;
 		this.shapeValue = shape;
 		getEventSupport().firePropertyChange(PROPERTY_SHAPE, old, this.shapeValue);
