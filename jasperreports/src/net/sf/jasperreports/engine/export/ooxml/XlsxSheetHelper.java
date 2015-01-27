@@ -227,8 +227,8 @@ public class XlsxSheetHelper extends BaseHelper
 			}
 		}
 		
-		byte pSize = getSuitablePaperSize(jasperPrint);
-		String paperSize = pSize == PaperSizeEnum.UNDEFINED.getValue() ? "" : " paperSize=\"" + pSize + "\"";
+		PaperSizeEnum pSize = getSuitablePaperSize(jasperPrint);
+		String paperSize = pSize == PaperSizeEnum.UNDEFINED ? "" : " paperSize=\"" + pSize.getValue() + "\"";
 		write(paperSize);	
 		
 		if(firstPageNumber!= null && firstPageNumber > 0)
@@ -362,13 +362,13 @@ public class XlsxSheetHelper extends BaseHelper
 		rowBreaks.add(rowIndex);
 	}
 
-	private final byte getSuitablePaperSize(PrintPageFormat jasP)
+	private final PaperSizeEnum getSuitablePaperSize(PrintPageFormat jasP)
 	{
-
 		if (jasP == null)
 		{
-			return -1;
+			return PaperSizeEnum.UNDEFINED;
 		}
+		
 		long width = 0;
 		long height = 0;
 
@@ -391,37 +391,38 @@ public class XlsxSheetHelper extends BaseHelper
 
 				if (((w == width) && (h == height)) || ((h == width) && (w == height)))
 				{
-					return i == 3 ?  PaperSizeEnum.A3.getValue() : (i == 4 ? PaperSizeEnum.A4.getValue() : PaperSizeEnum.A5.getValue());
+					return i == 3 ?  PaperSizeEnum.A3 : (i == 4 ? PaperSizeEnum.A4 : PaperSizeEnum.A5);
 				}
 			}
 			
 			// ISO 269 sizes - "Envelope DL" (110 � 220 mm)
 			if (((width == 110) && (height == 220)) || ((width == 220) && (height == 110)))
 			{
-				return PaperSizeEnum.ENVELOPE_DL.getValue();
+				return PaperSizeEnum.ENVELOPE_DL;
 			}
 
 			// Compare to common North American Paper Sizes (ANSI X3.151-1987).
 			// ANSI X3.151-1987 - "Letter" (216 � 279 mm)
 			if (((width == 216) && (height == 279)) || ((width == 279) && (height == 216)))
 			{
-				return PaperSizeEnum.LETTER.getValue();
+				return PaperSizeEnum.LETTER;
 			}
 			// ANSI X3.151-1987 - "Legal" (216 � 356 mm)
 			if (((width == 216) && (height == 356)) || ((width == 356) && (height == 216)))
 			{
-				return PaperSizeEnum.LEGAL.getValue();
+				return PaperSizeEnum.LEGAL;
 			}
 			// ANSI X3.151-1987 - "Executive" (190 � 254 mm)
 			else if (((width == 190) && (height == 254)) || ((width == 254) && (height == 190)))
 			{
-				return PaperSizeEnum.EXECUTIVE.getValue();
+				return PaperSizeEnum.EXECUTIVE;
 			}
 			// ANSI X3.151-1987 - "Ledger/Tabloid" (279 � 432 mm)
 			// Not supported by POI Api yet.
 				
 		}
-		return PaperSizeEnum.UNDEFINED.getValue();
+
+		return PaperSizeEnum.UNDEFINED;
 	}
 	
 	// Berechnungsvorschriften f�r die DIN Formate A, B, und C.
