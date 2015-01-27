@@ -228,7 +228,7 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 		
 		PaperSizeEnum pSize = getSuitablePaperSize(jasperPrint);
-		String paperSize = pSize == PaperSizeEnum.UNDEFINED ? "" : " paperSize=\"" + pSize.getValue() + "\"";
+		String paperSize = pSize == PaperSizeEnum.UNDEFINED ? "" : " paperSize=\"" + pSize.getOoxmlValue() + "\"";
 		write(paperSize);	
 		
 		if(firstPageNumber!= null && firstPageNumber > 0)
@@ -364,78 +364,24 @@ public class XlsxSheetHelper extends BaseHelper
 
 	private final PaperSizeEnum getSuitablePaperSize(PrintPageFormat jasP)
 	{
-		if (jasP == null)
+		if (jasP != null && jasP.getPageWidth() != 0 && jasP.getPageHeight() != 0)
 		{
-			return PaperSizeEnum.UNDEFINED;
-		}
-		
-		long width = 0;
-		long height = 0;
+			long mmPageWidth = Math.round(((double)jasP.getPageWidth() / 72.0d) * 25.4d);
+			long mmPageHeight = Math.round(((double)jasP.getPageHeight() / 72.0d) * 24.4d);
 
-		if ((jasP.getPageWidth() != 0) && (jasP.getPageHeight() != 0))
-		{
-
-			double dWidth = (jasP.getPageWidth() / 72.0);
-			double dHeight = (jasP.getPageHeight() / 72.0);
-
-			height = Math.round(dHeight * 25.4);
-			width = Math.round(dWidth * 25.4);
-
-			// Compare to ISO 216 A-Series (A3-A5). All other ISO 216 formats
-			// not supported by POI Api yet.
-			// A3 papersize also not supported by POI Api yet.
-			for (int i = 3; i < 6; i++)
+			for (PaperSizeEnum paperSize : PaperSizeEnum.values())
 			{
-				int w = calculateWidthForDinAN(i);
-				int h = calculateHeightForDinAN(i);
-
-				if (((w == width) && (h == height)) || ((h == width) && (w == height)))
+				if (
+					((paperSize.getWidth() == mmPageWidth) && (paperSize.getHeight() == mmPageHeight)) 
+					|| ((paperSize.getHeight() == mmPageWidth) && (paperSize.getWidth() == mmPageHeight))
+					)
 				{
-					return i == 3 ?  PaperSizeEnum.A3 : (i == 4 ? PaperSizeEnum.A4 : PaperSizeEnum.A5);
+					return paperSize;
 				}
 			}
-			
-			// ISO 269 sizes - "Envelope DL" (110 � 220 mm)
-			if (((width == 110) && (height == 220)) || ((width == 220) && (height == 110)))
-			{
-				return PaperSizeEnum.ENVELOPE_DL;
-			}
-
-			// Compare to common North American Paper Sizes (ANSI X3.151-1987).
-			// ANSI X3.151-1987 - "Letter" (216 � 279 mm)
-			if (((width == 216) && (height == 279)) || ((width == 279) && (height == 216)))
-			{
-				return PaperSizeEnum.LETTER;
-			}
-			// ANSI X3.151-1987 - "Legal" (216 � 356 mm)
-			if (((width == 216) && (height == 356)) || ((width == 356) && (height == 216)))
-			{
-				return PaperSizeEnum.LEGAL;
-			}
-			// ANSI X3.151-1987 - "Executive" (190 � 254 mm)
-			else if (((width == 190) && (height == 254)) || ((width == 254) && (height == 190)))
-			{
-				return PaperSizeEnum.EXECUTIVE;
-			}
-			// ANSI X3.151-1987 - "Ledger/Tabloid" (279 � 432 mm)
-			// Not supported by POI Api yet.
-				
 		}
 
 		return PaperSizeEnum.UNDEFINED;
-	}
-	
-	// Berechnungsvorschriften f�r die DIN Formate A, B, und C.
-	// Die Angabe der Breite/H�he erfolgt in [mm].
-
-	protected final int calculateWidthForDinAN(int n)
-	{
-		return (int) (Math.pow(2.0, (-0.25 - (n / 2.0))) * 1000.0);
-	}
-
-	protected final int calculateHeightForDinAN(int n)
-	{
-		return (int) (Math.pow(2.0, (0.25 - (n / 2.0))) * 1000.0);
 	}
 	
 }

@@ -23,83 +23,111 @@
  */
 package net.sf.jasperreports.engine.export.ooxml.type;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public enum PaperSizeEnum implements JREnum
+public enum PaperSizeEnum implements NamedEnum
 {
 	/**
 	 * Specifies an undefined paper size.
 	 */ 
-	UNDEFINED((byte)-1, "Undefined"),
+	UNDEFINED((byte)-1, "Undefined", -1, -1),
 	
 	/**
 	 * Specifies the Letter paper size.
+	 * ANSI X3.151-1987 - "Letter" (216 x 279 mm)
 	 */ 
-	LETTER((byte)1, "Letter"),
+	LETTER((byte)1, "Letter", 216, 279),
 	
 	/**
 	 * Specifies the Legal paper size.
+	 * ANSI X3.151-1987 - "Legal" (216 x 356 mm)
 	 */ 
-	LEGAL((byte)5, "Legal"),
+	LEGAL((byte)5, "Legal", 216, 356),
 	
 	/**
 	 * Specifies the Executive paper size.
+	 * ANSI X3.151-1987 - "Executive" (190 x 254 mm)
 	 */ 
-	EXECUTIVE((byte)7, "Executive"),
+	EXECUTIVE((byte)7, "Executive", 190, 254),
 	
 	/**
 	 * Specifies the A3 paper size.
+	 * ISO 216 - "A3" (297 x 420 mm)
 	 */ 
-	A3((byte)8, "A3"),
+	A3((byte)8, "A3", 297, 420),
 	
 	/**
 	 * Specifies the A4 paper size.
+	 * ISO 216 - "A4" (210 x 297 mm)
 	 */ 
-	A4((byte)9, "A4"),
+	A4((byte)9, "A4", 210, 297),
 	
 	/**
 	 * Specifies the A5 paper size.
+	 * ISO 216 - "A5" (148 x 210 mm)
 	 */ 
-	A5((byte)11, "A5"),
-	
+	A5((byte)11, "A5", 148, 210),
+
+//	/**
+//	 * Specifies the A5 paper size.
+//	 * ANSI X3.151-1987 - "Ledger/Tabloid" (279 x 432 mm)
+//	 */ 
+//	LEDGER_TABLOID((byte)xx, "Ledger/Tabloid", 279, 432),
+		
 	/**
 	 * Specifies the DL Envelope paper size.
+	 * ISO 269 - "Envelope DL" (110 x 220 mm)
 	 */ 
-	ENVELOPE_DL((byte)27, "Envelope_DL");
+	ENVELOPE_DL((byte)27, "Envelope_DL", 110, 220);
 	
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
+	private final transient byte ooxmlValue;
 	private final transient String name;
+	private final transient int width;
+	private final transient int height;
 
-	private PaperSizeEnum(byte value, String name)
+	private PaperSizeEnum(
+		byte ooxmlValue, 
+		String name,
+		int width,
+		int height
+		)
 	{
-		this.value = value;
+		this.ooxmlValue = ooxmlValue;
 		this.name = name;
+		this.width = width;
+		this.height = height;
 	}
 
 	/**
 	 *
 	 */
-	public Byte getValueByte()
+	public final byte getOoxmlValue()
 	{
-		return new Byte(value);
+		return ooxmlValue;
 	}
 	
 	/**
 	 *
 	 */
-	public final byte getValue()
+	public final int getWidth()
 	{
-		return value;
+		return width;
+	}
+	
+	/**
+	 *
+	 */
+	public final int getHeight()
+	{
+		return height;
 	}
 	
 	/**
@@ -115,23 +143,6 @@ public enum PaperSizeEnum implements JREnum
 	 */
 	public static PaperSizeEnum getByName(String name)
 	{
-		return (PaperSizeEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static PaperSizeEnum getByValue(Byte value)
-	{
-		return (PaperSizeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static PaperSizeEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-	
 }
