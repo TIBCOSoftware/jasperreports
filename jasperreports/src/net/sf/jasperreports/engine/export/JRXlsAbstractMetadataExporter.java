@@ -62,7 +62,6 @@ import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.XlsMetadataExporterConfiguration;
 import net.sf.jasperreports.export.XlsMetadataReportConfiguration;
-import net.sf.jasperreports.export.XlsReportConfiguration;
 
 
 /**
@@ -586,40 +585,6 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	/**
 	 * 
 	 */
-	protected boolean isWrapText(JRPrintElement element)
-	{
-		if (
-			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_WRAP_TEXT)
-			)
-		{
-			// we make this test to avoid reaching the global default value of the property directly
-			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_WRAP_TEXT, getCurrentItemConfiguration().isWrapText());
-		}
-		return getCurrentItemConfiguration().isWrapText();
-	}
-
-	/**
-	 * 
-	 */
-	protected boolean isCellLocked(JRPrintElement element)
-	{
-		if (
-			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_CELL_LOCKED)
-			)
-		{
-			// we make this test to avoid reaching the global default value of the property directly
-			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_CELL_LOCKED, getCurrentItemConfiguration().isCellLocked());
-		}
-		return getCurrentItemConfiguration().isCellLocked();
-	}
-
-	/**
-	 * 
-	 */
 	protected String getFormula(JRPrintText text)
 	{
 		String formula = text.getPropertiesMap().getProperty(JRXlsAbstractExporter.PROPERTY_CELL_FORMULA);
@@ -634,23 +599,6 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 		return formula;
 	}
 	
-	/**
-	 * 
-	 */
-	protected boolean isCellHidden(JRPrintElement element)
-	{
-		if (
-			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_CELL_HIDDEN)
-			)
-		{
-			// we make this test to avoid reaching the global default value of the property directly
-			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_CELL_HIDDEN, getCurrentItemConfiguration().isCellHidden());
-		}
-		return getCurrentItemConfiguration().isCellHidden();
-	}
-
 	/**
 	 * Compares the highest index of the currentRow's columns with the index of the column to be inserted
 	 * to determine if the current column is read in the proper order

@@ -47,6 +47,7 @@ public class XlsxStyleInfo
 	protected boolean isWrapText = true;
 	protected boolean isHidden;
 	protected boolean isLocked;
+	protected boolean isShrinkToFit;
 
 	/**
 	 *
@@ -58,7 +59,8 @@ public class XlsxStyleInfo
 		JRExporterGridCell gridCell, 
 		boolean isWrapText,
 		boolean isHidden,
-		boolean isLocked
+		boolean isLocked,
+		boolean isShrinkToFit
 		)
 	{
 		this.formatIndex = formatIndex;
@@ -83,15 +85,16 @@ public class XlsxStyleInfo
 			this.verticalAlign = DocxCellHelper.getVerticalAlignment(align.getVerticalTextAlign());//FIXMEXLSX use common util
 		}
 		
-		this.isWrapText = isWrapText;
+		this.isWrapText = isShrinkToFit ? false : isWrapText;
 		this.isHidden = isHidden;
 		this.isLocked = isLocked;
+		this.isShrinkToFit = isShrinkToFit;
 	}
 	
 	public String getId()
 	{
 		return 
 		formatIndex + "|" + fontIndex + "|" + borderIndex + "|" + backcolor + "|" + horizontalAlign + "|" + verticalAlign 
-		+ "|" + isWrapText + "|" + isHidden + "|" + isLocked;
+		+ "|" + isWrapText + "|" + isHidden + "|" + isLocked + "|" + isShrinkToFit;
 	}
 }

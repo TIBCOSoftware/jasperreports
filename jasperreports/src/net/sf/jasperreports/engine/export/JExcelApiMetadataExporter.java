@@ -609,7 +609,9 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 					backcolor, 
 					cellFont2, 
 					boxStyle,
-					isCellLocked(line)
+					isWrapText(line),
+					isCellLocked(line),
+					isShrinkToFit(line)
 					);
 			
 			addBlankElement(cellStyle2, repeatValue, currentColumnName);
@@ -649,7 +651,9 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 					backcolor, 
 					cellFont2, 
 					boxStyle,
-					isCellLocked(element)
+					isWrapText(element),
+					isCellLocked(element),
+					isShrinkToFit(element)
 					);
 			
 			addBlankElement(cellStyle2, repeatValue, currentColumnName);
@@ -700,7 +704,8 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 					cellFont,
 					textElement,
 					isWrapText(textElement) || Boolean.TRUE.equals(((JExcelApiExporterNature)nature).getColumnAutoFit(textElement)),
-					isCellLocked(textElement)
+					isCellLocked(textElement),
+					isShrinkToFit(textElement)
 					);
 			
 			String href = null;
@@ -1367,7 +1372,9 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 						background, 
 						cellFont2, 
 						new BoxStyle(element),
-						isCellLocked(element)
+						isWrapText(element),
+						isCellLocked(element),
+						isShrinkToFit(element)
 						);
 	
 				addBlankElement(cellStyle2, repeatValue, currentColumnName);
@@ -1748,6 +1755,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		protected final BoxStyle box;
 		protected final boolean isWrapText;
 		protected final boolean isCellLocked;
+		protected final boolean isShrinkToFit;
 		private DisplayFormat displayFormat;
 		private int hashCode;
 
@@ -1758,115 +1766,26 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				int verticalAlignment, 
 				int rotation, 
 				WritableFont font, 
-				JRBoxContainer element
-				)
-			{
-				this(
-					mode, 
-					backcolor, 
-					horizontalAlignment, 
-					verticalAlignment, 
-					rotation, 
-					font, 
-					new BoxStyle(element),
-					true
-					);
-			}
-			
-		protected StyleInfo(
-				Pattern mode, 
-				Colour backcolor, 
-				int horizontalAlignment, 
-				int verticalAlignment, 
-				int rotation, 
-				WritableFont font, 
-				JRBoxContainer element,
-				boolean wrapText
-				)
-			{
-				this(
-					mode, 
-					backcolor, 
-					horizontalAlignment, 
-					verticalAlignment, 
-					rotation, 
-					font, 
-					new BoxStyle(element),
-					wrapText
-					);
-			}
-			
-		protected StyleInfo(
-				Pattern mode, 
-				Colour backcolor, 
-				int horizontalAlignment, 
-				int verticalAlignment, 
-				int rotation, 
-				WritableFont font, 
 				JRBoxContainer element,
 				boolean wrapText,
-				boolean cellLocked
+				boolean cellLocked,
+				boolean shrinkToFit
 				)
-			{
-				this(
-					mode, 
-					backcolor, 
-					horizontalAlignment, 
-					verticalAlignment, 
-					rotation, 
-					font, 
-					new BoxStyle(element),
-					wrapText,
-					cellLocked
-					);
-			}
-			
-		protected StyleInfo(
-				Pattern mode, 
-				Colour backcolor, 
-				int horizontalAlignment, 
-				int verticalAlignment, 
-				int rotation, 
-				WritableFont font, 
-				BoxStyle box
-				)
-			{
+		{
 			this(
-					mode, 
-					backcolor, 
-					horizontalAlignment, 
-					verticalAlignment, 
-					rotation, 
-					font, 
-					box,
-					true
-					);
-			}
-
-		protected StyleInfo(
-				Pattern mode, 
-				Colour backcolor, 
-				int horizontalAlignment, 
-				int verticalAlignment, 
-				int rotation, 
-				WritableFont font, 
-				BoxStyle box,
-				boolean wrapText
-				)
-			{
-			this(
-					mode, 
-					backcolor, 
-					horizontalAlignment, 
-					verticalAlignment, 
-					rotation, 
-					font, 
-					box,
-					wrapText,
-					true
-					);
-			}
-
+				mode,
+				backcolor,
+				horizontalAlignment,
+				verticalAlignment,
+				rotation,
+				font,
+				element == null ? null : new BoxStyle(element),
+				wrapText,
+				cellLocked,
+				shrinkToFit
+				);
+		}
+		
 		protected StyleInfo(
 				Pattern mode, 
 				Colour backcolor, 
@@ -1876,22 +1795,24 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				WritableFont font, 
 				BoxStyle box,
 				boolean wrapText,
-				boolean cellLocked
+				boolean cellLocked,
+				boolean shrinkToFit
 				)
-			{
-				this.mode = mode;
-				this.backcolor = backcolor;
-				this.horizontalAlignment = horizontalAlignment;
-				this.verticalAlignment = verticalAlignment;
-				this.rotation = rotation;
-				this.font = font;
-				
-				this.box = box;
-				this.isWrapText = wrapText;
-				this.isCellLocked = cellLocked;
-				
-				computeHash();
-			}
+		{
+			this.mode = mode;
+			this.backcolor = backcolor;
+			this.horizontalAlignment = horizontalAlignment;
+			this.verticalAlignment = verticalAlignment;
+			this.rotation = rotation;
+			this.font = font;
+			
+			this.box = box;
+			this.isWrapText = shrinkToFit ? false : wrapText;
+			this.isCellLocked = cellLocked;
+			this.isShrinkToFit = shrinkToFit;
+			
+			computeHash();
+		}
 
 		protected void computeHash()
 		{
@@ -1905,6 +1826,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 			hash = 31*hash + (this.displayFormat == null ? 0 : this.displayFormat.hashCode());
 			hash = 31*hash + (this.isWrapText ? 0 : 1);
 			hash = 31*hash + (this.isCellLocked ? 0 : 1);
+			hash = 31*hash + (this.isShrinkToFit ? 0 : 1);
 
 			hashCode = hash;
 		}
@@ -1923,7 +1845,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				k.rotation == rotation && k.font.equals(font) &&
 				(k.box == null ? box == null : (box != null && k.box.equals(box))) &&
 				(k.displayFormat == null ? displayFormat == null : (displayFormat!= null && k.displayFormat.equals(displayFormat)) &&
-				k.isWrapText == isWrapText && k.isCellLocked == isCellLocked);
+				k.isWrapText == isWrapText && k.isCellLocked == isCellLocked && k.isShrinkToFit == isShrinkToFit);
 		}
 
 		public DisplayFormat getDisplayFormat()
@@ -1943,7 +1865,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				mode + "," + backcolor + "," +
 				horizontalAlignment + "," + verticalAlignment + "," +
 				rotation + "," + font + "," +
-				box + "," + displayFormat + "," + isWrapText + "," + isCellLocked + ")";
+				box + "," + displayFormat + "," + isWrapText + "," + isCellLocked + "," + isShrinkToFit + ")";
 		}
 	}
 
@@ -1953,7 +1875,9 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				Colour backcolor, 
 				WritableFont font, 
 				BoxStyle box,
-				boolean cellLocked
+				boolean wrapText,
+				boolean cellLocked,
+				boolean shrinkToFit
 				) throws JRException
 			{
 				StyleInfo styleKey = 
@@ -1965,8 +1889,9 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 						Orientation.HORIZONTAL.getValue(),
 						font, 
 						box,
-						true,
-						cellLocked
+						wrapText,
+						cellLocked,
+						shrinkToFit
 						);
 				return getLoadedCellStyle(styleKey);
 			}

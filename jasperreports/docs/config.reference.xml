@@ -336,6 +336,7 @@
       <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
       
       <property ref="net.sf.jasperreports.export.xls.show.gridlines"/>
+      <property ref="net.sf.jasperreports.export.xls.shrink.to.fit"/>
       
       <property ref="net.sf.jasperreports.export.xls.use.timezone"/>
       
@@ -4694,6 +4695,29 @@ Global settings are overriden by report level settings; report level settings ar
     <default>true</default>
     <scope>Global | Report | Element</scope>
     <since>4.8.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.shrink.to.fit -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.shrink.to.fit">
+    <description>
+Flag property that indicates whether the text font size should be decreased in order to 
+keep the entire text visible in the cell. If set to true, this will automatically disable the 
+wrap text setting for the cell (see <a href="#net.sf.jasperreports.export.xls.wrap.text">net.sf.jasperreports.export.xls.wrap.text</a>). 
+<br/>
+Usually this property works in conjunction with <a href="#net.sf.jasperreports.print.keep.full.text">net.sf.jasperreports.print.keep.full.text</a>, 
+in order to preserve the entire text content at export time.
+<br/>
+The value of this property is used as default for the 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isShrinkToFit()">isShrinkToFit()</api> Excel export configuration setting.
+<br/>
+Settings at global level are overriden by report level settings; report level settings are overriden by element level settings.    
+	</description>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHRINK_TO_FIT</api>
+    <default>false</default>
+    <scope>Global | Report | Element</scope>
+    <since>6.0.2</since>
   </configProperty>
   
   

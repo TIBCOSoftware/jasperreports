@@ -602,7 +602,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				HSSFCellStyle.VERTICAL_TOP,
 				(short)0,
 				getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
-				gridCell
+				gridCell,
+				true, 
+				true, 
+				false, 
+				false
 				);
 
 		cell.setCellStyle(cellStyle);
@@ -663,8 +667,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				(short)0,
 				getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 				boxStyle,
+				false,
 				isCellLocked(line),
-				isCellHidden(line)
+				isCellHidden(line),
+				isShrinkToFit(line)
 				);
 
 		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
@@ -699,8 +705,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				(short)0,
 				getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 				gridCell,
+				isWrapText(element),
 				isCellLocked(element),
-				isCellHidden(element)
+				isCellHidden(element),
+				isShrinkToFit(element)
 				);
 
 		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
@@ -747,7 +755,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				gridCell, 
 				isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
 				isCellLocked(textElement),
-				isCellHidden(textElement)
+				isCellHidden(textElement),
+				isShrinkToFit(textElement)
 				);
 		createTextCell(textElement, gridCell, colIndex, rowIndex, styledText, baseStyle, forecolor);
 	}
@@ -1231,6 +1240,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			cellStyle.setWrapText(style.lcWrapText);
 			cellStyle.setLocked(style.lcCellLocked);
 			cellStyle.setHidden(style.lcCellHidden);
+			cellStyle.setShrinkToFit(style.lcShrinkToFit);
 
 			if (style.hasDataFormat())
 			{
@@ -1263,40 +1273,27 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			short verticalAlignment,
 			short rotation,
 			HSSFFont font,
-			JRExporterGridCell gridCell
-			)
-	{
-		return getLoadedCellStyle(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, gridCell, true, false);
-	}
-
-	protected HSSFCellStyle getLoadedCellStyle(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
 			JRExporterGridCell gridCell,
+			boolean isWrapText,
 			boolean isCellLocked,
-			boolean isCellHidden
+			boolean isCellHidden,
+			boolean isShrinkToFit
 			)
 	{
-		StyleInfo style = new StyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, gridCell, isCellLocked, isCellHidden);
-		return getLoadedCellStyle(style);
+		return getLoadedCellStyle(
+				new StyleInfo(
+						mode, 
+						backcolor, 
+						horizontalAlignment, 
+						verticalAlignment, 
+						rotation, 
+						font, 
+						gridCell, 
+						isWrapText, 
+						isCellLocked, 
+						isCellHidden, 
+						isShrinkToFit));
 	}
-
-	protected HSSFCellStyle getLoadedCellStyle(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
-			BoxStyle box
-			)
-		{
-			return getLoadedCellStyle(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, box, true, false);
-		}
 
 	protected HSSFCellStyle getLoadedCellStyle(
 			short mode,
@@ -1306,11 +1303,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			short rotation,
 			HSSFFont font,
 			BoxStyle box,
+			boolean isWrapText,
 			boolean isCellLocked,
-			boolean isCellHidden
+			boolean isCellHidden,
+			boolean isShrinkToFit
 			)
 		{
-			StyleInfo style = new StyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, box, isCellLocked, isCellHidden);
+			StyleInfo style = new StyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, box, isWrapText, isCellLocked, isCellHidden, isShrinkToFit);
 			return getLoadedCellStyle(style);
 		}
 
@@ -1600,8 +1599,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 						(short)0,
 						getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 						gridCell,
+						isWrapText(element),
 						isCellLocked(element),
-						isCellHidden(element)
+						isCellHidden(element),
+						isShrinkToFit(element)
 						);
 
 				createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
@@ -1736,8 +1737,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				(short)0,
 				getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 				gridCell,
+				isWrapText(frame),
 				isCellLocked(frame),
-				isCellHidden(frame)
+				isCellHidden(frame),
+				isShrinkToFit(frame)
 				);
 
 		createMergeRegion(gridCell, x, y, cellStyle);
@@ -2196,187 +2199,37 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		protected final boolean lcWrapText;
 		protected final boolean lcCellLocked;
 		protected final boolean lcCellHidden;
+		protected final boolean lcShrinkToFit;
 		private short lcDataFormat = -1;
 		private int hashCode;
-	
+
 		public StyleInfo(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
-			JRExporterGridCell gridCell
-			)
+				short mode,
+				short backcolor,
+				short horizontalAlignment,
+				short verticalAlignment,
+				short rotation,
+				HSSFFont font,
+				JRExporterGridCell gridCell,
+				boolean wrapText,
+				boolean cellLocked,
+				boolean cellHidden,
+				boolean shrinkToFit
+				)
 		{
-			this(
-				mode,
-				backcolor,
-				horizontalAlignment,
-				verticalAlignment,
-				rotation,
-				font,
-				new BoxStyle(gridCell),
-				true,
-				true,
-				false
-				);
+			this(mode, 
+				backcolor, 
+				horizontalAlignment, 
+				verticalAlignment, 
+				rotation, 
+				font, 
+				(gridCell == null ? null : new BoxStyle(gridCell)), 
+				wrapText, 
+				cellLocked, 
+				cellHidden, 
+				shrinkToFit);
 		}
-	
-		public StyleInfo(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
-			JRExporterGridCell gridCell,
-			boolean wrapText,
-			boolean cellLocked,
-			boolean cellHidden
-			)
-		{
-			this(
-				mode,
-				backcolor,
-				horizontalAlignment,
-				verticalAlignment,
-				rotation,
-				font,
-				new BoxStyle(gridCell),
-				wrapText,
-				cellLocked,
-				cellHidden
-				);
-		}
-	
-		public StyleInfo(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
-			JRExporterGridCell gridCell,
-			boolean cellLocked,
-			boolean cellHidden
-			)
-		{
-			this(
-				mode,
-				backcolor,
-				horizontalAlignment,
-				verticalAlignment,
-				rotation,
-				font,
-				new BoxStyle(gridCell),
-				true,
-				cellLocked,
-				cellHidden
-				);
-		}
-	
-		public StyleInfo(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
-			JRExporterGridCell gridCell,
-			boolean wrapText
-			)
-		{
-			this(
-				mode,
-				backcolor,
-				horizontalAlignment,
-				verticalAlignment,
-				rotation,
-				font,
-				new BoxStyle(gridCell),
-				wrapText,
-				true,
-				false
-				);
-		}
-	
-		public StyleInfo(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
-			BoxStyle box
-			)
-		{
-		this(
-				mode,
-				backcolor,
-				horizontalAlignment,
-				verticalAlignment,
-				rotation,
-				font,
-				box,
-				true,
-				true,
-				false
-				);
-		}
-	
-		public StyleInfo(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
-			BoxStyle box,
-			boolean wrapText
-			)
-		{
-			this(
-				mode,
-				backcolor,
-				horizontalAlignment,
-				verticalAlignment,
-				rotation,
-				font,
-				box,
-				wrapText,
-				true,
-				false
-				);
-		}
-	
-	
-		public StyleInfo(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
-			BoxStyle box,
-			boolean cellLocked,
-			boolean cellHidden
-			)
-		{
-			this(
-				mode,
-				backcolor,
-				horizontalAlignment,
-				verticalAlignment,
-				rotation,
-				font,
-				box,
-				true,
-				cellLocked,
-				cellHidden
-				);
-		}
-	
+		
 		public StyleInfo(
 			short mode,
 			short backcolor,
@@ -2387,7 +2240,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			BoxStyle box,
 			boolean wrapText,
 			boolean cellLocked,
-			boolean cellHidden
+			boolean cellHidden,
+			boolean shrinkToFit
 			)
 		{
 			this.mode = mode;
@@ -2396,12 +2250,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			this.verticalAlignment = verticalAlignment;
 			this.rotation = rotation;
 			this.font = font;
-	
+				
 			this.box = box;
-			this.lcWrapText = wrapText;
+			this.lcWrapText = shrinkToFit ? false : wrapText;
 			this.lcCellLocked = cellLocked;
 			this.lcCellHidden = cellHidden;
-	
+			this.lcShrinkToFit = shrinkToFit;
 			hashCode = computeHash();
 		}
 	
@@ -2418,6 +2272,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			hash = 31*hash + (lcWrapText ? 0 : 1);
 			hash = 31*hash + (lcCellLocked ? 0 : 1);
 			hash = 31*hash + (lcCellHidden ? 0 : 1);
+			hash = 31*hash + (lcShrinkToFit ? 0 : 1);
 			return hash;
 		}
 	
@@ -2454,7 +2309,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					&& (s.font == null ? font == null : (font != null && s.font.getIndex() == font.getIndex()))
 					&& (s.box == null ? box == null : (box != null && s.box.equals(box)))
 					&& s.rotation == rotation && s.lcWrapText == lcWrapText 
-					&& s.lcCellLocked == lcCellLocked && s.lcCellHidden == lcCellHidden;//FIXME should dataformat be part of equals? it is part of toString()...
+					&& s.lcCellLocked == lcCellLocked && s.lcCellHidden == lcCellHidden
+					&& s.lcShrinkToFit == lcShrinkToFit;	//FIXME should dataformat be part of equals? it is part of toString()...
 		}
 	
 		public String toString()
@@ -2463,9 +2319,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				mode + "," + backcolor + "," +
 				horizontalAlignment + "," + verticalAlignment + "," +
 				rotation + "," + font + "," +
-				box + "," + lcDataFormat + "," + lcWrapText + "," + lcCellLocked + "," + lcCellHidden + ")";
+				box + "," + lcDataFormat + "," + lcWrapText + "," + lcCellLocked + "," + lcCellHidden + "," + lcShrinkToFit + ")";
 		}
 	}
-
 
 }

@@ -570,7 +570,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				mode, 
 				backcolor,
 				cellFont, 
-				gridCell
+				gridCell,
+				true,
+				false,
+				false
 				);
 
 		try
@@ -641,7 +644,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				backcolor, 
 				cellFont2, 
 				boxStyle,
-				isCellLocked(line)
+				isWrapText(line),
+				isCellLocked(line),
+				isShrinkToFit(line)
 				);
 		Blank cell2 = new Blank(col, row, cellStyle2);
 
@@ -678,7 +683,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				backcolor, 
 				cellFont2, 
 				gridCell,
-				isCellLocked(element)
+				isWrapText(element),
+				isCellLocked(element),
+				isShrinkToFit(element)
 				);
 		
 		Blank cell2 = new Blank(col, row, cellStyle2);
@@ -730,7 +737,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 					cellFont,
 					gridCell,
 					isWrapText(text) || Boolean.TRUE.equals(((JExcelApiExporterNature)nature).getColumnAutoFit(text)),
-					isCellLocked(text)
+					isCellLocked(text),
+					isShrinkToFit(text)
 					);
 
 			if (!configuration.isIgnoreAnchors() && text.getAnchorName() != null)
@@ -1417,7 +1425,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 					background, 
 					cellFont2, 
 					gridCell,
-					isCellLocked(element)
+					isWrapText(element),
+					isCellLocked(element),
+					isShrinkToFit(element)
 					);
 
 			if (!configuration.isIgnoreAnchors() && element.getAnchorName() != null)
@@ -1909,53 +1919,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		protected final BoxStyle box;
 		protected final boolean isWrapText;
 		protected final boolean isCellLocked;
+		protected final boolean isShrinkToFit;
 		private DisplayFormat displayFormat;
 		private int hashCode;
-
-		protected StyleInfo(
-				Pattern mode, 
-				Colour backcolor, 
-				int horizontalAlignment, 
-				int verticalAlignment, 
-				int rotation, 
-				WritableFont font, 
-				JRExporterGridCell gridCell
-				)
-			{
-				this(
-					mode, 
-					backcolor, 
-					horizontalAlignment, 
-					verticalAlignment, 
-					rotation, 
-					font, 
-					new BoxStyle(gridCell),
-					true
-					);
-			}
-			
-		protected StyleInfo(
-				Pattern mode, 
-				Colour backcolor, 
-				int horizontalAlignment, 
-				int verticalAlignment, 
-				int rotation, 
-				WritableFont font, 
-				JRExporterGridCell gridCell,
-				boolean wrapText
-				)
-			{
-				this(
-					mode, 
-					backcolor, 
-					horizontalAlignment, 
-					verticalAlignment, 
-					rotation, 
-					font, 
-					new BoxStyle(gridCell),
-					wrapText
-					);
-			}
 			
 		protected StyleInfo(
 				Pattern mode, 
@@ -1966,7 +1932,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				WritableFont font, 
 				JRExporterGridCell gridCell,
 				boolean wrapText,
-				boolean cellLocked
+				boolean cellLocked, 
+				boolean shrinkToFit
 				)
 			{
 				this(
@@ -1978,7 +1945,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 					font, 
 					new BoxStyle(gridCell),
 					wrapText,
-					cellLocked
+					cellLocked,
+					shrinkToFit
 					);
 			}
 			
@@ -1989,55 +1957,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				int verticalAlignment, 
 				int rotation, 
 				WritableFont font, 
-				BoxStyle box
-				)
-			{
-			this(
-					mode, 
-					backcolor, 
-					horizontalAlignment, 
-					verticalAlignment, 
-					rotation, 
-					font, 
-					box,
-					true
-					);
-			}
-
-		protected StyleInfo(
-				Pattern mode, 
-				Colour backcolor, 
-				int horizontalAlignment, 
-				int verticalAlignment, 
-				int rotation, 
-				WritableFont font, 
-				BoxStyle box,
-				boolean wrapText
-				)
-			{
-			this(
-					mode, 
-					backcolor, 
-					horizontalAlignment, 
-					verticalAlignment, 
-					rotation, 
-					font, 
-					box,
-					wrapText,
-					true
-					);
-			}
-
-		protected StyleInfo(
-				Pattern mode, 
-				Colour backcolor, 
-				int horizontalAlignment, 
-				int verticalAlignment, 
-				int rotation, 
-				WritableFont font, 
 				BoxStyle box,
 				boolean wrapText,
-				boolean cellLocked
+				boolean cellLocked, 
+				boolean shrinkToFit
 				)
 			{
 				this.mode = mode;
@@ -2048,9 +1971,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				this.font = font;
 				
 				this.box = box;
-				this.isWrapText = wrapText;
+				this.isWrapText = shrinkToFit ? false : wrapText;
 				this.isCellLocked = cellLocked;
-				
+				this.isShrinkToFit = shrinkToFit;
 				computeHash();
 			}
 
@@ -2066,6 +1989,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 			hash = 31*hash + (this.displayFormat == null ? 0 : this.displayFormat.hashCode());
 			hash = 31*hash + (this.isWrapText ? 0 : 1);
 			hash = 31*hash + (this.isCellLocked ? 0 : 1);
+			hash = 31*hash + (this.isShrinkToFit ? 0 : 1);
 
 			hashCode = hash;
 		}
@@ -2084,7 +2008,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				k.rotation == rotation && k.font.equals(font) &&
 				(k.box == null ? box == null : (box != null && k.box.equals(box))) &&
 				(k.displayFormat == null ? displayFormat == null : (displayFormat!= null && k.displayFormat.equals(displayFormat)) &&
-				k.isWrapText == isWrapText && k.isCellLocked == isCellLocked);
+				k.isWrapText == isWrapText && k.isCellLocked == isCellLocked && k.isShrinkToFit == isShrinkToFit);
 		}
 
 		public DisplayFormat getDisplayFormat()
@@ -2104,7 +2028,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				mode + "," + backcolor + "," +
 				horizontalAlignment + "," + verticalAlignment + "," +
 				rotation + "," + font + "," +
-				box + "," + displayFormat + "," + isWrapText + "," + isCellLocked + ")";
+				box + "," + displayFormat + "," + isWrapText + "," + isCellLocked  + "," + isShrinkToFit + ")";
 		}
 	}
 
@@ -2112,7 +2036,36 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 			Pattern mode, 
 			Colour backcolor, 
 			WritableFont font, 
-			JRExporterGridCell gridCell
+			JRExporterGridCell gridCell,
+			boolean wrapText,
+			boolean cellLocked,
+			boolean shrinkToFit
+			) throws JRException
+			{
+		StyleInfo styleKey = 
+				new StyleInfo(
+						mode, 
+						backcolor, 
+						Alignment.LEFT.getValue(), 
+						VerticalAlignment.TOP.getValue(), 
+						Orientation.HORIZONTAL.getValue(),
+						font, 
+						gridCell,
+						wrapText,
+						cellLocked, 
+						shrinkToFit
+						);
+		return getLoadedCellStyle(styleKey);
+			}
+	
+	private WritableCellFormat getLoadedCellStyle(
+			Pattern mode, 
+			Colour backcolor, 
+			WritableFont font, 
+			BoxStyle box,
+			boolean wrapText,
+			boolean cellLocked,
+			boolean shrinkToFit
 			) throws JRException
 		{
 			StyleInfo styleKey = 
@@ -2123,56 +2076,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 					VerticalAlignment.TOP.getValue(), 
 					Orientation.HORIZONTAL.getValue(),
 					font, 
-					gridCell
+					box,
+					wrapText,
+					cellLocked, 
+					shrinkToFit
 					);
 			return getLoadedCellStyle(styleKey);
 		}
-
-		private WritableCellFormat getLoadedCellStyle(
-				Pattern mode, 
-				Colour backcolor, 
-				WritableFont font, 
-				JRExporterGridCell gridCell, 
-				boolean cellLocked
-				) throws JRException
-			{
-				StyleInfo styleKey = 
-					new StyleInfo(
-						mode, 
-						backcolor, 
-						Alignment.LEFT.getValue(), 
-						VerticalAlignment.TOP.getValue(), 
-						Orientation.HORIZONTAL.getValue(),
-						font, 
-						gridCell,
-						true,
-						cellLocked
-						);
-				return getLoadedCellStyle(styleKey);
-			}
-
-			private WritableCellFormat getLoadedCellStyle(
-				Pattern mode, 
-				Colour backcolor, 
-				WritableFont font, 
-				BoxStyle box,
-				boolean cellLocked
-				) throws JRException
-			{
-				StyleInfo styleKey = 
-					new StyleInfo(
-						mode, 
-						backcolor, 
-						Alignment.LEFT.getValue(), 
-						VerticalAlignment.TOP.getValue(), 
-						Orientation.HORIZONTAL.getValue(),
-						font, 
-						box,
-						true,
-						cellLocked
-						);
-				return getLoadedCellStyle(styleKey);
-			}
 
 	protected WritableCellFormat getLoadedCellStyle(StyleInfo styleKey) throws JRException
 	{
@@ -2197,6 +2107,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				cellStyle.setOrientation(Orientation.getOrientation(styleKey.rotation));
 				cellStyle.setWrap(styleKey.isWrapText);
 				cellStyle.setLocked(styleKey.isCellLocked);
+				cellStyle.setShrinkToFit(styleKey.isShrinkToFit);
 
 				JxlReportConfiguration configuration = getCurrentItemConfiguration();
 				
@@ -2591,7 +2502,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				backcolor,
 				cellFont, 
 				gridCell,
-				isCellLocked(frame)
+				true,
+				isCellLocked(frame),
+				isShrinkToFit(frame)
 				);
 
 		Blank cell = new Blank(col, row, cellStyle);

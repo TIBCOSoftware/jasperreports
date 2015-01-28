@@ -1608,6 +1608,23 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	/**
 	 * 
 	 */
+	protected boolean isShrinkToFit(JRPrintElement element)
+	{
+		if (
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_SHRINK_TO_FIT)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_SHRINK_TO_FIT, getCurrentItemConfiguration().isShrinkToFit());
+		}
+		return getCurrentItemConfiguration().isShrinkToFit();
+	}
+
+	/**
+	 * 
+	 */
 	protected String getFormula(JRPrintText text)
 	{
 		String formula = JRPropertiesUtil.getOwnProperty(text, JRXlsAbstractExporter.PROPERTY_CELL_FORMULA);

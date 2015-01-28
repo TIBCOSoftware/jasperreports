@@ -634,7 +634,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 					boxStyle,
 					isCellLocked(line),
-					isCellHidden(line)
+					isCellHidden(line),
+					isShrinkToFit(line)
 					);
 			addBlankElement(cellStyle, repeatValue, currentColumnName);
 		}
@@ -669,7 +670,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 					new BoxStyle(element),
 					isCellLocked(element),
-					isCellHidden(element)
+					isCellHidden(element),
+					isShrinkToFit(element)
 					);
 			addBlankElement(cellStyle, repeatValue, currentColumnName);
 		}
@@ -685,7 +687,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			
 			setColumnName(currentColumnName);
 			adjustColumnWidth(currentColumnName, textElement.getWidth(), ((JRXlsExporterNature)nature).getColumnAutoFit(textElement));
-			adjustRowHeight(textElement.getHeight(), isWrapText(textElement) || ((JRXlsExporterNature)nature).getRowAutoFit(textElement));
+			adjustRowHeight(textElement.getHeight(), isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getRowAutoFit(textElement)));
 			
 			final short forecolor = getWorkbookColor(textElement.getForecolor()).getIndex();
 
@@ -712,9 +714,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					rotation,
 					getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
 					new BoxStyle(textElement), 
-					isWrapText(textElement) || ((JRXlsExporterNature)nature).getColumnAutoFit(textElement),
+					isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
 					isCellLocked(textElement),
-					isCellHidden(textElement)
+					isCellHidden(textElement),
+					isShrinkToFit(textElement)
 					);
 			
 			final JRStyledText styledText;
@@ -1218,7 +1221,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 						new BoxStyle(element),
 						isCellLocked(element),
-						isCellHidden(element)
+						isCellHidden(element),
+						isShrinkToFit(element)
 						);
 
 				addBlankElement(cellStyle, false, currentColumnName);
@@ -1288,6 +1292,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			cellStyle.setWrapText(style.lcWrapText);
 			cellStyle.setLocked(style.lcCellLocked);
 			cellStyle.setHidden(style.lcCellHidden);
+			cellStyle.setShrinkToFit(style.lcShrinkToFit);
 
 			if (style.hasDataFormat()) {
 				cellStyle.setDataFormat(style.getDataFormat());
@@ -1316,24 +1321,13 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			short verticalAlignment,
 			short rotation,
 			HSSFFont font,
-			BoxStyle box
-			) {
-			return getLoadedCellStyle(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, box, true, false);
-		}
-
-	protected HSSFCellStyle getLoadedCellStyle(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
 			BoxStyle box,
 			boolean isCellLocked,
-			boolean isCellHidden
+			boolean isCellHidden,
+			boolean isShrinkToFit
 			) {
-			StyleInfo style = new StyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, box, isCellLocked, isCellHidden);
-			return getLoadedCellStyle(style);
+		
+			return getLoadedCellStyle(new StyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, box, true, isCellLocked, isCellHidden, isShrinkToFit));
 		}
 
 	/**
@@ -2009,81 +2003,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		protected final boolean lcWrapText;
 		protected final boolean lcCellLocked;
 		protected final boolean lcCellHidden;
+		protected final boolean lcShrinkToFit;
 		private short lcDataFormat = -1;
 		private int hashCode;
-	
-		public StyleInfo(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
-			BoxStyle box
-			) {
-		this(
-				mode,
-				backcolor,
-				horizontalAlignment,
-				verticalAlignment,
-				rotation,
-				font,
-				box,
-				true,
-				true,
-				false
-				);
-		}
-	
-		public StyleInfo(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
-			BoxStyle box,
-			boolean wrapText
-			) {
-			this(
-				mode,
-				backcolor,
-				horizontalAlignment,
-				verticalAlignment,
-				rotation,
-				font,
-				box,
-				wrapText,
-				true,
-				false
-				);
-		}
-	
-	
-		public StyleInfo(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
-			BoxStyle box,
-			boolean cellLocked,
-			boolean cellHidden
-			) {
-			this(
-				mode,
-				backcolor,
-				horizontalAlignment,
-				verticalAlignment,
-				rotation,
-				font,
-				box,
-				true,
-				cellLocked,
-				cellHidden
-				);
-		}
 	
 		public StyleInfo(
 			short mode,
@@ -2095,7 +2017,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			BoxStyle box,
 			boolean wrapText,
 			boolean cellLocked,
-			boolean cellHidden
+			boolean cellHidden,
+			boolean shrinkToFit
 			) {
 			this.mode = mode;
 			this.backcolor = backcolor;
@@ -2105,10 +2028,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			this.font = font;
 	
 			this.box = box;
-			this.lcWrapText = wrapText;
+			this.lcWrapText = shrinkToFit ? false : wrapText;
 			this.lcCellLocked = cellLocked;
 			this.lcCellHidden = cellHidden;
-	
+			this.lcShrinkToFit = shrinkToFit;
 			hashCode = computeHash();
 		}
 	
@@ -2124,6 +2047,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			hash = 31*hash + (lcWrapText ? 0 : 1);
 			hash = 31*hash + (lcCellLocked ? 0 : 1);
 			hash = 31*hash + (lcCellHidden ? 0 : 1);
+			hash = 31*hash + (lcShrinkToFit ? 0 : 1);
 			return hash;
 		}
 	
@@ -2155,7 +2079,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					&& (s.font == null ? font == null : (font != null && s.font.getIndex() == font.getIndex()))
 					&& (s.box == null ? box == null : (box != null && s.box.equals(box)))
 					&& s.rotation == rotation && s.lcWrapText == lcWrapText 
-					&& s.lcCellLocked == lcCellLocked && s.lcCellHidden == lcCellHidden;//FIXME should dataformat be part of equals? it is part of toString()...
+					&& s.lcCellLocked == lcCellLocked && s.lcCellHidden == lcCellHidden
+					&& s.lcShrinkToFit == lcShrinkToFit;	//FIXME should dataformat be part of equals? it is part of toString()...
 		}
 	
 		public String toString() {
@@ -2163,7 +2088,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				mode + "," + backcolor + "," +
 				horizontalAlignment + "," + verticalAlignment + "," +
 				rotation + "," + font + "," +
-				box + "," + lcDataFormat + "," + lcWrapText + "," + lcCellLocked + "," + lcCellHidden + ")";
+				box + "," + lcDataFormat + "," + lcWrapText + "," + lcCellLocked + "," + lcCellHidden + "," + lcShrinkToFit + ")";
 		}
 	}
 	

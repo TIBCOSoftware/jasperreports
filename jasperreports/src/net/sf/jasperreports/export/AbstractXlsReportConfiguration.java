@@ -72,6 +72,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	private ImageAnchorTypeEnum imageAnchorType;
 	private Boolean isAutoFitPageHeight;
 	private Boolean isForcePageBreaks;
+	private Boolean isShrinkToFit;
 
 	
 	/**
@@ -759,6 +760,18 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	public void setForcePageBreaks(Boolean isForcePageBreaks)
 	{
 		this.isForcePageBreaks = isForcePageBreaks;
+	}
+
+
+	public Boolean isShrinkToFit() 
+	{
+		return isShrinkToFit;
+	}
+
+
+	public void setShrinkToFit(Boolean isShrinkToFit) 
+	{
+		this.isShrinkToFit = isShrinkToFit;
 	}
 	
 }
