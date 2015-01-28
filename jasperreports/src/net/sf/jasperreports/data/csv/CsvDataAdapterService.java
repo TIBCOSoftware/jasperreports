@@ -23,12 +23,19 @@
  */
 package net.sf.jasperreports.data.csv;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.data.DataFileConnection;
+import net.sf.jasperreports.data.DataFileUtils;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
@@ -42,12 +49,20 @@ import net.sf.jasperreports.engine.query.JRCsvQueryExecuterFactory;
 public class CsvDataAdapterService extends AbstractDataAdapterService 
 {
 	
+	private static final Log log = LogFactory.getLog(CsvDataAdapterService.class);
+	
+	private final DataFileUtils dataFileUtils;
+	private DataFileConnection dataConnection;
+	private InputStream dataStream;
+	
 	/**
 	 * 
 	 */
 	public CsvDataAdapterService(JasperReportsContext jasperReportsContext, CsvDataAdapter csvDataAdapter)
 	{
 		super(jasperReportsContext, csvDataAdapter);
+		
+		dataFileUtils = DataFileUtils.instance(jasperReportsContext);
 	}
 	
 	/**
@@ -69,11 +84,15 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 		CsvDataAdapter csvDataAdapter = getCsvDataAdapter();
 		if (csvDataAdapter != null)
 		{
+			dataConnection = dataFileUtils.createConnection(
+					csvDataAdapter.getDataFile(), csvDataAdapter.getFileName(), parameters);
+			dataStream = dataConnection.getInputStream();
+			
 			String datePattern = csvDataAdapter.getDatePattern();
 			String numberPattern = csvDataAdapter.getNumberPattern();
 			if (csvDataAdapter.isQueryExecuterMode())
 			{	
-				parameters.put(JRCsvQueryExecuterFactory.CSV_SOURCE, csvDataAdapter.getFileName());
+				parameters.put(JRCsvQueryExecuterFactory.CSV_INPUT_STREAM, dataStream);
 				if (csvDataAdapter.getEncoding() != null)
 				{
 					parameters.put(JRCsvQueryExecuterFactory.CSV_ENCODING, csvDataAdapter.getEncoding());
@@ -98,13 +117,13 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 				JRCsvDataSource ds = null;
 				if (csvDataAdapter.getEncoding() == null)
 				{
-					ds = new JRCsvDataSource(getJasperReportsContext(), csvDataAdapter.getFileName());
+					ds = new JRCsvDataSource(dataStream);
 				}
 				else
 				{
 					try
 					{
-						ds = new JRCsvDataSource(getJasperReportsContext(), csvDataAdapter.getFileName(), csvDataAdapter.getEncoding());
+						ds = new JRCsvDataSource(dataStream, csvDataAdapter.getEncoding());
 					}
 					catch (UnsupportedEncodingException e)
 					{
@@ -140,6 +159,29 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 			names[i] = "" + csvDataAdapter.getColumnNames().get(i);
 		}
 		return names;
+	}
+
+	@Override
+	public void dispose()
+	{
+		if (dataStream != null)
+		{
+			try
+			{
+				dataStream.close();
+			}
+			catch (IOException e)
+			{
+				log.warn("Failed to dispose data stream for " + dataConnection);
+			}
+		}
+
+		if (dataConnection != null)
+		{
+			dataFileUtils.dispose(dataConnection);
+		}
+		
+		super.dispose();
 	}
 	
 }

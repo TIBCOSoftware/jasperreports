@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.data.AbstractDataAdapter;
+import net.sf.jasperreports.data.DataFile;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -34,6 +35,7 @@ import net.sf.jasperreports.data.AbstractDataAdapter;
 public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAdapter
 {
 	private String fileName;
+	private DataFile dataFile;
 	private String encoding;
 	private String recordDelimiter = "\n";
 	private String fieldDelimiter = ",";
@@ -48,6 +50,9 @@ public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAd
 	}
 
 	public void setFileName(String fileName) {
+		if (fileName != null) {
+			this.dataFile = null;
+		}
 		this.fileName = fileName;
 	}
 
@@ -113,5 +118,20 @@ public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAd
 
 	public void setColumnNames(List<String> columnNames) {
 		this.columnNames = columnNames;
+	}
+
+	// FIXME lucianc use auto-naming="deriveByClass" in Castor?
+	public DataFile getDataFile()
+	{
+		return dataFile;
+	}
+
+	public void setDataFile(DataFile dataFile)
+	{
+		if (dataFile != null)
+		{
+			this.fileName = null;
+		}
+		this.dataFile = dataFile;
 	}
 }
