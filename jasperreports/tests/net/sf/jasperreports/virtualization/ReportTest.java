@@ -37,7 +37,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.data.BuiltinDataFileServiceFactory;
 import net.sf.jasperreports.data.DataAdapterParameterContributorFactory;
+import net.sf.jasperreports.data.DataFileServiceFactory;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRParameter;
@@ -92,6 +94,9 @@ public class ReportTest
 		// for some reason data adapter extensions are not registered by default
 		jasperReportsContext.setExtensions(ParameterContributorFactory.class, 
 				Collections.singletonList(DataAdapterParameterContributorFactory.getInstance()));
+		jasperReportsContext.setExtensions(DataFileServiceFactory.class, 
+				Collections.singletonList(BuiltinDataFileServiceFactory.instance()));
+		
 		fillManager = JasperFillManager.getInstance(jasperReportsContext);
 	}
 	
