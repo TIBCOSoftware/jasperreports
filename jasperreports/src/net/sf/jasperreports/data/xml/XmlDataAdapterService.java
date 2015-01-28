@@ -30,15 +30,11 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
-import net.sf.jasperreports.data.DataFile;
 import net.sf.jasperreports.data.DataFileConnection;
-import net.sf.jasperreports.data.DataFileResolver;
-import net.sf.jasperreports.data.DataFileService;
-import net.sf.jasperreports.data.StandardRepositoryDataLocation;
+import net.sf.jasperreports.data.DataFileUtils;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
@@ -155,34 +151,18 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 
 	protected Document loadDataDocument(XmlDataAdapter xmlDataAdapter, Map<String, Object> parameters) throws JRException
 	{
-		DataFile dataFile = xmlDataAdapter.getDataFile();
-		if (dataFile == null)
-		{
-			String fileName = xmlDataAdapter.getFileName();
-			dataFile = new StandardRepositoryDataLocation(fileName);
-		}
-		
-		DataFileResolver dataFileResolver = DataFileResolver.instance(getJasperReportsContext());
-		DataFileService dataFileService = dataFileResolver.getService(dataFile);
-		
-		DataFileConnection dataConnection = dataFileService.getDataFileConnection(parameters);
-		Document dataDocument;
+		DataFileUtils dataFileUtils = DataFileUtils.instance(getJasperReportsContext());
+		DataFileConnection dataConnection = dataFileUtils.createConnection(
+				xmlDataAdapter.getDataFile(), xmlDataAdapter.getFileName(), parameters);
 		try
 		{
-			dataDocument = parseDocument(dataConnection, xmlDataAdapter.isNamespaceAware());
+			Document dataDocument = parseDocument(dataConnection, xmlDataAdapter.isNamespaceAware());
+			return dataDocument;
 		}
 		finally
 		{
-			try
-			{
-				dataConnection.dispose();
-			}
-			catch (JRRuntimeException e)//catch RuntimeException?
-			{
-				log.warn("Failed to dispose connection for " + dataConnection);
-			}
+			dataFileUtils.dispose(dataConnection);
 		}
-		return dataDocument;
 	}
 
 	protected Document parseDocument(DataFileConnection dataConnection, boolean namespaceAware) throws JRException
