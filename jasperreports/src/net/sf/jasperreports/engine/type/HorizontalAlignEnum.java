@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 
 /**
  * @deprecated Replaced by {@link HorizontalTextAlignEnum} and {@link HorizontalImageAlignEnum}.
@@ -55,7 +53,6 @@ public enum HorizontalAlignEnum implements JREnum
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	private final transient byte value;
 	private final transient String name;
 
@@ -118,7 +115,7 @@ public enum HorizontalAlignEnum implements JREnum
 	 */
 	public static HorizontalTextAlignEnum getHorizontalTextAlignEnum(HorizontalAlignEnum horizontalAlignment)
 	{
-		return horizontalAlignment == null ? null : HorizontalTextAlignEnum.getByValue(horizontalAlignment.value);
+		return horizontalAlignment == null ? null : HorizontalTextAlignEnum.getByName(horizontalAlignment.getName());
 	}
 	
 	/**
@@ -130,7 +127,7 @@ public enum HorizontalAlignEnum implements JREnum
 		{
 			return HorizontalImageAlignEnum.LEFT;
 		}
-		return horizontalAlignment == null ? null : HorizontalImageAlignEnum.getByValue(horizontalAlignment.value);
+		return horizontalAlignment == null ? null : HorizontalImageAlignEnum.getByName(horizontalAlignment.getName());
 	}
 	
 	/**
@@ -138,7 +135,7 @@ public enum HorizontalAlignEnum implements JREnum
 	 */
 	public static HorizontalAlignEnum getHorizontalAlignEnum(HorizontalTextAlignEnum horizontalTextAlign)
 	{
-		return horizontalTextAlign == null ? null : HorizontalAlignEnum.getByValue(horizontalTextAlign.getValue());
+		return horizontalTextAlign == null ? null : HorizontalAlignEnum.getByName(horizontalTextAlign.getName());
 	}
 
 	/**
@@ -146,7 +143,7 @@ public enum HorizontalAlignEnum implements JREnum
 	 */
 	public static HorizontalAlignEnum getHorizontalAlignEnum(HorizontalImageAlignEnum horizontalImageAlign)
 	{
-		return horizontalImageAlign == null ? null : HorizontalAlignEnum.getByValue(horizontalImageAlign.getValue());
+		return horizontalImageAlign == null ? null : HorizontalAlignEnum.getByName(horizontalImageAlign.getName());
 	}
 	
 }

@@ -125,6 +125,7 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 	 */
 	private byte direction;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

@@ -23,60 +23,40 @@
  */
 package net.sf.jasperreports.data.excel;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum ExcelFormatEnum implements JREnum
+public enum ExcelFormatEnum implements NamedEnum
 {
 	/**
 	 *
 	 */
-	AUTODETECT((byte)1, "autodetect"),
+	AUTODETECT("autodetect"),
 
 	/**
 	 *
 	 */
-	XLS((byte)2, "xls"),
+	XLS("xls"),
 
 	/**
 	 *
 	 */
-	XLSX((byte)3, "xlsx");
+	XLSX("xlsx");
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 
-	private ExcelFormatEnum(byte value, String name)
+	private ExcelFormatEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	/**
 	 *
 	 */
@@ -90,23 +70,6 @@ public enum ExcelFormatEnum implements JREnum
 	 */
 	public static ExcelFormatEnum getByName(String name)
 	{
-		return (ExcelFormatEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static ExcelFormatEnum getByValue(Byte value)
-	{
-		return (ExcelFormatEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static ExcelFormatEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-	
 }

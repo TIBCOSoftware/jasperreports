@@ -23,52 +23,31 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: FillEnum.java 5878 2013-01-07 20:23:13Z teodord $
  */
-public enum SectionTypeEnum implements JREnum
+public enum SectionTypeEnum implements NamedEnum
 {
 	/**
 	 *
 	 */
-	BAND((byte)1, "Band"),
+	BAND("Band"),
 
 	/**
 	 *
 	 */
-	PART((byte)2, "Part");
+	PART("Part");
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 
-	private SectionTypeEnum(byte value, String name)
+	private SectionTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	/**
@@ -84,23 +63,6 @@ public enum SectionTypeEnum implements JREnum
 	 */
 	public static SectionTypeEnum getByName(String name)
 	{
-		return (SectionTypeEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static SectionTypeEnum getByValue(Byte value)
-	{
-		return (SectionTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static SectionTypeEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-
 }

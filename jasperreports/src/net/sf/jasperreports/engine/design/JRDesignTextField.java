@@ -641,6 +641,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	private byte evaluationTime;
 
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

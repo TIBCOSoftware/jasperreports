@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.export.type;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedEnum;
 
@@ -33,8 +32,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public enum PdfPermissionsEnum implements NamedEnum {
-	
+public enum PdfPermissionsEnum implements NamedEnum
+{
 	/**
 	 * All user permissions
 	 */
@@ -90,11 +89,11 @@ public enum PdfPermissionsEnum implements NamedEnum {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	private final transient int value;
 	private final transient String name;
 
-	private PdfPermissionsEnum(int value, String name) {
+	private PdfPermissionsEnum(int value, String name) 
+	{
 		this.value = value;
 		this.name = name!= null ? name.toUpperCase() : null;
 	}
@@ -102,51 +101,24 @@ public enum PdfPermissionsEnum implements NamedEnum {
 	/**
 	 *
 	 */
-	public Integer getValueInteger() {
-		return Integer.valueOf(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final int getValue() {
+	public Integer getPdfPermission() 
+	{
 		return value;
 	}
 	
 	/**
 	 *
 	 */
-	public String getName() {
+	public String getName() 
+	{
 		return name;
 	}
 	
 	/**
 	 *
 	 */
-	public static PdfPermissionsEnum getByName(String name) {
-		return name != null ? EnumUtil.<PdfPermissionsEnum>getEnumByName(values(), name.toUpperCase()) : null;
+	public static PdfPermissionsEnum getByName(String name) 
+	{
+		return name == null ? null : EnumUtil.getEnumByName(values(), name.toUpperCase());
 	}
-	
-	/**
-	 *
-	 */
-	public static PdfPermissionsEnum getByValue(Integer value) {
-		PdfPermissionsEnum[] values = values();
-		if (values != null && value != null) {
-			for(PdfPermissionsEnum e:values) {
-				if (value.equals(e.getValueInteger())) {
-					return e;
-				}
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 *
-	 */
-	public static PdfPermissionsEnum getByValue(byte value)	{
-		return getByValue(Integer.valueOf(value));
-	}
-
 }

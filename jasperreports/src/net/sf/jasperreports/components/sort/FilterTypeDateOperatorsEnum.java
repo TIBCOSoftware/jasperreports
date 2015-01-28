@@ -23,61 +23,41 @@
  */
 package net.sf.jasperreports.components.sort;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum FilterTypeDateOperatorsEnum implements JREnum
+public enum FilterTypeDateOperatorsEnum implements NamedEnum
 {
-	EQUALS((byte)1, "Equals"),
+	EQUALS("Equals"),
 	
-	IS_NOT_EQUAL_TO((byte)2, "Is not Equal to"),
+	IS_NOT_EQUAL_TO("Is not Equal to"),
 
-	IS_BETWEEN((byte)3, "Is Between"),
+	IS_BETWEEN("Is Between"),
 
-	IS_NOT_BETWEEN((byte)4, "Is not between"),
+	IS_NOT_BETWEEN("Is not between"),
 	
-	IS_ON_OR_BEFORE((byte)5, "Is On or Before"),
+	IS_ON_OR_BEFORE("Is On or Before"),
 	
-	IS_BEFORE((byte)6, "Is Before"),
+	IS_BEFORE("Is Before"),
 	
-	IS_ON_OR_AFTER((byte)7, "Is On or After"),
+	IS_ON_OR_AFTER("Is On or After"),
 	
-	IS_AFTER((byte)8, "Is After");
+	IS_AFTER("Is After");
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 
-	private FilterTypeDateOperatorsEnum(byte value, String name)
+	private FilterTypeDateOperatorsEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	/**
 	 *
 	 */
@@ -91,7 +71,7 @@ public enum FilterTypeDateOperatorsEnum implements JREnum
 	 */
 	public static FilterTypeDateOperatorsEnum getByName(String name)
 	{
-		return (FilterTypeDateOperatorsEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
 	
 	/**
@@ -99,23 +79,6 @@ public enum FilterTypeDateOperatorsEnum implements JREnum
 	 */
 	public static FilterTypeDateOperatorsEnum getByEnumConstantName(String name)
 	{
-		return (FilterTypeDateOperatorsEnum)EnumUtil.getByEnumConstantName(values(), name);
+		return EnumUtil.getByConstantName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static FilterTypeDateOperatorsEnum getByValue(Byte value)
-	{
-		return (FilterTypeDateOperatorsEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static FilterTypeDateOperatorsEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-	
 }

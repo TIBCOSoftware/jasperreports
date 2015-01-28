@@ -164,6 +164,7 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 	 */
 	private Byte fill;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

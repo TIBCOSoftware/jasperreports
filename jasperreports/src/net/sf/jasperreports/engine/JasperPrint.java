@@ -838,6 +838,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	private byte orientation;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.charts.type;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.JREnum;
 
@@ -60,7 +59,6 @@ public enum MeterShapeEnum implements JREnum
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	private final transient byte value;
 	private final transient String name;
 
@@ -71,7 +69,7 @@ public enum MeterShapeEnum implements JREnum
 	}
 
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public Byte getValueByte()
 	{
@@ -79,7 +77,7 @@ public enum MeterShapeEnum implements JREnum
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public final byte getValue()
 	{
@@ -99,11 +97,11 @@ public enum MeterShapeEnum implements JREnum
 	 */
 	public static MeterShapeEnum getByName(String name)
 	{
-		return (MeterShapeEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static MeterShapeEnum getByValue(Byte value)
 	{
@@ -111,11 +109,10 @@ public enum MeterShapeEnum implements JREnum
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static MeterShapeEnum getByValue(byte value)
 	{
 		return getByValue(new Byte(value));
 	}
-
 }

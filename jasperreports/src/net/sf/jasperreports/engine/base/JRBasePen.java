@@ -229,6 +229,7 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	 */
 	private Byte lineStyle;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

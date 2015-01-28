@@ -23,53 +23,33 @@
  */
 package net.sf.jasperreports.components.sort;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public enum FilterTypeBooleanOperatorsEnum implements JREnum
+public enum FilterTypeBooleanOperatorsEnum implements NamedEnum
 {
-	IS_TRUE((byte)1, "Is true"),
+	IS_TRUE("Is true"),
 	
-	IS_NOT_TRUE((byte)2, "Is not true"),
+	IS_NOT_TRUE("Is not true"),
 
-	IS_FALSE((byte)3, "Is false"),
+	IS_FALSE("Is false"),
 
-	IS_NOT_FALSE((byte)4, "Is not false");
+	IS_NOT_FALSE("Is not false");
 	
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 
-	private FilterTypeBooleanOperatorsEnum(byte value, String name)
+	private FilterTypeBooleanOperatorsEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	/**
 	 *
 	 */
@@ -83,7 +63,7 @@ public enum FilterTypeBooleanOperatorsEnum implements JREnum
 	 */
 	public static FilterTypeBooleanOperatorsEnum getByName(String name)
 	{
-		return (FilterTypeBooleanOperatorsEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
 	
 	/**
@@ -91,23 +71,6 @@ public enum FilterTypeBooleanOperatorsEnum implements JREnum
 	 */
 	public static FilterTypeBooleanOperatorsEnum getByEnumConstantName(String name)
 	{
-		return (FilterTypeBooleanOperatorsEnum)EnumUtil.getByEnumConstantName(values(), name);
+		return EnumUtil.getByConstantName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static FilterTypeBooleanOperatorsEnum getByValue(Byte value)
-	{
-		return (FilterTypeBooleanOperatorsEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static FilterTypeBooleanOperatorsEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-	
 }

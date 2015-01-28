@@ -284,6 +284,7 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 	 */
 	private byte evaluationTime;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

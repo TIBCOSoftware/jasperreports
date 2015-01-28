@@ -126,6 +126,7 @@ public class JRDesignBreak extends JRDesignElement implements JRBreak
 	 */
 	private byte type;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

@@ -23,75 +23,55 @@
  */
 package net.sf.jasperreports.components.map.type;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public enum MapImageTypeEnum implements JREnum
+public enum MapImageTypeEnum implements NamedEnum
 {
 	/**
 	 * The 8-bit PNG format (the same as PNG_8)
 	 */
-	PNG((byte)0, "png"),
+	PNG("png"),
 
 	/**
 	 * The 8-bit PNG format
 	 */
-	PNG_8((byte)1, "png8"),
+	PNG_8("png8"),
 	
 	/**
 	 * The 32-bit PNG format
 	 */
-	PNG_32((byte)2, "png32"),
+	PNG_32("png32"),
 	
 	/**
 	 * The GIF format
 	 */
-	GIF((byte)3, "gif"),
+	GIF("gif"),
 	
 	/**
 	 * The JPEG compression format
 	 */
-	JPG((byte)4, "jpg"),
+	JPG("jpg"),
 	
 	/**
 	 * The non-progressive JPEG compression format
 	 */
-	JPG_BASELINE((byte)5, "jpg-baseline");
+	JPG_BASELINE("jpg-baseline");
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 
-	private MapImageTypeEnum(byte value, String name)
+	private MapImageTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	/**
 	 *
 	 */
@@ -105,23 +85,6 @@ public enum MapImageTypeEnum implements JREnum
 	 */
 	public static MapImageTypeEnum getByName(String name)
 	{
-		return (MapImageTypeEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static MapImageTypeEnum getByValue(Byte value)
-	{
-		return (MapImageTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static MapImageTypeEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-	
 }

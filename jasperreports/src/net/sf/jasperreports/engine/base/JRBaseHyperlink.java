@@ -187,6 +187,7 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 	 */
 	private byte hyperlinkTarget;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

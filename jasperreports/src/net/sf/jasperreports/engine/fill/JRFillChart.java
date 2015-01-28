@@ -1480,9 +1480,5 @@ public class JRFillChart extends JRFillElement implements JRChart
 		public TimeZone getTimeZone() {
 			return JRFillChart.this.getTimeZone();
 		}
-		public byte getEvaluation() 
-		{
-			return JRFillChart.this.getEvaluationTimeValue().getValue();
-		}
 	}
 }

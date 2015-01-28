@@ -45,7 +45,7 @@ import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.GenericElementJsonHandler;
 import net.sf.jasperreports.engine.export.JsonExporterContext;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
@@ -225,7 +225,7 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 	private List<LinkedHashMap<String, String>> getTranslatedOperators(
 			JasperReportsContext jasperReportsContext,
 			String bundleName,
-			JREnum[] operators,
+			NamedEnum[] operators,
 			Locale locale
 	) //FIXMEJIVE make utility method for translating enums
 	{
@@ -233,7 +233,7 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 		MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
 		LinkedHashMap<String, String> keys;
 
-		for (JREnum operator: operators)
+		for (NamedEnum operator: operators)
 		{
 			keys = new LinkedHashMap<String, String>();
 			String key = bundleName + "." + ((Enum<?>)operator).name();

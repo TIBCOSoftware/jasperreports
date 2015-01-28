@@ -566,8 +566,8 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			
 			int hash = newHeight;
 			hash = 31*hash + newWidth;
-			hash = 31*hash + xPosition.getValue();
-			hash = 31*hash + yPosition.getValue();
+			hash = 31*hash + xPosition.ordinal();
+			hash = 31*hash + yPosition.ordinal();
 			hashCode = hash;
 		}
 		

@@ -204,6 +204,7 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame
 	 */
 	private Integer rightPadding;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

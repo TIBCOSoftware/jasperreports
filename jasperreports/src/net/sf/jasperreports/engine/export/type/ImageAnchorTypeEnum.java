@@ -23,15 +23,14 @@
  */
 package net.sf.jasperreports.engine.export.type;
 
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.engine.type.EnumUtil;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public enum ImageAnchorTypeEnum implements JREnum
+public enum ImageAnchorTypeEnum implements NamedEnum
 {
 	/**
 	 * Constant useful for specifying the <code>Move and size with cells</code> anchor type in Excel.
@@ -52,7 +51,6 @@ public enum ImageAnchorTypeEnum implements JREnum
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	private final transient byte value;
 	private final transient String name;
 
@@ -62,14 +60,6 @@ public enum ImageAnchorTypeEnum implements JREnum
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
 	/**
 	 *
 	 */
@@ -91,23 +81,6 @@ public enum ImageAnchorTypeEnum implements JREnum
 	 */
 	public static ImageAnchorTypeEnum getByName(String name)
 	{
-		return (ImageAnchorTypeEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static ImageAnchorTypeEnum getByValue(Byte value)
-	{
-		return (ImageAnchorTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static ImageAnchorTypeEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-
 }

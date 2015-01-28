@@ -23,55 +23,35 @@
  */
 package net.sf.jasperreports.components.iconlabel;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum IconLabelDirectionEnum implements JREnum
+public enum IconLabelDirectionEnum implements NamedEnum
 {
 	/**
 	 *
 	 */ 
-	HORIZONTAL((byte)1, "Horizontal"),
+	HORIZONTAL("Horizontal"),
 	
 	/**
 	 *
 	 */ 
-	VERTICAL((byte)2, "Vertical");
+	VERTICAL("Vertical");
 	
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 
-	private IconLabelDirectionEnum(byte value, String name)
+	private IconLabelDirectionEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	/**
 	 *
 	 */
@@ -85,23 +65,6 @@ public enum IconLabelDirectionEnum implements JREnum
 	 */
 	public static IconLabelDirectionEnum getByName(String name)
 	{
-		return (IconLabelDirectionEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static IconLabelDirectionEnum getByValue(Byte value)
-	{
-		return (IconLabelDirectionEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static IconLabelDirectionEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-
 }

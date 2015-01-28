@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.charts.type;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.JREnum;
 
@@ -59,7 +58,6 @@ public enum ValueLocationEnum implements JREnum
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	private final transient byte value;
 	private final transient String name;
 
@@ -70,7 +68,7 @@ public enum ValueLocationEnum implements JREnum
 	}
 
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public Byte getValueByte()
 	{
@@ -78,7 +76,7 @@ public enum ValueLocationEnum implements JREnum
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public final byte getValue()
 	{
@@ -98,11 +96,11 @@ public enum ValueLocationEnum implements JREnum
 	 */
 	public static ValueLocationEnum getByName(String name)
 	{
-		return (ValueLocationEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static ValueLocationEnum getByValue(Byte value)
 	{
@@ -110,11 +108,10 @@ public enum ValueLocationEnum implements JREnum
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static ValueLocationEnum getByValue(byte value)
 	{
 		return getByValue(new Byte(value));
 	}
-
 }

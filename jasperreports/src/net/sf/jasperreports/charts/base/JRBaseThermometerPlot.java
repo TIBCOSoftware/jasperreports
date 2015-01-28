@@ -252,6 +252,7 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	private Byte valueLocationByte;
 
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

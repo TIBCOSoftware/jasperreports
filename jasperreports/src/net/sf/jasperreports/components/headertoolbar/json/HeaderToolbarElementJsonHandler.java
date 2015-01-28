@@ -83,8 +83,8 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.GenericElementJsonHandler;
 import net.sf.jasperreports.engine.export.JsonExporterContext;
 import net.sf.jasperreports.engine.fonts.FontUtil;
-import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -440,7 +440,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 	private List<LinkedHashMap<String, String>> getTranslatedOperators(
 		JasperReportsContext jasperReportsContext, 
 		String bundleName, 
-		JREnum[] operators, 
+		NamedEnum[] operators, 
 		Locale locale
 		) //FIXMEJIVE make utility method for translating enums
 	{
@@ -448,7 +448,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
 		LinkedHashMap<String, String> keys;
 		
-		for (JREnum operator: operators) 
+		for (NamedEnum operator: operators) 
 		{
 			keys = new LinkedHashMap<String, String>();
 			String key = bundleName + "." + ((Enum<?>)operator).name();

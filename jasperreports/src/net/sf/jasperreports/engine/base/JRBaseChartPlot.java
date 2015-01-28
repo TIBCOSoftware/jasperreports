@@ -421,6 +421,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 */
 	private PlotOrientation orientation;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

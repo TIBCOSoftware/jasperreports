@@ -131,6 +131,7 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	 */
 	private Byte positionByte;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

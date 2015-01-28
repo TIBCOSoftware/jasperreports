@@ -23,11 +23,12 @@
  */
 package net.sf.jasperreports.engine.type;
 
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public enum JsonOperatorEnum {
-	
+public enum JsonOperatorEnum implements NamedEnum 
+{
 	LT("<", "Lower than"),
 	LE("<=", "Lower or equal"),
 	GT(">", "Greater than"),
@@ -56,17 +57,4 @@ public enum JsonOperatorEnum {
 	public String getName() {
 		return name;
 	}
-	
-	/**
-	 * 
-	 */
-	public static JsonOperatorEnum getByValue(String value) {
-		for (JsonOperatorEnum joe: values()) {
-			if (value.equals(joe.getValue())) {
-				return joe;
-			}
-		}
-		return null;
-	}
-	
 }

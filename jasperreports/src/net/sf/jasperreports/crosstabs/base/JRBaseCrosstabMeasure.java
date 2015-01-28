@@ -264,6 +264,7 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, C
 	 */
 	private byte calculation;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

@@ -151,6 +151,7 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 	 */
 	private byte totalPosition;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

@@ -138,6 +138,7 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	 */
 	private Byte fill;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

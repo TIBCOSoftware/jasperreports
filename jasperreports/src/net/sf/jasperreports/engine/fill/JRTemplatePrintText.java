@@ -999,6 +999,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 */
 	private byte runDirection;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

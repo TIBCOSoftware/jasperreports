@@ -194,6 +194,7 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBoxContainer
 	 */
 	private Integer rightPadding;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

@@ -23,55 +23,35 @@
  */
 package net.sf.jasperreports.export.type;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum HtmlSizeUnitEnum implements JREnum
+public enum HtmlSizeUnitEnum implements NamedEnum
 {
 	/**
 	 * Constant specifying that measurements in HTML export are made in pixels. 
 	 */
-	PIXEL((byte)1, "px"),
+	PIXEL("px"),
 
 	/**
 	 * Constant specifying that measurements in HTML export are made in points. 
 	 */
-	POINT((byte)2, "pt");
+	POINT("pt");
 	
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 
-	private HtmlSizeUnitEnum(byte value, String name)
+	private HtmlSizeUnitEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	/**
 	 *
 	 */
@@ -85,23 +65,6 @@ public enum HtmlSizeUnitEnum implements JREnum
 	 */
 	public static HtmlSizeUnitEnum getByName(String name)
 	{
-		return (HtmlSizeUnitEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static HtmlSizeUnitEnum getByValue(Byte value)
-	{
-		return (HtmlSizeUnitEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static HtmlSizeUnitEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-
 }

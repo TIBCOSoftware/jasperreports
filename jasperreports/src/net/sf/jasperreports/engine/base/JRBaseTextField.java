@@ -367,6 +367,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	private byte evaluationTime;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

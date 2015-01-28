@@ -23,65 +23,45 @@
  */
 package net.sf.jasperreports.components.iconlabel;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum ContainerFillEnum implements JREnum
+public enum ContainerFillEnum implements NamedEnum
 {
 	/**
 	 *
 	 */ 
-	NONE((byte)1, "None"),
+	NONE("None"),
 	
 	/**
 	 *
 	 */ 
-	HORIZONTAL((byte)2, "Horizontal"),
+	HORIZONTAL("Horizontal"),
 	
 	/**
 	 *
 	 */ 
-	VERTICAL((byte)3, "Vertical"),
+	VERTICAL("Vertical"),
 	
 	/**
 	 *
 	 */ 
-	BOTH((byte)3, "Both");
+	BOTH("Both");
 	
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 
-	private ContainerFillEnum(byte value, String name)
+	private ContainerFillEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	/**
 	 *
 	 */
@@ -95,23 +75,6 @@ public enum ContainerFillEnum implements JREnum
 	 */
 	public static ContainerFillEnum getByName(String name)
 	{
-		return (ContainerFillEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static ContainerFillEnum getByValue(Byte value)
-	{
-		return (ContainerFillEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static ContainerFillEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-
 }

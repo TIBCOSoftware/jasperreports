@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.type.NamedEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -34,8 +32,6 @@ public enum HorizontalPosition implements NamedEnum
 	LEFT("Left"),
 	RIGHT("Right"),
 	CENTER("Center");
-	
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private final String name;
 	
@@ -48,5 +44,4 @@ public enum HorizontalPosition implements NamedEnum
 	{
 		return name;
 	}
-	
 }

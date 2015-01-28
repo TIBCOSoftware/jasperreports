@@ -21,70 +21,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.export.type;
-
-import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.NamedEnum;
+package net.sf.jasperreports.engine.type;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum PdfVersionEnum implements NamedEnum
+public interface NamedValueEnum<T> extends NamedEnum
 {
-	/**
-	 * 
-	 */
-	VERSION_1_2("2"),
 
-	/**
-	 * 
-	 */
-	VERSION_1_3("3"),
+	T getValue();
 
-	/**
-	 * 
-	 */
-	VERSION_1_4("4"),
-
-	/**
-	 * 
-	 */
-	VERSION_1_5("5"),
-
-	/**
-	 * 
-	 */
-	VERSION_1_6("6"),
-
-	/**
-	 * 
-	 */
-	VERSION_1_7("7");
-	
-	/**
-	 *
-	 */
-	private final transient String name;
-
-	private PdfVersionEnum(String name)
-	{
-		this.name = name;
-	}
-	
-	/**
-	 *
-	 */
-	public String getName()
-	{
-		return name;
-	}
-	
-	/**
-	 *
-	 */
-	public static PdfVersionEnum getByName(String name)
-	{
-		return EnumUtil.getEnumByName(values(), name);
-	}
 }

@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.analytics.dataset;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.NamedEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
@@ -48,8 +47,6 @@ public enum BucketOrder implements NamedEnum
 	 */ 
 	NONE("None");
 
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
 	private final transient String name;
 
 	private BucketOrder(String name)

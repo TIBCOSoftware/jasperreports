@@ -23,55 +23,35 @@
  */
 package net.sf.jasperreports.export.type;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum PdfPrintScalingEnum implements JREnum
+public enum PdfPrintScalingEnum implements NamedEnum
 {
 	/**
 	 * 
 	 */
-	NONE((byte)1, "none"),
+	NONE("none"),
 
 	/**
 	 * 
 	 */
-	DEFAULT((byte)2, "default");
+	DEFAULT("default");
 	
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 
-	private PdfPrintScalingEnum(byte value, String name)
+	private PdfPrintScalingEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	/**
 	 *
 	 */
@@ -85,23 +65,6 @@ public enum PdfPrintScalingEnum implements JREnum
 	 */
 	public static PdfPrintScalingEnum getByName(String name)
 	{
-		return (PdfPrintScalingEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static PdfPrintScalingEnum getByValue(Byte value)
-	{
-		return (PdfPrintScalingEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static PdfPrintScalingEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-
 }

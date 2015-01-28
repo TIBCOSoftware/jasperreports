@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 import org.apache.commons.lang.ClassUtils;
@@ -236,7 +236,7 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 					value = JRPropertiesUtil.asBoolean(strValue);
 				}
 			}
-			else if (JREnum.class.isAssignableFrom(type))
+			else if (NamedEnum.class.isAssignableFrom(type))
 			{
 				if (strValue != null)
 				{
