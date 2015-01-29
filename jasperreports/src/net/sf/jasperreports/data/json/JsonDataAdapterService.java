@@ -23,14 +23,12 @@
  */
 package net.sf.jasperreports.data.json;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
-import net.sf.jasperreports.data.DataFileConnection;
+import net.sf.jasperreports.data.DataFileStream;
 import net.sf.jasperreports.data.DataFileUtils;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
@@ -39,20 +37,13 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JsonDataSource;
 import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)
  */
 public class JsonDataAdapterService extends AbstractDataAdapterService 
 {
 	
-	private static final Log log = LogFactory.getLog(JsonDataAdapterService.class);
-	
-	private final DataFileUtils dataFileUtils;
-	private DataFileConnection dataConnection;
-	private InputStream dataStream;
+	private DataFileStream dataStream;
 	
 	/**
 	 * 
@@ -60,8 +51,6 @@ public class JsonDataAdapterService extends AbstractDataAdapterService
 	public JsonDataAdapterService(JasperReportsContext jasperReportsContext, JsonDataAdapter jsonDataAdapter) 
 	{
 		super(jasperReportsContext, jsonDataAdapter);
-		
-		dataFileUtils = DataFileUtils.instance(jasperReportsContext);
 	}
 
 	/**
@@ -81,9 +70,8 @@ public class JsonDataAdapterService extends AbstractDataAdapterService
 			throws JRException {
 		JsonDataAdapter jsonDataAdapter = getJsonDataAdapter();
 		if (jsonDataAdapter != null) {
-			dataConnection = dataFileUtils.createConnection(
+			dataStream = DataFileUtils.instance(getJasperReportsContext()).getDataStream(
 					jsonDataAdapter.getDataFile(), jsonDataAdapter.getFileName(), parameters);
-			dataStream = dataConnection.getInputStream();
 			
 			if (jsonDataAdapter.isUseConnection()) {
 				parameters.put(JsonQueryExecuterFactory.JSON_INPUT_STREAM, dataStream);
@@ -152,19 +140,7 @@ public class JsonDataAdapterService extends AbstractDataAdapterService
 	{
 		if (dataStream != null)
 		{
-			try
-			{
-				dataStream.close();
-			}
-			catch (IOException e)
-			{
-				log.warn("Failed to dispose data stream for " + dataConnection);
-			}
-		}
-
-		if (dataConnection != null)
-		{
-			dataFileUtils.dispose(dataConnection);
+			dataStream.dispose();
 		}
 		
 		super.dispose();

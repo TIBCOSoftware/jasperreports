@@ -24,43 +24,30 @@
 package net.sf.jasperreports.data;
 
 import java.io.InputStream;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.repo.RepositoryUtil;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class RepositoryDataLocationService implements DataFileService
+public class DataFileStreamConnection implements DataFileConnection
 {
 	
-	private static final Log log = LogFactory.getLog(RepositoryDataLocationService.class);
+	private final InputStream dataStream;
 	
-	private final RepositoryUtil repository;
-	private final RepositoryDataLocation dataLocation;
-	
-	public RepositoryDataLocationService(JasperReportsContext context, RepositoryDataLocation dataLocation)
+	public DataFileStreamConnection(InputStream dataStream)
 	{
-		this.repository = RepositoryUtil.getInstance(context);
-		this.dataLocation = dataLocation;
+		this.dataStream = dataStream;
 	}
 
 	@Override
-	public DataFileConnection getDataFileConnection(Map<String, Object> parameters) throws JRException
+	public InputStream getInputStream()
 	{
-		String location = dataLocation.getLocation();
-		if (log.isDebugEnabled())
-		{
-			log.debug("loading from the repository " + location);
-		}
-		
-		InputStream dataStream = repository.getInputStreamFromLocation(location);
-		return new DataFileStreamConnection(dataStream);
+		return dataStream;
+	}
+
+	@Override
+	public void dispose()
+	{
+		//NOP
 	}
 
 }

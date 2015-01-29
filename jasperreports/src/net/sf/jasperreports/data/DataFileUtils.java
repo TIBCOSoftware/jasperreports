@@ -25,11 +25,7 @@ package net.sf.jasperreports.data;
 
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
@@ -37,8 +33,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  */
 public class DataFileUtils
 {
-	
-	private static final Log log = LogFactory.getLog(DataFileUtils.class);
 
 	public static DataFileUtils instance(JasperReportsContext jasperReportsContext)
 	{
@@ -67,16 +61,10 @@ public class DataFileUtils
 		return dataConnection;
 	}
 	
-	public void dispose(DataFileConnection connection)
+	public DataFileStream getDataStream(DataFile dataFile, String dataLocation, Map<String, Object> parameters) throws JRException
 	{
-		try
-		{
-			connection.dispose();
-		}
-		catch (JRRuntimeException e)//catch RuntimeException?
-		{
-			log.warn("Failed to dispose connection for " + connection);
-		}
+		DataFileConnection connection = createConnection(dataFile, dataLocation, parameters);
+		return new DataFileStream(connection);
 	}
 	
 }

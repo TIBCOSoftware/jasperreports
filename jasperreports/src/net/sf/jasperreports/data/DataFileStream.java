@@ -23,31 +23,82 @@
  */
 package net.sf.jasperreports.data;
 
-import java.io.InputStream;
+import java.io.FilterInputStream;
+import java.io.IOException;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class DataFileStream implements DataFileConnection
+public class DataFileStream extends FilterInputStream
 {
 	
-	private final InputStream dataStream;
+	private static final Log log = LogFactory.getLog(DataFileUtils.class);
 	
-	public DataFileStream(InputStream dataStream)
+	private final DataFileConnection connection;
+
+	public DataFileStream(DataFileConnection connection)
 	{
-		this.dataStream = dataStream;
+		// using FilterInputStream as decorator
+		super(connection.getInputStream());
+		
+		this.connection = connection;
 	}
 
 	@Override
-	public InputStream getInputStream()
+	public void close() throws IOException
 	{
-		return dataStream;
+		boolean closed = false;
+		try
+		{
+			super.close();
+			closed = true;
+		}
+		finally
+		{
+			try
+			{
+				// attempt to close the connection no matter if the stream was closed successfully or not
+				connection.dispose();
+			}
+			catch (RuntimeException e)
+			{
+				if (closed)
+				{
+					// if the stream closed successfully, propagate the connection exception
+					throw new IOException(e);
+				}
+				else
+				{
+					log.warn("Failed to dispose connection for " + connection, e);
+				}
+			}
+		}
 	}
 
-	@Override
 	public void dispose()
 	{
-		//NOP
+		try
+		{
+			super.close();
+		}
+		catch (IOException e)
+		{
+			log.warn("Failed to dispose stream for " + connection, e);
+		}
+		
+		try
+		{
+			connection.dispose();
+		}
+		catch (JRRuntimeException e)//catch RuntimeException?
+		{
+			log.warn("Failed to dispose connection for " + connection, e);
+		}
 	}
 
 }
