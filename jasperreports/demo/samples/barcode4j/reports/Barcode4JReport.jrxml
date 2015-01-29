@@ -174,7 +174,7 @@
 			</staticText>
 			<componentElement>
 				<reportElement style="Barcode" x="130" y="600" width="400" height="80" forecolor="#0000FF" backcolor="yellow" uuid="f8257c9c-cc13-40f4-8c1e-b2dda037fb3d"/>
-				<c:QRCode xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" margin="2">
+				<c:QRCode xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" margin="2" errorCorrectionLevel="M">
 					<c:codeExpression><![CDATA["http://barcode4j.sourceforge.net/"]]></c:codeExpression>
 				</c:QRCode>
 			</componentElement>

@@ -31,6 +31,7 @@ import net.sf.jasperreports.components.barcode4j.DataMatrixComponent;
 import net.sf.jasperreports.components.barcode4j.EAN128Component;
 import net.sf.jasperreports.components.barcode4j.EAN13Component;
 import net.sf.jasperreports.components.barcode4j.EAN8Component;
+import net.sf.jasperreports.components.barcode4j.ErrorCorrectionLevelEnum;
 import net.sf.jasperreports.components.barcode4j.Interleaved2Of5Component;
 import net.sf.jasperreports.components.barcode4j.OrientationEnum;
 import net.sf.jasperreports.components.barcode4j.PDF417Component;
@@ -195,10 +196,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		addBarcodeRules(digester, barcodePattern, barcodeComponentClass);
 		addPatternExpressionRules(digester, barcodePattern);
 		
-		digester.addSetProperties(barcodePattern,
-				//properties to be ignored by this rule
-				new String[]{"orientation", "textPosition"}, 
-				new String[0]);
 		digester.addRule(barcodePattern, 
 				new XmlConstantPropertyRule(
 						"orientation", "orientationValue",
@@ -227,7 +224,12 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addObjectCreate(barcodePattern, barcodeComponentClass);
 		digester.addSetProperties(barcodePattern,
 				//properties to be ignored by this rule
-				new String[]{JRXmlConstants.ATTRIBUTE_evaluationTime}, 
+				new String[]{
+					JRXmlConstants.ATTRIBUTE_evaluationTime,
+					"orientation",
+					"textPosition",
+					"errorCorrectionLevel"
+					}, 
 				new String[0]);
 		//rule to set evaluation time
 		digester.addRule(barcodePattern, 
@@ -248,14 +250,10 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 	{
 		addBarcodeRules(digester, barcodePattern, barcodeComponentClass);
 
-		digester.addSetProperties(barcodePattern,
-				//properties to be ignored by this rule
-				new String[]{"errorCorrectionLevel"}, 
-				new String[0]);
-//FIXMEQR		digester.addRule(barcodePattern, 
-//				new XmlConstantPropertyRule(
-//						"errorCorrectionLevel", "errorCorrectionLevel",
-//						ErrorCorrectionLevelEnum.values()));
+		digester.addRule(barcodePattern, 
+				new XmlConstantPropertyRule(
+						"errorCorrectionLevel", "errorCorrectionLevel",
+						ErrorCorrectionLevelEnum.values()));
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -272,7 +270,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 	@SuppressWarnings("deprecation")
 	protected void addMapRules(Digester digester)
 	{
-		int one = digester.getRules().rules().size();
 		String mapPattern = "*/componentElement/map";
 		digester.addFactoryCreate(mapPattern, MapXmlFactory.class);
 
