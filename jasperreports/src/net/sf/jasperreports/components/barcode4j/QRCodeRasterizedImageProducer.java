@@ -77,10 +77,10 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 				writer.encode(
 					message, 
 					BarcodeFormat.QR_CODE, 
-//FIXMEQR			componentElement.getWidth(), 
-//					componentElement.getHeight(), 
-					(int)((72f / 2.54f) * componentElement.getWidth()), 
-					(int)((72f / 2.54f) * componentElement.getHeight()), 
+//					(int)((72f / 2.54f) * componentElement.getWidth()), 
+//					(int)((72f / 2.54f) * componentElement.getHeight()), 
+					(int)((resolution / 72f) * componentElement.getWidth()), 
+					(int)((resolution / 72f) * componentElement.getHeight()), 
 					hints
 					);
 			MatrixToImageConfig config = 
