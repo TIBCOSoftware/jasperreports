@@ -208,30 +208,23 @@ include the AI in the check digit calculation (used for USPS). Multiple field pa
 <b>The QRCode component</b>
 <br/>
 <br/>
-This barcode component depends on both Barcode4J and ZXing libraries. While maintaining an interface 
-similar to other Barcode4J components, some of the common attributes and expressions will be processed 
-differently. Following is a list of enabled/disabled features for this component:
+This barcode component depends on both Barcode4J and ZXing libraries.
 <ul>
 <li>Common expressions: 
 <ul>
-<li><code>codeExpression</code> - enabled; contains the String content 
-used to generate the barcode object</li>
-<li><code>patternExpression</code> - disabled</li>
+<li><code>codeExpression</code> contains the String content 
+used to generate the barcode object.</li>
 </ul> 
 </li>
 <li>Common attributes:
 <ul>
-<li><code>evaluationTime</code> - enabled</li>
-<li><code>evaluationGroup</code> - enabled</li>
-<li><code>quietZone</code> - enabled; its value will be considered as vertical quiet zone too. Won't be converted in mm at runtime.</li>
-<li><code>orientation</code> - disabled</li>
-<li><code>moduleWidth</code> - disabled</li>
-<li><code>textPosition</code> - disabled</li>
-<li><code>verticalQuietZone</code> - disabled</li>
+<li><code>evaluationTime</code></li>
+<li><code>evaluationGroup</code></li>
 </ul>
 </li>
 <li>Specific attributes:
 <ul>
+<li><code>margin</code> number of pixels reserved as margin around the barcode graphic.</li>
 <li><code>errorCorrectionLevel</code> - enabled; single uppercase character representing the error correction level. 
 Possible values are: <code>L</code>, <code>M</code>, <code>Q</code>, <code>H</code>. Default is <code>L</code>.</li>
 </ul>
