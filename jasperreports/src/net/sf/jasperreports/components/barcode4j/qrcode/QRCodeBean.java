@@ -87,7 +87,7 @@ public class QRCodeBean extends AbstractBarcodeBean {
 		Map<EncodeHintType,Object> hints = new HashMap<EncodeHintType,Object>();
 		hints.put(EncodeHintType.CHARACTER_SET, encoding==null? QRCodeComponent.PROPERTY_DEFAULT_ENCODING : encoding);
 		String level = errorCorrectionLevel == null ? QRCodeComponent.PROPERTY_DEFAULT_ERROR_CORRECTION_LEVEL : errorCorrectionLevel;
-		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevelEnum.getByName(level).getErrorCorrectionLevel());
+		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevelEnum.getByName(level).getValue());
 		hints.put(EncodeHintType.MARGIN, (int)quietZone);
 		
 		try {

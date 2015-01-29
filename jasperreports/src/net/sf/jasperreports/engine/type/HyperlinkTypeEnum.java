@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRHyperlink;
 
 
@@ -86,7 +85,6 @@ public enum HyperlinkTypeEnum implements JREnum
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	private final transient byte value;
 	private final transient String name;
 
@@ -97,7 +95,7 @@ public enum HyperlinkTypeEnum implements JREnum
 	}
 
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public Byte getValueByte()
 	{
@@ -105,7 +103,7 @@ public enum HyperlinkTypeEnum implements JREnum
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public final byte getValue()
 	{
@@ -125,11 +123,11 @@ public enum HyperlinkTypeEnum implements JREnum
 	 */
 	public static HyperlinkTypeEnum getByName(String name)
 	{
-		return (HyperlinkTypeEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static HyperlinkTypeEnum getByValue(Byte value)
 	{
@@ -137,11 +135,10 @@ public enum HyperlinkTypeEnum implements JREnum
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static HyperlinkTypeEnum getByValue(byte value)
 	{
 		return getByValue(new Byte(value));
 	}
-	
 }

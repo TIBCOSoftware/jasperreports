@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -71,7 +70,6 @@ public enum ResetTypeEnum implements JREnum
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	private final transient byte value;
 	private final transient String name;
 
@@ -82,7 +80,7 @@ public enum ResetTypeEnum implements JREnum
 	}
 
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public Byte getValueByte()
 	{
@@ -90,7 +88,7 @@ public enum ResetTypeEnum implements JREnum
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public final byte getValue()
 	{
@@ -110,11 +108,11 @@ public enum ResetTypeEnum implements JREnum
 	 */
 	public static ResetTypeEnum getByName(String name)
 	{
-		return (ResetTypeEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static ResetTypeEnum getByValue(Byte value)
 	{
@@ -128,5 +126,4 @@ public enum ResetTypeEnum implements JREnum
 	{
 		return getByValue(new Byte(value));
 	}
-
 }

@@ -557,6 +557,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 */
 	private byte imageType;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

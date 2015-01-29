@@ -163,6 +163,7 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 	 */
 	private byte incrementType;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

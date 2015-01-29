@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -115,7 +113,6 @@ public enum CalculationEnum implements JREnum
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	private final transient byte value;
 	private final transient String name;
 
@@ -126,7 +123,7 @@ public enum CalculationEnum implements JREnum
 	}
 
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public Byte getValueByte()
 	{
@@ -136,6 +133,7 @@ public enum CalculationEnum implements JREnum
 	/**
 	 *
 	 */
+	@SuppressWarnings("deprecation")
 	public final byte getValue()
 	{
 		return value;
@@ -154,11 +152,11 @@ public enum CalculationEnum implements JREnum
 	 */
 	public static CalculationEnum getByName(String name)
 	{
-		return (CalculationEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static CalculationEnum getByValue(Byte value)
 	{
@@ -166,11 +164,10 @@ public enum CalculationEnum implements JREnum
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static CalculationEnum getByValue(byte value)
 	{
 		return getByValue(new Byte(value));
 	}
-
 }

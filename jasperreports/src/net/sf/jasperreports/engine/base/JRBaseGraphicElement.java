@@ -158,6 +158,7 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	 */
 	private Byte fill;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

@@ -136,6 +136,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	 */
 	private byte calculation;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

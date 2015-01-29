@@ -2873,7 +2873,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					break;
 				}
 				if(perm != null && perm.length()>0) {
-					permission |= PdfPermissionsEnum.getByName(perm).getValue();
+					permission |= PdfPermissionsEnum.getByName(perm).getPdfPermission();
 				}
 			}
 		}

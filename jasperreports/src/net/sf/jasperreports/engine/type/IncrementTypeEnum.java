@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRVariable;
 
 
@@ -62,7 +61,6 @@ public enum IncrementTypeEnum implements JREnum
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	private final transient byte value;
 	private final transient String name;
 
@@ -73,7 +71,7 @@ public enum IncrementTypeEnum implements JREnum
 	}
 
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public Byte getValueByte()
 	{
@@ -83,6 +81,7 @@ public enum IncrementTypeEnum implements JREnum
 	/**
 	 *
 	 */
+	@SuppressWarnings("deprecation")
 	public final byte getValue()
 	{
 		return value;
@@ -101,11 +100,11 @@ public enum IncrementTypeEnum implements JREnum
 	 */
 	public static IncrementTypeEnum getByName(String name)
 	{
-		return (IncrementTypeEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static IncrementTypeEnum getByValue(Byte value)
 	{
@@ -113,11 +112,10 @@ public enum IncrementTypeEnum implements JREnum
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static IncrementTypeEnum getByValue(byte value)
 	{
 		return getByValue(new Byte(value));
 	}
-
 }

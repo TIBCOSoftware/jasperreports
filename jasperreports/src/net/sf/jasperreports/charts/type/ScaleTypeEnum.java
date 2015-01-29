@@ -23,9 +23,8 @@
  */
 package net.sf.jasperreports.charts.type;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedValueEnum;
 
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 
@@ -33,7 +32,7 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public enum ScaleTypeEnum implements JREnum
+public enum ScaleTypeEnum implements NamedValueEnum<Integer>
 {
 	/**
 	 *
@@ -54,11 +53,10 @@ public enum ScaleTypeEnum implements JREnum
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
+	private final transient int value;
 	private final transient String name;
 
-	private ScaleTypeEnum(byte value, String name)
+	private ScaleTypeEnum(int value, String name)
 	{
 		this.value = value;
 		this.name = name;
@@ -67,15 +65,7 @@ public enum ScaleTypeEnum implements JREnum
 	/**
 	 *
 	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
+	public final Integer getValue()
 	{
 		return value;
 	}
@@ -93,31 +83,14 @@ public enum ScaleTypeEnum implements JREnum
 	 */
 	public static ScaleTypeEnum getByName(String name)
 	{
-		return (ScaleTypeEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static ScaleTypeEnum getByValue(Integer value)
 	{
-		return (ScaleTypeEnum)EnumUtil.getByValue(values(), value);
+		return EnumUtil.getByValue(values(), value);
 	}
-
-	/**
-	 *
-	 */
-	public static ScaleTypeEnum getByValue(Byte value)
-	{
-		return (ScaleTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static ScaleTypeEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-
 }

@@ -116,6 +116,7 @@ public class JRTemplateLine extends JRTemplateGraphicElement
 	 */
 	private byte direction;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

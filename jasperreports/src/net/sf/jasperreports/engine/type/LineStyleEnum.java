@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -54,7 +52,6 @@ public enum LineStyleEnum implements JREnum
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	private final transient byte value;
 	private final transient String name;
 
@@ -65,7 +62,7 @@ public enum LineStyleEnum implements JREnum
 	}
 
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public Byte getValueByte()
 	{
@@ -73,7 +70,7 @@ public enum LineStyleEnum implements JREnum
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public final byte getValue()
 	{
@@ -93,11 +90,11 @@ public enum LineStyleEnum implements JREnum
 	 */
 	public static LineStyleEnum getByName(String name)
 	{
-		return (LineStyleEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static LineStyleEnum getByValue(Byte value)
 	{
@@ -105,11 +102,10 @@ public enum LineStyleEnum implements JREnum
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static LineStyleEnum getByValue(byte value)
 	{
 		return getByValue(new Byte(value));
 	}
-
 }

@@ -23,58 +23,37 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum HorizontalImageAlignEnum implements JREnum
+public enum HorizontalImageAlignEnum implements NamedEnum
 {
 	/**
 	 *
 	 */ 
-	LEFT((byte)1, "Left"),
+	LEFT("Left"),
 	
 	/**
 	 *
 	 */ 
-	CENTER((byte)2, "Center"),
+	CENTER("Center"),
 	
 	/**
 	 *
 	 */ 
-	RIGHT((byte)3, "Right");
+	RIGHT("Right");
 	
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 
-	private HorizontalImageAlignEnum(byte value, String name)
+	private HorizontalImageAlignEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	/**
 	 *
 	 */
@@ -88,23 +67,6 @@ public enum HorizontalImageAlignEnum implements JREnum
 	 */
 	public static HorizontalImageAlignEnum getByName(String name)
 	{
-		return (HorizontalImageAlignEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static HorizontalImageAlignEnum getByValue(Byte value)
-	{
-		return (HorizontalImageAlignEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static HorizontalImageAlignEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-
 }

@@ -173,6 +173,7 @@ public class JRDesignCrosstabColumnGroup extends JRDesignCrosstabGroup implement
 	 */
 	private byte position;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

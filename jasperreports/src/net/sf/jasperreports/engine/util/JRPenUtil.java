@@ -38,7 +38,7 @@ public final class JRPenUtil
 {
 
 	/**
-	 * 
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static void setLinePenFromPen(Byte pen, JRPen linePen)
 	{
@@ -95,7 +95,7 @@ public final class JRPenUtil
 	}
 
 	/**
-	 * 
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static byte getPenFromLinePen(JRPen linePen)
 	{
@@ -128,7 +128,7 @@ public final class JRPenUtil
 	}
 
 	/**
-	 * 
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static Byte getOwnPenFromLinePen(JRPen linePen)
 	{

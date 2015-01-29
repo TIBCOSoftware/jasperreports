@@ -23,55 +23,35 @@
  */
 package net.sf.jasperreports.components.iconlabel;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum IconPositionEnum implements JREnum
+public enum IconPositionEnum implements NamedEnum
 {
 	/**
 	 *
 	 */ 
-	START((byte)1, "Start"),
+	START("Start"),
 	
 	/**
 	 *
 	 */ 
-	END((byte)2, "End");
+	END("End");
 	
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 
-	private IconPositionEnum(byte value, String name)
+	private IconPositionEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	/**
 	 *
 	 */
@@ -85,23 +65,6 @@ public enum IconPositionEnum implements JREnum
 	 */
 	public static IconPositionEnum getByName(String name)
 	{
-		return (IconPositionEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static IconPositionEnum getByValue(Byte value)
-	{
-		return (IconPositionEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static IconPositionEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-
 }

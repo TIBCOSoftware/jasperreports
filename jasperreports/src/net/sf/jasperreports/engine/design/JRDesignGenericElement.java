@@ -251,6 +251,7 @@ public class JRDesignGenericElement extends JRDesignElement implements
 	 */
 	private byte evaluationTime;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

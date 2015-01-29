@@ -510,6 +510,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	 */
 	private byte runDirection;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

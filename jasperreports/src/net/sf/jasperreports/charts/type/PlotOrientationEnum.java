@@ -23,9 +23,8 @@
  */
 package net.sf.jasperreports.charts.type;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 import org.jfree.chart.plot.PlotOrientation;
 
@@ -33,7 +32,7 @@ import org.jfree.chart.plot.PlotOrientation;
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public enum PlotOrientationEnum implements JREnum
+public enum PlotOrientationEnum implements NamedEnum
 {
 	/**
 	 *
@@ -49,7 +48,6 @@ public enum PlotOrientationEnum implements JREnum
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	private final transient PlotOrientation value;
 	private final transient String name;
 
@@ -59,22 +57,6 @@ public enum PlotOrientationEnum implements JREnum
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(getValue());
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return (byte)-1;
-	}
-	
 	/**
 	 *
 	 */
@@ -96,11 +78,11 @@ public enum PlotOrientationEnum implements JREnum
 	 */
 	public static PlotOrientationEnum getByName(String name)
 	{
-		return (PlotOrientationEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static PlotOrientationEnum getByValue(PlotOrientation orientation)
 	{
@@ -117,5 +99,4 @@ public enum PlotOrientationEnum implements JREnum
 		}
 		return null;
 	}
-	
 }

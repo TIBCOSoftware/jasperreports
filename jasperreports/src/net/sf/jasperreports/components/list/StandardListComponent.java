@@ -198,6 +198,7 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 	 */
 	private Byte printOrder;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

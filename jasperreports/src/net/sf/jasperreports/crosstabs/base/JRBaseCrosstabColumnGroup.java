@@ -89,6 +89,7 @@ public class JRBaseCrosstabColumnGroup extends JRBaseCrosstabGroup implements JR
 	 */
 	private byte position;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

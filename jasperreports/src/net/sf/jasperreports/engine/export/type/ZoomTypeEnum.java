@@ -23,68 +23,48 @@
  */
 package net.sf.jasperreports.engine.export.type;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public enum ZoomTypeEnum implements JREnum
+public enum ZoomTypeEnum implements NamedEnum
 {
 	/**
 	 *
 	 */
-	ACTUAL_SIZE((byte)0, "ActualSize", "fit_actual"),
+	ACTUAL_SIZE("ActualSize", "fit_actual"),
 
 	/**
 	 *
 	 */
-	FIT_WIDTH((byte)1, "FitWidth", "fit_width"),
+	FIT_WIDTH("FitWidth", "fit_width"),
 
 	/**
 	 *
 	 */
-	FIT_HEIGHT((byte)2, "FitHeight", "fit_height"),
+	FIT_HEIGHT("FitHeight", "fit_height"),
 
 	/**
 	 *
 	 */
-	FIT_PAGE((byte)3, "FitPage", "fit_page");
+	FIT_PAGE("FitPage", "fit_page");
 
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 	private final transient String htmlValue;
 
-	private ZoomTypeEnum(byte value, String name, String htmlValue)
+	private ZoomTypeEnum(String name, String htmlValue)
 	{
-		this.value = value;
 		this.name = name;
 		this.htmlValue = htmlValue;
 	}
 
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	/**
 	 *
 	 */
@@ -106,23 +86,6 @@ public enum ZoomTypeEnum implements JREnum
 	 */
 	public static ZoomTypeEnum getByName(String name)
 	{
-		return (ZoomTypeEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static ZoomTypeEnum getByValue(Byte value)
-	{
-		return (ZoomTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static ZoomTypeEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-
 }

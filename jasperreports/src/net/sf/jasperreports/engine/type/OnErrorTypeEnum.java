@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -50,7 +48,6 @@ public enum OnErrorTypeEnum implements JREnum
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	private final transient byte value;
 	private final transient String name;
 
@@ -61,7 +58,7 @@ public enum OnErrorTypeEnum implements JREnum
 	}
 
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public Byte getValueByte()
 	{
@@ -69,7 +66,7 @@ public enum OnErrorTypeEnum implements JREnum
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public final byte getValue()
 	{
@@ -89,11 +86,11 @@ public enum OnErrorTypeEnum implements JREnum
 	 */
 	public static OnErrorTypeEnum getByName(String name)
 	{
-		return (OnErrorTypeEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static OnErrorTypeEnum getByValue(Byte value)
 	{
@@ -101,11 +98,10 @@ public enum OnErrorTypeEnum implements JREnum
 	}
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static OnErrorTypeEnum getByValue(byte value)
 	{
 		return getByValue(new Byte(value));
 	}
-
 }

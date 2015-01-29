@@ -168,6 +168,7 @@ public class JRBasePrintFrame extends JRBasePrintElement implements JRPrintFrame
 	 */
 	private Integer rightPadding;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

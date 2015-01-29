@@ -23,9 +23,7 @@
  */
 package net.sf.jasperreports.engine.analytics.data;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.NamedEnum;
-
 
 
 /**
@@ -35,8 +33,6 @@ public enum Axis implements NamedEnum
 {
 	ROWS("Rows"),
 	COLUMNS("Columns");
-	
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static int axisCount()
 	{
@@ -54,5 +50,4 @@ public enum Axis implements NamedEnum
 	{
 		return name;
 	}
-	
 }

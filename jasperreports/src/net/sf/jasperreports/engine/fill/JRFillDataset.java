@@ -1590,7 +1590,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 		public int hashCode()
 		{
-			return 31 * calculation.getValue() + variableName.hashCode();
+			return 31 * calculation.ordinal() + variableName.hashCode();
 		}
 	}
 	

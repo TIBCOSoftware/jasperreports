@@ -1136,6 +1136,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 */
 	private Byte titlePositionByte;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

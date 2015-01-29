@@ -23,52 +23,31 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum SortFieldTypeEnum implements JREnum
+public enum SortFieldTypeEnum implements NamedEnum
 {
 	/**
 	 * Specifies the sort field name represents a dataset field name.
 	 */
-	FIELD((byte)0, "Field"),
+	FIELD("Field"),
 
 	/**
 	 * Specifies the sort field name represents a dataset variable name.
 	 */
-	VARIABLE((byte)1, "Variable");
+	VARIABLE("Variable");
 
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 
-	private SortFieldTypeEnum(byte value, String name)
+	private SortFieldTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	/**
@@ -84,23 +63,6 @@ public enum SortFieldTypeEnum implements JREnum
 	 */
 	public static SortFieldTypeEnum getByName(String name)
 	{
-		return (SortFieldTypeEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static SortFieldTypeEnum getByValue(Byte value)
-	{
-		return (SortFieldTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static SortFieldTypeEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-	
 }

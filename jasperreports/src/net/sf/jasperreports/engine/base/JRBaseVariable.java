@@ -308,6 +308,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 	 */
 	private byte calculation;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

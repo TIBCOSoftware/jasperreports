@@ -23,59 +23,39 @@
  */
 package net.sf.jasperreports.components.sort;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum FilterTypeNumericOperatorsEnum implements JREnum
+public enum FilterTypeNumericOperatorsEnum implements NamedEnum
 {
-	EQUALS((byte)1, "Equals"),
+	EQUALS("Equals"),
 	
-	DOES_NOT_EQUAL((byte)2, "Does Not Equal"),
+	DOES_NOT_EQUAL("Does Not Equal"),
 
-	GREATER_THAN((byte)3, "Greater Than"),
+	GREATER_THAN("Greater Than"),
 
-	GREATER_THAN_EQUAL_TO((byte)4, "Greater Than or Equal to"),
+	GREATER_THAN_EQUAL_TO("Greater Than or Equal to"),
 	
-	LESS_THAN((byte)5, "Less Than"),
+	LESS_THAN("Less Than"),
 	
-	LESS_THAN_EQUAL_TO((byte)6, "Less Than or Equal to"),
+	LESS_THAN_EQUAL_TO("Less Than or Equal to"),
 	
-	IS_BETWEEN((byte)7, "Is Between"),
+	IS_BETWEEN("Is Between"),
 	
-	IS_NOT_BETWEEN((byte)8, "Is not between");
+	IS_NOT_BETWEEN("Is not between");
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 
-	private FilterTypeNumericOperatorsEnum(byte value, String name)
+	private FilterTypeNumericOperatorsEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	/**
@@ -91,7 +71,7 @@ public enum FilterTypeNumericOperatorsEnum implements JREnum
 	 */
 	public static FilterTypeNumericOperatorsEnum getByName(String name)
 	{
-		return (FilterTypeNumericOperatorsEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
 	
 	/**
@@ -99,23 +79,6 @@ public enum FilterTypeNumericOperatorsEnum implements JREnum
 	 */
 	public static FilterTypeNumericOperatorsEnum getByEnumConstantName(String name)
 	{
-		return (FilterTypeNumericOperatorsEnum)EnumUtil.getByEnumConstantName(values(), name);
+		return EnumUtil.getByConstantName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static FilterTypeNumericOperatorsEnum getByValue(Byte value)
-	{
-		return (FilterTypeNumericOperatorsEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static FilterTypeNumericOperatorsEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-	
 }

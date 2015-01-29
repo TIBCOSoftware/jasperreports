@@ -350,6 +350,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 	 */
 	private byte whenResourceMissingType;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

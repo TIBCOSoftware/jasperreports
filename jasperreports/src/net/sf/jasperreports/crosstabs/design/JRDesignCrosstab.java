@@ -1862,6 +1862,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 */
 	private byte runDirection;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

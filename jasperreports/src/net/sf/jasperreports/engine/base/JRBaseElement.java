@@ -598,6 +598,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	 */
 	private byte stretchType;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

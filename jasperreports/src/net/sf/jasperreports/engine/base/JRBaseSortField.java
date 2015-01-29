@@ -155,6 +155,7 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 	 */
 	private byte order;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

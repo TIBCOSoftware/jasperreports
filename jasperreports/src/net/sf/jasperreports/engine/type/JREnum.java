@@ -23,23 +23,20 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import java.io.Serializable;
-
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface JREnum extends NamedEnum, Serializable
+public interface JREnum extends NamedEnum
 {
 
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public Byte getValueByte();
 	
 	/**
-	 *
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public byte getValue();
 	

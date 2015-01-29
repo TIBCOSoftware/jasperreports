@@ -175,6 +175,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	 */
 	private Byte splitType;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

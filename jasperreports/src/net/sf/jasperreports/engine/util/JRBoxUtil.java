@@ -141,7 +141,7 @@ public final class JRBoxUtil
 	
 
 	/**
-	 * 
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
 	public static void setToBox(
 		Byte border,
@@ -276,9 +276,8 @@ public final class JRBoxUtil
 	
 
 	/**
-	 * 
+	 * @deprecated Used only by deprecated serialized fields.
 	 */
-	@SuppressWarnings("deprecation")
 	public static void setBoxToLineBox(
 		net.sf.jasperreports.engine.JRBox box,
 		JRLineBox lineBox

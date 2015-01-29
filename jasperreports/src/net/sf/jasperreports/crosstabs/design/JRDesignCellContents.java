@@ -253,6 +253,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	 */
 	private net.sf.jasperreports.engine.JRBox box;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

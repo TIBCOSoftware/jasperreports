@@ -532,13 +532,10 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				break;
 			}
 			case VERTICAL :
+			default :
 			{
 				subreportFiller = new JRVerticalFiller(filler.getJasperReportsContext(), jasperReport, subFillerParent);
 				break;
-			}
-			default :
-			{
-				throw new JRRuntimeException("Unkown print order " + jasperReport.getPrintOrderValue().getValue() + ".");
 			}
 		}
 		

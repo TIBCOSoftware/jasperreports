@@ -161,7 +161,7 @@ public final class JREvaluationTime implements Serializable
 
 	private int computeHash()
 	{
-		int hashCode = type.getValue();
+		int hashCode = type.ordinal();
 		hashCode = 31*hashCode + (groupName == null ? 0 : groupName.hashCode());
 		hashCode = 31*hashCode + bandId;
 		return hashCode;

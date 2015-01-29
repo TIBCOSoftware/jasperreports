@@ -23,53 +23,33 @@
  */
 package net.sf.jasperreports.components.table;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum WhenNoDataTypeTableEnum implements JREnum
+public enum WhenNoDataTypeTableEnum implements NamedEnum
 {
 	/**
 	 * Specifies that in case of empty datasources, the table output will be blank.
 	 */
-	BLANK((byte)1, "Blank"),
+	BLANK("Blank"),
 
 	/**
 	 * Specifies that in case of empty datasources, all table sections except the detail will displayed.
 	 */
-	ALL_SECTIONS_NO_DETAIL((byte)2, "AllSectionsNoDetail");
+	ALL_SECTIONS_NO_DETAIL("AllSectionsNoDetail");
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 
-	private WhenNoDataTypeTableEnum(byte value, String name)
+	private WhenNoDataTypeTableEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	/**
@@ -85,23 +65,6 @@ public enum WhenNoDataTypeTableEnum implements JREnum
 	 */
 	public static WhenNoDataTypeTableEnum getByName(String name)
 	{
-		return (WhenNoDataTypeTableEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static WhenNoDataTypeTableEnum getByValue(Byte value)
-	{
-		return (WhenNoDataTypeTableEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static WhenNoDataTypeTableEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-	
 }

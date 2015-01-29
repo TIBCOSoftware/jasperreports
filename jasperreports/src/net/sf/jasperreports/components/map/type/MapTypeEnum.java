@@ -23,65 +23,45 @@
  */
 package net.sf.jasperreports.components.map.type;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public enum MapTypeEnum implements JREnum
+public enum MapTypeEnum implements NamedEnum
 {
 	/**
 	 * The roadmap type
 	 */
-	ROADMAP((byte)0, "roadmap"),
+	ROADMAP("roadmap"),
 
 	/**
 	 * The satellite map type
 	 */
-	SATELLITE((byte)1, "satellite"),
+	SATELLITE("satellite"),
 
 	/**
 	 * The terrain map type
 	 */
-	TERRAIN((byte)2, "terrain"),
+	TERRAIN("terrain"),
 
 	/**
 	 * The hybrid type
 	 */
-	HYBRID((byte)3, "hybrid");
+	HYBRID("hybrid");
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient byte value;
 	private final transient String name;
 
-	private MapTypeEnum(byte value, String name)
+	private MapTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
-	public Byte getValueByte()
-	{
-		return new Byte(value);
-	}
-	
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	/**
 	 *
 	 */
@@ -95,23 +75,6 @@ public enum MapTypeEnum implements JREnum
 	 */
 	public static MapTypeEnum getByName(String name)
 	{
-		return (MapTypeEnum)EnumUtil.getByName(values(), name);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 *
-	 */
-	public static MapTypeEnum getByValue(Byte value)
-	{
-		return (MapTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 *
-	 */
-	public static MapTypeEnum getByValue(byte value)
-	{
-		return getByValue(new Byte(value));
-	}
-	
 }

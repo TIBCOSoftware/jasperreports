@@ -180,6 +180,7 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 	 */
 	private byte hyperlinkTarget;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

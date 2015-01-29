@@ -335,6 +335,7 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	 */
 	private Byte mode;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

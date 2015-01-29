@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFrame;
 
 /**
@@ -43,8 +42,6 @@ public enum BorderSplitType implements NamedEnum
 	 */
 	DRAW_BORDERS("DrawBorders");
 	
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
 	private final String name;
 	
 	private BorderSplitType(String name)
@@ -62,5 +59,4 @@ public enum BorderSplitType implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
-
 }

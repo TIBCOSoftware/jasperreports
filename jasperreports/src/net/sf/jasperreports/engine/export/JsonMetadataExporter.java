@@ -56,7 +56,7 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.ExportInterruptedException;
@@ -1094,42 +1094,33 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 
 	}
 
-	private enum NodeTypeEnum implements JREnum{
+	private enum NodeTypeEnum implements NamedEnum
+	{
+		/**
+		 *
+		 */
+		OBJECT("object"),
 
 		/**
 		 *
 		 */
-		OBJECT((byte) 0, "object"),
+		ARRAY("array");
 
-		/**
-		 *
-		 */
-		ARRAY((byte) 1, "array");
-
-		private final byte value;
 		private final String name;
 
-		private NodeTypeEnum(byte _value, String _name) {
-			value = _value;
+		private NodeTypeEnum(String _name) 
+		{
 			name = _name;
 		}
 
-		public Byte getValueByte()
+		public String getName() 
 		{
-			return new Byte(value);
-		}
-
-		public byte getValue() {
-			return value;
-		}
-
-		public String getName() {
 			return name;
 		}
 
 		public static NodeTypeEnum getByName(String name)
 		{
-			return (NodeTypeEnum) EnumUtil.getByName(values(), name);
+			return EnumUtil.getEnumByName(values(), name);
 		}
 	}
 
