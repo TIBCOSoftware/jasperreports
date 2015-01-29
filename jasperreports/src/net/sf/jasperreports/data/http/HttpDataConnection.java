@@ -29,10 +29,12 @@ import java.io.InputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
+import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.util.EntityUtils;
 
 import net.sf.jasperreports.data.DataFileConnection;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -61,15 +63,23 @@ public class HttpDataConnection implements DataFileConnection
 		try
 		{
 			response = httpClient.execute(request);
+			StatusLine status = response.getStatusLine();
 			if (log.isDebugEnabled())
 			{
-				log.debug("HTTP response status " + response.getStatusLine());
+				log.debug("HTTP response status " + status);
 			}
 			
 			HttpEntity entity = response.getEntity();
 			if (entity == null)
 			{
 				throw new JRRuntimeException("No response entity");
+			}
+			
+			if (status.getStatusCode() >= 300)
+			{
+				EntityUtils.consumeQuietly(entity);
+				//FIXME include request URI in the exception?  that might be a security issue
+				throw new JRRuntimeException("Response has status " + status);
 			}
 			
 			return entity.getContent();
