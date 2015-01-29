@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.data.AbstractDataAdapter;
+import net.sf.jasperreports.data.DataFile;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -34,6 +35,7 @@ import net.sf.jasperreports.data.AbstractDataAdapter;
 public class JsonDataAdapterImpl extends AbstractDataAdapter implements
 		JsonDataAdapter {
 	private String fileName;
+	private DataFile dataFile;
 	private String datePattern = null;
 	private String numberPattern = null;
 	private String selectExpression;
@@ -46,6 +48,9 @@ public class JsonDataAdapterImpl extends AbstractDataAdapter implements
 	}
 
 	public void setFileName(String fileName) {
+		if (fileName != null) {
+			this.dataFile = null;
+		}
 		this.fileName = fileName;
 	}
 
@@ -95,5 +100,19 @@ public class JsonDataAdapterImpl extends AbstractDataAdapter implements
 
 	public void setUseConnection(boolean useConnection) {
 		this.useConnection = useConnection;
+	}
+	
+	public DataFile getDataFile()
+	{
+		return dataFile;
+	}
+
+	public void setDataFile(DataFile dataFile)
+	{
+		if (dataFile != null)
+		{
+			this.fileName = null;
+		}
+		this.dataFile = dataFile;
 	}
 }
