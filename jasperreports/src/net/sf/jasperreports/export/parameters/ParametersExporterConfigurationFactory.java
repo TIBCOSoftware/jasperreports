@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 import net.sf.jasperreports.export.CommonExportConfiguration;
 import net.sf.jasperreports.export.PropertiesExporterConfigurationFactory;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
@@ -268,7 +268,7 @@ public class ParametersExporterConfigurationFactory<C extends CommonExportConfig
 				{
 					value = parameterResolver.getBooleanParameter(parameter, propertyName, exporterProperty.booleanDefault());
 				}
-				else if (JREnum.class.isAssignableFrom(type))
+				else if (NamedEnum.class.isAssignableFrom(type))
 				{
 					if (exporterParameter.acceptNull())
 					{
