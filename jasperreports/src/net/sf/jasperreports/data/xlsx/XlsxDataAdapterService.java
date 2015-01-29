@@ -81,12 +81,10 @@ public class XlsxDataAdapterService extends AbstractXlsDataAdapterService
 	@Override
 	protected AbstractXlsDataSource getXlsDataSource() throws JRException
 	{
-		XlsDataAdapter xlsDataAdapter  = getXlsDataAdapter();
-		
 		AbstractXlsDataSource dataSource = null;
 		try
 		{
-			dataSource = new JRXlsxDataSource(getJasperReportsContext(), xlsDataAdapter.getFileName());
+			dataSource = new JRXlsxDataSource(dataStream);
 		}
 		catch (IOException e)
 		{

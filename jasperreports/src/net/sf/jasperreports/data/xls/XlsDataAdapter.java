@@ -26,6 +26,7 @@ package net.sf.jasperreports.data.xls;
 import java.util.List;
 
 import net.sf.jasperreports.data.DataAdapter;
+import net.sf.jasperreports.data.DataFile;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -39,6 +40,10 @@ public interface XlsDataAdapter extends DataAdapter
 	public String getFileName();
 
 	public void setFileName(String filename);
+	
+	public DataFile getDataFile();
+	
+	public void setDataFile(DataFile dataFile);
 	
 	public boolean isUseFirstRowAsHeader();
 	

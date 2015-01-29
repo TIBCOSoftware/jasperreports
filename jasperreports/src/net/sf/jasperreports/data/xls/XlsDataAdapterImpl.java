@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.data.AbstractDataAdapter;
+import net.sf.jasperreports.data.DataFile;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -37,6 +38,7 @@ public class XlsDataAdapterImpl extends AbstractDataAdapter implements XlsDataAd
 	private String datePattern = null;
 	private String numberPattern = null;
 	private String fileName;
+	private DataFile dataFile;
 	private List<String> columnNames = new ArrayList<String>();
 	private List<Integer> columnIndexes = new ArrayList<Integer>();
 	private boolean queryExecuterMode = false;
@@ -55,6 +57,9 @@ public class XlsDataAdapterImpl extends AbstractDataAdapter implements XlsDataAd
 	}
 
 	public void setFileName(String filename) {
+		if (fileName != null) {
+			this.dataFile = null;
+		}
 		this.fileName = filename;
 	}
 	
@@ -106,5 +111,18 @@ public class XlsDataAdapterImpl extends AbstractDataAdapter implements XlsDataAd
 		this.sheetSelection = sheetSelection;
 	}
 	
+	public DataFile getDataFile()
+	{
+		return dataFile;
+	}
+
+	public void setDataFile(DataFile dataFile)
+	{
+		if (dataFile != null)
+		{
+			this.fileName = null;
+		}
+		this.dataFile = dataFile;
+	}
 	
 }

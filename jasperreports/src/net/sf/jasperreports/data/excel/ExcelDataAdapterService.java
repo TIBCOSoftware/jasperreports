@@ -82,8 +82,7 @@ public class ExcelDataAdapterService extends AbstractXlsDataAdapterService
 		{
 			dataSource =
 				new ExcelDataSource(
-					getJasperReportsContext(),
-					excelDataAdapter.getFileName(),
+					dataStream,
 					excelDataAdapter.getFormat()
 					);
 		}

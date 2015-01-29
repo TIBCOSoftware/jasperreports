@@ -28,6 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.data.DataFileStream;
+import net.sf.jasperreports.data.DataFileUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -40,7 +42,10 @@ import net.sf.jasperreports.engine.query.AbstractXlsQueryExecuterFactory;
  */
 public abstract class AbstractXlsDataAdapterService extends AbstractDataAdapterService 
 {
+	
 	public static final String PROPERTY_DATA_ADAPTER_USE_LEGACY_JEXCELAPI = JRPropertiesUtil.PROPERTY_PREFIX + "data.adapter.xls.use.legacy.jexcelapi";
+	
+	protected DataFileStream dataStream;
 	
 	/**
 	 * 
@@ -61,13 +66,16 @@ public abstract class AbstractXlsDataAdapterService extends AbstractDataAdapterS
 		XlsDataAdapter xlsDataAdapter = getXlsDataAdapter();
 		if (xlsDataAdapter != null)
 		{
+			dataStream = DataFileUtils.instance(getJasperReportsContext()).getDataStream(
+					xlsDataAdapter.getDataFile(), xlsDataAdapter.getFileName(), parameters);
+			
 			String datePattern = xlsDataAdapter.getDatePattern();
 			String numberPattern = xlsDataAdapter.getNumberPattern();
 			String sheetSelection = xlsDataAdapter.getSheetSelection();
 
 			if (xlsDataAdapter.isQueryExecuterMode())
 			{	
-				parameters.put(AbstractXlsQueryExecuterFactory.XLS_SOURCE, xlsDataAdapter.getFileName());
+				parameters.put(AbstractXlsQueryExecuterFactory.XLS_INPUT_STREAM, dataStream);
 				if (datePattern != null && datePattern.length() > 0)
 				{
 					parameters.put( AbstractXlsQueryExecuterFactory.XLS_DATE_FORMAT, new SimpleDateFormat(datePattern) );
@@ -146,6 +154,15 @@ public abstract class AbstractXlsDataAdapterService extends AbstractDataAdapterS
 		{
 			names[i] = "" + xlsDataAdapter.getColumnNames().get(i);
 			indexes[i] = (xlsDataAdapter.getColumnIndexes().size() > i) ? xlsDataAdapter.getColumnIndexes().get(i) : i;
+		}
+	}
+
+	@Override
+	public void dispose()
+	{
+		if (dataStream != null)
+		{
+			dataStream.dispose();
 		}
 	}
 	
