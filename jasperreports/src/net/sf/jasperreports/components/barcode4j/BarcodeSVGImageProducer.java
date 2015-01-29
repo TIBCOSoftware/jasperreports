@@ -32,8 +32,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeBean;
-import net.sf.jasperreports.components.barcode4j.qrcode.QRSvgCanvasProvider;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -55,21 +53,16 @@ public class BarcodeSVGImageProducer implements BarcodeImageProducer
 		JasperReportsContext jasperReportsContext,
 		JRComponentElement componentElement,
 		BarcodeGenerator barcode, 
-		String message, 
-		int orientation
+		String message
 		)
 	{
 		try
 		{
-			SVGCanvasProvider provider = null;
-			if(barcode instanceof QRCodeBean)
-			{
-				provider = new QRSvgCanvasProvider(false, orientation);
-			}
-			else
-			{
-				provider = new SVGCanvasProvider(false, orientation);
-			}
+			SVGCanvasProvider provider = 
+				new SVGCanvasProvider(
+					false, 
+					((Barcode4jComponent)componentElement.getComponent()).getOrientationValue().getValue()
+					);
 			barcode.generateBarcode(provider, message);
 			Document svgDoc = provider.getDOM();
 

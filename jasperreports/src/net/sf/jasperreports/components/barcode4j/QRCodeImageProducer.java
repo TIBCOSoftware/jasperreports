@@ -23,43 +23,25 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import net.sf.jasperreports.engine.JRConstants;
-
-import org.krysalis.barcode4j.ChecksumMode;
+import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
 
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class EAN8Component extends Barcode4jComponent
+public interface QRCodeImageProducer
 {
 
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-	public static final String PROPERTY_CHECKSUM_MODE = "checksumMode";
-
-	private String checksumMode;
-
-	public String getChecksumMode()
-	{
-		return checksumMode;
-	}
-
-	public void setChecksumMode(String checksumMode)
-	{
-		Object old = this.checksumMode;
-		this.checksumMode = checksumMode;
-		getEventSupport().firePropertyChange(PROPERTY_CHECKSUM_MODE, old, this.checksumMode);
-	}
-
-	public void setChecksumMode(ChecksumMode checksumMode)
-	{
-		setChecksumMode(checksumMode == null ? null : checksumMode.getName());
-	}
-
-	public void receive(BarcodeVisitor visitor)
-	{
-		visitor.visitEAN8(this);
-	}
-
+	String PROPERTY_PREFIX_QRCODE_PRODUCER = 
+		BarcodeComponent.PROPERTY_PREFIX + "qrcode.producer.";
+	
+	Renderable createImage(
+		JasperReportsContext jasperReportsContext,
+		JRComponentElement componentElement, 
+		QRCodeBean qrCodeBean, 
+		String message
+		);
+	
 }

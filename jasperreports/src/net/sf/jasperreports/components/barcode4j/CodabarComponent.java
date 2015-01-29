@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.JRConstants;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class CodabarComponent extends BarcodeComponent
+public class CodabarComponent extends Barcode4jComponent
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;

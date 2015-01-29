@@ -38,8 +38,6 @@ import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 
-import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
-
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -50,8 +48,7 @@ public class BarcodeFillComponent extends BaseFillComponent
 	private final BarcodeComponent barcodeComponent;
 	
 	private final Map<JRStyle, JRTemplateImage> printTemplates = new HashMap<JRStyle, JRTemplateImage>();
-	private AbstractBarcodeBean barcode;
-	private String message;
+	private Renderable renderable;
 	
 	
 	public BarcodeFillComponent(BarcodeComponent barcodeComponent)
@@ -82,13 +79,12 @@ public class BarcodeFillComponent extends BaseFillComponent
 	{
 		BarcodeEvaluator evaluator = new BarcodeEvaluator(fillContext, evaluation);
 		evaluator.evaluateBarcode();
-		barcode = evaluator.getBarcode();
-		message = evaluator.getMessage();
+		renderable = evaluator.getRenderable();
 	}
 	
 	public FillPrepareResult prepare(int availableHeight)
 	{
-		if (isEvaluateNow() && message == null)
+		if (isEvaluateNow() && renderable == null)
 		{
 			return FillPrepareResult.NO_PRINT_NO_OVERFLOW;
 		}
@@ -142,15 +138,9 @@ public class BarcodeFillComponent extends BaseFillComponent
 	
 	protected void setBarcodeImage(JRTemplatePrintImage image)
 	{
-		if (message != null)
+		if (renderable != null)
 		{
-			BarcodeImageProducer imageProducer = BarcodeUtils.getInstance(fillContext.getFiller().getJasperReportsContext()).getProducer(
-					fillContext.getComponentElement());
-			Renderable barcodeImage = imageProducer.createImage(
-					fillContext.getFiller().getJasperReportsContext(),
-					fillContext.getComponentElement(), 
-					barcode, message, barcodeComponent.getOrientation());
-			image.setRenderable(barcodeImage);
+			image.setRenderable(renderable);
 		}
 	}
 

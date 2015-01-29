@@ -39,15 +39,16 @@ public class BarcodeExpressionCollector extends UniformBarcodeVisitor
 		this.collector = collector;
 	}
 	
-	protected void collectBarcode(BarcodeComponent barcode)
-	{
-		collector.addExpression(barcode.getCodeExpression());
-		collector.addExpression(barcode.getPatternExpression());
-	}
-
 	protected void visitBarcode(BarcodeComponent barcode)
 	{
-		collectBarcode(barcode);
+		collector.addExpression(barcode.getCodeExpression());
+	}
+
+	protected void visitBarcode(Barcode4jComponent barcode)
+	{
+		visitBarcode((BarcodeComponent)barcode);
+
+		collector.addExpression(barcode.getPatternExpression());
 	}
 
 	@Override

@@ -38,8 +38,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
-import org.krysalis.barcode4j.HumanReadablePlacement;
-
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -50,35 +48,35 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 	public static final String PROPERTY_PREFIX = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "components.barcode4j.";
 
+	/**
+	 * @deprecated Replaced by {@link OrientationEnum#UP}.
+	 */
 	public static final int ORIENTATION_UP = 0;
+	/**
+	 * @deprecated Replaced by {@link OrientationEnum#LEFT}.
+	 */
 	public static final int ORIENTATION_LEFT = 90;
+	/**
+	 * @deprecated Replaced by {@link OrientationEnum#DOWN}.
+	 */
 	public static final int ORIENTATION_DOWN = 180;
+	/**
+	 * @deprecated Replaced by {@link OrientationEnum#RIGHT}.
+	 */
 	public static final int ORIENTATION_RIGHT = 270;
 	
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
-	public static final String PROPERTY_ORIENTATION = "orientation";
 	public static final String PROPERTY_CODE_EXPRESSION = "codeExpression";
-	public static final String PROPERTY_PATTERN_EXPRESSION = "patternExpression";
-	public static final String PROPERTY_MODULE_WIDTH = "moduleWidth";
-	public static final String PROPERTY_TEXT_POSITION = "textPosition";
-	public static final String PROPERTY_QUIET_ZONE = "quietZone";
-	public static final String PROPERTY_VERTICAL_QUIET_ZONE = "verticalQuietZone";
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
-	private EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
+	private EvaluationTimeEnum evaluationTimeValue;
 	private String evaluationGroup;
 	
-	private int orientation;
 	private JRExpression codeExpression;
-	private JRExpression patternExpression;
-	private Double moduleWidth;
-	private String textPosition;
-	private Double quietZone;
-	private Double verticalQuietZone;
 
 	public BarcodeComponent()
 	{
@@ -86,7 +84,7 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 	
 	public EvaluationTimeEnum getEvaluationTimeValue()
 	{
-		return evaluationTimeValue;
+		return evaluationTimeValue == null ? EvaluationTimeEnum.NOW : evaluationTimeValue;
 	}
 
 	public void setEvaluationTimeValue(EvaluationTimeEnum evaluationTimeValue)
@@ -110,19 +108,6 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 				old, this.evaluationGroup);
 	}
 
-	public int getOrientation()
-	{
-		return orientation;
-	}
-
-	public void setOrientation(int orientation)
-	{
-		int old = this.orientation;
-		this.orientation = orientation;
-		getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, 
-				old, this.orientation);
-	}
-
 	public JRExpression getCodeExpression()
 	{
 		return codeExpression;
@@ -134,50 +119,6 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 		this.codeExpression = codeExpression;
 		getEventSupport().firePropertyChange(PROPERTY_CODE_EXPRESSION, 
 				old, this.codeExpression);
-	}
-
-	public JRExpression getPatternExpression()
-	{
-		return patternExpression;
-	}
-
-	public void setPatternExpression(JRExpression patternExpression)
-	{
-		Object old = this.patternExpression;
-		this.patternExpression = patternExpression;
-		getEventSupport().firePropertyChange(PROPERTY_PATTERN_EXPRESSION, 
-				old, this.patternExpression);
-	}
-
-	public Double getModuleWidth()
-	{
-		return moduleWidth;
-	}
-
-	public void setModuleWidth(Double moduleWidth)
-	{
-		Object old = this.moduleWidth;
-		this.moduleWidth = moduleWidth;
-		getEventSupport().firePropertyChange(PROPERTY_MODULE_WIDTH, 
-				old, this.moduleWidth);
-	}
-
-	public String getTextPosition()
-	{
-		return textPosition;
-	}
-
-	public void setTextPosition(String textPosition)
-	{
-		Object old = this.textPosition;
-		this.textPosition = textPosition;
-		getEventSupport().firePropertyChange(PROPERTY_TEXT_POSITION, 
-				old, this.textPosition);
-	}
-
-	public void setTextPosition(HumanReadablePlacement textPosition)
-	{
-		setTextPosition(textPosition == null ? null : textPosition.getName());
 	}
 
 	public Object clone()
@@ -193,7 +134,6 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 			throw new JRRuntimeException(e);
 		}
 		clone.codeExpression = JRCloneUtils.nullSafeClone(codeExpression);
-		clone.patternExpression = JRCloneUtils.nullSafeClone(patternExpression);
 		clone.eventSupport = null;
 		return clone;
 	}
@@ -229,32 +169,6 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 		return eventSupport;
 	}
 
-	public Double getQuietZone()
-	{
-		return quietZone;
-	}
-
-	public void setQuietZone(Double quietZone)
-	{
-		Object old = this.quietZone;
-		this.quietZone = quietZone;
-		getEventSupport().firePropertyChange(PROPERTY_QUIET_ZONE, 
-				old, this.quietZone);
-	}
-
-	public Double getVerticalQuietZone()
-	{
-		return verticalQuietZone;
-	}
-
-	public void setVerticalQuietZone(Double verticalQuietZone)
-	{
-		Object old = this.verticalQuietZone;
-		this.verticalQuietZone = verticalQuietZone;
-		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_QUIET_ZONE, 
-				old, this.verticalQuietZone);
-	}
-
 	/*
 	 * These fields are only for serialization backward compatibility.
 	 */
@@ -264,6 +178,7 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 	 */
 	private byte evaluationTime;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeComponent;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -49,31 +48,32 @@ public class CompiledBarcodeFactory extends UniformBarcodeVisitor
 		return compiledComponent;
 	}
 
-	protected void createCompiledBarcode(BarcodeComponent barcode)
+	protected void visitBarcode(BarcodeComponent barcode)
 	{
 		compiledComponent = barcode.cloneObject();
 		
 		JRExpression compiledCodeExpression = baseFactory.getExpression(
 				barcode.getCodeExpression());
 		compiledComponent.setCodeExpression(compiledCodeExpression);
-		
-		if(!(barcode instanceof QRCodeComponent))
-		{
-			JRExpression compiledPatternExpression = baseFactory.getExpression(
-					barcode.getPatternExpression());
-			compiledComponent.setPatternExpression(compiledPatternExpression);
-		}
-		if(barcode instanceof EAN128Component)
-		{
-			JRExpression compiledTemplateExpression = baseFactory.getExpression(
-					((EAN128Component)barcode).getTemplateExpression());
-			((EAN128Component)compiledComponent).setTemplateExpression(compiledTemplateExpression);
-		}
-	}
-
-	protected void visitBarcode(BarcodeComponent barcode)
-	{
-		createCompiledBarcode(barcode);
 	}
 	
+	protected void visitBarcode(Barcode4jComponent barcode)
+	{
+		visitBarcode((BarcodeComponent)barcode);
+
+		JRExpression compiledPatternExpression = baseFactory.getExpression(
+				barcode.getPatternExpression());
+		((Barcode4jComponent)compiledComponent).setPatternExpression(compiledPatternExpression);
+	}
+	
+
+	@Override
+	public void visitEANCode128(EAN128Component ean128) 
+	{
+		super.visitEANCode128(ean128);
+
+		JRExpression compiledTemplateExpression = baseFactory.getExpression(
+				ean128.getTemplateExpression());
+		((EAN128Component)compiledComponent).setTemplateExpression(compiledTemplateExpression);
+	}
 }

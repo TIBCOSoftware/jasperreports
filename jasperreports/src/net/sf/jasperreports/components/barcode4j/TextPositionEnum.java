@@ -21,78 +21,55 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.barcode4j.type;
+package net.sf.jasperreports.components.barcode4j;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.NamedValueEnum;
-
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum ErrorCorrectionLevelEnum  implements NamedValueEnum<ErrorCorrectionLevel> {
+public enum TextPositionEnum implements NamedEnum
+{
+	/**
+	 * 
+	 */
+	NONE("none"),
+
+	/**
+	 * 
+	 */
+	BOTTOM("bottom"),
+
+	/**
+	 * 
+	 */
+	UP("up");
+
 	/**
 	 *
 	 */
-	L(ErrorCorrectionLevel.L, "L"),
-	
-	/**
-	 *
-	 */
-	M(ErrorCorrectionLevel.M, "M"),
-	
-	/**
-	 *
-	 */
-	Q(ErrorCorrectionLevel.Q, "Q"),
-	
-	/**
-	 *
-	 */
-	H(ErrorCorrectionLevel.H, "H");
-	
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient ErrorCorrectionLevel value;
 	private final transient String name;
 
-	private ErrorCorrectionLevelEnum(ErrorCorrectionLevel value, String name) {
-		this.value = value;
+	private TextPositionEnum(String name)
+	{
 		this.name = name;
 	}
 
 	/**
 	 *
 	 */
-	public final ErrorCorrectionLevel getValue() {
-		return value;
-	}
-	
-	/**
-	 *
-	 */
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 	
 	/**
 	 *
 	 */
-	public static ErrorCorrectionLevelEnum getByName(String name)
+	public static TextPositionEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 *
-	 */
-	public static ErrorCorrectionLevelEnum getByValue(ErrorCorrectionLevel value)
-	{
-		return EnumUtil.getByValue(values(), value);
 	}
 }

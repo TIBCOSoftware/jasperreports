@@ -40,6 +40,9 @@ public final class BarcodeUtils
 	protected static JRSingletonCache<BarcodeImageProducer> imageProducerCache = 
 		new JRSingletonCache<BarcodeImageProducer>(BarcodeImageProducer.class);
 
+	protected static JRSingletonCache<QRCodeImageProducer> qrCodeProducerCache = 
+			new JRSingletonCache<QRCodeImageProducer>(QRCodeImageProducer.class);
+
 	private JasperReportsContext jasperReportsContext;
 
 
@@ -70,6 +73,9 @@ public final class BarcodeUtils
 	}
 	
 	
+	/**
+	 * 
+	 */
 	public BarcodeImageProducer getProducer(JRPropertiesHolder propertiesHolder)
 	{
 		String producerProperty = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(propertiesHolder, 
@@ -92,6 +98,33 @@ public final class BarcodeUtils
 		}
 	}
 
+	
+	/**
+	 * 
+	 */
+	public QRCodeImageProducer getQRCodeProducer(JRPropertiesHolder propertiesHolder)
+	{
+		String producerProperty = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(propertiesHolder, 
+				BarcodeImageProducer.PROPERTY_IMAGE_PRODUCER);
+		
+		String producerClass = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(propertiesHolder, 
+				QRCodeImageProducer.PROPERTY_PREFIX_QRCODE_PRODUCER + producerProperty);
+		if (producerClass == null)
+		{
+			producerClass = producerProperty;
+		}
+		
+		try
+		{
+			return qrCodeProducerCache.getCachedInstance(producerClass);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	
 	/**
 	 * @deprecated Replaced by {@link #getProducer(JRPropertiesHolder)}.
 	 */
@@ -100,10 +133,10 @@ public final class BarcodeUtils
 		return getDefaultInstance().getProducer(propertiesHolder);
 	}
 
-	public static boolean isVertical(BarcodeComponent barcode)
+	public static boolean isVertical(Barcode4jComponent barcode)
 	{
-		int orientation = barcode.getOrientation();
-		return orientation == BarcodeComponent.ORIENTATION_LEFT
-				|| orientation == BarcodeComponent.ORIENTATION_RIGHT;
+		OrientationEnum orientation = barcode.getOrientationValue();
+		return orientation == OrientationEnum.LEFT
+				|| orientation == OrientationEnum.RIGHT;
 	}
 }

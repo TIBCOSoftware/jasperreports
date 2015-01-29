@@ -31,7 +31,7 @@ import org.krysalis.barcode4j.ChecksumMode;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class Interleaved2Of5Component extends BarcodeComponent
+public class Interleaved2Of5Component extends Barcode4jComponent
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;

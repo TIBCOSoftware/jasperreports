@@ -46,8 +46,7 @@ public interface BarcodeImageProducer
 		JasperReportsContext jasperReportsContext,
 		JRComponentElement componentElement, 
 		BarcodeGenerator barcode, 
-		String message, 
-		int orientation
+		String message
 		);
 	
 }

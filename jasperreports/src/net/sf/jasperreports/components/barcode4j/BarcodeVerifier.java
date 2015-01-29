@@ -23,15 +23,12 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeComponent;
-import net.sf.jasperreports.components.barcode4j.type.ErrorCorrectionLevelEnum;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 import org.krysalis.barcode4j.BaselineAlignment;
 import org.krysalis.barcode4j.ChecksumMode;
-import org.krysalis.barcode4j.HumanReadablePlacement;
 import org.krysalis.barcode4j.impl.datamatrix.SymbolShapeHint;
 
 /**
@@ -74,12 +71,6 @@ public class BarcodeVerifier implements BarcodeVisitor
 						+ evaluationGroup + " not found", barcode);
 			}
 		}
-		
-		if(!(barcode instanceof QRCodeComponent))
-		{
-			verifyTextPosition(barcode);
-			verifyOrientation(barcode);
-		}
 	}
 
 	protected void verifyChecksumMode(String checksumMode, BarcodeComponent barcode)
@@ -94,35 +85,6 @@ public class BarcodeVerifier implements BarcodeVisitor
 		catch (Exception e)
 		{
 			verifier.addBrokenRule(e, barcode);
-		}
-	}
-
-	protected void verifyTextPosition(BarcodeComponent barcode)
-	{
-		try
-		{
-			String position = barcode.getTextPosition();
-			if (position != null)
-			{
-				HumanReadablePlacement.byName(position);
-			}
-		}
-		catch (Exception e)
-		{
-			verifier.addBrokenRule(e, barcode);
-		}
-	}
-
-	protected void verifyOrientation(BarcodeComponent barcode)
-	{
-		int orientation = barcode.getOrientation();
-		if (!(orientation == BarcodeComponent.ORIENTATION_UP 
-				|| orientation == BarcodeComponent.ORIENTATION_LEFT 
-				|| orientation == BarcodeComponent.ORIENTATION_DOWN 
-				|| orientation == BarcodeComponent.ORIENTATION_RIGHT))
-		{
-			verifier.addBrokenRule("Invalid barcode orientation, supported values are 0, 90, 180, 270", 
-					barcode);
 		}
 	}
 
@@ -236,15 +198,5 @@ public class BarcodeVerifier implements BarcodeVisitor
 	public void visitQRCode(QRCodeComponent qrCode)
 	{
 		verifyBarcode(qrCode);
-		verifyErrorCorrectionLevel(qrCode);
-	}
-
-	public void verifyErrorCorrectionLevel(QRCodeComponent qrCode)
-	{
-		if(qrCode.getErrorCorrectionLevel() != null && ErrorCorrectionLevelEnum.getByName(qrCode.getErrorCorrectionLevel()) == null)
-		{
-			verifier.addBrokenRule("Invalid error correction level:" + qrCode.getErrorCorrectionLevel() +"; supported values are L, M, Q, H", 
-					qrCode);
-		}
 	}
 }

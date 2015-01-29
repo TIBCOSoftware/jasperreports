@@ -23,43 +23,76 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.type.EnumUtil;
+import net.sf.jasperreports.engine.type.NamedValueEnum;
 
-import org.krysalis.barcode4j.ChecksumMode;
 
 /**
- * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class EAN8Component extends Barcode4jComponent
+public enum OrientationEnum implements NamedValueEnum<Integer>
 {
+	/**
+	 * 
+	 */
+	UP(0, "up"),
 
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	/**
+	 * 
+	 */
+	LEFT(90, "left"),
 
-	public static final String PROPERTY_CHECKSUM_MODE = "checksumMode";
+	/**
+	 * 
+	 */
+	DOWN(180, "down"),
 
-	private String checksumMode;
+	/**
+	 * 
+	 */
+	RIGHT(270, "right");
 
-	public String getChecksumMode()
+	/**
+	 *
+	 */
+	private final transient int value;
+	private final transient String name;
+
+	private OrientationEnum(int value, String name)
 	{
-		return checksumMode;
+		this.value = value;
+		this.name = name;
 	}
 
-	public void setChecksumMode(String checksumMode)
+	/**
+	 *
+	 */
+	public String getName()
 	{
-		Object old = this.checksumMode;
-		this.checksumMode = checksumMode;
-		getEventSupport().firePropertyChange(PROPERTY_CHECKSUM_MODE, old, this.checksumMode);
+		return name;
 	}
-
-	public void setChecksumMode(ChecksumMode checksumMode)
+	
+	/**
+	 *
+	 */
+	public Integer getValue()
 	{
-		setChecksumMode(checksumMode == null ? null : checksumMode.getName());
+		return value;
 	}
-
-	public void receive(BarcodeVisitor visitor)
+	
+	/**
+	 *
+	 */
+	public static OrientationEnum getByName(String name)
 	{
-		visitor.visitEAN8(this);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-
+	
+	/**
+	 *
+	 */
+	public static OrientationEnum getByValue(Integer value)
+	{
+		return EnumUtil.getByValue(values(), value);
+	}
 }

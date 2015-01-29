@@ -163,26 +163,39 @@
 		</complexType>
 	</element>
 
-	<complexType name="Barcode4j">
+	<complexType name="Barcode">
 		<complexContent>
 			<extension base="jr:componentType">
 				<sequence>
 					<element name="codeExpression">
 						<complexType mixed="true"/>
 					</element>
+				</sequence>
+				<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional"/>
+				<attribute name="evaluationGroup" type="string" use="optional"/>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="Barcode4j">
+		<complexContent>
+			<extension base="c:Barcode">
+				<sequence>
 					<element name="patternExpression" minOccurs="0">
 						<complexType mixed="true"/>
 					</element>
 				</sequence>
-				<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
-				<attribute name="evaluationGroup" type="string" use="optional"/>
-				<attribute name="orientation" use="optional" default="0">
+				<attribute name="orientation" use="optional">
 					<simpleType>
-						<restriction base="int">
+						<restriction base="string">
 							<enumeration value="0"/>
 							<enumeration value="90"/>
 							<enumeration value="180"/>
 							<enumeration value="270"/>
+							<enumeration value="up"/>
+							<enumeration value="left"/>
+							<enumeration value="down"/>
+							<enumeration value="right"/>
 						</restriction>
 					</simpleType>
 				</attribute>
@@ -422,8 +435,9 @@
 	<element name="QRCode" substitutionGroup="jr:component">
 		<complexType>
 			<complexContent>
-				<extension base="c:Barcode4j">
-					<attribute name="errorCorrectionLevel" use="optional" default="L">
+				<extension base="c:Barcode">
+					<attribute name="margin" use="optional" type="unsignedInt"/>
+					<attribute name="errorCorrectionLevel" use="optional">
 					<simpleType>
 						<restriction base="string">
 							<enumeration value="L"/>

@@ -23,43 +23,70 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.type.EnumUtil;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
-import org.krysalis.barcode4j.ChecksumMode;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
 
 /**
- * 
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public class EAN8Component extends Barcode4jComponent
+public enum ErrorCorrectionLevelEnum implements NamedEnum
 {
+	/**
+	 *
+	 */
+	L(ErrorCorrectionLevel.L, "L"),
 
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	/**
+	 *
+	 */
+	M(ErrorCorrectionLevel.M, "M"),
 
-	public static final String PROPERTY_CHECKSUM_MODE = "checksumMode";
+	/**
+	 *
+	 */
+	Q(ErrorCorrectionLevel.Q, "Q"),
 
-	private String checksumMode;
+	/**
+	 *
+	 */
+	H(ErrorCorrectionLevel.H, "H");
 
-	public String getChecksumMode()
+	/**
+	 *
+	 */
+	private final transient ErrorCorrectionLevel value;
+	private final transient String name;
+
+	private ErrorCorrectionLevelEnum(ErrorCorrectionLevel errorCorrectionLevel, String name) 
 	{
-		return checksumMode;
+		this.value = errorCorrectionLevel;
+		this.name = name;
 	}
 
-	public void setChecksumMode(String checksumMode)
+	/**
+	 *
+	 */
+	public String getName()
 	{
-		Object old = this.checksumMode;
-		this.checksumMode = checksumMode;
-		getEventSupport().firePropertyChange(PROPERTY_CHECKSUM_MODE, old, this.checksumMode);
+		return name;
 	}
 
-	public void setChecksumMode(ChecksumMode checksumMode)
+	/**
+	 *
+	 */
+	public final ErrorCorrectionLevel getErrorCorrectionLevel()
 	{
-		setChecksumMode(checksumMode == null ? null : checksumMode.getName());
+		return value;
 	}
 
-	public void receive(BarcodeVisitor visitor)
+	/**
+	 *
+	 */
+	public static ErrorCorrectionLevelEnum getByName(String name)
 	{
-		visitor.visitEAN8(this);
+		return EnumUtil.getEnumByName(values(), name);
 	}
-
 }

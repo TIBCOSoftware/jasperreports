@@ -23,15 +23,15 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import org.krysalis.barcode4j.ChecksumMode;
-
 import net.sf.jasperreports.engine.JRConstants;
+
+import org.krysalis.barcode4j.ChecksumMode;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public abstract class FourStateBarcodeComponent extends BarcodeComponent
+public abstract class FourStateBarcodeComponent extends Barcode4jComponent
 {
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;

@@ -23,15 +23,15 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import org.krysalis.barcode4j.impl.datamatrix.SymbolShapeHint;
-
 import net.sf.jasperreports.engine.JRConstants;
+
+import org.krysalis.barcode4j.impl.datamatrix.SymbolShapeHint;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class DataMatrixComponent extends BarcodeComponent
+public class DataMatrixComponent extends Barcode4jComponent
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;

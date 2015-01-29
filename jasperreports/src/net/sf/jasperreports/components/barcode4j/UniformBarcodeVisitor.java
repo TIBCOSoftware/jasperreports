@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeComponent;
 
 /**
  * 
@@ -31,9 +30,10 @@ import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeComponent;
  */
 public abstract class UniformBarcodeVisitor implements BarcodeVisitor
 {
-
 	protected abstract void visitBarcode(BarcodeComponent barcode);
 	
+	protected abstract void visitBarcode(Barcode4jComponent barcode);
+
 	public void visitCodabar(CodabarComponent codabar)
 	{
 		visitBarcode(codabar);

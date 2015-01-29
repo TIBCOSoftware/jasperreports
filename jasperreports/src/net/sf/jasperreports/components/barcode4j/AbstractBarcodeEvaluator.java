@@ -23,13 +23,12 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeBean;
-import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeComponent;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
 
 import org.krysalis.barcode4j.BaselineAlignment;
 import org.krysalis.barcode4j.ChecksumMode;
@@ -66,7 +65,9 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	protected final JRDefaultStyleProvider defaultStyleProvider;
 
 	protected String message;
-	protected AbstractBarcodeBean barcode;
+	protected AbstractBarcodeBean barcodeBean;
+	protected QRCodeBean qrCodeBean;
+	protected Renderable renderable;
 	
 	protected AbstractBarcodeEvaluator(
 		JasperReportsContext jasperReportsContext,
@@ -91,22 +92,37 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 	public void evaluateBarcode()
 	{
-		BarcodeComponent barcodeComponent = 
-			(BarcodeComponent) componentElement.getComponent();
 		barcodeComponent.receive(this);
 	}
 	
-	public String getMessage()
+	public Renderable getRenderable()
 	{
-		return message;
-	}
-	
-	public AbstractBarcodeBean getBarcode()
-	{
-		return barcode;
+		return renderable;
 	}
 
-	protected void setBaseAttributes(BarcodeComponent barcodeComponent)
+	protected void evaluateBarcodeRenderable(BarcodeComponent barcodeComponent)
+	{
+		BarcodeImageProducer imageProducer = 
+			BarcodeUtils.getInstance(jasperReportsContext).getProducer(
+				componentElement);
+		renderable = imageProducer.createImage(
+				jasperReportsContext,
+				componentElement, 
+				barcodeBean, message);
+	}
+	
+	protected void evaluateBarcodeRenderable(QRCodeBean qrCodeBean)
+	{
+		QRCodeImageProducer imageProducer = 
+			BarcodeUtils.getInstance(jasperReportsContext).getQRCodeProducer(
+				componentElement);
+		renderable = imageProducer.createImage(
+				jasperReportsContext,
+				componentElement, 
+				qrCodeBean, message);
+	}
+	
+	protected void setBaseAttributes(Barcode4jComponent barcodeComponent)
 	{
 		JRStyle style = getElementStyle();
 		if (style != null)
@@ -114,48 +130,41 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 			String fontName = style.getFontName();
 			if (fontName != null)
 			{
-				barcode.setFontName(fontName);
+				barcodeBean.setFontName(fontName);
 			}
 			
 			Float fontSize = style.getFontsize();
 			if (fontSize != null)
 			{
 				double barFontSize = UnitConv.pt2mm(fontSize.floatValue());
-				barcode.setFontSize(barFontSize);
+				barcodeBean.setFontSize(barFontSize);
 			}
 		}
 		
 		Double moduleWidth = barcodeComponent.getModuleWidth();
 		if (moduleWidth != null)
 		{
-			barcode.setModuleWidth(barcodeComponent instanceof QRCodeComponent ? moduleWidth : UnitConv.pt2mm(moduleWidth.doubleValue()));
+			barcodeBean.setModuleWidth(UnitConv.pt2mm(moduleWidth.doubleValue()));
 		}
 		
-		String textPlacement = barcodeComponent.getTextPosition();
+		TextPositionEnum textPlacement = barcodeComponent.getTextPositionValue();
 		if (textPlacement != null)
 		{
-			barcode.setMsgPosition(
-					HumanReadablePlacement.byName(textPlacement));
+			barcodeBean.setMsgPosition(
+					HumanReadablePlacement.byName(textPlacement.getName()));
 		}
 		
 		Double quietZone = barcodeComponent.getQuietZone();
 		if (quietZone != null)
 		{
-			barcode.doQuietZone(true);
-			if(barcode instanceof QRCodeBean)
-			{
-				barcode.setQuietZone(quietZone);
-			}
-			else
-			{
-				barcode.setQuietZone(UnitConv.pt2mm(quietZone.doubleValue()));
-			}
+			barcodeBean.doQuietZone(true);
+			barcodeBean.setQuietZone(UnitConv.pt2mm(quietZone.doubleValue()));
 		}
 		
 		Double vQuietZone = barcodeComponent.getVerticalQuietZone();
 		if (vQuietZone != null)
 		{
-			barcode.setVerticalQuietZone(UnitConv.pt2mm(vQuietZone.doubleValue()));
+			barcodeBean.setVerticalQuietZone(UnitConv.pt2mm(vQuietZone.doubleValue()));
 		}
 
 		// FIXME DataMatrix?
@@ -168,8 +177,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 		{
 			barcodeHeight = UnitConv.pt2mm(componentElement.getHeight());
 		}
-		barcode.setHeight(barcodeHeight);
-		
+		barcodeBean.setHeight(barcodeHeight);
 	}
 
 	protected JRStyle getElementStyle()
@@ -185,22 +193,24 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	public void visitCodabar(CodabarComponent codabar)
 	{
 		CodabarBean codabarBean = new CodabarBean();
-		barcode = codabarBean;
+		barcodeBean = codabarBean;
 		evaluateCodabar(codabar);
 		setBaseAttributes(codabar);
 		if (codabar.getWideFactor() != null)
 		{
 			codabarBean.setWideFactor(codabar.getWideFactor().doubleValue());
 		}
+		evaluateBarcodeRenderable(codabar);
 	}
 
 	protected abstract void evaluateCodabar(CodabarComponent codabar);
 
 	public void visitCode128(Code128Component code128)
 	{
-		barcode = new Code128Bean();
+		barcodeBean = new Code128Bean();
 		evaluateCode128(code128);
 		setBaseAttributes(code128);
+		evaluateBarcodeRenderable(code128);
 	}
 
 	protected abstract void evaluateCode128(Code128Component code128);
@@ -208,13 +218,14 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	public void visitDataMatrix(DataMatrixComponent dataMatrix)
 	{
 		DataMatrixBean dataMatrixBean = new DataMatrixBean();
-		barcode = dataMatrixBean;
+		barcodeBean = dataMatrixBean;
 		evaluateDataMatrix(dataMatrix);
 		setBaseAttributes(dataMatrix);
 		if (dataMatrix.getShape() != null)
 		{
 			dataMatrixBean.setShape(SymbolShapeHint.byName(dataMatrix.getShape()));
 		}
+		evaluateBarcodeRenderable(dataMatrix);
 	}
 
 	protected abstract void evaluateDataMatrix(DataMatrixComponent dataMatrix);
@@ -222,13 +233,14 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	public void visitEANCode128(EAN128Component ean128)
 	{
 		EAN128Bean ean128Bean = new EAN128Bean();
-		barcode = ean128Bean;
+		barcodeBean = ean128Bean;
 		evaluateEANCode128(ean128);
 		setBaseAttributes(ean128);
 		if (ean128.getChecksumMode() != null)
 		{
 			ean128Bean.setChecksumMode(ChecksumMode.byName(ean128.getChecksumMode()));
 		}
+		evaluateBarcodeRenderable(ean128);
 	}
 
 	protected abstract void evaluateEANCode128(EAN128Component ean128);
@@ -236,7 +248,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	public void visitCode39(Code39Component code39)
 	{
 		Code39Bean code39Bean = new Code39Bean();
-		barcode = code39Bean;
+		barcodeBean = code39Bean;
 		evaluateCode39(code39);
 		setBaseAttributes(code39);
 		if (code39.getChecksumMode() != null)
@@ -263,6 +275,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 		{
 			code39Bean.setWideFactor(code39.getWideFactor().doubleValue());
 		}
+		evaluateBarcodeRenderable(code39);
 	}
 
 	protected abstract void evaluateCode39(Code39Component code39);
@@ -272,7 +285,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	public void visitInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
 	{
 		Interleaved2Of5Bean interleaved2Of5Bean = new Interleaved2Of5Bean();
-		barcode = interleaved2Of5Bean;
+		barcodeBean = interleaved2Of5Bean;
 		evaluateInterleaved2Of5(interleaved2Of5);
 		setBaseAttributes(interleaved2Of5);
 		if (interleaved2Of5.getChecksumMode() != null)
@@ -287,18 +300,20 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 		{
 			interleaved2Of5Bean.setWideFactor(interleaved2Of5.getWideFactor().doubleValue());
 		}
+		evaluateBarcodeRenderable(interleaved2Of5);
 	}
 
 	public void visitUPCA(UPCAComponent upcA)
 	{
 		UPCABean upcABean = new UPCABean();
-		barcode = upcABean;
+		barcodeBean = upcABean;
 		evaluateUPCA(upcA);
 		setBaseAttributes(upcA);
 		if (upcA.getChecksumMode() != null)
 		{
 			upcABean.setChecksumMode(ChecksumMode.byName(upcA.getChecksumMode()));
 		}
+		evaluateBarcodeRenderable(upcA);
 	}
 
 	protected abstract void evaluateUPCA(UPCAComponent upcA);
@@ -306,13 +321,14 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	public void visitUPCE(UPCEComponent upcE)
 	{
 		UPCEBean upcEBean = new UPCEBean();
-		barcode = upcEBean;
+		barcodeBean = upcEBean;
 		evaluateUPCE(upcE);
 		setBaseAttributes(upcE);
 		if (upcE.getChecksumMode() != null)
 		{
 			upcEBean.setChecksumMode(ChecksumMode.byName(upcE.getChecksumMode()));
 		}
+		evaluateBarcodeRenderable(upcE);
 	}
 
 	protected abstract void evaluateUPCE(UPCEComponent upcE);
@@ -320,13 +336,14 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	public void visitEAN13(EAN13Component ean13)
 	{
 		EAN13Bean ean13Bean = new EAN13Bean();
-		barcode = ean13Bean;
+		barcodeBean = ean13Bean;
 		evaluateEAN13(ean13);
 		setBaseAttributes(ean13);
 		if (ean13.getChecksumMode() != null)
 		{
 			ean13Bean.setChecksumMode(ChecksumMode.byName(ean13.getChecksumMode()));
 		}
+		evaluateBarcodeRenderable(ean13);
 	}
 
 	protected abstract void evaluateEAN13(EAN13Component ean13);
@@ -334,13 +351,14 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	public void visitEAN8(EAN8Component ean8)
 	{
 		EAN8Bean ean8Bean = new EAN8Bean();
-		barcode = ean8Bean;
+		barcodeBean = ean8Bean;
 		evaluateEAN8(ean8);
 		setBaseAttributes(ean8);
 		if (ean8.getChecksumMode() != null)
 		{
 			ean8Bean.setChecksumMode(ChecksumMode.byName(ean8.getChecksumMode()));
 		}
+		evaluateBarcodeRenderable(ean8);
 	}
 
 	protected abstract void evaluateEAN8(EAN8Component ean8);
@@ -349,10 +367,11 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 			RoyalMailCustomerComponent royalMailCustomer)
 	{
 		RoyalMailCBCBean mailBean = new RoyalMailCBCBean();
-		barcode = mailBean;
+		barcodeBean = mailBean;
 		evaluateRoyalMailCustomer(royalMailCustomer);
 		setBaseAttributes(royalMailCustomer);
 		setFourStateAttributes(royalMailCustomer, mailBean);
+		evaluateBarcodeRenderable(royalMailCustomer);
 	}
 
 	protected void setFourStateAttributes(
@@ -391,10 +410,11 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 			USPSIntelligentMailComponent intelligentMail)
 	{
 		USPSIntelligentMailBean mailBean = new USPSIntelligentMailBean();
-		barcode = mailBean;
+		barcodeBean = mailBean;
 		evaluateUSPSIntelligentMail(intelligentMail);
 		setBaseAttributes(intelligentMail);
 		setFourStateAttributes(intelligentMail, mailBean);
+		evaluateBarcodeRenderable(intelligentMail);
 	}
 
 	protected abstract void evaluateUSPSIntelligentMail(
@@ -403,7 +423,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	public void visitPostnet(POSTNETComponent postnet)
 	{
 		POSTNETBean postnetBean = new POSTNETBean();
-		barcode = postnetBean;
+		barcodeBean = postnetBean;
 		evaluatePOSTNET(postnet);
 		setBaseAttributes(postnet);
 		
@@ -436,6 +456,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 			postnetBean.setIntercharGapWidth(
 					UnitConv.pt2mm(postnet.getIntercharGapWidth().doubleValue()));
 		}
+		evaluateBarcodeRenderable(postnet);
 	}
 
 	protected abstract void evaluatePOSTNET(
@@ -444,7 +465,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	public void visitPDF417(PDF417Component pdf417)
 	{
 		PDF417Bean pdf417Bean = new PDF417Bean();
-		barcode = pdf417Bean;
+		barcodeBean = pdf417Bean;
 		evaluatePDF417(pdf417);
 		setBaseAttributes(pdf417);
 		
@@ -474,22 +495,20 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 			pdf417Bean.setErrorCorrectionLevel(
 					pdf417.getErrorCorrectionLevel().intValue());
 		}
+		evaluateBarcodeRenderable(pdf417);
 	}
 
 	protected abstract void evaluatePDF417(PDF417Component pdf417);
 
 	public void visitQRCode(QRCodeComponent qrCode)
 	{
-		QRCodeBean qrCodeBean = new QRCodeBean();
-		barcode = qrCodeBean;
+		qrCodeBean = new QRCodeBean();
+		
 		evaluateQRCode(qrCode);
-		setBaseAttributes(qrCode);
-		qrCodeBean.setOnColor(componentElement.getForecolor());
-		qrCodeBean.setOffColor(componentElement.getBackcolor());
-		qrCodeBean.setEncoding(QRCodeComponent.PROPERTY_DEFAULT_ENCODING);
+
+		qrCodeBean.setMargin(qrCode.getMargin());
 		qrCodeBean.setErrorCorrectionLevel(qrCode.getErrorCorrectionLevel());
-		qrCodeBean.setCustomWidth(componentElement.getWidth());
-		qrCodeBean.setCustomHeight(componentElement.getHeight());
+		evaluateBarcodeRenderable(qrCodeBean);
 	}
 
 	protected abstract void evaluateQRCode(QRCodeComponent qrCode);

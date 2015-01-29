@@ -21,8 +21,36 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Contains <code>enum</code> types used by the Barcode4J component classes. 
- */
+package net.sf.jasperreports.components.barcode4j;
 
-package net.sf.jasperreports.components.barcode4j.type;
+
+/**
+ * This class is used to generate QRCode component barcode logic. 
+ * 
+ * @author sanda zaharia (shertage@users.sourceforge.net)
+ */
+public class QRCodeBean
+{
+	private Integer margin;
+	private ErrorCorrectionLevelEnum errorCorrectionLevel;
+  
+	public QRCodeBean() {
+	}
+	
+	public Integer getMargin() {
+		return margin;
+	}
+
+	public void setMargin(Integer margin) {
+		this.margin = margin;
+	}
+
+	public ErrorCorrectionLevelEnum getErrorCorrectionLevel() {
+		return errorCorrectionLevel;
+	}
+
+	public void setErrorCorrectionLevel(ErrorCorrectionLevelEnum errorCorrectionLevel) {
+		this.errorCorrectionLevel = errorCorrectionLevel;
+	}
+}
+

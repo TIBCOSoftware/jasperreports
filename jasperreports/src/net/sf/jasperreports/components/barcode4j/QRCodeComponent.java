@@ -21,10 +21,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.barcode4j.qrcode;
+package net.sf.jasperreports.components.barcode4j;
 
-import net.sf.jasperreports.components.barcode4j.BarcodeComponent;
-import net.sf.jasperreports.components.barcode4j.BarcodeVisitor;
 import net.sf.jasperreports.engine.JRConstants;
 
 /**
@@ -37,23 +35,37 @@ public class QRCodeComponent extends BarcodeComponent
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public static final String PROPERTY_MARGIN = "margin";
 	public static final String PROPERTY_ERROR_CORRECTION_LEVEL = "errorCorrectionLevel";
-	
-	public static final Integer PROPERTY_DEFAULT_QUIET_ZONE = 4;
+
 	public static final String PROPERTY_DEFAULT_ENCODING = "UTF-8";
-	public static final String PROPERTY_DEFAULT_ERROR_CORRECTION_LEVEL = "L";
+		
+	private Integer margin;
+	private ErrorCorrectionLevelEnum errorCorrectionLevel;
 	
-	private String errorCorrectionLevel;
 	public void receive(BarcodeVisitor visitor)
 	{
 		visitor.visitQRCode(this);
 	}
-	public String getErrorCorrectionLevel()
+
+	public Integer getMargin()
 	{
-		return errorCorrectionLevel;
+		return margin;
+	}
+
+	public void setMargin(Integer margin)
+	{
+		Object old = this.margin;
+		this.margin = margin;
+		getEventSupport().firePropertyChange(PROPERTY_MARGIN, old, this.margin);
+	}
+
+	public ErrorCorrectionLevelEnum getErrorCorrectionLevel()
+	{
+		return errorCorrectionLevel == null ? ErrorCorrectionLevelEnum.L : errorCorrectionLevel;
 	}
 	
-	public void setErrorCorrectionLevel(String errorCorrectionLevel)
+	public void setErrorCorrectionLevel(ErrorCorrectionLevelEnum errorCorrectionLevel)
 	{
 		Object old = this.errorCorrectionLevel;
 		this.errorCorrectionLevel = errorCorrectionLevel;

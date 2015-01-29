@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import net.sf.jasperreports.components.barcode4j.qrcode.QRCodeComponent;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -63,15 +62,8 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 	public Renderable evaluateImage()
 	{
 		evaluateBarcode();
-		
-		BarcodeImageProducer imageProducer = 
-			BarcodeUtils.getInstance(jasperReportsContext).getProducer(
-				componentElement);
-		Renderable barcodeImage = imageProducer.createImage(
-				jasperReportsContext,
-				componentElement, 
-				barcode, message, barcodeComponent.getOrientation());
-		return barcodeImage;
+
+		return renderable;
 	}
 	
 	protected void evaluateBaseBarcode(BarcodeComponent barcodeComponent, 
@@ -79,12 +71,18 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 	{
 		message = evaluateStringExpression(barcodeComponent.getCodeExpression(), 
 				defaultMessage);
+	}
+
+	protected void evaluateBaseBarcode(Barcode4jComponent barcodeComponent, 
+			String defaultMessage)
+	{
+		evaluateBaseBarcode((BarcodeComponent)barcodeComponent, defaultMessage);
 		
 		String pattern = evaluateStringExpression(
 				barcodeComponent.getPatternExpression(), null);
 		if (pattern != null) 
 		{
-			barcode.setPattern(pattern);
+			barcodeBean.setPattern(pattern);
 		}
 	}
 
@@ -120,7 +118,7 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 				ean128.getTemplateExpression(), null);
 		if (template != null) 
 		{
-			((EAN128Bean)barcode).setTemplate(template);
+			((EAN128Bean)barcodeBean).setTemplate(template);
 		}
 	}
 
