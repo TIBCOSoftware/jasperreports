@@ -24,6 +24,8 @@
 package net.sf.jasperreports.components.barcode4j.type;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.type.EnumUtil;
+import net.sf.jasperreports.engine.type.NamedValueEnum;
 
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
@@ -31,7 +33,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public enum ErrorCorrectionLevelEnum {
+public enum ErrorCorrectionLevelEnum  implements NamedValueEnum<ErrorCorrectionLevel> {
 	/**
 	 *
 	 */
@@ -56,19 +58,19 @@ public enum ErrorCorrectionLevelEnum {
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient ErrorCorrectionLevel errorCorrectionLevel;
+	private final transient ErrorCorrectionLevel value;
 	private final transient String name;
 
-	private ErrorCorrectionLevelEnum(ErrorCorrectionLevel errorCorrectionLevel, String name) {
-		this.errorCorrectionLevel = errorCorrectionLevel;
+	private ErrorCorrectionLevelEnum(ErrorCorrectionLevel value, String name) {
+		this.value = value;
 		this.name = name;
 	}
 
 	/**
 	 *
 	 */
-	public final ErrorCorrectionLevel getErrorCorrectionLevel() {
-		return errorCorrectionLevel;
+	public final ErrorCorrectionLevel getValue() {
+		return value;
 	}
 	
 	/**
@@ -81,30 +83,16 @@ public enum ErrorCorrectionLevelEnum {
 	/**
 	 *
 	 */
-	public static ErrorCorrectionLevelEnum getByName(String name) {
-		ErrorCorrectionLevelEnum[] values = values();
-		if (values != null && name != null) {
-			for(ErrorCorrectionLevelEnum e:values) {
-				if (name.equals(e.getName())) {
-					return e;
-				}
-			}
-		}
-		return null;
+	public static ErrorCorrectionLevelEnum getByName(String name)
+	{
+		return EnumUtil.getEnumByName(values(), name);
 	}
 	
 	/**
 	 *
 	 */
-	public static ErrorCorrectionLevelEnum getByErrorCorrectionLevel(ErrorCorrectionLevel errorCorrectionLevel) {
-		ErrorCorrectionLevelEnum[] values = values();
-		if (values != null && errorCorrectionLevel != null) {
-			for(ErrorCorrectionLevelEnum e:values) {
-				if (errorCorrectionLevel.equals(e.getErrorCorrectionLevel())) {
-					return e;
-				}
-			}
-		}
-		return null;
+	public static ErrorCorrectionLevelEnum getByValue(ErrorCorrectionLevel value)
+	{
+		return EnumUtil.getByValue(values(), value);
 	}
 }
