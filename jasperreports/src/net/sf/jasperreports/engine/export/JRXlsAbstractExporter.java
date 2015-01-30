@@ -1731,14 +1731,14 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected String getConvertedPattern(JRPrintText text, String pattern)
 	{
 		String convertedPattern = JRPropertiesUtil.getOwnProperty(text, PROPERTY_CELL_PATTERN);
-		if (convertedPattern == null)
+		if (convertedPattern == null || convertedPattern.trim().length() == 0)
 		{
 			Map<String, String> formatPatternsMap = getCurrentItemConfiguration().getFormatPatternsMap();
 			if (formatPatternsMap != null && formatPatternsMap.containsKey(pattern))
 			{
 				return formatPatternsMap.get(pattern);
 			}
-			return pattern;
+			return pattern == null || pattern.trim().length() == 0 ? null : pattern;
 		}
 		return convertedPattern;
 	}

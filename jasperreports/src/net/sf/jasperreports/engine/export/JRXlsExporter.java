@@ -854,11 +854,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 				public void handle(DateTextValue textValue)
 				{
-					baseStyle.setDataFormat(
-						dataFormat.getFormat(
-							getConvertedPattern(textElement, textValue.getPattern())//FIXMEFORMAT why no null test like in numeric above?
-							)
-						);
+					String convertedPattern = getConvertedPattern(textElement, textValue.getPattern());
+					if (convertedPattern != null)
+					{
+						baseStyle.setDataFormat(
+							dataFormat.getFormat(convertedPattern)
+							);
+					}
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
 					Date date = textValue.getValue();
 					if (date == null)

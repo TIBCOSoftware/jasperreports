@@ -957,7 +957,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 
 		public void handle(DateTextValue textValue) throws JRException
 		{
-			baseStyle.setDisplayFormat(getDateFormat(getConvertedPattern(textElement, textValue.getPattern())));
+			String convertedPattern = getConvertedPattern(textElement, textValue.getPattern());
+			if (convertedPattern != null)
+			{
+				baseStyle.setDisplayFormat(getDateFormat(convertedPattern));
+			}
 			result = formula();
 		}
 
@@ -1039,7 +1043,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 
 		public void handle(DateTextValue textValue) throws JRException
 		{
-			baseStyle.setDisplayFormat(getDateFormat(getConvertedPattern(textElement, textValue.getPattern())));//FIXMEFORMAT why no null test here like in number?
+			String convertedPattern = getConvertedPattern(textElement, textValue.getPattern());
+			if (convertedPattern != null)
+			{
+				baseStyle.setDisplayFormat(getDateFormat(convertedPattern));
+			}
 			WritableCellFormat cellStyle = getLoadedCellStyle(baseStyle);
 			Date date = textValue.getValue();
 			if (date == null)
