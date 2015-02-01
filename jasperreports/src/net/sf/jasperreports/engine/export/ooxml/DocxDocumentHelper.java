@@ -97,9 +97,13 @@ public class DocxDocumentHelper extends BaseHelper
 
 		CutsInfo yCuts = pageGridLayout.getYCuts();
 		
-		Cut topCut = yCuts.getCut(0);
-		int gridTopPadding = topCut.isCutNotEmpty() ? 0 : pageGridLayout.getRowHeight(0);
-		int topMargin = Math.min(gridTopPadding, pageFormat.getTopMargin());
+		int topMargin = pageFormat.getTopMargin();
+		if (yCuts.size() > 1)
+		{
+			Cut topCut = yCuts.getCut(0);
+			int gridTopPadding = topCut.isCutNotEmpty() ? 0 : pageGridLayout.getRowHeight(0);
+			topMargin = Math.min(gridTopPadding, pageFormat.getTopMargin());
+		}
 
 		//last y cut is from bottom element, not page height
 		int gridBottomPadding = pageFormat.getPageHeight() - yCuts.getLastCutOffset();
