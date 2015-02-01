@@ -180,6 +180,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	protected boolean startPage;
 	protected String invalidCharReplacement;
 	protected PrintPageFormat pageFormat;
+	protected JRGridLayout pageGridLayout;
 
 	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
 	protected Color backcolor;
@@ -406,7 +407,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 					
 					if (oldPageFormat != null && oldPageFormat != pageFormat)
 					{
-						docHelper.exportSection(oldPageFormat, false);
+						docHelper.exportSection(oldPageFormat, pageGridLayout, false);
 					}
 					
 					exportPage(page);
@@ -418,9 +419,9 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		
 		if (oldPageFormat != null)
 		{
-			docHelper.exportSection(oldPageFormat, true);
+			docHelper.exportSection(oldPageFormat, pageGridLayout, true);
 		}
-			
+
 		docHelper.exportFooter();
 		docHelper.close();
 
@@ -454,11 +455,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		pageAnchor = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
 		
 		ReportExportConfiguration configuration = getCurrentItemConfiguration();
-		int topMargin = pageFormat.getTopMargin() == null ? 0 : pageFormat.getTopMargin();
-		int leftMargin = pageFormat.getLeftMargin() == null ? 0 : pageFormat.getLeftMargin();
-		int rightMargin = pageFormat.getRightMargin() == null ? 0 : pageFormat.getRightMargin();
 
-		JRGridLayout layout =
+		pageGridLayout =
 			new JRGridLayout(
 				nature,
 				page.getElements(),
@@ -469,7 +467,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				null //address
 				);
 
-		exportGrid(layout, null, topMargin, leftMargin, rightMargin);
+		exportGrid(pageGridLayout, null);
 		
 		JRExportProgressMonitor progressMonitor = configuration.getProgressMonitor();
 		if (progressMonitor != null)
@@ -483,21 +481,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	 *
 	 */
 	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex) throws JRException
-	{
-		exportGrid(gridLayout, frameIndex, 0, 0, 0);
-	}
-	
-	
-	/**
-	 *
-	 */
-	protected void exportGrid(
-			JRGridLayout gridLayout, 
-			JRPrintElementIndex frameIndex, 
-			int topMargin, 
-			int leftMargin, 
-			int rightMargin 
-			) throws JRException
 	{
 		
 		CutsInfo xCuts = gridLayout.getXCuts();
@@ -519,7 +502,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 						jasperReportsContext,
 						docWriter, 
 						xCuts,
-						false
+						false,
+						pageFormat
 						);
 			int maxReportIndex = exporterInput.getItems().size() - 1;
 			
@@ -539,8 +523,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 					docWriter, 
 					xCuts,
 					frameIndex == null && (reportIndex != 0 || pageIndex != startPageIndex),
-					leftMargin,
-					rightMargin
+					pageFormat
 					);
 
 		tableHelper.exportHeader();
@@ -578,10 +561,13 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 							)
 						);
 			}
-			
-			int rowHeight = row == 0 
-				? gridLayout.getRowHeight(row) - maxBottomPadding - topMargin
-				: gridLayout.getRowHeight(row) - maxBottomPadding;
+
+			int rowHeight = gridLayout.getRowHeight(row) - maxBottomPadding;
+			if (row == 0 && frameIndex == null)
+			{
+				rowHeight -= Math.min(rowHeight, pageFormat.getTopMargin());
+			}
+
 			tableHelper.exportRowHeader(
 				rowHeight,
 				allowRowResize
