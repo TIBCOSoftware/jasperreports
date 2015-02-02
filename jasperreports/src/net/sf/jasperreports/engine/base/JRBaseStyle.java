@@ -799,7 +799,9 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalImageAlign)
 	{
+		HorizontalImageAlignEnum old = this.horizontalImageAlign;
 		this.horizontalImageAlign = horizontalImageAlign;
+		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_IMAGE_ALIGNMENT, old, this.horizontalImageAlign);
 	}
 
 	/**
@@ -807,7 +809,9 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public void setVerticalImageAlign(VerticalImageAlignEnum verticalImageAlign)
 	{
+		VerticalImageAlignEnum old = this.verticalImageAlign;
 		this.verticalImageAlign = verticalImageAlign;
+		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_IMAGE_ALIGNMENT, old, this.verticalImageAlign);
 	}
 
 	/**
@@ -815,7 +819,9 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public void setHorizontalTextAlign(HorizontalTextAlignEnum horizontalTextAlign)
 	{
+		HorizontalTextAlignEnum old = this.horizontalTextAlign;
 		this.horizontalTextAlign = horizontalTextAlign;
+		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_TEXT_ALIGNMENT, old, this.horizontalTextAlign);
 	}
 
 	/**
@@ -823,7 +829,9 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public void setVerticalTextAlign(VerticalTextAlignEnum verticalTextAlign)
 	{
+		VerticalTextAlignEnum old = this.verticalTextAlign;
 		this.verticalTextAlign = verticalTextAlign;
+		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_TEXT_ALIGNMENT, old, this.verticalTextAlign);
 	}
 
 	/**
