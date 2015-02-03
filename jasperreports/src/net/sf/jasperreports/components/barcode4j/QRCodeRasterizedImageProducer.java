@@ -39,13 +39,10 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageConfig;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
+import com.itextpdf.text.pdf.qrcode.ByteMatrix;
+import com.itextpdf.text.pdf.qrcode.EncodeHintType;
+import com.itextpdf.text.pdf.qrcode.QRCodeWriter;
+import com.itextpdf.text.pdf.qrcode.WriterException;
 
 /**
  * 
@@ -66,29 +63,22 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 		Map<EncodeHintType,Object> hints = new HashMap<EncodeHintType,Object>();
 		hints.put(EncodeHintType.CHARACTER_SET, QRCodeComponent.PROPERTY_DEFAULT_ENCODING);
 		hints.put(EncodeHintType.ERROR_CORRECTION, qrCodeBean.getErrorCorrectionLevel().getErrorCorrectionLevel());
-		hints.put(EncodeHintType.MARGIN,  qrCodeBean.getMargin());
 
 		int resolution = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(
 				componentElement, BarcodeRasterizedImageProducer.PROPERTY_RESOLUTION, 300);
-
+		int margin = qrCodeBean.getMargin() == null ? 0 : qrCodeBean.getMargin();
 		try
 		{
-			BitMatrix matrix = 
+			ByteMatrix matrix = 
 				writer.encode(
 					message, 
-					BarcodeFormat.QR_CODE, 
 //					(int)((72f / 2.54f) * componentElement.getWidth()), 
 //					(int)((72f / 2.54f) * componentElement.getHeight()), 
-					(int)((resolution / 72f) * componentElement.getWidth()), 
-					(int)((resolution / 72f) * componentElement.getHeight()), 
+					(int)((resolution / 72f) * (componentElement.getWidth() - margin)), 
+					(int)((resolution / 72f) * (componentElement.getHeight() - margin)), 
 					hints
 					);
-			MatrixToImageConfig config = 
-				new MatrixToImageConfig(
-					JRColorUtil.getOpaqueArgb(componentElement.getForecolor(), Color.BLACK),
-					JRColorUtil.getOpaqueArgb(componentElement.getBackcolor(), Color.WHITE)
-					);
-			BufferedImage image = MatrixToImageWriter.toBufferedImage(matrix, config);
+			BufferedImage image = getImage(matrix, componentElement.getForecolor(), componentElement.getBackcolor());
 			return RenderableUtil.getInstance(jasperReportsContext).getRenderable(image, ImageTypeEnum.PNG, OnErrorTypeEnum.ERROR);
 		}
 		catch (WriterException e)
@@ -100,5 +90,25 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 			throw new JRRuntimeException(e);
 		}
 	}
-
+	
+	public BufferedImage getImage(ByteMatrix matrix, Color onColor, Color offColor) 
+	{
+		int width = matrix.getWidth();
+		int height = matrix.getHeight();
+		int type = Color.BLACK.equals(onColor) && Color.WHITE.equals(offColor) 
+				|| Color.WHITE.equals(onColor) && Color.BLACK.equals(offColor)
+				? BufferedImage.TYPE_BYTE_BINARY
+				: BufferedImage.TYPE_INT_RGB;
+		BufferedImage image = new BufferedImage(width, height, type);
+		int onArgb = JRColorUtil.getOpaqueArgb(onColor, Color.BLACK);
+		int offArgb = JRColorUtil.getOpaqueArgb(offColor, Color.WHITE);
+		for (int x = 0; x < width; x++) 
+		{
+			for (int y = 0; y < height; y++) 
+			{
+				image.setRGB(x, y, matrix.get(x, y) > - 1 ? onArgb : offArgb);
+			}
+		}
+		return image;
+	}
 }

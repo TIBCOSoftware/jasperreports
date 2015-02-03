@@ -56,7 +56,5 @@
 	<classpathentry kind="lib" path="lib/poi-3.10.1.jar"/>
 	<classpathentry kind="lib" path="lib/poi-ooxml-3.10.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-beanutils-1.9.0.jar"/>
-	<classpathentry kind="lib" path="lib/core-3.1.0.jar"/>
-	<classpathentry kind="lib" path="lib/javase-3.1.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
