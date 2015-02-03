@@ -115,10 +115,10 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	private String name;
 	private int pageWidth;
 	private int pageHeight;
-	private Integer topMargin;
-	private Integer leftMargin;
-	private Integer bottomMargin;
-	private Integer rightMargin;
+	private Integer topMargin = 0;
+	private Integer leftMargin = 0;
+	private Integer bottomMargin = 0;
+	private Integer rightMargin = 0;
 	private OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
 	
 	private transient PrintPageFormat pageFormat;
