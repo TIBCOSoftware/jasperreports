@@ -32,9 +32,9 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.HtmlPrintElement;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.renderers.FlyingSaucerXhtmlToImageRenderer;
@@ -68,8 +68,8 @@ public class FlyingSaucerHtmlPrintElement implements HtmlPrintElement {
 		printImage.setY(element.getY());
 		printImage.setWidth(element.getWidth());
 		printImage.setScaleImage(ScaleImageEnum.getByName(scaleType));
-		printImage.setHorizontalAlignment(HorizontalAlignEnum.getByName(horizontalAlignment));
-		printImage.setVerticalAlignment(VerticalAlignEnum.getByName(verticalAlignment));
+		printImage.setHorizontalImageAlign(HorizontalImageAlignEnum.getByName(horizontalAlignment));
+		printImage.setVerticalImageAlign(VerticalImageAlignEnum.getByName(verticalAlignment));
 		
 		FlyingSaucerXhtmlToImageRenderer renderer = new FlyingSaucerXhtmlToImageRenderer(getHtmlDocument(htmlContent), element.getWidth(), element.getHeight());
 		
@@ -111,8 +111,8 @@ public class FlyingSaucerHtmlPrintElement implements HtmlPrintElement {
 		printImage.setWidth(componentElement.getWidth());
 		printImage.setHeight(componentElement.getHeight());
 		printImage.setScaleImage(html.getScaleType());
-		printImage.setHorizontalAlignment(html.getHorizontalAlign());
-		printImage.setVerticalAlignment(html.getVerticalAlign());
+		printImage.setHorizontalImageAlign(html.getHorizontalImageAlign());
+		printImage.setVerticalImageAlign(html.getVerticalImageAlign());
 		
 		FlyingSaucerXhtmlToImageRenderer renderer = new FlyingSaucerXhtmlToImageRenderer(getHtmlDocument(htmlContent), componentElement.getWidth(), componentElement.getHeight());
 		printImage.setRenderable(renderer);

@@ -170,7 +170,7 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	}
 
 	/**
-	 * @param position the position to set
+	 * @param positionValue the position to set
 	 */
 	public void setPosition(EdgeEnum positionValue) {
 		EdgeEnum old = this.positionValue ;
@@ -251,6 +251,7 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	 */
 	private Byte position;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();

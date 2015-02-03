@@ -197,8 +197,8 @@ public class HtmlComponentFill extends BaseFillComponent {
 	{
 		printElement.setParameterValue(HtmlPrintElement.PARAMETER_HTML_CONTENT, htmlContent);
 		printElement.setParameterValue(HtmlPrintElement.PARAMETER_SCALE_TYPE, htmlComponent.getScaleType().getName());
-		printElement.setParameterValue(HtmlPrintElement.PARAMETER_HORIZONTAL_ALIGN, htmlComponent.getHorizontalAlign().getName());
-		printElement.setParameterValue(HtmlPrintElement.PARAMETER_VERTICAL_ALIGN, htmlComponent.getVerticalAlign().getName());
+		printElement.setParameterValue(HtmlPrintElement.PARAMETER_HORIZONTAL_ALIGN, htmlComponent.getHorizontalImageAlign().getName());
+		printElement.setParameterValue(HtmlPrintElement.PARAMETER_VERTICAL_ALIGN, htmlComponent.getVerticalImageAlign().getName());
 		printElement.setParameterValue(HtmlPrintElement.PARAMETER_CLIP_ON_OVERFLOW, htmlComponent.getClipOnOverflow());
 	}
 

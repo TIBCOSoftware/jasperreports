@@ -23,9 +23,12 @@
  */
 package net.sf.jasperreports.components.html;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
@@ -35,9 +38,9 @@ import net.sf.jasperreports.engine.component.ContextAwareComponent;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -61,8 +64,8 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 	
 	private JRExpression htmlContentExpression;
 	private ScaleImageEnum scaleType = ScaleImageEnum.RETAIN_SHAPE;
-	private HorizontalAlignEnum horizontalAlign = HorizontalAlignEnum.LEFT;
-	private VerticalAlignEnum verticalAlign = VerticalAlignEnum.MIDDLE;
+	private HorizontalImageAlignEnum horizontalImageAlign = HorizontalImageAlignEnum.LEFT;
+	private VerticalImageAlignEnum verticalImageAlign = VerticalImageAlignEnum.MIDDLE;
 	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
 	private Boolean clipOnOverflow = Boolean.TRUE;
@@ -75,8 +78,8 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 	
 	public HtmlComponent(HtmlComponent component, JRBaseObjectFactory objectFactory) {
 		this.scaleType = component.getScaleType();
-		this.horizontalAlign = component.getHorizontalAlign();
-		this.verticalAlign = component.getVerticalAlign();
+		this.horizontalImageAlign = component.getHorizontalImageAlign();
+		this.verticalImageAlign = component.getVerticalImageAlign();
 		this.htmlContentExpression = objectFactory.getExpression(component.getHtmlContentExpression());
 		this.context = new BaseComponentContext(component.getContext(), objectFactory);
 		this.evaluationTime= component.getEvaluationTime();
@@ -102,7 +105,7 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 	}
 	
 	/**
-	 * @param htmlContent the htmlContent to set
+	 * @param htmlContentExpression the htmlContentExpression to set
 	 */
 	public void setHtmlContentExpression(JRExpression htmlContentExpression) {
 		Object old = this.htmlContentExpression;
@@ -129,37 +132,65 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 	}
 
 	/**
+	 * @deprecated Replaced by {@link #getHorizontalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlign() {
+		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalImageAlign());
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setHorizontalImageAlign(HorizontalImageAlignEnum)}.
+	 */
+	public void setHorizontalAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlign) {
+		setHorizontalImageAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlign));
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getVerticalImageAlign()}.
+	 */
+	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlign() {
+		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalImageAlign());
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setVerticalImageAlign(VerticalImageAlignEnum)}
+	 */
+	public void setVerticalAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlign) {
+		setVerticalImageAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlign));
+	}
+
+	/**
 	 * @return the horizontalAlign
 	 */
-	public HorizontalAlignEnum getHorizontalAlign() {
-		return horizontalAlign;
+	public HorizontalImageAlignEnum getHorizontalImageAlign() {
+		return horizontalImageAlign;
 	}
 	
 	/**
-	 * @param horizontalAlign the horizontalAlign to set
+	 * @param horizontalImageAlign the horizontalImageAlign to set
 	 */
-	public void setHorizontalAlign(HorizontalAlignEnum horizontalAlign) {
-		Object old = this.horizontalAlign;
-		this.horizontalAlign = horizontalAlign;
+	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalImageAlign) {
+		Object old = this.horizontalImageAlign;
+		this.horizontalImageAlign = horizontalImageAlign;
 		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_ALIGN, 
-				old, this.horizontalAlign);
+				old, this.horizontalImageAlign);
 	}
 	
 	/**
-	 * @return the verticalAlign
+	 * @return the verticalImageAlign
 	 */
-	public VerticalAlignEnum getVerticalAlign() {
-		return verticalAlign;
+	public VerticalImageAlignEnum getVerticalImageAlign() {
+		return verticalImageAlign;
 	}
 	
 	/**
-	 * @param verticalAlign the verticalAlign to set
+	 * @param verticalImageAlign the verticalImageAlign to set
 	 */
-	public void setVerticalAlign(VerticalAlignEnum verticalAlign) {
-		Object old = this.verticalAlign;
-		this.verticalAlign = verticalAlign;
+	public void setVerticalImageAlign(VerticalImageAlignEnum verticalImageAlign) {
+		Object old = this.verticalImageAlign;
+		this.verticalImageAlign = verticalImageAlign;
 		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_ALIGN, 
-				old, this.verticalAlign);
+				old, this.verticalImageAlign);
 	}
 
 	/**
@@ -234,4 +265,32 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 		return eventSupport;
 	}
 
+
+	/*
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
+	private net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlign;
+	/**
+	 * @deprecated
+	 */
+	private net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlign;
+	
+	@SuppressWarnings("deprecation")
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_0_2)
+		{
+			horizontalImageAlign = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlign);
+			verticalImageAlign = net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlign);
+
+			horizontalAlign = null;
+			verticalAlign = null;
+		}
+	}
 }

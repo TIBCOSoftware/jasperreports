@@ -84,8 +84,8 @@ public class HtmlComponentXmlWriter extends AbstractComponentXmlWriter
 		writer.startElement("html", namespace);
 		
 		writer.addAttribute(HtmlComponent.PROPERTY_SCALE_TYPE, htmlComponent.getScaleType());
-		writer.addAttribute(HtmlComponent.PROPERTY_HORIZONTAL_ALIGN, htmlComponent.getHorizontalAlign());
-		writer.addAttribute(HtmlComponent.PROPERTY_VERTICAL_ALIGN, htmlComponent.getVerticalAlign());
+		writer.addAttribute(HtmlComponent.PROPERTY_HORIZONTAL_ALIGN, htmlComponent.getHorizontalImageAlign());
+		writer.addAttribute(HtmlComponent.PROPERTY_VERTICAL_ALIGN, htmlComponent.getVerticalImageAlign());
 		writeExpression(HtmlComponent.PROPERTY_HTMLCONTENT_EXPRESSION, htmlComponent.getHtmlContentExpression(), false, componentElement, reportWriter);
 		
 		if (htmlComponent.getEvaluationTime() != EvaluationTimeEnum.NOW) {

@@ -26,9 +26,9 @@ package net.sf.jasperreports.components.html;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
 
@@ -65,11 +65,13 @@ public class HtmlComponentDigester implements XmlDigesterConfigurer
 		digester.addRule(htmlComponentPattern, 
 				new XmlConstantPropertyRule(
 						HtmlComponent.PROPERTY_HORIZONTAL_ALIGN,
-						HorizontalAlignEnum.values()));
+						"horizontalImageAlign",
+						HorizontalImageAlignEnum.values()));
 		digester.addRule(htmlComponentPattern, 
 				new XmlConstantPropertyRule(
 						HtmlComponent.PROPERTY_VERTICAL_ALIGN,
-						VerticalAlignEnum.values()));
+						"verticalImageAlign",
+						VerticalImageAlignEnum.values()));
 		digester.addRule(htmlComponentPattern, 
 				new XmlConstantPropertyRule(
 						HtmlComponent.PROPERTY_EVALUATION_TIME,
