@@ -83,7 +83,7 @@ Some of the 2D symbologies are enumerated below:
 <li><code>Data Matrix</code> - Used throughout the United States. Standard ISO/IEC 16022:2000(E)</li>
 <li><code>EZcode</code> - Designed for decoding by cameraphones.</li>
 <li><code>PDF417</code> - Standard ISO/IEC 15438:2001(E)</li>
-<li><code>QRCode</code> - Standard 	ISO/IEC 18004:2006</li>
+<li><code>QRCode</code> - Standard ISO/IEC 18004:2006</li>
 <li>etc.</li>
 </ul>
     </content>
@@ -110,7 +110,7 @@ Today barcodes are present almost everywhere: in wholesales as well as in retail
 amusement parks, on the internet, and the list could continue... Due to this ubiquity, there is an increasing need of barcode components in the reporting area. 
 Powerful reporting engines should now provide support for as many as possible barcode symbologies. To cover a large category of customer needs, JR comes with 2 
 built-in barcode components, and in addition, it also makes room for other complementary implementations. This sample illustrates how to use the built-in 
-component based on the open source Barcode4J library.
+component mostly based on the open source Barcode4J library.
 <br/>
 The Barcode4J library supports the following symbologies:
 <ul>
@@ -133,11 +133,13 @@ The Barcode4J library supports the following symbologies:
 <ul>
 <li><code>DataMatrix</code></li>
 <li><code>PDF 417</code></li>
-<li><code>QRCode</code></li>
 </ul>
 </li>
 </ul>
-It also provides support for multiple output formats:
+<b>Note: </b>The <code>QRCode</code> 2D-symbology being not yet supported in Barcode4J, its related component implementation in JasperReports is based on the iText library.
+<br/>
+<br/>
+Multiple output formats are also supported:
 <ul>
 <li><code>SVG</code></li>
 <li><code>EPS</code></li>
@@ -148,7 +150,7 @@ It also provides support for multiple output formats:
 <b>The Barcode4J Component</b>
 <br/>
 <br/>
-Each of supported symbologies enumerated above is characterized by a specific structure of elements and attributes described 
+Each of Barcode4J supported symbologies enumerated above is characterized by a specific structure of elements and attributes described 
 in the <a href="../../components.schema.reference.html">components.xsd</a> 
 schema. All of them are based on the same 
 <a href="../../components.schema.reference.html#Barcode4j">Barcode4j</a> 
@@ -208,12 +210,11 @@ include the AI in the check digit calculation (used for USPS). Multiple field pa
 <b>The QRCode component</b>
 <br/>
 <br/>
-This barcode component depends on both Barcode4J and ZXing libraries.
+This barcode component depends on iText library. It shares some common features with the other barcode components:
 <ul>
 <li>Common expressions: 
 <ul>
-<li><code>codeExpression</code> contains the String content 
-used to generate the barcode object.</li>
+<li><code>codeExpression</code> - provides the text content used to generate the barcode object.</li>
 </ul> 
 </li>
 <li>Common attributes:
@@ -222,14 +223,13 @@ used to generate the barcode object.</li>
 <li><code>evaluationGroup</code></li>
 </ul>
 </li>
-<li>Specific attributes:
+</ul>
+Specific attributes for this component are enumerated below:
 <ul>
-<li><code>margin</code> number of pixels reserved as margin around the barcode graphic.</li>
+<li><code>margin</code> - number of pixels reserved as margin around the barcode graphic.</li>
 <li><code>errorCorrectionLevel</code> - enabled; single uppercase character representing the error correction level. 
 Possible values are: <code>L</code>, <code>M</code>, <code>Q</code>, <code>H</code>. Default is <code>L</code>.</li>
 </ul>
-</li>
-</ul> 
 <b>Barcode4J Samples</b>
 <br/>
 <br/>
@@ -374,7 +374,7 @@ Some examples of howto use the available <code>Barcode4j</code> components are g
   <c:QRCode xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
     xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components 
     http://jasperreports.sourceforge.net/xsd/components.xsd" 
-    errorCorrectionLevel="M" quietZone="2">
+    errorCorrectionLevel="M" margin="2">
     <c:codeExpression><![CDATA["http://barcode4j.sourceforge.net/"]] ></c:codeExpression>
   </c:QRCode>
 </componentElement>
