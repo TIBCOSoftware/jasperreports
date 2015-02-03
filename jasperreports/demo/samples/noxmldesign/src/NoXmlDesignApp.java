@@ -55,7 +55,7 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.type.CalculationEnum;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
@@ -573,7 +573,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		textField.setHeight(15);
 		textField.setBackcolor(new Color(0xC0, 0xC0, 0xC0));
 		textField.setMode(ModeEnum.OPAQUE);
-		textField.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
+		textField.setHorizontalTextAlign(HorizontalTextAlignEnum.LEFT);
 		textField.setStyle(boldStyle);
 		textField.setExpression(new JRDesignExpression("\"  \" + String.valueOf($V{CityNumber}) + \". \" + String.valueOf($F{City})"));
 		band.addElement(textField);
@@ -598,7 +598,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		staticText.setY(0);
 		staticText.setWidth(60);
 		staticText.setHeight(15);
-		staticText.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
+		staticText.setHorizontalTextAlign(HorizontalTextAlignEnum.RIGHT);
 		staticText.setStyle(boldStyle);
 		staticText.setText("Count : ");
 		band.addElement(staticText);
@@ -607,7 +607,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		textField.setY(0);
 		textField.setWidth(30);
 		textField.setHeight(15);
-		textField.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
+		textField.setHorizontalTextAlign(HorizontalTextAlignEnum.RIGHT);
 		textField.setStyle(boldStyle);
 		textField.setExpression(new JRDesignExpression("$V{CityGroup_COUNT}"));
 		band.addElement(textField);
@@ -630,7 +630,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		textField.setY(10);
 		textField.setWidth(515);
 		textField.setHeight(30);
-		textField.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
+		textField.setHorizontalTextAlign(HorizontalTextAlignEnum.CENTER);
 		textField.setStyle(normalStyle);
 		textField.setFontSize(22f);
 		textField.setExpression(new JRDesignExpression("$P{ReportTitle}"));
@@ -657,7 +657,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		staticText.setForecolor(Color.white);
 		staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
 		staticText.setMode(ModeEnum.OPAQUE);
-		staticText.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
+		staticText.setHorizontalTextAlign(HorizontalTextAlignEnum.CENTER);
 		staticText.setStyle(boldStyle);
 		staticText.setText("ID");
 		frame.addElement(staticText);
@@ -697,7 +697,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		textField.setY(4);
 		textField.setWidth(50);
 		textField.setHeight(15);
-		textField.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
+		textField.setHorizontalTextAlign(HorizontalTextAlignEnum.RIGHT);
 		textField.setStyle(normalStyle);
 		textField.setExpression(new JRDesignExpression("$F{Id}"));
 		band.addElement(textField);

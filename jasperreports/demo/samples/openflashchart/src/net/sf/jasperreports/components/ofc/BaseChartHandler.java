@@ -33,10 +33,10 @@ import net.sf.jasperreports.engine.export.ElementReplacementGridCell;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.JRExporterContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 
 /**
@@ -62,8 +62,8 @@ public class BaseChartHandler implements GenericElementHandler
 		text.setText("[Open Flash Chart Component]");
 		text.setMode(ModeEnum.OPAQUE);
 		text.setBackcolor(Color.lightGray);
-		text.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
-		text.setVerticalAlignment(VerticalAlignEnum.MIDDLE);
+		text.setHorizontalTextAlign(HorizontalTextAlignEnum.CENTER);
+		text.setVerticalTextAlign(VerticalTextAlignEnum.MIDDLE);
 		text.getLineBox().getPen().setLineWidth(1f);
 		text.getLineBox().getPen().setLineColor(Color.black);
 		text.getLineBox().getPen().setLineStyle(LineStyleEnum.DASHED);

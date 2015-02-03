@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -188,7 +188,7 @@ public class PrintServiceApp extends AbstractSampleApp
 		text.setWidth(345);
 		text.setHeight(30);
 		text.setTextHeight(text.getHeight());
-		text.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
+		text.setHorizontalTextAlign(HorizontalTextAlignEnum.RIGHT);
 		text.setLineSpacingFactor(1.3133681f);
 		text.setLeadingOffset(-4.955078f);
 		text.setStyle(boldStyle);
@@ -202,7 +202,7 @@ public class PrintServiceApp extends AbstractSampleApp
 		text.setWidth(325);
 		text.setHeight(15);
 		text.setTextHeight(text.getHeight());
-		text.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
+		text.setHorizontalTextAlign(HorizontalTextAlignEnum.RIGHT);
 		text.setLineSpacingFactor(1.329241f);
 		text.setLeadingOffset(-4.076172f);
 		text.setStyle(italicStyle);
@@ -216,7 +216,7 @@ public class PrintServiceApp extends AbstractSampleApp
 		text.setWidth(515);
 		text.setHeight(200);
 		text.setTextHeight(text.getHeight());
-		text.setHorizontalAlignment(HorizontalAlignEnum.JUSTIFIED);
+		text.setHorizontalTextAlign(HorizontalTextAlignEnum.JUSTIFIED);
 		text.setLineSpacingFactor(1.329241f);
 		text.setLeadingOffset(-4.076172f);
 		text.setStyle(normalStyle);
