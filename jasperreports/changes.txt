@@ -2,8 +2,18 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.0.2 (2014-0x-xx)
+JasperReports 6.0.2 (2014-02-04)
 ---------------------------------------------
+
+- throw specific exception net.sf.jasperreports.export.ExportInterruptedException on all 
+report export interruption events;
+
+- differentiate between text align properties and image align properties by adding specific 
+properties and enumerations in object model and deprecating the existing ones;
+
+- support for QR Code barcodes in barcode4j component;
+
+- support for pluggable remote file provider in all file-based data adapters;
 
 - minor bug fixes and improvements;
 
