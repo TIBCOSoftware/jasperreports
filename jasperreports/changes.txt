@@ -2,7 +2,16 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.0.2 (2014-02-04)
+JasperReports 6.0.3 (2015-0x-xx)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.0.2 (2015-02-04)
 ---------------------------------------------
 
 - throw specific exception net.sf.jasperreports.export.ExportInterruptedException on all 
@@ -14,15 +23,6 @@ properties and enumerations in object model and deprecating the existing ones;
 - support for QR Code barcodes in barcode4j component;
 
 - support for pluggable remote file provider in all file-based data adapters;
-
-- minor bug fixes and improvements;
-
-
-
-
-
-JasperReports 6.0.1 (2014-12-1x)
----------------------------------------------
 
 - minor bug fixes and improvements;
 
