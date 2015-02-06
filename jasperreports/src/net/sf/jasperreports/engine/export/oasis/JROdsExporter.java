@@ -210,6 +210,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	}
 
 
+	@Override
 	protected void closeSheet()
 	{
 		if (tableBuilder != null)
@@ -222,8 +223,6 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	@Override
 	protected void closeWorkbook(OutputStream os) throws JRException, IOException
 	{
-		closeSheet();
-
 		styleBuilder.buildMasterPages(pageFormatIndex);
 		
 		stylesWriter.flush();
