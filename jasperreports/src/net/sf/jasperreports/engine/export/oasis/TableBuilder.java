@@ -257,7 +257,7 @@ public class TableBuilder
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 
-		buildCellHeader(styleCache.getCellStyle(gridCell, false, true), gridCell.getColSpan(), gridCell.getRowSpan());
+		buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 		buildCellFooter();
 	}
 

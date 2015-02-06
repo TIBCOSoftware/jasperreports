@@ -1577,12 +1577,12 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	{
 		if (
 			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(PROPERTY_WRAP_TEXT)
+			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_WRAP_TEXT)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, PROPERTY_WRAP_TEXT, getCurrentItemConfiguration().isWrapText());
+			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_WRAP_TEXT, getCurrentItemConfiguration().isWrapText());
 		}
 		return getCurrentItemConfiguration().isWrapText();
 	}
@@ -1595,12 +1595,12 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 		if (
 			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(PROPERTY_CELL_LOCKED)
+			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_CELL_LOCKED)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, PROPERTY_CELL_LOCKED, getCurrentItemConfiguration().isCellLocked());
+			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_CELL_LOCKED, getCurrentItemConfiguration().isCellLocked());
 		}
 		return getCurrentItemConfiguration().isCellLocked();
 	}
@@ -1715,12 +1715,12 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	{
 		if (
 			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(PROPERTY_CELL_HIDDEN)
+			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_CELL_HIDDEN)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, PROPERTY_CELL_HIDDEN, getCurrentItemConfiguration().isCellHidden());
+			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_CELL_HIDDEN, getCurrentItemConfiguration().isCellHidden());
 		}
 		return getCurrentItemConfiguration().isCellHidden();
 	}

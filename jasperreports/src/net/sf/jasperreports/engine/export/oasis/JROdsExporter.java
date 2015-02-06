@@ -303,7 +303,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		}
 		else
 		{
-			tempBodyWriter.write(" table:style-name=\"" + styleCache.getCellStyle(gridCell, false, true) + "\"");
+			tempBodyWriter.write(" table:style-name=\"" + styleCache.getCellStyle(gridCell) + "\"");
 		}
 //		if (emptyCellColSpan > 1)
 //		{
@@ -376,7 +376,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		int xoffset = 0;
 		int yoffset = 0;
 
-		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell, false, true), gridCell.getColSpan(), gridCell.getRowSpan());
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 
 		Renderable renderer = image.getRenderable();
 
@@ -467,7 +467,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 				tableBuilder.exportAnchor(JRStringUtil.xmlEncode(image.getAnchorName()));
 				String cellAddress = "$&apos;" + tableBuilder.getTableName() + "&apos;." + getCellAddress(rowIndex, colIndex);
 				int lastCol = Math.max(0, colIndex + gridCell.getColSpan() - 1);
-				String cellRangeAddress = getCellAddress(rowIndex + gridCell.getRowSpan() -1, lastCol);
+				String cellRangeAddress = getCellAddress(rowIndex + gridCell.getRowSpan() - 1, lastCol);
 				namedExpressions.append("<table:named-range table:name=\""+ image.getAnchorName() +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" + cellAddress +":" + cellRangeAddress +"\"/>\n");
 			}
 
@@ -517,7 +517,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 
 		if(row > -1 && row < 1048577 && col > -1 && col < 16384)
 		{
-			address = "$" + getColumnName(col) + "$" + (row+1);
+			address = "$" + getColumnName(col) + "$" + (row + 1);
 		}
 		return address == null ? DEFAULT_ADDRESS : address;
 	}
@@ -586,7 +586,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 
-		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell, false, true), gridCell.getColSpan(), gridCell.getRowSpan());
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 
 //		double x1, y1, x2, y2;
 //

@@ -51,14 +51,6 @@ public class CellStyle extends BorderStyle
 	/**
 	 *
 	 */
-	public CellStyle(WriterHelper styleWriter, JRExporterGridCell gridCell)
-	{
-		this(styleWriter, gridCell, false, true);
-	}
-	
-	/**
-	 *
-	 */
 	public CellStyle(WriterHelper styleWriter, JRExporterGridCell gridCell, boolean shrinkToFit, boolean wrapText)
 	{
 		super(styleWriter);
@@ -78,7 +70,7 @@ public class CellStyle extends BorderStyle
 				backcolor = JRColorUtil.getColorHexa(gridCell.getBackcolor());
 			}
 		}
-			
+
 		RotationEnum rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotationValue() : RotationEnum.NONE;
 		VerticalTextAlignEnum vAlign = VerticalTextAlignEnum.TOP;
 		HorizontalTextAlignEnum hAlign = HorizontalTextAlignEnum.LEFT;
@@ -115,14 +107,8 @@ public class CellStyle extends BorderStyle
 		styleWriter.write("\"");
 		styleWriter.write(" style:family=\"table-cell\">\n");
 		styleWriter.write(" <style:table-cell-properties");	
-		if(shrinkToFit)
-		{
-			styleWriter.write(" style:shrink-to-fit=\"true\"");
-		}
-		else if(wrapText)
-		{
-			styleWriter.write(" fo:wrap-option=\"wrap\"");
-		}
+		styleWriter.write(" style:shrink-to-fit=\""	+ shrinkToFit + "\"");
+		styleWriter.write(" fo:wrap-option=\"" + (!wrapText ||  shrinkToFit ? "no-" : "") + "wrap\"");
 		if (backcolor != null)
 		{
 			styleWriter.write(" fo:background-color=\"#");
