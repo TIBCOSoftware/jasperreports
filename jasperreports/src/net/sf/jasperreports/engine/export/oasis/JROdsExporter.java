@@ -474,7 +474,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 			boolean startedHyperlink = tableBuilder.startHyperlink(image,false, isOnePagePerSheet);
 
 			//String cellAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), colIndex + gridCell.getColSpan() - 1);
-			String cellAddress = getCellAddress(rowIndex + gridCell.getRowSpan() + 1, colIndex + gridCell.getColSpan());
+			String cellAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), colIndex + gridCell.getColSpan());
 			cellAddress = cellAddress == null ? "" : "table:end-cell-address=\"" + cellAddress + "\" ";
 			
 			tempBodyWriter.write("<draw:frame text:anchor-type=\"frame\" "
