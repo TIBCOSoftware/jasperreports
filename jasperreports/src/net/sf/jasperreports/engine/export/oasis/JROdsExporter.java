@@ -182,8 +182,6 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	@Override
 	protected void createSheet(CutsInfo xCuts, SheetInfo sheetInfo)
 	{
-		closeSheet();
-		
 		startPage = true;
 		
 //		CutsInfo xCuts = gridLayout.getXCuts();
