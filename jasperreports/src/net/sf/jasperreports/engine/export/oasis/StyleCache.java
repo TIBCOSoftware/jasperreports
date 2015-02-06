@@ -241,7 +241,15 @@ public class StyleCache
 	 */
 	public String getCellStyle(JRExporterGridCell gridCell)
 	{
-		CellStyle cellStyle  = new CellStyle(styleWriter, gridCell);
+		return getCellStyle(gridCell, false, true);
+	}
+	
+	/**
+	 *
+	 */
+	public String getCellStyle(JRExporterGridCell gridCell, boolean shrinkToFit, boolean wrapText)
+	{
+		CellStyle cellStyle  = new CellStyle(styleWriter, gridCell, shrinkToFit, wrapText);
 		
 //		JRPrintElement element = gridCell.getElement();
 //

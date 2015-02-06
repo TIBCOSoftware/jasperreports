@@ -632,7 +632,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 //		}
 //		else
 		{
-			tempBodyWriter.write(" table:style-name=\"" + styleCache.getCellStyle(gridCell) + "\"");
+			tempBodyWriter.write(" table:style-name=\"" + styleCache.getCellStyle(gridCell, false, true) + "\"");
 		}
 		if (emptyCellColSpan > 1)
 		{
@@ -649,7 +649,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 	 */
 	protected void exportFrame(TableBuilder tableBuilder, JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
 	{
-		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell, false, true), gridCell.getColSpan(), gridCell.getRowSpan());
 
 		boolean appendBackcolor =
 			frame.getModeValue() == ModeEnum.OPAQUE
@@ -735,7 +735,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 	 */
 	public void exportText(TableBuilder tableBuilder, JRPrintText text, JRExporterGridCell gridCell)
 	{
-		tableBuilder.exportText(text, gridCell);
+		tableBuilder.exportText(text, gridCell, false, true);
 	}
 
 	
@@ -765,7 +765,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 		int xoffset = 0;
 		int yoffset = 0;
 
-		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell, false, true), gridCell.getColSpan(), gridCell.getRowSpan());
 
 		Renderable renderer = image.getRenderable();
 

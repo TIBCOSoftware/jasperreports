@@ -257,7 +257,7 @@ public class TableBuilder
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 
-		buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
+		buildCellHeader(styleCache.getCellStyle(gridCell, false, true), gridCell.getColSpan(), gridCell.getRowSpan());
 		buildCellFooter();
 	}
 
@@ -327,9 +327,9 @@ public class TableBuilder
 	/**
 	 *
 	 */
-	public void exportText(JRPrintText text, JRExporterGridCell gridCell)
+	public void exportText(JRPrintText text, JRExporterGridCell gridCell, boolean shrinkToFit, boolean wrapText)
 	{
-		buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
+		buildCellHeader(styleCache.getCellStyle(gridCell, shrinkToFit, wrapText), gridCell.getColSpan(), gridCell.getRowSpan());
 
 		bodyWriter.write("<text:p text:style-name=\"");
 		bodyWriter.write(styleCache.getParagraphStyle(text));

@@ -44,12 +44,22 @@ public class CellStyle extends BorderStyle
 	
 	private final String horizontalAlignment;
 	private final String verticalAlignment;
+	private final boolean shrinkToFit;
+	private final boolean wrapText;
 
 	
 	/**
 	 *
 	 */
 	public CellStyle(WriterHelper styleWriter, JRExporterGridCell gridCell)
+	{
+		this(styleWriter, gridCell, false, true);
+	}
+	
+	/**
+	 *
+	 */
+	public CellStyle(WriterHelper styleWriter, JRExporterGridCell gridCell, boolean shrinkToFit, boolean wrapText)
 	{
 		super(styleWriter);
 
@@ -68,7 +78,7 @@ public class CellStyle extends BorderStyle
 				backcolor = JRColorUtil.getColorHexa(gridCell.getBackcolor());
 			}
 		}
-
+			
 		RotationEnum rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotationValue() : RotationEnum.NONE;
 		VerticalTextAlignEnum vAlign = VerticalTextAlignEnum.TOP;
 		HorizontalTextAlignEnum hAlign = HorizontalTextAlignEnum.LEFT;
@@ -82,7 +92,8 @@ public class CellStyle extends BorderStyle
 		
 		horizontalAlignment = ParagraphStyle.getHorizontalAlignment(hAlign, vAlign, rotation);
 		verticalAlignment = ParagraphStyle.getVerticalAlignment(hAlign, vAlign, rotation);
-		
+		this.shrinkToFit = shrinkToFit;
+		this.wrapText = wrapText;
 		setBox(gridCell.getBox());
 	}
 	
@@ -91,7 +102,7 @@ public class CellStyle extends BorderStyle
 	 */
 	public String getId()
 	{
-		return backcolor + super.getId() + "|" + horizontalAlignment + "|" + verticalAlignment; 
+		return backcolor + super.getId() + "|" + horizontalAlignment + "|" + verticalAlignment + "|" + shrinkToFit + "|" + wrapText; 
 	}
 
 	/**
@@ -103,9 +114,15 @@ public class CellStyle extends BorderStyle
 		styleWriter.write(cellStyleName);
 		styleWriter.write("\"");
 		styleWriter.write(" style:family=\"table-cell\">\n");
-		styleWriter.write(" <style:table-cell-properties");		
-		styleWriter.write(" fo:wrap-option=\"wrap\"");
-		styleWriter.write(" style:shrink-to-fit=\"false\"");
+		styleWriter.write(" <style:table-cell-properties");	
+		if(shrinkToFit)
+		{
+			styleWriter.write(" style:shrink-to-fit=\"true\"");
+		}
+		else if(wrapText)
+		{
+			styleWriter.write(" fo:wrap-option=\"wrap\"");
+		}
 		if (backcolor != null)
 		{
 			styleWriter.write(" fo:background-color=\"#");
@@ -140,4 +157,3 @@ public class CellStyle extends BorderStyle
 	}
 
 }
-

@@ -303,7 +303,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		}
 		else
 		{
-			tempBodyWriter.write(" table:style-name=\"" + styleCache.getCellStyle(gridCell) + "\"");
+			tempBodyWriter.write(" table:style-name=\"" + styleCache.getCellStyle(gridCell, false, true) + "\"");
 		}
 //		if (emptyCellColSpan > 1)
 //		{
@@ -333,7 +333,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		int rowIndex
 		) throws JRException
 	{
-		tableBuilder.exportText(text, gridCell);
+		tableBuilder.exportText(text, gridCell, isShrinkToFit(text), isWrapText(text));
 		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		if (!configuration.isIgnoreAnchors() && text.getAnchorName() != null)
 		{
@@ -376,7 +376,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		int xoffset = 0;
 		int yoffset = 0;
 
-		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell, false, true), gridCell.getColSpan(), gridCell.getRowSpan());
 
 		Renderable renderer = image.getRenderable();
 
@@ -586,7 +586,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 
-		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
+		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell, false, true), gridCell.getColSpan(), gridCell.getRowSpan());
 
 //		double x1, y1, x2, y2;
 //
@@ -979,7 +979,4 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 			startPage = false;
 		}
 	}
-
-	
 }
-
