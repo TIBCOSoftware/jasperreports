@@ -114,10 +114,8 @@ import net.sf.jasperreports.crosstabs.xml.JRCrosstabCellFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabColumnGroupFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabDatasetFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabFactory;
-import net.sf.jasperreports.crosstabs.xml.JRCrosstabMeasureExpressionFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabMeasureFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabParameterFactory;
-import net.sf.jasperreports.crosstabs.xml.JRCrosstabParameterValueExpressionFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabRowGroupFactory;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRBand;
@@ -134,6 +132,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPart;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -173,7 +172,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.type.OverflowType;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.xml.JRChartFactory.JRCategoryAxisFormatFactory;
 
@@ -192,14 +190,25 @@ import org.xml.sax.SAXParseException;
  *
  * @author Peter Severin (peter_p_s@users.sourceforge.net)
  */
-@SuppressWarnings("deprecation")
 public final class JRXmlDigesterFactory
 {
-
 	private static final Log log = LogFactory.getLog(JRXmlDigesterFactory.class);
 	
 	protected static final JRSingletonCache<JRSaxParserFactory> reportParserFactories = 
 		new JRSingletonCache<JRSaxParserFactory>(JRSaxParserFactory.class);
+
+	@SuppressWarnings("deprecation")
+	private final static Class<?> depStringExprFactoryClass = JRExpressionFactory.StringExpressionFactory.class;
+	@SuppressWarnings("deprecation")
+	private final static Class<?> depNumberExprFactoryClass = JRExpressionFactory.NumberExpressionFactory.class;
+	@SuppressWarnings("deprecation")
+	private final static Class<?> depObjectExprFactoryClass = JRExpressionFactory.ObjectExpressionFactory.class;
+	@SuppressWarnings("deprecation")
+	private final static Class<?> depBooleanExprFactoryClass = JRExpressionFactory.BooleanExpressionFactory.class;
+	@SuppressWarnings("deprecation")
+	private final static Class<?> depDateExprFactoryClass = JRExpressionFactory.DateExpressionFactory.class;
+	@SuppressWarnings("deprecation")
+	private final static Class<?> depComparableExprFactoryClass = JRExpressionFactory.ComparableExpressionFactory.class;
 
 	/**
 	 *
@@ -238,7 +247,7 @@ public final class JRXmlDigesterFactory
 		String propertyExpressionPattern = "*/" + JRXmlConstants.ELEMENT_propertyExpression;
 		digester.addFactoryCreate(propertyExpressionPattern, JRPropertyExpressionFactory.class.getName());
 		digester.addSetNext(propertyExpressionPattern, "addPropertyExpression", JRPropertyExpression.class.getName());
-		digester.addFactoryCreate(propertyExpressionPattern, JRExpressionFactory.StringExpressionFactory.class.getName());
+		digester.addFactoryCreate(propertyExpressionPattern, depStringExprFactoryClass.getName());
 		digester.addSetNext(propertyExpressionPattern, "setValueExpression", JRExpression.class.getName());
 		digester.addCallMethod(propertyExpressionPattern, "setText", 0);
 
@@ -257,7 +266,7 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext("jasperReport/style", "addStyle", JRStyle.class.getName());
 
 		digester.addFactoryCreate("jasperReport/style/conditionalStyle", JRConditionalStyleFactory.class.getName());
-		digester.addFactoryCreate("jasperReport/style/conditionalStyle/conditionExpression", JRExpressionFactory.BooleanExpressionFactory.class.getName());
+		digester.addFactoryCreate("jasperReport/style/conditionalStyle/conditionExpression", depBooleanExprFactoryClass.getName());
 		digester.addSetNext("jasperReport/style/conditionalStyle/conditionExpression", "setConditionExpression", JRExpression.class.getName());
 		digester.addCallMethod("jasperReport/style/conditionalStyle/conditionExpression", "setText", 0);
 		digester.addFactoryCreate("jasperReport/style/conditionalStyle/style", JRConditionalStyleFillerFactory.class.getName());
@@ -274,7 +283,9 @@ public final class JRXmlDigesterFactory
 		digester.addCallMethod("*/parameter/parameterDescription", "setDescription", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/parameter/defaultValueExpression", JRDefaultValueExpressionFactory.class.getName());
+		@SuppressWarnings("deprecation")
+		Class<?> depDefaultValueExprFactory = JRDefaultValueExpressionFactory.class;
+		digester.addFactoryCreate("*/parameter/defaultValueExpression", depDefaultValueExprFactory.getName());
 		digester.addSetNext("*/parameter/defaultValueExpression", "setDefaultValueExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/parameter/defaultValueExpression", "setText", 0);
 
@@ -297,17 +308,21 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext("*/variable", "addVariable", JRDesignVariable.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/variable/variableExpression", JRVariableExpressionFactory.class.getName());
+		@SuppressWarnings("deprecation")
+		Class<?> depVariableExprFactory = JRVariableExpressionFactory.class;
+		digester.addFactoryCreate("*/variable/variableExpression", depVariableExprFactory.getName());
 		digester.addSetNext("*/variable/variableExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/variable/variableExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/variable/initialValueExpression", JRInitialValueExpressionFactory.class.getName());
+		@SuppressWarnings("deprecation")
+		Class<?> depInitialValueExprFactory = JRInitialValueExpressionFactory.class;
+		digester.addFactoryCreate("*/variable/initialValueExpression", depInitialValueExprFactory.getName());
 		digester.addSetNext("*/variable/initialValueExpression", "setInitialValueExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/variable/initialValueExpression", "setText", 0);
 
 		String filterExpressionPath = "*/" + JRXmlConstants.ELEMENT_filterExpression;
-		digester.addFactoryCreate(filterExpressionPath, JRExpressionFactory.BooleanExpressionFactory.class.getName());
+		digester.addFactoryCreate(filterExpressionPath, depBooleanExprFactoryClass.getName());
 		digester.addSetNext(filterExpressionPath, "setFilterExpression", JRExpression.class.getName());
 		digester.addCallMethod(filterExpressionPath, "setText", 0);
 
@@ -316,7 +331,7 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext("*/group", "addGroup", JRDesignGroup.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/group/groupExpression", JRExpressionFactory.ObjectExpressionFactory.class.getName());
+		digester.addFactoryCreate("*/group/groupExpression", depObjectExprFactoryClass.getName());
 		digester.addSetNext("*/group/groupExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/group/groupExpression", "setText", 0);
 
@@ -353,12 +368,12 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext("jasperReport/noData/band", "setNoData", JRBand.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/band/printWhenExpression", JRExpressionFactory.BooleanExpressionFactory.class.getName());
+		digester.addFactoryCreate("*/band/printWhenExpression", depBooleanExprFactoryClass.getName());
 		digester.addSetNext("*/band/printWhenExpression", "setPrintWhenExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/band/printWhenExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/part/printWhenExpression", JRExpressionFactory.BooleanExpressionFactory.class.getName());
+		digester.addFactoryCreate("*/part/printWhenExpression", depBooleanExprFactoryClass.getName());
 		digester.addSetNext("*/part/printWhenExpression", "setPrintWhenExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/part/printWhenExpression", "setText", 0);
 
@@ -374,7 +389,7 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/reportElement", JRElementFactory.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/reportElement/printWhenExpression", JRExpressionFactory.BooleanExpressionFactory.class.getName());
+		digester.addFactoryCreate("*/reportElement/printWhenExpression", depBooleanExprFactoryClass.getName());
 		digester.addSetNext("*/reportElement/printWhenExpression", "setPrintWhenExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/reportElement/printWhenExpression", "setText", 0);
 
@@ -412,7 +427,9 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext("*/paragraph/tabStop", "addTabStop", TabStop.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/image/imageExpression", JRStringExpressionFactory.class.getName());
+		@SuppressWarnings("deprecation")
+		Class<?> lcDepStringExprFactoryClass = JRStringExpressionFactory.class;
+		digester.addFactoryCreate("*/image/imageExpression", lcDepStringExprFactoryClass.getName());
 		digester.addSetNext("*/image/imageExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/image/imageExpression", "setText", 0);
 
@@ -436,7 +453,7 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext("*/textField", "addElement", JRDesignElement.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/textField/textFieldExpression", JRStringExpressionFactory.class.getName());
+		digester.addFactoryCreate("*/textField/textFieldExpression", lcDepStringExprFactoryClass.getName());
 		digester.addSetNext("*/textField/textFieldExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/textField/textFieldExpression", "setText", 0);
 
@@ -446,24 +463,26 @@ public final class JRXmlDigesterFactory
 		digester.addCallMethod("*/textField/patternExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/anchorNameExpression", JRExpressionFactory.StringExpressionFactory.class.getName());
+		digester.addFactoryCreate("*/anchorNameExpression", depStringExprFactoryClass.getName());
 		digester.addSetNext("*/anchorNameExpression", "setAnchorNameExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/anchorNameExpression", "setText", 0);
-		digester.addFactoryCreate("*/hyperlinkReferenceExpression", JRExpressionFactory.StringExpressionFactory.class.getName());
+		digester.addFactoryCreate("*/hyperlinkReferenceExpression", depStringExprFactoryClass.getName());
 		digester.addSetNext("*/hyperlinkReferenceExpression", "setHyperlinkReferenceExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/hyperlinkReferenceExpression", "setText", 0);
-		digester.addFactoryCreate("*/hyperlinkWhenExpression", JRExpressionFactory.BooleanExpressionFactory.class.getName());
+		digester.addFactoryCreate("*/hyperlinkWhenExpression", depBooleanExprFactoryClass.getName());
 		digester.addSetNext("*/hyperlinkWhenExpression", "setHyperlinkWhenExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/hyperlinkWhenExpression", "setText", 0);
-		digester.addFactoryCreate("*/hyperlinkAnchorExpression", JRExpressionFactory.StringExpressionFactory.class.getName());
+		digester.addFactoryCreate("*/hyperlinkAnchorExpression", depStringExprFactoryClass.getName());
 		digester.addSetNext("*/hyperlinkAnchorExpression", "setHyperlinkAnchorExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/hyperlinkAnchorExpression", "setText", 0);
-		digester.addFactoryCreate("*/hyperlinkPageExpression", JRExpressionFactory.IntegerExpressionFactory.class.getName());
+		@SuppressWarnings("deprecation")
+		Class<?> depIntegerExprFactory = JRExpressionFactory.IntegerExpressionFactory.class;
+		digester.addFactoryCreate("*/hyperlinkPageExpression", depIntegerExprFactory.getName());
 		digester.addSetNext("*/hyperlinkPageExpression", "setHyperlinkPageExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/hyperlinkPageExpression", "setText", 0);
 
 		String hyperlinkTooltipExpressionPattern = "*/" + JRXmlConstants.ELEMENT_hyperlinkTooltipExpression;
-		digester.addFactoryCreate(hyperlinkTooltipExpressionPattern, JRExpressionFactory.StringExpressionFactory.class.getName());
+		digester.addFactoryCreate(hyperlinkTooltipExpressionPattern, depStringExprFactoryClass.getName());
 		digester.addSetNext(hyperlinkTooltipExpressionPattern, "setHyperlinkTooltipExpression", JRExpression.class.getName());
 		digester.addCallMethod(hyperlinkTooltipExpressionPattern, "setText", 0);
 
@@ -483,27 +502,35 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext("*/subreport/returnValue", "addReturnValue", JRSubreportReturnValue.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("*/parametersMapExpression", JRExpressionFactory.MapExpressionFactory.class.getName());
+		@SuppressWarnings("deprecation")
+		Class<?> depMapExprFactory = JRExpressionFactory.MapExpressionFactory.class;
+		digester.addFactoryCreate("*/parametersMapExpression", depMapExprFactory.getName());
 		digester.addSetNext("*/parametersMapExpression", "setParametersMapExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/parametersMapExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/subreport/subreportParameter/subreportParameterExpression", JRExpressionFactory.ObjectExpressionFactory.class.getName());
+		digester.addFactoryCreate("*/subreport/subreportParameter/subreportParameterExpression", depObjectExprFactoryClass.getName());
 		digester.addSetNext("*/subreport/subreportParameter/subreportParameterExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/subreport/subreportParameter/subreportParameterExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/connectionExpression", JRExpressionFactory.ConnectionExpressionFactory.class.getName());
+		@SuppressWarnings("deprecation")
+		Class<?> depConnectionExprFactory = JRExpressionFactory.ConnectionExpressionFactory.class;
+		digester.addFactoryCreate("*/connectionExpression", depConnectionExprFactory.getName());
 		digester.addSetNext("*/connectionExpression", "setConnectionExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/connectionExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/dataSourceExpression", JRExpressionFactory.DataSourceExpressionFactory.class.getName());
+		@SuppressWarnings("deprecation")
+		Class<?> depDataSourceExprFactory = JRExpressionFactory.DataSourceExpressionFactory.class;
+		digester.addFactoryCreate("*/dataSourceExpression", depDataSourceExprFactory.getName());
 		digester.addSetNext("*/dataSourceExpression", "setDataSourceExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/dataSourceExpression", "setText", 0);
 
 		/*   */
-		digester.addFactoryCreate("*/subreport/subreportExpression", JRSubreportExpressionFactory.class.getName());
+		@SuppressWarnings("deprecation")
+		Class<?> depSubreportExprFactory =  JRSubreportExpressionFactory.class;
+		digester.addFactoryCreate("*/subreport/subreportExpression", depSubreportExprFactory.getName());
 		digester.addSetNext("*/subreport/subreportExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/subreport/subreportExpression", "setText", 0);
 
@@ -602,7 +629,9 @@ public final class JRXmlDigesterFactory
 		//do not change the order
 		digester.addObjectCreate(templatePattern, JRDesignReportTemplate.class);
 		digester.addSetNext(templatePattern, "addTemplate", JRReportTemplate.class.getName());
-		digester.addFactoryCreate(templatePattern, JRStringExpressionFactory.class);
+		@SuppressWarnings("deprecation")
+		Class<?> lcDepStringExprFactoryClass = JRStringExpressionFactory.class;
+		digester.addFactoryCreate(templatePattern, lcDepStringExprFactoryClass);
 		digester.addCallMethod(templatePattern, "setText", 0);
 		digester.addSetNext(templatePattern, "setSourceExpression", JRExpression.class.getName());
 	}
@@ -616,7 +645,7 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/dataset", JRElementDatasetFactory.class.getName());
 
 		String datasetIncrementWhenExpressionPath = "*/dataset/" + JRXmlConstants.ELEMENT_incrementWhenExpression;
-		digester.addFactoryCreate(datasetIncrementWhenExpressionPath, JRExpressionFactory.BooleanExpressionFactory.class.getName());
+		digester.addFactoryCreate(datasetIncrementWhenExpressionPath, depBooleanExprFactoryClass.getName());
 		digester.addSetNext(datasetIncrementWhenExpressionPath, "setIncrementWhenExpression", JRExpression.class.getName());
 		digester.addCallMethod(datasetIncrementWhenExpressionPath, "setText", 0);
 
@@ -628,13 +657,13 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/chart/chartTitle", JRChartFactory.JRChartTitleFactory.class.getName());
 		digester.addFactoryCreate("*/chart/chartTitle/font", JRFontFactory.ChartFontFactory.class.getName());
 		digester.addSetNext("*/chart/chartTitle/font", "setTitleFont", JRFont.class.getName());
-		digester.addFactoryCreate("*/chart/chartTitle/titleExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addFactoryCreate("*/chart/chartTitle/titleExpression", depStringExprFactoryClass);
 		digester.addSetNext("*/chart/chartTitle/titleExpression", "setTitleExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/chart/chartTitle/titleExpression", "setText", 0);
 		digester.addFactoryCreate("*/chart/chartSubtitle", JRChartFactory.JRChartSubtitleFactory.class.getName());
 		digester.addFactoryCreate("*/chart/chartSubtitle/font", JRFontFactory.ChartFontFactory.class.getName());
 		digester.addSetNext("*/chart/chartSubtitle/font", "setSubtitleFont", JRFont.class.getName());
-		digester.addFactoryCreate("*/chart/chartSubtitle/subtitleExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addFactoryCreate("*/chart/chartSubtitle/subtitleExpression", depStringExprFactoryClass);
 		digester.addSetNext("*/chart/chartSubtitle/subtitleExpression", "setSubtitleExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/chart/chartSubtitle/subtitleExpression", "setText", 0);
 		digester.addFactoryCreate("*/chart/chartLegend", JRChartFactory.JRChartLegendFactory.class.getName());
@@ -695,34 +724,34 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/pieDataset/pieSeries", JRPieSeriesFactory.class.getName());
 		digester.addSetNext("*/pieDataset/pieSeries", "addPieSeries", JRDesignPieSeries.class.getName());
 
-		digester.addFactoryCreate("*/pieSeries/keyExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addFactoryCreate("*/pieSeries/keyExpression", depComparableExprFactoryClass);
 		digester.addSetNext("*/pieSeries/keyExpression", "setKeyExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieSeries/keyExpression", "setText", 0);
-		digester.addFactoryCreate("*/pieSeries/labelExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addFactoryCreate("*/pieSeries/labelExpression", depStringExprFactoryClass);
 		digester.addSetNext("*/pieSeries/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieSeries/labelExpression", "setText", 0);
-		digester.addFactoryCreate("*/pieSeries/valueExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/pieSeries/valueExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/pieSeries/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieSeries/valueExpression", "setText", 0);
 		digester.addFactoryCreate("*/pieSeries/sectionHyperlink", JRHyperlinkFactory.class);
 		digester.addSetNext("*/pieSeries/sectionHyperlink", "setSectionHyperlink", JRHyperlink.class.getName());
 
-		digester.addFactoryCreate("*/pieDataset/keyExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addFactoryCreate("*/pieDataset/keyExpression", depComparableExprFactoryClass);
 		digester.addSetNext("*/pieDataset/keyExpression", "setKeyExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieDataset/keyExpression", "setText", 0);
-		digester.addFactoryCreate("*/pieDataset/labelExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addFactoryCreate("*/pieDataset/labelExpression", depStringExprFactoryClass);
 		digester.addSetNext("*/pieDataset/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieDataset/labelExpression", "setText", 0);
-		digester.addFactoryCreate("*/pieDataset/valueExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/pieDataset/valueExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/pieDataset/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieDataset/valueExpression", "setText", 0);
 		digester.addFactoryCreate("*/pieDataset/sectionHyperlink", JRHyperlinkFactory.class);
 		digester.addSetNext("*/pieDataset/sectionHyperlink", "setSectionHyperlink", JRHyperlink.class.getName());
 
-		digester.addFactoryCreate("*/pieDataset/otherKeyExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addFactoryCreate("*/pieDataset/otherKeyExpression", depComparableExprFactoryClass);
 		digester.addSetNext("*/pieDataset/otherKeyExpression", "setOtherKeyExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieDataset/otherKeyExpression", "setText", 0);
-		digester.addFactoryCreate("*/pieDataset/otherLabelExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addFactoryCreate("*/pieDataset/otherLabelExpression", depStringExprFactoryClass);
 		digester.addSetNext("*/pieDataset/otherLabelExpression", "setOtherLabelExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/pieDataset/otherLabelExpression", "setText", 0);
 		digester.addFactoryCreate("*/pieDataset/otherSectionHyperlink", JRHyperlinkFactory.class);
@@ -738,27 +767,27 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext("*/barChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/barChart/barPlot", JRBarPlotFactory.class.getName());
 
-		digester.addFactoryCreate( "*/barPlot/categoryAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/barPlot/categoryAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/barPlot/categoryAxisLabelExpression", "setCategoryAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/barPlot/categoryAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/barPlot/valueAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/barPlot/valueAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/barPlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/barPlot/valueAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/barPlot/domainAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/barPlot/domainAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/barPlot/domainAxisMinValueExpression", "setDomainAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/barPlot/domainAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/barPlot/domainAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/barPlot/domainAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/barPlot/domainAxisMaxValueExpression", "setDomainAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/barPlot/domainAxisMaxValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/barPlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/barPlot/rangeAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/barPlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/barPlot/rangeAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/barPlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/barPlot/rangeAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/barPlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/barPlot/rangeAxisMaxValueExpression", "setText", 0 );
 
@@ -772,27 +801,27 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext( "*/xyAreaChart", "addElement", JRDesignElement.class.getName() );
 		digester.addFactoryCreate( "*/xyAreaChart/areaPlot", JRAreaPlotFactory.class.getName() );
 
-		digester.addFactoryCreate( "*/areaPlot/categoryAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/areaPlot/categoryAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/areaPlot/categoryAxisLabelExpression", "setCategoryAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/areaPlot/categoryAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/areaPlot/valueAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/areaPlot/valueAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/areaPlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/areaPlot/valueAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/areaPlot/domainAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/areaPlot/domainAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/areaPlot/domainAxisMinValueExpression", "setDomainAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/areaPlot/domainAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/areaPlot/domainAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/areaPlot/domainAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/areaPlot/domainAxisMaxValueExpression", "setDomainAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/areaPlot/domainAxisMaxValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/areaPlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/areaPlot/rangeAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/areaPlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/areaPlot/rangeAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/areaPlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/areaPlot/rangeAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/areaPlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/areaPlot/rangeAxisMaxValueExpression", "setText", 0 );
 
@@ -801,27 +830,27 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext( "*/bar3DChart", "addElement", JRDesignElement.class.getName() );
 		digester.addFactoryCreate("*/bar3DChart/bar3DPlot", JRBar3DPlotFactory.class.getName());
 
-		digester.addFactoryCreate( "*/bar3DPlot/categoryAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/bar3DPlot/categoryAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/bar3DPlot/categoryAxisLabelExpression", "setCategoryAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/bar3DPlot/categoryAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/bar3DPlot/valueAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/bar3DPlot/valueAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/bar3DPlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/bar3DPlot/valueAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/bar3DPlot/domainAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/bar3DPlot/domainAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/bar3DPlot/domainAxisMinValueExpression", "setDomainAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/bar3DPlot/domainAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/bar3DPlot/domainAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/bar3DPlot/domainAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/bar3DPlot/domainAxisMaxValueExpression", "setDomainAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/bar3DPlot/domainAxisMaxValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/bar3DPlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/bar3DPlot/rangeAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/bar3DPlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/bar3DPlot/rangeAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/bar3DPlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/bar3DPlot/rangeAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/bar3DPlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/bar3DPlot/rangeAxisMaxValueExpression", "setText", 0 );
 
@@ -830,16 +859,16 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext("*/categoryDataset/categorySeries", "addCategorySeries", JRDesignCategorySeries.class.getName());
 
 		//digester.addFactoryCreate("*/categorySeries", JRCategoryDatasetFactory.class.getName());
-		digester.addFactoryCreate("*/categorySeries/seriesExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addFactoryCreate("*/categorySeries/seriesExpression", depComparableExprFactoryClass);
 		digester.addSetNext("*/categorySeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/categorySeries/seriesExpression", "setText", 0);
-		digester.addFactoryCreate("*/categorySeries/categoryExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addFactoryCreate("*/categorySeries/categoryExpression", depComparableExprFactoryClass);
 		digester.addSetNext("*/categorySeries/categoryExpression", "setCategoryExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/categorySeries/categoryExpression", "setText", 0);
-		digester.addFactoryCreate("*/categorySeries/labelExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addFactoryCreate("*/categorySeries/labelExpression", depStringExprFactoryClass);
 		digester.addSetNext("*/categorySeries/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/categorySeries/labelExpression", "setText", 0);
-		digester.addFactoryCreate("*/categorySeries/valueExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/categorySeries/valueExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/categorySeries/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/categorySeries/valueExpression", "setText", 0);
 
@@ -851,17 +880,17 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate( "*/xyzDataset/xyzSeries", JRXyzSeriesFactory.class.getName() );
 		digester.addSetNext( "*/xyzDataset/xyzSeries", "addXyzSeries", JRDesignXyzSeries.class.getName() );
 
-		digester.addFactoryCreate( "*/xyzSeries/seriesExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/xyzSeries/seriesExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/xyzSeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/xyzSeries/seriesExpression", "setText", 0 );
 		digester.addFactoryCreate( "*/xyzSeries", JRXyzDatasetFactory.class.getName() );
-		digester.addFactoryCreate( "*/xyzSeries/xValueExpression", JRExpressionFactory.NumberExpressionFactory.class );
+		digester.addFactoryCreate( "*/xyzSeries/xValueExpression", depNumberExprFactoryClass );
 		digester.addSetNext( "*/xyzSeries/xValueExpression", "setXValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/xyzSeries/xValueExpression", "setText", 0 );
-		digester.addFactoryCreate( "*/xyzSeries/yValueExpression", JRExpressionFactory.NumberExpressionFactory.class );
+		digester.addFactoryCreate( "*/xyzSeries/yValueExpression", depNumberExprFactoryClass );
 		digester.addSetNext( "*/xyzSeries/yValueExpression", "setYValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/xyzSeries/yValueExpression", "setText", 0 );
-		digester.addFactoryCreate( "*/xyzSeries/zValueExpression", JRExpressionFactory.NumberExpressionFactory.class );
+		digester.addFactoryCreate( "*/xyzSeries/zValueExpression", depNumberExprFactoryClass );
 		digester.addSetNext( "*/xyzSeries/zValueExpression", "setZValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/xyzSeries/zValueExpression", "setText", 0 );
 
@@ -871,19 +900,19 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate( "*/timePeriodDataset/timePeriodSeries", JRTimePeriodSeriesFactory.class.getName() );
 		digester.addSetNext( "*/timePeriodDataset/timePeriodSeries", "addTimePeriodSeries", JRDesignTimePeriodSeries.class.getName() );
 
-		digester.addFactoryCreate("*/timePeriodSeries/seriesExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addFactoryCreate("*/timePeriodSeries/seriesExpression", depComparableExprFactoryClass);
 		digester.addSetNext("*/timePeriodSeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/timePeriodSeries/seriesExpression", "setText", 0);
-		digester.addFactoryCreate("*/timePeriodSeries/startDateExpression", JRExpressionFactory.DateExpressionFactory.class);
+		digester.addFactoryCreate("*/timePeriodSeries/startDateExpression", depDateExprFactoryClass);
 		digester.addSetNext("*/timePeriodSeries/startDateExpression", "setStartDateExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/timePeriodSeries/startDateExpression", "setText", 0);
-		digester.addFactoryCreate("*/timePeriodSeries/endDateExpression", JRExpressionFactory.DateExpressionFactory.class);
+		digester.addFactoryCreate("*/timePeriodSeries/endDateExpression", depDateExprFactoryClass);
 		digester.addSetNext("*/timePeriodSeries/endDateExpression", "setEndDateExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/timePeriodSeries/endDateExpression", "setText", 0);
-		digester.addFactoryCreate("*/timePeriodSeries/valueExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/timePeriodSeries/valueExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/timePeriodSeries/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/timePeriodSeries/valueExpression", "setText", 0);
-		digester.addFactoryCreate( "*/timePeriodSeries/labelExpression", JRExpressionFactory.StringExpressionFactory.class );
+		digester.addFactoryCreate( "*/timePeriodSeries/labelExpression", depStringExprFactoryClass );
 		digester.addSetNext( "*/timePeriodSeries/labelExpression", "setLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/timePeriodSeries/labelExpression", "setText", 0);
 
@@ -892,27 +921,27 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext("*/timeSeriesChart", "addElement", JRDesignElement.class.getName());
 
 		// add plot labels
-		digester.addFactoryCreate( "*/timeSeriesPlot/timeAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/timeSeriesPlot/timeAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext("*/timeSeriesPlot/timeAxisLabelExpression", "setTimeAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod(  "*/timeSeriesPlot/timeAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/timeSeriesPlot/valueAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/timeSeriesPlot/valueAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/timeSeriesPlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod(  "*/timeSeriesPlot/valueAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/timeSeriesPlot/domainAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/timeSeriesPlot/domainAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/timeSeriesPlot/domainAxisMinValueExpression", "setDomainAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/timeSeriesPlot/domainAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/timeSeriesPlot/domainAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/timeSeriesPlot/domainAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/timeSeriesPlot/domainAxisMaxValueExpression", "setDomainAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/timeSeriesPlot/domainAxisMaxValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/timeSeriesPlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/timeSeriesPlot/rangeAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/timeSeriesPlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/timeSeriesPlot/rangeAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/timeSeriesPlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/timeSeriesPlot/rangeAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/timeSeriesPlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/timeSeriesPlot/rangeAxisMaxValueExpression", "setText", 0 );
 
@@ -927,16 +956,16 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate( "*/timeSeriesDataset/timeSeries", JRTimeSeriesFactory.class.getName());
 		digester.addSetNext( "*/timeSeriesDataset/timeSeries", "addTimeSeries", JRDesignTimeSeries.class.getName() );
 
-		digester.addFactoryCreate("*/timeSeries/seriesExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addFactoryCreate("*/timeSeries/seriesExpression", depComparableExprFactoryClass);
 		digester.addSetNext("*/timeSeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/timeSeries/seriesExpression", "setText", 0);
-		digester.addFactoryCreate("*/timeSeries/timePeriodExpression", JRExpressionFactory.DateExpressionFactory.class);
+		digester.addFactoryCreate("*/timeSeries/timePeriodExpression", depDateExprFactoryClass);
 		digester.addSetNext("*/timeSeries/timePeriodExpression", "setTimePeriodExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/timeSeries/timePeriodExpression", "setText", 0);
-		digester.addFactoryCreate("*/timeSeries/labelExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addFactoryCreate("*/timeSeries/labelExpression", depStringExprFactoryClass);
 		digester.addSetNext("*/timeSeries/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/timeSeries/labelExpression", "setText", 0);
-		digester.addFactoryCreate("*/timeSeries/valueExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/timeSeries/valueExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/timeSeries/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/timeSeries/valueExpression", "setText", 0);
 
@@ -950,27 +979,27 @@ public final class JRXmlDigesterFactory
 
 
 		//add plot labels
-		digester.addFactoryCreate( "*/linePlot/categoryAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/linePlot/categoryAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext("*/linePlot/categoryAxisLabelExpression", "setCategoryAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod(  "*/linePlot/categoryAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/linePlot/valueAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/linePlot/valueAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext("*/linePlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod(  "*/linePlot/valueAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/linePlot/domainAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/linePlot/domainAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/linePlot/domainAxisMinValueExpression", "setDomainAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/linePlot/domainAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/linePlot/domainAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/linePlot/domainAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/linePlot/domainAxisMaxValueExpression", "setDomainAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/linePlot/domainAxisMaxValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/linePlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/linePlot/rangeAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/linePlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/linePlot/rangeAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/linePlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/linePlot/rangeAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/linePlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/linePlot/rangeAxisMaxValueExpression", "setText", 0 );
 
@@ -982,27 +1011,27 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate( "*/scatterPlot", JRScatterPlotFactory.class.getName() );
 
 		// add plot labels
-		digester.addFactoryCreate( "*/scatterPlot/xAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/scatterPlot/xAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/scatterPlot/xAxisLabelExpression", "setXAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/scatterPlot/xAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/scatterPlot/yAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/scatterPlot/yAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/scatterPlot/yAxisLabelExpression", "setYAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/scatterPlot/yAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/scatterPlot/domainAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/scatterPlot/domainAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/scatterPlot/domainAxisMinValueExpression", "setDomainAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/scatterPlot/domainAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/scatterPlot/domainAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/scatterPlot/domainAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/scatterPlot/domainAxisMaxValueExpression", "setDomainAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/scatterPlot/domainAxisMaxValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/scatterPlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/scatterPlot/rangeAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/scatterPlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/scatterPlot/rangeAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/scatterPlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/scatterPlot/rangeAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/scatterPlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/scatterPlot/rangeAxisMaxValueExpression", "setText", 0 );
 
@@ -1011,16 +1040,16 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext("*/xyDataset/xySeries", "addXySeries", JRDesignXySeries.class.getName());
 
 		digester.addFactoryCreate("*/xySeries", JRXyDatasetFactory.class.getName());
-		digester.addFactoryCreate("*/xySeries/seriesExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addFactoryCreate("*/xySeries/seriesExpression", depComparableExprFactoryClass);
 		digester.addSetNext("*/xySeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/xySeries/seriesExpression", "setText", 0);
-		digester.addFactoryCreate("*/xySeries/xValueExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/xySeries/xValueExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/xySeries/xValueExpression", "setXValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/xySeries/xValueExpression", "setText", 0);
-		digester.addFactoryCreate("*/xySeries/yValueExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/xySeries/yValueExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/xySeries/yValueExpression", "setYValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/xySeries/yValueExpression", "setText", 0);
-		digester.addFactoryCreate("*/xySeries/labelExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addFactoryCreate("*/xySeries/labelExpression", depStringExprFactoryClass);
 		digester.addSetNext("*/xySeries/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/xySeries/labelExpression", "setText", 0);
 
@@ -1033,27 +1062,27 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate( "*/bubblePlot", JRBubblePlotFactory.class.getName() );
 
 		// add plot labels
-		digester.addFactoryCreate( "*/bubblePlot/xAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/bubblePlot/xAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/bubblePlot/xAxisLabelExpression", "setXAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/bubblePlot/xAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/bubblePlot/yAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/bubblePlot/yAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/bubblePlot/yAxisLabelExpression", "setYAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/bubblePlot/yAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/bubblePlot/domainAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/bubblePlot/domainAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/bubblePlot/domainAxisMinValueExpression", "setDomainAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/bubblePlot/domainAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/bubblePlot/domainAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/bubblePlot/domainAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/bubblePlot/domainAxisMaxValueExpression", "setDomainAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/bubblePlot/domainAxisMaxValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/bubblePlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/bubblePlot/rangeAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/bubblePlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/bubblePlot/rangeAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/bubblePlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/bubblePlot/rangeAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/bubblePlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/bubblePlot/rangeAxisMaxValueExpression", "setText", 0 );
 
@@ -1062,50 +1091,50 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext("*/highLowChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/highLowChart/highLowPlot", JRHighLowPlotFactory.class.getName());
 
-		digester.addFactoryCreate( "*/highLowPlot/timeAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/highLowPlot/timeAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/highLowPlot/timeAxisLabelExpression", "setTimeAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/highLowPlot/timeAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/highLowPlot/valueAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/highLowPlot/valueAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/highLowPlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/highLowPlot/valueAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/highLowPlot/domainAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/highLowPlot/domainAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/highLowPlot/domainAxisMinValueExpression", "setDomainAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/highLowPlot/domainAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/highLowPlot/domainAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/highLowPlot/domainAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/highLowPlot/domainAxisMaxValueExpression", "setDomainAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/highLowPlot/domainAxisMaxValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/highLowPlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/highLowPlot/rangeAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/highLowPlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/highLowPlot/rangeAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/highLowPlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/highLowPlot/rangeAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/highLowPlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/highLowPlot/rangeAxisMaxValueExpression", "setText", 0 );
 
 		digester.addFactoryCreate("*/highLowDataset", JRHighLowDatasetFactory.class.getName());
-		digester.addFactoryCreate("*/highLowDataset/seriesExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addFactoryCreate("*/highLowDataset/seriesExpression", depComparableExprFactoryClass);
 		digester.addSetNext("*/highLowDataset/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/highLowDataset/seriesExpression", "setText", 0);
-		digester.addFactoryCreate("*/highLowDataset/dateExpression", JRExpressionFactory.DateExpressionFactory.class);
+		digester.addFactoryCreate("*/highLowDataset/dateExpression", depDateExprFactoryClass);
 		digester.addSetNext("*/highLowDataset/dateExpression", "setDateExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/highLowDataset/dateExpression", "setText", 0);
-		digester.addFactoryCreate("*/highLowDataset/highExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/highLowDataset/highExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/highLowDataset/highExpression", "setHighExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/highLowDataset/highExpression", "setText", 0);
-		digester.addFactoryCreate("*/highLowDataset/lowExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/highLowDataset/lowExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/highLowDataset/lowExpression", "setLowExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/highLowDataset/lowExpression", "setText", 0);
-		digester.addFactoryCreate("*/highLowDataset/openExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/highLowDataset/openExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/highLowDataset/openExpression", "setOpenExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/highLowDataset/openExpression", "setText", 0);
-		digester.addFactoryCreate("*/highLowDataset/closeExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/highLowDataset/closeExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/highLowDataset/closeExpression", "setCloseExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/highLowDataset/closeExpression", "setText", 0);
-		digester.addFactoryCreate("*/highLowDataset/volumeExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/highLowDataset/volumeExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/highLowDataset/volumeExpression", "setVolumeExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/highLowDataset/volumeExpression", "setText", 0);
 
@@ -1114,43 +1143,43 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext("*/candlestickChart", "addElement", JRDesignElement.class.getName());
 		digester.addFactoryCreate("*/candlestickChart/candlestickPlot", JRCandlestickPlotFactory.class);
 
-		digester.addFactoryCreate( "*/candlestickPlot/timeAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/candlestickPlot/timeAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/candlestickPlot/timeAxisLabelExpression", "setTimeAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/candlestickPlot/timeAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/candlestickPlot/valueAxisLabelExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/candlestickPlot/valueAxisLabelExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/candlestickPlot/valueAxisLabelExpression", "setValueAxisLabelExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/candlestickPlot/valueAxisLabelExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/candlestickPlot/domainAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/candlestickPlot/domainAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/candlestickPlot/domainAxisMinValueExpression", "setDomainAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/candlestickPlot/domainAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/candlestickPlot/domainAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/candlestickPlot/domainAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/candlestickPlot/domainAxisMaxValueExpression", "setDomainAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/candlestickPlot/domainAxisMaxValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/candlestickPlot/rangeAxisMinValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/candlestickPlot/rangeAxisMinValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/candlestickPlot/rangeAxisMinValueExpression", "setRangeAxisMinValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/candlestickPlot/rangeAxisMinValueExpression", "setText", 0 );
 
-		digester.addFactoryCreate( "*/candlestickPlot/rangeAxisMaxValueExpression", JRExpressionFactory.ComparableExpressionFactory.class );
+		digester.addFactoryCreate( "*/candlestickPlot/rangeAxisMaxValueExpression", depComparableExprFactoryClass );
 		digester.addSetNext( "*/candlestickPlot/rangeAxisMaxValueExpression", "setRangeAxisMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod( "*/candlestickPlot/rangeAxisMaxValueExpression", "setText", 0 );
 
 		// value datasets
 		digester.addFactoryCreate("*/valueDataset", JRValueDatasetFactory.class.getName());
-		digester.addFactoryCreate("*/valueDataset/valueExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/valueDataset/valueExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/valueDataset/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/valueDataset/valueExpression", "setText", 0);
 
 		// data ranges - anything that contains a data range must have a "setDataRange" method.
 		digester.addFactoryCreate("*/dataRange", JRDataRangeFactory.class.getName());
 		digester.addSetNext("*/dataRange", "setDataRange", JRDesignDataRange.class.getName());
-		digester.addFactoryCreate("*/dataRange/lowExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/dataRange/lowExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/dataRange/lowExpression", "setLowExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/dataRange/lowExpression", "setText", 0);
-		digester.addFactoryCreate("*/dataRange/highExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/dataRange/highExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/dataRange/highExpression", "setHighExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/dataRange/highExpression", "setText", 0);
 
@@ -1167,10 +1196,10 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/meterPlot/tickLabelFont/font", JRFontFactory.ChartFontFactory.class.getName());
 		digester.addSetNext("*/meterPlot/tickLabelFont/font", "setTickLabelFont", JRFont.class.getName());
 
-		digester.addFactoryCreate("*/meterPlot/lowExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/meterPlot/lowExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/meterPlot/lowExpression", "setLowExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/meterPlot/lowExpression", "setText", 0);
-		digester.addFactoryCreate("*/meterPlot/highExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/meterPlot/highExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/meterPlot/highExpression", "setHighExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/meterPlot/highExpression", "setText", 0);
 
@@ -1209,25 +1238,25 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/ganttDataset/ganttSeries", JRGanttSeriesFactory.class.getName());
 		digester.addSetNext("*/ganttDataset/ganttSeries", "addGanttSeries", JRDesignGanttSeries.class.getName());
 		digester.addFactoryCreate("*/ganttSeries", JRGanttDatasetFactory.class.getName());
-		digester.addFactoryCreate("*/ganttSeries/seriesExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addFactoryCreate("*/ganttSeries/seriesExpression", depComparableExprFactoryClass);
 		digester.addSetNext("*/ganttSeries/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/ganttSeries/seriesExpression", "setText", 0);
-		digester.addFactoryCreate("*/ganttSeries/taskExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addFactoryCreate("*/ganttSeries/taskExpression", depStringExprFactoryClass);
 		digester.addSetNext("*/ganttSeries/taskExpression", "setTaskExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/ganttSeries/taskExpression", "setText", 0);
-		digester.addFactoryCreate("*/ganttSeries/subtaskExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addFactoryCreate("*/ganttSeries/subtaskExpression", depStringExprFactoryClass);
 		digester.addSetNext("*/ganttSeries/subtaskExpression", "setSubtaskExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/ganttSeries/subtaskExpression", "setText", 0);
-		digester.addFactoryCreate("*/ganttSeries/startDateExpression", JRExpressionFactory.DateExpressionFactory.class);
+		digester.addFactoryCreate("*/ganttSeries/startDateExpression", depDateExprFactoryClass);
 		digester.addSetNext("*/ganttSeries/startDateExpression", "setStartDateExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/ganttSeries/startDateExpression", "setText", 0);
-		digester.addFactoryCreate("*/ganttSeries/endDateExpression", JRExpressionFactory.DateExpressionFactory.class);
+		digester.addFactoryCreate("*/ganttSeries/endDateExpression", depDateExprFactoryClass);
 		digester.addSetNext("*/ganttSeries/endDateExpression", "setEndDateExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/ganttSeries/endDateExpression", "setText", 0);
-		digester.addFactoryCreate("*/ganttSeries/percentExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate("*/ganttSeries/percentExpression", depNumberExprFactoryClass);
 		digester.addSetNext("*/ganttSeries/percentExpression", "setPercentExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/ganttSeries/percentExpression", "setText", 0);
-		digester.addFactoryCreate("*/ganttSeries/labelExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addFactoryCreate("*/ganttSeries/labelExpression", depStringExprFactoryClass);
 		digester.addSetNext("*/ganttSeries/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod("*/ganttSeries/labelExpression", "setText", 0);
 	}
@@ -1272,7 +1301,9 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/crosstab/crosstabParameter", JRCrosstabParameterFactory.class.getName());
 		digester.addSetNext("*/crosstab/crosstabParameter", "addParameter", JRCrosstabParameter.class.getName());
 
-		digester.addFactoryCreate("*/crosstab/crosstabParameter/parameterValueExpression", JRCrosstabParameterValueExpressionFactory.class.getName());
+		@SuppressWarnings("deprecation")
+		Class<?> depXtabParamValueExprFactory = net.sf.jasperreports.crosstabs.xml.JRCrosstabParameterValueExpressionFactory.class;
+		digester.addFactoryCreate("*/crosstab/crosstabParameter/parameterValueExpression", depXtabParamValueExprFactory.getName());
 		digester.addSetNext("*/crosstab/crosstabParameter/parameterValueExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/crosstab/crosstabParameter/parameterValueExpression", "setText", 0);
 
@@ -1311,19 +1342,24 @@ public final class JRXmlDigesterFactory
 
 		String orderByPattern = bucketPattern 
 				+ "/" + JRCrosstabBucketFactory.ELEMENT_orderByExpression;
-		digester.addFactoryCreate(orderByPattern, 
-				new JRExpressionFactory.ArbitraryExpressionFactory(Object.class));
+		@SuppressWarnings("deprecation")
+		JRExpressionFactory.ArbitraryExpressionFactory depArbitraryExprFactory = new JRExpressionFactory.ArbitraryExpressionFactory(Object.class);
+		digester.addFactoryCreate(orderByPattern, depArbitraryExprFactory);
 		digester.addSetNext(orderByPattern, "setOrderByExpression", JRExpression.class.getName());
 		digester.addCallMethod(orderByPattern, "setText", 0);
 
-		digester.addFactoryCreate("*/bucket/comparatorExpression", JRExpressionFactory.ComparatorExpressionFactory.class.getName());
+		@SuppressWarnings("deprecation")
+		Class<?> depComparatorExprFactory = JRExpressionFactory.ComparatorExpressionFactory.class;
+		digester.addFactoryCreate("*/bucket/comparatorExpression", depComparatorExprFactory.getName());
 		digester.addSetNext("*/bucket/comparatorExpression", "setComparatorExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/bucket/comparatorExpression", "setText", 0);
 
 		digester.addFactoryCreate("*/crosstab/measure", JRCrosstabMeasureFactory.class.getName());
 		digester.addSetNext("*/crosstab/measure", "addMeasure", JRDesignCrosstabMeasure.class.getName());
 
-		digester.addFactoryCreate("*/crosstab/measure/measureExpression", JRCrosstabMeasureExpressionFactory.class.getName());
+		@SuppressWarnings("deprecation")
+		Class<?> depXtabMeasureExprFactory = net.sf.jasperreports.crosstabs.xml.JRCrosstabMeasureExpressionFactory.class;
+		digester.addFactoryCreate("*/crosstab/measure/measureExpression", depXtabMeasureExprFactory.getName());
 		digester.addSetNext("*/crosstab/measure/measureExpression", "setValueExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/crosstab/measure/measureExpression", "setText", 0);
 
@@ -1369,7 +1405,9 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext(hyperlinkParameterPattern, "addHyperlinkParameter", JRHyperlinkParameter.class.getName());
 
 		String hyperlinkParameterExpressionPattern = hyperlinkParameterPattern + '/' + JRXmlConstants.ELEMENT_hyperlinkParameterExpression;
-		digester.addFactoryCreate(hyperlinkParameterExpressionPattern, JRStringExpressionFactory.class.getName());
+		@SuppressWarnings("deprecation")
+		Class<?> lcDepStringExprFactoryClass = JRStringExpressionFactory.class;
+		digester.addFactoryCreate(hyperlinkParameterExpressionPattern, lcDepStringExprFactoryClass.getName());
 		digester.addSetNext(hyperlinkParameterExpressionPattern, "setValueExpression", JRExpression.class.getName());
 		digester.addCallMethod(hyperlinkParameterExpressionPattern, "setText", 0);
 	}
@@ -1399,8 +1437,9 @@ public final class JRXmlDigesterFactory
 		
 		String genericElementParameterExpressionPattern = genericElementParameterPattern + "/"
 			+ JRXmlConstants.ELEMENT_genericElementParameter_valueExpression;
-		digester.addFactoryCreate(genericElementParameterExpressionPattern, 
-				JRExpressionFactory.ArbitraryExpressionFactory.class);
+		@SuppressWarnings("deprecation")
+		Class<?> depArbitraryExprFactory = JRExpressionFactory.ArbitraryExpressionFactory.class;
+		digester.addFactoryCreate(genericElementParameterExpressionPattern, depArbitraryExprFactory);
 		digester.addSetNext(genericElementParameterExpressionPattern, 
 				"setValueExpression", JRExpression.class.getName());
 		digester.addCallMethod(genericElementParameterExpressionPattern, "setText", 0);
@@ -1491,7 +1530,7 @@ public final class JRXmlDigesterFactory
 	{
 		try
 		{
-			String parserFactoryClass = JRProperties.getProperty(
+			String parserFactoryClass = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getProperty(
 					JRSaxParserFactory.PROPERTY_REPORT_PARSER_FACTORY);
 			
 			if (log.isDebugEnabled())
