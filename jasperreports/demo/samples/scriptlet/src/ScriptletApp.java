@@ -39,10 +39,17 @@ import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.export.SimpleCsvReportConfiguration;
+import net.sf.jasperreports.export.SimpleDocxReportConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
+import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
 import net.sf.jasperreports.export.SimpleOdsReportConfiguration;
+import net.sf.jasperreports.export.SimpleOdtReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimplePptxReportConfiguration;
+import net.sf.jasperreports.export.SimpleRtfExporterConfiguration;
+import net.sf.jasperreports.export.SimpleRtfReportConfiguration;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
@@ -163,6 +170,9 @@ public class ScriptletApp extends AbstractSampleApp
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleWriterExporterOutput(destFile));
+		SimpleRtfReportConfiguration configuration = new SimpleRtfReportConfiguration();
+		configuration.setProgressMonitor(new SimpleExportProgressMonitor());
+		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
 
@@ -188,6 +198,7 @@ public class ScriptletApp extends AbstractSampleApp
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
 		SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
 		configuration.setOnePagePerSheet(true);
+		configuration.setProgressMonitor(new SimpleExportProgressMonitor());
 		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
@@ -217,6 +228,7 @@ public class ScriptletApp extends AbstractSampleApp
 		net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration = 
 			new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
 		configuration.setOnePagePerSheet(true);
+		configuration.setProgressMonitor(new SimpleExportProgressMonitor());
 		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
@@ -241,6 +253,9 @@ public class ScriptletApp extends AbstractSampleApp
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleWriterExporterOutput(destFile));
+		SimpleCsvReportConfiguration configuration = new SimpleCsvReportConfiguration();
+		configuration.setProgressMonitor(new SimpleExportProgressMonitor());
+		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
 
@@ -264,6 +279,9 @@ public class ScriptletApp extends AbstractSampleApp
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		SimpleOdtReportConfiguration configuration = new SimpleOdtReportConfiguration();
+		configuration.setProgressMonitor(new SimpleExportProgressMonitor());
+		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
 
@@ -289,6 +307,7 @@ public class ScriptletApp extends AbstractSampleApp
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
 		SimpleOdsReportConfiguration configuration = new SimpleOdsReportConfiguration();
 		configuration.setOnePagePerSheet(true);
+		configuration.setProgressMonitor(new SimpleExportProgressMonitor());
 		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
@@ -313,6 +332,9 @@ public class ScriptletApp extends AbstractSampleApp
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		SimpleDocxReportConfiguration configuration = new SimpleDocxReportConfiguration();
+		configuration.setProgressMonitor(new SimpleExportProgressMonitor());
+		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
 
@@ -338,6 +360,7 @@ public class ScriptletApp extends AbstractSampleApp
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
 		SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
 		configuration.setOnePagePerSheet(true);
+		configuration.setProgressMonitor(new SimpleExportProgressMonitor());
 		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
@@ -362,6 +385,9 @@ public class ScriptletApp extends AbstractSampleApp
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		SimplePptxReportConfiguration configuration = new SimplePptxReportConfiguration();
+		configuration.setProgressMonitor(new SimpleExportProgressMonitor());
+		exporter.setConfiguration(configuration);
 
 		exporter.exportReport();
 
@@ -387,6 +413,9 @@ public class ScriptletApp extends AbstractSampleApp
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleHtmlExporterOutput(destFile));
+		SimpleHtmlReportConfiguration configuration = new SimpleHtmlReportConfiguration();
+		configuration.setProgressMonitor(new SimpleExportProgressMonitor());
+		exporter.setConfiguration(configuration);
 		
 		exporter.exportReport();
 
