@@ -80,11 +80,11 @@
 			<fileset dir="./build/classes"/>
 		</copy>
 
-		<replace
+		<replaceregexp
 			file="./build/javaflow/default.jasperreports.properties"
-			token="net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory"
-			value="net.sf.jasperreports.engine.fill.JRContinuationSubreportRunnerFactory">
-		</replace>
+			match="net.sf.jasperreports.subreport.runner.factory\=[\w\.]*"
+			replace="net.sf.jasperreports.subreport.runner.factory=net.sf.jasperreports.engine.fill.JRContinuationSubreportRunnerFactory">
+		</replaceregexp>
 
 		<javaflow srcdir="./build/javaflow" dstdir="./build/javaflow" mode="bcel">
 			<include name="net/sf/jasperreports/engine/fill/BaseReportFiller.class"/>
