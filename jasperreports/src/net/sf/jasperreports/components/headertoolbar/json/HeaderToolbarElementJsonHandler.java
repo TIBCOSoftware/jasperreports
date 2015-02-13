@@ -105,7 +105,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 {
 	private static final String HEADER_TOOLBAR_ELEMENT_JSON_TEMPLATE = "net/sf/jasperreports/components/headertoolbar/json/resources/HeaderToolbarElementJsonTemplate.vm";
 	private static final String PARAM_GENERATED_TEMPLATE_PREFIX = "net.sf.jasperreports.headertoolbar.";
-	
+
 	private static final List<String> datePatterns = new ArrayList<String>(); 
 	private static final List<String> timePatterns = new ArrayList<String>(); 
 	private static final Map<String, String> numberPatternsMap = new LinkedHashMap<String, String>(); 
@@ -331,7 +331,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			JRDesignTextField detailTextField = TableUtil.getCellElement(JRDesignTextField.class, column.getDetailCell(), true);
 			if (detailTextField != null)
 			{
-				ConditionalFormattingData detailCfd = getConditionalFormattingData(jrContext, reportContext, dataset, tableUUID, detailTextField, null);
+				ConditionalFormattingData detailCfd = getConditionalFormattingData(element, jrContext, reportContext, dataset, detailTextField, null);
 				if (detailCfd != null)
 				{
 					contextMap.put("conditionalFormattingData", JacksonUtil.getInstance(jrContext).getJsonString(detailCfd));
@@ -802,11 +802,11 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				textField == null 
 					? null 
 					: getConditionalFormattingData(
+						null,
 						jasperReportsContext, 
 						reportContext, 
 						dataset, 
-						tableUuid, 
-						textField, 
+						textField,
 						groupInfo.getName()
 						);
 			
@@ -826,17 +826,32 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 	}
 
 	private static ConditionalFormattingData getConditionalFormattingData(
+		JRGenericPrintElement element,
 		JasperReportsContext jasperReportsContext, 
 		ReportContext reportContext, 
 		JRDesignDataset dataset,
-		String tableUuid,
 		JRDesignTextField textField,
 		String groupName
 		) 
 	{
 		FilterTypesEnum conditionType = null;
-		
-		String conditionTypeProp = textField.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_CONDTION_TYPE);
+		String conditionTypeProp;
+
+		// only for the detail values the element will not be null
+		if (element != null) {
+			conditionTypeProp = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE);
+
+			if (element.getPropertiesMap().containsProperty(HeaderToolbarElement.PROPERTY_COLUMN_FIELD)) {
+				textField.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_FIELD, element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_FIELD));
+			} else if (element.getPropertiesMap().containsProperty(HeaderToolbarElement.PROPERTY_COLUMN_VARIABLE)) {
+				textField.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_VARIABLE, element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_VARIABLE));
+			}
+
+		} else {
+			conditionTypeProp = textField.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_CONDTION_TYPE);
+		}
+
+
 		if (conditionTypeProp == null)
 		{
 			JRExpression expression = textField.getExpression();
@@ -913,7 +928,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				//FIXMEJIVE should we raise error?
 			}
 		}
-		
+
 		return cfd;
 	}
 

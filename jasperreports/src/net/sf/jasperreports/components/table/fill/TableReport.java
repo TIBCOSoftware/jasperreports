@@ -634,9 +634,11 @@ public class TableReport implements JRReport
 				SortFieldTypeEnum columnType = null;
 				FilterTypesEnum filterType = null;
 				String suffix = "";
+				boolean hasFieldOrVariable = false;
 				
 				if (column.getPropertiesMap().containsProperty(PROPERTY_COLUMN_FIELD))
 				{
+					hasFieldOrVariable = true;
 					fieldOrVariableName = column.getPropertiesMap().getProperty(PROPERTY_COLUMN_FIELD);
 					columnType = SortFieldTypeEnum.FIELD;
 					JRField field = getField(fieldOrVariableName);
@@ -649,6 +651,7 @@ public class TableReport implements JRReport
 					}
 				} else if (column.getPropertiesMap().containsProperty(PROPERTY_COLUMN_VARIABLE))
 				{
+					hasFieldOrVariable = true;
 					fieldOrVariableName = column.getPropertiesMap().getProperty(PROPERTY_COLUMN_VARIABLE);
 					columnType = SortFieldTypeEnum.VARIABLE;
 					JRVariable variable = getVariable(fieldOrVariableName);
@@ -759,9 +762,14 @@ public class TableReport implements JRReport
 					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE, columnType.getName());
 				}
 				
-				if (filterType != null && isFilterable)
+				if (filterType != null)
 				{
 					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE, filterType.getName());
+				}
+
+				if (columnType != null && hasFieldOrVariable) {
+					String property = SortFieldTypeEnum.FIELD.equals(columnType) ? HeaderToolbarElement.PROPERTY_COLUMN_FIELD : HeaderToolbarElement.PROPERTY_COLUMN_VARIABLE;
+					genericElement.getPropertiesMap().setProperty(property, fieldOrVariableName);
 				}
 				
 				String columnName = fieldOrVariableName != null ? fieldOrVariableName : String.valueOf(columnIndex);
