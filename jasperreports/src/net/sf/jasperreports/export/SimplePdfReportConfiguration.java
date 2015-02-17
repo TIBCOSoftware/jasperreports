@@ -35,6 +35,10 @@ public class SimplePdfReportConfiguration extends SimpleReportExportConfiguratio
 	private Boolean isSizePageToContent;
 	private Boolean isIgnoreHyperlink;
 	private Boolean isForceLineBreakPolicy;
+	private Integer oddPageOffsetX;
+	private Integer oddPageOffsetY;
+	private Integer evenPageOffsetX;
+	private Integer evenPageOffsetY;
 
 	
 	/**
@@ -122,5 +126,69 @@ public class SimplePdfReportConfiguration extends SimpleReportExportConfiguratio
 	public void setForceLineBreakPolicy(Boolean isForceLineBreakPolicy)
 	{
 		this.isForceLineBreakPolicy = isForceLineBreakPolicy;
+	}
+	
+	/**
+	 * 
+	 */
+	public Integer getOddPageOffsetX()
+	{
+		return oddPageOffsetX;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setOddPageOffsetX(Integer oddPageOffsetX)
+	{
+		this.oddPageOffsetX = oddPageOffsetX;
+	}
+	
+	/**
+	 * 
+	 */
+	public Integer getOddPageOffsetY()
+	{
+		return oddPageOffsetY;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setOddPageOffsetY(Integer oddPageOffsetY)
+	{
+		this.oddPageOffsetY = oddPageOffsetY;
+	}
+	
+	/**
+	 * 
+	 */
+	public Integer getEvenPageOffsetX()
+	{
+		return evenPageOffsetX;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setEvenPageOffsetX(Integer evenPageOffsetX)
+	{
+		this.evenPageOffsetX = evenPageOffsetX;
+	}
+	
+	/**
+	 * 
+	 */
+	public Integer getEvenPageOffsetY()
+	{
+		return evenPageOffsetY;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setEvenPageOffsetY(Integer evenPageOffsetY)
+	{
+		this.evenPageOffsetY = evenPageOffsetY;
 	}
 }

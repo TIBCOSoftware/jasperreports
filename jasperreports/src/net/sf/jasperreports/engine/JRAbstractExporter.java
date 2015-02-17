@@ -890,6 +890,15 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	}
 
 	
+	/**
+	 *
+	 */
+	protected boolean insideFrame()
+	{
+		return elementOffsetStack != null && elementOffsetStack.size() > 0;
+	}
+
+	
 	protected String getTextFormatFactoryClass(JRPrintText text)
 	{
 		String formatFactoryClass = text.getFormatFactoryClass();

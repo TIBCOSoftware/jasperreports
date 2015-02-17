@@ -76,6 +76,26 @@ public interface PdfReportConfiguration extends ReportExportConfiguration
 	public static final String PROPERTY_FORCE_LINEBREAK_POLICY = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
 
 	/**
+	 * Property that provides a default value for the {@link #getOddPageOffsetX()} export configuration setting.
+	 */
+	public static final String PROPERTY_ODD_PAGE_OFFSET_X = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.odd.page.offset.x";
+
+	/**
+	 * Property that provides a default value for the {@link #getOddPageOffsetY()} export configuration setting.
+	 */
+	public static final String PROPERTY_ODD_PAGE_OFFSET_Y = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.odd.page.offset.y";
+
+	/**
+	 * Property that provides a default value for the {@link #getEvenPageOffsetX()} export configuration setting.
+	 */
+	public static final String PROPERTY_EVEN_PAGE_OFFSET_X = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.even.page.offset.x";
+
+	/**
+	 * Property that provides a default value for the {@link #getEvenPageOffsetY()} export configuration setting.
+	 */
+	public static final String PROPERTY_EVEN_PAGE_OFFSET_Y = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.even.page.offset.y";
+
+	/**
 	 * Flag to force the rendering of SVG images using shapes, on the PDF Graphics2D context.
 	 *
 	 * This allows rendering fonts as shapes and avoid font mapping issues that might cause Unicode
@@ -165,6 +185,43 @@ public interface PdfReportConfiguration extends ReportExportConfiguration
 		)
 	@ExporterProperty(
 		value=PROPERTY_FORCE_LINEBREAK_POLICY,
-		booleanDefault=false)
+		booleanDefault=false
+		)
 	public Boolean isForceLineBreakPolicy();
+
+	/**
+	 * Specifies the X offset for moving elements in odd page number pages, to simulate gutter margins.
+	 */
+	@ExporterProperty(
+		value=PROPERTY_ODD_PAGE_OFFSET_X,
+		intDefault=0
+		)
+	public Integer getOddPageOffsetX();
+	
+	/**
+	 * Specifies the Y offset for moving elements in odd page number pages, to simulate gutter margins.
+	 */
+	@ExporterProperty(
+		value=PROPERTY_ODD_PAGE_OFFSET_Y,
+		intDefault=0
+		)
+	public Integer getOddPageOffsetY();
+
+	/**
+	 * Specifies the X offset for moving elements in even page number pages, to simulate gutter margins.
+	 */
+	@ExporterProperty(
+		value=PROPERTY_EVEN_PAGE_OFFSET_X,
+		intDefault=0
+		)
+	public Integer getEvenPageOffsetX();
+	
+	/**
+	 * Specifies the Y offset for moving elements in even page number pages, to simulate gutter margins.
+	 */
+	@ExporterProperty(
+		value=PROPERTY_EVEN_PAGE_OFFSET_Y,
+		intDefault=0
+		)
+	public Integer getEvenPageOffsetY();
 }
