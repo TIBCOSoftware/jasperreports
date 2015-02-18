@@ -65,7 +65,7 @@
     <name>Report Filling</name>
     <content>
       <property ref="net.sf.jasperreports.band.split.type"/>
-      <property ref="net.sf.jasperreports.chart.pie.ignore.duplicate.key"/>
+      <property ref="net.sf.jasperreports.chart.pie.ignore.duplicated.key"/>
       <property ref="net.sf.jasperreports.chart.render.type"/>
       <property ref="net.sf.jasperreports.chart.renderer.factory.{render_type}"/>
       <property ref="net.sf.jasperreports.chart.theme"/>
@@ -1098,9 +1098,9 @@ Specifies the default split type for bands. See the splitType attribute of the r
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.chart.pie.ignore.duplicate.key -->
+  <!-- net.sf.jasperreports.chart.pie.ignore.duplicated.key -->
   
-  <configProperty name="net.sf.jasperreports.chart.pie.ignore.duplicate.key">
+  <configProperty name="net.sf.jasperreports.chart.pie.ignore.duplicated.key">
     <description>
 Specifies whether duplicated key entries in pie dataset should be ignored and only the last value be considered, or whether an exception should be raised instead.
     </description>
