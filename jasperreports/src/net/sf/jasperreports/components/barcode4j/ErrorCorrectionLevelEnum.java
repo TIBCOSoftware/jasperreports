@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedEnum;
 
@@ -37,32 +38,30 @@ public enum ErrorCorrectionLevelEnum implements NamedEnum
 	/**
 	 *
 	 */
-	L(ErrorCorrectionLevel.L, "L"),
+	L("L"),
 
 	/**
 	 *
 	 */
-	M(ErrorCorrectionLevel.M, "M"),
+	M("M"),
 
 	/**
 	 *
 	 */
-	Q(ErrorCorrectionLevel.Q, "Q"),
+	Q("Q"),
 
 	/**
 	 *
 	 */
-	H(ErrorCorrectionLevel.H, "H");
+	H("H");
 
 	/**
 	 *
 	 */
-	private final transient ErrorCorrectionLevel value;
 	private final transient String name;
 
-	private ErrorCorrectionLevelEnum(ErrorCorrectionLevel errorCorrectionLevel, String name) 
+	private ErrorCorrectionLevelEnum(String name) 
 	{
-		this.value = errorCorrectionLevel;
 		this.name = name;
 	}
 
@@ -79,7 +78,30 @@ public enum ErrorCorrectionLevelEnum implements NamedEnum
 	 */
 	public final ErrorCorrectionLevel getErrorCorrectionLevel()
 	{
-		return value;
+		// not storing this as instance field as we don't want to force an iText dependency
+		ErrorCorrectionLevel level;
+		if (name.equals("L"))
+		{
+			level = ErrorCorrectionLevel.L;
+		}
+		else if (name.equalsIgnoreCase("M"))
+		{
+			level = ErrorCorrectionLevel.M;
+		}
+		else if (name.equalsIgnoreCase("Q"))
+		{
+			level = ErrorCorrectionLevel.Q;
+		}
+		else if (name.equalsIgnoreCase("H"))
+		{
+			level = ErrorCorrectionLevel.H;
+		}
+		else
+		{
+			// should not happen
+			throw new JRRuntimeException("Unknown error correction level name " + name);
+		}
+		return level;
 	}
 
 	/**
