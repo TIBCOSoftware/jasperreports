@@ -115,6 +115,9 @@
 		<field name="verticalAlignment" type="org.jfree.ui.VerticalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.VerticalAlignmentFieldHandler">
 			<bind-xml node="attribute"/>
 		</field>
+		<field name="frame" type="net.sf.jasperreports.chartthemes.simple.BlockFrameProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
 		<field name="padding" type="org.jfree.ui.RectangleInsets">
 			<bind-xml node="element"/>
 		</field>
@@ -355,6 +358,34 @@
 		<field name="file" type="java.lang.String">
 			<bind-xml node="attribute"/>
 		</field>
+	</class>
+	
+	<class name="net.sf.jasperreports.chartthemes.simple.BlockBorderProvider">
+		<map-to xml="block-border"/>
+		<field name="insets" type="org.jfree.ui.RectangleInsets">
+			<bind-xml node="element"/>
+		</field>
+		<field name="paint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+	</class>
+	
+	<class name="net.sf.jasperreports.chartthemes.simple.LineBorderProvider">
+		<map-to xml="line-border"/>
+		<field name="insets" type="org.jfree.ui.RectangleInsets">
+			<bind-xml node="element"/>
+		</field>
+		<field name="lineStroke" type="java.awt.Stroke">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="paint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+	</class>
+	
+	<class name="net.sf.jasperreports.chartthemes.simple.BlockFrameWrapper">
+		<map-to xml="awt-block-frame-wrapper"/>
+		<!-- the actual AWT block frame is lost on XML serialization -->
 	</class>
 	
 </mapping>

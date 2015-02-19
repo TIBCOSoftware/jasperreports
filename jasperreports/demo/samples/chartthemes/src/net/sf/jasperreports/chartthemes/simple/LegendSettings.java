@@ -57,7 +57,14 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	public static final String PROPERTY_font = "font";
 	public static final String PROPERTY_horizontalAlignment = "horizontalAlignment";
 	public static final String PROPERTY_verticalAlignment = "verticalAlignment";
+	
+	/**
+	 * @deprecated replaced by {@link #PROPERTY_frame}
+	 */
+	@Deprecated
 	public static final String PROPERTY_blockFrame = "blockFrame";
+	
+	public static final String PROPERTY_frame = "frame";
 	public static final String PROPERTY_padding = "padding";
 
 	/**
@@ -70,7 +77,15 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	private JRFont font = new JRBaseFont();
 	private HorizontalAlignment horizontalAlignment;
 	private VerticalAlignment verticalAlignment;
+	
+	/**
+	 * @deprecated replaced by {@link #frame}
+	 */
+	@Deprecated
 	private BlockFrame blockFrame;
+
+	private BlockFrameProvider frame;
+	
 	private RectangleInsets padding;
 	
 	/**
@@ -198,16 +213,27 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	 * @return the blockFrame
 	 */
 	public BlockFrame getBlockFrame() {
-		return blockFrame;
+		return frame == null ? null : frame.getBlockFrame();
 	}
 
 	/**
 	 * @param blockFrame the blockFrame to set
+	 * @deprecated replaced by {@link #setFrame(BlockFrameProvider)}
 	 */
+	@Deprecated
 	public void setBlockFrame(BlockFrame blockFrame) {
-		BlockFrame old = getBlockFrame();
-		this.blockFrame = blockFrame;
-		getEventSupport().firePropertyChange(PROPERTY_blockFrame, old, getBlockFrame());
+		BlockFrameWrapper frameProvider = new BlockFrameWrapper(blockFrame);
+		setFrame(frameProvider);
+	}
+
+	public BlockFrameProvider getFrame() {
+		return frame;
+	}
+
+	public void setFrame(BlockFrameProvider frame) {
+		BlockFrameProvider old = this.frame;
+		this.frame = frame;
+		getEventSupport().firePropertyChange(PROPERTY_frame, old, this.frame);
 	}
 
 	/**
@@ -262,6 +288,12 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 			
 			position = null;
 			
+		}
+		
+		if (blockFrame != null && frame == null)// check version?
+		{
+			frame = new BlockFrameWrapper(blockFrame);
+			blockFrame = null;
 		}
 	}
 	
