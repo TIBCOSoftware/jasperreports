@@ -384,7 +384,7 @@
 	</class>
 	
 	<class name="net.sf.jasperreports.chartthemes.simple.BlockFrameWrapper">
-		<map-to xml="awt-block-frame-wrapper"/>
+		<map-to xml="external-block-frame-wrapper"/>
 		<!-- the actual AWT block frame is lost on XML serialization -->
 	</class>
 	
