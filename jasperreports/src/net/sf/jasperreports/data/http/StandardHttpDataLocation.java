@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.data.http;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
+
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
@@ -66,4 +68,18 @@ public class StandardHttpDataLocation implements HttpDataLocation
 		this.password = password;
 	}
 
+	@Override
+	public Object clone()
+	{
+		try
+		{
+			return super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			// should not happen
+			throw new JRRuntimeException(e);
+		}
+	}
+	
 }
