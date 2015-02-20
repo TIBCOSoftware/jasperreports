@@ -481,8 +481,8 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	{
 		if (resourceBundleBaseName == null && !isMain)
 		{
-			resourceBundleBaseName = filler.mainDataset.resourceBundleBaseName;
-			whenResourceMissingType = filler.mainDataset.whenResourceMissingType;
+			resourceBundleBaseName = filler.jasperReport.getResourceBundle();
+			whenResourceMissingType = filler.jasperReport.getWhenResourceMissingTypeValue();
 		}
 	}
 	
