@@ -1910,4 +1910,8 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			FillDatasetPositionRecordIndexCallback.setRecordIndex(position, recordIndex);
 		}
 	}
+	
+	public BaseReportFiller getFiller() {
+		return filler;
+	}
 }

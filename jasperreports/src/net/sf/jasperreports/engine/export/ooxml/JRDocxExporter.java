@@ -137,6 +137,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	 */
 	public static final String DOCX_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "docx";
 	
+	public static final String EXCEPTION_MESSAGE_KEY_COLUMN_COUNT_OUT_OF_RANGE = "export.docx.column.count.out.of.range";
+	
 	protected static final String DOCX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.";
 
 	/**
@@ -490,7 +492,12 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		int rowCount = grid.getRowCount();
 		if (rowCount > 0 && grid.getColumnCount() > 63)
 		{
-			throw new JRException("The DOCX format does not support more than 63 columns in a table.");
+			throw new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_COLUMN_COUNT_OUT_OF_RANGE,  
+				new Object[]{grid.getColumnCount()}, 
+				getJasperReportsContext(), 
+				getLocale()
+				);
 		}
 		
 		// an empty page is encountered; 

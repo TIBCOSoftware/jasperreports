@@ -51,6 +51,9 @@ public class FillReturnValues
 	}
 
 	private static final Log log = LogFactory.getLog(FillReturnValues.class);
+	public static final String EXCEPTION_MESSAGE_KEY_NUMERIC_TYPE_REQUIRED = "fill.return.values.numeric.type.required";
+	public static final String EXCEPTION_MESSAGE_KEY_SOURCE_NOT_FOUND = "fill.return.values.source.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_VARIABLE_NOT_ASSIGNABLE = "fill.return.values.variable.not.assignable";
 	
 	private final BaseReportFiller filler;
 	private JRFillSubreportReturnValue[] returnValues;
@@ -292,8 +295,12 @@ public class FillReturnValues
 				JRVariable subrepVariable = sourceContext.getVariable(subreportVariableName);
 				if (subrepVariable == null)
 				{
-					throw new JRException("Source variable " + subreportVariableName 
-							+ " not found for return value " + returnValue.getToVariable() + ".");
+					throw new JRException(
+							EXCEPTION_MESSAGE_KEY_SOURCE_NOT_FOUND,  
+							new Object[]{subreportVariableName, returnValue.getToVariable()}, 
+							filler.getJasperReportsContext(),
+							filler.getLocale()
+							);
 				}
 				
 				JRVariable variable = filler.getVariable(returnValue.getToVariable());
@@ -304,16 +311,23 @@ public class FillReturnValues
 				{
 					if (!Number.class.isAssignableFrom(variable.getValueClass()))
 					{
-						throw new JRException("Variable " + returnValue.getToVariable() + 
-								" must have a numeric type.");
+						throw new JRException(
+								EXCEPTION_MESSAGE_KEY_NUMERIC_TYPE_REQUIRED,  
+								new Object[]{returnValue.getToVariable()}, 
+								filler.getJasperReportsContext(),
+								filler.getLocale()
+								);
 					}
 				}
 				else if (!variable.getValueClass().isAssignableFrom(subrepVariable.getValueClass()) &&
 						!(Number.class.isAssignableFrom(variable.getValueClass()) && Number.class.isAssignableFrom(subrepVariable.getValueClass())))
 				{
-					throw new JRException("Variable " + returnValue.getToVariable() + 
-							" is not assignable from source variable " + 
-							subreportVariableName);
+					throw new JRException(
+							EXCEPTION_MESSAGE_KEY_VARIABLE_NOT_ASSIGNABLE,  
+							new Object[]{returnValue.getToVariable(), subreportVariableName}, 
+							filler.getJasperReportsContext(),
+							filler.getLocale()
+							);
 				}
 			}
 		}

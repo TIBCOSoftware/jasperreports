@@ -46,7 +46,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class JRVerticalFiller extends JRBaseFiller
 {
-	public static final String EXCEPTION_MESSAGE_KEY_COLUMN_HEADER_OVERFLOW_INFINITE_LOOP = "vertical.filler.column.header.overflow.infinite.loop";
+	public static final String EXCEPTION_MESSAGE_KEY_COLUMN_HEADER_OVERFLOW_INFINITE_LOOP = "fill.vertical.filler.column.header.overflow.infinite.loop";
 	
 	private static final Log log = LogFactory.getLog(JRVerticalFiller.class);
 

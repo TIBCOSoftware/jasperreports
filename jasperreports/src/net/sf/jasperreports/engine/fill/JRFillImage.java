@@ -59,6 +59,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 public class JRFillImage extends JRFillGraphicElement implements JRImage
 {
 
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_SOURCE_CLASS = "fill.image.unknown.source.class";
 
 	/**
 	 *
@@ -606,7 +607,12 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					newRenderer = 
 						JRImageRenderer.getOnErrorRenderer(
 							getOnErrorTypeValue(), 
-							new JRException("Unknown image source class " + source.getClass().getName())
+							new JRException(
+									EXCEPTION_MESSAGE_KEY_UNKNOWN_SOURCE_CLASS,  
+									new Object[]{source.getClass().getName()}, 
+									filler.getJasperReportsContext(),
+									filler.getLocale()
+									)
 							);
 				}
 

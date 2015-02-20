@@ -124,7 +124,8 @@ import org.jfree.data.general.Dataset;
  */
 public class JRFillChart extends JRFillElement implements JRChart
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_MULTIAXIS_PLOT_TYPES_MIX_NOT_ALLOWED = "charts.multiaxis.plot.types.mix.not.allowed";
+	public static final String EXCEPTION_MESSAGE_KEY_MULTIAXIS_PLOT_NOT_SUPPORTED = "charts.multiaxis.plot.not.supported";
 
 	/**
 	 *
@@ -1204,7 +1205,12 @@ public class JRFillChart extends JRFillElement implements JRChart
 				CategoryPlot mainCatPlot = (CategoryPlot)mainPlot;
 				if (!(axisChart.getPlot() instanceof CategoryPlot))
 				{
-					throw new JRException("You can not mix plot types in a MultiAxisChart");
+					throw new JRException(
+							EXCEPTION_MESSAGE_KEY_MULTIAXIS_PLOT_TYPES_MIX_NOT_ALLOWED,  
+							null, 
+							filler.getJasperReportsContext(),
+							filler.getLocale()
+							);
 				}
 
 				// Get the axis and add it to the multi axis chart plot
@@ -1233,7 +1239,12 @@ public class JRFillChart extends JRFillElement implements JRChart
 				XYPlot mainXyPlot = (XYPlot)mainPlot;
 				if (!(axisChart.getPlot() instanceof XYPlot))
 				{
-					throw new JRException("You can not mix plot types in a MultiAxisChart");
+					throw new JRException(
+							EXCEPTION_MESSAGE_KEY_MULTIAXIS_PLOT_TYPES_MIX_NOT_ALLOWED,  
+							null, 
+							filler.getJasperReportsContext(),
+							filler.getLocale()
+							);
 				}
 
 				// Get the axis and add it to the multi axis chart plot
@@ -1259,7 +1270,12 @@ public class JRFillChart extends JRFillElement implements JRChart
 			}
 			else
 			{
-				throw new JRException("MultiAxis charts only support Category and XY plots.");
+				throw new JRException(
+						EXCEPTION_MESSAGE_KEY_MULTIAXIS_PLOT_NOT_SUPPORTED,  
+						null, 
+						filler.getJasperReportsContext(),
+						filler.getLocale()
+						);
 			}
 		}
 

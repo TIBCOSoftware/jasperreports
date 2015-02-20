@@ -41,6 +41,8 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  */
 public class JRCrosstabExpressionEvaluator implements JRFillExpressionEvaluator
 {
+	public static final String EXCEPTION_MESSAGE_KEY_EVALUATION_TYPE_NOT_SUPPORTED = "crosstabs.evaluation.type.not.supported";
+	
 	private final JREvaluator evaluator;
 	private JRFillDataset dataset;
 
@@ -55,9 +57,13 @@ public class JRCrosstabExpressionEvaluator implements JRFillExpressionEvaluator
 	{
 		if (evaluationType != JRExpression.EVALUATION_DEFAULT)
 		{
-			throw new JRException("The crosstab evaluator doesn't support old or estimated expression evaluation.");
+			throw new JRException(
+					EXCEPTION_MESSAGE_KEY_EVALUATION_TYPE_NOT_SUPPORTED,  
+					null, 
+					dataset.getFiller().getJasperReportsContext(),
+					dataset.getFiller().getMainDataset().getLocale()
+					);
 		}
-		
 		return evaluator.evaluate(expression);
 	}
 
