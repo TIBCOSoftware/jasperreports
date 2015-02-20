@@ -25,21 +25,16 @@ package net.sf.jasperreports.data.csv;
 
 import java.util.List;
 
-import net.sf.jasperreports.data.DataAdapter;
-import net.sf.jasperreports.data.DataFile;
+import net.sf.jasperreports.data.FileDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface CsvDataAdapter extends DataAdapter
+public interface CsvDataAdapter extends FileDataAdapter
 {
 	public String getFileName();
 
 	public void setFileName(String fileName);
-	
-	public DataFile getDataFile();
-	
-	public void setDataFile(DataFile dataFile);
 
 	public String getEncoding();
 

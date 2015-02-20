@@ -21,47 +21,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data.xls;
-
-import java.util.List;
-
-import net.sf.jasperreports.data.FileDataAdapter;
+package net.sf.jasperreports.data;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface XlsDataAdapter extends FileDataAdapter 
+public interface FileDataAdapter extends DataAdapter
 {
-	public String getDatePattern();
-
-	public String getNumberPattern();
-
-	public String getFileName();
-
-	public void setFileName(String filename);
 	
-	public boolean isUseFirstRowAsHeader();
+	DataFile getDataFile();
 	
-	public List<String> getColumnNames();
-
-	public List<Integer> getColumnIndexes();
-	
-	public void setColumnNames(List<String> columnNames);
-
-	public void setColumnIndexes(List<Integer> columnIndexes);
-
-	public void setUseFirstRowAsHeader(boolean useFirstRowAsHeader);
-
-	public void setDatePattern(String datePattern);
-
-	public void setNumberPattern(String numberPattern);
-	
-	public boolean isQueryExecuterMode();
-
-	public void setQueryExecuterMode(boolean queryExecuterMode);
-	
-	public String getSheetSelection();
-	
-	public void setSheetSelection(String sheetSelection);
+	void setDataFile(DataFile dataFile);
 	
 }

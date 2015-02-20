@@ -26,13 +26,12 @@ package net.sf.jasperreports.data.json;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.data.DataAdapter;
-import net.sf.jasperreports.data.DataFile;
+import net.sf.jasperreports.data.FileDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface JsonDataAdapter extends DataAdapter {
+public interface JsonDataAdapter extends FileDataAdapter {
 
 	public String getSelectExpression();
 
@@ -41,10 +40,6 @@ public interface JsonDataAdapter extends DataAdapter {
 	public String getFileName();
 
 	public void setFileName(String fileName);
-	
-	public DataFile getDataFile();
-	
-	public void setDataFile(DataFile dataFile);
 
 	public Locale getLocale();
 

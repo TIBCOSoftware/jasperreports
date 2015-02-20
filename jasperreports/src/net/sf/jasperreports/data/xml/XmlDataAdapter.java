@@ -26,22 +26,17 @@ package net.sf.jasperreports.data.xml;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.data.DataAdapter;
-import net.sf.jasperreports.data.DataFile;
+import net.sf.jasperreports.data.FileDataAdapter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface XmlDataAdapter extends DataAdapter
+public interface XmlDataAdapter extends FileDataAdapter
 {
 	public String getFileName();
 
 	public void setFileName(String fileName);
-	
-	public DataFile getDataFile();
-	
-	public void setDataFile(DataFile dataFile);
 	
 	public String getSelectExpression();
 
