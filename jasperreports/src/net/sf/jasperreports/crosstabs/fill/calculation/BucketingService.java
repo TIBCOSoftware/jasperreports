@@ -48,7 +48,7 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 public abstract class BucketingService
 {
 	
-	public static final String EXCEPTION_MESSAGE_KEY_BUCKET_MEASURE_LIMIT = BucketingService.class.getName() + ".crosstab.bucket.measure.limit";
+	public static final String EXCEPTION_MESSAGE_KEY_BUCKET_MEASURE_LIMIT = "crosstab.bucket.measure.limit";
 	public static final String PROPERTY_BUCKET_MEASURE_LIMIT = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.bucket.measure.limit";
 	
 	protected static final byte DIMENSION_ROW = 0;

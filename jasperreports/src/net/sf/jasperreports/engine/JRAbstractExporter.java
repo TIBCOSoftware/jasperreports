@@ -75,9 +75,9 @@ import net.sf.jasperreports.export.SimpleExporterInputItem;
  */
 public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C extends ExporterConfiguration, O extends ExporterOutput, E extends JRExporterContext> implements JRExporter<ExporterInput, RC, C, O>
 {
-	public static final String EXCEPTION_MESSAGE_KEY_START_PAGE_INDEX_OUT_OF_RANGE = JRAbstractExporter.class.getName() + ".start.page.index.out.of.range";
-	public static final String EXCEPTION_MESSAGE_KEY_END_PAGE_INDEX_OUT_OF_RANGE = JRAbstractExporter.class.getName() + ".end.page.index.out.of.range";
-	public static final String EXCEPTION_MESSAGE_KEY_PAGE_INDEX_OUT_OF_RANGE = JRAbstractExporter.class.getName() + ".page.index.out.of.range";
+	public static final String EXCEPTION_MESSAGE_KEY_START_PAGE_INDEX_OUT_OF_RANGE = "export.start.page.index.out.of.range";
+	public static final String EXCEPTION_MESSAGE_KEY_END_PAGE_INDEX_OUT_OF_RANGE = "export.end.page.index.out.of.range";
+	public static final String EXCEPTION_MESSAGE_KEY_PAGE_INDEX_OUT_OF_RANGE = "export.page.index.out.of.range";
 
 	/**
 	 * The suffix applied to properties that give the default filter factory for

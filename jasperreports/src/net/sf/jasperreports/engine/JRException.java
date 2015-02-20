@@ -26,8 +26,8 @@ package net.sf.jasperreports.engine;
 import java.util.Locale;
 import java.util.MissingResourceException;
 
+import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
-
 
 
 /**
@@ -39,6 +39,7 @@ public class JRException extends Exception
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public static final String ERROR_MESSAGES_BUNDLE = "jasperreports_messages";
+	public static final String ERROR_MESSAGE_KEY_PREFIX = "net.sf.jasperreports.exception.";
 	
 	private Object[] args;
 	private String messageKey;
@@ -133,7 +134,9 @@ public class JRException extends Exception
 			try
 			{
 				hasLocalizedMessage = true;
-				return MessageUtil.getInstance(jasperReportsContext).getMessageProvider(ERROR_MESSAGES_BUNDLE).getMessage(messageKey, args, locale);
+				String bundleName = getMessageBundleName();
+				MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
+				return messageProvider.getMessage(getMessageKeyPrefix() + messageKey, args, locale);
 			}
 			catch (MissingResourceException e)
 			{
@@ -143,4 +146,13 @@ public class JRException extends Exception
 		return messageKey;
 	}
 
+	protected String getMessageBundleName()
+	{
+		return ERROR_MESSAGES_BUNDLE;
+	}
+	
+	protected String getMessageKeyPrefix()
+	{
+		return ERROR_MESSAGE_KEY_PREFIX;
+	}
 }

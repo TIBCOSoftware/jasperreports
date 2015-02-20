@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
 
 
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
@@ -39,6 +38,7 @@ public class JRRuntimeException extends RuntimeException
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String ERROR_MESSAGES_BUNDLE = "jasperreports_messages";
+	public static final String ERROR_MESSAGE_KEY_PREFIX = "net.sf.jasperreports.exception.";
 	
 	private Object[] args;
 	private String messageKey;
@@ -135,7 +135,7 @@ public class JRRuntimeException extends RuntimeException
 				hasLocalizedMessage = true;
 				String bundleName = getMessageBundleName();
 				MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
-				return messageProvider.getMessage(messageKey, args, locale);
+				return messageProvider.getMessage(getMessageKeyPrefix() + messageKey, args, locale);
 			}
 			catch (MissingResourceException e)
 			{
@@ -148,5 +148,10 @@ public class JRRuntimeException extends RuntimeException
 	protected String getMessageBundleName()
 	{
 		return ERROR_MESSAGES_BUNDLE;
+	}
+	
+	protected String getMessageKeyPrefix()
+	{
+		return ERROR_MESSAGE_KEY_PREFIX;
 	}
 }
