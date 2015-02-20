@@ -492,7 +492,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		int rowCount = grid.getRowCount();
 		if (rowCount > 0 && grid.getColumnCount() > 63)
 		{
-			throw new JRRuntimeException(
+			throw new JRException(
 				EXCEPTION_MESSAGE_KEY_COLUMN_COUNT_OUT_OF_RANGE,  
 				new Object[]{grid.getColumnCount()}, 
 				getJasperReportsContext(), 
