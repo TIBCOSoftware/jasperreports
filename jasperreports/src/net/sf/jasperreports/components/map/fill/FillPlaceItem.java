@@ -54,6 +54,8 @@ import org.w3c.dom.Node;
 public class FillPlaceItem extends FillItem
 {
 	public static final String PROPERTY_COLOR = "color";
+	public static final String EXCEPTION_MESSAGE_KEY_MISSING_COORDINATES = "components.map.missing.coordinates";
+	private final JRFillObjectFactory factory;
 	/**
 	 *
 	 */
@@ -63,6 +65,7 @@ public class FillPlaceItem extends FillItem
 		)
 	{
 		super(item, factory);
+		this.factory = factory;
 	}
 
 	@Override
@@ -123,15 +126,21 @@ public class FillPlaceItem extends FillItem
 					result.put(MapComponent.PROPERTY_longitude, coords[1]);
 					result.remove(MapComponent.PROPERTY_address);
 				} else {
-					throw new JRException("Invalid coordinates geocoded from address: (" + coords[0] +", "+coords[1]+").");
+					throw new JRException(
+							MapFillComponent.EXCEPTION_MESSAGE_KEY_INVALID_ADDRESS_COORDINATES,  
+							new Object[]{coords[0], coords[1]}, 
+							factory.getFiller().getJasperReportsContext(),
+							factory.getFiller().getMainDataset().getLocale()
+							);
 				}
 			}
 			else 
 			{
-				throw 
-					new JRException(
-						"The value for " + (fLatitude == null ? MapComponent.PROPERTY_latitude : MapComponent.PROPERTY_longitude) 
-						+ " property is missing and no address was provided either."
+				throw new JRException(
+						EXCEPTION_MESSAGE_KEY_MISSING_COORDINATES,  
+						new Object[]{fLatitude == null ? MapComponent.PROPERTY_latitude : MapComponent.PROPERTY_longitude}, 
+						factory.getFiller().getJasperReportsContext(),
+						factory.getFiller().getMainDataset().getLocale()
 						);
 			}
 		}

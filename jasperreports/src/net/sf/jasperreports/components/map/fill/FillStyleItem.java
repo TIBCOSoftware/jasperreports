@@ -43,6 +43,8 @@ public class FillStyleItem extends FillItem
 	public static final String PROPERTY_NAME = "name";
 	public static final String PROPERTY_COLOR = "color";
 
+	private final JRFillObjectFactory factory;
+	
 	/**
 	 *
 	 */
@@ -52,6 +54,7 @@ public class FillStyleItem extends FillItem
 		)
 	{
 		super(item, factory);
+		this.factory = factory;
 	}
 
 	@Override
@@ -67,7 +70,12 @@ public class FillStyleItem extends FillItem
 	@Override
 	public void verifyValue(ItemProperty property, Object value) throws JRException {
 		if(PROPERTY_NAME.equals(property.getName()) && (value == null || (value instanceof String && ((String)value).length() == 0))){
-			throw new JRException("Found empty value the " + property.getName() + " style item property.");
+			throw new JRException(
+					MapFillComponent.EXCEPTION_MESSAGE_KEY_NULL_OR_EMPTY_VALUE_NOT_ALLOWED,  
+					new Object[]{property.getName()}, 
+					factory.getFiller().getJasperReportsContext(),
+					factory.getFiller().getMainDataset().getLocale()
+					);
 		}
 	}
 	

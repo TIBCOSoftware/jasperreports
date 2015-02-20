@@ -76,9 +76,9 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	public static final String LONGITUDE_NODE = "/GeocodeResponse/result/geometry/location/lng";
 	public static final String STATUS_OK = "OK";
 	
-	public static final String EXCEPTION_MESSAGE_KEY_NULL_VALUE_NOT_ALLOWED = "components.map.null.value.not.allowed";
-	public static final String EXCEPTION_MESSAGE_KEY_NULL_VALUES_NOT_ALLOWED = "components.map.null.values.not.allowed";
-	public static final String EXCEPTION_MESSAGE_KEY_INVALID_CENTER_COORDINATES = "components.map.invalid.center.coordinates";
+	public static final String EXCEPTION_MESSAGE_KEY_NULL_OR_EMPTY_VALUE_NOT_ALLOWED = "components.map.null.or.empty.value.not.allowed";
+	public static final String EXCEPTION_MESSAGE_KEY_NULL_OR_EMPTY_VALUES_NOT_ALLOWED = "components.map.null.or.empty.values.not.allowed";
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_ADDRESS_COORDINATES = "components.map.invalid.address.coordinates";
 	public static final String EXCEPTION_MESSAGE_KEY_ADDRESS_REQUEST_FAILED = "components.map.address.request.failed";
 	
 	private final MapComponent mapComponent;
@@ -177,7 +177,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 				longitude = coords[1];
 			} else {
 				throw new JRException(
-						EXCEPTION_MESSAGE_KEY_INVALID_CENTER_COORDINATES,  
+						EXCEPTION_MESSAGE_KEY_INVALID_ADDRESS_COORDINATES,  
 						new Object[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude}, 
 						factory.getFiller().getJasperReportsContext(),
 						factory.getExpressionEvaluator().getFillDataset().getLocale()
@@ -245,7 +245,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 										if(!coordSet){
 											if(currentItem.get(MapComponent.PROPERTY_latitude) == null || currentItem.get(MapComponent.PROPERTY_longitude) == null){
 												throw new JRException(
-														EXCEPTION_MESSAGE_KEY_NULL_VALUES_NOT_ALLOWED,  
+														EXCEPTION_MESSAGE_KEY_NULL_OR_EMPTY_VALUES_NOT_ALLOWED,  
 														new Object[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude}, 
 														factory.getFiller().getJasperReportsContext(),
 														factory.getExpressionEvaluator().getFillDataset().getLocale()
@@ -281,7 +281,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 						String styleName = (String)currentStyle.get(MapComponent.PROPERTY_name);
 						if(styleName == null){
 							throw new JRException(
-									EXCEPTION_MESSAGE_KEY_NULL_VALUE_NOT_ALLOWED,  
+									EXCEPTION_MESSAGE_KEY_NULL_OR_EMPTY_VALUE_NOT_ALLOWED,  
 									new Object[]{MapComponent.PROPERTY_name}, 
 									factory.getFiller().getJasperReportsContext(),
 									factory.getExpressionEvaluator().getFillDataset().getLocale()
