@@ -1954,7 +1954,13 @@ public class JRHorizontalFiller extends JRBaseFiller
 	{
 		if (isCreatingNewPage)
 		{
-			throw new JRException("Infinite loop creating new page.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INFINITE_LOOP_CREATING_NEW_PAGE,  
+					null, 
+					getJasperReportsContext(),
+					getLocale()
+					);
 		}
 
 		if (keepTogetherSavePoint != null)

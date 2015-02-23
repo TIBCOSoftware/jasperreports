@@ -117,6 +117,8 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	
 	private static final String RTF_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.rtf.";
 	
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_TEXT_HEIGHT = "export.rtf.invalid.text.height";
+
 	private static final int LINE_SPACING_FACTOR = 240; //(int)(240 * 2/3f);
 
 	/**
@@ -313,7 +315,13 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 				{
 					if (Thread.interrupted())
 					{
-						throw new JRException("Current thread interrupted");
+						throw 
+							new JRException(
+								EXCEPTION_MESSAGE_KEY_EXPORT_THREAD_INTERRUPTED,  
+								null, 
+								getJasperReportsContext(),
+								getLocale()
+								);
 					}
 
 					JRPrintPage page = pages.get(pageIndex);
@@ -682,7 +690,13 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 
 		if(textHeight <= 0) {
 			if(height <= 0 ){
-				throw new JRException("Invalid text height");
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_INVALID_TEXT_HEIGHT,  
+						null, 
+						getJasperReportsContext(),
+						getLocale()
+						);
 			}
 			textHeight = height;
 		}

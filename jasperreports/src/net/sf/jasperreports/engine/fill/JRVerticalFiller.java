@@ -46,7 +46,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public class JRVerticalFiller extends JRBaseFiller
 {
-	public static final String EXCEPTION_MESSAGE_KEY_COLUMN_HEADER_OVERFLOW_INFINITE_LOOP = "fill.vertical.filler.column.header.overflow.infinite.loop";
 	
 	private static final Log log = LogFactory.getLog(JRVerticalFiller.class);
 
@@ -1886,7 +1885,13 @@ public class JRVerticalFiller extends JRBaseFiller
 	{
 		if (isCreatingNewPage)
 		{
-			throw new JRException("Infinite loop creating new page.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INFINITE_LOOP_CREATING_NEW_PAGE,  
+					null, 
+					getJasperReportsContext(),
+					getLocale()
+					);
 		}
 
 		if (keepTogetherSavePoint != null)

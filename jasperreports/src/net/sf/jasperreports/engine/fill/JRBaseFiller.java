@@ -89,6 +89,9 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 	private static final Log log = LogFactory.getLog(JRBaseFiller.class);
 	
+	public static final String EXCEPTION_MESSAGE_KEY_INFINITE_LOOP_CREATING_NEW_PAGE = "fill.common.filler.infinite.loop.creating.new.page";
+	public static final String EXCEPTION_MESSAGE_KEY_COLUMN_HEADER_OVERFLOW_INFINITE_LOOP = "fill.common.filler.column.header.overflow.infinite.loop";
+	
 	private static final int PAGE_HEIGHT_PAGINATION_IGNORED = 0x7d000000;//less than Integer.MAX_VALUE to avoid 
 
 	protected BandReportFillerParent bandReportParent;

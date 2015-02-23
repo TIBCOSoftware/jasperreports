@@ -87,6 +87,10 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 	public static final String JSON_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "json";
 
 	protected static final String JSON_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.json.";
+	
+	protected static final String EXCEPTION_MESSAGE_KEY_INVALID_JSON_OBJECT = "export.json.invalid.json.object";
+	protected static final String EXCEPTION_MESSAGE_KEY_INVALID_JSON_OBJECT_SEMANTIC = EXCEPTION_MESSAGE_KEY_INVALID_JSON_OBJECT + ".semantic";
+	protected static final String EXCEPTION_MESSAGE_KEY_INVALID_JSON_OBJECT_ARRAY_FOUND = EXCEPTION_MESSAGE_KEY_INVALID_JSON_OBJECT + ".array.found";
 
 	public static final String JSON_EXPORTER_PATH_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "path";
 	public static final String JSON_EXPORTER_REPEAT_VALUE_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "repeat.value";
@@ -128,14 +132,32 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 				previousPath = null;
 
 				if (!isValid((ObjectNode) root, JSON_SCHEMA_ROOT_NAME, "", null)) {
-					throw new JRException("Invalid JSON object provided: semantically invalid!");
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_INVALID_JSON_OBJECT_SEMANTIC,  
+							null, 
+							getJasperReportsContext(),
+							getLocale()
+							);
 				}
 			} else {
-				throw new JRException("Invalid JSON object provided: expected object, received array!");
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_INVALID_JSON_OBJECT_ARRAY_FOUND,  
+						null, 
+						getJasperReportsContext(),
+						getLocale()
+						);
 			}
 
 		} catch (IOException e) {
-			throw new JRException("Invalid JSON object provided!");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INVALID_JSON_OBJECT,  
+					null, 
+					getJasperReportsContext(),
+					getLocale()
+					);
 		}
 	}
 

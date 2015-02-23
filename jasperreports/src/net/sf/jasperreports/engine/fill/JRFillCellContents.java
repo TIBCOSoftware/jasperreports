@@ -58,6 +58,8 @@ import org.apache.commons.collections.map.ReferenceMap;
  */
 public class JRFillCellContents extends JRFillElementContainer implements JRCellContents, JRStyleSetter
 {
+	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_SHRINK_CONTENTS = "fill.cell.contents.cannot.shrink.contents";
+
 	private final Map<StretchedContents,JRFillCellContents> transformedContentsCache;
 	private final Map<BoxContents,JRFillCellContents> boxContentsCache;
 	private final JRClonePool clonePool;
@@ -267,7 +269,13 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		if (newHeight < getHeight() || newWidth < getWidth())
 		{
-			throw new JRException("Cannot shrink cell contents.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_SHRINK_CONTENTS,  
+					null, 
+					filler.getJasperReportsContext(),
+					filler.getLocale()
+					);
 		}
 		
 		Object key = new StretchedContents(newWidth, newHeight, xPosition, yPosition);

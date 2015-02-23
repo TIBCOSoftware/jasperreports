@@ -81,6 +81,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 	private static final Log log = LogFactory.getLog(JRFillSubreport.class);
 	
+	public static final String EXCEPTION_MESSAGE_KEY_PROPERTY_NOT_SET = "fill.subreport.property.not.set";
+	public static final String EXCEPTION_MESSAGE_KEY_NO_REWINDABLE_DATA_SOURCE = "fill.subreport.no.rewindable.data.source";
+			
 	public static final String PROPERTY_SUBREPORT_GENERATE_RECTANGLE = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "subreport.generate.rectangle";
 	
@@ -927,7 +930,13 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			{
 //				if (log.isWarnEnabled())
 //					log.warn("The subreport is placed on a non-splitting band, but it does not have a rewindable data source.");
-				throw new JRException("The subreport is placed on a non-splitting band, but it does not have a rewindable data source.");
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_NO_REWINDABLE_DATA_SOURCE,  
+						null, 
+						filler.getJasperReportsContext(),
+						filler.getLocale()
+						);
 			}
 		}
 	}
@@ -1118,7 +1127,13 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		String factoryClassName = filler.getPropertiesUtil().getProperty(JRSubreportRunnerFactory.SUBREPORT_RUNNER_FACTORY);
 		if (factoryClassName == null)
 		{
-			throw new JRException("Property \"" + JRSubreportRunnerFactory.SUBREPORT_RUNNER_FACTORY + "\" must be set");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_PROPERTY_NOT_SET,  
+					new Object[]{JRSubreportRunnerFactory.SUBREPORT_RUNNER_FACTORY}, 
+					filler.getJasperReportsContext(),
+					filler.getLocale()
+					);
 		}
 		return runnerFactoryCache.getCachedInstance(factoryClassName);
 	}

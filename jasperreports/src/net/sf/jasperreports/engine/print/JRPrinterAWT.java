@@ -33,6 +33,7 @@ import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.util.Locale;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
@@ -55,6 +56,8 @@ import org.apache.commons.logging.LogFactory;
 public class JRPrinterAWT implements Printable
 {
 	private static final Log log = LogFactory.getLog(JRPrinterAWT.class);
+
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_PAGE_RANGE = "print.invalid.page.range";
 
 	/**
 	 *
@@ -135,12 +138,13 @@ public class JRPrinterAWT implements Printable
 			lastPageIndex >= jasperPrint.getPages().size()
 			)
 		{
-			throw new JRException(
-				"Invalid page index range : " +
-				firstPageIndex + " - " +
-				lastPageIndex + " of " +
-				jasperPrint.getPages().size()
-				);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INVALID_PAGE_RANGE,  
+					new Object[]{firstPageIndex, lastPageIndex, jasperPrint.getPages().size()}, 
+					jasperReportsContext,
+					new Locale(jasperPrint.getLocaleCode())
+					);
 		}
 
 		pageOffset = firstPageIndex;
