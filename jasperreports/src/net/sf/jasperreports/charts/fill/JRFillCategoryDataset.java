@@ -49,6 +49,8 @@ import org.jfree.data.general.Dataset;
 public class JRFillCategoryDataset extends JRFillChartDataset implements JRCategoryDataset
 {
 
+	public static final String EXCEPTION_MESSAGE_KEY_SERIES_NULL_NAME = "charts.category.dataset.series.null.name";
+	
 	/**
 	 *
 	 */
@@ -137,7 +139,13 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 				Comparable<?> seriesName = crtCategorySeries.getSeries();
 				if (seriesName == null)
 				{
-					throw new JRRuntimeException("Category series name is null.");
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_SERIES_NULL_NAME,  
+							null, 
+							getFiller().getJasperReportsContext(),
+							getFillDataset().getLocale()
+							);
 				}
 
 				dataset.addValue(

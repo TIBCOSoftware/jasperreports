@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
@@ -143,7 +144,7 @@ public class JRPrinterAWT implements Printable
 					EXCEPTION_MESSAGE_KEY_INVALID_PAGE_RANGE,  
 					new Object[]{firstPageIndex, lastPageIndex, jasperPrint.getPages().size()}, 
 					jasperReportsContext,
-					new Locale(jasperPrint.getLocaleCode())
+					JRDataUtils.getLocale(jasperPrint.getLocaleCode())
 					);
 		}
 

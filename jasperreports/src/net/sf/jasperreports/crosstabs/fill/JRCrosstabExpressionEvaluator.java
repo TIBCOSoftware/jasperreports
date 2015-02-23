@@ -62,7 +62,7 @@ public class JRCrosstabExpressionEvaluator implements JRFillExpressionEvaluator
 					EXCEPTION_MESSAGE_KEY_EVALUATION_TYPE_NOT_SUPPORTED,  
 					null, 
 					dataset.getFiller().getJasperReportsContext(),
-					dataset.getFiller().getMainDataset().getLocale()
+					dataset.getLocale()
 					);
 		}
 		return evaluator.evaluate(expression);

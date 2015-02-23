@@ -54,6 +54,8 @@ import org.jfree.data.time.TimePeriodValuesCollection;
 public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTimePeriodDataset
 {
 
+	public static final String EXCEPTION_MESSAGE_KEY_SERIES_NULL_NAME = "charts.time.period.dataset.series.null.name";
+
 	/**
 	 * 
 	 */
@@ -131,7 +133,13 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 				Comparable<?> seriesName = crtTimePeriodSeries.getSeries();
 				if (seriesName == null)
 				{
-					throw new JRRuntimeException("Time period series name is null.");
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_SERIES_NULL_NAME,  
+							null, 
+							getFiller().getJasperReportsContext(),
+							getFillDataset().getLocale()
+							);
 				}
 
 				TimePeriodValues timePeriodValues = seriesMap.get(seriesName);

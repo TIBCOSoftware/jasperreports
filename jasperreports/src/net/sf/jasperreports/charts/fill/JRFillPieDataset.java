@@ -62,6 +62,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	 * 
 	 */
 	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATED_KEY = "charts.pie.dataset.duplicated.key";
+	public static final String EXCEPTION_MESSAGE_KEY_NULL_KEY = "charts.pie.dataset.null.key";
 
 	/**
 	 *
@@ -238,7 +239,13 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 				Comparable<?> key = crtPieSeries.getKey();
 				if (key == null)
 				{
-					throw new JRRuntimeException("Key is null in pie dataset.");
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_NULL_KEY,
+							null, 
+							getFiller().getJasperReportsContext(),
+							getFillDataset().getLocale()
+							);
 				}
 
 				if (

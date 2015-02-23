@@ -164,7 +164,13 @@ public class FillPlaceItem extends FillItem
 					Node lngNode = (Node) new DOMXPath(MapFillComponent.LONGITUDE_NODE).selectSingleNode(document);
 					coords[1] = Float.valueOf(lngNode.getTextContent());
 				} else {
-					throw new JRRuntimeException("Address request failed (see status: " + status + ")");
+					throw 
+						new JRException(
+							MapFillComponent.EXCEPTION_MESSAGE_KEY_ADDRESS_REQUEST_FAILED,  
+							new Object[]{status}, 
+							factory.getFiller().getJasperReportsContext(),
+							factory.getExpressionEvaluator().getFillDataset().getLocale()
+							);
 				}
 			} catch (Exception e) {
 				throw new JRException(e);
