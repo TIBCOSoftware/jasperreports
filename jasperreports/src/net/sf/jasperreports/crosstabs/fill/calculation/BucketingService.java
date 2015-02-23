@@ -314,7 +314,8 @@ public abstract class BucketingService
 	{
 		if (processed)
 		{
-			throw new JRException(
+			throw 
+				new JRException(
 					EXCEPTION_MESSAGE_KEY_BUCKET_DATA_PROCESSED,  
 					null, 
 					serviceContext.getJasperReportsContext(),

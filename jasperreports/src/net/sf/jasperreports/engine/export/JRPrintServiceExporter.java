@@ -318,7 +318,8 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 			
 			if (printService == null)
 			{
-				throw new JRException(
+				throw 
+					new JRException(
 						EXCEPTION_MESSAGE_KEY_PRINT_SERVICE_NOT_FOUND,  
 						null, 
 						getJasperReportsContext(), 

@@ -1205,7 +1205,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 				CategoryPlot mainCatPlot = (CategoryPlot)mainPlot;
 				if (!(axisChart.getPlot() instanceof CategoryPlot))
 				{
-					throw new JRException(
+					throw 
+						new JRException(
 							EXCEPTION_MESSAGE_KEY_MULTIAXIS_PLOT_TYPES_MIX_NOT_ALLOWED,  
 							null, 
 							filler.getJasperReportsContext(),
@@ -1239,7 +1240,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 				XYPlot mainXyPlot = (XYPlot)mainPlot;
 				if (!(axisChart.getPlot() instanceof XYPlot))
 				{
-					throw new JRException(
+					throw 
+						new JRException(
 							EXCEPTION_MESSAGE_KEY_MULTIAXIS_PLOT_TYPES_MIX_NOT_ALLOWED,  
 							null, 
 							filler.getJasperReportsContext(),
@@ -1270,7 +1272,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 			}
 			else
 			{
-				throw new JRException(
+				throw 
+					new JRException(
 						EXCEPTION_MESSAGE_KEY_MULTIAXIS_PLOT_NOT_SUPPORTED,  
 						null, 
 						filler.getJasperReportsContext(),

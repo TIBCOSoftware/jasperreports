@@ -126,7 +126,8 @@ public class FillPlaceItem extends FillItem
 					result.put(MapComponent.PROPERTY_longitude, coords[1]);
 					result.remove(MapComponent.PROPERTY_address);
 				} else {
-					throw new JRException(
+					throw 
+						new JRException(
 							MapFillComponent.EXCEPTION_MESSAGE_KEY_INVALID_ADDRESS_COORDINATES,  
 							new Object[]{coords[0], coords[1]}, 
 							factory.getFiller().getJasperReportsContext(),
@@ -136,7 +137,8 @@ public class FillPlaceItem extends FillItem
 			}
 			else 
 			{
-				throw new JRException(
+				throw 
+					new JRException(
 						EXCEPTION_MESSAGE_KEY_MISSING_COORDINATES,  
 						new Object[]{fLatitude == null ? MapComponent.PROPERTY_latitude : MapComponent.PROPERTY_longitude}, 
 						factory.getFiller().getJasperReportsContext(),

@@ -295,7 +295,8 @@ public class FillReturnValues
 				JRVariable subrepVariable = sourceContext.getVariable(subreportVariableName);
 				if (subrepVariable == null)
 				{
-					throw new JRException(
+					throw 
+						new JRException(
 							EXCEPTION_MESSAGE_KEY_SOURCE_NOT_FOUND,  
 							new Object[]{subreportVariableName, returnValue.getToVariable()}, 
 							filler.getJasperReportsContext(),
@@ -311,7 +312,8 @@ public class FillReturnValues
 				{
 					if (!Number.class.isAssignableFrom(variable.getValueClass()))
 					{
-						throw new JRException(
+						throw 
+							new JRException(
 								EXCEPTION_MESSAGE_KEY_NUMERIC_TYPE_REQUIRED,  
 								new Object[]{returnValue.getToVariable()}, 
 								filler.getJasperReportsContext(),
@@ -322,7 +324,8 @@ public class FillReturnValues
 				else if (!variable.getValueClass().isAssignableFrom(subrepVariable.getValueClass()) &&
 						!(Number.class.isAssignableFrom(variable.getValueClass()) && Number.class.isAssignableFrom(subrepVariable.getValueClass())))
 				{
-					throw new JRException(
+					throw 
+						new JRException(
 							EXCEPTION_MESSAGE_KEY_VARIABLE_NOT_ASSIGNABLE,  
 							new Object[]{returnValue.getToVariable(), subreportVariableName}, 
 							filler.getJasperReportsContext(),

@@ -70,7 +70,8 @@ public class FillStyleItem extends FillItem
 	@Override
 	public void verifyValue(ItemProperty property, Object value) throws JRException {
 		if(PROPERTY_NAME.equals(property.getName()) && (value == null || (value instanceof String && ((String)value).length() == 0))){
-			throw new JRException(
+			throw 
+				new JRException(
 					MapFillComponent.EXCEPTION_MESSAGE_KEY_NULL_OR_EMPTY_VALUE_NOT_ALLOWED,  
 					new Object[]{property.getName()}, 
 					factory.getFiller().getJasperReportsContext(),

@@ -176,7 +176,8 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 				latitude = coords[0];
 				longitude = coords[1];
 			} else {
-				throw new JRException(
+				throw 
+					new JRException(
 						EXCEPTION_MESSAGE_KEY_INVALID_ADDRESS_COORDINATES,  
 						new Object[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude}, 
 						factory.getFiller().getJasperReportsContext(),
@@ -280,7 +281,8 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 					for(Map<String,Object> currentStyle : currentStyleList){
 						String styleName = (String)currentStyle.get(MapComponent.PROPERTY_name);
 						if(styleName == null){
-							throw new JRException(
+							throw 
+								new JRException(
 									EXCEPTION_MESSAGE_KEY_NULL_OR_EMPTY_VALUE_NOT_ALLOWED,  
 									new Object[]{MapComponent.PROPERTY_name}, 
 									factory.getFiller().getJasperReportsContext(),
@@ -441,7 +443,8 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 					Node lngNode = (Node) new DOMXPath(LONGITUDE_NODE).selectSingleNode(document);
 					coords[1] = Float.valueOf(lngNode.getTextContent());
 				} else {
-					throw new JRException(
+					throw 
+						new JRException(
 							EXCEPTION_MESSAGE_KEY_ADDRESS_REQUEST_FAILED,  
 							new Object[]{status}, 
 							factory.getFiller().getJasperReportsContext(),
