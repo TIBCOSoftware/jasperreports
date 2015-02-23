@@ -23,54 +23,46 @@
  */
 package net.sf.jasperreports.data.http;
 
-import java.util.List;
-
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class StandardHttpDataLocation implements HttpDataLocation
+public class HttpLocationParameter implements JRCloneable
 {
 
-	private String url;
-	private String username;
-	private String password;
-	private List<HttpLocationParameter> urlParameters;
-	private List<HttpLocationParameter> postParameters;
+	private String name;
+	private String value;
 	
-	@Override
-	public String getUrl()
+	public HttpLocationParameter()
 	{
-		return url;
 	}
 
-	public void setUrl(String url)
+	public HttpLocationParameter(String name, String value)
 	{
-		this.url = url;
+		this.name = name;
+		this.value = value;
 	}
 
-	@Override
-	public String getUsername()
+	public String getName()
 	{
-		return username;
+		return name;
 	}
 
-	public void setUsername(String username)
+	public void setName(String name)
 	{
-		this.username = username;
+		this.name = name;
 	}
 
-	@Override
-	public String getPassword()
+	public String getValue()
 	{
-		return password;
+		return value;
 	}
 
-	public void setPassword(String password)
+	public void setValue(String value)
 	{
-		this.password = password;
+		this.value = value;
 	}
 
 	@Override
@@ -78,10 +70,7 @@ public class StandardHttpDataLocation implements HttpDataLocation
 	{
 		try
 		{
-			StandardHttpDataLocation clone = (StandardHttpDataLocation) super.clone();
-			clone.urlParameters = JRCloneUtils.cloneList(urlParameters);
-			clone.postParameters = JRCloneUtils.cloneList(postParameters);
-			return clone;
+			return super.clone();
 		}
 		catch (CloneNotSupportedException e)
 		{
@@ -90,24 +79,4 @@ public class StandardHttpDataLocation implements HttpDataLocation
 		}
 	}
 
-	public List<HttpLocationParameter> getUrlParameters()
-	{
-		return urlParameters;
-	}
-
-	public void setUrlParameters(List<HttpLocationParameter> urlParameters)
-	{
-		this.urlParameters = urlParameters;
-	}
-
-	public List<HttpLocationParameter> getPostParameters()
-	{
-		return postParameters;
-	}
-
-	public void setPostParameters(List<HttpLocationParameter> postParameters)
-	{
-		this.postParameters = postParameters;
-	}
-	
 }

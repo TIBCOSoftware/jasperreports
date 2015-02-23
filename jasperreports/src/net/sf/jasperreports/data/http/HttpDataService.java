@@ -199,20 +199,60 @@ public class HttpDataService implements DataFileService
 		return httpPost;
 	}
 
-	protected List<NameValuePair> collectPostParameters(Map<String, Object> parameters)
+	protected List<NameValuePair> collectUrlParameters(Map<String, Object> reportParameters)
+	{
+		return collectParameters(dataLocation.getUrlParameters(), reportParameters, PARAMETER_PREFIX_URL_PARAMETER);
+	}
+
+	protected List<NameValuePair> collectPostParameters(Map<String, Object> reportParameters)
+	{
+		return collectParameters(dataLocation.getPostParameters(), reportParameters, PARAMETER_PREFIX_POST_PARAMETER);
+	}
+	
+	protected List<NameValuePair> collectParameters(List<HttpLocationParameter> staticParameters,
+			Map<String, Object> reportParameters, String reportParameterPrefix)
 	{
 		List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
-		for (Entry<String, Object> paramEntry : parameters.entrySet())
+		
+		if (staticParameters != null && !staticParameters.isEmpty())
+		{
+			for (HttpLocationParameter parameter : staticParameters)
+			{
+				String name = parameter.getName();
+				String paramValue = parameter.getValue();
+				if (paramValue != null)
+				{
+					String reportParameterName = reportParameterPrefix + parameter.getName();
+					if (!reportParameters.containsKey(reportParameterName))
+					{
+						if (log.isDebugEnabled())
+						{
+							log.debug("adding parameter " + name + " with value " + paramValue);
+						}
+						postParameters.add(new BasicNameValuePair(name, paramValue));
+					}
+					else
+					{
+						if (log.isDebugEnabled())
+						{
+							log.debug("static parameter " + parameter.getName() + " overridden by the report");
+						}
+					}
+				}
+			}
+		}
+		
+		for (Entry<String, Object> paramEntry : reportParameters.entrySet())
 		{
 			String paramName = paramEntry.getKey();
 			Object value = paramEntry.getValue();
-			if (paramName.startsWith(PARAMETER_PREFIX_POST_PARAMETER) && value != null)
+			if (paramName.startsWith(reportParameterPrefix) && value != null)
 			{
-				String name = paramName.substring(PARAMETER_PREFIX_POST_PARAMETER.length(), paramName.length());
+				String name = paramName.substring(reportParameterPrefix.length(), paramName.length());
 				String paramValue = toHttpParameterValue(value);
 				if (log.isDebugEnabled())
 				{
-					log.debug("adding post parameter " + name + " with value " + paramValue);
+					log.debug("adding parameter " + name + " with value " + paramValue);
 				}
 				postParameters.add(new BasicNameValuePair(name, paramValue));
 			}
@@ -231,20 +271,10 @@ public class HttpDataService implements DataFileService
 		try
 		{
 			URIBuilder uriBuilder = new URIBuilder(url);
-			for (Entry<String, Object> paramEntry : parameters.entrySet())
+			List<NameValuePair> urlParameters = collectUrlParameters(parameters);
+			if (!urlParameters.isEmpty())
 			{
-				String paramName = paramEntry.getKey();
-				Object value = paramEntry.getValue();
-				if (paramName.startsWith(PARAMETER_PREFIX_URL_PARAMETER) && value != null)
-				{
-					String name = paramName.substring(PARAMETER_PREFIX_URL_PARAMETER.length(), paramName.length());
-					String paramValue = toHttpParameterValue(value);
-					if (log.isDebugEnabled())
-					{
-						log.debug("adding URL parameter " + name + " with value " + paramValue);
-					}
-					uriBuilder.addParameter(name, paramValue);
-				}
+				uriBuilder.addParameters(urlParameters);
 			}
 			
 			URI uri = uriBuilder.build();

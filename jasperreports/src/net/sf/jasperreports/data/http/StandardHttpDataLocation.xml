@@ -13,5 +13,21 @@
 		<field name="password" type="string">
 			<bind-xml name="password" node="element"/>
 		</field>
+		<field name="urlParameters" type="net.sf.jasperreports.data.http.HttpLocationParameter" collection="arraylist">
+			<bind-xml name="urlParameter" node="element"/>
+		</field>
+		<field name="postParameters" type="net.sf.jasperreports.data.http.HttpLocationParameter" collection="arraylist">
+			<bind-xml name="postParameter" node="element"/>
+		</field>
+	</class>
+	
+	<class name="net.sf.jasperreports.data.http.HttpLocationParameter">
+		<map-to xml="httpLocationParameter"/>
+		<field name="name" type="string">
+			<bind-xml name="name" node="element"/>
+		</field>
+		<field name="value" type="string">
+			<bind-xml name="value" node="element"/>
+		</field>
 	</class>
 </mapping>

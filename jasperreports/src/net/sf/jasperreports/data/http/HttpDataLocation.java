@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.data.http;
 
+import java.util.List;
+
 import net.sf.jasperreports.data.DataFile;
 
 /**
@@ -36,5 +38,9 @@ public interface HttpDataLocation extends DataFile
 	String getUsername();
 	
 	String getPassword();
+	
+	List<HttpLocationParameter> getUrlParameters();
+	
+	List<HttpLocationParameter> getPostParameters();
 
 }
