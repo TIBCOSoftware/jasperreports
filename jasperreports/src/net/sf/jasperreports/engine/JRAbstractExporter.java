@@ -79,6 +79,8 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	public static final String EXCEPTION_MESSAGE_KEY_END_PAGE_INDEX_OUT_OF_RANGE = "export.common.end.page.index.out.of.range";
 	public static final String EXCEPTION_MESSAGE_KEY_PAGE_INDEX_OUT_OF_RANGE = "export.common.page.index.out.of.range";
 	public static final String EXCEPTION_MESSAGE_KEY_EXPORT_THREAD_INTERRUPTED = "export.common.thread.interrupted";
+	public static final String EXCEPTION_MESSAGE_KEY_MIXED_CALLS_NOT_ALLOWED = "export.common.mixed.calls.not.allowed";
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_ZOOM_RATIO = "export.common.invalid.zoom.ratio";
 
 	/**
 	 * The suffix applied to properties that give the default filter factory for
@@ -263,7 +265,13 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		{
 			if (useOldApi != isOldApi)
 			{
-				throw new JRRuntimeException("Can't mix deprecated JRParameter API calls with new exporter configuration API calls.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_MIXED_CALLS_NOT_ALLOWED,  
+						null, 
+						getJasperReportsContext(), 
+						getLocale()
+						);
 			}
 		}
 	}

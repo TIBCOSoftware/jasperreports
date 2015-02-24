@@ -126,6 +126,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 {
 	public static final String EXCEPTION_MESSAGE_KEY_MULTIAXIS_PLOT_TYPES_MIX_NOT_ALLOWED = "charts.multiaxis.plot.types.mix.not.allowed";
 	public static final String EXCEPTION_MESSAGE_KEY_MULTIAXIS_PLOT_NOT_SUPPORTED = "charts.multiaxis.plot.not.supported";
+	public static final String EXCEPTION_MESSAGE_KEY_CHART_TYPE_NOT_SUPPORTED = "charts.chart.type.not.supported";
 
 	/**
 	 *
@@ -279,7 +280,13 @@ public class JRFillChart extends JRFillElement implements JRChart
 				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
 			default:
-				throw new JRRuntimeException("Chart type not supported.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_CHART_TYPE_NOT_SUPPORTED,  
+						new Object[]{getChartType()}, 
+						getFiller().getJasperReportsContext(),
+						getLocale()
+						);
 		}
 
 		titleFont = factory.getFont(chart, chart.getTitleFont());
@@ -1098,7 +1105,13 @@ public class JRFillChart extends JRFillElement implements JRChart
 				//no item hyperlinks
 				break;
 			default:
-				throw new JRRuntimeException("Chart type " + getChartType() + " not supported.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_CHART_TYPE_NOT_SUPPORTED,  
+						new Object[]{getChartType()}, 
+						getFiller().getJasperReportsContext(),
+						getLocale()
+						);
 		}
 
 		return chartHyperlinkProvider;

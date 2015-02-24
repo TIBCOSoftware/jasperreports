@@ -2299,7 +2299,13 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 			zoom = zoomRatio.floatValue();
 			if (zoom <= 0)
 			{
-				throw new JRRuntimeException("Invalid zoom ratio : " + zoom);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_INVALID_ZOOM_RATIO,  
+						new Object[]{zoom}, 
+						getJasperReportsContext(),
+						getLocale()
+						);
 			}
 		}
 

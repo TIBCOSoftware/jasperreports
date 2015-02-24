@@ -266,7 +266,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				templateIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(lcWorkbookTemplate);
 				if (templateIs == null)
 				{
-					throw new JRRuntimeException("Workbook template not found at : " + lcWorkbookTemplate);
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_TEMPLATE_NOT_FOUND,  
+							new Object[]{lcWorkbookTemplate}, 
+							getJasperReportsContext(),
+							getLocale()
+							);
 				}
 				else
 				{

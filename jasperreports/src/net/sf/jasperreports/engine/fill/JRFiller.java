@@ -44,6 +44,8 @@ import net.sf.jasperreports.engine.type.SectionTypeEnum;
 public final class JRFiller
 {
 
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_REPORT_SECTION_TYPE = "fill.common.filler.unknown.report.section.type";
+	
 	/**
 	 * The default locale used to fill reports.
 	 * 
@@ -206,7 +208,13 @@ public final class JRFiller
 			break;
 		}
 		default:
-			throw new JRRuntimeException("Unknown report section type " + jasperReport.getSectionType());
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNKNOWN_REPORT_SECTION_TYPE,  
+					new Object[]{jasperReport.getSectionType()}, 
+					jasperReportsContext,
+					null
+					);
 		}
 		return filler;
 	}

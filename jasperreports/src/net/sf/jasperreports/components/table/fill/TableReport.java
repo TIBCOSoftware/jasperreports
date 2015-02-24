@@ -119,6 +119,11 @@ import net.sf.jasperreports.web.util.JacksonUtil;
  */
 public class TableReport implements JRReport
 {
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_CHILD_TYPE = "fill.table.report.unknown.child.type";
+	public static final String EXCEPTION_MESSAGE_KEY_FIELD_NOT_FOUND = "fill.table.report.field.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_VARIABLE_NOT_FOUND = "fill.table.report.variable.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_UNRECOGNIZED_FILTER_EXPRESSION_TYPE = "fill.table.report.unrecognized.filter.expression.type";
+	
 	/**
 	 * Global property that specifies the character to be used on the column header when the tables's column is sorted ascending
 	 */
@@ -647,7 +652,13 @@ public class TableReport implements JRReport
 						filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
 					} else 
 					{
-						throw new JRRuntimeException("Could not find field '" + fieldOrVariableName + "'");
+						throw 
+							new JRRuntimeException(
+								EXCEPTION_MESSAGE_KEY_FIELD_NOT_FOUND,  
+								new Object[]{fieldOrVariableName}, 
+								fillContext.getFiller().getJasperReportsContext(),
+								fillContext.getFillDataset().getLocale()
+								);
 					}
 				} else if (column.getPropertiesMap().containsProperty(PROPERTY_COLUMN_VARIABLE))
 				{
@@ -660,7 +671,13 @@ public class TableReport implements JRReport
 						filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
 					} else
 					{
-						throw new JRRuntimeException("Could not find variable '" + fieldOrVariableName + "'");
+						throw 
+							new JRRuntimeException(
+								EXCEPTION_MESSAGE_KEY_VARIABLE_NOT_FOUND,  
+								new Object[]{fieldOrVariableName}, 
+								fillContext.getFiller().getJasperReportsContext(),
+								fillContext.getFillDataset().getLocale()
+								);
 					}
 				} else if (TableUtil.hasSingleChunkExpression(sortTextField))
 				{
@@ -683,7 +700,13 @@ public class TableReport implements JRReport
 						
 					default:
 						// never
-						throw new JRRuntimeException("Unrecognized filter expression type " + sortExpression.getType());
+						throw 
+							new JRRuntimeException(
+								EXCEPTION_MESSAGE_KEY_UNRECOGNIZED_FILTER_EXPRESSION_TYPE,  
+								new Object[]{sortExpression.getType()}, 
+								fillContext.getFiller().getJasperReportsContext(),
+								fillContext.getFillDataset().getLocale()
+								);
 					}	
 				}
 				
@@ -1323,8 +1346,13 @@ public class TableReport implements JRReport
 			}
 			else
 			{
-				throw new JRRuntimeException("Uknown child type " 
-						+ childClone.getClass().getName());
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNKNOWN_CHILD_TYPE,  
+						new Object[]{childClone.getClass().getName()}, 
+						fillContext.getFiller().getJasperReportsContext(),
+						fillContext.getFillDataset().getLocale()
+						);
 			}
 		}
 		
@@ -1408,7 +1436,13 @@ public class TableReport implements JRReport
 			}
 			else
 			{
-				throw new JRRuntimeException("Unknown JRChild type " + child.getClass().getName());
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNKNOWN_CHILD_TYPE,  
+						new Object[]{child.getClass().getName()}, 
+						fillContext.getFiller().getJasperReportsContext(),
+						fillContext.getFillDataset().getLocale()
+						);
 			}
 		}
 		

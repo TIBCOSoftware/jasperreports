@@ -115,6 +115,10 @@ import net.sf.jasperreports.export.WriterExporterOutput;
 public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, TextExporterConfiguration, WriterExporterOutput, JRTextExporterContext>
 {
 	private static final String TXT_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.txt.";
+	public static final String EXCEPTION_MESSAGE_KEY_REQUIRED_POSITIVE_PAGE_OR_CHARACTER_WIDTH = "export.text.required.positive.page.or.character.width";
+	public static final String EXCEPTION_MESSAGE_KEY_CHARACTER_WIDTH_NEGATIVE = "export.text.character.width.negative";
+	public static final String EXCEPTION_MESSAGE_KEY_REQUIRED_POSITIVE_PAGE_OR_CHARACTER_HEIGHT = "export.text.required.positive.page.or.character.height";
+	public static final String EXCEPTION_MESSAGE_KEY_CHARACTER_HEIGHT_NEGATIVE = "export.text.character.height.negative";
 
 	protected Writer writer;
 	char[][] pageData;
@@ -252,7 +256,13 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 		charWidth = charWidthValue == null ? 0 : charWidthValue;
 		if (charWidth < 0)
 		{
-			throw new JRRuntimeException("Character width in pixels must be greater than zero.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CHARACTER_WIDTH_NEGATIVE,  
+					null, 
+					getJasperReportsContext(),
+					getLocale()
+					);
 		}
 		else if (charWidth == 0)
 		{
@@ -261,7 +271,13 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 			
 			if (pageWidthInChars <= 0)
 			{
-				throw new JRRuntimeException("Character width in pixels or page width in characters must be specified and must be greater than zero.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_REQUIRED_POSITIVE_PAGE_OR_CHARACTER_WIDTH,  
+						null, 
+						getJasperReportsContext(),
+						getLocale()
+						);
 			}
 			
 			charWidth = jasperPrint.getPageWidth() / (float)pageWidthInChars;
@@ -276,7 +292,13 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 		charHeight = charHeightValue == null ? 0 : charHeightValue; 
 		if (charHeight < 0)
 		{
-			throw new JRRuntimeException("Character height in pixels must be greater than zero.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CHARACTER_HEIGHT_NEGATIVE,  
+					null, 
+					getJasperReportsContext(),
+					getLocale()
+					);
 		}
 		else if (charHeight == 0)
 		{
@@ -284,7 +306,13 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 			pageHeightInChars = pageHeightInCharsValue == null ? 0 : pageHeightInCharsValue;
 			if (pageHeightInChars <= 0)
 			{
-				throw new JRRuntimeException("Character height in pixels or page height in characters must be specified and must be greater than zero.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_REQUIRED_POSITIVE_PAGE_OR_CHARACTER_HEIGHT,  
+						null, 
+						getJasperReportsContext(),
+						getLocale()
+						);
 			}
 
 			charHeight = jasperPrint.getPageHeight() / (float)pageHeightInChars;

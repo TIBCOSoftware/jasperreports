@@ -171,6 +171,8 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	 *
 	 */
 	private static final String XML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.";
+	
+	public static final String EXCEPTION_MESSAGE_KEY_REPORT_STYLE_NOT_FOUND = "export.xml.report.style.not.found";
 
 	/**
 	 * The exporter key, as used in
@@ -482,8 +484,10 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 			{
 				throw 
 					new JRRuntimeException(
-						"Referenced report style not found : " 
-						+ style.getStyle().getName()
+						EXCEPTION_MESSAGE_KEY_REPORT_STYLE_NOT_FOUND,  
+						new Object[]{style.getStyle().getName()}, 
+						getJasperReportsContext(),
+						getLocale()
 						);
 			}
 		}

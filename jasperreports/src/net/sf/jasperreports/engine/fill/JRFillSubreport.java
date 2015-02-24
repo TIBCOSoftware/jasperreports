@@ -83,6 +83,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	
 	public static final String EXCEPTION_MESSAGE_KEY_PROPERTY_NOT_SET = "fill.subreport.property.not.set";
 	public static final String EXCEPTION_MESSAGE_KEY_NO_REWINDABLE_DATA_SOURCE = "fill.subreport.no.rewindable.data.source";
+	public static final String EXCEPTION_MESSAGE_KEY_UNSUPPORTED_SECTION_TYPE = "fill.subreport.unsupported.section.type";
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_SOURCE_CLASS = "fill.subreport.unknown.source.class";
 			
 	public static final String PROPERTY_SUBREPORT_GENERATE_RECTANGLE = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "subreport.generate.rectangle";
@@ -407,7 +409,13 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		}
 		else
 		{
-			throw new JRRuntimeException("Unknown subreport source class " + source.getClass().getName());
+			throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_UNSUPPORTED_SECTION_TYPE,  
+				new Object[]{source.getClass().getName()}, 
+				filler.getJasperReportsContext(),
+				filler.getLocale()
+				);
 		}
 		return report;
 	}
@@ -522,7 +530,13 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		SectionTypeEnum subreportSectionType = jasperReport.getSectionType();
 		if (subreportSectionType != null && subreportSectionType != SectionTypeEnum.BAND)
 		{
-			throw new JRRuntimeException("Unsupported subreport section type " + subreportSectionType);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNSUPPORTED_SECTION_TYPE,  
+					new Object[]{subreportSectionType}, 
+					filler.getJasperReportsContext(),
+					filler.getLocale()
+					);
 		}
 		
 		subFillerParent = new FillerSubreportParent(this, evaluator);

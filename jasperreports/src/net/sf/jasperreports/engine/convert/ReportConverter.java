@@ -83,6 +83,7 @@ public class ReportConverter
 
 	private static final Log log = LogFactory.getLog(ReportConverter.class);
 	public static final Color GRID_LINE_COLOR = new Color(170, 170, 255);
+	public static final String EXCEPTION_MESSAGE_KEY_CIRCULAR_DEPENDENCY_FOUND = "convert.report.converter.circular.dependency.found";
 	
 	private final JasperReportsContext jasperReportsContext;
 	private final JRReport report;
@@ -333,8 +334,13 @@ public class ReportConverter
 	{
 		if (!parentLocations.add(location))
 		{
-			throw new JRRuntimeException("Circular dependency found for template at location " 
-					+ location);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CIRCULAR_DEPENDENCY_FOUND,  
+					new Object[]{location}, 
+					getJasperReportsContext(),
+					getLocale()
+					);
 		}
 		
 		if (!loadedLocations.add(location))

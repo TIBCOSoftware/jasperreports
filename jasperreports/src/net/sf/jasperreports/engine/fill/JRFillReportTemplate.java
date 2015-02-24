@@ -50,6 +50,8 @@ public class JRFillReportTemplate implements JRReportTemplate
 
 	private static final Log log = LogFactory.getLog(JRFillReportTemplate.class);
 	
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_TEMPLATE_SOURCE = "fill.report.template.unknown.template.source";
+	
 	private final JRReportTemplate parent;
 	private final JRBaseFiller filler;
 	
@@ -121,7 +123,13 @@ public class JRFillReportTemplate implements JRReportTemplate
 			}
 			else
 			{
-				throw new JRRuntimeException("Unknown template source class " + source.getClass().getName());
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNKNOWN_TEMPLATE_SOURCE,  
+						new Object[]{source.getClass().getName()}, 
+						filler.getJasperReportsContext(),
+						filler.getLocale()
+						);
 			}
 			
 			filler.fillContext.registerLoadedTemplate(source, template);
