@@ -23,26 +23,44 @@
  */
 package net.sf.jasperreports.data.http;
 
-import java.util.List;
+import org.exolab.castor.mapping.GeneralizedFieldHandler;
 
-import net.sf.jasperreports.data.DataFile;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface HttpDataLocation extends DataFile
+public class RequestMethodFieldHandler extends GeneralizedFieldHandler
 {
+	public RequestMethodFieldHandler()
+	{
+		super();
+	}
+	
+	public Object convertUponGet(Object value)
+	{
+		if (value == null)
+		{
+			return null;
+		}
+		return ((RequestMethod) value).name();
+	}
 
-	RequestMethod getMethod();
+	public Object convertUponSet(Object value)
+	{
+		if (value == null)
+		{
+			return null;
+		}
+		return RequestMethod.valueOf((String) value);
+	}
 	
-	String getUrl();
-	
-	String getUsername();
-	
-	String getPassword();
-	
-	List<HttpLocationParameter> getUrlParameters();
-	
-	List<HttpLocationParameter> getPostParameters();
+	public Class<?> getFieldType()
+	{
+		return RequestMethod.class;
+	}
 
+	public Object newInstance(Object parent) throws IllegalStateException
+	{
+		return null;
+	}
 }

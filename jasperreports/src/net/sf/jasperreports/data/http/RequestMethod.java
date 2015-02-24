@@ -23,26 +23,18 @@
  */
 package net.sf.jasperreports.data.http;
 
-import java.util.List;
-
-import net.sf.jasperreports.data.DataFile;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface HttpDataLocation extends DataFile
+public enum RequestMethod
 {
+	GET,
+	POST,
+	PUT;
 
-	RequestMethod getMethod();
-	
-	String getUrl();
-	
-	String getUsername();
-	
-	String getPassword();
-	
-	List<HttpLocationParameter> getUrlParameters();
-	
-	List<HttpLocationParameter> getPostParameters();
+	private RequestMethod()
+	{
+	}
 
 }

@@ -34,11 +34,22 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 public class StandardHttpDataLocation implements HttpDataLocation
 {
 
+	private RequestMethod method;
 	private String url;
 	private String username;
 	private String password;
 	private List<HttpLocationParameter> urlParameters;
 	private List<HttpLocationParameter> postParameters;
+
+	public RequestMethod getMethod()
+	{
+		return method;
+	}
+
+	public void setMethod(RequestMethod method)
+	{
+		this.method = method;
+	}
 	
 	@Override
 	public String getUrl()

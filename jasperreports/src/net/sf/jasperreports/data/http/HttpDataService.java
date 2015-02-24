@@ -41,6 +41,7 @@ import net.sf.jasperreports.util.SecretsUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -49,6 +50,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
@@ -163,14 +165,31 @@ public class HttpDataService implements DataFileService
 		List<NameValuePair> postParameters = collectPostParameters(parameters);
 
 		URI requestURI = getRequestURI(parameters);
-		HttpRequestBase request;
-		if (postParameters.isEmpty())
+		
+		RequestMethod method = dataLocation.getMethod();
+		if (method == null)
 		{
-			request = createGetRequest(requestURI);
+			method = postParameters.isEmpty() ? RequestMethod.GET : RequestMethod.POST;
 		}
-		else
+		
+		HttpRequestBase request;
+		switch (method)
 		{
+		case GET:
+			if (!postParameters.isEmpty())
+			{
+				log.warn("Ignoring POST parameters for GET request to " + dataLocation.getUrl());
+			}
+			request = createGetRequest(requestURI);
+			break;
+		case POST:
 			request = createPostRequest(requestURI, postParameters);
+			break;
+		case PUT:
+			request = createPutRequest(requestURI, postParameters);
+			break;
+		default:
+			throw new JRRuntimeException("Unknown request method " + method);
 		}
 		
 		return request;
@@ -185,18 +204,32 @@ public class HttpDataService implements DataFileService
 	protected HttpPost createPostRequest(URI requestURI, List<NameValuePair> postParameters)
 	{
 		HttpPost httpPost = new HttpPost(requestURI);
-		
+		HttpEntity entity = createRequestEntity(postParameters);
+		httpPost.setEntity(entity);
+		return httpPost;
+	}
+
+	protected HttpPut createPutRequest(URI requestURI, List<NameValuePair> postParameters)
+	{
+		HttpPut httpPost = new HttpPut(requestURI);
+		HttpEntity entity = createRequestEntity(postParameters);
+		httpPost.setEntity(entity);
+		return httpPost;
+	}
+
+	protected HttpEntity createRequestEntity(List<NameValuePair> postParameters)
+	{
+		UrlEncodedFormEntity formEntity;
 		try
 		{
-			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(postParameters, "UTF-8");//allow custom?
-			httpPost.setEntity(formEntity);
+			formEntity = new UrlEncodedFormEntity(postParameters, "UTF-8");//allow custom?
 		}
 		catch (UnsupportedEncodingException e)
 		{
 			// should not happen
 			throw new JRRuntimeException(e);
 		}
-		return httpPost;
+		return formEntity;
 	}
 
 	protected List<NameValuePair> collectUrlParameters(Map<String, Object> reportParameters)
