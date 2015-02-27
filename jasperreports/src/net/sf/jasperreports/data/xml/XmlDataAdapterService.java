@@ -147,7 +147,7 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 	{
 		DataFileUtils dataFileUtils = DataFileUtils.instance(getJasperReportsContext());
 		DataFileStream dataStream = dataFileUtils.getDataStream(
-				xmlDataAdapter.getDataFile(), xmlDataAdapter.getFileName(), parameters);
+				xmlDataAdapter.getDataFile(), parameters);
 		try
 		{
 			Document dataDocument = JRXmlUtils.parse(dataStream, xmlDataAdapter.isNamespaceAware());

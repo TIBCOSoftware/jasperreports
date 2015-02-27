@@ -47,6 +47,8 @@ public class CastorMappingExtensionsRegistryFactory implements ExtensionsRegistr
 	public final static String CASTOR_MAPPING_PROPERTY_PREFIX = 
 		DefaultExtensionsRegistry.PROPERTY_REGISTRY_PREFIX + "castor.mapping.";
 	
+	public final static char CASTOR_MAPPING_VERSION_SEPARATOR = '@';
+	
 	/**
 	 * 
 	 */
@@ -57,8 +59,25 @@ public class CastorMappingExtensionsRegistryFactory implements ExtensionsRegistr
 		for (Iterator<PropertySuffix> it = castorMappingProperties.iterator(); it.hasNext();)
 		{
 			PropertySuffix castorMappingProp = it.next();
+			
+			String key;
+			String version;
+			String suffix = castorMappingProp.getSuffix();
+			int versionSeparatorIndex = suffix.lastIndexOf(CASTOR_MAPPING_VERSION_SEPARATOR);
+			if (versionSeparatorIndex < 0)
+			{
+				key = suffix;
+				version = null;
+			} 
+			else
+			{
+				key = suffix.substring(0, versionSeparatorIndex);
+				version = suffix.substring(versionSeparatorIndex + 1, suffix.length());
+			}
+			
 			String castorMappingPath = castorMappingProp.getValue();
-			castorMappings.add(new CastorMapping(castorMappingPath));
+			CastorMapping mapping = new CastorMapping(key, version, castorMappingPath);
+			castorMappings.add(mapping);
 		}
 		
 		return new ListExtensionRegistry<CastorMapping>(CastorMapping.class, castorMappings);

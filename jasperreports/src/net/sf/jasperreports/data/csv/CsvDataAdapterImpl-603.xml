@@ -2,20 +2,26 @@
 <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
 
 <mapping>
-	<class name="net.sf.jasperreports.data.xlsx.XlsxDataAdapterImpl">
-		<map-to xml="xlsxDataAdapter"/>
+	<class name="net.sf.jasperreports.data.csv.CsvDataAdapterImpl">
+		<map-to xml="csvDataAdapter"/>
 		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.data.ClassNameFieldHandler">
 			<bind-xml name="class" node="attribute"/>
 		</field>
 		<field name="name" type="string">
 			<bind-xml name="name" node="element"/>
 		</field>
-		<field name="fileName" type="string" handler="net.sf.jasperreports.util.NoWriteFieldHandler">
+		<field name="fileName" type="string">
 			<bind-xml name="fileName" node="element"/>
 		</field>
-		<field name="dataFile" type="net.sf.jasperreports.data.DataFile">
-			<bind-xml name="dataFile" node="element"/>
-		</field> 
+		<field name="encoding" type="string">
+			<bind-xml name="encoding" node="element"/>
+		</field>
+		<field name="recordDelimiter" type="string">
+			<bind-xml name="recordDelimiter" node="element"/>
+		</field>
+		<field name="fieldDelimiter" type="string">
+			<bind-xml name="fieldDelimiter" node="element"/>
+		</field>
 		<field name="useFirstRowAsHeader" type="boolean">
 			<bind-xml name="useFirstRowAsHeader" node="element"/>
 		</field>
@@ -30,12 +36,6 @@
 		</field>
 		<field name="columnNames" type="string" collection="arraylist">
 			<bind-xml name="columnNames" node="element"/>
-		</field>
-		<field name="columnIndexes" type="int" collection="arraylist">
-			<bind-xml name="columnIndexes" node="element"/>
-		</field>
-		<field name="sheetSelection" type="string">
-			<bind-xml name="sheetSelection" node="element"/>
 		</field>
 	</class>
 </mapping>

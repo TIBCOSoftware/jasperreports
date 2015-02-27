@@ -2,20 +2,17 @@
 <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
 
 <mapping>
-	<class name="net.sf.jasperreports.data.xlsx.XlsxDataAdapterImpl">
-		<map-to xml="xlsxDataAdapter"/>
+	<class name="net.sf.jasperreports.data.excel.ExcelDataAdapterImpl">
+		<map-to xml="excelDataAdapter"/>
 		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.data.ClassNameFieldHandler">
 			<bind-xml name="class" node="attribute"/>
 		</field>
 		<field name="name" type="string">
 			<bind-xml name="name" node="element"/>
 		</field>
-		<field name="fileName" type="string" handler="net.sf.jasperreports.util.NoWriteFieldHandler">
+		<field name="fileName" type="string">
 			<bind-xml name="fileName" node="element"/>
 		</field>
-		<field name="dataFile" type="net.sf.jasperreports.data.DataFile">
-			<bind-xml name="dataFile" node="element"/>
-		</field> 
 		<field name="useFirstRowAsHeader" type="boolean">
 			<bind-xml name="useFirstRowAsHeader" node="element"/>
 		</field>
@@ -36,6 +33,9 @@
 		</field>
 		<field name="sheetSelection" type="string">
 			<bind-xml name="sheetSelection" node="element"/>
+		</field>
+		<field name="format" type="string" handler="net.sf.jasperreports.data.excel.ExcelFormatFieldHandler">
+			<bind-xml name="format" node="element"/>
 		</field>
 	</class>
 </mapping>

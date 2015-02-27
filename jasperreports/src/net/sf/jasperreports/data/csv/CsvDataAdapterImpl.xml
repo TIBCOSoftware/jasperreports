@@ -10,7 +10,7 @@
 		<field name="name" type="string">
 			<bind-xml name="name" node="element"/>
 		</field>
-		<field name="fileName" type="string">
+		<field name="fileName" type="string" handler="net.sf.jasperreports.util.NoWriteFieldHandler">
 			<bind-xml name="fileName" node="element"/>
 		</field>
 		<field name="dataFile" type="net.sf.jasperreports.data.DataFile">

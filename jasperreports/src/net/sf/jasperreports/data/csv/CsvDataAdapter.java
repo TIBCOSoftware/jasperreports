@@ -26,14 +26,23 @@ package net.sf.jasperreports.data.csv;
 import java.util.List;
 
 import net.sf.jasperreports.data.FileDataAdapter;
+import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public interface CsvDataAdapter extends FileDataAdapter
 {
+	/**
+	 * @deprecated replaced by {@link #getDataFile()}
+	 */
+	@Deprecated
 	public String getFileName();
 
+	/**
+	 * @deprecated replaced by {@link #setDataFile(net.sf.jasperreports.data.DataFile)} and {@link StandardRepositoryDataLocation}
+	 */
+	@Deprecated
 	public void setFileName(String fileName);
 
 	public String getEncoding();

@@ -74,7 +74,7 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 		if (csvDataAdapter != null)
 		{
 			dataStream = DataFileUtils.instance(getJasperReportsContext()).getDataStream(
-					csvDataAdapter.getDataFile(), csvDataAdapter.getFileName(), parameters);
+					csvDataAdapter.getDataFile(), parameters);
 			
 			String datePattern = csvDataAdapter.getDatePattern();
 			String numberPattern = csvDataAdapter.getNumberPattern();

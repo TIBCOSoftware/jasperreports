@@ -23,68 +23,33 @@
  */
 package net.sf.jasperreports.util;
 
-
+import org.exolab.castor.mapping.GeneralizedFieldHandler;
 
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class CastorMapping
+public class NoWriteFieldHandler extends GeneralizedFieldHandler
 {
-	private String key;
-	// the version at which the mapping became effective
-	// null version means that mapping is the initial mapping
-	private String version;
-	private String path;
-	
-	/**
-	 * 
-	 */
-	public CastorMapping(String path)
+	public NoWriteFieldHandler()
 	{
-		this.path = path;
+		super();
 	}
 	
-	public CastorMapping(String key, String version, String path)
+	public Object convertUponGet(Object value)
 	{
-		this.key = key;
-		this.version = version;
-		this.path = path;
+		// we don't want any value written when serializing the object
+		return null;
 	}
 
-	/**
-	 * 
-	 */
-	public String getPath()
+	public Object convertUponSet(Object value)
 	{
-		return path;
+		return value;
 	}
-
-	/**
-	 * 
-	 */
-	public void setPath(String path)
+	
+	public Class<?> getFieldType()
 	{
-		this.path = path;
-	}
-
-	public String getKey()
-	{
-		return key;
-	}
-
-	public void setKey(String key)
-	{
-		this.key = key;
-	}
-
-	public String getVersion()
-	{
-		return version;
-	}
-
-	public void setVersion(String version)
-	{
-		this.version = version;
+		// limiting to Strings for now
+		return String.class;
 	}
 }

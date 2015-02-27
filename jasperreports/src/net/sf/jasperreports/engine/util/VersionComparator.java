@@ -31,6 +31,8 @@ import java.util.Comparator;
 public class VersionComparator implements Comparator<String>
 {
 
+	public static final String LOWEST_VERSION = "0";
+	
 	@Override
 	public int compare(String currentVersion, String oldVersion) 
 	{

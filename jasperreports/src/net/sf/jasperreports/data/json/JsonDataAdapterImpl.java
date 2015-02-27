@@ -28,13 +28,14 @@ import java.util.TimeZone;
 
 import net.sf.jasperreports.data.AbstractDataAdapter;
 import net.sf.jasperreports.data.DataFile;
+import net.sf.jasperreports.data.RepositoryDataLocation;
+import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public class JsonDataAdapterImpl extends AbstractDataAdapter implements
 		JsonDataAdapter {
-	private String fileName;
 	private DataFile dataFile;
 	private String datePattern = null;
 	private String numberPattern = null;
@@ -43,15 +44,26 @@ public class JsonDataAdapterImpl extends AbstractDataAdapter implements
 	private TimeZone timeZone;
 	private boolean useConnection = false;
 
+	/**
+	 * @deprecated replaced by {@link #getDataFile()}
+	 */
+	@Deprecated
 	public String getFileName() {
-		return fileName;
+		if (dataFile instanceof RepositoryDataLocation) {
+			return ((RepositoryDataLocation) dataFile).getLocation();
+		}
+		return null;
 	}
 
+	/**
+	 * @deprecated replaced by {@link #setDataFile(net.sf.jasperreports.data.DataFile)} and {@link StandardRepositoryDataLocation}
+	 */
+	@Deprecated
 	public void setFileName(String fileName) {
 		if (fileName != null) {
-			this.dataFile = null;
+			StandardRepositoryDataLocation repositoryDataFile = new StandardRepositoryDataLocation(fileName);
+			setDataFile(repositoryDataFile);
 		}
-		this.fileName = fileName;
 	}
 
 	public String getDatePattern() {
@@ -109,10 +121,6 @@ public class JsonDataAdapterImpl extends AbstractDataAdapter implements
 
 	public void setDataFile(DataFile dataFile)
 	{
-		if (dataFile != null)
-		{
-			this.fileName = null;
-		}
 		this.dataFile = dataFile;
 	}
 }

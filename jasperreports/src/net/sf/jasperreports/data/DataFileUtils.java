@@ -47,13 +47,8 @@ public class DataFileUtils
 		this.jasperReportsContext = jasperReportsContext;
 	}
 	
-	public DataFileConnection createConnection(DataFile dataFile, String dataLocation, Map<String, Object> parameters) throws JRException
+	public DataFileConnection createConnection(DataFile dataFile, Map<String, Object> parameters) throws JRException
 	{
-		if (dataFile == null)
-		{
-			dataFile = new StandardRepositoryDataLocation(dataLocation);
-		}
-		
 		DataFileResolver dataFileResolver = DataFileResolver.instance(jasperReportsContext);
 		DataFileService dataFileService = dataFileResolver.getService(dataFile);
 		
@@ -61,9 +56,9 @@ public class DataFileUtils
 		return dataConnection;
 	}
 	
-	public DataFileStream getDataStream(DataFile dataFile, String dataLocation, Map<String, Object> parameters) throws JRException
+	public DataFileStream getDataStream(DataFile dataFile, Map<String, Object> parameters) throws JRException
 	{
-		DataFileConnection connection = createConnection(dataFile, dataLocation, parameters);
+		DataFileConnection connection = createConnection(dataFile, parameters);
 		return new DataFileStream(connection);
 	}
 	

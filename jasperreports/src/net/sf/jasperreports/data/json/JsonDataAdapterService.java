@@ -71,7 +71,7 @@ public class JsonDataAdapterService extends AbstractDataAdapterService
 		JsonDataAdapter jsonDataAdapter = getJsonDataAdapter();
 		if (jsonDataAdapter != null) {
 			dataStream = DataFileUtils.instance(getJasperReportsContext()).getDataStream(
-					jsonDataAdapter.getDataFile(), jsonDataAdapter.getFileName(), parameters);
+					jsonDataAdapter.getDataFile(), parameters);
 			
 			if (jsonDataAdapter.isUseConnection()) {
 				parameters.put(JsonQueryExecuterFactory.JSON_INPUT_STREAM, dataStream);

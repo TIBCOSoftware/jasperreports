@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.data.FileDataAdapter;
+import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 
 
 /**
@@ -34,8 +35,16 @@ import net.sf.jasperreports.data.FileDataAdapter;
  */
 public interface XmlDataAdapter extends FileDataAdapter
 {
+	/**
+	 * @deprecated replaced by {@link #getDataFile()}
+	 */
+	@Deprecated
 	public String getFileName();
 
+	/**
+	 * @deprecated replaced by {@link #setDataFile(net.sf.jasperreports.data.DataFile)} and {@link StandardRepositoryDataLocation}
+	 */
+	@Deprecated
 	public void setFileName(String fileName);
 	
 	public String getSelectExpression();

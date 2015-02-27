@@ -67,7 +67,7 @@ public abstract class AbstractXlsDataAdapterService extends AbstractDataAdapterS
 		if (xlsDataAdapter != null)
 		{
 			dataStream = DataFileUtils.instance(getJasperReportsContext()).getDataStream(
-					xlsDataAdapter.getDataFile(), xlsDataAdapter.getFileName(), parameters);
+					xlsDataAdapter.getDataFile(), parameters);
 			
 			String datePattern = xlsDataAdapter.getDatePattern();
 			String numberPattern = xlsDataAdapter.getNumberPattern();
