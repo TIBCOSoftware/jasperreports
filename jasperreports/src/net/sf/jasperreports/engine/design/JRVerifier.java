@@ -1422,7 +1422,7 @@ public class JRVerifier
 			{
 				if (sectionType == SectionTypeEnum.BAND)
 				{
-					addBrokenRule("Band reports cannot contain bands", section);
+					addBrokenRule("Band reports cannot contain parts", section);
 				}
 				else
 				{
