@@ -95,6 +95,10 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	
 	private static final Log log = LogFactory.getLog(JRFillDataset.class);
 	
+	public static final String EXCEPTION_MESSAGE_KEY_NO_SUCH_FIELD = "fill.dataset.no.such.field";
+	public static final String EXCEPTION_MESSAGE_KEY_NO_SUCH_PARAMETER = "fill.dataset.no.such.parameter";
+	public static final String EXCEPTION_MESSAGE_KEY_NO_SUCH_VARIABLE = "fill.dataset.no.such.variable";
+	
 	/**
 	 * The filler that created this object.
 	 */
@@ -1483,7 +1487,13 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		JRFillVariable var = variablesMap.get(variableName);
 		if (var == null)
 		{
-			throw new JRRuntimeException("No such variable " + variableName);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_NO_SUCH_VARIABLE,  
+					new Object[]{variableName}, 
+					getJasperReportsContext(),
+					getLocale()
+					);
 		}
 		return var.getValue(evaluation.getType());
 	}
@@ -1520,7 +1530,13 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		{
 			if (!ignoreMissing)
 			{
-				throw new JRRuntimeException("No such parameter " + parameterName);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_NO_SUCH_PARAMETER,  
+						new Object[]{parameterName}, 
+						getJasperReportsContext(),
+						getLocale()
+						);
 			}
 			
 			// look into REPORT_PARAMETERS_MAP
@@ -1551,7 +1567,13 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		JRFillField field = fieldsMap.get(fieldName);
 		if (field == null)
 		{
-			throw new JRRuntimeException("No such field " + fieldName);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_NO_SUCH_FIELD,  
+					new Object[]{fieldName}, 
+					getJasperReportsContext(),
+					getLocale()
+					);
 		}
 		return field.getValue(evaluation.getType());
 	}

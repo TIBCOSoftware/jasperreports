@@ -148,6 +148,8 @@ import org.jfree.ui.TextAnchor;
 public class DefaultChartTheme implements ChartTheme
 {
 
+	public static final String EXCEPTION_MESSAGE_KEY_UNSUPPORTED_CHART_TYPE = "fill.chart.theme.unsupported.chart.type";
+	
 	/**
 	 *
 	 */
@@ -338,7 +340,13 @@ public class DefaultChartTheme implements ChartTheme
 				jfreeChart = createGanttChart();
 				break;
 			default:
-				throw new JRRuntimeException("Chart type " + getChart().getChartType() + " not supported.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNSUPPORTED_CHART_TYPE,  
+						new Object[]{getChart().getChartType()}, 
+						chartContext.getJasperReportsContext(),
+						getLocale()
+						);
 		}
 
 		return jfreeChart;

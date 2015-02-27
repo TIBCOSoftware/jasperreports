@@ -63,6 +63,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	
 	public static final String PROPERTY_CONSUME_SPACE_ON_OVERFLOW = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "consume.space.on.overflow";
+	public static final String EXCEPTION_MESSAGE_KEY_MISSING_MARKUP_PROCESSOR_FACTORY = "fill.text.element.missing.markup.processor.factory";
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_START_INDEX = "fill.text.element.invalid.start.index";
 
 	/**
 	 *
@@ -1078,7 +1080,13 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			String factoryClass = filler.getPropertiesUtil().getProperty(MarkupProcessorFactory.PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX + markup);
 			if (factoryClass == null)
 			{
-				throw new JRRuntimeException("No markup processor factory specifyed for '" + markup + "' markup.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_MISSING_MARKUP_PROCESSOR_FACTORY,  
+						new Object[]{markup}, 
+						filler.getJasperReportsContext(),
+						filler.getLocale()
+						);
 			}
 
 			MarkupProcessorFactory factory = null;
@@ -1111,7 +1119,13 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			//assert getTextStart() == 0
 			if (startIndex != 0)
 			{
-				throw new JRRuntimeException("Text start index != 0 on keep all text.");
+				throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_INVALID_START_INDEX,  
+					null, 
+					filler.getJasperReportsContext(),
+					filler.getLocale()
+					);
 			}
 			
 			if (!JRCommonText.MARKUP_NONE.equals(getMarkup()))

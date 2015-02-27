@@ -150,6 +150,9 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	private static final Log log = LogFactory.getLog(JRFillObjectFactory.class);
 
+	public static final String EXCEPTION_MESSAGE_KEY_UNRESOLVED_STYLE = "fill.object.factory.unresolved.style";
+	public static final String EXCEPTION_MESSAGE_KEY_STYLE_NOT_FOUND = "fill.object.factory.style.not.found";
+	
 	/**
 	 *
 	 */
@@ -382,7 +385,13 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			JRStyle originalStyle = stylesMap.getStyle(nameReference);
 			if (originalStyle == null)
 			{
-				throw new JRRuntimeException("Style " + nameReference + " not found");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNRESOLVED_STYLE,  
+						new Object[]{nameReference}, 
+						filler.getJasperReportsContext(),
+						filler.getLocale()
+						);
 			}
 			
 			JRStyle externalStyle = (JRStyle) get(originalStyle);
@@ -1609,7 +1618,13 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 					parent = allStylesMap.get(parentName);
 					if (parent == null)
 					{
-						throw new JRRuntimeException("Style " + parentName + " not found");
+						throw 
+							new JRRuntimeException(
+								EXCEPTION_MESSAGE_KEY_STYLE_NOT_FOUND,  
+								new Object[]{parentName}, 
+								filler.getJasperReportsContext(),
+								filler.getLocale()
+								);
 					}
 				}
 			}
@@ -1640,7 +1655,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	{
 		if (!delayedStyleSettersByName.isEmpty())
 		{
-			StringBuffer errorMsg = new StringBuffer("Could not resolve style(s): ");
+			StringBuffer errorMsg = new StringBuffer();
 			for (Iterator<String> it = delayedStyleSettersByName.keySet().iterator(); it.hasNext();)
 			{
 				String name = it.next();
@@ -1648,7 +1663,13 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				errorMsg.append(", ");
 			}
 			
-			throw new JRRuntimeException(errorMsg.substring(0, errorMsg.length() - 2));
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNRESOLVED_STYLE,  
+					new Object[]{errorMsg.substring(0, errorMsg.length() - 2)}, 
+					filler.getJasperReportsContext(),
+					filler.getLocale()
+					);
 		}
 	}
 

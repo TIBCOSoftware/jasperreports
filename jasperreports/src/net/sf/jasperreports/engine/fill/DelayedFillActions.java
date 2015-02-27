@@ -56,6 +56,7 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 	private static final Log log = LogFactory.getLog(DelayedFillActions.class);
 	
 	protected static final String FILL_CACHE_KEY_ID = DelayedFillActions.class.getName() + "#id";
+	public static final String EXCEPTION_MESSAGE_KEY_ELEMENT_NOT_FOUND = "fill.delayed.fill.actions.element.not.found";
 	
 	private final int id;
 	private final BaseReportFiller reportFiller;
@@ -517,7 +518,13 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 				
 				if (fillElement == null)
 				{
-					throw new JRRuntimeException("Fill element with id " + fillElementId + " not found");
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_ELEMENT_NOT_FOUND,  
+							new Object[]{fillElementId}, 
+							fillContext.getMasterFiller().getJasperReportsContext(),
+							fillContext.getMasterFiller().getLocale()
+							);
 				}
 				
 				// add first so that it will be executed immediately

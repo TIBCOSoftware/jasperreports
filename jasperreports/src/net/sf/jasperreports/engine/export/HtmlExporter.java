@@ -134,6 +134,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 {
 	private static final Log log = LogFactory.getLog(HtmlExporter.class);
 	
+	private static final String EXCEPTION_MESSAGE_KEY_INTERNAL_ERROR = "export.html.internal.error";
+	private static final String EXCEPTION_MESSAGE_KEY_UNEXPECTED_ROTATION_VALUE = "export.html.unexpected.rotation.value";
+	
 	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getElementHandler(JRGenericElementType, String)}.
@@ -808,7 +811,13 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			case NONE :
 			default :
 			{
-				throw new JRRuntimeException("Unexpected rotation value " + text.getRotationValue());
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNEXPECTED_ROTATION_VALUE,  
+						new Object[]{text.getRotationValue()}, 
+						getJasperReportsContext(),
+						getLocale()
+						);
 			}
 		}
 
@@ -2118,7 +2127,13 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			zoom = zoomRatio.floatValue();
 			if (zoom <= 0)
 			{
-				throw new JRRuntimeException("Invalid zoom ratio : " + zoom);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_INVALID_ZOOM_RATIO,  
+						new Object[]{zoom}, 
+						getJasperReportsContext(),
+						getLocale()
+						);
 			}
 		}
 
@@ -2584,7 +2599,13 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		@Override
 		public void visit(JRPrintFrame frame, TableCell cell)
 		{
-			throw new JRRuntimeException("Internal error");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_INTERNAL_ERROR,  
+					null, 
+					getJasperReportsContext(),
+					getLocale()
+					);
 		}
 
 		@Override

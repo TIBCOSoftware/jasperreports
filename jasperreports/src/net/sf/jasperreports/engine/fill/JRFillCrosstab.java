@@ -136,6 +136,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 {
 	private final static Log log = LogFactory.getLog(JRFillCrosstab.class); 
 
+	public static final String EXCEPTION_MESSAGE_KEY_INFINITE_LOOP = "crosstabs.infinite.loop";
+	public static final String EXCEPTION_MESSAGE_KEY_NOT_ENOUGH_SPACE = "crosstabs.not.enough.space";
+	
 	public static final String PROPERTY_INTERACTIVE = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.interactive";
 
 	public static final String PROPERTY_FLOATING_HEADERS = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.floating.headers";
@@ -758,8 +761,13 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 			else if (pageCount >= overflowStartPage + 2)
 			{
-				throw new JRRuntimeException("Crosstab has not printed anything on 3 consecutive pages, "
-						+ "likely infinite loop");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_INFINITE_LOOP,  
+						null, 
+						getJasperReportsContext(),
+						getFiller().getLocale()
+						);
 			}
 		}
 		
@@ -1431,7 +1439,13 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 				if (startColumnIndex == lastColumnIndex)
 				{
-					throw new JRRuntimeException("Not enough space to render the crosstab.");
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_NOT_ENOUGH_SPACE,  
+							null, 
+							getJasperReportsContext(),
+							getFiller().getLocale()
+							);
 				}
 			}
 			

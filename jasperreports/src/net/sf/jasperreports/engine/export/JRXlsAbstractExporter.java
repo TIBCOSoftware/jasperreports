@@ -256,6 +256,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	public static final String XLS_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.";
 	public static final String DEFAULT_SHEET_NAME_PREFIX = "Page ";
+	public static final String EXCEPTION_MESSAGE_KEY_TEMPLATE_NOT_FOUND = "export.xls.common.template.not.found";
 
 	/**
 	 * Property that stores the formula which has to be applied to a given cell in an excel sheet.
