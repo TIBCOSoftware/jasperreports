@@ -37,6 +37,8 @@ public interface JasperReportsContext//FIXMECONTEXT extends ExtensionsRegistry
 	 *
 	 */
 	public Object getValue(String key);
+	
+	public Object getOwnValue(String key);
 
 	/**
 	 *

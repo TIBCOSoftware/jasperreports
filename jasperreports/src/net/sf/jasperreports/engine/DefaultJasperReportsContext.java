@@ -225,6 +225,12 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 		return values.get(key);
 	}
 
+	@Override
+	public Object getOwnValue(String key)
+	{
+		return values.get(key);
+	}
+
 	/**
 	 *
 	 */

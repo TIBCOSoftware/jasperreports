@@ -84,6 +84,12 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 		return null;
 	}
 
+	@Override
+	public Object getOwnValue(String key)
+	{
+		return values.get(key);
+	}
+
 	/**
 	 *
 	 */

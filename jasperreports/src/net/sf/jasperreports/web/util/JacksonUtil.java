@@ -79,7 +79,7 @@ public class JacksonUtil
 	
 	private ObjectMapper getObjectMapper()
 	{
-		ObjectMapper mapper = (ObjectMapper)jasperReportsContext.getValue(OBJECT_MAPPER_CONTEXT_KEY);
+		ObjectMapper mapper = (ObjectMapper)jasperReportsContext.getOwnValue(OBJECT_MAPPER_CONTEXT_KEY);
 		if (mapper == null)
 		{
 			mapper = new ObjectMapper();

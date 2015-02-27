@@ -91,7 +91,7 @@ public class CastorUtil
 	 */
 	private XMLContext getXmlContext()
 	{
-		XMLContext xmlContext = (XMLContext)jasperReportsContext.getValue(CASTOR_XML_CONTEXT_KEY);
+		XMLContext xmlContext = (XMLContext)jasperReportsContext.getOwnValue(CASTOR_XML_CONTEXT_KEY);
 		if (xmlContext == null)
 		{
 			xmlContext = new XMLContext();

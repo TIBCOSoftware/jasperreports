@@ -141,7 +141,7 @@ public class ParameterTypeSelectorClauseFunction implements JRClauseFunction
 			JRQueryClauseContext queryContext)
 	{
 		@SuppressWarnings("unchecked")
-		Map<Object, JRClauseFunction> cache = (Map<Object, JRClauseFunction>) queryContext.getJasperReportsContext().getValue(
+		Map<Object, JRClauseFunction> cache = (Map<Object, JRClauseFunction>) queryContext.getJasperReportsContext().getOwnValue(
 				CONTEXT_KEY_FUNCTION_PER_TYPES_CACHE);
 		if (cache == null)
 		{
