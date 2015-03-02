@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.headertoolbar.actions;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -59,10 +60,12 @@ public class EditTextElementData extends BaseColumnData {
 	public EditTextElementData() {
 	}
 
+	@JsonIgnore
 	public int getColumnIndex() {
 		return columnIndex;
 	}
 
+	@JsonProperty
 	public void setColumnIndex(int columnIndex) {
 		this.columnIndex = columnIndex;
 	}
@@ -155,26 +158,38 @@ public class EditTextElementData extends BaseColumnData {
 		this.mode = mode;
 	}
 
+	/**
+	 * @deprecated To be removed.
+	 */
+	@JsonIgnore
 	public String getDataType() {
 		return dataType;
 	}
 
+	/**
+	 * @deprecated To be removed.
+	 */
+	@JsonIgnore
 	public void setDataType(String dataType) {
 		this.dataType = dataType;
 	}
 
+	@JsonIgnore
 	public String getApplyTo() {
 		return applyTo;
 	}
 
+	@JsonProperty
 	public void setApplyTo(String applyTo) {
 		this.applyTo = applyTo;
 	}
 
+	@JsonIgnore
 	public String getGroupName() {
 		return groupName;
 	}
 
+	@JsonProperty
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}

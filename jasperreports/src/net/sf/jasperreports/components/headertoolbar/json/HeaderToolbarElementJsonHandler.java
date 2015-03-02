@@ -792,9 +792,10 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement, locale);
 
 			Map<String, Object> groupData = new HashMap<String, Object>();
-			groupData.put("grouptype", groupInfo.getType());
+			groupData.put("groupType", groupInfo.getType());
 			groupData.put("id", groupInfo.getType() + "_" + i);
 			groupData.put("groupData", textElementData);
+			groupData.put("groupName", groupInfo.getName());
 			groupData.put("forColumns", groupInfo.getForColumns());
 
 			JRDesignTextField textField = textElement instanceof JRDesignTextField ? (JRDesignTextField)textElement : null;
@@ -812,9 +813,12 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			
 			if (cfData != null) 
 			{
-				textElementData.setDataType(cfData.getConditionType());
-
+				groupData.put("dataType", cfData.getConditionType());
 				groupData.put("conditionalFormattingData", cfData);
+			}
+			else
+			{
+				groupData.put("dataType", FilterTypesEnum.TEXT.getName());
 			}
 
 			groupsData.add(groupData);
