@@ -141,6 +141,7 @@ import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.analytics.data.Axis;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
@@ -222,7 +223,7 @@ public final class JRXmlDigesterFactory
 	/**
 	 * Configures the given digester for parsing jasperreport xml report definition files.
 	 */
-	public static void configureDigester(Digester digester) throws SAXException, ParserConfigurationException
+	public static void configureDigester(JasperReportsContext jasperReportsContext, Digester digester) throws SAXException, ParserConfigurationException
 	{
 		// set a composite classloader that includes both the JR classloader
 		// and the context classloader
@@ -546,9 +547,9 @@ public final class JRXmlDigesterFactory
 
 		addFrameRules(digester);
 		
-		addComponentRules(digester);
+		addComponentRules(jasperReportsContext, digester);
 		
-		addPartComponentRules(digester);
+		addPartComponentRules(jasperReportsContext, digester);
 		
 		addGenericElementRules(digester);
 		
@@ -556,12 +557,21 @@ public final class JRXmlDigesterFactory
 	}
 
 
-	protected static void addComponentRules(Digester digester)
+	/**
+	 * @deprecated Replaced by {@link #configureDigester(JasperReportsContext, Digester)}.
+	 */
+	public static void configureDigester(Digester digester) throws SAXException, ParserConfigurationException
+	{
+		configureDigester(DefaultJasperReportsContext.getInstance(), digester);
+	}
+
+
+	protected static void addComponentRules(JasperReportsContext jasperReportsContext, Digester digester)
 	{
 		digester.addFactoryCreate("*/componentElement", JRComponentElementFactory.class.getName());
 		digester.addSetNext("*/componentElement", "addElement", JRDesignElement.class.getName());
 		
-		Collection<ComponentsBundle> components = ComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getBundles();
+		Collection<ComponentsBundle> components = ComponentsEnvironment.getInstance(jasperReportsContext).getBundles();
 		for (Iterator<ComponentsBundle> it = components.iterator(); it.hasNext();)
 		{
 			ComponentsBundle componentsBundle = it.next();
@@ -588,7 +598,16 @@ public final class JRXmlDigesterFactory
 	}
 
 
-	protected static void addPartComponentRules(Digester digester)
+	/**
+	 * @deprecated Replaced by {@link #addComponentRules(JasperReportsContext, Digester)}.
+	 */
+	protected static void addComponentRules(Digester digester)
+	{
+		addComponentRules(DefaultJasperReportsContext.getInstance(), digester);
+	}
+
+
+	protected static void addPartComponentRules(JasperReportsContext jasperReportsContext, Digester digester)
 	{
 		digester.addFactoryCreate("*/part", JRPartFactory.class.getName());
 		digester.addRule("*/part", new UuidPropertyRule("uuid", "UUID"));
@@ -596,7 +615,7 @@ public final class JRXmlDigesterFactory
 
 		addExpressionRules(digester, "*/part/" + JRXmlConstants.ELEMENT_partNameExpression, "setPartNameExpression");
 
-		Collection<PartComponentsBundle> components = PartComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getBundles();
+		Collection<PartComponentsBundle> components = PartComponentsEnvironment.getInstance(jasperReportsContext).getBundles();
 		for (Iterator<PartComponentsBundle> it = components.iterator(); it.hasNext();)
 		{
 			PartComponentsBundle componentsBundle = it.next();
@@ -620,6 +639,15 @@ public final class JRXmlDigesterFactory
 		}
 		
 		digester.setRuleNamespaceURI(JRXmlConstants.JASPERREPORTS_NAMESPACE);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #addPartComponentRules(JasperReportsContext, Digester)}.
+	 */
+	protected static void addPartComponentRules(Digester digester)
+	{
+		addPartComponentRules(DefaultJasperReportsContext.getInstance(), digester);
 	}
 
 
@@ -1508,29 +1536,39 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext(expressionPattern, setterMethod,
 				JRExpression.class.getName());
 	}
-	
+
+
 	/**
 	 * Creates a new instance of digester. The created digester is ready for
 	 * parsing report definition files.
 	 */
-	public static JRXmlDigester createDigester() throws ParserConfigurationException, SAXException
+	public static JRXmlDigester createDigester(JasperReportsContext jasperReportsContext) throws ParserConfigurationException, SAXException
 	{
-		SAXParser parser = createParser();
+		SAXParser parser = createParser(jasperReportsContext);
 		JRXmlDigester digester = new JRXmlDigester(parser);
 		
 		//normally not required because schemaSource is set, but keeping to be safe
-		setComponentsInternalEntityResources(digester);
+		setComponentsInternalEntityResources(jasperReportsContext, digester);
 		
-		configureDigester(digester);
+		configureDigester(jasperReportsContext, digester);
 		return digester;
 	}
 
 
-	protected static SAXParser createParser()
+	/**
+	 * @deprecated Replaced by {@link #createDigester(JasperReportsContext)}.
+	 */
+	public static JRXmlDigester createDigester() throws ParserConfigurationException, SAXException
+	{
+		return createDigester(DefaultJasperReportsContext.getInstance());
+	}
+
+
+	protected static SAXParser createParser(JasperReportsContext jasperReportsContext)
 	{
 		try
 		{
-			String parserFactoryClass = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getProperty(
+			String parserFactoryClass = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(
 					JRSaxParserFactory.PROPERTY_REPORT_PARSER_FACTORY);
 			
 			if (log.isDebugEnabled())
@@ -1546,11 +1584,23 @@ public final class JRXmlDigesterFactory
 			throw new JRRuntimeException(e);
 		}
 	}
-	
-	public static void setComponentsInternalEntityResources(
-			JRXmlDigester digester)
+
+
+	/**
+	 * @deprecated Replaced by {@link #createParser(JasperReportsContext)}.
+	 */
+	protected static SAXParser createParser()
 	{
-		Collection<ComponentsBundle> components = ComponentsEnvironment.getComponentBundles();
+		return createParser(DefaultJasperReportsContext.getInstance());
+	}
+
+
+	public static void setComponentsInternalEntityResources(
+		JasperReportsContext jasperReportsContext,
+		JRXmlDigester digester
+		)
+	{
+		Collection<ComponentsBundle> components = ComponentsEnvironment.getInstance(jasperReportsContext).getBundles();
 		for (Iterator<ComponentsBundle> it = components.iterator(); it.hasNext();)
 		{
 			ComponentsBundle componentManager = it.next();
@@ -1562,6 +1612,17 @@ public final class JRXmlDigesterFactory
 						schemaResource);
 			}
 		}
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #setComponentsInternalEntityResources(JasperReportsContext, JRXmlDigester)}.
+	 */
+	public static void setComponentsInternalEntityResources(
+		JRXmlDigester digester
+		)
+	{
+		setComponentsInternalEntityResources(DefaultJasperReportsContext.getInstance(), digester);
 	}
 
 

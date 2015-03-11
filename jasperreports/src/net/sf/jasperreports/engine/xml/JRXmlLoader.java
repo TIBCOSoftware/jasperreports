@@ -258,7 +258,7 @@ public class JRXmlLoader
 
 		try 
 		{
-			xmlLoader = new JRXmlLoader(jasperReportsContext, JRXmlDigesterFactory.createDigester());
+			xmlLoader = new JRXmlLoader(jasperReportsContext, JRXmlDigesterFactory.createDigester(jasperReportsContext));
 		}
 		catch (ParserConfigurationException e) 
 		{
