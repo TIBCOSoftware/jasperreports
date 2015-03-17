@@ -120,5 +120,4 @@
 		<property name="bold" ref="isTrue"/>
 	</bean>
 
-	<import resource="chartConstantsBean.xml"/>
 </beans>

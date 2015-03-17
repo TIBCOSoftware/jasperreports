@@ -68,5 +68,4 @@
 		</property>
 	</bean>
 
-	<import resource="chartConstantsBean.xml"/>
 </beans>

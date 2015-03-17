@@ -57,6 +57,8 @@
 		</property>
 	</bean>
 
+	<!-- importing chartConstantsBean.xml due to https://jira.spring.io/browse/SPR-1142, ideally it would be imported in each of the chart themes file -->
+	<import resource="chartConstantsBean.xml"/>
 	<import resource="defaultChartPropertiesBean.xml"/>
 	<import resource="eyeCandySixtiesChartPropertiesBean.xml"/>
 	<import resource="aegeanChartPropertiesBean.xml"/>
