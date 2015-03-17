@@ -122,7 +122,6 @@ import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRFont;
@@ -135,7 +134,6 @@ import net.sf.jasperreports.engine.JRPart;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRReportTemplate;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
@@ -173,7 +171,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.type.OverflowType;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
-import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.xml.JRChartFactory.JRCategoryAxisFormatFactory;
 
 import org.apache.commons.digester.Digester;
@@ -195,9 +192,6 @@ public final class JRXmlDigesterFactory
 {
 	private static final Log log = LogFactory.getLog(JRXmlDigesterFactory.class);
 	
-	protected static final JRSingletonCache<JRSaxParserFactory> reportParserFactories = 
-		new JRSingletonCache<JRSaxParserFactory>(JRSaxParserFactory.class);
-
 	@SuppressWarnings("deprecation")
 	private final static Class<?> depStringExprFactoryClass = JRExpressionFactory.StringExpressionFactory.class;
 	@SuppressWarnings("deprecation")
@@ -1566,23 +1560,16 @@ public final class JRXmlDigesterFactory
 
 	protected static SAXParser createParser(JasperReportsContext jasperReportsContext)
 	{
-		try
+		String parserFactoryClass = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(
+				JRSaxParserFactory.PROPERTY_REPORT_PARSER_FACTORY);
+		
+		if (log.isDebugEnabled())
 		{
-			String parserFactoryClass = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(
-					JRSaxParserFactory.PROPERTY_REPORT_PARSER_FACTORY);
-			
-			if (log.isDebugEnabled())
-			{
-				log.debug("Using SAX parser factory class " + parserFactoryClass);
-			}
-			
-			JRSaxParserFactory factory = reportParserFactories.getCachedInstance(parserFactoryClass);
-			return factory.createParser();
+			log.debug("Using SAX parser factory class " + parserFactoryClass);
 		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
+		
+		JRSaxParserFactory factory = BaseSaxParserFactory.getFactory(jasperReportsContext, parserFactoryClass);
+		return factory.createParser();
 	}
 
 
