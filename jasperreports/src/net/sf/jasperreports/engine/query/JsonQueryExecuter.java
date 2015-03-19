@@ -39,6 +39,8 @@ import net.sf.jasperreports.engine.data.JsonDataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 /**
  * JSON query executer implementation.
  * 
@@ -86,16 +88,21 @@ public class JsonQueryExecuter extends JRAbstractQueryExecuter
 
 	public JRDataSource createDatasource() throws JRException
 	{
-		InputStream jsonInputStream = (InputStream) getParameterValue(JsonQueryExecuterFactory.JSON_INPUT_STREAM);
-		if (jsonInputStream != null) {
-			datasource = new JsonDataSource(jsonInputStream, getQueryString());
+		JsonNode jsonTree = (JsonNode) getParameterValue(JsonQueryExecuterFactory.JSON_TREE, true);
+		if (jsonTree != null) {
+			datasource = new JsonDataSource(jsonTree, getQueryString());
 		} else {
-			String jsonSource = getStringParameterOrProperty(JsonQueryExecuterFactory.JSON_SOURCE);
-			if (jsonSource != null) {
-					datasource = new JsonDataSource(getJasperReportsContext(), jsonSource, getQueryString());
+			InputStream jsonInputStream = (InputStream) getParameterValue(JsonQueryExecuterFactory.JSON_INPUT_STREAM);
+			if (jsonInputStream != null) {
+				datasource = new JsonDataSource(jsonInputStream, getQueryString());
 			} else {
-				if (log.isWarnEnabled()) {
-					log.warn("No JSON source was provided.");
+				String jsonSource = getStringParameterOrProperty(JsonQueryExecuterFactory.JSON_SOURCE);
+				if (jsonSource != null) {
+						datasource = new JsonDataSource(getJasperReportsContext(), jsonSource, getQueryString());
+				} else {
+					if (log.isWarnEnabled()) {
+						log.warn("No JSON source was provided.");
+					}
 				}
 			}
 		}

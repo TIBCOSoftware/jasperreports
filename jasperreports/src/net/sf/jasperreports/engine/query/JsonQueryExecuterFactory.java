@@ -41,6 +41,9 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  */
 public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory
 {
+	
+	public static final String JSON_TREE = "JSON_TREE";
+	
 	/**
 	 * Built-in parameter holding the value of the <code>java.io.InputStream</code> to be used for obtaining the JSON data.
 	 */
@@ -98,7 +101,8 @@ public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory
 		JSON_LOCALE, "java.util.Locale",
 		JSON_LOCALE_CODE, "java.lang.String",
 		JSON_TIME_ZONE, "java.util.TimeZone",
-		JSON_TIMEZONE_ID, "java.lang.String"
+		JSON_TIMEZONE_ID, "java.lang.String",
+		JSON_TREE, "com.fasterxml.jackson.databind.JsonNode"
 		};
 
 	public Object[] getBuiltinParameters()
