@@ -1490,9 +1490,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_NO_SUCH_VARIABLE,  
-					new Object[]{variableName}, 
-					getJasperReportsContext(),
-					getLocale()
+					new Object[]{variableName} 
 					);
 		}
 		return var.getValue(evaluation.getType());
@@ -1533,9 +1531,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_NO_SUCH_PARAMETER,  
-						new Object[]{parameterName}, 
-						getJasperReportsContext(),
-						getLocale()
+						new Object[]{parameterName} 
 						);
 			}
 			
@@ -1570,9 +1566,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_NO_SUCH_FIELD,  
-					new Object[]{fieldName}, 
-					getJasperReportsContext(),
-					getLocale()
+					new Object[]{fieldName} 
 					);
 		}
 		return field.getValue(evaluation.getType());
@@ -1931,9 +1925,5 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		{
 			FillDatasetPositionRecordIndexCallback.setRecordIndex(position, recordIndex);
 		}
-	}
-	
-	public BaseReportFiller getFiller() {
-		return filler;
 	}
 }

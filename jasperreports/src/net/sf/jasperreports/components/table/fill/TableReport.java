@@ -655,9 +655,7 @@ public class TableReport implements JRReport
 						throw 
 							new JRRuntimeException(
 								EXCEPTION_MESSAGE_KEY_FIELD_NOT_FOUND,  
-								new Object[]{fieldOrVariableName}, 
-								fillContext.getFiller().getJasperReportsContext(),
-								fillContext.getFillDataset().getLocale()
+								new Object[]{fieldOrVariableName} 
 								);
 					}
 				} else if (column.getPropertiesMap().containsProperty(PROPERTY_COLUMN_VARIABLE))
@@ -674,9 +672,7 @@ public class TableReport implements JRReport
 						throw 
 							new JRRuntimeException(
 								EXCEPTION_MESSAGE_KEY_VARIABLE_NOT_FOUND,  
-								new Object[]{fieldOrVariableName}, 
-								fillContext.getFiller().getJasperReportsContext(),
-								fillContext.getFillDataset().getLocale()
+								new Object[]{fieldOrVariableName} 
 								);
 					}
 				} else if (TableUtil.hasSingleChunkExpression(sortTextField))
@@ -703,9 +699,7 @@ public class TableReport implements JRReport
 						throw 
 							new JRRuntimeException(
 								EXCEPTION_MESSAGE_KEY_UNRECOGNIZED_FILTER_EXPRESSION_TYPE,  
-								new Object[]{sortExpression.getType()}, 
-								fillContext.getFiller().getJasperReportsContext(),
-								fillContext.getFillDataset().getLocale()
+								new Object[]{sortExpression.getType()} 
 								);
 					}	
 				}
@@ -1349,9 +1343,7 @@ public class TableReport implements JRReport
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_UNKNOWN_CHILD_TYPE,  
-						new Object[]{childClone.getClass().getName()}, 
-						fillContext.getFiller().getJasperReportsContext(),
-						fillContext.getFillDataset().getLocale()
+						new Object[]{childClone.getClass().getName()} 
 						);
 			}
 		}
@@ -1439,9 +1431,7 @@ public class TableReport implements JRReport
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_UNKNOWN_CHILD_TYPE,  
-						new Object[]{child.getClass().getName()}, 
-						fillContext.getFiller().getJasperReportsContext(),
-						fillContext.getFillDataset().getLocale()
+						new Object[]{child.getClass().getName()} 
 						);
 			}
 		}

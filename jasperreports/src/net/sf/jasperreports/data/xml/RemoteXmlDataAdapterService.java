@@ -149,7 +149,7 @@ public class RemoteXmlDataAdapterService extends XmlDataAdapterService
 			}
 		}
 		catch (Exception e) {
-			throw new JRException(e.getMessage());
+			throw new JRException(e);
 		} finally {
 
 			if (is != null) {

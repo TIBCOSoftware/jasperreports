@@ -142,9 +142,7 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_SERIES_NULL_NAME,  
-							null, 
-							getFiller().getJasperReportsContext(),
-							getFillDataset().getLocale()
+							(Object[])null 
 							);
 				}
 

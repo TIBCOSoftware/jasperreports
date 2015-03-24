@@ -337,9 +337,7 @@ public class ReportConverter
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_CIRCULAR_DEPENDENCY_FOUND,  
-					new Object[]{location}, 
-					getJasperReportsContext(),
-					getLocale()
+					new Object[]{location} 
 					);
 		}
 		

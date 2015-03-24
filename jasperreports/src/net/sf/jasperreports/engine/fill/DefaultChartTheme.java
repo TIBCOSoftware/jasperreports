@@ -343,9 +343,7 @@ public class DefaultChartTheme implements ChartTheme
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_UNSUPPORTED_CHART_TYPE,  
-						new Object[]{getChart().getChartType()}, 
-						chartContext.getJasperReportsContext(),
-						getLocale()
+						new Object[]{getChart().getChartType()} 
 						);
 		}
 

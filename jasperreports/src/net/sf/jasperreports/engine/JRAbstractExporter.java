@@ -268,9 +268,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_MIXED_CALLS_NOT_ALLOWED,  
-						null, 
-						getJasperReportsContext(), 
-						getLocale()
+						(Object[])null 
 						);
 			}
 		}

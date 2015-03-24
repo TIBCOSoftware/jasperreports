@@ -283,9 +283,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_CHART_TYPE_NOT_SUPPORTED,  
-						new Object[]{getChartType()}, 
-						getFiller().getJasperReportsContext(),
-						getLocale()
+						new Object[]{getChartType()} 
 						);
 		}
 
@@ -1108,9 +1106,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_CHART_TYPE_NOT_SUPPORTED,  
-						new Object[]{getChartType()}, 
-						getFiller().getJasperReportsContext(),
-						getLocale()
+						new Object[]{getChartType()} 
 						);
 		}
 
@@ -1221,9 +1217,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 					throw 
 						new JRException(
 							EXCEPTION_MESSAGE_KEY_MULTIAXIS_PLOT_TYPES_MIX_NOT_ALLOWED,  
-							null, 
-							filler.getJasperReportsContext(),
-							filler.getLocale()
+							(Object[])null 
 							);
 				}
 
@@ -1256,9 +1250,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 					throw 
 						new JRException(
 							EXCEPTION_MESSAGE_KEY_MULTIAXIS_PLOT_TYPES_MIX_NOT_ALLOWED,  
-							null, 
-							filler.getJasperReportsContext(),
-							filler.getLocale()
+							(Object[])null 
 							);
 				}
 
@@ -1288,9 +1280,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				throw 
 					new JRException(
 						EXCEPTION_MESSAGE_KEY_MULTIAXIS_PLOT_NOT_SUPPORTED,  
-						null, 
-						filler.getJasperReportsContext(),
-						filler.getLocale()
+						(Object[])null 
 						);
 			}
 		}

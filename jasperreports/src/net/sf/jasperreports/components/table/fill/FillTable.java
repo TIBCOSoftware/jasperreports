@@ -376,9 +376,7 @@ public class FillTable extends BaseFillComponent
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_UNSUPPORTED_REPORT_DATA_TYPE,  
-					new Object[]{reportCompileDataObj.getClass().getName()}, 
-					factory.getFiller().getJasperReportsContext(),
-					fillContext.getFillDataset().getLocale()
+					new Object[]{reportCompileDataObj.getClass().getName()} 
 					);
 		}
 		

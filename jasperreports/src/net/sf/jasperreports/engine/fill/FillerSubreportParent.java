@@ -114,9 +114,7 @@ public class FillerSubreportParent implements BandReportFillerParent
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_UNSUPPORTED_OVERFLOW,  
-						null, 
-						getFiller().getJasperReportsContext(),
-						getFiller().getLocale()
+						(Object[])null 
 						);
 			}
 
@@ -131,9 +129,7 @@ public class FillerSubreportParent implements BandReportFillerParent
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_NO_SUBREPORT_RUNNER,  
-					null, 
-					getFiller().getJasperReportsContext(),
-					getFiller().getLocale()
+					(Object[])null 
 					);
 		}
 

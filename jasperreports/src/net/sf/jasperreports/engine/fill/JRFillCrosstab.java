@@ -764,9 +764,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_INFINITE_LOOP,  
-						null, 
-						getJasperReportsContext(),
-						getFiller().getLocale()
+						(Object[])null 
 						);
 			}
 		}
@@ -1442,9 +1440,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_NOT_ENOUGH_SPACE,  
-							null, 
-							getJasperReportsContext(),
-							getFiller().getLocale()
+							(Object[])null 
 							);
 				}
 			}

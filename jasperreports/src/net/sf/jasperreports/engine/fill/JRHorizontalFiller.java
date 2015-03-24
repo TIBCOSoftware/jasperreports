@@ -1957,9 +1957,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_INFINITE_LOOP_CREATING_NEW_PAGE,  
-					null, 
-					getJasperReportsContext(),
-					getLocale()
+					(Object[])null 
 					);
 		}
 

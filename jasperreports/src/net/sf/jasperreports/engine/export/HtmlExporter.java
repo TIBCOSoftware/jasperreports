@@ -814,9 +814,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_UNEXPECTED_ROTATION_VALUE,  
-						new Object[]{text.getRotationValue()}, 
-						getJasperReportsContext(),
-						getLocale()
+						new Object[]{text.getRotationValue()}
 						);
 			}
 		}
@@ -2130,9 +2128,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_INVALID_ZOOM_RATIO,  
-						new Object[]{zoom}, 
-						getJasperReportsContext(),
-						getLocale()
+						new Object[]{zoom} 
 						);
 			}
 		}
@@ -2602,9 +2598,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_INTERNAL_ERROR,  
-					null, 
-					getJasperReportsContext(),
-					getLocale()
+					(Object[])null 
 					);
 		}
 

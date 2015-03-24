@@ -179,9 +179,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 				throw 
 					new JRException(
 						EXCEPTION_MESSAGE_KEY_INVALID_ADDRESS_COORDINATES,  
-						new Object[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude}, 
-						factory.getFiller().getJasperReportsContext(),
-						factory.getExpressionEvaluator().getFillDataset().getLocale()
+						new Object[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude} 
 						);
 			}
 		}
@@ -247,9 +245,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 											if(currentItem.get(MapComponent.PROPERTY_latitude) == null || currentItem.get(MapComponent.PROPERTY_longitude) == null){
 												throw new JRException(
 														EXCEPTION_MESSAGE_KEY_NULL_OR_EMPTY_VALUES_NOT_ALLOWED,  
-														new Object[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude}, 
-														factory.getFiller().getJasperReportsContext(),
-														factory.getExpressionEvaluator().getFillDataset().getLocale()
+														new Object[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude}
 														);
 											}
 											Map<String,Object> location = new HashMap<String,Object>();
@@ -284,9 +280,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 							throw 
 								new JRException(
 									EXCEPTION_MESSAGE_KEY_NULL_OR_EMPTY_VALUE_NOT_ALLOWED,  
-									new Object[]{MapComponent.PROPERTY_name}, 
-									factory.getFiller().getJasperReportsContext(),
-									factory.getExpressionEvaluator().getFillDataset().getLocale()
+									new Object[]{MapComponent.PROPERTY_name}
 									);
 						}
 						Map<String,Object> styleMap = null;
@@ -446,9 +440,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 					throw 
 						new JRException(
 							EXCEPTION_MESSAGE_KEY_ADDRESS_REQUEST_FAILED,  
-							new Object[]{status}, 
-							factory.getFiller().getJasperReportsContext(),
-							factory.getExpressionEvaluator().getFillDataset().getLocale()
+							new Object[]{status} 
 							);
 				}
 			} catch (Exception e) {

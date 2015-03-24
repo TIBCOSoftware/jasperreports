@@ -242,9 +242,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_NULL_KEY,
-							null, 
-							getFiller().getJasperReportsContext(),
-							getFillDataset().getLocale()
+							(Object[])null 
 							);
 				}
 
@@ -256,9 +254,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_DUPLICATED_KEY,
-							new Object[]{key}, 
-							getFiller().getJasperReportsContext(),
-							getFillDataset().getLocale()
+							new Object[]{key} 
 							);
 				}
 

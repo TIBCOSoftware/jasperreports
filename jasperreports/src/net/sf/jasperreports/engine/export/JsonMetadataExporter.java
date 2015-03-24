@@ -135,18 +135,14 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 					throw 
 						new JRException(
 							EXCEPTION_MESSAGE_KEY_INVALID_JSON_OBJECT_SEMANTIC,  
-							null, 
-							getJasperReportsContext(),
-							getLocale()
+							(Object[])null 
 							);
 				}
 			} else {
 				throw 
 					new JRException(
 						EXCEPTION_MESSAGE_KEY_INVALID_JSON_OBJECT_ARRAY_FOUND,  
-						null, 
-						getJasperReportsContext(),
-						getLocale()
+						(Object[])null 
 						);
 			}
 
@@ -154,9 +150,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_INVALID_JSON_OBJECT,  
-					null, 
-					getJasperReportsContext(),
-					getLocale()
+					(Object[])null 
 					);
 		}
 	}

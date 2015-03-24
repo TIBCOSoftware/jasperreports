@@ -240,9 +240,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_UNSUPPORTED_REPORT_SECTION_TYPE,  
-					new Object[]{jasperReport.getSectionType()}, 
-					getJasperReportsContext(),
-					getLocale()
+					new Object[]{jasperReport.getSectionType()} 
 					);
 		}
 		
@@ -745,9 +743,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_EXTERNAL_STYLE_NAME_NOT_SET,  
-							null, 
-							getJasperReportsContext(),
-							getLocale()
+							(Object[])null 
 							);
 				}
 
@@ -772,9 +768,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_CIRCULAR_DEPENDENCY_FOUND,  
-							new Object[]{location}, 
-							getJasperReportsContext(),
-							getLocale()
+							new Object[]{location} 
 							);
 				}
 				
@@ -1408,9 +1402,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 			throw 
 			new JRRuntimeException(
 				EXCEPTION_MESSAGE_KEY_NO_SUCH_GROUP,  
-				new Object[]{groupName}, 
-				getJasperReportsContext(),
-				getLocale()
+				new Object[]{groupName} 
 				);
 		}
 		return group;

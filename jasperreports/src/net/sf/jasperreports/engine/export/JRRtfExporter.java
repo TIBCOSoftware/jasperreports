@@ -318,9 +318,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 						throw 
 							new JRException(
 								EXCEPTION_MESSAGE_KEY_EXPORT_THREAD_INTERRUPTED,  
-								null, 
-								getJasperReportsContext(),
-								getLocale()
+								(Object[])null 
 								);
 					}
 
@@ -693,9 +691,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 				throw 
 					new JRException(
 						EXCEPTION_MESSAGE_KEY_INVALID_TEXT_HEIGHT,  
-						null, 
-						getJasperReportsContext(),
-						getLocale()
+						(Object[])null 
 						);
 			}
 			textHeight = height;

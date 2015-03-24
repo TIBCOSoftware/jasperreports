@@ -211,9 +211,7 @@ public final class JRFiller
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_UNKNOWN_REPORT_SECTION_TYPE,  
-					new Object[]{jasperReport.getSectionType()}, 
-					jasperReportsContext,
-					null
+					new Object[]{jasperReport.getSectionType()} 
 					);
 		}
 		return filler;

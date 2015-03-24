@@ -330,9 +330,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_TEMPLATE_NOT_FOUND,  
-							new Object[]{lcWorkbookTemplate}, 
-							getJasperReportsContext(),
-							getLocale()
+							new Object[]{lcWorkbookTemplate} 
 							);
 				}
 				else

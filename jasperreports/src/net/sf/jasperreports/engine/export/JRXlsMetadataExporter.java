@@ -270,9 +270,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_TEMPLATE_NOT_FOUND,  
-							new Object[]{lcWorkbookTemplate}, 
-							getJasperReportsContext(),
-							getLocale()
+							new Object[]{lcWorkbookTemplate} 
 							);
 				} else {
 					workbook = new HSSFWorkbook(new POIFSFileSystem(templateIs));

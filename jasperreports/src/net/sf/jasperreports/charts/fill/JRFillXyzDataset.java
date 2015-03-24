@@ -106,9 +106,7 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_SERIES_NULL_NAME,  
-							null, 
-							getFiller().getJasperReportsContext(),
-							getFillDataset().getLocale()
+							(Object[])null 
 							);
 				}
 

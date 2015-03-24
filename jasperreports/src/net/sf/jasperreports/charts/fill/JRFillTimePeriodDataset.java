@@ -136,9 +136,7 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_SERIES_NULL_NAME,  
-							null, 
-							getFiller().getJasperReportsContext(),
-							getFillDataset().getLocale()
+							(Object[])null 
 							);
 				}
 

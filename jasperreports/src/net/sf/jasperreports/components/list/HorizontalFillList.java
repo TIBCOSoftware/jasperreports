@@ -225,9 +225,7 @@ public class HorizontalFillList extends BaseFillList
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_ROW_OVERFLOW,  
-							null, 
-							fillContext.getFiller().getJasperReportsContext(),
-							fillContext.getFillDataset().getLocale()
+							(Object[])null 
 							);
 				}
 				

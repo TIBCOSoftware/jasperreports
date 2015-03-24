@@ -387,9 +387,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_INVALID_ZOOM_RATIO,  
-						new Object[]{zoom}, 
-						getJasperReportsContext(),
-						getLocale()
+						new Object[]{zoom} 
 						);
 			}
 		}

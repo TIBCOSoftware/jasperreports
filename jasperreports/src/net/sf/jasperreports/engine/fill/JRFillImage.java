@@ -609,9 +609,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 							getOnErrorTypeValue(), 
 							new JRException(
 									EXCEPTION_MESSAGE_KEY_UNKNOWN_SOURCE_CLASS,  
-									new Object[]{source.getClass().getName()}, 
-									filler.getJasperReportsContext(),
-									filler.getLocale()
+									new Object[]{source.getClass().getName()} 
 									)
 							);
 				}

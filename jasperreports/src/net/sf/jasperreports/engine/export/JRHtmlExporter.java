@@ -2302,9 +2302,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_INVALID_ZOOM_RATIO,  
-						new Object[]{zoom}, 
-						getJasperReportsContext(),
-						getLocale()
+						new Object[]{zoom} 
 						);
 			}
 		}

@@ -485,9 +485,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_REPORT_STYLE_NOT_FOUND,  
-						new Object[]{style.getStyle().getName()}, 
-						getJasperReportsContext(),
-						getLocale()
+						new Object[]{style.getStyle().getName()} 
 						);
 			}
 		}
