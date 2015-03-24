@@ -25,15 +25,15 @@ package net.sf.jasperreports.crosstabs.interactive;
 
 import java.util.UUID;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.web.actions.AbstractAction;
 import net.sf.jasperreports.web.actions.ActionException;
 import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.commands.ResetInCacheCommand;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -69,7 +69,7 @@ public class SortByColumnAction extends AbstractAction
 					log.debug("error sorting crosstab", e);
 				}
 				
-				throw new ActionException(e.getMessage());
+				throw new ActionException(e);
 			}
 			
 		}

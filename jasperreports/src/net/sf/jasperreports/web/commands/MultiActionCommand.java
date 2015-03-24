@@ -57,7 +57,7 @@ public class MultiActionCommand implements Command {
 				try {
 					action.run();
 				} catch (ActionException e) {
-					throw new CommandException(e.getMessage());
+					throw new CommandException(e);
 				}
 			}
 		}

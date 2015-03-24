@@ -80,7 +80,7 @@ public class SortAction extends AbstractAction
 							)
 						);
 				} catch (CommandException e) {
-					 throw new ActionException(e.getMessage());
+					 throw new ActionException(e);
 				}
 			}
 		}

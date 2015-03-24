@@ -88,7 +88,7 @@ public class SearchAction extends AbstractAction {
 				reportContext.setParameterValue("net.sf.jasperreports.web.actions.result.json", result);
 
 			} catch (Exception e) {
-				throw new ActionException(e.getMessage());
+				throw new ActionException(e);
 			}
 		}
 	}
