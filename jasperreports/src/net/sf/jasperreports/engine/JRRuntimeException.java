@@ -82,6 +82,17 @@ public class JRRuntimeException extends RuntimeException
 	/**
 	 *
 	 */
+	public JRRuntimeException(String messageKey, Object[] args, Throwable t)
+	{
+		super(messageKey);
+		this.messageKey = messageKey;
+		this.args = args;
+	}
+
+
+	/**
+	 *
+	 */
 	public JRRuntimeException(String messageKey, Object[] args)
 	{
 		super(messageKey);

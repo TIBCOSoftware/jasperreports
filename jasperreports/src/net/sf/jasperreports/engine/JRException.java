@@ -83,6 +83,17 @@ public class JRException extends Exception
 	/**
 	 *
 	 */
+	public JRException(String messageKey, Object[] args, Throwable t)
+	{
+		super(messageKey, t);
+		this.messageKey = messageKey;
+		this.args = args;
+	}
+
+
+	/**
+	 *
+	 */
 	public JRException(String messageKey, Object[] args)
 	{
 		super(messageKey);
