@@ -679,7 +679,7 @@
 				<extension base="jr:componentType">
 					<sequence>
 						<element ref="jr:datasetRun" minOccurs="1" maxOccurs="1" />
-						<choice minOccurs="1" maxOccurs="unbounded">
+						<choice minOccurs="0" maxOccurs="unbounded">
 							<element ref="c:columnGroup"/>
 							<element ref="c:column"/>
 						</choice>
