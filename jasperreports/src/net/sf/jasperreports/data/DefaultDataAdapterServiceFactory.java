@@ -57,8 +57,6 @@ import net.sf.jasperreports.data.xls.XlsDataAdapter;
 import net.sf.jasperreports.data.xls.XlsDataAdapterService;
 import net.sf.jasperreports.data.xlsx.XlsxDataAdapter;
 import net.sf.jasperreports.data.xlsx.XlsxDataAdapterService;
-import net.sf.jasperreports.data.xml.RemoteXmlDataAdapter;
-import net.sf.jasperreports.data.xml.RemoteXmlDataAdapterService;
 import net.sf.jasperreports.data.xml.XmlDataAdapter;
 import net.sf.jasperreports.data.xml.XmlDataAdapterService;
 import net.sf.jasperreports.data.xmla.XmlaDataAdapter;
@@ -151,10 +149,6 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterServiceFacto
 		}
 		// end excel
 
-		else if (dataAdapter instanceof RemoteXmlDataAdapter)
-		{
-			dataAdapterService = new RemoteXmlDataAdapterService(jasperReportsContext, (RemoteXmlDataAdapter)dataAdapter);
-		}
 		else if (dataAdapter instanceof XmlDataAdapter)
 		{
 			dataAdapterService = new XmlDataAdapterService(jasperReportsContext, (XmlDataAdapter)dataAdapter);
