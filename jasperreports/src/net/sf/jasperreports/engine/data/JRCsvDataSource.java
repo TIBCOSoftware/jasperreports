@@ -378,9 +378,17 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 							{
 								//testing if white spaces follow after the closing quote; 
 								int trailingSpaces = 1;
-								while(pos + trailingSpaces < row.length() && row.charAt(pos + trailingSpaces)<= ' ')
+								while (pos + trailingSpaces < row.length())
 								{
-									++trailingSpaces;
+									char nextChar = row.charAt(pos + trailingSpaces);
+									if (nextChar <= ' ' && nextChar != fieldDelimiter)
+									{
+										++trailingSpaces;
+									}
+									else
+									{
+										break;
+									}
 								}
 								
 								//TODO: handling misplaced quotes along with parametrized isStrictCsv; 
