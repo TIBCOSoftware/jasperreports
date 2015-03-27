@@ -254,6 +254,9 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				}
 				dataSource = new JRResultSetDataSource(getJasperReportsContext(), resultSet);
 				dataSource.setTimeZone(timeZone, timeZoneOverride);
+				
+				TimeZone reportTimeZone = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE);
+				dataSource.setReportTimeZone(reportTimeZone);
 			}
 			catch (SQLException e)
 			{
