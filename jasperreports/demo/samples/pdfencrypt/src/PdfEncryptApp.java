@@ -34,7 +34,7 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 
-import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.PdfWriter;
 
 
 /**
