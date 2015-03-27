@@ -189,7 +189,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		else if (timezoneId.equals(JRParameter.REPORT_TIME_ZONE))
 		{
 			// using the report timezone
-			tz = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE);
+			tz = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE, true);
 		}
 		else
 		{
@@ -255,7 +255,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				dataSource = new JRResultSetDataSource(getJasperReportsContext(), resultSet);
 				dataSource.setTimeZone(timeZone, timeZoneOverride);
 				
-				TimeZone reportTimeZone = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE);
+				TimeZone reportTimeZone = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE, true);
 				dataSource.setReportTimeZone(reportTimeZone);
 			}
 			catch (SQLException e)
