@@ -230,8 +230,12 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 			{
 				try {
 					if (valueClass.equals(String.class)) {
-						value = selectedObject.asText();
-						
+                        if (selectedObject.isArray()) {
+                            value = selectedObject.toString();
+                        } else {
+                            value = selectedObject.asText();
+                        }
+
 					} else if (valueClass.equals(Boolean.class)) {
 						value = selectedObject.booleanValue();
 						
