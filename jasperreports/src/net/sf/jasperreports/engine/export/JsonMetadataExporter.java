@@ -609,8 +609,6 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 					log.debug("\tgot longer path than previous one");
 				}
 
-				writer.write(",\n");
-
 				// open new paths
 				openPathSegments(curSegments, lastCommonIndex + 1);
 			}
@@ -626,7 +624,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			}
 			// just write the value for property, no repeat
 			else {
-				writeEscaped(currentNode, valueProperty, value, false);
+                writePathProperty(currentNode, valueProperty, value, false);
 			}
 		}
 
@@ -803,14 +801,20 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			String currentProperty = pathSegments[i];
 			boolean foundPreviousRepeated = false;
 
+            ArrayList<String> vizMembers = visitedMembers.get(parent);
+            String lastVisitedProp = null;
+            int lastVisitedPropIdx = -1;
+            int currentPropIdx = parent.indexOfMember(currentProperty);
+
+            if (vizMembers != null && vizMembers.size() > 0) {
+                lastVisitedProp = vizMembers.get(vizMembers.size() - 1);
+                lastVisitedPropIdx = parent.indexOfMember(lastVisitedProp);
+            }
+
 			// before opening new path, check if previous has repeated values to be written
 			if (parent.isArray()) {
-				ArrayList<String> vizMembers = visitedMembers.get(parent);
-				if (vizMembers != null && vizMembers.size() > 0) {
-					String lastProp = vizMembers.get(vizMembers.size() - 1);
-					int lastPropIdx = parent.indexOfMember(lastProp);
-					int currentPropIdx = parent.indexOfMember(currentProperty);
-					foundPreviousRepeated = writeReapeatedValues(parent, lastPropIdx + 1, currentPropIdx, false);
+				if (lastVisitedProp != null) {
+					foundPreviousRepeated = writeReapeatedValues(parent, lastVisitedPropIdx + 1, currentPropIdx, false);
 				} else {
 					vizMembers = new ArrayList<String>();
 					visitedMembers.put(parent, vizMembers);
@@ -819,7 +823,9 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 				vizMembers.add(currentProperty);
 			}
 
-			if (foundPreviousRepeated) {
+			if (foundPreviousRepeated ||
+                    // got another property of the same object
+                    (lastVisitedPropIdx != -1 && currentPropIdx > lastVisitedPropIdx)) {
 				writer.write(",");
 			}
 
