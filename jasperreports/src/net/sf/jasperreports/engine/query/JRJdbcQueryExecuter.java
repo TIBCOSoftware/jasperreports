@@ -176,7 +176,27 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		{
 			timezoneId = getPropertiesUtil().getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE);
 		}
-		timeZone = timezoneId == null || timezoneId.length() == 0 ? null : TimeZone.getTimeZone(timezoneId);
+		timeZone = resolveTimeZone(timezoneId);
+	}
+	
+	protected TimeZone resolveTimeZone(String timezoneId)
+	{
+		TimeZone tz;
+		if (timezoneId == null || timezoneId.length() == 0)
+		{
+			tz = null;
+		}
+		else if (timezoneId.equals(JRParameter.REPORT_TIME_ZONE))
+		{
+			// using the report timezone
+			tz = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE);
+		}
+		else
+		{
+			// resolving as tz ID
+			tz = TimeZone.getTimeZone(timezoneId);
+		}
+		return tz;
 	}
 
 
@@ -671,8 +691,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				// read the parameter level property
 				String timezoneId = getPropertiesUtil().getProperty(properties, 
 						JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE);
-				tz = (timezoneId == null || timezoneId.length() == 0) ? null 
-						: TimeZone.getTimeZone(timezoneId);
+				tz = resolveTimeZone(timezoneId);
 			}
 			else
 			{
