@@ -47,10 +47,12 @@ import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.itextpdf.text.pdf.qrcode.ByteMatrix;
-import com.itextpdf.text.pdf.qrcode.EncodeHintType;
-import com.itextpdf.text.pdf.qrcode.QRCodeWriter;
-import com.itextpdf.text.pdf.qrcode.WriterException;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+
 
 /**
  * 
@@ -72,13 +74,14 @@ public class QRCodeSVGImageProducer implements QRCodeImageProducer
 		hints.put(EncodeHintType.CHARACTER_SET, QRCodeComponent.PROPERTY_DEFAULT_ENCODING);
 		hints.put(EncodeHintType.ERROR_CORRECTION, qrCodeBean.getErrorCorrectionLevel().getErrorCorrectionLevel());
 
-		ByteMatrix matrix = null;
+		BitMatrix matrix = null;
 		SVGCanvasProvider provider = null;
 		int margin = qrCodeBean.getMargin() == null ? 0 : qrCodeBean.getMargin();
 		try
 		{
 			matrix = writer.encode(
-					message, 
+					message,
+					BarcodeFormat.QR_CODE,
 					componentElement.getWidth() - margin, 
 					componentElement.getHeight() - margin, 
 					hints);
@@ -108,7 +111,7 @@ public class QRCodeSVGImageProducer implements QRCodeImageProducer
 				element.setAttribute("y", String.valueOf(y));
 				element.setAttribute("width", "1");
 				element.setAttribute("height", "1");
-				if (matrix.get(x,y) > -1) {
+				if (matrix.get(x,y)) {
 					element.setAttribute("fill", "#" + JRColorUtil.getColorHexa(componentElement.getForecolor()));
 				} else {
 					element.setAttribute("fill", "#" + JRColorUtil.getColorHexa(componentElement.getBackcolor()));

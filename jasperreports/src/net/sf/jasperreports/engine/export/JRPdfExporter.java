@@ -34,7 +34,9 @@ package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.color.ICC_Profile;
 import java.awt.font.TextAttribute;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -111,36 +113,31 @@ import net.sf.jasperreports.repo.RepositoryUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.itextpdf.awt.FontMapper;
-import com.itextpdf.awt.geom.AffineTransform;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.SplitCharacter;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.ColumnText;
-import com.itextpdf.text.pdf.ICC_Profile;
-import com.itextpdf.text.pdf.PdfAConformanceLevel;
-import com.itextpdf.text.pdf.PdfAWriter;
-import com.itextpdf.text.pdf.PdfAction;
-import com.itextpdf.text.pdf.PdfArray;
-import com.itextpdf.text.pdf.PdfBoolean;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfDestination;
-import com.itextpdf.text.pdf.PdfDictionary;
-import com.itextpdf.text.pdf.PdfICCBased;
-import com.itextpdf.text.pdf.PdfName;
-import com.itextpdf.text.pdf.PdfOutline;
-import com.itextpdf.text.pdf.PdfString;
-import com.itextpdf.text.pdf.PdfTemplate;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.Image;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.SplitCharacter;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.ColumnText;
+import com.lowagie.text.pdf.FontMapper;
+import com.lowagie.text.pdf.PdfAction;
+import com.lowagie.text.pdf.PdfArray;
+import com.lowagie.text.pdf.PdfBoolean;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfDestination;
+import com.lowagie.text.pdf.PdfDictionary;
+import com.lowagie.text.pdf.PdfICCBased;
+import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfOutline;
+import com.lowagie.text.pdf.PdfString;
+import com.lowagie.text.pdf.PdfTemplate;
+import com.lowagie.text.pdf.PdfWriter;
 
 
 /**
@@ -589,9 +586,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				)
 			);
 		
-		//accessibility check: unwanted default document tag
-		document.setRole(null);
-		
 		imageTesterDocument =
 			new Document(
 				new Rectangle(
@@ -603,24 +597,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		boolean closeDocuments = true;
 		try
 		{
-			PdfaConformanceEnum pdfaConformance = configuration.getPdfaConformance();
-			boolean gotPdfa = false;
-			if (PdfaConformanceEnum.PDFA_1A == pdfaConformance)
-			{
-				pdfWriter = PdfAWriter.getInstance(document, os, PdfAConformanceLevel.PDF_A_1A);
-				tagHelper.setConformanceLevel(PdfAConformanceLevel.PDF_A_1A);
-				gotPdfa = true;
-			}
-			else if (PdfaConformanceEnum.PDFA_1B == pdfaConformance)
-			{
-				pdfWriter = PdfAWriter.getInstance(document, os, PdfAConformanceLevel.PDF_A_1B);
-				tagHelper.setConformanceLevel(PdfAConformanceLevel.PDF_A_1B);
-				gotPdfa = true;
-			}
-			else
-			{
-				pdfWriter = PdfWriter.getInstance(document, os);
-			}
+			pdfWriter = PdfWriter.getInstance(document, os);
 			pdfWriter.setCloseStream(false);
 
 			tagHelper.setPdfWriter(pdfWriter);
@@ -708,7 +685,21 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			if(language != null){
 				pdfWriter.getExtraCatalog().put(PdfName.LANG, new PdfString(language));
 			}
+
 			// BEGIN: PDF/A support
+			PdfaConformanceEnum pdfaConformance = configuration.getPdfaConformance();
+			boolean gotPdfa = false;
+			if (PdfaConformanceEnum.PDFA_1A == pdfaConformance)
+			{
+				pdfWriter.setPDFXConformance(PdfWriter.PDFA1A);
+				gotPdfa = true;
+			}
+			else if (PdfaConformanceEnum.PDFA_1B == pdfaConformance)
+			{
+				pdfWriter.setPDFXConformance(PdfWriter.PDFA1B);
+				gotPdfa = true;
+			}
+
 			if (gotPdfa) 
 			{
 				pdfWriter.createXmpMetadata();
@@ -1982,7 +1973,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		Color backcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
 		if (backcolor != null)
 		{
-			chunk.setBackground(new BaseColor(backcolor.getRed(),backcolor.getGreen(),backcolor.getBlue(),backcolor.getAlpha()));
+			chunk.setBackground(backcolor);
 		}
 
 		Object script = attributes.get(TextAttribute.SUPERSCRIPT);
@@ -2141,17 +2132,16 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		
 		try
 		{
-			BaseColor color = forecolor == null ? null : new BaseColor(forecolor.getRed(),forecolor.getGreen(), forecolor.getBlue(), forecolor.getAlpha());
 			font = FontFactory.getFont(
-					pdfFontName,
-					pdfEncoding,
-					isPdfEmbedded,
-					jrFont.getFontsize() * fontSizeScale,
-					pdfFontStyle,
-					color
-					);
+				pdfFontName,
+				pdfEncoding,
+				isPdfEmbedded,
+				jrFont.getFontsize() * fontSizeScale,
+				pdfFontStyle,
+				forecolor
+				);
 			// check if FontFactory didn't find the font
-			if (font!=null && font.getBaseFont() == null && font.getFamily() == Font.FontFamily.UNDEFINED)
+			if (font != null && font.getBaseFont() == null && font.getFamily() == Font.UNDEFINED)
 			{
 				font = null;
 			}
@@ -2204,14 +2194,13 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				throw new JRRuntimeException(e);
 			}
 
-			BaseColor color = forecolor == null ? null : new BaseColor(forecolor.getRed(),forecolor.getGreen(), forecolor.getBlue(), forecolor.getAlpha());
 			font =
-					new Font(
-						baseFont,
-						jrFont.getFontsize() * fontSizeScale,
-						pdfFontStyle,
-						color
-						);
+				new Font(
+					baseFont,
+					jrFont.getFontsize() * fontSizeScale,
+					pdfFontStyle,
+					forecolor
+					);
 		}
 
 		return font;

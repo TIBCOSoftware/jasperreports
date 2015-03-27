@@ -164,7 +164,7 @@ public interface PdfReportConfiguration extends ReportExportConfiguration
 	public Boolean isIgnoreHyperlink();
 	
 	/**
-	 * Flag that decides whether the PDF exporter should use a {@link com.itextpdf.text.SplitCharacter SplitCharacter}
+	 * Flag that decides whether the PDF exporter should use a {@link com.lowagie.text.SplitCharacter SplitCharacter}
 	 * implementation which ensures that report texts are broken into lines by iText in the same manner as done by the
 	 * fill process.
 	 * <p>

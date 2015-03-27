@@ -27,7 +27,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedEnum;
 
-import com.itextpdf.text.pdf.qrcode.ErrorCorrectionLevel;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 
 /**

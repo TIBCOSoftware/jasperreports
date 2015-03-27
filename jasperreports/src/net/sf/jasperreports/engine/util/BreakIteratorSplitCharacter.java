@@ -29,12 +29,12 @@ import java.text.CharacterIterator;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.export.PdfReportConfiguration;
 
-import com.itextpdf.text.SplitCharacter;
-import com.itextpdf.text.pdf.PdfChunk;
+import com.lowagie.text.SplitCharacter;
+import com.lowagie.text.pdf.PdfChunk;
 
 
 /**
- * Implementation of {@link com.itextpdf.text.SplitCharacter SplitCharacter} that
+ * Implementation of {@link com.lowagie.text.SplitCharacter SplitCharacter} that
  * uses the same logic as AWT to break texts into lines.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)

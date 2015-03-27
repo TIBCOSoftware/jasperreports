@@ -39,10 +39,12 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
-import com.itextpdf.text.pdf.qrcode.ByteMatrix;
-import com.itextpdf.text.pdf.qrcode.EncodeHintType;
-import com.itextpdf.text.pdf.qrcode.QRCodeWriter;
-import com.itextpdf.text.pdf.qrcode.WriterException;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+
 
 /**
  * 
@@ -69,9 +71,10 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 		int margin = qrCodeBean.getMargin() == null ? 0 : qrCodeBean.getMargin();
 		try
 		{
-			ByteMatrix matrix = 
+			BitMatrix matrix = 
 				writer.encode(
-					message, 
+					message,
+					BarcodeFormat.QR_CODE,
 //					(int)((72f / 2.54f) * componentElement.getWidth()), 
 //					(int)((72f / 2.54f) * componentElement.getHeight()), 
 					(int)((resolution / 72f) * (componentElement.getWidth() - margin)), 
@@ -91,7 +94,7 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 		}
 	}
 	
-	public BufferedImage getImage(ByteMatrix matrix, Color onColor, Color offColor) 
+	public BufferedImage getImage(BitMatrix matrix, Color onColor, Color offColor) 
 	{
 		int width = matrix.getWidth();
 		int height = matrix.getHeight();
@@ -106,7 +109,7 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 		{
 			for (int y = 0; y < height; y++) 
 			{
-				image.setRGB(x, y, matrix.get(x, y) > - 1 ? onArgb : offArgb);
+				image.setRGB(x, y, matrix.get(x, y) ? onArgb : offArgb);
 			}
 		}
 		return image;

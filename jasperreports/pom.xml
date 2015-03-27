@@ -208,16 +208,10 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>itextpdf</artifactId>
-			<version>5.5.0</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>itext-pdfa</artifactId>
-			<version>5.5.0</version>
-			<scope>compile</scope>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>2.1.7.js2</version>
+ 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>jfree</groupId>
@@ -469,12 +463,12 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi-ooxml</artifactId>
-		    <version>3.10.1</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.10.1</version>
 			<optional>true</optional>
 		</dependency>
-        <dependency>
+		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 			<version>2.1.4</version>
@@ -507,31 +501,41 @@
 			<version>4.0.0</version>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-core</artifactId>
-            <version>4.5.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-analyzers-common</artifactId>
-            <version>4.5.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-queryparser</artifactId>
-            <version>4.5.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.olap4j</groupId>
-            <artifactId>olap4j</artifactId>
-            <version>0.9.7.309-JS-3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.3.4</version>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>4.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-common</artifactId>
+			<version>4.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-queryparser</artifactId>
+			<version>4.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.olap4j</groupId>
+			<artifactId>olap4j</artifactId>
+			<version>0.9.7.309-JS-3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.3.4</version>
 			<optional>true</optional>
-        </dependency>
+		</dependency>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>2.3.0</version>
+		</dependency>
 	</dependencies>
 </project>
