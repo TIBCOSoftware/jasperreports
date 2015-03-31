@@ -251,7 +251,11 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 						throw new JRException("Field '" + jrField.getName() + "' is of class '" + valueClass.getName() + "' and cannot be converted");
 					}
 				} catch (Exception e) {
-					throw new JRException("Unable to get value for field '" + jrField.getName() + "' of class '" + valueClass.getName() + "'", e);
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_FIELD_VALUE_NOT_RETRIEVED,
+							new Object[]{jrField.getName(), valueClass.getName()}, 
+							e);
 				}
 			}
 		}

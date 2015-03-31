@@ -57,6 +57,8 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 	 */
 	private static final DefaultJasperReportsContext INSTANCE = new DefaultJasperReportsContext();
 	
+	public static final String EXCEPTION_MESSAGE_KEY_LOAD_DEFAULT_PROPERTIES_FAILURE = "engine.load.default.properties.failure";
+	
 	private Map<String, Object> values = new ConcurrentHashMap<String, Object>(16, .75f, 1);// assume low update concurrency
 
 	// FIXME remove volatile after we get rid of restoreProperties()
@@ -158,7 +160,11 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Failed to load default properties.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_LOAD_DEFAULT_PROPERTIES_FAILURE, 
+					null, 
+					e);
 		}
 		finally
 		{

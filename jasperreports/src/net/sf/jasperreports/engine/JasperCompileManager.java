@@ -176,6 +176,9 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  */
 public final class JasperCompileManager
 {
+	public static final String EXCEPTION_MESSAGE_KEY_INSTANTIATE_REPORT_COMPILER_FAILURE = "engine.instantiate.report.compiler.failure";
+	public static final String EXCEPTION_MESSAGE_KEY_REPORT_COMPILER_CLASS_NOT_FOUND = "engine.report.compiler.class.not.found";
+	
 	private JasperReportsContext jasperReportsContext;
 
 
@@ -803,7 +806,12 @@ public final class JasperCompileManager
 			}
 			catch(ClassNotFoundException e)
 			{
-				throw new JRException("Report compiler class not found : " + compilerClassName, e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_REPORT_COMPILER_CLASS_NOT_FOUND,
+						new Object[] {compilerClassName}, 
+						e
+						);
 			}
 		}
 
@@ -815,7 +823,11 @@ public final class JasperCompileManager
 		}
 		catch (Exception e)
 		{
-			throw new JRException("Could not instantiate report compiler : " + compilerClassName, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INSTANTIATE_REPORT_COMPILER_FAILURE,
+					new Object[] {compilerClassName}, 
+					e);
 		}
 		return compiler;
 	}
@@ -875,7 +887,10 @@ public final class JasperCompileManager
 		}
 		catch (Exception e)
 		{
-			throw new JRException("Could not instantiate report compiler : " + compilerClassName, e);
+			throw new JRException(
+					EXCEPTION_MESSAGE_KEY_INSTANTIATE_REPORT_COMPILER_FAILURE,
+					new Object[] {compilerClassName}, 
+					e);
 		}
 		
 		return compiler;

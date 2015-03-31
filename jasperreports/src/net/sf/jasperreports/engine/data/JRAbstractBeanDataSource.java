@@ -111,15 +111,27 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 			}
 			catch (java.lang.IllegalAccessException e)
 			{
-				throw new JRException("Error retrieving field value from bean : " + propertyName, e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_FIELD_VALUE_FROM_BEAN_NOT_RETRIEVED,
+						new Object[]{propertyName}, 
+						e);
 			}
 			catch (java.lang.reflect.InvocationTargetException e)
 			{
-				throw new JRException("Error retrieving field value from bean : " + propertyName, e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_FIELD_VALUE_FROM_BEAN_NOT_RETRIEVED,
+						new Object[]{propertyName}, 
+						e);
 			}
 			catch (java.lang.NoSuchMethodException e)
 			{
-				throw new JRException("Error retrieving field value from bean : " + propertyName, e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_FIELD_VALUE_FROM_BEAN_NOT_RETRIEVED,
+						new Object[]{propertyName}, 
+						e);
 			}
 			catch (IllegalArgumentException e)
 			{

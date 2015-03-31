@@ -63,6 +63,7 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 {
 
 	protected static final String SOURCE_ENCODING = "UTF-8";
+	public static final String EXCEPTION_MESSAGE_KEY_COMPILING_EXPRESSIONS_CLASS_FILE = "compilers.compiling.expressions.class.file";
 	
 	/**
 	 * 
@@ -109,11 +110,11 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 		} 
 		catch (CompilationFailedException e) 
 		{
-			throw new JRException(
-				"Errors were encountered when compiling report expressions class file:\n" 
-				+ e.toString(), 
-				e
-				);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_COMPILING_EXPRESSIONS_CLASS_FILE, 
+					new Object[] { e.toString()}, 
+					e);
 		}
 
 		if (collector.classes.size() < units.length) 

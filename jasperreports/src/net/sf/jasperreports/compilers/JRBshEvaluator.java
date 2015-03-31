@@ -50,6 +50,7 @@ import bsh.TargetError;
 public class JRBshEvaluator extends JREvaluator
 {
 
+	public static final String EXCEPTION_MESSAGE_KEY_INITIALIZING_REPORT_CALCULATOR = "compilers.initializing.report.beanshell.calculator";
 
 	/**
 	 *
@@ -139,7 +140,11 @@ public class JRBshEvaluator extends JREvaluator
 		}
 		catch(EvalError e)
 		{
-			throw new JRException("Error initializing report BeanShell calculator.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INITIALIZING_REPORT_CALCULATOR, 
+					null, 
+					e);
 		}
 	}
 

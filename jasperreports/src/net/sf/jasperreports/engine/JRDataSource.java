@@ -36,6 +36,14 @@ package net.sf.jasperreports.engine;
 public interface JRDataSource
 {
 
+	public static final String EXCEPTION_MESSAGE_KEY_CLOB_VALUE_READ_FAILURE = "data.clob.value.read.failure";
+	public static final String EXCEPTION_MESSAGE_KEY_COLUMN_INDEX_OUT_OF_RANGE = "data.column.index.out.of.range";
+	public static final String EXCEPTION_MESSAGE_KEY_FIELD_VALUE_FROM_BEAN_NOT_RETRIEVED = "data.field.value.from.bean.not.retrieved";
+	public static final String EXCEPTION_MESSAGE_KEY_FIELD_VALUE_NOT_RETRIEVED = "data.field.value.not.retrieved";
+	public static final String EXCEPTION_MESSAGE_KEY_NEXT_RECORD_NOT_RETRIEVED = "data.next.record.not.retrieved";
+	public static final String EXCEPTION_MESSAGE_KEY_RESULT_SET_METADATA_NOT_RETRIEVED = "data.result.set.metadata.not.retrieved";
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_COLUMN_NAME = "data.unknown.column.name";
+	
 
 	/**
 	 * Tries to position the cursor on the next element in the data source.

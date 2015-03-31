@@ -118,7 +118,10 @@ public class JRResultSetDataSource implements JRDataSource
 			}
 			catch (SQLException e)
 			{
-				throw new JRException("Unable to get next record.", e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_NEXT_RECORD_NOT_RETRIEVED, 
+						e);
 			}
 		}
 		
@@ -328,7 +331,11 @@ public class JRResultSetDataSource implements JRDataSource
 			}
 			catch (Exception e)
 			{
-				throw new JRException("Unable to get value for field '" + field.getName() + "' of class '" + clazz.getName() + "'", e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_FIELD_VALUE_NOT_RETRIEVED,
+						new Object[]{field.getName(), clazz.getName()}, 
+						e);
 			}
 		}
 		
@@ -403,18 +410,28 @@ public class JRResultSetDataSource implements JRDataSource
 						|| columnIndex.intValue() > resultSet.getMetaData().getColumnCount()
 						)
 					{
-						throw new JRException("Column index out of range : " + columnIndex);
+						throw 
+							new JRException(
+								EXCEPTION_MESSAGE_KEY_COLUMN_INDEX_OUT_OF_RANGE,
+								new Object[]{columnIndex});
 					}
 				}
 				
 				if (columnIndex == null)
 				{
-					throw new JRException("Unknown column name : " + fieldName);
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_UNKNOWN_COLUMN_NAME,
+							new Object[]{fieldName});
 				}
 			}
 			catch (SQLException e)
 			{
-				throw new JRException("Unable to retrieve result set metadata.", e);
+				throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_RESULT_SET_METADATA_NOT_RETRIEVED, 
+					null, 
+					e);
 			}
 
 			columnIndexMap.put(fieldName, columnIndex);
@@ -477,11 +494,19 @@ public class JRResultSetDataSource implements JRDataSource
 		}
 		catch (SQLException e)
 		{
-			throw new JRException("Unable to read clob value", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CLOB_VALUE_READ_FAILURE, 
+					null, 
+					e);
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Unable to read clob value", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CLOB_VALUE_READ_FAILURE, 
+					null, 
+					e);
 		}
 	}
 
