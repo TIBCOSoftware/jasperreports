@@ -256,6 +256,11 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	public static final String XLS_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.";
 	public static final String DEFAULT_SHEET_NAME_PREFIX = "Page ";
+	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL = "export.xls.common.cannot.add.cell";
+	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_MERGE_CELLS = "export.xls.common.cannot.merge.cells";
+	public static final String EXCEPTION_MESSAGE_KEY_CELL_FORMAT_TEMPLATE_ERROR = "export.xls.common.cell.format.template.error";
+	public static final String EXCEPTION_MESSAGE_KEY_LOADED_FONTS_ERROR = "export.xls.common.loaded.fonts.error";
+	public static final String EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR = "export.xls.common.report.generation.error";
 	public static final String EXCEPTION_MESSAGE_KEY_TEMPLATE_NOT_FOUND = "export.xls.common.template.not.found";
 
 	/**

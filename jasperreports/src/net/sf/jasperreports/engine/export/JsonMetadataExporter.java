@@ -319,7 +319,11 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error writing to output writer : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_OUTPUT_WRITER_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 		finally
 		{
