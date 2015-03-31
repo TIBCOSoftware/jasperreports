@@ -53,6 +53,8 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  */
 public abstract class JRAbstractCompiler implements JRCompiler
 {
+	public static final String EXCEPTION_MESSAGE_KEY_DESIGN_COMPILE_ERROR = "compilers.design.compile.error";
+	
 	private static final int NAME_SUFFIX_RANDOM_MAX = 1000000;
 	private static final Random random = new Random();
 	
@@ -238,7 +240,11 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		}
 		catch (Exception e)
 		{
-			throw new JRException("Error compiling report design.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DESIGN_COMPILE_ERROR, 
+					null, 
+					e);
 		}
 		finally
 		{
