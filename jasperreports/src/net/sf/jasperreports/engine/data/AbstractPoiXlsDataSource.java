@@ -397,7 +397,7 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 		{
 			throw 
 				new JRException(
-					EXCEPTION_MESSAGE_KEY_FIELD_VALUE_NOT_RETRIEVED,
+					EXCEPTION_MESSAGE_KEY_XLS_FIELD_VALUE_NOT_RETRIEVED,
 					new Object[]{jrField.getName(), valueClass.getName()}, 
 					e);
 		}

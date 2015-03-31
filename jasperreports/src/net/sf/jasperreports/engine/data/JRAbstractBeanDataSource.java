@@ -36,6 +36,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 {
 	
+	public static final String EXCEPTION_MESSAGE_KEY_BEAN_FIELD_VALUE_NOT_RETRIEVED = "data.bean.field.value.not.retrieved";
 	/**
 	 * Field mapping that produces the current bean.
 	 * <p/>
@@ -113,7 +114,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 			{
 				throw 
 					new JRException(
-						EXCEPTION_MESSAGE_KEY_FIELD_VALUE_FROM_BEAN_NOT_RETRIEVED,
+						EXCEPTION_MESSAGE_KEY_BEAN_FIELD_VALUE_NOT_RETRIEVED,
 						new Object[]{propertyName}, 
 						e);
 			}
@@ -121,7 +122,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 			{
 				throw 
 					new JRException(
-						EXCEPTION_MESSAGE_KEY_FIELD_VALUE_FROM_BEAN_NOT_RETRIEVED,
+						EXCEPTION_MESSAGE_KEY_BEAN_FIELD_VALUE_NOT_RETRIEVED,
 						new Object[]{propertyName}, 
 						e);
 			}
@@ -129,7 +130,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 			{
 				throw 
 					new JRException(
-						EXCEPTION_MESSAGE_KEY_FIELD_VALUE_FROM_BEAN_NOT_RETRIEVED,
+						EXCEPTION_MESSAGE_KEY_BEAN_FIELD_VALUE_NOT_RETRIEVED,
 						new Object[]{propertyName}, 
 						e);
 			}

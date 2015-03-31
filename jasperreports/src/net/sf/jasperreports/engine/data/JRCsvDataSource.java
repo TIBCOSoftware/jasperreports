@@ -68,6 +68,7 @@ import org.apache.commons.logging.LogFactory;
 public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDataSource
 {
 	protected static final Log log = LogFactory.getLog(JRCsvDataSource.class);
+	public static final String EXCEPTION_MESSAGE_KEY_CSV_FIELD_VALUE_NOT_RETRIEVED = "data.csv.field.value.not.retrieved";
 	
 	private DateFormat dateFormat;
 	private NumberFormat numberFormat;
@@ -304,7 +305,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			} catch (Exception e) {
 				throw 
 					new JRException(
-						EXCEPTION_MESSAGE_KEY_FIELD_VALUE_NOT_RETRIEVED,
+							EXCEPTION_MESSAGE_KEY_CSV_FIELD_VALUE_NOT_RETRIEVED,
 						new Object[]{jrField.getName(), valueClass.getName()}, 
 						e);
 			}

@@ -59,6 +59,8 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
  */
 public class JsonDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource {
 
+	public static final String EXCEPTION_MESSAGE_KEY_JSON_FIELD_VALUE_NOT_RETRIEVED = "data.json.field.value.not.retrieved";
+
 	// the JSON select expression that gives the nodes to iterate
 	private String selectExpression;
 
@@ -253,7 +255,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 				} catch (Exception e) {
 					throw 
 						new JRException(
-							EXCEPTION_MESSAGE_KEY_FIELD_VALUE_NOT_RETRIEVED,
+							EXCEPTION_MESSAGE_KEY_JSON_FIELD_VALUE_NOT_RETRIEVED,
 							new Object[]{jrField.getName(), valueClass.getName()}, 
 							e);
 				}

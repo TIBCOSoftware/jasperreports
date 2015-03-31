@@ -118,11 +118,10 @@ public final class JRPropertiesUtil
 			catch (IOException e)
 			{
 				throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_LOAD_PROPERTIES_FILE_FAILURE, 
-					new Object[]{name}, 
-					e
-					);
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_LOAD_PROPERTIES_FILE_FAILURE, 
+						new Object[]{name}, 
+						e);
 			}
 			finally
 			{

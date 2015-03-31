@@ -45,6 +45,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource
 {
+	public static final String EXCEPTION_MESSAGE_KEY_XLS_FIELD_VALUE_NOT_RETRIEVED = "data.xls.field.value.not.retrieved";
+	
 	protected String sheetSelection;
 	
 	protected DateFormat dateFormat = new SimpleDateFormat();

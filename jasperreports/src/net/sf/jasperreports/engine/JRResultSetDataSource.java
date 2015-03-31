@@ -72,6 +72,14 @@ public class JRResultSetDataSource implements JRDataSource
 	public static final String INDEXED_COLUMN_PREFIX = "COLUMN_";
 	private static final int INDEXED_COLUMN_PREFIX_LENGTH = INDEXED_COLUMN_PREFIX.length();
 	
+	public static final String EXCEPTION_MESSAGE_KEY_RESULT_SET_CLOB_VALUE_READ_FAILURE = "data.result.set.clob.value.read.failure";
+	public static final String EXCEPTION_MESSAGE_KEY_RESULT_SET_COLUMN_INDEX_OUT_OF_RANGE = "data.result.set.column.index.out.of.range";
+	public static final String EXCEPTION_MESSAGE_KEY_RESULT_SET_FIELD_VALUE_NOT_RETRIEVED = "data.result.set.field.value.not.retrieved";
+	public static final String EXCEPTION_MESSAGE_KEY_RESULT_SET_METADATA_NOT_RETRIEVED = "data.result.set.metadata.not.retrieved";
+	public static final String EXCEPTION_MESSAGE_KEY_RESULT_SET_UNKNOWN_COLUMN_NAME = "data.result.set.unknown.column.name";
+	public static final String EXCEPTION_MESSAGE_KEY_RESULT_SET_NEXT_RECORD_NOT_RETRIEVED = "data.result.set.next.record.not.retrieved";
+
+
 	/**
 	 *
 	 */
@@ -120,7 +128,8 @@ public class JRResultSetDataSource implements JRDataSource
 			{
 				throw 
 					new JRException(
-						EXCEPTION_MESSAGE_KEY_NEXT_RECORD_NOT_RETRIEVED, 
+						EXCEPTION_MESSAGE_KEY_RESULT_SET_NEXT_RECORD_NOT_RETRIEVED, 
+						null,
 						e);
 			}
 		}
@@ -333,7 +342,7 @@ public class JRResultSetDataSource implements JRDataSource
 			{
 				throw 
 					new JRException(
-						EXCEPTION_MESSAGE_KEY_FIELD_VALUE_NOT_RETRIEVED,
+						EXCEPTION_MESSAGE_KEY_RESULT_SET_FIELD_VALUE_NOT_RETRIEVED,
 						new Object[]{field.getName(), clazz.getName()}, 
 						e);
 			}
@@ -412,7 +421,7 @@ public class JRResultSetDataSource implements JRDataSource
 					{
 						throw 
 							new JRException(
-								EXCEPTION_MESSAGE_KEY_COLUMN_INDEX_OUT_OF_RANGE,
+								EXCEPTION_MESSAGE_KEY_RESULT_SET_COLUMN_INDEX_OUT_OF_RANGE,
 								new Object[]{columnIndex});
 					}
 				}
@@ -421,7 +430,7 @@ public class JRResultSetDataSource implements JRDataSource
 				{
 					throw 
 						new JRException(
-							EXCEPTION_MESSAGE_KEY_UNKNOWN_COLUMN_NAME,
+							EXCEPTION_MESSAGE_KEY_RESULT_SET_UNKNOWN_COLUMN_NAME,
 							new Object[]{fieldName});
 				}
 			}
@@ -496,7 +505,7 @@ public class JRResultSetDataSource implements JRDataSource
 		{
 			throw 
 				new JRException(
-					EXCEPTION_MESSAGE_KEY_CLOB_VALUE_READ_FAILURE, 
+					EXCEPTION_MESSAGE_KEY_RESULT_SET_CLOB_VALUE_READ_FAILURE, 
 					null, 
 					e);
 		}
@@ -504,7 +513,7 @@ public class JRResultSetDataSource implements JRDataSource
 		{
 			throw 
 				new JRException(
-					EXCEPTION_MESSAGE_KEY_CLOB_VALUE_READ_FAILURE, 
+					EXCEPTION_MESSAGE_KEY_RESULT_SET_CLOB_VALUE_READ_FAILURE, 
 					null, 
 					e);
 		}
