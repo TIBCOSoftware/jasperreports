@@ -81,6 +81,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	public static final String EXCEPTION_MESSAGE_KEY_EXPORT_THREAD_INTERRUPTED = "export.common.thread.interrupted";
 	public static final String EXCEPTION_MESSAGE_KEY_MIXED_CALLS_NOT_ALLOWED = "export.common.mixed.calls.not.allowed";
 	public static final String EXCEPTION_MESSAGE_KEY_INVALID_ZOOM_RATIO = "export.common.invalid.zoom.ratio";
+	public static final String EXCEPTION_MESSAGE_KEY_OUTPUT_WRITER_ERROR = "export.common.output.writer.error";
 
 	/**
 	 * The suffix applied to properties that give the default filter factory for
@@ -159,6 +160,11 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		public void setValue(String key, Object value)
 		{
 			values.put(key, value);
+		}
+
+		public Map<String, Object> getValues()
+		{
+			return values;
 		}
 	}
 	

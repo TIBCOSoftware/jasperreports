@@ -102,4 +102,9 @@ public interface JRExporterContext
 	 *
 	 */
 	public void setValue(String key, Object value);
+
+	/**
+	 *
+	 */
+	public Map<String, Object> getValues();
 }
