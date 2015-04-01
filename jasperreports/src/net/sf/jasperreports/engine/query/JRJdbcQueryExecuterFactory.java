@@ -28,6 +28,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JRValueParameter;
@@ -85,6 +86,11 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory
 	 * and as a report/dataset parameter.  Note that sending a value as parameter will 
 	 * override all properties, and the time zone will be used for all date/time parameters
 	 * and fields in the report. 
+	 * </p>
+	 * 
+	 * <p>
+	 * The property value can be a time zone ID or REPORT_TIME_ZONE.
+	 * In the latter case the report time zone (as in {@link JRParameter#REPORT_TIME_ZONE} will be used.
 	 * </p>
 	 * 
 	 * @see JRResultSetDataSource#setTimeZone(java.util.TimeZone, boolean)

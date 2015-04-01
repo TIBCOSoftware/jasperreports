@@ -66,6 +66,9 @@ import net.sf.jasperreports.engine.xml.PrintSaxParserFactory;
  */
 public final class JRProperties
 {
+	public static final String EXCEPTION_MESSAGE_KEY_LOADING_DEFAULTS_ERROR = "util.properties.loading.defaults.error";
+	public static final String EXCEPTION_MESSAGE_KEY_LOADING_FILE_ERROR = "util.properties.loading.file.error";
+	
 	/**
 	 * The default properties file.
 	 * @deprecated Replaced by {@link DefaultJasperReportsContext#DEFAULT_PROPERTIES_FILE}.
@@ -236,7 +239,11 @@ public final class JRProperties
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Failed to load default properties.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_LOADING_DEFAULTS_ERROR,
+					null,
+					e);
 		}
 		finally
 		{
@@ -327,7 +334,11 @@ public final class JRProperties
 			}
 			catch (IOException e)
 			{
-				throw new JRException("Failed to load properties file \"" + name + "\"", e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_LOADING_FILE_ERROR,
+						new Object[]{name},
+						e);
 			}
 			finally
 			{

@@ -526,7 +526,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 	}
 
@@ -1657,11 +1661,19 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		}
 		catch (Exception ex)
 		{
-			throw new JRException("The cell cannot be added", ex);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+					null,
+					ex);
 		}
 		catch (Error err)
 		{
-			throw new JRException("The cell cannot be added", err);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+					null,
+					err);
 		}
 	}
 	

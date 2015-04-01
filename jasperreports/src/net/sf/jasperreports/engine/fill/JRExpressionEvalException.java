@@ -34,13 +34,12 @@ import net.sf.jasperreports.engine.JRExpression;
 public class JRExpressionEvalException extends JRException
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
+	public static final String EXCEPTION_MESSAGE_KEY_EVALUATE_EXPRESSION_ERROR = "fill.common.evaluate.expression.error";
 
 	/**
 	 *
 	 */
 	private JRExpression expression;
-
 
 	/**
 	 *
@@ -48,13 +47,13 @@ public class JRExpressionEvalException extends JRException
 	public JRExpressionEvalException(JRExpression expr, Throwable throwable)
 	{
 		super(
-			"Error evaluating expression : " + "\n\tSource text : " + expr.getText(),
+			EXCEPTION_MESSAGE_KEY_EVALUATE_EXPRESSION_ERROR,
+			new Object[]{expr.getText()},
 			throwable
 			);
 			
 		expression = expr;
 	}
-
 
 	/**
 	 *
@@ -63,6 +62,5 @@ public class JRExpressionEvalException extends JRException
 	{
 		return this.expression;
 	}
-
 
 }

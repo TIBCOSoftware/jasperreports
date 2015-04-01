@@ -146,6 +146,8 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 {
 
 	private static final Log log = LogFactory.getLog(JExcelApiMetadataExporter.class);
+	public static final String EXCEPTION_MESSAGE_KEY_CURRENT_SHEET_TOO_MANY_ROWS = "export.xls.current.sheet.too.many.rows";
+	public static final String EXCEPTION_MESSAGE_KEY_SHEET_TOO_MANY_ROWS = "export.xls.sheet.too.many.rows";
 
 	/**
 	 * @deprecated Replaced by {@link JxlExporterConfiguration#PROPERTY_USE_TEMP_FILE}.
@@ -358,11 +360,19 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 		catch (BiffException e) 
 		{
-			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 		finally
 		{
@@ -439,11 +449,19 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 		catch (WriteException e)
 		{
-			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 	}
 
@@ -492,7 +510,11 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 			}
 			catch (RowsExceededException e)
 			{
-				throw new JRException("Too many rows in sheet " + sheet.getName() + ": " + rowIndex, e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_SHEET_TOO_MANY_ROWS,
+						new Object[]{sheet.getName(), rowIndex},
+						e);
 			}
 		}
 		else
@@ -507,7 +529,11 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 			}
 			catch (RowsExceededException e)
 			{
-				throw new JRException("Too many rows in sheet " + sheet.getName() + ": " + rowIndex, e);
+				throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_SHEET_TOO_MANY_ROWS,
+					new Object[]{sheet.getName(), rowIndex},
+					e);
 			}
 		}
 	}
@@ -543,7 +569,11 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				}
 				catch (RowsExceededException e)
 				{
-					throw new JRException("There are too many rows in the current sheet", e);
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_CURRENT_SHEET_TOO_MANY_ROWS,
+							null,
+							e);
 				}
 				catch (WriteException e)
 				{
@@ -756,7 +786,11 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				}
 				catch (RowsExceededException e)
 				{
-					throw new JRException("There are too many rows in the current sheet", e);
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_CURRENT_SHEET_TOO_MANY_ROWS,
+							null,
+							e);
 				}
 				catch (WriteException e)
 				{
@@ -1411,11 +1445,19 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				}
 				catch (Exception ex)
 				{
-					throw new JRException("The cell cannot be added", ex);
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+							null,
+							ex);
 				}
 				catch (Error err)
 				{
-					throw new JRException("The cell cannot be added", err);
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+							null,
+							err);
 				}
 			}
 		}
@@ -1628,7 +1670,11 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		}
 		catch (Exception e)
 		{
-			throw new JRException("Can't get loaded fonts.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_LOADED_FONTS_ERROR,
+					null,
+					e);
 		}
 
 		return cellFont;
@@ -1944,7 +1990,11 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 			}
 			catch (Exception e)
 			{
-				throw new JRException("Error setting cellFormat-template.", e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_CELL_FORMAT_TEMPLATE_ERROR,
+						null,
+						e);
 			}
 
 			loadedCellStyles.put(styleKey, cellStyle);
@@ -2465,7 +2515,11 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		}
 		catch (RowsExceededException e)
 		{
-			throw new JRException("There are too many rows in the current sheet", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CURRENT_SHEET_TOO_MANY_ROWS,
+					null,
+					e);
 		}
 		catch (WriteException e)
 		{
