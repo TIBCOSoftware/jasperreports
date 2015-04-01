@@ -89,6 +89,7 @@ public class JRResultSetDataSource implements JRDataSource
 
 	private TimeZone timeZone;
 	private boolean timeZoneOverride;
+	private TimeZone reportTimeZone;
 	private Map<JRField, Calendar> fieldCalendars = new HashMap<JRField, Calendar>();
 
 
@@ -612,6 +613,19 @@ public class JRResultSetDataSource implements JRDataSource
 		this.timeZoneOverride = override;
 	}
 	
+	/**
+	 * Sets the report time zone, which is the one used to display datetime values in the report.
+	 * 
+	 * The time zone is used when the {@link JRJdbcQueryExecuterFactory#PROPERTY_TIME_ZONE} property
+	 * is set to REPORT_TIME_ZONE.
+	 * 
+	 * @param reportTimeZone the time zone used to display datetime values in the report
+	 */
+	public void setReportTimeZone(TimeZone reportTimeZone)
+	{
+		this.reportTimeZone = reportTimeZone;
+	}
+	
 	protected Calendar getFieldCalendar(JRField field)
 	{
 		if (fieldCalendars.containsKey(field))
@@ -640,8 +654,7 @@ public class JRResultSetDataSource implements JRDataSource
 				// read the field level property
 				String timezoneId = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(field, 
 						JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE);
-				tz = (timezoneId == null || timezoneId.length() == 0) ? null 
-						: TimeZone.getTimeZone(timezoneId);
+				tz = resolveTimeZone(timezoneId);
 			}
 			else
 			{
@@ -654,4 +667,25 @@ public class JRResultSetDataSource implements JRDataSource
 		Calendar cal = tz == null ? null : Calendar.getInstance(tz);
 		return cal;
 	}
+	
+	protected TimeZone resolveTimeZone(String timezoneId)
+	{
+		TimeZone tz;
+		if (timezoneId == null || timezoneId.length() == 0)
+		{
+			tz = null;
+		}
+		else if (timezoneId.equals(JRParameter.REPORT_TIME_ZONE))
+		{
+			// using the report timezone
+			tz = reportTimeZone;
+		}
+		else
+		{
+			// resolving as tz ID
+			tz = TimeZone.getTimeZone(timezoneId);
+		}
+		return tz;
+	}
+
 }
