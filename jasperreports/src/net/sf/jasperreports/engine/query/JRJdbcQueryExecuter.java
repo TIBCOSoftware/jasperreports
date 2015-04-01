@@ -64,6 +64,9 @@ import org.apache.commons.logging.LogFactory;
 public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 {
 	private static final Log log = LogFactory.getLog(JRJdbcQueryExecuter.class);
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_CANCEL_ERROR = "query.statement.cancel.error";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_EXECUTE_ERROR = "query.statement.execute.error";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_PREPARE_ERROR = "query.statement.prepare.error";
 
 	public static final String CANONICAL_LANGUAGE = "SQL";
 	
@@ -236,7 +239,11 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			}
 			catch (SQLException e)
 			{
-				throw new JRException("Error executing SQL statement for : " + dataset.getName(), e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_EXECUTE_ERROR,
+						new Object[]{dataset.getName()},
+						e);
 			}
 		}
 		
@@ -368,12 +375,19 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			}
 			catch (VisitExceptionWrapper e)
 			{
-				throw new JRException("Error preparing statement for executing the report query : " + "\n\n" + queryString + "\n\n", 
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_PREPARE_ERROR,
+						new Object[]{queryString}, 
 						e.getCause());
 			}
 			catch (SQLException e)
 			{
-				throw new JRException("Error preparing statement for executing the report query : " + "\n\n" + queryString + "\n\n", e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_PREPARE_ERROR,
+						new Object[]{queryString}, 
+						e);
 			}
 		}
 	}
@@ -737,7 +751,11 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			}
 			catch (Exception e)
 			{
-				throw new JRException("Error cancelling SQL statement", e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_CANCEL_ERROR,
+						null,
+						e);
 			}
 		}
 		

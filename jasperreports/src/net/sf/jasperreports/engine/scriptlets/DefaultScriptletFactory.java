@@ -39,6 +39,8 @@ public final class DefaultScriptletFactory implements ScriptletFactory
 {
 
 	private static final DefaultScriptletFactory INSTANCE = new DefaultScriptletFactory();
+	public static final String EXCEPTION_MESSAGE_KEY_CLASS_LOADING_ERROR = "scriptlets.class.loading.error";
+	public static final String EXCEPTION_MESSAGE_KEY_INSTANCE_LOADING_ERROR = "scriptlets.instance.loading.error";
 	
 	private DefaultScriptletFactory()
 	{
@@ -110,11 +112,19 @@ public final class DefaultScriptletFactory implements ScriptletFactory
 		}
 		catch (ClassNotFoundException e)
 		{
-			throw new JRException("Error loading scriptlet class : " + scriptletClassName, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CLASS_LOADING_ERROR,
+					new Object[]{scriptletClassName}, 
+					e);
 		}
 		catch (Exception e)
 		{
-			throw new JRException("Error creating scriptlet class instance : " + scriptletClassName, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INSTANCE_LOADING_ERROR,
+					new Object[]{scriptletClassName}, 
+					e);
 		}
 		
 		return scriptlet;
