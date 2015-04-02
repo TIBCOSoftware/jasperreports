@@ -111,13 +111,6 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 			throw new JRException(e);
 		}
 	}
-	
-	public JsonDataSource(JsonNode jsonTree, String selectExpression) throws JRException {
-		this.jsonTree = jsonTree;
-		this.selectExpression = selectExpression;
-		
-		moveFirst();
-	}
 
 
 	public JsonDataSource(File file) throws FileNotFoundException, JRException {
