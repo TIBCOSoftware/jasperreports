@@ -81,6 +81,13 @@ import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 public class JRDesignDataset extends JRBaseDataset
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_GROUP = "design.dataset.duplicate.group";
+	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_FIELD = "design.dataset.duplicate.field";
+	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_PARAMETER = "design.dataset.duplicate.parameter";
+	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_SCRIPTLET = "design.dataset.duplicate.scriptlet";
+	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_SORT_FIELD = "design.dataset.duplicate.sort.field";
+	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_VARIABLE = "design.dataset.duplicate.variable";
 
 	public static final String PROPERTY_FIELDS = "fields";
 
@@ -490,7 +497,10 @@ public class JRDesignDataset extends JRBaseDataset
 	{
 		if (scriptletsMap.containsKey(scriptlet.getName()))
 		{
-			throw new JRException("Duplicate declaration of scriptlet : " + scriptlet.getName());
+			throw 
+			new JRException(
+				EXCEPTION_MESSAGE_KEY_DUPLICATE_SCRIPTLET,
+				new Object[]{scriptlet.getName()});
 		}
 
 		JRDesignParameter scriptletParameter = new JRDesignParameter();
@@ -601,7 +611,10 @@ public class JRDesignDataset extends JRBaseDataset
 	{
 		if (parametersMap.containsKey(parameter.getName()))
 		{
-			throw new JRException("Duplicate declaration of parameter : " + parameter.getName());
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DUPLICATE_PARAMETER,
+					new Object[]{parameter.getName()});
 		}
 
 		parametersList.add(index, parameter);
@@ -752,7 +765,10 @@ public class JRDesignDataset extends JRBaseDataset
 	{
 		if (fieldsMap.containsKey(field.getName()))
 		{
-			throw new JRException("Duplicate declaration of field : " + field.getName());
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DUPLICATE_FIELD,
+					new Object[]{field.getName()});
 		}
 
 		fieldsList.add(index, field);
@@ -854,7 +870,10 @@ public class JRDesignDataset extends JRBaseDataset
 		String sortFieldKey = getSortFieldKey(sortField);
 		if (sortFieldsMap.containsKey(sortFieldKey))
 		{
-			throw new JRException("Duplicate declaration of sort field : " + sortField.getName());
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DUPLICATE_SORT_FIELD,
+					new Object[]{sortField.getName()});
 		}
 
 		sortFieldsList.add(index, sortField);
@@ -985,7 +1004,10 @@ public class JRDesignDataset extends JRBaseDataset
 	{
 		if (variablesMap.containsKey(variable.getName()))
 		{
-			throw new JRException("Duplicate declaration of variable : " + variable.getName());
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DUPLICATE_VARIABLE,
+					new Object[]{variable.getName()});
 		}
 
 		if (system)
@@ -1105,7 +1127,10 @@ public class JRDesignDataset extends JRBaseDataset
 	{
 		if (groupsMap.containsKey(group.getName()))
 		{
-			throw new JRException("Duplicate declaration of group : " + group.getName());
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DUPLICATE_GROUP,
+					new Object[]{group.getName()});
 		}
 
 		JRDesignVariable countVariable = new JRDesignVariable();

@@ -179,7 +179,7 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_LANGUAGE_NOT_SUPPORTED,
-					new Object[]{language});
+					new Object[]{language, JRReport.LANGUAGE_GROOVY, JRReport.LANGUAGE_JAVA});
 		}
 	}
 
