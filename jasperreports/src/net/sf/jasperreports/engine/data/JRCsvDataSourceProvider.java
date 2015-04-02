@@ -43,6 +43,8 @@ import net.sf.jasperreports.engine.JasperReport;
  */
 public class JRCsvDataSourceProvider implements JRDataSourceProvider
 {
+	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_FIND_SOURCE = "data.csv.cannot.find.source";
+	
 	private Reader reader;
 
 	private DateFormat dateFormat;
@@ -109,7 +111,10 @@ public class JRCsvDataSourceProvider implements JRDataSourceProvider
 		}
 		else 
 		{
-			throw new JRException("Cannot find a source to read the data from");
+			throw 
+			new JRException(
+				EXCEPTION_MESSAGE_KEY_CANNOT_FIND_SOURCE,
+				new Object[]{});
 		}
 
 		ds.setDateFormat(dateFormat);

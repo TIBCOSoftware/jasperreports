@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.JRRewindableDataSource;
 public class JRTableModelDataSource implements JRRewindableDataSource
 {
 	
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_COLUMN_NAME = "data.table.model.unknown.column.name";
 
 	/**
 	 *
@@ -104,7 +105,10 @@ public class JRTableModelDataSource implements JRRewindableDataSource
 		}
 		else
 		{
-			throw new JRException("Unknown column name : " + fieldName);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_UNKNOWN_COLUMN_NAME,
+					new Object[]{fieldName});
 		}
 	}
 

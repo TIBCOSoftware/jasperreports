@@ -238,7 +238,10 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 			}
 			if (columnIndex == null)
 			{
-				throw new JRException("Unknown column name : " + fieldName);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_UNKNOWN_COLUMN_NAME,
+						new Object[]{fieldName});
 			}
 			Sheet sheet = workbook.getSheetAt(sheetIndex);
 			Cell cell = sheet.getRow(recordIndex).getCell(columnIndex);
@@ -390,7 +393,10 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 			}
 			else
 			{
-				throw new JRException("Field '" + jrField.getName() + "' is of class '" + valueClass.getName() + "' and can not be converted");
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_CANNOT_CONVERT_FIELD_TYPE,
+						new Object[]{jrField.getName(), valueClass.getName()});
 			}
 		}
 		catch (Exception e) 

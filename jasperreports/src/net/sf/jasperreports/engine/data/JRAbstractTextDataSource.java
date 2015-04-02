@@ -50,6 +50,13 @@ import org.apache.commons.beanutils.locale.LocaleConvertUtilsBean;
 public abstract class JRAbstractTextDataSource implements JRDataSource
 {
 	
+	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_CONVERT_FIELD_TYPE = "data.common.cannot.convert.field.type";
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_COLUMN_NAME = "data.common.unknown.column.name";
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_NUMBER_TYPE = "data.common.unknown.number.type";
+	public static final String EXCEPTION_MESSAGE_KEY_NODE_NOT_AVAILABLE = "data.common.xml.node.not.available";
+	public static final String EXCEPTION_MESSAGE_KEY_NULL_DOCUMENT = "data.common.xml.null.document";
+	public static final String EXCEPTION_MESSAGE_KEY_NULL_SELECT_EXPRESSION = "data.common.xml.null.select.expression";
+	
 	private LocaleConvertUtilsBean convertBean;
 	
 	private Locale locale;
@@ -116,7 +123,10 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 		}
 		else
 		{
-			throw new JRException("Unknown number class " + valueClass.getName());
+			throw 
+			new JRException(
+				EXCEPTION_MESSAGE_KEY_UNKNOWN_NUMBER_TYPE,
+				new Object[]{valueClass.getName()});
 		}
 		return value;
 	}

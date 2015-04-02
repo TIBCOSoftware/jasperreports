@@ -187,12 +187,18 @@ public class XalanXmlDataSource extends AbstractXmlDataSource {
 			document = documentProducer.getDocument();
 			if (document == null)
 			{	
-				throw new JRException("document cannot be null");
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_NULL_DOCUMENT,
+						new Object[]{});
 			}
 		}
 		if (selectExpression == null)
 		{
-			throw new JRException("selectExpression cannot be null");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_NULL_SELECT_EXPRESSION,
+					new Object[]{});
 		}
 
 		currentNode = null;
@@ -228,7 +234,10 @@ public class XalanXmlDataSource extends AbstractXmlDataSource {
 	{
 		if(currentNode == null)
 		{
-			throw new JRException("No node available. Iterate or rewind the data source.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_NODE_NOT_AVAILABLE,
+					new Object[]{});
 		}
 		
 		// create a new document from the current node
