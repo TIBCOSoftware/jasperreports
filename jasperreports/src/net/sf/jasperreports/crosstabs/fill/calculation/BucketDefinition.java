@@ -46,6 +46,7 @@ public class BucketDefinition
 {
 	
 	private static final Log log = LogFactory.getLog(BucketDefinition.class);
+	public static final String EXCEPTION_MESSAGE_KEY_UNSUPPORTED_ORDER_TYPE = "crosstabs.calculation.unsupported.order.type";
 	
 	/**
 	 * Value type used for non-null values.
@@ -171,7 +172,10 @@ public class BucketDefinition
 			}
 			case NONE:
 			default:
-				throw new JRRuntimeException("Unsupported order type " + order);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNSUPPORTED_ORDER_TYPE,
+						new Object[]{order});
 		}
 		return orderComparator;
 	}

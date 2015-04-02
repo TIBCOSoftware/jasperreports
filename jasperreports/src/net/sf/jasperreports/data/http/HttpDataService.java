@@ -69,6 +69,9 @@ public class HttpDataService implements DataFileService
 	
 	private static final Log log = LogFactory.getLog(HttpDataService.class);
 	
+	public static final String EXCEPTION_MESSAGE_KEY_NO_HTTP_URL_SET = "data.http.no.http.url.set";
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_REQUEST_METHOD = "data.http.unknown.request.method";
+	
 	public static final String PARAMETER_URL = "HTTP_DATA_URL";
 	
 	public static final String PARAMETER_USERNAME = "HTTP_DATA_USERNAME";
@@ -189,7 +192,10 @@ public class HttpDataService implements DataFileService
 			request = createPutRequest(requestURI, postParameters);
 			break;
 		default:
-			throw new JRRuntimeException("Unknown request method " + method);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNKNOWN_REQUEST_METHOD,
+					new Object[]{method});
 		}
 		
 		return request;
@@ -298,7 +304,10 @@ public class HttpDataService implements DataFileService
 		String url = getURL(parameters);
 		if (url == null)
 		{
-			throw new JRRuntimeException("No HTTP URL set");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_NO_HTTP_URL_SET,
+					(Object[])null);
 		}
 		
 		try

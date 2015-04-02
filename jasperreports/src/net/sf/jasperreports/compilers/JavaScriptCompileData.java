@@ -42,6 +42,7 @@ public class JavaScriptCompileData implements Serializable
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	public static final String EXCEPTION_MESSAGE_KEY_EXPRESSION_NOT_FOUND = "compilers.javascript.expression.not.found";
 	
 	protected static class Expression implements Serializable
 	{
@@ -121,12 +122,18 @@ public class JavaScriptCompileData implements Serializable
 	{
 		if (id >= expressions.size())
 		{
-			throw new JRRuntimeException("No expression for id " + id);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_EXPRESSION_NOT_FOUND,
+					new Object[]{id});
 		}
 		Expression expr = expressions.get(id);
 		if (expr == null)
 		{
-			throw new JRRuntimeException("No expression for id " + id);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_EXPRESSION_NOT_FOUND,
+					new Object[]{id});
 		}
 		return expr;
 	}
