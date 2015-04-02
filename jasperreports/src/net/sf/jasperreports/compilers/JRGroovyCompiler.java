@@ -124,14 +124,14 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_TOO_FEW_CLASSES_GENERATED,
-					new Object[]{});
+					(Object[])null);
 		} 
 		else if (collector.classCount > units.length) 
 		{
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_TOO_MANY_CLASSES_GENERATED,
-					new Object[]{});
+					(Object[])null);
 		}
 		
 		for (int i = 0; i < units.length; i++)

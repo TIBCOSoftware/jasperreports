@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.JRException;
  */
 public class JRJdk14ImageReader implements JRImageReader
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_IMAGE_READ_FAILED = "util.jdk14.image.read.failed";
 
 	/**
 	 *
@@ -69,7 +69,10 @@ public class JRJdk14ImageReader implements JRImageReader
 
 		if (image == null)
 		{
-			throw new JRException("Image read failed.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_IMAGE_READ_FAILED,
+					(Object[])null);
 		}
 
 		return image;

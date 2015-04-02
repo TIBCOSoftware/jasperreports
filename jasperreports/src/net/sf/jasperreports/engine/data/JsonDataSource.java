@@ -165,7 +165,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_NO_DATA,
-					new Object[]{});
+					(Object[])null);
 		}
 
 		currentJsonNode = null;
@@ -481,7 +481,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_NODE_NOT_AVAILABLE,
-					new Object[]{});
+					(Object[])null);
 		}
 
 		try {

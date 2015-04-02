@@ -404,14 +404,14 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_NULL_DOCUMENT,
-					new Object[]{});
+					(Object[])null);
 		}
 		if (selectExpression == null)
 		{
 			throw 
 			new JRException(
 				EXCEPTION_MESSAGE_KEY_NULL_SELECT_EXPRESSION,
-				new Object[]{});
+				(Object[])null);
 		}
 
 		currentNode = null;
@@ -539,7 +539,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_NODE_NOT_AVAILABLE,
-					new Object[]{});
+					(Object[])null);
 		}
 		
 		// create a new document from the current node

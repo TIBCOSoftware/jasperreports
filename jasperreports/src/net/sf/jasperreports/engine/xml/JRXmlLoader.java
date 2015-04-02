@@ -82,6 +82,7 @@ import org.xml.sax.SAXException;
  */
 public class JRXmlLoader
 {
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_SUBDATASET = "xml.loader.unknown.subdataset";
 
 	/**
 	 *
@@ -479,7 +480,10 @@ public class JRXmlLoader
 				JRDesignDataset subDataset = (JRDesignDataset) datasetMap.get(datasetName);
 				if (subDataset == null)
 				{
-					throw new JRException("Unknown sub dataset '" + datasetName + "' for chart dataset.");
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_UNKNOWN_SUBDATASET,
+							new Object[]{datasetName});
 				}
 				groupsMap = subDataset.getGroupsMap();
 			}

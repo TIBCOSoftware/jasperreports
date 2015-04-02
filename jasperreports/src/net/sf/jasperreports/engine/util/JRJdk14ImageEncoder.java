@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
  */
 public class JRJdk14ImageEncoder extends JRAbstractImageEncoder
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_IMAGE_WRITER_NOT_FOUND = "util.jdk14.image.writer.not.found";
 	
 	/**
 	 *
@@ -87,7 +87,10 @@ public class JRJdk14ImageEncoder extends JRAbstractImageEncoder
 		
 		if (!success)
 		{
-			throw new JRException("No appropriate image writer found for the \"" + formatName + "\" format.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_IMAGE_WRITER_NOT_FOUND,
+					new Object[]{formatName});
 		}
 		
 		return baos.toByteArray();

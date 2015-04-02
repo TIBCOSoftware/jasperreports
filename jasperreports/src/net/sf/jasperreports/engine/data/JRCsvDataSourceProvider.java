@@ -114,7 +114,7 @@ public class JRCsvDataSourceProvider implements JRDataSourceProvider
 			throw 
 			new JRException(
 				EXCEPTION_MESSAGE_KEY_CANNOT_FIND_SOURCE,
-				new Object[]{});
+				(Object[])null);
 		}
 
 		ds.setDateFormat(dateFormat);

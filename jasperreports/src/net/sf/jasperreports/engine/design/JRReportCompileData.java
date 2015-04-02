@@ -174,7 +174,7 @@ public class JRReportCompileData implements Serializable
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_COMPILE_DATA_FOR_CROSSTAB_NOT_FOUND,
-					new Object[]{});
+					(Object[])null);
 		}
 		
 		return compileData;

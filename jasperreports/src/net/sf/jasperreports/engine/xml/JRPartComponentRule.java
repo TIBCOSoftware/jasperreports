@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.design.JRDesignPart;
 import net.sf.jasperreports.engine.part.PartComponent;
@@ -47,6 +48,7 @@ import org.apache.commons.digester.Rule;
  */
 public class JRPartComponentRule extends Rule
 {
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_INSTANCE = "xml.part.component.rule.invalid.instance";
 	
 	public static JRPartComponentRule newInstance()
 	{
@@ -58,8 +60,10 @@ public class JRPartComponentRule extends Rule
 		Object top = getDigester().peek();
 		if (!(top instanceof PartComponent))
 		{
-			throw new JRException("Object of type " + top.getClass().getName() + " is not a "
-					+ PartComponent.class.getName() + " instance");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INVALID_INSTANCE,
+					new Object[]{top.getClass().getName(), PartComponent.class.getName()});
 		}
 
 		PartComponent component = (PartComponent) top;

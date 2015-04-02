@@ -630,7 +630,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 				throw 
 					new JRException(
 						EXCEPTION_MESSAGE_KEY_NO_MORE_CHARS,
-						new Object[]{});
+						(Object[])null);
 			}
 		}
 

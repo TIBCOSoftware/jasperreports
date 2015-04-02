@@ -66,6 +66,7 @@ import net.sf.jasperreports.engine.xml.PrintSaxParserFactory;
  */
 public final class JRProperties
 {
+	public static final String EXCEPTION_MESSAGE_KEY_DEFAULT_PROPERTIES_NOT_FOUND = "util.properties.default.properties.not.found";
 	public static final String EXCEPTION_MESSAGE_KEY_LOADING_DEFAULTS_ERROR = "util.properties.loading.defaults.error";
 	public static final String EXCEPTION_MESSAGE_KEY_LOADING_FILE_ERROR = "util.properties.loading.file.error";
 	
@@ -230,7 +231,10 @@ public final class JRProperties
 		
 		if (is == null)
 		{
-			throw new JRException("Default properties file not found.");
+			throw 
+			new JRException(
+				EXCEPTION_MESSAGE_KEY_DEFAULT_PROPERTIES_NOT_FOUND,
+				(Object[])null);
 		}
 
 		try

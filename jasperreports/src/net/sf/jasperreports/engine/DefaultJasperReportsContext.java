@@ -156,7 +156,7 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_DEFAULT_PROPERTIES_FILE_NOT_FOUND,
-					new Object[]{});
+					(Object[])null);
 		}
 
 		try
