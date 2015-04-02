@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 public abstract class JRAbstractCompiler implements JRCompiler
 {
 	public static final String EXCEPTION_MESSAGE_KEY_DESIGN_COMPILE_ERROR = "compilers.design.compile.error";
+	public static final String EXCEPTION_MESSAGE_KEY_LANGUAGE_NOT_SUPPORTED = "compilers.language.not.supported";
 	
 	private static final int NAME_SUFFIX_RANDOM_MAX = 1000000;
 	private static final Random random = new Random();

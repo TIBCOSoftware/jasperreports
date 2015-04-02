@@ -129,8 +129,11 @@ public class XalanNsAwareXPathExecuter extends XalanXPathExecuter {
 				return xpathAPI.selectNodeList(contextNode, expression);
 			}
 		} catch (TransformerException e) {
-			throw new JRException("XPath selection failed. Expression: "
-					+ expression, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_XPATH_SELECTION_FAILURE,
+					new Object[]{expression},
+					e);
 		}
 	}
 
@@ -161,8 +164,11 @@ public class XalanNsAwareXPathExecuter extends XalanXPathExecuter {
 			}
 			return value;
 		} catch (TransformerException e) {
-			throw new JRException("XPath selection failed. Expression: "
-					+ expression, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_XPATH_SELECTION_FAILURE,
+					new Object[]{expression},
+					e);
 		}
 	}
 
@@ -194,7 +200,11 @@ public class XalanNsAwareXPathExecuter extends XalanXPathExecuter {
 						node.getNodeValue());
 			}
 		} catch (XPathExpressionException ex) {
-			throw new JRException("getNamespaces", ex);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_XPATH_SELECTION_FAILURE,
+					new Object[]{namespaceXPathString},
+					ex);
 		}
 
 		return namespaces;

@@ -64,6 +64,8 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 
 	protected static final String SOURCE_ENCODING = "UTF-8";
 	public static final String EXCEPTION_MESSAGE_KEY_COMPILING_EXPRESSIONS_CLASS_FILE = "compilers.compiling.expressions.class.file";
+	public static final String EXCEPTION_MESSAGE_KEY_TOO_FEW_CLASSES_GENERATED = "compilers.groovy.too.few.classes.generated";
+	public static final String EXCEPTION_MESSAGE_KEY_TOO_MANY_CLASSES_GENERATED = "compilers.groovy.too.many.classes.generated";
 	
 	/**
 	 * 
@@ -119,14 +121,17 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 
 		if (collector.classes.size() < units.length) 
 		{
-			throw new JRException("Too few groovy class were generated.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_TOO_FEW_CLASSES_GENERATED,
+					new Object[]{});
 		} 
 		else if (collector.classCount > units.length) 
 		{
-			throw new JRException(
-				"Too many groovy classes were generated.\n"
-				+ "Please make sure that you don't use Groovy features such as closures that are not supported by this report compiler.\n"
-				);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_TOO_MANY_CLASSES_GENERATED,
+					new Object[]{});
 		}
 		
 		for (int i = 0; i < units.length; i++)
@@ -173,10 +178,8 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 		{
 			throw 
 				new JRException(
-					"Language \"" + language 
-					+ "\" not supported by this report compiler.\n"
-					+ "Expecting \"groovy\" or \"java\" instead."
-					);
+					EXCEPTION_MESSAGE_KEY_LANGUAGE_NOT_SUPPORTED,
+					new Object[]{language});
 		}
 	}
 

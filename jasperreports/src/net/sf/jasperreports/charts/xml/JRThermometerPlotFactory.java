@@ -38,6 +38,8 @@ import org.xml.sax.Attributes;
  */
 public class JRThermometerPlotFactory extends JRBaseFactory
 {
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_VALUE_LOCATION = "charts.thermometer.plot.invalid.value.location";
+	
 	public static final String ELEMENT_thermometerPlot = "thermometerPlot";
 	public static final String ELEMENT_lowRange = "lowRange";
 	public static final String ELEMENT_mediumRange = "mediumRange";
@@ -62,7 +64,10 @@ public class JRThermometerPlotFactory extends JRBaseFactory
 		ValueLocationEnum loc = ValueLocationEnum.getByName(atts.getValue(ATTRIBUTE_valueLocation));
 		if (loc == null)
 		{
-			throw new JRException("Invalid thermometer value location: " + location);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INVALID_VALUE_LOCATION,
+					new Object[]{location});
 		}
 		else
 		{

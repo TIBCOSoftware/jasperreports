@@ -40,6 +40,8 @@ import org.w3c.dom.NodeList;
  */
 public class XalanXPathExecuter implements JRXPathExecuter {
 
+	public static final String EXCEPTION_MESSAGE_KEY_XPATH_SELECTION_FAILURE = "util.xml.xalan.xpath.selection.failure";
+
 	// XPath API facade
 	private CachedXPathAPI xpathAPI = new CachedXPathAPI();
 
@@ -54,8 +56,11 @@ public class XalanXPathExecuter implements JRXPathExecuter {
 		try {
 			return xpathAPI.selectNodeList(contextNode, expression);
 		} catch (TransformerException e) {
-			throw new JRException("XPath selection failed. Expression: "
-					+ expression, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_XPATH_SELECTION_FAILURE,
+					new Object[]{expression},
+					e);
 		}
 	}
 
@@ -79,8 +84,11 @@ public class XalanXPathExecuter implements JRXPathExecuter {
 			}
 			return value;
 		} catch (TransformerException e) {
-			throw new JRException("XPath selection failed. Expression: "
-					+ expression, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_XPATH_SELECTION_FAILURE,
+					new Object[]{expression},
+					e);
 		}
 	}
 	

@@ -69,6 +69,9 @@ import antlr.ANTLRException;
 public class JROlapDataSource implements JRDataSource, MappingMetadata
 {
 	private static final Log log = LogFactory.getLog(JROlapDataSource.class);
+	public static final String EXCEPTION_MESSAGE_KEY_OLAP_CANNOT_CONVERT_FIELD_TYPE = "data.olap.cannot.convert.field.type";
+	public static final String EXCEPTION_MESSAGE_KEY_OLAP_CANNOT_CONVERT_STRING_VALUE_TYPE = "data.olap.cannot.convert.string.value.type";
+	public static final String EXCEPTION_MESSAGE_KEY_OLAP_FIELD_VALUE_NOT_RETRIEVED = "data.olap.field.value.not.retrieved";
 
 	protected final JROlapResult olapResult;
 	protected JROlapResultAxis[] axes;
@@ -237,9 +240,10 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			 */
 			if (valueClass.equals(mondrian.olap.Member.class)) {
 				if (!(value instanceof mondrian.olap.Member)) {
-					throw new JRException("Field '" + jrField.getName() + "' is of class '"
-						+ value.getClass()
-						+ "' and can not be converted to class " + valueClass.getName());
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_OLAP_CANNOT_CONVERT_FIELD_TYPE,
+							new Object[]{jrField.getName(), value.getClass(), valueClass.getName()});
 				}
 
 				return value;
@@ -288,12 +292,17 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			} else if (valueClass.equals(java.lang.Number.class)) {
 				return new Double(fieldValue);
 			} else {
-				throw new JRException("Field '" + jrField.getName() + "', string value '" + fieldValue + "' is of class '"
-				+ fieldValues.get(jrField.getName()).getClass()
-				+ "' and can not be converted to class " + valueClass.getName());
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_OLAP_CANNOT_CONVERT_STRING_VALUE_TYPE,
+						new Object[]{jrField.getName(), fieldValue, fieldValues.get(jrField.getName()).getClass(), valueClass.getName()});
 			}
 		} catch (Exception e) {
-			throw new JRException("Unable to get value for field '" + jrField.getName() + "' of class '" + valueClass.getName() + "'", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_OLAP_FIELD_VALUE_NOT_RETRIEVED,
+					new Object[]{jrField.getName(), valueClass.getName()}, 
+					e);
 		}
 	}
 

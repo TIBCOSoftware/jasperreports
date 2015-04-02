@@ -214,6 +214,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	public static final XmlNamespace JASPERREPORTS_NAMESPACE = 
 		new XmlNamespace(JRXmlConstants.JASPERREPORTS_NAMESPACE, null, JRXmlConstants.JASPERREPORT_XSD_SYSTEM_ID);
+	public static final String EXCEPTION_MESSAGE_KEY_OUTPUT_STREAM_WRITE_ERROR = "xml.writer.output.stream.write.error";
+	public static final String EXCEPTION_MESSAGE_KEY_FILE_WRITE_ERROR = "xml.writer.file.write.error";
 
 	/**
 	 *
@@ -298,7 +300,11 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error writing to file : " + destFileName, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_FILE_WRITE_ERROR,
+					new Object[]{destFileName},
+					e);
 		}
 		finally
 		{
@@ -332,7 +338,11 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		}
 		catch (Exception e)
 		{
-			throw new JRException("Error writing to OutputStream : " + report.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_OUTPUT_STREAM_WRITE_ERROR,
+					new Object[]{report.getName()},
+					e);
 		}
 	}
 

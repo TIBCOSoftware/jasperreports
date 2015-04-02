@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.fill.JREvaluator;
  */
 public class JRBshCompiler extends JRAbstractCompiler
 {
-
 	/**
 	 * A constant used to specify that the language used by expressions is BeanShell script.
 	 */
@@ -84,10 +83,8 @@ public class JRBshCompiler extends JRAbstractCompiler
 		{
 			throw 
 				new JRException(
-					"Language \"" + language 
-					+ "\" not supported by this report compiler.\n"
-					+ "Expecting \"bsh\" or \"java\" instead."
-					);
+					EXCEPTION_MESSAGE_KEY_LANGUAGE_NOT_SUPPORTED,
+					new Object[]{language});
 		}
 	}
 
