@@ -59,6 +59,8 @@ import net.sf.jasperreports.engine.type.OrientationEnum;
 public class JasperPrint implements Serializable, JRPropertiesHolder
 {
 
+	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_STYLE = "engine.jasper.print.duplicate.style";
+	
 	/**
 	 * Prefix for JasperReports properties that specify properties to be
 	 * transfered from report templates to print objects.
@@ -493,7 +495,10 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		{
 			if (!isIgnoreDuplicate)
 			{
-				throw new JRException("Duplicate declaration of report style : " + style.getName());
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_DUPLICATE_STYLE,
+						new Object[]{style.getName()});
 			}
 		}
 		else

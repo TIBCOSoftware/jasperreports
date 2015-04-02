@@ -42,6 +42,7 @@ import net.sf.jasperreports.extensions.ExtensionsEnvironment;
  */
 public class DefaultJasperReportsContext implements JasperReportsContext
 {
+	
 	/**
 	 * The default properties file.
 	 */
@@ -57,7 +58,8 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 	 */
 	private static final DefaultJasperReportsContext INSTANCE = new DefaultJasperReportsContext();
 	
-	public static final String EXCEPTION_MESSAGE_KEY_LOAD_DEFAULT_PROPERTIES_FAILURE = "engine.load.default.properties.failure";
+	public static final String EXCEPTION_MESSAGE_KEY_LOAD_DEFAULT_PROPERTIES_FAILURE = "engine.context.load.default.properties.failure";
+	public static final String EXCEPTION_MESSAGE_KEY_DEFAULT_PROPERTIES_FILE_NOT_FOUND = "engine.context.default.properties.file.not.found";
 	
 	private Map<String, Object> values = new ConcurrentHashMap<String, Object>(16, .75f, 1);// assume low update concurrency
 
@@ -151,7 +153,10 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 		
 		if (is == null)
 		{
-			throw new JRException("Default properties file not found.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DEFAULT_PROPERTIES_FILE_NOT_FOUND,
+					new Object[]{});
 		}
 
 		try

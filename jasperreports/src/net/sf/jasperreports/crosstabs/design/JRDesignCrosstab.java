@@ -89,6 +89,12 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String EXCEPTION_MESSAGE_KEY_COLUMN_GROUP_DOES_NOT_EXIST = "crosstabs.design.column.group.does.not.exist";
+	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_CELL = "crosstabs.design.duplicate.cell";
+	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_GROUP_OR_MEASURE = "crosstabs.design.duplicate.group.or.measure";
+	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_PARAMETER = "crosstabs.design.duplicate.parameter";
+	public static final String EXCEPTION_MESSAGE_KEY_ROW_GROUP_DOES_NOT_EXIST = "crosstabs.design.row.group.does.not.exist";
+	
 	public static final String PROPERTY_COLUMN_BREAK_OFFSET = "columnBreakOffset";
 	
 	public static final String PROPERTY_DATASET = "dataset";
@@ -337,7 +343,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				columnGroupsMap.containsKey(groupName) ||
 				measuresMap.containsKey(groupName))
 		{
-			throw new JRException("A group or measure having the same name already exists in the crosstab.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DUPLICATE_GROUP_OR_MEASURE,
+					new Object[]{});
 		}
 		
 		rowGroupsMap.put(groupName, Integer.valueOf(rowGroups.size()));
@@ -367,7 +376,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				columnGroupsMap.containsKey(groupName) ||
 				measuresMap.containsKey(groupName))
 		{
-			throw new JRException("A group or measure having the same name already exists in the crosstab.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DUPLICATE_GROUP_OR_MEASURE,
+					new Object[]{});
 		}
 		
 		rowGroupsMap.put(groupName, Integer.valueOf(rowGroups.size()));
@@ -415,7 +427,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				columnGroupsMap.containsKey(groupName) ||
 				measuresMap.containsKey(groupName))
 		{
-			throw new JRException("A group or measure having the same name already exists in the crosstab.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DUPLICATE_GROUP_OR_MEASURE,
+					new Object[]{});
 		}
 		
 		columnGroupsMap.put(groupName, Integer.valueOf(columnGroups.size()));
@@ -444,7 +459,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				columnGroupsMap.containsKey(groupName) ||
 				measuresMap.containsKey(groupName))
 		{
-			throw new JRException("A group or measure having the same name already exists in the crosstab.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DUPLICATE_GROUP_OR_MEASURE,
+					new Object[]{});
 		}
 		
 		columnGroupsMap.put(groupName, Integer.valueOf(columnGroups.size()));
@@ -489,7 +507,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				columnGroupsMap.containsKey(measureName) ||
 				measuresMap.containsKey(measureName))
 		{
-			throw new JRException("A group or measure having the same name already exists in the crosstab.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DUPLICATE_GROUP_OR_MEASURE,
+					new Object[]{});
 		}
 		
 		measure.addPropertyChangeListener(JRDesignCrosstabMeasure.PROPERTY_VALUE_CLASS, measureClassChangeListener);
@@ -516,7 +537,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				columnGroupsMap.containsKey(measureName) ||
 				measuresMap.containsKey(measureName))
 		{
-			throw new JRException("A group or measure having the same name already exists in the crosstab.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DUPLICATE_GROUP_OR_MEASURE,
+					new Object[]{});
 		}
 		
 		measure.addPropertyChangeListener(JRDesignCrosstabMeasure.PROPERTY_VALUE_CLASS, measureClassChangeListener);
@@ -880,19 +904,28 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		String rowTotalGroup = cell.getRowTotalGroup();		
 		if (rowTotalGroup != null && !rowGroupsMap.containsKey(rowTotalGroup))
 		{
-			throw new JRException("Row group " + rowTotalGroup + " does not exist.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_ROW_GROUP_DOES_NOT_EXIST,
+					new Object[]{rowTotalGroup});
 		}
 		
 		String columnTotalGroup = cell.getColumnTotalGroup();
 		if (columnTotalGroup != null && !columnGroupsMap.containsKey(columnTotalGroup))
 		{
-			throw new JRException("Row group " + columnTotalGroup + " does not exist.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_ROW_GROUP_DOES_NOT_EXIST,
+					new Object[]{columnTotalGroup});
 		}
 		
 		Pair<String,String> cellKey = new Pair<String,String>(rowTotalGroup, columnTotalGroup);
 		if (cellsMap.containsKey(cellKey))
 		{
-			throw new JRException("Duplicate cell in crosstab.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DUPLICATE_CELL,
+					new Object[]{});
 		}
 		
 		cellsMap.put(cellKey, cell);
@@ -988,7 +1021,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		{
 			if (parametersMap.containsKey(parameter.getName()))
 			{
-				throw new JRException("Duplicate declaration of parameter : " + parameter.getName());
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_DUPLICATE_PARAMETER,
+						new Object[]{parameter.getName()});
 			}
 		}
 		
@@ -1011,7 +1047,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		{
 			if (parametersMap.containsKey(parameter.getName()))
 			{
-				throw new JRException("Duplicate declaration of parameter : " + parameter.getName());
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_DUPLICATE_PARAMETER,
+						new Object[]{parameter.getName()});
 			}
 		}
 		
