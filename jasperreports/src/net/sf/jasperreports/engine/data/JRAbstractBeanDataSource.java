@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 
+import org.apache.commons.beanutils.NestedNullException;
 import org.apache.commons.beanutils.PropertyUtils;
 
 
@@ -134,13 +135,9 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 						new Object[]{propertyName}, 
 						e);
 			}
-			catch (IllegalArgumentException e)
+			catch (NestedNullException e)
 			{
-				//FIXME replace with NestedNullException when upgrading to BeanUtils 1.7
-				if (!e.getMessage().startsWith("Null property value for ")) 
-				{
-					throw e;
-				}
+				// deliberately to be ignored
 			}
 		}
 
