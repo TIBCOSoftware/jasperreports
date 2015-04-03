@@ -654,7 +654,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	{
 		if (processingStarted)
 		{
-			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_MODIFY_PROPERTIES_AFTER_START,
+					(Object[])null);
 		}
 		this.dateFormat = dateFormat;
 	}
@@ -678,7 +681,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	{
 		if (processingStarted)
 		{
-			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_MODIFY_PROPERTIES_AFTER_START,
+					(Object[])null);
 		}
 		this.fieldDelimiter = fieldDelimiter;
 	}
@@ -701,7 +707,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	{
 		if (processingStarted)
 		{
-			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_MODIFY_PROPERTIES_AFTER_START,
+					(Object[])null);
 		}
 		this.recordDelimiter = recordDelimiter;
 	}
@@ -714,7 +723,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	{
 		if (processingStarted)
 		{
-			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_MODIFY_PROPERTIES_AFTER_START,
+					(Object[])null);
 		}
 		this.columnNames = new LinkedHashMap<String, Integer>();
 		for (int i = 0; i < columnNames.length; i++)
@@ -732,7 +744,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	{
 		if (processingStarted)
 		{
-			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_MODIFY_PROPERTIES_AFTER_START,
+					(Object[])null);
 		}
 		this.useFirstRowAsHeader = useFirstRowAsHeader;
 	}
@@ -788,7 +803,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	public void setNumberFormat(NumberFormat numberFormat) {
 		if (processingStarted)
 		{
-			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_MODIFY_PROPERTIES_AFTER_START,
+					(Object[])null);
 		}
 		this.numberFormat = numberFormat;
 	}

@@ -45,7 +45,10 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource
 {
+	public static final String EXCEPTION_MESSAGE_KEY_XLS_COLUMN_NAMES_MISMATCH_COLUMN_INDEXES = "data.xls.column.names.mismatch.column.indexes";
 	public static final String EXCEPTION_MESSAGE_KEY_XLS_FIELD_VALUE_NOT_RETRIEVED = "data.xls.field.value.not.retrieved";
+	public static final String EXCEPTION_MESSAGE_KEY_XLS_SHEET_INDEX_OUT_OF_RANGE = "data.xls.sheet.index.out.of.range";
+	public static final String EXCEPTION_MESSAGE_KEY_XLS_SHEET_NOT_FOUND = "data.xls.sheet.not.found";
 	
 	protected String sheetSelection;
 	
@@ -120,7 +123,10 @@ public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource imp
 		
 		if (columnNames.length != columnIndexes.length)
 		{
-			throw new JRRuntimeException("The number of column names must be equal to the number of column indexes.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_XLS_COLUMN_NAMES_MISMATCH_COLUMN_INDEXES,
+					(Object[])null);
 		}
 		
 		for (int i = 0; i < columnNames.length; i++)

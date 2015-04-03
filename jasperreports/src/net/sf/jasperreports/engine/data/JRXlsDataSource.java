@@ -153,7 +153,10 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 						sheetIndex = Integer.parseInt(sheetSelection);
 						if (sheetIndex < 0 || sheetIndex > workbook.getNumberOfSheets() - 1)
 						{
-							throw new JRRuntimeException("Sheet index " + sheetIndex + " is out of range: [0.." + (workbook.getNumberOfSheets() - 1) + "]");
+							throw 
+								new JRRuntimeException(
+									EXCEPTION_MESSAGE_KEY_XLS_SHEET_INDEX_OUT_OF_RANGE,
+									new Object[]{sheetIndex, (workbook.getNumberOfSheets() - 1)});
 						}
 					}
 					catch (NumberFormatException e)
@@ -173,7 +176,10 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 
 						if (sheetIndex < 0)
 						{
-							throw new JRRuntimeException("Sheet '" + sheetSelection + "' not found in workbook.");
+							throw 
+								new JRRuntimeException(
+									EXCEPTION_MESSAGE_KEY_XLS_SHEET_NOT_FOUND,
+									new Object[]{sheetSelection});
 						}
 					}
 				}
@@ -368,7 +374,10 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 	{
 		if (sheetIndex >= 0)
 		{
-			throw new JRRuntimeException("Cannot modify data source properties after data reading has started.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_MODIFY_PROPERTIES_AFTER_START,
+					(Object[])null);
 		}
 	}
 }

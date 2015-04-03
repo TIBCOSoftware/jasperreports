@@ -42,6 +42,12 @@ import org.hibernate.type.Type;
  */
 public abstract class JRHibernateAbstractDataSource implements JRDataSource
 {
+	public static final String EXCEPTION_MESSAGE_KEY_FIELD_ALIAS_TYPE_MISMATCH = "data.hibernate.field.alias.type.mismatch";
+	public static final String EXCEPTION_MESSAGE_KEY_MANY_FIELDS_DETECTED = "data.hibernate.many.fields.detected";
+	public static final String EXCEPTION_MESSAGE_KEY_NO_FIELD_ALIAS = "data.hibernate.no.field.alias";
+	public static final String EXCEPTION_MESSAGE_KEY_NO_FIELD_READER = "data.hibernate.no.field.reader";
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_RETURN_ALIAS = "data.hibernate.unknown.return.alias";
+	
 	private final boolean useFieldDescription;
 	private final Map<String, FieldReader> fieldReaders;
 	protected final JRHibernateQueryExecuter queryExecuter;
@@ -102,7 +108,10 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 			{
 				if (fields.length > 1)
 				{
-					throw new JRRuntimeException("The HQL query returns only one non-entity and non-component result but there are more than one fields.");
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_MANY_FIELDS_DETECTED,
+							(Object[])null);
 				}
 				
 				if (fields.length == 1)
@@ -183,7 +192,10 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 			
 			if (firstNestedIdx < 0)
 			{
-				throw new JRRuntimeException("Unknown HQL return alias \"" + fieldMapping + "\".");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNKNOWN_RETURN_ALIAS,
+						new Object[]{fieldMapping});
 			}
 			
 			String fieldAlias = fieldMapping.substring(0, firstNestedIdx);
@@ -192,13 +204,19 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 			fieldIdx = aliasesMap.get(fieldAlias);
 			if (fieldIdx == null)
 			{
-				throw new JRRuntimeException("The HQL query does not have a \"" + fieldAlias + "\" alias.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_NO_FIELD_ALIAS,
+						new Object[]{fieldAlias});
 			}
 			
 			Type type = returnTypes[fieldIdx.intValue()];
 			if (!type.isEntityType() && !type.isComponentType())
 			{
-				throw new JRRuntimeException("The HQL query does not have a \"" + fieldAlias + "\" alias.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_FIELD_ALIAS_TYPE_MISMATCH,
+						new Object[]{fieldAlias});
 			}
 			
 			reader = new IndexPropertyFieldReader(fieldIdx.intValue(), fieldProperty);
@@ -228,7 +246,10 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 		FieldReader reader = fieldReaders.get(jrField.getName());
 		if (reader == null)
 		{
-			throw new JRRuntimeException("No filed reader for " + jrField.getName());
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_NO_FIELD_READER,
+					new Object[]{jrField.getName()});
 		}
 		return reader.getFieldValue(currentReturnValue);
 	}
