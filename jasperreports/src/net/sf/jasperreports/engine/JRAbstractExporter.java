@@ -77,9 +77,10 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 {
 	public static final String EXCEPTION_MESSAGE_KEY_START_PAGE_INDEX_OUT_OF_RANGE = "export.common.start.page.index.out.of.range";
 	public static final String EXCEPTION_MESSAGE_KEY_END_PAGE_INDEX_OUT_OF_RANGE = "export.common.end.page.index.out.of.range";
-	public static final String EXCEPTION_MESSAGE_KEY_PAGE_INDEX_OUT_OF_RANGE = "export.common.page.index.out.of.range";
-	public static final String EXCEPTION_MESSAGE_KEY_MIXED_CALLS_NOT_ALLOWED = "export.common.mixed.calls.not.allowed";
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_IMAGE_NAME = "export.common.invalid.image.name";
 	public static final String EXCEPTION_MESSAGE_KEY_INVALID_ZOOM_RATIO = "export.common.invalid.zoom.ratio";
+	public static final String EXCEPTION_MESSAGE_KEY_MIXED_CALLS_NOT_ALLOWED = "export.common.mixed.calls.not.allowed";
+	public static final String EXCEPTION_MESSAGE_KEY_PAGE_INDEX_OUT_OF_RANGE = "export.common.page.index.out.of.range";
 	public static final String EXCEPTION_MESSAGE_KEY_OUTPUT_WRITER_ERROR = "export.common.output.writer.error";
 
 	/**

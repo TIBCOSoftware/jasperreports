@@ -43,8 +43,6 @@ import net.sf.jasperreports.export.HtmlExporterOutput;
  */
 public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C extends HtmlExporterConfiguration> extends JRAbstractExporter<RC, C, HtmlExporterOutput, JRHtmlExporterContext>
 {
-	public static final String EXCEPTION_MESSAGE_KEY_INVALID_IMAGE_NAME = "export.html.invalid.image.name";
-
 	/**
 	 *
 	 */

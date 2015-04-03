@@ -38,6 +38,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 public class DimensionEntries<T extends DimensionEntry>
 {
 	private static final Log log = LogFactory.getLog(DimensionEntries.class);
+	public static final String EXCEPTION_MESSAGE_KEY_END_OUT_OF_RANGE = "export.tabulator.dimension.end.out.of.range";
+	public static final String EXCEPTION_MESSAGE_KEY_START_OUT_OF_RANGE = "export.tabulator.dimension.start.out.of.range";
 	
 	private DimensionControl<T> control;
 	private TreeSet<T> entries;
@@ -71,11 +73,17 @@ public class DimensionEntries<T extends DimensionEntry>
 		}
 		if (start <= DimensionEntry.MINUS_INF)
 		{
-			throw new JRRuntimeException("Out of range start value " + start);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_START_OUT_OF_RANGE,
+					new Object[]{start});
 		}
 		if (end >= DimensionEntry.PLUS_INF)
 		{
-			throw new JRRuntimeException("Out of range start value " + end);
+			throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_END_OUT_OF_RANGE,
+				new Object[]{end});
 		}
 
 		T startKey = control.entryKey(start);
