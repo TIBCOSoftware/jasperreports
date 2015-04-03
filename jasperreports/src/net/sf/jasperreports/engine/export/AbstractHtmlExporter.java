@@ -43,6 +43,8 @@ import net.sf.jasperreports.export.HtmlExporterOutput;
  */
 public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C extends HtmlExporterConfiguration> extends JRAbstractExporter<RC, C, HtmlExporterOutput, JRHtmlExporterContext>
 {
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_IMAGE_NAME = "export.html.invalid.image.name";
+
 	/**
 	 *
 	 */
@@ -179,7 +181,10 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 	{
 		if (!imageName.startsWith(IMAGE_NAME_PREFIX))
 		{
-			throw new JRRuntimeException("Invalid image name: " + imageName);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_INVALID_IMAGE_NAME,
+					new Object[]{imageName});
 		}
 
 		return JRPrintElementIndex.parsePrintElementIndex(imageName.substring(IMAGE_NAME_PREFIX_LEGTH));

@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class ExporterFilterContainer implements ResetableExporterFilter
 {
+	public static final String EXCEPTION_MESSAGE_KEY_NULL_FILTERS_LIST = "export.filter.null.filters.list";
 
 	private final List<ExporterFilter> filters;
 	
@@ -50,7 +51,10 @@ public class ExporterFilterContainer implements ResetableExporterFilter
 	{
 		if (filters == null)
 		{
-			throw new JRRuntimeException("Null filters list");
+			throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_NULL_FILTERS_LIST,
+				(Object[])null);
 		}
 		
 		this.filters = filters;

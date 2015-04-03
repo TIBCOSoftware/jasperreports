@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class ElementGridCell extends JRExporterGridCell
 {
+	public static final String EXCEPTION_MESSAGE_KEY_NOT_FRAME_ELEMENT = "export.common.grid.cell.not.frame.element";
 	
 	private GridCellSize size;
 
@@ -127,7 +128,10 @@ public class ElementGridCell extends JRExporterGridCell
 		if (!(element instanceof JRPrintFrame))
 		{
 			// should not happen
-			throw new JRRuntimeException("Element at address " + getElementAddress() + " is not a frame");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_NOT_FRAME_ELEMENT,
+					new Object[]{getElementAddress()});
 		}
 		
 		JRPrintFrame frame = (JRPrintFrame) element;

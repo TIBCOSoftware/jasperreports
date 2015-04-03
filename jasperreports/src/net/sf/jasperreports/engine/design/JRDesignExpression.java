@@ -54,6 +54,8 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_EXPRESSION_CHUNK_TYPE = "design.expression.unknown.expression.chunk.type";
 
 	public static final String PROPERTY_LEGACY_PARSER = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "legacy.expression.parser";
@@ -421,7 +423,10 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 		}
 		else
 		{
-			throw new JRRuntimeException("Unknown expression chunk type \"" + chunkStringType + "\"");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNKNOWN_EXPRESSION_CHUNK_TYPE,
+					new Object[]{chunkStringType});
 		}
 		return chunkType;
 	}

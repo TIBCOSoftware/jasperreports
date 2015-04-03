@@ -88,6 +88,7 @@ public class JRDesignDataset extends JRBaseDataset
 	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_SCRIPTLET = "design.dataset.duplicate.scriptlet";
 	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_SORT_FIELD = "design.dataset.duplicate.sort.field";
 	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_VARIABLE = "design.dataset.duplicate.variable";
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_BUILTIN_PARAMETER_TYPE = "design.dataset.unknown.builtin.parameter.type";
 
 	public static final String PROPERTY_FIELDS = "fields";
 
@@ -366,9 +367,10 @@ public class JRDesignDataset extends JRBaseDataset
 			}
 			else
 			{
-				throw new JRRuntimeException("Unknown builtin parameter type " + parameterType 
-						+ " of class " + parameterType.getClass().getName()
-						+ ". Expecint java.lang.Class or java.lang.String");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNKNOWN_BUILTIN_PARAMETER_TYPE,
+						new Object[]{parameterType, parameterType.getClass().getName()});
 			}
 			
 			parameter.setSystemDefined(true);

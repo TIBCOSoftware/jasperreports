@@ -54,6 +54,8 @@ public final class GenericElementHandlerEnviroment
 
 	private static final Log log = LogFactory.getLog(
 			GenericElementHandlerEnviroment.class);
+	public static final String EXCEPTION_MESSAGE_KEY_HANDLERS_NOT_FOUND_FOR_NAMESPACE = 
+			"export.common.handlers.not.found.for.namespace";
 	
 	private final ReferenceMap handlersCache = new ReferenceMap(
 			ReferenceMap.WEAK, ReferenceMap.HARD);
@@ -112,9 +114,10 @@ public final class GenericElementHandlerEnviroment
 		GenericElementHandlerBundle bundle = handlerBundles.get(type.getNamespace());
 		if (bundle == null)
 		{
-			throw new JRRuntimeException(
-					"No generic element handlers found for namespace " 
-					+ type.getNamespace());
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_HANDLERS_NOT_FOUND_FOR_NAMESPACE,
+					new Object[]{type.getNamespace()});
 		}
 		return bundle.getHandler(type.getName(), exporterKey);
 	}
