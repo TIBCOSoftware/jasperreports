@@ -79,12 +79,12 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  */
 public class JRBaseChart extends JRBaseElement implements JRChart
 {
-
-
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String EXCEPTION_MESSAGE_KEY_CHART_TYPE_NOT_SUPPORTED = "charts.chart.type.not.supported";
 	
 	/*
 	 * Chart properties
@@ -271,7 +271,11 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
 			default:
-				throw new JRRuntimeException("Chart type not supported.");
+				throw 
+					new JRRuntimeException(
+						JRBaseChart.EXCEPTION_MESSAGE_KEY_CHART_TYPE_NOT_SUPPORTED,  
+						new Object[]{chartType} 
+						);
 		}
 
 		showLegend = chart.getShowLegend();

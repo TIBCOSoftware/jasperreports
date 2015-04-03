@@ -435,6 +435,7 @@ public class MultiAxisDataService
 	protected class DataSource implements MultiAxisDataSource
 	{
 		private final List<List<AxisLevel>> axisDataLevels;
+		public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_AXIS = "engine.analytics.dataset.unknown.axis";
 		
 		public DataSource()
 		{
@@ -471,7 +472,10 @@ public class MultiAxisDataService
 				rootChildren = bucketingService.getColumnRootChildren();
 				break;
 			default:
-				throw new JRRuntimeException("Unknown axis " + axis);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNKNOWN_AXIS,
+						new Object[]{axis});
 			}
 			
 			Bucket rootBucket = axisRoots[axis.ordinal()];
