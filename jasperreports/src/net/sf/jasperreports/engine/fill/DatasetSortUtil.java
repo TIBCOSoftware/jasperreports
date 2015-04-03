@@ -51,6 +51,8 @@ import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
  */
 public class DatasetSortUtil
 {
+	public static final String EXCEPTION_MESSAGE_KEY_SORT_FIELD_NOT_FOUND = "fill.dataset.sort.field.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_SORT_VARIABLE_NOT_FOUND = "fill.dataset.sort.variable.not.found";
 
 
 	/**
@@ -177,7 +179,10 @@ public class DatasetSortUtil
 					JRVariable variable = variablesMap.get(sortFieldName);
 					if (variable == null)
 					{
-						throw new JRRuntimeException("Sort variable \"" + sortFieldName + "\" not found in dataset.");
+						throw 
+							new JRRuntimeException(
+								EXCEPTION_MESSAGE_KEY_SORT_VARIABLE_NOT_FOUND,
+								new Object[]{sortFieldName});
 					}
 					
 					recordIndex = sortInfo.addRecordVariable(variable.getName());
@@ -188,7 +193,10 @@ public class DatasetSortUtil
 					JRField field = fieldsMap.get(sortFieldName);
 					if (field == null)
 					{
-						throw new JRRuntimeException("Sort field \"" + sortFieldName + "\" not found in dataset.");
+						throw 
+							new JRRuntimeException(
+								EXCEPTION_MESSAGE_KEY_SORT_FIELD_NOT_FOUND,
+								new Object[]{sortFieldName});
 					}
 					
 					recordIndex = fieldIndexMap.get(sortField.getName());

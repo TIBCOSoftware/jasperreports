@@ -94,6 +94,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	public static final String EXCEPTION_MESSAGE_KEY_CIRCULAR_DEPENDENCY_FOUND = "fill.base.filler.circular.dependency.found";
 	public static final String EXCEPTION_MESSAGE_KEY_EXTERNAL_STYLE_NAME_NOT_SET = "fill.base.filler.external.style.name.not.set";
 	public static final String EXCEPTION_MESSAGE_KEY_NO_SUCH_GROUP = "fill.base.filler.no.such.group";
+	public static final String EXCEPTION_MESSAGE_KEY_PAGE_HEADER_OVERFLOW_INFINITE_LOOP = "fill.common.filler.page.header.overflow.infinite.loop";
 	public static final String EXCEPTION_MESSAGE_KEY_UNSUPPORTED_REPORT_SECTION_TYPE = "fill.base.filler.unsupported.report.section.type";
 	
 	private static final int PAGE_HEIGHT_PAGINATION_IGNORED = 0x7d000000;//less than Integer.MAX_VALUE to avoid 

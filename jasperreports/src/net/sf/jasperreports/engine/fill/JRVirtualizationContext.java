@@ -65,6 +65,9 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String EXCEPTION_MESSAGE_KEY_RENDERER_NOT_FOUND_IN_CONTEXT = "fill.virtualizer.renderer.not.found.in.context";
+	public static final String EXCEPTION_MESSAGE_KEY_TEMPLATE_NOT_FOUND_IN_CONTEXT = "fill.virtualizer.template.not.found.in.context";
+	
 	private static final Log log = LogFactory.getLog(JRVirtualizationContext.class);
 	
 	private static final ReferenceMap contexts = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.WEAK);
@@ -492,7 +495,10 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 			JRTemplateElement cachedTemplate = getCachedTemplate(template.getId());
 			if (cachedTemplate == null)
 			{
-				throw new JRRuntimeException("Template " + template.getId() + " not found in virtualization context.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_TEMPLATE_NOT_FOUND_IN_CONTEXT,
+						new Object[]{template.getId()});
 			}
 			resolve = cachedTemplate;
 		}
@@ -502,7 +508,10 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 			Renderable cachedRenderer = getCachedRenderer(renderer.getId());
 			if (cachedRenderer == null)
 			{
-				throw new JRRuntimeException("Renderer " + renderer.getId() + " not found in virtualization context.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_RENDERER_NOT_FOUND_IN_CONTEXT,
+						new Object[]{renderer.getId()});
 			}
 			resolve = cachedRenderer;
 		}

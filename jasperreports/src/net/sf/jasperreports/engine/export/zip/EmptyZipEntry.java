@@ -35,6 +35,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class EmptyZipEntry implements ExportZipEntry 
 {
+	public static final String EXCEPTION_MESSAGE_KEY_FORBIDDEN_METHOD_CALL = "export.zip.forbidden.method.call";
+
 	/**
 	 * 
 	 */
@@ -61,7 +63,10 @@ public class EmptyZipEntry implements ExportZipEntry
 	 */
 	public Writer getWriter()
 	{
-		throw new JRRuntimeException("This method should not be called on this type");
+		throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_FORBIDDEN_METHOD_CALL,
+				(Object[])null);
 	}
 	
 	/**
@@ -69,7 +74,10 @@ public class EmptyZipEntry implements ExportZipEntry
 	 */
 	public OutputStream getOutputStream()
 	{
-		throw new JRRuntimeException("This method should not be called on this type");
+		throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_FORBIDDEN_METHOD_CALL,
+				(Object[])null);
 	}
 	
 	/**

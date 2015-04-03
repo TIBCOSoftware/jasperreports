@@ -54,12 +54,12 @@ import net.sf.jasperreports.engine.virtualization.VirtualizationSerializable;
  */
 public class JRTemplatePrintElement implements JRPrintElement, Serializable, VirtualizationSerializable
 {
-
-
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String EXCEPTION_MESSAGE_KEY_TEMPLATE_NOT_FOUND = "fill.virtualizer.template.not.found";
 	
 	private static final int SERIALIZATION_FLAG_CACHED_TEMPLATE = 1;
 	private static final int SERIALIZATION_FLAG_HAS_UUID = 1 << 1;
@@ -553,7 +553,10 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 			template = virtualizationContext.getCachedTemplate(templateId);
 			if (template == null)
 			{
-				throw new JRRuntimeException("Did not find template with id " + templateId);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_TEMPLATE_NOT_FOUND,
+						new Object[]{templateId});
 			}
 		}
 		else
