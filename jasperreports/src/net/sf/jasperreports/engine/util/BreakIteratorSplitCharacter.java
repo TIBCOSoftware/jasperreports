@@ -116,6 +116,7 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 	
 	protected static class ArrayCharIterator implements CharacterIterator
 	{
+		public static final String EXCEPTION_MESSAGE_KEY_INVALID_INDEX = "util.array.char.iterator.invalid.index";
 
 		private char[] chars;
 		private int start;
@@ -152,7 +153,10 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 		{
 			if (position < start || position > end)
 			{
-				throw new JRRuntimeException("Invalid index " + position + " (start = " + start + ", end = " + end + ")");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_INVALID_INDEX,
+						new Object[]{position, start, end});
 			}
 			curr = position;
 			return current();

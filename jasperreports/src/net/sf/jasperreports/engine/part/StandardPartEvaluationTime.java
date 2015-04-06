@@ -35,6 +35,9 @@ import net.sf.jasperreports.engine.type.PartEvaluationTimeType;
 public class StandardPartEvaluationTime implements PartEvaluationTime, Serializable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;//FIXMEBOOK readObject to preserve constants
+	
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_EVALUATION_TYPE = "engine.part.invalid.evaluation.type";
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_SIMPLE_EVALUATION_TYPE = "engine.part.invalid.simple.evaluation.type";
 
 	public final static StandardPartEvaluationTime EVALUATION_NOW = new StandardPartEvaluationTime(PartEvaluationTimeType.NOW, null);
 	
@@ -45,7 +48,10 @@ public class StandardPartEvaluationTime implements PartEvaluationTime, Serializa
 		PartEvaluationTimeType type = PartEvaluationTimeType.byName(typeName);
 		if (type == null)
 		{
-			throw new JRRuntimeException("Invalid evaluation type " + typeName);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_INVALID_EVALUATION_TYPE,
+					new Object[]{typeName});
 		}
 		
 		StandardPartEvaluationTime evaluationTime;
@@ -59,7 +65,10 @@ public class StandardPartEvaluationTime implements PartEvaluationTime, Serializa
 			break;
 		case GROUP:
 		default:
-			throw new JRRuntimeException("Invalid simple evaluation type " + typeName);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_INVALID_SIMPLE_EVALUATION_TYPE,
+					new Object[]{typeName});
 		}
 		return evaluationTime;
 	}

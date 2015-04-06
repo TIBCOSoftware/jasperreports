@@ -167,7 +167,10 @@ public class StandardSubreportPartComponent implements Serializable, SubreportPa
 	{
 		if (this.parametersMap.containsKey(subreportParameter.getName()))
 		{
-			throw new JRException("Duplicate declaration of subreport parameter : " + subreportParameter.getName());
+			throw 
+			new JRException(
+				JRDesignSubreport.EXCEPTION_MESSAGE_KEY_DUPLICATE_PARAMETER,
+				new Object[]{subreportParameter.getName()});
 		}
 
 		this.parametersMap.put(subreportParameter.getName(), subreportParameter);

@@ -482,10 +482,8 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		{
 			throw 
 				new JRException(
-					"Language \"" + language 
-					+ "\" not supported by this report compiler.\n"
-					+ "Expecting \"java\" instead."
-					);
+					EXCEPTION_MESSAGE_KEY_EXPECTED_JAVA_LANGUAGE,
+					new Object[]{language, JRReport.LANGUAGE_JAVA});
 		}
 	}
 

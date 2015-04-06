@@ -346,7 +346,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_DUPLICATE_GROUP_OR_MEASURE,
-					new Object[]{});
+					(Object[])null);
 		}
 		
 		rowGroupsMap.put(groupName, Integer.valueOf(rowGroups.size()));
@@ -379,7 +379,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_DUPLICATE_GROUP_OR_MEASURE,
-					new Object[]{});
+					(Object[])null);
 		}
 		
 		rowGroupsMap.put(groupName, Integer.valueOf(rowGroups.size()));
@@ -430,7 +430,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_DUPLICATE_GROUP_OR_MEASURE,
-					new Object[]{});
+					(Object[])null);
 		}
 		
 		columnGroupsMap.put(groupName, Integer.valueOf(columnGroups.size()));
@@ -462,7 +462,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_DUPLICATE_GROUP_OR_MEASURE,
-					new Object[]{});
+					(Object[])null);
 		}
 		
 		columnGroupsMap.put(groupName, Integer.valueOf(columnGroups.size()));
@@ -510,7 +510,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_DUPLICATE_GROUP_OR_MEASURE,
-					new Object[]{});
+					(Object[])null);
 		}
 		
 		measure.addPropertyChangeListener(JRDesignCrosstabMeasure.PROPERTY_VALUE_CLASS, measureClassChangeListener);
@@ -540,7 +540,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_DUPLICATE_GROUP_OR_MEASURE,
-					new Object[]{});
+					(Object[])null);
 		}
 		
 		measure.addPropertyChangeListener(JRDesignCrosstabMeasure.PROPERTY_VALUE_CLASS, measureClassChangeListener);
@@ -925,7 +925,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_DUPLICATE_CELL,
-					new Object[]{});
+					(Object[])null);
 		}
 		
 		cellsMap.put(cellKey, cell);

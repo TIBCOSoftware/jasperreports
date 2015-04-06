@@ -90,6 +90,7 @@ public final class JRLoader
 	public static final String EXCEPTION_MESSAGE_KEY_OBJECT_FROM_FILE_LOADING_ERROR = "util.loader.object.from.file.loading.error";
 	public static final String EXCEPTION_MESSAGE_KEY_OBJECT_FROM_INPUT_STREAM_LOADING_ERROR = "util.loader.object.from.input.stream.loading.error";
 	public static final String EXCEPTION_MESSAGE_KEY_OBJECT_FROM_URL_LOADING_ERROR = "util.loader.object.from.url.loading.error";
+	public static final String EXCEPTION_MESSAGE_KEY_RESOURCE_NOT_FOUND = "util.loader.resource.not.found";
 	public static final String EXCEPTION_MESSAGE_KEY_URL_OPEN_ERROR = "util.loader.url.open.error";
 
 	/**
@@ -560,8 +561,10 @@ public final class JRLoader
 		{
 			return loadBytes(url);
 		}
-
-		throw new JRException("Resource '" + resourceName + "' not found.");
+		throw 
+			new JRException(
+				EXCEPTION_MESSAGE_KEY_RESOURCE_NOT_FOUND,
+				new Object[]{resourceName});
 	}
 		
 	

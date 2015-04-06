@@ -214,8 +214,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	public static final XmlNamespace JASPERREPORTS_NAMESPACE = 
 		new XmlNamespace(JRXmlConstants.JASPERREPORTS_NAMESPACE, null, JRXmlConstants.JASPERREPORT_XSD_SYSTEM_ID);
-	public static final String EXCEPTION_MESSAGE_KEY_OUTPUT_STREAM_WRITE_ERROR = "xml.writer.output.stream.write.error";
 	public static final String EXCEPTION_MESSAGE_KEY_FILE_WRITE_ERROR = "xml.writer.file.write.error";
+	public static final String EXCEPTION_MESSAGE_KEY_OUTPUT_STREAM_WRITE_ERROR = "xml.writer.output.stream.write.error";
+	public static final String EXCEPTION_MESSAGE_KEY_UNSUPPORTED_CHART_TYPE = "xml.writer.unsupported.chart.type";
 
 	/**
 	 *
@@ -2775,7 +2776,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 				writeGanttChart(chart);
 				break;
 			default:
-				throw new JRRuntimeException("Chart type not supported.");
+				throw 
+				new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNSUPPORTED_CHART_TYPE,
+						(Object[])null);
 		}
 	}
 

@@ -66,13 +66,16 @@ import net.sf.jasperreports.export.PdfExporterConfiguration;
 public class JRPdfaIccProfileNotFoundException extends JRRuntimeException
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
+	
+	public static final String EXCEPTION_MESSAGE_KEY_ICC_PROFILE_NOT_AVAILABLE = "util.icc.profile.not.available";
 
 	/**
 	 * 
 	 */
 	public JRPdfaIccProfileNotFoundException()
 	{
-		super("The ICC profile is not available to the JVM. See the Javadoc for more details.");
+		super(
+			EXCEPTION_MESSAGE_KEY_ICC_PROFILE_NOT_AVAILABLE,
+			(Object[])null);
 	}
 }

@@ -46,6 +46,8 @@ import net.sf.jasperreports.engine.JRVirtualizable;
  */
 public class JRGzipVirtualizer extends JRAbstractLRUVirtualizer
 {
+	public static final String EXCEPTION_MESSAGE_KEY_NO_DATA_FOUND = "fill.virtualizer.no.data.found";
+	
 	private final Map<String,byte[]> zippedData;
 
 	/**
@@ -95,7 +97,10 @@ public class JRGzipVirtualizer extends JRAbstractLRUVirtualizer
 		try {
 			byte[] data = zippedData.get(o.getUID());
 			if (data == null) {
-				throw new JRRuntimeException("No data found for object with UID " + o.getUID());
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_NO_DATA_FOUND,
+						new Object[]{o.getUID()});
 			}
 			ByteArrayInputStream bais = new ByteArrayInputStream(data);
 			gis = new GZIPInputStream(bais);

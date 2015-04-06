@@ -34,8 +34,13 @@ public class ExportInterruptedException extends JRException
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String EXCEPTION_MESSAGE_KEY_PROCESS_INTERRUPTED = "export.common.process.interrupted";
+	
 	public ExportInterruptedException() 
 	{
-		super("Report export process interrupted.");
+		super(
+			EXCEPTION_MESSAGE_KEY_PROCESS_INTERRUPTED,
+			(Object[])null
+			);
 	}
 }

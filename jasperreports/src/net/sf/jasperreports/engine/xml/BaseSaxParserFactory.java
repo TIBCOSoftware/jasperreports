@@ -63,6 +63,9 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 	
 	private static final Log log = LogFactory.getLog(BaseSaxParserFactory.class);
 	
+	public static final String EXCEPTION_MESSAGE_KEY_INCOMPATIBLE_CLASS = "xml.sax.parser.factory.incompatible.class";
+	public static final String EXCEPTION_MESSAGE_KEY_RESOURCE_NOT_FOUND = "xml.sax.parser.factory.resource.not.found";
+	
 	/**
 	 * A property that determines whether XML schemas/grammars are to be cached
 	 * so that they are not read/initialized each time a report is compiled.
@@ -167,7 +170,10 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 		URL location = JRLoader.getResource(resource);
 		if (location == null)
 		{
-			throw new JRRuntimeException("Could not find resource " + resource);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_RESOURCE_NOT_FOUND,
+					new Object[]{resource});
 		}
 		return location.toExternalForm();
 	}
@@ -252,7 +258,10 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 			Class<? extends JRSaxParserFactory> clazz = (Class<? extends JRSaxParserFactory>) JRClassLoader.loadClassForName(className);
 			if (!JRSaxParserFactory.class.isAssignableFrom(clazz))
 			{
-				throw new JRRuntimeException("Class " + className + " should be compatible with " + JRSaxParserFactory.class.getName() + ".");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_INCOMPATIBLE_CLASS,
+						new Object[]{className, JRSaxParserFactory.class.getName()});
 			}
 
 			try

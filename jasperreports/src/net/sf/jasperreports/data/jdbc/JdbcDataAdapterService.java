@@ -188,7 +188,7 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 		throw 
 			new JRException(
 				EXCEPTION_MESSAGE_KEY_PASSWORD_REQUIRED,
-				new Object[]{});
+				(Object[])null);
 	}
 
 	@Override

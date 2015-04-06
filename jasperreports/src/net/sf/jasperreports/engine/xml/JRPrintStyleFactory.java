@@ -45,7 +45,12 @@ public class JRPrintStyleFactory extends JRAbstractStyleFactory
 
 		if (!stylesMap.containsKey(parentStyleName))
 		{
-			printXmlLoader.addError(new JRRuntimeException("Unknown report style : " + parentStyleName));
+			printXmlLoader.addError(
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNKNOWN_REPORT_STYLE,
+					new Object[]{parentStyleName}
+				)
+			);
 		}
 		
 		JRStyle parent = stylesMap.get(parentStyleName);

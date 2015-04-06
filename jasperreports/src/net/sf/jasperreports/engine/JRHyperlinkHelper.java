@@ -34,7 +34,10 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
  */
 public final class JRHyperlinkHelper
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_TARGET_BYTE_CONSTANT_USED = "engine.hyperlink.target.byte.constant.used";
+	public static final String EXCEPTION_MESSAGE_KEY_TYPE_BYTE_CONSTANT_USED = "engine.hyperlink.type.byte.constant.used";
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_HYPERLINK_TARGET = "engine.hyperlink.unknown.hyperlink.target";
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_HYPERLINK_TYPE = "engine.hyperlink.unknown.hyperlink.type";
 	
 	/**
 	 * @deprecated Replaced by {@link #getHyperlinkTypeValue(JRHyperlink)}.
@@ -181,9 +184,15 @@ public final class JRHyperlinkHelper
 				type = hyperlinkType.getName();
 				break;
 			case CUSTOM:
-				throw new JRRuntimeException("Custom hyperlink types cannot be specified using the byte constant");
+				throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_TYPE_BYTE_CONSTANT_USED,
+					(Object[])null);
 			default:
-				throw new JRRuntimeException("Unknown hyperlink type " + hyperlinkType);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNKNOWN_HYPERLINK_TYPE,
+						new Object[]{hyperlinkType});
 		}
 		return type;
 	}
@@ -223,9 +232,15 @@ public final class JRHyperlinkHelper
 				target = HyperlinkTargetEnum.TOP.getName();
 				break;
 			case CUSTOM:
-				throw new JRRuntimeException("Custom hyperlink targets cannot be specified using the byte constant");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_TARGET_BYTE_CONSTANT_USED,
+						(Object[])null);
 			default:
-				throw new JRRuntimeException("Unknown hyperlink target " + hyperlinkTarget);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNKNOWN_HYPERLINK_TARGET,
+						new Object[]{hyperlinkTarget});
 		}
 		return target;
 	}

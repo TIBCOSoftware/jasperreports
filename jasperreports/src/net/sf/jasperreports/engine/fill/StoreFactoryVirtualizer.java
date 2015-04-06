@@ -40,6 +40,7 @@ import org.apache.commons.logging.LogFactory;
 public class StoreFactoryVirtualizer extends JRAbstractLRUVirtualizer
 {
 	private static final Log log = LogFactory.getLog(StoreFactoryVirtualizer.class);
+	public static final String EXCEPTION_MESSAGE_KEY_STORE_NOT_FOUND = "fill.virtualizer.store.not.found";
 	
 	private final VirtualizerStoreFactory storeFactory;
 	private final ReferenceMap contextStores;
@@ -105,7 +106,10 @@ public class StoreFactoryVirtualizer extends JRAbstractLRUVirtualizer
 		VirtualizerStore store = store(o, false);
 		if (store == null)
 		{
-			throw new JRRuntimeException("No store found for object " + o.getUID());
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_STORE_NOT_FOUND,
+					new Object[]{o.getUID()});
 		}
 		
 		store.retrieve(o, !isReadOnly(o), serializer);

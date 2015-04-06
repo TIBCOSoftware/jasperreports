@@ -82,6 +82,8 @@ import org.xml.sax.SAXException;
  */
 public class JRXmlLoader
 {
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_SUBDATASET = "xml.loader.unknown.subdataset";
+	public static final String EXCEPTION_MESSAGE_KEY_SUBDATASET_NOT_FOUND = "xml.loader.subdataset.not.found";
 
 	/**
 	 *
@@ -447,8 +449,10 @@ public class JRXmlLoader
 			JRDesignDataset dataset = (JRDesignDataset) jasperDesign.getDatasetMap().get(datasetName);
 			if (dataset == null)
 			{
-				throw new JRRuntimeException("Could not find subdataset of name \"" 
-						+ datasetName + "\"");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_SUBDATASET_NOT_FOUND,
+						new Object[]{datasetName});
 			}
 			
 			group = dataset.getGroupsMap().get(groupName);
@@ -479,7 +483,10 @@ public class JRXmlLoader
 				JRDesignDataset subDataset = (JRDesignDataset) datasetMap.get(datasetName);
 				if (subDataset == null)
 				{
-					throw new JRException("Unknown sub dataset '" + datasetName + "' for chart dataset.");
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_UNKNOWN_SUBDATASET,
+							new Object[]{datasetName});
 				}
 				groupsMap = subDataset.getGroupsMap();
 			}

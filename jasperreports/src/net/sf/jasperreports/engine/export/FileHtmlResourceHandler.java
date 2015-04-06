@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class FileHtmlResourceHandler implements HtmlResourceHandler 
 {
+	public static final String EXCEPTION_MESSAGE_KEY_RESOURCES_DIRECTORY_NOT_SPECIFIED = "export.html.resources.directory.not.specified";
 	/**
 	 * 
 	 */
@@ -110,7 +111,10 @@ public class FileHtmlResourceHandler implements HtmlResourceHandler
 	{
 		if (parentFolder == null)
 		{
-			throw new JRRuntimeException("The resources directory was not specified for the exporter.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_RESOURCES_DIRECTORY_NOT_SPECIFIED,
+					(Object[])null);
 		}
 
 		if (!parentFolder.exists())

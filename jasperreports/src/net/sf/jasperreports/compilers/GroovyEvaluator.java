@@ -56,6 +56,7 @@ public abstract class GroovyEvaluator extends JREvaluator implements JasperRepor
 {
 
 	private static final Log log = LogFactory.getLog(GroovyEvaluator.class);
+	public static final String EXCEPTION_MESSAGE_KEY_FUNCTION_NOT_FOUND = "compilers.groovy.function.not.found";
 	
 	private FunctionsUtil functionsUtil;
 	
@@ -72,7 +73,10 @@ public abstract class GroovyEvaluator extends JREvaluator implements JasperRepor
 		Method functionMethod = functionsUtil.getMethod4Function(methodName);
 		if (functionMethod == null)
 		{
-			throw new JRRuntimeException("Function " + methodName + " not found");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_FUNCTION_NOT_FOUND,
+					new Object[]{methodName});
 		}
 
 		// we're relying on this, if we'll ever resolve functions to methods 

@@ -41,6 +41,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public abstract class JRSqlAbstractEqualClause implements JRClauseFunction
 {
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_EQUAL_CLAUSE_DB_COLUMN_TOKEN_MISSING = "query.equal.clause.db.column.token.missing";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_EQUAL_CLAUSE_PARAMETER_TOKEN_MISSING = "query.equal.clause.parameter.token.missing";
 	
 	public static final int POSITION_DB_COLUMN = 1;
 	public static final int POSITION_PARAMETER = 2;
@@ -75,12 +77,18 @@ public abstract class JRSqlAbstractEqualClause implements JRClauseFunction
 		
 		if (col == null)
 		{
-			throw new JRRuntimeException("SQL EQUAL clause missing DB column token");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_EQUAL_CLAUSE_DB_COLUMN_TOKEN_MISSING,
+					(Object[])null);
 		}
 		
 		if (param == null)
 		{
-			throw new JRRuntimeException("SQL EQUAL clause missing parameter token");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_EQUAL_CLAUSE_PARAMETER_TOKEN_MISSING,
+					(Object[])null);
 		}
 		
 		StringBuffer sbuffer = queryContext.queryBuffer();

@@ -42,6 +42,8 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 {
 	
 	private static final Log log = LogFactory.getLog(ColumnDataSnapshot.class);
+	
+	public static final String EXCEPTION_MESSAGE_KEY_SNAPSHOT_CANNOT_BE_PERSISTED = "data.cache.snapshot.cannot.be.persisted";
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
@@ -58,7 +60,10 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 	{
 		if (!persistable)
 		{
-			throw new JRRuntimeException("The data snapshot is not persistable");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_SNAPSHOT_CANNOT_BE_PERSISTED,
+					(Object[])null);
 		}
 		
 		out.defaultWriteObject();

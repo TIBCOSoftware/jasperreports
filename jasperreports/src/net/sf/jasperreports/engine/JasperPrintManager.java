@@ -122,7 +122,7 @@ public final class JasperPrintManager
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_NO_AVAILABLE_PRINTER,
-					new Object[]{});
+					(Object[])null);
 		}
 		//END - artf1936
 		

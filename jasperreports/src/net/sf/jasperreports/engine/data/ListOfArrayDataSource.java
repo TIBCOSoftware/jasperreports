@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class ListOfArrayDataSource implements JRRewindableDataSource
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_FIELD_NOT_FOUND = "data.array.list.field.not.found";
 
 	/**
 	 *
@@ -99,7 +99,10 @@ public class ListOfArrayDataSource implements JRRewindableDataSource
 
 		if (fieldIndex == null)
 		{
-			throw new JRRuntimeException("Field \"" + jrField.getName() + "\" not found in data source.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_FIELD_NOT_FOUND,
+					new Object[]{jrField.getName()});
 		}
 
 		return currentRecord[fieldIndex.intValue()];

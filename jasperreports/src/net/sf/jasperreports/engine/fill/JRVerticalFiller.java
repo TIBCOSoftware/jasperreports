@@ -410,7 +410,10 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			if (!filled)
 			{
-				throw new JRRuntimeException("Infinite loop creating new page due to page header overflow.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_PAGE_HEADER_OVERFLOW_INFINITE_LOOP,
+						(Object[])null);
 			}
 		}
 

@@ -48,6 +48,8 @@ public enum BucketOrder implements NamedEnum
 	NONE("None");
 
 	private final transient String name;
+	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_TRANSLATE_NONE = "engine.analytics.dataset.cannot.translate.none";
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_ORDER_ENUM = "engine.analytics.dataset.unknown.order.enum";
 
 	private BucketOrder(String name)
 	{
@@ -78,10 +80,16 @@ public enum BucketOrder implements NamedEnum
 				sortOrder = SortOrderEnum.DESCENDING;
 				break;
 			case NONE:
-				throw new JRRuntimeException("Cannot translate NONE to SortOrderEnum");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_CANNOT_TRANSLATE_NONE,
+						(Object[])null);
 			default:
 				// should not happen
-				throw new JRRuntimeException("Unknown order enum " + order);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNKNOWN_ORDER_ENUM,
+						new Object[]{order});
 			}
 		}
 		return sortOrder;
@@ -106,7 +114,10 @@ public enum BucketOrder implements NamedEnum
 				break;
 			default:
 				// should not happen
-				throw new JRRuntimeException("Unknown order enum " + orderValue);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNKNOWN_ORDER_ENUM,
+						new Object[]{orderValue});
 			}
 		}
 		return order;

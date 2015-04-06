@@ -81,6 +81,7 @@ import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.RtfExporterConfiguration;
 import net.sf.jasperreports.export.RtfReportConfiguration;
@@ -320,10 +321,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 					if (Thread.interrupted())
 					{
 						throw 
-							new JRException(
-								EXCEPTION_MESSAGE_KEY_EXPORT_THREAD_INTERRUPTED,  
-								(Object[])null 
-								);
+							new ExportInterruptedException();
 					}
 
 					JRPrintPage page = pages.get(pageIndex);

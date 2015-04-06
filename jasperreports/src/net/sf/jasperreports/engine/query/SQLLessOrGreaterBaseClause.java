@@ -31,6 +31,9 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public abstract class SQLLessOrGreaterBaseClause implements JRClauseFunction
 {
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_LESS_GREATER_CLAUSE_DB_COLUMN_TOKEN_MISSING = "query.less.greater.clause.db.column.token.missing";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_LESS_GREATER_CLAUSE_NAME_TOKEN_MISSING = "query.less.greater.clause.name.token.missing";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_LESS_GREATER_CLAUSE_PARAMETER_TOKEN_MISSING = "query.less.greater.clause.parameter.token.missing";
 	
 	protected static final int POSITION_CLAUSE_ID = 0;
 	protected static final int POSITION_DB_COLUMN = 1;
@@ -78,17 +81,26 @@ public abstract class SQLLessOrGreaterBaseClause implements JRClauseFunction
 
 		if (clauseId == null)
 		{
-			throw new JRRuntimeException("Missing clause name token");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_LESS_GREATER_CLAUSE_NAME_TOKEN_MISSING,
+					(Object[])null);
 		}
 		
 		if (col == null)
 		{
-			throw new JRRuntimeException("SQL LESS/GREATER clause missing DB column token");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_LESS_GREATER_CLAUSE_DB_COLUMN_TOKEN_MISSING,
+					(Object[])null);
 		}
 		
 		if (param == null)
 		{
-			throw new JRRuntimeException("SQL LESS/GREATER clause missing parameter token");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_LESS_GREATER_CLAUSE_PARAMETER_TOKEN_MISSING,
+					(Object[])null);
 		}
 
 		

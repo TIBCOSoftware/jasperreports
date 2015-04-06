@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.base.JRBaseExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.engine.util.JRExpressionUtil;
 
 
 /**
@@ -421,7 +422,10 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 		}
 		else
 		{
-			throw new JRRuntimeException("Unknown expression chunk type \"" + chunkStringType + "\"");
+			throw 
+				new JRRuntimeException(
+					JRExpressionUtil.EXCEPTION_MESSAGE_KEY_UNKNOWN_EXPRESSION_CHUNK_TYPE,
+					new Object[]{chunkStringType});
 		}
 		return chunkType;
 	}

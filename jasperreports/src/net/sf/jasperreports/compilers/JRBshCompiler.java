@@ -84,7 +84,7 @@ public class JRBshCompiler extends JRAbstractCompiler
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_LANGUAGE_NOT_SUPPORTED,
-					new Object[]{language});
+					new Object[]{language, LANGUAGE_BSH, JRReport.LANGUAGE_JAVA});
 		}
 	}
 

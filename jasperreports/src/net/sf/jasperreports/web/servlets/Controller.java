@@ -50,6 +50,7 @@ import org.apache.commons.logging.LogFactory;
 public class Controller
 {
 	private static final Log log = LogFactory.getLog(Controller.class);
+	public static final String EXCEPTION_MESSAGE_KEY_REPORT_NOT_FOUND = "web.servlets.controller.report.not.found";
 
 	/**
 	 *
@@ -108,7 +109,10 @@ public class Controller
 
 		if (jasperReport == null)
 		{
-			throw new JRException("Report not found at : " + reportUri);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_REPORT_NOT_FOUND,
+					new Object[]{reportUri});
 		}
 		
 		Boolean async = (Boolean)webReportContext.getParameterValue(WebUtil.REQUEST_PARAMETER_ASYNC_REPORT);

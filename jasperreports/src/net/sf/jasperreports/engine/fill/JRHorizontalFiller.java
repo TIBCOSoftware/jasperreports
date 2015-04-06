@@ -423,7 +423,10 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			if (!filled)
 			{
-				throw new JRRuntimeException("Infinite loop creating new page due to page header overflow.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_PAGE_HEADER_OVERFLOW_INFINITE_LOOP,
+						(Object[])null);
 			}
 		}
 
@@ -509,7 +512,10 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				if (!fits)
 				{
-					throw new JRRuntimeException("Infinite loop creating new page due to column header size.");
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_COLUMN_HEADER_OVERFLOW_INFINITE_LOOP,
+							(Object[])null);
 				}
 
 				setOffsetX();

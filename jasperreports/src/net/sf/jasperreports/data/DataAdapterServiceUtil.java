@@ -36,7 +36,8 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  */
 public final class DataAdapterServiceUtil
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_SERVICE_FACTORY_NOT_REGISTERED = "data.adapter.service.factory.not.registered";
+	
 	private JasperReportsContext jasperReportsContext;
 
 
@@ -83,7 +84,10 @@ public final class DataAdapterServiceUtil
 				return service;
 			}
 		}
-		throw new JRRuntimeException("No data adapter service factory registered for the '" + dataAdapter.getName() + "' data adapter.");
+		throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_SERVICE_FACTORY_NOT_REGISTERED,
+				new Object[]{dataAdapter.getName()});
 	}
   
 	/**

@@ -60,6 +60,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class ElementKeyExporterFilter implements ExporterFilter
 {
+	public static final String EXCEPTION_MESSAGE_KEY_EXCLUDED_NULL_KEYS_SET = "export.filter.excluded.null.keys.set";
 	
 	private final Set<String> excludedKeys;
 	
@@ -72,7 +73,10 @@ public class ElementKeyExporterFilter implements ExporterFilter
 	{
 		if (excludedKeys == null)
 		{
-			throw new JRRuntimeException("The excluded keys set is null");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_EXCLUDED_NULL_KEYS_SET,
+					(Object[])null);
 		}
 		
 		this.excludedKeys = excludedKeys;

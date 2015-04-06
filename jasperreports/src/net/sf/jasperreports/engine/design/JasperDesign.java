@@ -118,6 +118,9 @@ public class JasperDesign extends JRBaseReport
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_DATASET = "design.duplicate.dataset";
+	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_REPORT_STYLE = "design.duplicate.report.style";
 
 	public static final String PROPERTY_BACKGROUND = "background";
 
@@ -684,7 +687,10 @@ public class JasperDesign extends JRBaseReport
 	{
 		if (stylesMap.containsKey(style.getName()))
 		{
-			throw new JRException("Duplicate declaration of report style : " + style.getName());
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DUPLICATE_REPORT_STYLE,
+					new Object[]{style.getName()});
 		}
 
 		stylesList.add(index, style);
@@ -1066,7 +1072,10 @@ public class JasperDesign extends JRBaseReport
 	{
 		if (datasetMap.containsKey(dataset.getName()))
 		{
-			throw new JRException("Duplicate declaration of dataset : " + dataset.getName());
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DUPLICATE_DATASET,
+					new Object[]{dataset.getName()});
 		}
 
 		datasetList.add(index, dataset);

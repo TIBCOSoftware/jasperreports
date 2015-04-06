@@ -82,6 +82,8 @@ public final class JRPercentageCalculatorFactory
 	 */
 	public static JRPercentageCalculator getPercentageCalculator(Class<?> percentageCalculatorClass, Class<?> valueClass)
 	{
+		final String EXCEPTION_MESSAGE_KEY_PERCENTAGE_CALCULATOR_CLASS_NOT_SPECIFIED = "crosstabs.percentage.calculator.class.not.specified";
+
 		JRPercentageCalculator calculator;
 
 		if (percentageCalculatorClass == null)
@@ -89,7 +91,10 @@ public final class JRPercentageCalculatorFactory
 			calculator = builtInCalculators.get(valueClass.getName());
 			if (calculator == null)
 			{
-				throw new JRRuntimeException("Measure with type " + valueClass.getName() + " should specify a percentage calculator class.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_PERCENTAGE_CALCULATOR_CLASS_NOT_SPECIFIED,
+						new Object[]{valueClass.getName()});
 			}
 		}
 		else

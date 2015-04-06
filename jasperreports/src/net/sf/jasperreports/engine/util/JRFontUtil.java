@@ -313,7 +313,10 @@ public final class JRFontUtil
 				awtFont = face.getFont();
 				if (awtFont == null)
 				{
-					throw new JRRuntimeException("The '" + face.getName() + "' font face in family '" + family.getName() + "' returns a null font.");
+					throw 
+						new JRRuntimeException(
+							FontUtil.EXCEPTION_MESSAGE_KEY_NULL_FONT,
+							new Object[]{face.getName(), family.getName()});
 				}
 
 				awtFont = awtFont.deriveFont((float)size);

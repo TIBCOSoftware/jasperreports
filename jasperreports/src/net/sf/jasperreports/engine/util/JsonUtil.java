@@ -51,6 +51,8 @@ public class JsonUtil {
 	
 	private static final Log log = LogFactory.getLog(JsonUtil.class);
 	
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_OPERATOR = "util.json.unknown.operator";
+	
 	public static boolean evaluateJsonExpression(JsonNode contextNode, String attributeExpression) throws JRException {
 		
 		if (attributeExpression == null) {
@@ -77,7 +79,10 @@ public class JsonUtil {
 			for (JsonOperatorEnum op: JsonOperatorEnum.values()) {
 				possibleOperations.append(op.getValue()).append(",");
 			}
-			throw new JRException("Unknown operator in expression: " + attributeExpression + "; Operator must be one of: " + possibleOperations);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_UNKNOWN_OPERATOR,
+					new Object[]{attributeExpression, possibleOperations});
 		}
 		
 		if (attribute != null && operator != null && value != null) {

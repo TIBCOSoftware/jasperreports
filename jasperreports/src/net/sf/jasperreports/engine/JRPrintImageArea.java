@@ -43,6 +43,12 @@ public class JRPrintImageArea implements Serializable
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String EXCEPTION_MESSAGE_KEY_CIRCLE_COORDINATES_ERROR = "engine.print.image.area.circle.coordinates.error";
+	public static final String EXCEPTION_MESSAGE_KEY_POLYGON_COORDINATES_ERROR = "engine.print.image.area.polygon.coordinates.error";
+	public static final String EXCEPTION_MESSAGE_KEY_RECTANGLE_COORDINATES_ERROR = "engine.print.image.area.rectangle.coordinates.error";
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_HTML_SHAPE = "engine.print.image.area.unknown.html.shape";
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_SHAPE = "engine.print.image.area.unknown.shape";
+	
 	public final static byte SHAPE_DEFAULT = 0;
 	public final static byte SHAPE_RECTANGLE = 1;
 	public final static byte SHAPE_CIRCLE = 2;
@@ -76,7 +82,10 @@ public class JRPrintImageArea implements Serializable
 		Byte shape = htmlShapes.get(htmlShape.toLowerCase());
 		if (shape == null)
 		{
-			throw new JRRuntimeException("Unknown HTML image area shape \"" + htmlShape + "\"");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNKNOWN_HTML_SHAPE,
+					new Object[]{htmlShape});
 		}
 		return shape.byteValue();
 	}
@@ -106,7 +115,10 @@ public class JRPrintImageArea implements Serializable
 				htmlShape = SHAPE_HTML_POLYGON;
 				break;
 			default:
-				throw new JRRuntimeException("Unknown image area shape " + shape + "");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNKNOWN_SHAPE,
+						new Object[]{shape});
 		}
 		return htmlShape;
 	}
@@ -238,7 +250,10 @@ public class JRPrintImageArea implements Serializable
 	{
 		if (coordinates == null || coordinates.length != 4)
 		{
-			throw new JRRuntimeException("A rectangle must have exactly 4 coordinates");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_RECTANGLE_COORDINATES_ERROR,
+					(Object[])null);
 		}
 		
 		return new Rectangle(
@@ -253,7 +268,10 @@ public class JRPrintImageArea implements Serializable
 	{
 		if (coordinates == null || coordinates.length != 3)
 		{
-			throw new JRRuntimeException("A circle must have exactly 4 coordinates");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CIRCLE_COORDINATES_ERROR,
+					(Object[])null);
 		}
 		
 		return new Ellipse2D.Float(coordinates[0], coordinates[1], coordinates[2], coordinates[2]);
@@ -264,7 +282,10 @@ public class JRPrintImageArea implements Serializable
 	{
 		if (coordinates == null || coordinates.length == 0 || coordinates.length % 2 != 0)
 		{
-			throw new JRRuntimeException("A polygon must have an even number of coordinates");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_POLYGON_COORDINATES_ERROR,
+					(Object[])null);
 		}
 		
 		Polygon polygon = new Polygon();

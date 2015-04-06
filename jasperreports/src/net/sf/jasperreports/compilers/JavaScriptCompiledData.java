@@ -40,6 +40,7 @@ public class JavaScriptCompiledData implements Serializable
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	public static final String EXCEPTION_MESSAGE_KEY_TOO_MANY_EXPRESSIONs = "compilers.javascript.too.many.expressions";
 	
 	protected static class ExpressionIndexes implements Serializable
 	{
@@ -100,7 +101,10 @@ public class JavaScriptCompiledData implements Serializable
 	{
 		if (scriptIndex > 0x7fff || expressionId > 0x7fff)
 		{
-			throw new JRRuntimeException("Too many expressions in report");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_TOO_MANY_EXPRESSIONs,
+					(Object[])null);
 		}
 		
 		return ((scriptIndex & 0x7fff) << 16) | (expressionId & 0x7fff);
@@ -135,12 +139,18 @@ public class JavaScriptCompiledData implements Serializable
 	{
 		if (id >= expressionIndexes.size())
 		{
-			throw new JRRuntimeException("No expression for id " + id);
+			throw 
+				new JRRuntimeException(
+					JavaScriptCompileData.EXCEPTION_MESSAGE_KEY_EXPRESSION_NOT_FOUND,
+					new Object[]{id});
 		}
 		ExpressionIndexes expr = expressionIndexes.get(id);
 		if (expr == null)
 		{
-			throw new JRRuntimeException("No expression for id " + id);
+			throw 
+				new JRRuntimeException(
+					JavaScriptCompileData.EXCEPTION_MESSAGE_KEY_EXPRESSION_NOT_FOUND,
+					new Object[]{id});
 		}
 		return expr;
 	}

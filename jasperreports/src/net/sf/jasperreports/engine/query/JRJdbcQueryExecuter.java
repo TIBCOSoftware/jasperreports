@@ -64,9 +64,11 @@ import org.apache.commons.logging.LogFactory;
 public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 {
 	private static final Log log = LogFactory.getLog(JRJdbcQueryExecuter.class);
+	public static final String EXCEPTION_MESSAGE_KEY_MULTI_PARAMETERS_CANNOT_CONTAIN_NULL_VALUES = "query.multi.parameters.cannot.contain.null.values";
 	public static final String EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_CANCEL_ERROR = "query.statement.cancel.error";
 	public static final String EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_EXECUTE_ERROR = "query.statement.execute.error";
 	public static final String EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_PREPARE_ERROR = "query.statement.prepare.error";
+	public static final String EXCEPTION_MESSAGE_KEY_UNEXPECTED_MULTI_PARAMETER_TYPE = "query.unexpected.multi.parameter.type";
 
 	public static final String CANONICAL_LANGUAGE = "SQL";
 	
@@ -472,7 +474,10 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		}
 		else
 		{
-			throw new JRRuntimeException("Multi parameter value is not array nor collection.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNEXPECTED_MULTI_PARAMETER_TYPE,
+					(Object[])null);
 		}
 		return index;
 	}
@@ -483,7 +488,10 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	{
 		if (value == null)
 		{
-			throw new JRRuntimeException("Multi parameters cannot contain null values.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_MULTI_PARAMETERS_CANNOT_CONTAIN_NULL_VALUES,
+					(Object[])null);
 		}
 		
 		Class<?> type = value.getClass();

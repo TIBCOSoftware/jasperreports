@@ -57,6 +57,8 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_PARAMETER = "design.subreport.duplicate.parameter";
+	
 	public static final String PROPERTY_CONNECTION_EXPRESSION = "connectionExpression";
 	
 	public static final String PROPERTY_DATASOURCE_EXPRESSION = "dataSourceExpression";
@@ -176,7 +178,10 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	{
 		if (this.parametersMap.containsKey(subreportParameter.getName()))
 		{
-			throw new JRException("Duplicate declaration of subreport parameter : " + subreportParameter.getName());
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DUPLICATE_PARAMETER,
+					new Object[]{subreportParameter.getName()});
 		}
 
 		this.parametersMap.put(subreportParameter.getName(), subreportParameter);

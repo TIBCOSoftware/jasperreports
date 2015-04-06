@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class SerializationUtils
 {
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_INT_BYTE_READ = "engine.virtualization.utils.invalid.int.byte.read";
 
 	public static void writeIntCompressed(ObjectOutput out, int value)
 			throws IOException
@@ -107,7 +108,10 @@ public class SerializationUtils
 		if (b1 != 0xF0)
 		{
 			// should not happen
-			throw new JRRuntimeException("Invalid int byte read " + Integer.toHexString(b1));
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_INVALID_INT_BYTE_READ,
+					new Object[]{Integer.toHexString(b1)});
 		}
 		
 		int b2 = in.readUnsignedByte();

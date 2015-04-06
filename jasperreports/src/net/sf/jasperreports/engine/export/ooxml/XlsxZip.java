@@ -43,7 +43,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  */
 public class XlsxZip extends FileBufferedZip
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_MACRO_TEMPLATE_NOT_FOUND = "export.xlsx.macro.template.not.found";
 	/**
 	 * 
 	 */
@@ -189,7 +189,10 @@ public class XlsxZip extends FileBufferedZip
 			templateIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(template);
 			if (templateIs == null)
 			{
-				throw new JRRuntimeException("Macro template not found at : " + template);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_MACRO_TEMPLATE_NOT_FOUND,
+						new Object[]{template});
 			}
 			else
 			{

@@ -38,7 +38,8 @@ import net.sourceforge.barbecue.linear.ean.UCCEAN128Barcode;
  */
 public final class BarcodeProviders
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_BARCODE_PROVIDER_NOT_FOUND = "components.barbecue.barcode.provider.not.found";
+	
 	private static Map<String, BarcodeProvider> providers;
 
 	private static synchronized void initProviders()
@@ -98,8 +99,10 @@ public final class BarcodeProviders
 				barcodeInfo.getType());
 		if (provider == null)
 		{
-			throw new JRRuntimeException("No barcode provider for type " 
-					+ barcodeInfo.getType());
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_BARCODE_PROVIDER_NOT_FOUND,
+					new Object[]{barcodeInfo.getType()});
 		}
 		try
 		{

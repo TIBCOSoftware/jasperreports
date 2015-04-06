@@ -42,6 +42,7 @@ public class TableReportContextXmlRule extends Rule
 {
 
 	private static final Log log = LogFactory.getLog(TableReportContextXmlRule.class);
+	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_LOCATE_OBJECT = "components.table.cannot.locate.object";
 	
 	@Override
 	public void begin(String namespace, String name, Attributes attributes)
@@ -95,7 +96,10 @@ public class TableReportContextXmlRule extends Rule
 		
 		if (table == null)
 		{
-			throw new JRRuntimeException("Could not locate TableComponent object on the digester stack");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_LOCATE_OBJECT,
+					(Object[])null);
 		}
 		
 		return table;
