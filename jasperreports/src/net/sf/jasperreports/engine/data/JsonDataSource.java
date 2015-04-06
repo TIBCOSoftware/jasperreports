@@ -25,9 +25,7 @@ package net.sf.jasperreports.engine.data;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -39,14 +37,10 @@ import java.util.StringTokenizer;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JsonUtil;
-import net.sf.jasperreports.repo.RepositoryUtil;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -57,7 +51,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class JsonDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource {
+public class JsonDataSource extends JRAbstractTextDataSource implements JsonData {
 
 	public static final String EXCEPTION_MESSAGE_KEY_JSON_FIELD_VALUE_NOT_RETRIEVED = "data.json.field.value.not.retrieved";
 
@@ -84,32 +78,21 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 	
 	private ObjectMapper mapper;
 	
-	private InputStream jsonStream;
-	
-	private boolean toClose;
-	
 	public JsonDataSource(InputStream stream) throws JRException {
 		this(stream, null);
 	}
 	
 	public JsonDataSource(InputStream jsonStream, String selectExpression) throws JRException {
-		try {
-			this.jsonStream = jsonStream;
-			this.mapper = new ObjectMapper();
-			
-			mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-			mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-			mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
-			
-			this.jsonTree = mapper.readTree(jsonStream);
-			this.selectExpression = selectExpression;
-			
-			moveFirst();
-		} catch (JsonProcessingException e) {
-			throw new JRException(e);
-		} catch (IOException e) {
-			throw new JRException(e);
-		}
+		this(JsonUtil.parseJson(jsonStream), selectExpression);
+	}
+	
+	protected JsonDataSource(JsonNode jsonTree, String selectExpression) throws JRException {
+		this.mapper = JsonUtil.createObjectMapper();
+		
+		this.jsonTree = jsonTree;
+		this.selectExpression = selectExpression;
+		
+		moveFirst();
 	}
 
 
@@ -119,9 +102,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 	
 
 	public JsonDataSource(File file, String selectExpression) throws FileNotFoundException, JRException {
-		this(new FileInputStream(file), selectExpression);
-		
-		toClose = true;
+		this(JsonUtil.parseJson(file), selectExpression);
 	}
 
 	/**
@@ -132,9 +113,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 	 */
 	public JsonDataSource(JasperReportsContext jasperReportsContext, String location, String selectExpression) throws JRException 
 	{
-		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(location), selectExpression);
-		
-		toClose = true;
+		this(JsonUtil.parseJson(jasperReportsContext, location), selectExpression);
 	}
 
 	/**
@@ -439,6 +418,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 	 * @return the JSON sub data source
 	 * @throws JRException
 	 */
+	@Override
 	public JsonDataSource subDataSource() throws JRException {
 		return subDataSource(null);
 	}
@@ -453,6 +433,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 	 * @return the JSON sub data source
 	 * @throws JRException
 	 */
+	@Override
 	public JsonDataSource subDataSource(String selectExpression) throws JRException {
 		if(currentJsonNode == null)
 		{
@@ -470,14 +451,12 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 	}
 
 
+	/**
+	 * @deprecated no longer required
+	 */
+	@Deprecated
 	public void close() {
-		if (toClose) {
-			try	{
-				jsonStream.close();
-			} catch(Exception e) {
-				//nothing to do
-			}
-		}
+		//NOP
 	}
 
 }

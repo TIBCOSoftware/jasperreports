@@ -35,7 +35,7 @@ import java.util.TimeZone;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.FormatUtils;
-import net.sf.jasperreports.engine.util.JRDataUtils;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRDateLocaleConverter;
 import net.sf.jasperreports.engine.util.JRFloatLocaleConverter;
 
@@ -52,10 +52,12 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 	
 	private LocaleConvertUtilsBean convertBean;
 	
-	private Locale locale;
-	private String datePattern;
-	private String numberPattern;
-	private TimeZone timeZone;
+	private TextDataSourceAttributes textAttributes;
+	
+	protected JRAbstractTextDataSource()
+	{
+		this.textAttributes = new TextDataSourceAttributes();
+	}
 
 	protected Object convertStringValue(String text, Class<?> valueClass)
 	{
@@ -66,11 +68,13 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 		}
 		else if (Number.class.isAssignableFrom(valueClass))
 		{
-			value = getConvertBean().convert(text.trim(), valueClass, locale, numberPattern);
+			value = getConvertBean().convert(text.trim(), valueClass, 
+					textAttributes.getLocale(), textAttributes.getNumberPattern());
 		}
 		else if (Date.class.isAssignableFrom(valueClass))
 		{
-			value = getConvertBean().convert(text.trim(), valueClass, locale, datePattern);
+			value = getConvertBean().convert(text.trim(), valueClass, 
+					textAttributes.getLocale(), textAttributes.getDatePattern());
 		}
 		else if (Boolean.class.equals(valueClass))
 		{
@@ -142,6 +146,7 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 		if (convertBean == null)
 		{
 			convertBean = new LocaleConvertUtilsBean();
+			Locale locale = textAttributes.getLocale();
 			if (locale != null)
 			{
 				convertBean.setDefaultLocale(locale);
@@ -149,7 +154,7 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 				//convertBean.lookup();
 			}
 			convertBean.register(
-				new JRDateLocaleConverter(timeZone), 
+				new JRDateLocaleConverter(textAttributes.getTimeZone()), 
 				java.util.Date.class,
 				locale
 				);
@@ -171,54 +176,63 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 	 */
 	public void setTextAttributes(JRAbstractTextDataSource textDataSource)
 	{
-		setLocale(textDataSource.getLocale());
-		setDatePattern(textDataSource.getDatePattern());
-		setNumberPattern(textDataSource.getNumberPattern());
-		setTimeZone(textDataSource.getTimeZone());
+		setTextAttributes(textDataSource.getTextAttributes());
+	}
+	
+	public TextDataSourceAttributes getTextAttributes()
+	{
+		return textAttributes;
+	}
+	
+	public void setTextAttributes(TextDataSourceAttributes attributes)
+	{
+		this.textAttributes = JRCloneUtils.nullSafeClone(attributes);
 	}
 	
 	public Locale getLocale() {
-		return locale;
+		return textAttributes.getLocale();
 	}
 
 	public void setLocale(Locale locale) {
-		this.locale = locale;
+		textAttributes.setLocale(locale);
 		convertBean = null;
 	}
 	
 	public void setLocale(String locale) {
-		setLocale(JRDataUtils.getLocale(locale));
+		textAttributes.setLocale(locale);
+		convertBean = null;
 	}
 
 	public String getDatePattern() {
-		return datePattern;
+		return textAttributes.getDatePattern();
 	}
 
 	public void setDatePattern(String datePattern) {
-		this.datePattern = datePattern;
+		textAttributes.setDatePattern(datePattern);
 		convertBean = null;
 	}
 
 	public String getNumberPattern() {
-		return numberPattern;
+		return textAttributes.getNumberPattern();
 	}
 
 	public void setNumberPattern(String numberPattern) {
-		this.numberPattern = numberPattern;
+		textAttributes.setNumberPattern(numberPattern);
 		convertBean = null;
 	}
 
 	public TimeZone getTimeZone() {
-		return timeZone;
+		return textAttributes.getTimeZone();
 	}
 
 	public void setTimeZone(TimeZone timeZone) {
-		this.timeZone = timeZone;
+		textAttributes.setTimeZone(timeZone);
 		convertBean = null;
 	}
 	
 	public void setTimeZone(String timeZoneId){
-		setTimeZone(JRDataUtils.getTimeZone(timeZoneId));
+		textAttributes.setTimeZone(timeZoneId);
+		convertBean = null;
 	}
 	
 }

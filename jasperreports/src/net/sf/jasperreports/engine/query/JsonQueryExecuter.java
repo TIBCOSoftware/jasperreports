@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.query;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -34,7 +36,11 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.data.JsonData;
+import net.sf.jasperreports.engine.data.JsonDataCollection;
 import net.sf.jasperreports.engine.data.JsonDataSource;
+import net.sf.jasperreports.engine.data.JsonDataSourceProvider;
+import net.sf.jasperreports.engine.data.TextDataSourceAttributes;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,7 +56,7 @@ public class JsonQueryExecuter extends JRAbstractQueryExecuter
 
 	protected static final String CANONICAL_LANGUAGE = "JSON";
 	
-	private JsonDataSource datasource;
+	private JsonData datasource;
 	
 	/**
 	 * 
@@ -86,48 +92,34 @@ public class JsonQueryExecuter extends JRAbstractQueryExecuter
 
 	public JRDataSource createDatasource() throws JRException
 	{
+		TextDataSourceAttributes textAttributes = getTextAttributes();
+		
 		InputStream jsonInputStream = (InputStream) getParameterValue(JsonQueryExecuterFactory.JSON_INPUT_STREAM);
 		if (jsonInputStream != null) {
-			datasource = new JsonDataSource(jsonInputStream, getQueryString());
+			JsonDataSource jsonDatasource = new JsonDataSource(jsonInputStream, getQueryString());
+			jsonDatasource.setTextAttributes(textAttributes);
+			datasource = jsonDatasource;
 		} else {
 			String jsonSource = getStringParameterOrProperty(JsonQueryExecuterFactory.JSON_SOURCE);
 			if (jsonSource != null) {
-					datasource = new JsonDataSource(getJasperReportsContext(), jsonSource, getQueryString());
+				JsonDataSource jsonDatasource = new JsonDataSource(getJasperReportsContext(), jsonSource, getQueryString());
+				jsonDatasource.setTextAttributes(textAttributes);
+				datasource = jsonDatasource;
 			} else {
-				if (log.isWarnEnabled()) {
-					log.warn("No JSON source was provided.");
-				}
-			}
-		}
-		
-		if (datasource != null) {
-			String dateFormatPattern = getStringParameterOrProperty(JsonQueryExecuterFactory.JSON_DATE_PATTERN);
-			if(dateFormatPattern != null){
-				datasource.setDatePattern(dateFormatPattern);
-			}
-			
-			String numberFormatPattern = getStringParameterOrProperty(JsonQueryExecuterFactory.JSON_NUMBER_PATTERN);
-			if(numberFormatPattern != null){
-				datasource.setNumberPattern(numberFormatPattern);
-			}
-			
-			Locale jsonLocale = (Locale) getParameterValue(JsonQueryExecuterFactory.JSON_LOCALE, true);
-			if (jsonLocale != null) {
-				datasource.setLocale(jsonLocale);
-			} else {
-				String jsonLocaleCode = getStringParameterOrProperty(JsonQueryExecuterFactory.JSON_LOCALE_CODE);
-				if (jsonLocaleCode != null) {
-					datasource.setLocale(jsonLocaleCode);
-				}
-			}
-			
-			TimeZone jsonTimezone = (TimeZone) getParameterValue(JsonQueryExecuterFactory.JSON_TIME_ZONE, true);
-			if (jsonTimezone != null) {
-				datasource.setTimeZone(jsonTimezone);
-			} else {
-				String jsonTimezoneId = getStringParameterOrProperty(JsonQueryExecuterFactory.JSON_TIMEZONE_ID);
-				if (jsonTimezoneId != null) {
-					datasource.setTimeZone(jsonTimezoneId);
+				List<String> jsonSources = (List<String>) getParameterValue(JsonQueryExecuterFactory.JSON_SOURCES, true);
+				if (jsonSources != null) {
+					List<JsonDataSourceProvider> jsonProviders = 
+							new ArrayList<JsonDataSourceProvider>(jsonSources.size());
+					for (String source : jsonSources) {
+						JsonDataSourceProvider jsonProvider = new JsonDataSourceProvider(getJasperReportsContext(), 
+								source, getQueryString(), textAttributes);
+						jsonProviders.add(jsonProvider);
+					}
+					datasource = new JsonDataCollection<JsonDataSource>(jsonProviders);
+				} else {
+					if (log.isWarnEnabled()) {
+						log.warn("No JSON source was provided.");
+					}
 				}
 			}
 		}
@@ -135,11 +127,45 @@ public class JsonQueryExecuter extends JRAbstractQueryExecuter
 		return datasource;
 	}
 
+	protected TextDataSourceAttributes getTextAttributes()
+	{
+		TextDataSourceAttributes attributes = new TextDataSourceAttributes();
+		String dateFormatPattern = getStringParameterOrProperty(JsonQueryExecuterFactory.JSON_DATE_PATTERN);
+		if(dateFormatPattern != null){
+			attributes.setDatePattern(dateFormatPattern);
+		}
+		
+		String numberFormatPattern = getStringParameterOrProperty(JsonQueryExecuterFactory.JSON_NUMBER_PATTERN);
+		if(numberFormatPattern != null){
+			attributes.setNumberPattern(numberFormatPattern);
+		}
+		
+		Locale jsonLocale = (Locale) getParameterValue(JsonQueryExecuterFactory.JSON_LOCALE, true);
+		if (jsonLocale != null) {
+			attributes.setLocale(jsonLocale);
+		} else {
+			String jsonLocaleCode = getStringParameterOrProperty(JsonQueryExecuterFactory.JSON_LOCALE_CODE);
+			if (jsonLocaleCode != null) {
+				attributes.setLocale(jsonLocaleCode);
+			}
+		}
+		
+		TimeZone jsonTimezone = (TimeZone) getParameterValue(JsonQueryExecuterFactory.JSON_TIME_ZONE, true);
+		if (jsonTimezone != null) {
+			attributes.setTimeZone(jsonTimezone);
+		} else {
+			String jsonTimezoneId = getStringParameterOrProperty(JsonQueryExecuterFactory.JSON_TIMEZONE_ID);
+			if (jsonTimezoneId != null) {
+				attributes.setTimeZone(jsonTimezoneId);
+			}
+		}
+		
+		return attributes;
+	}
+
 	public void close()
 	{
-		if(datasource != null){
-			datasource.close();
-		}
+		//NOP
 	}
 
 	public boolean cancelQuery() throws JRException

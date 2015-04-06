@@ -58,6 +58,9 @@ public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory
 	 */
 	public static final String JSON_SOURCE = JRPropertiesUtil.PROPERTY_PREFIX + "json.source";
 	
+	//FIXME javadoc
+	public static final String JSON_SOURCES = JRPropertiesUtil.PROPERTY_PREFIX + "json.sources";
+	
 	/**
 	 * Parameter holding the format pattern used to instantiate java.util.Date instances.
 	 */
@@ -93,6 +96,7 @@ public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory
 	private final static Object[] JSON_BUILTIN_PARAMETERS = {
 		JSON_INPUT_STREAM, "java.io.InputStream",
 		JSON_SOURCE, "java.lang.String",
+		JSON_SOURCES, "java.util.List",
 		JSON_DATE_PATTERN, "java.lang.String",
 		JSON_NUMBER_PATTERN, "java.lang.String",
 		JSON_LOCALE, "java.util.Locale",
