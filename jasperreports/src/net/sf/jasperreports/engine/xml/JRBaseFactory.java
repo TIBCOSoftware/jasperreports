@@ -32,7 +32,7 @@ import org.apache.commons.digester.ObjectCreationFactory;
  */
 public abstract class JRBaseFactory implements ObjectCreationFactory
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_REPORT_STYLE = "xml.base.factory.unknown.report.style";
 
 	/**
 	 *

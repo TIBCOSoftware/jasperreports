@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class SerializableSerializer<T extends VirtualizationSerializable> implements ObjectSerializer<T>
 {
+	public static final String EXCEPTION_MESSAGE_KEY_UNEXPECTED_VALUE_TYPE = "engine.virtualization.serializable.serializer.unexpected.value.type";
 	
 	private static final Class<?>[] NO_ARGS_TYPES = new Class<?>[0];
 	private static final Object[] NO_ARGS = new Object[0];
@@ -93,9 +94,10 @@ public class SerializableSerializer<T extends VirtualizationSerializable> implem
 	{
 		if (!type.isInstance(value))
 		{
-			throw new JRRuntimeException("Unexpected value " + value 
-					+ " of type " + value.getClass().getName()
-					+ ", expecting " + type.getName());
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNEXPECTED_VALUE_TYPE,
+					new Object[]{value,  value.getClass().getName(), type.getName()});
 		}
 		
 		value.writeVirtualized(out);

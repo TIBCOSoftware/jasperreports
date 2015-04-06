@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  */
 public class EvaluationTimeSerializer implements ObjectSerializer<JREvaluationTime>
 {
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_EVALUATION_TIME = "engine.virtualization.unknown.evaluation.time";
 
 	@Override
 	public int typeValue()
@@ -105,7 +106,10 @@ public class EvaluationTimeSerializer implements ObjectSerializer<JREvaluationTi
 			break;
 		case AUTO:
 		default:
-			throw new JRRuntimeException("Unknown evaluation time " + type);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNKNOWN_EVALUATION_TIME,
+					new Object[]{type});
 		}
 		return value;
 	}

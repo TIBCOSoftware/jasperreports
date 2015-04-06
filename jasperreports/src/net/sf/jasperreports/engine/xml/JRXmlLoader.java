@@ -83,6 +83,7 @@ import org.xml.sax.SAXException;
 public class JRXmlLoader
 {
 	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_SUBDATASET = "xml.loader.unknown.subdataset";
+	public static final String EXCEPTION_MESSAGE_KEY_SUBDATASET_NOT_FOUND = "xml.loader.subdataset.not.found";
 
 	/**
 	 *
@@ -448,8 +449,10 @@ public class JRXmlLoader
 			JRDesignDataset dataset = (JRDesignDataset) jasperDesign.getDatasetMap().get(datasetName);
 			if (dataset == null)
 			{
-				throw new JRRuntimeException("Could not find subdataset of name \"" 
-						+ datasetName + "\"");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_SUBDATASET_NOT_FOUND,
+						new Object[]{datasetName});
 			}
 			
 			group = dataset.getGroupsMap().get(groupName);
