@@ -48,6 +48,9 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public abstract class JRSqlAbstractInClause implements JRClauseFunction
 {
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_IN_CLAUSE_DB_COLUMN_TOKEN_MISSING = "query.in.clause.db.column.token.missing";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_IN_CLAUSE_INVALID_PARAMETER_TYPE = "query.in.clause.invalid.parameter.type";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_IN_CLAUSE_PARAMETER_TOKEN_MISSING = "query.in.clause.parameter.token.missing";
 	
 	protected static final int POSITION_DB_COLUMN = 1;
 	protected static final int POSITION_PARAMETER = 2;
@@ -111,12 +114,18 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 		String param = clauseTokens.getToken(POSITION_PARAMETER);
 		if (col == null)
 		{
-			throw new JRRuntimeException("SQL IN clause missing DB column token");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_IN_CLAUSE_DB_COLUMN_TOKEN_MISSING,
+					(Object[])null);
 		}
 		
 		if (param == null)
 		{
-			throw new JRRuntimeException("SQL IN clause missing parameter token");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_IN_CLAUSE_PARAMETER_TOKEN_MISSING,
+					(Object[])null);
 		}
 		
 		StringBuffer sbuffer = queryContext.queryBuffer();
@@ -244,8 +253,10 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 		}
 		else
 		{
-			throw new JRRuntimeException("Invalid type " + paramValue.getClass().getName() + 
-					" for parameter " + paramName + " used in an IN clause; the value must be an array or a collection.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_IN_CLAUSE_INVALID_PARAMETER_TYPE,
+					new Object[]{paramValue.getClass().getName(), paramName});
 		}
 		return paramCollection;
 	}

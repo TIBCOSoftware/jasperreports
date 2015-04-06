@@ -46,6 +46,8 @@ public class ParameterTypeSelectorClauseFunction implements JRClauseFunction
 {
 	
 	private static final Log log = LogFactory.getLog(ParameterTypeSelectorClauseFunction.class);
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_PARAMETER_TYPE_SELECTOR_CLAUSE_IMPLEMENTATION_NOT_FOUND = "query.parameter.type.selector.clause.implementation.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_PARAMETER_TYPE_SELECTOR_CLAUSE_REQUIRED_TOKEN_NOT_FOUND = "query.parameter.type.selector.clause.required.token.not.found";
 	
 	private static final String CONTEXT_KEY_FUNCTION_PER_TYPES_CACHE = 
 			"net.sf.jasperreports.engine.query.ParameterTypeSelectorClauseFunction.cache";
@@ -71,8 +73,10 @@ public class ParameterTypeSelectorClauseFunction implements JRClauseFunction
 		JRClauseFunction function = getForParameterTypes(clauseTokens, queryContext, parameterTypes);
 		if (function == null)
 		{
-			throw new JRRuntimeException("No clause function implementation found for clause " + clauseTokens.getClauseId()
-					+ " and parameter types " + parameterTypes);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_PARAMETER_TYPE_SELECTOR_CLAUSE_IMPLEMENTATION_NOT_FOUND,
+					new Object[]{clauseTokens.getClauseId(), parameterTypes});
 		}
 		
 		function.apply(clauseTokens, queryContext);
@@ -84,8 +88,10 @@ public class ParameterTypeSelectorClauseFunction implements JRClauseFunction
 		String parameterName = clauseTokens.getToken(parameterPosition);
 		if (parameterName == null)
 		{
-			throw new JRRuntimeException("Required token at position " + parameterPosition 
-					+ " for query clause " + clauseTokens.getClauseId() + " not found");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_PARAMETER_TYPE_SELECTOR_CLAUSE_IMPLEMENTATION_NOT_FOUND,
+					new Object[]{parameterPosition, clauseTokens.getClauseId()});
 		}
 		
 		// the method throws an exception if it doesn't find the parameter, 
@@ -291,6 +297,7 @@ public class ParameterTypeSelectorClauseFunction implements JRClauseFunction
 
 final class TypesCandidateComparator implements Comparator<Pair<List<Class<?>>, JRClauseFunction>>
 {
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_PARAMETER_TYPE_SELECTOR_CANDIDATE_TYPE_SIZE_MISMATCH = "query.parameter.type.selector.candidate.type.size.mismatch";
 
 	protected static final TypesCandidateComparator INSTANCE = new TypesCandidateComparator();
 	
@@ -308,7 +315,10 @@ final class TypesCandidateComparator implements Comparator<Pair<List<Class<?>>, 
 		// should not happen, but checking
 		if (types1.size() != types2.size())
 		{
-			throw new JRRuntimeException("Candidate types sizes do not match: " + types1.size() + " vs " + types2.size());
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_PARAMETER_TYPE_SELECTOR_CANDIDATE_TYPE_SIZE_MISMATCH,
+					new Object[]{types1.size(), types2.size()});
 		}
 		
 		// perform a lexicographical comparison by comparing each type sequentially until we find a difference

@@ -47,6 +47,10 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public abstract class SQLBetweenBaseClause implements JRClauseFunction
 {
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_BETWEEN_CLAUSE_DB_COLUMN_TOKEN_MISSING = "query.between.clause.db.column.token.missing";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_BETWEEN_CLAUSE_LEFT_PARAMETER_TOKEN_MISSING = "query.between.clause.left.parameter.token.missing";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_BETWEEN_CLAUSE_NAME_TOKEN_MISSING = "query.between.clause.name.token.missing";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_BETWEEN_CLAUSE_RIGHT_PARAMETER_TOKEN_MISSING = "query.between.clause.right.parameter.token.missing";
 	
 	protected static final int POSITION_CLAUSE_ID = 0;
 	protected static final int POSITION_DB_COLUMN = 1;
@@ -100,22 +104,34 @@ public abstract class SQLBetweenBaseClause implements JRClauseFunction
 
 		if (clauseId == null)
 		{
-			throw new JRRuntimeException("Missing clause name token");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_BETWEEN_CLAUSE_NAME_TOKEN_MISSING,
+					(Object[])null);
 		}
 		
 		if (col == null)
 		{
-			throw new JRRuntimeException("SQL LESS/GREATER clause missing DB column token");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_BETWEEN_CLAUSE_DB_COLUMN_TOKEN_MISSING,
+					(Object[])null);
 		}
 		
 		if (leftParam == null)
 		{
-			throw new JRRuntimeException("SQL LESS/GREATER clause missing left parameter token");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_BETWEEN_CLAUSE_LEFT_PARAMETER_TOKEN_MISSING,
+					(Object[])null);
 		}
 		
 		if (rightParam == null)
 		{
-			throw new JRRuntimeException("SQL LESS/GREATER clause missing right parameter token");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_BETWEEN_CLAUSE_RIGHT_PARAMETER_TOKEN_MISSING,
+					(Object[])null);
 		}
 		
 		ClauseFunctionParameterHandler leftParamHandler = createParameterHandler(queryContext, clauseId, leftParam, true);
