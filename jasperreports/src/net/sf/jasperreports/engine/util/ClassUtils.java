@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public final class ClassUtils
 {
+	public static final String EXCEPTION_MESSAGE_KEY_CLASS_UNEXPECTED_TYPE = "util.class.unexpected.type";
 
 	/**
 	 * Instantiates a class.
@@ -52,8 +53,10 @@ public final class ClassUtils
 			Class<?> clazz = JRClassLoader.loadClassForName(className);
 			if (!expectedType.isAssignableFrom(clazz))
 			{
-				throw new JRRuntimeException("Class " + className 
-						+ " does not implement/extend " + expectedType.getName());
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_CLASS_UNEXPECTED_TYPE,
+						new Object[]{className, expectedType.getName()});
 			}
 			return clazz.newInstance();
 		}

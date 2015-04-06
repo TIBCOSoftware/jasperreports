@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class JRConcurrentSwapFile extends JRSwapFile
 {
+	public static final String EXCEPTION_MESSAGE_KEY_INSUFFICIENT_DATA = "util.concurrent.swap.file.insufficient.data";
 	
 	private final FileChannel fileChannel;
 
@@ -78,7 +79,10 @@ public class JRConcurrentSwapFile extends JRSwapFile
 			read = fileChannel.read(buffer, fileOffset + totalRead);
 			if (read < 0)
 			{
-				throw new JRRuntimeException("Unable to read sufficient data from the swap file");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_INSUFFICIENT_DATA,
+						(Object[])null);
 			}
 			totalRead += read;
 		}

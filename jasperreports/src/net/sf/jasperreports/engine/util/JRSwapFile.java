@@ -293,6 +293,8 @@ public class JRSwapFile
 	
 	protected static class LongQueue
 	{
+		public static final String EXCEPTION_MESSAGE_KEY_QUEUE_UNDERFLOW = "util.long.queue.underflow";
+		
 		private final int minGrowCount;
 		private long[] vals;
 		private int size;
@@ -338,7 +340,10 @@ public class JRSwapFile
 		{
 			if (size == 0)
 			{
-				throw new JRRuntimeException("Queue underflow");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_QUEUE_UNDERFLOW,
+						(Object[])null);
 			}
 
 			long val = vals[first];

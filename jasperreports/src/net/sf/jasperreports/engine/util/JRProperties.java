@@ -187,7 +187,10 @@ public final class JRProperties
 				loadedProps = loadProperties(propFile, defaults);
 				if (loadedProps == null)
 				{
-					throw new JRRuntimeException("Could not load properties file \"" + propFile + "\"");
+					throw 
+						new JRRuntimeException(
+							DefaultJasperReportsContext.EXCEPTION_MESSAGE_KEY_LOAD_PROPERTIES_FILE_FAILURE,
+							new Object[]{propFile});
 				}
 			}
 

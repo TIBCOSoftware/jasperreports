@@ -152,6 +152,7 @@ import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.TabStop;
+import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
@@ -3014,7 +3015,10 @@ public class JRApiWriter
 				writeGanttChart( chart, chartName);
 				break;
 			default:
-				throw new JRRuntimeException("Chart type not supported.");
+				throw 
+					new JRRuntimeException(
+						JRDesignChart.EXCEPTION_MESSAGE_KEY_UNSUPPORTED_CHART_TYPE,
+						(Object[])null);
 		}
 	}
 

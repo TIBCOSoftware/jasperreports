@@ -45,6 +45,7 @@ import org.apache.commons.logging.LogFactory;
 public class SwapFileVirtualizerStore implements VirtualizerStore
 {
 	private static final Log log = LogFactory.getLog(SwapFileVirtualizerStore.class);
+	public static final String EXCEPTION_MESSAGE_KEY_UNABLE_TO_READ_DATA = "util.swap.file.virtualizer.unable.to.read.data";
 	
 	private final JRSwapFile swap;
 	private final boolean swapOwner;
@@ -120,7 +121,10 @@ public class SwapFileVirtualizerStore implements VirtualizerStore
 			// should not happen
 			//FIXME lucianc happened once, look into it
 			log.error("No swap handle found for " + o.getUID() + " in " + this);
-			throw new JRRuntimeException("Unable to read virtualized data");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNABLE_TO_READ_DATA,
+					(Object[])null);
 		}
 		
 		try

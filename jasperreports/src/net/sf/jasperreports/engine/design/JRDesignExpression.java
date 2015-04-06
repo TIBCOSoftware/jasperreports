@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.base.JRBaseExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.engine.util.JRExpressionUtil;
 
 
 /**
@@ -54,8 +55,6 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_EXPRESSION_CHUNK_TYPE = "design.expression.unknown.expression.chunk.type";
 
 	public static final String PROPERTY_LEGACY_PARSER = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "legacy.expression.parser";
@@ -425,7 +424,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 		{
 			throw 
 				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_UNKNOWN_EXPRESSION_CHUNK_TYPE,
+					JRExpressionUtil.EXCEPTION_MESSAGE_KEY_UNKNOWN_EXPRESSION_CHUNK_TYPE,
 					new Object[]{chunkStringType});
 		}
 		return chunkType;

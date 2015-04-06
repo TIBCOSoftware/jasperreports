@@ -51,7 +51,7 @@ import net.sf.jasperreports.engine.fonts.FontUtil;
  */
 public class JRStyledText implements Cloneable
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_COPY_CHARACTERS = "util.styled.text.cannot.copy.characters";
 	/**
 	 * 
 	 */
@@ -533,7 +533,10 @@ public class JRStyledText implements Cloneable
 		else if (srcBegin < srcEnd)
 		{
 			// should not happen
-			throw new JRRuntimeException("Cannot copy characters " + srcBegin + " to " + srcEnd);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_COPY_CHARACTERS,
+					new Object[]{srcBegin, srcEnd});
 		}
 	}
 }
