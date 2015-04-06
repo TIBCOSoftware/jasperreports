@@ -320,7 +320,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 			selectExpression,
 			isNamespaceAware
 			);
-		this.closeInputStream = true;
+		this.closeInputStream = true;//FIXME close the stream immediately
 	}
 
 	/**
