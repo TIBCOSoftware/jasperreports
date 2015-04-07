@@ -32,6 +32,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public final class ClassUtils
 {
+	public static final String EXCEPTION_MESSAGE_KEY_CLASS_INSTANCE_ERROR = "util.class.instance.error";
+	public static final String EXCEPTION_MESSAGE_KEY_CLASS_LOADING_ERROR = "util.class.loading.error";
 	public static final String EXCEPTION_MESSAGE_KEY_CLASS_UNEXPECTED_TYPE = "util.class.unexpected.type";
 
 	/**
@@ -62,18 +64,27 @@ public final class ClassUtils
 		}
 		catch (ClassNotFoundException e)
 		{
-			throw new JRRuntimeException(
-					"Could not load class " + className, e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CLASS_LOADING_ERROR,
+					new Object[]{className},
+					e);
 		}
 		catch (InstantiationException e)
 		{
-			throw new JRRuntimeException(
-					"Could not instantiate class " + className, e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CLASS_INSTANCE_ERROR,
+					new Object[]{className},
+					e);
 		}
 		catch (IllegalAccessException e)
 		{
-			throw new JRRuntimeException(
-					"Could not instantiate class " + className, e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CLASS_INSTANCE_ERROR,
+					new Object[]{className},
+					e);
 		}
 	}
 	

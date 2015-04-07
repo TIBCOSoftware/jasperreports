@@ -207,7 +207,11 @@ public final class JRProperties
 		}
 		catch (JRException e)
 		{
-			throw new JRRuntimeException("Error loading the properties", e);
+			throw 
+				new JRRuntimeException(
+					JRPropertiesUtil.EXCEPTION_MESSAGE_KEY_LOAD_PROPERTIES_FAILURE,
+					(Object[])null,
+					e);
 		}
 	}
 	

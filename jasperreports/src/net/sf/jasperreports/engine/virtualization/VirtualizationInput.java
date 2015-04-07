@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.util.VirtualizationSerializer;
  */
 public class VirtualizationInput extends ObjectInputStream
 {
+	public static final String EXCEPTION_MESSAGE_KEY_READ_OBJECT_FAILED = "engine.virtualization.input.read.object.failed";
 
 	private final VirtualizationSerializer serializer;
 	private final JRVirtualizationContext virtualizationContext;
@@ -120,7 +121,11 @@ public class VirtualizationInput extends ObjectInputStream
 			}
 			catch (ClassNotFoundException e)
 			{
-				throw new JRRuntimeException("Failed to read object", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_READ_OBJECT_FAILED,
+						(Object[])null,
+						e);
 			}
 		}
 		
