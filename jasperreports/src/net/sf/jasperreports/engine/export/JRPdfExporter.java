@@ -349,7 +349,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	
 	public static final String PDF_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.";
 
-	public static final String EXCEPTION_MESSAGE_KEY_PDF_DOCUMENT_ERROR = "export.pdf.document.error";
+	public static final String EXCEPTION_MESSAGE_KEY_DOCUMENT_ERROR = "export.pdf.document.error";
+	public static final String EXCEPTION_MESSAGE_KEY_FONT_LOADING_ERROR = "export.pdf.font.loading.error";
 	public static final String EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR = "export.pdf.report.generation.error";
 	
 	/**
@@ -843,7 +844,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		{
 			throw 
 				new JRException(
-					EXCEPTION_MESSAGE_KEY_PDF_DOCUMENT_ERROR,
+					EXCEPTION_MESSAGE_KEY_DOCUMENT_ERROR,
 					new Object[]{jasperPrint.getName()}, 
 					e);
 		}
@@ -2174,12 +2175,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			{
 				throw //NOPMD
 					new JRRuntimeException(
-						"Could not load the following font : "
-						+ "\npdfFontName   : " + pdfFontName
-						+ "\npdfEncoding   : " + pdfEncoding
-						+ "\nisPdfEmbedded : " + isPdfEmbedded,
-						initialException
-						);
+						EXCEPTION_MESSAGE_KEY_FONT_LOADING_ERROR,
+						new Object[]{pdfFontName, pdfEncoding, isPdfEmbedded},
+						initialException);
 			}
 
 			BaseFont baseFont = null;

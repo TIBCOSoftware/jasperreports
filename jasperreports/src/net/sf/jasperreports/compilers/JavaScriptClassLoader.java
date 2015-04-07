@@ -43,6 +43,9 @@ public class JavaScriptClassLoader extends DefiningClassLoader
 
 	private static final Log log = LogFactory.getLog(JavaScriptClassLoader.class);
 	
+	public static final String EXCEPTION_MESSAGE_KEY_INSTANCE_ERROR = "compilers.javascript.instance.error";
+	public static final String EXCEPTION_MESSAGE_KEY_LOAD_ERROR = "compilers.javascript.load.error";
+	
 	public JavaScriptClassLoader()
 	{
 		super(Codegen.class.getClassLoader());
@@ -59,13 +62,19 @@ public class JavaScriptClassLoader extends DefiningClassLoader
 		}
 		catch (InstantiationException e)
 		{
-			throw new JRRuntimeException("Failed to instantiate script class " 
-					+ compiledClass.getClassName(), e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_INSTANCE_ERROR,
+					new Object[]{compiledClass.getClassName()},
+					e);
 		}
 		catch (IllegalAccessException e)
 		{
-			throw new JRRuntimeException("Failed to instantiate script class " 
-					+ compiledClass.getClassName(), e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_INSTANCE_ERROR,
+					new Object[]{compiledClass.getClassName()},
+					e);
 		}
 	}
 	
@@ -89,11 +98,19 @@ public class JavaScriptClassLoader extends DefiningClassLoader
 			}
 			catch (SecurityException e)
 			{
-				throw new JRRuntimeException("Failed to load script class " + className, e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_LOAD_ERROR,
+						new Object[]{className},
+						e);
 			}
 			catch (IllegalArgumentException e)
 			{
-				throw new JRRuntimeException("Failed to load script class " + className, e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_LOAD_ERROR,
+						new Object[]{className},
+						e);
 			}
 		}
 		

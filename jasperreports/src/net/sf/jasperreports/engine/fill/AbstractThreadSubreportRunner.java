@@ -37,6 +37,7 @@ public abstract class AbstractThreadSubreportRunner extends JRSubreportRunnable 
 {
 	
 	private static final Log log = LogFactory.getLog(AbstractThreadSubreportRunner.class);
+	public static final String EXCEPTION_MESSAGE_KEY_THREAD_REPORT_RUNNER_WAIT_ERROR = "fill.thread.report.runner.wait.error";
 	public static final String EXCEPTION_MESSAGE_KEY_THREAD_SUBREPORT_RUNNER_WAIT_ERROR = "fill.thread.subreport.runner.wait.error";
 
 	protected final JRBaseFiller subreportFiller;
@@ -100,7 +101,11 @@ public abstract class AbstractThreadSubreportRunner extends JRSubreportRunnable 
 				}
 			}
 			
-			throw new JRRuntimeException("Error encountered while waiting on the report filling thread.", e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_THREAD_REPORT_RUNNER_WAIT_ERROR,
+					(Object[])null,
+					e);
 		}
 		
 		if (log.isDebugEnabled())

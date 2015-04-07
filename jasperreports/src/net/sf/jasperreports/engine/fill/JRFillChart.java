@@ -125,6 +125,7 @@ import org.jfree.data.general.Dataset;
  */
 public class JRFillChart extends JRFillElement implements JRChart
 {
+	public static final String EXCEPTION_MESSAGE_KEY_CUSTOMIZER_INSTANCE_ERROR = "charts.customizer.instance.error";
 	public static final String EXCEPTION_MESSAGE_KEY_MULTIAXIS_PLOT_TYPES_MIX_NOT_ALLOWED = "charts.multiaxis.plot.types.mix.not.allowed";
 	public static final String EXCEPTION_MESSAGE_KEY_MULTIAXIS_PLOT_NOT_SUPPORTED = "charts.multiaxis.plot.not.supported";
 
@@ -302,7 +303,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 				Class<?> myClass = JRClassLoader.loadClassForName(customizerClass);
 				chartCustomizer = (JRChartCustomizer) myClass.newInstance();
 			} catch (Exception e) {
-				throw new JRRuntimeException("Could not create chart customizer instance.", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_CUSTOMIZER_INSTANCE_ERROR,
+						(Object[])null,
+						e);
 			}
 
 			if (chartCustomizer instanceof JRAbstractChartCustomizer)

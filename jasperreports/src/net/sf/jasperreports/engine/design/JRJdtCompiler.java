@@ -74,6 +74,9 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 {
 	private static final String JDT_PROPERTIES_PREFIX = "org.eclipse.jdt.core.";
 	
+	public static final String EXCEPTION_MESSAGE_KEY_CLASS_LOADING_ERROR = "compilers.jdt.class.loading.error";
+	public static final String EXCEPTION_MESSAGE_KEY_NAME_ENVIRONMENT_ANSWER_INSTANCE_ERROR = "compilers.jdt.name.environment.answer.instance.error";
+	
 	/**
 	 *  
 	 */
@@ -125,7 +128,11 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			}
 			catch (NoSuchMethodException ex)
 			{
-				throw new JRRuntimeException("Not able to load JDT classes", ex);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_CLASS_LOADING_ERROR,
+						(Object[])null,
+						ex);
 			}
 		}
 	}	
@@ -284,19 +291,35 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				}
 				catch (InvocationTargetException e)
 				{
-					throw new JRRuntimeException("Not able to create NameEnvironmentAnswer", e);
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_NAME_ENVIRONMENT_ANSWER_INSTANCE_ERROR,
+							(Object[])null,
+							e);
 				}
 				catch (IllegalArgumentException e)
 				{
-					throw new JRRuntimeException("Not able to create NameEnvironmentAnswer", e);
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_NAME_ENVIRONMENT_ANSWER_INSTANCE_ERROR,
+							(Object[])null,
+							e);
 				}
 				catch (InstantiationException e)
 				{
-					throw new JRRuntimeException("Not able to create NameEnvironmentAnswer", e);
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_NAME_ENVIRONMENT_ANSWER_INSTANCE_ERROR,
+							(Object[])null,
+							e);
 				}
 				catch (IllegalAccessException e)
 				{
-					throw new JRRuntimeException("Not able to create NameEnvironmentAnswer", e);
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_NAME_ENVIRONMENT_ANSWER_INSTANCE_ERROR,
+							(Object[])null,
+							e);
 				}
 				return null;
 			}
@@ -527,6 +550,9 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	 */
 	public static class CompilerRequestor implements ICompilerRequestor
 	{
+		public static final String EXCEPTION_MESSAGE_KEY_METHOD_INVOKING_ERROR = "compilers.jdt.method.invoking.error";
+		public static final String EXCEPTION_MESSAGE_KEY_METHOD_RESOLVING_ERROR = "compilers.jdt.method.resolving.error";
+		
 		private final JasperReportsContext jasperReportsContext;
 		protected final JRJdtCompiler compiler;
 		protected final JRCompilationUnit[] units;
@@ -746,15 +772,35 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				Method getErrorsMethod = result.getClass().getMethod("getErrors", (Class[])null);
 				return (IProblem[]) getErrorsMethod.invoke(result, (Object[])null);
 			} catch (SecurityException e) {
-				throw new JRRuntimeException("Error resolving JDT methods", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_METHOD_RESOLVING_ERROR,
+						(Object[])null,
+						e);
 			} catch (NoSuchMethodException e) {
-				throw new JRRuntimeException("Error resolving JDT methods", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_METHOD_RESOLVING_ERROR,
+						(Object[])null,
+						e);
 			} catch (IllegalArgumentException e) {
-				throw new JRRuntimeException("Error invoking JDT methods", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_METHOD_INVOKING_ERROR,
+						(Object[])null,
+						e);
 			} catch (IllegalAccessException e) {
-				throw new JRRuntimeException("Error invoking JDT methods", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_METHOD_INVOKING_ERROR,
+						(Object[])null,
+						e);
 			} catch (InvocationTargetException e) {
-				throw new JRRuntimeException("Error invoking JDT methods", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_METHOD_INVOKING_ERROR,
+						(Object[])null,
+						e);
 			}
 		}
 	}

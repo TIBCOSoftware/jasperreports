@@ -47,6 +47,10 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, C
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public static final String EXCEPTION_MESSAGE_KEY_MEASURE_INCREMENTER_CLASS_LOAD_ERROR = "crosstabs.measure.incrementer.class.load.error";
+	public static final String EXCEPTION_MESSAGE_KEY_MEASURE_PERCENTAGE_CALCULATOR_CLASS_LOAD_ERROR = "crosstabs.measure.percentage.calculator.class.load.error";
+	public static final String EXCEPTION_MESSAGE_KEY_MEASURE_VALUE_CLASS_LOAD_ERROR = "crosstabs.measure.value.class.load.error";
+	
 	protected String name;
 	protected String valueClassName;
 	protected String valueClassRealName;
@@ -123,7 +127,11 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, C
 				}
 				catch (ClassNotFoundException e)
 				{
-					throw new JRRuntimeException("Could not load measure incrementer class", e);
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_MEASURE_INCREMENTER_CLASS_LOAD_ERROR,
+							(Object[])null,
+							e);
 				}
 			}
 		}
@@ -157,7 +165,11 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, C
 				}
 				catch (ClassNotFoundException e)
 				{
-					throw new JRRuntimeException("Could not load measure value class", e);
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_MEASURE_VALUE_CLASS_LOAD_ERROR,
+							(Object[])null,
+							e);
 				}
 			}
 		}
@@ -201,7 +213,11 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, C
 				}
 				catch (ClassNotFoundException e)
 				{
-					throw new JRRuntimeException("Could not load measure percentage calculator class", e);
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_MEASURE_PERCENTAGE_CALCULATOR_CLASS_LOAD_ERROR,
+							(Object[])null,
+							e);
 				}
 			}
 		}

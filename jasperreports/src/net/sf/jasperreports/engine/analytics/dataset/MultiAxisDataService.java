@@ -78,6 +78,8 @@ public class MultiAxisDataService
 {
 	
 	protected static final Log log = LogFactory.getLog(MultiAxisDataService.class);
+	
+	public static final String EXCEPTION_MESSAGE_KEY_INCREMENT_BIDIMENSIONAL_DATASET_ERROR = "engine.analytics.dataset.increment.bidimensional.dataset.error";
 
 	private final BucketingServiceContext serviceContext;
 	private final MultiAxisData data;
@@ -356,7 +358,11 @@ public class MultiAxisDataService
 		}
 		catch (JRException e)
 		{
-			throw new JRRuntimeException("Error incrementing bidimensional dataset", e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_INCREMENT_BIDIMENSIONAL_DATASET_ERROR,
+					(Object[])null,
+					e);
 		}
 	}
 	

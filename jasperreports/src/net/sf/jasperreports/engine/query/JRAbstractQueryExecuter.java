@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.util.JRQueryParser;
  */
 public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 {
+	public static final String EXCEPTION_MESSAGE_KEY_NUMERIC_TYPE_REQUIRED = "query.numeric.type.required";
 	public static final String EXCEPTION_MESSAGE_KEY_PARAMETER_NOT_FOUND = "query.parameter.not.found";
 	public static final String EXCEPTION_MESSAGE_KEY_QUERY_CLAUSE_CIRCULARLY_NESTED_PARAMETER = "query.clause.circularly.nested.parameter";
 	public static final String EXCEPTION_MESSAGE_KEY_QUERY_CLAUSE_ID_FIRST_TOKEN_MISSING = "query.clause.id.first.token.missing";

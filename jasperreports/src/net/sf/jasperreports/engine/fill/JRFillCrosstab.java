@@ -136,6 +136,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 {
 	private final static Log log = LogFactory.getLog(JRFillCrosstab.class); 
 
+	public static final String EXCEPTION_MESSAGE_KEY_BUCKETING_SERVICE_ERROR = "crosstabs.bucketing.service.error";
+	public static final String EXCEPTION_MESSAGE_KEY_EVALUATOR_LOADING_ERROR = "crosstabs.evaluator.loading.error";
 	public static final String EXCEPTION_MESSAGE_KEY_INFINITE_LOOP = "crosstabs.infinite.loop";
 	public static final String EXCEPTION_MESSAGE_KEY_NOT_ENOUGH_SPACE = "crosstabs.not.enough.space";
 	
@@ -458,7 +460,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 		catch (JRException e)
 		{
-			throw new JRRuntimeException("Could not load evaluator for crosstab.", e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_EVALUATOR_LOADING_ERROR,
+					(Object[])null,
+					e);
 		}
 	}
 
@@ -670,7 +676,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 			catch (JRException e)
 			{
-				throw new JRRuntimeException("Could not create bucketing service", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_BUCKETING_SERVICE_ERROR,
+						(Object[])null,
+						e);
 			}
 			
 			setOrderByColumnBucketValues();
@@ -1155,6 +1165,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	 */
 	public class JRFillCrosstabDataset extends JRFillElementDataset implements JRCrosstabDataset
 	{
+		public static final String EXCEPTION_MESSAGE_KEY_DATASET_INCREMENTING_ERROR = "crosstabs.dataset.incrementing.error";
+
 		private Object[] bucketValues;
 
 		private Object[] measureValues;
@@ -1198,7 +1210,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 			catch (JRException e)
 			{
-				throw new JRRuntimeException("Error incrementing crosstab dataset", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_DATASET_INCREMENTING_ERROR,
+						(Object[])null,
+						e);
 			}
 		}
 

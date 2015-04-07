@@ -63,6 +63,8 @@ import net.sf.jasperreports.functions.FunctionSupport;
  */
 public abstract class JREvaluator implements DatasetExpressionEvaluator
 {
+	public static final String EXCEPTION_MESSAGE_KEY_RESOURCE_NOT_FOUND = "fill.evaluator.resource.not.found";
+	
 	/**
 	 * The resource bundle parameter.
 	 */
@@ -359,7 +361,11 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 			}
 			case ERROR:
 			{
-				throw new JRRuntimeException("Resource not found for key \"" + key + "\".", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_RESOURCE_NOT_FOUND,
+						new Object[]{key},
+						e);
 			}
 			case NULL:
 			default:

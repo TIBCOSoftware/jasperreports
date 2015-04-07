@@ -183,8 +183,11 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 			}
 			catch (NumberFormatException e)
 			{
-				throw new JRRuntimeException("The " + JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE +
-						" property must be numerical.", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_NUMERIC_TYPE_REQUIRED,
+						new Object[]{JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE},
+						e);
 			}
 		}
 		else if (runType.equals(JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_ITERATE))
