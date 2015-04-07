@@ -207,7 +207,11 @@ public class ReportPageStatusServlet extends AbstractServlet
 		{
 			throw (JRRuntimeException) error;
 		}
-		throw new JRRuntimeException("Error generating report", error);
+		throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+				(Object[])null,
+				error);
 	}
 
 }

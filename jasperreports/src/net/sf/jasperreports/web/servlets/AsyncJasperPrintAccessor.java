@@ -49,8 +49,10 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 {
 
 	private static final Log log = LogFactory.getLog(AsyncJasperPrintAccessor.class);
+	public static final String EXCEPTION_MESSAGE_KEY_LOCK_ATTEMPT_INTERRUPTED = "web.servlets.lock.attempt.interrupted";
 	public static final String EXCEPTION_MESSAGE_KEY_NO_JASPERPRINT_GENERATED = "web.servlets.no.jasperprint.generated";
 	public static final String EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_CANCELLED = "web.servlets.report.generation.cancelled";
+	public static final String EXCEPTION_MESSAGE_KEY_ASYNC_REPORT_GENERATION_ERROR = "web.servlets.async.report.generation.error";
 	
 	private FillHandle fillHandle;
 	private final Lock lock;
@@ -86,7 +88,11 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		}
 		catch (InterruptedException e)
 		{
-			throw new JRRuntimeException("Interrupted while attempting to lock", e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_LOCK_ATTEMPT_INTERRUPTED,
+					(Object[])null,
+					e);
 		}
 	}
 
@@ -225,7 +231,11 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		
 		if (error != null)
 		{
-			throw new JRRuntimeException("Error occured during report generation", error);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_ASYNC_REPORT_GENERATION_ERROR,
+					(Object[])null,
+					error);
 		}
 		
 		if (jasperPrint == null)

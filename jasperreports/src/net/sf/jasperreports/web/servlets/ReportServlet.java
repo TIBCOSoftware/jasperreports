@@ -222,7 +222,11 @@ public class ReportServlet extends AbstractServlet
 		ReportExecutionStatus reportStatus = jasperPrintAccessor.getReportStatus();
 		if (reportStatus.getStatus() == ReportExecutionStatus.Status.ERROR)
 		{
-			throw new JRRuntimeException("Error occurred during report generation", reportStatus.getError());
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					(Object[])null,
+					reportStatus.getError());
 		}
 		
 		//Integer pageCount = reportStatus.getTotalPageCount();
@@ -466,7 +470,11 @@ public class ReportServlet extends AbstractServlet
 		{
 			throw (JRRuntimeException) error;
 		}
-		throw new JRRuntimeException("Error generating report", error);
+		throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+				(Object[])null,
+				error);
 	}
 
 }

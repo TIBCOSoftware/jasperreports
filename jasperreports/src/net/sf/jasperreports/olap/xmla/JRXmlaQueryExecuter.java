@@ -79,6 +79,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 	private static final Log log = LogFactory.getLog(JRXmlaQueryExecuter.class);
 	
 	public static final String EXCEPTION_MESSAGE_KEY_XMLA_CANNOT_RETRIEVE_ELEMENT = "data.olap.xmla.cannot.retrieve.element";
+	public static final String EXCEPTION_MESSAGE_KEY_MESSAGE_CALL_FAILED = "data.olap.xmla.message.call.failed";
 	public static final String EXCEPTION_MESSAGE_KEY_XMLA_NO_LEVEL_NAME = "data.olap.xmla.no.level.name";
 	public static final String EXCEPTION_MESSAGE_KEY_XMLA_NULL_ELEMENT = "data.olap.xmla.null.element";
 	
@@ -336,7 +337,11 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		}
 		catch (SOAPException e)
 		{
-			throw new JRRuntimeException("Message-Call failed.", e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_MESSAGE_CALL_FAILED,
+					(Object[])null,
+					e);
 		}
 	}
 

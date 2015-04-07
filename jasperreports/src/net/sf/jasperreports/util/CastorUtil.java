@@ -69,6 +69,8 @@ public class CastorUtil
 {
 	private static final Log log = LogFactory.getLog(CastorUtil.class);
 	
+	public static final String EXCEPTION_MESSAGE_KEY_MAPPINGS_LOADING_ERROR = "util.castor.mappings.loading.error";
+	
 	/**
 	 * 
 	 */
@@ -138,7 +140,11 @@ public class CastorUtil
 			}
 			catch (MappingException e)
 			{
-				throw new JRRuntimeException("Failed to load Castor mappings", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_MAPPINGS_LOADING_ERROR,
+						(Object[])null,
+						e);
 			}
 			
 			jasperReportsContext.setValue(contextCacheKey, xmlContext);
