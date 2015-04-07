@@ -30,6 +30,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class Axis
 {
+	public static final String EXCEPTION_MESSAGE_KEY_OLAP_AXIS_NOT_FOUND = "data.olap.axis.not.found";
+	
 	public static final String AXIS0 = "Columns";
 	public static final String AXIS1 = "Rows";
 	public static final String AXIS2 = "Pages";
@@ -47,7 +49,10 @@ public class Axis
 			}
 		}
 		
-		throw new JRRuntimeException("No such axis \"" + name + "\".");
+		throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_OLAP_AXIS_NOT_FOUND,
+				new Object[]{name});
 	}
 	
 	private final int idx;

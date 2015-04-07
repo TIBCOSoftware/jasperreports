@@ -44,6 +44,9 @@ import net.sf.jasperreports.export.SimpleExporterInput;
  */
 public class ParametersExporterInput extends SimpleExporterInput
 {
+	public static final String EXCEPTION_MESSAGE_KEY_EMPTY_INPUT_SOURCE_IN_BATCH_MODE = "export.parameters.empty.input.source.in.batch.mode";
+	public static final String EXCEPTION_MESSAGE_KEY_NO_INPUT_SOURCE = "export.parameters.no.input.source";
+	
 	/**
 	 * 
 	 */
@@ -95,7 +98,10 @@ public class ParametersExporterInput extends SimpleExporterInput
 								}
 								else
 								{
-									throw new JRRuntimeException("No input source supplied to the exporter.");
+									throw 
+										new JRRuntimeException(
+											EXCEPTION_MESSAGE_KEY_NO_INPUT_SOURCE,
+											(Object[])null);
 								}
 							}
 						}
@@ -114,7 +120,10 @@ public class ParametersExporterInput extends SimpleExporterInput
 		{
 			if (jasperPrintList.size() == 0)
 			{
-				throw new JRRuntimeException("Empty input source supplied to the exporter in batch mode.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_EMPTY_INPUT_SOURCE_IN_BATCH_MODE,
+						(Object[])null);
 			}
 		}
 

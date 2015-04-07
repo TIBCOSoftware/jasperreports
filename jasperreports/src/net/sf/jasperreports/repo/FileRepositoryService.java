@@ -39,6 +39,8 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  */
 public class FileRepositoryService implements StreamRepositoryService
 {
+	public static final String EXCEPTION_MESSAGE_KEY_NOT_IMPLEMENTED = "repo.file.not.implemented";
+	
 	private JasperReportsContext jasperReportsContext;
 	private String root;
 	private boolean resolveAbsolutePath;//FIXMEREPO consider giving up on this
@@ -152,7 +154,10 @@ public class FileRepositoryService implements StreamRepositoryService
 	 */
 	public Resource getResource(String uri)
 	{
-		throw new JRRuntimeException("Not implemented.");//FIXMEREPO
+		throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_NOT_IMPLEMENTED,
+				(Object[])null);//FIXMEREPO
 	}
 	
 	/**

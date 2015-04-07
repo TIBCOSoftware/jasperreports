@@ -42,6 +42,8 @@ import net.sf.jasperreports.engine.util.JRResourcesUtil;
  */
 public class DefaultRepositoryService implements StreamRepositoryService
 {
+	public static final String EXCEPTION_MESSAGE_KEY_NOT_IMPLEMENTED = "repo.default.not.implemented";
+	
 	/**
 	 * 
 	 */
@@ -132,7 +134,10 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	 */
 	public Resource getResource(String uri)
 	{
-		throw new JRRuntimeException("Not implemented.");//FIXMEREPO
+		throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_NOT_IMPLEMENTED,
+				(Object[])null);//FIXMEREPO
 	}
 	
 	/**

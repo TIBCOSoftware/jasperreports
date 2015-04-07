@@ -36,7 +36,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class DataSourceCollection<D extends JRDataSource, P extends DataSourceProvider<D>> implements JRDataSource
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_METHOD_CALL_ERROR = "data.source.collection.method.call.error";
+	
 	protected final boolean empty;
 	protected final ListIterator<? extends P> providerIterator;
 	protected D currentDataSource;
@@ -96,7 +97,10 @@ public class DataSourceCollection<D extends JRDataSource, P extends DataSourcePr
 		if (currentDataSource == null)
 		{
 			// should not happen
-			throw new JRRuntimeException("getFieldValue called on a data source with no records");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_METHOD_CALL_ERROR,
+					(Object[])null);
 		}
 		
 		return currentDataSource.getFieldValue(field);

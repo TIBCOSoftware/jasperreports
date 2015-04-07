@@ -45,6 +45,8 @@ public class AbstractServlet extends HttpServlet
 	protected static final String JSON_ACCEPT_HEADER = "application/json";
 	protected static final String HTML_ACCEPT_HEADER = "text/html";
 
+	public static final String EXCEPTION_MESSAGE_KEY_PAGE_NOT_FOUND = "web.servlets.page.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_REPORT_NOT_FOUND = "web.servlets.report.not.found";
 
 	/**
 	 *

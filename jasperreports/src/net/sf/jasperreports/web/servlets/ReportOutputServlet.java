@@ -180,7 +180,10 @@ public class ReportOutputServlet extends AbstractServlet
 			
 			if (!pageStatus.pageExists())
 			{
-				throw new JRRuntimeException("Page " + pageIdx + " not found in report");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_PAGE_NOT_FOUND,
+						new Object[]{pageIdx});
 			}
 			
 			reportConfig.setPageIndex(pageIdx);

@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 public class InvalidDateRangeExpressionException extends JRRuntimeException 
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_EXPRESSION = "date.range.invalid.expression";
 
 	private String expression;
 
@@ -44,7 +45,9 @@ public class InvalidDateRangeExpressionException extends JRRuntimeException
 
 	public InvalidDateRangeExpressionException(String expression) 
 	{
-		super(String.format("Invalid date range expression: %s", expression));
+		super(
+			EXCEPTION_MESSAGE_KEY_INVALID_EXPRESSION, 
+			new Object[] {String.format("%s", expression)});
 		this.expression = expression;
 	}
 
