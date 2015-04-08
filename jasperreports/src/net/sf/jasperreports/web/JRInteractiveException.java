@@ -47,4 +47,14 @@ public class JRInteractiveException extends JRException
 	{
 		super(message, t);
 	}
+	
+	public JRInteractiveException(String messageKey, Object[] args, Throwable t)
+	{
+		super(messageKey, args, t);
+	}
+
+	public JRInteractiveException(String messageKey, Object[] args)
+	{
+		super(messageKey, args);
+	}
 }

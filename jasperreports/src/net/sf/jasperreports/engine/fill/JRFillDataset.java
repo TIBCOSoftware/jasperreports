@@ -97,6 +97,8 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	
 	public static final String EXCEPTION_MESSAGE_KEY_NO_SUCH_FIELD = "fill.dataset.no.such.field";
 	public static final String EXCEPTION_MESSAGE_KEY_NO_SUCH_PARAMETER = "fill.dataset.no.such.parameter";
+	public static final String EXCEPTION_MESSAGE_KEY_NO_SUCH_SNAPSHOT_DATA = "fill.dataset.no.such.snapshot.data";
+	public static final String EXCEPTION_MESSAGE_KEY_NO_SUCH_SNAPSHOT_PARAMETER = "fill.dataset.no.such.snapshot.parameter";
 	public static final String EXCEPTION_MESSAGE_KEY_NO_SUCH_VARIABLE = "fill.dataset.no.such.variable";
 	
 	/**
@@ -771,7 +773,10 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			cachedDataset = dataSnapshot.getCachedData(fillPosition);
 			if (cachedDataset == null)
 			{
-				throw new DataSnapshotException("No snapshot data found for position " + fillPosition);
+				throw 
+					new DataSnapshotException(
+						EXCEPTION_MESSAGE_KEY_NO_SUCH_SNAPSHOT_DATA,
+						new Object[]{fillPosition});
 			}
 			
 			if (log.isDebugEnabled())
@@ -988,8 +993,10 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 						if (!cachedDataset.hasParameter(paramName))
 						{
 							// cached data is invalid
-							throw new DataSnapshotException("A value for parameter " + paramName 
-									+ " was not found in the data snapshot");
+							throw 
+								new DataSnapshotException(
+									EXCEPTION_MESSAGE_KEY_NO_SUCH_SNAPSHOT_PARAMETER,
+									new Object[]{paramName});
 						}
 						
 						if (log.isDebugEnabled())

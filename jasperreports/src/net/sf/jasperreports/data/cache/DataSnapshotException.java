@@ -47,5 +47,14 @@ public class DataSnapshotException extends JRException
 	{
 		super(message, t);
 	}
+	
+	public DataSnapshotException(String messageKey, Object[] args, Throwable t)
+	{
+		super(messageKey, args, t);
+	}
 
+	public DataSnapshotException(String messageKey, Object[] args)
+	{
+		super(messageKey, args);
+	}
 }

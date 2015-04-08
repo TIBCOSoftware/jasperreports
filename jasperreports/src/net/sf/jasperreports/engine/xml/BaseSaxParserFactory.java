@@ -64,6 +64,7 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 	private static final Log log = LogFactory.getLog(BaseSaxParserFactory.class);
 	
 	public static final String EXCEPTION_MESSAGE_KEY_INCOMPATIBLE_CLASS = "xml.sax.parser.factory.incompatible.class";
+	public static final String EXCEPTION_MESSAGE_KEY_PARSER_CREATION_ERROR = "xml.sax.parser.factory.parser.creation.error";
 	public static final String EXCEPTION_MESSAGE_KEY_RESOURCE_NOT_FOUND = "xml.sax.parser.factory.resource.not.found";
 	
 	/**
@@ -118,11 +119,19 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 		}
 		catch (SAXException e)
 		{
-			throw new JRRuntimeException("Error creating SAX parser", e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_PARSER_CREATION_ERROR,
+					(Object[])null,
+					e);
 		}
 		catch (ParserConfigurationException e)
 		{
-			throw new JRRuntimeException("Error creating SAX parser", e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_PARSER_CREATION_ERROR,
+					(Object[])null,
+					e);
 		}
 	}
 

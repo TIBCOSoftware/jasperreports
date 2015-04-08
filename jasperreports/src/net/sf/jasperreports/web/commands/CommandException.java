@@ -44,4 +44,14 @@ public class CommandException extends JRInteractiveException
 	public CommandException(String message, Throwable t) {
 		super(message, t);
 	}
+	
+	public CommandException(String messageKey, Object[] args, Throwable t)
+	{
+		super(messageKey, args, t);
+	}
+
+	public CommandException(String messageKey, Object[] args)
+	{
+		super(messageKey, args);
+	}
 }

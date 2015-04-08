@@ -216,6 +216,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		new XmlNamespace(JRXmlConstants.JASPERREPORTS_NAMESPACE, null, JRXmlConstants.JASPERREPORT_XSD_SYSTEM_ID);
 	public static final String EXCEPTION_MESSAGE_KEY_FILE_WRITE_ERROR = "xml.writer.file.write.error";
 	public static final String EXCEPTION_MESSAGE_KEY_OUTPUT_STREAM_WRITE_ERROR = "xml.writer.output.stream.write.error";
+	public static final String EXCEPTION_MESSAGE_KEY_REPORT_DESIGN_WRITE_ERROR = "xml.writer.report.design.write.error";
 	public static final String EXCEPTION_MESSAGE_KEY_UNSUPPORTED_CHART_TYPE = "xml.writer.unsupported.chart.type";
 
 	/**
@@ -276,7 +277,11 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		catch (IOException e)
 		{
 			// doesn't actually happen
-			throw new JRRuntimeException("Error writing report design.", e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_REPORT_DESIGN_WRITE_ERROR,
+					(Object[])null,
+					e);
 		}
 		return buffer.toString();
 	}

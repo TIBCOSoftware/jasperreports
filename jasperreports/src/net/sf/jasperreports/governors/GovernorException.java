@@ -44,5 +44,9 @@ public class GovernorException extends JRScriptletException
 		super(message);
 	}
 
+	public GovernorException(String messageKey, Object[] args)
+	{
+		super(messageKey, args);
+	}
 
 }
