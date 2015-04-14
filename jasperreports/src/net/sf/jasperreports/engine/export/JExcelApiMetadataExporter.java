@@ -729,7 +729,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				backcolor = getWorkbookColour(textElement.getBackcolor(), true);
 			}
 
-			StyleInfo baseStyle = isRemoveTextFormatting(textElement) 
+			StyleInfo baseStyle = isIgnoreTextFormatting(textElement) 
 					? new StyleInfo(
 							mode,
 							WHITE,

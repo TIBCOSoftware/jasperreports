@@ -721,7 +721,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				backcolor = getWorkbookColor(textElement.getBackcolor()).getIndex();
 			}
 
-			final StyleInfo baseStyle = isRemoveTextFormatting(textElement) 
+			final StyleInfo baseStyle = isIgnoreTextFormatting(textElement) 
 					? new StyleInfo(
 							mode,
 							whiteIndex,

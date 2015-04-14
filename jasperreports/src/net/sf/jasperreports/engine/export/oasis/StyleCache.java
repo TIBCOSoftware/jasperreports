@@ -275,9 +275,9 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public String getParagraphStyle(JRPrintText text, boolean isRemoveTextFormatting)
+	public String getParagraphStyle(JRPrintText text, boolean isIgnoreTextFormatting)
 	{
-		ParagraphStyle paragraphStyle  = new ParagraphStyle(styleWriter, text, isRemoveTextFormatting);
+		ParagraphStyle paragraphStyle  = new ParagraphStyle(styleWriter, text, isIgnoreTextFormatting);
 		
 		String paragraphStyleId = paragraphStyle.getId();
 		String paragraphStyleName = paragraphStyles.get(paragraphStyleId);
@@ -297,9 +297,9 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public String getTextSpanStyle(Map<Attribute,Object> attributes, String text, Locale locale, boolean isRemoveTextFormatting)
+	public String getTextSpanStyle(Map<Attribute,Object> attributes, String text, Locale locale, boolean isIgnoreTextFormatting)
 	{
-		if(isRemoveTextFormatting)
+		if(isIgnoreTextFormatting)
 		{
 			String textSpanStyleName = textSpanStyles.get("");
 			if (textSpanStyleName == null)

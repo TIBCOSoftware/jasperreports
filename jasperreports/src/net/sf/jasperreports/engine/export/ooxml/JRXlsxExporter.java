@@ -1379,7 +1379,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			isCellHidden(gridCell.getElement()), 
 			isCellLocked(gridCell.getElement()),
 			isShrinkToFit(gridCell.getElement()), 
-			isRemoveTextFormatting(text)
+			isIgnoreTextFormatting(text)
 			);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 

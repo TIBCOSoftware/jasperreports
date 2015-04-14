@@ -309,6 +309,7 @@
       <property ref="net.sf.jasperreports.export.xls.ignore.cell.background"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.cell.border"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.graphics"/>
+      <property ref="net.sf.jasperreports.export.xls.ignore.text.formatting"/>
       <property ref="net.sf.jasperreports.export.xls.image.anchor.type"/>
       <property ref="net.sf.jasperreports.export.xls.image.border.fix.enabled"/>
       
@@ -322,7 +323,6 @@
       
       <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.columns"/>
       <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.rows"/>
-      <property ref="net.sf.jasperreports.export.xls.remove.text.formatting"/>
       <property ref="net.sf.jasperreports.export.xls.repeat.value"/>
       <property ref="net.sf.jasperreports.export.xls.row.outline.level.{arbitrary_level}"/>
       
@@ -4105,17 +4105,17 @@ Its value is used as default for the
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.xls.remove.text.formatting -->
+  <!-- net.sf.jasperreports.export.xls.ignore.text.formatting -->
   
-  <configProperty name="net.sf.jasperreports.export.xls.remove.text.formatting">
+  <configProperty name="net.sf.jasperreports.export.xls.ignore.text.formatting">
     <description>
 Property that specifies whether the text formatting (such as text color, background color, bold style, italic, underline, etc) 
-should be removed in the resulting Excel document at export time or not. 
+should be ignored in the resulting Excel document at export time or not. 
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isRemoveTextFormatting()">isRemoveTextFormatting()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isIgnoreTextFormatting()">isIgnoreTextFormatting()</api> Excel export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_REMOVE_TEXT_FORMATTING</api>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_IGNORE_TEXT_FORMATTING</api>
     <default>false</default>
     <scope>Global | Report | Text Element</scope>
     <since>6.0.4</since>

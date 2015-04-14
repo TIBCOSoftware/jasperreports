@@ -97,7 +97,7 @@ public class XlsxStyleHelper extends BaseHelper
 		boolean isHidden, 
 		boolean isLocked,
 		boolean  isShrinkToFit,
-		boolean isRemoveTextFormatting
+		boolean isIgnoreTextFormatting
 		)
 	{
 		XlsxStyleInfo styleInfo = 
@@ -110,7 +110,7 @@ public class XlsxStyleHelper extends BaseHelper
 				isHidden,
 				isLocked,
 				isShrinkToFit,
-				isRemoveTextFormatting
+				isIgnoreTextFormatting
 				);
 		Integer styleIndex = styleCache.get(styleInfo.getId());
 		if (styleIndex == null)

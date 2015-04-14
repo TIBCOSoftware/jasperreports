@@ -282,15 +282,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	public static final String PROPERTY_SHEET_NAME = XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.name";
 
 	/**
-	 * Property whose value is used as default state of the {@link #isRemoveEmptySpaceBetweenColumns()} export configuration flag.
-	 * <p/>
-	 * This property is by default not set (<code>false</code>).
-	 * 
-	 * @see JRPropertiesUtil
-	 */
-	public static final String PROPERTY_REMOVE_TEXT_FORMATTING = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.remove.empty.space.between.columns";
-	
-	/**
 	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_WRAP_TEXT}.
 	 */
 	public static final String PROPERTY_WRAP_TEXT = XlsReportConfiguration.PROPERTY_WRAP_TEXT;
@@ -1640,21 +1631,21 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	/**
 	 * 
 	 */
-	protected boolean isRemoveTextFormatting(JRPrintElement element)
+	protected boolean isIgnoreTextFormatting(JRPrintElement element)
 	{
 		if (
 			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_REMOVE_TEXT_FORMATTING)
+			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_IGNORE_TEXT_FORMATTING)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
 			return getPropertiesUtil().getBooleanProperty(
 											element, 
-											XlsReportConfiguration.PROPERTY_REMOVE_TEXT_FORMATTING, 
-											getCurrentItemConfiguration().isRemoveTextFormatting());
+											XlsReportConfiguration.PROPERTY_IGNORE_TEXT_FORMATTING, 
+											getCurrentItemConfiguration().isIgnoreTextFormatting());
 		}
-		return getCurrentItemConfiguration().isRemoveTextFormatting();
+		return getCurrentItemConfiguration().isIgnoreTextFormatting();
 	}
 
 	/**

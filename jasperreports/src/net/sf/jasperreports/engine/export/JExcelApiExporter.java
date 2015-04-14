@@ -767,7 +767,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
 			}
 
-			StyleInfo baseStyle = isRemoveTextFormatting(text) 
+			StyleInfo baseStyle = isIgnoreTextFormatting(text) 
 					? new StyleInfo(
 							mode,
 							WHITE,

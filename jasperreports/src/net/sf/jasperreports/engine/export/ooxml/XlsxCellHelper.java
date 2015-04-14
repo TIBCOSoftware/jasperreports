@@ -100,7 +100,7 @@ public class XlsxCellHelper extends BaseHelper
 		boolean isHidden,
 		boolean isLocked,
 		boolean isShrinkToFit,
-		boolean isRemoveTextFormatting
+		boolean isIgnoreTextFormatting
 		) 
 	{
 		try
@@ -119,7 +119,7 @@ public class XlsxCellHelper extends BaseHelper
 			throw new JRRuntimeException(e);
 		}
 
-		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, pattern, locale, isWrapText, isHidden, isLocked, isShrinkToFit, isRemoveTextFormatting) + "\"");
+		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, pattern, locale, isWrapText, isHidden, isLocked, isShrinkToFit, isIgnoreTextFormatting) + "\"");
 		String type = textValueHandler.getType();
 		if (type != null)
 		{

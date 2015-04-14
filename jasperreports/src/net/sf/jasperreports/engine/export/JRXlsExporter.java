@@ -752,7 +752,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
 		}
 
-		StyleInfo baseStyle = isRemoveTextFormatting(textElement) 
+		StyleInfo baseStyle = isIgnoreTextFormatting(textElement) 
 				? new StyleInfo(
 						mode,
 						whiteIndex,

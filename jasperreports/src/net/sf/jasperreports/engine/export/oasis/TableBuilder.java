@@ -327,12 +327,12 @@ public class TableBuilder
 	/**
 	 *
 	 */
-	public void exportText(JRPrintText text, JRExporterGridCell gridCell, boolean shrinkToFit, boolean wrapText, boolean isRemoveTextFormatting)
+	public void exportText(JRPrintText text, JRExporterGridCell gridCell, boolean shrinkToFit, boolean wrapText, boolean isIgnoreTextFormatting)
 	{
-		buildCellHeader((isRemoveTextFormatting ? null : styleCache.getCellStyle(gridCell, shrinkToFit, wrapText)), gridCell.getColSpan(), gridCell.getRowSpan());
+		buildCellHeader((isIgnoreTextFormatting ? null : styleCache.getCellStyle(gridCell, shrinkToFit, wrapText)), gridCell.getColSpan(), gridCell.getRowSpan());
 		
 		bodyWriter.write("<text:p text:style-name=\"");
-		bodyWriter.write(styleCache.getParagraphStyle(text, isRemoveTextFormatting));
+		bodyWriter.write(styleCache.getParagraphStyle(text, isIgnoreTextFormatting));
 		bodyWriter.write("\">");
 		documentBuilder.insertPageAnchor(this);
 		if (text.getAnchorName() != null)
@@ -367,12 +367,12 @@ public class TableBuilder
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRPrintText text, boolean startedHyperlink, boolean isRemoveTextFormatting)
+	protected void exportStyledText(JRPrintText text, boolean startedHyperlink, boolean isIgnoreTextFormatting)
 	{
 		JRStyledText styledText = documentBuilder.getStyledText(text);
 		if (styledText != null && styledText.length() > 0)
 		{
-			exportStyledText(styledText, documentBuilder.getTextLocale(text), startedHyperlink, isRemoveTextFormatting);
+			exportStyledText(styledText, documentBuilder.getTextLocale(text), startedHyperlink, isIgnoreTextFormatting);
 		}
 	}
 
@@ -380,7 +380,7 @@ public class TableBuilder
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyledText styledText, Locale locale, boolean startedHyperlink, boolean isRemoveTextFormatting)
+	protected void exportStyledText(JRStyledText styledText, Locale locale, boolean startedHyperlink, boolean isIgnoreTextFormatting)
 	{
 		String text = styledText.getText();
 
@@ -395,7 +395,7 @@ public class TableBuilder
 				text.substring(iterator.getIndex(), runLimit),
 				locale,
 				startedHyperlink,
-				isRemoveTextFormatting
+				isIgnoreTextFormatting
 				);
 
 			iterator.setIndex(runLimit);
@@ -412,10 +412,10 @@ public class TableBuilder
 			String text, 
 			Locale locale, 
 			boolean startedHyperlink,
-			boolean isRemoveTextFormatting
+			boolean isIgnoreTextFormatting
 			)
 	{
-		startTextSpan(attributes, text, locale, isRemoveTextFormatting);
+		startTextSpan(attributes, text, locale, isIgnoreTextFormatting);
 
 		boolean localHyperlink = false;
 
@@ -442,12 +442,12 @@ public class TableBuilder
 	/**
 	 *
 	 */
-	protected void startTextSpan(Map<AttributedCharacterIterator.Attribute, Object> attributes, String text, Locale locale, boolean isRemoveTextFormatting)
+	protected void startTextSpan(Map<AttributedCharacterIterator.Attribute, Object> attributes, String text, Locale locale, boolean isIgnoreTextFormatting)
 	{
 		bodyWriter.write("<text:span");
 		if(attributes != null)
 		{
-			String textSpanStyleName = styleCache.getTextSpanStyle(attributes, text, locale, isRemoveTextFormatting);
+			String textSpanStyleName = styleCache.getTextSpanStyle(attributes, text, locale, isIgnoreTextFormatting);
 			bodyWriter.write(" text:style-name=\"" + textSpanStyleName + "\"");
 		}
 		bodyWriter.write(">");

@@ -48,7 +48,7 @@ public class XlsxStyleInfo
 	protected boolean isHidden;
 	protected boolean isLocked;
 	protected boolean isShrinkToFit;
-	protected boolean isRemoveTextFormatting;
+	protected boolean isIgnoreTextFormatting;
 
 	/**
 	 *
@@ -62,16 +62,16 @@ public class XlsxStyleInfo
 		boolean isHidden,
 		boolean isLocked,
 		boolean isShrinkToFit,
-		boolean isRemoveTextFormatting
+		boolean isIgnoreTextFormatting
 		)
 	{
 		this.formatIndex = formatIndex;
-		this.fontIndex = isRemoveTextFormatting ? -1 : fontIndex;
-		this.borderIndex = isRemoveTextFormatting ? -1 : borderIndex;
+		this.fontIndex = isIgnoreTextFormatting ? -1 : fontIndex;
+		this.borderIndex = isIgnoreTextFormatting ? -1 : borderIndex;
 		
 		JRPrintElement element = gridCell.getElement();
 		
-		if (!isRemoveTextFormatting)
+		if (!isIgnoreTextFormatting)
 		{
 			if (element != null && element.getModeValue() == ModeEnum.OPAQUE)
 			{

@@ -78,20 +78,20 @@ public class ParagraphStyle extends Style
 	/**
 	 *
 	 */
-	public ParagraphStyle(WriterHelper styleWriter, JRPrintText text, boolean isRemoveTextFormatting)
+	public ParagraphStyle(WriterHelper styleWriter, JRPrintText text, boolean isIgnoreTextFormatting)
 	{
 		super(styleWriter);
 		
 		horizontalAlignment = getHorizontalAlignment(
 				text.getHorizontalTextAlign(), 
 				text.getVerticalTextAlign(), 
-				(isRemoveTextFormatting ? RotationEnum.NONE : text.getRotationValue()));
+				(isIgnoreTextFormatting ? RotationEnum.NONE : text.getRotationValue()));
 		verticalAlignment = getVerticalAlignment(
 				text.getHorizontalTextAlign(), 
 				text.getVerticalTextAlign(), 
-				(isRemoveTextFormatting ? RotationEnum.NONE : text.getRotationValue()));
+				(isIgnoreTextFormatting ? RotationEnum.NONE : text.getRotationValue()));
 		
-		if(isRemoveTextFormatting)
+		if(isIgnoreTextFormatting)
 		{
 			textRotation = "0";
 		}

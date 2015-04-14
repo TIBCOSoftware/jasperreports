@@ -333,7 +333,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		int rowIndex
 		) throws JRException
 	{
-		tableBuilder.exportText(text, gridCell, isShrinkToFit(text), isWrapText(text), isRemoveTextFormatting(text));
+		tableBuilder.exportText(text, gridCell, isShrinkToFit(text), isWrapText(text), isIgnoreTextFormatting(text));
 		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		if (!configuration.isIgnoreAnchors() && text.getAnchorName() != null)
 		{
@@ -802,7 +802,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 			
 			String ignLnkPropName = getIgnoreHyperlinkProperty();
 			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(ignLnkPropName, textElement);
-			boolean isRemoveTextFormatting = isRemoveTextFormatting(textElement);
+			boolean isIgnoreTextFormatting = isIgnoreTextFormatting(textElement);
 			if (ignoreHyperlink == null)
 			{
 				ignoreHyperlink = getPropertiesUtil().getBooleanProperty(jasperPrint, ignLnkPropName, false);
@@ -815,7 +815,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 
 			if (href == null)
 			{
-				exportStyledText(textElement, false, isRemoveTextFormatting);
+				exportStyledText(textElement, false, isIgnoreTextFormatting);
 			}
 			else
 			{
@@ -836,7 +836,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 								iterator.getAttributes(), 
 								runText, 
 								locale,
-								isRemoveTextFormatting);
+								isIgnoreTextFormatting);
 						writeHyperlink(textElement, href, true);
 						writeText(runText);
 						endHyperlink(true);
