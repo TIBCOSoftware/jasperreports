@@ -47,14 +47,14 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	/**
 	 * 
 	 */
-	private JasperReportsContext jasperReportsContext;
+	protected JasperReportsContext jasperReportsContext;
 
 	/**
 	 * 
 	 */
-	private ClassLoader classLoader;
-	private URLStreamHandlerFactory urlHandlerFactory;
-	private FileResolver fileResolver;
+	protected ClassLoader classLoader;
+	protected URLStreamHandlerFactory urlHandlerFactory;
+	protected FileResolver fileResolver;
 
 	/**
 	 *
