@@ -83,7 +83,7 @@ public class XlsxCellHelper extends BaseHelper
 		int colIndex 
 		) 
 	{
-		exportHeader(gridCell, rowIndex, colIndex, null, null, null, true, false, false, false);
+		exportHeader(gridCell, rowIndex, colIndex, null, null, null, true, false, false, false, false);
 	}
 
 	/**
@@ -99,7 +99,8 @@ public class XlsxCellHelper extends BaseHelper
 		boolean isWrapText,
 		boolean isHidden,
 		boolean isLocked,
-		boolean isShrinkToFit
+		boolean isShrinkToFit,
+		boolean isRemoveTextFormatting
 		) 
 	{
 		try
@@ -118,7 +119,7 @@ public class XlsxCellHelper extends BaseHelper
 			throw new JRRuntimeException(e);
 		}
 
-		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, pattern, locale, isWrapText, isHidden, isLocked, isShrinkToFit) + "\"");
+		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, pattern, locale, isWrapText, isHidden, isLocked, isShrinkToFit, isRemoveTextFormatting) + "\"");
 		String type = textValueHandler.getType();
 		if (type != null)
 		{

@@ -767,19 +767,31 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
 			}
 
-			StyleInfo baseStyle =
-				new StyleInfo(
-					mode, 
-					backcolor,
-					horizontalAlignment, 
-					verticalAlignment,
-					rotation, 
-					cellFont,
-					gridCell,
-					isWrapText(text) || Boolean.TRUE.equals(((JExcelApiExporterNature)nature).getColumnAutoFit(text)),
-					isCellLocked(text),
-					isShrinkToFit(text)
-					);
+			StyleInfo baseStyle = isRemoveTextFormatting(text) 
+					? new StyleInfo(
+							mode,
+							WHITE,
+							horizontalAlignment,
+							verticalAlignment,
+							(short)0,
+							null,
+							(JRExporterGridCell)null, 
+							isWrapText(text) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(text)),
+							isCellLocked(text),
+							isShrinkToFit(text)
+							)
+					: new StyleInfo(
+							mode, 
+							backcolor,
+							horizontalAlignment, 
+							verticalAlignment,
+							rotation, 
+							cellFont,
+							gridCell,
+							isWrapText(text) || Boolean.TRUE.equals(((JExcelApiExporterNature)nature).getColumnAutoFit(text)),
+							isCellLocked(text),
+							isShrinkToFit(text)
+							);
 
 			if (!configuration.isIgnoreAnchors() && text.getAnchorName() != null)
 			{
@@ -1877,17 +1889,20 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 
 		public BoxStyle(JRExporterGridCell gridCell)
 		{
-			JRLineBox lineBox = gridCell.getBox();
-			if (lineBox != null)
+			if(gridCell != null)
 			{
-				setBox(lineBox);
+				JRLineBox lineBox = gridCell.getBox();
+				if (lineBox != null)
+				{
+					setBox(lineBox);
+				}
+				JRPrintElement element = gridCell.getElement();
+				if (element instanceof JRCommonGraphicElement)
+				{
+					setPen(((JRCommonGraphicElement)element).getLinePen());
+				}
+				hash = computeHash();
 			}
-			JRPrintElement element = gridCell.getElement();
-			if (element instanceof JRCommonGraphicElement)
-			{
-				setPen(((JRCommonGraphicElement)element).getLinePen());
-			}
-			hash = computeHash();
 		}
 
 		public void setBox(JRLineBox box)
@@ -2052,7 +2067,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 			hash = 31*hash + this.horizontalAlignment;
 			hash = 31*hash + this.verticalAlignment;
 			hash = 31*hash + this.rotation;
-			hash = 31*hash + this.font.hashCode();
+			hash = 31*hash + (this.font == null ? 0 : this.font.hashCode());
 			hash = 31*hash + (this.box == null ? 0 : this.box.hashCode());
 			hash = 31*hash + (this.displayFormat == null ? 0 : this.displayFormat.hashCode());
 			hash = 31*hash + (this.isWrapText ? 0 : 1);
@@ -2073,7 +2088,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 
 			return k.mode.equals(mode) && k.backcolor.equals(backcolor) &&
 				k.horizontalAlignment == horizontalAlignment && k.verticalAlignment == verticalAlignment &&
-				k.rotation == rotation && k.font.equals(font) &&
+				k.rotation == rotation && 
+				(k.font == null ? font == null : k.font.equals(font)) &&
 				(k.box == null ? box == null : (box != null && k.box.equals(box))) &&
 				(k.displayFormat == null ? displayFormat == null : (displayFormat!= null && k.displayFormat.equals(displayFormat)) &&
 				k.isWrapText == isWrapText && k.isCellLocked == isCellLocked && k.isShrinkToFit == isShrinkToFit);
@@ -2160,7 +2176,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		{
 			try
 			{
-				if (styleKey.getDisplayFormat() == null)
+				if(styleKey.font == null)
+				{
+					cellStyle = new WritableCellFormat();
+				}
+				else if (styleKey.getDisplayFormat() == null)
 				{
 					cellStyle = new WritableCellFormat(styleKey.font);
 				}
@@ -2179,7 +2199,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 
 				JxlReportConfiguration configuration = getCurrentItemConfiguration();
 				
-				if (!configuration.isIgnoreCellBorder())
+				if (!configuration.isIgnoreCellBorder() && styleKey.box != null)
 				{
 					BoxStyle box = styleKey.box;
 					cellStyle.setBorder(Border.TOP, box.borderStyle[BoxStyle.TOP], box.borderColour[BoxStyle.TOP]);

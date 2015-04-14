@@ -327,12 +327,12 @@ public class TableBuilder
 	/**
 	 *
 	 */
-	public void exportText(JRPrintText text, JRExporterGridCell gridCell, boolean shrinkToFit, boolean wrapText)
+	public void exportText(JRPrintText text, JRExporterGridCell gridCell, boolean shrinkToFit, boolean wrapText, boolean isRemoveTextFormatting)
 	{
-		buildCellHeader(styleCache.getCellStyle(gridCell, shrinkToFit, wrapText), gridCell.getColSpan(), gridCell.getRowSpan());
-
+		buildCellHeader((isRemoveTextFormatting ? null : styleCache.getCellStyle(gridCell, shrinkToFit, wrapText)), gridCell.getColSpan(), gridCell.getRowSpan());
+		
 		bodyWriter.write("<text:p text:style-name=\"");
-		bodyWriter.write(styleCache.getParagraphStyle(text));
+		bodyWriter.write(styleCache.getParagraphStyle(text, isRemoveTextFormatting));
 		bodyWriter.write("\">");
 		documentBuilder.insertPageAnchor(this);
 		if (text.getAnchorName() != null)
@@ -355,7 +355,7 @@ public class TableBuilder
 	{
 		boolean startedHyperlink = startHyperlink(text, true);
 
-		exportStyledText(text, startedHyperlink);
+		exportStyledText(text, startedHyperlink, false);
 
 		if (startedHyperlink)
 		{
@@ -367,12 +367,12 @@ public class TableBuilder
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRPrintText text, boolean startedHyperlink)
+	protected void exportStyledText(JRPrintText text, boolean startedHyperlink, boolean isRemoveTextFormatting)
 	{
 		JRStyledText styledText = documentBuilder.getStyledText(text);
 		if (styledText != null && styledText.length() > 0)
 		{
-			exportStyledText(styledText, documentBuilder.getTextLocale(text), startedHyperlink);
+			exportStyledText(styledText, documentBuilder.getTextLocale(text), startedHyperlink, isRemoveTextFormatting);
 		}
 	}
 
@@ -380,7 +380,7 @@ public class TableBuilder
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyledText styledText, Locale locale, boolean startedHyperlink)
+	protected void exportStyledText(JRStyledText styledText, Locale locale, boolean startedHyperlink, boolean isRemoveTextFormatting)
 	{
 		String text = styledText.getText();
 
@@ -394,7 +394,8 @@ public class TableBuilder
 				iterator.getAttributes(), 
 				text.substring(iterator.getIndex(), runLimit),
 				locale,
-				startedHyperlink
+				startedHyperlink,
+				isRemoveTextFormatting
 				);
 
 			iterator.setIndex(runLimit);
@@ -410,10 +411,11 @@ public class TableBuilder
 			Object> attributes, 
 			String text, 
 			Locale locale, 
-			boolean startedHyperlink
+			boolean startedHyperlink,
+			boolean isRemoveTextFormatting
 			)
 	{
-		startTextSpan(attributes, text, locale);
+		startTextSpan(attributes, text, locale, isRemoveTextFormatting);
 
 		boolean localHyperlink = false;
 
@@ -440,12 +442,14 @@ public class TableBuilder
 	/**
 	 *
 	 */
-	protected void startTextSpan(Map<AttributedCharacterIterator.Attribute, Object> attributes, String text, Locale locale)
+	protected void startTextSpan(Map<AttributedCharacterIterator.Attribute, Object> attributes, String text, Locale locale, boolean isRemoveTextFormatting)
 	{
-		String textSpanStyleName = styleCache.getTextSpanStyle(attributes, text, locale);
-
 		bodyWriter.write("<text:span");
-		bodyWriter.write(" text:style-name=\"" + textSpanStyleName + "\"");
+		if(attributes != null)
+		{
+			String textSpanStyleName = styleCache.getTextSpanStyle(attributes, text, locale, isRemoveTextFormatting);
+			bodyWriter.write(" text:style-name=\"" + textSpanStyleName + "\"");
+		}
 		bodyWriter.write(">");
 	}
 
