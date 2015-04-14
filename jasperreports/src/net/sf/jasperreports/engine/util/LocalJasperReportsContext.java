@@ -44,7 +44,7 @@ public class LocalJasperReportsContext extends SimpleJasperReportsContext
 	 *
 	 */
 	private List<RepositoryService> localRepositoryServices;
-	private DefaultRepositoryService localRepositoryService;
+	protected DefaultRepositoryService localRepositoryService;
 
 	/**
 	 *
