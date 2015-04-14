@@ -333,7 +333,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		int rowIndex
 		) throws JRException
 	{
-		tableBuilder.exportText(text, gridCell, isShrinkToFit(text), isWrapText(text));
+		tableBuilder.exportText(text, gridCell, isShrinkToFit(text), isWrapText(text), isRemoveTextFormatting(text));
 		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		if (!configuration.isIgnoreAnchors() && text.getAnchorName() != null)
 		{
@@ -802,6 +802,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 			
 			String ignLnkPropName = getIgnoreHyperlinkProperty();
 			Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(ignLnkPropName, textElement);
+			boolean isRemoveTextFormatting = isRemoveTextFormatting(textElement);
 			if (ignoreHyperlink == null)
 			{
 				ignoreHyperlink = getPropertiesUtil().getBooleanProperty(jasperPrint, ignLnkPropName, false);
@@ -814,7 +815,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 
 			if (href == null)
 			{
-				exportStyledText(textElement, false);
+				exportStyledText(textElement, false, isRemoveTextFormatting);
 			}
 			else
 			{
@@ -831,12 +832,15 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 						// ODS does not like text:span inside text:a
 						// writing one text:a inside text:span for each style run
 						String runText = text.substring(iterator.getIndex(), runLimit);
-						startTextSpan(iterator.getAttributes(), runText, locale);
+						startTextSpan(
+								iterator.getAttributes(), 
+								runText, 
+								locale,
+								isRemoveTextFormatting);
 						writeHyperlink(textElement, href, true);
 						writeText(runText);
 						endHyperlink(true);
 						endTextSpan();
-
 						iterator.setIndex(runLimit);
 					}
 				}

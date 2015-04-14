@@ -721,20 +721,33 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				backcolor = getWorkbookColor(textElement.getBackcolor()).getIndex();
 			}
 
-			final StyleInfo baseStyle =
-				new StyleInfo(
-					mode,
-					backcolor,
-					horizontalAlignment,
-					verticalAlignment,
-					rotation,
-					getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
-					new BoxStyle(textElement), 
-					isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
-					isCellLocked(textElement),
-					isCellHidden(textElement),
-					isShrinkToFit(textElement)
-					);
+			final StyleInfo baseStyle = isRemoveTextFormatting(textElement) 
+					? new StyleInfo(
+							mode,
+							whiteIndex,
+							horizontalAlignment,
+							verticalAlignment,
+							(short)0,
+							null,
+							(BoxStyle)null, 
+							isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+							isCellLocked(textElement),
+							isCellHidden(textElement),
+							isShrinkToFit(textElement)
+							)
+					: new StyleInfo(
+							mode,
+							backcolor,
+							horizontalAlignment,
+							verticalAlignment,
+							rotation,
+							getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
+							new BoxStyle(textElement), 
+							isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+							isCellLocked(textElement),
+							isCellHidden(textElement),
+							isShrinkToFit(textElement)
+							);
 			
 			final JRStyledText styledText;
 			final String textStr;
@@ -1312,7 +1325,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			cellStyle.setAlignment(style.horizontalAlignment);
 			cellStyle.setVerticalAlignment(style.verticalAlignment);
 			cellStyle.setRotation(style.rotation);
-			cellStyle.setFont(style.font);
+			if(style.font != null)
+			{
+				cellStyle.setFont(style.font);
+			}
 			cellStyle.setWrapText(style.lcWrapText);
 			cellStyle.setLocked(style.lcCellLocked);
 			cellStyle.setHidden(style.lcCellHidden);
@@ -1322,7 +1338,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				cellStyle.setDataFormat(style.getDataFormat());
 			}
 
-			if (!getCurrentItemConfiguration().isIgnoreCellBorder()) {
+			if (!getCurrentItemConfiguration().isIgnoreCellBorder() && style.box != null) {
 				BoxStyle box = style.box;
 				cellStyle.setBorderTop(box.borderStyle[BoxStyle.TOP]);
 				cellStyle.setTopBorderColor(box.borderColour[BoxStyle.TOP]);
@@ -1925,11 +1941,14 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 
 		public BoxStyle(JRPrintElement element) {
-			if (element instanceof JRBoxContainer) {
-				setBox(((JRBoxContainer)element).getLineBox());
-			}
-			if (element instanceof JRCommonGraphicElement) {
-				setPen(((JRCommonGraphicElement)element).getLinePen());
+			if(element != null)
+			{
+				if (element instanceof JRBoxContainer) {
+					setBox(((JRBoxContainer)element).getLineBox());
+				}
+				if (element instanceof JRCommonGraphicElement) {
+					setPen(((JRCommonGraphicElement)element).getLinePen());
+				}
 			}
 		}
 

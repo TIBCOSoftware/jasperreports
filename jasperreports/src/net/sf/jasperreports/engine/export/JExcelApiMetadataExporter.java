@@ -104,6 +104,7 @@ import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
+import net.sf.jasperreports.engine.export.JExcelApiExporter.StyleInfo;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -728,19 +729,31 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				backcolor = getWorkbookColour(textElement.getBackcolor(), true);
 			}
 
-			StyleInfo baseStyle =
-				new StyleInfo(
-					mode, 
-					backcolor,
-					horizontalAlignment, 
-					verticalAlignment,
-					rotation, 
-					cellFont,
-					textElement,
-					isWrapText(textElement) || Boolean.TRUE.equals(((JExcelApiExporterNature)nature).getColumnAutoFit(textElement)),
-					isCellLocked(textElement),
-					isShrinkToFit(textElement)
-					);
+			StyleInfo baseStyle = isRemoveTextFormatting(textElement) 
+					? new StyleInfo(
+							mode,
+							WHITE,
+							horizontalAlignment,
+							verticalAlignment,
+							(short)0,
+							null,
+							(BoxStyle)null, 
+							isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+							isCellLocked(textElement),
+							isShrinkToFit(textElement)
+							)
+					: new StyleInfo(
+							mode, 
+							backcolor,
+							horizontalAlignment, 
+							verticalAlignment,
+							rotation, 
+							cellFont,
+							textElement,
+							isWrapText(textElement) || Boolean.TRUE.equals(((JExcelApiExporterNature)nature).getColumnAutoFit(textElement)),
+							isCellLocked(textElement),
+							isShrinkToFit(textElement)
+							);
 			
 			String href = null;
 			JRHyperlinkProducer customHandler = getHyperlinkProducer(textElement);
@@ -1703,17 +1716,20 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 
 		public BoxStyle(JRBoxContainer element)
 		{
-			JRLineBox lineBox = element.getLineBox();
-			
-			if (lineBox != null)
+			if(element != null)
 			{
-				setBox(lineBox);
+				JRLineBox lineBox = element.getLineBox();
+				
+				if (lineBox != null)
+				{
+					setBox(lineBox);
+				}
+				if (element instanceof JRCommonGraphicElement)
+				{
+					setPen(((JRCommonGraphicElement)element).getLinePen());
+				}
+				hash = computeHash();
 			}
-			if (element instanceof JRCommonGraphicElement)
-			{
-				setPen(((JRCommonGraphicElement)element).getLinePen());
-			}
-			hash = computeHash();
 		}
 
 		public void setBox(JRLineBox box)
@@ -1879,7 +1895,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 			hash = 31*hash + this.horizontalAlignment;
 			hash = 31*hash + this.verticalAlignment;
 			hash = 31*hash + this.rotation;
-			hash = 31*hash + this.font.hashCode();
+			hash = 31*hash + (this.font == null ? 0 : this.font.hashCode());
 			hash = 31*hash + (this.box == null ? 0 : this.box.hashCode());
 			hash = 31*hash + (this.displayFormat == null ? 0 : this.displayFormat.hashCode());
 			hash = 31*hash + (this.isWrapText ? 0 : 1);
@@ -1900,7 +1916,8 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 
 			return k.mode.equals(mode) && k.backcolor.equals(backcolor) &&
 				k.horizontalAlignment == horizontalAlignment && k.verticalAlignment == verticalAlignment &&
-				k.rotation == rotation && k.font.equals(font) &&
+				k.rotation == rotation && 
+				(k.font == null ? font == null : k.font.equals(font)) &&
 				(k.box == null ? box == null : (box != null && k.box.equals(box))) &&
 				(k.displayFormat == null ? displayFormat == null : (displayFormat!= null && k.displayFormat.equals(displayFormat)) &&
 				k.isWrapText == isWrapText && k.isCellLocked == isCellLocked && k.isShrinkToFit == isShrinkToFit);
@@ -1962,7 +1979,11 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		{
 			try
 			{
-				if (styleKey.getDisplayFormat() == null)
+				if(styleKey.font == null)
+				{
+					cellStyle = new WritableCellFormat();
+				}
+				else if (styleKey.getDisplayFormat() == null)
 				{
 					cellStyle = new WritableCellFormat(styleKey.font);
 				}
@@ -1979,7 +2000,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				cellStyle.setLocked(styleKey.isCellLocked);
 
 				JxlReportConfiguration configuration = getCurrentItemConfiguration();
-				if (!configuration.isIgnoreCellBorder())
+				if (!configuration.isIgnoreCellBorder() && styleKey.box != null)
 				{
 					BoxStyle box = styleKey.box;
 					cellStyle.setBorder(Border.TOP, box.borderStyle[BoxStyle.TOP], box.borderColour[BoxStyle.TOP]);

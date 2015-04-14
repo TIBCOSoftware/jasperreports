@@ -752,20 +752,33 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
 		}
 
-		StyleInfo baseStyle =
-			new StyleInfo(
-				mode,
-				backcolor,
-				horizontalAlignment,
-				verticalAlignment,
-				rotation,
-				getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
-				gridCell, 
-				isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
-				isCellLocked(textElement),
-				isCellHidden(textElement),
-				isShrinkToFit(textElement)
-				);
+		StyleInfo baseStyle = isRemoveTextFormatting(textElement) 
+				? new StyleInfo(
+						mode,
+						whiteIndex,
+						horizontalAlignment,
+						verticalAlignment,
+						(short)0,
+						null,
+						(JRExporterGridCell)null, 
+						isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+						isCellLocked(textElement),
+						isCellHidden(textElement),
+						isShrinkToFit(textElement)
+						)
+				: new StyleInfo(
+					mode,
+					backcolor,
+					horizontalAlignment,
+					verticalAlignment,
+					rotation,
+					getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
+					gridCell, 
+					isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+					isCellLocked(textElement),
+					isCellHidden(textElement),
+					isShrinkToFit(textElement)
+					);
 		createTextCell(textElement, gridCell, colIndex, rowIndex, styledText, baseStyle, forecolor);
 	}
 
@@ -929,8 +942,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 		setHyperlinkCell(textElement);
 	}
-
-
+	
 	protected HSSFCellStyle initCreateCell(JRExporterGridCell gridCell, int colIndex, int rowIndex, StyleInfo baseStyle)
 	{
 		HSSFCellStyle cellStyle = getLoadedCellStyle(baseStyle);
@@ -1240,24 +1252,27 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		if (cellStyle == null)
 		{
 			cellStyle = workbook.createCellStyle();
-
+			
 			cellStyle.setFillForegroundColor(style.backcolor);
 			cellStyle.setFillPattern(style.mode);
 			cellStyle.setAlignment(style.horizontalAlignment);
 			cellStyle.setVerticalAlignment(style.verticalAlignment);
 			cellStyle.setRotation(style.rotation);
-			cellStyle.setFont(style.font);
+			if(style.font != null)
+			{
+				cellStyle.setFont(style.font);
+			}
 			cellStyle.setWrapText(style.lcWrapText);
 			cellStyle.setLocked(style.lcCellLocked);
 			cellStyle.setHidden(style.lcCellHidden);
 			cellStyle.setShrinkToFit(style.lcShrinkToFit);
-
+			
 			if (style.hasDataFormat())
 			{
 				cellStyle.setDataFormat(style.getDataFormat());
 			}
-
-			boolean isIgnoreCellBorder = getCurrentItemConfiguration().isIgnoreCellBorder();
+			
+			boolean isIgnoreCellBorder = getCurrentItemConfiguration().isIgnoreCellBorder() || style.box ==null;
 			if (!isIgnoreCellBorder)
 			{
 				BoxStyle box = style.box;
@@ -1270,12 +1285,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				cellStyle.setBorderRight(box.borderStyle[BoxStyle.RIGHT]);
 				cellStyle.setRightBorderColor(box.borderColour[BoxStyle.RIGHT]);
 			}
-
+			
 			loadedCellStyles.put(style, cellStyle);
 		}
 		return cellStyle;
 	}
-
 	protected HSSFCellStyle getLoadedCellStyle(
 			short mode,
 			short backcolor,
@@ -2101,18 +2115,21 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 		public BoxStyle(JRExporterGridCell gridCell)
 		{
-			JRLineBox lineBox = gridCell.getBox();
-			if (lineBox != null)
+			if(gridCell != null)
 			{
-				setBox(lineBox);
+				JRLineBox lineBox = gridCell.getBox();
+				if (lineBox != null)
+				{
+					setBox(lineBox);
+				}
+				JRPrintElement element = gridCell.getElement();
+				if (element instanceof JRCommonGraphicElement)
+				{
+					setPen(((JRCommonGraphicElement)element).getLinePen());
+				}
+	
+				hash = computeHash();
 			}
-			JRPrintElement element = gridCell.getElement();
-			if (element instanceof JRCommonGraphicElement)
-			{
-				setPen(((JRCommonGraphicElement)element).getLinePen());
-			}
-
-			hash = computeHash();
 		}
 
 		public void setBox(JRLineBox box)

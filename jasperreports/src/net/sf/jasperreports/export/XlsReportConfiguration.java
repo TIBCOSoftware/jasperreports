@@ -437,6 +437,22 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	public static final String PROPERTY_SHRINK_TO_FIT = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "shrink.to.fit";
 
 	/**
+	 * Property whose value is used as default state of the {@link #isRemoveTextFormatting()} export configuration flag. 
+	 * If true, text elements will be exported without formatting features such as bold, underline, backcolor, text color, etc. 
+	 * <p/>
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code></li>
+	 * </ul>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_REMOVE_TEXT_FORMATTING = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.remove.text.formatting";
+
+	/**
 	 * Returns a boolean value specifying whether each report page should be written in a different XLS sheet.
 	 * @see #PROPERTY_ONE_PAGE_PER_SHEET
 	 */
@@ -922,9 +938,21 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * @see #PROPERTY_SHRINK_TO_FIT
 	 */
 	@ExporterProperty(
-		value=PROPERTY_SHRINK_TO_FIT,
+			value=PROPERTY_SHRINK_TO_FIT,
+			booleanDefault=false
+			)
+	public Boolean isShrinkToFit();
+	
+	/**
+	 * Flag that indicates whether the text elements should be exported without text formatting features, 
+	 * such as bold, italic, underline, text color, backcolor, etc. 
+	 * <p/>
+	 * @see #PROPERTY_REMOVE_TEXT_FORMATTING
+	 */
+	@ExporterProperty(
+		value=PROPERTY_REMOVE_TEXT_FORMATTING,
 		booleanDefault=false
 		)
-	public Boolean isShrinkToFit();
+	public Boolean isRemoveTextFormatting();
 	
 }

@@ -1378,7 +1378,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			isWrapText(gridCell.getElement()) || Boolean.TRUE.equals(((JRXlsxExporterNature)nature).getColumnAutoFit(gridCell.getElement())), 
 			isCellHidden(gridCell.getElement()), 
 			isCellLocked(gridCell.getElement()),
-			isShrinkToFit(gridCell.getElement())
+			isShrinkToFit(gridCell.getElement()), 
+			isRemoveTextFormatting(text)
 			);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
