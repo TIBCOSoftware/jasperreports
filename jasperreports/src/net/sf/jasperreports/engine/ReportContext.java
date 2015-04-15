@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine;
 
 
+import java.util.Map;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -51,4 +52,9 @@ public interface ReportContext
 	 *
 	 */
 	public boolean containsParameter(String parameterName);
+
+	/**
+	 *
+	 */
+	public Map<String, Object> getParameterValues();
 }
