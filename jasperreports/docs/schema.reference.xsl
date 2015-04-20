@@ -191,16 +191,63 @@ ga('send', 'pageview');
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
+    <td colspan="5">
+      <span class="label"><br/>Named Enumeration Types</span>
+    </td>
+  </tr>
+  <xsl:for-each select="//xsd:simpleType[@name]">
+  <xsl:sort select="@name"/>
+  <tr>
+    <td style="width: 20px;"></td>
+    <td colspan="4" align="right"><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute></xsl:element><a href="#top" class="toc">top</a></td>
+  </tr>
+  <tr>
+  	<td style="width: 20px;"></td>
+    <td colspan="4"><hr size="1"/></td>
+  </tr>
+  <tr>
+  	<td style="width: 20px;"></td>
+    <td colspan="4"><span class="name"><xsl:value-of select="@name"/></span></td>
+  </tr>
+  <tr>
+    <td style="width: 20px;"></td>
+    <td style="width: 20px;"></td>
+    <td colspan="3"><xsl:apply-templates select="xsd:annotation/xsd:documentation"/></td>
+  </tr>
+  <tr valign="top">
+    <td style="width: 20px;"/>
+    <td style="width: 20px;"><span class="label">Values: </span></td>
+    <td colspan="3"/>
+  </tr>
+  <tr valign="top">
+  	<td style="width: 20px;"/>
+  	<td style="width: 20px;"/>
+    <td colspan="3"><table width="100%" cellspacing="0" cellpadding="0" border="0">
+    <xsl:apply-templates select="xsd:restriction/xsd:enumeration"/>
+    </table>
+    </td>
+  </tr>
+  </xsl:for-each>
+</table>
+
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tr>
     <td style="width: 20px;"><br/></td>
     <td style="width: 20px;"><br/></td>
     <td style="width: 20px;"><br/></td>
     <td style="width: 20px;"><br/></td>
     <td><br/></td>
   </tr>
+  <tr>
+    <td colspan="5">
+      <span class="label"><br/>Schema Elements</span>
+    </td>
+  </tr>
   <xsl:for-each select="//xsd:element[@name]">
   <xsl:sort select="@name"/>
   <tr>
-    <td colspan="5" align="right"><br/><xsl:element name="a"><xsl:attribute name="name">
+    <td colspan="5" align="right"><xsl:element name="a"><xsl:attribute name="name">
 	<xsl:choose>
 	  <xsl:when test="../../../../@name"><xsl:value-of select="concat(../../../../@name,'_', @name)"/></xsl:when>
 	  <xsl:when test="../../../@name"><xsl:value-of select="concat(../../../@name,'_', @name)"/></xsl:when>
@@ -253,6 +300,7 @@ ga('send', 'pageview');
     </td>
   </tr>
 </table>
+
 
 </body>
 </html>
@@ -349,7 +397,15 @@ ga('send', 'pageview');
   </tr>
   <tr>
     <td colspan="3"></td>
-    <td colspan="2"><span class="label">Type: </span><span class="description"><xsl:value-of select="@type"/></span></td>
+    <td colspan="2"><span class="label">Type: </span><span class="description">
+	  <xsl:choose>
+	    <xsl:when test="starts-with(@type,'jr:')">
+	      <xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="substring(@type,4)"/></xsl:attribute>
+	        <xsl:value-of select="substring(@type,4)"/></xsl:element>
+	      </xsl:when>
+	      <xsl:otherwise><xsl:value-of select="@type"/></xsl:otherwise>
+	    </xsl:choose></span>
+	</td>
   </tr>
   <tr>
     <td colspan="3"></td>
@@ -393,6 +449,20 @@ ga('send', 'pageview');
     <td>
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
       <xsl:apply-templates select="../../../xsd:simpleType[@name='complexEvaluationTime']"/>
+      </table>
+	</td>
+  </tr>
+  </xsl:if>
+  <xsl:if test="@type='jr:aggregationCalculationType'">
+  <tr>
+    <td colspan="3"></td>
+    <td colspan="2"><span class="label">Values </span></td>
+  </tr>
+  <tr>
+    <td colspan="4"></td>
+    <td>
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <xsl:apply-templates select="../../../xsd:simpleType[@name='aggregationCalculationType']"/>
       </table>
 	</td>
   </tr>
@@ -476,6 +546,11 @@ ga('send', 'pageview');
 
 
 <xsl:template match="xsd:simpleType[@name='complexEvaluationTime']">
+  <xsl:apply-templates select="xsd:restriction/xsd:enumeration"/>
+</xsl:template>
+
+
+<xsl:template match="xsd:simpleType[@name='aggregationCalculationType']">
   <xsl:apply-templates select="xsd:restriction/xsd:enumeration"/>
 </xsl:template>
 
