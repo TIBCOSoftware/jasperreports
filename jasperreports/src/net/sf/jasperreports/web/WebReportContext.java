@@ -70,14 +70,25 @@ public class WebReportContext implements ReportContext
 		return getInstance(request, true);
 	}
 
+	public static final WebReportContext getInstance(HttpServletRequest request, String reportContextId) {
+		return getInstance(request, reportContextId, true);
+	}
+
+	public static final WebReportContext getInstance(HttpServletRequest request, boolean create) {
+		return getInstance(request, null, create);
+	}
+
 	/**
 	 *
 	 */
-	public static final WebReportContext getInstance(HttpServletRequest request, boolean create)
+	public static final WebReportContext getInstance(HttpServletRequest request, String reportContextId, boolean create)
 	{
 		WebReportContext webReportContext = null;
 
-		String reportContextId = request.getParameter(REQUEST_PARAMETER_REPORT_CONTEXT_ID);
+		if (reportContextId == null) {
+			reportContextId = request.getParameter(REQUEST_PARAMETER_REPORT_CONTEXT_ID);
+		}
+
 		if (reportContextId != null)
 		{
 			webReportContext = (WebReportContext)request.getSession().getAttribute(getSessionAttributeName(reportContextId));
