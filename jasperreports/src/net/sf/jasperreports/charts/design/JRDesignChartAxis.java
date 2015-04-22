@@ -61,11 +61,6 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 		this.parentChart = parentChart;
 	}
 
-	public void setParentChart(JRDesignChart parentChart) 
-	{
-		this.parentChart = parentChart;
-	}
-	
 	/**
 	 * Sets the position of this axis' value line relative to the multiple
 	 * axis chart.
