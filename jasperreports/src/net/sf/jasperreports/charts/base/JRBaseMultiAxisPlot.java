@@ -29,12 +29,14 @@ import java.util.List;
 
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMultiAxisPlot;
+import net.sf.jasperreports.charts.design.JRDesignChartAxis;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.design.JRDesignChart;
 
 /**
  * An immutable representation of the layout options of a multiple axis chart.
@@ -128,18 +130,19 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 	 */
 	public Object clone(JRChart parentChart) 
 	{
-		JRBaseMultiAxisPlot clone = (JRBaseMultiAxisPlot)super.clone(parentChart);
+		JRBaseMultiAxisPlot clone = (JRBaseMultiAxisPlot) super
+				.clone(parentChart);
 		List<JRChartAxis> cloneAxes;
-		if (axes == null)// should not be null but it's protected so let's be safe
+		if (axes == null)// should not be null but it's protected so let's be
+							// safe
 		{
 			cloneAxes = null;
-		}
-		else
-		{
+		} else {
 			cloneAxes = new ArrayList<JRChartAxis>(axes.size());
-			for (JRChartAxis axis : axes)
-			{
-				JRChartAxis axisClone = axis == null ? null : axis.clone(axis.getChart());
+			for (JRChartAxis axis : axes) {
+				JRDesignChartAxis axisClone = (JRDesignChartAxis) (axis == null ? null
+						: axis.clone((JRDesignChart) axis.getChart().clone()));
+				axisClone.setParentChart((JRDesignChart) parentChart);
 				cloneAxes.add(axisClone);
 			}
 		}
