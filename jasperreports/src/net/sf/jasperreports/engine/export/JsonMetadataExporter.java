@@ -40,6 +40,7 @@ import java.util.Scanner;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
@@ -454,28 +455,22 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 				if (filter == null || filter.isToExport(element))
 				{
 					exportElement(element);
+
+					if (element instanceof JRGenericPrintElement)
+					{
+						//exportElement(element);
+					}
+					else if (element instanceof JRPrintFrame)
+					{
+						exportElements(((JRPrintFrame) element).getElements());
+					}
 				}
 			}
 		}
 	}
 
-	public void exportElement(JRPrintElement element) throws IOException
-	{
-		if (filter == null || filter.isToExport(element))
-		{
-			if (element instanceof JRPrintText)
-			{
-				exportText((JRPrintText)element);
-			}
-			else if (element instanceof JRPrintFrame)
-			{
-				exportElements(((JRPrintFrame) element).getElements());
-			}
-		}
-	}
-
-	protected void exportText(JRPrintText printText) throws IOException {
-		JRPropertiesMap propMap = printText.getPropertiesMap();
+	protected void exportElement(JRPrintElement element) throws IOException {
+		JRPropertiesMap propMap = element.getPropertiesMap();
 
 		if (propMap.containsProperty(JSON_EXPORTER_PATH_PROPERTY)) {
 			String propertyPath = propMap.getProperty(JSON_EXPORTER_PATH_PROPERTY);
@@ -485,19 +480,23 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 				boolean repeatValue = getPropertiesUtil().getBooleanProperty(propMap, JSON_EXPORTER_REPEAT_VALUE_PROPERTY, false);
 
 				// we have a mapped node for this path
-				if (gotSchema && pathToValueNode.containsKey(absolutePath)) {
-
-					if (log.isDebugEnabled()) {
-						log.debug("found element with path: " + propertyPath);
+				if (gotSchema) 
+				{
+					if (pathToValueNode.containsKey(absolutePath)) 
+					{
+						if (log.isDebugEnabled()) {
+							log.debug("found element with path: " + propertyPath);
+						}
+						processElement(element, absolutePath, repeatValue);
 					}
-
-					processTextElement(printText, absolutePath, repeatValue);
-				} else if (!gotSchema) {
+				}
+				else 
+				{
 					prepareSchema(absolutePath);
 					if (log.isDebugEnabled()) {
 						log.debug("found element with path: " + propertyPath);
 					}
-					processTextElement(printText, absolutePath, repeatValue);
+					processElement(element, absolutePath, repeatValue);
 				}
 			}
 		}
@@ -540,20 +539,32 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 		}
 	}
 
-	private void processTextElement(JRPrintText printText, String absolutePath, boolean repeatValue) throws IOException {
+	private void processElement(JRPrintElement element, String absolutePath, boolean repeatValue) throws IOException 
+	{
 		Object value;
 		final String textStr;
 		final boolean hasDataProp;
-		if (printText.getPropertiesMap().containsProperty(JSON_EXPORTER_DATA_PROPERTY)) {
+		if (element.getPropertiesMap().containsProperty(JSON_EXPORTER_DATA_PROPERTY)) 
+		{
 			hasDataProp = true;
-			textStr = printText.getPropertiesMap().getProperty(JSON_EXPORTER_DATA_PROPERTY);
-		} else {
+			textStr = element.getPropertiesMap().getProperty(JSON_EXPORTER_DATA_PROPERTY);
+		}
+		else
+		{
 			hasDataProp = false;
-			JRStyledText styledText = getStyledText(printText);
-
-			if (styledText != null)
+			if (element instanceof JRPrintText)
 			{
-				textStr = styledText.getText();
+				JRPrintText printText = (JRPrintText)element; 
+				JRStyledText styledText = getStyledText(printText);
+
+				if (styledText != null)
+				{
+					textStr = styledText.getText();
+				}
+				else
+				{
+					textStr = null;
+				}
 			}
 			else
 			{
@@ -561,18 +572,31 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			}
 		}
 
-		TextValue textValue = getTextValue(printText, textStr);
-		LocalTextValueHandler handler = new LocalTextValueHandler(hasDataProp, textStr);
-		try
+		if (element instanceof JRPrintText)
 		{
-			textValue.handle(handler);
+			JRPrintText printText = (JRPrintText)element; 
+			TextValue textValue = getTextValue(printText, textStr);
+			LocalTextValueHandler handler = new LocalTextValueHandler(hasDataProp, textStr);
+			try
+			{
+				textValue.handle(handler);
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			value = handler.getValue();
 		}
-		catch (JRException e)
+		else
 		{
-			throw new JRRuntimeException(e);
+			value = textStr;
 		}
-		value = handler.getValue();
 
+		processElement(value, absolutePath, repeatValue);
+	}
+
+	private void processElement(Object value, String absolutePath, boolean repeatValue) throws IOException 
+	{
 		if (openedSchemaNodes.size() == 0) {
 			// initialize the json for the first time
 			initJson(absolutePath, value, repeatValue);
