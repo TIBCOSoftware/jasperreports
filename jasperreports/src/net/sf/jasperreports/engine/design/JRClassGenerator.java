@@ -510,7 +510,7 @@ public class JRClassGenerator
 					|| (methodExpressionIndex > 0 && sb.length() - methodBufferStartPosition > maxMethodSize))
 			{
 				// end the current method
-				writeMethodEnd(sb, evaluationType, it.hasNext() ? methodIndex : null);
+				writeMethodEnd(sb, evaluationType, methodIndex);
 				
 				// start a new method
 				writeMethodStart(sb, evaluationType, methodIndex);

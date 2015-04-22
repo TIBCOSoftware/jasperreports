@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public abstract class JRHyperlinkProducerFactory
+public abstract class JRHyperlinkProducerFactory //FIXMENOW why would somebody need anything else than the DefaultHyperlinkProducerFactory, which is based on extensions?
 {
 
 	/**
