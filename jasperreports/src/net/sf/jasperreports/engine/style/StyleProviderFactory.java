@@ -36,6 +36,7 @@ public interface StyleProviderFactory
 	/**
 	 *
 	 */
+	//FIXME StyleProviderContext also has JasperReportsContext
 	public StyleProvider getStyleProvider(StyleProviderContext context, JasperReportsContext jasperreportsContext);
 
 
