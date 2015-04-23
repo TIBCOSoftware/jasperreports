@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -43,6 +44,7 @@ import net.sf.jasperreports.engine.export.data.TextValueHandler;
  */
 public class XlsxCellHelper extends BaseHelper
 {
+
 	/**
 	 *
 	 */
@@ -142,18 +144,36 @@ public class XlsxCellHelper extends BaseHelper
 	 */
 	public static String getColumIndexLetter(int colIndex)
 	{
-		int intFirstLetter = ((colIndex) / 676) + 64;
-		int intSecondLetter = ((colIndex % 676) / 26) + 64;
-		int intThirdLetter = (colIndex % 26) + 65;
-		
-		char firstLetter = (intFirstLetter > 64) ? (char)intFirstLetter : ' ';
-		char secondLetter = (intSecondLetter > 64) ? (char)intSecondLetter : ' ';
-		char thirdLetter = (char)intThirdLetter;
-		
-		return ("" + firstLetter + secondLetter + thirdLetter).trim();
+		if(colIndex < 0)
+		{
+			throw 
+				new JRRuntimeException(
+					JRXlsAbstractExporter.EXCEPTION_MESSAGE_KEY_NEGATIVE_COLUMN_INDEX, 
+					new Object[]{colIndex});
+		} 
+		else if(colIndex > 16383)
+		{
+			throw 
+				new JRRuntimeException(
+					JRXlsAbstractExporter.EXCEPTION_MESSAGE_KEY_COLUMN_INDEX_BEYOND_LIMIT, 
+					new Object[]{colIndex, 16383});
+		}
+		else if (colIndex < 26)
+		{
+			return String.valueOf((char)(colIndex + 65));
+		} 
+		else if (colIndex < 702) 
+		{
+			return String.valueOf((char)(colIndex/26 + 64)) 
+				+ String.valueOf((char)(colIndex%26 + 65));
+		} 
+		else 
+		{
+			return String.valueOf((char)((colIndex-26)/676 + 64)) 
+				+ String.valueOf((char)(((colIndex-26)%676)/26 + 65)) 
+				+ String.valueOf((char)(colIndex%26 + 65));
+		}
 	}
-
-
 }
 
 class TypeTextValueHandler implements TextValueHandler 

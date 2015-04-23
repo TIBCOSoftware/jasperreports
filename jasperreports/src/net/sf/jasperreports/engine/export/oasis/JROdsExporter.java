@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
@@ -524,16 +525,35 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	
 	protected String getColumnName(int colIndex)
 	{
-		String colName = null;
-		if(colIndex > -1 && colIndex < 16384)
+		if(colIndex < 0)
 		{
-			colName = colIndex > 675 
-					? String.valueOf((char)(colIndex/676 +64)) + getColumnName(colIndex%676) 
-					: (colIndex > 25 
-							? String.valueOf((char)(colIndex/26 + 64)) + getColumnName(colIndex%26) 
-							: String.valueOf((char)(colIndex %26 + 65)));
+			throw 
+				new JRRuntimeException(
+					JRXlsAbstractExporter.EXCEPTION_MESSAGE_KEY_NEGATIVE_COLUMN_INDEX, 
+					new Object[]{colIndex});
+		} 
+		else if(colIndex > 16383)
+		{
+			throw 
+				new JRRuntimeException(
+					JRXlsAbstractExporter.EXCEPTION_MESSAGE_KEY_COLUMN_INDEX_BEYOND_LIMIT, 
+					new Object[]{colIndex, 16383});
 		}
-		return colName == null ? DEFAULT_COLUMN : colName;
+		else if (colIndex < 26)
+		{
+			return String.valueOf((char)(colIndex + 65));
+		} 
+		else if (colIndex < 702) 
+		{
+			return String.valueOf((char)(colIndex/26 + 64)) 
+				+ String.valueOf((char)(colIndex%26 + 65));
+		} 
+		else 
+		{
+			return String.valueOf((char)((colIndex-26)/676 + 64)) 
+				+ String.valueOf((char)(((colIndex-26)%676)/26 + 65)) 
+				+ String.valueOf((char)(colIndex%26 + 65));
+		}
 	}
 	
 	@Override
