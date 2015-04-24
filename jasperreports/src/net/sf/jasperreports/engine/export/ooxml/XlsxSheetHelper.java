@@ -321,8 +321,8 @@ public class XlsxSheetHelper extends BaseHelper
 		if (rowSpan > 1	|| colSpan > 1)
 		{
 			String ref = 
-				XlsxCellHelper.getColumIndexLetter(col) + (row + 1)
-				+ ":" + XlsxCellHelper.getColumIndexLetter(col + colSpan - 1) + (row + rowSpan); //FIXMEXLSX reuse this utility method
+				JRXlsAbstractExporter.getColumIndexName(col) + (row + 1)
+				+ ":" + JRXlsAbstractExporter.getColumIndexName(col + colSpan - 1) + (row + rowSpan); //FIXMEXLSX reuse this utility method
 			
 			try
 			{
@@ -341,7 +341,7 @@ public class XlsxSheetHelper extends BaseHelper
 	public void exportHyperlink(int row, int col, String href, boolean isLocal) 
 	{
 		String ref = 
-			XlsxCellHelper.getColumIndexLetter(col) + (row + 1);
+				JRXlsAbstractExporter.getColumIndexName(col) + (row + 1);
 		
 		try
 		{

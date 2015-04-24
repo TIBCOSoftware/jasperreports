@@ -518,42 +518,9 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 
 		if(row > -1 && row < 1048577 && col > -1 && col < 16384)
 		{
-			address = "$" + getColumnName(col) + "$" + (row + 1);
+			address = "$" + getColumIndexName(col) + "$" + (row + 1);
 		}
 		return address == null ? DEFAULT_ADDRESS : address;
-	}
-	
-	protected String getColumnName(int colIndex)
-	{
-		if(colIndex < 0)
-		{
-			throw 
-				new JRRuntimeException(
-					JRXlsAbstractExporter.EXCEPTION_MESSAGE_KEY_NEGATIVE_COLUMN_INDEX, 
-					new Object[]{colIndex});
-		} 
-		else if(colIndex > 16383)
-		{
-			throw 
-				new JRRuntimeException(
-					JRXlsAbstractExporter.EXCEPTION_MESSAGE_KEY_COLUMN_INDEX_BEYOND_LIMIT, 
-					new Object[]{colIndex, 16383});
-		}
-		else if (colIndex < 26)
-		{
-			return String.valueOf((char)(colIndex + 65));
-		} 
-		else if (colIndex < 702) 
-		{
-			return String.valueOf((char)(colIndex/26 + 64)) 
-				+ String.valueOf((char)(colIndex%26 + 65));
-		} 
-		else 
-		{
-			return String.valueOf((char)((colIndex-26)/676 + 64)) 
-				+ String.valueOf((char)(((colIndex-26)%676)/26 + 65)) 
-				+ String.valueOf((char)(colIndex%26 + 65));
-		}
 	}
 	
 	@Override

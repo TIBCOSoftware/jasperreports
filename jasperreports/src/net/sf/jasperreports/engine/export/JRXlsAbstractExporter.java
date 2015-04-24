@@ -256,6 +256,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	public static final String XLS_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.";
 	public static final String DEFAULT_SHEET_NAME_PREFIX = "Page ";
+	public static final Integer MAX_COLUMN_INDEX = 16383;
+	
 	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL = "export.xls.common.cannot.add.cell";
 	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_MERGE_CELLS = "export.xls.common.cannot.merge.cells";
 	public static final String EXCEPTION_MESSAGE_KEY_CELL_FORMAT_TEMPLATE_ERROR = "export.xls.common.cell.format.template.error";
@@ -1893,6 +1895,48 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		return nature;
 	}
 
+	/**
+	 *
+	 * @param colIndex The 0-based integer column index
+	 * @return The column name computed from the 0-based column index
+	 */
+	public static String getColumIndexName(int colIndex)
+	{
+		
+		if(colIndex < 0)
+		{
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_NEGATIVE_COLUMN_INDEX, 
+					new Object[]{colIndex});
+		} 
+		else if(colIndex > MAX_COLUMN_INDEX)	
+		{
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_COLUMN_INDEX_BEYOND_LIMIT, 
+					new Object[]{colIndex, MAX_COLUMN_INDEX});
+		}
+		else if (colIndex < 26)
+		{
+			// first 26 column names are single letters
+			return String.valueOf((char)(colIndex + 65));
+		} 
+		else if (colIndex < 702) 	// 702 = 26 + 26^2
+		{
+			// next 626 (= 26^2) column names are 2-letter names
+			return String.valueOf((char)(colIndex/26 + 64)) 
+				+ String.valueOf((char)(colIndex%26 + 65));
+		} 
+		else 
+		{
+			// next 17576 (= 26^3) column names are 3-letter names;
+			// anyway, the 0-based column index may not exceed MAX_COLUMN_INDEX value
+			return String.valueOf((char)((colIndex-26)/676 + 64)) 
+				+ String.valueOf((char)(((colIndex-26)%676)/26 + 65)) 
+				+ String.valueOf((char)(colIndex%26 + 65));
+		}
+	}
 
 	//abstract methods
 

@@ -1175,7 +1175,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				insertPageAnchor(colIndex,rowIndex);
 				if (image.getAnchorName() != null)
 				{
-					String ref = "'" + currentSheetName + "'!$" + XlsxCellHelper.getColumIndexLetter(colIndex) + "$" + (rowIndex + 1);
+					String ref = "'" + currentSheetName + "'!$" + JRXlsAbstractExporter.getColumIndexName(colIndex) + "$" + (rowIndex + 1);
 					definedNames.append("<definedName name=\"" + getDefinedName(image.getAnchorName()) +"\">"+ ref +"</definedName>\n");
 				}
 			}
@@ -1409,7 +1409,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			insertPageAnchor(colIndex,rowIndex);
 			if (text.getAnchorName() != null)
 			{
-				String ref = "'" + currentSheetName + "'!$" + XlsxCellHelper.getColumIndexLetter(colIndex) + "$" + (rowIndex + 1);
+				String ref = "'" + currentSheetName + "'!$" + JRXlsAbstractExporter.getColumIndexName(colIndex) + "$" + (rowIndex + 1);
 				definedNames.append("<definedName name=\"" + getDefinedName(text.getAnchorName()) +"\">"+ ref +"</definedName>\n");
 			}
 		}
