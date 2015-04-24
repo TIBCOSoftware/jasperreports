@@ -85,8 +85,6 @@ public class BookApp extends AbstractSampleApp
 		rtf();
 		xls();
 		csv();
-		csvMetadata();
-		xlsMetadata();
 		odt();
 		ods();
 		docx();
@@ -223,37 +221,6 @@ public class BookApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void xlsMetadata() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/BookReport.jrprint");
-
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls.metadata.xls");
-
-		Map<String, String> dateFormats = new HashMap<String, String>();
-		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
-
-		JRXlsMetadataExporter exporter = new JRXlsMetadataExporter();
-
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		SimpleXlsMetadataReportConfiguration configuration = new SimpleXlsMetadataReportConfiguration();
-		configuration.setOnePagePerSheet(true);
-		configuration.setDetectCellType(true);
-		configuration.setFormatPatternsMap(dateFormats);
-		exporter.setConfiguration(configuration);
-
-		exporter.exportReport();
-
-		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-	}
-	
-	
-	/**
-	 *
-	 */
 	@SuppressWarnings("deprecation")
 	public void jxl() throws JRException
 	{
@@ -293,29 +260,6 @@ public class BookApp extends AbstractSampleApp
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".csv");
 		
 		JRCsvExporter exporter = new JRCsvExporter();
-		
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleWriterExporterOutput(destFile));
-		
-		exporter.exportReport();
-
-		System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
-	}
-	
-	
-	/**
-	 *
-	 */
-	public void csvMetadata() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/BookReport.jrprint");
-
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".metadata.csv");
-		
-		JRCsvMetadataExporter exporter = new JRCsvMetadataExporter();
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleWriterExporterOutput(destFile));
