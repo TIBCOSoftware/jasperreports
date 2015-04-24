@@ -26,6 +26,8 @@ package net.sf.jasperreports.data.ds;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Map;
 
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
@@ -64,6 +66,17 @@ public class DataSourceDataAdapterService extends
 		return (DataSourceDataAdapter) getDataAdapter();
 	}
 
+	@Override
+	protected ClassLoader getClassLoader(ClassLoader cloader) {
+		Object obj = getJasperReportsContext().getValue(CURRENT_CLASS_LOADER);
+		if (obj != null && obj instanceof ClassLoader)
+			cloader = (ClassLoader) obj;
+		URL[] localURLs = getPathClassloader();
+		if (localURLs == null || localURLs.length == 0)
+			return cloader;
+		return new URLClassLoader(localURLs, cloader);
+	}
+	
 	@Override
 	public void contributeParameters(Map<String, Object> parameters) throws JRException 
 	{

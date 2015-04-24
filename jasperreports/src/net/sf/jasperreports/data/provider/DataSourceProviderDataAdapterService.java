@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.data.provider;
 
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Map;
 
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
@@ -62,6 +64,17 @@ public class DataSourceProviderDataAdapterService extends AbstractClasspathAware
 
 	public DataSourceProviderDataAdapter getDataSourceProviderDataAdapter() {
 		return (DataSourceProviderDataAdapter) getDataAdapter();
+	}
+	
+	@Override
+	protected ClassLoader getClassLoader(ClassLoader cloader) {
+		Object obj = getJasperReportsContext().getValue(CURRENT_CLASS_LOADER);
+		if (obj != null && obj instanceof ClassLoader)
+			cloader = (ClassLoader) obj;
+		URL[] localURLs = getPathClassloader();
+		if (localURLs == null || localURLs.length == 0)
+			return cloader;
+		return new URLClassLoader(localURLs, cloader);
 	}
 	
 	public JRDataSourceProvider getProvider() throws JRException
