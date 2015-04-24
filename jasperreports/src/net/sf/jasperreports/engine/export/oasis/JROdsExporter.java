@@ -166,6 +166,8 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		namedExpressions = new StringBuffer("<table:named-expressions>\n");
 		
 		pageFormatIndex = -1;
+		
+		maxColumnIndex = 1023;
 	}
 
 	@Override
@@ -515,10 +517,9 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	protected String getCellAddress(int row, int col)
 	{
 		String address = null;
-
-		if(row > -1 && row < 1048577 && col > -1 && col < 16384)
+		if(row > -1 && row < 1048577 && col > -1 && col < maxColumnIndex)
 		{
-			address = "$" + getColumIndexName(col) + "$" + (row + 1);
+			address = "$" + getColumIndexName(col, maxColumnIndex) + "$" + (row + 1);
 		}
 		return address == null ? DEFAULT_ADDRESS : address;
 	}

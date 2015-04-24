@@ -124,6 +124,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	public JRXlsAbstractMetadataExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+		maxColumnIndex = 255;
 	}
 
 
@@ -348,6 +349,14 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 			{
 				setFreezePane(rowFreezeIndex, columnFreezeIndex, rowFreezeIndex > 0, columnFreezeIndex > 0);
 			}
+			
+		}
+		if(columnNames.size() > maxColumnIndex+1)
+		{
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_COLUMN_INDEX_BEYOND_LIMIT, 
+					new Object[]{columnNames.size(), maxColumnIndex+1});
 			
 		}
 		// write last row

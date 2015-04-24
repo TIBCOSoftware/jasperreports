@@ -198,6 +198,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		super(jasperReportsContext);
 		
 		exporterContext = new ExporterContext();
+		
+		maxColumnIndex = 255;
 	}
 
 

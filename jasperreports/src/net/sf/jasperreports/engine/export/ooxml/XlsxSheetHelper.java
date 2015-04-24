@@ -314,15 +314,15 @@ public class XlsxSheetHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportMergedCells(int row, int col, int rowSpan, int colSpan) 
+	public void exportMergedCells(int row, int col, int maxColumnIndex, int rowSpan, int colSpan) 
 	{
 		rowSpan = configuration.isCollapseRowSpan() ? 1 : rowSpan;
 		
 		if (rowSpan > 1	|| colSpan > 1)
 		{
 			String ref = 
-				JRXlsAbstractExporter.getColumIndexName(col) + (row + 1)
-				+ ":" + JRXlsAbstractExporter.getColumIndexName(col + colSpan - 1) + (row + rowSpan); //FIXMEXLSX reuse this utility method
+				JRXlsAbstractExporter.getColumIndexName(col, maxColumnIndex) + (row + 1)
+				+ ":" + JRXlsAbstractExporter.getColumIndexName(col + colSpan - 1, maxColumnIndex) + (row + rowSpan); //FIXMEXLSX reuse this utility method
 			
 			try
 			{
@@ -338,10 +338,10 @@ public class XlsxSheetHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportHyperlink(int row, int col, String href, boolean isLocal) 
+	public void exportHyperlink(int row, int col, int maxColumnIndex, String href, boolean isLocal) 
 	{
 		String ref = 
-				JRXlsAbstractExporter.getColumIndexName(col) + (row + 1);
+				JRXlsAbstractExporter.getColumIndexName(col, maxColumnIndex) + (row + 1);
 		
 		try
 		{

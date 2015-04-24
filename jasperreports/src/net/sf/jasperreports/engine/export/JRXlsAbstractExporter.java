@@ -256,7 +256,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	public static final String XLS_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.";
 	public static final String DEFAULT_SHEET_NAME_PREFIX = "Page ";
-	public static final Integer MAX_COLUMN_INDEX = 16383;
 	
 	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL = "export.xls.common.cannot.add.cell";
 	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_MERGE_CELLS = "export.xls.common.cannot.merge.cells";
@@ -619,6 +618,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected String workbookTemplate;
 	
 	protected String invalidCharReplacement;
+	protected int maxColumnIndex;
 	
 	protected SheetInfo sheetInfo;
 	
@@ -939,6 +939,13 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 					emptyCols += isRemoveEmptySpaceBetweenColumns && isEmptyCol ? 1 : 0;
 					
 					int colIndex = xCutIndex - emptyCols;
+					if(colIndex > maxColumnIndex)
+					{
+						throw 
+							new JRException(
+								EXCEPTION_MESSAGE_KEY_COLUMN_INDEX_BEYOND_LIMIT, 
+								new Object[]{colIndex, maxColumnIndex});
+					}
 					
 					JRExporterGridCell gridCell = gridRow.get(xCutIndex);
 
@@ -1900,7 +1907,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 * @param colIndex The 0-based integer column index
 	 * @return The column name computed from the 0-based column index
 	 */
-	public static String getColumIndexName(int colIndex)
+	public static String getColumIndexName(int colIndex, int maxColIndex)
 	{
 		
 		if(colIndex < 0)
@@ -1910,12 +1917,12 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 					EXCEPTION_MESSAGE_KEY_NEGATIVE_COLUMN_INDEX, 
 					new Object[]{colIndex});
 		} 
-		else if(colIndex > MAX_COLUMN_INDEX)	
+		else if(colIndex > maxColIndex)	
 		{
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_COLUMN_INDEX_BEYOND_LIMIT, 
-					new Object[]{colIndex, MAX_COLUMN_INDEX});
+					new Object[]{colIndex, maxColIndex});
 		}
 		else if (colIndex < 26)
 		{

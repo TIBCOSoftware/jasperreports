@@ -82,10 +82,11 @@ public class XlsxCellHelper extends BaseHelper
 	public void exportHeader(
 		JRExporterGridCell gridCell,
 		int rowIndex,
-		int colIndex 
+		int colIndex, 
+		int maxColIndex 
 		) 
 	{
-		exportHeader(gridCell, rowIndex, colIndex, null, null, null, true, false, false, false, false);
+		exportHeader(gridCell, rowIndex, colIndex, maxColIndex, null, null, null, true, false, false, false, false);
 	}
 
 	/**
@@ -95,6 +96,7 @@ public class XlsxCellHelper extends BaseHelper
 		JRExporterGridCell gridCell,
 		int rowIndex,
 		int colIndex, 
+		int maxColIndex, 
 		TextValue textValue,
 		String pattern,
 		Locale locale,
@@ -122,7 +124,7 @@ public class XlsxCellHelper extends BaseHelper
 		}
 
 		write("  <c r=\"" 
-				+ JRXlsAbstractExporter.getColumIndexName(colIndex) 
+				+ JRXlsAbstractExporter.getColumIndexName(colIndex, maxColIndex) 
 				+ (rowIndex + 1) 
 				+ "\" s=\"" 
 				+ styleHelper.getCellStyle(
