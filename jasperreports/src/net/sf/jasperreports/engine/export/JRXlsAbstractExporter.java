@@ -1938,7 +1938,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		else 
 		{
 			// next 17576 (= 26^3) column names are 3-letter names;
-			// anyway, the 0-based column index may not exceed MAX_COLUMN_INDEX value
+			// anyway, the 0-based column index may not exceed maxColIndex value
 			return String.valueOf((char)((colIndex-26)/676 + 64)) 
 				+ String.valueOf((char)(((colIndex-26)%676)/26 + 65)) 
 				+ String.valueOf((char)(colIndex%26 + 65));
