@@ -28,7 +28,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JRFileVirtualizer;
 
 import org.apache.commons.logging.Log;
@@ -77,6 +80,21 @@ public class JRSwapFile
 	 */
 	public JRSwapFile(String directory, int blockSize, int minGrowCount)
 	{
+		this(DefaultJasperReportsContext.getInstance(), directory, blockSize, minGrowCount);
+	}
+	
+	/**
+	 * Creates a swap file.
+	 * 
+	 * The file name is generated automatically.
+	 * 
+	 * @param jasperReportsContext the JasperReportsContext to read configuration from.
+	 * @param directory the directory where the file should be created.
+	 * @param blockSize the size of the blocks allocated by the swap file
+	 * @param minGrowCount the minimum number of blocks by which the swap file grows when full
+	 */
+	public JRSwapFile(JasperReportsContext jasperReportsContext, String directory, int blockSize, int minGrowCount)
+	{
 		try
 		{
 			String filename = "swap_" + System.identityHashCode(this) + "_" + System.currentTimeMillis();
@@ -87,8 +105,7 @@ public class JRSwapFile
 			}
 			boolean fileExists = swapFile.exists();
 			
-			@SuppressWarnings("deprecation")
-			boolean deleteOnExit = JRProperties.getBooleanProperty(PROPERTY_DELETE_ON_EXIT);
+			boolean deleteOnExit = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(PROPERTY_DELETE_ON_EXIT);
 			if (deleteOnExit)
 			{
 				swapFile.deleteOnExit();

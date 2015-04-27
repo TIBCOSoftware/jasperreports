@@ -35,9 +35,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -68,6 +70,7 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 	 */
 	public static final String PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT = JRPropertiesUtil.PROPERTY_PREFIX + "virtualizer.files.delete.on.exit";
 
+	private final JasperReportsContext jasperReportsContext;
 	private final String directory;
 
 	/**
@@ -78,7 +81,7 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 	 *            cache.
 	 */
 	public JRFileVirtualizer(int maxSize) {
-		this(maxSize, null);
+		this(DefaultJasperReportsContext.getInstance(), maxSize, null);
 	}
 
 	/**
@@ -90,8 +93,23 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 	 *            is to be stored
 	 */
 	public JRFileVirtualizer(int maxSize, String directory) {
+		this(DefaultJasperReportsContext.getInstance(), maxSize, directory);
+	}
+
+	/**
+	 * @param jasperReportsContext
+	 *            the JasperReportsContext to use for reading configuration from.
+	 * @param maxSize
+	 *            the maximum size (in JRVirtualizable objects) of the paged in
+	 *            cache.
+	 * @param directory
+	 *            the base directory in the filesystem where the paged out data
+	 *            is to be stored
+	 */
+	public JRFileVirtualizer(JasperReportsContext jasperReportsContext, int maxSize, String directory) {
 		super(maxSize);
 		
+		this.jasperReportsContext = jasperReportsContext;
 		this.directory = directory;
 	}
 
@@ -110,8 +128,7 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 		File file = new File(directory, filename);
 		
 		if (file.createNewFile()) {
-			@SuppressWarnings("deprecation")
-			boolean deleteOnExit = net.sf.jasperreports.engine.util.JRProperties.getBooleanProperty(PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT);
+			boolean deleteOnExit = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT);
 			if (deleteOnExit) {
 				file.deleteOnExit();
 			}
