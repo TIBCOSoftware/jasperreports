@@ -38,8 +38,8 @@ public class JRException extends Exception
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	public static final String ERROR_MESSAGES_BUNDLE = "jasperreports_messages";
-	public static final String ERROR_MESSAGE_KEY_PREFIX = "net.sf.jasperreports.exception.";
+	public static final String EXCEPTION_MESSAGES_BUNDLE = "jasperreports_messages";
+	public static final String EXCEPTION_MESSAGE_KEY_PREFIX = "net.sf.jasperreports.exception.";
 	
 	private String messageKey;
 	private Object[] args;
@@ -176,11 +176,11 @@ public class JRException extends Exception
 
 	protected String getMessageBundleName()
 	{
-		return ERROR_MESSAGES_BUNDLE;
+		return EXCEPTION_MESSAGES_BUNDLE;
 	}
 	
 	protected String getMessageKeyPrefix()
 	{
-		return ERROR_MESSAGE_KEY_PREFIX;
+		return EXCEPTION_MESSAGE_KEY_PREFIX;
 	}
 }
