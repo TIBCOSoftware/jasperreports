@@ -513,7 +513,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			if (!filled)
 			{
-				throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_COLUMN_HEADER_OVERFLOW_INFINITE_LOOP, (Object[]) null, getJasperReportsContext(), getLocale());
+				throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_COLUMN_HEADER_OVERFLOW_INFINITE_LOOP, (Object[]) null);
 			}
 		}
 

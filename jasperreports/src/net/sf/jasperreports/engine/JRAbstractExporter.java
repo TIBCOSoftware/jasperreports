@@ -765,9 +765,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_START_PAGE_INDEX_OUT_OF_RANGE,  
-						new Object[]{startPageIndex, lastPageIndex}, 
-						getJasperReportsContext(), 
-						getLocale()
+						new Object[]{startPageIndex, lastPageIndex} 
 						);
 			}
 		}
@@ -782,9 +780,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_END_PAGE_INDEX_OUT_OF_RANGE,  
-						new Object[]{startPage, endPageIndex, lastPageIndex}, 
-						getJasperReportsContext(), 
-						getLocale()
+						new Object[]{startPage, endPageIndex, lastPageIndex} 
 						);
 			}
 		}
@@ -797,9 +793,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_PAGE_INDEX_OUT_OF_RANGE,  
-						new Object[]{pageIndex, lastPageIndex}, 
-						getJasperReportsContext(), 
-						getLocale()
+						new Object[]{pageIndex, lastPageIndex}
 						);
 			}
 			startPageIndex = pageIndex;
