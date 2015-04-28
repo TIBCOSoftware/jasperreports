@@ -2728,7 +2728,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 					if (level == null || l.compareTo(level) >= 0)
 					{
 						Integer startIndex = levelMap.get(l);
-						if(levelInfo.getEndIndex() > startIndex)
+						if(levelInfo.getEndIndex() >= startIndex)
 						{
 							sheet.setRowGroup(startIndex, levelInfo.getEndIndex(), false);
 						}

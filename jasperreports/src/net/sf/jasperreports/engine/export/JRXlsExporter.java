@@ -2082,7 +2082,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				if (level == null || l.compareTo(level) >= 0)
 				{
 					Integer startIndex = levelMap.get(l);
-					if(levelInfo.getEndIndex() > startIndex)
+					if(levelInfo.getEndIndex() >= startIndex)
 					{
 						sheet.groupRow(startIndex, levelInfo.getEndIndex());
 					}

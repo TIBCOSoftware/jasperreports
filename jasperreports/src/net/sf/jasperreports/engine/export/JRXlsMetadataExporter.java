@@ -1644,7 +1644,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 //				for(String l : levelMap.keySet()) {
 //					if (level == null || l.compareTo(level) >= 0) {
 //						Integer startIndex = levelMap.get(l);
-//						if(levelInfo.getEndIndex() > startIndex) {
+//						if(levelInfo.getEndIndex() >= startIndex) {
 //							sheet.groupRow(startIndex, levelInfo.getEndIndex());
 //						}
 //					}
