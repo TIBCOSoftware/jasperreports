@@ -30,6 +30,7 @@
       <property ref="net.sf.jasperreports.jdbc.holdability"/>
       <property ref="net.sf.jasperreports.jdbc.max.field.size"/>
       <property ref="net.sf.jasperreports.jdbc.result.set.type"/>
+      <property ref="net.sf.jasperreports.jdbc.time.zone"/>
       <property ref="net.sf.jasperreports.query.chunk.token.separators"/>
       <property ref="net.sf.jasperreports.query.executer.factory.{language}"/>
       <property ref="net.sf.jasperreports.xls.source"/>
@@ -5257,6 +5258,29 @@ and DrawBorders, in which case both fragments have borders drawn on all sides.
     <default>NoBorders</default>
     <scope>Global | Report</scope>
     <since>6.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.jdbc.time.zone -->
+  
+  <configProperty name="net.sf.jasperreports.jdbc.time.zone">
+    <description>
+Property specifying the default time zone to be used for sending and retrieving date/time values to and from the database.
+ 
+<p>
+The property can be set globally, at dataset level, at parameter and field levels, and as a report/dataset parameter.
+Note that sending a value as parameter will override all properties, and the time zone will be used for all date/time parameters and fields in the report. 
+</p>
+
+<p>
+The property value can be a time zone ID or REPORT_TIME_ZONE.
+In the latter case the report time zone (as in <api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_TIME_ZONE">JRParameter.REPORT_TIME_ZONE</api> will be used.
+</p>
+    </description>
+    <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_TIME_ZONE</api>
+    <default>N/A</default>
+    <scope>Global | Dataset | Parameter | Field</scope>
+    <since>6.1.0</since>
   </configProperty>
   
   

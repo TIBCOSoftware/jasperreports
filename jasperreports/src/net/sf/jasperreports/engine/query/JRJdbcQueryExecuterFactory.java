@@ -78,9 +78,6 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory
 	 * Property specifying the default time zone to be used for sending and retrieving 
 	 * date/time values to and from the database.
 	 * 
-	 * In most cases no explicit time zone conversion would be required, and this property 
-	 * should not be set.
-	 * 
 	 * <p>
 	 * The property can be set globally, at dataset level, at parameter and field levels,
 	 * and as a report/dataset parameter.  Note that sending a value as parameter will 
