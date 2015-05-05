@@ -1508,7 +1508,10 @@ public class TableReport implements JRReport
 	protected void scaleCellElement(JRElement element, Integer cellWidth,
 			int scaledCellWidth)
 	{
-		int scaledWidth = Math.round(((float) element.getWidth() * scaledCellWidth) / cellWidth);
+		int scaledX = (int) Math.floor(((float) element.getX() * scaledCellWidth) / cellWidth);
+		element.setX(scaledX);
+		
+		int scaledWidth = (int) Math.floor(((float) element.getWidth() * scaledCellWidth) / cellWidth);
 		element.setWidth(scaledWidth);
 	}
 	
