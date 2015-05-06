@@ -228,12 +228,12 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
                                 File outputSvgFile = new File(tempFolder, tempFileName + ".svg");
                                 
                                 // We should not delete the SVG file until it is actually consumed...
-                                 cleanableResourcePaths.add(outputSvgFile);
+                                cleanableResourcePaths.add(outputSvgFile);
 
                                 try {
                                     runCommand(new String[]{phantomjsExecutablePath,
                                                         div2svgFile.toString(),
-                                                        htmlPageFile.toString(),
+                                                        htmlPageFile.toURI().toURL().toString(),
                                                         outputSvgFile.toString() }, tempFolder, phantomjsTimeout);
 
                                 } catch (Exception ex)
@@ -261,7 +261,7 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
                                 try {
                                     runCommand(new String[]{phantomjsExecutablePath, 
                                                         svg2pngFile.toString(),
-                                                        outputSvgFile.toString(),
+                                                        outputSvgFile.toURI().toURL().toString(),
                                                         outputPngFile.toString() }, tempFolder, phantomjsTimeout);
                                 } catch (Exception ex)
                                 {

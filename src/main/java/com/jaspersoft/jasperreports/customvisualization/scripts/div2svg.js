@@ -10,7 +10,7 @@ var args = require('system').args,
         url, outputFileName;
 
 if (args.length != 3) {
-    console.log('Usage: div2png output.svg');
+    console.log('Usage: div2svg output.svg');
     phantom.exit();
 }
 
@@ -66,7 +66,7 @@ page.onLoadFinished = function() {
                  */
                 window.onerror = function myErrorHandler(errorMsg) {
                                     console.log("SCRIPT_ERROR " + errorMsg);
-                                    phantom.exit(500);
+                                    phantom.exit(501);
                                 }
 
 
@@ -86,14 +86,14 @@ page.onLoadFinished = function() {
                             },
                             error: function () {
                                 console.log("SCRIPT_ERROR Script did not produce any SVG within 3 seconds. Possible script error.");
-                                phantom.exit(500);
+                                phantom.exit(502);
                             } // optional
                         });
         
         } catch (ex)
         {
             console.log("SCRIPT_ERROR " + ex);
-            phantom.exit(500);
+            phantom.exit(503);
         }
     
 };
@@ -211,7 +211,7 @@ page.onPageReady = function()
     
                 try {
                     
-                
+                    
                 	
                     var styles = getStyles(document);
                     var sources = getSources(document, styles);
@@ -240,9 +240,21 @@ page.onPageReady = function()
             else
             {
                 console.log("SCRIPT_ERROR Empty SVG created. SVG element not found?");
-                phantom.exit(500);
+                phantom.exit(504);
             }	
 }
 
+page.onResourceError = function(resourceError) {
+  console.log('SCRIPT_ERROR Unable to load resource (#' + resourceError.id + 'URL:' + resourceError.url + ') Error code: ' + resourceError.errorCode + '. Description: ' + resourceError.errorString);
+  phantom.exit(505);
+};
 
-page.open(url);
+
+page.open(url, function(status) {
+  
+  if (status == 'fail')
+  {
+      console.log('SCRIPT_ERROR Unable to open the temporary file');
+      phantom.exit(506);
+  }
+});

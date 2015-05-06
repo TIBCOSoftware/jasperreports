@@ -1,16 +1,18 @@
 var webpage = require('webpage')
         , URL, FILENAME, W, H;
 ;
+var args = require('system').args;
 
-if (phantom.args.length < 2 || phantom.args.length > 5) {
+if (args.length < 3 || args.length > 5) {
     console.log('Usage: svg2png source.svg output.png [width||?] [height||?]');
     phantom.exit();
 }
 else {
-    URL = phantom.args[0];
-    FILENAME = phantom.args[1];
-    W = Number(phantom.args[2]);
-    H = Number(phantom.args[3]);
+    URL = args[1];
+    FILENAME = args[2];
+    console.log("Converting: " + FILENAME);
+    W = Number(args[3]);
+    H = Number(args[4]);
     if (isNaN(W))
         W = undefined;
     if (isNaN(H))
