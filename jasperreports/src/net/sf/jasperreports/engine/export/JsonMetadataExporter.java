@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
@@ -96,6 +97,12 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 	public static final String JSON_EXPORTER_PATH_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "path";
 	public static final String JSON_EXPORTER_REPEAT_VALUE_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "repeat.value";
 	public static final String JSON_EXPORTER_DATA_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "data";
+
+	public static final String JSON_EXPORTER_REPEAT_PROPERTIES_PREFIX = JSON_EXPORTER_PROPERTIES_PREFIX + "repeat.";
+	public static final String JSON_EXPORTER_NUMBER_PROPERTIES_PREFIX = JSON_EXPORTER_PROPERTIES_PREFIX + "number.";
+	public static final String JSON_EXPORTER_DATE_PROPERTIES_PREFIX = JSON_EXPORTER_PROPERTIES_PREFIX + "date.";
+	public static final String JSON_EXPORTER_BOOLEAN_PROPERTIES_PREFIX = JSON_EXPORTER_PROPERTIES_PREFIX + "boolean.";
+	public static final String JSON_EXPORTER_STRING_PROPERTIES_PREFIX = JSON_EXPORTER_PROPERTIES_PREFIX + "string.";
 
 	private static final String JSON_SCHEMA_ROOT_NAME = "___root";
 
@@ -469,15 +476,62 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 		}
 	}
 
-	protected void exportElement(JRPrintElement element) throws IOException {
+	protected void exportElement(JRPrintElement element) throws IOException 
+	{
 		JRPropertiesMap propMap = element.getPropertiesMap();
 
-		if (propMap.containsProperty(JSON_EXPORTER_PATH_PROPERTY)) {
-			String propertyPath = propMap.getProperty(JSON_EXPORTER_PATH_PROPERTY);
+		List<PropertySuffix> properties = JRPropertiesUtil.getProperties(element, JSON_EXPORTER_PROPERTIES_PREFIX);
+		
+		for (PropertySuffix property : properties)
+		{
+			String propertyPath = null;
+			boolean repeatValue = false;
+			Object value = null;
+			boolean legacyPathProperty = false;
+			
+			String propertyName = property.getKey();
+			
+			if (propertyName.equals(JSON_EXPORTER_PATH_PROPERTY))
+			{
+				legacyPathProperty = true;
+				propertyPath = property.getValue();
+				repeatValue = getPropertiesUtil().getBooleanProperty(propMap, JSON_EXPORTER_REPEAT_VALUE_PROPERTY, false);
+			}
+			else if (propertyName.startsWith(JSON_EXPORTER_STRING_PROPERTIES_PREFIX))
+			{
+				propertyPath = propertyName.substring(JSON_EXPORTER_STRING_PROPERTIES_PREFIX.length());
+				repeatValue = getPropertiesUtil().getBooleanProperty(propMap, JSON_EXPORTER_REPEAT_PROPERTIES_PREFIX + propertyPath, false);
+				value = property.getValue();
+			}
+			else if (propertyName.startsWith(JSON_EXPORTER_NUMBER_PROPERTIES_PREFIX))
+			{
+				propertyPath = propertyName.substring(JSON_EXPORTER_NUMBER_PROPERTIES_PREFIX.length());
+				repeatValue = getPropertiesUtil().getBooleanProperty(propMap, JSON_EXPORTER_REPEAT_PROPERTIES_PREFIX + propertyPath, false);
+				value = Double.parseDouble(property.getValue());
+			}
+			else if (propertyName.startsWith(JSON_EXPORTER_DATE_PROPERTIES_PREFIX))
+			{
+				propertyPath = propertyName.substring(JSON_EXPORTER_DATE_PROPERTIES_PREFIX.length());
+				repeatValue = getPropertiesUtil().getBooleanProperty(propMap, JSON_EXPORTER_REPEAT_PROPERTIES_PREFIX + propertyPath, false);
+				try
+				{
+					value = isoDateFormat.parse(property.getValue());
+				}
+				catch (ParseException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+			}
+			else if (propertyName.startsWith(JSON_EXPORTER_BOOLEAN_PROPERTIES_PREFIX))
+			{
+				propertyPath = propertyName.substring(JSON_EXPORTER_BOOLEAN_PROPERTIES_PREFIX.length());
+				repeatValue = getPropertiesUtil().getBooleanProperty(propMap, JSON_EXPORTER_REPEAT_PROPERTIES_PREFIX + propertyPath, false);
+				value = Boolean.parseBoolean(property.getValue());
+			}
 
-			if (propertyPath.length() > 0) {
+			if (propertyPath != null && propertyPath.length() > 0) 
+			{
 				String absolutePath = JSON_SCHEMA_ROOT_NAME + "." + propertyPath;
-				boolean repeatValue = getPropertiesUtil().getBooleanProperty(propMap, JSON_EXPORTER_REPEAT_VALUE_PROPERTY, false);
 
 				// we have a mapped node for this path
 				if (gotSchema) 
@@ -487,7 +541,13 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 						if (log.isDebugEnabled()) {
 							log.debug("found element with path: " + propertyPath);
 						}
-						processElement(element, absolutePath, repeatValue);
+						
+						if (legacyPathProperty)
+						{
+							value = getValue(element); 
+						}
+						
+						processElement(value, absolutePath, repeatValue);
 					}
 				}
 				else 
@@ -496,7 +556,13 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 					if (log.isDebugEnabled()) {
 						log.debug("found element with path: " + propertyPath);
 					}
-					processElement(element, absolutePath, repeatValue);
+
+					if (legacyPathProperty)
+					{
+						value = getValue(element); 
+					}
+					
+					processElement(value, absolutePath, repeatValue);
 				}
 			}
 		}
@@ -539,7 +605,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 		}
 	}
 
-	private void processElement(JRPrintElement element, String absolutePath, boolean repeatValue) throws IOException 
+	private Object getValue(JRPrintElement element) throws IOException 
 	{
 		Object value;
 		final String textStr;
@@ -592,7 +658,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			value = textStr;
 		}
 
-		processElement(value, absolutePath, repeatValue);
+		return value;
 	}
 
 	private void processElement(Object value, String absolutePath, boolean repeatValue) throws IOException 
