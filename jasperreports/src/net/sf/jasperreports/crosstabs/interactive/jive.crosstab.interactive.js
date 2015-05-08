@@ -243,7 +243,7 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                     containerTop = 0;
                 }
 
-                it.jo.css({position: 'absolute', width: '60px'});
+                it.jo.css({position: 'absolute', width: '62px'});
                 it.jo.offset({top: top, left: ixt.selected.header.offset().left});
                 it.jo.offset({top: top, left: ixt.selected.header.offset().left}); // twice
                 it.topCalculated = false;
