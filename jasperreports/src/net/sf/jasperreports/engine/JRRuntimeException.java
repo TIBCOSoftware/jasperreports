@@ -84,7 +84,7 @@ public class JRRuntimeException extends RuntimeException
 	 */
 	public JRRuntimeException(String messageKey, Object[] args, Throwable t)
 	{
-		super(messageKey);
+		super(messageKey, t);
 		this.messageKey = messageKey;
 		this.args = args;
 	}
