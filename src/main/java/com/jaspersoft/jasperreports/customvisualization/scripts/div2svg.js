@@ -149,7 +149,7 @@ page.onPageReady = function()
                             var svgInfo = [],
                                 svgs = doc.getElementsByTagName("svg"); //  d3.select(doc).selectAll("svg");
 
-                             console.log("svgs..." + svgs.length);    
+                            // console.log("svgs..." + svgs.length);    
                                 
                             styles = (styles === undefined) ? "" : styles;
 
@@ -157,42 +157,20 @@ page.onPageReady = function()
                             {
                               var svg = svgs[i];
                               svg.setAttribute("version", "1.1");
-                              
-                              var defs_element = document.createElement('defs');
-                              var style_element = document.createElement('style');
-                              style_element.setAttribute("type","text/css");
-                              
-                              defs_element.appendChild(style_element);
-                              
-                              svg.insertBefore(style_element, svg.firstChild);
-                              
-                       
-//                                .insert("defs", ":first-child")
-//                                  .attr("class", "svg-crowbar")
-//                                .append("style")
-//                                  .attr("type", "text/css");
 
                               // removing attributes so they aren't doubled up
                               svg.removeAttribute("xmlns");
-                              svg.removeAttribute("xlink");
-                              //svg.removeAttribute("svg");
-
-                              // These are needed for the svg
-                              if (!svg.hasAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns")) {
-                                svg.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns", "http://www.w3.org/2000/svg");
-                              }
-
-                              if (!svg.hasAttribute("xmlns:xlink")) {
-                                svg.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:xlink", "http://www.w3.org/1999/xlink");
-                              }
-
-                              // These are needed for the svg
-//                              if (!svg.hasAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:svg")) {
-//                                svg.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:svg", "http://www.w3.org/2000/svg");
-//                              }
                               
-                              var source = (new XMLSerializer()).serializeToString(svg).replace('</style>', '<![CDATA[' + styles + ']]></style>');
-                              console.log("Source is " + source);
+                              var defs_element = document.createElement('defs');
+                              if (defs_element.hasAttribute("xmlns")) {
+                                defs_element.removeAttribute("xmlns");
+                              }
+
+                              defs_element.innerHTML = '<style type="text/css"><![CDATA[' + styles + ']]></style>';
+                              svg.insertBefore(defs_element, svg.firstChild);
+                              
+                              var source = (new XMLSerializer()).serializeToString(svg).replace('<defs xmlns="http://www.w3.org/1999/xhtml">','<defs>'); //.replace('</style>', '<![CDATA[' + styles + ']]></style>');
+                              //console.log("Source is " + source);
                               
                               var rect = svg.getBoundingClientRect();
                               svgInfo.push({

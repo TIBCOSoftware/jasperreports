@@ -2,5 +2,8 @@
 
 
 /*elid*/svg circle {
-	fill: #F000FF;
+	fill: #FF0000;
+        stroke: #000000;
+        stroke-width: 4;  
+        stroke-opacity: 1;
 }
