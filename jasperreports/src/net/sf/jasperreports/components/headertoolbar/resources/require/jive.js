@@ -1118,8 +1118,8 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                             rowTD = $(rowTDs.get(i));
                             cloneTD = rowTD.clone();
                             cloneWidth[idx] = cloneWidth[idx] + rowTD.outerWidth();
-                            cloneTD.width(rowTD.width());
-                            cloneTD.height(rowTD.height());
+                            cloneTD.css("width", rowTD.css("width"));
+                            cloneTD.css("height", rowTD.css("height"));
                             clone.append(cloneTD);
                         }
                         tbl.append(clone);
