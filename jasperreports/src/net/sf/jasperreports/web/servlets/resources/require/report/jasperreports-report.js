@@ -75,10 +75,15 @@ define(["jasperreports-loader", "jasperreports-status-checker",
             var it = this;
             it.currentpage = page;
 
-            return it.loader.getHtmlForPage(page, boolNavigate, inputParameters)
+            return it.loader.getHtmlForPage(it.currentpage, boolNavigate, inputParameters)
                 .then(function(htmlData, textStatus, jqXHR) {
                     it.status = $.parseJSON(jqXHR.getResponseHeader("jasperreports-report-status"));
                     it.html = htmlData;
+
+                    // an anchor may change the current page index, so try to set it from status
+                    if (it.status.pageIndex != null) {
+                        it.currentpage = it.status.pageIndex;
+                    }
 
                     it.config.postProcess && it.config.postProcess.call(it);
                     it.reportProcessor.processReport(it);
@@ -88,14 +93,14 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                     if (it.status.isComponentMetadataEmbedded) {
                         return $.parseJSON($(htmlData).find("#reportComponents").text());
                     } else {
-                        return it.loader.getComponentsForPage(page);
+                        return it.loader.getComponentsForPage(it.currentpage);
                     }
                 }).then(function(componentsObject) {
                     it.components = {};
                     return it.componentRegistrar.registerComponents(componentsObject, it, it.components);
                 }).then(function() {
                     if ((it.status.pageTimestamp || !it.status.totalPages) && it.status.reportStatus != 'canceled') {
-                        it.statusChecker.checkPageModified(page, it.status.pageTimestamp).then(function(statusResult) {
+                        it.statusChecker.checkPageModified(it.currentpage, it.status.pageTimestamp).then(function(statusResult) {
                             it.status.originalStatus = statusResult;
                             if(statusResult.status == 'finished') {
                                 it.status.totalPages = statusResult.lastPageIndex + 1;
