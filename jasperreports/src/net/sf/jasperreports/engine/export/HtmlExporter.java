@@ -1011,7 +1011,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 				if (imageMapName == null)
 				{
-					imageMapName = "map_" + getElementIndex(cell).toString();
+					imageMapName = "map_" + getElementIndex(cell).toString() + "-" + originalRenderer.getId();//use renderer.getId()?
 					imageMapAreas = ((ImageMapRenderable) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
 					
 					if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
