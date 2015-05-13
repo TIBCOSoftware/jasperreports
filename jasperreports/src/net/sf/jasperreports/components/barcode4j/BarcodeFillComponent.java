@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 
 /**
@@ -127,8 +128,14 @@ public class BarcodeFillComponent extends BaseFillComponent
 			templateImage = new JRTemplateImage(
 					fillContext.getElementOrigin(), 
 					fillContext.getDefaultStyleProvider());
-			templateImage.setStyle(elementStyle);
+			templateImage.setElement(fillContext.getComponentElement());
+			templateImage.setStyle(elementStyle);//already set by setElement, but keeping for safety
 			templateImage.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
+			
+			if (barcodeComponent instanceof QRCodeComponent)//ugly, find another way to do it
+			{
+				templateImage.setHorizontalImageAlign(HorizontalImageAlignEnum.CENTER);
+			}
 
 			templateImage = deduplicate(templateImage);
 			printTemplates.put(elementStyle, templateImage);

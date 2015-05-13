@@ -65,10 +65,12 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 		Map<EncodeHintType,Object> hints = new HashMap<EncodeHintType,Object>();
 		hints.put(EncodeHintType.CHARACTER_SET, QRCodeComponent.PROPERTY_DEFAULT_ENCODING);
 		hints.put(EncodeHintType.ERROR_CORRECTION, qrCodeBean.getErrorCorrectionLevel().getErrorCorrectionLevel());
+		
+		int margin = qrCodeBean.getMargin() == null ? QRCodeSVGImageProducer.DEFAULT_MARGIN : qrCodeBean.getMargin();
+		hints.put(EncodeHintType.MARGIN, margin);
 
 		int resolution = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(
 				componentElement, BarcodeRasterizedImageProducer.PROPERTY_RESOLUTION, 300);
-		int margin = qrCodeBean.getMargin() == null ? 0 : qrCodeBean.getMargin();
 		try
 		{
 			BitMatrix matrix = 
@@ -77,11 +79,11 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 					BarcodeFormat.QR_CODE,
 //					(int)((72f / 2.54f) * componentElement.getWidth()), 
 //					(int)((72f / 2.54f) * componentElement.getHeight()), 
-					(int)((resolution / 72f) * (componentElement.getWidth() - margin)), 
-					(int)((resolution / 72f) * (componentElement.getHeight() - margin)), 
+					(int)((resolution / 72f) * componentElement.getWidth()), 
+					(int)((resolution / 72f) * componentElement.getHeight()), 
 					hints
 					);
-			BufferedImage image = getImage(matrix, componentElement.getForecolor(), componentElement.getBackcolor());
+			BufferedImage image = getImage(matrix, componentElement.getForecolor());
 			return RenderableUtil.getInstance(jasperReportsContext).getRenderable(image, ImageTypeEnum.PNG, OnErrorTypeEnum.ERROR);
 		}
 		catch (WriterException e)
@@ -94,22 +96,20 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 		}
 	}
 	
-	public BufferedImage getImage(BitMatrix matrix, Color onColor, Color offColor) 
+	public BufferedImage getImage(BitMatrix matrix, Color onColor) 
 	{
 		int width = matrix.getWidth();
 		int height = matrix.getHeight();
-		int type = Color.BLACK.equals(onColor) && Color.WHITE.equals(offColor) 
-				|| Color.WHITE.equals(onColor) && Color.BLACK.equals(offColor)
-				? BufferedImage.TYPE_BYTE_BINARY
-				: BufferedImage.TYPE_INT_RGB;
-		BufferedImage image = new BufferedImage(width, height, type);
-		int onArgb = JRColorUtil.getOpaqueArgb(onColor, Color.BLACK);
-		int offArgb = JRColorUtil.getOpaqueArgb(offColor, Color.WHITE);
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		int onArgb = JRColorUtil.getOpaqueArgb(onColor, Color.BLACK);//not actually opaque
 		for (int x = 0; x < width; x++) 
 		{
 			for (int y = 0; y < height; y++) 
 			{
-				image.setRGB(x, y, matrix.get(x, y) ? onArgb : offArgb);
+				if (matrix.get(x, y))
+				{
+					image.setRGB(x, y, onArgb);
+				}
 			}
 		}
 		return image;

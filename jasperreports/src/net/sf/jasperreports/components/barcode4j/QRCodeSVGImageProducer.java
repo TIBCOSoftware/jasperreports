@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
+import java.awt.Color;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,11 +48,12 @@ import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.google.zxing.qrcode.encoder.ByteMatrix;
+import com.google.zxing.qrcode.encoder.Encoder;
+import com.google.zxing.qrcode.encoder.QRCode;
 
 
 /**
@@ -61,6 +63,8 @@ import com.google.zxing.qrcode.QRCodeWriter;
 public class QRCodeSVGImageProducer implements QRCodeImageProducer
 {
 
+	public static final int DEFAULT_MARGIN = 4;//same as zxing's QRCodeWriter.QUIET_ZONE_SIZE
+	
 	public Renderable createImage(
 		JasperReportsContext jasperReportsContext,
 		JRComponentElement componentElement,
@@ -68,23 +72,18 @@ public class QRCodeSVGImageProducer implements QRCodeImageProducer
 		String message
 		)
 	{
-		QRCodeWriter writer = new QRCodeWriter();
-
 		Map<EncodeHintType,Object> hints = new HashMap<EncodeHintType,Object>();
 		hints.put(EncodeHintType.CHARACTER_SET, QRCodeComponent.PROPERTY_DEFAULT_ENCODING);
-		hints.put(EncodeHintType.ERROR_CORRECTION, qrCodeBean.getErrorCorrectionLevel().getErrorCorrectionLevel());
+		ErrorCorrectionLevel errorCorrectionLevel = qrCodeBean.getErrorCorrectionLevel().getErrorCorrectionLevel();
+		hints.put(EncodeHintType.ERROR_CORRECTION, errorCorrectionLevel);
 
-		BitMatrix matrix = null;
+		ByteMatrix matrix = null;
 		SVGCanvasProvider provider = null;
-		int margin = qrCodeBean.getMargin() == null ? 0 : qrCodeBean.getMargin();
 		try
 		{
-			matrix = writer.encode(
-					message,
-					BarcodeFormat.QR_CODE,
-					componentElement.getWidth() - margin, 
-					componentElement.getHeight() - margin, 
-					hints);
+			QRCode qrCode = Encoder.encode(message, errorCorrectionLevel, hints);
+			matrix = qrCode.getMatrix();
+			
 			provider = new SVGCanvasProvider(false, OrientationEnum.UP.getValue());
 		}
 		catch (WriterException e)
@@ -100,23 +99,32 @@ public class QRCodeSVGImageProducer implements QRCodeImageProducer
 		Element svg = svgDoc.getDocumentElement();
 		int width = matrix.getWidth();
 		int height = matrix.getHeight();
-		svg.setAttribute("width", String.valueOf(width));
-		svg.setAttribute("height",String.valueOf(height));
-		svg.setAttribute("viewBox", "0 0 " + width + " " + height);
+		
+		int margin = qrCodeBean.getMargin() == null ? DEFAULT_MARGIN : qrCodeBean.getMargin();
+		int svgWidth = width + 2 * margin;
+		int svgHeight = height + 2 * margin;
+		
+		svg.setAttribute("width", String.valueOf(svgWidth));
+		svg.setAttribute("height",String.valueOf(svgHeight));
+		svg.setAttribute("viewBox", "0 0 " + svgWidth + " " + svgHeight);
 
+		Color color = componentElement.getForecolor();
+		String fill = "#" + JRColorUtil.getColorHexa(color);
+		String fillOpacity = color.getAlpha() < 255 ? Float.toString(((float) color.getAlpha()) / 255) : null;
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				Element element = svgDoc.createElement("rect");
-				element.setAttribute("x", String.valueOf(x));
-				element.setAttribute("y", String.valueOf(y));
-				element.setAttribute("width", "1");
-				element.setAttribute("height", "1");
-				if (matrix.get(x,y)) {
-					element.setAttribute("fill", "#" + JRColorUtil.getColorHexa(componentElement.getForecolor()));
-				} else {
-					element.setAttribute("fill", "#" + JRColorUtil.getColorHexa(componentElement.getBackcolor()));
+				if (matrix.get(x,y) == 1) {
+					Element element = svgDoc.createElement("rect");
+					element.setAttribute("x", String.valueOf(x + margin));
+					element.setAttribute("y", String.valueOf(y + margin));
+					element.setAttribute("width", "1");
+					element.setAttribute("height", "1");
+					element.setAttribute("fill", fill);
+					if (fillOpacity != null) {
+						element.setAttribute("fill-opacity", fillOpacity);
+					}
+					svgDoc.getFirstChild().appendChild(element);
 				}
-				svgDoc.getFirstChild().appendChild(element);
 			}
 		}        
 
