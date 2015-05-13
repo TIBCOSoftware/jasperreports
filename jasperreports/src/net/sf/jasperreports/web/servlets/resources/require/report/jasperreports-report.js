@@ -81,7 +81,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                     it.html = htmlData;
 
                     // an anchor may change the current page index, so try to set it from status
-                    if (it.status.pageIndex != null) {
+                    if (it.status && it.status.pageIndex != null) {
                         it.currentpage = it.status.pageIndex;
                     }
 
