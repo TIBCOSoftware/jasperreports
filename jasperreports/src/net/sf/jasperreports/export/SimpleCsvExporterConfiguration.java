@@ -31,6 +31,7 @@ public class SimpleCsvExporterConfiguration extends SimpleExporterConfiguration 
 {
 	private String fieldDelimiter;	
 	private String recordDelimiter;	
+	private Boolean isWriteBOM;	
 
 	/**
 	 * 
@@ -69,5 +70,21 @@ public class SimpleCsvExporterConfiguration extends SimpleExporterConfiguration 
 	public void setRecordDelimiter(String recordDelimiter)
 	{
 		this.recordDelimiter = recordDelimiter;
+	}
+	
+	/**
+	 * 
+	 */
+	public Boolean isWriteBOM()
+	{
+		return isWriteBOM;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setWriteBOM(Boolean isWriteBOM)
+	{
+		this.isWriteBOM = isWriteBOM;
 	}
 }

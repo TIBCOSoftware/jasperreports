@@ -190,6 +190,7 @@
       <property ref="net.sf.jasperreports.export.csv.field.delimiter"/>
       <property ref="net.sf.jasperreports.export.csv.record.delimiter"/>
       <property ref="net.sf.jasperreports.export.csv.repeat.value"/>
+      <property ref="net.sf.jasperreports.export.csv.write.bom"/>
       <property ref="net.sf.jasperreports.export.csv.write.header"/>
       
       <property ref="net.sf.jasperreports.export.docx.flexible.row.height"/>
@@ -2523,6 +2524,22 @@ should be repeated or not when it is missing.
     <default>false</default>
     <scope>Element</scope>
     <since>4.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.csv.write.bom -->
+  
+  <configProperty name="net.sf.jasperreports.export.csv.write.bom">
+    <description>
+Property that specifies whether a BOM character should be put at the beginning of the output.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/CsvExporterConfiguration.html#isWriteBOM()">isWriteBOM()</api> CSV export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/CsvExporterConfiguration.html#PROPERTY_WRITE_BOM</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>6.1.0</since>
   </configProperty>
   
   
