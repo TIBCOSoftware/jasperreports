@@ -216,9 +216,11 @@
       
       <property ref="net.sf.jasperreports.export.ignore.page.margins"/>
       
+      <property ref="net.sf.jasperreports.export.json.{type}.{path}"/>
       <property ref="net.sf.jasperreports.export.json.data"/>
       <property ref="net.sf.jasperreports.export.json.escape.members"/>
       <property ref="net.sf.jasperreports.export.json.path"/>
+      <property ref="net.sf.jasperreports.export.json.repeat.{path}"/>
       <property ref="net.sf.jasperreports.export.json.repeat.value"/>
       <property ref="net.sf.jasperreports.export.json.schema"/>
       
@@ -2831,6 +2833,30 @@ line breaks at fill time via the <a href="#net.sf.jasperreports.text.save.line.b
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.json.{type}.{path} -->
+  
+  <configProperty name="net.sf.jasperreports.export.json.{type}.{path}">
+    <description>
+This element-level property is considered by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
+and provides the exported value of a given type for that element. This value will be exported within the JSON tree following the path specified 
+by the property suffix. Possible values for the value type are:
+<ul>
+<li><code>string</code></li>
+<li><code>number</code></li>
+<li><code>date</code></li>
+<li><code>boolean</code></li>
+</ul>
+<br/>
+When working with this property, numbers have to be written with no thousand separators and using a period as decimal. For instance, 1,000,000 should be written as 
+"1000000" and 2,000.45 should be written as "2000.45". Dates must be written according to ISO 8601 standard: "yyyy-MM-dd'T'HH:mm:ss".
+    </description>
+    <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_STRING_PROPERTIES_PREFIX</api>
+    <default>N/A</default>
+    <scope>Element</scope>
+    <since>6.0.5</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.json.data -->
   
   <configProperty name="net.sf.jasperreports.export.json.data">
@@ -2866,7 +2892,7 @@ and specifies if the member property names should be enclosed with quotes or no.
   
   <configProperty name="net.sf.jasperreports.export.json.path">
     <description>
-This element-level property is required by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
+This element-level property is used by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
 and specifies a given path within the JSON tree, where the current element will be exported. If the 
 <a href="#net.sf.jasperreports.export.json.schema">net.sf.jasperreports.export.json.schema</a> property is not 
 present in the report, this property can be used to determine a rule in the JSON schema as well.
@@ -2878,12 +2904,29 @@ present in the report, this property can be used to determine a rule in the JSON
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.json.repeat.{path} -->
+  
+  <configProperty name="net.sf.jasperreports.export.json.repeat.{path}">
+    <description>
+This element-level flag is considered by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
+and specifies whether the value associated to that JSON path should be repeated or not when it is missing. Usually this property 
+works in conjunction with one of the <a href="#net.sf.jasperreports.export.json.{type}.{path}">net.sf.jasperreports.export.json.{type}.{path}</a> 
+properties. 
+    </description>
+    <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_REPEAT_PROPERTIES_PREFIX</api>
+    <default>false</default>
+    <scope>Element</scope>
+    <since>6.0.5</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.json.repeat.value -->
   
   <configProperty name="net.sf.jasperreports.export.json.repeat.value">
     <description>
 This element-level flag is considered by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
-and specifies whether the value associated to that JSON path should be repeated or not when it is missing.
+and specifies whether the value associated to the JSON path specified by <a href="#net.sf.jasperreports.export.json.path">net.sf.jasperreports.export.json.path</a> property 
+should be repeated or not when it is missing.
     </description>
     <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_REPEAT_VALUE_PROPERTY</api>
     <default>false</default>
