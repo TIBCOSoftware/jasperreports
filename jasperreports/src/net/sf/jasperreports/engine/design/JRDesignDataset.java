@@ -1266,7 +1266,7 @@ public class JRDesignDataset extends JRBaseDataset
 		{
 			String parameterName = (String) builtinParameters[i];
 			JRParameter parameter = parametersMap.get(parameterName);
-			if (parameter.isSystemDefined())
+			if (parameter != null && parameter.isSystemDefined())
 			{
 				removeParameter(parameter);
 			}
