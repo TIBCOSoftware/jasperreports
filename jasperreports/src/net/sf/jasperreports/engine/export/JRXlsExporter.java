@@ -42,10 +42,9 @@ import java.io.OutputStream;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -96,7 +95,6 @@ import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
-import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -144,7 +142,17 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	public static short MAX_COLOR_INDEX = 56;
 	public static short MIN_COLOR_INDEX = 10;	/* Indexes from 0 to 9 are reserved */
 	
-	private static Map<Color,HSSFColor> hssfColorsCache = new ReferenceMap();
+	private static Map<HSSFColor, short[]> hssfColorsRgbs;
+	
+	static
+	{
+		Hashtable<String, HSSFColor> hssfColors = HSSFColor.getTripletHash();
+		hssfColorsRgbs = new HashMap<HSSFColor, short[]>();
+		for (HSSFColor color : hssfColors.values())
+		{
+			hssfColorsRgbs.put(color, color.getTriplet());
+		}
+	}
 
 	protected Map<StyleInfo,HSSFCellStyle> loadedCellStyles = new HashMap<StyleInfo,HSSFCellStyle>();
 	protected Map<String,List<Hyperlink>> anchorLinks = new HashMap<String,List<Hyperlink>>();
@@ -162,6 +170,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	protected HSSFCellStyle emptyCellStyle;
 	protected CreationHelper createHelper;
 	private HSSFPalette palette = null;
+	private Map<Color,HSSFColor> hssfColorsCache = new HashMap<Color, HSSFColor>();
 
 	/**
 	 *
@@ -1108,37 +1117,23 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	/**
 	 *
 	 */
-	protected static HSSFColor getNearestColor(Color awtColor)
+	protected HSSFColor getNearestColor(Color awtColor)
 	{
 		HSSFColor color = hssfColorsCache.get(awtColor);		
 		if (color == null)
 		{
-			Map<?,?> triplets = HSSFColor.getTripletHash();
-			if (triplets != null)
+			int minDiff = Integer.MAX_VALUE;
+			for (Map.Entry<HSSFColor, short[]> hssfColorEntry : hssfColorsRgbs.entrySet())
 			{
-				Collection<?> keys = triplets.keySet();
-				if (keys != null && keys.size() > 0)
+				HSSFColor crtColor = hssfColorEntry.getKey();
+				short[] rgb = hssfColorEntry.getValue();
+				
+				int diff = Math.abs(rgb[0] - awtColor.getRed()) + Math.abs(rgb[1] - awtColor.getGreen()) + Math.abs(rgb[2] - awtColor.getBlue());
+
+				if (diff < minDiff)
 				{
-					Object key = null;
-					HSSFColor crtColor = null;
-					short[] rgb = null;
-					int diff = 0;
-					int minDiff = 999;
-					for (Iterator<?> it = keys.iterator(); it.hasNext();)
-					{
-						key = it.next();
-
-						crtColor = (HSSFColor) triplets.get(key);
-						rgb = crtColor.getTriplet();
-
-						diff = Math.abs(rgb[0] - awtColor.getRed()) + Math.abs(rgb[1] - awtColor.getGreen()) + Math.abs(rgb[2] - awtColor.getBlue());
-
-						if (diff < minDiff)
-						{
-							minDiff = diff;
-							color = crtColor;
-						}
-					}
+					minDiff = diff;
+					color = crtColor;
 				}
 			}
 
