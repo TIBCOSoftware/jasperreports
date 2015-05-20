@@ -4,7 +4,7 @@
 
     <groupId>com.jaspersoft.jasperreports</groupId>
     <artifactId>jasperreports-customvisualization</artifactId>
-    <version>6.0.5-SNAPSHOT</version>
+    <version>6.1.0</version>
     <packaging>jar</packaging>
     <name>JasperReports Custom Visualization Component</name>
     <url>http://maven.apache.org</url>
