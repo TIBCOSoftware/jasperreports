@@ -2870,7 +2870,7 @@ When working with this property, numbers have to be written with no thousand sep
     <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_STRING_PROPERTIES_PREFIX</api>
     <default>N/A</default>
     <scope>Element</scope>
-    <since>6.0.5</since>
+    <since>6.1.0</since>
   </configProperty>
   
   
@@ -2933,7 +2933,7 @@ properties.
     <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_REPEAT_PROPERTIES_PREFIX</api>
     <default>false</default>
     <scope>Element</scope>
-    <since>6.0.5</since>
+    <since>6.1.0</since>
   </configProperty>
   
   
