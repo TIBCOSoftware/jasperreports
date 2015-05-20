@@ -107,8 +107,10 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	
 	private boolean isCachedRowSet;
 
-	private TimeZone timeZone;
-	private boolean timeZoneOverride;
+	private TimeZone parametersTimeZone;
+	private boolean parametersTimeZoneOverride;
+	private TimeZone fieldsTimeZone;
+	private boolean fieldsTimeZoneOverride;
 	
 	/**
 	 * 
@@ -167,16 +169,42 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 
 	protected void setTimeZone()
 	{
-		String timezoneId = (String) getParameterValue(JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE, true);
-		if (timezoneId != null)
+		String timeZoneIdParam = (String) getParameterValue(JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE, true);
+		String timeZoneIdProp = getPropertiesUtil().getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE);
+		
+		String parametersTimeZoneId = (String) getParameterValue(JRJdbcQueryExecuterFactory.PROPERTY_PARAMETERS_TIME_ZONE, true);
+		parametersTimeZoneId = parametersTimeZoneId == null ? timeZoneIdParam : parametersTimeZoneId;
+		if (parametersTimeZoneId != null)
 		{
-			timeZoneOverride = true;
+			parametersTimeZoneOverride = true;
 		}
 		else
 		{
-			timezoneId = getPropertiesUtil().getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE);
+			parametersTimeZoneId = getPropertiesUtil().getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_PARAMETERS_TIME_ZONE);
+			parametersTimeZoneId = parametersTimeZoneId == null ? timeZoneIdProp : parametersTimeZoneId;
 		}
-		timeZone = resolveTimeZone(timezoneId);
+		parametersTimeZone = resolveTimeZone(parametersTimeZoneId);
+		if (log.isDebugEnabled())
+		{
+			log.debug("parameters timezone " + parametersTimeZone);
+		}
+		
+		String fieldsTimeZoneId = (String) getParameterValue(JRJdbcQueryExecuterFactory.PROPERTY_FIELDS_TIME_ZONE, true);
+		fieldsTimeZoneId = fieldsTimeZoneId == null ? timeZoneIdParam : fieldsTimeZoneId;
+		if (fieldsTimeZoneId != null)
+		{
+			fieldsTimeZoneOverride = true;
+		}
+		else
+		{
+			fieldsTimeZoneId = getPropertiesUtil().getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_FIELDS_TIME_ZONE);
+			fieldsTimeZoneId = fieldsTimeZoneId == null ? timeZoneIdProp : fieldsTimeZoneId;
+		}
+		fieldsTimeZone = resolveTimeZone(fieldsTimeZoneId);
+		if (log.isDebugEnabled())
+		{
+			log.debug("fields timezone " + fieldsTimeZone);
+		}
 	}
 	
 	protected TimeZone resolveTimeZone(String timezoneId)
@@ -253,7 +281,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					resultSet = statement.executeQuery();
 				}
 				dataSource = new JRResultSetDataSource(getJasperReportsContext(), resultSet);
-				dataSource.setTimeZone(timeZone, timeZoneOverride);
+				dataSource.setTimeZone(fieldsTimeZone, fieldsTimeZoneOverride);
 				
 				TimeZone reportTimeZone = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE, true);
 				dataSource.setReportTimeZone(reportTimeZone);
@@ -681,10 +709,10 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	protected Calendar getParameterCalendar(JRPropertiesHolder properties)
 	{
 		TimeZone tz;
-		if (timeZoneOverride)
+		if (parametersTimeZoneOverride)
 		{
 			// if we have a parameter, use it
-			tz = timeZone;
+			tz = parametersTimeZone;
 		}
 		else
 		{
@@ -699,7 +727,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			else
 			{
 				// dataset/default property
-				tz = timeZone;
+				tz = parametersTimeZone;
 			}
 		}
 
