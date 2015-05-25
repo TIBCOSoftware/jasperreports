@@ -2,8 +2,15 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.1.0 (2015-0x-xx)
+JasperReports 6.1.0 (2015-05-25)
 ---------------------------------------------
+- support for multiple JSON metadata export properties attached to same report element 
+to allow more flexibility in report data exports;
+
+- improvements in QRCode barcodes rendering;
+
+- configuration property added to control the addition of a BOM character at the beginning 
+of CSV export files;
 
 - minor bug fixes and improvements;
 
