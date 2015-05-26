@@ -49,6 +49,7 @@ public class HtmlFont
 	private int style;
 	
 	private String id;
+	private String shortId;
 	
 	/**
 	 * 
@@ -63,7 +64,7 @@ public class HtmlFont
 		this.woff = fontFace.getWoff();
 		this.style = style;
 		
-		createId();
+		createIds();
 	}
 	
 	/**
@@ -172,7 +173,7 @@ public class HtmlFont
 	/**
 	 * 
 	 */
-	private void createId()
+	private void createIds()
 	{
 		String prefix = fontName;
 		String suffix =
@@ -180,6 +181,8 @@ public class HtmlFont
 			+ ((style & Font.BOLD) > 0 ? "Bold" : "")
 			+ ((style & Font.ITALIC) > 0 ? "Italic" : "")
 			+ (locale == null ? "" : ("-" + JRDataUtils.getLocaleCode(locale)));
+		
+		id = prefix + suffix;
 		
 		if (prefix.length() + suffix.length() > IE_FONT_NAME_MAX_LENGTH)
 		{
@@ -202,7 +205,7 @@ public class HtmlFont
 			prefix = prefix.substring(0, IE_FONT_NAME_MAX_LENGTH - suffix.length());
 		}
 		
-		id = prefix + suffix;
+		shortId = prefix + suffix;
 	}
 	
 	/**
@@ -211,6 +214,14 @@ public class HtmlFont
 	public String getId()
 	{
 		return id;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getShortId()
+	{
+		return shortId;
 	}
 	
 	public Locale getLocale()

@@ -700,7 +700,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 							HtmlFontUtil.handleFont(resourceHandler, htmlFont);
 						}
 						
-						fontFamily = htmlFont.getId();
+						fontFamily = htmlFont.getShortId();
 					}
 				}
 			}
@@ -718,9 +718,9 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 			localHyperlink = true;
 		}
 		
-		writer.write("<span style=\"font-family: ");
+		writer.write("<span style=\"font-family: '");
 		writer.write(fontFamily);
-		writer.write("; ");
+		writer.write("'; ");
 
 		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
 		if (!hyperlinkStarted || !Color.black.equals(forecolor))

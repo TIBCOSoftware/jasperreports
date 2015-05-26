@@ -78,7 +78,7 @@ public class HtmlFontUtil
 		{
 			sbuffer.append("@charset \"UTF-8\";\n");
 			sbuffer.append("@font-face {\n");
-			sbuffer.append("\tfont-family: \'" + htmlFont.getId() + "';\n");
+			sbuffer.append("\tfont-family: '" + htmlFont.getShortId() + "';\n");
 			if (htmlFont.getEot() != null)
 			{
 				String eotId = htmlFont.getId() + ".eot";
