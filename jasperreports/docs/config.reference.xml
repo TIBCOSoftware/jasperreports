@@ -1014,6 +1014,10 @@ The following style properties are defined in <api href="net/sf/jasperreports/en
 <li><code>net.sf.jasperreports.style.scaleImage</code></li>
 <li><code>net.sf.jasperreports.style.hAlign</code></li>
 <li><code>net.sf.jasperreports.style.vAlign</code></li>
+<li><code>net.sf.jasperreports.style.hTextAlign</code></li>
+<li><code>net.sf.jasperreports.style.vTextAlign</code></li>
+<li><code>net.sf.jasperreports.style.hImageAlign</code></li>
+<li><code>net.sf.jasperreports.style.vImageAlign</code></li>
 <li><code>net.sf.jasperreports.style.rotation</code></li>
 <li><code>net.sf.jasperreports.style.markup</code></li>
 <li><code>net.sf.jasperreports.style.isBlankWhenNull</code></li>

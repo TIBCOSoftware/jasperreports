@@ -18,6 +18,10 @@
 	scaleImage (Clip | FillFrame | RetainShape) #IMPLIED
 	hAlign (Left | Center | Right | Justified) #IMPLIED
 	vAlign (Top | Middle | Bottom) #IMPLIED
+	hTextAlign (Left | Center | Right | Justified) #IMPLIED
+	hImageAlign (Left | Center | Right) #IMPLIED
+	vTextAlign (Top | Middle | Bottom) #IMPLIED
+	vImageAlign (Top | Middle | Bottom) #IMPLIED
 	border (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
 	borderColor CDATA #IMPLIED
 	padding NMTOKEN #IMPLIED

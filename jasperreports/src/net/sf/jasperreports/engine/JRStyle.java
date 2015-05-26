@@ -67,7 +67,7 @@ import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
  * <li><code>backcolor</code> - the element background color</li>
  * <li><code>fill</code> - the fill pattern. Possible value is <code>Solid</code></li>
  * <li><code>radius</code> - the radius for some graphic elements</li>
- * <li><code>hAlign</code> - the horizontal alignment of the text within a text element. Possible values are:
+ * <li><code>hTextAlign</code> - the horizontal alignment of the text within a text element. Possible values are:
  * <ul>
  * <li><code>Left</code> - default setting</li>
  * <li><code>Center</code></li>
@@ -75,7 +75,21 @@ import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
  * <li><code>Justified</code></li>
  * </ul>
  * </li>
- * <li><code>vAlign</code> - the vertical alignment of the text within a text element. Possible values are:
+ * <li><code>vTextAlign</code> - the vertical alignment of the text within a text element. Possible values are:
+ * <ul>
+ * <li><code>Top</code> - default setting</li>
+ * <li><code>Middle</code></li>
+ * <li><code>Bottom</code></li>
+ * </ul>
+ * </li>
+ * <li><code>hImageAlign</code> - the horizontal alignment of the image within an image element. Possible values are:
+ * <ul>
+ * <li><code>Left</code> - default setting</li>
+ * <li><code>Center</code></li>
+ * <li><code>Right</code></li>
+ * </ul>
+ * </li>
+ * <li><code>vImageAlign</code> - the vertical alignment of the image within an image element. Possible values are:
  * <ul>
  * <li><code>Top</code> - default setting</li>
  * <li><code>Middle</code></li>

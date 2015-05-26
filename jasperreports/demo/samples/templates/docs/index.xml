@@ -38,8 +38,10 @@ A <code>&lt;style /&gt;</code> element is defined by the following attributes:
 <li><code>fill</code> - sets the fill mode. At the moment the single value allowed is <code>Solid</code>.</li>
 <li><code>radius</code> - sets the radius value, if necessary.</li>
 <li><code>scaleImage</code> - sets the scale for images only. Possible values: <code>Clip</code>, <code>FillFrame</code>, <code>RetainShape</code>, <code>RealHeight</code>, <code>RealSize</code>.</li>
-<li><code>hAlign</code> - sets the horizontal alignment. Possible values: <code>Left</code>, <code>Center</code>, <code>Right</code>, <code>Justified</code>.</li>
-<li><code>vAlign</code> - sets the vertical alignment. Possible values: <code>Top</code>, <code>Middle</code>, <code>Bottom</code>.</li>
+<li><code>hTextAlign</code> - sets the text horizontal alignment. Possible values: <code>Left</code>, <code>Center</code>, <code>Right</code>, <code>Justified</code>.</li>
+<li><code>vTextAlign</code> - sets the text vertical alignment. Possible values: <code>Top</code>, <code>Middle</code>, <code>Bottom</code>.</li>
+<li><code>hImageAlign</code> - sets the image horizontal alignment. Possible values: <code>Left</code>, <code>Center</code>, <code>Right</code>.</li>
+<li><code>vImageAlign</code> - sets the image vertical alignment. Possible values: <code>Top</code>, <code>Middle</code>, <code>Bottom</code>.</li>
 <li><code>rotation</code> - sets the element's rotation. Possible values: <code>None</code>, <code>Left</code>, <code>Right</code>, <code>UpsideDown</code>.</li>
 <li><code>lineSpacing</code> - sets the line spacing for text elements only. Possible values: <code>Single</code>, <code>1_1_2</code>, <code>Double</code>.</li>
 <li><code>markup</code> - sets the markup style for styled texts</li>

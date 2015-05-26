@@ -10,12 +10,12 @@
 			<pen lineWidth="1.0"/>
 		</box>
 	</style>
-	<style name="Label" style="Main" forecolor="#0000FF" backcolor="#00FFFF" hAlign="Center">
+	<style name="Label" style="Main" forecolor="#0000FF" backcolor="#00FFFF" hTextAlign="Center" hImageAlign="Center">
 		<box padding="10">
 			<pen lineWidth="1.0"/>
 		</box>
 	</style>
-	<style name="Icon" style="Main" forecolor="#FF0000" backcolor="#FFC800" hAlign="Center" fontName="Pictonic">
+	<style name="Icon" style="Main" forecolor="#FF0000" backcolor="#FFC800" hTextAlign="Center" hImageAlign="Center" fontName="Pictonic">
 		<box padding="10">
 			<pen lineWidth="1.0"/>
 		</box>
