@@ -214,9 +214,9 @@
  			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>jfree</groupId>
+			<groupId>org.jfree</groupId>
 			<artifactId>jcommon</artifactId>
-			<version>1.0.15</version>
+			<version>1.0.23</version>
 			<scope>compile</scope>
 			<exclusions>
 				<exclusion>
@@ -226,9 +226,9 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>jfree</groupId>
+			<groupId>org.jfree</groupId>
 			<artifactId>jfreechart</artifactId>
-			<version>1.0.12</version>
+			<version>1.0.19</version>
 			<scope>compile</scope>
 			<exclusions>
 				<exclusion>
