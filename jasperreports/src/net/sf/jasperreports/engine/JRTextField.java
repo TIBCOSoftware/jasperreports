@@ -137,6 +137,12 @@ public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHy
 
 	public static final String PROPERTY_FORMAT_TIMEZONE = JRPropertiesUtil.PROPERTY_PREFIX + "pattern.timezone";
 
+	public static final String PROPERTY_SQL_DATE_FORMAT_TIMEZONE = JRPropertiesUtil.PROPERTY_PREFIX + "sql.date.pattern.timezone";
+
+	public static final String PROPERTY_SQL_TIMESTAMP_FORMAT_TIMEZONE = JRPropertiesUtil.PROPERTY_PREFIX + "sql.timestamp.pattern.timezone";
+
+	public static final String PROPERTY_SQL_TIME_FORMAT_TIMEZONE = JRPropertiesUtil.PROPERTY_PREFIX + "sql.time.pattern.timezone";
+
 	public static final String FORMAT_TIMEZONE_SYSTEM = "System";
 
 	/**
