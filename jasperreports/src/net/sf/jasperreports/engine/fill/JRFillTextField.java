@@ -613,6 +613,13 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			else
 			{
 				strValue = format.format(value);
+				
+				if (value instanceof java.util.Date && log.isDebugEnabled())
+				{
+					log.debug(getUUID() + ": formatted value " + value 
+							+ " (" + value.getClass().getName() + "/" + ((java.util.Date) value).getTime() + ")"
+							+ " to " + strValue);
+				}
 			}
 		}
 
@@ -687,7 +694,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		
 		if (log.isDebugEnabled())
 		{
-			log.debug("pattern timezone property " + property 
+			log.debug(getUUID() + ": pattern timezone property " + property 
 					+ " is " + propertyVal + ", resolved to " + timeZone);
 		}
 		
