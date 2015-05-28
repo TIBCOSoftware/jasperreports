@@ -48,6 +48,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 
@@ -69,6 +72,7 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 public class JRResultSetDataSource implements JRDataSource
 {
 
+	private static final Log log = LogFactory.getLog(JRResultSetDataSource.class);
 
 	public static final String INDEXED_COLUMN_PREFIX = "COLUMN_";
 	private static final int INDEXED_COLUMN_PREFIX_LENGTH = INDEXED_COLUMN_PREFIX.length();
@@ -337,11 +341,17 @@ public class JRResultSetDataSource implements JRDataSource
 	protected Object readDate(Integer columnIndex, JRField field) throws SQLException
 	{
 		Calendar calendar = getFieldCalendar(field);
-		Object objValue = calendar == null ? resultSet.getDate(columnIndex.intValue())
+		java.sql.Date objValue = calendar == null ? resultSet.getDate(columnIndex.intValue())
 				: resultSet.getDate(columnIndex.intValue(), calendar);
 		if(resultSet.wasNull())
 		{
 			objValue = null;
+		} 
+		if (log.isDebugEnabled())
+		{
+			log.debug("date field " + field.getName()
+					+ " is " + (objValue == null ? "null"
+							: (objValue + " (" + objValue.getTime() + ")")));
 		}
 		return objValue;
 	}
@@ -350,11 +360,17 @@ public class JRResultSetDataSource implements JRDataSource
 	protected Object readTimestamp(Integer columnIndex, JRField field) throws SQLException
 	{
 		Calendar calendar = getFieldCalendar(field);
-		Object objValue = calendar == null ? resultSet.getTimestamp(columnIndex.intValue())
+		java.sql.Timestamp objValue = calendar == null ? resultSet.getTimestamp(columnIndex.intValue())
 				: resultSet.getTimestamp(columnIndex.intValue(), calendar);
 		if(resultSet.wasNull())
 		{
 			objValue = null;
+		}
+		if (log.isDebugEnabled())
+		{
+			log.debug("timestamp field " + field.getName()
+					+ " is " + (objValue == null ? "null"
+							: (objValue + " (" + objValue.getTime() + ")")));
 		}
 		return objValue;
 	}
@@ -363,11 +379,17 @@ public class JRResultSetDataSource implements JRDataSource
 	protected Object readTime(Integer columnIndex, JRField field) throws SQLException
 	{
 		Calendar calendar = getFieldCalendar(field);
-		Object objValue = calendar == null ? resultSet.getTime(columnIndex.intValue())
+		java.sql.Time objValue = calendar == null ? resultSet.getTime(columnIndex.intValue())
 				: resultSet.getTime(columnIndex.intValue(), calendar);
 		if(resultSet.wasNull())
 		{
 			objValue = null;
+		}
+		if (log.isDebugEnabled())
+		{
+			log.debug("time field " + field.getName()
+					+ " is " + (objValue == null ? "null"
+							: (objValue + " (" + objValue.getTime() + ")")));
 		}
 		return objValue;
 	}
@@ -415,6 +437,22 @@ public class JRResultSetDataSource implements JRDataSource
 				throw new JRException("Unable to retrieve result set metadata.", e);
 			}
 
+			if (log.isDebugEnabled())
+			{
+				try
+				{
+					ResultSetMetaData metaData = resultSet.getMetaData();
+					log.debug("field " + fieldName 
+							+ " has type " + metaData.getColumnType(columnIndex)
+							+ "/" + metaData.getColumnTypeName(columnIndex)
+							+ ", class " + metaData.getColumnClassName(columnIndex));
+				}
+				catch (SQLException e)
+				{
+					log.debug("failed to read result set metadata", e);
+				}
+			}
+			
 			columnIndexMap.put(fieldName, columnIndex);
 		}
 		
@@ -598,6 +636,11 @@ public class JRResultSetDataSource implements JRDataSource
 		
 		Calendar calendar = createFieldCalendar(field);
 		fieldCalendars.put(field, calendar);
+		if (log.isDebugEnabled())
+		{
+			log.debug("calendar for field " + field.getName()
+					+ " is " + calendar);
+		}
 		return calendar;
 	}
 
