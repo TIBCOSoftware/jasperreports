@@ -38,6 +38,13 @@
 	font-weight: bold;
 }
 
+.category {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	font-style: italic;
+}
+
 .label {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	font-size: 12px;
@@ -192,7 +199,7 @@ ga('send', 'pageview');
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
     <td colspan="5">
-      <span class="label"><br/>Named Enumeration Types</span>
+      <span class="category"><br/>1. Named Enumeration Types</span>
     </td>
   </tr>
   <xsl:for-each select="//xsd:simpleType[@name]">
@@ -228,6 +235,42 @@ ga('send', 'pageview');
     </td>
   </tr>
   </xsl:for-each>
+  
+  <tr>
+    <td colspan="5">
+      <span class="category"><br/><br/>2. Complex Types</span>
+    </td>
+  </tr>
+  
+  <xsl:for-each select="//xsd:complexType[@name]">
+  <xsl:sort select="@name"/>
+  <tr>
+    <td colspan="5" align="right"><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute></xsl:element><a href="#top" class="toc">top</a></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <td colspan="4"><hr size="1"/></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <td colspan="4"><span class="name"><xsl:value-of select="@name"/></span></td>
+  </tr>
+  <xsl:if test="@abstract">
+  <tr>
+  	<td></td>
+    <td colspan="4"><span class="description"> - abstract type</span></td>
+  </tr>
+  </xsl:if>
+  <xsl:apply-templates select="xsd:complexContent"/>
+  <xsl:apply-templates select="xsd:sequence"/>
+  <xsl:if test="xsd:attribute">
+    <tr>
+      <td></td>
+	  <td colspan="4"><span class="label"><br/>Attributes</span></td>
+    </tr>
+  <xsl:apply-templates select="xsd:attribute"/>
+  </xsl:if>
+  </xsl:for-each>
 </table>
 
 
@@ -241,7 +284,7 @@ ga('send', 'pageview');
   </tr>
   <tr>
     <td colspan="5">
-      <span class="label"><br/>Schema Elements</span>
+      <span class="category"><br/>3. Schema Elements</span>
     </td>
   </tr>
   <xsl:for-each select="//xsd:element[@name]">
@@ -279,6 +322,21 @@ ga('send', 'pageview');
     <td></td>
     <td colspan="4"><xsl:apply-templates select="xsd:annotation/xsd:documentation"/></td>
   </tr>
+  <xsl:if test="@type">
+  <tr>
+    <td></td>
+    <td colspan="4"><span class="label">Type: </span><span class="description">
+	  <xsl:choose>
+	    <xsl:when test="starts-with(@type,'jr:')">
+	      <xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="substring(@type,4)"/></xsl:attribute>
+	        <xsl:value-of select="substring(@type,4)"/></xsl:element>
+	      </xsl:when>
+	      <xsl:otherwise><xsl:value-of select="@type"/></xsl:otherwise>
+	    </xsl:choose>
+	  </span>
+</td>
+  </tr>
+  </xsl:if>
   <xsl:apply-templates select="xsd:complexType/xsd:sequence"/>
   <xsl:if test="xsd:complexType/xsd:attribute">
   <tr>
