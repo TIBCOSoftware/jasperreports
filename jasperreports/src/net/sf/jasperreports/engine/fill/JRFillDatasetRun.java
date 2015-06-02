@@ -143,16 +143,6 @@ public class JRFillDatasetRun implements JRDatasetRun
 				return dataset.getVariableValue(name);
 			}
 		};
-		
-		try
-		{
-			//FIXME do this at compile time
-			returnValues.checkReturnValues(returnValuesContext);
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
 	}
 
 	public void setBand(JRFillBand band)
@@ -172,6 +162,19 @@ public class JRFillDatasetRun implements JRDatasetRun
 	 */
 	public void evaluate(JRFillElementDataset elementDataset, byte evaluation) throws JRException
 	{
+		if (returnValues != null)
+		{
+			try
+			{
+				//FIXME do this at compile time
+				returnValues.checkReturnValues(returnValuesContext);
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+		
 		saveReturnVariables();
 		
 		Map<String,Object> parameterValues = 
