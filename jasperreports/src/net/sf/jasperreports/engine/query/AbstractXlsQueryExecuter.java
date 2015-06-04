@@ -291,8 +291,8 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 					datasource.setLocale(xlsLocaleCode);
 				} else {
 					xlsLocale = (Locale) getParameterValue(JRParameter.REPORT_LOCALE, true);
-					if (xlsLocale == null) { //this is never null at this point, actually
-						xlsLocale = (Locale) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_LOCALE, true);
+					if (xlsLocale != null) { //this is never null at this point, actually
+						datasource.setLocale(xlsLocaleCode);
 					}
 				}
 			}
@@ -316,8 +316,8 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 					datasource.setTimeZone(xlsTimezoneId);
 				} else {
 					xlsTimezone = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE, true);
-					if (xlsTimezone == null) { //this is never null at this point, actually
-						xlsTimezone = (TimeZone) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_TIMEZONE, true);
+					if (xlsTimezone != null) { //this is never null at this point, actually
+						datasource.setTimeZone(xlsTimezone);
 					}
 				}
 			}
