@@ -176,7 +176,9 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory
 			CSV_NUMBER_PATTERN, "java.lang.String",
 			CSV_RECORD_DELIMITER, "java.lang.String",
 			CSV_USE_FIRST_ROW_AS_HEADER, "java.lang.Boolean",
+			CSV_LOCALE, "java.util.Locale",
 			CSV_LOCALE_CODE, "java.lang.String",
+			CSV_TIMEZONE, "java.util.TimeZone",
 			CSV_TIMEZONE_ID, "java.lang.String"
 			};
 	
