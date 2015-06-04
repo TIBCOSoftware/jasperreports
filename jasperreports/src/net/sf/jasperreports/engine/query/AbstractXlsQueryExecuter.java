@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -288,6 +289,11 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 				}
 				if (xlsLocaleCode != null) {
 					datasource.setLocale(xlsLocaleCode);
+				} else {
+					xlsLocale = (Locale) getParameterValue(JRParameter.REPORT_LOCALE, true);
+					if (xlsLocale == null) { //this is never null at this point, actually
+						xlsLocale = (Locale) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_LOCALE, true);
+					}
 				}
 			}
 			
@@ -308,6 +314,11 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 				}
 				if (xlsTimezoneId != null) {
 					datasource.setTimeZone(xlsTimezoneId);
+				} else {
+					xlsTimezone = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE, true);
+					if (xlsTimezone == null) { //this is never null at this point, actually
+						xlsTimezone = (TimeZone) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_TIMEZONE, true);
+					}
 				}
 			}
 			

@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -223,6 +224,11 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter
 				String csvLocaleCode = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_LOCALE_CODE);
 				if (csvLocaleCode != null) {
 					datasource.setLocale(csvLocaleCode);
+				} else {
+					csvLocale = (Locale) getParameterValue(JRParameter.REPORT_LOCALE, true);
+					if (csvLocale != null) { //this is never null at this point, actually
+						datasource.setLocale(csvLocale);
+					}
 				}
 			}
 			
@@ -233,6 +239,11 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter
 				String csvTimezoneId = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_TIMEZONE_ID);
 				if (csvTimezoneId != null) {
 					datasource.setTimeZone(csvTimezoneId);
+				} else {
+					csvTimezone = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE, true);
+					if (csvTimezone != null) { //this is never null at this point, actually
+						datasource.setTimeZone(csvTimezone);
+					}
 				}
 			}
 		}
