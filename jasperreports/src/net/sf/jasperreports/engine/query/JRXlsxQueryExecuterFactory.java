@@ -190,8 +190,12 @@ public class JRXlsxQueryExecuterFactory extends AbstractXlsQueryExecuterFactory
 			XLS_NUMBER_PATTERN, "java.lang.String",
 			XLSX_USE_FIRST_ROW_AS_HEADER, "java.lang.Boolean",
 			XLS_USE_FIRST_ROW_AS_HEADER, "java.lang.Boolean",
+			XLSX_LOCALE, "java.util.Locale",
+			XLS_LOCALE, "java.util.Locale",
 			XLSX_LOCALE_CODE, "java.lang.String",
 			XLS_LOCALE_CODE, "java.lang.String",
+			XLSX_TIMEZONE, "java.util.TimeZone",
+			XLS_TIMEZONE, "java.util.TimeZone",
 			XLSX_TIMEZONE_ID, "java.lang.String",
 			XLS_TIMEZONE_ID, "java.lang.String",
 			XLS_SHEET_SELECTION, "java.lang.String"
