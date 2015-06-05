@@ -235,38 +235,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	{
 		super(jasperReportsContext, jasperReport, parent);
 		
-		SectionTypeEnum sectionType = jasperReport.getSectionType();
-		if (sectionType != null && sectionType != SectionTypeEnum.BAND)
-		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_UNSUPPORTED_REPORT_SECTION_TYPE,  
-					new Object[]{jasperReport.getSectionType()} 
-					);
-		}
-		
 		this.bandReportParent = parent;
-
-		/*   */
-		name = jasperReport.getName();
-		columnCount = jasperReport.getColumnCount();
-		printOrder = jasperReport.getPrintOrderValue();
-		columnDirection = jasperReport.getColumnDirection();
-		pageWidth = jasperReport.getPageWidth();
-		pageHeight = jasperReport.getPageHeight();
-		orientation = jasperReport.getOrientationValue();
-		whenNoDataType = jasperReport.getWhenNoDataTypeValue();
-		columnWidth = jasperReport.getColumnWidth();
-		columnSpacing = jasperReport.getColumnSpacing();
-		leftMargin = jasperReport.getLeftMargin();
-		rightMargin = jasperReport.getRightMargin();
-		topMargin = jasperReport.getTopMargin();
-		bottomMargin = jasperReport.getBottomMargin();
-		isTitleNewPage = jasperReport.isTitleNewPage();
-		isSummaryNewPage = jasperReport.isSummaryNewPage();
-		isSummaryWithPageHeaderAndFooter = jasperReport.isSummaryWithPageHeaderAndFooter();
-		isFloatColumnFooter = jasperReport.isFloatColumnFooter();
-		whenResourceMissingType = jasperReport.getWhenResourceMissingTypeValue();
 
 		groups = mainDataset.groups;
 
@@ -304,6 +273,41 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 		initDatasets();
 		initBands();
+	}
+
+	@Override
+	protected void jasperReportSet()
+	{
+		SectionTypeEnum sectionType = jasperReport.getSectionType();
+		if (sectionType != null && sectionType != SectionTypeEnum.BAND)
+		{
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNSUPPORTED_REPORT_SECTION_TYPE,  
+					new Object[]{jasperReport.getSectionType()} 
+					);
+		}
+
+		/*   */
+		name = jasperReport.getName();
+		columnCount = jasperReport.getColumnCount();
+		printOrder = jasperReport.getPrintOrderValue();
+		columnDirection = jasperReport.getColumnDirection();
+		pageWidth = jasperReport.getPageWidth();
+		pageHeight = jasperReport.getPageHeight();
+		orientation = jasperReport.getOrientationValue();
+		whenNoDataType = jasperReport.getWhenNoDataTypeValue();
+		columnWidth = jasperReport.getColumnWidth();
+		columnSpacing = jasperReport.getColumnSpacing();
+		leftMargin = jasperReport.getLeftMargin();
+		rightMargin = jasperReport.getRightMargin();
+		topMargin = jasperReport.getTopMargin();
+		bottomMargin = jasperReport.getBottomMargin();
+		isTitleNewPage = jasperReport.isTitleNewPage();
+		isSummaryNewPage = jasperReport.isSummaryNewPage();
+		isSummaryWithPageHeaderAndFooter = jasperReport.isSummaryWithPageHeaderAndFooter();
+		isFloatColumnFooter = jasperReport.isFloatColumnFooter();
+		whenResourceMissingType = jasperReport.getWhenResourceMissingTypeValue();
 	}
 
 	@Override

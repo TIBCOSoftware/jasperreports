@@ -96,14 +96,6 @@ public class PartReportFiller extends BaseReportFiller
 	{
 		super(jasperReportsContext, jasperReport, parent);
 		
-		if (jasperReport.getSectionType() != SectionTypeEnum.PART)
-		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_UNSUPPORTED_SECTION_TYPE,
-					new Object[]{jasperReport.getSectionType()});
-		}
-		
 		detailParts = new FillParts(jasperReport.getDetailSection(), factory);
 		
 		JRGroup[] reportGroups = jasperReport.getGroups();
@@ -136,6 +128,18 @@ public class PartReportFiller extends BaseReportFiller
 		else
 		{
 			partQueue = parent.getFiller().partQueue;
+		}
+	}
+
+	@Override
+	protected void jasperReportSet()
+	{
+		if (jasperReport.getSectionType() != SectionTypeEnum.PART)
+		{
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNSUPPORTED_SECTION_TYPE,
+					new Object[]{jasperReport.getSectionType()});
 		}
 	}
 
