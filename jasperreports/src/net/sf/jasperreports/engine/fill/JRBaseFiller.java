@@ -108,19 +108,19 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	 */
 	protected String name;
 
-	protected int columnCount = 1;
+	protected int columnCount;
 
-	protected PrintOrderEnum printOrder = PrintOrderEnum.VERTICAL;
+	protected PrintOrderEnum printOrder;
 
-	protected RunDirectionEnum columnDirection = RunDirectionEnum.LTR;
+	protected RunDirectionEnum columnDirection;
 
 	protected int pageWidth;
 
 	protected int pageHeight;
 
-	protected OrientationEnum orientation = OrientationEnum.PORTRAIT;
+	protected OrientationEnum orientation;
 
-	protected WhenNoDataTypeEnum whenNoDataType = WhenNoDataTypeEnum.NO_PAGES;
+	protected WhenNoDataTypeEnum whenNoDataType;
 
 	protected int columnWidth;
 
@@ -145,7 +145,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	/**
 	 * the resource missing handling type
 	 */
-	protected WhenResourceMissingTypeEnum whenResourceMissingType = WhenResourceMissingTypeEnum.NULL;
+	protected WhenResourceMissingTypeEnum whenResourceMissingType;
 
 	protected JRFillReportTemplate[] reportTemplates;
 	
