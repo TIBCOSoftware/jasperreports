@@ -53,7 +53,7 @@ public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource imp
 	protected String sheetSelection;
 	
 	protected DateFormat dateFormat = new SimpleDateFormat();
-	protected NumberFormat numberFormat = new DecimalFormat();
+	protected NumberFormat numberFormat = new DecimalFormat();//these two here prevent commons beanutils conversion from superclass unless explicitly set to null; but it was like this since day one 
 	protected Map<String, Integer> columnNames = new LinkedHashMap<String, Integer>();
 	protected boolean useFirstRowAsHeader;
 

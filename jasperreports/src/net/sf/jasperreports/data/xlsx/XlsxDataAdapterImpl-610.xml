@@ -2,8 +2,8 @@
 <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
 
 <mapping>
-	<class name="net.sf.jasperreports.data.xls.XlsDataAdapterImpl">
-		<map-to xml="xlsDataAdapter"/>
+	<class name="net.sf.jasperreports.data.xlsx.XlsxDataAdapterImpl">
+		<map-to xml="xlsxDataAdapter"/>
 		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.data.ClassNameFieldHandler">
 			<bind-xml name="class" node="attribute"/>
 		</field>
@@ -18,12 +18,6 @@
 		</field> 
 		<field name="useFirstRowAsHeader" type="boolean">
 			<bind-xml name="useFirstRowAsHeader" node="element"/>
-		</field>
-		<field name="locale" type="java.util.Locale" handler="net.sf.jasperreports.data.LocaleFieldHandler">
-			<bind-xml name="locale" node="element"/>
-		</field>
-		<field name="timeZone" type="java.util.TimeZone" handler="net.sf.jasperreports.data.TimeZoneFieldHandler">
-			<bind-xml name="timeZone" node="element"/>
 		</field>
 		<field name="datePattern" type="string">
 			<bind-xml name="datePattern" node="element"/>

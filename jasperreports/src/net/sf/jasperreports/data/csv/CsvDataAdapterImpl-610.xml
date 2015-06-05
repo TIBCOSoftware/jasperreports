@@ -2,8 +2,8 @@
 <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
 
 <mapping>
-	<class name="net.sf.jasperreports.data.xls.XlsDataAdapterImpl">
-		<map-to xml="xlsDataAdapter"/>
+	<class name="net.sf.jasperreports.data.csv.CsvDataAdapterImpl">
+		<map-to xml="csvDataAdapter"/>
 		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.data.ClassNameFieldHandler">
 			<bind-xml name="class" node="attribute"/>
 		</field>
@@ -16,14 +16,17 @@
 		<field name="dataFile" type="net.sf.jasperreports.data.DataFile">
 			<bind-xml name="dataFile" node="element"/>
 		</field> 
+		<field name="encoding" type="string">
+			<bind-xml name="encoding" node="element"/>
+		</field>
+		<field name="recordDelimiter" type="string">
+			<bind-xml name="recordDelimiter" node="element"/>
+		</field>
+		<field name="fieldDelimiter" type="string">
+			<bind-xml name="fieldDelimiter" node="element"/>
+		</field>
 		<field name="useFirstRowAsHeader" type="boolean">
 			<bind-xml name="useFirstRowAsHeader" node="element"/>
-		</field>
-		<field name="locale" type="java.util.Locale" handler="net.sf.jasperreports.data.LocaleFieldHandler">
-			<bind-xml name="locale" node="element"/>
-		</field>
-		<field name="timeZone" type="java.util.TimeZone" handler="net.sf.jasperreports.data.TimeZoneFieldHandler">
-			<bind-xml name="timeZone" node="element"/>
 		</field>
 		<field name="datePattern" type="string">
 			<bind-xml name="datePattern" node="element"/>
@@ -36,12 +39,6 @@
 		</field>
 		<field name="columnNames" type="string" collection="arraylist">
 			<bind-xml name="columnNames" node="element"/>
-		</field>
-		<field name="columnIndexes" type="int" collection="arraylist">
-			<bind-xml name="columnIndexes" node="element"/>
-		</field>
-		<field name="sheetSelection" type="string">
-			<bind-xml name="sheetSelection" node="element"/>
 		</field>
 	</class>
 </mapping>

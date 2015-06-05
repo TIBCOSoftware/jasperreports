@@ -60,7 +60,9 @@ public class ExcelQueryExecuterFactory extends AbstractXlsQueryExecuterFactory
 			XLS_NUMBER_FORMAT, "java.text.NumberFormat",
 			XLS_NUMBER_PATTERN, "java.lang.String",
 			XLS_USE_FIRST_ROW_AS_HEADER, "java.lang.Boolean",
+			XLS_LOCALE, "java.util.Locale",
 			XLS_LOCALE_CODE, "java.lang.String",
+			XLS_TIMEZONE, "java.util.TimeZone",
 			XLS_TIMEZONE_ID, "java.lang.String",
 			XLS_SHEET_SELECTION, "java.lang.String",
 			XLS_FORMAT, "net.sf.jasperreports.data.excel.ExcelFormatEnum"

@@ -25,6 +25,8 @@ package net.sf.jasperreports.data.xls;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.data.AbstractDataAdapter;
 import net.sf.jasperreports.data.DataFile;
@@ -37,6 +39,8 @@ import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 public class XlsDataAdapterImpl extends AbstractDataAdapter implements XlsDataAdapter
 {
 	private boolean useFirstRowAsHeader = false;
+	private Locale locale;
+	private TimeZone timeZone;
 	private String datePattern = null;
 	private String numberPattern = null;
 	private DataFile dataFile;
@@ -133,4 +137,20 @@ public class XlsDataAdapterImpl extends AbstractDataAdapter implements XlsDataAd
 		this.dataFile = dataFile;
 	}
 	
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
+
+	public TimeZone getTimeZone() {
+		return timeZone;
+	}
+
+	public void setTimeZone(TimeZone timeZone) {
+		this.timeZone = timeZone;
+	}
+
 }
