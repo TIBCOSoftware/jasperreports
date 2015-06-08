@@ -99,7 +99,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	{
 		initComponents();
 
-		JRDesignViewer viewer = new JRDesignViewer(jasperReportsContext, sourceFile, isXML);
+		net.sf.jasperreports.swing.JRDesignViewer viewer = new net.sf.jasperreports.swing.JRDesignViewer(jasperReportsContext, sourceFile, isXML);
 		this.pnlMain.add(viewer, BorderLayout.CENTER);
 	}
 	
@@ -114,7 +114,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	{
 		initComponents();
 
-		JRDesignViewer viewer = new JRDesignViewer(jasperReportsContext, is, isXML);
+		net.sf.jasperreports.swing.JRDesignViewer viewer = new net.sf.jasperreports.swing.JRDesignViewer(jasperReportsContext, is, isXML);
 		this.pnlMain.add(viewer, BorderLayout.CENTER);
 	}
 	
@@ -128,7 +128,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	{
 		initComponents();
 
-		JRDesignViewer viewer = new JRDesignViewer(jasperReportsContext, report);
+		net.sf.jasperreports.swing.JRDesignViewer viewer = new net.sf.jasperreports.swing.JRDesignViewer(jasperReportsContext, report);
 		this.pnlMain.add(viewer, BorderLayout.CENTER);
 	}
 	

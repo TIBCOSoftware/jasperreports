@@ -22,13 +22,11 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sf.jasperreports.view;
+package net.sf.jasperreports.swing;
 
-import java.io.File;
 import java.io.InputStream;
-import java.util.Arrays;
-
-import javax.swing.JOptionPane;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
@@ -36,12 +34,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.convert.ReportConverter;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
-import net.sf.jasperreports.engine.util.SimpleFileResolver;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,7 +41,6 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link net.sf.jasperreports.swing.JRDesignViewer}.
  */
 public class JRDesignViewer extends JRViewer
 {
@@ -122,110 +113,27 @@ public class JRDesignViewer extends JRViewer
 	
 	private void hideUnusedComponents()
 	{
-		btnFirst.setVisible(false);
-		btnLast.setVisible(false);
-		btnPrevious.setVisible(false);	
-		btnNext.setVisible(false);
-		txtGoTo.setVisible(false);
 		pnlStatus.setVisible(false);
 	}
 
-	void btnReloadActionPerformed(java.awt.event.ActionEvent evt)
+	@Override
+	protected void initViewerContext(JasperReportsContext jasperReportsContext, Locale locale, ResourceBundle resBundle)
 	{
-		if (this.type == TYPE_FILE_NAME)
-		{
-			try
-			{
-				loadReport(reportFileName, isXML);
-				forceRefresh();
-			}
-			catch (JRException e)
-			{
-				if (log.isErrorEnabled())
-				{
-					log.error("Reload error.", e);
-				}
-				JOptionPane.showMessageDialog(this, "Error loading report design. See the log for more details.");
-			}
-		}
+		viewerContext = new JRDesignViewerController(jasperReportsContext, locale, resBundle);
+		setLocale(viewerContext.getLocale());
+		viewerContext.addListener(this);
 	}
 
-
-	/**
-	*/
-	protected void loadReport(String fileName, boolean isXmlReport) throws JRException
+	@Override
+	protected JRViewerToolbar createToolbar()
 	{
-		SimpleFileResolver fileResolver = new SimpleFileResolver(Arrays.asList(new File[]{new File(fileName).getParentFile(), new File(".")}));
-		fileResolver.setResolveAbsolutePath(true);
-		if (localJasperReportsContext == null)
-		{
-			localJasperReportsContext = new LocalJasperReportsContext(jasperReportsContext);
-			jasperReportsContext = localJasperReportsContext;
-		}
-		localJasperReportsContext.setFileResolver(fileResolver);
-		
-		if (isXmlReport)
-		{
-			JasperDesign jasperDesign = JRXmlLoader.load(fileName);
-			setReport(jasperDesign);
-		}
-		else
-		{
-			setReport((JRReport) JRLoader.loadObjectFromFile(fileName));
-		}
-		this.type = TYPE_FILE_NAME;
-		this.isXML = isXmlReport;
-		this.reportFileName = fileName;
-		
-		//FIXME there are two more lines here in JRViewer; check other places too
+		return new JRDesignViewerToolbar(viewerContext);
 	}
 
-
-	/**
-	*/
-	protected void loadReport(InputStream is, boolean isXmlReport) throws JRException
+	@Override
+	protected JRViewerPanel createViewerPanel()
 	{
-		if (isXmlReport)
-		{
-			JasperDesign jasperDesign = JRXmlLoader.load(is);
-			setReport(jasperDesign);
-		}
-		else
-		{
-			setReport((JRReport) JRLoader.loadObject(is));
-		}
-		this.type = TYPE_INPUT_STREAM;
-		this.isXML = isXmlReport;
+		return new JRDesignViewerPanel(viewerContext);
 	}
 
-
-	/**
-	*/
-	public void loadReport(JRReport rep) throws JRException
-	{
-		setReport(rep);
-		this.type = TYPE_OBJECT;
-		this.isXML = false;
-	}
-	
-	private void setReport(JRReport report) throws JRException
-	{
-		this.jasperPrint = new ReportConverter(jasperReportsContext, report, false).getJasperPrint();		
-	}
-
-	/**
-	*/
-	protected JRGraphics2DExporter getGraphics2DExporter() throws JRException
-	{
-		return 
-			new JRGraphics2DExporter(getJasperReportsContext())
-			{
-				protected void initReport()
-				{
-					super.initReport();
-					frameDrawer.setClip(true);//FIXMENOW thick border of margin elements is clipped
-				}
-			};
-	}
-	
 }
