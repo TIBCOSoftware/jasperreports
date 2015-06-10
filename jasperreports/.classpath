@@ -44,7 +44,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/jackson-core-2.1.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jackson-annotations-2.1.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jackson-databind-2.1.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/rhino-1.7R3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/rhino-1.7.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/iText-2.1.7.js2.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-analyzers-common-4.5.1.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-core-4.5.1.jar"/>
