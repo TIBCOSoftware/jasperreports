@@ -4,7 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/xml-apis.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/ecj-4.3.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/hibernate3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-3.3.2.GA.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/png-encoder-1.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-javaflow-20060411.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jpa.jar"/>
