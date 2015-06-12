@@ -80,6 +80,7 @@
       <property ref="net.sf.jasperreports.default.spacing.before"/>
       <property ref="net.sf.jasperreports.default.tab.stop.width"/>
       <property ref="net.sf.jasperreports.evaluator.class.reference.fix.enabled"/>
+      <property ref="net.sf.jasperreports.evaluator.ignore.npe"/>
       <property ref="net.sf.jasperreports.image.encoder"/>
       <property ref="net.sf.jasperreports.image.reader"/>
       <property ref="net.sf.jasperreports.markup.processor.factory.{markup}"/>
@@ -1546,6 +1547,27 @@ scenarios, set this property to false.
     <default>true</default>
     <scope>Global</scope>
     <since>3.0.0</since>
+  </configProperty>
+
+
+  <!-- net.sf.jasperreports.evaluator.ignore.npe -->
+  
+  <configProperty name="net.sf.jasperreports.evaluator.ignore.npe">
+    <description>
+The expression evaluation engine in JasperReports has always ignored 
+java.lang.NullPointerException exceptions raised during expression evaluation. 
+An expression raising NullPointerException is evaluated to null. 
+However, in certain cases, users want to be able to track down the source of 
+their NPE and this configuration property can be set to instruct the expression 
+evaluation engine to treat NPEs just the way all other expression exceptions are treated.
+<br/> 
+The default value of this configuration property is true, meaning NPEs are ignored. 
+The property can be set globally, at report or at dataset level.
+    </description>
+    <api>net/sf/jasperreports/engine/fill/JREvaluator.html#PROPERTY_IGNORE_NPE</api>
+    <default>true</default>
+    <scope>Global | Dataset</scope>
+    <since>6.1.1</since>
   </configProperty>
 
 

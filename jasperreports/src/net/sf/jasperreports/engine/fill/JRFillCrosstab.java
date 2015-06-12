@@ -661,7 +661,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			parameters[i].setValue(value);
 		}
 
-		crosstabEvaluator.init(parametersMap, variablesMap, filler.getWhenResourceMissingType());
+		boolean ignoreNPE = filler.getPropertiesUtil().getBooleanProperty(this,	JREvaluator.PROPERTY_IGNORE_NPE, true);
+		crosstabEvaluator.init(parametersMap, variablesMap, filler.getWhenResourceMissingType(), ignoreNPE);
 	}
 
 	protected void initBucketingService()

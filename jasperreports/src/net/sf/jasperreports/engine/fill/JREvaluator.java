@@ -33,6 +33,7 @@ import java.util.ResourceBundle;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.functions.FunctionSupport;
@@ -63,6 +64,17 @@ import net.sf.jasperreports.functions.FunctionSupport;
  */
 public abstract class JREvaluator implements DatasetExpressionEvaluator
 {
+	/**
+	 * The expression evaluation engine in JasperReports has always ignored java.lang.NullPointerException 
+	 * exceptions raised during expression evaluation. An expression raising NullPointerException is evaluated to null. 
+	 * However, in certain cases, users want to be able to track down the source of their NPE and this configuration 
+	 * property can be set to instruct the expression evaluation engine to treat NPEs just the way all other expression 
+	 * exceptions are treated. 
+	 * The default value of this configuration property is true, meaning NPEs are ignored. 
+	 * The property can be set globally, at report or at dataset level. 
+	 */
+	public static final String PROPERTY_IGNORE_NPE = JRPropertiesUtil.PROPERTY_PREFIX + "evaluator.ignore.npe";
+
 	public static final String EXCEPTION_MESSAGE_KEY_RESOURCE_NOT_FOUND = "fill.evaluator.resource.not.found";
 	
 	/**
@@ -91,6 +103,11 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	private FillFunctionContext functionContext;
 
 	/**
+	 *
+	 */
+	private boolean ignoreNPE = true;
+
+	/**
 	 * Default constructor.
 	 */
 	protected JREvaluator()
@@ -111,10 +128,12 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 			Map<String, JRFillParameter> parametersMap, 
 			Map<String, JRFillField> fieldsMap, 
 			Map<String, JRFillVariable> variablesMap, 
-			WhenResourceMissingTypeEnum resourceMissingType
+			WhenResourceMissingTypeEnum resourceMissingType,
+			boolean ignoreNPE
 			) throws JRException
 	{
 		whenResourceMissingType = resourceMissingType;
+		this.ignoreNPE = ignoreNPE;
 		resourceBundle = parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
 		locale = parametersMap.get(JRParameter.REPORT_LOCALE);
 		
@@ -226,7 +245,14 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 		}
 		catch (NullPointerException e) //NOPMD
 		{
-			str = handleMissingResource(key, e);
+			if (ignoreNPE)
+			{
+				str = handleMissingResource(key, e);
+			}
+			else
+			{
+				throw e;
+			}
 		}
 		catch (MissingResourceException e)
 		{
@@ -252,6 +278,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 			}
 			catch (NullPointerException e) //NOPMD
 			{
+				if (!ignoreNPE) throw new JRExpressionEvalException(expression, e);
 			}
 			catch (OutOfMemoryError e)
 			{
@@ -284,6 +311,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 			}
 			catch (NullPointerException e) //NOPMD
 			{
+				if (!ignoreNPE) throw new JRExpressionEvalException(expression, e);
 			}
 			catch (OutOfMemoryError e)
 			{
@@ -316,6 +344,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 			}
 			catch (NullPointerException e) //NOPMD
 			{
+				if (!ignoreNPE) throw new JRExpressionEvalException(expression, e);
 			}
 			catch (OutOfMemoryError e)
 			{
