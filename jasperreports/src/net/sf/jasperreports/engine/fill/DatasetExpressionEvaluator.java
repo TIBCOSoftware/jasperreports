@@ -42,7 +42,8 @@ public interface DatasetExpressionEvaluator
 			Map<String, JRFillParameter> parametersMap, 
 			Map<String, JRFillField> fieldsMap, 
 			Map<String, JRFillVariable> variablesMap, 
-			WhenResourceMissingTypeEnum resourceMissingType
+			WhenResourceMissingTypeEnum resourceMissingType,
+			boolean ignoreNPE
 			) throws JRException;
 	
 	Object evaluate(JRExpression expression) throws JRExpressionEvalException;
