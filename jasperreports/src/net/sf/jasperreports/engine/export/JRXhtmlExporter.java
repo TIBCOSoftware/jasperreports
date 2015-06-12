@@ -248,7 +248,11 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error writing to output writer : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_OUTPUT_WRITER_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 		finally
 		{
@@ -696,7 +700,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 							HtmlFontUtil.handleFont(resourceHandler, htmlFont);
 						}
 						
-						fontFamily = htmlFont.getId();
+						fontFamily = htmlFont.getShortId();
 					}
 				}
 			}
@@ -714,9 +718,9 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 			localHyperlink = true;
 		}
 		
-		writer.write("<span style=\"font-family: ");
+		writer.write("<span style=\"font-family: '");
 		writer.write(fontFamily);
-		writer.write("; ");
+		writer.write("'; ");
 
 		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
 		if (!hyperlinkStarted || !Color.black.equals(forecolor))
@@ -2373,9 +2377,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_INVALID_ZOOM_RATIO,  
-						new Object[]{zoom}, 
-						getJasperReportsContext(),
-						getLocale()
+						new Object[]{zoom} 
 						);
 			}
 		}

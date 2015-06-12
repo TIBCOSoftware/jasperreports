@@ -240,7 +240,11 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error writing to output writer : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_OUTPUT_WRITER_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 		finally
 		{
@@ -814,9 +818,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_UNEXPECTED_ROTATION_VALUE,  
-						new Object[]{text.getRotationValue()}, 
-						getJasperReportsContext(),
-						getLocale()
+						new Object[]{text.getRotationValue()}
 						);
 			}
 		}
@@ -1009,7 +1011,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 				if (imageMapName == null)
 				{
-					imageMapName = "map_" + getElementIndex(cell).toString();
+					imageMapName = "map_" + getElementIndex(cell).toString() + "-" + originalRenderer.getId();//use renderer.getId()?
 					imageMapAreas = ((ImageMapRenderable) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
 					
 					if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
@@ -2130,9 +2132,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_INVALID_ZOOM_RATIO,  
-						new Object[]{zoom}, 
-						getJasperReportsContext(),
-						getLocale()
+						new Object[]{zoom} 
 						);
 			}
 		}
@@ -2325,7 +2325,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 							HtmlFontUtil.getInstance(jasperReportsContext).handleHtmlFont(resourceHandler, htmlFont);
 						}
 						
-						fontFamily = htmlFont.getId();
+						fontFamily = htmlFont.getShortId();
 					}
 				}
 			}
@@ -2342,9 +2342,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			localHyperlink = startHyperlink(hyperlink);
 		}
 
-		writer.write("<span style=\"font-family: ");
+		writer.write("<span style=\"font-family: '");
 		writer.write(fontFamily);
-		writer.write("; ");
+		writer.write("'; ");
 
 		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
 		if (!hyperlinkStarted || !Color.black.equals(forecolor))
@@ -2602,9 +2602,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_INTERNAL_ERROR,  
-					null, 
-					getJasperReportsContext(),
-					getLocale()
+					(Object[])null 
 					);
 		}
 

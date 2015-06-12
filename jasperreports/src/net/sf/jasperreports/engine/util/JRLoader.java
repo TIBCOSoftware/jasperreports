@@ -79,6 +79,19 @@ public final class JRLoader
 {
 
 	private static final Log log = LogFactory.getLog(JRLoader.class);
+	public static final String EXCEPTION_MESSAGE_KEY_BYTE_DATA_FROM_INPUT_STREAM_ERROR = "util.loader.byte.data.from.input.stream.error";
+	public static final String EXCEPTION_MESSAGE_KEY_BYTE_DATA_LOADING_ERROR = "util.loader.byte.data.loading.error";
+	public static final String EXCEPTION_MESSAGE_KEY_CLASS_NOT_FOUND_FROM_FILE = "util.loader.class.not.found.from.file";
+	public static final String EXCEPTION_MESSAGE_KEY_CLASS_NOT_FOUND_FROM_INPUT_STREAM = "util.loader.class.not.found.from.input.stream";
+	public static final String EXCEPTION_MESSAGE_KEY_CLASS_NOT_FOUND_FROM_URL = "util.loader.class.not.found.from.url";
+	public static final String EXCEPTION_MESSAGE_KEY_FILE_OPEN_ERROR = "util.loader.file.open.error";
+	public static final String EXCEPTION_MESSAGE_KEY_INPUT_STREAM_FROM_FILE_OPEN_ERROR = "util.loader.input.stream.from.file.open.error";
+	public static final String EXCEPTION_MESSAGE_KEY_INPUT_STREAM_FROM_URL_OPEN_ERROR = "util.loader.input.stream.from.url.open.error";
+	public static final String EXCEPTION_MESSAGE_KEY_OBJECT_FROM_FILE_LOADING_ERROR = "util.loader.object.from.file.loading.error";
+	public static final String EXCEPTION_MESSAGE_KEY_OBJECT_FROM_INPUT_STREAM_LOADING_ERROR = "util.loader.object.from.input.stream.loading.error";
+	public static final String EXCEPTION_MESSAGE_KEY_OBJECT_FROM_URL_LOADING_ERROR = "util.loader.object.from.url.loading.error";
+	public static final String EXCEPTION_MESSAGE_KEY_RESOURCE_NOT_FOUND = "util.loader.resource.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_URL_OPEN_ERROR = "util.loader.url.open.error";
 
 	/**
 	 *
@@ -128,11 +141,19 @@ public final class JRLoader
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error loading object from file : " + file, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_OBJECT_FROM_FILE_LOADING_ERROR,
+					new Object[]{file},
+					e);
 		}
 		catch (ClassNotFoundException e)
 		{
-			throw new JRException("Class not found when loading object from file : " + file, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CLASS_NOT_FOUND_FROM_FILE,
+					new Object[]{file},
+					e);
 		}
 		finally
 		{
@@ -190,11 +211,19 @@ public final class JRLoader
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error loading object from URL : " + url, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_OBJECT_FROM_URL_LOADING_ERROR,
+					new Object[]{url},
+					e);
 		}
 		catch (ClassNotFoundException e)
 		{
-			throw new JRException("Class not found when loading object from URL : " + url, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CLASS_NOT_FOUND_FROM_URL,
+					new Object[]{url},
+					e);
 		}
 		finally
 		{
@@ -250,11 +279,19 @@ public final class JRLoader
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error loading object from InputStream", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_OBJECT_FROM_INPUT_STREAM_LOADING_ERROR,
+					null,
+					e);
 		}
 		catch (ClassNotFoundException e)
 		{
-			throw new JRException("Class not found when loading object from InputStream", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CLASS_NOT_FOUND_FROM_INPUT_STREAM,
+					null,
+					e);
 		}
 
 		return obj;
@@ -279,7 +316,11 @@ public final class JRLoader
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error opening input stream from file : " + file, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INPUT_STREAM_FROM_FILE_OPEN_ERROR,
+					new Object[]{file},
+					e);
 		}
 
 		return fis;
@@ -299,7 +340,11 @@ public final class JRLoader
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error opening input stream from URL : " + url, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INPUT_STREAM_FROM_URL_OPEN_ERROR,
+					new Object[]{url},
+					e);
 		}
 
 		return is;
@@ -330,7 +375,11 @@ public final class JRLoader
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error loading byte data : " + file, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_BYTE_DATA_LOADING_ERROR,
+					new Object[]{file},
+					e);
 		}
 		finally
 		{
@@ -385,7 +434,11 @@ public final class JRLoader
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error loading byte data : " + url, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_BYTE_DATA_LOADING_ERROR,
+					new Object[]{url},
+					e);
 		}
 		finally
 		{
@@ -438,7 +491,11 @@ public final class JRLoader
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error loading byte data from input stream.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_BYTE_DATA_FROM_INPUT_STREAM_ERROR,
+					null,
+					e);
 		}
 		finally
 		{
@@ -504,8 +561,10 @@ public final class JRLoader
 		{
 			return loadBytes(url);
 		}
-
-		throw new JRException("Resource '" + resourceName + "' not found.");
+		throw 
+			new JRException(
+				EXCEPTION_MESSAGE_KEY_RESOURCE_NOT_FOUND,
+				new Object[]{resourceName});
 	}
 		
 	
@@ -561,7 +620,11 @@ public final class JRLoader
 			}
 			catch (FileNotFoundException e)
 			{
-				throw new JRException("Error opening file " + filename, e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_FILE_OPEN_ERROR,
+						new Object[]{filename},
+						e);
 			}
 		}
 		
@@ -792,7 +855,11 @@ public final class JRLoader
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error opening URL " + spec, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_URL_OPEN_ERROR,
+					new Object[]{spec},
+					e);
 		}
 		
 		return is;

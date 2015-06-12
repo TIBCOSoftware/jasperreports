@@ -32,6 +32,8 @@ import net.sf.jasperreports.engine.fill.PartReportFiller;
  */
 public class FillPrintPartQueue
 {
+	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_REMOVE_HEAD_PART = "engine.part.queue.cannot.remove.head.part";
+	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_REPLACE_HEAD_PART = "engine.part.queue.cannot.replace.head.part";
 
 	private FillPrintPart head;
 	private FillPrintPart tail;
@@ -100,7 +102,10 @@ public class FillPrintPartQueue
 	{
 		if (part == head)
 		{
-			throw new JRRuntimeException("Cannot remove head part");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_REMOVE_HEAD_PART,
+					(Object[])null);
 		}
 		
 		part.previousPart().setNextPart(part.nextPart());
@@ -120,7 +125,10 @@ public class FillPrintPartQueue
 	{
 		if (originalPart == head)
 		{
-			throw new JRRuntimeException("Cannot replace head part");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_REPLACE_HEAD_PART,
+					(Object[])null);
 		}
 		
 		newPart.setPreviousPart(originalPart.previousPart());

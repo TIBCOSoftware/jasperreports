@@ -412,9 +412,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			throw 
 			new JRRuntimeException(
 				EXCEPTION_MESSAGE_KEY_UNSUPPORTED_SECTION_TYPE,  
-				new Object[]{source.getClass().getName()}, 
-				filler.getJasperReportsContext(),
-				filler.getLocale()
+				new Object[]{source.getClass().getName()} 
 				);
 		}
 		return report;
@@ -533,9 +531,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_UNSUPPORTED_SECTION_TYPE,  
-					new Object[]{subreportSectionType}, 
-					filler.getJasperReportsContext(),
-					filler.getLocale()
+					new Object[]{subreportSectionType} 
 					);
 		}
 		
@@ -947,9 +943,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				throw 
 					new JRException(
 						EXCEPTION_MESSAGE_KEY_NO_REWINDABLE_DATA_SOURCE,  
-						null, 
-						filler.getJasperReportsContext(),
-						filler.getLocale()
+						(Object[])null 
 						);
 			}
 		}
@@ -1078,7 +1072,10 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				topMargin += parentFiller.jasperReport.getTopMargin();
 				bottomMargin += parentFiller.jasperReport.getBottomMargin();
 				
-				parentFiller = parentFiller.parent instanceof JRBaseFiller ? (JRBaseFiller) parentFiller.parent.getFiller() : null;//FIXMEBOOK
+				parentFiller = 
+					parentFiller.parent != null && parentFiller.parent.getFiller() instanceof JRBaseFiller 
+						? (JRBaseFiller) parentFiller.parent.getFiller() 
+						: null;//FIXMEBOOK
 			}
 			while (parentFiller != null);
 			
@@ -1144,9 +1141,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_PROPERTY_NOT_SET,  
-					new Object[]{JRSubreportRunnerFactory.SUBREPORT_RUNNER_FACTORY}, 
-					filler.getJasperReportsContext(),
-					filler.getLocale()
+					new Object[]{JRSubreportRunnerFactory.SUBREPORT_RUNNER_FACTORY} 
 					);
 		}
 		return runnerFactoryCache.getCachedInstance(factoryClassName);

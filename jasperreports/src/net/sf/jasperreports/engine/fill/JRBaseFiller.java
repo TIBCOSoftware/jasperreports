@@ -94,6 +94,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	public static final String EXCEPTION_MESSAGE_KEY_CIRCULAR_DEPENDENCY_FOUND = "fill.base.filler.circular.dependency.found";
 	public static final String EXCEPTION_MESSAGE_KEY_EXTERNAL_STYLE_NAME_NOT_SET = "fill.base.filler.external.style.name.not.set";
 	public static final String EXCEPTION_MESSAGE_KEY_NO_SUCH_GROUP = "fill.base.filler.no.such.group";
+	public static final String EXCEPTION_MESSAGE_KEY_PAGE_HEADER_OVERFLOW_INFINITE_LOOP = "fill.common.filler.page.header.overflow.infinite.loop";
 	public static final String EXCEPTION_MESSAGE_KEY_UNSUPPORTED_REPORT_SECTION_TYPE = "fill.base.filler.unsupported.report.section.type";
 	
 	private static final int PAGE_HEIGHT_PAGINATION_IGNORED = 0x7d000000;//less than Integer.MAX_VALUE to avoid 
@@ -107,19 +108,19 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	 */
 	protected String name;
 
-	protected int columnCount = 1;
+	protected int columnCount;
 
-	protected PrintOrderEnum printOrder = PrintOrderEnum.VERTICAL;
+	protected PrintOrderEnum printOrder;
 
-	protected RunDirectionEnum columnDirection = RunDirectionEnum.LTR;
+	protected RunDirectionEnum columnDirection;
 
 	protected int pageWidth;
 
 	protected int pageHeight;
 
-	protected OrientationEnum orientation = OrientationEnum.PORTRAIT;
+	protected OrientationEnum orientation;
 
-	protected WhenNoDataTypeEnum whenNoDataType = WhenNoDataTypeEnum.NO_PAGES;
+	protected WhenNoDataTypeEnum whenNoDataType;
 
 	protected int columnWidth;
 
@@ -144,7 +145,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	/**
 	 * the resource missing handling type
 	 */
-	protected WhenResourceMissingTypeEnum whenResourceMissingType = WhenResourceMissingTypeEnum.NULL;
+	protected WhenResourceMissingTypeEnum whenResourceMissingType;
 
 	protected JRFillReportTemplate[] reportTemplates;
 	
@@ -234,40 +235,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	{
 		super(jasperReportsContext, jasperReport, parent);
 		
-		SectionTypeEnum sectionType = jasperReport.getSectionType();
-		if (sectionType != null && sectionType != SectionTypeEnum.BAND)
-		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_UNSUPPORTED_REPORT_SECTION_TYPE,  
-					new Object[]{jasperReport.getSectionType()}, 
-					getJasperReportsContext(),
-					getLocale()
-					);
-		}
-		
 		this.bandReportParent = parent;
-
-		/*   */
-		name = jasperReport.getName();
-		columnCount = jasperReport.getColumnCount();
-		printOrder = jasperReport.getPrintOrderValue();
-		columnDirection = jasperReport.getColumnDirection();
-		pageWidth = jasperReport.getPageWidth();
-		pageHeight = jasperReport.getPageHeight();
-		orientation = jasperReport.getOrientationValue();
-		whenNoDataType = jasperReport.getWhenNoDataTypeValue();
-		columnWidth = jasperReport.getColumnWidth();
-		columnSpacing = jasperReport.getColumnSpacing();
-		leftMargin = jasperReport.getLeftMargin();
-		rightMargin = jasperReport.getRightMargin();
-		topMargin = jasperReport.getTopMargin();
-		bottomMargin = jasperReport.getBottomMargin();
-		isTitleNewPage = jasperReport.isTitleNewPage();
-		isSummaryNewPage = jasperReport.isSummaryNewPage();
-		isSummaryWithPageHeaderAndFooter = jasperReport.isSummaryWithPageHeaderAndFooter();
-		isFloatColumnFooter = jasperReport.isFloatColumnFooter();
-		whenResourceMissingType = jasperReport.getWhenResourceMissingTypeValue();
 
 		groups = mainDataset.groups;
 
@@ -305,6 +273,41 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 		initDatasets();
 		initBands();
+	}
+
+	@Override
+	protected void jasperReportSet()
+	{
+		SectionTypeEnum sectionType = jasperReport.getSectionType();
+		if (sectionType != null && sectionType != SectionTypeEnum.BAND)
+		{
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNSUPPORTED_REPORT_SECTION_TYPE,  
+					new Object[]{jasperReport.getSectionType()} 
+					);
+		}
+
+		/*   */
+		name = jasperReport.getName();
+		columnCount = jasperReport.getColumnCount();
+		printOrder = jasperReport.getPrintOrderValue();
+		columnDirection = jasperReport.getColumnDirection();
+		pageWidth = jasperReport.getPageWidth();
+		pageHeight = jasperReport.getPageHeight();
+		orientation = jasperReport.getOrientationValue();
+		whenNoDataType = jasperReport.getWhenNoDataTypeValue();
+		columnWidth = jasperReport.getColumnWidth();
+		columnSpacing = jasperReport.getColumnSpacing();
+		leftMargin = jasperReport.getLeftMargin();
+		rightMargin = jasperReport.getRightMargin();
+		topMargin = jasperReport.getTopMargin();
+		bottomMargin = jasperReport.getBottomMargin();
+		isTitleNewPage = jasperReport.isTitleNewPage();
+		isSummaryNewPage = jasperReport.isSummaryNewPage();
+		isSummaryWithPageHeaderAndFooter = jasperReport.isSummaryWithPageHeaderAndFooter();
+		isFloatColumnFooter = jasperReport.isFloatColumnFooter();
+		whenResourceMissingType = jasperReport.getWhenResourceMissingTypeValue();
 	}
 
 	@Override
@@ -745,9 +748,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_EXTERNAL_STYLE_NAME_NOT_SET,  
-							null, 
-							getJasperReportsContext(),
-							getLocale()
+							(Object[])null 
 							);
 				}
 
@@ -772,9 +773,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_CIRCULAR_DEPENDENCY_FOUND,  
-							new Object[]{location}, 
-							getJasperReportsContext(),
-							getLocale()
+							new Object[]{location} 
 							);
 				}
 				
@@ -1408,9 +1407,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 			throw 
 			new JRRuntimeException(
 				EXCEPTION_MESSAGE_KEY_NO_SUCH_GROUP,  
-				new Object[]{groupName}, 
-				getJasperReportsContext(),
-				getLocale()
+				new Object[]{groupName} 
 				);
 		}
 		return group;

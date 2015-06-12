@@ -37,6 +37,8 @@ import org.apache.commons.collections.map.ReferenceMap;
  */
 public class ArbitraryRankComparator implements Comparator<Object>
 {
+	public static final String EXCEPTION_MESSAGE_KEY_FOUND_OBJECTS_WITH_SAME_RANK = "crosstabs.calculation.found.objects.with.same.rank";
+	public static final String EXCEPTION_MESSAGE_KEY_RANK_COMPARATOR_OVERFLOW = "crosstabs.calculation.rank.comparator.overflow";
 
 	// using a weak ref map to store ranks per objects
 	private final ReferenceMap ranks = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
@@ -63,7 +65,10 @@ public class ArbitraryRankComparator implements Comparator<Object>
 		}
 		
 		// this should not happen
-		throw new JRRuntimeException("Arbitrary rank comparator found two objects with the same rank");
+		throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_FOUND_OBJECTS_WITH_SAME_RANK,
+				(Object[])null);
 	}
 
 	protected synchronized long rank(Object o)
@@ -78,7 +83,10 @@ public class ArbitraryRankComparator implements Comparator<Object>
 			// check for overflow, very unlikely
 			if (rankCounter == Long.MIN_VALUE)
 			{
-				throw new JRRuntimeException("Arbitrary rank comparator has overflowed");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_RANK_COMPARATOR_OVERFLOW,
+						(Object[])null);
 			}
 			
 			ranks.put(o, new Long(rank));

@@ -174,7 +174,8 @@ import net.sf.jasperreports.engine.analytics.dataset.MultiAxisDataset;
  */
 public class JRBaseObjectFactory extends JRAbstractObjectFactory
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_CROSSTAB_ID_NOT_FOUND = "engine.object.factory.crosstab.id.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_EXPRESSION_ID_NOT_FOUND = "engine.object.factory.expression.id.not.found";
 
 	/**
 	 *
@@ -446,7 +447,10 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 				}
 				else
 				{
-					throw new JRRuntimeException("Expression ID not found for expression <<" + expression.getText() + ">>.");
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_EXPRESSION_ID_NOT_FOUND,
+							new Object[]{expression.getText()});
 				}
 			}
 		}
@@ -1520,7 +1524,10 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		Integer id = expressionCollector.getCrosstabId(crosstab);
 		if (id == null)
 		{
-			throw new JRRuntimeException("Crosstab ID not found.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CROSSTAB_ID_NOT_FOUND,
+					(Object[])null);
 		}
 		return id;
 	}

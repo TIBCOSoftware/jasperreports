@@ -82,13 +82,17 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 public class JRFontNotFoundException extends JRRuntimeException
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
+	
+	public static final String EXCEPTION_MESSAGE_KEY_FONT_NOT_AVAILABLE = "util.font.not.available";
 
 	/**
 	 * 
 	 */
 	public JRFontNotFoundException(String font)
 	{
-		super("Font '" + font + "' is not available to the JVM. See the Javadoc for more details.");
+		super(
+			EXCEPTION_MESSAGE_KEY_FONT_NOT_AVAILABLE, 
+			new Object[]{font});
+
 	}
 }

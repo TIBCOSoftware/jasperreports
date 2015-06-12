@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -96,6 +97,9 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	
 	private static final String NULL_VALUE = new String();
 	private final Map<String, String> localizedProperties;
+	
+	//FIXME keep these in the filler/context
+	private Map<String, TimeZone> generalPatternTimeZones = new HashMap<String, TimeZone>();
 
 	/**
 	 *
@@ -531,6 +535,14 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			return TimeZone.getDefault();
 		}
 		
+		if (timezoneId.equals(JRParameter.REPORT_TIME_ZONE))
+		{
+			// using the dataset/report timezone
+			JRFillDataset dataset = expressionEvaluator.getFillDataset();
+			// not sure whether the dataset can be null, let's be safe
+			return dataset == null ? filler.getTimeZone() : dataset.timeZone;
+		}
+		
 		// note that this returns GMT if the ID is unknown, leaving that as is
 		return TimeZone.getTimeZone(timezoneId);
 	}
@@ -588,14 +600,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		}
 		else
 		{
-			TimeZone ownTimeZone = null;
-			if (value instanceof java.util.Date)
-			{
-				// read the element's format timezone property
-				String ownTimezoneId = hasProperties() ? getPropertiesMap().getProperty(PROPERTY_FORMAT_TIMEZONE) : null;
-				ownTimeZone = toFormatTimeZone(ownTimezoneId);
-			}
-			
+			TimeZone ownTimeZone = determineOwnTimeZone();
 			Format format = getFormat(value, ownTimeZone);
 
 			evaluateTextFormat(format, value, ownTimeZone);
@@ -607,6 +612,13 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			else
 			{
 				strValue = format.format(value);
+				
+				if (value instanceof java.util.Date && log.isDebugEnabled())
+				{
+					log.debug(getUUID() + ": formatted value " + value 
+							+ " (" + value.getClass().getName() + "/" + ((java.util.Date) value).getTime() + ")"
+							+ " to " + strValue);
+				}
 			}
 		}
 
@@ -628,6 +640,64 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		hyperlinkPage = (Integer) evaluateExpression(getHyperlinkPageExpression(), evaluation);
 		hyperlinkTooltip = (String) evaluateExpression(getHyperlinkTooltipExpression(), evaluation);
 		hyperlinkParameters = JRFillHyperlinkHelper.evaluateHyperlinkParameters(this, expressionEvaluator, evaluation);
+	}
+
+
+	protected TimeZone determineOwnTimeZone()
+	{
+		TimeZone ownTimeZone = null;
+		if (value instanceof java.util.Date)
+		{
+			// read the element's format timezone property
+			String ownTimezoneId = hasProperties() ? getPropertiesMap().getProperty(PROPERTY_FORMAT_TIMEZONE) : null;
+			ownTimeZone = toFormatTimeZone(ownTimezoneId);
+			
+			if (ownTimeZone == null)
+			{
+				// trying to get a timezone for the specific date/time type.
+				// should we have timezones for arbitrary types a la oracle.sql.DATE?
+				if (value instanceof java.sql.Date)
+				{
+					ownTimeZone = getPatternTimeZone(PROPERTY_SQL_DATE_FORMAT_TIMEZONE);
+				}
+				else if (value instanceof java.sql.Timestamp)
+				{
+					ownTimeZone = getPatternTimeZone(PROPERTY_SQL_TIMESTAMP_FORMAT_TIMEZONE);
+				}
+				else if (value instanceof java.sql.Time)
+				{
+					ownTimeZone = getPatternTimeZone(PROPERTY_SQL_TIME_FORMAT_TIMEZONE);
+				}
+			}
+			
+			if (ownTimeZone == null)
+			{
+				// using a general timezone
+				ownTimeZone = getPatternTimeZone(PROPERTY_FORMAT_TIMEZONE);
+			}
+		}
+		return ownTimeZone;
+	}
+
+
+	protected TimeZone getPatternTimeZone(String property)
+	{
+		if (generalPatternTimeZones.containsKey(property))
+		{
+			return generalPatternTimeZones.get(property);
+		}
+		
+		String propertyVal = filler.propertiesUtil.getProperty(filler.jasperReport, property);
+		TimeZone timeZone = toFormatTimeZone(propertyVal);
+		generalPatternTimeZones.put(property, timeZone);
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug(getUUID() + ": pattern timezone property " + property 
+					+ " is " + propertyVal + ", resolved to " + timeZone);
+		}
+		
+		return timeZone;
 	}
 
 

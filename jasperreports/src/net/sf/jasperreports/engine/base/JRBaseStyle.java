@@ -63,6 +63,8 @@ import net.sf.jasperreports.engine.util.ObjectUtils;
 public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport, Deduplicable
 {
 
+	public static final String EXCEPTION_MESSAGE_KEY_CIRCULAR_DEPENDENCY = "engine.style.circular.dependency";
+	
 	/**
 	 *
 	 */
@@ -282,7 +284,10 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		{
 			if (ancestor == this)
 			{
-				throw new JRRuntimeException("Circular dependency detected for style " + getName());
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_CIRCULAR_DEPENDENCY,
+						new Object[]{getName()});
 			}
 		}
 	}

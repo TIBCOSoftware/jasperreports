@@ -38,6 +38,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class DefaultFormatFactory implements FormatFactory
 {
+	public static final String EXCEPTION_MESSAGE_KEY_FACTORY_INSTANCE_ERROR = "util.format.factory.instance.error";
+	public static final String EXCEPTION_MESSAGE_KEY_FACTORY_LOADING_ERROR = "util.format.factory.loading.error";
 
 	/**
 	 * Used in the date pattern to specify the default style.
@@ -232,11 +234,19 @@ public class DefaultFormatFactory implements FormatFactory
 			}
 			catch (ClassNotFoundException e)
 			{
-				throw new JRRuntimeException("Error loading format factory class : " + formatFactoryClassName, e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_FACTORY_LOADING_ERROR,
+						new Object[]{formatFactoryClassName},
+						e);
 			}
 			catch (Exception e)
 			{
-				throw new JRRuntimeException("Error creating format factory instance : " + formatFactoryClassName, e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_FACTORY_INSTANCE_ERROR,
+						new Object[]{formatFactoryClassName},
+						e);
 			}
 		}
 		else

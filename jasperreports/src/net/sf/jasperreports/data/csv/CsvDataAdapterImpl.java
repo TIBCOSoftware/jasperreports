@@ -25,6 +25,8 @@ package net.sf.jasperreports.data.csv;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.data.AbstractDataAdapter;
 import net.sf.jasperreports.data.DataFile;
@@ -41,6 +43,8 @@ public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAd
 	private String recordDelimiter = "\n";
 	private String fieldDelimiter = ",";
 	private boolean useFirstRowAsHeader = false;
+	private Locale locale;
+	private TimeZone timeZone;
 	private String datePattern = null;
 	private String numberPattern = null;
 	private boolean queryExecuterMode = false;
@@ -98,6 +102,22 @@ public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAd
 
 	public void setFieldDelimiter(String fieldDelimiter) {
 		this.fieldDelimiter = fieldDelimiter;
+	}
+
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
+
+	public TimeZone getTimeZone() {
+		return timeZone;
+	}
+
+	public void setTimeZone(TimeZone timeZone) {
+		this.timeZone = timeZone;
 	}
 
 	public String getDatePattern() {

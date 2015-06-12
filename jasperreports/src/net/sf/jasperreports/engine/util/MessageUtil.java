@@ -41,6 +41,8 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  */
 public final class MessageUtil
 {
+	public static final String EXCEPTION_MESSAGE_KEY_MESSAGE_PROVIDER_NOT_FOUND = "util.message.provider.not.found";
+	
 	private final JasperReportsContext jasperReportsContext;
 	
 	/**
@@ -75,7 +77,10 @@ public final class MessageUtil
 				return provider;
 			}
 		}
-		throw new JRRuntimeException("Message provider '" + name + "' not found.");
+		throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_MESSAGE_PROVIDER_NOT_FOUND,
+				new Object[]{name});
 	}
 	
 	/**

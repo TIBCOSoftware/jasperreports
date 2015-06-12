@@ -165,6 +165,7 @@ public class DefaultChartTheme implements ChartTheme
 	/**
 	 *
 	 */
+	// do not use unless actually necessary as it results in rasterized images for PostScript printing
 	protected static final Color TRANSPARENT_PAINT = new Color(0, 0, 0, 0);
 	
 	/**
@@ -343,9 +344,7 @@ public class DefaultChartTheme implements ChartTheme
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_UNSUPPORTED_CHART_TYPE,  
-						new Object[]{getChart().getChartType()}, 
-						chartContext.getJasperReportsContext(),
-						getLocale()
+						new Object[]{getChart().getChartType()} 
 						);
 		}
 
@@ -364,7 +363,7 @@ public class DefaultChartTheme implements ChartTheme
 		}
 		else
 		{
-			jfreeChart.setBackgroundPaint(TRANSPARENT_PAINT);
+			jfreeChart.setBackgroundPaint(null);
 		}
 		
 		RectangleEdge titleEdge = getEdge(getChart().getTitlePositionValue(), RectangleEdge.TOP);
@@ -398,7 +397,7 @@ public class DefaultChartTheme implements ChartTheme
 
 			if (getChart().getOwnLegendBackgroundColor() == null)// in a way, legend backcolor inheritance from chart is useless
 			{
-				legend.setBackgroundPaint(TRANSPARENT_PAINT);
+				legend.setBackgroundPaint(null);
 			}
 			else
 			{
@@ -418,11 +417,11 @@ public class DefaultChartTheme implements ChartTheme
 	 */
 	protected void configurePlot(Plot plot)
 	{
-		plot.setOutlinePaint(TRANSPARENT_PAINT);
+		plot.setOutlinePaint(null);
 
 		if (getPlot().getOwnBackcolor() == null)// in a way, plot backcolor inheritence from chart is useless
 		{
-			plot.setBackgroundPaint(TRANSPARENT_PAINT);
+			plot.setBackgroundPaint(null);
 		}
 		else
 		{
@@ -2033,6 +2032,7 @@ public class DefaultChartTheme implements ChartTheme
 		if(Boolean.valueOf(displayVisibility).booleanValue())
 		{
 			DialValueIndicator dvi = new DialValueIndicator(0);
+			// we need the transparent paint because null is not accepted
 			dvi.setBackgroundPaint(TRANSPARENT_PAINT);
 //			dvi.setFont(fontUtil.getAwtFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
 			dvi.setOutlinePaint(TRANSPARENT_PAINT);

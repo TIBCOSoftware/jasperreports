@@ -33,7 +33,6 @@ import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import java.util.Locale;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
@@ -41,7 +40,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
-import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
@@ -59,6 +57,7 @@ public class JRPrinterAWT implements Printable
 	private static final Log log = LogFactory.getLog(JRPrinterAWT.class);
 
 	public static final String EXCEPTION_MESSAGE_KEY_INVALID_PAGE_RANGE = "print.invalid.page.range";
+	public static final String EXCEPTION_MESSAGE_KEY_ERROR_PRINTING_REPORT = "print.error.printing.report";
 
 	/**
 	 *
@@ -142,9 +141,7 @@ public class JRPrinterAWT implements Printable
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_INVALID_PAGE_RANGE,  
-					new Object[]{firstPageIndex, lastPageIndex, jasperPrint.getPages().size()}, 
-					jasperReportsContext,
-					JRDataUtils.getLocale(jasperPrint.getLocaleCode())
+					new Object[]{firstPageIndex, lastPageIndex, jasperPrint.getPages().size()}
 					);
 		}
 
@@ -214,7 +211,11 @@ public class JRPrinterAWT implements Printable
 		}
 		catch (Exception ex)
 		{
-			throw new JRException("Error printing report.", ex);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_ERROR_PRINTING_REPORT,
+					null, 
+					ex);
 		}
 
 		return isOK;

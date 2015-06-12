@@ -45,6 +45,9 @@ import org.w3c.dom.NodeList;
 public class JaxenXPathExecuter implements JRXPathExecuter
 {
 
+	public static final String EXCEPTION_MESSAGE_KEY_XPATH_COMPILATION_FAILURE = "util.xml.jaxen.xpath.compilation.failure";
+	public static final String EXCEPTION_MESSAGE_KEY_XPATH_SELECTION_FAILURE = "util.xml.jaxen.xpath.selection.failure";
+	
 	private final Map<String,XPath> cachedXPaths = new ReferenceMap();//soft cache
 	
 	public JaxenXPathExecuter()
@@ -62,7 +65,11 @@ public class JaxenXPathExecuter implements JRXPathExecuter
 			}
 			catch (JaxenException e)
 			{
-				throw new JRException("XPath compilation failed. Expression: " + expression, e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_XPATH_COMPILATION_FAILURE,
+						new Object[]{expression},
+						e);
 			}
 			cachedXPaths.put(expression, xPath);
 		}
@@ -89,7 +96,11 @@ public class JaxenXPathExecuter implements JRXPathExecuter
 		}
 		catch (JaxenException e)
 		{
-			throw new JRException("XPath selection failed. Expression: " + expression, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_XPATH_SELECTION_FAILURE,
+					new Object[]{expression},
+					e);
 		}		
 	}
 
@@ -124,7 +135,11 @@ public class JaxenXPathExecuter implements JRXPathExecuter
 		}
 		catch (JaxenException e)
 		{
-			throw new JRException("XPath selection failed. Expression: " + expression, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_XPATH_SELECTION_FAILURE,
+					new Object[]{expression},
+					e);
 		}
 	}
 

@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.data;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -33,8 +32,6 @@ import java.util.List;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
-import net.sf.jasperreports.engine.util.FileResolver;
-import net.sf.jasperreports.engine.util.SimpleFileResolver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -66,36 +63,35 @@ public abstract class AbstractClasspathAwareDataAdapterService extends AbstractD
 		Object obj = getJasperReportsContext().getValue(CURRENT_CLASS_LOADER);
 		if(obj != null && obj instanceof ClassLoader)
 			cloader = (ClassLoader)obj ; 
-		return new CompositeClassloader(getPathClassloader(), cloader); 
+		URL[] localURLs = getPathClassloader();
+		if(localURLs == null || localURLs.length == 0)
+			return cloader;
+		return new CompositeClassloader(new URLClassLoader(localURLs), cloader); 
 	}
 
-	private ClassLoader getPathClassloader() {
-		FileResolver fileResolver = null;//FIXMECONTEXT JRResourcesUtil.getFileResolver(null);
-		if (fileResolver == null)
-		{
-			SimpleFileResolver sfr = new SimpleFileResolver(new File("."));//FIXMEREPO
-			sfr.setResolveAbsolutePath(true);
-			fileResolver = sfr;
-		}
-
+	protected URL[] getPathClassloader() {  
 		ClasspathAwareDataAdapter dataAdapter = (ClasspathAwareDataAdapter)getDataAdapter();
 		List<String> classpath = dataAdapter.getClasspath();
+		if(classpath.isEmpty())
+			return null;
 		List<URL> urls = new ArrayList<URL>();
 		for (String path : classpath) 
 		{
-			File file = fileResolver.resolveFile(path);
-
-			if (file != null && file.exists()) {
-				try {
-					urls.add(file.toURI().toURL());
-				} catch (MalformedURLException e) {
-					// e.printStackTrace();
-					// We don't care if the entry cannot be found.
-				}
+			if(path == null || path.isEmpty())
+				continue;
+			try { 
+				if(path.startsWith("\\w+?://"))
+					urls.add( new URL(path));
+				else
+					urls.add( new URL("file", "", path));
+			} catch (MalformedURLException e) {
+				// e.printStackTrace();
+				// We don't care if the entry cannot be found.
 			}
-		}
-
-		return new URLClassLoader(urls.toArray(new URL[urls.size()]));
+		} 
+		if(urls.isEmpty())
+			return null;
+		return  urls.toArray(new URL[urls.size()]) ;
 	}
 
 }

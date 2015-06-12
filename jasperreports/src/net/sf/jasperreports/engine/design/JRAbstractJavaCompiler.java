@@ -62,6 +62,9 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	public static final String PROPERTY_EVALUATOR_CLASS_REFERENCE_FIX_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + 
 			"evaluator.class.reference.fix.enabled";
 	
+	public static final String EXCEPTION_MESSAGE_KEY_EXPECTED_JAVA_LANGUAGE = "compilers.language.expected.java";
+	public static final String EXCEPTION_MESSAGE_KEY_EXPRESSION_CLASS_NOT_LOADED = "compilers.expression.class.not.loaded";
+
 	// @JVM Crash workaround
 	// Reference to the loaded class class in a per thread map
 	private static ThreadLocal<Class<?>> classFromBytesRef = new ThreadLocal<Class<?>>();
@@ -112,7 +115,11 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 		}
 		catch (Exception e)
 		{
-			throw new JRException("Error loading expression class : " + className, e);
+			throw 
+			new JRException(
+				EXCEPTION_MESSAGE_KEY_EXPRESSION_CLASS_NOT_LOADED, 
+				new Object[]{className}, 
+				e);
 		}
 		
 		return evaluator;

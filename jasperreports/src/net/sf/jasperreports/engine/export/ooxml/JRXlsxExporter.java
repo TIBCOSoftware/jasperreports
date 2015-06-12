@@ -209,6 +209,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		super(jasperReportsContext);
 		
 		exporterContext = new ExporterContext();
+		
+		maxColumnIndex = 16383;
 	}
 
 
@@ -460,7 +462,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	{
 		if (!imageName.startsWith(IMAGE_NAME_PREFIX))
 		{
-			throw new JRRuntimeException("Invalid image name: " + imageName);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_INVALID_IMAGE_NAME,
+					new Object[]{imageName});
 		}
 
 		return JRPrintElementIndex.parsePrintElementIndex(imageName.substring(IMAGE_NAME_PREFIX_LEGTH));
@@ -702,7 +707,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		int rowIndex
 		) throws JRException 
 	{
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex);
 		cellHelper.exportFooter();
 	}
 
@@ -920,8 +925,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		int rowIndex
 		) throws JRException 
 	{
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
-		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex);
+		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
 //		boolean appendBackcolor =
 //			frame.getModeValue() == ModeEnum.OPAQUE
@@ -980,7 +985,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
 
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex);
 
 		Renderable renderer = image.getRenderable();
 
@@ -1172,7 +1177,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				insertPageAnchor(colIndex,rowIndex);
 				if (image.getAnchorName() != null)
 				{
-					String ref = "'" + currentSheetName + "'!$" + XlsxCellHelper.getColumIndexLetter(colIndex) + "$" + (rowIndex + 1);
+					String ref = "'" + currentSheetName + "'!$" + JRXlsAbstractExporter.getColumIndexName(colIndex, maxColumnIndex) + "$" + (rowIndex + 1);
 					definedNames.append("<definedName name=\"" + getDefinedName(image.getAnchorName()) +"\">"+ ref +"</definedName>\n");
 				}
 			}
@@ -1182,7 +1187,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			String imageName = getImagePath(renderer, image.isLazy(), gridCell);
 			drawingRelsHelper.exportImage(imageName);
 
-			sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+			sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
 			ImageAnchorTypeEnum imageAnchorType = 
 				ImageAnchorTypeEnum.getByName(
@@ -1310,8 +1315,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
-		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex);
+		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 		cellHelper.exportFooter();
 	}
 
@@ -1331,8 +1336,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
-		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex);
+		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 		cellHelper.exportFooter();
 	}
 
@@ -1369,15 +1374,16 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		}
 		
 		cellHelper.exportHeader(
-			gridCell, rowIndex, colIndex, textValue, 
+			gridCell, rowIndex, colIndex, maxColumnIndex, textValue, 
 			getConvertedPattern(text, pattern), 
 			getTextLocale(text), 
 			isWrapText(gridCell.getElement()) || Boolean.TRUE.equals(((JRXlsxExporterNature)nature).getColumnAutoFit(gridCell.getElement())), 
 			isCellHidden(gridCell.getElement()), 
 			isCellLocked(gridCell.getElement()),
-			isShrinkToFit(gridCell.getElement())
+			isShrinkToFit(gridCell.getElement()), 
+			isIgnoreTextFormatting(text)
 			);
-		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
 		String textFormula = getFormula(text);
 		if (textFormula != null)
@@ -1405,7 +1411,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			insertPageAnchor(colIndex,rowIndex);
 			if (text.getAnchorName() != null)
 			{
-				String ref = "'" + currentSheetName + "'!$" + XlsxCellHelper.getColumIndexLetter(colIndex) + "$" + (rowIndex + 1);
+				String ref = "'" + currentSheetName + "'!$" + JRXlsAbstractExporter.getColumIndexName(colIndex, maxColumnIndex) + "$" + (rowIndex + 1);
 				definedNames.append("<definedName name=\"" + getDefinedName(text.getAnchorName()) +"\">"+ ref +"</definedName>\n");
 			}
 		}
@@ -1415,7 +1421,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		{
 			sheetHelper.exportHyperlink(
 					rowIndex, 
-					colIndex, 
+					colIndex,
+					maxColumnIndex,
 					href, 
 					HyperlinkTypeEnum.LOCAL_ANCHOR.equals(text.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(text.getHyperlinkTypeValue()));
 		}
@@ -1573,7 +1580,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) 
 	{
 		ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
-		cellHelper.exportHeader(elementGridCell, rowIndex, colIndex);
+		cellHelper.exportHeader(elementGridCell, rowIndex, colIndex, maxColumnIndex);
 		cellHelper.exportFooter();
 	}
 

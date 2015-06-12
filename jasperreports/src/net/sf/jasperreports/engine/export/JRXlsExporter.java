@@ -42,10 +42,9 @@ import java.io.OutputStream;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -96,7 +95,6 @@ import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
-import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -144,7 +142,17 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	public static short MAX_COLOR_INDEX = 56;
 	public static short MIN_COLOR_INDEX = 10;	/* Indexes from 0 to 9 are reserved */
 	
-	private static Map<Color,HSSFColor> hssfColorsCache = new ReferenceMap();
+	private static Map<HSSFColor, short[]> hssfColorsRgbs;
+	
+	static
+	{
+		Hashtable<String, HSSFColor> hssfColors = HSSFColor.getTripletHash();
+		hssfColorsRgbs = new HashMap<HSSFColor, short[]>();
+		for (HSSFColor color : hssfColors.values())
+		{
+			hssfColorsRgbs.put(color, color.getTriplet());
+		}
+	}
 
 	protected Map<StyleInfo,HSSFCellStyle> loadedCellStyles = new HashMap<StyleInfo,HSSFCellStyle>();
 	protected Map<String,List<Hyperlink>> anchorLinks = new HashMap<String,List<Hyperlink>>();
@@ -162,6 +170,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	protected HSSFCellStyle emptyCellStyle;
 	protected CreationHelper createHelper;
 	private HSSFPalette palette = null;
+	private Map<Color,HSSFColor> hssfColorsCache = new HashMap<Color, HSSFColor>();
 
 	/**
 	 *
@@ -198,6 +207,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		super(jasperReportsContext);
 		
 		exporterContext = new ExporterContext();
+		
+		maxColumnIndex = 255;
 	}
 
 
@@ -269,9 +280,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_TEMPLATE_NOT_FOUND,  
-							new Object[]{lcWorkbookTemplate}, 
-							getJasperReportsContext(),
-							getLocale()
+							new Object[]{lcWorkbookTemplate} 
 							);
 				}
 				else
@@ -528,7 +537,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 	}
 
@@ -750,20 +763,33 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
 		}
 
-		StyleInfo baseStyle =
-			new StyleInfo(
-				mode,
-				backcolor,
-				horizontalAlignment,
-				verticalAlignment,
-				rotation,
-				getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
-				gridCell, 
-				isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
-				isCellLocked(textElement),
-				isCellHidden(textElement),
-				isShrinkToFit(textElement)
-				);
+		StyleInfo baseStyle = isIgnoreTextFormatting(textElement) 
+				? new StyleInfo(
+						mode,
+						whiteIndex,
+						horizontalAlignment,
+						verticalAlignment,
+						(short)0,
+						null,
+						(JRExporterGridCell)null, 
+						isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+						isCellLocked(textElement),
+						isCellHidden(textElement),
+						isShrinkToFit(textElement)
+						)
+				: new StyleInfo(
+					mode,
+					backcolor,
+					horizontalAlignment,
+					verticalAlignment,
+					rotation,
+					getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
+					gridCell, 
+					isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+					isCellLocked(textElement),
+					isCellHidden(textElement),
+					isShrinkToFit(textElement)
+					);
 		createTextCell(textElement, gridCell, colIndex, rowIndex, styledText, baseStyle, forecolor);
 	}
 
@@ -927,8 +953,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 		setHyperlinkCell(textElement);
 	}
-
-
+	
 	protected HSSFCellStyle initCreateCell(JRExporterGridCell gridCell, int colIndex, int rowIndex, StyleInfo baseStyle)
 	{
 		HSSFCellStyle cellStyle = getLoadedCellStyle(baseStyle);
@@ -1092,37 +1117,23 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	/**
 	 *
 	 */
-	protected static HSSFColor getNearestColor(Color awtColor)
+	protected HSSFColor getNearestColor(Color awtColor)
 	{
 		HSSFColor color = hssfColorsCache.get(awtColor);		
 		if (color == null)
 		{
-			Map<?,?> triplets = HSSFColor.getTripletHash();
-			if (triplets != null)
+			int minDiff = Integer.MAX_VALUE;
+			for (Map.Entry<HSSFColor, short[]> hssfColorEntry : hssfColorsRgbs.entrySet())
 			{
-				Collection<?> keys = triplets.keySet();
-				if (keys != null && keys.size() > 0)
+				HSSFColor crtColor = hssfColorEntry.getKey();
+				short[] rgb = hssfColorEntry.getValue();
+				
+				int diff = Math.abs(rgb[0] - awtColor.getRed()) + Math.abs(rgb[1] - awtColor.getGreen()) + Math.abs(rgb[2] - awtColor.getBlue());
+
+				if (diff < minDiff)
 				{
-					Object key = null;
-					HSSFColor crtColor = null;
-					short[] rgb = null;
-					int diff = 0;
-					int minDiff = 999;
-					for (Iterator<?> it = keys.iterator(); it.hasNext();)
-					{
-						key = it.next();
-
-						crtColor = (HSSFColor) triplets.get(key);
-						rgb = crtColor.getTriplet();
-
-						diff = Math.abs(rgb[0] - awtColor.getRed()) + Math.abs(rgb[1] - awtColor.getGreen()) + Math.abs(rgb[2] - awtColor.getBlue());
-
-						if (diff < minDiff)
-						{
-							minDiff = diff;
-							color = crtColor;
-						}
-					}
+					minDiff = diff;
+					color = crtColor;
 				}
 			}
 
@@ -1238,24 +1249,27 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		if (cellStyle == null)
 		{
 			cellStyle = workbook.createCellStyle();
-
+			
 			cellStyle.setFillForegroundColor(style.backcolor);
 			cellStyle.setFillPattern(style.mode);
 			cellStyle.setAlignment(style.horizontalAlignment);
 			cellStyle.setVerticalAlignment(style.verticalAlignment);
 			cellStyle.setRotation(style.rotation);
-			cellStyle.setFont(style.font);
+			if(style.font != null)
+			{
+				cellStyle.setFont(style.font);
+			}
 			cellStyle.setWrapText(style.lcWrapText);
 			cellStyle.setLocked(style.lcCellLocked);
 			cellStyle.setHidden(style.lcCellHidden);
 			cellStyle.setShrinkToFit(style.lcShrinkToFit);
-
+			
 			if (style.hasDataFormat())
 			{
 				cellStyle.setDataFormat(style.getDataFormat());
 			}
-
-			boolean isIgnoreCellBorder = getCurrentItemConfiguration().isIgnoreCellBorder();
+			
+			boolean isIgnoreCellBorder = getCurrentItemConfiguration().isIgnoreCellBorder() || style.box ==null;
 			if (!isIgnoreCellBorder)
 			{
 				BoxStyle box = style.box;
@@ -1268,12 +1282,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				cellStyle.setBorderRight(box.borderStyle[BoxStyle.RIGHT]);
 				cellStyle.setRightBorderColor(box.borderColour[BoxStyle.RIGHT]);
 			}
-
+			
 			loadedCellStyles.put(style, cellStyle);
 		}
 		return cellStyle;
 	}
-
 	protected HSSFCellStyle getLoadedCellStyle(
 			short mode,
 			short backcolor,
@@ -1659,11 +1672,19 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		}
 		catch (Exception ex)
 		{
-			throw new JRException("The cell cannot be added", ex);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+					null,
+					ex);
 		}
 		catch (Error err)
 		{
-			throw new JRException("The cell cannot be added", err);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+					null,
+					err);
 		}
 	}
 	
@@ -2056,7 +2077,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				if (level == null || l.compareTo(level) >= 0)
 				{
 					Integer startIndex = levelMap.get(l);
-					if(levelInfo.getEndIndex() > startIndex)
+					if(levelInfo.getEndIndex() >= startIndex)
 					{
 						sheet.groupRow(startIndex, levelInfo.getEndIndex());
 					}
@@ -2091,18 +2112,21 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 		public BoxStyle(JRExporterGridCell gridCell)
 		{
-			JRLineBox lineBox = gridCell.getBox();
-			if (lineBox != null)
+			if(gridCell != null)
 			{
-				setBox(lineBox);
+				JRLineBox lineBox = gridCell.getBox();
+				if (lineBox != null)
+				{
+					setBox(lineBox);
+				}
+				JRPrintElement element = gridCell.getElement();
+				if (element instanceof JRCommonGraphicElement)
+				{
+					setPen(((JRCommonGraphicElement)element).getLinePen());
+				}
+	
+				hash = computeHash();
 			}
-			JRPrintElement element = gridCell.getElement();
-			if (element instanceof JRCommonGraphicElement)
-			{
-				setPen(((JRCommonGraphicElement)element).getLinePen());
-			}
-
-			hash = computeHash();
 		}
 
 		public void setBox(JRLineBox box)

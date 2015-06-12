@@ -27,6 +27,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -64,6 +65,11 @@ import org.apache.commons.logging.LogFactory;
 public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 {
 	private static final Log log = LogFactory.getLog(JRJdbcQueryExecuter.class);
+	public static final String EXCEPTION_MESSAGE_KEY_MULTI_PARAMETERS_CANNOT_CONTAIN_NULL_VALUES = "query.multi.parameters.cannot.contain.null.values";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_CANCEL_ERROR = "query.statement.cancel.error";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_EXECUTE_ERROR = "query.statement.execute.error";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_PREPARE_ERROR = "query.statement.prepare.error";
+	public static final String EXCEPTION_MESSAGE_KEY_UNEXPECTED_MULTI_PARAMETER_TYPE = "query.unexpected.multi.parameter.type";
 
 	public static final String CANONICAL_LANGUAGE = "SQL";
 	
@@ -106,8 +112,10 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	
 	private boolean isCachedRowSet;
 
-	private TimeZone timeZone;
-	private boolean timeZoneOverride;
+	private TimeZone parametersTimeZone;
+	private boolean parametersTimeZoneOverride;
+	private TimeZone fieldsTimeZone;
+	private boolean fieldsTimeZoneOverride;
 	
 	/**
 	 * 
@@ -126,6 +134,28 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			if (log.isWarnEnabled())
 			{
 				log.warn("The supplied java.sql.Connection object is null.");
+			}
+		} 
+		else if (log.isDebugEnabled())
+		{
+			try
+			{
+				DatabaseMetaData metaData = connection.getMetaData();
+				log.debug("DB is " + metaData.getDatabaseProductName()
+						+ " version " + metaData.getDatabaseProductVersion()
+						+ " (" + metaData.getDatabaseMajorVersion()
+						+ "/" + metaData.getDatabaseMinorVersion() + ")");
+				log.debug("driver is " + metaData.getDriverName()
+						+ " version " + metaData.getDriverVersion()
+						+ " (" + metaData.getDriverMajorVersion()
+						+ "/" + metaData.getDriverMinorVersion() + ")");
+				log.debug("jdbc " + metaData.getJDBCMajorVersion()
+						+ "/" + metaData.getJDBCMinorVersion());
+				log.debug("connection URL is " + metaData.getURL());
+			}
+			catch (SQLException e)
+			{
+				log.debug("failed to read connection metadata", e);
 			}
 		}
 		
@@ -166,16 +196,86 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 
 	protected void setTimeZone()
 	{
-		String timezoneId = (String) getParameterValue(JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE, true);
-		if (timezoneId != null)
+		String timeZoneIdParam = (String) getParameterValue(JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE, true);
+		String timeZoneIdProp = getPropertiesUtil().getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE);
+
+		if (log.isDebugEnabled())
 		{
-			timeZoneOverride = true;
+			log.debug("system timezone is " + TimeZone.getDefault());
+			log.debug("report timezone is " + getParameterValue(JRParameter.REPORT_TIME_ZONE, true));
+			log.debug("JDBC timezone parameter is " + timeZoneIdParam);
+			log.debug("JDBC timezone property is " + timeZoneIdProp);
+		}
+		
+		String parametersTimeZoneId = (String) getParameterValue(JRJdbcQueryExecuterFactory.PROPERTY_PARAMETERS_TIME_ZONE, true);
+		if (log.isDebugEnabled())
+		{
+			log.debug("JDBC parameters timezone parameter is " + parametersTimeZoneId);
+		}
+		parametersTimeZoneId = parametersTimeZoneId == null ? timeZoneIdParam : parametersTimeZoneId;
+		if (parametersTimeZoneId != null)
+		{
+			parametersTimeZoneOverride = true;
 		}
 		else
 		{
-			timezoneId = getPropertiesUtil().getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE);
+			parametersTimeZoneId = getPropertiesUtil().getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_PARAMETERS_TIME_ZONE);
+			if (log.isDebugEnabled())
+			{
+				log.debug("JDBC parameters timezone property is " + parametersTimeZoneId);
+			}
+			parametersTimeZoneId = parametersTimeZoneId == null ? timeZoneIdProp : parametersTimeZoneId;
 		}
-		timeZone = timezoneId == null || timezoneId.length() == 0 ? null : TimeZone.getTimeZone(timezoneId);
+		parametersTimeZone = resolveTimeZone(parametersTimeZoneId);
+		if (log.isDebugEnabled())
+		{
+			log.debug("parameters timezone " + parametersTimeZone);
+		}
+		
+		String fieldsTimeZoneId = (String) getParameterValue(JRJdbcQueryExecuterFactory.PROPERTY_FIELDS_TIME_ZONE, true);
+		if (log.isDebugEnabled())
+		{
+			log.debug("JDBC fields timezone parameter is " + fieldsTimeZoneId);
+		}
+		fieldsTimeZoneId = fieldsTimeZoneId == null ? timeZoneIdParam : fieldsTimeZoneId;
+		if (fieldsTimeZoneId != null)
+		{
+			fieldsTimeZoneOverride = true;
+		}
+		else
+		{
+			fieldsTimeZoneId = getPropertiesUtil().getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_FIELDS_TIME_ZONE);
+			if (log.isDebugEnabled())
+			{
+				log.debug("JDBC fields timezone property is " + fieldsTimeZoneId);
+			}
+			fieldsTimeZoneId = fieldsTimeZoneId == null ? timeZoneIdProp : fieldsTimeZoneId;
+		}
+		fieldsTimeZone = resolveTimeZone(fieldsTimeZoneId);
+		if (log.isDebugEnabled())
+		{
+			log.debug("fields timezone " + fieldsTimeZone);
+		}
+	}
+	
+	protected TimeZone resolveTimeZone(String timezoneId)
+	{
+		TimeZone tz;
+		if (timezoneId == null || timezoneId.length() == 0)
+		{
+			tz = null;
+		}
+		else if (timezoneId.equals(JRParameter.REPORT_TIME_ZONE))
+		{
+			// using the report timezone
+			tz = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE, true);
+		}
+		else
+		{
+			// resolving as tz ID
+			tz = TimeZone.getTimeZone(timezoneId);
+		}
+		return tz;
 	}
 
 
@@ -232,11 +332,18 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					resultSet = statement.executeQuery();
 				}
 				dataSource = new JRResultSetDataSource(getJasperReportsContext(), resultSet);
-				dataSource.setTimeZone(timeZone, timeZoneOverride);
+				dataSource.setTimeZone(fieldsTimeZone, fieldsTimeZoneOverride);
+				
+				TimeZone reportTimeZone = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE, true);
+				dataSource.setReportTimeZone(reportTimeZone);
 			}
 			catch (SQLException e)
 			{
-				throw new JRException("Error executing SQL statement for : " + dataset.getName(), e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_EXECUTE_ERROR,
+						new Object[]{dataset.getName()},
+						e);
 			}
 		}
 		
@@ -368,12 +475,19 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			}
 			catch (VisitExceptionWrapper e)
 			{
-				throw new JRException("Error preparing statement for executing the report query : " + "\n\n" + queryString + "\n\n", 
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_PREPARE_ERROR,
+						new Object[]{queryString}, 
 						e.getCause());
 			}
 			catch (SQLException e)
 			{
-				throw new JRException("Error preparing statement for executing the report query : " + "\n\n" + queryString + "\n\n", e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_PREPARE_ERROR,
+						new Object[]{queryString}, 
+						e);
 			}
 		}
 	}
@@ -435,7 +549,10 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		}
 		else
 		{
-			throw new JRRuntimeException("Multi parameter value is not array nor collection.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNEXPECTED_MULTI_PARAMETER_TYPE,
+					(Object[])null);
 		}
 		return index;
 	}
@@ -446,7 +563,10 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	{
 		if (value == null)
 		{
-			throw new JRRuntimeException("Multi parameters cannot contain null values.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_MULTI_PARAMETERS_CANNOT_CONTAIN_NULL_VALUES,
+					(Object[])null);
 		}
 		
 		Class<?> type = value.getClass();
@@ -599,6 +719,13 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		else
 		{
 			Calendar cal = getParameterCalendar(properties);
+			if (log.isDebugEnabled())
+			{
+				log.debug("setting timestamp parameter " + parameterIndex
+						+ " as " + parameterValue
+						+ " (" + ((java.sql.Timestamp) parameterValue).getTime() + ")"
+						+ " with calendar " + cal);
+			}
 			if (cal == null)
 			{
 				statement.setTimestamp(parameterIndex, (java.sql.Timestamp) parameterValue);
@@ -621,6 +748,13 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		else
 		{
 			Calendar cal = getParameterCalendar(properties);
+			if (log.isDebugEnabled())
+			{
+				log.debug("setting time parameter " + parameterIndex
+						+ " as " + parameterValue
+						+ " (" + ((java.sql.Time) parameterValue).getTime() + ")"
+						+ " with calendar " + cal);
+			}
 			if (cal == null)
 			{
 				statement.setTime(parameterIndex, (java.sql.Time) parameterValue);
@@ -643,6 +777,13 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		else
 		{
 			Calendar cal = getParameterCalendar(properties);
+			if (log.isDebugEnabled())
+			{
+				log.debug("setting date parameter " + parameterIndex
+						+ " as " + parameterValue
+						+ " (" + ((java.util.Date) parameterValue).getTime() + ")"
+						+ " with calendar " + cal);
+			}
 			if (cal == null)
 			{
 				statement.setDate(parameterIndex, new java.sql.Date(((java.util.Date)parameterValue).getTime()));
@@ -657,10 +798,10 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	protected Calendar getParameterCalendar(JRPropertiesHolder properties)
 	{
 		TimeZone tz;
-		if (timeZoneOverride)
+		if (parametersTimeZoneOverride)
 		{
 			// if we have a parameter, use it
-			tz = timeZone;
+			tz = parametersTimeZone;
 		}
 		else
 		{
@@ -670,13 +811,16 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				// read the parameter level property
 				String timezoneId = getPropertiesUtil().getProperty(properties, 
 						JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE);
-				tz = (timezoneId == null || timezoneId.length() == 0) ? null 
-						: TimeZone.getTimeZone(timezoneId);
+				if (log.isDebugEnabled())
+				{
+					log.debug("parameter timezone property " + timezoneId);
+				}
+				tz = resolveTimeZone(timezoneId);
 			}
 			else
 			{
 				// dataset/default property
-				tz = timeZone;
+				tz = parametersTimeZone;
 			}
 		}
 
@@ -737,7 +881,11 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			}
 			catch (Exception e)
 			{
-				throw new JRException("Error cancelling SQL statement", e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_QUERY_STATEMENT_CANCEL_ERROR,
+						null,
+						e);
 			}
 		}
 		

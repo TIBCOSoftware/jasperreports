@@ -222,7 +222,11 @@ public class ReportServlet extends AbstractServlet
 		ReportExecutionStatus reportStatus = jasperPrintAccessor.getReportStatus();
 		if (reportStatus.getStatus() == ReportExecutionStatus.Status.ERROR)
 		{
-			throw new JRRuntimeException("Error occurred during report generation", reportStatus.getError());
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					(Object[])null,
+					reportStatus.getError());
 		}
 		
 		//Integer pageCount = reportStatus.getTotalPageCount();
@@ -245,7 +249,10 @@ public class ReportServlet extends AbstractServlet
 			
 			if (!pageStatus.pageExists())
 			{
-				throw new JRRuntimeException("Page " + pageIdx + " not found in report");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_PAGE_NOT_FOUND,
+						new Object[]{pageIdx});
 			}
 			
 			exporter.setParameter(JRExporterParameter.PAGE_INDEX, pageIdx);
@@ -357,7 +364,10 @@ public class ReportServlet extends AbstractServlet
 				WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR);
 		if (jasperPrintAccessor == null)
 		{
-			throw new JRRuntimeException("Did not find the report on the session.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_REPORT_NOT_FOUND,
+					(Object[])null);
 		}
 		
 		String pageIdxParam = request.getParameter(WebUtil.REQUEST_PARAMETER_PAGE);
@@ -460,7 +470,11 @@ public class ReportServlet extends AbstractServlet
 		{
 			throw (JRRuntimeException) error;
 		}
-		throw new JRRuntimeException("Error generating report", error);
+		throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+				(Object[])null,
+				error);
 	}
 
 }

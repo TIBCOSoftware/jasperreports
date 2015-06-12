@@ -28,6 +28,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JRValueParameter;
@@ -77,9 +78,6 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory
 	 * Property specifying the default time zone to be used for sending and retrieving 
 	 * date/time values to and from the database.
 	 * 
-	 * In most cases no explicit time zone conversion would be required, and this property 
-	 * should not be set.
-	 * 
 	 * <p>
 	 * The property can be set globally, at dataset level, at parameter and field levels,
 	 * and as a report/dataset parameter.  Note that sending a value as parameter will 
@@ -87,9 +85,18 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory
 	 * and fields in the report. 
 	 * </p>
 	 * 
+	 * <p>
+	 * The property value can be a time zone ID or REPORT_TIME_ZONE.
+	 * In the latter case the report time zone (as in {@link JRParameter#REPORT_TIME_ZONE} will be used.
+	 * </p>
+	 * 
 	 * @see JRResultSetDataSource#setTimeZone(java.util.TimeZone, boolean)
 	 */
 	public static final String PROPERTY_TIME_ZONE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.time.zone";
+	
+	public static final String PROPERTY_PARAMETERS_TIME_ZONE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.parameters.time.zone";
+	
+	public static final String PROPERTY_FIELDS_TIME_ZONE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.fields.time.zone";
 
 	/**
 	 * SQL query language.

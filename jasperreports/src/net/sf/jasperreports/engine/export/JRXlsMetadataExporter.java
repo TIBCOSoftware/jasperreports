@@ -270,9 +270,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_TEMPLATE_NOT_FOUND,  
-							new Object[]{lcWorkbookTemplate}, 
-							getJasperReportsContext(),
-							getLocale()
+							new Object[]{lcWorkbookTemplate} 
 							);
 				} else {
 					workbook = new HSSFWorkbook(new POIFSFileSystem(templateIs));
@@ -492,7 +490,11 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			}
 			workbook.write(os);
 		} catch (IOException e) {
-			throw new JRException("Error generating XLS metadata report : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 	}
 
@@ -572,9 +574,17 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 							anchor.setAnchorType(imageSettings.getAnchorType());
 							patriarch.createPicture(anchor, imageSettings.getIndex());
 						} catch (Exception ex) {
-							throw new JRException("The cell cannot be added", ex);
+							throw 
+								new JRException(
+									EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+									null,
+									ex);
 						} catch (Error err) {
-							throw new JRException("The cell cannot be added", err);
+							throw 
+								new JRException(
+									EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+									null,
+									err);
 						}
 					}
 				}
@@ -711,20 +721,33 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				backcolor = getWorkbookColor(textElement.getBackcolor()).getIndex();
 			}
 
-			final StyleInfo baseStyle =
-				new StyleInfo(
-					mode,
-					backcolor,
-					horizontalAlignment,
-					verticalAlignment,
-					rotation,
-					getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
-					new BoxStyle(textElement), 
-					isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
-					isCellLocked(textElement),
-					isCellHidden(textElement),
-					isShrinkToFit(textElement)
-					);
+			final StyleInfo baseStyle = isIgnoreTextFormatting(textElement) 
+					? new StyleInfo(
+							mode,
+							whiteIndex,
+							horizontalAlignment,
+							verticalAlignment,
+							(short)0,
+							null,
+							(BoxStyle)null, 
+							isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+							isCellLocked(textElement),
+							isCellHidden(textElement),
+							isShrinkToFit(textElement)
+							)
+					: new StyleInfo(
+							mode,
+							backcolor,
+							horizontalAlignment,
+							verticalAlignment,
+							rotation,
+							getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
+							new BoxStyle(textElement), 
+							isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+							isCellLocked(textElement),
+							isCellHidden(textElement),
+							isShrinkToFit(textElement)
+							);
 			
 			final JRStyledText styledText;
 			final String textStr;
@@ -1275,9 +1298,17 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					
 //					setHyperlinkCell(element);
 				} catch (Exception ex) {
-					throw new JRException("The cell cannot be added", ex);
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+							null,
+							ex);
 				} catch (Error err) {
-					throw new JRException("The cell cannot be added", err);
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+							null,
+							err);
 				}
 			}
 		}
@@ -1294,7 +1325,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			cellStyle.setAlignment(style.horizontalAlignment);
 			cellStyle.setVerticalAlignment(style.verticalAlignment);
 			cellStyle.setRotation(style.rotation);
-			cellStyle.setFont(style.font);
+			if(style.font != null)
+			{
+				cellStyle.setFont(style.font);
+			}
 			cellStyle.setWrapText(style.lcWrapText);
 			cellStyle.setLocked(style.lcCellLocked);
 			cellStyle.setHidden(style.lcCellHidden);
@@ -1304,7 +1338,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				cellStyle.setDataFormat(style.getDataFormat());
 			}
 
-			if (!getCurrentItemConfiguration().isIgnoreCellBorder()) {
+			if (!getCurrentItemConfiguration().isIgnoreCellBorder() && style.box != null) {
 				BoxStyle box = style.box;
 				cellStyle.setBorderTop(box.borderStyle[BoxStyle.TOP]);
 				cellStyle.setTopBorderColor(box.borderColour[BoxStyle.TOP]);
@@ -1610,7 +1644,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 //				for(String l : levelMap.keySet()) {
 //					if (level == null || l.compareTo(level) >= 0) {
 //						Integer startIndex = levelMap.get(l);
-//						if(levelInfo.getEndIndex() > startIndex) {
+//						if(levelInfo.getEndIndex() >= startIndex) {
 //							sheet.groupRow(startIndex, levelInfo.getEndIndex());
 //						}
 //					}
@@ -1907,11 +1941,14 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 
 		public BoxStyle(JRPrintElement element) {
-			if (element instanceof JRBoxContainer) {
-				setBox(((JRBoxContainer)element).getLineBox());
-			}
-			if (element instanceof JRCommonGraphicElement) {
-				setPen(((JRCommonGraphicElement)element).getLinePen());
+			if(element != null)
+			{
+				if (element instanceof JRBoxContainer) {
+					setBox(((JRBoxContainer)element).getLineBox());
+				}
+				if (element instanceof JRCommonGraphicElement) {
+					setPen(((JRCommonGraphicElement)element).getLinePen());
+				}
 			}
 		}
 

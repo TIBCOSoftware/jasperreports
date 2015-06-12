@@ -52,7 +52,8 @@ public class FillExpressionEvaluatorDatasetAdapter implements DatasetExpressionE
 	public void init(Map<String, JRFillParameter> parametersMap,
 			Map<String, JRFillField> fieldsMap,
 			Map<String, JRFillVariable> variablesMap,
-			WhenResourceMissingTypeEnum resourceMissingType) throws JRException
+			WhenResourceMissingTypeEnum resourceMissingType,
+			boolean ignoreNPE) throws JRException
 	{
 		// NOP
 	}

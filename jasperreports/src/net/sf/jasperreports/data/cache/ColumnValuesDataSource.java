@@ -36,6 +36,8 @@ import net.sf.jasperreports.engine.data.IndexedDataSource;
  */
 public class ColumnValuesDataSource implements JRRewindableDataSource, IndexedDataSource
 {
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_SNAPSHOT_FIELD_TYPE = "data.cache.invalid.snapshot.field.type";
+	public static final String EXCEPTION_MESSAGE_KEY_NO_SUCH_SNAPSHOT_FIELD = "data.cache.no.such.snapshot.field";
 
 	private int size;
 	private int iteratorIndex;
@@ -85,15 +87,20 @@ public class ColumnValuesDataSource implements JRRewindableDataSource, IndexedDa
 		ColumnValuesIterator iterator = iterators.get(field.getName());
 		if (iterator == null)
 		{
-			throw new DataSnapshotException("Field " +  field.getName() + " not present in data snapshot");
+			throw 
+				new DataSnapshotException(
+					EXCEPTION_MESSAGE_KEY_NO_SUCH_SNAPSHOT_FIELD,
+					new Object[]{field.getName()});
 		}
 		
 		Object value = iterator.get();
 		
 		if (value != null && !field.getValueClass().isInstance(value))
 		{
-			throw new DataSnapshotException("Field " +  field.getName() + " of type " + field.getValueClassName()
-					+ " has snapshot value of type " + value.getClass().getName());
+			throw 
+				new DataSnapshotException(
+					EXCEPTION_MESSAGE_KEY_INVALID_SNAPSHOT_FIELD_TYPE,
+					new Object[]{field.getName(), field.getValueClassName(), value.getClass().getName()});
 		}
 		
 		return value;

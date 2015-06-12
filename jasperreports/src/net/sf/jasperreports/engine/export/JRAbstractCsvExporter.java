@@ -30,6 +30,8 @@ package net.sf.jasperreports.engine.export;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -56,6 +58,7 @@ import net.sf.jasperreports.export.WriterExporterOutput;
 public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C extends CsvExporterConfiguration, E extends JRExporterContext> 
 	extends JRAbstractExporter<RC, C, WriterExporterOutput, E>
 {
+	public static final String BOM_CHARACTER = "\uFEFF";
 	protected static final String CSV_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.";
 
 	/**
@@ -113,7 +116,11 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error writing to output writer : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_OUTPUT_WRITER_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 		finally
 		{
@@ -127,6 +134,18 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 	 */
 	protected void exportReportToWriter() throws JRException, IOException
 	{
+		CsvExporterConfiguration configuration = getCurrentConfiguration();
+		if (configuration.isWriteBOM())
+		{
+			WriterExporterOutput output = getExporterOutput();
+			Charset charset = Charset.forName(output.getEncoding());
+			CharsetEncoder charsetEncoder = charset.newEncoder();
+			if (charsetEncoder.canEncode(BOM_CHARACTER))
+			{
+				writer.write(BOM_CHARACTER);
+			}
+		}
+
 		List<ExporterInputItem> items = exporterInput.getItems();
 		
 		for(int reportIndex = 0; reportIndex < items.size(); reportIndex++)

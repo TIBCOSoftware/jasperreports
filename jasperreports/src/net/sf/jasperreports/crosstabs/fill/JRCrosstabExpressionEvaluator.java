@@ -60,9 +60,7 @@ public class JRCrosstabExpressionEvaluator implements JRFillExpressionEvaluator
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_EVALUATION_TYPE_NOT_SUPPORTED,  
-					null, 
-					dataset.getFiller().getJasperReportsContext(),
-					dataset.getLocale()
+					(Object[])null
 					);
 		}
 		return evaluator.evaluate(expression);
@@ -70,9 +68,9 @@ public class JRCrosstabExpressionEvaluator implements JRFillExpressionEvaluator
 
 	
 	public void init(Map<String, JRFillParameter> parametersMap, 
-			Map<String, JRFillVariable> variablesMap, WhenResourceMissingTypeEnum whenResourceMissingType) throws JRException
+			Map<String, JRFillVariable> variablesMap, WhenResourceMissingTypeEnum whenResourceMissingType, boolean ignoreNPE) throws JRException
 	{
-		evaluator.init(parametersMap, null, variablesMap, whenResourceMissingType);
+		evaluator.init(parametersMap, null, variablesMap, whenResourceMissingType, ignoreNPE);
 	}
 	
 	public void setFillDataset(JRFillDataset dataset)

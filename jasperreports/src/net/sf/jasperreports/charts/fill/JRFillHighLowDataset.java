@@ -52,6 +52,12 @@ import org.jfree.data.xy.DefaultHighLowDataset;
  */
 public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLowDataset
 {
+	public static final String EXCEPTION_MESSAGE_KEY_SERIES_NULL_CLOSE_VALUE = "charts.high.low.dataset.series.null.close.value";
+	public static final String EXCEPTION_MESSAGE_KEY_SERIES_NULL_DATE_VALUE = "charts.high.low.dataset.series.null.date.value";
+	public static final String EXCEPTION_MESSAGE_KEY_SERIES_NULL_HIGH_VALUE = "charts.high.low.dataset.series.null.high.value";
+	public static final String EXCEPTION_MESSAGE_KEY_SERIES_NULL_LOW_VALUE = "charts.high.low.dataset.series.null.low.value";
+	public static final String EXCEPTION_MESSAGE_KEY_SERIES_NULL_OPEN_VALUE = "charts.high.low.dataset.series.null.open.value";
+	public static final String EXCEPTION_MESSAGE_KEY_SERIES_NULL_VOLUME_VALUE = "charts.high.low.dataset.series.null.volume.value";
 
 	/**
 	 *
@@ -230,37 +236,55 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 		{
 			if (date == null)
 			{
-				throw new JRRuntimeException("Date value is null in high-low series.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_SERIES_NULL_DATE_VALUE,
+						(Object[])null);
 			}
 			this.date = date;
 
 			if (high == null)
 			{
-				throw new JRRuntimeException("High value is null in high-low series.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_SERIES_NULL_HIGH_VALUE,
+						(Object[])null);
 			}
 			this.high = high;
 			
 			if (low == null)
 			{
-				throw new JRRuntimeException("Low value is null in high-low series.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_SERIES_NULL_LOW_VALUE,
+						(Object[])null);
 			}
 			this.low = low;
 			
 			if (open == null)
 			{
-				throw new JRRuntimeException("Open value is null in high-low series.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_SERIES_NULL_OPEN_VALUE,
+						(Object[])null);
 			}
 			this.open = open;
 			
 			if (close == null)
 			{
-				throw new JRRuntimeException("Close value is null in high-low series.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_SERIES_NULL_CLOSE_VALUE,
+						(Object[])null);
 			}
 			this.close = close;
 			
 			if (volume == null)
 			{
-				throw new JRRuntimeException("Volume value is null in high-low series.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_SERIES_NULL_VOLUME_VALUE,
+						(Object[])null);
 			}
 			this.volume = volume;
 		}

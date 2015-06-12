@@ -32,6 +32,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class BooleanSerializer implements ObjectSerializer<Boolean>
 {
+	public static final String EXCEPTION_MESSAGE_KEY_UNEXPECTED_BOOLEAN_BYTE_VALUE = "engine.virtualization.unexpected.boolean.byte.value";
+
 	@Override
 	public int typeValue()
 	{
@@ -64,7 +66,10 @@ public class BooleanSerializer implements ObjectSerializer<Boolean>
 		byte byteValue = in.readByte();
 		if (byteValue != 0 && byteValue != 1)
 		{
-			throw new JRRuntimeException("Unexpected boolean byte value " + byteValue);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNEXPECTED_BOOLEAN_BYTE_VALUE,
+					new Object[]{byteValue});
 		}
 		return byteValue == 1;
 	}

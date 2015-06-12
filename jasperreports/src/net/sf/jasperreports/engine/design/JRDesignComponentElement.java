@@ -120,17 +120,21 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 	 */
 	public void setComponent(Component component)
 	{
-		ContextAwareComponent contextAwareComponent = component instanceof ContextAwareComponent ? (ContextAwareComponent)component : null;
-		if (contextAwareComponent != null)
+		Object old = this.component;
+		this.component = component;
+		setComponentContext();
+		getEventSupport().firePropertyChange(PROPERTY_COMPONENT, old, this.component);
+	}
+
+	protected void setComponentContext()
+	{
+		if (component instanceof ContextAwareComponent)
 		{
+			ContextAwareComponent contextAwareComponent = (ContextAwareComponent) component;
 			BaseComponentContext context = new BaseComponentContext();
 			context.setComponentElement(this);
 			contextAwareComponent.setContext(context);
 		}
-		
-		Object old = this.component;
-		this.component = component;
-		getEventSupport().firePropertyChange(PROPERTY_COMPONENT, old, this.component);
 	}
 
 	public ComponentKey getComponentKey()
@@ -158,6 +162,7 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 		if (component instanceof JRCloneable)
 		{
 			clone.component = (Component) ((JRCloneable) component).clone();
+			clone.setComponentContext();
 		}
 		else if (component != null)
 		{

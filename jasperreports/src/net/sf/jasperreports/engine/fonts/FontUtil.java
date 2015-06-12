@@ -53,6 +53,7 @@ import org.apache.commons.logging.LogFactory;
 public final class FontUtil
 {
 	private static final Log log = LogFactory.getLog(FontUtil.class);
+	public static final String EXCEPTION_MESSAGE_KEY_NULL_FONT = "engine.fonts.null.font";
 
 	private JasperReportsContext jasperReportsContext;
 
@@ -310,7 +311,10 @@ public final class FontUtil
 				awtFont = face.getFont();
 				if (awtFont == null)
 				{
-					throw new JRRuntimeException("The '" + face.getName() + "' font face in family '" + family.getName() + "' returns a null font.");
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_NULL_FONT,
+							new Object[]{face.getName(), family.getName()});
 				}
 
 				awtFont = awtFont.deriveFont(size);

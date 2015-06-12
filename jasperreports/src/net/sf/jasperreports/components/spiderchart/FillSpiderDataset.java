@@ -145,9 +145,7 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_SERIES_NULL_NAME,  
-							null, 
-							getFiller().getJasperReportsContext(),
-							getFillDataset().getLocale()
+							(Object[])null 
 							);
 				}
 

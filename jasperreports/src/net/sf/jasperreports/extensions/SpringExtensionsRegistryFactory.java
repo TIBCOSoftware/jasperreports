@@ -59,6 +59,8 @@ public class SpringExtensionsRegistryFactory implements
 	
 	private static final Log log = LogFactory.getLog(
 			SpringExtensionsRegistryFactory.class);
+	public static final String EXCEPTION_MESSAGE_KEY_NO_SPRING_RESOURCE_SET = "extensions.no.spring.resource.set";
+	public static final String EXCEPTION_MESSAGE_KEY_SPRING_RESOURCE_NOT_FOUND = "extensions.spring.resource.not.found";
 	
 	/**
 	 * The suffix of the property that gives the Spring beans XML resource name.
@@ -81,14 +83,19 @@ public class SpringExtensionsRegistryFactory implements
 		String resource = properties.getProperty(resourceProp);
 		if (resource == null)
 		{
-			throw new JRRuntimeException("No Spring resource property set");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_NO_SPRING_RESOURCE_SET,
+					(Object[])null);
 		}
 		
 		URL resourceLocation = JRLoader.getResource(resource);
 		if (resourceLocation == null)
 		{
-			throw new JRRuntimeException("Could not find Spring resource " 
-					+ resource + " for extensions registry " + registryId);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_SPRING_RESOURCE_NOT_FOUND,
+					new Object[]{resource, registryId});
 		}
 		
 		if (log.isDebugEnabled())

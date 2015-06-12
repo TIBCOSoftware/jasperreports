@@ -79,6 +79,15 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 		return orientationValue == null ? OrientationEnum.UP : orientationValue;
 	}
 
+	/**
+	 * Used only for the sake of digester.
+	 * @deprecated Replaced by {@link #setOrientation(OrientationEnum)}.
+	 */
+	public void setOrientationValue(OrientationEnum orientationValue)
+	{
+		setOrientation(orientationValue);
+	}
+
 	public void setOrientation(OrientationEnum orientationValue)
 	{
 		OrientationEnum old = this.orientationValue;
@@ -134,6 +143,15 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 		return textPositionValue;
 	}
 
+	/**
+	 * Used only for the sake of digester.
+	 * @deprecated Replaced by {@link #setTextPosition(TextPositionEnum)}.
+	 */
+	public void setTextPositionValue(TextPositionEnum textPositionValue)
+	{
+		setTextPosition(textPositionValue);
+	}
+
 	public void setTextPosition(TextPositionEnum textPositionValue)
 	{
 		Object old = this.textPositionValue;
@@ -142,6 +160,9 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 				old, this.textPositionValue);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setTextPosition(TextPositionEnum)}.
+	 */
 	public void setTextPosition(HumanReadablePlacement textPosition)
 	{
 		setTextPosition(textPosition == null ? null : textPosition.getName());

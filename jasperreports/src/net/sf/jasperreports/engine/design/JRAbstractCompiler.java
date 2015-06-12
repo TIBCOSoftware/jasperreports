@@ -53,6 +53,12 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  */
 public abstract class JRAbstractCompiler implements JRCompiler
 {
+	public static final String EXCEPTION_MESSAGE_KEY_CROSSTAB_ID_NOT_FOUND = "compilers.crosstab.id.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_DESIGN_COMPILE_ERROR = "compilers.design.compile.error";
+	public static final String EXCEPTION_MESSAGE_KEY_LANGUAGE_NOT_SUPPORTED = "compilers.language.not.supported";
+	public static final String EXCEPTION_MESSAGE_KEY_REPORT_EXPRESSIONS_COMPILE_ERROR = "compilers.report.expressions.compile.error";
+	public static final String EXCEPTION_MESSAGE_KEY_TEMP_DIR_NOT_FOUND = "compilers.temp.dir.not.found";
+	
 	private static final int NAME_SUFFIX_RANDOM_MAX = 1000000;
 	private static final Random random = new Random();
 	
@@ -129,7 +135,10 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		Integer crosstabId = expressionCollector.getCrosstabId(crosstab);
 		if (crosstabId == null)
 		{
-			throw new JRRuntimeException("Crosstab ID not found.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CROSSTAB_ID_NOT_FOUND,
+					(Object[])null);
 		}
 		
 		return getUnitName(report, crosstabId.intValue(), nameSuffix);
@@ -163,7 +172,10 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			tempDirFile = new File(tempDirStr);
 			if (!tempDirFile.exists() || !tempDirFile.isDirectory())
 			{
-				throw new JRException("Temporary directory not found : " + tempDirStr);
+				throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_TEMP_DIR_NOT_FOUND,
+					new Object[]{tempDirStr});
 			}
 		}
 
@@ -200,7 +212,10 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			String compileErrors = compileUnits(units, classpath, tempDirFile);
 			if (compileErrors != null)
 			{
-				throw new JRException("Errors were encountered when compiling report expressions class file:\n" + compileErrors);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_REPORT_EXPRESSIONS_COMPILE_ERROR,
+						new Object[]{compileErrors});
 			}
 
 			// creating the report compile data
@@ -238,7 +253,11 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		}
 		catch (Exception e)
 		{
-			throw new JRException("Error compiling report design.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DESIGN_COMPILE_ERROR, 
+					null, 
+					e);
 		}
 		finally
 		{

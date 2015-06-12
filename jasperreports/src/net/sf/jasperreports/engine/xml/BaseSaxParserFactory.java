@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.List;
 
@@ -30,9 +32,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.ClassUtils;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.apache.commons.collections.map.ReferenceMap;
@@ -57,6 +62,10 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 {
 	
 	private static final Log log = LogFactory.getLog(BaseSaxParserFactory.class);
+	
+	public static final String EXCEPTION_MESSAGE_KEY_INCOMPATIBLE_CLASS = "xml.sax.parser.factory.incompatible.class";
+	public static final String EXCEPTION_MESSAGE_KEY_PARSER_CREATION_ERROR = "xml.sax.parser.factory.parser.creation.error";
+	public static final String EXCEPTION_MESSAGE_KEY_RESOURCE_NOT_FOUND = "xml.sax.parser.factory.resource.not.found";
 	
 	/**
 	 * A property that determines whether XML schemas/grammars are to be cached
@@ -84,6 +93,21 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 	private final static Object GRAMMAR_POOL_CACHE_NULL_KEY = "Null context classloader";
 	private final static ThreadLocal<ReferenceMap> GRAMMAR_POOL_CACHE = new ThreadLocal<ReferenceMap>();
 	
+	protected final JasperReportsContext jasperReportsContext;
+	
+	/**
+	 * @deprecated Replaced by {@link #BaseSaxParserFactory(JasperReportsContext)}.
+	 */
+	public BaseSaxParserFactory()
+	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
+	
+	public BaseSaxParserFactory(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	
 	public SAXParser createParser()
 	{
 		try
@@ -95,11 +119,19 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 		}
 		catch (SAXException e)
 		{
-			throw new JRRuntimeException("Error creating SAX parser", e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_PARSER_CREATION_ERROR,
+					(Object[])null,
+					e);
 		}
 		catch (ParserConfigurationException e)
 		{
-			throw new JRRuntimeException("Error creating SAX parser", e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_PARSER_CREATION_ERROR,
+					(Object[])null,
+					e);
 		}
 	}
 
@@ -133,8 +165,7 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 		parser.setProperty("http://java.sun.com/xml/jaxp/properties/schemaSource",
 			schemaLocations.toArray(new String[schemaLocations.size()]));
 		
-		@SuppressWarnings("deprecation")
-		boolean cache = net.sf.jasperreports.engine.util.JRProperties.getBooleanProperty(PROPERTY_CACHE_SCHEMAS);
+		boolean cache = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(PROPERTY_CACHE_SCHEMAS);
 		if (cache)
 		{
 			enableSchemaCaching(parser);
@@ -148,7 +179,10 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 		URL location = JRLoader.getResource(resource);
 		if (location == null)
 		{
-			throw new JRRuntimeException("Could not find resource " + resource);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_RESOURCE_NOT_FOUND,
+					new Object[]{resource});
 		}
 		return location.toExternalForm();
 	}
@@ -221,4 +255,56 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 		return key;
 	}
 
+	/**
+	 * 
+	 */
+	public static JRSaxParserFactory getFactory(JasperReportsContext jasperReportsContext, String className)
+	{
+		JRSaxParserFactory factory = null;
+		try
+		{
+			@SuppressWarnings("unchecked")
+			Class<? extends JRSaxParserFactory> clazz = (Class<? extends JRSaxParserFactory>) JRClassLoader.loadClassForName(className);
+			if (!JRSaxParserFactory.class.isAssignableFrom(clazz))
+			{
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_INCOMPATIBLE_CLASS,
+						new Object[]{className, JRSaxParserFactory.class.getName()});
+			}
+
+			try
+			{
+				Constructor<? extends JRSaxParserFactory> constr = clazz.getConstructor(new Class[]{JasperReportsContext.class});
+				factory = constr.newInstance(jasperReportsContext);
+			}
+			catch (NoSuchMethodException e)
+			{
+				//ignore
+			}
+			catch (InvocationTargetException e)
+			{
+				//ignore
+			}
+			
+			if (factory == null)
+			{
+				factory = clazz.newInstance();
+			}
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		catch (InstantiationException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		catch (IllegalAccessException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
+		return factory;
+	}
 }

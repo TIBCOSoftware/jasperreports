@@ -50,6 +50,9 @@ import bsh.TargetError;
 public class JRBshEvaluator extends JREvaluator
 {
 
+	public static final String EXCEPTION_MESSAGE_KEY_INITIALIZING_REPORT_CALCULATOR = "compilers.beanshell.initializing.report.calculator";
+	public static final String EXCEPTION_MESSAGE_KEY_EXPRESSIONS_EVALUATING_ERROR = "compilers.beanshell.expressions.evaluating.error";
+	public static final String EXCEPTION_MESSAGE_KEY_EXPRESSIONS_TESTING_ERROR = "compilers.beanshell.expressions.testing.error";
 
 	/**
 	 *
@@ -77,11 +80,10 @@ public class JRBshEvaluator extends JREvaluator
 		}
 		catch(EvalError e)
 		{
-			throw new JRException(
-				"Error evaluating report expressions BeanShell script."
-				+ "\nMessage : " + e.getMessage() 
-				+ "\nLine " + e.getErrorLineNumber() + " : " + extractLineContent(e) 
-				);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_EXPRESSIONS_EVALUATING_ERROR,
+					new Object[]{e.getMessage(), e.getErrorLineNumber(), extractLineContent(e)});
 		}
 	}
 
@@ -110,11 +112,10 @@ public class JRBshEvaluator extends JREvaluator
 		}
 		catch(EvalError e)
 		{
-			throw new JRException(
-				"Error testing report expressions BeanShell script."
-				+ "\nMessage : " + e.getMessage() 
-				+ "\nLine " + e.getErrorLineNumber() + " : " + extractLineContent(e) 
-				);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_EXPRESSIONS_TESTING_ERROR,
+					new Object[]{e.getMessage(), e.getErrorLineNumber(), extractLineContent(e)});
 		}
 	}
 
@@ -139,7 +140,11 @@ public class JRBshEvaluator extends JREvaluator
 		}
 		catch(EvalError e)
 		{
-			throw new JRException("Error initializing report BeanShell calculator.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INITIALIZING_REPORT_CALCULATOR, 
+					null, 
+					e);
 		}
 	}
 

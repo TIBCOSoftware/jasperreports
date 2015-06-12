@@ -66,6 +66,10 @@ import net.sf.jasperreports.engine.xml.PrintSaxParserFactory;
  */
 public final class JRProperties
 {
+	public static final String EXCEPTION_MESSAGE_KEY_DEFAULT_PROPERTIES_NOT_FOUND = "util.properties.default.properties.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_LOADING_DEFAULTS_ERROR = "util.properties.loading.defaults.error";
+	public static final String EXCEPTION_MESSAGE_KEY_LOADING_FILE_ERROR = "util.properties.loading.file.error";
+	
 	/**
 	 * The default properties file.
 	 * @deprecated Replaced by {@link DefaultJasperReportsContext#DEFAULT_PROPERTIES_FILE}.
@@ -183,7 +187,10 @@ public final class JRProperties
 				loadedProps = loadProperties(propFile, defaults);
 				if (loadedProps == null)
 				{
-					throw new JRRuntimeException("Could not load properties file \"" + propFile + "\"");
+					throw 
+						new JRRuntimeException(
+							DefaultJasperReportsContext.EXCEPTION_MESSAGE_KEY_LOAD_PROPERTIES_FILE_FAILURE,
+							new Object[]{propFile});
 				}
 			}
 
@@ -200,7 +207,11 @@ public final class JRProperties
 		}
 		catch (JRException e)
 		{
-			throw new JRRuntimeException("Error loading the properties", e);
+			throw 
+				new JRRuntimeException(
+					JRPropertiesUtil.EXCEPTION_MESSAGE_KEY_LOAD_PROPERTIES_FAILURE,
+					(Object[])null,
+					e);
 		}
 	}
 	
@@ -227,7 +238,10 @@ public final class JRProperties
 		
 		if (is == null)
 		{
-			throw new JRException("Default properties file not found.");
+			throw 
+			new JRException(
+				EXCEPTION_MESSAGE_KEY_DEFAULT_PROPERTIES_NOT_FOUND,
+				(Object[])null);
 		}
 
 		try
@@ -236,7 +250,11 @@ public final class JRProperties
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Failed to load default properties.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_LOADING_DEFAULTS_ERROR,
+					null,
+					e);
 		}
 		finally
 		{
@@ -327,7 +345,11 @@ public final class JRProperties
 			}
 			catch (IOException e)
 			{
-				throw new JRException("Failed to load properties file \"" + name + "\"", e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_LOADING_FILE_ERROR,
+						new Object[]{name},
+						e);
 			}
 			finally
 			{

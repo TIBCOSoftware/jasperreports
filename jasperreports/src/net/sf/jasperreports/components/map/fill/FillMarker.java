@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  */
 public class FillMarker implements Marker
 {
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_VALUE_LOCATION = "charts.thermometer.plot.invalid.value.location";
 
 	/**
 	 *
@@ -106,7 +107,10 @@ public class FillMarker implements Marker
 			{
 				if(property.getValue() == null || property.getValue().length() == 0)
 				{
-					throw new JRException("Empty marker "+ property.getName()+ " found.");
+					throw 
+						new JRException(
+							MapFillComponent.EXCEPTION_MESSAGE_KEY_NULL_OR_EMPTY_VALUE_NOT_ALLOWED,
+							new Object[]{property.getName()});
 				}
 			}
 			result = property.getValue();
@@ -121,7 +125,10 @@ public class FillMarker implements Marker
 					|| String.valueOf(result).trim().length() == 0
 					)
 				{
-					throw new JRException("Empty marker "+ property.getName()+ " found.");
+					throw 
+						new JRException(
+							MapFillComponent.EXCEPTION_MESSAGE_KEY_NULL_OR_EMPTY_VALUE_NOT_ALLOWED,
+							new Object[]{property.getName()});
 				}
 			}
 		}

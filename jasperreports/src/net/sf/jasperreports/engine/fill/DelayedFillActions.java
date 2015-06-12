@@ -521,9 +521,7 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_ELEMENT_NOT_FOUND,  
-							new Object[]{fillElementId}, 
-							fillContext.getMasterFiller().getJasperReportsContext(),
-							fillContext.getMasterFiller().getLocale()
+							new Object[]{fillElementId} 
 							);
 				}
 				

@@ -50,7 +50,7 @@
     border:solid 1px #ccc;
     border-bottom:none;
     padding:0;
-    height:20px;
+    height:21px;
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/foobar.bg.png) repeat-x #fff;
     background-position:0 1px;
     z-index:11;

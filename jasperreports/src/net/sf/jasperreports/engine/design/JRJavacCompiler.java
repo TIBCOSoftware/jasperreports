@@ -102,7 +102,11 @@ public class JRJavacCompiler extends JRAbstractMultiClassCompiler
 				files.append(sourceFiles[i].getPath());
 				files.append(' ');
 			}
-			throw new JRException("Error compiling report java source files : " + files, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_JAVA_SOURCE_COMPILE_ERROR,
+					new Object[]{files}, 
+					e);
 		}
 	}
 

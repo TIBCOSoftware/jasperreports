@@ -47,6 +47,8 @@ import net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle;
 @SuppressWarnings("deprecation")
 public final class JRQueryExecuterUtils
 {
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_EXECUTER_FACTORY_NOT_REGISTERED = "util.query.executer.factory.not.registered";
+	
 	private JasperReportsContext jasperReportsContext;
 
 
@@ -110,7 +112,10 @@ public final class JRQueryExecuterUtils
 				return factory;
 			}
 		}
-		throw new JRRuntimeException("No query executer factory registered for the '" + language + "' language.");
+		throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_QUERY_EXECUTER_FACTORY_NOT_REGISTERED,
+				new Object[]{language});
 	}
 	
 	

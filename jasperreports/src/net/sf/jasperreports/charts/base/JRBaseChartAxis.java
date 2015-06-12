@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * Base read-only implementation of {@link JRChartAxis JRChartAxis}.
@@ -107,6 +108,8 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 			throw new JRRuntimeException(e);
 		}
 		
+		clone.chart = JRCloneUtils.nullSafeClone(chart);
+		
 		return clone;
 	}
 
@@ -114,7 +117,6 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	public JRChartAxis clone(JRChart parentChart)
 	{
 		JRBaseChartAxis clone = (JRBaseChartAxis) clone();
-		clone.chart = parentChart;
 		return clone;
 	}
 	

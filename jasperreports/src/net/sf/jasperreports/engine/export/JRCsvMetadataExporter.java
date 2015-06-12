@@ -169,6 +169,11 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 		// write last row
 		if (columnNames != null && columnNames.size() > 0)
 		{
+			// write header if it was not yet written
+			if (isFirstRow && configuration.isWriteHeader())
+			{
+				writeReportHeader();
+			}
 			writeCurrentRow(currentRow, repeatedValues);
 		}
 

@@ -61,6 +61,8 @@ import org.hibernate.type.Type;
 public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 {
 	private static final Log log = LogFactory.getLog(JRHibernateQueryExecuter.class);
+	
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_QUERY_RUN_TYPE = "query.hibernate.unknown.query.run.type";
 
 	protected static final String CANONICAL_LANGUAGE = "HQL";
 	
@@ -181,8 +183,11 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 			}
 			catch (NumberFormatException e)
 			{
-				throw new JRRuntimeException("The " + JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE +
-						" property must be numerical.", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_NUMERIC_TYPE_REQUIRED,
+						new Object[]{JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE},
+						e);
 			}
 		}
 		else if (runType.equals(JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_ITERATE))
@@ -195,10 +200,14 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		}
 		else
 		{
-			throw new JRRuntimeException("Unknown value for the " + JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_RUN_TYPE +
-					" property.  Possible values are " + JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_LIST + ", " +
-					JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_ITERATE + " and " +
-					JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_SCROLL + ".");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNKNOWN_QUERY_RUN_TYPE,
+					new Object[]{
+						JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_RUN_TYPE,
+						JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_LIST,
+						JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_ITERATE,
+						JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_SCROLL});
 		}
 		
 		return resDatasource;

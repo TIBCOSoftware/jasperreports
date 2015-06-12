@@ -272,13 +272,12 @@ public class StyleCache
 		return cellStyleName;
 	}
 
-
 	/**
 	 *
 	 */
-	public String getParagraphStyle(JRPrintText text)
+	public String getParagraphStyle(JRPrintText text, boolean isIgnoreTextFormatting)
 	{
-		ParagraphStyle paragraphStyle  = new ParagraphStyle(styleWriter, text);
+		ParagraphStyle paragraphStyle  = new ParagraphStyle(styleWriter, text, isIgnoreTextFormatting);
 		
 		String paragraphStyleId = paragraphStyle.getId();
 		String paragraphStyleName = paragraphStyles.get(paragraphStyleId);
@@ -298,8 +297,23 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public String getTextSpanStyle(Map<Attribute,Object> attributes, String text, Locale locale)
+	public String getTextSpanStyle(Map<Attribute,Object> attributes, String text, Locale locale, boolean isIgnoreTextFormatting)
 	{
+		if(isIgnoreTextFormatting)
+		{
+			String textSpanStyleName = textSpanStyles.get("");
+			if (textSpanStyleName == null)
+			{
+				textSpanStyleName = "T" + textSpanStylesCounter++;
+				textSpanStyles.put("", textSpanStyleName);
+				styleWriter.write("<style:style style:name=\"" + textSpanStyleName + "\"");
+				styleWriter.write(" style:family=\"text\">\n");
+				styleWriter.write("<style:text-properties>\n");
+				styleWriter.write("</style:text-properties>\n");	
+				styleWriter.write("</style:style>\n");
+			}
+			return textSpanStyleName;
+		}
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
 		String fontFamily = fontFamilyAttr;
 		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);

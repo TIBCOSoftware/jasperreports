@@ -127,7 +127,8 @@ public class BarcodeFillComponent extends BaseFillComponent
 			templateImage = new JRTemplateImage(
 					fillContext.getElementOrigin(), 
 					fillContext.getDefaultStyleProvider());
-			templateImage.setStyle(elementStyle);
+			templateImage.setElement(fillContext.getComponentElement());
+			templateImage.setStyle(elementStyle);//already set by setElement, but keeping for safety
 			templateImage.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
 
 			templateImage = deduplicate(templateImage);

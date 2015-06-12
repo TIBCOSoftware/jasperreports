@@ -24,6 +24,8 @@
 package net.sf.jasperreports.data.csv;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.data.FileDataAdapter;
 import net.sf.jasperreports.data.StandardRepositoryDataLocation;
@@ -60,6 +62,14 @@ public interface CsvDataAdapter extends FileDataAdapter
 	public String getFieldDelimiter();
 
 	public void setFieldDelimiter(String fieldDelimiter);
+
+	public Locale getLocale();
+
+	public void setLocale(Locale locale);
+
+	public TimeZone getTimeZone();
+
+	public void setTimeZone(TimeZone timeZone);
 
 	public String getDatePattern();
 

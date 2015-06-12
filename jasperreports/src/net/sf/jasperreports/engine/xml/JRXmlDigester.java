@@ -51,6 +51,7 @@ import org.xml.sax.XMLReader;
 public class JRXmlDigester extends Digester
 {
 
+	public static final String EXCEPTION_MESSAGE_KEY_ENTITY_LOADING_ERROR = "xml.digester.entity.loading.error";
 
 	/**
 	 *
@@ -181,7 +182,11 @@ public class JRXmlDigester extends Digester
 				}
 				catch (JRException e)
 				{
-					throw new JRRuntimeException("Failed to load entity " + systemId, e);
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_ENTITY_LOADING_ERROR,
+							new Object[]{systemId},
+							e);
 				}
 			}
 		}

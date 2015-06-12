@@ -29,6 +29,7 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.scriptlets.DefaultScriptletFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactoryContext;
 import net.sf.jasperreports.engine.util.JRClassLoader;
@@ -97,11 +98,19 @@ public final class GovernorFactory implements ScriptletFactory
 		}
 		catch (ClassNotFoundException e)
 		{
-			throw new JRException("Error loading scriptlet class : " + scriptletClassName, e);
+			throw 
+				new JRException(
+					DefaultScriptletFactory.EXCEPTION_MESSAGE_KEY_CLASS_LOADING_ERROR,
+					new Object[]{scriptletClassName}, 
+					e);
 		}
 		catch (Exception e)
 		{
-			throw new JRException("Error creating scriptlet class instance : " + scriptletClassName, e);
+			throw 
+				new JRException(
+					DefaultScriptletFactory.EXCEPTION_MESSAGE_KEY_INSTANCE_LOADING_ERROR,
+					new Object[]{scriptletClassName}, 
+					e);
 		}
 		
 		return scriptlet;

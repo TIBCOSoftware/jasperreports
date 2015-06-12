@@ -44,6 +44,8 @@ public class JRXmlaResult implements JROlapResult
 
 	private final static Log log = LogFactory.getLog(JRXmlaResult.class);
 	
+	public static final String EXCEPTION_MESSAGE_KEY_XMLA_AXIS_POSITIONS_NUMBER_ERROR = "data.olap.xmla.axis.positions.number.error";
+	
 	private List<JRXmlaResultAxis> axesList = new ArrayList<JRXmlaResultAxis>();
 	private JRXmlaResultAxis[] axes;
 	private int[] cellOrdinalFactors;
@@ -76,8 +78,10 @@ public class JRXmlaResult implements JROlapResult
 
 		if (axisPositions.length != axes.length)
 		{
-			throw new JRRuntimeException("Number of axis positions (" + axisPositions.length 
-					+ ") doesn't match the number of axes (" + axes.length + ")");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_XMLA_AXIS_POSITIONS_NUMBER_ERROR,
+					new Object[]{axisPositions.length, axes.length});
 		}
 		
 		int ordinal = 0;

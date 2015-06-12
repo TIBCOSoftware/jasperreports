@@ -213,7 +213,11 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error writing to output writer : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_OUTPUT_WRITER_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 		finally
 		{
@@ -259,9 +263,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_CHARACTER_WIDTH_NEGATIVE,  
-					null, 
-					getJasperReportsContext(),
-					getLocale()
+					(Object[])null 
 					);
 		}
 		else if (charWidth == 0)
@@ -274,9 +276,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_REQUIRED_POSITIVE_PAGE_OR_CHARACTER_WIDTH,  
-						null, 
-						getJasperReportsContext(),
-						getLocale()
+						(Object[])null 
 						);
 			}
 			
@@ -295,9 +295,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_CHARACTER_HEIGHT_NEGATIVE,  
-					null, 
-					getJasperReportsContext(),
-					getLocale()
+					(Object[])null 
 					);
 		}
 		else if (charHeight == 0)
@@ -309,9 +307,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_REQUIRED_POSITIVE_PAGE_OR_CHARACTER_HEIGHT,  
-						null, 
-						getJasperReportsContext(),
-						getLocale()
+						(Object[])null 
 						);
 			}
 

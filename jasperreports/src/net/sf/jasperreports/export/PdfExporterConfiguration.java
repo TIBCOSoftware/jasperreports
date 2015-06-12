@@ -31,7 +31,7 @@ import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 
-import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.PdfWriter;
 
 
 /**

@@ -44,7 +44,7 @@ public class LocalJasperReportsContext extends SimpleJasperReportsContext
 	 *
 	 */
 	private List<RepositoryService> localRepositoryServices;
-	private DefaultRepositoryService localRepositoryService;
+	protected DefaultRepositoryService localRepositoryService;
 
 	/**
 	 *
@@ -92,7 +92,7 @@ public class LocalJasperReportsContext extends SimpleJasperReportsContext
 	/**
 	 *
 	 */
-	private DefaultRepositoryService getLocalRepositoryService()
+	protected DefaultRepositoryService getLocalRepositoryService()
 	{
 		if (localRepositoryService == null)
 		{

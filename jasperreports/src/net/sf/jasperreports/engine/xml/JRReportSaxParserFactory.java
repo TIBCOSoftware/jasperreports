@@ -30,6 +30,7 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.component.ComponentsXmlParser;
@@ -69,11 +70,23 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 	 */
 	public static final String COMPILER_XML_VALIDATION = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.xml.validation";
 
-	@SuppressWarnings("deprecation")
+	/**
+	 * @deprecated Replaced by {@link #JRReportSaxParserFactory(JasperReportsContext)}.
+	 */
+	public JRReportSaxParserFactory()
+	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
+	
+	public JRReportSaxParserFactory(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+	}
+	
 	@Override
 	protected boolean isValidating()
 	{
-		return net.sf.jasperreports.engine.util.JRProperties.getBooleanProperty(COMPILER_XML_VALIDATION);
+		return JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(COMPILER_XML_VALIDATION);
 	}
 	
 	@Override
@@ -83,7 +96,7 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 		schemas.add(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_RESOURCE));
 		schemas.add(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_DTD_COMPAT_RESOURCE));
 		
-		Collection<ComponentsBundle> components = ComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getBundles();
+		Collection<ComponentsBundle> components = ComponentsEnvironment.getInstance(jasperReportsContext).getBundles();
 		for (Iterator<ComponentsBundle> it = components.iterator(); it.hasNext();)
 		{
 			ComponentsBundle componentManager = it.next();
@@ -108,7 +121,7 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 			schemas.add(schemaURI);
 		}
 		
-		Collection<PartComponentsBundle> parts = PartComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getBundles();
+		Collection<PartComponentsBundle> parts = PartComponentsEnvironment.getInstance(jasperReportsContext).getBundles();
 		for (Iterator<PartComponentsBundle> it = parts.iterator(); it.hasNext();)
 		{
 			PartComponentsBundle componentManager = it.next();

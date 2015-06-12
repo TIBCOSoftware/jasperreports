@@ -735,7 +735,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 	 */
 	public void exportText(TableBuilder tableBuilder, JRPrintText text, JRExporterGridCell gridCell)
 	{
-		tableBuilder.exportText(text, gridCell, false, true);
+		tableBuilder.exportText(text, gridCell, false, true, false);
 	}
 
 	

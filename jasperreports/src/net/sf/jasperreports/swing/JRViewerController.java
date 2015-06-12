@@ -67,7 +67,7 @@ public class JRViewerController
 	protected String reportFileName;
 	protected boolean reloadSupported;
 	
-	private JasperPrint jasperPrint;
+	protected JasperPrint jasperPrint;
 	private int pageIndex;
 	private float zoom;
 	private boolean fitPage;
@@ -134,7 +134,7 @@ public class JRViewerController
 		}
 	}
 	
-	public void loadReport(String fileName, boolean isXmlReport) throws JRException
+	protected void setReport(String fileName, boolean isXmlReport) throws JRException
 	{
 		if (isXmlReport)
 		{
@@ -144,6 +144,11 @@ public class JRViewerController
 		{
 			jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(fileName);
 		}
+	}
+
+	public void loadReport(String fileName, boolean isXmlReport) throws JRException
+	{
+		setReport(fileName, isXmlReport);
 
 		type = TYPE_FILE_NAME;
 		this.isXML = isXmlReport;
@@ -163,7 +168,7 @@ public class JRViewerController
 		setPageIndex(0);
 	}
 
-	public void loadReport(InputStream is, boolean isXmlReport) throws JRException
+	protected void setReport(InputStream is, boolean isXmlReport) throws JRException
 	{
 		if (isXmlReport)
 		{
@@ -173,6 +178,11 @@ public class JRViewerController
 		{
 			jasperPrint = (JasperPrint)JRLoader.loadObject(is);
 		}
+	}
+
+	public void loadReport(InputStream is, boolean isXmlReport) throws JRException
+	{
+		setReport(is, isXmlReport);
 
 		type = TYPE_INPUT_STREAM;
 		this.isXML = isXmlReport;

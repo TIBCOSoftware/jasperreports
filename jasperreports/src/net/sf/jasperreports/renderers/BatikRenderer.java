@@ -130,7 +130,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 	
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
-		ensureSvg();
+		ensureSvg(jasperReportsContext);
 
 		AffineTransform transform = ViewBox.getPreserveAspectRatioTransform(
 				new float[]{0, 0, (float) documentSize.getWidth(), (float) documentSize.getHeight()},
@@ -151,7 +151,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 	{
 		try
 		{
-			ensureSvg();
+			ensureSvg(jasperReportsContext);
 			return documentSize;
 		}
 		catch (JRException e)
@@ -193,7 +193,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 			return;
 		}
 
-		ensureData();
+		ensureData(jasperReportsContext);
 		
 		try
 		{

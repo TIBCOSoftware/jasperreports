@@ -96,7 +96,8 @@ public class XlsxStyleHelper extends BaseHelper
 		boolean isWrapText, 
 		boolean isHidden, 
 		boolean isLocked,
-		boolean  isShrinkToFit 
+		boolean  isShrinkToFit,
+		boolean isIgnoreTextFormatting
 		)
 	{
 		XlsxStyleInfo styleInfo = 
@@ -108,7 +109,8 @@ public class XlsxStyleHelper extends BaseHelper
 				isWrapText,
 				isHidden,
 				isLocked,
-				isShrinkToFit
+				isShrinkToFit,
+				isIgnoreTextFormatting
 				);
 		Integer styleIndex = styleCache.get(styleInfo.getId());
 		if (styleIndex == null)

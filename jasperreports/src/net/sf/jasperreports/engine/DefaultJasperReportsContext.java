@@ -42,6 +42,7 @@ import net.sf.jasperreports.extensions.ExtensionsEnvironment;
  */
 public class DefaultJasperReportsContext implements JasperReportsContext
 {
+	
 	/**
 	 * The default properties file.
 	 */
@@ -56,6 +57,11 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 	 *
 	 */
 	private static final DefaultJasperReportsContext INSTANCE = new DefaultJasperReportsContext();
+	
+	public static final String EXCEPTION_MESSAGE_KEY_LOAD_DEFAULT_PROPERTIES_FAILURE = "engine.context.load.default.properties.failure";
+	public static final String EXCEPTION_MESSAGE_KEY_LOAD_PROPERTIES_FAILURE = "engine.context.load.properties.failure";
+	public static final String EXCEPTION_MESSAGE_KEY_LOAD_PROPERTIES_FILE_FAILURE = "engine.context.load.properties.file.failure";
+	public static final String EXCEPTION_MESSAGE_KEY_DEFAULT_PROPERTIES_FILE_NOT_FOUND = "engine.context.default.properties.file.not.found";
 	
 	private Map<String, Object> values = new ConcurrentHashMap<String, Object>(16, .75f, 1);// assume low update concurrency
 
@@ -101,7 +107,10 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 				loadedProps = JRPropertiesUtil.loadProperties(propFile, defaults);
 				if (loadedProps == null)
 				{
-					throw new JRRuntimeException("Could not load properties file \"" + propFile + "\"");
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_LOAD_PROPERTIES_FILE_FAILURE,
+							new Object[]{propFile});
 				}
 			}
 
@@ -118,7 +127,11 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 		}
 		catch (JRException e)
 		{
-			throw new JRRuntimeException("Error loading the properties", e);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_LOAD_PROPERTIES_FAILURE,
+					(Object[])null,
+					e);
 		}
 	}
 	
@@ -149,7 +162,10 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 		
 		if (is == null)
 		{
-			throw new JRException("Default properties file not found.");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DEFAULT_PROPERTIES_FILE_NOT_FOUND,
+					(Object[])null);
 		}
 
 		try
@@ -158,7 +174,11 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Failed to load default properties.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_LOAD_DEFAULT_PROPERTIES_FAILURE, 
+					null, 
+					e);
 		}
 		finally
 		{

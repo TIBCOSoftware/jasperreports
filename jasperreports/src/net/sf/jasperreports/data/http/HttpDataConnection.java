@@ -46,6 +46,8 @@ public class HttpDataConnection implements DataFileConnection
 {
 	
 	private static final Log log = LogFactory.getLog(HttpDataConnection.class);
+	public static final String EXCEPTION_MESSAGE_KEY_NO_RESPONSE = "data.http.no.response";
+	public static final String EXCEPTION_MESSAGE_KEY_STATUS_CODE_ERROR = "data.http.status.code.error";
 
 	private final CloseableHttpClient httpClient;
 	private final HttpRequestBase request;
@@ -72,14 +74,20 @@ public class HttpDataConnection implements DataFileConnection
 			HttpEntity entity = response.getEntity();
 			if (entity == null)
 			{
-				throw new JRRuntimeException("No response entity");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_NO_RESPONSE,
+						(Object[])null);
 			}
 			
 			if (status.getStatusCode() >= 300)
 			{
 				EntityUtils.consumeQuietly(entity);
 				//FIXME include request URI in the exception?  that might be a security issue
-				throw new JRRuntimeException("Response has status " + status);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_STATUS_CODE_ERROR,
+						new Object[]{status});
 			}
 			
 			return entity.getContent();

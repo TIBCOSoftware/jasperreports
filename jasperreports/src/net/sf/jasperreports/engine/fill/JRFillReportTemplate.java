@@ -126,9 +126,7 @@ public class JRFillReportTemplate implements JRReportTemplate
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_UNKNOWN_TEMPLATE_SOURCE,  
-						new Object[]{source.getClass().getName()}, 
-						filler.getJasperReportsContext(),
-						filler.getLocale()
+						new Object[]{source.getClass().getName()} 
 						);
 			}
 			

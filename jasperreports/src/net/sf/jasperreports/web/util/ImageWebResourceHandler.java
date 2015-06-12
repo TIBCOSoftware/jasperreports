@@ -53,6 +53,9 @@ import net.sf.jasperreports.web.servlets.JasperPrintAccessor;
  */
 public class ImageWebResourceHandler implements WebResourceHandler
 {
+	public static final String EXCEPTION_MESSAGE_KEY_JASPERPRINT_NOT_FOUND = "web.util.jasperprint.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_REPORT_CONTEXT_NOT_FOUND = "web.util.report.context.not.found";
+	
 	/**
 	 *
 	 */
@@ -93,14 +96,20 @@ public class ImageWebResourceHandler implements WebResourceHandler
 			
 			if (webReportContext == null)
 			{
-				throw new JRRuntimeException("No web report context found.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_REPORT_CONTEXT_NOT_FOUND,
+						(Object[])null);
 			}
 			
 			JasperPrintAccessor jasperPrintAccessor = (JasperPrintAccessor) webReportContext.getParameterValue(
 					WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR);
 			if (jasperPrintAccessor == null)
 			{
-				throw new JRRuntimeException("No JasperPrint found in report context.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_JASPERPRINT_NOT_FOUND,
+						(Object[])null);
 			}
 			
 			List<JasperPrint> jasperPrintList = Collections.singletonList(jasperPrintAccessor.getJasperPrint());

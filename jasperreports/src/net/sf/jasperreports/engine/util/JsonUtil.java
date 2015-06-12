@@ -23,10 +23,24 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.type.JsonOperatorEnum;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.type.JsonOperatorEnum;
+import net.sf.jasperreports.repo.RepositoryUtil;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 /**
@@ -34,6 +48,10 @@ import com.fasterxml.jackson.databind.JsonNode;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class JsonUtil {
+	
+	private static final Log log = LogFactory.getLog(JsonUtil.class);
+	
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_OPERATOR = "util.json.unknown.operator";
 	
 	public static boolean evaluateJsonExpression(JsonNode contextNode, String attributeExpression) throws JRException {
 		
@@ -61,7 +79,10 @@ public class JsonUtil {
 			for (JsonOperatorEnum op: JsonOperatorEnum.values()) {
 				possibleOperations.append(op.getValue()).append(",");
 			}
-			throw new JRException("Unknown operator in expression: " + attributeExpression + "; Operator must be one of: " + possibleOperations);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_UNKNOWN_OPERATOR,
+					new Object[]{attributeExpression, possibleOperations});
 		}
 		
 		if (attribute != null && operator != null && value != null) {
@@ -110,5 +131,64 @@ public class JsonUtil {
 		}
 		
 		return result;
+	}
+	
+	public static ObjectMapper createObjectMapper() {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+		mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+		mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+		return mapper;
+	}
+	
+	public static JsonNode parseJson(File file) throws JRException {
+		FileInputStream fileInputStream = null;
+		try {
+			fileInputStream = new FileInputStream(file);
+			return parseJson(fileInputStream);
+		} catch (FileNotFoundException e) {
+			throw new JRException(e);
+		} finally {
+			if (fileInputStream != null) {
+				try {
+					fileInputStream.close();
+				} catch (IOException e) {
+					if (log.isWarnEnabled()) {
+						log.warn("Failed to close input stream for file " + file, e);
+					}
+				}
+			}
+		}
+	}
+	
+	public static JsonNode parseJson(JasperReportsContext jasperReportsContext, String location) throws JRException {
+		RepositoryUtil repository = RepositoryUtil.getInstance(jasperReportsContext);
+		InputStream stream = repository.getInputStreamFromLocation(location);
+		try {
+			return parseJson(stream);
+		} finally {
+			if (stream != null) {
+				try {
+					stream.close();
+				} catch (IOException e) {
+					if (log.isWarnEnabled()) {
+						log.warn("Failed to close input stream for location " + location, e);
+					}
+				}
+			}			
+		}
+	}
+	
+	public static JsonNode parseJson(InputStream jsonStream) throws JRException {
+		ObjectMapper mapper = createObjectMapper();
+		JsonNode jsonTree;
+		try {
+			jsonTree = mapper.readTree(jsonStream);
+		} catch (JsonProcessingException e) {
+			throw new JRException(e);
+		} catch (IOException e) {
+			throw new JRException(e);
+		}
+		return jsonTree;
 	}
 }

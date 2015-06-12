@@ -84,7 +84,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  */
 public class JRDesignChart extends JRDesignElement implements JRChart
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_UNSUPPORTED_CHART_TYPE = "charts.chart.type.unsupported";
 
 	/**
 	 *
@@ -786,7 +786,10 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				plot = new JRDesignBarPlot(plot, this);
 				break;
 			default:
-				throw new JRRuntimeException("Chart type not supported.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNSUPPORTED_CHART_TYPE,
+						(Object[])null);
 		}
 
 		getEventSupport().firePropertyChange(PROPERTY_CHART_TYPE, old, this.chartType);

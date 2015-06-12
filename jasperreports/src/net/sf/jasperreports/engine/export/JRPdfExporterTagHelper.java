@@ -39,16 +39,15 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintImage;
 
-import com.itextpdf.text.pdf.PdfAConformanceLevel;
-import com.itextpdf.text.pdf.PdfArray;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfDictionary;
-import com.itextpdf.text.pdf.PdfName;
-import com.itextpdf.text.pdf.PdfNumber;
-import com.itextpdf.text.pdf.PdfString;
-import com.itextpdf.text.pdf.PdfStructureElement;
-import com.itextpdf.text.pdf.PdfStructureTreeRoot;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.PdfArray;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfDictionary;
+import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfNumber;
+import com.lowagie.text.pdf.PdfString;
+import com.lowagie.text.pdf.PdfStructureElement;
+import com.lowagie.text.pdf.PdfStructureTreeRoot;
+import com.lowagie.text.pdf.PdfWriter;
 
 
 /**
@@ -214,7 +213,6 @@ public class JRPdfExporterTagHelper
 
 	protected boolean isTagged;
 	protected String language;
-	protected PdfAConformanceLevel conformanceLevel;
 
 	/**
 	 *
@@ -264,11 +262,12 @@ public class JRPdfExporterTagHelper
 		{
 			PdfStructureTreeRoot root = pdfWriter.getStructureTreeRoot();
 			
-			root.mapRole(PdfName.ALL, PdfName.SECT);
+			PdfName pdfNameALL = new PdfName("All");
+			root.mapRole(pdfNameALL, PdfName.SECT);
 			root.mapRole(PdfName.IMAGE, PdfName.FIGURE);
 			root.mapRole(PdfName.TEXT, PdfName.TEXT);
-			allTag = new PdfStructureElement(root, PdfName.ALL);
-			if(PdfAConformanceLevel.PDF_A_1A.equals(conformanceLevel))
+			allTag = new PdfStructureElement(root, pdfNameALL);
+			if(pdfWriter.getPDFXConformance() == PdfWriter.PDFA1A)
 			{
 				root.mapRole(new PdfName("Anchor"), PdfName.NONSTRUCT);
 				root.mapRole(PdfName.TEXT, PdfName.SPAN);
@@ -769,13 +768,5 @@ public class JRPdfExporterTagHelper
 				tagStack.pop();
 			}
 		}
-	}
-
-	public PdfAConformanceLevel getConformanceLevel() {
-		return conformanceLevel;
-	}
-
-	public void setConformanceLevel(PdfAConformanceLevel conformanceLevel) {
-		this.conformanceLevel = conformanceLevel;
 	}
 }

@@ -495,9 +495,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_COLUMN_COUNT_OUT_OF_RANGE,  
-					new Object[]{grid.getColumnCount()}, 
-					getJasperReportsContext(), 
-					getLocale()
+					new Object[]{grid.getColumnCount()} 
 					);
 		}
 		
@@ -1296,7 +1294,10 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	{
 		if (!imageName.startsWith(IMAGE_NAME_PREFIX))
 		{
-			throw new JRRuntimeException("Invalid image name: " + imageName);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_INVALID_IMAGE_NAME,
+					new Object[]{imageName});
 		}
 
 		return JRPrintElementIndex.parsePrintElementIndex(imageName.substring(IMAGE_NAME_PREFIX_LEGTH));

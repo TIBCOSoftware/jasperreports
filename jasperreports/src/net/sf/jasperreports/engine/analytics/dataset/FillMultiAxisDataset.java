@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  */
 public class FillMultiAxisDataset extends JRFillElementDataset
 {
+	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_CREATE_BUCKETING_SERVICE = "engine.analytics.dataset.cannot.create.bucketing.service";
 	
 	private final JasperReportsContext jasperReportsContext;
 	private final MultiAxisData data;
@@ -68,7 +69,11 @@ public class FillMultiAxisDataset extends JRFillElementDataset
 			}
 			catch (JRException e)
 			{
-				throw new JRRuntimeException("Could not create bucketing service", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_CANNOT_CREATE_BUCKETING_SERVICE,
+						(Object[])null,
+						e);
 			}
 		}
 		else

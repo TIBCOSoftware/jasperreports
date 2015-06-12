@@ -243,7 +243,7 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                     containerTop = 0;
                 }
 
-                it.jo.css({position: 'absolute', width: '60px'});
+                it.jo.css({position: 'absolute', width: '62px'});
                 it.jo.offset({top: top, left: ixt.selected.header.offset().left});
                 it.jo.offset({top: top, left: ixt.selected.header.offset().left}); // twice
                 it.topCalculated = false;
@@ -715,7 +715,7 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                     rows = [], clone, cloneWidth = [],
                     row, $row, lastRow, cloneTD, rowTD, rowTDs, i, j, k,
                     tblJrPage, parentTableRows,
-                    bFoundFirst,
+                    bFoundFirst, cssHeight,
                     // It seems to be necessary to adjust the height of the <td>s when cloning
                     bAdjust = it.isIE || it.isFirefox,
                     adjustAmount = 0.35;
@@ -758,8 +758,12 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                                     cloneTD.attr("data-jrxtcolidx", rowTD.attr("data-jrxtcolidx"));
                                 } else {
                                     cloneTD = rowTD.clone();
-                                    cloneTD.width(rowTD.width());
-                                    cloneTD.height(rowTD.height() - (bAdjust ? adjustAmount : 0));
+
+                                    // Fix for bug #41786 - set width/height with css method to take box-sizing into account
+                                    cloneTD.css("width", rowTD.css("width"));
+                                    cssHeight = rowTD.css("height");
+                                    cloneTD.css("height", parseInt(cssHeight.substring(0, cssHeight.indexOf("px"))) - (bAdjust ? adjustAmount : 0) + "px");
+
                                     cloneWidth[idx] = cloneWidth[idx] + rowTD.outerWidth();
                                 }
                                 clone.append(cloneTD);

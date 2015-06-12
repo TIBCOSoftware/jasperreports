@@ -78,30 +78,43 @@ public class ParagraphStyle extends Style
 	/**
 	 *
 	 */
-	public ParagraphStyle(WriterHelper styleWriter, JRPrintText text)
+	public ParagraphStyle(WriterHelper styleWriter, JRPrintText text, boolean isIgnoreTextFormatting)
 	{
 		super(styleWriter);
 		
-		horizontalAlignment = getHorizontalAlignment(text.getHorizontalTextAlign(), text.getVerticalTextAlign(), text.getRotationValue());
-		verticalAlignment = getVerticalAlignment(text.getHorizontalTextAlign(), text.getVerticalTextAlign(), text.getRotationValue());
+		horizontalAlignment = getHorizontalAlignment(
+				text.getHorizontalTextAlign(), 
+				text.getVerticalTextAlign(), 
+				(isIgnoreTextFormatting ? RotationEnum.NONE : text.getRotationValue()));
+		verticalAlignment = getVerticalAlignment(
+				text.getHorizontalTextAlign(), 
+				text.getVerticalTextAlign(), 
+				(isIgnoreTextFormatting ? RotationEnum.NONE : text.getRotationValue()));
 		
-		switch(text.getRotationValue())
+		if(isIgnoreTextFormatting)
 		{
-			case LEFT:
+			textRotation = "0";
+		}
+		else 
+		{
+			switch(text.getRotationValue())
 			{
-				textRotation = "90";
-				break;
-			}
-			case RIGHT:
-			{
-				textRotation = "270";
-				break;
-			}
-			case UPSIDE_DOWN://FIXMEODT possible?
-			case NONE:
-			default:
-			{
-				textRotation = "0";
+				case LEFT:
+				{
+					textRotation = "90";
+					break;
+				}
+				case RIGHT:
+				{
+					textRotation = "270";
+					break;
+				}
+				case UPSIDE_DOWN://FIXMEODT possible?
+				case NONE:
+				default:
+				{
+					textRotation = "0";
+				}
 			}
 		}
 

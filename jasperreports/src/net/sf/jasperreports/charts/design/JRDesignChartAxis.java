@@ -26,6 +26,7 @@ package net.sf.jasperreports.charts.design;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.base.JRBaseChartAxis;
 import net.sf.jasperreports.charts.type.AxisPositionEnum;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.design.JRDesignChart;
@@ -125,6 +126,14 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 	{
 		JRDesignChartAxis clone = (JRDesignChartAxis)super.clone();
 		clone.eventSupport = null;
+		return clone;
+	}
+
+	@Override
+	public JRChartAxis clone(JRChart parentChart)
+	{
+		JRDesignChartAxis clone = (JRDesignChartAxis) super.clone(parentChart);
+		clone.parentChart = (JRDesignChart) parentChart;
 		return clone;
 	}
 	

@@ -1083,9 +1083,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_MISSING_MARKUP_PROCESSOR_FACTORY,  
-						new Object[]{markup}, 
-						filler.getJasperReportsContext(),
-						filler.getLocale()
+						new Object[]{markup} 
 						);
 			}
 
@@ -1122,9 +1120,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_INVALID_START_INDEX,  
-					null, 
-					filler.getJasperReportsContext(),
-					filler.getLocale()
+					(Object[])null 
 					);
 			}
 			

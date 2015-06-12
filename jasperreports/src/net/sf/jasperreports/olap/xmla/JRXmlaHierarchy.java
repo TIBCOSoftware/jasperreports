@@ -43,6 +43,8 @@ public class JRXmlaHierarchy implements JROlapHierarchy
 {
 	
 	private final static Log log = LogFactory.getLog(JRXmlaHierarchy.class);
+	
+	public static final String EXCEPTION_MESSAGE_KEY_XMLA_INVALID_DIMENSION_HIERARCHY = "data.olap.xmla.invalid.dimension.hierarchy";
 
 	private static final Pattern DIMENSION_HIERARCHY_PATTERN = Pattern.compile("\\[.*\\]\\.\\[.*\\]");
 
@@ -129,7 +131,10 @@ public class JRXmlaHierarchy implements JROlapHierarchy
 			int endIndex = originalDimensionName.lastIndexOf(']'); 
 			if (startIndex == -1 || endIndex == -1 || startIndex + 3 >= endIndex)
 			{
-				throw new JRRuntimeException("Invalid [Dimension].[Hierarchy]: " + originalDimensionName);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_XMLA_INVALID_DIMENSION_HIERARCHY,
+						new Object[]{originalDimensionName});
 			}
 			else
 			{

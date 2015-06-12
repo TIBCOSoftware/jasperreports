@@ -52,6 +52,7 @@ public final class ComponentsEnvironment
 {
 	
 	private static final Log log = LogFactory.getLog(ComponentsEnvironment.class);
+	public static final String EXCEPTION_MESSAGE_KEY_BUNDLE_NOT_REGISTERED = "components.bundle.not.registered";
 	
 	private final ReferenceMap cache = new ReferenceMap(
 			ReferenceMap.WEAK, ReferenceMap.HARD);
@@ -146,8 +147,10 @@ public final class ComponentsEnvironment
 		ComponentsBundle componentsBundle = components.get(namespace);
 		if (componentsBundle == null)
 		{
-			throw new JRRuntimeException("No components bundle registered for namespace " 
-					+ namespace);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_BUNDLE_NOT_REGISTERED,
+					new Object[]{namespace});
 		}
 		return componentsBundle;
 	}

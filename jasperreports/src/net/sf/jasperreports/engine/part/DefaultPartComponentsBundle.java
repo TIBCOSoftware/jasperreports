@@ -41,7 +41,8 @@ import net.sf.jasperreports.engine.component.ComponentsXmlParser;
  */
 public class DefaultPartComponentsBundle implements PartComponentsBundle
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_COMPONENT_MANAGER_NOT_FOUND = "engine.part.component.manager.not.found";
+	
 	private ComponentsXmlParser xmlParser;
 	private Map<String,PartComponentManager> componentManagers;
 
@@ -71,8 +72,10 @@ public class DefaultPartComponentsBundle implements PartComponentsBundle
 		PartComponentManager manager = componentManagers.get(componentName);
 		if (manager == null)
 		{
-			throw new JRRuntimeException("No component manager found for name " + componentName 
-					+ ", namespace " + xmlParser.getNamespace());
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_COMPONENT_MANAGER_NOT_FOUND,
+					new Object[]{componentName, xmlParser.getNamespace()});
 		}
 		return manager;
 	}

@@ -62,13 +62,14 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public class CastorUtil
 {
 	private static final Log log = LogFactory.getLog(CastorUtil.class);
+	
+	public static final String EXCEPTION_MESSAGE_KEY_MAPPINGS_LOADING_ERROR = "util.castor.mappings.loading.error";
 	
 	/**
 	 * 
@@ -139,7 +140,11 @@ public class CastorUtil
 			}
 			catch (MappingException e)
 			{
-				throw new JRRuntimeException("Failed to load Castor mappings", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_MAPPINGS_LOADING_ERROR,
+						(Object[])null,
+						e);
 			}
 			
 			jasperReportsContext.setValue(contextCacheKey, xmlContext);
@@ -231,7 +236,7 @@ public class CastorUtil
 	
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #read(InputStream)}.
 	 */
 	public static Object read(InputStream is, String mappingFile)
 	{
@@ -273,7 +278,7 @@ public class CastorUtil
 	
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #read(InputStream)}.
 	 */
 	public static Object read(Node node, String mappingFile)
 	{
@@ -315,7 +320,7 @@ public class CastorUtil
 	
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #read(InputStream)}.
 	 */
 	public static Object read(InputStream is, Mapping mapping)
 	{
@@ -447,7 +452,7 @@ public class CastorUtil
 	
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #read(InputStream)}.
 	 */
 	public static Object read(Node node, Mapping mapping)
 	{
@@ -477,7 +482,7 @@ public class CastorUtil
 	
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #read(InputStream)}.
 	 */
 	public static Object read(InputStream is, Class<?> clazz)
 	{
@@ -486,7 +491,7 @@ public class CastorUtil
 	
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #read(InputStream)}.
 	 */
 	public static Object read(Node node, Class<?> clazz)
 	{
@@ -495,7 +500,7 @@ public class CastorUtil
 	
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #write(Object, Writer)}.
 	 */
 	public static void write(Object object, String mappingFile, Writer writer)
 	{
@@ -533,7 +538,7 @@ public class CastorUtil
 	
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #write(Object, Writer)}.
 	 */
 	public static void write(Object object, Mapping mapping, Writer writer)
 	{
@@ -566,7 +571,7 @@ public class CastorUtil
 	
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #writeToFile(Object, String)}.
 	 */
 	public static void write(Object object, String mappingFile, File file)
 	{
@@ -598,7 +603,7 @@ public class CastorUtil
 	
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #writeToFile(Object, String)}.
 	 */
 	public static void write(Object object, Mapping mapping, File file)
 	{
@@ -630,7 +635,7 @@ public class CastorUtil
 	
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #writeToString(Object)}.
 	 */
 	public static String write(Object object, String mappingFile)
 	{
@@ -656,7 +661,7 @@ public class CastorUtil
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #writeToString(Object)}.
 	 */
 	public static String write(Object object, Mapping mapping)
 	{
@@ -682,7 +687,7 @@ public class CastorUtil
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #writeToString(Object)}.
 	 */
 	public static String write(Object object)
 	{

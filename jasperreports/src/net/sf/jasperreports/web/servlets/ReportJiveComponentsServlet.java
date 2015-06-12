@@ -48,7 +48,6 @@ import net.sf.jasperreports.web.util.WebUtil;
 public class ReportJiveComponentsServlet extends AbstractServlet
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-		
 
 	/**
 	 *
@@ -102,7 +101,11 @@ public class ReportJiveComponentsServlet extends AbstractServlet
 		ReportExecutionStatus reportStatus = jasperPrintAccessor.getReportStatus();
 		if (reportStatus.getStatus() == ReportExecutionStatus.Status.ERROR)
 		{
-			throw new JRRuntimeException("Error occurred during report generation", reportStatus.getError());
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					(Object[])null,
+					reportStatus.getError());
 		}
 		
 		//Integer pageCount = reportStatus.getTotalPageCount();
@@ -126,7 +129,10 @@ public class ReportJiveComponentsServlet extends AbstractServlet
 			
 			if (!pageStatus.pageExists())
 			{
-				throw new JRRuntimeException("Page " + pageIdx + " not found in report");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_PAGE_NOT_FOUND,
+						new Object[]{pageIdx});
 			}
 			
 			configuration.setPageIndex(pageIdx);

@@ -37,13 +37,19 @@ public class JRRuntimeException extends RuntimeException
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String ERROR_MESSAGES_BUNDLE = "jasperreports_messages";
-	public static final String ERROR_MESSAGE_KEY_PREFIX = "net.sf.jasperreports.exception.";
+	public static final String EXCEPTION_MESSAGES_BUNDLE = "jasperreports_messages";
+	public static final String EXCEPTION_MESSAGE_KEY_PREFIX = "net.sf.jasperreports.exception.";
 	
-	private Object[] args;
 	private String messageKey;
-	private String localizedMessage;
-	private boolean hasLocalizedMessage;
+	private Object[] args;
+	/**
+	 * @deprecated To be removed.
+	 */
+	private JasperReportsContext jasperReportsContext;
+	/**
+	 * @deprecated To be removed.
+	 */
+	private Locale locale;
 
 
 	/**
@@ -76,12 +82,35 @@ public class JRRuntimeException extends RuntimeException
 	/**
 	 *
 	 */
+	public JRRuntimeException(String messageKey, Object[] args, Throwable t)
+	{
+		super(messageKey, t);
+		this.messageKey = messageKey;
+		this.args = args;
+	}
+
+
+	/**
+	 *
+	 */
+	public JRRuntimeException(String messageKey, Object[] args)
+	{
+		super(messageKey);
+		this.messageKey = messageKey;
+		this.args = args;
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #JRRuntimeException(String, Object[])}.
+	 */
 	public JRRuntimeException(String messageKey, Object[] args, JasperReportsContext jasperReportsContext, Locale locale)
 	{
 		super(messageKey);
 		this.messageKey = messageKey;
 		this.args = args;
-		this.localizedMessage = resolveMessage(messageKey, args, jasperReportsContext, locale);
+		this.jasperReportsContext = jasperReportsContext;
+		this.locale = locale;
 	}
 
 
@@ -103,21 +132,22 @@ public class JRRuntimeException extends RuntimeException
 	}
 
 
-	/**
-	 *
-	 */
-	public boolean hasLocalizedMessage()
-	{
-		return hasLocalizedMessage;
-	}
-
-
 	@Override
 	public String getMessage()
 	{
-		if (hasLocalizedMessage)
+		return getMessage(jasperReportsContext, locale);
+	}
+
+
+	public String getMessage(JasperReportsContext jasperReportsContext, Locale locale)
+	{
+		if (messageKey != null)
 		{
-			return localizedMessage;
+			return 
+				resolveMessage(
+					jasperReportsContext == null ? DefaultJasperReportsContext.getInstance() : jasperReportsContext, 
+					locale == null ? Locale.getDefault() : locale
+					);
 		}
 		return super.getMessage();
 	}
@@ -126,13 +156,12 @@ public class JRRuntimeException extends RuntimeException
 	/**
 	 *
 	 */
-	protected String resolveMessage(String messageKey, Object[] args, JasperReportsContext jasperReportsContext, Locale locale)
+	protected String resolveMessage(JasperReportsContext jasperReportsContext, Locale locale)
 	{
 		if (messageKey != null)
 		{
 			try
 			{
-				hasLocalizedMessage = true;
 				String bundleName = getMessageBundleName();
 				MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
 				return messageProvider.getMessage(getMessageKeyPrefix() + messageKey, args, locale);
@@ -141,17 +170,16 @@ public class JRRuntimeException extends RuntimeException
 			{
 			}
 		}
-		hasLocalizedMessage = false;
 		return messageKey;
 	}
 	
 	protected String getMessageBundleName()
 	{
-		return ERROR_MESSAGES_BUNDLE;
+		return EXCEPTION_MESSAGES_BUNDLE;
 	}
 	
 	protected String getMessageKeyPrefix()
 	{
-		return ERROR_MESSAGE_KEY_PREFIX;
+		return EXCEPTION_MESSAGE_KEY_PREFIX;
 	}
 }

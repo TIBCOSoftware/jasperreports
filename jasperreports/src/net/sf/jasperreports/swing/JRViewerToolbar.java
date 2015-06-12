@@ -26,6 +26,7 @@ package net.sf.jasperreports.swing;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,7 +66,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 	protected List<JRSaveContributor> saveContributors = new ArrayList<JRSaveContributor>();
 	protected File lastFolder;
 	protected JRSaveContributor lastSaveContributor;
-	protected DecimalFormat zoomDecimalFormat = new DecimalFormat("#.##");
+	protected DecimalFormat zoomDecimalFormat;
 	
 	protected javax.swing.JToggleButton btnActualSize;
 	protected javax.swing.JButton btnFirst;
@@ -89,6 +90,8 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 	{
 		this.viewerContext = viewerContext;
 		this.viewerContext.addListener(this);
+		
+		zoomDecimalFormat = new DecimalFormat("#.##", DecimalFormatSymbols.getInstance(viewerContext.getLocale()));
 
 		initComponents();
 		initSaveContributors();

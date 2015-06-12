@@ -33,6 +33,9 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
  */
 public final class ExporterFilterFactoryUtil
 {
+	public static final String EXCEPTION_MESSAGE_KEY_FACTORY_CLASS_NOT_FOUND = "export.filter.factory.class.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_FACTORY_CLASS_INSTANCE_FAILURE = "export.filter.factory.class.instance.failure";
+	
 	//private static final JRSingletonCache cache = new JRSingletonCache(ExporterFilterFactory.class);
 
 	/**
@@ -52,15 +55,27 @@ public final class ExporterFilterFactoryUtil
 		}
 		catch (ClassNotFoundException e)
 		{
-			throw new JRException("Class " + factoryClassName + " not found.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_FACTORY_CLASS_NOT_FOUND,
+					new Object[]{factoryClassName}, 
+					e);
 		}
 		catch (InstantiationException e)
 		{
-			throw new JRException("Error instantiating class " + factoryClassName + ".", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_FACTORY_CLASS_INSTANCE_FAILURE,
+					new Object[]{factoryClassName}, 
+					e);
 		}
 		catch (IllegalAccessException e)
 		{
-			throw new JRException("Error instantiating class " + factoryClassName + ".", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_FACTORY_CLASS_INSTANCE_FAILURE,
+					new Object[]{factoryClassName}, 
+					e);
 		}
 	}
 

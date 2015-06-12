@@ -3,7 +3,7 @@
 
 <mapping>
 	<class name="net.sf.jasperreports.data.hibernate.spring.SpringHibernateDataAdapterImpl">
-		<map-to xml="hibernateDataAdapter"/>
+		<map-to xml="springHibernateDataAdapter"/>
 		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.data.ClassNameFieldHandler">
 			<bind-xml name="class" node="attribute"/>
 		</field>

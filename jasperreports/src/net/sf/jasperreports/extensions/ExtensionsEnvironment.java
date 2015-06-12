@@ -40,6 +40,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public final class ExtensionsEnvironment
 {
+	public static final String EXCEPTION_MESSAGE_KEY_NULL_EXTENSIONS_REGISTRY = "extensions.null.extensions.registry";
 
 	private ExtensionsEnvironment()
 	{
@@ -105,7 +106,10 @@ public final class ExtensionsEnvironment
 	{
 		if (extensionsRegistry == null)
 		{
-			throw new JRRuntimeException("Cannot set a null extensions registry.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_NULL_EXTENSIONS_REGISTRY,
+					(Object[])null);
 		}
 		
 		systemRegistry = extensionsRegistry;

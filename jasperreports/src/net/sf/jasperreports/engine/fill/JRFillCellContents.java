@@ -272,9 +272,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_CANNOT_SHRINK_CONTENTS,  
-					null, 
-					filler.getJasperReportsContext(),
-					filler.getLocale()
+					(Object[])null 
 					);
 		}
 		

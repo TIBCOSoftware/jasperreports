@@ -77,6 +77,9 @@ public final class JRValueStringUtils
 		Object deserialize(String data);
 	}
 	
+	public static final String EXCEPTION_MESSAGE_KEY_ERROR_PARSING_DATA = "util.value.string.error.parsing.data";
+	public static final String EXCEPTION_MESSAGE_KEY_VALUE_NOT_SERIALIZABLE = "util.value.string.value.not.serializable";
+	
 	private static final Map<String,ValueSerializer> serializers;
 	private static final ValueSerializer defaultSerializer;
 	
@@ -190,11 +193,16 @@ public final class JRValueStringUtils
 	
 	protected static class CharacterSerializer implements ValueSerializer
 	{
+		public static final String EXCEPTION_MESSAGE_KEY_SINGLE_CHARACTER_EXPECTED = "util.character.serializer.single.character.expected";
+
 		public Object deserialize(String data)
 		{
 			if (data.length() != 1)
 			{
-				throw new JRRuntimeException("Character data \"" + data + "\" should be exactly one character long");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_SINGLE_CHARACTER_EXPECTED,
+						new Object[]{data});
 			}
 			return new Character(data.charAt(0));
 		}
@@ -208,6 +216,8 @@ public final class JRValueStringUtils
 	
 	protected static class BooleanSerializer implements ValueSerializer
 	{
+		public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_DATA = "util.boolean.serializer.unknown.data";
+
 		public Object deserialize(String data)
 		{
 			if (data.equals("true"))
@@ -218,7 +228,10 @@ public final class JRValueStringUtils
 			{
 				return Boolean.FALSE;
 			}
-			throw new JRRuntimeException("Unkown boolean data \"" + data + "\"");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNKNOWN_DATA,
+					new Object[]{data});
 		}
 
 		public String serialize(Object value)
@@ -238,7 +251,11 @@ public final class JRValueStringUtils
 			}
 			catch (NumberFormatException e)
 			{
-				throw new JRRuntimeException("Error parsing Byte data \"" + data + "\"", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_ERROR_PARSING_DATA,
+						new Object[]{"Byte", data},
+						e);
 			}
 		}
 
@@ -259,7 +276,11 @@ public final class JRValueStringUtils
 			}
 			catch (NumberFormatException e)
 			{
-				throw new JRRuntimeException("Error parsing Short data \"" + data + "\"", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_ERROR_PARSING_DATA,
+						new Object[]{"Short", data},
+						e);
 			}
 		}
 
@@ -280,7 +301,11 @@ public final class JRValueStringUtils
 			}
 			catch (NumberFormatException e)
 			{
-				throw new JRRuntimeException("Error parsing Integer data \"" + data + "\"", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_ERROR_PARSING_DATA,
+						new Object[]{"Integer", data},
+						e);
 			}
 		}
 
@@ -301,7 +326,11 @@ public final class JRValueStringUtils
 			}
 			catch (NumberFormatException e)
 			{
-				throw new JRRuntimeException("Error parsing Long data \"" + data + "\"", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_ERROR_PARSING_DATA,
+						new Object[]{"Long", data},
+						e);
 			}
 		}
 
@@ -322,7 +351,11 @@ public final class JRValueStringUtils
 			}
 			catch (NumberFormatException e)
 			{
-				throw new JRRuntimeException("Error parsing Float data \"" + data + "\"", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_ERROR_PARSING_DATA,
+						new Object[]{"Float", data},
+						e);
 			}
 		}
 
@@ -343,7 +376,11 @@ public final class JRValueStringUtils
 			}
 			catch (NumberFormatException e)
 			{
-				throw new JRRuntimeException("Error parsing Double data \"" + data + "\"", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_ERROR_PARSING_DATA,
+						new Object[]{"Double", data},
+						e);
 			}
 		}
 
@@ -364,7 +401,11 @@ public final class JRValueStringUtils
 			}
 			catch (NumberFormatException e)
 			{
-				throw new JRRuntimeException("Error parsing BigInteger data \"" + data + "\"", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_ERROR_PARSING_DATA,
+						new Object[]{"BigInteger", data},
+						e);
 			}
 		}
 
@@ -385,7 +426,11 @@ public final class JRValueStringUtils
 			}
 			catch (NumberFormatException e)
 			{
-				throw new JRRuntimeException("Error parsing BigDecimal data \"" + data + "\"", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_ERROR_PARSING_DATA,
+						new Object[]{"BigDecimal", data},
+						e);
 			}
 		}
 
@@ -407,7 +452,11 @@ public final class JRValueStringUtils
 			}
 			catch (NumberFormatException e)
 			{
-				throw new JRRuntimeException("Error parsing Date data \"" + data + "\"", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_ERROR_PARSING_DATA,
+						new Object[]{"Date", data},
+						e);
 			}
 		}
 
@@ -428,7 +477,11 @@ public final class JRValueStringUtils
 			}
 			catch (IllegalArgumentException e)
 			{
-				throw new JRRuntimeException("Error parsing Timestamp data \"" + data + "\"", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_ERROR_PARSING_DATA,
+						new Object[]{"Timestamp", data},
+						e);
 			}
 		}
 
@@ -450,7 +503,11 @@ public final class JRValueStringUtils
 			}
 			catch (IllegalArgumentException e)
 			{
-				throw new JRRuntimeException("Error parsing Time data \"" + data + "\"", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_ERROR_PARSING_DATA,
+						new Object[]{"Time", data},
+						e);
 			}
 		}
 
@@ -510,7 +567,11 @@ public final class JRValueStringUtils
 			}
 			catch (NotSerializableException e)
 			{
-				throw new JRRuntimeException("Value is not serializable", e);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_VALUE_NOT_SERIALIZABLE,
+						(Object[])null,
+						e);
 			}
 			catch (IOException e)
 			{

@@ -124,6 +124,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	public JRXlsAbstractMetadataExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
+		maxColumnIndex = 255;
 	}
 
 
@@ -350,9 +351,20 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 			}
 			
 		}
+		if(columnNames.size() > maxColumnIndex+1)
+		{
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_COLUMN_INDEX_BEYOND_LIMIT, 
+					new Object[]{columnNames.size(), maxColumnIndex+1});
+			
+		}
 		// write last row
 		if (columnNames.size() > 0)
 		{
+			if(rowIndex == 1 && getCurrentItemConfiguration().isWriteHeader()) {
+				writeReportHeader();
+			}
 			writeCurrentRow(currentRow, repeatedValues);
 		}
 
@@ -695,5 +707,8 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	protected abstract void exportGenericElement(JRGenericPrintElement element) throws JRException;
 	
 	protected abstract void writeCurrentRow(Map<String, Object> currentRow, Map<String, Object> repeatedValues)  throws JRException;
+	
+	protected abstract void writeReportHeader() throws JRException;
+
 
 }

@@ -388,9 +388,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_UNRESOLVED_STYLE,  
-						new Object[]{nameReference}, 
-						filler.getJasperReportsContext(),
-						filler.getLocale()
+						new Object[]{nameReference} 
 						);
 			}
 			
@@ -1621,9 +1619,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 						throw 
 							new JRRuntimeException(
 								EXCEPTION_MESSAGE_KEY_STYLE_NOT_FOUND,  
-								new Object[]{parentName}, 
-								filler.getJasperReportsContext(),
-								filler.getLocale()
+								new Object[]{parentName} 
 								);
 					}
 				}
@@ -1666,9 +1662,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_UNRESOLVED_STYLE,  
-					new Object[]{errorMsg.substring(0, errorMsg.length() - 2)}, 
-					filler.getJasperReportsContext(),
-					filler.getLocale()
+					new Object[]{errorMsg.substring(0, errorMsg.length() - 2)} 
 					);
 		}
 	}

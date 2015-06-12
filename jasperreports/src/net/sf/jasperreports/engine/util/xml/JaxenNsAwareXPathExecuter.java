@@ -46,7 +46,6 @@ import org.w3c.dom.NodeList;
  */
 public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 {
-
 	private final Map<String,XPath> cachedXPaths = new ReferenceMap();//soft cache
 	
 	private Map<String, String> xmlNamespaceMap;
@@ -98,7 +97,11 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 			}
 			catch (JaxenException e)
 			{
-				throw new JRException("XPath compilation failed. Expression: " + expression, e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_XPATH_COMPILATION_FAILURE,
+						new Object[]{expression},
+						e);
 			}
 			cachedXPaths.put(expression, xPath);
 		}
@@ -126,7 +129,11 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 		}
 		catch (JaxenException e)
 		{
-			throw new JRException("XPath selection failed. Expression: " + expression, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_XPATH_SELECTION_FAILURE,
+					new Object[]{expression},
+					e);
 		}		
 	}
 
@@ -161,7 +168,11 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 		}
 		catch (JaxenException e)
 		{
-			throw new JRException("XPath selection failed. Expression: " + expression, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_XPATH_SELECTION_FAILURE,
+					new Object[]{expression},
+					e);
 		}
 	}
 	
@@ -202,7 +213,11 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 			
 		} catch (JaxenException e)
 		{
-			throw new JRException("XPath selection failed. Expression: " + namespaceXPathString, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_XPATH_SELECTION_FAILURE,
+					new Object[]{namespaceXPathString},
+					e);
 		}
 		
 		return namespaces;

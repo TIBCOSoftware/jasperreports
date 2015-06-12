@@ -40,14 +40,12 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintBookmark;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
-import net.sf.jasperreports.engine.util.JRSingletonCache;
 
 import org.apache.commons.digester.SetNestedPropertiesRule;
 import org.apache.commons.digester.SetPropertiesRule;
@@ -74,9 +72,6 @@ public class JRPrintXmlLoader implements ErrorHandler
 	
 	private static final Log log = LogFactory.getLog(JRPrintXmlLoader.class);
 	
-	protected static final JRSingletonCache<JRSaxParserFactory> printParserFactories = 
-		new JRSingletonCache<JRSaxParserFactory>(JRSaxParserFactory.class);
-
 	/**
 	 *
 	 */
@@ -247,7 +242,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 		
 		// use a classloader that resolves both JR classes and classes from the context classloader
 		CompositeClassloader digesterClassLoader = new CompositeClassloader(
-				JRXmlDigesterFactory.class.getClassLoader(), 
+				JRPrintXmlLoader.class.getClassLoader(), 
 				Thread.currentThread().getContextClassLoader());
 		digester.setClassLoader(digesterClassLoader);
 		digester.setNamespaceAware(true);
@@ -369,23 +364,16 @@ public class JRPrintXmlLoader implements ErrorHandler
 
 	protected SAXParser createParser()
 	{
-		try
+		String parserFactoryClass = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(
+				JRSaxParserFactory.PROPERTY_PRINT_PARSER_FACTORY);
+		
+		if (log.isDebugEnabled())
 		{
-			String parserFactoryClass = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(
-					JRSaxParserFactory.PROPERTY_PRINT_PARSER_FACTORY);
-			
-			if (log.isDebugEnabled())
-			{
-				log.debug("Using SAX parser factory class " + parserFactoryClass);
-			}
-			
-			JRSaxParserFactory factory = printParserFactories.getCachedInstance(parserFactoryClass);
-			return factory.createParser();
+			log.debug("Using SAX parser factory class " + parserFactoryClass);
 		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
+		
+		JRSaxParserFactory factory = BaseSaxParserFactory.getFactory(jasperReportsContext, parserFactoryClass);
+		return factory.createParser();
 	}
 
 

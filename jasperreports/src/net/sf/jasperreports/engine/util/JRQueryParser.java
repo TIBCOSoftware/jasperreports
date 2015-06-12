@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class JRQueryParser
 {
+	public static final String EXCEPTION_MESSAGE_KEY_TOKEN_SEPARATORS_NOT_CONFIGURED = "util.query.token.separators.not.configured";
 	
 	private static final JRQueryParser singleton = new JRQueryParser();
 	
@@ -210,7 +211,10 @@ public class JRQueryParser
 		String allSeparators = getTokenSeparators();
 		if (allSeparators == null || allSeparators.length() == 0)
 		{
-			throw new JRRuntimeException("No token separators configured");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_TOKEN_SEPARATORS_NOT_CONFIGURED,
+					(Object[])null);
 		}
 		
 		int firstSepIdx = 0;//if none of the separators are found in the text, return the first separator

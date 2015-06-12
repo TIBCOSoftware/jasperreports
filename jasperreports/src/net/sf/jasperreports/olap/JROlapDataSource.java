@@ -69,6 +69,15 @@ import antlr.ANTLRException;
 public class JROlapDataSource implements JRDataSource, MappingMetadata
 {
 	private static final Log log = LogFactory.getLog(JROlapDataSource.class);
+	public static final String EXCEPTION_MESSAGE_KEY_OLAP_AXIS_NOT_FOUND_IN_RESULT = "data.olap.axis.not.found.in.result";
+	public static final String EXCEPTION_MESSAGE_KEY_OLAP_CANNOT_CONVERT_FIELD_TYPE = "data.olap.cannot.convert.field.type";
+	public static final String EXCEPTION_MESSAGE_KEY_OLAP_CANNOT_CONVERT_STRING_VALUE_TYPE = "data.olap.cannot.convert.string.value.type";
+	public static final String EXCEPTION_MESSAGE_KEY_OLAP_DIMENSION_NOT_FOUND = "data.olap.dimension.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_OLAP_FIELD_VALUE_NOT_RETRIEVED = "data.olap.field.value.not.retrieved";
+	public static final String EXCEPTION_MESSAGE_KEY_OLAP_INTERNAL_ERROR = "data.olap.internal.error";
+	public static final String EXCEPTION_MESSAGE_KEY_OLAP_INVALID_FIELD_MAPPING = "data.olap.invalid.field.mapping";
+	public static final String EXCEPTION_MESSAGE_KEY_OLAP_LEVEL_NOT_FOUND = "data.olap.level.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_OLAP_TUPLE_NOT_FOUND = "data.olap.tuple.not.found";
 
 	protected final JROlapResult olapResult;
 	protected JROlapResultAxis[] axes;
@@ -237,9 +246,10 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			 */
 			if (valueClass.equals(mondrian.olap.Member.class)) {
 				if (!(value instanceof mondrian.olap.Member)) {
-					throw new JRException("Field '" + jrField.getName() + "' is of class '"
-						+ value.getClass()
-						+ "' and can not be converted to class " + valueClass.getName());
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_OLAP_CANNOT_CONVERT_FIELD_TYPE,
+							new Object[]{jrField.getName(), value.getClass(), valueClass.getName()});
 				}
 
 				return value;
@@ -288,12 +298,17 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			} else if (valueClass.equals(java.lang.Number.class)) {
 				return new Double(fieldValue);
 			} else {
-				throw new JRException("Field '" + jrField.getName() + "', string value '" + fieldValue + "' is of class '"
-				+ fieldValues.get(jrField.getName()).getClass()
-				+ "' and can not be converted to class " + valueClass.getName());
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_OLAP_CANNOT_CONVERT_STRING_VALUE_TYPE,
+						new Object[]{jrField.getName(), fieldValue, fieldValues.get(jrField.getName()).getClass(), valueClass.getName()});
 			}
 		} catch (Exception e) {
-			throw new JRException("Unable to get value for field '" + jrField.getName() + "' of class '" + valueClass.getName() + "'", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_OLAP_FIELD_VALUE_NOT_RETRIEVED,
+					new Object[]{jrField.getName(), valueClass.getName()}, 
+					e);
 		}
 	}
 
@@ -333,7 +348,10 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 
 				if (mapping == null)
 				{
-					throw new JRRuntimeException("Invalid field mapping \"" + fieldMapping + "\".");
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_OLAP_INVALID_FIELD_MAPPING,
+							new Object[]{fieldMapping});
 				}
 
 				processMappingMembers(mapping);
@@ -374,7 +392,10 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 		}
 		else
 		{
-			throw new JRRuntimeException("internal error");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_OLAP_INTERNAL_ERROR,
+					(Object[])null);
 		}
 
 		return fieldMatcher;
@@ -440,7 +461,10 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 
 		if (dimensionIndex == -1)
 		{
-			throw new JRRuntimeException("Could not find dimension \"" + dimension + "\" on axis " + axis.getIdx() + ".");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_OLAP_DIMENSION_NOT_FOUND,
+					new Object[]{dimension, axis.getIdx()});
 		}
 
 		return dimensionIndex;
@@ -476,9 +500,10 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 
 		if (levelIndex == -1)
 		{
-			throw new JRRuntimeException("Could not find level \"" + levelName
-					+ "\" on hierarchy #" + pos.getIdx() + " (dimension " + hierarchy.getDimensionName()
-					+ ") on axis #" + pos.getAxis().getIdx());
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_OLAP_LEVEL_NOT_FOUND,
+					new Object[]{levelName, pos.getIdx(), hierarchy.getDimensionName(), pos.getAxis().getIdx()});
 		}
 
 		return levelIndex;
@@ -560,6 +585,9 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 
 	protected class DataFieldMatcher extends FieldMatcher
 	{
+		public static final String EXCEPTION_MESSAGE_KEY_OLAP_CELL_CALCULATION_ERROR = "data.olap.cell.calculation.error";
+		public static final String EXCEPTION_MESSAGE_KEY_OLAP_INCORRECT_DATA_MAPPING = "data.olap.incorrect.data.mapping";
+
 		private final boolean formatted;
 		private final int[] dataPositions;
 		private final net.sf.jasperreports.olap.mapping.Member[] members;
@@ -581,7 +609,10 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			{
 				if (mappingPositions.size() != axes.length)
 				{
-					throw new JRRuntimeException("Incorrect data mapping: the number of positions doesn't match the number of axes.");
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_OLAP_INCORRECT_DATA_MAPPING,
+							(Object[])null);
 				}
 
 				this.dataPositions = new int[axes.length];
@@ -647,7 +678,10 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 
 			if (cell != null && cell.isError())
 			{
-				throw new JRRuntimeException("OLAP cell calculation returned error.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_OLAP_CELL_CALCULATION_ERROR,
+						(Object[])null);
 			}
 
 			Object value;
@@ -683,7 +717,10 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 	{
 		if (axisIndex > axes.length)
 		{
-			throw new JRRuntimeException("OLAP result doesn't contain Axis(" + axisIndex + ").");
+			throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_OLAP_AXIS_NOT_FOUND_IN_RESULT,
+				new Object[]{axisIndex});
 		}
 
 		String[] memberUniqueNames = tuple.getMemberUniqueNames();
@@ -726,7 +763,10 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 				}
 				sb.append(memberUniqueNames[i]);
 			}
-			throw new JRRuntimeException("No such tuple " + sb + " on axis " + axisIndex + ".");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_OLAP_TUPLE_NOT_FOUND,
+					new Object[]{sb, axisIndex});
 		}
 
 		return pos;

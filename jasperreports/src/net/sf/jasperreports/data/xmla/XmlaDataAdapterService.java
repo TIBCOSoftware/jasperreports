@@ -54,6 +54,8 @@ public class XmlaDataAdapterService extends AbstractDataAdapterService
 
 	private static final Log log = LogFactory.getLog(XmlaDataAdapterService.class);
 	
+	public static final String EXCEPTION_MESSAGE_KEY_XMLA_CONNECTION = "data.xmla.connection";
+	
 	/**
 	 * 
 	 */
@@ -172,19 +174,35 @@ public class XmlaDataAdapterService extends AbstractDataAdapterService
 		}
 		catch (ClassNotFoundException e)
 		{
-			throw new JRException("Error creating XMLA connection", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_XMLA_CONNECTION, 
+					null, 
+					e);
 		}
 		catch (IllegalAccessException e)
 		{
-			throw new JRException("Error creating XMLA connection", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_XMLA_CONNECTION, 
+					null, 
+					e);
 		} 
 		catch (InvocationTargetException e)
 		{
-			throw new JRException("Error creating XMLA connection", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_XMLA_CONNECTION, 
+					null, 
+					e);
 		}
 		catch (SQLException e)
 		{
-			throw new JRException("Error creating XMLA connection", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_XMLA_CONNECTION, 
+					null, 
+					e);
 		} 
 		
 		dispose();

@@ -40,6 +40,12 @@ import net.sf.jasperreports.engine.ReportContext;
  */
 public final class RepositoryUtil
 {
+	public static final String EXCEPTION_MESSAGE_KEY_BYTE_DATA_LOADING_ERROR = "repo.byte.data.loading.error";
+	public static final String EXCEPTION_MESSAGE_KEY_BYTE_DATA_NOT_FOUND = "repo.byte.data.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_INPUT_STREAM_NOT_FOUND = "repo.input.stream.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_REPORT_NOT_FOUND = "repo.report.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_RESOURCET_NOT_FOUND = "repo.resource.not.found";
+	
 	private AtomicReference<List<RepositoryService>> repositoryServices = new AtomicReference<List<RepositoryService>>();
 	
 
@@ -106,7 +112,10 @@ public final class RepositoryUtil
 			ReportResource resource = getResourceFromLocation(location, ReportResource.class);
 			if (resource == null)
 			{
-				throw new JRException("Report not found at : " + location);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_REPORT_NOT_FOUND,
+						new Object[]{location});
 			}
 
 			jasperReport = resource.getReport();
@@ -141,7 +150,10 @@ public final class RepositoryUtil
 		}
 		if (resource == null)
 		{
-			throw new JRException("Resource not found at : " + location);//FIXMEREPO decide whether to return null or throw exception; check everywhere
+			throw 
+			new JRException(
+				EXCEPTION_MESSAGE_KEY_RESOURCET_NOT_FOUND,
+				new Object[]{location});	//FIXMEREPO decide whether to return null or throw exception; check everywhere
 		}
 		return resource;
 	}
@@ -155,7 +167,10 @@ public final class RepositoryUtil
 		InputStream is = findInputStream(location);
 		if (is == null)
 		{
-			throw new JRException("Input stream not found at : " + location);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INPUT_STREAM_NOT_FOUND,
+					new Object[]{location});
 		}
 		return is;
 	}
@@ -192,7 +207,10 @@ public final class RepositoryUtil
 		
 		if (is == null)
 		{
-			throw new JRException("Byte data not found at : " + location);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_BYTE_DATA_NOT_FOUND,
+					new Object[]{location});
 		}
 
 		ByteArrayOutputStream baos = null;
@@ -212,7 +230,11 @@ public final class RepositoryUtil
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error loading byte data from : " + location, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_BYTE_DATA_LOADING_ERROR,
+					new Object[]{location},
+					e);
 		}
 		finally
 		{

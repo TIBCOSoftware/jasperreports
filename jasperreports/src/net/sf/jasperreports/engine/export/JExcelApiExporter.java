@@ -212,6 +212,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		super(jasperReportsContext);
 
 		exporterContext = new ExporterContext();
+		maxColumnIndex = 255;
 	}
 
 	
@@ -330,9 +331,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 					throw 
 						new JRRuntimeException(
 							EXCEPTION_MESSAGE_KEY_TEMPLATE_NOT_FOUND,  
-							new Object[]{lcWorkbookTemplate}, 
-							getJasperReportsContext(),
-							getLocale()
+							new Object[]{lcWorkbookTemplate} 
 							);
 				}
 				else
@@ -360,11 +359,19 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 		catch (BiffException e) 
 		{
-			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 		finally
 		{
@@ -503,11 +510,19 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 		catch (WriteException e)
 		{
-			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 	}
 
@@ -537,7 +552,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 			}
 			catch (RowsExceededException e)
 			{
-				throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+						new Object[]{jasperPrint.getName()}, 
+						e);
 			}
 		}
 	}
@@ -588,11 +607,19 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		}
 		catch (RowsExceededException e)
 		{
-			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);//FIXMENOW raise same exception everywhere
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);	//FIXMENOW raise same exception everywhere
 		}
 		catch (WriteException e)
 		{
-			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR,
+					new Object[]{jasperPrint.getName()}, 
+					e);
 		}
 	}
 	
@@ -662,7 +689,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		}
 		catch (Exception e)
 		{
-			throw new JRException("Can't add cell.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+					null,
+					e);
 		}
 	}
 
@@ -702,7 +733,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		}
 		catch (Exception e)
 		{
-			throw new JRException("Can't add cell.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+					null,
+					e);
 		}
 	}
 
@@ -733,19 +768,31 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
 			}
 
-			StyleInfo baseStyle =
-				new StyleInfo(
-					mode, 
-					backcolor,
-					horizontalAlignment, 
-					verticalAlignment,
-					rotation, 
-					cellFont,
-					gridCell,
-					isWrapText(text) || Boolean.TRUE.equals(((JExcelApiExporterNature)nature).getColumnAutoFit(text)),
-					isCellLocked(text),
-					isShrinkToFit(text)
-					);
+			StyleInfo baseStyle = isIgnoreTextFormatting(text) 
+					? new StyleInfo(
+							mode,
+							WHITE,
+							horizontalAlignment,
+							verticalAlignment,
+							(short)0,
+							null,
+							(JRExporterGridCell)null, 
+							isWrapText(text) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(text)),
+							isCellLocked(text),
+							isShrinkToFit(text)
+							)
+					: new StyleInfo(
+							mode, 
+							backcolor,
+							horizontalAlignment, 
+							verticalAlignment,
+							rotation, 
+							cellFont,
+							gridCell,
+							isWrapText(text) || Boolean.TRUE.equals(((JExcelApiExporterNature)nature).getColumnAutoFit(text)),
+							isCellLocked(text),
+							isShrinkToFit(text)
+							);
 
 			if (!configuration.isIgnoreAnchors() && text.getAnchorName() != null)
 			{
@@ -772,7 +819,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 			}
 			catch (Exception e)
 			{
-				throw new JRException("Can't add cell.", e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+						null,
+						e);
 			}
 		}
 	}
@@ -1155,7 +1206,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 			}
 			catch (JXLException e)
 			{
-				throw new JRException("Can't merge cells.", e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_CANNOT_MERGE_CELLS,
+						null,
+						e);
 			}
 		}
 	}
@@ -1494,11 +1549,19 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 			}
 			catch (Exception ex)
 			{
-				throw new JRException("The cell cannot be added", ex);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+						null,
+						ex);
 			}
 			catch (Error err)
 			{
-				throw new JRException("The cell cannot be added", err);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+						null,
+						err);
 			}
 		}
 	}
@@ -1794,7 +1857,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		}
 		catch (Exception e)
 		{
-			throw new JRException("Can't get loaded fonts.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_LOADED_FONTS_ERROR,
+					null,
+					e);
 		}
 
 		return cellFont;
@@ -1823,17 +1890,20 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 
 		public BoxStyle(JRExporterGridCell gridCell)
 		{
-			JRLineBox lineBox = gridCell.getBox();
-			if (lineBox != null)
+			if(gridCell != null)
 			{
-				setBox(lineBox);
+				JRLineBox lineBox = gridCell.getBox();
+				if (lineBox != null)
+				{
+					setBox(lineBox);
+				}
+				JRPrintElement element = gridCell.getElement();
+				if (element instanceof JRCommonGraphicElement)
+				{
+					setPen(((JRCommonGraphicElement)element).getLinePen());
+				}
+				hash = computeHash();
 			}
-			JRPrintElement element = gridCell.getElement();
-			if (element instanceof JRCommonGraphicElement)
-			{
-				setPen(((JRCommonGraphicElement)element).getLinePen());
-			}
-			hash = computeHash();
 		}
 
 		public void setBox(JRLineBox box)
@@ -1998,7 +2068,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 			hash = 31*hash + this.horizontalAlignment;
 			hash = 31*hash + this.verticalAlignment;
 			hash = 31*hash + this.rotation;
-			hash = 31*hash + this.font.hashCode();
+			hash = 31*hash + (this.font == null ? 0 : this.font.hashCode());
 			hash = 31*hash + (this.box == null ? 0 : this.box.hashCode());
 			hash = 31*hash + (this.displayFormat == null ? 0 : this.displayFormat.hashCode());
 			hash = 31*hash + (this.isWrapText ? 0 : 1);
@@ -2019,7 +2089,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 
 			return k.mode.equals(mode) && k.backcolor.equals(backcolor) &&
 				k.horizontalAlignment == horizontalAlignment && k.verticalAlignment == verticalAlignment &&
-				k.rotation == rotation && k.font.equals(font) &&
+				k.rotation == rotation && 
+				(k.font == null ? font == null : k.font.equals(font)) &&
 				(k.box == null ? box == null : (box != null && k.box.equals(box))) &&
 				(k.displayFormat == null ? displayFormat == null : (displayFormat!= null && k.displayFormat.equals(displayFormat)) &&
 				k.isWrapText == isWrapText && k.isCellLocked == isCellLocked && k.isShrinkToFit == isShrinkToFit);
@@ -2106,7 +2177,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		{
 			try
 			{
-				if (styleKey.getDisplayFormat() == null)
+				if(styleKey.font == null)
+				{
+					cellStyle = new WritableCellFormat();
+				}
+				else if (styleKey.getDisplayFormat() == null)
 				{
 					cellStyle = new WritableCellFormat(styleKey.font);
 				}
@@ -2125,7 +2200,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 
 				JxlReportConfiguration configuration = getCurrentItemConfiguration();
 				
-				if (!configuration.isIgnoreCellBorder())
+				if (!configuration.isIgnoreCellBorder() && styleKey.box != null)
 				{
 					BoxStyle box = styleKey.box;
 					cellStyle.setBorder(Border.TOP, box.borderStyle[BoxStyle.TOP], box.borderColour[BoxStyle.TOP]);
@@ -2136,7 +2211,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 			}
 			catch (Exception e)
 			{
-				throw new JRException("Error setting cellFormat-template.", e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_CELL_FORMAT_TEMPLATE_ERROR,
+						null,
+						e);
 			}
 
 			loadedCellStyles.put(styleKey, cellStyle);
@@ -2528,7 +2607,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		}
 		catch (JXLException e)
 		{
-			throw new JRException("Can't add cell.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+					null,
+					e);
 		}
 	}
 
@@ -2645,7 +2728,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 					if (level == null || l.compareTo(level) >= 0)
 					{
 						Integer startIndex = levelMap.get(l);
-						if(levelInfo.getEndIndex() > startIndex)
+						if(levelInfo.getEndIndex() >= startIndex)
 						{
 							sheet.setRowGroup(startIndex, levelInfo.getEndIndex(), false);
 						}

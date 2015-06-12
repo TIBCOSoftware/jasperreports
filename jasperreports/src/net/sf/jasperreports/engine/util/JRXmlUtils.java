@@ -49,6 +49,8 @@ import org.xml.sax.SAXException;
 public final class JRXmlUtils
 {
 	private static final Log log = LogFactory.getLog(JRXmlUtils.class);
+	public static final String EXCEPTION_MESSAGE_KEY_DOCUMENT_BUILDER_FACTORY_CREATION_FAILURE = "util.xml.document.builder.factory.creation.failure";
+	public static final String EXCEPTION_MESSAGE_KEY_DOCUMENT_PARSING_FAILURE = "util.xml.document.parsing.failure";
 	
 	
 	public static Document parse(InputSource is) throws JRException
@@ -72,11 +74,19 @@ public final class JRXmlUtils
 		}
 		catch (SAXException e)
 		{
-			throw new JRException("Failed to parse the xml document", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DOCUMENT_PARSING_FAILURE,
+					null,
+					e);
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Failed to parse the xml document", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DOCUMENT_PARSING_FAILURE,
+					null,
+					e);
 		}
 	}
 	
@@ -121,11 +131,19 @@ public final class JRXmlUtils
 		}
 		catch (SAXException e)
 		{
-			throw new JRException("Failed to parse the xml document", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DOCUMENT_PARSING_FAILURE,
+					null,
+					e);
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Failed to parse the xml document", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DOCUMENT_PARSING_FAILURE,
+					null,
+					e);
 		}
 	}
 
@@ -172,11 +190,19 @@ public final class JRXmlUtils
 		}
 		catch (SAXException e)
 		{
-			throw new JRException("Failed to parse the xmlf document", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DOCUMENT_PARSING_FAILURE,
+					null,
+					e);
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Failed to parse the xml document", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_DOCUMENT_PARSING_FAILURE,
+					null,
+					e);
 		}
 		finally
 		{
@@ -219,7 +245,11 @@ public final class JRXmlUtils
 		}
 		catch (ParserConfigurationException e)
 		{
-			throw new JRException("Failed to create a document builder factory", e);
+			throw 
+			new JRException(
+				EXCEPTION_MESSAGE_KEY_DOCUMENT_BUILDER_FACTORY_CREATION_FAILURE,
+				null,
+				e);
 		}
 	}
 

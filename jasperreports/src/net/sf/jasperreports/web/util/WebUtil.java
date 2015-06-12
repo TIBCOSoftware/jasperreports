@@ -59,6 +59,8 @@ public final class WebUtil
 	public static final String PROPERTY_EMBED_COMPONENT_METADATA = JRPropertiesUtil.PROPERTY_PREFIX + "web.embed.component.metadata.in.html.output";
 
 	public static final String RESOURCE_JR_GLOBAL_CSS = "net/sf/jasperreports/web/servlets/resources/jasperreports-global.css";
+	
+	public static final String EXCEPTION_MESSAGE_KEY_CONFIG_PROPERTY_NOT_SET = "web.util.config.property.not.set";
 
 	private JasperReportsContext jasperReportsContext;
 	private JRPropertiesUtil propertiesUtil;
@@ -82,7 +84,10 @@ public final class WebUtil
 		String path = propertiesUtil.getProperty(PROPERTY_REPORT_EXECUTION_PATH);
 		if (path == null)
 		{
-			throw new JRRuntimeException("Configuration property '" + PROPERTY_REPORT_EXECUTION_PATH + "' is not set.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CONFIG_PROPERTY_NOT_SET,
+					new Object[]{PROPERTY_REPORT_EXECUTION_PATH});
 		}
 		return path;
 	}
@@ -92,10 +97,13 @@ public final class WebUtil
 	 */
 	public String getReportInteractionPath() 
 	{
-		String path = propertiesUtil.getProperty(WebUtil.PROPERTY_REPORT_INTERACTION_PATH);
+		String path = propertiesUtil.getProperty(PROPERTY_REPORT_INTERACTION_PATH);
 		if (path == null)
 		{
-			throw new JRRuntimeException("Configuration property '" + WebUtil.PROPERTY_REPORT_INTERACTION_PATH + "' is not set.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CONFIG_PROPERTY_NOT_SET,
+					new Object[]{PROPERTY_REPORT_INTERACTION_PATH});
 		}
 		return path;
 	}
@@ -105,10 +113,13 @@ public final class WebUtil
 	 */
 	public String getResourcesPath() 
 	{
-		String path = propertiesUtil.getProperty(WebUtil.PROPERTY_REPORT_RESOURCES_PATH);
+		String path = propertiesUtil.getProperty(PROPERTY_REPORT_RESOURCES_PATH);
 		if (path == null)
 		{
-			throw new JRRuntimeException("Configuration property '" + WebUtil.PROPERTY_REPORT_RESOURCES_PATH + "' is not set.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CONFIG_PROPERTY_NOT_SET,
+					new Object[]{PROPERTY_REPORT_RESOURCES_PATH});
 		}
 		return path;
 	}

@@ -172,6 +172,8 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	 */
 	private static final String XML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.";
 	
+	public static final String EXCEPTION_MESSAGE_KEY_EMBEDDING_IMAGE_ERROR = "export.xml.embedding.image.error";
+	public static final String EXCEPTION_MESSAGE_KEY_IMAGE_WRITE_ERROR = "export.xml.image.write.error";
 	public static final String EXCEPTION_MESSAGE_KEY_REPORT_STYLE_NOT_FOUND = "export.xml.report.style.not.found";
 
 	/**
@@ -485,9 +487,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_REPORT_STYLE_NOT_FOUND,  
-						new Object[]{style.getStyle().getName()}, 
-						getJasperReportsContext(),
-						getLocale()
+						new Object[]{style.getStyle().getName()} 
 						);
 			}
 		}
@@ -867,7 +867,11 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 				}
 				catch (IOException e)
 				{
-					throw new JRException("Error embedding image into XML.", e);
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_EMBEDDING_IMAGE_ERROR,
+							null, 
+							e);
 				}
 			}
 			else
@@ -897,7 +901,11 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 					}
 					catch (IOException e)
 					{
-						throw new JRException("Error writing to image file : " + imageFile, e);
+						throw 
+							new JRException(
+								EXCEPTION_MESSAGE_KEY_IMAGE_WRITE_ERROR,
+								new Object[]{imageFile}, 
+								e);
 					}
 					finally
 					{

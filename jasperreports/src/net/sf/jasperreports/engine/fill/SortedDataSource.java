@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.fill.DatasetSortInfo.RecordField;
  */
 public class SortedDataSource implements JRRewindableDataSource, IndexedDataSource
 {
+	public static final String EXCEPTION_MESSAGE_KEY_FIELD_NOT_FOUND = "data.sorted.field.not.found";
 	
 	public static class SortRecord
 	{
@@ -140,7 +141,10 @@ public class SortedDataSource implements JRRewindableDataSource, IndexedDataSour
 		Integer fieldIndex = columnNamesMap.get(jrField.getName());
 		if (fieldIndex == null)
 		{
-			throw new JRRuntimeException("Field \"" + jrField.getName() + "\" not found in data source.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_FIELD_NOT_FOUND,
+					new Object[]{jrField.getName()});
 		}
 		return currentRecord.fieldValue(fieldIndex);
 	}

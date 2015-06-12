@@ -41,6 +41,9 @@ public class BaseDataMeasure implements DataMeasure, Serializable
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String EXCEPTION_MESSAGE_KEY_MEASURE_INCREMENTER_LOAD_ERROR = "engine.analytics.dataset.measure.incrementer.load.error";
+	public static final String EXCEPTION_MESSAGE_KEY_MEASURE_VALUE_LOAD_ERROR = "engine.analytics.dataset.measure.value.load.error";
+	
 	protected String name;
 	protected JRExpression labelExpression;
 	protected String valueClassName;
@@ -104,7 +107,11 @@ public class BaseDataMeasure implements DataMeasure, Serializable
 				}
 				catch (ClassNotFoundException e)
 				{
-					throw new JRRuntimeException("Could not load measure value class", e);
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_MEASURE_VALUE_LOAD_ERROR,
+							(Object[])null,
+							e);
 				}
 			}
 		}
@@ -144,7 +151,11 @@ public class BaseDataMeasure implements DataMeasure, Serializable
 				}
 				catch (ClassNotFoundException e)
 				{
-					throw new JRRuntimeException("Could not load measure incrementer class", e);
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_MEASURE_INCREMENTER_LOAD_ERROR,
+							(Object[])null,
+							e);
 				}
 			}
 		}

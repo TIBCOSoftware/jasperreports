@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.util.JRSingletonCache;
 public final class JRXPathExecuterUtils
 {
 
+	public static final String EXCEPTION_MESSAGE_KEY_XPATH_EXECUTER_FACTORY_NOT_FOUND = "util.xml.xpath.executer.factory.property.not.found";
 	/**
 	 * Property that holds the {@link JRXPathExecuterFactory XPath executer factory} class name.
 	 */
@@ -65,8 +66,10 @@ public final class JRXPathExecuterUtils
 		String factoryClassName = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(PROPERTY_XPATH_EXECUTER_FACTORY);
 		if (factoryClassName == null)
 		{
-			throw new JRException("XPath executer factory property not found. " +
-					"Create a propery named " + PROPERTY_XPATH_EXECUTER_FACTORY + ".");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_XPATH_EXECUTER_FACTORY_NOT_FOUND,
+					new Object[]{PROPERTY_XPATH_EXECUTER_FACTORY});
 		}
 		
 		return cache.getCachedInstance(factoryClassName);

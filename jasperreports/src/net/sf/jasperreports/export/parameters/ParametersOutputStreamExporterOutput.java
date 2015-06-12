@@ -77,7 +77,10 @@ public class ParametersOutputStreamExporterOutput extends AbstractParametersExpo
 				}
 				else
 				{
-					throw new JRRuntimeException("No output specified for the exporter.");
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_NO_OUTPUT_SPECIFIED,
+							(Object[])null);
 				}
 			}
 

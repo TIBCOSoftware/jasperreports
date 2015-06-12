@@ -48,6 +48,7 @@ public class XlsxStyleInfo
 	protected boolean isHidden;
 	protected boolean isLocked;
 	protected boolean isShrinkToFit;
+	protected boolean isIgnoreTextFormatting;
 
 	/**
 	 *
@@ -60,24 +61,28 @@ public class XlsxStyleInfo
 		boolean isWrapText,
 		boolean isHidden,
 		boolean isLocked,
-		boolean isShrinkToFit
+		boolean isShrinkToFit,
+		boolean isIgnoreTextFormatting
 		)
 	{
 		this.formatIndex = formatIndex;
-		this.fontIndex = fontIndex;
-		this.borderIndex = borderIndex;
+		this.fontIndex = isIgnoreTextFormatting ? -1 : fontIndex;
+		this.borderIndex = isIgnoreTextFormatting ? -1 : borderIndex;
 		
 		JRPrintElement element = gridCell.getElement();
 		
-		if (element != null && element.getModeValue() == ModeEnum.OPAQUE)
+		if (!isIgnoreTextFormatting)
 		{
-			this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
+			if (element != null && element.getModeValue() == ModeEnum.OPAQUE)
+			{
+				this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
+			}
+			else if (gridCell.getBackcolor() != null)
+			{
+				this.backcolor = JRColorUtil.getColorHexa(gridCell.getBackcolor());
+			}
 		}
-		else if (gridCell.getBackcolor() != null)
-		{
-			this.backcolor = JRColorUtil.getColorHexa(gridCell.getBackcolor());
-		}
-
+		
 		JRTextAlignment align = element instanceof JRTextAlignment ? (JRTextAlignment)element : null;
 		if (align != null)
 		{

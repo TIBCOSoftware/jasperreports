@@ -38,6 +38,8 @@ import net.sf.jasperreports.engine.fill.JRCalculable;
  */
 public final class JRPercentageCalculatorFactory
 {
+	public static final String EXCEPTION_MESSAGE_KEY_PERCENTAGE_CALCULATOR_INSTANCE_ERROR = "crosstabs.percentage.calculator.instance.error";
+	
 	private static final Map<String, JRPercentageCalculator> builtInCalculators;
 
 	private static final Map<String, JRPercentageCalculator> cachedCalculators;
@@ -82,6 +84,8 @@ public final class JRPercentageCalculatorFactory
 	 */
 	public static JRPercentageCalculator getPercentageCalculator(Class<?> percentageCalculatorClass, Class<?> valueClass)
 	{
+		final String EXCEPTION_MESSAGE_KEY_PERCENTAGE_CALCULATOR_CLASS_NOT_SPECIFIED = "crosstabs.percentage.calculator.class.not.specified";
+
 		JRPercentageCalculator calculator;
 
 		if (percentageCalculatorClass == null)
@@ -89,7 +93,10 @@ public final class JRPercentageCalculatorFactory
 			calculator = builtInCalculators.get(valueClass.getName());
 			if (calculator == null)
 			{
-				throw new JRRuntimeException("Measure with type " + valueClass.getName() + " should specify a percentage calculator class.");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_PERCENTAGE_CALCULATOR_CLASS_NOT_SPECIFIED,
+						new Object[]{valueClass.getName()});
 			}
 		}
 		else
@@ -105,11 +112,19 @@ public final class JRPercentageCalculatorFactory
 				}
 				catch (InstantiationException e)
 				{
-					throw new JRRuntimeException("Error while creating percentage calculator instance of " + percentageCalculatorClass + ".", e);
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_PERCENTAGE_CALCULATOR_INSTANCE_ERROR,
+							new Object[]{percentageCalculatorClass},
+							e);
 				}
 				catch (IllegalAccessException e)
 				{
-					throw new JRRuntimeException("Error while creating percentage calculator instance of " + percentageCalculatorClass + ".", e);
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_PERCENTAGE_CALCULATOR_INSTANCE_ERROR,
+							new Object[]{percentageCalculatorClass},
+							e);
 				}
 			}
 		}

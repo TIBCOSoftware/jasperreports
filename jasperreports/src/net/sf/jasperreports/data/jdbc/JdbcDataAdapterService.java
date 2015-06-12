@@ -47,6 +47,7 @@ import org.apache.commons.logging.LogFactory;
 public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterService 
 {
 	private static final Log log = LogFactory.getLog(JdbcDataAdapterService.class);
+	public static final String EXCEPTION_MESSAGE_KEY_PASSWORD_REQUIRED = "data.jdbc.password.required";
 	
 	private Connection connection = null; 
 
@@ -184,8 +185,10 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 	 
 
 	public String getPassword() throws JRException {
-		throw new JRException(
-				"This service implementation needs the password to be saved in the data adapter.");
+		throw 
+			new JRException(
+				EXCEPTION_MESSAGE_KEY_PASSWORD_REQUIRED,
+				(Object[])null);
 	}
 
 	@Override

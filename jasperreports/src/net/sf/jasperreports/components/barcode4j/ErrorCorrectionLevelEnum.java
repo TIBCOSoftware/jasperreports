@@ -27,7 +27,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedEnum;
 
-import com.itextpdf.text.pdf.qrcode.ErrorCorrectionLevel;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 
 /**
@@ -59,6 +59,7 @@ public enum ErrorCorrectionLevelEnum implements NamedEnum
 	 *
 	 */
 	private final transient String name;
+	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_NAME = "components.barcode4j.error.correction.level.unknown.name";
 
 	private ErrorCorrectionLevelEnum(String name) 
 	{
@@ -99,7 +100,10 @@ public enum ErrorCorrectionLevelEnum implements NamedEnum
 		else
 		{
 			// should not happen
-			throw new JRRuntimeException("Unknown error correction level name " + name);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNKNOWN_NAME,
+					new Object[]{name});
 		}
 		return level;
 	}

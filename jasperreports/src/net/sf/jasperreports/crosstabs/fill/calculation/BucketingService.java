@@ -317,9 +317,7 @@ public abstract class BucketingService
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_BUCKET_DATA_PROCESSED,  
-					null, 
-					serviceContext.getJasperReportsContext(),
-					serviceContext.getExpressionEvaluator().getFillDataset().getLocale()
+					(Object[])null 
 					);
 		}
 		
@@ -950,9 +948,7 @@ public abstract class BucketingService
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_BUCKET_MEASURE_LIMIT,  
-					new Object[]{bucketMeasureLimit}, 
-					serviceContext.getJasperReportsContext(),
-					serviceContext.getExpressionEvaluator().getFillDataset().getLocale()
+					new Object[]{bucketMeasureLimit} 
 					);
 		}
 	}

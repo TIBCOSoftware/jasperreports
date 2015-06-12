@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -43,6 +44,7 @@ import net.sf.jasperreports.engine.export.data.TextValueHandler;
  */
 public class XlsxCellHelper extends BaseHelper
 {
+
 	/**
 	 *
 	 */
@@ -80,10 +82,11 @@ public class XlsxCellHelper extends BaseHelper
 	public void exportHeader(
 		JRExporterGridCell gridCell,
 		int rowIndex,
-		int colIndex 
+		int colIndex, 
+		int maxColIndex 
 		) 
 	{
-		exportHeader(gridCell, rowIndex, colIndex, null, null, null, true, false, false, false);
+		exportHeader(gridCell, rowIndex, colIndex, maxColIndex, null, null, null, true, false, false, false, false);
 	}
 
 	/**
@@ -93,13 +96,15 @@ public class XlsxCellHelper extends BaseHelper
 		JRExporterGridCell gridCell,
 		int rowIndex,
 		int colIndex, 
+		int maxColIndex, 
 		TextValue textValue,
 		String pattern,
 		Locale locale,
 		boolean isWrapText,
 		boolean isHidden,
 		boolean isLocked,
-		boolean isShrinkToFit
+		boolean isShrinkToFit,
+		boolean isIgnoreTextFormatting
 		) 
 	{
 		try
@@ -118,7 +123,20 @@ public class XlsxCellHelper extends BaseHelper
 			throw new JRRuntimeException(e);
 		}
 
-		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, pattern, locale, isWrapText, isHidden, isLocked, isShrinkToFit) + "\"");
+		write("  <c r=\"" 
+				+ JRXlsAbstractExporter.getColumIndexName(colIndex, maxColIndex) 
+				+ (rowIndex + 1) 
+				+ "\" s=\"" 
+				+ styleHelper.getCellStyle(
+						gridCell, 
+						pattern, 
+						locale, 
+						isWrapText, 
+						isHidden, 
+						isLocked, 
+						isShrinkToFit, 
+						isIgnoreTextFormatting) 
+				+ "\"");
 		String type = textValueHandler.getType();
 		if (type != null)
 		{
@@ -134,24 +152,6 @@ public class XlsxCellHelper extends BaseHelper
 	{
 		write("</c>");
 	}
-
-	
-	/**
-	 *
-	 */
-	public static String getColumIndexLetter(int colIndex)
-	{
-		int intFirstLetter = ((colIndex) / 676) + 64;
-		int intSecondLetter = ((colIndex % 676) / 26) + 64;
-		int intThirdLetter = (colIndex % 26) + 65;
-		
-		char firstLetter = (intFirstLetter > 64) ? (char)intFirstLetter : ' ';
-		char secondLetter = (intSecondLetter > 64) ? (char)intSecondLetter : ' ';
-		char thirdLetter = (char)intThirdLetter;
-		
-		return ("" + firstLetter + secondLetter + thirdLetter).trim();
-	}
-
 
 }
 

@@ -52,7 +52,9 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public final class JRSaver
 {
-
+	public static final String EXCEPTION_MESSAGE_KEY_EXPRESSIONS_CLASS_FILE_SAVE_ERROR = "util.saver.expressions.class.file.save.error";
+	public static final String EXCEPTION_MESSAGE_KEY_FILE_SAVE_ERROR = "util.saver.file.save.error";
+	public static final String EXCEPTION_MESSAGE_KEY_OUTPUT_STREAM_SAVE_ERROR = "util.saver.output.stream.save.error";
 
 	/**
 	 *
@@ -89,7 +91,11 @@ public final class JRSaver
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error saving file : " + file, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_FILE_SAVE_ERROR,
+					new Object[]{file},
+					e);
 		}
 		finally
 		{
@@ -136,7 +142,11 @@ public final class JRSaver
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error saving object to OutputStream", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_OUTPUT_STREAM_SAVE_ERROR,
+					null,
+					e);
 		}
 	}
 		
@@ -161,7 +171,11 @@ public final class JRSaver
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error saving expressions class file : " + file, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_EXPRESSIONS_CLASS_FILE_SAVE_ERROR,
+					new Object[]{file},
+					e);
 		}
 		finally
 		{

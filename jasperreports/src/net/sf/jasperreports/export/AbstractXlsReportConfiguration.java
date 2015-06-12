@@ -73,6 +73,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	private Boolean isAutoFitPageHeight;
 	private Boolean isForcePageBreaks;
 	private Boolean isShrinkToFit;
+	private Boolean isIgnoreTextFormatting;
 
 	
 	/**
@@ -772,6 +773,24 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	public void setShrinkToFit(Boolean isShrinkToFit) 
 	{
 		this.isShrinkToFit = isShrinkToFit;
+	}
+
+
+	/**
+	 * 
+	 */
+	public Boolean isIgnoreTextFormatting() 
+	{
+		return isIgnoreTextFormatting;
+	}
+
+
+	/**
+	 * 
+	 */
+	public void setIgnoreTextFormatting(Boolean isIgnoreTextFormatting) 
+	{
+		this.isIgnoreTextFormatting = isIgnoreTextFormatting;
 	}
 	
 }

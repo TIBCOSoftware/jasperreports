@@ -46,6 +46,7 @@ import org.apache.commons.digester.Rule;
  */
 public class JRComponentRule extends Rule
 {
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_INSTANCE = "xml.component.rule.invalid.instance";
 	
 	public static JRComponentRule newInstance()
 	{
@@ -57,8 +58,10 @@ public class JRComponentRule extends Rule
 		Object top = getDigester().peek();
 		if (!(top instanceof Component))
 		{
-			throw new JRException("Object of type " + top.getClass().getName() + " is not a "
-					+ Component.class.getName() + " instance");
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INVALID_INSTANCE,
+					new Object[]{top.getClass().getName(), Component.class.getName()});
 		}
 
 		Component component = (Component) top;

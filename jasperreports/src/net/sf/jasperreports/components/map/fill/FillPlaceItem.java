@@ -37,7 +37,6 @@ import net.sf.jasperreports.components.map.Item;
 import net.sf.jasperreports.components.map.ItemProperty;
 import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.type.ColorEnum;
@@ -55,7 +54,7 @@ public class FillPlaceItem extends FillItem
 {
 	public static final String PROPERTY_COLOR = "color";
 	public static final String EXCEPTION_MESSAGE_KEY_MISSING_COORDINATES = "components.map.missing.coordinates";
-	private final JRFillObjectFactory factory;
+
 	/**
 	 *
 	 */
@@ -65,7 +64,6 @@ public class FillPlaceItem extends FillItem
 		)
 	{
 		super(item, factory);
-		this.factory = factory;
 	}
 
 	@Override
@@ -129,9 +127,7 @@ public class FillPlaceItem extends FillItem
 					throw 
 						new JRException(
 							MapFillComponent.EXCEPTION_MESSAGE_KEY_INVALID_ADDRESS_COORDINATES,  
-							new Object[]{coords[0], coords[1]}, 
-							factory.getFiller().getJasperReportsContext(),
-							factory.getFiller().getMainDataset().getLocale()
+							new Object[]{coords[0], coords[1]} 
 							);
 				}
 			}
@@ -140,9 +136,7 @@ public class FillPlaceItem extends FillItem
 				throw 
 					new JRException(
 						EXCEPTION_MESSAGE_KEY_MISSING_COORDINATES,  
-						new Object[]{fLatitude == null ? MapComponent.PROPERTY_latitude : MapComponent.PROPERTY_longitude}, 
-						factory.getFiller().getJasperReportsContext(),
-						factory.getFiller().getMainDataset().getLocale()
+						new Object[]{fLatitude == null ? MapComponent.PROPERTY_latitude : MapComponent.PROPERTY_longitude}
 						);
 			}
 		}
@@ -167,9 +161,7 @@ public class FillPlaceItem extends FillItem
 					throw 
 						new JRException(
 							MapFillComponent.EXCEPTION_MESSAGE_KEY_ADDRESS_REQUEST_FAILED,  
-							new Object[]{status}, 
-							factory.getFiller().getJasperReportsContext(),
-							factory.getExpressionEvaluator().getFillDataset().getLocale()
+							new Object[]{status}
 							);
 				}
 			} catch (Exception e) {

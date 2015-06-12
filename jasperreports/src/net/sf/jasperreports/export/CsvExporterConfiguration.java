@@ -50,11 +50,19 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 
 	/**
 	 * Property whose value is used as default for the {@link #getRecordDelimiter()} export configuration setting.
-	 * The default is  a character return (\n).
+	 * The default is a character return (\n).
 	 * 
 	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_RECORD_DELIMITER = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.record.delimiter";
+
+	/**
+	 * Property whose value is used as default for the {@link #isWriteBOM()} export configuration setting.
+	 * The default is <code>false</code>.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_WRITE_BOM = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.write.bom";
 
 	/**
 	 * Returns the string representing the character or sequence of characters to be used to delimit two fields on the same record.
@@ -79,4 +87,11 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 		)
 	@ExporterProperty(PROPERTY_RECORD_DELIMITER)
 	public String getRecordDelimiter();
+
+	/**
+	 * Specifies whether the exporter should put a BOM character at the beginning of the output.
+	 * @see #PROPERTY_WRITE_BOM
+	 */
+	@ExporterProperty(PROPERTY_WRITE_BOM)
+	public Boolean isWriteBOM();
 }

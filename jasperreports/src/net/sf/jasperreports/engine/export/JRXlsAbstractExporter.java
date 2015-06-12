@@ -256,6 +256,14 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	public static final String XLS_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.";
 	public static final String DEFAULT_SHEET_NAME_PREFIX = "Page ";
+	
+	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL = "export.xls.common.cannot.add.cell";
+	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_MERGE_CELLS = "export.xls.common.cannot.merge.cells";
+	public static final String EXCEPTION_MESSAGE_KEY_CELL_FORMAT_TEMPLATE_ERROR = "export.xls.common.cell.format.template.error";
+	public static final String EXCEPTION_MESSAGE_KEY_COLUMN_INDEX_BEYOND_LIMIT = "export.xls.common.column.index.beyond.limit";
+	public static final String EXCEPTION_MESSAGE_KEY_LOADED_FONTS_ERROR = "export.xls.common.loaded.fonts.error";
+	public static final String EXCEPTION_MESSAGE_KEY_NEGATIVE_COLUMN_INDEX = "export.xls.common.negative.column.index";
+	public static final String EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR = "export.xls.common.report.generation.error";
 	public static final String EXCEPTION_MESSAGE_KEY_TEMPLATE_NOT_FOUND = "export.xls.common.template.not.found";
 
 	/**
@@ -610,6 +618,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected String workbookTemplate;
 	
 	protected String invalidCharReplacement;
+	protected int maxColumnIndex;
 	
 	protected SheetInfo sheetInfo;
 	
@@ -930,6 +939,13 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 					emptyCols += isRemoveEmptySpaceBetweenColumns && isEmptyCol ? 1 : 0;
 					
 					int colIndex = xCutIndex - emptyCols;
+					if(colIndex > maxColumnIndex)
+					{
+						throw 
+							new JRException(
+								EXCEPTION_MESSAGE_KEY_COLUMN_INDEX_BEYOND_LIMIT, 
+								new Object[]{colIndex, maxColumnIndex});
+					}
 					
 					JRExporterGridCell gridCell = gridRow.get(xCutIndex);
 
@@ -1612,15 +1628,35 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected boolean isShrinkToFit(JRPrintElement element)
 	{
 		if (
-			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_SHRINK_TO_FIT)
-			)
+				element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_SHRINK_TO_FIT)
+				)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
 			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_SHRINK_TO_FIT, getCurrentItemConfiguration().isShrinkToFit());
 		}
 		return getCurrentItemConfiguration().isShrinkToFit();
+	}
+	
+	/**
+	 * 
+	 */
+	protected boolean isIgnoreTextFormatting(JRPrintElement element)
+	{
+		if (
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_IGNORE_TEXT_FORMATTING)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getBooleanProperty(
+											element, 
+											XlsReportConfiguration.PROPERTY_IGNORE_TEXT_FORMATTING, 
+											getCurrentItemConfiguration().isIgnoreTextFormatting());
+		}
+		return getCurrentItemConfiguration().isIgnoreTextFormatting();
 	}
 
 	/**
@@ -1866,6 +1902,48 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		return nature;
 	}
 
+	/**
+	 *
+	 * @param colIndex The 0-based integer column index
+	 * @return The column name computed from the 0-based column index
+	 */
+	public static String getColumIndexName(int colIndex, int maxColIndex)
+	{
+		
+		if(colIndex < 0)
+		{
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_NEGATIVE_COLUMN_INDEX, 
+					new Object[]{colIndex});
+		} 
+		else if(colIndex > maxColIndex)	
+		{
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_COLUMN_INDEX_BEYOND_LIMIT, 
+					new Object[]{colIndex, maxColIndex});
+		}
+		else if (colIndex < 26)
+		{
+			// first 26 column names are single letters
+			return String.valueOf((char)(colIndex + 65));
+		} 
+		else if (colIndex < 702) 	// 702 = 26 + 26^2
+		{
+			// next 626 (= 26^2) column names are 2-letter names
+			return String.valueOf((char)(colIndex/26 + 64)) 
+				+ String.valueOf((char)(colIndex%26 + 65));
+		} 
+		else 
+		{
+			// next 17576 (= 26^3) column names are 3-letter names;
+			// anyway, the 0-based column index may not exceed maxColIndex value
+			return String.valueOf((char)((colIndex-26)/676 + 64)) 
+				+ String.valueOf((char)(((colIndex-26)%676)/26 + 65)) 
+				+ String.valueOf((char)(colIndex%26 + 65));
+		}
+	}
 
 	//abstract methods
 

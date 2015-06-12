@@ -38,6 +38,9 @@ import org.apache.commons.collections.map.ReferenceMap;
 public class JRSingletonCache<T>
 {
 	private static final Object CONTEXT_KEY_NULL = new Object();
+	public static final String EXCEPTION_MESSAGE_KEY_CLASS_NOT_COMPATIBLE = "util.singleton.cache.class.not.compatible";
+	public static final String EXCEPTION_MESSAGE_KEY_CLASS_NOT_FOUND = "util.singleton.cache.class.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_INSTANCE_ERROR = "util.singleton.cache.instance.error";
 	
 	private final ReferenceMap cache;
 	private final Class<T> itf;
@@ -84,22 +87,37 @@ public class JRSingletonCache<T>
 			Class<? extends T> clazz = (Class<? extends T>) JRClassLoader.loadClassForName(className);
 			if (itf != null && !itf.isAssignableFrom(clazz))
 			{
-				throw new JRException("Class \"" + className + "\" should be compatible with \"" + itf.getName() + "\"");
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_CLASS_NOT_COMPATIBLE,
+						new Object[]{className, itf.getName()});
 			}
 
 			return clazz.newInstance();
 		}
 		catch (ClassNotFoundException e)
 		{
-			throw new JRException("Class " + className + " not found.", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_CLASS_NOT_FOUND,
+					new Object[]{className},
+					e);
 		}
 		catch (InstantiationException e)
 		{
-			throw new JRException("Error instantiating class " + className + ".", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INSTANCE_ERROR,
+					new Object[]{className},
+					e);
 		}
 		catch (IllegalAccessException e)
 		{
-			throw new JRException("Error instantiating class " + className + ".", e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_INSTANCE_ERROR,
+					new Object[]{className},
+					e);
 		}
 	}
 

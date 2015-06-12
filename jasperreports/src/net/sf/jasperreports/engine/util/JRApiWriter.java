@@ -152,6 +152,7 @@ import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.TabStop;
+import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
@@ -190,6 +191,8 @@ import org.jfree.data.time.Day;
 public class JRApiWriter
 {
 	private static final Log log = LogFactory.getLog(JRApiWriter.class);
+	public static final String EXCEPTION_MESSAGE_KEY_OUTPUT_STREAM_WRITE_ERROR = "util.api.writer.output.stream.write.error";
+	public static final String EXCEPTION_MESSAGE_KEY_FILE_WRITE_ERROR = "util.api.writer.file.write.error";
 
 	/**
 	 *
@@ -269,7 +272,11 @@ public class JRApiWriter
 		}
 		catch (IOException e)
 		{
-			throw new JRException("Error writing to file : " + destFileName, e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_FILE_WRITE_ERROR,
+					new Object[]{destFileName},
+					e);
 		}
 		finally
 		{
@@ -306,7 +313,11 @@ public class JRApiWriter
 		}
 		catch (Exception e)
 		{
-			throw new JRException("Error writing to OutputStream : " + report.getName(), e);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_OUTPUT_STREAM_WRITE_ERROR,
+					new Object[]{report.getName()},
+					e);
 		}
 	}
 
@@ -3004,7 +3015,10 @@ public class JRApiWriter
 				writeGanttChart( chart, chartName);
 				break;
 			default:
-				throw new JRRuntimeException("Chart type not supported.");
+				throw 
+					new JRRuntimeException(
+						JRDesignChart.EXCEPTION_MESSAGE_KEY_UNSUPPORTED_CHART_TYPE,
+						(Object[])null);
 		}
 	}
 

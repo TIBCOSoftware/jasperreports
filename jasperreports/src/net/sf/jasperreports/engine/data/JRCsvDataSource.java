@@ -68,6 +68,10 @@ import org.apache.commons.logging.LogFactory;
 public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDataSource
 {
 	protected static final Log log = LogFactory.getLog(JRCsvDataSource.class);
+	public static final String EXCEPTION_MESSAGE_KEY_CSV_FIELD_VALUE_NOT_RETRIEVED = "data.csv.field.value.not.retrieved";
+	public static final String EXCEPTION_MESSAGE_KEY_MALFORMED_QUOTED_FIELD = "data.csv.malformed.quoted.field";
+	public static final String EXCEPTION_MESSAGE_KEY_MISPLACED_QUOTE = "data.csv.misplaced.quote";
+	public static final String EXCEPTION_MESSAGE_KEY_NO_MORE_CHARS = "data.csv.no.more.chars";
 	
 	private DateFormat dateFormat;
 	private NumberFormat numberFormat;
@@ -251,7 +255,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		}
 		if (columnIndex == null)
 		{
-			throw new JRException("Unknown column name : " + fieldName);
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_UNKNOWN_COLUMN_NAME,
+					new Object[]{fieldName});
 		}
 
 		if (fields.size() > columnIndex.intValue()) 
@@ -299,10 +306,17 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 				}
 				else
 				{
-					throw new JRException("Field '" + jrField.getName() + "' is of class '" + valueClass.getName() + "' and can not be converted");
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_CANNOT_CONVERT_FIELD_TYPE,
+							new Object[]{jrField.getName(), valueClass.getName()});
 				}
 			} catch (Exception e) {
-				throw new JRException("Unable to get value for field '" + jrField.getName() + "' of class '" + valueClass.getName() + "'", e);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_CSV_FIELD_VALUE_NOT_RETRIEVED,
+						new Object[]{jrField.getName(), valueClass.getName()}, 
+						e);
 			}
 		}
 
@@ -378,9 +392,17 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 							{
 								//testing if white spaces follow after the closing quote; 
 								int trailingSpaces = 1;
-								while(pos + trailingSpaces < row.length() && row.charAt(pos + trailingSpaces)<= ' ')
+								while (pos + trailingSpaces < row.length())
 								{
-									++trailingSpaces;
+									char nextChar = row.charAt(pos + trailingSpaces);
+									if (nextChar <= ' ' && nextChar != fieldDelimiter)
+									{
+										++trailingSpaces;
+									}
+									else
+									{
+										break;
+									}
 								}
 								
 								//TODO: handling misplaced quotes along with parametrized isStrictCsv; 
@@ -389,7 +411,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 									misplacedQuote = true;
 									if(isStrictCsv)
 									{
-										throw new JRException("Misplaced quote found at position " + pos + " in row: " + row);
+										throw 
+											new JRException(
+												EXCEPTION_MESSAGE_KEY_MISPLACED_QUOTE,
+												new Object[]{pos, row});
 									}
 								}
 								insideQuotes = false;
@@ -404,7 +429,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 					{
 						if(isStrictCsv)
 						{
-							throw new JRException("Misplaced quote found at position " + pos + " in row: " + row);
+							throw 
+								new JRException(
+									EXCEPTION_MESSAGE_KEY_MISPLACED_QUOTE,
+									new Object[]{pos, row});
 						}
 					}
 				}
@@ -424,7 +452,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 					}
 					else if(isStrictCsv)
 					{
-						throw new JRException("Malformed quoted field: " + field);
+						throw 
+							new JRException(
+								EXCEPTION_MESSAGE_KEY_MALFORMED_QUOTED_FIELD,
+								new Object[]{field});
 					}
 					field = field.substring(1);
 					field = replaceAll(field, "\"\"", "\"");
@@ -488,7 +519,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			//logged at logger debug level
 			if(isStrictCsv)
 			{
-				throw new JRException("Misplaced quote found in field: " + field);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_MISPLACED_QUOTE,
+						new Object[]{field});
 			}
 
 			if (log.isDebugEnabled())
@@ -506,7 +540,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			}
 			else if(isStrictCsv)
 			{
-				throw new JRException("Malformed quoted field: " + field);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_MALFORMED_QUOTED_FIELD,
+						new Object[]{field});
 			}
 			field = field.substring(1);
 			field = replaceAll(field, "\"\"", "\"");
@@ -590,7 +627,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			position = 0;
 			if (bufSize == -1)
 			{
-				throw new JRException("No more chars");
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_NO_MORE_CHARS,
+						(Object[])null);
 			}
 		}
 
@@ -614,7 +654,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	{
 		if (processingStarted)
 		{
-			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_MODIFY_PROPERTIES_AFTER_START,
+					(Object[])null);
 		}
 		this.dateFormat = dateFormat;
 	}
@@ -638,7 +681,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	{
 		if (processingStarted)
 		{
-			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_MODIFY_PROPERTIES_AFTER_START,
+					(Object[])null);
 		}
 		this.fieldDelimiter = fieldDelimiter;
 	}
@@ -661,7 +707,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	{
 		if (processingStarted)
 		{
-			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_MODIFY_PROPERTIES_AFTER_START,
+					(Object[])null);
 		}
 		this.recordDelimiter = recordDelimiter;
 	}
@@ -674,7 +723,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	{
 		if (processingStarted)
 		{
-			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_MODIFY_PROPERTIES_AFTER_START,
+					(Object[])null);
 		}
 		this.columnNames = new LinkedHashMap<String, Integer>();
 		for (int i = 0; i < columnNames.length; i++)
@@ -692,7 +744,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	{
 		if (processingStarted)
 		{
-			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_MODIFY_PROPERTIES_AFTER_START,
+					(Object[])null);
 		}
 		this.useFirstRowAsHeader = useFirstRowAsHeader;
 	}
@@ -748,7 +803,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	public void setNumberFormat(NumberFormat numberFormat) {
 		if (processingStarted)
 		{
-			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CANNOT_MODIFY_PROPERTIES_AFTER_START,
+					(Object[])null);
 		}
 		this.numberFormat = numberFormat;
 	}

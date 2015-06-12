@@ -35,8 +35,6 @@ package net.sf.jasperreports.engine;
  */
 public interface JRDataSource
 {
-
-
 	/**
 	 * Tries to position the cursor on the next element in the data source.
 	 * @return true if there is a next record, false otherwise

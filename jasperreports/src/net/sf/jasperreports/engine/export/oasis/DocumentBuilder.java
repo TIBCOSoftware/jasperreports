@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
@@ -98,7 +99,10 @@ public abstract class DocumentBuilder
 	{
 		if (!imageName.startsWith(IMAGE_NAME_PREFIX))
 		{
-			throw new JRRuntimeException("Invalid image name: " + imageName);
+			throw 
+				new JRRuntimeException(
+					JRAbstractExporter.EXCEPTION_MESSAGE_KEY_INVALID_IMAGE_NAME,
+					new Object[]{imageName});
 		}
 
 		return JRPrintElementIndex.parsePrintElementIndex(imageName.substring(IMAGE_NAME_PREFIX_LEGTH));

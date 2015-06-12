@@ -53,6 +53,14 @@ import net.sf.jasperreports.engine.util.JRQueryParser;
  */
 public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 {
+	public static final String EXCEPTION_MESSAGE_KEY_NUMERIC_TYPE_REQUIRED = "query.numeric.type.required";
+	public static final String EXCEPTION_MESSAGE_KEY_PARAMETER_NOT_FOUND = "query.parameter.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_CLAUSE_CIRCULARLY_NESTED_PARAMETER = "query.clause.circularly.nested.parameter";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_CLAUSE_ID_FIRST_TOKEN_MISSING = "query.clause.id.first.token.missing";
+	public static final String EXCEPTION_MESSAGE_KEY_QUERY_CLAUSE_NOT_FOUND = "query.clause.not.found";
+	public static final String EXCEPTION_MESSAGE_KEY_UNSUPPORTED_PARAMETER_TYPE = "query.unsupported.parameter.type";
+
+	public static final String GET_COLLECTED = "getCollectedParameterNames()";
 	
 	/**
 	 * @deprecated use {@link JRClauseTokens#CLAUSE_ID_POSITION} or {@link JRClauseTokens#getClauseId()} instead.
@@ -284,7 +292,10 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 			function = findExtensionQueryFunction(id);
 			if (function == null)
 			{
-				throw new JRRuntimeException("No clause function for id " + id + " found");
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_QUERY_CLAUSE_NOT_FOUND,
+						new Object[]{id});
 			}
 		}
 		return function;
@@ -464,7 +475,10 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		
 		if (!parameterClauseStack.add(parameterName))
 		{
-			throw new JRRuntimeException("The query contains circularly nested parameter clauses starting with " + parameterName);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_CLAUSE_CIRCULARLY_NESTED_PARAMETER,
+					new Object[]{parameterName});
 		}
 		
 		try
@@ -524,7 +538,10 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		String id = tokens.getClauseId();
 		if (id == null)
 		{
-			throw new JRRuntimeException("Query clause ID/first token missing");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_QUERY_CLAUSE_ID_FIRST_TOKEN_MISSING,
+					(Object[])null);
 		}
 		
 		JRClauseFunction function = resolveFunction(id);
@@ -607,8 +624,10 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 			QueryParameterEntry paramEntry = it.next();
 			if (!(paramEntry instanceof QueryParameter))
 			{
-				throw new JRRuntimeException("getCollectedParameterNames found unsupported query parameter type "
-						+ paramEntry.getClass().getName());
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNSUPPORTED_PARAMETER_TYPE,
+						new Object[]{"getCollectedParameterNames()", paramEntry.getClass().getName()});
 			}
 			
 			QueryParameter param = (QueryParameter) paramEntry;
@@ -630,8 +649,10 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		{
 			if (!(parameterEntry instanceof QueryParameter))
 			{
-				throw new JRRuntimeException("getCollectedParameterNames found unsupported query parameter type "
-						+ parameterEntry.getClass().getName());
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNSUPPORTED_PARAMETER_TYPE,
+						new Object[]{"getCollectedParameters()", parameterEntry.getClass().getName()});
 			}
 			params.add((QueryParameter) parameterEntry);
 		}
@@ -809,7 +830,10 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		
 		if (parameter == null)
 		{
-			throw new JRRuntimeException("Parameter \"" + parameterName + "\" does not exist.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_PARAMETER_NOT_FOUND,
+					new Object[]{parameterName});
 		}
 		
 		return parameter;
@@ -820,7 +844,10 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	{
 		if (!parametersMap.containsKey(parameterName))
 		{
-			throw new JRRuntimeException("Parameter \"" + parameterName + "\" does not exist.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_PARAMETER_NOT_FOUND,
+					new Object[]{parameterName});
 		}
 	}
 	
@@ -839,7 +866,10 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		
 		if (parameter == null && !ignoreMissing)
 		{
-			throw new JRRuntimeException("Parameter \"" + parameterName + "\" does not exist.");
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_PARAMETER_NOT_FOUND,
+					new Object[]{parameterName});
 		}
 		
 		return parameter;

@@ -85,6 +85,9 @@ public class JavaScriptClassCompiler extends JavaScriptCompilerBase
 	
 	private static final Log log = LogFactory.getLog(JavaScriptClassCompiler.class);
 	
+	public static final String EXCEPTION_MESSAGE_KEY_UNEXPECTED_CLASS_NAME = "compilers.javascript.unexpected.class.name";
+	public static final String EXCEPTION_MESSAGE_KEY_UNEXPECTED_CLASSES_LENGTH = "compilers.javascript.unexpected.classes.length";
+
 	/**
 	 * Creates a JavaScript compiler.
 	 */
@@ -197,12 +200,17 @@ public class JavaScriptClassCompiler extends JavaScriptCompilerBase
 			Object[] compilationResult = compiler.compileToClassFiles(scriptSource, unit.getName(), 0, scriptClassName);
 			if (compilationResult.length != 2)
 			{
-				throw new JRRuntimeException("Unexpected compiled classes length " + compilationResult.length);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNEXPECTED_CLASSES_LENGTH,
+						new Object[]{compilationResult.length});
 			}
 			if (!scriptClassName.equals(compilationResult[0]))
 			{
-				throw new JRRuntimeException("Unexpected compiled class name " + compilationResult[0]
-						+ ", expecting " + scriptClassName);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_UNEXPECTED_CLASS_NAME,
+						new Object[]{compilationResult[0], scriptClassName});
 			}
 			
 			byte[] compiledClass = (byte[]) compilationResult[1];
