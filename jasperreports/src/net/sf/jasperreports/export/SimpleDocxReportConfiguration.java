@@ -32,6 +32,7 @@ public class SimpleDocxReportConfiguration extends SimpleReportExportConfigurati
 	private Boolean isFramesAsNestedTables;
 	private Boolean isFlexibleRowHeight;
 	private Boolean isIgnoreHyperlink;
+	private Boolean isNewLineJustified;
 
 	
 	/**
@@ -87,5 +88,21 @@ public class SimpleDocxReportConfiguration extends SimpleReportExportConfigurati
 	public void setIgnoreHyperlink(Boolean isIgnoreHyperlink)
 	{
 		this.isIgnoreHyperlink = isIgnoreHyperlink;
+	}
+	
+	/**
+	 * 
+	 */
+	public Boolean isNewLineJustified()
+	{
+		return isNewLineJustified;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setNewLineJustified(Boolean isNewLineJustified)
+	{
+		this.isNewLineJustified = isNewLineJustified;
 	}
 }

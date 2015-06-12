@@ -197,6 +197,7 @@
       <property ref="net.sf.jasperreports.export.docx.flexible.row.height"/>
       <property ref="net.sf.jasperreports.export.docx.frames.as.nested.tables"/>
       <property ref="net.sf.jasperreports.export.docx.hidden.text"/>
+      <property ref="net.sf.jasperreports.export.docx.new.line.justified"/>
       
       <property ref="net.sf.jasperreports.export.flash.element.allow.script.access"/>
       
@@ -2667,6 +2668,24 @@ This property is used to mark text elements as being hidden either for printing 
     <default>false</default>
     <scope>Element</scope>
     <since>3.7.6</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.docx.new.line.justified -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.new.line.justified">
+    <description>
+This property specifies whether the newline element present in a justified paragraph preserves the justified alignment for the previous line.
+If set to <code>false</code>, the previous line will lose the justified alignment.
+<br/>
+It serves as default value for the 
+<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#isNewLineJustified()">isNewLineJustified()</api> DOCX export configuration setting.
+The property itself defaults to <code>true</code> (for backward compatibility reasons).
+    </description>
+    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_NEW_LINE_JUSTIFIED</api>
+    <default>true</default>
+    <scope>Global | Report | Element</scope>
+    <since>6.1.1</since>
   </configProperty>
   
   

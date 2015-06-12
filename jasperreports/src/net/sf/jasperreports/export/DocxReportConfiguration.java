@@ -57,6 +57,15 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.flexible.row.height";
+	
+	/**
+	 * This property serves as default value for the {@link #isNewLineJustified} export configuration setting.
+	 * <p>
+	 * The property itself defaults to <code>true</code> (for backward compatibility reasons).
+	 * </p>
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_NEW_LINE_JUSTIFIED = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.new.line.justified";
 
 	/**
 	 * Property that provides a default value for the {@link #isIgnoreHyperlink()} export configuration flag.
@@ -66,7 +75,7 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 	/**
 	 * Indicates whether {@link JRPrintFrame frames} are to be exported as nested tables.
 	 * <p>
-	 * Is set to <code>false</code>, the frame contents will be integrated into the master/page table.
+	 * If set to <code>false</code>, the frame contents will be integrated into the master/page table.
 	 * </p>
 	 * @see #PROPERTY_FRAMES_AS_NESTED_TABLES
 	 */
@@ -84,20 +93,33 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 	/**
 	 * Indicates whether table rows can grow if more text is added into cells.
 	 * <p>
-	 * Is set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
+	 * If set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
 	 * </p>
 	 * @see #PROPERTY_FLEXIBLE_ROW_HEIGHT
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter.class, 
-		name="FLEXIBLE_ROW_HEIGHT"
-		)
+			type=net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter.class, 
+			name="FLEXIBLE_ROW_HEIGHT"
+			)
 	@ExporterProperty(
-		value=PROPERTY_FLEXIBLE_ROW_HEIGHT, 
-		booleanDefault=false
-		)
+			value=PROPERTY_FLEXIBLE_ROW_HEIGHT, 
+			booleanDefault=false
+			)
 	public Boolean isFlexibleRowHeight();
+	
+	/**
+	 * Indicates whether the newline element present in a justified paragraph preserves the justified alignment for the previous line.
+	 * <p>
+	 * If set to <code>false</code>, the previous line will lose the justified alignment.
+	 * </p>
+	 * @see #PROPERTY_NEW_LINE_JUSTIFIED
+	 */
+	@ExporterProperty(
+		value=PROPERTY_NEW_LINE_JUSTIFIED, 
+		booleanDefault=true
+		)
+	public Boolean isNewLineJustified();
 	
 	/**
 	 * @see #PROPERTY_IGNORE_HYPERLINK
