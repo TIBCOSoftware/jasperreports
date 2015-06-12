@@ -22,7 +22,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/batik-css.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/batik-svggen.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/batik-awt-util.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/groovy-all-2.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/groovy-all-2.4.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jcommon-1.0.23.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jfreechart-1.0.19.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/barbecue-1.5-beta1.jar"/>
