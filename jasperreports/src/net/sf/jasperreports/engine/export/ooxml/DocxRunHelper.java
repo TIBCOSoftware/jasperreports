@@ -76,7 +76,7 @@ public class DocxRunHelper extends BaseHelper
 			boolean hiddenText, 
 			String invalidCharReplacement, 
 			Color backcolor, 
-			boolean  isNewLineJustified)
+			boolean isNewLineAsParagraph)
 	{
 		if (text != null)
 		{
@@ -96,13 +96,13 @@ public class DocxRunHelper extends BaseHelper
 				String token = tkzer.nextToken();
 				if ("\n".equals(token))
 				{
-					if(isNewLineJustified)
+					if(isNewLineAsParagraph)
 					{
-						write("<w:br/>");
+						write("<w:t xml:space=\"preserve\"><w:p/></w:t>\n");
 					}
 					else
 					{
-						write("<w:t xml:space=\"preserve\"><w:p/></w:t>\n");
+						write("<w:br/>");
 					}
 				}
 				else

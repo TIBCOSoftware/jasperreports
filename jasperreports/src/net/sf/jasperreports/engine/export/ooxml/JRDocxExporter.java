@@ -804,16 +804,16 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		}
 
 		boolean startedHyperlink = startHyperlink(text, true);
-		boolean isNewLineJustified = true;
+		boolean isNewLineAsParagraph = false;
 		if(HorizontalTextAlignEnum.JUSTIFIED.equals(text.getHorizontalTextAlign()))
 		{
-			if(text.hasProperties() && text.getPropertiesMap().containsProperty(DocxReportConfiguration.PROPERTY_NEW_LINE_JUSTIFIED))
+			if(text.hasProperties() && text.getPropertiesMap().containsProperty(DocxReportConfiguration.PROPERTY_NEW_LINE_AS_PARAGRAPH))
 			{
-				isNewLineJustified = getPropertiesUtil().getBooleanProperty(text, DocxReportConfiguration.PROPERTY_NEW_LINE_JUSTIFIED, true);
+				isNewLineAsParagraph = getPropertiesUtil().getBooleanProperty(text, DocxReportConfiguration.PROPERTY_NEW_LINE_AS_PARAGRAPH, false);
 			}
 			else
 			{
-				isNewLineJustified = getCurrentItemConfiguration().isNewLineJustified();
+				isNewLineAsParagraph = getCurrentItemConfiguration().isNewLineAsParagraph();
 			}
 		}
 
@@ -825,7 +825,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				getTextLocale(text),
 				getPropertiesUtil().getBooleanProperty(text, PROPERTY_HIDDEN_TEXT, false),
 				startedHyperlink, 
-				isNewLineJustified
+				isNewLineAsParagraph
 				);
 		}
 

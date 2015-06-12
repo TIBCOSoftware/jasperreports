@@ -59,13 +59,13 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.flexible.row.height";
 	
 	/**
-	 * This property serves as default value for the {@link #isNewLineJustified} export configuration setting.
+	 * This property serves as default value for the {@link #isNewLineAsParagraph} export configuration setting.
 	 * <p>
-	 * The property itself defaults to <code>true</code> (for backward compatibility reasons).
+	 * The property itself defaults to <code>false</code>.
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_NEW_LINE_JUSTIFIED = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.new.line.justified";
+	public static final String PROPERTY_NEW_LINE_AS_PARAGRAPH = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.new.line.as.paragraph";
 
 	/**
 	 * Property that provides a default value for the {@link #isIgnoreHyperlink()} export configuration flag.
@@ -109,17 +109,17 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 	public Boolean isFlexibleRowHeight();
 	
 	/**
-	 * Indicates whether the newline element present in a justified paragraph preserves the justified alignment for the previous line.
+	 * Indicates whether the newline element present in a justified paragraph introduces a new justified paragraph. 
 	 * <p>
-	 * If set to <code>false</code>, the previous line will lose the justified alignment.
+	 * If set to <code>true</code>, the text line before the new paragraph will lose the justified alignment.
 	 * </p>
-	 * @see #PROPERTY_NEW_LINE_JUSTIFIED
+	 * @see #PROPERTY_NEW_LINE_AS_PARAGRAPH
 	 */
 	@ExporterProperty(
-		value=PROPERTY_NEW_LINE_JUSTIFIED, 
-		booleanDefault=true
+		value=PROPERTY_NEW_LINE_AS_PARAGRAPH, 
+		booleanDefault=false
 		)
-	public Boolean isNewLineJustified();
+	public Boolean isNewLineAsParagraph();
 	
 	/**
 	 * @see #PROPERTY_IGNORE_HYPERLINK
