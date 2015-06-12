@@ -197,6 +197,7 @@
       <property ref="net.sf.jasperreports.export.docx.flexible.row.height"/>
       <property ref="net.sf.jasperreports.export.docx.frames.as.nested.tables"/>
       <property ref="net.sf.jasperreports.export.docx.hidden.text"/>
+      <property ref="net.sf.jasperreports.export.docx.new.line.as.paragraph"/>
       
       <property ref="net.sf.jasperreports.export.flash.element.allow.script.access"/>
       
@@ -2667,6 +2668,24 @@ This property is used to mark text elements as being hidden either for printing 
     <default>false</default>
     <scope>Element</scope>
     <since>3.7.6</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.docx.new.line.as.paragraph -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.new.line.as.paragraph">
+    <description>
+This property specifies whether the newline element present in a justified paragraph introduces a new justified paragraph.
+If set to <code>true</code>, the text line before the new paragraph will lose the justified alignment.
+<br/>
+It serves as default value for the 
+<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#isNewLineAsParagraph()">isNewLineAsParagraph()</api> DOCX export configuration setting.
+The property itself defaults to <code>false</code> (for backward compatibility reasons).
+    </description>
+    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_NEW_LINE_AS_PARAGRAPH</api>
+    <default>false</default>
+    <scope>Global | Report | Element</scope>
+    <since>6.1.1</since>
   </configProperty>
   
   

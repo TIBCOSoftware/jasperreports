@@ -79,6 +79,7 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
@@ -803,6 +804,18 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		}
 
 		boolean startedHyperlink = startHyperlink(text, true);
+		boolean isNewLineAsParagraph = false;
+		if(HorizontalTextAlignEnum.JUSTIFIED.equals(text.getHorizontalTextAlign()))
+		{
+			if(text.hasProperties() && text.getPropertiesMap().containsProperty(DocxReportConfiguration.PROPERTY_NEW_LINE_AS_PARAGRAPH))
+			{
+				isNewLineAsParagraph = getPropertiesUtil().getBooleanProperty(text, DocxReportConfiguration.PROPERTY_NEW_LINE_AS_PARAGRAPH, false);
+			}
+			else
+			{
+				isNewLineAsParagraph = getCurrentItemConfiguration().isNewLineAsParagraph();
+			}
+		}
 
 		if (textLength > 0)
 		{
@@ -811,7 +824,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				styledText, 
 				getTextLocale(text),
 				getPropertiesUtil().getBooleanProperty(text, PROPERTY_HIDDEN_TEXT, false),
-				startedHyperlink
+				startedHyperlink, 
+				isNewLineAsParagraph
 				);
 		}
 
@@ -829,7 +843,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean hiddenText, boolean startedHyperlink)
+	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean hiddenText, boolean startedHyperlink, boolean isNewLineJustified)
 	{
 		Color elementBackcolor = null;
 		Map<AttributedCharacterIterator.Attribute, Object> globalAttributes = styledText.getGlobalAttributes();
@@ -866,7 +880,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				locale,
 				hiddenText,
 				invalidCharReplacement,
-				elementBackcolor
+				elementBackcolor,
+				isNewLineJustified
 				);
 			
 			if (localHyperlink)

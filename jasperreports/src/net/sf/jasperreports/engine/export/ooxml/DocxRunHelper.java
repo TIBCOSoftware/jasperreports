@@ -68,7 +68,15 @@ public class DocxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, boolean hiddenText, String invalidCharReplacement, Color backcolor)
+	public void export(
+			JRStyle style, 
+			Map<Attribute,Object> attributes, 
+			String text, 
+			Locale locale, 
+			boolean hiddenText, 
+			String invalidCharReplacement, 
+			Color backcolor, 
+			boolean isNewLineAsParagraph)
 	{
 		if (text != null)
 		{
@@ -88,7 +96,14 @@ public class DocxRunHelper extends BaseHelper
 				String token = tkzer.nextToken();
 				if ("\n".equals(token))
 				{
-					write("<w:br/>");
+					if(isNewLineAsParagraph)
+					{
+						write("<w:t xml:space=\"preserve\"><w:p/></w:t>\n");
+					}
+					else
+					{
+						write("<w:br/>");
+					}
 				}
 				else
 				{
