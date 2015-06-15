@@ -27,7 +27,9 @@ import java.awt.Dimension;
 import java.awt.geom.Dimension2D;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.URLEncoder;
 import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1700,7 +1702,15 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 					{
 						if (link.getHyperlinkReference() != null)
 						{
-							href = link.getHyperlinkReference();
+							try 
+							{
+								href = link.getHyperlinkReference().replaceAll("\\s", URLEncoder.encode(" ","UTF-8"));
+							} 
+							catch (UnsupportedEncodingException e) 
+							{
+								href = link.getHyperlinkReference();
+							}
+							
 						}
 						break;
 					}
