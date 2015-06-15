@@ -68,14 +68,6 @@ public class PptxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale)
-	{
-		export(style, attributes, text, locale, null);
-	}
-	
-	/**
-	 *
-	 */
 	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, String invalidCharReplacement)
 	{
 		if (text != null)
@@ -100,24 +92,6 @@ public class PptxRunHelper extends BaseHelper
 				}
 			}
 		}
-	}
-
-	/**
-	 *
-	 */
-	public void exportProps(JRStyle style, Locale locale)
-	{
-		JRPrintText text = new JRBasePrintText(null);
-		text.setStyle(style);
-		Map<Attribute,Object> styledTextAttributes = new HashMap<Attribute,Object>(); //FIXMEPPTX is this map useless; check all run helpers
-		FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(styledTextAttributes, text);
-		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
-		if (style.getModeValue() == null || style.getModeValue() == ModeEnum.OPAQUE)
-		{
-			styledTextAttributes.put(TextAttribute.BACKGROUND, style.getBackcolor());
-		}
-
-		exportProps("a:rPr", getAttributes(style.getStyle()), getAttributes(style), locale);
 	}
 
 	/**

@@ -86,24 +86,6 @@ public class XlsxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportProps(JRStyle style, Locale locale)
-	{
-		JRPrintText text = new JRBasePrintText(null);
-		text.setStyle(style);
-		Map<Attribute,Object> styledTextAttributes = new HashMap<Attribute,Object>(); 
-		FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(styledTextAttributes, text);
-		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
-		if (style.getModeValue() == null || style.getModeValue() == ModeEnum.OPAQUE)
-		{
-			styledTextAttributes.put(TextAttribute.BACKGROUND, style.getBackcolor());
-		}
-
-		exportProps(getAttributes(style.getStyle()), getAttributes(style), locale);
-	}
-
-	/**
-	 *
-	 */
 	public void exportProps(Map<Attribute,Object> parentAttrs,  Map<Attribute,Object> attrs, Locale locale)
 	{
 		write("       <rPr>\n");
