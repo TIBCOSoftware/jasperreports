@@ -694,11 +694,14 @@ public final class JRLoader
 		{
 			try
 			{
-				for (Enumeration<URL> urls = classLoader.getResources(resourceName);
-						urls.hasMoreElements();)
+				Enumeration<URL> urls = classLoader.getResources(resourceName);
+				if (urls != null)
 				{
-					URL url = urls.nextElement();
-					resources.add(url);
+					while (urls.hasMoreElements()) // class loaders should never return null on getResources, according to specs, but we've seen cases, so we protect our code here
+					{
+						URL url = urls.nextElement();
+						resources.add(url);
+					}
 				}
 			}
 			catch (IOException e)
@@ -771,25 +774,28 @@ public final class JRLoader
 
 			for (ClassLoader ancestor : classloaders)
 			{
-				for (Enumeration<URL> urls = ancestor.getResources(resourceName); 
-						urls.hasMoreElements();)
+				Enumeration<URL> urls = ancestor.getResources(resourceName);
+				if (urls != null) // class loaders should never return null on getResources, according to specs, but we've seen cases, so we protect our code here
 				{
-					URL url = urls.nextElement();
-					// if this is the first time we see this resource, add it
-					// with the current classloader.
-					// this way a resource will be added with the most first
-					// ancestor classloader that has it.
-					if (!resources.containsKey(url))
+					while (urls.hasMoreElements())
 					{
-						if (log.isDebugEnabled())
+						URL url = urls.nextElement();
+						// if this is the first time we see this resource, add it
+						// with the current classloader.
+						// this way a resource will be added with the most first
+						// ancestor classloader that has it.
+						if (!resources.containsKey(url))
 						{
-							log.debug("Found resource " + resourceName 
-									+ " at "+ url + " in classloader " + ancestor);
+							if (log.isDebugEnabled())
+							{
+								log.debug("Found resource " + resourceName 
+										+ " at "+ url + " in classloader " + ancestor);
+							}
+							
+							ClassLoaderResource resource = new ClassLoaderResource(
+									url, ancestor);
+							resources.put(url, resource);
 						}
-						
-						ClassLoaderResource resource = new ClassLoaderResource(
-								url, ancestor);
-						resources.put(url, resource);
 					}
 				}
 			}
