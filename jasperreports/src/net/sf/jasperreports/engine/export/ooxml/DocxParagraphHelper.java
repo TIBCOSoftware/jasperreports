@@ -102,7 +102,7 @@ public class DocxParagraphHelper extends BaseHelper
 	 */
 	public void exportProps(JRPrintText text)
 	{
-		exportPropsHeader(text.getStyle() == null ? null : text.getStyle().getName(), text.getParagraph());//FIXMEDOCX why getStyleNameReference is not working?
+		exportPropsHeader(text.getStyle() == null ? null : text.getStyle().getName(), text.getParagraph()); //javadoc says getStyleNameReference is not supposed to work for print elements
 
 		exportAlignment(
 			getHorizontalTextAlign(

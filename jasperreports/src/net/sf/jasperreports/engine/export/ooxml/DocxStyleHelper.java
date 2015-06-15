@@ -131,7 +131,7 @@ public class DocxStyleHelper extends BaseHelper
 		write(">\n");
 		write("  <w:name w:val=\"" + style.getName() + "\" />\n");
 		write("  <w:qFormat />\n");
-		String styleNameReference = style.getStyle() == null ? null : style.getStyle().getName();//FIXMEDOCX why getStyleNameReference is not working?
+		String styleNameReference = style.getStyle() == null ? null : style.getStyle().getName(); //javadoc says getStyleNameReference is not supposed to work for print elements
 		if (styleNameReference != null)
 		{
 			write("  <w:basedOn w:val=\"" + styleNameReference + "\" />\n");
