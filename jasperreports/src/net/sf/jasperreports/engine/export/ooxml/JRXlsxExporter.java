@@ -28,7 +28,9 @@ import java.awt.Dimension;
 import java.awt.geom.Dimension2D;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.URLEncoder;
 import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.Date;
@@ -622,10 +624,18 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				{
 					case REFERENCE :
 					{
-						if (link.getHyperlinkReference() != null)
+						if(link.getHyperlinkReference() != null) 
 						{
-							href = link.getHyperlinkReference();
+							try
+							{
+								href = link.getHyperlinkReference().replaceAll("\\s", URLEncoder.encode(" ","UTF-8"));
+							}
+							catch (UnsupportedEncodingException e) 
+							{
+								href = link.getHyperlinkReference();
+							}
 						}
+						
 						break;
 					}
 					case LOCAL_ANCHOR :
@@ -651,7 +661,15 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 							link.getHyperlinkAnchor() != null
 							)
 						{
-							href = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
+							try 
+							{
+								href = link.getHyperlinkReference().replaceAll("\\s", URLEncoder.encode(" ","UTF-8"));
+							} 
+							catch (UnsupportedEncodingException e) 
+							{
+								href = link.getHyperlinkReference();
+							}
+							href = href + "#" + link.getHyperlinkAnchor();
 						}
 						break;
 					}
