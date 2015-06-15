@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.util.JRDataUtils;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
 
@@ -68,9 +69,9 @@ public class DocxStyleHelper extends BaseHelper
 		write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\">\n");
 		write(" <w:docDefaults>\n");
 		write("  <w:rPrDefault>\n");
-		write("   <w:rPr>\n");
-		write("    <w:rFonts w:ascii=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/>\n");
-		write("   </w:rPr>\n");
+		//write("   <w:rPr>\n");
+		//write("    <w:rFonts w:ascii=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/>\n");
+		//write("   </w:rPr>\n");
 		write("  </w:rPrDefault>\n");
 		write("  <w:pPrDefault>\n");
 		write("  <w:pPr>\n");
@@ -131,7 +132,8 @@ public class DocxStyleHelper extends BaseHelper
 		write(">\n");
 		write("  <w:name w:val=\"" + style.getName() + "\" />\n");
 		write("  <w:qFormat />\n");
-		String styleNameReference = style.getStyle() == null ? null : style.getStyle().getName(); //javadoc says getStyleNameReference is not supposed to work for print elements
+		JRStyle baseStyle = JRStyleResolver.getBaseStyle(style);
+		String styleNameReference = baseStyle == null ? null : baseStyle.getName(); //javadoc says getStyleNameReference is not supposed to work for print elements
 		if (styleNameReference != null)
 		{
 			write("  <w:basedOn w:val=\"" + styleNameReference + "\" />\n");

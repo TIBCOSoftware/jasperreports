@@ -86,6 +86,7 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.export.DocxExporterConfiguration;
@@ -820,7 +821,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		if (textLength > 0)
 		{
 			exportStyledText(
-				text.getStyle(), 
+				JRStyleResolver.getBaseStyle(text), 
 				styledText, 
 				getTextLocale(text),
 				getPropertiesUtil().getBooleanProperty(text, PROPERTY_HIDDEN_TEXT, false),
