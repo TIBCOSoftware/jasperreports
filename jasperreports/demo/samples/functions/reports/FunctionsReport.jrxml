@@ -27,7 +27,7 @@
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<style name="BaseStyle" isDefault="true" fontSize="9"/>
-	<style name="Title" style="BaseStyle" isBold="true">
+	<style name="Title" style="BaseStyle" isBold="true" fontSize="11">
 		<box>
 			<topPen lineWidth="1.0"/>
 		</box>
@@ -76,7 +76,7 @@
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				<staticText>
 					<reportElement style="Title" x="0" y="40" width="832" height="30" uuid="f7aff5b2-0b82-4719-b47c-7f255ce7e678"/>
-					<text><![CDATA[Functions Examples]]></text>
+					<text><![CDATA[Built-in Functions Examples]]></text>
 				</staticText>
 				<frame>
 					<reportElement style="TableFrame" x="0" y="80" width="832" height="150" uuid="f8788127-7ed9-4bf2-9208-ee251f045b02">
@@ -498,7 +498,7 @@
 		<band height="42">
 			<staticText>
 				<reportElement style="Title" x="0" y="0" width="832" height="30" uuid="0baa5bef-ec42-46d4-818e-5395372bf50a"/>
-				<text><![CDATA[Functions Sample]]></text>
+				<text><![CDATA[Functions Sample - Built-in Functions in JasperReports Library]]></text>
 			</staticText>
 		</band>
 	</title>

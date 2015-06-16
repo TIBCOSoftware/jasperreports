@@ -93,7 +93,7 @@ in the above <api href="net/sf/jasperreports/functions/annotations/FunctionParam
 </ul>
 </li>
 </ul>
-<subtitle name="builtinFunctions">Built-in JasperReports Functions</subtitle>
+<subtitle name="builtinFunctions">Built-in Functions in JasperReports Library</subtitle>
 <br/>
 <br/>
 Built-in JasperReports functions are documented <a href="./FunctionsReport.html" target="_blank">here</a>.
