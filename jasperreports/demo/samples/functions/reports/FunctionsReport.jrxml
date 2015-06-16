@@ -14,7 +14,7 @@
 	rightMargin="5" 
 	topMargin="20" 
 	bottomMargin="15" 
-	isSummaryWithPageHeaderAndFooter="true" 
+	isIgnorePagination="true"
 	uuid="eae24cf2-cede-49ad-a3bf-a10ccd914c7d">
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
@@ -25,6 +25,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="net.sf.jasperreports.export.html.exclude.origin.band.1" value="pageFooter"/>
 	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<style name="BaseStyle" isDefault="true" fontSize="9"/>
 	<style name="Title" style="BaseStyle" isBold="true" fontSize="11">
