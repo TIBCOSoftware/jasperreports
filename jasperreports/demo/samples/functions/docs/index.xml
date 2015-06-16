@@ -96,7 +96,7 @@ in the above <api href="net/sf/jasperreports/functions/annotations/FunctionParam
 <subtitle name="builtinFunctions">Built-in JasperReports Functions</subtitle>
 <br/>
 <br/>
-Built-in JasperReports functions are documented <a href="./FunctionsReport.pdf" target="_blank">here</a>.
+Built-in JasperReports functions are documented <a href="./FunctionsReport.html" target="_blank">here</a>.
 <br/>
 <br/>
 Next, let's see a step-by-step example of adding custom functions to JasperReports library. The built-in JR functions were created this way and are all available 

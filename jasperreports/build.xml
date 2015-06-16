@@ -271,7 +271,11 @@
 			</fileset>
 		</copy>
 		<ant dir="./demo/samples/functions" target="test"/>
-		<copy todir="./dist/docs/sample.reference/functions" file="./demo/samples/functions/build/reports/FunctionsReport.pdf"/>
+		<copy todir="./dist/docs/sample.reference/functions" file="./demo/samples/functions/build/reports/FunctionsReport.html"/>
+		<mkdir dir="./dist/docs/sample.reference/functions/FunctionsReport.html_files"/> 
+		<copy todir="./dist/docs/sample.reference/functions/FunctionsReport.html_files">
+			<fileset dir="./demo/samples/functions/build/reports/FunctionsReport.html_files"/>
+		</copy>
 	</target>
 	
 	<target name="docs" depends="preparedocs, javadoc, schemaref, componentschemaref, configref, sampleref" description="Generates all documentation."/>
