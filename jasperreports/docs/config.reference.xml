@@ -129,6 +129,15 @@
   </category>
   
   <category>
+  	<name>Barcode Component</name>
+  	<content>
+  		<property ref="net.sf.jasperreports.components.barcode4j.image.producer" />
+  		<property ref="net.sf.jasperreports.components.barcode4j.image.producer.{alias}" />
+  		<property ref="net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}" />
+  	</content>
+  </category>
+  
+  <category>
   	<name>Map Component</name>
   	<content>
   		<property ref="net.sf.jasperreports.components.map.key" />
@@ -1729,6 +1738,96 @@ Property that provides the default value for the crosstab <code>ignoreWidth</cod
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.5.3</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.barcode4j.image.producer -->
+  
+  <configProperty name="net.sf.jasperreports.components.barcode4j.image.producer">
+    <description>
+Property that determines which image producer to be used for a barcode component element. The property can 
+have a value of the name of the class that implements the image producer interface or an 
+alias that has been set for such a class, using a property of the form 
+<a href="#net.sf.jasperreports.components.barcode4j.image.producer.{alias}">net.sf.jasperreports.components.barcode4j.image.producer.{alias}</a>. 
+<br/>
+JasperReports provides two barcode image producer implementations: one which renders the 
+barcode in SVG format and one which renders the barcode as a rasterized image. The 
+first implementation is registered under the <code>svg</code> alias and is used by default; 
+the second one has <code>image</code> as alias and can be used by changing the 
+<a href="#net.sf.jasperreports.components.barcode4j.image.producer.{alias}">net.sf.jasperreports.components.barcode4j.image.producer.{alias}</a> 
+property at any level. 
+<br/>
+The SVG barcode image producer uses the Barcode4J API to export the barcode to SVG, 
+then it creates a SVG renderer based on the Batik SVG library. Hence, this option 
+introduces a dependency on Batik for viewing or exporting a report that includes 
+barcodes.
+<br/> 
+The rasterized image producer draws the barcode on a PNG image which can be then 
+displayed in the generated report. This producer uses further properties, set at the same 
+levels as the image producer property, to allow the customization of the generated image.
+   	</description>
+    <api>net/sf/jasperreports/components/barcode4j/BarcodeImageProducer.html#PROPERTY_IMAGE_PRODUCER</api>
+    <default>svg</default>
+    <scope>Global | Report | Element</scope>
+    <since>3.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.barcode4j.image.producer.{alias} -->
+  
+  <configProperty name="net.sf.jasperreports.components.barcode4j.image.producer.{alias}">
+    <description>
+Property that determines which image producer implementation to be used for an alias associated 
+with the barcode component element using the <a href="#net.sf.jasperreports.components.barcode4j.image.producer">net.sf.jasperreports.components.barcode4j.image.producer</a> 
+property. 
+<br/>
+The value of this property represents the name of the class that implements the image 
+producer interface for the specified alias. 
+<br/>
+Rendering the barcode in SVG format is registered under the <code>svg</code> alias and is used by default; 
+the built-in property value for this alias is <code>net.sf.jasperreports.components.barcode4j.BarcodeSVGImageProducer</code>.
+Rendering the barcode as rasterized is registered under the <code>image</code> alias and 
+the built-in property value for this alias is <code>net.sf.jasperreports.components.barcode4j.BarcodeRasterizedImageProducer</code>.
+<br/>
+If the <code>svg</code> alias is set, the built-in SVG renderer is based on the Batik SVG library. 
+Hence, this option introduces a dependency on Batik for viewing or exporting a report that includes 
+barcodes.
+<br/> 
+The rasterized image producer draws the barcode on a PNG image which can be then 
+displayed in the generated report. This producer uses further properties, set at the same 
+levels as the image producer property, to allow the customization of the generated image.
+<br/>
+<br/>
+<b>Note: </b>This property does not apply to QRCode barcodes which are generated based on a different library (ZXing). For 
+QRCode barcodes, see <a href="#net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}">net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}</a>.
+   	</description>
+    <api>net/sf/jasperreports/components/barcode4j/BarcodeImageProducer.html#PROPERTY_PREFIX_IMAGE_PRODUCER</api>
+    <default>N/A</default>
+    <scope>Global | Report | Element</scope>
+    <since>3.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias} -->
+  
+  <configProperty name="net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}">
+    <description>
+Property that determines which image producer implementation to be used for an alias associated 
+with the QRCode component element using the <a href="#net.sf.jasperreports.components.barcode4j.image.producer">net.sf.jasperreports.components.barcode4j.image.producer</a> 
+property. 
+<br/>
+The value of this property represents the name of the class that implements the image 
+producer interface for the specified alias. 
+<br/>
+Rendering the QRCode component in SVG format is registered under the <code>svg</code> alias and is used by default; 
+the built-in property value for this alias is <code>net.sf.jasperreports.components.barcode4j.QRCodeSVGImageProducer</code>.
+Rendering the QRCode component as rasterized is registered under the <code>image</code> alias and 
+the built-in property value for this alias is <code>net.sf.jasperreports.components.barcode4j.QRCodeRasterizedImageProducer</code>.
+   	</description>
+    <api>net/sf/jasperreports/components/barcode4j/QRCodeImageProducer.html#PROPERTY_PREFIX_QRCODE_PRODUCER</api>
+    <default>N/A</default>
+    <scope>Global | Report | Element</scope>
+    <since>6.0.2</since>
   </configProperty>
   
   
