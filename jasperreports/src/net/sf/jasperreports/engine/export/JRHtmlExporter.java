@@ -1010,9 +1010,9 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 			localHyperlink = true;
 		}
 		
-		writer.write("<span style=\"font-family: '");
+		writer.write("<span style=\"font-family: ");
 		writer.write(fontFamily);
-		writer.write("'; ");
+		writer.write("; ");
 
 		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
 		if (!hyperlinkStarted || !Color.black.equals(forecolor))
