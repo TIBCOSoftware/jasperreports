@@ -133,7 +133,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	 */
 	protected JRBaseFiller subreportFiller;
 	protected FillerSubreportParent subFillerParent;
-	private JRPrintPage printPage;
+	protected JRPrintPage printPage;
 
 	private JRSubreportRunner runner;
 	

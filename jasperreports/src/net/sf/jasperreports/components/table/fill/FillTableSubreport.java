@@ -164,7 +164,17 @@ public class FillTableSubreport extends JRFillSubreport
 		throws JRException
 	{
 		boolean willOverflow = prepare(availableHeight, isOverflow);
-		return FillPrepareResult.printStretch(getStretchHeight(), willOverflow);
+		FillPrepareResult result;
+		if (printPage == null)
+		{
+			// don't produce any result
+			result = FillPrepareResult.NO_PRINT_NO_OVERFLOW;
+		}
+		else
+		{
+			result = FillPrepareResult.printStretch(getStretchHeight(), willOverflow);
+		}
+		return result;
 	}
 	
 	@Override
