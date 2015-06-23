@@ -35,6 +35,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarPlot;
@@ -103,6 +106,8 @@ import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
  */
 public class JRExpressionCollector
 {
+	
+	private static final Log log = LogFactory.getLog(JRExpressionCollector.class);
 
 	public static final String EXCEPTION_MESSAGE_KEY_EXPRESSION_NOT_FOUND = "engine.expression.collector.expression.not.found";
 	public static final String EXCEPTION_MESSAGE_KEY_TWO_GENERATED_IDS = "engine.expression.collector.two.generated.ids";
@@ -177,12 +182,28 @@ public class JRExpressionCollector
 		private final TreeMap<Integer, JRExpression> ids = new TreeMap<Integer, JRExpression>();
 		private int nextId;
 		private List<JRExpression> expressions;
-
+		
+		public JRExpression get(Integer id)
+		{
+			return ids.get(id);
+		}
+		
 		public JRExpression put(Integer id, JRExpression expression)
 		{
 			expressions = null;
 
 			return ids.put(id, expression);
+		}
+		
+		public void move(Integer id, Integer newId)
+		{
+			expressions = null;
+
+			JRExpression expression = ids.remove(id);
+			if (expression != null)
+			{
+				ids.put(newId, expression);
+			}
 		}
 
 		public Integer nextId()
@@ -275,15 +296,28 @@ public class JRExpressionCollector
 				id = generatedIds.nextId();
 				setGeneratedId(expression, id);
 				generatedIds.put(id, expression);
+				
+				if (log.isTraceEnabled())
+				{
+					log.trace(hashCode() + " generated id " + id 
+							+ " for expression " + expression.hashCode() + " " + expression.getText());
+				}
 			}
 			else
 			{
-				JRExpression existingExpression = generatedIds.put(id, expression);
-				if (existingExpression != null && !existingExpression.equals(expression))
+				if (log.isTraceEnabled())
 				{
-					Integer newId = generatedIds.nextId();
-					updateGeneratedId(existingExpression, id, newId);
-					generatedIds.put(newId, existingExpression);
+					log.trace(hashCode() + " found id " + id 
+							+ " for expression " + expression.hashCode() + " " + expression.getText());
+				}
+				
+				if (canUseId(expression, id))
+				{
+					generatedIds.put(id, expression);
+				}
+				else
+				{
+					reassignId(expression, id);
 				}
 			}
 			
@@ -313,6 +347,91 @@ public class JRExpressionCollector
 					EXCEPTION_MESSAGE_KEY_TWO_GENERATED_IDS,
 					new Object[]{expression.getText(), currentId});
 		}
+	}
+	
+	protected boolean canUseId(JRExpression expression, Integer id)
+	{
+		JRExpression existingExpression = generatedIds.get(id);
+		return existingExpression == null || existingExpression.equals(expression);
+	}
+
+	protected void reassignId(JRExpression expression, Integer id)
+	{
+		List<JRExpressionCollector> collectors = collectorsForExpression(id, expression);
+		Integer newId = generatedIds.nextId();
+		while (!canUseId(collectors, expression, newId))
+		{
+			++newId;
+		}
+		
+		if (log.isTraceEnabled())
+		{
+			log.trace(hashCode() + " updated id to " + newId
+					+ " for expression " + expression.hashCode() + " " + expression.getText());
+		}
+		
+		generatedIds.put(newId, expression);
+		for (JRExpressionCollector collector : collectors)
+		{
+			collector.generatedIds.move(id, newId);
+		}
+		updateGeneratedId(expression, id, newId);
+	}
+
+	protected boolean canUseId(List<JRExpressionCollector> collectors, JRExpression expression, Integer id)
+	{
+		boolean canUse = canUseId(expression, id);
+		if (canUse)
+		{
+			for (JRExpressionCollector collector : collectors)
+			{
+				if (!collector.canUseId(expression, id))
+				{
+					canUse = false;
+				}
+			}
+		}
+		return canUse;
+	}
+
+	protected JRExpressionCollector rootCollector()
+	{
+		return parent == null ? this : parent;
+	}
+
+	protected boolean hasExpression(Integer id, JRExpression expression)
+	{
+		JRExpression existingExpression = generatedIds.get(id);
+		return existingExpression != null && existingExpression.equals(expression);
+	}
+	
+	protected List<JRExpressionCollector> collectorsForExpression(Integer id, JRExpression expression)
+	{
+		JRExpressionCollector root = rootCollector();
+		List<JRExpressionCollector> collectors = new ArrayList<JRExpressionCollector>();
+		
+		if (root.hasExpression(id, expression))
+		{
+			collectors.add(root);
+		}
+		
+		for (JRExpressionCollector collector : root.datasetCollectors.values())
+		{
+			if (collector.hasExpression(id, expression))
+			{
+				collectors.add(collector);
+			}
+		}
+		
+		for (JRExpressionCollector collector : root.crosstabCollectors.values())
+		{
+			if (collector.hasExpression(id, expression))
+			{
+				collectors.add(collector);
+			}
+		}
+		
+		return collectors;
 	}
 
 	protected void pushContextObject(Object context)
@@ -380,6 +499,11 @@ public class JRExpressionCollector
 			{
 				collector = new JRExpressionCollector(jasperReportsContext, this, report);
 				datasetCollectors.put(datasetName, collector);
+				
+				if (log.isTraceEnabled())
+				{
+					log.trace(this.hashCode() + " created collector " + collector.hashCode() + " for dataset " + datasetName);
+				}
 			}
 		}
 		else
