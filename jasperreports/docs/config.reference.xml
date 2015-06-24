@@ -997,7 +997,7 @@ when the report is configured to check for overlaps.
     </description>
     <api>net/sf/jasperreports/engine/design/JRVerifier.html#PROPERTY_ALLOW_ELEMENT_OVERLAP</api>
     <default>true</default>
-    <scope>Global | Report</scope>
+    <scope>Global | Report | Element</scope>
     <since>3.5.0</since>
   </configProperty>
   
