@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
+import net.sf.jasperreports.engine.type.RotationEnum;
 
 
 /**
@@ -86,7 +87,7 @@ public class XlsxCellHelper extends BaseHelper
 		int maxColIndex 
 		) 
 	{
-		exportHeader(gridCell, rowIndex, colIndex, maxColIndex, null, null, null, true, false, false, false, false);
+		exportHeader(gridCell, rowIndex, colIndex, maxColIndex, null, null, null, true, false, false, false, false, RotationEnum.NONE);
 	}
 
 	/**
@@ -104,7 +105,8 @@ public class XlsxCellHelper extends BaseHelper
 		boolean isHidden,
 		boolean isLocked,
 		boolean isShrinkToFit,
-		boolean isIgnoreTextFormatting
+		boolean isIgnoreTextFormatting, 
+		RotationEnum rotation
 		) 
 	{
 		try
@@ -135,7 +137,8 @@ public class XlsxCellHelper extends BaseHelper
 						isHidden, 
 						isLocked, 
 						isShrinkToFit, 
-						isIgnoreTextFormatting) 
+						isIgnoreTextFormatting,
+						rotation) 
 				+ "\"");
 		String type = textValueHandler.getType();
 		if (type != null)
