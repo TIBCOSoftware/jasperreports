@@ -1699,7 +1699,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		int colIndex = 0;
 		while(cumulativeColWidth < offset)
 		{
-			int colWidth = sheet.getColumnWidth(col + colIndex) / 43;
+			int colWidth = layout.getColumnWidth(col + colIndex);
 			if (cumulativeColWidth + colWidth < offset)
 			{
 				colIndex++;
