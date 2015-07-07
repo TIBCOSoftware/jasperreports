@@ -274,7 +274,7 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                             var attr = v.fn ? 'fn="'+v.fn+'"' : '',
                                 label = v.label || k;
                             attr += v.arg ? " data-args='"+v.arg+"'" : "";
-                            htm += '<li class="pmenuitem" key="'+k+'" '+attr+'>'+label+'</li>';
+                            htm += '<li class="pmenuitem" key="'+k+'" '+attr+'>'+ jive.encodeHTML(label) +'</li>';
                             v.actions && it.createMenu(k, v.label, v.actions);
                         }
                     });
@@ -586,7 +586,7 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                                         var htm = '<ul class="pmenu">',
                                             args;
                                         $.each(this._options, function(k, option) {
-                                            htm += "<li class='pmenuitem' data-args='{\"val\":\"" + option.value + "\"}' fn='" + option.fn + "'>" + option.label + "</li>";
+                                            htm += "<li class='pmenuitem' data-args='{\"val\":\"" + option.value + "\"}' fn='" + option.fn + "'>" + jive.encodeHTML(option.label) + "</li>";
                                         });
                                         htm += '</ul>';
 
