@@ -55,9 +55,9 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	/**
 	 *
 	 */
-	private JRElement topElementInGroup;
-	private JRElement bottomElementInGroup;
-	private int stretchHeightDiff;
+	protected JRElement topElementInGroup;
+	protected JRElement bottomElementInGroup;
+	private Integer stretchHeightDiff;
 
 
 	/**
@@ -183,7 +183,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	 */
 	protected void reset()
 	{
-		topElementInGroup = null;
+		stretchHeightDiff = null;
 	}
 
 
@@ -192,7 +192,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	 */
 	protected int getStretchHeightDiff()
 	{
-		if (topElementInGroup == null)
+		if (stretchHeightDiff == null)
 		{
 			stretchHeightDiff = 0;
 			
@@ -256,30 +256,33 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	 */
 	private void setTopBottomElements()
 	{
-		JRElement[] allElements = getElements();
-	
-		if (allElements != null && allElements.length > 0)
+		if (topElementInGroup == null) // some element groups such as JRFillElementContainer already set this during their initElements
 		{
-			for(int i = 0; i < allElements.length; i++)
+			JRElement[] allElements = getElements();
+			
+			if (allElements != null && allElements.length > 0)
 			{
-				if (
-					topElementInGroup == null ||
-					(
-					allElements[i].getY() + allElements[i].getHeight() <
-					topElementInGroup.getY() + topElementInGroup.getHeight())
-					)
+				for (JRElement element : allElements)
 				{
-					topElementInGroup = allElements[i];
-				}
+					if (
+						topElementInGroup == null ||
+						(
+						element.getY() + element.getHeight() <
+						topElementInGroup.getY() + topElementInGroup.getHeight())
+						)
+					{
+						topElementInGroup = element;
+					}
 
-				if (
-					bottomElementInGroup == null ||
-					(
-					allElements[i].getY() + allElements[i].getHeight() >
-					bottomElementInGroup.getY() + bottomElementInGroup.getHeight())
-					)
-				{
-					bottomElementInGroup = allElements[i];
+					if (
+						bottomElementInGroup == null ||
+						(
+						element.getY() + element.getHeight() >
+						bottomElementInGroup.getY() + bottomElementInGroup.getHeight())
+						)
+					{
+						bottomElementInGroup = element;
+					}
 				}
 			}
 		}

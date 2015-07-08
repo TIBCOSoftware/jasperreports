@@ -145,9 +145,12 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 			List<JRFillElement> stretchElemsList = new ArrayList<JRFillElement>();
 			List<JRFillElement> bandBottomElemsList = new ArrayList<JRFillElement>();
 			List<JRFillElement> removableElemsList = new ArrayList<JRFillElement>();
-			for(int i = 0; i < elements.length; i++)
+			
+			topElementInGroup = null;
+			bottomElementInGroup = null;
+
+			for (JRFillElement element : elements)
 			{
-				JRFillElement element = elements[i];
 				sortedElemsList.add(element);
 				
 				if (element.getPositionTypeValue() == PositionTypeEnum.FIX_RELATIVE_TO_BOTTOM)
@@ -168,6 +171,26 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 				if (element.isPrintWhenDetailOverflows())
 				{
 					hasPrintWhenOverflowElement = true;
+				}
+
+				if (
+					topElementInGroup == null ||
+					(
+					element.getY() + element.getHeight() <
+					topElementInGroup.getY() + topElementInGroup.getHeight())
+					)
+				{
+					topElementInGroup = element;
+				}
+
+				if (
+					bottomElementInGroup == null ||
+					(
+					element.getY() + element.getHeight() >
+					bottomElementInGroup.getY() + bottomElementInGroup.getHeight())
+					)
+				{
+					bottomElementInGroup = element;
 				}
 			}
 
