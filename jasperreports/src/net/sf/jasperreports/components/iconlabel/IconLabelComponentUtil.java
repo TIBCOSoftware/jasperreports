@@ -226,7 +226,7 @@ public class IconLabelComponentUtil
 		if (hyperlink != null)
 		{
 			labelTextField.setHyperlinkWhenExpression(hyperlink.getHyperlinkWhenExpression());
-			labelTextField.setHyperlinkType(hyperlink.getHyperlinkTypeValue());
+			labelTextField.setLinkType(hyperlink.getLinkType());
 			labelTextField.setHyperlinkAnchorExpression(hyperlink.getHyperlinkAnchorExpression());
 			labelTextField.setHyperlinkPageExpression(hyperlink.getHyperlinkPageExpression());
 			labelTextField.setHyperlinkReferenceExpression(hyperlink.getHyperlinkReferenceExpression());
