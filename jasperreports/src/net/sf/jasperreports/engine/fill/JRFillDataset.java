@@ -1836,6 +1836,11 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	{
 		return locale;
 	}
+	
+	public TimeZone getTimeZone()
+	{
+		return timeZone;
+	}
 
 	public FillDatasetPosition getDatasetPosition()
 	{

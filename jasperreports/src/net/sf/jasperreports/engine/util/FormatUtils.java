@@ -100,6 +100,10 @@ public class FormatUtils {
 		{
 			return dateFormat.parse(fieldValue);
 		}
+		else if (valueClass.equals(java.sql.Date.class)) 
+		{
+			return new java.sql.Date(dateFormat.parse(fieldValue).getTime());
+		}
 		else if (valueClass.equals(java.sql.Timestamp.class)) 
 		{
 			return new java.sql.Timestamp(dateFormat.parse(fieldValue).getTime());
