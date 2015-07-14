@@ -31,6 +31,9 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRTextField;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -92,6 +95,30 @@ public final class JRDataUtils
 	public static TimeZone getTimeZone(String id)
 	{
 		return TimeZone.getTimeZone(id);
+	}
+	
+	
+	public static TimeZone resolveFormatTimeZone(String timeZoneId, TimeZone reportTimeZone)
+	{
+		if (timeZoneId == null || timeZoneId.isEmpty())
+		{
+			return null;
+		}
+		
+		if (timeZoneId.equals(JRTextField.FORMAT_TIMEZONE_SYSTEM))
+		{
+			// using the default JVM timezone
+			return TimeZone.getDefault();
+		}
+		
+		if (timeZoneId.equals(JRParameter.REPORT_TIME_ZONE))
+		{
+			// using the report timezone
+			return reportTimeZone;
+		}
+		
+		// note that this returns GMT if the ID is unknown, leaving that as is
+		return getTimeZone(timeZoneId);
 	}
 	
 

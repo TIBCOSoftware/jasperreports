@@ -525,27 +525,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 	protected TimeZone toFormatTimeZone(String timezoneId)
 	{
-		if (timezoneId == null || timezoneId.isEmpty())
-		{
-			return null;
-		}
+		JRFillDataset dataset = expressionEvaluator.getFillDataset();
+		// not sure whether the dataset can be null, let's be safe
+		TimeZone reportTimeZone = dataset == null ? filler.getTimeZone() : dataset.timeZone;
 		
-		if (timezoneId.equals(FORMAT_TIMEZONE_SYSTEM))
-		{
-			// using the default JVM timezone
-			return TimeZone.getDefault();
-		}
-		
-		if (timezoneId.equals(JRParameter.REPORT_TIME_ZONE))
-		{
-			// using the dataset/report timezone
-			JRFillDataset dataset = expressionEvaluator.getFillDataset();
-			// not sure whether the dataset can be null, let's be safe
-			return dataset == null ? filler.getTimeZone() : dataset.timeZone;
-		}
-		
-		// note that this returns GMT if the ID is unknown, leaving that as is
-		return TimeZone.getTimeZone(timezoneId);
+		return JRDataUtils.resolveFormatTimeZone(timezoneId, reportTimeZone);
 	}
 
 

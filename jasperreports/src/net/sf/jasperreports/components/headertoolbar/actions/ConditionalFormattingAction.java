@@ -29,6 +29,7 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Locale;
 
+import net.sf.jasperreports.components.headertoolbar.json.ColumnFormatting;
 import net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.table.BaseColumn;
@@ -60,6 +61,8 @@ public class ConditionalFormattingAction extends AbstractVerifiableTableAction {
 	public void performAction() throws ActionException {
 		// execute command
 		try {
+			fillColumnFormatting();
+			
 			getCommandStack().execute(
 				new ResetInCacheCommand(
 					new ConditionalFormattingCommand(getJasperReportsContext(), getTargetTextField(), getConditionalFormattingData()),
@@ -70,6 +73,26 @@ public class ConditionalFormattingAction extends AbstractVerifiableTableAction {
 				);
 		} catch (CommandException e) {
 			throw new ActionException(e.getMessage());
+		}
+	}
+	
+	protected void fillColumnFormatting()
+	{
+		// the client does not send back the column locale and timezone, filling from the report context.
+		// is it ok to alter the columnData object?
+		ConditionalFormattingData conditionalFormattingData = (ConditionalFormattingData) columnData;
+		ColumnFormatting columnFormatting = ColumnFormatting.get(getReportContext(), 
+				conditionalFormattingData.getTableUuid(), conditionalFormattingData.getColumnIndex());
+		if (columnFormatting != null)
+		{
+			if (conditionalFormattingData.getLocaleCode() == null)
+			{
+				conditionalFormattingData.setLocaleCode(columnFormatting.getLocaleCode());
+			}
+			if (conditionalFormattingData.getTimeZoneId() == null)
+			{
+				conditionalFormattingData.setTimeZoneId(columnFormatting.getTimeZoneId());
+			}
 		}
 	}
 

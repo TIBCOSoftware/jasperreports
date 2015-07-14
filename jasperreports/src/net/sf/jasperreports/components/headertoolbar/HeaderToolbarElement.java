@@ -71,4 +71,5 @@ public interface HeaderToolbarElement {
 	public static final String PROPERTY_CAN_FORMAT_CONDITIONALLY = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.can.format.conditionally";
 	public static final String PROPERTY_CONDTION_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "components.condition.type";
 
+	public static final String PROPERTY_FORMAT_TIME_ZONE = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.format.time.zone";
 }

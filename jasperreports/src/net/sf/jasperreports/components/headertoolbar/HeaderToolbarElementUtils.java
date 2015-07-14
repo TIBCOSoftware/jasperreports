@@ -269,7 +269,7 @@ public class HeaderToolbarElementUtils
 		
 		filterData.setFilterPattern(filterPattern);
 		filterData.setLocaleCode(JRDataUtils.getLocaleCode(locale));
-		filterData.setTimeZoneId(JRDataUtils.getTimeZoneId(timeZone));
+		filterData.setTimeZoneId(JRDataUtils.getTimeZoneId(timeZone));//FIXME only set this for date/time?
 	}
 	
 	/**
