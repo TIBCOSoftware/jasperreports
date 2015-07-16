@@ -404,6 +404,12 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	}
 
 
+	protected int getActualContainerHeight()
+	{
+		return getContainerHeight(); 
+	}
+
+
 	protected boolean isVariableUsedInReturns(String variableName)
 	{
 		boolean used = false;

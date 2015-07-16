@@ -2280,12 +2280,6 @@ public class JRVerifier
 							+ element.getWidth() + ", available width=" + avlblWidth + ".", element);
 				}
 
-				if (element.getY() + element.getHeight() > avlblHeight)
-				{
-					addBrokenRule("Element reaches outside frame height: y=" + element.getY() + ", height="
-							+ element.getHeight() + ", available height=" + avlblHeight + ".", element);
-				}
-
 				verifyElement(element);
 			}
 			

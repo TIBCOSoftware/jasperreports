@@ -337,10 +337,9 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		currentOverflow = false;
 		currentOverflowAllowed = isOverflowAllowed;
 
-		int maxBandStretch = 0;
-		int bandStretch = 0;
+		int calculatedStretchHeight = getContainerHeight();
 
-		firstY = isOverflow ? getContainerHeight() : 0;
+		firstY = isOverflow ? getActualContainerHeight() : 0;
 		firstYElement = null;
 		boolean isFirstYFound = false;
 
@@ -376,16 +375,21 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 
 					firstYElement = element;
 
-					bandStretch = element.getRelativeY() + element.getStretchHeight() - element.getY() - element.getHeight();
-					if (bandStretch > maxBandStretch)
+					int spaceToBottom = getContainerHeight() - element.getY() - element.getHeight();
+					if (spaceToBottom < 0)
 					{
-						maxBandStretch = bandStretch;
+						spaceToBottom = 0;
+					}
+					
+					if (calculatedStretchHeight < element.getRelativeY() + element.getStretchHeight() + spaceToBottom)
+					{
+						calculatedStretchHeight = element.getRelativeY() + element.getStretchHeight() + spaceToBottom;
 					}
 				}
 			}
 		}
-
-		if (maxBandStretch > availableHeight - getContainerHeight() + firstY)
+		
+		if (calculatedStretchHeight > availableHeight + firstY)
 		{
 			currentOverflow = true;
 		}
@@ -397,7 +401,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		}
 		else
 		{
-			stretchHeight = getContainerHeight() + maxBandStretch;
+			stretchHeight = calculatedStretchHeight;
 		}
 
 		willOverflow = currentOverflow && isOverflowAllowed;
@@ -488,7 +492,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 					JRFillElement element = bandBottomElements[i];
 
 					element.setRelativeY(
-						element.getY() + stretchHeight - getContainerHeight()
+						element.getY() + stretchHeight - getActualContainerHeight()
 						);
 
 					// band bottom elements do not print if there will be an overflow
@@ -705,6 +709,15 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	}
 
 	
+	/**
+	 * Returns the actual height of the element container.
+	 * Some element containers such as frames have a larger calculated container height, resulting from content being placed beyond container declared height.
+	 * 
+	 * @return the height of the element container
+	 */
+	protected abstract int getActualContainerHeight();
+
+
 	/**
 	 * Returns the height of the element container.
 	 * 
