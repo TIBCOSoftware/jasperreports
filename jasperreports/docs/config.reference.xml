@@ -757,7 +757,6 @@ To obtain query executer factories, a property having the query language appende
     <default>N/A</default>
     <scope>Global</scope>
     <since>1.2.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -842,7 +841,6 @@ Property that forces the XML validation of the report template file before compi
     <default>true</default>
     <scope>Global</scope>
     <since>1.0.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -861,7 +859,6 @@ SUN JDK).
     <default>true</default>
     <scope>Global</scope>
     <since>3.1.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -879,7 +876,6 @@ as report parser factory.
     <default><code>net.sf.jasperreports.engine.xml.JRReportSaxParserFactory</code></default>
     <scope>Global</scope>
     <since>3.1.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -1494,7 +1490,6 @@ Temporary files will be deleted by explicitly calling <code>cleanup()</code> or 
     <default>true</default>
     <scope>Global</scope>
     <since>1.2.3</since>
-    <contextUnaware/>
   </configProperty>
 
 
@@ -2351,7 +2346,6 @@ Property that forces the XML validation, when a document exported to XML format 
     <default>true</default>
     <scope>Global | Report</scope>
     <since>1.0.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -2692,13 +2686,12 @@ Its value is used as default for the
 Flag property that controls the use of an AWT rendering fix which causes the printer job size to be reduced when the exporter draws onto a printer graphic context.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/Graphics2DExporterConfiguration.html#isMinimizePrinterJobSize()">isMinimizePrinterJobSize()</api> Graphics2D export configuration setting.
+<api href="net/sf/jasperreports/export/Graphics2DReportConfiguration.html#isMinimizePrinterJobSize()">isMinimizePrinterJobSize()</api> Graphics2D export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/Graphics2DExporterConfiguration.html#MINIMIZE_PRINTER_JOB_SIZE</api>
+    <api>net/sf/jasperreports/export/Graphics2DReportConfiguration.html#MINIMIZE_PRINTER_JOB_SIZE</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>1.2.8</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -5007,7 +5000,6 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
-    <contextUnaware/>
   </configProperty>
   
   
