@@ -753,7 +753,7 @@ Property that specifies the list of token separators characters for <api href="n
 Properties with this prefix associate a query executer factory implementation with a query language.
 To obtain query executer factories, a property having the query language appended to this prefix is used to get the query executer factory name.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRQueryExecuterFactory.html#QUERY_EXECUTER_FACTORY_PREFIX</api>
+    <api>net/sf/jasperreports/engine/query/QueryExecuterFactory.html#QUERY_EXECUTER_FACTORY_PREFIX</api>
     <default>N/A</default>
     <scope>Global</scope>
     <since>1.2.0</since>
