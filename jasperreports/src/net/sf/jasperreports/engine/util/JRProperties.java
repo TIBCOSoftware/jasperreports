@@ -150,7 +150,7 @@ public final class JRProperties
 	public static final String PDF_FONT_DIRS_PREFIX = PROPERTY_PREFIX + "export.pdf.fontdir.";
 	
 	/**
-	 * @deprecated Replaced by {@link net.sf.jasperreports.engine.query#QUERY_EXECUTER_FACTORY_PREFIX}.
+	 * @deprecated Replaced by {@link net.sf.jasperreports.engine.query.QueryExecuterFactory#QUERY_EXECUTER_FACTORY_PREFIX}.
 	 */
 	public static final String QUERY_EXECUTER_FACTORY_PREFIX = PROPERTY_PREFIX + "query.executer.factory.";
 	
