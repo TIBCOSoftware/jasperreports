@@ -208,7 +208,7 @@
  * mechanism, one needs to register an export filter factory class with JasperReports. To do 
  * so, a property named {@link net.sf.jasperreports.engine.export.DefaultExporterFilterFactory#PROPERTY_EXPORTER_FILTER_FACTORY_PREFIX net.sf.jasperreports.engine.export.filter.factory.&lt;factory_name&gt;} has 
  * to be included in the <code>jasperreports.properties</code> file (or set at runtime via 
- * {@link net.sf.jasperreports.engine.util.JRProperties JRProperties}). The factory name is an arbitrary suffix, and the property value should 
+ * {@link net.sf.jasperreports.engine.JRPropertiesUtil JRPropertiesUtil}). The factory name is an arbitrary suffix, and the property value should 
  * be the name of a class that implements 
  * {@link net.sf.jasperreports.engine.export.ExporterFilterFactory ExporterFilterFactory}. The engine 
  * uses the class name to instantiate an export filter factory, therefore the factory class 
