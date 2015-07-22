@@ -27,6 +27,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 /**
@@ -72,10 +73,9 @@ public class Java15BigDecimalHandler implements BigDecimalHandler
 		this.mathContexts = new ThreadLocal<MathContext[]>();
 	}
 	
-	@SuppressWarnings("deprecation")
 	private static int readConfiguredPrecision()
 	{
-		return JRProperties.getIntegerProperty(PROPERTY_MINIMUM_PRECISION);
+		return JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getIntegerProperty(PROPERTY_MINIMUM_PRECISION);
 	}
 	
 	/**
