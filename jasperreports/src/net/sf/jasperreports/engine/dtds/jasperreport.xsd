@@ -1191,7 +1191,7 @@
    	 <documentation>Specifies the query language.
 	  <p/>
 		Based on the query language, a corresponding
-		<code>net.sf.jasperreports.engine.query.JRQueryExecuterFactory</code> is used to create
+		<code>net.sf.jasperreports.engine.query.QueryExecuterFactory</code> is used to create
 		<code>net.sf.jasperreports.engine.query.JRQueryExecuter</code> instance.
 		The query executer is responsible for executing the query and creating a <code>JRDataSource</code> from the result.
 	  <p/>
