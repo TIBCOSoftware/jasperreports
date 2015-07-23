@@ -2579,6 +2579,8 @@ Properties having this prefix contain comma-separated names of the columns that 
 Column names in this property are used as default list for the 
 <api href="net/sf/jasperreports/export/CsvMetadataExporterConfiguration.html#getColumnNames()">getColumnNames()</api> 
 CSV metadata export output setting.
+<br/><br/>
+<b>Note: </b>For accurate results it's recommended that column names in the list to follow the same order as the original columns.
     </description>
     <api>net/sf/jasperreports/export/CsvMetadataExporterConfiguration.html#PROPERTY_COLUMN_NAMES_PREFIX</api>
     <default>N/A</default>
