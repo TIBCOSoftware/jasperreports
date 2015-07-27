@@ -204,6 +204,9 @@ public class JRVerifier
 	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH =
 		JRPropertiesUtil.PROPERTY_PREFIX + "allow.element.negative.width";
 	
+	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_X =
+			JRPropertiesUtil.PROPERTY_PREFIX + "allow.element.negative.x";
+
 	/**
 	 * Property that determines whether elements positioned at negative Y offsets 
 	 * on bands, frames and other element containers are allowed in a report.
@@ -251,6 +254,7 @@ public class JRVerifier
 	private LinkedList<JRComponentElement> currentComponentElementStack = new LinkedList<JRComponentElement>();
 	
 	private boolean allowElementNegativeWidth;
+	private final boolean allowElementNegativeX;
 	private final boolean allowElementNegativeY;
 
 	/**
@@ -294,6 +298,8 @@ public class JRVerifier
 		}
 		
 		allowElementNegativeWidth = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperDesign, PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH, false);
+		allowElementNegativeX = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperDesign, 
+				PROPERTY_ALLOW_ELEMENT_NEGATIVE_X, true);
 		allowElementNegativeY = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperDesign, 
 				PROPERTY_ALLOW_ELEMENT_NEGATIVE_Y, true);
 	}
@@ -2262,13 +2268,10 @@ public class JRVerifier
 		JRElement[] elements = frame.getElements();
 		if (elements != null && elements.length > 0)
 		{
-			int topPadding = frame.getLineBox().getTopPadding().intValue();
 			int leftPadding = frame.getLineBox().getLeftPadding().intValue();
-			int bottomPadding = frame.getLineBox().getBottomPadding().intValue();
 			int rightPadding = frame.getLineBox().getRightPadding().intValue();
 
 			int avlblWidth = frame.getWidth() - leftPadding - rightPadding;
-			int avlblHeight = frame.getHeight() - topPadding - bottomPadding;
 
 			for (int i = 0; i < elements.length; i++)
 			{
@@ -2470,6 +2473,12 @@ public class JRVerifier
 			}
 		}
 		
+		if (element.getX() < 0 && !allowElementNegativeX(element))
+		{
+			addBrokenRule("Element negative X " + element.getX() + " not allowed", 
+					element);
+		}
+
 		if (element.getY() < 0 && !allowElementNegativeY(element))
 		{
 			addBrokenRule("Element negative Y " + element.getY() + " not allowed", 
@@ -2477,6 +2486,23 @@ public class JRVerifier
 		}
 
 		verifyProperyExpressions(element.getPropertyExpressions());
+	}
+
+	protected boolean allowElementNegativeX(JRElement element)
+	{
+		// default to report/global property
+		boolean allow = allowElementNegativeX;
+		if (element.hasProperties())
+		{
+			JRPropertiesMap properties = element.getPropertiesMap();
+			if (properties.containsProperty(PROPERTY_ALLOW_ELEMENT_NEGATIVE_X))
+			{
+				// use element level property
+				allow = JRPropertiesUtil.asBoolean(properties.getProperty(
+						PROPERTY_ALLOW_ELEMENT_NEGATIVE_X));
+			}
+		}
+		return allow;
 	}
 
 	protected boolean allowElementNegativeY(JRElement element)
