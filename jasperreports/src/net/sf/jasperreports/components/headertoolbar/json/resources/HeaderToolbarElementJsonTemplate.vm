@@ -68,9 +68,11 @@
         "filterData": ${filterData}
     },
     #end
-    "canFormatConditionally": true,
     #if ($conditionalFormattingData)
     "conditionalFormattingData": ${conditionalFormattingData},
+    "canFormatConditionally": true,
+    #else
+    "canFormatConditionally": false,
     #end
     "headingsTabContent": ${colHeaderData},
     "valuesTabContent": ${colValueData}
