@@ -399,7 +399,10 @@ table.jrPage span.jr_search_result.highlight span {
     margin-top: 1px;
     width: 28px;
 }
-.jive_inputbutton.disabled {cursor: default;}
+.jive_inputbutton.disabled {
+    color: #aaa;
+    cursor: default;
+}
 
 #jive_dialog .selected .boldIcon {
     background-position: -30px -3px;
