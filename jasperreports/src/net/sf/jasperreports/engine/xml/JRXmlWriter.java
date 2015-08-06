@@ -222,6 +222,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public static final String EXCEPTION_MESSAGE_KEY_REPORT_DESIGN_WRITE_ERROR = "xml.writer.report.design.write.error";
 	public static final String EXCEPTION_MESSAGE_KEY_UNSUPPORTED_CHART_TYPE = "xml.writer.unsupported.chart.type";
 	
+	//FIXME doc
 	public static final String PREFIX_EXCLUDE_PROPERTIES = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "jrxml.writer.exclude.properties.";
 
