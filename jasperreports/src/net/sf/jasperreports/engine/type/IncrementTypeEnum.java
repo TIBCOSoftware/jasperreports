@@ -32,29 +32,27 @@ import net.sf.jasperreports.engine.JRVariable;
 public enum IncrementTypeEnum implements JREnum
 {
 	/**
-	 * The variable is initialized only once, at the beginning of the report filling process, with the value returned by
-	 * the variable's initial value expression.
+	 * The variable never gets incremented during the report-filling process.
 	 */
 	REPORT((byte)1, "Report"),
 	
 	/**
-	 * The variable is reinitialized at the beginning of each new page.
+	 * The variable is incremented with each new page.
 	 */
 	PAGE((byte)2, "Page"),
 	
 	/**
-	 * The variable is reinitialized at the beginning of each new column.
+	 * The variable is incremented with each new column.
 	 */
 	COLUMN((byte)3, "Column"),
 	
 	/**
-	 * The variable is reinitialized every time the group specified by the {@link JRVariable#getResetGroup()} method breaks.
+	 * The variable is incremented every time the group specified by the {@link JRVariable#getIncrementGroup()} method breaks.
 	 */
 	GROUP((byte)4, "Group"),
 	
 	/**
-	 * The variable will never be initialized using its initial value expression and will only contain values obtained by
-	 * evaluating the variable's expression.
+	 * The variable is incremented with every record during the iteration through the data source.
 	 */
 	NONE((byte)5, "None");
 
