@@ -1044,11 +1044,26 @@ define(["jquery.ui", "jive"], function($, jive) {
                 }
             });
 
-            finalOptions = options.concat(groupHeadingOptions, [{value: 'detailrows', text: jive.i18n.get('column.basicFormatForm.applyto.option.detailrows')}], groupSubTotalsOptions, totalsOptions);
+            var extraOptions = [];
+
+            if (!isConditionalFormatting || (isConditionalFormatting && jive.selected.ie.config.conditionalFormattingData)) {
+                extraOptions.push({
+                    value: 'detailrows',
+                    text: jive.i18n.get('column.basicFormatForm.applyto.option.detailrows')
+                });
+            }
+
+            finalOptions = options.concat(groupHeadingOptions, extraOptions, groupSubTotalsOptions, totalsOptions);
 
             $.each(finalOptions, function(i, v) {
                 selector.append($("<option/>", v));
             });
+
+            if (finalOptions.length) {
+                selector.attr("disabled", false);
+            } else {
+                selector.attr("disabled", true);
+            }
         },
         onShow: function() {
             // show applyTo and prev/next col
