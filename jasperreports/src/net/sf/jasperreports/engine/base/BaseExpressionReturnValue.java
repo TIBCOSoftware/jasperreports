@@ -21,56 +21,57 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.design;
+package net.sf.jasperreports.engine.base;
 
+import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.ReturnValue;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
- * Implementation of {@link net.sf.jasperreports.engine.ReturnValue ReturnValue}
- * to be used for report design purposes.
+ * Base implementation of {@link net.sf.jasperreports.engine.ExpressionReturnValue ExpressionReturnValue}.
  * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class DesignReturnValue extends DesignCommonReturnValue implements ReturnValue
+public class BaseExpressionReturnValue extends BaseCommonReturnValue implements ExpressionReturnValue
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	public static final String PROPERTY_FROM_VARIABLE = "fromVariable";
 
 	/**
-	 * The name of the variable to be copied.
+	 *
 	 */
-	protected String fromVariable;
+	protected JRExpression expression;
 
-	/**
-	 * Returns the name of the variable whose value should be copied.
-	 * 
-	 * @return the name of the variable whose value should be copied.
-	 */
-	public String getFromVariable()
+	protected BaseExpressionReturnValue()
 	{
-		return this.fromVariable;
+	}
+
+	
+	protected BaseExpressionReturnValue(ExpressionReturnValue returnValue, JRBaseObjectFactory factory)
+	{
+		super(returnValue, factory);
+
+		expression = factory.getExpression(returnValue.getExpression());
 	}
 
 	/**
-	 * Sets the source variable name.
-	 * 
-	 * @param name the variable name
-	 * @see net.sf.jasperreports.engine.ReturnValue#getFromVariable()
+	 * The expression producing the value to return.
 	 */
-	public void setFromVariable(String name)
+	public JRExpression getExpression()
 	{
-		Object old = this.fromVariable;
-		this.fromVariable = name;
-		getEventSupport().firePropertyChange(PROPERTY_FROM_VARIABLE, old, this.fromVariable);
+		return expression;
 	}
-	
-	public Object clone()
+
+	/**
+	 * 
+	 */
+	public Object clone() 
 	{
-		return super.clone();
+		BaseExpressionReturnValue clone = (BaseExpressionReturnValue)super.clone();
+		clone.expression = JRCloneUtils.nullSafeClone(expression);
+		return clone;
 	}
 }

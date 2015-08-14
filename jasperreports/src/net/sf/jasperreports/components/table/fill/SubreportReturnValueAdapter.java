@@ -25,7 +25,7 @@ package net.sf.jasperreports.components.table.fill;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
-import net.sf.jasperreports.engine.ReturnValue;
+import net.sf.jasperreports.engine.VariableReturnValue;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 
 /**
@@ -34,15 +34,24 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 public class SubreportReturnValueAdapter implements JRSubreportReturnValue
 {
 	
-	private final ReturnValue returnValue;
+	private final VariableReturnValue returnValue;
 	
-	public SubreportReturnValueAdapter(ReturnValue returnValue)
+	public SubreportReturnValueAdapter(VariableReturnValue returnValue)
 	{
 		this.returnValue = returnValue;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getFromVariable()}.
+	 */
 	@Override
 	public String getSubreportVariable()
+	{
+		return getFromVariable();
+	}
+
+	@Override
+	public String getFromVariable()
 	{
 		return returnValue.getFromVariable();
 	}
@@ -53,8 +62,17 @@ public class SubreportReturnValueAdapter implements JRSubreportReturnValue
 		return returnValue.getToVariable();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getCalculation()}.
+	 */
 	@Override
 	public CalculationEnum getCalculationValue()
+	{
+		return getCalculation();
+	}
+
+	@Override
+	public CalculationEnum getCalculation()
 	{
 		return returnValue.getCalculation();
 	}

@@ -29,6 +29,14 @@ package net.sf.jasperreports.engine;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface ReturnValue extends VariableReturnValue
+public interface VariableReturnValue extends CommonReturnValue
 {
+
+	/**
+	 * Returns the name of the variable whose value should be copied.
+	 * 
+	 * @return the name of the variable whose value should be copied.
+	 */
+	public String getFromVariable();
+
 }

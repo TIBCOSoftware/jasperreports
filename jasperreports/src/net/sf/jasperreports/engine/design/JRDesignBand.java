@@ -25,15 +25,21 @@ package net.sf.jasperreports.engine.design;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.base.JRBaseBand;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -51,6 +57,8 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	public static final String PROPERTY_HEIGHT = "height";
 
 	public static final String PROPERTY_PRINT_WHEN_EXPRESSION = "printWhenExpression";
+	
+	public static final String PROPERTY_RETURN_VALUES = "returnValues";
 
 	/**
 	 *
@@ -66,6 +74,15 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	private JROrigin origin;
 	
 	private JRPropertiesMap propertiesMap;
+	protected List<ExpressionReturnValue> returnValues;
+
+	/**
+	 *
+	 */
+	public JRDesignBand()
+	{
+		returnValues = new ArrayList<ExpressionReturnValue>(2);
+	}
 
 	/**
 	 *
@@ -141,6 +158,55 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	{
 		this.origin = origin;
 	}
+
+
+	@Override
+	public List<ExpressionReturnValue> getReturnValues()
+	{
+		return returnValues == null ? null : Collections.unmodifiableList(returnValues);
+	}
+
+	/**
+	 * Adds a return value to the band.
+	 * 
+	 * @param returnValue the return value to be added.
+	 */
+	public void addReturnValue(ExpressionReturnValue returnValue)
+	{
+		this.returnValues.add(returnValue);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_RETURN_VALUES, 
+				returnValue, returnValues.size() - 1);
+	}
+
+	
+	/**
+	 * Returns the list of values to increment report variables with.
+	 * 
+	 * @return list of {@link ReturnValue ReturnValue} objects
+	 */
+	public List<ExpressionReturnValue> getReturnValuesList()
+	{
+		return returnValues;
+	}
+
+	
+	/**
+	 * Removes a return value from the band.
+	 * 
+	 * @param returnValue the return value to be removed
+	 * @return <code>true</code> if the return value was found and removed 
+	 */
+	public boolean removeReturnValue(ExpressionReturnValue returnValue)
+	{
+		int idx = this.returnValues.indexOf(returnValue);
+		if (idx >= 0)
+		{
+			this.returnValues.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_RETURN_VALUES, returnValue, idx);
+			return true;
+		}
+		return false;
+	}
 	
 
 	/**
@@ -158,6 +224,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 			clone.origin = (JROrigin)origin.clone();
 		}
 		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
+		clone.returnValues = JRCloneUtils.cloneList(returnValues);
 		return clone;
 	}
 

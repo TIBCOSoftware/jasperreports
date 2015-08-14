@@ -25,10 +25,16 @@ package net.sf.jasperreports.engine;
 
 
 /**
- * A value copied from a subdataset into a variable of the parent report.
+ * A value copied from an expression into a variable of the parent report.
  * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface ReturnValue extends VariableReturnValue
+public interface ExpressionReturnValue extends CommonReturnValue
 {
+
+	/**
+	 * The expression producing the value to return.
+	 */
+	public JRExpression getExpression();
+
 }

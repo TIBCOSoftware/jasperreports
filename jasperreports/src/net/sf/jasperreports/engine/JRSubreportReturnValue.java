@@ -69,22 +69,16 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface JRSubreportReturnValue extends JRCloneable
+public interface JRSubreportReturnValue extends VariableReturnValue
 {
 
 	/**
 	 * Returns the name of the subreport variable whose value should be copied.
 	 * 
 	 * @return the name of the subreport variable whose value should be copied.
+	 * @deprecated Replaced by {@link #getFromVariable()}.
 	 */
 	public String getSubreportVariable();
-
-	/**
-	 * Returns the name of the master report variable where the value should be copied.
-	 * 
-	 * @return the name of the master report variable where the value should be copied.
-	 */
-	public String getToVariable();
 
 	/**
 	 * Returns the calculation type.
@@ -93,16 +87,8 @@ public interface JRSubreportReturnValue extends JRCloneable
 	 * maximum, average and so on can be computed.
 	 * 
 	 * @return the calculation type.
+	 * @deprecated Replaced by {@link #getCalculation()}.
 	 */
 	public CalculationEnum getCalculationValue();
-	
-	/**
-	 * Returns the incrementer factory class name.
-	 * <p>
-	 * The factory will be used to increment the value of the master report variable
-	 * with the value from the subreport.
-	 * 
-	 * @return the incrementer factory class name.
-	 */
-	public String getIncrementerFactoryClassName();
+
 }

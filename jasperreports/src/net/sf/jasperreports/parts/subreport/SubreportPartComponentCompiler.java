@@ -92,7 +92,7 @@ public class SubreportPartComponentCompiler implements PartComponentCompiler
 			{
 				JRSubreportReturnValue returnValue = returnValues[i];
 
-				if (returnValue.getSubreportVariable() == null || returnValue.getSubreportVariable().trim().length() == 0)
+				if (returnValue.getFromVariable() == null || returnValue.getFromVariable().trim().length() == 0)
 				{
 					verifier.addBrokenRule("Subreport part return value variable name missing.", returnValue);
 				}

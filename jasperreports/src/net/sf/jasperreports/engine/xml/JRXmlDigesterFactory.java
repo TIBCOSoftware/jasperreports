@@ -118,6 +118,7 @@ import net.sf.jasperreports.crosstabs.xml.JRCrosstabMeasureFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabParameterFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabRowGroupFactory;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRDatasetParameter;
@@ -371,6 +372,13 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/part/printWhenExpression", depBooleanExprFactoryClass.getName());
 		digester.addSetNext("*/part/printWhenExpression", "setPrintWhenExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/part/printWhenExpression", "setText", 0);
+
+		/*   */
+		digester.addFactoryCreate("*/band/returnValue", ExpressionReturnValueFactory.class.getName());
+		digester.addSetNext("*/band/returnValue", "addReturnValue", ExpressionReturnValue.class.getName());
+		digester.addFactoryCreate("*/band/returnValue/expression", depObjectExprFactoryClass.getName());
+		digester.addSetNext("*/band/returnValue/expression", "setExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/band/returnValue/expression", "setText", 0);
 
 		/*   */
 		digester.addFactoryCreate("*/break", JRBreakFactory.class.getName());

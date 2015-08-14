@@ -27,9 +27,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.CommonReturnValue;
+import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
@@ -38,6 +41,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 
 import org.apache.commons.logging.Log;
@@ -77,6 +81,32 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	private SplitTypeEnum splitType;
 	private int breakHeight;
 
+	private FillReturnValues returnValues;
+	private FillReturnValues.SourceContext returnValuesContext = new FillReturnValues.SourceContext() 
+	{
+		@Override
+		public Object getValue(CommonReturnValue returnValue) 
+		{
+			ExpressionReturnValue expressionReturnValue = (ExpressionReturnValue)returnValue;
+			Object value = null;
+			try
+			{
+				value = filler.evaluateExpression(expressionReturnValue.getExpression(), JRExpression.EVALUATION_DEFAULT);
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			return value;
+		}
+		
+		@Override
+		public void check(CommonReturnValue returnValue) throws JRException 
+		{
+			//FIXMERETURN check something
+		}
+	};
+
 	private Set<FillReturnValues> returnValuesSet;
 	
 	/**
@@ -103,6 +133,15 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 			}
 		}
 
+		List<ExpressionReturnValue> expRetValues = getReturnValues();
+		returnValues = 
+			new FillReturnValues(
+				expRetValues == null ? null : (ExpressionReturnValue[]) expRetValues.toArray(new ExpressionReturnValue[expRetValues.size()]), //FIXMERETURN make special class for constructor differentiation
+				factory, 
+				filler
+				);
+		registerReturnValues(returnValues);
+		
 		splitType = (parent == null ? null : parent.getSplitTypeValue());
 		if (splitType == null)
 		{
@@ -393,6 +432,11 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 
 		JRPrintBand printBand = new JRPrintBand();
 		fillElements(printBand);
+		
+		if (!willOverflow())
+		{
+			returnValues.copyValues(returnValuesContext);
+		}
 
 		return printBand;
 	}
@@ -523,6 +567,12 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
+	}
+
+	@Override
+	public List<ExpressionReturnValue> getReturnValues()
+	{
+		return parent == null ? null : parent.getReturnValues();
 	}
 
 	public void registerReturnValues(FillReturnValues fillReturnValues)

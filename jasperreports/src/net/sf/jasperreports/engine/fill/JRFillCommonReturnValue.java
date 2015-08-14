@@ -23,25 +23,25 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.util.List;
+
+import net.sf.jasperreports.engine.CommonReturnValue;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
 
 /**
- * Implementation of {@link net.sf.jasperreports.engine.JRSubreportReturnValue JRSubreportReturnValue}
+ * Implementation of {@link net.sf.jasperreports.engine.CommonReturnValue CommonReturnValue}
  * used by the filler.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRFillSubreportReturnValue implements JRSubreportReturnValue
+public abstract class JRFillCommonReturnValue implements CommonReturnValue
 {
 	public static final String EXCEPTION_MESSAGE_KEY_INCREMENTER_CLASS_NOT_FOUND = "fill.subreport.return.value.incrementer.class.not.found";
 
-	protected final String fromVariable;
 	protected final String toVariable;
 	protected final String incrementerFactoryClassName;
 	protected final CalculationEnum calculation;
@@ -52,27 +52,14 @@ public class JRFillSubreportReturnValue implements JRSubreportReturnValue
 	protected final BaseReportFiller filler;
 
 
-	protected JRFillSubreportReturnValue(
-		JRSubreportReturnValue returnValue, 
-		JRFillObjectFactory factory, BaseReportFiller filler
+	protected JRFillCommonReturnValue(
+		CommonReturnValue returnValue, 
+		JRFillObjectFactory factory, 
+		BaseReportFiller filler
 		)
 	{
 		factory.put(returnValue, this);
 
-		fromVariable = returnValue.getSubreportVariable();
-		toVariable = returnValue.getToVariable();
-		incrementerFactoryClassName = returnValue.getIncrementerFactoryClassName();
-		calculation = returnValue.getCalculationValue();
-		
-		this.filler = filler;
-	}
-
-	public JRFillSubreportReturnValue(ReturnValue returnValue,
-			JRFillObjectFactory factory, JRBaseFiller filler)
-	{
-		factory.put(returnValue, this);
-
-		fromVariable = returnValue.getFromVariable();
 		toVariable = returnValue.getToVariable();
 		incrementerFactoryClassName = returnValue.getIncrementerFactoryClassName();
 		calculation = returnValue.getCalculation();
@@ -86,20 +73,14 @@ public class JRFillSubreportReturnValue implements JRSubreportReturnValue
 	 * @param fillReturnValue the object to clone
 	 * @param factory the clone factory
 	 */
-	protected JRFillSubreportReturnValue(JRFillSubreportReturnValue fillReturnValue, JRFillCloneFactory factory)
+	protected JRFillCommonReturnValue(JRFillCommonReturnValue fillReturnValue, JRFillCloneFactory factory)
 	{
-		this.fromVariable = fillReturnValue.fromVariable;
 		this.toVariable = fillReturnValue.toVariable;
 		this.incrementerFactoryClassName = fillReturnValue.incrementerFactoryClassName;
 		this.calculation = fillReturnValue.calculation;
 		this.derived = fillReturnValue.derived;
 		this.incrementer = fillReturnValue.incrementer;
 		this.filler = fillReturnValue.filler;
-	}
-
-	public String getSubreportVariable()
-	{
-		return fromVariable;
 	}
 
 	public String getToVariable()
@@ -112,7 +93,7 @@ public class JRFillSubreportReturnValue implements JRSubreportReturnValue
 		return incrementerFactoryClassName;
 	}
 		
-	public CalculationEnum getCalculationValue()
+	public CalculationEnum getCalculation()
 	{
 		return calculation;
 	}
@@ -150,7 +131,7 @@ public class JRFillSubreportReturnValue implements JRSubreportReturnValue
 				}
 			}
 			
-			incrementer = incrementerFactory.getIncrementer(getCalculationValue().getValue());
+			incrementer = incrementerFactory.getIncrementer(getCalculation().getValue());
 		}
 		
 		return incrementer;
@@ -166,6 +147,59 @@ public class JRFillSubreportReturnValue implements JRSubreportReturnValue
 		this.derived = derived;
 	}
 	
+	protected JRFillCommonReturnValue addReturnValue(
+			JRFillCommonReturnValue returnValue,
+			List<JRFillCommonReturnValue> returnValueList,
+			JRFillObjectFactory factory, BaseReportFiller filler)
+	{
+		CalculationEnum calculation = returnValue.getCalculation();
+		switch (calculation)
+		{
+			case AVERAGE:
+			case VARIANCE:
+			{
+				CommonReturnValue countVal = returnValue.createHelperReturnValue(returnValue, "_COUNT", CalculationEnum.COUNT);
+				returnValue.addDerivedReturnValue(countVal, returnValueList, factory, filler);
+
+				CommonReturnValue sumVal = returnValue.createHelperReturnValue(returnValue, "_SUM", CalculationEnum.SUM);
+				returnValue.addDerivedReturnValue(sumVal, returnValueList, factory, filler);
+
+				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
+
+				break;
+			}
+			case STANDARD_DEVIATION:
+			{
+				CommonReturnValue varianceVal = returnValue.createHelperReturnValue(returnValue, "_VARIANCE", CalculationEnum.VARIANCE);
+				returnValue.addDerivedReturnValue(varianceVal, returnValueList, factory, filler);
+				
+				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
+				break;
+			}
+			case DISTINCT_COUNT:
+			{
+				CommonReturnValue countVal = returnValue.createDistinctCountHelperReturnValue(returnValue);
+				returnValue.addDerivedReturnValue(countVal, returnValueList, factory, filler);
+				
+				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
+				break;
+			}
+		}
+
+		returnValueList.add(returnValue);
+		return returnValue;
+	}
+
+	protected abstract JRFillCommonReturnValue addDerivedReturnValue (
+			CommonReturnValue parentReturnValue, 
+			List<JRFillCommonReturnValue> returnValueList, 
+			JRFillObjectFactory factory, BaseReportFiller filler
+			);
+	
+	protected abstract CommonReturnValue createHelperReturnValue(CommonReturnValue returnValue, String nameSuffix, CalculationEnum calculation);
+
+	protected abstract CommonReturnValue createDistinctCountHelperReturnValue(CommonReturnValue returnValue);
+
 	/**
 	 *
 	 */

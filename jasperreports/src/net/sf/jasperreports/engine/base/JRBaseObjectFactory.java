@@ -105,6 +105,7 @@ import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabDataset;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabParameter;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabRowGroup;
+import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBreak;
@@ -1390,6 +1391,24 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseReturnValue == null)
 			{
 				baseReturnValue = new BaseReturnValue(returnValue, this);
+				put(returnValue, baseReturnValue);
+			}
+		}
+
+		return baseReturnValue;
+	}
+
+
+	protected BaseExpressionReturnValue getReturnValue(ExpressionReturnValue returnValue)
+	{
+		BaseExpressionReturnValue baseReturnValue = null;
+
+		if (returnValue != null)
+		{
+			baseReturnValue = (BaseExpressionReturnValue) get(returnValue);
+			if (baseReturnValue == null)
+			{
+				baseReturnValue = new BaseExpressionReturnValue(returnValue, this);
 				put(returnValue, baseReturnValue);
 			}
 		}

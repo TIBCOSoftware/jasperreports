@@ -1803,6 +1803,7 @@
      <element ref="jr:componentElement"/>
      <element ref="jr:genericElement"/>
     </choice>
+    <element name="returnValue" type="jr:expressionReturnValue" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
    <attribute name="height" type="NMTOKEN" use="optional" default="0">
 	<annotation>
@@ -4340,7 +4341,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
      <element ref="jr:connectionExpression"/>
      <element ref="jr:dataSourceExpression"/>
     </choice>
-   <element name="returnValue" type="jr:datasetReturnValue" minOccurs="0" maxOccurs="unbounded"/>
+   <element name="returnValue" type="jr:variableReturnValue" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
    <attribute name="subDataset" type="string" use="required">
 	<annotation>
@@ -4355,12 +4356,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </complexType>
  </element>
  
- <complexType name="datasetReturnValue">
-  <attribute name="fromVariable" type="string" use="optional">
-   <annotation>
-    <documentation>Name of the source variable whose value will be returned.</documentation>
-   </annotation>
-  </attribute>
+ <complexType name="commonReturnValue" abstract="true">
   <attribute name="toVariable" type="string" use="optional">
    <annotation>
     <documentation>Name of the variable to which the value is returned. This should be a variable with<code>calculation="System"</code></documentation>
@@ -4430,6 +4426,34 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <documentation>The name of a class that implements the<code>net.sf.jasperreports.engine.fill.JRIncrementerFactory</code> interface to use when creating the incrementer instance to handle the returned value.</documentation>
    </annotation>
   </attribute>
+ </complexType>
+ 
+ <complexType name="variableReturnValue">
+  <complexContent>
+   <extension base="jr:commonReturnValue">
+    <attribute name="fromVariable" type="string" use="optional">
+     <annotation>
+      <documentation>Name of the source variable whose value will be returned.</documentation>
+     </annotation>
+    </attribute>
+   </extension>
+  </complexContent>
+ </complexType>
+
+ <complexType name="expressionReturnValue">
+  <complexContent>
+   <extension base="jr:commonReturnValue">
+    <sequence>
+     <element name="expression">
+      <annotation>
+       <documentation>Allows bulk passing the parameters to the subreport/subdataset into a <code>java.lang.Map</code> object. There are cases when we want to pass to the subreport/subdataset the same parameters that the master report has received. This can be achieved by passing the system-defined parameter called REPORT_PARAMETERS_MAP and maybe adding to or overriding those parameters using additional <elem>subreportParameter</elem> elements.</documentation>
+      </annotation>
+      <complexType mixed="true">
+      </complexType>
+     </element>
+    </sequence>
+   </extension>
+  </complexContent>
  </complexType>
 
  <element name="datasetParameter">

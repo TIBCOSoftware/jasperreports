@@ -804,6 +804,15 @@ public class JRExpressionCollector
 					elements[i].collectExpressions(this);
 				}
 			}
+
+			List<ExpressionReturnValue> returnValues = band.getReturnValues();
+			if (returnValues != null && returnValues.size() > 0)
+			{
+				for (ExpressionReturnValue returnValue : returnValues)
+				{
+					addExpression(returnValue.getExpression());
+				}
+			}
 		}
 	}
 

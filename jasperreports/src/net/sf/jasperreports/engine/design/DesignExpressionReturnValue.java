@@ -23,54 +23,58 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.ReturnValue;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
- * Implementation of {@link net.sf.jasperreports.engine.ReturnValue ReturnValue}
+ * Implementation of {@link net.sf.jasperreports.engine.ExpressionReturnValue ExpressionReturnValue}
  * to be used for report design purposes.
  * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class DesignReturnValue extends DesignCommonReturnValue implements ReturnValue
+public class DesignExpressionReturnValue extends DesignCommonReturnValue implements ExpressionReturnValue
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_FROM_VARIABLE = "fromVariable";
+	public static final String PROPERTY_EXPRESSION = "expression";
 
 	/**
-	 * The name of the variable to be copied.
+	 * The expression producing the value to copy.
 	 */
-	protected String fromVariable;
+	protected JRExpression expression;
 
 	/**
-	 * Returns the name of the variable whose value should be copied.
+	 * Returns the expression whose value should be copied.
 	 * 
-	 * @return the name of the variable whose value should be copied.
+	 * @return the expression whose value should be copied.
 	 */
-	public String getFromVariable()
+	public JRExpression getExpression()
 	{
-		return this.fromVariable;
+		return expression;
 	}
 
 	/**
-	 * Sets the source variable name.
+	 * Sets the expression.
 	 * 
-	 * @param name the variable name
-	 * @see net.sf.jasperreports.engine.ReturnValue#getFromVariable()
+	 * @param expression the expression
+	 * @see net.sf.jasperreports.engine.ExpressionReturnValue#getExpression()
 	 */
-	public void setFromVariable(String name)
+	public void setExpression(JRExpression expression)
 	{
-		Object old = this.fromVariable;
-		this.fromVariable = name;
-		getEventSupport().firePropertyChange(PROPERTY_FROM_VARIABLE, old, this.fromVariable);
+		Object old = this.expression;
+		this.expression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_EXPRESSION, old, this.expression);
 	}
 	
 	public Object clone()
 	{
-		return super.clone();
+		DesignExpressionReturnValue clone = (DesignExpressionReturnValue)super.clone();
+		clone.expression = JRCloneUtils.nullSafeClone(expression);
+		return clone;
 	}
 }

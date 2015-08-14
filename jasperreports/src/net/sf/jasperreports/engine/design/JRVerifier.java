@@ -1656,7 +1656,7 @@ public class JRVerifier
 				{
 					JRSubreportReturnValue returnValue = returnValues[i];
 
-					if (returnValue.getSubreportVariable() == null || returnValue.getSubreportVariable().trim().length() == 0)
+					if (returnValue.getFromVariable() == null || returnValue.getFromVariable().trim().length() == 0)
 					{
 						addBrokenRule("Subreport return value variable name missing.", returnValue);
 					}

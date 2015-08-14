@@ -27,6 +27,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.engine.BookmarkHelper;
+import net.sf.jasperreports.engine.CommonReturnValue;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPart;
@@ -38,6 +39,8 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.SimplePrintPart;
+import net.sf.jasperreports.engine.VariableReturnValue;
+import net.sf.jasperreports.engine.fill.AbstractVariableReturnValueSourceContext;
 import net.sf.jasperreports.engine.fill.BandReportFillerParent;
 import net.sf.jasperreports.engine.fill.BaseReportFiller;
 import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
@@ -89,18 +92,21 @@ public class SubreportFillPart extends BasePartFillComponent
 		this.expressionEvaluator = factory.getExpressionEvaluator();
 		
 		this.returnValues = new FillReturnValues(subreportPart.getReturnValues(), factory, factory.getReportFiller());
-		this.returnValuesSource = new FillReturnValues.SourceContext()
+		this.returnValuesSource = new AbstractVariableReturnValueSourceContext() 
 		{
 			@Override
-			public JRVariable getVariable(String name)
-			{
-				return subreportFiller.getVariable(name);
+			public Object getValue(CommonReturnValue returnValue) {
+				return subreportFiller.getVariableValue(((VariableReturnValue)returnValue).getFromVariable());
 			}
 			
 			@Override
-			public Object getVariableValue(String name)
-			{
-				return subreportFiller.getVariableValue(name);
+			public JRVariable getToVariable(String name) {
+				return fillContext.getFiller().getVariable(name);
+			}
+			
+			@Override
+			public JRVariable getFromVariable(String name) {
+				return subreportFiller.getVariable(name);
 			}
 		};
 	}

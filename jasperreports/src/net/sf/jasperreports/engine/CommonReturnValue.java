@@ -23,12 +23,40 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 /**
- * A value copied from a subdataset into a variable of the parent report.
+ * A value copied from a subdataset or from an expression into a variable of the parent report.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface ReturnValue extends VariableReturnValue
+public interface CommonReturnValue extends JRCloneable
 {
+
+	/**
+	 * Returns the name of the report variable where the value should be copied.
+	 * 
+	 * @return the name of the report variable where the value should be copied.
+	 */
+	public String getToVariable();
+
+	/**
+	 * Returns the calculation type.
+	 * <p>
+	 * When copying the value from, a formula can be applied such that sum,
+	 * maximum, average and so on can be computed.
+	 * 
+	 * @return the calculation type.
+	 */
+	public CalculationEnum getCalculation();
+	
+	/**
+	 * Returns the incrementer factory class name.
+	 * <p>
+	 * The factory will be used to increment the value of the report variable
+	 * with the returned value.
+	 * 
+	 * @return the incrementer factory class name.
+	 */
+	public String getIncrementerFactoryClassName();
 }
