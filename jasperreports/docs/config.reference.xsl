@@ -307,7 +307,7 @@ ga('send', 'pageview');
 
 
 <xsl:template match="p/text()">
-  <p><span class="text"><xsl:value-of select="." disable-output-escaping="yes" /></span></p>
+  <p><span class="text"><xsl:value-of select="." /></span></p>
 </xsl:template>
 
 
