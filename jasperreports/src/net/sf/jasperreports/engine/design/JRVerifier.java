@@ -61,6 +61,7 @@ import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.fill.JRPercentageCalculator;
 import net.sf.jasperreports.crosstabs.fill.JRPercentageCalculatorFactory;
 import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
+import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
@@ -1720,6 +1721,11 @@ public class JRVerifier
 			for (int i = 0; i < rowGroups.length; i++)
 			{
 				verifyCrosstabRowGroup(rowGroups[i]);
+				
+				if (i + 1 < rowGroups.length)
+				{
+					verifyCrosstabNextGroup(rowGroups[i], rowGroups[i + 1]);
+				}
 			}
 		}
 
@@ -1733,6 +1739,11 @@ public class JRVerifier
 			for (int i = 0; i < colGroups.length; i++)
 			{
 				verifyCrosstabColumnGroup(colGroups[i]);
+				
+				if (i + 1 < colGroups.length)
+				{
+					verifyCrosstabNextGroup(colGroups[i], colGroups[i + 1]);
+				}
 			}
 		}
 
@@ -1756,6 +1767,15 @@ public class JRVerifier
 		verifyExpressions(crosstab);
 	}
 
+	protected void verifyCrosstabNextGroup(JRCrosstabGroup group, JRCrosstabGroup nextGroup)
+	{
+		if (Boolean.FALSE.equals(group.getMergeHeaderCells())
+				&& nextGroup.getTotalPositionValue() != CrosstabTotalPositionEnum.NONE)
+		{
+			addBrokenRule("Row crosstab group has repeating header cells but the next group has a total row",
+					group);
+		}
+	}
 
 	private void verifyParameters(JRDesignCrosstab crosstab)
 	{

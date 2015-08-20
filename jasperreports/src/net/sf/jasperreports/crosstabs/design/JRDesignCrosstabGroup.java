@@ -24,6 +24,7 @@
 package net.sf.jasperreports.crosstabs.design;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
+import net.sf.jasperreports.crosstabs.JRCrosstabGroup;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabGroup;
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
@@ -52,6 +53,8 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implemen
 	public static final String PROPERTY_TOTAL_HEADER = "totalHeader";
 
 	public static final String PROPERTY_TOTAL_POSITION = "totalPosition";
+
+	public static final String PROPERTY_MERGE_HEADER_CELLS = "mergeHeaderCells";
 	
 	protected JRDesignVariable designVariable;
 	
@@ -146,6 +149,20 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implemen
 		}
 		this.totalHeader = totalHeader;
 		getEventSupport().firePropertyChange(PROPERTY_TOTAL_HEADER, old, this.totalHeader);
+	}
+	
+	/**
+	 * Defines whether the header cell should span across entries in the group.
+	 * 
+	 * @param mergeHeaderCells whether the header cell should span across entries in the group; if <code>null</code>
+	 * the default will apply
+	 * @see JRCrosstabGroup#getMergeHeaderCells()
+	 */
+	public void setMergeHeaderCells(Boolean mergeHeaderCells)
+	{
+		Object old = this.mergeHeaderCells;
+		this.mergeHeaderCells = mergeHeaderCells;
+		getEventSupport().firePropertyChange(PROPERTY_MERGE_HEADER_CELLS, old, this.mergeHeaderCells);
 	}
 
 	/**

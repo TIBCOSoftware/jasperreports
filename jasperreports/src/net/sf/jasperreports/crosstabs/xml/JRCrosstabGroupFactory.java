@@ -40,6 +40,7 @@ public abstract class JRCrosstabGroupFactory extends JRBaseFactory
 
 	public static final String ATTRIBUTE_name = "name";
 	public static final String ATTRIBUTE_totalPosition = "totalPosition";
+	public static final String ATTRIBUTE_mergeHeaderCells = "mergeHeaderCells";
 	
 	protected final void setGroupAtts(Attributes atts, JRDesignCrosstabGroup group)
 	{
@@ -49,6 +50,12 @@ public abstract class JRCrosstabGroupFactory extends JRBaseFactory
 		if (totalPosition != null)
 		{
 			group.setTotalPosition(totalPosition);
+		}
+		
+		String mergeAttr = atts.getValue(ATTRIBUTE_mergeHeaderCells);
+		if (mergeAttr != null)
+		{
+			group.setMergeHeaderCells(Boolean.valueOf(mergeAttr));//FIXME handle 1 as per the xsd boolean type
 		}
 	}
 }

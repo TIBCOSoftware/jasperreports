@@ -519,9 +519,15 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 		
 		BucketOrderer orderer = createOrderer(group, groupIndex, comparator);
-		return new BucketDefinition(bucket.getValueClass(),
+		BucketDefinition bucketDefinition = new BucketDefinition(bucket.getValueClass(),
 				orderer, comparator, bucket.getOrder(), 
 				group.getTotalPositionValue());
+		
+		Boolean mergeHeaderCells = group.getMergeHeaderCells();
+		// by default the header cells are merged
+		bucketDefinition.setMergeHeaderCells(mergeHeaderCells == null || mergeHeaderCells);
+		
+		return bucketDefinition;
 	}
 
 	protected BucketOrderer createOrderer(JRCrosstabGroup group, int groupIndex, Comparator<Object> bucketComparator)

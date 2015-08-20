@@ -204,16 +204,33 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 			
 			vals.add(subList.key);
 			
+			if (!subList.key.isTotal())
+			{
+				fillHeaders(dimension, headers, level + 1, col, subList, vals, totalsMap);
+			}
+			
 			int depthSpan = subList.key.isTotal() ? buckets[dimension].length - level : 1;
 			Bucket[] values = new Bucket[buckets[dimension].length];
 			vals.toArray(values);
 			
 			MeasureValue[][] totals = retrieveHeaderTotals(dimension, values, totalsMap);
-			headers[level][col] = new HeaderCell(values, subList.span, depthSpan, totals);
 			
-			if (!subList.key.isTotal())
+			if (subList.key.isTotal() || buckets[dimension][level].isMergeHeaderCells())
 			{
-				fillHeaders(dimension, headers, level + 1, col, subList, vals, totalsMap);
+				// a single merged header
+				headers[level][col] = new HeaderCell(values, subList.span, depthSpan, totals);
+			}
+			else
+			{
+				// creating one header for each header on the next level
+				for (int c = col; c < col + subList.span; ++c)
+				{
+					HeaderCell subheader = headers[level + 1][c];
+					if (subheader != null)
+					{
+						headers[level][c] = new HeaderCell(values, subheader.getLevelSpan(), depthSpan, totals);
+					}
+				}
 			}
 			
 			col += subList.span;

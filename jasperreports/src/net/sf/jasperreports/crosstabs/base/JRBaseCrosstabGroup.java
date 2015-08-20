@@ -55,6 +55,7 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 	
 	protected JRCellContents header;
 	protected JRCellContents totalHeader;
+	protected Boolean mergeHeaderCells;
 
 	protected JRVariable variable;
 	
@@ -72,6 +73,7 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 		
 		this.header = factory.getCell(group.getHeader());
 		this.totalHeader = factory.getCell(group.getTotalHeader());
+		this.mergeHeaderCells = group.getMergeHeaderCells();
 		
 		this.variable = factory.getVariable(group.getVariable());
 	}
@@ -109,6 +111,12 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 	public JRVariable getVariable()
 	{
 		return variable;
+	}
+
+	@Override
+	public Boolean getMergeHeaderCells()
+	{
+		return mergeHeaderCells;
 	}
 
 	/**

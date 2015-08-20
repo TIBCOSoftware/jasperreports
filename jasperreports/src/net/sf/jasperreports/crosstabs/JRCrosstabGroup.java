@@ -136,4 +136,19 @@ public interface JRCrosstabGroup extends JRCloneable
 	 * @return whether the group has a total row/column
 	 */
 	public boolean hasTotal();
+	
+	/**
+	 * Determines whether the header cell of this group spans across all entries in the group,
+	 * or whether the header cell repeats for each sub group entry.
+	 * <p>
+	 * If the header cell is set to repeat, the sub group should not have a total row/column.
+	 * </p>
+	 * <p>
+	 * By default the header cell spans across all entries that are part of the group.
+	 * </p>
+	 * 
+	 * @return whether the header cell should span across entries in the group; if <code>null</code>
+	 * the default will apply
+	 */
+	public Boolean getMergeHeaderCells();
 }

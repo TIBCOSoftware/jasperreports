@@ -85,6 +85,12 @@ public abstract class JRFillCrosstabGroup implements JRCrosstabGroup
 		return totalHeader;
 	}
 
+	@Override
+	public Boolean getMergeHeaderCells()
+	{
+		return parentGroup.getMergeHeaderCells();
+	}
+
 	public JRFillCellContents getFillHeader()
 	{
 		return header;
