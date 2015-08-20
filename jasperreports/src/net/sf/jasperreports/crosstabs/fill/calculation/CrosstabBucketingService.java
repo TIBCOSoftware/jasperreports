@@ -215,7 +215,9 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 			
 			MeasureValue[][] totals = retrieveHeaderTotals(dimension, values, totalsMap);
 			
-			if (subList.key.isTotal() || buckets[dimension][level].isMergeHeaderCells())
+			if (subList.key.isTotal() 
+					|| buckets[dimension][level].isMergeHeaderCells()
+					|| level >= buckets[dimension].length - 1)
 			{
 				// a single merged header
 				headers[level][col] = new HeaderCell(values, subList.span, depthSpan, totals);
