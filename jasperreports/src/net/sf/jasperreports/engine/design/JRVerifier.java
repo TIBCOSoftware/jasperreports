@@ -61,7 +61,9 @@ import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.fill.JRPercentageCalculator;
 import net.sf.jasperreports.crosstabs.fill.JRPercentageCalculatorFactory;
 import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
+import net.sf.jasperreports.engine.CommonReturnValue;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChart;
@@ -109,6 +111,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReturnValue;
+import net.sf.jasperreports.engine.VariableReturnValue;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
@@ -1494,6 +1497,15 @@ public class JRVerifier
 				
 				verifyElementsOverlap(elements);
 			}
+
+			List<ExpressionReturnValue> returnValues = band.getReturnValues();
+			if (returnValues != null && !returnValues.isEmpty())
+			{
+				for (ExpressionReturnValue returnValue : returnValues)
+				{
+					verifyReturnValue(returnValue);
+				}
+			}
 		}
 	}
 
@@ -1675,13 +1687,30 @@ public class JRVerifier
 		}
 	}
 
-	protected void verifyReturnValue(ReturnValue returnValue)
+	protected void verifyReturnValue(VariableReturnValue returnValue)
 	{
 		if (returnValue.getFromVariable() == null || returnValue.getFromVariable().trim().length() == 0)
 		{
 			addBrokenRule("Return value source variable name missing.", returnValue);
 		}
 
+		verifyCommonReturnValue(returnValue);
+	}
+
+
+	protected void verifyReturnValue(ExpressionReturnValue returnValue)
+	{
+		if (returnValue.getExpression() == null)
+		{
+			addBrokenRule("Return value expression missing.", returnValue);
+		}
+
+		verifyCommonReturnValue(returnValue);
+	}
+
+
+	protected void verifyCommonReturnValue(CommonReturnValue returnValue)
+	{
 		if (returnValue.getToVariable() == null || returnValue.getToVariable().trim().length() == 0)
 		{
 			addBrokenRule("Return value destination variable name missing.", returnValue);
