@@ -77,7 +77,7 @@ public class JacksonUtil
 	}
 	
 	
-	private ObjectMapper getObjectMapper()
+	public ObjectMapper getObjectMapper()
 	{
 		ObjectMapper mapper = (ObjectMapper)jasperReportsContext.getOwnValue(OBJECT_MAPPER_CONTEXT_KEY);
 		if (mapper == null)
@@ -203,7 +203,7 @@ public class JacksonUtil
 	public String getJsonString(Object object) 
 	{
 		ObjectMapper mapper = getObjectMapper();
-		try 
+		try
 		{
 			return mapper.writeValueAsString(object);
 		} 
