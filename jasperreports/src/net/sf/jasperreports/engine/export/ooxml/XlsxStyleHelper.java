@@ -32,6 +32,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 
@@ -97,7 +98,8 @@ public class XlsxStyleHelper extends BaseHelper
 		boolean isHidden, 
 		boolean isLocked,
 		boolean  isShrinkToFit,
-		boolean isIgnoreTextFormatting
+		boolean isIgnoreTextFormatting,
+		RotationEnum rotation
 		)
 	{
 		XlsxStyleInfo styleInfo = 
@@ -110,7 +112,8 @@ public class XlsxStyleHelper extends BaseHelper
 				isHidden,
 				isLocked,
 				isShrinkToFit,
-				isIgnoreTextFormatting
+				isIgnoreTextFormatting, 
+				getRotation(rotation)
 				);
 		Integer styleIndex = styleCache.get(styleInfo.getId());
 		if (styleIndex == null)
@@ -156,6 +159,7 @@ public class XlsxStyleHelper extends BaseHelper
 				+ (styleInfo.horizontalAlign == null ? "" : " horizontal=\"" + styleInfo.horizontalAlign + "\"")
 				+ (styleInfo.verticalAlign == null ? "" : " vertical=\"" + styleInfo.verticalAlign + "\"")
 				+ (styleInfo.isShrinkToFit ? " shrinkToFit=\"" + styleInfo.isShrinkToFit + "\"" : "")
+				+ (styleInfo.rotation != 0 ? " textRotation=\"" + styleInfo.rotation + "\"" : "")
 				+ "/>"
 				);
 			cellXfsWriter.write("<protection hidden=\"" + styleInfo.isHidden + "\" locked=\"" + styleInfo.isLocked + "\"/>");
@@ -206,5 +210,39 @@ public class XlsxStyleHelper extends BaseHelper
 
 		write("</styleSheet>\n");
 	}
+	
+	/**
+	 *
+	 */
+	protected int getRotation(RotationEnum rotation)
+	{
+		int result = 0;
+		
+		if (rotation != null)
+		{
+			switch(rotation)
+			{
+				case LEFT:
+				{
+					result = 90;
+					break;
+				}
+				case RIGHT:
+				{
+					result = 180;
+					break;
+				}
+				case UPSIDE_DOWN:
+				case NONE:
+				default:
+				{
+				}
+			}
+		}
+
+		return result;
+	}
+
+
 	
 }

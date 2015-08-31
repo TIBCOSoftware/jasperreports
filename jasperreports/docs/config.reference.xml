@@ -56,6 +56,7 @@
     <name>Report Design</name>
     <content>
       <property ref="net.sf.jasperreports.allow.element.negative.width"/>
+      <property ref="net.sf.jasperreports.allow.element.negative.x"/>
       <property ref="net.sf.jasperreports.allow.element.negative.y"/>
       <property ref="net.sf.jasperreports.allow.element.overlap"/>
       <property ref="net.sf.jasperreports.style.{style_property_suffix}"/>
@@ -129,6 +130,15 @@
   </category>
   
   <category>
+  	<name>Barcode Component</name>
+  	<content>
+  		<property ref="net.sf.jasperreports.components.barcode4j.image.producer" />
+  		<property ref="net.sf.jasperreports.components.barcode4j.image.producer.{alias}" />
+  		<property ref="net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}" />
+  	</content>
+  </category>
+  
+  <category>
   	<name>Map Component</name>
   	<content>
   		<property ref="net.sf.jasperreports.components.map.key" />
@@ -197,6 +207,7 @@
       <property ref="net.sf.jasperreports.export.docx.flexible.row.height"/>
       <property ref="net.sf.jasperreports.export.docx.frames.as.nested.tables"/>
       <property ref="net.sf.jasperreports.export.docx.hidden.text"/>
+      <property ref="net.sf.jasperreports.export.docx.new.line.as.paragraph"/>
       
       <property ref="net.sf.jasperreports.export.flash.element.allow.script.access"/>
       
@@ -743,11 +754,10 @@ Property that specifies the list of token separators characters for <api href="n
 Properties with this prefix associate a query executer factory implementation with a query language.
 To obtain query executer factories, a property having the query language appended to this prefix is used to get the query executer factory name.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRQueryExecuterFactory.html#QUERY_EXECUTER_FACTORY_PREFIX</api>
+    <api>net/sf/jasperreports/engine/query/QueryExecuterFactory.html#QUERY_EXECUTER_FACTORY_PREFIX</api>
     <default>N/A</default>
     <scope>Global</scope>
     <since>1.2.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -832,7 +842,6 @@ Property that forces the XML validation of the report template file before compi
     <default>true</default>
     <scope>Global</scope>
     <since>1.0.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -851,7 +860,6 @@ SUN JDK).
     <default>true</default>
     <scope>Global</scope>
     <since>3.1.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -869,7 +877,6 @@ as report parser factory.
     <default><code>net.sf.jasperreports.engine.xml.JRReportSaxParserFactory</code></default>
     <scope>Global</scope>
     <since>3.1.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -920,6 +927,23 @@ at report compile time.
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.7.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.allow.element.negative.x -->
+  
+  <configProperty name="net.sf.jasperreports.allow.element.negative.x">
+    <description>
+Property that determines whether elements positioned at negative X offsets on bands, frames and other element containers are allowed in a report.
+<br/>
+Elements placed at negative X offsets can cause unexpected problems in grid-based exporters where they can overlap elements from previous bands/element containers.
+<br/>
+If the property is set to <code>false</code>, elements in the report are verified to have positive X offsets.  Otherwise, no check is performed on element X offsets.
+    </description>
+    <api>net/sf/jasperreports/engine/design/JRVerifier.html#PROPERTY_ALLOW_ELEMENT_NEGATIVE_X</api>
+    <default>true</default>
+    <scope>Global | Report | Element</scope>
+    <since>6.1.1</since>
   </configProperty>
   
   
@@ -987,7 +1011,7 @@ when the report is configured to check for overlaps.
     </description>
     <api>net/sf/jasperreports/engine/design/JRVerifier.html#PROPERTY_ALLOW_ELEMENT_OVERLAP</api>
     <default>true</default>
-    <scope>Global | Report</scope>
+    <scope>Global | Report | Element</scope>
     <since>3.5.0</since>
   </configProperty>
   
@@ -1484,7 +1508,6 @@ Temporary files will be deleted by explicitly calling <code>cleanup()</code> or 
     <default>true</default>
     <scope>Global</scope>
     <since>1.2.3</since>
-    <contextUnaware/>
   </configProperty>
 
 
@@ -1728,6 +1751,96 @@ Property that provides the default value for the crosstab <code>ignoreWidth</cod
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.5.3</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.barcode4j.image.producer -->
+  
+  <configProperty name="net.sf.jasperreports.components.barcode4j.image.producer">
+    <description>
+Property that determines which image producer to be used for a barcode component element. The property can 
+have a value of the name of the class that implements the image producer interface or an 
+alias that has been set for such a class, using a property of the form 
+<a href="#net.sf.jasperreports.components.barcode4j.image.producer.{alias}">net.sf.jasperreports.components.barcode4j.image.producer.{alias}</a>. 
+<br/>
+JasperReports provides two barcode image producer implementations: one which renders the 
+barcode in SVG format and one which renders the barcode as a rasterized image. The 
+first implementation is registered under the <code>svg</code> alias and is used by default; 
+the second one has <code>image</code> as alias and can be used by changing the 
+<a href="#net.sf.jasperreports.components.barcode4j.image.producer.{alias}">net.sf.jasperreports.components.barcode4j.image.producer.{alias}</a> 
+property at any level. 
+<br/>
+The SVG barcode image producer uses the Barcode4J API to export the barcode to SVG, 
+then it creates a SVG renderer based on the Batik SVG library. Hence, this option 
+introduces a dependency on Batik for viewing or exporting a report that includes 
+barcodes.
+<br/> 
+The rasterized image producer draws the barcode on a PNG image which can be then 
+displayed in the generated report. This producer uses further properties, set at the same 
+levels as the image producer property, to allow the customization of the generated image.
+   	</description>
+    <api>net/sf/jasperreports/components/barcode4j/BarcodeImageProducer.html#PROPERTY_IMAGE_PRODUCER</api>
+    <default>svg</default>
+    <scope>Global | Report | Element</scope>
+    <since>3.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.barcode4j.image.producer.{alias} -->
+  
+  <configProperty name="net.sf.jasperreports.components.barcode4j.image.producer.{alias}">
+    <description>
+Property that determines which image producer implementation to be used for an alias associated 
+with the barcode component element using the <a href="#net.sf.jasperreports.components.barcode4j.image.producer">net.sf.jasperreports.components.barcode4j.image.producer</a> 
+property. 
+<br/>
+The value of this property represents the name of the class that implements the image 
+producer interface for the specified alias. 
+<br/>
+Rendering the barcode in SVG format is registered under the <code>svg</code> alias and is used by default; 
+the built-in property value for this alias is <code>net.sf.jasperreports.components.barcode4j.BarcodeSVGImageProducer</code>.
+Rendering the barcode as rasterized is registered under the <code>image</code> alias and 
+the built-in property value for this alias is <code>net.sf.jasperreports.components.barcode4j.BarcodeRasterizedImageProducer</code>.
+<br/>
+If the <code>svg</code> alias is set, the built-in SVG renderer is based on the Batik SVG library. 
+Hence, this option introduces a dependency on Batik for viewing or exporting a report that includes 
+barcodes.
+<br/> 
+The rasterized image producer draws the barcode on a PNG image which can be then 
+displayed in the generated report. This producer uses further properties, set at the same 
+levels as the image producer property, to allow the customization of the generated image.
+<br/>
+<br/>
+<b>Note: </b>This property does not apply to QRCode barcodes which are generated based on a different library (ZXing). For 
+QRCode barcodes, see <a href="#net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}">net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}</a>.
+   	</description>
+    <api>net/sf/jasperreports/components/barcode4j/BarcodeImageProducer.html#PROPERTY_PREFIX_IMAGE_PRODUCER</api>
+    <default>N/A</default>
+    <scope>Global | Report | Element</scope>
+    <since>3.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias} -->
+  
+  <configProperty name="net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}">
+    <description>
+Property that determines which image producer implementation to be used for an alias associated 
+with the QRCode component element using the <a href="#net.sf.jasperreports.components.barcode4j.image.producer">net.sf.jasperreports.components.barcode4j.image.producer</a> 
+property. 
+<br/>
+The value of this property represents the name of the class that implements the image 
+producer interface for the specified alias. 
+<br/>
+Rendering the QRCode component in SVG format is registered under the <code>svg</code> alias and is used by default; 
+the built-in property value for this alias is <code>net.sf.jasperreports.components.barcode4j.QRCodeSVGImageProducer</code>.
+Rendering the QRCode component as rasterized is registered under the <code>image</code> alias and 
+the built-in property value for this alias is <code>net.sf.jasperreports.components.barcode4j.QRCodeRasterizedImageProducer</code>.
+   	</description>
+    <api>net/sf/jasperreports/components/barcode4j/QRCodeImageProducer.html#PROPERTY_PREFIX_QRCODE_PRODUCER</api>
+    <default>N/A</default>
+    <scope>Global | Report | Element</scope>
+    <since>6.0.2</since>
   </configProperty>
   
   
@@ -2251,7 +2364,6 @@ Property that forces the XML validation, when a document exported to XML format 
     <default>true</default>
     <scope>Global | Report</scope>
     <since>1.0.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -2485,6 +2597,8 @@ Properties having this prefix contain comma-separated names of the columns that 
 Column names in this property are used as default list for the 
 <api href="net/sf/jasperreports/export/CsvMetadataExporterConfiguration.html#getColumnNames()">getColumnNames()</api> 
 CSV metadata export output setting.
+<br/><br/>
+<b>Note: </b>For accurate results it's recommended that column names in the list to follow the same order as the original columns.
     </description>
     <api>net/sf/jasperreports/export/CsvMetadataExporterConfiguration.html#PROPERTY_COLUMN_NAMES_PREFIX</api>
     <default>N/A</default>
@@ -2592,13 +2706,12 @@ Its value is used as default for the
 Flag property that controls the use of an AWT rendering fix which causes the printer job size to be reduced when the exporter draws onto a printer graphic context.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/Graphics2DExporterConfiguration.html#isMinimizePrinterJobSize()">isMinimizePrinterJobSize()</api> Graphics2D export configuration setting.
+<api href="net/sf/jasperreports/export/Graphics2DReportConfiguration.html#isMinimizePrinterJobSize()">isMinimizePrinterJobSize()</api> Graphics2D export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/Graphics2DExporterConfiguration.html#MINIMIZE_PRINTER_JOB_SIZE</api>
+    <api>net/sf/jasperreports/export/Graphics2DReportConfiguration.html#MINIMIZE_PRINTER_JOB_SIZE</api>
     <default>true</default>
     <scope>Global | Report</scope>
     <since>1.2.8</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -2667,6 +2780,24 @@ This property is used to mark text elements as being hidden either for printing 
     <default>false</default>
     <scope>Element</scope>
     <since>3.7.6</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.docx.new.line.as.paragraph -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.new.line.as.paragraph">
+    <description>
+This property specifies whether the newline element present in a justified paragraph introduces a new justified paragraph.
+If set to <code>true</code>, the text line before the new paragraph will lose the justified alignment.
+<br/>
+It serves as default value for the 
+<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#isNewLineAsParagraph()">isNewLineAsParagraph()</api> DOCX export configuration setting.
+The property itself defaults to <code>false</code> (for backward compatibility reasons).
+    </description>
+    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_NEW_LINE_AS_PARAGRAPH</api>
+    <default>false</default>
+    <scope>Global | Report | Element</scope>
+    <since>6.1.1</since>
   </configProperty>
   
   
@@ -4889,7 +5020,6 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
-    <contextUnaware/>
   </configProperty>
   
   

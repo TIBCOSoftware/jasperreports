@@ -601,6 +601,11 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	{
 		return getHeight() - getTopPadding() - getBottomPadding();
 	}
+
+	protected int getActualContainerHeight()
+	{
+		return getContainerHeight(); 
+	}
 	
 	protected int getTopPadding()
 	{

@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.type.ColorEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -68,7 +69,15 @@ public class DocxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, boolean hiddenText, String invalidCharReplacement, Color backcolor)
+	public void export(
+			JRStyle style, 
+			Map<Attribute,Object> attributes, 
+			String text, 
+			Locale locale, 
+			boolean hiddenText, 
+			String invalidCharReplacement, 
+			Color backcolor, 
+			boolean isNewLineAsParagraph)
 	{
 		if (text != null)
 		{
@@ -88,7 +97,14 @@ public class DocxRunHelper extends BaseHelper
 				String token = tkzer.nextToken();
 				if ("\n".equals(token))
 				{
-					write("<w:br/>");
+					if(isNewLineAsParagraph)
+					{
+						write("<w:t xml:space=\"preserve\"><w:p/></w:t>\n");
+					}
+					else
+					{
+						write("<w:br/>");
+					}
 				}
 				else
 				{
@@ -106,7 +122,14 @@ public class DocxRunHelper extends BaseHelper
 	 */
 	public void exportProps(JRStyle style, Locale locale)
 	{
-		exportProps(getAttributes(style.getStyle()), getAttributes(style), locale, false, false);
+		JRStyle baseStyle = JRStyleResolver.getBaseStyle(style);
+		exportProps(
+			getAttributes(baseStyle), 
+			getAttributes(style), 
+			locale, 
+			false, 
+			false
+			);
 	}
 
 	/**
@@ -230,16 +253,20 @@ public class DocxRunHelper extends BaseHelper
 	 */
 	private Map<Attribute,Object> getAttributes(JRStyle style)//FIXMEDOCX put this in util?
 	{
-		JRPrintText text = new JRBasePrintText(null);
-		text.setStyle(style);
-		
 		Map<Attribute,Object> styledTextAttributes = new HashMap<Attribute,Object>(); 
-		//JRFontUtil.getAttributes(styledTextAttributes, text, (Locale)null);//FIXMEDOCX getLocale());
-		FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(styledTextAttributes, text);
-		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
-		if (text.getModeValue() == ModeEnum.OPAQUE)
+
+		if (style != null)
 		{
-			styledTextAttributes.put(TextAttribute.BACKGROUND, text.getBackcolor());
+			JRPrintText text = new JRBasePrintText(null);
+			text.setStyle(style);
+			
+			//JRFontUtil.getAttributes(styledTextAttributes, text, (Locale)null);//FIXMEDOCX getLocale());
+			FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(styledTextAttributes, text);
+			styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
+			if (text.getModeValue() == ModeEnum.OPAQUE)
+			{
+				styledTextAttributes.put(TextAttribute.BACKGROUND, text.getBackcolor());
+			}
 		}
 
 		return styledTextAttributes;

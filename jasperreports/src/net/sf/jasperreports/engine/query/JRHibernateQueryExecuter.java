@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.query;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -70,21 +72,68 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	
 	static
 	{
+		Class<?> typeConstantsClass;
+		try
+		{
+			typeConstantsClass = Class.forName("org.hibernate.type.StandardBasicTypes", true, Hibernate.class.getClassLoader());
+		}
+		catch (ClassNotFoundException e)
+		{
+			typeConstantsClass = Hibernate.class;
+		}
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("Hibernate type constants class is " + typeConstantsClass);
+		}
+		
 		hibernateTypeMap = new HashMap<Class<?>,Type>();
-		hibernateTypeMap.put(Boolean.class, Hibernate.BOOLEAN);
-		hibernateTypeMap.put(Byte.class, Hibernate.BYTE);
-		hibernateTypeMap.put(Double.class, Hibernate.DOUBLE);
-		hibernateTypeMap.put(Float.class, Hibernate.FLOAT);
-		hibernateTypeMap.put(Integer.class, Hibernate.INTEGER);
-		hibernateTypeMap.put(Long.class, Hibernate.LONG);
-		hibernateTypeMap.put(Short.class, Hibernate.SHORT);
-		hibernateTypeMap.put(java.math.BigDecimal.class, Hibernate.BIG_DECIMAL);
-		hibernateTypeMap.put(java.math.BigInteger.class, Hibernate.BIG_INTEGER);
-		hibernateTypeMap.put(Character.class, Hibernate.CHARACTER);
-		hibernateTypeMap.put(String.class, Hibernate.STRING);
-		hibernateTypeMap.put(java.util.Date.class, Hibernate.DATE);
-		hibernateTypeMap.put(java.sql.Timestamp.class, Hibernate.TIMESTAMP);
-		hibernateTypeMap.put(java.sql.Time.class, Hibernate.TIME);
+		hibernateTypeMap.put(Boolean.class, loadTypeConstant(typeConstantsClass, "BOOLEAN"));
+		hibernateTypeMap.put(Byte.class, loadTypeConstant(typeConstantsClass, "BYTE"));
+		hibernateTypeMap.put(Double.class, loadTypeConstant(typeConstantsClass, "DOUBLE"));
+		hibernateTypeMap.put(Float.class, loadTypeConstant(typeConstantsClass, "FLOAT"));
+		hibernateTypeMap.put(Integer.class, loadTypeConstant(typeConstantsClass, "INTEGER"));
+		hibernateTypeMap.put(Long.class, loadTypeConstant(typeConstantsClass, "LONG"));
+		hibernateTypeMap.put(Short.class, loadTypeConstant(typeConstantsClass, "SHORT"));
+		hibernateTypeMap.put(java.math.BigDecimal.class, loadTypeConstant(typeConstantsClass, "BIG_DECIMAL"));
+		hibernateTypeMap.put(java.math.BigInteger.class, loadTypeConstant(typeConstantsClass, "BIG_INTEGER"));
+		hibernateTypeMap.put(Character.class, loadTypeConstant(typeConstantsClass, "CHARACTER"));
+		hibernateTypeMap.put(String.class, loadTypeConstant(typeConstantsClass, "STRING"));
+		hibernateTypeMap.put(java.util.Date.class, loadTypeConstant(typeConstantsClass, "DATE"));
+		hibernateTypeMap.put(java.sql.Timestamp.class, loadTypeConstant(typeConstantsClass, "TIMESTAMP"));
+		hibernateTypeMap.put(java.sql.Time.class, loadTypeConstant(typeConstantsClass, "TIME"));
+	}
+	
+	private static final Type loadTypeConstant(Class<?> typeConstantsClass, String name)
+	{
+		try
+		{
+			Field constant = typeConstantsClass.getField(name);
+			if (!Modifier.isStatic(constant.getModifiers())
+					|| !Type.class.isAssignableFrom(constant.getType()))
+			{
+				throw new JRRuntimeException("Could not resolve Hibernate type constant " + name
+						+ " in class " + typeConstantsClass.getName());
+			}
+			Type type = (Type) constant.get(null);
+			return type;
+		}
+		catch (NoSuchFieldException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		catch (SecurityException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		catch (IllegalArgumentException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		catch (IllegalAccessException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 	private final Integer reportMaxCount;

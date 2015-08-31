@@ -71,6 +71,11 @@ public class FillListContents extends JRFillElementContainer
 	{
 		return contentsHeight;
 	}
+
+	protected int getActualContainerHeight()
+	{
+		return getContainerHeight(); 
+	}
 	
 	protected void evaluateContents() throws JRException
 	{

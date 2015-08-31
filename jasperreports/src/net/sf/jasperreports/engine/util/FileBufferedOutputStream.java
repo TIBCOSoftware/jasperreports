@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
@@ -70,9 +71,8 @@ public class FileBufferedOutputStream extends OutputStream
 	private boolean closed;
 	private boolean disposed;
 	
-	@SuppressWarnings("deprecation")
 	public FileBufferedOutputStream() {
-		this(JRProperties.getIntegerProperty(PROPERTY_MEMORY_THRESHOLD, INFINIT_MEMORY_THRESHOLD), DEFAULT_INITIAL_MEMORY_BUFFER_SIZE, DEFAULT_INPUT_BUFFER_LENGTH);
+		this(JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getIntegerProperty(PROPERTY_MEMORY_THRESHOLD, INFINIT_MEMORY_THRESHOLD), DEFAULT_INITIAL_MEMORY_BUFFER_SIZE, DEFAULT_INPUT_BUFFER_LENGTH);
 	}
 	
 	public FileBufferedOutputStream(int memoryThreshold) {

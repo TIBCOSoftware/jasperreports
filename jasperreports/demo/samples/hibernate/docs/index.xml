@@ -93,7 +93,7 @@ factory for a query language, you have to define a global property named
 <code>/src/default.jasperreports.properties</code> file. The same mechanism can be used to override the 
 built-in query executers for a query language, for instance to use a custom query executer for SQL queries. 
 <br/>
-A query executer factory should implement the <api href="net/sf/jasperreports/engine/query/JRQueryExecuterFactory.html">JRQueryExecuterFactory</api> 
+A query executer factory should implement the <api href="net/sf/jasperreports/engine/query/QueryExecuterFactory.html">QueryExecuterFactory</api> 
 interface with the following methods:
 <ul>
 <li><code>public Object[] getBuiltinParameters();</code> - retrieves the built-in parameters associated with the query type.</li>

@@ -61,7 +61,9 @@ import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.fill.JRPercentageCalculator;
 import net.sf.jasperreports.crosstabs.fill.JRPercentageCalculatorFactory;
 import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
+import net.sf.jasperreports.engine.CommonReturnValue;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChart;
@@ -109,6 +111,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReturnValue;
+import net.sf.jasperreports.engine.VariableReturnValue;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
@@ -204,6 +207,9 @@ public class JRVerifier
 	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH =
 		JRPropertiesUtil.PROPERTY_PREFIX + "allow.element.negative.width";
 	
+	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_X =
+			JRPropertiesUtil.PROPERTY_PREFIX + "allow.element.negative.x";
+
 	/**
 	 * Property that determines whether elements positioned at negative Y offsets 
 	 * on bands, frames and other element containers are allowed in a report.
@@ -251,6 +257,7 @@ public class JRVerifier
 	private LinkedList<JRComponentElement> currentComponentElementStack = new LinkedList<JRComponentElement>();
 	
 	private boolean allowElementNegativeWidth;
+	private final boolean allowElementNegativeX;
 	private final boolean allowElementNegativeY;
 
 	/**
@@ -294,6 +301,8 @@ public class JRVerifier
 		}
 		
 		allowElementNegativeWidth = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperDesign, PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH, false);
+		allowElementNegativeX = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperDesign, 
+				PROPERTY_ALLOW_ELEMENT_NEGATIVE_X, true);
 		allowElementNegativeY = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperDesign, 
 				PROPERTY_ALLOW_ELEMENT_NEGATIVE_Y, true);
 	}
@@ -1488,6 +1497,15 @@ public class JRVerifier
 				
 				verifyElementsOverlap(elements);
 			}
+
+			List<ExpressionReturnValue> returnValues = band.getReturnValues();
+			if (returnValues != null && !returnValues.isEmpty())
+			{
+				for (ExpressionReturnValue returnValue : returnValues)
+				{
+					verifyReturnValue(returnValue);
+				}
+			}
 		}
 	}
 
@@ -1650,7 +1668,7 @@ public class JRVerifier
 				{
 					JRSubreportReturnValue returnValue = returnValues[i];
 
-					if (returnValue.getSubreportVariable() == null || returnValue.getSubreportVariable().trim().length() == 0)
+					if (returnValue.getFromVariable() == null || returnValue.getFromVariable().trim().length() == 0)
 					{
 						addBrokenRule("Subreport return value variable name missing.", returnValue);
 					}
@@ -1669,13 +1687,30 @@ public class JRVerifier
 		}
 	}
 
-	protected void verifyReturnValue(ReturnValue returnValue)
+	protected void verifyReturnValue(VariableReturnValue returnValue)
 	{
 		if (returnValue.getFromVariable() == null || returnValue.getFromVariable().trim().length() == 0)
 		{
 			addBrokenRule("Return value source variable name missing.", returnValue);
 		}
 
+		verifyCommonReturnValue(returnValue);
+	}
+
+
+	protected void verifyReturnValue(ExpressionReturnValue returnValue)
+	{
+		if (returnValue.getExpression() == null)
+		{
+			addBrokenRule("Return value expression missing.", returnValue);
+		}
+
+		verifyCommonReturnValue(returnValue);
+	}
+
+
+	protected void verifyCommonReturnValue(CommonReturnValue returnValue)
+	{
 		if (returnValue.getToVariable() == null || returnValue.getToVariable().trim().length() == 0)
 		{
 			addBrokenRule("Return value destination variable name missing.", returnValue);
@@ -2262,13 +2297,10 @@ public class JRVerifier
 		JRElement[] elements = frame.getElements();
 		if (elements != null && elements.length > 0)
 		{
-			int topPadding = frame.getLineBox().getTopPadding().intValue();
 			int leftPadding = frame.getLineBox().getLeftPadding().intValue();
-			int bottomPadding = frame.getLineBox().getBottomPadding().intValue();
 			int rightPadding = frame.getLineBox().getRightPadding().intValue();
 
 			int avlblWidth = frame.getWidth() - leftPadding - rightPadding;
-			int avlblHeight = frame.getHeight() - topPadding - bottomPadding;
 
 			for (int i = 0; i < elements.length; i++)
 			{
@@ -2278,12 +2310,6 @@ public class JRVerifier
 				{
 					addBrokenRule("Element reaches outside frame width: x=" + element.getX() + ", width="
 							+ element.getWidth() + ", available width=" + avlblWidth + ".", element);
-				}
-
-				if (element.getY() + element.getHeight() > avlblHeight)
-				{
-					addBrokenRule("Element reaches outside frame height: y=" + element.getY() + ", height="
-							+ element.getHeight() + ", available height=" + avlblHeight + ".", element);
 				}
 
 				verifyElement(element);
@@ -2476,6 +2502,12 @@ public class JRVerifier
 			}
 		}
 		
+		if (element.getX() < 0 && !allowElementNegativeX(element))
+		{
+			addBrokenRule("Element negative X " + element.getX() + " not allowed", 
+					element);
+		}
+
 		if (element.getY() < 0 && !allowElementNegativeY(element))
 		{
 			addBrokenRule("Element negative Y " + element.getY() + " not allowed", 
@@ -2483,6 +2515,23 @@ public class JRVerifier
 		}
 
 		verifyProperyExpressions(element.getPropertyExpressions());
+	}
+
+	protected boolean allowElementNegativeX(JRElement element)
+	{
+		// default to report/global property
+		boolean allow = allowElementNegativeX;
+		if (element.hasProperties())
+		{
+			JRPropertiesMap properties = element.getPropertiesMap();
+			if (properties.containsProperty(PROPERTY_ALLOW_ELEMENT_NEGATIVE_X))
+			{
+				// use element level property
+				allow = JRPropertiesUtil.asBoolean(properties.getProperty(
+						PROPERTY_ALLOW_ELEMENT_NEGATIVE_X));
+			}
+		}
+		return allow;
 	}
 
 	protected boolean allowElementNegativeY(JRElement element)

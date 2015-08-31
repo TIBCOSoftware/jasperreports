@@ -468,6 +468,27 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		{
 			return JRFillFrame.this.getHeight() - getLineBox().getTopPadding().intValue() - getLineBox().getBottomPadding().intValue(); 
 		}
+
+		protected int getActualContainerHeight()
+		{
+			int containerHeight = JRFillFrame.this.getHeight() - getLineBox().getTopPadding().intValue() - getLineBox().getBottomPadding().intValue(); 
+			
+			if (JRFillFrame.this.frameContainer.bottomElementInGroup != null)
+			{
+				if (
+					getLineBox().getTopPadding().intValue() 
+					+ JRFillFrame.this.frameContainer.bottomElementInGroup.getY() 
+					+ JRFillFrame.this.frameContainer.bottomElementInGroup.getHeight() > JRFillFrame.this.getHeight()
+					)
+				{
+					containerHeight = 
+						JRFillFrame.this.frameContainer.bottomElementInGroup.getY() 
+						+ JRFillFrame.this.frameContainer.bottomElementInGroup.getHeight();
+				}
+			}
+
+			return containerHeight; 
+		}
 	}
 	
 }

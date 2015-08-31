@@ -45,7 +45,7 @@ public enum TextPositionEnum implements NamedEnum
 	/**
 	 * 
 	 */
-	UP("up");
+	TOP("top");
 
 	/**
 	 *

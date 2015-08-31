@@ -724,6 +724,7 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_subreportVariable = "subreportVariable";
 	public static final String ATTRIBUTE_toVariable = "toVariable";
 	public static final String ATTRIBUTE_fromVariable = "fromVariable";
+	public static final String ELEMENT_expression = "expression";
 
 	/**
 	 * JRTextElementFactory associated constants

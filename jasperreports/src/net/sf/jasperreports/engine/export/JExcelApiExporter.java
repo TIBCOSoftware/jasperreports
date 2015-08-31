@@ -1578,7 +1578,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		int colIndex = 0;
 		while(cumulativeColWidth < offset)
 		{
-			int colWidth = sheet.getColumnView(col + colIndex).getSize() / 43;
+			int colWidth = layout.getColumnWidth(col + colIndex);
 			if (cumulativeColWidth + colWidth < offset)
 			{
 				colIndex++;

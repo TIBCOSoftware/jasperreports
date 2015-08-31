@@ -125,7 +125,7 @@ public final class JRQueryExecuterUtils
 	 * @param language the query language
 	 * @return a query executer factory
 	 * @throws JRException
-	 * @see JRProperties#QUERY_EXECUTER_FACTORY_PREFIX
+	 * @see QueryExecuterFactory#QUERY_EXECUTER_FACTORY_PREFIX
 	 * @deprecated Replaced by {@link #getExecuterFactory(String)}.
 	 */
 	public static JRQueryExecuterFactory getQueryExecuterFactory(String language) throws JRException

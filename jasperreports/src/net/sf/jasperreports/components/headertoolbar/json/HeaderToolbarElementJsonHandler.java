@@ -67,10 +67,10 @@ import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRIdentifiable;
-import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
@@ -87,6 +87,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.NamedEnum;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
@@ -96,6 +97,9 @@ import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportInteractionHyperlinkProducer;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -103,6 +107,8 @@ import net.sf.jasperreports.web.util.VelocityUtil;
  */
 public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandler
 {
+	private static final Log log = LogFactory.getLog(HeaderToolbarElementJsonHandler.class);
+	
 	private static final String HEADER_TOOLBAR_ELEMENT_JSON_TEMPLATE = "net/sf/jasperreports/components/headertoolbar/json/resources/HeaderToolbarElementJsonTemplate.vm";
 	private static final String PARAM_GENERATED_TEMPLATE_PREFIX = "net.sf.jasperreports.headertoolbar.";
 
@@ -169,10 +175,14 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			contextMap.put("tableUUID", tableUUID);
 			
 			JasperReportsContext jrContext = context.getJasperReportsContext();
-			Locale locale = (Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
 			
-			if (locale == null) {
-				locale = Locale.getDefault();
+			JasperPrint jasperPrint = context.getExportedReport();
+			Locale locale = jasperPrint.getLocaleCode() == null ? Locale.getDefault() : JRDataUtils.getLocale(jasperPrint.getLocaleCode());
+			TimeZone timeZone = getFilterTimeZone(jasperPrint, element);
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("column " + columnUuid + " has locale " + locale + ", timezone " + timeZone);
 			}
 			
 			Boolean isClearCache = (Boolean)reportContext.getParameterValue(PARAMETER_CLEAR_CONTEXT_CACHE);
@@ -182,6 +192,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			} else {
 				reportContext.setParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX, true);
 			}
+			
+			ColumnFormatting.store(reportContext, tableUUID, columnIndex, locale, timeZone);
 			
 			/*** begin: FILTER PATTERNS ***/
 			// numeric filter pattern
@@ -217,7 +229,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			if (!tableUUID.equals(context.getValue(TABLE_UUID))) 
 			{
 				Map<String, ColumnInfo> columnNames = getAllColumnNames(element, jrContext, contextMap);
-				List<Map<String, Object>> columnGroupsData = getColumnGroupsData(jrContext, reportContext, jasperDesign, dataset, table, tableUUID, locale);
+				List<Map<String, Object>> columnGroupsData = getColumnGroupsData(jrContext, jasperDesign, dataset, table, tableUUID, locale, timeZone);
 				// column names are normally set on the first column, but check if we got them
 				if (!columnNames.isEmpty()) {
 					context.setValue(TABLE_UUID, tableUUID);
@@ -299,7 +311,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 			if (canFilter)
 			{
-				FilterData filterData = getFilterData(jrContext, reportContext, dataset, tableUUID, columnName, columnType, filterType);
+				FilterData filterData = getFilterData(jrContext, dataset, tableUUID, columnName, columnType, filterType,
+						locale, timeZone);
 
 				contextMap.put("dataType", filterType.getName());
 				contextMap.put("filterData", JacksonUtil.getInstance(jrContext).getJsonString(filterData));
@@ -331,7 +344,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			JRDesignTextField detailTextField = TableUtil.getCellElement(JRDesignTextField.class, column.getDetailCell(), true);
 			if (detailTextField != null)
 			{
-				ConditionalFormattingData detailCfd = getConditionalFormattingData(element, jrContext, reportContext, dataset, detailTextField, null);
+				ConditionalFormattingData detailCfd = getConditionalFormattingData(element, jrContext, dataset, detailTextField, null,
+						locale, timeZone);
 				if (detailCfd != null)
 				{
 					contextMap.put("conditionalFormattingData", JacksonUtil.getInstance(jrContext).getJsonString(detailCfd));
@@ -342,6 +356,25 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		}
 		
 		return htmlFragment;
+	}
+
+	protected TimeZone getFilterTimeZone(JasperPrint jasperPrint, JRGenericPrintElement element)
+	{
+		String formatTimeZone = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FORMAT_TIME_ZONE);
+		TimeZone timeZone;
+		if (formatTimeZone != null)
+		{
+			timeZone = JRDataUtils.getTimeZone(formatTimeZone);
+		}
+		else if (jasperPrint.getTimeZoneId() != null)
+		{
+			timeZone = JRDataUtils.getTimeZone(jasperPrint.getTimeZoneId());
+		}
+		else
+		{
+			timeZone = TimeZone.getDefault();
+		}
+		return timeZone;
 	}
 	
 	private List<HashMap<String, String>> getDatePatterns(List<String> datePatterns, Locale locale) {
@@ -462,12 +495,13 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 	
 	private static FilterData getFilterData(
 		JasperReportsContext jasperReportsContext,
-		ReportContext reportContext,
 		JRDesignDataset dataset,
 		String tableUuid,
 		String columnName,
 		String columnType,
-		FilterTypesEnum filterType
+		FilterTypesEnum filterType,
+		Locale locale,
+		TimeZone timeZone
 		) 
 	{
 		// get existing filter as JSON string
@@ -487,15 +521,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 					break;
 				}
 			}
-		}
-		
-		Locale locale = (Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
-		if (locale == null) {
-			locale = Locale.getDefault();
-		}
-		TimeZone timeZone = (TimeZone) reportContext.getParameterValue(JRParameter.REPORT_TIME_ZONE);
-		if (timeZone == null) {
-			timeZone = TimeZone.getDefault();//FIXMEJIVE maybe get timezone from somewhere else?
 		}
 		
 		FilterData filterData = new FilterData();
@@ -698,8 +723,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		return result;
 	}
 
-	private List<Map<String, Object>> getColumnGroupsData(JasperReportsContext jasperReportsContext, ReportContext reportContext, JasperDesign jasperDesign,
-			JRDesignDataset dataset, StandardTable table, String tableUuid, Locale locale)
+	private List<Map<String, Object>> getColumnGroupsData(JasperReportsContext jasperReportsContext, JasperDesign jasperDesign,
+			JRDesignDataset dataset, StandardTable table, String tableUuid, Locale locale, TimeZone timeZone)
 	{
 		List<BaseColumn> allColumns = TableUtil.getAllColumns(table);
 
@@ -805,10 +830,11 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 					: getConditionalFormattingData(
 						null,
 						jasperReportsContext, 
-						reportContext, 
 						dataset, 
 						textField,
-						groupInfo.getName()
+						groupInfo.getName(),
+						locale,
+						timeZone
 						);
 			
 			if (cfData != null) 
@@ -832,10 +858,11 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 	private static ConditionalFormattingData getConditionalFormattingData(
 		JRGenericPrintElement element,
 		JasperReportsContext jasperReportsContext, 
-		ReportContext reportContext, 
 		JRDesignDataset dataset,
 		JRDesignTextField textField,
-		String groupName
+		String groupName,
+		Locale locale,
+		TimeZone timeZone
 		) 
 	{
 		FilterTypesEnum conditionType = null;
@@ -909,15 +936,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			
 			if (conditionType.getName().equals(cfd.getConditionType()))
 			{
-				Locale locale = (Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
-				if (locale == null) {
-					locale = Locale.getDefault();
-				}
-				TimeZone timeZone = (TimeZone) reportContext.getParameterValue(JRParameter.REPORT_TIME_ZONE);
-				if (timeZone == null) {
-					timeZone = TimeZone.getDefault();//FIXMEJIVE maybe get timezone from somewhere else?
-				}
-				
 				String conditionPattern = HeaderToolbarElementUtils.getFilterPattern(jasperReportsContext, locale, conditionType);
 
 				HeaderToolbarElementUtils.updateConditionalFormattingData(

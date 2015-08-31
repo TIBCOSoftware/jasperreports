@@ -292,7 +292,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 				} else {
 					xlsLocale = (Locale) getParameterValue(JRParameter.REPORT_LOCALE, true);
 					if (xlsLocale != null) { //this is never null at this point, actually
-						datasource.setLocale(xlsLocaleCode);
+						datasource.setLocale(xlsLocale);
 					}
 				}
 			}

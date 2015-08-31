@@ -31,11 +31,11 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.JRSubreportReturnValue JRSubreportReturnValue}
- * to be used for report desing purposes.
+ * to be used for report design purposes.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue implements JRChangeEventsSupport
+public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue implements JRChangeEventsSupport // do not extend DesignCommonReturnValue to avoid deserialization field issues
 {
 
 	/**
@@ -55,7 +55,7 @@ public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue imp
 	 * Sets the subreport variable name.
 	 * 
 	 * @param name the variable name
-	 * @see net.sf.jasperreports.engine.JRSubreportReturnValue#getSubreportVariable()
+	 * @see net.sf.jasperreports.engine.JRSubreportReturnValue#getFromVariable()
 	 */
 	public void setSubreportVariable(String name)
 	{
@@ -81,7 +81,7 @@ public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue imp
 	 * Sets the calculation type.
 	 * 
 	 * @param calculationValue the calculation type
-	 * @see net.sf.jasperreports.engine.JRSubreportReturnValue#getCalculationValue()
+	 * @see net.sf.jasperreports.engine.JRSubreportReturnValue#getCalculation()
 	 */
 	public void setCalculation(CalculationEnum calculationValue)
 	{

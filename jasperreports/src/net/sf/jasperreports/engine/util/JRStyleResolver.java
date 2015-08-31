@@ -30,6 +30,7 @@ import net.sf.jasperreports.charts.JRTimeAxisFormat;
 import net.sf.jasperreports.charts.JRValueAxisFormat;
 import net.sf.jasperreports.charts.JRXAxisFormat;
 import net.sf.jasperreports.charts.JRYAxisFormat;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRCommonElement;
@@ -43,6 +44,7 @@ import net.sf.jasperreports.engine.JRImageAlignment;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.JRTextAlignment;
@@ -68,6 +70,8 @@ public final class JRStyleResolver
 {
 
 	private static final Integer INTEGER_ZERO = Integer.valueOf(0);
+	
+	private static final JRPropertiesUtil propertiesUtil = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance());
 
 
 	/**
@@ -762,7 +766,6 @@ public final class JRStyleResolver
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static Float getLineSpacingSize(JRParagraph paragraph)
 	{
 		Float ownLineSpacingSize = paragraph.getOwnLineSpacingSize();
@@ -779,13 +782,12 @@ public final class JRStyleResolver
 				return lineSpacingSize;
 			}
 		}
-		return JRProperties.getFloatProperty(JRParagraph.DEFAULT_LINE_SPACING_SIZE);
+		return propertiesUtil.getFloatProperty(JRParagraph.DEFAULT_LINE_SPACING_SIZE);
 	}
 
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static Integer getFirstLineIndent(JRParagraph paragraph)
 	{
 		Integer ownFirstLineIndent = paragraph.getOwnFirstLineIndent();
@@ -802,13 +804,12 @@ public final class JRStyleResolver
 				return firstLineIndent;
 			}
 		}
-		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_FIRST_LINE_INDENT);
+		return propertiesUtil.getIntegerProperty(JRParagraph.DEFAULT_FIRST_LINE_INDENT);
 	}
 
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static Integer getLeftIndent(JRParagraph paragraph)
 	{
 		Integer ownLeftIndent = paragraph.getOwnLeftIndent();
@@ -825,13 +826,12 @@ public final class JRStyleResolver
 				return leftIndent;
 			}
 		}
-		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_LEFT_INDENT);
+		return propertiesUtil.getIntegerProperty(JRParagraph.DEFAULT_LEFT_INDENT);
 	}
 
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static Integer getRightIndent(JRParagraph paragraph)
 	{
 		Integer ownRightIndent = paragraph.getOwnRightIndent();
@@ -848,13 +848,12 @@ public final class JRStyleResolver
 				return rightIndent;
 			}
 		}
-		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_RIGHT_INDENT);
+		return propertiesUtil.getIntegerProperty(JRParagraph.DEFAULT_RIGHT_INDENT);
 	}
 
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static Integer getSpacingBefore(JRParagraph paragraph)
 	{
 		Integer ownSpacingBefore = paragraph.getOwnSpacingBefore();
@@ -871,13 +870,12 @@ public final class JRStyleResolver
 				return spacingBefore;
 			}
 		}
-		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_SPACING_BEFORE);
+		return propertiesUtil.getIntegerProperty(JRParagraph.DEFAULT_SPACING_BEFORE);
 	}
 
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static Integer getSpacingAfter(JRParagraph paragraph)
 	{
 		Integer ownSpacingAfter = paragraph.getOwnSpacingAfter();
@@ -894,13 +892,12 @@ public final class JRStyleResolver
 				return spacingAfter;
 			}
 		}
-		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_SPACING_AFTER);
+		return propertiesUtil.getIntegerProperty(JRParagraph.DEFAULT_SPACING_AFTER);
 	}
 
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static Integer getTabStopWidth(JRParagraph paragraph)
 	{
 		Integer ownTabStopWidth = paragraph.getOwnTabStopWidth();
@@ -917,7 +914,7 @@ public final class JRStyleResolver
 				return tabStopWidth;
 			}
 		}
-		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_TAB_STOP_WIDTH);
+		return propertiesUtil.getIntegerProperty(JRParagraph.DEFAULT_TAB_STOP_WIDTH);
 	}
 
 	/**
@@ -1139,7 +1136,6 @@ public final class JRStyleResolver
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static String getFontName(JRFont font)
 	{
 		String ownFontName = font.getOwnFontName();
@@ -1156,13 +1152,12 @@ public final class JRStyleResolver
 				return fontName;
 			}
 		}
-		return JRProperties.getProperty(JRFont.DEFAULT_FONT_NAME);
+		return propertiesUtil.getProperty(JRFont.DEFAULT_FONT_NAME);
 	}
 	
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static String getFontName(JRStyle style)
 	{
 		String ownFontName = style.getOwnFontName();
@@ -1179,7 +1174,7 @@ public final class JRStyleResolver
 				return fontName;
 			}
 		}
-		return JRProperties.getProperty(JRFont.DEFAULT_FONT_NAME);
+		return propertiesUtil.getProperty(JRFont.DEFAULT_FONT_NAME);
 	}
 
 	/**
@@ -1344,7 +1339,6 @@ public final class JRStyleResolver
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static float getFontsize(JRFont font)
 	{
 		Float ownFontSize = font.getOwnFontsize();
@@ -1361,7 +1355,7 @@ public final class JRStyleResolver
 				return fontSize.floatValue();
 			}
 		}
-		return JRProperties.getFloatProperty(JRFont.DEFAULT_FONT_SIZE);
+		return propertiesUtil.getFloatProperty(JRFont.DEFAULT_FONT_SIZE);
 	}
 	
 	/**
@@ -1402,7 +1396,6 @@ public final class JRStyleResolver
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static String getPdfFontName(JRFont font)
 	{
 		String ownPdfFontName = font.getOwnPdfFontName();
@@ -1419,13 +1412,12 @@ public final class JRStyleResolver
 				return pdfFontName;
 			}
 		}
-		return JRProperties.getProperty(JRFont.DEFAULT_PDF_FONT_NAME);
+		return propertiesUtil.getProperty(JRFont.DEFAULT_PDF_FONT_NAME);
 	}
 	
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static String getPdfFontName(JRStyle style)
 	{
 		String ownPdfFontName = style.getOwnPdfFontName();
@@ -1442,13 +1434,12 @@ public final class JRStyleResolver
 				return pdfFontName;
 			}
 		}
-		return JRProperties.getProperty(JRFont.DEFAULT_PDF_FONT_NAME);
+		return propertiesUtil.getProperty(JRFont.DEFAULT_PDF_FONT_NAME);
 	}
 
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static String getPdfEncoding(JRFont font)
 	{
 		String ownPdfEncoding = font.getOwnPdfEncoding();
@@ -1465,13 +1456,12 @@ public final class JRStyleResolver
 				return pdfEncoding;
 			}
 		}
-		return JRProperties.getProperty(JRFont.DEFAULT_PDF_ENCODING);
+		return propertiesUtil.getProperty(JRFont.DEFAULT_PDF_ENCODING);
 	}
 	
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static String getPdfEncoding(JRStyle style)
 	{
 		String ownPdfEncoding = style.getOwnPdfEncoding();
@@ -1488,13 +1478,12 @@ public final class JRStyleResolver
 				return pdfEncoding;
 			}
 		}
-		return JRProperties.getProperty(JRFont.DEFAULT_PDF_ENCODING);
+		return propertiesUtil.getProperty(JRFont.DEFAULT_PDF_ENCODING);
 	}
 
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static boolean isPdfEmbedded(JRFont font)
 	{
 		Boolean ownPdfEmbedded = font.isOwnPdfEmbedded();
@@ -1511,7 +1500,7 @@ public final class JRStyleResolver
 				return pdfEmbedded.booleanValue();
 			}
 		}
-		return JRProperties.getBooleanProperty(JRFont.DEFAULT_PDF_EMBEDDED);
+		return propertiesUtil.getBooleanProperty(JRFont.DEFAULT_PDF_EMBEDDED);
 	}
 	
 	/**

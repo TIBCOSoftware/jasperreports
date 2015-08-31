@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
- * Implementation of {@link net.sf.jasperreports.engine.JRDatasetRun JRDatasetRun} to be used for report desing.
+ * Implementation of {@link net.sf.jasperreports.engine.JRDatasetRun JRDatasetRun} to be used for report design.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */

@@ -80,7 +80,7 @@ public class XlsxParagraphHelper extends BaseHelper
 	 */
 	public void exportProps(JRPrintText text)
 	{
-		exportPropsHeader(text.getStyle() == null ? null : text.getStyle().getName());//FIXMEDOCX why getStyleNameReference is not working?
+		exportPropsHeader(text.getStyle() == null ? null : text.getStyle().getName()); //javadoc says getStyleNameReference is not supposed to work for print elements 
 
 		exportAlignment(
 			getHorizontalAlignment(

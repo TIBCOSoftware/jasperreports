@@ -81,6 +81,11 @@ public class DefaultFormatFactory implements FormatFactory
 	 */
 	public static final String STANDARD_DATE_FORMAT_SEPARATOR = ",";
 
+	/**
+	 * Number pattern to show integer value as duration expressed in hours:minutes:seconds.
+	 */
+	public static final String STANDARD_NUMBER_FORMAT_DURATION = "[h]:mm:ss";
+
 
 	public DateFormat createDateFormat(String pattern, Locale locale, TimeZone tz)
 	{
@@ -203,18 +208,25 @@ public class DefaultFormatFactory implements FormatFactory
 		NumberFormat format = null;
 		if (pattern != null && pattern.trim().length() > 0)
 		{
-			if (locale == null)
+			if (STANDARD_NUMBER_FORMAT_DURATION.equals(pattern))
 			{
-				format = NumberFormat.getNumberInstance();
+				format = new DurationNumberFormat();
 			}
 			else
 			{
-				format = NumberFormat.getNumberInstance(locale);
-			}
-			
-			if (format instanceof DecimalFormat)
-			{
-				((DecimalFormat) format).applyPattern(pattern);
+				if (locale == null)
+				{
+					format = NumberFormat.getNumberInstance();
+				}
+				else
+				{
+					format = NumberFormat.getNumberInstance(locale);
+				}
+				
+				if (format instanceof DecimalFormat)
+				{
+					((DecimalFormat) format).applyPattern(pattern);
+				}
 			}
 		}
 		return format;

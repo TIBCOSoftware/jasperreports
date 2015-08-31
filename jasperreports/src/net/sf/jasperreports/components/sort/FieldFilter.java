@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.EvaluationType;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.fill.DatasetFillContext;
 import net.sf.jasperreports.engine.fill.JRFillDataset;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 
 /**
  * A dataset filter that matches String values based on substrings.
@@ -80,13 +81,48 @@ public class FieldFilter implements DatasetFilter {
 		this.context = context;
 		this.filterTypeEnum = FilterTypesEnum.getByName(filterType);
 		if (fieldComparator == null) {
+			Locale locale = getFilterLocale();
+			TimeZone timeZone = getFilterTimeZone();
+			
 			fieldComparator = FieldComparatorFactory
 					.createFieldComparator(
 							filterTypeEnum,
 							filterPattern,
-							context.getLocale() != null ? context.getLocale() : Locale.getDefault(),
-							(TimeZone) context.getParameterValue(JRParameter.REPORT_TIME_ZONE));
+							locale,
+							timeZone);
 		}
+	}
+
+	protected Locale getFilterLocale()
+	{
+		Locale locale;
+		if (localeCode != null)
+		{
+			locale = JRDataUtils.getLocale(localeCode);
+		}
+		else if (context.getLocale() != null)
+		{
+			locale = context.getLocale();
+		}
+		else
+		{
+			locale = Locale.getDefault();
+		}
+		return locale;
+	}
+
+	protected TimeZone getFilterTimeZone()
+	{
+		TimeZone timeZone;
+		if (timeZoneId != null)
+		{
+			timeZone = JRDataUtils.getTimeZone(timeZoneId);
+		}
+		else
+		{
+			timeZone = (TimeZone) context.getParameterValue(JRParameter.REPORT_TIME_ZONE);
+		}
+		return timeZone;
 	}
 
 	public boolean matches(EvaluationType evaluation) {

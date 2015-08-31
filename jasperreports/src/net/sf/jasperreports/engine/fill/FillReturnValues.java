@@ -26,13 +26,12 @@ package net.sf.jasperreports.engine.fill;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.engine.CommonReturnValue;
+import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
-import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.ReturnValue;
-import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
-import net.sf.jasperreports.engine.type.CalculationEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,18 +44,15 @@ public class FillReturnValues
 
 	public static interface SourceContext
 	{
-		JRVariable getVariable(String name);
+		void check(CommonReturnValue returnValue) throws JRException;
 		
-		Object getVariableValue(String name);
+		Object getValue(CommonReturnValue returnValue);
 	}
 
 	private static final Log log = LogFactory.getLog(FillReturnValues.class);
-	public static final String EXCEPTION_MESSAGE_KEY_NUMERIC_TYPE_REQUIRED = "fill.return.values.numeric.type.required";
-	public static final String EXCEPTION_MESSAGE_KEY_SOURCE_NOT_FOUND = "fill.return.values.source.not.found";
-	public static final String EXCEPTION_MESSAGE_KEY_VARIABLE_NOT_ASSIGNABLE = "fill.return.values.variable.not.assignable";
 	
 	private final BaseReportFiller filler;
-	private JRFillSubreportReturnValue[] returnValues;
+	private JRFillCommonReturnValue[] returnValues;
 	private JRFillBand band;
 	
 	public FillReturnValues(JRSubreportReturnValue[] values, JRFillObjectFactory factory, BaseReportFiller filler)
@@ -65,15 +61,15 @@ public class FillReturnValues
 		
 		if (values != null && values.length > 0)
 		{
-			List<JRFillSubreportReturnValue> returnValuesList = 
-					new ArrayList<JRFillSubreportReturnValue>(values.length * 2);
+			List<JRFillCommonReturnValue> returnValuesList = 
+					new ArrayList<JRFillCommonReturnValue>(values.length * 2);
 			for (JRSubreportReturnValue returnValue : values)
 			{
-				JRFillSubreportReturnValue fillReturnValue = factory.getSubreportReturnValue(returnValue);
-				addReturnValue(fillReturnValue, returnValuesList, factory, filler);
+				JRFillVariableReturnValue fillReturnValue = factory.getSubreportReturnValue(returnValue);
+				fillReturnValue.addReturnValue(fillReturnValue, returnValuesList, factory, filler);
 			}
 			
-			returnValues = new JRFillSubreportReturnValue[returnValuesList.size()];
+			returnValues = new JRFillVariableReturnValue[returnValuesList.size()];
 			returnValuesList.toArray(returnValues);
 		}
 	}
@@ -84,15 +80,34 @@ public class FillReturnValues
 		
 		if (values != null && !values.isEmpty())
 		{
-			List<JRFillSubreportReturnValue> returnValuesList = 
-					new ArrayList<JRFillSubreportReturnValue>(values.size() * 2);
+			List<JRFillCommonReturnValue> returnValuesList = 
+					new ArrayList<JRFillCommonReturnValue>(values.size() * 2);
 			for (ReturnValue returnValue : values)
 			{
-				JRFillSubreportReturnValue fillReturnValue = factory.getReturnValue(returnValue);
-				addReturnValue(fillReturnValue, returnValuesList, factory, filler);
+				JRFillVariableReturnValue fillReturnValue = factory.getReturnValue(returnValue);
+				fillReturnValue.addReturnValue(fillReturnValue, returnValuesList, factory, filler);
 			}
 			
-			returnValues = new JRFillSubreportReturnValue[returnValuesList.size()];
+			returnValues = new JRFillCommonReturnValue[returnValuesList.size()];
+			returnValuesList.toArray(returnValues);
+		}
+	}
+
+	public FillReturnValues(ExpressionReturnValue[] values, JRFillObjectFactory factory, BaseReportFiller filler)
+	{
+		this.filler = filler;
+		
+		if (values != null && values.length > 0)
+		{
+			List<JRFillCommonReturnValue> returnValuesList = 
+					new ArrayList<JRFillCommonReturnValue>(values.length * 2);
+			for (ExpressionReturnValue returnValue : values)
+			{
+				JRFillExpressionReturnValue fillReturnValue = factory.getReturnValue(returnValue);
+				fillReturnValue.addReturnValue(fillReturnValue, returnValuesList, factory, filler);
+			}
+			
+			returnValues = new JRFillCommonReturnValue[returnValuesList.size()];
 			returnValuesList.toArray(returnValues);
 		}
 	}
@@ -104,88 +119,12 @@ public class FillReturnValues
 		
 		if (values.returnValues != null)
 		{
-			this.returnValues = new JRFillSubreportReturnValue[values.returnValues.length];
+			this.returnValues = new JRFillCommonReturnValue[values.returnValues.length];
 			for (int i = 0; i < values.returnValues.length; i++)
 			{
-				this.returnValues[i] = new JRFillSubreportReturnValue(values.returnValues[i], factory);
+				this.returnValues[i] = new JRFillVariableReturnValue((JRFillVariableReturnValue)values.returnValues[i], factory);//FIXMERETURN the forced cast should be removed
 			}
 		}
-	}
-
-	protected JRFillSubreportReturnValue addReturnValue(
-			JRFillSubreportReturnValue returnValue,
-			List<JRFillSubreportReturnValue> returnValueList,
-			JRFillObjectFactory factory, BaseReportFiller filler)
-	{
-		CalculationEnum calculation = returnValue.getCalculationValue();
-		switch (calculation)
-		{
-			case AVERAGE:
-			case VARIANCE:
-			{
-				JRSubreportReturnValue countVal = createHelperReturnValue(returnValue, "_COUNT", CalculationEnum.COUNT);
-				addDerivedReturnValue(countVal, returnValueList, factory, filler);
-
-				JRSubreportReturnValue sumVal = createHelperReturnValue(returnValue, "_SUM", CalculationEnum.SUM);
-				addDerivedReturnValue(sumVal, returnValueList, factory, filler);
-
-				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
-
-				break;
-			}
-			case STANDARD_DEVIATION:
-			{
-				JRSubreportReturnValue varianceVal = createHelperReturnValue(returnValue, "_VARIANCE", CalculationEnum.VARIANCE);
-				addDerivedReturnValue(varianceVal, returnValueList, factory, filler);
-				
-				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
-				break;
-			}
-			case DISTINCT_COUNT:
-			{
-				JRSubreportReturnValue countVal = createDistinctCountHelperReturnValue(returnValue);
-				addDerivedReturnValue(countVal, returnValueList, factory, filler);
-				
-				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
-				break;
-			}
-		}
-
-		returnValueList.add(returnValue);
-		return returnValue;
-	}
-
-	protected JRFillSubreportReturnValue addDerivedReturnValue (
-			JRSubreportReturnValue parentReturnValue, 
-			List<JRFillSubreportReturnValue> returnValueList, 
-			JRFillObjectFactory factory, BaseReportFiller filler
-			)
-	{
-		JRFillSubreportReturnValue returnValue = factory.getSubreportReturnValue(parentReturnValue);
-		returnValue.setDerived(true);
-		return addReturnValue(returnValue, returnValueList, factory, filler);
-	}
-	
-	protected JRSubreportReturnValue createHelperReturnValue(JRSubreportReturnValue returnValue, String nameSuffix, CalculationEnum calculation)
-	{
-		JRDesignSubreportReturnValue helper = new JRDesignSubreportReturnValue();
-		helper.setToVariable(returnValue.getToVariable() + nameSuffix);
-		helper.setSubreportVariable(returnValue.getSubreportVariable());
-		helper.setCalculation(calculation);
-		helper.setIncrementerFactoryClassName(helper.getIncrementerFactoryClassName());//FIXME shouldn't it be returnValue?
-		
-		return helper;
-	}
-
-	protected JRSubreportReturnValue createDistinctCountHelperReturnValue(JRSubreportReturnValue returnValue)
-	{
-		JRDesignSubreportReturnValue helper = new JRDesignSubreportReturnValue();
-		helper.setToVariable(returnValue.getToVariable() + "_DISTINCT_COUNT");
-		helper.setSubreportVariable(returnValue.getSubreportVariable());
-		helper.setCalculation(CalculationEnum.NOTHING);
-		helper.setIncrementerFactoryClassName(JRDistinctCountIncrementerFactory.class.getName());
-		
-		return helper;
 	}
 
 	public void setBand(JRFillBand band)
@@ -218,13 +157,13 @@ public class FillReturnValues
 		{
 			for (int j = 0; j < returnValues.length; j++)
 			{
-				JRSubreportReturnValue returnValue = returnValues[j];
+				CommonReturnValue returnValue = returnValues[j];
 				if (returnValue.getToVariable().equals(variableName))
 				{
 					if (log.isDebugEnabled())
 					{
-						log.debug("variable " + variableName 
-								+ " used for return value of " + returnValue.getSubreportVariable());
+//FIXMERETURN						log.debug("variable " + variableName 
+//								+ " used for return value of " + returnValue.getFromVariable());
 					}
 					
 					used = true;
@@ -249,17 +188,17 @@ public class FillReturnValues
 		}
 	}
 
-	protected void copyValue(JRFillSubreportReturnValue returnValue, SourceContext sourceContext)
+	protected void copyValue(JRFillCommonReturnValue returnValue, SourceContext sourceContext)
 	{
 		try
 		{
 			JRFillVariable variable = filler.getVariable(returnValue.getToVariable());
-			Object value = sourceContext.getVariableValue(returnValue.getSubreportVariable());
+			Object value = sourceContext.getValue(returnValue);
 			
 			if (log.isTraceEnabled())
 			{
-				log.trace("copying value " + value + " of " + returnValue.getSubreportVariable()
-						+ " to " + returnValue.getToVariable());
+//FIXMERETURN				log.trace("copying value " + value + " of " + returnValue.getFromVariable()
+//						+ " to " + returnValue.getToVariable());
 			}
 			
 			Object newValue = returnValue.getIncrementer().increment(variable, value, AbstractValueProvider.getCurrentValueProvider());
@@ -284,48 +223,14 @@ public class FillReturnValues
 		{
 			for (int i = 0; i < returnValues.length; i++)
 			{
-				JRFillSubreportReturnValue returnValue = returnValues[i];
+				JRFillCommonReturnValue returnValue = returnValues[i];
 				if (returnValue.isDerived())
 				{
 					// internally created, not checking
 					continue;
 				}
 				
-				String subreportVariableName = returnValue.getSubreportVariable();
-				JRVariable subrepVariable = sourceContext.getVariable(subreportVariableName);
-				if (subrepVariable == null)
-				{
-					throw 
-						new JRException(
-							EXCEPTION_MESSAGE_KEY_SOURCE_NOT_FOUND,  
-							new Object[]{subreportVariableName, returnValue.getToVariable()} 
-							);
-				}
-				
-				JRVariable variable = filler.getVariable(returnValue.getToVariable());
-				if (
-					returnValue.getCalculationValue() == CalculationEnum.COUNT
-					|| returnValue.getCalculationValue() == CalculationEnum.DISTINCT_COUNT
-					)
-				{
-					if (!Number.class.isAssignableFrom(variable.getValueClass()))
-					{
-						throw 
-							new JRException(
-								EXCEPTION_MESSAGE_KEY_NUMERIC_TYPE_REQUIRED,  
-								new Object[]{returnValue.getToVariable()} 
-								);
-					}
-				}
-				else if (!variable.getValueClass().isAssignableFrom(subrepVariable.getValueClass()) &&
-						!(Number.class.isAssignableFrom(variable.getValueClass()) && Number.class.isAssignableFrom(subrepVariable.getValueClass())))
-				{
-					throw 
-						new JRException(
-							EXCEPTION_MESSAGE_KEY_VARIABLE_NOT_ASSIGNABLE,  
-							new Object[]{returnValue.getToVariable(), subreportVariableName}
-							);
-				}
+				sourceContext.check(returnValue);
 			}
 		}
 	}

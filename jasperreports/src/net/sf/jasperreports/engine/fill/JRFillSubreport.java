@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.data.cache.DataCacheHandler;
+import net.sf.jasperreports.engine.CommonReturnValue;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRException;
@@ -57,6 +58,7 @@ import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.VariableReturnValue;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JRValidationFault;
@@ -113,18 +115,21 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	 */
 	private FillReturnValues returnValues;
 
-	private FillReturnValues.SourceContext returnValuesContext = new FillReturnValues.SourceContext()
+	private FillReturnValues.SourceContext returnValuesContext = new AbstractVariableReturnValueSourceContext() 
 	{
 		@Override
-		public JRVariable getVariable(String name)
-		{
-			return subreportFiller.getVariable(name);
+		public Object getValue(CommonReturnValue returnValue) {
+			return subreportFiller.getVariableValue(((VariableReturnValue)returnValue).getFromVariable());
 		}
 
 		@Override
-		public Object getVariableValue(String name)
-		{
-			return subreportFiller.getVariableValue(name);
+		public JRVariable getToVariable(String name) {
+			return filler.getVariable(name);
+		}
+
+		@Override
+		public JRVariable getFromVariable(String name) {
+			return subreportFiller.getVariable(name);
 		}
 	};
 	
@@ -133,7 +138,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	 */
 	protected JRBaseFiller subreportFiller;
 	protected FillerSubreportParent subFillerParent;
-	private JRPrintPage printPage;
+	protected JRPrintPage printPage;
 
 	private JRSubreportRunner runner;
 	
@@ -174,6 +179,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		
 		parameters = subreport.parameters;
 		returnValues = new FillReturnValues(subreport.returnValues, factory);
+		returnValuesContext = subreport.returnValuesContext;//FIXMERETURN this was missing; really need it?
 		
 		loadedEvaluators = new HashMap<JasperReport,JREvaluator>();// not sharing evaluators between clones
 		checkedReports = subreport.checkedReports;

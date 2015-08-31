@@ -111,6 +111,7 @@ ga('send', 'pageview');
 <xsl:attribute name="href">sample.reference.html</xsl:attribute>Sample Reference</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">schema.reference.html</xsl:attribute>Schema Reference</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration Reference</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">http://community.jaspersoft.com/wiki/jasperreports-library-faqs</xsl:attribute>FAQ</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href"><xsl:value-of select="$api.url"/>index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
 <br/>
     </td>
@@ -453,6 +454,7 @@ ga('send', 'pageview');
     <td colspan="3"></td>
 	<td colspan="2"><xsl:apply-templates select="xsd:annotation/xsd:documentation"/></td>
   </tr>
+  <xsl:if test="@type">
   <tr>
     <td colspan="3"></td>
     <td colspan="2"><span class="label">Type: </span><span class="description">
@@ -465,10 +467,19 @@ ga('send', 'pageview');
 	    </xsl:choose></span>
 	</td>
   </tr>
+  </xsl:if>
+  <xsl:if test="@use">
   <tr>
     <td colspan="3"></td>
     <td colspan="2"><span class="label">Use: </span><span class="description"><xsl:value-of select="@use"/></span></td>
   </tr>
+  </xsl:if>
+  <xsl:if test="xsd:simpleType/xsd:restriction[@base]">
+  <tr>
+    <td colspan="3"></td>
+    <td colspan="2"><span class="label">Base Type: </span><xsl:apply-templates select="xsd:simpleType/xsd:restriction"/></td>
+  </tr>
+  </xsl:if>
   <xsl:if test="xsd:simpleType/xsd:restriction/xsd:enumeration">
   <tr>
     <td colspan="3"></td>
@@ -590,6 +601,11 @@ ga('send', 'pageview');
     </span>
     </td>
   </tr>
+</xsl:template>
+
+
+<xsl:template match="xsd:simpleType/xsd:restriction">
+  <span class="description"><xsl:value-of select="@base"/></span>
 </xsl:template>
 
 

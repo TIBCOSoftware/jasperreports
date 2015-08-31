@@ -60,6 +60,7 @@ public class FunctionsApp extends AbstractSampleApp
 	{
 		fill();
 		pdf();
+		html();
 	}
 
 
@@ -85,6 +86,16 @@ public class FunctionsApp extends AbstractSampleApp
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 	
+	
+	/**
+	 *
+	 */
+	public void html() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		JasperExportManager.exportReportToHtmlFile("build/reports/FunctionsReport.jrprint");
+		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
+	}
 	
 	/**
 	 *
