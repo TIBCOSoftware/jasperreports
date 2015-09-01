@@ -213,33 +213,6 @@ public abstract class AbstractAction implements Action {
 	}
 
 
-	/**
-	 * 
-	 */
-	public NumberFormat createNumberFormat(String pattern, Locale locale)
-	{
-		NumberFormat format = null;
-
-		if (locale == null)
-		{
-			format = NumberFormat.getNumberInstance();
-		}
-		else
-		{
-			format = NumberFormat.getNumberInstance(locale);
-		}
-			
-		if (pattern != null && pattern.trim().length() > 0)
-		{
-			if (format instanceof DecimalFormat)
-			{
-				((DecimalFormat) format).applyPattern(pattern);
-			}
-		}
-		return format;
-	}
-
-
 	@Override
 	public boolean requiresRefill() {
 		return true;

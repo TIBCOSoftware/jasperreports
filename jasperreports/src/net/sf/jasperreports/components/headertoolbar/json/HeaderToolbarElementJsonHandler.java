@@ -114,7 +114,9 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 	private static final List<String> datePatterns = new ArrayList<String>(); 
 	private static final List<String> timePatterns = new ArrayList<String>(); 
-	private static final Map<String, String> numberPatternsMap = new LinkedHashMap<String, String>(); 
+	private static final Map<String, String> numberPatternsMap = new LinkedHashMap<String, String>();
+
+	private static final String DURATION_PATTERN = "[h]:mm:ss";
 	
 	static {
 		// date patterns
@@ -150,6 +152,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		numberPatternsMap.put("###0;(###0)", "(1234)");
 		numberPatternsMap.put("###0;(-###0)", "(-1234)");
 		numberPatternsMap.put("###0;(###0-)", "(1234-)");
+		numberPatternsMap.put(DURATION_PATTERN, "[h]:mm:ss");
 	}
 	
 	private static final String TABLE_UUID = "exporter_first_attempt";
@@ -297,7 +300,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			contextMap.put("systemFontNames", getSystemFontNames(jrContext));
 
 			setColumnHeaderData(columnLabel, columnIndex, tableUUID, contextMap, jrContext, reportContext, locale);
-			setColumnValueData(columnIndex, tableUUID, contextMap, jrContext, reportContext, locale);
+			EditTextElementData columnValueData = setColumnValueData(columnIndex, tableUUID, contextMap, jrContext, reportContext, locale);
 
 			String columnName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_NAME);
 			String columnComponentName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_COMPONENT_NAME);
@@ -313,6 +316,10 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			{
 				FilterData filterData = getFilterData(jrContext, dataset, tableUUID, columnName, columnType, filterType,
 						locale, timeZone);
+
+				if (DURATION_PATTERN.equals(columnValueData.getFormatPattern())) {
+					filterData.setFilterPattern(DURATION_PATTERN);
+				}
 
 				contextMap.put("dataType", filterType.getName());
 				contextMap.put("filterData", JacksonUtil.getInstance(jrContext).getJsonString(filterData));
@@ -544,6 +551,10 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		{
 			String filterPattern = HeaderToolbarElementUtils.getFilterPattern(jasperReportsContext, locale, filterType);
 
+			if (FilterTypesEnum.NUMERIC.equals(filterType) && DURATION_PATTERN.equals(filterData.getFilterPattern())) {
+				filterPattern = DURATION_PATTERN;
+			}
+
 			HeaderToolbarElementUtils.updateFilterData(
 				filterData,
 				filterPattern,
@@ -588,25 +599,25 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		contextMap.put("colHeaderData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(textElementData));
 	}
 	
-	private void setColumnValueData(Integer columnIndex, String tableUuid, Map<String, Object> contextMap,
+	private EditTextElementData setColumnValueData(Integer columnIndex, String tableUuid, Map<String, Object> contextMap,
 			JasperReportsContext jasperReportsContext, ReportContext reportContext, Locale locale) {
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
 		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
 		EditTextElementData textElementData = new EditTextElementData();
-		
+
 		if (target != null){
 			JRIdentifiable identifiable = target.getIdentifiable();
 			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
 			StandardTable table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
-			
+
 			List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
-			
+
 			if (columnIndex != null) {
 				StandardColumn column = (StandardColumn) tableColumns.get(columnIndex);
-				
+
 				JRDesignTextField textElement = TableUtil.getCellElement(JRDesignTextField.class, column.getDetailCell(), true);
-				
+
 				if (textElement != null) {
 					textElementData.setColumnIndex(columnIndex);
 					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement, locale);
@@ -614,6 +625,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			}
 		}
 		contextMap.put("colValueData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(textElementData));
+
+		return textElementData;
 	}
 
 	public static class ColumnInfo {
@@ -937,6 +950,10 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			if (conditionType.getName().equals(cfd.getConditionType()))
 			{
 				String conditionPattern = HeaderToolbarElementUtils.getFilterPattern(jasperReportsContext, locale, conditionType);
+
+				if (FilterTypesEnum.NUMERIC.equals(conditionType) && DURATION_PATTERN.equals(textField.getPattern())) {
+					conditionPattern = DURATION_PATTERN;
+				}
 
 				HeaderToolbarElementUtils.updateConditionalFormattingData(
 					cfd,
