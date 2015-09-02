@@ -25,6 +25,8 @@
 define(["jquery.ui", "jive"], function($, jive) {
     var EventManager = null;
 
+    var DURATION_PATTERN = "[h]:mm:ss";
+
     jive.interactive.column = {
         genericPropertiesInitialized: false,
         uuid: null,
@@ -484,17 +486,20 @@ define(["jquery.ui", "jive"], function($, jive) {
             $('#formatPattern').children().each(function (i, optElem) {
                 var opt = $(optElem);
 
-                // attempt to remove current symbol, if present
-                if (cSymbol && cSymbol.length > 0) {
-                    opt.text(it.numberFormat.addRemoveCurrencySymbol(opt.text(), false, cSymbol));
-                    opt.val(it.numberFormat.addRemoveCurrencySymbol(opt.val(), false, cSymbol));
-                }
+                if (DURATION_PATTERN !== opt.val()) {
 
-                // apply new symbol
-                if (args.val && args.val.length > 0) {
-                    opt.text(it.numberFormat.addRemoveCurrencySymbol(opt.text(), true, args.val));
-                    opt.val(it.numberFormat.addRemoveCurrencySymbol(opt.val(), true, args.val));
-                    $('#formatPattern').data('cSymbol', args.val);
+                    // attempt to remove current symbol, if present
+                    if (cSymbol && cSymbol.length > 0) {
+                        opt.text(it.numberFormat.addRemoveCurrencySymbol(opt.text(), false, cSymbol));
+                        opt.val(it.numberFormat.addRemoveCurrencySymbol(opt.val(), false, cSymbol));
+                    }
+
+                    // apply new symbol
+                    if (args.val && args.val.length > 0) {
+                        opt.text(it.numberFormat.addRemoveCurrencySymbol(opt.text(), true, args.val));
+                        opt.val(it.numberFormat.addRemoveCurrencySymbol(opt.val(), true, args.val));
+                        $('#formatPattern').data('cSymbol', args.val);
+                    }
                 }
             });
 
@@ -504,32 +509,43 @@ define(["jquery.ui", "jive"], function($, jive) {
             var it = this;
             $('#formatPattern').children().each(function (i, optElem) {
                 var opt = $(optElem);
-                opt.text(it.numberFormat.addRemovePercentageForNumber(opt.text(), jive.selected.form.inputs['percentageBtn'].value));
-                opt.val(it.numberFormat.addRemovePercentage(opt.val(), jive.selected.form.inputs['percentageBtn'].value));
+
+                if (DURATION_PATTERN !== opt.val()) {
+                    opt.text(it.numberFormat.addRemovePercentageForNumber(opt.text(), jive.selected.form.inputs['percentageBtn'].value));
+                    opt.val(it.numberFormat.addRemovePercentage(opt.val(), jive.selected.form.inputs['percentageBtn'].value));
+                }
             });
         },
         toggleCommaFormat: function(){
             var it = this;
             $('#formatPattern').children().each(function (i, optElem) {
                 var opt = $(optElem);
-                opt.text(it.numberFormat.addRemoveThousandsSeparator(opt.text(), jive.selected.form.inputs['commaBtn'].value));
-                opt.val(it.numberFormat.addRemoveThousandsSeparator(opt.val(), jive.selected.form.inputs['commaBtn'].value));
+
+                if (DURATION_PATTERN !== opt.val()) {
+                    opt.text(it.numberFormat.addRemoveThousandsSeparator(opt.text(), jive.selected.form.inputs['commaBtn'].value));
+                    opt.val(it.numberFormat.addRemoveThousandsSeparator(opt.val(), jive.selected.form.inputs['commaBtn'].value));
+                }
             });
         },
         addDecimal: function(){
             var it = this;
             $('#formatPattern').children().each(function (i, optElem) {
                 var opt = $(optElem);
-                opt.text(it.numberFormat.addRemoveDecimalPlace(opt.text(), true));
-                opt.val(it.numberFormat.addRemoveDecimalPlace(opt.val(), true));
+                if (DURATION_PATTERN !== opt.val()) {
+                    opt.text(it.numberFormat.addRemoveDecimalPlace(opt.text(), true));
+                    opt.val(it.numberFormat.addRemoveDecimalPlace(opt.val(), true));
+                }
             });
         },
         remDecimal: function(){
             var it = this;
             $('#formatPattern').children().each(function (i, optElem) {
                 var opt = $(optElem);
-                opt.text(it.numberFormat.addRemoveDecimalPlace(opt.text(), false));
-                opt.val(it.numberFormat.addRemoveDecimalPlace(opt.val(), false));
+
+                if (DURATION_PATTERN !== opt.val()) {
+                    opt.text(it.numberFormat.addRemoveDecimalPlace(opt.text(), false));
+                    opt.val(it.numberFormat.addRemoveDecimalPlace(opt.val(), false));
+                }
             });
         },
         numberFormat: {
@@ -847,11 +863,9 @@ define(["jquery.ui", "jive"], function($, jive) {
             }
         },
         submit: function() {
-            var metadata = jive.selected.ie.config.filtering.filterData,
-                filtertype = metadata.filterType.toLowerCase(),
-                filterData = {
+            var filterData = {
                     tableUuid: jive.selected.ie.config.parentId,
-                    filterPattern: jive.interactive.column.filterPatterns[filtertype] || null,
+                    filterPattern: jive.selected.ie.config.filtering.filterData.filterPattern,
                     fieldValueStart: jive.selected.form.jo.find('input[name="fieldValueStart"]').val(),
                     filterTypeOperator: jive.selected.form.jo.find('select[name="filterTypeOperator"]').val(),
                     clearFilter: jive.selected.form.jo.find('input[name="clearFilter"]:checked').val()
@@ -979,6 +993,29 @@ define(["jquery.ui", "jive"], function($, jive) {
                         jive.selected.ie = jive.elements[it.getPrevVisibleColUuid(colIdx)];
                     }
                     jive.selected.form.columnChanged();
+                }
+            });
+
+            $("#formatPatternText").on("change", function(evt) {
+                var jo, dataType, applyToVal = selector.val();
+
+                if (applyToVal === "detailrows") {
+                    dataType = jive.selected.ie.config.dataType;
+                } else {
+                    dataType = it.getGroupMetadata(applyToVal).dataType;
+                }
+
+                if ("Numeric" === dataType) {
+                    jo = jive.selected.form.jo.find('table:eq(2)');
+                    if (DURATION_PATTERN === this.value) {
+                        $(this).attr("disabled", true);
+                        jo.find('tr:eq(0)').children('td:last').css('visibility','hidden');
+                        jo.find('tr:eq(1)').children('td:last').css('visibility','hidden');
+                    } else {
+                        $(this).attr("disabled", false);
+                        jo.find('tr:eq(0)').children('td:last').css('visibility','visible');
+                        jo.find('tr:eq(1)').children('td:last').css('visibility','visible');
+                    }
                 }
             });
         },
@@ -1171,6 +1208,7 @@ define(["jquery.ui", "jive"], function($, jive) {
                 isFromCache = false,
                 jo,
                 dataType,
+                formatPattern,
                 htm = [];
 
             if (this.actionDataCache[this.getCacheKey()]) {
@@ -1218,19 +1256,28 @@ define(["jquery.ui", "jive"], function($, jive) {
                 if(dataType && (dataType == 'numeric' || dataType == 'date' || dataType == 'time')) {
                     $.each(jive.interactive.column.patterns[dataType],function(i,o){
                         o && htm.push('<option value="'+o.key+'">'+o.val+'</option>');
-                    })
+                    });
                     $('#formatPattern').html(htm.join(''));
+
                     if (!isFromCache) {
-                        inputs['formatPattern'].set(jive.decodeHTML(metadata.formatPattern));
+                        formatPattern = jive.decodeHTML(metadata.formatPattern);
                     } else {
-                        inputs['formatPattern'].set(metadata.formatPattern);
+                        formatPattern = metadata.formatPattern;
                     }
+
+                    inputs['formatPattern'].set(formatPattern);
+
                     jo.find('tr').show();
                     if (dataType == 'numeric') {
-                        jo.find('tr:eq(0)').children('td:last').css('visibility','visible');
-                        jo.find('tr:eq(1)').children('td:last').css('visibility','visible');
-                        inputs['percentageBtn'].set(false);
-                        inputs['commaBtn'].set(false);
+                        if (DURATION_PATTERN === formatPattern) {
+                            jo.find('tr:eq(0)').children('td:last').css('visibility','hidden');
+                            jo.find('tr:eq(1)').children('td:last').css('visibility','hidden');
+                        } else {
+                            jo.find('tr:eq(0)').children('td:last').css('visibility','visible');
+                            jo.find('tr:eq(1)').children('td:last').css('visibility','visible');
+                            inputs['percentageBtn'].set(false);
+                            inputs['commaBtn'].set(false);
+                        }
                     } else {
                         jo.find('tr:eq(0)').children('td:last').css('visibility','hidden');
                         jo.find('tr:eq(1)').children('td:last').css('visibility','hidden');
@@ -1246,6 +1293,7 @@ define(["jquery.ui", "jive"], function($, jive) {
                 if (group.id === groupId) {
                     $.extend(groupData, group.groupData);
                     group.groupName && (groupData.groupName = group.groupName);
+                    group.dataType && (groupData.dataType = group.dataType);
                     return false; // break each
                 }
             });
