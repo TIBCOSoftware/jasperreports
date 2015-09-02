@@ -179,7 +179,7 @@ public class ConditionalFormattingAction extends AbstractVerifiableTableAction {
 						continue;
 					}
 					try {
-						NumberFormat nf = createNumberFormat(cfd.getConditionPattern(), locale);
+						NumberFormat nf = formatFactory.createNumberFormat(cfd.getConditionPattern(), locale);
 						nf.parse(condition.getConditionStart());
 						if (condition.getConditionEnd() != null && condition.getConditionEnd().length() > 0) {
 							try {

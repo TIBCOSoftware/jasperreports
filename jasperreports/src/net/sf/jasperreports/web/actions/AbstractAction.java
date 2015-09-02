@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.web.actions;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -210,33 +208,6 @@ public abstract class AbstractAction implements Action {
 			}
 		}
 		return null;
-	}
-
-
-	/**
-	 * 
-	 */
-	public NumberFormat createNumberFormat(String pattern, Locale locale)
-	{
-		NumberFormat format = null;
-
-		if (locale == null)
-		{
-			format = NumberFormat.getNumberInstance();
-		}
-		else
-		{
-			format = NumberFormat.getNumberInstance(locale);
-		}
-			
-		if (pattern != null && pattern.trim().length() > 0)
-		{
-			if (format instanceof DecimalFormat)
-			{
-				((DecimalFormat) format).applyPattern(pattern);
-			}
-		}
-		return format;
 	}
 
 

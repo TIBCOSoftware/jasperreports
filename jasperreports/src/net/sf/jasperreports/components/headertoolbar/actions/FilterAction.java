@@ -148,7 +148,7 @@ public class FilterAction extends AbstractVerifiableTableAction {
 				errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.filter.empty.number");
 			}
 			try {
-				NumberFormat nf = createNumberFormat(fd.getFilterPattern(), locale);
+				NumberFormat nf = formatFactory.createNumberFormat(fd.getFilterPattern(), locale);
 				nf.parse(fd.getFieldValueStart());
 				if (fd.getFieldValueEnd() != null && fd.getFieldValueEnd().length() > 0) {
 					try {

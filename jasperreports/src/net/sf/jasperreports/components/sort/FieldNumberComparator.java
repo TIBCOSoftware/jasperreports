@@ -39,18 +39,7 @@ public class FieldNumberComparator extends AbstractFieldComparator<Number> {
 
 
 	public FieldNumberComparator(String filterPattern, Locale locale) {
-		if (locale == null) {
-			formatter = NumberFormat.getNumberInstance();
-		} else {
-			formatter = NumberFormat.getNumberInstance(locale);
-		}
-		
-		if (filterPattern != null && filterPattern.trim().length() > 0) {
-			
-			if (formatter instanceof DecimalFormat) {
-				((DecimalFormat) formatter).applyPattern(filterPattern);
-			}
-		}
+		formatter = getFormatFactory().createNumberFormat(filterPattern, locale);
 	}
 	
 	@Override

@@ -344,7 +344,7 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                     it.body.on('change','select.wFreeText',function(e){
                         var jo = $(this);
                         jo.prev().val(jo.val());
-                        jive.selected.form.inputs[jo.attr('name')].value = jo.val();
+                        jive.selected.form.inputs[jo.attr('name')].set(jo.val());
                     });
                     it.body.on('keypress', '.jive_restrictedInput', function(e) {
                         if ($(this).data('restriction') === "numeric" && isNaN(String.fromCharCode(e.which))) {
@@ -536,7 +536,7 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                             set:function(val) {
                                 this.value = val;
                                 $('#'+e.id).val(val);
-                                e.freeText && $('#'+e.id+'Text').val(val);
+                                e.freeText && $('#'+e.id+'Text').val(val) && $("#" + e.id + "Text").trigger("change");
                             },
                             get:function(){
                                 //                    return e.freeText ? $('#'+e.id+'Text').val() : $('#'+e.id).val();
