@@ -95,6 +95,12 @@ public interface PdfReportConfiguration extends ReportExportConfiguration
 	 */
 	public static final String PROPERTY_EVEN_PAGE_OFFSET_Y = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.even.page.offset.y";
 
+	public static final String PROPERTY_PREFIX_GLYPH_RENDERER_BLOCKS = 
+			JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.glyph.renderer.blocks.";
+	
+	public static final String PROPERTY_GLYPH_RENDERER_ADD_ACTUAL_TEXT =
+			JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.glyph.renderer.add.actual.text";
+	
 	/**
 	 * Flag to force the rendering of SVG images using shapes, on the PDF Graphics2D context.
 	 *

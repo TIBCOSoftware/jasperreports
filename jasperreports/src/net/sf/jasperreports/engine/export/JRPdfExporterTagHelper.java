@@ -44,6 +44,7 @@ import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfNumber;
+import com.lowagie.text.pdf.PdfObject;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfStructureElement;
 import com.lowagie.text.pdf.PdfStructureTreeRoot;
@@ -495,6 +496,18 @@ public class JRPdfExporterTagHelper
 //			PdfStructureElement textTag = new PdfStructureElement(parentTag, PdfName.TEXT);
 			PdfStructureElement textTag = new PdfStructureElement(tagStack.peek(), PdfName.TEXT);
 			pdfContentByte.beginMarkedContentSequence(textTag);
+		}
+	}
+
+	protected void startText(String text)
+	{
+		if (isTagged)
+		{
+			PdfDictionary markedContentProps = new PdfDictionary();
+			markedContentProps.put(PdfName.ACTUALTEXT, new PdfString(text, PdfObject.TEXT_UNICODE));
+			PdfStructureElement textTag = new PdfStructureElement(tagStack.peek(), PdfName.TEXT);
+			// the following method is part of the patched iText
+			pdfContentByte.beginMarkedContentSequence(textTag, markedContentProps);
 		}
 	}
 

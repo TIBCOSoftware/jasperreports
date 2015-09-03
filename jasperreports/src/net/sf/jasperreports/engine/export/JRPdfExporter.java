@@ -43,16 +43,48 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.Character.UnicodeBlock;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.text.AttributedString;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.Image;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.SplitCharacter;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.ColumnText;
+import com.lowagie.text.pdf.FontMapper;
+import com.lowagie.text.pdf.PdfAction;
+import com.lowagie.text.pdf.PdfArray;
+import com.lowagie.text.pdf.PdfBoolean;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfDestination;
+import com.lowagie.text.pdf.PdfDictionary;
+import com.lowagie.text.pdf.PdfICCBased;
+import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfOutline;
+import com.lowagie.text.pdf.PdfString;
+import com.lowagie.text.pdf.PdfTemplate;
+import com.lowagie.text.pdf.PdfWriter;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -97,6 +129,8 @@ import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRPdfaIccProfileNotFoundException;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledText.Run;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.NullOutputStream;
 import net.sf.jasperreports.export.ExportInterruptedException;
@@ -109,35 +143,6 @@ import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 import net.sf.jasperreports.repo.RepositoryUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.Image;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.SplitCharacter;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.ColumnText;
-import com.lowagie.text.pdf.FontMapper;
-import com.lowagie.text.pdf.PdfAction;
-import com.lowagie.text.pdf.PdfArray;
-import com.lowagie.text.pdf.PdfBoolean;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfDestination;
-import com.lowagie.text.pdf.PdfDictionary;
-import com.lowagie.text.pdf.PdfICCBased;
-import com.lowagie.text.pdf.PdfName;
-import com.lowagie.text.pdf.PdfOutline;
-import com.lowagie.text.pdf.PdfString;
-import com.lowagie.text.pdf.PdfTemplate;
-import com.lowagie.text.pdf.PdfWriter;
 
 
 /**
@@ -423,6 +428,13 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	private int crtEvenPageOffsetX;
 	private int crtEvenPageOffsetY;
 	
+	private boolean awtIgnoreMissingFont;
+	private FontUtil fontUtil;
+	private Set<UnicodeBlock> glyphRendererBlocks;
+	private boolean glyphRendererAddActualText;
+	private PdfVersionEnum minimalVersion;
+	private Map<FontKey, Boolean> glyphRendererFonts;
+	
 	/**
 	 * @see #JRPdfExporter(JasperReportsContext)
 	 */
@@ -440,6 +452,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		super(jasperReportsContext);
 		
 		exporterContext = new ExporterContext();
+		glyphRendererFonts = new HashMap<JRPdfExporter.FontKey, Boolean>();
 	}
 
 
@@ -549,6 +562,17 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		
 		this.permissions = getIntegerPermissions(configuration.getAllowedPermissions()) & (~getIntegerPermissions(configuration.getDeniedPermissions()));
 		crtDocumentPageNumber = 0;
+		
+		awtIgnoreMissingFont = getPropertiesUtil().getBooleanProperty(
+				JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT);//FIXMECONTEXT replace with getPropertiesUtil in all exporters
+		fontUtil = FontUtil.getInstance(jasperReportsContext);
+		
+		glyphRendererAddActualText = propertiesUtil.getBooleanProperty( 
+				PdfReportConfiguration.PROPERTY_GLYPH_RENDERER_ADD_ACTUAL_TEXT, false);
+		if (glyphRendererAddActualText && !tagHelper.isTagged && PdfGlyphRenderer.supported())
+		{
+			minimalVersion = PdfVersionEnum.VERSION_1_5;
+		}
 	}
 
 
@@ -568,6 +592,50 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		crtOddPageOffsetY = configuration.getOddPageOffsetY();
 		crtEvenPageOffsetX = configuration.getEvenPageOffsetX();
 		crtEvenPageOffsetY = configuration.getEvenPageOffsetY();
+		
+		initGlyphRenderer();
+	}
+
+
+	protected void initGlyphRenderer() 
+	{
+		glyphRendererBlocks = new HashSet<Character.UnicodeBlock>();
+		List<PropertySuffix> props = propertiesUtil.getAllProperties(getCurrentJasperPrint(), 
+				PdfReportConfiguration.PROPERTY_PREFIX_GLYPH_RENDERER_BLOCKS);
+		for (PropertySuffix prop : props)
+		{
+			String blocks = prop.getValue();
+			for (String blockToken : blocks.split(","))
+			{
+				UnicodeBlock block = resolveUnicodeBlock(blockToken);
+				if (block != null)
+				{
+					if (log.isDebugEnabled())
+					{
+						log.debug("glyph renderer block " + block);
+					}
+					glyphRendererBlocks.add(block);
+				}
+			}
+		}
+	}
+	
+	protected UnicodeBlock resolveUnicodeBlock(String name)
+	{
+		if (name.trim().isEmpty())
+		{
+			return null;
+		}
+		
+		try 
+		{
+			return UnicodeBlock.forName(name.trim());
+		} 
+		catch (IllegalArgumentException e) 
+		{
+			log.warn("Could not resolve \"" + name + "\" to a Unicode block");
+			return null;
+		} 
 	}
 
 
@@ -611,6 +679,12 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			{
 				pdfWriter.setPdfVersion(pdfVersion.getName().charAt(0));
 			}
+			
+			if (minimalVersion != null)
+			{
+				pdfWriter.setAtLeastPdfVersion(minimalVersion.getName().charAt(0));
+			}
+			
 			if (configuration.isCompressed())
 			{
 				pdfWriter.setFullCompression();
@@ -1916,6 +1990,13 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			}
 		}
 	}
+	
+	@Override
+	protected Locale getTextLocale(JRPrintText text)
+	{
+		// only overriding for package access
+		return super.getTextLocale(text);
+	}
 
 
 	/**
@@ -2221,25 +2302,14 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	 */
 	public void exportText(JRPrintText text) throws DocumentException
 	{
-		AbstractPdfTextRenderer textRenderer = 
-			text.getLeadingOffset() == 0 
-			? new PdfTextRenderer(
-				jasperReportsContext,
-				getPropertiesUtil().getBooleanProperty(JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT)
-				) 
-			: new SimplePdfTextRenderer(
-				jasperReportsContext,
-				getPropertiesUtil().getBooleanProperty(JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT)//FIXMECONTEXT replace with getPropertiesUtil in all exporters
-				);//FIXMETAB optimize this
-		
-		textRenderer.initialize(this, pdfContentByte, text, getOffsetX(), getOffsetY());
-		
-		JRStyledText styledText = textRenderer.getStyledText();
-
+		JRStyledText styledText = JRStyledTextUtil.getInstance(jasperReportsContext).getStyledText(text, noBackcolorSelector);
 		if (styledText == null)
 		{
 			return;
 		}
+		
+		AbstractPdfTextRenderer textRenderer = getTextRenderer(text, styledText);
+		textRenderer.initialize(this, pdfContentByte, text, styledText, getOffsetX(), getOffsetY());
 
 		double angle = 0;
 
@@ -2289,7 +2359,14 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 		if (styledText.length() > 0)
 		{
-			tagHelper.startText();
+			if (glyphRendererAddActualText && textRenderer instanceof PdfGlyphRenderer)
+			{
+				tagHelper.startText(styledText.getText());
+			}
+			else
+			{
+				tagHelper.startText();
+			}
 			
 			/*   */
 			textRenderer.render();
@@ -2306,6 +2383,166 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			text.getLineBox(),
 			text
 			);
+	}
+	
+	protected AbstractPdfTextRenderer getTextRenderer(JRPrintText text, JRStyledText styledText)
+	{
+		AbstractPdfTextRenderer textRenderer;
+		if (toUseGlyphRenderer(text)
+				&& PdfGlyphRenderer.supported()
+				&& canUseGlyphRendering(text, styledText))
+		{
+			textRenderer = new PdfGlyphRenderer(jasperReportsContext, awtIgnoreMissingFont,
+					glyphRendererAddActualText && !tagHelper.isTagged);
+		}
+		else if (text.getLeadingOffset() == 0)
+		{
+			textRenderer = new PdfTextRenderer(jasperReportsContext, awtIgnoreMissingFont);
+		}
+		else
+		{
+			textRenderer = new SimplePdfTextRenderer(jasperReportsContext, awtIgnoreMissingFont);//FIXMETAB optimize this
+		}
+		
+		return textRenderer;
+	}
+	
+	protected boolean canUseGlyphRendering(JRPrintText text, JRStyledText styledText)
+	{
+		Locale locale = getTextLocale(text);
+		for (Run run : styledText.getRuns()) 
+		{
+			FontKey fontKey = extractFontKey(run, locale);
+			Boolean canUse = glyphRendererFonts.get(fontKey);
+			if (canUse == null)
+			{
+				canUse = canUseGlyphRendering(fontKey);
+				glyphRendererFonts.put(fontKey, canUse);
+			}
+			
+			if (!canUse)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	protected FontKey extractFontKey(Run run, Locale locale)
+	{
+		String family = (String) run.attributes.get(TextAttribute.FAMILY);
+		
+		Number posture = (Number) run.attributes.get(TextAttribute.POSTURE);
+		boolean italic = TextAttribute.POSTURE_OBLIQUE.equals(posture);//FIXME check for non standard posture
+
+		Number weight = (Number) run.attributes.get(TextAttribute.WEIGHT);
+		boolean bold = TextAttribute.WEIGHT_BOLD.equals(weight);
+		
+		return new FontKey(family, italic, bold, locale);
+	}
+	
+	protected boolean canUseGlyphRendering(FontKey fontKey) 
+	{
+		Map<Attribute, Object> fontAttributes = new HashMap<Attribute, Object>();
+		fontAttributes.put(TextAttribute.FAMILY, fontKey.family);
+		fontAttributes.put(TextAttribute.SIZE, 10f);
+
+		int style = 0;
+		if (fontKey.italic)
+		{
+			style |= java.awt.Font.ITALIC;
+			fontAttributes.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
+		}
+		if (fontKey.bold)
+		{
+			style |= java.awt.Font.BOLD;
+			fontAttributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+		}
+		
+		Font pdfFont = getFont(fontAttributes, fontKey.locale, false);
+		BaseFont baseFont = pdfFont.getBaseFont();
+		if (baseFont.getFontType() != BaseFont.FONT_TYPE_TTUNI
+				|| baseFont.isFontSpecific())
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("pdf font for " + fontKey + " has type " + baseFont.getFontType()
+						+ ", symbol " + baseFont.isFontSpecific()
+						+ ", cannot use glyph rendering");
+			}
+			return false;
+		}
+		
+		java.awt.Font awtFont = fontUtil.getAwtFontFromBundles(fontKey.family, style,
+				10f, fontKey.locale, awtIgnoreMissingFont);
+		if (awtFont == null)
+		{
+			awtFont = new java.awt.Font(fontAttributes);
+		}
+		String awtFontName = awtFont.getFontName();
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug(fontKey + " resolved to awt font " + awtFontName);
+		}
+		
+		// we need the fonts to be identical.
+		// it would be safer to only allow fonts from extensions, 
+		// but for now we are just checking the font names.
+		// we need to compare full names because we can't get the base name from awt.
+		String[][] pdfFontNames = baseFont.getFullFontName();
+		boolean nameMatch = false;
+		for (String[] nameArray : pdfFontNames)
+		{
+			if (nameArray.length >= 4)
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug(fontKey + " resolved to pdf font " + nameArray[3]);
+				}
+				
+				if (awtFontName.equals(nameArray[3]))
+				{
+					nameMatch = true;
+					break;
+				}
+			}
+		}
+		
+		return nameMatch;
+	}
+	
+	protected boolean toUseGlyphRenderer(JRPrintText text)
+	{
+		String value = styledTextUtil.getTruncatedText(text);
+		if (value == null)
+		{
+			return false;
+		}
+		
+		if (glyphRendererBlocks.isEmpty())
+		{
+			return false;
+		}
+		
+		int charCount = value.length();
+		char[] chars = new char[charCount];
+		value.getChars(0, charCount, chars, 0);
+		for (char c : chars)
+		{
+			UnicodeBlock block = UnicodeBlock.of(c);
+			if (glyphRendererBlocks.contains(block))
+			{
+				if (log.isTraceEnabled())
+				{
+					log.trace("found character in block " + block + ", using the glyph renderer");
+				}
+				
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 
@@ -2934,5 +3171,48 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			}
 		}
 		return permission;
+	}
+	
+	protected static class FontKey
+	{
+		String family;
+		boolean italic;
+		boolean bold;
+		Locale locale;
+		
+		public FontKey(String family, boolean italic, boolean bold, Locale locale)
+		{
+			this.family = family;
+			this.italic = italic;
+			this.bold = bold;
+			this.locale = locale;
+		}
+		
+		@Override
+		public int hashCode()
+		{
+			int hash = 43;
+			hash = hash*29 + family.hashCode();
+			hash = hash*29 + (italic ? 1231 : 1237);
+			hash = hash*29 + (bold ? 1231 : 1237);
+			hash = hash*29 + (locale == null ? 0 : locale.hashCode());
+			return hash;
+		}
+		
+		@Override
+		public boolean equals(Object obj)
+		{
+			FontKey key = (FontKey) obj;
+			return family.equals(key.family) && italic == key.italic && bold == key.bold
+					&& ((locale == null) ? (key.locale == null) : (key.locale != null && locale.equals(key.locale)));
+		}
+		
+		public String toString()
+		{
+			return "{family: " + family
+					+ ", italic: " + italic
+					+ ", bold: " + bold
+					+ "}";
+		}
 	}
 }
