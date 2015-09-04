@@ -314,12 +314,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 			if (canFilter)
 			{
-				FilterData filterData = getFilterData(jrContext, dataset, tableUUID, columnName, columnType, filterType,
+				FilterData filterData = getFilterData(jrContext, dataset, columnName, columnType, filterType, columnValueData.getFormatPattern(),
 						locale, timeZone);
-
-				if (DURATION_PATTERN.equals(columnValueData.getFormatPattern())) {
-					filterData.setFilterPattern(DURATION_PATTERN);
-				}
 
 				contextMap.put("dataType", filterType.getName());
 				contextMap.put("filterData", JacksonUtil.getInstance(jrContext).getJsonString(filterData));
@@ -503,10 +499,10 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 	private static FilterData getFilterData(
 		JasperReportsContext jasperReportsContext,
 		JRDesignDataset dataset,
-		String tableUuid,
 		String columnName,
 		String columnType,
 		FilterTypesEnum filterType,
+		String columnValuePattern,
 		Locale locale,
 		TimeZone timeZone
 		) 
@@ -551,7 +547,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		{
 			String filterPattern = HeaderToolbarElementUtils.getFilterPattern(jasperReportsContext, locale, filterType);
 
-			if (FilterTypesEnum.NUMERIC.equals(filterType) && DURATION_PATTERN.equals(filterData.getFilterPattern())) {
+			if (FilterTypesEnum.NUMERIC.equals(filterType) && DURATION_PATTERN.equals(columnValuePattern)) {
 				filterPattern = DURATION_PATTERN;
 			}
 
