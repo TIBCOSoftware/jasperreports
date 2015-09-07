@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.1.1 (2015-09-03)
+JasperReports 6.1.1 (2015-09-07)
 ---------------------------------------------
 
 - added support for returning values from bands, which gives better control over 
