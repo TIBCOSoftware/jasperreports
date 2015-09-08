@@ -53,7 +53,7 @@ public class JRDesignViewerController extends JRViewerController
 	private static final Log log = LogFactory.getLog(JRDesignViewerController.class);
 
 	/**
-	 * @see #JRViewerController(JasperReportsContext, Locale, ResourceBundle)
+	 * @see #JRDesignViewerController(JasperReportsContext, Locale, ResourceBundle)
 	 */
 	public JRDesignViewerController(Locale locale, ResourceBundle resBundle)
 	{
