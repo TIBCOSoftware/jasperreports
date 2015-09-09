@@ -442,11 +442,16 @@ define(["jquery.ui", "jive"], function($, jive) {
             jive.selected.ie.sort({order: argv[0]});
         },
         filter: function(){
-            jive.ui.dialog.show(jive.i18n.get('column.filter.dialog.title') + ': ' + jive.selected.ie.config.columnLabel, ['columnfilter']);
+            var label = jive.selected.ie.config.columnLabel;
+            !label.length && (label = "#" + (jive.selected.ie.config.columnIndex + 1));
+
+            jive.ui.dialog.show(jive.i18n.get('column.filter.dialog.title') + ': ' + label, ['columnfilter']);
         },
         formatHeader: function(){
-//            jive.ui.dialog.show(jive.i18n.get('column.format.dialog.title') + ': ' + jive.selected.ie.config.columnLabel, ['basicFormat', 'formatHeader', 'formatCells', 'columnConditionalFormatting']);
-            jive.ui.dialog.show(jive.i18n.get('column.format.dialog.title') + ': ' + jive.selected.ie.config.columnLabel, ['basicFormat', 'columnConditionalFormatting']);
+            var label = jive.selected.ie.config.columnLabel;
+            !label.length && (label = "#" + (jive.selected.ie.config.columnIndex + 1));
+
+            jive.ui.dialog.show(jive.i18n.get('column.format.dialog.title') + ': ' + label, ['basicFormat', 'columnConditionalFormatting']);
         },
         hide: function(args){
             jive.hide();
@@ -1016,6 +1021,8 @@ define(["jquery.ui", "jive"], function($, jive) {
                         jo.find('tr:eq(0)').children('td:last').css('visibility','visible');
                         jo.find('tr:eq(1)').children('td:last').css('visibility','visible');
                     }
+                } else {
+                    $(this).attr("disabled", false);
                 }
             });
         },
@@ -1034,7 +1041,7 @@ define(["jquery.ui", "jive"], function($, jive) {
                 totalsOptions = [],
                 option;
 
-            if (!hideHeadings) {
+            if (!hideHeadings && jive.selected.ie.config.headingsTabContent) {
                 options.push({value: 'heading', text: jive.i18n.get('column.basicFormatForm.applyto.option.headings')});
             }
 
@@ -1104,7 +1111,10 @@ define(["jquery.ui", "jive"], function($, jive) {
         },
         onShow: function() {
             // show applyTo and prev/next col
-            var dialog = jive.ui.dialog.jo;
+            var dialog = jive.ui.dialog.jo,
+                availableApplyToOptions,
+                hasDetailRowsOption;
+
             dialog.find('.applytoWrapper').show();
             dialog.find('#colprev').show();
             dialog.find('#colnext').show();
@@ -1113,15 +1123,32 @@ define(["jquery.ui", "jive"], function($, jive) {
 
             this.updateColNavButtons();
             this.updateApplyToSelector();
-            this.prevApplyTo = 'heading';
-            this.applyToChanged('heading');
+
+            availableApplyToOptions = $.map($("#applyTo option") ,function(option) {
+                return option.value;
+            });
+            hasDetailRowsOption = $.grep(availableApplyToOptions, function(optionValue) {
+                return optionValue === "detailrows";
+            }).length > 0;
+
+            this.prevApplyTo = availableApplyToOptions[0] === "heading" ? "heading" : hasDetailRowsOption ? "detailrows" : availableApplyToOptions[0];
+
+            $("#applyTo").val(this.prevApplyTo);
+            this.applyToChanged(this.prevApplyTo);
 
         },
         columnChanged: function() {
             var existingApplyToText = $('#applyTo :selected').text(),
-                newOption;
+                newOption,
+                availableApplyToOptions,
+                hasDetailRowsOption,
+                altOption,
+                label = jive.selected.ie.config.columnLabel;
+
+            !label.length && (label = "#" + (jive.selected.ie.config.columnIndex + 1));
+
             // update dialog column name
-            jive.ui.dialog.title.html(jive.i18n.get('column.format.dialog.title') + ': ' + jive.selected.ie.config.columnLabel);
+            jive.ui.dialog.title.html(jive.i18n.get('column.format.dialog.title') + ': ' + label);
             this.updateColNavButtons();
             this.updateApplyToSelector();
 
@@ -1130,7 +1157,18 @@ define(["jquery.ui", "jive"], function($, jive) {
                 newOption.attr('selected', true);
                 this.applyToChanged(newOption.val());
             } else {
-                this.applyToChanged('heading');
+                availableApplyToOptions = $.map($("#applyTo option") ,function(option) {
+                    return option.value;
+                });
+
+                hasDetailRowsOption = $.grep(availableApplyToOptions, function(optionValue) {
+                    return optionValue === "detailrows";
+                }).length > 0;
+
+                altOption = availableApplyToOptions[0] === "heading" ? "heading" : hasDetailRowsOption ? "detailrows" : availableApplyToOptions[0];
+
+                $("#applyTo").val(altOption);
+                this.applyToChanged(altOption);
             }
         },
         applyToChanged: function(val) {
@@ -1455,9 +1493,16 @@ define(["jquery.ui", "jive"], function($, jive) {
         },
         columnChanged: function() {
             var existingApplyToText = $('#applyTo :selected').text(),
-                newOption;
+                newOption,
+                availableApplyToOptions,
+                hasDetailRowsOption,
+                altOption,
+                label = jive.selected.ie.config.columnLabel;
+
+            !label.length && (label = "#" + (jive.selected.ie.config.columnIndex + 1));
+
             // update dialog column name
-            jive.ui.dialog.title.html(jive.i18n.get('column.format.dialog.title') + ': ' + jive.selected.ie.config.columnLabel);
+            jive.ui.dialog.title.html(jive.i18n.get('column.format.dialog.title') + ': ' + label);
             jive.interactive.column.basicFormatForm.updateColNavButtons();
             jive.interactive.column.basicFormatForm.updateApplyToSelector(true, true);
 
@@ -1466,8 +1511,18 @@ define(["jquery.ui", "jive"], function($, jive) {
                 newOption.attr('selected', true);
                 this.applyToChanged(newOption.val());
             } else {
-                $('#applyTo').val('detailrows');
-                this.applyToChanged('detailrows');
+                availableApplyToOptions = $.map($("#applyTo option") ,function(option) {
+                    return option.value;
+                });
+
+                hasDetailRowsOption = $.grep(availableApplyToOptions, function(optionValue) {
+                        return optionValue === "detailrows";
+                    }).length > 0;
+
+                altOption = hasDetailRowsOption ? "detailrows" : availableApplyToOptions[0];
+
+                $("#applyTo").val(altOption || "");
+                this.applyToChanged(altOption || "");
             }
         },
         applyToChanged: function(val) {

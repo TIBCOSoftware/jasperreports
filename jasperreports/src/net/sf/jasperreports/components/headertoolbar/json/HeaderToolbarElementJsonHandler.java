@@ -571,7 +571,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
 		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
-		EditTextElementData textElementData = new EditTextElementData();
 
 		if (target != null){
 			JRIdentifiable identifiable = target.getIdentifiable();
@@ -586,13 +585,16 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				JRDesignTextElement textElement = TableUtil.getCellElement(JRDesignTextElement.class, column.getColumnHeader(), true);
 
 				if (textElement != null) {
+					EditTextElementData textElementData = new EditTextElementData();
+
 					textElementData.setHeadingName(JRStringUtil.htmlEncode(sortColumnLabel));
 					textElementData.setColumnIndex(columnIndex);
 					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement, locale);
+
+					contextMap.put("colHeaderData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(textElementData));
 				}
 			}
 		}
-		contextMap.put("colHeaderData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(textElementData));
 	}
 	
 	private EditTextElementData setColumnValueData(Integer columnIndex, String tableUuid, Map<String, Object> contextMap,
