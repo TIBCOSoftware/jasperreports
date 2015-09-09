@@ -55,6 +55,6 @@
 	<classpathentry kind="lib" path="lib/poi-ooxml-3.10.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-beanutils-1.9.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/core-2.3.0.jar"/>
-	<classpathentry kind="lib" path="lib/itext-2.1.7.js4-20150903.153643-1.jar"/>
+	<classpathentry kind="lib" path="lib/itext-2.1.7.js4-20150909.143214-2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
