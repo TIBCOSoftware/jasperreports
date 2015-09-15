@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UnicodeReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="9df06543-a919-4db2-9dcd-ed4c8a66dec7">
+	<style name="label" fontName="DejaVu Sans" fontSize="14"/>
 	<parameter name="GreekText" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["\u0393 \u0394 \u0398 \u039B \u039E \u03A0 \u03A3 \u03A6 \u03A8 \u03A9"]]></defaultValueExpression>
 	</parameter>
@@ -16,82 +17,82 @@
 		<defaultValueExpression><![CDATA["\u05D0\u05E0\u05D9 \u05DC\u05D0 \u05DE\u05D1\u05D9\u05DF \u05E2\u05D1\u05E8\u05D9\u05EA"]]></defaultValueExpression>
 	</parameter>
 	<title>
-		<band height="782">
+		<band height="540">
 			<textField>
-				<reportElement x="0" y="50" width="200" height="60" uuid="a37e1c3b-4a40-4275-86aa-cfbf51fcf8eb"/>
+				<reportElement x="0" y="10" width="200" height="60" uuid="a37e1c3b-4a40-4275-86aa-cfbf51fcf8eb"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{GreekText} + "\n" + $P{CyrillicText}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="210" y="50" width="340" height="60" uuid="5b997b20-895a-48e1-8168-95b5d9c8a08e"/>
+				<reportElement x="210" y="10" width="340" height="60" uuid="5b997b20-895a-48e1-8168-95b5d9c8a08e"/>
 				<text><![CDATA[<textField><reportElement x="0" y="50" width="200" height="60"/><textElement><font fontName="DejaVu Sans" size="14"/></textElement><textFieldExpression>$P{GreekText} + "     " + $P{CyrillicText}</textFieldExpression></textField>]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="120" width="200" height="60" uuid="288c3560-1d45-4c91-ad80-ffdb510f2869"/>
+				<reportElement x="0" y="80" width="200" height="60" uuid="288c3560-1d45-4c91-ad80-ffdb510f2869"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{GreekText} + "\n" + $P{CyrillicText}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="210" y="120" width="340" height="60" uuid="f79a88d7-317a-4b56-8620-ad764fb7b351"/>
+				<reportElement x="210" y="80" width="340" height="60" uuid="f79a88d7-317a-4b56-8620-ad764fb7b351"/>
 				<text><![CDATA[<textField><reportElement x="0" y="120" width="200" height="60"/><textElement><font fontName="DejaVu Sans" size="14" isBold="true"/></textElement><textFieldExpression>$P{GreekText} + "     " + $P{CyrillicText}</textFieldExpression></textField>]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="190" width="200" height="60" uuid="f601a372-3d66-46d8-b160-243e36c4ba34"/>
+				<reportElement x="0" y="150" width="200" height="60" uuid="f601a372-3d66-46d8-b160-243e36c4ba34"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="14" isItalic="true" isUnderline="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{GreekText} + "\n" + $P{CyrillicText}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="210" y="190" width="340" height="60" uuid="6108da4f-0028-4efd-ac55-de4087cc2be3"/>
+				<reportElement x="210" y="150" width="340" height="60" uuid="6108da4f-0028-4efd-ac55-de4087cc2be3"/>
 				<text><![CDATA[<textField><reportElement x="0" y="190" width="200" height="60"/><textElement><font fontName="DejaVu Sans" size="14" isItalic="true" isUnderline="true"/></textElement><textFieldExpression>$P{GreekText} + "     " + $P{CyrillicText}</textFieldExpression></textField>]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="260" width="200" height="60" uuid="e77366e1-3ca0-4227-b3cc-8b550e1c479d"/>
+				<reportElement x="0" y="220" width="200" height="60" uuid="e77366e1-3ca0-4227-b3cc-8b550e1c479d"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="14" isBold="true" isItalic="true" isUnderline="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{GreekText} + "\n" + $P{CyrillicText}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="210" y="260" width="340" height="60" uuid="130152ef-acbc-40ea-9a08-e5323f290a70"/>
+				<reportElement x="210" y="220" width="340" height="60" uuid="130152ef-acbc-40ea-9a08-e5323f290a70"/>
 				<text><![CDATA[<textField><reportElement x="0" y="260" width="200" height="60"/><textElement><font fontName="DejaVu Sans" size="14" isBold="true" isItalic="true" isUnderline="true"/></textElement><textFieldExpression>$P{GreekText} + "     " + $P{CyrillicText}</textFieldExpression></textField>]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="330" width="200" height="60" uuid="676109f6-c6cf-4760-b9cb-789a5022f5f2"/>
+				<reportElement x="0" y="290" width="200" height="60" uuid="676109f6-c6cf-4760-b9cb-789a5022f5f2"/>
 				<textElement>
 					<font fontName="AR PL KaitiM GB" size="22"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ChineseText}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="210" y="330" width="340" height="60" uuid="715129e7-70b3-4d15-a2c9-13cc7d558eb2"/>
+				<reportElement x="210" y="290" width="340" height="60" uuid="715129e7-70b3-4d15-a2c9-13cc7d558eb2"/>
 				<text><![CDATA[<textField><reportElement x="0" y="330" width="200" height="60"/><textElement><font fontName="AR PL KaitiM GB" size="22"/></textElement><textFieldExpression class="java.lang.String">$P{ChineseText}</textFieldExpression></textField>]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="400" width="200" height="60" uuid="9bbc161a-fd65-49f2-971d-b44c6f4ca7f5"/>
+				<reportElement x="0" y="360" width="200" height="60" uuid="9bbc161a-fd65-49f2-971d-b44c6f4ca7f5"/>
 				<textElement>
 					<font fontName="AR PL KaitiM GB" size="22" isBold="true" isItalic="true" isUnderline="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ChineseText}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="210" y="400" width="340" height="60" uuid="aefb7517-bf11-4ffd-af93-c5e1cca545c3"/>
+				<reportElement x="210" y="360" width="340" height="60" uuid="aefb7517-bf11-4ffd-af93-c5e1cca545c3"/>
 				<text><![CDATA[<textField><reportElement x="0" y="400" width="200" height="60"/><textElement><font fontName="AR PL KaitiM GB" size="22" isBold="true" isItalic="true" isUnderline="true"/></textElement><textFieldExpression class="java.lang.String">$P{ChineseText}</textFieldExpression></textField>]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="100" y="500" width="350" height="50" uuid="b96452cd-a927-4a2d-aa3d-12fe95c94ff5"/>
+				<reportElement x="100" y="440" width="350" height="40" uuid="b96452cd-a927-4a2d-aa3d-12fe95c94ff5"/>
 				<textElement textAlignment="Right">
 					<font fontName="DejaVu Sans" size="22"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ArabicText}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="100" y="600" width="350" height="50" uuid="fcf7fdba-bb27-4dde-b8e1-559cc71b3cc2"/>
+				<reportElement x="100" y="490" width="350" height="40" uuid="fcf7fdba-bb27-4dde-b8e1-559cc71b3cc2"/>
 				<textElement textAlignment="Right">
 					<font fontName="DejaVu Sans" size="22"/>
 				</textElement>
@@ -99,4 +100,233 @@
 			</textField>
 		</band>
 	</title>
+	<summary>
+		<band height="600" splitType="Immediate">
+			<frame>
+				<reportElement positionType="Float" x="0" y="10" width="520" height="30" uuid="75d0ac93-66cb-450c-8873-08a40e73bec4"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="b61ce75e-afaf-414d-a562-cbd2566dff72"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Hindi]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="120" y="0" width="400" height="30" uuid="e56fa8fd-ab2e-47df-a35f-7e1bb61dd9c3"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Noto Devanagari" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["एक पल का क्रोध आपका भविष्य बिगाड़ सकता है"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="50" width="520" height="30" uuid="1cb0a07d-ee7b-418d-a3e3-6f1b759d5362"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="a493bb66-6075-4925-9eb7-82d5fcf71cf3"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Bengali]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="120" y="0" width="400" height="30" uuid="dc7420ca-0033-4dfc-93cb-c0bd22674ae0"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Noto Bengali" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["আমার পথ চলা আমার পথে যেনো বেলা শেষে হারায় পথে আমার স্বপ্ন"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="90" width="520" height="30" uuid="be3fcb64-de34-4851-9e18-81f8395459e4"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="3c44806a-1cf7-4088-b44d-9b746b536e18"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Telugu]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="120" y="0" width="400" height="30" uuid="e2f7a61f-5c48-497f-8e3d-97dd1a672232"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Noto Telugu" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["ఆకుకూరలు, ఎండుఫలాలు, కాయధాన్యములు ఎక్కువగా ఇనుము కలిగి ఉంటాయి"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="130" width="520" height="30" uuid="cac4e907-411c-4054-b9df-b392dd22fa50"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="50d66134-3c77-4cc5-805c-2ede6aeab60e"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Marathi]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="120" y="0" width="400" height="30" uuid="89405bee-a4b4-459f-b2e1-ab69dd65862e"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Noto Devanagari" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["त्यामुळे शुक्रावर सूर्य पश्चिम दिशेला उगवतो व पूर्व दिशेला मावळतो"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="170" width="520" height="30" uuid="2bd31b80-1460-42b8-b714-ceeb9d5a9e60"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="ff0a7338-fcf0-43a0-b9fe-623f7d1b572c"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Tamil]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="120" y="0" width="400" height="30" uuid="26feb550-cca7-48bb-a8ef-cb4e2670e92c"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Noto Tamil" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["தெற்காசியாவிற்கு குங்குமப்பூவின் வருகை பற்றி விளக்கும் முரண்பட்ட கோட்பாடுகள் உள்ளன"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="210" width="520" height="30" uuid="6fee375c-533e-4a17-a90c-fec2a053a3b4"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="8636303d-2711-45f2-b1b9-b353455a926e"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Gujarati]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="120" y="0" width="400" height="30" uuid="2da9c9f3-7894-48e4-8b7a-cac181f43d63"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Noto Gujarati" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["આજ દિવાળી, કાલ દિવાળી, ગામનાં છોકરાં ખાય સુંવાળી, મેઘ મેઘ રાજા"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="250" width="520" height="30" uuid="c15a4a45-9ab9-4272-beb7-85bed02868e8"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="b0a0b1f8-9d3b-498e-9e10-61f7704ebd58"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Kannada]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="120" y="0" width="400" height="30" uuid="812994c2-1715-4ce5-ac8e-bb887145de72"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Noto Kannada" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["ಅಂದಿನ ನಾಗರಿಕತೆಯ ಹೆಚ್ಚಿನ ಜನತೆ ಮತ್ತು ಎಲ್ಲಾ ನಗರಗಳೂ ನೈಲ್ ನದಿಯ"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="290" width="520" height="30" uuid="97037176-454b-4787-96ce-ac1b38452d24"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="a6481ef3-15e8-4815-b56a-80abea5bb094"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Malayalam]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="120" y="0" width="400" height="30" uuid="f9c1c952-538e-4a58-985c-92a719da1ba1"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Noto Malayalam" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["ശരീരത്തിലെ മൊത്തം അസ്ഥികളിൽ പകുതിയിൽ കൂടുതൽ കൈയിലും കാലിലും ആണുള്ളത്"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="330" width="520" height="30" uuid="f9d0b54f-eb4e-4ee6-a432-7716931e0fef"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="290f2026-0762-4be0-863a-7c4eecef4e49"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Odia]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="120" y="0" width="400" height="30" uuid="8a43e9d7-4bae-4657-88ed-cc479eb01089"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Noto Odia" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["ଦୟା କାରି ଟିକିଏ ଆସ୍ତେ କୁହନ୍ତୁ"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="370" width="520" height="30" uuid="492a4b73-8e5c-43c1-8a4e-722556b5bd0d"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="391d71fc-ce19-4c34-acc0-60a614297efc"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Punjabi]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="120" y="0" width="400" height="30" uuid="4c57aea7-898c-4276-9778-c03cd6653531"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Noto Gurmukhi" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["ਗਿਣਤੀ ਜਾਂ ਅੰਕ ਗਣਿਤ ਹਿਸਾਬ ਦੀ ਇੱਕ ਸ਼ਾਖਾ ਹੈ ਜੋ ਕਿ ਪੂਰਨ ਅੰਕਾਂ, ਜਾਂ ਮੋਟੇ ਤੌਰ ਤੇ, ਨੰਬਰਾਂ ਦੀ ਗਿਣਤੀ ਨਾਲ ਸੰਬੰਧ ਰੱਖਦੀ ਹੈ"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="410" width="520" height="30" uuid="d0b1eb2e-b24b-45a5-ab17-3c8e14d31427"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="7a2d3388-64ef-4a82-8a53-7fa30dc20e27"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Assamese]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="120" y="0" width="400" height="30" uuid="229bfdb1-c55f-4e5d-86ee-456f391eaaa2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Noto Bengali" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["অসমৰ সংস্কৃতি আৰু সভ্যতাৰ সৈতে ব্ৰহ্মপুত্ৰ নদী অংগাংগীভাৱে জড়িত৷ সভ্যতা সদায় নদী-কেন্দ্ৰিক"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="450" width="520" height="30" uuid="98320c7a-9248-42f4-bc0b-8241ce6c694d"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="5b17683e-1ab8-4be6-bb02-e4c0bb14a038"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Sinhala]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="120" y="0" width="400" height="30" uuid="7771a184-fd26-4078-9b02-bb0318f959ef"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Noto Sinhala" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["මතක කාලය, ස්වභාවය, තොරතුරු ගබඩා කර ගන්නා ආකාරය අනුව මතකය වර්ගීකරණය කළ හැකි ක්‍රම ගණනාවක් ඇත."]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="490" width="520" height="30" uuid="7d611b08-dd38-4ab5-84f7-5e009c5d530c"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="247dec68-12be-4926-9b6f-4f8012b3dd1b"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Nepali]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="120" y="0" width="400" height="30" uuid="fb607061-6811-4c72-8edd-304cdb291045"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Noto Devanagari" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["हिउँ चितुवा हिमाली क्षेत्रका जंगल तथा पत्थरीला पहाडहरूमा बसोबास गर्ने गर्दछ।"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="530" width="520" height="30" uuid="a64a2f7e-92a0-4b04-9718-497475d8d0a7"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="cd5932c3-6ba9-4791-8def-6269a79e343f"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Tibetan]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="120" y="0" width="400" height="30" uuid="3879444c-bb01-48ae-83c9-060cf4798cba"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Noto Tibetan" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["པོ་ཏ་ལ་ནི་བོད་ཀྱི་རྒྱལ་ས་སྟེ་མིང་གཞན་ལ་ལྷ་ལྡན་གྲོང་ཁྱེར་ཞེས་སུ་འབོད།"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="570" width="520" height="30" uuid="f65e248a-6a67-4144-a22f-f56ac1574fb6"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="98c0c4f6-d1a1-4f93-ad32-e4adfad240bf"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Burmese]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="120" y="0" width="400" height="30" uuid="ded0ca59-f5a3-41ff-8f60-85fd8080a89e"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Noto Khmer" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["ឆ្អឹងឈប់លូតលាស់នៅពេលមនុស្សមានអាយុ២៥ឆ្នាំ។"]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</summary>
 </jasperReport>
