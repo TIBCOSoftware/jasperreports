@@ -94,7 +94,7 @@ public class MapElementImageProvider
 					currentMarkers += label != null && label.length() > 0 ? "label:" + Character.toUpperCase(label.charAt(0)) + "%7C" : "";
 					String icon = map.get(MapComponent.ITEM_PROPERTY_MARKER_ICON_url) != null 
 							? (String)map.get(MapComponent.ITEM_PROPERTY_MARKER_ICON_url) 
-							: (String)map.get(MapComponent.PARAMETER_MARKER_ICON);
+							: (String)map.get(MapComponent.ITEM_PROPERTY_MARKER_icon);
 					if(icon != null && icon.length() > 0)
 					{
 						currentMarkers +="icon:" + icon + "%7C";

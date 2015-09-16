@@ -272,13 +272,22 @@ public interface MapComponent extends Component, JRCloneable
 	/**
 	 * String value representing the URL where the marker icon is loaded from; optional.
 	 * <p/>
+	 * This property is overriden by the {@link #ITEM_PROPERTY_MARKER_ICON_url} property value.
+	 */
+	public static final String ITEM_PROPERTY_MARKER_icon = "icon";
+
+	/**
+	 * String value representing the URL where the marker icon is loaded from; optional.
+	 * <p/>
+	 * When is set, it overrides the value of {@link #ITEM_PROPERTY_MARKER_icon} property.
+	 * <p/>
 	 * If not set, a default google pin icon will be loaded.
 	 */
 	public static final String ITEM_PROPERTY_MARKER_ICON_url = "icon.url";
 
 	/**
 	 * Integer value representing the icon width, in pixels. To be considered, 
-	 * {@link #IITEM_PROPERTY_MARKER_ICON_height} must be also set.
+	 * {@link #ITEM_PROPERTY_MARKER_ICON_height} must be also set.
 	 * <p/>
 	 * This property is optional.
 	 */
@@ -290,7 +299,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * <p/>
 	 * This property is optional.
 	 */
-	public static final String IITEM_PROPERTY_MARKER_ICON_height = "icon.height";    
+	public static final String ITEM_PROPERTY_MARKER_ICON_height = "icon.height";    
 	
 	/**
 	 * Integer value representing the horizontal position of the marker icon within a sprite, 
@@ -298,7 +307,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * <p/>
 	 * This property is optional.
 	 */
-	public static final String IITEM_PROPERTY_MARKER_ICON_ORIGIN_x = "icon.origin.x";    
+	public static final String ITEM_PROPERTY_MARKER_ICON_ORIGIN_x = "icon.origin.x";    
 	
 	/**
 	 * Integer value representing the vertical position of the marker icon within a sprite, if any, 
@@ -306,7 +315,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * <p/>
 	 * This property is optional.
 	 */
-	public static final String IITEM_PROPERTY_MARKER_ICON_ORIGIN_y = "icon.origin.y";    
+	public static final String ITEM_PROPERTY_MARKER_ICON_ORIGIN_y = "icon.origin.y";    
 	
 	/**
 	 * Integer value representing the horizontal position to anchor the marker icon with respect to the 
@@ -314,7 +323,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * <p/>
 	 * This property is optional.
 	 */
-	public static final String IITEM_PROPERTY_MARKER_ICON_ANCHOR_x = "icon.anchor.x";    
+	public static final String ITEM_PROPERTY_MARKER_ICON_ANCHOR_x = "icon.anchor.x";    
 	
 	/**
 	 * Integer value representing the vertical position to anchor the marker icon with respect to the 
@@ -322,18 +331,27 @@ public interface MapComponent extends Component, JRCloneable
 	 * <p/>
 	 * This property is optional.
 	 */
-	public static final String IITEM_PROPERTY_MARKER_ICON_ANCHOR_y = "icon.anchor.y";    
+	public static final String ITEM_PROPERTY_MARKER_ICON_ANCHOR_y = "icon.anchor.y";    
 	
 	// marker shadow properties
 	
 	/**
 	 * String value representing the URL where the custom marker shadow icon is loaded from; optional.
+	 * <p/>
+	 * This property is overriden by {@link #ITEM_PROPERTY_MARKER_SHADOW_url}.
+	 */
+	public static final String ITEM_PROPERTY_MARKER_shadow = "shadow";
+
+	/**
+	 * String value representing the URL where the custom marker shadow icon is loaded from; optional.
+	 * <p/>
+	 * When is set, it overrides the value of the {@link #ITEM_PROPERTY_MARKER_shadow} property.
 	 */
 	public static final String ITEM_PROPERTY_MARKER_SHADOW_url = "shadow.url";
 
 	/**
 	 * Integer value representing the shadow icon width, in pixels. To be considered, 
-	 * {@link #IITEM_PROPERTY_MARKER_SHADOW_height} must be also set.
+	 * {@link #ITEM_PROPERTY_MARKER_SHADOW_height} must be also set.
 	 * <p/>
 	 * This property is optional.
 	 */
@@ -345,7 +363,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * <p/>
 	 * This property is optional.
 	 */
-	public static final String IITEM_PROPERTY_MARKER_SHADOW_height = "shadow.height";    
+	public static final String ITEM_PROPERTY_MARKER_SHADOW_height = "shadow.height";    
 	
 	/**
 	 * Integer value representing the horizontal position of the shadow icon within a sprite, 
@@ -353,7 +371,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * <p/>
 	 * This property is optional.
 	 */
-	public static final String IITEM_PROPERTY_MARKER_SHADOW_ORIGIN_x = "shadow.origin.x";    
+	public static final String ITEM_PROPERTY_MARKER_SHADOW_ORIGIN_x = "shadow.origin.x";    
 	
 	/**
 	 * Integer value representing the vertical position of the shadow icon within a sprite, if any, 
@@ -361,7 +379,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * <p/>
 	 * This property is optional.
 	 */
-	public static final String IITEM_PROPERTY_MARKER_SHADOW_ORIGIN_y = "shadow.origin.y";    
+	public static final String ITEM_PROPERTY_MARKER_SHADOW_ORIGIN_y = "shadow.origin.y";    
 	
 	/**
 	 * Integer value representing the horizontal position to anchor the shadow icon with respect to the 
@@ -369,7 +387,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * <p/>
 	 * This property is optional.
 	 */
-	public static final String IITEM_PROPERTY_MARKER_SHADOW_ANCHOR_x = "shadow.anchor.x";    
+	public static final String ITEM_PROPERTY_MARKER_SHADOW_ANCHOR_x = "shadow.anchor.x";    
 	
 	/**
 	 * Integer value representing the vertical position to anchor the shadow icon with respect to the 
@@ -377,7 +395,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * <p/>
 	 * This property is optional.
 	 */
-	public static final String IITEM_PROPERTY_MARKER_SHADOW_ANCHOR_y = "shadow.anchor.y";    
+	public static final String ITEM_PROPERTY_MARKER_SHADOW_ANCHOR_y = "shadow.anchor.y";    
 	
     // marker infowindow properties
 
@@ -402,6 +420,18 @@ public interface MapComponent extends Component, JRCloneable
 	 * Optional integer value representing the maximum width in pixels of the info window.
 	 */
 	public static final String ITEM_PROPERTY_MARKER_INFOWINDOW_maxWidth = "infowindow.maxWidth";
+	
+	/**
+	 * Optional floating-point value representing the latitude used to determine the info window position on the map. 
+	 * Neglected for info windows attached to markers.
+	 */
+	public static final String ITEM_PROPERTY_MARKER_INFOWINDOW_latitude = "infowindow.latitude";
+	
+	/**
+	 * Optional floating-point value representing the longitude used to determine the info window position on the map. 
+	 * Neglected for info windows attached to markers.
+	 */
+	public static final String ITEM_PROPERTY_MARKER_INFOWINDOW_longitude = "infowindow.longitude";
 					
 	// item properties for pathData:
 	// see the common item properties that can be applied for items in pathData.
@@ -495,11 +525,6 @@ public interface MapComponent extends Component, JRCloneable
 	 * The cached image renderer.
 	 */
 	public static final String PARAMETER_CACHE_RENDERER = "cacheRenderer";
-	
-	/**
-	 * The name of the parameter that provides the marker icon url.
-	 */
-	public static final String PARAMETER_MARKER_ICON = "icon";
 	
 	/**
 	 * The name of the parameter that provides the Google API map request parameters.
