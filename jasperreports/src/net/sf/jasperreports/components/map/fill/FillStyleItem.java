@@ -79,9 +79,9 @@ public class FillStyleItem extends FillItem
 	public void verifyValues(Map<String, Object> result) throws JRException {
 		if(result != null) {
 			//these are not intended for the style property
-			result.remove(MapComponent.PROPERTY_latitude);
-			result.remove(MapComponent.PROPERTY_longitude);
-			result.remove(MapComponent.PROPERTY_address);
+			result.remove(MapComponent.ITEM_PROPERTY_latitude);
+			result.remove(MapComponent.ITEM_PROPERTY_longitude);
+			result.remove(MapComponent.ITEM_PROPERTY_address);
 		}
 	}
 }
