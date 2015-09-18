@@ -81,10 +81,10 @@ public class DurationNumberFormat extends NumberFormat
 			}
 			else
 			{
-				long seconds = Long.parseLong(tokens[0]);
+				long seconds = 3600 * Long.parseLong(tokens[0]);
 				if (tokens.length > 1)
 				{
-					seconds += Long.parseLong(tokens[1]);
+					seconds += 60 * Long.parseLong(tokens[1]);
 				}
 				if (tokens.length > 2)
 				{
