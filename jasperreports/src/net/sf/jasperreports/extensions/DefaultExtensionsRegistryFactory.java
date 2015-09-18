@@ -41,6 +41,7 @@ import net.sf.jasperreports.components.iconlabel.IconLabelElementPptxHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementRtfHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementXlsHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementXlsxHandler;
+import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.components.map.MapElementDocxHandler;
 import net.sf.jasperreports.components.map.MapElementGraphics2DHandler;
 import net.sf.jasperreports.components.map.MapElementHtmlHandler;
@@ -52,7 +53,6 @@ import net.sf.jasperreports.components.map.MapElementPptxHandler;
 import net.sf.jasperreports.components.map.MapElementRtfHandler;
 import net.sf.jasperreports.components.map.MapElementXlsHandler;
 import net.sf.jasperreports.components.map.MapElementXlsxHandler;
-import net.sf.jasperreports.components.map.MapPrintElement;
 import net.sf.jasperreports.components.sort.SortElement;
 import net.sf.jasperreports.components.sort.SortElementHtmlHandler;
 import net.sf.jasperreports.components.sort.SortElementJsonHandler;
@@ -112,7 +112,7 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				{
 					return FlashHtmlHandler.getInstance();
 				}
-				if (MapPrintElement.MAP_ELEMENT_NAME.equals(elementName))
+				if (MapComponent.MAP_ELEMENT_NAME.equals(elementName))
 				{
 					if(JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
 					{

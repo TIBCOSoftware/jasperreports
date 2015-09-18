@@ -45,8 +45,8 @@ public class MapCompiler implements ComponentCompiler
 	
 	private final static Map<String,String> addressMap = new HashMap<String,String>();
 	static {
-		addressMap.put(MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_address);
-		addressMap.put(MapComponent.PROPERTY_longitude, MapComponent.PROPERTY_address);
+		addressMap.put(MapComponent.ITEM_PROPERTY_latitude, MapComponent.ITEM_PROPERTY_address);
+		addressMap.put(MapComponent.ITEM_PROPERTY_longitude, MapComponent.ITEM_PROPERTY_address);
 	}
 	
 	public void collectExpressions(Component component, JRExpressionCollector collector)
@@ -178,7 +178,7 @@ public class MapCompiler implements ComponentCompiler
 			verifier.addBrokenRule("Missing the latitude and/or the longitude expression for the map center. Try to configure them properly, or configure the equivalent addressExpression for this map.", map);
 		}
 		
-		String[] reqNames = new String[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude};
+		String[] reqNames = new String[]{MapComponent.ITEM_PROPERTY_latitude, MapComponent.ITEM_PROPERTY_longitude};
 		List<ItemData> markerDataList = map.getMarkerDataList();
 		if (markerDataList != null && markerDataList.size() > 0)
 		{
@@ -191,7 +191,7 @@ public class MapCompiler implements ComponentCompiler
 		if (pathStyleList != null && pathStyleList.size() > 0)
 		{
 			for(ItemData pathStyle : pathStyleList){
-				verifyItemData(verifier, pathStyle, MapComponent.ELEMENT_PATH_STYLE, new String[]{MapComponent.PROPERTY_name}, null);
+				verifyItemData(verifier, pathStyle, MapComponent.ELEMENT_PATH_STYLE, new String[]{MapComponent.ITEM_PROPERTY_name}, null);
 			}
 		}
 		
@@ -210,7 +210,7 @@ public class MapCompiler implements ComponentCompiler
 				verifier, 
 				itemData, 
 				MapComponent.ELEMENT_MARKER_DATA, 
-				new String[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude},
+				new String[]{MapComponent.ITEM_PROPERTY_latitude, MapComponent.ITEM_PROPERTY_longitude},
 				addressMap);
 	}
 
@@ -220,7 +220,7 @@ public class MapCompiler implements ComponentCompiler
 				verifier, 
 				item, 
 				MapComponent.ELEMENT_MARKER_DATA, 
-				new String[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude},
+				new String[]{MapComponent.ITEM_PROPERTY_latitude, MapComponent.ITEM_PROPERTY_longitude},
 				addressMap);
 	}
 	

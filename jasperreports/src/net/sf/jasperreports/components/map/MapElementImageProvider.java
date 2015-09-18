@@ -62,22 +62,22 @@ public class MapElementImageProvider
 	public static JRPrintImage getImage(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws JRException
 	{
 		
-		Float latitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LATITUDE);
-		latitude = latitude == null ? MapPrintElement.DEFAULT_LATITUDE : latitude;
+		Float latitude = (Float)element.getParameterValue(MapComponent.ITEM_PROPERTY_latitude);
+		latitude = latitude == null ? MapComponent.DEFAULT_LATITUDE : latitude;
 
-		Float longitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LONGITUDE);
-		longitude = longitude == null ? MapPrintElement.DEFAULT_LONGITUDE : longitude;
+		Float longitude = (Float)element.getParameterValue(MapComponent.ITEM_PROPERTY_longitude);
+		longitude = longitude == null ? MapComponent.DEFAULT_LONGITUDE : longitude;
 		
-		Integer zoom = (Integer)element.getParameterValue(MapPrintElement.PARAMETER_ZOOM);
-		zoom = zoom == null ? MapPrintElement.DEFAULT_ZOOM : zoom;
+		Integer zoom = (Integer)element.getParameterValue(MapComponent.PARAMETER_ZOOM);
+		zoom = zoom == null ? MapComponent.DEFAULT_ZOOM : zoom;
 
-		String mapType = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE);
-		String mapScale = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_SCALE);
-		String mapFormat = (String)element.getParameterValue(MapPrintElement.PARAMETER_IMAGE_TYPE);
-		String reqParams = (String)element.getParameterValue(MapPrintElement.PARAMETER_REQ_PARAMS);
+		String mapType = (String)element.getParameterValue(MapComponent.ATTRIBUTE_MAP_TYPE);
+		String mapScale = (String)element.getParameterValue(MapComponent.ATTRIBUTE_MAP_SCALE);
+		String mapFormat = (String)element.getParameterValue(MapComponent.ATTRIBUTE_IMAGE_TYPE);
+		String reqParams = (String)element.getParameterValue(MapComponent.PARAMETER_REQ_PARAMS);
 		String markers ="";
 		
-		List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_MARKERS);
+		List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapComponent.PARAMETER_MARKERS);
 		if(markerList != null && !markerList.isEmpty())
 		{
 			String currentMarkers = "";
@@ -86,28 +86,28 @@ public class MapElementImageProvider
 				if(map != null && !map.isEmpty())
 				{
 					currentMarkers = "&markers=";
-					String size = (String)map.get(MapPrintElement.PARAMETER_MARKER_SIZE);
+					String size = (String)map.get(MapComponent.ITEM_PROPERTY_MARKER_size);
 					currentMarkers += size != null && size.length() > 0 ? "size:" + size + "%7C" : "";
-					String color = (String)map.get(MapPrintElement.PARAMETER_MARKER_COLOR);
+					String color = (String)map.get(MapComponent.ITEM_PROPERTY_MARKER_color);
 					currentMarkers += color != null && color.length() > 0 ? "color:0x" + color + "%7C" : "";
-					String label = (String)map.get(MapPrintElement.PARAMETER_MARKER_LABEL);
+					String label = (String)map.get(MapComponent.ITEM_PROPERTY_MARKER_label);
 					currentMarkers += label != null && label.length() > 0 ? "label:" + Character.toUpperCase(label.charAt(0)) + "%7C" : "";
-					String icon = map.get(MapPrintElement.PARAMETER_MARKER_ICON_URL) != null 
-							? (String)map.get(MapPrintElement.PARAMETER_MARKER_ICON_URL) 
-							: (String)map.get(MapPrintElement.PARAMETER_MARKER_ICON);
+					String icon = map.get(MapComponent.ITEM_PROPERTY_MARKER_ICON_url) != null 
+							? (String)map.get(MapComponent.ITEM_PROPERTY_MARKER_ICON_url) 
+							: (String)map.get(MapComponent.ITEM_PROPERTY_MARKER_icon);
 					if(icon != null && icon.length() > 0)
 					{
 						currentMarkers +="icon:" + icon + "%7C";
 					}
-					currentMarkers +=map.get(MapPrintElement.PARAMETER_LATITUDE);
+					currentMarkers +=map.get(MapComponent.ITEM_PROPERTY_latitude);
 					currentMarkers +=",";
-					currentMarkers +=map.get(MapPrintElement.PARAMETER_LONGITUDE);
+					currentMarkers +=map.get(MapComponent.ITEM_PROPERTY_longitude);
 					markers += currentMarkers;
 				}
 			}
 		}
 		
-		List<Map<String,Object>> pathList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_PATHS);
+		List<Map<String,Object>> pathList = (List<Map<String,Object>>)element.getParameterValue(MapComponent.PARAMETER_PATHS);
 		String currentPaths = "";
 		if(pathList != null && !pathList.isEmpty())
 		{
@@ -116,44 +116,44 @@ public class MapElementImageProvider
 				if(pathMap != null && !pathMap.isEmpty())
 				{
 					currentPaths += "&path=";
-					String color = (String)pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_COLOR);
+					String color = (String)pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeColor);
 					if(color != null && color.length() > 0){
 						//adding opacity to color
 						color = JRColorUtil.getColorHexa(JRColorUtil.getColor(color, Color.BLACK));
-						color += pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_OPACITY) == null || pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_OPACITY).toString().length() == 0
+						color += pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeOpacity) == null || pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeOpacity).toString().length() == 0
 								? "ff"
-								: Integer.toHexString((int) (255 * Double.valueOf(pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_OPACITY).toString())));
+								: Integer.toHexString((int) (255 * Double.valueOf(pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeOpacity).toString())));
 					}
 					currentPaths += color != null && color.length() > 0 ? "color:0x" + color.toLowerCase() + "%7C" : "";
-					Boolean isPolygon = pathMap.get(MapPrintElement.PARAMETER_PATH_IS_POLYGON) == null ? false : Boolean.valueOf(pathMap.get(MapPrintElement.PARAMETER_PATH_IS_POLYGON).toString());
+					Boolean isPolygon = pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_isPolygon) == null ? false : Boolean.valueOf(pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_isPolygon).toString());
 					if(isPolygon){
-						String fillColor = (String)pathMap.get(MapPrintElement.PARAMETER_PATH_FILL_COLOR);
+						String fillColor = (String)pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_fillColor);
 						if(fillColor != null && fillColor.length() > 0){
 							//adding opacity to fill color
 							fillColor = JRColorUtil.getColorHexa(JRColorUtil.getColor(fillColor, Color.WHITE));
-							fillColor += pathMap.get(MapPrintElement.PARAMETER_PATH_FILL_OPACITY) == null || pathMap.get(MapPrintElement.PARAMETER_PATH_FILL_OPACITY).toString().length() == 0
+							fillColor += pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_fillOpacity) == null || pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_fillOpacity).toString().length() == 0
 								? "00"
-								: Integer.toHexString((int) (256 * Double.valueOf(pathMap.get(MapPrintElement.PARAMETER_PATH_FILL_OPACITY).toString())));
+								: Integer.toHexString((int) (256 * Double.valueOf(pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_fillOpacity).toString())));
 						}
 						currentPaths += fillColor != null && fillColor.length() > 0 ? "fillcolor:0x" + fillColor.toLowerCase() + "%7C" : "";
 					}
-					String weight = pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_WEIGHT) == null ? null : pathMap.get(MapPrintElement.PARAMETER_PATH_STROKE_WEIGHT).toString();
+					String weight = pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeWeight) == null ? null : pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeWeight).toString();
 					currentPaths += weight != null && weight.length() > 0 ? "weight:" + Integer.valueOf(weight) + "%7C" : "";
-					List<Map<String,Object>> locations = (List<Map<String,Object>>)pathMap.get(MapPrintElement.PARAMETER_PATH_LOCATIONS);
+					List<Map<String,Object>> locations = (List<Map<String,Object>>)pathMap.get(MapComponent.PARAMETER_PATH_LOCATIONS);
 					Map<String,Object> location = null;
 					if(locations != null && !locations.isEmpty()) {
 						for(int i = 0; i < locations.size(); i++) {
 							location = locations.get(i);
-							currentPaths += location.get(MapPrintElement.PARAMETER_LATITUDE);
+							currentPaths += location.get(MapComponent.ITEM_PROPERTY_latitude);
 							currentPaths += ",";
-							currentPaths += location.get(MapPrintElement.PARAMETER_LONGITUDE);
+							currentPaths += location.get(MapComponent.ITEM_PROPERTY_longitude);
 							currentPaths += i < locations.size() - 1 ? "%7C":"";
 						}
 						if(isPolygon){
 							currentPaths += "%7C";
-							currentPaths += locations.get(0).get(MapPrintElement.PARAMETER_LATITUDE);
+							currentPaths += locations.get(0).get(MapComponent.ITEM_PROPERTY_latitude);
 							currentPaths += ",";
-							currentPaths += locations.get(0).get(MapPrintElement.PARAMETER_LONGITUDE);
+							currentPaths += locations.get(0).get(MapComponent.ITEM_PROPERTY_longitude);
 						}
 					}
 				}
@@ -198,11 +198,11 @@ public class MapElementImageProvider
 		printImage.setHorizontalImageAlign(HorizontalImageAlignEnum.LEFT);
 		printImage.setVerticalImageAlign(VerticalImageAlignEnum.TOP);
 		
-		Renderable cacheRenderer = (Renderable)element.getParameterValue(MapPrintElement.PARAMETER_CACHE_RENDERER);
+		Renderable cacheRenderer = (Renderable)element.getParameterValue(MapComponent.PARAMETER_CACHE_RENDERER);
 
-		OnErrorTypeEnum onErrorType = element.getParameterValue(MapPrintElement.PARAMETER_ON_ERROR_TYPE) == null 
-				? MapPrintElement.DEFAULT_ON_ERROR_TYPE  
-				: OnErrorTypeEnum.getByName((String)element.getParameterValue(MapPrintElement.PARAMETER_ON_ERROR_TYPE));
+		OnErrorTypeEnum onErrorType = element.getParameterValue(MapComponent.PARAMETER_ON_ERROR_TYPE) == null 
+				? MapComponent.DEFAULT_ON_ERROR_TYPE  
+				: OnErrorTypeEnum.getByName((String)element.getParameterValue(MapComponent.PARAMETER_ON_ERROR_TYPE));
 		printImage.setOnErrorType(onErrorType);
 		
 		if(cacheRenderer == null)
@@ -210,7 +210,7 @@ public class MapElementImageProvider
 			cacheRenderer = RenderableUtil.getInstance(jasperReportsContext).getRenderable(imageLocation, onErrorType, false);
 			if(cacheRenderer != null){
 				cacheRenderer.getImageData(jasperReportsContext);
-				element.setParameterValue(MapPrintElement.PARAMETER_CACHE_RENDERER, cacheRenderer);
+				element.setParameterValue(MapComponent.PARAMETER_CACHE_RENDERER, cacheRenderer);
 			}
 		}
 

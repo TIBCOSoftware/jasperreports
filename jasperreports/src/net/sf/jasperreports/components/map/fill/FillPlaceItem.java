@@ -70,7 +70,7 @@ public class FillPlaceItem extends FillItem
 	public Object getEvaluatedValue(ItemProperty property, JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
 	{
 		Object result = super.getEvaluatedValue(property, evaluator, evaluation);
-		return MapComponent.PROPERTY_address.equals(property.getName())
+		return MapComponent.ITEM_PROPERTY_address.equals(property.getName())
 			? getCoords((String)result)
 			: (PROPERTY_COLOR.equals(property.getName()) 
 				? JRColorUtil.getColorHexa(JRColorUtil.getColor((String)result, ColorEnum.RED.getColor()))
@@ -84,9 +84,9 @@ public class FillPlaceItem extends FillItem
 	@Override
 	public void verifyValues(Map<String, Object> result) throws JRException {
 		if(result != null) {
-			Object latitude = result.get(MapComponent.PROPERTY_latitude);
-			Object longitude = result.get(MapComponent.PROPERTY_longitude);
-			Object address = result.get(MapComponent.PROPERTY_address);
+			Object latitude = result.get(MapComponent.ITEM_PROPERTY_latitude);
+			Object longitude = result.get(MapComponent.ITEM_PROPERTY_longitude);
+			Object address = result.get(MapComponent.ITEM_PROPERTY_address);
 
 			Float fLatitude = null;
 			if (latitude instanceof Number)
@@ -112,17 +112,17 @@ public class FillPlaceItem extends FillItem
 			
 			if (fLatitude != null && fLongitude != null)
 			{
-				result.remove(MapComponent.PROPERTY_address);
-				result.put(MapComponent.PROPERTY_latitude, fLatitude);
-				result.put(MapComponent.PROPERTY_longitude, fLongitude);
+				result.remove(MapComponent.ITEM_PROPERTY_address);
+				result.put(MapComponent.ITEM_PROPERTY_latitude, fLatitude);
+				result.put(MapComponent.ITEM_PROPERTY_longitude, fLongitude);
 			}
 			else if (address != null)
 			{
 				Float[] coords = (Float[])address;
 				if(coords[0] != null && coords[1] != null){
-					result.put(MapComponent.PROPERTY_latitude, coords[0]);
-					result.put(MapComponent.PROPERTY_longitude, coords[1]);
-					result.remove(MapComponent.PROPERTY_address);
+					result.put(MapComponent.ITEM_PROPERTY_latitude, coords[0]);
+					result.put(MapComponent.ITEM_PROPERTY_longitude, coords[1]);
+					result.remove(MapComponent.ITEM_PROPERTY_address);
 				} else {
 					throw 
 						new JRException(
@@ -136,7 +136,7 @@ public class FillPlaceItem extends FillItem
 				throw 
 					new JRException(
 						EXCEPTION_MESSAGE_KEY_MISSING_COORDINATES,  
-						new Object[]{fLatitude == null ? MapComponent.PROPERTY_latitude : MapComponent.PROPERTY_longitude}
+						new Object[]{fLatitude == null ? MapComponent.ITEM_PROPERTY_latitude : MapComponent.ITEM_PROPERTY_longitude}
 						);
 			}
 		}

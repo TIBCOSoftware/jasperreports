@@ -37,9 +37,12 @@ import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.jaxen.dom.DOMXPath;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+
 import net.sf.jasperreports.components.map.ItemData;
 import net.sf.jasperreports.components.map.MapComponent;
-import net.sf.jasperreports.components.map.MapPrintElement;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
@@ -57,10 +60,6 @@ import net.sf.jasperreports.engine.fill.JRTemplateGenericElement;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
-
-import org.jaxen.dom.DOMXPath;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 
 /**
  * 
@@ -179,7 +178,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 				throw 
 					new JRException(
 						EXCEPTION_MESSAGE_KEY_INVALID_ADDRESS_COORDINATES,  
-						new Object[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude} 
+						new Object[]{MapComponent.ITEM_PROPERTY_latitude, MapComponent.ITEM_PROPERTY_longitude} 
 						);
 			}
 		}
@@ -226,32 +225,32 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 				if(currentItemList != null && !currentItemList.isEmpty()){
 					for(Map<String,Object> currentItem : currentItemList){
 						if(currentItem != null){
-							String pathName = currentItem.get(MapComponent.PROPERTY_name) != null ? (String)currentItem.get(MapComponent.PROPERTY_name) : MapComponent.DEFAULT_PATH_NAME;
+							String pathName = currentItem.get(MapComponent.ITEM_PROPERTY_name) != null ? (String)currentItem.get(MapComponent.ITEM_PROPERTY_name) : MapComponent.DEFAULT_PATH_NAME;
 							Map<String,Object> pathMap = null;
 							if(pathIds.containsKey(pathName)){
 								pathMap = pathIds.get(pathName);
 							} else {
 								pathMap = new HashMap<String,Object>();
-								pathMap.put(MapComponent.PROPERTY_locations, new ArrayList<Map<String,Object>>());
+								pathMap.put(MapComponent.PARAMETER_PATH_LOCATIONS, new ArrayList<Map<String,Object>>());
 								pathIds.put(pathName, pathMap);
 								paths.add(pathMap);
 							}
-							setStyle((String)currentItem.get(MapComponent.PROPERTY_style), pathMap);
+							setStyle((String)currentItem.get(MapComponent.ITEM_PROPERTY_style), pathMap);
 							boolean coordSet = false;
 							for(String key : currentItem.keySet()){
-								if(!(MapComponent.PROPERTY_name.equals(key) || MapComponent.PROPERTY_style.equals(key))){
-									if(MapComponent.PROPERTY_latitude.equals(key) || MapComponent.PROPERTY_longitude.equals(key)){
+								if(!(MapComponent.ITEM_PROPERTY_name.equals(key) || MapComponent.ITEM_PROPERTY_style.equals(key))){
+									if(MapComponent.ITEM_PROPERTY_latitude.equals(key) || MapComponent.ITEM_PROPERTY_longitude.equals(key)){
 										if(!coordSet){
-											if(currentItem.get(MapComponent.PROPERTY_latitude) == null || currentItem.get(MapComponent.PROPERTY_longitude) == null){
+											if(currentItem.get(MapComponent.ITEM_PROPERTY_latitude) == null || currentItem.get(MapComponent.ITEM_PROPERTY_longitude) == null){
 												throw new JRException(
 														EXCEPTION_MESSAGE_KEY_NULL_OR_EMPTY_VALUES_NOT_ALLOWED,  
-														new Object[]{MapComponent.PROPERTY_latitude, MapComponent.PROPERTY_longitude}
+														new Object[]{MapComponent.ITEM_PROPERTY_latitude, MapComponent.ITEM_PROPERTY_longitude}
 														);
 											}
 											Map<String,Object> location = new HashMap<String,Object>();
-											location.put(MapComponent.PROPERTY_latitude, currentItem.get(MapComponent.PROPERTY_latitude));
-											location.put(MapComponent.PROPERTY_longitude, currentItem.get(MapComponent.PROPERTY_longitude));
-											((List<Map<String,Object>>)pathMap.get(MapComponent.PROPERTY_locations)).add(location);
+											location.put(MapComponent.ITEM_PROPERTY_latitude, currentItem.get(MapComponent.ITEM_PROPERTY_latitude));
+											location.put(MapComponent.ITEM_PROPERTY_longitude, currentItem.get(MapComponent.ITEM_PROPERTY_longitude));
+											((List<Map<String,Object>>)pathMap.get(MapComponent.PARAMETER_PATH_LOCATIONS)).add(location);
 											coordSet = true;
 										}
 									} else {
@@ -275,12 +274,12 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 				List<Map<String,Object>> currentStyleList = styleData.getEvaluateItems(evaluation);
 				if(currentStyleList != null && !currentStyleList.isEmpty()){
 					for(Map<String,Object> currentStyle : currentStyleList){
-						String styleName = (String)currentStyle.get(MapComponent.PROPERTY_name);
+						String styleName = (String)currentStyle.get(MapComponent.ITEM_PROPERTY_name);
 						if(styleName == null){
 							throw 
 								new JRException(
 									EXCEPTION_MESSAGE_KEY_NULL_OR_EMPTY_VALUE_NOT_ALLOWED,  
-									new Object[]{MapComponent.PROPERTY_name}
+									new Object[]{MapComponent.ITEM_PROPERTY_name}
 									);
 						}
 						Map<String,Object> styleMap = null;
@@ -301,7 +300,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		if(styleName != null){
 			Map<String,Object> parentStyleMap = styles.get(styleName);
 			if(parentStyleMap != null && ! parentStyleMap.isEmpty()){
-				String parentStyleName = (String)parentStyleMap.get(MapComponent.PROPERTY_style);
+				String parentStyleName = (String)parentStyleMap.get(MapComponent.ITEM_PROPERTY_style);
 				if(parentStyleName != null){
 					setStyle(parentStyleName, styleMap);
 				}
@@ -313,9 +312,9 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	protected void setStyle(Map<String,Object> parentStyleMap, Map<String,Object> styleMap){
 		if(parentStyleMap != null){
 			for(String styleProperty : parentStyleMap.keySet()) {
-				if(!(MapComponent.PROPERTY_name.equals(styleProperty) 
-						|| MapComponent.PROPERTY_latitude.equals(styleProperty) 
-						|| MapComponent.PROPERTY_longitude.equals(styleProperty))
+				if(!(MapComponent.ITEM_PROPERTY_name.equals(styleProperty) 
+						|| MapComponent.ITEM_PROPERTY_latitude.equals(styleProperty) 
+						|| MapComponent.ITEM_PROPERTY_longitude.equals(styleProperty))
 						&& parentStyleMap.get(styleProperty) != null && parentStyleMap.get(styleProperty).toString().length() > 0){
 					styleMap.put(styleProperty, parentStyleMap.get(styleProperty));
 				}
@@ -342,7 +341,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		JRTemplateGenericElement template = new JRTemplateGenericElement(
 				fillContext.getElementOrigin(), 
 				fillContext.getDefaultStyleProvider(),
-				MapPrintElement.MAP_ELEMENT_TYPE);
+				MapComponent.MAP_ELEMENT_TYPE);
 		template = deduplicate(template);
 		JRTemplateGenericPrintElement printElement = new JRTemplateGenericPrintElement(template, printElementOriginator);
 		printElement.setUUID(element.getUUID());
@@ -373,9 +372,9 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 
 	protected void copy(JRGenericPrintElement printElement)
 	{
-		printElement.setParameterValue(MapPrintElement.PARAMETER_LATITUDE, latitude);
-		printElement.setParameterValue(MapPrintElement.PARAMETER_LONGITUDE, longitude);
-		printElement.setParameterValue(MapPrintElement.PARAMETER_ZOOM, zoom);
+		printElement.setParameterValue(MapComponent.ITEM_PROPERTY_latitude, latitude);
+		printElement.setParameterValue(MapComponent.ITEM_PROPERTY_longitude, longitude);
+		printElement.setParameterValue(MapComponent.PARAMETER_ZOOM, zoom);
 		String reqParams = "";
 		if(language != null)
 		{
@@ -393,31 +392,31 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 			reqParams += "&v=" + version;
 		}
 		if(reqParams.length() > 0) {
-			printElement.setParameterValue(MapPrintElement.PARAMETER_REQ_PARAMS, reqParams);
+			printElement.setParameterValue(MapComponent.PARAMETER_REQ_PARAMS, reqParams);
 		}
 		if(mapType != null)
 		{
-			printElement.setParameterValue(MapPrintElement.PARAMETER_MAP_TYPE, mapType.getName());
+			printElement.setParameterValue(MapComponent.ATTRIBUTE_MAP_TYPE, mapType.getName());
 		}
 		if(mapScale != null)
 		{
-			printElement.setParameterValue(MapPrintElement.PARAMETER_MAP_SCALE, mapScale.getName());
+			printElement.setParameterValue(MapComponent.ATTRIBUTE_MAP_SCALE, mapScale.getName());
 		}
 		if(imageType != null)
 		{
-			printElement.setParameterValue(MapPrintElement.PARAMETER_IMAGE_TYPE, imageType.getName());
+			printElement.setParameterValue(MapComponent.ATTRIBUTE_IMAGE_TYPE, imageType.getName());
 		}
 		if(onErrorType != null)
 		{
-			printElement.setParameterValue(MapPrintElement.PARAMETER_ON_ERROR_TYPE, onErrorType.getName());
+			printElement.setParameterValue(MapComponent.PARAMETER_ON_ERROR_TYPE, onErrorType.getName());
 		}
 		if(markers != null && !markers.isEmpty())
 		{
-			printElement.setParameterValue(MapPrintElement.PARAMETER_MARKERS, markers);
+			printElement.setParameterValue(MapComponent.PARAMETER_MARKERS, markers);
 		}
 		if(paths != null && !paths.isEmpty())
 		{
-			printElement.setParameterValue(MapPrintElement.PARAMETER_PATHS, paths);
+			printElement.setParameterValue(MapComponent.PARAMETER_PATHS, paths);
 		}
 	}
 	
