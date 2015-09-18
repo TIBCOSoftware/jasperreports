@@ -16,6 +16,14 @@
 	<parameter name="HebrewText" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["\u05D0\u05E0\u05D9 \u05DC\u05D0 \u05DE\u05D1\u05D9\u05DF \u05E2\u05D1\u05E8\u05D9\u05EA"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="ShowOdia" class="java.lang.Boolean">
+		<!-- The Oriya Noto font does not work properly in AWT as of Java 8.
+			(Neither does the Lohit Odia 2.91.0 font from Fedora, but the Utkal, Lohit and Samyak fonts
+			as distributed in Ubuntu 15.04 work fine, at least to some extent.)
+			This should be fixed in Java 9 which will use HarfBuzz instead of ICU LayoutEngine.
+		-->
+		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+	</parameter>
 	<title>
 		<band height="540">
 			<textField>
@@ -223,7 +231,9 @@
 				</textField>
 			</frame>
 			<frame>
-				<reportElement positionType="Float" x="0" y="330" width="520" height="30" uuid="f9d0b54f-eb4e-4ee6-a432-7716931e0fef"/>
+				<reportElement positionType="Float" x="0" y="330" width="520" height="30" isRemoveLineWhenBlank="true" uuid="f9d0b54f-eb4e-4ee6-a432-7716931e0fef">
+					<printWhenExpression><![CDATA[$P{ShowOdia}]]></printWhenExpression>
+				</reportElement>
 				<staticText>
 					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="290f2026-0762-4be0-863a-7c4eecef4e49"/>
 					<textElement verticalAlignment="Middle"/>
