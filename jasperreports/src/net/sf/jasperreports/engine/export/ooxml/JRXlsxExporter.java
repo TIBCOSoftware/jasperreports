@@ -65,7 +65,9 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
+import net.sf.jasperreports.engine.SimplePrintPageFormat;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
+import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
@@ -1582,6 +1584,21 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		}
 
 //		runHelper = new RunHelper(sheetWriter, fontMap, null);//FIXMEXLSX check this null
+	}
+	
+	@Override
+	protected void exportEmptyReport() throws JRException, IOException 
+	{
+		pageFormat = new SimplePrintPageFormat();
+		SimplePrintPageFormat simplePageFormat = ((SimplePrintPageFormat)pageFormat);
+		simplePageFormat.setPageWidth(jasperPrint.getPageWidth());
+		simplePageFormat.setPageHeight(jasperPrint.getPageHeight());
+		simplePageFormat.setOrientation(jasperPrint.getOrientationValue());
+		simplePageFormat.setTopMargin(jasperPrint.getTopMargin());
+		simplePageFormat.setLeftMargin(jasperPrint.getLeftMargin());
+		simplePageFormat.setRightMargin(jasperPrint.getRightMargin());
+		simplePageFormat.setBottomMargin(jasperPrint.getBottomMargin());
+		exportPage(new JRBasePrintPage(), null, 0, jasperPrint.getName());
 	}
 
 

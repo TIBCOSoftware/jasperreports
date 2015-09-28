@@ -832,6 +832,10 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 					}
 					//updateColumns(xCuts);
 				}
+			} 
+			else 
+			{
+				exportEmptyReport();
 			}
 			sheetsBeforeCurrentReport = configuration.isOnePagePerSheet() ? sheetIndex : sheetsBeforeCurrentReport + 1;
 		}
@@ -1901,6 +1905,12 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	{
 		return nature;
 	}
+	
+	protected void exportEmptyReport() throws JRException, IOException 
+	{
+		// does nothing; to be overriden in exporters that need customized behavior for empty reports (JRXlsxExporter for instance)
+	}
+	
 
 	/**
 	 *
