@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.util.JRStyledText;
 
 import com.lowagie.text.Element;
 import com.lowagie.text.pdf.PdfContentByte;
@@ -71,7 +72,7 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 	public void initialize(
 		JRPdfExporter pdfExporter, 
 		PdfContentByte pdfContentByte,
-		JRPrintText text,
+		JRPrintText text, JRStyledText styledText, 
 		int offsetX,
 		int offsetY
 		)
@@ -131,6 +132,6 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 			}
 		}
 
-		super.initialize(text, offsetX, offsetY);
+		super.initialize(text, styledText, offsetX, offsetY);
 	}
 }

@@ -215,6 +215,7 @@
       
       <property ref="net.sf.jasperreports.export.html.accessible"/>
       <property ref="net.sf.jasperreports.export.html.between.pages"/>
+      <property ref="net.sf.jasperreports.export.html.border.collapse"/>
       <property ref="net.sf.jasperreports.export.html.class"/>
       <property ref="net.sf.jasperreports.export.html.header"/>
       <property ref="net.sf.jasperreports.export.html.flush.output"/>
@@ -2861,6 +2862,28 @@ Its value is used as default for the
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>5.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.html.border.collapse -->
+  
+  <configProperty name="net.sf.jasperreports.export.html.border.collapse">
+    <description>
+Configuration property that provides the value for the <code>border-collapse</code> CSS property to be applied 
+to the table generated for the report. Possible values are:
+<ul>
+<li><code>separate</code></li>
+<li><code>collapse</code> (default)</li>
+<li><code>initial</code></li>
+<li><code>inherit</code></li>
+</ul>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#getBorderCollapse()">getBorderCollapse()</api> HTML export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/HtmlReportConfiguration.html#PROPERTY_BORDER_COLLAPSE</api>
+    <default>collapse</default>
+    <scope>Global | Report</scope>
+    <since>5.0.4</since>
   </configProperty>
   
   

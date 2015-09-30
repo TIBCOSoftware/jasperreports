@@ -30,6 +30,20 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
+import org.joda.time.Months;
+import org.joda.time.Weeks;
+import org.joda.time.Years;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.functions.AbstractFunctionSupport;
 import net.sf.jasperreports.functions.annotations.Function;
@@ -38,19 +52,6 @@ import net.sf.jasperreports.functions.annotations.FunctionParameter;
 import net.sf.jasperreports.functions.annotations.FunctionParameters;
 import net.sf.jasperreports.types.date.DateRange;
 import net.sf.jasperreports.types.date.DateRangeBuilder;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Days;
-import org.joda.time.LocalTime;
-import org.joda.time.Months;
-import org.joda.time.Weeks;
-import org.joda.time.Years;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 
 /**
@@ -338,22 +339,22 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			DateTime cursorDateTime=new DateTime(startDateObj);
-			DateTime endDateTime=new DateTime(endDateObj);
+			LocalDate cursorLocalDate=new LocalDate(startDateObj);
+			LocalDate endLocalDate=new LocalDate(endDateObj);
 			int workingDays=0;
-			if(cursorDateTime.isAfter(endDateTime)){
+			if(cursorLocalDate.isAfter(endLocalDate)){
 				// Swap data information
-				DateTime tmp=cursorDateTime;
-				cursorDateTime=endDateTime;
-				endDateTime=tmp;
+				LocalDate tmp=cursorLocalDate;
+				cursorLocalDate=endLocalDate;
+				endLocalDate=tmp;
 			}
-			while (Days.daysBetween(cursorDateTime, endDateTime).getDays()>0){
-				int dayOfWeek = cursorDateTime.getDayOfWeek();
+			while (Days.daysBetween(cursorLocalDate, endLocalDate).getDays()>0){
+				int dayOfWeek = cursorLocalDate.getDayOfWeek();
 				if(!(dayOfWeek==DateTimeConstants.SATURDAY || 
 						dayOfWeek==DateTimeConstants.SUNDAY)){
 					workingDays++;
 				}
-				cursorDateTime=cursorDateTime.plusDays(1);
+				cursorLocalDate=cursorLocalDate.plusDays(1);
 			}
 			return workingDays;
 		}
@@ -379,8 +380,8 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			DateTime dt1=new DateTime(startDateObj);
-			DateTime dt2=new DateTime(endDateObj);
+			LocalDate dt1=new LocalDate(startDateObj);
+			LocalDate dt2=new LocalDate(endDateObj);
 			return Days.daysBetween(dt1, dt2).getDays();
 		}
 	}
@@ -443,8 +444,8 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			DateTime dt1=new DateTime(startDateObj);
-			DateTime dt2=new DateTime(endDateObj);
+			LocalDate dt1=new LocalDate(startDateObj);
+			LocalDate dt2=new LocalDate(endDateObj);
 			return Weeks.weeksBetween(dt1, dt2).getWeeks();
 		}
 	}
@@ -507,8 +508,8 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			DateTime dt1=new DateTime(startDateObj);
-			DateTime dt2=new DateTime(endDateObj);
+			LocalDate dt1=new LocalDate(startDateObj);
+			LocalDate dt2=new LocalDate(endDateObj);
 			return Months.monthsBetween(dt1, dt2).getMonths();
 		}
 	}
@@ -533,8 +534,8 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			DateTime dt1=new DateTime(startDateObj);
-			DateTime dt2=new DateTime(endDateObj);
+			LocalDate dt1=new LocalDate(startDateObj);
+			LocalDate dt2=new LocalDate(endDateObj);
 			return Years.yearsBetween(dt1, dt2).getYears();
 		}
 	}

@@ -35,13 +35,11 @@ import java.util.StringTokenizer;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.ParagraphUtil;
 
 
@@ -53,7 +51,6 @@ public abstract class AbstractTextRenderer
 	public static final FontRenderContext LINE_BREAK_FONT_RENDER_CONTEXT = new FontRenderContext(null, true, true);
 
 	protected final JasperReportsContext jasperReportsContext;
-	protected final JRStyledTextAttributeSelector noBackcolorSelector;
 	protected JRPrintText text;
 	protected JRStyledText styledText;
 	protected String allText;
@@ -97,7 +94,6 @@ public abstract class AbstractTextRenderer
 		)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-		this.noBackcolorSelector = JRStyledTextAttributeSelector.getNoBackcolorSelector(jasperReportsContext);
 		this.isMinimizePrinterJobSize = isMinimizePrinterJobSize;
 		this.ignoreMissingFont = ignoreMissingFont;
 	}
@@ -172,15 +168,9 @@ public abstract class AbstractTextRenderer
 	/**
 	 * 
 	 */
-	public void initialize(JRPrintText text, int offsetX, int offsetY)
+	public void initialize(JRPrintText text, JRStyledText styledText, int offsetX, int offsetY)
 	{
-		styledText = JRStyledTextUtil.getInstance(jasperReportsContext).getStyledText(text, noBackcolorSelector);
-		
-		if (styledText == null)
-		{
-			return;
-		}
-
+		this.styledText = styledText;
 		allText = styledText.getText();
 		
 		x = text.getX() + offsetX;

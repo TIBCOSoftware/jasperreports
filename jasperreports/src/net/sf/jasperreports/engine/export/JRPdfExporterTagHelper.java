@@ -44,6 +44,7 @@ import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfNumber;
+import com.lowagie.text.pdf.PdfObject;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfStructureElement;
 import com.lowagie.text.pdf.PdfStructureTreeRoot;
@@ -318,11 +319,11 @@ public class JRPdfExporterTagHelper
 			if (crtCrosstabRowY >= 0) //crosstab still open
 			{
 				//end the current row
-				pdfContentByte.endMarkedContentSequence();
+				//pdfContentByte.endMarkedContentSequence();
 				tagStack.pop();
 				
 				//end the table
-				pdfContentByte.endMarkedContentSequence();
+				//pdfContentByte.endMarkedContentSequence();
 				tagStack.pop();
 			}
 		}
@@ -357,7 +358,7 @@ public class JRPdfExporterTagHelper
 							//this is the first cell on a new row
 
 							//end the current row
-							pdfContentByte.endMarkedContentSequence();
+							//pdfContentByte.endMarkedContentSequence();
 							tagStack.pop();
 							
 							if (
@@ -367,7 +368,7 @@ public class JRPdfExporterTagHelper
 								)
 							{
 								//end the table
-								pdfContentByte.endMarkedContentSequence();
+								//pdfContentByte.endMarkedContentSequence();
 								tagStack.pop();
 
 								//start table
@@ -390,11 +391,11 @@ public class JRPdfExporterTagHelper
 							//normal frame outside crosstab
 							
 							//end the current row
-							pdfContentByte.endMarkedContentSequence();
+							//pdfContentByte.endMarkedContentSequence();
 							tagStack.pop();
 							
 							//end the table
-							pdfContentByte.endMarkedContentSequence();
+							//pdfContentByte.endMarkedContentSequence();
 							tagStack.pop();
 							
 							//end crosstab
@@ -432,11 +433,11 @@ public class JRPdfExporterTagHelper
 						//normal element outside crosstab
 						
 						//end the current row
-						pdfContentByte.endMarkedContentSequence();
+						//pdfContentByte.endMarkedContentSequence();
 						tagStack.pop();
 						
 						//end the table
-						pdfContentByte.endMarkedContentSequence();
+						//pdfContentByte.endMarkedContentSequence();
 						tagStack.pop();
 						
 						//end crosstab
@@ -498,6 +499,18 @@ public class JRPdfExporterTagHelper
 		}
 	}
 
+	protected void startText(String text)
+	{
+		if (isTagged)
+		{
+			PdfDictionary markedContentProps = new PdfDictionary();
+			markedContentProps.put(PdfName.ACTUALTEXT, new PdfString(text, PdfObject.TEXT_UNICODE));
+			PdfStructureElement textTag = new PdfStructureElement(tagStack.peek(), PdfName.TEXT);
+			// the following method is part of the patched iText
+			pdfContentByte.beginMarkedContentSequence(textTag, markedContentProps);
+		}
+	}
+
 	protected void endText()
 	{
 		if (isTagged)
@@ -553,7 +566,7 @@ public class JRPdfExporterTagHelper
 			if (prop != null && (TAG_START.equals(prop) || TAG_FULL.equals(prop)))
 			{
 				PdfStructureElement headingTag = new PdfStructureElement(tagStack.peek(), PdfName.H1);
-				pdfContentByte.beginMarkedContentSequence(headingTag);
+				//pdfContentByte.beginMarkedContentSequence(headingTag);
 				headingTag.put(PdfName.K, new PdfArray());
 				tagStack.push(headingTag);
 				isTagEmpty = true;
@@ -563,7 +576,7 @@ public class JRPdfExporterTagHelper
 			if (prop != null && (TAG_START.equals(prop) || TAG_FULL.equals(prop)))
 			{
 				PdfStructureElement headingTag = new PdfStructureElement(tagStack.peek(), PdfName.H2);
-				pdfContentByte.beginMarkedContentSequence(headingTag);
+				//pdfContentByte.beginMarkedContentSequence(headingTag);
 				headingTag.put(PdfName.K, new PdfArray());
 				tagStack.push(headingTag);
 				isTagEmpty = true;
@@ -573,7 +586,7 @@ public class JRPdfExporterTagHelper
 			if (prop != null && (TAG_START.equals(prop) || TAG_FULL.equals(prop)))
 			{
 				PdfStructureElement headingTag = new PdfStructureElement(tagStack.peek(), PdfName.H3);
-				pdfContentByte.beginMarkedContentSequence(headingTag);
+				//pdfContentByte.beginMarkedContentSequence(headingTag);
 				headingTag.put(PdfName.K, new PdfArray());
 				tagStack.push(headingTag);
 				isTagEmpty = true;
@@ -585,7 +598,7 @@ public class JRPdfExporterTagHelper
 	protected void createTableStartTag()
 	{
 		PdfStructureElement tableTag = new PdfStructureElement(allTag, PdfName.TABLE);
-		pdfContentByte.beginMarkedContentSequence(tableTag);
+		//pdfContentByte.beginMarkedContentSequence(tableTag);
 		tableTag.put(PdfName.K, new PdfArray());
 		tagStack.push(tableTag);
 	}
@@ -594,7 +607,7 @@ public class JRPdfExporterTagHelper
 	protected void createTrStartTag()
 	{
 		PdfStructureElement tableRowTag = new PdfStructureElement(tagStack.peek(), PdfName.TABLEROW);
-		pdfContentByte.beginMarkedContentSequence(tableRowTag);
+		//pdfContentByte.beginMarkedContentSequence(tableRowTag);
 		tableRowTag.put(PdfName.K, new PdfArray());
 		tagStack.push(tableRowTag);
 	}
@@ -603,7 +616,7 @@ public class JRPdfExporterTagHelper
 	protected void createThStartTag(JRPrintElement element)
 	{
 		PdfStructureElement tableHeaderTag = new PdfStructureElement(tagStack.peek(), PdfName.TH);
-		pdfContentByte.beginMarkedContentSequence(tableHeaderTag);
+		//pdfContentByte.beginMarkedContentSequence(tableHeaderTag);
 		tableHeaderTag.put(PdfName.K, new PdfArray());
 		tagStack.push(tableHeaderTag);
 		isTagEmpty = true;
@@ -615,7 +628,7 @@ public class JRPdfExporterTagHelper
 	protected void createTdStartTag(JRPrintElement element)
 	{
 		PdfStructureElement tableCellTag = new PdfStructureElement(tagStack.peek(), PdfName.TD);
-		pdfContentByte.beginMarkedContentSequence(tableCellTag);
+		//pdfContentByte.beginMarkedContentSequence(tableCellTag);
 		tableCellTag.put(PdfName.K, new PdfArray());
 		tagStack.push(tableCellTag);
 		isTagEmpty = true;
@@ -668,21 +681,21 @@ public class JRPdfExporterTagHelper
 			String prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TABLE);
 			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
 			{
-				pdfContentByte.endMarkedContentSequence();
+				//pdfContentByte.endMarkedContentSequence();
 				tagStack.pop();
 			}
 			
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TR);
 			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
 			{
-				pdfContentByte.endMarkedContentSequence();
+				//pdfContentByte.endMarkedContentSequence();
 				tagStack.pop();
 			}
 			
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TH);
 			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
 			{
-				pdfContentByte.endMarkedContentSequence();
+				//pdfContentByte.endMarkedContentSequence();
 				
 				if (isTagEmpty)
 				{
@@ -696,7 +709,7 @@ public class JRPdfExporterTagHelper
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TD);
 			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
 			{
-				pdfContentByte.endMarkedContentSequence();
+				//pdfContentByte.endMarkedContentSequence();
 				
 				if (isTagEmpty)
 				{
@@ -715,7 +728,7 @@ public class JRPdfExporterTagHelper
 					|| JRCellContents.TYPE_ROW_HEADER.equals(prop)
 					|| JRCellContents.TYPE_DATA.equals(prop)))
 			{
-				pdfContentByte.endMarkedContentSequence();
+				//pdfContentByte.endMarkedContentSequence();
 				
 				if (isTagEmpty)
 				{
@@ -729,7 +742,7 @@ public class JRPdfExporterTagHelper
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H1);
 			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
 			{
-				pdfContentByte.endMarkedContentSequence(); 
+				//pdfContentByte.endMarkedContentSequence(); 
 
 				if (isTagEmpty)
 				{
@@ -743,7 +756,7 @@ public class JRPdfExporterTagHelper
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H2);
 			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
 			{
-				pdfContentByte.endMarkedContentSequence(); 
+				//pdfContentByte.endMarkedContentSequence(); 
 
 				if (isTagEmpty)
 				{
@@ -757,7 +770,7 @@ public class JRPdfExporterTagHelper
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H3);
 			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
 			{
-				pdfContentByte.endMarkedContentSequence(); 
+				//pdfContentByte.endMarkedContentSequence(); 
 
 				if (isTagEmpty)
 				{

@@ -90,35 +90,35 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 
         if (reportContext == null)
         {
-            Float latitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LATITUDE);
-            latitude = latitude == null ? MapPrintElement.DEFAULT_LATITUDE : latitude;
+            Float latitude = (Float)element.getParameterValue(MapComponent.ITEM_PROPERTY_latitude);
+            latitude = latitude == null ? MapComponent.DEFAULT_LATITUDE : latitude;
 
-            Float longitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LONGITUDE);
-            longitude = longitude == null ? MapPrintElement.DEFAULT_LONGITUDE : longitude;
+            Float longitude = (Float)element.getParameterValue(MapComponent.ITEM_PROPERTY_longitude);
+            longitude = longitude == null ? MapComponent.DEFAULT_LONGITUDE : longitude;
 
-            Integer zoom = (Integer)element.getParameterValue(MapPrintElement.PARAMETER_ZOOM);
-            zoom = zoom == null ? MapPrintElement.DEFAULT_ZOOM : zoom;
+            Integer zoom = (Integer)element.getParameterValue(MapComponent.PARAMETER_ZOOM);
+            zoom = zoom == null ? MapComponent.DEFAULT_ZOOM : zoom;
 
-            String mapType = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE);
-            mapType = (mapType == null ? MapPrintElement.DEFAULT_MAP_TYPE.getName() : mapType).toUpperCase();
+            String mapType = (String)element.getParameterValue(MapComponent.ATTRIBUTE_MAP_TYPE);
+            mapType = (mapType == null ? MapComponent.DEFAULT_MAP_TYPE.getName() : mapType).toUpperCase();
 
             contextMap.put("latitude", latitude);
             contextMap.put("longitude", longitude);
             contextMap.put("zoom", zoom);
             contextMap.put("mapType", mapType);
 
-            List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_MARKERS);
+            List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapComponent.PARAMETER_MARKERS);
             String markers = markerList == null || markerList.isEmpty() ? "[]" : JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(markerList);
             contextMap.put("markerList", markers);
 
-            List<Map<String,Object>> pathList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_PATHS);
+            List<Map<String,Object>> pathList = (List<Map<String,Object>>)element.getParameterValue(MapComponent.PARAMETER_PATHS);
             String paths = pathList == null || pathList.isEmpty() ? "[]" : JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(pathList);
             contextMap.put("pathsList", paths);
 
-            String reqParams = (String)element.getParameterValue(MapPrintElement.PARAMETER_REQ_PARAMS);
+            String reqParams = (String)element.getParameterValue(MapComponent.PARAMETER_REQ_PARAMS);
             if(reqParams != null)
             {
-                contextMap.put(MapPrintElement.PARAMETER_REQ_PARAMS, reqParams);
+                contextMap.put(MapComponent.PARAMETER_REQ_PARAMS, reqParams);
             }
 
             if (context.getValue(FIRST_ATTEMPT_PARAM) == null)
