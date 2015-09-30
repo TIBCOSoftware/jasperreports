@@ -15,7 +15,7 @@
 	pen (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
 	fill (Solid) #IMPLIED
 	radius NMTOKEN #IMPLIED
-	scaleImage (Clip | FillFrame | RetainShape) #IMPLIED
+	scaleImage (Clip | FillFrame | RetainShape | RealHeight | RealSize) #IMPLIED
 	hAlign (Left | Center | Right | Justified) #IMPLIED
 	vAlign (Top | Middle | Bottom) #IMPLIED
 	hTextAlign (Left | Center | Right | Justified) #IMPLIED
