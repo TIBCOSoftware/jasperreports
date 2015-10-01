@@ -955,7 +955,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			throws JRException
 	{
 		boolean updateTemplate = false;
-		
+
+		JRStyle printStyle = element.getStyle();
 		if (isDelayedStyleEvaluation())
 		{
 			JRStyle elementStyle = initStyle;
@@ -969,15 +970,18 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 				JRStyle evaluatedStyle = conditionalStylesContainer.evaluateConditionalStyle(
 						elementStyle, evaluation);
 				// if the evaluated style differs from the existing style
-				if (evaluatedStyle != element.getStyle())
+				if (evaluatedStyle != printStyle)
 				{
-					// set the evaluated style as current style
-					this.currentStyle = evaluatedStyle;
+					// set the evaluated style as element style
+					printStyle = evaluatedStyle;
 					
 					updateTemplate = true;
 				}
 			}
 		}
+		
+		// set the current element style
+		this.currentStyle = printStyle;
 		
 		resolveElement(element, evaluation);
 		
