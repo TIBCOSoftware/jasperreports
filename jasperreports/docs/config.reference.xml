@@ -154,6 +154,7 @@
   		<property ref="net.sf.jasperreports.components.sort.up.arrow.char" />
   		<property ref="net.sf.jasperreports.components.sort.down.arrow.char" />
   		<property ref="net.sf.jasperreports.components.filter.char" />
+  		<property ref="net.sf.jasperreports.components.table.generate.pdf.tags" />
   		<property ref="net.sf.jasperreports.components.table.interactive" />
   		<property ref="net.sf.jasperreports.components.table.column.field" />
   		<property ref="net.sf.jasperreports.components.table.column.variable" />
@@ -1950,6 +1951,20 @@ Property that specifies the character to be used on the column header when the t
     <default>\u2606</default>
     <scope>Global</scope>
     <since>4.6.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.table.generate.pdf.tags -->
+  
+    <configProperty name="net.sf.jasperreports.components.table.generate.pdf.tags">
+    <description>
+Property that enables/disables the automatic addition of specific custom properties to table cell elements, 
+that would in turn trigger the creation of special document accessibility tags during PDF export.
+    </description>
+    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_GENERATE_TABLE_PDF_TAGS</api>
+    <default>false</default>
+    <scope>Global | Report | Component</scope>
+    <since>6.1.2</since>
   </configProperty>
   
   
