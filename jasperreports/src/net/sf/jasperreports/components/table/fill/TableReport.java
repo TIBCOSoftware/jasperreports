@@ -93,6 +93,7 @@ import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignSection;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.export.HtmlExporter;
+import net.sf.jasperreports.engine.export.JRPdfExporterTagHelper;
 import net.sf.jasperreports.engine.export.MatcherExporterFilter;
 import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
@@ -161,7 +162,24 @@ public class TableReport implements JRReport
 	 * <p>
 	 * The default global value of this property is <code>true</code>
 	 */
-	private static final String PROPERTY_INTERACTIVE_TABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.interactive";
+	public static final String PROPERTY_INTERACTIVE_TABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.interactive";
+
+	/**
+	 * Property that enables/disables the automatic addition of specific custom properties to table cell elements,
+	 * that would in turn trigger the creation of special document accessibility tags during PDF export
+	 * 
+	 * <p>
+	 * The property can be set:
+	 * <ul>
+	 * 	<li>globally</li>
+	 * 	<li>at report level</li>
+	 * 	<li>at component level</li>
+	 * </ul>
+	 * 
+	 * <p>
+	 * The default global value of this property is <code>false</code>
+	 */
+	public static final String PROPERTY_GENERATE_TABLE_PDF_TAGS = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.generate.pdf.tags";
 
 	/**
 	 * Column property that specifies the field to be used for sorting, filtering and conditional formatting 
@@ -227,6 +245,7 @@ public class TableReport implements JRReport
 	
 	private final JRPropertiesUtil propertiesUtil;
 	private boolean isInteractiveTable;
+	private boolean isGeneratePdfTags;
 	private Map<Column, Pair<Boolean, String>> columnInteractivityMapping;
 	
 	public TableReport(
@@ -274,6 +293,7 @@ public class TableReport implements JRReport
 		}
 		// end: table interactivity
 		
+		this.isGeneratePdfTags  = Boolean.valueOf(propertiesUtil.getProperty(PROPERTY_GENERATE_TABLE_PDF_TAGS, fillContext.getComponentElement(), this.parentReport));
 		
 		this.columnHeader = createColumnHeader(fillColumns);
 		this.detail = wrapBand(createDetailBand(fillColumns), new JROrigin(BandTypeEnum.DETAIL));
@@ -305,35 +325,115 @@ public class TableReport implements JRReport
 	protected class ReportBandInfo
 	{
 		final JRDesignBand band;
-		final List<JRDesignElementGroup> rowGroups = new ArrayList<JRDesignElementGroup>();
+		final List<BandRowInfo> rows = new ArrayList<BandRowInfo>();
 		
 		ReportBandInfo(JRDesignBand band)
 		{
 			this.band = band;
 		}
 
-		protected void elementAdded(JRElement element)
+		protected void cellAdded(int rowLevel, CellInfo cell)
 		{
+			JRElement element = cell.getElement();
 			if (band.getHeight() < element.getHeight() + element.getY())
 			{
 				band.setHeight(element.getHeight() + element.getY());
 			}
+			
+			BandRowInfo row = getBandRowInfo(rowLevel);
+			
+			row.addCell(cell);
 		}
 		
 		JRDesignElementGroup getRowElementGroup(int rowLevel)
 		{
-			int rowCount = rowGroups.size();
+			BandRowInfo row = getBandRowInfo(rowLevel);
+			JRDesignElementGroup elementGroup = row.getElementGroup();
+			if (elementGroup == null)
+			{
+				elementGroup = new JRDesignElementGroup();
+				row.setElementGroup(elementGroup);
+				band.addElementGroup(elementGroup);
+			}
+			return elementGroup;
+		}
+		
+		BandRowInfo getBandRowInfo(int rowLevel)
+		{
+			int rowCount = rows.size();
 			if (rowLevel >= rowCount)
 			{
 				for (int level = rowCount; level <= rowLevel; ++level)
 				{
-					JRDesignElementGroup group = new JRDesignElementGroup();
-					band.addElementGroup(group);
-					rowGroups.add(group);
+					rows.add(new BandRowInfo());
 				}
 			}
 			
-			return rowGroups.get(rowLevel);
+			return rows.get(rowLevel);
+		}
+		
+		List<BandRowInfo> getRows()
+		{
+			return rows;
+		}
+	}
+
+	protected class BandRowInfo
+	{
+		JRDesignElementGroup elementGroup;
+		List<CellInfo> cells = new ArrayList<CellInfo>();
+		
+		BandRowInfo()
+		{
+		}
+
+		protected JRDesignElementGroup getElementGroup()
+		{
+			return elementGroup;
+		}
+
+		protected void setElementGroup(JRDesignElementGroup elementGroup)
+		{
+			this.elementGroup = elementGroup;
+		}
+		
+		protected List<CellInfo> getCells()
+		{
+			return cells;
+		}
+		
+		protected void addCell(CellInfo cell)
+		{
+			cells.add(cell);
+		}
+	}
+
+	protected class CellInfo
+	{
+		final JRElement element;
+		final int rowSpan;
+		final int colSpan;
+		
+		CellInfo(JRElement element, int rowSpan, int colSpan)
+		{
+			this.element = element;
+			this.rowSpan = rowSpan;
+			this.colSpan = colSpan;
+		}
+
+		protected JRElement getElement()
+		{
+			return element;
+		}
+		
+		protected int getRowSpan()
+		{
+			return rowSpan;
+		}
+		
+		protected int getColSpan()
+		{
+			return colSpan;
 		}
 	}
 
@@ -372,7 +472,7 @@ public class TableReport implements JRReport
 				
 				JRElement cellElement = createColumnCell(column, elementGroup, cell);
 				elementGroup.addElement(cellElement);
-				bandInfo.elementAdded(cellElement);
+				bandInfo.cellAdded(level, new CellInfo(cellElement, rowSpan, fillColumn.getColSpan()));
 				
 				yOffset += cell.getHeight();
 			}
@@ -405,11 +505,19 @@ public class TableReport implements JRReport
 			{
 				int rowSpan = cell.getRowSpan() == null ? 1 : cell.getRowSpan();
 				int rowLevel = level + rowSpan - 1;
+
+				int colSpan = 0;
+				for (FillColumn subcolumn : fillColumn.getSubcolumns())
+				{
+					colSpan += subcolumn.getColSpan();
+				}
+				colSpan = colSpan == 0 ? 1 : colSpan;
+				
 				JRDesignElementGroup elementGroup = bandInfo.getRowElementGroup(rowLevel);
 				
 				JRElement cellElement = createColumnGroupCell(columnGroup, cell, elementGroup);
 				elementGroup.addElement(cellElement);
-				bandInfo.elementAdded(cellElement);
+				bandInfo.cellAdded(level, new CellInfo(cellElement, rowSpan, colSpan));
 				
 				cellHeight = cell.getHeight();
 				sublevel += rowSpan;
@@ -473,6 +581,8 @@ public class TableReport implements JRReport
 			int origXOffset = xOffset;
 			int origYOffset = yOffset;
 			
+			int colSpan = 0;
+			
 			for (FillColumn subcolumn : fillColumn.getSubcolumns())
 			{
 				ReportBandCreator subVisitor = createSubVisitor(subcolumn, 
@@ -483,7 +593,10 @@ public class TableReport implements JRReport
 				{
 					yOffset = subVisitor.yOffset;
 				}
+				colSpan += subcolumn.getColSpan();
 			}
+			
+			colSpan = colSpan == 0 ? 1 : colSpan; 
 			
 			if (cell != null)
 			{
@@ -494,7 +607,7 @@ public class TableReport implements JRReport
 						columnGroup.getWidth(), fillColumn.getWidth(), 
 						origXOffset, yOffset, null, false);
 				elementGroup.addElement(cellElement);
-				bandInfo.elementAdded(cellElement);
+				bandInfo.cellAdded(level, new CellInfo(cellElement, rowSpan, colSpan));
 				
 				yOffset += cell.getHeight();
 			}
@@ -560,6 +673,8 @@ public class TableReport implements JRReport
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
 		}
+
+		setPdfTags(bandInfo, false);
 		
 		return detailBand;
 	}
@@ -993,6 +1108,8 @@ public class TableReport implements JRReport
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
 		}
+
+		setPdfTags(bandInfo, true);
 		
 		if (columnHeader.getHeight() == 0)
 		{
@@ -1044,6 +1161,8 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 		
+		setPdfTags(bandInfo, false);
+
 		if (pageFooter.getHeight() == 0)
 		{
 			pageFooter = null;
@@ -1093,6 +1212,8 @@ public class TableReport implements JRReport
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
 		}
+
+		setPdfTags(bandInfo, false);
 		
 		if (title.getHeight() == 0)
 		{
@@ -1144,6 +1265,8 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 		
+		setPdfTags(bandInfo, false);
+
 		if (summary.getHeight() == 0)
 		{
 			summary = null;
@@ -1200,6 +1323,8 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 		
+		setPdfTags(bandInfo, false);
+		
 		if (header.getHeight() == 0)
 		{
 			header = null;
@@ -1255,6 +1380,8 @@ public class TableReport implements JRReport
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
 		}
+
+		setPdfTags(bandInfo, false);
 		
 		if (footer.getHeight() == 0)
 		{
@@ -1286,6 +1413,47 @@ public class TableReport implements JRReport
 		
 	}
 
+	private void setPdfTags(ReportBandInfo bandInfo, boolean isHeader)
+	{
+		if (!isGeneratePdfTags)
+		{
+			return;
+		}
+		
+		String cellTagProp = isHeader ? JRPdfExporterTagHelper.PROPERTY_TAG_TH : JRPdfExporterTagHelper.PROPERTY_TAG_TD;
+
+		List<BandRowInfo> rows = bandInfo.getRows();
+		
+		for (BandRowInfo row : rows)
+		{
+			List<CellInfo> cells = row.getCells();
+			CellInfo firstCell = cells.get(0);
+			firstCell.getElement().getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TR, JRPdfExporterTagHelper.TAG_START);
+			
+			for (CellInfo cell : cells)
+			{
+				cell.getElement().getPropertiesMap().setProperty(cellTagProp, JRPdfExporterTagHelper.TAG_FULL);
+				if (cell.getRowSpan() > 1)
+				{
+					cell.getElement().getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_ROWSPAN, String.valueOf(cell.getRowSpan()));
+				}
+				if (cell.getColSpan() > 1)
+				{
+					cell.getElement().getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_COLSPAN, String.valueOf(cell.getColSpan()));
+				}
+			}
+			
+			CellInfo lastCell = cells.get(cells.size() - 1);
+			lastCell.getElement().getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TR, JRPdfExporterTagHelper.TAG_END);
+		}		
+	}
+
+	protected boolean isGeneratePdfTags()
+	{
+		return isGeneratePdfTags;
+	}
+
+	
 	protected static final String TABLE_SCRIPTLET_NAME = "__Table";
 	
 	protected class SummaryGroupFooterPrintWhenEvaluator implements BuiltinExpressionEvaluator

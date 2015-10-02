@@ -113,6 +113,12 @@ public class FillTableSubreport extends JRFillSubreport
 		return values;
 	}
 
+	@Override
+	protected boolean isReorderBandElements()
+	{
+		return true;
+	}
+	
 	protected void copyConnectionParameter(Map<String, Object> parameterValues)
 	{
 		// copy the main report's connection parameter to the table subreport

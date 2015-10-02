@@ -33,6 +33,7 @@ import java.text.Format;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -223,6 +224,8 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	protected int lastPageColumnFooterOffsetY;
 
 	protected boolean isLastPageFooter;
+
+	protected boolean isReorderBandElements;
 
 	/**
 	 *
@@ -1151,6 +1154,40 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	}
 
 
+	/**
+	 *
+	 */
+	protected void fillBand(JRPrintBand band)
+	{
+		if (isReorderBandElements())
+		{
+			List<JRPrintElement> elements = new ArrayList<JRPrintElement>();
+			for(Iterator<JRPrintElement> it = band.iterateElements(); it.hasNext();)
+			{
+				JRPrintElement element = it.next();
+				element.setX(element.getX() + offsetX);
+				element.setY(element.getY() + offsetY);
+				elements.add(element);
+			}
+			Collections.sort(elements, new JRYXComparator());//FIXME make singleton comparator; same for older comparator
+			for (JRPrintElement element : elements)
+			{
+				printPage.addElement(element);
+			}
+		}
+		else
+		{
+			for(Iterator<JRPrintElement> it = band.iterateElements(); it.hasNext();)
+			{
+				JRPrintElement element = it.next();
+				element.setX(element.getX() + offsetX);
+				element.setY(element.getY() + offsetY);
+				printPage.addElement(element);
+			}
+		}
+	}
+
+
 	protected void addPage(JRPrintPage page)
 	{
 		if (!isSubreport())
@@ -1266,6 +1303,19 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	{
 		this.bandOverFlowAllowed = splittableBand;
 	}
+
+
+	protected boolean isReorderBandElements()
+	{
+		return isReorderBandElements;
+	}
+
+
+	protected void setReorderBandElements(boolean isReorderBandElements)
+	{
+		this.isReorderBandElements = isReorderBandElements;
+	}
+
 
 	protected int getMasterColumnCount()
 	{

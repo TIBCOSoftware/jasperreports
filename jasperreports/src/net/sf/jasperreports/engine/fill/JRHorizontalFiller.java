@@ -23,12 +23,9 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.util.Iterator;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -2165,21 +2162,6 @@ public class JRHorizontalFiller extends JRBaseFiller
 		offsetY += allowShrinking ? printBand.getHeight() : band.getHeight();
 
 		resolveBandBoundElements(band, evaluation);
-	}
-
-
-	/**
-	 *
-	 */
-	protected void fillBand(JRPrintBand band)
-	{
-		for(Iterator<JRPrintElement> it = band.iterateElements(); it.hasNext();)
-		{
-			JRPrintElement element = it.next();
-			element.setX(element.getX() + offsetX);
-			element.setY(element.getY() + offsetY);
-			printPage.addElement(element);
-		}
 	}
 
 
