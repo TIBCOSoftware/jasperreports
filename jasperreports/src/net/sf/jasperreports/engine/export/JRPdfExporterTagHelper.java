@@ -678,39 +678,39 @@ public class JRPdfExporterTagHelper
 	{
 		if (element.hasProperties())
 		{
-			String prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TABLE);
+			String prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H3);
 			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
 			{
-				//pdfContentByte.endMarkedContentSequence();
-				tagStack.pop();
-			}
-			
-			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TR);
-			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
-			{
-				//pdfContentByte.endMarkedContentSequence();
-				tagStack.pop();
-			}
-			
-			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TH);
-			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
-			{
-				//pdfContentByte.endMarkedContentSequence();
-				
+				//pdfContentByte.endMarkedContentSequence(); 
+
 				if (isTagEmpty)
 				{
 					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement(tagStack.peek(), PdfName.SPAN));
 					pdfContentByte.endMarkedContentSequence();
 				}
-				
+
 				tagStack.pop();
 			}
-			
-			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TD);
+
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H2);
 			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
 			{
-				//pdfContentByte.endMarkedContentSequence();
-				
+				//pdfContentByte.endMarkedContentSequence(); 
+
+				if (isTagEmpty)
+				{
+					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement(tagStack.peek(), PdfName.SPAN));
+					pdfContentByte.endMarkedContentSequence();
+				}
+
+				tagStack.pop();
+			}
+
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H1);
+			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
+			{
+				//pdfContentByte.endMarkedContentSequence(); 
+
 				if (isTagEmpty)
 				{
 					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement(tagStack.peek(), PdfName.SPAN));
@@ -739,11 +739,11 @@ public class JRPdfExporterTagHelper
 				tagStack.pop();
 			}
 			
-			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H1);
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TD);
 			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
 			{
-				//pdfContentByte.endMarkedContentSequence(); 
-
+				//pdfContentByte.endMarkedContentSequence();
+				
 				if (isTagEmpty)
 				{
 					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement(tagStack.peek(), PdfName.SPAN));
@@ -752,32 +752,32 @@ public class JRPdfExporterTagHelper
 
 				tagStack.pop();
 			}
-
-			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H2);
+			
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TH);
 			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
 			{
-				//pdfContentByte.endMarkedContentSequence(); 
-
+				//pdfContentByte.endMarkedContentSequence();
+				
 				if (isTagEmpty)
 				{
 					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement(tagStack.peek(), PdfName.SPAN));
 					pdfContentByte.endMarkedContentSequence();
 				}
-
+				
 				tagStack.pop();
 			}
 
-			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H3);
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TR);
 			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
 			{
-				//pdfContentByte.endMarkedContentSequence(); 
+				//pdfContentByte.endMarkedContentSequence();
+				tagStack.pop();
+			}
 
-				if (isTagEmpty)
-				{
-					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement(tagStack.peek(), PdfName.SPAN));
-					pdfContentByte.endMarkedContentSequence();
-				}
-
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TABLE);
+			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
+			{
+				//pdfContentByte.endMarkedContentSequence();
 				tagStack.pop();
 			}
 		}
