@@ -1444,7 +1444,10 @@ public class TableReport implements JRReport
 			}
 			
 			CellInfo lastCell = cells.get(cells.size() - 1);
-			lastCell.getElement().getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TR, JRPdfExporterTagHelper.TAG_END);
+			lastCell.getElement().getPropertiesMap().setProperty(
+				JRPdfExporterTagHelper.PROPERTY_TAG_TR, 
+				cells.size() == 1 ? JRPdfExporterTagHelper.TAG_FULL : JRPdfExporterTagHelper.TAG_END
+				);
 		}		
 	}
 
