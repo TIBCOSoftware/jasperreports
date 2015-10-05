@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.util.List;
+
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 
 
@@ -120,5 +122,11 @@ public interface JRBand extends JRElementGroup, JRPropertiesHolder
 	 */
 	public JRExpression getPrintWhenExpression();
 
-		
+	/**
+	 * Returns the list of values to increment report variables with.
+	 *
+	 * @return the list of returned values.
+	 */
+	public List<ExpressionReturnValue> getReturnValues();
+
 }

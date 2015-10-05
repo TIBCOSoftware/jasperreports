@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
@@ -233,10 +235,9 @@ public class JRQueryParser
 	}
 
 
-	@SuppressWarnings("deprecation")
 	protected String getTokenSeparators()
 	{
-		return JRProperties.getProperty(JRQueryChunk.PROPERTY_CHUNK_TOKEN_SEPARATOR);
+		return JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getProperty(JRQueryChunk.PROPERTY_CHUNK_TOKEN_SEPARATOR);
 	}
 
 	/**

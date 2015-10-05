@@ -212,7 +212,7 @@ public final class ChartUtil
 		}
 		throw 
 			new JRRuntimeException(
-				EXCEPTION_MESSAGE_KEY_RENDERER_FACTORY_NOT_SPECIFIED,
+				EXCEPTION_MESSAGE_KEY_CHART_THEME_NOT_FOUND,
 				new Object[]{themeName});
 	}
 

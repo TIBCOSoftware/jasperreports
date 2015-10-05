@@ -90,6 +90,8 @@ public class FilterCommand implements Command
 					filterForCurrentField.setFilterValueEnd(filterData.getFieldValueEnd());
 					filterForCurrentField.setFilterValueStart(filterData.getFieldValueStart());
 					filterForCurrentField.setFilterPattern(filterData.getFilterPattern());
+					filterForCurrentField.setLocaleCode(filterData.getLocaleCode());
+					filterForCurrentField.setTimeZoneId(filterData.getTimeZoneId());
 					filterForCurrentField.setIsValid(null);
 					filterForCurrentField.setIsField(filterData.getIsField());
 				} else {
@@ -104,6 +106,8 @@ public class FilterCommand implements Command
 						filterData.getFilterTypeOperator());
 
 				newFilterField.setFilterPattern(filterData.getFilterPattern());
+				newFilterField.setLocaleCode(filterData.getLocaleCode());
+				newFilterField.setTimeZoneId(filterData.getTimeZoneId());
 				newFilterField.setIsField(filterData.getIsField());
 				existingFilters.add(newFilterField);
 			}

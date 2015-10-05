@@ -23,21 +23,16 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.Serializable;
-
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.ReturnValue;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.type.CalculationEnum;
 
 /**
- * Base implementation of {@link net.sf.jasperreports.engine.ReturnValue JRReturnValue}.
+ * Base implementation of {@link net.sf.jasperreports.engine.ReturnValue ReturnValue}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class BaseReturnValue implements ReturnValue, Serializable
+public class BaseReturnValue extends BaseCommonReturnValue implements ReturnValue
 {
-
 	/**
 	 * 
 	 */
@@ -48,21 +43,6 @@ public class BaseReturnValue implements ReturnValue, Serializable
 	 */
 	protected String fromVariable;
 
-	/**
-	 * The name of the variable where the value should be copied.
-	 */
-	protected String toVariable;
-	
-	/**
-	 * The calculation type.
-	 */
-	protected CalculationEnum calculation = CalculationEnum.NOTHING;
-	
-	/**
-	 * The incrementer factory class name.
-	 */
-	protected String incrementerFactoryClassName;
-
 	
 	protected BaseReturnValue()
 	{
@@ -71,12 +51,9 @@ public class BaseReturnValue implements ReturnValue, Serializable
 	
 	protected BaseReturnValue(ReturnValue returnValue, JRBaseObjectFactory factory)
 	{
-		factory.put(returnValue, this);
+		super(returnValue, factory);
 
 		fromVariable = returnValue.getFromVariable();
-		toVariable = returnValue.getToVariable();
-		calculation = returnValue.getCalculation();
-		incrementerFactoryClassName = returnValue.getIncrementerFactoryClassName();
 	}
 
 	/**
@@ -89,51 +66,8 @@ public class BaseReturnValue implements ReturnValue, Serializable
 		return this.fromVariable;
 	}
 
-	/**
-	 * Returns the name of the report variable where the value should be copied.
-	 * 
-	 * @return the name of the report variable where the value should be copied.
-	 */
-	public String getToVariable()
-	{
-		return this.toVariable;
-	}
-
-	/**
-	 * Returns the calculation type.
-	 * <p>
-	 * When copying the returned value, a formula can be applied such that sum,
-	 * maximum, average and so on can be computed.
-	 * 
-	 * @return the calculation type.
-	 */
-	public CalculationEnum getCalculation()
-	{
-		return calculation;
-	}
-
-	/**
-	 * Returns the incrementer factory class name.
-	 * <p>
-	 * The factory will be used to increment the value of the report variable
-	 * with the returned value.
-	 * 
-	 * @return the incrementer factory class name.
-	 */
-	public String getIncrementerFactoryClassName()
-	{
-		return incrementerFactoryClassName;
-	}
-
 	public Object clone() 
 	{
-		try
-		{
-			return super.clone();
-		}
-		catch (CloneNotSupportedException e)
-		{
-			throw new JRRuntimeException(e);
-		}
+		return super.clone();
 	}
 }

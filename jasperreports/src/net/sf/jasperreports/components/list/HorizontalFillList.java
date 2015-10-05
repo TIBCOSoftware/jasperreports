@@ -28,6 +28,7 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillCloneable;
@@ -311,6 +312,18 @@ public class HorizontalFillList extends BaseFillList
 			// fill elements
 			printContainer.setXOffset(idx * contentsWidth);
 			contents.fillElements(printContainer);
+		}
+		
+		if (ignoreWidth)
+		{
+			JRStyle style = printFrame.getStyle();
+			int leftPadding = style == null ? 0 : style.getLineBox().getLeftPadding();
+			int rightPadding = style == null ? 0 : style.getLineBox().getRightPadding();
+			int requiredWidth = columnCount * contentsWidth + leftPadding + rightPadding;
+			if (requiredWidth > printFrame.getWidth())
+			{
+				printFrame.setWidth(requiredWidth);
+			}
 		}
 	}
 

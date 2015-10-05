@@ -124,6 +124,7 @@ public abstract class BaseReportFiller implements ReportFiller
 		setJasperReportsContext(jasperReportsContext);
 		
 		this.jasperReport = jasperReport;
+		jasperReportSet();
 		
 		this.parent = parent;
 
@@ -185,6 +186,8 @@ public abstract class BaseReportFiller implements ReportFiller
 			log.debug("created delayed actions " + delayedActions.getId() + " for filler " + fillerId);
 		}
 	}
+	
+	protected abstract void jasperReportSet();
 	
 	private List<String> readPrintTransferPropertyPrefixes()
 	{

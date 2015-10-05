@@ -70,7 +70,7 @@ font - but this is now deprecated) declared in the <code>&lt;jasperReport/&gt;</
 <br/>
 A default style is characterized by the <code>isDefault</code> flag attribute:
 <pre><![CDATA[
-  <style name="Base" isDefault="true" hAlign="Center" vAlign="Middle"
+  <style name="Base" isDefault="true" hTextAlign="Center" vTextAlign="Middle"
     fontSize="10" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false">
     <box padding="4">
       <pen lineWidth="0.5"/>

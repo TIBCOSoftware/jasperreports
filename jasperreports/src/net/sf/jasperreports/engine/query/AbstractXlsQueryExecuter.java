@@ -272,7 +272,12 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 			}
 			datasource.setUseFirstRowAsHeader(useFirstRowAsHeader);
 			
-			Locale xlsLocale = (Locale) getParameterValue(JRParameter.REPORT_LOCALE, true);
+			@SuppressWarnings("deprecation")
+			Locale xlsLocale = (Locale) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_LOCALE, true);
+			if (xlsLocale == null)
+			{
+				xlsLocale = (Locale) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_LOCALE, true);
+			}
 			if (xlsLocale != null) {
 				datasource.setLocale(xlsLocale);
 			} else {
@@ -284,10 +289,20 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 				}
 				if (xlsLocaleCode != null) {
 					datasource.setLocale(xlsLocaleCode);
+				} else {
+					xlsLocale = (Locale) getParameterValue(JRParameter.REPORT_LOCALE, true);
+					if (xlsLocale != null) { //this is never null at this point, actually
+						datasource.setLocale(xlsLocale);
+					}
 				}
 			}
 			
-			TimeZone xlsTimezone = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE, true);
+			@SuppressWarnings("deprecation")
+			TimeZone xlsTimezone = (TimeZone) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_TIMEZONE, true);
+			if (xlsTimezone == null)
+			{
+				xlsTimezone = (TimeZone) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_TIMEZONE, true);
+			}
 			if (xlsTimezone != null) {
 				datasource.setTimeZone(xlsTimezone);
 			} else {
@@ -299,6 +314,11 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 				}
 				if (xlsTimezoneId != null) {
 					datasource.setTimeZone(xlsTimezoneId);
+				} else {
+					xlsTimezone = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE, true);
+					if (xlsTimezone != null) { //this is never null at this point, actually
+						datasource.setTimeZone(xlsTimezone);
+					}
 				}
 			}
 			

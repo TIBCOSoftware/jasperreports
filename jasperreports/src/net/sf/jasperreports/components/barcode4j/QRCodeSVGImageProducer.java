@@ -146,7 +146,7 @@ public class QRCodeSVGImageProducer implements QRCodeImageProducer
 		for (int x = 0; x < codeWidth; x++) {
 			for (int y = 0; y < codeHeight; y++) {
 				if (matrix.get(x,y) == 1) {
-					Element element = svgDoc.createElement("rect");
+					Element element = svgDoc.createElementNS(svg.getNamespaceURI(), "rect");
 					element.setAttribute("x", String.valueOf(xOffset + scale * (x + margin)));
 					element.setAttribute("y", String.valueOf(yOffset + scale * (y + margin)));
 					element.setAttribute("width", rectangleSize);

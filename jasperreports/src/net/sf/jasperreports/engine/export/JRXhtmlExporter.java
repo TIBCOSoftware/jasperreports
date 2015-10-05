@@ -700,7 +700,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 							HtmlFontUtil.handleFont(resourceHandler, htmlFont);
 						}
 						
-						fontFamily = htmlFont.getId();
+						fontFamily = htmlFont.getShortId();
 					}
 				}
 			}

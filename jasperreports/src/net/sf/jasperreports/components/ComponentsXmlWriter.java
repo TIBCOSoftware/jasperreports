@@ -324,10 +324,10 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 	private void writeItemProperty(ItemProperty itemProperty, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
 	{
 		writer.startElement(MapXmlFactory.ELEMENT_itemProperty, namespace);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_name, itemProperty.getName());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, itemProperty.getName());
 		if(itemProperty.getValue() != null)
 		{
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_value, itemProperty.getValue());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_value, itemProperty.getValue());
 		}
 		writeExpression(JRXmlConstants.ELEMENT_valueExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, itemProperty.getValueExpression(), false, componentElement, reportWriter);
 		writer.closeElement();

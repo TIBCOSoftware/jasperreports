@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -110,6 +111,7 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyleUtil;
 import net.sf.jasperreports.web.util.JacksonUtil;
@@ -638,6 +640,7 @@ public class TableReport implements JRReport
 				String fieldOrVariableName = null;
 				SortFieldTypeEnum columnType = null;
 				FilterTypesEnum filterType = null;
+				TimeZone formatTimeZone = null;//FIXME also define via properties when sortTextField is not single chunk
 				String suffix = "";
 				boolean hasFieldOrVariable = false;
 				
@@ -675,7 +678,7 @@ public class TableReport implements JRReport
 								new Object[]{fieldOrVariableName} 
 								);
 					}
-				} else if (TableUtil.hasSingleChunkExpression(sortTextField))
+				} else if (TableUtil.hasSingleChunkExpression(sortTextField)) 
 				{
 					JRExpressionChunk sortExpression = sortTextField.getExpression().getChunks()[0];
 					fieldOrVariableName = sortExpression.getText();
@@ -686,12 +689,14 @@ public class TableReport implements JRReport
 						columnType = SortFieldTypeEnum.FIELD;
 						JRField field = getField(fieldOrVariableName);
 						filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
+						formatTimeZone = getFormatTimeZone(sortTextField, field.getValueClass());
 						break;
 						
 					case JRExpressionChunk.TYPE_VARIABLE:
 						columnType = SortFieldTypeEnum.VARIABLE;
 						JRVariable variable = getVariable(fieldOrVariableName);
 						filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
+						formatTimeZone = getFormatTimeZone(sortTextField, variable.getValueClass());
 						break;
 						
 					default:
@@ -758,6 +763,11 @@ public class TableReport implements JRReport
 						}
 					}
 					
+					if (formatTimeZone != null && !formatTimeZone.equals(fillContext.getFiller().getFillContext().getMasterTimeZone()))
+					{
+						genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FORMAT_TIME_ZONE, 
+								JRDataUtils.getTimeZoneId(formatTimeZone));
+					}
 				} else
 				{	// column is not filterable
 					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.FALSE.toString());
@@ -842,7 +852,7 @@ public class TableReport implements JRReport
 				frame.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX, String.valueOf(columnIndex));
 			}
 		}
-		
+
 		protected void addIconLabelComponent(Column column, JRDesignFrame frame, String suffix)
 		{
 			List<JRChild> children = frame.getChildren();
@@ -932,6 +942,40 @@ public class TableReport implements JRReport
 			frame.getPropertiesMap().setProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrcolGroupHeader");
 			return frame;
 		}
+	}
+	
+	protected TimeZone getFormatTimeZone(JRTextField textField, Class<?> valueClass)
+	{
+		//FIXME this duplicates the logic in JRFillTextField.determineOwnTimeZone()
+		String formatTimeZone = null;
+		if (textField.hasProperties())
+		{
+			formatTimeZone = textField.getPropertiesMap().getProperty(JRTextField.PROPERTY_FORMAT_TIMEZONE);
+		}
+		
+		if (formatTimeZone == null || formatTimeZone.isEmpty())
+		{
+			if (java.sql.Date.class.isAssignableFrom(valueClass))
+			{
+				formatTimeZone = propertiesUtil.getProperty(parentReport, JRTextField.PROPERTY_SQL_DATE_FORMAT_TIMEZONE);
+			}
+			else if (java.sql.Timestamp.class.isAssignableFrom(valueClass))
+			{
+				formatTimeZone = propertiesUtil.getProperty(parentReport, JRTextField.PROPERTY_SQL_TIMESTAMP_FORMAT_TIMEZONE);
+			}
+			else if (java.sql.Time.class.isAssignableFrom(valueClass))
+			{
+				formatTimeZone = propertiesUtil.getProperty(parentReport, JRTextField.PROPERTY_SQL_TIME_FORMAT_TIMEZONE);
+			}
+		}
+		
+		if (formatTimeZone == null || formatTimeZone.isEmpty())
+		{
+			formatTimeZone = propertiesUtil.getProperty(parentReport, JRTextField.PROPERTY_FORMAT_TIMEZONE);
+		}
+		
+		TimeZone reportTimeZone = fillContext.getFillDataset().getTimeZone();
+		return JRDataUtils.resolveFormatTimeZone(formatTimeZone, reportTimeZone);
 	}
 
 	protected JRDesignBand createColumnHeader(List<FillColumn> fillColumns)

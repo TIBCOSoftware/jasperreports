@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.sf.jasperreports.data.cache.DataCacheHandler;
+import net.sf.jasperreports.engine.CommonReturnValue;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -43,6 +44,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptletException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.ReturnValue;
+import net.sf.jasperreports.engine.VariableReturnValue;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
@@ -129,30 +131,23 @@ public class JRFillDatasetRun implements JRDatasetRun
 		
 		returnValues = new FillReturnValues(parentDatasetRun.getReturnValues(), factory, filler);
 		
-		returnValuesContext = new FillReturnValues.SourceContext()
+		returnValuesContext = new AbstractVariableReturnValueSourceContext() 
 		{
 			@Override
-			public JRVariable getVariable(String name)
-			{
-				return dataset.getVariable(name);
+			public Object getValue(CommonReturnValue returnValue) {
+				return dataset.getVariableValue(((VariableReturnValue)returnValue).getFromVariable());
 			}
 			
 			@Override
-			public Object getVariableValue(String name)
-			{
-				return dataset.getVariableValue(name);
+			public JRVariable getToVariable(String name) {
+				return filler.getVariable(name);
+			}
+			
+			@Override
+			public JRVariable getFromVariable(String name) {
+				return dataset.getVariable(name);
 			}
 		};
-		
-		try
-		{
-			//FIXME do this at compile time
-			returnValues.checkReturnValues(returnValuesContext);
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
 	}
 
 	public void setBand(JRFillBand band)
@@ -172,6 +167,19 @@ public class JRFillDatasetRun implements JRDatasetRun
 	 */
 	public void evaluate(JRFillElementDataset elementDataset, byte evaluation) throws JRException
 	{
+		if (returnValues != null)
+		{
+			try
+			{
+				//FIXME do this at compile time
+				returnValues.checkReturnValues(returnValuesContext);
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+		
 		saveReturnVariables();
 		
 		Map<String,Object> parameterValues = 

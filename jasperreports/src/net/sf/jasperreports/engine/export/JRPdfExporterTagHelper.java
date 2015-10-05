@@ -552,7 +552,7 @@ public class JRPdfExporterTagHelper
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H1);
 			if (prop != null && (TAG_START.equals(prop) || TAG_FULL.equals(prop)))
 			{
-				PdfStructureElement headingTag = new PdfStructureElement(tagStack.peek(), new PdfName("H1"));
+				PdfStructureElement headingTag = new PdfStructureElement(tagStack.peek(), PdfName.H1);
 				pdfContentByte.beginMarkedContentSequence(headingTag);
 				headingTag.put(PdfName.K, new PdfArray());
 				tagStack.push(headingTag);
@@ -562,7 +562,7 @@ public class JRPdfExporterTagHelper
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H2);
 			if (prop != null && (TAG_START.equals(prop) || TAG_FULL.equals(prop)))
 			{
-				PdfStructureElement headingTag = new PdfStructureElement(tagStack.peek(), new PdfName("H2"));
+				PdfStructureElement headingTag = new PdfStructureElement(tagStack.peek(), PdfName.H2);
 				pdfContentByte.beginMarkedContentSequence(headingTag);
 				headingTag.put(PdfName.K, new PdfArray());
 				tagStack.push(headingTag);
@@ -572,7 +572,7 @@ public class JRPdfExporterTagHelper
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H3);
 			if (prop != null && (TAG_START.equals(prop) || TAG_FULL.equals(prop)))
 			{
-				PdfStructureElement headingTag = new PdfStructureElement(tagStack.peek(), new PdfName("H3"));
+				PdfStructureElement headingTag = new PdfStructureElement(tagStack.peek(), PdfName.H3);
 				pdfContentByte.beginMarkedContentSequence(headingTag);
 				headingTag.put(PdfName.K, new PdfArray());
 				tagStack.push(headingTag);
@@ -584,7 +584,7 @@ public class JRPdfExporterTagHelper
 
 	protected void createTableStartTag()
 	{
-		PdfStructureElement tableTag = new PdfStructureElement(allTag, new PdfName("Table"));
+		PdfStructureElement tableTag = new PdfStructureElement(allTag, PdfName.TABLE);
 		pdfContentByte.beginMarkedContentSequence(tableTag);
 		tableTag.put(PdfName.K, new PdfArray());
 		tagStack.push(tableTag);
@@ -593,7 +593,7 @@ public class JRPdfExporterTagHelper
 	
 	protected void createTrStartTag()
 	{
-		PdfStructureElement tableRowTag = new PdfStructureElement(tagStack.peek(), new PdfName("TR"));
+		PdfStructureElement tableRowTag = new PdfStructureElement(tagStack.peek(), PdfName.TABLEROW);
 		pdfContentByte.beginMarkedContentSequence(tableRowTag);
 		tableRowTag.put(PdfName.K, new PdfArray());
 		tagStack.push(tableRowTag);
@@ -602,7 +602,7 @@ public class JRPdfExporterTagHelper
 	
 	protected void createThStartTag(JRPrintElement element)
 	{
-		PdfStructureElement tableHeaderTag = new PdfStructureElement(tagStack.peek(), new PdfName("TH"));
+		PdfStructureElement tableHeaderTag = new PdfStructureElement(tagStack.peek(), PdfName.TH);
 		pdfContentByte.beginMarkedContentSequence(tableHeaderTag);
 		tableHeaderTag.put(PdfName.K, new PdfArray());
 		tagStack.push(tableHeaderTag);
@@ -614,7 +614,7 @@ public class JRPdfExporterTagHelper
 	
 	protected void createTdStartTag(JRPrintElement element)
 	{
-		PdfStructureElement tableCellTag = new PdfStructureElement(tagStack.peek(), new PdfName("TD"));
+		PdfStructureElement tableCellTag = new PdfStructureElement(tagStack.peek(), PdfName.TD);
 		pdfContentByte.beginMarkedContentSequence(tableCellTag);
 		tableCellTag.put(PdfName.K, new PdfArray());
 		tagStack.push(tableCellTag);
@@ -654,7 +654,7 @@ public class JRPdfExporterTagHelper
 			{
 				dict.put(new PdfName("RowSpan"), new PdfNumber(rowSpan));
 			}
-			dict.put(PdfName.O, new PdfName("Table"));
+			dict.put(PdfName.O, PdfName.TABLE);
 			a.add(dict);
 			parentTag.put(PdfName.A, a);
 		}

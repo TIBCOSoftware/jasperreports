@@ -30,11 +30,13 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.regex.Pattern;
 
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
@@ -102,6 +104,7 @@ import net.sf.jasperreports.crosstabs.xml.JRCrosstabMeasureFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabParameterFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabRowGroupFactory;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBreak;
@@ -138,6 +141,7 @@ import net.sf.jasperreports.engine.JRPart;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRRectangle;
@@ -157,6 +161,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReturnValue;
+import net.sf.jasperreports.engine.VariableReturnValue;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 import net.sf.jasperreports.engine.analytics.dataset.DataAxis;
 import net.sf.jasperreports.engine.analytics.dataset.DataAxisLevel;
@@ -218,11 +223,17 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public static final String EXCEPTION_MESSAGE_KEY_OUTPUT_STREAM_WRITE_ERROR = "xml.writer.output.stream.write.error";
 	public static final String EXCEPTION_MESSAGE_KEY_REPORT_DESIGN_WRITE_ERROR = "xml.writer.report.design.write.error";
 	public static final String EXCEPTION_MESSAGE_KEY_UNSUPPORTED_CHART_TYPE = "xml.writer.unsupported.chart.type";
+	
+	//FIXME doc
+	public static final String PREFIX_EXCLUDE_PROPERTIES = 
+			JRPropertiesUtil.PROPERTY_PREFIX + "jrxml.writer.exclude.properties.";
 
 	/**
 	 *
 	 */
 	private JasperReportsContext jasperReportsContext;
+	
+	private List<Pattern> excludePropertiesPattern;
 
 	/**
 	 *
@@ -242,6 +253,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public JRXmlWriter(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
+		
+		initExcludeProperties();
 	}
 
 
@@ -252,6 +265,25 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		this.report = report;
 		this.encoding = encoding;
+		
+		initExcludeProperties();
+	}
+
+
+	private void initExcludeProperties()
+	{
+		JasperReportsContext context = jasperReportsContext == null 
+				? DefaultJasperReportsContext.getInstance() : jasperReportsContext;
+		List<PropertySuffix> excludeProperties = JRPropertiesUtil.getInstance(context).getProperties(
+				PREFIX_EXCLUDE_PROPERTIES);
+		
+		excludePropertiesPattern = new ArrayList<Pattern>(excludeProperties.size());
+		for (PropertySuffix propertySuffix : excludeProperties)
+		{
+			String regex = propertySuffix.getValue();
+			Pattern pattern = Pattern.compile(regex);
+			excludePropertiesPattern.add(pattern);
+		}
 	}
 
 
@@ -574,17 +606,37 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			{
 				for(int i = 0; i < propertyNames.length; i++)
 				{
-					writer.startElement(JRXmlConstants.ELEMENT_property, getNamespace());
-					writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, propertyNames[i]);
-					String value = propertiesMap.getProperty(propertyNames[i]);
-					if (value != null)
+					String propertyName = propertyNames[i];
+					if (isPropertyToWrite(propertiesHolder, propertyName))
 					{
-						writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_value, value);
+						writer.startElement(JRXmlConstants.ELEMENT_property, getNamespace());
+						writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, propertyName);
+						String value = propertiesMap.getProperty(propertyName);
+						if (value != null)
+						{
+							writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_value, value);
+						}
+						writer.closeElement();
 					}
-					writer.closeElement();
 				}
 			}
 		}
+	}
+	
+	protected boolean isPropertyToWrite(JRPropertiesHolder propertiesHolder, String propertyName)
+	{
+		// currently the properties holder does not matter, we just look at the property name
+		boolean toWrite = true;
+		for (Pattern pattern : excludePropertiesPattern)
+		{
+			if (pattern.matcher(propertyName).matches())
+			{
+				// excluding
+				toWrite = false;
+				break;
+			}
+		}
+		return toWrite;
 	}
 
 
@@ -844,6 +896,15 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		
 		writeChildElements(band);
 
+		List<ExpressionReturnValue> returnValues = band.getReturnValues();
+		if (returnValues != null && !returnValues.isEmpty())
+		{
+			for (ExpressionReturnValue returnValue : returnValues)
+			{
+				writeReturnValue(returnValue);
+			}
+		}
+		
 		writer.closeElement();
 	}
 
@@ -2792,15 +2853,15 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public void writeSubreportReturnValue(JRSubreportReturnValue returnValue, XmlNamespace namespace) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_returnValue, namespace);
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_subreportVariable, returnValue.getSubreportVariable());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_subreportVariable, returnValue.getFromVariable());
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_toVariable, returnValue.getToVariable());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_calculation, returnValue.getCalculationValue(), CalculationEnum.NOTHING);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_calculation, returnValue.getCalculation(), CalculationEnum.NOTHING);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, returnValue.getIncrementerFactoryClassName());
 		writer.closeElement();
 	}
 
 	
-	protected void writeReturnValue(ReturnValue returnValue) throws IOException
+	protected void writeReturnValue(VariableReturnValue returnValue) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_returnValue);
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fromVariable, returnValue.getFromVariable());
@@ -2810,6 +2871,16 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.closeElement();
 	}
 
+
+	protected void writeReturnValue(ExpressionReturnValue returnValue) throws IOException
+	{
+		writer.startElement(JRXmlConstants.ELEMENT_returnValue);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_toVariable, returnValue.getToVariable());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_calculation, returnValue.getCalculation(), CalculationEnum.NOTHING);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, returnValue.getIncrementerFactoryClassName());
+		writeExpression(JRXmlConstants.ELEMENT_expression, returnValue.getExpression(), false);
+		writer.closeElement();
+	}
 
 	
 	public void writeCrosstab(JRCrosstab crosstab) throws IOException

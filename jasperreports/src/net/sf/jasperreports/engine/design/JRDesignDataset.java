@@ -74,7 +74,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 
 /**
- * Implementation of {@link net.sf.jasperreports.engine.JRDataset JRDataset} to be used for report desing.
+ * Implementation of {@link net.sf.jasperreports.engine.JRDataset JRDataset} to be used for report design.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */

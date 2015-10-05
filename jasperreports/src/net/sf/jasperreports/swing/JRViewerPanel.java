@@ -113,7 +113,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 	private javax.swing.JTabbedPane pnlTabs;
 	private javax.swing.JScrollPane scrollPane;
 
-	private final JRViewerController viewerContext;
+	protected final JRViewerController viewerContext;
 	private JRGraphics2DExporter exporter;
 	private boolean pageError;
 

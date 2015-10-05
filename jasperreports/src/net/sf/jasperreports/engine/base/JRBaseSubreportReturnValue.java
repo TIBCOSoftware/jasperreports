@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Serializable
+public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Serializable // do not extend BaseCommonReturnValue to avoid deserialization field issues 
 {
 
 	/**
@@ -75,9 +75,9 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	{
 		factory.put(returnValue, this);
 
-		subreportVariable = returnValue.getSubreportVariable();
+		subreportVariable = returnValue.getFromVariable();
 		toVariable = returnValue.getToVariable();
-		calculationValue = returnValue.getCalculationValue();
+		calculationValue = returnValue.getCalculation();
 		incrementerFactoryClassName = returnValue.getIncrementerFactoryClassName();
 	}
 
@@ -85,8 +85,19 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	 * Returns the name of the subreport variable whose value should be copied.
 	 * 
 	 * @return the name of the subreport variable whose value should be copied.
+	 * @deprecated Replaced by {@link #getFromVariable()}.
 	 */
 	public String getSubreportVariable()
+	{
+		return getFromVariable();
+	}
+
+	/**
+	 * Returns the name of the variable whose value should be copied.
+	 * 
+	 * @return the name of the variable whose value should be copied.
+	 */
+	public String getFromVariable()
 	{
 		return this.subreportVariable;
 	}
@@ -108,8 +119,22 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	 * maximum, average and so on can be computed.
 	 * 
 	 * @return the calculation type.
+	 * @deprecated Replaced by {@link #getCalculation()}.
 	 */
 	public CalculationEnum getCalculationValue()
+	{
+		return getCalculation();
+	}
+
+	/**
+	 * Returns the calculation type.
+	 * <p>
+	 * When copying the value from the subreport, a formula can be applied such that sum,
+	 * maximum, average and so on can be computed.
+	 * 
+	 * @return the calculation type.
+	 */
+	public CalculationEnum getCalculation()
 	{
 		return calculationValue;
 	}

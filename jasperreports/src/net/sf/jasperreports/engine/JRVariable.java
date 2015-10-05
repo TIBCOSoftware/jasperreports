@@ -321,7 +321,7 @@ public interface JRVariable extends JRCloneable
 		
 	/**
 	 * Returns the group whose break triggers the variable increment. Only used when {@link JRVariable#getIncrementTypeValue()} returns
-	 * {@link ResetTypeEnum#GROUP}.
+	 * {@link IncrementTypeEnum#GROUP}.
 	 */
 	public JRGroup getIncrementGroup();
 		

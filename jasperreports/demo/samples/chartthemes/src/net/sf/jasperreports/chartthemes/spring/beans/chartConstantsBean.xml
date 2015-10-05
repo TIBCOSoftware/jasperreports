@@ -96,7 +96,6 @@
 	<util:constant id="titleFont" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_FONT"/>
 	<util:constant id="titleForecolor" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_FORECOLOR"/>
 	<util:constant id="titleBackcolor" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_BACKCOLOR"/>
-	<util:constant id="titleBaseFontSize" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_BASEFONT_SIZE"/>
 	<util:constant id="titleHorizontalAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_HORIZONTAL_ALIGNMENT"/>
 	<util:constant id="titleVerticalAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_VERTICAL_ALIGNMENT"/>
 	<util:constant id="titleHeight" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_HEIGHT"/>
@@ -117,7 +116,6 @@
 	<util:constant id="subtitleFont" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_FONT"/>
 	<util:constant id="subtitleForecolor" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_FORECOLOR"/>
 	<util:constant id="subtitleBackcolor" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_BACKCOLOR"/>
-	<util:constant id="subtitleBaseFontSize" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_BASEFONT_SIZE"/>
 	<util:constant id="subtitleHorizontalAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_HORIZONTAL_ALIGNMENT"/>
 	<util:constant id="subtitleVerticalAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_VERTICAL_ALIGNMENT"/>
 	<util:constant id="subtitleHeight" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_HEIGHT"/>
@@ -138,7 +136,6 @@
 	<util:constant id="legendFont" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_FONT"/>
 	<util:constant id="legendForecolor" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_FORECOLOR"/>
 	<util:constant id="legendBackcolor" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_BACKCOLOR"/>
-	<util:constant id="legendBaseFontSize" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_BASEFONT_SIZE"/>
 	<util:constant id="legendHorizontalAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_HORIZONTAL_ALIGNMENT"/>
 	<util:constant id="legendVerticalAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_VERTICAL_ALIGNMENT"/>
 	<util:constant id="legendFrame" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_FRAME"/>
@@ -186,12 +183,10 @@
 	<util:constant id="axisLabelAngle" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LABEL_ANGLE"/>
 	<util:constant id="axisLabelPaint" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LABEL_PAINT"/>
 	<util:constant id="axisLabelFont" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LABEL_FONT"/>
-	<util:constant id="axisLabelFontSize" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LABEL_FONT_SIZE"/>
 	<util:constant id="axisLabelInsets" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LABEL_INSETS"/>
 	<util:constant id="axisLabelVisible" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LABEL_VISIBLE"/>
 	<util:constant id="axisTickLabelPaint" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_LABEL_PAINT"/>
 	<util:constant id="axisTickLabelFont" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_LABEL_FONT"/>
-	<util:constant id="axisTickLabelFontSize" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_LABEL_FONT_SIZE"/>
 	<util:constant id="axisTickLabelInsets" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_LABEL_INSETS"/>
 	<util:constant id="axisTickLabelsVisible" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_LABELS_VISIBLE"/>
 	<util:constant id="axisTickMarksInsideLength" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_MARKS_INSIDE_LENGTH"/>

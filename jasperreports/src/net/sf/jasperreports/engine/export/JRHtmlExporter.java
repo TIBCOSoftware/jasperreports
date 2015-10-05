@@ -992,7 +992,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 							HtmlFontUtil.handleFont(resourceHandler, htmlFont);
 						}
 						
-						fontFamily = htmlFont.getId();
+						fontFamily = htmlFont.getShortId();
 					}
 				}
 			}

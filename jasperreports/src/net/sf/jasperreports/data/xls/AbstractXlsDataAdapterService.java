@@ -24,8 +24,11 @@
 package net.sf.jasperreports.data.xls;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.data.DataFileStream;
@@ -69,6 +72,8 @@ public abstract class AbstractXlsDataAdapterService extends AbstractDataAdapterS
 			dataStream = DataFileUtils.instance(getJasperReportsContext()).getDataStream(
 					xlsDataAdapter.getDataFile(), parameters);
 			
+			Locale locale = xlsDataAdapter.getLocale();
+			TimeZone timeZone = xlsDataAdapter.getTimeZone();
 			String datePattern = xlsDataAdapter.getDatePattern();
 			String numberPattern = xlsDataAdapter.getNumberPattern();
 			String sheetSelection = xlsDataAdapter.getSheetSelection();
@@ -76,14 +81,52 @@ public abstract class AbstractXlsDataAdapterService extends AbstractDataAdapterS
 			if (xlsDataAdapter.isQueryExecuterMode())
 			{	
 				parameters.put(AbstractXlsQueryExecuterFactory.XLS_INPUT_STREAM, dataStream);
+
+				if (locale != null) 
+				{
+					parameters.put(AbstractXlsQueryExecuterFactory.XLS_LOCALE, locale);
+				}
+
+				if (timeZone != null) 
+				{
+					parameters.put(AbstractXlsQueryExecuterFactory.XLS_TIMEZONE, timeZone);
+				}
+
 				if (datePattern != null && datePattern.length() > 0)
 				{
-					parameters.put( AbstractXlsQueryExecuterFactory.XLS_DATE_FORMAT, new SimpleDateFormat(datePattern) );
+					SimpleDateFormat sdf = null;
+					
+					if (locale == null)
+					{
+						sdf = new SimpleDateFormat(datePattern);
+					}
+					else
+					{
+						sdf = new SimpleDateFormat(datePattern, locale);
+					}
+					
+					if (timeZone != null)
+					{
+						sdf.setTimeZone(timeZone);
+					}
+
+					parameters.put(AbstractXlsQueryExecuterFactory.XLS_DATE_FORMAT, sdf);
 				}
+				
 				if (numberPattern != null && numberPattern.length() > 0)
 				{
-					parameters.put( AbstractXlsQueryExecuterFactory.XLS_NUMBER_FORMAT, new DecimalFormat(numberPattern) );
+					DecimalFormat df = null;
+					if (locale == null)
+					{
+						df = new DecimalFormat(numberPattern);
+					}
+					else
+					{
+						df = new DecimalFormat(numberPattern, DecimalFormatSymbols.getInstance(locale));
+					}
+					parameters.put(AbstractXlsQueryExecuterFactory.XLS_NUMBER_FORMAT, df);
 				}
+				
 				parameters.put( AbstractXlsQueryExecuterFactory.XLS_USE_FIRST_ROW_AS_HEADER, new Boolean(xlsDataAdapter.isUseFirstRowAsHeader()));
 
 				if (sheetSelection != null && sheetSelection.length() > 0)
@@ -105,13 +148,49 @@ public abstract class AbstractXlsDataAdapterService extends AbstractDataAdapterS
 			{
 				AbstractXlsDataSource ds = getXlsDataSource();
 
+				if (locale != null) 
+				{
+					ds.setLocale(locale);
+				}
+
+				if (timeZone != null) 
+				{
+					ds.setTimeZone(timeZone);
+				}
+
 				if (datePattern != null && datePattern.length() > 0)
 				{
-					ds.setDateFormat(new SimpleDateFormat(datePattern));
+					SimpleDateFormat sdf = null;
+					
+					if (locale == null)
+					{
+						sdf = new SimpleDateFormat(datePattern);
+					}
+					else
+					{
+						sdf = new SimpleDateFormat(datePattern, locale);
+					}
+					
+					if (timeZone != null)
+					{
+						sdf.setTimeZone(timeZone);
+					}
+
+					ds.setDateFormat(sdf);
 				}
+
 				if (numberPattern != null && numberPattern.length() > 0)
 				{
-					ds.setNumberFormat(new DecimalFormat(numberPattern));
+					DecimalFormat df = null;
+					if (locale == null)
+					{
+						df = new DecimalFormat(numberPattern);
+					}
+					else
+					{
+						df = new DecimalFormat(numberPattern, DecimalFormatSymbols.getInstance(locale));
+					}
+					ds.setNumberFormat(df);
 				}
 	
 				ds.setUseFirstRowAsHeader(xlsDataAdapter.isUseFirstRowAsHeader());

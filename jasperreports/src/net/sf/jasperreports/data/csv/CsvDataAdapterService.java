@@ -25,8 +25,11 @@ package net.sf.jasperreports.data.csv;
 
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.data.DataFileStream;
@@ -76,8 +79,11 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 			dataStream = DataFileUtils.instance(getJasperReportsContext()).getDataStream(
 					csvDataAdapter.getDataFile(), parameters);
 			
+			Locale locale = csvDataAdapter.getLocale();
+			TimeZone timeZone = csvDataAdapter.getTimeZone();
 			String datePattern = csvDataAdapter.getDatePattern();
 			String numberPattern = csvDataAdapter.getNumberPattern();
+
 			if (csvDataAdapter.isQueryExecuterMode())
 			{	
 				parameters.put(JRCsvQueryExecuterFactory.CSV_INPUT_STREAM, dataStream);
@@ -85,14 +91,52 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 				{
 					parameters.put(JRCsvQueryExecuterFactory.CSV_ENCODING, csvDataAdapter.getEncoding());
 				}
+
+				if (locale != null) 
+				{
+					parameters.put(JRCsvQueryExecuterFactory.CSV_LOCALE, locale);
+				}
+
+				if (timeZone != null) 
+				{
+					parameters.put(JRCsvQueryExecuterFactory.CSV_TIMEZONE, timeZone);
+				}
+
 				if (datePattern != null && datePattern.length() > 0)
 				{
-					parameters.put( JRCsvQueryExecuterFactory.CSV_DATE_FORMAT, new SimpleDateFormat(datePattern) );
+					SimpleDateFormat sdf = null;
+					
+					if (locale == null)
+					{
+						sdf = new SimpleDateFormat(datePattern);
+					}
+					else
+					{
+						sdf = new SimpleDateFormat(datePattern, locale);
+					}
+					
+					if (timeZone != null)
+					{
+						sdf.setTimeZone(timeZone);
+					}
+
+					parameters.put(JRCsvQueryExecuterFactory.CSV_DATE_FORMAT, sdf);
 				}
+
 				if (numberPattern != null && numberPattern.length() > 0)
 				{
-					parameters.put( JRCsvQueryExecuterFactory.CSV_NUMBER_FORMAT, new DecimalFormat(numberPattern) );
+					DecimalFormat df = null;
+					if (locale == null)
+					{
+						df = new DecimalFormat(numberPattern);
+					}
+					else
+					{
+						df = new DecimalFormat(numberPattern, DecimalFormatSymbols.getInstance(locale));
+					}
+					parameters.put(JRCsvQueryExecuterFactory.CSV_NUMBER_FORMAT, df);
 				}
+				
 				parameters.put( JRCsvQueryExecuterFactory.CSV_FIELD_DELIMITER, csvDataAdapter.getFieldDelimiter());
 				parameters.put( JRCsvQueryExecuterFactory.CSV_RECORD_DELIMITER, csvDataAdapter.getRecordDelimiter());
 				parameters.put( JRCsvQueryExecuterFactory.CSV_USE_FIRST_ROW_AS_HEADER, new Boolean(csvDataAdapter.isUseFirstRowAsHeader()));
@@ -101,7 +145,9 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 				{ 
 					parameters.put( JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES_ARRAY, getColumnNames(csvDataAdapter));
 				}
-			}else{
+			}
+			else
+			{
 				JRCsvDataSource ds = null;
 				if (csvDataAdapter.getEncoding() == null)
 				{
@@ -118,14 +164,52 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 						throw new JRException(e);
 					}
 				}
+
+				if (locale != null) 
+				{
+					ds.setLocale(locale);
+				}
+
+				if (timeZone != null) 
+				{
+					ds.setTimeZone(timeZone);
+				}
+
 				if (datePattern != null && datePattern.length() > 0)
 				{
-					ds.setDateFormat( new SimpleDateFormat(datePattern) );
+					SimpleDateFormat sdf = null;
+					
+					if (locale == null)
+					{
+						sdf = new SimpleDateFormat(datePattern);
+					}
+					else
+					{
+						sdf = new SimpleDateFormat(datePattern, locale);
+					}
+					
+					if (timeZone != null)
+					{
+						sdf.setTimeZone(timeZone);
+					}
+
+					ds.setDateFormat(sdf);
 				}
+
 				if (numberPattern != null && numberPattern.length() > 0)
 				{
-					ds.setNumberFormat( new DecimalFormat(numberPattern) );
+					DecimalFormat df = null;
+					if (locale == null)
+					{
+						df = new DecimalFormat(numberPattern);
+					}
+					else
+					{
+						df = new DecimalFormat(numberPattern, DecimalFormatSymbols.getInstance(locale));
+					}
+					ds.setNumberFormat(df);
 				}
+
 				ds.setFieldDelimiter( csvDataAdapter.getFieldDelimiter().charAt(0) );
 				ds.setRecordDelimiter( csvDataAdapter.getRecordDelimiter() );				
 				ds.setUseFirstRowAsHeader( csvDataAdapter.isUseFirstRowAsHeader() );

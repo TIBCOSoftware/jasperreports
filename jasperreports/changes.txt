@@ -2,6 +2,28 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.1.1 (2015-09-07)
+---------------------------------------------
+
+- added support for returning values from bands, which gives better control over 
+variable incrementation in cases where calculations are coupled with content rendering, 
+such as page totals;
+
+- allow frame elements to be placed beyond frame bottom edge; this would cause frames 
+to grow in height in order to display all their content and reduces the need for frames to
+shrink in case some of their content displays conditionally and space needs to be collapsed;
+
+- new configuration property "net.sf.jasperreports.evaluator.ignore.npe" added to control 
+the expressions evaluation with respect to raising NullPointerException;
+
+- added support for locale and timezone in CSV and XLS data adapters;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 6.1.0 (2015-05-25)
 ---------------------------------------------
 - support for multiple JSON metadata export properties attached to same report element 

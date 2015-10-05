@@ -217,23 +217,33 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter
 			
 			datasource.setUseFirstRowAsHeader(getBooleanParameterOrProperty(JRCsvQueryExecuterFactory.CSV_USE_FIRST_ROW_AS_HEADER, false));
 			
-			Locale csvLocale = (Locale) getParameterValue(JRParameter.REPORT_LOCALE, true);
+			Locale csvLocale = (Locale) getParameterValue(JRCsvQueryExecuterFactory.CSV_LOCALE, true);
 			if (csvLocale != null) {
 				datasource.setLocale(csvLocale);
 			} else {
 				String csvLocaleCode = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_LOCALE_CODE);
 				if (csvLocaleCode != null) {
 					datasource.setLocale(csvLocaleCode);
+				} else {
+					csvLocale = (Locale) getParameterValue(JRParameter.REPORT_LOCALE, true);
+					if (csvLocale != null) { //this is never null at this point, actually
+						datasource.setLocale(csvLocale);
+					}
 				}
 			}
 			
-			TimeZone csvTimezone = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE, true);
+			TimeZone csvTimezone = (TimeZone) getParameterValue(JRCsvQueryExecuterFactory.CSV_TIMEZONE, true);
 			if (csvTimezone != null) {
 				datasource.setTimeZone(csvTimezone);
 			} else {
 				String csvTimezoneId = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_TIMEZONE_ID);
 				if (csvTimezoneId != null) {
 					datasource.setTimeZone(csvTimezoneId);
+				} else {
+					csvTimezone = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE, true);
+					if (csvTimezone != null) { //this is never null at this point, actually
+						datasource.setTimeZone(csvTimezone);
+					}
 				}
 			}
 		}

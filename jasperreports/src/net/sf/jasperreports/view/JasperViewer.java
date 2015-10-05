@@ -46,7 +46,7 @@ import org.apache.commons.logging.LogFactory;
 
 
 /**
- * This class uses the {@link net.sf.jasperreports.view.JRViewer} component to display reports. 
+ * This class uses the {@link net.sf.jasperreports.swing.JRViewer} component to display reports. 
  * It represents a simple Java Swing application that can load and display reports. It is used 
  * in almost all of the supplied samples to display the generated documents.
  * 
@@ -62,7 +62,7 @@ public class JasperViewer extends javax.swing.JFrame
 	/**
 	 *
 	 */
-	protected JRViewer viewer;
+	protected net.sf.jasperreports.swing.JRViewer viewer;
 
 	/**
 	 *
@@ -224,7 +224,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 		initComponents();
 
-		this.viewer = new JRViewer(jasperReportsContext, sourceFile, isXMLFile, locale, resBundle);
+		this.viewer = new net.sf.jasperreports.swing.JRViewer(jasperReportsContext, sourceFile, isXMLFile, locale, resBundle);
 		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
 	}
 
@@ -249,7 +249,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 		initComponents();
 
-		this.viewer = new JRViewer(jasperReportsContext, is, isXMLFile, locale, resBundle);
+		this.viewer = new net.sf.jasperreports.swing.JRViewer(jasperReportsContext, is, isXMLFile, locale, resBundle);
 		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
 	}
 
@@ -273,7 +273,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 		initComponents();
 
-		this.viewer = new JRViewer(jasperReportsContext, jasperPrint, locale, resBundle);
+		this.viewer = new net.sf.jasperreports.swing.JRViewer(jasperReportsContext, jasperPrint, locale, resBundle);
 		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
 	}
 

@@ -32,6 +32,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
@@ -127,7 +128,14 @@ public class JRCalculator implements JRFillExpressionEvaluator
 		columnNumber = varsm.get(JRVariable.COLUMN_NUMBER);
 		
 		WhenResourceMissingTypeEnum whenResourceMissingType = dataset.getWhenResourceMissingTypeValue();
-		evaluator.init(parsm, fldsm,varsm, whenResourceMissingType);
+		boolean ignoreNPE = 
+			JRPropertiesUtil.getInstance(getFillDataset().getJasperReportsContext())
+				.getBooleanProperty(
+					getFillDataset(), 
+					JREvaluator.PROPERTY_IGNORE_NPE, 
+					true
+					);
+		evaluator.init(parsm, fldsm,varsm, whenResourceMissingType, ignoreNPE);
 	}
 
 

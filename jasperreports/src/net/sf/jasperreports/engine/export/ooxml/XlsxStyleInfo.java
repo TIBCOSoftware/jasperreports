@@ -26,7 +26,10 @@ package net.sf.jasperreports.engine.export.ooxml;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRTextAlignment;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -49,6 +52,7 @@ public class XlsxStyleInfo
 	protected boolean isLocked;
 	protected boolean isShrinkToFit;
 	protected boolean isIgnoreTextFormatting;
+	protected int rotation;
 
 	/**
 	 *
@@ -62,7 +66,8 @@ public class XlsxStyleInfo
 		boolean isHidden,
 		boolean isLocked,
 		boolean isShrinkToFit,
-		boolean isIgnoreTextFormatting
+		boolean isIgnoreTextFormatting,
+		int rotation
 		)
 	{
 		this.formatIndex = formatIndex;
@@ -86,20 +91,65 @@ public class XlsxStyleInfo
 		JRTextAlignment align = element instanceof JRTextAlignment ? (JRTextAlignment)element : null;
 		if (align != null)
 		{
-			this.horizontalAlign = XlsxParagraphHelper.getHorizontalAlignment(align.getHorizontalTextAlign());//FIXMEXLSX use common util
-			this.verticalAlign = DocxCellHelper.getVerticalAlignment(align.getVerticalTextAlign());//FIXMEXLSX use common util
+			this.horizontalAlign = getHorizontalAlignment(align.getHorizontalTextAlign(), align.getVerticalTextAlign(), rotation);//FIXMEXLSX use common util
+			this.verticalAlign = getVerticalAlignment(align.getHorizontalTextAlign(), align.getVerticalTextAlign(), rotation);//FIXMEXLSX use common util
 		}
 		
 		this.isWrapText = isShrinkToFit ? false : isWrapText;
 		this.isHidden = isHidden;
 		this.isLocked = isLocked;
 		this.isShrinkToFit = isShrinkToFit;
+		this.rotation = rotation;
+	}
+	
+	protected String getHorizontalAlignment(HorizontalTextAlignEnum hAlign, VerticalTextAlignEnum vAlign, int rotation)
+	{
+		switch (rotation)
+		{
+			case 90:
+				switch (vAlign)
+				{
+					case BOTTOM : return XlsxParagraphHelper.getHorizontalAlignment(HorizontalTextAlignEnum.RIGHT);
+					case MIDDLE : return XlsxParagraphHelper.getHorizontalAlignment(HorizontalTextAlignEnum.CENTER);
+					default: return XlsxParagraphHelper.getHorizontalAlignment(HorizontalTextAlignEnum.LEFT);
+				}
+			case 180:
+				switch (vAlign)
+				{
+					case BOTTOM : return XlsxParagraphHelper.getHorizontalAlignment(HorizontalTextAlignEnum.LEFT);
+					case MIDDLE : return XlsxParagraphHelper.getHorizontalAlignment(HorizontalTextAlignEnum.CENTER);
+					default: return XlsxParagraphHelper.getHorizontalAlignment(HorizontalTextAlignEnum.RIGHT);
+				}
+			default: return XlsxParagraphHelper.getHorizontalAlignment(hAlign);	
+		}
+	}
+	
+	protected String getVerticalAlignment(HorizontalTextAlignEnum hAlign, VerticalTextAlignEnum vAlign, int rotation)
+	{
+		switch (rotation)
+		{
+			case 90:
+				switch (hAlign)
+				{
+					case RIGHT : return DocxCellHelper.getVerticalAlignment(VerticalTextAlignEnum.TOP);
+					case CENTER : return DocxCellHelper.getVerticalAlignment(VerticalTextAlignEnum.MIDDLE);
+					default: return DocxCellHelper.getVerticalAlignment(VerticalTextAlignEnum.BOTTOM);
+				}
+			case 180:
+				switch (hAlign)
+				{
+					case RIGHT : return DocxCellHelper.getVerticalAlignment(VerticalTextAlignEnum.BOTTOM);
+					case CENTER : return DocxCellHelper.getVerticalAlignment(VerticalTextAlignEnum.MIDDLE);
+					default: return DocxCellHelper.getVerticalAlignment(VerticalTextAlignEnum.TOP);
+				}
+			default: return DocxCellHelper.getVerticalAlignment(vAlign);	
+		}
 	}
 	
 	public String getId()
 	{
 		return 
 		formatIndex + "|" + fontIndex + "|" + borderIndex + "|" + backcolor + "|" + horizontalAlign + "|" + verticalAlign 
-		+ "|" + isWrapText + "|" + isHidden + "|" + isLocked + "|" + isShrinkToFit;
+		+ "|" + isWrapText + "|" + isHidden + "|" + isLocked + "|" + isShrinkToFit + "|" + rotation;
 	}
 }

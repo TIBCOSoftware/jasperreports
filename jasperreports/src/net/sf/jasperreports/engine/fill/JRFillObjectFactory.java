@@ -98,6 +98,7 @@ import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.JRCrosstabDataset;
 import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabParameter;
+import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBreak;
@@ -129,7 +130,7 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.ReturnValue;
+import net.sf.jasperreports.engine.VariableReturnValue;
 import net.sf.jasperreports.engine.analytics.dataset.FillMultiAxisData;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.base.JRBaseConditionalStyle;
@@ -1232,7 +1233,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 		return fillMeterPlot;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -1251,8 +1252,8 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 		return fillThermometerPlot;
 	}
-	
-	
+
+
 	/**
 	 *
 	 */
@@ -1271,35 +1272,53 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 		return fillMultiAxisPlot;
 	}
-	
-	
-	protected JRFillSubreportReturnValue getSubreportReturnValue(JRSubreportReturnValue returnValue)
+
+
+	protected JRFillVariableReturnValue getSubreportReturnValue(JRSubreportReturnValue returnValue)
 	{
-		JRFillSubreportReturnValue fillReturnValue = null;
+		JRFillVariableReturnValue fillReturnValue = null;
 
 		if (returnValue != null)
 		{
-			fillReturnValue = (JRFillSubreportReturnValue) get(returnValue);
+			fillReturnValue = (JRFillVariableReturnValue) get(returnValue);
 			if (fillReturnValue == null)
 			{
-				fillReturnValue = new JRFillSubreportReturnValue(returnValue, this, reportFiller);
+				fillReturnValue = new JRFillVariableReturnValue(returnValue, this, reportFiller);
 			}
 		}
 
 		return fillReturnValue;
 	}
-	
-	
-	protected JRFillSubreportReturnValue getReturnValue(ReturnValue returnValue)
+
+
+	protected JRFillVariableReturnValue getReturnValue(VariableReturnValue returnValue)
 	{
-		JRFillSubreportReturnValue fillReturnValue = null;
+		JRFillVariableReturnValue fillReturnValue = null;
 
 		if (returnValue != null)
 		{
-			fillReturnValue = (JRFillSubreportReturnValue) get(returnValue);
+			fillReturnValue = (JRFillVariableReturnValue) get(returnValue);
 			if (fillReturnValue == null)
 			{
-				fillReturnValue = new JRFillSubreportReturnValue(returnValue, this, filler);
+				fillReturnValue = new JRFillVariableReturnValue(returnValue, this, filler);
+			}
+		}
+
+		return fillReturnValue;
+	}
+
+
+	protected JRFillExpressionReturnValue getReturnValue(ExpressionReturnValue returnValue)
+	{
+		JRFillExpressionReturnValue fillReturnValue = null;
+
+		if (returnValue != null)
+		{
+			fillReturnValue = (JRFillExpressionReturnValue) get(returnValue);
+			if (fillReturnValue == null)
+			{
+				fillReturnValue = new JRFillExpressionReturnValue(returnValue, this, filler);//FIXMERETURN passing the right filler? 
+				//why two possible fillers here after all? if single filler, could remove getSubreportReturnValue() above
 			}
 		}
 

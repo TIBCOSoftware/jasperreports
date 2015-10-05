@@ -49,6 +49,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link net.sf.jasperreports.swing.JRDesignViewer}.
  */
 public class JRDesignViewer extends JRViewer
 {

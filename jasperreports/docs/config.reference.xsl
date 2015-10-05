@@ -81,7 +81,8 @@
 .note {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	font-size: 12px;
-	font-weight: bold;
+	font-style: italic;
+	color: #990000;
 }
 
 .text {
@@ -118,6 +119,7 @@ ga('send', 'pageview');
 <xsl:attribute name="href">sample.reference.html</xsl:attribute>Sample Reference</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">schema.reference.html</xsl:attribute>Schema Reference</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration Reference</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">http://community.jaspersoft.com/wiki/jasperreports-library-faqs</xsl:attribute>FAQ</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href"><xsl:value-of select="$api.url"/>index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
 <br/>
     </td>
@@ -266,22 +268,18 @@ ga('send', 'pageview');
 
 
 <xsl:template match="contextUnaware">
-  <span class="note">NOTE: By default,  
+  <span class="note">NOTE: 
 	  <xsl:choose>
-	    <xsl:when test="contains(../@name,'{')">properties with this prefix are </xsl:when>
-	    <xsl:otherwise>this property is </xsl:otherwise>
-	  </xsl:choose>not read from the report context. 
+	    <xsl:when test="contains(../@name,'{')">Properties with this prefix are </xsl:when>
+	    <xsl:otherwise>This property is </xsl:otherwise>
+	  </xsl:choose>not read from the configuration context. This 
 	  <xsl:element name="a">
-	  <xsl:attribute name="href">http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/faq.html</xsl:attribute>
-	  <xsl:attribute name="target">_blank</xsl:attribute>This FAQ</xsl:element> shows the additional steps to follow in order to set 
+	  <xsl:attribute name="href">http://community.jaspersoft.com/wiki/setting-non-context-configuration-properties-dynamically</xsl:attribute>
+	  <xsl:attribute name="target">_blank</xsl:attribute>FAQ</xsl:element> shows the additional steps to follow in order to set 
   	  <xsl:choose>
 	    <xsl:when test="contains(../@name,'{')">them </xsl:when>
 	    <xsl:otherwise>it </xsl:otherwise>
-	  </xsl:choose>on and get  
-  	  <xsl:choose>
-	    <xsl:when test="contains(../@name,'{')">them </xsl:when>
-	    <xsl:otherwise>it </xsl:otherwise>
-	  </xsl:choose>from the report context. 
+	  </xsl:choose>dynamically. 
    </span>
 </xsl:template>
 
@@ -309,7 +307,7 @@ ga('send', 'pageview');
 
 
 <xsl:template match="p/text()">
-  <p><span class="text"><xsl:value-of select="." disable-output-escaping="yes" /></span></p>
+  <p><span class="text"><xsl:value-of select="." /></span></p>
 </xsl:template>
 
 

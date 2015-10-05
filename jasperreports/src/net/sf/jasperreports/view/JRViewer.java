@@ -52,6 +52,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -123,6 +124,7 @@ import org.apache.commons.logging.LogFactory;
  * The preferred way to adapt this component to a particular application is by subclassing it.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link net.sf.jasperreports.swing.JRViewer}.
  */
 public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 {
@@ -180,7 +182,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	 */
 	protected float realZoom;
 
-	private DecimalFormat zoomDecimalFormat = new DecimalFormat("#.##");
+	private DecimalFormat zoomDecimalFormat;
 	protected JasperReportsContext jasperReportsContext;
 	protected LocalJasperReportsContext localJasperReportsContext;
 	private ResourceBundle resourceBundle;
@@ -505,6 +507,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	 */
 	protected void initResources(Locale locale, ResourceBundle resBundle)
 	{
+		//FIXME in theory, the setLocale method could be called after current Component was created, in which case all below should be reloaded
 		if (locale != null)
 		{
 			setLocale(locale);
@@ -521,6 +524,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		{
 			this.resourceBundle = resBundle;
 		}
+
+		zoomDecimalFormat = new DecimalFormat("#.##", DecimalFormatSymbols.getInstance(getLocale()));
 	}
 
 

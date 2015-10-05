@@ -25,7 +25,11 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -69,6 +73,7 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	protected JRExpression printWhenExpression;
 	
 	private JRPropertiesMap propertiesMap;
+	protected List<ExpressionReturnValue> returnValues;
 	
 
 	/**
@@ -83,6 +88,17 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 
 		printWhenExpression = factory.getExpression(band.getPrintWhenExpression());
 		this.propertiesMap = JRPropertiesMap.getPropertiesClone(band);
+
+		List<ExpressionReturnValue> bandReturnValues = band.getReturnValues();
+		if (bandReturnValues != null && !bandReturnValues.isEmpty())
+		{
+			this.returnValues = new ArrayList<ExpressionReturnValue>(bandReturnValues.size());
+			for (ExpressionReturnValue bandReturnValue : bandReturnValues)
+			{
+				BaseExpressionReturnValue returnValue = factory.getReturnValue(bandReturnValue);
+				this.returnValues.add(returnValue);
+			}
+		}
 	}
 		
 
@@ -120,6 +136,12 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 		return this.printWhenExpression;
 	}
 
+	@Override
+	public List<ExpressionReturnValue> getReturnValues()
+	{
+		return returnValues == null ? null : Collections.unmodifiableList(returnValues);
+	}
+
 	/**
 	 *
 	 */
@@ -128,6 +150,7 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 		JRBaseBand clone = (JRBaseBand)super.clone();
 		clone.printWhenExpression = JRCloneUtils.nullSafeClone(printWhenExpression);
 		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
+		clone.returnValues = JRCloneUtils.cloneList(returnValues);
 		clone.eventSupport = null;
 		return clone;
 	}

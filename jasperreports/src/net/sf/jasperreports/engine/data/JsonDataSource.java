@@ -284,23 +284,14 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 					// extract nodes at property
 					String property = currentToken.substring(0, indexOfLeftSquareBracket);
 					tempNode = goDownPathWithAttribute(tempNode, property);
-					
-					String arrayOperators = currentToken.substring(indexOfLeftSquareBracket);
-					StringTokenizer arrayOpsTokenizer = new StringTokenizer(arrayOperators,ARRAY_RIGHT);
-					while(arrayOpsTokenizer.hasMoreTokens()) {
-						if (!tempNode.isMissingNode() && tempNode.isArray()) {
-							String currentArrayOperator = arrayOpsTokenizer.nextToken();
-							tempNode = tempNode.path(Integer.parseInt(currentArrayOperator.substring(1)));
-						}
-					}
-				} else { // LSB first character
-					String arrayOperators = currentToken.substring(indexOfLeftSquareBracket);
-					StringTokenizer arrayOpsTokenizer = new StringTokenizer(arrayOperators,ARRAY_RIGHT);
-					while(arrayOpsTokenizer.hasMoreTokens()) {
-						if (!tempNode.isMissingNode() && tempNode.isArray()) {
-							String currentArrayOperator = arrayOpsTokenizer.nextToken();
-							tempNode = tempNode.path(Integer.parseInt(currentArrayOperator.substring(1)));
-						}
+				}
+
+				String arrayOperators = currentToken.substring(indexOfLeftSquareBracket);
+				StringTokenizer arrayOpsTokenizer = new StringTokenizer(arrayOperators,ARRAY_RIGHT);
+				while(arrayOpsTokenizer.hasMoreTokens()) {
+					if (!tempNode.isMissingNode() && tempNode.isArray()) {
+						String currentArrayOperator = arrayOpsTokenizer.nextToken();
+						tempNode = tempNode.path(Integer.parseInt(currentArrayOperator.substring(1)));
 					}
 				}
 			} else {

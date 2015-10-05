@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-chart-themes</artifactId>
-	<version>6.1.0</version>
+	<version>6.1.1</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Chart Themes</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -17,7 +17,7 @@
 	</licenses>
 	<scm>
 		<connection>git://git.code.sf.net/p/jasperreports/code jasperreports-code</connection>
-		<tag>jr-6-1-0</tag>
+		<tag>jr-6-1-1</tag>
 		<url>http://sourceforge.net/p/jasperreports/code/ci/master/tree/</url>
 	</scm>
 	<repositories>
@@ -97,13 +97,13 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>6.1.0</version>
+			<version>6.1.1</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>jfree</groupId>
+			<groupId>org.jfree</groupId>
 			<artifactId>jcommon</artifactId>
-			<version>1.0.15</version>
+			<version>1.0.23</version>
 			<scope>compile</scope>
 			<exclusions>
 				<exclusion>
@@ -113,9 +113,9 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>jfree</groupId>
+			<groupId>org.jfree</groupId>
 			<artifactId>jfreechart</artifactId>
-			<version>1.0.12</version>
+			<version>1.0.19</version>
 			<scope>compile</scope>
 			<exclusions>
 				<exclusion>

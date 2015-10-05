@@ -93,6 +93,7 @@ import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBreak;
@@ -843,6 +844,18 @@ public class JRApiWriter
 
 			writeChildElements( band, bandName);
 	
+			List<ExpressionReturnValue> returnValues = band.getReturnValues();
+			if (returnValues != null && !returnValues.isEmpty())
+			{
+				for (ListIterator<ExpressionReturnValue> it = returnValues.listIterator(); it.hasNext();)
+				{
+					ExpressionReturnValue returnValue = it.next();
+					String returnValueVarName = bandName + "ReturnValue" + it.previousIndex();
+					writeReturnValue(returnValue, returnValueVarName);
+					write(bandName + ".addReturnValue(" + returnValueVarName + ");\n");
+				}
+			}
+
 			flush();
 		}
 	}
@@ -3026,14 +3039,14 @@ public class JRApiWriter
 	/**
 	 * 
 	 */
-	private void writeSubreportReturnValue( JRSubreportReturnValue returnValue, String returnValueName)
+	private void writeSubreportReturnValue(JRSubreportReturnValue returnValue, String returnValueName)
 	{
 		if(returnValue != null)
 		{
 			write( "JRDesignSubreportReturnValue " + returnValueName + " = new JRDesignSubreportReturnValue();\n");
-			write( returnValueName + ".setSubreportVariable(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(returnValue.getSubreportVariable()));
+			write( returnValueName + ".setSubreportVariable(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(returnValue.getFromVariable()));
 			write( returnValueName + ".setToVariable(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(returnValue.getToVariable()));
-			write( returnValueName + ".setCalculation({0});\n", returnValue.getCalculationValue(), CalculationEnum.NOTHING);
+			write( returnValueName + ".setCalculation({0});\n", returnValue.getCalculation(), CalculationEnum.NOTHING);
 			write( returnValueName + ".setIncrementerFactoryClassName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(returnValue.getIncrementerFactoryClassName()));
 			flush();
 		}
@@ -3046,6 +3059,22 @@ public class JRApiWriter
 			write("DesignReturnValue " + returnValueName + " = new DesignReturnValue();\n");
 			write(returnValueName + ".setFromVariable(\"{0}\");\n", 
 					JRStringUtil.escapeJavaStringLiteral(returnValue.getFromVariable()));
+			write(returnValueName + ".setToVariable(\"{0}\");\n", 
+					JRStringUtil.escapeJavaStringLiteral(returnValue.getToVariable()));
+			write(returnValueName + ".setCalculation({0});\n", 
+					returnValue.getCalculation(), CalculationEnum.NOTHING);
+			write(returnValueName + ".setIncrementerFactoryClassName(\"{0}\");\n", 
+					JRStringUtil.escapeJavaStringLiteral(returnValue.getIncrementerFactoryClassName()));
+			flush();
+		}
+	}
+
+	private void writeReturnValue(ExpressionReturnValue returnValue, String returnValueName)
+	{
+		if(returnValue != null)
+		{
+			write("DesignExpressionReturnValue " + returnValueName + " = new DesignExpressionReturnValue();\n");
+			writeExpression( returnValue.getExpression(), returnValueName, "Expression");
 			write(returnValueName + ".setToVariable(\"{0}\");\n", 
 					JRStringUtil.escapeJavaStringLiteral(returnValue.getToVariable()));
 			write(returnValueName + ".setCalculation({0});\n", 

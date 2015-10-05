@@ -92,11 +92,17 @@ it when restarting the subreport on the next page.
   and stores the returned <code>java.sql.ResultSet</code> object in a <code>JRResultSetDataSource</code> instance.</dd>
  <dt><b>JavaBean</b> data sources: <api href="net/sf/jasperreports/engine/data/JRBeanArrayDataSource.html">JRBeanArrayDataSource</api> and 
  <api href="net/sf/jasperreports/engine/data/JRBeanCollectionDataSource.html">JRBeanCollectionDataSource</api></dt>
-  <dd>- Represent implementations that can wrap collections or arrays of JavaBean objects. Each object inside the array or the collection will be 
-seen as one record in this type of data source. 
+  <dd>- Represent implementations that can wrap collections or arrays of JavaBean objects. Each object inside the array or the collection is 
+considered a record in this type of data source. 
 The mapping between a particular JavaBean property and the corresponding report field 
 is made by naming conventions. The name of the report field must be the same as the 
-name of the JavaBean property as specified by the JavaBeans specifications.</dd>
+name of the JavaBean property as specified by the JavaBean specifications.
+<br/>
+- A special field mapping in JavaBean data sources can be obtained using the reserved value (ie. <code>_THIS</code> ) stored in the 
+<api href="net/sf/jasperreports/engine/data/JRAbstractBeanDataSource.html#CURRENT_BEAN_MAPPING">CURRENT_BEAN_MAPPING</api> 
+constant. If the report field name/description matches this constant value (the letter case is important), 
+then the data source will return the current bean as the field value.
+</dd>
  <dt><b>Map-based</b> data sources: <api href="net/sf/jasperreports/engine/data/JRMapArrayDataSource.html">JRMapArrayDataSource</api> and 
  <api href="net/sf/jasperreports/engine/data/JRMapCollectionDataSource.html">JRMapCollectionDataSource</api></dt>
   <dd>- These implementations are useful if the parent application already stores the reporting 
