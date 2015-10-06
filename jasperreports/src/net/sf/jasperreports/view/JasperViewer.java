@@ -344,7 +344,7 @@ public class JasperViewer extends javax.swing.JFrame
 		Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 		java.awt.Dimension screenSize = toolkit.getScreenSize();
 		int screenResolution = toolkit.getScreenResolution();
-		float zoom = ((float) screenResolution) / JRViewer.REPORT_RESOLUTION;
+		float zoom = ((float) screenResolution) / net.sf.jasperreports.swing.JRViewerPanel.REPORT_RESOLUTION;
 
 		int height = (int) (550 * zoom);
 		if (height > screenSize.getHeight())
