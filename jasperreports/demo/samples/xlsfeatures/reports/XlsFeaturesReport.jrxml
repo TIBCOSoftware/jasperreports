@@ -3,6 +3,7 @@
 	<property name="net.sf.jasperreports.csv.column.names" value="city, id, name, address, state"/>
 	<property name="net.sf.jasperreports.csv.source" value="data/CsvDataSource.txt"/>
 	<property name="net.sf.jasperreports.export.xls.column.width.ratio" value="1.25f"/>
+	<property name="net.sf.jasperreports.export.xls.sheet.tab.color" value="#00FF00"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
@@ -214,6 +215,7 @@
 				<reportElement positionType="Float" x="316" y="0" width="199" height="15" uuid="53fe7b81-f998-46e1-912e-66383284e4a2">
 					<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter"><![CDATA[$V{PAGE_NUMBER}.equals(1) ? "End" : null]]></propertyExpression>
 					<propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio"><![CDATA[$F{id}.equals(44) ? "0.75f" : null]]></propertyExpression>
+					<propertyExpression name="net.sf.jasperreports.export.xls.sheet.tab.color"><![CDATA[$F{id}.equals(44) ? "#FF0000" : null]]></propertyExpression>
 				</reportElement>
 				<box leftPadding="10" rightPadding="10">
 					<pen lineWidth="0.5"/>

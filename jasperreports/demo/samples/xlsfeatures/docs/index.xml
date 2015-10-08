@@ -143,6 +143,46 @@ When the record with field value <code>id = 44</code> is rendered (and this happ
 will be multiplied by 0.75 instead of 1.25. The <code>State</code> column width remains unchanged on the second page too.
 </li>
 </ul>
+<subtitle name="columnWidthAdjustment">Setting Sheet Tab Colors</subtitle>    
+<br/>
+<br/>
+In order to obtain colored sheet tabs, one can set the custom property 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_TAB_COLOR">net.sf.jasperreports.export.xls.sheet.tab.color</api>, 
+either in a <code>jasperreports.properties</code> file or at report or element level in JRXML. 
+The value of this property serves as default for the
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetTabColor()">getSheetTabColor()</api> 
+configuration setting. Usually, the property value can be written as a #-prefixed CSS color string (for instance: "#FF0000").
+<br/>
+If the property is set at report level, then all sheet tabs in the generated document will expose this color. In our sample you can notice the 
+<pre><![CDATA[
+  <property name="net.sf.jasperreports.export.xls.sheet.tab.color" value="#00FF00"/>]]></pre> 
+setting at report level. This will produce green tabs for all sheets in the report, unless another 
+property set at report level will override this value.
+<br/>
+If the property is set at element level, it will produce a colored tab only for the sheet the element belongs to. 
+As usual, element-level setting do override report-level settings. If there are several elements in a sheet that 
+provide this property, will be considered only the property of the last exported element in that sheet. 
+In our sample there is an element-level property set for the <code>address</code> textfield where <code>id</code> 
+is 44:
+<pre><![CDATA[
+  <textField isStretchWithOverflow="true">
+    <reportElement positionType="Float" x="316" y="0" width="199" height="15" uuid="53fe7b81-f998-46e1-912e-66383284e4a2">
+      ...					
+      <propertyExpression name="net.sf.jasperreports.export.xls.sheet.tab.color">
+        <![CDATA[$F{id}.equals(44) ? "#FF0000" : null]] >
+      </propertyExpression>
+    </reportElement>
+    ...				
+    <textFieldExpression><![CDATA[$F{address}]] ></textFieldExpression>
+  </textField>]]></pre> 
+According to this one, the tab color of the sheet containing this element will turn to red, overriding the green value set at report level. 
+Running the sample you will notice in the generated XLSX output the first green tab (due to report-level settings) and the second red tab 
+(due to element-level settings).
+<br/>
+<br/>
+<b>Note: the Tab Color property is considered only for the XLSX and ODS output channels. It has no effect for the older XLS output format.</b>
+<br/>
+<br/>
 <subtitle name="freezePane">Freeze Pane Properties</subtitle>    
 <br/>
 <br/>
