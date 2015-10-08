@@ -250,7 +250,7 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 					{
 						// java.awt.Color type cannot be set in ExporterProperty interface for default values;
 						// this will be set here
-						value = Color.BLACK;
+						value = JRColorUtil.getColor(exporterProperty.colorDefault(), null);
 					}
 				}
 				else

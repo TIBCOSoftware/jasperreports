@@ -44,4 +44,5 @@ public @interface ExporterProperty
 	float floatDefault() default 0;
 	long longDefault() default 0;
 	boolean acceptNull() default false;
+	String colorDefault() default "#000000";
 }

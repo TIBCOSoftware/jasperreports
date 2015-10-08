@@ -76,7 +76,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	private Boolean isForcePageBreaks;
 	private Boolean isShrinkToFit;
 	private Boolean isIgnoreTextFormatting;
-	private String sheetTabColor;
+	private Color sheetTabColor;
 
 	
 	/**
@@ -800,10 +800,10 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	@Override
 	public Color getSheetTabColor() 
 	{
-		return JRColorUtil.getColor(sheetTabColor, null);
+		return sheetTabColor;
 	}
 	
-	public void setSheetTabColor(String tabColor)
+	public void setSheetTabColor(Color tabColor)
 	{
 		this.sheetTabColor = tabColor;
 	}
