@@ -23,10 +23,12 @@
  */
 package net.sf.jasperreports.export;
 
+import java.awt.Color;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
@@ -74,6 +76,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	private Boolean isForcePageBreaks;
 	private Boolean isShrinkToFit;
 	private Boolean isIgnoreTextFormatting;
+	private String sheetTabColor;
 
 	
 	/**
@@ -791,6 +794,18 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	public void setIgnoreTextFormatting(Boolean isIgnoreTextFormatting) 
 	{
 		this.isIgnoreTextFormatting = isIgnoreTextFormatting;
+	}
+
+
+	@Override
+	public Color getSheetTabColor() 
+	{
+		return JRColorUtil.getColor(sheetTabColor, null);
+	}
+	
+	public void setSheetTabColor(String tabColor)
+	{
+		this.sheetTabColor = tabColor;
 	}
 	
 }

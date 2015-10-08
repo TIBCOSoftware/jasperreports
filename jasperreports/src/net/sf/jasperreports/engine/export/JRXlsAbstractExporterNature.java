@@ -267,6 +267,19 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 			return null;
 	}
 	
+	public String getSheetTabColor(JRPrintElement element)
+	{
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_SHEET_TAB_COLOR)
+				)
+			{
+				// we make this test to avoid reaching the global default value of the property directly
+				// and thus skipping the report level one, if present
+				return getPropertiesUtil().getProperty(element, XlsReportConfiguration.PROPERTY_SHEET_TAB_COLOR);
+			}
+			return null;
+	}
+	
 	public Integer getPageScale(JRPrintElement element)
 	{
 		if (
@@ -370,6 +383,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		if(sheetName != null)
 		{
 			cut.setProperty(JRXlsAbstractExporter.PROPERTY_SHEET_NAME, sheetName);
+		}
+
+		String tabColor = getSheetTabColor(element);
+		if(tabColor != null)
+		{
+			cut.setProperty(XlsReportConfiguration.PROPERTY_SHEET_TAB_COLOR, tabColor);
 		}
 
 		Integer pageScale = getPageScale(element);

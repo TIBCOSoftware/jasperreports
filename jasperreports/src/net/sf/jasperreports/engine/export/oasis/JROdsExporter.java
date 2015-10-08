@@ -31,6 +31,7 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
+import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -193,7 +194,18 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 //		TableBuilder tableBuilder = frameIndex == null
 //			? new TableBuilder(reportIndex, pageIndex, tempBodyWriter, tempStyleWriter)
 //			: new TableBuilder(frameIndex.toString(), tempBodyWriter, tempStyleWriter);
-		tableBuilder = new OdsTableBuilder(documentBuilder, jasperPrint, pageFormatIndex, pageIndex, tempBodyWriter, tempStyleWriter, styleCache, rowStyles, columnStyles, sheetInfo.sheetName);
+		tableBuilder = new OdsTableBuilder(
+							documentBuilder, 
+							jasperPrint, 
+							pageFormatIndex, 
+							pageIndex, 
+							tempBodyWriter, 
+							tempStyleWriter, 
+							styleCache, 
+							rowStyles, 
+							columnStyles, 
+							sheetInfo.sheetName,
+							sheetInfo.tabColor);
 
 //		tableBuilder.buildTableStyle(gridLayout.getWidth());
 		tableBuilder.buildTableStyle(xCuts.getLastCutOffset());//FIXMEODS
@@ -761,19 +773,55 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	
 	protected class OdsTableBuilder extends TableBuilder
 	{
-		protected OdsTableBuilder(DocumentBuilder documentBuilder, JasperPrint jasperPrint,
-				int pageFormatIndex, int pageIndex, WriterHelper bodyWriter,
-				WriterHelper styleWriter, StyleCache styleCache, Map<Integer, String> rowStyles, Map<Integer, String> columnStyles) 
+		protected OdsTableBuilder(
+				DocumentBuilder documentBuilder, 
+				JasperPrint jasperPrint,
+				int pageFormatIndex, 
+				int pageIndex, 
+				WriterHelper bodyWriter,
+				WriterHelper styleWriter, 
+				StyleCache styleCache, 
+				Map<Integer, String> rowStyles, 
+				Map<Integer, String> columnStyles,
+				Color tabColor) 
 		{
-			super(documentBuilder, jasperPrint, pageFormatIndex, pageIndex, bodyWriter, styleWriter, styleCache, rowStyles, columnStyles);
+			super(
+				documentBuilder, 
+				jasperPrint, 
+				pageFormatIndex, 
+				pageIndex, 
+				bodyWriter, 
+				styleWriter, 
+				styleCache, 
+				rowStyles, 
+				columnStyles, 
+				tabColor);
 		}
 		
-		protected OdsTableBuilder(DocumentBuilder documentBuilder, JasperPrint jasperPrint,
-			int pageFormatIndex, int pageIndex, WriterHelper bodyWriter,
-			WriterHelper styleWriter, StyleCache styleCache, Map<Integer, String> rowStyles, Map<Integer, String> columnStyles, 
-			String sheetName) 
+		protected OdsTableBuilder(
+				DocumentBuilder documentBuilder, 
+				JasperPrint jasperPrint,
+				int pageFormatIndex, 
+				int pageIndex, 
+				WriterHelper bodyWriter,
+				WriterHelper styleWriter, 
+				StyleCache styleCache, 
+				Map<Integer, String> rowStyles, 
+				Map<Integer, String> columnStyles, 
+				String sheetName,
+				Color tabColor) 
 		{
-			super(documentBuilder, jasperPrint, pageFormatIndex, pageIndex, bodyWriter, styleWriter, styleCache, rowStyles, columnStyles);
+			super(
+				documentBuilder, 
+				jasperPrint, 
+				pageFormatIndex, 
+				pageIndex, 
+				bodyWriter, 
+				styleWriter, 
+				styleCache, 
+				rowStyles, 
+				columnStyles,
+				tabColor);
 			this.tableName = sheetName;
 		}
 

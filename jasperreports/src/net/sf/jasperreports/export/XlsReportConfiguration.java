@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.export;
 
+import java.awt.Color;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRPrintHyperlink;
@@ -452,6 +453,26 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	public static final String PROPERTY_IGNORE_TEXT_FORMATTING = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.ignore.text.formatting";
 
+	/**
+	 * Property whose value is used as default state of the {@link #getSheetTabColor()} export configuration setting. 
+	 * <p/>
+	 * When set at report element level and multiple elements in a sheet provide this property, 
+	 * the last read value will be considered. The property works in XLSX and ODS output formats. 
+	 * It is not supported by the XLS output format.
+	 * <p/>
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_SHEET_TAB_COLOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.tab.color";
+
+		
 	/**
 	 * Returns a boolean value specifying whether each report page should be written in a different XLS sheet.
 	 * @see #PROPERTY_ONE_PAGE_PER_SHEET
@@ -954,5 +975,20 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 		booleanDefault=false
 		)
 	public Boolean isIgnoreTextFormatting();
+	
+	/**
+	 * This setting is used to set the tab color of the sheets. Global and  
+	 * report-level settings are overriden by element-level settings for this property.
+	 * If several elements in a sheet contain this property, the engine will consider the value of the 
+	 * last exported element's property.
+	 * <p/>
+	 * The setting is neglected in XLS export channel (works with XLSX and ODS only)
+	 * @see #PROPERTY_SHEET_TAB_COLOR
+	 */
+	@ExporterProperty(
+		value=PROPERTY_SHEET_TAB_COLOR, 
+		acceptNull=true
+		)
+	public Color getSheetTabColor();
 	
 }

@@ -353,6 +353,7 @@
       <property ref="net.sf.jasperreports.export.xls.sheet.header.right"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.name"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
+      <property ref="net.sf.jasperreports.export.xls.sheet.tab.color"/>
       
       <property ref="net.sf.jasperreports.export.xls.show.gridlines"/>
       <property ref="net.sf.jasperreports.export.xls.shrink.to.fit"/>
@@ -4953,6 +4954,30 @@ These properties are by default not set.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.xls.sheet.tab.color -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.tab.color">
+    <description>
+Property whose value is used to set the tab color of a given sheet in XLSX and ODS output formats. 
+When set at report level, all sheets in the document will have their tabs colored the same way. 
+When set at report element level and multiple elements in a sheet provide this property, 
+the last read value will be considered.
+<br/>
+Its value usually can be expressed as #-prefixed CSS color.
+<br/>
+Report-level settings are overriden by element-level settings for this property. 
+If several elements in a sheet contain this property, the engine will consider the value of the 
+last exported element's property.
+<br/>
+<b>Note: </b>This property is not supported by the XLS output format.
+	</description>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_TAB_COLOR</api>
+    <default>N/A</default>
+    <scope>Global | Report | Element</scope>
+    <since>6.2.0</since>
+  </configProperty>
+  
+
   <!-- net.sf.jasperreports.export.xls.show.gridlines -->
   
   <configProperty name="net.sf.jasperreports.export.xls.show.gridlines">

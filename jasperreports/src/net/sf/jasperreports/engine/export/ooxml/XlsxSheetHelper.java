@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
 import net.sf.jasperreports.engine.export.ooxml.type.PaperSizeEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 
 
@@ -81,14 +83,19 @@ public class XlsxSheetHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportHeader(boolean showGridlines, int scale, int rowFreeze, int columnFreeze, JasperPrint jasperPrint)
+	public void exportHeader(boolean showGridlines, int scale, int rowFreeze, int columnFreeze, JasperPrint jasperPrint, Color tabColor)
 	{
 		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		write("<worksheet\n");
 		write(" xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"\n");
 		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\n");
 		
-		write("<sheetPr><outlinePr summaryBelow=\"0\"/>");
+		write("<sheetPr>\n");
+		if(tabColor != null)
+		{
+			write("<tabColor rgb=\"FF" + JRColorUtil.getColorHexa(tabColor) + "\"/>\n");
+		}
+		write("<outlinePr summaryBelow=\"0\"/>\n");
 		
 		/* the scale factor takes precedence over fitWidth and fitHeight properties */
 		if (

@@ -31,6 +31,7 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.text.AttributedCharacterIterator;
 import java.util.HashMap;
@@ -80,6 +81,7 @@ public class TableBuilder
 	private String tableStyleName;
 	private Map<Integer, String> rowStyles;
 	private Map<Integer, String> columnStyles;
+	private Color tabColor;
 	
 
 	protected TableBuilder(
@@ -90,7 +92,8 @@ public class TableBuilder
 		WriterHelper styleWriter,
 		StyleCache styleCache,
 		Map<Integer, String> rowStyles,
-		Map<Integer, String> columnStyles
+		Map<Integer, String> columnStyles,
+		Color tabColor
 		) 
 	{
 		this.documentBuilder = documentBuilder;
@@ -106,7 +109,24 @@ public class TableBuilder
 		this.tableName = "TBL_" + name;
 		this.rowStyles = rowStyles == null ? new HashMap<Integer, String>() : rowStyles;
 		this.columnStyles = columnStyles == null ? new HashMap<Integer, String>() : columnStyles;
+		this.tabColor = tabColor;
 	}
+	
+	protected TableBuilder(
+			DocumentBuilder documentBuilder,
+			JasperPrint jasperPrint,
+			String name, 
+			WriterHelper bodyWriter,
+			WriterHelper styleWriter,
+			StyleCache styleCache,
+			Map<Integer, String> rowStyles,
+			Map<Integer, String> columnStyles
+			) 
+		{
+			//used in ODT exporter only
+			this(documentBuilder, jasperPrint, name, bodyWriter, styleWriter, styleCache, rowStyles, columnStyles, null);
+		}
+	
 
 	protected TableBuilder(
 		DocumentBuilder documentBuilder,
@@ -117,7 +137,8 @@ public class TableBuilder
 		WriterHelper styleWriter,
 		StyleCache styleCache,
 		Map<Integer, String> rowStyles,
-		Map<Integer, String> columnStyles
+		Map<Integer, String> columnStyles,
+		Color tabColor
 		) 
 	{
 		this.documentBuilder = documentBuilder;
@@ -134,13 +155,31 @@ public class TableBuilder
 		this.tableName = "TBL_" + pageFormatIndex + "_" + pageIndex;
 		this.rowStyles = rowStyles == null ? new HashMap<Integer, String>() : rowStyles;
 		this.columnStyles = columnStyles == null ? new HashMap<Integer, String>() : columnStyles;
+		this.tabColor = tabColor;
 	}
+
+
+	protected TableBuilder(
+			DocumentBuilder documentBuilder,
+			JasperPrint jasperPrint,
+			int pageFormatIndex,
+			int pageIndex,
+			WriterHelper bodyWriter,
+			WriterHelper styleWriter,
+			StyleCache styleCache,
+			Map<Integer, String> rowStyles,
+			Map<Integer, String> columnStyles
+			) 
+		{
+			//used in ODT exporter only
+			this(documentBuilder, jasperPrint, pageFormatIndex, pageIndex, bodyWriter, styleWriter, styleCache, rowStyles, columnStyles, null);
+		}
 
 
 	public void buildTableStyle(int width) 
 	{
 		try {
-			  this.tableStyleName = styleCache.getTableStyle(width, pageFormatIndex, isFrame, isPageBreak);
+			  this.tableStyleName = styleCache.getTableStyle(width, pageFormatIndex, isFrame, isPageBreak, tabColor);
 		} catch (IOException e) {
 			throw new JRRuntimeException(e);
 		}

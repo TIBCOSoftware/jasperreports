@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.export;
 
+import java.awt.Color;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -37,6 +38,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.NamedEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 import org.apache.commons.lang.ClassUtils;
@@ -207,6 +209,10 @@ public class PropertiesNoDefaultsConfigurationFactory<C extends CommonExportConf
 				else if (Boolean.class.equals(type))
 				{
 					value = JRPropertiesUtil.asBoolean(strValue);
+				}
+				else if (Color.class.equals(type))
+				{
+					value = strValue == null ? null : JRColorUtil.getColor(strValue, null);
 				}
 				else if (NamedEnum.class.isAssignableFrom(type))
 				{

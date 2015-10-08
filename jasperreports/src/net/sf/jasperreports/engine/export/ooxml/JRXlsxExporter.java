@@ -863,7 +863,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		{
 			showGridlines = sheetInfo.sheetShowGridlines;
 		}
-		sheetHelper.exportHeader(showGridlines, (sheetInfo.sheetPageScale == null ? 0 : sheetInfo.sheetPageScale), gridRowFreezeIndex, gridColumnFreezeIndex, jasperPrint);
+		sheetHelper.exportHeader(
+				showGridlines, 
+				(sheetInfo.sheetPageScale == null ? 0 : sheetInfo.sheetPageScale), 
+				gridRowFreezeIndex, 
+				gridColumnFreezeIndex, 
+				jasperPrint, 
+				sheetInfo.tabColor);
 		sheetRelsHelper.exportHeader(sheetIndex + 1);
 		drawingHelper.exportHeader();
 		drawingRelsHelper.exportHeader();
