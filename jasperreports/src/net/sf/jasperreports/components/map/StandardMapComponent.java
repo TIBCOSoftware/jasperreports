@@ -347,7 +347,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	{
 		in.defaultReadObject();
 		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_5_2) 	//FIXME: choose the correct value for version
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_5_2)
 		{
 			if (markerDataset != null)
 			{
