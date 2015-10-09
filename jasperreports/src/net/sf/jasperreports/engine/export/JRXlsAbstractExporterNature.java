@@ -209,9 +209,9 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public Boolean getShowGridlines(JRPrintElement element)
 	{
 		if (
-			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_SHOW_GRIDLINES)
-			)
+				element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_SHOW_GRIDLINES)
+				)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
@@ -219,7 +219,49 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		}
 		return null;
 	}
+	
+	public Boolean getIgnoreCellBackground(JRPrintElement element)
+	{
+		if (
+				element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_IGNORE_CELL_BACKGROUND)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_IGNORE_CELL_BACKGROUND, false);
+		}
+		return null;
+	}
+	
+	public Boolean getIgnoreCellBorder(JRPrintElement element)
+	{
+		if (
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_IGNORE_CELL_BORDER)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_IGNORE_CELL_BORDER, false);
+		}
+		return null;
+	}
 
+	public Boolean getWhitePageBackground(JRPrintElement element)
+	{
+		if (
+				element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_WHITE_PAGE_BACKGROUND)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_WHITE_PAGE_BACKGROUND, false);
+		}
+		return null;
+	}
+	
 	public Integer getCustomColumnWidth(JRPrintElement element) {
 		if (element.hasProperties()
 			&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH)
@@ -408,7 +450,25 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		{
 			cut.setProperty(XlsReportConfiguration.PROPERTY_SHOW_GRIDLINES, showGridlines);
 		}
+		
+		Boolean ignoreCellBackground = getIgnoreCellBackground(element);
+		if(ignoreCellBackground != null)
+		{
+			cut.setProperty(XlsReportConfiguration.PROPERTY_IGNORE_CELL_BACKGROUND, ignoreCellBackground);
+		}
+		
+		Boolean ignoreCellBorder = getIgnoreCellBorder(element);
+		if(ignoreCellBorder != null)
+		{
+			cut.setProperty(XlsReportConfiguration.PROPERTY_IGNORE_CELL_BORDER, ignoreCellBorder);
+		}
 
+		Boolean whitePageBackground = getWhitePageBackground(element);
+		if(whitePageBackground != null)
+		{
+			cut.setProperty(XlsReportConfiguration.PROPERTY_WHITE_PAGE_BACKGROUND, whitePageBackground);
+		}
+		
 		setYProperties(yCutsProperties, element);
 	}
 	

@@ -439,6 +439,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		}
 		sheet.setDisplayGridlines(showGridlines);
 		
+		backgroundMode = Boolean.TRUE.equals(sheetInfo.whitePageBackground) 
+				? HSSFCellStyle.SOLID_FOREGROUND 
+				: HSSFCellStyle.NO_FILL;
+		
 		maxRowFreezeIndex = 0;
 		maxColumnFreezeIndex = 0;
 		
@@ -599,9 +603,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
 		
-		XlsReportConfiguration configuration = getCurrentItemConfiguration();
-		
-		if (!configuration.isIgnoreCellBackground() && gridCell.getCellBackcolor() != null)
+		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
 			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
@@ -670,8 +672,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
-		boolean isIgnoreCellBackground = getCurrentItemConfiguration().isIgnoreCellBackground();
-		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
+		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
 			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
@@ -708,8 +709,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
-		boolean isIgnoreCellBackground = getCurrentItemConfiguration().isIgnoreCellBackground();
-		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
+		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
 			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
@@ -756,8 +756,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
-		boolean isIgnoreCellBackground = getCurrentItemConfiguration().isIgnoreCellBackground();
-		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
+		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
 			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
@@ -1269,7 +1268,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				cellStyle.setDataFormat(style.getDataFormat());
 			}
 			
-			boolean isIgnoreCellBorder = getCurrentItemConfiguration().isIgnoreCellBorder() || style.box ==null;
+			boolean isIgnoreCellBorder = Boolean.TRUE.equals(sheetInfo.ignoreCellBorder) || style.box ==null;
 			if (!isIgnoreCellBorder)
 			{
 				BoxStyle box = style.box;
@@ -1598,7 +1597,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 				short mode = backgroundMode;
 				short backcolor = whiteIndex;
-				if (!configuration.isIgnoreCellBackground() && gridCell.getCellBackcolor() != null)
+				if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
 				{
 					mode = HSSFCellStyle.SOLID_FOREGROUND;
 					backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();

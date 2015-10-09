@@ -4216,14 +4216,17 @@ Otherwise they will be exported along with elements they belong to.
   
   <configProperty name="net.sf.jasperreports.export.xls.ignore.cell.background">
     <description>
-Property that specifies whether cell background color should be ignored.
+Property that specifies whether cell background color should be ignored in the generated document.
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isIgnoreCellBackground()">isIgnoreCellBackground()</api> Excel export configuration setting.
+<br/>
+If the property is set at element level, its value will be applied only to the sheet containing that element. 
+Other sheets in the document will not be affected.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_IGNORE_CELL_BACKGROUND</api>
     <default>false</default>
-    <scope>Global | Report</scope>
+    <scope>Global | Report | Element (since 6.2.0)</scope>
     <since>3.6.2</since>
   </configProperty>
   
@@ -4232,14 +4235,17 @@ Its value is used as default for the
   
   <configProperty name="net.sf.jasperreports.export.xls.ignore.cell.border">
     <description>
-Property that specifies whether cell borders should be ignored.
+Property that specifies whether cell borders should be ignored in the generated document.
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isIgnoreCellBorder()">isIgnoreCellBorder()</api> Excel export configuration setting.
+<br/>
+If the property is set at element level, its value will be applied only to the sheet containing that element. 
+Other sheets in the document will not be affected.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_IGNORE_CELL_BORDER</api>
     <default>false</default>
-    <scope>Global | Report</scope>
+    <scope>Global | Report | Element (since 6.2.0)</scope>
     <since>2.0.1</since>
   </configProperty>
   
@@ -4408,10 +4414,13 @@ Property that specifies whether the page background should be white or the defau
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isWhitePageBackground()">isWhitePageBackground()</api> Excel export configuration setting.
+<br/>
+If the property is set at element level, its value will be applied only to the sheet containing that element. 
+Other sheets in the document will not be affected.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_WHITE_PAGE_BACKGROUND</api>
     <default>true</default>
-    <scope>Global | Report</scope>
+    <scope>Global | Report | Element (since 6.2.0)</scope>
     <since>2.0.1</since>
   </configProperty>
   

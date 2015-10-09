@@ -624,7 +624,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	
 	protected SheetInfo sheetInfo;
 	
-	protected static class SheetInfo
+	public static class SheetInfo
 	{
 		public Integer sheetFirstPageIndex;
 		public String sheetName;
@@ -632,6 +632,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		public Integer sheetPageScale;		
 		public Boolean sheetShowGridlines;
 		public Color tabColor;
+		public Boolean ignoreCellBorder;
+		public Boolean ignoreCellBackground;
+		public Boolean whitePageBackground;
 	}
 
 	/**
@@ -1145,6 +1148,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		boolean isRemoveEmptySpaceBetweenRows = configuration.isRemoveEmptySpaceBetweenRows();
 		boolean isCollapseRowSpan = configuration.isCollapseRowSpan();
 		sheetInfo.tabColor = configuration.getSheetTabColor();
+		sheetInfo.ignoreCellBackground = configuration.isIgnoreCellBackground();
+		sheetInfo.whitePageBackground = configuration.isWhitePageBackground();
+		sheetInfo.ignoreCellBorder = configuration.isIgnoreCellBorder();
 		
 		int skippedRows = 0;
 		int rowIndex = 0;
@@ -1192,6 +1198,24 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				if (showGridlines != null)
 				{
 					sheetInfo.sheetShowGridlines = showGridlines;
+				}
+				
+				Boolean ignoreCellBackground = (Boolean)yCut.getProperty(XlsReportConfiguration.PROPERTY_IGNORE_CELL_BACKGROUND);
+				if (ignoreCellBackground != null)
+				{
+					sheetInfo.ignoreCellBackground = ignoreCellBackground;
+				}
+				
+				Boolean ignoreCellBorder = (Boolean)yCut.getProperty(XlsReportConfiguration.PROPERTY_IGNORE_CELL_BORDER);
+				if (ignoreCellBorder != null)
+				{
+					sheetInfo.ignoreCellBorder = ignoreCellBorder;
+				}
+				
+				Boolean whitePageBackground = (Boolean)yCut.getProperty(XlsReportConfiguration.PROPERTY_WHITE_PAGE_BACKGROUND);
+				if (whitePageBackground != null)
+				{
+					sheetInfo.whitePageBackground = whitePageBackground;
 				}
 
 				Integer pageScale = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PAGE_SCALE);

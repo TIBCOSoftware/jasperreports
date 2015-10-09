@@ -49,42 +49,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import jxl.CellView;
-import jxl.JXLException;
-import jxl.Range;
-import jxl.SheetSettings;
-import jxl.Workbook;
-import jxl.WorkbookSettings;
-import jxl.biff.DisplayFormat;
-import jxl.format.Alignment;
-import jxl.format.BoldStyle;
-import jxl.format.Border;
-import jxl.format.BorderLineStyle;
-import jxl.format.Colour;
-import jxl.format.Orientation;
-import jxl.format.PageOrientation;
-import jxl.format.PaperSize;
-import jxl.format.Pattern;
-import jxl.format.RGB;
-import jxl.format.UnderlineStyle;
-import jxl.format.VerticalAlignment;
-import jxl.read.biff.BiffException;
-import jxl.write.Blank;
-import jxl.write.DateFormat;
-import jxl.write.DateTime;
-import jxl.write.Formula;
-import jxl.write.Label;
-import jxl.write.Number;
-import jxl.write.NumberFormat;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableFont;
-import jxl.write.WritableHyperlink;
-import jxl.write.WritableImage;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
-import jxl.write.biff.CellValue;
-import jxl.write.biff.RowsExceededException;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRException;
@@ -135,6 +99,43 @@ import net.sf.jasperreports.repo.RepositoryUtil;
 import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import jxl.CellView;
+import jxl.JXLException;
+import jxl.Range;
+import jxl.SheetSettings;
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+import jxl.biff.DisplayFormat;
+import jxl.format.Alignment;
+import jxl.format.BoldStyle;
+import jxl.format.Border;
+import jxl.format.BorderLineStyle;
+import jxl.format.Colour;
+import jxl.format.Orientation;
+import jxl.format.PageOrientation;
+import jxl.format.PaperSize;
+import jxl.format.Pattern;
+import jxl.format.RGB;
+import jxl.format.UnderlineStyle;
+import jxl.format.VerticalAlignment;
+import jxl.read.biff.BiffException;
+import jxl.write.Blank;
+import jxl.write.DateFormat;
+import jxl.write.DateTime;
+import jxl.write.Formula;
+import jxl.write.Label;
+import jxl.write.Number;
+import jxl.write.NumberFormat;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableHyperlink;
+import jxl.write.WritableImage;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.CellValue;
+import jxl.write.biff.RowsExceededException;
 
 
 /**
@@ -581,9 +582,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		Pattern mode = backgroundMode;
 		Colour backcolor = WHITE;
 		
-		JxlReportConfiguration configuration = getCurrentItemConfiguration();
-		
-		if (!configuration.isIgnoreCellBackground() && gridCell.getCellBackcolor() != null)
+		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
 		{
 			mode = Pattern.SOLID;
 			backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
@@ -637,9 +636,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		Colour backcolor = WHITE;
 		Pattern mode = this.backgroundMode;
 
-		JxlReportConfiguration configuration = getCurrentItemConfiguration(); 
-		
-		if (!configuration.isIgnoreCellBackground() && gridCell.getCellBackcolor() != null)
+		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
 		{
 			mode = Pattern.SOLID;
 			backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
@@ -704,9 +701,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		Colour backcolor = WHITE;
 		Pattern mode = this.backgroundMode;
 
-		JxlReportConfiguration configuration = getCurrentItemConfiguration();
-		
-		if (!configuration.isIgnoreCellBackground() && gridCell.getCellBackcolor() != null)
+		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
 		{
 			mode = Pattern.SOLID;
 			backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
@@ -762,7 +757,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 
 			JxlReportConfiguration configuration = getCurrentItemConfiguration();
 			
-			if (!configuration.isIgnoreCellBackground() && gridCell.getCellBackcolor() != null)
+			if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
 			{
 				mode = Pattern.SOLID;
 				backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
@@ -1473,7 +1468,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 
 			JxlReportConfiguration configuration = getCurrentItemConfiguration();
 			
-			if (!configuration.isIgnoreCellBackground() && gridCell.getCellBackcolor() != null)
+			if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
 			{
 				mode = Pattern.SOLID;
 				background = getWorkbookColour(gridCell.getCellBackcolor(), true);
@@ -2197,10 +2192,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				cellStyle.setWrap(styleKey.isWrapText);
 				cellStyle.setLocked(styleKey.isCellLocked);
 				cellStyle.setShrinkToFit(styleKey.isShrinkToFit);
-
-				JxlReportConfiguration configuration = getCurrentItemConfiguration();
 				
-				if (!configuration.isIgnoreCellBorder() && styleKey.box != null)
+				if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBorder) && styleKey.box != null)
 				{
 					BoxStyle box = styleKey.box;
 					cellStyle.setBorder(Border.TOP, box.borderStyle[BoxStyle.TOP], box.borderColour[BoxStyle.TOP]);
@@ -2387,6 +2380,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 			showGridlines = sheetInfo.sheetShowGridlines;
 		}
 		sheets.setShowGridLines(showGridlines);
+		
+		this.backgroundMode = Boolean.TRUE.equals(sheetInfo.whitePageBackground) 
+				? Pattern.SOLID 
+				: Pattern.NONE;
 		
 		maxRowFreezeIndex = 0;
 		maxColumnFreezeIndex = 0;
