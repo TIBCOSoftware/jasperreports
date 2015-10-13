@@ -413,12 +413,19 @@ public class FillTable extends BaseFillComponent
 			
 			JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getFrameTemplate(), printElementOriginator);
 			JRLineBox lineBox = printFrame.getLineBox();
-
+			int verticalPadding = lineBox.getTopPadding() + lineBox.getBottomPadding();
+			
 			FillPrepareResult result = 
 				fillSubreport.prepareSubreport(
-					availableHeight - lineBox.getTopPadding() - lineBox.getBottomPadding(), 
+					availableHeight - verticalPadding, 
 					filling
 					);
+			
+			if (verticalPadding != 0)
+			{
+				result = result.addStretch(verticalPadding);
+			}
+			
 			filling = result.willOverflow();
 			return result;
 		}

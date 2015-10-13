@@ -135,5 +135,10 @@ public class FillPrepareResult
 	{
 		return stretchHeight;
 	}
+	
+	public FillPrepareResult addStretch(int delta)
+	{
+		return new FillPrepareResult(toPrint, stretchHeight + delta, overflow);
+	}
 
 }
