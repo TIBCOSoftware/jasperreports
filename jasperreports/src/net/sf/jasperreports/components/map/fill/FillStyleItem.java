@@ -25,8 +25,8 @@ package net.sf.jasperreports.components.map.fill;
 
 import java.util.Map;
 
-import net.sf.jasperreports.components.map.Item;
-import net.sf.jasperreports.components.map.ItemProperty;
+import net.sf.jasperreports.components.items.Item;
+import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;

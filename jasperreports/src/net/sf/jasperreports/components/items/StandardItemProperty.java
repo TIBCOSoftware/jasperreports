@@ -21,42 +21,81 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map;
+package net.sf.jasperreports.components.items;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import net.sf.jasperreports.components.items.Item;
-import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link net.sf.jasperreports.components.items.StandardItem}.
  */
-public class StandardItem implements Item, JRChangeEventsSupport, Serializable
+public class StandardItemProperty implements ItemProperty, JRChangeEventsSupport, Serializable
 {
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	public static final String PROPERTY_ITEM_PROPERTIES = "itemProperties";
+	
+	public static final String PROPERTY_NAME = "name";
+	public static final String PROPERTY_VALUE = "value";
+	public static final String PROPERTY_VALUE_EXPRESSION = "valueExpression";
 	
 	private transient JRPropertyChangeSupport eventSupport;
 
-	private List<ItemProperty> properties = new ArrayList<ItemProperty>();
+	private String name;
+	private String value;
+	private JRExpression valueExpression;
 
-	public StandardItem()
+	public StandardItemProperty()
 	{
 	}
 	
-	public StandardItem(List<ItemProperty> properties)
+	public StandardItemProperty(String name, String value, JRExpression valueExpression)
 	{
-		this.properties = properties;
+		this.name = name;
+		this.valueExpression = valueExpression;
+		this.value = value;
 	}
 	
+	public String getName()
+	{
+		return name;
+	}
+	
+	public void setName(String name)
+	{
+		Object old = this.name;
+		this.name = name;
+		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
+	}
+
+	public String getValue()
+	{
+		return value;
+	}
+	
+	public void setValue(String value)
+	{
+		Object old = this.value;
+		this.value = value;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE, old, this.value);
+	}
+	
+	public JRExpression getValueExpression()
+	{
+		return valueExpression;
+	}
+
+	public void setValueExpression(JRExpression valueExpression)
+	{
+		Object old = this.valueExpression;
+		this.valueExpression = valueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
+	}
+
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -72,41 +111,16 @@ public class StandardItem implements Item, JRChangeEventsSupport, Serializable
 
 	public Object clone()
 	{
-		StandardItem clone = null;
 		try
 		{
-			clone = (StandardItem) super.clone();
+			StandardItemProperty clone = (StandardItemProperty) super.clone();
+			clone.valueExpression = JRCloneUtils.nullSafeClone(valueExpression);
+			return clone;
 		}
 		catch (CloneNotSupportedException e)
 		{
 			// never
 			throw new RuntimeException(e);
-		}
-		clone.properties = JRCloneUtils.cloneList(properties);
-		return clone;
-	}
-
-	@Override
-	public List<ItemProperty> getProperties() 
-	{
-		return properties;
-	}
-	
-	public void addItemProperty(ItemProperty property)
-	{
-		properties.add(property);
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_ITEM_PROPERTIES, property, properties.size() - 1);
-	}
-	
-	public void removeItemProperty(ItemProperty property)
-	{
-		int idx = properties.indexOf(property);
-		if (idx >= 0)
-		{
-			properties.remove(idx);
-			
-			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_ITEM_PROPERTIES, 
-					property, idx);
 		}
 	}
 }

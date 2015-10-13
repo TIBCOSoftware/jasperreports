@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRExpression;
  * or dynamically, using a value expression.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link net.sf.jasperreports.components.items.ItemProperty}.
  */
 public interface ItemProperty extends JRCloneable
 {

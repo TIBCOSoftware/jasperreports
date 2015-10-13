@@ -21,20 +21,40 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map;
+package net.sf.jasperreports.components.items;
 
-import net.sf.jasperreports.components.items.StandardItemData;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import java.util.List;
 
-import org.xml.sax.Attributes;
+import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.JRElementDataset;
 
 /**
+ * The ItemData interface
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class ItemDataXmlFactory extends JRBaseFactory
+public interface ItemData extends JRCloneable
 {
-	public Object createObject(Attributes attrs) throws Exception
-	{
-		return new StandardItemData();
-	}
+
+	/**
+	 * Returns a list of {@link Item Item} 
+	 * objects. Each item in the list provides a collection of item properties.
+	 * 
+	 * @return a list of items
+	 * 
+	 * @see Item
+	 * @see ItemProperty
+	 */
+	public List<Item> getItems();
+	
+	/**
+	 * Returns the dataset information that will be used by the {@link ItemData ItemData} object.
+	 * <p>
+	 * This information is required either to use the main dataset or to instantiate a 
+	 * subdataset from the report. The data produced by the subdataset is fed to the items list.
+	 * 
+	 * @return the dataset
+	 * @see net.sf.jasperreports.engine.JRElementDataset
+	 */
+	public JRElementDataset getDataset();
+
 }

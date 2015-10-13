@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.map;
 
 import java.util.List;
 
+import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
@@ -662,29 +663,29 @@ public interface MapComponent extends Component, JRCloneable
 	OnErrorTypeEnum getOnErrorType();
 	
 	/**
-	 * Returns a list of {@link net.sf.jasperreports.components.map.ItemData ItemData} objects 
+	 * Returns a list of {@link ItemData ItemData} objects 
 	 * representing collections of markers on the map
 	 * 
 	 * @return a list of marker data
-	 * @see net.sf.jasperreports.components.map.ItemData
+	 * @see ItemData
 	 */
 	List<ItemData> getMarkerDataList();
 	
 	/**
-	 * Returns a list of {@link net.sf.jasperreports.components.map.ItemData ItemData} objects 
+	 * Returns a list of {@link ItemData ItemData} objects 
 	 * representing collections of path styles for the map
 	 * 
 	 * @return a list of path styles
-	 * @see net.sf.jasperreports.components.map.ItemData
+	 * @see ItemData
 	 */
 	List<ItemData> getPathStyleList();
 	
 	/**
-	 * Returns a list of {@link net.sf.jasperreports.components.map.ItemData ItemData} objects 
+	 * Returns a list of {@link ItemData ItemData} objects 
 	 * representing collections of paths on the map
 	 * 
 	 * @return a list of path data
-	 * @see net.sf.jasperreports.components.map.ItemData
+	 * @see ItemData
 	 */
 	List<ItemData> getPathDataList();
 	
