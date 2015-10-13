@@ -524,6 +524,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 
 
+	protected boolean isReorderBandElements()
+	{
+		return false;
+	}
+
+	
 	protected void initSubreportFiller(DatasetExpressionEvaluator evaluator) throws JRException
 	{
 		if (log.isDebugEnabled())
@@ -558,6 +564,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			}
 		}
 		
+		subreportFiller.setReorderBandElements(isReorderBandElements());
+
 		runner = getRunnerFactory().createSubreportRunner(this, subreportFiller);
 		subFillerParent.setSubreportRunner(runner);
 		

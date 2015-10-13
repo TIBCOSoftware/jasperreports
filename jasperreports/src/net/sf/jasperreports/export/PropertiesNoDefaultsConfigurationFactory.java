@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.export;
 
+import java.awt.Color;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -37,6 +38,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.NamedEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 import org.apache.commons.lang.ClassUtils;
@@ -208,6 +210,10 @@ public class PropertiesNoDefaultsConfigurationFactory<C extends CommonExportConf
 				{
 					value = JRPropertiesUtil.asBoolean(strValue);
 				}
+				else if (Color.class.equals(type))
+				{
+					value = strValue == null ? null : JRColorUtil.getColor(strValue, null);
+				}
 				else if (NamedEnum.class.isAssignableFrom(type))
 				{
 					try
@@ -230,7 +236,10 @@ public class PropertiesNoDefaultsConfigurationFactory<C extends CommonExportConf
 				}
 				else
 				{
-					throw new JRRuntimeException("Export property type " + type + " not supported.");
+					throw 
+					new JRRuntimeException(
+						PropertiesExporterConfigurationFactory.EXCEPTION_MESSAGE_KEY_EXPORT_PROPERTIES_TYPE_NOT_SUPPORTED, 
+						new Object[]{type});
 				}
 			}
 		}

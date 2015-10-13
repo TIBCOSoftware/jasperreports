@@ -40,6 +40,7 @@ public class FillColumn implements JRPropertiesHolder
 	private BaseColumn tableColumn;
 	private int width;
 	private List<FillColumn> subcolumns;
+	private Integer colSpan;
 
 	private JRPropertiesMap properties;
 	
@@ -69,6 +70,23 @@ public class FillColumn implements JRPropertiesHolder
 	public int getWidth()
 	{
 		return width;
+	}
+
+	public int getColSpan()
+	{
+		if (colSpan == null)
+		{
+			colSpan = 1;
+			if (subcolumns != null && subcolumns.size() > 0)
+			{
+				colSpan = 0;
+				for (FillColumn subcolumn : subcolumns)
+				{
+					colSpan += subcolumn.getColSpan();
+				}
+			}
+		}
+		return colSpan;
 	}
 
 	public List<FillColumn> getSubcolumns()

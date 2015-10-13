@@ -27,8 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.components.items.ItemCompiler;
+import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.engine.JRDatasetRun;
-import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
@@ -61,57 +62,33 @@ public class MapCompiler implements ComponentCompiler
 		List<ItemData> markerDataList = map.getMarkerDataList();
 		if(markerDataList != null && markerDataList.size() > 0) {
 			for(ItemData markerData : markerDataList){
-				collectExpressions(markerData, collector);
+				ItemCompiler.collectExpressions(markerData, collector);
 			}
 		}
 		List<ItemData> pathStyleList = map.getPathStyleList();
 		if(pathStyleList != null && pathStyleList.size() > 0) {
 			for(ItemData pathStyle : pathStyleList){
-				collectExpressions(pathStyle, collector);
+				ItemCompiler.collectExpressions(pathStyle, collector);
 			}
 		}
 		List<ItemData> pathDataList = map.getPathDataList();
 		if(pathDataList != null && pathDataList.size() > 0) {
 			for(ItemData pathData : pathDataList){
-				collectExpressions(pathData, collector);
-			}
-		}
-	}
-
-	public static void collectExpressions(ItemData data, JRExpressionCollector collector)
-	{
-		if (data != null)
-		{
-			JRExpressionCollector datasetCollector = collector;
-
-			JRElementDataset dataset = data.getDataset();
-			JRDatasetRun datasetRun = dataset == null ? null : dataset.getDatasetRun();
-			if (datasetRun != null)
-			{
-				collector.collect(datasetRun);
-				datasetCollector = collector.getDatasetCollector(datasetRun.getDatasetName());
-			}
-
-			List<Item> items = data.getItems();
-			if (items != null && !items.isEmpty())
-			{
-				for(Item item : items)
-				{
-					List<ItemProperty> itemProperties = item.getProperties();
-					if(itemProperties != null)
-					{
-						for(ItemProperty property : itemProperties)
-						{
-							datasetCollector.addExpression(property.getValueExpression());
-						}
-					}
-				}
+				ItemCompiler.collectExpressions(pathData, collector);
 			}
 		}
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #collectExpressions(ItemData, JRExpressionCollector)}.
+	 * @deprecated Replaced by {@link ItemCompiler#collectExpressions(ItemData, JRExpressionCollector)}.
+	 */
+	public static void collectExpressions(ItemData data, JRExpressionCollector collector)
+	{
+		ItemCompiler.collectExpressions(data, collector);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link ItemCompiler#collectExpressions(ItemData, JRExpressionCollector)}.
 	 */
 	public static void collectExpressions(MarkerDataset dataset, JRExpressionCollector collector)
 	{
@@ -183,7 +160,7 @@ public class MapCompiler implements ComponentCompiler
 		if (markerDataList != null && markerDataList.size() > 0)
 		{
 			for(ItemData markerData : markerDataList){
-				verifyItemData(verifier, markerData, MapComponent.ELEMENT_MARKER_DATA, reqNames, addressMap);
+				ItemCompiler.verifyItemData(verifier, markerData, MapComponent.ELEMENT_MARKER_DATA, reqNames, addressMap);
 			}
 		}
 		
@@ -191,7 +168,7 @@ public class MapCompiler implements ComponentCompiler
 		if (pathStyleList != null && pathStyleList.size() > 0)
 		{
 			for(ItemData pathStyle : pathStyleList){
-				verifyItemData(verifier, pathStyle, MapComponent.ELEMENT_PATH_STYLE, new String[]{MapComponent.ITEM_PROPERTY_name}, null);
+				ItemCompiler.verifyItemData(verifier, pathStyle, MapComponent.ELEMENT_PATH_STYLE, new String[]{MapComponent.ITEM_PROPERTY_name}, null);
 			}
 		}
 		
@@ -199,83 +176,7 @@ public class MapCompiler implements ComponentCompiler
 		if (pathDataList != null && pathDataList.size() > 0)
 		{
 			for(ItemData pathData : pathDataList){
-				verifyItemData(verifier, pathData, MapComponent.ELEMENT_PATH_DATA, reqNames, addressMap);
-			}
-		}
-	}
-
-	protected void verifyMarkerData(JRVerifier verifier, ItemData itemData)
-	{
-		verifyItemData(
-				verifier, 
-				itemData, 
-				MapComponent.ELEMENT_MARKER_DATA, 
-				new String[]{MapComponent.ITEM_PROPERTY_latitude, MapComponent.ITEM_PROPERTY_longitude},
-				addressMap);
-	}
-
-	protected void verifyMarker(JRVerifier verifier, Item item)
-	{
-		verifyItem(
-				verifier, 
-				item, 
-				MapComponent.ELEMENT_MARKER_DATA, 
-				new String[]{MapComponent.ITEM_PROPERTY_latitude, MapComponent.ITEM_PROPERTY_longitude},
-				addressMap);
-	}
-	
-	protected void verifyItemData(JRVerifier verifier, ItemData itemData, String itemName, String[] requiredNames, Map<String, String> alternativeNamesMap)
-	{
-		if (itemData.getDataset() != null)
-		{
-			verifier.verifyElementDataset(itemData.getDataset());
-		}
-		
-		List<Item> items = itemData.getItems();
-		if (items != null)
-		{
-			for (Item item : items)
-			{
-				verifyItem(verifier, item, itemName, requiredNames, alternativeNamesMap);
-			}
-		}
-	}
-
-	/**
-	 * Verifies if required properties or their alternatives are present in the item properties list. Alternative 
-	 * property names are read from the <code>alternativeNamesMap</code> parameter. 
-	 * <br/>
-	 * For instance, a required latitude property can be provided either directly, using the <code>latitude</code> item 
-	 * property, or by processing the alternative <code>address</code> property. If at least one of the <code>latitude</code> 
-	 * or <code>address</code> properties are present in the item properties list, the latitude requirement is fulfilled.
-	 * 
-	 * @param verifier
-	 * @param item
-	 * @param itemName
-	 * @param requiredNames
-	 * @param alternativeNamesMap
-	 */
-	protected void verifyItem(JRVerifier verifier, Item item, String itemName, String[] requiredNames, Map<String, String> alternativeNamesMap)
-	{
-		if(requiredNames != null && requiredNames.length > 0){
-			List<ItemProperty> itemProperties = item.getProperties();
-			if (itemProperties != null && !itemProperties.isEmpty())
-			{
-				for (String reqName :requiredNames)
-				{
-					boolean hasProperty = false;
-					for(ItemProperty itemProperty : itemProperties) {
-						if (itemProperty.getName().equals(reqName)
-							|| (alternativeNamesMap != null && itemProperty.getName().equals(alternativeNamesMap.get(reqName)))) {
-							hasProperty = true;
-							break;
-						}
-					}
-					if(!hasProperty) 
-					{
-						verifier.addBrokenRule("No '" + reqName + "' property set for the " + itemName + " item.", itemProperties);
-					}
-				}
+				ItemCompiler.verifyItemData(verifier, pathData, MapComponent.ELEMENT_PATH_DATA, reqNames, addressMap);
 			}
 		}
 	}

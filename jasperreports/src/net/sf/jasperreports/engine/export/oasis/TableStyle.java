@@ -23,9 +23,11 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
+import java.awt.Color;
 import java.io.IOException;
 
 import net.sf.jasperreports.engine.export.LengthUtil;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
@@ -40,17 +42,19 @@ public class TableStyle extends Style
 	private int pageFormatIndex;
 	private boolean isFrame;
 	private boolean isPageBreak;
+	private Color tabColor;
 
 	/**
 	 *
 	 */
-	public TableStyle(WriterHelper styleWriter, int width, int pageFormatIndex, boolean isFrame, boolean isPageBreak)
+	public TableStyle(WriterHelper styleWriter, int width, int pageFormatIndex, boolean isFrame, boolean isPageBreak, Color tabColor)
 	{
 		super(styleWriter);
 		this.width = width;
 		this.pageFormatIndex = pageFormatIndex;
 		this.isFrame = isFrame;
 		this.isPageBreak = isPageBreak;
+		this.tabColor = tabColor;
 	}
 	
 	/**
@@ -59,7 +63,7 @@ public class TableStyle extends Style
 	@Override
 	public String getId()
 	{
-		return "" + width + "|" + pageFormatIndex + "|" + isFrame + "|" + isPageBreak; 
+		return "" + width + "|" + pageFormatIndex + "|" + isFrame + "|" + isPageBreak + "|" + tabColor; 
 	}
 
 	/**
@@ -79,6 +83,10 @@ public class TableStyle extends Style
 		if (isPageBreak)
 		{
 			styleWriter.write(" fo:break-before=\"page\"");
+		}
+		if(tabColor != null)
+		{
+			styleWriter.write(" tableooo:tab-color=\"#" + JRColorUtil.getColorHexa(tabColor) + "\"");
 		}
 //		FIXMEODT
 //		if (tableWidth != null)

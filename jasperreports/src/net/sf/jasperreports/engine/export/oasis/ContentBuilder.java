@@ -152,6 +152,7 @@ public class ContentBuilder
 		writer.write(" xmlns:ooo=\"http://openoffice.org/2004/office\"");
 		writer.write(" xmlns:ooow=\"http://openoffice.org/2004/writer\"");
 		writer.write(" xmlns:oooc=\"http://openoffice.org/2004/calc\"");
+		writer.write(" xmlns:tableooo=\"http://openoffice.org/2009/table\"");
 		writer.write(" xmlns:dom=\"http://www.w3.org/2001/xml-events\"");
 		writer.write(" xmlns:xforms=\"http://www.w3.org/2002/xforms\"");
 		writer.write(" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"");

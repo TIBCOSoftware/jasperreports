@@ -401,6 +401,11 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 		sheet.setDisplayGridlines(showGridlines);
 		
+		backgroundMode = Boolean.TRUE.equals(sheetInfo.whitePageBackground) 
+				? HSSFCellStyle.SOLID_FOREGROUND 
+				: HSSFCellStyle.NO_FILL;
+		
+		
 		maxRowFreezeIndex = 0;
 		maxColumnFreezeIndex = 0;
 
@@ -635,7 +640,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 			short mode = backgroundMode;
 			short backcolor = whiteIndex;
-			if (!getCurrentItemConfiguration().isIgnoreCellBackground() && line.getBackcolor() != null) {
+			if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && line.getBackcolor() != null) {
 				mode = HSSFCellStyle.SOLID_FOREGROUND;
 				backcolor = getWorkbookColor(line.getBackcolor()).getIndex();
 			}
@@ -671,7 +676,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 			short mode = backgroundMode;
 			short backcolor = whiteIndex;
-			if (!getCurrentItemConfiguration().isIgnoreCellBackground() && element.getBackcolor() != null) {
+			if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && element.getBackcolor() != null) {
 				mode = HSSFCellStyle.SOLID_FOREGROUND;
 				backcolor = getWorkbookColor(element.getBackcolor()).getIndex();
 			}
@@ -716,7 +721,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 			short mode = backgroundMode;
 			short backcolor = whiteIndex;
-			if (!configuration.isIgnoreCellBackground() && textElement.getBackcolor() != null) {
+			if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && textElement.getBackcolor() != null) {
 				mode = HSSFCellStyle.SOLID_FOREGROUND;
 				backcolor = getWorkbookColor(textElement.getBackcolor()).getIndex();
 			}
@@ -1229,7 +1234,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				
 				short mode = backgroundMode;
 				short backcolor = whiteIndex;
-				if (!configuration.isIgnoreCellBackground() && element.getBackcolor() != null) {
+				if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && element.getBackcolor() != null) {
 					mode = HSSFCellStyle.SOLID_FOREGROUND;
 					backcolor = getWorkbookColor(element.getBackcolor()).getIndex();
 				}
@@ -1338,7 +1343,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				cellStyle.setDataFormat(style.getDataFormat());
 			}
 
-			if (!getCurrentItemConfiguration().isIgnoreCellBorder() && style.box != null) {
+			if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBorder) && style.box != null) {
 				BoxStyle box = style.box;
 				cellStyle.setBorderTop(box.borderStyle[BoxStyle.TOP]);
 				cellStyle.setTopBorderColor(box.borderColour[BoxStyle.TOP]);

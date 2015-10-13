@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRReportCompileData;
+import net.sf.jasperreports.engine.export.JRPdfExporterTagHelper;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillComponentElement;
 import net.sf.jasperreports.engine.fill.JRFillContext;
@@ -447,6 +448,10 @@ public class FillTable extends BaseFillComponent
 		printFrame.setY(fillContext.getElementPrintY());
 		printFrame.setWidth(fillWidth + lineBox.getLeftPadding() + lineBox.getRightPadding());
 		printFrame.setHeight(fillSubreport.getContentsStretchHeight() + lineBox.getTopPadding() + lineBox.getBottomPadding());
+		if (fillSubreport.getTableReport().getBaseReport().isGeneratePdfTags())
+		{
+			printFrame.getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TABLE, JRPdfExporterTagHelper.TAG_FULL);
+		}
 		
 		List<JRStyle> styles = fillSubreport.getSubreportStyles();
 		for (Iterator<JRStyle> it = styles.iterator(); it.hasNext();)

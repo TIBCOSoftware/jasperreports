@@ -21,17 +21,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map;
+package net.sf.jasperreports.components.items;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.jasperreports.components.items.Item;
-import net.sf.jasperreports.components.items.ItemData;
-import net.sf.jasperreports.components.items.ItemProperty;
-import net.sf.jasperreports.components.items.StandardItemProperty;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -43,7 +39,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link net.sf.jasperreports.components.items.StandardItemData}.
  */
 public class StandardItemData implements Serializable, ItemData, JRChangeEventsSupport
 {//FIXMEMAP implement clone?
@@ -102,7 +97,7 @@ public class StandardItemData implements Serializable, ItemData, JRChangeEventsS
 	}
 
 	public void collectExpressions(JRExpressionCollector collector) {
-		MapCompiler.collectExpressions(this, collector);
+		ItemCompiler.collectExpressions(this, collector);
 	}
 
 	@Override

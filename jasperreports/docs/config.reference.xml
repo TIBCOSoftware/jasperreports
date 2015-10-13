@@ -154,6 +154,7 @@
   		<property ref="net.sf.jasperreports.components.sort.up.arrow.char" />
   		<property ref="net.sf.jasperreports.components.sort.down.arrow.char" />
   		<property ref="net.sf.jasperreports.components.filter.char" />
+  		<property ref="net.sf.jasperreports.components.table.generate.pdf.tags" />
   		<property ref="net.sf.jasperreports.components.table.interactive" />
   		<property ref="net.sf.jasperreports.components.table.column.field" />
   		<property ref="net.sf.jasperreports.components.table.column.variable" />
@@ -352,6 +353,7 @@
       <property ref="net.sf.jasperreports.export.xls.sheet.header.right"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.name"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
+      <property ref="net.sf.jasperreports.export.xls.sheet.tab.color"/>
       
       <property ref="net.sf.jasperreports.export.xls.show.gridlines"/>
       <property ref="net.sf.jasperreports.export.xls.shrink.to.fit"/>
@@ -1950,6 +1952,20 @@ Property that specifies the character to be used on the column header when the t
     <default>\u2606</default>
     <scope>Global</scope>
     <since>4.6.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.table.generate.pdf.tags -->
+  
+    <configProperty name="net.sf.jasperreports.components.table.generate.pdf.tags">
+    <description>
+Property that enables/disables the automatic addition of specific custom properties to table cell elements, 
+that would in turn trigger the creation of special document accessibility tags during PDF export.
+    </description>
+    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_GENERATE_TABLE_PDF_TAGS</api>
+    <default>false</default>
+    <scope>Global | Report | Component</scope>
+    <since>6.1.2</since>
   </configProperty>
   
   
@@ -4200,14 +4216,17 @@ Otherwise they will be exported along with elements they belong to.
   
   <configProperty name="net.sf.jasperreports.export.xls.ignore.cell.background">
     <description>
-Property that specifies whether cell background color should be ignored.
+Property that specifies whether cell background color should be ignored in the generated document.
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isIgnoreCellBackground()">isIgnoreCellBackground()</api> Excel export configuration setting.
+<br/>
+If the property is set at element level, its value will be applied only to the sheet containing that element. 
+Other sheets in the document will not be affected.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_IGNORE_CELL_BACKGROUND</api>
     <default>false</default>
-    <scope>Global | Report</scope>
+    <scope>Global | Report | Element (since 6.2.0)</scope>
     <since>3.6.2</since>
   </configProperty>
   
@@ -4216,14 +4235,17 @@ Its value is used as default for the
   
   <configProperty name="net.sf.jasperreports.export.xls.ignore.cell.border">
     <description>
-Property that specifies whether cell borders should be ignored.
+Property that specifies whether cell borders should be ignored in the generated document.
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isIgnoreCellBorder()">isIgnoreCellBorder()</api> Excel export configuration setting.
+<br/>
+If the property is set at element level, its value will be applied only to the sheet containing that element. 
+Other sheets in the document will not be affected.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_IGNORE_CELL_BORDER</api>
     <default>false</default>
-    <scope>Global | Report</scope>
+    <scope>Global | Report | Element (since 6.2.0)</scope>
     <since>2.0.1</since>
   </configProperty>
   
@@ -4392,10 +4414,13 @@ Property that specifies whether the page background should be white or the defau
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isWhitePageBackground()">isWhitePageBackground()</api> Excel export configuration setting.
+<br/>
+If the property is set at element level, its value will be applied only to the sheet containing that element. 
+Other sheets in the document will not be affected.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_WHITE_PAGE_BACKGROUND</api>
     <default>true</default>
-    <scope>Global | Report</scope>
+    <scope>Global | Report | Element (since 6.2.0)</scope>
     <since>2.0.1</since>
   </configProperty>
   
@@ -4938,6 +4963,30 @@ These properties are by default not set.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.xls.sheet.tab.color -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.tab.color">
+    <description>
+Property whose value is used to set the tab color of a given sheet in XLSX and ODS output formats. 
+When set at report level, all sheets in the document will have their tabs colored the same way. 
+When set at report element level and multiple elements in a sheet provide this property, 
+the last read value will be considered.
+<br/>
+Its value usually can be expressed as #-prefixed CSS color.
+<br/>
+Report-level settings are overriden by element-level settings for this property. 
+If several elements in a sheet contain this property, the engine will consider the value of the 
+last exported element's property.
+<br/>
+<b>Note: </b>This property is not supported by the XLS output format.
+	</description>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_TAB_COLOR</api>
+    <default>N/A</default>
+    <scope>Global | Report | Element</scope>
+    <since>6.2.0</since>
+  </configProperty>
+  
+
   <!-- net.sf.jasperreports.export.xls.show.gridlines -->
   
   <configProperty name="net.sf.jasperreports.export.xls.show.gridlines">

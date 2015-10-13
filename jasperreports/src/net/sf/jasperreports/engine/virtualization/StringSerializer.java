@@ -26,12 +26,16 @@ package net.sf.jasperreports.engine.virtualization;
 import java.io.IOException;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.export.PropertiesExporterConfigurationFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 public class StringSerializer implements ObjectSerializer<String>
 {
+	public static final String EXCEPTION_MESSAGE_KEY_CHUNK_UNEXPECTED_LENGTH = "virtualization.chunk.unexpected.length";
+	public static final String EXCEPTION_MESSAGE_KEY_CHUNK_UNEXPECTED_LENGTH_REMAINING = "virtualization.chunk.unexpected.length.remaining";
+
 	// smaller than 65535/3, see writeUTF
 	private static final int CHUNK_SIZE = 20000;
 	
@@ -89,14 +93,20 @@ public class StringSerializer implements ObjectSerializer<String>
 		// should be of exact max chunk size
 		if (chunkLength != CHUNK_SIZE)
 		{
-			throw new JRRuntimeException("Read string chunk of unexpected length " + chunkLength);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CHUNK_UNEXPECTED_LENGTH, 
+					new Object[]{chunkLength});
 		}
 		
 		// we have several chunks, read the length
 		int length = in.readInt();
 		if (length < CHUNK_SIZE) 
 		{
-			throw new JRRuntimeException("Read unexpected string chunk length " + length);
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CHUNK_UNEXPECTED_LENGTH, 
+					new Object[]{length});
 		}
 		
 		//FIXME check against an upper limit to prevent memory being allocated when the data is corrupted?
@@ -114,14 +124,19 @@ public class StringSerializer implements ObjectSerializer<String>
 				// we should be on the last chunk
 				if (chunkLength != remaining)
 				{
-					throw new JRRuntimeException("Read string chunk of unexpected length " + chunkLength
-							+ ", was expecting " + remaining);
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_CHUNK_UNEXPECTED_LENGTH_REMAINING, 
+							new Object[]{chunkLength, remaining});
 				}
 			}
 			else if (chunkLength != CHUNK_SIZE)
 			{
 				// should be of exact max chunk size
-				throw new JRRuntimeException("Read string chunk of unexpected length " + chunkLength);
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_CHUNK_UNEXPECTED_LENGTH, 
+						new Object[]{chunkLength});
 			}
 			
 			chunk.getChars(0, chunkLength, chars, length - remaining);

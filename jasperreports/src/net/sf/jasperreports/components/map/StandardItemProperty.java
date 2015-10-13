@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.map;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -33,6 +34,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link net.sf.jasperreports.components.items.StandardItemProperty}.
  */
 public class StandardItemProperty implements ItemProperty, JRChangeEventsSupport, Serializable
 {

@@ -41,6 +41,8 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  */
 public class PropertiesExporterConfigurationFactory<C extends CommonExportConfiguration>
 {
+	public static final String EXCEPTION_MESSAGE_KEY_EXPORT_PROPERTIES_TYPE_NOT_SUPPORTED = "export.common.properties.type.not.supported";
+
 //	/**
 //	 * 
 //	 */
@@ -224,7 +226,10 @@ public class PropertiesExporterConfigurationFactory<C extends CommonExportConfig
 			}
 			else
 			{
-				throw new JRRuntimeException("Export property type " + type + " not supported.");
+				throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_EXPORT_PROPERTIES_TYPE_NOT_SUPPORTED, 
+					new Object[]{type});
 			}
 		}
 		

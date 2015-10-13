@@ -65,6 +65,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	private static final Log log = LogFactory.getLog(JRHibernateQueryExecuter.class);
 	
 	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_QUERY_RUN_TYPE = "query.hibernate.unknown.query.run.type";
+	public static final String EXCEPTION_MESSAGE_KEY_UNRESOLVED_TYPE_CONSTANT = "query.hibernate.unresolved.type.constant";
 
 	protected static final String CANONICAL_LANGUAGE = "HQL";
 	
@@ -112,8 +113,10 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 			if (!Modifier.isStatic(constant.getModifiers())
 					|| !Type.class.isAssignableFrom(constant.getType()))
 			{
-				throw new JRRuntimeException("Could not resolve Hibernate type constant " + name
-						+ " in class " + typeConstantsClass.getName());
+				throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_UNRESOLVED_TYPE_CONSTANT,
+					new Object[]{name, typeConstantsClass.getName()});
 			}
 			Type type = (Type) constant.get(null);
 			return type;

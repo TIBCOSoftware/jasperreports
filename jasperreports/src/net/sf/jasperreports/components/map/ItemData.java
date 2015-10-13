@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRElementDataset;
 /**
  * The ItemData interface
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link net.sf.jasperreports.components.items.ItemData}.
  */
 public interface ItemData extends JRCloneable
 {

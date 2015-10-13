@@ -29,6 +29,7 @@
 
 package net.sf.jasperreports.engine.export;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -67,6 +68,7 @@ import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -540,8 +542,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 * It is very useful especially when displaying each report's group on a separate sheet is intended. 
 	 */
 	public static final String PROPERTY_BREAK_AFTER_ROW = XLS_EXPORTER_PROPERTIES_PREFIX + "break.after.row";
-
 	
+
 	protected static class TextAlignHolder
 	{
 		public final HorizontalTextAlignEnum horizontalAlignment;
@@ -622,13 +624,17 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	
 	protected SheetInfo sheetInfo;
 	
-	protected static class SheetInfo
+	public static class SheetInfo
 	{
 		public Integer sheetFirstPageIndex;
 		public String sheetName;
 		public Integer sheetFirstPageNumber;		
 		public Integer sheetPageScale;		
 		public Boolean sheetShowGridlines;
+		public Color tabColor;
+		public Boolean ignoreCellBorder;
+		public Boolean ignoreCellBackground;
+		public Boolean whitePageBackground;
 	}
 
 	/**
@@ -1141,6 +1147,10 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		int maxRowsPerSheet = getMaxRowsPerSheet();
 		boolean isRemoveEmptySpaceBetweenRows = configuration.isRemoveEmptySpaceBetweenRows();
 		boolean isCollapseRowSpan = configuration.isCollapseRowSpan();
+		sheetInfo.tabColor = configuration.getSheetTabColor();
+		sheetInfo.ignoreCellBackground = configuration.isIgnoreCellBackground();
+		sheetInfo.whitePageBackground = configuration.isWhitePageBackground();
+		sheetInfo.ignoreCellBorder = configuration.isIgnoreCellBorder();
 		
 		int skippedRows = 0;
 		int rowIndex = 0;
@@ -1172,6 +1182,13 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 					sheetInfo.sheetName = sheetName;
 				}
 
+				String color = (String)yCut.getProperty(XlsReportConfiguration.PROPERTY_SHEET_TAB_COLOR);
+				Color tabColor = JRColorUtil.getColor(color, null);
+				if (tabColor != null)
+				{
+					sheetInfo.tabColor = tabColor;
+				}
+
 				Integer firstPageNumber = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_FIRST_PAGE_NUMBER);
 				if (firstPageNumber != null)
 				{
@@ -1181,6 +1198,24 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				if (showGridlines != null)
 				{
 					sheetInfo.sheetShowGridlines = showGridlines;
+				}
+				
+				Boolean ignoreCellBackground = (Boolean)yCut.getProperty(XlsReportConfiguration.PROPERTY_IGNORE_CELL_BACKGROUND);
+				if (ignoreCellBackground != null)
+				{
+					sheetInfo.ignoreCellBackground = ignoreCellBackground;
+				}
+				
+				Boolean ignoreCellBorder = (Boolean)yCut.getProperty(XlsReportConfiguration.PROPERTY_IGNORE_CELL_BORDER);
+				if (ignoreCellBorder != null)
+				{
+					sheetInfo.ignoreCellBorder = ignoreCellBorder;
+				}
+				
+				Boolean whitePageBackground = (Boolean)yCut.getProperty(XlsReportConfiguration.PROPERTY_WHITE_PAGE_BACKGROUND);
+				if (whitePageBackground != null)
+				{
+					sheetInfo.whitePageBackground = whitePageBackground;
 				}
 
 				Integer pageScale = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PAGE_SCALE);

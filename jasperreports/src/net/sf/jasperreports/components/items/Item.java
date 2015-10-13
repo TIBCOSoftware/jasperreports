@@ -21,20 +21,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map;
+package net.sf.jasperreports.components.items;
 
-import net.sf.jasperreports.components.items.StandardItemData;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import java.util.List;
 
-import org.xml.sax.Attributes;
+import net.sf.jasperreports.engine.JRCloneable;
 
 /**
+ * The Item interface. Provides a collection of item properties.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class ItemDataXmlFactory extends JRBaseFactory
+public interface Item extends JRCloneable 
 {
-	public Object createObject(Attributes attrs) throws Exception
-	{
-		return new StandardItemData();
-	}
+
+	/**
+	 * Returns a list of {@link ItemProperty ItemProperty} objects. 
+	 * Each item property provides a name-value pair.
+	 * 
+	 * @return a list of item properties
+	 * @see ItemProperty
+	 */
+	public List<ItemProperty> getProperties();
+
 }

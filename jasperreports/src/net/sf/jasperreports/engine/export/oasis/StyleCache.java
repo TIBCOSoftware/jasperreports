@@ -106,9 +106,9 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public String getTableStyle(int width, int pageFormatIndex, boolean isFrame, boolean isPageBreak) throws IOException 
+	public String getTableStyle(int width, int pageFormatIndex, boolean isFrame, boolean isPageBreak, Color tabColor) throws IOException 
 	{
-		TableStyle tableStyle  = new TableStyle(styleWriter, width, pageFormatIndex, isFrame, isPageBreak);
+		TableStyle tableStyle  = new TableStyle(styleWriter, width, pageFormatIndex, isFrame, isPageBreak, tabColor);
 		
 		String tableStyleId = tableStyle.getId();
 		String tableStyleName = tableStyles.get(tableStyleId);

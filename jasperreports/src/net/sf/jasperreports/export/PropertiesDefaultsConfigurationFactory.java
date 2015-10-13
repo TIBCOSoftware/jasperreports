@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.export;
 
+import java.awt.Color;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -35,6 +36,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.NamedEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 import org.apache.commons.lang.ClassUtils;
@@ -45,6 +47,7 @@ import org.apache.commons.lang.ClassUtils;
  */
 public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfiguration>
 {
+	
 	/**
 	 * 
 	 */
@@ -236,6 +239,26 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 					value = JRPropertiesUtil.asBoolean(strValue);
 				}
 			}
+			else if (Color.class.equals(type))
+			{
+				if (strValue == null)
+				{
+					if (exporterProperty.acceptNull())
+					{
+						value = null;
+					}
+					else 
+					{
+						// java.awt.Color type cannot be set in ExporterProperty interface for default values;
+						// this will be set here
+						value = JRColorUtil.getColor(exporterProperty.colorDefault(), null);
+					}
+				}
+				else
+				{
+					value = JRColorUtil.getColor(strValue, null);
+				}
+			}
 			else if (NamedEnum.class.isAssignableFrom(type))
 			{
 				if (strValue != null)
@@ -261,7 +284,10 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 			}
 			else
 			{
-				throw new JRRuntimeException("Export property type " + type + " not supported.");
+				throw 
+					new JRRuntimeException(
+						PropertiesExporterConfigurationFactory.EXCEPTION_MESSAGE_KEY_EXPORT_PROPERTIES_TYPE_NOT_SUPPORTED, 
+						new Object[]{type});
 			}
 		}
 		

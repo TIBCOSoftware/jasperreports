@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.JRField;
  * Hibernate, or JDO. Such applications may need to generate reports using data they
  * already have available as arrays or collections of in-memory JavaBean objects.
  * </p><p>
- * This JavaBean-compliant data source cand be used when data comes in an array 
+ * This JavaBean-compliant data source can be used when data comes in an array 
  * of JavaBean objects.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)

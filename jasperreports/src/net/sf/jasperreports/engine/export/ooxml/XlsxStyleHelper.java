@@ -32,6 +32,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.export.XlsReportConfiguration;
@@ -57,8 +58,6 @@ public class XlsxStyleHelper extends BaseHelper
 	private XlsxFontHelper fontHelper;
 	private XlsxBorderHelper borderHelper;
 	
-	private XlsReportConfiguration configuration;
-	
 	/**
 	 * 
 	 */
@@ -81,9 +80,7 @@ public class XlsxStyleHelper extends BaseHelper
 	 */
 	public void setConfiguration(XlsReportConfiguration configuration)
 	{
-		this.configuration = configuration;
 		fontHelper.setConfiguration(configuration);
-		borderHelper.setConfiguration(configuration);
 	}
 	
 
@@ -99,27 +96,29 @@ public class XlsxStyleHelper extends BaseHelper
 		boolean isLocked,
 		boolean  isShrinkToFit,
 		boolean isIgnoreTextFormatting,
-		RotationEnum rotation
+		RotationEnum rotation,
+		JRXlsAbstractExporter.SheetInfo sheetInfo
 		)
 	{
 		XlsxStyleInfo styleInfo = 
 			new XlsxStyleInfo(
 				formatHelper.getFormat(pattern) + 1,
 				fontHelper.getFont(gridCell, locale) + 1,
-				borderHelper.getBorder(gridCell) + 1,
+				borderHelper.getBorder(gridCell, sheetInfo) + 1,
 				gridCell,
 				isWrapText,
 				isHidden,
 				isLocked,
 				isShrinkToFit,
 				isIgnoreTextFormatting, 
-				getRotation(rotation)
+				getRotation(rotation),
+				sheetInfo
 				);
 		Integer styleIndex = styleCache.get(styleInfo.getId());
 		if (styleIndex == null)
 		{
 			styleIndex = Integer.valueOf(styleCache.size() + 1);
-			exportCellStyle(gridCell, styleInfo, styleIndex);
+			exportCellStyle(gridCell, styleInfo, styleIndex, sheetInfo);
 			styleCache.put(styleInfo.getId(), styleIndex);
 		}
 		return styleIndex.intValue();
@@ -128,13 +127,17 @@ public class XlsxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	private void exportCellStyle(JRExporterGridCell gridCell, XlsxStyleInfo styleInfo, Integer styleIndex)
+	private void exportCellStyle(
+			JRExporterGridCell gridCell, 
+			XlsxStyleInfo styleInfo, 
+			Integer styleIndex, 
+			JRXlsAbstractExporter.SheetInfo sheetInfo)
 	{
 		try
 		{
-			if (configuration.isIgnoreCellBackground() || styleInfo.backcolor == null)
+			if (Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) || styleInfo.backcolor == null)
 			{
-				if (configuration.isWhitePageBackground())
+				if (Boolean.TRUE.equals(sheetInfo.whitePageBackground))
 				{
 					fillsWriter.write("<fill><patternFill patternType=\"solid\"><fgColor rgb=\"FFFFFF\"/></patternFill></fill>\n");
 				}
@@ -242,7 +245,5 @@ public class XlsxStyleHelper extends BaseHelper
 
 		return result;
 	}
-
-
 	
 }

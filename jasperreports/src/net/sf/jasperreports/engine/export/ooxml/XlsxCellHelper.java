@@ -84,10 +84,25 @@ public class XlsxCellHelper extends BaseHelper
 		JRExporterGridCell gridCell,
 		int rowIndex,
 		int colIndex, 
-		int maxColIndex 
+		int maxColIndex,
+		JRXlsAbstractExporter.SheetInfo sheetInfo
 		) 
 	{
-		exportHeader(gridCell, rowIndex, colIndex, maxColIndex, null, null, null, true, false, false, false, false, RotationEnum.NONE);
+		exportHeader(
+				gridCell,
+				rowIndex, 
+				colIndex, 
+				maxColIndex, 
+				null, 
+				null, 
+				null, 
+				true, 
+				false, 
+				false, 
+				false, 
+				false, 
+				RotationEnum.NONE, 
+				sheetInfo);
 	}
 
 	/**
@@ -106,7 +121,8 @@ public class XlsxCellHelper extends BaseHelper
 		boolean isLocked,
 		boolean isShrinkToFit,
 		boolean isIgnoreTextFormatting, 
-		RotationEnum rotation
+		RotationEnum rotation,
+		JRXlsAbstractExporter.SheetInfo sheetInfo
 		) 
 	{
 		try
@@ -138,7 +154,8 @@ public class XlsxCellHelper extends BaseHelper
 						isLocked, 
 						isShrinkToFit, 
 						isIgnoreTextFormatting,
-						rotation) 
+						rotation,
+						sheetInfo) 
 				+ "\"");
 		String type = textValueHandler.getType();
 		if (type != null)

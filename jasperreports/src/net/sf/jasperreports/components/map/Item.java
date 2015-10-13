@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRCloneable;
  * The Item interface. Provides a collection of item properties.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link net.sf.jasperreports.components.items.Item}.
  */
 public interface Item extends JRCloneable 
 {

@@ -26,9 +26,9 @@ package net.sf.jasperreports.engine.export.ooxml;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRTextAlignment;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -53,6 +53,9 @@ public class XlsxStyleInfo
 	protected boolean isShrinkToFit;
 	protected boolean isIgnoreTextFormatting;
 	protected int rotation;
+	protected boolean whitePageBackground;
+	protected boolean ignoreCellBackground;
+	protected boolean ignoreCellBorder;
 
 	/**
 	 *
@@ -67,7 +70,8 @@ public class XlsxStyleInfo
 		boolean isLocked,
 		boolean isShrinkToFit,
 		boolean isIgnoreTextFormatting,
-		int rotation
+		int rotation,
+		JRXlsAbstractExporter.SheetInfo sheetInfo
 		)
 	{
 		this.formatIndex = formatIndex;
@@ -100,6 +104,18 @@ public class XlsxStyleInfo
 		this.isLocked = isLocked;
 		this.isShrinkToFit = isShrinkToFit;
 		this.rotation = rotation;
+		if(sheetInfo.whitePageBackground != null)
+		{
+			this.whitePageBackground = sheetInfo.whitePageBackground;
+		}
+		if(sheetInfo.ignoreCellBackground != null)
+		{
+			this.ignoreCellBackground = sheetInfo.ignoreCellBackground;
+		}
+		if(sheetInfo.ignoreCellBorder != null)
+		{
+			this.ignoreCellBorder = sheetInfo.ignoreCellBorder;
+		}
 	}
 	
 	protected String getHorizontalAlignment(HorizontalTextAlignEnum hAlign, VerticalTextAlignEnum vAlign, int rotation)
@@ -150,6 +166,7 @@ public class XlsxStyleInfo
 	{
 		return 
 		formatIndex + "|" + fontIndex + "|" + borderIndex + "|" + backcolor + "|" + horizontalAlign + "|" + verticalAlign 
-		+ "|" + isWrapText + "|" + isHidden + "|" + isLocked + "|" + isShrinkToFit + "|" + rotation;
+		+ "|" + isWrapText + "|" + isHidden + "|" + isLocked + "|" + isShrinkToFit + "|" + rotation + "|" + whitePageBackground 
+		+ "|" + ignoreCellBackground + "|" + ignoreCellBorder;
 	}
 }

@@ -299,7 +299,10 @@ public class ParametersExporterConfigurationFactory<C extends CommonExportConfig
 				}
 				else
 				{
-					throw new JRRuntimeException("Export property type " + type + " not supported.");
+					throw 
+					new JRRuntimeException(
+						PropertiesExporterConfigurationFactory.EXCEPTION_MESSAGE_KEY_EXPORT_PROPERTIES_TYPE_NOT_SUPPORTED, 
+						new Object[]{type});
 				}
 			}
 		}
