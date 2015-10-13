@@ -829,7 +829,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(
 		value=PROPERTY_FIT_WIDTH, 
-		acceptNull=true
+		nullDefault=true
 		)
 	public Integer getFitWidth();
 	
@@ -839,7 +839,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(
 		value=PROPERTY_FIT_HEIGHT, 
-		acceptNull=true
+		nullDefault=true
 		)
 	public Integer getFitHeight();
 	
@@ -851,7 +851,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(
 		value=PROPERTY_PAGE_SCALE, 
-		acceptNull=true
+		nullDefault=true
 		)
 	public Integer getPageScale();
 
@@ -878,7 +878,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(
 		value=PROPERTY_COLUMN_WIDTH_RATIO,
-		acceptNull=true
+		nullDefault=true
 		)
 	public Float getColumnWidthRatio();
 	
@@ -908,7 +908,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(
 		value=PROPERTY_FIRST_PAGE_NUMBER,
-		acceptNull=true
+		nullDefault=true
 		)
 	public Integer getFirstPageNumber();
 	
@@ -986,9 +986,9 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * @see #PROPERTY_SHEET_TAB_COLOR
 	 */
 	@ExporterProperty(
-			value=PROPERTY_SHEET_TAB_COLOR, 
-			acceptNull=true
-			)
+		value=PROPERTY_SHEET_TAB_COLOR, 
+		stringDefault="orange"
+		)
 	public Color getSheetTabColor();
 	
 	/**
@@ -997,9 +997,9 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * @see #PROPERTY_FREEZE_ROW
 	 */
 	@ExporterProperty(
-			value=PROPERTY_FREEZE_ROW, 
-			acceptNull=true
-			)
+		value=PROPERTY_FREEZE_ROW, 
+		nullDefault=true
+		)
 	public Integer getFreezeRow();
 	
 	/**
@@ -1009,7 +1009,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(
 		value=PROPERTY_FREEZE_COLUMN, 
-		acceptNull=true
+		nullDefault=true
 		)
 	public String getFreezeColumn();
 	
