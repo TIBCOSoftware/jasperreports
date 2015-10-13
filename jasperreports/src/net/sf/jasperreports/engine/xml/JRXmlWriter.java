@@ -3028,6 +3028,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRCrosstabRowGroupFactory.ATTRIBUTE_width, group.getWidth());
 		writer.addAttribute(JRCrosstabGroupFactory.ATTRIBUTE_totalPosition, group.getTotalPositionValue(), CrosstabTotalPositionEnum.NONE);
 		writer.addAttribute(JRCrosstabRowGroupFactory.ATTRIBUTE_headerPosition, group.getPositionValue(), CrosstabRowPositionEnum.TOP);
+		writer.addAttribute(JRCrosstabGroupFactory.ATTRIBUTE_mergeHeaderCells, group.getMergeHeaderCells());
 
 		writeBucket(group.getBucket());
 
@@ -3052,6 +3053,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRCrosstabColumnGroupFactory.ATTRIBUTE_height, group.getHeight());
 		writer.addAttribute(JRCrosstabGroupFactory.ATTRIBUTE_totalPosition, group.getTotalPositionValue(), CrosstabTotalPositionEnum.NONE);
 		writer.addAttribute(JRCrosstabColumnGroupFactory.ATTRIBUTE_headerPosition, group.getPositionValue(), CrosstabColumnPositionEnum.LEFT);
+		writer.addAttribute(JRCrosstabGroupFactory.ATTRIBUTE_mergeHeaderCells, group.getMergeHeaderCells());
 
 		writeBucket(group.getBucket());
 

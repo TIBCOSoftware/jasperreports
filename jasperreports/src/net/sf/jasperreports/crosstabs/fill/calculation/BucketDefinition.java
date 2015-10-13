@@ -76,7 +76,9 @@ public class BucketDefinition
 	protected final Comparator<Object> bucketValueComparator;
 
 	protected final BucketOrderer orderer;
+	//FIXME totalPosition and mergeHeaderCells only apply to crosstabs
 	private final CrosstabTotalPositionEnum totalPosition;
+	private boolean mergeHeaderCells;
 
 	private final BucketOrder order;
 	
@@ -226,6 +228,16 @@ public class BucketDefinition
 	public BucketOrder getOrder()
 	{
 		return order;
+	}
+
+	public boolean isMergeHeaderCells()
+	{
+		return mergeHeaderCells;
+	}
+
+	public void setMergeHeaderCells(boolean mergeHeaderCells)
+	{
+		this.mergeHeaderCells = mergeHeaderCells;
 	}
 
 
