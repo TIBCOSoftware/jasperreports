@@ -83,7 +83,14 @@ public class XlsxSheetHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportHeader(boolean showGridlines, int scale, int rowFreeze, int columnFreeze, JasperPrint jasperPrint, Color tabColor)
+	public void exportHeader(
+			boolean showGridlines, 
+			int scale, 
+			int rowFreezeIndex, 
+			int columnFreezeIndex, 
+			int maxColumnFreezeIndex, 
+			JasperPrint jasperPrint, 
+			Color tabColor)
 	{
 		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		write("<worksheet\n");
@@ -117,18 +124,18 @@ public class XlsxSheetHelper extends BaseHelper
 			write(" showGridLines=\"0\"");
 		}
 		
-		if(rowFreeze > 0 || columnFreeze > 0)
+		if(rowFreezeIndex > 0 || columnFreezeIndex > 0)
 		{
-			write(">\n<pane" + (columnFreeze > 0 ? (" xSplit=\"" + columnFreeze + "\"") : "") + (rowFreeze > 0 ? (" ySplit=\"" + rowFreeze + "\"") : ""));
-			String columnName = propertiesUtil.getProperty(jasperPrint, XlsReportConfiguration.PROPERTY_FREEZE_COLUMN) == null 
+			write(">\n<pane" + (columnFreezeIndex > 0 ? (" xSplit=\"" + columnFreezeIndex + "\"") : "") + (rowFreezeIndex > 0 ? (" ySplit=\"" + rowFreezeIndex + "\"") : ""));
+			String columnFreezeName = columnFreezeIndex < 0 
 					? "A" 
-							: propertiesUtil.getProperty(jasperPrint, XlsReportConfiguration.PROPERTY_FREEZE_COLUMN);
-			write(" topLeftCell=\"" + columnName + (rowFreeze + 1) + "\"");
-			String activePane = (rowFreeze > 0 ? "bottom" : "top") + (columnFreeze > 0 ? "Right" : "Left");
+					: JRXlsAbstractExporter.getColumIndexName(columnFreezeIndex, maxColumnFreezeIndex);
+			write(" topLeftCell=\"" + columnFreezeName + (rowFreezeIndex + 1) + "\"");
+			String activePane = (rowFreezeIndex > 0 ? "bottom" : "top") + (columnFreezeIndex > 0 ? "Right" : "Left");
 			write(" activePane=\"" + activePane + "\" state=\"frozen\"/>\n");
 			write("<selection pane=\"" + activePane + "\"");
-			write(" activeCell=\"" + columnName + (rowFreeze + 1) + "\"");
-			write(" sqref=\"" + columnName + (rowFreeze + 1) + "\"");
+			write(" activeCell=\"" + columnFreezeName + (rowFreezeIndex + 1) + "\"");
+			write(" sqref=\"" + columnFreezeName + (rowFreezeIndex + 1) + "\"");
 			write("/>\n");
 			write("</sheetView>\n</sheetViews>\n");
 		}

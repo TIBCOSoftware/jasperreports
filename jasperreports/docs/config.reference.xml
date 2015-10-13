@@ -4529,11 +4529,15 @@ Allowed values are:
 <code>Right</code> - the current column is the last 'frozen' column in the sheet. All columns to the right are unlocked.
 </li>
 </ul>
+If several elements in a sheet contain this property, the freeze pane edge will pick its value from the element 
+with maximum column index.
+<br/>
 The property is available for: 
 <ul>
 <li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
 <li><api href="net/sf/jasperreports/engine/export/JExcelApiExporter.html">JExcelApiExporter</api></li>
 <li><api href="net/sf/jasperreports/engine/export/JExcelApiMetadataExporter.html">JExcelApiMetadataExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api> (since 6.2.0)</li>
 </ul>
     </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_COLUMN_EDGE</api>
@@ -4581,11 +4585,15 @@ Allowed values are:
 <code>Bottom</code> - the current row is the last 'frozen' row in the sheet. All rows below are unlocked.
 </li>
 </ul>
+If several elements in a sheet contain this property, the freeze pane edge will pick its value from the element 
+with maximum row index.
+<br/>
 The property is available for: 
 <ul>
 <li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
 <li><api href="net/sf/jasperreports/engine/export/JExcelApiExporter.html">JExcelApiExporter</api></li>
 <li><api href="net/sf/jasperreports/engine/export/JExcelApiMetadataExporter.html">JExcelApiMetadataExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api> (since 6.2.0)</li>
 </ul>
     </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_ROW_EDGE</api>

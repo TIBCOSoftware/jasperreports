@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -301,10 +302,36 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		if (element.hasProperties()
 				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_SHEET_NAME)
 				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getProperty(element, JRXlsAbstractExporter.PROPERTY_SHEET_NAME);
+		}
+		return null;
+	}
+	
+	public EdgeEnum getFreezeRowEdge(JRPrintElement element)
+	{
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_FREEZE_ROW_EDGE)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return EdgeEnum.getByName(getPropertiesUtil().getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_ROW_EDGE));
+		}
+		return null;
+	}
+	
+	public EdgeEnum getFreezeColumnEdge(JRPrintElement element)
+	{
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE)
+				)
 			{
 				// we make this test to avoid reaching the global default value of the property directly
 				// and thus skipping the report level one, if present
-				return getPropertiesUtil().getProperty(element, JRXlsAbstractExporter.PROPERTY_SHEET_NAME);
+				return EdgeEnum.getByName(getPropertiesUtil().getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE));
 			}
 			return null;
 	}
@@ -467,6 +494,30 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		if(whitePageBackground != null)
 		{
 			cut.setProperty(XlsReportConfiguration.PROPERTY_WHITE_PAGE_BACKGROUND, whitePageBackground);
+		}
+
+		EdgeEnum freezeColumnEdge = getFreezeColumnEdge(element);
+		int columnFreezeIndex = freezeColumnEdge == null 
+				? 0
+				: (EdgeEnum.RIGHT.equals(freezeColumnEdge) 
+					? col2
+					: col1
+					);
+		if(columnFreezeIndex > 0)
+		{
+			cut.setProperty(JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE, columnFreezeIndex);
+		}
+		
+		EdgeEnum freezeRowEdge = getFreezeRowEdge(element);
+		int rowFreezeIndex = freezeRowEdge == null 
+			? 0
+			: (EdgeEnum.BOTTOM.equals(freezeRowEdge) 
+					? row2
+					: row1
+					);
+		if(rowFreezeIndex > 0)
+		{
+			cut.setProperty(JRXlsAbstractExporter.PROPERTY_FREEZE_ROW_EDGE, rowFreezeIndex);
 		}
 		
 		setYProperties(yCutsProperties, element);

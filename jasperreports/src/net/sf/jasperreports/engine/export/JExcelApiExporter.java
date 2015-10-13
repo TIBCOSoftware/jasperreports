@@ -2385,8 +2385,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 				? Pattern.SOLID 
 				: Pattern.NONE;
 		
-		maxRowFreezeIndex = 0;
-		maxColumnFreezeIndex = 0;
+//		maxRowFreezeIndex = 0;
+//		maxColumnFreezeIndex = 0;
 		
 		onePagePerSheetMap.put(sheetIndex, configuration.isOnePagePerSheet());
 		sheetsBeforeCurrentReportMap.put(sheetIndex, sheetsBeforeCurrentReport);
@@ -2680,25 +2680,22 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 	 * 
 	 * @param rowIndex the freeze 0-based row index
 	 * @param colIndex the freeze 0-based column index
-	 * @param isRowEdge specifies if the freeze row index is set at element level
-	 * @param isColumnEdge specifies if the freeze column index is set at element level
 	 */
-	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge)
+	protected void setFreezePane(int rowIndex, int colIndex)
 	{
-		int maxRowIndex = isFreezeRowEdge 
-				? Math.max(rowIndex, maxRowFreezeIndex) 
-				: (isRowEdge ? rowIndex : Math.max(rowIndex, maxRowFreezeIndex));
-		int maxColIndex = isFreezeColumnEdge 
-				? Math.max(colIndex, maxColumnFreezeIndex) 
-				: (isColumnEdge ? colIndex : Math.max(colIndex, maxColumnFreezeIndex));
-		
-		SheetSettings settings = sheet.getSettings();
-		settings.setVerticalFreeze(maxRowIndex);
-		settings.setHorizontalFreeze(maxColIndex);
-		maxRowFreezeIndex = maxRowIndex;
-		maxColumnFreezeIndex = maxColIndex;
-		isFreezeRowEdge = isRowEdge;
-		isFreezeColumnEdge = isColumnEdge;
+		if(rowIndex > 0 || colIndex > 0)
+		{
+			SheetSettings settings = sheet.getSettings();
+			settings.setVerticalFreeze(Math.max(0, rowIndex));
+			settings.setHorizontalFreeze(Math.max(0, colIndex));
+		}
+	}
+
+	/**
+	 * @deprecated to be removed; replaced by {@link #setFreezePane(int, int)}
+	 */ 
+	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge) {
+		setFreezePane(rowIndex, colIndex);
 	}
 
 	protected void setSheetName(String sheetName)

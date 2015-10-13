@@ -230,7 +230,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 						rowIndex = 0;
 						resetAutoFilters();
 						
-						setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+						setFreezePane(sheetInfo.rowFreezeIndex, sheetInfo.columnFreezeIndex);
 						
 						/*   */
 						exportPage(page);
@@ -250,7 +250,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 					sheetNamesIndex++;
 					resetAutoFilters();
 					
-					setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+					setFreezePane(sheetInfo.rowFreezeIndex, sheetInfo.columnFreezeIndex);
 					
 					if (filter instanceof ResetableExporterFilter)
 					{
@@ -330,7 +330,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 			String rowFreeze = getPropertiesUtil().getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_ROW_EDGE);
 			
 			int rowFreezeIndex = rowFreeze == null 
-				? 0 
+				? -1 
 				: (EdgeEnum.BOTTOM.getName().equals(rowFreeze) 
 						? rowIndex + 1
 						: rowIndex
@@ -339,7 +339,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 			String columnFreeze = getPropertiesUtil().getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE);
 				
 			int columnFreezeIndex = columnFreeze == null 
-				? 0 
+				? -1 
 				: (EdgeEnum.RIGHT.getName().equals(columnFreeze) 
 						? columnNamesMap.get(currentColumnName) + 1
 						: columnNamesMap.get(currentColumnName)
@@ -347,7 +347,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 
 			if(rowFreezeIndex > 0 || columnFreezeIndex > 0)
 			{
-				setFreezePane(rowFreezeIndex, columnFreezeIndex, rowFreezeIndex > 0, columnFreezeIndex > 0);
+				setFreezePane(rowFreezeIndex, columnFreezeIndex);
 			}
 			
 		}
@@ -709,6 +709,5 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	protected abstract void writeCurrentRow(Map<String, Object> currentRow, Map<String, Object> repeatedValues)  throws JRException;
 	
 	protected abstract void writeReportHeader() throws JRException;
-
 
 }

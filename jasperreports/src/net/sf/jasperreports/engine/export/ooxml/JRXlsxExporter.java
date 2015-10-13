@@ -866,8 +866,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		sheetHelper.exportHeader(
 				showGridlines, 
 				(sheetInfo.sheetPageScale == null ? 0 : sheetInfo.sheetPageScale), 
-				gridRowFreezeIndex, 
-				gridColumnFreezeIndex, 
+				sheetInfo.rowFreezeIndex, 
+				sheetInfo.columnFreezeIndex, 
+				maxColumnIndex,
 				jasperPrint, 
 				sheetInfo.tabColor);
 		sheetRelsHelper.exportHeader(sheetIndex + 1);
@@ -1666,9 +1667,17 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		return XLSX_EXPORTER_PROPERTIES_PREFIX;
 	}
 	
-	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge)
+	@Override
+	protected void setFreezePane(int rowIndex, int colIndex)
 	{
-		//TODO: set freeze pane for element-level defined indexes
+		//nothing to do here
+	}
+
+	/**
+	 * @deprecated to be removed; replaced by {@link #setFreezePane(int, int)}
+	 */ 
+	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge) {
+		// nothing to do here
 	}
 
 	protected void setSheetName(String sheetName)
