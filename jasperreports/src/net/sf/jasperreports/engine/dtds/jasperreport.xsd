@@ -6450,6 +6450,20 @@ property.
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="mergeHeaderCells" type="boolean" use="optional">
+  	<annotation>
+   	 <documentation>
+   	 Determines whether the header cell of this group spans across all rows in the group,
+   	 or whether the header cell repeats for each sub group entry.
+   	 <p>
+   	 If the header cell is set to repeat, the sub group should not have a total row.
+   	 </p>
+   	 <p>
+   	 By default the header cell spans across all rows that are part of the group.
+   	 </p>
+   	 </documentation>
+  	</annotation>
+   </attribute>
   </complexType>
  </element>
 
@@ -6578,6 +6592,20 @@ property.
 	  </enumeration>
      </restriction>
     </simpleType>
+   </attribute>
+   <attribute name="mergeHeaderCells" type="boolean" use="optional">
+  	<annotation>
+   	 <documentation>
+   	 Determines whether the header cell of this group spans across all columns in the group,
+   	 or whether the header cell repeats for each sub group entry.
+   	 <p>
+   	 If the header cell is set to repeat, the sub group should not have a total column.
+   	 </p>
+   	 <p>
+   	 By default the header cell spans across all columns that are part of the group.
+   	 </p>
+   	 </documentation>
+  	</annotation>
    </attribute>
   </complexType>
  </element>
