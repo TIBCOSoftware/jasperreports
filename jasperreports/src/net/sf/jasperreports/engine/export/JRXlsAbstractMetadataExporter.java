@@ -29,6 +29,7 @@
 
 package net.sf.jasperreports.engine.export;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -222,8 +223,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 
 						pageFormat = jasperPrint.getPageFormat(pageIndex);
 
-						SheetInfo sheetInfo = new SheetInfo();
-						sheetInfo.sheetName = getSheetName(null);
+						SheetInfo sheetInfo = getSheetInfo(configuration, null);
 						createSheet(sheetInfo);
 
 						// we need to count all sheets generated for all exported documents
@@ -243,8 +243,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 					pageFormat = jasperPrint.getPageFormat(startPageIndex);
 					
 					// Create the sheet before looping.
-					SheetInfo sheetInfo = new SheetInfo();
-					sheetInfo.sheetName = getSheetName(jasperPrint.getName());
+					SheetInfo sheetInfo = getSheetInfo(configuration, jasperPrint.getName());
 					createSheet(sheetInfo);
 
 					// we need to count all sheets generated for all exported documents
@@ -602,6 +601,22 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 		return name;
 	}
 
+	private SheetInfo getSheetInfo(XlsMetadataReportConfiguration configuration, String name)
+	{
+		SheetInfo sheetInfo = new SheetInfo();
+		sheetInfo.sheetName = getSheetName(name);
+		sheetInfo.rowFreezeIndex = configuration.getFreezeRow() == null ? -1 : configuration.getFreezeRow(); 
+		sheetInfo.columnFreezeIndex = configuration.getFreezeColumn() == null ? -1 : getColumnIndex(configuration.getFreezeColumn()); 
+		sheetInfo.ignoreCellBackground = configuration.isIgnoreCellBackground();
+		sheetInfo.ignoreCellBorder = configuration.isIgnoreCellBorder();
+		sheetInfo.whitePageBackground = configuration.isWhitePageBackground();
+		sheetInfo.sheetFirstPageIndex = pageIndex;
+		sheetInfo.sheetFirstPageNumber = configuration.getFirstPageNumber();		
+		sheetInfo.sheetPageScale = configuration.getPageScale();		
+		sheetInfo.sheetShowGridlines = configuration.isShowGridLines() ;
+		sheetInfo.tabColor = configuration.getSheetTabColor();
+		return sheetInfo;
+	}
 	/**
 	 * 
 	 */

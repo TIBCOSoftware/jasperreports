@@ -308,6 +308,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	}
 
 	protected void createSheet(SheetInfo sheetInfo)	{
+		this.sheetInfo = sheetInfo;
 		sheet = workbook.createSheet(sheetInfo.sheetName);
 		patriarch = sheet.createDrawingPatriarch();
 		HSSFPrintSetup printSetup = sheet.getPrintSetup();

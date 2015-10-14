@@ -392,6 +392,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 
 	protected void createSheet(SheetInfo sheetInfo)
 	{
+		this.sheetInfo = sheetInfo;
 		sheet = workbook.createSheet(sheetInfo.sheetName, Integer.MAX_VALUE);
 		setSheetSettings(sheetInfo, sheet);
 	}
