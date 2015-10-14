@@ -780,7 +780,21 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 			if (gotPdfa) 
 			{
-				pdfWriter.createXmpMetadata();
+				if (PdfXmpCreator.supported())
+				{
+					byte[] metadata = PdfXmpCreator.createXmpMetadata(pdfWriter);
+					pdfWriter.setXmpMetadata(metadata);
+				}
+				else
+				{
+					if ((title != null || subject != null || keywords != null) && log.isWarnEnabled())
+					{
+						// iText 2.1.7 does not properly write localized properties and keywords
+						log.warn("XMP metadata might be non conforming, include the Adobe XMP library to correct");
+					}
+					
+					pdfWriter.createXmpMetadata();
+				}
 			} else 
 			{
 				pdfWriter.setRgbTransparencyBlending(true);
