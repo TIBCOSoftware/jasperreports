@@ -84,7 +84,7 @@ public class TableStyle extends Style
 		{
 			styleWriter.write(" fo:break-before=\"page\"");
 		}
-		if(tabColor != null)
+		if (tabColor != null)
 		{
 			styleWriter.write(" tableooo:tab-color=\"#" + JRColorUtil.getColorHexa(tabColor) + "\"");
 		}

@@ -175,7 +175,7 @@ public class PropertiesExporterConfigurationFactory<C extends CommonExportConfig
 			}
 			else if (Integer.class.equals(type))
 			{
-				if (exporterProperty.acceptNull())
+				if (exporterProperty.nullDefault())
 				{
 					value = propertiesUtil.getIntegerProperty(propertiesHolder, propertyName);
 				}
@@ -190,7 +190,7 @@ public class PropertiesExporterConfigurationFactory<C extends CommonExportConfig
 			}
 			else if (Float.class.equals(type))
 			{
-				if (exporterProperty.acceptNull())
+				if (exporterProperty.nullDefault())
 				{
 					value = propertiesUtil.getFloatProperty(propertiesHolder, propertyName);
 				}

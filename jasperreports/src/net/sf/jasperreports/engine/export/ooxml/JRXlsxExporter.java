@@ -866,8 +866,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		sheetHelper.exportHeader(
 				showGridlines, 
 				(sheetInfo.sheetPageScale == null ? 0 : sheetInfo.sheetPageScale), 
-				gridRowFreezeIndex, 
-				gridColumnFreezeIndex, 
+				sheetInfo.rowFreezeIndex, 
+				sheetInfo.columnFreezeIndex, 
+				maxColumnIndex,
 				jasperPrint, 
 				sheetInfo.tabColor);
 		sheetRelsHelper.exportHeader(sheetIndex + 1);
@@ -1592,22 +1593,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 //		runHelper = new RunHelper(sheetWriter, fontMap, null);//FIXMEXLSX check this null
 	}
-	
-	@Override
-	protected void exportEmptyReport() throws JRException, IOException 
-	{
-		pageFormat = new SimplePrintPageFormat();
-		SimplePrintPageFormat simplePageFormat = ((SimplePrintPageFormat)pageFormat);
-		simplePageFormat.setPageWidth(jasperPrint.getPageWidth());
-		simplePageFormat.setPageHeight(jasperPrint.getPageHeight());
-		simplePageFormat.setOrientation(jasperPrint.getOrientationValue());
-		simplePageFormat.setTopMargin(jasperPrint.getTopMargin());
-		simplePageFormat.setLeftMargin(jasperPrint.getLeftMargin());
-		simplePageFormat.setRightMargin(jasperPrint.getRightMargin());
-		simplePageFormat.setBottomMargin(jasperPrint.getBottomMargin());
-		exportPage(new JRBasePrintPage(), null, 0, jasperPrint.getName());
-	}
-
 
 	protected void setBackground() {
 		// TODO Auto-generated method stub
@@ -1666,9 +1651,17 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		return XLSX_EXPORTER_PROPERTIES_PREFIX;
 	}
 	
-	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge)
+	@Override
+	protected void setFreezePane(int rowIndex, int colIndex)
 	{
-		//TODO: set freeze pane for element-level defined indexes
+		//nothing to do here
+	}
+
+	/**
+	 * @deprecated to be removed; replaced by {@link #setFreezePane(int, int)}
+	 */ 
+	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge) {
+		// nothing to do here
 	}
 
 	protected void setSheetName(String sheetName)

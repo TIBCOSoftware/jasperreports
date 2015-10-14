@@ -77,6 +77,8 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	private Boolean isShrinkToFit;
 	private Boolean isIgnoreTextFormatting;
 	private Color sheetTabColor;
+	private Integer freezeRow;
+	private String freezeColumn;
 
 	
 	/**
@@ -806,6 +808,29 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	public void setSheetTabColor(Color tabColor)
 	{
 		this.sheetTabColor = tabColor;
+	}
+
+
+	@Override
+	public Integer getFreezeRow() 
+	{
+		return freezeRow;
+	}
+
+	public void setFreezeRow(Integer freezeRow)
+	{
+		this.freezeRow = freezeRow;
+	}
+
+	@Override
+	public String getFreezeColumn() 
+	{
+		return freezeColumn;
+	}
+
+	public void setFreezeColumn(String freezeColumn)
+	{
+		this.freezeColumn = freezeColumn;
 	}
 	
 }

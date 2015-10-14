@@ -298,14 +298,14 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	public static final String PROPERTY_SHEET_DIRECTION = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.direction";
 
 	/**
-	 * Specifies the index of the first unlocked row in document's sheets. All rows above this will be 'frozen'. 
+	 * This property provides a default for the {@link #getFreezeRow()} exporter configuration setting. 
 	 * Allowed values are represented by positive integers in the 1..65536 range. Negative values are not considered. 
 	 * The property should be used when all sheets in the document have the same freeze row index.
 	 */
 	public static final String PROPERTY_FREEZE_ROW = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.row";
 	
 	/**
-	 * Indicates the name of the first unlocked column in document's sheets. All columns to the left of this one will be 'frozen'. 
+	 * This property provides a default for the {@link #getFreezeColumn()} exporter configuration setting. 
 	 * Allowed values are letters or letter combinations representing valid column names in Excel, such as A, B, AB, AC, etc.
 	 * The property should be used when all document sheets have the same freeze column name.
 	 */
@@ -829,7 +829,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(
 		value=PROPERTY_FIT_WIDTH, 
-		acceptNull=true
+		nullDefault=true
 		)
 	public Integer getFitWidth();
 	
@@ -839,7 +839,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(
 		value=PROPERTY_FIT_HEIGHT, 
-		acceptNull=true
+		nullDefault=true
 		)
 	public Integer getFitHeight();
 	
@@ -851,7 +851,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(
 		value=PROPERTY_PAGE_SCALE, 
-		acceptNull=true
+		nullDefault=true
 		)
 	public Integer getPageScale();
 
@@ -878,7 +878,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(
 		value=PROPERTY_COLUMN_WIDTH_RATIO,
-		acceptNull=true
+		nullDefault=true
 		)
 	public Float getColumnWidthRatio();
 	
@@ -908,7 +908,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(
 		value=PROPERTY_FIRST_PAGE_NUMBER,
-		acceptNull=true
+		nullDefault=true
 		)
 	public Integer getFirstPageNumber();
 	
@@ -987,8 +987,30 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(
 		value=PROPERTY_SHEET_TAB_COLOR, 
-		acceptNull=true
+		stringDefault="orange"
 		)
 	public Color getSheetTabColor();
+	
+	/**
+	 * Specifies the index of the first unlocked row in document's sheets. All rows above this will be 'frozen'. 
+	 * Allowed values are represented by positive integers in the 1..65536 range. Negative values are not considered. 
+	 * @see #PROPERTY_FREEZE_ROW
+	 */
+	@ExporterProperty(
+		value=PROPERTY_FREEZE_ROW, 
+		nullDefault=true
+		)
+	public Integer getFreezeRow();
+	
+	/**
+	 * Indicates the name of the first unlocked column in document's sheets. All columns to the left of this one will be 'frozen'. 
+	 * Allowed values are letters or letter combinations representing valid column names in Excel, such as A, B, AB, AC, etc.
+	 * @see #PROPERTY_FREEZE_COLUMN
+	 */
+	@ExporterProperty(
+		value=PROPERTY_FREEZE_COLUMN, 
+		nullDefault=true
+		)
+	public String getFreezeColumn();
 	
 }

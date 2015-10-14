@@ -406,8 +406,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				: HSSFCellStyle.NO_FILL;
 		
 		
-		maxRowFreezeIndex = 0;
-		maxColumnFreezeIndex = 0;
+//		maxRowFreezeIndex = 0;
+//		maxColumnFreezeIndex = 0;
 
 		onePagePerSheetMap.put(sheetIndex, configuration.isOnePagePerSheet());
 		sheetsBeforeCurrentReportMap.put(sheetIndex, sheetsBeforeCurrentReport);
@@ -1618,21 +1618,22 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	}
 	
 	@Override
-	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge) {
-		//TODO: recalculate freeze pane edges depending on exported columns
-//		int maxRowIndex = isFreezeRowEdge 
-//				? Math.max(rowIndex, maxRowFreezeIndex) 
-//				: (isRowEdge ? rowIndex : Math.max(rowIndex, maxRowFreezeIndex));
-//		int maxColIndex = isFreezeColumnEdge 
-//				? Math.max(colIndex, maxColumnFreezeIndex) 
-//				: (isColumnEdge ? colIndex : Math.max(colIndex, maxColumnFreezeIndex));
-//		sheet.createFreezePane(maxColIndex, maxRowIndex );
-//		maxRowFreezeIndex = maxRowIndex;
-//		maxColumnFreezeIndex = maxColIndex;
-//		isFreezeRowEdge = isRowEdge;
-//		isFreezeColumnEdge = isColumnEdge;
+	protected void setFreezePane(int rowIndex, int colIndex) {
+		//FIXME: recalculate freeze pane edges depending on exported columns
+		
+//		if(rowIndex > 0 || colIndex > 0)
+//		{
+//			sheet.createFreezePane(Math.max(0, colIndex), Math.max(0, rowIndex));
+//		}
 	}
 	
+	/**
+	 * @deprecated to be removed; replaced by {@link #setFreezePane(int, int)}
+	 */ 
+	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge) {
+		setFreezePane(rowIndex, colIndex);
+	}
+
 	@Override
 	protected void setAutoFilter(String autoFilterRange) {
 		//TODO: recalculate autoFilterRange depending on exported columns

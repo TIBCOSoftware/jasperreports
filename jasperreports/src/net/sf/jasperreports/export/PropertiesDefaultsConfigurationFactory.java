@@ -47,6 +47,7 @@ import org.apache.commons.lang.ClassUtils;
  */
 public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfiguration>
 {
+	public static final String EXCEPTION_MESSAGE_KEY_EXPORT_PROPERTIES_EMPTY_STRING_DEFAULT_NOT_SUPPORTED = "export.common.properties.empty.string.default.not.supported";
 	
 	/**
 	 * 
@@ -187,7 +188,7 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 			{
 				if (strValue == null)
 				{
-					if (!exporterProperty.acceptNull())
+					if (!exporterProperty.nullDefault())
 					{
 						value = exporterProperty.intDefault();
 					}
@@ -201,7 +202,7 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 			{
 				if (strValue == null)
 				{
-					if (!exporterProperty.acceptNull())
+					if (!exporterProperty.nullDefault())
 					{
 						value = exporterProperty.longDefault();
 					}
@@ -215,7 +216,7 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 			{
 				if (strValue == null)
 				{
-					if (!exporterProperty.acceptNull())
+					if (!exporterProperty.nullDefault())
 					{
 						value = exporterProperty.floatDefault();
 					}
@@ -229,7 +230,7 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 			{
 				if (strValue == null)
 				{
-					if (!exporterProperty.acceptNull())
+					if (!exporterProperty.nullDefault())
 					{
 						value = exporterProperty.booleanDefault();
 					}
@@ -243,15 +244,18 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 			{
 				if (strValue == null)
 				{
-					if (exporterProperty.acceptNull())
+					if (!exporterProperty.nullDefault())
 					{
-						value = null;
-					}
-					else 
-					{
-						// java.awt.Color type cannot be set in ExporterProperty interface for default values;
-						// this will be set here
-						value = JRColorUtil.getColor(exporterProperty.colorDefault(), null);
+						strValue = exporterProperty.stringDefault();
+						if (strValue.trim().length() == 0)
+						{
+							throw new JRRuntimeException(
+								EXCEPTION_MESSAGE_KEY_EXPORT_PROPERTIES_EMPTY_STRING_DEFAULT_NOT_SUPPORTED,
+								new Object[]{propertyName}
+								);
+						}
+						
+						value = JRColorUtil.getColor(strValue, null);
 					}
 				}
 				else
@@ -261,7 +265,14 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 			}
 			else if (NamedEnum.class.isAssignableFrom(type))
 			{
-				if (strValue != null)
+				if (strValue == null)
+				{
+					if (!exporterProperty.nullDefault())
+					{
+						value = JRColorUtil.getColor(exporterProperty.stringDefault(), null);
+					}
+				}
+				else
 				{
 					try
 					{

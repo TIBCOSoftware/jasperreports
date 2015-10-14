@@ -54,7 +54,6 @@ import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
@@ -664,10 +663,15 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	}
 
 	@Override
-	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge,
-			boolean isColumnEdge) {
-		// TODO Auto-generated method stub
-		
+	protected void setFreezePane(int rowIndex, int colIndex) {
+		// nothing to do here
+	}
+	
+	/**
+	 * @deprecated to be removed; replaced by {@link #setFreezePane(int, int)}
+	 */ 
+	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge) {
+		// nothing to do here
 	}
 
 	@Override
@@ -1019,4 +1023,11 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 			startPage = false;
 		}
 	}
+	
+	@Override
+	protected void exportEmptyReport() throws JRException, IOException 
+	{
+		// does nothing in ODS export
+	}
+	
 }

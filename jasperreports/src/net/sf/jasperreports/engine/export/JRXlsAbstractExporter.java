@@ -41,7 +41,6 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
@@ -63,6 +62,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
+import net.sf.jasperreports.engine.SimplePrintPageFormat;
+import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -602,14 +603,14 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 */
 	protected Map<String,Integer> sheetNamesMap;
 
-	protected int gridRowFreezeIndex;
-	protected int gridColumnFreezeIndex;
-	
-	protected int maxRowFreezeIndex;
-	protected int maxColumnFreezeIndex;
-	
-	protected boolean isFreezeRowEdge;
-	protected boolean isFreezeColumnEdge;
+//	protected int gridRowFreezeIndex;
+//	protected int gridColumnFreezeIndex;
+//	
+//	protected int maxRowFreezeIndex;
+//	protected int maxColumnFreezeIndex;
+//	
+//	protected boolean isFreezeRowEdge;
+//	protected boolean isFreezeColumnEdge;
 	
 	protected String autoFilterStart;		
 	protected String autoFilterEnd;		
@@ -635,6 +636,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		public Boolean ignoreCellBorder;
 		public Boolean ignoreCellBackground;
 		public Boolean whitePageBackground;
+		public Integer columnFreezeIndex;
+		public Integer rowFreezeIndex;
+
 	}
 
 	/**
@@ -747,8 +751,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 		setSheetNames();
 		
-		gridRowFreezeIndex = Math.max(0, getPropertiesUtil().getIntegerProperty(jasperPrint, PROPERTY_FREEZE_ROW, 0) - 1);
-		gridColumnFreezeIndex = Math.max(0, getColumnIndex(getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FREEZE_COLUMN)));	
+//		gridRowFreezeIndex = Math.max(0, getPropertiesUtil().getIntegerProperty(jasperPrint, XlsReportConfiguration.PROPERTY_FREEZE_ROW, 0) - 1);
+//		gridColumnFreezeIndex = Math.max(0, getColumnIndex(getPropertiesUtil().getProperty(jasperPrint, XlsReportConfiguration.PROPERTY_FREEZE_COLUMN)));	
 		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
 		{
 			// allows null values for the property
@@ -765,7 +769,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		openWorkbook(os);
 		sheetNamesMap = new HashMap<String,Integer>();
 		pageFormat = null;
-		
+		boolean pageExported = false;
 		List<ExporterInputItem> items = exporterInput.getItems();
 
 		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
@@ -838,8 +842,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 					}
 					//updateColumns(xCuts);
 				}
+				pageExported = true;
 			} 
-			else 
+			else if(reportIndex == items.size() -1 && !pageExported)
 			{
 				exportEmptyReport();
 			}
@@ -987,30 +992,31 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 						JRPrintElement element = gridCell.getElement();
 						
-						String rowFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_ROW_EDGE);
+						/* the following code is no more necessary since these properties are stored in SheetInfo via CutsInfo */
 						
-						int rowFreezeIndex = rowFreeze == null 
-								? 0 
-								: (EdgeEnum.BOTTOM.getName().equals(rowFreeze) 
-										? rowIndex + gridCell.getRowSpan()
-										: rowIndex
-										);
-							
-						String columnFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_COLUMN_EDGE);
-							
-						int columnFreezeIndex = columnFreeze == null 
-							? 0
-							: (EdgeEnum.RIGHT.getName().equals(columnFreeze) 
-									? colIndex + gridCell.getColSpan()
-									: colIndex
-									);
-
-						if(rowFreezeIndex > 0 || columnFreezeIndex > 0)
-						{
-							setFreezePane(rowFreezeIndex, columnFreezeIndex, rowFreezeIndex > 0, columnFreezeIndex > 0);
-						}
-
-						/* this is no more necessary since the sheet name is stored in CutsInfo */
+//						String rowFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_ROW_EDGE);
+//						
+//						int rowFreezeIndex = rowFreeze == null 
+//								? 0 
+//								: (EdgeEnum.BOTTOM.getName().equals(rowFreeze) 
+//										? rowIndex + gridCell.getRowSpan()
+//										: rowIndex
+//										);
+//							
+//						String columnFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_COLUMN_EDGE);
+//							
+//						int columnFreezeIndex = columnFreeze == null 
+//							? 0
+//							: (EdgeEnum.RIGHT.getName().equals(columnFreeze) 
+//									? colIndex + gridCell.getColSpan()
+//									: colIndex
+//									);
+//
+//						if(rowFreezeIndex > 0 || columnFreezeIndex > 0)
+//						{
+//							setFreezePane(rowFreezeIndex, columnFreezeIndex, rowFreezeIndex > 0, columnFreezeIndex > 0);
+//						}
+						
 //						String sheetName = element.getPropertiesMap().getProperty(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME);
 //						if(sheetName != null)
 //						{
@@ -1139,7 +1145,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	}
 	
 
-	protected SheetInfo getSheetProps(CutsInfo yCuts, int startCutIndex)
+	protected SheetInfo getSheetProps(CutsInfo xCuts, CutsInfo yCuts, int startCutIndex)
 	{
 		SheetInfo sheetInfo = new SheetInfo();
 		
@@ -1151,6 +1157,13 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		sheetInfo.ignoreCellBackground = configuration.isIgnoreCellBackground();
 		sheetInfo.whitePageBackground = configuration.isWhitePageBackground();
 		sheetInfo.ignoreCellBorder = configuration.isIgnoreCellBorder();
+		boolean elementLevelRowFreeze = false, elementLevelColumnFreeze = false;
+		sheetInfo.rowFreezeIndex = configuration.getFreezeRow() == null
+			? -1
+			: Math.max(0, configuration.getFreezeRow() - 1);
+		sheetInfo.columnFreezeIndex = configuration.getFreezeColumn() == null
+			? -1
+			: Math.max(0, getColumnIndex(configuration.getFreezeColumn()));
 		
 		int skippedRows = 0;
 		int rowIndex = 0;
@@ -1222,6 +1235,22 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				sheetInfo.sheetPageScale = (isValidScale(pageScale))
 								? pageScale 
 								: configuration.getPageScale();
+				Integer freezeColumn = (Integer)yCut.getProperty(PROPERTY_FREEZE_COLUMN_EDGE);
+				if(freezeColumn != null && (!elementLevelColumnFreeze || freezeColumn > sheetInfo.columnFreezeIndex))
+				{
+					sheetInfo.columnFreezeIndex = Math.max(0, freezeColumn);
+					elementLevelColumnFreeze = true;
+				}
+				Integer freezeRow = (Integer)yCut.getProperty(PROPERTY_FREEZE_ROW_EDGE);
+				if(freezeRow != null && (!elementLevelRowFreeze || freezeRow > sheetInfo.rowFreezeIndex))
+				{
+					sheetInfo.rowFreezeIndex = Math.max(0, freezeRow);
+					elementLevelRowFreeze = true;
+				}
+				sheetInfo.sheetPageScale = (isValidScale(pageScale))
+								? pageScale 
+								: configuration.getPageScale();
+				
 				++rowIndex;
 			}
 			else
@@ -1241,7 +1270,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			closeSheet();
 		}
 
-		sheetInfo = getSheetProps(yCuts, startCutIndex);
+		sheetInfo = getSheetProps(xCuts, yCuts, startCutIndex);
 		
 		sheetInfo.sheetName = getSheetName(sheetInfo.sheetName, defaultSheetName);
 		
@@ -1254,7 +1283,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		sheetNamesIndex++;
 		resetAutoFilters();
 
-		setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+		setFreezePane(sheetInfo.rowFreezeIndex, sheetInfo.columnFreezeIndex);
 		setColumnWidths(xCuts);
 	}
 	
@@ -1851,14 +1880,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		return (i > 64 ? String.valueOf((char)i) : "") + (char)j;
 	}
 	
-	protected void setFreezePane(int rowIndex, int colIndex)
-	{
-		if(gridRowFreezeIndex > 0 || gridColumnFreezeIndex > 0)
-		{
-			setFreezePane(rowIndex, colIndex, false, false);
-		}
-	}
-	
 	protected void resetAutoFilters()
 	{
 		autoFilterStart = null;
@@ -1941,11 +1962,21 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		return nature;
 	}
 	
+
 	protected void exportEmptyReport() throws JRException, IOException 
 	{
-		// does nothing; to be overriden in exporters that need customized behavior for empty reports (JRXlsxExporter for instance)
+		pageFormat = new SimplePrintPageFormat();
+		SimplePrintPageFormat simplePageFormat = ((SimplePrintPageFormat)pageFormat);
+		simplePageFormat.setPageWidth(jasperPrint.getPageWidth());
+		simplePageFormat.setPageHeight(jasperPrint.getPageHeight());
+		simplePageFormat.setOrientation(jasperPrint.getOrientationValue());
+		simplePageFormat.setTopMargin(jasperPrint.getTopMargin());
+		simplePageFormat.setLeftMargin(jasperPrint.getLeftMargin());
+		simplePageFormat.setRightMargin(jasperPrint.getRightMargin());
+		simplePageFormat.setBottomMargin(jasperPrint.getBottomMargin());
+		exportPage(new JRBasePrintPage(), null, 0, jasperPrint.getName());
 	}
-	
+
 
 	/**
 	 *
@@ -2024,6 +2055,11 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	protected abstract void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols, int yCutsRow, JRGridLayout layout) throws JRException;
 
+	protected abstract void setFreezePane(int rowIndex, int colIndex);
+	
+	/**
+	 * @deprecated to be removed; replaced by {@link #setFreezePane(int, int)}
+	 */ 
 	protected abstract void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge);
 	
 	protected abstract void setSheetName(String sheetName);//FIXMEXLS this is not needed anymore, or if it is, then how is xlsx working?
