@@ -987,7 +987,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(
 		value=PROPERTY_SHEET_TAB_COLOR, 
-		stringDefault="orange"
+		nullDefault=true
 		)
 	public Color getSheetTabColor();
 	
