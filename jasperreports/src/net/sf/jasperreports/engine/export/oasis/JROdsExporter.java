@@ -1023,4 +1023,11 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 			startPage = false;
 		}
 	}
+	
+	@Override
+	protected void exportEmptyReport() throws JRException, IOException 
+	{
+		// does nothing in ODS export
+	}
+	
 }

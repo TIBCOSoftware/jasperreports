@@ -62,6 +62,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
+import net.sf.jasperreports.engine.SimplePrintPageFormat;
+import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -767,7 +769,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		openWorkbook(os);
 		sheetNamesMap = new HashMap<String,Integer>();
 		pageFormat = null;
-		
+		boolean pageExported = false;
 		List<ExporterInputItem> items = exporterInput.getItems();
 
 		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
@@ -840,8 +842,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 					}
 					//updateColumns(xCuts);
 				}
+				pageExported = true;
 			} 
-			else 
+			else if(reportIndex == items.size() -1 && !pageExported)
 			{
 				exportEmptyReport();
 			}
@@ -1959,11 +1962,21 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		return nature;
 	}
 	
+
 	protected void exportEmptyReport() throws JRException, IOException 
 	{
-		// does nothing; to be overriden in exporters that need customized behavior for empty reports (JRXlsxExporter for instance)
+		pageFormat = new SimplePrintPageFormat();
+		SimplePrintPageFormat simplePageFormat = ((SimplePrintPageFormat)pageFormat);
+		simplePageFormat.setPageWidth(jasperPrint.getPageWidth());
+		simplePageFormat.setPageHeight(jasperPrint.getPageHeight());
+		simplePageFormat.setOrientation(jasperPrint.getOrientationValue());
+		simplePageFormat.setTopMargin(jasperPrint.getTopMargin());
+		simplePageFormat.setLeftMargin(jasperPrint.getLeftMargin());
+		simplePageFormat.setRightMargin(jasperPrint.getRightMargin());
+		simplePageFormat.setBottomMargin(jasperPrint.getBottomMargin());
+		exportPage(new JRBasePrintPage(), null, 0, jasperPrint.getName());
 	}
-	
+
 
 	/**
 	 *

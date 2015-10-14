@@ -29,6 +29,7 @@
 
 package net.sf.jasperreports.engine.export;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -177,10 +178,11 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	}
 	
 	@Override
-	protected void exportReportToStream(OutputStream os) throws JRException
+	protected void exportReportToStream(OutputStream os) throws JRException, IOException
 	{
 		openWorkbook(os);
 		sheetNamesMap = new HashMap<String,Integer>();
+		boolean pageExported = false;
 
 		List<ExporterInputItem> items = exporterInput.getItems();
 
@@ -268,7 +270,13 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 					}
 					
 				}
+				pageExported = true;
 			}
+			else if(reportIndex == items.size() -1 && !pageExported)
+			{
+				exportEmptyReport();
+			}
+			
 			sheetsBeforeCurrentReport = configuration.isOnePagePerSheet() ? sheetIndex : sheetsBeforeCurrentReport + 1;
 		}
 
