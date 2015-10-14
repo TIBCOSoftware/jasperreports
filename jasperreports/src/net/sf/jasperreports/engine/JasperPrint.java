@@ -238,7 +238,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	/**
 	 *
 	 */
-	private synchronized PrintPageFormat getPageFormat()
+	public synchronized PrintPageFormat getPageFormat()
 	{
 		if (pageFormat == null)
 		{

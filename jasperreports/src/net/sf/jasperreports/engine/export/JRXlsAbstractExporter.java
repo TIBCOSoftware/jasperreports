@@ -1965,15 +1965,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	protected void exportEmptyReport() throws JRException, IOException 
 	{
-		pageFormat = new SimplePrintPageFormat();
-		SimplePrintPageFormat simplePageFormat = ((SimplePrintPageFormat)pageFormat);
-		simplePageFormat.setPageWidth(jasperPrint.getPageWidth());
-		simplePageFormat.setPageHeight(jasperPrint.getPageHeight());
-		simplePageFormat.setOrientation(jasperPrint.getOrientationValue());
-		simplePageFormat.setTopMargin(jasperPrint.getTopMargin());
-		simplePageFormat.setLeftMargin(jasperPrint.getLeftMargin());
-		simplePageFormat.setRightMargin(jasperPrint.getRightMargin());
-		simplePageFormat.setBottomMargin(jasperPrint.getBottomMargin());
+		pageFormat = jasperPrint.getPageFormat();
 		exportPage(new JRBasePrintPage(), null, 0, jasperPrint.getName());
 	}
 
