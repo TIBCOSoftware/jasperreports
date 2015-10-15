@@ -28,25 +28,25 @@ package com.jaspersoft.jasperreports.customvisualization.fill;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.components.items.ItemProperty;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
-import com.jaspersoft.jasperreports.customvisualization.CVItemProperty;
-
 /**
  *
  * @author Giulio Toffoli (gtoffoli@tibco.com)
  */
-public class CVFillItemProperty  implements Serializable {
+public class CVFillItemProperty  implements Serializable  {
 
-    
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
     protected String name;
     protected JRExpression valueExpression;
     protected String value;
     
-    public CVFillItemProperty(CVItemProperty itemProperty, JRFillObjectFactory factory)
+    public CVFillItemProperty(ItemProperty itemProperty, JRFillObjectFactory factory)
     {
             this.valueExpression = factory.getExpression(itemProperty.getValueExpression());
             this.value = itemProperty.getValue();

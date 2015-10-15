@@ -26,16 +26,27 @@
  ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization.fill;
 
+import static net.sf.jasperreports.web.util.AbstractWebResourceHandler.PROPERTIES_WEB_RESOURCE_PATTERN_PREFIX;
+
+import java.io.File;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
+import net.sf.jasperreports.components.items.ItemData;
+import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
@@ -44,25 +55,16 @@ import net.sf.jasperreports.engine.fill.JRTemplateGenericElement;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.repo.RepositoryUtil;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.jaspersoft.jasperreports.customvisualization.CVComponent;
 import com.jaspersoft.jasperreports.customvisualization.CVConstants;
-import com.jaspersoft.jasperreports.customvisualization.CVItemData;
-import com.jaspersoft.jasperreports.customvisualization.CVItemProperty;
 import com.jaspersoft.jasperreports.customvisualization.CVPrintElement;
 import com.jaspersoft.jasperreports.customvisualization.Processor;
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Iterator;
-import java.util.regex.Pattern;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.repo.RepositoryUtil;
-import static net.sf.jasperreports.web.util.AbstractWebResourceHandler.PROPERTIES_WEB_RESOURCE_PATTERN_PREFIX;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 public class CVFillComponent extends BaseFillComponent implements Serializable, FillContextProvider
@@ -95,16 +97,16 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
                 if (factory != null)
                 {
                     //factory.registerElementDataset(this.dataset);
-                    for (CVItemProperty itemProperty : component.getItemProperties())
+                    for (ItemProperty itemProperty : component.getItemProperties())
                     {
-                        this.itemProperties.add(new CVFillItemProperty(itemProperty, factory));
+                        this.itemProperties.add(new CVFillItemProperty((ItemProperty) itemProperty, factory));
                     }
                     
-                    for (CVItemData data : component.getItemData())
+                    for (ItemData data : component.getItemData())
                     {
                         if (data != null)
                         {
-                                itemDataList.add( new CVFillItemData(this, data, factory));
+                                itemDataList.add( new CVFillItemData(this, (ItemData) data, factory));
                                 datasetsData.add(null);
                         }
                     }

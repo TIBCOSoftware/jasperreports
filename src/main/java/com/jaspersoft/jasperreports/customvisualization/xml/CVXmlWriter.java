@@ -30,6 +30,9 @@ import java.io.IOException;
 import java.util.List;
 
 import net.sf.jasperreports.components.AbstractComponentXmlWriter;
+import net.sf.jasperreports.components.items.Item;
+import net.sf.jasperreports.components.items.ItemData;
+import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -44,9 +47,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import com.jaspersoft.jasperreports.customvisualization.CVComponent;
 import com.jaspersoft.jasperreports.customvisualization.CVConstants;
-import com.jaspersoft.jasperreports.customvisualization.CVItem;
-import com.jaspersoft.jasperreports.customvisualization.CVItemData;
-import com.jaspersoft.jasperreports.customvisualization.CVItemProperty;
 
 
 
@@ -93,15 +93,15 @@ public class CVXmlWriter extends AbstractComponentXmlWriter {
 
         writer.addAttribute(CVXmlFactory.ATTRIBUTE_onErrorType, comp.getOnErrorType(), OnErrorTypeEnum.ERROR);
         
-        List<CVItemProperty> itemProperties = comp.getItemProperties();
-        for (CVItemProperty itemProperty : itemProperties)
+        List<ItemProperty> itemProperties = comp.getItemProperties();
+        for (ItemProperty itemProperty : itemProperties)
         {
                 writeCVItemProperty(itemProperty, writer, reportWriter, namespace, componentElement);
         }
         
         
-        List<CVItemData> itemDataList = comp.getItemData();
-        for (CVItemData itemData : itemDataList)
+        List<ItemData> itemDataList = comp.getItemData();
+        for (ItemData itemData : itemDataList)
         {
                 if (itemData == null) continue;
                 writeItemDataset(itemData, writer, reportWriter, namespace, componentElement);
@@ -112,7 +112,7 @@ public class CVXmlWriter extends AbstractComponentXmlWriter {
     
     
     
-    private void writeCVItemProperty(CVItemProperty itemProperty, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
+    private void writeCVItemProperty(ItemProperty itemProperty, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
     {
             writer.startElement(CVXmlFactory.ELEMENT_itemProperty, namespace);
             
@@ -127,7 +127,7 @@ public class CVXmlWriter extends AbstractComponentXmlWriter {
     
     
     
-    private void writeItemDataset(CVItemData itemDataset, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
+    private void writeItemDataset(ItemData itemDataset, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
     {
             writer.startElement(CVXmlFactory.ELEMENT_cvData, namespace);
             	
@@ -138,16 +138,16 @@ public class CVXmlWriter extends AbstractComponentXmlWriter {
             }
 
             /*   */
-            List<CVItem> itemList = itemDataset.getCVItems();
+            List<Item> itemList = itemDataset.getItems();
             if (itemList != null && !itemList.isEmpty())
             {
                     
-                    for(CVItem item : itemList)
+                    for(Item item : itemList)
                     {
                             writer.startElement(CVXmlFactory.ELEMENT_item, namespace);
-                            if(item.getItemProperties() != null && !item.getItemProperties().isEmpty())
+                            if(item.getProperties() != null && !item.getProperties().isEmpty())
                             {
-                                for (CVItemProperty itemProperty : item.getItemProperties())
+                                for (ItemProperty itemProperty : item.getProperties())
                                 {
                                     if (itemProperty == null) continue;
                                     writeCVItemProperty(itemProperty, writer, reportWriter, namespace, componentElement);

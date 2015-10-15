@@ -30,143 +30,121 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.components.items.Item;
+import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
-import com.jaspersoft.jasperreports.customvisualization.CVItem;
-import com.jaspersoft.jasperreports.customvisualization.CVItemData;
-
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: CVFillItemData.java 6004 2013-03-20 12:49:30Z teodord $
  */
-public class CVFillItemData
-{
+public class CVFillItemData {
 
 	/**
 	 *
 	 */
-	protected CVItemData cvDataset;
+	protected ItemData cvDataset;
 	protected List<CVFillItem> itemsList;
 	protected CVFillItemDataset fillItemDataset;
 	protected FillContextProvider fillContextProvider;
-	private List<Map<String,Object>> evaluatedItems = null;
-	
+	private List<Map<String, Object>> evaluatedItems = null;
+
 	/**
 	 *
 	 */
-	public CVFillItemData(
-		FillContextProvider fillContextProvider,
-		CVItemData cvDataset, 
-		JRFillObjectFactory factory
-		)// throws JRException
+	public CVFillItemData(FillContextProvider fillContextProvider,
+			ItemData cvDataset, JRFillObjectFactory factory)// throws
+															// JRException
 	{
 		factory.put(cvDataset, this);
-		
+
 		this.cvDataset = cvDataset;
 		this.fillContextProvider = fillContextProvider;
 
-		if (cvDataset.getDataset() != null)
-		{
+		if (cvDataset.getDataset() != null) {
 			fillItemDataset = new CVFillItemDataset(this, factory);
 		}
 
 		/*   */
-		List<CVItem> srcItemList = cvDataset.getCVItems();
-		if (srcItemList != null && !srcItemList.isEmpty())
-		{
+		List<Item> srcItemList = cvDataset.getItems();
+		if (srcItemList != null && !srcItemList.isEmpty()) {
 			itemsList = new ArrayList<CVFillItem>();
-			for(CVItem item : srcItemList)
-			{
-				if(item != null)
-				{
+			for (Item item : srcItemList) {
+				if (item != null) {
 					itemsList.add(new CVFillItem(item, factory));
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 *
 	 */
-	public JRElementDataset getDataset()
-	{
+	public JRElementDataset getDataset() {
 		return cvDataset.getDataset();
 	}
-	
+
 	/**
 	 *
 	 */
-	public void evaluateItems(JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
-	{
-		if (itemsList != null)
-		{
-			for(CVFillItem item : itemsList)
-			{
+	public void evaluateItems(JRFillExpressionEvaluator evaluator,
+			byte evaluation) throws JRException {
+		if (itemsList != null) {
+			for (CVFillItem item : itemsList) {
 				item.evaluateProperties(evaluator, evaluation);
 			}
 		}
 	}
-	
+
 	/**
 	 *
 	 */
-	public List<Map<String,Object>> getEvaluateItems(byte evaluation) throws JRException
-	{
-                
-                
-//		if (fillItemDataset != null)
-//		{
-//			fillItemDataset.setEvaluation(evaluation);
-//			fillItemDataset.evaluateDatasetRun(evaluation);
-//		}
-		
-		if (itemsList != null)
-		{
-			if (getDataset() == null)
-			{
-                                evaluateItems(fillContextProvider.getFillContext(), evaluation);
-                                addEvaluateItems();
+	public List<Map<String, Object>> getEvaluateItems(byte evaluation)
+			throws JRException {
+
+		// if (fillItemDataset != null)
+		// {
+		// fillItemDataset.setEvaluation(evaluation);
+		// fillItemDataset.evaluateDatasetRun(evaluation);
+		// }
+
+		if (itemsList != null) {
+			if (getDataset() == null) {
+				evaluateItems(fillContextProvider.getFillContext(), evaluation);
+				addEvaluateItems();
 			}
 		}
-		
-                if (evaluatedItems == null)
-                {
-                    // No records...
-                    evaluatedItems = new ArrayList<Map<String,Object>>();
-                }
-                
-                
+
+		if (evaluatedItems == null) {
+			// No records...
+			evaluatedItems = new ArrayList<Map<String, Object>>();
+		}
+
 		return evaluatedItems;
 	}
-	
+
 	/**
 	 *
 	 */
-	public void addEvaluateItems()
-	{
-		if (itemsList != null)
-		{
-			if (evaluatedItems == null || getDataset() == null)
-			{
-				evaluatedItems = new ArrayList<Map<String,Object>>();
+	public void addEvaluateItems() {
+		if (itemsList != null) {
+			if (evaluatedItems == null || getDataset() == null) {
+				evaluatedItems = new ArrayList<Map<String, Object>>();
 			}
 
-                        for(CVFillItem item : itemsList)
-			{
-                            Map<String, Object> record = item.getEvaluatedProperties();
-                            if (record == null) continue;
-			    evaluatedItems.add(record);
+			for (CVFillItem item : itemsList) {
+				Map<String, Object> record = item.getEvaluatedProperties();
+				if (record == null)
+					continue;
+				evaluatedItems.add(record);
 			}
 		}
 	}
-        
-        
-        public void reset()
-        {
-            evaluatedItems = null;
-        }
+
+	public void reset() {
+		evaluatedItems = null;
+	}
 }
