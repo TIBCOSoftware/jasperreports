@@ -23,20 +23,12 @@
  */
 package net.sf.jasperreports.components.map;
 
-import net.sf.jasperreports.engine.design.JRDesignElementDataset;
-import net.sf.jasperreports.engine.xml.JRElementDatasetFactory;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link net.sf.jasperreports.components.items.ItemDatasetFactory}.
  */
-public class ItemDatasetFactory extends JRElementDatasetFactory
+public class ItemDatasetFactory extends net.sf.jasperreports.components.items.ItemDatasetFactory
 {
-
-	@Override
-	public JRDesignElementDataset getDataset()
-	{
-		return new JRDesignElementDataset();
-	}
-
 }

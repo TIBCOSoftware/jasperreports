@@ -21,14 +21,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map;
+package net.sf.jasperreports.components.items;
 
+import net.sf.jasperreports.components.items.StandardItemData;
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
+import org.xml.sax.Attributes;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link net.sf.jasperreports.components.items.ItemXmlFactory}.
  */
-public class ItemXmlFactory extends net.sf.jasperreports.components.items.ItemXmlFactory
+public class ItemDataXmlFactory extends JRBaseFactory
 {
+	public Object createObject(Attributes attrs) throws Exception
+	{
+		return new StandardItemData();
+	}
 }

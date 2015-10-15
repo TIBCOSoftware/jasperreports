@@ -23,18 +23,11 @@
  */
 package net.sf.jasperreports.components.map;
 
-import net.sf.jasperreports.components.items.StandardItemData;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-
-import org.xml.sax.Attributes;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link net.sf.jasperreports.components.items.ItemDataXmlFactory}.
  */
-public class ItemDataXmlFactory extends JRBaseFactory
+public class ItemDataXmlFactory extends net.sf.jasperreports.components.items.ItemDataXmlFactory
 {
-	public Object createObject(Attributes attrs) throws Exception
-	{
-		return new StandardItemData();
-	}
 }
