@@ -21,32 +21,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map.fill;
+package net.sf.jasperreports.engine.component;
 
-import net.sf.jasperreports.components.items.Item;
-import net.sf.jasperreports.components.items.ItemData;
-import net.sf.jasperreports.components.items.fill.FillItem;
-import net.sf.jasperreports.engine.component.FillContextProvider;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class FillPlaceItemData extends FillItemData
+public interface FillContextProvider
 {
-	/**
-	 *
-	 */
-	public FillPlaceItemData(
-		FillContextProvider fillContextProvider,
-		ItemData itemData, 
-		JRFillObjectFactory factory
-		)// throws JRException
-	{
-		super(fillContextProvider, itemData, factory);
-	}
-	
-	public FillItem getFillItem(Item item, JRFillObjectFactory factory){
-		return new FillPlaceItem(item, factory);
-	}
+	public FillContext getFillContext();
 }

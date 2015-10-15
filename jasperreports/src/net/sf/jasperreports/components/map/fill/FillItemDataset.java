@@ -23,111 +23,18 @@
  */
 package net.sf.jasperreports.components.map.fill;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.fill.JRCalculator;
-import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
-import net.sf.jasperreports.engine.fill.JRFillElementDataset;
-import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
+import net.sf.jasperreports.components.items.fill.FillItemData;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link net.sf.jasperreports.components.items.fill.FillItemDataset}.
  */
-public class FillItemDataset extends JRFillElementDataset
+public class FillItemDataset extends net.sf.jasperreports.components.items.fill.FillItemDataset
 {
-
-	protected final FillItemData itemData;
-//	protected List<FillMarker> markerList;
-	//protected List<Map<String,Object>> evaluatedMarkers;
-	protected JRFillExpressionEvaluator evaluator;
-	protected byte evaluation = JRExpression.EVALUATION_DEFAULT;
-	
 	public FillItemDataset(FillItemData itemData, JRFillObjectFactory factory)
 	{
-		super(itemData.getDataset(), factory);
-
-		this.itemData = itemData;
-
-		factory.registerElementDataset(this);
-	}
-
-	protected void customEvaluate(JRCalculator calculator)
-			throws JRExpressionEvalException
-	{
-		try
-		{
-			itemData.evaluateItems(calculator, evaluation);
-//			if(markerList != null && ! markerList.isEmpty()) 
-//			{
-//				for (FillMarker marker : markerList)
-//				{
-//					marker.evaluateProperties(calculator, evaluation);
-//				}
-//			}
-		}
-		catch (JRExpressionEvalException e)
-		{
-			throw e;
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-	}
-
-	protected void customIncrement()
-	{
-//		if(markerList != null && ! markerList.isEmpty()) {
-//			for (FillMarker marker : markerList)
-//			{
-//				Map<String,Object> evaluatedProperties = marker.getEvaluatedProperties();
-//				if (evaluatedProperties != null)
-//				{
-//					if(evaluatedMarkers == null) {
-//						evaluatedMarkers = new ArrayList<Map<String,Object>>();
-//					}
-//					evaluatedMarkers.add(evaluatedProperties);
-//				}
-//			}
-//		}
-		itemData.addEvaluateItems();
-	}
-
-	protected void customInitialize()
-	{
-		//evaluatedMarkers = null;
-	}
-
-	public void collectExpressions(JRExpressionCollector collector)
-	{
-		//MapCompiler.collectExpressions(markerDataset, collector);
-	}
-
-	public void increment()
-	{
-		super.increment();
-	}
-	
-//	public List<Map<String,Object>> getEvaluatedMarkers()
-//	{
-//		return evaluatedMarkers;
-//	}
-	
-	/**
-	 * @return the evaluation
-	 */
-	public byte getEvaluation() {
-		return evaluation;
-	}
-
-	/**
-	 * @param evaluation the evaluation to set
-	 */
-	public void setEvaluation(byte evaluation) {
-		this.evaluation = evaluation;
+		super(itemData, factory);
 	}
 }

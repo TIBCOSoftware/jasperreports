@@ -23,29 +23,16 @@
  */
 package net.sf.jasperreports.components.map.fill;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.sf.jasperreports.components.items.Item;
-import net.sf.jasperreports.components.items.ItemProperty;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link net.sf.jasperreports.components.items.fill.FillItem}.
  */
-public abstract class FillItem implements Item
+public abstract class FillItem extends net.sf.jasperreports.components.items.fill.FillItem
 {
-
-	/**
-	 *
-	 */
-	protected Item item;
-	protected Map<String, Object> evaluatedProperties;
-	
 	/**
 	 *
 	 */
@@ -54,75 +41,6 @@ public abstract class FillItem implements Item
 		JRFillObjectFactory factory
 		)
 	{
-		factory.put(item, this);
-
-		this.item = item;
+		super(item, factory);
 	}
-	
-	
-	/**
-	 *
-	 */
-	public void evaluateProperties(JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
-	{
-		List<ItemProperty> itemProperties = getProperties();
-		Map<String, Object> result = null;
-		if(itemProperties != null && !itemProperties.isEmpty())
-		{
-			result = new HashMap<String, Object>();
-			for(ItemProperty property : itemProperties)
-			{
-				result.put(property.getName(), getEvaluatedValue(property, evaluator, evaluation));
-			}
-		}
-		
-		//if some of the item properties are conditioning each other
-		verifyValues(result);
-		evaluatedProperties = result;
-	}
-
-
-	/**
-	 *
-	 */
-	public Object clone() 
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public List<ItemProperty> getProperties() 
-	{
-		return item.getProperties();
-	}
-	
-	public Map<String, Object> getEvaluatedProperties() 
-	{
-		return evaluatedProperties;
-	}
-
-	public Object getEvaluatedValue(ItemProperty property, JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
-	{
-		Object result = null;
-		if(
-			property.getValueExpression() == null 
-			|| property.getValueExpression().getText() == null
-			|| property.getValueExpression().getText().trim().length() == 0
-			)
-		{
-			result = property.getValue();
-		}
-		else
-		{
-			result = evaluator.evaluate(property.getValueExpression(), evaluation);
-		}
-
-		verifyValue(property, result);
-		
-		return result;
-	}
-
-	public abstract void verifyValue(ItemProperty property, Object value) throws JRException;
-	
-	public abstract void verifyValues(Map<String, Object> result) throws JRException;
 }

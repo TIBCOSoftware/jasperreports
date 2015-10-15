@@ -21,32 +21,37 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map.fill;
+package net.sf.jasperreports.components.items;
 
-import net.sf.jasperreports.components.items.Item;
-import net.sf.jasperreports.components.items.ItemData;
-import net.sf.jasperreports.components.items.fill.FillItem;
-import net.sf.jasperreports.engine.component.FillContextProvider;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
+
+import org.xml.sax.Attributes;
+
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class FillPlaceItemData extends FillItemData
+public class ItemPropertyXmlFactory extends JRBaseFactory
 {
+
 	/**
 	 *
 	 */
-	public FillPlaceItemData(
-		FillContextProvider fillContextProvider,
-		ItemData itemData, 
-		JRFillObjectFactory factory
-		)// throws JRException
+	public Object createObject(Attributes atts)
 	{
-		super(fillContextProvider, itemData, factory);
-	}
-	
-	public FillItem getFillItem(Item item, JRFillObjectFactory factory){
-		return new FillPlaceItem(item, factory);
+		StandardItemProperty itemProperty = new StandardItemProperty();
+		
+		String name = atts.getValue(JRXmlConstants.ATTRIBUTE_name);
+		if(name != null)
+		{
+			itemProperty.setName(name);
+		}
+		String value = atts.getValue(JRXmlConstants.ATTRIBUTE_value);
+		if(value != null)
+		{
+			itemProperty.setValue(value);
+		}
+		return itemProperty;
 	}
 }

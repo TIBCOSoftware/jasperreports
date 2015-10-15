@@ -23,35 +23,12 @@
  */
 package net.sf.jasperreports.components.map;
 
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
-
-import org.xml.sax.Attributes;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link net.sf.jasperreports.components.items.ItemPropertyXmlFactory}.
  */
-public class ItemPropertyXmlFactory extends JRBaseFactory
+public class ItemPropertyXmlFactory extends net.sf.jasperreports.components.items.ItemPropertyXmlFactory
 {
-
-	/**
-	 *
-	 */
-	public Object createObject(Attributes atts)
-	{
-		StandardItemProperty itemProperty = new StandardItemProperty();
-		
-		String name = atts.getValue(JRXmlConstants.ATTRIBUTE_name);
-		if(name != null)
-		{
-			itemProperty.setName(name);
-		}
-		String value = atts.getValue(JRXmlConstants.ATTRIBUTE_value);
-		if(value != null)
-		{
-			itemProperty.setValue(value);
-		}
-		return itemProperty;
-	}
 }

@@ -23,13 +23,12 @@
  */
 package net.sf.jasperreports.components.map.fill;
 
-import net.sf.jasperreports.engine.component.FillContext;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link net.sf.jasperreports.engine.component.FillContextProvider}.
  */
-public interface FillContextProvider
+public interface FillContextProvider extends net.sf.jasperreports.engine.component.FillContextProvider
 {
-	public FillContext getFillContext();
 }

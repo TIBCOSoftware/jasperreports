@@ -25,8 +25,9 @@ package net.sf.jasperreports.components.map.fill;
 
 import net.sf.jasperreports.components.items.Item;
 import net.sf.jasperreports.components.items.ItemData;
+import net.sf.jasperreports.components.items.fill.FillItem;
+import net.sf.jasperreports.engine.component.FillContextProvider;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
