@@ -719,6 +719,13 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			{
 				pdfWriter.addViewerPreference(PdfName.PRINTSCALING, PdfName.NONE);
 			}
+			
+			boolean justifiedLetterSpacing = propertiesUtil.getBooleanProperty(jasperPrint, 
+					PdfExporterConfiguration.PROPERTY_JUSTIFIED_LETTER_SPACING, false);
+			if (!justifiedLetterSpacing)
+			{
+				pdfWriter.setSpaceCharRatio(PdfWriter.NO_SPACE_CHAR_RATIO);
+			}
 
 			// Add meta-data parameters to generated PDF document
 			// mtclough@users.sourceforge.net 2005-12-05

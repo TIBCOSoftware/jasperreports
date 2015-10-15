@@ -203,6 +203,15 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_DISPLAY_METADATA_TITLE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.display.metadata.title";
 
 	/**
+	 * Property that determines whether justified text alignment can modify letter spacing in words.
+	 * 
+	 * <p>
+	 * By default the property is set to <code>false</code>.
+	 * </p>
+	 */
+	public static final String PROPERTY_JUSTIFIED_LETTER_SPACING = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.justified.letter.spacing";
+	
+	/**
 	 * Returns a boolean value specifying  whether the PDF document should contain an outline section.
 	 * @see #PROPERTY_CREATE_BATCH_MODE_BOOKMARKS
 	 */
