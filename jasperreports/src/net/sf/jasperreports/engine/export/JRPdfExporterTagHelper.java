@@ -194,6 +194,9 @@ public class JRPdfExporterTagHelper
 	public static final String PROPERTY_TAG_H1 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h1";
 	public static final String PROPERTY_TAG_H2 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h2";
 	public static final String PROPERTY_TAG_H3 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h3";
+	public static final String PROPERTY_TAG_H4 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h4";
+	public static final String PROPERTY_TAG_H5 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h5";
+	public static final String PROPERTY_TAG_H6 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h6";
 	public static final String PROPERTY_TAG_COLSPAN = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.colspan";
 	public static final String PROPERTY_TAG_ROWSPAN = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.rowspan";
 	public static final String TAG_START = "start";
@@ -525,72 +528,62 @@ public class JRPdfExporterTagHelper
 		if (element.hasProperties())
 		{
 			String prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TABLE);
-			if (prop != null && (TAG_START.equals(prop) || TAG_FULL.equals(prop)))
+			if (TAG_START.equals(prop) || TAG_FULL.equals(prop))
 			{
 				createTableStartTag();
 			}
 			
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TR);
-			if (prop != null && (TAG_START.equals(prop) || TAG_FULL.equals(prop)))
+			if (TAG_START.equals(prop) || TAG_FULL.equals(prop))
 			{
 				createTrStartTag();
 			}
 			
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TH);
-			if (prop != null && (TAG_START.equals(prop) || TAG_FULL.equals(prop)))
+			if (TAG_START.equals(prop) || TAG_FULL.equals(prop))
 			{
 				createThStartTag(element);
 			}
 
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TD);
-			if (prop != null && (TAG_START.equals(prop) || TAG_FULL.equals(prop)))
+			if (TAG_START.equals(prop) || TAG_FULL.equals(prop))
 			{
 				createTdStartTag(element);
 			}
 			
 			prop = element.getPropertiesMap().getProperty(JRCellContents.PROPERTY_TYPE);
 			if (
-				prop != null 
-				&& (JRCellContents.TYPE_CROSSTAB_HEADER.equals(prop) 
-					|| JRCellContents.TYPE_COLUMN_HEADER.equals(prop)
-					|| JRCellContents.TYPE_ROW_HEADER.equals(prop)))
+				JRCellContents.TYPE_CROSSTAB_HEADER.equals(prop) 
+				|| JRCellContents.TYPE_COLUMN_HEADER.equals(prop)
+				|| JRCellContents.TYPE_ROW_HEADER.equals(prop)
+				)
 			{
 				createThStartTag(element);
 			}
-			if (prop != null && (JRCellContents.TYPE_DATA.equals(prop)))
+			if (JRCellContents.TYPE_DATA.equals(prop))
 			{
 				createTdStartTag(element);
 			}
 			
-			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H1);
-			if (prop != null && (TAG_START.equals(prop) || TAG_FULL.equals(prop)))
-			{
-				PdfStructureElement headingTag = new PdfStructureElement(tagStack.peek(), PdfName.H1);
-				//pdfContentByte.beginMarkedContentSequence(headingTag);
-				headingTag.put(PdfName.K, new PdfArray());
-				tagStack.push(headingTag);
-				isTagEmpty = true;
-			}
-			
-			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H2);
-			if (prop != null && (TAG_START.equals(prop) || TAG_FULL.equals(prop)))
-			{
-				PdfStructureElement headingTag = new PdfStructureElement(tagStack.peek(), PdfName.H2);
-				//pdfContentByte.beginMarkedContentSequence(headingTag);
-				headingTag.put(PdfName.K, new PdfArray());
-				tagStack.push(headingTag);
-				isTagEmpty = true;
-			}
-			
-			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H3);
-			if (prop != null && (TAG_START.equals(prop) || TAG_FULL.equals(prop)))
-			{
-				PdfStructureElement headingTag = new PdfStructureElement(tagStack.peek(), PdfName.H3);
-				//pdfContentByte.beginMarkedContentSequence(headingTag);
-				headingTag.put(PdfName.K, new PdfArray());
-				tagStack.push(headingTag);
-				isTagEmpty = true;
-			}
+			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H1), PdfName.H1);
+			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H2), PdfName.H2);
+			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H3), PdfName.H3);
+			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H4), PdfName.H4);
+			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H5), PdfName.H5);
+			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H6), PdfName.H6);
+		}
+	}
+
+
+	protected void createStartHeadingTags(String prop, PdfName pdfName)
+	{
+		if (TAG_START.equals(prop) || TAG_FULL.equals(prop))
+		{
+			PdfStructureElement headingTag = new PdfStructureElement(tagStack.peek(), pdfName);
+			//pdfContentByte.beginMarkedContentSequence(headingTag);
+			headingTag.put(PdfName.K, new PdfArray());
+			tagStack.push(headingTag);
+			isTagEmpty = true;
 		}
 	}
 
@@ -678,49 +671,14 @@ public class JRPdfExporterTagHelper
 	{
 		if (element.hasProperties())
 		{
-			String prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H3);
-			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
-			{
-				//pdfContentByte.endMarkedContentSequence(); 
+			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H6));
+			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H5));
+			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H4));
+			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H3));
+			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H2));
+			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H1));
 
-				if (isTagEmpty)
-				{
-					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement(tagStack.peek(), PdfName.SPAN));
-					pdfContentByte.endMarkedContentSequence();
-				}
-
-				tagStack.pop();
-			}
-
-			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H2);
-			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
-			{
-				//pdfContentByte.endMarkedContentSequence(); 
-
-				if (isTagEmpty)
-				{
-					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement(tagStack.peek(), PdfName.SPAN));
-					pdfContentByte.endMarkedContentSequence();
-				}
-
-				tagStack.pop();
-			}
-
-			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_H1);
-			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
-			{
-				//pdfContentByte.endMarkedContentSequence(); 
-
-				if (isTagEmpty)
-				{
-					pdfContentByte.beginMarkedContentSequence(new PdfStructureElement(tagStack.peek(), PdfName.SPAN));
-					pdfContentByte.endMarkedContentSequence();
-				}
-
-				tagStack.pop();
-			}
-
-			prop = element.getPropertiesMap().getProperty(JRCellContents.PROPERTY_TYPE);
+			String prop = element.getPropertiesMap().getProperty(JRCellContents.PROPERTY_TYPE);
 			if (
 				prop != null 
 				&& (JRCellContents.TYPE_CROSSTAB_HEADER.equals(prop) 
@@ -740,7 +698,7 @@ public class JRPdfExporterTagHelper
 			}
 			
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TD);
-			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
+			if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
 			{
 				//pdfContentByte.endMarkedContentSequence();
 				
@@ -754,7 +712,7 @@ public class JRPdfExporterTagHelper
 			}
 			
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TH);
-			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
+			if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
 			{
 				//pdfContentByte.endMarkedContentSequence();
 				
@@ -768,18 +726,35 @@ public class JRPdfExporterTagHelper
 			}
 
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TR);
-			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
+			if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
 			{
 				//pdfContentByte.endMarkedContentSequence();
 				tagStack.pop();
 			}
 
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_TABLE);
-			if (prop != null && (TAG_END.equals(prop) || TAG_FULL.equals(prop)))
+			if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
 			{
 				//pdfContentByte.endMarkedContentSequence();
 				tagStack.pop();
 			}
+		}
+	}
+
+
+	protected void createEndHeadingTags(String prop)
+	{
+		if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
+		{
+			//pdfContentByte.endMarkedContentSequence(); 
+
+			if (isTagEmpty)
+			{
+				pdfContentByte.beginMarkedContentSequence(new PdfStructureElement(tagStack.peek(), PdfName.SPAN));
+				pdfContentByte.endMarkedContentSequence();
+			}
+
+			tagStack.pop();
 		}
 	}
 }
