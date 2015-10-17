@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.fill.AsynchronousFillHandle;
 import net.sf.jasperreports.repo.RepositoryUtil;
 import net.sf.jasperreports.web.JRInteractiveException;
@@ -72,18 +73,18 @@ public class Controller
 	 *
 	 */
 	public void runReport(
-		WebReportContext webReportContext,
+		ReportContext reportContext,
 		Action action
-		) throws JRException, JRInteractiveException
+		) throws JRException
 	{
-		String reportUri = (String)webReportContext.getParameterValue(WebUtil.REQUEST_PARAMETER_REPORT_URI);
+		String reportUri = (String) reportContext.getParameterValue(WebUtil.REQUEST_PARAMETER_REPORT_URI);
 		int initialStackSize = 0;
-		CommandStack commandStack = (CommandStack)webReportContext.getParameterValue(AbstractAction.PARAM_COMMAND_STACK);
+		CommandStack commandStack = (CommandStack) reportContext.getParameterValue(AbstractAction.PARAM_COMMAND_STACK);
 		if (commandStack != null) {
 			initialStackSize = commandStack.getExecutionStackSize();
 		}
 
-		setDataCache(webReportContext);
+		setDataCache(reportContext);
 		
 		JasperReport jasperReport = null;
 		
@@ -103,7 +104,7 @@ public class Controller
 				}
 			}
 
-			jasperReport = RepositoryUtil.getInstance(jasperReportsContext).getReport(webReportContext, reportUri);
+			jasperReport = RepositoryUtil.getInstance(jasperReportsContext).getReport(reportContext, reportUri);
 		}
 
 
@@ -115,26 +116,26 @@ public class Controller
 					new Object[]{reportUri});
 		}
 		
-		Boolean async = (Boolean)webReportContext.getParameterValue(WebUtil.REQUEST_PARAMETER_ASYNC_REPORT);
+		Boolean async = (Boolean) reportContext.getParameterValue(WebUtil.REQUEST_PARAMETER_ASYNC_REPORT);
 		if (async == null)
 		{
 			async = Boolean.FALSE;
 		}
-		webReportContext.setParameterValue(WebUtil.REQUEST_PARAMETER_ASYNC_REPORT, async);
+		reportContext.setParameterValue(WebUtil.REQUEST_PARAMETER_ASYNC_REPORT, async);
 		
 		try {
-			runReport(webReportContext, jasperReport, async.booleanValue());
+			runReport(reportContext, jasperReport, async.booleanValue());
 		} catch (JRException e) {
-			undoAction(webReportContext, initialStackSize);
+			undoAction(reportContext, initialStackSize);
 			throw e;
 		} catch (JRRuntimeException e) {
-			undoAction(webReportContext, initialStackSize);
+			undoAction(reportContext, initialStackSize);
 			throw e;
 		}
 	}
 	
-	private void undoAction(WebReportContext webReportContext, int initialStackSize) {
-		CommandStack commandStack = (CommandStack)webReportContext.getParameterValue(AbstractAction.PARAM_COMMAND_STACK);
+	private void undoAction(ReportContext reportContext, int initialStackSize) {
+		CommandStack commandStack = (CommandStack) reportContext.getParameterValue(AbstractAction.PARAM_COMMAND_STACK);
 		if (commandStack != null) {
 			for (int i = 0; i < (commandStack.getExecutionStackSize() - initialStackSize); i++) {
 				commandStack.undo();
@@ -143,9 +144,9 @@ public class Controller
 	}
 
 
-	protected void setDataCache(WebReportContext webReportContext)
+	protected void setDataCache(ReportContext reportContext)
 	{
-		DataCacheHandler dataCacheHandler = (DataCacheHandler) webReportContext.getParameterValue(
+		DataCacheHandler dataCacheHandler = (DataCacheHandler) reportContext.getParameterValue(
 				DataCacheHandler.PARAMETER_DATA_CACHE_HANDLER);
 		if (dataCacheHandler != null && !dataCacheHandler.isSnapshotPopulated())
 		{
@@ -170,7 +171,7 @@ public class Controller
 				log.debug("Created data cache handler " + dataCacheHandler);
 			}
 			
-			webReportContext.setParameterValue(
+			reportContext.setParameterValue(
 					DataCacheHandler.PARAMETER_DATA_CACHE_HANDLER, dataCacheHandler);
 		}
 	}
@@ -180,7 +181,7 @@ public class Controller
 	 *
 	 */
 	protected void runReport(
-		WebReportContext webReportContext,
+		ReportContext reportContext,
 		JasperReport jasperReport, 
 		boolean async
 		) throws JRException
@@ -192,7 +193,7 @@ public class Controller
 				AsynchronousFillHandle.createHandle(
 					jasperReportsContext,
 					jasperReport, 
-					webReportContext.getParameterValues()
+					reportContext.getParameterValues()
 					);
 			AsyncJasperPrintAccessor asyncAccessor = new AsyncJasperPrintAccessor(fillHandle);
 			
@@ -205,11 +206,11 @@ public class Controller
 			JasperPrint jasperPrint = 
 					JasperFillManager.getInstance(jasperReportsContext).fill(
 						jasperReport, 
-						webReportContext.getParameterValues()
+						reportContext.getParameterValues()
 						);
 			accessor = new SimpleJasperPrintAccessor(jasperPrint);
 		}
 		
-		webReportContext.setParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR, accessor);
+		reportContext.setParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR, accessor);
 	}
 }

@@ -27,8 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import net.sf.jasperreports.engine.ReportContext;
-
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
@@ -66,6 +64,10 @@ public class SimpleReportContext implements ReportContext
 	public boolean containsParameter(String parameterName)
 	{
 		return parameters.containsKey(parameterName);
+	}
+
+	public Map<String, Object> getParameterValues() {
+		return parameters;
 	}
 
 }

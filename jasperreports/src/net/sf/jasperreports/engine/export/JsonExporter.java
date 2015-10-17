@@ -57,6 +57,7 @@ import net.sf.jasperreports.web.util.JacksonUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -295,11 +296,19 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 		exportElements(frame.getElements());
 	}
 
+	protected interface PrintBookmarkMixin {
+		@JsonIgnore
+		int getLevel();
+	}
+
 	protected void exportBookmarks() throws IOException
 	{
 		List<PrintBookmark> bookmarks = jasperPrint.getBookmarks();
 		if (bookmarks != null && bookmarks.size() > 0)
 		{
+			// exclude the methods marked with @JsonIgnore in PrintBookmarkMixin from PrintBookmark implementation
+			jacksonUtil.getObjectMapper().addMixInAnnotations(PrintBookmark.class, PrintBookmarkMixin.class);
+
 			if (gotFirstJsonFragment)
 			{
 				writer.write(",\n");

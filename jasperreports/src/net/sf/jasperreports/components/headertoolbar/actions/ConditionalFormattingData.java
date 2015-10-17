@@ -78,18 +78,22 @@ public class ConditionalFormattingData extends BaseColumnData {
 		this.conditionPattern = filterPattern;
 	}
 
+	@JsonIgnore
 	public String getLocaleCode() {
 		return localeCode;
 	}
 
+	@JsonIgnore
 	public void setLocaleCode(String localeCode) {
 		this.localeCode = localeCode;
 	}
 
+	@JsonIgnore
 	public String getTimeZoneId() {
 		return timeZoneId;
 	}
 
+	@JsonIgnore
 	public void setTimeZoneId(String timeZoneId) {
 		this.timeZoneId = timeZoneId;
 	}
@@ -97,6 +101,7 @@ public class ConditionalFormattingData extends BaseColumnData {
 	/**
 	 * @deprecated To be removed.
 	 */
+	@JsonIgnore
 	public String getColumnType() {
 		return columnType;
 	}
@@ -104,6 +109,7 @@ public class ConditionalFormattingData extends BaseColumnData {
 	/**
 	 * @deprecated To be removed.
 	 */
+	@JsonIgnore
 	public void setColumnType(String columnType) {
 		this.columnType = columnType;
 	}
@@ -111,6 +117,7 @@ public class ConditionalFormattingData extends BaseColumnData {
 	/**
 	 * @deprecated To be removed.
 	 */
+	@JsonIgnore
 	public String getFieldOrVariableName() {
 		return fieldOrVariableName;
 	}
@@ -118,6 +125,7 @@ public class ConditionalFormattingData extends BaseColumnData {
 	/**
 	 * @deprecated To be removed.
 	 */
+	@JsonIgnore
 	public void setFieldOrVariableName(String fieldOrVariableName) {
 		this.fieldOrVariableName = fieldOrVariableName;
 	}
@@ -130,18 +138,22 @@ public class ConditionalFormattingData extends BaseColumnData {
 		this.conditions = conditions;
 	}
 
+	@JsonIgnore
 	public String getApplyTo() {
 		return applyTo;
 	}
 
+	@JsonProperty
 	public void setApplyTo(String applyTo) {
 		this.applyTo = applyTo;
 	}
 
+	@JsonIgnore
 	public String getGroupName() {
 		return groupName;
 	}
 
+	@JsonProperty
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}

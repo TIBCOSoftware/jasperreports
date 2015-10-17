@@ -90,7 +90,7 @@ public class DurationNumberFormat extends NumberFormat
 				{
 					seconds += Long.parseLong(tokens[2]);
 				}
-				parsePosition.setIndex(source.length() - 1);
+				parsePosition.setIndex(source.length());
 				return seconds;
 			}
 		}

@@ -314,12 +314,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 			if (canFilter)
 			{
-				FilterData filterData = getFilterData(jrContext, dataset, tableUUID, columnName, columnType, filterType,
+				FilterData filterData = getFilterData(jrContext, dataset, columnName, columnType, filterType, columnValueData.getFormatPattern(),
 						locale, timeZone);
-
-				if (DURATION_PATTERN.equals(columnValueData.getFormatPattern())) {
-					filterData.setFilterPattern(DURATION_PATTERN);
-				}
 
 				contextMap.put("dataType", filterType.getName());
 				contextMap.put("filterData", JacksonUtil.getInstance(jrContext).getJsonString(filterData));
@@ -503,10 +499,10 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 	private static FilterData getFilterData(
 		JasperReportsContext jasperReportsContext,
 		JRDesignDataset dataset,
-		String tableUuid,
 		String columnName,
 		String columnType,
 		FilterTypesEnum filterType,
+		String columnValuePattern,
 		Locale locale,
 		TimeZone timeZone
 		) 
@@ -551,7 +547,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		{
 			String filterPattern = HeaderToolbarElementUtils.getFilterPattern(jasperReportsContext, locale, filterType);
 
-			if (FilterTypesEnum.NUMERIC.equals(filterType) && DURATION_PATTERN.equals(filterData.getFilterPattern())) {
+			if (FilterTypesEnum.NUMERIC.equals(filterType) && DURATION_PATTERN.equals(columnValuePattern)) {
 				filterPattern = DURATION_PATTERN;
 			}
 
@@ -575,7 +571,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
 		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
-		EditTextElementData textElementData = new EditTextElementData();
 
 		if (target != null){
 			JRIdentifiable identifiable = target.getIdentifiable();
@@ -590,13 +585,16 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				JRDesignTextElement textElement = TableUtil.getCellElement(JRDesignTextElement.class, column.getColumnHeader(), true);
 
 				if (textElement != null) {
+					EditTextElementData textElementData = new EditTextElementData();
+
 					textElementData.setHeadingName(JRStringUtil.htmlEncode(sortColumnLabel));
 					textElementData.setColumnIndex(columnIndex);
 					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement, locale);
+
+					contextMap.put("colHeaderData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(textElementData));
 				}
 			}
 		}
-		contextMap.put("colHeaderData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(textElementData));
 	}
 	
 	private EditTextElementData setColumnValueData(Integer columnIndex, String tableUuid, Map<String, Object> contextMap,
@@ -605,19 +603,19 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		action.init(jasperReportsContext, reportContext);
 		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
 		EditTextElementData textElementData = new EditTextElementData();
-		
+
 		if (target != null){
 			JRIdentifiable identifiable = target.getIdentifiable();
 			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
 			StandardTable table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
-			
+
 			List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
-			
+
 			if (columnIndex != null) {
 				StandardColumn column = (StandardColumn) tableColumns.get(columnIndex);
-				
+
 				JRDesignTextField textElement = TableUtil.getCellElement(JRDesignTextField.class, column.getDetailCell(), true);
-				
+
 				if (textElement != null) {
 					textElementData.setColumnIndex(columnIndex);
 					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement, locale);
@@ -830,9 +828,10 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement, locale);
 
 			Map<String, Object> groupData = new HashMap<String, Object>();
-			groupData.put("grouptype", groupInfo.getType());
+			groupData.put("groupType", groupInfo.getType());
 			groupData.put("id", groupInfo.getType() + "_" + i);
 			groupData.put("groupData", textElementData);
+			groupData.put("groupName", groupInfo.getName());
 			groupData.put("forColumns", groupInfo.getForColumns());
 
 			JRDesignTextField textField = textElement instanceof JRDesignTextField ? (JRDesignTextField)textElement : null;
@@ -851,9 +850,12 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			
 			if (cfData != null) 
 			{
-				textElementData.setDataType(cfData.getConditionType());
-
+				groupData.put("dataType", cfData.getConditionType());
 				groupData.put("conditionalFormattingData", cfData);
+			}
+			else
+			{
+				groupData.put("dataType", FilterTypesEnum.TEXT.getName());
 			}
 
 			groupsData.add(groupData);
