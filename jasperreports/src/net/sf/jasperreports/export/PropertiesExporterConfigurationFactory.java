@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.export;
 
+import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -33,6 +34,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.NamedEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 
@@ -41,6 +43,7 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
  */
 public class PropertiesExporterConfigurationFactory<C extends CommonExportConfiguration>
 {
+	public static final String EXCEPTION_MESSAGE_KEY_EXPORT_PROPERTIES_EMPTY_STRING_DEFAULT_NOT_SUPPORTED = "export.common.properties.empty.string.default.not.supported";
 	public static final String EXCEPTION_MESSAGE_KEY_EXPORT_PROPERTIES_TYPE_NOT_SUPPORTED = "export.common.properties.type.not.supported";
 
 //	/**
@@ -202,6 +205,30 @@ public class PropertiesExporterConfigurationFactory<C extends CommonExportConfig
 			else if (Boolean.class.equals(type))
 			{
 				value = propertiesUtil.getBooleanProperty(propertiesHolder, propertyName, exporterProperty.booleanDefault());
+			}
+			else if (Color.class.equals(type))
+			{
+				String strValue = propertiesUtil.getProperty(propertiesHolder, propertyName);
+
+				if (strValue == null)
+				{
+					if (!exporterProperty.nullDefault())
+					{
+						strValue = exporterProperty.stringDefault();
+						if (strValue.trim().length() == 0)
+						{
+							throw new JRRuntimeException(
+								EXCEPTION_MESSAGE_KEY_EXPORT_PROPERTIES_EMPTY_STRING_DEFAULT_NOT_SUPPORTED,
+								new Object[]{propertyName}
+								);
+						}
+					}
+				}
+
+				if (strValue != null)
+				{
+					value = JRColorUtil.getColor(strValue, null);
+				}
 			}
 			else if (NamedEnum.class.isAssignableFrom(type))
 			{
