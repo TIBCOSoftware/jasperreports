@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.component.ComponentDesignConverter;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentManager;
-import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 
 
@@ -76,8 +75,7 @@ public final class ComponentElementConverter extends ElementConverter
 		ComponentKey componentKey = componentElement.getComponentKey();
 		if (componentKey != null)
 		{
-			ComponentManager manager = ComponentsEnvironment.getInstance(reportConverter.getJasperReportsContext()).getManager(
-					componentKey);
+			ComponentManager manager = reportConverter.getComponentsEnvironment().getManager(componentKey);
 			if (manager != null)
 			{
 				ComponentDesignConverter converter = manager.getDesignConverter(reportConverter.getJasperReportsContext());
