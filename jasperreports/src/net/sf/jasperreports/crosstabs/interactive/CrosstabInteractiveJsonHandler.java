@@ -85,8 +85,9 @@ public class CrosstabInteractiveJsonHandler implements GenericElementJsonHandler
 			elementInfo.put("type", "crosstab");
 			elementInfo.put("module", "jive.crosstab");
 			elementInfo.put("uimodule", "jive.crosstab.interactive");
-			elementInfo.put("id", crosstabId);
+			elementInfo.put("id", crosstabFragmentId);
 			elementInfo.put("fragmentId", crosstabFragmentId);
+			elementInfo.put("crosstabId", crosstabId);
 			elementInfo.put("startColumnIndex", element.getParameterValue(ELEMENT_PARAMETER_START_COLUMN_INDEX));			
 			elementInfo.put("hasFloatingHeaders", element.getParameterValue(ELEMENT_PARAMETER_FLOATING_HEADERS));
 			elementInfo.put("rowGroups", element.getParameterValue(ELEMENT_PARAMETER_ROW_GROUPS));
