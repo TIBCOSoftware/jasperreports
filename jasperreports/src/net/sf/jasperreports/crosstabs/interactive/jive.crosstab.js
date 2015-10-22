@@ -38,7 +38,7 @@ define(["jquery"], function($) {
 
 	Crosstab.prototype = {
 		getId: function() {
-			return this.config.id;
+			return this.config.crosstabId;
 		},
 		getFragmentId: function() {
 			return this.config.fragmentId;
