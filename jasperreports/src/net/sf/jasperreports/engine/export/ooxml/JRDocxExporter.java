@@ -511,7 +511,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 						docWriter, 
 						xCuts,
 						false,
-						pageFormat
+						pageFormat,
+						frameIndex
 						);
 			int maxReportIndex = exporterInput.getItems().size() - 1;
 			
@@ -531,7 +532,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 					docWriter, 
 					xCuts,
 					frameIndex == null && (reportIndex != 0 || pageIndex != startPageIndex),
-					pageFormat
+					pageFormat,
+					frameIndex
 					);
 
 		tableHelper.exportHeader();
