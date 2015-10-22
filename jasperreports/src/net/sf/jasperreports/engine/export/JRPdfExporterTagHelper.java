@@ -493,24 +493,24 @@ public class JRPdfExporterTagHelper
 		}
 	}
 
-	protected void startText()
+	protected void startText(boolean isHyperlink)
 	{
 		if (isTagged)
 		{
 //			PdfStructureElement parentTag = tableCellTag == null ? (tableHeaderTag == null ? allTag : tableHeaderTag): tableCellTag;
 //			PdfStructureElement textTag = new PdfStructureElement(parentTag, PdfName.TEXT);
-			PdfStructureElement textTag = new PdfStructureElement(tagStack.peek(), PdfName.TEXT);
+			PdfStructureElement textTag = new PdfStructureElement(tagStack.peek(), isHyperlink ? PdfName.LINK : PdfName.TEXT);
 			pdfContentByte.beginMarkedContentSequence(textTag);
 		}
 	}
 
-	protected void startText(String text)
+	protected void startText(String text, boolean isHyperlink)
 	{
 		if (isTagged)
 		{
 			PdfDictionary markedContentProps = new PdfDictionary();
 			markedContentProps.put(PdfName.ACTUALTEXT, new PdfString(text, PdfObject.TEXT_UNICODE));
-			PdfStructureElement textTag = new PdfStructureElement(tagStack.peek(), PdfName.TEXT);
+			PdfStructureElement textTag = new PdfStructureElement(tagStack.peek(), isHyperlink ? PdfName.LINK : PdfName.TEXT);
 			// the following method is part of the patched iText
 			pdfContentByte.beginMarkedContentSequence(textTag, markedContentProps);
 		}
