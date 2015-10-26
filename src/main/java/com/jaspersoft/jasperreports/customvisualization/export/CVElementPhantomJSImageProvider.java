@@ -58,6 +58,7 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
         private static final Random RANDOM = new Random();
     
         public static final String PROPERTY_PHANTOMJS_EXECUTABLE_PATH = "com.jaspersoft.jasperreports.components.customvisualization.phantomjs.executable.path";
+        public static final String PROPERTY_CVC_PHANTOMJS_DEBUG = "com.jaspersoft.jasperreports.components.customvisualization.phantomjs.debug";
         public static final String PROPERTY_PHANTOMJS_EXECUTABLE_TIMEOUT = "com.jaspersoft.jasperreports.highcharts.phantomjs.executable.timeout";
         public static final String PROPERTY_PHANTOMJS_TEMPDIR_PATH = "com.jaspersoft.jasperreports.highcharts.phantomjs.tempdir.path";
         
@@ -180,6 +181,14 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
                 {
                     phantomjsExecutablePath = jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
                 }
+                
+                
+                boolean componentDebug = false;
+                if (jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_CVC_PHANTOMJS_DEBUG) != null)
+                {
+                    componentDebug = jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_CVC_PHANTOMJS_DEBUG).equals("true");
+                }
+                
 		
                 int phantomjsTimeout; 
                 String timeoutProperty = jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_TIMEOUT);
@@ -216,7 +225,7 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
                                 StringBuilder htmlPage = new StringBuilder();
                                 htmlPage.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/></head><body>");
                                 
-                                String htmlFragment = CVElementHtmlHandler.getInstance().getHtmlFragment(jasperReportsContext, null, element);
+                                String htmlFragment = CVElementHtmlHandler.getInstance().getHtmlFragment(jasperReportsContext, null, element, true);
                                 
                                 
                                 htmlPage.append( htmlFragment );
@@ -289,7 +298,11 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
                                             if (log.isDebugEnabled()) {
                                                 log.debug("Cleaning up resource after rendering of element " + element.hashCode() + ": " + cleanableResource.getAbsolutePath());
                                             }
-                                            //cleanableResource.delete();
+                                            
+                                            if (!componentDebug)
+                                            {
+                                                cleanableResource.delete();
+                                            }
                                         }
                                 }
                             }
@@ -328,7 +341,7 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
                             if (log.isDebugEnabled()) {
                                     log.debug("Executing external command: " + cmd);
                             }
-                            System.out.println(cmd);
+                            //System.out.println(cmd);
 			
                             ProcessBuilder pb = new ProcessBuilder(Arrays.asList(args));
                             pb.directory(currentDirectory);

@@ -75,8 +75,12 @@ public class CVElementHtmlHandler implements GenericElementHtmlHandler
             return getHtmlFragment(context.getJasperReportsContext(), context, element);
         }
         
+        public String getHtmlFragment(JasperReportsContext jrContext, JRHtmlExporterContext context, JRGenericPrintElement element)
+	{
+            return getHtmlFragment(jrContext, context, element, false);
+        }
         
-	public String getHtmlFragment(JasperReportsContext jrContext, JRHtmlExporterContext context, JRGenericPrintElement element)
+	public String getHtmlFragment(JasperReportsContext jrContext, JRHtmlExporterContext context, JRGenericPrintElement element, boolean preventAnimations)
 	{
             Map<String, Object> originalConfiguration = (Map<String, Object>)element.getParameterValue( CVPrintElement.CONFIGURATION);
             
@@ -114,12 +118,18 @@ public class CVElementHtmlHandler implements GenericElementHtmlHandler
             ObjectMapper mapper = new ObjectMapper();
             try {
                 
-                if (!configuration.containsKey("instanceData"))
-                {
+                // Let's force the configuration to be regenerated all the times...
+                //if (!configuration.containsKey("instanceData"))
+                //{
                     Map<String, Object> jsonConfiguration = CVElementJsonHandler.createConfigurationForJSON(configuration);
+                    if (preventAnimations)
+                    {
+                        jsonConfiguration.put("animation", false);
+                    }
                     String instanceData = mapper.writeValueAsString(jsonConfiguration);
                     configuration.put("instanceData", instanceData);
-                }
+                //}
+                
             } catch (Exception ex)
             {
                 log.warn("Error dumping the JSON for the configuration...: " + ex.getMessage(), ex);

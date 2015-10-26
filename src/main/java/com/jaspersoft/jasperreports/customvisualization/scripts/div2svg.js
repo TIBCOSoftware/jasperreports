@@ -161,13 +161,27 @@ page.onPageReady = function()
                               // removing attributes so they aren't doubled up
                               svg.removeAttribute("xmlns");
                               
-                              var defs_element = document.createElement('defs');
-                              if (defs_element.hasAttribute("xmlns")) {
-                                defs_element.removeAttribute("xmlns");
+                              var defsTags = svg.getElementsByTagName("defs")
+                              
+                              var defs_element = null;
+                              if (defsTags.length == 0)
+                              {
+                                  var defs_element = document.createElement('defs');
+                                  if (defs_element.hasAttribute("xmlns")) {
+                                      defs_element.removeAttribute("xmlns");
+                                  }
+                                  svg.insertBefore(defs_element, svg.firstChild);
                               }
+                              else
+                              {
+                                  defs_element = defsTags[0];
+                              }
+                              
+                              var innerDefs = defs_element.innerHTML;
+                              innerDefs += '<style type="text/css"><![CDATA[' + styles + ']]></style>';
 
-                              defs_element.innerHTML = '<style type="text/css"><![CDATA[' + styles + ']]></style>';
-                              svg.insertBefore(defs_element, svg.firstChild);
+                              defs_element.innerHTML = innerDefs;
+                              
                               
                               var source = (new XMLSerializer()).serializeToString(svg).replace('<defs xmlns="http://www.w3.org/1999/xhtml">','<defs>'); //.replace('</style>', '<![CDATA[' + styles + ']]></style>');
                               //console.log("Source is " + source);
