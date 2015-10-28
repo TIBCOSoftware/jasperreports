@@ -62,6 +62,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
+import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.fill.JRFiller;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
@@ -86,6 +87,7 @@ public class ReportConverter
 	public static final String EXCEPTION_MESSAGE_KEY_CIRCULAR_DEPENDENCY_FOUND = "convert.report.converter.circular.dependency.found";
 	
 	private final JasperReportsContext jasperReportsContext;
+	private final ComponentsEnvironment componentsEnvironment;
 	private final JRReport report;
 	private final Locale locale;
 	private final TimeZone timezone;
@@ -114,6 +116,7 @@ public class ReportConverter
 	public ReportConverter(JasperReportsContext jasperReportsContext, JRReport report, boolean ignoreContent)
 	{
 		this.jasperReportsContext = jasperReportsContext;
+		this.componentsEnvironment = ComponentsEnvironment.getInstance(jasperReportsContext);
 		this.report = report;
 		this.locale = readLocale();//allow to pass this explicitly?
 		this.timezone = readTimeZone();
@@ -549,6 +552,11 @@ public class ReportConverter
 	public JasperReportsContext getJasperReportsContext()
 	{
 		return jasperReportsContext;
+	}
+
+	public ComponentsEnvironment getComponentsEnvironment()
+	{
+		return componentsEnvironment;
 	}
 	
 	

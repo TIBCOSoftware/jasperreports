@@ -227,7 +227,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		this.propertyExpressions = new ArrayList<JRPropertyExpression>(element.propertyExpressions);
 		this.dynamicTransferProperties = element.dynamicTransferProperties;
 		
-		styleProviders = element.styleProviders;
+		// we need a style provider context for this element instance
+		initStyleProviders();
 	}
 	
 	private List<String> findDynamicTransferProperties()

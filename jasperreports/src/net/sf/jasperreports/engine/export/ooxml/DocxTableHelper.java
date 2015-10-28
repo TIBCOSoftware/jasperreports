@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.CutsInfo;
@@ -44,7 +45,7 @@ public class DocxTableHelper extends BaseHelper
 	private DocxCellHelper cellHelper;
 	private DocxParagraphHelper paragraphHelper;
 	private PrintPageFormat pageFormat;
-
+	private JRPrintElementIndex frameIndex;
 
 	/**
 	 * 
@@ -54,7 +55,8 @@ public class DocxTableHelper extends BaseHelper
 		Writer writer,
 		CutsInfo xCuts,
 		boolean pageBreak,
-		PrintPageFormat pageFormat
+		PrintPageFormat pageFormat,
+		JRPrintElementIndex frameIndex
 		) 
 	{
 		super(jasperReportsContext, writer);
@@ -63,6 +65,7 @@ public class DocxTableHelper extends BaseHelper
 		this.cellHelper = new DocxCellHelper(jasperReportsContext, writer);
 		this.paragraphHelper = new DocxParagraphHelper(jasperReportsContext, writer, pageBreak);
 		this.pageFormat = pageFormat;
+		this.frameIndex = frameIndex;
 	}
 
 
@@ -94,20 +97,33 @@ public class DocxTableHelper extends BaseHelper
 		write("    <w:tblLayout w:type=\"fixed\"/>\n");
 		write("   </w:tblPr>\n");
 		write("   <w:tblGrid>\n");
-
 		int leftColumnWidth = xCuts.getCutOffset(1) - xCuts.getCutOffset(0);
-		leftColumnWidth -= Math.min(leftColumnWidth, pageFormat.getLeftMargin());
-		write("    <w:gridCol w:w=\"" + (leftColumnWidth == 0 ? 1 : LengthUtil.twip(leftColumnWidth)) + "\"/>\n");
-		
+		if(frameIndex == null)
+		{
+			leftColumnWidth -= Math.min(leftColumnWidth, pageFormat.getLeftMargin());
+			write("    <w:gridCol w:w=\"" + (leftColumnWidth == 0 ? 1 : LengthUtil.twip(leftColumnWidth)) + "\"/>\n");
+		}
+		else
+		{
+			write("    <w:gridCol w:w=\"" + LengthUtil.twip(leftColumnWidth) + "\"/>\n");
+		}
 		for(int col = 2; col < xCuts.size() - 1; col++)
 		{
 			write("    <w:gridCol w:w=\"" + LengthUtil.twip(xCuts.getCutOffset(col) - xCuts.getCutOffset(col - 1)) + "\"/>\n");
 		}
-		
-		int rightColumnWidth = xCuts.getCutOffset(xCuts.size() - 1) - xCuts.getCutOffset(xCuts.size() - 2);
-		rightColumnWidth -= Math.min(rightColumnWidth, pageFormat.getRightMargin());
-		write("    <w:gridCol w:w=\"" + (rightColumnWidth == 0 ? 1 : LengthUtil.twip(rightColumnWidth)) + "\"/>\n");
-		
+		if(xCuts.size() > 1)
+		{
+			int rightColumnWidth = xCuts.getCutOffset(xCuts.size() - 1) - xCuts.getCutOffset(xCuts.size() - 2);
+			if(frameIndex == null)
+			{
+				rightColumnWidth -= Math.min(rightColumnWidth, pageFormat.getRightMargin());
+				write("    <w:gridCol w:w=\"" + (rightColumnWidth == 0 ? 1 : LengthUtil.twip(rightColumnWidth)) + "\"/>\n");
+			}
+			else
+			{
+				write("    <w:gridCol w:w=\"" + LengthUtil.twip(rightColumnWidth) + "\"/>\n");
+			}
+		}
 		write("   </w:tblGrid>\n");
 	}
 	

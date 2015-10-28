@@ -2382,11 +2382,11 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		{
 			if (glyphRendererAddActualText && textRenderer instanceof PdfGlyphRenderer)
 			{
-				tagHelper.startText(styledText.getText());
+				tagHelper.startText(styledText.getText(), text.getLinkType() != null);
 			}
 			else
 			{
-				tagHelper.startText();
+				tagHelper.startText(text.getLinkType() != null);
 			}
 			
 			/*   */

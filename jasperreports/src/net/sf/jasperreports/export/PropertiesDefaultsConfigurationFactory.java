@@ -47,8 +47,6 @@ import org.apache.commons.lang.ClassUtils;
  */
 public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfiguration>
 {
-	public static final String EXCEPTION_MESSAGE_KEY_EXPORT_PROPERTIES_EMPTY_STRING_DEFAULT_NOT_SUPPORTED = "export.common.properties.empty.string.default.not.supported";
-	
 	/**
 	 * 
 	 */
@@ -250,15 +248,14 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 						if (strValue.trim().length() == 0)
 						{
 							throw new JRRuntimeException(
-								EXCEPTION_MESSAGE_KEY_EXPORT_PROPERTIES_EMPTY_STRING_DEFAULT_NOT_SUPPORTED,
+								PropertiesExporterConfigurationFactory.EXCEPTION_MESSAGE_KEY_EXPORT_PROPERTIES_EMPTY_STRING_DEFAULT_NOT_SUPPORTED,
 								new Object[]{propertyName}
 								);
 						}
-						
-						value = JRColorUtil.getColor(strValue, null);
 					}
 				}
-				else
+
+				if (strValue != null)
 				{
 					value = JRColorUtil.getColor(strValue, null);
 				}
@@ -269,10 +266,11 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 				{
 					if (!exporterProperty.nullDefault())
 					{
-						value = JRColorUtil.getColor(exporterProperty.stringDefault(), null);
+						strValue = exporterProperty.stringDefault();
 					}
 				}
-				else
+
+				if (strValue != null)
 				{
 					try
 					{
