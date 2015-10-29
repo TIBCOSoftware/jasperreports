@@ -214,7 +214,7 @@ define(["jquery.ui", "jive"], function($, jive) {
             for(i in allColumns) {
                 c = allColumns[i];
                 if (c.interactive) {
-                    menu.actions[c.uuid] = {label: c.label, fn:'hide', arg:'{"hide":false, "columnUuid": "' + c.uuid + '"}'};
+                    menu.actions[c.uuid] = {label: jive.decodeHTML(c.label), fn:'hide', arg:'{"hide":false, "columnUuid": "' + c.uuid + '"}'};
                 }
                 it.allColumnsMap[tableUuid][c.uuid] = c;
             }
