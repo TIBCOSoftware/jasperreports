@@ -41,6 +41,7 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui", "jasperrepo
 
         it.reportInstance = null;
         it.container = it._getContainer();
+        it.hyperlinkHandlers = {};
         it.undoRedoCounters = {
             undos: 0,
             redos: 0
@@ -294,7 +295,47 @@ define(["jasperreports-loader", "jasperreports-report", "jquery.ui", "jasperrepo
                         }
                     });
                 }
+                
+                /*
+                 Handle hyperlinks
+                 */
+                if (components.hyperlinks && components.hyperlinks.length) {
+                    var hyperlinks = components.hyperlinks[0].config.hyperlinks,
+                        hyperlinksByType = {};
+
+                    $.each(hyperlinks, function(i, hyperlink) {
+                        if (!hyperlinksByType[hyperlink.type]) {
+                            hyperlinksByType[hyperlink.type] = [];
+                        }
+
+                        hyperlinksByType[hyperlink.type].push(hyperlink);
+                    });
+
+                    $.each(hyperlinksByType, function(key, links) {
+                        require(["jr." + key], function(HyperLinkHandler) {
+                            var hh = new HyperLinkHandler(links);
+                            hh.reportInstance = it.reportInstance;
+                            hh.reportContainer = it.container;
+                            hh.register();
+
+                            it.hyperlinkHandlers[key] = hh;
+                        }, function(err) {
+                            var failedId = err.requireModules && err.requireModules[0];
+                            if (failedId && console && console.error && typeof console.error === 'function') {
+                                console.error("Failed to load module: '" + failedId + "' for handling hyperlinks of type: '" + key + "'!");
+                            }
+                        });
+                    });
+                }
+                
                 it.loadMask.hide();
+            });
+
+            report.on('hyperlinkInteraction', function(evt) {
+                var hlType = evt.data.hyperlink.type;
+                if (hlType && it.hyperlinkHandlers[hlType]) {
+                    it.hyperlinkHandlers[hlType].handleInteraction(evt);
+                }
             });
 
             toolbar.on("click", function(evt) {
