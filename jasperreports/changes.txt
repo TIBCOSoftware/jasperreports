@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.2.0 (2015-11-1x)
+JasperReports 6.2.0 (2015-11-11)
 ---------------------------------------------
 
 - improved PDF export accessibility in compliance with Section 508 Amendment to 
