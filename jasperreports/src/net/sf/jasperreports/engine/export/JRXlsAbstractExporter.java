@@ -1039,11 +1039,11 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						String autofilter = getPropertiesUtil().getProperty(element, PROPERTY_AUTO_FILTER);
 						if("Start".equals(autofilter))
 						{
-							autoFilterStart = getColumnName(colIndex) + (rowIndex + 1);
+							autoFilterStart = "$" + getColumnName(colIndex) + "$" + (rowIndex + 1);
 						}
 						else if("End".equals(autofilter))
 						{
-							autoFilterEnd = getColumnName(colIndex) + (rowIndex + 1);
+							autoFilterEnd = "$" + getColumnName(colIndex) + "$" + (rowIndex + 1);
 						}
 						
 						if (element instanceof JRPrintLine)
