@@ -65,9 +65,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
-import net.sf.jasperreports.engine.SimplePrintPageFormat;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
-import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
@@ -930,6 +928,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						pageIndex - sheetInfo.sheetFirstPageIndex
 						);
 				}
+			}
+			if(sheetAutoFilter != null)
+			{
+				int index = Math.max(0, sheetIndex-1);
+				definedNames.append("<definedName name=\"_xlnm._FilterDatabase\" localSheetId=\"" + index + "\">'" + currentSheetName +"'!"+sheetAutoFilter+"</definedName>\n");
 			}
 			sheetHelper.close();
 
