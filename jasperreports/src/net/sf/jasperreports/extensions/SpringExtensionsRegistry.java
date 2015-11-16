@@ -82,16 +82,27 @@ public class SpringExtensionsRegistry implements ExtensionsRegistry
 
 	protected String[] getExtensionBeanNames(Class<?> extensionType)
 	{
+		String[] beanNames;
 		synchronized (extensionBeanNamesCache)
 		{
-			String[] beanNames = (String[]) extensionBeanNamesCache.get(extensionType);
-			if (beanNames == null)
-			{
-				beanNames = findExtensionBeanNames(extensionType);
-				extensionBeanNamesCache.put(extensionType, beanNames);
-			}
-			return beanNames;
+			beanNames = (String[]) extensionBeanNamesCache.get(extensionType);
 		}
+		
+		if (beanNames == null)
+		{
+			// can be executed concurrently
+			beanNames = findExtensionBeanNames(extensionType);
+			
+			synchronized (extensionBeanNamesCache)
+			{
+				// checking again
+				if (extensionBeanNamesCache.get(extensionType) == null)
+				{
+					extensionBeanNamesCache.put(extensionType, beanNames);
+				}
+			}
+		}
+		return beanNames;
 	}
 
 	protected String[] findExtensionBeanNames(Class<?> extensionType)
