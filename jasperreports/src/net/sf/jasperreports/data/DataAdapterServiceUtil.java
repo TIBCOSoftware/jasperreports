@@ -89,13 +89,4 @@ public final class DataAdapterServiceUtil
 				EXCEPTION_MESSAGE_KEY_SERVICE_FACTORY_NOT_REGISTERED,
 				new Object[]{dataAdapter.getName()});
 	}
-  
-	/**
-	 * @deprecated Replaced by {@link #getService(DataAdapter)}.
-	 */
-	public static DataAdapterService getDataAdapterService(DataAdapter dataAdapter)
-	{
-		return getDefaultInstance().getService(dataAdapter);
-	}
- 
 }

@@ -29,17 +29,16 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.util.SecretsUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -107,14 +106,6 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 	public JdbcDataAdapterService(JasperReportsContext jasperReportsContext, JdbcDataAdapter jdbcDataAdapter) 
 	{
 		super(jasperReportsContext, jdbcDataAdapter);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #JdbcDataAdapterService(JasperReportsContext, JdbcDataAdapter)}.
-	 */
-	public JdbcDataAdapterService(JdbcDataAdapter jdbcDataAdapter) 
-	{
-		this(DefaultJasperReportsContext.getInstance(), jdbcDataAdapter);
 	}
 
 	public JdbcDataAdapter getJdbcDataAdapter() {

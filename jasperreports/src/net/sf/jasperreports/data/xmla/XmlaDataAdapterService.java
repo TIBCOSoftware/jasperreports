@@ -39,7 +39,6 @@ import org.olap4j.OlapConnection;
 import org.olap4j.OlapDatabaseMetaData;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuterFactory;
@@ -62,14 +61,6 @@ public class XmlaDataAdapterService extends AbstractDataAdapterService
 	public XmlaDataAdapterService(JasperReportsContext jasperReportsContext, XmlaDataAdapter dataAdapter) 
 	{
 		super(jasperReportsContext, dataAdapter);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #XmlaDataAdapterService(JasperReportsContext, XmlaDataAdapter)}.
-	 */
-	public XmlaDataAdapterService(XmlaDataAdapter dataAdapter) 
-	{
-		this(DefaultJasperReportsContext.getInstance(), dataAdapter);
 	}
 
 	public XmlaDataAdapter getXmlaDataAdapter()

@@ -30,7 +30,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.mozilla.javascript.CompilerEnvirons;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextFactory;
+import org.mozilla.javascript.EvaluatorException;
+import org.mozilla.javascript.optimizer.ClassCompiler;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -39,14 +46,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
 import net.sf.jasperreports.engine.util.CompositeExpressionChunkVisitor;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.CompilerEnvirons;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.EvaluatorException;
-import org.mozilla.javascript.optimizer.ClassCompiler;
 
 /**
  * Compiler for reports that use JavaScript as expression language.
@@ -94,14 +93,6 @@ public class JavaScriptClassCompiler extends JavaScriptCompilerBase
 	public JavaScriptClassCompiler(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #JavaScriptClassCompiler(JasperReportsContext)}.
-	 */
-	public JavaScriptClassCompiler()
-	{
-		this(DefaultJasperReportsContext.getInstance());
 	}
 
 	protected String compileUnits(JRCompilationUnit[] units, String classpath,

@@ -27,18 +27,17 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.w3c.dom.Document;
+
 import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.data.DataFileStream;
 import net.sf.jasperreports.data.DataFileUtils;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
-
-import org.w3c.dom.Document;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -55,14 +54,6 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 		) 
 	{
 		super(jasperReportsContext, xmlDataAdapter);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #XmlDataAdapterService(JasperReportsContext, XmlDataAdapter)}.
-	 */
-	public XmlDataAdapterService(XmlDataAdapter xmlDataAdapter) 
-	{
-		this(DefaultJasperReportsContext.getInstance(), xmlDataAdapter);
 	}
 	
 	public XmlDataAdapter getXmlDataAdapter()

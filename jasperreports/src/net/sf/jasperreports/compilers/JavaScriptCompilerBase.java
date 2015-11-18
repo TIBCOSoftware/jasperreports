@@ -25,7 +25,10 @@ package net.sf.jasperreports.compilers;
 
 import java.io.Serializable;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.mozilla.javascript.EvaluatorException;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -35,10 +38,6 @@ import net.sf.jasperreports.engine.design.JRSourceCompileTask;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.util.ExpressionChunkVisitor;
 import net.sf.jasperreports.engine.util.JRStringUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.EvaluatorException;
 
 /**
  * Base compiler class for reports that use JavaScript as expression language.
@@ -57,14 +56,6 @@ public abstract class JavaScriptCompilerBase extends JRAbstractCompiler
 	protected JavaScriptCompilerBase(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext, false);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #JavaScriptCompilerBase(JasperReportsContext)}.
-	 */
-	protected JavaScriptCompilerBase()
-	{
-		this(DefaultJasperReportsContext.getInstance());
 	}
 
 	protected void checkLanguage(String language) throws JRException

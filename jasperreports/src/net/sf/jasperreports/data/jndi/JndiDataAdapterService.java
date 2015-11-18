@@ -30,14 +30,13 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.data.AbstractDataAdapterService;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -55,14 +54,6 @@ public class JndiDataAdapterService extends AbstractDataAdapterService
 	public JndiDataAdapterService(JasperReportsContext jasperReportsContext, JndiDataAdapter jndiDataAdapter)
 	{
 		super(jasperReportsContext, jndiDataAdapter);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #JndiDataAdapterService(JasperReportsContext, JndiDataAdapter)}. 
-	 */
-	public JndiDataAdapterService(JndiDataAdapter jndiDataAdapter)
-	{
-		this(DefaultJasperReportsContext.getInstance(), jndiDataAdapter);
 	}
 	
 	public JndiDataAdapter getJndiDataAdapter()

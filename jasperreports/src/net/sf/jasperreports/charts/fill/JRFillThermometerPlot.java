@@ -66,14 +66,6 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 	}
 
 	/**
-	 * @deprecated No longer used.
-	 */
-	public boolean isShowValueLines()
-	{
-		return ((JRThermometerPlot)parent).isShowValueLines();
-	}
-
-	/**
 	 *
 	 */
 	public ValueLocationEnum getValueLocationValue()

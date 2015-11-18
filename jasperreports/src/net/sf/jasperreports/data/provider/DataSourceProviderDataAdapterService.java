@@ -28,7 +28,6 @@ import java.net.URLClassLoader;
 import java.util.Map;
 
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSourceProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
@@ -52,14 +51,6 @@ public class DataSourceProviderDataAdapterService extends AbstractClasspathAware
 		) 
 	{
 		super(jasperReportsContext, dsDataAdapter);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #DataSourceProviderDataAdapterService(JasperReportsContext, DataSourceProviderDataAdapter)}.
-	 */
-	public DataSourceProviderDataAdapterService(DataSourceProviderDataAdapter dsDataAdapter) 
-	{
-		this(DefaultJasperReportsContext.getInstance(), dsDataAdapter);
 	}
 
 	public DataSourceProviderDataAdapter getDataSourceProviderDataAdapter() {

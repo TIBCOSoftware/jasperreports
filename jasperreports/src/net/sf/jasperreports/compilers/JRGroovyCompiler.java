@@ -28,16 +28,20 @@
  */
 package net.sf.jasperreports.compilers;
 
-import groovyjarjarasm.asm.ClassVisitor;
-import groovyjarjarasm.asm.ClassWriter;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.codehaus.groovy.ast.ClassNode;
+import org.codehaus.groovy.control.CompilationFailedException;
+import org.codehaus.groovy.control.CompilationUnit;
+import org.codehaus.groovy.control.CompilerConfiguration;
+import org.codehaus.groovy.control.Phases;
+
+import groovyjarjarasm.asm.ClassVisitor;
+import groovyjarjarasm.asm.ClassWriter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -47,12 +51,6 @@ import net.sf.jasperreports.engine.design.JRCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
 import net.sf.jasperreports.engine.design.JRDefaultCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRSourceCompileTask;
-
-import org.codehaus.groovy.ast.ClassNode;
-import org.codehaus.groovy.control.CompilationFailedException;
-import org.codehaus.groovy.control.CompilationUnit;
-import org.codehaus.groovy.control.CompilerConfiguration;
-import org.codehaus.groovy.control.Phases;
 
 /**
  * Calculator compiler that uses groovy to compile expressions.
@@ -73,14 +71,6 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	public JRGroovyCompiler(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext, false);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #JRGroovyCompiler(JasperReportsContext)}.
-	 */
-	public JRGroovyCompiler()
-	{
-		this(DefaultJasperReportsContext.getInstance());
 	}
 	
 

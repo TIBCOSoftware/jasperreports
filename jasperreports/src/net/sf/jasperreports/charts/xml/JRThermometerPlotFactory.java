@@ -45,10 +45,6 @@ public class JRThermometerPlotFactory extends JRBaseFactory
 	public static final String ELEMENT_mediumRange = "mediumRange";
 	public static final String ELEMENT_highRange = "highRange";
 
-	/**
-	 * @deprecated No longer used.
-	 */
-	public static final String ATTRIBUTE_showValueLines = "isShowValueLines";
 	public static final String ATTRIBUTE_valueLocation = "valueLocation";
 	public static final String ATTRIBUTE_mercuryColor = "mercuryColor";
 

@@ -34,7 +34,6 @@ import java.util.TimeZone;
 import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.data.DataFileStream;
 import net.sf.jasperreports.data.DataFileUtils;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -55,14 +54,6 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 	public CsvDataAdapterService(JasperReportsContext jasperReportsContext, CsvDataAdapter csvDataAdapter)
 	{
 		super(jasperReportsContext, csvDataAdapter);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #CsvDataAdapterService(JasperReportsContext, CsvDataAdapter)}.
-	 */
-	public CsvDataAdapterService(CsvDataAdapter csvDataAdapter)
-	{
-		this(DefaultJasperReportsContext.getInstance(), csvDataAdapter);
 	}
 	
 	public CsvDataAdapter getCsvDataAdapter()

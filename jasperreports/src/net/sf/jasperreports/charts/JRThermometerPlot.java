@@ -54,11 +54,6 @@ public interface JRThermometerPlot extends JRChartPlot
 	public JRValueDisplay getValueDisplay();
 
 	/**
-	 * @deprecated No longer used.
-	 */
-	public boolean isShowValueLines();
-
-	/**
 	 * Returns the location where the value of the thermometer will be shown.  The
 	 * return value will be one of {@link net.sf.jasperreports.charts.type.ValueLocationEnum#NONE NONE},
 	 * {@link net.sf.jasperreports.charts.type.ValueLocationEnum#LEFT LEFT}, {@link net.sf.jasperreports.charts.type.ValueLocationEnum#RIGHT RIGHT} or

@@ -29,7 +29,6 @@ import java.util.Map;
 import net.sf.jasperreports.data.excel.ExcelFormatEnum;
 import net.sf.jasperreports.data.xls.AbstractXlsDataAdapterService;
 import net.sf.jasperreports.data.xls.XlsDataAdapter;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
@@ -48,14 +47,6 @@ public class XlsxDataAdapterService extends AbstractXlsDataAdapterService
 	public XlsxDataAdapterService(JasperReportsContext jasperReportsContext, XlsxDataAdapter xlsxDataAdapter)
 	{
 		super(jasperReportsContext, xlsxDataAdapter);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #XlsxDataAdapterService(JasperReportsContext, XlsxDataAdapter)}.
-	 */
-	public XlsxDataAdapterService(XlsxDataAdapter xlsxDataAdapter)
-	{
-		this(DefaultJasperReportsContext.getInstance(), xlsxDataAdapter);
 	}
 	
 	public XlsxDataAdapter getXlsxDataAdapter()

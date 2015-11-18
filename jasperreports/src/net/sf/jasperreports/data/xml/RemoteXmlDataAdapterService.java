@@ -30,16 +30,15 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.Document;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
 import net.sf.jasperreports.repo.RepositoryUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Document;
 
 /**
  * @deprecated Replaced by {@link XmlDataAdapterService}.
@@ -60,14 +59,6 @@ public class RemoteXmlDataAdapterService extends XmlDataAdapterService
 		) 
 	{
 		super(jasperReportsContext, remoteXmlDataAdapter);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #RemoteXmlDataAdapterService(JasperReportsContext, RemoteXmlDataAdapter)}. 
-	 */
-	public RemoteXmlDataAdapterService(RemoteXmlDataAdapter remoteXmlDataAdapter) 
-	{
-		this(DefaultJasperReportsContext.getInstance(), remoteXmlDataAdapter);
 	}
 	
 	public RemoteXmlDataAdapter getRemoteXmlDataAdapter() 

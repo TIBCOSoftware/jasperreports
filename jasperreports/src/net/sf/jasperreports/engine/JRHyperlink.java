@@ -201,12 +201,6 @@ public interface JRHyperlink extends JRCloneable
 
 
 	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType();
-
-
-	/**
 	 * Retrieves the hyperlink type for the element.
 	 * <p>
 	 * The actual hyperlink type is determined by {@link #getLinkType() getLinkType()}.

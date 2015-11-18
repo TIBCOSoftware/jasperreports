@@ -26,17 +26,16 @@ package net.sf.jasperreports.compilers;
 import java.io.File;
 import java.util.Iterator;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextFactory;
+import org.mozilla.javascript.EvaluatorException;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
 import net.sf.jasperreports.engine.util.CompositeExpressionChunkVisitor;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
-
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.EvaluatorException;
 
 /**
  * Compiler for reports that use JavaScript as expression language.
@@ -56,14 +55,6 @@ public class JavaScriptCompiler extends JavaScriptCompilerBase
 	public JavaScriptCompiler(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #JavaScriptCompiler(JasperReportsContext)}.
-	 */
-	public JavaScriptCompiler()
-	{
-		this(DefaultJasperReportsContext.getInstance());
 	}
 
 	protected void checkLanguage(String language) throws JRException

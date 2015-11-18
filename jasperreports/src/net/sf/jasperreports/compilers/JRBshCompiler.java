@@ -26,7 +26,6 @@ package net.sf.jasperreports.compilers;
 import java.io.File;
 import java.io.Serializable;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -56,15 +55,6 @@ public class JRBshCompiler extends JRAbstractCompiler
 	public JRBshCompiler(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext, false);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #JRBshCompiler(JasperReportsContext)}.
-	 */
-	public JRBshCompiler()
-	{
-		this(DefaultJasperReportsContext.getInstance());
 	}
 
 

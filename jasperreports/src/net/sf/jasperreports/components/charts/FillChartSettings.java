@@ -268,16 +268,6 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType() {
-		
-		return parent.getHyperlinkTypeValue() == null
-			? HyperlinkTypeEnum.NONE.getValue() 
-			: parent.getHyperlinkTypeValue().getValue();
-	}
-
-	/**
 	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkTypeValue()
 	 */
 	public HyperlinkTypeEnum getHyperlinkTypeValue() {

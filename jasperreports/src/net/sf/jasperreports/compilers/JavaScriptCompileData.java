@@ -48,40 +48,15 @@ public class JavaScriptCompileData implements Serializable
 	{
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-		/**
-		 * @deprecated To be removed.
-		 */
-		private final String type;
 		private final String defaultExpression;
 		private final String oldExpression;
 		private final String estimatedExpression;
 		
-		/**
-		 * @deprecated To be removed.
-		 */
-		public Expression(String type, String defaultExpression,
-				String estimatedExpression, String oldExpression)
-		{
-			this.type = type;
-			this.defaultExpression = defaultExpression;
-			this.estimatedExpression = estimatedExpression;
-			this.oldExpression = oldExpression;
-		}
-
 		public Expression(String defaultExpression, String estimatedExpression, String oldExpression)
 		{
-			this.type = null;
 			this.defaultExpression = defaultExpression;
 			this.estimatedExpression = estimatedExpression;
 			this.oldExpression = oldExpression;
-		}
-
-		/**
-		 * @deprecated To be removed.
-		 */
-		public String getJavaType()
-		{
-			return type;
 		}
 
 		public String getDefaultExpression()

@@ -27,15 +27,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.data.AbstractDataAdapterService;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)
@@ -52,14 +51,6 @@ public class SpringHibernateDataAdapterService extends
 	public SpringHibernateDataAdapterService(JasperReportsContext jasperReportsContext, SpringHibernateDataAdapter jsonDataAdapter) 
 	{
 		super(jasperReportsContext, jsonDataAdapter);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #SpringHibernateDataAdapterService(JasperReportsContext, SpringHibernateDataAdapter)}.
-	 */
-	public SpringHibernateDataAdapterService(SpringHibernateDataAdapter jsonDataAdapter) 
-	{
-		this(DefaultJasperReportsContext.getInstance(), jsonDataAdapter);
 	}
 
 	public SpringHibernateDataAdapter getHibernateDataAdapter() {

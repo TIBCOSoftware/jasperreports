@@ -495,14 +495,6 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public HyperlinkTypeEnum getHyperlinkTypeValue()

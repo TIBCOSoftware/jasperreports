@@ -30,7 +30,6 @@ import java.util.TimeZone;
 import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.data.DataFileStream;
 import net.sf.jasperreports.data.DataFileUtils;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -51,14 +50,6 @@ public class JsonDataAdapterService extends AbstractDataAdapterService
 	public JsonDataAdapterService(JasperReportsContext jasperReportsContext, JsonDataAdapter jsonDataAdapter) 
 	{
 		super(jasperReportsContext, jsonDataAdapter);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #JsonDataAdapterService(JasperReportsContext, JsonDataAdapter)}.
-	 */
-	public JsonDataAdapterService(JsonDataAdapter jsonDataAdapter) 
-	{
-		this(DefaultJasperReportsContext.getInstance(), jsonDataAdapter);
 	}
 
 	public JsonDataAdapter getJsonDataAdapter() {

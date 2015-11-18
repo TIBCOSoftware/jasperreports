@@ -30,15 +30,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)
@@ -54,14 +53,6 @@ public class HibernateDataAdapterService extends AbstractClasspathAwareDataAdapt
 	public HibernateDataAdapterService(JasperReportsContext jasperReportsContext, HibernateDataAdapter jsonDataAdapter) 
 	{
 		super(jasperReportsContext, jsonDataAdapter);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #HibernateDataAdapterService(JasperReportsContext, HibernateDataAdapter)}.
-	 */
-	public HibernateDataAdapterService(HibernateDataAdapter jsonDataAdapter) 
-	{
-		this(DefaultJasperReportsContext.getInstance(), jsonDataAdapter);
 	}
 
 	public HibernateDataAdapter getHibernateDataAdapter() {

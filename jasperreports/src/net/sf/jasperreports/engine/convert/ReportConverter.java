@@ -39,7 +39,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.collections.map.LinkedMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
@@ -71,10 +74,6 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
-
-import org.apache.commons.collections.map.LinkedMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -129,14 +128,6 @@ public class ReportConverter
 		convert(ignoreContent);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #ReportConverter(JasperReportsContext, JRReport, boolean)}.
-	 */
-	public ReportConverter(JRReport report, boolean ignoreContent)
-	{
-		this(DefaultJasperReportsContext.getInstance(), report, ignoreContent);
-	}
-	
 	private Locale readLocale()
 	{
 		//duplicates code from JRFillDataset.defaultLocale

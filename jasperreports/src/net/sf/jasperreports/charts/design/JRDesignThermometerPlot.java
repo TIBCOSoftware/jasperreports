@@ -58,11 +58,6 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	
 	public static final String PROPERTY_MERCURY_COLOR = "mercuryColor";
 	
-	/**
-	 * @deprecated No longer used.
-	 */
-	public static final String PROPERTY_SHOW_VALUE_LINES = "showValueLines";
-	
 	public static final String PROPERTY_VALUE_DISPLAY = "valueDisplay";
 	
 	public static final String PROPERTY_VALUE_LOCATION = "valueLocation";
@@ -104,16 +99,6 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_DISPLAY, old, this.valueDisplay);
 	}
 
-
-	/**
-	 * @deprecated No longer used.
-	 */
-	public void setShowValueLines(boolean showValueLines)
-	{
-		boolean old = this.showValueLines;
-		this.showValueLines = showValueLines;
-		getEventSupport().firePropertyChange(PROPERTY_SHOW_VALUE_LINES, old, this.showValueLines);
-	}
 
 	/**
 	 * Sets where to show the textual display of the value.

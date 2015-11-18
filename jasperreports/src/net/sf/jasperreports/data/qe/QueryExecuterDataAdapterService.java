@@ -26,7 +26,6 @@ package net.sf.jasperreports.data.qe;
 import java.util.Map;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 
@@ -42,14 +41,6 @@ public class QueryExecuterDataAdapterService extends AbstractDataAdapterService
 	public QueryExecuterDataAdapterService(JasperReportsContext jasperReportsContext, QueryExecuterDataAdapter qeDataAdapter)
 	{
 		super(jasperReportsContext, qeDataAdapter);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #QueryExecuterDataAdapterService(JasperReportsContext, QueryExecuterDataAdapter)}. 
-	 */
-	public QueryExecuterDataAdapterService(QueryExecuterDataAdapter qeDataAdapter)
-	{
-		this(DefaultJasperReportsContext.getInstance(), qeDataAdapter);
 	}
 	
 	public QueryExecuterDataAdapter getQueryExecuterDataAdapter()
