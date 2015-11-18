@@ -31,7 +31,10 @@ import java.util.TimeZone;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.Document;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -40,10 +43,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.XalanXmlDataSource;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Document;
 
 /**
  * Xalan XPath query executer implementation.
@@ -90,14 +89,6 @@ public class XalanXPathQueryExecuter extends JRAbstractQueryExecuter
 		}
 
 		parseQuery();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #XalanXPathQueryExecuter(JasperReportsContext, JRDataset, Map)}.
-	 */
-	public XalanXPathQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parametersMap)
-	{
-		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
 	}
 
 	@Override

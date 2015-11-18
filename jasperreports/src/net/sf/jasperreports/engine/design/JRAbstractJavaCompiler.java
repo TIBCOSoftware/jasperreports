@@ -31,14 +31,13 @@ package net.sf.jasperreports.engine.design;
 import java.io.Serializable;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.collections.map.ReferenceMap;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.util.JRClassLoader;
-
-import org.apache.commons.collections.map.ReferenceMap;
 
 
 /**
@@ -80,15 +79,6 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	protected JRAbstractJavaCompiler(JasperReportsContext jasperReportsContext, boolean needsSourceFiles)
 	{
 		super(jasperReportsContext, needsSourceFiles);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #JRAbstractJavaCompiler(JasperReportsContext, boolean)}.
-	 */
-	protected JRAbstractJavaCompiler(boolean needsSourceFiles)
-	{
-		this(DefaultJasperReportsContext.getInstance(), needsSourceFiles);
 	}
 
 

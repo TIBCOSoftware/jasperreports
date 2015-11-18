@@ -33,7 +33,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.ScrollMode;
+import org.hibernate.ScrollableResults;
+import org.hibernate.Session;
+import org.hibernate.type.Type;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -45,15 +53,6 @@ import net.sf.jasperreports.engine.data.JRHibernateIterateDataSource;
 import net.sf.jasperreports.engine.data.JRHibernateListDataSource;
 import net.sf.jasperreports.engine.data.JRHibernateScrollDataSource;
 import net.sf.jasperreports.engine.util.JRStringUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibernate.Hibernate;
-import org.hibernate.Query;
-import org.hibernate.ScrollMode;
-import org.hibernate.ScrollableResults;
-import org.hibernate.Session;
-import org.hibernate.type.Type;
 
 /**
  * HQL query executer that uses Hibernate 3.
@@ -173,14 +172,6 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	}
 	
 	
-	/**
-	 * @deprecated Replaced by {@link #JRHibernateQueryExecuter(JasperReportsContext, JRDataset, Map)}. 
-	 */
-	public JRHibernateQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parameters)
-	{
-		this(DefaultJasperReportsContext.getInstance(), dataset, parameters);
-	}
-
 	@Override
 	protected String getCanonicalQueryLanguage()
 	{

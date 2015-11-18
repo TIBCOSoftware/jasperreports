@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -107,14 +106,6 @@ public class DefaultExporterFilterFactory implements ExporterFilterFactory
 			factories.add(factory);
 		}
 		return factories;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getAllFilterFactories(JasperReportsContext, JasperPrint)}.
-	 */
-	protected List<ExporterFilterFactory> getAllFilterFactories(JasperPrint report) throws JRException
-	{
-		return getAllFilterFactories(DefaultJasperReportsContext.getInstance(), report);
 	}
 	
 	protected ExporterFilterFactory getFilterFactory(String factoryClassName) throws JRException

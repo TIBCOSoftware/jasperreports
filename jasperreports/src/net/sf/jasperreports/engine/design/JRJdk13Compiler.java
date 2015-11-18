@@ -29,13 +29,12 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRClassLoader;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -62,14 +61,6 @@ public class JRJdk13Compiler extends JRAbstractMultiClassCompiler
 	public JRJdk13Compiler(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #JRJdk13Compiler(JasperReportsContext)}.
-	 */
-	public JRJdk13Compiler()
-	{
-		this(DefaultJasperReportsContext.getInstance());
 	}
 	
 	/**

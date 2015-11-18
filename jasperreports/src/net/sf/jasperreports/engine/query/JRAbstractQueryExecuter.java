@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRParameter;
@@ -228,14 +227,6 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		
 		queryString = "";
 		queryParameters = new ArrayList<QueryParameterEntry>();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #JRAbstractQueryExecuter(JasperReportsContext, JRDataset, Map)}.
-	 */
-	protected JRAbstractQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parametersMap)
-	{
-		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
 	}
 
 	/**

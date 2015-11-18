@@ -136,38 +136,6 @@ public class JRExpressionCollector
 		return collector(jasperReportsContext, report, crosstab).getExpressions(crosstab);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #collector(JasperReportsContext, JRReport)}.
-	 */
-	public static JRExpressionCollector collector(JRReport report)
-	{
-		return collector(DefaultJasperReportsContext.getInstance(), report);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #collectExpressions(JasperReportsContext, JRReport)}.
-	 */
-	public static List<JRExpression> collectExpressions(JRReport report)
-	{
-		return collectExpressions(DefaultJasperReportsContext.getInstance(), report);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #collector(JasperReportsContext, JRReport, JRCrosstab)}.
-	 */
-	public static JRExpressionCollector collector(JRReport report, JRCrosstab crosstab)
-	{
-		return collector(DefaultJasperReportsContext.getInstance(), report, crosstab);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #collectExpressions(JasperReportsContext, JRReport, JRCrosstab)}.
-	 */
-	public static List<JRExpression> collectExpressions(JRReport report, JRCrosstab crosstab)
-	{
-		return collectExpressions(DefaultJasperReportsContext.getInstance(), report, crosstab);
-	}
-
 	private final JasperReportsContext jasperReportsContext;
 	private final JRReport report;
 	private final JRExpressionCollector parent;

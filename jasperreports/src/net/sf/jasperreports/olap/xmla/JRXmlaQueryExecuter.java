@@ -52,7 +52,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -63,9 +65,6 @@ import net.sf.jasperreports.engine.query.JRAbstractQueryExecuter;
 import net.sf.jasperreports.olap.JRMdxQueryExecuterFactory;
 import net.sf.jasperreports.olap.JROlapDataSource;
 import net.sf.jasperreports.olap.result.JROlapResult;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -112,14 +111,6 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		super(jasperReportsContext, dataset, parametersMap);
 
 		parseQuery();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #JRXmlaQueryExecuter(JasperReportsContext, JRDataset, Map)}.
-	 */
-	public JRXmlaQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parametersMap)
-	{
-		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
 	}
 
 	@Override

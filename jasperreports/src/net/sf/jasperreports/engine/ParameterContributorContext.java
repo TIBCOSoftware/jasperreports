@@ -56,14 +56,6 @@ public class ParameterContributorContext
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #ParameterContributorContext(JasperReportsContext, JRDataset, Map)}.
-	 */
-	public ParameterContributorContext(Map<String,Object> parameterValues, JRDataset dataset)
-	{
-		this(DefaultJasperReportsContext.getInstance(), dataset, parameterValues);
-	}
-
-	/**
 	 * Returns the {@link JasperReport} object for this context.
 	 * 
 	 * <p>

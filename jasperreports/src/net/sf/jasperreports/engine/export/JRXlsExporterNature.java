@@ -29,7 +29,6 @@
 
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -40,22 +39,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  */
 public class JRXlsExporterNature extends JRXlsAbstractExporterNature
 {
-
-	/**
-	 * @deprecated Replaced by {@link #JRXlsExporterNature(JasperReportsContext, ExporterFilter, boolean, boolean)}.
-	 */
-	public JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
-	{
-		super(DefaultJasperReportsContext.getInstance(), filter, isIgnoreGraphics, false);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #JRXlsExporterNature(JasperReportsContext, ExporterFilter, boolean, boolean)}.
-	 */
-	public JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
-	{
-		super(DefaultJasperReportsContext.getInstance(), filter, isIgnoreGraphics, isIgnorePageMargins);
-	}
 
 	/**
 	 * 

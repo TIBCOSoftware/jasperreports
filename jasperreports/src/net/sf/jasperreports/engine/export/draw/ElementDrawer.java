@@ -36,7 +36,6 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
@@ -56,15 +55,6 @@ public abstract class ElementDrawer<T extends JRPrintElement>
 {
 	private final JasperReportsContext jasperReportsContext;
 
-	/**
-	 * @deprecated Replaced by {@link #ElementDrawer(JasperReportsContext)}.
-	 */
-	public ElementDrawer()
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
-	
-	
 	/**
 	 *
 	 */

@@ -28,17 +28,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.poi.ss.usermodel.Workbook;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRXlsxDataSource;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.poi.ss.usermodel.Workbook;
 
 /**
  * XLS query executer implementation.
@@ -62,14 +61,6 @@ public class JRXlsxQueryExecuter extends AbstractXlsQueryExecuter
 		) 
 	{
 		super(jasperReportsContext, dataset, parametersMap);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #JRXlsxQueryExecuter(JasperReportsContext, JRDataset, Map)}.
-	 */
-	protected JRXlsxQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parametersMap) 
-	{
-		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
 	}
 
 	public JRDataSource createDatasource() throws JRException {

@@ -33,7 +33,6 @@ package net.sf.jasperreports.engine.export.draw;
 
 import java.awt.Graphics2D;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -46,15 +45,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  */
 public class BoxDrawer extends ElementDrawer<JRPrintElement>
 {
-	/**
-	 * @deprecated Replaced by {@link #BoxDrawer(JasperReportsContext)}.
-	 */
-	public BoxDrawer()
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
-	
-	
 	/**
 	 *
 	 */

@@ -38,7 +38,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -79,17 +78,6 @@ public class FrameDrawer extends ElementDrawer<JRPrintFrame>
 
 	private JRGraphics2DExporterContext exporterContext;
 	
-	/**
-	 * @deprecated Replaced by {@link #FrameDrawer(JasperReportsContext, ExporterFilter, AwtTextRenderer)}.
-	 */
-	public FrameDrawer(
-		ExporterFilter filter,
-		AwtTextRenderer textRenderer
-		)
-	{
-		this(DefaultJasperReportsContext.getInstance(), filter, textRenderer);
-	}
-		
 	/**
 	 *
 	 */

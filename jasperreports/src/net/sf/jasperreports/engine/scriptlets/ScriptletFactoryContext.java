@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.scriptlets;
 
 import java.util.Map;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReport;
@@ -59,14 +58,6 @@ public class ScriptletFactoryContext
 		this.jasperReport = (JasperReport)parameterValues.get(JRParameter.JASPER_REPORT);
 		this.dataset = dataset;
 		this.parameterValues = parameterValues;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #ScriptletFactoryContext(JasperReportsContext, JRDataset, Map)}.
-	 */
-	public ScriptletFactoryContext(Map<String,Object> parameterValues, JRDataset dataset)
-	{
-		this(DefaultJasperReportsContext.getInstance(), dataset, parameterValues);
 	}
 
 	/**

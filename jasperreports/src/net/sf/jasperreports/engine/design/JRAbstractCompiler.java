@@ -33,7 +33,6 @@ import java.util.Random;
 
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -76,15 +75,6 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	{
 		this.jasperReportsContext = jasperReportsContext;
 		this.needsSourceFiles = needsSourceFiles;
-	}
-
-	
-	/**
-	 * @deprecated Replaced by {@link #JRAbstractCompiler(JasperReportsContext, boolean)}.
-	 */
-	protected JRAbstractCompiler(boolean needsSourceFiles)
-	{
-		this(DefaultJasperReportsContext.getInstance(), needsSourceFiles);
 	}
 
 	

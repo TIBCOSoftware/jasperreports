@@ -216,14 +216,6 @@ public class JRStyledText implements Cloneable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getAwtAttributedString(JasperReportsContext, boolean)}.
-	 */
-	public AttributedString getAwtAttributedString(boolean ignoreMissingFont)
-	{
-		return getAwtAttributedString(DefaultJasperReportsContext.getInstance(), ignoreMissingFont);
-	}
-
-	/**
 	 * Returns an attributed string that contains the AWT font attribute, as the font is actually loaded.
 	 */
 	public AttributedString getAwtAttributedString(JasperReportsContext jasperReportsContext, boolean ignoreMissingFont)

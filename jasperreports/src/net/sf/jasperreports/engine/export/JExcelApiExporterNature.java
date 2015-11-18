@@ -29,7 +29,6 @@
 
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -42,22 +41,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 public class JExcelApiExporterNature extends JRXlsAbstractExporterNature
 {
 
-	/**
-	 * @deprecated Replaced by {@link #JExcelApiExporterNature(JasperReportsContext, ExporterFilter, boolean, boolean)}.
-	 */
-	protected JExcelApiExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
-	{
-		this(DefaultJasperReportsContext.getInstance(), filter, isIgnoreGraphics, false);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #JExcelApiExporterNature(JasperReportsContext, ExporterFilter, boolean, boolean)}.
-	 */
-	protected JExcelApiExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
-	{
-		this(DefaultJasperReportsContext.getInstance(), filter, isIgnoreGraphics, isIgnorePageMargins);
-	}
-	
 	/**
 	 * 
 	 */

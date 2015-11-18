@@ -34,7 +34,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
@@ -237,14 +236,6 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 		filter = addOriginsToFilter(jasperReportsContext, filter, propertiesMap, originFilterPrefix + KEEP_FIRST_PREFIX, true);
 		
 		return filter;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getFilter(JasperReportsContext, JRPropertiesMap, String)}.
-	 */
-	public static JROriginExporterFilter getFilter(JRPropertiesMap propertiesMap, String originFilterPrefix)
-	{
-		return getFilter(DefaultJasperReportsContext.getInstance(), propertiesMap, originFilterPrefix);
 	}
 	
 	private static JROriginExporterFilter addOriginsToFilter(

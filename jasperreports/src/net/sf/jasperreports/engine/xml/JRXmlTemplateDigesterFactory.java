@@ -25,7 +25,13 @@ package net.sf.jasperreports.engine.xml;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.digester.Digester;
+import org.apache.commons.digester.RuleSet;
+import org.apache.commons.digester.RuleSetBase;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSimpleTemplate;
@@ -33,13 +39,6 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.TabStop;
-
-import org.apache.commons.digester.Digester;
-import org.apache.commons.digester.RuleSet;
-import org.apache.commons.digester.RuleSetBase;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 
 /**
@@ -135,22 +134,6 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 		return digester;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #createDigester(JasperReportsContext)}.
-	 */
-	public JRXmlDigester createDigester()
-	{
-		return createDigester(DefaultJasperReportsContext.getInstance());
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #configureDigester(JasperReportsContext, Digester)}.
-	 */
-	protected void configureDigester(Digester digester) throws SAXException, ParserConfigurationException 
-	{
-		configureDigester(DefaultJasperReportsContext.getInstance(), digester);
-	}
-	
 	protected void configureDigester(JasperReportsContext jasperReportsContext, Digester digester) throws SAXException, ParserConfigurationException 
 	{
 		boolean validating = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(JRReportSaxParserFactory.COMPILER_XML_VALIDATION);

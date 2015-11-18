@@ -37,7 +37,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -47,9 +49,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRCsvDataSource;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * CSV query executer implementation.
@@ -73,17 +72,6 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter
 		) 
 	{
 		super(jasperReportsContext, dataset, parametersMap);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #JRCsvQueryExecuter(JasperReportsContext, JRDataset, Map)}. 
-	 */
-	protected JRCsvQueryExecuter(
-		JRDataset dataset, 
-		Map<String, ? extends JRValueParameter> parametersMap
-		) 
-	{
-		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
 	}
 
 	public JRDataSource createDatasource() throws JRException {

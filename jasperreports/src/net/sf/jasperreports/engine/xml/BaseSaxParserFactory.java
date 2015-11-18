@@ -32,18 +32,17 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xml.sax.SAXException;
+
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.ClassUtils;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
-
-import org.apache.commons.collections.map.ReferenceMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.xml.sax.SAXException;
 
 /**
  * Base SAX parser factory.
@@ -94,14 +93,6 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 	private final static ThreadLocal<ReferenceMap> GRAMMAR_POOL_CACHE = new ThreadLocal<ReferenceMap>();
 	
 	protected final JasperReportsContext jasperReportsContext;
-	
-	/**
-	 * @deprecated Replaced by {@link #BaseSaxParserFactory(JasperReportsContext)}.
-	 */
-	public BaseSaxParserFactory()
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
 	
 	public BaseSaxParserFactory(JasperReportsContext jasperReportsContext)
 	{

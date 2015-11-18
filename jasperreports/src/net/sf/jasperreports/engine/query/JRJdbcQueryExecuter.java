@@ -40,7 +40,9 @@ import java.util.TimeZone;
 
 import javax.sql.rowset.CachedRowSet;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -50,9 +52,6 @@ import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -166,14 +165,6 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		registerFunctions();
 		
 		parseQuery();		
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #JRJdbcQueryExecuter(JasperReportsContext, JRDataset, Map)}.
-	 */
-	public JRJdbcQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters)
-	{
-		this(DefaultJasperReportsContext.getInstance(), dataset, parameters);
 	}
 
 	

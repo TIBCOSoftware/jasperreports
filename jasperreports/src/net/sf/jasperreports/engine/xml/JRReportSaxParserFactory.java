@@ -28,7 +28,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
@@ -36,9 +38,6 @@ import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.component.ComponentsXmlParser;
 import net.sf.jasperreports.engine.part.PartComponentsBundle;
 import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * The default report SAX parser factory.
@@ -70,14 +69,6 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 	 */
 	public static final String COMPILER_XML_VALIDATION = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.xml.validation";
 
-	/**
-	 * @deprecated Replaced by {@link #JRReportSaxParserFactory(JasperReportsContext)}.
-	 */
-	public JRReportSaxParserFactory()
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
-	
 	public JRReportSaxParserFactory(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);

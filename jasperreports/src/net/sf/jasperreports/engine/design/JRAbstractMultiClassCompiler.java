@@ -46,14 +46,6 @@ public abstract class JRAbstractMultiClassCompiler extends JRAbstractClassCompil
 		super(jasperReportsContext);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #JRAbstractMultiClassCompiler(JasperReportsContext)}.
-	 */
-	public JRAbstractMultiClassCompiler()
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
-
 	public String compileClass(File sourceFile, String classpath) throws JRException
 	{
 		return compileClasses(new File[]{sourceFile}, classpath);

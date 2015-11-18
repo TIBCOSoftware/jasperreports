@@ -29,7 +29,6 @@
 
 package net.sf.jasperreports.engine.export.ooxml;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.AbstractExporterNature;
@@ -46,14 +45,6 @@ public abstract class JROfficeOpenXmlExporterNature extends AbstractExporterNatu
 	public JROfficeOpenXmlExporterNature(JasperReportsContext jasperReportsContext, ExporterFilter filter)
 	{
 		super(jasperReportsContext, filter);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #JROfficeOpenXmlExporterNature(JasperReportsContext, ExporterFilter)}. 
-	 */
-	public JROfficeOpenXmlExporterNature(ExporterFilter filter)
-	{
-		this(DefaultJasperReportsContext.getInstance(), filter);
 	}
 	
 	/**

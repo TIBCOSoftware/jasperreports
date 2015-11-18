@@ -39,16 +39,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.JRClassLoader;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.functions.FunctionsUtil;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jdt.core.compiler.IProblem;
@@ -66,6 +56,15 @@ import org.eclipse.jdt.internal.compiler.env.INameEnvironment;
 import org.eclipse.jdt.internal.compiler.env.NameEnvironmentAnswer;
 import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.jdt.internal.compiler.problem.DefaultProblemFactory;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.functions.FunctionsUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -138,15 +137,6 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	}	
 	
 
-	/**
-	 * @deprecated Replaced by {@link #JRJdtCompiler(JasperReportsContext)}.
-	 */
-	public JRJdtCompiler()
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}	
-
-	
 	/**
 	 *
 	 */

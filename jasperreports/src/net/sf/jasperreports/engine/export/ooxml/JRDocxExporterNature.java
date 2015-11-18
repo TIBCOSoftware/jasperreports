@@ -29,7 +29,6 @@
 
 package net.sf.jasperreports.engine.export.ooxml;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -55,14 +54,6 @@ public class JRDocxExporterNature extends JROfficeOpenXmlExporterNature
 		super(jasperReportsContext, filter);
 		
 		this.deepGrid = deepGrid;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #JRDocxExporterNature(JasperReportsContext, ExporterFilter, boolean)}.
-	 */
-	public JRDocxExporterNature(ExporterFilter filter, boolean deepGrid)
-	{
-		this(DefaultJasperReportsContext.getInstance(), filter, deepGrid);
 	}
 
 	/**

@@ -31,7 +31,6 @@ package net.sf.jasperreports.engine.export.oasis;
 
 import java.util.Map;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -44,14 +43,6 @@ import net.sf.jasperreports.engine.export.ExporterFilter;
  */
 public abstract class JROpenDocumentExporterNature extends AbstractExporterNature
 {
-	
-	/**
-	 * @deprecated Replaced by {@link #JROpenDocumentExporterNature(JasperReportsContext, ExporterFilter)}. 
-	 */
-	public JROpenDocumentExporterNature(ExporterFilter filter)
-	{
-		this(DefaultJasperReportsContext.getInstance(), filter);
-	}
 	
 	/**
 	 * 

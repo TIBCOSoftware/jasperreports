@@ -29,7 +29,6 @@
 
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -48,14 +47,6 @@ public class JRCsvExporterNature extends AbstractExporterNature
 	public JRCsvExporterNature(JasperReportsContext jasperReportsContext, ExporterFilter filter)
 	{
 		super(jasperReportsContext, filter);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #JRCsvExporterNature(JasperReportsContext, ExporterFilter)}. 
-	 */
-	public JRCsvExporterNature(ExporterFilter filter)
-	{
-		this(DefaultJasperReportsContext.getInstance(), filter);
 	}
 	
 	/**

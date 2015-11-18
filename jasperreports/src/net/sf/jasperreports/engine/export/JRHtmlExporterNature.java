@@ -29,7 +29,6 @@
 
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -53,22 +52,6 @@ public class JRHtmlExporterNature extends AbstractExporterNature
 		super(jasperReportsContext, filter);
 		this.deep = deep;
 		this.ignorePageMargins = ignorePageMargins;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #JRHtmlExporterNature(JasperReportsContext, ExporterFilter, boolean, boolean)}.
-	 */
-	public JRHtmlExporterNature(ExporterFilter filter, boolean deep)
-	{
-		this(DefaultJasperReportsContext.getInstance(), filter, deep, false);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #JRHtmlExporterNature(JasperReportsContext, ExporterFilter, boolean, boolean)}.
-	 */
-	public JRHtmlExporterNature(ExporterFilter filter, boolean deep, boolean ignorePageMargins)
-	{
-		this(DefaultJasperReportsContext.getInstance(), filter, deep, ignorePageMargins);
 	}
 	
 	/**

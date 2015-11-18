@@ -49,14 +49,6 @@ public class JROdtExporterNature extends JROpenDocumentExporterNature
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #JROdtExporterNature(JasperReportsContext, ExporterFilter)}.
-	 */
-	public JROdtExporterNature(ExporterFilter filter)
-	{
-		super(filter);
-	}
-
-	/**
 	 * 
 	 */
 	public boolean isToExport(JRPrintElement element)

@@ -29,10 +29,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import mondrian.olap.Connection;
 import mondrian.olap.Query;
 import mondrian.olap.Result;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -45,9 +47,6 @@ import net.sf.jasperreports.olap.result.JROlapHierarchyLevel;
 import net.sf.jasperreports.olap.result.JROlapMember;
 import net.sf.jasperreports.olap.result.JROlapMemberTuple;
 import net.sf.jasperreports.olap.result.JROlapResultAxis;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -79,14 +78,6 @@ public class JRMondrianQueryExecuter extends JRAbstractQueryExecuter
 		}
 		
 		parseQuery();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #JRMondrianQueryExecuter(JasperReportsContext, JRDataset, Map)}.
-	 */
-	public JRMondrianQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parametersMap)
-	{
-		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
 	}
 
 	@Override

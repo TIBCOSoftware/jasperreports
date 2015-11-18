@@ -35,7 +35,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -76,22 +75,6 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		super(jasperReportsContext, filter);
 		this.isIgnoreGraphics = isIgnoreGraphics;
 		this.isIgnorePageMargins = isIgnorePageMargins;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #JRXlsAbstractExporterNature(JasperReportsContext, ExporterFilter, boolean, boolean)}. 
-	 */
-	protected JRXlsAbstractExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
-	{
-		this(DefaultJasperReportsContext.getInstance(), filter, isIgnoreGraphics, false);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #JRXlsAbstractExporterNature(JasperReportsContext, ExporterFilter, boolean, boolean)}. 
-	 */
-	protected JRXlsAbstractExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
-	{
-		this(DefaultJasperReportsContext.getInstance(), filter, isIgnoreGraphics, isIgnorePageMargins);
 	}
 	
 	/**

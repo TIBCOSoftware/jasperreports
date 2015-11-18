@@ -41,12 +41,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.repo.RepositoryUtil;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
@@ -57,6 +51,11 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 /**
@@ -149,14 +148,6 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 
 
 	/**
-	 * @see #loadFontFamilies(JasperReportsContext, String)
-	 */
-	public List<FontFamily> loadFontFamilies(String file)
-	{
-		return loadFontFamilies(DefaultJasperReportsContext.getInstance(), file);
-	}
-	
-	/**
 	 *
 	 */
 	public List<FontFamily> loadFontFamilies(JasperReportsContext jasperReportsContext, String file)
@@ -210,14 +201,6 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		}
 		
 		return fontFamilies;
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public List<FontFamily> loadFontFamilies(InputStream is)
-	{
-		return loadFontFamilies(DefaultJasperReportsContext.getInstance(), is);
 	}
 
 	/**

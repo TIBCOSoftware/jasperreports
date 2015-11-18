@@ -29,7 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -45,9 +47,6 @@ import net.sf.jasperreports.engine.util.DelegatePropertiesHolder;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.ParagraphUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -415,14 +414,6 @@ public class TextMeasurer implements JRTextMeasurer
 		complextLineWrapper.init(measureContext);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #TextMeasurer(JasperReportsContext, JRCommonText)}.
-	 */
-	public TextMeasurer(JRCommonText textElement)
-	{
-		this(DefaultJasperReportsContext.getInstance(), textElement);
-	}
-	
 	/**
 	 * 
 	 */

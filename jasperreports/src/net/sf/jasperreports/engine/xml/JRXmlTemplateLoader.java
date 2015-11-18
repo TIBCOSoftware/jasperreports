@@ -37,16 +37,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xml.sax.SAXException;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.xml.sax.SAXException;
 
 
 /**
@@ -65,14 +65,6 @@ public class JRXmlTemplateLoader
 	public static final String EXCEPTION_MESSAGE_KEY_URL_CONNECTION_ERROR = "xml.template.loader.url.connection.error";
 	
 	private JasperReportsContext jasperReportsContext;
-	
-	/**
-	 * @deprecated Replaced by {@link #JRXmlTemplateLoader(JasperReportsContext)}.
-	 */
-	protected JRXmlTemplateLoader()
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
 	
 	/**
 	 *

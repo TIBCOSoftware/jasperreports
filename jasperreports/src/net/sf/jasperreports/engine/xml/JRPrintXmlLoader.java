@@ -32,6 +32,14 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 
+import org.apache.commons.digester.SetNestedPropertiesRule;
+import org.apache.commons.digester.SetPropertiesRule;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
@@ -46,14 +54,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintBookmark;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
-
-import org.apache.commons.digester.SetNestedPropertiesRule;
-import org.apache.commons.digester.SetPropertiesRule;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 
 /**
@@ -79,15 +79,6 @@ public class JRPrintXmlLoader implements ErrorHandler
 	private JasperPrint jasperPrint;
 	private List<Exception> errors = new ArrayList<Exception>();
 
-
-	/**
-	 * @deprecated Replaced by {@link #JRPrintXmlLoader(JasperReportsContext)}.
-	 */
-	protected JRPrintXmlLoader()
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
-	
 
 	/**
 	 *

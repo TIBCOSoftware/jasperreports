@@ -231,15 +231,6 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener
 
 
 	/**
-	 * @deprecated Replaced by {@link #initViewerContext(JasperReportsContext, Locale, ResourceBundle)}.
-	 */
-	protected void initViewerContext(Locale locale, ResourceBundle resBundle)
-	{
-		initViewerContext(DefaultJasperReportsContext.getInstance(), locale, resBundle);
-	}
-
-	
-	/**
 	 *
 	 */
 	protected void initViewerContext(JasperReportsContext jasperReportsContext, Locale locale, ResourceBundle resBundle)

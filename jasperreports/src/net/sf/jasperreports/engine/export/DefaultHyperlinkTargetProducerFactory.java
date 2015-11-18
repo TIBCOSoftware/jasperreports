@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.export;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 
@@ -40,14 +39,6 @@ public class DefaultHyperlinkTargetProducerFactory extends JRHyperlinkTargetProd
 {
 	private JasperReportsContext jasperReportsContext;
 	
-	/**
-	 * @deprecated Replaced by {@link #DefaultHyperlinkTargetProducerFactory(JasperReportsContext)}.
-	 */
-	public DefaultHyperlinkTargetProducerFactory()
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
-
 	/**
 	 *
 	 */

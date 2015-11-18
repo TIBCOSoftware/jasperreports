@@ -26,7 +26,6 @@ package net.sf.jasperreports.components.sort;
 import java.io.IOException;
 
 import net.sf.jasperreports.components.AbstractComponentXmlWriter;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -47,14 +46,6 @@ public class SortComponentXmlWriter extends AbstractComponentXmlWriter
 	// used for versioning backward compatibility only
 	public static final String PROPERTY_HANDLER_FONT_SIZE = "handlerFontSize";
 	
-	/**
-	 * @deprecated Replaced by {@link #SortComponentXmlWriter(JasperReportsContext)}.
-	 */
-	public SortComponentXmlWriter()
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
-
 	/**
 	 * 
 	 */

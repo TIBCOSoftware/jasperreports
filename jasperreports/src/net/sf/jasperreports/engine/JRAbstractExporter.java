@@ -241,15 +241,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #JRAbstractExporter(JasperReportsContext)}.
-	 */
-	protected JRAbstractExporter()
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
-	
-	
-	/**
 	 *
 	 */
 	protected JRAbstractExporter(JasperReportsContext jasperReportsContext)

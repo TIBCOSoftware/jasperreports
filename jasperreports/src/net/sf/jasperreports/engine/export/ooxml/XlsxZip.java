@@ -29,7 +29,6 @@ import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -56,14 +55,6 @@ public class XlsxZip extends FileBufferedZip
 	private ExportZipEntry stylesEntry;
 	private ExportZipEntry relsEntry;
 	private ExportZipEntry contentTypesEntry;
-	
-	/**
-	 * @deprecated Replaced by {@link #XlsxZip(JasperReportsContext)}.
-	 */
-	public XlsxZip() throws IOException
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
 	
 	/**
 	 * 

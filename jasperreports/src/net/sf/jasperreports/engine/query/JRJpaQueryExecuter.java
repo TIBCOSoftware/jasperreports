@@ -32,7 +32,9 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -44,9 +46,6 @@ import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRJpaDataSource;
 import net.sf.jasperreports.engine.util.JRStringUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * EJBQL query executer that uses the Java Persistence API.
@@ -138,14 +137,6 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 		parseQuery();
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link #JRJpaQueryExecuter(JasperReportsContext, JRDataset, Map)}.
-	 */
-	public JRJpaQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters) 
-	{
-		this(DefaultJasperReportsContext.getInstance(), dataset, parameters);
-	}
-
 	@Override
 	protected String getCanonicalQueryLanguage()
 	{

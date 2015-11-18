@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.util.xml;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -77,17 +76,8 @@ public final class JRXPathExecuterUtils
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #getXPathExecuterFactory(JasperReportsContext)}.
-	 */
-	public static JRXPathExecuterFactory getXPathExecuterFactory() throws JRException
-	{
-		return getXPathExecuterFactory(DefaultJasperReportsContext.getInstance());
-	}
-	
-	
-	/**
 	 * Produces an {@link JRXPathExecuter XPath executer} instance by means of the factory
-	 * returned by {@link #getXPathExecuterFactory() getXPathExecuterFactory()}.
+	 * returned by {@link #getXPathExecuterFactory(JasperReportsContext) getXPathExecuterFactory(JasperReportsContext)}.
 	 * 
 	 * @return an JRXPathExecuter instance
 	 * @throws JRException if the {@link #PROPERTY_XPATH_EXECUTER_FACTORY XPath factory property} is not defined
@@ -97,15 +87,6 @@ public final class JRXPathExecuterUtils
 	{
 		JRXPathExecuterFactory executerFactory = getXPathExecuterFactory(jasperReportsContext);
 		return executerFactory.getXPathExecuter();
-	}
-	
-
-	/**
-	 * @deprecated Replaced by {@link #getXPathExecuter(JasperReportsContext)}.
-	 */
-	public static JRXPathExecuter getXPathExecuter() throws JRException
-	{
-		return getXPathExecuter(DefaultJasperReportsContext.getInstance());
 	}
 	
 

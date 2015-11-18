@@ -27,16 +27,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * A utility class that applies {@link GenericElementTransformer GenericElementTransformers}
@@ -72,17 +71,6 @@ public final class GenericElementReportTransformer
 		{
 			return report;
 		}
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #transformGenericElements(JasperReportsContext, JasperPrint, String)}.
-	 */
-	public static void transformGenericElements(
-		JasperPrint report, 
-		String transformerExportKey
-		)
-	{
-		transformGenericElements(DefaultJasperReportsContext.getInstance(), report, transformerExportKey);
 	}
 
 	/**

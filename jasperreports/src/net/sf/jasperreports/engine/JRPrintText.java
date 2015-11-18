@@ -45,16 +45,6 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRTextAlignmen
 
 	
 	/**
-	 * Returns the possibly truncated (when {@link #getTextTruncateIndex()} is not null) text of this object.
-	 * 
-	 * @return the text of this object
-	 * @see #getFullText()
-	 * @see #getTextTruncateSuffix()
-	 * @deprecated Replaced by {@link JRStyledTextUtil#getTruncatedText(JRPrintText)}.
-	 */
-	public String getText();
-		
-	/**
 	 * Set the text for this object.
 	 * 
 	 * @param text the text
@@ -126,17 +116,6 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRTextAlignmen
 	 * @return the original text
 	 */
 	public String getOriginalText();
-	
-	/**
-	 * Returns the styled text for this object.
-	 * 
-	 * The text is truncated according to {@link JRStyledTextUtil#getTruncatedText(JRPrintText)}.
-	 * 
-	 * @param attributeSelector the styled text attribute selector
-	 * @return the possibly truncated styled text for this object
-	 * @deprecated Replaced by {@link JRStyledTextUtil#getStyledText(JRPrintText, JRStyledTextAttributeSelector)}.
-	 */
-	public JRStyledText getStyledText(JRStyledTextAttributeSelector attributeSelector);
 	
 	/**
 	 * Returns the full styled text of this object.

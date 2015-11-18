@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectStreamClass;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 
@@ -66,14 +65,6 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 		{
 			//FIXMEFONT we silence this for applets. but are there other similar situations that we need to deal with by signing jars?
 		}
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #ContextClassLoaderObjectInputStream(JasperReportsContext, InputStream)}.
-	 */
-	public ContextClassLoaderObjectInputStream(InputStream in) throws IOException
-	{
-		this(DefaultJasperReportsContext.getInstance(), in);
 	}
 
 	/**

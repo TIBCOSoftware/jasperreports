@@ -30,7 +30,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -41,9 +43,6 @@ import net.sf.jasperreports.engine.data.JsonDataCollection;
 import net.sf.jasperreports.engine.data.JsonDataSource;
 import net.sf.jasperreports.engine.data.JsonDataSourceProvider;
 import net.sf.jasperreports.engine.data.TextDataSourceAttributes;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * JSON query executer implementation.
@@ -69,14 +68,6 @@ public class JsonQueryExecuter extends JRAbstractQueryExecuter
 	{
 		super(jasperReportsContext, dataset, parametersMap);
 		parseQuery();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #JsonQueryExecuter(JasperReportsContext, JRDataset, Map)}.
-	 */
-	public JsonQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parametersMap)
-	{
-		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
 	}
 
 	@Override
