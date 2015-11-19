@@ -106,15 +106,6 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 
 
 	/**
-	 * @deprecated Replaced by {@link #getDimension(JasperReportsContext)}.
-	 */
-	public Dimension2D getDimension()
-	{
-		return getDimension(DefaultJasperReportsContext.getInstance());
-	}
-
-
-	/**
 	 *
 	 */
 	public Color getBackcolor()

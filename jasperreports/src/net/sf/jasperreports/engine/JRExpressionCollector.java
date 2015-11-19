@@ -215,14 +215,6 @@ public class JRExpressionCollector
 	private final Set<JRStyle> collectedStyles;
 
 
-	/**
-	 * @deprecated Replaced by {@link #JRExpressionCollector(JasperReportsContext, JRExpressionCollector, JRReport)}.
-	 */
-	protected JRExpressionCollector(JRExpressionCollector parent, JRReport report)
-	{
-		this(DefaultJasperReportsContext.getInstance(), parent, report);
-	}
-	
 	protected JRExpressionCollector(JasperReportsContext jasperReportsContext, JRExpressionCollector parent, JRReport report)
 	{
 		this.jasperReportsContext = jasperReportsContext;

@@ -37,17 +37,6 @@ import java.io.StringReader;
 import java.net.URL;
 import java.util.List;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.ImageMapRenderable;
-import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.repo.RepositoryUtil;
-
 import org.apache.batik.bridge.BridgeContext;
 import org.apache.batik.bridge.GVTBuilder;
 import org.apache.batik.bridge.UserAgent;
@@ -59,6 +48,17 @@ import org.apache.batik.ext.awt.image.GraphicsUtil;
 import org.apache.batik.gvt.GraphicsNode;
 import org.w3c.dom.svg.SVGDocument;
 import org.w3c.dom.svg.SVGPreserveAspectRatio;
+
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.ImageMapRenderable;
+import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 /**
@@ -160,14 +160,6 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 		}
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getDimension(JasperReportsContext)}.
-	 */
-	public Dimension2D getDimension()
-	{
-		return getDimension(DefaultJasperReportsContext.getInstance());
-	}
-
 	protected synchronized void ensureData(JasperReportsContext jasperReportsContext) throws JRException
 	{
 		if (svgText == null
@@ -175,14 +167,6 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 		{
 			svgData = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(svgDataLocation);
 		}
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #ensureData(JasperReportsContext)}.
-	 */
-	protected synchronized void ensureData() throws JRException
-	{
-		ensureData(DefaultJasperReportsContext.getInstance());
 	}
 
 	protected synchronized void ensureSvg(JasperReportsContext jasperReportsContext) throws JRException
@@ -228,14 +212,6 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 	}
 	
 
-	/**
-	 * @deprecated Replaced by {@link #ensureSvg(JasperReportsContext)}.
-	 */
-	protected synchronized void ensureSvg() throws JRException
-	{
-		ensureSvg(DefaultJasperReportsContext.getInstance());
-	}
-	
 	/**
 	 * @deprecated To be removed.
 	 */
@@ -339,19 +315,6 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 	public static BatikRenderer getInstanceFromText(String svgText) throws JRException
 	{
 		return new BatikRenderer(svgText, null);
-	}
-
-	/**
-	 * Creates a SVG renderer by loading data from a generic location.
-	 *
-	 * @param location the location
-	 * @return a SVG renderer
-	 * @throws JRException
-	 * @deprecated Replaced by {@link #getInstanceFromLocation(JasperReportsContext, String)}.
-	 */
-	public static BatikRenderer getInstanceFromLocation(String location) throws JRException
-	{
-		return getInstanceFromLocation(DefaultJasperReportsContext.getInstance(), location);
 	}
 
 	/**

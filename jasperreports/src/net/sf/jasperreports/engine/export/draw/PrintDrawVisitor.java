@@ -25,7 +25,9 @@ package net.sf.jasperreports.engine.export.draw;
 
 import java.awt.Graphics2D;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -45,9 +47,6 @@ import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.Graphics2DReportConfiguration;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -75,14 +74,6 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		this.rectangleDrawer = new RectangleDrawer(jasperReportsContext);
 		this.ellipseDrawer = new EllipseDrawer(jasperReportsContext);
 		this.imageDrawer = new ImageDrawer(jasperReportsContext);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext)}.
-	 */
-	public PrintDrawVisitor()
-	{
-		this(DefaultJasperReportsContext.getInstance());
 	}
 	
 	public void setTextRenderer(JRReport report)

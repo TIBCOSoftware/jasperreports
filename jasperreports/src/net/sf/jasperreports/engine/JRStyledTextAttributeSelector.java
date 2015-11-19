@@ -76,21 +76,6 @@ public abstract class JRStyledTextAttributeSelector
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getAllSelector(JasperReportsContext)}.
-	 */
-	public static final JRStyledTextAttributeSelector ALL = new AllSelector(DefaultJasperReportsContext.getInstance());
-
-	/**
-	 * @deprecated Replaced by {@link #getNoBackcolorSelector(JasperReportsContext)}.
-	 */
-	public static final JRStyledTextAttributeSelector NO_BACKCOLOR = new NoBackcolorSelector(DefaultJasperReportsContext.getInstance());
-
-	/**
-	 * @deprecated Replaced by {@link #getNoneSelector(JasperReportsContext)}.
-	 */
-	public static final JRStyledTextAttributeSelector NONE = new NoneSelector(DefaultJasperReportsContext.getInstance());
-	
-	/**
 	 * Construct a map containing the selected element-level styled text attributes
 	 * for a print text element.
 	 * 

@@ -31,6 +31,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRGanttDataset;
@@ -136,9 +139,6 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -260,23 +260,6 @@ public class JRVerifier
 	private boolean allowElementNegativeWidth;
 	private final boolean allowElementNegativeX;
 	private final boolean allowElementNegativeY;
-
-	/**
-	 * @deprecated Replaced by {@link #JRVerifier(JasperReportsContext, JasperDesign, JRExpressionCollector)}.
-	 */
-	protected JRVerifier(JasperDesign jasperDesign)
-	{
-		this(DefaultJasperReportsContext.getInstance(), jasperDesign, null);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #JRVerifier(JasperReportsContext, JasperDesign, JRExpressionCollector)}.
-	 */
-	protected JRVerifier(JasperDesign jasperDesign, JRExpressionCollector expressionCollector)
-	{
-		this(DefaultJasperReportsContext.getInstance(), jasperDesign, expressionCollector);
-	}
 
 	/**
 	 * 

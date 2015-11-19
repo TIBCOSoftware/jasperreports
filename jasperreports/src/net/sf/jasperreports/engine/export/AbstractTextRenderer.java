@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -96,18 +95,6 @@ public abstract class AbstractTextRenderer
 		this.jasperReportsContext = jasperReportsContext;
 		this.isMinimizePrinterJobSize = isMinimizePrinterJobSize;
 		this.ignoreMissingFont = ignoreMissingFont;
-	}
-	
-	
-	/**
-	 * @deprecated Replaced by {@link #AbstractTextRenderer(JasperReportsContext, boolean, boolean)}. 
-	 */
-	public AbstractTextRenderer(
-		boolean isMinimizePrinterJobSize,
-		boolean ignoreMissingFont
-		)
-	{
-		this(DefaultJasperReportsContext.getInstance(), isMinimizePrinterJobSize, ignoreMissingFont);
 	}
 	
 	

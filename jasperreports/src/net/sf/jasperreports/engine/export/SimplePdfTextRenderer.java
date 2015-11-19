@@ -25,19 +25,17 @@ package net.sf.jasperreports.engine.export;
 
 import java.text.AttributedString;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.type.RunDirectionEnum;
-import net.sf.jasperreports.engine.util.JRStyledText;
-
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.PdfWriter;
+
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.util.JRStyledText;
 
 
 /**
@@ -45,28 +43,6 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 {
-	/**
-	 * @deprecated Replaced by {@link #SimplePdfTextRenderer(JasperReportsContext, boolean)}.
-	 */
-	public static SimplePdfTextRenderer getInstance()
-	{
-		return 
-			new SimplePdfTextRenderer(
-				DefaultJasperReportsContext.getInstance(),
-				JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getBooleanProperty(JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT)
-				);
-	}
-	
-	
-	/**
-	 * @deprecated Replaced by {@link #SimplePdfTextRenderer(JasperReportsContext, boolean)}.
-	 */
-	public SimplePdfTextRenderer(boolean ignoreMissingFont)
-	{
-		this(DefaultJasperReportsContext.getInstance(), ignoreMissingFont);
-	}
-	
-	
 	/**
 	 * 
 	 */

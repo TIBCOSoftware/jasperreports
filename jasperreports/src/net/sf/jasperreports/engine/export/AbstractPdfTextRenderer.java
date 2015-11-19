@@ -23,14 +23,13 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import com.lowagie.text.Element;
+import com.lowagie.text.pdf.PdfContentByte;
+
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
-
-import com.lowagie.text.Element;
-import com.lowagie.text.pdf.PdfContentByte;
 
 
 /**
@@ -47,15 +46,6 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 	protected float leftOffsetFactor;
 	protected float rightOffsetFactor;
 
-	
-	/**
-	 * @deprecated Replaced by {@link #AbstractPdfTextRenderer(JasperReportsContext, boolean)}.
-	 */
-	public AbstractPdfTextRenderer(boolean ignoreMissingFont)
-	{
-		this(DefaultJasperReportsContext.getInstance(), ignoreMissingFont);
-	}
-	
 	
 	/**
 	 * 

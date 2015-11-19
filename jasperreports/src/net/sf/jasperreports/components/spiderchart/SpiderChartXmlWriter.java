@@ -27,7 +27,6 @@ import java.io.IOException;
 
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.components.charts.ChartSettings;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
@@ -77,14 +76,6 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 	private final String version;
 	private final VersionComparator versionComparator;
 	
-	/**
-	 * @deprecated Replaced by {@link #SpiderChartXmlWriter(JasperReportsContext)}.
-	 */
-	public SpiderChartXmlWriter()
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
-
 	/**
 	 * 
 	 */

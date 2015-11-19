@@ -58,14 +58,6 @@ public class AwtComponentRenderer extends JRAbstractSvgRenderer
 		return component.getSize();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getDimension(JasperReportsContext)}.
-	 */
-	public Dimension2D getDimension()
-	{
-		return getDimension(DefaultJasperReportsContext.getInstance());
-	}
-
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) 
 	{
 		AffineTransform origTransform = grx.getTransform();

@@ -23,16 +23,15 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.krysalis.barcode4j.ChecksumMode;
+import org.krysalis.barcode4j.impl.code128.EAN128Bean;
+
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
-
-import org.krysalis.barcode4j.ChecksumMode;
-import org.krysalis.barcode4j.impl.code128.EAN128Bean;
 
 /**
  * 
@@ -48,15 +47,6 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 		)
 	{
 		super(jasperReportsContext, componentElement, defaultStyleProvider);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #BarcodeDesignEvaluator(JasperReportsContext, JRComponentElement, JRDefaultStyleProvider)}.
-	 */
-	public BarcodeDesignEvaluator(JRComponentElement componentElement,
-			JRDefaultStyleProvider defaultStyleProvider)
-	{
-		this(DefaultJasperReportsContext.getInstance(), componentElement, defaultStyleProvider);
 	}
 	
 	public Renderable evaluateImage()

@@ -27,7 +27,6 @@ import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -51,14 +50,6 @@ public class MapElementImageProvider
 	 */
 	public static Integer MAX_URL_LENGTH = 2048;
 	
-	/**
-	 * @deprecated Replaced by {@link #getImage(JasperReportsContext, JRGenericPrintElement)}.
-	 */
-	public static JRPrintImage getImage(JRGenericPrintElement element) throws JRException
-	{
-		return getImage(DefaultJasperReportsContext.getInstance(), element);
-	}
-		
 	public static JRPrintImage getImage(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws JRException
 	{
 		

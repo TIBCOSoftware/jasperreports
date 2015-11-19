@@ -26,9 +26,7 @@ package net.sf.jasperreports.engine.export;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -48,20 +46,6 @@ public class AwtTextRenderer extends AbstractTextRenderer
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #AwtTextRenderer(JasperReportsContext, boolean, boolean)}.
-	 */
-	public static AwtTextRenderer getInstance()
-	{
-		return 
-			new AwtTextRenderer(
-				DefaultJasperReportsContext.getInstance(),
-				JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getBooleanProperty(JRGraphics2DExporter.MINIMIZE_PRINTER_JOB_SIZE),
-				JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getBooleanProperty(JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT)
-				);
-	}
-	
-	
-	/**
 	 * 
 	 */
 	public AwtTextRenderer(
@@ -73,18 +57,6 @@ public class AwtTextRenderer extends AbstractTextRenderer
 		super(jasperReportsContext, isMinimizePrinterJobSize, ignoreMissingFont);
 		
 		this.noBackcolorSelector = JRStyledTextAttributeSelector.getNoBackcolorSelector(jasperReportsContext);
-	}
-	
-
-	/**
-	 * @deprecated Replaced by {@link #AwtTextRenderer(JasperReportsContext, boolean, boolean)}.
-	 */
-	public AwtTextRenderer(
-		boolean isMinimizePrinterJobSize,
-		boolean ignoreMissingFont
-		)
-	{
-		this(DefaultJasperReportsContext.getInstance(), isMinimizePrinterJobSize, ignoreMissingFont);
 	}
 	
 

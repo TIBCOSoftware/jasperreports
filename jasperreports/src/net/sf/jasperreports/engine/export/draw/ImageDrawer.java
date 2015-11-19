@@ -36,7 +36,6 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -51,15 +50,6 @@ import net.sf.jasperreports.engine.type.RenderableTypeEnum;
  */
 public class ImageDrawer extends ElementDrawer<JRPrintImage>
 {
-	/**
-	 * @deprecated Replaced by {@link #ImageDrawer(JasperReportsContext)}.
-	 */
-	public ImageDrawer()
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
-	
-	
 	/**
 	 *
 	 */

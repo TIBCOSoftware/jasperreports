@@ -30,16 +30,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.charts.type.EdgeEnum;
-import net.sf.jasperreports.charts.util.ChartUtil;
-import net.sf.jasperreports.components.charts.ChartCustomizer;
-import net.sf.jasperreports.components.charts.ChartSettings;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.fonts.FontUtil;
-
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
@@ -48,6 +38,15 @@ import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.RectangleEdge;
+
+import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.charts.util.ChartUtil;
+import net.sf.jasperreports.components.charts.ChartCustomizer;
+import net.sf.jasperreports.components.charts.ChartSettings;
+import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 
 /**
  * Spider Chart design evaluator.
@@ -66,20 +65,6 @@ public class SpiderChartRendererEvaluator
 	public static final Double SAMPLE_MAXVALUE = Double.valueOf(10d);
 	
 	private static DefaultCategoryDataset sampleDataset;
-	
-	/**
-	 * @deprecated Replaced by {@link #evaluateRenderable(JasperReportsContext, JRComponentElement, SpiderChartSharedBean, ChartCustomizer, String, String)}. 
-	 */
-	public static net.sf.jasperreports.engine.JRRenderable evaluateRenderer(
-		JRComponentElement element, 
-		SpiderChartSharedBean spiderchartBean, 
-		ChartCustomizer chartCustomizer, 
-		String defaultRenderType,
-		String datasetType
-		)
-	{
-		return evaluateRenderable(DefaultJasperReportsContext.getInstance(), element, spiderchartBean, chartCustomizer, defaultRenderType, datasetType);
-	}
 	
 	/**
 	 * 

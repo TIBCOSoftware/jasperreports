@@ -23,13 +23,6 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRDefaultStyleProvider;
-import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-
 import org.krysalis.barcode4j.BaselineAlignment;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.HumanReadablePlacement;
@@ -51,6 +44,12 @@ import org.krysalis.barcode4j.impl.upcean.EAN8Bean;
 import org.krysalis.barcode4j.impl.upcean.UPCABean;
 import org.krysalis.barcode4j.impl.upcean.UPCEBean;
 import org.krysalis.barcode4j.tools.UnitConv;
+
+import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
 
 /**
  * 
@@ -79,15 +78,6 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 		this.componentElement = componentElement;
 		this.barcodeComponent = (BarcodeComponent) componentElement.getComponent();
 		this.defaultStyleProvider = defaultStyleProvider;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #AbstractBarcodeEvaluator(JasperReportsContext, JRComponentElement, JRDefaultStyleProvider)}.
-	 */
-	protected AbstractBarcodeEvaluator(JRComponentElement componentElement, 
-			JRDefaultStyleProvider defaultStyleProvider)
-	{
-		this(DefaultJasperReportsContext.getInstance(), componentElement, defaultStyleProvider);
 	}
 
 	public void evaluateBarcode()

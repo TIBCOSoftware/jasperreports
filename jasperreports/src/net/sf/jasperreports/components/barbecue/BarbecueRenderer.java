@@ -75,14 +75,6 @@ public class BarbecueRenderer extends JRAbstractSvgRenderer
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getDimension(JasperReportsContext)}.
-	 */
-	public Dimension2D getDimension()
-	{
-		return getDimension(DefaultJasperReportsContext.getInstance());
-	}
-
-	/**
 	 * @deprecated Replaced by {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}.
 	 */
 	public void render(Graphics2D grx, Rectangle2D rectangle) 
