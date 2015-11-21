@@ -28,13 +28,11 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.FileHtmlResourceHandler;
 import net.sf.jasperreports.engine.export.HtmlResourceHandler;
-import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.export.MapHtmlResourceHandler;
 import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
@@ -58,7 +56,7 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 	 */
 	public ParametersHtmlExporterOutput(
 		JasperReportsContext jasperReportsContext,
-		Map<JRExporterParameter, Object> parameters,
+		Map<net.sf.jasperreports.engine.JRExporterParameter, Object> parameters,
 		JasperPrint jasperPrint
 		)
 	{
@@ -68,17 +66,17 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 			jasperPrint
 			);
 		
-		Boolean isOutputImagesToDirParameter = (Boolean)parameters.get(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR);
-		String imagesUri = (String)parameters.get(JRHtmlExporterParameter.IMAGES_URI);
+		Boolean isOutputImagesToDirParameter = (Boolean)parameters.get(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR);
+		String imagesUri = (String)parameters.get(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IMAGES_URI);
 
 		if (imageHandler == null)
 		{
 			if (isOutputImagesToDirParameter == null || isOutputImagesToDirParameter.booleanValue())
 			{
-				File imagesDir = (File)parameters.get(JRHtmlExporterParameter.IMAGES_DIR);
+				File imagesDir = (File)parameters.get(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IMAGES_DIR);
 				if (imagesDir == null)
 				{
-					String imagesDirName = (String)parameters.get(JRHtmlExporterParameter.IMAGES_DIR_NAME);
+					String imagesDirName = (String)parameters.get(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IMAGES_DIR_NAME);
 					if (imagesDirName != null)
 					{
 						imagesDir = new File(imagesDirName);
@@ -97,19 +95,19 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 			}
 		}
 
-		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
+		StringBuffer sb = (StringBuffer)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb == null)
 		{
-			Writer writer = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
+			Writer writer = (Writer)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_WRITER);
 			if (writer == null)
 			{
-				OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+				OutputStream os = (OutputStream)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_STREAM);
 				if (os == null)
 				{
-					File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+					File destFile = (File)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_FILE);
 					if (destFile == null)
 					{
-						String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+						String fileName = (String)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_FILE_NAME);
 						if (fileName != null)
 						{
 							destFile = new File(fileName);
@@ -147,7 +145,8 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 		}
 		
 		@SuppressWarnings("unchecked")
-		Map<String,byte[]> imageNameToImageDataMap = (Map<String,byte[]>) parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
+		Map<String,byte[]> imageNameToImageDataMap = 
+			(Map<String,byte[]>) parameters.get(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IMAGES_MAP);
 		if (imageNameToImageDataMap != null)
 		{
 			imageHandler = new MapHtmlResourceHandler(imageHandler, imageNameToImageDataMap);

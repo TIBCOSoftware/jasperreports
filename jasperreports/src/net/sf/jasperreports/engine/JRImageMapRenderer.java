@@ -40,7 +40,7 @@ public interface JRImageMapRenderer extends JRRenderable
 	/**
 	 * Returns the list of {@link JRPrintImageAreaHyperlink image map areas}.
 	 *
-	 * @deprecated Replaced by {@link #renderWithHyperlinks(Graphics2D, Rectangle2D)}
+	 * Replaced by {@link #renderWithHyperlinks(Graphics2D, Rectangle2D)}
 	 * @param renderingArea the area on which the image would be rendered
 	 * @return a list of {@link JRPrintImageAreaHyperlink JRPrintImageAreaHyperlink} instances.
 	 * @throws JRException

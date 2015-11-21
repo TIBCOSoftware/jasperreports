@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.export.XmlExporterOutput;
 
@@ -39,7 +38,7 @@ import net.sf.jasperreports.export.XmlExporterOutput;
  * @deprecated Replaced by {@link XmlExporterOutput}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRXmlExporterParameter extends JRExporterParameter
+public class JRXmlExporterParameter extends net.sf.jasperreports.engine.JRExporterParameter
 {
 
 

@@ -27,8 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.components.map.Marker;
-import net.sf.jasperreports.components.map.MarkerProperty;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
@@ -38,20 +36,20 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  * @deprecated Replaced by {@link FillItem}.
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public class FillMarker implements Marker
+public class FillMarker implements net.sf.jasperreports.components.map.Marker
 {
 	public static final String EXCEPTION_MESSAGE_KEY_INVALID_VALUE_LOCATION = "charts.thermometer.plot.invalid.value.location";
 
 	/**
 	 *
 	 */
-	protected Marker parent;
+	protected net.sf.jasperreports.components.map.Marker parent;
 	
 	/**
 	 *
 	 */
 	public FillMarker(
-		Marker marker, 
+		net.sf.jasperreports.components.map.Marker marker, 
 		JRFillObjectFactory factory
 		)
 	{
@@ -66,12 +64,12 @@ public class FillMarker implements Marker
 	 */
 	public Map<String, Object> evaluateProperties(JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
 	{
-		List<MarkerProperty> markerProperties = getProperties();
+		List<net.sf.jasperreports.components.map.MarkerProperty> markerProperties = getProperties();
 		Map<String, Object> result = null;
 		if(markerProperties != null && !markerProperties.isEmpty())
 		{
 			result = new HashMap<String, Object>();
-			for(MarkerProperty property : markerProperties)
+			for(net.sf.jasperreports.components.map.MarkerProperty property : markerProperties)
 			{
 				result.put(property.getName(), getEvaluatedValue(property, evaluator, evaluation));
 			}
@@ -89,12 +87,16 @@ public class FillMarker implements Marker
 	}
 
 	@Override
-	public List<MarkerProperty> getProperties() 
+	public List<net.sf.jasperreports.components.map.MarkerProperty> getProperties() 
 	{
 		return parent.getProperties();
 	}
 	
-	public Object getEvaluatedValue(MarkerProperty property, JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
+	public Object getEvaluatedValue(
+		net.sf.jasperreports.components.map.MarkerProperty property, 
+		JRFillExpressionEvaluator evaluator, 
+		byte evaluation
+		) throws JRException
 	{
 		Object result = null;
 		if (
@@ -103,7 +105,10 @@ public class FillMarker implements Marker
 			|| property.getValueExpression().getText().trim().length() == 0
 			)
 		{
-			if(Marker.PROPERTY_latitude.equals(property.getName()) || Marker.PROPERTY_longitude.equals(property.getName()))
+			if(
+				net.sf.jasperreports.components.map.Marker.PROPERTY_latitude.equals(property.getName()) 
+				|| net.sf.jasperreports.components.map.Marker.PROPERTY_longitude.equals(property.getName())
+				)
 			{
 				if(property.getValue() == null || property.getValue().length() == 0)
 				{
@@ -118,7 +123,10 @@ public class FillMarker implements Marker
 		else
 		{
 			result = evaluator.evaluate(property.getValueExpression(), evaluation);
-			if(Marker.PROPERTY_latitude.equals(property.getName()) || Marker.PROPERTY_longitude.equals(property.getName()))
+			if (
+				net.sf.jasperreports.components.map.Marker.PROPERTY_latitude.equals(property.getName()) 
+				|| net.sf.jasperreports.components.map.Marker.PROPERTY_longitude.equals(property.getName())
+				)
 			{
 				if(
 					result == null 

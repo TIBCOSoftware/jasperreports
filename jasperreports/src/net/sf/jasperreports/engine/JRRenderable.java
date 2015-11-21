@@ -110,7 +110,7 @@ public interface JRRenderable extends Serializable
 	
 
 	/**
-	 * @deprecated Replaced by {@link Renderable#getId()}.
+	 * Replaced by {@link Renderable#getId()}.
 	 */
 	public String getId();
 

@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -43,7 +42,7 @@ import net.sf.jasperreports.engine.util.JRPenUtil;
  * @deprecated Replaced by {@link JRBaseLineBox}
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRBaseBox implements JRBox, Serializable
+public class JRBaseBox implements net.sf.jasperreports.engine.JRBox, Serializable
 {
 
 

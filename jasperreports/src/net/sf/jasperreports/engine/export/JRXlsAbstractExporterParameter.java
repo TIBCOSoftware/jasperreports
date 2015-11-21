@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
@@ -38,7 +37,7 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  * @deprecated Replaced by {@link XlsExporterConfiguration}.
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public class JRXlsAbstractExporterParameter extends JRExporterParameter
+public class JRXlsAbstractExporterParameter extends net.sf.jasperreports.engine.JRExporterParameter
 {
 
 
@@ -156,13 +155,15 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	/**
 	 * @deprecated Replaced by {@link XlsReportConfiguration#getFormatPatternsMap()}.
 	 */
-	public static final JRExporterParameter FORMAT_PATTERNS_MAP = new JRXlsExporterParameter("Format Patterns Map");
+	public static final net.sf.jasperreports.engine.JRExporterParameter FORMAT_PATTERNS_MAP = 
+		new JRXlsExporterParameter("Format Patterns Map");
 
 	
 	/**
 	 * @deprecated Replaced by {@link XlsReportConfiguration#getMaxRowsPerSheet()}.
 	 */
-	public static final JRExporterParameter MAXIMUM_ROWS_PER_SHEET = new JRXlsExporterParameter("Maximum Rows Per Sheet");
+	public static final net.sf.jasperreports.engine.JRExporterParameter MAXIMUM_ROWS_PER_SHEET = 
+		new JRXlsExporterParameter("Maximum Rows Per Sheet");
 
 	
 	/**
@@ -234,7 +235,8 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	/**
 	 * @deprecated Replaced by {@link XlsExporterConfiguration#isCreateCustomPalette()}.
 	 */
-	public static final JRExporterParameter CREATE_CUSTOM_PALETTE = new JExcelApiExporterParameter("Create Custom Palette");
+	public static final net.sf.jasperreports.engine.JRExporterParameter CREATE_CUSTOM_PALETTE = 
+		new JExcelApiExporterParameter("Create Custom Palette");
 
 	/**
 	 * @deprecated Replaced by {@link XlsExporterConfiguration#PROPERTY_CREATE_CUSTOM_PALETTE}.

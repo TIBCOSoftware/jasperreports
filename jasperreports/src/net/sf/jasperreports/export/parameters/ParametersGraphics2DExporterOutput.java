@@ -26,9 +26,7 @@ package net.sf.jasperreports.export.parameters;
 import java.awt.Graphics2D;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 import net.sf.jasperreports.export.Graphics2DExporterOutput;
 
 
@@ -48,9 +46,9 @@ public class ParametersGraphics2DExporterOutput implements Graphics2DExporterOut
 	/**
 	 * 
 	 */
-	public ParametersGraphics2DExporterOutput(Map<JRExporterParameter, Object> parameters)
+	public ParametersGraphics2DExporterOutput(Map<net.sf.jasperreports.engine.JRExporterParameter, Object> parameters)
 	{
-		grx = (Graphics2D)parameters.get(JRGraphics2DExporterParameter.GRAPHICS_2D);
+		grx = (Graphics2D)parameters.get(net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter.GRAPHICS_2D);
 		if (grx == null)
 		{
 			throw 

@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.export.Graphics2DExporterConfiguration;
 import net.sf.jasperreports.export.Graphics2DExporterOutput;
 import net.sf.jasperreports.export.Graphics2DReportConfiguration;
@@ -35,7 +34,7 @@ import net.sf.jasperreports.export.Graphics2DReportConfiguration;
  * @deprecated Replaced by {@link Graphics2DExporterConfiguration} and {@link Graphics2DExporterOutput}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRGraphics2DExporterParameter extends JRExporterParameter
+public class JRGraphics2DExporterParameter extends net.sf.jasperreports.engine.JRExporterParameter
 {
 
 

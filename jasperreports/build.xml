@@ -2,12 +2,12 @@
 
 	<description>Helps build the JasperReports distribution files.</description>
 
-	<property name="version" value="6.1.2"/>
+	<property name="version" value="6.2.1"/>
 
 	<target name="compile" description="Compiles the java source files of the library.">
 		<mkdir dir="./build/classes"/> 
 		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6" 
-				encoding="ISO-8859-1" includeantruntime="false">
+				encoding="ISO-8859-1" includeantruntime="false" createMissingPackageInfoClass="false">
 			<classpath>
 				<pathelement location="./build/classes"/>
 				<fileset dir="./lib">
@@ -15,8 +15,8 @@
 				</fileset>
 			</classpath>
 			<src path="./src"/>
-			<compilerarg value="-Xlint:unchecked"/>
-			<compilerarg value="-Xlint:-options"/>
+			<compilerarg value="-Xlint:-unchecked"/>
+			<compilerarg value="-Xlint:-deprecation"/>
 		</javac>
 		
 		<copy todir="./build/classes">

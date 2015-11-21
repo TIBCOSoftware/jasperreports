@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -53,7 +52,7 @@ public class ParametersOutputStreamExporterOutput extends AbstractParametersExpo
 	 */
 	public ParametersOutputStreamExporterOutput(
 		JasperReportsContext jasperReportsContext,
-		Map<JRExporterParameter, Object> parameters,
+		Map<net.sf.jasperreports.engine.JRExporterParameter, Object> parameters,
 		JasperPrint jasperPrint
 		)
 	{
@@ -64,13 +63,13 @@ public class ParametersOutputStreamExporterOutput extends AbstractParametersExpo
 			);
 		
 		toClose = false;
-		outputStream = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+		outputStream = (OutputStream)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_STREAM);
 		if (outputStream == null)
 		{
-			File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+			File destFile = (File)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_FILE);
 			if (destFile == null)
 			{
-				String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+				String fileName = (String)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_FILE_NAME);
 				if (fileName != null)
 				{
 					destFile = new File(fileName);

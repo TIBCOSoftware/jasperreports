@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.export.parameters;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 
 
 /**
@@ -35,35 +34,35 @@ public interface ParameterResolver
 	/**
 	 * 
 	 */
-	public String getStringParameter(JRExporterParameter parameter, String property);
+	public String getStringParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String property);
 	
 	/**
 	 * 
 	 */
-	public String[] getStringArrayParameter(JRExporterParameter parameter, String propertyPrefix);
+	public String[] getStringArrayParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String propertyPrefix);
 
 	/**
 	 * 
 	 */
-	public String getStringParameterOrDefault(JRExporterParameter parameter, String property);
+	public String getStringParameterOrDefault(net.sf.jasperreports.engine.JRExporterParameter parameter, String property);
 	
 	/**
 	 * 
 	 */
-	public boolean getBooleanParameter(JRExporterParameter parameter, String property, boolean defaultValue);
+	public boolean getBooleanParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String property, boolean defaultValue);
 	
 	/**
 	 * 
 	 */
-	public int getIntegerParameter(JRExporterParameter parameter, String property, int defaultValue);
+	public int getIntegerParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String property, int defaultValue);
 
 	/**
 	 * 
 	 */
-	public float getFloatParameter(JRExporterParameter parameter, String property, float defaultValue);
+	public float getFloatParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String property, float defaultValue);
 
 	/**
 	 * 
 	 */
-	public Character getCharacterParameter(JRExporterParameter parameter, String property);
+	public Character getCharacterParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String property);
 }

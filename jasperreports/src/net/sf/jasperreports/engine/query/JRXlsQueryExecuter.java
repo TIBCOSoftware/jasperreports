@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.data.JRXlsDataSource;
 
 /**
  * XLS query executer implementation.
@@ -62,24 +61,24 @@ public class JRXlsQueryExecuter extends AbstractXlsQueryExecuter {
 	}
 
 	public JRDataSource createDatasource() throws JRException {
-		JRXlsDataSource datasource = null;
+		net.sf.jasperreports.engine.data.JRXlsDataSource datasource = null;
 		
 		try {
 			Workbook workbook = (Workbook) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_WORKBOOK);
 			if (workbook != null) {
-				datasource = new JRXlsDataSource(workbook);
+				datasource = new net.sf.jasperreports.engine.data.JRXlsDataSource(workbook);
 			} else {
 				InputStream xlsInputStream = (InputStream) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_INPUT_STREAM);
 				if (xlsInputStream != null) {
-					datasource = new JRXlsDataSource(xlsInputStream);
+					datasource = new net.sf.jasperreports.engine.data.JRXlsDataSource(xlsInputStream);
 				} else {
 					File xlsFile = (File) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_FILE);
 					if (xlsFile != null) {
-						datasource = new JRXlsDataSource(xlsFile);
+						datasource = new net.sf.jasperreports.engine.data.JRXlsDataSource(xlsFile);
 					} else {
 						String xlsSource = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLS_SOURCE);
 						if (xlsSource != null) {
-							datasource = new JRXlsDataSource(getJasperReportsContext(), xlsSource);
+							datasource = new net.sf.jasperreports.engine.data.JRXlsDataSource(getJasperReportsContext(), xlsSource);
 						} else {
 							if (log.isWarnEnabled()){
 								log.warn("No XLS source was provided.");

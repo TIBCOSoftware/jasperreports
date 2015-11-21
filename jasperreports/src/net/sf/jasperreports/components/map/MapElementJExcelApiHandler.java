@@ -24,9 +24,6 @@
 package net.sf.jasperreports.components.map;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.export.GenericElementJExcelApiHandler;
-import net.sf.jasperreports.engine.export.JExcelApiExporter;
-import net.sf.jasperreports.engine.export.JExcelApiExporterContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 
@@ -35,7 +32,7 @@ import net.sf.jasperreports.engine.export.JRGridLayout;
  * @deprecated To be removed.
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public class MapElementJExcelApiHandler implements GenericElementJExcelApiHandler
+public class MapElementJExcelApiHandler implements net.sf.jasperreports.engine.export.GenericElementJExcelApiHandler
 {
 	private static final MapElementJExcelApiHandler INSTANCE = new MapElementJExcelApiHandler();
 	
@@ -45,7 +42,7 @@ public class MapElementJExcelApiHandler implements GenericElementJExcelApiHandle
 	}
 	
 	public void exportElement(
-		JExcelApiExporterContext exporterContext,
+		net.sf.jasperreports.engine.export.JExcelApiExporterContext exporterContext,
 		JRGenericPrintElement element,
 		JRExporterGridCell gridCell,
 		int colIndex,
@@ -57,7 +54,8 @@ public class MapElementJExcelApiHandler implements GenericElementJExcelApiHandle
 	{
 		try
 		{
-			JExcelApiExporter exporter = (JExcelApiExporter)exporterContext.getExporter();
+			net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
+				(net.sf.jasperreports.engine.export.JExcelApiExporter)exporterContext.getExporter();
 			exporter.exportImage(MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element), gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
 		}
 		catch (Exception e)

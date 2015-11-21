@@ -28,7 +28,6 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.export.CsvExporterConfiguration;
 
 
@@ -36,7 +35,7 @@ import net.sf.jasperreports.export.CsvExporterConfiguration;
  * @deprecated Replaced by {@link CsvExporterConfiguration}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRCsvExporterParameter extends JRExporterParameter
+public class JRCsvExporterParameter extends net.sf.jasperreports.engine.JRExporterParameter
 {
 
 

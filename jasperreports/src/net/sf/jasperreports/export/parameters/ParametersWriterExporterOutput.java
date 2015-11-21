@@ -32,7 +32,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -57,7 +56,7 @@ public class ParametersWriterExporterOutput extends AbstractParametersExporterOu
 	 */
 	public ParametersWriterExporterOutput(
 		JasperReportsContext jasperReportsContext,
-		Map<JRExporterParameter, Object> parameters,
+		Map<net.sf.jasperreports.engine.JRExporterParameter, Object> parameters,
 		JasperPrint jasperPrint
 		)
 	{
@@ -71,7 +70,7 @@ public class ParametersWriterExporterOutput extends AbstractParametersExporterOu
 		
 		toClose = false;
 	
-		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
+		StringBuffer sb = (StringBuffer)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb != null)
 		{
 			writer = new StringBufferWrapperWriter(sb);
@@ -79,10 +78,10 @@ public class ParametersWriterExporterOutput extends AbstractParametersExporterOu
 		}
 		else
 		{
-			writer = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
+			writer = (Writer)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_WRITER);
 			if (writer == null)
 			{
-				OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+				OutputStream os = (OutputStream)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_STREAM);
 				if (os != null)
 				{
 					try
@@ -96,10 +95,10 @@ public class ParametersWriterExporterOutput extends AbstractParametersExporterOu
 				}
 				else
 				{
-					File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+					File destFile = (File)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_FILE);
 					if (destFile == null)
 					{
-						String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+						String fileName = (String)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_FILE_NAME);
 						if (fileName != null)
 						{
 							destFile = new File(fileName);
@@ -135,7 +134,7 @@ public class ParametersWriterExporterOutput extends AbstractParametersExporterOu
 	{
 		encoding = 
 			getParameterResolver().getStringParameterOrDefault(
-				JRExporterParameter.CHARACTER_ENCODING, 
+				net.sf.jasperreports.engine.JRExporterParameter.CHARACTER_ENCODING, 
 				PROPERTY_CHARACTER_ENCODING
 				);
 	}

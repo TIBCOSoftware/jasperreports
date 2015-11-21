@@ -25,7 +25,6 @@ package net.sf.jasperreports.j2ee.servlets;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 
 
@@ -43,7 +42,7 @@ public class JExcelApiServlet extends AbstractXlsServlet
 	 */
 	protected JRXlsAbstractExporter getXlsExporter()
 	{
-		return new JExcelApiExporter(DefaultJasperReportsContext.getInstance());
+		return new net.sf.jasperreports.engine.export.JExcelApiExporter(DefaultJasperReportsContext.getInstance());
 	}
 
 	

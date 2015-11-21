@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -50,7 +49,7 @@ public class ParametersExporterInput extends SimpleExporterInput
 	/**
 	 * 
 	 */
-	public ParametersExporterInput(Map<JRExporterParameter, Object> parameters)
+	public ParametersExporterInput(Map<net.sf.jasperreports.engine.JRExporterParameter, Object> parameters)
 	{
 		super(getItems(getJasperPrintList(parameters)));
 	}
@@ -60,38 +59,39 @@ public class ParametersExporterInput extends SimpleExporterInput
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	private static List<JasperPrint> getJasperPrintList(Map<JRExporterParameter, Object> parameters)
+	private static List<JasperPrint> getJasperPrintList(Map<net.sf.jasperreports.engine.JRExporterParameter, Object> parameters)
 	{
-		List<JasperPrint> jasperPrintList = (List<JasperPrint>)parameters.get(JRExporterParameter.JASPER_PRINT_LIST);
+		List<JasperPrint> jasperPrintList = 
+			(List<JasperPrint>)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.JASPER_PRINT_LIST);
 		if (jasperPrintList == null)
 		{
-			JasperPrint jasperPrint = (JasperPrint)parameters.get(JRExporterParameter.JASPER_PRINT);
+			JasperPrint jasperPrint = (JasperPrint)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.JASPER_PRINT);
 			if (jasperPrint == null)
 			{
 				try
 				{
-					InputStream is = (InputStream)parameters.get(JRExporterParameter.INPUT_STREAM);
+					InputStream is = (InputStream)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.INPUT_STREAM);
 					if (is != null)
 					{
 						jasperPrint = (JasperPrint)JRLoader.loadObject(is);
 					}
 					else
 					{
-						URL url = (URL)parameters.get(JRExporterParameter.INPUT_URL);
+						URL url = (URL)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.INPUT_URL);
 						if (url != null)
 						{
 							jasperPrint = (JasperPrint)JRLoader.loadObject(url);
 						}
 						else
 						{
-							File file = (File)parameters.get(JRExporterParameter.INPUT_FILE);
+							File file = (File)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.INPUT_FILE);
 							if (file != null)
 							{
 								jasperPrint = (JasperPrint)JRLoader.loadObject(file);
 							}
 							else
 							{
-								String fileName = (String)parameters.get(JRExporterParameter.INPUT_FILE_NAME);
+								String fileName = (String)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.INPUT_FILE_NAME);
 								if (fileName != null)
 								{
 									jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(fileName);

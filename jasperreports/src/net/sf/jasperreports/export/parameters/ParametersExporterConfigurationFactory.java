@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -53,7 +52,7 @@ public class ParametersExporterConfigurationFactory<C extends CommonExportConfig
 	 * 
 	 */
 	private final JasperReportsContext jasperReportsContext;
-	private final Map<JRExporterParameter, Object> parameters;
+	private final Map<net.sf.jasperreports.engine.JRExporterParameter, Object> parameters;
 	private final JasperPrint jasperPrint;
 	private final ParameterResolver parameterResolver;
 	
@@ -62,7 +61,7 @@ public class ParametersExporterConfigurationFactory<C extends CommonExportConfig
 	 */
 	public ParametersExporterConfigurationFactory(
 		JasperReportsContext jasperReportsContext,
-		Map<JRExporterParameter, Object> parameters,
+		Map<net.sf.jasperreports.engine.JRExporterParameter, Object> parameters,
 		JasperPrint jasperPrint
 		)
 	{
@@ -72,14 +71,14 @@ public class ParametersExporterConfigurationFactory<C extends CommonExportConfig
 		
 		boolean isParametersOverrideHints = true;
 		
-		Boolean param = (Boolean) parameters.get(JRExporterParameter.PARAMETERS_OVERRIDE_REPORT_HINTS);
+		Boolean param = (Boolean) parameters.get(net.sf.jasperreports.engine.JRExporterParameter.PARAMETERS_OVERRIDE_REPORT_HINTS);
 		if (param == null)
 		{
 			isParametersOverrideHints = 
 				JRPropertiesUtil.getInstance(
 					jasperReportsContext
 					).getBooleanProperty(
-						JRExporterParameter.PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS
+						net.sf.jasperreports.engine.JRExporterParameter.PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS
 						);
 		}
 		else
@@ -188,13 +187,16 @@ public class ParametersExporterConfigurationFactory<C extends CommonExportConfig
 	{
 		Object value = null;
 
-		JRExporterParameter parameter = null;
+		net.sf.jasperreports.engine.JRExporterParameter parameter = null;
 		ExporterParameter exporterParameter = method.getAnnotation(ExporterParameter.class);
 		if (exporterParameter != null)
 		{
 			try
 			{
-				parameter = (JRExporterParameter)exporterParameter.type().getField(exporterParameter.name()).get(null);
+				parameter = 
+					(net.sf.jasperreports.engine.JRExporterParameter)exporterParameter.type().getField(
+						exporterParameter.name()
+						).get(null);
 			}
 			catch (NoSuchFieldException e)
 			{

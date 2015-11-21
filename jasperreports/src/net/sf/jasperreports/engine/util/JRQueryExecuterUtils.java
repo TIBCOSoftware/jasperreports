@@ -34,10 +34,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
-import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactoryBundle;
 import net.sf.jasperreports.engine.query.QueryExecuterFactory;
-import net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle;
 
 /**
  * Query executer utility class.
@@ -89,12 +87,12 @@ public final class JRQueryExecuterUtils
 	 */
 	public QueryExecuterFactory getExecuterFactory(String language) throws JRException
 	{
-		List<QueryExecuterFactoryBundle> oldBundles = jasperReportsContext.getExtensions(
-				QueryExecuterFactoryBundle.class);
-		for (Iterator<QueryExecuterFactoryBundle> it = oldBundles.iterator(); it.hasNext();)
+		List<net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle> oldBundles = jasperReportsContext.getExtensions(
+				net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle.class);
+		for (Iterator<net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle> it = oldBundles.iterator(); it.hasNext();)
 		{
-			QueryExecuterFactoryBundle bundle = it.next();
-			JRQueryExecuterFactory factory = bundle.getQueryExecuterFactory(language);
+			net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle bundle = it.next();
+			net.sf.jasperreports.engine.query.JRQueryExecuterFactory factory = bundle.getQueryExecuterFactory(language);
 			if (factory != null)
 			{
 				return new WrappingQueryExecuterFactory(factory);
@@ -128,7 +126,7 @@ public final class JRQueryExecuterUtils
 	 * @see QueryExecuterFactory#QUERY_EXECUTER_FACTORY_PREFIX
 	 * @deprecated Replaced by {@link #getExecuterFactory(String)}.
 	 */
-	public static JRQueryExecuterFactory getQueryExecuterFactory(String language) throws JRException
+	public static net.sf.jasperreports.engine.query.JRQueryExecuterFactory getQueryExecuterFactory(String language) throws JRException
 	{
 		return getDefaultInstance().getExecuterFactory(language);
 	}
@@ -138,9 +136,9 @@ public final class JRQueryExecuterUtils
 	 */
 	public static class WrappingQueryExecuterFactory implements QueryExecuterFactory
 	{
-		private JRQueryExecuterFactory factory;
+		private net.sf.jasperreports.engine.query.JRQueryExecuterFactory factory;
 		
-		public WrappingQueryExecuterFactory(JRQueryExecuterFactory factory)
+		public WrappingQueryExecuterFactory(net.sf.jasperreports.engine.query.JRQueryExecuterFactory factory)
 		{
 			this.factory = factory;
 		}

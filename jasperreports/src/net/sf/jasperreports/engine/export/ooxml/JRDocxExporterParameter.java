@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.export.DocxExporterConfiguration;
 import net.sf.jasperreports.export.DocxReportConfiguration;
 
@@ -32,7 +31,7 @@ import net.sf.jasperreports.export.DocxReportConfiguration;
  * @deprecated Replaced by {@link DocxExporterConfiguration}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRDocxExporterParameter extends JRExporterParameter
+public class JRDocxExporterParameter extends net.sf.jasperreports.engine.JRExporterParameter
 {
 
 

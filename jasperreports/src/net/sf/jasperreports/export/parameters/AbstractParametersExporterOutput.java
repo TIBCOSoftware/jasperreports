@@ -25,7 +25,6 @@ package net.sf.jasperreports.export.parameters;
 
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -44,7 +43,7 @@ public abstract class AbstractParametersExporterOutput implements ExporterOutput
 	 * 
 	 */
 	private final JRPropertiesUtil propertiesUtil;
-	protected final Map<JRExporterParameter, Object> parameters;
+	protected final Map<net.sf.jasperreports.engine.JRExporterParameter, Object> parameters;
 	private ParameterResolver parameterResolver;
 	
 	/**
@@ -52,7 +51,7 @@ public abstract class AbstractParametersExporterOutput implements ExporterOutput
 	 */
 	public AbstractParametersExporterOutput(
 		JasperReportsContext jasperReportsContext,
-		Map<JRExporterParameter, Object> parameters,
+		Map<net.sf.jasperreports.engine.JRExporterParameter, Object> parameters,
 		JasperPrint jasperPrint
 		)
 	{
@@ -60,10 +59,12 @@ public abstract class AbstractParametersExporterOutput implements ExporterOutput
 		this.parameters = parameters;
 
 		boolean parametersOverrideHints;
-		Boolean param = (Boolean) parameters.get(JRExporterParameter.PARAMETERS_OVERRIDE_REPORT_HINTS);
+		Boolean param = (Boolean) parameters.get(net.sf.jasperreports.engine.JRExporterParameter.PARAMETERS_OVERRIDE_REPORT_HINTS);
 		if (param == null)
 		{
-			parametersOverrideHints = getPropertiesUtil().getBooleanProperty(JRExporterParameter.PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS);
+			parametersOverrideHints = getPropertiesUtil().getBooleanProperty(
+				net.sf.jasperreports.engine.JRExporterParameter.PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS
+				);
 		}
 		else
 		{

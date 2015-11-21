@@ -48,6 +48,44 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import jxl.CellView;
+import jxl.SheetSettings;
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+import jxl.biff.DisplayFormat;
+import jxl.format.Alignment;
+import jxl.format.BoldStyle;
+import jxl.format.Border;
+import jxl.format.BorderLineStyle;
+import jxl.format.Colour;
+import jxl.format.Orientation;
+import jxl.format.PageOrientation;
+import jxl.format.PaperSize;
+import jxl.format.Pattern;
+import jxl.format.RGB;
+import jxl.format.UnderlineStyle;
+import jxl.format.VerticalAlignment;
+import jxl.read.biff.BiffException;
+import jxl.write.Blank;
+import jxl.write.DateFormat;
+import jxl.write.DateTime;
+import jxl.write.Formula;
+import jxl.write.Label;
+import jxl.write.Number;
+import jxl.write.NumberFormat;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableHyperlink;
+import jxl.write.WritableImage;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.CellValue;
+import jxl.write.biff.RowsExceededException;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
@@ -92,58 +130,20 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.export.JxlExporterConfiguration;
-import net.sf.jasperreports.export.JxlMetadataExporterConfiguration;
-import net.sf.jasperreports.export.JxlMetadataReportConfiguration;
-import net.sf.jasperreports.export.JxlReportConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.repo.RepositoryUtil;
-
-import org.apache.commons.collections.map.ReferenceMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import jxl.CellView;
-import jxl.SheetSettings;
-import jxl.Workbook;
-import jxl.WorkbookSettings;
-import jxl.biff.DisplayFormat;
-import jxl.format.Alignment;
-import jxl.format.BoldStyle;
-import jxl.format.Border;
-import jxl.format.BorderLineStyle;
-import jxl.format.Colour;
-import jxl.format.Orientation;
-import jxl.format.PageOrientation;
-import jxl.format.PaperSize;
-import jxl.format.Pattern;
-import jxl.format.RGB;
-import jxl.format.UnderlineStyle;
-import jxl.format.VerticalAlignment;
-import jxl.read.biff.BiffException;
-import jxl.write.Blank;
-import jxl.write.DateFormat;
-import jxl.write.DateTime;
-import jxl.write.Formula;
-import jxl.write.Label;
-import jxl.write.Number;
-import jxl.write.NumberFormat;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableFont;
-import jxl.write.WritableHyperlink;
-import jxl.write.WritableImage;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
-import jxl.write.biff.CellValue;
-import jxl.write.biff.RowsExceededException;
 
 
 /**
  * @deprecated Replaced by {@link JRXlsMetadataExporter}.
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<JxlMetadataReportConfiguration, JxlMetadataExporterConfiguration, JExcelApiExporterContext>
+public class JExcelApiMetadataExporter extends 
+	JRXlsAbstractMetadataExporter<
+		net.sf.jasperreports.export.JxlMetadataReportConfiguration, 
+		net.sf.jasperreports.export.JxlMetadataExporterConfiguration, 
+		JExcelApiExporterContext
+		>
 {
 
 	private static final Log log = LogFactory.getLog(JExcelApiMetadataExporter.class);
@@ -151,14 +151,14 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 	public static final String EXCEPTION_MESSAGE_KEY_SHEET_TOO_MANY_ROWS = "export.xls.sheet.too.many.rows";
 
 	/**
-	 * @deprecated Replaced by {@link JxlExporterConfiguration#PROPERTY_USE_TEMP_FILE}.
+	 * @deprecated Replaced by {@link net.sf.jasperreports.export.JxlExporterConfiguration#PROPERTY_USE_TEMP_FILE}.
 	 */
-	public static final String PROPERTY_USE_TEMP_FILE = JxlExporterConfiguration.PROPERTY_USE_TEMP_FILE;
+	public static final String PROPERTY_USE_TEMP_FILE = net.sf.jasperreports.export.JxlExporterConfiguration.PROPERTY_USE_TEMP_FILE;
 
 	/**
-	 * @deprecated Replaced by {@link JxlReportConfiguration#PROPERTY_COMPLEX_FORMAT}.
+	 * @deprecated Replaced by {@link net.sf.jasperreports.export.JxlReportConfiguration#PROPERTY_COMPLEX_FORMAT}.
 	 */
-	public static final String PROPERTY_COMPLEX_FORMAT = JxlReportConfiguration.PROPERTY_COMPLEX_FORMAT;
+	public static final String PROPERTY_COMPLEX_FORMAT = net.sf.jasperreports.export.JxlReportConfiguration.PROPERTY_COMPLEX_FORMAT;
 
 	/**
 	 * The exporter key, as used in
@@ -223,18 +223,18 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 	/**
 	 *
 	 */
-	protected Class<JxlMetadataExporterConfiguration> getConfigurationInterface()
+	protected Class<net.sf.jasperreports.export.JxlMetadataExporterConfiguration> getConfigurationInterface()
 	{
-		return JxlMetadataExporterConfiguration.class;
+		return net.sf.jasperreports.export.JxlMetadataExporterConfiguration.class;
 	}
 
 
 	/**
 	 *
 	 */
-	protected Class<JxlMetadataReportConfiguration> getItemConfigurationInterface()
+	protected Class<net.sf.jasperreports.export.JxlMetadataReportConfiguration> getItemConfigurationInterface()
 	{
-		return JxlMetadataReportConfiguration.class;
+		return net.sf.jasperreports.export.JxlMetadataReportConfiguration.class;
 	}
 	
 
@@ -243,7 +243,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 	{
 		super.initExport();
 
-		JxlMetadataExporterConfiguration configuration = getCurrentConfiguration();
+		net.sf.jasperreports.export.JxlMetadataExporterConfiguration configuration = getCurrentConfiguration();
 		
 		if (configuration.isCreateCustomPalette())
 		{
@@ -259,7 +259,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 	{
 		super.initReport();
 
-		JxlMetadataReportConfiguration configuration = getCurrentItemConfiguration();
+		net.sf.jasperreports.export.JxlMetadataReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		if (configuration.isWhitePageBackground())
 		{
@@ -313,7 +313,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 
 	protected void openWorkbook(OutputStream os) throws JRException
 	{
-		JxlMetadataExporterConfiguration configuration = getCurrentConfiguration();
+		net.sf.jasperreports.export.JxlMetadataExporterConfiguration configuration = getCurrentConfiguration();
 		
 		WorkbookSettings settings = new WorkbookSettings();
 		settings.setUseTemporaryFileDuringWrite(configuration.isUseTempFile());
@@ -416,7 +416,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		}
 		else
 		{
-			JxlReportConfiguration configuration = getCurrentItemConfiguration();
+			net.sf.jasperreports.export.JxlReportConfiguration configuration = getCurrentItemConfiguration();
 
 			Integer fitWidth = configuration.getFitWidth();
 			Integer fitHeight = configuration.getFitHeight();
@@ -917,7 +917,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		
 		if (cellValue == null)
 		{
-			JxlReportConfiguration configuration = getCurrentItemConfiguration();
+			net.sf.jasperreports.export.JxlReportConfiguration configuration = getCurrentItemConfiguration();
 			// there was no formula, or the formula cell creation failed
 			if (configuration.isDetectCellType())
 			{
@@ -1403,7 +1403,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 				Pattern mode = this.backgroundMode;
 				Colour background = WHITE;
 	
-				JxlReportConfiguration configuration = getCurrentItemConfiguration();
+				net.sf.jasperreports.export.JxlReportConfiguration configuration = getCurrentItemConfiguration();
 				
 				if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && element.getBackcolor() != null)
 				{
@@ -1482,7 +1482,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 
 	protected Colour getWorkbookColour(Color awtColor)
 	{
-		JxlExporterConfiguration configuration = getCurrentConfiguration();
+		net.sf.jasperreports.export.JxlExporterConfiguration configuration = getCurrentConfiguration();
 		Colour colour;
 		if (configuration.isCreateCustomPalette())
 		{
@@ -2095,7 +2095,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter<Jxl
 		}
 		SheetSettings sheets = sheet.getSettings();
 		
-		JxlReportConfiguration configuration = getCurrentItemConfiguration();
+		net.sf.jasperreports.export.JxlReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		sheets.setTopMargin(0.0);
 		sheets.setLeftMargin(0.0);

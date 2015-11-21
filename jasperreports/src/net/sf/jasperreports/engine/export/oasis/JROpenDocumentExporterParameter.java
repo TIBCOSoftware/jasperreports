@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.export.OdsExporterConfiguration;
 import net.sf.jasperreports.export.OdsReportConfiguration;
 import net.sf.jasperreports.export.OdtExporterConfiguration;
@@ -35,7 +34,7 @@ import net.sf.jasperreports.export.OdtReportConfiguration;
  * @deprecated Replaced by {@link OdtExporterConfiguration} and {@link OdsExporterConfiguration}.
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public class JROpenDocumentExporterParameter extends JRExporterParameter
+public class JROpenDocumentExporterParameter extends net.sf.jasperreports.engine.JRExporterParameter
 {
 
 	/**

@@ -25,9 +25,6 @@ package net.sf.jasperreports.components.iconlabel;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.export.GenericElementJExcelApiHandler;
-import net.sf.jasperreports.engine.export.JExcelApiExporter;
-import net.sf.jasperreports.engine.export.JExcelApiExporterContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 
@@ -37,7 +34,7 @@ import net.sf.jasperreports.engine.export.JRGridLayout;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id:ChartThemesUtilities.java 2595 2009-02-10 17:56:51Z teodord $
  */
-public class IconLabelElementJExcelApiHandler implements GenericElementJExcelApiHandler
+public class IconLabelElementJExcelApiHandler implements net.sf.jasperreports.engine.export.GenericElementJExcelApiHandler
 {
 	private static final IconLabelElementJExcelApiHandler INSTANCE = new IconLabelElementJExcelApiHandler();
 	
@@ -49,7 +46,7 @@ public class IconLabelElementJExcelApiHandler implements GenericElementJExcelApi
 
 	@Override
 	public void exportElement(
-		JExcelApiExporterContext exporterContext,
+		net.sf.jasperreports.engine.export.JExcelApiExporterContext exporterContext,
 		JRGenericPrintElement element, JRExporterGridCell gridCell,
 		int colIndex, int rowIndex, int emptyCols, int yCutsRow,
 		JRGridLayout layout
@@ -60,7 +57,8 @@ public class IconLabelElementJExcelApiHandler implements GenericElementJExcelApi
 		{
 			try
 			{
-				JExcelApiExporter exporter = (JExcelApiExporter)exporterContext.getExporter();
+				net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
+					(net.sf.jasperreports.engine.export.JExcelApiExporter)exporterContext.getExporter();
 				exporter.exportText(labelPrintText, gridCell, colIndex, rowIndex);
 			}
 			catch (Exception e)

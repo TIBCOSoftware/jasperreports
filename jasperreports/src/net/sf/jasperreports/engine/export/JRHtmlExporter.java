@@ -49,11 +49,13 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -99,10 +101,6 @@ import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
-import net.sf.jasperreports.export.parameters.ParametersHtmlExporterOutput;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -232,7 +230,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		if (exporterOutput == null)
 		{
 			exporterOutput = 
-				new ParametersHtmlExporterOutput(
+				new net.sf.jasperreports.export.parameters.ParametersHtmlExporterOutput(
 					getJasperReportsContext(),
 					getParameters(),
 					getCurrentJasperPrint()
@@ -2254,7 +2252,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		}
 	}
 
-	public Map<JRExporterParameter,Object> getExportParameters()
+	public Map<net.sf.jasperreports.engine.JRExporterParameter,Object> getExportParameters()
 	{
 		return parameters;
 	}

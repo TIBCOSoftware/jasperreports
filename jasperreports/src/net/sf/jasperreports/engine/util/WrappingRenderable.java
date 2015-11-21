@@ -29,7 +29,6 @@ import java.awt.geom.Rectangle2D;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
@@ -49,13 +48,13 @@ public class WrappingRenderable implements Renderable
 	/**
 	 *
 	 */
-	private JRRenderable renderable;
+	private net.sf.jasperreports.engine.JRRenderable renderable;
 	
 	
 	/**
 	 *
 	 */
-	public WrappingRenderable(JRRenderable renderable)
+	public WrappingRenderable(net.sf.jasperreports.engine.JRRenderable renderable)
 	{
 		this.renderable = renderable;
 	}

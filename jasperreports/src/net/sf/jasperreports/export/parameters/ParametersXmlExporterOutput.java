@@ -28,11 +28,9 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
 import net.sf.jasperreports.export.XmlExporterOutput;
 
 
@@ -56,7 +54,7 @@ public class ParametersXmlExporterOutput extends ParametersWriterExporterOutput 
 	 */
 	public ParametersXmlExporterOutput(
 		JasperReportsContext jasperReportsContext,
-		Map<JRExporterParameter, Object> parameters,
+		Map<net.sf.jasperreports.engine.JRExporterParameter, Object> parameters,
 		JasperPrint jasperPrint
 		)
 	{
@@ -68,19 +66,19 @@ public class ParametersXmlExporterOutput extends ParametersWriterExporterOutput 
 		
 		isEmbeddingImages = Boolean.TRUE;
 
-		StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
+		StringBuffer sb = (StringBuffer)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb == null)
 		{
-			Writer writer = (Writer)parameters.get(JRExporterParameter.OUTPUT_WRITER);
+			Writer writer = (Writer)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_WRITER);
 			if (writer == null)
 			{
-				OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
+				OutputStream os = (OutputStream)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_STREAM);
 				if (os == null)
 				{
-					File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+					File destFile = (File)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_FILE);
 					if (destFile == null)
 					{
-						String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
+						String fileName = (String)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_FILE_NAME);
 						if (fileName != null)
 						{
 							destFile = new File(fileName);
@@ -96,7 +94,7 @@ public class ParametersXmlExporterOutput extends ParametersWriterExporterOutput 
 					
 					imagesDir = new File(destFile.getParent(), destFile.getName() + XML_FILES_SUFFIX);
 					
-					Boolean isEmbeddingImagesParameter = (Boolean)parameters.get(JRXmlExporterParameter.IS_EMBEDDING_IMAGES);
+					Boolean isEmbeddingImagesParameter = (Boolean)parameters.get(net.sf.jasperreports.engine.export.JRXmlExporterParameter.IS_EMBEDDING_IMAGES);
 					if (isEmbeddingImagesParameter == null)
 					{
 						isEmbeddingImagesParameter = Boolean.TRUE;
@@ -110,7 +108,7 @@ public class ParametersXmlExporterOutput extends ParametersWriterExporterOutput 
 	@Override
 	protected void setEncoding()//FIXMEEXPORT why do we need override here?
 	{
-		encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
+		encoding = (String)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.CHARACTER_ENCODING);
 		if (encoding == null)
 		{
 			encoding = DEFAULT_XML_ENCODING;

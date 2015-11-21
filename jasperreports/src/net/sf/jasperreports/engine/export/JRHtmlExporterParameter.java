@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
@@ -46,7 +45,7 @@ import net.sf.jasperreports.export.type.HtmlSizeUnitEnum;
  * @deprecated Replaced by {@link ExporterInput}, {@link HtmlExporterConfiguration} and {@link HtmlExporterOutput}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRHtmlExporterParameter extends JRExporterParameter
+public class JRHtmlExporterParameter extends net.sf.jasperreports.engine.JRExporterParameter
 {
 
 

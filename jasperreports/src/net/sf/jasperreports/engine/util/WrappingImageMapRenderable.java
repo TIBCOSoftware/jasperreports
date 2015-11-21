@@ -30,7 +30,6 @@ import java.util.List;
 import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 
 /**
@@ -47,13 +46,13 @@ public class WrappingImageMapRenderable extends WrappingRenderable implements Im
 	/**
 	 *
 	 */
-	private JRImageMapRenderer imageMapRenderer;
+	private net.sf.jasperreports.engine.JRImageMapRenderer imageMapRenderer;
 	
 	
 	/**
 	 *
 	 */
-	public WrappingImageMapRenderable(JRImageMapRenderer imageMapRenderer)
+	public WrappingImageMapRenderable(net.sf.jasperreports.engine.JRImageMapRenderer imageMapRenderer)
 	{
 		super(imageMapRenderer);
 		this.imageMapRenderer = imageMapRenderer;

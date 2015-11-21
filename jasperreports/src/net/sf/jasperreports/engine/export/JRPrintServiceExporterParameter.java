@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.export.PrintServiceExporterConfiguration;
 
 
@@ -31,7 +30,7 @@ import net.sf.jasperreports.export.PrintServiceExporterConfiguration;
  * @deprecated Replaced by {@link PrintServiceExporterConfiguration}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRPrintServiceExporterParameter extends JRExporterParameter
+public class JRPrintServiceExporterParameter extends net.sf.jasperreports.engine.JRExporterParameter
 {
 
 

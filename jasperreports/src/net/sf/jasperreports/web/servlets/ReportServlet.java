@@ -34,14 +34,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.HtmlExporter;
-import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.web.JRInteractiveException;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.actions.AbstractAction;
@@ -51,9 +52,6 @@ import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
 import net.sf.jasperreports.web.util.VelocityUtil;
 import net.sf.jasperreports.web.util.WebUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -255,7 +253,7 @@ public class ReportServlet extends AbstractServlet
 						new Object[]{pageIdx});
 			}
 			
-			exporter.setParameter(JRExporterParameter.PAGE_INDEX, pageIdx);
+			exporter.setParameter(net.sf.jasperreports.engine.JRExporterParameter.PAGE_INDEX, pageIdx);
 		}
 		else
 		{
@@ -263,16 +261,16 @@ public class ReportServlet extends AbstractServlet
 		}
 		
 		exporter.setReportContext(webReportContext);
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrintAccessor.getJasperPrint());
-		exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, writer);
-		exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "image?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId() + "&image=");
+		exporter.setParameter(net.sf.jasperreports.engine.JRExporterParameter.JASPER_PRINT, jasperPrintAccessor.getJasperPrint());
+		exporter.setParameter(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_WRITER, writer);
+		exporter.setParameter(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IMAGES_URI, "image?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId() + "&image=");
 		
-		exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, getHeader(request, webReportContext, hasPages, pageStatus));
-		exporter.setParameter(JRHtmlExporterParameter.BETWEEN_PAGES_HTML, getBetweenPages(request, webReportContext));
-		exporter.setParameter(JRHtmlExporterParameter.HTML_FOOTER, getFooter(request, webReportContext, hasPages, pageStatus));
+		exporter.setParameter(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.HTML_HEADER, getHeader(request, webReportContext, hasPages, pageStatus));
+		exporter.setParameter(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.BETWEEN_PAGES_HTML, getBetweenPages(request, webReportContext));
+		exporter.setParameter(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.HTML_FOOTER, getFooter(request, webReportContext, hasPages, pageStatus));
 		
 		exporter.setParameter(
-			JRHtmlExporterParameter.HYPERLINK_PRODUCER_FACTORY, 
+			net.sf.jasperreports.engine.export.JRHtmlExporterParameter.HYPERLINK_PRODUCER_FACTORY, 
 			ReportExecutionHyperlinkProducerFactory.getInstance(getJasperReportsContext(), request)
 			);
 		

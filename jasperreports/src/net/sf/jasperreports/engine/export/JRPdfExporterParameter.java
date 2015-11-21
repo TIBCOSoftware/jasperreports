@@ -24,7 +24,6 @@
 
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.export.PdfExporterConfiguration;
 import net.sf.jasperreports.export.PdfReportConfiguration;
@@ -43,7 +42,7 @@ import net.sf.jasperreports.export.type.PdfaConformanceEnum;
  * @deprecated Replaced by {@link PdfExporterConfiguration}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRPdfExporterParameter extends JRExporterParameter
+public class JRPdfExporterParameter extends net.sf.jasperreports.engine.JRExporterParameter
 {
 	/**
 	 * @deprecated Replaced by {@link PdfVersionEnum#VERSION_1_2}.

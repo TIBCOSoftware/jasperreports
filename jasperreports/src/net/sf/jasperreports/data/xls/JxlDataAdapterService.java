@@ -30,7 +30,6 @@ import net.sf.jasperreports.data.excel.ExcelFormatEnum;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
-import net.sf.jasperreports.engine.data.JRXlsDataSource;
 import net.sf.jasperreports.engine.query.ExcelQueryExecuterFactory;
 
 /**
@@ -68,7 +67,7 @@ public class JxlDataAdapterService extends AbstractXlsDataAdapterService
 		AbstractXlsDataSource dataSource = null; 
 		try
 		{
-			dataSource = new JRXlsDataSource(dataStream);
+			dataSource = new net.sf.jasperreports.engine.data.JRXlsDataSource(dataStream);
 		}
 		catch (IOException e)
 		{
