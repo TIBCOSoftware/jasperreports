@@ -2,8 +2,20 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.2.0 (2015-1x-xx)
+JasperReports 6.2.0 (2015-11-11)
 ---------------------------------------------
+
+- improved PDF export accessibility in compliance with Section 508 Amendment to 
+the Rehabilitation Act of 1973, by adding support for making headings up to level 6, 
+marking lists and automatic insertion of table markers for table component output;
+
+- support for complex scripts (such as Indic scripts) in PDF by means of AWT text layout;
+
+- added support for duration based filter and duration based conditional formatting of 
+numeric columns in table components; special format pattern [h]:mm:ss causes numeric values 
+to be treated as duration;
+
+- refactored map component items APIs for further reuse in other custom components;
 
 - minor bug fixes and improvements;
 
