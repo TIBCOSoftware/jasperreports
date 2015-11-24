@@ -142,6 +142,12 @@ public class HtmlFont
 			faceName = faceName.substring(0, faceName.length() - "-Bold".length());
 			isBold = true;
 		}
+		if (faceName.endsWith("-BoldItalic"))
+		{
+			faceName = faceName.substring(0, faceName.length() - "-BoldItalic".length());
+			isItalic = true;
+			isBold = true;
+		}
 		String localeCode = htmlFontId.substring(localeSeparatorPos + 1);
 		Locale locale = JRDataUtils.getLocale(localeCode);
 		
