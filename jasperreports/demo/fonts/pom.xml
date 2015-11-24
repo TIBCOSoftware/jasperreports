@@ -17,7 +17,7 @@
 	</licenses>
 	<scm>
 		<connection>git://git.code.sf.net/p/jasperreports/code jasperreports-code</connection>
-		<tag>jr-6-2-0</tag>
+		<tag>jr-6-2-1</tag>
 		<url>http://sourceforge.net/p/jasperreports/code/ci/master/tree/</url>
 	</scm>
 	<developers>
