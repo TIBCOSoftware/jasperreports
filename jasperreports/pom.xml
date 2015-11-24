@@ -266,12 +266,6 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>xml-apis</groupId>
-			<artifactId>xml-apis</artifactId>
-			<version>1.3.02</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.eclipse.jdt.core.compiler</groupId>
 			<artifactId>ecj</artifactId>
 			<version>4.3.1</version>
